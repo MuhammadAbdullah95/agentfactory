@@ -503,28 +503,4 @@ Create a Python function named add_numbers that takes two integer parameters and
 
 ---
 
-### Important Note: First Output Isn't Final
-
-If your generated code isn't perfect, that's **completely normal**. AI is powerful but not magical. Lesson 5 will teach you the validation checklist and how to iterate with AI to fix issues. For now, celebrate the fundamental skill: **you can write a prompt that makes an AI understand your intent and generate working code.**
-
-That's the core skill of AI-native development. Everything else builds on this.
-
----
-
-## Your Next Steps
-
-You've now:
-- ✓ Understood the 8 core technical verbs
-- ✓ Transformed vague prompts into specific commands
-- ✓ Generated your first working code
-- ✓ Experienced the difference between vague and strong prompts
-
-**What's coming next**:
-- Lesson 3 adds the second element: **Context**. You'll learn how to provide project information so AI generates code that fits YOUR specific project.
-- Lesson 4 adds the third element: **Logic**. You'll specify step-by-step implementation so AI doesn't guess your architecture.
-- Lesson 5 introduces validation. You'll learn the safety-critical skill of checking AI output before using it.
-
-For now, hold this truth: **A single word—the right verb—can mean the difference between 5 minutes and 50 minutes getting working code.**
-
-That's your superpower as an AI orchestrator.
 

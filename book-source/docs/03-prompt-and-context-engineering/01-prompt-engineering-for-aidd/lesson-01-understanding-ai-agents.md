@@ -46,7 +46,7 @@ differentiation:
   remedial_for_struggling: "Simplified visual diagram showing AI as a person with limited short-term memory; reduced number of comparison examples (2-3 instead of 5); glossary of key terms"
 ---
 
-# Lesson 1: Understanding AI Coding Agents as Collaborative Partners
+# Understanding AI Coding Agents as Collaborative Partners
 
 You're standing on the edge of a fundamental shift in software development. For the first time in history, you can build powerful applications not by memorizing syntax, but by thinking clearly and communicating effectively with an intelligent partner—your AI coding agent.
 
