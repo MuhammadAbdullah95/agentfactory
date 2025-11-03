@@ -41,7 +41,7 @@ module.exports = function (context, options) {
       await generateImagesFromDirectory(docsDir, ogOutDir, siteConfig, docsDir);
 
       // Inject OG image meta tags into built HTML files
-      await injectOGImagesIntoHTML(outDir, siteConfig);
+      await injectOGImagesIntoHTML(outDir, siteConfig, context.siteDir);
 
       console.log("\n✅ Open Graph images generated and injected successfully!\n");
     },
@@ -115,7 +115,7 @@ function extractFrontMatter(content) {
 /**
  * Inject OG image meta tags into built HTML files
  */
-async function injectOGImagesIntoHTML(outDir, siteConfig) {
+async function injectOGImagesIntoHTML(outDir, siteConfig, siteDir) {
   console.log("\n🔧 Injecting OG images into HTML files...\n");
 
   const htmlFiles = [];
@@ -167,7 +167,40 @@ async function injectOGImagesIntoHTML(outDir, siteConfig) {
       // Convert to OG image filename
       const imageFilename = slug.replace(/\//g, '-') + '.png';
       const ogImagePath = path.join(ogImagesDir, imageFilename);
+
+      // Homepage: always use the static book cover image for previews
+      if (slug === 'home') {
+        // Ensure a lightweight 1200x630 JPEG exists in build output for faster fetch
+        try {
+          const srcPng = path.join(siteDir, 'static', 'img', 'book-cover-page.png');
+          const destJpg = path.join(outDir, 'img', 'book-cover-social.jpg');
+          if (fs.existsSync(srcPng)) {
+            await sharp(srcPng)
+              .resize(1200, 630, { fit: 'cover' })
+              .jpeg({ quality: 80, progressive: true, chromaSubsampling: '4:2:0' })
+              .toFile(destJpg);
+          }
+        } catch {}
+
+        const imageUrl = `${siteConfig.url}/img/book-cover-social.jpg?v=${buildVersion}`;
+        const pageUrl = `${siteConfig.url}/`;
+
+        // Remove existing image/url tags
+        html = html.replace(/<meta[^>]*property=\"og:image\"[^>]*>/gi, '');
+        html = html.replace(/<meta[^>]*name=\"twitter:image\"[^>]*>/gi, '');
+        html = html.replace(/<meta[^>]*property=\"og:url\"[^>]*>/gi, '');
+
+        const ogTags = `
+  <meta property=\"og:image\" content=\"${imageUrl}\">\n  <meta property=\"og:image:width\" content=\"1200\">\n  <meta property=\"og:image:height\" content=\"630\">\n  <meta property=\"og:image:secure_url\" content=\"${imageUrl}\">\n  <meta property=\"og:site_name\" content=\"${siteConfig.title}\">\n  <meta property=\"og:url\" content=\"${pageUrl}\">\n  <meta name=\"twitter:image\" content=\"${imageUrl}\">\n</head>`;
+
+        html = html.replace(/<\/head>/i, ogTags);
+        fs.writeFileSync(htmlFile, html, 'utf-8');
+        console.log(`  ✓ Injected OG image (home): book-cover-page.png`);
+        continue;
+      }
       
+      
+
       // Ensure OG image exists for this page (generate on demand if missing)
       if (!fs.existsSync(ogImagePath)) {
         // Try to derive title/description from existing meta tags
