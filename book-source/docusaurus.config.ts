@@ -123,18 +123,20 @@ const config: Config = {
 
     // Open Graph metadata for social media sharing
     metadata: [
-      { name: "og:title", content: "AI Native Software Development" },
+      { property: "og:title", content: "AI Native Software Development" },
       {
-        name: "og:description",
+        property: "og:description",
         content:
           "Colearning Agentic AI with Python and TypeScript – The AI & Spec Driven Way",
       },
-      { name: "og:type", content: "website" },
+      { property: "og:type", content: "website" },
       {
-        name: "og:image",
+        property: "og:image",
         content: "https://ai-native.panaversity.org/img/book-cover-page.png",
       },
-      { name: "og:url", content: "https://ai-native.panaversity.org" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:url", content: "https://ai-native.panaversity.org" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "AI Native Software Development" },
       {
