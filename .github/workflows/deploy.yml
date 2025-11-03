@@ -32,6 +32,14 @@ jobs:
           cache: npm
           cache-dependency-path: book-source/package-lock.json
 
+      - name: Install system dependencies for Sharp and OG image generation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            fonts-dejavu-core \
+            fonts-liberation \
+            libvips-dev
+
       - name: Install dependencies
         working-directory: book-source
         run: npm ci
