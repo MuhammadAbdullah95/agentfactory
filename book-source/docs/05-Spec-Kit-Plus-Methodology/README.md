@@ -35,7 +35,7 @@ That's what this part teaches you.
 
 ## What You'll Learn in Part 5
 
-This part consists of three interconnected chapters that transform you from code-first to specification-first:
+This part consists of four interconnected chapters that transform you from code-first to specification-first:
 
 ### Chapter 30: Understanding Specification-Driven Development Fundamentals
 
@@ -47,7 +47,11 @@ Here you'll practice specification-first development with your AI companion. You
 
 ### Chapter 32: Real-World Spec-Kit Workflows & Capstone
 
-The final chapter scales SDD from solo work to team coordination. You'll simulate professional team development by orchestrating multiple AI agents working in parallel from shared specifications. You'll learn how specifications enable 2-person teams to scale to 500+ people, how agents stay current with evolving APIs, and implement a three-part capstone that demonstrates specification-driven parallelization.
+You'll scale SDD from solo work to team coordination. You'll simulate professional team development by orchestrating multiple AI agents working in parallel from shared specifications. You'll learn how specifications enable 2-person teams to scale to 500+ people, how agents stay current with evolving APIs, and implement a three-part capstone that demonstrates specification-driven parallelization.
+
+### Chapter 33: The Tessl Framework - Pioneering Spec-Driven Development for Reliable AI-Native Software
+
+This chapter takes you beyond specification workflows to explore Tessl's revolutionary approach to making specifications the true source of truth and how to use it with SpecifyPlus. You'll understand how Tessl's Framework and Registry address the reliability crisis in AI-assisted development—preventing API hallucinations with 10,000+ versioned usage specs, eliminating regressions through test-enforced guardrails, and providing long-term memory through specifications stored in your codebase. Founded by Guy Podjarny (creator of Snyk) and backed by $125 million in funding, Tessl represents the evolution from spec-assisted to spec-driven to spec-centric development, where by the end of 2027, developers won't look at code most of the time but instead work at the specification level with AI agents handling implementation.
 
 ## What You Won't Learn (Yet)
 
@@ -56,16 +60,6 @@ The final chapter scales SDD from solo work to team coordination. You'll simulat
 Here's why: Jumping into implementation patterns before mastering specifications leads to the same technical debt that plagues traditional development. You'd be optimizing code structure when you should be optimizing requirement clarity. You'd be debugging integration issues that specifications would prevent.
 
 Think of Part 5 as learning architecture before interior design. Without clear specifications, everything built later requires constant rework. With them, subsequent development becomes faster and more reliable.
-
-## How to Read This Part
-
-**Work with your AI companion.** Part 5 is explicitly designed for you + AI working together. You won't just read about specifications—you'll write them in dialogue with Claude Code, Gemini CLI, or your AI Companion. The learning happens in the collaboration, not in passive reading.
-
-**Do the exercises.** Each chapter includes hands-on projects: diagnosing vague specs, building from specifications, writing your own specs. These aren't optional. The time you spend practicing with your AI companion is where understanding develops.
-
-**Embrace the paradigm shift.** If you've coded before, you might resist: "Specifications slow me down. I'm faster just coding." This is true... until your codebase reaches 5,000 lines. Then specifications make you 10x faster. Trust the process. The compound benefits appear at scale.
-
-**Connect to Parts 1-4.** Notice how specifications connect to AI-native development (Part 1), enable better AI tool usage (Part 2), benefit from strong prompting (Part 3), and leverage Python's type system (Part 4). This isn't isolated—it's the integration layer for everything you've learned.
 
 ## A Note on Mindset
 
@@ -80,4 +74,3 @@ When you start writing specifications, you'll feel slower at first. That's expec
 The developers who master this in 2025 will build systems in 2026-2027 that seem impossible today. Not because they write more code, but because they orchestrate AI agents with specifications that eliminate ambiguity.
 
 This part shows you how.
-
