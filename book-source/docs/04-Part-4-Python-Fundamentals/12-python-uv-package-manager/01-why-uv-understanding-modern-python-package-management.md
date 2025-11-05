@@ -270,18 +270,6 @@ Imagine you're building a weather app. Your app needs to:
 
 **Why projects list dependencies explicitly**: When someone else (a teammate, a deployment system, a future you) needs to run your project, they need to know which libraries to install. Your project's dependency list (in `pyproject.toml` with UV) is like a recipe's ingredient list—it tells others exactly what they need to recreate your environment.
 
-## Reflection Prompts
-
-Before moving to the next lesson, take a moment to solidify your understanding:
-
-1. **Think of a project you want to build** (a web scraper, a Discord bot, a data analyzer). Would UV help you with that project? Why or why not?
-
-2. **When might you still use pip instead of UV?** Give a concrete example (Hint: Think about existing projects, learning contexts, or universal compatibility scenarios).
-
-3. **What is a dependency?** In your own words, explain what a dependency is and name one library you might need for a project. Why would you use that library instead of writing the functionality yourself?
-
-Take a few minutes to write down your thoughts. These aren't graded exercises—they're tools to help you build genuine understanding before you dive into hands-on work in the next lesson.
-
 ## Try With AI
 
 Now let's put your AI collaboration skills to work. Open your AI companion tool (Claude Code, Gemini CLI, or ChatGPT web interface) and work through these prompts. The goal isn't to memorize answers—it's to practice expressing your questions clearly and validating AI responses.
