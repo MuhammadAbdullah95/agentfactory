@@ -224,7 +224,7 @@ What's your career goal? Choose one:
 
 Ask your companion:
 
-> **Prompt**: "My career goal is [your goal]. I've learned specification-driven development in Chapter 27. Show me how SDD directly enables my career goal. What will I be able to do in 2-3 years that I can't do now?"
+> **Prompt**: "My career goal is [your goal]. I've learned specification-driven development in Chapter 32. Show me how SDD directly enables my career goal. What will I be able to do in 2-3 years that I can't do now?"
 
 Your companion will help you see connections like:
 

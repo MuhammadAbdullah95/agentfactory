@@ -24,7 +24,7 @@ learning_objectives:
 
 ## What You're About to Do
 
-This is the first part of Chapter 27's capstone project. In this part, you'll take the grading system specification you created in Chapter 26, Lesson 9, and prepare it for a multi-person team by decomposing it into independent features.
+This is the first part of Chapter 32's capstone project. In this part, you'll take the grading system specification you created in Chapter 31, Lesson 9, and prepare it for a multi-person team by decomposing it into independent features.
 
 This is **specification preparation**—the work a technical lead or architect does before handing work to team members.
 
@@ -32,7 +32,7 @@ This is **specification preparation**—the work a technical lead or architect d
 
 ## Part 1: Gather Your Existing Specification
 
-You need your grading system specification from Chapter 26, Lesson 9. This specification should include:
+You need your grading system specification from Chapter 31, Lesson 9. This specification should include:
 - Feature description (what the system does)
 - Input requirements (submission format, rubric format)
 - Output requirements (grade format, feedback format)
@@ -40,7 +40,7 @@ You need your grading system specification from Chapter 26, Lesson 9. This speci
 - Constraints (response time, reliability)
 - Error handling (what happens when things go wrong)
 
-**If you haven't completed Chapter 26, Lesson 9, do that first.**
+**If you haven't completed Chapter 31, Lesson 9, do that first.**
 
 Once you have your spec, review it carefully. Make notes:
 - What parts of your spec are clear?

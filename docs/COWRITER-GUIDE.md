@@ -19,7 +19,7 @@ This guide shows you how to create high-quality educational content using **AI-n
 - **Vertical intelligence** - Constitution → output-styles → subagents → content (all synchronized)
 
 **Reference Material**:
-- **Chapter 31**: Complete SpecKit Plus hands-on workflow (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/)
+- **Chapter 31**: Complete SpecKit Plus hands-on workflow (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/)
 - **Constitution v3.0.1**: Project principles and evals-first philosophy (.specify/memory/constitution.md)
 - **Chapter Index**: Current book structure (specs/book/chapter-index.md)
 
@@ -121,7 +121,7 @@ AI will ask questions to fill gaps you might have missed.
 **Ready to Move Forward?**
 When spec has all 6 sections complete (Overview, Scope, Requirements, Acceptance Criteria, Constraints, Success Criteria), proceed to planning.
 
-**Reference**: See Chapter 31, Lesson 3 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/03-building-specs-with-sp-specify.md) for complete examples.
+**Reference**: See Chapter 31, Lesson 3 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/03-building-specs-with-sp-specify.md) for complete examples.
 
 ---
 
@@ -173,7 +173,7 @@ Technical details:
 - "Can lessons be parallelized or must they be sequential?"
 - "How does [requirement from spec] appear in the plan?"
 
-**Reference**: See Chapter 31, Lesson 4 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/04-planning-sp-plan.md).
+**Reference**: See Chapter 31, Lesson 4 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/04-planning-sp-plan.md).
 
 ---
 
@@ -227,7 +227,7 @@ Update @specs/part-X-chapter-Y/tasks.md so that:
 - Group related tasks for better flow
 ```
 
-**Reference**: See Chapter 31, Lesson 5 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/05-decomposing-tasks-sp-tasks.md).
+**Reference**: See Chapter 31, Lesson 5 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/05-decomposing-tasks-sp-tasks.md).
 
 ---
 
@@ -292,7 +292,7 @@ Run technical-reviewer on Lesson 1 to validate:
 - Pedagogical effectiveness
 ```
 
-**Reference**: See Chapter 31, Lesson 6 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/06-implementation-sp-implement.md).
+**Reference**: See Chapter 31, Lesson 6 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/06-implementation-sp-implement.md).
 
 ---
 
@@ -892,7 +892,7 @@ Use this checklist for every chapter:
 **Send**:
 - This guide (docs/COWRITER-GUIDE.md)
 - Constitution v3.0.1 (.specify/memory/constitution.md)
-- Chapter 31 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/)
+- Chapter 31 (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/)
 
 **Ask them to read**:
 1. Constitution Core Principles (especially #1: Evals-First)
@@ -1444,7 +1444,7 @@ Skills are located in `.claude/skills/` and dynamically discovered:
 **You are now ready** to create high-quality educational content using the SpecKit Plus methodology!
 
 **Questions?** Reference:
-- Chapter 31: Complete hands-on workflow (book-source/docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/)
+- Chapter 31: Complete hands-on workflow (book-source/docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/)
 - Constitution v3.0.1: Project principles (.specify/memory/constitution.md)
 - This guide: AI-native patterns and troubleshooting
 

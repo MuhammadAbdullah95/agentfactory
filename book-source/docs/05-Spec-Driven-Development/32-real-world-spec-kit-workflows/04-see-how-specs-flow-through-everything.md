@@ -92,7 +92,7 @@ Let's make this concrete. You'll trace your grading system spec from top to bott
 
 ### Step 1: Review Your Feature Specification
 
-Find your grading system spec from Chapter 26, Lesson 9. Review it carefully. Notice:
+Find your grading system spec from Chapter 31, Lesson 9. Review it carefully. Notice:
 - What it says clearly
 - What it leaves ambiguous
 - What downstream specifications would need to clarify
@@ -294,7 +294,7 @@ Now let's connect this to your learning journey through the book.
 
 Ask your companion:
 
-> **Prompt**: "I'm learning to build AI-native systems. I've learned specifications in Part 5 (Chapter 27). In Part 6, I'll learn agents. In Parts 8-13, I'll learn API design, databases, deployment. Show me: how does clarity in Part 5 (specs) enable everything in Parts 6-13? What specification types do I learn about in each part?"
+> **Prompt**: "I'm learning to build AI-native systems. I've learned specifications in Part 5 (Chapter 32). In Part 6, I'll learn agents. In Parts 8-13, I'll learn API design, databases, deployment. Show me: how does clarity in Part 5 (specs) enable everything in Parts 6-13? What specification types do I learn about in each part?"
 
 Your companion will map out:
 

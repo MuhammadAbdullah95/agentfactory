@@ -17,7 +17,7 @@ links:
   pr: null
 files:
   - docs/05-Spec-Kit-Plus-Methodology/30-specification-driven-development-fundamentals/
-  - docs/05-Spec-Kit-Plus-Methodology/31-specifyplus-hands-on/
+  - docs/05-Spec-Kit-Plus-Methodology/31-spec-kit-plus-hands-on/
   - docs/05-Spec-Kit-Plus-Methodology/32-real-world-spec-kit-workflows/
   - docs/05-Spec-Kit-Plus-Methodology/README.md
 tests:

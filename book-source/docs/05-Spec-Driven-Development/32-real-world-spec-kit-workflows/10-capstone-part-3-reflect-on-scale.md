@@ -339,7 +339,7 @@ You'll discover that SDD is the unifying principle across all 13 parts.
 
 Answer these questions for yourself:
 
-1. **What's the most important thing** you learned in Chapter 27?
+1. **What's the most important thing** you learned in Chapter 32?
 
 2. **How has your understanding of "professional development" changed?**
 
@@ -388,9 +388,9 @@ You're not just learning technologies. You're learning how to think like an arch
 ## What's Next
 
 Congratulations. You've completed:
-- Chapter 25: Specification-Driven Development Fundamentals (Why specs matter)
-- Chapter 26: Writing and Planning Specifications (How to write specs)
-- Chapter 27: Real-World Spec-Kit Workflows (How specs work at scale)
+- Chapter 30: Specification-Driven Development Fundamentals (Why specs matter)
+- Chapter 31: Spec-Kit Plus Hands-On (How to write specs)
+- Chapter 32: Real-World Spec-Kit Workflows (How specs work at scale)
 
 **Part 5 Complete.**
 
