@@ -625,23 +625,3 @@ how would I know? Show me what the error looks like and how to resolve it.
 
 **Validation**: Can you explain why conflicts occur and what steps to take when encountering one?
 
-### Safety Note
-
-**Review dependencies before adding**:
-- Check package popularity on PyPI (download counts)
-- Verify package is actively maintained (recent releases)
-- Read package documentation to understand what it does
-- Be cautious with packages that have few downloads or no recent activity
-
-**Understand what you're installing**: Don't blindly add packages. Ask AI:
-- "What does this package do?"
-- "Are there security concerns with [package]?"
-- "What are alternatives to [package]?"
-
-**Dependency security**: Popular packages are generally safe, but supply chain attacks exist. Use tools like `pip-audit` (check for known vulnerabilities) in CI/CD.
-
----
-
-**What's Next**: In Lesson 5, you'll learn to run Python code in UV projects using `uv run`—understanding environment isolation, automatic activation, and debugging "module not found" errors. You'll execute scripts and tests in the isolated environment you've just populated with dependencies, seeing how UV ensures your code uses the correct packages.
-
-You now have the skills to manage dependencies professionally. Let's put them to work.

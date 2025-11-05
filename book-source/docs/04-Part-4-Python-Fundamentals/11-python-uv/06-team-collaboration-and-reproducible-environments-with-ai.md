@@ -647,25 +647,3 @@ Show me the .gitignore configuration.
 
 **Validation**: Can you explain why `.venv/` is excluded but `uv.lock` is included?
 
-### Safety Note
-
-**Review lockfile changes before committing**:
-- Run `git diff uv.lock` to see what changed
-- Significant version jumps (2.x.x → 3.x.x) might introduce breaking changes
-- Test thoroughly after dependency updates
-- Ask AI: "What's new in [package] version X.Y.Z?" before accepting major updates
-
-**Lockfile conflicts in git merges**:
-- If multiple developers change dependencies simultaneously, `uv.lock` may have merge conflicts
-- Don't resolve manually—let UV regenerate:
-  ```bash
-  git checkout --theirs uv.lock    # Take their version
-  uv sync                          # UV regenerates from merged pyproject.toml
-  git add uv.lock
-  ```
-
----
-
-**What's Next**: You've completed the UV fundamentals! In the next chapter (Chapter 12), you'll learn Python syntax basics—variables, data types, functions, and control flow—using the professional development environment you've just built. UV will manage your project dependencies as you write increasingly complex Python code.
-
-You now have the skills to collaborate professionally with reproducible environments. Let's write Python code together.

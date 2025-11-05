@@ -562,19 +562,3 @@ that prints the current working directory.
 **Expected outcome**: AI shows `uv run python -c "import os; print(os.getcwd())"`
 
 **Validation**: Can you explain how `uv run python -c` works? (Runs Python interpreter with inline code)
-
-### Safety Note
-
-**Always review scripts before running**:
-- Ask AI: "What does this script do before I run it?"
-- Check for file system operations (writing/deleting files)
-- Verify network requests go to expected domains
-- Understand what dependencies are being imported
-
-**Environment isolation protects your system**: Even if a script has bugs, it can't affect other projects' environments or global Python installations. Worst case: delete `.venv/` and run `uv sync` to rebuild clean environment.
-
----
-
-**What's Next**: In Lesson 6, you'll learn team collaboration—sharing projects with teammates, reproducing environments from lockfiles, and preparing projects for production deployment. You'll see how `pyproject.toml` and `uv.lock` work together to ensure everyone runs the same code with the same dependencies.
-
-You can now run code confidently in isolated environments. Let's make those environments reproducible for teams.

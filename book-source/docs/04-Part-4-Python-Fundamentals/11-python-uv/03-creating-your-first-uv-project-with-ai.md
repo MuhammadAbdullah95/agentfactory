@@ -512,17 +512,3 @@ Why did Python move to pyproject.toml?
 
 **Validation**: Can you explain why modern projects use pyproject.toml to a peer?
 
-### Safety Note
-
-**Review generated files before proceeding**: AI-created projects are safe, but always verify:
-- **pyproject.toml**: Check that dependencies make sense for your project
-- **No secrets committed**: Don't put API keys or passwords in pyproject.toml (use `.env` files)
-- **Understand structure**: Ask questions about any file you don't recognize
-
-**UV creates standard structures**: The files UV generates follow Python community best practices (PEP standards, src/ layout, etc.). They're safe to use.
-
----
-
-**What's Next**: In Lesson 4, you'll learn to manage dependencies professionally—adding production and development packages, updating versions, handling conflicts, understanding dependency resolution. You'll build a complete dependency set for a small project using AI guidance, never memorizing `uv add` syntax.
-
-Your project foundation is built. Now let's add the libraries that make it useful.

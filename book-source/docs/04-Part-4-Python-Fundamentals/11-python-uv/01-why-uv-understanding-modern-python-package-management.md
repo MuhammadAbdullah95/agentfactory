@@ -321,12 +321,3 @@ Show me a short example where UV installs a simple dependency (requests) and exp
 
 **How to validate**: Can you now describe the process of adding a dependency to a project conceptually (even if you can't recite the exact commands)?
 
-### Safety Note
-
-**Cross-verify technical claims**: AI can occasionally hallucinate details about UV's capabilities or make outdated claims about tool comparisons. If AI says something surprising (like "UV is 1000x faster than pip" or "UV works with Python 2.7"), double-check with official UV documentation at [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv).
-
-**Understand before executing**: When we get to hands-on lessons (Lesson 2 onward), always ask AI to explain commands before running them. Understanding "what this command does and why" is more valuable than blindly executing instructions.
-
----
-
-**What's Next**: In Lesson 2, you'll install UV on your system using AI collaboration, understanding platform detection and PATH configuration without memorizing installation commands. You'll practice the AI-driven workflow hands-on: express intent, AI provides commands, you verify results, and you understand what happened conceptually.

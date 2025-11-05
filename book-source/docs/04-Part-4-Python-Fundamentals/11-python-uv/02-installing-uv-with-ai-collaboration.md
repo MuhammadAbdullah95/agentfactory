@@ -417,21 +417,3 @@ What would happen if PATH wasn't updated?
 
 **Validation**: Can you now explain to a peer what PATH is and why installation modifies it?
 
-### Safety Note
-
-**Verify installation sources**: Always check that AI's suggested URLs point to official domains:
-- ✅ `https://astral.sh/uv/install.ps1` (official)
-- ❌ `https://random-site.com/uv-install.sh` (suspicious)
-
-**Understand before executing**: Don't blindly run commands. Ask AI:
-- "What does this command do?"
-- "Why do we use `| iex` instead of just downloading the file?"
-- "Is this safe to run?"
-
-**System changes**: Installation modifies your PATH—a system-level setting. This is normal for tool installation, but you should always know what's being changed.
-
----
-
-**What's Next**: In Lesson 3, you'll use UV to create your first Python project—understanding project structure (pyproject.toml, virtual environments, src/ directories) and adding a production dependency. You'll apply the AI-driven workflow to project initialization, exploring generated files and asking questions about each component's purpose.
-
-UV is now ready. Let's build something.
