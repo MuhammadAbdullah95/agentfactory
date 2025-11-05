@@ -47,7 +47,7 @@ This guide helps you run a pilot test of Chapter 31 with real students to valida
 5. **Think-Aloud**: "If possible, narrate your thoughts as you work through exercises"
 
 **Provide to Student**:
-- Link to Chapter 31: `book-source/docs/05-Spec-Driven-Development/31-specifyplus-hands-on/`
+- Link to Chapter 31: `book-source/docs/05-Spec-Driven-Development/31-spec-kit-plus-hands-on/`
 - Feedback form (see template below)
 - Your contact info for questions
 

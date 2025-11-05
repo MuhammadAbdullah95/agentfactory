@@ -1,6 +1,6 @@
 # Validation Report: Chapter 31 — Spec-Kit Plus Hands-On
 
-**File Structure:** `/book-source/docs/05-Spec-Driven-Development/31-specifyplus-hands-on/`
+**File Structure:** `/book-source/docs/05-Spec-Driven-Development/31-spec-kit-plus-hands-on/`
 
 **Chapter Type:** Technical/Hybrid (Professional Development Content)
 
@@ -45,7 +45,7 @@ None identified. (See "Verification Needed" in Executive Summary for items requi
 ## Major Issues
 
 ### 1. README.md Incomplete Structure
-**Location:** `book-source/docs/05-Spec-Driven-Development/31-specifyplus-hands-on/README.md`
+**Location:** `book-source/docs/05-Spec-Driven-Development/31-spec-kit-plus-hands-on/README.md`
 
 **Issue:** README numbering starts at point 3, suggesting points 1-2 are missing. Content ends abruptly after "Chapter 31: Spec-Kit Plus Hands-On" intro section.
 
