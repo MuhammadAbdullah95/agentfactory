@@ -27,7 +27,27 @@ learning_objectives:
 
 You now understand what SDD is. But understanding is not the same as doing. Before we explore opinionated frameworks, **let's get to the core of specification-first thinking**.
 
-**This lesson**: You'll write a complete specification for a **basic calculator with all four operations** (add, subtract, multiply, divide)—no framework, no templates, just pure spec-first thinking building a real feature.
+**This lesson**: You and your AI companion will collaborate to write a complete specification for a **basic calculator with all four operations** (add, subtract, multiply, divide)—no framework, no templates, just pure spec-first thinking building a real feature.
+
+---
+
+### How the Collaboration Works
+
+Throughout this lesson, you'll see prompts like this:
+
+```
+Tell your companion:
+[prompt text here]
+```
+
+When you see these:
+1. **Copy the prompt** and paste it into your AI tool
+2. **Read the AI's response** carefully
+3. **Copy useful parts** into your `spec.md` file
+4. **Ask follow-up questions** if anything is unclear
+5. **Refine through dialogue** until the spec is clear
+
+**You're not just reading this chapter—you're actively building a spec with AI.**
 
 ---
 
@@ -58,8 +78,6 @@ Before writing any code, we'll follow this cycle:
 5. VALIDATE      → Test if it matches intent
 6. REFINE        → Update spec based on gaps
 ```
-
-This is the **co-learning feedback loop** from the preface. You'll experience it hands-on across a complete feature.
 
 ---
 
@@ -126,6 +144,25 @@ Use Python 3.12+ type hints in function signatures.
 ```
 
 Your companion creates detailed acceptance criteria.
+
+**ITERATION EXAMPLE**: Your AI might ask:
+
+> "For acceptance criteria, should I include scenarios for:
+> - Mixed types (int + float)?
+> - Very large numbers (beyond float precision)?
+> - Negative numbers in all operations?
+> - What about the subtract(a, b) order—does subtract(5, 3) = 2 or -2?"
+
+**You respond** (refining the spec):
+
+```
+Yes, include all those scenarios. For subtract(a, b), the result is a - b, so subtract(5, 3) = 2.
+Also add a scenario for 0.1 + 0.2 to document IEEE 754 precision behavior.
+```
+
+**AI refines** acceptance criteria based on your clarifications.
+
+**See the iteration?** AI asks questions → You clarify → Spec improves. This happens throughout the process.
 
 ## Part 3: Edge Cases & Design Decisions (The "Gotchas")
 
@@ -274,34 +311,18 @@ Now let's validate the implementation against our specification using all the te
 
 ---
 
-### The Co-Learning Feedback Loop
+### The Specification-Development Feedback Loop
 
-This is **specification-driven co-learning** in action:
+This is **AI-native specification development** in action:
 
-1. **You wrote user stories** (expressing intent without implementation)
-2. **You defined acceptance criteria** (making intent testable)
-3. **You identified edge cases** (anticipating gotchas)
-4. **You compiled a complete spec** (synthesizing everything)
-5. **AI generated code** (showing its understanding)
-6. **You validated with tests** (verifying spec clarity)
-7. **You refined gaps/ambiguities** (learning from failures)
-8. **AI regenerated** (both improved together)
-
-**Key insight:** The spec improved through testing. **This is how professional specifications are written**—iteratively, with validation.
-
-When AI generated wrong code (Scenario 3), it wasn't AI's fault—it was an **ambiguous specification**. The failure taught you where precision was needed.
-
-### The Feedback Loop
-
-This is **co-learning**:
-
-1. **You wrote a specification** (teaching AI your intent)
-2. **AI generated code** (showing its understanding)
+1. **You collaborated with AI to draft the specification** (user stories, edge cases, acceptance criteria)
+2. **AI generated code from your spec** (showing its understanding)
 3. **You validated output** (testing if spec was clear)
-4. **You refined spec** (learning from gaps)
-5. **AI regenerated** (both improved together)
+4. **Gaps revealed** (Scenario 2: AI asked questions; Scenario 3: AI made wrong assumptions)
+5. **You refined spec with AI's help** (learning from failures)
+6. **AI regenerated** (both improved together)
 
-**Key insight:** The spec improved through testing. **This is how professional specifications are written**—iteratively, with validation.
+**Key insight:** Specifications improve through iteration. When AI generated wrong code (Scenario 3), it wasn't AI's fault—it was an **ambiguous specification**. The failure taught you where precision was needed. Professional specs are written iteratively, using AI as a co-reasoning partner to catch gaps early.
 
 ---
 
@@ -352,11 +373,9 @@ The spec isn't separate from tests; **tests ARE the specification** in executabl
 
 ### ✅ Co-Learning Through Validation
 
-When AI generated wrong code (Scenario 3: always returning float), you learned your spec was ambiguous. You refined it. **Both you and AI got smarter.**
+When AI generated wrong code (Scenario 3), you learned your spec was ambiguous. When AI asked questions (Scenario 2), you learned your spec had gaps. **This is how specs improve**—through iteration, not perfection on first try.
 
-When AI asked questions (Scenario 2: runtime type checking?), you learned your spec had gaps. You filled them.
-
-**This is co-learning:** Specifications improve through feedback from implementation attempts.
+**The AI-native approach**: You used AI to help write the specification itself (user stories, edge cases, acceptance criteria), not just implement it. This catches problems earlier and produces clearer specs.
 
 ### ✅ Specification is a Design Activity
 
