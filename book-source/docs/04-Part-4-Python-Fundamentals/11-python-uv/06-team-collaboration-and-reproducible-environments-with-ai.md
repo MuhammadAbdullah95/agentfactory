@@ -1,6 +1,6 @@
 ---
 title: "Team Collaboration and Reproducible Environments with AI"
-chapter: 11
+chapter: 12
 lesson: 6
 sidebar_position: 6
 duration_minutes: 75

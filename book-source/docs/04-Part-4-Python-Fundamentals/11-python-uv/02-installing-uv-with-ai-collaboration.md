@@ -1,6 +1,6 @@
 ---
 title: "Installing UV with AI Collaboration"
-chapter: 11
+chapter: 12
 lesson: 2
 sidebar_position: 2
 duration_minutes: 45

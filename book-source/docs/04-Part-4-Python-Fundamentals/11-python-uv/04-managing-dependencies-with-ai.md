@@ -1,6 +1,6 @@
 ---
 title: "Managing Dependencies with AI"
-chapter: 11
+chapter: 12
 lesson: 4
 sidebar_position: 4
 duration_minutes: 90

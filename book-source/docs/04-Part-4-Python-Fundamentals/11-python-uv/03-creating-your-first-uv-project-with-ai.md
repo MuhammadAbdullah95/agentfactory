@@ -1,6 +1,6 @@
 ---
 title: "Creating Your First UV Project with AI"
-chapter: 11
+chapter: 12
 lesson: 3
 sidebar_position: 3
 duration_minutes: 60

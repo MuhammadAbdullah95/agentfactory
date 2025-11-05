@@ -1,6 +1,6 @@
 ---
 title: "Running Python Code in UV Projects with AI"
-chapter: 11
+chapter: 12
 lesson: 5
 sidebar_position: 5
 duration_minutes: 60

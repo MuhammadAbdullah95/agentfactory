@@ -1,6 +1,6 @@
 ---
 title: "Why UV? Understanding Modern Python Package Management"
-chapter: 11
+chapter: 12
 lesson: 1
 sidebar_position: 1
 duration_minutes: 60

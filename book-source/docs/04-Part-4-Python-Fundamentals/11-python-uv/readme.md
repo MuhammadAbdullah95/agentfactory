@@ -1,9 +1,9 @@
 ---
-sidebar_position: 11
-title: "Chapter 11: Python UV - The Fastest Python Package Manager"
+sidebar_position: 12
+title: "Chapter 12: Python UV - The Fastest Python Package Manager"
 ---
 
-# Chapter 11: Python UV - The Fastest Python Package Manager
+# Chapter 12: Python UV - The Fastest Python Package Manager
 
 In Part 3, you mastered how to communicate effectively with AI through prompts and context engineering. Now you're ready to apply those skills to Python development—starting not with syntax, but with professional tooling.
 
