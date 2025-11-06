@@ -65,7 +65,8 @@ const Quiz: React.FC<QuizProps> = ({
   const handleNext = () => {
     if (currentQuestion < displayedQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setShowFeedback(false);
+      // Preserve feedback for previously answered questions
+      setShowFeedback(answeredQuestions.has(currentQuestion + 1));
     }
   };
 
