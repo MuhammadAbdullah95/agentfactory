@@ -137,9 +137,9 @@ Use the complete workflow from Lessons 1-3.
 **Step 1: Create Worktrees**
 
 ```bash
-git worktree add ../feature-001-[name] main
-git worktree add ../feature-002-[name] main
-git worktree add ../feature-003-[name] main
+git worktree add worktrees/feature-001-[name] -b feature-001-[name]
+git worktree add worktrees/feature-002-[name] -b feature-002-[name]
+git worktree add worktrees/feature-003-[name] -b feature-003-[name]
 ```
 
 **Step 2: Write Specs (In Parallel)**
@@ -224,6 +224,28 @@ git merge feature-003-[name]
 **Document conflicts**: How many? In which files? What did they reveal?
 
 Clean merges (0-1 conflicts) = excellent decomposition.
+
+### Phase 5: Cleanup Worktrees (5 minutes)
+
+After merging, remove worktrees to keep your repository clean:
+
+```bash
+# Remove each worktree (after branches are merged)
+git worktree remove worktrees/feature-001-[name]
+git worktree remove worktrees/feature-002-[name]
+git worktree remove worktrees/feature-003-[name]
+
+# Verify removal
+git worktree list
+# Should only show main repository
+
+# Optional: Delete merged branches
+git branch -d feature-001-[name]
+git branch -d feature-002-[name]
+git branch -d feature-003-[name]
+```
+
+**Best practice**: Remove worktrees immediately after merging to prevent clutter.
 
 ---
 
@@ -338,6 +360,39 @@ These are **tool descriptions**, not strategic insights.
 - [ ] Clear file structure
 - [ ] CI/CD tests passing (optional but recommended)
 - [ ] "How to Run" section works
+
+---
+
+## Extension: 5-Agent Capstone (Optional)
+
+Want to prove you can coordinate 5-7 agents? Extend your capstone project.
+
+### 5-Feature System Design
+
+Choose one project and add 2 more features:
+
+**Task Management App** → Add:
+- **Feature 004**: Task categories (organize tasks by projects/tags)
+- **Feature 005**: Activity log (track all task changes with timestamps)
+
+**Agent UI** → Add:
+- **Feature 004**: Session history (list past conversations, search/filter)
+- **Feature 005**: Settings panel (customize UI themes, notification preferences)
+
+### Extension Requirements
+
+- Use contracts from Lesson 5 to define integration points
+- Use completion hooks from Lesson 5 for async coordination
+- All 5 features must integrate cleanly (0-4 merge conflicts acceptable)
+- Measure and document 3-5x speedup
+
+### Modified Time Estimates
+
+| Phase | Sequential (5 features) | Parallel (5 features) | Expected Speedup |
+|-------|------------------------|----------------------|------------------|
+| Total | 625 min (10.5 hrs) | 150-200 min (2.5-3.3 hrs) | **3-4x** |
+
+Completing this extension proves you can coordinate 5-7 agents—the skill level described in the chapter spec.
 
 ---
 

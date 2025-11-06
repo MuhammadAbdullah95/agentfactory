@@ -65,11 +65,11 @@ source_spec: "specs/002-chapter-32-redesign/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-06"
 git_author: "Claude Code"
-workflow: "/sp.implement (Lesson 7: Second Climax)"
+workflow: "/sp.implement (Lesson 6: Second Climax)"
 version: "1.0.0"
 ---
 
-# Lesson 7: SpecKit-Orchestrated Autonomous Execution
+# Lesson 6: SpecKit-Orchestrated Autonomous Execution
 
 **SECOND CLIMAX: Creative Independence Through Specification-Driven Orchestration**
 
@@ -97,7 +97,7 @@ Before diving into execution, let's clarify what makes this approach different f
 
 In Lesson 5, you used contracts (specifications) to define what each agent MUST achieve. Those contracts lived in spec.md and plan.md. Helpful, but you still managed agents manually across 5 terminals.
 
-**Now, in Lesson 7**, contracts become the *entire coordination layer*. Here's what shifts:
+**Now, in Lesson 6**, contracts become the *entire coordination layer*. Here's what shifts:
 
 **Old (Manual Coordination)**:
 - Human monitors 5 terminals
@@ -129,6 +129,20 @@ Here's why:
 - Human reviews results against contracts
 
 **This is orchestration**: Coordinating multiple agents through specifications. No bash JSON parsing. No session ID management. No headless mode complexity. Just clear specifications and completion hooks.
+
+### What SpecKit Plus Provides vs. What You Do
+
+**SpecKit Plus provides**:
+- Specification generation (`/sp.specify`, `/sp.plan`, `/sp.tasks`)
+- Execution within a single session (`/sp.implement`)
+- Standardized workflows and validation
+
+**You (the orchestrator) provide**:
+- Decomposition thinking (breaking system into 5 features)
+- Session spawning (opening 5 terminals, starting Claude in each)
+- Strategic review (validation against contracts)
+
+**The "orchestration"**: You coordinate multiple Claude Code sessions through shared specifications and completion hooks. SpecKit Plus ensures each session knows what to build; you ensure they work together.
 
 ---
 
