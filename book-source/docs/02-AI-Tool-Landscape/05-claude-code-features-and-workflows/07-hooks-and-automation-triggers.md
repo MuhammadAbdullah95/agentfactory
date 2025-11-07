@@ -235,9 +235,13 @@ You ask Claude Code to do something
 
 ---
 
-## The Three Hook Types Explained
+## All Nine Hook Types Explained
 
-### Hook Type 1: SessionStart
+Claude Code provides **nine hook events** at different lifecycle stages. We'll cover the three most common first, then explore the advanced ones.
+
+### Common Hooks (For Most Projects)
+
+#### Hook Type 1: SessionStart
 
 **Runs**: When Claude Code starts (`claude` command)
 
@@ -260,14 +264,20 @@ You ask Claude Code to do something
 }
 ```
 
-### Hook Type 2: PreToolUse
+#### Hook Type 2: PreToolUse
 
 **Runs**: BEFORE Claude executes a tool (Bash, Edit, Read, etc.)
+
+**Capabilities**:
+- Execute validation commands
+- Run preparation steps
+- Can **block** tool execution if needed
 
 **Use for**:
 - Validation before dangerous commands
 - Warning messages
 - Preparation steps
+- Blocking unwanted actions
 
 **Example - Warning before bash**:
 ```json
@@ -288,7 +298,7 @@ You ask Claude Code to do something
 }
 ```
 
-### Hook Type 3: PostToolUse
+#### Hook Type 3: PostToolUse
 
 **Runs**: AFTER Claude executes a tool
 
@@ -296,6 +306,7 @@ You ask Claude Code to do something
 - Validation of results
 - Cleanup tasks
 - Confirmation messages
+- Running tests or linters after edits
 
 **Example - Message after edit**:
 ```json
@@ -318,17 +329,229 @@ You ask Claude Code to do something
 
 ---
 
+### Advanced Hooks (For Complex Workflows)
+
+#### Hook Type 4: UserPromptSubmit
+
+**Runs**: When users submit a prompt to Claude Code
+
+**Use for**:
+- Logging user requests
+- Pre-processing input
+- Rate limiting
+
+**Example**:
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "command": "echo '[LOG] User asked something at $(date)'"
+      }
+    ]
+  }
+}
+```
+
+#### Hook Type 5: Notification
+
+**Runs**: When Claude Code sends a notification
+
+**Use for**:
+- Logging important events
+- Triggering alerts
+
+**Example**:
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "type": "command",
+        "command": "echo '🔔 Notification event'"
+      }
+    ]
+  }
+}
+```
+
+#### Hook Type 6: Stop
+
+**Runs**: When Claude Code finishes responding
+
+**Use for**:
+- Cleanup after each response
+- Resetting state
+- Final validation
+
+**Example**:
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "echo '✋ Claude Code response complete'"
+      }
+    ]
+  }
+}
+```
+
+#### Hook Type 7: SubagentStop
+
+**Runs**: When a subagent task completes
+
+**Use for**:
+- Logging subagent results
+- Triggering post-processing
+- Collecting artifacts from subagents
+
+**Example**:
+```json
+{
+  "hooks": {
+    "SubagentStop": [
+      {
+        "type": "command",
+        "command": "echo '🤖 Subagent task finished'"
+      }
+    ]
+  }
+}
+```
+
+#### Hook Type 8: PreCompact
+
+**Runs**: Before Claude Code compacts conversation history
+
+**Use for**:
+- Saving conversation snapshots
+- Preparing for history cleanup
+
+**Example**:
+```json
+{
+  "hooks": {
+    "PreCompact": [
+      {
+        "type": "command",
+        "command": "echo '📦 Conversation history about to be compacted'"
+      }
+    ]
+  }
+}
+```
+
+#### Hook Type 9: SessionEnd
+
+**Runs**: When Claude Code session ends
+
+**Use for**:
+- Cleanup tasks
+- Saving session state
+- Logging session metrics
+
+**Example**:
+```json
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "type": "command",
+        "command": "echo '👋 Session ended. Goodbye!'"
+      }
+    ]
+  }
+}
+```
+
+---
+
 ## How Matchers Work
 
-Hooks can target specific tools with `matcher`:
+Hooks can target specific tools with `matcher`. You have three options:
 
-**Available matchers**:
+### Option 1: Target a Single Tool
+
+**Available tool matchers**:
 - `"Bash"` — Bash/shell commands
 - `"Edit"` — File edits
 - `"Read"` — File reads
 - `"Write"` — File writes
+- `"Glob"` — File pattern searches
+- `"Grep"` — File content searches
 
-**Example - Different messages for different tools**:
+**Example - Single tool**:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '⚡ Running bash command...'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Option 2: Target Multiple Tools (Pipe Notation)
+
+Use the pipe character `|` to match multiple tools:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '✅ File operation complete'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Now the hook fires after EITHER Edit OR Write operations.
+
+### Option 3: Target All Tools (Wildcard)
+
+Use `"*"` to match all tools:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🔄 About to execute any tool...'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Now the hook fires before ANY tool is executed.
+
+### Example - Different Messages for Different Tool Groups
 
 ```json
 {
@@ -344,11 +567,20 @@ Hooks can target specific tools with `matcher`:
         ]
       },
       {
-        "matcher": "Edit",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "echo '✏️  Editing file...'"
+            "command": "echo '✏️  Modifying file...'"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📖 Searching for files...'"
           }
         ]
       }
@@ -358,8 +590,9 @@ Hooks can target specific tools with `matcher`:
 ```
 
 Now:
-- Before bash commands: `🔧 Running command...`
-- Before edits: `✏️  Editing file...`
+- Before bash: `🔧 Running command...`
+- Before Edit/Write: `✏️  Modifying file...`
+- Before Read/Glob/Grep: `📖 Searching for files...`
 
 ---
 
