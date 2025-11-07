@@ -1,4 +1,36 @@
 {
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "echo '🚀 Claude Code session started for this project'"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '⚡ Running bash command...'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '✅ File edited successfully'"
+          }
+        ]
+      }
+    ]
+  },
+  "alwaysThinkingEnabled": false,
+  "model": "haiku",
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
@@ -18,7 +50,8 @@
       "Bash(.specify/scripts/bash/create-phr.sh:*)",
       "Skill(quiz-generator)",
       "Bash('.specify\\scripts\\bash\\create-phr.sh' --title \"implement-chapter-6-lessons\" --stage implement --feature \"001-chapter-6\" --json)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

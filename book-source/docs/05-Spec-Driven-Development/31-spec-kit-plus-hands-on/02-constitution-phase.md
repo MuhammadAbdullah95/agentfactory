@@ -285,7 +285,7 @@ Show me the generated constitution file and explain what it contains.
   
 ---
 
-## Part D: Commit Constitution to Git (15 minutes)
+## Part C: Commit Constitution to Git (15 minutes)
 
 Here's a critical best practice: **Always commit the Constitution before starting feature work.**
 

@@ -490,3 +490,4 @@ Go try these real prompts with your AI tool:
 
 **The Key Insight**: Real AI collaboration is messy. Agents ask questions, hit limitations, and need your input. That's not a bug—it's how you stay safe. By working through this dialogue pattern, you learn to supervise AI work effectively.
 
+---
