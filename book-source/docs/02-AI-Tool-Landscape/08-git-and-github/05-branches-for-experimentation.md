@@ -51,338 +51,303 @@ cognitive_load:
 generated_by: "lesson-writer"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
-last_modified: "2025-11-05"
-version: "2.0.0"
+last_modified: "2025-11-07"
+version: "3.0.0"
 ---
 
 # Branches for Experimentation
 
-## The Problem
+Your AI wants to refactor your entire codebase - 50+ changes across 10 files. You think: "What if it breaks everything?"
 
-Your AI wants to refactor your entire codebase. It's 50+ changes across 10 files. You think: "I want this, but what if it breaks everything?"
-
-**Old way**: Make changes on your main code. Test. Hope. If it breaks, panic and undo.
-
-**Smart way**: Create a copy. Test AI's changes there. If good, merge. If bad, delete the copy. Your main code stays safe.
-
-**That's what branches do.**
+**Solution**: Create a branch. Test changes there. If good, merge. If bad, delete. Your main code stays safe.
 
 **Time**: 20 minutes
 
 ---
 
-## What Are Branches?
+## What Is a Branch?
 
-A **branch** is a copy of your code where you test things.
-
-Think of it like this:
+A branch is a copy of your code where you test things safely.
 
 ```
-Main Code (safe version)
+Main Code (working version)
   ↓
-Make a copy → Test Branch
+Create Branch → Test Copy
   ↓
 AI makes changes here
   ↓
 Test it
   ↓
-Works? → Copy back to main
-Broken? → Delete the copy
+Works? → Merge back to main
+Broken? → Delete the branch
 ```
 
-Your main code **never** gets touched until you're sure it works.
+Your main code never changes until you approve.
 
 ---
 
-## Simple Analogy
+## Why Branches Matter with AI
 
-**Writing an essay**:
-- Main document = Your finished, safe version
-- New copy = Draft where you try new paragraphs
-- Test = Read it, see if it's better
-- Keep or delete = Save the new version or throw it away
-
-**Same with code**:
-- Main = Your working code
-- Branch = Copy where AI changes things
-- Test = Run it, see if it works
-- Merge or delete = Copy it back or throw it away
-
----
-
-## Why This Matters with AI
-
-AI makes big changes fast. Without branches:
-- AI changes your main code
+**Without branches**:
+- AI changes your main code directly
 - Something breaks
-- You panic
 - Hard to undo everything
 
-With branches:
+**With branches**:
 - AI changes the copy (branch)
 - Test the copy
-- If broken, delete the copy
-- Main code never got touched
+- If broken, delete it
+- Main code untouched
 - Try again differently
 
 **Branches = Fearless experimentation**
 
 ---
 
-## The Simple Workflow
+## The Branch Workflow
 
-### Step 1: Create a Test Space
+### Step 1: Create a Branch
 
-**What you want**: A safe copy to test changes
+**You ask Gemini CLI**: "Create a branch called 'test-refactor'"
 
-**Instead of**: Working directly on main
+Gemini runs: `git checkout -b test-refactor` (or `git switch -c test-refactor`)
 
-**Just ask your AI**:
-- "Create a branch to test this change"
-- "Make a copy for testing"
-- "Set up a test branch called 'try-new-feature'"
+Creates and switches to the new branch.
 
-### Example
-
-**You**: "Create a branch called 'test-refactor' so I can try changes safely"
-
-**AI**: "Creating test branch 'test-refactor'..."
-
-[AI creates the branch]
-
-**AI**: "Done! You're now working on the test branch. Any changes you make here won't affect your main code until you decide to merge."
-
-**You**: "So if I break something, my main code is safe?"
-
-**AI**: "Exactly! Your main code is untouched. You can experiment freely here."
+**Check it worked**: Ask "Which branch am I on?" - should show `test-refactor`
 
 ---
 
-### Step 2: Make Changes on the Branch
+### Step 2: Make Changes
 
-**What you want**: AI changes code on the test copy
-
-**Just ask your AI**:
-- "Add error handling to calculator.py"
-- "Refactor this function for performance"
-- "Optimize database queries"
-
-### Example
+Now AI can modify code on this branch. Your main code is protected.
 
 **You**: "Refactor calculator.py to be faster"
 
-**AI**: "I'll optimize your calculator functions. Making changes on the 'test-refactor' branch..."
+AI modifies the code on the `test-refactor` branch.
 
-[AI modifies code]
+**View changes**:
 
-**AI**: "Done! I made the add() and subtract() functions 3x faster using better algorithms. Ready to test?"
+**Ask Gemini CLI**: "Show me what changed"
 
-**You**: "Show me what changed"
+Gemini runs: `git diff main`
 
-**AI**: "Main changes:
-- add() now uses sum() instead of loop (faster)
-- subtract() optimized for large numbers
-- Both functions now have error checking
-
-Want to see the exact code differences?"
+Shows differences between your branch and main.
 
 ---
 
-### Step 3: Test Everything
+### Step 3: Test the Changes
 
-**What you want**: Make sure it works before keeping it
+Test thoroughly before merging.
 
-**Just ask your AI**:
-- "Test the changes"
-- "Run my code and check for errors"
-- "Does everything still work?"
+**You**: "Run tests on calculator.py"
 
-### Example
-
-**You**: "Test calculator.py to make sure nothing broke"
-
-**AI**: "Running tests..."
-
-[AI runs the code]
-
-**AI**: "All tests passed!
-- Addition works correctly
-- Subtraction works correctly
-- Error handling works
-- No crashes
-
-The refactored code is working perfectly."
-
-**You**: "Great! How do I keep these changes?"
-
-**AI**: "You have two options:
-1. Merge - Copy the changes to your main code
-2. Discard - Delete this test branch and keep main unchanged
-
-Which do you want?"
+AI runs your code and reports results:
+- ✓ All tests pass → Safe to merge
+- ✗ Tests fail → Fix or discard
 
 ---
 
-### Step 4: Decide What to Do
+### Step 4: Merge or Discard
 
-You have two choices:
+**Option A: Keep Changes (Merge)**
 
-**Choice A: Keep the Changes (Merge)**
+If tests pass and you like the changes:
 
-**You**: "The changes work great. Merge them to main."
+**You ask Gemini CLI**: "Merge this branch into main"
 
-**AI**: "Merging 'test-refactor' into main..."
+Gemini runs:
+1. `git checkout main` (switch to main)
+2. `git merge test-refactor` (merge changes)
+3. `git branch -d test-refactor` (delete the branch)
 
-[AI merges the branch]
-
-**AI**: "Done! Your main code now has the faster calculator functions. Should I delete the test branch to clean up?"
-
-**You**: "Yes"
-
-**AI**: "Test branch deleted. Your main code is updated and ready to use."
-
-**Choice B: Throw Away the Changes**
-
-**You**: "Actually, the changes broke something. Delete this branch."
-
-**AI**: "Deleting 'test-refactor' branch..."
-
-[AI deletes the branch]
-
-**AI**: "Branch deleted. Your main code is unchanged - exactly as it was before. Want to try a different approach?"
+Your main code now has the changes.
 
 ---
 
-## A Complete Example
+**Option B: Discard Changes**
 
-**You**: "I want to try adding NumPy to my calculator, but I'm not sure if it's worth it."
+If tests fail or you don't like the changes:
 
-**AI**: "I'll create a test branch called 'try-numpy' so we can experiment safely."
+**You ask Gemini CLI**: "Delete this branch without merging"
 
-[AI creates branch]
+Gemini runs:
+1. `git checkout main` (switch to main)
+2. `git branch -D test-refactor` (force delete branch)
 
-**AI**: "Branch created! Now on 'try-numpy'. What should I do?"
+Your main code is unchanged - exactly as before.
+
+---
+
+## Complete Example
+
+**You**: "Create a branch to test adding NumPy to calculator"
+
+Gemini runs: `git checkout -b try-numpy`
+
+Branch created.
 
 **You**: "Rewrite add() to use NumPy"
 
-**AI**: "Converting add() to use NumPy..."
+AI modifies `calculator.py` on the `try-numpy` branch.
 
-[AI makes changes]
+**You**: "Test it"
 
-**AI**: "Done! The function now uses NumPy for faster math. Test it?"
+AI runs tests → ⚠️ Crashes with empty lists
 
-**You**: "Yes, test it"
+**You**: "Fix the empty list bug"
 
-**AI**: "Testing..."
+AI adds validation.
 
-[AI runs tests]
+**You**: "Test again"
 
-**AI**: "⚠️ Found a problem! The NumPy version crashes with empty lists. Should I:
-1. Fix the bug and try again
-2. Delete this branch and try a different approach
-3. Keep investigating"
+AI runs tests → ✓ All pass! 5x faster.
 
-**You**: "Fix it"
+**You**: "Merge to main"
 
-**AI**: "Adding empty list check..."
+Gemini runs:
+- `git checkout main`
+- `git merge try-numpy`
+- `git branch -d try-numpy`
 
-[AI fixes bug]
-
-**AI**: "Fixed! Now testing again..."
-
-[AI tests]
-
-**AI**: "All tests pass! The NumPy version is 5x faster and handles edge cases. Merge to main?"
-
-**You**: "Yes!"
-
-**AI**: "Merged and cleaned up. Your main code now uses NumPy safely."
+Main code now uses NumPy safely.
 
 ---
 
-## Key Points
+## Working with Multiple Branches
 
-**Branches let you**:
-- Test big AI changes safely
-- Keep your main code protected
-- Try multiple approaches
-- Delete experiments that don't work
+**List all branches**:
 
-**The pattern**:
-1. Create branch (safe copy)
-2. AI changes code there
-3. Test thoroughly
-4. Keep (merge) or delete (discard)
-5. Main code only changes if you approve
+**Ask Gemini CLI**: "Show me all branches"
 
-**Remember**: Experiments are free when your main code is safe!
+Gemini runs: `git branch`
+
+Shows all branches, with `*` marking your current one.
+
+**Switch between branches**:
+
+**Ask Gemini CLI**: "Switch to main branch"
+
+Gemini runs: `git checkout main` (or `git switch main`)
+
+**See current branch**:
+
+**Ask Gemini CLI**: "Which branch am I on?"
+
+Gemini runs: `git branch --show-current`
 
 ---
 
 ## When to Use Branches
 
 **Use a branch when**:
-- AI wants to make big changes
-- You're trying something experimental
-- You're not sure if changes will work
-- You want to test before committing
+- AI wants to make major changes
+- Trying something experimental
+- Not sure if changes will work
+- Multiple people working on same code
 
-**Don't need a branch when**:
-- Making tiny changes (like fixing a typo)
-- Changes are super simple
-- You're already testing on a branch
+**Don't need a branch for**:
+- Tiny changes (fixing typos)
+- Very simple updates
+- Learning/practicing locally
 
-**Rule of thumb**: If you're nervous about changes, use a branch.
+**Rule**: If you're nervous about changes, use a branch.
+
+---
+
+## Key Commands Reference
+
+| Task | Command |
+|------|---------|
+| Create and switch to branch | `git checkout -b branch-name` |
+| List all branches | `git branch` |
+| Switch to branch | `git checkout branch-name` |
+| See current branch | `git branch --show-current` |
+| Merge branch to main | `git checkout main` then `git merge branch-name` |
+| Delete branch (after merge) | `git branch -d branch-name` |
+| Force delete branch (no merge) | `git branch -D branch-name` |
+| Compare branch to main | `git diff main` |
+
+You don't need to memorize these - ask Gemini CLI in natural language.
+
+---
+
+## Safety Guidelines
+
+**Always**:
+- Test on a branch before merging
+- Commit your work on the branch
+- Check which branch you're on before making changes
+
+**Never**:
+- Make untested changes directly on main
+- Delete a branch before confirming it's merged (if you want to keep changes)
+
+**The pattern**:
+1. Create branch
+2. Make changes
+3. Test thoroughly
+4. If good → merge
+5. If bad → delete
+6. Main stays safe
 
 ---
 
 ## Try With AI
 
-Practice the branch workflow.
+Practice the complete branch workflow.
 
-**Tool**: Claude Code, Gemini CLI, or ChatGPT
+**Tool**: Gemini CLI (or Claude Code, ChatGPT)
 
-### Exercise 1: Create and Use a Branch
+### Exercise 1: Complete Branch Workflow
 
 ```
-Help me practice branches:
+Walk me through this workflow:
 1. Create a branch called "test-feature"
-2. Make a small change to any file
-3. Show me what changed
-4. Merge it back to main
-5. Delete the branch
+2. Make a small change to a file
+3. Show me what changed compared to main
+4. Test the change
+5. Merge back to main
+6. Delete the branch
+7. Confirm I'm back on main
 
-Walk me through each step.
+Explain each step as we go.
 ```
 
-What to expect: AI creates branch, makes changes, merges, and cleans up.
-
-### Exercise 2: Test and Discard
+### Exercise 2: Discard a Branch
 
 ```
-Create a branch to test something.
-Make a change that we'll discard.
-Then delete the branch without merging.
-
-Confirm main is unchanged afterward.
+Practice discarding:
+1. Create a branch called "experiment"
+2. Make a change I'll discard
+3. Switch back to main without merging
+4. Delete the experiment branch
+5. Prove my main branch is unchanged
 ```
 
-What to expect: AI creates branch, makes changes, deletes branch, proves main is safe.
-
-### Exercise 3: Understanding Safety
+### Exercise 3: Multiple Branches
 
 ```
-Explain why branches make AI work safer.
-Give me a specific example of when a branch
-would save me from a big mistake.
+Create two branches: "feature-a" and "feature-b"
+Show me how to:
+1. Switch between them
+2. See which branch I'm on
+3. List all branches
+4. Delete both branches safely
 ```
 
-What to expect: AI explains with concrete example.
+### Exercise 4: Recovery Scenario
+
+```
+Scenario: I made changes on main by accident (should've used a branch).
+How do I move those changes to a new branch and restore main?
+Walk me through the recovery steps.
+```
 
 ---
 
 ## What's Next
 
-In Lesson 6, you'll learn how to push branches to GitHub so your experiments are backed up in the cloud. In Lesson 7, you'll learn **Pull Requests** - how to ask others to review your branches before merging.
+**Lesson 6**: Push branches to GitHub for backup and collaboration.
 
-**Key takeaway**: Branches = Experiment fearlessly. Your main code stays safe until you're ready to merge.
+**Key takeaway**: Branches = Safe experimentation. Your main code stays protected until you decide to merge.

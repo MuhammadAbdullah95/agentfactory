@@ -46,19 +46,17 @@ differentiation:
 generated_by: "lesson-writer v3.0.0"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
-last_modified: "2025-11-05"
+last_modified: "2025-11-07"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "1.0.0"
+version: "2.0.0"
 ---
 
 # IDE Setup and Integration
 
-## The Problem
+Typing Git commands every time is slow. You can't see your changes visually.
 
-You're typing Git commands every time. It's slow and you can't see your changes visually.
-
-**Solution**: An IDE - a code editor with Git built in, plus AI help.
+**Solution**: An IDE - code editor with Git built in, plus AI help.
 
 **Time**: 20 minutes
 
@@ -66,243 +64,314 @@ You're typing Git commands every time. It's slow and you can't see your changes 
 
 ## What Is an IDE?
 
-**IDE** = Integrated Development Environment (a fancy code editor)
+**IDE** = Integrated Development Environment (fancy code editor)
 
 **Simple explanation**:
 - Regular text editor = just typing
-- IDE = typing + Git + file explorer + AI help + everything in one place
+- IDE = typing + Git + file explorer + AI + everything in one place
 
 **Why this matters**:
 - See Git changes with colors (green = added, red = removed)
 - Click buttons instead of typing commands
 - AI suggests code as you type
-- Everything works together
-
----
-
-## Simple Analogy
-
-**Writing a document**:
-- Notepad = basic text editor (just typing)
-- Microsoft Word = IDE (spell check, formatting, tools)
-
-**Same with code**:
-- Basic editor = just typing code
-- IDE = code + Git + AI help + tools
+- Everything integrated
 
 ---
 
 ## Your Three Choices
 
-Pick ONE. Don't install all three (too confusing).
+Pick **ONE**. Don't install all three.
 
-| IDE | Why Choose It | Get It |
-|-----|---------------|--------|
+| IDE | Why Choose It | Download |
+|-----|---------------|----------|
 | **VS Code** | Most popular, easiest to learn | code.visualstudio.com |
-| **Cursor** | Built-in AI (Claude included) | cursor.sh |
-| **Zed** | Super fast, clean | zed.dev |
+| **Cursor** | Built-in AI (Claude, GPT-4) | cursor.sh |
+| **Zed** | Super fast, minimal | zed.dev |
 
-**Recommendation**: Start with **VS Code** (most popular) or **Cursor** (if you want built-in AI).
+**Recommendation**: **VS Code** (most tutorials/help available) or **Cursor** (AI built-in).
 
 ---
 
 ## Step 1: Install Your IDE
 
-**Just ask your AI**:
-- "Help me install VS Code"
-- "Walk me through installing Cursor"
-- "I need to install an IDE, which should I choose?"
+### VS Code Installation
 
-### Example
+**Windows**:
+1. Go to code.visualstudio.com
+2. Click "Download for Windows"
+3. Run the installer
+4. Check "Add to PATH" option
+5. Click Finish
 
-**You**: "Help me install VS Code on Windows"
+**Mac**:
+1. Go to code.visualstudio.com
+2. Download for macOS
+3. Drag to Applications folder
+4. Open from Applications
 
-**AI**: "I'll guide you:
+**Linux**:
 
-1. Go to: code.visualstudio.com
-2. Click 'Download for Windows'
-3. Run the downloaded file
-4. Click Next through the installer
-5. Make sure 'Add to PATH' is checked
-6. Click Finish
+**You ask Gemini CLI**: "How do I install VS Code on [your distribution]?"
 
-Tell me when it's installed."
+Gemini provides the right package manager command.
 
-**You**: "Installed! Now what?"
+---
 
-**AI**: "Open VS Code. You should see a Welcome screen with a blue sidebar. That means it's working!"
+**Verify installation**:
+
+Open VS Code. You should see:
+- Welcome screen
+- Blue sidebar on left
+- Menu bar at top
+
+✓ If you see this, installation succeeded.
+
+**If VS Code won't open**:
+
+**Ask Gemini CLI**: "VS Code won't launch on [your OS]. Here's the error: [paste error]"
 
 ---
 
 ## Step 2: Open Your Git Project
 
-**What you want**: Open your existing project folder in the IDE
+**In VS Code**:
 
-**Instead of**: Navigating manually
+1. Click **File → Open Folder** (or Ctrl+K Ctrl+O)
+2. Navigate to your Git project folder
+3. Click "Select Folder"
 
-**Just ask your AI**:
-- "Help me open my project folder in VS Code"
-- "How do I open a folder in this IDE?"
-- "I have a project at /path/to/my-project, open it"
+Your project opens with files listed in the left sidebar.
 
-### Example
+**Verify it's a Git project**:
 
-**You**: "I have a folder called 'my-calculator' with Git already set up. Open it in VS Code."
+Look at bottom-left corner - you should see your branch name (e.g., "main").
 
-**AI**: "I'll open it for you..."
+**If no branch name appears**:
 
-[AI opens the folder]
+The folder might not have Git initialized.
 
-**AI**: "Done! Look at the left sidebar. You should see:
-- Your files listed
-- A Git icon (looks like branches)
+**Ask Gemini CLI**: "Initialize Git in my current folder"
 
-Click the Git icon to see your Git status."
+Gemini runs: `git init`
 
----
-
-## Step 3: Find the Git Panel
-
-**What you'll see**: The Source Control panel
-
-**Where is it**: Click the branch icon on the left sidebar (3rd or 4th icon from top)
-
-**What it shows**:
-- Current branch name
-- Files you changed (with colors)
-- Button to commit
-- Button to push
-
-### Example
-
-**You**: "I clicked the Git icon. What am I looking at?"
-
-**AI**: "That's your Source Control panel! Here's what each part means:
-
-- **Top**: Your current branch (probably 'main')
-- **Middle**: Files you changed (orange dot = modified)
-- **Bottom**: Text box to write commit message
-
-Click any file to see what changed (green = added, red = removed)."
-
-**You**: "Cool! So I don't need to type git status anymore?"
-
-**AI**: "Exactly! The IDE shows you everything visually."
+Reload VS Code - branch name should appear.
 
 ---
 
-## Step 4: Make a Commit Using the IDE
+## Step 3: Find the Source Control Panel
 
-**What you want**: Commit without typing commands
+**Where**: Click the branch icon (3rd icon) in left sidebar
 
-**Instead of**: git add + git commit
+**OR**: Press `Ctrl+Shift+G` (Windows/Linux) or `Cmd+Shift+G` (Mac)
 
-**Just use the GUI**:
+**What you see**:
 
-1. Edit a file (make any small change)
-2. Look at Source Control panel (you'll see the file listed)
-3. Click the **+** icon next to filename (this stages it)
-4. Type your commit message in the text box
-5. Click the **✓ checkmark** above the text box (this commits)
+```
+┌─────────────────────────────┐
+│ SOURCE CONTROL              │
+│ ┌─────────────────────────┐ │
+│ │ main ▼                  │ │ ← Current branch
+│ └─────────────────────────┘ │
+│                             │
+│ Changes (2)                 │ ← Modified files
+│ □ calculator.py         M   │
+│ □ README.md            M    │
+│                             │
+│ ┌─────────────────────────┐ │
+│ │ Message (Ctrl+Enter)    │ │ ← Commit message
+│ └─────────────────────────┘ │
+│ ✓ Commit                    │ ← Commit button
+└─────────────────────────────┘
+```
 
-### Example
-
-**You**: "I changed my README. How do I commit it?"
-
-**AI**: "Look at your Source Control panel:
-
-1. See 'README.md' listed with orange dot? That means it changed.
-2. Click the + next to it (stages the file)
-3. Type your commit message: 'Update README'
-4. Click the checkmark ✓ at the top
-
-Done! No commands needed."
-
-**You**: "That was way easier than typing!"
-
-**AI**: "That's why developers use IDEs. Visual is faster."
-
----
-
-## Step 5: Add AI Help (Optional but Amazing)
-
-**What you want**: AI suggests code as you type
-
-**Options** (pick ONE):
-- **GitHub Copilot** ($10/month, or free for students)
-- **Cursor AI** (built-in if using Cursor IDE)
-- **Continue** (free, open-source)
-
-**Just ask your AI**:
-- "Help me install GitHub Copilot"
-- "How do I add AI code suggestions to VS Code?"
-- "I want AI to help me write code"
-
-### Example
-
-**You**: "I want AI to suggest code while I type. What should I use?"
-
-**AI**: "I recommend GitHub Copilot. Here's how:
-
-1. In VS Code, click Extensions icon (4 squares on left sidebar)
-2. Search 'GitHub Copilot'
-3. Click Install
-4. Sign in with your GitHub account
-5. Reload VS Code
-
-Now when you start typing code, Copilot suggests completions in gray text. Press Tab to accept, Escape to dismiss."
-
-**You**: "Does it cost money?"
-
-**AI**: "About $10/month. But if you're a student, it's free with GitHub Student Pack."
+**What the symbols mean**:
+- **M** = Modified
+- **A** = Added (new file)
+- **D** = Deleted
+- **U** = Untracked (Git doesn't know about it yet)
 
 ---
 
-## Common IDE Tasks
+## Step 4: Stage and Commit Using GUI
 
-Here's how to do Git stuff with clicks instead of commands:
+**Traditional way**: `git add file` then `git commit -m "message"`
 
-| What You Want | Instead of Command | Do This in IDE |
-|---------------|-------------------|----------------|
-| See what changed | `git diff` | Click filename in Source Control |
-| Stage a file | `git add filename` | Click **+** icon next to file |
+**IDE way** (visual):
+
+1. **See what changed**:
+   - Look at Source Control panel
+   - Files with changes are listed
+
+2. **Stage files** (prepare to commit):
+   - Hover over filename
+   - Click the **+** icon
+
+   *(Equivalent to: `git add filename`)*
+
+3. **Write commit message**:
+   - Type in the message box
+   - Be clear and specific
+
+4. **Commit**:
+   - Click the **✓ checkmark** above message box
+   - Or press `Ctrl+Enter`
+
+   *(Equivalent to: `git commit -m "your message"`)*
+
+---
+
+**View what changed before staging**:
+
+Click the filename in Source Control panel.
+
+A diff view opens:
+- **Red**: Lines removed
+- **Green**: Lines added
+- **White**: Context (unchanged)
+
+Always review before committing.
+
+---
+
+## Step 5: Push to GitHub from IDE
+
+**After committing**:
+
+1. Click the **...** menu (three dots in Source Control panel)
+2. Select **Push**
+
+*(Equivalent to: `git push`)*
+
+**First time?**
+
+If asked to authenticate, enter your GitHub username and Personal Access Token.
+
+**Verify it worked**:
+
+Visit your GitHub repository - your commit should appear.
+
+---
+
+## IDE Git Operations Reference
+
+Replace command-line with GUI clicks:
+
+| Task | Command Line | IDE Action |
+|------|-------------|-----------|
+| See what changed | `git status` | Open Source Control panel |
+| View file diff | `git diff filename` | Click filename in panel |
+| Stage file | `git add filename` | Click **+** next to file |
+| Stage all files | `git add .` | Click **+** next to "Changes" |
 | Commit | `git commit -m "msg"` | Type message, click ✓ |
-| Push to GitHub | `git push` | Click **...** menu → Push |
-| Create branch | `git branch name` | Click branch name (bottom left) → Create new |
-| Switch branches | `git checkout name` | Click branch name → Select branch |
-
-**Key point**: Same Git operations, just with clicks instead of typing.
-
----
-
-## Important: Always Review Before Committing
-
-**Before you commit**:
-1. Click the file to see the diff (what changed)
-2. Read through the changes
-3. Ask yourself: "Does this look right?"
-4. If AI wrote it: "Do I understand what this code does?"
-5. Then commit
-
-**Why this matters**: The diff viewer shows you exactly what you're saving. Review = catch mistakes early.
+| Push to GitHub | `git push` | Click **...** → Push |
+| Pull from GitHub | `git pull` | Click **...** → Pull |
+| Create branch | `git checkout -b name` | Click branch name (bottom-left) → New Branch |
+| Switch branch | `git checkout name` | Click branch name → Select branch |
+| View commit history | `git log` | Install GitLens extension (optional) |
 
 ---
 
-## Key Points
+## Step 6: Install AI Coding Assistant (Optional)
 
-**IDEs let you**:
-- See Git changes with colors
-- Click instead of type commands
-- Get AI code suggestions
-- Work faster and easier
+Get AI code suggestions as you type.
 
-**The workflow**:
-1. Install IDE (VS Code or Cursor recommended)
-2. Open your Git project folder
-3. Use Source Control panel for Git operations
-4. Optional: Add AI extension for code help
+### Option 1: GitHub Copilot (Recommended)
 
-**Remember**: IDE = same Git commands, just prettier and easier.
+**Cost**: $10/month (free for students with GitHub Student Pack)
+
+**Install**:
+
+1. Click **Extensions** icon (4 squares in left sidebar)
+2. Search "GitHub Copilot"
+3. Click "Install"
+4. Click "Sign in to GitHub"
+5. Authorize in browser
+6. Reload VS Code
+
+**Test it works**:
+
+Type a comment: `# function to add two numbers`
+
+Copilot suggests code in gray text. Press `Tab` to accept.
+
+---
+
+### Option 2: Cursor (Built-in AI)
+
+If you installed Cursor IDE instead of VS Code:
+
+AI is already built-in. Press `Ctrl+K` to open AI chat.
+
+---
+
+### Option 3: Continue (Free)
+
+**Install**:
+
+1. Extensions → Search "Continue"
+2. Install
+3. Configure with your AI API key (Gemini, Claude, GPT)
+
+---
+
+## Visual Workflow Example
+
+**Traditional workflow** (command line):
+```bash
+$ git status
+$ git diff calculator.py
+$ git add calculator.py
+$ git commit -m "Add calculator functions"
+$ git push
+```
+
+**IDE workflow** (visual):
+
+1. Open Source Control (1 click)
+2. Click `calculator.py` to see diff
+3. Click **+** to stage
+4. Type message "Add calculator functions"
+5. Click ✓ to commit
+6. Click **...** → Push
+
+Same result, more visual, easier to understand.
+
+---
+
+## Safety Tips
+
+**Always**:
+- Review the diff before staging
+- Read what you're committing
+- Write clear commit messages
+- Check which branch you're on (bottom-left)
+
+**Never**:
+- Commit without reviewing changes
+- Stage files you don't understand
+- Ignore red errors in your IDE
+- Commit to main without testing
+
+---
+
+## Troubleshooting Common Issues
+
+**"Git not found"**:
+- Install Git first (see Lesson 2)
+- Restart VS Code after installing
+
+**"No repository found"**:
+- Make sure folder has `.git` directory
+- Ask Gemini: "Initialize Git here"
+
+**"Authentication failed" when pushing**:
+- Use Personal Access Token, not password
+- Create new token on GitHub if needed
+
+**Copilot not suggesting**:
+- Check you're signed in (bottom-right status bar)
+- Make sure subscription is active
+- Reload VS Code
 
 ---
 
@@ -310,58 +379,59 @@ Here's how to do Git stuff with clicks instead of commands:
 
 Practice using your IDE.
 
-**Tool**: Claude Code, Gemini CLI, or ChatGPT
+**Tool**: Gemini CLI (or Claude Code, ChatGPT)
 
-### Exercise 1: Install and Open
-
-```
-Help me install VS Code and open my Git project folder in it.
-My project is at: /path/to/my-project
-```
-
-What to expect: AI guides you through download, install, and opening your folder.
-
-### Exercise 2: Find Git Panel
+### Exercise 1: Install and Setup
 
 ```
-I opened my project. Where's the Git panel?
-What am I looking at? Explain each section.
+Guide me through:
+1. Installing VS Code
+2. Opening my project folder
+3. Finding the Source Control panel
+4. Explaining what I'm looking at
 ```
 
-What to expect: AI shows you where Source Control panel is and explains what each part means.
-
-### Exercise 3: Make First IDE Commit
+### Exercise 2: First GUI Commit
 
 ```
-I edited README.md. Show me step-by-step how to commit this change
-using the IDE (not command line). Use the GUI.
+I edited README.md in my IDE.
+Walk me through committing it using only the GUI:
+- Where do I click?
+- What do I type?
+- How do I know it worked?
 ```
 
-What to expect: AI walks you through: click +, type message, click ✓.
+### Exercise 3: View Diff
+
+```
+How do I see exactly what changed in a file
+before I commit it? Show me the diff view.
+```
 
 ### Exercise 4: Install AI Extension
 
 ```
-I want AI code suggestions. Help me install GitHub Copilot.
-Walk me through every step.
+I want GitHub Copilot.
+Walk me through:
+1. Installing the extension
+2. Signing in
+3. Testing it works
 ```
 
-What to expect: AI guides through Extensions, install, sign-in, testing.
-
-### Exercise 5: Test AI Suggestions
+### Exercise 5: IDE vs Command Line
 
 ```
-I installed Copilot. How do I test it works?
-Give me something simple to type and see what it suggests.
-```
+Explain the difference between:
+1. Typing "git add ." in terminal
+2. Clicking the + button in VS Code
 
-What to expect: AI suggests typing a comment like "# function to add two numbers" and watch Copilot suggest the code.
+Are they doing the same thing?
+```
 
 ---
 
 ## What's Next
 
-In Lesson 9, you'll use everything together: build a complete calculator project where AI writes all the code while you manage Git, test changes, and push to GitHub.
+**Lesson 9**: Capstone project - build a complete calculator where AI writes code, you manage Git, test everything, and push to GitHub. Brings together all 8 lessons.
 
-**Key takeaway**: IDEs make Git visual and easy. Same operations, just click instead of type.
-
+**Key takeaway**: IDEs make Git visual and fast. Same operations, just click instead of type.

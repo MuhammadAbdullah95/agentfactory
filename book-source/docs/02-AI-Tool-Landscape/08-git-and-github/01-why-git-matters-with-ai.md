@@ -236,4 +236,6 @@ Git = Safety net for AI work
 - Test changes before accepting
 - GitHub = Cloud backup
 
-**Next lesson**: Install Git and set it up on your computer.
+## What's Next
+
+**Lesson 2**: Install Git and set it up on your computer.

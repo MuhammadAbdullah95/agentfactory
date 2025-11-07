@@ -80,27 +80,25 @@ differentiation:
 generated_by: "lesson-writer v3.0.0"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
-last_modified: "2025-11-05"
+last_modified: "2025-11-07"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "1.0.0"
+version: "2.0.0"
 ---
 
 # Capstone: Build Your First Project
 
-## The Big Picture
+You've learned Git piece by piece. Now use EVERYTHING together to build a real project.
 
-You've learned Git piece by piece. Now you'll use EVERYTHING together to build a real project.
-
-**The project**: A Python calculator
-**Who writes code**: AI (not you!)
+**The project**: Python calculator
+**Who writes code**: AI (Gemini CLI)
 **Your job**: Manage Git, make decisions, review AI's work
 
 **Time**: 30 minutes
 
 ---
 
-## What You'll Do
+## What You'll Use
 
 Build a calculator project using:
 - ✅ Git (track changes)
@@ -109,91 +107,79 @@ Build a calculator project using:
 - ✅ Pull Requests (professional workflow)
 - ✅ AI (generates all code)
 
-**Important**: You're not learning Python here. You're learning how to MANAGE a project with Git while AI writes the code.
+**Important**: You're not learning Python. You're learning to MANAGE a project with Git while AI writes code.
 
 ---
 
-## Simple Analogy
+## The Professional Workflow
 
-**Building a house**:
-- Architect (you) = makes decisions, checks quality
-- Construction team (AI) = does the actual building
-- Building inspector (Git) = tracks every change
-- Photo album (GitHub) = backup of progress
-
-**Same with this project**:
-- You = manage Git, make decisions
-- AI = writes all the code
-- Git = tracks every change
-- GitHub = backup and portfolio
-
----
-
-## The 6 Steps
-
-Follow these in order:
+```
+1. Init project + first commit
+   ↓
+2. AI generates code → review → commit
+   ↓
+3. Create branch → AI adds feature → test → merge
+   ↓
+4. Push to GitHub
+   ↓
+5. Create Pull Request → review → merge
+   ↓
+6. Professional portfolio project!
+```
 
 ---
 
-## Step 1: Start the Project
+## Step 1: Initialize Project
 
 **What you're doing**: Create folder, start Git, make first commit
 
-**Just ask your AI**:
+**You ask Gemini CLI**:
 
 ```
 Create a folder called 'my-calculator'.
+Navigate into it.
 Initialize Git.
-Create a README saying this is a calculator project.
+Create a README.md saying "Calculator Project".
 Commit with message 'Initial project setup'.
 ```
 
-### Example
+Gemini runs:
+```bash
+mkdir my-calculator
+cd my-calculator
+git init
+echo "# Calculator Project" > README.md
+git add README.md
+git commit -m "Initial project setup"
+```
 
-**You**: "Create a new project folder called 'my-calculator', set up Git, add a README, and make the first commit."
+**Check it worked**:
 
-**AI**: "I'll set everything up..."
+**Ask Gemini CLI**: "Show me the commit history"
 
-[AI creates folder, initializes Git, creates README, commits]
+Gemini runs: `git log --oneline`
 
-**AI**: "Done! Your project is ready. Git log shows:
-- Initial project setup ✓
-
-You have a README.md file and Git is tracking changes."
-
-**You**: "That was fast! What's next?"
-
-**AI**: "Now we'll ask me to generate the calculator code."
+You should see: `Initial project setup`
 
 ---
 
----
+## Step 2: Generate Calculator Code
 
-## Step 2: AI Generates Calculator Code
+**What you're doing**: AI writes calculator, you review and commit
 
-**What you're doing**: Ask AI to write the calculator, review it, commit it
-
-**Just ask your AI**:
+**You ask Gemini CLI**:
 
 ```
-Create a Python file called calculator.py with these functions:
+Create calculator.py with these functions:
 - add(a, b) - adds two numbers
 - subtract(a, b) - subtracts two numbers
 - multiply(a, b) - multiplies two numbers
-- divide(a, b) - divides with error handling
+- divide(a, b) - divides with zero-check
 
-Save it and commit with message 'Add calculator module'.
+Show me the code first.
 ```
 
-### Example
-
-**You**: "Generate a calculator.py file with add, subtract, multiply, and divide functions. Save and commit it."
-
-**AI**: "I'll create the calculator for you..."
-
-[AI generates code]
-
-**AI**: "Here's what I created:
+Gemini shows you:
 
 ```python
 def add(a, b):
@@ -211,98 +197,132 @@ def divide(a, b):
     return a / b
 ```
 
-Saved to calculator.py and committed! Git log now shows:
-1. Add calculator module ✓
-2. Initial project setup"
+**Review the code**:
+- Does it have all 4 functions? ✓
+- Does divide() handle zero? ✓
+- Do you understand what it does? ✓
 
-**You**: "Does the divide function handle errors?"
+**You**: "Looks good. Save this file and commit it with message 'Add calculator module'."
 
-**AI**: "Yes! If you try to divide by zero, it returns an error message instead of crashing."
+Gemini runs:
+```bash
+# (saves calculator.py)
+git add calculator.py
+git commit -m "Add calculator module"
+```
 
----
+**Check it worked**:
+
+**Ask Gemini CLI**: "Show me my commits"
+
+You should see:
+```
+Add calculator module
+Initial project setup
+```
 
 ---
 
 ## Step 3: Test Changes on Branch
 
-**What you're doing**: Create branch, improve code, test safely
+**What you're doing**: Create branch, add tests, verify safely
 
-**Just ask your AI**:
+**You ask Gemini CLI**:
 
 ```
 Create a branch called 'add-tests'.
-Generate unit tests for the calculator.
-Save to test_calculator.py and commit.
+Generate pytest tests for calculator.py.
+Save to test_calculator.py.
+Show me the tests first.
 ```
 
-### Example
+Gemini runs: `git checkout -b add-tests`
 
-**You**: "Create a branch called 'add-tests', generate pytest tests for the calculator, and commit them."
+Then shows you the tests:
 
-**AI**: "I'll create a safe testing branch..."
+```python
+import pytest
+from calculator import add, subtract, multiply, divide
 
-[AI creates branch, generates tests, commits]
+def test_add():
+    assert add(2, 3) == 5
 
-**AI**: "Done! I'm on branch 'add-tests'. Created test_calculator.py with tests for:
-- add()
-- subtract()
-- multiply()
-- divide() (including division by zero)
+def test_subtract():
+    assert subtract(5, 3) == 2
 
-Git log shows:
-1. Add unit tests ✓
-2. Add calculator module
-3. Initial project setup
+def test_multiply():
+    assert multiply(4, 3) == 12
 
-Main branch is untouched (safe!)."
+def test_divide():
+    assert divide(10, 2) == 5
 
-**You**: "So if the tests are bad, I can just delete this branch?"
+def test_divide_by_zero():
+    assert divide(10, 0) == 'Error: Cannot divide by zero'
+```
 
-**AI**: "Exactly! That's why branches are safe. Test here, merge only if good."
+**Review the tests**:
+- Tests all 4 functions? ✓
+- Tests division by zero? ✓
 
----
+**You**: "Good. Save and commit with message 'Add unit tests'."
+
+Gemini runs:
+```bash
+# (saves test_calculator.py)
+git add test_calculator.py
+git commit -m "Add unit tests"
+```
+
+**Check branch status**:
+
+**Ask Gemini CLI**: "Which branch am I on? Show me what's different from main."
+
+Gemini runs:
+- `git branch --show-current` → shows `add-tests`
+- `git diff main` → shows test_calculator.py added
 
 ---
 
 ## Step 4: Test and Merge
 
-**What you're doing**: Run tests, if good → merge, if bad → fix or delete branch
+**What you're doing**: Run tests, if pass → merge, if fail → fix
 
-**Just ask your AI**:
+**You ask Gemini CLI**:
 
 ```
-Run the tests. If they pass, merge to main and delete the branch.
-If they fail, tell me what's wrong.
+Run the tests using pytest.
+If all tests pass, merge this branch to main.
+If tests fail, tell me what broke.
 ```
 
-### Example
+Gemini runs: `pytest test_calculator.py`
 
-**You**: "Run the tests. If they all pass, merge this branch to main."
+Output:
+```
+====== test session starts ======
+test_calculator.py .....     [100%]
 
-**AI**: "Running tests..."
+====== 5 passed in 0.12s ======
+```
 
-[AI runs pytest]
+All tests pass! ✓
 
-**AI**: "All tests passed! ✓
-- test_add: PASS
-- test_subtract: PASS
-- test_multiply: PASS
-- test_divide: PASS
-- test_divide_by_zero: PASS
+**You**: "Merge to main and delete the branch."
 
-Ready to merge?"
+Gemini runs:
+```bash
+git checkout main
+git merge add-tests
+git branch -d add-tests
+```
 
-**You**: "Yes, merge it!"
+**Check it worked**:
 
-**AI**: "Merging to main... Done! Deleting 'add-tests' branch... Complete!
+**Ask Gemini CLI**: "Show me my commit history and current branch"
 
-Git log now shows all changes merged to main. You're back on main branch."
-
-**You**: "What if tests had failed?"
-
-**AI**: "Then I'd tell you what broke, we'd fix it, test again, and only merge when all tests pass."
-
----
+You should see:
+- Branch: `main`
+- Commits: Add unit tests, Add calculator module, Initial project setup
 
 ---
 
@@ -310,210 +330,277 @@ Git log now shows all changes merged to main. You're back on main branch."
 
 **What you're doing**: Backup code to GitHub
 
-**Just ask your AI**:
+### Create Repository on GitHub
 
+1. Go to github.com
+2. Click "New repository"
+3. Name: `my-calculator`
+4. Public
+5. Don't initialize (you already have code)
+6. Create repository
+7. Copy the URL (e.g., `https://github.com/username/my-calculator.git`)
+
+### Connect and Push
+
+**You ask Gemini CLI**: "Connect to GitHub repo [paste URL] and push my code"
+
+Gemini runs:
+```bash
+git remote add origin https://github.com/username/my-calculator.git
+git branch -M main
+git push -u origin main
 ```
-Create a GitHub repository called 'my-calculator'.
-Connect my local project to GitHub.
-Push all my code.
-```
 
-### Example
+GitHub will ask for authentication:
+- Username: your GitHub username
+- Password: your Personal Access Token
 
-**You**: "Push my calculator project to GitHub. Repository name: my-calculator."
+**Check it worked**:
 
-**AI**: "I'll set up GitHub for you:
+Visit `github.com/username/my-calculator` in browser.
 
-1. Go to github.com/new
-2. Name: my-calculator
-3. Make it Public
-4. Create repository
-
-Tell me when done."
-
-**You**: "Created!"
-
-**AI**: "Connecting and pushing..."
-
-[AI connects to GitHub, pushes code]
-
-**AI**: "Done! Your code is now on GitHub at:
-github.com/yourusername/my-calculator
-
-Go check it out - all your files and commits are there!"
-
----
+You should see:
+- README.md
+- calculator.py
+- test_calculator.py
+- All 3 commits
 
 ---
 
 ## Step 6: Create Pull Request
 
-**What you're doing**: Professional workflow with PR documentation
+**What you're doing**: Add feature using professional PR workflow
 
-**Just ask your AI**:
+**You ask Gemini CLI**:
 
 ```
 Create a branch called 'improve-docs'.
-Add better documentation to calculator.py.
-Push to GitHub and help me create a Pull Request.
+Add docstrings to all functions in calculator.py.
+Show me the updated code.
 ```
 
-### Example
+Gemini runs: `git checkout -b improve-docs`
 
-**You**: "Create a branch for improving documentation, make the changes, and help me create a Pull Request on GitHub."
+Then shows updated code:
 
-**AI**: "Creating documentation branch..."
+```python
+def add(a, b):
+    """Add two numbers and return the result."""
+    return a + b
 
-[AI creates branch, adds docstrings, pushes]
+def subtract(a, b):
+    """Subtract b from a and return the result."""
+    return a - b
 
-**AI**: "Done! Branch 'improve-docs' is pushed to GitHub. Now:
+def multiply(a, b):
+    """Multiply two numbers and return the result."""
+    return a * b
 
-1. Go to github.com/yourusername/my-calculator
-2. Click 'Pull Requests'
-3. Click 'New Pull Request'
-4. Select 'improve-docs' → 'main'
-5. Title: 'Improve documentation'
-6. Description: Say what you changed and that AI helped
+def divide(a, b):
+    """
+    Divide a by b and return the result.
+    Returns error message if b is zero.
+    """
+    if b == 0:
+        return 'Error: Cannot divide by zero'
+    return a / b
+```
 
-Then merge it!"
+**You**: "Looks good. Commit with message 'Add function docstrings' and push to GitHub."
 
-**You**: "Merged! Now what?"
+Gemini runs:
+```bash
+git add calculator.py
+git commit -m "Add function docstrings"
+git push -u origin improve-docs
+```
 
-**AI**: "Pull the changes locally..."
+### Create PR on GitHub
 
-[AI pulls from GitHub]
+1. Go to `github.com/username/my-calculator`
+2. Yellow banner appears: "improve-docs had recent pushes"
+3. Click "Compare & pull request"
+4. Title: "Improve documentation"
+5. Description:
 
-**AI**: "Perfect! Your project is complete. You have:
-- Working calculator code (AI generated)
-- Unit tests (AI generated)
-- Clean Git history
-- Professional Pull Request
-- Code on GitHub (portfolio!)
+```markdown
+## Changes
+Added docstrings to all calculator functions
 
-You managed the whole workflow with Git. That's professional development!"
+## AI Assistance
+Gemini CLI generated the docstrings
+
+## Testing
+All existing tests still pass
+```
+
+6. Click "Create pull request"
+
+### Merge the PR
+
+1. Review the diff on GitHub
+2. Click "Merge pull request"
+3. Click "Confirm merge"
+4. Click "Delete branch" (on GitHub)
+
+### Pull Changes Locally
+
+**You ask Gemini CLI**: "Pull the merged changes and delete local branch"
+
+Gemini runs:
+```bash
+git checkout main
+git pull
+git branch -d improve-docs
+```
+
+**Check it worked**:
+
+**Ask Gemini CLI**: "Show me current branch and latest commit"
+
+Should show:
+- Branch: `main`
+- Latest commit: "Add function docstrings"
 
 ---
+
+## Complete Workflow Summary
+
+Here's what you did:
+
+| Step | Action | Git Commands |
+|------|--------|-------------|
+| 1 | Initialize project | `git init`, `git commit` |
+| 2 | Generate code | `git add`, `git commit` |
+| 3 | Create test branch | `git checkout -b`, `git commit` |
+| 4 | Test & merge | `pytest`, `git merge`, `git branch -d` |
+| 5 | Push to GitHub | `git remote add`, `git push` |
+| 6 | Pull Request | `git checkout -b`, `git push`, GitHub merge, `git pull` |
+
+You used **every major Git concept** from this chapter!
 
 ---
 
 ## Success Checklist
 
-Did you complete everything? Check off:
+Verify you completed everything:
 
 **Your Project Has:**
-- [ ] Git repository with clean history
+- [ ] Git repository with 4+ commits
 - [ ] calculator.py with 4 functions
-- [ ] test_calculator.py with tests
-- [ ] README explaining the project
-- [ ] Code on GitHub (public)
+- [ ] test_calculator.py with 5 tests
+- [ ] README.md explaining project
+- [ ] Code pushed to GitHub (public)
 - [ ] Pull request created and merged
+- [ ] Clean main branch
 
 **You Can Now:**
-- [ ] Explain what Git tracks
-- [ ] Create branches for safe testing
-- [ ] Review AI-generated code before committing
-- [ ] Push code to GitHub
-- [ ] Create professional pull requests
-- [ ] Use Git for any future project
+- [ ] Start Git projects from scratch
+- [ ] Use AI to generate code
+- [ ] Review code before committing
+- [ ] Create and use branches
+- [ ] Merge safely after testing
+- [ ] Push to GitHub
+- [ ] Create professional PRs
 
 **You Understand:**
-- [ ] Why branches keep code safe
-- [ ] Why testing before merging matters
-- [ ] How GitHub backs up your work
-- [ ] That AI writes code, you manage quality
+- [ ] Git tracks every change
+- [ ] Branches protect main code
+- [ ] Testing before merging prevents bugs
+- [ ] GitHub backs up your work
+- [ ] AI writes code, you manage quality
 
 ---
 
-## What You Learned
+## What You Accomplished
 
-**You can now**:
-- Start any project with Git
-- Let AI write code while you manage quality
-- Test changes safely on branches
-- Back up code to GitHub
-- Create professional pull requests
-- Build a portfolio project
+**Professional skills demonstrated**:
+- Git version control
+- Branch-based development
+- Test-driven workflow
+- Code review (reviewing AI output)
+- GitHub collaboration
+- Pull Request process
 
-**Key lessons**:
-- Git = safety net for your code
-- Branches = test without breaking main
-- GitHub = cloud backup + portfolio
-- AI = your coding partner (you're the manager)
-- Testing before merging = professional practice
+**You built**:
+- Working Python calculator
+- Comprehensive test suite
+- Professional Git history
+- GitHub portfolio project
 
-**This applies to ALL projects** - not just calculators. Every software project uses these same Git workflows.
+**This workflow applies to ALL projects** - web apps, data science, mobile apps, anything. You now have the foundation.
 
 ---
 
-## Optional: Extend Your Project
+## Optional Extensions
 
-Want more practice? Try these:
+Want more practice?
 
-**Add More Features**:
+### Add More Features
+
+**You ask Gemini CLI**:
+
 ```
-Add these functions to calculator:
-- power(a, b)
-- square_root(a)
-- factorial(n)
-
-Use the same workflow: branch → code → test → merge.
+Create branch 'add-power'.
+Add a power(a, b) function that calculates a^b.
+Add tests.
+Merge if tests pass.
 ```
 
-**Improve It**:
+Try also:
+- `square_root(a)`
+- `factorial(n)`
+- `percent(a, b)`
+
+Each feature: branch → code → test → merge
+
+### Improve Code Quality
+
 ```
-Review the calculator. What's missing?
-Add better error messages, input validation, or logging.
+Review calculator.py for improvements.
+Suggest better error handling, input validation, or logging.
 Create a PR for each improvement.
 ```
 
-**Share It**:
-- Post your GitHub link on social media
-- Show it to friends learning to code
-- Add it to your resume/portfolio
-- Keep building more projects using Git
+### Build Something New
 
-**Every project you build** reinforces these Git skills. The more you practice, the more natural it becomes.
+Use this same workflow to build:
+- Todo list app
+- Password generator
+- File organizer
+- Data analyzer
+
+**The workflow stays the same**. Only the code changes.
 
 ---
 
-## Try With AI
+## Key Commands Reference
 
-Follow the 6 steps with your AI. Use one long conversation with these prompts:
+You used these throughout the project:
 
-**Tool**: Claude Code, Gemini CLI, or ChatGPT
+| Purpose | Command |
+|---------|---------|
+| **Setup** | |
+| Initialize Git | `git init` |
+| First commit | `git add .` then `git commit -m "message"` |
+| **Development** | |
+| Create branch | `git checkout -b branch-name` |
+| Switch branch | `git checkout branch-name` |
+| Stage changes | `git add filename` |
+| Commit changes | `git commit -m "message"` |
+| **Safety** | |
+| Check status | `git status` |
+| View history | `git log --oneline` |
+| See differences | `git diff` |
+| **Merging** | |
+| Merge branch | `git checkout main` then `git merge branch-name` |
+| Delete branch | `git branch -d branch-name` |
+| **GitHub** | |
+| Connect remote | `git remote add origin [URL]` |
+| Push | `git push -u origin main` |
+| Pull | `git pull` |
 
-### Complete Workflow (Copy All 6 Prompts)
-
-```
-Step 1: Create folder 'my-calculator', initialize Git, add README, commit.
-
-Step 2: Generate calculator.py with add, subtract, multiply, divide functions. Include error handling. Save and commit.
-
-Step 3: Create branch 'add-tests'. Generate pytest tests for all functions. Save to test_calculator.py and commit.
-
-Step 4: Run tests. If they pass, merge to main and delete branch.
-
-Step 5: Create GitHub repository 'my-calculator'. Connect local to GitHub. Push all code.
-
-Step 6: Create branch 'improve-docs'. Add better docstrings. Push to GitHub. Help me create Pull Request, then merge it.
-
-Walk me through each step and confirm completion before moving to the next.
-```
-
-### What to Expect
-
-Your AI will:
-1. Create project structure
-2. Generate all code (calculator + tests)
-3. Manage Git operations (branch, commit, merge)
-4. Connect to GitHub and push
-5. Guide you through Pull Request
-
-You'll end with:
-- Working calculator on GitHub
-- Clean Git history
-- Professional Pull Request
-- Portfolio project!
+Ask Gemini CLI in natural language - it handles the details.
 
 ---
 
@@ -521,16 +608,40 @@ You'll end with:
 
 **You now have**:
 - Complete Git & GitHub skills
-- AI collaboration experience
+- AI-assisted development experience
 - Portfolio project on GitHub
 - Professional workflow knowledge
 
-**Continue learning**:
-- Build more projects using this workflow
-- Try collaborating with others
-- Learn Python to improve the calculator
-- Deploy your project online
+**Continue building**:
+1. Create more projects using this workflow
+2. Contribute to open source projects
+3. Collaborate with other developers
+4. Deploy your projects online
 
-**Key takeaway**: You managed a complete project like a professional developer. AI wrote the code, you handled Git, testing, and quality control. That's modern software development!
+**Remember**: AI writes code, you manage Git. This is how modern developers work.
 
+**Keep learning**:
+- Python (to understand the code better)
+- Testing (pytest, unit tests)
+- Deployment (put projects online)
+- Collaboration (work with teams)
 
+**Most important**: Build things. Every project reinforces these Git skills.
+
+---
+
+## Congratulations!
+
+You completed Chapter 8: Git & GitHub for AI-Driven Development.
+
+You can now:
+- ✅ Manage code with Git
+- ✅ Test changes safely with branches
+- ✅ Backup work on GitHub
+- ✅ Create professional pull requests
+- ✅ Use AI as your coding partner
+- ✅ Build portfolio projects
+
+**This is the foundation of professional software development.** Everything else builds on Git + AI + testing.
+
+Start your next project today. The best way to learn is by building.

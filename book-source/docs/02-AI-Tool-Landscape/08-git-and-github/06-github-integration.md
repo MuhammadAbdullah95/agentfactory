@@ -57,20 +57,18 @@ differentiation:
 generated_by: "lesson-writer v3.0.0"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
-last_modified: "2025-11-05"
+last_modified: "2025-11-07"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "1.0.0"
+version: "2.0.0"
 ---
 
 # GitHub Integration
 
-## The Problem
-
 Your code is only on your computer. What if:
-- Your computer breaks? (code is lost)
-- You want to work from a different computer? (code is trapped)
-- You want to show your work to someone? (can't share easily)
+- Computer breaks → code is lost
+- Work from different computer → code is trapped
+- Share your work → can't access easily
 
 **Solution**: GitHub - cloud backup for your code.
 
@@ -80,309 +78,308 @@ Your code is only on your computer. What if:
 
 ## What Is GitHub?
 
-**GitHub** is like Google Drive, but for code.
+GitHub is like Google Drive for code.
 
 **Simple explanation**:
-- Your code sits on your computer (local)
-- You upload it to GitHub (cloud)
-- Now it's backed up and you can access it anywhere
+- Code on computer = local
+- Upload to GitHub = cloud backup
+- Access anywhere = work from any device
 
 **Why this matters**:
-- Safe backup (if computer dies, code survives)
-- Work from anywhere (laptop, desktop, anywhere)
-- Professional portfolio (employers look at your GitHub)
-- Collaboration (work with others)
+- Safe backup (computer dies, code survives)
+- Work from anywhere (laptop, desktop, phone)
+- Professional portfolio (employers check GitHub)
+- Collaboration (work with teams)
 
 ---
 
-## Simple Analogy
+## Step 1: Create Repository on GitHub
 
-**Saving photos**:
-- Photos on phone = local
-- Upload to Google Photos = cloud backup
-- Access from any device = anywhere, anytime
-
-**Same with code**:
-- Code on computer = local Git
-- Upload to GitHub = cloud backup
-- Access from any device = work anywhere
-
----
-
-## Step 1: Create Repository on GitHub Website
-
-**What you need**: A GitHub account (free at github.com)
-
-**Steps** (do this on GitHub website):
+Do this on the GitHub website:
 
 1. Go to **github.com**
-2. Click **"New repository"** button (green button or "+" in top right)
+2. Click **"New repository"** (green button or "+" in top right)
 3. Fill in:
-   - **Name**: `my-project` (or whatever you want)
+   - **Name**: `my-project`
    - **Description**: "My first project" (optional)
-   - **Public** (so others can see your work)
+   - **Public** (visible to everyone)
 4. Click **"Create repository"**
 
-**After creating**: GitHub shows you a page with commands. Don't worry about them yet - your AI will handle it.
+GitHub shows you a page with setup commands. Don't worry - Gemini CLI will handle it.
 
 ---
 
-## Step 2: Connect to GitHub
+## Step 2: Connect Local Code to GitHub
 
-**What you want**: Link your local code to GitHub
+Link your local repository to the GitHub repository.
 
-**Instead of**: Typing Git commands
+**You ask Gemini CLI**: "Connect my local code to GitHub repo https://github.com/username/my-project"
 
-**Just ask your AI**:
-- "Connect my code to GitHub"
-- "Link this project to my GitHub repository"
-- "Set up GitHub for this project"
+Gemini runs: `git remote add origin https://github.com/username/my-project.git`
 
-### Example
+Creates connection between your local Git and GitHub.
 
-**You**: "I created a repository on GitHub called 'my-calculator'. Connect my local code to it."
+**Check it worked**:
 
-**AI**: "I'll connect your local repository to GitHub. What's your GitHub username?"
+**Ask Gemini CLI**: "Show me my remote repositories"
 
-**You**: "myusername"
+Gemini runs: `git remote -v`
 
-**AI**: "Setting up the connection..."
-
-[AI runs the connection command]
-
-**AI**: "Done! Your local code is now linked to GitHub. Ready to push your code?"
-
-**You**: "How do I know it worked?"
-
-**AI**: "I'll show you the connected repositories..."
-
-[AI checks the connection]
-
-**AI**: "Connection confirmed! Your repository is linked to: github.com/myusername/my-calculator"
+You should see `origin` pointing to your GitHub URL.
 
 ---
 
 ## Step 3: Set Up Authentication
 
-**The problem**: GitHub needs to know it's really you uploading code.
+GitHub needs to verify it's really you uploading code.
 
-**Solution**: Create a special password (called a "token").
+**Method: Personal Access Token** (recommended for beginners)
 
-**Just ask your AI**:
-- "Help me set up GitHub authentication"
-- "I need a token to push to GitHub"
-- "Walk me through GitHub authentication"
+### Creating Your Token
 
-### Example
+1. Go to **github.com → Your profile picture → Settings**
+2. Scroll down → **Developer settings**
+3. **Personal access tokens → Tokens (classic)**
+4. Click **"Generate new token"**
+5. Name it: "My computer"
+6. Check **"repo"** (gives access to repositories)
+7. Click **"Generate token"**
+8. **Copy the token immediately** (starts with `ghp_...`)
 
-**You**: "I need to push my code but GitHub needs authentication. Help me."
+⚠️ **Save it now** - you won't see it again!
 
-**AI**: "I'll help you create a Personal Access Token. Here's what to do:
-
-1. Go to github.com → Your profile picture → Settings
-2. Scroll down → Developer settings
-3. Personal access tokens → Tokens (classic)
-4. Generate new token
-5. Give it a name: 'My computer'
-6. Check the 'repo' box
-7. Generate token
-8. Copy it immediately (you'll only see it once!)
-
-Tell me when you have the token."
-
-**You**: "I got it! It starts with ghp_..."
-
-**AI**: "Perfect! Keep that token safe. When you push for the first time, GitHub will ask for:
-- Username: your GitHub username
-- Password: paste your token (not your regular password!)
-
-The token is like a special key just for Git. Ready to push?"
-
-### Important Safety Notes
-
-⚠️ **Never share your token** - it's like a password
-⚠️ **Save it somewhere safe** - you can't see it again
-⚠️ **If exposed, delete it immediately** on GitHub
-
-✅ **It's normal to feel confused** - authentication is the hardest part
-✅ **Your AI will guide you** through each step
+**Where to save**: Password manager, secure note file, or write it down safely.
 
 ---
 
-## Step 4: Push Your Code to GitHub
-
-**What you want**: Upload your code to GitHub
-
-**Instead of**: Typing push commands
-
-**Just ask your AI**:
-- "Push my code to GitHub"
-- "Upload my commits to GitHub"
-- "Backup my code to GitHub"
-
-### Example
-
-**You**: "Push my code to GitHub now"
-
-**AI**: "I'll push your code to GitHub. This is the first push, so GitHub will ask for your username and token."
-
-[AI starts the push]
-
-**AI**: "GitHub is asking for authentication:
-- Username: your GitHub username
-- Password: paste your token (the one starting with ghp_)
-
-Enter those now."
-
-**You**: [enters username and token]
-
-**AI**: "Uploading..."
-
-[Push completes]
-
-**AI**: "Success! Your code is now on GitHub. Go to github.com/yourusername/my-calculator to see it."
-
-**You**: "It worked! I can see my files on GitHub!"
+**Security notes**:
+- ⚠️ Never share your token (like a password)
+- ⚠️ If exposed, delete it on GitHub immediately
+- ✅ Create new tokens for different computers
+- ✅ Delete tokens when you stop using a device
 
 ---
 
-### Verify It Worked
+## Step 4: Push Code to GitHub
 
-1. Open your browser
-2. Go to github.com/yourusername/your-repo-name
-3. See your files? ✅ Success!
-4. See your commits? ✅ Everything uploaded!
+Upload your commits to GitHub.
+
+**First time push**:
+
+**You ask Gemini CLI**: "Push my code to GitHub for the first time"
+
+Gemini runs: `git push -u origin main`
+
+GitHub prompts for authentication:
+- **Username**: Your GitHub username
+- **Password**: Paste your token (not your GitHub password!)
+
+Code uploads to GitHub.
+
+**Check it worked**: Visit `github.com/username/my-project` - you should see your files and commits.
 
 ---
 
-## Push and Pull: Staying In Sync
+**Subsequent pushes** (after first time):
 
-Two simple operations:
+**Ask Gemini CLI**: "Push my latest commits to GitHub"
 
-### Push = Upload to GitHub
+Gemini runs: `git push`
 
-**When to push**:
-- After you commit changes
-- End of work session
-- Before switching computers
+No authentication prompt needed (Git remembers).
 
-**Just say**: "Push my changes to GitHub"
+---
 
-### Pull = Download from GitHub
+## Pull: Download from GitHub
+
+Get the latest code from GitHub to your local computer.
+
+**You ask Gemini CLI**: "Pull the latest code from GitHub"
+
+Gemini runs: `git pull`
+
+Downloads any changes from GitHub to your local repository.
 
 **When to pull**:
 - Start of work session
 - Before making new changes
-- When working from different computer
-
-**Just say**: "Pull the latest code from GitHub"
-
----
-
-## Working Across Computers
-
-**The workflow**:
-
-```
-Laptop (morning):
-  → Make changes
-  → Commit
-  → "Push to GitHub"
-
-Desktop (evening):
-  → "Pull from GitHub"
-  → Continue where you left off
-  → Commit
-  → "Push to GitHub"
-
-Laptop (next day):
-  → "Pull from GitHub"
-  → All your work from desktop is here!
-```
-
-**Why this is amazing**: Your code follows you everywhere. No USB drives, no email, no confusion.
+- Working from different computer
+- Someone else pushed changes
 
 ---
 
-## Key Points
+## Working Across Multiple Computers
 
-**GitHub lets you**:
-- Back up code safely in the cloud
-- Work from any computer
-- Share your work with others
-- Build a professional portfolio
+**First computer (laptop)**:
 
-**The workflow**:
-1. Create repository on GitHub
-2. Connect local code to GitHub
-3. Set up authentication (token)
-4. Push code to GitHub
-5. Pull code when working from different computer
+1. Create code locally
+2. Commit changes
+3. **Push to GitHub**: `git push`
 
-**Remember**: You don't memorize commands. You tell your AI what you want:
-- "Push my code to GitHub"
-- "Pull the latest from GitHub"
-- "Connect this project to GitHub"
+**Second computer (desktop)**:
 
-Your AI handles the technical details. You understand what's happening.
+1. Clone the repository:
+
+**Ask Gemini CLI**: "Download my GitHub repo https://github.com/username/my-project"
+
+Gemini runs: `git clone https://github.com/username/my-project.git`
+
+2. Make changes
+3. Commit
+4. **Push to GitHub**: `git push`
+
+**Back to first computer (laptop)**:
+
+1. **Pull from GitHub**: `git pull`
+2. All desktop changes are now on laptop
+3. Continue working
+
+---
+
+## The Complete Workflow
+
+```
+Day 1 (Laptop):
+  → Write code
+  → Commit: git commit -m "Add feature"
+  → Push: git push
+
+Day 2 (Desktop):
+  → Pull: git pull (get laptop's work)
+  → Write more code
+  → Commit: git commit -m "Fix bug"
+  → Push: git push
+
+Day 3 (Laptop):
+  → Pull: git pull (get desktop's work)
+  → All changes are here!
+```
+
+No USB drives, no email, no confusion. Your code follows you everywhere.
+
+---
+
+## Key Commands Reference
+
+| Task | Command |
+|------|---------|
+| Connect to GitHub | `git remote add origin [URL]` |
+| Check remote connection | `git remote -v` |
+| First push | `git push -u origin main` |
+| Regular push | `git push` |
+| Pull from GitHub | `git pull` |
+| Clone repository | `git clone [URL]` |
+| Check push status | `git status` |
+
+Ask Gemini CLI in natural language - you don't need to memorize these.
+
+---
+
+## Troubleshooting Common Issues
+
+**"Authentication failed"**:
+- Double-check you're using token (not password)
+- Token must have "repo" permission
+- Try creating a new token
+
+**"Repository not found"**:
+- Check URL spelling
+- Repository must exist on GitHub first
+- Your GitHub username is correct
+
+**"Updates were rejected"**:
+- Someone else pushed first
+- Pull first: `git pull`
+- Then push: `git push`
+
+**Token lost**:
+- Create a new token on GitHub
+- Delete the old one (security)
+- Use new token when pushing
+
+---
+
+## Safety Guidelines
+
+**Always**:
+- Push at end of work sessions
+- Pull before starting work
+- Commit before pushing
+- Keep tokens secure
+
+**Never**:
+- Share your tokens
+- Commit your token to code
+- Use GitHub password for Git commands (use token)
+- Force push without understanding consequences
 
 ---
 
 ## Try With AI
 
-Practice connecting to GitHub.
+Practice GitHub integration.
 
-**Tool**: Claude Code, Gemini CLI, or ChatGPT
+**Tool**: Gemini CLI (or Claude Code, ChatGPT)
 
-### Exercise 1: Connect to GitHub
-
-```
-I created a repository on GitHub called "test-project".
-My username is "myusername".
-Connect my local code to this GitHub repository.
-```
-
-What to expect: AI sets up the connection and confirms it worked.
-
-### Exercise 2: Get Authentication Help
+### Exercise 1: Connect Repository
 
 ```
-I need to push code to GitHub but need authentication.
-Walk me through creating a Personal Access Token step by step.
+I created a repository on GitHub: https://github.com/myusername/test-project
+Connect my local Git repository to this GitHub repository.
+Then verify the connection worked.
 ```
 
-What to expect: AI explains exactly where to click on GitHub, what to check, and how to save the token.
+### Exercise 2: Token Setup
+
+```
+Walk me through creating a Personal Access Token on GitHub.
+What permissions do I need?
+Where should I save it securely?
+```
 
 ### Exercise 3: First Push
 
 ```
-I have my token. Push my code to GitHub.
-My repo is: github.com/myusername/test-project
+I have my token ready.
+Push my local commits to GitHub for the first time.
+Guide me through authentication if GitHub asks.
+Then verify my code appears on GitHub.
 ```
 
-What to expect: AI pushes, asks for username and token when GitHub prompts, confirms success.
-
-### Exercise 4: Verify Upload
+### Exercise 4: Push and Pull Practice
 
 ```
-Did my code upload? Check if my files are visible on GitHub.
+Simulate this workflow:
+1. Make a small change locally
+2. Commit it
+3. Push to GitHub
+4. Pull from GitHub (should say "already up to date")
+5. Verify everything is in sync
 ```
 
-What to expect: AI tells you to visit your GitHub page, or checks for you if it has web access.
-
-### Exercise 5: Practice Pull
+### Exercise 5: Clone to New Location
 
 ```
-Pretend I'm on a different computer now.
-How do I get my code from GitHub?
+Pretend I'm on a new computer.
+How do I download my repository from GitHub?
+Walk me through the clone process.
 ```
 
-What to expect: AI explains pull command, walks you through downloading your code.
+### Exercise 6: Troubleshooting
+
+```
+What should I do if:
+1. Push says "authentication failed"
+2. Push says "rejected - fetch first"
+3. I lost my token
+
+Explain each solution.
+```
 
 ---
 
 ## What's Next
 
-In Lesson 7, you'll learn Pull Requests - the professional way to merge branches. In Lesson 8, you'll set up your code editor with Git integration. In Lesson 9, you'll build a complete project using everything you've learned.
+**Lesson 7**: Pull Requests - the professional way to propose and review code changes.
 
-**Key takeaway**: GitHub = Your code's backup home. Push often, pull before working, never lose your work again.
+**Key takeaway**: GitHub = your code's cloud home. Push often, pull before working, never lose work again.
