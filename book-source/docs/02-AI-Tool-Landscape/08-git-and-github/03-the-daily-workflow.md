@@ -51,300 +51,242 @@ cognitive_load:
 generated_by: "lesson-writer"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
-last_modified: "2025-11-05"
-version: "2.1.0"
+last_modified: "2025-11-07"
+version: "3.0.0"
 ---
 
 # The Daily Workflow
 
-## What You'll Learn
+Every time you work with code, you follow this pattern:
 
-You're working on a Python project. Your AI just added a new feature. You need to:
-- Save your progress
-- Keep a record of changes
-- Back it up safely
+1. Start tracking your project
+2. Check what changed
+3. Choose what to save
+4. Save a snapshot
+5. Backup to cloud
 
-This lesson teaches five simple tasks. You won't memorize commands. You'll just talk to your AI assistant in plain English.
+You do this by asking Gemini CLI in plain language. No memorizing commands.
 
 **Time**: 20 minutes
 
 ---
 
-## How This Works
+## The AIDD Approach
 
-Traditional way: Memorize `git init`, `git add`, `git commit`, `git push`
+**Traditional way**: Memorize `git init`, `git add`, `git commit`, `git push`
 
-AIDD way: Tell your AI what you want in normal language
+**AIDD way**: Ask Gemini CLI what you want
 
-**You say**: "Save my work"
-**AI does**: Runs the right Git command
-**You understand**: What happened and why
-
----
-
-## The Five Daily Tasks
-
-```
-1. Start tracking my project
-2. Check what changed
-3. Choose what to save
-4. Save a snapshot
-5. Backup to cloud
-```
-
-Let's learn each one.
+- You say: "Save my work"
+- Gemini runs: The right Git command
+- You understand: What happened and why
 
 ---
 
 ## Task 1: Start Tracking
 
-**What you want**: Turn on Git for your project folder
+Turn on Git for your project folder.
 
-**Instead of**: Typing `git init`
+**You ask Gemini CLI**: "Initialize Git in this folder"
 
-**Just say to your AI**:
-- "Start Git in this folder"
-- "Turn on version control"
-- "Initialize Git here"
-- "Set up Git tracking"
+Git creates a `.git` directory to track your project history.
 
-### Simple Example
+**Check it worked**: Ask Gemini "Show me if Git is tracking this folder"
 
-**You**: "Start Git in this folder"
+---
 
-**AI**: "I'll set up Git tracking for you. Give me a moment..."
+**What if I run this twice?**
 
-[AI runs the command]
-
-**AI**: "Done! Git is now tracking this folder. You'll see a hidden .git folder that stores your history."
-
-**You**: "What if I do this twice by accident?"
-
-**AI**: "No problem. Git will just say 'already exists' but nothing breaks."
+Git will say "already exists" - nothing breaks. Running `git init` multiple times is safe.
 
 ---
 
 ## Task 2: Check What Changed
 
-**What you want**: See which files are new or changed
+See which files are new or modified.
 
-**Instead of**: Typing `git status`
+**You ask Gemini CLI**: "What files have changed? Show me the status."
 
-**Just say to your AI**:
-- "What files changed?"
-- "Show me the status"
-- "What needs to be saved?"
-- "Did I change anything?"
+Gemini shows you:
+- New files (not tracked yet)
+- Modified files (changed since last commit)
+- Staged files (ready to save)
 
-### Simple Example
+---
 
-**You**: "What files changed?"
+**Understanding "staged"**:
 
-**AI**: "Let me check... You have 2 new files:
-- calculator.py
-- README.md
-
-These files need to be staged before you can commit them."
-
-**You**: "What does staged mean?"
-
-**AI**: "Staged means you're telling Git 'I want to save these files in my next snapshot.' Think of it like putting items in a shopping cart before checkout."
+Staged = marked for your next commit. Like putting items in a shopping cart before checkout.
 
 ---
 
 ## Task 3: Choose What to Save
 
-**What you want**: Pick which files to include in your save
+Select which files to include in your next commit.
 
-**Instead of**: Typing `git add`
+**You ask Gemini CLI**: "Stage all my changes"
 
-**Just say to your AI**:
-- "Stage all my files"
-- "Prepare everything to commit"
-- "Add all changes"
-- "Get ready to save"
+All modified and new files are prepared for commit.
 
-### Simple Example
+**Check it worked**: Ask "Show me what's staged"
 
-**You**: "Stage all my files"
+---
 
-**AI**: "Staging all your changes now..."
+**To stage specific files**:
 
-[AI stages the files]
+**Ask Gemini CLI**: "Stage only calculator.py"
 
-**AI**: "Done! Both calculator.py and README.md are ready to commit."
-
-**You**: "What if I only want to save calculator.py?"
-
-**AI**: "Just say 'stage only calculator.py' and I'll do that instead."
+Only that file gets added to the staging area.
 
 ---
 
 ## Task 4: Save a Snapshot
 
-**What you want**: Create a permanent save point
+Create a permanent save point with a message.
 
-**Instead of**: Typing `git commit -m "message"`
+**You ask Gemini CLI**: "Commit these changes with message 'Add calculator module'"
 
-**Just say to your AI**:
-- "Save this with a message"
-- "Commit my work"
-- "Create a save point"
-- "Save as: Added calculator"
+Git saves your staged files as a commit.
 
-### Simple Example
+**Check it worked**: Ask "Show me my commit history"
 
-**You**: "Save this with message 'Add calculator module'"
+---
 
-**AI**: "Creating your commit with that message..."
+**Good commit messages**:
 
-[AI makes the commit]
+- ✓ "Add calculator module" (clear, describes what)
+- ✓ "Fix division by zero bug" (clear action)
+- ✗ "stuff" (too vague)
+- ✗ "update" (doesn't say what changed)
 
-**AI**: "Saved! Your commit ID is abc123. This is like a save point in a game—you can always come back to this exact moment."
-
-**You**: "What makes a good message?"
-
-**AI**: "Keep it simple and clear:
-- Good: 'Add calculator module'
-- Bad: 'stuff' or 'update'
-
-Describe what you added or fixed."
+Pattern: Complete this sentence: "This commit will ______"
 
 ---
 
 ## Task 5: Backup to Cloud
 
-**What you want**: Upload your saves to GitHub
+Upload your commits to GitHub.
 
-**Instead of**: Typing `git push origin main`
+**First time setup**:
 
-**Just say to your AI**:
-- "Push to GitHub"
-- "Backup to cloud"
-- "Upload my commits"
-- "Send to GitHub"
+1. Create a repository on GitHub.com
+2. Copy the repository URL (looks like: `https://github.com/username/project.git`)
 
-### Simple Example
+**You ask Gemini CLI**: "Connect to GitHub repo [URL] and push my commits"
 
-**You**: "Push to GitHub"
+Gemini connects your local repository to GitHub and uploads your commits.
 
-**AI**: "I'll upload your commits. First, do you have a GitHub repository created for this project?"
-
-**You**: "Not yet"
-
-**AI**: "Go to GitHub.com and create a new repository. Name it whatever you want. When you're done, copy the URL it gives you and tell me."
-
-**You**: "Done. The URL is https://github.com/alice/calculator.git"
-
-**AI**: "Perfect! Connecting and pushing now..."
-
-[AI connects and pushes]
-
-**AI**: "All done! Your code is now on GitHub at that URL. If your computer breaks, your work is safe."
+**Check it worked**: Visit your GitHub repository URL in a browser - you should see your code.
 
 ---
 
-## Putting It All Together
+**Subsequent pushes**:
 
-Here's how a complete session looks:
+After the first setup, just ask:
 
-**You**: "I'm starting a new Python project. Help me set up Git."
-
-**AI**: "I'll create a folder and set up Git."
-
-[AI creates project folder with Git]
-
-**AI**: "Ready! What should I create first?"
-
-**You**: "Make a simple calculator.py file"
-
-**AI**: "Created calculator.py with basic functions. Want to see what Git thinks?"
-
-**You**: "Yes, check the status"
-
-**AI**: "Git sees calculator.py as a new file. It's not tracked yet."
-
-**You**: "Stage it and save"
-
-**AI**: "What message for the commit?"
-
-**You**: "Add calculator module"
-
-**AI**: "Committed! You now have your first save point."
-
-**You**: "Push to GitHub"
-
-**AI**: "Creating the repository connection and pushing..."
-
-[AI handles GitHub setup]
-
-**AI**: "Done! Your code is live on GitHub."
+**Gemini CLI**: "Push my commits to GitHub"
 
 ---
 
-## Remember
+## Complete Example Workflow
 
-You don't need to memorize:
-- `git init`
-- `git status`
-- `git add`
-- `git commit`
-- `git push`
+Let's put all five tasks together:
 
-You just need to know:
-- What you want to do
-- How to ask your AI clearly
-- How to check it worked
+**You ask Gemini CLI**: "Create a new Python project called 'calculator' with Git"
 
-Your AI handles the technical parts. You stay focused on your project.
+Gemini creates the folder and initializes Git.
+
+**You**: "Create a file calculator.py with basic add and subtract functions"
+
+Gemini creates the file.
+
+**You**: "What's the status? What files does Git see?"
+
+Gemini shows: `calculator.py` (untracked file)
+
+**You**: "Stage calculator.py"
+
+File is ready to commit.
+
+**You**: "Commit with message 'Add basic calculator functions'"
+
+Commit created.
+
+**You**: "Push to my GitHub repo at [your-repo-url]"
+
+Code is now backed up on GitHub.
+
+---
+
+## What You're Actually Learning
+
+You're not learning Git commands.
+
+You're learning:
+- **What Git does** (tracks versions, creates savepoints)
+- **When to use it** (before making risky changes, after completing work)
+- **How to ask** (clear, specific requests)
+- **How to verify** (always check it worked)
+
+This is the professional pattern: understand concepts, use AI for execution.
 
 ---
 
 ## Try With AI
 
-Practice the five tasks with your AI assistant.
+Practice the complete workflow.
 
-**Tool**: Claude Code, Gemini CLI, or ChatGPT
+**Tool**: Gemini CLI (or Claude Code, ChatGPT)
 
 ### Exercise 1: Complete Workflow
 
 ```
-Help me practice Git:
-1. Create a folder called "practice-git"
-2. Set up Git tracking
-3. Create a file called hello.py
-4. Show me what Git sees
+Create a practice project:
+1. Make a folder "git-practice"
+2. Initialize Git
+3. Create a file hello.py with print("Hello Git")
+4. Check status
 5. Stage the file
-6. Commit with message "Add hello"
-7. Show me my save history
-
-Explain each step simply.
+6. Commit with message "Initial commit"
+7. Show me the commit history
 ```
 
 ### Exercise 2: Make Changes
 
 ```
-I changed hello.py to print "Hello Git!".
+I modified hello.py to print "Hello World!".
 Help me:
-1. Check what changed
-2. Stage it
-3. Commit with a good message
+1. See what changed (diff)
+2. Stage the change
+3. Commit with an appropriate message
+4. Verify the commit was created
 ```
 
 ### Exercise 3: GitHub Backup
 
 ```
-I want to put this on GitHub.
-Guide me through:
-1. Creating a GitHub repository
-2. Connecting my project
-3. Uploading my commits
+I want to backup this project to GitHub.
+Guide me:
+1. Create a GitHub repository (walk me through)
+2. Connect my local project to GitHub
+3. Push my commits
+4. Verify I can see the code on GitHub
+```
+
+### Exercise 4: Check Your Understanding
+
+```
+Explain back to me:
+1. What does "staging" mean?
+2. What's the difference between a commit and a push?
+3. Why do I write commit messages?
+4. Can I have multiple commits before pushing?
 ```
 
 ---
 
 ## What's Next
 
-In Lesson 4, you'll learn how to undo mistakes. Sometimes you save something wrong—Git lets you go back safely.
+**Lesson 4**: Learn how to undo mistakes safely. Git lets you go back to any save point.
 
-**Key takeaway**: Git with AI is like having a safety net. You experiment freely because you can always undo or go back to any save point.
+**Key takeaway**: Git with AI is a safety net. You experiment freely because you can always undo.
