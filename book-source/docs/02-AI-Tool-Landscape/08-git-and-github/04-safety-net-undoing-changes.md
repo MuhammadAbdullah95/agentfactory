@@ -57,17 +57,15 @@ cognitive_load:
 generated_by: "lesson-writer"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
-last_modified: "2025-11-05"
-version: "2.0.0"
+last_modified: "2025-11-07"
+version: "3.0.0"
 ---
 
 # Safety Net: Undoing Changes
 
-## The Problem
+Your AI refactored code. You tested it. Something broke. Now what?
 
-Your AI assistant refactored your code. You tested it. Something broke. Now what?
-
-**Good news**: Git lets you undo mistakes. Always.
+**Good news**: Git lets you undo anything.
 
 This lesson teaches you how to go back when things go wrong.
 
@@ -75,339 +73,254 @@ This lesson teaches you how to go back when things go wrong.
 
 ---
 
-## Why This Matters with AI
+## Why Undo Matters with AI
 
 AI makes changes fast. Sometimes:
-- AI's code looks good but breaks things
+- Code looks good but breaks things
 - You commit something and realize it's wrong
-- You want to try AI's idea but keep your old version safe
+- You want to try AI's idea but keep your old version
 
 Git has your back. You can always undo.
 
 ---
 
-## Three Types of Undo
+## Three Undo Methods
 
-### 1. "Show me what changed"
-Before deciding to keep or undo, look at the changes first.
+**1. View Changes First**
+See what changed before deciding to keep or undo.
 
-### 2. "I don't like this, throw it away"
-Undo changes you haven't saved yet (not committed).
+**2. Discard Uncommitted Changes**
+Throw away work you haven't saved yet (not committed).
 
-### 3. "I saved this but it was wrong, undo it"
-Undo changes you already committed.
-
-Let's learn each one.
+**3. Undo a Commit**
+Reverse something you already saved.
 
 ---
 
-## Type 1: Show Me What Changed
+## Method 1: View What Changed
 
-**What you want**: See exactly what's different before deciding
+See exactly what's different before deciding.
 
-**Instead of**: `git diff`
+**You ask Gemini CLI**: "Show me what changed since my last commit"
 
-**Just ask your AI**:
-- "Show me what changed"
-- "What files did I modify?"
-- "Display the differences"
-- "What's different from my last save?"
+Gemini runs: `git diff`
 
-### Simple Example
+Shows which files were modified, what lines were added/removed, and a summary of changes.
 
-**You**: "Show me what changed"
+**Check specific files**:
 
-**AI**: "Let me check your changes..."
+**Ask Gemini CLI**: "Show me the changes in calculator.py"
 
-[AI looks at differences]
+Gemini runs: `git diff calculator.py`
 
-**AI**: "You modified calculator.py:
-- Added a new multiply() function
-- Changed how add() works
-
-Want me to show you the exact lines that changed?"
-
-**You**: "Yes, show me"
-
-**AI**: "In calculator.py:
-- Line 8: You added 'def multiply(a, b):'
-- Line 15: You changed 'return a + b' to 'return sum([a, b])'
-
-The multiply function is new. The add function now works differently."
-
-**You**: "I don't like the change to add(). Can I undo just that?"
-
-**AI**: "Yes! I can undo just the add() change and keep the multiply() function. Should I?"
-
-**Key point**: You see what changed before deciding what to keep or undo.
+Shows line-by-line differences for that specific file.
 
 ---
 
-## Type 2: Throw Away Changes (Not Saved Yet)
+**Why this matters**:
 
-**What you want**: Discard changes you haven't committed
-
-**Instead of**: `git checkout` or `git restore`
-
-**Just ask your AI**:
-- "Throw away my changes"
-- "Undo everything since last save"
-- "Go back to last commit"
-- "Discard all changes"
-
-### Simple Example
-
-**You**: "I changed calculator.py but I don't like it. Throw it away."
-
-**AI**: "I'll discard all changes to calculator.py. This will:
-- Delete any new code you added
-- Restore the file to your last commit
-
-Are you sure? This can't be undone."
-
-**You**: "Yes, do it"
-
-**AI**: "Done! calculator.py is back to your last save point. All changes removed."
-
-**You**: "What if I only want to undo changes to one file?"
-
-**AI**: "Just say 'undo changes to calculator.py' and I'll restore only that file. Other files stay as they are."
-
-### Safety Note
-
-⚠️ **This deletes your work!** Make sure you really want to discard the changes.
-
-✅ **Safe because**: You hadn't committed yet, so you can ask AI to recreate the code if you change your mind.
+You see what changed before deciding what to keep or undo. Never undo blindly.
 
 ---
 
-## Type 3: Undo a Commit (Already Saved)
+## Method 2: Discard Uncommitted Changes
 
-Sometimes you commit code and then realize it was wrong.
+Throw away changes you haven't committed yet.
 
-### Option A: Safe Undo (Recommended)
+**You ask Gemini CLI**: "Discard all my changes and go back to the last commit"
 
-**What you want**: Undo the commit but keep the changes so you can fix them
+Gemini runs: `git restore .` (or `git checkout .`)
 
-**Instead of**: `git reset --soft`
+All uncommitted work is deleted. Files return to their last committed state.
 
-**Just ask your AI**:
-- "Undo my last commit but keep the changes"
-- "Uncommit but don't delete my work"
-- "I want to fix my last commit"
+**Check it worked**: Ask "Show me the status" - should say "nothing to commit, working tree clean"
 
-### Simple Example
+---
 
-**You**: "I committed too fast. Undo the last commit but keep my changes."
+**Discard specific files**:
 
-**AI**: "I'll undo your last commit. Your changes will stay, but they won't be saved yet. You can fix them and commit again."
+**Ask Gemini CLI**: "Discard changes to calculator.py only"
 
-[AI undoes the commit]
+Gemini runs: `git restore calculator.py`
 
-**AI**: "Done! Your last commit is undone. Your changes are still there, ready for you to fix and commit again."
+Only that file reverts. Other changes remain.
 
-**You**: "So nothing is deleted?"
+---
 
-**AI**: "Correct! Your code is still there, just not committed. It's like you pressed 'undo' on the save, but your work is safe."
+**⚠️ Safety Warning**:
+
+This **deletes your work**. Uncommitted changes are gone forever.
+
+✅ **When it's safe**: You haven't committed yet, so you can ask AI to regenerate the code if needed.
+
+---
+
+## Method 3: Undo a Commit
+
+You committed something and now need to undo it. You have three options:
+
+### Option A: Undo but Keep Changes (Safest)
+
+**You ask Gemini CLI**: "Undo my last commit but keep the changes"
+
+Gemini runs: `git reset --soft HEAD~1`
+
+The commit is removed, but your code remains (unstaged).
+
+Now you can:
+- Fix the code
+- Stage and commit again
 
 ✅ **Very safe**: Nothing is deleted. You can fix and recommit.
 
 ---
 
-### Option B: Create an Undo Commit (Super Safe)
+### Option B: Create a Reverse Commit (Safest for Shared Code)
 
-**What you want**: Keep the bad commit in history, but add a new commit that undoes it
+Use this if you already pushed to GitHub.
 
-**Instead of**: `git revert`
+**You ask Gemini CLI**: "Create a new commit that reverses my last commit"
 
-**Just ask your AI**:
-- "Create a commit that undoes my last commit"
-- "Reverse my last change but keep history"
-- "Undo publicly with a new commit"
+Gemini runs: `git revert HEAD`
 
-### Simple Example
+Creates a "revert commit" that undoes the changes.
 
-**You**: "I pushed bad code to GitHub. How do I undo it safely?"
-
-**AI**: "Since you already pushed, I'll create a new commit that reverses your changes. This way:
-- The bad commit stays in history (so people can see it)
-- A new commit undoes it
+Result:
+- Bad commit stays in history
+- New commit undoes it
 - Everything is transparent
 
-Should I proceed?"
-
-**You**: "Yes"
-
-**AI**: "Creating undo commit..."
-
-[AI creates the revert commit]
-
-**AI**: "Done! I created a new commit called 'Revert: Add broken feature'. Your code is back to how it was before, and both commits are in the history."
-
-**You**: "Why not just delete the bad commit?"
-
-**AI**: "If you already pushed to GitHub, others might have downloaded your code. Deleting the commit would confuse them. Reverting is the professional way to undo public mistakes."
-
-✅ **Safest option**: Nothing is deleted. Everything is transparent.
+✅ **Safest for teams**: If others downloaded your code, this won't confuse them.
 
 ---
 
-### Option C: Permanent Delete (DANGER!)
+### Option C: Permanently Delete Commit (DANGEROUS)
 
-**What you want**: Completely delete a commit and all its changes
+**You ask Gemini CLI**: "Permanently delete my last commit"
 
-**Instead of**: `git reset --hard`
+Gemini runs: `git reset --hard HEAD~1` (after warning you)
 
-**Ask your AI**: "Permanently delete my last commit"
-
-### Warning Example
-
-**You**: "Delete my last commit completely"
-
-**AI**: "⚠️ WARNING: This will **permanently delete**:
-- Your last commit
+⚠️ **WARNING**: This will permanently delete:
+- The commit
 - All changes in that commit
-- You CANNOT get them back
+- Cannot be recovered
 
-This is dangerous! Are you absolutely sure?
+Gemini will warn and suggest safer alternatives before proceeding.
 
-Safer alternatives:
-1. Undo the commit but keep changes (safe)
-2. Create a reverse commit (safest)
-
-Which do you want?"
-
-**You**: "I'm sure, it was an accident"
-
-**AI**: "Okay, deleting permanently..."
-
-[AI deletes the commit]
-
-**AI**: "Deleted. The commit is gone forever."
-
-⚠️ **Use with extreme caution**: Only when you're 100% certain.
-
-❌ **Dangerous because**: You can't get it back.
+❌ **Use only when**: You committed a password/secret by accident. Then **change the password immediately**.
 
 ---
 
 ## When to Use Each Method
 
-**Situation**: AI changed my code, I haven't committed yet, I don't like it
-→ **Ask AI**: "Throw away these changes"
-
-**Situation**: I committed code but forgot to add a comment
-→ **Ask AI**: "Undo my last commit but keep the changes"
-
-**Situation**: I pushed bad code to GitHub that broke things
-→ **Ask AI**: "Create a commit that undoes my last commit"
-
-**Situation**: I accidentally committed my password (very rare!)
-→ **Ask AI**: "I need to permanently delete my last commit"
-→ Then immediately change your password!
+| Situation | What to Ask Gemini CLI |
+|-----------|------------------------|
+| AI changed code, not committed, don't like it | "Discard all my changes" |
+| Committed but forgot to add a comment | "Undo last commit but keep changes" |
+| Pushed bad code to GitHub | "Create a commit that reverses my last commit" |
+| Committed a password accidentally | "Permanently delete my last commit" + change password |
 
 ---
 
-## A Complete Example
+## Complete Example Workflow
 
-**You**: "I asked AI to optimize my code. Let me see what it changed."
+**You ask Gemini CLI**: "Show me what changed in calculator.py"
 
-**AI**: "It modified 3 files: calculator.py, utils.py, test.py. Want details?"
+Gemini shows AI added NumPy optimization.
 
-**You**: "Yes, show calculator.py"
+**You**: "Looks good. Stage and commit with message 'Optimize calculator'"
 
-**AI**: "AI changed the add() function to use NumPy. Looks 20% faster."
+Commit created.
 
-**You**: "Hmm, let me test it first. Stage and commit these changes."
+**You test the code** → It crashes with empty lists
 
-**AI**: "Committed! Message: 'Optimize calculator with NumPy'"
+**You ask Gemini CLI**: "Undo that commit but keep the changes so I can fix it"
 
-**You**: "Now let me test it..."
+Commit undone. Code still there (unstaged).
 
-[You test, it crashes with empty lists]
+**You**: "Fix the empty list crash"
 
-**You**: "It crashes! Undo that commit but keep the code so I can fix it."
+AI fixes the bug.
 
-**AI**: "Undoing commit... Done! Your changes are back but not committed. Fix the bug and I'll help you commit again."
+**You**: "Commit with message 'Optimize calculator and fix empty list bug'"
 
-**You**: "AI, fix the empty list crash"
-
-**AI**: "Fixed! Added a check for empty lists. Want to commit this?"
-
-**You**: "Yes, commit with message 'Optimize calculator and fix empty list bug'"
-
-**AI**: "Committed! This version is tested and safe."
+New commit created with working code.
 
 ---
 
-## Remember
+## Safety Guidelines
 
-Git + AI = Fear-free coding
+**Always**:
+- View changes before deciding
+- Use "undo but keep changes" for most situations
+- Ask Gemini to explain before dangerous operations
 
-**Key points**:
-- Always see what changed before deciding
-- Undo uncommitted work easily (just ask AI)
-- Undo commits safely (AI keeps your work)
-- Only use permanent delete when absolutely necessary
+**Never**:
+- Permanently delete commits unless absolutely necessary
+- Undo without checking what you're undoing first
 
 **The pattern**:
-1. Try something
+1. Try something with AI
 2. Test it
-3. If bad, ask AI to undo
-4. Try differently
-5. Repeat until it works
+3. If broken, undo safely
+4. Fix with AI's help
+5. Test again
+6. Commit when it works
 
 ---
 
 ## Try With AI
 
-Practice undoing changes safely.
+Practice safe undo operations.
 
-**Tool**: Claude Code, Gemini CLI, or ChatGPT
+**Tool**: Gemini CLI (or Claude Code, ChatGPT)
 
 ### Exercise 1: View Changes
 
 ```
-I modified a file but haven't committed yet.
-Show me what changed in simple terms.
+I modified some files but haven't committed.
+Show me what changed and explain the differences.
 ```
 
-What to expect: AI shows your changes clearly.
-
-### Exercise 2: Discard Changes
+### Exercise 2: Discard Safely
 
 ```
-I don't like my changes. Throw them away
-and go back to my last commit.
+I made changes I don't like.
+Discard all changes and return to my last commit.
+Then verify my working directory is clean.
 ```
 
-What to expect: AI discards changes and confirms.
-
-### Exercise 3: Undo a Commit Safely
+### Exercise 3: Undo Commit (Safe)
 
 ```
-I just committed something but made a mistake.
-Undo my last commit but keep the changes so I can fix them.
+I just committed but need to make one more change.
+Undo my last commit but keep all the changes.
+Then show me the status to verify.
 ```
 
-What to expect: AI undoes commit, your work stays safe.
-
-### Exercise 4: Understanding Danger
+### Exercise 4: Understanding Safety Levels
 
 ```
-Explain the difference between:
-1. Undoing a commit but keeping changes
-2. Permanently deleting a commit
+Explain these three methods:
+1. Undo commit but keep changes
+2. Create a reverse commit
+3. Permanently delete commit
 
-Which is safer and why?
+Which is safest? When would I use each?
 ```
 
-What to expect: AI explains safety levels clearly.
+### Exercise 5: Recovery Scenario
+
+```
+Scenario: I committed code, pushed to GitHub, then realized it breaks production.
+What's the safest way to undo this?
+Walk me through the steps.
+```
 
 ---
 
 ## What's Next
 
-In Lesson 5, you'll learn **branches** - the ultimate safe way to experiment. You'll create a copy of your code, test AI's changes there, and only merge if they work.
+**Lesson 5**: Learn branches - the ultimate safe experimentation tool. Create a copy of your code, test AI's changes there, merge only if they work.
 
-**Key takeaway**: With Git + AI, you never lose work. You can always undo, try again, and experiment freely.
+**Key takeaway**: Git + AI = fearless coding. You can always undo, fix, and try again.

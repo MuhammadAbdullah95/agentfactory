@@ -89,6 +89,8 @@ Turn on Git for your project folder.
 
 **You ask Gemini CLI**: "Initialize Git in this folder"
 
+Gemini runs: `git init`
+
 Git creates a `.git` directory to track your project history.
 
 **Check it worked**: Ask Gemini "Show me if Git is tracking this folder"
@@ -107,7 +109,9 @@ See which files are new or modified.
 
 **You ask Gemini CLI**: "What files have changed? Show me the status."
 
-Gemini shows you:
+Gemini runs: `git status`
+
+Shows you:
 - New files (not tracked yet)
 - Modified files (changed since last commit)
 - Staged files (ready to save)
@@ -126,6 +130,8 @@ Select which files to include in your next commit.
 
 **You ask Gemini CLI**: "Stage all my changes"
 
+Gemini runs: `git add .`
+
 All modified and new files are prepared for commit.
 
 **Check it worked**: Ask "Show me what's staged"
@@ -136,6 +142,8 @@ All modified and new files are prepared for commit.
 
 **Ask Gemini CLI**: "Stage only calculator.py"
 
+Gemini runs: `git add calculator.py`
+
 Only that file gets added to the staging area.
 
 ---
@@ -145,6 +153,8 @@ Only that file gets added to the staging area.
 Create a permanent save point with a message.
 
 **You ask Gemini CLI**: "Commit these changes with message 'Add calculator module'"
+
+Gemini runs: `git commit -m "Add calculator module"`
 
 Git saves your staged files as a commit.
 
@@ -174,7 +184,9 @@ Upload your commits to GitHub.
 
 **You ask Gemini CLI**: "Connect to GitHub repo [URL] and push my commits"
 
-Gemini connects your local repository to GitHub and uploads your commits.
+Gemini runs: `git remote add origin [URL]` then `git push -u origin main`
+
+Connects your local repository to GitHub and uploads your commits.
 
 **Check it worked**: Visit your GitHub repository URL in a browser - you should see your code.
 
@@ -184,7 +196,9 @@ Gemini connects your local repository to GitHub and uploads your commits.
 
 After the first setup, just ask:
 
-**Gemini CLI**: "Push my commits to GitHub"
+**Ask Gemini CLI**: "Push my commits to GitHub"
+
+Gemini runs: `git push`
 
 ---
 

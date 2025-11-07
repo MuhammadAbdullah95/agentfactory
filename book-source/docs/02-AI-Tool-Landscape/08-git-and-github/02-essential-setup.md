@@ -80,6 +80,8 @@ This takes 20 minutes. Do it once, use forever.
 
 **You ask Gemini CLI**: "Check if Git is installed and show the version"
 
+Gemini runs: `git --version`
+
 You should see: `git version 2.42.0` (or similar)
 
 ✓ Version number means Git is installed.
@@ -163,13 +165,17 @@ Git needs to know who you are. Every commit will show your name.
 
 **You ask Gemini CLI**: "Configure Git with my name 'Your Name' and email 'your.email@example.com'"
 
-Use your real name and the same email as your GitHub account.
+Gemini runs:
+- `git config --global user.name "Your Name"`
+- `git config --global user.email "your.email@example.com"`
 
-Gemini CLI sets up your identity.
+Sets up your identity. Use your real name and the same email as your GitHub account.
 
 **Verify configuration**:
 
 **You ask Gemini CLI**: "Show me my Git configuration"
+
+Gemini runs: `git config --list`
 
 You should see your name and email listed.
 
