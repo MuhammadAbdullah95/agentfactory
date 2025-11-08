@@ -508,7 +508,38 @@ WAIT: User reviews tasks.md + analysis report
 
 WAIT: User reviews lessons + validation report
 → User confirms: "✅ Implementation approved"
-  └─ Proceed to finalization (commit, PR, etc.)
+  └─ Proceed to PHASE 5 (finalization)
+```
+
+---
+
+### PHASE 5: Finalization (Update Chapter Index)
+
+```
+→ Update: specs/book/chapter-index.md
+  ├─ Find: Chapter N row in Part 4 table
+  ├─ Update status: 📋 Planned → ✅ Implemented & Validated
+  ├─ Update Implementation Status section at top:
+  │   ├─ Increment count: "X chapters" → "X+1 chapters"
+  │   └─ Add Chapter N status block with:
+  │       - Number of lessons implemented
+  │       - Technical review result (PASS + any critical issues fixed)
+  │       - Key features (AI-Native Learning, type hints, complexity tier)
+  │       - Date (YYYY-MM-DD format)
+  └─ Report: "Chapter index updated"
+
+→ Optional: Create commit and PR
+  ├─ User may request: "/sp.git.commit_pr" for automated git workflow
+  └─ Or: Manual commit with summary of chapter completion
+```
+
+**Chapter Index Update Pattern**:
+```markdown
+- ✅ **Implemented & Validated** (X chapters): Chapters 1-N, 30-33...
+  - **Chapter N Status**: ✅ COMPLETE + VALIDATED (YYYY-MM-DD)
+    - [lessons-count] lessons written with AI-Native Learning pattern
+    - Technical review [PASS/CONDITIONAL PASS] ([critical-issues-count] critical issues fixed)
+    - [key-features]: Type hints, "Try With AI" format, graduated complexity
 ```
 
 ---
