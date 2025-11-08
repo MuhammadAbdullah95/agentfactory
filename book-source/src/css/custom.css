@@ -662,6 +662,11 @@ pre code {
         z-index: 999 !important;
         background-color: rgba(0, 0, 0, 0.5) !important;  /* Semi-transparent dark overlay */
     }
+
+    /* When sidebar is open (navbar--show class present), hide main content */
+    .navbar--fixed-top.navbar-sidebar--show ~ .main-wrapper {
+        display: none !important;
+    }
 }
 
 /* ============================================================================
