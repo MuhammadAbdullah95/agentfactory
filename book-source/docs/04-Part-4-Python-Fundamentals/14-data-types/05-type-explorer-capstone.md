@@ -95,8 +95,7 @@ Your type explorer program will:
 2. **Show what `type()` returns** (type inspection)
 3. **Validate types with `isinstance()`** (type checking)
 4. **Demonstrate truthy/falsy conversion** (boolean context)
-5. **Organize code in functions** (one function per type)
-6. **Use type hints throughout** (specifications in code)
+5. **Use type hints throughout** (specifications in code)
 
 When you run it, you'll see output like:
 
@@ -124,105 +123,80 @@ Here's the complete program you'll build. Don't panic if it looks long—we'll w
 ### Complete Type Explorer Program
 
 ```python
-"""
-Interactive Type Explorer
-Demonstrates core data types: int, float, str, bool, None
-Uses type hints to describe intent clearly
-Validates types before operations
-"""
+# Interactive Type Explorer
+# Demonstrates core data types: int, float, str, bool, None
+# Uses type hints to describe intent clearly
 
+print("Welcome to the Python Type Explorer!")
+print("Let's explore Python's core data types together.")
 
-def explore_integer() -> None:
-    """Explore the int type with user."""
-    print("\n=== Exploring Integer (int) ===")
-    age: int = 25
-    print(f"Example: age = {age}")
-    print(f"Type: {type(age)}")
-    print(f"Is this an int? {isinstance(age, int)}")
+# Exploring Integer (int)
+print("\n=== Exploring Integer (int) ===")
+age: int = 25
+print(f"Example: age = {age}")
+print(f"Type: {type(age)}")
+print(f"Is this an int? {isinstance(age, int)}")
 
+# Exploring Float (float)
+print("\n=== Exploring Float (float) ===")
+temperature: float = 98.6
+print(f"Example: temperature = {temperature}")
+print(f"Type: {type(temperature)}")
+print(f"Is this a float? {isinstance(temperature, float)}")
 
-def explore_float() -> None:
-    """Explore the float type with user."""
-    print("\n=== Exploring Float (float) ===")
-    temperature: float = 98.6
-    print(f"Example: temperature = {temperature}")
-    print(f"Type: {type(temperature)}")
-    print(f"Is this a float? {isinstance(temperature, float)}")
+# Exploring String (str)
+print("\n=== Exploring String (str) ===")
+name: str = "Alex"
+print(f"Example: name = '{name}'")
+print(f"Type: {type(name)}")
+print(f"Is this a string? {isinstance(name, str)}")
 
+# Exploring Boolean (bool)
+print("\n=== Exploring Boolean (bool) ===")
+is_student: bool = True
+print(f"Example: is_student = {is_student}")
+print(f"Type: {type(is_student)}")
+print(f"Is this a bool? {isinstance(is_student, bool)}")
 
-def explore_string() -> None:
-    """Explore the str type with user."""
-    print("\n=== Exploring String (str) ===")
-    name: str = "Alex"
-    print(f"Example: name = '{name}'")
-    print(f"Type: {type(name)}")
-    print(f"Is this a string? {isinstance(name, str)}")
+# Truthy/falsy demonstration
+print("\nTruthy/Falsy Examples:")
+print(f"bool(0) = {bool(0)}")          # False
+print(f"bool(1) = {bool(1)}")          # True
+print(f"bool('') = {bool('')}")        # False (empty string)
+print(f"bool('hello') = {bool('hello')}")  # True (non-empty string)
 
+# Exploring None
+print("\n=== Exploring None ===")
+value: None = None
+print(f"Example: value = {value}")
+print(f"Type: {type(value)}")
+print(f"Is this None? {value is None}")
 
-def explore_boolean() -> None:
-    """Explore the bool type with user."""
-    print("\n=== Exploring Boolean (bool) ===")
-    is_student: bool = True
-    print(f"Example: is_student = {is_student}")
-    print(f"Type: {type(is_student)}")
-    print(f"Is this a bool? {isinstance(is_student, bool)}")
-
-    # Truthy/falsy demonstration
-    print("\nTruthy/Falsy Examples:")
-    print(f"bool(0) = {bool(0)}")  # False
-    print(f"bool(1) = {bool(1)}")  # True
-    print(f"bool('') = {bool('')}")  # False
-    print(f"bool('hello') = {bool('hello')}")  # True
-
-
-def explore_none() -> None:
-    """Explore the None type with user."""
-    print("\n=== Exploring None ===")
-    value: None = None
-    print(f"Example: value = {value}")
-    print(f"Type: {type(value)}")
-    print(f"Is this None? {value is None}")
-
-
-def main() -> None:
-    """Run the interactive type explorer."""
-    print("Welcome to the Python Type Explorer!")
-    print("Let's explore Python's core data types together.")
-
-    explore_integer()
-    explore_float()
-    explore_string()
-    explore_boolean()
-    explore_none()
-
-    print("\n=== Summary ===")
-    print("You've now explored all core Python types:")
-    print("  - int: Whole numbers (counting)")
-    print("  - float: Decimal numbers (measuring)")
-    print("  - str: Text (words and characters)")
-    print("  - bool: True/False (decisions)")
-    print("  - None: No value (placeholders)")
-
-
-if __name__ == "__main__":
-    main()
+# Summary
+print("\n=== Summary ===")
+print("You've now explored all core Python types:")
+print("  - int: Whole numbers (counting)")
+print("  - float: Decimal numbers (measuring)")
+print("  - str: Text (words and characters)")
+print("  - bool: True/False (decisions)")
+print("  - None: No value (placeholders)")
 ```
 
-**Specification: Create an interactive program that demonstrates core data types using functions, type hints, and type validation techniques**
+**Specification: Create an interactive program that demonstrates core data types using type hints and type validation techniques**
 
 **AI Prompt Used:**
-"Create a Python program that explores five core data types (int, float, str, bool, None). Use separate functions for each type. Each function should show an example, use type() to display the type, and use isinstance() to validate it. Include type hints for all functions. Organize code with a main() function."
+"Create a Python program that explores five core data types (int, float, str, bool, None). For each type, show an example variable with a type hint, use type() to display the type, and use isinstance() to validate it. Include a truthy/falsy demonstration for booleans. Keep it simple—no functions needed, just sequential code with clear comments."
 
 **Generated Code:** [Complete code shown above]
 
 **Validation Steps:**
-- ✓ All five functions created (explore_integer, explore_float, explore_string, explore_boolean, explore_none)
-- ✓ Each function has type hints (-> None)
-- ✓ Each function uses type() and isinstance() to explore types
+- ✓ All five types demonstrated (int, float, str, bool, None)
+- ✓ Each type uses type() and isinstance() for inspection/validation
 - ✓ All variables have type hints (age: int, temperature: float, etc.)
-- ✓ main() function organizes execution
-- ✓ Program includes docstrings for clarity
+- ✓ Truthy/falsy demonstration included for bool
+- ✓ Clear comments separate each type section
 - ✓ Program runs without errors
+- ✓ Uses only concepts from Chapters 13-14 (no functions, loops, or error handling)
 
 ---
 
@@ -230,40 +204,19 @@ if __name__ == "__main__":
 
 Let's break down the key sections and understand how they work together.
 
-### Section 1: The Docstring and Imports
+### Section 1: Comments Organize the Code
 
 ```python
-"""
-Interactive Type Explorer
-Demonstrates core data types: int, float, str, bool, None
-Uses type hints to describe intent clearly
-Validates types before operations
-"""
+# Interactive Type Explorer
+# Demonstrates core data types: int, float, str, bool, None
+# Uses type hints to describe intent clearly
 ```
 
-This is a **module docstring**. It explains what the entire program does. When someone (or an AI) reads this file, they immediately understand the purpose.
+These **comments** at the top explain what the program does. When someone (or an AI) reads this file, they immediately understand the purpose.
 
-### Section 2: Function Structure and Type Hints
+### Section 2: Type Inspection and Validation Pattern
 
-Each `explore_*` function follows the same pattern:
-
-```python
-def explore_integer() -> None:
-    """Explore the int type with user."""
-    # Function body
-```
-
-Let's decode this:
-
-- **`def explore_integer()`** — Defines a function named `explore_integer`
-- **`-> None`** — Type hint saying this function returns **nothing** (None)
-- **`"""Explore the int type with user."""`** — Docstring explaining what the function does
-
-When you see `-> None`, it means the function performs actions (like printing) but doesn't return a value.
-
-### Section 3: Type Inspection and Validation
-
-Inside each explore function, you'll see:
+The program follows the same pattern for each type:
 
 ```python
 age: int = 25
@@ -284,41 +237,36 @@ This demonstrates the three ways to work with types:
 - **`type()`** tells you what Python sees (inspection)
 - **`isinstance()`** validates types before operations (validation)
 
-### Section 4: Truthy/Falsy Demonstration
+### Section 3: Truthy/Falsy Demonstration
 
 ```python
 print("\nTruthy/Falsy Examples:")
-print(f"bool(0) = {bool(0)}")      # False
-print(f"bool(1) = {bool(1)}")      # True
-print(f"bool('') = {bool('')}")    # False
-print(f"bool('hello') = {bool('hello')}")  # True
+print(f"bool(0) = {bool(0)}")          # False
+print(f"bool(1) = {bool(1)}")          # True
+print(f"bool('') = {bool('')}")        # False (empty string)
+print(f"bool('hello') = {bool('hello')}")  # True (non-empty string)
 ```
 
-This shows **how Python converts different types to boolean**. From Lesson 3, you learned that in boolean contexts (like `if` statements), Python evaluates truthiness:
+This shows **how Python converts different types to boolean**. From Lesson 3, you learned that in boolean contexts (like `if` statements in Chapter 17), Python evaluates truthiness:
 
 - `0` is falsy (means False)
 - Any non-zero number is truthy (means True)
 - Empty string `""` is falsy
 - Non-empty string is truthy
 
-### Section 5: main() Function and Entry Point
+### Section 4: Sequential Organization
 
-```python
-def main() -> None:
-    """Run the interactive type explorer."""
-    print("Welcome to the Python Type Explorer!")
-    # Call all explore functions
-    explore_integer()
-    explore_float()
-    # ... etc
+Notice the program is organized **sequentially**—it runs from top to bottom:
 
-if __name__ == "__main__":
-    main()
-```
+1. Print welcome message
+2. Explore int
+3. Explore float
+4. Explore str
+5. Explore bool (with truthy/falsy examples)
+6. Explore None
+7. Print summary
 
-The `if __name__ == "__main__":` pattern is a Python idiom that means **"Only run this if I'm the main program, not if I'm imported as a module."**
-
-This is professional practice: it lets other programs import your code without automatically running it.
+This straightforward structure makes the program easy to read and understand. In Chapter 20 (Functions), you'll learn how to reorganize code like this into reusable pieces.
 
 ---
 
@@ -410,14 +358,14 @@ print(f"Is this an int? {isinstance(age, int)}")
 
 ### From Lesson 3: Strings and Booleans
 
-Your string function shows:
+Your program demonstrates strings:
 
 ```python
 name: str = "Alex"
 print(f"Example: name = '{name}'")
 ```
 
-And your boolean function demonstrates truthy/falsy conversion:
+And boolean truthy/falsy conversion:
 
 ```python
 print(f"bool(0) = {bool(0)}")  # False
@@ -428,7 +376,7 @@ print(f"bool('hello') = {bool('hello')}")  # True
 
 ### From Lesson 4: Collections and None
 
-Your None function shows:
+Your program explores None:
 
 ```python
 value: None = None
@@ -437,25 +385,31 @@ print(f"Is this None? {value is None}")
 
 **Integration**: None is a real type that you'll use constantly as a placeholder value.
 
-### New Integration: Function Organization
+### What's Missing (On Purpose!)
 
-The capstone teaches a new pattern: **organizing code in functions**. Each explore function is focused on one type. The `main()` function orchestrates them. This is how real Python programs are structured.
+You might notice the program doesn't use functions, loops, or error handling. That's **intentional**! Those concepts are taught in later chapters:
+
+- **Functions** (Chapter 20): Organizing code into reusable blocks
+- **Loops** (Chapter 17): Repeating code automatically
+- **Error handling** (Chapter 21): Safely handling `try/except`
+
+For now, the sequential structure (top-to-bottom) is perfect for learning type concepts.
 
 ---
 
 ## Common Questions About Your Type Explorer
 
-**Q: Why does `explore_integer()` return `-> None`?**
+**Q: Why doesn't the program use functions?**
 
-A: It doesn't return a value; it just prints to the screen. The `-> None` type hint tells Python and AI collaborators, "Don't expect this function to give you back data. It performs actions (printing) instead."
+A: Functions are taught in Chapter 20. For now, the program runs sequentially (top-to-bottom), which is simpler to understand when learning type concepts. Once you learn functions, you can refactor this code as practice!
 
 **Q: What's the difference between `type()` and `isinstance()`?**
 
-A: `type()` answers "What **is** this?" (returns the exact type). `isinstance()` answers "Is this **compatible with** X?" (returns True/False). You'll use both.
+A: `type()` answers "What **is** this?" (returns the exact type). `isinstance()` answers "Is this **compatible with** X?" (returns True/False). You'll use both for different purposes.
 
-**Q: Why does the truthy/falsy section exist in the boolean function?**
+**Q: Why does the truthy/falsy section exist for booleans?**
 
-A: Because `bool` is special. Unlike `int`, `float`, or `str`, booleans have a conversion function (`bool()`) that converts anything to True/False based on Python's truthiness rules. Understanding this is crucial for control flow (Lesson coming in Chapter 15).
+A: Because `bool` is special. Unlike `int`, `float`, or `str`, booleans have a conversion function (`bool()`) that converts anything to True/False based on Python's truthiness rules. Understanding this is crucial for control flow in Chapter 17 (`if` statements).
 
 **Q: Can I run this on Windows/Mac/Linux?**
 
@@ -507,21 +461,24 @@ more educational?
 
 **Expected outcome:** AI suggests concrete improvements like adding arithmetic operations for numbers, string methods for strings, or safe conversion examples. You'll get ideas for extending your program.
 
-**Prompt 3: Type Conversion with Error Handling**
+**Prompt 3: Type Conversion Exploration**
 
 ```
-Add type conversion to my type explorer. Create a new function that:
+I want to understand type conversion better. Show me examples of:
 
-1. Takes user input as a string
-2. Attempts to convert it to an integer
-3. Handles errors if conversion fails
-4. Uses type hints and isinstance() validation
+1. Converting a string to an integer: int("25")
+2. Converting an integer to a string: str(100)
+3. Converting a float to an integer: int(3.7)
+4. What happens when conversion fails? (like int("hello"))
 
-Show me a function I can add to my type explorer that demonstrates
-safe type conversion.
+For each example, show me:
+- The code
+- The result
+- The type of the result using type()
+- When would this be useful in real programs?
 ```
 
-**Expected outcome:** AI provides a function that converts strings to numbers safely using try/except (error handling). This teaches defensive programming—a real-world practice.
+**Expected outcome:** AI demonstrates type conversion with examples. You'll learn when and why to convert types. You'll also see what errors look like when conversion fails (preparing you for Chapter 21's error handling).
 
 **Prompt 4: Reflection — Why Types Matter (Stretch)**
 
