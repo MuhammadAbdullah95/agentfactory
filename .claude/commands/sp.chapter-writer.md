@@ -360,63 +360,26 @@ Lessons MUST end with "Try With AI" section ONLY. Prompt 4 provides cognitive cl
 
 **Purpose**: Load official, current documentation for programming languages/frameworks to ensure accuracy and reduce manual context preparation.
 
-**MCP Server**: context7 (or equivalent documentation server)
+**MCP Server**: context7 (or equivalent documentation server available via MCP tools)
 
 **Supported Languages**:
-- **Python**: Python.org official docs (current stable version)
-- **TypeScript**: TypeScript official docs + MDN Web Docs
+- **Python**: Python.org official docs (v3.14+ or latest stable)
+- **TypeScript**: TypeScript official docs + MDN Web Docs (v5.3+ or latest stable)
 - **Conceptual**: N/A (no language docs needed)
 
-**Loading Strategy** (Phase 0: Intelligent Context Discovery):
-
-```python
-# Pseudo-code for MCP documentation loading
-if language == "python":
-    docs = mcp_fetch(
-        server="context7",
-        resource="python-docs",
-        version="3.14",  # Or latest stable
-        sections=["tutorial", "library/stdtypes", "library/functions"]
-    )
-    context["language_docs"] = docs
-    context["doc_source"] = "Python.org Official Documentation v3.14"
-
-elif language == "typescript":
-    docs = mcp_fetch(
-        server="context7",
-        resource="typescript-docs",
-        version="5.3",  # Or latest stable
-        sections=["handbook", "reference"]
-    )
-    context["language_docs"] = docs
-    context["doc_source"] = "TypeScript Official Handbook v5.3"
-
-elif language == "conceptual":
-    # No language docs needed
-    context["language_docs"] = None
-    context["doc_source"] = "N/A (conceptual chapter)"
-```
+**Loading Strategy** (Phase 0):
+- Detect available MCP documentation tools autonomously
+- Load language-specific docs based on chapter context (tutorial, library references, framework-specific sections)
+- Store documentation source for attribution in outputs
+- Graceful fallback to cached context materials if MCP unavailable
 
 **Documentation Usage**:
-- **During /sp.specify**: Reference docs for accurate requirement definition
-- **During /sp.plan**: Use docs to validate code examples and teaching approach
-- **During /sp.implement**: lesson-writer accesses docs for technical accuracy
+- **During /sp.specify**: Reference for accurate requirement definition
+- **During /sp.plan**: Validate code examples and teaching approach
+- **During /sp.implement**: lesson-writer accesses for technical accuracy
 
-**Fallback Strategy** (if MCP unavailable):
-- Warn user: "MCP documentation server unavailable. Using cached context materials."
-- Proceed with existing context materials from `context/` directory
-- Flag for manual verification after generation
-
-**MCP Invocation Pattern**:
-```bash
-# Example: Check if MCP context7 server is available
-if mcp_server_available("context7"):
-    print("✅ MCP context7 server available - loading official docs")
-    load_language_docs(language, version)
-else:
-    print("⚠️  MCP context7 server unavailable - using cached context")
-    load_cached_context(chapter_number)
-```
+**Fallback Strategy**:
+- If MCP unavailable: warn user, use cached context from `context/` directory, flag for manual verification
 
 ---
 
@@ -429,82 +392,23 @@ When you run `/sp.chapter-writer [N] --language [L]`:
 **Intelligence-Driven Discovery** (not hardcoded questions):
 
 **Step 1: Parse Arguments**
-```python
-chapter_num = parse_arg(ARGUMENTS, position=0)  # Required
-language = parse_arg(ARGUMENTS, "--language") or auto_detect_language(chapter_num)
-dry_run = parse_flag(ARGUMENTS, "--dry-run")  # Optional
-
-# Validate inputs
-if not chapter_num or chapter_num < 1 or chapter_num > 56:
-    error("Chapter number must be between 1 and 56")
-if language not in ["python", "typescript", "conceptual"]:
-    error(f"Unsupported language: {language}. Use python, typescript, or conceptual.")
-```
+- Chapter number (required, 1-56)
+- Language flag (`--language python|typescript|conceptual`) or auto-detect from chapter number
+- Dry-run flag (optional)
+- Validate: chapter in range, language supported
 
 **Step 2: Read Authoritative Sources**
-```bash
-# Constitution for audience, philosophy, principles
-constitution=$(cat .specify/memory/constitution.md)
+- Constitution (`.specify/memory/constitution.md`): audience, philosophy, principles
+- Chapter index (`specs/book/chapter-index.md`): title, file name, part number
+- Available skills (`.claude/skills/` directory)
+- Existing context materials (`context/` directory, if any)
 
-# Chapter index for title, part, prerequisites
-chapter_data=$(grep "^| $chapter_num |" specs/book/chapter-index.md)
-chapter_title=$(echo "$chapter_data" | awk -F'|' '{print $3}' | trim)
-chapter_file=$(echo "$chapter_data" | awk -F'|' '{print $4}' | sed 's/`//g' | trim)
-part_num=$(determine_part_from_chapter $chapter_num)
-
-# Skills available
-skills=$(ls -1 .claude/skills/)
-
-# Context materials (if exist)
-context_files=$(find context/ -name "*chapter-$chapter_num*" 2>/dev/null)
-```
-
-**Step 3: Load Language Documentation via MCP** (NEW)
-```python
-if language != "conceptual":
-    try:
-        # Check MCP server availability
-        if mcp_server_available("context7"):
-            print(f"📚 Loading {language} documentation via MCP context7...")
-
-            if language == "python":
-                version = "3.14"  # Or fetch latest stable
-                docs = mcp_fetch_python_docs(version, sections=[
-                    "tutorial",
-                    "library/stdtypes",
-                    "library/functions",
-                    f"library/{chapter_focus}"  # e.g., "library/operator" for Ch 15
-                ])
-
-            elif language == "typescript":
-                version = "5.3"  # Or fetch latest stable
-                docs = mcp_fetch_typescript_docs(version, sections=[
-                    "handbook",
-                    "reference/advanced-types",
-                    f"reference/{chapter_focus}"
-                ])
-
-            context["language_docs"] = docs
-            context["doc_source"] = f"{language.title()} Official Documentation v{version}"
-            print(f"✅ Loaded {language} v{version} documentation")
-
-        else:
-            print("⚠️  MCP context7 server unavailable")
-            print("    Using cached context materials as fallback")
-            context["language_docs"] = load_cached_context(chapter_num, language)
-            context["doc_source"] = "Cached context materials"
-
-    except Exception as e:
-        print(f"⚠️  MCP documentation loading failed: {e}")
-        print("    Proceeding with cached context")
-        context["language_docs"] = load_cached_context(chapter_num, language)
-        context["doc_source"] = "Cached context (MCP fallback)"
-
-else:
-    # Conceptual chapter - no language docs needed
-    context["language_docs"] = None
-    context["doc_source"] = "N/A (conceptual chapter)"
-```
+**Step 3: Load Language Documentation via MCP** (WHEN AVAILABLE)
+- For Python/TypeScript chapters: Use MCP tools to fetch official documentation (v3.14+ for Python, v5.3+ for TypeScript)
+- Load relevant sections based on chapter focus (tutorial, library references, framework-specific)
+- Graceful fallback to cached context if MCP unavailable
+- For conceptual chapters: Skip language docs (not needed)
+- Acknowledge documentation source in outputs
 
 **Step 4: Derive Chapter Intelligence**
 ```python
@@ -559,24 +463,10 @@ chapter_intelligence = {
 ```
 
 **Step 5: Intelligently Determine What to Ask User**
-```python
-questions = []
-
-# Only ask if genuinely ambiguous or requires human judgment
-if context_files:
-    questions.append(f"Existing context found for Chapter {chapter_num}. Use it or start fresh?")
-
-if chapter_title_is_broad(chapter_title):  # e.g., "Data Types" could mean many things
-    questions.append(f"'{chapter_title}' - which specific aspects should we emphasize?")
-
-if unclear_if_capstone(chapter_num, part_num):
-    questions.append("Should students BUILD something hands-on or focus on concepts?")
-
-# Ask only necessary questions (0-3 max, NOT hardcoded)
-for q in questions:
-    user_input = ask(q)
-    chapter_intelligence["user_preferences"][q] = user_input
-```
+- Only ask if genuinely ambiguous or requires human judgment
+- Example triggers: existing context found, broad chapter title, unclear capstone vs conceptual
+- Ask 0-3 targeted questions max (NOT hardcoded forms)
+- Store user preferences in chapter intelligence
 
 **Step 6: Confirm Intelligence Gathered (DO NOT create branch yet)**
 

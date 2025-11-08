@@ -450,38 +450,11 @@ When you run `/sp.python-chapter [N]`:
    - Existing Context: `context/part-4-python/` or `context/13_chap12_to_29_specs/` (if available)
    - **MCP Documentation**: Python.org official docs via context7 MCP server (if available)
 
-2. **Load Python Documentation via MCP** (NEW):
-   ```python
-   try:
-       # Check MCP server availability
-       if mcp_server_available("context7"):
-           print("📚 Loading Python 3.14 documentation via MCP context7...")
-
-           # Load relevant Python docs for this chapter
-           docs = mcp_fetch_python_docs(
-               version="3.14",
-               sections=[
-                   "tutorial",
-                   "library/stdtypes",
-                   "library/functions",
-                   f"library/{chapter_focus}"  # e.g., "library/operator" for Ch 15
-               ]
-           )
-
-           context["language_docs"] = docs
-           context["doc_source"] = "Python.org Official Documentation v3.14"
-           print("✅ Loaded Python 3.14 documentation")
-       else:
-           print("⚠️  MCP context7 server unavailable")
-           print("    Using cached context materials as fallback")
-           context["language_docs"] = load_cached_context(chapter_num)
-           context["doc_source"] = "Cached context materials"
-   except Exception as e:
-       print(f"⚠️  MCP documentation loading failed: {e}")
-       print("    Proceeding with cached context")
-       context["language_docs"] = load_cached_context(chapter_num)
-       context["doc_source"] = "Cached context (MCP fallback)"
-   ```
+2. **Load Python Documentation via MCP** (WHEN AVAILABLE):
+   - Use MCP tools to fetch Python.org official docs (v3.14+)
+   - Load relevant sections for the chapter (tutorial, stdlib types, functions, chapter-specific libraries)
+   - Graceful fallback to cached context if MCP unavailable
+   - Acknowledge documentation source in outputs
 
 3. **Derive chapter intelligence**:
    - **Audience**: From constitution (Aspiring/Professional/Founders with graduated complexity)
@@ -796,22 +769,10 @@ This workflow ensures:
 #### PHASE 0: Intelligent Context Discovery (Adaptive, NOT Hardcoded)
 
 **1. Read Authoritative Sources** (Automatic, NO USER INTERACTION):
-
-```bash
-# Constitution for audience, philosophy, principles
-constitution=$(cat .specify/memory/constitution.md)
-
-# Chapter index for title, part, prerequisites
-chapter_data=$(grep "^| $CHAPTER_NUM |" specs/book/chapter-index.md)
-chapter_title=$(echo "$chapter_data" | awk -F'|' '{print $3}' | tr im)
-chapter_file=$(echo "$chapter_data" | awk -F'|' '{print $4}' | sed 's/`//g' | trim)
-
-# Skills available
-skills=$(ls -1 .claude/skills/)
-
-# Context materials (if exist)
-context_files=$(find context/ -name "*chapter-$CHAPTER_NUM*" 2>/dev/null)
-```
+- Constitution (`.specify/memory/constitution.md`): audience, philosophy, principles
+- Chapter index (`specs/book/chapter-index.md`): title, file name, part number
+- Available skills (`.claude/skills/` directory)
+- Existing context materials (`context/` directory, if any)
 
 **2. Derive Chapter Intelligence** (Automatic computation):
 
@@ -854,25 +815,10 @@ chapter_intelligence = {
 ```
 
 **3. Intelligently Determine What to Ask** (Context-adaptive):
-
-```python
-questions = []
-
-# Only ask if genuinely ambiguous or requires human judgment
-if context_files:
-    questions.append("Existing context found for this chapter. Use it or start fresh?")
-
-if chapter_title_is_broad(chapter_title):  # e.g., "Data Types" could mean many things
-    questions.append(f"'{chapter_title}' - which specific aspects should we emphasize?")
-
-if unclear_if_capstone(chapter_num, part_num):  # e.g., is this a build lesson?
-    questions.append("Should students BUILD something or focus on concepts?")
-
-# Ask only necessary questions (0-3 max, NOT hardcoded 4)
-for q in questions:
-    user_input = ask(q)
-    chapter_intelligence["user_preferences"][q] = user_input
-```
+- Only ask if genuinely ambiguous or requires human judgment
+- Example triggers: existing context found, broad chapter title, unclear capstone vs conceptual
+- Ask 0-3 targeted questions max (NOT hardcoded)
+- Store user preferences in chapter intelligence
 
 **Key Principle**: Intelligence derives from constitution + chapter-index + skills library. Only ask user when GENUINELY ambiguous or requires human creative judgment.
 
