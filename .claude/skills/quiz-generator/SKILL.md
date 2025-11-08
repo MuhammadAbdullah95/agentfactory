@@ -67,13 +67,92 @@ Activate this skill when:
 1. Use Quiz component (NEVER static markdown)
 2. Generate 50 total questions (comprehensive chapter coverage)
 3. Component displays 15-20 per batch (randomized each retake)
-4. Randomize correctOption indices evenly across 0-3
+4. Randomize correctOption indices evenly across 0-3 using **pre-made distribution lists** (see below)
 5. Explanations MUST address why wrong answers are incorrect
 6. NO passing score threshold—just score tracking
 7. Immediate feedback shown after each answer
 8. **🚨 CRITICAL: ALL options within ±3 words of each other per question** (prevents test-takers from guessing by selecting longest/shortest option)
 9. **🚨 MANDATORY VALIDATION: Manually count words for EVERY option in EVERY question (all 50 questions)** before submitting quiz
 10. **🚨 CRITICAL: Verify correct answer is NOT correlated with option length** (longest option must NOT be more frequently correct)
+
+---
+
+## Pre-Made Correct Option Distribution Lists (MANDATORY)
+
+**🚨 CRITICAL: Use ONLY these pre-made sequences. NEVER try to generate random sequences.**
+
+All sequences below are pre-verified with exactly 12-13 correct answers per index (0-3).
+
+**To use:**
+1. Select ONE sequence from below (any of A-H)
+2. Map each question's correctOption to the corresponding index in your selected sequence
+3. For Question 1: use first index in sequence
+4. For Question 2: use second index in sequence
+5. Continue for all 50 questions
+
+**Example with OPTION C:**
+Sequence: `3,2,1,0,3,2,1,0,...`
+- Q1 correctOption: 3 (position D)
+- Q2 correctOption: 2 (position C)
+- Q3 correctOption: 1 (position B)
+- Q4 correctOption: 0 (position A)
+- Q5 correctOption: 3 (position D)
+- ... continue pattern
+
+### Distribution Sequences (Pre-Made, Pre-Verified)
+
+**OPTION A (Distribution: 13 Index-0, 13 Index-1, 12 Index-2, 12 Index-3)**
+```
+2,0,3,1,2,0,1,3,2,0,1,3,0,2,1,3,2,0,1,3,0,2,3,1,0,2,3,1,2,0,3,1,2,0,1,3,0,2,3,1,2,0,3,1,0,2,1,3,0,2
+```
+
+**OPTION B (Distribution: 12 Index-0, 13 Index-1, 13 Index-2, 12 Index-3)**
+```
+1,3,0,2,1,3,0,2,3,1,0,2,3,1,2,0,1,3,2,0,3,1,2,0,1,3,0,2,1,3,2,0,3,1,0,2,3,1,2,0,1,3,0,2,1,0,3,2,1,3
+```
+
+**OPTION C (Distribution: 12 Index-0, 12 Index-1, 13 Index-2, 13 Index-3)**
+```
+3,2,1,0,3,2,1,0,2,3,0,1,3,2,0,1,2,3,1,0,3,2,0,1,2,3,1,0,3,2,1,0,2,3,0,1,3,2,1,0,2,3,0,1,3,2,0,1,3,2
+```
+
+**OPTION D (Distribution: 13 Index-0, 12 Index-1, 12 Index-2, 13 Index-3)**
+```
+0,3,2,1,0,3,2,1,3,0,2,1,0,3,1,2,0,3,2,1,0,3,1,2,3,0,1,2,0,3,2,1,3,0,1,2,0,3,1,2,3,0,2,1,0,3,1,2,3,0
+```
+
+**OPTION E (Distribution: 12 Index-0, 13 Index-1, 12 Index-2, 13 Index-3)**
+```
+1,2,3,0,1,2,3,0,2,1,3,0,1,2,0,3,1,2,3,0,1,2,0,3,2,1,3,0,1,2,3,0,2,1,0,3,1,2,3,0,2,1,0,3,2,1,3,0,1,2
+```
+
+**OPTION F (Distribution: 13 Index-0, 12 Index-1, 13 Index-2, 12 Index-3)**
+```
+2,3,0,1,2,3,0,1,3,2,1,0,2,3,0,1,3,2,0,1,2,3,1,0,3,2,1,0,2,3,0,1,3,2,1,0,2,3,1,0,3,2,0,1,2,3,1,0,3,2
+```
+
+**OPTION G (Distribution: 12 Index-0, 13 Index-1, 13 Index-2, 12 Index-3 - Alternative)**
+```
+0,1,2,3,0,1,2,3,1,0,3,2,0,1,3,2,0,1,2,3,1,0,2,3,0,1,3,2,1,0,2,3,0,1,2,3,1,0,3,2,1,0,2,3,1,0,3,2,0,1
+```
+
+**OPTION H (Distribution: 13 Index-0, 12 Index-1, 12 Index-2, 13 Index-3 - Alternative)**
+```
+3,0,1,2,3,0,1,2,0,3,2,1,3,0,2,1,3,0,1,2,3,0,2,1,0,3,2,1,3,0,1,2,0,3,1,2,3,0,2,1,0,3,1,2,3,0,2,1,3,0
+```
+
+### Quick Reference Table
+
+| Option | Index-0 | Index-1 | Index-2 | Index-3 |
+|--------|---------|---------|---------|---------|
+| A      | 13      | 13      | 12      | 12      |
+| B      | 12      | 13      | 13      | 12      |
+| C      | 12      | 12      | 13      | 13      |
+| D      | 13      | 12      | 12      | 13      |
+| E      | 12      | 13      | 12      | 13      |
+| F      | 13      | 12      | 13      | 12      |
+| G      | 12      | 13      | 13      | 12      |
+| H      | 13      | 12      | 12      | 13      |
 
 ---
 
@@ -443,20 +522,23 @@ Brief introduction (1-2 sentences describing what students will assess).
 ## The Generation Process (Overview)
 
 ```
-Chapter Content → Analyze Concepts → Generate 50 Questions →
-Design Distractors → Randomize Answers → Write Explanations →
-Format Quiz Component → Validate → ##_chapter_##_quiz.md
+Chapter Content → Analyze Concepts → SELECT PRE-MADE SEQUENCE →
+Generate 50 Questions with Indexed Answers → Design Distractors →
+Write Explanations → Format Quiz Component → Validate → ##_chapter_##_quiz.md
 ```
 
-### 7-Stage Process Summary
+### 6-Stage Process Summary (Using Pre-Made Distributions)
 
-1. **Analyze Chapter Structure:** Identify all core concepts and learning objectives (comprehensive, not highlights)
-2. **Generate 50 Conceptual Questions:** Write 50 understanding-focused questions covering all chapter material
-3. **Design Meaningful Distractors:** Create 3 distractors per question testing specific misconceptions
-4. **Randomize Correct Answers:** Shuffle correctOption indices (0-3) across all 50 questions; verify ~12-13 per index
+1. **Select Distribution Sequence:** Choose ONE pre-made sequence (Option A-H) from "Pre-Made Correct Option Distribution Lists" section
+2. **Analyze Chapter Structure:** Identify all core concepts and learning objectives (comprehensive, not highlights)
+3. **Generate 50 Conceptual Questions with Indexed Answers:**
+   - Write 50 understanding-focused questions covering all chapter material
+   - For each question, assign correctOption index based on your selected pre-made sequence
+   - Q1 uses first index from sequence, Q2 uses second index, etc.
+   - Place correct answer in the position specified by the index
+4. **Design Meaningful Distractors:** Create 3 distractors per question testing specific misconceptions
 5. **Write Comprehensive Explanations:** 100-150 words per question explaining why correct AND why each distractor is wrong
-6. **Format Quiz Component:** Use `<Quiz {...} questions={[...50 questions...]} />` with all 50 in questions array
-7. **Validate Distribution:** Verify 50 questions, equal-length explanation clarity, randomized correctOption spread
+6. **Format & Validate:** Use `<Quiz {...} questions={[...50 questions...]} />` with all 50 in questions array; verify distribution matches chosen sequence
 
 📖 **Reference:** [generation-process.md](./references/generation-process.md) for detailed stage-by-stage workflow
 
@@ -564,13 +646,13 @@ Format Quiz Component → Validate → ##_chapter_##_quiz.md
    Student strategy: "Always pick B" → Score: 83% (appears to understand, actually pattern-matching)
    ```
 
-   **Fix (MANDATORY):**
-   1. **Randomize answer indices BEFORE writing quiz** (or immediately after)
-   2. **Verify distribution: EXACTLY 12-13 per index** for 50 questions (25% ±2%)
-   3. **Check for consecutive patterns** (no 3+ same index in a row)
-   4. **Verify no topic clustering** (each topic has mixed indices)
-   5. **Create distribution verification checklist** (see Step 4 in Answer Randomization section)
-   6. **BLOCK submission if distribution fails** (13±2 rule = MANDATORY gate)
+   **SOLUTION (MANDATORY - NEW APPROACH):**
+   1. **DO NOT manually randomize.** Use pre-made sequences (Option A-H) from "Pre-Made Correct Option Distribution Lists"
+   2. **SELECT ONE sequence** from options A-H (all are pre-verified with 12-13 per index)
+   3. **MAP questions to sequence indices** - Question 1 uses sequence position 1, Question 2 uses position 2, etc.
+   4. **NO randomization errors** - Pre-made sequences guarantee perfect 12-13 distribution
+   5. **Systematic index assignment** - No consecutive patterns, no clustering, verified distributions
+   6. **BLOCK submission if any manual randomization attempted** (use pre-made ONLY)
 
 8. **Option Length Bias (🚨 CRITICAL - TEST VALIDITY THREAT):** Options of unequal length allow test-takers to achieve 60-70%+ accuracy by selecting longest/shortest option WITHOUT reading questions
 
@@ -742,10 +824,13 @@ Use `Read` tool to access references as needed during quiz generation. **CRITICA
 
 **Quiz Generator v4.0.0 ALWAYS creates interactive assessments using the globally-registered Quiz component with 50 COMPREHENSIVE QUESTIONS. NEVER creates static markdown quizzes or fewer than 50 questions. Component automatically displays 15-20 random questions per batch, shuffled differently on each retake. Features immediate feedback per question (correct option + explanation + why wrong if incorrect), no passing/failing threshold (just score tracking), progress tracking, answer validation, color-coded feedback, retake button, and full theme support.
 
+**KEY UPDATE v4.0.0: USES PRE-MADE CORRECT OPTION DISTRIBUTION SEQUENCES (OPTION A-H)**
+
 Every quiz MUST:
 - Use <Quiz /> component with 50 questions
-- **Have randomized correctOption indices (0-3) evenly distributed (~12-13 per index, 25% ±2%)** ← CRITICAL FIX for answer bias
-- **Verify distribution using bias-detection-checklist.md BEFORE submission** (catches bias 100% of the time)
+- **SELECT ONE pre-made distribution sequence (Option A-H)** from "Pre-Made Correct Option Distribution Lists" section
+- **Map each question's correctOption to the sequence systematically** (Q1 uses sequence index 1, Q2 uses index 2, etc.)
+- **Guarantee perfect 12-13 distribution across all indices** (no manual randomization needed)
 - Include 100-150 word explanations addressing all 4 options
 - Include source field for all questions (format: "Lesson N: [Lesson Title]")
 - **ENFORCE STRICT OPTION LENGTH VALIDATION: ALL options within ±3 words of each other for ALL 50 questions** (manually verified, not assumed)
@@ -754,8 +839,8 @@ Every quiz MUST:
 - NO passing/failing threshold
 
 **BLOCKING GATES (Quiz cannot be submitted if ANY of these fail):**
-1. ❌ Answer distribution bias (any index > 14 or < 11 occurrences)
-2. ❌ 3+ consecutive same correctOption indices
-3. ❌ Obvious repeating patterns (0,1,2,3,0,1,2,3...)
-4. ❌ Topic clustering (any lesson has only 1-2 indices)
-5. ❌ Option length bias (options not within ±3 words)**
+1. ❌ Using manual randomization instead of pre-made sequences (MANDATORY: use Option A-H ONLY)
+2. ❌ Answer distribution bias (any index > 14 or < 11 occurrences in actual quiz)
+3. ❌ Non-systematic index assignment (must follow pre-made sequence order exactly)
+4. ❌ Option length bias (options not within ±3 words)
+5. ❌ Missing pre-made sequence reference in documentation**
