@@ -25,19 +25,20 @@ Students don't memorize Python syntax. Instead:
 3. **Ask their AI** (explore through dialogue with Claude Code/Gemini CLI)
 4. **Extract insight** (why this matters for thinking, not just coding)
 
-### AIDD Thinking Applied to Programming
+### AI-Native Learning for Part 4 Students
 
 **Traditional Programming Teaching**:
 - "Memorize Python syntax"
 - "Here are all 47 string methods"
 - Syntax-first (memorize, then apply)
 
-**AIDD-First Python Learning**:
-- "Understand concepts first, then use code as a tool"
-- "Here's what you need; your AI shows how when needed"
-- Understanding-first (understand, then code)
-- Specification-first (clarify intent, then code)
-- Validation-first (test understanding, not syntax)
+**AI-Native Learning Pattern** (Part 4: Chapters 12-29):
+- **Describe Intent**: Use type hints and clear code to communicate what data means
+- **Explore with AI**: Ask AI questions to understand concepts (not memorize docs)
+- **Validate Together**: Use isinstance(), type(), and tests to check understanding
+- **Learn from Errors**: When errors occur, ask AI "why?" and learn the pattern
+
+**Note on AIDD**: Students in Chapters 1-11 learned AIDD principles (Specification → Generation → Execution → Reflection). Part 4 applies these principles to learning Python, using the beginner-friendly "AI-Native Learning" framing. Students don't write formal specifications yet (that's Part 5+), but they DO describe intent through type hints and clear code structure.
 
 ### Teaching Pattern (Every Concept)
 
@@ -124,17 +125,29 @@ exactly how reasoning chains in AI maintain state.
 
 ---
 
-### Rule 2: NO FORWARD REFERENCES
+### Rule 2: NO FORWARD REFERENCES + PART 4 APPROPRIATE LANGUAGE
 
 **Never mention untaught concepts:**
 - ❌ NO Chapter 30+ references
-- ❌ NO "Spec-Driven Development" (not yet taught)
-- ❌ NO methodology beyond AIDD
+- ❌ NO "Specification-Driven Development" (not yet taught - that's Part 5+)
+- ❌ NO "write a specification" (use "describe your intent" instead)
+- ❌ NO professional SDD terminology for Part 4 students
 
-**DO reference AIDD (Ch 1-11, already taught):**
-- ✅ "Apply the specification-first thinking from Chapter 4..."
-- ✅ "Recall the nine pillars of AIDD from Chapter 4..."
-- ✅ "Use validation-first thinking when testing your code..."
+**DO reference AI-Native Learning (appropriate for Part 4):**
+- ✅ "Describe what your code should do using type hints..."
+- ✅ "Ask your AI to explain this concept..."
+- ✅ "Validate your understanding by testing the code..."
+- ✅ "Learn from errors by asking AI 'why did this fail?'..."
+
+**DO reference AIDD principles from Chapters 1-11 (context only):**
+- ✅ "This applies the AIDD thinking you learned in Part 1..."
+- ✅ "Remember the validation-first approach from Chapter 4..."
+- ✅ "You're using AI as co-reasoning partner, not coding assistant..."
+
+**Critical Distinction**:
+- Part 4 students use **AI-Native Learning** (beginner-friendly: describe intent → explore → validate → learn from errors)
+- Part 5+ students learn **Specification-Driven Development** (professional: write formal specs → generate → test → iterate)
+- Type hints are "describing intent" NOT "writing specifications" in Part 4
 
 ---
 
@@ -216,7 +229,39 @@ This single prompt replaces 10 pages of platform-specific troubleshooting guides
 
 ---
 
-### Rule 7: STANDARDIZED "TRY WITH AI" FORMAT
+### Rule 7: GRADUATED TEACHING PATTERN (Constitution Principle 13)
+
+**Apply the three-tier teaching approach from the constitution:**
+
+**Tier 1 - Foundational Concepts** (Book Teaches Directly):
+- Stable, core concepts explained directly in book
+- Direct explanation with analogies and examples
+- Examples: What are variables? What is a loop? What are type hints?
+- NO "Ask your AI: What is X?" for foundations
+- Book provides clear, authoritative explanation first
+
+**Tier 2 - Complex Syntax** (AI Companion Handles):
+- Complex syntax patterns AI handles (student directs, AI executes)
+- Student specifies WHAT they want, AI handles HOW
+- Examples: Decorators, context managers, complex regex, async/await patterns
+- "Tell your AI: Create X with these requirements..."
+- Student learns strategy and intent, not memorization of syntax
+
+**Tier 3 - Scaling Operations** (AI Orchestration):
+- Operations involving 10+ items or multi-file workflows
+- Student orchestrates strategy, AI manages tactical execution
+- Examples: Setting up 10 test environments, batch file conversions, project scaffolding
+- "Tell your AI: Set up 10 X with Y configuration..."
+- Student learns orchestration and supervision skills
+
+**Application to Part 4 (Chapters 12-29)**:
+- Primarily Tier 1 (foundations) and Tier 2 (applied syntax)
+- Tier 3 introduced gradually in advanced chapters (24-29)
+- Balance: Book teaches concepts, AI handles complexity, student directs strategy
+
+---
+
+### Rule 8: STANDARDIZED "TRY WITH AI" FORMAT
 
 **Every lesson MUST end with "Try With AI" section** following this exact structure (verified in Chapter 1 and Chapter 13):
 
@@ -262,11 +307,25 @@ Use your AI companion (Claude Code or Gemini CLI). [Brief context about what you
 - ✅ No "Key Takeaways" or "Summary" sections after "Try With AI"
 - ✅ "Try With AI" is the final substantive section (closure point)
 
+**CRITICAL LESSON CLOSURE PATTERN** (Constitutional Mandate):
+
+Lessons MUST end with "Try With AI" section ONLY. Prompt 4 provides cognitive closure.
+
+**NEVER ADD after "Try With AI":**
+- ❌ "Key Takeaways" or "Summary"
+- ❌ "What's Next"
+- ❌ "Completion Checklist" (even for capstone lessons)
+- ❌ "Chapter Summary"
+- ❌ Any other closure content
+
+**WHY**: Try With AI Prompt 4 already provides reflection and synthesis. Additional sections create cognitive overload and violate Constitutional Rule 13. This was identified as a critical violation in Chapter 14 technical review.
+
 **Why this matters:**
 - Consistency across entire book (students know the format)
 - Progressive prompts teach exploration, not memorization
 - "Expected outcome" sets clear learning targets
 - Validates understanding without artificial quizzes
+- Prompt 4 synthesis provides natural closure
 
 ---
 
@@ -293,8 +352,8 @@ When you run `/sp.python-chapter [N]`:
 ```
 → Invoke: /sp.specify [chapter-context]
   ├─ Pass: chapter number, title, user answers, context materials
-  ├─ Apply: AIDD principles, cognitive load limits, teaching patterns
-  ├─ Create: specs/part-5-chapter-[N]/spec.md
+  ├─ Apply: AI-Native Learning principles, cognitive load limits, teaching patterns
+  ├─ Create: specs/part-4-chapter-[N]/spec.md
   └─ Report: "Spec created. Review and approve."
 
 WAIT: User reviews spec.md
@@ -309,7 +368,7 @@ WAIT: User reviews spec.md
 - User's scope answer (limits concepts to 5/7/10)
 - User's outcome answer (real thing students will build)
 - Context materials (extracted pedagogically)
-- AIDD principles (specification-first, validation-first, AI partnership)
+- AI-Native Learning pattern (describe intent → explore → validate → learn from errors)
 - Teaching pattern template (What it is → Code → Try → Why it matters)
 - Cognitive load limits (max 5 for beginner, 7 for intermediate, 10 for advanced)
 
@@ -319,9 +378,9 @@ WAIT: User reviews spec.md
 
 ```
 → Invoke: /sp.plan [spec-context]
-  ├─ Read: specs/part-5-chapter-[N]/spec.md
-  ├─ Apply: Lesson progression, CEFR proficiency levels, AI prompts
-  ├─ Create: specs/part-5-chapter-[N]/plan.md
+  ├─ Read: specs/part-4-chapter-[N]/spec.md
+  ├─ Apply: Lesson progression, CEFR proficiency levels, AI prompts, skills-proficiency-mapper
+  ├─ Create: specs/part-4-chapter-[N]/plan.md
   └─ Report: "Plan created. Review and approve."
 
 WAIT: User reviews plan.md
@@ -333,9 +392,10 @@ WAIT: User reviews plan.md
 **What /sp.plan receives:**
 - Approved spec.md (learning objectives, concepts, success criteria)
 - Chapter scope (what fits this chapter, what doesn't)
-- AIDD teaching pattern (Concept → Code → Try → Why)
+- AI-Native Learning pattern (Describe intent → Explore → Validate → Learn from errors)
 - Proficiency expectations (CEFR A1/A2/B1 levels)
 - Real outcome students will build
+- Skills proficiency mapper for CEFR validation and cognitive load checks
 
 ---
 
@@ -343,9 +403,9 @@ WAIT: User reviews plan.md
 
 ```
 → Invoke: /sp.tasks [spec+plan-context]
-  ├─ Read: specs/part-5-chapter-[N]/spec.md + plan.md
+  ├─ Read: specs/part-4-chapter-[N]/spec.md + plan.md
   ├─ Apply: Acceptance criteria, validation steps, implementation checklist
-  ├─ Create: specs/part-5-chapter-[N]/tasks.md
+  ├─ Create: specs/part-4-chapter-[N]/tasks.md
   └─ Report: "Tasks created. Review and approve."
 
 WAIT: User reviews tasks.md
@@ -371,8 +431,9 @@ Options:
 A) Implement with lesson-writer subagent
    → Invoke: lesson-writer subagent
    → Pass: spec.md, plan.md, tasks.md
-   → Apply: AIDD teaching pattern, CEFR levels, validation-first approach
-   → Create: docs/part-5/chapter-[N]/{01,02,03,04}-lesson-*.md
+   → Apply: AI-Native Learning pattern, CEFR levels, validation-first approach
+   → Create: docs/part-4/chapter-[N]/{01,02,03,04}-lesson-*.md
+   → Then: Invoke technical-reviewer for validation
 
 B) Manual implementation
    → User implements using tasks.md as checklist
@@ -387,13 +448,16 @@ C) Done for now
 
 ## KEY PRINCIPLES (Always Applied)
 
-### ✅ AIDD-First
-- Reinforce specification-first thinking from Chapters 1-11
+### ✅ AI-Native Learning First (Part 4 Appropriate)
+- Apply AI-Native Learning pattern: describe intent → explore → validate → learn from errors
+- Reference AIDD principles from Chapters 1-11 for context (not formal methodology)
 - Validation-first practice: "How will students test understanding?"
-- AI partnership: "How will they use Claude Code/Gemini CLI?"
+- AI partnership: "How will they use Claude Code/Gemini CLI as co-reasoning partners?"
+- NO formal "specification writing" (that's Part 5+) - use "describe intent" framing
 
 ### ✅ No Forward References
 - Zero mentions of Chapters 30+ (SDD taught later)
+- No "Specification-Driven Development" terminology (use "AI-Native Learning")
 - No concepts from future chapters
 - Chapter title from `chapter-index.md` is the absolute anchor
 
@@ -413,10 +477,11 @@ C) Done for now
 - Max 10 concepts for advanced (Ch 24-29)
 
 ### ✅ Teaching Intelligence Preserved
-- Every phase applies AIDD principles
-- Every phase uses teaching patterns
+- Every phase applies AI-Native Learning principles
+- Every phase uses teaching patterns (Book → AI Companion → AI Orchestration)
 - Every phase respects chapter boundaries
 - Every phase validates against acceptance criteria
+- Skills proficiency mapping applied in planning phase (CEFR levels, cognitive load)
 
 ---
 
@@ -438,6 +503,12 @@ C) Done for now
    - Reject if chapter < 12 or > 29
    - Store: `chapter_title`, `chapter_num`, `part_num` (derived from chapter)
 
+   **Chapter-to-Part Mapping**:
+   - Part 4 (Python Fundamentals): Chapters 12-29
+     - Beginner (Ch 12-16): A1-A2 proficiency, max 5 concepts/lesson
+     - Intermediate (Ch 17-23): A2-B1 proficiency, max 7 concepts/lesson
+     - Advanced (Ch 24-29): B1-B2 proficiency, max 10 concepts/lesson
+
 2. **Ask 4 clarifying questions** (Interactive user input):
    ```
    Q1: Who is the primary audience for Chapter [N]: [Title]?
@@ -452,7 +523,7 @@ C) Done for now
    ```bash
    git checkout -b [branch-name]
    ```
-   Where `[branch-name]` = `[NN]-chapter-title-slug` (e.g., `013-introduction-to-python`)
+   Where `[branch-name]` = `[NNN]-topic-slug` (e.g., `014-data-types`)
 
 ---
 
@@ -462,10 +533,13 @@ C) Done for now
 
 1. **Prepare context** (Ruthless filtering applied):
    - Gather user's 4 answers from PHASE 0
-   - Extract materials from `context/13_chap12_to_29_specs/` (if they exist)
+   - Extract materials from context directories (if available):
+     - `context/13_chap12_to_29_specs/` (legacy structure)
+     - `context/part-4-python/` (preferred structure)
+     - Skip if no context available (spec from scratch is valid)
    - Apply ruthless filtering: Skip future chapters, skip advanced variations, skip tangential concepts
-   - Embed AIDD principles in the context
-   - Embed teaching patterns in the context
+   - Embed AI-Native Learning principles in the context
+   - Embed teaching patterns in the context (Book → AI Companion → AI Orchestration)
    - Embed cognitive load limits (5 for beginner, 7 for intermediate, 10 for advanced)
 
 2. **Invoke /sp.specify with full context**:
@@ -507,9 +581,12 @@ C) Done for now
    - Read: `specs/part-[P]-chapter-[N]/spec.md` (the approved specification)
    - Extract: Learning objectives, key concepts, success criteria
    - Add: CEFR proficiency levels (A1/A2/B1 based on audience)
-   - Add: Lesson progression rules (foundational → applied → why it matters)
-   - Add: AI prompts for each lesson (specification-first, validation-first)
-   - Add: Teaching pattern structure for every lesson
+   - Add: Skills proficiency mapping (identify skills, assign CEFR levels, validate progression)
+   - Add: Cognitive load validation (max concepts per lesson based on proficiency)
+   - Add: Bloom's taxonomy alignment (cognitive complexity matching proficiency level)
+   - Add: Lesson progression rules (foundational → applied → integration)
+   - Add: AI prompts for each lesson (validation-first approach)
+   - Add: Teaching pattern structure for every lesson (Book → AI Companion → AI Orchestration)
 
 2. **Invoke /sp.plan with full context**:
    ```
@@ -610,19 +687,65 @@ C) Done for now
 
 3. **Wait for lesson-writer completion**:
    - ✅ `docs/part-[P]/chapter-[N]/{01,02,03,04}-lesson-*.md` created
-   - ✅ Full AIDD methodology applied
+   - ✅ Full AI-Native Learning methodology applied
    - ✅ AI partnership approach emphasized
 
-4. **Final report**:
+4. **Invoke technical-reviewer** (Automatic validation):
    ```
-   ✅ CHAPTER [N] IMPLEMENTATION COMPLETE
+   Task(
+       subagent_type="technical-reviewer",
+       prompt=f"""
+       Validate Chapter {N}: {Title} with special focus on:
 
-   📚 Lessons created in: docs/part-[P]/chapter-[N]/
+       **AI-Native Learning Principles**:
+       - 4-step pattern applied (describe intent → explore → validate → learn from errors)
+       - AI positioned as co-reasoning partner, not coding assistant
+       - Students directing AI, not passive learners
+
+       **Part 4 Appropriate Language**:
+       - NO "Specification-Driven Development" terminology (that's Part 5+)
+       - Use "describe intent" not "write specifications"
+       - AI-Native Learning framing, not professional SDD
+
+       **Lesson Closure Pattern**:
+       - ALL lessons end with "Try With AI" section ONLY
+       - NO "Key Takeaways", "Summary", "Checklist" after Try With AI
+       - Prompt 4 provides cognitive closure
+
+       **Technical Accuracy**:
+       - All code runs on Python 3.14+
+       - Modern type hints throughout (list[int], dict[str, float], X | None)
+       - No security issues, no hardcoded secrets
+
+       **Constitutional Compliance**:
+       - All 9 domain skills applied
+       - Graduated teaching pattern followed
+       - CEFR proficiency levels appropriate
+       - Cognitive load within limits
+
+       Output: Validation report with PASS/CONDITIONAL PASS/FAIL verdict
+       """
+   )
+   ```
+
+5. **Apply critical fixes** (if validation identifies issues):
+   - Critical issues: MUST fix before proceeding
+   - Major issues: SHOULD fix for quality
+   - Minor issues: Optional improvements
+   - Re-run technical-reviewer after fixes
+
+6. **Final report**:
+   ```
+   ✅ CHAPTER [N] VALIDATED AND COMPLETE
+
+   📚 Lessons created: docs/part-[P]/chapter-[N]/
+   📋 Validation report: VALIDATION_REPORT_CHAPTER_[N].md
 
    Next steps:
-   - Test each lesson interactively
-   - Run technical-reviewer validation
+   - Review validation report
+   - Test lessons interactively
    - Prepare for publication
+   - Commit to git
    ```
 
 ---
@@ -644,35 +767,47 @@ C) Done for now
 ## CRITICAL VALIDATION (Before Each Phase)
 
 **PHASE 1 Validation** (before `/sp.specify`):
-- ✅ Chapter number valid (12-29)
+- ✅ Chapter number valid (12-29, Part 4 only)
 - ✅ Chapter title matches `chapter-index.md`
 - ✅ User's audience answer captured
 - ✅ User's scope answer captured
 - ✅ User's outcome answer captured
-- ✅ Context will be ruthlessly filtered
-- ✅ AIDD principles will be applied
+- ✅ Context will be ruthlessly filtered (skip future chapters)
+- ✅ AI-Native Learning principles will be applied (NOT formal SDD)
 
 **PHASE 2 Validation** (before `/sp.plan`):
 - ✅ spec.md was created successfully
-- ✅ Concept count ≤ tier limit (5/7/10)
-- ✅ No forward references (Chapters 30+)
-- ✅ No methodology names (except AIDD for reinforcement)
+- ✅ Concept count ≤ tier limit (5/7/10 based on chapter range)
+- ✅ No forward references (Chapters 30+ or SDD terminology)
+- ✅ AI-Native Learning framing used (not formal SDD)
 - ✅ Only Chapters 1-N are prerequisites
-- ✅ Teaching pattern respected
+- ✅ Teaching pattern respected (Book → AI Companion → AI Orchestration)
+- ✅ Skills proficiency mapping will be applied
 
 **PHASE 3 Validation** (before `/sp.tasks`):
 - ✅ plan.md was created successfully
 - ✅ Lessons match spec's learning objectives
-- ✅ Proficiency levels assigned (CEFR)
-- ✅ AI prompts specified for each lesson
+- ✅ Proficiency levels assigned (CEFR A1/A2/B1)
+- ✅ Cognitive load validated (concepts per lesson within limits)
+- ✅ AI prompts specified for each lesson (4 prompts, progressive)
 - ✅ Validation points defined
+- ✅ Lesson closure pattern specified (Try With AI ONLY)
 
 **PHASE 4 Validation** (before lesson-writer):
 - ✅ All 3 design files exist and are valid
 - ✅ User chose implementation option
-- ✅ Context filtered ruthlessly
-- ✅ AIDD principles embedded
+- ✅ Context filtered ruthlessly (no future chapters)
+- ✅ AI-Native Learning principles embedded
+- ✅ Graduated teaching pattern clear
 - ✅ Ready for lesson content creation
+
+**PHASE 4 Post-Implementation Validation** (technical-reviewer):
+- ✅ All lessons implement AI-Native Learning pattern
+- ✅ No SDD terminology used inappropriately
+- ✅ Lesson closure pattern followed (Try With AI ONLY)
+- ✅ Code quality validated (Python 3.14+, type hints)
+- ✅ CEFR proficiency levels appropriate
+- ✅ Constitutional compliance verified
 
 ---
 
@@ -680,20 +815,23 @@ C) Done for now
 
 **By End of PHASE 3** (mandatory):
 ```
-specs/part-5-chapter-[N]/
-  ├── spec.md       (What students learn + AIDD principles)
-  ├── plan.md       (How we teach it, lesson-by-lesson + CEFR levels)
+specs/part-4-chapter-[N]/
+  ├── spec.md       (What students learn + AI-Native Learning principles)
+  ├── plan.md       (How we teach it, lesson-by-lesson + CEFR levels + skills mapping)
   └── tasks.md      (Implementation checklist + validation)
 ```
 
 **By End of PHASE 4** (if Option A chosen):
 ```
-docs/part-5/chapter-[N]/
-  ├── 01-lesson-1-[topic].md
-  ├── 02-lesson-2-[topic].md
-  ├── 03-lesson-3-[topic].md
-  ├── 04-lesson-4-[topic].md (or more, based on plan)
-  └── index.md (auto-generated TOC)
+book-source/docs/04-Part-4-Python-Fundamentals/[N]-[chapter-name]/
+  ├── readme.md                    (Chapter overview and navigation)
+  ├── 01-[lesson-name].md          (Lesson 1)
+  ├── 02-[lesson-name].md          (Lesson 2)
+  ├── 03-[lesson-name].md          (Lesson 3)
+  ├── 04-[lesson-name].md          (Lesson 4, or more based on plan)
+  └── 05-[capstone-name].md        (Optional capstone lesson)
+
+VALIDATION_REPORT_CHAPTER_[N].md   (Technical review results)
 ```
 
 ---
@@ -701,24 +839,24 @@ docs/part-5/chapter-[N]/
 ## EXAMPLE EXECUTION (What User Sees)
 
 ```
-> /sp.python-chapter 13
+> /sp.python-chapter 14
 
 ⏺ PHASE 0: Context Gathering
 
-Chapter 13: "Introduction to Python" (Part 5)
-Prerequisites: Chapters 1-12 (AIDD principles + tools)
+Chapter 14: "Data Types" (Part 4)
+Prerequisites: Chapters 1-13 (AIDD principles + Python intro)
 
 Q1: Who are we teaching?
 [User answers: Absolute beginners AND professionals transitioning to AI-native]
 
 Q2: Core focus for THIS chapter?
-[User answers: Introduction fundamentals + first program]
+[User answers: Core data types - int, float, str, bool, None + type hints]
 
 Q3: What will students BUILD?
-[User answers: Interactive program asking for name and printing greeting]
+[User answers: Interactive Type Explorer program demonstrating all core types]
 
 Q4: Which context aspects from materials?
-[User answers: Use existing lesson structure but adapt for AIDD principles]
+[User answers: Use existing structure but emphasize AI-Native Learning pattern]
 
 ✅ Context gathered. Moving to PHASE 1...
 
@@ -727,17 +865,17 @@ Q4: Which context aspects from materials?
 ⏺ PHASE 1: Specification (Automated)
 
 Invoking: /sp.specify with chapter context...
-Applying: AIDD principles, teaching patterns, cognitive load limits
+Applying: AI-Native Learning principles, teaching patterns, cognitive load limits
 
 [/sp.specify generates spec.md]
 
-📋 Spec created: specs/part-5-chapter-13/spec.md
+📋 Spec created: specs/part-4-chapter-14/spec.md
 
 Please review the specification:
-- Does this match your vision for Chapter 13?
+- Does this match your vision for Chapter 14?
 - Are learning objectives clear?
 - Is scope appropriate (not too broad)?
-- Are AIDD principles reinforced?
+- Are AI-Native Learning principles emphasized?
 
 Reply with: "✅ Spec approved" or provide feedback
 
@@ -750,17 +888,18 @@ Reply with: "✅ Spec approved" or provide feedback
 ⏺ PHASE 2: Planning (Automated)
 
 Invoking: /sp.plan with approved spec...
-Applying: Lesson progression, CEFR levels, AI prompts
+Applying: Lesson progression, CEFR levels, AI prompts, skills-proficiency-mapper
 
-[/sp.plan generates plan.md]
+[/sp.plan generates plan.md with skills metadata]
 
-📋 Plan created: specs/part-5-chapter-13/plan.md
+📋 Plan created: specs/part-4-chapter-14/plan.md
 
 Please review the lesson breakdown:
-- Are 3-4 lessons appropriate?
-- Are AI prompts specified for each lesson?
-- Are CEFR proficiency levels correct (A1 for intro)?
-- Is AIDD teaching pattern applied?
+- Are 5 lessons appropriate (including capstone)?
+- Are AI prompts specified for each lesson (4 prompts progressive)?
+- Are CEFR proficiency levels correct (A2-B1 for data types)?
+- Is AI-Native Learning pattern applied throughout?
+- Are cognitive load limits respected?
 
 Reply with: "✅ Plan approved" or provide feedback
 
@@ -773,16 +912,17 @@ Reply with: "✅ Plan approved" or provide feedback
 ⏺ PHASE 3: Tasks (Automated)
 
 Invoking: /sp.tasks with spec + plan...
-Applying: Validation points, acceptance criteria, testing
+Applying: Validation points, acceptance criteria, lesson structure
 
 [/sp.tasks generates tasks.md]
 
-📋 Tasks created: specs/part-5-chapter-13/tasks.md
+📋 Tasks created: specs/part-4-chapter-14/tasks.md
 
 Please review the implementation checklist:
 - Are acceptance criteria clear?
-- Are validation steps included?
-- Are all lesson phases covered?
+- Are validation steps included (lesson closure pattern)?
+- Are all 5 lessons covered with tasks?
+- Are code testing tasks included?
 
 Reply with: "✅ Tasks approved" or provide feedback
 
@@ -795,14 +935,15 @@ Reply with: "✅ Tasks approved" or provide feedback
 ⏺ PHASE 4: Implementation (Optional)
 
 All design artifacts complete:
-  ✅ specs/part-5-chapter-13/spec.md (AIDD-driven)
-  ✅ specs/part-5-chapter-13/plan.md (CEFR-leveled)
-  ✅ specs/part-5-chapter-13/tasks.md (validation-first)
+  ✅ specs/part-4-chapter-14/spec.md (AI-Native Learning)
+  ✅ specs/part-4-chapter-14/plan.md (CEFR-leveled, skills mapped)
+  ✅ specs/part-4-chapter-14/tasks.md (validation-first)
 
 Ready to implement lesson content?
 
-A) Implement with lesson-writer subagent
-   → Automatically creates lesson .md files with full AIDD methodology
+A) Implement with lesson-writer subagent + technical-reviewer validation
+   → Automatically creates lesson .md files with full AI-Native Learning methodology
+   → Then validates with technical-reviewer
 B) Manual implementation
    → You create lessons using tasks.md as guide
 C) Done for now
@@ -811,18 +952,34 @@ C) Done for now
 [User chooses A]
 
 ✅ Invoking lesson-writer subagent...
+[5 lessons created in parallel/sequential approach]
+
+✅ Invoking technical-reviewer for validation...
+[Validation report generated]
+
+⚠️ CONDITIONAL PASS: 1 critical issue found
+- Lesson 5 has checklist after "Try With AI" (violates closure pattern)
+
+✅ Applying fix...
+[Removed checklist section from Lesson 5]
+
+✅ Re-validating...
+[Validation passed]
 
 ---
 
 ✅ WORKFLOW COMPLETE
 
-Chapter 13 design package ready:
-  ✅ Specification (AIDD-driven)
-  ✅ Lesson Plan (CEFR-leveled, AI prompts)
-  ✅ Implementation Tasks (validation-first)
-  ✅ Lesson Content (AIDD teaching pattern applied)
+Chapter 14 fully validated:
+  ✅ Specification (AI-Native Learning principles)
+  ✅ Lesson Plan (CEFR-leveled, skills mapped, cognitive load validated)
+  ✅ Implementation Tasks (58/58 complete)
+  ✅ Lesson Content (5 lessons, AI-Native Learning pattern applied)
+  ✅ Technical Validation (PASS - all requirements met)
 
-Next: Share with technical-reviewer for validation
+📋 Validation Report: VALIDATION_REPORT_CHAPTER_14.md
+
+Next: Commit to git, prepare for publication
 ```
 
 ---
@@ -849,10 +1006,12 @@ Next: Share with technical-reviewer for validation
 
 ## REFERENCES
 
-- **Chapter Index**: `specs/book/chapter-index.md` (Part 5 Quick Lookup: Chapters 12-29)
-- **Constitution**: `.specify/memory/constitution.md` (AIDD principles, domain skills)
-- **Design Template**: `.specify/templates/book/PYTHON_CHAPTER_DESIGN_TEMPLATE.md` (Pedagogical rules + intelligence)
-- **Context Materials**: `context/13_chap12_to_29_specs/` (Lesson files, teaching examples)
+- **Chapter Index**: `specs/book/chapter-index.md` (Part 4 Chapters: 12-29)
+- **Constitution**: `.specify/memory/constitution.md` (AI-Native Learning principles, domain skills, graduated teaching pattern)
+- **Skills Library**: `.claude/skills/` (skills-proficiency-mapper, learning-objectives, concept-scaffolding, etc.)
+- **Context Materials**:
+  - `context/13_chap12_to_29_specs/` (legacy structure)
+  - `context/part-4-python/` (preferred structure)
 
 ---
 
@@ -860,38 +1019,17 @@ Next: Share with technical-reviewer for validation
 
 Run `/sp.python-chapter [N]` and the system:
 
-✅ Gathers intelligent context (AIDD-driven questions)
-✅ Automatically chains `/sp.specify` → `/sp.plan` → `/sp.tasks` with approval gates
-✅ Applies vertical intelligence (AIDD principles, teaching patterns, pedagogy) at every phase
-✅ Respects chapter boundaries (ruthless context filtering)
-✅ Honors user intent (never overrides)
+✅ Gathers intelligent context (AI-Native Learning-driven questions)
+✅ Automatically chains `/sp.specify` → `/sp.plan` → `/sp.tasks` → `/sp.implement` with approval gates
+✅ Applies vertical intelligence (AI-Native Learning, teaching patterns, pedagogy) at every phase
+✅ Respects chapter boundaries (ruthless context filtering, no forward references)
+✅ Honors user intent (never overrides audience/scope/outcome decisions)
 ✅ Validates quality (acceptance criteria at each gate)
-✅ Optionally implements lessons with lesson-writer subagent
+✅ Implements lessons with lesson-writer subagent
+✅ Validates with technical-reviewer (AI-Native Learning compliance, lesson closure pattern)
 
-**Result: AIDD-centered Python chapters ready for AI-native development learning.**
+**Result: AI-Native Learning-centered Python chapters ready for publication.**
 
 ---
 
-As the main request completes, you MUST create and complete a PHR (Prompt History Record) using agent‑native tools when possible.
-
-1) Determine Stage
-   - Stage: constitution | spec | plan | tasks | red | green | refactor | explainer | misc | general
-
-2) Generate Title and Determine Routing:
-   - Generate Title: 3–7 words (slug for filename)
-   - Route is automatically determined by stage:
-     - `constitution` → `history/prompts/constitution/`
-     - Feature stages → `history/prompts/<feature-name>/` (spec, plan, tasks, red, green, refactor, explainer, misc)
-     - `general` → `history/prompts/general/`
-
-3) Create and Fill PHR (Shell first; fallback agent‑native)
-   - Run: `.specify/scripts/bash/create-phr.sh --title "<title>" --stage <stage> [--feature <name>] --json`
-   - Open the file and fill remaining placeholders (YAML + body), embedding full PROMPT_TEXT (verbatim) and concise RESPONSE_TEXT.
-   - If the script fails:
-     - Read `.specify/templates/phr-template.prompt.md` (or `templates/…`)
-     - Allocate an ID; compute the output path based on stage from step 2; write the file
-     - Fill placeholders and embed full PROMPT_TEXT and concise RESPONSE_TEXT
-
-4) Validate + report
-   - No unresolved placeholders; path under `history/prompts/` and matches stage; stage/title/date coherent; print ID + path + stage + title.
-   - On failure: warn, don't block. Skip only for `/sp.phr`.
+**Note**: For PHR (Prompt History Record) creation after command completion, see constitution for instructions.
