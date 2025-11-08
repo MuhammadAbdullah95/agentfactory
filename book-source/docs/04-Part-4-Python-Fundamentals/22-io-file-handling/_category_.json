@@ -1,8 +1,0 @@
-{
-  "label": "Chapter 22: IO and File Handling",
-  "position": 22,
-  "link": {
-    "type": "generated-index",
-    "description": "Master input/output operations in Python: console I/O with validation, safe file handling with context managers, cross-platform paths using pathlib, and structured data formats (CSV/JSON). Build a complete Note-Taking CLI application integrating all concepts."
-  }
-}
