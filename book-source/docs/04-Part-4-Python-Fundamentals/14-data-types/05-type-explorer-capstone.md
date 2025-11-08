@@ -554,23 +554,3 @@ After working through these prompts:
 
 This practice turns you from someone following instructions into someone **designing educational code**. That's the capstone skill: creating programs that teach concepts, not just executing pre-written code.
 
----
-
-## Capstone Completion Checklist
-
-Before moving to Chapter 15 (Operators), verify you can:
-
-- [ ] Create a complete Python program with multiple functions
-- [ ] Use type hints on every function and variable
-- [ ] Use `type()` to inspect types
-- [ ] Use `isinstance()` to validate types
-- [ ] Understand truthy/falsy conversion
-- [ ] Organize code with a `main()` function and entry point
-- [ ] Run your program without errors
-- [ ] Modify your program and see results immediately
-- [ ] Ask AI for code review and understand the feedback
-- [ ] Identify improvements to your program
-- [ ] Explain why types matter to the next programmer (or AI) who reads your code
-
-If you can do all of these, you've mastered Chapter 14. Congratulations! You're ready to move to Chapter 15 (Operators, Keywords, and Variables), where you'll use types in operations and expressions.
-
