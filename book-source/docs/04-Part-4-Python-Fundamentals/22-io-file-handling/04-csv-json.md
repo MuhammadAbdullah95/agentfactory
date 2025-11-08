@@ -658,6 +658,27 @@ data = safe_load_json("nonexistent.json")
 
 **Expected Outcome**: You see professional error handling prevents crashes and provides actionable error messages.
 
+### Python 3.14 Improved Error Messages
+
+**Python 3.14 enhanced JSON error reporting** with exception notes that identify exactly where errors occur:
+
+```python
+# Python 3.14+ provides richer error context
+try:
+    data = json.loads('{"name": "Alice", "age": }')  # Missing value
+except json.JSONDecodeError as e:
+    print(f"Error: {e}")
+    # Python 3.14+ adds a note showing the exact issue:
+    # "Expecting value: line 1 column 28 (char 27)"
+    # The note highlights the missing value location
+```
+
+**What improved**: In Python 3.13 and earlier, you got basic line/column numbers. In Python 3.14+, exception notes provide **contextual hints** about what's wrong (missing value, trailing comma, unclosed string, etc.).
+
+**Why this matters for AI-native development**: When JSON parsing fails, your AI companion gets better error messages to diagnose the issue. This means faster debugging—your AI can pinpoint "missing closing brace on line 12" instead of generic "invalid JSON" errors.
+
+**For this chapter**: The error handling patterns we teach work in all Python versions. When you encounter JSON errors, Python 3.14+ will just give you more helpful messages automatically.
+
 ---
 
 ## Choosing Between CSV and JSON: Decision Framework

@@ -686,6 +686,37 @@ assert result is None, "Traversal should be blocked"
 print("✓ All security checks passed")
 ```
 
+### Python 3.14 New Features
+
+**Python 3.14 added powerful new path manipulation methods** that make file operations even easier:
+
+- **`Path.copy(destination)`**: Copy a file to a new location
+- **`Path.copy_into(directory)`**: Copy a file into a directory (name preserved)
+- **`Path.move(destination)`**: Move/rename a file atomically
+- **`Path.move_into(directory)`**: Move a file into a directory (name preserved)
+
+These methods handle edge cases automatically and work recursively for directories.
+
+**Example** (Python 3.14+):
+```python
+from pathlib import Path
+
+# Old way (using shutil)
+import shutil
+shutil.copy("source.txt", "dest.txt")
+
+# New way (Python 3.14+)
+source: Path = Path("source.txt")
+source.copy(Path("dest.txt"))  # Built into pathlib!
+
+# Copy into directory (preserves name)
+source.copy_into(Path("backup/"))  # Creates backup/source.txt
+```
+
+**Why this matters for AI-native development**: Your AI companion can now use pathlib for ALL file operations—no need to import shutil for copying/moving. Simpler code = fewer dependencies = easier to understand and maintain.
+
+**For this chapter**: We focus on the core pathlib patterns that work in Python 3.4+. When you're ready to use Python 3.14+ exclusively, explore these new methods with your AI tool.
+
 ## Try With AI
 
 Use your preferred AI companion tool (Claude Code, Gemini CLI, or ChatGPT web) to deepen your understanding of pathlib and explore advanced patterns.
