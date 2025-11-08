@@ -662,6 +662,8 @@ pre code {
         z-index: 1000 !important;
         height: 100vh !important;  /* Expand to full viewport height */
         max-height: 100vh !important;  /* Ensure it doesn't exceed viewport */
+        width: 100% !important;  /* Full viewport width */
+        right: 0 !important;  /* Flush to the right edge */
         background-color: var(--ifm-navbar-background-color) !important;  /* Match navbar bg */
         background: linear-gradient(180deg, var(--ifm-navbar-background-color) 0%, var(--ifm-background-color) 100%) !important;
         overflow-y: auto !important;
