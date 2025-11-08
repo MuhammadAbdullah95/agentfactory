@@ -252,7 +252,3 @@ Why is that important?
 **Expected outcome**: AI explains PATH as a system variable that tells your computer where to find programs.
 
 **Checkpoint**: Once you see `python --version` showing Python 3.14.0 (or 3.13+), you're ready for Lesson 3.
-
-**Safety Note**: Python installation is safe. You're not changing anything dangerous—you're adding a translator to your computer. If something goes wrong, uninstall and try again. Never hesitate to ask AI for help with installation problems.
-
-**Next**: Once your Python installation is verified, move to Lesson 3: Your First Program.
