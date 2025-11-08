@@ -599,9 +599,6 @@ pre code {
     /* All buttons and links */
     button,
     a[role="button"],
-    .navbar__link,
-    .menu__link,
-    a.card,
     input[type="button"],
     input[type="submit"],
     input[type="reset"] {
@@ -613,6 +610,17 @@ pre code {
         padding: 0.625rem 1rem !important;
     }
 
+    /* Navbar and menu links - left-aligned, not centered */
+    .navbar__link,
+    .menu__link,
+    a.card {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0.625rem 1rem !important;
+        /* Do NOT center text - allow left alignment */
+    }
+
     /* Navbar items - ensure proper spacing */
     .navbar__item {
         min-height: 44px !important;
@@ -620,12 +628,13 @@ pre code {
         align-items: center !important;
     }
 
-    /* Interactive elements spacing */
-    a,
+    /* Interactive elements spacing - only for specific button types, not all links */
     button,
     [role="button"],
     input[type="checkbox"],
-    input[type="radio"] {
+    input[type="radio"],
+    .navbar__link,
+    .menu__link {
         margin: 0.25rem !important;
     }
 
@@ -655,6 +664,9 @@ pre code {
         max-height: 100vh !important;  /* Ensure it doesn't exceed viewport */
         background-color: var(--ifm-navbar-background-color) !important;  /* Match navbar bg */
         background: linear-gradient(180deg, var(--ifm-navbar-background-color) 0%, var(--ifm-background-color) 100%) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;  /* Smooth scrolling on iOS */
     }
 
     /* Backdrop behind the mobile menu */
@@ -665,7 +677,7 @@ pre code {
 
     /* Light mode: Darker backdrop for better visibility and contrast */
     [data-theme='light'] .navbar-sidebar__backdrop {
-        background-color: rgba(0, 0, 0, 0.9) !important;
+        background-color: rgba(0, 0, 0, 0.7) !important;
     }
 
     /* When sidebar is open (navbar--show class present), hide main content */
