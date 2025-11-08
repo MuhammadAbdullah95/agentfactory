@@ -1,7 +1,9 @@
 ---
-title: Python Chapter Design Command - Sample Input Template
-description: Example inputs for /sp.python-chapter command invocation
+title: Python Chapter Design Command - Sample Input Template (v2.0)
+description: Example inputs for /sp.python-chapter command invocation with technical review workflow
 date: 2025-11-08
+updated: 2025-11-08
+status: Updated for mandatory technical reviews, Python 3.14.0, type hints as core
 ---
 
 # `/sp.python-chapter` — Sample Input Template
@@ -12,13 +14,43 @@ You can provide context **inline in your prompt** OR **interactively via Q&A**. 
 
 ---
 
+## CRITICAL: Technical Review Workflow (v2.0)
+
+**NEW** — This version includes mandatory technical reviews:
+
+1. **After `/sp.plan` + `/sp.tasks`**: Review plan.md/tasks.md for structure and pedagogy
+2. **After lesson-writer completion**: Run technical-reviewer subagent for validation
+3. **PASS verdict required**: Before publishing to production
+
+**Command automatically suggests**:
+```
+After plan complete:
+→ Review plan.md for proficiency progression (A1→A2→B1 CEFR levels)
+
+After tasks complete:
+→ Review tasks.md for acceptance criteria and dependencies
+
+After all lessons written:
+→ /invoke technical-reviewer chapter-${N}
+→ Validation checks:
+  ✓ Python 3.14.0 (not 3.13)
+  ✓ Type hints in ALL code
+  ✓ "Try With AI": 4 prompts + Expected outcome
+  ✓ No gatekeeping/dual-path comments
+  ✓ Metadata consistency
+→ PASS = publication ready
+→ FAIL = fix and re-review
+```
+
+---
+
 ## Two Input Styles
 
 ### Style A: Inline Context (All Context in Prompt)
-Provide your context directly in the prompt. Command reads it and processes immediately.
+Provide your context directly in the prompt. Command reads it and processes immediately, then initiates automatic review gates.
 
 ### Style B: Interactive Q&A (Context via Responses)
-Command asks 4 questions. You respond with your context. Same result, different interaction style.
+Command asks 4 questions. You respond with your context. Same result, different interaction style. Review gates triggered automatically after each phase.
 
 ---
 
@@ -319,8 +351,8 @@ specs/part-5-chapter-13/
 ### Chapter 14: Data Types
 ```
 /sp.python-chapter 14
-→ Q2 Response: "Data types focus: int, float, str, bool. How Python stores different kinds of information"
-→ Q3 Response: "Build a script that stores user data (name, age, email) and displays it back"
+→ Q2 Response: "Data types: int, float, str, bool with type hints (`: int`, `: str`). How Python stores info with modern syntax"
+→ Q3 Response: "Build a script that stores user data with type hints and displays it using f-strings"
 ```
 
 ### Chapter 17: Control Flow and Loops
@@ -501,4 +533,64 @@ Q4: From context materials, what fits?
 
 ---
 
-**Ready to design a Python chapter? Pick a chapter number (12-29) and invoke the command!**
+## v2.0 Updates (Nov 8, 2025)
+
+**Technical Review Integration**
+- Mandatory technical-reviewer subagent after lesson-writer completion
+- PASS verdict required before publication
+- Catches metadata contradictions, consistency issues early
+- Prevents rework of multiple lessons
+
+**Python 3.14.0 Standard**
+- All examples use latest stable release from https://www.python.org/downloads/
+- No version inconsistencies across chapters
+
+**Type Hints as Core**
+- Type hints in ALL code examples (not optional)
+- Treated as specifications: `name: str` documents intent
+- Essential for AIDD and AI-native thinking
+- Integrated from Chapter 13 onwards
+
+**"Try With AI" Format**
+- Exactly 4 prompts per lesson (not 3, not 5)
+- Each includes "Expected outcome"
+- Consistent student experience across all chapters
+- Progressive complexity: Concept → Application → Synthesis → Why It Matters
+
+**Rules 6 & 7 Integration**
+- Rule 6: Troubleshooting is AI partnership (ask "What does this mean?" not memorize)
+- Rule 7: Standardized "Try With AI" format (4 prompts, Expected outcome, final substantive section)
+- Scales better than traditional guides
+- Honors professional development practices
+
+**CEFR Proficiency Progression**
+- A1 (Recognition) → A2 (Simple Application) → B1 (Independent Application)
+- International standard (40+ countries, 40+ languages)
+- Enables portable credentials and institutional integration
+
+---
+
+**Ready to design a Python chapter? Pick a chapter number (12-29) and invoke:**
+```bash
+/sp.python-chapter ${N}
+```
+
+**The command will**:
+1. Extract chapter metadata from chapter-index.md
+2. Ask you 4 context questions
+3. Auto-run `/sp.specify` → `/sp.plan` → `/sp.tasks`
+4. Suggest technical reviews at each gate
+5. After lesson-writer completion, require technical-reviewer PASS verdict
+6. Deliver publication-ready content
+
+**All chapters automatically receive**:
+- ✅ Python 3.14.0 standard
+- ✅ Type hints as core feature
+- ✅ "Try With AI" format (4 prompts, Expected outcome)
+- ✅ CEFR A1/A2/B1 proficiency progression
+- ✅ Bloom's cognitive taxonomy alignment
+- ✅ DigComp digital competence mapping
+- ✅ Technical review validation
+- ✅ Constitutional alignment (100%)
+
+**No manual quality gates needed. Reviews are built-in.**

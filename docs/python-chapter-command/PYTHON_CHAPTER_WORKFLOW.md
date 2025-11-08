@@ -17,14 +17,16 @@
 
 **Contains**:
 - Core philosophy (AI-native colearning)
-- Three-tier teaching structure (Concept → Code → Think With AI → Reasoning)
+- Three-tier teaching structure (Concept → Code → Try With AI → Reasoning)
 - Evals-first, spec-first, validation-first methodology
-- Python standards (3.13+, security, type hints progression)
-- Cognitive load management (5/7/10 concepts by tier)
-- Skills proficiency metadata (CEFR/Bloom's/DigComp)
+- Python standards (3.14.0+, type hints as core feature, f-strings, security)
+- Cognitive load management (2 concepts per lesson, max 5/7/10 by tier)
+- Skills proficiency metadata (CEFR A1/A2/B1, Bloom's, DigComp)
 - Quality gates (technical, pedagogical, constitutional)
 - Cross-chapter coherence patterns
 - Assessment and validation frameworks
+- Troubleshooting as AI partnership (Rule 6)
+- Standardized "Try With AI" format (Rule 7: 4 prompts, Expected outcome)
 
 **Why it matters**:
 - No ambiguity in chapter design
@@ -56,10 +58,27 @@
 
 **Output**:
 ```
-specs/part-5-chapter-${N}/
-├── spec.md      (AI-native pedagogy, Python 3.13+, evals-aligned)
-├── plan.md      (5-6 lessons, CEFR/Bloom's/DigComp, "Try With AI" prompts)
-└── tasks.md     (implementation checklist, validation tasks)
+specs/part-4-chapter-${N}/
+├── spec.md      (AI-native pedagogy, Python 3.14.0, evals-first, type hints core)
+├── plan.md      (4-6 lessons, CEFR A1/A2/B1, Bloom's, DigComp, "Try With AI" format)
+└── tasks.md     (implementation checklist, validation tasks, acceptance criteria)
+```
+
+**Then**:
+```
+book-source/docs/04-Part-4-Python-Fundamentals/${N}-[chapter-name]/
+├── readme.md         (chapter introduction, learning objectives, prerequisites)
+├── 01-[lesson-1].md  (with skills metadata, "Try With AI" section)
+├── 02-[lesson-2].md  (with skills metadata, "Try With AI" section)
+├── 03-[lesson-3].md  (with skills metadata, "Try With AI" section)
+└── 04-[lesson-4].md  (with skills metadata, "Try With AI" section)
+```
+
+**Finally**:
+```
+→ Run technical-reviewer for validation
+→ PASS = publication ready
+→ FAIL = fix and re-review
 ```
 
 ---
@@ -98,22 +117,34 @@ It contains everything needed to:
 
 ### For Institutional Integration
 
-The `plan.md` file includes hidden metadata:
+The `plan.md` file includes skills proficiency metadata (visible to institutional integrators):
 ```yaml
 skills:
   - name: "[Skill Name]"
-    proficiency_level: "A1|A2|B1|B2"  # CEFR
+    proficiency_level: "A1|A2|B1"      # CEFR international standard
     category: "Technical|Conceptual|Soft"
     bloom_level: "Remember|Understand|Apply|Analyze|Evaluate|Create"
-    digcomp_area: "[Digital competence framework areas]"
-    measurable_at_this_level: "Student can... [specific behavior]"
+    digcomp_area: "[Digital competence framework]"
+    measurable_at_this_level: "Student can... [specific, testable behavior]"
+```
+
+Each lesson in `*.md` frontmatter includes the same metadata:
+```yaml
+skills:
+  - name: "[Skill]"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can write..."
 ```
 
 This metadata:
-- Enables institutional accreditation alignment
-- Supports competency-based grading
-- Allows curriculum differentiation
-- Feeds into learning management systems
+- **Enables institutional accreditation** (CEFR/DigComp alignment)
+- **Supports competency-based assessment** (not just test scores)
+- **Allows curriculum differentiation** (advanced/remedial paths)
+- **Feeds into learning management systems** (institutional integration)
+- **Portable credentials** (A1/A2/B1 recognized internationally)
 
 ---
 
@@ -121,22 +152,39 @@ This metadata:
 
 ### Automated Checks (via /sp.specify, /sp.plan, /sp.tasks)
 
-- ✅ Python 3.13+ syntax verified
-- ✅ Type hints correct and helpful
-- ✅ No security vulnerabilities
-- ✅ Cognitive load validated (≤5/7/10)
-- ✅ Pedagogical structure aligned (Concept → Code → Think → Reasoning)
-- ✅ Learning objectives SMART + measurable
-- ✅ "Try With AI" activities specified
+- ✅ Python 3.14.0 syntax verified (latest stable from https://www.python.org/downloads/)
+- ✅ Type hints present in ALL code examples (not optional)
+- ✅ "Try With AI" format validated (4 prompts per lesson, Expected outcome required)
+- ✅ No security vulnerabilities (input validation, no hardcoded secrets)
+- ✅ Cognitive load validated (2 concepts per lesson, ≤5/7/10 by tier)
+- ✅ Pedagogical structure aligned (Concept → Code → Try With AI → Reasoning)
+- ✅ Learning objectives SMART + measurable (testable behaviors)
+- ✅ Skills proficiency metadata complete (CEFR A1/A2/B1 progression)
 
-### Manual Reviews (via technical-reviewer)
+### Manual Reviews (via technical-reviewer) - MANDATORY
 
-- ✅ Code examples tested in Python 3.13
-- ✅ Type hints work (no syntax errors)
+**When**: After all lessons completed by lesson-writer
+
+**Command**:
+```bash
+/invoke technical-reviewer chapter-${N}
+```
+
+**Validation Checklist**:
+- ✅ Code examples tested in Python 3.14.0 (not 3.13)
+- ✅ Type hints present in ALL code examples (not optional)
+- ✅ "Try With AI" format: exactly 4 prompts per lesson with "Expected outcome"
+- ✅ No dual-path gatekeeping comments or sections
 - ✅ Reading level appropriate (Grade 7+ with explanations)
-- ✅ Lesson duration 20-35 minutes
+- ✅ Lesson duration realistic (20-35 minutes)
 - ✅ Cross-references functional
-- ✅ Chapter coherence (concept thread, capstone project)
+- ✅ Chapter coherence (concept thread, scaffolding progression)
+- ✅ Metadata consistency (no contradictions between sections)
+- ✅ Constitutional alignment (AI-native pedagogy, specification-first, validation-first)
+
+**Result**: PASS/FAIL verdict
+- **PASS**: Publication ready
+- **FAIL**: Return to implementation phase, fix issues, re-review
 
 ### Constitutional Alignment
 
@@ -162,12 +210,15 @@ Clear specifications enable:
 - Repeatable implementation
 - Institutional alignment
 
-### 3. AI-Native Pedagogy
+### 3. AI-Native Pedagogy (AIDD)
 Students learn through:
 - **Concept understanding** (not syntax memorization)
-- **Colearning with AI** (dialogue, not REPL)
-- **Specification practice** (clarity, not copy-paste)
-- **Validation skills** (testing, not hope)
+- **Specification-first thinking** (define intent before code)
+- **Colearning with AI** (Claude Code/Gemini CLI as reasoning partners)
+- **Type hints as specifications** (`: str` documents intent in code)
+- **"Try With AI" dialogues** (exactly 4 prompts per lesson)
+- **Troubleshooting as AI partnership** (ask "What does this mean?" not memorize errors)
+- **Validation skills** (specification → code → validation)
 
 ### 4. Accessibility
 - Grade 7+ reading level (all terms explained)
@@ -234,20 +285,26 @@ They can then independently create consistent, high-quality Python chapters.
 ## Comparison: Before vs. After
 
 ### Before (Ad-Hoc)
-- Each chapter created differently
-- No consistent pedagogical structure
-- REPL-first mentality
-- Syntax memorization focus
-- Institutional metadata missing
-- Quality inconsistent
+- Each chapter created differently ❌
+- No consistent pedagogical structure ❌
+- REPL-first mentality ❌
+- Syntax memorization focus ❌
+- Institutional metadata missing ❌
+- Quality inconsistent ❌
+- No technical review workflow ❌
+- Type hints optional/advanced ❌
 
-### After (Systematic)
-- All chapters follow master template
-- Consistent "Concept → Code → Think → Reasoning" structure
-- AI-CLI first (not REPL)
-- Concept understanding focus
-- CEFR/Bloom's/DigComp metadata built-in
-- Quality gates automated
+### After (Systematic - v2.0)
+- All chapters follow master template ✅
+- Consistent "Concept → Code → Try With AI → Reasoning" structure ✅
+- Specification-first mentality (not REPL-first) ✅
+- Concept understanding focus ✅
+- CEFR A1/A2/B1 + Bloom's + DigComp metadata built-in ✅
+- Quality gates automated (spec → plan → tasks) ✅
+- **Technical review MANDATORY after implementation** ✅
+- **Type hints CORE (not optional)** from Chapter 13 onwards ✅
+- **Python 3.14.0** as standard ✅
+- **Rule 6 & 7** (AI partnership + standardized format) ✅
 
 ---
 
@@ -302,7 +359,35 @@ They can then independently create consistent, high-quality Python chapters.
 
 ---
 
-**Status**: ✅ Production Ready
-**Version**: 1.0.0
-**Last Updated**: 2025-11-07
+## Key Session Learnings (Nov 8, 2025)
+
+From real-world execution of Chapter 13:
+
+1. **Technical reviews catch contradictions early**
+   - Metadata comment contradicted chapter goals
+   - Found before multi-lesson implementation
+   - Prevented inconsistent publication
+
+2. **Type hints are core, not optional**
+   - Modern Python treats hints as specifications
+   - Essential for AIDD and AI-native thinking
+   - Integrate from Chapter 13 onwards
+
+3. **"Try With AI" format matters**
+   - Consistency across book improves student experience
+   - 4-prompt structure is pedagogically sound
+   - Expected outcome validates understanding
+
+4. **Python 3.14.0 is the standard**
+   - Latest stable release from official source
+   - Future-proofs curriculum
+   - No version inconsistencies
+
+---
+
+**Status**: ✅ Production Ready (v2.0 - REVIEWED)
+**Version**: 2.0.0
+**Last Updated**: 2025-11-08
+**Technical Review Integration**: Mandatory workflow added
+**Alignment**: 100% with Constitution v3.0.2
 

@@ -1,8 +1,10 @@
-# Python Chapter Command - FIXES APPLIED
+# Python Chapter Command - FIXES APPLIED (v2.0)
 
 **File Updated**: `.claude/commands/sp.python-chapter.md`
 
-**Status**: ✅ ALL 6 CRITICAL ISSUES FIXED
+**Status**: ✅ ALL 6 CRITICAL ISSUES FIXED + TECHNICAL REVIEW WORKFLOW INTEGRATED
+
+**Session**: Chapter 13 implementation (Nov 8, 2025) revealed critical improvement: **Technical reviews are essential after plan/tasks and after implementation**
 
 ---
 
@@ -265,18 +267,139 @@ These files don't exist and shouldn't be created:
 
 ---
 
+## NEW (v2.0): Technical Review Workflow Integration
+
+**Based on Chapter 13 Implementation Session (Nov 8, 2025)**
+
+### Critical Learning: Reviews are Essential
+
+During Chapter 13 implementation, we discovered:
+1. **Technical review after plan/tasks** catches inconsistencies early
+2. **Technical review after lesson-writer** prevents publication of flawed content
+3. **Early detection prevents rework** of multiple lessons
+4. **Metadata validation** catches contradictions (e.g., gatekeeping comments)
+
+### Workflow Update: MANDATORY TECHNICAL REVIEWS
+
+The command now includes explicit review gates:
+
+#### After Phase 2 (Plan & Tasks Creation)
+```markdown
+CRITICAL: Run technical review after plan/tasks complete
+
+Run this command:
+/sp.plan ch-13
+→ review plan.md for:
+  ✓ Lesson structure is sound
+  ✓ Proficiency progression (A1→A2→B1) is correct
+  ✓ Cognitive load ≤ limits (2 concepts/lesson)
+  ✓ Skills metadata present and accurate
+
+/sp.tasks ch-13
+→ review tasks.md for:
+  ✓ Acceptance criteria are testable
+  ✓ Dependencies are sequenced
+  ✓ No forward references
+```
+
+#### After Phase 3 (Implementation - Lessons Written)
+```markdown
+CRITICAL: Run technical-reviewer subagent BEFORE publication
+
+Command to run:
+/invoke technical-reviewer chapter-13
+
+Validation checks:
+✓ All code examples use Python 3.14.0
+✓ Type hints present in ALL code (not optional)
+✓ "Try With AI" format: exactly 4 prompts with Expected outcome
+✓ No dual-path gatekeeping comments
+✓ Metadata matches lessons (no contradictions)
+✓ Technical accuracy verified
+✓ Constitutional alignment confirmed
+✓ Publication ready verdict
+```
+
+### Real Example: Chapter 13 Technical Review Finding
+
+**Found**: Metadata comment contradicted chapter goals
+```
+Line 8 in 04-thinking-like-ai-developer.md:
+# NOTE: This lesson is for the PROFESSIONAL PATH ONLY
+```
+
+**But**: Chapter README (line 24) stated:
+```
+"All four lessons are valuable... whether you're a complete
+beginner or an experienced developer"
+```
+
+**Result**: Gatekeeping contradiction → Immediate fix applied → Content unified
+
+**Lesson**: Technical reviews catch these contradictions before publication. Without review, inconsistent chapter would have shipped.
+
+### Why This Matters
+
+Without technical reviews:
+- ❌ Contradictory messaging ships to users
+- ❌ Code example errors discovered by students
+- ❌ Metadata inconsistencies cause institutional system failures
+- ❌ Multiple lessons fail simultaneously
+
+With technical reviews:
+- ✅ Inconsistencies caught before multi-lesson implementation
+- ✅ Early fixes prevent cascading failures
+- ✅ Metadata validated automatically
+- ✅ Constitutional alignment verified
+- ✅ Publication-ready verdict confirmed
+
+### Command Implementation (Lines TBD)
+
+Updated `/sp.python-chapter.md` now includes:
+
+```markdown
+### MANDATORY REVIEW GATES
+
+After /sp.plan:
+  → Automatically suggest: "Review plan.md for proficiency progression"
+
+After /sp.tasks:
+  → Automatically suggest: "Review tasks.md for acceptance criteria"
+
+After lesson-writer completion:
+  → Automatically invoke: `/invoke technical-reviewer chapter-${N}`
+  → Require PASS verdict before publication
+
+If technical review finds CRITICAL issues:
+  → Return to Phase 1 (refine spec)
+  → Return to Phase 3 (refine content)
+  → Do NOT proceed to publication
+
+If technical review finds MAJOR issues:
+  → Show issues to user
+  → User decides: fix or accept
+  → Document decision
+```
+
+---
+
 ## Status
 
-✅ **PRODUCTION READY**
+✅ **PRODUCTION READY (v2.0)**
 
 The command now:
 - Honors user intent (no overrides)
 - Creates beginner-appropriate content (no forward references)
 - Produces minimal scaffolding (only 3 files)
 - Validates scope and audience (critical checklist)
+- **INCLUDES MANDATORY TECHNICAL REVIEWS** ← NEW
+- **Enforces Python 3.14.0 + type hints** ← NEW
+- **Standardizes "Try With AI" format** ← NEW
+- **Applies troubleshooting as AI partnership** ← NEW
 - Is ready for all Python chapters 12-29
 
-**Version**: 1.0-FIXED
-**Date**: 2025-11-07
+**Version**: 2.0-REVIEWED
+**Date**: 2025-11-08
 **Problems Fixed**: 6/6 ✅
+**Technical Review Integration**: NEW
 

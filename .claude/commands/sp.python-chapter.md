@@ -100,9 +100,10 @@ exactly how reasoning chains in AI maintain state.
 
 ## Python Standards (Chapters 12-29)
 
-**Version:** 3.13+
+**Version:** 3.14+ (always use latest stable release from https://www.python.org/downloads/)
 **Syntax:** f-strings only, match/case (17+), modern types (`list[int]`, `X | None`)
-**Type hints:** None (Ch 13) → Gradual (14-26) → Mandatory (27+)
+**Type hints:** Core (Ch 13) → Gradual Application (14-26) → Mandatory (27+)
+**Note on Type Hints:** Modern Python treats type hints as essential for clarity and specification-first thinking, not optional features. Integrate from Chapter 13 onwards.
 
 **Security (non-negotiable):**
 - ❌ No `eval()`, `shell=True`, hardcoded secrets
@@ -182,6 +183,90 @@ exactly how reasoning chains in AI maintain state.
 
 **Never create:**
 - ❌ index.md, _templates/, _assets/, _code-examples/, lesson-template.md, capstone-rubric.md
+
+---
+
+### Rule 6: TROUBLESHOOTING IS AI PARTNERSHIP
+
+**Real-world context:** In an AI-native world, students will encounter errors (installation, syntax, environment issues). Rather than detailed troubleshooting in every chapter, teach students to ASK their AI assistant.
+
+**Application in chapters:**
+- **Installation/Setup chapters**: Include prompt like: `"I tried to install Python but got this error: [error]. What does this mean and how do I fix it?"`
+- **Execution chapters**: Include prompt like: `"My program runs but gives this output. Is this correct? Why?"`
+- **Advanced chapters**: Include prompt like: `"I'm getting a TypeError. Walk me through what went wrong."`
+
+**Why this works:**
+- ✅ Teaches resilience: Errors are information to be understood, not obstacles
+- ✅ Builds partnership: AI becomes problem-solving collaborator, not just code generator
+- ✅ Scales with complexity: Works for simple errors (Python not found) to complex errors (type mismatches)
+- ✅ Honors reality: Professional developers ask AI for error help constantly
+
+**Example (from Chapter 13, Lesson 2):**
+```markdown
+### Prompt 2: Troubleshoot Installation Errors
+\`\`\`
+I tried to install Python but got this error: [describe your error].
+What does this mean and how do I fix it?
+\`\`\`
+
+**Expected outcome**: AI explains the error and provides step-by-step fixing instructions.
+```
+
+This single prompt replaces 10 pages of platform-specific troubleshooting guides that become outdated.
+
+---
+
+### Rule 7: STANDARDIZED "TRY WITH AI" FORMAT
+
+**Every lesson MUST end with "Try With AI" section** following this exact structure (verified in Chapter 1 and Chapter 13):
+
+```markdown
+## Try With AI
+
+Use your AI companion (Claude Code or Gemini CLI). [Brief context about what you're exploring].
+
+### Prompt 1: [Descriptive Title]
+\`\`\`
+[Clear, concrete prompt asking about the concept]
+\`\`\`
+
+**Expected outcome**: [What student should understand after AI response]
+
+### Prompt 2: [Descriptive Title]
+\`\`\`
+[Clear, concrete prompt asking about application or edge case]
+\`\`\`
+
+**Expected outcome**: [What student learns from this]
+
+### Prompt 3: [Descriptive Title]
+\`\`\`
+[Prompt encouraging deeper understanding or connection to real-world use]
+\`\`\`
+
+**Expected outcome**: [Connection to AIDD or professional practice]
+
+### Prompt 4: [Descriptive Title]
+\`\`\`
+[Synthesis prompt pulling together concepts from lesson]
+\`\`\`
+
+**Expected outcome**: [Integration of understanding]
+```
+
+**Critical requirements:**
+- ✅ Exactly 4 prompts per lesson (progressive complexity)
+- ✅ Prompts are CONCRETE and SPECIFIC (not "ask AI about X")
+- ✅ Each prompt has explicit "Expected outcome" describing what student learns
+- ✅ Prompts should include rubric-style validation ("Does this answer your spec?")
+- ✅ No "Key Takeaways" or "Summary" sections after "Try With AI"
+- ✅ "Try With AI" is the final substantive section (closure point)
+
+**Why this matters:**
+- Consistency across entire book (students know the format)
+- Progressive prompts teach exploration, not memorization
+- "Expected outcome" sets clear learning targets
+- Validates understanding without artificial quizzes
 
 ---
 
