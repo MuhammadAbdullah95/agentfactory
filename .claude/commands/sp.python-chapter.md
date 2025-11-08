@@ -506,6 +506,8 @@ When you run `/sp.python-chapter [N]`:
 
 **Apply Vertical Intelligence**: Constitution + Chapter Index + Skills → Adaptive questions (not hardcoded forms).
 
+**CRITICAL**: Do NOT create git branch yet. Branch creation happens in Phase 1 AFTER spec.md is created, ensuring branch name matches spec directory name.
+
 ---
 
 ### PHASE 1: Specification (Automated + Quality Gate)
@@ -523,6 +525,15 @@ When you run `/sp.python-chapter [N]`:
   ├─ Ask: Up to 5 targeted clarification questions
   ├─ Update: spec.md with answers encoded
   └─ Report: "Spec clarified and updated."
+
+→ Create Feature Branch (AFTER spec exists)
+  ├─ Derive branch name from spec directory (e.g., specs/part-4-chapter-15/ → part-4-chapter-15)
+  ├─ Check if already on correct branch:
+  │   IF current branch == main → Create new branch matching spec directory
+  │   IF current branch matches spec directory → Stay on it
+  │   IF current branch != spec directory → Warn and ask user to switch
+  ├─ Execute: git checkout -b [spec-directory-name] (only if on main)
+  └─ Report: "✅ Branch created: [branch-name]" or "ℹ️  Already on branch: [branch-name]"
 
 WAIT: User reviews spec.md
 → User confirms: "✅ Spec approved" or provides feedback
@@ -863,15 +874,9 @@ for q in questions:
     chapter_intelligence["user_preferences"][q] = user_input
 ```
 
-**4. Create Feature Branch** (Automatic, NO USER INTERACTION):
-
-```bash
-# Derive branch name from chapter data (not hardcoded)
-branch_slug=$(echo "$chapter_file" | sed 's/\/$//; s/\`//g')  # e.g., "14-data-types"
-git checkout -b "$branch_slug"
-```
-
 **Key Principle**: Intelligence derives from constitution + chapter-index + skills library. Only ask user when GENUINELY ambiguous or requires human creative judgment.
+
+**CRITICAL**: Do NOT create git branch in Phase 0. Branch creation happens in Phase 1 AFTER spec.md is created (see Phase 1 workflow).
 
 ---
 

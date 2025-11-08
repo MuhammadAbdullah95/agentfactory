@@ -578,14 +578,11 @@ for q in questions:
     chapter_intelligence["user_preferences"][q] = user_input
 ```
 
-**Step 6: Create Feature Branch**
-```bash
-# Derive branch name from chapter file (not hardcoded)
-branch_slug=$(echo "$chapter_file" | sed 's/\/$//; s/`//g')  # e.g., "15-operators-keywords-variables"
-git checkout -b "$branch_slug"
-```
+**Step 6: Confirm Intelligence Gathered (DO NOT create branch yet)**
 
-**Step 7: Confirm Intelligence Gathered**
+**CRITICAL**: Branch creation happens in Phase 1 AFTER spec.md is created, ensuring branch name matches spec directory name.
+
+**Step 7: Report Intelligence Summary**
 ```
 ✅ PHASE 0 COMPLETE: Intelligence Gathered
 
@@ -638,7 +635,24 @@ Proceeding to PHASE 1: Specification...
    - Ask up to 5 targeted questions
    - Update spec.md with answers
 
-5. **Output approval checkpoint**:
+5. **Create Feature Branch (AFTER spec exists)**:
+   ```bash
+   # Derive branch name from spec directory (e.g., specs/part-4-chapter-15/ → part-4-chapter-15)
+   spec_dir_name=$(basename "$(dirname "$FEATURE_SPEC")")
+   current_branch=$(git branch --show-current)
+
+   if [[ "$current_branch" == "main" ]]; then
+       git checkout -b "$spec_dir_name"
+       echo "✅ Created branch: $spec_dir_name"
+   elif [[ "$current_branch" == "$spec_dir_name" ]]; then
+       echo "ℹ️  Already on correct branch: $current_branch"
+   else
+       echo "⚠️  Warning: Current branch ($current_branch) != spec directory ($spec_dir_name)"
+       echo "    Consider switching: git checkout -b $spec_dir_name"
+   fi
+   ```
+
+6. **Output approval checkpoint**:
    ```
    ✅ PHASE 1 COMPLETE: Specification Created & Clarified
 
