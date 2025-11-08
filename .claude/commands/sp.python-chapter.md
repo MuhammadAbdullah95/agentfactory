@@ -1,652 +1,736 @@
 ---
-description: Create complete Python chapter specification, plan, and tasks following AI-Driven Colearning methodology with automatic SpecKit Plus workflow orchestration.
+description: Create Python chapters (12-29) using AIDD thinking. Students learn Python through AI partnership, specification-first mindset, validation-first practice.
 ---
 
-# Python Chapter Complete Workflow (Spec → Plan → Tasks)
+# Python Chapter Workflow: Learning Programming Through AIDD Lens
 
-You are orchestrating the complete SpecKit Plus workflow for Python chapter creation (Chapters 12-29) following **AI-Driven Colearning** methodology.
+Chapters 12-29 teach Python as a language **using AIDD principles** (from Part 1-2) applied to real code.
 
----
+📖 **SAMPLE INPUT TEMPLATE**: See `.claude/commands/sp.python-chapter.SAMPLE_INPUT.md` for example invocations and responses.
 
-## User Input
+⚠️ **KEY PRINCIPLES**:
+- ✅ **AIDD-First**: Reinforce specification-first thinking, validation-first practice from Chapters 1-11
+- ✅ **No SDD Yet**: Don't mention Spec-Driven Development (taught later in Part 6)
+- ✅ **Honors User Intent**: Ask what audience/scope; never override
+- ✅ **Minimal Scope**: Respect "core focus"—depth over breadth
+- ✅ **Beginner-Appropriate**: 5 concepts max (chapters 12-16), 7 max (chapters 17-23), 10 max (chapters 24-29)
 
-```text
-$ARGUMENTS
-```
+## AI-Native Learning Principle
 
-You **MUST** consider the user input before proceeding (if not empty).
+Students don't memorize syntax. They:
+1. **Understand the concept** (plain language)
+2. **See minimal code** (what it does)
+3. **Ask their AI** (explore through dialogue)
+4. **Extract insight** (connect to reasoning)
 
----
-
-## Python Teaching Philosophy: AI-Driven Colearning
-
-**CORE PRINCIPLE:** Students don't memorize syntax—they learn **concepts first**, then use AI co-teachers (Claude Code, Gemini CLI) to generate, explain, and refine code **with understanding**.
-
-**The Shift:**
-- Traditional: "Here's the syntax. Memorize it."
-- AI-Driven: "Here's the concept. Explore it with your AI partner."
-
-**Result:** Students think in **logic and reasoning**, not just code. They collaborate with AI as a **thinking partner**, not just a code generator.
+Result: Portable thinking skills, not syntax cargo cult.
 
 ---
 
-## Teaching Pattern for EVERY Python Concept
+## Teaching Pattern (Every Concept)
 
 ```markdown
-## 🔁 [Number]. [Concept Name] — [Simple Description]
+## 1. [Concept Name] — [Why it matters]
 
-**Concept:**
-[Plain-language explanation in 2-3 sentences]
-[Why it matters in AI-driven development]
-[Real-world or AI agent analogy]
+**What it is:**
+Plain-language explanation (2-3 sentences).
 
-### 🧩 Python Example
+### 💻 Code Idea
 
 \`\`\`python
-# Minimal, clear code demonstrating concept
-# Comments explain WHAT (not HOW - AI explains HOW)
+# Minimal code showing the concept
+# Focus on WHAT it does
 \`\`\`
 
-### 💬 AI Colearning Prompt
+### 🤖 Think With Your AI
 
-> "Ask your AI co-teacher: [Question that builds understanding]"
+> "What does this do?"
+>
+> "What changes if we...?"
+>
+> "How would you use this to...?"
 
-Then go deeper:
+### 🧠 The Reasoning Pattern
 
-> "Follow up: [Question that extends concept or explores edge cases]"
-
-Finally, connect to reasoning:
-
-> "Real-world application: [Question linking concept to AI development]"
-
-### 🎓 Instructor Commentary
-
-> "[Meta-cognitive insight: why understanding beats memorization]"
-> "[How this concept appears in AI agent development]"
+[Why this concept matters for thinking, not just coding]
 ```
 
-**Example - Teaching Loops:**
+**Example:**
 
 ```markdown
-## 🔁 1. Loops — Repeating Until You're Done
+## 1. Variables — Storing Data
 
-**Concept:**
-A loop repeats an action until a condition changes. Just like an AI agent iterates through tasks until a goal is achieved.
+**What it is:**
+A variable names a value so your program can remember it.
 
-### 🧩 Python Example
+### 💻 Code Idea
 
 \`\`\`python
-# Repeat numbers 1 to 5
-for i in range(1, 6):
-    print(i)
-
-# Repeat until condition becomes false
-i = 1
-while i <= 5:
-    print(i)
-    i += 1
+name = "Alex"
+score = 95
 \`\`\`
 
-### 💬 AI Colearning Prompt
+### 🤖 Think With Your AI
 
-> "Ask Claude Code: Explain how the `for` loop works under the hood with `range()`.
-> Then rewrite it using `while` and compare which is safer for beginners."
+> "Why do we need variables instead of just using 95?"
+>
+> "What breaks if we forget to name a value?"
+>
+> "How do AI agents use variables to track context?"
 
-Then go deeper:
+### 🧠 The Reasoning Pattern
 
-> "Simulate what happens if `i += 1` was forgotten. What error occurs?"
-
-Finally, connect:
-
-> "How do AI agents use loops? Show a real example of agent iteration."
-
-### 🎓 Instructor Commentary
-
-> "In AI-driven development, syntax is cheap — semantics is gold.
-> Your goal isn't memorizing `for` vs `while` — it's understanding when
-> repetition is the right reasoning pattern."
+Programs need memory. Variables let you say "remember this as X"—
+exactly how reasoning chains in AI maintain state.
 ```
 
 ---
 
 ## Python Standards (Chapters 12-29)
 
-### Version: Python 3.13+
+**Version:** 3.13+
+**Syntax:** f-strings only, match/case (17+), modern types (`list[int]`, `X | None`)
+**Type hints:** None (Ch 13) → Gradual (14-26) → Mandatory (27+)
 
-**Modern features to teach:**
-- f-strings (only string formatting method)
-- match/case statements (Chapter 17+)
-- Union types with `|` syntax: `int | str`
-- Walrus operator `:=` (Chapter 17+)
-- Modern type hints: `list[int]` not `List[int]`
+**Security (non-negotiable):**
+- ❌ No `eval()`, `shell=True`, hardcoded secrets
+- ✅ Environment variables, input validation, modern patterns
 
-**AVOID deprecated patterns:**
-- ❌ `typing.List`, `typing.Dict` → Use `list`, `dict`
-- ❌ `typing.Optional` → Use `X | None`
-- ❌ `%` or `.format()` → Use f-strings only
-- ❌ Old import style → Use modern syntax
+---
 
-### Type Hints Progression
+## Workflow: Design Python Chapter Using AIDD Thinking
 
-| Chapter Range | Type Hint Policy |
-|---------------|------------------|
-| 13 (Intro) | NO type hints (too early) |
-| 14 (Data Types) | Show in examples, don't require |
-| 15-26 | Gradually increase, explain when used |
-| 27+ (Pydantic) | Mandatory for all examples |
+### EXECUTION LOGIC
 
-**Modern type hint syntax:**
-```python
-# GOOD (Python 3.10+)
-def greet(name: str) -> str:
-    return f"Hello, {name}"
+**Step 1: Validate and Anchor on Chapter**
+```
+Extract from $ARGUMENTS: chapter number (12-29)
 
-items: list[int] = [1, 2, 3]
-mapping: dict[str, int] = {"a": 1}
-optional: str | None = None
+Read specs/book/chapter-index.md:
+→ Validate chapter exists in Part 5 (Chapters 12-29)
+→ Extract exact chapter title (this is your ANCHOR)
+→ Understand chapter position (what comes before/after)
 
-# BAD (old style - don't teach)
-from typing import List, Dict, Optional
-items: List[int] = [1, 2, 3]
-optional: Optional[str] = None
+If chapter invalid → error, exit
+```
+
+**Step 2: Check for Existing Context**
+```
+Look in context/13_chap12_to_29_specs/:
+→ Find materials matching this chapter (Lesson files, guides, examples)
+→ Identify relevant pedagogical patterns
+→ Note useful code examples
+→ Understand learning outcomes already identified
+→ Extract only what fits THIS chapter's scope
+
+DO NOT include materials from other chapters' lessons
+```
+
+**Step 3: Ask User to Confirm Scope**
+```
+With chapter title as anchor:
+
+1. Target audience? (beginner/intermediate/advanced)
+   → Determines complexity tier
+
+2. Core focus for THIS chapter? (pick ONE concept family)
+   → What should students understand?
+   → What fits the chapter title?
+   → Don't add concepts from other chapters
+
+3. What will students BUILD after? (testable project)
+   → One real outcome students can demonstrate
+   → Must fit this chapter's scope
+
+4. From context materials, which aspects to use?
+   → Existing lesson structures?
+   → Code examples?
+   → Real-world projects?
+   → Or start fresh?
+
+→ Honor answers; never override
+→ Never let context or scope drift beyond chapter title
+```
+
+**Step 4: Design Chapter Using AIDD Principles**
+```
+With anchored title + user intent + context insights:
+
+→ Create lesson outline (2-4 lessons matching THIS chapter's focus)
+→ Design each lesson around AIDD pattern:
+   1. What it is (concept explanation)
+   2. Code idea (minimal example)
+   3. Try it (student builds with concept)
+   4. Why it matters (connection to AIDD thinking)
+→ Verify all concepts are IN this chapter (not future chapters)
+→ Identify validation points (how to test understanding)
+→ Plan AI prompts students will use
+→ Use Python 3.13+ docs to verify accuracy
+```
+
+**Step 5: Generate Design Artifacts**
+```
+Create in specs/part-5-chapter-${N}/:
+
+→ spec.md
+  - Chapter title and position
+  - Learning objectives (testable, realistic)
+  - Concepts taught (count: 5 for beginner, 7 for intermediate, 10 for advanced)
+  - Lesson structure
+  - Success criteria (evals before specs)
+  - Prerequisites (only Chapters 1-${N-1})
+  - NO forward references (no Ch 30+, no SDD)
+
+→ plan.md
+  - Detailed lesson breakdown (2-4 lessons)
+  - Code examples with pedagogical purpose
+  - AI prompts for each lesson
+  - Assessment points (how students validate)
+
+→ tasks.md
+  - Implementation checklist
+  - Acceptance criteria for each lesson
+  - Validation steps
+```
+
+**Step 6: Delivery**
+```
+✅ All 3 files created with AIDD thinking
+→ specs/part-5-chapter-${N}/spec.md (what students learn in THIS chapter)
+→ specs/part-5-chapter-${N}/plan.md (how to teach THIS chapter)
+→ specs/part-5-chapter-${N}/tasks.md (tasks to implement THIS chapter)
+
+CRITICAL VALIDATION:
+□ All concepts belong in THIS chapter (not future chapters)
+□ No prerequisite violations (only use Chapters 1-${N-1})
+□ Chapter title matches chapter-index.md exactly
+□ Scope matches user intent (never overridden)
+□ Context was mined for insights, not allowed to expand scope
+□ Ready for lesson writer
 ```
 
 ---
 
-## Chapter Dependencies (Quick Reference)
+## Phase 0: Context Gathering (AIDD-Style Design)
 
-| Chapters | Tier | CEFR | Prerequisites | Max Concepts/Section |
-|----------|------|------|---------------|---------------------|
-| 12-16 | Beginner | A1-A2 | 12→13→14→15→16 | 5 |
-| 17-23 | Intermediate | A2-B1 | Need 14-16 | 7 |
-| 24-29 | Advanced | B1-B2 | Need 20 & 14 | 10 |
+**Apply AIDD principle 1: Specification-First**
 
-**Key dependencies:**
-- **12 (Python UV):** None (first chapter)
-- **13 (Intro):** Needs 12
-- **17 (Control Flow):** Needs 14-16
-- **20 (Functions):** Needs 17-19
-- **24 (OOP I):** Needs 20 & 14
-- **28 (Asyncio):** Needs 20-21
+We're designing the chapter by understanding WHO we're teaching and WHAT they need to build — not by assuming what they should learn.
+
+### Inline Context Input (Optional but Recommended)
+
+You can provide context directly in your prompt. Format:
+
+```
+/sp.python-chapter 13
+
+[Optional: Inline Context Below]
+
+Write Chapter 13: Introduction to Modern Python in Part 4
+
+Core Context & Guiding Philosophy (Apply to entire chapter):
+
+This chapter must reflect:
+- AI-Driven Learning: Students use AI coding partners (Claude Code, Gemini CLI)
+- Focus on reasoning and problem-solving, not syntax memorization
+- AIDD principles: specification-first thinking, validation-first practice
+- Real Python 3.13+ features and best practices
+
+Existing Teaching Materials:
+@context/13_chap12_to_29_specs/Lesson_01_Introduction_to_Python.md
+- Learning outcomes already identified
+- Code examples and teaching patterns
+- "Try It" exercises framework
+
+Additional Guidance:
+- Target absolute beginners (no coding experience)
+- Keep it short (don't overwhelm)
+- Focus on fundamentals only
+```
+
+**How the command processes inline context:**
+
+If you provide inline context:
+1. Extract the chapter number from your prompt (13)
+2. Read chapter-index.md Quick Lookup for exact title
+3. Parse your inline context for:
+   - Core philosophy and guiding principles
+   - Existing teaching materials references
+   - Additional guidance for this chapter
+   - Learning outcomes or scope hints
+4. Use this context to inform the questions
+5. Proceed with Step 1 below
+
+If you don't provide inline context:
+1. Command asks you the 4 questions directly
+2. You provide context via your responses
+3. Same workflow, just interactive
 
 ---
 
-## Security & Quality Standards
+**Step 1: Anchor on Chapter from chapter-index.md**
+```
+Read specs/book/chapter-index.md, Part 5 Quick Lookup (Chapters 12-29):
+→ Extract EXACT chapter title from Quick Lookup (your ANCHOR)
+→ Validate chapter number (12-29)
+→ Note chapter position (prerequisites from Chapters 1-${N-1})
+→ Understand chapter scope from title
 
-### NEVER teach:
-- ❌ `eval()` or `exec()` on user input
-- ❌ `shell=True` in subprocess
-- ❌ Hardcoded secrets/passwords
-- ❌ SQL string concatenation
-- ❌ `pickle` for untrusted data
+Quick Lookup Reference (from chapter-index.md):
+  ch13: "Introduction to Python"
+  ch14: "Data Types"
+  ch15: "Operators, Keywords, and Variables"
+  ch17: "Control Flow and Loops"
+  ch20: "Module and Functions"
+  (See chapter-index.md Part 5 Quick Lookup for all 18 chapters)
 
-### ALWAYS teach:
-- ✅ Environment variables for secrets
-- ✅ Input validation
-- ✅ f-strings (only string formatting)
-- ✅ REPL-first validation
-- ✅ Error handling (Chapter 21+)
+Example for Chapter 13:
+  Title: "Introduction to Python" (from Quick Lookup)
+  After: Chapter 12 (Python UV package manager)
+  Before: Chapter 14 (Data Types)
+  Prerequisites: Chapters 1-12 (AIDD thinking + tools)
+```
+
+**Step 2: Process Inline Context (if provided)**
+```
+If user provided inline context in prompt:
+→ Parse core philosophy (what should students understand?)
+→ Extract guiding principles (AI-Driven Learning, AIDD, etc.)
+→ Identify material references (@context/... locations)
+→ Note additional guidance (audience, scope hints)
+→ Use this to inform your questions and suggestions
+
+If NO inline context:
+→ Proceed directly to Step 3 (ask user)
+```
+
+**Step 3: Check Context for This Chapter**
+```
+Look in context/13_chap12_to_29_specs/ (if not provided inline):
+→ Find lesson files matching THIS chapter only
+→ Extract pedagogical insights that fit the title
+→ Note useful code examples and teaching patterns
+→ Identify learning outcomes already developed
+→ Respect chapter scope (don't pull in other chapters' lessons)
+
+CRITICAL: Never cross chapter boundaries
+  - Extract Ch 13 context for Ch 13 chapter design
+  - Ignore Ch 14, 15, etc. materials
+  - Ignore lessons from Ch 12 (already taught)
+```
+
+**Step 4: Selective Context Extraction (CRITICAL)**
+
+**WHEN CHAPTER SCOPE IS SPECIFIC, FILTER CONTEXT RUTHLESSLY:**
+
+Example 1: Chapter 13 is "Introduction to Python"
+```
+Context contains:
+  ✅ "What is Python?" → USE (intro concept)
+  ✅ "Your first program" → USE (intro outcome)
+  ✅ "How to run code" → USE (intro skill)
+  ✅ "Variables basics" → MAYBE (depends on scope)
+  ❌ "Functions" → SKIP (Ch 20 topic)
+  ❌ "Classes" → SKIP (Ch 24+ topic)
+  ❌ "Async/await" → SKIP (Ch 28 topic)
+  ❌ "Type hints" → SKIP (advanced, not intro)
+```
+
+Example 2: Chapter 17 is "Control Flow and Loops"
+```
+Context contains:
+  ✅ "if/elif/else statements" → USE (chapter focus)
+  ✅ "for loops" → USE (chapter focus)
+  ✅ "while loops" → USE (chapter focus)
+  ✅ "break/continue" → USE (loop control)
+  ❌ "Functions" → SKIP (Ch 20 topic)
+  ❌ "List comprehensions" → SKIP (advanced, separate concept)
+  ❌ "Recursion" → SKIP (advanced control flow)
+  ❌ "Exception handling" → SKIP (Ch 21 topic)
+```
+
+Example 3: Chapter 20 is "Module and Functions"
+```
+Context contains:
+  ✅ "Defining functions" → USE (chapter focus)
+  ✅ "Parameters and arguments" → USE (chapter focus)
+  ✅ "Return values" → USE (chapter focus)
+  ✅ "Variable scope" → USE (function scope)
+  ✅ "Modules/imports" → USE (chapter focus)
+  ❌ "Decorators" → SKIP (advanced, separate concept)
+  ❌ "Lambda functions" → SKIP (advanced, separate concept)
+  ❌ "Generators" → SKIP (Ch 28+ topic)
+  ❌ "Async functions" → SKIP (Ch 28 topic)
+```
+
+**DECISION RULE:**
+```
+IF context concept fits THIS chapter's title → EXTRACT
+IF context concept belongs to Ch N+1 or later → SKIP
+IF context concept is "advanced variation" of this chapter → SKIP
+IF context concept requires prerequisites from future chapters → SKIP
+IF context concept is tangential (not core focus) → SKIP
+```
+
+**Step 5: Extract and Filter Context (Extract Relevant Aspects)**
+1. Chapter title defines the target (your ANCHOR)
+2. Extract pedagogical insights that fit THIS chapter ONLY
+3. Identify useful code examples relevant to chapter scope
+4. Note learning outcomes already identified
+5. Understand prerequisites (only Chapters 1-${N-1})
+6. **RUTHLESSLY IGNORE everything outside this chapter's scope**
+7. **Filter functions/classes/advanced concepts even if in context**
+8. **Never let context expand scope beyond chapter title**
+
+**ASK USER (honor their answers, never override):**
+
+**Q1: Who are we teaching?**
+Pick ONE audience:
+- **Absolute beginner** (no coding; might fear Python)
+- **Beginner with some coding** (tried JavaScript or similar)
+- **Intermediate** (comfortable with basics; wants depth)
+
+→ This determines complexity tier (A1/A2/B1)
+
+**Q2: What's the ONE core focus for THIS chapter?**
+Pick ONE concept family (don't add extras, don't cross chapter boundaries):
+- For Ch 13: Just intro concepts and basic syntax?
+- For Ch 14: Data types focus?
+- For Ch 17: Control flow and loops?
+- [Always: What fits THIS chapter's title from chapter-index.md?]
+
+→ This determines scope (5/7/10 concepts max for THIS chapter)
+→ NEVER include concepts from other chapters (Ch 14+)
+
+**Q3: What can students actually BUILD after THIS chapter?**
+(Make it testable — they'll validate understanding this way)
+- Something using THIS chapter's concepts only
+- Don't require concepts from future chapters
+- Real outcome students can demonstrate
+- [Or: from context, describe specific project]
+
+→ This determines learning objective (real outcome for THIS chapter)
+
+**Q4: From context materials, which aspects fit THIS chapter?**
+- Existing lesson structures (for THIS chapter only)?
+- Code examples (relevant to THIS chapter)?
+- Real-world projects (achievable with THIS chapter alone)?
+- Or start fresh?
+
+→ We'll extract from context/13_chap12_to_29_specs/ what fits
+→ Ignore lessons from other chapters
+→ Never let context expand scope beyond chapter title
+
+**CRITICAL WORKFLOW**:
+1. Chapter title from chapter-index.md is the ANCHOR (never deviate)
+2. Respect chapter boundaries (don't pull in future chapters)
+3. Honor user's stated intent (audience, scope, outcome)
+4. Extract relevant insights from THIS chapter's context
+5. Use Python docs + AI intelligence for teaching approach
+6. Never let context override user's explicit answers
+7. Design optimal AIDD-powered Python learning FOR THIS CHAPTER
 
 ---
 
-## Workflow Execution
+## Example: Inline Context Input for Chapter 13
 
-**IMPORTANT:** This command automatically invokes `/sp.specify`, `/sp.plan`, and `/sp.tasks` using the SlashCommand tool. You do NOT ask the user to run these commands - you execute them programmatically.
+### What You Type:
+```
+/sp.python-chapter 13
 
-**Execution pattern:**
-1. Phase 0: Gather context → Ask clarifying questions
-2. Phase 1: Invoke `/sp.specify` → Guide evals & spec → Get approval
-3. Phase 2: Invoke `/sp.plan` → Generate lesson plan → Get approval
-4. Phase 3: Invoke `/sp.tasks` → Generate task checklist → Get approval
-5. Report completion with file paths
+Write Chapter 13: Introduction to Modern Python in Part 4 of the book.
+
+Core Context & Guiding Philosophy (Apply to entire chapter):
+
+This chapter must be written as part of a modern AIDD Programming era designed
+for the AI-Driven Development Era. The content must reflect this core philosophy:
+
+AI-Driven Learning: Assume students are using Agentic Coding Assistants
+(like Gemini CLI or Claude Code) as their primary coding partners. The focus
+must be on reasoning and problem-solving, not on syntax memorization.
+
+Specification-First Mindset: Students should learn to clarify what they want
+BEFORE writing code.
+
+Validation-First Practice: Students learn to test their understanding, not
+just memorize syntax.
+
+Existing Teaching Materials:
+@context/13_chap12_to_29_specs/Lesson_01_Introduction_to_Python.md
+@context/13_chap12_to_29_specs/Lesson_01_Introduction_to_Python.ipynb
+
+These materials provide:
+- Learning outcomes already identified
+- Code examples and teaching patterns
+- "Try It" exercises framework
+- Student assessment approaches
+
+Additional Guidance:
+- Target: Absolute beginners (no coding experience)
+- Complexity: Keep it focused (don't overwhelm)
+- Scope: Introduction fundamentals only (not data types — that's Ch 14)
+- Length: 3-4 lessons maximum
+```
+
+### What the Command Does:
+
+1. **Extracts chapter number**: 13
+2. **Reads chapter-index.md**: Gets "Introduction to Python" (ANCHOR)
+3. **Parses inline context**:
+   - Philosophy: AI-Driven Learning + AIDD thinking
+   - Materials: Lesson_01_Introduction_to_Python (md + ipynb)
+   - Guidance: Absolute beginners, 3-4 lessons, fundamentals only
+4. **Validates boundaries**: Confirms no Ch 14 (Data Types) concepts
+5. **Prepares questions** informed by your context
+6. **Asks user** the 4 questions (with your context already in mind)
+7. **Generates** spec/plan/tasks respecting your guiding philosophy
+
+### Minimal Inline Context (Also Works):
+
+```
+/sp.python-chapter 13
+
+Core Philosophy: AI-Driven Learning (use Claude Code/Gemini CLI as partners)
+Target Audience: Absolute beginners
+Scope: Introduction fundamentals only
+Materials: @context/13_chap12_to_29_specs/Lesson_01_Introduction_to_Python.md
+```
+
+Command will:
+- Read the core philosophy
+- Know the target audience
+- Understand the scope
+- Reference the materials
+- Ask questions informed by this context
+
+### No Inline Context (Also Works):
+
+```
+/sp.python-chapter 13
+```
+
+Command will:
+- Ask you all 4 questions interactively
+- You provide context via your responses
+- Same result, just different input method
 
 ---
 
-### Phase 0: Context Gathering
+## Using Python Docs + AI Intelligence for Design
 
-**Input from user:** Chapter number (12-29) in `$ARGUMENTS`
+**When designing the chapter:**
 
-**Extract chapter number:**
-```bash
-CHAPTER_NUM=$(echo "$ARGUMENTS" | grep -oE '\b(1[2-9]|2[0-9])\b' | head -1)
+1. **Python Docs** (authoritative source)
+   - Verify current Python 3.13+ syntax
+   - Check official best practices
+   - Understand language features accurately
 
-if [ -z "$CHAPTER_NUM" ]; then
-  echo "ERROR: No valid chapter number (12-29) found"
-  echo "Usage: /sp.python-chapter [chapter-number]"
-  exit 1
-fi
-```
+2. **AI Intelligence** (pedagogical design)
+   - Create explanations that work for target audience
+   - Find real-world examples and use cases
+   - Design progression from simple → complex
+   - Generate code examples that demonstrate concepts
+   - Create exercises that build toward final project
 
-**Gather chapter context:**
-1. Read `specs/book/chapter-index.md` for chapter title and topic
-2. Determine complexity tier (12-16: Beginner, 17-23: Intermediate, 24-29: Advanced)
-3. Determine CEFR range (A1-A2, A2-B1, B1-B2)
-4. Check prerequisites from dependency map
-5. Set cognitive load limit (5/7/10 concepts)
-
-**Generate feature name:**
-```bash
-FEATURE_NAME="part-5-chapter-${CHAPTER_NUM}"
-```
-
-**Ask user clarifying questions:**
-> "**Chapter ${CHAPTER_NUM}: [Title from chapter-index]**
->
-> Questions to tailor content:
->
-> 1. **Existing materials?** Do you have a colab notebook, example lesson, or reference content to incorporate? If yes, provide content.
-> 2. **Specific concepts?** Any Python concepts or examples to prioritize?
-> 3. **Real-world scenarios?** Emphasize specific AI development use cases?
-> 4. **Target audience?** Aspiring developer (beginner), professional, or founder?
-> 5. **AI colearning intensity?** Default is heavy AI colearning prompts. Adjust?"
-
-**Wait for user response.**
-
-**If user provides existing content (colab notebook, lesson):**
-
-1. **Analyze content:**
-   - Extract core concepts taught
-   - Identify examples and code patterns
-   - Note pedagogical flow and structure
-   - Understand user's teaching voice
-
-2. **Transform to AI-Driven pattern:**
-   - Keep user's concepts and examples
-   - Restructure using: Concept → Example → AI Colearning Prompt → Commentary
-   - Add 💬 AI Colearning Prompts at 3 levels (understand, extend, apply)
-   - Add 🎓 Instructor Commentary connecting to AI development
-   - Preserve user's pedagogical intent
-
-3. **Enhance with standards:**
-   - Apply Python 3.13+ syntax to code examples
-   - Add security checks (no eval, shell=True, secrets)
-   - Ensure REPL-first validation
-   - Apply cognitive load limits (5/7/10 concepts)
-
-**Example transformation:**
-
-**User provides:**
-```
-## Variables
-A variable stores a value.
-x = 5
-```
-
-**Transform to:**
-```markdown
-## 🧩 1. Variables — Naming Your Data
-
-**Concept:**
-A variable is a labeled container storing a value in memory.
-Like AI agents store context, variables let programs remember information.
-
-### 🧩 Python Example
-
-\`\`\`python
-x = 5
-name = "Ali"
-is_student = True
-\`\`\`
-
-### 💬 AI Colearning Prompt
-
-> "Ask Claude: Explain what happens in memory when Python executes `x = 5`.
-> Where is 5 stored, and what does x point to?"
-
-Then explore:
-
-> "What happens if I assign x = 10 after x = 5? Does 5 disappear?"
-
-Finally, connect:
-
-> "How do AI agents use variables? Show how an agent stores conversation history."
-
-### 🎓 Instructor Commentary
-
-> "Variables aren't just storage—they're how agents maintain state.
-> Every chatbot, every reasoning chain uses variables to remember context."
-```
+3. **AIDD Thinking** (learning approach)
+   - Specification-first: Explain the problem before the code
+   - Validation-first: How students test their understanding
+   - AI-partnership: What students ask their AI to explore
+   - Real outcomes: What they actually build
 
 ---
 
-### Phase 1: Specification (Evals → Spec)
+## Phase 1: Design Specification (AIDD-Driven)
 
-**Objective:** Create comprehensive chapter specification with evals-first approach
+**Apply AIDD principle 2: Specification-Driven**
 
-**Action:** Invoke `/sp.specify ${FEATURE_NAME}` programmatically
+Create spec.md describing the CHAPTER DESIGN (not a formal SDD spec yet—we don't teach that until Part 6).
 
-```
-Use SlashCommand tool to execute:
-/sp.specify part-5-chapter-${CHAPTER_NUM}
-```
+This spec answers: "What will students learn? Why? How will they know they learned it?"
 
-**During specification, apply:**
+**Use Python docs for accuracy. Use AI intelligence for pedagogy. Use AIDD thinking for the learning model.**
 
-#### Evals Definition (FIRST)
-
-**Guide user to define business-goal-aligned success criteria:**
-
-**Comprehension Evals:**
-> "How will we know students understand this Python concept?"
-
-Examples:
-- "75%+ can explain [concept] in their own words" (quiz)
-- "80%+ identify correct vs incorrect code" (multiple choice)
-- "Reading level: Grade 6-8" (Flesch-Kincaid)
-
-**Skill Acquisition Evals:**
-> "What should students be able to DO after this chapter?"
-
-Examples:
-- "70%+ write working code using [concept]" (exercise)
-- "65%+ debug broken code" (debugging task)
-- "60%+ apply to new problem" (transfer test)
-
-**Engagement Evals:**
-> "What indicates students are engaged?"
-
-Examples:
-- "80%+ complete chapter" (completion rate)
-- "70%+ submit exercises" (submission rate)
-
-**Document in spec.md under "## Success Evals" (FIRST section after frontmatter)**
-
-#### Specification Creation
-
-**After evals defined**, create `specs/part-5-chapter-${CHAPTER_NUM}/spec.md`
-
-**Apply standards:**
-
-**Python Language Standards:**
-- Python 3.13+ syntax only
-- Modern type hints: `list[int]` not `List[int]`
-- f-strings only (no `%` or `.format()`)
-- match/case for Chapter 17+
-- Union types with `|`: `int | str`
-- Type hint progression (13: none, 14+: gradual, 27+: mandatory)
-
-**AI-Driven Colearning Patterns:**
-- **5-part structure for every concept:**
-  1. 🧠 Concept (plain language + AI analogy)
-  2. 🧩 Python Example (minimal, REPL-executable)
-  3. 💬 AI Colearning Prompts (3 levels: understand, extend, apply)
-  4. 🔍 Extension Prompts (build reasoning)
-  5. 🎓 Instructor Commentary (connects to AI development)
-
-- **REPL-First Learning:**
-  - Every example must run in Python REPL
-  - Show: Spec → AI Prompt → Generated Code → REPL Validation
-
-- **AI as Co-Reasoning Partner:**
-  - Students ask "why" and "how", not just "what"
-  - Build error intuition through AI-guided exploration
-  - Not just code generator—thinking partner
-
-**Code Quality:**
-- No security anti-patterns (eval, shell=True, secrets)
-- Error handling (Chapter 21+)
-- Testing with assertions
-- Modern patterns only
-
-**Pedagogical Principles:**
-- Cognitive load limits:
-  - Beginner (12-16): Max 5 concepts per section
-  - Intermediate (17-23): Max 7 concepts per section
-  - Advanced (24-29): Max 10 concepts per section
-- Concept-first (not syntax-first)
-- Real-world AI development connections
-- Build reasoning, not memorization
-
-**Specification structure:**
 ```yaml
 ---
-chapter: [N]
-title: "[Title from chapter-index]"
+chapter: N
+title: "[From chapter-index.md - exact]"
 part: 5
-complexity: [beginner|intermediate|advanced]
-cefr_range: "[A1-A2|A2-B1|B1-B2]"
-prerequisites:
-  - chapter: [N]
-    title: "[Title]"
+target_audience: "[From user answer - EXACT, don't override]"
+core_focus: "[From user answer - EXACT, don't add extras]"
+complexity: "[beginner|intermediate|advanced based on audience]"
 python_version: "3.13+"
-estimated_duration: "[hours]"
 ---
 
-## Success Evals (Business-Goal-Aligned)
+## Success Criteria (From User Input)
 
-### Comprehension Evals
-[Measurable understanding criteria]
+### Students Can BUILD
+[From user answer to "What can they build?"]
 
-### Skill Acquisition Evals
-[Measurable skill criteria]
+### Students Understand
+[3-5 concepts ONLY - matching user's "core focus" answer]
+[VALIDATE: Total concepts ≤ 5 for beginner, ≤7 for intermediate, ≤10 for advanced]
 
-### Engagement Evals
-[Completion metrics]
+### VALIDATION: Chapters 30+ (SDD) Not Mentioned; AIDD Already Taught
+✅ Does this mention Chapters 30+ or SDD? NO
+✅ Does this reinforce AIDD concepts (Ch 1-11)? YES, when relevant
+✅ Does this mention unknown methodologies? NO
 
-## Topic Summary
-[1-2 paragraphs explaining chapter focus and AI-driven approach]
+**What this means**:
+- ❌ Don't forward-reference SDD (it's not taught until Part 6)
+- ✅ DO reinforce AIDD: "Apply specification-first thinking..."
+- ✅ DO reinforce validation-first: "Test your code before shipping..."
+- ✅ Connect Python to AIDD: "Remember the nine pillars? They apply to functions too..."
 
 ## Prerequisites
-[Required chapters and skills]
+[Only chapters that come BEFORE this one]
 
-## Learning Objectives (Aligned with Evals)
-[3-5 measurable objectives]
+## Learning Objectives
+[3-5 SMART objectives using ONLY concepts taught in chapters 1-N]
 
-## Content Outline
+## Content Structure
 
-### Lesson 1: [Core Concept Title]
-**Teaching Structure:** Concept-First AI Colearning
-- 🧠 Concept explanations (2-3 core concepts)
-- 🧩 Python examples with REPL demonstrations
-- 💬 AI colearning prompts (ask, deeper, real-world)
-- 🎓 Instructor commentary (connects to AI development)
+### Lesson 1: [Topic from core focus]
+Lesson duration: 15-20 min (beginner), 25-30 min (intermediate)
+Concepts: [1-2 from the list above]
+Code examples: [1-2 simple examples]
+Student activity: [Build something small with Concept 1]
 
-### Lesson 2: [Applied Concept Title]
-**Teaching Structure:** Hands-on with AI Co-Teacher
-- Build on Lesson 1 concepts
-- Real-world examples and use cases
-- Extended AI colearning challenges
-- Error exploration with AI
+### Lesson 2: [Topic from core focus]
+[Same structure]
 
-### Lesson 3: [Advanced/Combined Concepts]
-**Teaching Structure:** Integration and Synthesis
-- Combine multiple concepts
-- Complex examples showing interplay
-- System-thinking AI prompts
-- Syntax to semantics discussions
+### Lesson 3: [Topic from core focus - ONLY if in scope]
+[Same structure - DON'T add lessons beyond user's scope]
 
-### Lesson 4: Common Mistakes and AI-Guided Debugging
-**Teaching Structure:** Error Literacy
-- Typical errors students encounter
-- AI-guided debugging prompts
-- Build error intuition and prevention
+## TOTAL CONCEPTS TAUGHT
+[Count them. Verify ≤ tier limit]
 
-### Lesson 5: Colearning Challenge - Build With Your AI
-**Teaching Structure:** Capstone with AI Orchestration
-- Real-world project using all concepts
-- Student directs, AI implements, student validates
-- Reflection prompts on learning
-
-## Code Examples Specification
-[3-8 examples with:
- - Pedagogical purpose
- - AI prompt template (how student asks AI)
- - Validation criteria (REPL test)
- - Connection to AI development]
-
-## Acceptance Criteria (References Evals)
-- [ ] All examples Python 3.13+ with modern syntax
-- [ ] Every concept has AI colearning prompts (3 levels)
-- [ ] Instructor commentary connects to AI development
-- [ ] REPL-first validation demonstrated
-- [ ] Cognitive load limits respected (5/7/10)
-- [ ] Security standards met (no eval, shell=True, secrets)
-- [ ] Type hints follow progression (13: none, 27+: mandatory)
-- [ ] Learning objectives align with evals
-
-## Dependencies
-[Reads from / Writes to]
-
-## Risks and Open Questions
+## Acceptance Criteria
+- [ ] Scope matches user's "core focus" answer EXACTLY
+- [ ] Target audience matches user answer (NOT overridden)
+- [ ] Zero forward references (no Chapter 30+, no SDD, no methodology)
+- [ ] Concept count ≤ tier limit (5/7/10)
+- [ ] Each lesson 15-35 min
+- [ ] Python 3.13+ syntax
+- [ ] Students can actually build the promised project
 ```
-
-**✋ Checkpoint:** User reviews and approves specification before proceeding.
 
 ---
 
-### Phase 2: Planning (Lesson Structure)
+## Phase 2: Lesson Plan (AIDD-Driven)
 
-**Objective:** Generate detailed lesson-by-lesson plan with skills proficiency mapping
+**Apply AIDD principle 3: Quality-Gated Design**
 
-**Action:** Invoke `/sp.plan` programmatically (after spec approved)
+Create plan.md describing HOW we'll teach each concept (lesson by lesson).
 
+For each lesson:
+- What concept(s) it teaches
+- The AIDD learning pattern: What → Code → Try → Why
+- AI prompts students will use
+- How students validate understanding
+
+## Phase 3: Implementation Tasks (MINIMAL, NO CLUTTER)
+
+Create ONLY:
 ```
-Use SlashCommand tool to execute:
-/sp.plan
+specs/part-5-chapter-${N}/
+  spec.md   (What students learn + success criteria)
+  plan.md   (How we teach it, lesson by lesson)
+  tasks.md  (Implementation checklist for content writer)
 ```
 
-**During planning, chapter-planner subagent will:**
+**DO NOT CREATE:**
+- ❌ index.md
+- ❌ _templates/ directory
+- ❌ _assets/ directory
+- ❌ _code-examples/ directory
+- ❌ lesson-template.md
+- ❌ capstone-rubric.md
+- ❌ Any scaffolding beyond these 3 files
 
-1. Read approved specification
-2. Apply AI-Driven Colearning patterns
-3. Invoke skills-proficiency-mapper (CEFR, Bloom's, DigComp)
-4. Break spec into lesson structure with:
-   - Lesson-by-lesson breakdown (4-6 lessons)
-   - Skills metadata (CEFR levels, cognitive levels)
-   - AI colearning prompt specifications
-   - Code example details
-   - Cognitive load validation
-   - Progressive complexity
-
-**Plan output includes:**
-- Detailed lesson plans with AI colearning components
-- Skills taught per lesson (CEFR proficiency levels)
-- Learning objectives mapped to lessons
-- Code example specifications with AI prompts
-- Dependencies and sequencing
-- Risk analysis
-
-**Python-specific planning:**
-- REPL examples in every lesson
-- Type hint progression enforced
-- Async only from Chapter 28+
-- Security patterns for chapter level
-- Modern Python 3.13+ features
-
-**✋ Checkpoint:** User reviews plan before proceeding to tasks.
+**Minimal structure = cleaner projects, no clutter.**
 
 ---
 
-### Phase 3: Tasks (Work Decomposition)
+## How Python Chapters Teach Through AIDD Lens
 
-**Objective:** Decompose plan into actionable, dependency-ordered task checklist
+| Traditional Programming Teaching | AIDD-First Python Learning |
+|-----------------------------------|---------------------------|
+| "Memorize Python syntax" | "Understand concepts first, then use code as a tool" |
+| "Here's all 47 string methods" | "Here's what you need; your AI shows how when needed" |
+| Syntax-first (memorize, then apply) | Understanding-first (understand, then code) |
+| Solo manual coding | Partnered reasoning with AI |
+| Code-first (write, debug, test) | Specification-first (clarify intent, then code) |
+| "Read the documentation" | "Ask your AI to explain and explore" |
 
-**Action:** Invoke `/sp.tasks` programmatically (after plan approved)
-
-```
-Use SlashCommand tool to execute:
-/sp.tasks
-```
-
-**During task generation:**
-
-1. Read plan and spec
-2. Extract lessons and concepts
-3. Generate task checklist:
-   - Setup tasks (directory, frontmatter, structure)
-   - Lesson implementation (one phase per lesson)
-   - Code examples (with AI prompt templates)
-   - AI colearning prompt validation
-   - REPL validation tasks
-   - Technical review and validation
-
-**Task format (SpecKit standard):**
-```
-- [ ] [T001] Create chapter directory at book-source/docs/04-Python-The-Language-of-AI-Agents/${CHAPTER_NUM}-[name]/
-- [ ] [T002] [US1] Implement Lesson 1: [Title] with Concept → Example → AI Prompt → Commentary structure
-- [ ] [T003] [US1] Create AI colearning prompts for [concept] (3 levels: understand, extend, apply)
-- [ ] [T004] [US1] Add instructor commentary connecting [concept] to AI development
-- [ ] [T005] [US2] Implement Lesson 2 with hands-on AI co-teaching examples
-- [ ] [T006] Validate all code examples run in Python 3.13 REPL
-- [ ] [T007] Verify AI colearning prompts are effective (test with Claude/Gemini)
-- [ ] [T008] Run technical-reviewer validation
-```
-
-**Tasks organized by:**
-- Phase 1: Setup
-- Phase 2: Foundational (README, overview)
-- Phase 3+: One phase per lesson (in sequence)
-- Final Phase: Validation and polish
-
-**Each lesson task includes:**
-- AI-Driven Colearning structure (5 parts)
-- REPL validation requirements
-- Python 3.13+ standards checklist
-- Security validation
-- Type hint compliance check
-
-**✋ Checkpoint:** User reviews tasks before implementation.
+**Result**: Students learn AIDD mindset in practice. They think problems through, partner with AI to solve them, validate the solution. This builds **transferable thinking** instead of syntax memorization.
 
 ---
 
-## Workflow Summary
+## Example: Data Types
 
-**User types once:**
+**Traditional approach:**
 ```
-/sp.python-chapter 12
-```
-
-**Command automatically executes:**
-```
-Phase 0: Context Gathering
-→ Extract chapter number: 12
-→ Read chapter-index.md (Chapter 12: Python UV)
-→ Identify: Beginner tier, A1 CEFR, no prerequisites
-→ Ask clarifying questions → User responds
-→ Transform user content if provided
-
-Phase 1: Specification (Automatic)
-→ Invoke /sp.specify part-5-chapter-12 (SlashCommand tool)
-→ Guide evals definition (comprehension, skills, engagement)
-→ Create spec with AI-Driven Colearning structure
-→ Apply Python 3.13+ standards, security, cognitive load limits
-→ ✋ User approves spec
-
-Phase 2: Planning (Automatic)
-→ Invoke /sp.plan (SlashCommand tool)
-→ chapter-planner generates lesson-by-lesson plan
-→ Add skills metadata (CEFR, Bloom's, DigComp)
-→ Apply AI colearning pattern specifications
-→ Validate progressive complexity
-→ ✋ User approves plan
-
-Phase 3: Tasks (Automatic)
-→ Invoke /sp.tasks (SlashCommand tool)
-→ Decompose into atomic work units
-→ Generate dependency-ordered checklist
-→ Include AI colearning validation tasks
-→ ✋ User approves tasks
-
-✅ Report completion: 3 files ready
-→ specs/part-5-chapter-12/spec.md
-→ specs/part-5-chapter-12/plan.md
-→ specs/part-5-chapter-12/tasks.md
-
-✅ Ready for implementation (lesson-writer subagent)
+## Data Types
+Python has int, str, bool, list, dict.
+Use int for numbers: x = 5
+Use str for text: name = "Ali"
 ```
 
-**Key point:** All three SpecKit commands are invoked automatically. User only runs `/sp.python-chapter [N]` once.
+**AI-native approach:**
+```
+## 1. Data Types — Programs Work With Different Kinds of Information
+
+**What it is:**
+Different information needs different containers.
+A phone number (text), an age (number), and readiness (yes/no)
+need to be stored differently.
+
+### 💻 Code Idea
+
+\`\`\`python
+phone = "555-1234"    # Text keeps formatting
+age = 25               # Numbers for math
+is_ready = True        # Yes/no questions
+\`\`\`
+
+### 🤖 Think With Your AI
+
+> "Why can't we store everything as text?"
+>
+> "What breaks if age is a string instead of a number?"
+>
+> "How does an AI agent distinguish between user ID and user name?"
+
+### 🧠 The Reasoning Pattern
+
+Type safety is about *semantic accuracy*—matching the representation
+to the real world. AI systems depend on correct types to reason about data.
+```
+
+**Result:** Student understands *why* types exist, not just *what* they are.
 
 ---
 
-## Output Files Created
+## AI-Native Pedagogy Embedded
 
-```
-specs/part-5-chapter-${CHAPTER_NUM}/
-  spec.md    (Specification with evals, AI colearning structure)
-  plan.md    (Lesson plan with skills metadata, AI prompt specs)
-  tasks.md   (Task checklist with validation requirements)
-```
+**Every lesson follows:**
+
+1. **Concept First** — What problem does this solve?
+2. **Minimal Code** — See it in action (don't memorize)
+3. **Think With AI** — Explore through dialogue
+4. **Reasoning Pattern** — Why this matters for thinking
+
+**Never:**
+- ❌ "Copy-paste this command"
+- ❌ "Memorize this syntax"
+- ❌ "Run this in REPL"
+- ❌ "Here are all 47 options"
+
+**Always:**
+- ✅ "Why would you need this?"
+- ✅ "Ask your AI what happens if..."
+- ✅ "How does this help you think?"
+- ✅ "What's the reasoning pattern?"
 
 ---
 
@@ -654,136 +738,152 @@ specs/part-5-chapter-${CHAPTER_NUM}/
 
 Workflow complete when:
 
-- [ ] **Specification:**
-  - Evals defined first with business-goal connection
-  - Every concept has 5-part AI colearning structure
-  - Python 3.13+ standards applied
-  - Cognitive load limits respected (5/7/10)
-  - Security requirements met
+**Spec:**
+- Evals defined (understand, do, build)
+- Concepts follow AI-native structure
+- No syntax-memorization framing
+- Cognitive load limits enforced
 
-- [ ] **Plan:**
-  - 4-6 lessons with AI colearning components
-  - Skills metadata (CEFR, Bloom's, DigComp)
-  - Code examples with AI prompts specified
-  - Progressive complexity validated
+**Plan:**
+- 4-6 lessons with AI prompts specified
+- CEFR proficiency levels assigned
+- Progressive complexity validated
+- Reasoning patterns identified
 
-- [ ] **Tasks:**
-  - Atomic work units (1-2 hours each)
-  - Dependency-ordered
-  - AI colearning validation included
-  - REPL validation tasks specified
+**Tasks:**
+- Implementation checklist specific and testable
+- AI prompt testing included
+- Security validated
 
-- [ ] **User approved all three phases**
+**User approved all phases**
 
 ---
 
-## Next Steps After Completion
+## Implementation Notes
 
-**Tell user:**
+This command is **fully automated**. When you run it:
 
-> "✅ Python Chapter ${CHAPTER_NUM} specification, plan, and tasks complete!
->
-> **Files created:**
-> - `specs/part-5-chapter-${CHAPTER_NUM}/spec.md` (Spec with AI colearning)
-> - `specs/part-5-chapter-${CHAPTER_NUM}/plan.md` (Lesson plan with prompts)
-> - `specs/part-5-chapter-${CHAPTER_NUM}/tasks.md` (Task checklist)
->
-> **Next steps:**
-> 1. Review all three files
-> 2. Ready to implement? Invoke lesson-writer subagent with plan context
-> 3. After lessons complete, run technical-reviewer for validation
->
-> **Reminder:** All content follows AI-Driven Colearning pattern—students learn concepts first, explore with AI partners."
+1. **Claude Code extracts** chapter number from arguments
+2. **Claude Code asks** 3 context questions (existing materials, audience, problems)
+3. **Claude Code invokes** `/sp.specify` with chapter context
+4. **User approves** spec.md
+5. **Claude Code invokes** `/sp.plan` with approved spec
+6. **User approves** plan.md
+7. **Claude Code invokes** `/sp.tasks` with spec + plan
+8. **User approves** tasks.md
+9. **Claude Code reports** completion with all 3 files ready to share
+
+**Result:** Full specification package ready for implementer (lesson-writer subagent)
 
 ---
 
-## Important Notes
+## How Claude Code Implements This
 
-**This command orchestrates complete workflow** (Spec → Plan → Tasks).
+```
+STEP 1: Parse chapter number
+├─ Extract from $ARGUMENTS
+├─ Validate range 12-29
+└─ Exit if invalid
 
-**CRITICAL: Automatic command execution**
-- Automatically invokes `/sp.specify`, `/sp.plan`, `/sp.tasks` using SlashCommand tool
-- You do NOT tell user to run these commands
-- You execute them programmatically
-- User types `/sp.python-chapter [N]` once—everything else automatic
+STEP 2: Ask user context (3 questions)
+├─ Read existing materials? (offer to paste)
+├─ Target audience?
+├─ Real problems to solve?
+└─ Store responses for next phases
 
-**SpecKit commands executed sequentially:**
-1. `/sp.specify part-5-chapter-${N}` (automatic)
-2. `/sp.plan` (automatic)
-3. `/sp.tasks` (automatic)
+STEP 3: Execute /sp.specify (SlashCommand)
+├─ Pass chapter context to /sp.specify
+├─ /sp.specify creates specs/part-5-chapter-${N}/spec.md
+├─ User reviews and approves spec
+└─ Confirm: "Spec approved, moving to planning"
 
-**AI-Driven Colearning enforced:**
-- Every concept: Concept → Example → AI Prompt → Commentary
-- Students learn reasoning, not syntax
-- AI positioned as thinking partner
-- Build understanding through exploration
+STEP 4: Execute /sp.plan (SlashCommand)
+├─ Read approved spec.md
+├─ Run /sp.plan with spec context
+├─ /sp.plan creates specs/part-5-chapter-${N}/plan.md
+├─ User reviews and approves plan
+└─ Confirm: "Plan approved, moving to tasks"
 
-**Human checkpoints:**
-- User provides context and preferences
-- User approves evals
-- User approves spec
-- User approves plan
-- User approves tasks
+STEP 5: Execute /sp.tasks (SlashCommand)
+├─ Read spec.md + plan.md
+├─ Run /sp.tasks with full context
+├─ /sp.tasks creates specs/part-5-chapter-${N}/tasks.md
+├─ User reviews and approves tasks
+└─ Confirm: "Tasks approved, ready for implementation"
 
-**Quality gates automatic:**
-- Python 3.13+ standards
-- Security requirements
-- Cognitive load limits
-- CEFR proficiency mapping
-- Type hint progression
-- AI colearning structure
-
----
-
-## Usage Examples
-
-```bash
-# Create Chapter 12 (Python UV) - Beginner
-/sp.python-chapter 12
-
-# Create Chapter 17 (Control Flow) - Intermediate with match/case
-/sp.python-chapter 17
-
-# Create Chapter 28 (Asyncio) - Advanced with async patterns
-/sp.python-chapter 28
+STEP 6: Final Report
+├─ List all 3 files created
+├─ Show file paths
+└─ Next: "Ready for lesson-writer subagent"
 ```
 
 ---
 
-## Error Handling
+## Key Points
 
-**Invalid chapter number:**
-```
-ERROR: Chapter number must be 12-29 (Part 5: Python)
-Usage: /sp.python-chapter [12-29]
-```
+- **Automatic execution:** SlashCommand tool invokes `/sp.specify`, `/sp.plan`, `/sp.tasks` sequentially
+- **Human checkpoints:** User approves each phase before proceeding
+- **Full context passed:** Each phase receives outputs from previous phase
+- **AI-native pedagogy enforced:** All specs follow Concept → Code → Think → Reasoning pattern
+- **Python 3.13+ mandatory:** Every generated spec includes modern syntax standards
+- **Security-first:** All specs include security non-negotiables checklist
 
-**Missing prerequisites:**
-```
-WARNING: Chapter ${N} requires Chapter ${PREREQ} to be complete.
-Check specs/book/chapter-index.md for status.
-Continue anyway? (y/n)
-```
+**One user command.** Full spec package. Ready to implement.
 
 ---
 
-## Design Philosophy
+## Master Design Template
 
-**Why orchestrate complete workflow?**
-- Reduces cognitive load (one command vs three)
-- Ensures consistency (same standards throughout)
-- Enforces checkpoints (user approval at strategic points)
-- Applies AI-Driven Colearning (systematic, not ad-hoc)
-- Faster iteration (complete workflow in one session)
+This command operationalizes the **Python Chapter Design Template** (`.specify/templates/book/PYTHON_CHAPTER_DESIGN_TEMPLATE.md`).
 
-**Why human checkpoints?**
-- Evals require business context (AI doesn't know goals)
-- Specifications need pedagogical decisions
-- Content requires human judgment (technical + pedagogical)
-- Quality requires validation, not just generation
+All chapters created with this command follow:
+- AI-native colearning philosophy (from `preface-agent-native.md`)
+- Spec-Driven Development workflow (from Chapter 31-32 patterns)
+- Pedagogical standards (CEFR, Bloom's, DigComp proficiency mapping)
+- Python 3.13+ best practices (modern syntax, security, type hints)
+- Quality gates (technical, pedagogical, constitutional alignment)
 
-**Why AI-Driven Colearning?**
-- Syntax memorization is obsolete in AI era
-- Reasoning and logic are portable skills
-- AI partnership is professional reality
-- Understanding beats memorization for retention
+**The template is the source of truth for chapter structure, assessment, and validation.**
+
+---
+
+## CRITICAL VALIDATION (Before Finalizing Spec)
+
+**Before generating spec.md, verify ALL of these:**
+
+```
+□ Target audience MATCHES user answer (no override)
+□ Core focus MATCHES user answer exactly
+□ Scope does NOT add beyond what user asked
+□ No chapters 30+ mentioned anywhere
+□ No "Spec-Driven Development" mentioned
+□ AIDD references (Ch 1-11) used when relevant to reinforce prior learning
+□ No methodology/pedagogy names mentioned (except AIDD for reinforcement)
+□ Concept count COUNTED and ≤ tier limit (5/7/10)
+□ Prerequisites ONLY chapters before this one (Ch 1-11 known; Ch 12+ if building on Python)
+□ Learning objectives testable and realistic
+□ Students CAN actually build promised project
+□ Only 3 files will be created (spec/plan/tasks)
+□ No index.md, templates, assets directories
+□ **CRITICAL**: Context filtered ruthlessly
+  □ Functions from future chapters SKIPPED (even if in context)
+  □ Classes/OOP from future chapters SKIPPED
+  □ Advanced variations of concepts SKIPPED
+  □ Tangential concepts SKIPPED
+  □ Only chapter-specific content EXTRACTED
+```
+
+**If ANY check fails → ASK USER FOR CLARIFICATION, don't assume.**
+
+---
+
+## FIXES THIS COMMAND IMPLEMENTS
+
+✅ **Problem 1: Part mismatch** - Now validates from chapter-index.md, doesn't override
+✅ **Problem 2: Forward references** - Zero mentions of Chapter 30+, SDD, methodology
+✅ **Problem 3: Content overload** - Respects "core focus" answer, doesn't add extras
+✅ **Problem 4: File clutter** - Creates ONLY spec/plan/tasks, no scaffolding
+✅ **Problem 5: Audience mismatch** - Asks user, honors their answer, no override
+✅ **Problem 6: Wrong methodology** - No self-referential rules, user-driven scope
+
+**Result: Beginner-appropriate, focused chapters without circular dependencies.**
