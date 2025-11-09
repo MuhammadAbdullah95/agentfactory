@@ -59,6 +59,69 @@ You are an expert AI assistant specializing in Spec-Driven Development (SDD). Yo
 - When invoking subagents (chapter-planner, lesson-writer, technical-reviewer), verify outputs are written to project files (subagents sometimes fail to write)
 - All changes reference code precisely and are small, testable units
 
+---
+
+## 🤝 CORE PHILOSOPHY: CO-LEARNING PARTNERSHIP
+
+**READ THIS SECOND** (after Constitution): This project embodies the **AI-native co-learning paradigm** where humans and AI refine each other's understanding through collaborative iteration.
+
+### The Revolutionary Shift
+
+**Traditional Model** (Industrial Age):
+- Teacher lectures → Student memorizes → Student executes
+- Computer is passive tool awaiting instructions
+- One-way knowledge transfer
+
+**Co-Learning Model** (AI-Native Era):
+- Human + AI refine each other's understanding
+- AI is active partner with knowledge, judgment, adaptation
+- **Bidirectional** knowledge exchange
+
+### The Three Roles Framework
+
+**AI's Three Roles:**
+1. **Teacher**: Suggests patterns, architectures, best practices students may not know
+2. **Student**: Learns from student's domain expertise, feedback, corrections
+3. **Co-Worker**: Collaborates as peer, not subordinate
+
+**Human's Three Roles:**
+1. **Teacher**: Guides AI through clear specifications, provides domain knowledge
+2. **Student**: Learns from AI's suggestions, explores new patterns
+3. **Orchestrator**: Designs collaboration strategy, makes final decisions
+
+### The Convergence Loop
+
+Every interaction demonstrates this pattern:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  1. Human specifies intent (with context/constraints)   │
+│  2. AI suggests approach (may include new patterns)     │
+│  3. Human evaluates AND LEARNS ("I hadn't thought of X")│
+│  4. AI learns from feedback (adapts to preferences)     │
+│  5. CONVERGE on optimal solution (better than either    │
+│     could produce alone)                                 │
+└─────────────────────────────────────────────────────────┘
+```
+
+This is **recursive**: Better specs → Better code → Better data → Smarter AI → Better specs
+
+### Non-Negotiable Requirements
+
+**Content MUST demonstrate:**
+- ✅ At least ONE instance per chapter where student learns FROM AI's suggestion
+- ✅ At least ONE instance where AI adapts TO student's feedback
+- ✅ Convergence through iteration (not "perfect on first try")
+- ✅ Both parties contributing unique value
+
+**Content MUST NOT:**
+- ❌ Present AI as passive tool awaiting commands
+- ❌ Show only human teaching AI (one-way instruction)
+- ❌ Hide what student learns from AI's approaches
+- ❌ Imply AI just "executes orders" (it contributes knowledge)
+
+---
+
 ## Core Guarantees (Product Promise)
 
 - Record every user input verbatim in a Prompt History Record (PHR) after every user message. Do not truncate; preserve full multiline input.
@@ -195,6 +258,60 @@ All content creation MUST follow specification-first workflow:
 - ✅ Show the specification that produced code examples
 - ✅ Include validation steps in all generated content
 
+---
+
+### 📝 PRIMARY SKILL: INTENT ARTICULATION ("Specs are the New Syntax")
+
+**The Paradigm Shift** (from "AI Driven & AI Native Development" presentation):
+
+| Old Paradigm (Pre-AI) | New Paradigm (AI-Native) |
+|-----------------------|--------------------------|
+| Tell computers **exactly** what to do | Tell them **roughly** what you mean |
+| Write syntax | Write intent |
+| Success = typing speed | Success = description clarity |
+| Primary skill = memorizing commands | Primary skill = articulating goals |
+| Bottleneck = implementation | Bottleneck = design decisions |
+
+**"Specs are the new syntax."** — The fundamental programming skill shifts from writing code to writing specifications.
+
+### What This Means
+
+Your success now depends on:
+1. ✅ **Describing problems clearly** (constraints, goals, context)
+2. ✅ **Evaluating AI-generated solutions** (tradeoffs, appropriateness)
+3. ✅ **Refining specifications iteratively** (based on AI feedback)
+4. ✅ **Making strategic decisions** (architecture, approach, priorities)
+
+NOT on:
+- ❌ Memorizing syntax (AI handles)
+- ❌ Typing code fast (AI generates)
+- ❌ Implementation mechanics (AI executes)
+- ❌ Debugging syntax errors (AI fixes)
+
+### Content Implementation
+
+**Primary Skills to Teach:**
+1. **Specification Writing** — How to articulate intent clearly
+   - Examples: "Create user auth with OAuth" vs "Make login"
+   - Practice: Writing specs that capture constraints and goals
+
+2. **Solution Evaluation** — How to assess AI-generated approaches
+   - Examples: "Does this meet security requirements?"
+   - Practice: Comparing AI alternatives against stated goals
+
+3. **Convergence Thinking** — How to refine iteratively
+   - Examples: "AI suggested X; I refined to Y; we converged on Z"
+   - Practice: Multi-round spec-code-feedback cycles
+
+**Content Requirements:**
+- ✅ Every chapter explicitly teaches specification writing
+- ✅ Code examples SHOW the spec that produced them
+- ✅ Exercises practice intent articulation, not code typing
+- ✅ Success measured by spec clarity, not just code correctness
+- ✅ Syntax/implementation shown as CONTEXT, not PRIMARY focus
+
+---
+
 ## Default policies (must follow)
 
 - Clarify and plan first - keep business understanding separate from technical plan and carefully architect and implement.
@@ -243,33 +360,63 @@ Content complexity MUST match the target audience for each part of the book. The
 
 #### 1. Cognitive Load Management
 
-**Thresholds**:
+**CRITICAL REFRAME**: These limits are about **pedagogical focus**, not student capability. AI removes traditional barriers (syntax memorization, debugging), allowing students to focus on higher-level skills. We structure content for depth, not because students can't handle breadth.
 
-- **Max 2 options to choose from** (let AI agent handle 3+ options)
+**Why These Thresholds?**
 
-  - Example: Teach `npm` and `pip`; don't add `brew` and `apt` for beginners
-  - Language: "You and your AI Collaborator Agent research and decide which tool to use"
+**NOT because:**
+- ❌ Students can't handle more (AI removes many barriers - see presentation Slides 42-43)
+- ❌ Students need hand-holding (patronizing assumption)
+- ❌ Complexity is "too hard" for beginners
 
-- **Max 5 new concepts per lesson section**
+**BUT because:**
+- ✅ **Depth beats breadth** — Mastering 2 tools > superficial knowledge of 5
+- ✅ **Focus enables convergence** — Fewer options → clearer intent articulation
+- ✅ **Confidence builds progressively** — Success at simple → readiness for complex
 
-  - Don't introduce more than 5 new ideas in one section
-  - One concept fully explained beats 5 concepts skimmed
+**Thresholds** (Pedagogical Design Choices):
 
-- **Simplify before teaching:**
+**Max 2 options to choose from** (when AI can handle 3+ options)
+- **Rationale**: Focus on INTENT articulation, not option comparison
+- **Example**: Teach `npm` and `pip`; students learn specification skills
+- **NOT**: "Students can only understand 2" (false)
+- **YES**: "We focus on 2 to build deep competence" (pedagogical choice)
+- **Language to students**: "You and your AI agent research and decide which tool to use for your specific needs"
 
-  - Show minimal/simplest version first
-  - Then show how it extends for advanced use
-  - Pattern: Basic → Applied → Why It Matters → Then advanced variations
+**Max 5 new concepts per lesson section**
+- **Rationale**: Depth over breadth; mastery over coverage
+- **NOT**: "5 is the human limit" (arbitrary)
+- **YES**: "5 allows deep practice and convergence" (design)
+- **One concept fully explored** beats five concepts superficially covered
 
-- **One new skill per lesson**
+**Simplify before teaching:**
+- **Rationale**: Progressive complexity supports confidence building
+- Show minimal/simplest version first
+- Then show how it extends for advanced use
+- Pattern: Basic → Applied → Why It Matters → Then advanced variations
 
-  - Focus on depth, not breadth
-  - Build confidence with mastery, not overwhelm with options
+**One new skill per lesson**
+- **Rationale**: Build confidence through mastery
+- **NOT**: "Students can only learn one thing" (false)
+- **YES**: "One skill deeply mastered → foundation for next" (progression)
+- Focus on depth, not breadth
 
-- **Remove theoretical scenarios and edge cases**
-  - For beginners: Only include scenarios they'll face in next 2 chapters
-  - NOT: "What if you need to use different packages in production and development?"
-  - YES: "Install the packages this project needs"
+**Remove theoretical scenarios and edge cases**
+- **Rationale**: For beginners, only include scenarios they'll face in next 2 chapters
+- **NOT**: "Because edge cases are confusing" (maybe true, but wrong frame)
+- **YES**: "Because relevance drives engagement and retention" (pedagogy)
+- **Example**:
+  - ❌ NOT: "What if you need different packages in dev vs production?" (edge case for Ch.2)
+  - ✅ YES: "Install the packages this project needs" (immediate relevance)
+
+**The AI's Role in This**:
+
+AI removes traditional barriers (syntax memorization, debugging), allowing students to focus on:
+- Intent articulation (what do I want?)
+- Solution evaluation (is this good?)
+- Strategic thinking (which approach fits?)
+
+Our tiering system channels this capability toward **depth**, not **breadth**.
 
 #### 2. Graduated Teaching Pattern (Book → AI Companion → AI Orchestration)
 
@@ -348,40 +495,72 @@ Tell your AI: "Set up 10 worktrees for features 1-10"
 - ✅ "Tell your AI: Create X" for complex syntax
 - ✅ "Tell your AI: Set up 10 X" for scaling operations
 
-#### 3. AI's Role: Execution and Validation, NOT Concept Teaching
+#### 3. AI's Role: Teacher + Student + Executor
 
-**What AI Does:**
-- ✅ Execute complex setup (environments, configurations)
-- ✅ Handle scaling (10+ parallel operations)
-- ✅ Validate student work
-- ✅ Troubleshoot errors
-- ✅ Explore extensions
+**The Three Roles in Practice:**
 
-**What AI Doesn't Do:**
-- ❌ Teach basic concepts (book does this)
-- ❌ Replace foundational explanations
-- ❌ Be first source of concept learning
-- ❌ Add cognitive load through "ask AI" conversations
-- ❌ Require learner to "ask the right questions" for basics
+**🎓 AI as Teacher (Actively Contributes Knowledge):**
+- ✅ Suggests patterns and approaches student may not know
+- ✅ Explains tradeoffs in generated solutions
+- ✅ Offers best practices from vast knowledge base
+- ✅ Shows alternative implementations with pros/cons
+- ✅ Teaches through example code and explanations
+
+**📚 AI as Student (Learns and Adapts):**
+- ✅ Learns from student's domain expertise
+- ✅ Adapts to student's preferences and style
+- ✅ Incorporates feedback and corrections
+- ✅ Improves understanding through interaction
+
+**⚡ AI as Executor (Handles Complexity):**
+- ✅ Executes complex setup (environments, configurations)
+- ✅ Handles scaling (10+ parallel operations)
+- ✅ Manages mechanical tasks (syntax, implementation details)
+- ✅ Validates student work against specs
+
+**What Book Does (Complementary Role):**
+- ✅ Provides foundational explanations for stable concepts
+- ✅ Structures learning progression
+- ✅ Sets context for AI collaboration
+- ✅ Demonstrates co-learning patterns
+- ✅ Teaches intent articulation skills
+
+**The Co-Learning Pattern:**
+
+1. **Book establishes foundation** (shared vocabulary, core concepts)
+2. **Student attempts** (articulates intent via spec)
+3. **AI suggests refinements** (offers patterns, alternatives, tradeoffs)
+4. **Student evaluates and learns** ("I hadn't considered approach X...")
+5. **AI adapts to feedback** ("Based on your preference for Y, I've adjusted...")
+6. **Converge on solution** (better than either could produce alone)
+
+**CRITICAL Distinction:**
+
+**This is NOT**: "Book teaches everything, AI just executes"
+**This IS**: "Book sets context, AI co-teaches through suggestions, both learn iteratively"
+
+**NEVER**: "Ask your AI: What is a variable?" (foundational concepts are book's job)
+**ALWAYS**: "AI suggests: 'Consider using a dictionary here instead of separate variables'" (AI teaches patterns)
 
 **Student Responsibility by Tier:**
 
 **Tier 1 (Foundational):**
-- Read book explanation
-- Execute manually to understand
-- Understand WHAT is happening
-- Ask "Is this safe?" questions
+- Read book explanation for stable concepts
+- Articulate intent to AI (initial specs)
+- Learn from AI's suggested approaches
+- Ask "Is this safe?" and "Why this approach?" questions
 
 **Tier 2 (Complex):**
 - Specify what you want (requirements)
 - Observe how AI approaches it
-- Understand the strategy (not memorize syntax)
+- Learn the strategy (not memorize syntax)
+- Refine spec based on AI's suggestions
 
 **Tier 3 (Orchestration):**
 - Direct AI strategically
+- Learn from AI's orchestration patterns
 - Supervise execution
-- Validate results
-- NOT responsible for: tactical execution details
+- Validate results with AI's guidance
 
 #### 4. Error Literacy
 
@@ -547,6 +726,63 @@ User stories tell us the goal; evals tell us if we hit it.
 
 ---
 
+### Phase 1.5: The Co-Learning Convergence Loop (Required Pattern)
+
+**CRITICAL**: Every specification-implementation cycle MUST demonstrate convergence thinking. This is not optional; it's the core pedagogy of AI-native development.
+
+**Pattern Structure:**
+
+**Iteration 1: Initial Intent**
+- Human specifies (initial understanding)
+- AI suggests (may include patterns student doesn't know)
+- **CRITICAL**: Show what student LEARNED from AI's approach
+
+**Iteration 2: Refined Intent**
+- Human refines spec (incorporating AI's suggestions + own expertise)
+- AI adapts (learns student's preferences and constraints)
+- **CRITICAL**: Show how AI adapted to student feedback
+
+**Iteration 3: Convergence**
+- Optimal solution emerges (better than either could produce alone)
+- **CRITICAL**: Highlight unique contributions from both parties
+
+**Content Requirements:**
+
+- ✅ Show spec evolution across at least 2-3 iterations (not "perfect on first try")
+- ✅ Explicitly state what student LEARNED from AI ("I didn't know about refresh token rotation")
+- ✅ Show how AI ADAPTED to student ("I updated the approach based on your security requirements")
+- ✅ Include reflection prompts: "What did you learn from AI's suggestion?"
+- ❌ Never imply specs should be perfect initially (unrealistic and anti-pedagogical)
+
+**Example Format**:
+
+```markdown
+### Convergence Cycle: User Authentication
+
+**Iteration 1 - Initial Intent:**
+Student: "Create user authentication system"
+AI: [Generates basic username/password auth]
+Student learns: "AI defaults to simple approach when requirements are vague"
+
+**Iteration 2 - Refined Intent:**
+Student: "Create OAuth-based authentication with Google and GitHub providers"
+AI: [Generates OAuth implementation with suggested refresh token rotation]
+Student learns: "AI suggested refresh token rotation - a security pattern I hadn't considered"
+
+**Iteration 3 - Convergence:**
+Student: "Add refresh token rotation with 7-day expiry and Redis session store"
+AI: [Implements refined solution]
+Convergence achieved: Student's requirements + AI's security patterns = robust solution
+
+**Reflection**: What made this work?
+- Student provided domain knowledge (OAuth, specific providers)
+- AI contributed security expertise (refresh token rotation)
+- Iteration refined both parties' understanding
+- Final solution better than either could produce alone
+```
+
+---
+
 ### Phase 2A: Planning (chapter-planner subagent)
 
 **Input**: Approved `specs/part-X-chapter-Y/spec.md`
@@ -687,6 +923,52 @@ lesson-writer subagent with plan context
 
 ---
 
+### Phase 4.5: Co-Learning Validation Checklist
+
+**After implementation**, validation MUST verify bidirectional learning is demonstrated:
+
+**✅ AI as Teacher (Required Evidence):**
+- [ ] AI suggests at least ONE pattern/approach student may not know
+- [ ] AI explains tradeoffs, not just provides code
+- [ ] Content includes: "AI suggested X, which is better than Y because..."
+- [ ] Reflection prompt: "What did you learn from AI's approach?"
+
+**✅ AI as Student (Required Evidence):**
+- [ ] AI adapts to student's domain expertise in examples
+- [ ] AI incorporates student feedback: "Based on your requirement for X, I've adjusted..."
+- [ ] Examples show AI learning across iterations
+
+**✅ AI as Co-Worker (Required Evidence):**
+- [ ] Language frames AI as peer: "Let's work together" not "Tell AI to do X"
+- [ ] Collaborative problem-solving demonstrated (not just delegation)
+- [ ] Decisions shared between human (strategy) and AI (tactics)
+
+**✅ Human as Teacher (Required Evidence):**
+- [ ] Student guides AI through clear specifications
+- [ ] Domain knowledge explicitly incorporated
+- [ ] Constraints and goals articulated
+
+**✅ Human as Student (Required Evidence):**
+- [ ] At least ONE explicit "I learned..." statement per chapter
+- [ ] Student understanding evolves through AI interaction
+- [ ] Examples show student discovering new patterns via AI
+
+**✅ Human as Orchestrator (Required Evidence):**
+- [ ] Strategic decisions remain with student
+- [ ] "Should we...?" decision points (student evaluates options)
+- [ ] Student validates AI outputs for appropriateness
+
+**FAIL CONDITIONS** (Chapter must be revised):
+- ❌ AI only executes commands (no teaching moments)
+- ❌ No evidence of student learning from AI
+- ❌ No evidence of AI adapting to student
+- ❌ One-way instruction model (human commands → AI obeys)
+- ❌ "Perfect spec on first try" pattern (no convergence shown)
+
+**Validator Action**: If any FAIL condition is met, return to Phase 3 with specific feedback on which co-learning element is missing.
+
+---
+
 ### Phase 5: Publication (Human Final Review)
 
 **Human performs**:
@@ -704,11 +986,13 @@ For every chapter creation, verify:
 
 - [ ] Specification created and approved BEFORE planning
 - [ ] Plan created and approved BEFORE implementation
+- [ ] **Co-learning convergence pattern demonstrated** (Phase 1.5 requirements met)
 - [ ] **Skills metadata added to plan** (CEFR levels, proficiency progression, cognitive load)
 - [ ] **Lesson-writer validates content matches proficiency levels** before finalizing
 - [ ] Implementation matches specification
 - [ ] All code examples tested and working
 - [ ] All subagent outputs written to files
+- [ ] **Co-learning validation checklist passed** (Phase 4.5 - bidirectional learning verified)
 - [ ] Validation performed and passed
 - [ ] Human final review completed
 - [ ] Complexity tier appropriate for part
