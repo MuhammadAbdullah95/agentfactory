@@ -8,7 +8,6 @@ description: |
   automatic batch shuffling on retake, no passing/failing threshold, color-coded feedback,
   theme support. Globally-registered Quiz component handles all UI/UX.
   Follows ##_chapter_##_quiz.md naming convention.
-allowed-tools: [Read, Bash, Write, Glob]
 version: 4.0.0
 ---
 
@@ -16,9 +15,9 @@ version: 4.0.0
 
 **Version:** 4.0.0 | **Alignment:** Constitution v3.0.0, Principle 1 (AI-First Teaching) | **KEY FEATURES:** 50 total questions, 15-20 displayed per batch, immediate feedback per question, randomized batching on retake, no pass/fail threshold
 
-**Quiz Component Location:** `book-source/src/components/quiz/Quiz.tsx` (globally registered—no imports needed)
-**Usage Reference:** `book-source/src/components/quiz/QUIZ_USAGE.md` (example structure + best practices)
-
+**Quiz Component Location:** `book-source/src/components/Quiz.tsx` (globally registered—no imports needed)
+**Usage Reference:** `book-source/src/components/QUIZ_USAGE.md` (example structure + best practices)
+**Example Quiz:** `book-source/src/components/references/example-quiz.md` (full working example with all patterns)
 
 ---
 
@@ -67,92 +66,13 @@ Activate this skill when:
 1. Use Quiz component (NEVER static markdown)
 2. Generate 50 total questions (comprehensive chapter coverage)
 3. Component displays 15-20 per batch (randomized each retake)
-4. Randomize correctOption indices evenly across 0-3 using **pre-made distribution lists** (see below)
+4. Randomize correctOption indices evenly across 0-3
 5. Explanations MUST address why wrong answers are incorrect
 6. NO passing score threshold—just score tracking
 7. Immediate feedback shown after each answer
 8. **🚨 CRITICAL: ALL options within ±3 words of each other per question** (prevents test-takers from guessing by selecting longest/shortest option)
 9. **🚨 MANDATORY VALIDATION: Manually count words for EVERY option in EVERY question (all 50 questions)** before submitting quiz
 10. **🚨 CRITICAL: Verify correct answer is NOT correlated with option length** (longest option must NOT be more frequently correct)
-
----
-
-## Pre-Made Correct Option Distribution Lists (MANDATORY)
-
-**🚨 CRITICAL: Use ONLY these pre-made sequences. NEVER try to generate random sequences.**
-
-All sequences below are pre-verified with exactly 12-13 correct answers per index (0-3).
-
-**To use:**
-1. Select ONE sequence from below (any of A-H)
-2. Map each question's correctOption to the corresponding index in your selected sequence
-3. For Question 1: use first index in sequence
-4. For Question 2: use second index in sequence
-5. Continue for all 50 questions
-
-**Example with OPTION C:**
-Sequence: `3,2,1,0,3,2,1,0,...`
-- Q1 correctOption: 3 (position D)
-- Q2 correctOption: 2 (position C)
-- Q3 correctOption: 1 (position B)
-- Q4 correctOption: 0 (position A)
-- Q5 correctOption: 3 (position D)
-- ... continue pattern
-
-### Distribution Sequences (Pre-Made, Pre-Verified)
-
-**OPTION A (Distribution: 13 Index-0, 13 Index-1, 12 Index-2, 12 Index-3)**
-```
-2,0,3,1,2,0,1,3,2,0,1,3,0,2,1,3,2,0,1,3,0,2,3,1,0,2,3,1,2,0,3,1,2,0,1,3,0,2,3,1,2,0,3,1,0,2,1,3,0,2
-```
-
-**OPTION B (Distribution: 12 Index-0, 13 Index-1, 13 Index-2, 12 Index-3)**
-```
-1,3,0,2,1,3,0,2,3,1,0,2,3,1,2,0,1,3,2,0,3,1,2,0,1,3,0,2,1,3,2,0,3,1,0,2,3,1,2,0,1,3,0,2,1,0,3,2,1,3
-```
-
-**OPTION C (Distribution: 12 Index-0, 12 Index-1, 13 Index-2, 13 Index-3)**
-```
-3,2,1,0,3,2,1,0,2,3,0,1,3,2,0,1,2,3,1,0,3,2,0,1,2,3,1,0,3,2,1,0,2,3,0,1,3,2,1,0,2,3,0,1,3,2,0,1,3,2
-```
-
-**OPTION D (Distribution: 13 Index-0, 12 Index-1, 12 Index-2, 13 Index-3)**
-```
-0,3,2,1,0,3,2,1,3,0,2,1,0,3,1,2,0,3,2,1,0,3,1,2,3,0,1,2,0,3,2,1,3,0,1,2,0,3,1,2,3,0,2,1,0,3,1,2,3,0
-```
-
-**OPTION E (Distribution: 12 Index-0, 13 Index-1, 12 Index-2, 13 Index-3)**
-```
-1,2,3,0,1,2,3,0,2,1,3,0,1,2,0,3,1,2,3,0,1,2,0,3,2,1,3,0,1,2,3,0,2,1,0,3,1,2,3,0,2,1,0,3,2,1,3,0,1,2
-```
-
-**OPTION F (Distribution: 13 Index-0, 12 Index-1, 13 Index-2, 12 Index-3)**
-```
-2,3,0,1,2,3,0,1,3,2,1,0,2,3,0,1,3,2,0,1,2,3,1,0,3,2,1,0,2,3,0,1,3,2,1,0,2,3,1,0,3,2,0,1,2,3,1,0,3,2
-```
-
-**OPTION G (Distribution: 12 Index-0, 13 Index-1, 13 Index-2, 12 Index-3 - Alternative)**
-```
-0,1,2,3,0,1,2,3,1,0,3,2,0,1,3,2,0,1,2,3,1,0,2,3,0,1,3,2,1,0,2,3,0,1,2,3,1,0,3,2,1,0,2,3,1,0,3,2,0,1
-```
-
-**OPTION H (Distribution: 13 Index-0, 12 Index-1, 12 Index-2, 13 Index-3 - Alternative)**
-```
-3,0,1,2,3,0,1,2,0,3,2,1,3,0,2,1,3,0,1,2,3,0,2,1,0,3,2,1,3,0,1,2,0,3,1,2,3,0,2,1,0,3,1,2,3,0,2,1,3,0
-```
-
-### Quick Reference Table
-
-| Option | Index-0 | Index-1 | Index-2 | Index-3 |
-|--------|---------|---------|---------|---------|
-| A      | 13      | 13      | 12      | 12      |
-| B      | 12      | 13      | 13      | 12      |
-| C      | 12      | 12      | 13      | 13      |
-| D      | 13      | 12      | 12      | 13      |
-| E      | 12      | 13      | 12      | 13      |
-| F      | 13      | 12      | 13      | 12      |
-| G      | 12      | 13      | 13      | 12      |
-| H      | 13      | 12      | 12      | 13      |
 
 ---
 
@@ -306,75 +226,32 @@ Component shows completely DIFFERENT shuffle: [25, 9, 48, 2, 18, ...]
 
 ---
 
-### Answer Randomization with Quiz Component (CRITICAL - Prevents Answer Bias)
+### Answer Randomization with Quiz Component
 
-**THE PROBLEM:** If correct answers are NOT randomized, test-takers can exploit patterns. Example: if 15 of 18 questions have answer B correct (83%), students can achieve 70%+ by always selecting B without reading questions.
-
-**Requirements (MANDATORY):**
+**Requirements:**
 - Correct answers distributed across 0-3 indices (not a/b/c/d)
-- For 50 questions: **EXACTLY 12-13 per index (25% each)** ← VERIFY BEFORE SUBMISSION
-- No obvious patterns (not 0,1,2,3,0,1,2,3...)
-- Maximum 2 consecutive same answers (never 3+)
-- **ZERO correlation between index and topic** (each topic has mixed indices)
+- For 50 questions: ~12-13 per index (25% each)
+- No obvious patterns
+- Maximum 2 consecutive same answers
 
 **Quiz Component Format:**
 ```javascript
 {
   question: "Your question?",
   options: ["Option A", "Option B", "Option C", "Option D"],
-  correctOption: 2,  // Index 0-3, NOT 1-4! (0=A, 1=B, 2=C, 3=D)
+  correctOption: 2,  // Index 0-3, NOT 1-4!
   explanation: "Why this is correct AND why other options are wrong..."
 }
 ```
 
-**MANDATORY Randomization Process (for 50 questions):**
+**How to Randomize (for 50 questions):**
+1. Write all 50 questions first (don't worry about correctOption distribution)
+2. After ALL questions written, shuffle correctOption values across all questions
+3. Verify distribution: aim for ~12-13 questions per index (0,1,2,3)
+4. Ensure no 3+ consecutive same correctOption values
+5. Spot-check: visually verify longest sequence is ≤2 same indices
 
-**Step 1: Write Questions First (Content Phase)**
-- Write all 50 questions without thinking about answer positions
-- Determine the correct answer for each (but don't assign positions yet)
-- Create meaningful distractors
-
-**Step 2: Create Randomization Plan**
-- After all 50 questions are written, create a randomization list
-- Use a random number generator or shuffle algorithm to assign each question an index (0, 1, 2, or 3)
-- Example: Q1→2, Q2→0, Q3→3, Q4→1, Q5→0, Q6→2, Q7→1, Q8→3, ... Q50→2
-- **IMPORTANT:** Don't create patterns. True randomness is your goal.
-
-**Step 3: Arrange Options by Assigned Index**
-- For each question, place the correct answer in the assigned index position
-- Rearrange the 3 distractors to fill remaining positions
-- Example: If Q1 assigned to index 2, correct answer becomes option C (position 3)
-
-**Step 4: MANDATORY Distribution Verification**
-```
-Count correct answers by index across ALL 50 questions:
-Index 0 (Option A): ___ times (target: 12-13)
-Index 1 (Option B): ___ times (target: 12-13)
-Index 2 (Option C): ___ times (target: 12-13)
-Index 3 (Option D): ___ times (target: 12-13)
-Total: 50 ✓
-
-⚠️ IF ANY INDEX IS OUTSIDE 12-13 RANGE → QUIZ IS NOT READY
-```
-
-**Step 5: Pattern Check**
-- Write out all 50 correctOption indices in sequence: 2,0,3,1,0,2,1,3,2,0,...
-- Scan for obvious patterns (a,b,c,d,a,b,c,d = FAIL)
-- Count consecutive same indices (no runs of 3+ allowed)
-
-**FAILURE EXAMPLES (Common Issues):**
-- ❌ **Index 2 appears 35/50 times (70%)** → Same as "15/18 have B" problem mentioned
-- ❌ **Sequence: 0,1,2,3,0,1,2,3...** → Alphabetical cycling pattern
-- ❌ **Questions 1-20: mostly 0-1, Questions 21-50: mostly 2-3** → Topic clustering
-- ❌ **No 3+ consecutive rule check** → Found 4 consecutive index 1 answers
-
-**SUCCESS EXAMPLES:**
-- ✅ **Distribution: 0(13), 1(12), 2(13), 3(12)** → Even across all indices
-- ✅ **Sequence: 2,0,3,1,0,2,1,3,2,0,1,3,...** → Appears random, no obvious pattern
-- ✅ **Max consecutive: 2 (never 3+)** → Longest run is index 1,1 (only 2)
-- ✅ **Each topic mixed indices** → Lesson 1: indices 0,2,1,3; Lesson 2: indices 2,0,3,1
-
-📖 **Reference:** [answer-distribution.md](./references/answer-distribution.md) for detailed verification methods with examples
+📖 **Reference:** [answer-distribution.md](./references/answer-distribution.md) for verification methods
 
 ---
 
@@ -522,23 +399,20 @@ Brief introduction (1-2 sentences describing what students will assess).
 ## The Generation Process (Overview)
 
 ```
-Chapter Content → Analyze Concepts → SELECT PRE-MADE SEQUENCE →
-Generate 50 Questions with Indexed Answers → Design Distractors →
-Write Explanations → Format Quiz Component → Validate → ##_chapter_##_quiz.md
+Chapter Content → Analyze Concepts → Generate 50 Questions →
+Design Distractors → Randomize Answers → Write Explanations →
+Format Quiz Component → Validate → ##_chapter_##_quiz.md
 ```
 
-### 6-Stage Process Summary (Using Pre-Made Distributions)
+### 7-Stage Process Summary
 
-1. **Select Distribution Sequence:** Choose ONE pre-made sequence (Option A-H) from "Pre-Made Correct Option Distribution Lists" section
-2. **Analyze Chapter Structure:** Identify all core concepts and learning objectives (comprehensive, not highlights)
-3. **Generate 50 Conceptual Questions with Indexed Answers:**
-   - Write 50 understanding-focused questions covering all chapter material
-   - For each question, assign correctOption index based on your selected pre-made sequence
-   - Q1 uses first index from sequence, Q2 uses second index, etc.
-   - Place correct answer in the position specified by the index
-4. **Design Meaningful Distractors:** Create 3 distractors per question testing specific misconceptions
+1. **Analyze Chapter Structure:** Identify all core concepts and learning objectives (comprehensive, not highlights)
+2. **Generate 50 Conceptual Questions:** Write 50 understanding-focused questions covering all chapter material
+3. **Design Meaningful Distractors:** Create 3 distractors per question testing specific misconceptions
+4. **Randomize Correct Answers:** Shuffle correctOption indices (0-3) across all 50 questions; verify ~12-13 per index
 5. **Write Comprehensive Explanations:** 100-150 words per question explaining why correct AND why each distractor is wrong
-6. **Format & Validate:** Use `<Quiz {...} questions={[...50 questions...]} />` with all 50 in questions array; verify distribution matches chosen sequence
+6. **Format Quiz Component:** Use `<Quiz {...} questions={[...50 questions...]} />` with all 50 in questions array
+7. **Validate Distribution:** Verify 50 questions, equal-length explanation clarity, randomized correctOption spread
 
 📖 **Reference:** [generation-process.md](./references/generation-process.md) for detailed stage-by-stage workflow
 
@@ -628,31 +502,11 @@ Write Explanations → Format Quiz Component → Validate → ##_chapter_##_quiz
    - ✅ Full 100-150 word explanation addressing all 4 options explicitly
    - Fix: Write comprehensive explanations explaining why each of the 3 wrong options is incorrect
 
-7. **Answer Bias/Patterns (CRITICAL - Test Validity Threat):** Correct answers not evenly distributed across indices 0-3
-
-   **THE ISSUE:** When correct answers cluster in one index (e.g., 15/18 have index 1=B), students can:
-   - Achieve 70%+ accuracy by always selecting that option WITHOUT reading questions
-   - Exploit the pattern instead of understanding material
-   - Appear to understand when they're pattern-matching
-
-   **Example of Bias (UNACCEPTABLE):**
-   ```
-   18 questions shown, correctOption distribution:
-   Index 0 (A): 1 time (6%)
-   Index 1 (B): 15 times (83%) ← EXTREME BIAS
-   Index 2 (C): 1 time (6%)
-   Index 3 (D): 1 time (6%)
-
-   Student strategy: "Always pick B" → Score: 83% (appears to understand, actually pattern-matching)
-   ```
-
-   **SOLUTION (MANDATORY - NEW APPROACH):**
-   1. **DO NOT manually randomize.** Use pre-made sequences (Option A-H) from "Pre-Made Correct Option Distribution Lists"
-   2. **SELECT ONE sequence** from options A-H (all are pre-verified with 12-13 per index)
-   3. **MAP questions to sequence indices** - Question 1 uses sequence position 1, Question 2 uses position 2, etc.
-   4. **NO randomization errors** - Pre-made sequences guarantee perfect 12-13 distribution
-   5. **Systematic index assignment** - No consecutive patterns, no clustering, verified distributions
-   6. **BLOCK submission if any manual randomization attempted** (use pre-made ONLY)
+7. **Answer Patterns:** Obvious distribution patterns in correctOption across 50 questions
+   - ❌ First 25 questions all have correctOption 0-1, last 25 all have 2-3
+   - ❌ correctOption sequence: 0,1,2,3,0,1,2,3... (repeating pattern)
+   - ✅ Evenly distributed: ~12-13 per index, random order
+   - Fix: Shuffle correctOption values across all 50; verify equal distribution
 
 8. **Option Length Bias (🚨 CRITICAL - TEST VALIDITY THREAT):** Options of unequal length allow test-takers to achieve 60-70%+ accuracy by selecting longest/shortest option WITHOUT reading questions
 
@@ -739,23 +593,12 @@ The quiz is ready for human review when:
 - [ ] No "What is...?" recall questions
 - [ ] Realistic scenarios (debugging, analysis, prediction, design decisions)
 
-**Answer Randomization Verified (🚨 BLOCKING GATE - MANDATORY):**
+**Answer Randomization Verified:**
 - [ ] correctOption uses 0-3 indices only (NOT 1-4)
-- [ ] **Correct answers counted manually for ALL 50 questions:**
-  ```
-  Index 0: ___ times (must be 12-13) ✓
-  Index 1: ___ times (must be 12-13) ✓
-  Index 2: ___ times (must be 12-13) ✓
-  Index 3: ___ times (must be 12-13) ✓
-  Total: 50 ✓
-  ```
-- [ ] **ALL indices within 12-13 range** (13±1 acceptable; 13±2 borderline; anything outside = REJECT)
-- [ ] **NO index appears more than 14 times** (if any index > 14, distribution fails)
-- [ ] **NO index appears fewer than 11 times** (if any index < 11, distribution fails)
-- [ ] **Verified no 3+ consecutive same correctOption values** (scanned full sequence)
-- [ ] **No obvious patterns** (not 0,1,2,3,0,1,2,3...; appears random)
-- [ ] **All 4 indices (0,1,2,3) represented in distribution** (none completely absent)
-- [ ] **ZERO topic/lesson clustering** (each lesson has mixed indices, not all 0's or all 1's)
+- [ ] Correct answers evenly distributed (~12-13 per index across 50 questions)
+- [ ] No 3+ consecutive same correctOption values
+- [ ] No obvious patterns (0,1,2,3,0,1,2,3... is bad)
+- [ ] All 4 indices (0,1,2,3) represented in distribution
 
 **Option Length Validation Verified (🚨 MANDATORY):**
 - [ ] **Word count manually verified for EVERY option in EVERY question (all 50 questions)**
@@ -813,34 +656,22 @@ This skill includes detailed reference documentation:
 
 - **[generation-process.md](./references/generation-process.md)** - Complete 7-stage workflow for Quiz component generation with examples
 - **[answer-distribution.md](./references/answer-distribution.md)** - Randomization strategies and verification methods for correctOption indices
-- **[bias-detection-checklist.md](./references/bias-detection-checklist.md)** - 🚨 **MANDATORY** Pre-submission verification to catch answer distribution bias before publishing (use BEFORE finalizing quiz)
 - **[file-naming.md](./references/file-naming.md)** - Naming conventions with examples
 - **[pitfalls-and-solutions.md](./references/pitfalls-and-solutions.md)** - Common mistakes and fixes for Quiz component quizzes
 - **[quality-checklist.md](./references/quality-checklist.md)** - Complete validation checklist for Quiz component format
 
-Use `Read` tool to access references as needed during quiz generation. **CRITICAL: Use bias-detection-checklist.md BEFORE submitting any quiz to catch distribution bias.**
+Use `Read` tool to access references as needed during quiz generation.
 
 ---
 
 **Quiz Generator v4.0.0 ALWAYS creates interactive assessments using the globally-registered Quiz component with 50 COMPREHENSIVE QUESTIONS. NEVER creates static markdown quizzes or fewer than 50 questions. Component automatically displays 15-20 random questions per batch, shuffled differently on each retake. Features immediate feedback per question (correct option + explanation + why wrong if incorrect), no passing/failing threshold (just score tracking), progress tracking, answer validation, color-coded feedback, retake button, and full theme support.
 
-**KEY UPDATE v4.0.0: USES PRE-MADE CORRECT OPTION DISTRIBUTION SEQUENCES (OPTION A-H)**
-
 Every quiz MUST:
 - Use <Quiz /> component with 50 questions
-- **SELECT ONE pre-made distribution sequence (Option A-H)** from "Pre-Made Correct Option Distribution Lists" section
-- **Map each question's correctOption to the sequence systematically** (Q1 uses sequence index 1, Q2 uses index 2, etc.)
-- **Guarantee perfect 12-13 distribution across all indices** (no manual randomization needed)
+- Have randomized correctOption indices (0-3) evenly distributed
 - Include 100-150 word explanations addressing all 4 options
 - Include source field for all questions (format: "Lesson N: [Lesson Title]")
 - **ENFORCE STRICT OPTION LENGTH VALIDATION: ALL options within ±3 words of each other for ALL 50 questions** (manually verified, not assumed)
 - **VERIFY no correlation between option length and correctness** (longest option NOT biased toward being correct)
 - NO passingScore prop
-- NO passing/failing threshold
-
-**BLOCKING GATES (Quiz cannot be submitted if ANY of these fail):**
-1. ❌ Using manual randomization instead of pre-made sequences (MANDATORY: use Option A-H ONLY)
-2. ❌ Answer distribution bias (any index > 14 or < 11 occurrences in actual quiz)
-3. ❌ Non-systematic index assignment (must follow pre-made sequence order exactly)
-4. ❌ Option length bias (options not within ±3 words)
-5. ❌ Missing pre-made sequence reference in documentation**
+- NO passing/failing threshold**
