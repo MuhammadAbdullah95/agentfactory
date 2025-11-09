@@ -334,15 +334,15 @@ attempt: int = 0
 while attempt < max_attempts:
     user_input: str = input("Enter a positive number: ")
 
-    # Try to convert to int
-    try:
+    # Check if input is a valid number using string methods
+    if user_input.isdigit():  # Returns True for positive integers
         number: int = int(user_input)
         if number > 0:
             print(f"Success! You entered {number}")
             break  # Exit loop on success
         else:
             print("That's not positive. Try again.")
-    except ValueError:
+    else:
         print("That's not a valid number. Try again.")
 
     attempt += 1
@@ -414,10 +414,20 @@ Now that you understand the basics, let's explore more complex patterns with you
 
 Ask your AI to generate this scenario:
 
+#### 🎓 Note: You Might See try-except in AI Responses
+
+When you ask your AI to validate user input, it might generate code using `try` and `except` keywords. This is **exception handling**—a powerful Python feature you'll learn in **Chapter 21**. For now:
+
+- **Don't worry if you see it**: Your AI is showing you professional Python code
+- **You don't need to memorize it yet**: Focus on the loop control (`break`, `continue`, `while...else`)
+- **Ask for an alternative**: If you see `try-except`, ask your AI: *"Can you show me a version using `.isdigit()` and `.startswith()` instead of try-except? I haven't learned exception handling yet."*
+
+The key learning here is **how `break` and `continue` work together**, not exception handling.
+
 #### 🚀 CoLearning Challenge
 
 Ask your AI Co-Teacher:
-> "Generate a while loop that asks users to enter numbers. Use `continue` to skip negative numbers (with a warning). Use `break` to exit when they enter 0. Calculate the sum of positive numbers only. Then explain the flow with a step-by-step trace."
+> "Generate a while loop that asks users to enter numbers. Use `continue` to skip negative numbers (with a warning). Use `break` to exit when they enter 0. Calculate the sum of positive numbers only. Use `.isdigit()` for validation (not try-except). Then explain the flow with a step-by-step trace."
 
 **Expected Outcome**: You'll understand how `break` and `continue` work together in the same loop.
 
@@ -430,11 +440,17 @@ total: int = 0
 while True:  # Infinite loop—relies on break to exit
     user_input: str = input("Enter a number (0 to quit): ")
 
-    try:
-        number: int = int(user_input)
-    except ValueError:
+    # Check if input is a valid number (handles positive, negative, and zero)
+    # Note: isdigit() only works for positive integers, so we check for "-" prefix
+    is_valid_number: bool = user_input.isdigit() or (
+        user_input.startswith("-") and user_input[1:].isdigit()
+    )
+
+    if not is_valid_number:
         print("Invalid input. Try again.")
         continue  # Skip this iteration
+
+    number: int = int(user_input)
 
     if number == 0:
         print(f"Total sum: {total}")
