@@ -165,6 +165,35 @@ Type hints do THREE important things:
 
 In AI-native development, **clear specifications are MORE valuable than memorized syntax**. Type hints are how you specify data intent to your AI collaborator.
 
+### Python 3.14's Lazy Annotations (New in 2025)
+
+**Advanced Note**: Python 3.14 introduced a major improvement to how type hints work, called **lazy annotations** (PEP 649).
+
+**What Changed**:
+- Type hints are now evaluated **only when needed** (not immediately when Python reads your code)
+- Forward references work automatically (no need to put type names in quotes)
+- Programs start faster because Python doesn't process all type hints at startup
+
+**What This Means for You**:
+
+Before Python 3.14, if you wanted to use a type before defining it, you'd write:
+```python
+def get_user(user_id: int) -> "User":  # "User" in quotes
+    ...
+```
+
+In Python 3.14, this just works:
+```python
+def get_user(user_id: int) -> User:  # No quotes needed
+    ...
+```
+
+**For Beginners**: You don't need to understand this deeply yet. Just know that Python 3.14 makes type hints smarter and faster "behind the scenes." As you learn more Python, you'll appreciate how this simplifies advanced code.
+
+**For Advanced Learners**: Ask your AI: _"Explain Python 3.14's lazy annotations (PEP 649) and why they improve type hints. Show me an example of forward references."_
+
+---
+
 ## Code Example 1: Basic Variables with Type Hints
 
 Here's how to create your first variables with type hints:
@@ -228,9 +257,9 @@ print(is_student)  # Output: True
 3. Run it: `python variables.py`
 4. Change the values and run again — you'll see the new values printed
 
-## Code Example 3: Combining Variables with F-Strings
+## Code Example 3: Displaying Multiple Variables
 
-F-strings (f-formatted strings) let you combine variables and text. This is a preview of Chapter 16, but it's useful to see how type hints work with real output:
+Now let's print multiple variables together using `print()` from Chapter 13:
 
 ```python
 # Variables with type hints
@@ -238,24 +267,26 @@ name: str = "Alex"
 age: int = 25
 is_student: bool = True
 
-# Combining variables in sentences
-print(f"Hello, {name}!")
-print(f"You are {age} years old.")
-print(f"Are you a student? {is_student}")
+# Display each variable with a label
+print("Name:", name)
+print("Age:", age)
+print("Student:", is_student)
 
-# More complex sentence
-print(f"{name} is {age} years old and is a student: {is_student}")
+# Display multiple variables in one print() statement
+print("Name:", name, "Age:", age, "Student:", is_student)
 ```
 
 **Expected output:**
 ```
-Hello, Alex!
-You are 25 years old.
-Are you a student? True
-Alex is 25 years old and is a student: True
+Name: Alex
+Age: 25
+Student: True
+Name: Alex Age: 25 Student: True
 ```
 
-**Key insight**: Notice how the type hints (`name: str`, `age: int`, `is_student: bool`) let us use these variables confidently in sentences. The type hint is a specification that says, "I know what type this is, so I know how to use it."
+**Key insight**: Notice how the type hints (`name: str`, `age: int`, `is_student: bool`) make it clear what data we're printing. The type hint is a specification that helps us understand the code.
+
+**Note**: In Chapter 16 (Strings and Type Casting), you'll learn more powerful ways to format text output. For now, simple `print()` statements with commas are all you need.
 
 ## Practice Exercise 1: Create Variables for Your Profile
 
@@ -304,10 +335,10 @@ average_test_score: float = ...
 do_you_like_python: bool = ...
 have_you_coded_before: bool = ...
 
-# Now print them all in a sentence
-print(f"My favorite color is {favorite_color}.")
-print(f"I was born in {birth_year}.")
-print(f"I like Python: {do_you_like_python}")
+# Now print them all with labels
+print("My favorite color is", favorite_color)
+print("I was born in", birth_year)
+print("I like Python:", do_you_like_python)
 ```
 
 **Success criteria:**
@@ -329,8 +360,8 @@ is_alive: bool = True
 experience: int = 0
 
 # Display the character's status
-print(f"{character_name} has {health_points} HP and {mana_points} mana.")
-print(f"Speed: {speed}, Alive: {is_alive}, Experience: {experience}")
+print(character_name, "has", health_points, "HP and", mana_points, "mana")
+print("Speed:", speed, "Alive:", is_alive, "Experience:", experience)
 ```
 
 **Questions to think about:**

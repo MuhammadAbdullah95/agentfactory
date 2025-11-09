@@ -21,12 +21,12 @@ skills:
     digcomp_area: "Problem-Solving"
     measurable_at_this_level: "Student can convert numbers to strings using str(); understand why (for concatenation or output)"
 
-  - name: "Boolean Conversions and Truthiness"
-    proficiency_level: "B1"
-    category: "Technical/Conceptual"
-    bloom_level: "Understand + Apply"
+  - name: "Boolean Conversions with bool()"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
     digcomp_area: "Digital Literacy"
-    measurable_at_this_level: "Student can convert to bool using bool(); understand truthiness rules; predict True/False results"
+    measurable_at_this_level: "Student can convert values to bool using bool(); predict True/False conversion results for strings and numbers"
 
   - name: "Error Handling for Type Conversions"
     proficiency_level: "B1"
@@ -98,6 +98,23 @@ There are two ways types can change:
 2. **Explicit conversion**: You explicitly call a conversion function like `int()`
 
 This lesson focuses on explicit conversions you control.
+
+### Built-in Functions You'll Use in This Lesson
+
+Throughout this lesson, you'll use Python's **built-in functions**—utility tools that Python provides automatically. These work with many types of data and don't require importing:
+
+**Type Conversion Functions** (new in this lesson):
+- **`int(value)`** - converts to integer
+- **`float(value)`** - converts to decimal number
+- **`str(value)`** - converts to string
+- **`bool(value)`** - converts to boolean (True/False)
+
+**Type Validation Functions** (from Lesson 1):
+- **`isinstance(value, type)`** - checks if a value is a specific type (returns True/False)
+- **`type(value)`** - shows exactly what type a value is
+- **`len(value)`** - counts characters in a string
+
+Think of these as Python's toolbox. You don't need to understand how they work internally—just when to use them and what they return.
 
 ## String to Numbers: int() and float()
 
@@ -246,53 +263,54 @@ Ask your AI:
 
 ---
 
-## Boolean Conversions and Understanding Truthiness
+## Boolean Conversions: The bool() Function
 
-Every value in Python has a "truthiness"—it's either considered True or False in conditions. Converting to bool explicitly helps you understand how Python evaluates truth.
+Just like you can convert values to `int()`, `float()`, or `str()`, you can also convert any value to a boolean (`True` or `False`) using the `bool()` function. Every value in Python can be represented as either True or False.
 
-#### Example 4.4: Boolean Conversions and Truthiness
+#### Example 4.4: Converting Values to Booleans
 
 ```python
-# String to boolean: Non-empty strings are True, empty is False
+# String to boolean: Non-empty strings become True, empty becomes False
 bool_empty: bool = bool("")       # False (empty string)
 bool_text: bool = bool("hello")   # True (non-empty string)
 bool_space: bool = bool(" ")      # True (space is non-empty!)
-bool_zero: bool = bool("0")       # True (string "0" is non-empty!)
+bool_zero_str: bool = bool("0")   # True (string "0" is non-empty!)
 
-print(f"bool(''): {bool_empty}")      # False
-print(f"bool('hello'): {bool_text}")  # True
-print(f"bool('0'): {bool_zero}")      # True (surprising!)
+print(f"bool(''): {bool_empty}")          # False
+print(f"bool('hello'): {bool_text}")      # True
+print(f"bool(' '): {bool_space}")         # True
+print(f"bool('0'): {bool_zero_str}")      # True (surprising!)
 
 # Number to boolean: 0 is False, any other number is True
 bool_zero_int: bool = bool(0)      # False
 bool_one: bool = bool(1)           # True
 bool_neg: bool = bool(-5)          # True
 bool_float: bool = bool(0.0)       # False
+bool_pi: bool = bool(3.14)         # True
 
-print(f"bool(0): {bool_zero_int}")    # False
-print(f"bool(1): {bool_one}")         # True
-print(f"bool(0.0): {bool_float}")     # False
+print(f"bool(0): {bool_zero_int}")       # False
+print(f"bool(1): {bool_one}")            # True
+print(f"bool(-5): {bool_neg}")           # True
+print(f"bool(0.0): {bool_float}")        # False
+print(f"bool(3.14): {bool_pi}")          # True
 
-# Practical: Understanding truthiness (important for conditionals in Chapter 17)
-value: str = input("Enter something: ")
-if value:  # Implicitly converts to bool—non-empty string = True
-    print(f"You entered: {value}")
-else:
-    print("You entered nothing")
-
-# This is equivalent to:
-# if bool(value):  ← Explicit conversion (not needed, but shows the concept)
-
-# Validation: Check boolean results
+# Validation: Verify conversion type
 result: bool = bool(42)
 print(f"Type: {type(result)}, Value: {result}")  # Type: <class 'bool'>, Value: True
+
+# Another validation example
+converted: bool = bool("hello")
+print(f"isinstance check: {isinstance(converted, bool)}")  # True
 ```
 
-**Key Insight**: Truthiness is why `if value:` works even though value is a string. Python evaluates the truthiness of the value to decide whether to enter the if block.
+**Key Pattern**: The `bool()` function follows these conversion rules:
+- **Strings**: Empty string `""` → False; any other string → True
+- **Numbers**: `0` and `0.0` → False; any other number → True
+- **Use this for**: Understanding what Python considers "empty" vs "has a value"
 
-#### ✨ Teaching Tip
+#### 🔮 Coming in Chapter 17
 
-> When you get unexpected True/False results, ask your AI: "What's the truthiness rule for this type? What counts as True and what counts as False?" Understanding truthiness is essential for writing correct conditionals.
+> You'll use boolean conversions in **conditionals** (Chapter 17: Control Flow and Loops). There, you'll learn why understanding True/False matters for `if` statements and decision-making in your programs. For now, focus on how `bool()` converts different types.
 
 ---
 

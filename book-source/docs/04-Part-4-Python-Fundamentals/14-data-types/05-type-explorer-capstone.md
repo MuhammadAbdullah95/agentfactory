@@ -116,11 +116,91 @@ The program teaches concepts through demonstration, not just explanation. **You'
 
 ---
 
-## Building the Type Explorer Step by Step
+## Building the Type Explorer: Specification-First Workflow
 
-Here's the complete program you'll build. Don't panic if it looks long—we'll walk through each part and explain what's happening.
+In this capstone, you'll learn the **core AI-native development workflow**: Specify → AI Builds → Validate → Iterate. This is the same process professionals use to build software with AI collaborators.
 
-### Complete Type Explorer Program
+### Step 1: Write Your Specification
+
+Before asking AI for code, define exactly what your type explorer should do. This is your **specification**:
+
+```
+Specification: Type Explorer Program
+
+Purpose: Demonstrate all 5 core Python data types interactively
+
+Requirements:
+1. Display a welcome message
+2. For each type (int, float, str, bool, None):
+   - Create an example variable with a type hint
+   - Print the variable value
+   - Print what type() returns
+   - Print whether isinstance() validates it
+3. Add a truthy/falsy demonstration for booleans
+4. End with a summary of all 5 types
+5. Use only concepts from Chapters 13-14 (no functions, loops, or error handling)
+
+Success Criteria (Evals):
+- [ ] All 5 types demonstrated
+- [ ] Each type uses type() and isinstance()
+- [ ] All variables have type hints
+- [ ] Program runs without errors
+- [ ] Output is clear and educational
+- [ ] Code uses only print() and basic syntax (no advanced features)
+```
+
+**Key Insight**: Notice we wrote WHAT we want (the specification) before HOW to build it (the code). This is specification-first development.
+
+---
+
+### Step 2: Tell Your AI
+
+Now that you have a clear specification, translate it into a prompt for your AI collaborator.
+
+**Copy this prompt and paste it into Claude Code, Gemini CLI, or ChatGPT:**
+
+```
+Create a Python program called "Type Explorer" that demonstrates 5 core data types:
+int, float, str, bool, and None.
+
+Requirements:
+1. Print a welcome message at the start
+2. For each type, create an example variable with a type hint:
+   - int: age = 25
+   - float: temperature = 98.6
+   - str: name = "Alex"
+   - bool: is_student = True
+   - None: value = None
+
+3. For each type, print:
+   - The variable value
+   - What type() returns
+   - Whether isinstance() validates it
+
+4. Add a section showing truthy/falsy conversion:
+   - bool(0)
+   - bool(1)
+   - bool('') (empty string)
+   - bool('hello') (non-empty string)
+
+5. End with a summary listing all 5 types
+
+Constraints:
+- Use type hints for all variables
+- Use only print() for output (no f-strings)
+- Keep it sequential (no functions, loops, or error handling)
+- Add clear comments to organize sections
+
+Make the output educational and easy to read.
+```
+
+**Important**: Don't just copy this prompt. Read it carefully and understand what you're asking for. This is how you learn to write good specifications.
+
+---
+
+### Step 3: Review AI's Output
+
+Your AI will generate code similar to this (~70 lines):
 
 ```python
 # Interactive Type Explorer
@@ -133,44 +213,44 @@ print("Let's explore Python's core data types together.")
 # Exploring Integer (int)
 print("\n=== Exploring Integer (int) ===")
 age: int = 25
-print(f"Example: age = {age}")
-print(f"Type: {type(age)}")
-print(f"Is this an int? {isinstance(age, int)}")
+print("Example: age =", age)
+print("Type:", type(age))
+print("Is this an int?", isinstance(age, int))
 
 # Exploring Float (float)
 print("\n=== Exploring Float (float) ===")
 temperature: float = 98.6
-print(f"Example: temperature = {temperature}")
-print(f"Type: {type(temperature)}")
-print(f"Is this a float? {isinstance(temperature, float)}")
+print("Example: temperature =", temperature)
+print("Type:", type(temperature))
+print("Is this a float?", isinstance(temperature, float))
 
 # Exploring String (str)
 print("\n=== Exploring String (str) ===")
 name: str = "Alex"
-print(f"Example: name = '{name}'")
-print(f"Type: {type(name)}")
-print(f"Is this a string? {isinstance(name, str)}")
+print("Example: name =", name)
+print("Type:", type(name))
+print("Is this a string?", isinstance(name, str))
 
 # Exploring Boolean (bool)
 print("\n=== Exploring Boolean (bool) ===")
 is_student: bool = True
-print(f"Example: is_student = {is_student}")
-print(f"Type: {type(is_student)}")
-print(f"Is this a bool? {isinstance(is_student, bool)}")
+print("Example: is_student =", is_student)
+print("Type:", type(is_student))
+print("Is this a bool?", isinstance(is_student, bool))
 
 # Truthy/falsy demonstration
 print("\nTruthy/Falsy Examples:")
-print(f"bool(0) = {bool(0)}")          # False
-print(f"bool(1) = {bool(1)}")          # True
-print(f"bool('') = {bool('')}")        # False (empty string)
-print(f"bool('hello') = {bool('hello')}")  # True (non-empty string)
+print("bool(0) =", bool(0))          # False
+print("bool(1) =", bool(1))          # True
+print("bool('') =", bool(''))        # False (empty string)
+print("bool('hello') =", bool('hello'))  # True (non-empty string)
 
 # Exploring None
 print("\n=== Exploring None ===")
 value: None = None
-print(f"Example: value = {value}")
-print(f"Type: {type(value)}")
-print(f"Is this None? {value is None}")
+print("Example: value =", value)
+print("Type:", type(value))
+print("Is this None?", value is None)
 
 # Summary
 print("\n=== Summary ===")
@@ -182,25 +262,108 @@ print("  - bool: True/False (decisions)")
 print("  - None: No value (placeholders)")
 ```
 
-**Specification: Create an interactive program that demonstrates core data types using type hints and type validation techniques**
+**Don't just copy this code!** First, review it carefully:
 
-**AI Prompt Used:**
-"Create a Python program that explores five core data types (int, float, str, bool, None). For each type, show an example variable with a type hint, use type() to display the type, and use isinstance() to validate it. Include a truthy/falsy demonstration for booleans. Keep it simple—no functions needed, just sequential code with clear comments."
+1. **Does it match your specification?**
+   - All 5 types? ✓ or ✗
+   - type() and isinstance() for each? ✓ or ✗
+   - Type hints throughout? ✓ or ✗
+   - Truthy/falsy demo? ✓ or ✗
+   - Summary at end? ✓ or ✗
 
-**Generated Code:** [Complete code shown above]
+2. **Do you understand each section?**
+   - What does this line do?
+   - Why is this type hint here?
+   - What would happen if I changed this value?
 
-**Validation Steps:**
-- ✓ All five types demonstrated (int, float, str, bool, None)
-- ✓ Each type uses type() and isinstance() for inspection/validation
-- ✓ All variables have type hints (age: int, temperature: float, etc.)
-- ✓ Truthy/falsy demonstration included for bool
-- ✓ Clear comments separate each type section
-- ✓ Program runs without errors
-- ✓ Uses only concepts from Chapters 13-14 (no functions, loops, or error handling)
+3. **Ask AI to explain anything unclear**:
+
+   **Tell your AI**: "Explain this section line by line: [paste code section]"
+
+**This review step is critical.** You're learning to validate AI output against specifications.
 
 ---
 
-## Code Walkthrough: Understanding Each Part
+### Step 4: Validate Against Success Criteria
+
+Now create a file called `type_explorer.py` and paste the AI's code. Run it:
+
+```bash
+python type_explorer.py
+```
+
+**Check each success criterion** from Step 1:
+
+- [ ] All 5 types demonstrated? (Run and verify output)
+- [ ] Each type uses type() and isinstance()? (Check code)
+- [ ] All variables have type hints? (Check code)
+- [ ] Program runs without errors? (Run it)
+- [ ] Output is clear and educational? (Read output)
+- [ ] Code uses only print() and basic syntax? (Check code)
+
+**Expected output:**
+```
+Welcome to the Python Type Explorer!
+Let's explore Python's core data types together.
+
+=== Exploring Integer (int) ===
+Example: age = 25
+Type: <class 'int'>
+Is this an int? True
+
+=== Exploring Float (float) ===
+Example: temperature = 98.6
+Type: <class 'float'>
+Is this a float? True
+
+[... more output for str, bool, None]
+
+=== Summary ===
+You've now explored all core Python types:
+  - int: Whole numbers (counting)
+  - float: Decimal numbers (measuring)
+  - str: Text (words and characters)
+  - bool: True/False (decisions)
+  - None: No value (placeholders)
+```
+
+If all criteria pass: **Congratulations! You've completed the capstone using specification-first workflow.**
+
+If any fail: Move to Step 5.
+
+---
+
+### Step 5: Iterate with AI
+
+If something doesn't match your specification or success criteria, ask AI to fix it:
+
+**Example iteration prompts:**
+
+**If output isn't clear:**
+```
+The output is hard to read. Add blank lines between each type section
+to make it more organized.
+```
+
+**If you want to add a feature:**
+```
+Add a new section that demonstrates type conversion between int and float.
+Show examples of int(3.7) and float(5).
+```
+
+**If you want to understand better:**
+```
+I don't understand why isinstance() is used instead of type() == int.
+Explain the difference and show me an example where it matters.
+```
+
+**This is the AI-native workflow**: Specify → Build → Validate → Iterate.
+
+You keep refining until all success criteria pass and you understand the code fully.
+
+---
+
+## Code Walkthrough: Understanding the Key Patterns
 
 Let's break down the key sections and understand how they work together.
 
@@ -220,9 +383,9 @@ The program follows the same pattern for each type:
 
 ```python
 age: int = 25
-print(f"Example: age = {age}")
-print(f"Type: {type(age)}")
-print(f"Is this an int? {isinstance(age, int)}")
+print("Example: age =", age)
+print("Type:", type(age))
+print("Is this an int?", isinstance(age, int))
 ```
 
 **What's happening:**
@@ -241,10 +404,10 @@ This demonstrates the three ways to work with types:
 
 ```python
 print("\nTruthy/Falsy Examples:")
-print(f"bool(0) = {bool(0)}")          # False
-print(f"bool(1) = {bool(1)}")          # True
-print(f"bool('') = {bool('')}")        # False (empty string)
-print(f"bool('hello') = {bool('hello')}")  # True (non-empty string)
+print("bool(0) =", bool(0))          # False
+print("bool(1) =", bool(1))          # True
+print("bool('') =", bool(''))        # False (empty string)
+print("bool('hello') =", bool('hello'))  # True (non-empty string)
 ```
 
 This shows **how Python converts different types to boolean**. From Lesson 3, you learned that in boolean contexts (like `if` statements in Chapter 17), Python evaluates truthiness:
@@ -350,8 +513,8 @@ value: None = None
 Your program demonstrates:
 
 ```python
-print(f"Type: {type(age)}")
-print(f"Is this an int? {isinstance(age, int)}")
+print("Type:", type(age))
+print("Is this an int?", isinstance(age, int))
 ```
 
 **Integration**: You're using `type()` and `isinstance()` for their intended purposes: inspection and validation.
@@ -362,14 +525,14 @@ Your program demonstrates strings:
 
 ```python
 name: str = "Alex"
-print(f"Example: name = '{name}'")
+print("Example: name =", name)
 ```
 
 And boolean truthy/falsy conversion:
 
 ```python
-print(f"bool(0) = {bool(0)}")  # False
-print(f"bool('hello') = {bool('hello')}")  # True
+print("bool(0) =", bool(0))  # False
+print("bool('hello') =", bool('hello'))  # True
 ```
 
 **Integration**: Types aren't isolated concepts—they interact. Empty strings are falsy. Non-empty strings are truthy. Numbers interact with boolean logic.
@@ -380,7 +543,7 @@ Your program explores None:
 
 ```python
 value: None = None
-print(f"Is this None? {value is None}")
+print("Is this None?", value is None)
 ```
 
 **Integration**: None is a real type that you'll use constantly as a placeholder value.
