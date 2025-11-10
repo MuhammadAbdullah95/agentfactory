@@ -1,16 +1,22 @@
-# /sp.constitution-sync: Intelligent Constitution Propagation
+# /sp.constitution-sync: Constitutional Alignment Through Intelligent Partnership
 
-**Version**: 1.0.0
+**Version**: 2.0.0 (Restructured: Philosophy-First)
 **Created**: 2025-01-10
-**Philosophy**: AI-centric per-lesson intelligence (scripts provide data, AI decides intervention)
+**Philosophy**: Constitution-grounded, judgment-driven, quality-preserving, partnership-focused
 
 ---
 
 ## Purpose
 
-Detect constitution changes and apply the **minimum necessary intervention** per lesson to bring existing chapters into compliance with updated/new constitutional rules.
+Bring existing chapter content into **authentic alignment** with constitutional values—not mechanical compliance, but **embodiment of principles**.
 
-**Key Innovation**: No mode flags—AI intelligently decides per-lesson what intervention is needed (surgical edit, enhanced regeneration, full regeneration, or skip).
+**Core Intent**: Ensure content demonstrates:
+- **Three-Role AI Partnership** (Principle 18): AI as Teacher, Student, and Co-Worker
+- **Co-Learning** (Philosophy #2): Bidirectional learning, not passive consumption
+- **"Specs Are the New Syntax"** (Philosophy #3): Specification-writing as primary skill
+- **Validation-First** (Philosophy #5): Never trust, always verify
+
+**Key Innovation**: Intelligent per-lesson decisions based on **constitutional understanding** and **content quality judgment**, not formulas or checklists.
 
 ---
 
@@ -22,8 +28,8 @@ Detect constitution changes and apply the **minimum necessary intervention** per
 
 **Examples**:
 ```bash
-/sp.constitution-sync 14
-/sp.constitution-sync 12
+/sp.constitution-sync 1     # Sync Chapter 1 (conceptual)
+/sp.constitution-sync 14    # Sync Chapter 14 (code-focused)
 ```
 
 ---
@@ -32,706 +38,692 @@ Detect constitution changes and apply the **minimum necessary intervention** per
 
 | Aspect | `/sp.error-analysis` | `/sp.constitution-sync` |
 |--------|---------------------|------------------------|
-| **Purpose** | **Diagnose** workflow issues | **Fix** constitutional violations |
+| **Purpose** | **Diagnose** workflow issues | **Align** content with constitutional values |
 | **Trigger** | After workflow execution (reactive) | After constitution change (proactive) |
-| **Input** | Executed artifacts (traces) | Constitution delta + existing chapters |
-| **Output** | Report + recommendations | Updated chapters |
+| **Input** | Executed artifacts (traces) | Constitution + existing chapters |
+| **Output** | Report + recommendations | Aligned chapters |
 | **Action** | Read-only analysis | Write operations (edits/regen) |
 | **Timing** | Post-mortem | Maintenance |
-| **Analogy** | Medical diagnosis | Treatment application |
+| **Focus** | Process issues | Constitutional embodiment |
 
 **Relationship**: Error analysis can debug constitution-sync itself (if sync has issues, run error analysis on sync execution to diagnose).
 
 ---
 
-## The Intelligence: Per-Lesson Decision Tree
+## I. CONSTITUTIONAL GROUNDING
 
-```
-For each lesson in chapter:
+### The Constitution as Source of Truth
 
-┌─ Does spec/plan need changes?
-│  ├─ YES → Update spec/plan first
-│  │        Then reassess lessons
-│  └─ NO → Continue to lesson analysis
-│
-├─ Analyze lesson compliance
-│  ├─ Read lesson content
-│  ├─ Check against ALL constitution rules
-│  └─ Classify violations
-│
-└─ Decision Matrix:
+**Before any assessment or intervention**, deeply understand constitutional intent.
 
-    IF lesson is 90%+ compliant (minor formatting issues):
-       → SURGICAL EDIT (str_replace)
-       Examples: Add missing 💬 prompt, remove post-section
-       Time: ~3-5 minutes per lesson
+**Reference**: `.specify/memory/constitution.md` (latest version)
 
-    ELSE IF lesson is 60-89% compliant (structural issues):
-       → ENHANCED REGENERATION (preserve good parts)
-       - Extract: Well-written explanations, quality examples
-       - Regenerate: With constitution rules + extracted quality
-       - Result: New lesson that preserves best content
-       Time: ~10-15 minutes per lesson
+#### What to Internalize
 
-    ELSE IF lesson is <60% compliant (fundamental problems):
-       → FULL REGENERATION
-       - Use spec/plan as source of truth
-       - Generate fresh with current constitution
-       Time: ~15-20 minutes per lesson
+**18 Core Principles** (focus on most relevant):
+- **Principle 13**: Graduated Teaching Pattern (Book → AI Companion → AI Orchestration)
+- **Principle 18**: Three-Role AI Partnership (AI as Teacher/Student/Co-Worker)
+- **Principle 3**: Specification-First Development
+- **Principle 2**: AI as Co-Learning Partner
+- **Principle 5**: Validation-Before-Trust
 
-    ELSE (100% compliant):
-       → NO CHANGE
-       Time: ~1 minute (validation only)
-```
+**8 Core Philosophies**:
+- **Co-Learning**: Bidirectional learning (human ↔ AI refine each other)
+- **Evals-First**: Define success criteria before specs
+- **Spec-Driven**: Specification is the new syntax
+- **Validation-First**: Never trust AI output without verification
+
+**Nine Pillars**: AI CLI, Markdown, MCP, AI-First IDEs, Cross-Platform, TDD, SDD, Composable Skills, Cloud-Native
+
+**Output Style Requirements**:
+- 💬 **AI Colearning Prompts** (1-4 per lesson): Exploration-focused questions
+- 🎓 **Instructor Commentaries** (2-4 per lesson): Pedagogical insights
+- 🚀 **CoLearning Challenges** (1-4 per lesson): Hands-on practice
+- ✨ **Teaching Tips** (1-3 per lesson): Conceptual clarity
+- **Lesson Closure**: "Try With AI" is final section (no post-sections)
+
+### Why Alignment, Not Compliance
+
+**We're not checking boxes—we're ensuring content embodies constitutional values.**
+
+**Questions to guide assessment**:
+- Does content teach **collaboration with AI**, not just tool usage?
+- Does it demonstrate **Three-Role Partnership** authentically?
+- Does it emphasize **specs over syntax**?
+- Does it **validate alongside generation**?
+- Does it encourage **exploration** over prescription?
 
 ---
 
-## Execution Flow: 5-Phase Intelligent Sync
+## II. INTELLIGENT ASSESSMENT FRAMEWORK
 
-### PHASE 0: Constitution Delta Analysis (Context Discovery)
+### Phase 1: Constitutional Context Discovery
 
-**Your Role**: AI as **Student** — Learn what changed in constitution before evaluating content.
+**Your Role**: AI as **Student** — Learn what the constitution requires before evaluating content.
 
-#### Step 0.1: Read Current Constitution
+#### Step 1.1: Read Constitution Deeply
 
 ```bash
 Read .specify/memory/constitution.md
 ```
 
-**Extract**:
-- Version number (from header)
-- Sync Impact Report (from HTML comment at top)
-- All 18 core principles (Principle 1-18)
-- Core philosophy (8 tenets including Co-Learning, Evals-First, Spec-Driven, etc.)
-- Graduated teaching pattern (Principle 13)
-- Three-Role AI Partnership (Principle 18)
-- Lesson closure policy (from output styles)
-- CoLearning elements requirements (from output styles)
+**Extract Understanding** (not just data):
+- **Version**: What changed in latest version? (check HTML comment at top)
+- **Sync Impact**: What's the impact of recent changes? (from Sync Impact Report)
+- **Applicable Principles**: Which of the 18 principles apply to this chapter type?
+- **Target Level**: What's the proficiency level? (A1-beginner, A2-elementary, B1-intermediate)
+- **Constitutional Intent**: Why do these rules exist? (understand spirit, not just letter)
 
-#### Step 0.2: Categorize Constitutional Rules
+#### Step 1.2: Categorize by Impact and Context
 
-**Organize rules by impact type** (for prioritization):
+**High-Impact Requirements** (must be present in ALL lessons):
+- CoLearning elements (💬🎓🚀✨) demonstrating Three-Role Partnership
+- Lesson closure pattern ("Try With AI" is final section, no post-sections)
+- No forward references (pedagogical ordering: concepts introduced before use)
+- Conversational, exploration-focused tone (not documentation style)
 
-**High-Impact Rules** (affects all lessons):
-- CoLearning elements throughout (💬🎓🚀✨)
-- Three-Role AI Partnership (AI as Teacher/Student/Co-Worker)
-- Lesson closure pattern ("Try With AI" only, no post-sections)
-- Pedagogical ordering (no forward references)
+**Medium-Impact Requirements** (context-dependent):
+- Graduated Teaching Pattern (relevant for code-heavy chapters)
+- Cognitive load management (A1: max 5 concepts, A2: max 7, B1: max 10)
+- Specification-first pedagogy (for code lessons: show spec → prompt → code → validation)
 
-**Medium-Impact Rules** (affects some lessons):
-- Graduated Teaching Pattern (Book → AI Companion → AI Orchestration)
-- Cognitive load limits (A1: max 5 concepts, A2: max 7, B1: max 10)
-- Tone and style (conversational, exploration-focused)
-- Specification-first pedagogy (show spec → AI prompt → code → validation)
+**Low-Impact Requirements** (technical standards):
+- Python 3.13+ (for code lessons)
+- Reading level baseline (Grade 7-8 accessibility)
+- Type hints (technical correctness)
 
-**Low-Impact Rules** (rarely violated if lesson exists):
-- Python 3.13+ standards
-- Type hints mandatory
-- Test-first mindset
-- Reading level (Grade 7 baseline)
+#### Step 1.3: Create Constitutional Lens
 
-#### Step 0.3: Constitution Delta Report
-
-**Output**:
+**Output** (internal understanding, not mechanical checklist):
 
 ```markdown
-## Constitution Delta Analysis
+## Constitutional Lens for Chapter [N]
 
-**Constitution Version**: 3.1.2
+**Chapter Type**: [Conceptual / Code-focused / Mixed]
+**Target Level**: [A1-Beginner / A2-Elementary / B1-Intermediate]
+**Primary Principles**: [List 3-5 most relevant of the 18 principles]
 
-**What Changed** (from Sync Impact Report):
-- [List changes from HTML comment at top of constitution]
+**What "Good" Looks Like**:
+- [Describe ideal embodiment of constitutional values for THIS chapter]
+- [Not generic—specific to chapter content and audience]
 
-**Impacted Rules for This Chapter**:
-- **High Impact**: [List rules that affect all lessons]
-- **Medium Impact**: [List rules that affect some lessons]
-- **Low Impact**: [List rules rarely violated]
-
-**Expected Violations** (hypothesis):
-- [Based on change history, predict likely violations]
+**Common Gaps to Watch For**:
+- [Based on chapter type, predict likely violations]
+- [Example: Conceptual chapters often missing hands-on challenges]
 ```
 
 ---
 
-### PHASE 1: Spec/Plan Compliance Check (Foundation Validation)
+### Phase 2: Content Assessment with Judgment
 
-**Your Role**: AI as **Co-Worker** — Ensure foundational artifacts are compliant before lesson assessment.
+**Your Role**: AI as **Teacher** — Diagnose not just what's missing, but whether content embodies constitutional intent.
 
-#### Step 1.1: Locate Artifacts
+#### Step 2.1: Locate Chapter Artifacts
 
-**Run helper script**:
-
+**Find spec/plan (if they exist)**:
 ```bash
-.specify/scripts/bash/constitution-sync/artifact-locator.sh [chapter-number]
+# Typical locations
+specs/part-N-chapter-M/spec.md
+specs/part-N-chapter-M/plan.md
 ```
 
-**Expected output (JSON)**:
-```json
-{
-  "chapter": 14,
-  "artifacts": {
-    "spec": "specs/part-4-chapter-14/spec.md",
-    "plan": "specs/part-4-chapter-14/plan.md",
-    "lessons": [
-      "book-source/docs/04-Part-4/14-data-types/01-intro.md",
-      "book-source/docs/04-Part-4/14-data-types/02-numeric.md"
-    ]
-  },
-  "status": "complete"
-}
-```
-
-#### Step 1.2: Check Spec Compliance
-
-**Read spec.md**:
-- Learning objectives align with constitution?
-- Prerequisites explicit?
-- Success criteria measurable?
-- Complexity tier appropriate for part?
-- Evals defined with business-goal connection?
-
-**Decision**:
-- ✅ **COMPLIANT**: Proceed to plan check
-- ⚠️ **NEEDS UPDATE**: Note required changes (will prompt user)
-
-#### Step 1.3: Check Plan Compliance
-
-**Read plan.md**:
-- Lesson breakdown matches spec?
-- Skills proficiency metadata present (CEFR levels)?
-- CoLearning elements referenced?
-- Graduated Teaching Pattern followed?
-- Cognitive load validated per lesson?
-
-**Decision**:
-- ✅ **COMPLIANT**: Proceed to per-lesson analysis
-- ⚠️ **NEEDS UPDATE**: Note required changes (will prompt user)
-
-#### Step 1.4: Apply Spec/Plan Fixes (If Needed)
-
-**If spec or plan needs updates**:
-
-```markdown
-**Spec/Plan Updates Required**:
-
-Spec.md:
-  - [List specific issues and fixes needed]
-
-Plan.md:
-  - [List specific issues and fixes needed]
-
-**Recommendation**: Update spec/plan first, then re-run /sp.constitution-sync
-```
-
-**Ask user**: "Should I update spec/plan now, or would you like to review and update manually?"
-
-**If user approves**: Apply fixes, document changes, proceed to Phase 2.
-
----
-
-### PHASE 2: Per-Lesson Intelligence (The Core)
-
-**Your Role**: AI as **Teacher** — Diagnose compliance, decide intervention, explain reasoning.
-
-**For EACH lesson** in chapter, run this analysis:
-
----
-
-#### Step 2.1: Run Quantitative Scripts (Data Gathering)
-
-**Script 1: Compliance Metrics**
-
+**Find lesson files**:
 ```bash
-.specify/scripts/bash/constitution-sync/compliance-metrics.sh [chapter-number] [lesson-file]
+# Typical pattern
+book-source/docs/NN-Part-N/MM-chapter-title/*.md
 ```
 
-**Expected output (JSON)**:
-```json
-{
-  "lesson": "01-intro.md",
-  "colearning_elements": {
-    "💬_prompts": 0,
-    "🎓_commentaries": 0,
-    "🚀_challenges": 0,
-    "✨_tips": 0
-  },
-  "lesson_closure": {
-    "try_with_ai_exists": true,
-    "post_sections": ["## What's Next"]
-  },
-  "pedagogical_ordering": {
-    "forward_references_found": 2,
-    "flagged_lines": [234, 456]
-  },
-  "tone_analysis": {
-    "conversational_score": 8,
-    "exploration_language": "present",
-    "ai_partnership": "mentioned"
-  },
-  "code_quality": {
-    "python_version": "3.13+",
-    "type_hints": "present",
-    "security": "no_issues"
-  }
-}
-```
+**Note**: Not all chapters have specs/plans (especially Part 1 conceptual). Assess lessons directly if artifacts missing.
 
-**Script 2: Forward Reference Detection**
+#### Step 2.2: For Each Lesson - Read with Constitutional Lens
 
-```bash
-.specify/scripts/bash/constitution-sync/detect-forward-references.sh [chapter-number]
-```
+**Not**: Count elements mechanically
+**But**: Judge whether content demonstrates constitutional values
 
-**Expected output (JSON)**:
-```json
-{
-  "lesson": "01-intro.md",
-  "violations_detected": [
-    {
-      "line": 234,
-      "code_snippet": "name.upper()",
-      "issue": "String method not introduced",
-      "severity_flag": "CRITICAL",
-      "context": "name = 'alice' print(name.upper())"
-    }
-  ]
-}
-```
-
----
-
-#### Step 2.2: AI Intelligence Layer (Contextual Judgment)
-
-**Now YOU (AI agent) read the lesson file and apply intelligence**:
-
-**Read Lesson Content**:
+**Read lesson file**:
 ```bash
 Read [lesson-file-path]
 ```
 
-**Analyze Against Constitution**:
+**Questions to Ask** (in order of importance):
 
-**Rule-by-Rule Check**:
+##### 1. CoLearning Elements (High Impact)
 
-1. **CoLearning Elements** (High Impact):
-   - Are 💬 AI Colearning Prompts present? (Expected: 1-4 per lesson)
-   - Are 🎓 Instructor Commentaries present? (Expected: 2-4 per lesson)
-   - Are 🚀 CoLearning Challenges present? (Expected: 1-4 per lesson)
-   - Are ✨ Teaching Tips present? (Expected: 1-3 per lesson)
-   - **Quality assessment**: Read actual prompts—are they exploration-focused or just "Ask AI to write X"?
+**Presence**:
+- Are 💬 AI Colearning Prompts present? (Expected: 1-4 per lesson)
+- Are 🎓 Instructor Commentaries present? (Expected: 2-4 per lesson)
+- Are 🚀 CoLearning Challenges present? (Expected: 1-4 per lesson)
+- Are ✨ Teaching Tips present? (Expected: 1-3 per lesson)
 
-2. **Lesson Closure Pattern** (High Impact):
-   - Does lesson end with "Try With AI" section?
-   - Are there ANY sections after "Try With AI"? (❌ VIOLATION if yes)
-   - Sections to flag: "Key Takeaways", "What's Next", "Summary", "Recap", "Completion Checklist"
+**Quality** (more important than quantity):
+- Do 💬 prompts encourage **exploration** ("What happens if...") or just "Ask AI to write X"?
+- Do 🎓 commentaries provide **pedagogical insight** (why this matters) or just restate content?
+- Do 🚀 challenges practice **co-learning** (iteration, validation) or passive copying?
+- Are ✨ tips **actionable** and contextual (not generic platitudes)?
 
-3. **Pedagogical Ordering** (High Impact):
-   - Script flagged forward references—are they ACTUAL violations?
-   - Read context around flagged lines (±5 lines)
-   - **Judge severity**:
-     - ❌ **CRITICAL**: Concept not introduced at all (beginner can't understand)
-     - ⚠️ **MAJOR**: Concept mentioned but not explained (confusing)
-     - ✅ **ACCEPTABLE**: Concept introduced inline before use
+##### 2. Three-Role AI Partnership (High Impact)
 
-4. **Three-Role AI Partnership** (High Impact):
-   - AI as Teacher: Does AI suggest patterns student doesn't know?
-   - AI as Student: Does AI adapt to student feedback?
-   - AI as Co-Worker: Is language collaborative vs. command-driven?
+**AI as Teacher**:
+- Does content show AI suggesting patterns student doesn't know yet?
+- Are prompts structured as "Ask AI to teach/explain" not just "Ask AI to generate"?
 
-5. **Graduated Teaching Pattern** (Medium Impact):
-   - Tier 1 (Book teaches): Foundational concepts explained directly?
-   - Tier 2 (AI handles): Complex syntax delegated to AI?
-   - Tier 3 (AI orchestrates): Scaling operations automated?
+**AI as Student**:
+- Does content show AI adapting to student specifications/feedback?
+- Are examples of iteration (student → AI → student refines → AI adapts)?
 
-6. **Cognitive Load** (Medium Impact):
-   - Count new concepts in lesson
-   - A1: max 5, A2: max 7, B1: max 10
-   - Is limit respected?
+**AI as Co-Worker**:
+- Is language collaborative ("Let's explore together") vs. command-driven ("Use AI to...")?
+- Does content emphasize partnership over tool usage?
 
-7. **Tone & Style** (Medium Impact):
-   - Conversational vs. documentation style?
-   - Exploration language ("Let's explore", "What happens if...") vs. prescriptive?
-   - AI partnership emphasized vs. tool-driven?
+##### 3. Lesson Closure Pattern (High Impact)
 
-8. **Specification-First Pedagogy** (Medium Impact):
-   - Code examples show: spec → AI prompt → code → validation?
-   - Or just: "Here's code, copy it"?
+**Structural requirement**:
+- Does lesson end with "Try With AI" section? (must be final section)
+- Are there ANY sections after "Try With AI"? (❌ VIOLATION if yes)
+- Sections to flag: "Key Takeaways," "What's Next," "Summary," "Recap," "Completion Checklist"
 
----
+**Why this matters**: "Try With AI" is the practice-integration point—nothing should dilute or distract from it.
 
-#### Step 2.3: Compliance Scoring (Quantitative)
+##### 4. Pedagogical Ordering (High Impact)
 
-**Calculate compliance percentage**:
+**No forward references**:
+- Are concepts introduced before use?
+- Are there references to future chapters/lessons without explanation?
 
-```python
-# Scoring weights (constitution-aligned priorities)
-WEIGHTS = {
-    "colearning_elements": 25,  # High impact
-    "lesson_closure": 20,       # High impact
-    "pedagogical_ordering": 20, # High impact
-    "three_role_partnership": 15, # High impact
-    "graduated_teaching": 10,   # Medium impact
-    "tone_style": 5,            # Medium impact
-    "code_quality": 5,          # Low impact (rarely violated)
-}
+**Critical judgment needed**:
+- Is a "violation" actually a problem, or is context provided?
+- Example: "We'll learn functions in Chapter 5" = ✅ Acceptable (preview with context)
+- Example: Using `name.upper()` before teaching methods = ❌ Violation (blocks learning)
 
-# Example scoring
-score = (
-    (colearning_score / 4) * 25 +  # 4 element types
-    (closure_score / 1) * 20 +     # Binary: compliant or not
-    (ordering_score / 1) * 20 +    # No critical violations?
-    (partnership_score / 3) * 15 + # 3 roles present?
-    (graduated_score / 3) * 10 +   # 3 tiers present?
-    (tone_score / 10) * 5 +        # Subjective 0-10 scale
-    (code_score / 1) * 5           # Python 3.13+, type hints
-)
+##### 5. Graduated Teaching Pattern (Medium Impact)
 
-# Final compliance: 0-100%
-```
+**Relevant for code lessons**:
+- **Tier 1 (Book teaches)**: Are foundational concepts explained directly?
+- **Tier 2 (AI Companion)**: Is complex syntax delegated to AI?
+- **Tier 3 (AI Orchestration)**: Are scaling operations automated?
 
-**Example Output**:
+**Not all lessons need all tiers**—judge contextually.
+
+##### 6. Cognitive Load (Medium Impact)
+
+**Count new concepts** introduced in lesson:
+- A1 (beginner): max 5 new concepts
+- A2 (elementary): max 7 new concepts
+- B1 (intermediate): max 10 new concepts
+
+**Is limit respected?** If over limit, is pacing appropriate?
+
+##### 7. Tone & Style (Medium Impact)
+
+**Conversational vs. documentation**:
+- Is tone conversational ("Let's explore") or documentary ("Functions are...")?
+- Is exploration encouraged ("What happens if...") over prescription ("Do this")?
+
+**AI partnership emphasis**:
+- Does content treat AI as partner or tool?
+- Is language collaborative or transactional?
+
+##### 8. Specification-First Pedagogy (Medium Impact, code lessons)
+
+**For code examples**:
+- Do they show: spec → AI prompt → code → validation?
+- Or just: "Here's code, copy it"?
+
+**"Specs Are the New Syntax"** emphasis:
+- Is specification-writing treated as primary skill?
+- Is value positioned as "articulating intent clearly" not "typing syntax fast"?
+
+#### Step 2.3: Assess Content Quality Independently
+
+**Separate Constitutional Alignment from Content Quality**:
+
+**Constitutional Alignment**: [Excellent / Good / Needs Work / Poor]
+- Does it embody values authentically?
+
+**Content Quality**: [Excellent / Good / Needs Improvement]
+- Is writing clear and engaging?
+- Are examples effective?
+- Is narrative flow smooth?
+- Is teaching effective (independent of constitutional alignment)?
+
+**Why separate?**
+- **Excellent content + gaps** → Surgical edit (preserve quality, add elements)
+- **Good content + mixed issues** → Enhanced regeneration (preserve good parts, fix problems)
+- **Poor content + violations** → Full regeneration (opportunity to improve both)
+
+#### Step 2.4: Qualitative Assessment Output
 
 ```markdown
-### Lesson 1: 01-variables-and-type-hints.md
+### Lesson Assessment: [Lesson N - Title]
 
-**Compliance Score: 72% (Structural issues, good content)**
+**Constitutional Alignment**: [Excellent / Good / Needs Work / Poor]
 
-**Breakdown**:
-- CoLearning Elements: 0% (0/4 types present) ❌
-- Lesson Closure: 100% ("Try With AI" present, no post-sections) ✅
-- Pedagogical Ordering: 100% (no forward references) ✅
-- Three-Role Partnership: 40% (AI mentioned but not embedded) ⚠️
-- Graduated Teaching: 70% (Tiers 1-2 present, light on Tier 2) ⚠️
-- Tone & Style: 90% (conversational, exploration-focused) ✅
-- Code Quality: 100% (Python 3.13+, type hints) ✅
+**Strengths**:
+- [What embodies constitutional values well?]
+- [Specific examples: "Instructor Commentary on line 145 demonstrates Three-Role Partnership clearly"]
 
-**Critical Issues**: Missing all CoLearning elements
-**Major Issues**: Three-Role Partnership not demonstrated
-**Minor Issues**: Tier 2 (AI Companion) underutilized
+**Gaps**:
+- [What's missing or misaligned?]
+- [Specific, not generic: "Prompts present but don't encourage exploration—they're task-focused ('Ask AI to write X')"]
 
-**Content Quality**: ✅ Excellent (explanations clear, examples solid, structure logical)
+**Content Quality**: [Excellent / Good / Needs Improvement]
+- Writing clarity: [assessment]
+- Examples effectiveness: [assessment]
+- Narrative flow: [assessment]
+
+**Recommended Intervention**: [Surgical Edit / Enhanced Regeneration / Full Regeneration / No Change]
+
+**Rationale**: [Why this intervention preserves quality while achieving alignment]
+- [Example: "Surgical edit preserves excellent narrative and examples, adds 4 targeted CoLearning elements at natural break points"]
 ```
 
 ---
 
-#### Step 2.4: Decision Matrix (Intelligent Intervention)
+### Phase 3: Intelligent Intervention Decisions
 
-**Based on compliance score + content quality + violation severity**:
+**Your Role**: AI as **Co-Worker** — Partner with user to decide best approach for each lesson.
 
-```
-IF compliance ≥ 90% AND no critical issues:
-   → SURGICAL EDIT
-   Rationale: Minor fixes, preserve quality
-   Time: 3-5 minutes
+#### Decision Framework: Judgment, Not Formula
 
-ELSE IF 60% ≤ compliance < 90% AND content quality good:
-   → ENHANCED REGENERATION
-   Rationale: Structural issues + quality content worth preserving
-   Time: 10-15 minutes
+##### Option 1: Surgical Edit (Preserve excellent content, add missing elements)
 
-ELSE IF compliance < 60% OR critical pedagogical violations:
-   → FULL REGENERATION
-   Rationale: Fundamental issues require rewrite
-   Time: 15-20 minutes
-
-ELSE IF compliance = 100%:
-   → NO CHANGE
-   Rationale: Already compliant
-   Time: 1 minute (validation only)
-```
-
-**CRITICAL JUDGMENT CALLS** (AI intelligence required):
-
-**When to choose SURGICAL EDIT**:
-- ✅ Content quality is excellent
-- ✅ Violations are **structural** (missing elements, post-sections)
-- ✅ Can insert/remove without disrupting flow
+**When to choose**:
+- ✅ Content quality is **excellent** (clear writing, effective teaching, good examples)
+- ✅ Gaps are **structural** (missing CoLearning elements, post-sections to remove)
+- ✅ Tone and partnership language already appropriate
+- ✅ Can insert elements naturally without disrupting flow
 - ✅ No pedagogical ordering violations
-- ❌ NOT if: Tone issues pervasive, forward references, poor quality
 
-**When to choose ENHANCED REGENERATION**:
-- ✅ Content quality is good (worth preserving)
-- ✅ Violations are **mixed** (structural + some content issues)
-- ✅ Core examples and explanations are solid
-- ⚠️ BUT: Some sections need rewriting (tone, ordering, partnerships)
-- ❌ NOT if: Fundamental conceptual issues, complete misalignment
+**What this involves**:
+- Insert 💬🎓🚀✨ elements at natural break points (after concepts introduced, before transitions)
+- Remove post-sections (e.g., "What's Next" after "Try With AI")
+- Enhance existing content with partnership language (minimal rewording)
+- Validate: Ensure insertions feel natural, not forced
 
-**When to choose FULL REGENERATION**:
-- ✅ Compliance < 60%
-- ✅ Critical pedagogical violations (forward refs block learning)
-- ✅ Tone issues throughout (documentation style, not conversational)
-- ✅ Learning objectives misinterpreted
-- ❌ ALWAYS if: Spec/plan changed significantly (lesson outdated)
+**Time**: 10-15 minutes per lesson
 
-**When to choose NO CHANGE**:
-- ✅ Compliance = 100%
-- ✅ All constitutional rules met
-- ✅ Content quality excellent
-- ⏱️ Validation only (re-run technical-reviewer to confirm)
+**Example scenario**:
+- Lesson with excellent narrative and examples
+- Missing CoLearning elements (0/4 types present)
+- Good conversational tone already
+- **Decision**: Add 4 targeted insertions (💬🎓🚀✨ one each) at natural points
+
+##### Option 2: Enhanced Regeneration (Preserve good parts, regenerate problem areas)
+
+**When to choose**:
+- ✅ Content quality is **good** (worth preserving examples, explanations, analogies)
+- ✅ Gaps are **mixed** (structural + tone/ordering/partnership issues)
+- ✅ Core content solid but needs constitutional framing
+- ✅ Can extract and reuse quality content with new narrative
+
+**What this involves**:
+- **Extract** excellent examples, explanations, analogies, code samples
+- **Identify** sections needing rewrite (documentation tone, missing partnership, ordering issues)
+- **Regenerate** with constitution + preserved content:
+  - Use lesson-writer skill
+  - Provide extracted content as "preserve these examples"
+  - Emphasize constitutional framing (Three-Role Partnership, exploration focus)
+  - Add CoLearning elements throughout (not just inserted afterward)
+- **Validate**: Does it preserve quality? Does it embody constitution? Natural flow?
+
+**Time**: 20-30 minutes per lesson
+
+**Example scenario**:
+- Lesson with solid code examples (preserve)
+- Documentation tone throughout (regenerate narrative)
+- Missing Three-Role Partnership framework (add via regeneration)
+- **Decision**: Extract examples, regenerate narrative with constitutional framing
+
+##### Option 3: Full Regeneration (Start fresh with constitutional intent)
+
+**When to choose**:
+- ✅ Content quality **needs improvement** OR
+- ✅ **Critical pedagogical violations** (forward references blocking learning) OR
+- ✅ **Fundamental misalignment** with constitutional values (tool-driven vs. partnership) OR
+- ✅ **Spec/plan changed** significantly (lesson outdated)
+
+**What this involves**:
+- **Review spec/plan** (if they exist):
+  - What are learning objectives? (from spec.md)
+  - What's the lesson structure? (from plan.md)
+  - What proficiency level? (CEFR metadata)
+- **Ground in constitution**:
+  - Which principles apply to this content?
+  - How should Three-Role Partnership manifest here specifically?
+  - What does "Specs Are the New Syntax" mean in this context?
+- **Generate** with constitutional lens:
+  - Use lesson-writer skill with constitutional constraints
+  - Build Three-Role Partnership from start (not added later)
+  - Natural CoLearning element integration
+  - Conversational, exploration-focused tone throughout
+- **Validate**: Run technical-reviewer for constitutional alignment
+
+**Time**: 30-45 minutes per lesson
+
+**Example scenario**:
+- Lesson with forward references (uses concepts before introduction)
+- Tool-driven language ("Use AI to do X")
+- Poor narrative flow
+- **Decision**: Fresh start with spec/plan as source of truth, constitutional grounding
+
+##### Option 4: No Change (Already embodies constitutional values)
+
+**When to choose**:
+- ✅ Constitutional alignment is **excellent**
+- ✅ Content quality is **excellent**
+- ✅ All requirements met **authentically** (not just mechanically)
+- ✅ Nothing to improve
+
+**What this involves**:
+- Validate with technical-reviewer (quick check)
+- Document as exemplar (can reference for other lessons)
+- Move to next lesson
+
+**Time**: 2-3 minutes (validation only)
 
 ---
 
-#### Step 2.5: Execute Intervention (Per-Lesson Action)
+#### Partnership Decision Points
 
----
+**Always consult user before**:
+- Full regeneration (existing content will be replaced)
+- Spec/plan modifications
+- Significant structural changes to excellent content
 
-##### SURGICAL EDIT Execution
-
-**Strategy**:
-1. Identify natural insertion points (after concepts introduced)
-2. Generate contextual CoLearning elements
-3. Insert via Edit tool (preserve surrounding content)
-4. Remove post-sections (if any)
-5. Validate: Run technical-reviewer
-
-**Example Process**:
+**Present options clearly**:
 
 ```markdown
-**Lesson 1: Surgical Edit Decision**
+**Lesson X Recommendation**: Enhanced Regeneration
 
-**Insertions Needed**: 12 CoLearning elements
-**Deletions Needed**: 1 post-section ("What's Next")
+**Assessment**:
+- Constitutional Alignment: Needs Work (missing Three-Role Partnership, documentation tone)
+- Content Quality: Good (excellent code examples, clear explanations)
 
-**Execution**:
+**Rationale**:
+Content has excellent examples worth preserving, but narrative needs constitutional framing. Enhanced regen preserves quality while achieving alignment.
 
-Insert 1: After line 89 (concept: variables introduced)
-  ├─ Element: 💬 AI Colearning Prompt
-  ├─ Context: Just explained what variables are
-  └─ Generated:
-      #### 💬 AI Colearning Prompt
-      > "Ask your AI: Why does Python let me reassign variables to
-      > different types (x = 5, then x = 'hello')? What are the
-      > tradeoffs of this flexibility?"
+**Options**:
+1. **Enhanced Regen** (recommended): Preserve examples, regenerate narrative with constitutional framing (20-30 min)
+2. **Surgical Edit**: Add elements only (faster but won't fix tone/partnership issues)
+3. **Full Regen**: Fresh start (thorough but loses existing quality examples)
 
-Insert 2: After line 156 (concept: type hints introduced)
-  ├─ Element: 🎓 Instructor Commentary
-  ├─ Context: Type hints just explained
-  └─ Generated:
-      #### 🎓 Instructor Commentary
-      > In AI-native development, type hints aren't about making
-      > Python "strongly typed"—they're about communicating intent
-      > to your AI pair-programmer. When you write `name: str`,
-      > you're saying "I intend this to be a string," and your AI
-      > understands that intent. Syntax is cheap; clarity is gold.
-
-[... 10 more insertions ...]
-
-Delete 1: Lines 678-695 ("What's Next" section after "Try With AI")
-  ├─ Violation: Post-section after lesson closure
-  └─ Action: Remove entire section
-
-Applying edits via Edit tool...
-✅ 12 insertions complete
-✅ 1 deletion complete
-
-Validation: Running technical-reviewer...
-✅ PASS (CoLearning elements: 4/4 types present, closure compliant)
+**Your preference?**
 ```
 
-**Use the Edit tool for each insertion/deletion**:
+---
 
+## III. EXECUTION WITH CONSTITUTIONAL INTEGRITY
+
+### Surgical Edit: Contextual Insertion
+
+**Principle**: Add constitutional elements **naturally**, not mechanically.
+
+#### Process
+
+**1. Identify Natural Insertion Points**
+
+Look for:
+- After concepts are introduced (natural pause point)
+- Before section transitions (bridges to next topic)
+- After examples (opportunity for reflection)
+- Before "Try With AI" section (final reinforcement)
+
+**Avoid**:
+- Mid-paragraph insertions (breaks flow)
+- Interrupting narrative momentum
+- Forcing elements where they don't fit naturally
+
+**2. Generate Contextual CoLearning Elements**
+
+**Each element should be**:
+- **Specific** to lesson content (not generic)
+- **Constitutional** in spirit (demonstrates Three-Role Partnership)
+- **Natural** in placement (enhances, doesn't interrupt)
+- **Conversational** in tone (not preachy or mechanical)
+
+**Examples**:
+
+**💬 AI Colearning Prompt** (after introducing developer role evolution):
+```markdown
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "The lesson mentions developers shifting from 'typist' to 'orchestrator.' Ask your AI to explain this transition using a concrete analogy from another profession that went through similar transformation."
 ```
+
+**Quality check**:
+- ✅ Encourages exploration (not just "ask AI to explain")
+- ✅ Demonstrates AI as Teacher (student learns from AI)
+- ✅ Specific to lesson content (developer role evolution)
+- ✅ Conversational tone
+
+**🎓 Instructor Commentary** (after explaining Three-Role Partnership):
+```markdown
+#### 🎓 Instructor Commentary
+
+> Notice how this partnership is **bidirectional**: You specify what you need (AI learns your intent), AI suggests patterns you don't know yet (you learn from AI), and together you create what neither could alone. This isn't "using a tool"—it's co-creation.
+```
+
+**Quality check**:
+- ✅ Provides pedagogical insight (why this matters)
+- ✅ Demonstrates constitutional principle (co-learning)
+- ✅ Enhances understanding (not just repeating content)
+- ✅ Natural placement (after concept introduction)
+
+**🚀 CoLearning Challenge** (practicing specification-writing):
+```markdown
+#### 🚀 CoLearning Challenge
+
+**Quick Test**: Ask your AI: "I want to build a simple to-do list app. What information do you need from me to implement it well?"
+
+**What you're practicing**: Specification-writing. The AI will ask about features, data structure, UI preferences—showing you what good specs include.
+```
+
+**Quality check**:
+- ✅ Hands-on practice (not passive reading)
+- ✅ Demonstrates AI as Student (adapts to your specs)
+- ✅ Teaches "Specs Are the New Syntax" principle
+- ✅ Low barrier to entry (quick test)
+
+**✨ Teaching Tip** (clarifying concept):
+```markdown
+#### ✨ Teaching Tip
+
+Think of it like automatic transmission: it didn't make driving obsolete—it made driving accessible by removing manual shifting complexity, letting you focus on navigation and decisions. AI does the same for coding.
+```
+
+**Quality check**:
+- ✅ Actionable analogy (helps understanding)
+- ✅ Contextual (relevant to content)
+- ✅ Concise (one-liner, not verbose)
+
+**3. Insert via Edit Tool**
+
+```markdown
 For each insertion:
-  old_string: [exact text from line N]
-  new_string: [exact text from line N] + [generated CoLearning element]
-
-For each deletion:
-  old_string: [entire post-section text]
-  new_string: [empty string]
+  old_string: [exact text from insertion point]
+  new_string: [exact text] + [generated CoLearning element]
 ```
 
----
+**4. Remove Post-Sections (if any)**
 
-##### ENHANCED REGENERATION Execution
-
-**Strategy**:
-1. Extract quality content (examples, explanations)
-2. Identify sections needing rewrite (violations)
-3. Regenerate with constitution + preserved quality
-4. Best of both worlds
-
-**Example Process**:
+**Common violations**:
+- "## What's Next" after "Try With AI"
+- "## Key Takeaways" after "Try With AI"
+- "## Summary" after "Try With AI"
 
 ```markdown
-**Lesson 2: Enhanced Regeneration Decision**
-
-**Compliance**: 65% (structural + pedagogical issues)
-**Content Quality**: Good (examples solid, some tone issues)
-
-**Extraction Phase**:
-
-Extracting quality content...
-  ✅ Example 1 (integer operations): Excellent, preserve
-  ✅ Example 3 (float precision): Excellent, preserve
-  ✅ Explanation of numeric types: Good tone, preserve
-  ⚠️ Section on "Type Conversions": Has pedagogical violations, regenerate
-  ⚠️ Paragraphs 5-8: Documentation tone, regenerate
-
-**Regeneration Phase**:
-
-Generating enhanced lesson...
-  ├─ Using preserved examples (3 examples)
-  ├─ Using preserved explanations (2 sections)
-  ├─ Regenerating problematic sections (with constitution)
-  ├─ Adding missing CoLearning elements (throughout)
-  └─ Fixing pedagogical ordering (no forward references)
-
-**Strategy for regeneration**:
-- Read spec.md learning objectives (source of truth)
-- Read plan.md lesson structure (intended flow)
-- Use lesson-writer skill with constitution constraints
-- Embed preserved examples at appropriate points
-- Add CoLearning elements throughout
-
-Generated: 02-integers-and-floats.md (enhanced version)
-
-**Diff Summary**:
-  Preserved: 60% of original content (quality maintained)
-  Regenerated: 40% (compliance fixed)
-  Added: 8 CoLearning elements
-  Fixed: 2 pedagogical ordering violations
-  Fixed: 4 tone/style issues
-
-Validation: Running technical-reviewer...
-✅ PASS (All rules compliant, quality preserved)
+For each post-section:
+  old_string: [entire section including heading]
+  new_string: [empty string - complete removal]
 ```
 
-**Use lesson-writer skill invocation**:
+**5. Validate Natural Flow**
 
-```
-Invoke lesson-writer with:
-- Spec: specs/part-4-chapter-14/spec.md
-- Plan: specs/part-4-chapter-14/plan.md (Lesson 2 objectives)
-- Preserved Content: [Extracted examples and explanations]
-- Constitution Constraints: [List violated rules to enforce]
-- Output: book-source/docs/04-Part-4/14-data-types/02-numeric.md
-```
+**After insertions, read lesson**:
+- Do elements feel natural or forced?
+- Does flow remain smooth?
+- Is tone consistent (conversational, not preachy)?
+
+**If insertions feel forced**: Adjust placement or wording.
 
 ---
 
-##### FULL REGENERATION Execution
+### Enhanced Regeneration: Preserve + Improve
 
-**Strategy**:
-1. Use spec/plan as authoritative source
-2. Generate fresh lesson with constitution
-3. No preservation (fundamental issues)
+**Principle**: Keep what embodies constitutional values, regenerate what doesn't.
 
-**Example Process**:
+#### Process
+
+**1. Extract Quality Content**
+
+**Read lesson thoroughly**, identify:
+- **Excellent examples** (code samples, analogies, real-world scenarios)
+- **Effective explanations** (clear, accessible, engaging)
+- **Good analogies** (help understanding)
+- **Existing constitutional elements** (if any Three-Role Partnership demonstrations)
+
+**Document preserved content**:
+```markdown
+## Content to Preserve (Lesson X)
+
+**Example 1** (lines 89-105):
+[code sample or explanation]
+Rationale: Clear, effective teaching; already demonstrates exploration
+
+**Analogy** (line 234):
+"Think of it like..."
+Rationale: Helps understanding; relatable
+```
+
+**2. Identify Regeneration Targets**
+
+**Sections needing rewrite**:
+- Documentation tone areas ("Functions are defined as...")
+- Missing CoLearning integration
+- Tool-driven language ("Use AI to do X" vs. "Collaborate with AI to explore...")
+- Forward references or ordering issues
+
+**3. Regenerate with Constitution + Preservation**
+
+**Use lesson-writer skill** with specific instructions:
 
 ```markdown
-**Lesson 4: Full Regeneration Decision**
-
-**Compliance**: 35% (fundamental issues)
-**Critical Violations**:
-- Pedagogical ordering (uses iteration before loops taught)
-- Tone (documentation style throughout)
-- Concept misinterpretation (teaches usage, should teach awareness)
-
-**Regeneration Phase**:
-
-Reading learning objectives from spec.md...
-  → "Understand that Python has collection types (list, dict, tuple, set)"
-  → "Recognize collection syntax in code"
-  → "Know when to ask AI about collections vs use primitive types"
-
-Reading plan.md lesson structure...
-  → Collections awareness ONLY (no deep dive)
-  → Tier 1: What they are
-  → Tier 2: Basic syntax recognition
-  → Tier 3: NOT covered (defer to Ch 18-19)
-
-Generating new lesson from scratch...
-  ├─ Constitution-compliant structure
-  ├─ CoLearning elements throughout
-  ├─ NO iteration (just show static examples)
-  ├─ NO methods (just show syntax)
-  ├─ Conversational tone
-  └─ AI partnership emphasized
-
-**Strategy for regeneration**:
-- Read spec.md + plan.md (source of truth)
-- Use lesson-writer skill with strict constraints
-- Enforce: NO forward references
-- Enforce: Collections AWARENESS (not deep dive)
-- Add: CoLearning elements throughout
-- Tone: Conversational, exploration-focused
-
-Generated: 04-collections-awareness.md (new version)
-
-**Key Changes**:
-  - Removed: 15+ code examples with iteration/methods
-  - Added: 6 simple examples (static collections)
-  - Added: 12 CoLearning elements
-  - Fixed: All pedagogical ordering violations
-  - Restructured: From reference to learning narrative
-
-Validation: Running technical-reviewer...
-✅ PASS (Fundamental issues resolved)
+Invoke lesson-writer:
+- Spec: [path to spec.md, if exists]
+- Plan: [path to plan.md, lesson N section, if exists]
+- Preserved Content: [extracted examples and explanations from Step 1]
+- Constitutional Constraints:
+  - Emphasize Three-Role AI Partnership throughout
+  - Conversational, exploration-focused tone
+  - Add CoLearning elements naturally (💬🎓🚀✨)
+  - "Specs Are the New Syntax" framing for code examples
+  - No forward references
+- Output: [lesson file path]
 ```
 
-**Use lesson-writer skill invocation**:
+**4. Validate Hybrid Result**
 
-```
-Invoke lesson-writer with:
-- Spec: specs/part-4-chapter-14/spec.md
-- Plan: specs/part-4-chapter-14/plan.md (Lesson 4 objectives)
-- Constitution Constraints: [All relevant rules, strict enforcement]
-- Output: book-source/docs/04-Part-4/14-data-types/04-collections-awareness.md
-```
+**Check**:
+- ✅ Does it preserve quality? (examples, explanations intact)
+- ✅ Does it embody constitution? (Three-Role Partnership, co-learning)
+- ✅ Does it flow naturally? (not disjointed)
+- ✅ Is tone consistent? (conversational throughout)
+
+**Run technical-reviewer** for constitutional alignment validation.
 
 ---
 
-##### NO CHANGE Execution
+### Full Regeneration: Constitutional Grounding
 
-**Strategy**: Validation only
+**Principle**: Generate from constitutional intent, using spec/plan as source of truth.
+
+#### Process
+
+**1. Review Spec/Plan (if they exist)**
+
+**Read spec.md**:
+- What are learning objectives?
+- What proficiency level (A1/A2/B1)?
+- What's the scope (awareness vs. mastery)?
+
+**Read plan.md** (specific lesson section):
+- What's the lesson structure?
+- What concepts should be covered?
+- What's the intended flow?
+
+**If no spec/plan**: Use existing lesson objectives (from frontmatter metadata).
+
+**2. Ground in Constitution**
+
+**Ask**:
+- Which of the 18 principles apply to this content type?
+- How should Three-Role Partnership manifest here specifically?
+- What does "Specs Are the New Syntax" mean in this context?
+- Which Graduated Teaching tier is appropriate (Book teaches / AI Companion / AI Orchestration)?
+
+**3. Generate with Constitutional Lens**
+
+**Use lesson-writer skill** with constitutional constraints:
 
 ```markdown
-**Lesson 3: No Change Decision**
-
-**Compliance**: 100%
-**Content Quality**: Excellent
-
-**Validation**:
-
-Running technical-reviewer...
-✅ PASS (All constitutional rules met)
-
-**Action**: None (lesson already compliant)
-**Time**: 1 minute
+Invoke lesson-writer:
+- Spec: [spec.md path]
+- Plan: [plan.md lesson section]
+- Constitutional Framework:
+  - Build Three-Role AI Partnership from start (demonstrate in narrative, not just add elements)
+  - Natural CoLearning element integration (not mechanical insertion)
+  - Conversational, exploration-focused tone throughout
+  - "Specs Are the New Syntax" emphasis (for code lessons)
+  - No forward references (pedagogical ordering strict)
+  - Cognitive load management (A1: 5 max, A2: 7 max, B1: 10 max concepts)
+- Output: [lesson file path]
 ```
+
+**4. Validate Against Constitution**
+
+**Run technical-reviewer**:
+```bash
+Invoke technical-reviewer:
+- File: [lesson file path]
+- Focus: Constitutional alignment (Three-Role Partnership, CoLearning elements, tone, ordering)
+```
+
+**Check embodiment** (not just presence):
+- Does narrative demonstrate partnership authentically?
+- Do CoLearning elements encourage exploration?
+- Is tone conversational throughout?
+- Does it teach specs-first for code examples?
 
 ---
 
-### PHASE 3: Chapter-Level Validation (Cross-Lesson Consistency)
+## IV. VALIDATION & PARTNERSHIP REPORTING
 
-**Your Role**: AI as **Co-Worker** — Ensure chapter-level coherence after per-lesson changes.
+### Chapter-Level Constitutional Coherence
 
-#### Step 3.1: Spec/Plan Consistency
+**After all lessons processed**, validate chapter as integrated whole.
 
-**Check**:
-- All spec learning objectives covered in lessons?
-- All plan concepts present in lessons?
-- CEFR progression maintained (A1 → A2 → B1)?
-
-**If issues found**: Flag for user review (may need plan update).
-
-#### Step 3.2: Cross-Lesson Consistency
+#### Cross-Lesson Consistency
 
 **Check**:
-- No forward references across lessons (Lesson N only uses concepts from 1 to N)?
-- Prerequisite chain intact (L1 → L2 → L3 → L4 → L5)?
-- Terminology consistent across lessons?
-- CoLearning elements balanced across lessons?
+- ✅ Does chapter demonstrate **Three-Role Partnership progression**? (not just present in isolated lessons)
+- ✅ Are CoLearning elements **balanced** across lessons? (not heavy in L1, missing in L5)
+- ✅ Does tone remain **conversational** throughout chapter?
+- ✅ Is **Graduated Teaching Pattern** evident across lessons? (if applicable)
+- ✅ No **forward references** across lessons? (Lesson N only uses concepts from 1 to N-1)
+- ✅ **Terminology consistent** across lessons?
 
-**If issues found**: Identify problematic lessons, may need additional surgical edits.
+**If issues found**:
+- Identify problematic lessons
+- May need additional surgical edits for consistency
+- Consult user on approach
 
-#### Step 3.3: Constitution Compliance (Chapter-Wide)
+#### Constitutional Embodiment
 
-**Check**:
-- All 18 constitutional principles verified at chapter level
-- All lessons have CoLearning elements (4 types)?
-- All lessons follow lesson closure pattern?
-- All lessons demonstrate Three-Role Partnership?
+**Beyond structural compliance**, assess:
+- Does chapter **teach with AI** (not just about AI)?
+- Does it emphasize **specs over syntax** (if code-heavy)?
+- Does it **validate alongside generation**?
+- Does it demonstrate **co-learning partnership** authentically?
 
 **Output**:
 
@@ -740,350 +732,175 @@ Running technical-reviewer...
 
 **Spec/Plan Consistency**: ✅ PASS
   ✓ All spec objectives covered in lessons
-  ✓ All plan concepts present in lessons
+  ✓ All plan concepts present
   ✓ CEFR progression maintained
 
 **Cross-Lesson Consistency**: ✅ PASS
   ✓ No forward references across lessons
-  ✓ Prerequisite chain intact (L1→L2→L3→L4→L5)
+  ✓ Prerequisite chain intact (L1→L2→L3...)
   ✓ Terminology consistent
+  ✓ CoLearning elements balanced
 
-**Constitution Compliance**: ✅ PASS
-  ✓ All 18 principles verified
-  ✓ CoLearning elements present in all lessons
-  ✓ Lesson closure pattern: 5/5 compliant
-  ✓ Pedagogical ordering: 5/5 compliant
+**Constitutional Embodiment**: ✅ PASS
+  ✓ All 18 principles verified at chapter level
+  ✓ Three-Role Partnership demonstrated progressively
+  ✓ Co-learning emphasized throughout
+  ✓ "Specs Are the New Syntax" framing present (for code chapters)
 
 **Final Verdict**: ✅ PASS (Chapter ready for publication)
 ```
 
 ---
 
-### PHASE 4: Summary Report (Narrative Co-Learning)
+### Partnership Report to User
 
-**Your Role**: AI as **Teacher** — Explain what happened, why decisions were made, what user should know.
+**Use template**: `.specify/templates/constitution-sync-report-template.md`
 
-#### Report Template
-
-Use the standardized template at `.specify/templates/constitution-sync-report-template.md` to structure your output.
-
-**Template Structure**:
-- **Frontmatter**: Metadata (ID, chapter, constitution version, status)
-- **Executive Summary**: Total time, lessons processed, summary
-- **Constitution Changes Applied**: What changed, impact on chapter
-- **Phase 0-3 Details**: Delta analysis, spec/plan checks, per-lesson intelligence, chapter validation
-- **Why This Was Optimal**: Comparison to all-surgical and all-regenerate approaches
-- **Recommendations**: Next steps, decision points
-- **Appendix**: Detailed metrics, time breakdown, intervention distribution
-
-#### Report Location
-
-Save completed reports to:
-```
-history/constitution-sync/YYYY-MM-DD-chapter-N-sync-vX.X.X.md
-```
-
-**Naming examples**:
-- `history/constitution-sync/2025-11-10-chapter-14-sync-v3.1.2.md`
-- `history/constitution-sync/2025-11-10-chapter-12-sync-v3.1.2.md`
-
-#### Report Structure Example
+**Key Sections**:
 
 ```markdown
 # ✅ CONSTITUTION SYNC COMPLETE: Chapter [N]
 
 ## Executive Summary
 
-**Total Time**: [X] minutes
-**Approach**: Intelligent hybrid (per-lesson decisions)
-**Constitution Version**: [version]
+**Constitutional Alignment**: [Before X% → After Y%]
+**Approach**: [Interventions used and rationale]
+**Content Quality**: [Preserved / Improved]
+**Time**: [Total time invested]
 
-## Constitution Changes Applied
+## What Changed and Why
 
-**What Changed**:
-- [List changes from delta analysis]
+**Constitutional Gaps Addressed**:
+- [Not just "added elements" but "integrated Three-Role Partnership demonstration"]
+- [Specific constitutional principles that were missing and how they're now embodied]
 
-**Impact on This Chapter**:
-- [Explain which rules affected this chapter and why]
+**Quality Improvements** (beyond compliance):
+- [How content got better, not just compliant]
+- [Examples preserved, tone improved, flow enhanced]
 
-## Per-Lesson Breakdown
+## Per-Lesson Decisions
 
-| Lesson | Compliance | Decision | Time | Changes |
-|--------|-----------|----------|------|---------|
-| Lesson 1 | 72% | Surgical Edit | 8 min | 15 insertions |
-| Lesson 2 | 65% | Enhanced Regen | 12 min | 40% regenerated, 60% preserved |
-| Lesson 3 | 100% | No Change | 1 min | Validation only |
-| Lesson 4 | 35% | Full Regen | 18 min | Complete rewrite |
-| Lesson 5 | 92% | Surgical Edit | 2 min | 1 deletion (18 lines) |
+| Lesson | Alignment Before | Intervention | Rationale | Result |
+|--------|-----------------|--------------|-----------|---------|
+| L1 | Good (70%) | Surgical Edit | Excellent content, missing elements | 4 targeted insertions, preserved narrative |
+| L2 | Needs Work (55%) | Enhanced Regen | Good examples, documentation tone | Preserved examples, regenerated narrative with partnership framing |
+| L3 | Excellent (95%) | No Change | Already embodies values | Validation only |
 
-**Total**: 5 lessons, 46 minutes
+## Why This Approach Was Optimal
 
-## Why This Was Optimal
+**vs. All Surgical Edit**:
+- Would have missed Lesson 2's tone/partnership issues
+- Quality: Lower (can't fix deep problems with insertions alone)
 
-**vs All Surgical Edit**:
-- Would have missed Lesson 4 fundamental issues
-- Quality: Lower (forced surgery on deep problems)
-- Time: ~40 min (saved 6 min) BUT lower quality
-
-**vs All Regenerate**:
-- Would have regenerated excellent Lessons 1, 3, 5
+**vs. All Full Regeneration**:
+- Would have replaced Lesson 1's excellent narrative unnecessarily
 - Quality: Risk losing existing excellence
-- Time: ~2-3 hours (saved 1.5-2.5 hours!)
+- Time: 2-3 hours (vs. actual 45 minutes)
 
 **Intelligent Hybrid**:
-- Each lesson got exactly what it needed
+- Each lesson got what it needed
 - Quality: Maximized (preserve good, fix bad)
-- Time: 46 minutes (optimal)
+- Time: Optimal (45 minutes for 3 lessons)
 
-## Constitution Compliance
+## Constitutional Compliance Achieved
 
-✅ All 18 principles verified compliant
-✅ CoLearning elements (100% coverage)
+✅ All 18 constitutional principles verified compliant
+✅ CoLearning elements (100% coverage, quality-checked)
 ✅ Lesson closure pattern (100% compliant)
 ✅ Pedagogical ordering (no forward references)
-✅ Three-Role Partnership (demonstrated throughout)
+✅ Three-Role Partnership (demonstrated authentically throughout)
+✅ "Specs Are the New Syntax" (emphasized for code lessons)
 
-## Recommendation
+## Recommendations
 
-Chapter [N] is now constitution-compliant and ready for publication.
+**Chapter is publication-ready.**
 
 **Next Steps**:
-1. Review changes (git diff to see what was modified)
-2. Test Docusaurus build (ensure no broken links)
-3. Commit changes:
+1. **Review changes**: `git diff` to see specific edits
+2. **Test build**: Ensure Docusaurus builds without errors
+3. **Commit changes**:
    ```bash
-   git add .
-   git commit -m "Constitution sync: Chapter [N] (intelligent hybrid)"
+   git add book-source/docs/[chapter-path]/*.md
+   git commit -m "Constitution sync: Chapter [N] aligned with v3.1.2
+
+   - Integrated Three-Role AI Partnership throughout
+   - Added CoLearning elements (💬🎓🚀✨) naturally
+   - Fixed lesson closure violations
+   - Preserved excellent narrative quality"
    ```
-4. Process next chapter:
-   ```bash
-   /sp.constitution-sync [N+1]
-   ```
+4. **Process next chapter?**: Run `/sp.constitution-sync [N+1]`
 
-## Decision Points
-
-**Would you like to**:
-1. Review changes before committing?
-2. Process next chapter immediately?
-3. Batch process multiple chapters?
-4. Generate detailed diff report?
-
-I'm here to execute your decision.
+**Your decision?**
 ```
 
 ---
 
-## Helper Scripts (Quantitative Support)
+## V. CONTINUOUS IMPROVEMENT
 
-The command uses these helper scripts (AI runs them, interprets outputs):
+### Learning from Each Sync
 
-### 1. `artifact-locator.sh`
+**After completing sync**, reflect:
 
-**Purpose**: Find all artifacts for a chapter
+**What worked well?**
+- Which interventions preserved quality most effectively?
+- Which CoLearning insertions felt most natural?
+- What constitutional elements resonated most in this chapter?
 
-**Usage**:
-```bash
-.specify/scripts/bash/constitution-sync/artifact-locator.sh [chapter-number]
-```
+**What to improve next time?**
+- Were any interventions too heavy-handed?
+- Did any insertions feel forced?
+- How can next sync be more constitutionally grounded?
 
-**Output** (JSON):
-```json
-{
-  "chapter": 14,
-  "artifacts": {
-    "spec": "specs/part-4-chapter-14/spec.md",
-    "plan": "specs/part-4-chapter-14/plan.md",
-    "lessons": [...]
-  },
-  "status": "complete"
-}
-```
+**Document insights** for future syncs.
 
 ---
 
-### 2. `compliance-metrics.sh`
+### Evolving Constitutional Understanding
 
-**Purpose**: Quantitative metrics per lesson
+**As constitution evolves**, update your understanding:
 
-**Usage**:
-```bash
-.specify/scripts/bash/constitution-sync/compliance-metrics.sh [chapter-number] [lesson-file]
-```
+**When new principles added**:
+- How do they manifest in content?
+- Which content types do they apply to?
+- What does authentic embodiment look like?
 
-**Output** (JSON):
-```json
-{
-  "lesson": "01-intro.md",
-  "colearning_elements": {
-    "💬_prompts": 0,
-    "🎓_commentaries": 0,
-    "🚀_challenges": 0,
-    "✨_tips": 0
-  },
-  "lesson_closure": {
-    "try_with_ai_exists": true,
-    "post_sections": []
-  },
-  "pedagogical_ordering": {
-    "forward_references_found": 0,
-    "flagged_lines": []
-  },
-  "tone_analysis": {
-    "conversational_score": 8,
-    "exploration_language": "present"
-  }
-}
-```
+**When existing principles clarified**:
+- Adjust assessment lens
+- Re-evaluate what "good" looks like
+
+**When exemplars identified**:
+- Study what makes them excellent
+- Apply patterns to future syncs
+
+**Stay grounded in constitution as living document, not static rulebook.**
 
 ---
 
-### 3. `detect-forward-references.sh`
+## Success Criteria
 
-**Purpose**: Flag potential pedagogical ordering violations
-
-**Usage**:
-```bash
-.specify/scripts/bash/constitution-sync/detect-forward-references.sh [chapter-number]
-```
-
-**Output** (JSON):
-```json
-{
-  "lesson": "01-intro.md",
-  "violations_detected": [
-    {
-      "line": 234,
-      "code_snippet": "name.upper()",
-      "issue": "String method not introduced",
-      "severity_flag": "CRITICAL",
-      "context": "name = 'alice' print(name.upper())"
-    }
-  ]
-}
-```
+✅ **Constitutional Embodiment** (not just mechanical compliance)
+✅ **Content Quality** (preserved or improved, never degraded)
+✅ **User Partnership** (collaborative decisions, not dictation)
+✅ **Publication Readiness** (chapter fully aligned and ready to ship)
+✅ **Pedagogical Integrity** (teaches values, not just topics)
 
 ---
 
-## AI Intelligence at Core
+## Philosophy Reminder
 
-**Philosophy**: Scripts provide **data points** (counts, patterns, flags). AI provides **intelligence** (context, severity, recommendations).
+**Constitution-sync is not about**:
+- ❌ Checking boxes mechanically
+- ❌ Following formulas blindly
+- ❌ Compliance for compliance's sake
 
-**Example**:
+**Constitution-sync is about**:
+- ✅ Embodying constitutional values authentically
+- ✅ Preserving and enhancing content quality
+- ✅ Partnering with user intelligently
+- ✅ Teaching with AI, not just about AI
 
-**Script says**: "Found `.upper()` at line 234"
-
-**AI reads context**:
-```python
-# Line 230-240
-name = "alice"
-print(name.upper())  # No introduction of methods
-```
-
-**AI judges**: "CRITICAL - beginner doesn't know what methods are"
-
-**vs.**
-
-**Script says**: "Found `.upper()` at line 234"
-
-**AI reads context**:
-```markdown
-### String Methods (New Concept)
-
-Python strings have built-in methods (actions they can do).
-One useful method is `.upper()` which converts to uppercase:
-
-\`\`\`python
-name = "alice"
-print(name.upper())  # Prints: ALICE
-\`\`\`
-```
-
-**AI judges**: "ACCEPTABLE - concept introduced inline before use"
-
-**This is why AI intelligence is at core**—only AI can read context and make pedagogical judgments.
+**Every decision should ask**: *Does this help content better embody what the constitution stands for?*
 
 ---
 
-## Performance Comparison
-
-| Scenario | All Surgery | All Regen | Intelligent Hybrid |
-|----------|------------|-----------|-------------------|
-| **Time** | 40 min | 2-3 hours | **46 min** |
-| **Quality** | ⚠️ Misses deep issues | ⚠️ Loses existing quality | ✅ **Optimal** |
-| **Risk** | ⚠️ Some lessons still broken | ⚠️ May introduce new issues | ✅ **Minimal** |
-| **Efficiency** | ⚠️ Surgical on unfixable | ⚠️ Regen on excellent | ✅ **Right tool per lesson** |
-
-**Why Intelligent Hybrid Wins**:
-- Surgical edit on minor issues (fast, preserve quality)
-- Enhanced regen on mixed issues (best of both worlds)
-- Full regen on fundamental issues (deep fix when needed)
-- Skip on compliant lessons (no unnecessary work)
-
----
-
-## Success Metrics
-
-**Quality Gates**:
-- ✅ All 18 constitutional principles verified compliant
-- ✅ CoLearning elements present in all lessons (4 types)
-- ✅ Lesson closure pattern correct (no post-sections)
-- ✅ Pedagogical ordering maintained (no forward references)
-- ✅ Three-Role Partnership demonstrated
-
-**Efficiency Metrics**:
-- ✅ Per-lesson time: 1 min (skip) to 20 min (full regen)
-- ✅ Chapter time: 30-60 min average (vs. 2-3 hours all-regen)
-- ✅ Quality preserved where possible (vs. blind regeneration)
-
-**Output Quality**:
-- ✅ Intelligent decisions (context-aware, not mechanical)
-- ✅ Narrative report (explains reasoning, not just actions)
-- ✅ Strategic partnership (decision points, not dictation)
-
----
-
-## Maintenance & Evolution
-
-### Adding New Constitutional Rules
-
-When constitution is updated with new rules:
-
-1. **Update command file**: Add new rule to Phase 0 (delta analysis) and Phase 2 (per-lesson checks)
-2. **Update helper scripts**: If quantitative detection possible (e.g., count new element type)
-3. **Test on existing chapter**: Verify new rule detected and fixed correctly
-4. **Document change**: Update SYSTEM-OVERVIEW.md with new rule handling
-
-### Updating Detection Heuristics
-
-When false positives/negatives occur:
-
-1. **Observe patterns**: Which violations are missed or incorrectly flagged?
-2. **Refine scripts**: Update detection patterns in helper scripts
-3. **Update AI judgment logic**: Improve context interpretation in command file
-4. **Test on problematic chapters**: Verify improvements
-
----
-
-## Credits & Philosophy
-
-**Design Principles**:
-1. **AI intelligence at core** (scripts support, don't decide)
-2. **Per-lesson intelligence** (right intervention per lesson)
-3. **Content quality preservation** (when possible)
-4. **Constitutional alignment** (all 18 principles)
-5. **Narrative partnership** (explain reasoning, offer choices)
-
-**Inspired By**:
-- /sp.error-analysis (AI-centric analysis pattern)
-- Constitution v3.1.2 (18 principles, co-learning paradigm)
-- Intelligent hybrid approach (optimize per-lesson, not per-chapter mode)
-
-**Built With**:
-- AI agent intelligence (context-aware judgments)
-- Bash helper scripts (quantitative metrics)
-- JSON structured data (parseable outputs)
-- Markdown narrative reports (human-readable)
-
----
-
-**This system intelligently brings existing chapters into constitutional compliance without unnecessary regeneration or quality loss.**
+**This command brings content into authentic alignment with constitutional values through intelligent, judgment-driven partnership.**
