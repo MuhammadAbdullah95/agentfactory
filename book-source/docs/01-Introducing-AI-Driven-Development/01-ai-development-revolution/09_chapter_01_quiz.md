@@ -10,15 +10,15 @@ Test your understanding of how AI is transforming software development, from the
 <Quiz
   title="Chapter 1: AI Development Revolution Assessment"
   questions={[    {
-      question: "In Sarah Chen's story, what made her ability to build a production dashboard in 48 hours fundamentally different from traditional development?",
+      question: "According to Y Combinator's Winter 2025 batch data, what percentage of some startups' codebases were AI-generated?",
       options: [
-        "She had more experience than typical beginners",
-        "Cloud infrastructure removed technical barriers",
-        "She used a pre-built template for dashboards",
-        "AI handled architecture and implementation decisions"
+        "Approximately 50% with manual oversight",
+        "About 75% for rapid prototyping",
+        "Approximately 95% (excluding library imports)",
+        "Nearly 100% with no human review"
       ],
-      correctOption: 3,
-      explanation: "Sarah's 48-hour success wasn't about her personal experience—it was about AI (Claude Code) handling the complex decisions and implementation details. Traditional development required 5 developers and 3 weeks because humans had to manually implement every line of code and make every architectural decision. With AI as a partner, Sarah could orchestrate the implementation while focusing on what she uniquely provided: business understanding and problem definition. This illustrates the shift from 'typist' (writing code) to 'orchestrator' (directing AI). Pre-built templates wouldn't have solved her specific analytics needs, and while cloud helps, the real transformation was AI collaboration.",
+      correctOption: 2,
+      explanation: "Y Combinator managing partner Jared Friedman revealed that a quarter of their W25 batch had codebases that were approximately 95% AI-generated (excluding library imports). These weren't non-technical founders—they were technical founders 'completely capable of building their own products from scratch' who chose AI orchestration. This illustrates the shift from manual coding to AI-assisted development even among highly skilled developers. YC CEO Garry Tan emphasized that founders still needed 'taste and training to know that an LLM is spitting bad stuff or good stuff,' showing that technical judgment remains critical.",
       source: "Lesson 1: A Moment That Changed Everything"
     },
     {
@@ -310,15 +310,15 @@ Test your understanding of how AI is transforming software development, from the
       source: "Lesson 8: Traditional CS Education Falls Short"
     },
     {
-      question: "Why is the 48-hour timeline in Sarah Chen's story significant beyond just showing speed?",
+      question: "What does the Y Combinator W25 data reveal about the relationship between technical skill and AI usage?",
       options: [
-        "She worked faster than any developer ever could",
-        "It shows traditional education is completely wrong",
-        "It proves AI requires no human developer input",
-        "It demonstrates barriers that kept people out are gone"
+        "Only non-technical founders rely heavily on AI",
+        "Technical founders avoid AI to maintain code quality",
+        "AI requires no human developer input or judgment",
+        "Highly skilled developers choose AI orchestration over manual coding"
       ],
       correctOption: 3,
-      explanation: "Sarah's story isn't about her personal superhuman abilities—it's about what became possible when barriers fell. Before AI, building that dashboard required 5 full-time developers for 3 weeks because they had to manually implement everything. With AI, one person with domain knowledge (not advanced coding skills) built production-quality software in 48 hours. This illustrates that barriers aren't about intelligence—they're about mechanical tasks (syntax, boilerplate, configuration) that AI now handles.",
+      explanation: "The YC W25 data shows that technical founders 'completely capable of building their own products from scratch' chose to have approximately 95% of their code AI-generated. This demonstrates that AI adoption isn't about lack of skill—it's about strategic efficiency. These founders could code everything manually but found it more effective to orchestrate AI while focusing on architecture, product strategy, and business logic. As Garry Tan noted, developers still need 'taste and training' to evaluate AI output, showing that technical judgment remains essential even as mechanical coding is automated.",
       source: "Lesson 1: A Moment That Changed Everything"
     },
     {
@@ -366,7 +366,7 @@ Test your understanding of how AI is transforming software development, from the
         "Companies will stop paying developers competitive salaries"
       ],
       correctOption: 2,
-      explanation: "This seems counterintuitive: shouldn't automation reduce labor demand? But the lesson explains the opposite happens. When implementation becomes cheap/fast, custom software becomes economically viable. Sarah Chen could afford a custom dashboard (would be too expensive to build traditionally). Individuals can build tools for personal use. Companies expand into new software projects they previously couldn't afford. The market grows, not shrinks—and demand for developers increases.",
+      explanation: "This seems counterintuitive: shouldn't automation reduce labor demand? But the lesson explains the opposite happens. When implementation becomes cheap/fast, custom software becomes economically viable. YC founders can build specialized solutions for specific niches (would be too expensive to build traditionally). Individuals can build tools for personal use. Companies expand into new software projects they previously couldn't afford. The market grows, not shrinks—and demand for developers increases.",
       source: "Lesson 2: The $3 Trillion Developer Economy"
     },
     {
@@ -378,7 +378,7 @@ Test your understanding of how AI is transforming software development, from the
         "SaaS will disappear completely and is already obsolete"
       ],
       correctOption: 1,
-      explanation: "Traditional SaaS logic: build one app, serve millions of users to amortize costs (expensive to create). AI logic: cost/time to build custom software dropped dramatically, so individuals can afford bespoke solutions designed for their specific needs. Sarah's analytics dashboard isn't a generic product for thousands; it's specifically for her business. The market doesn't shrink—it explodes because millions of custom applications become economically viable.",
+      explanation: "Traditional SaaS logic: build one app, serve millions of users to amortize costs (expensive to create). AI logic: cost/time to build custom software dropped dramatically, so individuals can afford bespoke solutions designed for their specific needs. YC founders with 95% AI-generated code aren't building generic products for mass markets—they're creating specialized solutions for specific niches. The market doesn't shrink—it explodes because millions of custom applications become economically viable.",
       source: "Lesson 2: The $3 Trillion Developer Economy"
     },
     {

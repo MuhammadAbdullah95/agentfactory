@@ -98,7 +98,7 @@ When software disrupted retail, traditional retailers fought back. They had regu
 
 When AI tools disrupt software development, there's no external resistance. **Developers are adopting these tools voluntarily and enthusiastically** because they make work easier, faster, and more enjoyable. There's no lobbying against AI coding assistants, no regulatory barriers, no customer loyalty to overcome.
 
-The adoption curve shows this: **76% of developers are using or plan to use AI tools**, with 62% already using them (Stack Overflow 2024). That's not gradual acceptance—it's rapid embrace.
+The adoption curve shows this: **84% of developers are using or plan to use AI tools**, with 51% using them daily (Stack Overflow 2025). That's not gradual acceptance—it's rapid embrace.
 
 ### 2. Universal Impact Across Roles
 

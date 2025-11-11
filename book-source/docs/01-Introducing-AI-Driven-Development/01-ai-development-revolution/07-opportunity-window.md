@@ -114,7 +114,7 @@ Many aspiring developers give up during this phase, never reaching actual coding
 
 **New reality:** With AI assistance, beginners can build production-quality applications in days or weeks. You learn by **building real projects** and using AI as a mentor, not by completing hundreds of isolated exercises.
 
-Sarah Chen from our opening story is a real example: from PHP tutorial to production SaaS dashboard in 48 hours. This wasn't possible five years ago.
+The Y Combinator W25 batch provides real evidence: a quarter of their startups had 95% AI-generated codebases built by technical founders who could have coded everything manually but chose AI orchestration instead. This wasn't possible five years ago.
 
 ## For Experienced Developers: Skills Multiply, Not Divide
 
