@@ -71,7 +71,7 @@ If you have strong practices—testing, code review, incremental deployments—A
 
 This isn't a theoretical concern. It's the core reason why some organizations see 20-30% productivity gains from AI while others see negative returns. This section explains what DORA discovered and what it means for you.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > **Why "amplifier" is the perfect metaphor**: DORA's research shows AI doesn't change organizational capability—it multiplies it. If your testing practices are strong (80% coverage, fast CI/CD), AI helps you maintain that quality at 2x speed. If your testing practices are weak (manual QA, slow deploys), AI helps you ship untested code 2x faster. The AI isn't "learning" from you—YOU are using AI in ways that reflect your existing capabilities. Strong foundation + AI = amplified excellence. Weak foundation + AI = amplified problems. The tool is neutral; your practices determine the outcome.
 
