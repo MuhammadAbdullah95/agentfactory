@@ -79,13 +79,14 @@ The numbers tell part of the story:
 - **76% of professional developers** are using or plan to use AI coding tools, with 62% already using them—up from 44% last year (Stack Overflow 2024 Developer Survey)
 - **$500 million run rate** for Claude Code alone, making it one of the fastest-growing products in startup history
 - **70% more pull requests merged** in organizations using AI code review tools (Google DORA Research)
-- At the 2024 **ICPC World Finals**, Google DeepMind's Gemini achieved **gold-medal level performance**, performing as well as the world's top 20 competitive coders—and even solved a problem that no human team could solve
+- **OpenAI o1 achieved 89th percentile** on competitive programming (Codeforces)—performing better than 89% of human competitive programmers
+- **DeepMind's AlphaCode ranked in the top 54%** of participants in real Codeforces competitions, solving novel problems requiring critical thinking, logic, and algorithms
 
 But numbers alone don't capture the shift. What's changing is the **nature of the work itself**.
 
 #### 💬 AI Colearning Prompt
 
-> **Explore with your AI**: "Gemini achieved gold-medal performance at ICPC 2024 and solved a problem no human team could solve. What does this tell us about AI's strengths versus human strengths in coding?"
+> **Explore with your AI**: "OpenAI's o1 model ranks in the 89th percentile on competitive programming (Codeforces) and AlphaCode placed in the top 54% of real competitions. What does this tell us about where AI coding capabilities stand today versus human programmers?"
 
 ## The Question You're Asking
 
@@ -112,7 +113,7 @@ But there's a catch. The skills that traditional computer science education emph
 
 #### 🤝 Practice Exercise
 
-Ask your AI co-teacher: "I'm learning software development in 2026. Traditional CS education emphasizes algorithm memorization and syntax fluency. What skills should I prioritize instead in the AI era? Give me realistic examples for my situation."
+> **Ask your AI co-teacher:** "I'm learning software development in 2026. Traditional CS education emphasizes algorithm memorization and syntax fluency. What skills should I prioritize instead in the AI era? Give me realistic examples for my situation."
 
 **What you're practicing**: Understanding the shift from syntax-writing to specification-writing. The AI will suggest skills like clear problem articulation, code review, and system design. Exactly what this book teaches.
 
