@@ -77,9 +77,8 @@ Bring existing chapter content into **authentic alignment** with constitutional 
 
 **Output Style Requirements**:
 - 💬 **AI Colearning Prompts** (1-4 per lesson): Exploration-focused questions
-- 🎓 **Instructor Commentaries** (2-4 per lesson): Pedagogical insights
-- 🚀 **CoLearning Challenges** (1-4 per lesson): Hands-on practice
-- ✨ **Teaching Tips** (1-3 per lesson): Conceptual clarity
+- 🎓 **Expert Insights** (2-4 per lesson): Strategic depth and pedagogical insights
+- 🤝 **Practice Exercises** (1-4 per lesson): Hands-on collaborative practice
 - **Lesson Closure**: "Try With AI" is final section (no post-sections)
 
 ### Why Alignment, Not Compliance
@@ -117,7 +116,7 @@ Read .specify/memory/constitution.md
 #### Step 1.2: Categorize by Impact and Context
 
 **High-Impact Requirements** (must be present in ALL lessons):
-- CoLearning elements (💬🎓🚀✨) demonstrating Three-Role Partnership
+- CoLearning elements (💬🎓🤝) demonstrating Three-Role Partnership
 - Lesson closure pattern ("Try With AI" is final section, no post-sections)
 - No forward references (pedagogical ordering: concepts introduced before use)
 - Conversational, exploration-focused tone (not documentation style)
@@ -191,15 +190,13 @@ Read [lesson-file-path]
 
 **Presence**:
 - Are 💬 AI Colearning Prompts present? (Expected: 1-4 per lesson)
-- Are 🎓 Instructor Commentaries present? (Expected: 2-4 per lesson)
-- Are 🚀 CoLearning Challenges present? (Expected: 1-4 per lesson)
-- Are ✨ Teaching Tips present? (Expected: 1-3 per lesson)
+- Are 🎓 Expert Insights present? (Expected: 2-4 per lesson)
+- Are 🤝 Practice Exercises present? (Expected: 1-4 per lesson)
 
 **Quality** (more important than quantity):
 - Do 💬 prompts encourage **exploration** ("What happens if...") or just "Ask AI to write X"?
-- Do 🎓 commentaries provide **pedagogical insight** (why this matters) or just restate content?
-- Do 🚀 challenges practice **co-learning** (iteration, validation) or passive copying?
-- Are ✨ tips **actionable** and contextual (not generic platitudes)?
+- Do 🎓 insights provide **strategic depth** and pedagogical perspective (why this matters, non-obvious implications) or just restate content?
+- Do 🤝 exercises practice **collaborative learning** (iteration, validation, partnership) or passive copying?
 
 ##### 2. Three-Role AI Partnership (High Impact)
 
@@ -335,7 +332,7 @@ Read [lesson-file-path]
 - ✅ No pedagogical ordering violations
 
 **What this involves**:
-- Insert 💬🎓🚀✨ elements at natural break points (after concepts introduced, before transitions)
+- Insert 💬🎓🤝 elements at natural break points (after concepts introduced, before transitions)
 - Remove post-sections (e.g., "What's Next" after "Try With AI")
 - Enhance existing content with partnership language (minimal rewording)
 - Validate: Ensure insertions feel natural, not forced
@@ -344,9 +341,9 @@ Read [lesson-file-path]
 
 **Example scenario**:
 - Lesson with excellent narrative and examples
-- Missing CoLearning elements (0/4 types present)
+- Missing CoLearning elements (0/3 types present)
 - Good conversational tone already
-- **Decision**: Add 4 targeted insertions (💬🎓🚀✨ one each) at natural points
+- **Decision**: Add 3-4 targeted insertions (💬🎓🤝) at natural points
 
 ##### Option 2: Enhanced Regeneration (Preserve good parts, regenerate problem areas)
 
@@ -496,22 +493,22 @@ Look for:
 - ✅ Specific to lesson content (developer role evolution)
 - ✅ Conversational tone
 
-**🎓 Instructor Commentary** (after explaining Three-Role Partnership):
+**🎓 Expert Insight** (after explaining Three-Role Partnership):
 ```markdown
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > Notice how this partnership is **bidirectional**: You specify what you need (AI learns your intent), AI suggests patterns you don't know yet (you learn from AI), and together you create what neither could alone. This isn't "using a tool"—it's co-creation.
 ```
 
 **Quality check**:
-- ✅ Provides pedagogical insight (why this matters)
+- ✅ Provides strategic depth and pedagogical insight (why this matters)
 - ✅ Demonstrates constitutional principle (co-learning)
 - ✅ Enhances understanding (not just repeating content)
 - ✅ Natural placement (after concept introduction)
 
-**🚀 CoLearning Challenge** (practicing specification-writing):
+**🤝 Practice Exercise** (practicing specification-writing):
 ```markdown
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
 **Quick Test**: Ask your AI: "I want to build a simple to-do list app. What information do you need from me to implement it well?"
 
@@ -519,22 +516,10 @@ Look for:
 ```
 
 **Quality check**:
-- ✅ Hands-on practice (not passive reading)
+- ✅ Hands-on collaborative practice (not passive reading)
 - ✅ Demonstrates AI as Student (adapts to your specs)
 - ✅ Teaches "Specs Are the New Syntax" principle
 - ✅ Low barrier to entry (quick test)
-
-**✨ Teaching Tip** (clarifying concept):
-```markdown
-#### ✨ Teaching Tip
-
-Think of it like automatic transmission: it didn't make driving obsolete—it made driving accessible by removing manual shifting complexity, letting you focus on navigation and decisions. AI does the same for coding.
-```
-
-**Quality check**:
-- ✅ Actionable analogy (helps understanding)
-- ✅ Contextual (relevant to content)
-- ✅ Concise (one-liner, not verbose)
 
 **3. Insert via Edit Tool**
 
@@ -615,7 +600,7 @@ Invoke lesson-writer:
 - Constitutional Constraints:
   - Emphasize Three-Role AI Partnership throughout
   - Conversational, exploration-focused tone
-  - Add CoLearning elements naturally (💬🎓🚀✨)
+  - Add CoLearning elements naturally (💬🎓🤝)
   - "Specs Are the New Syntax" framing for code examples
   - No forward references
 - Output: [lesson file path]
@@ -824,7 +809,7 @@ Invoke technical-reviewer:
    git commit -m "Constitution sync: Chapter [N] aligned with v3.1.2
 
    - Integrated Three-Role AI Partnership throughout
-   - Added CoLearning elements (💬🎓🚀✨) naturally
+   - Added CoLearning elements (💬🎓🤝) naturally
    - Fixed lesson closure violations
    - Preserved excellent narrative quality"
    ```
