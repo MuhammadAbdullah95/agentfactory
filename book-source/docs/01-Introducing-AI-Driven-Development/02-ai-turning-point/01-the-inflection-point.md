@@ -95,10 +95,6 @@ Sundar Pichai, Google's CEO, reported that AI tools have increased developer pro
 
 These aren't aspirational claims from startups seeking funding. These are statements from leaders running the world's most sophisticated software organizations, describing measurable changes already happening.
 
-#### 🎓 Expert Insight
-
-> Why benchmarks matter: Notice we're not just showing you impressive numbers. We're teaching you how to evaluate evidence quality. When you see claims about AI capabilities, ask: "Is this a vendor demo or an independent benchmark? Is it one impressive example or sustained performance?" This critical thinking skill applies to every technology claim you'll encounter, not just AI.
-
 ## Mainstream Adoption: From Niche to Normal
 
 ### Developers Have Voted with Their Time
@@ -121,7 +117,7 @@ Think about that "2 hours per day" number. That's not occasional use when stuck.
 
 #### 🤝 Practice Exercise
 
-Ask your AI: "Look at these adoption statistics: 84% using AI tools, 51% daily use, 2 hours per day median. I fall into [describe where you are: daily user / occasional experimenter / haven't started]. Based on where I am, what's one concrete next step I could take this week to improve my AI-native development practice? Give me realistic guidance for my situation."
+> **Ask your AI**: "Look at these adoption statistics: 84% using AI tools, 51% daily use, 2 hours per day median. I fall into [describe where you are: daily user / occasional experimenter / haven't started]. Based on where I am, what's one concrete next step I could take this week to improve my AI-native development practice? Give me realistic guidance for my situation."
 
 **What you're practicing**: Self-assessment and personalized learning path planning. Your AI will help you identify where you are on the adoption curve and suggest appropriate next steps.
 

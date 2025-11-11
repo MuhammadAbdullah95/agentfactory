@@ -163,16 +163,11 @@ DORA's research shows that organizations strong in these capabilities see measur
 
 **This is not a judgment.** Most organizations are in the 3-4 range. The point is awareness: if you know where the gaps are, you can address them proactively.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Implement one guardrail with AI's help**: Based on your self-assessment, pick ONE capability where you scored low. Now co-create a micro-improvement with your AI partner:
+> **Ask your AI**: "I completed the DORA self-assessment and identified [capability name] as my weakest area. Help me design ONE small improvement I can implement this week. Ask me about my constraints (time, autonomy, resources), then suggest the simplest version of this guardrail that would make a real difference. Keep it actionable."
 
-1. **Share your context**: "I checked [0-2 / 3-4] capabilities. The gap that worries me most is [specific capability]."
-2. **Ask your AI**: "Help me design one small, achievable improvement I can make THIS WEEK. Not a big transformation—just one guardrail I can add."
-3. **Iterate together**: Your AI suggests, you refine based on constraints (time, resources, autonomy), converge on something actionable.
-4. **Execute and reflect**: Try it for a week, then return to your AI and share: "Here's what happened when I tried [guardrail]. What did I learn?"
-
-**What you're practicing**: Incremental improvement through AI partnership—not waiting for organizational transformation, but building one capability at a time.
+**What you're practicing**: Building quality practices incrementally—not waiting for organizational transformation, but improving one capability at a time with AI guidance.
 
 ## Why Guardrails Enable Speed
 

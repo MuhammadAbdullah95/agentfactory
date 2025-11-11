@@ -150,16 +150,11 @@ The three-layer stack didn't exist in 2024. Here's what changed:
 
 **The Core Difference**: In 2024, you chose a tool and adapted your workflow to it. In 2025, you choose layers and compose them to match your workflow.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Map your ideal stack**: Now that you understand the three layers and how 2025 differs from 2024, let's co-design YOUR ideal stack with your AI partner:
+> **Ask your AI**: "I'm [beginner/intermediate], working on [type of projects], with [budget: free/paid]. Based on my context, help me choose: (1) Which frontier model should I start with? (2) Which AI-First IDE fits my situation? (3) Which development agent makes sense for my skill level? Explain the tradeoffs for each recommendation."
 
-1. **Share your constraints**: "I'm [beginner/intermediate], working on [type of projects], with [budget constraints], prioritizing [learning/shipping/experimentation]."
-2. **Ask your AI**: "Based on my context, which frontier model should I start with? Which AI-First IDE fits my situation? Which development agent makes sense for my skill level?"
-3. **Iterate together**: Your AI suggests options, you ask "why this over that?", it explains tradeoffs, you refine preferences, converge on a stack.
-4. **Test the reasoning**: Ask your AI, "What would make me want to CHANGE this stack in 6 months? What signals should I watch for?"
-
-**What you're practicing**: Strategic tool selection through partnership—not following generic "best tools" lists, but co-creating choices based on YOUR context.
+**What you're practicing**: Strategic tool selection—choosing the right stack layers based on YOUR specific context, not following generic "best tools" lists.
 
 ## Model Context Protocol: Why It Matters
 

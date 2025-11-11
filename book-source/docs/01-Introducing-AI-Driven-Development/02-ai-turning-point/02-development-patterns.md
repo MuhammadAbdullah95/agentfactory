@@ -186,16 +186,11 @@ Team A's velocity *appears* high until you count rework. Team B's velocity appea
 
 This isn't about smart engineers versus careless ones. It's about **method matching context**. Team A used exploration-mode thinking for production-mode stakes.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Practice specification-thinking**: Pick something you want to build (a simple tool, a website feature, a personal project). Before asking AI to help you build it, try this mini-spec exercise with your AI partner:
+> **Ask your AI**: "I want to build a simple task manager that saves tasks to a file. Before we write any code, help me create a mini-specification. Ask me clarifying questions: What features does it need? What could go wrong? What edge cases should I consider? Then guide me through writing a 1-paragraph spec that covers the essentials."
 
-1. **State the problem**: "I want to build [X] because [Y]."
-2. **Ask your AI**: "What questions should I answer before we start building? What could go wrong if I skip planning?"
-3. **Iterate together**: Your AI asks clarifying questions, you answer, it suggests what else to consider.
-4. **Observe the process**: Notice how co-creating the spec BEFORE coding makes the implementation clearer.
-
-**What you're practicing**: Specification as dialogue, not documentation. This is how AI-native developers work—thinking through requirements together before generating code.
+**What you're practicing**: Specification-first thinking. Notice how planning BEFORE coding makes requirements clearer and implementation smoother.
 
 ## When Each Approach Fits
 
