@@ -139,6 +139,10 @@ Let's be specific about what traditional CS education doesn't teach—and why th
 
 **Industry practice:** Companies successfully deploying AI agents (Google, Microsoft, Anthropic) all emphasize specification quality as the primary success factor.
 
+#### 💬 AI Colearning Prompt
+
+> **Learn specification-first thinking**: "I want to build a simple user registration system. Help me write a specification BEFORE we code anything. Guide me through defining: what data to collect, validation rules, error cases, success criteria, and security requirements. Teach me to think spec-first."
+
 ### Gap 3: Agent Orchestration and Multi-Agent Systems
 
 **What CS programs teach:**

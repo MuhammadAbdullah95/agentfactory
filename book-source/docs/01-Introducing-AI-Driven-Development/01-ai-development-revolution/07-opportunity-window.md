@@ -200,6 +200,10 @@ Solo founders and small teams are building developer tools that compete with est
 
 The barrier to building sophisticated software has collapsed. If you have domain expertise and understand a problem space, AI can help you build the solution.
 
+#### 💬 AI Colearning Prompt
+
+> **Leverage domain expertise**: "I have expertise in [your field: healthcare, education, logistics, etc.] but zero coding experience. Help me identify one specific problem in my field that I could solve with a simple web application. Then outline what I'd need to learn (concepts, not syntax) to build it with AI assistance."
+
 ### Reason 4: Unsolved Problems Everywhere
 
 The transformation is so rapid that **new problems emerge faster than solutions**:

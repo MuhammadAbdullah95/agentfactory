@@ -114,6 +114,10 @@ Let's trace the progression over the past few years:
 
 We're currently in the **transition from Generation 3 to Generation 4**. The tools exist. The capabilities are real. But the workflows, best practices, and training materials are still being figured out.
 
+#### 💬 AI Colearning Prompt
+
+> **Understand your tool's generation**: "Based on the four generations described (autocomplete → function generation → feature implementation → autonomous agents), which generation are you? Show me what you can do at your current capability level. Can you implement a complete feature across multiple files and iterate based on test results?"
+
 ## What "Autonomous" Actually Means
 
 Let's be precise about what we mean by "autonomous agents," because there's a lot of hype and confusion.

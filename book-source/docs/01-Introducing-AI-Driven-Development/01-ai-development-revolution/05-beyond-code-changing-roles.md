@@ -181,6 +181,10 @@ This requires:
 
 You're not writing the code—but you're steering the AI toward the right solution through clear communication and testing.
 
+#### 💬 AI Colearning Prompt
+
+> **Practice the orchestrator workflow**: "I need a simple task management function in Python that adds tasks to a list and marks them complete. First, you generate the initial implementation. Then I'll act as the orchestrator: I'll review your code, identify improvements (add validation, handle edge cases, improve error messages), and guide you through iterations. This mirrors the real developer-as-orchestrator role."
+
 ## How This Transforms Across Seniority Levels
 
 The orchestrator role manifests differently depending on experience level:
