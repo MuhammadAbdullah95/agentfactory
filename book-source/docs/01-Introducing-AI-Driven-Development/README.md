@@ -11,7 +11,7 @@ Picture this: An 18-year-old in Ethiopia teaches himself to code after a friend 
 
 This isn't a future scenario. This is happening right now, documented by TechCrunch in 2025.
 
-The software development industry—valued at approximately $3 trillion annually—is experiencing its most dramatic transformation in decades. AI coding agents haven't just made programming faster; they've fundamentally redefined who can build software, how quickly it can be created, and what's economically possible for individual developers.
+The developer economy—approximately 30 million professional developers worldwide generating roughly $3 trillion in annual economic value—is experiencing its most dramatic transformation in decades. AI coding agents haven't just made programming faster; they've fundamentally redefined who can build software, how quickly it can be created, and what's economically possible for individual developers.
 
 If you've wondered whether this AI revolution is real or hype, whether it's opportunity or threat, or whether you can participate without a computer science degree, this part provides the answers.
 
