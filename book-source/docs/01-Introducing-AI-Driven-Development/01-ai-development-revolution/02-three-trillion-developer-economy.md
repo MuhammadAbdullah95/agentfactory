@@ -67,8 +67,9 @@ Let's break down each component of this calculation to understand what it repres
 ### 30 Million Professional Developers
 
 This figure comes from converging estimates across multiple sources:
-- The Stack Overflow Developer Survey (2024) estimates 28-32 million professional software developers globally
-- GitHub reports over 100 million accounts, with approximately 30-35 million active professional developers
+- Evans Data Corporation's 2024 Worldwide Developer Population Report shows 27 million developers, with projections exceeding 30 million by 2025
+- GitHub reports over 100 million developer accounts globally
+- SlashData projects 45 million developers worldwide by 2030, indicating steady growth from current levels
 - The U.S. Bureau of Labor Statistics, Eurostat, and equivalent agencies in major economies all point to similar global totals when aggregated
 
 This number includes full-time software engineers, web developers, mobile developers, data engineers, DevOps specialists, and similar roles where coding is the primary job function. It does **not** include the growing population of "development-adjacent" professionals—designers who implement prototypes, product managers who write analysis scripts, technical writers who build documentation systems—which would push the total significantly higher.
@@ -112,7 +113,7 @@ In other words, if you think of the global developer workforce as a single econo
 
 ## Why This Matters: Disruption at Scale
 
-Now here's where it gets interesting—and why Sarah Chen's story from the previous section isn't just a feel-good anecdote.
+Now here's where it gets interesting—and why the Y Combinator data from the previous section isn't just an isolated trend.
 
 **A combination of AI startups (companies like Anthropic, OpenAI, GitHub, Replit, Cursor) and the underlying language models they've built are effectively disrupting an economy the size of a major nation.**
 
@@ -126,8 +127,8 @@ Previous platform shifts in software development took 10-15 years to reach major
 
 **AI coding tools** are reaching similar adoption levels in **less than 3 years**:
 - GitHub Copilot: launched October 2021, reached $100M ARR within approximately 2 years (October 2023)
-- Claude Code: announced 2024, hit $500 million run rate within months
-- Overall AI tool usage: 76% of developers using or planning to use AI assistants, with 62% already using them—up from 44% last year (Stack Overflow 2024)
+- Claude Code: announced 2025, hit $500 million annualized revenue within two months
+- Overall AI tool usage: 84% of developers using or planning to use AI tools, with 51% using them daily (Stack Overflow 2025 Developer Survey)
 
 #### 🎓 Expert Insight
 
@@ -149,7 +150,7 @@ For the past two decades, software followed a **SaaS model**: build one applicat
 
 AI coding tools are enabling a shift toward **highly customized, individual software solutions**—what some industry observers call "vibe coding." Because the cost and time to create software have dropped dramatically, individuals can now build bespoke applications tailored to their specific workflows, preferences, and requirements.
 
-Sarah Chen's analytics dashboard isn't a generic product for thousands of customers. It's specifically designed for her business model, her customer base, her reporting needs. And because AI tools made it feasible to build in 48 hours instead of weeks, she could afford to create something custom.
+The YC founders with 95% AI-generated codebases aren't building generic SaaS products for mass markets. They're creating specialized solutions for specific niches, custom-tailored to particular business models and user needs. Because AI tools make it feasible to build sophisticated systems in days instead of months, founders can afford to create highly targeted solutions.
 
 This doesn't shrink the software market. It **explodes** it.
 
