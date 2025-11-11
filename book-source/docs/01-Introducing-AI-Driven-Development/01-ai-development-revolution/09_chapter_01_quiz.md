@@ -82,15 +82,15 @@ Test your understanding of how AI is transforming software development, from the
       source: "Lesson 4: The Development Lifecycle in Transition"
     },
     {
-      question: "The lesson describes a real example where Google's AI-assisted requirements analysis improved edge case identification. What was the measured improvement?",
+      question: "The lesson describes real examples of AI-assisted requirements analysis improving edge case identification. What improvement was documented?",
       options: [
         "50% fewer bugs found in production testing",
-        "30% more edge cases identified during planning",
+        "Approximately 10% fewer bugs during testing",
         "70% faster requirements review process",
         "80% better stakeholder satisfaction with specs"
       ],
       correctOption: 1,
-      explanation: "Google's team identified 30% more edge cases using AI-assisted requirements analysis compared to traditional review processes. This matters because catching edge cases early is vastly cheaper than fixing bugs in production. This example illustrates that AI doesn't just make coding faster—it improves quality at every phase. By identifying more edge cases during planning, the team prevented bugs from reaching production, reducing rework cycles.",
+      explanation: "A Thoughtworks case study found approximately 10% fewer bugs during testing when using AI-assisted requirements analysis, because edge case scenarios were better covered in story definitions. This matters because catching edge cases early is vastly cheaper than fixing bugs in production. This example illustrates that AI doesn't just make coding faster—it improves quality at every phase. By identifying more edge cases during planning, teams prevent bugs from reaching production, reducing rework cycles.",
       source: "Lesson 4: The Development Lifecycle in Transition"
     },
     {

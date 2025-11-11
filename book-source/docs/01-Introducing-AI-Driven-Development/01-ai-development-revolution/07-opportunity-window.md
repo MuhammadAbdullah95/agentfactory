@@ -181,10 +181,10 @@ This creates opportunities for new companies to build AI-native tools from scrat
 
 AI coding companies are seeing revenue ramps that have no historical precedent:
 
-- **GitHub Copilot:** Reached $100M ARR within 12 months of launch
+- **GitHub Copilot:** Reached $100M ARR within approximately 2 years (launched October 2021, reached milestone October 2023)
 - **Claude Code (Anthropic):** $500M run rate within months of announcement
-- **Cursor:** Reached profitability and 7-figure monthly revenue in under a year
-- **Replit:** Grew from developer playground to $1B+ valuation primarily on AI features
+- **Cursor:** Reached $100M ARR in approximately 12 months and 7-figure monthly revenue, making it one of the fastest-growing SaaS companies
+- **Replit:** Grew to $1.16B valuation (April 2023), powered significantly by AI-enhanced development features
 
 These aren't outliers—they're examples of a systemic shift. When technology makes something 10x better/faster/cheaper, adoption happens quickly and early movers capture disproportionate value.
 

@@ -125,7 +125,7 @@ Previous platform shifts in software development took 10-15 years to reach major
 - **Mobile development** (2010s): ~8 years from iPhone to mobile-first design being standard
 
 **AI coding tools** are reaching similar adoption levels in **less than 3 years**:
-- GitHub Copilot: launched October 2021, reached 1 million+ paid users by 2023
+- GitHub Copilot: launched October 2021, reached $100M ARR within approximately 2 years (October 2023)
 - Claude Code: announced 2024, hit $500 million run rate within months
 - Overall AI tool usage: 76% of developers using or planning to use AI assistants, with 62% already using them—up from 44% last year (Stack Overflow 2024)
 

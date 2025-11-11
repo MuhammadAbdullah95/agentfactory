@@ -100,7 +100,7 @@ AI is transforming **all** of these phases simultaneously. Let's walk through ea
 - Automated analysis identifies inconsistencies and ambiguities before development starts
 - AI-generated prototypes help stakeholders visualize requirements before committing to implementation
 
-**Real example:** A team at Google used AI-assisted requirements analysis to identify 30% more edge cases during planning than traditional review processes caught. This prevented bugs from reaching production and reduced rework cycles.
+**Real example:** Organizations using AI-assisted requirements analysis report finding more edge cases during planning, helping prevent bugs from reaching production and reducing rework cycles. A Thoughtworks case study found approximately 10% fewer bugs during testing due to better edge case coverage in AI-enhanced story definitions.
 
 **What this means for you:** If you're learning AI-driven development, you need to understand how to work **with** AI planning tools to surface requirements, not just write them manually. You need to learn prompt engineering for requirements elicitation, not just documentation formatting.
 
@@ -186,7 +186,7 @@ Enterprise organizations using AI tools report productivity gains ranging from m
 - AI-powered canary analysis detects anomalies during rollout
 - Rollback decisions assisted by AI analysis of metrics and logs
 
-**Real example:** Netflix uses AI-powered deployment systems that analyze hundreds of metrics during canary releases. The system automatically rolls back if anomalies are detected, preventing 85% of would-be incidents before they affect users.
+**Real example:** Netflix uses AI-powered deployment systems like Kayenta that analyze hundreds of metrics during canary releases. The system automatically rolls back if anomalies are detected. Similar canary analysis systems at Waze prevent approximately 25% of all incidents, including most user-facing incidents, before they affect customers.
 
 **What this means for you:** You need to understand infrastructure concepts, monitoring strategies, and failure modes—but AI handles configuration details. Focus on "what good looks like" rather than memorizing command syntax.
 
@@ -204,7 +204,7 @@ Enterprise organizations using AI tools report productivity gains ranging from m
 - AI-assisted root cause analysis correlates logs, metrics, and traces
 - Performance recommendations based on observed patterns and industry best practices
 
-**Real example:** Google's AI-powered SRE systems predict and prevent 60% of potential outages before they impact users. The system identifies degrading performance, unusual patterns, or approaching resource limits—and takes corrective action automatically.
+**Real example:** Modern AI-powered SRE systems can identify degrading performance, unusual patterns, or approaching resource limits—and take corrective action automatically. Organizations implementing predictive monitoring report significant reductions in unplanned outages through early detection and automated remediation.
 
 **What this means for you:** Operations becomes proactive and predictive rather than reactive. You interpret AI insights and make strategic decisions about system health rather than manually triaging incidents.
 
