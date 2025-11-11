@@ -339,19 +339,12 @@ Put images in a folder (like `images/` or `assets/`) and reference them:
 
 #### 🤝 Practice Exercise
 
-**Quick Practice**: Collaborate with your AI to improve visual communication:
-
-"I'm writing a specification for a task management app. I want to show:
-1. What the main menu looks like
-2. How tasks are displayed
-3. The app's architecture (user → app → file storage)
-
-Can you:
-- Suggest what images I should include
-- Recommend tools for creating diagrams (free/simple options)
-- Help me write descriptive alt text for accessibility"
-
-**What you're practicing**: Using AI to plan visual documentation. The AI suggests tools and approaches, you make the final decisions.
+> **Ask your AI**: "I'm writing a specification for a task management app. I want to show:
+> 1. What the main menu looks like
+> 2. How tasks are displayed
+> 3. The app's architecture (user → app → file storage)
+>
+> Suggest what images I should include. Recommend free, simple tools for creating diagrams. Help me write descriptive alt text for accessibility. I want to understand how to plan visual documentation effectively."
 
 ### AI Native Approach: Let AI Help with Images
 

@@ -228,26 +228,20 @@ The AI reads this (Layer 2), plans the implementation, and generates Python code
 
 #### 🤝 Practice Exercise
 
-**Quick Practice**: Open ChatGPT or your AI companion and test the three-layer workflow:
-
-1. Write this unstructured request: "Make an app that converts temperatures"
-2. Ask the AI to implement it
-3. Now write this structured request:
-   ```markdown
-   Temperature Converter
-
-   Features:
-   - Convert Fahrenheit to Celsius
-   - Convert Celsius to Fahrenheit
-   - Display formula used
-
-   Expected Output:
-   Enter temperature: 32F
-   Result: 0°C (Formula: (32-32) × 5/9)
-   ```
-4. Ask the AI to implement this second version
-
-**What you're practicing**: See how structure (Layer 1) affects what AI generates (Layer 3). The structured version should produce more accurate code.
+> **Ask your AI**: "I want to test how structure affects code generation. First, implement this unstructured request: 'Make an app that converts temperatures.' Now implement this structured version:
+>
+> Temperature Converter
+>
+> Features:
+> - Convert Fahrenheit to Celsius
+> - Convert Celsius to Fahrenheit
+> - Display formula used
+>
+> Expected Output:
+> Enter temperature: 32F
+> Result: 0°C (Formula: (32-32) × 5/9)
+>
+> Compare the two results. Which specification led to more accurate code? What did the structured version communicate that the unstructured one didn't?"
 
 ---
 

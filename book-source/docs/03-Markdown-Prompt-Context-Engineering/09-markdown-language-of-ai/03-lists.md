@@ -248,17 +248,13 @@ You **must** create an account before verifying email. You **must** verify email
 
 #### 🤝 Practice Exercise
 
-**Quick Test**: Ask your AI companion to help you decide:
-
-"I'm writing a specification with these items:
-1. App must run on Windows, Mac, and Linux
-2. App must support dark mode and light mode
-3. User must log in before accessing dashboard
-4. User must verify email before account activation
-
-Which should be unordered lists and which should be ordered? Explain your reasoning."
-
-**What you're practicing**: Learning to identify dependencies. The AI teaches you the pattern, you apply it to your specifications.
+> **Ask your AI**: "I'm writing a specification with these items:
+> 1. App must run on Windows, Mac, and Linux
+> 2. App must support dark mode and light mode
+> 3. User must log in before accessing dashboard
+> 4. User must verify email before account activation
+>
+> Which should be unordered lists (bullet points) and which should be ordered lists (numbered)? Explain your reasoning. Help me understand how to spot dependencies."
 
 ---
 

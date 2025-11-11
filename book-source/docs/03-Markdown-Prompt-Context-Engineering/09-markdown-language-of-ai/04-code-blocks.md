@@ -248,17 +248,11 @@ This makes the specification much clearer.
 
 #### 🤝 Practice Exercise
 
-**Quick Practice**: Ask your AI companion to demonstrate the difference:
-
-"Here's a specification without inline code formatting:
-'Run pip install requests to install dependencies, then edit config.py with your API key, and run python weather.py to start the app.'
-
-Can you:
-1. Rewrite this with proper inline code formatting
-2. Explain why the formatted version is clearer
-3. Show me what happens if I don't format command names"
-
-**What you're practicing**: Understanding how formatting creates clarity. The AI teaches you the distinction, you see the impact immediately.
+> **Ask your AI**: "Here's a specification without inline code formatting:
+>
+> 'Run pip install requests to install dependencies, then edit config.py with your API key, and run python weather.py to start the app.'
+>
+> Rewrite this with proper inline code formatting using backticks. Then explain why the formatted version is clearer. What happens if I don't format command names—how does that affect readability?"
 
 ---
 

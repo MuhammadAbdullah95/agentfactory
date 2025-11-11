@@ -262,17 +262,11 @@ After you write your specification structure, check these:
 
 #### 🤝 Practice Exercise
 
-**Quick Validation**: After creating your heading structure, ask your AI companion to analyze it:
-
-"Here's my Task Tracker App heading structure:
-[paste your structure]
-
-Can you:
-1. Check if my heading hierarchy is correct (no skipped levels)
-2. Suggest whether any sections need subsections
-3. Tell me if the structure is clear enough to implement from"
-
-**What you're practicing**: Using AI as a validation partner. The AI learns your specification intent, you learn whether your structure communicates clearly.
+> **Ask your AI**: "Here's my Task Tracker App heading structure:
+>
+> [paste your structure]
+>
+> Check if my heading hierarchy is correct—did I skip any levels? Suggest whether any sections need subsections. Then tell me: is this structure clear enough for you to implement from, or would you need more information?"
 
 ---
 
