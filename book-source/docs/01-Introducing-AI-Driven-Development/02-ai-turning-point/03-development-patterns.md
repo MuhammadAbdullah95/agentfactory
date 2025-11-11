@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 title: "Development Patterns — Vibe Coding vs. Spec-Driven Development"
 chapter: 2
-lesson: 2
+lesson: 3
 duration_minutes: 25
 
 # HIDDEN SKILLS METADATA

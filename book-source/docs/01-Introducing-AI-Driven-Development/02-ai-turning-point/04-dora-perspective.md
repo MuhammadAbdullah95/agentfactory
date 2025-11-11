@@ -1,8 +1,8 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 title: "The DORA Perspective: AI as Amplifier"
 chapter: 2
-lesson: 3
+lesson: 4
 duration_minutes: 18
 
 # HIDDEN SKILLS METADATA
