@@ -183,7 +183,7 @@ We'll explore this question in the next lesson.
 
 #### 🤝 Practice Exercise
 
-**Reality Check Exercise**: Ask your AI: "I've identified my ideal M-shape [name your two domains]. Now be brutally honest: what are the three hardest parts of developing depth in both? What would I be signing up for? Don't sugarcoat it."
+> **Ask your AI**: "I've identified my ideal M-shape [name your two domains]. Now be brutally honest: what are the three hardest parts of developing depth in both? What would I be signing up for? Don't sugarcoat it."
 
 **What you're practicing**: Realistic self-assessment through AI partnership. Your AI helps you see the actual path, not the romanticized version.
 

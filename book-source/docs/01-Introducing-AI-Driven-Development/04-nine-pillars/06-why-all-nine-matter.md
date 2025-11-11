@@ -164,7 +164,7 @@ Write down your answers. They'll help you track your mindset shift as you progre
 
 #### 🤝 Practice Exercise
 
-**Honest Fear Check**: Ask your AI: "I just read about why 'all nine pillars matter.' I'm feeling [overwhelmed / excited / skeptical]. Help me process: what's one pillar I could learn first that would give me immediate wins while building toward the complete system? Don't give me the 'right' answer—give me the answer for my emotional state."
+> **Ask your AI**: "I just read about why 'all nine pillars matter.' I'm feeling [overwhelmed / excited / skeptical]. Help me process: what's one pillar I could learn first that would give me immediate wins while building toward the complete system? Don't give me the 'right' answer—give me the answer for my emotional state."
 
 **What you're practicing**: Self-awareness and strategic sequencing through AI partnership. Your AI helps you find the right entry point based on where you actually are emotionally and practically.
 

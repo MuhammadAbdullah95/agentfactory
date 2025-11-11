@@ -107,8 +107,8 @@ By the end, you'll understand why the path to a billion dollars no longer requir
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "If I had to pick ONE of the three forces (capability, adoption, economics) to prove to a skeptical investor, which one has the strongest evidence? Show me the data and explain why this evidence is convincing."
+
+> **Ask your AI**: "If I had to pick ONE of the three forces (capability, adoption, economics) to prove to a skeptical investor, which one has the strongest evidence? Show me the data and explain why this evidence is convincing."
 
 **Expected Outcome**: You'll understand how to evaluate claims with evidence and practice critical thinking with AI as your reasoning partner. You're learning to ask for justification, not just accept statements.
 

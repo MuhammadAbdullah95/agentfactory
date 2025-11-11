@@ -129,8 +129,7 @@ Now that you understand the competitive layers, let's look at who wins economica
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "Pick a vertical market I might know (healthcare, education, finance, legal). Identify the top 3 incumbent systems in this vertical. For each one, explain why they're slow to innovate, then help me validate whether this analysis matches reality."
+> **Ask your AI**: "Pick a vertical market I might know (healthcare, education, finance, legal). Identify the top 3 incumbent systems in this vertical. For each one, explain why they're slow to innovate, then help me validate whether this analysis matches reality."
 
 **Expected Outcome**: You'll understand how to research competitive dynamics with AI and practice applying your own judgment to validate AI reasoning. This teaches you to combine AI research capabilities with critical thinking.
 

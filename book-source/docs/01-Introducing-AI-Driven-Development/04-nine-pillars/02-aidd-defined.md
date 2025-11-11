@@ -176,7 +176,7 @@ There's no right answer here. Whether you're at 1 or 5, this chapter will meet y
 
 #### 🤝 Practice Exercise
 
-**Self-Assessment Practice**: Ask your AI: "I rated myself [your number] on the paradigm shift scale. Interview me with 3-4 questions to verify if that's accurate. Then tell me what one concrete behavior would prove I've moved up one level."
+> **Ask your AI**: "I rated myself [your number] on the paradigm shift scale. Interview me with 3-4 questions to verify if that's accurate. Then tell me what one concrete behavior would prove I've moved up one level."
 
 **What you're practicing**: Honest self-assessment through AI partnership. Your AI helps you see gaps between self-perception and actual behavior.
 

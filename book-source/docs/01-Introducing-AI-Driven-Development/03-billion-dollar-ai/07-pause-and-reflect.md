@@ -110,8 +110,7 @@ This is why a solo developer generating $500M is no longer surprising. **It's th
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "I'm thinking about [your vertical market]. Help me identify ONE workflow in this vertical that's 90% mechanical (AI can automate) and 10% judgment (I provide strategy). Describe the workflow in detail."
+> **Ask your AI**: "I'm thinking about [your vertical market]. Help me identify ONE workflow in this vertical that's 90% mechanical (AI can automate) and 10% judgment (I provide strategy). Describe the workflow in detail."
 
 **Expected Outcome**: You'll practice applying all Chapter 3 frameworks (90-10 rule, vertical intelligence, PPP strategy) to your specific opportunity, then reality-check AI assessments with your domain knowledge. This teaches strategic thinking about automation opportunities.
 

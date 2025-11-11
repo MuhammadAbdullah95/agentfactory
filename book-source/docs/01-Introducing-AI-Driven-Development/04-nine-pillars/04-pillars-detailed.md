@@ -189,7 +189,7 @@ Translating technical concepts into relatable terms through AI partnership helps
 
 #### 🤝 Practice Exercise
 
-**Pillar Integration Test**: Ask your AI: "Pick any two pillars from this lesson that seem unrelated to you. Walk me through a concrete scenario where using both together creates capability that neither provides alone. Then show me what breaks if I try to use just one."
+> **Ask your AI**: "Here are the two pillars I chose [pillar1, pillar2]. Walk me through a concrete scenario where using both together creates capability that neither provides alone. Then show me what breaks if I try to use just one."
 
 **What you're practicing**: Understanding interdependencies through AI-guided exploration. Your AI helps you discover how pillars multiply each other's value.
 

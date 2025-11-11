@@ -194,8 +194,7 @@ All three elements must work together. This is why PPP matters: it systematicall
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "Pick a failed product (or give me examples if I don't know any). Which of the three requirements was this product missing? (1) Domain expertise, (2) Deep integrations, (3) Complete agentic solution? Then help me validate: Do we agree with this diagnosis, or is the framework oversimplifying why the product failed?"
+> **Ask your AI**: "Pick a failed product (or give me examples if I don't know any). Which of the three requirements was this product missing? (1) Domain expertise, (2) Deep integrations, (3) Complete agentic solution? Then help me validate: Do we agree with this diagnosis, or is the framework oversimplifying why the product failed?"
 
 **Expected Outcome**: You'll practice applying the three-requirements framework to real failure cases and learn to use critical thinking to evaluate whether analytical frameworks truly explain outcomes. This teaches strategic analysis skills.
 

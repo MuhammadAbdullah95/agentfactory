@@ -135,8 +135,7 @@ This is why Claude Code's $500M achievement in two months isn't anomalous. It's 
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "I'm a solo developer targeting [pick a vertical: small business accounting / teacher lesson planning / real estate agents]. Map out the 90-10 split for my domain: What's the mechanical 90% AI can handle, and what's the strategic 10% I must handle as a human? Then help me validate: Is this split realistic, or are we overestimating what AI can automate?"
+> **Ask your AI**: "I'm a solo developer targeting [pick a vertical: small business accounting / teacher lesson planning / real estate agents]. Map out the 90-10 split for my domain: What's the mechanical 90% AI can handle, and what's the strategic 10% I must handle as a human? Then help me validate: Is this split realistic, or are we overestimating what AI can automate?"
 
 **Expected Outcome**: You'll practice applying the 90-10 framework to your specific context and learn to reality-check AI assessments with your own domain knowledge. This teaches strategic thinking about where humans add value.
 

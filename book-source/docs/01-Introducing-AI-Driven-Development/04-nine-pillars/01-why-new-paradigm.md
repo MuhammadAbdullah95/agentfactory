@@ -134,7 +134,7 @@ This isn't about being elite or special. It's about recognizing that **the rules
 
 #### 🤝 Practice Exercise
 
-**Quick Diagnostic**: Ask your AI to interview you: "Ask me 5 questions that will reveal whether I'm using AI as a tool or as a system. Based on my answers, tell me ONE specific change I should make this week."
+> **Ask your AI**: "Ask me 5 questions that will reveal whether I'm using AI as a tool or as a system. Based on my answers, tell me ONE specific change I should make this week."
 
 **What you're practicing**: Self-awareness through AI partnership. Your AI learns your current approach, you learn what "system thinking" actually looks like in practice.
 

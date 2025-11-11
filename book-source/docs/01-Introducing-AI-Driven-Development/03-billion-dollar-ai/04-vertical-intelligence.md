@@ -139,8 +139,7 @@ The code is disposable. The intelligence is permanent. The value per developer s
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "Pick a domain I might know well (small business accounting, teacher lesson planning, real estate). Design the five components of a subagent for this domain. For each component, give me one specific example. Then help me validate: Are these components realistic, or are we making assumptions that don't match reality?"
+> **Ask your AI**: "Pick a domain I might know well (small business accounting, teacher lesson planning, real estate). Design the five components of a subagent for this domain. For each component, give me one specific example. Then help me validate: Are these components realistic, or are we making assumptions that don't match reality?"
 
 **Expected Outcome**: You'll practice applying the five-component framework to a specific domain and learn to reality-check AI designs with domain knowledge. This teaches you to think architecturally about intelligence reuse.
 

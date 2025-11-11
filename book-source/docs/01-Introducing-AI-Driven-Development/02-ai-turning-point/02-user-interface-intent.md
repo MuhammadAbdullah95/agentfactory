@@ -98,7 +98,6 @@ Let's walk through what this looks like in practice:
 
 **This is "User Interface thinking"**: The user must navigate the interface the developers designed.
 
----
 
 ## The New Paradigm: User Intent
 
@@ -134,7 +133,6 @@ The same goal, achieved differently:
 
 **This is "User Intent thinking"**: The user expresses goals; the agent orchestrates execution.
 
----
 
 ## What Makes This Possible? The Five Powers
 
@@ -153,7 +151,6 @@ Agentic AI can do this because it possesses five fundamental capabilities that, 
 - AI extracting data from invoices and receipts
 - Agents clicking buttons by visually locating them on screen
 
----
 
 ### 2. 👂 Hear — Audio Processing
 
@@ -168,7 +165,6 @@ Agentic AI can do this because it possesses five fundamental capabilities that, 
 - Meeting transcription and summarization
 - Customer service AI detecting frustration in tone
 
----
 
 ### 3. 🧠 Reason — Complex Decision-Making
 
@@ -183,7 +179,6 @@ Agentic AI can do this because it possesses five fundamental capabilities that, 
 - AI debugging code by reasoning through error causes
 - Financial agents evaluating investment opportunities
 
----
 
 ### 4. ⚡ Act — Execute and Orchestrate
 
@@ -198,7 +193,6 @@ Agentic AI can do this because it possesses five fundamental capabilities that, 
 - Travel agents booking flights and hotels
 - E-commerce agents processing orders and tracking shipments
 
----
 
 ### 5. 💾 Remember — Maintain Context and Learn
 
@@ -213,7 +207,6 @@ Agentic AI can do this because it possesses five fundamental capabilities that, 
 - AI assistants referencing previous conversations
 - Personal AI learning your communication style
 
----
 
 ### How the Five Powers Combine
 
@@ -246,13 +239,11 @@ The key word is **orchestrate**—agents coordinate complex workflows of many ac
 
 > Understanding the Five Powers isn't just academic—it transforms how you write specifications. When you know AI can "see" diagrams, you'll include visual specs. When you know it "remembers" context, you'll build on previous conversations. The Five Powers aren't constraints; they're capabilities you orchestrate through clear intent.
 
----
 
 ## What This Means for Building AI-Driven Applications?
 
 **The design challenge shifts** from *"How do we make this interface intuitive?"* to *"How do we make this agent understand intent accurately?"*
 
----
 
 ### The Skill Shift
 
@@ -277,11 +268,6 @@ But the nature of specs changes:
 - **Before**: "When user clicks button X, do Y"
 - **Now**: "When user expresses intent Z (in any phrasing), agent understands and acts appropriately"
 
-#### 🤝 Practice Exercise
-
-> **Quick experiment**: Open your AI partner and say: "I want to build a simple task manager. What information do you need from me to help effectively?" Notice what the AI asks—those questions reveal what good specifications include. This is AI teaching you specification-writing.
-
----
 
 ## Brief Context: The Evolution to Agentic AI
 
@@ -305,7 +291,6 @@ AI evolved through roughly three phases:
 
 This evolution unlocked the Five Powers working together, making the UX→Intent paradigm shift possible.
 
----
 
 #### 💬 AI Colearning Prompt
 
@@ -314,8 +299,6 @@ This evolution unlocked the Five Powers working together, making the UX→Intent
 #### 🤝 Practice Exercise
 
 > **Test the paradigm shift**: Pick any task you do regularly (booking travel, managing emails, tracking expenses). Describe your current manual process to your AI partner, then work together to design an agentic version. Ask the AI: "What would make this truly intent-driven rather than just automated?" Let the AI challenge your thinking—this is co-learning in action.
-
----
 
 ## Try With AI
 
@@ -340,8 +323,6 @@ Let's discover together: What makes this agentic vs. just automated?
 
 **What you're learning**: Intent modeling—thinking in goals and context rather than steps and clicks.
 
----
-
 ### Prompt 2: Identify the Five Powers in Action
 
 ```
@@ -360,8 +341,6 @@ break if one power was missing?
 
 **What you're learning**: System analysis—understanding how capabilities combine to create emergent behavior.
 
----
-
 ### Prompt 3: Design Intent Disambiguation
 
 ```
@@ -378,4 +357,3 @@ Let's discover: What makes intent specification different from interface specifi
 
 **What you're learning**: Specification thinking for agentic systems—clarity in the face of ambiguity.
 
----

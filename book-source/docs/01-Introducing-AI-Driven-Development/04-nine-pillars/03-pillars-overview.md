@@ -152,7 +152,7 @@ We'll explore M-shaped development in detail in Section 5. First, let's understa
 
 #### 🤝 Practice Exercise
 
-**Integration Experiment**: Pick one pillar you already use. Ask your AI: "I use [pillar] currently. Which other pillar would multiply my effectiveness most if I added it next? Show me a concrete before-and-after workflow."
+> **Ask your AI**: "I use [pick one pillar] currently. Which other pillar would multiply my effectiveness most if I added it next? Show me a concrete before-and-after workflow."
 
 **What you're practicing**: Strategic pillar adoption through AI guidance. Your AI helps you find the highest-impact next step based on where you already are.
 

@@ -151,8 +151,7 @@ This is the path to a billion dollars as a solo entrepreneur. Not in one year, b
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "Pick a vertical market (education, healthcare, small business tools). Identify 2-3 incumbent systems in this vertical that don't talk to each other well. For each pair, explain: Why don't they integrate? What would a 'bridge solution' look like? Then help me evaluate: Which integration would be easiest to build first?"
+> **Ask your AI**: "Pick a vertical market (education, healthcare, small business tools). Identify 2-3 incumbent systems in this vertical that don't talk to each other well. For each pair, explain: Why don't they integrate? What would a 'bridge solution' look like? Then help me evaluate: Which integration would be easiest to build first?"
 
 **Expected Outcome**: You'll practice applying PPP Phase 1 (infrastructure bridge) to a specific vertical and learn to prioritize integration opportunities using strategic judgment. This teaches market analysis and prioritization skills.
 
