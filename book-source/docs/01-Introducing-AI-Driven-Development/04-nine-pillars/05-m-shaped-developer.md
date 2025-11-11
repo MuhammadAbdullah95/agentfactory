@@ -169,7 +169,7 @@ M-Shaped development is transformative, but it's not limitless. Understanding th
 
 **The key insight**: M-shaped development dramatically expands what's possible for individuals and small teams. But it's a **capability multiplier**, not a magic solution. Choose domains strategically, respect the limits of AI augmentation, and recognize that execution and judgment still matter more than ever.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > The M-shaped developer isn't trying to "know everything"—that's impossible and exhausting. Instead, you're building **complementary depth** in domains that naturally reinforce each other. Frontend + Backend + DevOps work together because they're sequential steps in one workflow. ML + Data Engineering + Backend combine because they share data pipelines. The "M" emerges from choosing domains that compound, not from arbitrary breadth.
 

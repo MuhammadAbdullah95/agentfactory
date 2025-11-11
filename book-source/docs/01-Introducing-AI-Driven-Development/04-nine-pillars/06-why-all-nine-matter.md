@@ -95,7 +95,7 @@ Marcus mastered three pillars deeply: Python, AI orchestration, and frontend. Br
 
 **The key pattern:** Completeness enables autonomy and increases individual leverage, though specific outcomes depend on many factors beyond skillset alone.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > Sarah's and Marcus's outcomes aren't about "being smarter" or "working harder." They illustrate **system completeness**. Sarah could execute end-to-end independently (autonomy); Marcus had capability gaps requiring coordination (dependencies). Both are valuable developers, but Sarah's completeness gave her more leverage and optionality in her specific context. Your mileage will vary based on goals, environment, and preferences.
 

@@ -123,7 +123,7 @@ She writes tests first (Pillar 6), ensuring the AI-generated code meets requirem
 
 One developer. One week. A platform that would have required a team of five specialists just three years ago.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > Maya's story isn't about being a "10x developer" or working 80-hour weeks. It's about **workflow integration**. Each pillar removes friction at a different point in her process. Collectively, they eliminate the handoffs, context switches, and coordination overhead that slow traditional teams. The speed comes from continuity, not superhuman effort.
 

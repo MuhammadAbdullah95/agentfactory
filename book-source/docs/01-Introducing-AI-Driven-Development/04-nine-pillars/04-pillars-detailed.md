@@ -89,7 +89,7 @@ This helps you see why the interface matters, not just the model.
 
 **Example**: In traditional development, a junior developer would need to translate a product spec into Python code—often losing nuances or introducing bugs. With Markdown as programming language, they write a detailed spec in plain English: "Create a function that validates email addresses, checks against a blocklist database, and returns validation status with specific error messages." The AI agent reads this spec and generates correct, tested implementation.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > The shift from "code as source of truth" to "specs as source of truth" is profound. In traditional development, documentation drifts from code because they're separate artifacts. When Markdown specifications ARE the source of truth, you regenerate code from specs whenever requirements change. This eliminates drift entirely—specs and implementation stay synchronized because implementation is DERIVED from specs.
 
@@ -105,11 +105,11 @@ This helps you see why the interface matters, not just the model.
 
 **Historical precedent**: Remember when every device had its own charging cable? Then USB became standard, and suddenly one cable worked for everything. MCP aims to do this for AI tool integration. **Important context**: As of 2025, MCP is still emerging—it's not yet as universally adopted as USB became. However, the standardization pattern is similar: before protocols like MCP, each AI-tool connection required custom development and maintenance. MCP's adoption is growing as more tools and AI platforms support it.
 
-#### 🚀 CoLearning Challenge
+#### 💬 AI Colearning Prompt
 
-**MCP Understanding Check**: Ask your AI: "Explain MCP using a non-technical analogy from daily life (NOT USB cables—find something else!). Then show me: what's ONE concrete thing I could do TODAY that would be easier if a tool I use supported MCP?"
+> **Explore with your AI**: "Explain MCP using a non-technical analogy from daily life (NOT USB cables—find something else!). Then show me: what's ONE concrete thing I could do today that would be easier if a tool I use supported MCP?"
 
-**What you're practicing**: Translating technical concepts into relatable terms through AI partnership.
+Translating technical concepts into relatable terms through AI partnership helps deepen understanding.
 
 ## Pillar 4: AI-First IDEs
 
@@ -183,9 +183,15 @@ This helps you see why the interface matters, not just the model.
 
 **Historical precedent**: Cloud computing democratized server infrastructure—you no longer needed to buy and maintain physical servers. Kubernetes and Docker significantly lower the barrier to deployment architecture—individual developers and small teams can now manage production systems that once required dedicated DevOps teams. **Important nuance**: Organizational complexity and domain expertise still matter. Large enterprises often still need DevOps specialists for scale and reliability, but the **baseline capability** for small teams has transformed dramatically.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > The nine pillars share a common pattern: they don't eliminate expertise—they **redistribute** where expertise is required. Cloud deployment doesn't eliminate the need for infrastructure knowledge; it shifts that knowledge from "configuring physical servers" to "orchestrating containers." This is empowering for individual developers while preserving the value of deep expertise where it truly matters.
+
+#### 🤝 Practice Exercise
+
+**Pillar Integration Test**: Ask your AI: "Pick any two pillars from this lesson that seem unrelated to you. Walk me through a concrete scenario where using both together creates capability that neither provides alone. Then show me what breaks if I try to use just one."
+
+**What you're practicing**: Understanding interdependencies through AI-guided exploration. Your AI helps you discover how pillars multiply each other's value.
 
 ---
 
