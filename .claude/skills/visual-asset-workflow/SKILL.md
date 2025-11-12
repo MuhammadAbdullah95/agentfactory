@@ -276,19 +276,105 @@ All prompts must use the book's design system:
 - Generous white space
 - Clean grid systems
 
-#### Step 7.5: Text Rendering Best Practices
+#### Step 7.5: PRE-GENERATION VALIDATION CHECKPOINT (NEW)
+
+**CRITICAL: VALIDATE WITH USER BEFORE GENERATING PROMPT**
+
+Before writing the detailed prompt, create a **Concept Validation Brief** and present to user:
+
+```
+IMAGE [N]: [Visual Type]
+
+Core Message: [One sentence - what this image teaches]
+Visual Approach: [Brief description - e.g., "Split-screen flow comparison"]
+Essential Elements:
+- [Element 1]
+- [Element 2]
+- [Element 3]
+
+Does this match your vision? Any changes needed?
+```
+
+**Why This Matters**:
+- Prevents 3-5 iteration cycles from misunderstood requirements
+- Catches conceptual issues before detailed prompt writing
+- Aligns on simplicity vs. complexity early
+
+**Only proceed to detailed prompt writing after user approval**
+
+#### Step 7.6: Prompt Minimalism Check
+
+**CRITICAL: Before finalizing prompt, apply these filters**
+
+**The 50% Rule**:
+- ✅ Draft your prompt with full detail
+- ✅ Remove 50% of descriptive words
+- ✅ Test: Can the core message survive with half the text?
+- ✅ If yes: Use the shorter version
+
+**Example**:
+- ❌ BEFORE (82 words): "Create a professional comparison diagram showing the fundamental shift from User Interface to User Intent interaction paradigm. Layout should be split-screen with central arrow transition..."
+- ✅ AFTER (41 words): "Split-screen comparison 16:9. Left: User → Interface → Action. Right: User Intent → Agent → Actions. Center: Orange arrow 'SHIFT'."
+
+**Negative Instructions (What NOT to Do)**:
+- ✅ Always include: "NO extra text in boxes", "NO additional labels", "NO descriptions beyond what's specified"
+- ✅ These prevent Gemini from adding unwanted decorative text
+
+**Word Count Target**: <300 words per prompt
+- If prompt exceeds 300 words, simplify the image concept itself
+
+**Question Every Element**:
+1. Does this text/element teach something essential?
+2. Would the image work without it?
+3. Am I overspecifying details that will confuse the generator?
+
+#### Step 7.7: Text Rendering Best Practices
 
 **CRITICAL: Apply these proven strategies to avoid spelling/rendering issues**
 
-**Compound Words Strategy**:
+**Letter-by-Letter Spelling Strategy** (PRIMARY - Use First):
+- ✅ **BEST: Letter-by-letter with IMPORTANT prefix**:
+  ```
+  IMPORTANT: Spell "Orchestrate" correctly: O-R-C-H-E-S-T-R-A-T-E
+  ```
+- ✅ Effective for: Multi-syllable words, technical terms, words Gemini consistently misspells
+- ✅ When to use: Proactively identify "high-risk" words (3+ syllables, uncommon, technical)
+- ✅ Format: "IMPORTANT: Spell '{word}' correctly: {L-E-T-T-E-R-S}"
+
+**Evidence from Chapters 1-2**:
+- "autonomous" failed 2 times as "autonomouss" → "A-U-T-O-N-O-M-O-U-S-L-Y" succeeded immediately
+- "orchestrate" failed 1 time as "Orchterrate" → "O-R-C-H-E-S-T-R-A-T-E" succeeded immediately
+- "Accelerating" succeeded first try with letter-by-letter spelling (Chapter 1)
+
+**New Evidence from Chapter 2 Paradigm Shift (5 iterations)**:
+- Complex prompt (500+ words) → Cluttered result, wrong capitalization
+- Minimal prompt (<200 words) → Clean result, correct on first try
+- Lesson: **Less detail = better results**
+
+**Simplification Over Specification**:
+- ❌ Don't fix complexity with more instructions
+- ✅ Fix complexity by simplifying the concept
+- Example: "Orchestrated Actions" → "Actions" (removed problematic word entirely)
+
+**Negative Instruction Strategy** (Use for Unwanted Elements):
+- ✅ **Pattern**: Explicitly state what NOT to include
+  ```
+  Card 4 should ONLY say "Hear" with "Voice commands" subtitle
+  Do NOT add any extra text like "Audio" to the Hear card
+  ```
+- ✅ Effective for: Preventing redundant text, removing decorative additions, controlling element count
+- ✅ When to use: When Gemini tends to add unwanted decorative/explanatory text
+
+**Evidence from Chapter 2**:
+- "Hear" card showed "Hear | Audio" (redundant) → After "Do NOT add 'Audio'" → "Hear" only ✓
+
+**Compound Words Strategy** (Use Second):
 - ✅ **BEST: Use hyphenated versions**: "Auto-Complete" instead of "Autocomplete"
-- ✅ Effective: Letter-by-letter spelling in parentheses: "Autocomplete (A-U-T-O-C-O-M-P-L-E-T-E)"
 - ✅ Effective: Syllable-based: "Au-to-com-plete (four syllables)"
 - ✅ Fallback: Abbreviations: "YC W25" instead of "Y Combinator Winter 2025"
 
 **Evidence from Chapter 1**:
 - "Autocomplete" failed 3 times → "Auto-Complete" succeeded immediately
-- "Accelerating" succeeded first try with letter-by-letter spelling
 
 **Text Placement Strategy**:
 - ✅ **BEST: Arrow/icon-only indicators** (no text labels on directional elements)
@@ -463,6 +549,87 @@ Generate report in `history/visual-assets/lesson-{N}-audit-report.md`:
 **Ready for image generation**: ✅ Yes
 ```
 
+#### Step 11: Preserve Generation Prompts (After Image Generation)
+
+After successful image generation, create prompt sidecar file for each image to enable future regeneration and learning.
+
+**Why Preserve Prompts**:
+- ✅ Enables regeneration if source image is lost or needs updates
+- ✅ Documents what prompts produce quality results (institutional knowledge)
+- ✅ Facilitates A/B testing of prompt variations
+- ✅ Builds reusable prompt library for similar future visuals
+
+**Process**:
+1. For each generated image, create `{image-name}.prompt.md` in same directory as image
+2. Use template below
+3. Document generation attempts, issues encountered, and success factors
+
+**Prompt Sidecar Template**:
+```markdown
+# Image Generation Prompt: {Image Title}
+
+**Image File**: `{filename}.png`
+**Generated**: {YYYY-MM-DD}
+**Generator**: Gemini 2.0 Flash (gemini.google.com)
+**Attempts**: {N} (final successful attempt)
+**Quality**: {100% perfect / 99% with minor fixes / 95% acceptable}
+
+---
+
+## Final Successful Prompt
+
+{FULL IMAGE GENERATION PROMPT EXACTLY AS SUBMITTED TO GEMINI}
+
+---
+
+## Generation Notes
+
+**Attempts Log**:
+- **Attempt 1**: {description of result - success or issue}
+- **Attempt 2**: {how prompt was adjusted, if needed}
+- **Final**: {what succeeded}
+
+**Issues Encountered**:
+- {e.g., "Spelling: 'Orchestrate' misspelled as 'Orchterrate'"}
+- {e.g., "Redundant text: 'Audio' added to 'Hear' card"}
+
+**Solutions Applied**:
+- {e.g., "Letter-by-letter spelling: O-R-C-H-E-S-T-R-A-T-E"}
+- {e.g., "Negative instruction: 'Do NOT add any extra text like Audio'"}
+
+**Key Success Factors**:
+- {strategies that made this prompt succeed}
+- {why this approach worked}
+
+**Reusable Patterns**:
+- {patterns from this prompt to apply to future similar visuals}
+- {design choices that worked well}
+
+---
+
+## Image Metadata
+
+**Alt Text**: {Accessibility description from original prompt}
+
+**Pedagogical Value**:
+- **Teaches**: {one-sentence concept/pattern taught by this visual}
+- **Message**: "{one-sentence teaching goal}"
+- **Constitutional Alignment**: {Principle X or Philosophy Y}
+- **Cognitive Load Impact**: {REDUCES/NEUTRAL} - {justification}
+
+**Design Specs**:
+- **Aspect Ratio**: {16:9 / 1:1 / etc.}
+- **Dimensions**: {1792x1024px / etc.}
+- **Color Palette**: Polar Night Theme (Deep Navy #001f3f, Medium Gray #aaaaaa)
+- **Typography**: Roboto family
+```
+
+**File Location**: `book-source/static/img/{part}/{chapter}/{image-name}.prompt.md`
+
+**Example**: `book-source/static/img/part-1/chapter-2/five-powers-ai-agents.prompt.md`
+
+**Automation Note**: This can be done manually first, then automated with a Python script to extract prompts from lesson markdown HTML comments.
+
 ### Phase 3: Quality Validation
 
 Before finalizing, verify:
@@ -601,9 +768,66 @@ Alt Text: Dashboard showing four key AI adoption statistics...
 
 **Rationale**: Low cognitive load, text is clear, visual would be redundant
 
-## Chapter 1 Lessons Learned (Visual Asset Session)
+## Lessons Learned from Chapters 1-2 (Visual Asset Sessions)
 
-This section documents key insights from Chapter 1 visual asset generation that should inform prompt creation:
+This section documents key insights from Chapters 1-2 visual asset generation that should inform prompt creation.
+
+### Chapter 2 New Discoveries (Added 2025-01-12)
+
+#### Lesson 6: Letter-by-Letter Spelling Is PRIMARY Strategy
+
+**Finding**: Explicit letter-by-letter spelling with "IMPORTANT:" prefix eliminates spelling errors more reliably than hyphenation alone.
+
+**Application to Prompt Writing**:
+- **Proactively identify "high-risk" words**: 3+ syllables, technical terms, uncommon words
+- **Add letter-by-letter spelling BEFORE first attempt**: Don't wait for errors
+- **Format**: `IMPORTANT: Spell "Orchestrate" correctly: O-R-C-H-E-S-T-R-A-T-E`
+
+**Evidence from Chapter 2**:
+```
+❌ WITHOUT: "autonomous" → misspelled as "autonomouss" (2 attempts failed)
+✅ WITH LETTER-BY-LETTER: "A-U-T-O-N-O-M-O-U-S-L-Y" → succeeded first try
+
+❌ WITHOUT: "orchestrate" → misspelled as "Orchterrate" (1 attempt failed)
+✅ WITH LETTER-BY-LETTER: "O-R-C-H-E-S-T-R-A-T-E" → succeeded first try
+```
+
+**Use This Strategy First** (before hyphenation fallback).
+
+#### Lesson 7: Negative Instructions Prevent Unwanted Elements
+
+**Finding**: Explicit "Do NOT" instructions effectively prevent Gemini from adding decorative/redundant text.
+
+**Application to Prompt Writing**:
+- When Gemini tends to add extra text (e.g., "Hear | Audio" when you want just "Hear")
+- Use combination of positive ("should ONLY say X") + negative ("Do NOT add Y")
+- Be specific about what to exclude
+
+**Evidence from Chapter 2**:
+```
+❌ WITHOUT: "Hear" card → "Hear | Audio" (redundant text added)
+✅ WITH NEGATIVE:
+   "Card 4 should ONLY say 'Hear' with 'Voice commands' subtitle
+    Do NOT add any extra text like 'Audio' to the Hear card"
+   → "Hear" only ✓
+```
+
+#### Lesson 8: Product Specificity for Emerging Tools
+
+**Finding**: Gemini defaults to well-known products; emerging/niche tools need explicit listing.
+
+**Application to Prompt Writing**:
+- For product comparisons: List ALL products explicitly, including emerging ones
+- For multi-interface products: Specify which interface (e.g., "Gemini CLI" not "Gemini")
+- Don't assume Gemini knows latest/niche tools
+
+**Evidence from Chapter 2**:
+```
+❌ GENERIC: "Modern AI tools" → Shows only Claude, GPT-4
+✅ SPECIFIC: "Claude Code CLI, Gemini CLI, Devin, Zed" → All listed correctly
+```
+
+### Chapter 1 Foundational Lessons (Validated in Chapter 2)
 
 ### Lesson 1: Simplicity Beats Precision
 
@@ -696,13 +920,17 @@ Lesson 4: [Planned] Adoption speed comparison chart
 Before finalizing prompts for a lesson, verify:
 
 - [ ] **Complexity check**: No charts with 5+ similar elements (simplify to 3 max)
+- [ ] **Letter-by-letter spelling**: Challenging words (3+ syllables, technical) spelled out with "IMPORTANT:" prefix
+- [ ] **Negative instructions**: Explicit "Do NOT" statements for unwanted elements (if applicable)
 - [ ] **Text rendering**: All compound words hyphenated ("Auto-Complete")
 - [ ] **Visual indicators**: Arrows/icons unlabeled (text in titles/captions instead)
 - [ ] **Label simplification**: Only essential text on visual elements (dates, numbers)
+- [ ] **Product specificity**: Emerging/niche tools listed explicitly with full names (e.g., "Gemini CLI" not "Gemini")
 - [ ] **Redundancy check**: No duplicate teaching goals with other lesson visuals
 - [ ] **Pedagogical value**: Teaches concept/pattern (doesn't just show data)
 - [ ] **Teaching goal**: Can state in one sentence what visual teaches
 - [ ] **Constitutional alignment**: Supports co-learning, graduated teaching, or evals-first
+- [ ] **Prompt preservation plan**: Will create `.prompt.md` sidecar file after generation
 
 ## Progressive Disclosure
 

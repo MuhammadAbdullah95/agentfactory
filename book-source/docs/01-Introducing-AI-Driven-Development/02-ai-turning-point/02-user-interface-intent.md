@@ -133,8 +133,88 @@ The same goal, achieved differently:
 
 **This is "User Intent thinking"**: The user expresses goals; the agent orchestrates execution.
 
+<!-- VISUAL ASSET 1: The Paradigm Shift - Interface vs Intent
 
-## What Makes This Possible? The Five Powers
+IMAGE GENERATION PROMPT:
+
+Professional comparison diagram showing the fundamental shift from User Interface to User Intent interaction paradigm.
+
+Layout: Split-screen comparison with central arrow transition, 1792x1024px (16:9 aspect ratio).
+- Background: White (#FFFFFF)
+- Left panel (Old Paradigm): 800px wide, Light Gray tint (#F8F9FA)
+- Center transition: 192px wide with large right arrow, Orange gradient
+- Right panel (New Paradigm): 800px wide, Light Orange tint (#FFF8F5)
+- Each panel has 48px internal padding
+
+Typography:
+- Panel titles: "Old Paradigm" and "New Paradigm" - 32pt Roboto Bold, Dark Gray (#1A1A1A)
+- Subtitle: "User Interface" / "User Intent" - 24pt Roboto Medium, Medium Gray (#666666)
+- Flow text: 18pt Roboto Regular, Dark Gray (#333333)
+- Bullet points: 16pt Roboto Regular, Medium Gray (#666666)
+
+Color Palette:
+- Background: White (#FFFFFF)
+- Old paradigm tint: Light Gray (#F8F9FA)
+- New paradigm tint: Light Orange (#FFF8F5)
+- Arrow: Orange (#FF6B35) to Dark Orange (#E85525) gradient
+- Text primary: Dark Gray (#1A1A1A)
+- Text secondary: #333333
+- Text tertiary: Medium Gray (#666666)
+- Box strokes: Light Gray (#DDDDDD), 2px
+
+Visual Elements:
+- Old Paradigm flow: Three rounded boxes connected by down arrows (2px, #999999)
+  Box 1: "User" (80x60px, White bg, Gray border)
+  Arrow down (→)
+  Box 2: "Interface" (120x60px, White bg, Gray border)
+  Arrow down (→)
+  Box 3: "Action" (80x60px, White bg, Gray border)
+- Large center arrow: 96px width, pointing right, Orange gradient with subtle glow
+- New Paradigm flow: Three rounded boxes connected by right arrows (2px, Orange #FF6B35)
+  Box 1: "User Intent" (140x60px, White bg, Orange border)
+  Arrow right (→)
+  Box 2: "Agent" (100x60px, White bg, Orange border)
+  Arrow right (→)
+  Box 3: "Orchestrated Actions" (180x60px, White bg, Orange border)
+
+Content:
+Left Panel (Old Paradigm):
+  - Title: "Old Paradigm"
+  - Subtitle: "User Interface"
+  - Flow diagram as described
+  - Bullet list below flow:
+    • "Users navigate explicit interfaces"
+    • "Every action needs manual initiation"
+    • "Workflows are prescribed"
+    • "Users must know WHERE and WHAT"
+    • "Interface is the bottleneck"
+
+Right Panel (New Paradigm):
+  - Title: "New Paradigm"
+  - Subtitle: "User Intent"
+  - Flow diagram as described
+  - Bullet list below flow:
+    • "Users state intent conversationally"
+    • "AI agents act autonomously"
+    • "Workflows are adaptive"
+    • "Users describe WHAT; agents figure out HOW"
+    • "Conversation replaces navigation"
+
+Center Arrow:
+  - Large right-pointing arrow (→)
+  - Text overlay: "SHIFT" in 24pt Roboto Bold White
+
+Style Reference: Modern tech publication (a16z, Stripe), clean process diagrams
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: paradigm-shift-interface-to-intent.png
+Alt Text: Side-by-side comparison diagram showing the fundamental shift from User Interface paradigm (user navigates explicit interfaces to trigger prescribed actions) to User Intent paradigm (user states goals conversationally and AI agents orchestrate adaptive workflows autonomously).
+-->
+
+![Paradigm shift from User Interface to User Intent showing the transformation in how users interact with software](/img/part-1/chapter-2/paradigm-shift-interface-to-intent.png)
 
 Agentic AI can do this because it possesses five fundamental capabilities that, when combined, enable autonomous orchestration:
 
@@ -227,13 +307,100 @@ Agentic AI can do this because it possesses five fundamental capabilities that, 
 
 **The result**: A multi-step workflow orchestrated autonomously, adapting to context and user needs.
 
-### The Key Insight
+<!-- VISUAL ASSET 2: The Five Powers of AI Agents
 
-As Sandeep Alur from Microsoft states:
+IMAGE GENERATION PROMPT:
 
-> *"We're moving from large language models to large action models where AI doesn't just respond, it acts, orchestrates, and remembers."*
+Professional icon-based dashboard showing the five fundamental capabilities that enable agentic AI orchestration.
 
-The key word is **orchestrate**—agents coordinate complex workflows of many actions, like a conductor leading a digital orchestra.
+Layout: Pentagon/flower pattern with center hub, 1792x1024px (16:9 aspect ratio).
+- Background: Light Gray (#F8F9FA)
+- Center hub: 180px diameter circle, Orange (#FF6B35) with White text
+- Five power cards arranged radially around hub: 360px x 160px each
+- Cards positioned at: 12 o'clock, 2:24, 4:48, 7:12, 9:36
+- Connecting lines from hub to each card: 3px dashed, Light Gray (#CCCCCC)
+- 56px margin from edges
+
+Typography:
+- Center hub text: "ORCHESTRATION" in 24pt Roboto Bold White
+- Power titles: 28pt Roboto Bold, Dark Gray (#1A1A1A)
+- Power descriptions: 14pt Roboto Regular, Medium Gray (#666666)
+- Example text: 12pt Roboto Regular, Medium Gray (#999999), italic
+
+Color Palette:
+- Background: Light Gray (#F8F9FA)
+- Hub: Orange (#FF6B35)
+- Card backgrounds: White (#FFFFFF)
+- Card 1 accent: Blue (#0066FF)
+- Card 2 accent: Teal (#00B4D8)
+- Card 3 accent: Orange (#FF6B35)
+- Card 4 accent: Blue (#0066FF)
+- Card 5 accent: Teal (#00B4D8)
+- Text primary: Dark Gray (#1A1A1A)
+- Text secondary: Medium Gray (#666666)
+- Text tertiary: #999999
+
+Visual Elements:
+- Each card has 4px left border in accent color
+- Card shadows: 0px 4px 12px rgba(0,0,0,0.06)
+- 12px border-radius on cards
+- Icons: 40px, 2px stroke weight, matching accent color
+- Dashed connecting lines from hub to each card
+
+Content:
+Center Hub:
+  - Text: "ORCHESTRATION"
+  - Subtitle below: "Combined Powers"
+
+Card 1 (top - 12 o'clock) - SEE:
+  - Icon: Eye (Blue)
+  - Title: "👁️ See"
+  - Subtitle: "Visual Understanding"
+  - Description: "Process images, screenshots, documents, videos"
+  - Example: "Claude Code reads error screenshots"
+
+Card 2 (top-right - 2:24) - HEAR:
+  - Icon: Ear/sound waves (Teal)
+  - Title: "👂 Hear"
+  - Subtitle: "Audio Processing"
+  - Description: "Understand spoken requests, transcribe conversations"
+  - Example: "Voice assistants understand natural speech"
+
+Card 3 (bottom-right - 4:48) - REASON:
+  - Icon: Brain/thought (Orange)
+  - Title: "🧠 Reason"
+  - Subtitle: "Complex Decision-Making"
+  - Description: "Analyze tradeoffs, make context-aware decisions"
+  - Example: "AI debugging code by reasoning through causes"
+
+Card 4 (bottom-left - 7:12) - ACT:
+  - Icon: Lightning bolt (Blue)
+  - Title: "⚡ Act"
+  - Subtitle: "Execute and Orchestrate"
+  - Description: "Call APIs, perform actions across systems"
+  - Example: "Claude Code writes files, runs tests, commits"
+
+Card 5 (top-left - 9:36) - REMEMBER:
+  - Icon: Database/storage (Teal)
+  - Title: "💾 Remember"
+  - Subtitle: "Maintain Context"
+  - Description: "Store preferences, recall interactions, adapt"
+  - Example: "Agent remembers quiet room preferences"
+
+Title (above diagram):
+  - "The Five Powers of AI Agents" - 44pt Roboto Bold, Dark Gray (#1A1A1A), centered
+
+Style Reference: Modern tech diagram (Stripe system design, Linear product pages), clean capability framework
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: five-powers-ai-agents.png
+Alt Text: Pentagon-pattern diagram showing the five fundamental AI agent capabilities arranged around a central "Orchestration" hub: See (visual understanding), Hear (audio processing), Reason (complex decision-making), Act (execute and orchestrate), and Remember (maintain context and learn), with examples for each capability.
+-->
+
+![The five powers of AI agents showing capabilities that enable autonomous orchestration](/img/part-1/chapter-2/five-powers-ai-agents.png)
 
 #### 🎓 Expert Insight
 
