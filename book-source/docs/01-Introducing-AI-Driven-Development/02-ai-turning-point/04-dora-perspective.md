@@ -55,6 +55,10 @@ differentiation:
 
 # The DORA Perspective — AI as Amplifier
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/N1jMySJgtng" title="The $3 Trillion Developer Economy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 Two engineering organizations at different companies both adopt the same AI coding assistant in January 2025. Same tool, same budget, same training materials.
 
 **Organization A**, six months later: deploying 35% faster than before, with change failure rate unchanged at 2.8%. Developers report higher satisfaction. Leadership is planning to expand AI adoption.

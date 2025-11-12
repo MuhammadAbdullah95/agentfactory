@@ -57,6 +57,10 @@ differentiation:
 
 # Three Requirements for Vertical Success: All Three, or None
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/Cot9wISQivk" title="The $3 Trillion Developer Economy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 You now have strategy (Snakes and Ladders), economics (super orchestrators), architecture (vertical intelligence), and a playbook (PPP). But execution requires three capabilities working in perfect sync. Lack any one, and you fail.
 
 ![Venn diagram showing three overlapping requirements for vertical market success: domain expertise, deep integrations, and complete agentic solutions, with center intersection labeled "SUCCESS ZONE" illustrating that all three must be present simultaneously](/img/part-1/chapter-3/three-requirements-venn-diagram.png)

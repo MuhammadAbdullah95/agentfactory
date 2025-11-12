@@ -55,6 +55,10 @@ differentiation:
 
 # The Inflection Point — Why 2025 Is Different
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/Mq_2a3DnRkA  " title="The $3 Trillion Developer Economy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 You might be thinking: "Is this just hype? Haven't we heard these claims before?"
 
 Fair question. The AI world has no shortage of breathless predictions. But 2025 is genuinely different—not because of marketing narratives, but because three independent trends are converging simultaneously:

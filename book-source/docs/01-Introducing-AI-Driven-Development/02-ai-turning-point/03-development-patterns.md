@@ -55,6 +55,10 @@ differentiation:
 
 # Development Patterns — Vibe Coding vs. Spec-Driven Development
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/JyPatZzRNZ8" title="The $3 Trillion Developer Economy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 You've probably experienced this: you start a project and move *fast*. No specs, no planning, just coding. The first feature ships in hours. It works. You ship it.
 
 Then week two arrives. You need to add a related feature, but the code resists. The structure doesn't accommodate it. You discover edge cases weren't tested. A teammate asks, "Why did you do it this way?" You don't have a good answer—it just felt right at the time.

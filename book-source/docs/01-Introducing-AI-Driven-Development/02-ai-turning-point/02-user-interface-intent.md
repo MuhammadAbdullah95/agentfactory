@@ -55,6 +55,10 @@ differentiation:
 
 # From User Interface to User Intent
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/yq-IhPszMpM" title="The $3 Trillion Developer Economy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 Something fundamental is changing in how humans interact with software.
 
 For decades, we designed **interfaces**—buttons, menus, forms—and trained users to navigate them. Success meant making interfaces "intuitive." But what if the interface disappeared entirely? What if users just stated what they wanted, and software figured out how to do it?
