@@ -1,428 +1,414 @@
 ---
 sidebar_position: 3
-title: "Core Commands, Custom Commands & Workflows"
-duration: "40 min"
+title: "Ways to Talk With Claude: Commands"
+duration: "25-30 min"
 ---
 
-# Core Commands, Custom Commands & Workflows
+# Ways to Talk With Claude: Commands
 
-## From Setup to Daily Use: Mastering Claude Code Commands
+Imagine you have a helpful friend at your side while you work. Sometimes you ask them a quick question. Sometimes you say "let me mark where we are right now so we don't lose our place." Sometimes you point at a specific document and say "look at this file and help me understand it."
 
-In Lesson 2, you installed Claude Code and saw it work for the first time. Now comes the crucial step: **learning the commands you'll use every day** to work efficiently with your AI pair programmer.
+**Commands are different ways to ask Claude for help.**
 
-This isn't just about memorizing syntax. It's about understanding *when* to use each command, *why* it matters, and *how* to build workflows that make development faster and more enjoyable.
-
----
-
-## Command Reference Table
-
-These are the commands you'll use most often. Don't try to memorize them all at once—use this table as a reference, then practice in the hands-on section.
-
-| Command | Purpose | When to Use | Example |
-|---------|---------|-------------|---------|
-| **`claude`** | Start a session | Begin a new task or ask a question | `claude` |
-| **`#`** | Save a Memory | Save key decisions in CLAUDE.md | `# We will use python with type hinting` |
-| **`@filename`** | Reference a specific file | Give Claude context about a file | `@app.py what does this function do?` |
-| **`/init`** | Set up project memory | Tell Claude about your project (creates CLAUDE.md) | `/init` |
-| **`/clear`** | Start fresh | End current conversation, start new task | `/clear` |
-| **`/compact`** | Summarize conversation | When approaching token limit | `/compact` |
-| **`ESC`** | Stop generation | Claude is generating too much, stop it | Press `ESC` once |
-| **`ESC ESC`** | Emergency stop | Claude won't stop, force quit | Press `ESC` twice quickly |
-| **`/mcp`** | Check MCP servers | View configured MCP server status | `/mcp` |
-| **`/usage`** | Check usage | Show plan usage daily/weekly limits | `/usage` |
-| **`/permissions`** | Control access | Set what Claude can do | `/permissions` |
+Instead of remembering complicated syntax, you'll learn a few simple patterns. Each pattern tells Claude something different about what you need.
 
 ---
 
-## Core Commands (Explained)
+## What is a Command? (Start Here If New)
 
-### 1. `claude` - Start a Conversation
+**A command is a way to talk to Claude Code.**
 
-**Purpose**: The main command to interact with Claude Code
+Think of it like different types of questions you can ask:
+- **Simple question**: "What does this error mean?"
+- **Pointing to a file**: "Look at my login code and find the bug"
+- **Marking progress**: "I finished fixing that bug. Now moving to the next feature"
+- **Starting fresh**: "Forget everything before. We're starting a new task"
 
-**Syntax**:
-```bash
-claude                           # Start interactive conversation
-claude "your prompt here"        # One-off request
-```
+Each of these is a **command**—a different way to communicate with Claude.
 
-**When to use**:
-- Starting a new task
-- Asking a question
-- Getting help with an error
-
-**Example**:
-```bash
-claude "Review the authentication logic in auth.py and suggest improvements"
-```
-
-**What happens**: Claude reads the file, analyzes the logic, and provides specific suggestions
+**Don't worry about memorizing them.** You'll use them naturally as you need them. We'll explain each one, and you can look them up anytime.
 
 ---
 
-### 2. `#` - Create Checkpoints
+## The Most Important Commands
 
-**Purpose**: Mark progress points in long conversations
+Here are the commands you'll use most often. We'll explain each one with examples.
 
-**Syntax**:
+### 1. `claude` - Ask Claude a Question
+
+**What it does**: You ask Claude something, and Claude answers.
+
+**How to use it**:
 ```bash
-# Your checkpoint message here
+claude "What does this error mean?"
 ```
 
-**When to use**:
-- After completing a subtask
-- Before starting a new feature
-- To organize multi-step work
-
-**Example**:
+Or start a conversation without a question and type back and forth:
 ```bash
-# Fixed the login bug
-# Now working on password reset
+claude
+(Claude starts talking with you)
 ```
 
-**Why it matters**: Checkpoints help Claude (and you) track what's done vs. what's next. In long conversations, they prevent Claude from losing context.
+**Real example from a beginner**:
+```bash
+claude "I'm confused about why my code gave me an error message. The error says: 'mkdir: test: File exists'. What does that mean?"
+
+Claude: "Great question! This error means you tried to create a folder called 'test', but it already exists...
+```
+
+**When to use it**: Whenever you have a question or need Claude's help.
 
 ---
 
-### 3. `@filename` - Reference Files
+### 2. `#` - Mark Your Progress (Checkpoints)
 
-**Purpose**: Tell Claude to look at a specific file
+**What it does**: You mark a point in your work and tell Claude "we've completed this step."
 
-**Syntax**:
+**How to use it**:
 ```bash
-@filename.ext your question
+# I fixed the login bug
+# Now testing the password reset feature
 ```
 
-**When to use**:
-- Asking about a specific file
-- Comparing multiple files
-- Getting file-specific help
+**Why this matters**: Claude remembers that you finished something, so it can help you with what comes next. Think of it like a bookmark in a book—you mark where you are so you don't get lost.
 
-**Example**:
+**Real example**:
 ```bash
-@models.py @views.py how do these two files interact?
+claude "Review my authentication code for security issues"
+# Security review complete
+claude "Now help me write tests for the password reset feature"
 ```
 
-**What happens**: Claude reads both files and explains their relationship
+Claude knows that the security review is done, so it won't repeat suggestions.
+
+**When to use it**: When you finish one task and are moving to the next one.
 
 ---
 
-### 4. `/init` - Set Up Project Memory
+### 3. `@filename` - Point Claude to a Specific File
 
-**Purpose**: Initialize Claude Code for your project (creates CLAUDE.md)
+**What it does**: You tell Claude "look at this file and help me with it."
 
-**Syntax**:
+**How to use it**:
+```bash
+@login.py "What does this function do?"
+```
+
+**Without this command**, you'd have to copy-paste the entire file into your question. With `@filename`, Claude automatically reads the file and understands the context.
+
+**Real example**:
+```bash
+@models.py @views.py "How do these two files work together?"
+
+Claude: "Looking at both files... models.py defines your data structure, and views.py uses that data to..."
+```
+
+**When to use it**: When you want Claude to look at a specific file (or multiple files) in your project.
+
+---
+
+### 4. `/init` - Remember My Project
+
+**What it does**: Claude learns about your project so it can give better help.
+
+**How to use it**:
 ```bash
 /init
 ```
 
-**When to use**:
-- First time using Claude Code in a project
-- When you want Claude to remember project context
+Claude will ask you questions like:
+- "What's the name of your project?"
+- "What programming language are you using?"
+- "What's this project for?"
 
-**What it does**:
-1. Asks about your project (name, language, purpose)
-2. Creates CLAUDE.md with your answers
-3. Claude reads this file in future sessions
+You answer the questions, and Claude remembers your answers for future conversations.
 
-**Time saved**: 2-5 minutes per session (no more repeating project context)
+**Why this matters**: Instead of explaining "I'm working on a Python web app for managing to-do lists" every time, Claude just remembers it.
+
+**When to use it**: When you start a new project with Claude Code.
 
 ---
 
-### 5. `/clear` - Start Fresh
+### 5. `/clear` - Start Over (Forget Previous Conversations)
 
-**Purpose**: End current conversation, clear context
+**What it does**: Tells Claude "forget everything we talked about. We're starting a completely new task."
 
-**Syntax**:
+**How to use it**:
 ```bash
 /clear
 ```
 
-**When to use**:
-- Switching to a completely different task
-- Current conversation is getting confusing
-- Want to start over without previous context
+**When to use it**:
+- You've finished one project and are starting a different project
+- The conversation got confusing and you want to start fresh
+- You're working on something unrelated to what you just discussed
 
-**Example scenario**:
+**Example**:
 ```bash
-# Working on feature A
-claude "Help me with authentication"
+# Working on authentication feature
+claude "Help me fix this login bug"
 # ... conversation ...
 
 /clear
 
-# Now working on feature B
-claude "Help me with database migration"
+# Now working on a completely different feature
+claude "Help me optimize database queries"
 ```
 
-**What gets cleared**: Conversation history, file references
-**What stays**: Your project (files), CLAUDE.md
+Claude forgets about the login bug work and focuses only on database optimization.
 
 ---
 
-### 6. `/compact` - Summarize Conversation
+## When to Use Which Command: A Simple Guide
 
-**Purpose**: Condense long conversation to save tokens
+Here's a quick decision guide:
 
-**Syntax**:
+| What You Want to Do | Which Command |
+|-----|-----|
+| Ask Claude a question | `claude "your question"` |
+| Point Claude to a file | `@filename "your question"` |
+| Mark that you finished something | `# Description of what you finished` |
+| Tell Claude your project details once | `/init` |
+| Start a completely new task | `/clear` |
+
+---
+
+## Pause and Reflect: Your Comfort Level
+
+You've learned five key commands. Before moving forward, ask yourself:
+
+**Do you feel comfortable using these commands?**
+- If yes: Great! Move forward to the next section.
+- If no: That's completely normal. You don't need to memorize them. Come back to this reference anytime you need it.
+
+**What command would you use if**:
+1. You wanted to ask Claude what a specific error message means? (Answer: `claude "error message here"`)
+2. You wanted Claude to look at your database code? (Answer: `@database.py "question"`)
+3. You finished writing a feature and were starting a new one? (Answer: `#`)
+4. You were completely switching topics and wanted Claude to forget previous work? (Answer: `/clear`)
+
+If you can answer these, you understand the basics. The rest comes with practice.
+
+---
+
+## Understanding Your Workspace
+
+When you use Claude Code, you and Claude share the same **workspace**. This is important to understand:
+
+**Your workspace includes**:
+- Your files and folders (Claude can read them)
+- Your current location (Claude knows where you are in your project)
+- Your previous conversation (Claude remembers what you talked about)
+
+**Think of it like**:
+- Sitting at a desk with Claude
+- You can both see the same files
+- You can both see what's been written down
+- Claude remembers what you've discussed
+
+This is different from web-based AI (like ChatGPT) where you have to describe everything. Claude Code can **see** your actual files, so you can ask more specific questions like "look at my login.py file" instead of "here's some code I'm going to paste."
+
+---
+
+## Common Mistakes to Avoid
+
+### Mistake 1: Typing Too Much
+
+You don't need to explain everything. Claude can see your files.
+
+**Bad**:
 ```bash
-/compact
+claude "I have a file called app.py with a function that handles user login. It takes a username and password, checks them against a database..."
 ```
 
-**When to use**:
-- Long conversation approaching token limit
-- Want to keep context but reduce size
-- Conversation has lots of back-and-forth
+**Good**:
+```bash
+@app.py "Is my login function secure?"
+```
 
-**What it does**:
-- Claude summarizes the conversation
-- Keeps key decisions and progress
-- Removes redundant exchanges
-
-**vs. `/clear`**: `/compact` keeps context (summarized), `/clear` removes all context
+Claude reads the file automatically.
 
 ---
 
-### 7. `ESC` and `ESC ESC` - Stop Generation
+### Mistake 2: Forgetting to Use `/clear`
 
-**Purpose**: Interrupt Claude when it's generating
-
-**When to use**:
-- Claude is generating too much detail
-- Going in wrong direction
-- Just want it to stop
-
-**ESC (once)**: Polite stop - Claude finishes current thought and stops
-**ESC ESC (twice)**: Force quit - immediate stop
+If you're switching to a completely different project or task, use `/clear` first. Otherwise, Claude might bring up information from the previous task.
 
 **Example**:
 ```bash
-claude "Explain dependency injection in detail"
-# Claude starts generating paragraphs...
-# Press ESC - Claude stops gracefully
+# Wrong (Claude might get confused):
+claude "Help me with my Python web app"
+# ... lots of conversation ...
+claude "Help me debug my JavaScript website"
+
+# Right (Clean start):
+claude "Help me with my Python web app"
+# ... lots of conversation ...
+/clear
+claude "Help me debug my JavaScript website"
 ```
 
 ---
 
-### 8. `/mcp` - Check MCP Server Status
+### Mistake 3: Not Using `#` to Mark Progress
 
-**Purpose**: Display configured MCP servers (external tools)
+Long conversations get confusing. Mark the progress so Claude understands what's done.
 
-**Syntax**:
+**Without checkpoints** (confusing):
 ```bash
-/mcp                              # Show MCP server status
-/mcp reconnect <server-name>     # Reconnect to a specific server
+claude "Help me build a login feature"
+# ... conversation ...
+claude "Help me add password reset"
+# ... conversation ...
+# But Claude doesn't know when login work ended and password reset work began
 ```
 
-**When to use**:
-- Check which MCP servers are configured
-- Verify MCP servers are connected
-- Troubleshoot MCP server connections
-
-**Example**:
+**With checkpoints** (clear):
 ```bash
-/mcp
+claude "Help me build a login feature"
+# ... conversation ...
+# Login feature complete
+claude "Now help me add password reset"
+# ... conversation ...
 ```
-
-**Example Output (no servers configured)**:
-```
-No MCP servers configured. Please run /doctor if this is unexpected.
-Otherwise, run `claude mcp` or visit https://docs.claude.com/en/docs/claude-code/mcp
-to learn more.
-```
-
-**Example Output (servers configured)**:
-```
-MCP Servers:
-- web-search: ✓ Connected
-- github: ✓ Connected
-- docs: ✗ Disconnected
-```
-
-**Note**: To configure MCP servers, use `claude mcp` command or edit your configuration files. This is covered in detail in Lesson 6.
 
 ---
 
-### 9. `/usage` - Check API Usage (Budget Awareness)
+## Try With AI: Practice Commands
 
-**Purpose**: Show plan usage limits
+Even though you have Claude Code installed, practice these commands using any AI tool (ChatGPT, Gemini, etc.). You're learning the *patterns*, not the specific tool.
 
-**Syntax**:
-```bash
-/usage    # Check current usage
+### Activity 1: Simple Question Practice
+
+Open ChatGPT or another AI tool and ask:
+
+```
+I'm learning Claude Code. Explain these 5 commands in simple language
+(no technical jargon):
+1. claude
+2. #
+3. @filename
+4. /init
+5. /clear
+
+For each one, give me a real-world analogy (not programming-related).
 ```
 
-**When to use**:
-- Before starting large tasks
-- When approaching daily/weekly limits
-- To understand usage patterns
-
-**Example Output**:
-```
-Settings:  Status   Config   Usage   (tab to cycle)
-
- Current session
- ███                                                6% used
- Resets 2pm (Asia/Karachi)
-
- Current week (all models)
- ███████████                                        22% used
- Resets Nov 12, 10pm (Asia/Karachi)
-
- Current week (Opus)
-                                                    0% used
-
- Esc to exit
-```
-
-**Best practice**: Check `/usage` often to prevent unexpected session limit reached problems.
+**What you're practicing**: How to ask clear questions. The command itself is less important than being able to ask what you need.
 
 ---
 
-### 10. `/permissions` - Control Access (Security)
+### Activity 2: Pointing to Files Practice
 
-**Purpose**: Set what Claude Code can access and do
+Imagine you have three files: `login.py`, `database.py`, and `config.py`. You want to ask Claude about how they work together.
 
-**Syntax**:
-```bash
-/permissions                      # Show current permissions
-/permissions set <permission>    # Change a permission
+**Without the `@` command**, you'd need to describe all three files.
+**With the `@` command**, you just point.
+
+Ask your AI:
+```
+If I have three Python files (login.py, database.py, config.py),
+what's the shortest way I could ask an AI assistant to explain
+how they work together? Show me the exact command I'd use.
 ```
 
-**When to use**:
-- First time setting up (define boundaries)
-- Working with sensitive files
-- Want to restrict Claude's actions
-
-**Example**:
-```bash
-/permissions
-```
-
-**Example Output**:
-```
-Current permissions:
-- Read files: ✓ Allowed
-- Write files: ✓ Allowed (approval required)
-- Execute commands: ✓ Allowed (approval required)
-- Access network: ✗ Denied
-```
-
-**Best practice**: Review permissions when starting work on a new project or when handling sensitive data.
+**What you're practicing**: Understanding how to point Claude to files instead of describing them.
 
 ---
 
-## Custom Slash Commands (Team Workflow Automation)
+### Activity 3: Starting Fresh Practice
 
-### What Are Custom Slash Commands?
+```
+Imagine I've been talking with an AI about debugging Python for 30 minutes.
+Now I want to switch to asking about CSS.
+What should I do to make sure the AI focuses on CSS
+and doesn't keep bringing up Python from before?
+```
 
-Custom slash commands are **reusable prompt templates** you create for tasks you do repeatedly.
-
-**Think of them as**: Shortcuts for common workflows
-
-**Stored in**: `.claude/commands/` directory in your project
+**What you're practicing**: Understanding when to separate conversations.
 
 ---
 
-### How to Create a Custom Command
+## Key Terms Review
 
-**Step 1: Create the commands directory**
+**Command**: A way to ask Claude for help. Different commands do different things.
 
-```bash
-mkdir -p .claude/commands
-```
+**Checkpoint** (the `#` command): A marker that says "we finished this task."
 
-**Step 2: Create a markdown file for your command**
+**File reference** (the `@` command): Pointing Claude to a specific file you want help with.
 
-Example: `.claude/commands/markdown-review.md`
+**Workspace**: Your project folder and all its files—Claude can see everything in here.
 
-```markdown
-# Markdown Review Command
-
-Review the Markdown in $ARGUMENTS for:
-1. Potential bugs or edge cases
-2. Style and readability
-3. Security vulnerabilities
-
-Provide:
-- Summary of findings (critical/major/minor)
-- Specific line numbers for issues
-- Suggested fixes with examples
-
-Format: Use a clear severity rating for each issue.
-```
-
-**Step 3: Use your custom command**
-
-```bash
-claude /markdown-review >> We are learning how to Create a custom command
-```
-
-**What happens**:
-- `$ARGUMENTS` gets replaced with `>> We are learning how to Create a custom command`
-- Claude executes the full prompt template
-- You get consistent, structured reviews
+**Clear**: Telling Claude to forget previous conversations and start fresh.
 
 ---
 
-### Why Custom Commands Matter
+## What's Next?
 
-**Without custom commands**:
-```bash
-claude "Review auth.md for bugs, style issues, performance problems, and security vulnerabilities."
+In Lesson 4, you'll learn about **specialized helpers** (called "subagents")—Claude Code assistants that are specially trained for specific jobs, like code review or writing tests.
 
-**With custom commands**:
-```bash
-claude /markdown-review `>> We are learning how to Create a custom command`
-```
-(One short command)
+But first, practice these commands. The more you use them, the more natural they'll feel.
 
-**Benefits**:
-- ⏱️ **Time saved**: 30 seconds per use
-- 🎯 **Consistency**: Same quality checks every time
-- 👥 **Team alignment**: Share commands via Git (everyone uses same prompts)
-- 📚 **Best practices**: Encode expertise into commands
+**Before moving to Lesson 4**, try using these commands with Claude Code:
+1. Ask Claude a simple question with `claude "your question"`
+2. Point Claude to a file with `@filename "your question"`
+3. Mark progress with `# Your progress note`
+
+You don't need to be perfect. Just get comfortable with the patterns.
 
 ---
 
-## Try With AI
+## Try With AI: Start Your First Real Command Practice
 
-Use **Claude Code CLI** for this activity (since you're learning Claude Code commands).
+Open ChatGPT or another AI tool and run this prompt:
 
-### Prompt 1: Command Selection
+### Prompt 1: Learn Commands by Example
 
 ```
-I'm working on [describe your task]. Which Claude Code commands should I use, and in what order? Give me a step-by-step workflow with specific commands. Include when to use checkpoints, when to check /cost, and when to /clear or /compact.
+I'm learning Claude Code commands. For each command below, give me:
+(1) A real-world analogy (not programming)
+(2) A simple example showing how I'd use it
+(3) When I'd use it in my daily work
+
+Commands:
+- claude (asking questions)
+- @ (pointing to files)
+- # (marking progress)
+- /init (remember my project)
+- /clear (start over)
 ```
 
-**Expected outcome:** Step-by-step command workflow tailored to your task
+**Expected outcome**: Simple explanations with everyday analogies. You'll understand when and why to use each command.
 
 ---
 
-### Prompt 2: Custom Command Creation
+### Prompt 2: Practice Your Own Use Case
 
 ```
-I do this task repeatedly: [describe repetitive task]. Help me create a custom slash command for it. Write the markdown file content I should save in .claude/commands/[name].md. Make it use $ARGUMENTS so I can pass different files/inputs.
+I work on [your type of work: website building, data analysis, writing code, etc.].
+Walk me through a typical workflow using Claude Code commands:
+1. How would I start a session? (/init or other command)
+2. How would I ask my first question? (claude command)
+3. How would I point Claude to a specific file? (@filename)
+4. How would I mark progress as I work? (#)
+5. When would I use /clear?
 ```
 
-**Expected outcome:** Ready-to-use custom command file content
+**Expected outcome**: A personalized workflow showing how these commands fit your actual work.
 
 ---
 
-### Prompt 3: Workflow Debugging
+## Safety Reminder
 
-```
-I tried the [Explore→Plan→Code / TDD] workflow but got stuck at [step]. What went wrong? Walk me through that step again with specific commands and what I should see at each point.
-```
+**Remember from Lesson 2**: You're always in control. Commands are just tools to help you communicate with Claude Code. They don't do anything dangerous on their own—they just help you ask questions and mark progress.
 
-**Expected outcome:** Troubleshooting help with exact commands to try
+If a command seems confusing, you can:
+- Skip it for now (you won't need all of them right away)
+- Ask Claude: "What does this command do?"
+- Look back at this lesson anytime
+
+**You're learning at your pace. There's no rush.**
 
 ---
 
-### Prompt 4: Usage Optimization
-
-```
-I just ran /usage and my usage is higher than expected. Review my recent workflow: [describe what you did]. Which commands or approaches would reduce token usage while keeping the same quality? Give me 3-5 specific optimization tips.
-```
-
-**Expected outcome:** Practical tips to optimize usage
+**Ready for Lesson 4?** Let's learn about specialized helpers (subagents).

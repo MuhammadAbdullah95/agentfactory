@@ -1,518 +1,393 @@
 ---
 sidebar_position: 8
-title: "Plugins: Composing Commands, Agents, Skills & Hooks"
-duration: "40 min"
+title: "Putting It All Together: Plugins"
+duration: "20-25 min"
 ---
 
-# Plugins: Composing Commands, Agents, Skills & Hooks
+# Putting It All Together: Plugins
 
-## The Problem: Isolated Automations Don't Scale
+You've learned five different ways to extend Claude Code:
 
-You've learned **four powerful extensions**:
-- **Commands** (`/commit`, `/clear`, custom commands)
-- **Agents** (Subagents for specialized tasks)
-- **Skills** (Ambient expertise applied automatically)
-- **Hooks** (Automation triggers before/after actions)
+1. **Commands** (Lesson 3): Ways to ask Claude for help
+2. **Subagents** (Lesson 4): Specialists you explicitly ask for help
+3. **Skills** (Lesson 5): Permanent knowledge Claude learns and applies
+4. **Hooks** (Lesson 7): Automatic reminders at key moments
+5. **MCP servers** (Lesson 6): Tools that connect Claude to information outside your computer
 
-But they're scattered:
-- One command here
-- One hook there
-- One skill scattered across projects
-- One agent somewhere else
+**But what if you wanted all five working together as one package?**
 
-**What if you could package them together?** That's what **plugins** do.
-
-**Without plugins**: Automations are isolated, hard to share, difficult to maintain.
-
-**With plugins**: Everything needed for a workflow lives in one place—commands, agents, skills, hooks all working together.
+That's what **plugins** do. A plugin bundles commands, subagents, skills, and hooks together into one cohesive tool that works as a team.
 
 ---
 
-## What Are Plugins?
+## What is a Plugin? (Start Here If New)
 
-**Definition**: A plugin is a **composable package** that bundles commands, agents, skills, and hooks into a single reusable workflow.
+**A plugin is a complete package that combines all the Claude Code extensions you've learned.**
 
-Instead of scattered automations, plugins organize everything needed for a workflow in one place:
-- **Commands** — New `/command` interface
-- **Agents** — Subagents that execute specialized tasks
-- **Skills** — Ambient expertise applied automatically
-- **Hooks** — Automation triggers before/after actions
+Think of plugins like pre-made kits:
+- A **code-review kit** includes: commands to start reviews, a code-review subagent, security skills Claude applies, and hooks that remind you to review before committing
+- A **testing kit** includes: commands to run tests, a test-generator subagent, testing standards skills, and hooks that remind you to test before pushing
 
-### Plugins vs. Individual Extensions
-
-You've learned each extension separately. Here's how they compare:
-
-| Feature | Subagent | Agent Skill | Plugin |
-|---------|----------|-------------|--------|
-| **Purpose** | Specialized isolated task execution | Ambient expertise applied across work | Workflow automation & new commands |
-| **Invocation** | Explicit (`claude agent run`) or auto-delegated | Autonomous (Claude discovers when relevant) | Explicit (`/command`) or auto-triggered via hooks |
-| **Scope** | Single focused task | Refines outputs across multiple phases | Orchestrates multi-step workflows |
-| **Example** | Code reviewer with custom standards | Auto-detect Python files → suggest docstrings | `/code-review` runs 4 review agents in parallel |
-| **Best For** | Quality gates & specialized review | Embedded best practices | Automation & standardization |
-
-### Key Insight: When to Use Each
-
-- **Subagents**: "I need a specialized review from a code expert"
-- **Skills**: "I always want type hints checked automatically"
-- **Plugins**: "I want to run a complete code review workflow every time I create a PR"
+Instead of managing five separate things, you activate one plugin and everything works together.
 
 ---
 
-## Getting Started with Plugins
+## How Plugins Are Different from Individual Extensions
 
-If you want to try a plugin right away:
+You've been learning individual extensions separately. Here's how plugins change that:
 
-1. Add a marketplace
-   ```bash
-   /plugin marketplace add your-org/claude-plugins
-   ```
-2. Browse and install a plugin
-   ```bash
-   /plugin
-   # or install directly:
-   /plugin install plugin-name@your-org
-   ```
-3. Run the plugin’s commands
-   ```bash
-   /help
-   # then try a listed command, e.g.:
-   /code-review
-   ```
-
-Tip: For local development, you can add a marketplace by path (for example, `/plugin marketplace add ./my-marketplace`) and install from there.
-
-## Plugin Architecture: How Plugins Compose Everything
-
-Before learning built-in plugins, understand the architecture.
-
-### Inside a Plugin: The Composition
-
-Every plugin packages four things together:
-
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json          # Metadata
-├── commands/
-│   └── my-command.md        # /my-command entry point
-├── agents/
-│   └── my-agent.md          # Specialized subagents
-└── hooks/
-    └── hooks.json           # Pre/post automation triggers
-```
-
-**How they work together:**
-
-1. **Hook triggers** → Detects when to activate
-2. **Command invokes** → User runs `/command`
-3. **Agent executes** → Subagent handles specialized work
-4. **Skills apply** → Ambient expertise throughout
-
-**Real example: `/code-review` plugin**
-
-```
-User: /code-review
-  ↓
-Hook: Monitors for PR context
-  ↓
-Command: Parses PR metadata
-  ↓
-Agents: 4 parallel review agents run
-  ↓
-Skills: Each agent uses code-quality and security skills
-  ↓
-Output: Review comment posted to GitHub
-```
-
----
-
-## Built-In Plugins (Ready to Use)
-
-Claude Code ships with powerful plugins that demonstrate composition. You can install and use them immediately.
-
-### Plugin 1: Code Review (`code-review`)
-
-**What it does**: Automatically reviews pull requests with confidence-based scoring. Analyzes the code, identifies issues, and posts review comments on GitHub.
-
-**When to use**: Before merging a PR, want automated feedback
-
-**How to install and enable**:
+### Individual Extensions (What You've Learned)
 ```bash
-# 1) Add a marketplace that provides this plugin
-/plugin marketplace add your-org/claude-plugins
-# 2) Install the plugin from that marketplace
-/plugin install code-review@your-org
-# 3) Enable it (if it is not auto-enabled)
-/plugin enable code-review@your-org
+# You have to manage each part separately:
+claude "Use the code-reviewer subagent"  # Run a specialist
+# Claude applies your code style skills automatically  # And skills
+# Before committing, hook reminds you to review  # And hooks
+# You manually remember to run the command  # And commands
 ```
 
-**How to run**:
+### With a Plugin
 ```bash
+# One command runs the entire code-review workflow:
 /code-review
+
+# Behind the scenes:
+# - Activates the code-review subagent
+# - Applies code style skills
+# - Reminds you of your standards (hooks)
+# - Everything works together automatically
 ```
 
-**What happens**:
-- Claude launches 4 review agents in parallel
-- Each agent scores confidence in issues (0-100)
-- Only issues with ≥80 confidence are reported
-- Filters out false positives automatically
-- Posts GitHub comment with findings
-
-**Example output**:
-```
-## Code Review (4 agents, 2 high-confidence issues)
-
-1. Missing error handling for OAuth callback (confidence: 89)
-   → Line 67-72 in src/auth.ts
-
-2. Potential SQL injection in user query (confidence: 92)
-   → Line 134 in src/database.ts
-```
+When you activate the plugin, **all the parts work together automatically**.
 
 ---
 
-### Plugin 2: Feature Development (`feature-dev`)
+## Real-World Example: The Code Review Plugin
 
-**What it does**: Guides you through a structured 7-phase workflow for building features, automatically delegating to specialized agents at each phase.
+Let's imagine a plugin called **code-review**:
 
-**When to use**: Building a new feature from start to finish
+### What's Inside the Plugin
+- **Commands**: `/review` (start a review), `/approve` (mark as approved)
+- **Subagent**: Code-review specialist trained on your standards
+- **Skills**: Type hints, docstrings, security checks
+- **Hooks**: Reminds you to review before committing
+- **MCP Integration**: Can access GitHub to review pull requests
 
-**How to enable**:
+### How You Use It
 ```bash
-/plugin enable feature-dev
+# Activate the plugin
+/code-review
+
+Claude: "Code review plugin activated. Here's what I can help with:
+- Review your code for style, security, and errors
+- Auto-check before commits
+- Create review reports
+
+What would you like?"
 ```
 
-**How to run**:
-```bash
-/feature-dev
-```
-
-**The 7 phases** (Claude automates):
-1. **Exploration** - Understand existing codebase patterns
-2. **Design** - Plan the feature architecture
-3. **Specification** - Write formal spec
-4. **Implementation** - Code the feature
-5. **Testing** - Write and run tests
-6. **Review** - Self-review before PR
-7. **Documentation** - Generate docs
-
-**What happens**: You describe what you want to build, Claude Code orchestrates specialized agents for each phase.
+All five extensions work together automatically.
 
 ---
 
-### Plugin 3: PR Review Toolkit (`pr-review-toolkit`)
+## When to Use Plugins vs. Individual Extensions
 
-**What it does**: Comprehensive PR analysis with 6 specialized agents, each checking different aspects.
+**Use a plugin when**:
+- You have a complete workflow you do regularly
+- Multiple extensions (subagents, skills, hooks) work together
+- You want to package expertise for sharing with team members
+- You want everything organized and coordinated
 
-**When to use**: Before PR creation, want deep analysis
-
-**How to enable**:
-```bash
-/plugin enable pr-review-toolkit
-```
-
-**Agents** (run in parallel):
-- **Comment Analyzer** - Verify comments are accurate & documentation is clear
-- **Test Analyzer** - Evaluate test coverage quality
-- **Silent Failure Hunter** - Find inadequate error handling
-- **Type Design Analyzer** - Review type design and invariants
-- **Code Reviewer** - General code quality check
-- **Code Simplifier** - Suggest refactoring & simplifications
-
-**Example**: Ask Claude Code to "Review error handling in this PR" and the Silent Failure Hunter automatically runs.
-
----
-
-### Plugin 4: Commit Commands (`commit-commands`)
-
-**What it does**: Git workflow automation. Handles committing, branch management, and cleanup.
-
-**When to use**: Streamline git operations
-
-**How to enable**:
-```bash
-/plugin enable commit-commands
-```
-
-**Available commands**:
-- `/commit` - Create a commit with auto-generated message
-- `/clean-gone` - Remove branches marked as [gone] and their worktrees
-- `/branch-status` - Show all branches with status
+**Use individual extensions when**:
+- You need just one specialist (subagent)
+- You want to teach Claude one standard (skill)
+- You need one specific reminder (hook)
+- You want flexibility and control
 
 **Example**:
 ```bash
-/commit
-# Claude auto-stages changed files and creates descriptive commit message
-```
+# Simple task - use individual extension:
+claude "Use the code-reviewer subagent to check my function"
 
----
-
-## Installing Plugins from Marketplace
-
-Claude Code has a marketplace of additional plugins. You can browse and install them.
-
-Explore public marketplaces here: [Claude Code Marketplace](https://claudecodemarketplace.com/).
-
-### Add a marketplace (required before installing)
-
-```bash
-/plugin marketplace add your-org/claude-plugins
-# Examples:
-#  • owner/repo (GitHub): your-org/claude-plugins
-#  • SSH: git@github.com:your-org/claude-plugins.git
-#  • URL: https://example.com/marketplace.json
-#  • Local path: ./path/to/marketplace
-```
-
-### How to Browse Plugins
-
-```bash
-/plugin
-```
-
-This shows available plugins from configured marketplaces with descriptions. Search for what you need.
-
-### How to Install a Plugin
-
-```bash
-/plugin install plugin-name@marketplace-name
-``` 
-
-**Example**:
-```bash
-/plugin install code-review@your-org
-```
-
-### How to Manage Plugins
-
-```bash
-/plugin list                          # Show all installed plugins
-/plugin enable name@marketplace       # Activate a plugin
-/plugin disable name@marketplace      # Deactivate a plugin
-/plugin validate                      # Check if plugins are valid
-```
-
-If you see “No marketplaces configured,” add one first with `/plugin marketplace add ...`. If you see “No plugins installed,” install one with `/plugin install name@marketplace` before enabling.
-
----
-
-## Creating Your Own Plugin (Optional)
-
-If you want to automate a workflow specific to your team, you can create a custom plugin.
-
-### Plugin Structure
-
-Plugins live in `.claude-plugin/` directory:
-
-```
-my-plugin/
-├── .claude-plugin/
-│   └── plugin.json          # Plugin metadata
-├── commands/
-│   └── my-command.md        # Defines `/my-command`
-├── agents/
-│   └── my-agent.md          # Custom agent for this plugin
-└── hooks/
-    └── hooks.json           # Auto-triggers for workflows
-```
-
-### Simple Example: Creating a `/deploy` Command
-
-**Step 1: Create `.claude-plugin/plugin.json`**
-
-```json
-{
-  "name": "deploy-commands",
-  "version": "1.0.0",
-  "description": "Automate deployment workflows",
-  "author": "Your Team"
-}
-```
-
-**Step 2: Create `commands/deploy.md`**
-
-```markdown
-# Deploy Command
-
-Automates deployment to production.
-
-## Steps
-
-1. Run tests
-   - Execute `npm test`
-   - If any test fails, stop here
-
-2. Build
-   - Execute `npm run build`
-
-3. Deploy
-   - Push to production branch
-   - Trigger deployment pipeline
-
-4. Verify
-   - Run health checks
-   - Report status
-```
-
-**Step 3: Enable the plugin**
-
-```bash
-/plugin validate
-/plugin enable deploy-commands
-```
-
-**Step 4: Use your command**
-
-```bash
-/deploy
-# Claude Code follows the steps you defined
-```
-
-### Advanced: Hooks for Automation
-
-Hooks trigger automatically on certain events. Example hook config:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npm test"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-With this hook, tests run automatically after file edits/writes so you get immediate feedback.
-
----
-
-## Real Workflow: PR Review Automation
-
-Let's see plugins in action with a realistic workflow.
-
-**Scenario**: You've finished coding a feature and want to review it before pushing to GitHub.
-
-### Without Plugins:
-1. Manually run tests
-2. Manually check code for style issues
-3. Manually verify error handling
-4. Manually write PR description
-5. Manually review type safety
-6. Finally push to GitHub
-
-**Time: 45+ minutes**
-
-### With Plugins:
-
-```bash
-# 1. Enable the toolkit
-/plugin enable pr-review-toolkit
-/plugin enable code-review
-
-# 2. Run the review
+# Complete workflow - use plugin:
 /code-review
-
-# 3. Fix issues found
-# (Claude provides specific line numbers and suggestions)
-
-# 4. Commit and push
-/commit
-git push
-
-# 5. GitHub automatically runs the code-review plugin again on the PR
+# (entire workflow activates: reviews, checks standards, reminds you)
 ```
-
-**Time: 15 minutes**
 
 ---
 
-## Try With AI
+## Common Plugins You Might Use
 
-Now put plugins into practice.
+Here are examples of plugins teams create:
 
-### Exercise 1: Enable and Run a Plugin
-
-**Setup**:
-- Choose one built-in plugin from the list above (`code-review`, `feature-dev`, `pr-review-toolkit`, or `commit-commands`)
-- Have a recent piece of code or PR ready
-
-**Prompt**:
+### Plugin 1: Code Review Workflow
 ```
-Enable the [plugin-name] plugin and run it on my recent work.
-
-Specifically:
-1. Run /plugin enable [plugin-name]
-2. Execute the appropriate command
-3. Show me the results and explain what each finding means
-4. Suggest 1-2 actions I should take based on the findings
+Includes: Commands (/review), Subagent (code-reviewer),
+Skills (your code standards), Hooks (remind before commit)
 ```
 
-**Expected outcome**: You see what a plugin does and get actionable feedback on your code.
-
-### Exercise 2: Understand Plugin Scalability
-
-**Prompt** (no code needed):
+### Plugin 2: Testing Workflow
 ```
-I'm learning about Claude Code plugins. If I had 5 different automated workflows
-(code review, testing, documentation, security scan, performance analysis),
-should I:
-
-A) Create 5 separate plugins
-B) Combine them into 1 large plugin
-C) Use hooks to chain them together
-
-Explain the tradeoffs and recommend an approach for a team of 5 developers.
+Includes: Commands (/test), Subagent (test-generator),
+Skills (your testing standards), Hooks (remind before pushing)
 ```
 
-**Expected outcome**: You understand when to separate vs. combine automations.
-
-### Exercise 3: Design a Custom Plugin for Your Workflow
-
-**Prompt**:
+### Plugin 3: Documentation Workflow
 ```
-I want to create a custom plugin for my project that automates this workflow:
-
-1. [Your workflow step 1]
-2. [Your workflow step 2]
-3. [Your workflow step 3]
-
-Help me:
-1. Design the plugin structure (what commands, what agents)
-2. Write the plugin.json metadata
-3. Outline the main command definition
-4. Suggest hooks that would make this automatic
-
-Keep it simple—3-4 steps maximum.
+Includes: Commands (/document), Subagent (doc-writer),
+Skills (your doc standards), Hooks (remind to document)
 ```
 
-**Expected outcome**: A concrete blueprint for automating your team's most painful workflow.
+### Plugin 4: Project Setup Workflow
+```
+Includes: Commands (/init-project), Subagent (setup helper),
+Skills (your project structure), Hooks (verify setup on start)
+```
+
+---
+
+## How Plugins Connect Everything
+
+The power of plugins is **orchestration**—making parts work together seamlessly.
+
+### Before Plugins (Fragmented)
+```bash
+claude "Set up my project structure"  # Command 1
+claude "Use test-generator: Create tests"  # Subagent
+claude "Here's my code style"  # Teaching a skill
+# ... later, remember to commit ...
+# ... later, remember to document ...
+```
+
+You're managing five things manually.
+
+### With Plugins (Orchestrated)
+```bash
+/new-project
+
+# Everything happens automatically:
+# - Project structure created
+# - Documentation skill applied
+# - Test standards configured
+# - Hooks set up to remind you
+# - All working together
+```
+
+One command, everything orchestrated.
+
+---
+
+## Pause and Reflect: What Workflow Would You Bundle?
+
+Think about your work:
+
+1. **What's your most common workflow?** (code review, testing, deployment, documentation)
+2. **Which extensions would help?** (commands, subagents, skills, hooks)
+3. **Would packaging them together save you time?**
+
+This is a plugin candidate.
+
+---
+
+## Creating Your First Plugin
+
+You don't have to create plugins yet—that's more advanced. For now, just understand that plugins **bundle extensions together**.
+
+When you're ready to create one, you'll:
+1. Identify a complete workflow you do regularly
+2. Create or find the subagents needed
+3. Define the skills that apply
+4. Set up the hooks for reminders
+5. Create commands to start it all
+6. Package it as one plugin
+
+But that's a future lesson.
+
+---
+
+## Real Workflow: Using a Plugin
+
+Let's see how plugins fit into your day:
+
+### Monday Morning: Starting New Feature
+```bash
+/new-feature
+
+Claude: "Feature development plugin activated.
+I've set up:
+- Code quality hooks (remind before committing)
+- Test generation subagent (ready to write tests)
+- Your code style standards (will apply automatically)
+- Documentation hooks (remind to document)
+
+Ready to start?"
+```
+
+### During Development
+```bash
+(You write code)
+
+Claude (from hooks): "Your code is ready to review. Want me to check it?"
+
+(Code review happens automatically using plugin components)
+```
+
+### Before Committing
+```bash
+(You're ready to commit)
+
+Claude (from hooks): "Before you commit, your tests should pass. Run tests?"
+
+(Tests run, pass, standards verified, all through plugin)
+```
+
+The entire workflow flows naturally because the plugin orchestrates everything.
+
+---
+
+## Common Mistakes
+
+### Mistake 1: Creating Plugins Too Early
+
+Don't create plugins before you understand individual extensions.
+
+**Wrong**:
+Learn about plugins first, then try to create one
+
+**Right**:
+Learn commands, subagents, skills, hooks separately. Then bundle them into a plugin when you have a complete workflow.
+
+---
+
+### Mistake 2: Over-Engineering Plugins
+
+Don't create a 100-part plugin. Keep them simple and focused.
+
+**Wrong**:
+"One mega-plugin that does everything about coding"
+
+**Right**:
+"One plugin for code review" (focused on one workflow)
+
+---
+
+## Try With AI: Learn About Plugins
+
+Open ChatGPT or another AI tool:
+
+### Prompt 1: Identify a Bundleable Workflow
+
+```
+I work on [your type of work: coding, writing, data analysis, etc.].
+What's my most common, repetitive workflow?
+For that workflow, which extensions would help?
+- Commands (to start it)
+- Subagents (specialists)
+- Skills (standards)
+- Hooks (reminders)
+- MCP servers (external tools)
+
+Help me design this as a plugin.
+```
+
+**Expected outcome**: Understanding which workflow would make a good plugin.
+
+---
+
+### Prompt 2: See a Plugin in Action
+
+```
+Design a realistic plugin for my work in [your domain].
+Show me:
+1. What's the workflow? (what task does it automate)
+2. What commands activate it?
+3. Which specialists (subagents) help?
+4. What standards (skills) apply?
+5. What reminders (hooks) matter?
+6. How would I use it in my day?
+
+Make it feel realistic and helpful.
+```
+
+**Expected outcome**: Understanding how plugins orchestrate extensions.
+
+---
+
+### Prompt 3: Simple vs. Complex Plugins
+
+```
+Should plugins be simple (5 parts) or complex (20+ parts)?
+Give pros and cons of each approach.
+What makes a "good" plugin design?
+How do I avoid over-engineering?
+```
+
+**Expected outcome**: Understanding plugin design principles.
+
+---
+
+## Key Terms Review
+
+**Plugin**: A package that bundles commands, subagents, skills, hooks, and MCPs together.
+
+**Orchestration**: Making parts work together as a coordinated whole.
+
+**Workflow**: A sequence of steps you do regularly.
+
+**Bundling**: Grouping related extensions into one package.
+
+**Activation**: Turning on a plugin (usually with a command like `/code-review`).
 
 ---
 
 ## What's Next
 
-You've now mastered **the full Claude Code stack**:
+In Lesson 9, you'll learn about the **Marketplace**—a place where people share plugins and extensions they've created, so you can use them without building everything from scratch.
 
-- ✅ **Installation** - Set up Claude Code on any platform
-- ✅ **Commands** - Use daily workflows efficiently
-- ✅ **Subagents** - Create specialized isolated assistants
-- ✅ **Skills** - Encode team expertise for automatic application
-- ✅ **MCP Servers** - Integrate external systems safely
-- ✅ **Plugins** - Automate multi-step workflows
+But first, think about one workflow you could bundle into a plugin. What would make your work easier?
 
-**In Part 5-6** (Advanced Orchestration), you'll learn:
-- Git worktrees for parallel feature development
-- Managing 3-10 AI agents simultaneously
-- Coordinating complex decomposition strategies
-- Building AI agent team orchestration
+**Before moving to Lesson 9**:
+1. Identify one workflow you do repeatedly
+2. List which extensions (commands, subagents, skills, hooks) it needs
+3. Imagine how it would feel if they all worked together automatically
 
-For now, **practice using what you've learned**. The real skill is recognizing when to use each tool (commands, subagents, skills, MCP, plugins) for maximum productivity.
+---
 
+## Try With AI: Design a Plugin for Your Work
+
+Open Claude Code (or ChatGPT) and try this:
+
+### Activity 1: Map Your Workflow
+
+```
+Here's a workflow I do regularly:
+[Describe your workflow: step 1, step 2, step 3...]
+
+For each step, which extension would help?
+- Commands (to trigger it)
+- Subagents (specialists)
+- Skills (standards to apply)
+- Hooks (reminders)
+- MCPs (external tools)
+
+Design how they'd work together as a plugin.
+```
+
+**Expected outcome**: Understanding how to bundle extensions.
+
+---
+
+### Activity 2: Feel the Difference
+
+```
+Show me the difference between:
+1. Doing my workflow with individual extensions (fragmented)
+2. Doing it with a plugin (orchestrated)
+
+Make it obvious why the plugin is better.
+```
+
+**Expected outcome**: Understanding the value of orchestration.
+
+---
+
+**Ready for Lesson 9?** Let's learn about the Marketplace where communities share plugins and extensions.

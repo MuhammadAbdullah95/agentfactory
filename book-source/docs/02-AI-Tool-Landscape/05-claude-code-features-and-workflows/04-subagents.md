@@ -1,227 +1,351 @@
 ---
 sidebar_position: 4
-title: "Understanding and Using Subagents"
+title: "Specialized Helpers: Subagents"
+duration: "20-25 min"
 ---
 
-# Understanding and Using Subagents
+# Specialized Helpers: Subagents
 
-## The Problem: Context Pollution and Specialization
+Have you ever wished you had a specialist on your team? Someone whose only job is code review. Another person who only writes tests. A third who's an expert at documentation.
 
-You've installed Claude Code and run your first commands. But as you use it more, you'll encounter a common challenge: **context pollution**.
+With Claude Code, you can have this.
 
-Imagine this scenario: You're working on a Python project. You ask Claude Code to help debug a function, then to review your code for style issues, then to generate documentation, then to suggest performance optimizations. By the time you're on your fifth request, Claude Code's context includes all your previous conversations—debugging details, style discussions, documentation drafts. The conversation has become cluttered.
-
-**What if you could press "reset" without losing your work?**
-
-**What if you could have specialized AI assistants for different tasks—a code reviewer, a documentation writer, a debugging expert—each with clear focus and isolated context?**
-
-That's what **subagents** enable. They're one of Claude Code's most powerful features, yet often overlooked by beginners who stick to the main conversation for everything.
-
-In this lesson, you'll learn what subagents are, when to use them, and how to create your first custom subagent—a code reviewer that applies your team's specific standards.
+**Subagents are specialized helpers** that Claude creates for specific jobs. Instead of asking one Claude to do everything (debugging, testing, reviewing, documenting), you can have separate specialists—each focused on one task.
 
 ---
 
-## What Are Subagents?
+## What is a Subagent? (Start Here If New)
 
-**Definition**: A subagent is a specialized task-specific agent for improved context management. They are configured with custom instructions (called a "system prompt") and isolated context separate from the main conversation.
+**A subagent is a specialized version of Claude trained for a specific job.**
 
-Think of subagents as specialized team members:
+Think of it like having different team members, each an expert in their field:
+- **Code Reviewer**: Looks at your code and finds problems
+- **Test Writer**: Creates tests for your functions
+- **Documentation Expert**: Writes clear explanations of your code
 
-- **Main Claude Code**: Your general assistant—handles one-off questions, exploratory tasks, varied workflows. It will manage the subagents as well.
-- **Subagent 1 (Code Reviewer)**: Focused solely on reviewing code for bugs, style, and best practices
-- **Subagent 2 (Test Writer)**: Specialized in generating unit tests for functions
-- **Subagent 3 (Documentation Generator)**: Expert at writing clear, comprehensive documentation
+In real life, you'd hire these people. With Claude Code, they're already available.
 
-Each subagent has:
-1. **Custom system prompt**: Instructions that define its role, constraints, and expertise
-2. **Isolated context**: Conversations in this subagent don't affect the main conversation or other subagents
-3. **Tool access configuration**: You can limit which tools (file read/write, command execution) the subagent can use
-
-### Subagents vs. Main Conversation: When to Use Each
-
-| Aspect | Main Conversation | Subagent |
-|--------|-------------------|----------|
-| **Use Case** | Exploratory work, varied tasks, one-off questions | Repetitive specialized tasks with clear scope |
-| **Context** | Accumulates all conversation history | Isolated—only sees subagent's own history |
-| **Customization** | General-purpose Claude behavior | Custom system prompt defines specific role |
-| **When to Use** | "Help me understand this error" | "Review this code using our team's style guide" |
-| **Examples** | Debugging, learning concepts, exploring codebases | Code reviews, test generation, refactoring, documentation |
-
-**Key Insight**: Use subagents when you have **repeatable tasks with clear instructions**. Use the main conversation when you need flexibility and exploration.
+**Why this matters**: Instead of asking one Claude for everything, you ask the right specialist for each job. Each specialist knows exactly what to look for.
 
 ---
 
-## Why Subagents Matter: Three Key Benefits
+## Real-World Example: What Problems Do Subagents Solve?
 
-### Benefit 1: Context Preservation
+Imagine you're working on a Python project. Here's what happens **without subagents**:
 
-**Problem Without Subagents**: After 10 interactions in the main conversation, Claude Code's context is filled with unrelated discussions. Asking for a code review now means Claude considers all previous context—even if irrelevant.
+```bash
+claude "Review my login code for security issues"
+# Claude reviews the code...
 
-**Solution With Subagents**: Launch a fresh subagent for each focused task. The code review happens in a clean context, without clutter from previous debugging or documentation work.
-
-### Benefit 2: Specialization and Consistency
-
-**Problem Without Subagents**: You must repeatedly tell Claude Code your code review standards, testing framework preferences, or documentation style with every new session.
-
-**Solution With Subagents**: Encode these instructions once in a subagent's system prompt. Every time you invoke the "code-reviewer" subagent, it already knows your standards.
-
-**Example System Prompt for Code Reviewer**:
-```
-You are a code reviewer specializing in Python.
-Apply these standards:
-- PEP 8 style compliance
-- Type hints required for all functions
-- Docstrings required (Google style)
-- Prefer list comprehensions over loops where readable
-- Flag any security concerns (SQL injection, hardcoded secrets)
-- Suggest performance improvements for O(n²) or worse complexity
+claude "Write tests for the login function"
+# Claude looks back at the security review...
+# Remembers all those details...
+# Now tries to write tests...
+# Gets confused because it's juggling two completely different tasks
 ```
 
-Every code review from this subagent applies these standards consistently.
+**With subagents**, you use specialists:
 
-### Benefit 3: Reusability Across Projects
+```bash
+# First: Use the code-review specialist
+claude "Use the code-reviewer subagent: Review my login code for security issues"
+# Code reviewer focuses ONLY on security
 
-**Problem Without Subagents**: You manually recreate your preferred workflows for each new project.
-
-**Solution With Subagents**: Subagents are stored as files in `.claude/agents/`. You can:
-- Share subagents with your team via version control
-- Reuse the same subagent across multiple projects
-- Build a library of specialized assistants
-
-A well-designed subagent becomes **organizational knowledge**—capturing expertise that benefits your entire team.
-
----
-
-## Subagent Architecture: How They Work
-
-Let's peek under the hood to understand how subagents function.
-
-### File Structure
-
-When you create a subagent named `code-reviewer`, Claude stores a single file under `.claude/agents/` with:
-- A name and short description of its purpose
-- Optional model selection and color
-- A clear checklist of standards it applies
-- The expected form of its output (e.g., prioritized issues and actionable suggestions)
-
-### Subagent Lifecycle (Zero Overhead View)
-
-1. Create once via `/agents` and describe the role.
-2. Use naturally ("Use the code-reviewer subagent...")—Claude may also auto‑delegate when the match is obvious.
-3. Work happens in a clean, isolated context; results return to the main thread.
-4. Iterate the description over time as your team practices evolve.
-
----
-
-## Creating a "Latest News" Subagent
-
-Let's create a **"latest-news" subagent**—a focused researcher that surfaces current headlines, trends, and concise summaries with citations.
-
-### Step 1: Create the Subagent
-
-- Start claude session, from slash commands run `/agents` interface and select "Create new agent"
-- Choose Project location so your team can reuse it
-- Describe the role succinctly, for example:
-  - Purpose: daily news researcher for a chosen domain (e.g., AI, security)
-  - Output: 5–7 bulleted headlines with one‑sentence summaries and links; a short trend synopsis; 2 follow‑up questions
-  - Constraints: prioritize reputable sources; avoid duplicates; keep total read under 2 minutes
-
-Claude will create the subagent file under `.claude/agents/latest-news.md` (or similar) with your description and settings.
-
-**Expected result**: The agent appears in your list and retains its focused role.
-
-### Step 2: Try the "Latest News" Subagent (Daily Workflow)
-
-- Try now: Ask Claude to use the latest-news subagent for your topic today (for example, AI policy). You should receive headlines with links, a short trend synopsis, and two follow‑up questions.
-
-**If you see targeted, phase‑specific feedback**: ✅ It works. You get clean execution and clear results with minimal prompting.
-
----
-
-## Delegation Modes
-
-Subagents can be used in two ways:
-
-- Explicit invocation: You request a specific subagent (e.g., "Use the code-reviewer subagent to check my recent changes").
-- Automatic delegation: Claude can delegate to a subagent when your task clearly matches that subagent’s description and allowed tools.
-
-Use explicit invocation for predictability. Rely on automatic delegation as a convenience when descriptions are specific. 
-
----
-
-## ✓ Your Subagent Is Working When:
-
-**Quick verification**:
-
-1. **Subagent is created** - You can list it
-2. **Subagent can be invoked** - You can ask it to explain code
-3. **It returns helpful explanations** - The response makes sense and helps clarify the code
-4. **It stays in character** - Multiple invocations maintain the "collaborative explainer" role
-
-**If this works**: 🎉 **Your collaborative helper is ready! You now have a dedicated partner to help you understand code.**
-
----
-
-## Subagent Best Practices
-
-**1. Keep System Prompts Focused**
-- One clear responsibility per subagent
-- Avoid combining unrelated tasks (e.g., "review code AND generate docs")
-
-**2. Use Descriptive Names**
-- ✅ `python-code-reviewer`, `pytest-test-generator`
-- ❌ `helper`, `tool1`, `bob`
-
-**3. Limit Tool Access Appropriately**
-- Read-only subagents for analysis tasks
-- Full access only when necessary (e.g., refactoring subagents)
-
-**4. Iterate and Improve**
-- After using a subagent, refine its system prompt
-- Add examples of good/bad outputs to guide behavior
-- Collect feedback from team members
-
----
-
-## Pause and Reflect: Specialization vs. Flexibility
-
-You've learned how to create specialized AI assistants with subagents. But there's a tradeoff to consider:
-
-**Specialization** provides consistency and focus, but reduces flexibility. A code-reviewer subagent won't help you debug runtime errors or generate documentation—that's by design.
-
-**The main conversation** is flexible and exploratory, but lacks the focused instructions and clean context that subagents provide.
-
-**Reflection Questions**:
-- Think about your own daily workflow. What repetitive tasks could benefit from a specialized subagent?
-- When would you prefer the flexibility of the main conversation over a focused subagent?
-- If you work on a team, what subagents could capture and share your team's unique expertise?
-
----
-
-## Try With AI
-
-Use Claude Code for this activity. If you already have another AI companion tool set up (e.g., ChatGPT web, Gemini CLI), you may use that instead—the prompts are the same.
-
-### Prompt 1: Decision Tree for Tool Selection
-
-```
-I'm confused about when to use subagents vs. the main conversation. Give me a simple decision tree: For each scenario below, should I use a subagent or main conversation? (a) Quick question about Python syntax, (b) Code review following team standards, (c) Debugging a weird error I've never seen, (d) Generating tests for 10 similar functions, (e) Exploring a new codebase I just downloaded.
+# Second: Use the test-writer specialist
+claude "Use the test-writer subagent: Write tests for the login function"
+# Test writer focuses ONLY on testing
 ```
 
-**Expected outcome:** Clear decision framework for when to use subagents
+Each specialist has a clear job. No confusion. Better results.
 
-### Prompt 2: First Subagent Design
+---
+
+## Two Kinds of Subagents
+
+### 1. Using Existing Subagents
+
+When you first start with Claude Code, there are already some helpful subagents available:
+- **Code Reviewer**: Finds bugs and style problems
+- **Test Generator**: Writes tests for your code
+- **Documentation Writer**: Explains your code clearly
+
+**How to use them**:
+```bash
+claude "Use the code-reviewer subagent to review my login.py file"
+```
+
+Claude will use that specialist to review your code.
+
+### 2. Creating Custom Subagents
+
+As you get more experience, you can create your own specialists trained exactly the way you want.
+
+**For now**: Focus on using existing subagents. Creating custom ones comes later.
+
+---
+
+## When to Use a Subagent
+
+Here's a simple guide:
+
+**Use a subagent when**:
+- The task is the same every time (code review, writing tests, documentation)
+- You want consistent, focused results
+- You're switching between different types of work
+
+**Use the regular `claude` command when**:
+- You're asking a quick question
+- You're exploring ideas
+- You're debugging something unexpected
+
+**Example**:
+```bash
+# Quick question - use regular claude
+claude "What does this error message mean?"
+
+# Repetitive task - use subagent
+claude "Use the code-reviewer subagent: Check my authentication code for security issues"
+```
+
+---
+
+## How Subagents Work: The Key Difference
+
+When you use a subagent, **Claude remembers what that specialist is trained to do.**
+
+**Without subagent** (Claude gets confused):
+```bash
+claude "Review my code for style issues"
+# Claude: "Looking at the style..."
+
+claude "Write tests for this function"
+# Claude is thinking: "Wait, we were just doing style review...
+# Now tests? I need to remember the style review too..."
+```
+
+**With subagent** (Specialist focus):
+```bash
+claude "Use the code-reviewer: Check my style"
+# Code reviewer: "My job is style checking. Here's what I found..."
+
+claude "Use the test-writer: Write tests for this function"
+# Test writer: "My job is writing tests. Here are your tests..."
+# (Doesn't think about the previous style review)
+```
+
+Each subagent has **one clear job** and isn't distracted by previous tasks.
+
+---
+
+## Real-World Scenario: Using Subagents in Your Workflow
+
+Let's walk through a realistic example:
+
+### Step 1: Ask for Code Review
+```bash
+claude "Use the code-reviewer subagent: Review my user registration function for bugs and security problems"
+```
+
+The code-reviewer specialist looks at your code and suggests improvements.
+
+### Step 2: Ask for Test Writing
+```bash
+claude "Use the test-writer subagent: Write tests for my user registration function"
+```
+
+The test-writer specialist creates tests. It doesn't get distracted by what the code-reviewer said.
+
+### Step 3: Ask for Documentation
+```bash
+claude "Use the documentation-writer subagent: Write clear documentation for my user registration function"
+```
+
+The documentation-writer specialist explains your code. Again, focused on its job.
+
+---
+
+## Pause and Reflect
+
+You've learned what subagents are and when to use them. Ask yourself:
+
+**Do you understand**:
+1. What a subagent is? (A specialist Claude trained for one job)
+2. When you'd use one? (Repetitive tasks like code review, testing, documentation)
+3. Why they're useful? (Each specialist focuses on their job instead of juggling tasks)
+
+If you answered yes to all three, you're ready to move forward.
+
+---
+
+## Understanding Subagent Names
+
+When you use a subagent, you use its name in your request:
+
+```bash
+claude "Use the CODE-REVIEWER subagent: ..."
+claude "Use the TEST-GENERATOR subagent: ..."
+claude "Use the DOCUMENTATION-WRITER subagent: ..."
+```
+
+**Common subagent names you might use**:
+- `code-reviewer` - Reviews code for problems
+- `test-generator` - Writes tests
+- `documentation-writer` - Creates documentation
+- `security-auditor` - Checks for security issues
+- `performance-analyzer` - Finds optimization opportunities
+
+Don't worry about memorizing these. When you need a specialist, Claude can tell you which ones are available.
+
+---
+
+## Common Mistakes
+
+### Mistake 1: Using a Subagent for Quick Questions
+
+You don't need a subagent for simple questions.
+
+**Wrong**:
+```bash
+claude "Use the code-reviewer: What does this error mean?"
+```
+
+**Right**:
+```bash
+claude "What does this error mean?"
+```
+
+Subagents are for tasks they specialize in, not for quick questions.
+
+---
+
+### Mistake 2: Asking a Subagent to do Something Outside Its Job
+
+Each subagent has one specialty. Don't ask them to do something different.
+
+**Wrong**:
+```bash
+claude "Use the test-generator: Review my code for security problems"
+```
+
+(Test generator specializes in tests, not security review)
+
+**Right**:
+```bash
+claude "Use the code-reviewer: Check my code for security issues"
+```
+
+---
+
+## Try With AI: Learn About Subagents
+
+Open ChatGPT or another AI tool and ask:
+
+### Prompt 1: Understanding Specialists
 
 ```
-I want to create my FIRST subagent. My most repetitive task is [describe your task: code reviews / writing tests / generating docs / etc.]. Help me design it: (a) What should I name it? (b) What 3-5 instructions should go in the system prompt? (c) What tool access should it have? (d) Give me the exact command to create it.
+Imagine you manage a software team with three people:
+- Alice (code reviewer)
+- Bob (test writer)
+- Carol (documentation expert)
+
+If I ask Alice to do testing, or Bob to do documentation,
+that's not their specialty. Explain why using the wrong specialist
+is less effective than using the right one.
 ```
 
-**Expected outcome:** Complete design for your first custom subagent
+**What you're learning**: Why specialization matters.
 
-### Prompt 3: Custom Code Reviewer
+---
+
+### Prompt 2: Real-World Workflow
 
 ```
-The lesson shows a code-reviewer subagent with specific standards (PEP 8, type hints, docstrings). I work with [your language/framework]. Create a custom system prompt for a code-reviewer subagent tailored to MY stack. Include 5-7 specific standards I should enforce. Make it copy-paste ready.
+I'm learning about "subagents" - specialized AI helpers in Claude Code.
+Give me a realistic example of a workflow where I'd use THREE different subagents.
+For each one, explain:
+1. What task would I ask it to do?
+2. Why would I use a specialist instead of asking regular Claude?
+3. How would I phrase my request to the subagent?
 ```
 
-**Expected outcome:** Copy-paste-ready system prompt for your specific needs
+**Expected outcome**: Concrete examples of when and how to use subagents.
+
+---
+
+### Prompt 3: Choosing the Right Specialist
+
+```
+I work on [your type of project: Python web apps, data analysis, JavaScript, etc.].
+What are the 3-5 different types of work I do repeatedly?
+For each one, suggest what type of specialist/subagent would help.
+```
+
+**Expected outcome**: Understanding which specialists exist for your work.
+
+---
+
+## Key Terms Review
+
+**Subagent**: A specialized version of Claude trained for one specific job (like code review or testing).
+
+**Specialist**: Another word for subagent—a helper focused on one type of work.
+
+**Code-Reviewer**: A subagent that looks for bugs and style problems in code.
+
+**Test-Generator**: A subagent that writes tests for functions.
+
+**Documentation-Writer**: A subagent that explains code clearly.
+
+---
+
+## What's Next
+
+In Lesson 5, you'll learn about **skills**—a different way to extend Claude's abilities. Instead of using specialists for specific tasks (like subagents), skills teach Claude permanent expertise that it applies automatically across your work.
+
+But first, get comfortable with subagents. Try using them in your next coding session.
+
+**Before moving to Lesson 5**, try:
+1. Identify one task you do repeatedly (code review, testing, documentation)
+2. Ask Claude which subagent could help with that task
+3. Try using that subagent once
+
+You don't need to be perfect. Just get familiar with how they work.
+
+---
+
+## Try With AI: Start Using Subagents
+
+Open Claude Code (or ChatGPT) and practice:
+
+### Activity 1: Identify Your Subagent Need
+
+```
+I'm learning Claude Code subagents. I do [type of work: Python coding, web development, data analysis, etc.].
+
+What's the ONE repetitive task I do most often that could benefit from a specialist subagent?
+Describe:
+1. What task is it?
+2. Which subagent would help? (code reviewer, test generator, etc.)
+3. How would I request that subagent's help?
+```
+
+**Expected outcome**: Understanding which subagent fits your work.
+
+---
+
+### Activity 2: See a Subagent in Action
+
+```
+Show me a realistic example where a code-reviewer subagent catches something that regular Claude might miss.
+Give me:
+1. Some code with a subtle bug or style problem
+2. What regular Claude might say (generic response)
+3. What the specialist code-reviewer would say (detailed, focused)
+4. Why the specialist is better
+```
+
+**Expected outcome**: Understanding the value of specialization.
+
+---
+
+**Ready for Lesson 5?** Let's learn about skills—another way Claude learns and helps you.

@@ -1,539 +1,382 @@
 ---
 sidebar_position: 7
-title: "Hooks: Automating Before & After Actions"
-duration: "25 min"
+title: "Automatic Helpers: Hooks"
+duration: "20-25 min"
 ---
 
-# Hooks: Automating Before & After Actions
+# Automatic Helpers: Hooks
 
-## The Problem: Repetitive Manual Checks
+Have you ever had a friend who reminds you to do things?
 
-Claude Code finishes editing your code. You manually check:
+"Hey, you're about to commit code—did you check for errors first?"
+"Wait, you're editing that file—did you save before?"
+"Starting a new project—let me help you set things up."
 
-```
-Claude edits: app.py
-↓ (manual) Run linter
-↓ (manual) Check types
-↓ (manual) Run tests
-```
+**Hooks are Claude's way of being that helpful friend.**
 
-**Repetitive. Every time.**
-
-**What if Claude Code automatically ran these checks?**
-
-That's what **hooks** do. Hooks intercept actions and run automation **before** or **after** them.
+Hooks watch what you do and offer help automatically—before or after you act. You tell Claude once, "Hey, when I do THIS, remind me about THAT." Then Claude remembers and helps every time.
 
 ---
 
-## What Are Hooks?
+## What is a Hook? (Start Here If New)
 
-**Definition**: A hook is an automation trigger that runs before or after Claude Code executes a tool.
+**A hook is an automatic helper that offers Claude's assistance at key moments in your work.**
 
-**Simple version:**
-- **Before action**: Validate before executing (e.g., "Don't run dangerous commands")
-- **After action**: Check results after executing (e.g., "Run lint after editing")
+Think of hooks as reminders that activate automatically:
+- **Before you act**: "Wait, before you delete that, make sure it's safe"
+- **After you act**: "You just edited a file. Want me to check for errors?"
+- **When you start**: "Starting a new session? Let me help set things up"
 
-**Example flow:**
+You define the moment and what Claude should do. Then Claude watches and helps automatically.
 
-```
-Claude: Edit app.py
-  ↓
-PostToolUse Hook Triggers
-  ↓
-Runs: npm run lint
-  ↓
-Output: ✓ Lint passed
-```
+**Different from skills and subagents**:
+- **Subagents** (Lesson 4): You explicitly ask for help
+- **Skills** (Lesson 5): Claude applies knowledge automatically as it works
+- **Hooks** (this lesson): Claude offers help at specific moments you define
 
 ---
 
-## Step 1: Write Your First Hook (Foundation)
+## Real-World Example: How Hooks Help
 
-You'll write JSON directly so you understand exactly how hooks work.
+### Without Hooks (Manual Checking)
+```bash
+# Every time, you have to remember to check things manually
+claude "I'm about to commit my code. Please check for errors first"
+# ... Claude checks ...
 
-### Create `.claude/settings.json`
+# Later, commit again
+claude "I'm about to commit. Please check for errors again"
+# You had to ask again
 
-In your project root, create a file named `.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "SessionStart": [
-      {
-        "type": "command",
-        "command": "echo '🚀 Claude Code session started for this project'"
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '⚡ Running bash command...'"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '✅ File edited successfully'"
-          }
-        ]
-      }
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(*)",
-      "Read",
-      "Write",
-      "Edit"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
+# Three commits later, you forget to ask...
+# And commit code with an error
 ```
 
-**Understanding the structure**:
+### With Hooks (Automatic Reminding)
+You define once:
+```
+"Hook: Before I commit code, remind me to check for errors"
+```
 
-**Hooks section**:
-- **`SessionStart`**: Runs when Claude Code starts
-- **`PreToolUse`**: Runs BEFORE a tool executes (with `matcher: "Bash"` = only bash)
-- **`PostToolUse`**: Runs AFTER a tool completes (with `matcher: "Edit"` = only edits)
-- **`type: "command"`**: Execute a shell command
-- **`command`**: The actual shell command to run (`echo` in this case)
+Then Claude helps automatically:
+```bash
+# First commit
+(You're about to commit)
+Claude: "Wait! I can check for errors before you commit. Want me to look?"
+(You accept)
+# Errors found and fixed
 
-**Permissions section** (NEW):
-- **`allow`**: Tools that Claude Code is permitted to use
-  - `"Bash(*)"` → Allow any bash command
-  - `"Write"` → Allow creating files
-  - `"Edit"` → Allow editing files
-  - `"Read"` → Allow reading files
-- **`deny`**: Tools to explicitly block (empty = no blocks)
-- **`ask`**: Tools that require user confirmation each time (empty = none)
+# Second commit
+(You're about to commit)
+Claude: "I can check for errors before you commit. Want me to look?"
+# Claude remembers and reminds you every time
+```
 
-**Why permissions?** Hooks run shell commands, which are powerful. Permissions tell Claude Code which tools are safe in this project and which need user approval.
-
-### Test Your Hook
-
-1. Save the file
-2. Exit Claude Code: `exit`
-3. Restart: `claude`
-4. You should see: `🚀 Claude Code session started for this project`
-5. Ask Claude: "List Python files in this project"
-6. You should see: `⚡ Running bash command...` before the command runs
-7. Ask Claude: "Add a comment to test.md"
-8. You should see: `✅ File edited successfully` after the edit
-
-**Why write it manually?** You now understand exactly what each hook does, how the JSON is structured, AND why permissions matter.
+Claude doesn't forget. Every time you commit, Claude reminds you.
 
 ---
 
-## Step 2: The Interactive Way (Easier)
+## When Hooks Are Useful
 
-Now that you understand hooks, Claude Code has a faster way to add them:
+Hooks help with repetitive checks:
 
-### Use the `/hooks` Command
-
-Instead of writing JSON, type:
-
+### Example 1: Before Making Changes
 ```
-/hooks
+Hook: "Before I edit a file, remind me to back it up"
+(Every time you edit, Claude offers to back up first)
 ```
 
-You'll see an interactive menu:
-- PreToolUse — Before tool execution
-- PostToolUse — After tool execution
-- Notification — When notifications are sent
-- UserPromptSubmit — When the user submits a prompt
-- SessionStart — When a new session is started
-
-Select an event, enter your command, done. No JSON to write.
-
-**When to use**: When you want to quickly add a simple hook without editing config files.
-
----
-
-## Step 3: The AI-Native Way (Automation)
-
-For more complex hooks or when you want AI to help, use Claude Code's AI-native approach:
-
-### Tell Claude to Configure Your Hooks
-
-Instead of writing JSON or using `/hooks`, just ask Claude:
-
-**Example prompt**:
+### Example 2: After Making Changes
 ```
-I want to add a hook that runs npm run lint after every file edit.
-Use the official Claude Code hooks documentation to create the right
-configuration. Here's the link: https://docs.claude.com/en/docs/claude-code/hooks
+Hook: "After I write code, offer to check for errors"
+(Every time you finish coding, Claude suggests a review)
 ```
 
-Claude will:
-1. Fetch the official hooks documentation
-2. Generate the correct JSON
-3. Create or update `.claude/settings.json`
-4. Test the hook with you
-
-**Why this works**: Claude reads the official docs in real-time, ensuring your hooks match the latest Claude Code API.
-
----
-
-:::note
-Windows users: run hooks in WSL or Git Bash for best compatibility. If using PowerShell, replace `jq` with `ConvertFrom-Json`, skip `chmod`, and invoke scripts with `python path/to/script.py` instead of relying on POSIX executability.
-:::
-
-## Understanding Permissions (Critical for Hooks)
-
-Hooks execute shell commands, which are powerful. The `permissions` section controls what Claude Code is allowed to do in your project.
-
-### Permission Types
-
-**`allow`** — Tools Claude Code can use automatically:
-```json
-"allow": [
-  "Bash(*)",          // Allow any bash command
-  "Write",            // Allow creating files
-  "Edit",             // Allow editing files
-  "Read"              // Allow reading files
-]
+### Example 3: When Starting Work
+```
+Hook: "When I start a session, remind me what I was working on"
+(Claude helps you remember where you left off)
 ```
 
-**`deny`** — Tools to explicitly block:
-```json
-"deny": [
-  "Bash(rm:*)"        // Block delete commands
-]
+### Example 4: For Safety
 ```
-
-**`ask`** — Tools that require user confirmation:
-```json
-"ask": [
-  "Bash(git push:*)"  // Always ask before pushing
-]
-```
-
-### Why This Matters for Hooks
-
-Hooks are shell commands that run **automatically** (without user input). Permissions ensure:
-
-1. **Security**: Only safe commands can run automatically
-2. **Control**: You decide which tools need approval
-3. **Predictability**: No surprises from automated actions
-
-**Example**: A hook that runs `npm run lint` needs:
-```json
-"allow": ["Bash(npm:*)"]
-```
-
-Without this permission, the command will be denied by the permissions system and won't execute.
-
----
-
-## Understanding Hook Events
-
-Each hook fires at a specific lifecycle moment:
-
-| Hook Event | Fires When | Use For |
-|-----------|-----------|---------|
-| **SessionStart** | Claude Code starts | Greeting, environment setup |
-| **PreToolUse** | Before a tool executes | Validation, warnings |
-| **PostToolUse** | After a tool completes | Confirmation, running tests |
-| **UserPromptSubmit** | User submits a prompt | Logging, preprocessing |
-| **Notification** | Claude sends a notification | Logging events |
-| **Stop** | Claude finishes responding | Cleanup |
-| **SubagentStop** | Subagent task completes | Collecting results |
-| **PreCompact** | Before history compaction | Snapshots |
-| **SessionEnd** | Session ends | Cleanup, saving state |
-
----
-
-## How Matchers Work
-
-Hooks can target specific tools with `matcher`. You have three options:
-
-### Option 1: Target a Single Tool
-
-**Available tool matchers**:
-- `"Bash"` — Bash/shell commands
-- `"Edit"` — File edits
-- `"Read"` — File reads
-- `"Write"` — File writes
-- `"Glob"` — File pattern searches
-- `"Grep"` — File content searches
-
-**Example - Single tool**:
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '⚡ Running bash command...'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Option 2: Target Multiple Tools (Pipe Notation)
-
-Use the pipe character `|` to match multiple tools:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '✅ File operation complete'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Now the hook fires after EITHER Edit OR Write operations.
-
-### Option 3: Target All Tools (Wildcard)
-
-Use `"*"` to match all tools:
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '🔄 About to execute any tool...'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Now the hook fires before ANY tool is executed.
-
-### Example - Different Messages for Different Tool Groups
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '🔧 Running command...'"
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '✏️  Modifying file...'"
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Glob|Grep",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '📖 Searching for files...'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Now:
-- Before bash: `🔧 Running command...`
-- Before Edit/Write: `✏️  Modifying file...`
-- Before Read/Glob/Grep: `📖 Searching for files...`
-
----
-
-## Scope: Project vs. Global
-
-### Project Hooks (What We Created)
-
-**Location**: `.claude/settings.json` in your project
-
-**Applies to**: Only this project
-
-**When to use**: Project-specific automation
-
-### Global Hooks (Optional)
-
-**Location**: `~/.claude/settings.json` in your home folder
-
-**Applies to**: ALL projects on your machine
-
-**When to use**: Rules you want everywhere (e.g., block dangerous commands)
-
-**Pro tip**: Start with project hooks. Add global hooks only when you want the rule in all projects.
-
----
-
-## Common Hook Patterns
-
-### Pattern 1: Friendly Greeting
-
-```json
-{
-  "hooks": {
-    "SessionStart": [
-      {
-        "type": "command",
-        "command": "echo '👋 Welcome to [Project Name]!'"
-      }
-    ]
-  }
-}
-```
-
-### Pattern 2: Action Confirmations
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '💾 File saved'"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '✨ Command executed'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Pattern 3: Pre-Action Warnings
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo '⚠️  Command about to run...'"
-          }
-        ]
-      }
-    ]
-  }
-}
+Hook: "If I'm about to delete files, double-check that I really want to"
+(Claude prevents accidental deletions)
 ```
 
 ---
 
-## Try With AI
+## Common Hooks for Beginners
 
-Practice all three approaches: manual, interactive, and AI-native.
+Here are simple hooks you might want to set up:
 
-### Exercise 1: Write Your First Hook (Foundation)
-
-**Steps**:
-1. Create `.claude/settings.json` in your project (copy the example from "Step 1" above, including BOTH hooks AND permissions sections)
-2. Save the file
-3. Exit Claude Code: `exit`
-4. Restart: `claude`
-5. You should see: `🚀 Claude Code session started for this project`
-6. Ask Claude: "List files in this project"
-7. You should see: `⚡ Running bash command...` appear before the command runs
-8. Ask Claude: "Create a test.md file"
-9. The file should be created, and you should see: `✅ File edited successfully`
-
-**Expected outcome**: You understand:
-- How hooks trigger at different lifecycle moments
-- How permissions allow/block tools
-- Why both sections are needed for hooks to work
-
-### Exercise 2: Use the Interactive Way
-
-**Steps**:
-1. Type: `/hooks`
-2. Select **PreToolUse**
-3. When prompted, enter: `echo '🔧 Preparing to execute...'`
-4. Type `/hooks` again
-5. Select **PostToolUse**
-6. When prompted, enter: `echo '✨ All done!'`
-7. Restart Claude Code and test by asking: "List files"
-
-**Expected outcome**: Hooks configured without manually editing JSON.
-
-### Exercise 3: AI-Native Configuration
-
-**Prompt to Claude**:
+### Hook 1: "Check Before Committing"
 ```
-I need to add a hook that runs 'npm run lint' after every file edit to catch
-style errors automatically. Use the official Claude Code hooks documentation
-at https://docs.claude.com/en/docs/claude-code/hooks to create the right
-configuration for my .claude/settings.json
+"Before I commit code to git, remind me to:
+1. Check for errors
+2. Add a clear commit message
+3. Verify the file contents"
 ```
 
-**Claude will**:
-1. Read the official hooks documentation
-2. Generate the correct JSON configuration
-3. Create/update your `.claude/settings.json`
-4. Test it with you
+### Hook 2: "Save Progress"
+```
+"After I finish a major change, remind me to save and back up my work"
+```
 
-**Expected outcome**: A production-ready hook configured by AI using official docs as source of truth.
+### Hook 3: "Review Before Submitting"
+```
+"Before I submit any code or document, offer to review it one more time"
+```
+
+### Hook 4: "Safety Check Before Deleting"
+```
+"If I'm about to delete files, make me confirm it's safe"
+```
+
+---
+
+## How to Create a Hook
+
+Creating a hook is simple: you describe the moment and what Claude should do.
+
+**Step 1: Pick the moment**
+- "Before I commit code" → Before moment
+- "After I edit a file" → After moment
+- "When I start working" → Start moment
+
+**Step 2: Describe what Claude should do**
+- "Remind me to check for errors"
+- "Offer to review the code"
+- "Help me write a commit message"
+
+**Step 3: Tell Claude it's a hook**
+```bash
+claude "Create a hook: Before I commit code, remind me to check for errors"
+```
+
+That's it. Claude will remember and activate the hook.
+
+---
+
+## Pause and Reflect: What Would Help You?
+
+Think about your own workflow:
+
+1. **What do you forget to check?** (errors, saving, backing up)
+2. **What repetitive reminders do you need?** (before committing, before submitting, after editing)
+3. **What safety checks matter to you?** (don't delete accidentally, verify before sending)
+
+These are hook candidates.
+
+---
+
+## How Hooks Work: The Technical Basics (Don't Worry Too Much)
+
+Hooks "listen" for specific moments in your work. When that moment happens, Claude jumps in.
+
+**Three common hook types**:
+
+1. **SessionStart Hook**
+   - Fires when you start working
+   - Example: "Remind me what I was working on"
+
+2. **Before Tool Use Hook**
+   - Fires before you do something
+   - Example: "Before I delete, make sure it's safe"
+
+3. **After Tool Use Hook**
+   - Fires after you do something
+   - Example: "After I code, offer to review"
+
+**You don't need to know the technical details.** Just know that Claude watches for the moment you specify and offers help automatically.
+
+---
+
+## Real Workflow: Using Hooks in Your Day
+
+Let's see how hooks fit into actual work:
+
+### Morning: Starting Work
+```bash
+claude # Starting session
+
+Claude (from SessionStart hook): "Welcome back! You were working on the
+login feature. Want me to remind you where you left off?"
+
+You: "Yes, tell me what I was doing"
+```
+
+### During Work: Writing Code
+```bash
+(You write a new function)
+
+Claude (from After Code hook): "You just wrote some code. Want me to
+check it for errors before you move on?"
+
+You: "Sure, check it"
+```
+
+### Before Committing: Safety Check
+```bash
+(You're about to commit)
+
+Claude (from Before Commit hook): "Before you commit, want me to make sure
+there are no errors?"
+
+You: "Yes, please"
+```
+
+Hooks keep Claude helping throughout your workflow, without you having to ask.
+
+---
+
+## Common Mistakes
+
+### Mistake 1: Creating Too Many Hooks
+
+Don't set up 10 hooks at once. Start with one.
+
+**Wrong**:
+```bash
+# Too many
+claude "Create hooks for: before commit, after edit, before delete, on start,
+after error, before submit, after finish, ..."
+```
+
+**Right**:
+```bash
+# Start with one
+claude "Create a hook: Before I commit code, remind me to check for errors"
+# (Add more hooks later if needed)
+```
+
+---
+
+### Mistake 2: Creating Hooks You Don't Actually Need
+
+Don't create hooks for rare events.
+
+**Unnecessary**:
+```bash
+"Hook: If I accidentally delete all my files, notify me"
+(This almost never happens, so the hook adds noise)
+```
+
+**Good**:
+```bash
+"Hook: Before I delete files, confirm it's intentional"
+(This is something you do regularly, so the reminder helps)
+```
+
+---
+
+## Try With AI: Learn About Hooks
+
+Open ChatGPT or another AI tool:
+
+### Prompt 1: Identify Repetitive Checks
+
+```
+I work on [your type of work: coding, writing, data analysis, etc.].
+What repetitive checks do I do (or forget to do) regularly?
+For each check, suggest:
+1. When should it happen? (before/after/during what action)
+2. What would Claude remind me to check?
+3. Would setting up a hook for this save me time?
+```
+
+**Expected outcome**: Understanding which hooks would help your work.
+
+---
+
+### Prompt 2: Design Your First Hook
+
+```
+I want to create my FIRST hook. Here's my situation:
+[Describe something you do repeatedly or often forget]
+
+Help me design a hook for this:
+1. WHEN should it activate? (describe the moment)
+2. WHAT should Claude remind me to do?
+3. How would I ask Claude to create this hook?
+```
+
+**Expected outcome**: Clear design for your first hook.
+
+---
+
+### Prompt 3: Safety Hooks
+
+```
+For my work in [your domain], what are potentially risky actions I take?
+For each risky action, suggest a hook that would make it safer.
+Examples might be: before deleting, before submitting, before sending, etc.
+```
+
+**Expected outcome**: Understanding how hooks can keep you safe.
+
+---
+
+## Key Terms Review
+
+**Hook**: An automatic reminder Claude gives you at specific moments in your work.
+
+**SessionStart**: A hook that activates when you start working.
+
+**Before Hook**: A reminder Claude gives before you do something (like before committing).
+
+**After Hook**: A reminder Claude gives after you do something (like after editing).
+
+**Automation**: Setting something up once so it helps automatically going forward.
 
 ---
 
 ## What's Next
 
-You now understand **the automation foundation**:
-- ✅ SessionStart — When Claude Code starts
-- ✅ PreToolUse — Before actions execute
-- ✅ PostToolUse — After actions complete
+In Lesson 8, you'll learn about **plugins**—ways to bundle commands, subagents, skills, and hooks together into organized packages that work as a team.
 
-**In Lesson 8**, you'll see how **plugins package hooks together** with commands, agents, and skills—turning individual echoes into complete automated workflows.
+But first, think about one repetitive check you do (or forget to do). This could be your first hook.
 
-For now, hooks are your way to **see automation in action** before building complex workflows.
+**Before moving to Lesson 8**:
+1. Identify one repetitive task where Claude could help
+2. Think about when Claude should offer help (before, after, or during)
+3. Be ready to ask Claude to create that hook
 
+---
+
+## Try With AI: Start Your First Hook
+
+Open Claude Code (or ChatGPT) and try this:
+
+### Activity 1: What Would Help?
+
+```
+I do [type of work]. Here's one thing I do repeatedly and would like help with:
+[Describe the repetitive task]
+
+Should Claude remind me BEFORE, AFTER, or AT THE START of this task?
+What exactly should Claude help me remember or check?
+```
+
+**Expected outcome**: Clear understanding of how a hook would help.
+
+---
+
+### Activity 2: Seeing Hooks in Action
+
+```
+Show me a realistic workflow where a hook saves me from making a mistake.
+Example:
+1. I'm about to do something risky
+2. The hook reminds me to check first
+3. I discover a problem before it's too late
+4. The hook protected me
+
+Make it realistic for my work in [your domain].
+```
+
+**Expected outcome**: Understanding the real value of hooks.
+
+---
+
+**Ready for Lesson 8?** Let's learn about plugins—putting everything together.

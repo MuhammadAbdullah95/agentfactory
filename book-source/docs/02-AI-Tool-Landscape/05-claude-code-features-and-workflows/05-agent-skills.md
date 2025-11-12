@@ -1,180 +1,385 @@
 ---
 sidebar_position: 5
-title: "Creating and Using Agent Skills"
+title: "Teaching Claude What You Care About: Skills"
+duration: "20-25 min"
 ---
 
-# Creating and Using Agent Skills
+# Teaching Claude What You Care About: Skills
 
-## The Competitive Advantage Hiding in Plain Sight
+Imagine you're training a new team member. You spend a week teaching them:
+- "Here's how we format our code"
+- "This is the security standard we follow"
+- "We always document like this"
+- "Here's the testing framework we use"
 
-Skills are your team's reusable intelligence. Claude Code can auto‑detect opportunities to apply that intelligence and can also auto‑delegate to the right subagent when focused execution is needed.
+After a week of training, they know what to do. You don't have to tell them anymore—they just *do* it.
 
-Skills are **discovered and suggested autonomously by Claude Code** when relevant. Subagents handle focused, isolated execution; skills continuously inject shared standards and domain expertise.
+**Skills are how you teach Claude Code what matters to you.**
 
-In this lesson, you'll learn how skills work, create your first skill, and understand why building a skill library is a strategic competitive advantage for teams and companies.
-
----
-
-## What Are Agent Skills?
-
-**Definition**: An Agent Skill is a modular, discoverable capability that Claude Code can autonomously invoke when working on relevant tasks. Skills are defined by a `SKILL.md` file containing instructions and a **description** that helps Claude decide when to use them.
-
-### Skills vs. Subagents vs. Slash Commands
-
-You've now seen three ways to extend Claude Code. Here's how they differ:
-
-| Feature | Subagent | Agent Skill | Slash Command |
-|---------|----------|-------------|---------------|
-| **Invocation** | Explicit or auto‑delegated | **Autonomous**: Claude discovers and suggests | Explicit: `/command-name` |
-| **Discovery** | Manual—you decide when to run | **Automatic**—Claude decides based on context | Manual—you type the command |
-| **Use Case** | Repetitive focused tasks | Domain expertise applied automatically | Predefined workflows |
-| **Example** | `claude agent run code-reviewer` | Claude detects Python file, suggests docstrings | `/commit` to create git commit |
-| **Competitive Advantage** | Medium (consistency) | **High (scales expertise)** | Low (simple automation) |
-
-**Working together**
-- Subagents: isolated context, task ownership (Claude may auto‑delegate)
-- Skills: ambient capabilities that refine outputs across phases
-> Claude discovers skills from `SKILL.md` descriptions and can delegate to subagents when your task clearly matches their description. See Subagents docs for details.
+Instead of repeating "follow this coding standard" every time, you teach Claude once. Then Claude remembers and applies it automatically.
 
 ---
 
-## Why Agent Skills Matter: The Strategic Value
+## What is a Skill? (Start Here If New)
 
-Agent Skills aren't just a technical feature—they're a **strategic business advantage**. Here's why:
+**A skill is something you teach Claude Code so it remembers and applies automatically.**
 
-### 1. Expertise That Scales Automatically
+Think of skills as "permanent knowledge" Claude learns about your work:
+- "Our code style is: spaces not tabs, always add docstrings"
+- "Security-wise: always hash passwords, never store credentials in code"
+- "Testing: write tests before pushing code"
+- "Documentation: every function needs a description"
 
-**Without Skills**:
-- Senior developer explains best practices to junior developer
-- Junior developer forgets 60% within a week
-- Process repeats for every new hire
-- Knowledge stays locked in people's heads
+Once you teach Claude these skills, it applies them without you asking.
 
-**With Skills**:
-- Senior developer encodes expertise once as a skill
-- Claude Code applies it automatically across all projects
-- Every developer benefits immediately
-- Knowledge captured permanently in version control
-
-**Example**: A security expert creates an `sql-injection-checker` skill. Now every developer—regardless of security expertise—gets automatic alerts when writing database queries that might be vulnerable.
-
-### 2. Competitive Differentiation Through Domain Expertise
-
-This is where skills become truly powerful: **Your unique domain knowledge becomes an automated advantage.**
-
-**Example 1**: A fintech company builds a `compliance-checker` skill that validates financial calculations against regulatory requirements. Their developers ship compliant code faster than competitors who review regulations manually.
-
-**Example 2**: A healthcare startup creates a `hipaa-privacy-auditor` skill that scans code for potential PHI (Protected Health Information) leaks. Their code is secure by default; competitors discover privacy issues in production.
-
-**Example 3**: A machine learning team builds a `model-reproducibility-checker` skill that ensures experiments log hyperparameters and random seeds. Their models are reproducible; competitors waste weeks debugging non-deterministic results.
-
-**The pattern**: Domain expertise encoded as skills compounds over time, creating organizational capabilities that competitors can't easily replicate.
+**Different from subagents**:
+- **Subagents** (Lesson 4): Specialists you ask for help (like hiring a code reviewer)
+- **Skills** (this lesson): Permanent knowledge Claude learns (like training someone on your team's standards)
 
 ---
 
-## How Agent Skills Work: The Discovery Mechanism
+## How Skills Work: A Real Example
 
-Let's understand the magic behind autonomous discovery.
+### Without Skills
+```bash
+claude "Write a function to validate emails"
+# Claude writes a function...
 
-### Skill Anatomy: The SKILL.md File
+claude "Check this for security problems"
+# Claude: "The function doesn't hash passwords..."
+# (Claude doesn't know your security standards)
 
-Every skill is defined by a `SKILL.md` file with three critical sections:
+claude "Write tests for this email function"
+# Claude writes tests, but doesn't follow your testing style
+```
 
-**1. Discoverable Description** (most important):
-- Clear trigger: when should Claude suggest this skill?
-- Outcome: what does the skill produce?
-- Scope and boundaries: what it will and will not do
+You have to keep reminding Claude of your standards.
 
-**2. Skill Instructions**:
-- Checklist of steps to follow
-- Quality bar: what good output looks like
-- Edge cases and constraints to respect
+### With Skills
+You teach Claude once:
+```bash
+# Teaching phase (one time only)
+"Claude, here's what I care about:
+- Always add type hints to functions
+- Always write docstrings
+- Always hash passwords, never store plain text
+- Always write tests in pytest format"
+```
 
-**3. Examples** (optional):
-- Brief before/after descriptions (no code required)
+Then everything Claude creates automatically follows these standards:
+```bash
+claude "Write a function to validate emails"
+# Claude writes it with type hints, docstrings, and security properly implemented
+# (Claude remembers your standards)
+
+claude "Write tests for this function"
+# Tests are in pytest format with full coverage
+# (Claude remembered your testing style)
+```
 
 ---
 
-## Skill Scopes: Where Skills Live
+## Pause and Reflect: Why This Matters
 
-Skills can exist at three levels:
+You've learned about subagents (specialists you ask for help) and skills (permanent knowledge Claude learns).
 
-**1. Personal Skills** (`~/.claude/skills/`)
-- Your personal toolkit
-- Not shared with projects or team
-- Use for personal workflow preferences
+Think about your own work:
+1. **What standards do you follow repeatedly?** (coding style, security practices, testing approach)
+2. **How often do you explain these standards?** (every time you ask Claude for help?)
+3. **What if Claude just... remembered?**
 
-**2. Project Skills** (`.claude/skills/` in project directory)
-- Specific to one project
-- Committed to version control
-- Team members inherit when they clone the repo
-- **Most common for team collaboration**
-
-**3. Plugin Skills** (installed from skill registry)
-- Publicly available skills
-- Installed with `claude skill install <name>`
-- Maintained by community or vendors
-
-**Best Practice**: Use **project skills** for team standards and domain expertise. This ensures everyone on the team benefits from shared knowledge.
+That's what skills do.
 
 ---
 
-## Quick Start: Add One Skill, See It Work
+## Real-World Use Cases for Skills
 
-Goal: add a project skill that explains startup ideas.
+Here are some skills people teach Claude Code:
 
-Ask Claude:
+### Skill 1: Code Style Standards
 ```
-Create a project skill named "idea-evaluator" to evaluate project ideas and decide on feasibility. Use docs to understand how to build skills: https://docs.claude.com/en/docs/claude-code/skills Store it project level in .claude/skills/.
+"When writing Python code, always:
+- Use type hints on every function
+- Follow PEP 8 naming conventions
+- Write Google-style docstrings
+- Use f-strings for formatting
+"
 ```
 
-You can now ask Claude "What skills do you have?" and it will list all the skills you have installed.
+### Skill 2: Security Practices
+```
+"When writing authentication code:
+- Always hash passwords with bcrypt
+- Never store plain-text passwords
+- Always validate input
+- Always use HTTPS for login
+"
+```
+
+### Skill 3: Testing Standards
+```
+"When writing tests:
+- Use pytest framework
+- Aim for 80%+ code coverage
+- Test happy path, error cases, and edge cases
+- Use descriptive test names like test_function_does_something()
+"
+```
+
+### Skill 4: Documentation Standards
+```
+"When documenting:
+- Every function needs a description
+- Include parameter types
+- Include return types
+- Include example usage for complex functions
+"
+```
 
 ---
 
-## ✓ Your Skill Is Working When:
+## How to Create Your First Skill
 
-**Quick check**:
+You don't need to be technical to create a skill. You just describe what matters to you.
 
-1. **Skill is created** - Skill directory exists
-2. **Skill is discovered** - When relevant, Claude suggests using it
+**Step 1: Pick one standard you follow**
+- Example: "I always add type hints to Python functions"
 
-**If this works**: 🎉 **Your collaborative skill is ready! Claude now automatically helps you understand errors as you encounter them.**
+**Step 2: Write it down clearly**
+- "When writing Python: Always include type hints. Example: def add(x: int, y: int) -> int:"
+
+**Step 3: Tell Claude this is a skill**
+- Simply ask Claude: "I want to teach you a skill. When you write Python code, always add type hints like this..."
+
+**Step 4: Claude remembers**
+- From then on, Claude applies it automatically
 
 ---
 
-## Try With AI
+## When to Create a Skill vs. Just Asking
 
-Use Claude Code for this activity (preferred, since you just installed it). If you already have another AI companion tool set up (e.g., ChatGPT web, Gemini CLI), you may use that instead—the prompts are the same.
+**Create a skill when**:
+- You'll repeat the same standard 5+ times
+- The standard is important to your work
+- You want it applied automatically every time
 
-### Prompt 1: Skills vs. Subagents Comparison
+**Just ask Claude when**:
+- It's a one-time request
+- The standard might change soon
+- You want to override your usual style for one task
 
-```
-I'm confused about skills vs. subagents vs. slash commands. Create a comparison table that shows: (a) when to use each, (b) a concrete example of each for MY work [describe what you do], (c) which one to learn FIRST as a beginner. Make it crystal clear.
-```
+**Example**:
+```bash
+# Probably needs a skill (you'll repeat it often):
+"Always write type hints"
 
-**Expected outcome:** Clear differentiation between skills, subagents, and commands
-
-### Prompt 2: First Skill Design
-
-```
-I want to create my FIRST skill. My team's biggest pain point is [describe: inconsistent code style / missing documentation / security vulnerabilities / etc.]. Design a skill for this: (a) What should I name it? (b) Write a 'discoverable description' that triggers when relevant, (c) List 5-7 instructions, (d) Give me one before/after example showing what it does.
-```
-
-**Expected outcome:** Complete design for your first team skill
-
-### Prompt 3: Discovery Mechanism Explained
-
-```
-The lesson says skills are 'discovered autonomously' by Claude Code. I don't understand HOW that works. Explain the discovery mechanism step-by-step: (a) What does Claude read? (b) When does it decide to suggest a skill? (c) How do I write descriptions that trigger at the right time? (d) Give me 3 example descriptions with explanations.
+# Probably just one request (might change):
+"For this task, use simple variable names instead of our usual style"
 ```
 
-**Expected outcome:** Deep understanding of autonomous discovery mechanism
+---
 
-### Prompt 4: Strategic ROI Analysis
+## Common Skills for Beginners
+
+Here are simple skills you might want to teach Claude:
+
+### Skill: "Always Add Comments"
+```
+"When writing code, add a comment above each section explaining what it does.
+Example:
+# Check if user exists
+if user in database:
+    ...
+"
+```
+
+### Skill: "Always Handle Errors"
+```
+"When writing code, include error handling.
+Don't assume things will work—handle the case where they don't."
+```
+
+### Skill: "Write Beginner-Friendly Explanations"
+```
+"When you explain something, assume I'm new to programming.
+Define technical terms. Use everyday analogies.
+Avoid jargon."
+```
+
+---
+
+## How Claude Applies Skills Automatically
+
+Once you teach Claude a skill, it works **automatically**.
+
+**You don't have to ask**. Claude sees "I'm writing Python code" and thinks "The user cares about type hints—I should add them."
+
+This is powerful because:
+1. **You don't have to remember** to ask for type hints every time
+2. **You don't have to repeat** the standard
+3. **Everything stays consistent** across all your work
+4. **Claude learns what matters to you** specifically (not generic best practices)
+
+---
+
+## Pause and Reflect: What Would You Teach?
+
+Before moving forward, think: **What's one standard or practice you follow in everything you do?**
+
+Examples:
+- "I always organize my folders a certain way"
+- "I always add comments to explain my code"
+- "I always test my work before I'm done"
+- "I always write documentation"
+- "I prefer simple explanations over technical jargon"
+
+Write this down. This is a skill candidate.
+
+---
+
+## Common Mistakes
+
+### Mistake 1: Teaching Too Many Skills at Once
+
+Don't overwhelm Claude with 10 new standards. Start with one.
+
+**Wrong**:
+```bash
+# Teaching too much at once
+claude "Here's 15 different coding standards I follow..."
+```
+
+**Right**:
+```bash
+# Start with one
+claude "Here's my most important standard: Always add type hints to Python functions"
+# (Later, teach another skill)
+```
+
+---
+
+### Mistake 2: Being Too Vague
+
+Skills need to be clear and specific.
+
+**Vague**:
+"Write good code"
+
+**Clear**:
+"When writing Python, include type hints. Example: def greet(name: str) -> str:"
+
+---
+
+## Try With AI: Learn About Skills
+
+Open ChatGPT or another AI tool:
+
+### Prompt 1: Identify Your Standards
 
 ```
-The lesson talks about 'strategic competitive advantage' of building a skill library. Help me think strategically: If I invest time building skills for [my domain: Python / JavaScript / data science / etc.], what's the ROI? How much time will I SAVE in 6 months? Create a simple cost-benefit analysis.
+I do [type of work: coding, writing documentation, creating databases, etc.].
+What are 3-5 standards or practices I should teach an AI assistant about my work?
+For each one:
+1. What is the standard?
+2. Why is it important to me?
+3. How would I teach it clearly?
 ```
 
-**Expected outcome:** Strategic justification for investing time in skill creation
+**Expected outcome**: Understanding what standards matter in your work.
+
+---
+
+### Prompt 2: Teaching a Skill
+
+```
+I want to teach an AI assistant about how I work. Here's one standard I follow:
+[Your standard here]
+
+Help me write this as a clear "skill" that an AI could remember and apply automatically.
+Make sure it includes:
+1. Clear description of the standard
+2. Why I care about it
+3. An example showing the standard in action
+```
+
+**Expected outcome**: Knowing how to teach Claude one of your standards.
+
+---
+
+### Prompt 3: Skills for Your Domain
+
+```
+I work in [your domain: web development, data science, writing, etc.].
+What are professional standards people in my field follow?
+For each standard, suggest:
+1. What is it?
+2. Why do professionals care about it?
+3. How would I teach this to an AI assistant?
+```
+
+**Expected outcome**: Understanding industry standards you could teach Claude.
+
+---
+
+## Key Terms Review
+
+**Skill**: Something you teach Claude Code to remember and apply automatically.
+
+**Standard**: A practice or rule you follow consistently (like always adding comments to code).
+
+**Teaching Claude**: Explaining to Claude what matters to you so it remembers.
+
+**Applying a skill**: Claude automatically uses what it learned without you asking.
+
+---
+
+## What's Next
+
+In Lesson 6, you'll learn about **MCP servers**—ways Claude can reach outside your computer to access information like websites, databases, and APIs.
+
+But first, think about one skill you'd teach Claude if you could. What standard is most important to your work?
+
+**Before moving to Lesson 6**:
+1. Think about one standard you follow repeatedly
+2. Write it down clearly
+3. Be ready to teach it to Claude
+
+---
+
+## Try With AI: Create Your First Skill Teaching
+
+Open Claude Code (or ChatGPT) and try this:
+
+### Activity 1: Clarify Your Standards
+
+```
+I want to teach Claude Code about MY standards and practices.
+Here are the things I value in my work:
+[List 2-3 things: examples might be: clear code, security, testing, good documentation]
+
+For each one, help me write a clear skill description that Claude could remember and apply.
+```
+
+**Expected outcome**: Written skills you can teach Claude.
+
+---
+
+### Activity 2: See a Skill in Action
+
+```
+Imagine I teach Claude this skill:
+"Always include type hints in Python functions. Example: def add(x: int, y: int) -> int:"
+
+Now, show me:
+1. A function Claude writes WITHOUT knowing this skill (no type hints)
+2. The same function with the skill applied (with type hints)
+3. Why the skill version is better
+
+Make it clear how the skill changes Claude's output.
+```
+
+**Expected outcome**: Understanding how skills improve Claude's work.
+
+---
+
+**Ready for Lesson 6?** Let's learn how Claude can reach beyond your computer using MCP servers.

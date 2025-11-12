@@ -1,556 +1,548 @@
 ---
 sidebar_position: 3
-title: "Core Commands & Slash Commands"
-duration: "40 min"
+title: "Understanding Gemini CLI Commands: Slash Commands Explained"
+duration: "20-25 min"
 ---
 
-# Core Commands & Slash Commands
+# Understanding Gemini CLI Commands: Slash Commands Explained
 
-## From Setup to Daily Use: Mastering Gemini CLI Commands
+In Lesson 2, you learned how to install Gemini CLI and start a conversation. Now let's learn the special commands that help you control your conversations and keep Gemini working smoothly.
 
-In Lesson 2, you installed Gemini CLI and saw it work for the first time. Now comes the crucial step: **learning the commands you'll use every day** to work efficiently with your AI development partner.
-
-This isn't about memorizing syntax. It's about understanding *when* to use each command, *why* it matters, and *how* to orchestrate your AI work like a professional.
-
----
-
-## Understanding Gemini CLI's Three Input Methods
-
-Gemini CLI has three ways to interact:
-
-**1. Slash Commands (/)** — Meta-level control
-- Control Gemini CLI behavior
-- Manage conversations and context
-- Configure settings
-- Access integrations
-
-**2. At Commands (@)** — File/directory inclusion
-- Reference files and folders
-- Include content in prompts
-- Automatic smart filtering
-
-**3. Shell Commands (!)** — System access
-- Execute bash/cmd commands
-- Interactive shell mode
-- AI-guided execution
-
-Let's dive into each.
+You don't need to memorize these commands. You just need to understand what they do and when to use them.
 
 ---
 
-## Slash Commands: The Complete Reference
+## What Are Slash Commands? (Start Here If New)
 
-Gemini CLI provides 29+ slash commands. Here are the essential ones you'll use daily:
+**Slash commands are special instructions that start with a `/` character.** They control how Gemini CLI behaves, rather than being questions you ask.
 
-### Conversation Management
+Think of them like this:
+- **Regular question**: "What is Python?" → Gemini answers your question
+- **Slash command**: `/help` → Gemini shows you what commands are available
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/chat save <tag>`** | Save current conversation | `/chat save auth-implementation` |
-| **`/chat resume <tag>`** | Restore saved conversation | `/chat resume auth-implementation` |
-| **`/chat list`** | List saved conversations | `/chat list` |
-| **`/chat delete <tag>`** | Remove saved conversation | `/chat delete auth-implementation` |
-| **`/chat share file.md`** | Export conversation to file | `/chat share output.md` |
-| **`/clear`** | Clear terminal display | `/clear` |
-
-### Context & Memory Management
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/memory add <text>`** | Add to AI's context | `/memory add we use TypeScript strict mode` |
-| **`/memory show`** | Display loaded context | `/memory show` |
-| **`/memory refresh`** | Reload GEMINI.md files | `/memory refresh` |
-| **`/memory list`** | Show active GEMINI.md paths | `/memory list` |
-| **`/directory add <path>`** | Add workspace directory | `/directory add ./shared-libs` |
-| **`/directory show`** | Show workspace directories | `/directory show` |
-
-### System & Configuration
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/settings`** | Open settings editor | `/settings` |
-| **`/theme`** | Change terminal theme | `/theme` |
-| **`/vim`** | Toggle vim-mode editing | `/vim` |
-| **`/editor`** | Select default editor | `/editor` |
-| **`/auth`** | Change authentication | `/auth` |
-| **`/help` or `/?`** | Show help | `/help` |
-| **`/about`** | Show version info | `/about` |
-
-### Tools & Integrations
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/tools [desc]`** | List available tools | `/tools` or `/tools read file` |
-| **`/mcp`** | Show MCP servers & tools | `/mcp` |
-| **`/extensions`** | List active extensions | `/extensions` |
-
-### Optimization & Restoration
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/stats`** | Show token usage | `/stats` |
-| **`/compress`** | Reduce context size | `/compress` |
-| **`/copy`** | Copy last response | `/copy` |
-| **`/restore [id]`** | Undo file modifications | `/restore` |
-
-### Utility
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/bug`** | Report issue | `/bug command X doesn't work` |
-| **`/privacy`** | View privacy notice | `/privacy` |
-| **`/quit` or `/exit`** | Exit Gemini CLI | `/quit` |
-| **`/init`** | Create GEMINI.md | `/init` |
+**Why this matters:** Slash commands let you manage your conversation, check your limits, and control your session—without asking questions.
 
 ---
 
-## Deep Dive: Commands You'll Use Most
+## The Three Most Important Commands
 
-### 1. `/chat save` & `/chat resume` — Conversation Checkpointing
+In daily use, you'll use three slash commands most often. Let's learn them:
 
-**Purpose**: Save conversations and resume them later without re-explaining context
+### Command 1: /help
 
-**Syntax**:
-```bash
-/chat save my-project-v1
-(Later, in new session...)
-/chat resume my-project-v1
+**What it does:** Shows you every command available in Gemini CLI
+
+**When to use:** Whenever you forget what a command does or want to discover new commands
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /help
 ```
 
-**When to use**:
-- After completing a meaningful chunk of work
-- Before starting something unrelated
-- End of day (save progress)
-- Beginning of day (resume work)
+**What you'll see:**
 
-**Example Workflow**:
+A list of all available commands with descriptions:
+
 ```
-You: [Work on authentication for 2 hours]
-
-You: /chat save auth-endpoints-complete
-Gemini: ✓ Saved conversation as "auth-endpoints-complete"
-
-(Later, next day...)
-
-You: /chat resume auth-endpoints-complete
-Gemini: ✓ Resumed conversation "auth-endpoints-complete"
-        [Shows your conversation history]
-
-You: Now let's add password reset functionality
-(Continues seamlessly from yesterday)
+Available commands:
+  /help             Show this help message
+  /stats            Check your token usage
+  /memory show      Show what Gemini remembers
+  /chat save        Save your conversation
+  /chat resume      Bring back a saved conversation
+  /quit             Exit Gemini CLI
+  ... (and more)
 ```
 
-**Why it matters**: Without saved conversations, you'd need to re-explain your project every session. With `/chat save/resume`, context persists.
+**Pro tip:** If you ever get stuck or forget what to do, `/help` is your answer.
 
 ---
 
-### 2. `/memory add`, `/memory show`, `/memory refresh` — Context Management
+### Command 2: /stats
 
-**Purpose**: Manage AI's long-term knowledge about your project
+**What it does:** Shows you how many questions you've asked and how many you can ask today
 
-These commands work with **GEMINI.md files** (covered in Lesson 4).
+**Why this matters:** Gemini CLI gives you 1,000 questions per day (on the free tier). `/stats` helps you understand your "budget."
 
-**Syntax**:
-```bash
-/memory add we use strict TypeScript and functional patterns
-/memory show          # Shows all loaded context
-/memory refresh       # Reloads GEMINI.md files
-/memory list          # Shows which GEMINI.md files are loaded
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /stats
 ```
 
-**How it works**:
-1. Gemini CLI looks for GEMINI.md files (global, project, subdirectory)
-2. `/memory show` displays what's currently loaded
-3. `/memory refresh` reloads if you update GEMINI.md
-4. `/memory add` adds temporary facts to the session
+**What you'll see:**
 
-**Example**:
 ```
-You: /memory show
-Gemini CLI:
-  Loaded from: ~/.gemini/GEMINI.md
-  - My preferences (Python + TypeScript)
-  - My coding style
+Daily usage statistics:
+  Questions asked today: 45
+  Daily limit: 1,000 questions
+  Questions remaining: 955
+  Session duration: 1 hour 23 minutes
+```
 
-  Loaded from: ./GEMINI.md
-  - Project architecture
-  - Team standards
+**What this means:**
+- You've asked 45 questions so far today
+- You can ask up to 1,000 per day (free tier limit)
+- You have 955 questions left before hitting today's limit
+- You've been using Gemini CLI for 1 hour 23 minutes
 
-You: /memory add API returns ISO 8601 dates
-Gemini: ✓ Added to context
+**Real-world example:**
+```
+You: [Working and asking questions all morning]
+
+gemini> /stats
+Daily usage statistics:
+  Questions asked today: 127
+  Daily limit: 1,000 questions
+  Questions remaining: 873
+
+You: Great! I still have plenty of questions left for the rest of the day.
 ```
 
 ---
 
-### 3. `/stats` — Token Budget Awareness
+### Command 3: /quit
 
-**Purpose**: Monitor how many tokens you've used
+**What it does:** Exits Gemini CLI and returns you to your regular terminal
 
-**Syntax**:
-```bash
-/stats
+**When to use:** When you're done using Gemini CLI
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /quit
 ```
 
-**Output**:
+**What happens:**
+
+You'll exit Gemini CLI and see your regular terminal prompt again:
+
 ```
-Session Statistics:
-- Tokens used: 125,000 / 1,000,000
-- Remaining: 875,000
-- Session duration: 2h 45m
-- Messages: 42
+gemini> /quit
+Goodbye!
+
+$
 ```
 
-**Why it matters**: Gemini CLI has a 1 million token context window. Long sessions can approach the limit. `/stats` tells you when to start a new conversation or use `/compress`.
+**Alternative:** You can also press Ctrl+C twice to exit.
 
 ---
 
-### 4. `/compress` — Reduce Context Size
+## Commands for Saving and Resuming Conversations
 
-**Purpose**: Summarize conversation to free up tokens
+As you use Gemini CLI more, you'll start having longer conversations. Sometimes you'll want to save your progress so you can pick it back up later.
 
-**Syntax**:
-```bash
-/compress
+### Command 4: /chat save
+
+**What it does:** Saves your current conversation so you can bring it back later
+
+**When to use:**
+- When you finish working on something
+- Before starting a completely different topic
+- At the end of the day (so you can continue tomorrow)
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /chat save my-project
 ```
 
-**What happens**:
-- Gemini replaces your conversation with a summary
-- Frees up 40-60% of tokens
-- Keeps key decisions and code context
+The name after `/chat save` is your choice. Make it descriptive so you remember what you were working on.
 
-**Example**:
+**What you'll see:**
+
 ```
-You: [After 3 hours of work, 250K tokens used]
-You: /stats
-Gemini: Used 250,000 / 1,000,000 tokens
+gemini> /chat save my-project
+✓ Conversation saved as "my-project"
+```
 
-You: /compress
-Gemini: ✓ Compressed conversation. Now using 90,000 tokens
-        (Freed 160,000 tokens for continued work)
+**Real-world example:**
+
+Let's say you've been learning about files and folders, and you want to save your work:
+
+```
+gemini> I want to organize my computer. Can you help me understand file systems?
+
+Gemini: [Long conversation about files, folders, and organization]
+
+gemini> /chat save learning-file-system
+✓ Conversation saved as "learning-file-system"
+```
+
+Now, whenever you want to continue this conversation, you can bring it back.
+
+---
+
+### Command 5: /chat resume
+
+**What it does:** Brings back a saved conversation
+
+**When to use:** When you want to continue a previous conversation
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /chat resume my-project
+```
+
+**What you'll see:**
+
+```
+gemini> /chat resume my-project
+✓ Resuming conversation "my-project"
+
+[Shows your previous conversation history]
+```
+
+**Real-world example:**
+
+The next day, you want to continue learning about file systems:
+
+```
+gemini> /chat resume learning-file-system
+✓ Resuming conversation "learning-file-system"
+
+[Your previous conversation appears]
+
+You: Now that I understand files and folders, how do I actually
+create a folder on my computer?
+
+Gemini: You can use the mkdir command...
+```
+
+Gemini remembers everything from your previous conversation and continues naturally.
+
+---
+
+## Commands for Managing Your Memory
+
+Gemini CLI can remember facts about you and your work. These commands manage that memory.
+
+### Command 6: /memory show
+
+**What it does:** Shows everything Gemini currently remembers about you
+
+**When to use:** When you want to see what context Gemini has
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /memory show
+```
+
+**What you'll see:**
+
+```
+Current memory/context:
+  - User prefers learning with examples
+  - User is a complete beginner
+  - User likes clear explanations without jargon
+```
+
+**Why this matters:** Gemini uses this information to tailor its answers to YOU. If you told Gemini "I'm a beginner," it remembers that and explains things simply.
+
+---
+
+### Command 7: /memory add
+
+**What it does:** Teaches Gemini a fact about you or your work
+
+**When to use:** When you want Gemini to remember something important
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /memory add I prefer learning with real-world examples
+```
+
+**What you'll see:**
+
+```
+gemini> /memory add I prefer learning with real-world examples
+✓ Added to memory
+```
+
+**Real-world example:**
+
+```
+gemini> /memory add I like explanations that start simple, then get more detailed
+
+✓ Added to memory
+
+You: Now explain what a database is
+
+Gemini: A database is like a filing cabinet for digital information...
+[Starts simple, building to more detail - exactly as you specified]
 ```
 
 ---
 
-### 5. `/clear` — Start Fresh
+## Commands for Clearing and Fresh Starts
 
-**Purpose**: End current conversation and start new one
+Sometimes you want to start completely fresh, without Gemini remembering your previous conversation.
 
-**Syntax**:
-```bash
-/clear
+### Command 8: /clear
+
+**What it does:** Clears your current conversation and starts fresh
+
+**When to use:** When you want to start learning about something completely different
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /clear
 ```
 
-**Important**: Use `/chat save` before `/clear` if you want to preserve work.
+**What you'll see:**
 
-```bash
-You: /chat save current-work
-Gemini: ✓ Saved
+```
+gemini> /clear
+✓ Conversation cleared
 
-You: /clear
-Gemini: ✓ Conversation cleared
-
-You: [Starting completely new task with fresh context]
+gemini>
 ```
 
----
+**Important warning:** `/clear` erases your current conversation. If you want to keep it, use `/chat save` first!
 
-### 6. `/tools` — Discover Available Tools
+**Safe workflow:**
 
-**Purpose**: See what tools Gemini can use
-
-**Syntax**:
-```bash
-/tools                # List all tools
-/tools search         # Filter tools by keyword
 ```
+gemini> /chat save old-topic
+✓ Conversation saved as "old-topic"
 
-**Output**:
-```
-Available Tools:
-- GoogleSearch — Search the web
-- WriteFile — Create/modify files
-- ReadFile — Read file contents
-- WebFetch — Fetch URL content
-- RunShell — Execute shell commands
-```
+gemini> /clear
+✓ Conversation cleared
 
----
-
-### 7. `/mcp` — Manage External Integrations
-
-**Purpose**: List configured MCP servers and their tools
-
-**Syntax**:
-```bash
-/mcp
-```
-
-**Output**:
-```
-Configured MCP Servers:
-- playwright (✓ connected) — Web browsing
-- context7 (✓ connected) — Documentation lookup
-- github (✓ connected) — Repository access
+gemini> [Now you can start fresh on a new topic]
 ```
 
 ---
 
-### 8. `/directory add` & `/directory show` — Workspace Management
+## Other Useful Commands
 
-**Purpose**: Include additional directories in Gemini's context discovery
+### /chat list
 
-**Syntax**:
-```bash
-/directory add ../shared-libs        # Add a directory
-/directory show                      # See all included directories
+Shows all your saved conversations
+
 ```
-
-**Why useful**: If you work with monorepos or shared libraries, tell Gemini where to find them.
+gemini> /chat list
+Saved conversations:
+  - learning-file-system
+  - my-project
+  - python-basics
+```
 
 ---
 
-## At Commands: Including Files & Directories
+### /about
 
-### `@` Syntax for File References
+Shows information about Gemini CLI (version, etc.)
 
-**Purpose**: Include file or directory content in your prompt
-
-**Syntax**:
-```bash
-@path/to/file.js                # Single file
-@./src/                         # Entire directory
-@./docs/                        # Read all files in directory
-@image.png                      # Image file
-@document.pdf                   # PDF file
 ```
-
-**Examples**:
-```bash
-You: @./src/auth.ts explain this authentication flow
-
-You: @./docs/ summarize the project documentation
-
-You: Compare @./old-design.ts and @./new-design.ts
-
-You: Read @./config.json and tell me the API endpoint
+gemini> /about
+Gemini CLI version 0.4.0
 ```
-
-**Smart Filtering**: Gemini CLI automatically excludes:
-- `node_modules/`
-- `.env` files
-- `.git/` directories
-- Other common non-code files
 
 ---
 
-## Shell Commands: System Access
+## Practical Command Workflow Example
 
-### `!` Syntax for Shell Execution
+Let me show you a realistic workflow using these commands:
 
-**Purpose**: Run system commands with AI guidance
+### Day 1: Learning Python Basics
 
-**Syntax**:
-```bash
-!<command>              # Run single command
-!                       # Toggle shell mode
 ```
-
-**Examples**:
-```bash
-You: !git status
-Gemini: [Executes command, shows output, can discuss results]
-
-You: !
-Gemini: [Enters shell mode - all commands execute without !]
-$ npm test
-$ git log --oneline
-$ exit                  # Exit shell mode back to chat
-```
-
-**Safety**: Gemini can warn you about dangerous commands before executing.
-
----
-
-## Keyboard Shortcuts
-
-Quick actions while typing:
-
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl+L` | Clear terminal (same as `/clear`) |
-| `Ctrl+Z` | Undo last input |
-| `Ctrl+Shift+Z` | Redo undone input |
-
----
-
-## Practical Daily Workflow
-
-Here's how these commands flow in real work:
-
-### Morning: Resume Previous Work
-
-```bash
-$ gemini
-Gemini: Loading context from ~/.gemini/GEMINI.md and ./GEMINI.md
-
-You: /chat resume api-endpoints-in-progress
-Gemini: ✓ Resuming conversation
-        (Shows your conversation history from yesterday)
-
-You: Let's continue with the user endpoints
-(Continues exactly where you left off)
-```
-
-### Mid-Day: Monitor Budget
-
-```bash
-You: [After 2 hours of work]
-
-You: /stats
-Gemini: Used 200,000 / 1,000,000 tokens remaining
-
-You: We're in good shape, let's keep going
-```
-
-### Switch Projects
-
-```bash
-You: /chat save api-endpoints-complete
-Gemini: ✓ Saved
-
-You: /clear
-Gemini: ✓ Fresh conversation started
-
-You: /chat resume frontend-redesign
-Gemini: ✓ Resuming previous project
-```
-
-### End of Day: Save Progress
-
-```bash
-You: /chat save current-work-session
-Gemini: ✓ Saved
-
-You: Good progress today. See you tomorrow!
-(Exit Gemini CLI)
-```
-
-### Next Day: Resume Seamlessly
-
-```bash
 $ gemini
 
-You: /chat resume current-work-session
-Gemini: ✓ Loaded. Where were we...
+gemini> What is a variable in Python?
+
+Gemini: A variable is like a labeled box...
+[Long conversation about variables]
+
+gemini> /chat save python-basics-variables
+✓ Conversation saved as "python-basics-variables"
+
+gemini> /stats
+Daily usage: 32 questions remaining: 968
+
+gemini> /quit
+Goodbye!
 ```
 
----
+### Day 2: Continuing Python
 
-## Common Questions
-
-**Q: What's the difference between `/chat save` and GEMINI.md?**
-
-A:
-- `/chat save` = Saves your CONVERSATION (what you discussed)
-- `GEMINI.md` = Persistent PROJECT CONTEXT (what Gemini should know about your project)
-
-Use both together:
-- GEMINI.md tells Gemini about your architecture
-- `/chat save` remembers what you've discussed this session
-
-**Q: Can I use `/chat resume` to work with someone else's saved conversation?**
-
-A: Not directly. Saved conversations are personal. But you can use `/chat share file.md` to export, then share the file.
-
-**Q: If I use `/compress`, will I lose my conversation?**
-
-A: No. It summarizes your conversation but keeps important decisions and context. You can still reference previous work.
-
-**Q: What happens if I close Gemini without using `/chat save`?**
-
-A: Your conversation is lost. Always save important work with `/chat save`.
-
-**Q: Can I use shell commands safely?**
-
-A: Yes. Gemini will warn you about dangerous commands (rm, sudo, etc.) before executing. Always read the warning before confirming.
-
----
-
-## Exercises
-
-### Exercise 1: Save Your First Conversation
-
-Have a real conversation about something meaningful:
-
-```bash
+```
 $ gemini
-You: [Work on a real task for 20+ minutes]
-You: /chat save my-first-saved-conversation
-Gemini: ✓ Saved
-```
 
-Expected: You can now list and resume this conversation anytime.
+gemini> /chat resume python-basics-variables
+✓ Resuming conversation "python-basics-variables"
+[Your previous conversation reappears]
 
-### Exercise 2: List and Inspect
+You: Now that I understand variables, what's a data type?
 
-```bash
-You: /chat list
-(See all saved conversations)
+Gemini: Good progression! A data type tells Python what kind of information...
+[Continues naturally from yesterday]
 
-You: /chat save another-one
-You: /chat list
-(See the new conversation)
-```
+gemini> /chat save python-basics-data-types
+✓ Conversation saved
 
-### Exercise 3: Resume and Continue
-
-Close Gemini CLI completely. Then:
-
-```bash
-$ gemini
-You: /chat resume my-first-saved-conversation
-```
-
-Expected: Your conversation history is restored.
-
-### Exercise 4: Check Your Token Budget
-
-```bash
-You: /stats
-(See how many tokens you've used)
-
-You: (Work for 10 more minutes)
-
-You: /stats
-(See tokens increased)
-```
-
-### Exercise 5: Reference a File
-
-Create a simple file:
-
-```bash
-$ echo "console.log('hello')" > test.js
-```
-
-Then in Gemini:
-
-```bash
-You: @test.js what does this code do?
-Gemini: (Shows file content and explains)
+gemini> /quit
 ```
 
 ---
 
-## Key Takeaways
+## Key Principle: Commands Are Optional
 
-- **29+ slash commands** provide meta-level control (don't memorize—reference as needed)
-- **`/chat save` and `/chat resume`** are your superpowers for conversation persistence
-- **`/memory show` and `/memory refresh`** work with GEMINI.md for project context (covered next)
-- **`/stats` and `/compress`** keep you aware of token budget
-- **`@` syntax** includes file content without typing `/copy-paste`
-- **`!` syntax** runs shell commands with AI guidance
-- **Commands are discoverable**—`/help` shows everything
+**You don't have to use any of these commands if you don't want to.**
 
-Next lesson: You'll learn **GEMINI.md context files**, so Gemini automatically understands your project architecture and coding standards.
+You can just ask questions directly:
 
+```
+gemini> What is a loop in Python?
+```
+
+Commands are tools that help when you need them:
+- Need to see your daily limit? Use `/stats`
+- Want to save your conversation? Use `/chat save`
+- Forgotten a command? Use `/help`
+
+But simple questions? Just ask!
+
+---
+
+## Try With AI: Practice Commands
+
+Inside Gemini CLI, let's practice using these commands.
+
+### Exercise 1: Explore /help (3 minutes)
+
+Type:
+
+```
+gemini> /help
+```
+
+**What to look for:** Scroll through the list. Notice there are more commands than we covered. That's okay—you only need the main ones for now.
+
+**Reflection:** "I see there are many commands, but I only use a few regularly. That's normal."
+
+---
+
+### Exercise 2: Check Your /stats (2 minutes)
+
+Type:
+
+```
+gemini> /stats
+```
+
+**What to look for:** Your daily question count. If you haven't asked many questions yet, the number should be small.
+
+**Reflection:** "I now understand my daily budget. I can ask 1,000 questions per day."
+
+---
+
+### Exercise 3: Save a Conversation (5 minutes)
+
+Have a short conversation:
+
+```
+gemini> Explain what the internet is
+
+Gemini: [Explains internet]
+
+gemini> That was helpful. Let me save this.
+
+gemini> /chat save understanding-internet
+✓ Conversation saved as "understanding-internet"
+
+gemini> /quit
+```
+
+---
+
+### Exercise 4: Resume That Conversation (5 minutes)
+
+Next time you run Gemini CLI:
+
+```
+$ gemini
+
+gemini> /chat resume understanding-internet
+✓ Resuming conversation "understanding-internet"
+
+[Your previous conversation reappears]
+
+You: Now explain how websites work
+
+Gemini: [Builds on your previous conversation about the internet]
+```
+
+**What you learn:** Your conversation persists across sessions. Gemini remembers what you discussed.
+
+---
+
+## Common Beginner Questions
+
+**Q: Do I have to save my conversations?**
+
+A: No. If you don't save, they disappear when you exit. But saving is useful if you want to continue learning about the same topic later.
+
+---
+
+**Q: What if I forget the name I saved a conversation under?**
+
+A: Use `/chat list` to see all saved conversations.
+
+---
+
+**Q: If I use `/clear`, can I get my conversation back?**
+
+A: Only if you saved it with `/chat save` first. If you just used `/clear` without saving, it's gone.
+
+---
+
+**Q: Does `/memory add` change how Gemini works for everyone?**
+
+A: No, it only affects YOUR sessions. Other people using Gemini won't see your personal preferences.
+
+---
+
+## Key Terms Review
+
+**Slash command:** A command that starts with `/` to control Gemini CLI (like `/help` or `/quit`).
+
+**/stats:** A command that shows you how many questions you've asked today and how many you have left.
+
+**/chat save:** A command that saves your current conversation so you can continue it later.
+
+**/chat resume:** A command that brings back a saved conversation.
+
+**/memory add:** A command that teaches Gemini something about you or your preferences.
+
+**/clear:** A command that erases your current conversation and starts fresh.
+
+**/help:** A command that shows you all available commands and what they do.
+
+**Daily limit:** The maximum number of questions you can ask in one day (1,000 on the free tier).
+
+---
+
+**Ready for Lesson 4?** Next, you'll learn about special files called GEMINI.md that help Gemini remember permanent information about your projects and preferences.
