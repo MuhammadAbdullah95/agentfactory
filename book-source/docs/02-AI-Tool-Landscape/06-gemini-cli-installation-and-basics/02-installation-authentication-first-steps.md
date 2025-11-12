@@ -1,215 +1,191 @@
 ---
 sidebar_position: 2
-title: Installation, Authentication & First Steps
+title: "Installing Gemini CLI and Having Your First Conversation"
+duration: "25-30 min"
 ---
 
-# Installation, Authentication & First Steps
+# Installing Gemini CLI and Having Your First Conversation
 
-> **A Word Before We Begin**
->
-> Installing Gemini CLI is like meeting a new colleague—someone who's available 24/7 to collaborate on your work. In this lesson, you'll install Gemini CLI, authenticate with your Google account, and experience your first interaction with an AI partner using the Three-Role framework: AI as teacher, student, and co-worker.
+You've learned what Gemini CLI is and why you might want to use it. Now it's time to actually get it on your computer and have your first real conversation with your AI learning companion.
 
----
-
-## Learning Objectives
-
-By the end of this lesson, you'll be able to:
-
-- **Specify** installation and authentication requirements for Gemini CLI
-- **Validate** successful installation with verification steps
-- **Collaborate with AI** using the Three-Role Partnership framework (Teacher/Student/Co-Worker)
-- **Use slash commands** as session specifications to control your AI session
-- **Distinguish normal output** from errors using error literacy ("Red Flags to Watch")
+This lesson is similar to Chapter 5's installation lesson—we'll download the software, set it up, and make sure everything works. If you already completed Chapter 5, much of this will feel familiar!
 
 ---
 
-## Prerequisites: What You Need
+## What is Node.js? (Start Here If New)
 
-Make sure you have these before starting:
+Before we can install Gemini CLI, we need to install something called **Node.js**. Let's clarify what that is.
 
-| Requirement | What It Is | How to Check |
-|------------|-----------|-------------|
-| **Node.js 20+** | Runtime for JavaScript applications | Open terminal, type: `node --version` |
-| **npm** | Package manager (comes with Node.js) | Open terminal, type: `npm --version` |
-| **Internet connection** | For installation and Google authentication | You have this already ✓ |
-| **Google account** | For secure authentication | Gmail, YouTube, or any Google account |
+**Node.js is software that helps other programs run on your computer.**
 
-### Don't Have Node.js 20+?
+Think of it like this:
+- Your computer has a core language it understands: zeros and ones (binary)
+- Node.js is a translator that converts programmer instructions into things your computer can do
+- Many modern tools (including Gemini CLI) need Node.js to run
 
-1. Visit [nodejs.org](https://nodejs.org/en/download)
-2. Download the **LTS version** (Long Term Support—the stable version)
-3. Follow the installer steps for your operating system
-4. When asked about npm, keep the checkbox checked
-5. Restart your computer
+**Why this matters:** Just like you need Java to play certain games, or .NET to run certain programs, we need Node.js to run Gemini CLI. It's not complicated—it's just a prerequisite.
 
-### Opening Your Terminal
+**Do you already have Node.js?** Let's check in the next section.
+
+---
+
+## What You Need Before Starting
+
+Let's verify you have everything needed. This takes 2 minutes.
+
+### Requirement 1: Node.js
+
+**What is it?** The translator software mentioned above—it lets Gemini CLI run on your computer.
+
+**Do you have it?** Open your terminal and type:
+
+```bash
+node --version
+```
+
+**What you'll see:**
+
+**If you see a version number** (like `v18.0.0` or `v20.0.0`):
+```
+v20.17.0
+```
+
+Great! You have Node.js. Skip the installation step below and go to "Step 1: Install Gemini CLI."
+
+**If you see "command not found":**
+```
+command not found: node
+```
+
+Don't worry—we'll install it. See the installation instructions below.
+
+### Installing Node.js (If You Don't Have It)
+
+1. Go to https://nodejs.org
+2. Download the **LTS version** (LTS stands for "Long-Term Support"—it's the stable, recommended version)
+3. Run the installer and follow the steps (just click "Next" and "Install" for each step)
+4. Restart your computer
+5. Open a new terminal and type `node --version` again to confirm
+
+**That's it!** Node.js is now installed.
+
+---
+
+### Requirement 2: Internet Connection
+
+**What is it?** You need to be connected to the internet to download Gemini CLI and to authenticate.
+
+**Do you have it?** If you're reading this, you do. ✓
+
+---
+
+### Requirement 3: Google Account
+
+**What is it?** An email account from Google (Gmail). This is how Gemini CLI will know who you are.
+
+**Do you have it?** If you have Gmail, YouTube, or Google Drive, you already have one. You can use any of these.
+
+**Don't have one?** Go to https://accounts.google.com/signup and create one (takes 5 minutes).
+
+---
+
+## Step 1: Open Your Terminal
+
+We're about to download and install Gemini CLI using a terminal command.
+
+**Where is your terminal?**
 
 **Windows:** Search "PowerShell" in your Start menu and open it
 
 **macOS:** Press Cmd+Space, type "Terminal", press Enter
 
-**Linux:** Press Ctrl+Alt+T (most distributions)
+**Linux:** Press Ctrl+Alt+T (works on most Linux distributions)
+
+Once you see the text prompt (like `$` or `>` at the end), you're ready.
 
 ---
 
-## Specification-First Installation Workflow
+## Step 2: Install Gemini CLI
 
-Before you run any commands, let's think like an AI-native developer. You'll **specify** what you want, then **execute**, then **validate**. This is the pattern you'll use throughout your career with AI tools.
-
-### Your Installation Specification
-
-Here's what we're trying to accomplish (the specification):
-
-> **Goal**: Install Google Gemini CLI globally on my computer so I can access it from any directory. Then verify the installation succeeded, and authenticate using my Google account.
->
-> **Success Criteria**:
-> - `gemini -v` shows a version number (like 0.4.0 or higher)
-> - `gemini` command launches successfully from any directory
-> - Authentication completes without errors
-> - I can ask questions and get responses
-
-### Executing the Specification
-
-**Step 1: Install Gemini CLI Globally**
-
-Open your terminal and run this single command:
+Type this command into your terminal and press Enter:
 
 ```bash
 npm install -g @google/gemini-cli
 ```
 
-This command downloads and installs Gemini CLI globally on your computer. You'll see text flowing by—this is normal. Wait for it to complete (usually takes 30-60 seconds).
+**What's happening?**
+- `npm` is the installer program (came with Node.js)
+- `install` means "download and set up"
+- `-g` means "globally" (make it available from anywhere)
+- `@google/gemini-cli` is the name of what we're installing
 
-**Step 2: Verify Installation**
+**What you'll see:**
+Text will scroll by. This is normal. Wait for it to finish (usually 30-60 seconds). You'll see something like:
 
-After installation completes, verify it worked by checking the version:
-
-```bash
-gemini -v
+```
+npm notice created a lockfile as package-lock.json
+npm notice
+npm notice
++ @google/gemini-cli@0.4.0
+added 150 packages in 45.3s
 ```
 
-You should see a version number like `0.4.0` or higher displayed. If you see this, the installation succeeded! ✓
+**If you see "command not found: npm":**
+Your Node.js installation didn't work correctly. Try these steps:
+1. Restart your computer
+2. Try `node --version` again
+3. If it still doesn't work, ask your AI: "I installed Node.js but npm isn't available. How do I fix this?"
 
 ---
 
-## Validating Your Installation: Understanding Output vs. Errors
+## Step 3: Verify Installation Worked
 
-One of the most important skills in AI-native development is **error literacy**—understanding the difference between normal output and actual problems. Let's learn to validate your installation correctly.
+Let's check that Gemini CLI is ready:
 
-### What Success Looks Like (Normal Output)
+```bash
+gemini --version
+```
 
-**Command**: `gemini -v`
-
-**Expected Output**:
+**What you should see:**
 ```
 0.4.0
 ```
 
-OR
+Or:
 
 ```
 Gemini CLI version 0.4.0
-installed at /usr/local/bin/gemini
 ```
 
-**Interpretation**: ✅ Installation successful. Version is displayed.
+**What this means:** ✅ Installation successful! Gemini CLI is on your computer.
 
-**Command**: `gemini`
+**If you see "command not found: gemini":**
+- Wait 30 seconds (sometimes the terminal needs a moment)
+- Close your terminal completely
+- Open a new terminal window
+- Try `gemini --version` again
 
-**Expected Output**:
-```
-Welcome to Gemini CLI
-
-Select theme:
-  > Light
-    Dark
-    Solarized
-```
-
-**Interpretation**: ✅ Installation successful. Interactive prompt appears.
+Still not working? Ask your AI: "I installed Gemini CLI but get 'command not found'. What should I do?"
 
 ---
 
-### Red Flags to Watch 🚩
+## Step 4: Start Gemini CLI
 
-These messages indicate real problems that need fixing.
-
-**Error**: `command not found: gemini`
-
-**What It Means**: Gemini CLI isn't installed, or npm's global directory isn't in your PATH
-
-**How to Fix**:
-1. Verify installation ran successfully: `npm list -g @google/gemini-cli`
-2. If package shows, you need to fix PATH. Ask your AI: "I installed Gemini CLI but get 'command not found'. How do I fix my PATH?"
-3. If package doesn't show, reinstall: `npm install -g @google/gemini-cli`
-
----
-
-**Error**: `EACCES: permission denied`
-
-**What It Means**: npm needs elevated permissions to install globally
-
-**How to Fix** (choose ONE based on your comfort level):
-
-*Option A (Recommended): Ask your AI*:
-```
-I got "EACCES permission denied" when installing Gemini CLI globally.
-What's the safest way to fix this without using sudo?
-```
-
-*Option B (Manual Fix)*:
-```bash
-npm install -g @google/gemini-cli --no-save
-```
-
----
-
-**Error**: `npm: command not found`
-
-**What It Means**: Node.js isn't installed or npm isn't in your PATH
-
-**How to Fix**:
-1. Go to [nodejs.org](https://nodejs.org/en/download) and install the LTS version
-2. Restart your terminal
-3. Try `npm --version` to verify
-
----
-
-### Complete Verification Checklist
-
-Run these commands to fully validate your installation:
-
-```bash
-# Check version (should show 0.4.0 or higher)
-gemini -v
-
-# Check installation location
-npm list -g @google/gemini-cli
-
-# Check command is accessible from PATH
-which gemini     # macOS/Linux
-where gemini     # Windows
-```
-
-**All three commands show results?** ✅ Installation is complete and correct.
-
-**One or more show errors?** Check the "Red Flags" section above and ask your AI for guidance.
-
----
-
-## Authentication & First Launch
-
-Now comes the core experience—Gemini CLI handles authentication automatically. Simply type:
+Now let's actually launch Gemini CLI. Type:
 
 ```bash
 gemini
 ```
 
-When you run this command for the first time, Gemini CLI launches and **automatically guides you through setup**:
+Press Enter and wait a moment.
 
-### Step 1: Choose Your Theme
+---
 
-Gemini CLI will ask you to select a visual theme for the terminal interface:
+## What Happens Next: The First-Time Setup
+
+When you run Gemini CLI for the first time, it will ask you some questions. Don't worry—these are just setup choices.
+
+### Question 1: Choose a Theme
 
 ```
 Select theme:
@@ -218,369 +194,320 @@ Select theme:
     Solarized
 ```
 
-Choose whichever you prefer—this is just cosmetic and can be changed later. Use arrow keys to select and press Enter.
+Choose whichever you like. Use your arrow keys to move up/down, then press Enter to select.
 
-### Step 2: Choose Authentication Method
+**What this is:** This just changes the colors in your terminal. It doesn't affect how the AI works. You can change it later if you want.
 
-You'll see options for authentication:
+---
+
+### Question 2: Choose How to Log In
 
 ```
 Choose authentication method:
   > Google login (free tier)
     Gemini API Key (requires setup)
-    Vertex AI (requires Google Cloud Project)
 ```
 
-**Select "Google login"** for the free tier. This is the beginner-friendly option with no setup required:
-- **Free tier**: 60 requests/min, 1,000 requests/day
-- **No billing required**: You can use Gemini CLI indefinitely on the free tier
-- **No API key setup**: Authentication happens through your Google account
+**Select "Google login"** (the free option). Just press Enter—it's already selected.
 
-### Step 3: Browser Opens for Authentication
+**What this is:** This tells Gemini CLI how to recognize you. Using your Google account is the easiest way.
 
-Your default web browser will automatically open with Google's login page. Simply:
+---
 
-1. Enter your Google account email
+### Question 3: Complete Login in Your Browser
+
+Your web browser will open automatically. You'll see Google's login page.
+
+1. Enter your Google email address
 2. Enter your password
-3. Click "Allow" when Google asks: "Gemini CLI wants access to your account"
+3. You'll see a page that says "Gemini CLI wants to access your account"
+4. Click the blue "Allow" or "Authorize" button
 
-### Step 4: You're In!
+**Why this is safe:** Google is asking your permission. You're not giving Gemini CLI your password—you're just giving it permission to use your Google account. You can revoke this permission anytime.
 
-After you authorize, your terminal displays the Gemini CLI interface, and you're ready to start:
+---
+
+## You're In!
+
+After you click "Allow," your terminal will show:
 
 ```
 Welcome! You're authenticated as: your-email@gmail.com
 
-Available tools:
-  /help     Show all commands
-  /stats    Check token usage
-  /memory   Manage context files
-
-Type your first question or use /help for commands.
+Type a question or use / for commands.
 
 gemini>
 ```
 
-The prompt shows `gemini> `, indicating you're inside an interactive session. You're now ready to collaborate with your AI partner.
+The `gemini>` prompt means you're inside an interactive conversation with Gemini CLI. **You made it!**
 
 ---
 
-## Your First Collaboration with Gemini: The Three-Role Partnership
+## What You Can Do Now
 
-Instead of just asking a simple question, let's demonstrate how AI partners work with you in three distinct roles: as a teacher, as a student, and as a co-worker.
+You have three main abilities inside Gemini CLI:
 
-### 🎓 AI as Teacher: Learning Something New
+### 1. Ask Questions
 
-In this role, AI teaches you concepts, explains best practices, and expands your knowledge.
-
-**Type this into your Gemini CLI session**:
+Just type normally. For example:
 
 ```
-Explain the difference between Gemini CLI's 1M token context window and
-Claude Code's 200K token context window. What does this mean for the
-types of projects I should use each tool for?
+gemini> What is Python?
 ```
 
-**What Happens**: Gemini doesn't just answer—it:
-- Explains token limits and what "context window" means
-- Compares the two tools objectively
-- Suggests when you'd want to use each tool
-- Introduces concepts you may not have known (token management, context window sizing)
-
-**What You Learn From AI**: AI taught you about context windows and tool selection criteria. This is knowledge you probably didn't have before. **This is AI as teacher.**
+Gemini will explain Python in simple language. No special syntax needed—just ask.
 
 ---
 
-### 💙 AI as Student: Learning Your Preferences
+### 2. Use Slash Commands (Starting with /)
 
-In this role, you teach AI your coding style, preferences, and how you like to work.
-
-**Type this into your Gemini CLI session**:
-
-```
-I prefer learning with detailed explanations and examples. When I ask you
-questions, please provide:
-1. A brief answer first (one paragraph)
-2. Then a detailed explanation with practical examples
-3. Then edge cases or gotchas to watch for
-Can you adapt to this style?
-```
-
-**What Happens**: Gemini acknowledges your preference and confirms it will apply this style to all future responses in this session.
-
-**What AI Learns**: AI learns your learning style, your communication preferences, and your quality standards. In future responses, it will remember and apply these preferences.
-
-**This is AI as student**—it learns from you and adapts.
-
----
-
-### 🤝 AI as Co-Worker: Solving Problems Together
-
-In this role, you and AI work together as peers, with you providing direction and AI providing execution.
-
-**Type this into your Gemini CLI session**:
-
-```
-I'm about to install Gemini CLI on my computer, but I'm not sure if my
-Node.js version is compatible. Let's figure this out together:
-
-1. Guide me through checking my current Node.js version
-2. Tell me if it meets the requirements for Gemini CLI
-3. If it doesn't, guide me through upgrading
-
-Let's work step by step.
-```
-
-**What Happens**: Gemini:
-1. Asks you to run: `node --version`
-2. You respond with your version
-3. Gemini analyzes it, tells you if it's compatible
-4. If needed, it guides you through upgrading
-
-**This is AI as co-worker**—neither commanding nor subordinate, but collaborating on equal footing to solve the problem.
-
----
-
-### Key Insight: Three Modes of Collaboration
-
-You've just experienced the three core ways you'll interact with AI throughout your development career:
-
-| Role | What Happens | When You Use It |
-|------|--------------|-----------------|
-| **🎓 Teacher** | AI teaches you concepts, patterns, best practices | When you want to learn something new |
-| **💙 Student** | You teach AI your preferences; AI adapts | When setting up a new project or session |
-| **🤝 Co-Worker** | You direct strategy; AI executes details | When solving actual problems together |
-
-All three roles are happening in every real project. Learning to switch between them based on your need is an essential AI-native skill.
-
----
-
-## Essential Slash Commands: Session Specifications
-
-Now that you're inside Gemini CLI, you have access to powerful slash commands. Think of these as **specifications for controlling your session**, not commands to memorize.
-
-When you type `/` followed by a command name, you're **specifying** how you want your AI session to behave.
-
-### Why This Matters
-
-Traditional thinking: "I'll memorize commands and type them when I need them."
-
-AI-native thinking: "I'll specify what I need, and the command executes that specification."
-
-**Example**: When you're running out of context space (near the 1M token limit), instead of "remembering" there's a `/compress` command, you think: "I need to preserve key information while freeing capacity. How do I specify that?"
-
-Answer: `/compress` is that specification.
-
----
-
-### The Most Useful Commands for Right Now
-
-Here are the slash commands you'll use most often as a beginner, organized by purpose:
-
-#### Help & Information (When You're Stuck)
-
-**`/help`** — Show all available commands
-
-```
-gemini> /help
-```
-
-**What it does**: Displays the complete list of all slash commands with descriptions
-
-**When to use**: You forget what commands are available or what a command does
-
----
-
-**`/stats`** — Check your session usage
+Slash commands control your session. For example:
 
 ```
 gemini> /stats
 ```
 
-**What it does**: Shows how many tokens you've used in this session and how much capacity remains
-
-**Example output**:
-```
-Context Usage:
-  Used: 15,234 tokens (1.5% of 1M limit)
-  Remaining: 984,766 tokens (98.5%)
-  Session: 5 minutes
-```
-
-**When to use**: Monitor your context budget to avoid hitting the 1M limit
+This shows how many questions you've asked and how many you can ask before hitting your limit.
 
 ---
 
-#### Context Management (When You're Running Out of Space)
+### 3. Exit Anytime
 
-**`/compress`** — Intelligently reduce context size
-
-```
-gemini> /compress
-```
-
-**What it does**: AI analyzes your conversation, identifies the most important information, and summarizes less critical details. This frees capacity without losing key context.
-
-**Business value**: Continue working on large projects without restarting your session
-
-**When to use**: Your context is 70-80% full and you want to continue working
-
----
-
-#### Control
-
-**`/quit`** — Exit Gemini CLI and return to your terminal
+Type:
 
 ```
 gemini> /quit
 ```
 
-**Alternative**: Press **Ctrl+C** twice to force quit
+Or press Ctrl+C twice to exit.
 
 ---
 
-### Try It Now: Practice 3 Commands
+## Your First Real Conversation: Three Ways AI Helps
 
-You're inside Gemini CLI now. Let's practice using slash commands:
+Let's understand the three different roles AI can play while helping you learn. Inside Gemini CLI, try asking these three different kinds of questions:
 
-**1. Check your tools**:
+### Role 1: AI as Teacher (Teaching You New Things)
+
+Ask Gemini to teach you something:
+
 ```
-gemini> /tools
+What is the difference between a file and a folder? Explain it like I've
+never heard these terms before.
 ```
 
-You'll see a list of all capabilities Gemini has (file operations, web search, shell commands). This helps you understand what Gemini can do beyond answering questions.
+**What happens:** Gemini explains the concept clearly, probably with an analogy or example.
+
+**What you learn:** Gemini is teaching you something new—this is AI as teacher.
 
 ---
 
-**2. Monitor your context**:
+### Role 2: AI as Student (You Teaching AI Your Preferences)
+
+Tell Gemini how you like to learn:
+
 ```
-gemini> /stats
+I learn best through examples. When you answer my questions, please:
+1. Give the main answer first
+2. Then give a real-world example
+3. Then tell me one thing that might trip me up
+
+Can you do that?
 ```
 
-You'll see how many tokens you're using. You have 1 million tokens—this is your "budget" for any single session. When you hit ~900K tokens, use `/compress` to continue.
+**What happens:** Gemini says "Yes, I'll remember this" (or similar).
+
+**What you learn:** You just taught AI your learning style, and AI is adapting to you. This is AI as student—it learns from you.
 
 ---
 
-**3. Get help anytime**:
+### Role 3: AI as Co-Worker (Working Together)
+
+Work with Gemini to solve a problem:
+
+```
+I want to learn how to organize my computer's files. Let's work together:
+1. First, explain why file organization matters
+2. Then, ask me about my situation (how many files do I have?)
+3. Based on my answer, suggest a system
+4. Help me verify the system works
+
+Let's talk through all of this together.
+```
+
+**What happens:** Gemini asks you questions, listens to your answers, and tailors suggestions to YOUR situation.
+
+**What you learn:** This is AI as co-worker—neither commanding you nor just following orders, but working together as partners.
+
+---
+
+## Important: Three Slash Commands to Know
+
+While you're in Gemini CLI, you can use slash commands to control your session. Here are the three most useful ones:
+
+### Command 1: /help
+
 ```
 gemini> /help
 ```
 
-You'll see the complete command reference. **This is your lifeline**—when you forget a command, `/help` has the answer.
+Shows every command available. Use this whenever you forget what you can do.
 
 ---
 
-### Key Insight: Commands Are Specifications
+### Command 2: /stats
 
-You don't need to memorize these commands. Each one specifies a behavior:
+```
+gemini> /stats
+```
 
-- `/stats` specifies: "Show me my current resource usage"
-- `/compress` specifies: "Preserve key info, reduce size"
-- `/quit` specifies: "End this session"
+Shows how many questions you've asked and how many you can ask today. This helps you understand your "budget."
 
-When you're building an AI-native mindset, you're not memorizing syntax—you're thinking in specifications. The commands are just how you execute those specifications.
+Example output:
+```
+Today's usage: 45 questions
+Daily limit: 1,000 questions
+Remaining: 955 questions
+```
 
 ---
 
-## Understanding Your Session
+### Command 3: /quit
 
-When you run `gemini`, you're entering an interactive session. Inside this session, you can:
+```
+gemini> /quit
+```
 
-1. **Ask questions** — Collaborate with AI
-2. **Use slash commands** — Specify session behavior (seen above)
-3. **Use @ syntax** — Reference files (covered in Lesson 3)
-4. **Use ! syntax** — Execute shell commands (covered in Lesson 3)
-
-For now, focus on asking questions and using slash commands. You have everything you need to have a productive conversation with your AI partner.
+Exits Gemini CLI and returns you to your terminal. (Or just press Ctrl+C twice.)
 
 ---
 
-## Try With AI: Your First Gemini CLI Session
+## Common Issues and How to Fix Them
 
-Now that you understand the basics, let's practice everything you've learned in an integrated workflow.
+### Issue 1: "I typed `gemini` but nothing happened"
 
-### Exercise: Meet Your AI Partner
-
-**Time**: 15 minutes
-
-**Part 1: Validate Installation** (3 minutes)
-
-In your terminal:
-```bash
-gemini -v
-```
-
-If you see a version number, you're ready to launch.
+**Fix:**
+1. Make sure you completed the installation (try `gemini --version` again)
+2. Try restarting your terminal
+3. If still stuck, ask your AI: "Gemini CLI won't start. What should I check?"
 
 ---
 
-**Part 2: Launch and Set Up** (3 minutes)
+### Issue 2: "The login doesn't work—browser doesn't open"
 
-```bash
-gemini
-```
+**Fix:**
+1. Copy the URL from the terminal into your browser manually
+2. Complete the login
+3. The terminal should recognize you after that
 
-Follow the prompts to:
-1. Select a theme (Light, Dark, or Solarized—your choice)
-2. Select "Google login" for authentication
-3. Complete authentication in your browser
-
-You should now see the `gemini>` prompt.
+**Still stuck?** Ask your AI: "My Gemini CLI login isn't working. What's the issue?"
 
 ---
 
-**Part 3: Experience All Three Roles** (9 minutes)
+### Issue 3: "I got a permission error during installation"
 
-Inside your Gemini CLI session, practice each role:
+**Fix:** Restart your terminal and try the installation command again. If it persists, ask your AI: "I got a permission error installing Gemini CLI. What's safe?"
 
-**AI as Teacher** (Ask for knowledge):
+---
+
+## Before You Move to Lesson 3
+
+You've now:
+- ✅ Downloaded and installed Gemini CLI
+- ✅ Logged in with your Google account
+- ✅ Started your first conversation with Gemini
+- ✅ Learned about three roles AI can play
+
+**Before moving on**, try these two things:
+
+**Activity 1: Ask Your Own Question**
+Think of something you're curious about. Ask Gemini in the terminal. Notice how it explains things to you.
+
+**Activity 2: Practice One Slash Command**
+Try `/stats` or `/help`. Notice what information appears. This helps you understand how commands control your session.
+
+---
+
+## Try With AI: Your First Gemini CLI Learning Session
+
+You're inside Gemini CLI now. Let's practice everything in one learning session.
+
+### Exercise 1: Experience AI as Teacher (5 minutes)
+
+Inside Gemini CLI, ask:
+
 ```
-Explain what "context window" means and why it matters in AI tools.
-Use an analogy to make it clear.
+Explain what a "terminal" is. Use an analogy—what's a real-world
+equivalent that would help me understand it?
 ```
 
-**AI as Student** (Teach your style):
+**What you're learning:** How to ask for analogies helps you understand new concepts faster.
+
+---
+
+### Exercise 2: Experience AI as Student (5 minutes)
+
+Now teach Gemini your learning style:
+
 ```
-I like learning through examples and real-world scenarios. When I ask
-you to help with code, please:
-1. Show the code first
-2. Explain what it does line-by-line
-3. Show how to use it
-Can you remember this?
+I'm a complete beginner learning about technology. When you help me:
+1. Don't use technical jargon without explaining
+2. Use real-world examples from everyday life
+3. Ask me clarifying questions if I'm unclear
+
+Will you remember this for our future conversations?
 ```
 
-**AI as Co-Worker** (Work together):
+**What you're learning:** AI can be trained by you. Your preferences matter.
+
+---
+
+### Exercise 3: Experience AI as Co-Worker (5 minutes)
+
+Work with Gemini on something practical:
+
 ```
-I need to understand what Gemini CLI can do. Let's work together:
-1. Tell me the 3 biggest differences between Gemini CLI and ChatGPT
-2. For each difference, explain when I'd choose Gemini CLI
-3. Give me one example project where Gemini CLI would be ideal
+I need to understand the difference between Gemini CLI and ChatGPT.
+Let's work together:
+- First, ask me: How much do I care about cost? Privacy? Learning?
+- Then, based on my answers, recommend which tool fits better
+- Explain your reasoning
 
 Walk me through your thinking—don't just list answers.
 ```
 
----
-
-### Expected Outcomes
-
-After this exercise, you'll have:
-
-✅ Verified your installation works correctly
-✅ Experienced authentication with your Google account
-✅ Learned that AI works in three distinct roles
-✅ Seen how `/help` and `/stats` control your session
-✅ Understood that AI collaboration is bidirectional (you teach it, it teaches you)
-
-### Safety Note: Validation and Trust
-
-Remember: Never execute AI suggestions without understanding what they do first. In later lessons, you'll learn to:
-- Read generated code before running it
-- Validate that AI suggestions match your requirements
-- Use `/help` to understand what commands do before executing them
-
-This "understand before executing" mindset keeps you safe and builds expertise.
+**What you're learning:** This is how professional developers use AI—as a thinking partner, not just an answer machine.
 
 ---
 
-**Next lesson**: Lesson 3 (Core Commands & Slash Commands) will teach more advanced session management, including the `/memory` system, `/chat` save/resume, and how to use `/settings` to customize your experience.
+### Safety Reminder
 
+**Trust but verify.** When Gemini suggests something:
+- Read it carefully
+- Ask "Does this make sense?"
+- Ask for clarification if you don't understand
+- Verify it actually works
+
+This habit keeps you safe and builds your critical thinking skills.
+
+---
+
+## Key Terms Review
+
+**Terminal:** The text window where you type commands. Also called "command line" or "CLI."
+
+**Node.js:** Software that helps programs like Gemini CLI run on your computer.
+
+**npm:** The installer program that downloads and sets up software.
+
+**Installation:** Downloading software and setting it up so you can use it.
+
+**Authentication:** Telling Gemini CLI who you are (by logging in with your Google account).
+
+**Slash command:** A command that starts with `/` to control your session (like `/help` or `/quit`).
+
+**Context:** Everything Gemini remembers from your conversation.
+
+---
+
+**Ready for Lesson 3?** Next, you'll learn how to ask Gemini better questions and how to use special shortcuts to make your conversations more productive.

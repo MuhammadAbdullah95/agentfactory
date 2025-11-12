@@ -1,742 +1,548 @@
 ---
 sidebar_position: 3
-title: "Core Commands & Slash Commands"
-duration: "40 min"
+title: "Understanding Gemini CLI Commands: Slash Commands Explained"
+duration: "20-25 min"
 ---
 
-# Core Commands & Slash Commands
+# Understanding Gemini CLI Commands: Slash Commands Explained
 
-## From Setup to Daily Use: Mastering Gemini CLI Commands
+In Lesson 2, you learned how to install Gemini CLI and start a conversation. Now let's learn the special commands that help you control your conversations and keep Gemini working smoothly.
 
-In Lesson 2, you installed Gemini CLI and saw it work for the first time. Now comes the crucial step: **learning to write specifications that direct your AI development partner**.
-
-This isn't about memorizing command syntax. It's about understanding the three **specification patterns** Gemini CLI recognizes, when to use each pattern, why it matters, and how to collaborate with your AI partner like a professional.
-
----
-
-## Understanding Gemini CLI's Three Specification Patterns
-
-Gemini CLI recognizes three ways to **specify** what you want your AI to do:
-
-**1. Session Specifications (/)** — How you want your AI session to behave
-- Specification type: Session state management
-- Examples: `/memory add <context>`, `/chat save <tag>`, `/compress`
-- Mental model: "I need my AI session to behave THIS way"
-- **What you're learning**: How to specify session architecture for your work
-
-**2. Context Specifications (@)** — What information your AI needs
-- Specification type: Context architecture definition
-- Examples: `@./src/auth.ts`, `@./docs/`
-- Mental model: "Here's the context scope for this conversation"
-- **What you're learning**: How to specify context boundaries
-
-**3. Execution Specifications (!)** — What system operations to perform
-- Specification type: System command delegation to AI
-- Examples: `!git status`, `!npm test`
-- Mental model: "Execute this operation and help me interpret results"
-- **What you're learning**: How to specify system operations for AI guidance
-
-Let's dive into each pattern and see how to use them in real work.
+You don't need to memorize these commands. You just need to understand what they do and when to use them.
 
 ---
 
-## Slash Commands: The Complete Reference
+## What Are Slash Commands? (Start Here If New)
 
-Gemini CLI provides 29+ slash commands. Here are the essential ones you'll use daily:
+**Slash commands are special instructions that start with a `/` character.** They control how Gemini CLI behaves, rather than being questions you ask.
 
-### Conversation Management
+Think of them like this:
+- **Regular question**: "What is Python?" → Gemini answers your question
+- **Slash command**: `/help` → Gemini shows you what commands are available
 
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/chat save <tag>`** | Save current conversation | `/chat save auth-implementation` |
-| **`/chat resume <tag>`** | Restore saved conversation | `/chat resume auth-implementation` |
-| **`/chat list`** | List saved conversations | `/chat list` |
-| **`/chat delete <tag>`** | Remove saved conversation | `/chat delete auth-implementation` |
-| **`/chat share file.md`** | Export conversation to file | `/chat share output.md` |
-| **`/clear`** | Clear terminal display | `/clear` |
-
-### Context & Memory Management
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/memory add <text>`** | Add to AI's context | `/memory add we use TypeScript strict mode` |
-| **`/memory show`** | Display loaded context | `/memory show` |
-| **`/memory refresh`** | Reload GEMINI.md files | `/memory refresh` |
-| **`/memory list`** | Show active GEMINI.md paths | `/memory list` |
-| **`/directory add <path>`** | Add workspace directory | `/directory add ./shared-libs` |
-| **`/directory show`** | Show workspace directories | `/directory show` |
-
-### System & Configuration
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/settings`** | Open settings editor | `/settings` |
-| **`/theme`** | Change terminal theme | `/theme` |
-| **`/vim`** | Toggle vim-mode editing | `/vim` |
-| **`/editor`** | Select default editor | `/editor` |
-| **`/auth`** | Change authentication | `/auth` |
-| **`/help` or `/?`** | Show help | `/help` |
-| **`/about`** | Show version info | `/about` |
-
-### Tools & Integrations
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/tools [desc]`** | List available tools | `/tools` or `/tools read file` |
-| **`/mcp`** | Show MCP servers & tools | `/mcp` |
-| **`/extensions`** | List active extensions | `/extensions` |
-
-### Optimization & Restoration
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/stats`** | Show token usage | `/stats` |
-| **`/compress`** | Reduce context size | `/compress` |
-| **`/copy`** | Copy last response | `/copy` |
-| **`/restore [id]`** | Undo file modifications | `/restore` |
-
-### Utility
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| **`/bug`** | Report issue | `/bug command X doesn't work` |
-| **`/privacy`** | View privacy notice | `/privacy` |
-| **`/quit` or `/exit`** | Exit Gemini CLI | `/quit` |
-| **`/init`** | Create GEMINI.md | `/init` |
+**Why this matters:** Slash commands let you manage your conversation, check your limits, and control your session—without asking questions.
 
 ---
 
-## Deep Dive: Commands You'll Use Most
+## The Three Most Important Commands
 
-### 1. `/chat save` & `/chat resume` — Conversation Checkpointing
+In daily use, you'll use three slash commands most often. Let's learn them:
 
-**Purpose**: Specify when to save conversation checkpoints and resume work without re-explaining context
+### Command 1: /help
 
-**Syntax**:
-```bash
-/chat save my-project-v1
-(Later, in new session...)
-/chat resume my-project-v1
+**What it does:** Shows you every command available in Gemini CLI
+
+**When to use:** Whenever you forget what a command does or want to discover new commands
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /help
 ```
 
-**When to use**:
-- After completing a meaningful chunk of work
-- Before starting something unrelated
-- End of day (save progress)
-- Beginning of day (resume work)
+**What you'll see:**
 
-**Example Workflow**:
+A list of all available commands with descriptions:
+
 ```
-You: [Work on authentication for 2 hours]
-
-You: /chat save auth-endpoints-complete
-Gemini: ✓ Saved conversation as "auth-endpoints-complete"
-
-(Later, next day...)
-
-You: /chat resume auth-endpoints-complete
-Gemini: ✓ Resumed conversation "auth-endpoints-complete"
-        [Shows your conversation history]
-
-You: Now let's add password reset functionality
-(Continues seamlessly from yesterday)
+Available commands:
+  /help             Show this help message
+  /stats            Check your token usage
+  /memory show      Show what Gemini remembers
+  /chat save        Save your conversation
+  /chat resume      Bring back a saved conversation
+  /quit             Exit Gemini CLI
+  ... (and more)
 ```
 
-**Working WITH Your AI on Session Management**
-
-🎓 **AI as Teacher**: Learning when to checkpoint
-```
-You: I've been working for 2 hours on authentication. Should I save now or wait?
-
-Gemini: "You've completed the login endpoint with tests. This is a natural checkpoint
-before starting password reset functionality. I recommend:
-  /chat save auth-login-complete
-
-This helps you resume at a logical breakpoint tomorrow."
-```
-
-💙 **AI as Student**: Learning your workflow patterns
-```
-You: I prefer saving every hour with tags like YYYY-MM-DD-HHMM.
-Adapt to this pattern and remind me when it's been an hour.
-
-Gemini: "I'll track time and suggest hourly saves with timestamp tags.
-When it's been 60 minutes, I'll remind you: 'Ready to checkpoint?'"
-```
-
-🤝 **AI as Co-Worker**: Collaborative session management
-```
-You: Help me organize my saved conversations. List them, suggest which ones
-to delete (old or completed), and help me create a naming convention.
-
-Gemini: [Lists 12 saved conversations, suggests cleanup, proposes naming system]
-```
-
-**Why it matters**: Without saved conversations, you'd need to re-explain your project every session. With `/chat save/resume`, context persists. More importantly, you learn to think about work in **checkpoints and phases**—a specification-first mindset.
+**Pro tip:** If you ever get stuck or forget what to do, `/help` is your answer.
 
 ---
 
-### 2. `/memory add`, `/memory show`, `/memory refresh` — Context Management
+### Command 2: /stats
 
-**Purpose**: Manage AI's long-term knowledge about your project
+**What it does:** Shows you how many questions you've asked and how many you can ask today
 
-These commands work with **GEMINI.md files** (covered in Lesson 4).
+**Why this matters:** Gemini CLI gives you 1,000 questions per day (on the free tier). `/stats` helps you understand your "budget."
 
-**Syntax**:
-```bash
-/memory add we use strict TypeScript and functional patterns
-/memory show          # Shows all loaded context
-/memory refresh       # Reloads GEMINI.md files
-/memory list          # Shows which GEMINI.md files are loaded
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /stats
 ```
 
-**How it works**:
-1. Gemini CLI looks for GEMINI.md files (global, project, subdirectory)
-2. `/memory show` displays what's currently loaded
-3. `/memory refresh` reloads if you update GEMINI.md
-4. `/memory add` adds temporary facts to the session
+**What you'll see:**
 
-**Example**:
 ```
-You: /memory show
-Gemini CLI:
-  Loaded from: ~/.gemini/GEMINI.md
-  - My preferences (Python + TypeScript)
-  - My coding style
+Daily usage statistics:
+  Questions asked today: 45
+  Daily limit: 1,000 questions
+  Questions remaining: 955
+  Session duration: 1 hour 23 minutes
+```
 
-  Loaded from: ./GEMINI.md
-  - Project architecture
-  - Team standards
+**What this means:**
+- You've asked 45 questions so far today
+- You can ask up to 1,000 per day (free tier limit)
+- You have 955 questions left before hitting today's limit
+- You've been using Gemini CLI for 1 hour 23 minutes
 
-You: /memory add API returns ISO 8601 dates
-Gemini: ✓ Added to context
+**Real-world example:**
+```
+You: [Working and asking questions all morning]
+
+gemini> /stats
+Daily usage statistics:
+  Questions asked today: 127
+  Daily limit: 1,000 questions
+  Questions remaining: 873
+
+You: Great! I still have plenty of questions left for the rest of the day.
 ```
 
 ---
 
-### 3. `/stats` — Token Budget Awareness
+### Command 3: /quit
 
-**Purpose**: Monitor how many tokens you've used
+**What it does:** Exits Gemini CLI and returns you to your regular terminal
 
-**Syntax**:
-```bash
-/stats
+**When to use:** When you're done using Gemini CLI
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /quit
 ```
 
-**Output**:
+**What happens:**
+
+You'll exit Gemini CLI and see your regular terminal prompt again:
+
 ```
-Session Statistics:
-- Tokens used: 125,000 / 1,000,000
-- Remaining: 875,000
-- Session duration: 2h 45m
-- Messages: 42
+gemini> /quit
+Goodbye!
+
+$
 ```
 
-**Why it matters**: Gemini CLI has a 1 million token context window. Long sessions can approach the limit. `/stats` tells you when to start a new conversation or use `/compress`.
+**Alternative:** You can also press Ctrl+C twice to exit.
 
 ---
 
-### 4. `/compress` — Reduce Context Size
+## Commands for Saving and Resuming Conversations
 
-**Purpose**: Specify that you want to compress context while preserving critical project decisions
+As you use Gemini CLI more, you'll start having longer conversations. Sometimes you'll want to save your progress so you can pick it back up later.
 
-**Syntax**:
-```bash
-/compress
+### Command 4: /chat save
+
+**What it does:** Saves your current conversation so you can bring it back later
+
+**When to use:**
+- When you finish working on something
+- Before starting a completely different topic
+- At the end of the day (so you can continue tomorrow)
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /chat save my-project
 ```
 
-**What happens**:
-- Gemini replaces your conversation with a summary
-- Frees up 40-60% of tokens
-- Keeps key decisions and code context
+The name after `/chat save` is your choice. Make it descriptive so you remember what you were working on.
 
-**Example**:
+**What you'll see:**
+
 ```
-You: [After 3 hours of work, 250K tokens used]
-You: /stats
-Gemini: Used 250,000 / 1,000,000 tokens
-
-You: /compress
-Gemini: ✓ Compressed conversation. Now using 90,000 tokens
-        (Freed 160,000 tokens for continued work)
+gemini> /chat save my-project
+✓ Conversation saved as "my-project"
 ```
 
-**Validating Compression Results**
+**Real-world example:**
 
-After compression, **always validate** that important context was preserved:
+Let's say you've been learning about files and folders, and you want to save your work:
 
-```bash
-You: /stats
-Gemini: Used 90,000 / 1,000,000 tokens (tokens freed: 160K ✓)
+```
+gemini> I want to organize my computer. Can you help me understand file systems?
 
-You: What key decisions and constraints did you preserve from our
-     compressed conversation? List the major architecture choices
-     and requirements you remember.
+Gemini: [Long conversation about files, folders, and organization]
 
-Gemini: [Lists preserved decisions]
+gemini> /chat save learning-file-system
+✓ Conversation saved as "learning-file-system"
 ```
 
-**Red Flags to Watch** 🚩:
-- ❌ Can't recall specific code decisions made earlier
-- ❌ Forgets project constraints you specified
-- ❌ Loses track of completed work items
-- ✅ Remembers architecture choices, requirements, and design patterns
-
-**Recovery**: If validation fails, use `/chat resume` to restore the pre-compression state and save before trying `/compress` again.
+Now, whenever you want to continue this conversation, you can bring it back.
 
 ---
 
-### 5. `/clear` — Start Fresh
+### Command 5: /chat resume
 
-**Purpose**: End current conversation and start new one
+**What it does:** Brings back a saved conversation
 
-**Syntax**:
-```bash
-/clear
+**When to use:** When you want to continue a previous conversation
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /chat resume my-project
 ```
 
-**Important**: Use `/chat save` before `/clear` if you want to preserve work.
+**What you'll see:**
 
-```bash
-You: /chat save current-work
-Gemini: ✓ Saved
+```
+gemini> /chat resume my-project
+✓ Resuming conversation "my-project"
 
-You: /clear
-Gemini: ✓ Conversation cleared
+[Shows your previous conversation history]
+```
 
-You: [Starting completely new task with fresh context]
+**Real-world example:**
+
+The next day, you want to continue learning about file systems:
+
+```
+gemini> /chat resume learning-file-system
+✓ Resuming conversation "learning-file-system"
+
+[Your previous conversation appears]
+
+You: Now that I understand files and folders, how do I actually
+create a folder on my computer?
+
+Gemini: You can use the mkdir command...
+```
+
+Gemini remembers everything from your previous conversation and continues naturally.
+
+---
+
+## Commands for Managing Your Memory
+
+Gemini CLI can remember facts about you and your work. These commands manage that memory.
+
+### Command 6: /memory show
+
+**What it does:** Shows everything Gemini currently remembers about you
+
+**When to use:** When you want to see what context Gemini has
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /memory show
+```
+
+**What you'll see:**
+
+```
+Current memory/context:
+  - User prefers learning with examples
+  - User is a complete beginner
+  - User likes clear explanations without jargon
+```
+
+**Why this matters:** Gemini uses this information to tailor its answers to YOU. If you told Gemini "I'm a beginner," it remembers that and explains things simply.
+
+---
+
+### Command 7: /memory add
+
+**What it does:** Teaches Gemini a fact about you or your work
+
+**When to use:** When you want Gemini to remember something important
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /memory add I prefer learning with real-world examples
+```
+
+**What you'll see:**
+
+```
+gemini> /memory add I prefer learning with real-world examples
+✓ Added to memory
+```
+
+**Real-world example:**
+
+```
+gemini> /memory add I like explanations that start simple, then get more detailed
+
+✓ Added to memory
+
+You: Now explain what a database is
+
+Gemini: A database is like a filing cabinet for digital information...
+[Starts simple, building to more detail - exactly as you specified]
 ```
 
 ---
 
-### 6. `/tools` — Discover Available Tools
+## Commands for Clearing and Fresh Starts
 
-**Purpose**: See what tools Gemini can use
+Sometimes you want to start completely fresh, without Gemini remembering your previous conversation.
 
-**Syntax**:
-```bash
-/tools                # List all tools
-/tools search         # Filter tools by keyword
+### Command 8: /clear
+
+**What it does:** Clears your current conversation and starts fresh
+
+**When to use:** When you want to start learning about something completely different
+
+**How to use:**
+
+Type this inside Gemini CLI:
+
+```
+gemini> /clear
 ```
 
-**Output**:
+**What you'll see:**
+
 ```
-Available Tools:
-- GoogleSearch — Search the web
-- WriteFile — Create/modify files
-- ReadFile — Read file contents
-- WebFetch — Fetch URL content
-- RunShell — Execute shell commands
+gemini> /clear
+✓ Conversation cleared
+
+gemini>
+```
+
+**Important warning:** `/clear` erases your current conversation. If you want to keep it, use `/chat save` first!
+
+**Safe workflow:**
+
+```
+gemini> /chat save old-topic
+✓ Conversation saved as "old-topic"
+
+gemini> /clear
+✓ Conversation cleared
+
+gemini> [Now you can start fresh on a new topic]
 ```
 
 ---
 
-### 7. `/mcp` — Manage External Integrations
+## Other Useful Commands
 
-**Purpose**: List configured MCP servers and their tools
+### /chat list
 
-**Syntax**:
-```bash
-/mcp
+Shows all your saved conversations
+
 ```
-
-**Output**:
-```
-Configured MCP Servers:
-- playwright (✓ connected) — Web browsing
-- context7 (✓ connected) — Documentation lookup
-- github (✓ connected) — Repository access
+gemini> /chat list
+Saved conversations:
+  - learning-file-system
+  - my-project
+  - python-basics
 ```
 
 ---
 
-### 8. `/directory add` & `/directory show` — Workspace Management
+### /about
 
-**Purpose**: Include additional directories in Gemini's context discovery
+Shows information about Gemini CLI (version, etc.)
 
-**Syntax**:
-```bash
-/directory add ../shared-libs        # Add a directory
-/directory show                      # See all included directories
 ```
-
-**Why useful**: If you work with monorepos or shared libraries, tell Gemini where to find them.
+gemini> /about
+Gemini CLI version 0.4.0
+```
 
 ---
 
-## At Commands: Including Files & Directories
+## Practical Command Workflow Example
 
-### `@` Syntax for File References
+Let me show you a realistic workflow using these commands:
 
-**Purpose**: Include file or directory content in your prompt
+### Day 1: Learning Python Basics
 
-**Syntax**:
-```bash
-@path/to/file.js                # Single file
-@./src/                         # Entire directory
-@./docs/                        # Read all files in directory
-@image.png                      # Image file
-@document.pdf                   # PDF file
 ```
-
-**Examples**:
-```bash
-You: @./src/auth.ts explain this authentication flow
-
-You: @./docs/ summarize the project documentation
-
-You: Compare @./old-design.ts and @./new-design.ts
-
-You: Read @./config.json and tell me the API endpoint
-```
-
-**Smart Filtering**: Gemini CLI automatically excludes:
-- `node_modules/`
-- `.env` files
-- `.git/` directories
-- Other common non-code files
-
----
-
-## Shell Commands: System Access
-
-### `!` Syntax for Shell Execution
-
-**Purpose**: Run system commands with AI guidance
-
-**Syntax**:
-```bash
-!<command>              # Run single command
-!                       # Toggle shell mode
-```
-
-**Examples**:
-```bash
-You: !git status
-Gemini: [Executes command, shows output, can discuss results]
-
-You: !
-Gemini: [Enters shell mode - all commands execute without !]
-$ npm test
-$ git log --oneline
-$ exit                  # Exit shell mode back to chat
-```
-
-**Safety**: Gemini can warn you about dangerous commands before executing.
-
----
-
-## Keyboard Shortcuts
-
-Quick actions while typing:
-
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl+L` | Clear terminal (same as `/clear`) |
-| `Ctrl+Z` | Undo last input |
-| `Ctrl+Shift+Z` | Redo undone input |
-
----
-
-## Practical Daily Workflow
-
-Here's how these commands flow in real work:
-
-### Morning: Resume Previous Work
-
-```bash
-$ gemini
-Gemini: Loading context from ~/.gemini/GEMINI.md and ./GEMINI.md
-
-You: /chat resume api-endpoints-in-progress
-Gemini: ✓ Resuming conversation
-        (Shows your conversation history from yesterday)
-
-You: Let's continue with the user endpoints
-(Continues exactly where you left off)
-```
-
-### Mid-Day: Monitor Budget
-
-```bash
-You: [After 2 hours of work]
-
-You: /stats
-Gemini: Used 200,000 / 1,000,000 tokens remaining
-
-You: We're in good shape, let's keep going
-```
-
-### Switch Projects
-
-```bash
-You: /chat save api-endpoints-complete
-Gemini: ✓ Saved
-
-You: /clear
-Gemini: ✓ Fresh conversation started
-
-You: /chat resume frontend-redesign
-Gemini: ✓ Resuming previous project
-```
-
-### End of Day: Save Progress
-
-```bash
-You: /chat save current-work-session
-Gemini: ✓ Saved
-
-You: Good progress today. See you tomorrow!
-(Exit Gemini CLI)
-```
-
-### Next Day: Resume Seamlessly
-
-```bash
 $ gemini
 
-You: /chat resume current-work-session
-Gemini: ✓ Loaded. Where were we...
+gemini> What is a variable in Python?
+
+Gemini: A variable is like a labeled box...
+[Long conversation about variables]
+
+gemini> /chat save python-basics-variables
+✓ Conversation saved as "python-basics-variables"
+
+gemini> /stats
+Daily usage: 32 questions remaining: 968
+
+gemini> /quit
+Goodbye!
+```
+
+### Day 2: Continuing Python
+
+```
+$ gemini
+
+gemini> /chat resume python-basics-variables
+✓ Resuming conversation "python-basics-variables"
+[Your previous conversation reappears]
+
+You: Now that I understand variables, what's a data type?
+
+Gemini: Good progression! A data type tells Python what kind of information...
+[Continues naturally from yesterday]
+
+gemini> /chat save python-basics-data-types
+✓ Conversation saved
+
+gemini> /quit
 ```
 
 ---
 
-## Common Questions
+## Key Principle: Commands Are Optional
 
-**Q: What's the difference between `/chat save` and GEMINI.md?**
+**You don't have to use any of these commands if you don't want to.**
 
-A:
-- `/chat save` = Saves your CONVERSATION (what you discussed)
-- `GEMINI.md` = Persistent PROJECT CONTEXT (what Gemini should know about your project)
+You can just ask questions directly:
 
-Use both together:
-- GEMINI.md tells Gemini about your architecture
-- `/chat save` remembers what you've discussed this session
+```
+gemini> What is a loop in Python?
+```
 
-**Q: Can I use `/chat resume` to work with someone else's saved conversation?**
+Commands are tools that help when you need them:
+- Need to see your daily limit? Use `/stats`
+- Want to save your conversation? Use `/chat save`
+- Forgotten a command? Use `/help`
 
-A: Not directly. Saved conversations are personal. But you can use `/chat share file.md` to export, then share the file.
-
-**Q: If I use `/compress`, will I lose my conversation?**
-
-A: No. It summarizes your conversation but keeps important decisions and context. You can still reference previous work.
-
-**Q: What happens if I close Gemini without using `/chat save`?**
-
-A: Your conversation is lost. Always save important work with `/chat save`.
-
-**Q: Can I use shell commands safely?**
-
-A: Yes. Gemini will warn you about dangerous commands (rm, sudo, etc.) before executing. Always read the warning before confirming.
+But simple questions? Just ask!
 
 ---
 
-## Specification-Driven Exercises
+## Try With AI: Practice Commands
 
-These exercises teach you to **think in specifications**, not just execute commands. You'll work WITH your AI partner to solve real problems.
+Inside Gemini CLI, let's practice using these commands.
 
-### Exercise 1: Specify Your Session Management Strategy
+### Exercise 1: Explore /help (3 minutes)
 
-**Specification Challenge**:
+Type:
 
-> You're starting a multi-day project with three distinct phases:
-> - **Phase 1 (Research)**: Understanding the problem (2 hours)
-> - **Phase 2 (Implementation)**: Building the solution (4 hours)
-> - **Phase 3 (Testing)**: Validating the work (2 hours)
->
-> Design a conversation management strategy. What should you specify about when to save, what to name conversations, and how to resume work?
+```
+gemini> /help
+```
 
-**With Your AI Partner**:
+**What to look for:** Scroll through the list. Notice there are more commands than we covered. That's okay—you only need the main ones for now.
 
-1. **Collaborate**: Open Gemini CLI and ask your AI:
-   ```
-   I'm starting a project with research → implementation → testing phases.
-   How should I design a conversation checkpointing strategy?
-   What naming convention would help me find conversations weeks from now?
-   ```
-
-2. **Execute**: Implement your strategy using `/chat save` and `/chat resume` throughout your work
-
-3. **Validate**: Test resuming conversations—verify that AI remembers context
-
-**Success Criteria**:
-- [ ] Can resume any conversation and AI remembers context
-- [ ] Naming convention makes conversations discoverable
-- [ ] Strategy scales to 5+ saved conversations
-- [ ] You understand WHY you checkpoint at each phase
+**Reflection:** "I see there are many commands, but I only use a few regularly. That's normal."
 
 ---
 
-### Exercise 2: Design Your Context Architecture
+### Exercise 2: Check Your /stats (2 minutes)
 
-**Specification Challenge**:
+Type:
 
-> You're working on a project with these directories:
-> - `frontend/` — React components
-> - `backend/` — Python API
-> - `shared/` — Shared utilities
->
-> Design a memory management specification. Which context belongs in global GEMINI.md vs. project GEMINI.md? How do you optimize for a 8-hour work session?
+```
+gemini> /stats
+```
 
-**With Your AI Partner**:
+**What to look for:** Your daily question count. If you haven't asked many questions yet, the number should be small.
 
-1. **Explore**: Open Gemini CLI and run:
-   ```bash
-   /memory show      # See what's currently loaded
-   /memory list      # See which GEMINI.md files exist
-   /stats            # Check current token usage
-   ```
-
-2. **Collaborate**: Ask your AI:
-   ```
-   My project has frontend/backend/shared. How should I organize
-   GEMINI.md files to optimize context loading without redundancy?
-   ```
-
-3. **Validate**: Verify your context architecture:
-   ```bash
-   /memory refresh   # Reload after changes
-   /stats            # Confirm token usage is optimized
-   ```
-
-**Success Criteria**:
-- [ ] Context architecture prevents redundancy
-- [ ] AI has access to all necessary project knowledge
-- [ ] Token usage optimized for 8-hour work session
-- [ ] You understand trade-offs between global vs. local GEMINI.md
+**Reflection:** "I now understand my daily budget. I can ask 1,000 questions per day."
 
 ---
 
-### Exercise 3: Practice Validation: Token Budget Awareness
+### Exercise 3: Save a Conversation (5 minutes)
 
-**Specification Challenge**:
+Have a short conversation:
 
-> Monitor your token usage across a full work session. When should you use `/compress`? How do you validate that compression preserved important context?
+```
+gemini> Explain what the internet is
 
-**With Your AI Partner**:
+Gemini: [Explains internet]
 
-1. **Start Monitoring**:
-   ```bash
-   You: /stats
-   Gemini: Shows current token usage
-   ```
+gemini> That was helpful. Let me save this.
 
-2. **Work for 1 hour**, then check again:
-   ```bash
-   You: /stats
-   Gemini: Shows new usage total
-   ```
+gemini> /chat save understanding-internet
+✓ Conversation saved as "understanding-internet"
 
-3. **When approaching 70% usage, compress**:
-   ```bash
-   You: /compress
-   You: /stats     # Verify tokens freed
-   ```
-
-4. **Validate preservation**:
-   ```bash
-   You: List the 3 most important architectural decisions we discussed.
-   Gemini: [Should list them accurately]
-   ```
-
-**Success Criteria**:
-- [ ] You understand when to compress (around 70% of token budget)
-- [ ] Compression successfully frees tokens
-- [ ] Validation confirms important context preserved
-- [ ] You can recover with `/chat resume` if validation fails
+gemini> /quit
+```
 
 ---
 
-### Exercise 4: File Reference Practice
+### Exercise 4: Resume That Conversation (5 minutes)
 
-**Specification Challenge**:
+Next time you run Gemini CLI:
 
-> You have a JavaScript file. Specify that you want Gemini to analyze it, explain it, and identify potential improvements.
+```
+$ gemini
 
-**Steps**:
+gemini> /chat resume understanding-internet
+✓ Resuming conversation "understanding-internet"
 
-1. Create a simple file in your project:
-   ```bash
-   cat > example.js << 'EOF'
-   function greet(name) {
-     if (name == "World") {
-       console.log("Hello World!");
-     } else {
-       console.log("Hello " + name);
-     }
-   }
-   greet("Alice");
-   EOF
-   ```
+[Your previous conversation reappears]
 
-2. In Gemini CLI, specify what you want analyzed:
-   ```
-   @./example.js Can you:
-   1. Explain what this code does
-   2. Identify modernizations (ES6+)
-   3. Suggest improvements
-   ```
+You: Now explain how websites work
 
-3. Compare with AI's improvements:
-   ```
-   @./example.js vs. @./example-modern.js
-   What improvements did you suggest?
-   ```
+Gemini: [Builds on your previous conversation about the internet]
+```
 
-**Success Criteria**:
-- [ ] You understand @ syntax for file reference
-- [ ] AI reads and analyzes file content
-- [ ] You can specify multiple analysis dimensions
-- [ ] You see how @ syntax reduces copy-pasting
+**What you learn:** Your conversation persists across sessions. Gemini remembers what you discussed.
 
 ---
 
-### Exercise 5: Shell Command Guidance Practice
+## Common Beginner Questions
 
-**Specification Challenge**:
+**Q: Do I have to save my conversations?**
 
-> You want to run a complex shell command, but you want your AI partner to explain the results and help you interpret what happened.
-
-**Steps**:
-
-1. In Gemini CLI, use ! to execute with explanation:
-   ```bash
-   You: !git log --oneline | head -5
-   Gemini: [Shows output and explains what it means]
-   ```
-
-2. Ask for interpretation:
-   ```bash
-   You: Based on that output, when was the last breaking change?
-   Gemini: [Analyzes commits to answer]
-   ```
-
-3. Ask for next steps:
-   ```bash
-   You: Should I create a release now? What would you recommend?
-   Gemini: [Suggests based on commit history]
-   ```
-
-**Success Criteria**:
-- [ ] You understand ! syntax for system commands
-- [ ] You can interpret shell output with AI's help
-- [ ] AI guides your decisions based on command results
-- [ ] You work WITH AI on system operations, not just execute blindly
+A: No. If you don't save, they disappear when you exit. But saving is useful if you want to continue learning about the same topic later.
 
 ---
 
-## Key Takeaways
+**Q: What if I forget the name I saved a conversation under?**
 
-- **Three specification patterns** (session, context, execution) are how you direct your AI partner
-- **Spec-first thinking**: You're not memorizing command syntax—you're learning to specify what you want your session to be
-- **Three-Role Partnership**: AI teaches you when to checkpoint, learns your workflow patterns, and collaborates on session design
-- **Session Specifications (/)**: `/chat save/resume` for checkpointing, `/memory` for context management, `/stats`/`/compress` for budget awareness
-- **Context Specifications (@)**: `@./file.js` and `@./directory/` to specify context scope without copy-pasting
-- **Execution Specifications (!)**: `!git status` and shell mode to have AI guide system operations
-- **Validation matters**: Always verify compression preserved important context, always validate that AI understood your specification
-- **Commands are discoverable**—use `/help` when needed, but focus on the PATTERN, not memorizing 29 commands
+A: Use `/chat list` to see all saved conversations.
 
-**Most Important Learning**: When using these commands, you're not executing syntax—you're **specifying how your AI session should behave**. This is THE core skill of AI-native development.
+---
 
-Next lesson: You'll learn **GEMINI.md context files**, so you can specify your entire project architecture once and Gemini automatically understands it across all conversations.
+**Q: If I use `/clear`, can I get my conversation back?**
 
+A: Only if you saved it with `/chat save` first. If you just used `/clear` without saving, it's gone.
+
+---
+
+**Q: Does `/memory add` change how Gemini works for everyone?**
+
+A: No, it only affects YOUR sessions. Other people using Gemini won't see your personal preferences.
+
+---
+
+## Key Terms Review
+
+**Slash command:** A command that starts with `/` to control Gemini CLI (like `/help` or `/quit`).
+
+**/stats:** A command that shows you how many questions you've asked today and how many you have left.
+
+**/chat save:** A command that saves your current conversation so you can continue it later.
+
+**/chat resume:** A command that brings back a saved conversation.
+
+**/memory add:** A command that teaches Gemini something about you or your preferences.
+
+**/clear:** A command that erases your current conversation and starts fresh.
+
+**/help:** A command that shows you all available commands and what they do.
+
+**Daily limit:** The maximum number of questions you can ask in one day (1,000 on the free tier).
+
+---
+
+**Ready for Lesson 4?** Next, you'll learn about special files called GEMINI.md that help Gemini remember permanent information about your projects and preferences.
