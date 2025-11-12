@@ -1,675 +1,414 @@
 ---
 sidebar_position: 3
-title: "Core Commands, Custom Commands & Workflows"
-duration: "40 min"
+title: "Ways to Talk With Claude: Commands"
+duration: "25-30 min"
 ---
 
-# Core Commands, Custom Commands & Workflows
+# Ways to Talk With Claude: Commands
 
-## Specification Verbs: Your Language for Intent
+Imagine you have a helpful friend at your side while you work. Sometimes you ask them a quick question. Sometimes you say "let me mark where we are right now so we don't lose our place." Sometimes you point at a specific document and say "look at this file and help me understand it."
 
-You've learned what Claude Code is (Lesson 1: an agentic AI partner) and how to establish a working partnership (Lesson 2: checkpoints, files, memory). Now comes the crucial step: **learning to articulate what you want with precision**.
+**Commands are different ways to ask Claude for help.**
 
-Think of commands not as "features to memorize," but as **verbs in a specification language**. Just as a software specification uses clear action verbs ("retrieve user data," "validate email format," "generate report"), Claude Code commands express distinct intents:
-
-- **`claude`** = "I need help with this task"
-- **`#`** = "This is a checkpoint—verify progress here"
-- **`@filename`** = "Include this file as context"
-- **`/init`** = "Remember my project setup"
-- **`/clear`** = "Start fresh—forget previous context"
-
-**This is the paradigm shift** (Principle 3 from the Constitution): Your value isn't memorizing command syntax. Your value is **articulating intent clearly** so AI executes it precisely.
-
-In Lesson 1, you learned about agentic execution. In Lesson 2, you discovered checkpoints structure conversations. Now in Lesson 3, you'll learn to **combine commands into workflows**—specifications for how work gets done.
-
-By the end of this lesson, you'll:
-- Recognize commands as "specification verbs" (not just features)
-- Use checkpoints as "specification milestones" (not just pauses)
-- Build decision trees that match task complexity to the right approach
-- Create reusable custom commands (encoding your workflows as specifications)
-- Understand the progression from simple commands → custom commands → subagents → orchestration (coming in Lessons 4-8)
+Instead of remembering complicated syntax, you'll learn a few simple patterns. Each pattern tells Claude something different about what you need.
 
 ---
 
-## Command Reference Table: Your Specification Vocabulary
+## What is a Command? (Start Here If New)
 
-Each command expresses a distinct specification intent. Use this table as a reference—don't memorize. The real skill is knowing **when to use which intent**, not memorizing syntax.
+**A command is a way to talk to Claude Code.**
 
-| Command | Purpose | Specification Intent | Example |
-|---------|---------|----------------------|---------|
-| **`claude`** | Start a session | "I need help with this task" | `claude` or `claude "your prompt"` |
-| **`#`** | Save a milestone | "This step is complete; next phase begins here" | `# Fixed the login bug` |
-| **`@filename`** | Include context | "Consider this file when you respond" | `@app.py what does this function do?` |
-| **`/init`** | Remember project | "Store my project context for future sessions" | `/init` |
-| **`/clear`** | Forget context | "End this task; start completely fresh" | `/clear` |
-| **`/compact`** | Summarize progress | "Condense our conversation to save tokens" | `/compact` |
-| **`ESC`** | Stop (graceful) | "Finish your thought and stop generation" | Press `ESC` once |
-| **`ESC ESC`** | Stop (force) | "Stop immediately; no gradual shutdown" | Press `ESC` twice quickly |
-| **`/mcp`** | Check tools | "Show which external tools are configured" | `/mcp` |
-| **`/usage`** | Check budget | "Show my remaining API usage" | `/usage` |
-| **`/permissions`** | Set boundaries | "Define what I allow Claude to do" | `/permissions` |
+Think of it like different types of questions you can ask:
+- **Simple question**: "What does this error mean?"
+- **Pointing to a file**: "Look at my login code and find the bug"
+- **Marking progress**: "I finished fixing that bug. Now moving to the next feature"
+- **Starting fresh**: "Forget everything before. We're starting a new task"
+
+Each of these is a **command**—a different way to communicate with Claude.
+
+**Don't worry about memorizing them.** You'll use them naturally as you need them. We'll explain each one, and you can look them up anytime.
 
 ---
 
-## 💬 AI Colearning Prompt: Map Your Work to Commands
+## The Most Important Commands
 
-Now that you've seen the specification vocabulary, let's make it personal.
+Here are the commands you'll use most often. We'll explain each one with examples.
 
-### Your Task
-Open Claude Code (or ChatGPT) and run this prompt:
+### 1. `claude` - Ask Claude a Question
 
-> **"I typically work on [describe your domain: web features, data pipelines, API integrations, mobile apps, system administration, etc.]. Looking at the command reference table above, which 3-4 commands would I use MOST OFTEN in MY workflow? For each one, give me a realistic example from my domain showing WHAT I'd specify (not HOW I'd code it). Then tell me: which commands might I barely use? Why?**
+**What it does**: You ask Claude something, and Claude answers.
 
-### What This Does
-Instead of learning commands abstractly, you'll map them to YOUR work patterns. This is core to specification thinking: you learn the vocabulary in context, not in isolation.
-
-### Expected Output
-Claude should return:
-- Your top 3-4 commands (specific to your domain)
-- Realistic examples from your domain showing WHAT you'd specify
-- Clear explanation of why you'd use each command
-- Commands you might skip (and why—not all commands fit all workflows)
-
-### What You Learn
-**You'll discover that specification thinking is domain-specific.** A data engineer's command workflow differs from a web developer's, which differs from a DevOps engineer's. The VOCABULARY is universal; the USAGE is personal.
-
----
-
-## When to Use Which Approach: Decision Tree for Command Selection
-
-As you encounter tasks, you'll face a question: "Which approach should I use?" Here's how to decide:
-
-```
-Task arrives
-    ↓
-Single-step task? (e.g., "Read this file" or "Explain this error")
-    ├─ YES → Use basic command: claude "..."
-    │
-    └─ NO
-        ↓
-Multi-step task with clear phases? (e.g., "Design → Implement → Test")
-        ├─ YES → Use checkpoints (#)
-        │        Structure: # Phase 1 description # Phase 2 description
-        │
-        └─ NO
-            ↓
-Multi-file task needing consistent context? (e.g., "Review auth flow across multiple files")
-            ├─ YES → Use @filename references
-            │        Example: @login.py @auth.py @db.py compare authentication
-            │
-            └─ NO
-                ↓
-Repetitive workflow you'll do many times? (e.g., "Deploy to staging," "Run tests + lint")
-                ├─ YES → Create custom command (/slash-command)
-                │        Encode workflow once, reuse by name
-                │
-                └─ NO
-                    ↓
-Specialized, isolated task needing own context? (e.g., "Code review with specific guidelines")
-                    ├─ YES → Use subagent (Lesson 4)
-                    │        Separate context, specialized tools
-                    │
-                    └─ NO
-                        ↓
-10+ similar items? Complex orchestration? (e.g., "Set up 10 microservices")
-                        ├─ YES → Use AI orchestration (Lesson 8)
-                        │
-                        └─ NO → Start simple; refine approach as pattern emerges
-```
-
-**Decision Rule**: Start simple. If you find yourself specifying the same multi-step intent repeatedly, that's a signal to create a custom command.
-
----
-
-## Core Commands (Explained)
-
-### 1. `claude` - Start a Conversation
-
-**Purpose**: The main command to interact with Claude Code
-
-**Syntax**:
+**How to use it**:
 ```bash
-claude                           # Start interactive conversation
-claude "your prompt here"        # One-off request
+claude "What does this error mean?"
 ```
 
-**When to use**:
-- Starting a new task
-- Asking a question
-- Getting help with an error
-
-**Example**:
+Or start a conversation without a question and type back and forth:
 ```bash
-claude "Review the authentication logic in auth.py and suggest improvements"
+claude
+(Claude starts talking with you)
 ```
 
-**What happens**: Claude reads the file, analyzes the logic, and provides specific suggestions
+**Real example from a beginner**:
+```bash
+claude "I'm confused about why my code gave me an error message. The error says: 'mkdir: test: File exists'. What does that mean?"
 
-**Specification Mindset**: When you start a conversation, you're not "using a tool"—you're briefing a co-worker. Think: "What outcome do I want?" not "What commands should I type?" Claude Code's agentic architecture (from Lesson 1) means you specify intent, and AI determines execution.
+Claude: "Great question! This error means you tried to create a folder called 'test', but it already exists...
+```
+
+**When to use it**: Whenever you have a question or need Claude's help.
 
 ---
 
-### 2. `#` - Create Checkpoints
+### 2. `#` - Mark Your Progress (Checkpoints)
 
-**Purpose**: Mark verifiable progress points in multi-step work
+**What it does**: You mark a point in your work and tell Claude "we've completed this step."
 
-**Syntax**:
+**How to use it**:
 ```bash
-# Your checkpoint message here
+# I fixed the login bug
+# Now testing the password reset feature
 ```
 
-**When to use**:
-- After completing a subtask
-- Before starting a new feature
-- To organize multi-step work
+**Why this matters**: Claude remembers that you finished something, so it can help you with what comes next. Think of it like a bookmark in a book—you mark where you are so you don't get lost.
 
-**Example**:
+**Real example**:
 ```bash
-# Fixed the login bug
-# Now working on password reset
+claude "Review my authentication code for security issues"
+# Security review complete
+claude "Now help me write tests for the password reset feature"
 ```
 
-**Why it matters**: Checkpoints help Claude (and you) track what's done vs. what's next. In long conversations, they prevent Claude from losing context.
+Claude knows that the security review is done, so it won't repeat suggestions.
+
+**When to use it**: When you finish one task and are moving to the next one.
 
 ---
 
-### 3. `@filename` - Reference Files
+### 3. `@filename` - Point Claude to a Specific File
 
-**Purpose**: Tell Claude to look at a specific file
+**What it does**: You tell Claude "look at this file and help me with it."
 
-**Syntax**:
+**How to use it**:
 ```bash
-@filename.ext your question
+@login.py "What does this function do?"
 ```
 
-**When to use**:
-- Asking about a specific file
-- Comparing multiple files
-- Getting file-specific help
+**Without this command**, you'd have to copy-paste the entire file into your question. With `@filename`, Claude automatically reads the file and understands the context.
 
-**Example**:
+**Real example**:
 ```bash
-@models.py @views.py how do these two files interact?
+@models.py @views.py "How do these two files work together?"
+
+Claude: "Looking at both files... models.py defines your data structure, and views.py uses that data to..."
 ```
 
-**What happens**: Claude reads both files and explains their relationship
+**When to use it**: When you want Claude to look at a specific file (or multiple files) in your project.
 
 ---
 
-### 4. `/init` - Set Up Project Memory
+### 4. `/init` - Remember My Project
 
-**Purpose**: Initialize Claude Code for your project (creates CLAUDE.md)
+**What it does**: Claude learns about your project so it can give better help.
 
-**Syntax**:
+**How to use it**:
 ```bash
 /init
 ```
 
-**When to use**:
-- First time using Claude Code in a project
-- When you want Claude to remember project context
+Claude will ask you questions like:
+- "What's the name of your project?"
+- "What programming language are you using?"
+- "What's this project for?"
 
-**What it does**:
-1. Asks about your project (name, language, purpose)
-2. Creates CLAUDE.md with your answers
-3. Claude reads this file in future sessions
+You answer the questions, and Claude remembers your answers for future conversations.
 
-**Time saved**: 2-5 minutes per session (no more repeating project context)
+**Why this matters**: Instead of explaining "I'm working on a Python web app for managing to-do lists" every time, Claude just remembers it.
+
+**When to use it**: When you start a new project with Claude Code.
 
 ---
 
-### 5. `/clear` - Start Fresh
+### 5. `/clear` - Start Over (Forget Previous Conversations)
 
-**Purpose**: End current conversation, clear context
+**What it does**: Tells Claude "forget everything we talked about. We're starting a completely new task."
 
-**Syntax**:
+**How to use it**:
 ```bash
 /clear
 ```
 
-**When to use**:
-- Switching to a completely different task
-- Current conversation is getting confusing
-- Want to start over without previous context
+**When to use it**:
+- You've finished one project and are starting a different project
+- The conversation got confusing and you want to start fresh
+- You're working on something unrelated to what you just discussed
 
-**Example scenario**:
+**Example**:
 ```bash
-# Working on feature A
-claude "Help me with authentication"
+# Working on authentication feature
+claude "Help me fix this login bug"
 # ... conversation ...
 
 /clear
 
-# Now working on feature B
-claude "Help me with database migration"
+# Now working on a completely different feature
+claude "Help me optimize database queries"
 ```
 
-**What gets cleared**: Conversation history, file references
-**What stays**: Your project (files), CLAUDE.md
+Claude forgets about the login bug work and focuses only on database optimization.
 
 ---
 
-### 6. `/compact` - Summarize Conversation
+## When to Use Which Command: A Simple Guide
 
-**Purpose**: Condense long conversation to save tokens
+Here's a quick decision guide:
 
-**Syntax**:
+| What You Want to Do | Which Command |
+|-----|-----|
+| Ask Claude a question | `claude "your question"` |
+| Point Claude to a file | `@filename "your question"` |
+| Mark that you finished something | `# Description of what you finished` |
+| Tell Claude your project details once | `/init` |
+| Start a completely new task | `/clear` |
+
+---
+
+## Pause and Reflect: Your Comfort Level
+
+You've learned five key commands. Before moving forward, ask yourself:
+
+**Do you feel comfortable using these commands?**
+- If yes: Great! Move forward to the next section.
+- If no: That's completely normal. You don't need to memorize them. Come back to this reference anytime you need it.
+
+**What command would you use if**:
+1. You wanted to ask Claude what a specific error message means? (Answer: `claude "error message here"`)
+2. You wanted Claude to look at your database code? (Answer: `@database.py "question"`)
+3. You finished writing a feature and were starting a new one? (Answer: `#`)
+4. You were completely switching topics and wanted Claude to forget previous work? (Answer: `/clear`)
+
+If you can answer these, you understand the basics. The rest comes with practice.
+
+---
+
+## Understanding Your Workspace
+
+When you use Claude Code, you and Claude share the same **workspace**. This is important to understand:
+
+**Your workspace includes**:
+- Your files and folders (Claude can read them)
+- Your current location (Claude knows where you are in your project)
+- Your previous conversation (Claude remembers what you talked about)
+
+**Think of it like**:
+- Sitting at a desk with Claude
+- You can both see the same files
+- You can both see what's been written down
+- Claude remembers what you've discussed
+
+This is different from web-based AI (like ChatGPT) where you have to describe everything. Claude Code can **see** your actual files, so you can ask more specific questions like "look at my login.py file" instead of "here's some code I'm going to paste."
+
+---
+
+## Common Mistakes to Avoid
+
+### Mistake 1: Typing Too Much
+
+You don't need to explain everything. Claude can see your files.
+
+**Bad**:
 ```bash
-/compact
+claude "I have a file called app.py with a function that handles user login. It takes a username and password, checks them against a database..."
 ```
 
-**When to use**:
-- Long conversation approaching token limit
-- Want to keep context but reduce size
-- Conversation has lots of back-and-forth
+**Good**:
+```bash
+@app.py "Is my login function secure?"
+```
 
-**What it does**:
-- Claude summarizes the conversation
-- Keeps key decisions and progress
-- Removes redundant exchanges
-
-**vs. `/clear`**: `/compact` keeps context (summarized), `/clear` removes all context
+Claude reads the file automatically.
 
 ---
 
-### 7. `ESC` and `ESC ESC` - Stop Generation
+### Mistake 2: Forgetting to Use `/clear`
 
-**Purpose**: Interrupt Claude when it's generating
-
-**When to use**:
-- Claude is generating too much detail
-- Going in wrong direction
-- Just want it to stop
-
-**ESC (once)**: Polite stop - Claude finishes current thought and stops
-**ESC ESC (twice)**: Force quit - immediate stop
+If you're switching to a completely different project or task, use `/clear` first. Otherwise, Claude might bring up information from the previous task.
 
 **Example**:
 ```bash
-claude "Explain dependency injection in detail"
-# Claude starts generating paragraphs...
-# Press ESC - Claude stops gracefully
+# Wrong (Claude might get confused):
+claude "Help me with my Python web app"
+# ... lots of conversation ...
+claude "Help me debug my JavaScript website"
+
+# Right (Clean start):
+claude "Help me with my Python web app"
+# ... lots of conversation ...
+/clear
+claude "Help me debug my JavaScript website"
 ```
 
 ---
 
-### 8. `/mcp` - Check MCP Server Status
+### Mistake 3: Not Using `#` to Mark Progress
 
-**Purpose**: Display configured MCP servers (external tools)
+Long conversations get confusing. Mark the progress so Claude understands what's done.
 
-**Syntax**:
+**Without checkpoints** (confusing):
 ```bash
-/mcp                              # Show MCP server status
-/mcp reconnect <server-name>     # Reconnect to a specific server
+claude "Help me build a login feature"
+# ... conversation ...
+claude "Help me add password reset"
+# ... conversation ...
+# But Claude doesn't know when login work ended and password reset work began
 ```
 
-**When to use**:
-- Check which MCP servers are configured
-- Verify MCP servers are connected
-- Troubleshoot MCP server connections
-
-**Example**:
+**With checkpoints** (clear):
 ```bash
-/mcp
+claude "Help me build a login feature"
+# ... conversation ...
+# Login feature complete
+claude "Now help me add password reset"
+# ... conversation ...
 ```
-
-**Example Output (no servers configured)**:
-```
-No MCP servers configured. Please run /doctor if this is unexpected.
-Otherwise, run `claude mcp` or visit https://docs.claude.com/en/docs/claude-code/mcp
-to learn more.
-```
-
-**Example Output (servers configured)**:
-```
-MCP Servers:
-- web-search: ✓ Connected
-- github: ✓ Connected
-- docs: ✗ Disconnected
-```
-
-**Note**: To configure MCP servers, use `claude mcp` command or edit your configuration files. This is covered in detail in Lesson 6.
 
 ---
 
-### 9. `/usage` - Check API Usage (Budget Awareness)
+## Try With AI: Practice Commands
 
-**Purpose**: Show plan usage limits
+Even though you have Claude Code installed, practice these commands using any AI tool (ChatGPT, Gemini, etc.). You're learning the *patterns*, not the specific tool.
 
-**Syntax**:
-```bash
-/usage    # Check current usage
+### Activity 1: Simple Question Practice
+
+Open ChatGPT or another AI tool and ask:
+
+```
+I'm learning Claude Code. Explain these 5 commands in simple language
+(no technical jargon):
+1. claude
+2. #
+3. @filename
+4. /init
+5. /clear
+
+For each one, give me a real-world analogy (not programming-related).
 ```
 
-**When to use**:
-- Before starting large tasks
-- When approaching daily/weekly limits
-- To understand usage patterns
-
-**Example Output**:
-```
-Settings:  Status   Config   Usage   (tab to cycle)
-
- Current session
- ███                                                6% used
- Resets 2pm (Asia/Karachi)
-
- Current week (all models)
- ███████████                                        22% used
- Resets Nov 12, 10pm (Asia/Karachi)
-
- Current week (Opus)
-                                                    0% used
-
- Esc to exit
-```
-
-**Best practice**: Check `/usage` often to prevent unexpected session limit reached problems.
+**What you're practicing**: How to ask clear questions. The command itself is less important than being able to ask what you need.
 
 ---
 
-### 10. `/permissions` - Control Access (Security)
+### Activity 2: Pointing to Files Practice
 
-**Purpose**: Set what Claude Code can access and do
+Imagine you have three files: `login.py`, `database.py`, and `config.py`. You want to ask Claude about how they work together.
 
-**Syntax**:
-```bash
-/permissions                      # Show current permissions
-/permissions set <permission>    # Change a permission
+**Without the `@` command**, you'd need to describe all three files.
+**With the `@` command**, you just point.
+
+Ask your AI:
+```
+If I have three Python files (login.py, database.py, config.py),
+what's the shortest way I could ask an AI assistant to explain
+how they work together? Show me the exact command I'd use.
 ```
 
-**When to use**:
-- First time setting up (define boundaries)
-- Working with sensitive files
-- Want to restrict Claude's actions
-
-**Example**:
-```bash
-/permissions
-```
-
-**Example Output**:
-```
-Current permissions:
-- Read files: ✓ Allowed
-- Write files: ✓ Allowed (approval required)
-- Execute commands: ✓ Allowed (approval required)
-- Access network: ✗ Denied
-```
-
-**Best practice**: Review permissions when starting work on a new project or when handling sensitive data.
+**What you're practicing**: Understanding how to point Claude to files instead of describing them.
 
 ---
 
-## 🎓 Expert Insight: Checkpoints as Specification Markers
-
-In Lesson 1, you learned that Claude Code is agentic—it automatically breaks down your intent. In Lesson 2, you learned to create checkpoints. But there's a strategic insight here worth highlighting:
-
-**Checkpoints aren't just pauses. They're specification boundaries.**
-
-Think about software specifications. A professional spec has:
-- **Goals** (what we're building)
-- **Constraints** (what we can't do)
-- **Acceptance criteria** (how we verify success)
-- **Milestones** (verifiable points of completion)
-
-When you write:
-```
-# Read user data from database
-# Validate schema against requirements
-# Generate performance report
-```
-
-You're not writing prose. You're writing **verifiable milestones**. Each checkpoint is a specification stating: "When we reach this point, this outcome should be verified."
-
-This is Spec-First thinking in action (Constitution Principle 3). You specify outcomes; AI executes. You verify at checkpoints; AI adapts if verification fails.
-
-**Example: Real-world checkpoint verification**
+### Activity 3: Starting Fresh Practice
 
 ```
-# Read user data
-→ Check: Is user data successfully read? (JSON valid? Fields present?)
-
-# Validate schema
-→ Check: Do all records match the expected schema? (Type correct? Required fields present?)
-
-# Generate report
-→ Check: Is report generated? (File created? Content sensible? Format correct?)
+Imagine I've been talking with an AI about debugging Python for 30 minutes.
+Now I want to switch to asking about CSS.
+What should I do to make sure the AI focuses on CSS
+and doesn't keep bringing up Python from before?
 ```
 
-When you think of checkpoints as specification milestones, you naturally ask: "What needs to be true at this point for us to proceed?" That's professional specification thinking.
+**What you're practicing**: Understanding when to separate conversations.
 
 ---
 
-## 🤝 Practice Exercise: Write Specifications, Not Commands
+## Key Terms Review
 
-Here's the core skill we're building: **Writing clear specifications that let AI execute precisely.**
+**Command**: A way to ask Claude for help. Different commands do different things.
 
-### Your Task
+**Checkpoint** (the `#` command): A marker that says "we finished this task."
 
-1. **Choose a task you do regularly** (bug fix, code review, feature addition, API integration, database query, etc.)
+**File reference** (the `@` command): Pointing Claude to a specific file you want help with.
 
-2. **Write 3 sentences describing WHAT you want** (outcome), not HOW to do it (steps)
-   - Bad: "Use grep to find all error logs, then count them, then sort by date"
-   - Good: "I need a summary of errors from yesterday—count by type, sorted newest first"
+**Workspace**: Your project folder and all its files—Claude can see everything in here.
 
-3. **If your task has multiple phases**, use checkpoints to structure it:
-   ```
-   # Phase 1: Gather data
-   # Phase 2: Validate and clean
-   # Phase 3: Generate insights
-   ```
-
-4. **Give this specification to Claude Code** and observe what it proposes
-   - Does Claude's approach match your initial mental "how"?
-   - Did Claude suggest something you hadn't thought of?
-   - Did Claude ask clarifying questions?
-
-5. **Reflect**:
-   - What did you learn from Claude's approach?
-   - Did your specification lack detail? (What was unclear?)
-   - How would you refine the specification for next time?
-
-### Expected Outcome
-
-You'll practice the PRIMARY skill of AI-native development: articulating intent clearly so AI executes it precisely.
+**Clear**: Telling Claude to forget previous conversations and start fresh.
 
 ---
 
-## Custom Slash Commands (Team Workflow Automation)
+## What's Next?
 
-### What Are Custom Slash Commands?
+In Lesson 4, you'll learn about **specialized helpers** (called "subagents")—Claude Code assistants that are specially trained for specific jobs, like code review or writing tests.
 
-Custom slash commands are **reusable prompt templates** you create for tasks you do repeatedly. They encode your workflows as specifications—once you describe the workflow, you invoke it by name.
+But first, practice these commands. The more you use them, the more natural they'll feel.
 
-**Think of them as**: Shortcuts for common workflows, but more importantly, **specifications made executable and repeatable**
+**Before moving to Lesson 4**, try using these commands with Claude Code:
+1. Ask Claude a simple question with `claude "your question"`
+2. Point Claude to a file with `@filename "your question"`
+3. Mark progress with `# Your progress note`
 
-**Stored in**: `.claude/commands/` directory in your project
-
----
-
-### Why Custom Commands Are Strategic
-
-When you find yourself specifying the same multi-step workflow repeatedly, you've discovered a **specification pattern**. Custom commands let you encode that pattern once.
-
-**Strategic Value**:
-- **Efficiency**: `/deploy` vs. typing 12-step specification each time
-- **Consistency**: Team uses same specification (no variation in deployment steps)
-- **Organizational Knowledge**: YOUR workflows become executable specifications
-- **Tier 2 Teaching**: This exemplifies Principle 13 (Graduated Teaching): AI Companion handles complexity after you specify the pattern once
-
-**Remember**: The command name is still a specification—it says WHAT (/deploy), not HOW (build, test, upload, notify, etc.)
+You don't need to be perfect. Just get comfortable with the patterns.
 
 ---
 
-### How to Create a Custom Command
+## Try With AI: Start Your First Real Command Practice
 
-**Step 1: Create the commands directory**
+Open ChatGPT or another AI tool and run this prompt:
 
-```bash
-mkdir -p .claude/commands
+### Prompt 1: Learn Commands by Example
+
+```
+I'm learning Claude Code commands. For each command below, give me:
+(1) A real-world analogy (not programming)
+(2) A simple example showing how I'd use it
+(3) When I'd use it in my daily work
+
+Commands:
+- claude (asking questions)
+- @ (pointing to files)
+- # (marking progress)
+- /init (remember my project)
+- /clear (start over)
 ```
 
-**Step 2: Create a markdown file for your command**
-
-Example: `.claude/commands/markdown-review.md`
-
-```markdown
-# Markdown Review Command
-
-Review the Markdown in $ARGUMENTS for:
-1. Potential bugs or edge cases
-2. Style and readability
-3. Security vulnerabilities
-
-Provide:
-- Summary of findings (critical/major/minor)
-- Specific line numbers for issues
-- Suggested fixes with examples
-
-Format: Use a clear severity rating for each issue.
-```
-
-**Step 3: Use your custom command**
-
-```bash
-claude /markdown-review >> We are learning how to Create a custom command
-```
-
-**What happens**:
-- `$ARGUMENTS` gets replaced with `>> We are learning how to Create a custom command`
-- Claude executes the full prompt template
-- You get consistent, structured reviews
+**Expected outcome**: Simple explanations with everyday analogies. You'll understand when and why to use each command.
 
 ---
 
-### 🎓 Expert Insight: From Commands to Ecosystem
+### Prompt 2: Practice Your Own Use Case
 
-You're learning the foundation now, but here's the bigger picture:
+```
+I work on [your type of work: website building, data analysis, writing code, etc.].
+Walk me through a typical workflow using Claude Code commands:
+1. How would I start a session? (/init or other command)
+2. How would I ask my first question? (claude command)
+3. How would I point Claude to a specific file? (@filename)
+4. How would I mark progress as I work? (#)
+5. When would I use /clear?
+```
 
-**Commands are Tier 1 of a composable ecosystem:**
-
-- **Commands** (Lesson 3): Book teaches foundational vocabulary → You combine them into workflows
-- **Checkpoints** (Lesson 2): Structure multi-step intent → AI executes with clarity
-- **Custom Commands** (this lesson): Encode repetitive workflows → Team reuses by name
-- **Subagents** (Lesson 4): Isolated contexts → Specialized tools for complex tasks
-- **Skills** (Lesson 5): Discoverable capabilities → AI finds when to help automatically
-- **Hooks** (Lesson 7): Event-driven automation → Systems react without human invocation
-- **Plugins** (Lesson 8): Full orchestration → Entire workflows automated
-
-You're learning the vocabulary now (Tier 1); upcoming lessons show how to compose it (Tier 2) and orchestrate it (Tier 3). This progression mirrors specification maturity: simple → structured → automated → orchestrated.
+**Expected outcome**: A personalized workflow showing how these commands fit your actual work.
 
 ---
 
-## 🤝 Practice Exercise: Create Your First Custom Command
+## Safety Reminder
 
-Now let's build a reusable workflow specification.
+**Remember from Lesson 2**: You're always in control. Commands are just tools to help you communicate with Claude Code. They don't do anything dangerous on their own—they just help you ask questions and mark progress.
 
-### Your Task
+If a command seems confusing, you can:
+- Skip it for now (you won't need all of them right away)
+- Ask Claude: "What does this command do?"
+- Look back at this lesson anytime
 
-1. **Identify a 3-5 step workflow you repeat often**
-   - Examples: git commit flow, test+build, documentation generation, API integration setup, database backup procedure
-
-2. **Write the specification in plain language first**:
-   ```markdown
-   What: [One-line description of workflow]
-   Outcome: [What success looks like]
-   Steps:
-   # Check [initial state]
-   # Review [decision point]
-   # Suggest [collaborative point]
-   # Execute [final action]
-   ```
-
-3. **Convert to custom command** following the lesson walkthrough above
-   - Create `.claude/commands/your-command-name.md`
-   - Include 3-5 clear instructions
-   - Use `$ARGUMENTS` for variable input
-
-4. **Test it**: Does `/your-command` execute your specification correctly?
-   - Run the command
-   - Verify output matches your intention
-   - Note what Claude understood vs. misunderstood
-
-5. **Reflect**:
-   - How does having a reusable specification change your workflow?
-   - What detail was missing from your initial specification? (Did Claude ask clarifying questions?)
-   - Would a teammate understand and use this command correctly?
-
-### Expected Outcome
-
-You'll have a working custom command that encodes YOUR workflow as a reusable specification.
+**You're learning at your pace. There's no rush.**
 
 ---
 
-## Try With AI
-
-Use Claude Code CLI (or ChatGPT) for this activity. These prompts demonstrate the **Three Roles Framework**: AI as Teacher, Student, and Co-Worker.
-
-### Prompt 1: AI as Teacher (Suggests Patterns)
-
-```
-I work on [your domain]. Teach me 3 specification patterns I should master
-for common tasks in this domain. For each pattern, show me:
-(1) the specification structure using checkpoints,
-(2) an example prompt,
-(3) why this pattern is reusable and when to use it.
-```
-
-**Expected outcome**: Claude suggests domain-specific specification patterns you may not have considered. You learn from Claude's expertise.
-
----
-
-### Prompt 2: AI as Student (Learns Your Style)
-
-```
-Here's how I typically specify work: [paste 2-3 examples of how you
-describe tasks to Claude]. Analyze my specification style. What's clear?
-What could be more specific? What detail do I always forget? Suggest 2-3
-improvements to make MY specifications more effective.
-```
-
-**Expected outcome**: Claude learns your communication style and offers personalized improvements. You teach Claude how you think.
-
----
-
-### Prompt 3: AI as Co-Worker (Collaborative Refinement)
-
-```
-# Read the authentication code in /src/auth
-# Identify error handling gaps and security issues
-# Propose 3 improvements with code examples
-# Explain tradeoffs of each approach
-
-Execute this specification step-by-step. Pause at each checkpoint for my
-feedback before proceeding to the next step. This helps me verify each
-phase.
-```
-
-**Expected outcome**: Claude executes from your specification, pausing at each checkpoint. You iterate together—AI executes, you verify, AI adapts. This is true co-learning.
-
----
-
-### Reflection Prompt (After All Three)
-
-```
-Thinking about these three interactions:
-- Prompt 1: Where did you learn something from Claude?
-- Prompt 2: Where did Claude learn something about you?
-- Prompt 3: Where did you and Claude refine each other's thinking?
-
-This is the convergence pattern: bidirectional learning. How did this
-experience differ from just asking Claude to "write code"?
-```
-
-**Expected outcome**: You recognize that the primary skill isn't coding—it's clear specification and iterative refinement.
-
----
-
-## Key Takeaway
-
-Commands are your **specification vocabulary**. Checkpoints are your **specification structure**. Custom commands are your **specification library**. Together, they embody the core principle: **Specs Are the New Syntax**.
-
-Your value in AI-native development isn't memorizing command syntax. Your value is articulating intent so clearly that AI executes it precisely, and then knowing how to refine through iteration. Every lesson from here forward teaches you deeper ways to compose specifications—from custom commands, to subagents, to orchestration.
-
-You're building the "new syntax" now.
+**Ready for Lesson 4?** Let's learn about specialized helpers (subagents).
