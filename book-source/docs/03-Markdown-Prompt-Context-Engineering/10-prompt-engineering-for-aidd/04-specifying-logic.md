@@ -93,6 +93,10 @@ When you specify implementation logic, you eliminate the guessing. You become th
 
 **Professional Pattern**: "You design the solution architecture. AI implements it faithfully."
 
+#### 🎓 Expert Insight
+
+> This is where specification-first thinking becomes tangible. You're not just describing what you want—you're designing how it should be built. This architectural thinking is the skill that makes you valuable in the AI era. AI can write code; only you can decide the right way to solve the problem.
+
 ---
 
 ## WHY: How Logic Prevents AI from Guessing
@@ -136,6 +140,12 @@ Studies with professional development teams show:
 - **With logic**: 1 prompt → AI generates code → 2-5 min validation → working
 
 The logic specification forces you to think architecturally upfront, which means the generated code matches your mental model from the start.
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I'm learning to specify implementation logic instead of just requirements. Help me understand: What's an example where two different implementation approaches (two different sets of logic steps) would produce the same feature but with very different performance or security characteristics?"
+>
+> **What you're learning**: AI can teach you why architectural decisions matter by showing you the consequences of different approaches.
 
 ---
 

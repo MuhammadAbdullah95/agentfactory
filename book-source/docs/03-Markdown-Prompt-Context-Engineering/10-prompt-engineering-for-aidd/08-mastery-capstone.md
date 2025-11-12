@@ -198,6 +198,10 @@ Now that you've seen a complete prompt, identify where each of the 8 elements ap
 
 </details>
 
+#### 🎓 Expert Insight
+
+> This complete prompt demonstrates "Specs Are the New Syntax" (Constitution core philosophy). You're not writing Python or TypeScript—you're writing a specification in structured English that an AI executes perfectly. This is the fundamental skill of AI-native development: thinking architecturally and communicating precisely. The 8 elements aren't a template; they're the new programming language.
+
 ---
 
 ### What Makes This Prompt Powerful?
@@ -225,6 +229,12 @@ Now that you've seen a complete prompt, identify where each of the 8 elements ap
 - Reduces back-and-forth iterations
 
 **The Result**: AI generates code that fits your project perfectly, follows your patterns, meets security standards, and integrates seamlessly—all from one well-structured prompt.
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I just studied a complete 8-element AIDD prompt. Help me understand: If I had to choose only 3 of the 8 elements due to time constraints, which 3 would have the biggest impact on code quality? Explain your reasoning with examples."
+>
+> **What you're learning**: AI can teach you prioritization—which elements matter most in different situations. This helps you adapt the framework intelligently, not just follow it mechanically.
 
 ---
 
@@ -338,14 +348,13 @@ Task: Run QDD to define requirements before building.
 
 Prompt to your AI collaborator:
 ```
-I’m choosing the [REST API | Data Processor | CLI Tool] capstone.
+I'm choosing the [REST API | Data Processor | CLI Tool] capstone.
 
 Before proposing an implementation, ask me 10 detailed questions about architecture, security, performance, data model, constraints, and testing. Then, based on my answers, outline a phased plan and initial tasks mapped to my constraints.
 ```
 
 Success criteria: Clear, answer-backed plan with explicit constraints and a first implementation slice you can start immediately ✓
 
----
 
 ## Capstone Phase 2: Implementation (25 min)
 

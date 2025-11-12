@@ -86,6 +86,10 @@ Think of it this way: If you need to build a secure authentication system, would
 
 Your AI collaborator works exactly the same way. By setting a specialized role, you transform generic responses into domain-expert guidance.
 
+#### 🎓 Expert Insight
+
+> This is Three-Role AI Partnership in action (Constitution Principle 18). When you set a roleplay prompt, you're explicitly asking AI to be your Teacher (expert knowledge), Student (adapts to your needs), and Co-Worker (collaborates on solutions). The role you set determines which expertise AI brings to the table. You're not just using a tool—you're choosing your collaborator's specialization.
+
 ### Why Roleplay Changes Everything
 
 Without roleplay, AI defaults to general patterns. With roleplay, AI activates specialized knowledge from its training:
@@ -294,7 +298,13 @@ Style:
 
 Task: Choose a complex feature (e.g., payment processing). Ask the AI to interview you first with 10+ questions. Answer them, then request the implementation.
 
-Success criteria: AI’s final code clearly reflects your answers (auth method, data schema, error handling, tests, constraints) ✓
+Success criteria: AI's final code clearly reflects your answers (auth method, data schema, error handling, tests, constraints) ✓
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I'm learning Question-Driven Development where AI asks me clarifying questions before generating code. Help me understand: What makes a good clarifying question versus a bad one? Give me examples of both for a 'user authentication system' feature."
+>
+> **What you're learning**: AI can teach you what makes effective questions, which helps you recognize when AI is asking the right questions and when you need to guide it toward better ones.
 
 ---
 
@@ -358,7 +368,6 @@ Create a comparison table:
 
 **Success criteria**: You clearly see that roleplay produces more secure, production-ready code with defensive practices and comprehensive error handling ✓
 
----
 
 ## Exercise 3: Create Your Custom Role (10 min)
 
