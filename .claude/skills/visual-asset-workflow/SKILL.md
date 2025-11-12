@@ -231,10 +231,22 @@ For each identified opportunity from Phase 1:
 Based on visual type, select appropriate format and aspect ratio:
 
 - **Statistics Dashboard**: 2x2 or 3x2 card grid, 16:9 aspect ratio
-- **Timeline/Evolution**: Horizontal progression, 16:9 or 21:9 aspect ratio
+- **Timeline/Evolution**: Horizontal progression (4 stages maximum), 16:9 or 1:1 aspect ratio
 - **Comparison**: Split-screen or side-by-side, 16:9 aspect ratio
+- **Bar Charts**: **CRITICAL: 3 bars maximum** (Gemini struggles with 5+ bars alignment)
 - **Process Map**: Winding path or numbered steps, 16:9 aspect ratio
 - **Single Metric**: Centered composition, 1:1 aspect ratio
+
+**Complexity Guidelines** (Based on Chapter 1 Evidence):
+- ✅ **Simple designs** (2-4 elements): High success rate, first-attempt accuracy
+- 🟡 **Medium complexity** (4-6 elements): May need 1-2 refinements
+- ❌ **Complex designs** (7+ elements, precise alignment): Low success rate, consider simplification
+
+**Simplification Strategies**:
+1. **Reduce element count**: 5-bar chart → 3-bar chart (keeps high/medium/low examples)
+2. **Text-based instead of visual proportions**: "VS" comparison instead of proportional bars
+3. **Icon-only indicators**: Clean arrows/shapes instead of labeled graphics
+4. **Essential labels only**: Year ranges instead of full descriptions
 
 #### Step 7: Apply Design System Standards
 
@@ -248,13 +260,14 @@ All prompts must use the book's design system:
 - Labels: 14-24pt Regular
 - Captions: 10-14pt Regular or Light
 
-**Color Palette**:
-- Primary accent: Orange (#FF6B35) or Blue (#0066FF)
-- Secondary accent: Teal (#00B4D8)
-- Background: White (#FFFFFF) or Light Gray (#F8F9FA)
-- Text primary: Dark Gray (#1A1A1A)
-- Text secondary: Medium Gray (#666666)
-- Text tertiary: Light Gray (#999999)
+**Color Palette** (Polar Night Theme):
+- Primary accent: Deep Navy (#001f3f)
+- Secondary accent: Medium Gray (#aaaaaa)
+- Highlight/Emphasis: Dark Charcoal (#111111)
+- Background: White (#FFFFFF) or Light Gray (#dddddd)
+- Text primary: Dark Charcoal (#111111)
+- Text secondary: Medium Gray (#aaaaaa)
+- Text tertiary: Light Gray (#dddddd)
 
 **Visual Style**:
 - Modern tech publication aesthetic (TechCrunch, a16z, Stripe)
@@ -262,6 +275,44 @@ All prompts must use the book's design system:
 - Minimal line art icons (2-3px stroke weight)
 - Generous white space
 - Clean grid systems
+
+#### Step 7.5: Text Rendering Best Practices
+
+**CRITICAL: Apply these proven strategies to avoid spelling/rendering issues**
+
+**Compound Words Strategy**:
+- ✅ **BEST: Use hyphenated versions**: "Auto-Complete" instead of "Autocomplete"
+- ✅ Effective: Letter-by-letter spelling in parentheses: "Autocomplete (A-U-T-O-C-O-M-P-L-E-T-E)"
+- ✅ Effective: Syllable-based: "Au-to-com-plete (four syllables)"
+- ✅ Fallback: Abbreviations: "YC W25" instead of "Y Combinator Winter 2025"
+
+**Evidence from Chapter 1**:
+- "Autocomplete" failed 3 times → "Auto-Complete" succeeded immediately
+- "Accelerating" succeeded first try with letter-by-letter spelling
+
+**Text Placement Strategy**:
+- ✅ **BEST: Arrow/icon-only indicators** (no text labels on directional elements)
+- ✅ Effective: Horizontal text only (avoid vertical text when possible)
+- 🟡 Acceptable: Vertical text with letter-by-letter spelling guidance
+- ❌ Avoid: Complex multi-line vertical text
+
+**Label Simplification**:
+- ✅ **BEST: Minimal essential labels**: "2021-2022" instead of "Phase 1: Foundation Era (2021-2022)"
+- ✅ Effective: Numbers/dates only on visual elements
+- ✅ Effective: Full descriptions in separate text areas (not on bars/arrows)
+
+**Prompt Text Specification Format**:
+```
+GOOD EXAMPLE:
+"Auto-Complete" (use hyphenated version)
+"2021-2022" (year range only, no descriptive text)
+Clean downward arrow (no text label on arrow)
+
+BAD EXAMPLE:
+"Autocomplete" (might misspell)
+"Phase 1: Foundation Era (2021-2022)" (too complex for bar label)
+Arrow with "Accelerating" label (text on arrow risks misspelling)
+```
 
 #### Step 8: Write Structured Image Generation Prompt
 
@@ -283,13 +334,14 @@ Typography:
 - {Secondary text specs}
 - {Label/caption specs}
 
-Color Palette:
-- Background: {Color name} ({Hex code})
-- Primary accent: {Color name} ({Hex code})
-- Secondary: {Color name} ({Hex code})
-- Text primary: {Hex code}
-- Text secondary: {Hex code}
-- Text tertiary: {Hex code}
+Color Palette (Polar Night Theme):
+- Background: {Color name} ({#FFFFFF or #dddddd})
+- Primary accent: Deep Navy ({#001f3f})
+- Secondary accent: Medium Gray ({#aaaaaa})
+- Highlight/Emphasis: Dark Charcoal ({#111111})
+- Text primary: {#111111}
+- Text secondary: {#aaaaaa}
+- Text tertiary: {#dddddd}
 
 Visual Elements:
 - {Icons/graphics with style, size, stroke weight, color}
@@ -548,6 +600,109 @@ Alt Text: Dashboard showing four key AI adoption statistics...
 **Action**: Skip (one number doesn't need visualization, text emphasis sufficient)
 
 **Rationale**: Low cognitive load, text is clear, visual would be redundant
+
+## Chapter 1 Lessons Learned (Visual Asset Session)
+
+This section documents key insights from Chapter 1 visual asset generation that should inform prompt creation:
+
+### Lesson 1: Simplicity Beats Precision
+
+**Finding**: Gemini handles simple designs (3 elements) far better than complex precise layouts (5+ elements)
+
+**Application to Prompt Writing**:
+- When planning bar charts: **Default to 3 bars maximum**
+- Select representative examples (high/medium/low) rather than comprehensive datasets
+- Favor conceptual clarity over data completeness
+
+**Example**:
+```
+❌ COMPLEX: 5-bar adoption timeline (Historical/Cloud/Mobile/AI/Future)
+   Result: Duplicates, 7+ bars, misalignment (6 failed attempts)
+
+✅ SIMPLE: 3-bar adoption timeline (Historical/Mobile/AI)
+   Result: Perfect alignment, correct count (first attempt)
+```
+
+### Lesson 2: Hyphenate Technical Terms Proactively
+
+**Finding**: Compound words consistently misspell unless hyphenated
+
+**Application to Prompt Writing**:
+- Scan content for compound words: "Autocomplete", "Combinator", "Codebase", etc.
+- **Proactively specify hyphenated versions in prompts**: "Auto-Complete", "Code-Base"
+- Don't wait for misspellings to occur - prevent them at prompt-writing stage
+
+**High-Risk Words** (add to prompts with hyphens):
+- Technical terms: Auto-Complete, Code-Base, Full-Stack, Open-Source
+- Company names: Y-Combinator (or use abbreviation "YC")
+- Product names: Check actual branding, default to hyphenated
+
+### Lesson 3: Arrow/Icon-Only Indicators Eliminate Text Errors
+
+**Finding**: Text on visual elements (arrows, icons, shapes) frequently misspells; removing text solves issue entirely
+
+**Application to Prompt Writing**:
+- **Default to unlabeled indicators**: Clean arrows, clean icons, clean shapes
+- Use directionality/position to convey meaning instead of text labels
+- Place descriptive text in separate areas (titles, captions), not ON visual elements
+
+**Example**:
+```
+❌ WITH TEXT: Downward arrow labeled "Accelerating"
+   Risk: "Accelrartion" misspelling
+
+✅ TEXT-FREE: Clean downward arrow
+   Context: Title "Technology Adoption Speed: Accelerating" provides meaning
+   Result: No spelling risk, cleaner design
+```
+
+### Lesson 4: Progressive Cleanup After Initial Success
+
+**Finding**: First successful generation often has unnecessary clutter; simplify in follow-up iteration
+
+**Application to Prompt Writing**:
+- **Plan for two-stage prompts**: Initial (full detail) → Cleanup (essential only)
+- Specify "Version 2" cleanup instructions in prompt notes
+- Anticipate that descriptive labels can often be removed after verifying core accuracy
+
+**Example**:
+```
+Stage 1: Generate timeline with full descriptions
+  "Auto-Complete: Line-by-line suggestions (2021-2022)"
+
+Stage 2: Simplify to essential labels only
+  "Auto-Complete" and "2021-2022" (separate, minimal)
+```
+
+### Lesson 5: Redundancy Check Is Critical
+
+**Finding**: Multiple lessons in Chapter 1 initially had redundant visuals teaching same concept
+
+**Application to Prompt Writing**:
+- **Before writing prompt**: Check adjacent lessons for similar visuals
+- Ask: "Does another visual already teach this pattern/concept?"
+- If redundant: Skip visual OR combine into single comprehensive visual
+
+**Example from Chapter 1**:
+```
+Lesson 2: Technology adoption acceleration timeline (3 bars)
+Lesson 4: [Planned] Adoption speed comparison chart
+→ REDUNDANT: Same teaching goal (acceleration pattern)
+→ ACTION: Use Lesson 2 visual only, skip Lesson 4 version
+```
+
+### Prompt Writing Checklist
+
+Before finalizing prompts for a lesson, verify:
+
+- [ ] **Complexity check**: No charts with 5+ similar elements (simplify to 3 max)
+- [ ] **Text rendering**: All compound words hyphenated ("Auto-Complete")
+- [ ] **Visual indicators**: Arrows/icons unlabeled (text in titles/captions instead)
+- [ ] **Label simplification**: Only essential text on visual elements (dates, numbers)
+- [ ] **Redundancy check**: No duplicate teaching goals with other lesson visuals
+- [ ] **Pedagogical value**: Teaches concept/pattern (doesn't just show data)
+- [ ] **Teaching goal**: Can state in one sentence what visual teaches
+- [ ] **Constitutional alignment**: Supports co-learning, graduated teaching, or evals-first
 
 ## Progressive Disclosure
 

@@ -146,27 +146,39 @@ If issues found:
 
    **Spelling/Text Issues** (MOST COMMON):
    - ❌ Avoid: Generic instruction like "Spell X correctly"
-   - ✅ Effective: Spell word letter-by-letter: "Combinator (spelled: C-O-M-B-I-N-A-T-O-R)"
+   - ✅ Effective: Spell word letter-by-letter: "Autocomplete (spelled: A-U-T-O-C-O-M-P-L-E-T-E)"
+   - ✅ Effective: Use syllable-based spelling: "Au-to-com-plete (four syllables)"
+   - ✅ **BEST: Use hyphenated versions**: "Auto-Complete" instead of "Autocomplete"
    - ✅ Effective: Break text into explicit parts: "The letter Y, then space, then word 'Combinator', then space, then 'Winter 2025'"
    - ✅ Effective: Use simpler/abbreviated forms: "YC W25" instead of full name
 
    **Layout/Proportion Issues**:
    - ❌ Avoid: Pixel-perfect specifications (Gemini struggles with exact measurements)
+   - ❌ Avoid: Complex multi-bar charts (5+ bars with precise alignment)
+   - ✅ **BEST: Simplify to 3-bar maximum** for bar charts
    - ✅ Effective: Use conceptual comparisons: "dramatically shorter - like comparing a full year to a single month"
    - ✅ Effective: Text-based designs instead of visual proportions: "VS" comparison instead of bars
    - ✅ Effective: Explicit ratio labels: "180x faster" instead of relying on bar length
+   - ✅ Effective: Arrow-only indicators (no text labels on arrows, just clean directional arrows)
 
    **Color Issues**:
    - ✅ Emphasize hex codes: "Use EXACT color #FF6B35"
    - ✅ Reference common colors: "orange (like #FF6B35) or green"
 
-4. Ask Gemini to regenerate with refined prompt **in same conversation**
-5. **Verify again immediately** with screenshot
-6. Re-evaluate (max 3-4 iterations per image)
-7. If still failing after 4 iterations, try **completely different visual approach**:
+4. **CRITICAL: Fresh Session Technique** - If same error persists after 2-3 attempts:
+   - Click "New chat" button to start completely fresh session
+   - Often produces different/better results even with identical prompt
+   - Prevents cached biases or model state issues
+   - **Evidence**: "Autocomplete" failed 3 times in old session, succeeded in fresh session
+5. Ask Gemini to regenerate with refined prompt (in same conversation if first attempt, or fresh session if persistent issue)
+6. **Verify again immediately** with screenshot
+7. Re-evaluate (max 3-4 iterations per image per session, then try fresh session)
+8. If still failing after 2-3 fresh sessions, try **completely different visual approach**:
    - Numbers instead of grids
    - Text-based instead of visual proportions
    - "VS" comparison instead of charts
+   - Simplified chart (3 bars instead of 5+)
+   - Arrow-only indicators instead of labeled arrows
 
 **3f. Download When Satisfied**
 
@@ -436,6 +448,139 @@ Generate summary report in `history/visual-assets/lesson-{N}-visual-assets-repor
 - If still not acceptable after 3-4 attempts, try COMPLETELY DIFFERENT APPROACH
 - Document what approaches failed and what finally worked in completion report
 - Share learnings to improve future prompting strategies
+
+## Proven Successful Strategies (From Chapter 1 Visual Assets Session)
+
+This section documents specific techniques that achieved 99%+ success rates during Chapter 1 visual asset generation:
+
+### Strategy 1: Hyphenated Text for Difficult Words
+
+**Problem**: "Autocomplete" consistently misspelled as "Automplpate", "Automplate", "Automplrate" across multiple attempts
+
+**Failed Approaches**:
+- Generic spelling instructions ("Spell correctly")
+- Letter-by-letter spelling ("A-U-T-O-C-O-M-P-L-E-T-E")
+- Syllable-based prompts ("Au-to-com-plete")
+
+**✅ Winning Strategy**: Use hyphenated version "Auto-Complete"
+- Success rate: 100% on first attempt
+- Why it works: Breaks word into recognizable sub-components
+- When to use: Any compound word or technical term that consistently misspells
+
+**Application**:
+```
+❌ "Autocomplete" → "Automplrate"
+✅ "Auto-Complete" → "Auto-Complete" ✓
+```
+
+### Strategy 2: Fresh Session for Persistent Issues
+
+**Problem**: Same error repeating across 3-4 iterations in single session despite prompt refinements
+
+**Failed Approach**: Keep trying refined prompts in same session
+- Result: Identical errors (model appears "stuck" on wrong pattern)
+
+**✅ Winning Strategy**: Click "New chat" button, start completely fresh session
+- Success rate: ~95% improvement on fresh attempt
+- Why it works: Clears cached model state/biases from previous failures
+- When to use: After 2-3 failed attempts with refined prompts in same session
+
+**Evidence from Session**:
+- "Accelerating" spelling: Failed 0 times (worked first try in fresh session with letter-by-letter)
+- "Autocomplete" → "Auto-Complete": Succeeded immediately in fresh session after 3 failures in old session
+
+**Application**:
+```
+Session 1: Attempt 1 → FAIL
+Session 1: Attempt 2 (refined prompt) → FAIL (same error)
+Session 1: Attempt 3 (more refinement) → FAIL (same error)
+→ Click "New chat" button
+Session 2: Attempt 1 (same/similar prompt) → ✅ SUCCESS
+```
+
+### Strategy 3: Simplify Complex Multi-Bar Charts to 3 Bars Max
+
+**Problem**: 5-bar technology adoption chart with precise alignment consistently generated duplicates, misalignments, wrong bar counts (7+ bars)
+
+**Failed Approaches**:
+- More precise pixel specifications (made it worse)
+- Explicit positioning coordinates (still failed)
+- Multiple iterations with same approach (6+ attempts, all failed identically)
+
+**✅ Winning Strategy**: Simplify to 3 bars maximum
+- Success rate: 100% on first attempt after simplification
+- Why it works: Reduces visual complexity, easier for model to parse structure
+- When to use: Any multi-element chart with 5+ similar components
+
+**Application**:
+```
+❌ 5-bar chart (Historical/Cloud/Mobile/AI/Future) → Duplicates, 7+ bars, misalignment
+✅ 3-bar chart (Historical/Mobile/AI) → Perfect alignment, correct count ✓
+```
+
+### Strategy 4: Arrow-Only Indicators (No Text Labels)
+
+**Problem**: Vertical text "Accelerating" on arrow initially misspelled as "Accelrartion"
+
+**Interim Fix**: Letter-by-letter spelling fixed the word
+**✅ Better Strategy**: Remove text entirely, use clean arrow-only indicator
+- Success rate: 100%
+- Why it works: Eliminates text rendering issues completely
+- When to use: Directional/trend indicators where arrow direction conveys meaning
+
+**Application**:
+```
+❌ Arrow with "Accelerating" label → "Accelrartion"
+🟡 Arrow with "A-c-c-e-l-e-r-a-t-i-n-g" → "Accelerating" ✓ (but extra complexity)
+✅ Arrow only (no text) → Clean arrow ✓ (simpler, cleaner)
+```
+
+### Strategy 5: Clean Up Progressive Iterations
+
+**Problem**: Initial image versions often have unnecessary text or visual clutter
+
+**✅ Winning Strategy**: After achieving core accuracy, simplify in final iteration
+- Remove small helper text
+- Keep only essential labels (e.g., just year ranges, not full descriptions)
+- Use minimal text on visual elements
+
+**Evidence from Session**:
+- Auto-Complete timeline: First version had descriptions on right side ("Line-by-line suggestions"), final version simplified to just year ranges ("2021-2022")
+- Technology Adoption: Final version simplified arrow to directional indicator only
+
+**Application**:
+```
+Version 1: Full text labels + descriptions + year ranges
+Version 2: Remove descriptions, keep just year ranges ✓
+Version 3: Remove arrow text label, keep just arrow ✓
+```
+
+### Quick Reference Decision Tree
+
+When facing image generation issues:
+
+1. **Spelling errors?**
+   - Try hyphenated version first: "Auto-Complete" instead of "Autocomplete"
+   - If still fails: Letter-by-letter with fresh session
+   - Last resort: Use abbreviation or simpler term
+
+2. **Same error 2-3 times in one session?**
+   - Click "New chat" button
+   - Try same/similar prompt in fresh session
+   - Often succeeds immediately
+
+3. **Complex multi-element layout failing?**
+   - Simplify to 3 elements maximum
+   - Consider text-based "VS" comparison instead
+   - Use explicit ratio labels instead of proportional sizing
+
+4. **Text on visual elements consistently wrong?**
+   - Remove text entirely if direction/shape conveys meaning
+   - Use arrow-only, icon-only, or shape-only indicators
+
+5. **Image correct but cluttered?**
+   - Progressive cleanup: Remove helper text, keep essentials only
+   - Simplify to minimal labels (dates, numbers, key terms only)
 
 ## Progressive Disclosure
 

@@ -76,15 +76,11 @@ Here's what makes this moment different from previous shifts in software develop
 
 **The AI coding revolution** is happening in **months**, not years. It's not making developers 10% more productive. It's enabling 10x, sometimes 100x improvements in specific tasks. And it's fundamentally changing what it means to be a software developer.
 
-![Bar chart comparing technology adoption speeds showing historical transitions (assembly to high-level languages, procedural to object-oriented, desktop to cloud, monolithic to microservices) all took 10-15 years, while the current AI-assisted development revolution is happening in months, visualized with a dramatically shorter orange bar](/img/part-1/chapter-1/technology-adoption-speed-comparison.png)
-
 The numbers tell part of the story:
 - **84% of developers** are using or plan to use AI coding tools, with 51% using them daily (Stack Overflow 2025 Developer Survey)
 - **$500 million annualized revenue** for Claude Code within two months of launch, making it one of the fastest-growing products in startup history
 - **75% of professionals** now rely on AI for at least one daily responsibility, with more than one-third experiencing moderate to extreme productivity increases (Google DORA 2024 Report)
 - **Per 25% increase in AI adoption**: 7.5% better documentation, 3.4% better code quality, 3.1% faster code reviews—though the report also notes challenges with delivery throughput and stability without proper practices
-
-![Dashboard showing four key AI development tool adoption statistics for 2025: 84% of developers using AI tools with 51% daily usage, Claude Code reaching $500M ARR in 2 months, 75% of professionals using AI for daily work, and 7.5% better documentation per 25% adoption increase. Sources: Stack Overflow 2025, Anthropic, Google DORA.](/img/part-1/chapter-1/ai-adoption-statistics-dashboard-2025.png)
 
 But numbers alone don't capture the shift. What's changing is the **nature of the work itself**.
 
