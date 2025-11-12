@@ -382,7 +382,7 @@ OR
 
 **Purpose**: Hands-on collaborative practice with AI partnership; specification-driven thinking
 
-**Placement**: Mid-lesson or after foundational concepts established
+**Placement**: Mid-lesson or after foundational concepts established, **ALWAYS before the "## Try With AI" section header**. CoLearning elements are part of the lesson's main pedagogical flow, NOT supplementary practice appended at the end.
 
 **Format**:
 ```markdown
@@ -413,24 +413,34 @@ OR
 
 ## CoLearning Element Placement Guidelines
 
+**CRITICAL PLACEMENT RULE**: All CoLearning elements (💬 🎓 🤝) MUST be integrated into the lesson's main content body, distributed naturally throughout the lesson. They MUST appear **BEFORE** the "## Try With AI" section, which serves as the lesson's closure/synthesis point.
+
+**Placement Hierarchy**:
+1. **Lesson Content with CoLearning elements** (main body) ← CoLearning elements go here
+2. **"## Try With AI" section** (closure/synthesis) ← CoLearning elements do NOT go here
+
 **Beginner Lessons (A1-A2, Chapters 12-16)**:
 - 2-3 CoLearning elements per lesson
 - Emphasis on 💬 Prompts and 🎓 Insights (build confidence, reduce memorization anxiety)
 - Light on 🤝 Exercises (students still building foundations)
+- All placed before "## Try With AI"
 
 **Intermediate Lessons (A2-B1, Chapters 17-29)**:
 - 3-4 CoLearning elements per lesson
 - Balance 💬 Prompts, 🎓 Insights, 🤝 Exercises
+- All placed before "## Try With AI"
 
 **Advanced Lessons (B1-B2, Chapters 30-48)**:
 - 4-6 CoLearning elements per lesson
 - Emphasis on 🤝 Exercises (application and synthesis)
 - More 🎓 Insights (architectural decisions, tradeoffs)
+- All placed before "## Try With AI"
 
 **Professional Lessons (B2-C1, Chapters 49-56)**:
 - 3-4 CoLearning elements per lesson (students more independent)
 - Focus on complex 🤝 Exercises and strategic 🎓 Insights
 - Emphasis on professional workflows and production considerations
+- All placed before "## Try With AI"
 
 ---
 
@@ -502,7 +512,9 @@ for item in empty:
 ```
 
 **Notice**:
-- CoLearning elements appear THROUGHOUT (not just at end)
+- CoLearning elements (💬 🎓 🤝) appear THROUGHOUT the lesson body (not just at end)
+- CoLearning elements MUST be placed **BEFORE** the "## Try With AI" section header
+- "Try With AI" is the lesson's closure/synthesis section (final section)
 - Conversational tone ("you", "your", exploration language)
 - AI positioned as intellectual partner (not code generator)
 - Book teaches foundation FIRST (loop syntax), THEN AI explores deeper (iterators, edge cases)
