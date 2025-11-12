@@ -137,7 +137,109 @@ Here are all seven, with concrete definitions:
 
 **In practice:** A developer uses AI to write a new API endpoint. They push code, automated tests run in CI, and the change deploys to staging in minutes—no human bottleneck.
 
-#### 💬 AI Colearning Prompt
+<!-- VISUAL ASSET 1: The Seven DORA Capabilities for AI Success
+
+IMAGE GENERATION PROMPT:
+
+Professional grid dashboard showing the seven organizational capabilities that determine AI adoption success.
+
+Layout: Asymmetric grid layout, 1792x1024px (16:9 aspect ratio).
+- Background: Light Gray (#F8F9FA)
+- Title section top: 100px height
+- Grid below: 3 cards top row, 4 cards bottom row
+- Top row cards: 520px x 240px each, 32px gaps
+- Bottom row cards: 380px x 240px each, 32px gaps
+- 56px margins from edges, 40px internal card padding
+
+Typography:
+- Main title: "Seven DORA Capabilities for AI Success" - 48pt Roboto Bold, Dark Gray (#1A1A1A), centered
+- Card numbers: "1", "2", etc. - 72pt Roboto Bold, accent color, 30% opacity background
+- Capability names: 22pt Roboto Bold, Dark Gray (#1A1A1A)
+- Description text: 14pt Roboto Regular, Medium Gray (#666666)
+- "Why it matters" label: 12pt Roboto Medium, Medium Gray (#999999), uppercase
+
+Color Palette:
+- Background: Light Gray (#F8F9FA)
+- Card backgrounds: White (#FFFFFF)
+- Card 1 accent: Orange (#FF6B35)
+- Card 2 accent: Blue (#0066FF)
+- Card 3 accent: Teal (#00B4D8)
+- Card 4 accent: Orange (#FF6B35)
+- Card 5 accent: Blue (#0066FF)
+- Card 6 accent: Teal (#00B4D8)
+- Card 7 accent: Orange (#FF6B35)
+- Text primary: Dark Gray (#1A1A1A)
+- Text secondary: Medium Gray (#666666)
+- Text tertiary: #999999
+
+Visual Elements:
+- Each card has 4px top border in accent color
+- Small circular icon in top-left of each card (24px, 2px stroke, accent color)
+- Card shadows: 0px 4px 12px rgba(0,0,0,0.08)
+- 12px border-radius on cards
+- Number badge in top-right corner (semi-transparent accent color background)
+
+Content:
+Card 1 - Clear AI Stance:
+  - Icon: Document with checkmark (Orange)
+  - Number: "1"
+  - Name: "Clear AI Stance"
+  - Description: "Documented policies on when and how to use AI tools"
+  - Why: "Enables confident use without guesswork"
+
+Card 2 - Healthy Data Ecosystem:
+  - Icon: Database (Blue)
+  - Number: "2"
+  - Name: "Healthy Data Ecosystem"
+  - Description: "Known data sources, documented schemas, versioning"
+  - Why: "AI-generated code needs stable data"
+
+Card 3 - AI-Accessible Internal Data:
+  - Icon: Folder/files (Teal)
+  - Number: "3"
+  - Name: "AI-Accessible Internal Data"
+  - Description: "Up-to-date documentation, API examples, ADRs"
+  - Why: "AI needs context to help effectively"
+
+Card 4 - Strong Version Control:
+  - Icon: Git branch (Orange)
+  - Number: "4"
+  - Name: "Strong Version Control"
+  - Description: "All code in Git, PRs, meaningful history"
+  - Why: "Safety net for high-volume changes"
+
+Card 5 - Working in Small Batches:
+  - Icon: Layers (Blue)
+  - Number: "5"
+  - Name: "Working in Small Batches"
+  - Description: "Frequent small changes, focused PRs"
+  - Why: "Keeps AI-accelerated pace safe"
+
+Card 6 - User-Centric Focus:
+  - Icon: Users (Teal)
+  - Number: "6"
+  - Name: "User-Centric Focus"
+  - Description: "Decisions guided by user needs and feedback"
+  - Why: "Velocity translates to value"
+
+Card 7 - Quality Internal Platform:
+  - Icon: Server/infrastructure (Orange)
+  - Number: "7"
+  - Name: "Quality Internal Platform"
+  - Description: "Reliable CI/CD, staging mirrors production"
+  - Why: "Captures full AI velocity benefit"
+
+Style Reference: Modern capability framework (DORA reports, DevOps maturity models, Stripe documentation)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: seven-dora-capabilities-ai-success.png
+Alt Text: Grid dashboard showing the seven DORA organizational capabilities that determine AI adoption success: Clear AI Stance, Healthy Data Ecosystem, AI-Accessible Internal Data, Strong Version Control, Working in Small Batches, User-Centric Focus, and Quality Internal Platform, each with descriptions of what they mean and why they matter.
+-->
+
+![Seven DORA organizational capabilities that determine AI adoption success](/img/part-1/chapter-2/seven-dora-capabilities-ai-success.png)
 
 > **Explore these capabilities together**: Look at the seven DORA capabilities. Pick the two that feel MOST present in your current work (or learning environment) and the two that feel MOST absent. Share these with your AI partner and ask: "Why do you think these specific gaps matter for AI adoption? What problems would they cause?" Let your AI help you discover the connections between organizational readiness and AI success through your specific context.
 

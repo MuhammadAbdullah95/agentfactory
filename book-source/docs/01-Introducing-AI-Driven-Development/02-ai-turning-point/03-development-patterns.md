@@ -180,11 +180,82 @@ The code is fast. Velocity looks amazing.
 
 **Total cost: 10 hours initial + 2 hours extension = 12 hours. Sustainable. Confident.**
 
-### What's Different?
+<!-- VISUAL ASSET 1: Team A vs Team B Development Timeline Comparison
 
-Team A's velocity *appears* high until you count rework. Team B's velocity appears lower initially but is actually *sustained* because the code doesn't accumulate friction.
+IMAGE GENERATION PROMPT:
 
-This isn't about smart engineers versus careless ones. It's about **method matching context**. Team A used exploration-mode thinking for production-mode stakes.
+Professional timeline comparison showing vibe coding rework pattern versus spec-driven sustainable development.
+
+Layout: Horizontal dual-timeline, 1792x1024px (16:9 aspect ratio).
+- Background: White (#FFFFFF)
+- Top timeline (Team A - Vibe Coding): 800px wide, Light Red tint (#FFF5F5)
+- Bottom timeline (Team B - Spec-Driven): 800px wide, Light Green tint (#F5FFF5)
+- Vertical time axis on left: Days labeled (Day 1-7)
+- 64px padding around edges, 48px gap between timelines
+
+Typography:
+- Title: "Development Pattern Comparison" - 48pt Roboto Bold, Dark Gray (#1A1A1A), centered top
+- Team labels: "Team A: Vibe Coding" / "Team B: Spec-Driven" - 28pt Roboto Bold
+- Day markers: 16pt Roboto Medium, Medium Gray (#666666)
+- Activity text: 14pt Roboto Regular, Dark Gray (#333333)
+- Time badges: 12pt Roboto Bold White on colored background
+- Outcome text: 16pt Roboto Medium
+
+Color Palette:
+- Background: White (#FFFFFF)
+- Team A background: Light Red (#FFF5F5)
+- Team A activities: Red (#DC3545)
+- Team A rework: Dark Red (#A71D2A)
+- Team B background: Light Green (#F5FFF5)
+- Team B activities: Green (#28A745)
+- Team B extension: Dark Green (#1E7E34)
+- Text primary: Dark Gray (#1A1A1A)
+- Text secondary: #333333
+- Text tertiary: Medium Gray (#666666)
+
+Visual Elements:
+- Timeline bars: 8px height, rounded ends
+- Activity blocks: Rounded rectangles with 8px radius
+- Time badges: Pill-shaped, 6px radius
+- Connecting arrows showing rework (Team A): Curved back arrows in Red
+- Success checkmark (Team B): Green ✓ icon, 24px
+- Warning icon (Team A): Red ⚠ icon, 24px
+- Shadows on activity blocks: 0px 2px 6px rgba(0,0,0,0.08)
+
+Content:
+Team A Timeline (Vibe Coding):
+  Day 1: "Start coding" → "10h" badge → Red activity bar
+  Day 2: "Ship to staging" → "Crashes on certain PDFs" → Red ⚠ icon
+  Day 3: "Patchy fix" → "Architecture resists changes"
+  Day 5: "Request for Word support" → "Requires major refactor"
+  Day 7-9: "Rebuild from scratch" → "24h" badge → Dark Red activity bar
+  Outcome box: "Total: 34 hours + team friction" → Red background
+
+Team B Timeline (Spec-Driven):
+  Day 1: "Write spec" → "2h" badge → Green activity bar
+  Day 1-2: "Write tests" → "3h" badge → Green activity bar
+  Day 2-3: "Implement feature" → "4h" badge → Green activity bar
+  Day 3: "Code review" → "1h" badge → Green activity bar
+  Day 3: "Ship reliably" → Green ✓ icon
+  Day 5: "Add Word support" → "2h" badge → Dark Green activity bar
+  Outcome box: "Total: 12 hours, sustainable" → Green background
+
+Annotations:
+- Arrow from Team A Day 2 to Day 7 labeled: "Rework cost: 24h"
+- Badge on Team B Day 1: "Planning upfront"
+- Badge on Team B Day 5: "Extensible design pays off"
+
+Style Reference: Project management timeline (Linear, Asana, Notion), clean Gantt-style comparison
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: team-comparison-vibe-vs-spec-timeline.png
+Alt Text: Dual-timeline comparison showing Team A using vibe coding completes initial work in 10 hours but requires 24 hours of rework when requirements change (total 34 hours), while Team B using spec-driven development invests 10 hours upfront and adds extensions in 2 hours with no rework (total 12 hours), demonstrating sustainable velocity.
+-->
+
+![Timeline comparison of vibe coding vs spec-driven development showing total time and rework costs](/img/part-1/chapter-2/team-comparison-vibe-vs-spec-timeline.png)
 
 #### 🤝 Practice Exercise
 

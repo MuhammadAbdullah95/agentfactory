@@ -111,7 +111,103 @@ Here's a typical workflow combining all three layers:
 
 Each layer has a clear job. You can swap any layer without breaking the others.
 
-#### 💬 AI Colearning Prompt
+<!-- VISUAL ASSET 1: The Three-Layer AI Development Stack
+
+IMAGE GENERATION PROMPT:
+
+Professional layered architecture diagram showing the modern AI development stack's three-layer separation with examples and interoperability.
+
+Layout: Three stacked horizontal layers with connecting lines, 1792x1024px (16:9 aspect ratio).
+- Background: White (#FFFFFF)
+- Three main layer cards: 1600px x 240px each, 24px vertical gaps
+- Layer positioning: top to bottom (Layer 3, Layer 2, Layer 1)
+- Bi-directional arrows between layers: 4px, Orange (#FF6B35)
+- 96px margins left/right, 80px top/bottom
+
+Typography:
+- Main title: "The Three-Layer AI Development Stack" - 52pt Roboto Bold, Dark Gray (#1A1A1A), centered top
+- Subtitle: "Modular, Interoperable, Composable" - 20pt Roboto Regular, Medium Gray (#666666), centered
+- Layer numbers: 64pt Roboto Bold, White text on accent background
+- Layer names: 32pt Roboto Bold, Dark Gray (#1A1A1A)
+- Layer role: 18pt Roboto Medium, Medium Gray (#666666), italic
+- Example names: 16pt Roboto Regular, Dark Gray (#333333)
+- Connecting arrow labels: 14pt Roboto Medium, Orange (#FF6B35)
+
+Color Palette:
+- Background: White (#FFFFFF)
+- Layer 1 (Models) accent: Blue (#0066FF)
+- Layer 2 (IDEs) accent: Teal (#00B4D8)
+- Layer 3 (Agents) accent: Orange (#FF6B35)
+- Arrow color: Orange (#FF6B35)
+- Text primary: Dark Gray (#1A1A1A)
+- Text secondary: #333333
+- Text tertiary: Medium Gray (#666666)
+- Card backgrounds: White with subtle tint per layer
+
+Visual Elements:
+- Each layer card has 6px left border in accent color
+- Layer number badges: 80px x 80px circles, accent background, top-left of card
+- Bi-directional arrows between layers: ↕ with labels
+- Example boxes within each layer: rounded rectangles, 12px radius, light accent backgrounds
+- Card shadows: 0px 6px 16px rgba(0,0,0,0.10)
+
+Content:
+Layer 3 (Top) - Development Agents:
+  - Number badge: "3" (White text on Orange #FF6B35)
+  - Layer name: "Development Agents"
+  - Role: "(The Orchestration)"
+  - Description: "Autonomous agents that execute multi-step tasks"
+  - Examples in boxes (4 boxes horizontal):
+    * "Claude Code CLI"
+    * "Aider"
+    * "GitHub Copilot Workspace"
+    * "Devin"
+
+Arrow from Layer 3 to Layer 2:
+  - Label: "Requests intelligence" (downward)
+  - Label: "Receives code suggestions" (upward)
+
+Layer 2 (Middle) - AI-First IDEs:
+  - Number badge: "2" (White text on Teal #00B4D8)
+  - Layer name: "AI-First IDEs"
+  - Role: "(The Workspace)"
+  - Description: "Integrated environments for AI-assisted coding"
+  - Examples in boxes (4 boxes horizontal):
+    * "VS Code with Copilot"
+    * "Cursor"
+    * "Windsurf"
+    * "JetBrains AI Assistant"
+
+Arrow from Layer 2 to Layer 1:
+  - Label: "Sends prompts & context" (downward)
+  - Label: "Returns generated code" (upward)
+
+Layer 1 (Bottom) - Frontier Models:
+  - Number badge: "1" (White text on Blue #0066FF)
+  - Layer name: "Frontier Models"
+  - Role: "(The Intelligence)"
+  - Description: "Large language models providing reasoning and generation"
+  - Examples in boxes (4 boxes horizontal):
+    * "GPT-5"
+    * "Claude Opus 4"
+    * "Gemini 2.5 Pro"
+    * "Qwen Code"
+
+Bottom annotation:
+  - "Swap any layer independently" - 16pt Roboto Medium, Medium Gray, centered
+  - Small icon: ⟳ (circular arrows), 24px, Orange
+
+Style Reference: Modern system architecture diagram (AWS architecture, Stripe API docs, Linear product design)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: three-layer-ai-development-stack.png
+Alt Text: Layered architecture diagram showing the three-layer AI development stack: Layer 1 (Frontier Models like GPT-5 and Claude Opus 4 providing intelligence), Layer 2 (AI-First IDEs like VS Code and Cursor as workspace), and Layer 3 (Development Agents like Claude Code CLI and Aider for orchestration), with bi-directional arrows showing how layers communicate and examples of tools in each layer.
+-->
+
+![The three-layer AI development stack showing modular, interoperable, composable architecture](/img/part-1/chapter-2/three-layer-ai-development-stack.png)
 
 > **Explore the stack through YOUR workflow**: Think about how you currently use AI tools (or plan to). Ask your AI partner: "Based on how I described my workflow, which layer am I using most? Which layer am I NOT using but could benefit from?" Let your AI help you discover gaps in how you're leveraging the three-layer architecture through dialogue about your actual practices.
 
@@ -149,6 +245,126 @@ The three-layer stack didn't exist in 2024. Here's what changed:
 | **Standardization** | Proprietary protocols | MCP emerging as standard |
 
 **The Core Difference**: In 2024, you chose a tool and adapted your workflow to it. In 2025, you choose layers and compose them to match your workflow.
+
+<!-- VISUAL ASSET 2: 2024 vs 2025 Stack Evolution
+
+IMAGE GENERATION PROMPT:
+
+Professional before-and-after comparison showing the evolution from monolithic AI tool silos in 2024 to modular three-layer stack in 2025.
+
+Layout: Side-by-side comparison with transformation arrow, 1792x1024px (16:9 aspect ratio).
+- Background: White (#FFFFFF)
+- Left panel (2024): 700px wide, Light Red tint (#FFF5F5)
+- Center arrow: 192px wide with large right arrow, gradient
+- Right panel (2025): 700px wide, Light Green tint (#F5FFF5)
+- 80px padding top/bottom, 56px padding sides
+
+Typography:
+- Panel titles: "2024: Tool Silos" / "2025: Modular Stack" - 36pt Roboto Bold, Dark Gray (#1A1A1A)
+- Problem/Solution labels: 20pt Roboto Medium, Red (#DC3545) / Green (#28A745)
+- Tool names: 18pt Roboto Regular, Dark Gray (#333333)
+- Descriptor text: 14pt Roboto Regular, Medium Gray (#666666)
+- Feature labels: 12pt Roboto Medium, Medium Gray (#999999)
+
+Color Palette:
+- Background: White (#FFFFFF)
+- 2024 tint: Light Red (#FFF5F5)
+- 2025 tint: Light Green (#F5FFF5)
+- Problem indicator: Red (#DC3545)
+- Solution indicator: Green (#28A745)
+- Arrow gradient: Orange (#FF6B35) to Teal (#00B4D8)
+- Tool boxes 2024: White with Red borders
+- Layer boxes 2025: White with Green borders
+- Text primary: Dark Gray (#1A1A1A)
+- Text secondary: #333333
+- Text tertiary: Medium Gray (#666666)
+
+Visual Elements:
+- 2024 tools shown as isolated monolithic blocks (no connections)
+- Each 2024 tool: 600px x 140px, White bg, 3px Red border, 8px radius
+- Lock icons on 2024 tools (16px, Red)
+- Warning icon: ⚠ (24px, Red) for "Vendor lock-in"
+- 2025 layers shown as interconnected modular blocks
+- Each 2025 layer: 600px x 90px, White bg, 3px Green border, 8px radius
+- Connecting lines between 2025 layers (2px dashed, Green)
+- Swap icons on 2025: ⟳ (20px, Green) indicating interchangeability
+- Success icon: ✓ (24px, Green) for "Low lock-in"
+- Center arrow: Large right-pointing arrow (→) with "EVOLUTION" text overlay
+
+Content:
+Left Panel (2024 - Tool Silos):
+  - Title: "2024: Tool Silos"
+  - Problem label: "⚠ Vendor Lock-In" (Red)
+
+  Tool Block 1:
+    - Name: "GitHub Copilot"
+    - Lock icon
+    - Features: "VS Code only • OpenAI models only"
+    - Issue: "Can't swap model"
+
+  Tool Block 2:
+    - Name: "Claude Chat"
+    - Lock icon
+    - Features: "Browser only • Anthropic only"
+    - Issue: "No IDE integration"
+
+  Tool Block 3:
+    - Name: "Cursor"
+    - Lock icon
+    - Features: "Proprietary • Limited models"
+    - Issue: "Workflow tied to tool"
+
+  Bottom annotation:
+    - "Monolithic tools • Proprietary protocols • High switching costs"
+
+Center Arrow:
+  - Large right arrow (→) with gradient
+  - Text overlay: "EVOLUTION" in 24pt Roboto Bold White
+  - Subtitle: "Modular Design" in 14pt Roboto Regular White
+
+Right Panel (2025 - Modular Stack):
+  - Title: "2025: Modular Stack"
+  - Solution label: "✓ Low Lock-In" (Green)
+
+  Layer Block 1 (top):
+    - Badge: "Layer 3" (small, Green)
+    - Name: "Development Agents"
+    - Swap icon (⟳)
+    - Examples: "Claude Code • Aider • Devin"
+    - Benefit: "Choose orchestration"
+
+  Dashed connecting line
+
+  Layer Block 2 (middle):
+    - Badge: "Layer 2" (small, Green)
+    - Name: "AI-First IDEs"
+    - Swap icon (⟳)
+    - Examples: "VS Code • Cursor • Windsurf"
+    - Benefit: "Choose workspace"
+
+  Dashed connecting line
+
+  Layer Block 3 (bottom):
+    - Badge: "Layer 1" (small, Green)
+    - Name: "Frontier Models"
+    - Swap icon (⟳)
+    - Examples: "GPT-5 • Claude • Gemini"
+    - Benefit: "Choose intelligence"
+
+  Bottom annotation:
+    - "Composable layers • MCP standard • Independent choices"
+
+Style Reference: Product evolution comparison (Stripe v1 vs v2, Linear migration guides, AWS modernization diagrams)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: stack-evolution-2024-to-2025.png
+Alt Text: Side-by-side comparison showing the evolution from 2024 monolithic AI tool silos with vendor lock-in (GitHub Copilot, Claude Chat, Cursor as isolated proprietary tools) to 2025 modular three-layer stack with low lock-in (composable Development Agents, AI-First IDEs, and Frontier Models that can be independently chosen and swapped using MCP standard).
+-->
+
+![Evolution from 2024 monolithic tool silos to 2025 modular three-layer stack](/img/part-1/chapter-2/stack-evolution-2024-to-2025.png)
 
 #### 🤝 Practice Exercise
 
