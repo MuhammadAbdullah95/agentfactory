@@ -388,16 +388,15 @@ OR
 ```markdown
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "[Specification of what to create] Then explain [conceptual aspect] step-by-step."
+> **Ask your AI**: "[Specification of what to create] Then explain [conceptual aspect] step-by-step."
 
 **Expected Outcome**: [What student should understand after AI response]
 ```
 
 **Examples**:
-- "Ask your AI: Generate a Python function that calculates factorial using recursion. Then explain how recursion works step-by-step including the call stack."
-- "Tell your AI: Create a type-safe dictionary that validates email addresses. Explain the type hints and validation logic."
-- "Ask your AI: Write a function that reverses a string without using [::-1]. Explain the algorithmic approach."
+- `> **Ask your AI**: "Generate a Python function that calculates factorial using recursion. Then explain how recursion works step-by-step including the call stack."`
+- `> **Ask your AI**: "Create a type-safe dictionary that validates email addresses. Then explain the type hints and validation logic."`
+- `> **Ask your AI**: "Write a function that reverses a string without using [::-1]. Then explain the algorithmic approach."`
 
 **Pattern**: **Specification → AI Generation → Explanation → Understanding**
 
@@ -408,7 +407,7 @@ Ask your AI Co-Teacher:
 - ✅ Conceptual translation (intent → implementation → understanding)
 - ✅ Collaborative learning through partnership (not passive copying)
 
-**Tone**: Action-oriented, collaborative ("Ask your AI", "Tell your AI")
+**Tone**: Action-oriented, collaborative (blockquote with bold "Ask your AI")
 
 ---
 
@@ -477,8 +476,7 @@ for i in range(5):
 
 #### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-> "Generate a `for` loop that prints the multiplication table for 7 (7×1 through 7×10). Then explain how `range()` works and why we use it."
+> **Ask your AI**: "Generate a `for` loop that prints the multiplication table for 7 (7×1 through 7×10). Then explain how `range()` works and why we use it."
 
 **Expected Outcome**: You'll understand `range()` parameters and how to use loops for calculations.
 

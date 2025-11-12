@@ -134,6 +134,9 @@ Notice the redundancy? Three different tools just for virtual environments (`ven
 
 This isn't a Python-specific problem—every mature programming language ecosystem faces it. But Python felt it acutely because scientific computing, web development, and automation communities all converged on Python with different tooling expectations.
 
+#### 💬 AI Colearning Prompt
+> "Why did Python's ecosystem fragment into multiple package managers (pip, poetry, conda) instead of converging on a single standard tool like other languages?"
+
 ## The Solution: UV's Unified Approach and Speed Advantage
 
 **UV is Astral's answer to Python's tooling fragmentation**: a single tool that handles package installation, virtual environment management, project initialization, and dependency locking—all with a consistent command syntax and blazing speed.
@@ -172,6 +175,9 @@ UV isn't a hobbyist side project. It's developed by **Astral**, the team behind 
 - **Industry adoption momentum** (companies are standardizing on Ruff + UV)
 
 UV is rapidly gaining adoption in 2024-2025. While pip remains the universal standard (installed with Python by default), UV is emerging as the professional choice for new projects. Learning UV now positions you at the leading edge of Python best practices.
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize UV commands—you understand *when* to use UV versus alternatives (pip, poetry, conda) based on project context. Your value isn't typing `uv add` faster than `pip install`—it's recognizing "this team project needs reproducible builds and fast setup" and choosing the right tool. AI handles the syntax; you handle the strategic decision.
 
 ## When to Use UV vs. Alternatives: Decision Framework
 
@@ -269,6 +275,12 @@ Imagine you're building a weather app. Your app needs to:
 - **numpy**: Numerical computing (array operations, math functions)
 
 **Why projects list dependencies explicitly**: When someone else (a teammate, a deployment system, a future you) needs to run your project, they need to know which libraries to install. Your project's dependency list (in `pyproject.toml` with UV) is like a recipe's ingredient list—it tells others exactly what they need to recreate your environment.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I'm building a Python script that fetches weather data from an API and displays it with colored terminal output. What dependencies do I need? Then explain why each one is necessary and what it does."
+
+**Expected Outcome**: You should understand how to articulate project requirements (what you're building) so AI can recommend appropriate dependencies and explain their purpose. This practices specification-driven thinking—describing *intent* rather than prescribing *solutions*.
 
 ## Try With AI
 

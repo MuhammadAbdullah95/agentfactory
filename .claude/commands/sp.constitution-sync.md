@@ -146,22 +146,22 @@ Bring existing chapter content into **authentic alignment** with constitutional 
 ```markdown
 #### 🤝 Practice Exercise
 
-Ask your AI:
-> "[Specification of what to create] Then explain [conceptual aspect] step-by-step."
+> **Ask your AI**: "[Specification of what to create] Then explain [conceptual aspect] step-by-step."
 
 **Expected Outcome**: [What student should understand after AI response]
 ```
 
 **❌ DO NOT USE** (incorrect formats):
-- `> **Explore with your AI**: "..."` (no bold prefixes)
-- `**Quick Test**: Ask your AI: "..."` (use "Ask your AI:" on separate line)
-- `Ask your AI Co-Teacher:` (use simpler "Ask your AI:")
+- `> **Explore with your AI**: "..."` (wrong wording)
+- `**Quick Test**: Ask your AI: "..."` (no prefix outside blockquote)
+- `Ask your AI Co-Teacher:` followed by blockquote (no separate intro line)
+- `Ask your AI:` on separate line before blockquote (outdated format)
 - Variations in blockquote style or structure
 
-**✅ ALWAYS USE** (correct formats):
-- Clean blockquote `>` with direct question/statement
-- "Ask your AI:" on separate line for 🤝 exercises (simple, clear)
+**✅ ALWAYS USE** (correct format):
+- Single blockquote with bold prefix: `> **Ask your AI**: "..."`
 - "Expected Outcome" in all 🤝 exercises
+- No separate intro line before blockquote
 
 ---
 
@@ -308,7 +308,7 @@ Read [lesson-file-path]
 **Format Assessment** (exact match required):
 - Do 💬 prompts use format: `#### 💬 AI Colearning Prompt\n> "..."`?
 - Do 🎓 insights use format: `#### 🎓 Expert Insight\n> In AI-native development, ...`?
-- Do 🤝 exercises use format: `#### 🤝 Practice Exercise\n\nAsk your AI:\n> "..."\n\n**Expected Outcome**: ...`?
+- Do 🤝 exercises use format: `#### 🤝 Practice Exercise\n\n> **Ask your AI**: "..."\n\n**Expected Outcome**: ...`?
 - **🚨 FORMAT DRIFT CHECK**: Flag any variations (bold prefixes, different wording, missing components)
 
 **Quality Assessment** (more important than quantity):
@@ -645,8 +645,7 @@ Content is excellent and preservable. Issue is duplication (2 of some types) and
 ```markdown
 #### 🤝 Practice Exercise
 
-Ask your AI:
-> "Create a function that calculates X. Then explain [conceptual aspect] step-by-step."
+> **Ask your AI**: "Create a function that calculates X. Then explain [conceptual aspect] step-by-step."
 
 **Expected Outcome**: [What student should understand after AI response]
 ```
