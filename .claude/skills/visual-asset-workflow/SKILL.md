@@ -77,15 +77,124 @@ For each opportunity, classify by visual type:
 - ❌ Short lists (2-3 simple items)
 - ❌ Code examples (code blocks are visual enough)
 
+#### Step 2.5: Pedagogical Value Assessment (CRITICAL)
+
+Before prioritizing visuals, evaluate **teaching effectiveness** against constitutional principles:
+
+**Question 1: Does this visual TEACH or just SHOW?**
+
+Apply the teaching test:
+- ✅ **TEACH**: Reveals pattern, relationship, or mental model not obvious from text alone
+  - Example: Calculation flow diagram showing causality (30M × $100K → $3T)
+  - Example: Descending staircase timeline revealing acceleration pattern
+  - Example: Dual-track diagram showing systemic transformation across phases
+
+- ❌ **SHOW**: Restates data already clear in text without revealing new insight
+  - Example: Bar chart showing "$3T = France GDP" (already stated in text)
+  - Example: List converted to visual list (no new understanding)
+  - Example: Single number displayed as infographic (text sufficient)
+
+**Question 2: Constitutional Alignment Check**
+
+Evaluate against core principles:
+
+- **Principle 13 (Graduated Teaching)**: Does visual help student build mental model progressively?
+  - ✅ Good: Visual breaks down complex concept into scannable components
+  - ❌ Bad: Visual adds complexity without teaching structure
+
+- **Philosophy #2 (Co-Learning Partnership)**: Does visual enable AI-learner convergence?
+  - ✅ Good: Visual teaches pattern that student and AI can reference together
+  - ❌ Bad: Visual is decorative without pedagogical purpose
+
+- **Philosophy #4 (Evals-First)**: Does visual help student evaluate understanding?
+  - ✅ Good: Student can point to visual and say "I understand X because I see Y pattern"
+  - ❌ Bad: Student looks at visual and thinks "okay, so what?"
+
+**Question 3: Message Test (One-Sentence Teaching Goal)**
+
+Can you state in ONE sentence what concept this visual teaches?
+
+✅ **Good examples**:
+- "This visual teaches that developer value compounds at scale through multiplication"
+- "This visual teaches that AI adoption is accelerating exponentially, not linearly"
+- "This visual teaches that AI transforms every phase simultaneously, not just coding"
+- "This visual teaches the progression from assistance to autonomy across four generations"
+
+❌ **Bad examples**:
+- "This visual shows that France GDP is $3T" (stating fact, not teaching concept)
+- "This visual displays four statistics" (describing content, not teaching goal)
+- "This visual compares adoption speeds" (what it does, not what it teaches)
+
+**Question 4: Redundancy Check**
+
+Is this visual redundant?
+- ❌ **FAIL**: Duplicates another visual in same lesson or adjacent lessons
+- ❌ **FAIL**: Restates text comparison without adding visual insight
+- ❌ **FAIL**: Shows same data with different layout (no pedagogical value in variation)
+- ✅ **PASS**: Unique teaching goal, non-redundant with text and other visuals
+
+**Disqualification Criteria** (immediate REJECT):
+1. ❌ Redundant with another visual in same/adjacent lessons (same data/pattern)
+2. ❌ Restates text without revealing new relationship or pattern
+3. ❌ Shows data without teaching mechanism, causality, or structure
+4. ❌ Too complex for target proficiency level (A1-A2 should be instantly graspable in <5 seconds)
+5. ❌ Fails message test (can't articulate teaching goal in one sentence)
+6. ❌ Violates constitutional principles (doesn't support co-learning or graduated teaching)
+
+**Evaluation Outcome**:
+- ✅ **PASS (HIGH VALUE)**: Teaches concept, passes constitutional check, unique message, reduces cognitive load
+- 🟡 **CONDITIONAL (MEDIUM VALUE)**: Teaches something but marginal improvement over text
+- ❌ **REJECT (LOW VALUE)**: Shows data without teaching, redundant, or fails constitutional check
+
+**Document Decision**:
+For each opportunity, record:
+- **Pedagogical value**: PASS / CONDITIONAL / REJECT
+- **Teaches**: [one-sentence concept/pattern/relationship]
+- **Message**: "[one-sentence teaching goal]"
+- **Constitutional alignment**: [which principle/philosophy supported]
+- **Redundancy**: UNIQUE / REDUNDANT_WITH_[X]
+
+**Example Evaluations**:
+
+✅ **PASS**: Economic Calculation Flow Diagram
+- **Teaches**: Structure of how individual value compounds to aggregate economy
+- **Message**: "Developer value multiplies at scale: 30M individuals × $100K each = $3T total"
+- **Constitutional**: Principle 13 (builds mental model of multiplication → aggregation)
+- **Redundancy**: UNIQUE
+- **Verdict**: HIGH VALUE - Reveals causality structure not obvious from "30M × $100K = $3T"
+
+❌ **REJECT**: GDP Comparison Bar Chart
+- **Teaches**: Nothing (just displays magnitude already stated in text)
+- **Message**: "$3T is similar to France GDP" (fact restatement, not concept)
+- **Constitutional**: Fails Philosophy #2 (doesn't enable co-learning, just illustrates)
+- **Redundancy**: REDUNDANT with text comparison ("$3T ≈ France GDP" already clear)
+- **Verdict**: LOW VALUE - Remove (text sufficient)
+
+✅ **PASS**: Technology Adoption Descending Staircase Timeline
+- **Teaches**: Exponential acceleration pattern (each wave faster than previous)
+- **Message**: "Technology adoption is accelerating exponentially: 12y → 10y → 8y → 3y"
+- **Constitutional**: Principle 13 (staircase metaphor teaches acceleration visually)
+- **Redundancy**: UNIQUE
+- **Verdict**: HIGH VALUE - Descending pattern reveals acceleration structure
+
+❌ **REJECT**: Adoption Speed Grouped Bar Chart (Lesson 3)
+- **Teaches**: Same as staircase timeline (acceleration)
+- **Message**: "AI tools adopt faster" (same as Lesson 2 Visual 3)
+- **Constitutional**: Redundant teaching (doesn't add to mental model)
+- **Redundancy**: REDUNDANT with Lesson 2 Visual 3 (same data, same teaching goal)
+- **Verdict**: LOW VALUE - Remove (use Lesson 2 version only)
+
 #### Step 3: Assess Cognitive Load Impact
 
-For each identified opportunity, apply this test:
+For each opportunity that **PASSED** Step 2.5 (pedagogical value), apply this test:
 
 **Question**: "Would a reader need to re-read this section 2-3 times to understand?"
 - **Yes** → Visual likely helps (REDUCE cognitive load)
-- **No** → Text is already clear (skip visual)
+- **No** → Text is already clear (skip visual even if pedagogically valid)
 
 **Additional heuristic**: If you can't scan and grasp the key point in <5 seconds, a visual would help.
+
+**Note**: Only HIGH VALUE visuals from Step 2.5 should proceed to this step. REJECT and CONDITIONAL visuals should be documented but not developed further.
 
 #### Step 4: Prioritize and Limit Density
 
@@ -105,6 +214,13 @@ Create mental list (or written notes) with:
 - Content to visualize (exact data/text)
 - Purpose statement (what comprehension goal this achieves)
 - Priority (HIGH, MEDIUM, LOW)
+- **Pedagogical value**: PASS / CONDITIONAL / REJECT
+- **Teaches**: [concept/pattern/relationship]
+- **Message**: "[one-sentence teaching goal]"
+- **Constitutional alignment**: [principle/philosophy]
+- **Redundancy**: UNIQUE / REDUNDANT_WITH_[X]
+
+**Only proceed to Phase 2 (prompt generation) for visuals with Pedagogical Value = PASS**
 
 ### Phase 2: Generate Image Prompts for Each Opportunity
 
@@ -248,8 +364,27 @@ Generate report in `history/visual-assets/lesson-{N}-audit-report.md`:
 - **Purpose**: {comprehension goal}
 - **Priority**: {HIGH/MEDIUM/LOW}
 - **Cognitive Load Impact**: REDUCES - {brief justification}
+- **✨ Pedagogical Value**: {PASS / CONDITIONAL / REJECT}
+  - **Teaches**: {concept/pattern/relationship}
+  - **Message**: "{one-sentence teaching goal}"
+  - **Constitutional alignment**: {Principle X or Philosophy Y}
+  - **Redundancy check**: {UNIQUE / REDUNDANT_WITH_[X]}
+  - **Verdict**: {HIGH VALUE / MEDIUM VALUE / LOW VALUE - action}
 
 [Repeat for each asset]
+
+---
+
+## Rejected Visual Opportunities
+
+### REJECTED VISUAL 1: {Title}
+- **Type**: {Dashboard/Timeline/etc.}
+- **Location**: Line {N}
+- **Content**: {what would have been visualized}
+- **❌ Reason for rejection**: {redundant / restates text / fails constitutional check / etc.}
+- **Pedagogical assessment**: {why it doesn't teach}
+
+[Repeat for each rejected opportunity]
 
 ---
 

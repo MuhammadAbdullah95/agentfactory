@@ -112,6 +112,130 @@ Let's trace the progression over the past few years:
 
 **Paradigm:** Human directs strategy, AI manages execution
 
+<!-- VISUAL ASSET 1: AI Coding Tools Evolution Timeline
+
+IMAGE GENERATION PROMPT:
+
+Professional timeline infographic showing the four-generation evolution of AI coding tools with increasing capability and autonomy.
+
+Layout: Vertical progression timeline, 1024x1792px (9:16 aspect ratio, vertical).
+- Overall background: Light Gray (#F8F9FA)
+- Title section at top (1024x120px): "The Evolution of AI Coding Tools"
+- Four generation sections stacked vertically, increasing in visual emphasis from top to bottom
+- Timeline spine running down left side with year markers
+- Each generation: card format with icon, title, capability level, examples
+- 48px margin from edges
+- 32px vertical spacing between generation cards
+- Current transition indicator between Gen 3 and Gen 4
+
+Typography:
+- Main title: 48pt Roboto Bold, Dark Gray (#1A1A1A)
+- Subtitle: 18pt Roboto Regular, Medium Gray (#666666) - "From Autocomplete to Autonomous Agents"
+- Generation labels: 32pt Roboto Bold, White text on colored backgrounds
+- Year ranges: 16pt Roboto Medium, Medium Gray (#666666)
+- Capability descriptions: 16pt Roboto Regular, Dark Gray (#1A1A1A)
+- Example tools: 14pt Roboto Regular, Medium Gray (#666666)
+- Paradigm statements: 18pt Roboto Medium Italic, Orange (#FF6B35)
+
+Color Palette:
+- Background: Light Gray (#F8F9FA)
+- Timeline spine: Medium Gray (#999999)
+- Gen 1 card: Light Gray (#CCCCCC)
+- Gen 2 card: Medium Gray (#999999)
+- Gen 3 card: Blue (#0066FF)
+- Gen 4 card: Orange (#FF6B35) - HIGHLIGHTED
+- Text primary: #1A1A1A
+- Text secondary: #666666
+- Accent: Orange (#FF6B35)
+- Transition indicator: Teal (#00B4D8)
+
+Visual Elements:
+- Timeline spine: 8px wide vertical line, Medium Gray (#999999), running down left side
+- Year markers on spine: 48px diameter circles, filled with generation colors
+- Generation cards: 880px wide × 280px tall, 12px border-radius, subtle shadows
+- Capability icons: 64px, minimal line style, 3px stroke weight
+- Autonomy meter on right side: vertical bar showing increasing autonomy level
+- Gen 4 card has glow effect: 0px 0px 24px rgba(255,107,53,0.3)
+- Transition badge between Gen 3 and 4: "We are here" with arrow pointer
+- Subtle shadows on cards: 0px 4px 12px rgba(0,0,0,0.08)
+
+Content:
+Title Area:
+- Main title: "The Evolution of AI Coding Tools"
+- Subtitle: "From Autocomplete to Autonomous Agents (2021-2025)"
+
+Timeline Spine (left side):
+- Markers at: 2021-22, 2022-23, 2023-24, 2024-25
+
+Generation 1 Card (2021-2022):
+- Background: Light Gray (#CCCCCC)
+- Icon: cursor with sparkles (suggesting autocomplete)
+- Label: "Gen 1: Intelligent Autocomplete"
+- Year range: "2021-2022"
+- Capability: "Suggest next few lines of code"
+- Example: "GitHub Copilot (initial release)"
+- Limitation: "Code fragments only"
+- Paradigm: "Developer leads, AI follows"
+- Autonomy meter: 20% filled
+
+Generation 2 Card (2022-2023):
+- Background: Medium Gray (#999999)
+- Icon: function brackets {}
+- Label: "Gen 2: Function Generation"
+- Year range: "2022-2023"
+- Capability: "Generate entire functions & classes"
+- Example: "ChatGPT Code Interpreter, Claude"
+- Limitation: "Operates in isolation"
+- Paradigm: "Human specifies, AI implements"
+- Autonomy meter: 40% filled
+
+Generation 3 Card (2023-2024):
+- Background: Blue (#0066FF)
+- Icon: multiple connected files/nodes
+- Label: "Gen 3: Feature Implementation"
+- Year range: "2023-2024"
+- Capability: "Complete features across multiple files"
+- Example: "Claude Code, Cursor AI, Replit Agent"
+- Limitation: "Requires oversight for each step"
+- Paradigm: "Human orchestrates, AI executes"
+- Autonomy meter: 70% filled
+
+Transition Indicator (between Gen 3 and Gen 4):
+- Badge: "We are here" in Teal (#00B4D8) background, White text, 18pt Roboto Bold
+- Dashed line with arrow pointing to boundary between Gen 3 and Gen 4
+- Annotation: "Transition phase" in 14pt Regular
+
+Generation 4 Card (2024-2025) - HIGHLIGHTED:
+- Background: Orange (#FF6B35)
+- Icon: robot/agent with gear symbol
+- Label: "Gen 4: Autonomous Agents"
+- Year range: "2024-2025"
+- Capability: "High-level goals → autonomous execution"
+- Example: "Devin, Claude Projects, Multi-agent systems"
+- Limitation: "Requires strategic human judgment"
+- Paradigm: "Human directs strategy, AI manages execution"
+- Autonomy meter: 90% filled
+- Glow effect around entire card
+
+Right Side - Autonomy Meter:
+- Vertical bar (120px wide × 1200px tall)
+- Label at top: "Increasing Autonomy" in 16pt Roboto Medium, rotated 90°
+- Gradient fill from Light Gray (bottom) to Orange (top)
+- Percentage markers at each generation level: 20%, 40%, 70%, 90%
+
+Bottom annotation (centered, 16pt Roboto Regular, Medium Gray):
+"Each generation multiplies capability: from code suggestions to autonomous feature delivery"
+
+Style Reference: Modern technology evolution timelines (a16z market maps, CB Insights technology maturity curves, Gartner innovation timelines)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial, technology evolution visualization
+
+Dimensions: 9:16 vertical (1024x1792px)
+
+Filename: ai-coding-tools-evolution-timeline.png
+Alt Text: Vertical timeline showing four generations of AI coding tools evolution from 2021-2025: Gen 1 Intelligent Autocomplete (2021-22, light gray, suggesting code fragments), Gen 2 Function Generation (2022-23, medium gray, generating complete functions), Gen 3 Feature Implementation (2023-24, blue, implementing full features), and Gen 4 Autonomous Agents (2024-25, orange highlighted, managing autonomous execution), with increasing autonomy meter on the right showing progression from 20% to 90% autonomy and "We are here" transition indicator between Gen 3 and Gen 4.
+-->
+
 We're currently in the **transition from Generation 3 to Generation 4**. The tools exist. The capabilities are real. But the workflows, best practices, and training materials are still being figured out.
 
 #### 💬 AI Colearning Prompt

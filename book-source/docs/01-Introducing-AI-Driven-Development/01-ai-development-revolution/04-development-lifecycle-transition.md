@@ -76,6 +76,155 @@ Discovery → Architecture → Development → QA → Release → Maintenance
 
 The names vary by methodology (Waterfall, Agile, DevOps), but the fundamental phases remain consistent. You figure out what to build, design how to build it, write the code, verify it works, ship it to users, and keep it running.
 
+<!-- VISUAL ASSET 1: Development Lifecycle Transformation Diagram
+
+IMAGE GENERATION PROMPT:
+
+Professional dual-track flow diagram showing traditional software development lifecycle versus AI-augmented lifecycle transformation across six phases.
+
+Layout: Two parallel horizontal flows, 1792x1024px (16:9 aspect ratio).
+- Overall background: Light Gray (#F8F9FA)
+- Top track (traditional): Six connected boxes flowing left to right
+- Bottom track (AI-augmented): Six connected boxes flowing left to right, highlighted
+- Transformation arrows pointing from top boxes to bottom boxes
+- Title section at top (1792x100px): "Development Lifecycle Transformation"
+- 48px margin from edges
+- 120px vertical gap between top and bottom tracks
+- 24px horizontal spacing between phase boxes
+
+Typography:
+- Main title: 48pt Roboto Bold, Dark Gray (#1A1A1A)
+- Phase labels: 20pt Roboto Medium, White text on colored boxes
+- Role labels (traditional): 14pt Roboto Regular, Medium Gray (#666666), below boxes
+- AI capability labels: 14pt Roboto Regular, Medium Gray (#666666), below boxes
+- Transformation annotations: 16pt Roboto Regular, Orange (#FF6B35), near arrows
+
+Color Palette:
+- Background: Light Gray (#F8F9FA)
+- Traditional phase boxes: Medium Gray (#999999)
+- AI-augmented phase boxes: Blue (#0066FF) with gradient to Teal (#00B4D8)
+- Transformation arrows: Orange (#FF6B35)
+- Text on boxes: White (#FFFFFF)
+- Text primary: #1A1A1A
+- Text secondary: #666666
+- Connection arrows between phases: #CCCCCC (traditional), Orange (#FF6B35) (AI)
+
+Visual Elements:
+- Phase boxes: 240px wide × 100px tall, 8px border-radius
+- Connection arrows between phases: 3px solid, with arrowheads
+- Transformation arrows (top to bottom): 4px dashed, Orange (#FF6B35), with downward arrowheads
+- AI-augmented boxes have subtle glow: 0px 0px 16px rgba(0,102,255,0.2)
+- Role icons above traditional boxes: 48px minimal line icons, 2px stroke, Dark Gray (#1A1A1A)
+- AI icons on bottom track: 48px sparkle/star icons, Orange (#FF6B35)
+
+Content:
+Title Area:
+- Main title: "Development Lifecycle Transformation"
+- Subtitle: "Traditional roles vs. AI-augmented capabilities"
+
+Top Track (Traditional):
+
+Phase 1 - Planning:
+- Box color: Medium Gray (#999999)
+- Label: "Planning"
+- Role below: "Product Managers"
+- Icon above: document/clipboard icon
+
+Phase 2 - Design:
+- Box color: Medium Gray (#999999)
+- Label: "Design"
+- Role below: "Architects"
+- Icon above: blueprint/diagram icon
+
+Phase 3 - Implementation:
+- Box color: Medium Gray (#999999)
+- Label: "Implementation"
+- Role below: "Developers"
+- Icon above: code brackets icon
+
+Phase 4 - Testing:
+- Box color: Medium Gray (#999999)
+- Label: "Testing"
+- Role below: "QA Engineers"
+- Icon above: checkmark/test icon
+
+Phase 5 - Deployment:
+- Box color: Medium Gray (#999999)
+- Label: "Deployment"
+- Role below: "DevOps Engineers"
+- Icon above: server/deploy icon
+
+Phase 6 - Operations:
+- Box color: Medium Gray (#999999)
+- Label: "Operations"
+- Role below: "SREs"
+- Icon above: monitoring/gauge icon
+
+Connection arrows between traditional phases: Light Gray (#CCCCCC) →
+
+Bottom Track (AI-Augmented):
+
+Phase 1 - AI-Enhanced Planning:
+- Box color: Blue (#0066FF) gradient
+- Label: "AI Planning"
+- Capability below: "Edge case discovery"
+- AI icon: sparkle
+
+Phase 2 - AI-Enhanced Design:
+- Box color: Blue-Teal gradient
+- Label: "AI Design"
+- Capability below: "Pattern suggestions"
+- AI icon: sparkle
+
+Phase 3 - AI-Enhanced Implementation:
+- Box color: Teal gradient
+- Label: "AI Implementation"
+- Capability below: "Code generation"
+- AI icon: sparkle
+
+Phase 4 - AI-Enhanced Testing:
+- Box color: Teal gradient
+- Label: "AI Testing"
+- Capability below: "Auto test generation"
+- AI icon: sparkle
+
+Phase 5 - AI-Enhanced Deployment:
+- Box color: Teal-Blue gradient
+- Label: "AI Deployment"
+- Capability below: "Config automation"
+- AI icon: sparkle
+
+Phase 6 - AI-Enhanced Operations:
+- Box color: Blue gradient
+- Label: "AI Operations"
+- Capability below: "Predictive monitoring"
+- AI icon: sparkle
+
+Connection arrows between AI phases: Orange (#FF6B35) →
+
+Transformation Arrows (connecting top to bottom):
+- 6 dashed orange arrows pointing downward from each traditional phase to corresponding AI phase
+- Annotation beside center arrows: "AI transforms every phase" in 16pt Orange
+
+Left side label (vertical text):
+- Traditional: "Specialist Roles"
+- AI-Augmented: "Individual + AI"
+
+Right side callout box (400px × 200px, white background, subtle shadow):
+- Heading: "Key Change" in 18pt Roboto Bold, Dark Gray
+- Text: "Roles converge. Individual developers can now handle multiple phases with AI assistance." in 14pt Roboto Regular, Medium Gray
+- Orange accent bar on left edge (8px wide)
+
+Style Reference: Modern process flow diagrams (McKinsey transformation maps, Gartner technology adoption flows, enterprise IT transformation diagrams)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial, process visualization
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: development-lifecycle-transformation-diagram.png
+Alt Text: Dual-track flow diagram comparing traditional software development lifecycle (six gray boxes: Planning by PMs, Design by Architects, Implementation by Developers, Testing by QA, Deployment by DevOps, Operations by SREs) versus AI-augmented lifecycle (six blue-teal gradient boxes showing AI-enhanced versions of each phase with automated capabilities), connected by orange transformation arrows demonstrating how AI transforms all phases simultaneously and enables role convergence.
+-->
+
 Each phase traditionally required different skills, different tools, and different specialists:
 - **Product managers** handled planning
 - **Architects** designed systems

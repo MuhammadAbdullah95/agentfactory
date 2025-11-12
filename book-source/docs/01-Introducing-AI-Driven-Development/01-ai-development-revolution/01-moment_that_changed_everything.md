@@ -59,45 +59,7 @@ In March 2025, Y Combinator managing partner Jared Friedman revealed something r
 
 Think about what that means. Technical founders capable of coding everything themselves found it more effective to specify what they wanted and let AI generate the implementation. They focused on architecture decisions, product strategy, and user experience while AI handled the mechanical work of translating requirements into code. However, as YC CEO Garry Tan noted, these founders still needed deep technical skills: "You have to have the taste and enough training to know that an LLM is spitting bad stuff or good stuff."
 
-<!-- VISUAL ASSET 1: YC Winter 2025 AI-Generated Code Infographic
-IMAGE GENERATION PROMPT:
-
-Clean infographic showing Y Combinator Winter 2025 batch AI adoption statistics.
-
-Layout: Centered composition, 1024x1024px (1:1 aspect ratio).
-- Top third: "Y COMBINATOR WINTER 2025" in 18pt Roboto Regular, #666666
-- Main visual: 10x10 grid of minimal building/startup icons (simple geometric shapes, 32x32px each)
-- 25 icons highlighted in orange (#FF6B35), remaining 75 in light gray (#CCCCCC)
-- Icons arranged in clean grid with 8px spacing between each
-
-Typography:
-- Primary metric: "25%" in 96pt Roboto Bold, #1A1A1A, positioned below grid
-- Primary label: "of YC W25 startups" in 20pt Roboto Regular, #666666, below metric
-- Secondary metric: "~95% AI-Generated Code" in 24pt Roboto Medium, #FF6B35, below label
-- Quote callout (bottom): "Technical founders choosing AI over manual coding" in 14pt Roboto Italic, #999999
-
-Color Palette:
-- Background: White (#FFFFFF)
-- Highlight accent: Orange (#FF6B35)
-- Neutral icons: Light Gray (#CCCCCC)
-- Text primary: Dark Gray (#1A1A1A)
-- Text secondary: Medium Gray (#666666)
-- Text tertiary: Light Gray (#999999)
-
-Visual Elements:
-- Grid icons: Minimal geometric building shapes (triangle roof + square base), 2px stroke, no fill
-- Clean alignment, generous white space around all elements
-- No shadows, flat design aesthetic
-
-Style Reference: Modern tech publication infographic (TechCrunch, a16z report style). Clean, data-focused, professional editorial quality.
-
-Quality: high-quality, professional, publication-ready, clean, modern
-
-Dimensions: 1024x1024 (1:1 aspect ratio)
-
-Filename: yc-w25-ai-generated-code-stats.png
-Alt Text: Infographic showing 25% of Y Combinator Winter 2025 startups had approximately 95% AI-generated codebases, visualized as a grid of 100 startup icons with 25 highlighted in orange.
--->
+![Infographic showing 25% of Y Combinator Winter 2025 startups had approximately 95% AI-generated codebases, visualized as a grid of 100 startup icons with 25 highlighted in orange](/img/part-1/chapter-1/yc-w25-ai-generated-code-stats.png)
 
 This pattern is appearing everywhere in software development. Junior developers are building features that previously required senior architects. Mid-level engineers are prototyping in hours what used to take weeks. Senior developers are orchestrating autonomous agents to handle implementation details while they focus on system design and business logic.
 
@@ -114,77 +76,7 @@ Here's what makes this moment different from previous shifts in software develop
 
 **The AI coding revolution** is happening in **months**, not years. It's not making developers 10% more productive. It's enabling 10x, sometimes 100x improvements in specific tasks. And it's fundamentally changing what it means to be a software developer.
 
-<!-- VISUAL ASSET 3: Technology Adoption Speed Comparison Timeline
-IMAGE GENERATION PROMPT:
-
-Timeline comparison showing historical technology adoption speeds vs. current AI revolution.
-
-Layout: Horizontal bar chart style, 1792x1024px (16:9 aspect ratio).
-- Left-aligned labels, right-extending bars showing duration
-- Vertical arrangement with equal spacing (80px between bars)
-- Chart centered vertically with 100px top/bottom margins
-
-Typography:
-- Section header: "Technology Adoption Speed" in 32pt Roboto Bold, #1A1A1A, top-left
-- Transition labels: 18pt Roboto Medium, #333333, left-aligned
-- Duration labels: 24pt Roboto Bold positioned at end of each bar
-- Bottom note: 14pt Roboto Regular, #666666, italicized
-
-Color Palette:
-- Background: White (#FFFFFF)
-- Historical bars: Medium Gray (#999999)
-- Current AI bar: Orange (#FF6B35)
-- Text primary: Dark Gray (#1A1A1A)
-- Text secondary: Medium Gray (#666666)
-
-Visual Elements:
-- Bar height: 60px with 8px border-radius
-- Bar spacing: 80px vertical gap between bars
-- Duration scale implicit (longer bars = longer time)
-- No grid lines, clean minimal style
-
-Content:
-Title (top-left, 48px from top):
-"Technology Adoption Speed: Then vs. Now"
-
-Bar 1:
-- Label (left): "Assembly → High-level languages"
-- Bar length: 700px, #999999
-- Duration (end of bar): "10-15 years"
-
-Bar 2:
-- Label (left): "Procedural → Object-oriented"
-- Bar length: 700px, #999999
-- Duration (end of bar): "10-15 years"
-
-Bar 3:
-- Label (left): "Desktop → Cloud"
-- Bar length: 700px, #999999
-- Duration (end of bar): "10-15 years"
-
-Bar 4:
-- Label (left): "Monolithic → Microservices"
-- Bar length: 700px, #999999
-- Duration (end of bar): "10-15 years"
-
-Bar 5 (emphasized):
-- Label (left): "Traditional → AI-assisted development" (Roboto Bold)
-- Bar length: 100px, #FF6B35 (much shorter, visually dramatic)
-- Duration (end of bar): "Months" in #FF6B35
-- Optional: Subtle glow effect around this bar
-
-Bottom note (centered, 48px from bottom):
-"Historical technology transitions took over a decade. The AI revolution is happening in months."
-
-Style Reference: Clean editorial infographic (The Economist, Harvard Business Review style). Simple bar chart with strong visual contrast. Minimal, data-focused.
-
-Quality: professional, high-quality, publication-ready, clean, editorial, clear
-
-Dimensions: 1792x1024 (16:9 aspect ratio)
-
-Filename: technology-adoption-speed-comparison.png
-Alt Text: Bar chart comparing technology adoption speeds showing historical transitions (assembly to high-level languages, procedural to object-oriented, desktop to cloud, monolithic to microservices) all took 10-15 years, while the current AI-assisted development revolution is happening in months, visualized with a dramatically shorter orange bar.
--->
+![Bar chart comparing technology adoption speeds showing historical transitions (assembly to high-level languages, procedural to object-oriented, desktop to cloud, monolithic to microservices) all took 10-15 years, while the current AI-assisted development revolution is happening in months, visualized with a dramatically shorter orange bar](/img/part-1/chapter-1/technology-adoption-speed-comparison.png)
 
 The numbers tell part of the story:
 - **84% of developers** are using or plan to use AI coding tools, with 51% using them daily (Stack Overflow 2025 Developer Survey)
@@ -192,72 +84,7 @@ The numbers tell part of the story:
 - **75% of professionals** now rely on AI for at least one daily responsibility, with more than one-third experiencing moderate to extreme productivity increases (Google DORA 2024 Report)
 - **Per 25% increase in AI adoption**: 7.5% better documentation, 3.4% better code quality, 3.1% faster code reviews—though the report also notes challenges with delivery throughput and stability without proper practices
 
-<!-- VISUAL ASSET 2: AI Adoption Statistics Dashboard (2025)
-IMAGE GENERATION PROMPT:
-
-Professional statistics dashboard showing 2025 AI development tool adoption metrics.
-
-Layout: 2x2 grid of metric cards, 1792x1024px (16:9 aspect ratio).
-- Overall background: Light gray (#F8F9FA)
-- Grid: 24px gaps between cards, 48px margin from edges
-- Each card: 832x448px with 32px internal padding, 8px border-radius
-
-Card Structure (all cards identical layout):
-- Top: Minimal line icon (48x48px, 2px stroke weight, #0066FF)
-- Center: Large metric number (72pt Roboto Bold, #1A1A1A)
-- Below number: Descriptive label (14pt Roboto Regular, #666666, max 2 lines, line-height 1.4)
-
-Typography:
-- Card metrics: 72pt Roboto Bold, #1A1A1A
-- Card labels: 14pt Roboto Regular, #666666
-- Footer source: 10pt Roboto Regular, #999999
-
-Color Palette:
-- Background: Light Gray (#F8F9FA)
-- Card backgrounds: White (#FFFFFF)
-- Icons: Blue (#0066FF)
-- Text primary: Dark Gray (#1A1A1A)
-- Text secondary: Medium Gray (#666666)
-- Text tertiary: Light Gray (#999999)
-
-Visual Elements:
-- Card shadows: 0px 2px 8px rgba(0,0,0,0.08)
-- Icons: Simple line art style, minimal geometric shapes
-- Clean alignment, consistent spacing throughout
-
-Content:
-Card 1 (Top-left):
-- Icon: Simple person at computer (line art)
-- Number: "84%"
-- Label: "Developers using AI tools\n51% use daily"
-
-Card 2 (Top-right):
-- Icon: Rocket/upward arrow (line art)
-- Number: "$500M"
-- Label: "Claude Code ARR\nin 2 months"
-
-Card 3 (Bottom-left):
-- Icon: Calendar with checkmark (line art)
-- Number: "75%"
-- Label: "Professionals using AI\nfor daily work"
-
-Card 4 (Bottom-right):
-- Icon: Document with upward trend (line art)
-- Number: "7.5%"
-- Label: "Better documentation\nper 25% adoption increase"
-
-Footer (centered below grid, 24px spacing):
-"Sources: Stack Overflow 2025, Anthropic, Google DORA 2024-2025"
-
-Style Reference: Modern tech dashboard aesthetic (Stripe, Linear, a16z report style). Flat design with subtle depth through shadows. Clean, professional, data-focused.
-
-Quality: professional, high-quality, publication-ready, clean, modern, editorial
-
-Dimensions: 1792x1024 (16:9 aspect ratio)
-
-Filename: ai-adoption-statistics-dashboard-2025.png
-Alt Text: Dashboard showing four key AI development tool adoption statistics for 2025: 84% of developers using AI tools with 51% daily usage, Claude Code reaching $500M ARR in 2 months, 75% of professionals using AI for daily work, and 7.5% better documentation per 25% adoption increase. Sources: Stack Overflow 2025, Anthropic, Google DORA.
--->
+![Dashboard showing four key AI development tool adoption statistics for 2025: 84% of developers using AI tools with 51% daily usage, Claude Code reaching $500M ARR in 2 months, 75% of professionals using AI for daily work, and 7.5% better documentation per 25% adoption increase. Sources: Stack Overflow 2025, Anthropic, Google DORA.](/img/part-1/chapter-1/ai-adoption-statistics-dashboard-2025.png)
 
 But numbers alone don't capture the shift. What's changing is the **nature of the work itself**.
 

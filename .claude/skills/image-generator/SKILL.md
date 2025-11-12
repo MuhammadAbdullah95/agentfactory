@@ -77,13 +77,25 @@ This is a **sequential workflow skill** with quality gates:
 - Enable downloads to track file saves
 ```
 
-### Step 3: Generate Each Image (Iterative Loop)
+### Step 3: Generate Each Image (One Session Per Image)
+
+**⚠️ CRITICAL WORKFLOW RULE**:
+- **ONE image = ONE complete session** (generate → review → iterate → download)
+- **After finalizing each image**: Click "New chat" button to start fresh session for next image
+- **Never mix multiple images in one session**: Prevents context contamination and makes review cleaner
+
+**Why this matters:**
+- Long sessions consume excessive tokens and become hard to manage
+- Fresh session for each image provides clean context
+- Easier to verify spelling/layout when not mixed with previous attempts
+- Maintains focus and reduces errors
 
 For each prompt in the queue:
 
 **3a. Start New Gemini Conversation**
-1. Click "New chat" button (if not first image)
+1. Click "New chat" button (pen icon in left sidebar top)
 2. Ensure clean conversation context
+3. Wait for new chat to load completely
 
 **3b. Access Image Generation Tool**
 1. Look for tool selector/menu (usually bottom of input area)
@@ -95,9 +107,18 @@ For each prompt in the queue:
 2. Submit (Enter or Send button)
 3. Wait for generation to complete (watch for loading indicators)
 
-**3d. Evaluate Quality**
+**3d. CRITICAL: Verify Image IMMEDIATELY (Before Download)**
 
-Take screenshot and analyze against criteria:
+**⚠️ MANDATORY STEP**: Use `browser_snapshot` or `browser_take_screenshot` to VIEW the generated image BEFORE downloading.
+
+**Why this is critical:**
+- Gemini may misspell words even when prompted correctly
+- Visual proportions may be incorrect despite explicit instructions
+- Issues are easier to fix BEFORE downloading and moving to next image
+- Prevents wasted iterations and file management overhead
+
+**Verification checklist:**
+- ✅ **Spelling accuracy**: Check EVERY word, especially proper nouns (company names, technical terms)
 - ✅ **Text accuracy**: All numbers, labels, titles match prompt exactly
 - ✅ **Layout**: Grid structure, spacing, alignment correct
 - ✅ **Typography**: Font sizes appear correct, text readable
@@ -106,21 +127,46 @@ Take screenshot and analyze against criteria:
 - ✅ **Overall quality**: Professional, clean, no artifacts
 
 **Quality decision tree:**
-- **CRITICAL issues** (wrong numbers, missing elements): Regenerate with refined prompt
+- **CRITICAL issues** (misspellings, wrong numbers, missing elements): Regenerate with refined prompt
 - **MAJOR issues** (poor layout, wrong colors): Refine prompt, regenerate
 - **MINOR issues** (slight spacing off): Accept if otherwise excellent
 - **PERFECT**: Proceed to download
 
 **3e. Refine if Needed**
 
+**IMPORTANT SESSION MANAGEMENT**:
+- For each image, use a SINGLE browser session from start to completion
+- Once image is finalized and downloaded, START NEW SESSION for next image (click "New chat" button)
+- Prevents context contamination and makes verification cleaner
+
 If issues found:
-1. Analyze what went wrong (text rendering? layout interpretation? color accuracy?)
-2. Adjust prompt in same conversation:
-   - Text issues: Simplify labels, reduce character count, make more explicit
-   - Layout issues: Add explicit positioning, spacing values
-   - Color issues: Emphasize hex codes, add "use exact colors"
-3. Ask Gemini to regenerate with refinements
-4. Re-evaluate (max 3 iterations per image)
+1. **DO NOT DOWNLOAD YET** - Stay in same session
+2. Analyze what went wrong (spelling? text rendering? layout? color accuracy?)
+3. Adjust prompt strategy based on issue type:
+
+   **Spelling/Text Issues** (MOST COMMON):
+   - ❌ Avoid: Generic instruction like "Spell X correctly"
+   - ✅ Effective: Spell word letter-by-letter: "Combinator (spelled: C-O-M-B-I-N-A-T-O-R)"
+   - ✅ Effective: Break text into explicit parts: "The letter Y, then space, then word 'Combinator', then space, then 'Winter 2025'"
+   - ✅ Effective: Use simpler/abbreviated forms: "YC W25" instead of full name
+
+   **Layout/Proportion Issues**:
+   - ❌ Avoid: Pixel-perfect specifications (Gemini struggles with exact measurements)
+   - ✅ Effective: Use conceptual comparisons: "dramatically shorter - like comparing a full year to a single month"
+   - ✅ Effective: Text-based designs instead of visual proportions: "VS" comparison instead of bars
+   - ✅ Effective: Explicit ratio labels: "180x faster" instead of relying on bar length
+
+   **Color Issues**:
+   - ✅ Emphasize hex codes: "Use EXACT color #FF6B35"
+   - ✅ Reference common colors: "orange (like #FF6B35) or green"
+
+4. Ask Gemini to regenerate with refined prompt **in same conversation**
+5. **Verify again immediately** with screenshot
+6. Re-evaluate (max 3-4 iterations per image)
+7. If still failing after 4 iterations, try **completely different visual approach**:
+   - Numbers instead of grids
+   - Text-based instead of visual proportions
+   - "VS" comparison instead of charts
 
 **3f. Download When Satisfied**
 
@@ -129,6 +175,62 @@ If issues found:
 3. Navigate to: `book-source/static/img/part-1/chapter-{N}/`
 4. Use suggested filename from prompt (e.g., `yc-w25-ai-generated-code-stats.png`)
 5. Verify download completes
+
+**3g. Validate Teaching Effectiveness (Post-Generation - CRITICAL)**
+
+After downloading image, verify it achieves **pedagogical goal** (not just technical quality):
+
+**Self-Evaluation Questions**:
+
+1. **< 5 Second Understanding Test**
+   - Can you grasp the key concept in under 5 seconds by looking at the image?
+   - ✅ PASS: Immediate comprehension of pattern/relationship
+   - ❌ FAIL: Requires 10+ seconds to understand or repeated viewing
+
+2. **Teaching vs. Showing Test**
+   - Does this image TEACH a pattern/concept, or just SHOW data?
+   - ✅ PASS: Reveals relationship, structure, or causality not obvious from text
+   - ❌ FAIL: Restates data already clear in text (decorative, not pedagogical)
+
+3. **Message Clarity Test**
+   - Can you state in ONE sentence what this image teaches?
+   - ✅ PASS: Clear teaching goal (e.g., "This teaches that value compounds at scale")
+   - ❌ FAIL: Vague description (e.g., "This shows statistics")
+
+4. **Cognitive Load Test**
+   - Does this image REDUCE cognitive load, or just add visual clutter?
+   - ✅ PASS: Makes dense content scannable and graspable
+   - ❌ FAIL: Adds complexity without improving comprehension
+
+**Evaluation Outcome**:
+- ✅ **PASS (HIGH TEACHING VALUE)**: Proceed to markdown integration
+- 🟡 **CONDITIONAL (MEDIUM VALUE)**: Consider simplification or text alternative
+- ❌ **FAIL (LOW VALUE)**: Flag for redesign or removal - document why
+
+**If FAIL**:
+1. Document specific teaching failure (what doesn't work)
+2. Flag in completion report with recommendation
+3. DO NOT integrate into markdown yet
+4. Suggest either:
+   - Redesign prompt to better teach concept
+   - Remove visual (text sufficient)
+   - Replace with simpler diagram
+
+**Example Evaluations**:
+
+✅ **PASS**: Economic Calculation Flow Diagram
+- **< 5 sec test**: ✅ Arrows show causality immediately (30M × $100K → $3T)
+- **Teaching test**: ✅ Reveals multiplication structure (not just final number)
+- **Message**: "Developer value compounds at scale through multiplication"
+- **Cognitive load**: ✅ Makes abstract calculation concrete
+- **Verdict**: HIGH VALUE - integrate
+
+❌ **FAIL**: Generic Statistics Bar Chart
+- **< 5 sec test**: ✅ Can read bars quickly
+- **Teaching test**: ❌ Just displays numbers already in text
+- **Message**: "Shows that X is bigger than Y" (fact, not concept)
+- **Cognitive load**: ❌ Doesn't reduce (text comparison already clear)
+- **Verdict**: LOW VALUE - remove, text sufficient
 
 ### Step 4: Update Markdown
 
@@ -187,9 +289,21 @@ Generate summary report in `history/visual-assets/lesson-{N}-visual-assets-repor
 
 ### VISUAL ASSET 1: {title}
 - **Filename**: {filename}
-- **Iterations**: {1 or 2 or 3}
-- **Issues encountered**: {none / text rendering / layout / colors}
-- **Final quality**: {excellent / good / acceptable}
+- **Dimensions**: {1024x1024px or 1792x1024px}
+- **Iterations**: {total number including failed approaches}
+- **Issues encountered**:
+  - Iteration 1: {specific problem - e.g., "Spelling: 'Cymbinator' instead of 'Combinator'"}
+  - Iteration 2: {what was tried and result}
+  - Iteration N: {final approach that worked}
+- **Final quality**: {Excellent / Good / Acceptable}
+- **Prompting strategy that worked**: {e.g., "Letter-by-letter spelling", "Text-based VS comparison", "Simplified abbreviation"}
+- **✨ Teaching effectiveness**: {PASS / CONDITIONAL / FAIL}
+  - **< 5 sec test**: {✅ / ❌}
+  - **Teaching test**: {✅ teaches [concept] / ❌ shows [data]}
+  - **Message**: "{one-sentence teaching goal}"
+  - **Cognitive load**: {✅ reduces / ❌ neutral or increases}
+  - **Recommendation**: {integrate / simplify / remove}
+- **Notes**: {Any specific observations about what approaches failed vs. succeeded}
 
 [Repeat for each asset]
 
@@ -282,22 +396,46 @@ Generate summary report in `history/visual-assets/lesson-{N}-visual-assets-repor
 
 ## Quality Standards
 
+### The 99% Quality Mindset
+
+**CRITICAL PRINCIPLE**: Gemini CAN get it right. If an image has issues, it's the PROMPT that needs improvement, not a limitation of the tool.
+
+**Mindset shift:**
+- ❌ "Gemini can't spell 'Combinator' correctly, let's accept the typo"
+- ✅ "My prompt wasn't explicit enough. Let me try letter-by-letter spelling."
+
+- ❌ "Gemini can't do precise proportions, let's use a different tool"
+- ✅ "My approach using bars didn't work. Let me try text-based 'VS' comparison."
+
+- ❌ "After 3 tries it's still wrong, time to give up"
+- ✅ "After 3 tries with same approach, time to try DIFFERENT approach."
+
+**Quality target: 99%** - The only acceptable reason to not achieve perfect output is time constraints, never "the tool can't do it."
+
+**Evidence from this project:**
+- YC "Combinator" spelling: Failed 3 times with generic prompts, succeeded immediately with letter-by-letter spelling
+- Timeline bar chart: Failed 3 times with precise measurements, succeeded immediately with "VS" text comparison
+- Success rate when using RIGHT prompting strategy: ~95-100%
+
 **Always prioritize:**
 1. **Factual accuracy** - Numbers must match source data exactly
-2. **Readability** - Text must be legible at book size
-3. **Professional aesthetics** - Clean, modern, publication-quality
-4. **Brand consistency** - Colors, fonts match design system
+2. **Spelling perfection** - Every word must be spelled correctly (use letter-by-letter if needed)
+3. **Readability** - Text must be legible at book size
+4. **Professional aesthetics** - Clean, modern, publication-quality
+5. **Brand consistency** - Colors, fonts match design system
 
 **Never accept:**
 - Wrong numbers or data
+- Misspellings or typos
 - Illegible text
 - Poor layout that confuses rather than clarifies
 - Low-resolution or pixelated images
 
 **When in doubt:**
-- Iterate up to 3 times per image
-- If still not acceptable after 3 attempts, flag for manual review
-- Document issues in completion report
+- Iterate up to 3-4 times per image WITH SAME APPROACH
+- If still not acceptable after 3-4 attempts, try COMPLETELY DIFFERENT APPROACH
+- Document what approaches failed and what finally worked in completion report
+- Share learnings to improve future prompting strategies
 
 ## Progressive Disclosure
 
