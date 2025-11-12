@@ -96,6 +96,9 @@ Both set temporary variables. Both verified with `echo $`. Both will disappear w
 
 **Key insight**: Temporary variables are useful for testing but disappear when you exit the terminal.
 
+#### 💬 AI Colearning Prompt
+> "When would you use `export` for temporary configuration vs. a `.env` file for persistent configuration?"
+
 ---
 
 ## Use `.env` Files to Store Persistent Configuration
@@ -171,6 +174,9 @@ api_key = os.getenv('API_KEY')  # Read from environment, not hardcoded
 
 Secrets come from environment variables or .env files—never from code itself.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize `.env` file syntax or `dotenv` library usage. You understand the CONCEPT (secrets belong in environment, not code), and AI handles `.gitignore`, `.env.example`, and secure loading. Your job: verify secrets never appear in version control.
+
 ---
 
 ## Try With AI: Side-by-Side Configuration Comparison
@@ -204,6 +210,12 @@ Let's practice safe configuration.
 - Why use .env for secrets? (Survives terminal restarts, easier to manage)
 
 **Key Insight**: Both temporary and persistent approaches keep secrets out of code. The difference is how long they last.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Create a `.env` file for my API key, add it to `.gitignore`, and verify the key is accessible but NOT committed to version control. Then explain why this matters for security."
+
+**Expected Outcome**: You understand secrets management workflow and can verify `.gitignore` is protecting sensitive configuration.
 
 ---
 

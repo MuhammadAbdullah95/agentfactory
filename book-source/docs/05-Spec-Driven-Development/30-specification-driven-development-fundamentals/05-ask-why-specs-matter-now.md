@@ -51,6 +51,9 @@ If specs were so good, why didn't everyone use them 20 years ago?
 - **Before 2025**: AI-generated broken code → Specs weren't worth the effort
 - **2025+**: AI generates working code from specs → Specs became essential
 
+#### 💬 AI Colearning Prompt
+> "Why did specification-driven approaches fail in the past (1970s-2020s), but succeed now with AI agents? What changed between 'formal methods' in 1980 and 'SDD' in 2025?"
+
 ---
 
 ## Historical Context: Why Specs Failed Before
@@ -129,6 +132,9 @@ how AI agents work compared to human colleagues?
 - **With AI**: Specs became essential (AI can't improvise)
 
 This is why SDD emerged now. **AI made specs mandatory, not optional.**
+
+#### 🎓 Expert Insight
+> In AI-native development, specifications aren't overhead—they're the interface. Just as command-line expertise defined Unix mastery, specification-writing defines AI-native mastery. The developer who writes clearer specs gets better code, faster iteration, and fewer bugs. Spec quality IS code quality now.
 
 ---
 
@@ -219,6 +225,12 @@ Your companion will explain:
 
 **This is why SDD is a scalability breakthrough, not just a quality improvement.**
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Trace the evolution of specification approaches from 1970s Formal Methods to 2025 SDD. For each era (1970s, 1980s, 2000s, 2010s, 2025+), explain: (1) What was promised, (2) Why it failed or succeeded, (3) What lesson it teaches us about SDD today."
+
+**Expected Outcome**: Your AI will create a historical timeline showing why previous approaches failed (too rigid, wrong abstraction level, tool lock-in) and why SDD succeeds (AI literal-mindedness, natural language flexibility, proven ROI).
+
 ---
 
 ## Key Realization
@@ -230,3 +242,23 @@ SDD isn't a new invention. Specifications have existed for decades.
 - **Necessity**: AI agents need specs (humans can improvise; AI can't)
 - **Tools**: Spec-Kit, Kiro, etc., make specs systematic (not ad-hoc)
 - **Timing**: 2025 is the moment AI capability and spec tooling converged
+
+---
+
+## Try With AI
+
+Ready to understand why SDD emerged at this specific moment in history? Explore these prompts:
+
+**🔍 Explore Historical Context:**
+> "Why did Model-Driven Development (MDD) fail in the 2000s, but Specification-Driven Development (SDD) succeeds now? What's different about LLMs vs. the code generators of 2005?"
+
+**🎯 Practice Cost-Benefit Analysis:**
+> "Calculate the time savings for me: If I spend 3 hours writing a clear spec vs. 30 minutes on a vague prompt, how many iteration cycles do I need to break even? Show me the math."
+
+**🧪 Test Your Understanding:**
+> "Compare three scenarios: (1) Human colleague gets vague requirements, (2) AI agent gets vague requirements, (3) AI agent gets clear spec. Predict what happens in each case and explain why AI needs specs more than humans do."
+
+**🚀 Apply to Your Experience:**
+> "Think about my last 3 AI coding sessions. How many iterations did each take? If I had written a spec first, estimate how much time I would have saved. Be honest about the tradeoffs."
+
+---

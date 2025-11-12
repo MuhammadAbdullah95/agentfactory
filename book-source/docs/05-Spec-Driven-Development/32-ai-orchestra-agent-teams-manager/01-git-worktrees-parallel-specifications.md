@@ -129,6 +129,9 @@ grader-feedback/                 <- Worktree 3 (branch: feature-003-feedback)
 
 This is why worktrees matter for AI agent orchestration.
 
+#### 💬 AI Colearning Prompt
+> "Why do git worktrees use shared history but isolated file systems? What would break if they shared file systems too?"
+
 ---
 
 ## Let AI Set Up Your Worktrees
@@ -180,6 +183,9 @@ Your Goal → AI Decomposes → AI Executes → AI Validates → You Verify
 ```
 
 You're not learning git commands. You're learning how to orchestrate AI to solve problems.
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize git worktree commands—you understand when parallel isolation solves coordination problems. Your job: recognize when decomposition enables parallelization, then orchestrate AI to handle the mechanics.
 
 **After AI finishes, verify the result:**
 
@@ -418,6 +424,12 @@ Start these within 1 minute of each other to run truly in parallel:
 | 10 agents | 300 min | 30 min | **10x** |
 
 This manual coordination prepares you for Lesson 2, where you'll learn to manage planning and tasks in parallel.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Create a 4th worktree for feature-004-notifications. Then explain how git ensures the 4 worktrees stay synchronized with shared history while maintaining file isolation."
+
+**Expected Outcome**: Understanding of git's isolation mechanism and practical experience adding worktrees to existing parallel workflows.
 
 ---
 

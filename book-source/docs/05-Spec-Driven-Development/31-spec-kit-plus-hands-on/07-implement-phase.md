@@ -123,6 +123,9 @@ It works task-by-task, respecting your checkpoint pattern.
 5. Ask to Commit to git
 6. Tell agent: "Next task"
 
+#### 💬 AI Colearning Prompt
+> "Why is the 5-step validation protocol systematic (Read → Check Spec → Run Tests → Manual Test → Approve) instead of just 'run tests and commit'? What issues does this prevent?"
+
 ---
 
 ## The Validation Protocol
@@ -245,6 +248,15 @@ about floating-point precision. Can you record this as a PHR for future referenc
 - "Record this debugging session as PHR"
 - Agent creates explicit PHR for that decision
 - Rare; most things are auto-captured
+
+#### 🎓 Expert Insight
+> In AI-native development, validation is where human judgment creates value. AI can generate syntactically correct code that completely misses the specification intent. The 5-step protocol (Read → Spec Check → Test → Manual → Approve) catches three critical failure modes: (1) AI misunderstood requirements, (2) tests pass but don't cover edge cases, (3) code works but violates Constitution standards. Professional developers NEVER skip validation—the 10 minutes you invest prevents hours of debugging production failures.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I'm about to implement Task 1 (add operation) using /sp.implement. Walk me through what the 5-step validation protocol should check: (1) What Constitution standards should I verify in the generated code? (2) What specific acceptance criteria from my spec should the tests cover? (3) What edge cases must be tested (negative numbers, zero, floats vs ints)? (4) If tests pass but I don't understand the code, should I approve it? Why or why not? Then explain how PHRs will automatically capture this implementation session."
+
+**Expected Outcome**: Your AI should identify Constitution standards (type hints, docstrings, error handling), map spec acceptance criteria to test cases (e.g., "add(5, 3) = 8.0", "add(-2, 5) = 3.0"), list calculator-specific edge cases, explain why understanding code is mandatory before approval (can't maintain what you don't understand), and clarify that PHRs auto-capture this workflow without manual intervention.
 
 ---
 

@@ -92,6 +92,9 @@ Most development happens in the terminal (or terminal-integrated editors like VS
 **5. Trust Through Transparency**
 Terminal commands are explicit and visible. When Claude Code proposes a file change, you see the exact diff before approving. When it runs a command, you see the output. This transparency builds trust.
 
+#### 💬 AI Colearning Prompt
+> "Why is direct file system access more powerful than copy-pasting code between a browser and editor?"
+
 ---
 
 ## Real-World Impact: Seven Concrete Examples
@@ -165,6 +168,9 @@ Let's ground this in reality. Here are seven specific scenarios where Claude Cod
 - **With chat-based AI**: They'd ask "How does Flask routing work?" and get a generic tutorial. Useful, but disconnected from their actual project.
 
 - **With Claude Code**: They run `claude "Explain how the routing in my Flask app works"`. Claude reads their `app.py`, points to the specific `@app.route()` decorators they're using, explains how *their* code maps URLs to functions, and offers to add a new route as a learning example. **Learning outcome: Immediate, project-specific understanding.**
+
+#### 🎓 Expert Insight
+> In AI-native development, the friction you remove matters more than the features you add. Agentic AI tools like Claude Code don't make you code faster—they make you **think** faster by eliminating context-switching, copy-paste workflows, and repetitive setup. Your job: design solutions; AI's job: handle execution friction.
 
 ---
 

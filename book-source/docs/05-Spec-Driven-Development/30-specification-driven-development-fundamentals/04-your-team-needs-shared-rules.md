@@ -191,19 +191,8 @@ Always yes, because Constitution was enforced in step 1-3.
 
 Now imagine 50 developers, or 500 developers. Constitution doesn't scale linearly. It scales exponentially: **More developers → more need for shared rules.**
 
----
-
-## Ask Your Companion: Build a Constitution for Your System
-
-Tell your companion:
-
-```
-Help me draft a Constitution for a healthcare scheduling app. What rules
-should apply to every feature? Think: security, architecture, quality,
-compliance.
-```
-
-Your companion will help you draft.
+#### 💬 AI Colearning Prompt
+> "Why do teams with Constitutions (shared rules) scale better than teams without them? What breaks down in large teams when everyone makes independent security or architecture decisions?"
 
 ---
 
@@ -330,7 +319,11 @@ Don't write an ADR for:
 
 **Result**: Consistency emerges not just from rules (Constitution), but from shared understanding (ADRs) and institutional learning (PHRs).
 
+#### 🎓 Expert Insight
+> In AI-native development, your Constitution isn't just documentation—it's executable memory. Every AI agent reads it before generating code. Every human reads it before writing specs. The Constitution becomes your organization's shared brain, preventing the same security mistake from happening in 50 different features across 10 different teams.
+
 ---
+
 ## Your Reflection
 
 **Questions:**
@@ -354,6 +347,12 @@ Don't write an ADR for:
    - Constitution enforces quality across all specs
    - No conflict: they work together
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Help me draft a Constitution for a [describe your domain: e-commerce, fintech, healthcare, etc.] application. What security rules should apply to every feature? What architecture patterns should be mandatory? What quality standards should be non-negotiable?"
+
+**Expected Outcome**: Your AI will suggest domain-specific constitutional rules (e.g., PCI-DSS for payments, HIPAA for healthcare, GDPR for EU data) and help you think through non-negotiable standards before building individual features.
+
 ---
 
 **Professional teams don't debate fundamentals every project.**
@@ -361,5 +360,23 @@ Don't write an ADR for:
 They write down the rules (Constitution / Memory Bank). Everyone follows them. Consistency emerges.
 
 This is how teams scale without chaos.
+
+---
+
+## Try With AI
+
+Ready to apply constitutional thinking to your work? Explore these prompts:
+
+**🔍 Explore Constitution Design:**
+> "What's the difference between a rule that belongs in a Constitution (applies to everything) vs. a rule that belongs in an ADR (applies to one decision)? Give me 5 examples of each for a web application."
+
+**🎯 Practice Drafting Rules:**
+> "I'm building a social media platform. Help me draft constitutional rules for: (1) Data privacy, (2) Content moderation, (3) API rate limiting, (4) Testing standards. What should be mandatory across ALL features?"
+
+**🧪 Test Constitutional Enforcement:**
+> "Here's a feature spec for user authentication [paste or describe]. Does it comply with this Constitution rule: 'ALL passwords use bcrypt cost 12+'? If not, what's missing?"
+
+**🚀 Apply to Your Organization:**
+> "My team of [X people] is building [describe project]. We keep having debates about [describe recurring issue]. Should this be a Constitutional rule or handled case-by-case? Help me decide."
 
 ---

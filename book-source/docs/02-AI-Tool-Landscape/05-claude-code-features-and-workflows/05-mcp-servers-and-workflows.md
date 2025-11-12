@@ -58,6 +58,9 @@ You've now learned three extension mechanisms. Here's how they differ:
 
 **Key Distinction**: MCP servers give Claude Code access **beyond your local machine**, which is powerful but requires careful security evaluation.
 
+#### 💬 AI Colearning Prompt
+> "Why is external data access (MCP) riskier than local file access (skills/subagents)? What security protections exist?"
+
 ---
 
 ## A Note on Security (Read This First)
@@ -155,6 +158,9 @@ Have repetitive task with clear rules?
 Exploratory or one-off task?
   → Use main conversation
 ```
+
+#### 🎓 Expert Insight
+> In AI-native development, the right architecture is knowing WHEN to use each tool. MCP servers for external data, skills for automatic expertise, subagents for repetitive tasks, main conversation for exploration. Mastering this decision framework is the difference between struggling with AI tools and orchestrating them fluently.
 
 ### Reflection Questions
 

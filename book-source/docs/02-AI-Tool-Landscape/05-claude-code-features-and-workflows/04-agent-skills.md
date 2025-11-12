@@ -70,6 +70,9 @@ This is where skills become truly powerful: **Your unique domain knowledge becom
 
 **The pattern**: Domain expertise encoded as skills compounds over time, creating organizational capabilities that competitors can't easily replicate.
 
+#### 🎓 Expert Insight
+> In AI-native development, your competitive advantage isn't coding speed—it's organizational knowledge that compounds. A skill library built over 6 months becomes an unfair advantage: your AI automatically applies hard-won domain expertise that competitors must rediscover project-by-project.
+
 ---
 
 ## How Agent Skills Work: The Discovery Mechanism
@@ -92,6 +95,9 @@ Every skill is defined by a `SKILL.md` file with three critical sections:
 
 **3. Examples** (optional):
 - Brief before/after descriptions (no code required)
+
+#### 💬 AI Colearning Prompt
+> "How does Claude Code decide when to suggest a skill? What makes a skill description 'discoverable'?"
 
 ---
 

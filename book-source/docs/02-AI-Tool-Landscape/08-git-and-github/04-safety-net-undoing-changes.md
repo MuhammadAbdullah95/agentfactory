@@ -211,6 +211,11 @@ Gemini will warn and suggest safer alternatives before proceeding.
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "What's the difference between 'git restore' (undo uncommitted) and 'git revert' (undo committed)? Why does Git have multiple undo methods?"
+
+---
+
 ## When to Use Each Method
 
 | Situation | What to Ask Gemini CLI |
@@ -266,6 +271,19 @@ New commit created with working code.
 4. Fix with AI's help
 5. Test again
 6. Commit when it works
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize undo command syntax—you understand undo safety levels. When something breaks, you specify the safety level you need: "undo but keep my work" (safest), "create reverse commit" (team-safe), or "delete permanently" (dangerous). AI handles the `git restore/revert/reset` syntax. Your job: choose the right safety level for the situation.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Create a test scenario: make a change, commit it, then undo it using the safest method. Show me each step and explain why this method is safest."
+
+**Expected Outcome**: You'll understand that safety isn't about memorizing commands—it's about understanding when to keep changes (soft reset), when to preserve history (revert), and when deletion is acceptable (never, unless secrets exposed).
 
 ---
 

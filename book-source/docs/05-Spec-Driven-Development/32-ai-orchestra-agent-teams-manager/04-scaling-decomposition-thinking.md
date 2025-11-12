@@ -120,6 +120,9 @@ Use this rubric to rate your 3-feature system honestly (1 = poor, 5 = excellent)
 
 Write down your three lowest scores. **These are the patterns you need to fix before scaling.**
 
+#### 💬 AI Colearning Prompt
+> "Why does decomposition quality become MORE critical at 5 features than at 3? What changes between 3-feature systems and 5-feature systems?"
+
 ### Recording What You Learned
 
 Document one key lesson from each category:
@@ -257,6 +260,9 @@ At 3 features, you probably configured each feature in its own way. One used env
 Document which configuration values are secrets (should never be in code) and which are runtime configuration.
 
 **At 5+ features, clear configuration management saves hours of debugging.**
+
+#### 🎓 Expert Insight
+> In AI-native development, N-squared communication complexity (N×(N-1)/2 integration points) is why specifications matter exponentially more at scale. At 3 features: 3 integration points (manageable). At 10 features: 45 integration points (chaos without clear specs). Your strategic value is writing specs so clear that 45 integration points become autonomous.
 
 ### Problem 4: Distributed Debugging
 
@@ -419,6 +425,12 @@ Look at your 3-feature system. Honestly identify:
 4. **Did you modify cross-feature code?** Which features and why?
 
 **This exercise is the most important validation you can do.** Your answers tell you exactly what to fix before scaling to 5 features.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I decomposed a system into 3 features (describe briefly). Analyze what would break if I scaled this decomposition to 7 features. Which patterns scale and which need redesign?"
+
+**Expected Outcome**: Strategic understanding of which decomposition patterns scale vs. break at larger feature counts.
 
 ---
 

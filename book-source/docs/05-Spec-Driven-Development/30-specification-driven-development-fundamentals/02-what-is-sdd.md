@@ -61,6 +61,9 @@ As spec-driven development gains attention, the term "spec" is becoming diluted.
 
 **Without these characteristics**, you're doing good prompting, not spec-driven development. SDD implies commitments about process, tooling, and long-term maintenance that casual prompting doesn't. When evaluating SDD tools or practices, check whether they meet these characteristics.
 
+#### 💬 AI Colearning Prompt
+> "What's the difference between a detailed prompt and a real specification? Why does the distinction between 'good prompting' and 'spec-driven development' matter for professional software teams?"
+
 ---
 
 ## The Spec Implementation Levels
@@ -134,6 +137,9 @@ Think of specs as **temporary blueprints** - relevant only to the tasks that cre
 
 This distinction prevents confusion and ensures AI agents apply the right level of context to their work.
 
+#### 🎓 Expert Insight
+> In AI-native development, memory banks are your organization's immune system—they prevent bad patterns from recurring. Specs are your surgical instruments—they solve specific problems precisely. Confusing the two is like using a scalpel when you need a vaccine, or vice versa.
+
 ---
 
 ## Wait what is a Spec Anyway?
@@ -151,6 +157,32 @@ A good spec typically includes:
 - Functional Requirements: What must always be true.
 - Non-Functional Requirements: Performance, reliability, scalability, etc.
 - Test Scenarios: Example inputs and expected outputs.
-- Contextual Principles: Design philosophies, architecture rules, or “immutable laws.”
+- Contextual Principles: Design philosophies, architecture rules, or "immutable laws."
 
-In essence, a spec isn’t a suggestion — it’s a constitution for your project. Let's move to lesson 3 and build your first Spec.
+In essence, a spec isn't a suggestion — it's a constitution for your project.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Help me write a specification template for a simple REST API endpoint. What sections should it include? Walk me through what belongs in each section and why."
+
+**Expected Outcome**: Your AI will suggest sections like Intent, Inputs/Outputs, Functional Requirements, Non-Functional Requirements, and Test Scenarios. This teaches you the anatomy of a good specification before you write your first one.
+
+---
+
+## Try With AI
+
+Ready to solidify your understanding of SDD? Explore these four prompts:
+
+**🔍 Explore the Concept:**
+> "Explain the three spec implementation levels (spec-first, spec-anchored, spec-as-source) with a concrete example. Which level should a small team starting with SDD aim for?"
+
+**🎯 Practice Distinguishing:**
+> "Here's what I wrote: [paste a description of a feature you need]. Is this a memory bank rule (applies to everything) or a spec (applies to this feature)? Explain your reasoning."
+
+**🧪 Test Your Understanding:**
+> "Compare SDD to Test-Driven Development (TDD). How are they similar? How are they different? Can they work together?"
+
+**🚀 Apply to Your Work:**
+> "I'm working on [describe your project]. Help me identify: (1) What should go in my memory bank/constitution? (2) What should go in feature-specific specs?"
+
+---

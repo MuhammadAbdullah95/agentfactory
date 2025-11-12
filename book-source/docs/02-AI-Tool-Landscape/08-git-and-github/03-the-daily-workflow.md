@@ -173,6 +173,11 @@ Pattern: Complete this sentence: "This commit will ______"
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why does Git separate 'staging' (git add) from 'committing' (git commit)? Why not just commit everything at once?"
+
+---
+
 ## Task 5: Backup to Cloud
 
 Upload your commits to GitHub.
@@ -243,6 +248,19 @@ You're learning:
 - **How to verify** (always check it worked)
 
 This is the professional pattern: understand concepts, use AI for execution.
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize the 5-step workflow syntax—you understand the workflow intent: track → review → select → save → backup. When you want to save work safely, you tell AI "commit and push my changes" and it handles init/status/add/commit/push. Your value is understanding WHEN each step matters, not memorizing command flags.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Walk me through the complete daily workflow: initialize a test project, create a file, stage it, commit it, and show me the commit history. Then explain what each step accomplished."
+
+**Expected Outcome**: You'll understand not just HOW the workflow operates, but WHY each step exists (init = start tracking, status = awareness, add = selection, commit = save point, push = backup).
 
 ---
 

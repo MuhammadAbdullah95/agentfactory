@@ -259,6 +259,11 @@ No USB drives, no email, no confusion. Your code follows you everywhere.
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why does GitHub require authentication (tokens or SSH) instead of just using my GitHub username and password like a normal website?"
+
+---
+
 ## Key Commands Reference
 
 | Task | Command |
@@ -312,6 +317,19 @@ Ask Gemini CLI in natural language - you don't need to memorize these.
 - Commit your token to code
 - Use GitHub password for Git commands (use token)
 - Force push without understanding consequences
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize GitHub connection commands—you understand cloud backup intent. When you want to sync with GitHub, you specify "connect to my repo and push" and AI handles `git remote add origin / git push -u origin main`. Your value is understanding WHEN to sync (end of session, before switching computers), not memorizing remote/origin/upstream syntax.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Walk me through connecting a local repository to GitHub: create the remote connection, do the first push, then pull to verify synchronization. Explain what 'origin' and 'main' mean."
+
+**Expected Outcome**: You'll understand GitHub integration isn't about commands—it's about the relationship between local (your computer) and remote (GitHub cloud). Push = upload your commits. Pull = download others' commits. Origin = the GitHub copy. Main = the primary branch.
 
 ---
 

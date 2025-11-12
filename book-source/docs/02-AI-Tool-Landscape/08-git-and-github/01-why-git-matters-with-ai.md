@@ -146,6 +146,11 @@ If your computer breaks, your learning projects are safe.
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why does Git use 'commits' as save points instead of just auto-saving files continuously like Google Docs?"
+
+---
+
 ## Real Example
 
 **Situation**: You're learning with a calculator exercise. It works. AI offers to make it "better."
@@ -187,6 +192,11 @@ With Git + AI, you can:
 
 Without Git? AI feels risky.
 With Git? AI becomes your safe learning partner.
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize Git commands—you understand version control intent. When you need to save work safely, you specify "commit my changes" and AI handles the syntax. Your value is knowing WHEN to commit (before risky changes), not HOW to type `git commit -m`.
 
 ---
 

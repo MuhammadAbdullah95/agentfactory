@@ -107,6 +107,9 @@ Output: Only Python files
 - Pipes chain them together
 - The output of one becomes input to the next
 
+#### 💬 AI Colearning Prompt
+> "Why do pipes use the `|` symbol? What's the conceptual connection between 'pipeline' and the vertical bar character?"
+
 ---
 
 ## Chain Multiple Commands with Pipes
@@ -193,6 +196,9 @@ Each command transforms the data in some way:
 
 **The power**: You build complex operations by combining simple commands.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize pipe syntax like `grep | awk | sed | sort | uniq`. You understand WHAT you need ("filter these logs, extract column 5, remove duplicates"), and AI chains the commands. Your job: understand each step's purpose, verify the output makes sense.
+
 ---
 
 ## Build Complex Pipelines for Real Problems
@@ -238,6 +244,12 @@ Pipes are central to bash because they're:
 - "Show me repeated errors and their frequency" → `grep | sort | uniq -c`
 
 Your AI builds the pipeline. You understand what's happening by tracing the data flow.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Find all files in the current directory containing 'error', count how many matches exist, and explain each step of the pipeline. Then modify the pipeline to show only unique error messages."
+
+**Expected Outcome**: You understand how to chain grep, sort, uniq, and wc commands, and can request pipeline modifications from AI.
 
 ---
 

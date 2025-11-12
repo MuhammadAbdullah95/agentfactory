@@ -68,6 +68,9 @@ For macOs/Linux you can use:
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
+#### 🎓 Expert Insight
+> In AI-native development, terminal comfort is a skill multiplier. The 5 minutes you invest learning basic terminal commands unlocks 10x productivity with AI tools. You're not becoming a "terminal expert"—you're removing the friction between intent and execution.
+
 ### Step 2: Verify Installation
 
 Check that Claude Code is installed correctly:
@@ -147,6 +150,12 @@ claude "Hello! Can you confirm Claude Code is working?"
 ```
 
 **Expected output**: Claude responds with a greeting confirming the connection works.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I just installed Claude Code. Create a simple 'Hello World' workflow that: (a) shows me Claude can read a file, (b) proposes a small change, (c) explains what it did. Use a safe test file."
+
+**Expected Outcome**: Confidence that Claude Code can read, propose changes, and explain actions—plus understanding of the approval workflow.
 
 ---
 

@@ -487,6 +487,11 @@ You used **every major Git concept** from this chapter!
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "In this capstone, AI generated the Python code but I managed Git. Why is this division of responsibility important? What would go wrong if AI managed Git too?"
+
+---
+
 ## Success Checklist
 
 Verify you completed everything:
@@ -535,6 +540,19 @@ Verify you completed everything:
 - GitHub portfolio project
 
 **This workflow applies to ALL learning projects** - whether you're learning web development, data science, or anything else. The Git workflow stays the same.
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize the 6-step workflow commands—you understand the professional development pattern: init → develop → test → backup → review → publish. When building projects, you orchestrate this workflow ("create project, develop feature, test on branch, push to GitHub, create PR") and AI executes the Git details. Your value is managing quality and safety, not typing git commands.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Reflect on this capstone: I managed Git workflow, you generated code. Explain why this division matters and what professional skills I practiced beyond just 'using Git commands.'"
+
+**Expected Outcome**: You'll realize the capstone taught decision-making (when to branch, when to commit, when to merge), not command memorization. Professional developers orchestrate workflows and validate quality—AI handles syntax. This is the AI-native pattern: human judgment + AI execution.
 
 ---
 

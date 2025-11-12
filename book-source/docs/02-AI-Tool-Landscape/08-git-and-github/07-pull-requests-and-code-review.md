@@ -378,6 +378,24 @@ Most PR actions happen on GitHub website (create, merge, comment).
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why create a Pull Request instead of just merging branches directly? What problem does the PR review process solve?"
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize PR creation steps—you understand review intent. When changes are ready for main, you specify "create a PR documenting my changes and AI assistance" and AI helps generate professional descriptions. Your value is explaining WHAT changed and WHY (business context, testing approach), not clicking GitHub buttons in the right order.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Help me create a professional PR description for a calculator feature. Include: what changed, how AI helped, and testing instructions. Then explain why each section matters for reviewers."
+
+**Expected Outcome**: You'll understand PRs aren't about mechanics—they're about communication. Description = tells reviewers what to expect. AI documentation = transparency about AI role. Testing instructions = makes review faster and safer.
+
+---
+
 ## Try With AI
 
 Practice the PR workflow.

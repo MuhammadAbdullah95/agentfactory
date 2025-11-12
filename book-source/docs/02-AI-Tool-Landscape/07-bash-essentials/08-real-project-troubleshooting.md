@@ -127,6 +127,9 @@ Fetches current weather data and saves to file.
 3. Run: `python src/main.py`
 EOF
 
+#### 💬 AI Colearning Prompt
+> "When setting up a Python project, why create both `requirements.txt` AND a `.env` file? What problem does each one solve?"
+
 $ cat > .env << 'EOF'
 WEATHER_API_KEY=test-key-12345
 EOF
@@ -274,6 +277,9 @@ Response: {'cod': '401', 'message': 'Invalid API key. Please see http://openweat
 **You**: "So you added error handling so the user knows what went wrong instead of seeing a cryptic traceback?"
 
 **Agent**: "Exactly. Error handling makes debugging easier. Users (and you, when troubleshooting) get clear messages about what's wrong and how to fix it."
+
+#### 🎓 Expert Insight
+> In AI-native development, troubleshooting isn't about memorizing error codes—it's about pattern recognition. When you see "ModuleNotFoundError", you don't need to remember pip syntax. You understand the PATTERN (missing dependency), tell AI "install this package", and verify it's resolved. Errors become conversations, not obstacles.
 
 ---
 
@@ -429,6 +435,12 @@ This is completely normal. Troubleshooting is an essential skill."
 - **Debugging error** → You understand what's wrong and how to fix it
 
 Each error message is your AI telling you what to fix next.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Set up a Python project with: directory structure (src/, tests/), requirements.txt with requests, .env for an API key, .gitignore to protect secrets, and a main.py that reads the API key from environment. Then verify everything is configured correctly."
+
+**Expected Outcome**: You understand complete project setup workflow integrating navigation, file operations, configuration, secrets management, and verification.
 
 ---
 

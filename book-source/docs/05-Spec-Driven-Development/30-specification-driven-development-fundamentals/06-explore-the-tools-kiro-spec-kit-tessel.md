@@ -55,6 +55,9 @@ Before comparing frameworks, ground yourself in reality. **These questions deter
 
 **Quick self-assessment**: Answer these questions. Don't overthink—your gut feeling matters here. Write them down; you'll refer back to them.
 
+#### 💬 AI Colearning Prompt
+> "How do I know which SDD framework fits my situation? What questions should I ask myself before choosing between lightweight (Kiro) vs. governance-heavy (Spec-Kit Plus) approaches?"
+
 ---
 
 ## Four SDD Approaches – Designed for Different Needs
@@ -324,5 +327,32 @@ Spec-Kit Plus (AI-native SDD for professional teams)
 - Scales from solo to teams of Humans and AI Agents working together.
 - Includes domain expertise (Education template for this book, healthcare/fintech/aerospace for others)
 - Captures learning (PHRs) and reasoning (ADRs) automatically
+
+#### 🎓 Expert Insight
+> In AI-native development, your framework choice reveals your mindset. Kiro says "I want minimal friction." Spec-Kit says "I need governance." Spec-Kit Plus says "I'm building with AI agents for the long term." Tesel says "Specs ARE my code." There's no wrong answer—but mismatched tools and context creates friction. A solo developer using Spec-Kit Plus wastes time on overhead. A 50-person team using Kiro creates chaos. Match tool to reality.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Based on my situation [describe: team size, project complexity, domain constraints], which SDD framework should I use: Kiro, Spec-Kit, Spec-Kit Plus, or Tesel? Walk me through the decision criteria and explain the tradeoffs."
+
+**Expected Outcome**: Your AI will ask clarifying questions (team size? regulated domain? AI agent usage?) and recommend a framework with specific rationale based on your context.
+
+---
+
+## Try With AI
+
+Ready to make an informed framework decision? Explore these prompts:
+
+**🔍 Explore Framework Tradeoffs:**
+> "Compare Kiro vs. Spec-Kit Plus for a 5-person startup building a fintech app. What does each framework give me? What do I sacrifice? Which would you recommend and why?"
+
+**🎯 Practice Decision-Making:**
+> "I'm a solo developer learning SDD for the first time. Should I start with Kiro (simple) or jump to Spec-Kit Plus (what this book teaches)? What's the learning curve difference?"
+
+**🧪 Test Framework Understanding:**
+> "Explain the difference between GitHub's Spec-Kit (open source) and Panaversity's Spec-Kit Plus (evolution). What three features does Spec-Kit Plus add, and why do they matter for AI-native teams?"
+
+**🚀 Apply to Your Project:**
+> "My project: [describe team, domain, constraints]. I'm currently using [no framework / ad-hoc specs / existing tool]. Should I adopt SDD? If yes, which framework fits best? Give me a migration plan."
 
 ---

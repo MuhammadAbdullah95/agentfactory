@@ -57,6 +57,9 @@ You → Gemini CLI → MCP Servers → External World
               [Live websites, updated docs, databases, APIs]
 ```
 
+#### 💬 AI Colearning Prompt
+> "Why is MCP called a 'protocol' rather than just a 'plugin system'? What makes it different from traditional software extensions?"
+
 ### Why MCP Exists (The Business Problem It Solves)
 
 **Business scenario:** You're researching 10 competitors.
@@ -147,6 +150,9 @@ gemini /mcp
 - ✅ Gemini adapts to your OS and situation
 - ✅ You can troubleshoot by asking follow-up questions
 - ✅ You understand WHY, not just WHAT
+
+#### 🎓 Expert Insight
+> In AI-native development, installing tools shifts from "following installation guides" to "asking AI to configure for you." The skill isn't memorizing JSON syntax—it's understanding what capabilities you need and letting AI handle OS-specific implementation. You're the architect; AI is the installer.
 
 ### MCP Server 2: Context7 (Live Documentation)
 
@@ -291,6 +297,12 @@ Provide a business-friendly summary (not deeply technical) with:
 - Clear timeline for action
 - Business-language summary for stakeholders
 - Prioritized by urgency
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I want to add an MCP server that helps with [describe your business need: competitor research / staying current with API docs / database access]. Which MCP server should I install? Walk me through the configuration for my .gemini/settings.json file, then give me a test prompt to verify it works."
+
+**Expected Outcome**: You'll receive a specific MCP server recommendation, configuration instructions tailored to your OS, and a test workflow—practicing capability expansion through AI-guided setup.
 
 ### Workflow 3: Quick Tool Evaluation (Context7)
 

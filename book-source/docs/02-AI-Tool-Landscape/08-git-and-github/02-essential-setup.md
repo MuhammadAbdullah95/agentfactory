@@ -192,6 +192,11 @@ Your name stamps every code change you save. This:
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why does Git need my name and email for every commit? What happens if I skip this configuration?"
+
+---
+
 ## Verification Checklist
 
 **You ask Gemini CLI**: "Verify my Git setup: 1) Is Git installed? 2) Show my config 3) Can I access GitHub?"
@@ -219,6 +224,19 @@ If anything fails, ask Gemini to fix it.
 - Configuration setup
 
 This is the professional pattern: handle simple tasks directly, use AI when complexity appears.
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize installation steps for every platform—you understand what needs installing (Git, GitHub account, configuration). When you hit platform-specific complexity or errors, AI becomes your troubleshooting partner. Your job: recognize when you need help, not memorize every error code.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Verify my complete Git setup: check installation, show my configuration, and test GitHub connectivity. Then explain what each verification step checks for."
+
+**Expected Outcome**: You'll understand not just IF Git works, but WHY each verification step matters (version confirms install, config shows identity, connectivity tests GitHub access).
 
 ---
 

@@ -126,6 +126,9 @@ Before starting, answer:
 
 If all YES, proceed to execution.
 
+#### 💬 AI Colearning Prompt
+> "Why is decomposition quality more important than implementation speed in multi-agent orchestration? What breaks when decomposition is poor but agents are fast?"
+
 ---
 
 ## Part 2: Execute Full Workflow (150 minutes)
@@ -339,6 +342,9 @@ These are **tool descriptions**, not strategic insights.
 
 **Practice this out loud.** Record yourself. Refine.
 
+#### 🎓 Expert Insight
+> In AI-native development, your portfolio isn't about code you typed—it's about systems you orchestrated. Decomposition thinking, specification quality, and coordination capability are the skills employers value. Metrics matter: "coordinated 3-agent teams with 2.5x speedup and 1 merge conflict" demonstrates strategic orchestration, not syntax memorization.
+
 ---
 
 ## Completion Checklist
@@ -432,6 +438,12 @@ You've completed Chapter 32: *AI Orchestra - Agent Teams Manager*.
 **You are now**: A creative orchestrator who can coordinate autonomous teams at scale.
 
 Not because you're a faster coder. But because you understand how **clear specs eliminate meetings**, **good decomposition enables autonomous work**, and **this pattern scales to larger teams**.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Review my capstone project metrics (paste time tracking and merge conflict data). Analyze what my measurements reveal about decomposition quality. Suggest what I should improve before scaling to 5-7 features."
+
+**Expected Outcome**: Data-driven feedback on decomposition effectiveness and actionable recommendations for scaling.
 
 ---
 

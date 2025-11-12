@@ -47,6 +47,9 @@ Think of it like your desk space:
 
 **But here's the truth**: You don't calculate this. You ask your AI: "Can you handle this task?" It tells you.
 
+#### 💬 AI Colearning Prompt
+> "Why are context windows measured in tokens instead of words or pages? What's the relationship between token count and the actual content I can fit?"
+
 ---
 
 ## When Context Size Doesn't Matter (80% of Your Work)
@@ -283,6 +286,9 @@ When you're uncertain, describe your situation and ask.
 - **You don't memorize rules**; you consult AI each time
 - **This works for future tools too**—same questioning approach applies
 
+#### 🎓 Expert Insight
+> In AI-native development, the meta-skill isn't knowing which tool to use—it's knowing how to ask AI which tool fits your situation. Tool memorization is obsolete; AI-guided tool selection is the professional standard. You're training your judgment, not your memory.
+
 ---
 
 ## Practice: Ask About Your Real Situation
@@ -346,6 +352,12 @@ I need to review 20 competitor pricing pages. Which tool should I use?
 ```
 
 **What you'll learn**: At what point does your AI recommend switching to larger-context tools?
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I have a real task: [describe your actual business need with approximate size]. Which tool should I use—ChatGPT, Claude Code, or Gemini CLI? Consider context window, cost (I'm on free tier / have budget), and speed. Give me a clear recommendation with 3-bullet justification."
+
+**Expected Outcome**: You'll receive a tool recommendation tailored to YOUR specific situation—practicing the meta-skill of AI-guided tool selection, not memorizing comparison charts.
 
 ---
 

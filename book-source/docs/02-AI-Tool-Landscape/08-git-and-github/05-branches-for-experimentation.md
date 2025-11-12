@@ -255,6 +255,11 @@ Gemini runs: `git branch --show-current`
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why doesn't Git just let you undo changes on the main branch instead of requiring branches? What problem do branches solve that undo doesn't?"
+
+---
+
 ## Key Commands Reference
 
 | Task | Command |
@@ -290,6 +295,19 @@ You don't need to memorize these - ask Gemini CLI in natural language.
 4. If good → merge
 5. If bad → delete
 6. Main stays safe
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize branch commands—you understand experimentation safety. When AI suggests major changes, you specify "test this on a branch first" and AI handles `git checkout -b / merge / branch -d`. Your value is recognizing when changes need isolation (nervous about outcome = use branch), not typing branch syntax.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Create a test branch, make a small change, show me the diff compared to main, then merge it back. Explain what each step protects against."
+
+**Expected Outcome**: You'll understand branches aren't about command syntax—they're about risk management. Test on branch = main protected. Works? Merge. Breaks? Delete. Your main code never at risk.
 
 ---
 

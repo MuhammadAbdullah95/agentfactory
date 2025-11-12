@@ -155,6 +155,9 @@ claude
 
 **vs Sequential**: 270 minutes (**3x speedup**)
 
+#### 💬 AI Colearning Prompt
+> "Why must features be merged in dependency order? What breaks if Feature 003 (Feedback) merges before Feature 001 (Upload)?"
+
 ---
 
 ## Integration: Merge in Dependency Order
@@ -183,6 +186,9 @@ pytest tests/  # Verify all features work together
 ```
 
 **Expected**: Clean merges if decomposition was good.
+
+#### 🎓 Expert Insight
+> In AI-native development, merge conflicts are feedback on your decomposition quality, not git skill. Clean merges = excellent decomposition. Many conflicts = rethink system boundaries. This insight scales: at 10 agents, poor decomposition becomes chaos; good decomposition enables autonomous parallel work.
 
 ---
 
@@ -226,6 +232,12 @@ Your parallel execution: _____ min
 1. **What enabled parallel work?** (Clear specs? Independent files?)
 2. **Did you have merge conflicts?** (What did they reveal?)
 3. **What would you decompose differently next time?**
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I had [N] merge conflicts during integration (describe conflicts). Analyze what these conflicts reveal about my feature boundaries. Suggest how to redesign the decomposition to eliminate conflicts."
+
+**Expected Outcome**: Understanding how to use merge conflicts as strategic feedback for improving system decomposition.
 
 ---
 

@@ -128,6 +128,9 @@ A **task** is a unit of work that:
 - Doesn't require other tasks to be done first
 - Or clearly depends on specific other tasks
 
+#### 💬 AI Colearning Prompt
+> "Why are tasks sized at 1-2 hours instead of larger chunks like 'full day' or smaller chunks like '15 minutes'? What's the advantage of this granularity for checkpoint-driven development?"
+
 ---
 
 ## The Checkpoint Pattern (CRITICAL)
@@ -283,6 +286,15 @@ Acceptance Criterion: "add(5, 3) = 8.0, add(-2, 5) = 3.0, add('5', 3) raises Typ
 ```
 
 If you can trace this lineage, your tasks are well-connected to your specification.
+
+#### 🎓 Expert Insight
+> In AI-native development, the checkpoint pattern transforms risk management. Without checkpoints, AI generates 5000 lines of code and you review it all at once (high risk: bugs are expensive to fix). With checkpoints, AI generates 200 lines, you review immediately, catch issues early (low risk: bugs are cheap to fix). Professional teams NEVER skip checkpoints—the cost of catching bugs late (in production) is 100x the cost of catching them at checkpoint review.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I've generated tasks for my calculator implementation. Can you review `specs/calculator/tasks.md` and tell me: (1) Are task sizes appropriate (1-2 hours, single testable criterion)? (2) Is the dependency graph correct (tests before implementation, TDD pattern followed)? (3) Can I trace Task 2 (implement add) back through the plan to the specification? (4) Are there tasks that are too large or too small? Then suggest improvements to the task breakdown."
+
+**Expected Outcome**: Your AI should validate task granularity (e.g., "Implement all operations" = too large → split into per-operation tasks), confirm TDD pattern (tests exist before implementation), verify lineage traceability (specification → plan → task), and suggest optimal sizing for checkpoint-driven development.
 
 ---
 

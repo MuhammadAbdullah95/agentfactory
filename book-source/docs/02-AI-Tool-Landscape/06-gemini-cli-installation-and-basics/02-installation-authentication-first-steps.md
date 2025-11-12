@@ -95,6 +95,9 @@ Your default web browser will automatically open with Google's login page. Simpl
 
 After you authorize, your terminal displays the Gemini CLI interface, and you're ready to start. You'll see a prompt where you can type your questions and commands.
 
+#### 💬 AI Colearning Prompt
+> "Why does Gemini CLI use browser-based authentication instead of asking for a password directly in the terminal? What security advantages does this provide?"
+
 ---
 
 ## Understanding the Gemini CLI Interface
@@ -115,6 +118,9 @@ When you're inside Gemini CLI, notice these important elements:
 **Shell Mode:**
 - Type `!` to switch to shell mode (run terminal commands directly)
 - Press ESC to exit shell mode
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize commands like `/help` or `/tools`—you explore conversationally. If you forget a command, just ask: "What commands are available?" Your AI partner tells you. The skill isn't memorization; it's knowing how to ask.
 
 ---
 
@@ -160,6 +166,12 @@ You can run terminal commands directly inside Gemini without exiting:
 - Type `!` to enter shell mode
 - Run any terminal command
 - Press **ESC** to exit shell mode and return to Gemini
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I'm inside Gemini CLI for the first time. Walk me through: (1) checking what tools are available, (2) seeing session stats, and (3) asking you a test question about machine learning. Then explain what each command does."
+
+**Expected Outcome**: You'll practice using `/tools`, `/stats`, and natural conversation while your AI explains each interaction—building familiarity through guided exploration.
 
 ---
 
