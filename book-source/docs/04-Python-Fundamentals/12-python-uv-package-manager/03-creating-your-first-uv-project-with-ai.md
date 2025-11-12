@@ -165,11 +165,11 @@ Adding requests>=2.31.0 to dependencies
 Resolving dependencies... (0.5s)
 Downloaded 5 packages in 0.8s
 Installed 5 packages in 0.2s
- + certifi==2024.7.4
- + charset-normalizer==3.3.2
- + idna==3.7
- + requests==2.32.3
- + urllib3==2.2.2
+ + certifi==2025.11.12
+ + charset-normalizer==3.4.4
+ + idna==3.11
+ + requests==2.32.5
+ + urllib3==2.5.0
 ```
 
 **What just happened:**
@@ -241,9 +241,9 @@ name = "web-client"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 dependencies = [
-    "requests>=2.32.3",
+    "requests>=2.32.5",
 ]
 
 [build-system]
@@ -258,8 +258,8 @@ build-backend = "hatchling.build"
   - `version`: Semantic version (0.1.0 = initial development)
   - `description`: One-line summary of what this does
   - `readme`: Points to README.md for detailed documentation
-  - `requires-python`: Minimum Python version needed (`>=3.11` means Python 3.11 or newer)
-  - `dependencies`: List of required packages (`requests>=2.32.3` means "requests version 2.32.3 or compatible")
+  - `requires-python`: Minimum Python version needed (`>=3.14` means Python 3.14 or newer)
+  - `dependencies`: List of required packages (`requests>=2.32.5` means "requests version 2.32.5 or compatible")
 
 - **`[build-system]` section**: How to package this project (if publishing to PyPI). Uses Hatchling (a modern build tool). You won't touch this initially.
 
@@ -277,13 +277,13 @@ build-backend = "hatchling.build"
 
 Content:
 ```
-3.11
+3.14
 ```
 
 **Purpose**: Tells UV which Python version this project expects. When you (or a teammate) run UV commands, UV uses this Python version automatically.
 
 **Why this matters**:
-- Different Python versions have different features (3.10 doesn't have structural pattern matching, 3.11 does)
+- Different Python versions have different features (3.13 added experimental JIT compiler, 3.14 has deferred annotations by default)
 - Projects can specify minimum versions to ensure compatibility
 - UV respects this file—no manual version switching needed
 
@@ -294,13 +294,13 @@ This file contains exact versions of every package:
 ```toml
 [[package]]
 name = "certifi"
-version = "2024.7.4"
+version = "2025.11.12"
 source = { registry = "https://pypi.org/simple" }
 # ... detailed dependency metadata ...
 
 [[package]]
 name = "requests"
-version = "2.32.3"
+version = "2.32.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
@@ -417,9 +417,9 @@ If you've seen older Python tutorials, you might have encountered `requirements.
 
 **Format**:
 ```
-requests==2.32.3
-certifi==2024.7.4
-urllib3==2.2.2
+requests==2.32.5
+certifi==2025.11.12
+urllib3==2.5.0
 ```
 
 **Limitations**:
@@ -441,8 +441,8 @@ pip freeze > requirements.txt      # Update requirements.txt
 [project]
 name = "web-client"
 version = "0.1.0"
-requires-python = ">=3.11"
-dependencies = ["requests>=2.32.3"]
+requires-python = ">=3.14"
+dependencies = ["requests>=2.32.5"]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4.0"]

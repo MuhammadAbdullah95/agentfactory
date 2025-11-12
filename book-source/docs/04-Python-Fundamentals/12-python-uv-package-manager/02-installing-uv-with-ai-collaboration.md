@@ -241,9 +241,9 @@ uv --version
 
 **Expected output**:
 ```
-uv 0.4.10
+uv 0.9.8
 ```
-(Version number will vary; any version confirms installation succeeded)
+(Version number will vary as UV updates frequently; any version 0.9.x or higher confirms installation succeeded)
 
 ### If Verification Succeeds
 

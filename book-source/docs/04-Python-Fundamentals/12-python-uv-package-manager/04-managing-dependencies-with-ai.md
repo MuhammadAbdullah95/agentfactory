@@ -137,16 +137,16 @@ Explain what this command does and what changes in my project.
 > Resolving dependencies... (0.5s)
 > Downloaded 5 packages in 0.8s
 > Installed 5 packages in 0.2s
->  + certifi==2024.7.4
->  + charset-normalizer==3.3.2
->  + idna==3.7
->  + requests==2.32.3
->  + urllib3==2.2.2
+>  + certifi==2025.11.12
+>  + charset-normalizer==3.4.4
+>  + idna==3.11
+>  + requests==2.32.5
+>  + urllib3==2.5.0
 > ```
 >
 > **What changed**:
 >
-> - `pyproject.toml` now includes `requests>=2.32.3` in the `dependencies` list
+> - `pyproject.toml` now includes `requests>=2.32.5` in the `dependencies` list
 > - `uv.lock` has been updated/created with exact versions
 > - Five packages are now in your `.venv/lib/` directory
 
@@ -163,11 +163,11 @@ Show me the dependencies section of my pyproject.toml
 ```toml
 [project]
 dependencies = [
-    "requests>=2.32.3",
+    "requests>=2.32.5",
 ]
 ```
 
-**Key concept**: The `>=2.32.3` means "version 2.32.3 or any compatible newer version" (following semantic versioning—minor/patch updates are compatible, major updates aren't).
+**Key concept**: The `>=2.32.5` means "version 2.32.5 or any compatible newer version" (following semantic versioning—minor/patch updates are compatible, major updates aren't).
 
 ## Development vs. Production Dependencies: Why Separate Them?
 
@@ -321,11 +321,11 @@ UV's resolver:
 
 ```
 your-project
-├── requests (2.32.3)
-│   ├── certifi (2024.7.4)
-│   ├── charset-normalizer (3.3.2)
-│   ├── idna (3.7)
-│   └── urllib3 (2.2.2)
+├── requests (2.32.5)
+│   ├── certifi (2025.11.12)
+│   ├── charset-normalizer (3.4.4)
+│   ├── idna (3.11)
+│   └── urllib3 (2.5.0)
 └── pytest (8.3.3)  [dev]
     ├── iniconfig (2.0.0)
     ├── packaging (24.1)
@@ -378,7 +378,7 @@ Explain what changes and why updates matter.
 > Resolving dependencies... (0.4s)
 > Downloaded 1 package in 0.3s
 > Installed 1 package in 0.1s
->  ~ requests==2.32.3 -> 2.33.0
+>  ~ requests==2.32.5 -> 2.33.0
 > ```
 >
 > **Why update**:

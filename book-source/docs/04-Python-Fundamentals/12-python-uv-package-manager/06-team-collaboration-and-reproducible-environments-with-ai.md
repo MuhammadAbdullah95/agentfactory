@@ -126,17 +126,17 @@ Let's understand what `uv.lock` contains and how it works.
 ```toml
 [[package]]
 name = "requests"
-version = "2.33.0"
+version = "2.32.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "certifi", version = "2024.7.4" },
-    { name = "charset-normalizer", version = "3.3.2" },
-    { name = "idna", version = "3.7" },
-    { name = "urllib3", version = "2.2.2" },
+    { name = "certifi", version = "2025.11.12" },
+    { name = "charset-normalizer", version = "3.4.4" },
+    { name = "idna", version = "3.11" },
+    { name = "urllib3", version = "2.5.0" },
 ]
 ```
 
-**What this means**: When you run `uv sync`, UV installs `requests==2.33.0` *and* its exact dependency versions (not latest compatible, but the exact versions you used).
+**What this means**: When you run `uv sync`, UV installs `requests==2.32.5` *and* its exact dependency versions (not latest compatible, but the exact versions you used).
 
 ### pyproject.toml vs. uv.lock: Two Files, Different Jobs
 
@@ -276,13 +276,13 @@ How do I set up the environment to start working?
 >
 > **Expected output** (example):
 > ```
-> Using Python 3.13.0 from .python-version
+> Using Python 3.14.0 from .python-version
 > Creating virtual environment at .venv
 > Resolving dependencies from uv.lock... (0.2s)
 > Downloaded 13 packages in 1.5s
 > Installed 13 packages in 0.4s
->  + requests==2.33.0
->  + certifi==2024.7.4
+>  + requests==2.32.5
+>  + certifi==2025.11.12
 >  + ...
 > ```
 >
@@ -370,7 +370,7 @@ How do I install only production dependencies (excluding dev tools)?
 **Dockerfile snippet** (simplified):
 
 ```dockerfile
-FROM python:3.13-slim
+FROM python:3.14-slim
 
 WORKDIR /app
 

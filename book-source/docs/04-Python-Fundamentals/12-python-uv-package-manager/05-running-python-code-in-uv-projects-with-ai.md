@@ -142,14 +142,19 @@ You've created a script `src/fetch_quote.py` that fetches a random quote from an
 # src/fetch_quote.py
 import requests
 
-def get_random_quote():
-    url = "https://api.quotable.io/random"
+def get_random_quote() -> str:
+    """Fetch a random quote from the quotable.io API.
+
+    Returns:
+        str: Formatted quote string with author attribution
+    """
+    url: str = "https://api.quotable.io/random"
     response = requests.get(url)
-    data = response.json()
+    data: dict[str, str] = response.json()
     return f'"{data["content"]}" — {data["author"]}'
 
 if __name__ == "__main__":
-    quote = get_random_quote()
+    quote: str = get_random_quote()
     print(quote)
 ```
 
@@ -209,9 +214,9 @@ You've added `pytest` as a dev dependency (Lesson 4). Your test file `tests/test
 import pytest
 from src.fetch_quote import get_random_quote
 
-def test_get_random_quote():
+def test_get_random_quote() -> None:
     """Test that get_random_quote returns a non-empty string."""
-    quote = get_random_quote()
+    quote: str = get_random_quote()
     assert isinstance(quote, str)
     assert len(quote) > 0
     assert '—' in quote  # Quote format includes em dash separator
@@ -243,7 +248,7 @@ Explain how UV handles development dependencies during test execution.
 > **Expected output** (example):
 > ```
 > ========================= test session starts =========================
-> platform win32 -- Python 3.13.0, pytest-8.3.3, pluggy-1.5.0
+> platform win32 -- Python 3.14.0, pytest-8.3.3, pluggy-1.5.0
 > rootdir: C:\Users\you\projects\my-project
 > collected 1 item
 >
@@ -448,11 +453,16 @@ Let's demonstrate the difference concretely.
 **Script** (`src/test_import.py`):
 ```python
 import sys
-print(f"Python executable: {sys.executable}")
-
 import requests
-print(f"Requests version: {requests.__version__}")
-print("Success! Requests imported correctly.")
+
+def main() -> None:
+    """Test script to verify request module import."""
+    print(f"Python executable: {sys.executable}")
+    print(f"Requests version: {requests.__version__}")
+    print("Success! Requests imported correctly.")
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### Using `uv run` (Correct Method)
@@ -485,14 +495,14 @@ python src/test_import.py
 
 **Output** (example):
 ```
-Python executable: C:\Python313\python.exe
+Python executable: C:\Python314\python.exe
 Traceback (most recent call last):
-  File "src/test_import.py", line 4, in <module>
+  File "src/test_import.py", line 2, in <module>
     import requests
 ModuleNotFoundError: No module named 'requests'
 ```
 
-**What happened**: System Python (C:\Python313\) doesn't have `requests` installed. Wrong environment.
+**What happened**: System Python (C:\Python314\) doesn't have `requests` installed. Wrong environment.
 
 ### Key Takeaway
 
