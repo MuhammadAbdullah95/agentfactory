@@ -134,7 +134,7 @@ print(f"{x} >= {x}: {same}")    # 10 >= 10: True
 
 The operators `>`, `<`, `>=`, `<=` compare magnitude—which value is bigger. They answer: "Is the left side bigger, smaller, or equal?" The `=` in `>=` and `<=` means "or equal to," so `10 >= 10` is True (they're equal).
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > In AI-native development, you don't memorize the difference between `>` and `>=`. You think: "Do I want to include the equal case or not?" Then you use the operator that matches your intent. If you're uncertain, you ask AI: "Should I use > or >= here?" and let AI help you reason through the condition.
 
@@ -165,11 +165,9 @@ print(f"5 == '5': {int_five == string_five}")  # False (different types)
 
 This is crucial: `5 == 5.0` returns True because the **values** are the same, even though one is int and one is float. But `5 == "5"` returns False because "5" is text, not a number.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-
-> "I'm confused about why 5 == 5.0 is True, but 5 == '5' is False. Explain value equality vs. type equality. When does Python care about types vs. just values in comparisons?"
+> **Ask your AI**: "I'm confused about why 5 == 5.0 is True, but 5 == '5' is False. Explain value equality vs. type equality. When does Python care about types vs. just values in comparisons?"
 
 **Expected Outcome**: You'll understand that `==` checks if values are the same (regardless of type in most cases), but type mismatches between completely different types (int vs. string) make them not equal. You'll see how Python's flexibility can be useful but also requires careful thinking.
 
@@ -203,10 +201,6 @@ is_passing: bool = test_score >= passing_score  # True
 is_perfect: bool = test_score == perfect_score  # False
 is_valid: bool = test_score <= perfect_score    # True (score can't exceed 100)
 ```
-
-#### ✨ Teaching Tip
-
-> Use your AI tool to explore edge cases: "What happens if I compare None with 0? Show me the error or result, and explain what's happening."
 
 ## Why Comparisons Matter for Chapter 17
 

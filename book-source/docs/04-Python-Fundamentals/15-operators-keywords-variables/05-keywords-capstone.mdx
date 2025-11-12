@@ -138,7 +138,7 @@ iterations: int = 5          # Alternative name
 
 The reason `for`, `if`, `def` are reserved is that Python needs them for language structure. If you could write `for = 5`, Python would get confused: "Is this the start of a for loop, or is this assigning 5 to the variable for?"
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > In AI-native development, you don't memorize all 35 keywords. You develop a reflex: "If I get a SyntaxError when naming a variable, it might be a keyword. Let me check with `keyword.iskeyword()`." This defensive habit will save you debugging time.
 
@@ -173,11 +173,9 @@ for name in potential_names:
 
 This pattern—checking before using—is good defensive programming.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-
-> "Create a program that:
+> **Ask your AI**: "Create a program that:
 > 1. Lists all 35 Python keywords
 > 2. Groups them by category (control flow, function definition, special values, etc.)
 > 3. Explains what each category does
@@ -201,6 +199,7 @@ Now let's bring everything together. You'll create a calculator that demonstrate
 If you haven't learned functions yet, here's a straightforward version:
 
 ```python
+# DEMO: Interactive calculator (requires user input)
 # Capstone Project: Simple Calculator with Type Safety
 # Demonstrates all 4 operator types + type validation + keyword awareness
 
@@ -281,10 +280,6 @@ print("\n" + "=" * 50)
 print("Calculation complete!")
 print("=" * 50)
 ```
-
-#### ✨ Teaching Tip
-
-> Use your AI tool to extend the calculator: "Add more features to the calculator: modulus (%), floor division (//), exponentiation (**). Show the results for num1=10, num2=3."
 
 **That's the complete calculator!** You've now integrated all four operator types (arithmetic, comparison, logical, assignment) plus keyword awareness and type validation—all using only the Python concepts you've learned so far (Chapters 13-15).
 

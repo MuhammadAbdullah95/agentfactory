@@ -293,7 +293,8 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Find all markdown files
-    markdown_files = list(chapter_dir.rglob("*.md"))
+    # Get both .md and .mdx files
+    markdown_files = list(chapter_dir.rglob("*.md")) + list(chapter_dir.rglob("*.mdx"))
 
     if not markdown_files:
         print(f"Warning: No markdown files found in {chapter_dir}", file=sys.stderr)
