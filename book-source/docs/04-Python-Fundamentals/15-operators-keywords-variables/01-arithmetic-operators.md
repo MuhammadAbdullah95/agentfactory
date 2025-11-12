@@ -109,6 +109,10 @@ Notice something: we're asking AI to explain the **design choice** behind operat
 ### Multiplication, Division, and Floor Division
 
 ```python
+# Continuing from previous example (x=10, y=3)
+x: int = 10
+y: int = 3
+
 # Multiplication: scaling
 mul_result: int = x * y
 print(f"{x} * {y} = {mul_result}")  # 10 * 3 = 30
@@ -126,13 +130,21 @@ Here's something important: **division with `/` always returns a float, even whe
 
 Why? Because division often produces decimals, so Python designed `/` to always return float. If you want an integer result (discarding the decimal), you use `//` (floor division).
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > In AI-native development, you don't memorize why Python made this choice. You understand what's happening (division produces floats, floor division gives integers) and use the right operator for your intent. Then you verify with `type()` to be sure.
 
 Let's verify this with `type()`:
 
 ```python
+# Continuing from previous example (x=10, y=3)
+x: int = 10
+y: int = 3
+
+# Calculate results
+div_result: float = x / y
+floor_result: int = x // y
+
 # Verify the types
 print(f"Type of 10 / 3: {type(div_result)}")    # <class 'float'>
 print(f"Type of 10 // 3: {type(floor_result)}")  # <class 'int'>
@@ -149,6 +161,10 @@ Notice: when you floor divide two floats, the result is still a float. Python fo
 ### Modulus: The Remainder Operator
 
 ```python
+# Continuing from previous example (x=10, y=3)
+x: int = 10
+y: int = 3
+
 # Modulus: finds the remainder
 mod_result: int = x % y
 print(f"{x} % {y} = {mod_result}")  # 10 % 3 = 1
@@ -163,6 +179,9 @@ The modulus operator `%` is useful when you care about what's left over. For exa
 ### Exponentiation: Raising to a Power
 
 ```python
+# Continuing from previous example (x=10)
+x: int = 10
+
 # Exponentiation: raising to a power
 exp_result: int = x ** 2
 print(f"{x} ** 2 = {exp_result}")  # 10 ** 2 = 100
@@ -175,11 +194,9 @@ print(f"2 ** 10 = {2 ** 10}")      # 1024 (exponents grow fast!)
 
 Notice the symbol: `**` (two asterisks), not `^`. The caret symbol `^` does something different in Python (bitwise XOR), so don't use it for exponentiation.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-
-> "I understand that arithmetic operators in Python are +, -, *, /, //, %, **. But why does `/` always return a float even when dividing two integers? And when would I actually use `//` vs. `/`? Give me a concrete example where using the wrong one would cause a bug."
+> **Ask your AI**: "I understand that arithmetic operators in Python are +, -, *, /, //, %, **. But why does `/` always return a float even when dividing two integers? And when would I actually use `//` vs. `/`? Give me a concrete example where using the wrong one would cause a bug."
 
 **Expected Outcome**: You'll understand the design decisions behind Python's division operators and how they interact with types.
 
@@ -206,10 +223,6 @@ print(type(mixed))             # <class 'float'>
 ```
 
 **The pattern**: When you mix `int` and `float`, the result is always `float`. Python considers this safe because a float can represent any integer value (though with potential precision loss for very large numbers).
-
-#### ✨ Teaching Tip
-
-> Use your AI tool to explore edge cases: "What happens if I try to add an integer to a string? Show me the error and explain what `TypeError` means."
 
 ## Operator Precedence: Order Matters
 
@@ -277,10 +290,6 @@ This example shows:
 - Different types in the results (int vs. float)
 - Type verification with `type()`
 
-#### 🎓 Instructor Commentary
-
-> In AI-native development, you don't memorize these operators—you understand them by using them, checking types, and asking AI when surprised. The moment you see an unexpected result (like `10 / 3` being `3.3333...`), you ask: "Why is this a float?" That question-asking habit is more valuable than memorization.
-
 ## Common Mistakes (And Why They Happen)
 
 **Mistake 1: Expecting `5 / 2` to give `2`**
@@ -302,10 +311,10 @@ result: float = 5 + 2.0   # Result is 2.0, not an int
 
 ```python
 # WRONG: This is division by 2, not 2 to the power
-result = 5 / 2           # 2.5 (not what you want)
+result: float = 5 / 2           # 2.5 (not what you want)
 
 # CORRECT: Use ** for exponentiation
-result = 5 ** 2          # 25 (5 squared)
+result: int = 5 ** 2          # 25 (5 squared)
 ```
 
 ---

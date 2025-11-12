@@ -120,7 +120,7 @@ Let's see each assignment operator with equivalent expanded forms.
 count: int = 10
 
 # Method 1: Expanded form (long way)
-count = count + 5
+count: int = count + 5
 print(f"After + : {count}")  # 15
 
 # Method 2: Shorthand (equivalent, cleaner)
@@ -143,7 +143,7 @@ print(f"Balance after withdrawal: {balance}")  # 75.0
 
 The `+=` operator adds a value to the current value and stores the result back. `count += 5` means "take the current value of count, add 5, and store the result back in count." Same for `-=`, just with subtraction.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > In AI-native development, you don't worry about memorizing the difference between `count = count + 5` and `count += 5`. You use whichever feels more readable in context. Most Python developers prefer `+=` because it's concise and shows your intent clearly: "increment this variable." If you forget the syntax, ask AI: "Show me the shorthand for adding 5 to count," and move on.
 
@@ -172,11 +172,9 @@ print(f"Cost per person: ${total:.2f}")  # $25.00
 
 The `*=` operator is very useful for percentages and scaling. The `/=` operator is useful for averaging or dividing quantities. Remember: `/=` always produces a float result (same as `/` from Lesson 1).
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-
-> "Write code that tracks a bank account:
+> **Ask your AI**: "Write code that tracks a bank account:
 > 1. Start with balance = 1000
 > 2. Add a deposit: balance += 500
 > 3. Subtract a withdrawal: balance -= 200
@@ -228,10 +226,6 @@ print(f"Final total: ${total:.2f}")  # $46.49
 ```
 
 Again, you'll see this pattern frequently in Chapter 17.
-
-#### ✨ Teaching Tip
-
-> Use your AI tool to explore other assignment operators: "What does `x //= 2` do? Show me an example and explain how it's different from `x /= 2`. When would you use floor division assignment?"
 
 ## Type Behavior with Assignment Operators
 
