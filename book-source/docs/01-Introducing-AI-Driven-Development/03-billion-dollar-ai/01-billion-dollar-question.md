@@ -103,6 +103,8 @@ That's what this chapter teaches you.
 
 > Notice how this opportunity isn't just about AI getting better. It's about convergence. Tools crossed a threshold (technical), developers adopted them (social), and economics shifted (financial). When multiple independent forces align, opportunities compound. This is why timing matters: you're not just riding one trend, you're riding three trends that reinforce each other.
 
+![Diagram showing three independent forces (capability threshold, mainstream adoption, economic shift) converging to create opportunity window for AI-era entrepreneurship](/img/part-1/chapter-3/three-forces-convergence.png)
+
 By the end, you'll understand why the path to a billion dollars no longer requires a traditional startup scaling curve, and how to take that path yourself.
 
 #### 🤝 Practice Exercise

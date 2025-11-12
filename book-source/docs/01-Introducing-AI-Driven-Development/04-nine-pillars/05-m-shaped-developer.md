@@ -63,6 +63,8 @@ For years, the career development ideal was the "T-shaped developer": deep exper
 
 **The M-Shaped Developer is different.** Instead of one deep expertise peak, you develop multiple peaks—deep, production-level mastery across several complementary domains. On a skill graph, this creates an "M" shape: multiple areas of true expertise, not just surface familiarity.
 
+![Comparison of developer skill profiles: Specialist shows deep expertise in one domain, T-Shaped shows deep expertise in one domain with basic knowledge across others, M-Shaped shows deep expertise across multiple complementary domains](/img/part-1/chapter-4/m-shaped-developer-profile.png)
+
 Here's the distinction:
 
 | Profile Type | Skill Depth | Number of Domains | Traditional Team Size | AIDD Enabled? |
@@ -107,6 +109,8 @@ Traditional development required separate specialists because mastering multiple
 **The key insight:** These pillars work together. You don't need to memorize every DevOps pattern—you use AI agents (Pillar 1), natural language specs (Pillar 2), and SDD (Pillar 7) to maintain professional-level work even when you're not the domain expert.
 
 ## Real M-Shaped Profiles in Action
+
+![Three example M-shaped developer profiles: Vertical SaaS Builder combines healthcare domain knowledge with full-stack development, MLOps, and product design; Platform Engineer combines backend architecture, DevOps, cloud infrastructure, and security; AI Product Developer combines frontend React, ML model integration, API design, and user research](/img/part-1/chapter-4/m-shaped-profiles-examples.png)
 
 **Profile 1: The Vertical SaaS Builder**
 - **Deep Expertise:** Healthcare domain knowledge + Full-stack development + MLOps + Product design

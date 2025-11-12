@@ -61,6 +61,8 @@ Now you understand the layers (Snakes and Ladders), the economics (super orchest
 
 Enter the Piggyback Protocol Pivot (PPP): a three-phase strategy that lets you piggyback on incumbents, build defensibility, then pivot to strategic control.
 
+![Timeline showing three phases of Piggyback Protocol Pivot strategy: Phase 1 Infrastructure Layering (0-6 months), Phase 2 Market Validation (6-18 months), and Phase 3 Strategic Pivot (18-36 months), illustrating the sequential market entry roadmap for solo entrepreneurs](/img/part-1/chapter-3/three-phase-ppp-timeline.png)
+
 ## Phase 1: Infrastructure Layering (Months 0-6)
 
 **Your goal**: Become the indispensable bridge between fragmented incumbent systems.
