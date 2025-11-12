@@ -164,6 +164,9 @@ Also add a scenario for 0.1 + 0.2 to document IEEE 754 precision behavior.
 
 **See the iteration?** AI asks questions → You clarify → Spec improves. This happens throughout the process.
 
+#### 💬 AI Colearning Prompt
+> "Why do AI agents ask clarifying questions during spec-writing instead of just making assumptions? How does this question-asking improve the final specification quality?"
+
 ## Part 3: Edge Cases & Design Decisions (The "Gotchas")
 
 Acceptance criteria covered **expected behavior**. Edge cases reveal **boundary conditions** where specs must be most precise.
@@ -208,6 +211,9 @@ When writing any spec, ask:
 - ✅ What are the mathematical/computational limits?
 - ✅ What assumptions am I making?
 - ✅ How will users expect errors to surface?
+
+#### 🎓 Expert Insight
+> In AI-native development, edge cases aren't bugs waiting to happen—they're design decisions waiting to be made. When you specify "division by zero raises ZeroDivisionError" instead of leaving it ambiguous, you're not being pedantic. You're preventing your AI from making a choice you'll regret at 2 AM when production breaks.
 
 ## Part 4: The Complete Calculator Specification
 
@@ -387,6 +393,12 @@ You made **design decisions**:
 
 **Specifications force you to think through design before coding.**
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I want to add a modulo operation (remainder after division) to the calculator. Help me write the complete specification: user story, acceptance criteria, edge cases, and test scenarios. What design decisions do I need to make?"
+
+**Expected Outcome**: Your AI will ask about edge cases like modulo by zero, negative numbers, float vs int behavior, and help you make explicit design decisions before implementing.
+
 ---
 
 ## Extension Challenges
@@ -487,5 +499,23 @@ This teaches you **when different methodologies apply** in AI-native development
 This isn't just theory—you built a **complete, tested, production-ready calculator module** by specifying first, coding second.
 
 **That's the power of Specification-Driven Development.**
+
+---
+
+## Try With AI
+
+You've built a complete calculator specification collaboratively. Now deepen your spec-writing mastery:
+
+**🔍 Explore Advanced Edge Cases:**
+> "What edge cases exist for exponentiation that don't exist for basic arithmetic? Think about 0^0, negative bases with fractional exponents, and very large results. Help me specify these correctly."
+
+**🎯 Practice Spec Iteration:**
+> "Review my calculator specification [paste your spec]. What ambiguities remain? What edge cases did I miss? What design decisions are implicit that should be explicit?"
+
+**🧪 Test Spec Completeness:**
+> "Generate code from my calculator spec, then intentionally introduce an ambiguity (like not specifying division by zero behavior). Show me what goes wrong when the spec has gaps."
+
+**🚀 Apply to Real Projects:**
+> "I need to build [describe your actual feature]. Walk me through writing a complete specification using the calculator example as a template: user stories → acceptance criteria → edge cases → complete spec."
 
 ---

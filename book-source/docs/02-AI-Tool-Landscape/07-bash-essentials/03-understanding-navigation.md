@@ -104,6 +104,9 @@ Your AI uses an absolute path—a complete address just like you did.
 
 Both are **absolute paths** because they start with `/` or `~` and specify a complete address. The folders are different because you're on different computers, but the **pattern is identical**.
 
+#### 💬 AI Colearning Prompt
+> "Why would you use an absolute path vs. a relative path when navigating? What are the tradeoffs?"
+
 ---
 
 ## Use `cd` to Navigate Into Subfolders (Relative Paths)
@@ -171,6 +174,9 @@ Paths are critical for safe navigation. Consider this scenario:
 
 By understanding paths—knowing exactly where your AI is—you prevent mistakes.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize path syntax like `../../folder/subfolder`. You understand the CONCEPT (go up two levels, then navigate to subfolder), and AI translates that to the correct path. Your job: verify AI is navigating to the RIGHT place.
+
 ---
 
 ## Use `cd ..` to Go Up One Level
@@ -222,6 +228,12 @@ Your AI uses `..` the same way you do.
 ### Step 3: Compare and Understand
 
 Both you and your AI used `cd ..` to move up one level. The **command is identical**. The starting and ending paths are different because you're on different computers, but **the navigation logic is the same**.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Navigate from your current directory to your home directory, then into Documents, then back up one level. After each navigation step, show me where you are with pwd."
+
+**Expected Outcome**: You see the full navigation path and understand how `cd`, `cd ~`, and `cd ..` work together to move through the file system.
 
 ---
 

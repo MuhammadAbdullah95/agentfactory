@@ -180,6 +180,9 @@ Do this quickly, one after the other. Because the commands are non-blocking (the
 
 This is the **first proof** that decomposition works: if your specifications truly are independent, planning them in parallel will not produce conflicts. If they *do* conflict later, it means your decomposition had hidden dependencies.
 
+#### 💬 AI Colearning Prompt
+> "How does a shared constitution prevent quality drift when 3 AI agents plan features in parallel? What would happen without constitutional alignment?"
+
 ## Evaluating Plan Quality as a Decomposition Indicator
 
 After 20 minutes, you have 3 plans. The real skill is reading what they tell you about your decomposition quality.
@@ -247,6 +250,9 @@ Use these rules of thumb:
 
 If you find bad indicators, note them—you'll likely need to refactor your decomposition before moving to implementation.
 
+#### 🎓 Expert Insight
+> In AI-native development, plan length and complexity are early signals of decomposition quality. You're not just generating plans—you're validating that your specifications are truly parallelizable. Good decomposition produces balanced plans; poor decomposition produces 12-page monsters that signal rework needed.
+
 ## Running Parallel Task Generation
 
 Once you're confident in your plan quality, it's time to generate tasks in parallel.
@@ -302,6 +308,12 @@ Here's where terminal management becomes important. With three planning sessions
 You can switch between terminals to check progress, but avoid constantly jumping between them.
 
 > **Tip**: At 10+ sessions, you'll need better tools (tmux, terminal multiplexers, or automated orchestration). For now with 3, simple tabs/windows work fine.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Analyze these 3 task lists (paste excerpts). Are tasks balanced in complexity? Do any tasks have hidden dependencies that should be explicit? Suggest improvements to task granularity."
+
+**Expected Outcome**: Understanding how task list analysis reveals decomposition quality issues before implementation begins.
 
 ---
 

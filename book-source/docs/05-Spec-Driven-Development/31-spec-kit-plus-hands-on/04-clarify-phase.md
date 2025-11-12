@@ -116,6 +116,12 @@ The goal: Make your specification **so clear** that the planning phase can gener
    - Example: What happens with power(2, 10000)? Overflow?
    - Example: What happens with very small numbers (e.g., 0.000000001)?
 
+#### 💬 AI Colearning Prompt
+> "Why is /sp.clarify a 'quick check' rather than a formal phase like /sp.specify or /sp.plan? What's the purpose of finding gaps before moving to planning?"
+
+#### 🎓 Expert Insight
+> In AI-native development, iterative refinement is faster than "perfect on first try." The Clarify phase embodies this: write a good-enough spec quickly, then use AI to spot gaps you missed. This is MORE efficient than trying to write a perfect spec alone—AI sees patterns humans overlook (missing edge cases, ambiguous terms, Constitution conflicts). Two rounds of clarification produce better specs than hours of solo perfectionism.
+
 ---
 
 ## Part B: The Clarify Workflow
@@ -233,6 +239,12 @@ If yes to all, your spec is ready for planning.
 - Does this align with my Constitution?
 
 Then decide: Accept, Reject, or Modify.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I ran /sp.clarify on my calculator specification and received 5-7 suggestions for improvement. Can you help me prioritize: (1) Which suggestions are CRITICAL (spec won't work without them)? (2) Which are NICE-TO-HAVE (improve quality but not blocking)? (3) Which can I defer to future iterations? Then explain how addressing the critical gaps will improve the planning phase quality."
+
+**Expected Outcome**: Your AI should categorize clarification feedback by urgency (e.g., missing error handling = critical, additional edge cases = nice-to-have), explain why critical gaps block planning (ambiguous requirements → ambiguous plans), and help you make informed decisions about which changes to prioritize before moving to /sp.plan.
 
 ---
 

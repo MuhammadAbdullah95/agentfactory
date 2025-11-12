@@ -99,6 +99,9 @@ Both used `cp` to create a backup. Both checked with `ls` to verify the copy wor
 
 **Key insight**: Copy is the safest operation. Nothing is deleted or moved. You can always delete the copy if you don't need it.
 
+#### 💬 AI Colearning Prompt
+> "What's the difference between `cp` and `cp -r`? Why does copying folders require a flag but copying files doesn't?"
+
 ---
 
 ## Use `cp -r` to Copy Entire Folders
@@ -164,6 +167,9 @@ File operations have different risk levels:
 3. **Ask "Can we undo this?"** (backup if risky)
 4. **Verify the result** (check with `ls` afterward)
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize cp flags like `-r`, `-v`, or `-p`. You understand WHAT you need ("copy recursively with progress" or "preserve permissions"), and AI handles the syntax. Your job: verify the right files were copied to the right place.
+
 ---
 
 ## Try With AI: Side-by-Side Copy Comparison
@@ -197,6 +203,12 @@ Let's practice safe file copying.
 - Can you see both the original and copy? (Yes—both appear in `ls`)
 
 **Key Insight**: Copy is safe because nothing is destroyed. You and your AI follow the same pattern.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Copy my project folder to create a backup called 'project-backup'. Before copying, explain the difference between using `cp` vs `cp -r`, and verify both folders exist after copying."
+
+**Expected Outcome**: You understand recursive copying and can verify successful file operations by checking with `ls`.
 
 ---
 

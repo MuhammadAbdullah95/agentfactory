@@ -188,6 +188,12 @@ You can optionally build Vertical intelligence at start of each project. This is
 
 **Why This Matters**: You don't need to memorize specification templates, planning methodologies, or code patterns. The orchestrator knows which expert to consult for which task. Your job is **thinking clearly about intent and validating results**, not memorizing frameworks.
 
+#### 💬 AI Colearning Prompt
+> "Explain the difference between Horizontal Intelligence (ADRs/PHRs capturing knowledge across time) and Vertical Intelligence (orchestrator delegating to specialized subagents). Why does a project need both?"
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize framework details—you understand the architecture. Spec-Kit Plus's three-tier pattern (You → Orchestrator → Subagents) mirrors how professional teams work: architects make strategic decisions, managers route work to specialists, and specialists execute with expertise. AI simply accelerates what was always the right workflow.
+
 ### Why Spec-Kit Plus Exists (Problem It Solves)
 
 Chapter 30 introduced you to four SDD approaches:
@@ -373,6 +379,12 @@ You should see core Spec-Kit Plus commands:
 - `/sp.phr` - Record prompt history
 
 If the command is recognized, your orchestrator is configured correctly.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I've just installed Spec-Kit Plus in my calculator-project directory. Can you verify my project structure by listing what should be in `.specify/templates/` and `.claude/commands/`? Then explain what each directory's purpose is."
+
+**Expected Outcome**: Your AI companion should confirm the directory structure matches the Spec-Kit Plus installation, explain that templates guide spec/plan/task creation, and clarify that commands are the slash commands you'll use throughout the workflow.
 
 ---
 

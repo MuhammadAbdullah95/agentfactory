@@ -116,6 +116,9 @@ This lesson teaches you how to work with generated plans and how to capture impo
 
 **The Cascade Effect**: Detailed spec → detailed plan. Vague spec → vague plan.
 
+#### 💬 AI Colearning Prompt
+> "Why does the Plan phase generate implementation strategy for ALL operations at once instead of planning each operation separately? What consistency benefits does this provide?"
+
 ---
 
 ## Generating Your Implementation Plan
@@ -199,6 +202,15 @@ Now let's identify and document the architectural decisions from your calculator
 ```
 
 It will review the plan and record key architectural decisions in history/adr directory.
+
+#### 🎓 Expert Insight
+> In AI-native development, ADRs aren't documentation debt—they're future leverage. When a teammate (or AI agent) asks "Why did we use ValueError instead of custom exceptions?", you point to the ADR. When requirements change and someone questions the architecture, the ADR explains the original constraints and tradeoffs. ADRs save hours of archaeological code reading by preserving the "why" alongside the "what."
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I've generated an implementation plan for my calculator. Can you review `specs/calculator/plan.md` and help me identify: (1) Which 2-3 decisions are architecturally significant (long-term impact, multiple alternatives, future questioning)? (2) Which decisions are trivial and don't need ADRs? (3) For one significant decision, what alternatives exist and what are the tradeoffs? Then help me draft an ADR for that decision."
+
+**Expected Outcome**: Your AI should identify significant decisions (e.g., exception strategy, function vs class-based design, precision handling) versus trivial ones (e.g., naming conventions from Constitution), explain tradeoffs for each alternative, and help structure an ADR with clear context, decision, consequences, and alternatives sections.
 
 ---
 

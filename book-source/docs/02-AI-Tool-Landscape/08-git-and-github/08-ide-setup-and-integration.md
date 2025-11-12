@@ -340,6 +340,11 @@ Same result, more visual, easier to understand.
 
 ---
 
+#### 💬 AI Colearning Prompt
+> "Why use an IDE with visual Git tools instead of just typing Git commands in the terminal? What problems does visual Git solve?"
+
+---
+
 ## Safety Tips
 
 **Always**:
@@ -353,6 +358,19 @@ Same result, more visual, easier to understand.
 - Stage files you don't understand
 - Ignore warnings in your IDE
 - Rush through changes without understanding
+
+---
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize which buttons to click—you understand visual Git intent. When reviewing changes, you want to SEE diffs (green/red), not READ text output. IDE tools translate Git commands into visual feedback: colors show changes, panels show status, diffs show line-by-line edits. Your job: understand what you're looking at, not memorize button locations.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Guide me through making a change in VS Code: edit a file, view the diff in the IDE, stage it visually, and commit using the GUI. Then explain what each visual element represents."
+
+**Expected Outcome**: You'll understand IDE Git tools aren't about learning a new interface—they're about making Git visible. Diff colors = what changed. Source Control panel = status. Commit button = save point. Visual Git removes command-line mystery.
 
 ---
 

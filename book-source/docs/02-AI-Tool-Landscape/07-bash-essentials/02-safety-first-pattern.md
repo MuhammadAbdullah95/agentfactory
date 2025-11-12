@@ -104,6 +104,9 @@ ONLY after Steps 1-4 are complete, your AI runs the command. You already underst
 
 **Example**: Your AI runs the commands, shows you the results, and confirms: "Done. You now have a backup folder with all your files."
 
+#### 💬 AI Colearning Prompt
+> "Why does the 5-step pattern put 'Verify' BEFORE 'Execute' instead of checking results afterward?"
+
 ---
 
 ## Real Dialogue: All 5 Steps Working Together
@@ -213,6 +216,9 @@ $ rm -rf old-projects/
 **You**: "Actually, I see `important_data.csv` in there. Don't delete that. Let me move it first."
 
 **You saved important data** just by asking questions before executing.
+
+#### 🎓 Expert Insight
+> In AI-native development, the 5-step safety pattern isn't about not trusting AI—it's about collaborative verification. Your AI generates the plan (Step 2), you validate the intent (Steps 3-4). Neither works alone; both work together for safety.
 
 ---
 
@@ -395,6 +401,12 @@ Follow the 5-step pattern in a real conversation with your AI tool:
 - You don't skip any steps, even if it feels like "extra work"
 
 The pattern itself is more important than the specific task. You're building a habit that will protect you in every bash operation going forward.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I want to delete my 'old-backups' folder. Walk me through the 5-step safety pattern before doing anything. For Step 4, I'll ask at least 3 clarifying questions."
+
+**Expected Outcome**: You experience the full pattern with your AI enforcing each step, and you practice asking safety-focused verification questions.
 
 ---
 

@@ -23,6 +23,9 @@ Gemini CLI is fully open source under the Apache 2.0 license. Every line of code
 
 The open source model transforms users into contributors. When you hit a limitation, you're not stuck—you're empowered to fix it.
 
+#### 💬 AI Colearning Prompt
+> "Why does open source software matter for AI tools specifically? What advantages come from being able to read and modify the code?"
+
 ### 2. Free Tier: From Paywall to Playground
 
 Claude Code requires an Anthropic API key or Paid Plan. Even at relatively affordable rates, this creates a barrier. Students learning to code? They're calculating costs. Developers experimenting with new approaches? They're watching their API budget.
@@ -36,6 +39,9 @@ Gemini CLI offers a genuinely generous free tier:
 **Real Numbers**: A typical coding session involves 50-150 AI interactions. With Claude Code, a student might spend $5-15 per day learning. With Gemini CLI's free tier, that same learning costs nothing. Over a semester, that's the difference between $450-1,350 and $0.
 
 This isn't about cheap developers avoiding costs. It's about removing economic barriers to learning and experimentation. The most innovative uses of AI tools often come from people who have time to play, explore, and break things—without worrying about the bill.
+
+#### 🎓 Expert Insight
+> In AI-native development, removing economic barriers to learning isn't about "free"—it's about democratization. When a student in Pakistan has the same AI capabilities as a Silicon Valley engineer, innovation comes from everywhere, not just those who can afford it.
 
 ## The Model Context Protocol: Secret Weapon for Extensibility
 
@@ -97,6 +103,12 @@ Gemini CLI shines in different scenarios:
 - Teams needing custom integrations
 - Developers on tight budgets
 - Teaching and educational contexts
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Given my situation [describe: student / professional / team lead / tight budget], which tool should I choose: Claude Code or Gemini CLI? Consider cost, context window needs, and my learning goals. Then explain the tradeoffs."
+
+**Expected Outcome**: You'll receive a personalized tool recommendation based on your specific situation, not generic advice—demonstrating AI as strategic partner, not feature list.
 
 ## The Comparison at a Glance
 

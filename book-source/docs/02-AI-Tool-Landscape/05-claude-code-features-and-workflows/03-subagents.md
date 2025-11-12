@@ -90,6 +90,9 @@ Every code review from this subagent applies these standards consistently.
 
 A well-designed subagent becomes **organizational knowledge**—capturing expertise that benefits your entire team.
 
+#### 🎓 Expert Insight
+> In AI-native development, organizational knowledge captured as subagents compounds over time. A well-designed subagent becomes shared expertise—your team's collective intelligence accessible on demand. The ROI: junior developers get senior-level guidance automatically; senior developers stop repeating the same code review feedback.
+
 ---
 
 ## Subagent Architecture: How They Work
@@ -135,6 +138,12 @@ Claude will create the subagent file under `.claude/agents/latest-news.md` (or s
 - Try now: Ask Claude to use the latest-news subagent for your topic today (for example, AI policy). You should receive headlines with links, a short trend synopsis, and two follow‑up questions.
 
 **If you see targeted, phase‑specific feedback**: ✅ It works. You get clean execution and clear results with minimal prompting.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Design a custom subagent for my most repetitive task: [describe your task]. Include: (a) subagent name, (b) 3-5 instructions for system prompt, (c) tool access configuration, (d) example invocation command."
+
+**Expected Outcome**: Complete subagent design tailored to your workflow, ready to create and test.
 
 ---
 

@@ -164,6 +164,9 @@ But your companion's perspective is different:
 
 The problem isn't with the AI. The problem is with the communication. You provided 30% of the information needed to build a *good* login system. You provided 100% of the information needed to build a *minimal* login system.
 
+#### 💬 AI Colearning Prompt
+> "Why can't AI coding agents infer what I mean when I say 'build a login system'? What's different about how AI understands requirements compared to human developers?"
+
 ---
 
 ## The Cost of Vagueness
@@ -193,6 +196,9 @@ Let's calculate what vague specification costs:
 **N iterations later...**
 
 **Total time: 10-20 hours for a feature that could have been built right in 4-6 hours if the specification was clear upfront.**
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't iterate your way to clarity—you collaborate upfront to achieve clarity. Vague specs aren't "good enough to start"; they're expensive technical debt disguised as rapid prototyping. The time you save skipping specification work gets multiplied 5-10x in iteration cycles.
 
 ---
 
@@ -308,6 +314,12 @@ This isn't a flaw in AI coding agents. This is how communication works:
 
 **And specifications become clear through collaborative dialogue, not solo effort.**
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Help me write a specification for a user registration system with email verification. What questions should I answer upfront to avoid implementation surprises? What edge cases should I consider?"
+
+**Expected Outcome**: Your AI will ask clarifying questions (password requirements? rate limiting? email service? token expiration?) that reveal gaps in your initial thinking. This dialogue produces a complete specification collaboratively.
+
 ---
 
 ## Why This Matters
@@ -325,5 +337,23 @@ And when you're working with AI agents—which can't read minds, can't infer con
 This is the foundation of professional software development. And in the age of AI agents, it's no longer optional.
 
 **It's the way work gets done.**
+
+---
+
+## Try With AI
+
+Ready to experience the difference between vague and clear specifications? Here are four prompts to explore:
+
+**🔍 Explore the Problem:**
+> "Show me two versions of a 'build a search feature' prompt: one vague (like I'd naturally write) and one clear (with all details specified). Then explain what gaps the vague version has."
+
+**🎯 Practice Collaborative Specification:**
+> "I want to build a password reset feature. Ask me clarifying questions to help write a complete specification. Don't let me skip important details like security, rate limiting, or error handling."
+
+**🧪 Test Your Understanding:**
+> "Generate code from this vague prompt: 'Build a file upload system.' Then show me what's missing or assumed. What should the spec have included?"
+
+**🚀 Apply to Your Work:**
+> "I'm building [describe your actual project feature]. Help me identify what's vague in my description and what details I need to specify before asking you to generate code."
 
 ---

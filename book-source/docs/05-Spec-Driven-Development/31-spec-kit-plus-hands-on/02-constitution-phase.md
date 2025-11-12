@@ -189,6 +189,9 @@ But you never rewrite the Constitution for each feature. It's the foundation eve
    - Commit feature to git
 ```
 
+#### 💬 AI Colearning Prompt
+> "Why does the Constitution cascade its quality to all downstream phases? What would happen if I wrote a vague Constitution but tried to write a precise specification?"
+
 ---
 
 ## Reading Existing Constitutions (15 minutes)
@@ -202,6 +205,9 @@ Before writing your own, let's look at base Constitution file. Open:
 Remember the Goal: document the non-negotiable principles that every spec, plan, and task must honor.
 
 **The Key Insight**: Constitutions are project-specific. Your calculator Constitution would never mention "data lineage" because that's not relevant. A data pipeline Constitution wouldn't need type hints or power operations.
+
+#### 🎓 Expert Insight
+> In AI-native development, the Constitution isn't bureaucracy—it's leverage. Write it once with clear, testable standards ("all functions have type hints"), and every AI-generated spec, plan, and implementation automatically inherits those standards. Vague Constitutions produce vague downstream work. Precise Constitutions produce precise downstream work. The 30 minutes you invest here saves hours of rework later.
 
 ---
 
@@ -313,6 +319,12 @@ Use the agent to commit and open a PR for the constitution:
 
 
 The Constitution is now **the foundation** for all your feature work. Every specification you write, every plan you generate, every task you break down-they all work within the Constitution's constraints.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I've created my calculator Constitution with standards for type hints, testing, and error handling. Can you review `.specify/memory/constitution.md` and tell me: (1) Are my quality standards testable or vague? (2) Did I miss any critical standards for a calculator project? Then explain how these standards will cascade to my specifications."
+
+**Expected Outcome**: Your AI should identify whether standards like "all functions have type hints" are testable (✅) versus vague phrases like "good quality" (❌), suggest any missing calculator-specific standards, and explain how the Constitution influences spec-writing.
 
 ---
 

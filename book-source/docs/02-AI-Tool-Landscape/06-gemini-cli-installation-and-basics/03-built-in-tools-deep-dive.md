@@ -94,6 +94,9 @@ The beauty here: **you don't memorize file formats, command syntax, or tool name
 - ✅ XML files (configuration and data files)
 - ✅ Markdown files (documentation)
 
+#### 💬 AI Colearning Prompt
+> "When my AI reads a CSV file, what's actually happening behind the scenes? How does it convert rows and columns into understanding that can answer business questions?"
+
 ---
 
 ## Tool 2: Web Fetching — Getting Live Information From Websites
@@ -147,6 +150,9 @@ Your AI fetches the docs and explains it in plain English instead of making you 
 - ✅ Compare features across sites (fetch competitor A, competitor B, compare)
 - ✅ Access technical documentation (complex docs explained simply)
 - ✅ Verify information (your AI cites the source, you can verify)
+
+#### 🎓 Expert Insight
+> In AI-native development, fetching competitor data isn't about "saving time"—it's about strategic intelligence at scale. When you can analyze 10 competitors in 5 minutes instead of 3 hours, you shift from reactive to proactive strategy. The constraint isn't data collection anymore; it's asking the right business questions.
 
 ---
 
@@ -291,6 +297,12 @@ Your AI synthesizes everything:
 **Total time:** 5 minutes of conversation
 **Without tools:** 2+ hours of manual research, spreadsheets, notes
 **Data quality:** Current, sourced, verifiable
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I want to compare pricing and features across 3 competitors in the [your industry] space. Use web fetching to gather their pricing pages, then create a comparison table. Cite your sources so I can verify."
+
+**Expected Outcome**: You'll receive a comparison table with current data and source URLs—practicing multi-tool workflow (web fetch + analysis + synthesis) while validating AI outputs through citations.
 
 ---
 
