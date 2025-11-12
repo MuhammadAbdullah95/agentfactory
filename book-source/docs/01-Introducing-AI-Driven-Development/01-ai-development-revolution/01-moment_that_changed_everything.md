@@ -59,6 +59,8 @@ In March 2025, Y Combinator managing partner Jared Friedman revealed something r
 
 Think about what that means. Technical founders capable of coding everything themselves found it more effective to specify what they wanted and let AI generate the implementation. They focused on architecture decisions, product strategy, and user experience while AI handled the mechanical work of translating requirements into code. However, as YC CEO Garry Tan noted, these founders still needed deep technical skills: "You have to have the taste and enough training to know that an LLM is spitting bad stuff or good stuff."
 
+![Infographic showing 25% of Y Combinator Winter 2025 startups had approximately 95% AI-generated codebases, visualized as a grid of 100 startup icons with 25 highlighted in orange](/img/part-1/chapter-1/yc-w25-ai-generated-code-stats.png)
+
 This pattern is appearing everywhere in software development. Junior developers are building features that previously required senior architects. Mid-level engineers are prototyping in hours what used to take weeks. Senior developers are orchestrating autonomous agents to handle implementation details while they focus on system design and business logic.
 
 #### 🎓 Expert Insight
@@ -67,11 +69,14 @@ This pattern is appearing everywhere in software development. Junior developers 
 
 ## This Isn't Incremental Improvement—It's Transformation
 
+![This is How I See My Life From Now On](/img/part-1/chapter-1/l1-life-now.png)
 Here's what makes this moment different from previous shifts in software development:
 
 **Previous transitions** (assembly to C, procedural to object-oriented, desktop to cloud, monolithic to microservices) took **10-15 years** to become standard practice. They made developers incrementally more productive. They required retraining, but skills remained transferable.
 
 **The AI coding revolution** is happening in **months**, not years. It's not making developers 10% more productive. It's enabling 10x, sometimes 100x improvements in specific tasks. And it's fundamentally changing what it means to be a software developer.
+
+![Bar chart comparing technology adoption speeds showing historical transitions (assembly to high-level languages, procedural to object-oriented, desktop to cloud, monolithic to microservices) all took 10-15 years, while the current AI-assisted development revolution is happening in months, visualized with a dramatically shorter orange bar](/img/part-1/chapter-1/technology-adoption-speed-comparison.png)
 
 The numbers tell part of the story:
 - **84% of developers** are using or plan to use AI coding tools, with 51% using them daily (Stack Overflow 2025 Developer Survey)
@@ -79,8 +84,9 @@ The numbers tell part of the story:
 - **75% of professionals** now rely on AI for at least one daily responsibility, with more than one-third experiencing moderate to extreme productivity increases (Google DORA 2024 Report)
 - **Per 25% increase in AI adoption**: 7.5% better documentation, 3.4% better code quality, 3.1% faster code reviews—though the report also notes challenges with delivery throughput and stability without proper practices
 
-But numbers alone don't capture the shift. What's changing is the **nature of the work itself**.
+![Dashboard showing four key AI development tool adoption statistics for 2025: 84% of developers using AI tools with 51% daily usage, Claude Code reaching $500M ARR in 2 months, 75% of professionals using AI for daily work, and 7.5% better documentation per 25% adoption increase. Sources: Stack Overflow 2025, Anthropic, Google DORA.](/img/part-1/chapter-1/ai-adoption-statistics-dashboard-2025.png)
 
+But numbers alone don't capture the shift. What's changing is the **nature of the work itself**.
 
 ## The Question You're Asking
 

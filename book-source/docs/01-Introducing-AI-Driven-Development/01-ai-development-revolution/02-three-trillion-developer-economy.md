@@ -62,6 +62,82 @@ Here's the math, laid out transparently:
 
 **~30 million professional developers worldwide** × **$100,000 in annual generated value per developer** = **~$3 trillion in aggregate economic output**
 
+<!-- VISUAL ASSET 1: Developer Economy Calculation Dashboard
+
+IMAGE GENERATION PROMPT:
+
+Professional infographic showing the $3 trillion developer economy calculation with three key components displayed as connected metric cards.
+
+Layout: Horizontal flow diagram, 1792x1024px (16:9 aspect ratio).
+- Overall background: White (#FFFFFF)
+- Three main cards arranged horizontally with connecting elements between them
+- Left card (830x600px): "30M Developers"
+- Center multiplier symbol: Large × with connecting arrows
+- Middle card (830x600px): "$100K Value/Year"
+- Center equals symbol: Large = with connecting arrows
+- Right card (830x600px): "$3 Trillion Economy"
+- 64px spacing between cards and symbols
+- 48px margin from edges
+- Cards have subtle shadow: 0px 4px 12px rgba(0,0,0,0.08)
+- 12px border-radius on all cards
+
+Typography:
+- Card titles: 24pt Roboto Medium, Dark Gray (#1A1A1A)
+- Primary metrics: 96pt Roboto Bold, Orange (#FF6B35) for left and middle cards, Blue (#0066FF) for right card
+- Secondary descriptions: 16pt Roboto Regular, Medium Gray (#666666)
+- Multiplier/equals symbols: 72pt Roboto Bold, Medium Gray (#999999)
+
+Color Palette:
+- Background: White (#FFFFFF)
+- Card backgrounds: Light Gray (#F8F9FA)
+- Primary accent (left/middle): Orange (#FF6B35)
+- Primary accent (result): Blue (#0066FF)
+- Text primary: #1A1A1A
+- Text secondary: #666666
+- Text tertiary: #999999
+
+Visual Elements:
+- Minimal globe icon (2px stroke) above "30M Developers" card, 64px diameter, Dark Gray (#1A1A1A)
+- Minimal dollar bill icon (2px stroke) above "$100K Value/Year" card, 64px width, Dark Gray (#1A1A1A)
+- Minimal growth arrow icon (2px stroke) above "$3 Trillion Economy" card, 64px width, Blue (#0066FF)
+- Connecting arrows between cards: 3px solid, Medium Gray (#999999), with subtle arrowheads
+- Subtle grid pattern in background: 1px, Light Gray (#F0F0F0), 100px spacing
+- Card shadows: 0px 4px 12px rgba(0,0,0,0.08)
+
+Content:
+Left Card:
+- Icon: globe
+- Title: "Professional Developers"
+- Metric: "30M"
+- Description: "Worldwide workforce"
+
+Middle Card:
+- Icon: dollar bill
+- Title: "Annual Value Generated"
+- Metric: "$100K"
+- Description: "Per developer/year"
+
+Right Card:
+- Icon: growth arrow
+- Title: "Total Economy"
+- Metric: "$3T"
+- Description: "Aggregate output"
+
+Connecting Elements:
+- Between left and middle: Large × symbol
+- Between middle and right: Large = symbol
+- Arrows flowing left to right connecting all elements
+
+Style Reference: Modern tech publication aesthetic (a16z Economic Graph style, Stripe economic dashboards, McKinsey infographics)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial, data visualization
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: developer-economy-calculation-breakdown.png
+Alt Text: Infographic showing the $3 trillion developer economy calculation: 30 million professional developers worldwide multiplied by $100,000 annual generated value per developer equals $3 trillion in aggregate economic output, displayed as three connected metric cards with icons and flow arrows.
+-->
+
 Let's break down each component of this calculation to understand what it represents and why it's conservative.
 
 ### 30 Million Professional Developers
@@ -129,6 +205,121 @@ Previous platform shifts in software development took 10-15 years to reach major
 - GitHub Copilot: launched October 2021, reached $100M ARR within approximately 2 years (October 2023)
 - Claude Code: announced 2025, hit $500 million annualized revenue within two months
 - Overall AI tool usage: 84% of developers using or planning to use AI tools, with 51% using them daily (Stack Overflow 2025 Developer Survey)
+
+<!-- VISUAL ASSET 3: Technology Adoption Speed Comparison Timeline
+
+IMAGE GENERATION PROMPT:
+
+Professional timeline infographic showing accelerating adoption speeds across five major technology platform shifts in software development.
+
+Layout: Horizontal timeline with descending bars, 1792x1024px (16:9 aspect ratio).
+- Overall background: White (#FFFFFF)
+- Title section at top (1792x140px): "The Acceleration of Technology Adoption"
+- Subtitle: "Time to reach majority adoption in software development"
+- Timeline flows left to right chronologically
+- Five technology eras displayed as horizontal bars descending like stairs
+- Each bar shows: Era name, decade, adoption time in years
+- 48px margin from edges
+- 24px vertical spacing between bars
+- X-axis at bottom showing timeline from 1980s to 2025
+
+Typography:
+- Main title: 48pt Roboto Bold, Dark Gray (#1A1A1A)
+- Subtitle: 20pt Roboto Regular, Medium Gray (#666666)
+- Era labels: 24pt Roboto Medium, White text on colored bars
+- Year ranges: 18pt Roboto Regular, Medium Gray (#666666), positioned above bars
+- Adoption time metrics: 56pt Roboto Bold, positioned at end of each bar
+- Time unit labels: 18pt Roboto Regular, positioned near metrics
+- X-axis decade labels: 16pt Roboto Regular, Medium Gray (#666666)
+
+Color Palette:
+- Background: White (#FFFFFF)
+- PC era bar: Light Gray (#CCCCCC)
+- Internet era bar: Medium Gray (#999999)
+- Cloud era bar: Teal (#00B4D8)
+- Mobile era bar: Blue (#0066FF)
+- AI Coding era bar: Orange (#FF6B35) - HIGHLIGHTED with glow
+- Text on bars: White (#FFFFFF)
+- Text primary: #1A1A1A
+- Text secondary: #666666
+- Axis lines: #E0E0E0
+
+Visual Elements:
+- Each bar: height 120px, width proportional to years (120px per year scale), 8px border-radius
+- AI Coding bar has glow effect: 0px 0px 24px rgba(255,107,53,0.3)
+- Descending staircase pattern (each bar starts where previous ended vertically)
+- Downward arrow on right side showing acceleration trend, 4px stroke, Orange (#FF6B35)
+- Time metrics displayed in rounded badge at end of each bar with white background
+- Subtle shadow on bars: 0px 4px 8px rgba(0,0,0,0.06)
+- X-axis line: 2px solid, Light Gray (#E0E0E0)
+- Vertical grid lines at decade markers: 1px dashed, Light Gray (#F0F0F0)
+
+Content:
+Title Area:
+- Main title: "The Acceleration of Technology Adoption"
+- Subtitle: "Time to reach majority adoption in software development"
+
+Bars (top to bottom, left to right):
+
+1. Personal Computers (1980s):
+   - Bar color: Light Gray (#CCCCCC)
+   - Era label on bar: "Personal Computers" in White
+   - Decade above bar: "1980s"
+   - Bar width: 1440px (representing 12 years at 120px/year)
+   - Metric badge at end: "12 years" in 56pt Bold Orange (#FF6B35)
+   - Description below: "Hobbyist → Business Standard"
+
+2. Internet (1990s):
+   - Bar color: Medium Gray (#999999)
+   - Era label on bar: "Internet" in White
+   - Decade above bar: "1990s"
+   - Bar width: 1200px (representing 10 years)
+   - Metric badge at end: "10 years" in 56pt Bold Orange (#FF6B35)
+   - Description below: "Academic → Commercial"
+
+3. Cloud Computing (2000s):
+   - Bar color: Teal (#00B4D8)
+   - Era label on bar: "Cloud Computing" in White
+   - Decade above bar: "2000s"
+   - Bar width: 1800px (representing 15 years - extends slightly)
+   - Metric badge at end: "15 years" in 56pt Bold Orange (#FF6B35)
+   - Description below: "AWS → Cloud-First Default"
+
+4. Mobile Development (2010s):
+   - Bar color: Blue (#0066FF)
+   - Era label on bar: "Mobile Development" in White
+   - Decade above bar: "2010s"
+   - Bar width: 960px (representing 8 years)
+   - Metric badge at end: "8 years" in 56pt Bold Orange (#FF6B35)
+   - Description below: "iPhone → Mobile-First"
+
+5. AI Coding Tools (2020s) - HIGHLIGHTED:
+   - Bar color: Orange (#FF6B35)
+   - Era label on bar: "AI Coding Tools" in White
+   - Decade above bar: "2020s"
+   - Bar width: 360px (representing 3 years)
+   - Metric badge at end: "3 years" in 56pt Bold, Dark Gray (#1A1A1A)
+   - Description below: "GPT-4 → 84% Adoption"
+   - Glow effect around entire bar
+   - Highlight badge above: "Fastest Ever" in White on Orange
+
+Right Side Visual:
+- Large downward arrow (200px tall) showing acceleration trend
+- Arrow color: Orange (#FF6B35), 4px stroke weight
+- Label near arrow: "Accelerating" in 20pt Roboto Medium
+
+Bottom annotation (centered, 16pt Roboto Regular, Medium Gray):
+"Each technology wave adopts faster as infrastructure improves"
+
+Style Reference: Modern tech timeline aesthetic (CB Insights trend reports, a16z market analyses, Gartner technology adoption curves)
+
+Quality: professional, high-quality, publication-ready, clean, modern, editorial, data visualization
+
+Dimensions: 16:9 (1792x1024px)
+
+Filename: technology-adoption-speed-acceleration.png
+Alt Text: Horizontal bar timeline showing accelerating technology adoption speeds in software development: Personal Computers (12 years in 1980s), Internet (10 years in 1990s), Cloud Computing (15 years in 2000s), Mobile Development (8 years in 2010s), and AI Coding Tools (3 years in 2020s, highlighted in orange), displayed as descending staircase bars with adoption times, demonstrating exponential acceleration of technology adoption.
+-->
 
 #### 🎓 Expert Insight
 
