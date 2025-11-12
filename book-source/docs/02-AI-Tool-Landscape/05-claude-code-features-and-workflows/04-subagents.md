@@ -21,6 +21,12 @@ In this lesson, you'll learn what subagents are, when to use them, and how to cr
 
 ---
 
+## Three-Role AI Partnership in Subagent Design
+
+Remember from Lesson 1 the Three-Role AI Partnership? Subagents are where that partnership becomes concrete. When you create a specialized subagent, you're not just organizing tasks—you're **clarifying roles**. A code-reviewer subagent acts as your **Teacher** (suggesting standards you might not consider), your **Student** (learning your team's specific preferences), and your **Co-Worker** (executing reviews alongside you with focus and consistency). This is role clarity in action: instead of one Claude Code agent wearing many hats in a cluttered conversation, subagents allow your AI partner to specialize—deepening expertise in focused domains while you orchestrate the larger workflow. When you delegate a code review explicitly to a specialized subagent, you're practicing the co-learning partnership at its best: you set the intention, AI brings focused expertise, and together you achieve better results than either could alone.
+
+---
+
 ## What Are Subagents?
 
 **Definition**: A subagent is a specialized task-specific agent for improved context management. They are configured with custom instructions (called a "system prompt") and isolated context separate from the main conversation.
@@ -48,6 +54,16 @@ Each subagent has:
 | **Examples** | Debugging, learning concepts, exploring codebases | Code reviews, test generation, refactoring, documentation |
 
 **Key Insight**: Use subagents when you have **repeatable tasks with clear instructions**. Use the main conversation when you need flexibility and exploration.
+
+---
+
+#### 💬 AI Colearning Prompt: Identify Context Pollution in Your Workflow
+
+Before diving into subagent creation, let's make the problem real in **your** context:
+
+> **Explore with your AI companion**: "I work on [describe your typical project: web app, data pipeline, DevOps infrastructure, mobile app, etc.]. When I'm working with Claude Code in my terminal, what kinds of tasks might cause 'context pollution'? Give me 2–3 examples from MY domain where mixing main conversation with specialized tasks could create confusion or lead to mistakes. For each example, explain what clean separation with subagents would improve."
+
+This prompt helps you recognize context pollution in your own workflow—not as an abstract concept, but as a real problem you've likely already experienced. Pay attention to what your AI companion suggests; those insights may reveal tasks you didn't realize would benefit from specialization.
 
 ---
 
@@ -113,6 +129,25 @@ When you create a subagent named `code-reviewer`, Claude stores a single file un
 
 ---
 
+#### 🤝 Practice Exercise: Design Your Subagent Before Building
+
+Before jumping to creation, let's practice **specification thinking**—planning your subagent's purpose before you build it. This is the essence of subagent design: clarity first, implementation second.
+
+**Your task:**
+1. **Think of a repetitive task in YOUR workflow** — Something you do multiple times per week. Examples: code testing, style linting, documentation generation, security auditing, dependency updates, API documentation, database migrations, etc.
+2. **Answer these planning questions:**
+   - **What context does this task need?** (e.g., "code files and test framework info", "configuration files and lint rules", "API schemas and team style guide")
+   - **What tools would it use?** (e.g., Read files, Execute bash commands, Web Search for library docs, etc.)
+   - **When should it run?** (e.g., "explicit command when I ask for reviews" vs "automatic when I push code with linting issues")
+3. **Write your subagent spec** — 2–3 sentences describing its purpose, the problem it solves, and its role.
+
+**Example specification** (for a linting subagent):
+> "Purpose: Automatically identify Python style violations using flake8 and provide fixes. Problem solved: Context pollution from switching between main conversation (debugging) and linting (style cleanup). Role: Automatic delegation when code has style issues; explicit invocation when I want proactive cleanup."
+
+This exercise teaches you to think like a subagent designer: What's the clear, repeatable task? What context does it need? When does it activate? By the end, you'll have a written specification for your first subagent.
+
+---
+
 ## Creating a "Latest News" Subagent
 
 Let's create a **"latest-news" subagent**—a focused researcher that surfaces current headlines, trends, and concise summaries with citations.
@@ -138,6 +173,22 @@ Claude will create the subagent file under `.claude/agents/latest-news.md` (or s
 
 ---
 
+#### 🤝 Practice Exercise: Test Explicit vs. Automatic Delegation
+
+Now that you've created a subagent (or used the example), let's compare the two delegation modes in practice:
+
+**Your task:**
+1. **Test explicit delegation**: Ask Claude Code explicitly: "Use the latest-news subagent to find [topic]." Notice the control you have—you're directing the role shift.
+2. **Test automatic delegation** (if enabled): Make a request that would naturally match the subagent (e.g., "Find the latest news on [topic]" without mentioning the subagent name). Does Claude Code automatically use the subagent, or does it stay in main conversation?
+3. **Compare your experience**:
+   - When did explicit invocation feel better (more control)?
+   - When did automatic delegation feel more convenient (less overhead)?
+   - Which approach matches YOUR working style better?
+
+**Reflection**: There's no universally "better" delegation mode. Explicit is predictable; automatic is convenient. Some teams prefer explicit control (especially for production-critical tasks like code review). Others prefer automatic for convenience (especially for exploratory tasks like research). Your job is to recognize the tradeoff and make intentional choices about which mode fits which task.
+
+---
+
 ## Delegation Modes
 
 Subagents can be used in two ways:
@@ -145,7 +196,13 @@ Subagents can be used in two ways:
 - Explicit invocation: You request a specific subagent (e.g., "Use the code-reviewer subagent to check my recent changes").
 - Automatic delegation: Claude can delegate to a subagent when your task clearly matches that subagent’s description and allowed tools.
 
-Use explicit invocation for predictability. Rely on automatic delegation as a convenience when descriptions are specific. 
+Use explicit invocation for predictability. Rely on automatic delegation as a convenience when descriptions are specific.
+
+---
+
+#### 🎓 Expert Insight: Delegation Modes Reveal Role Clarity
+
+The distinction between explicit and automatic delegation isn't just organizational—it's about **role clarity in the Three-Role AI Partnership**. When you **explicitly invoke** a code-reviewer subagent, you're actively directing your AI partner's role: "Now I need you as a specialized Teacher/Co-Worker focused on code review." The AI knows exactly which specialized role to adopt. When you **enable automatic delegation**, you're trusting your AI partner's judgment to recognize when a task matches a subagent's expertise and shift roles autonomously. This is role flexibility—the same AI partner adapts between general multi-role assistant (main conversation) and specialized expert (subagent) based on task recognition. Neither approach is "passive"—both require your AI partner to understand the role and execute with specialized focus. The key difference is who decides when the role shift happens: you (explicit) or the AI recognizing the pattern (automatic).
 
 ---
 
@@ -180,6 +237,12 @@ Use explicit invocation for predictability. Rely on automatic delegation as a co
 - After using a subagent, refine its system prompt
 - Add examples of good/bad outputs to guide behavior
 - Collect feedback from team members
+
+---
+
+#### 🎓 Expert Insight: Organizational Knowledge as Competitive Advantage
+
+Here's a strategic insight that elevates subagents beyond "better organization": Your subagents become **captured organizational knowledge**. When your team creates a `python-code-reviewer` subagent with your specific standards (PEP 8 + type hints + Google-style docstrings + security checks + performance analysis), you're encoding team expertise into a reusable artifact. That subagent now runs automatically across all projects—your team's collective knowledge operating without you needing to remind anyone of the standards every review. Scale this across your team: `pytest-test-generator` (your testing philosophy), `documentation-writer` (your docs style), `security-auditor` (your threat model), `performance-optimizer` (your optimization priorities). Suddenly, you have 10+ custom subagents representing "the way we do things here." This is **ambient autonomous expertise**—knowledge that runs without human intervention. Competitors using generic AI chat have no such advantage. But your team with 10+ specialized subagents has a library of organizational best practices baked into your AI partnership. That's a competitive moat: not just speed, but amplified consistency and quality that gets better with every project.
 
 ---
 

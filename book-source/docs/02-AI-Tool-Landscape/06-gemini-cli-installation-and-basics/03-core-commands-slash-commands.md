@@ -8,33 +8,35 @@ duration: "40 min"
 
 ## From Setup to Daily Use: Mastering Gemini CLI Commands
 
-In Lesson 2, you installed Gemini CLI and saw it work for the first time. Now comes the crucial step: **learning the commands you'll use every day** to work efficiently with your AI development partner.
+In Lesson 2, you installed Gemini CLI and saw it work for the first time. Now comes the crucial step: **learning to write specifications that direct your AI development partner**.
 
-This isn't about memorizing syntax. It's about understanding *when* to use each command, *why* it matters, and *how* to orchestrate your AI work like a professional.
+This isn't about memorizing command syntax. It's about understanding the three **specification patterns** Gemini CLI recognizes, when to use each pattern, why it matters, and how to collaborate with your AI partner like a professional.
 
 ---
 
-## Understanding Gemini CLI's Three Input Methods
+## Understanding Gemini CLI's Three Specification Patterns
 
-Gemini CLI has three ways to interact:
+Gemini CLI recognizes three ways to **specify** what you want your AI to do:
 
-**1. Slash Commands (/)** — Meta-level control
-- Control Gemini CLI behavior
-- Manage conversations and context
-- Configure settings
-- Access integrations
+**1. Session Specifications (/)** — How you want your AI session to behave
+- Specification type: Session state management
+- Examples: `/memory add <context>`, `/chat save <tag>`, `/compress`
+- Mental model: "I need my AI session to behave THIS way"
+- **What you're learning**: How to specify session architecture for your work
 
-**2. At Commands (@)** — File/directory inclusion
-- Reference files and folders
-- Include content in prompts
-- Automatic smart filtering
+**2. Context Specifications (@)** — What information your AI needs
+- Specification type: Context architecture definition
+- Examples: `@./src/auth.ts`, `@./docs/`
+- Mental model: "Here's the context scope for this conversation"
+- **What you're learning**: How to specify context boundaries
 
-**3. Shell Commands (!)** — System access
-- Execute bash/cmd commands
-- Interactive shell mode
-- AI-guided execution
+**3. Execution Specifications (!)** — What system operations to perform
+- Specification type: System command delegation to AI
+- Examples: `!git status`, `!npm test`
+- Mental model: "Execute this operation and help me interpret results"
+- **What you're learning**: How to specify system operations for AI guidance
 
-Let's dive into each.
+Let's dive into each pattern and see how to use them in real work.
 
 ---
 
@@ -108,7 +110,7 @@ Gemini CLI provides 29+ slash commands. Here are the essential ones you'll use d
 
 ### 1. `/chat save` & `/chat resume` — Conversation Checkpointing
 
-**Purpose**: Save conversations and resume them later without re-explaining context
+**Purpose**: Specify when to save conversation checkpoints and resume work without re-explaining context
 
 **Syntax**:
 ```bash
@@ -140,7 +142,37 @@ You: Now let's add password reset functionality
 (Continues seamlessly from yesterday)
 ```
 
-**Why it matters**: Without saved conversations, you'd need to re-explain your project every session. With `/chat save/resume`, context persists.
+**Working WITH Your AI on Session Management**
+
+🎓 **AI as Teacher**: Learning when to checkpoint
+```
+You: I've been working for 2 hours on authentication. Should I save now or wait?
+
+Gemini: "You've completed the login endpoint with tests. This is a natural checkpoint
+before starting password reset functionality. I recommend:
+  /chat save auth-login-complete
+
+This helps you resume at a logical breakpoint tomorrow."
+```
+
+💙 **AI as Student**: Learning your workflow patterns
+```
+You: I prefer saving every hour with tags like YYYY-MM-DD-HHMM.
+Adapt to this pattern and remind me when it's been an hour.
+
+Gemini: "I'll track time and suggest hourly saves with timestamp tags.
+When it's been 60 minutes, I'll remind you: 'Ready to checkpoint?'"
+```
+
+🤝 **AI as Co-Worker**: Collaborative session management
+```
+You: Help me organize my saved conversations. List them, suggest which ones
+to delete (old or completed), and help me create a naming convention.
+
+Gemini: [Lists 12 saved conversations, suggests cleanup, proposes naming system]
+```
+
+**Why it matters**: Without saved conversations, you'd need to re-explain your project every session. With `/chat save/resume`, context persists. More importantly, you learn to think about work in **checkpoints and phases**—a specification-first mindset.
 
 ---
 
@@ -206,7 +238,7 @@ Session Statistics:
 
 ### 4. `/compress` — Reduce Context Size
 
-**Purpose**: Summarize conversation to free up tokens
+**Purpose**: Specify that you want to compress context while preserving critical project decisions
 
 **Syntax**:
 ```bash
@@ -228,6 +260,29 @@ You: /compress
 Gemini: ✓ Compressed conversation. Now using 90,000 tokens
         (Freed 160,000 tokens for continued work)
 ```
+
+**Validating Compression Results**
+
+After compression, **always validate** that important context was preserved:
+
+```bash
+You: /stats
+Gemini: Used 90,000 / 1,000,000 tokens (tokens freed: 160K ✓)
+
+You: What key decisions and constraints did you preserve from our
+     compressed conversation? List the major architecture choices
+     and requirements you remember.
+
+Gemini: [Lists preserved decisions]
+```
+
+**Red Flags to Watch** 🚩:
+- ❌ Can't recall specific code decisions made earlier
+- ❌ Forgets project constraints you specified
+- ❌ Loses track of completed work items
+- ✅ Remembers architecture choices, requirements, and design patterns
+
+**Recovery**: If validation fails, use `/chat resume` to restore the pre-compression state and save before trying `/compress` again.
 
 ---
 
@@ -476,81 +531,212 @@ A: Yes. Gemini will warn you about dangerous commands (rm, sudo, etc.) before ex
 
 ---
 
-## Exercises
+## Specification-Driven Exercises
 
-### Exercise 1: Save Your First Conversation
+These exercises teach you to **think in specifications**, not just execute commands. You'll work WITH your AI partner to solve real problems.
 
-Have a real conversation about something meaningful:
+### Exercise 1: Specify Your Session Management Strategy
 
-```bash
-$ gemini
-You: [Work on a real task for 20+ minutes]
-You: /chat save my-first-saved-conversation
-Gemini: ✓ Saved
-```
+**Specification Challenge**:
 
-Expected: You can now list and resume this conversation anytime.
+> You're starting a multi-day project with three distinct phases:
+> - **Phase 1 (Research)**: Understanding the problem (2 hours)
+> - **Phase 2 (Implementation)**: Building the solution (4 hours)
+> - **Phase 3 (Testing)**: Validating the work (2 hours)
+>
+> Design a conversation management strategy. What should you specify about when to save, what to name conversations, and how to resume work?
 
-### Exercise 2: List and Inspect
+**With Your AI Partner**:
 
-```bash
-You: /chat list
-(See all saved conversations)
+1. **Collaborate**: Open Gemini CLI and ask your AI:
+   ```
+   I'm starting a project with research → implementation → testing phases.
+   How should I design a conversation checkpointing strategy?
+   What naming convention would help me find conversations weeks from now?
+   ```
 
-You: /chat save another-one
-You: /chat list
-(See the new conversation)
-```
+2. **Execute**: Implement your strategy using `/chat save` and `/chat resume` throughout your work
 
-### Exercise 3: Resume and Continue
+3. **Validate**: Test resuming conversations—verify that AI remembers context
 
-Close Gemini CLI completely. Then:
+**Success Criteria**:
+- [ ] Can resume any conversation and AI remembers context
+- [ ] Naming convention makes conversations discoverable
+- [ ] Strategy scales to 5+ saved conversations
+- [ ] You understand WHY you checkpoint at each phase
 
-```bash
-$ gemini
-You: /chat resume my-first-saved-conversation
-```
+---
 
-Expected: Your conversation history is restored.
+### Exercise 2: Design Your Context Architecture
 
-### Exercise 4: Check Your Token Budget
+**Specification Challenge**:
 
-```bash
-You: /stats
-(See how many tokens you've used)
+> You're working on a project with these directories:
+> - `frontend/` — React components
+> - `backend/` — Python API
+> - `shared/` — Shared utilities
+>
+> Design a memory management specification. Which context belongs in global GEMINI.md vs. project GEMINI.md? How do you optimize for a 8-hour work session?
 
-You: (Work for 10 more minutes)
+**With Your AI Partner**:
 
-You: /stats
-(See tokens increased)
-```
+1. **Explore**: Open Gemini CLI and run:
+   ```bash
+   /memory show      # See what's currently loaded
+   /memory list      # See which GEMINI.md files exist
+   /stats            # Check current token usage
+   ```
 
-### Exercise 5: Reference a File
+2. **Collaborate**: Ask your AI:
+   ```
+   My project has frontend/backend/shared. How should I organize
+   GEMINI.md files to optimize context loading without redundancy?
+   ```
 
-Create a simple file:
+3. **Validate**: Verify your context architecture:
+   ```bash
+   /memory refresh   # Reload after changes
+   /stats            # Confirm token usage is optimized
+   ```
 
-```bash
-$ echo "console.log('hello')" > test.js
-```
+**Success Criteria**:
+- [ ] Context architecture prevents redundancy
+- [ ] AI has access to all necessary project knowledge
+- [ ] Token usage optimized for 8-hour work session
+- [ ] You understand trade-offs between global vs. local GEMINI.md
 
-Then in Gemini:
+---
 
-```bash
-You: @test.js what does this code do?
-Gemini: (Shows file content and explains)
-```
+### Exercise 3: Practice Validation: Token Budget Awareness
+
+**Specification Challenge**:
+
+> Monitor your token usage across a full work session. When should you use `/compress`? How do you validate that compression preserved important context?
+
+**With Your AI Partner**:
+
+1. **Start Monitoring**:
+   ```bash
+   You: /stats
+   Gemini: Shows current token usage
+   ```
+
+2. **Work for 1 hour**, then check again:
+   ```bash
+   You: /stats
+   Gemini: Shows new usage total
+   ```
+
+3. **When approaching 70% usage, compress**:
+   ```bash
+   You: /compress
+   You: /stats     # Verify tokens freed
+   ```
+
+4. **Validate preservation**:
+   ```bash
+   You: List the 3 most important architectural decisions we discussed.
+   Gemini: [Should list them accurately]
+   ```
+
+**Success Criteria**:
+- [ ] You understand when to compress (around 70% of token budget)
+- [ ] Compression successfully frees tokens
+- [ ] Validation confirms important context preserved
+- [ ] You can recover with `/chat resume` if validation fails
+
+---
+
+### Exercise 4: File Reference Practice
+
+**Specification Challenge**:
+
+> You have a JavaScript file. Specify that you want Gemini to analyze it, explain it, and identify potential improvements.
+
+**Steps**:
+
+1. Create a simple file in your project:
+   ```bash
+   cat > example.js << 'EOF'
+   function greet(name) {
+     if (name == "World") {
+       console.log("Hello World!");
+     } else {
+       console.log("Hello " + name);
+     }
+   }
+   greet("Alice");
+   EOF
+   ```
+
+2. In Gemini CLI, specify what you want analyzed:
+   ```
+   @./example.js Can you:
+   1. Explain what this code does
+   2. Identify modernizations (ES6+)
+   3. Suggest improvements
+   ```
+
+3. Compare with AI's improvements:
+   ```
+   @./example.js vs. @./example-modern.js
+   What improvements did you suggest?
+   ```
+
+**Success Criteria**:
+- [ ] You understand @ syntax for file reference
+- [ ] AI reads and analyzes file content
+- [ ] You can specify multiple analysis dimensions
+- [ ] You see how @ syntax reduces copy-pasting
+
+---
+
+### Exercise 5: Shell Command Guidance Practice
+
+**Specification Challenge**:
+
+> You want to run a complex shell command, but you want your AI partner to explain the results and help you interpret what happened.
+
+**Steps**:
+
+1. In Gemini CLI, use ! to execute with explanation:
+   ```bash
+   You: !git log --oneline | head -5
+   Gemini: [Shows output and explains what it means]
+   ```
+
+2. Ask for interpretation:
+   ```bash
+   You: Based on that output, when was the last breaking change?
+   Gemini: [Analyzes commits to answer]
+   ```
+
+3. Ask for next steps:
+   ```bash
+   You: Should I create a release now? What would you recommend?
+   Gemini: [Suggests based on commit history]
+   ```
+
+**Success Criteria**:
+- [ ] You understand ! syntax for system commands
+- [ ] You can interpret shell output with AI's help
+- [ ] AI guides your decisions based on command results
+- [ ] You work WITH AI on system operations, not just execute blindly
 
 ---
 
 ## Key Takeaways
 
-- **29+ slash commands** provide meta-level control (don't memorize—reference as needed)
-- **`/chat save` and `/chat resume`** are your superpowers for conversation persistence
-- **`/memory show` and `/memory refresh`** work with GEMINI.md for project context (covered next)
-- **`/stats` and `/compress`** keep you aware of token budget
-- **`@` syntax** includes file content without typing `/copy-paste`
-- **`!` syntax** runs shell commands with AI guidance
-- **Commands are discoverable**—`/help` shows everything
+- **Three specification patterns** (session, context, execution) are how you direct your AI partner
+- **Spec-first thinking**: You're not memorizing command syntax—you're learning to specify what you want your session to be
+- **Three-Role Partnership**: AI teaches you when to checkpoint, learns your workflow patterns, and collaborates on session design
+- **Session Specifications (/)**: `/chat save/resume` for checkpointing, `/memory` for context management, `/stats`/`/compress` for budget awareness
+- **Context Specifications (@)**: `@./file.js` and `@./directory/` to specify context scope without copy-pasting
+- **Execution Specifications (!)**: `!git status` and shell mode to have AI guide system operations
+- **Validation matters**: Always verify compression preserved important context, always validate that AI understood your specification
+- **Commands are discoverable**—use `/help` when needed, but focus on the PATTERN, not memorizing 29 commands
 
-Next lesson: You'll learn **GEMINI.md context files**, so Gemini automatically understands your project architecture and coding standards.
+**Most Important Learning**: When using these commands, you're not executing syntax—you're **specifying how your AI session should behave**. This is THE core skill of AI-native development.
+
+Next lesson: You'll learn **GEMINI.md context files**, so you can specify your entire project architecture once and Gemini automatically understands it across all conversations.
 

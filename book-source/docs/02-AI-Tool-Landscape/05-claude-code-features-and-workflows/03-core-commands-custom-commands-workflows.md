@@ -6,31 +6,118 @@ duration: "40 min"
 
 # Core Commands, Custom Commands & Workflows
 
-## From Setup to Daily Use: Mastering Claude Code Commands
+## Specification Verbs: Your Language for Intent
 
-In Lesson 2, you installed Claude Code and saw it work for the first time. Now comes the crucial step: **learning the commands you'll use every day** to work efficiently with your AI pair programmer.
+You've learned what Claude Code is (Lesson 1: an agentic AI partner) and how to establish a working partnership (Lesson 2: checkpoints, files, memory). Now comes the crucial step: **learning to articulate what you want with precision**.
 
-This isn't just about memorizing syntax. It's about understanding *when* to use each command, *why* it matters, and *how* to build workflows that make development faster and more enjoyable.
+Think of commands not as "features to memorize," but as **verbs in a specification language**. Just as a software specification uses clear action verbs ("retrieve user data," "validate email format," "generate report"), Claude Code commands express distinct intents:
+
+- **`claude`** = "I need help with this task"
+- **`#`** = "This is a checkpoint—verify progress here"
+- **`@filename`** = "Include this file as context"
+- **`/init`** = "Remember my project setup"
+- **`/clear`** = "Start fresh—forget previous context"
+
+**This is the paradigm shift** (Principle 3 from the Constitution): Your value isn't memorizing command syntax. Your value is **articulating intent clearly** so AI executes it precisely.
+
+In Lesson 1, you learned about agentic execution. In Lesson 2, you discovered checkpoints structure conversations. Now in Lesson 3, you'll learn to **combine commands into workflows**—specifications for how work gets done.
+
+By the end of this lesson, you'll:
+- Recognize commands as "specification verbs" (not just features)
+- Use checkpoints as "specification milestones" (not just pauses)
+- Build decision trees that match task complexity to the right approach
+- Create reusable custom commands (encoding your workflows as specifications)
+- Understand the progression from simple commands → custom commands → subagents → orchestration (coming in Lessons 4-8)
 
 ---
 
-## Command Reference Table
+## Command Reference Table: Your Specification Vocabulary
 
-These are the commands you'll use most often. Don't try to memorize them all at once—use this table as a reference, then practice in the hands-on section.
+Each command expresses a distinct specification intent. Use this table as a reference—don't memorize. The real skill is knowing **when to use which intent**, not memorizing syntax.
 
-| Command | Purpose | When to Use | Example |
-|---------|---------|-------------|---------|
-| **`claude`** | Start a session | Begin a new task or ask a question | `claude` |
-| **`#`** | Save a Memory | Save key decisions in CLAUDE.md | `# We will use python with type hinting` |
-| **`@filename`** | Reference a specific file | Give Claude context about a file | `@app.py what does this function do?` |
-| **`/init`** | Set up project memory | Tell Claude about your project (creates CLAUDE.md) | `/init` |
-| **`/clear`** | Start fresh | End current conversation, start new task | `/clear` |
-| **`/compact`** | Summarize conversation | When approaching token limit | `/compact` |
-| **`ESC`** | Stop generation | Claude is generating too much, stop it | Press `ESC` once |
-| **`ESC ESC`** | Emergency stop | Claude won't stop, force quit | Press `ESC` twice quickly |
-| **`/mcp`** | Check MCP servers | View configured MCP server status | `/mcp` |
-| **`/usage`** | Check usage | Show plan usage daily/weekly limits | `/usage` |
-| **`/permissions`** | Control access | Set what Claude can do | `/permissions` |
+| Command | Purpose | Specification Intent | Example |
+|---------|---------|----------------------|---------|
+| **`claude`** | Start a session | "I need help with this task" | `claude` or `claude "your prompt"` |
+| **`#`** | Save a milestone | "This step is complete; next phase begins here" | `# Fixed the login bug` |
+| **`@filename`** | Include context | "Consider this file when you respond" | `@app.py what does this function do?` |
+| **`/init`** | Remember project | "Store my project context for future sessions" | `/init` |
+| **`/clear`** | Forget context | "End this task; start completely fresh" | `/clear` |
+| **`/compact`** | Summarize progress | "Condense our conversation to save tokens" | `/compact` |
+| **`ESC`** | Stop (graceful) | "Finish your thought and stop generation" | Press `ESC` once |
+| **`ESC ESC`** | Stop (force) | "Stop immediately; no gradual shutdown" | Press `ESC` twice quickly |
+| **`/mcp`** | Check tools | "Show which external tools are configured" | `/mcp` |
+| **`/usage`** | Check budget | "Show my remaining API usage" | `/usage` |
+| **`/permissions`** | Set boundaries | "Define what I allow Claude to do" | `/permissions` |
+
+---
+
+## 💬 AI Colearning Prompt: Map Your Work to Commands
+
+Now that you've seen the specification vocabulary, let's make it personal.
+
+### Your Task
+Open Claude Code (or ChatGPT) and run this prompt:
+
+> **"I typically work on [describe your domain: web features, data pipelines, API integrations, mobile apps, system administration, etc.]. Looking at the command reference table above, which 3-4 commands would I use MOST OFTEN in MY workflow? For each one, give me a realistic example from my domain showing WHAT I'd specify (not HOW I'd code it). Then tell me: which commands might I barely use? Why?**
+
+### What This Does
+Instead of learning commands abstractly, you'll map them to YOUR work patterns. This is core to specification thinking: you learn the vocabulary in context, not in isolation.
+
+### Expected Output
+Claude should return:
+- Your top 3-4 commands (specific to your domain)
+- Realistic examples from your domain showing WHAT you'd specify
+- Clear explanation of why you'd use each command
+- Commands you might skip (and why—not all commands fit all workflows)
+
+### What You Learn
+**You'll discover that specification thinking is domain-specific.** A data engineer's command workflow differs from a web developer's, which differs from a DevOps engineer's. The VOCABULARY is universal; the USAGE is personal.
+
+---
+
+## When to Use Which Approach: Decision Tree for Command Selection
+
+As you encounter tasks, you'll face a question: "Which approach should I use?" Here's how to decide:
+
+```
+Task arrives
+    ↓
+Single-step task? (e.g., "Read this file" or "Explain this error")
+    ├─ YES → Use basic command: claude "..."
+    │
+    └─ NO
+        ↓
+Multi-step task with clear phases? (e.g., "Design → Implement → Test")
+        ├─ YES → Use checkpoints (#)
+        │        Structure: # Phase 1 description # Phase 2 description
+        │
+        └─ NO
+            ↓
+Multi-file task needing consistent context? (e.g., "Review auth flow across multiple files")
+            ├─ YES → Use @filename references
+            │        Example: @login.py @auth.py @db.py compare authentication
+            │
+            └─ NO
+                ↓
+Repetitive workflow you'll do many times? (e.g., "Deploy to staging," "Run tests + lint")
+                ├─ YES → Create custom command (/slash-command)
+                │        Encode workflow once, reuse by name
+                │
+                └─ NO
+                    ↓
+Specialized, isolated task needing own context? (e.g., "Code review with specific guidelines")
+                    ├─ YES → Use subagent (Lesson 4)
+                    │        Separate context, specialized tools
+                    │
+                    └─ NO
+                        ↓
+10+ similar items? Complex orchestration? (e.g., "Set up 10 microservices")
+                        ├─ YES → Use AI orchestration (Lesson 8)
+                        │
+                        └─ NO → Start simple; refine approach as pattern emerges
+```
+
+**Decision Rule**: Start simple. If you find yourself specifying the same multi-step intent repeatedly, that's a signal to create a custom command.
 
 ---
 
@@ -58,11 +145,13 @@ claude "Review the authentication logic in auth.py and suggest improvements"
 
 **What happens**: Claude reads the file, analyzes the logic, and provides specific suggestions
 
+**Specification Mindset**: When you start a conversation, you're not "using a tool"—you're briefing a co-worker. Think: "What outcome do I want?" not "What commands should I type?" Claude Code's agentic architecture (from Lesson 1) means you specify intent, and AI determines execution.
+
 ---
 
 ### 2. `#` - Create Checkpoints
 
-**Purpose**: Mark progress points in long conversations
+**Purpose**: Mark verifiable progress points in multi-step work
 
 **Syntax**:
 ```bash
@@ -312,15 +401,104 @@ Current permissions:
 
 ---
 
+## 🎓 Expert Insight: Checkpoints as Specification Markers
+
+In Lesson 1, you learned that Claude Code is agentic—it automatically breaks down your intent. In Lesson 2, you learned to create checkpoints. But there's a strategic insight here worth highlighting:
+
+**Checkpoints aren't just pauses. They're specification boundaries.**
+
+Think about software specifications. A professional spec has:
+- **Goals** (what we're building)
+- **Constraints** (what we can't do)
+- **Acceptance criteria** (how we verify success)
+- **Milestones** (verifiable points of completion)
+
+When you write:
+```
+# Read user data from database
+# Validate schema against requirements
+# Generate performance report
+```
+
+You're not writing prose. You're writing **verifiable milestones**. Each checkpoint is a specification stating: "When we reach this point, this outcome should be verified."
+
+This is Spec-First thinking in action (Constitution Principle 3). You specify outcomes; AI executes. You verify at checkpoints; AI adapts if verification fails.
+
+**Example: Real-world checkpoint verification**
+
+```
+# Read user data
+→ Check: Is user data successfully read? (JSON valid? Fields present?)
+
+# Validate schema
+→ Check: Do all records match the expected schema? (Type correct? Required fields present?)
+
+# Generate report
+→ Check: Is report generated? (File created? Content sensible? Format correct?)
+```
+
+When you think of checkpoints as specification milestones, you naturally ask: "What needs to be true at this point for us to proceed?" That's professional specification thinking.
+
+---
+
+## 🤝 Practice Exercise: Write Specifications, Not Commands
+
+Here's the core skill we're building: **Writing clear specifications that let AI execute precisely.**
+
+### Your Task
+
+1. **Choose a task you do regularly** (bug fix, code review, feature addition, API integration, database query, etc.)
+
+2. **Write 3 sentences describing WHAT you want** (outcome), not HOW to do it (steps)
+   - Bad: "Use grep to find all error logs, then count them, then sort by date"
+   - Good: "I need a summary of errors from yesterday—count by type, sorted newest first"
+
+3. **If your task has multiple phases**, use checkpoints to structure it:
+   ```
+   # Phase 1: Gather data
+   # Phase 2: Validate and clean
+   # Phase 3: Generate insights
+   ```
+
+4. **Give this specification to Claude Code** and observe what it proposes
+   - Does Claude's approach match your initial mental "how"?
+   - Did Claude suggest something you hadn't thought of?
+   - Did Claude ask clarifying questions?
+
+5. **Reflect**:
+   - What did you learn from Claude's approach?
+   - Did your specification lack detail? (What was unclear?)
+   - How would you refine the specification for next time?
+
+### Expected Outcome
+
+You'll practice the PRIMARY skill of AI-native development: articulating intent clearly so AI executes it precisely.
+
+---
+
 ## Custom Slash Commands (Team Workflow Automation)
 
 ### What Are Custom Slash Commands?
 
-Custom slash commands are **reusable prompt templates** you create for tasks you do repeatedly.
+Custom slash commands are **reusable prompt templates** you create for tasks you do repeatedly. They encode your workflows as specifications—once you describe the workflow, you invoke it by name.
 
-**Think of them as**: Shortcuts for common workflows
+**Think of them as**: Shortcuts for common workflows, but more importantly, **specifications made executable and repeatable**
 
 **Stored in**: `.claude/commands/` directory in your project
+
+---
+
+### Why Custom Commands Are Strategic
+
+When you find yourself specifying the same multi-step workflow repeatedly, you've discovered a **specification pattern**. Custom commands let you encode that pattern once.
+
+**Strategic Value**:
+- **Efficiency**: `/deploy` vs. typing 12-step specification each time
+- **Consistency**: Team uses same specification (no variation in deployment steps)
+- **Organizational Knowledge**: YOUR workflows become executable specifications
+- **Tier 2 Teaching**: This exemplifies Principle 13 (Graduated Teaching): AI Companion handles complexity after you specify the pattern once
+
+**Remember**: The command name is still a specification—it says WHAT (/deploy), not HOW (build, test, upload, notify, etc.)
 
 ---
 
@@ -365,64 +543,133 @@ claude /markdown-review >> We are learning how to Create a custom command
 
 ---
 
-### Why Custom Commands Matter
+### 🎓 Expert Insight: From Commands to Ecosystem
 
-**Without custom commands**:
-```bash
-claude "Review auth.md for bugs, style issues, performance problems, and security vulnerabilities."
+You're learning the foundation now, but here's the bigger picture:
 
-**With custom commands**:
-```bash
-claude /markdown-review `>> We are learning how to Create a custom command`
-```
-(One short command)
+**Commands are Tier 1 of a composable ecosystem:**
 
-**Benefits**:
-- ⏱️ **Time saved**: 30 seconds per use
-- 🎯 **Consistency**: Same quality checks every time
-- 👥 **Team alignment**: Share commands via Git (everyone uses same prompts)
-- 📚 **Best practices**: Encode expertise into commands
+- **Commands** (Lesson 3): Book teaches foundational vocabulary → You combine them into workflows
+- **Checkpoints** (Lesson 2): Structure multi-step intent → AI executes with clarity
+- **Custom Commands** (this lesson): Encode repetitive workflows → Team reuses by name
+- **Subagents** (Lesson 4): Isolated contexts → Specialized tools for complex tasks
+- **Skills** (Lesson 5): Discoverable capabilities → AI finds when to help automatically
+- **Hooks** (Lesson 7): Event-driven automation → Systems react without human invocation
+- **Plugins** (Lesson 8): Full orchestration → Entire workflows automated
+
+You're learning the vocabulary now (Tier 1); upcoming lessons show how to compose it (Tier 2) and orchestrate it (Tier 3). This progression mirrors specification maturity: simple → structured → automated → orchestrated.
+
+---
+
+## 🤝 Practice Exercise: Create Your First Custom Command
+
+Now let's build a reusable workflow specification.
+
+### Your Task
+
+1. **Identify a 3-5 step workflow you repeat often**
+   - Examples: git commit flow, test+build, documentation generation, API integration setup, database backup procedure
+
+2. **Write the specification in plain language first**:
+   ```markdown
+   What: [One-line description of workflow]
+   Outcome: [What success looks like]
+   Steps:
+   # Check [initial state]
+   # Review [decision point]
+   # Suggest [collaborative point]
+   # Execute [final action]
+   ```
+
+3. **Convert to custom command** following the lesson walkthrough above
+   - Create `.claude/commands/your-command-name.md`
+   - Include 3-5 clear instructions
+   - Use `$ARGUMENTS` for variable input
+
+4. **Test it**: Does `/your-command` execute your specification correctly?
+   - Run the command
+   - Verify output matches your intention
+   - Note what Claude understood vs. misunderstood
+
+5. **Reflect**:
+   - How does having a reusable specification change your workflow?
+   - What detail was missing from your initial specification? (Did Claude ask clarifying questions?)
+   - Would a teammate understand and use this command correctly?
+
+### Expected Outcome
+
+You'll have a working custom command that encodes YOUR workflow as a reusable specification.
 
 ---
 
 ## Try With AI
 
-Use **Claude Code CLI** for this activity (since you're learning Claude Code commands).
+Use Claude Code CLI (or ChatGPT) for this activity. These prompts demonstrate the **Three Roles Framework**: AI as Teacher, Student, and Co-Worker.
 
-### Prompt 1: Command Selection
+### Prompt 1: AI as Teacher (Suggests Patterns)
 
 ```
-I'm working on [describe your task]. Which Claude Code commands should I use, and in what order? Give me a step-by-step workflow with specific commands. Include when to use checkpoints, when to check /cost, and when to /clear or /compact.
+I work on [your domain]. Teach me 3 specification patterns I should master
+for common tasks in this domain. For each pattern, show me:
+(1) the specification structure using checkpoints,
+(2) an example prompt,
+(3) why this pattern is reusable and when to use it.
 ```
 
-**Expected outcome:** Step-by-step command workflow tailored to your task
+**Expected outcome**: Claude suggests domain-specific specification patterns you may not have considered. You learn from Claude's expertise.
 
 ---
 
-### Prompt 2: Custom Command Creation
+### Prompt 2: AI as Student (Learns Your Style)
 
 ```
-I do this task repeatedly: [describe repetitive task]. Help me create a custom slash command for it. Write the markdown file content I should save in .claude/commands/[name].md. Make it use $ARGUMENTS so I can pass different files/inputs.
+Here's how I typically specify work: [paste 2-3 examples of how you
+describe tasks to Claude]. Analyze my specification style. What's clear?
+What could be more specific? What detail do I always forget? Suggest 2-3
+improvements to make MY specifications more effective.
 ```
 
-**Expected outcome:** Ready-to-use custom command file content
+**Expected outcome**: Claude learns your communication style and offers personalized improvements. You teach Claude how you think.
 
 ---
 
-### Prompt 3: Workflow Debugging
+### Prompt 3: AI as Co-Worker (Collaborative Refinement)
 
 ```
-I tried the [Explore→Plan→Code / TDD] workflow but got stuck at [step]. What went wrong? Walk me through that step again with specific commands and what I should see at each point.
+# Read the authentication code in /src/auth
+# Identify error handling gaps and security issues
+# Propose 3 improvements with code examples
+# Explain tradeoffs of each approach
+
+Execute this specification step-by-step. Pause at each checkpoint for my
+feedback before proceeding to the next step. This helps me verify each
+phase.
 ```
 
-**Expected outcome:** Troubleshooting help with exact commands to try
+**Expected outcome**: Claude executes from your specification, pausing at each checkpoint. You iterate together—AI executes, you verify, AI adapts. This is true co-learning.
 
 ---
 
-### Prompt 4: Usage Optimization
+### Reflection Prompt (After All Three)
 
 ```
-I just ran /usage and my usage is higher than expected. Review my recent workflow: [describe what you did]. Which commands or approaches would reduce token usage while keeping the same quality? Give me 3-5 specific optimization tips.
+Thinking about these three interactions:
+- Prompt 1: Where did you learn something from Claude?
+- Prompt 2: Where did Claude learn something about you?
+- Prompt 3: Where did you and Claude refine each other's thinking?
+
+This is the convergence pattern: bidirectional learning. How did this
+experience differ from just asking Claude to "write code"?
 ```
 
-**Expected outcome:** Practical tips to optimize usage
+**Expected outcome**: You recognize that the primary skill isn't coding—it's clear specification and iterative refinement.
+
+---
+
+## Key Takeaway
+
+Commands are your **specification vocabulary**. Checkpoints are your **specification structure**. Custom commands are your **specification library**. Together, they embody the core principle: **Specs Are the New Syntax**.
+
+Your value in AI-native development isn't memorizing command syntax. Your value is articulating intent so clearly that AI executes it precisely, and then knowing how to refine through iteration. Every lesson from here forward teaches you deeper ways to compose specifications—from custom commands, to subagents, to orchestration.
+
+You're building the "new syntax" now.
