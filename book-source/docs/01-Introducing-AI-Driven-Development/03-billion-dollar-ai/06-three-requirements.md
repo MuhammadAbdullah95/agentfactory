@@ -59,6 +59,10 @@ differentiation:
 
 You now have strategy (Snakes and Ladders), economics (super orchestrators), architecture (vertical intelligence), and a playbook (PPP). But execution requires three capabilities working in perfect sync. Lack any one, and you fail.
 
+![Venn diagram showing three overlapping requirements for vertical market success: domain expertise, deep integrations, and complete agentic solutions, with center intersection labeled "SUCCESS ZONE" illustrating that all three must be present simultaneously](/img/part-1/chapter-3/three-requirements-venn-diagram.png)
+
+![Decision diagram showing two paths to achieving domain expertise for AI sub-agents: Path 1 (Fine-Tuned Models) for deep pattern recognition with expensive updates, and Path 2 (Vertical Intelligence with sub-agents and skills) for fast iteration with transparent design, helping entrepreneurs choose based on resources and timeline](/img/part-1/chapter-3/two-paths-domain-expertise.png)
+
 ## Requirement 1: Increase Domain Expertise with Fine-Tuned Models and/or Vertical Reusable Intelligence
 
 Your subagents must be smarter than general-purpose AI. A general ChatGPT conversation does anything at 70% quality. Your finance subagent must do portfolio analysis at 99% quality because money is at stake. Your healthcare subagent must diagnose at 99% accuracy because lives are at stake.

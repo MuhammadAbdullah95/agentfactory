@@ -71,6 +71,8 @@ AI changes that equation fundamentally.
 
 The stunning insight: as AI improves at the 90%, the 10% becomes infinitely more valuable.
 
+![Proportional diagram showing 90% of software work is mechanical (automated by AI) while 10% requires human judgment, illustrating that human strategic value increases as AI handles implementation](/img/part-1/chapter-3/ninety-ten-economic-split.png)
+
 #### 🎓 Expert Insight
 
 > Here's the paradigm shift: In traditional software, more code equals more value. In AI-native software, better judgment equals more value. Your competitive advantage isn't typing speed or syntax knowledge. It's understanding what to build, for whom, and why. This is why non-technical founders can now compete: the bottleneck shifted from implementation skill to strategic insight. And strategic insight comes from domain knowledge, customer empathy, and market understanding—skills anyone can develop.

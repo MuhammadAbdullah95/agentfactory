@@ -75,6 +75,8 @@ A developer who masters six of nine pillars is competent. But the three missing 
 
 ## Lessons from Technology Shifts
 
+![Historical technology adoption timeline showing three paradigm shifts: Agile methodology in 2000s-2010s, cloud computing in 2010s, and mobile-first in 2010-2015. Each shows early complete adopters thriving, partial adopters struggling, and late adopters facing competitive disadvantage](/img/part-1/chapter-4/technology-adoption-timeline.png)
+
 This pattern isn't new. We've seen it before:
 
 **Infrastructure Transformation (2010s):** When cloud computing emerged, companies that treated it as "just another hosting option" struggled. Those who embraced the full paradigm—elastic scaling, infrastructure-as-code, distributed architectures—gained 10x advantages in deployment speed and cost efficiency. The partial adopters ("we'll use AWS but keep our monolith architecture") got the cloud bills without the cloud benefits.
@@ -111,6 +113,7 @@ Traditional mastery required thousands of solo hours per skill. AI changes the e
 - **Progressive practice** builds capability incrementally
 - **Cross-pollination** means skills reinforce each other (cloud knowledge improves your backend work; DevOps knowledge improves your testing)
 
+![18-month learning pathway for mastering all nine AIDD pillars. Months 1-6 focus on foundational competency with pillars 1-3 (AI CLI and Coding Agents, Markdown as Programming Language, MCP Standard). Months 7-12 cover intermediate integration with pillars 4-6 (AI-First IDEs, Linux Universal Dev Environment, Test-Driven Development). Months 13-18 advance to orchestration with pillars 7-9 (Specification-Driven Development, Composable Vertical Skills, Universal Cloud Deployment)](/img/part-1/chapter-4/learning-pathway-timeline.png)
 
 **Realistic timeline:**
 - **Months 1-6:** Foundational competency (pillars 1-3)
