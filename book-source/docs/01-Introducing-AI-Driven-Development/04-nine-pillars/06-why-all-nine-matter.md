@@ -79,8 +79,6 @@ A developer who masters six of nine pillars is competent. But the three missing 
 
 ## Lessons from Technology Shifts
 
-![Historical technology adoption timeline showing three paradigm shifts: Agile methodology in 2000s-2010s, cloud computing in 2010s, and mobile-first in 2010-2015. Each shows early complete adopters thriving, partial adopters struggling, and late adopters facing competitive disadvantage](/img/part-1/chapter-4/technology-adoption-timeline.png)
-
 This pattern isn't new. We've seen it before:
 
 **Infrastructure Transformation (2010s):** When cloud computing emerged, companies that treated it as "just another hosting option" struggled. Those who embraced the full paradigm—elastic scaling, infrastructure-as-code, distributed architectures—gained 10x advantages in deployment speed and cost efficiency. The partial adopters ("we'll use AWS but keep our monolith architecture") got the cloud bills without the cloud benefits.
