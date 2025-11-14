@@ -108,23 +108,32 @@ Claude Code: *invokes code-reviewer, waits for results, presents findings*
 
 ---
 
-## Custom Subagents (Preview)
+## More Subagent Ideas
 
-You can create your own subagents for team-specific workflows. Examples:
+Now that you've created your first subagent, here are other ideas you can try:
 
-**Code Review Subagent**:
-- Checks for your team's style guide
-- Verifies type hints
-- Ensures security best practices
-- Runs on every pull request
+**Test Generator Subagent**:
+```
+Generate unit tests for Python functions. Check for edge cases,
+create pytest fixtures, and ensure good coverage. Use when I say
+"write tests for this" or "generate unit tests."
+```
 
-**Documentation Subagent**:
-- Generates docstrings
-- Creates README sections
-- Updates API docs
-- Follows your team's doc standards
+**Documentation Writer Subagent**:
+```
+Write clear docstrings for Python functions and classes using
+Google style. Include parameters, return types, and examples.
+Use when I say "document this function" or "add docstrings."
+```
 
-**Important**: Creating custom subagents is **Part 5 content** (intermediate/advanced). For now, you're learning the concept and using the built-in Plan subagent.
+**Bug Hunter Subagent**:
+```
+Find potential bugs in Python code: check for edge cases,
+look for off-by-one errors, verify error handling, and identify
+race conditions. Use when I say "find bugs" or "check for issues."
+```
+
+**Try creating one of these** using the same `/agents` workflow you just learned!
 
 ---
 
@@ -146,54 +155,108 @@ When you ask for a complex task:
 
 ---
 
-## Practical Example: Add User Login
+## Hands-On: Create Your First Custom Subagent
 
-Let's see the complete subagent lifecycle:
+Creating a subagent is **easy**—Claude Code has a built-in workflow. Let's create a simple code reviewer subagent together.
 
-**You**: "Add user login with email/password to this project"
+### Step 1: Launch the Agent Creation Workflow
+
+In Claude Code, type:
+
+```
+/agents
+```
+
+**What you'll see**:
+```
+│ Agents                                                                        │
+│ 9 agents                                                                      │
+│                                                                               │
+│ ❯ Create new agent                                                            │
+│                                                                               │
+│   Built-in agents (always available)                                         │
+│   general-purpose · sonnet                                                   │
+│   Explore · haiku                                                            │
+│   Plan · sonnet                                                              │
+```
+
+Select **"Create new agent"**
+
+### Step 2: Choose Location
+
+```
+│ Choose location                                                               │
+│                                                                               │
+│ ❯ 1. Project (.claude/agents/)                                                │
+│   2. Personal (~/.claude/agents/)                                             │
+```
+
+**Choose 1** (Project) — this makes the agent available only in this project.
+
+### Step 3: Choose Creation Method
+
+```
+│ Creation method                                                               │
+│                                                                               │
+│ ❯ 1. Generate with Claude (recommended)                                       │
+│   2. Manual configuration                                                     │
+```
+
+**Choose 1** — Let Claude generate the agent based on your description.
+
+### Step 4: Describe Your Agent
+
+```
+│ Describe what this agent should do and when it should be used                │
+│                                                                               │
+│ e.g., Help me write unit tests for my code...                                │
+```
+
+**Type this**:
+```
+Review Python code for basic quality issues: check for type hints,
+verify docstrings exist, look for obvious bugs, and suggest improvements.
+Use this when I ask "review this code" or "check code quality."
+```
+
+Press **Enter**.
+
+### Step 5: Claude Generates the Agent
+
+```
+│ ✽  Generating agent from description...                                      │
+```
+
+Claude Code creates:
+- Agent name: `code-reviewer`
+- Instructions based on your description
+- Tool permissions (Read, Grep)
+- Saves to `.claude/agents/code-reviewer.md`
+
+### Step 6: Test Your New Subagent
+
+Now test it! In Claude Code, say:
+
+```
+Use the code-reviewer subagent to check this file: [path to a Python file]
+```
 
 **What happens**:
+1. Main Claude Code launches your `code-reviewer` subagent
+2. Subagent reads the file, analyzes it
+3. Subagent completes its review and returns findings
+4. Control returns to main Claude Code
+5. Main Claude presents the review to you
 
-1. **Claude Code recognizes complexity** → launches Plan subagent with goal: "research project and create auth plan"
-2. **Plan subagent works independently**:
-   - Reads your project structure
-   - Identifies: Flask app, SQLAlchemy ORM, no auth yet
-   - Notes: Has pytest for testing
-   - Creates multi-phase plan
-3. **Plan subagent completes task and returns plan**:
-   - Subagent's job is done
-   - Control returns to main Claude Code
-4. **Main Claude Code presents the plan to you**:
-   ```
-   Phase 1: Database Setup
-   - Create User model with hashed password field
-   - Add sessions table for token storage
-   - Create database migration
+**Key insight**: You just created a reusable specialist that you can invoke anytime with a simple request.
 
-   Phase 2: Authentication Logic
-   - Implement password hashing (bcrypt)
-   - Create login/logout endpoints
-   - Build session management
+### What You Just Learned
 
-   Phase 3: Protection Layer
-   - Add authentication middleware
-   - Protect existing endpoints that need auth
-   - Create login UI form
-
-   Phase 4: Testing
-   - Unit tests for password hashing
-   - Integration tests for login flow
-   - Security test for password requirements
-   ```
-5. **You approve** (or modify the plan)
-6. **Main Claude Code executes** the plan phase by phase
-   - Plan subagent is not involved in execution
-   - Main Claude Code handles all the coding work
-   - You oversee and approve changes at each step
-
-**Key insight**: The Plan subagent's job ended at step 3 when it returned the plan. Everything after that is main Claude Code executing the plan you approved.
-
-**Total time**: 10-15 minutes for complete authentication system (vs hours manually)
+- ✅ Creating subagents is **easy** (4 steps via `/agents`)
+- ✅ Claude generates the agent from your plain-language description
+- ✅ Subagents are stored as Markdown files (`.claude/agents/`)
+- ✅ You can invoke them explicitly: "Use the [name] subagent to..."
+- ✅ Subagents complete one task and return results to main Claude Code
 
 ---
 
@@ -224,63 +287,75 @@ When reviewing code:
 
 ---
 
-## What You Can Do Now vs Later
+## What You Can Do Now
 
-**NOW (Part 2 - Beginner)**:
-- ✅ Understand what subagents are
-- ✅ Use the built-in Plan subagent (automatic)
-- ✅ Recognize when delegation happens
-- ✅ Understand orchestration concept
+**YOU JUST LEARNED**:
+- ✅ What subagents are (specialized AI assistants)
+- ✅ How the execution model works (one task, one completion)
+- ✅ How to use the built-in Plan subagent (automatic)
+- ✅ How to create your first custom subagent (via `/agents`)
+- ✅ How to invoke subagents explicitly
+- ✅ Where subagents are stored (`.claude/agents/`)
 
-**LATER (Part 5 - Intermediate)**:
-- ⏰ Create custom subagents for your team
-- ⏰ Configure subagent tools and permissions
-- ⏰ Build sophisticated orchestration workflows
+**PRACTICE NOW**:
+- Create 2-3 custom subagents for your workflow
+- Try the Test Generator, Documentation Writer, or Bug Hunter examples
+- Invoke them explicitly: "Use the [name] subagent to..."
+
+**ADVANCED (Part 5)**:
+- Manual agent configuration (YAML frontmatter, tool permissions)
+- Resumable agents (continue previous conversations)
+- Multi-agent orchestration workflows
 
 ---
 
 ## Try With AI
 
-Open Claude Code in a project directory and try these prompts:
+Open Claude Code and complete these hands-on exercises:
 
-### Prompt 1: Trigger the Plan Subagent
+### Exercise 1: Create Your Own Subagent
+
+Follow the hands-on steps from earlier in this lesson:
+
+1. Type `/agents`
+2. Choose "Create new agent"
+3. Choose "Project" location
+4. Choose "Generate with Claude"
+5. Describe what it should do (try Test Generator, Documentation Writer, or Bug Hunter)
+6. Test your new subagent by invoking it explicitly
+
+**Expected outcome**: You'll have a working custom subagent stored in `.claude/agents/` that you can invoke anytime.
+
+### Exercise 2: Trigger the Plan Subagent
 
 ```
 I want to add a REST API with CRUD endpoints for "Product" resource.
 Create a plan showing the phases and what each phase does.
 ```
 
-**Expected outcome**: Plan subagent researches your project, then presents a multi-phase breakdown (setup → endpoints → validation → testing).
+**Expected outcome**: Plan subagent researches your project, then presents a multi-phase breakdown (setup → endpoints → validation → testing). Observe the subagent working, then returning control to main Claude Code.
 
-### Prompt 2: Understand the Delegation
+### Exercise 3: Test Your Custom Subagent
 
-```
-Explain what just happened when I asked for that plan.
-Did you delegate to a subagent? How did you decide to use Plan mode?
-```
-
-**Expected outcome**: Claude explains that complex multi-step tasks trigger the Plan subagent automatically for better research and strategic planning.
-
-### Prompt 3: Compare Approaches
+If you created a code reviewer subagent in Exercise 1:
 
 ```
-What's the difference between:
-1. Me asking you to "add authentication" (and you doing it immediately)
-2. Me asking you to "plan how to add authentication" (Plan subagent)
-
-Which approach is better for complex features? Why?
+Use the code-reviewer subagent to analyze this file: [path to any Python file in your project]
 ```
 
-**Expected outcome**: Explanation that planning first (via Plan subagent) prevents mistakes by researching the codebase before making changes.
+**Expected outcome**: Your custom subagent launches, analyzes the file, returns findings to main Claude Code, which presents them to you. You'll see the one-task, one-completion pattern in action.
 
 ---
 
 ## What You Learned
 
 - ✅ **Subagents** are specialized AI assistants with isolated context
+- ✅ **Execution model**: One task → work independently → return results → hand control back
 - ✅ **Plan subagent** (built-in) researches your code and creates multi-phase plans
+- ✅ **Custom subagents** are easy to create via `/agents` command
 - ✅ **Automatic delegation** happens when Claude Code recognizes task complexity
+- ✅ **Explicit invocation**: "Use the [name] subagent to..."
 - ✅ **Orchestration** means AI coordinating specialists toward a goal
-- ✅ Creating custom subagents is advanced (Part 5), but you understand the concept now
+- ✅ **You created your first custom subagent** and tested it!
 
 **Next lesson**: You'll learn about Skills—another way to extend Claude Code's capabilities automatically.
