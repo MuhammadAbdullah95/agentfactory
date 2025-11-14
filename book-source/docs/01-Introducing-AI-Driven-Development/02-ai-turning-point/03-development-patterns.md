@@ -105,6 +105,8 @@ These aren't design flaws—they're natural properties of exploration-first deve
 
 **Spec-Driven Development (SDD)** inverts the order. You write a specification first, defining what you're building, why, and how success looks. Then you write tests that encode that specification. Only then do you implement the feature.
 
+![Spec-driven development Workflow](/img/part-1/chapter-2/l4-sdd-flow.png)
+
 ### The 7-Step SDD Workflow
 
 The complete workflow integrates Test-Driven Development (TDD) and knowledge capture:

@@ -24,40 +24,34 @@ $ARGUMENTS
 
 ## ⚠️ CRITICAL ANTI-PATTERN: DON'T OVER-ENGINEER WITH AI
 
-**BEFORE STARTING WORKFLOW**, understand this core lesson from Chapter 12 UV Package Manager issues:
-
-### The Over-Engineering Problem
-
-**What Happened**: Lessons taught AI for EVERYTHING, including trivial 1-second commands:
-- "Tell AI to run `uv init`" instead of "Run `uv init`"
-- "Ask AI to install UV" instead of showing direct platform commands
-- 45-minute lessons for 1-minute operations
-- 667 lines explaining 3 simple commands
-- "Try with AI" sections with 8 verbose prompts instead of 3-4 focused ones
-
-**Result**: Students thought they NEEDED AI for everything. Sugar-coated AIDD. Made them SLOWER, not faster.
-
-### The Fix Applied
-
-**Simple, deterministic tasks = Direct commands:**
-- Installation (`curl | sh`) - Takes 30 seconds, run directly
-- Project creation (`uv init`) - Takes 1 second, run directly
-- Adding dependencies (`uv add requests`) - Takes 1-3 seconds, run directly
-
-**Complex, ambiguous problems = Use AI:**
-- Understanding what `pyproject.toml` does (conceptual)
-- Troubleshooting dependency conflicts (debugging)
-- Deciding production vs development dependencies (strategic)
-- Migrating from legacy tools (complex transformation)
-
-**Result**: Lessons reduced by 38% (3,456 → 2,144 lines), durations became realistic, students learned WHEN to use AI strategically.
-
 ### Constitutional Alignment
 
 ✅ **Principle 2 (Co-Learning Partner):** AI used strategically, not blindly for everything
 ✅ **Core Philosophy #1 (AI Spectrum):** Teaching when Assisted vs. Driven vs. Native makes sense
 ✅ **Graduated Teaching (Principle 13):** Direct foundations first, AI for complexity
 ✅ **"Specs Are the New Syntax":** Focus on high-value specification work, not trivial command execution
+
+---
+
+## 🎭 SUPER ORCHESTRA MODE (Optional Deep-Research)
+
+**When to invoke**: Task requires comprehensive intelligence gathering + market-defining output
+
+**Indicators**:
+- User mentions "research Context7" or "gather from official sources"
+- Gap identified that spans multiple scattered documentation sources
+- Output must surpass market alternatives (not just meet internal specs)
+- Strategic positioning required ("Is this better than official docs?")
+
+**If triggered, apply**:
+- Use `super-orchestra` agent
+- Use `super-orchestra-session` output style
+- Context7 library research (8000+ tokens)
+- WebFetch official sources (3+ URLs)
+- Iterative refinement with positioning validation
+- Meta-learning capture for system evolution
+
+**Example**: Chapter 5 Skills/Plugins/MCP session (see `.claude/agents/super-orchestra.md`)
 
 ---
 
@@ -177,6 +171,8 @@ Now that you have full context, identify ONLY what's genuinely ambiguous (0-5 qu
   "teaching_pattern": "direct_commands | ai_companion | ai_orchestration",
   "ai_usage_strategy": "describe when AI adds value vs direct commands",
   "cognitive_load_limit": 7,
+  "sandbox_validation_required": true,
+  "commands_to_test": ["list all CLI commands students will run"],
   "ambiguities_clarified": {"question": "answer"}
 }
 ```
@@ -321,7 +317,7 @@ WAIT: User reviews tasks.md + analysis report
   ├─ Create: Implementation artifacts (lessons, code, tests, etc.)
   └─ Report: "Implementation complete. Reviewing for AI over-engineering..."
 
-→ Validation Review
+→ Validation Review (Conceptual)
   ├─ For book chapters:
   │   - Duration realistic? (not inflated for simple operations)
   │   - Direct commands documented clearly? (not hidden behind AI)
@@ -333,14 +329,41 @@ WAIT: User reviews tasks.md + analysis report
   │   - Code quality meets standards?
   │   - Documentation clear?
   ├─ Invoke: technical-reviewer + proof-validator (if applicable)
-  └─ Report: PASS / CONDITIONAL PASS / FAIL with specific issues
+  └─ Report: PASS / CONDITIONAL PASS / FAIL with conceptual issues
 
 → If CONDITIONAL PASS or FAIL:
   ├─ Apply fixes for critical issues
   ├─ Re-run validation
-  └─ Repeat until PASS
+  └─ Repeat until conceptual validation PASS
 
-WAIT: User reviews implementation + validation report
+→ Sandbox Validation (Hands-On Testing) **CRITICAL**
+  ├─ Philosophy: "If you have not run anything in sandbox, chances are it won't work"
+  ├─ For book chapters with hands-on commands:
+  │   - Extract ALL commands students will run
+  │   - Test EVERY command in actual environment
+  │   - Verify command syntax (CLI vs session commands)
+  │   - Verify output matches lesson claims
+  │   - Test "Try With AI" prompts for achievability
+  │   - Document what actually works vs what's documented
+  ├─ For code features:
+  │   - Run full test suite in sandbox
+  │   - Execute code in target environment
+  │   - Verify deployment steps work end-to-end
+  │   - Test edge cases and error paths
+  ├─ Create: SANDBOX-AUDIT-REPORT.md with:
+  │   - Commands tested (with actual output)
+  │   - Errors found (with line numbers)
+  │   - Fixes applied (with evidence)
+  │   - Re-test results (verification)
+  └─ Report: SANDBOX PASS / SANDBOX FAIL with specific command errors
+
+→ If SANDBOX FAIL:
+  ├─ Apply fixes for ALL command syntax errors
+  ├─ Re-run sandbox tests
+  ├─ Update SANDBOX-AUDIT-REPORT.md with fix verification
+  └─ Repeat until SANDBOX PASS
+
+WAIT: User reviews implementation + validation report + sandbox audit
 → User confirms: "✅ Implementation approved"
   └─ Proceed to PHASE 5
 ```
