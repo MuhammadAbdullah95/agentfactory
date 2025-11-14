@@ -27,12 +27,10 @@ By the end of this chapter, you'll have:
 
 6. **Autonomous Expertise** (Lesson 6) — Agent Skills with progressive disclosure pattern (metadata → full definition → supporting files) and autonomous discovery
 
-7. **Permission System** (Lesson 7) — Safe collaboration workflows with permission management and approval patterns
+7. **Event-Driven Automation** (Lesson 7) — Hooks for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart) with hands-on SessionStart hook creation
 
-8. **Event-Driven Automation** (Lesson 8) — Hooks for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart)
+8. **Configuration Mastery** (Lesson 8) — Settings hierarchy (User, Project, Local) and precedence rules for team collaboration and personal customization
 
-9. **Configuration Mastery** (Lesson 9) — Settings hierarchy (User, Project, Local) and precedence rules for advanced customization
-
-10. **Complete Extensibility** (Lesson 10) — Plugins as unified containers bundling skills, commands, agents, hooks, and MCP into shareable, discoverable packages
+9. **Complete Extensibility** (Lesson 9) — Discovering and using plugins from marketplaces, hands-on installation of Anthropic's official skills repository
 
 Let's get a fully personalized, extensible AI companion ready for sophisticated AI-Driven Development workflows throughout the course

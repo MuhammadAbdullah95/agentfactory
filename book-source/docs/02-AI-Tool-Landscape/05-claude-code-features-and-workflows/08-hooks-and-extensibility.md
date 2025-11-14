@@ -1,26 +1,42 @@
 ---
-sidebar_position: 8
+sidebar_position: 7
 title: "Hooks and Extensibility"
 duration: "5-7 min"
+learning_objectives:
+  - "Understand hooks as event-triggered automation"
+  - "Create a simple SessionStart hook"
+  - "Recognize common hook events (PreToolUse, PostToolUse, SessionStart, SessionEnd)"
+  - "Test hooks in a real Claude Code session"
 ---
 
 # Hooks and Extensibility
 
+## The Problem: Repeating Setup Every Session
+
+You're working on a project. Every time you start a new Claude Code session, you manually:
+1. Explain the project structure
+2. Remind Claude about your naming conventions
+3. Load environment variables
+4. Set up project context
+
+By the third session today, you're frustrated. **Why can't Claude Code just do this automatically when a session starts?**
+
+**That's what hooks solve.**
+
+---
+
 ## What Are Hooks?
 
-As you use Claude Code more, you'll encounter a powerful concept: **hooks**—automated actions that run when specific events occur.
+**Definition**: Hooks are automated scripts that run when specific events occur in Claude Code—like when a session starts, a file is edited, or a tool runs.
 
-Think of a hook like an automated assistant who watches for certain moments and springs into action. For example:
-- **After you save a file**: A hook automatically formats your code (prettier, black, rustfmt)
-- **After Claude edits code**: A hook runs your test suite to verify nothing broke
-- **When a session starts**: A hook loads environment variables from `.env`
+**Think of hooks as**: Event listeners that trigger actions automatically.
 
 A hook has three parts:
-1. **Event**: What triggers the hook (like "file was saved")
-2. **Condition**: Which files or tools match (optional matcher)
+1. **Event**: What triggers the hook (like "SessionStart")
+2. **Condition** (optional): Which tools or files match
 3. **Action**: What command runs automatically
 
-**The core idea**: Hooks eliminate repetitive manual steps by automating them when predictable events occur.
+**Key benefit**: Automate repetitive tasks so you focus on creative work, not setup.
 
 #### 💬 AI Colearning Prompt
 > "Explain what hooks are in Claude Code. Give 2-3 real-world examples where a hook would save time by automating a repetitive task."
@@ -92,24 +108,85 @@ Hooks are about **automating the predictable parts of your workflow** so you foc
 
 ---
 
-## Building Custom Hooks: Future Advanced Content
+## Hands-On: Create Your First Hook
 
-You might wonder: **Can I build custom hooks?**
+Let's create a simple SessionStart hook that displays a welcome message when you open Claude Code.
 
-**Short answer**: Yes, but not yet.
+### Step 1: Create Settings File
 
-Custom hook development is **Part 5 and Part 6 content** (Chapters 31-33). Right now, your goal is to:
-- ✅ Understand what hooks are conceptually
-- ✅ Recognize when hooks could help your workflow
-- ✅ Know they exist for future learning
+Hooks are configured in `.claude/settings.json`. Create this file in your project:
 
-When you reach Part 5 (Spec-Driven Development), you'll learn to:
-- Create custom hooks with event matchers
-- Configure hook actions with bash scripts
-- Test hooks in your project workflows
-- Build sophisticated automation
+```bash
+mkdir -p .claude
+touch .claude/settings.json
+```
 
-For now, **you don't need to configure hooks**. Just knowing they exist prevents confusion when you see them referenced in documentation or other developers' workflows.
+### Step 2: Add a SessionStart Hook
+
+Edit `.claude/settings.json` and add:
+
+```json
+{
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "type": "command",
+      "command": "echo 'Welcome to your project! Claude Code session started.'"
+    }
+  ]
+}
+```
+
+**What this does**:
+- **event**: Triggers when session starts
+- **type**: "command" means run a bash command
+- **command**: The actual command to run (echo a welcome message)
+
+### Step 3: Test Your Hook
+
+Close and restart Claude Code in this project:
+
+```bash
+exit  # if already in a session
+claude
+```
+
+**What you should see**:
+```
+Welcome to your project! Claude Code session started.
+```
+
+The hook ran automatically when the session started!
+
+### Step 4: Make It More Useful
+
+Update `.claude/settings.json` to show project info:
+
+```json
+{
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "type": "command",
+      "command": "echo 'Project: $(basename $(pwd)) | Files: $(ls -1 | wc -l) | Last modified: $(ls -lt | head -2 | tail -1 | awk \"{print \\$6, \\$7, \\$8}\")'"
+    }
+  ]
+}
+```
+
+Restart Claude Code:
+
+```bash
+exit
+claude
+```
+
+**Now you see**:
+```
+Project: my-project | Files: 15 | Last modified: Nov 14 10:23
+```
+
+Useful project context **automatically** every session!
 
 ---
 
@@ -175,5 +252,3 @@ claude "Can I build custom hooks in Claude Code? How hard is it? When would I le
 ```
 
 **Expected outcome**: AI clarifies that hook building is intermediate-to-advanced content, explains prerequisites (Part 5), and positions hooks in the larger Claude Code customization landscape.
-
-**Safety note**: Remember that hooks automate Claude Code's behavior, not your system commands. Always understand what a hook does before enabling it—automation should serve your workflow, not create unexpected side effects.

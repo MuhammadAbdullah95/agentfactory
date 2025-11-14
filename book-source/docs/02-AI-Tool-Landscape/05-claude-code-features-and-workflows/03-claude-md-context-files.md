@@ -221,5 +221,3 @@ me re-explaining it. Ready?
 *Exit Claude Code. Start a new session. Ask Claude a question about your project.*
 
 **Expected Outcome**: Claude references your tech stack, structure, or conventions—proving CLAUDE.md auto-loaded.
-
-**Safety Note**: CLAUDE.md is a text file in your project; treat it like documentation. Keep it up-to-date as your project evolves. If you change tech stacks, add new conventions, or restructure directories, update CLAUDE.md so Claude stays informed.

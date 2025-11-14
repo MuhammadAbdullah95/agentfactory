@@ -1,7 +1,12 @@
 ---
-sidebar_position: 9
+sidebar_position: 8
 title: "Settings Hierarchy"
 duration: "4-6 min"
+learning_objectives:
+  - "Understand Claude Code's three-level settings hierarchy"
+  - "Recognize precedence order: local > project > user"
+  - "Check which settings files exist on your system"
+  - "Know when to use each settings level"
 ---
 
 # Settings Hierarchy
@@ -42,9 +47,9 @@ Claude Code settings exist at three levels, from general to specific:
 **Example content**:
 ```json
 {
-  "permission_mode": "default",
-  "output_format": "concise",
-  "editor": "vim"
+  "model": "claude-sonnet-4-5-20250929",
+  "outputStyle": "Concise",
+  "includeCoAuthoredBy": true
 }
 ```
 
@@ -64,9 +69,14 @@ Claude Code settings exist at three levels, from general to specific:
 **Example content**:
 ```json
 {
-  "permission_mode": "acceptEdits",
-  "framework": "django",
-  "testing_mode": "strict"
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": ["Bash(npm run test:*)"],
+    "deny": ["Read(./.env)"]
+  },
+  "env": {
+    "PROJECT_ENV": "development"
+  }
 }
 ```
 
@@ -86,7 +96,10 @@ Claude Code settings exist at three levels, from general to specific:
 **Example content**:
 ```json
 {
-  "permission_mode": "plan"
+  "outputStyle": "Verbose",
+  "sandbox": {
+    "enabled": true
+  }
 }
 ```
 
@@ -138,14 +151,14 @@ Let's say you have:
 **User level** (`~/.claude/settings.json`):
 ```json
 {
-  "permission_mode": "default"
+  "outputStyle": "Concise"
 }
 ```
 
 **Project level** (`.claude/settings.json` in your project):
 ```json
 {
-  "permission_mode": "acceptEdits"
+  "outputStyle": "Explanatory"
 }
 ```
 
@@ -156,7 +169,7 @@ Let's say you have:
 }
 ```
 
-**Result**: Claude Code uses `permission_mode: acceptEdits` (from project level, since it overrides user level)
+**Result**: Claude Code uses `outputStyle: "Explanatory"` (from project level, since it overrides user level)
 
 ---
 
@@ -167,19 +180,19 @@ Now you add a temporary local override:
 **Local level** (`.claude/settings.local.json`):
 ```json
 {
-  "permission_mode": "plan"
+  "outputStyle": "Verbose"
 }
 ```
 
-**New Result**: Claude Code uses `permission_mode: plan` (from local level, which overrides both project and user)
+**New Result**: Claude Code uses `outputStyle: "Verbose"` (from local level, which overrides both project and user)
 
-**Why this matters**: You can temporarily change your workflow for this one session without affecting your project's standards or your personal preferences. Tomorrow, when you delete the local settings file, you're back to `acceptEdits` (project level).
+**Why this matters**: You can temporarily change your workflow for this one session without affecting your project's standards or your personal preferences. Tomorrow, when you delete the local settings file, you're back to `"Explanatory"` (project level).
 
 #### 🤝 Practice Exercise
 
-> **Ask your AI**: "I have permission_mode set to 'default' at user level and 'acceptEdits' at project level. I'm working in this project. Which mode is active? If I create a .claude/settings.local.json file with 'plan' mode, what happens?"
+> **Ask your AI**: "I have outputStyle set to 'Concise' at user level and 'Explanatory' at project level. I'm working in this project. Which style is active? If I create a .claude/settings.local.json file with outputStyle: 'Verbose', what happens?"
 
-**Expected Outcome**: AI explains that project level is active (acceptEdits), and creating a local override would switch to plan mode—helping you understand how to temporarily override settings without changing team standards.
+**Expected Outcome**: AI explains that project level is active (Explanatory), and creating a local override would switch to Verbose—helping you understand how to temporarily override settings without changing team standards.
 
 ---
 
@@ -187,9 +200,9 @@ Now you add a temporary local override:
 
 ### For Team Collaboration
 
-Your team might decide: "All projects use stricter permissions during code review phases." They set `permission_mode: "default"` at the **project level** (`.claude/settings.json`). Everyone on the team gets this standard automatically.
+Your team might decide: "All projects should deny access to .env files for security." They set `permissions.deny: ["Read(./.env)"]` at the **project level** (`.claude/settings.json`). Everyone on the team gets this standard automatically.
 
-But you, personally, have `permission_mode: "acceptEdits"` at your **user level** because you prefer speed. Project settings win, so during code review, everyone (including you) uses the safer default mode. After code review, project settings change back, and your user preference kicks in again.
+But you, personally, have different permission settings at your **user level**. Project settings win, so when working on this project, everyone (including you) uses the team's security standards. When you work on personal projects, your user-level preferences kick in again.
 
 ### For Personal Customization
 
@@ -269,15 +282,15 @@ Which ones exist? Where are they located?
 
 ```
 Let's say:
-- User level has: permission_mode = "default"
-- Project level has: permission_mode = "acceptEdits"
+- User level has: outputStyle = "Concise"
+- Project level has: outputStyle = "Explanatory"
 - Local level is: not set
 
-Which permission mode is active? Why?
-Then: what happens if I add permission_mode = "plan" to local level?
+Which outputStyle is active? Why?
+Then: what happens if I add outputStyle = "Verbose" to local level?
 ```
 
-**Expected Outcome**: AI correctly explains that project level wins initially (acceptEdits), then local level overrides when you add it (plan)—demonstrating understanding of precedence order.
+**Expected Outcome**: AI correctly explains that project level wins initially (Explanatory), then local level overrides when you add it (Verbose)—demonstrating understanding of precedence order.
 
 ### Prompt 4 (Stretch): Plan for Part 5
 
@@ -291,6 +304,3 @@ Explain when each level is the right choice for different scenarios.
 ```
 
 **Expected Outcome**: AI explains use cases—user level for personal defaults, project level for team standards, local level for temporary changes. You'll understand why hierarchy matters for team collaboration.
-
-**Safety Note**: Don't manually edit settings.json files unless you understand JSON syntax. Invalid JSON breaks configuration. If you break settings, rename the file to reset to defaults, or ask Claude Code for help. Always keep backups before editing.
-
