@@ -24,20 +24,29 @@ You've learned that **subagents** can be invoked automatically by Claude Code OR
 
 ### Subagents vs. Skills: What's Actually Different?
 
-Based on the official documentation, **subagents and skills are almost identical** in structure. Both:
+Based on the official documentation, subagents and skills are similar in structure but have **two critical differences**:
+
+**Similarity**: Both:
 - Have YAML frontmatter (name, description, tools)
 - Have markdown content (instructions)
 - Live in `.claude/` directories
 - Claude discovers them autonomously
 
-**The ONE key difference: Invocation control**
+**The TWO key differences: Context isolation + Invocation control**
 
 | Feature | Subagents | Skills |
 |---------|-----------|--------|
-| **File structure** | `.claude/agents/name.md` | `.claude/skills/name/SKILL.md` |
+| **Context isolation** | ✅ Separate context window<br>✅ Separate transcript file (`agent-{id}.jsonl`)<br>Prevents main conversation pollution | ❌ Runs in main Claude Code context<br>❌ No separate transcript<br>Shares context with main conversation |
 | **Autonomous invocation** | ✅ Claude decides when to use | ✅ Claude decides when to use |
-| **Explicit invocation** | ✅ "Use the [name] subagent" | ❌ Cannot invoke by name |
-| **Tool specification** | `tools:` (optional, inherits all if omitted) | `allowed-tools:` (optional, restricts if specified) |
+| **Explicit invocation** | ✅ "Use the [name] subagent" | ❌ **Cannot invoke by name**<br>(model-invoked only) |
+| **File structure** | `.claude/agents/name.md` | `.claude/skills/name/SKILL.md` |
+| **Tool specification** | `tools:` (inherits all if omitted) | `allowed-tools:` (restricts if specified) |
+
+**Official quote on context isolation**:
+> "Each subagent operates in its own context, preventing pollution of the main conversation and keeping it focused on high-level objectives."
+
+**Official quote on skill invocation**:
+> "Skills are **model-invoked**—Claude autonomously decides when to use them based on your request and the Skill's description. This is different from slash commands, which are **user-invoked**."
 
 **Example**:
 
@@ -47,21 +56,26 @@ You: "Review this code for quality issues"
 With a code-review subagent:
 - ✅ Claude MAY invoke it automatically (autonomous)
 - ✅ You CAN request it: "Use the code-review subagent" (explicit)
+- ✅ Runs in isolated context (separate transcript)
+- ✅ Main conversation stays clean
 
 With a code-review skill:
 - ✅ Claude MAY apply it automatically (autonomous)
-- ❌ You CANNOT request it by name (autonomous ONLY)
+- ❌ You CANNOT request it by name (model-invoked only)
+- ❌ Runs in main context (shares transcript with main conversation)
+- ❌ Adds to main conversation context
 ```
 
 **When to use skills over subagents**:
 - When you want pure automation (no manual invocation needed)
-- When you want Claude to be smarter by default
-- When you don't want to remember to invoke the capability
+- When context isolation isn't important (small, focused tasks)
+- When you want Claude to be smarter by default without overhead
 
 **When to use subagents over skills**:
-- When you want control over when it's used
-- When you want to explicitly trigger it sometimes
+- When you want control over when it's used (explicit invocation)
+- When you need **context isolation** (complex tasks that shouldn't clutter main conversation)
 - When you need both autonomous AND manual invocation
+- When you want separate transcripts for specialized work
 
 ---
 
