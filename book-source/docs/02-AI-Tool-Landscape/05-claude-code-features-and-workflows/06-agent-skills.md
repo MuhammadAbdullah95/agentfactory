@@ -36,9 +36,9 @@ Based on the official documentation, subagents and skills are similar in structu
 
 | Feature | Subagents | Skills |
 |---------|-----------|--------|
-| **Context isolation** | ✅ Separate context window<br>✅ Separate transcript file (`agent-{id}.jsonl`)<br>Prevents main conversation pollution | ❌ Runs in main Claude Code context<br>❌ No separate transcript<br>Shares context with main conversation |
+| **Context isolation** | ✅ Separate context window<br/>✅ Separate transcript file (`agent-{id}.jsonl`)<br/>Prevents main conversation pollution | ❌ Runs in main Claude Code context<br/>❌ No separate transcript<br/>Shares context with main conversation |
 | **Autonomous invocation** | ✅ Claude decides when to use | ✅ Claude decides when to use |
-| **Explicit invocation** | ✅ "Use the [name] subagent"<br>(Hard invocation - guaranteed) | ❌ No hard invocation<br>✅ **But you CAN guide by name**<br>"Use the [name] skill" (soft guidance) |
+| **Explicit invocation** | ✅ "Use the [name] subagent"<br/>(Hard invocation - guaranteed) | ❌ No hard invocation<br/>✅ **But you CAN guide by name**<br/>"Use the [name] skill" (soft guidance) |
 | **File structure** | `.claude/agents/name.md` | `.claude/skills/name/SKILL.md` |
 | **Tool specification** | `tools:` (inherits all if omitted) | `allowed-tools:` (restricts if specified) |
 
