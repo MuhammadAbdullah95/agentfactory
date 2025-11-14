@@ -66,6 +66,20 @@ When you ask for complex work, Claude Code delegates to the Plan subagent:
 
 ## How Subagents Work
 
+### The Execution Model: One Task, One Completion
+
+**Critical concept**: A subagent is invoked **once** for a specific goal, completes its work, and **returns results to main Claude Code**.
+
+**The flow**:
+1. Main Claude Code recognizes a task that needs a specialist
+2. Launches the subagent with a specific goal
+3. Subagent works independently in isolated context
+4. Subagent completes its task and returns results
+5. **Control returns to main Claude Code**
+6. You interact with main Claude Code to proceed
+
+**Think of it like this**: You send a specialist to research something. They go off, do their work, come back with a report, and then you continue the conversation with your main assistant.
+
 ### Automatic Delegation
 
 You don't command "use the Plan subagent." Claude Code decides when to delegate based on:
@@ -77,7 +91,10 @@ You don't command "use the Plan subagent." Claude Code decides when to delegate 
 ```
 You: "Refactor this Flask app to use async/await"
 Claude Code: *recognizes complexity, delegates to Plan subagent*
-Plan subagent: *researches your code, creates phase breakdown*
+Plan subagent: *researches your code, creates phase breakdown, returns plan*
+Claude Code: *receives plan, presents it to you*
+You: *approve or modify the plan*
+Claude Code: *proceeds with execution*
 ```
 
 ### Explicit Invocation
@@ -86,7 +103,7 @@ You can also request a specific subagent directly:
 
 ```
 You: "Use the code-reviewer subagent to check my changes"
-Claude Code: *invokes code-reviewer explicitly*
+Claude Code: *invokes code-reviewer, waits for results, presents findings*
 ```
 
 ---
@@ -117,28 +134,36 @@ You can create your own subagents for team-specific workflows. Examples:
 
 When you ask for a complex task:
 1. **Claude Code (orchestrator)** analyzes your request
-2. **Delegates to specialists** (Plan subagent researches, proposes phases)
-3. **You approve/modify** the plan
-4. **Execution happens** step-by-step with your oversight
+2. **Launches a specialist subagent** (e.g., Plan subagent) for a specific goal
+3. **Subagent completes its task** (researches, creates plan) and **returns results**
+4. **Control returns to main Claude Code**, which presents the results to you
+5. **You approve/modify** the plan
+6. **Main Claude Code executes** step-by-step with your oversight
 
-**This is orchestration in action**: One AI managing a team of specialist AIs to accomplish complex work.
+**Key insight**: Subagents don't stick around. They're invoked for one task, complete it, return results, and hand control back to main Claude Code.
+
+**This is orchestration in action**: One AI managing a team of specialist AIs to accomplish complex work—each specialist does their job and returns the baton.
 
 ---
 
 ## Practical Example: Add User Login
 
-Let's see Plan subagent at work:
+Let's see the complete subagent lifecycle:
 
 **You**: "Add user login with email/password to this project"
 
 **What happens**:
 
-1. **Claude Code recognizes complexity** → delegates to Plan subagent
-2. **Plan subagent researches**:
+1. **Claude Code recognizes complexity** → launches Plan subagent with goal: "research project and create auth plan"
+2. **Plan subagent works independently**:
    - Reads your project structure
    - Identifies: Flask app, SQLAlchemy ORM, no auth yet
    - Notes: Has pytest for testing
-3. **Plan subagent proposes phases**:
+   - Creates multi-phase plan
+3. **Plan subagent completes task and returns plan**:
+   - Subagent's job is done
+   - Control returns to main Claude Code
+4. **Main Claude Code presents the plan to you**:
    ```
    Phase 1: Database Setup
    - Create User model with hashed password field
@@ -160,8 +185,13 @@ Let's see Plan subagent at work:
    - Integration tests for login flow
    - Security test for password requirements
    ```
-4. **You approve** (or modify the plan)
-5. **Execution begins** phase by phase
+5. **You approve** (or modify the plan)
+6. **Main Claude Code executes** the plan phase by phase
+   - Plan subagent is not involved in execution
+   - Main Claude Code handles all the coding work
+   - You oversee and approve changes at each step
+
+**Key insight**: The Plan subagent's job ended at step 3 when it returned the plan. Everything after that is main Claude Code executing the plan you approved.
 
 **Total time**: 10-15 minutes for complete authentication system (vs hours manually)
 
