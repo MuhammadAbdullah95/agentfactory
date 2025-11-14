@@ -5,11 +5,133 @@ title: Configuration & Settings
 
 # Configuration & Settings
 
-**Duration**: 15-17 minutes
+
+## The Configuration Problem
+
+Imagine you're working on two projects with Gemini CLI:
+
+**Your Personal Projects**: You prefer `gemini-2.5-flash` (fast responses) and dark theme.
+
+**Your Team's Enterprise Project**: Team requires `gemini-2.5-pro` (high accuracy) and light theme (accessibility compliance).
+
+You open Gemini CLI in the team project. What happens?
+
+### WITHOUT Understanding Configuration
+
+You create `~/.gemini/settings.json` with your preferences:
+```json
+{
+  "theme": "dark",
+  "model": "gemini-2.5-flash"
+}
+```
+
+**Problem**: Now the team project uses dark theme + flash model. Your teammates complain: "Why is the output different?" "The theme doesn't match our standards!"
+
+You manually change settings every time you switch projects. **Frustrating.**
+
+---
+
+### WITH Configuration Hierarchy
+
+You keep your personal preferences in `~/.gemini/settings.json`:
+```json
+{
+  "theme": "dark",
+  "model": "gemini-2.5-flash"
+}
+```
+
+Your team adds `team-project/.gemini/settings.json`:
+```json
+{
+  "theme": "light",
+  "model": "gemini-2.5-pro"
+}
+```
+
+**What happens now:**
+
+When you run `gemini` in **your personal projects**:
+- Theme: `dark` ✅ (from user-level config)
+- Model: `gemini-2.5-flash` ✅ (from user-level config)
+
+When you run `gemini` in **team project**:
+- Theme: `light` ✅ (project-level overrides user-level)
+- Model: `gemini-2.5-pro` ✅ (project-level overrides user-level)
+
+**Zero manual switching. Automatic per-project configuration.**
+
+---
+
+## The Security Problem
+
+Now your team adds an MCP server to connect to the company database. Someone creates this config:
+
+```json
+{
+  "mcpServers": {
+    "database": {
+      "command": "python",
+      "args": ["-m", "db_mcp"],
+      "env": {
+        "DATABASE_URL": "postgresql://admin:secret123@prod-db:5432/company"
+      }
+    }
+  }
+}
+```
+
+They commit this to the repository.
+
+**❌ DISASTER**: Database password is now in version control. Anyone with repo access has production database credentials.
+
+### The Solution: Environment Variables
+
+Update config to reference environment variable:
+```json
+{
+  "mcpServers": {
+    "database": {
+      "command": "python",
+      "args": ["-m", "db_mcp"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    }
+  }
+}
+```
+
+Each developer creates their own `.env` file (gitignored):
+```bash
+# Alice's .env (local dev database)
+DATABASE_URL=postgresql://localhost:5432/dev_db
+
+# Bob's .env (local dev database)
+DATABASE_URL=postgresql://localhost:5433/dev_db
+
+# Production .env (never committed)
+DATABASE_URL=postgresql://admin:prod_pass@prod-db:5432/company
+```
+
+**✅ Security**: No secrets in version control
+**✅ Flexibility**: Each environment has its own values
+**✅ Safety**: Production secrets never leak
+
+---
+
+## What You'll Master
+
+By the end of this lesson, you'll understand:
+
+- **Configuration hierarchy**: How 7 levels merge (CLI flags → env vars → `.env` → project → workspace → user → system)
+- **Project vs. personal settings**: When to use each level and how they override
+- **Environment variables**: How to use `${VAR}` syntax to keep secrets out of version control
+- **Security patterns**: `.env` + `.gitignore` + `.env.example` workflow
+- **Real-world scenarios**: Team collaboration, multi-environment deployments, secret management
 
 One of the biggest advantages of Gemini CLI being open source and command-line based is that you can configure it exactly how you need. Unlike web interfaces where settings are fixed, Gemini CLI offers a powerful configuration system that lets you customize behavior globally, by project, or even with environment-specific secrets.
-
-In this lesson, you'll learn how Gemini CLI's configuration hierarchy works—and why it matters that your project settings can override your global settings.
 
 ---
 
