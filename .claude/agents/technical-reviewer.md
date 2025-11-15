@@ -58,20 +58,53 @@ Validate completed chapters for publication readiness across four dimensions (ad
 - Look for exercises vs. reflection prompts
 - Identify as: Conceptual, Technical, or Hybrid
 
-### Phase 1: Content Accuracy & Source Verification
+### Phase 1: Content Accuracy & Source Verification + Sandbox Testing
 
 **For Technical Chapters with Python code:**
 
-- Execute each code block to verify it runs without errors
-- Test on multiple platforms (Windows, Mac, Linux) where applicable
-- Confirm Python 3.13+ syntax is used throughout
-- Check that every function and class has comprehensive type hints (no `Any` unless justified)
-- Verify PEP 8 compliance (naming conventions, line length, imports, spacing)
-- Confirm output is clearly shown and matches expected results
-- Verify imports are complete and no dependencies are missing
-- Check for edge cases or potential runtime errors
-- **Verify source citations**: Factual claims include inline citations; tool versions are current
-- **Security check**: No hardcoded secrets, proper error handling, secure practices demonstrated
+**MANDATORY SANDBOX VALIDATION**:
+
+You MUST test ALL code examples in an actual sandbox environment. Create a test directory and execute EVERY code block.
+
+**Sandbox Testing Workflow**:
+
+1. **Extract all code examples** from the chapter
+2. **Create test environment**:
+   ```bash
+   cd /tmp
+   mkdir chapter-validation-$(date +%s)
+   cd chapter-validation-*
+   ```
+3. **For each code example**:
+   - Write code to file (e.g., `example_01.py`)
+   - Execute: `python example_01.py` (or `uv run` if using uv)
+   - Capture output and errors
+   - Verify output matches lesson claims
+   - Test edge cases mentioned in lesson
+4. **For tool-specific chapters** (e.g., Chapter 12: uv, Ruff, Pyright):
+   - Install tools if needed: `uv add ruff pyright --dev`
+   - Run exact commands from lessons: `uv run ruff format .`
+   - Verify tool outputs match lesson screenshots/descriptions
+   - Test configuration files (pyproject.toml, settings.json)
+5. **Document ALL sandbox test results**:
+   - Which examples were tested
+   - Which passed/failed
+   - Exact error messages for failures
+   - Platform tested (macOS/Linux/Windows via WSL)
+
+**Code Validation Checklist**:
+- [ ] Execute each code block to verify it runs without errors
+- [ ] Test on sandbox environment (document platform)
+- [ ] Confirm Python 3.13+ syntax is used throughout
+- [ ] Check that every function and class has comprehensive type hints (no `Any` unless justified)
+- [ ] Verify PEP 8 compliance (naming conventions, line length, imports, spacing)
+- [ ] Confirm output is clearly shown and matches sandbox results
+- [ ] Verify imports are complete and no dependencies are missing
+- [ ] Check for edge cases or potential runtime errors
+- [ ] **Verify source citations**: Factual claims include inline citations; tool versions are current
+- [ ] **Security check**: No hardcoded secrets, proper error handling, secure practices demonstrated
+
+**CRITICAL**: If you cannot test code in sandbox, FLAG as CRITICAL ISSUE and recommend manual sandbox testing before approval.
 
 **For Conceptual Chapters without code:**
 
