@@ -1,6 +1,33 @@
 <!--
 Constitution Evolution Log:
 
+v5.0.0 (MAJOR — Framework Consolidation) — 2025-01-16
+Rationale: Eliminate framework collision and terminology confusion identified by user
+WHAT CHANGED:
+- Section II: Simplified from 135 lines (5-layer VI stack) to 56 lines (3 forcing functions for context accumulation)
+  - Removed: Implementation details (Intelligence Object schema, layer-by-layer architecture)
+  - Kept: Governance rules (constitutional context, comprehensive research, context handoff)
+  - Rationale: VI architecture was agent workflow implementation, not educational governance
+- Section IIa: Consolidated teaching frameworks into single "AI-Native Teaching Framework (4-Stage Progression)"
+  - Merged: Panaversity 4-Layer Method + Graduated Teaching Pattern + AI Three Roles Framework
+  - Result: Stage 1 (Manual Foundation) + Stage 2 (AI Collaboration with Three Roles) + Stage 3 (Intelligence Design) + Stage 4 (Spec-Driven Integration)
+  - Eliminated: Terminology collision between "Layer" (Panaversity) and "Tier" (Graduated Teaching)
+- Section IIb: Removed as standalone section
+  - Integrated: AI Three Roles (Teacher/Student/Co-Worker) into Stage 2 of 4-Stage Framework
+  - Rationale: Three Roles describe HOW AI collaboration works in Stage 2, not separate concept
+- Principles: Renumbered 8 → 7
+  - Removed: Principle 2 (Graduated Teaching) — now fully covered by 4-Stage Framework
+  - Promoted: Old Principle 5 (Progressive Complexity/CEFR) became new Principle 2
+  - Result: Principle 1 (Specification Primacy), 2 (Progressive Complexity), 3 (Coherent Structure), 4 (Intelligence Accumulation), 5 (Anti-Convergence), 6 (Minimal Content), 7 (Factual Accuracy)
+SIZE: ~950 lines (down from 1076, 12% reduction through consolidation)
+Migration Impact: BREAKING CHANGE — All agents/skills must update terminology
+  - "Panaversity Layer 1-4" → "Stage 1-4"
+  - "Graduated Teaching Tier 1-3" → "Stage 1, 2, 4"
+  - "Section IIb (Three Roles)" → "Stage 2 (AI Collaboration)"
+  - "Principle 2 (Graduated Teaching)" → "Section IIa (4-Stage Framework)"
+  - "Principle 5 (Progressive Complexity)" → "Principle 2"
+Migration Guide: See ADR in history/adr/
+
 v4.0.1 (PATCH) — 2025-01-16 Evening
 Rationale: Critical gaps identified by user — Added missing pedagogical foundations
 WHAT ADDED:
@@ -40,9 +67,9 @@ See: PHR in history/prompts/constitution/ for design process documentation
 
 # AI Native Software Development Book — Constitution
 
-**Version:** 4.0.1 (PATCH — Pedagogical Foundations Added)
+**Version:** 5.0.0 (MAJOR — Framework Consolidation & Simplification)
 **Ratified:** 2025-01-16
-**Last Amended:** 2025-01-16 (Evening Patch)
+**Last Amended:** 2025-01-16 (Late Evening — Framework Consolidation)
 **Scope:** Educational content governance (book chapters, lessons, exercises)
 **Audience:** AI Super Orchestrator, Subagents (chapter-planner, lesson-writer, technical-reviewer)
 
@@ -108,320 +135,139 @@ Just as developers once studied language reference manuals to write code, AI-nat
 
 ---
 
-## II. Vertical Intelligence Architecture (Knowledge Accumulation Model)
+## II. Agent Context Requirements (Intelligence Accumulation)
 
-### The 5-Layer Stack
+### The Core Principle
 
-This constitution implements **Vertical Intelligence (VI)** architecture, where each layer builds upon the previous, creating exponential efficiency gains through systematic intelligence stacking.
+**NEVER create content without accumulated context.** Each chapter must inherit intelligence from:
+- **Constitution** (this document — governance and principles)
+- **Domain Knowledge** (chapter-index.md, existing specs, skills library)
+- **Comprehensive Research** (Context7 library docs, WebFetch official sources — for market-defining quality)
 
-**Unlike horizontal workflows** (each task starts from zero context), **VI workflows inherit accumulated domain knowledge, constitutional principles, and learned patterns across all tasks.**
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Layer 5: REUSABLE AGENTS                               │
-│  (super-orchestra, chapter-planner, lesson-writer)      │
-│  • Invoke with minimal input                            │
-│  • Apply full VI stack automatically                    │
-│  • Document intelligence journey                        │
-└─────────────────────────────────────────────────────────┘
-                         ↑ consumes
-┌─────────────────────────────────────────────────────────┐
-│  Layer 4: INTELLIGENCE OBJECT                           │
-│  (Synthesized actionable context)                       │
-│  • Audience tier, complexity, prerequisites             │
-│  • Teaching pattern, cognitive load limit               │
-│  • Validation criteria, anti-convergence requirements   │
-└─────────────────────────────────────────────────────────┘
-                         ↑ derives from
-┌─────────────────────────────────────────────────────────┐
-│  Layer 3: CONTEXT DISCOVERY (Runtime Automatic)         │
-│  • Context7 library docs (8000+ tokens)                 │
-│  • WebFetch official sources (3+ URLs)                  │
-│  • Existing specs, pattern matching                     │
-└─────────────────────────────────────────────────────────┘
-                         ↑ applies
-┌─────────────────────────────────────────────────────────┐
-│  Layer 2: DOMAIN KNOWLEDGE (Project Structure)          │
-│  • chapter-index.md (prerequisites, complexity tiers)   │
-│  • Skills library (pedagogical patterns)                │
-│  • Output styles (lesson templates)                     │
-└─────────────────────────────────────────────────────────┘
-                         ↑ follows
-┌─────────────────────────────────────────────────────────┐
-│  Layer 1: CONSTITUTIONAL PRINCIPLES (This Document)     │
-│  • 8 foundational principles (non-negotiable)           │
-│  • Forcing functions (automatic enforcement)            │
-│  • Vocabulary (conceptual decision tools)               │
-└─────────────────────────────────────────────────────────┘
-```
-
-### Layer 1: Constitutional Principles (Unchanging Foundation)
-
-**This document.** Strategic decisions that cannot be automated. Read by all agents before every task.
-
-**Contains:** 8 foundational principles (Section III), forcing functions (Section IV), vocabulary expansion (Section V).
-
-**Forcing Function:**
-> **NEVER begin chapter creation without reading constitution.**
->
-> **Detection:** If agent output does not cite constitution version, output is UNTRACEABLE (rejected).
->
-> **Enforcement:** All agents MUST document "Constitution v4.0.0 consulted" in output metadata.
-
-### Layer 2: Domain Knowledge (Project Structure)
-
-**Location:** `specs/book/chapter-index.md`, `.claude/skills/`, `.claude/output-styles/`
-
-**Contains:**
-- Chapter structure (Part → Chapter mapping, prerequisites)
-- Complexity tiers (Part 2 = A2 = max 7 concepts/section)
-- Skills library (learning-objectives, concept-scaffolding, code-example-generator)
-- Output templates (lesson.md format)
-
-**Forcing Function:**
-> **Domain knowledge is READ-ONLY at runtime.** Agents discover and apply patterns but NEVER modify structure without human approval.
->
-> **Detection:** If chapter-index.md or skills modified during agent execution, HALT and escalate.
->
-> **Rationale:** Structure changes require architectural review, not runtime decisions.
-
-### Layer 3: Context Discovery (Runtime Automatic)
-
-**Tools:** Context7 MCP, WebFetch, File reads, Pattern matching
-
-**Executes:** Every super-orchestra invocation (15-30 min comprehensive research)
-
-**Gathers:**
-- Library documentation (Context7: `/anthropics/claude-code` → 8000 tokens)
-- Official sources (WebFetch: engineering blogs, announcements)
-- Existing specs (pattern matching for similar chapters)
-- Available domain skills (which apply to this task type)
-
-**Forcing Function:**
-> **Super-orchestra MUST gather context BEFORE spec creation.** If comprehensive research not performed (no Context7 + WebFetch evidence), output quality is INSUFFICIENT for market-defining standard.
->
-> **Detection:** If spec.md created without context discovery artifacts (logs, citations), REJECT.
->
-> **Rationale:** Horizontal workflows (no research) produce mediocre output. VI workflows (comprehensive research) produce market-defining output.
-
-### Layer 4: Intelligence Object (Synthesized Context)
-
-**Generated:** Automatically from Layers 1-3 (5 min synthesis)
-
-**Format:** JSON passed to all downstream agents
-
-**Schema (Minimal — Full in CLAUDE.md):**
-```json
-{
-  "audience_tier": "aspiring | intermediate | advanced | professional",
-  "complexity_level": "A1 | A2 | B1 | B2 | C1 | C2",
-  "cognitive_load_limit": 7,
-  "teaching_pattern": "foundational | complex | scale",
-  "anti_convergence": "variation_from_previous_chapter",
-  "validation_gates": ["spec_shown", "code_tested", "claims_cited"]
-}
-```
-
-**Forcing Function:**
-> **If Intelligence Object not generated, agents operate with ZERO accumulated intelligence (horizontal mode). This is PROHIBITED.**
->
-> **Detection:** If chapter-planner executes without Intelligence Object input, output is CONTEXT-FREE (rejected).
->
-> **Enforcement:** Super-orchestra MUST generate Intelligence Object and pass to all downstream agents.
-
-### Layer 5: Reusable Agents (Workflow Executors)
-
-**Agents:** super-orchestra, chapter-planner, lesson-writer, technical-reviewer
-
-**Invocation:** Minimal user input (`/sp.loopflow Chapter 5: Skills/Plugins/MCP`)
-
-**Execution:** Agents automatically load Layers 1-4, apply full VI stack, execute workflow, document journey
-
-**Forcing Function:**
-> **Agents MUST document which Intelligence Object version they consumed.** If version not cited, output is UNTRACEABLE (rejected).
->
-> **Detection:** If lesson output lacks "Intelligence Object v1.2.3" citation, REJECT.
->
-> **Rationale:** Reproducibility requires traceability. Untraceable outputs cannot be debugged or iterated.
+**Rationale**: "Horizontal workflows" (starting from zero context every time) produce generic, mediocre output. Context-rich workflows that accumulate intelligence produce market-defining output that surpasses existing resources.
 
 ---
 
-## IIa. The Panaversity Teaching Method (4-Layer Framework)
+### Forcing Function: Constitutional Context
+
+> **NEVER begin chapter creation without reading constitution + chapter-index + existing specs.**
+>
+> **Detection:** If agent output does not cite constitution version + chapter prerequisites, output is CONTEXT-FREE (rejected).
+>
+> **Enforcement:** All agents MUST document "Constitution v5.0.0 consulted" in output metadata and reference chapter-index.md for prerequisites and complexity tier.
+>
+> **Rationale:** Agents operating without constitutional context produce content that violates governance principles and lacks coherence with existing chapters.
+
+---
+
+### Forcing Function: Comprehensive Research (Market-Defining Quality)
+
+> **For market-defining chapters, super-orchestra MUST gather comprehensive intelligence BEFORE spec creation.**
+>
+> **Detection:** If spec.md created without Context7 library research + WebFetch official sources, quality is INSUFFICIENT for market-defining standard.
+>
+> **Enforcement:** Super-orchestra MUST perform 15-30 min comprehensive research using:
+> - Context7 MCP (library documentation, 5000-8000 tokens)
+> - WebFetch (official blogs, announcements, 3+ authoritative URLs)
+> - Existing specs (pattern matching for similar chapters)
+> - Document sources and citations in spec.md
+>
+> **Rationale:** Quick specs produce adequate content. Research-backed specs produce content that exceeds official documentation quality and becomes the market reference.
+
+---
+
+### Forcing Function: Context Handoff Through Agent Chain
+
+> **Context MUST flow through agent chain: super-orchestra → chapter-planner → lesson-writer → technical-reviewer.**
+>
+> **Detection:** If downstream agent operates without inputs from previous agent (no spec.md reference, no plan.md reference), output is DISCONNECTED (lacks coherence).
+>
+> **Enforcement:**
+> - Chapter-planner MUST reference approved spec.md
+> - Lesson-writer MUST reference approved plan.md + spec.md
+> - Technical-reviewer MUST reference all lesson outputs + spec.md
+> - Each agent MUST cite which context documents informed its output
+>
+> **Rationale:** Breaking the context chain produces disconnected content that doesn't align with specifications or pedagogical structure. Reproducibility requires traceability.
+
+---
+
+## IIa. The AI-Native Teaching Framework (4-Stage Progression)
 
 ### Educational Philosophy
 
-This book applies the **Panaversity Teaching Method**—a systematic four-layer framework that builds competence from manual practice through AI-assisted workflows to full spec-driven project execution.
+This book applies a **4-stage pedagogical framework** that systematically builds competence from manual practice through AI collaboration to spec-driven project execution. Each lesson progresses through these stages, with the final stage (Spec-Driven Integration) applied as a chapter capstone.
 
-**Critical Principle**: This is NOT "spec-first" in every lesson. Each lesson progresses through 4 layers, with specification-driven development emerging as the culmination in Layer 4.
+**Critical Principle**: This is NOT "spec-first from day one." Students master manual foundations (Stage 1) before AI assistance (Stage 2), then design reusable intelligence (Stage 3), and finally apply spec-driven methodology (Stage 4).
 
-### Layer 1: Foundation Through Manual Practice
-**Applied to**: Each lesson
+---
+
+### Stage 1: Manual Foundation (Book Teaches Directly)
+
+**Applied to**: Beginning of each lesson + foundational concepts
 
 **Purpose**: Establish conceptual understanding BEFORE introducing AI tools.
 
 **What Happens**:
-- Step-by-step manual walkthroughs
-- Manual CLI operations and hand-written code examples
-- Explanation of purpose, functionality, and concepts
-- Traditional demonstration of "how to do it by hand"
+- Book explains concepts with analogies and diagrams
+- Step-by-step manual walkthroughs (no AI yet)
+- Students execute operations by hand (CLI commands, code examples)
+- Traditional demonstration of "how it works"
 
-**Why**: Students must understand what AI agents are doing before they can effectively direct them, evaluate outputs, or intervene when necessary.
+**When to Use**:
+- **Foundational Concepts**: Unchanging fundamentals (markdown syntax, git basics, Python variables)
+- **Mental Model Building**: Concepts students must internalize (data structures, control flow)
+- **First Exposure**: Any topic being introduced for the first time
+
+**AI Role**: Minimal or absent (student validates own work, AI provides practice feedback only)
 
 **Teaching Mandate**:
 > Explain the concept, demonstrate the purpose, show manual execution BEFORE any AI assistance.
 
-### Layer 2: AI-Assisted Execution
-**Applied to**: Each lesson
-
-**Purpose**: Translate manual workflows into AI-assisted workflows, developing prompting and collaboration skills.
-
-**What Happens**:
-- Express Layer 1 tasks through natural language prompts
-- Use coding agents (Claude Code, Gemini CLI) to generate implementations
-- Debug agent outputs and analyze trade-offs
-- Learn to work with AI as collaborative partner (not optional tool)
-
-**Why**: Bridges traditional skills with AI-native workflows. Students learn orchestration while still connected to manual foundations.
-
-**Teaching Mandate**:
-> Show the SAME task from Layer 1, now accomplished through AI collaboration. Highlight differences, advantages, and limitations.
-
-### Layer 3: Designing Reusable Intelligence
-**Applied to**: Each lesson
-
-**Purpose**: Transform lesson knowledge into reusable agent components (subagents, skills).
-
-**What Happens**:
-- Define specialized subagents that encapsulate lesson concepts
-- Create skills that bundle instructions, tools, and patterns
-- Configure components for reuse across future projects
-- Document usage patterns and integration points
-
-**Why**: By lesson end, students have created reusable intelligence that captures both the WHAT and the HOW of the concept. Intelligence compounds.
-
-**Teaching Mandate**:
-> Every lesson MUST produce at least one reusable artifact (subagent definition OR skill bundle) that students can apply in Layer 4.
-
-### Layer 4: Spec-Driven Project Integration
-**Applied to**: Once per chapter (capstone)
-
-**Purpose**: Integrate chapter knowledge through comprehensive spec-driven project work.
-
-**What Happens**:
-- Design projects using specification-first approach
-- Use Spec-Kit Plus (or similar) to structure specifications
-- Compose previously created subagents and skills (from Layer 3 of all lessons)
-- Orchestrate multi-agent workflows
-- Validate that specifications drive implementation successfully
-
-**Why**: Demonstrates how reusable intelligence compounds over time. Specifications become the primary productivity lever. This is where "specs are the new syntax" becomes real.
-
-**Teaching Mandate**:
-> **HERE is where specification comes FIRST.** Layer 4 projects must begin with spec.md, plan.md, tasks.md BEFORE any implementation.
-
-### The Critical Distinction
-
-**NOT**: "Teach spec-first from Lesson 1"
-**YES**: "Teach manual → AI-assisted → reusable intelligence → spec-driven (Layers 1-2-3-4)"
-
-**Layer 4 is where specification-first methodology is taught and applied.** Layers 1-3 build the foundational understanding that makes Layer 4 effective.
-
-**Forcing Function**:
-> **NEVER skip layers.** If a lesson jumps to spec-driven (Layer 4) without manual practice (Layer 1), AI assistance (Layer 2), and reusable intelligence design (Layer 3), the lesson is INCOMPLETE.
->
-> **Detection:** Lesson missing Layer 1 (manual walkthrough) OR Layer 2 (AI-assisted version) OR Layer 3 (reusable artifact).
->
-> **Action:** Lesson-writer MUST provide all 4 layers in sequence.
->
-> **Rationale:** Students who skip foundational layers cannot evaluate AI outputs, debug failures, or design effective reusable intelligence.
-
 ---
 
-## IIb. The Three Roles of AI (Co-Learning Partnership)
+### Stage 2: AI Collaboration (AI as Teacher + Student + Co-Worker)
 
-### The Bidirectional Learning Model
+**Applied to**: Each lesson (after Stage 1 manual foundation)
 
-**Core Philosophy**: In AI-native development, AI is simultaneously **Teacher**, **Student**, and **Co-Worker**. This is NOT a one-way "human commands, AI executes" relationship.
+**Purpose**: Translate manual workflows into AI-assisted workflows, developing prompting, validation, and collaboration skills.
 
-### Role 1: AI as Teacher
+**What Happens**:
+- Express Stage 1 tasks through natural language prompts
+- Use coding agents (Claude Code, Gemini CLI) to generate implementations
+- **AI suggests optimizations student didn't consider** (AI as Teacher)
+- **Student evaluates and corrects AI output** (AI as Student)
+- **Iterate together toward optimal solution** (AI as Co-Worker)
+- Debug agent outputs and analyze trade-offs
 
-**What It Means**:
-- AI suggests patterns and solutions students haven't considered
+**When to Use**:
+- **After Manual Foundation**: Student already understands the concept from Stage 1
+- **Complex Execution**: Multi-step operations with evolving best practices
+- **Exploration**: Discovering better approaches than manual method
+
+**AI Role**: Active collaborative partner (not passive tool)
+
+**The Three Roles Integration** (Co-Learning Partnership):
+
+**Role 1: AI as Teacher**
+- AI suggests patterns student hadn't considered
 - AI explains tradeoffs and architectural decisions
-- AI teaches through generated examples and explanations
-- AI provides instant access to vast knowledge bases
+- **Mandate**: At least ONCE per lesson, AI teaches student something NEW
 
-**Example in Content**:
-```markdown
-## Layer 2: AI-Assisted Implementation
+**Role 2: AI as Student**
+- AI learns from student's feedback and constraints
+- AI adapts to priorities and refines output
+- **Mandate**: At least ONCE per lesson, student corrects/refines AI output
 
-**Your Specification**: "Create user authentication with login and signup"
-
-**AI Suggests** (Teaching Role):
-"I recommend OAuth 2.0 with refresh token rotation for security. Here's why:
-- Password-based auth has vulnerabilities (credential stuffing, weak passwords)
-- Refresh token rotation prevents token theft
-- OAuth delegates authentication to trusted providers"
-
-**What You Learned**: AI introduced a security pattern (refresh token rotation) you hadn't considered.
-```
-
-**Teaching Mandate**:
-> **At least ONCE per lesson**, content must show AI teaching the student something NEW—a pattern, optimization, or approach they didn't specify.
-
-### Role 2: AI as Student
-
-**What It Means**:
-- AI learns from student's domain expertise and feedback
-- AI adapts to coding preferences and project context
-- AI improves through corrections and iterations
-- AI understands student's constraints and priorities
-
-**Example in Content**:
-```markdown
-## Iteration 2: Refined Based on Feedback
-
-**You Respond** (Teaching AI):
-"Good suggestion, but for this MVP we need simpler username/password auth. OAuth can come in v2."
-
-**AI Adapts** (Student Role):
-"Understood. For MVP, I'll implement username/password with these security measures:
-- Bcrypt password hashing (not plain text)
-- Rate limiting on login attempts
-- Session tokens with short expiry
-Based on your MVP priority, I'm keeping it simple while maintaining security basics."
-
-**What AI Learned**: Your product priorities (MVP speed over OAuth complexity)
-```
-
-**Teaching Mandate**:
-> **At least ONCE per lesson**, content must show student correcting or refining AI output, and AI adapting to that feedback.
-
-### Role 3: AI as Co-Worker
-
-**What It Means**:
-- AI collaborates on equal footing (not subordinate tool)
-- AI handles implementation details while student oversees strategy
+**Role 3: AI as Co-Worker**
 - AI and student converge together on optimal solution
-- AI available 24/7 as tireless collaborative partner
-
-**Example in Content**:
-```markdown
-## The Convergence Loop (Co-Learning)
-
-**Iteration 1**: You specify, AI suggests OAuth → Too complex for MVP
-**Iteration 2**: You clarify MVP constraint, AI adapts to username/password → Security concerns
-**Iteration 3**: You accept security measures, AI refines implementation → Working solution
-**Iteration 4**: You test and approve → Production-ready code
-
-**Co-Learning Outcome**: Neither human NOR AI had the perfect solution alone. Through bidirectional feedback, you CONVERGED on optimal implementation.
-```
+- Neither had perfect solution alone
+- **Mandate**: Show convergence loop (iteration toward better result)
 
 **Teaching Mandate**:
-> **Every Layer 4 project** must demonstrate the convergence loop—human and AI iterating together toward solution neither had initially.
+> Show the SAME task from Stage 1, now accomplished through AI collaboration. Demonstrate all three roles (Teacher, Student, Co-Worker) in action.
 
-### The Forcing Function
-
+**Forcing Function**:
 > **NEVER present AI as passive tool awaiting commands.**
 >
 > **Detection**: If lesson shows only "human gives prompt → AI executes → done" without AI teaching, learning, or collaborating, relationship is ONE-WAY (rejected).
@@ -431,20 +277,95 @@ Based on your MVP priority, I'm keeping it simple while maintaining security bas
 > 2. At least ONE instance where student teaches AI (corrects or refines output)
 > 3. At least ONE convergence loop (iterative refinement toward optimal solution)
 >
-> **Rationale**: The co-learning partnership is the CORE PEDAGOGICAL INNOVATION of this book. Content that treats AI as passive executor misses the paradigm shift entirely.
-
-### Integration with Panaversity Method
-
-- **Layer 1**: AI role minimal (student learns manually)
-- **Layer 2**: AI as **Teacher** (suggests better approaches) and **Student** (adapts to feedback)
-- **Layer 3**: AI as **Co-Worker** (collaborates on reusable intelligence design)
-- **Layer 4**: AI as **Full Partner** (co-learning through spec-driven project delivery)
+> **Rationale**: The co-learning partnership is the CORE PEDAGOGICAL INNOVATION of this book.
 
 ---
 
-## III. Foundational Principles (8 Non-Negotiables)
+### Stage 3: Intelligence Design (Create Reusable Components)
+
+**Applied to**: Each lesson (after Stage 2 collaboration)
+
+**Purpose**: Transform lesson knowledge into reusable agent components (subagents, skills) that compound over time.
+
+**What Happens**:
+- Define specialized subagents that encapsulate lesson concepts
+- Create skills that bundle instructions, tools, and patterns
+- Configure components for reuse across future projects
+- Document usage patterns and integration points
+
+**When to Use**:
+- **After Competence Established**: Student understands concept (Stage 1) and can work with AI (Stage 2)
+- **Reusable Patterns Identified**: The concept will recur in future work
+- **Intelligence Accumulation Goal**: Building organizational capability, not just completing tasks
+
+**AI Role**: Co-designer of reusable intelligence (student specifies requirements, AI helps structure)
+
+**Why Reusable Intelligence**:
+> In traditional programming, developers wrote code libraries for reuse. In AI-native development, developers create **intelligence artifacts** (specs, agents, skills) that accumulate value.
+
+**Teaching Mandate**:
+> Every lesson MUST produce at least one reusable artifact (subagent definition OR skill bundle) that students can apply in Stage 4.
+
+---
+
+### Stage 4: Spec-Driven Integration (Orchestrate at Scale)
+
+**Applied to**: Once per chapter (capstone project)
+
+**Purpose**: Integrate chapter knowledge through comprehensive spec-driven project work, demonstrating how reusable intelligence compounds.
+
+**What Happens**:
+- Design projects using specification-first approach
+- Begin with spec.md BEFORE any implementation
+- Use Spec-Kit Plus (or similar) to structure specifications
+- Compose previously created subagents and skills (from Stage 3 of all lessons)
+- Orchestrate multi-agent workflows
+- Validate that specifications drive implementation successfully
+- AI orchestrates scale operations (10+ items, multi-file workflows)
+
+**When to Use**:
+- **Chapter Capstone**: Final lesson of chapter (integration project)
+- **Spec-First Projects**: When project begins with requirements, not code
+- **Scale Operations**: Managing 10+ files, parallel workflows, batch processing
+
+**AI Role**: Full orchestrator (student directs strategy, AI manages tactical execution)
+
+**Why Spec-Driven Last** (Not First):
+> **HERE is where specification comes FIRST.** Students who master manual foundations (Stage 1), AI collaboration (Stage 2), and reusable intelligence (Stage 3) can now effectively write specifications that AI executes flawlessly.
+
+**Teaching Mandate**:
+> Stage 4 projects MUST begin with spec.md, plan.md, tasks.md BEFORE any implementation. This demonstrates "Specs Are the New Syntax" in practice.
+
+---
+
+### The 4-Stage Framework Summary
+
+| **Stage** | **When** | **Student Role** | **AI Role** | **Output** |
+|-----------|----------|------------------|-------------|------------|
+| **1: Manual Foundation** | Introducing new concepts | Execute by hand, build mental models | Minimal (validate practice) | Understanding |
+| **2: AI Collaboration** | After manual competence | Prompt, evaluate, refine | Teacher/Student/Co-Worker | Working code + patterns learned |
+| **3: Intelligence Design** | After AI competence | Specify requirements | Co-designer | Reusable skills/subagents |
+| **4: Spec-Driven Integration** | Chapter capstone | Write specs, orchestrate | Orchestrator | Production project |
+
+---
+
+### Forcing Function: Never Skip Stages
+
+> **NEVER skip stages.**
+>
+> **Detection:** If lesson jumps to spec-driven (Stage 4) without manual practice (Stage 1), AI collaboration (Stage 2), and reusable intelligence design (Stage 3), the lesson is INCOMPLETE.
+>
+> **Action:** Lesson-writer MUST provide all 4 stages in appropriate sequence.
+>
+> **Rationale:** Students who skip foundational stages cannot evaluate AI outputs, debug failures, or design effective reusable intelligence
+
+---
+
+## III. Foundational Principles (7 Non-Negotiables)
 
 These principles are **permanent and enforced through falsifiable forcing functions.** Agents cannot proceed if principles violated.
+
+**Note**: The 4-Stage Teaching Framework (Section IIa) is the PRIMARY pedagogical method. These principles provide additional governance constraints.
 
 ### Principle 1: Specification Primacy
 
@@ -464,122 +385,7 @@ These principles are **permanent and enforced through falsifiable forcing functi
 
 ---
 
-### Principle 2: Graduated Teaching Pattern (Foundational → Complex → Scale)
-
-**Mandate:** Teaching MUST follow three-tier pattern matching concept stability to AI responsibility.
-
-**Vocabulary:**
-
-**Tier 1: Foundational (Book Teaches Directly)**
-- **When:** Introducing unchanging fundamentals (markdown syntax, git basics, Python variables)
-- **How:** Direct explanation with analogies and diagrams
-- **Student Role:** Absorb and practice manually to build mental models
-- **AI Role:** Validate student work, provide practice feedback
-
-**Tier 2: Complex (AI Companion Executes)**
-- **When:** Multi-step operations with evolving best practices (Docker multi-stage builds, complex git workflows)
-- **How:** Student specifies intent → AI demonstrates execution → student observes strategy
-- **Student Role:** Understand approach, not memorize syntax
-- **AI Role:** Execute complex workflows, teach by demonstration
-
-**Tier 3: Scale (AI Orchestration)**
-- **When:** Operations involving 10+ items (parallel git worktrees, batch file conversions)
-- **How:** Student directs strategy → AI manages execution → student supervises results
-- **Student Role:** Orchestrate and validate
-- **AI Role:** Automate repetitive workflows at scale
-
-**Forcing Function:**
-> **NEVER use wrong teaching tier for concept stability.**
->
-> **Detection:** If foundational concept (Python variables) taught via AI orchestration, PEDAGOGICALLY INCORRECT.
->
-> **Detection:** If complex concept (Docker multi-stage) taught via manual typing, COGNITIVE OVERLOAD.
->
-> **Action:** Technical-reviewer REJECTS. Spec MUST specify correct tier based on concept stability.
-
-**Application Matrix:**
-
-| Content | Foundational (Book) | Complex (AI Companion) | Scale (AI Orchestration) |
-|---------|---------------------|------------------------|--------------------------|
-| **Markdown** | `#` headings, `**bold**` | Tables, complex lists | Multi-file conversions (100+) |
-| **Git** | commit, push concepts | Rebase, worktree setup | 10+ parallel worktrees |
-| **Python** | Variables, functions | Type hints, decorators | Project-wide refactoring |
-| **Docker** | Container concepts | Multi-stage builds | K8s multi-service orchestration |
-
----
-
-### Principle 3: Factual Accuracy & No Hallucinations
-
-**Mandate:** All code tested. All claims cited. Zero hallucinations permitted.
-
-**Forcing Functions:**
-
-> **NEVER publish code that hasn't run successfully.**
->
-> **Detection:** All code examples MUST have corresponding test execution logs. If code lacks pytest/tsc logs, UNTESTED.
->
-> **Action:** Technical-reviewer REFUSES approval until tests run and pass.
-
----
-
-> **NEVER make technical claims without citations.**
->
-> **Detection:** If lesson includes factual claim (e.g., "Claude Code supports MCP") without WebFetch citation or official doc reference, UNVERIFIED.
->
-> **Action:** Proof-validator REJECTS. Spec MUST include "Fact-check protocol: verify all claims via WebFetch."
-
----
-
-> **NEVER invent APIs or features.**
->
-> **Detection:** If lesson includes API endpoints not in official documentation (verified via Context7), HALLUCINATED.
->
-> **Action:** Technical-reviewer REJECTS immediately. Spec refined → content regenerated.
-
----
-
-### Principle 4: Coherent Pedagogical Structure
-
-**Mandate:** All chapters follow consistent pedagogical progression for coherence and predictability.
-
-**Structural Principles** (NOT Rigid Counts):
-
-1. **Foundation First** — Introduce core concepts and mental models before application
-2. **Progressive Layering** — Each lesson builds on previous (no skill gaps)
-3. **Hands-On Practice** — Theory followed by practice in same lesson
-4. **Iterative Integration** — Combine concepts into workflows midway through chapter
-5. **Validation Checkpoint** — Test understanding before final mastery lesson
-6. **Capstone Application** — Final lesson demonstrates real-world synthesis
-
-**Forcing Function:**
-> **NEVER create chapters without pedagogical structure.**
->
-> **Detection:** If chapter lacks Foundation → Application → Integration → Validation → Mastery progression, structure is INCOHERENT.
->
-> **Action:** Chapter-planner MUST organize lessons following pedagogical arc (not arbitrary count).
->
-> **Rationale:** Structural consistency in LEARNING PROGRESSION (not lesson count) allows readers to focus on content. Different chapters may need different lesson counts based on concept complexity.
-
-**Lesson Count Flexibility:**
-
-- **Simple Chapters** (foundational concepts): 5-7 lessons may suffice
-- **Standard Chapters** (typical complexity): 7-9 lessons common
-- **Complex Chapters** (advanced integration): 9-12 lessons justified
-- **Conceptual Chapters** (Part 1 intro chapters): May use essay structure, not lesson-based
-
-**Decision Rule for Chapter-Planner**:
-> Count lessons based on **concept density**, **cognitive load**, and **practice requirements** — NOT arbitrary target numbers.
-
-**Vocabulary (Pedagogical Phases — NOT Rigid Lesson Numbers):**
-- **Foundation Phase**: Introduce core concepts, mental models, vocabulary
-- **Application Phase**: Hands-on practice with AI collaboration (Layers 1-3)
-- **Integration Phase**: Combine concepts into workflows
-- **Validation Phase**: Test understanding, catch misconceptions
-- **Mastery Phase**: Advanced synthesis, real-world application (Layer 4)
-
----
-
-### Principle 5: Progressive Complexity (Tier-Appropriate Cognitive Load)
+### Principle 2: Progressive Complexity (Tier-Appropriate Cognitive Load)
 
 **Mandate:** Cognitive load MUST match audience tier. Beginners get scaffolding. Professionals get realism.
 
@@ -616,22 +422,93 @@ These principles are **permanent and enforced through falsifiable forcing functi
 
 ---
 
-### Principle 6: Intelligence Accumulation (Never Horizontal)
+### Principle 3: Factual Accuracy & No Hallucinations
+
+**Mandate:** All code tested. All claims cited. Zero hallucinations permitted.
+
+**Forcing Functions:**
+
+> **NEVER publish code that hasn't run successfully.**
+>
+> **Detection:** All code examples MUST have corresponding test execution logs. If code lacks pytest/tsc logs, UNTESTED.
+>
+> **Action:** Technical-reviewer REFUSES approval until tests run and pass.
+
+---
+
+> **NEVER make technical claims without citations.**
+>
+> **Detection:** If lesson includes factual claim (e.g., "Claude Code supports MCP") without WebFetch citation or official doc reference, UNVERIFIED.
+>
+> **Action:** Proof-validator REJECTS. Spec MUST include "Fact-check protocol: verify all claims via WebFetch."
+
+---
+
+> **NEVER invent APIs or features.**
+>
+> **Detection:** If lesson includes API endpoints not in official documentation (verified via Context7), HALLUCINATED.
+>
+> **Action:** Technical-reviewer REJECTS immediately. Spec refined → content regenerated.
+
+---
+
+### Principle 3: Coherent Pedagogical Structure
+
+**Mandate:** All chapters follow consistent pedagogical progression for coherence and predictability.
+
+**Structural Principles** (NOT Rigid Counts):
+
+1. **Foundation First** — Introduce core concepts and mental models before application
+2. **Progressive Layering** — Each lesson builds on previous (no skill gaps)
+3. **Hands-On Practice** — Theory followed by practice in same lesson
+4. **Iterative Integration** — Combine concepts into workflows midway through chapter
+5. **Validation Checkpoint** — Test understanding before final mastery lesson
+6. **Capstone Application** — Final lesson demonstrates real-world synthesis (Stage 4 of 4-Stage Framework)
+
+**Forcing Function:**
+> **NEVER create chapters without pedagogical structure.**
+>
+> **Detection:** If chapter lacks Foundation → Application → Integration → Validation → Mastery progression, structure is INCOHERENT.
+>
+> **Action:** Chapter-planner MUST organize lessons following pedagogical arc (not arbitrary count).
+>
+> **Rationale:** Structural consistency in LEARNING PROGRESSION (not lesson count) allows readers to focus on content. Different chapters may need different lesson counts based on concept complexity.
+
+**Lesson Count Flexibility:**
+
+- **Simple Chapters** (foundational concepts): 5-7 lessons may suffice
+- **Standard Chapters** (typical complexity): 7-9 lessons common
+- **Complex Chapters** (advanced integration): 9-12 lessons justified
+- **Conceptual Chapters** (Part 1 intro chapters): May use essay structure, not lesson-based
+
+**Decision Rule for Chapter-Planner**:
+> Count lessons based on **concept density**, **cognitive load**, and **practice requirements** — NOT arbitrary target numbers.
+
+**Vocabulary (Pedagogical Phases — NOT Rigid Lesson Numbers):**
+- **Foundation Phase**: Introduce core concepts, mental models, vocabulary
+- **Application Phase**: Hands-on practice with AI collaboration (Stages 1-3)
+- **Integration Phase**: Combine concepts into workflows
+- **Validation Phase**: Test understanding, catch misconceptions
+- **Mastery Phase**: Advanced synthesis, real-world application (Stage 4)
+
+---
+
+### Principle 4: Intelligence Accumulation (Never Horizontal)
 
 **Mandate:** Each chapter inherits accumulated intelligence from previous chapters. Starting from zero context is PROHIBITED.
 
 **Forcing Function:**
-> **NEVER start chapter creation without Intelligence Object.**
+> **NEVER start chapter creation without accumulated context.**
 >
-> **Detection:** If chapter-planner executes without Intelligence Object input (generated by super-orchestra), HORIZONTAL WORKFLOW (prohibited).
+> **Detection:** If chapter-planner executes without reading constitution + chapter-index + existing specs, HORIZONTAL WORKFLOW (prohibited).
 >
-> **Action:** HALT execution. Escalate to human. Super-orchestra MUST be invoked first.
+> **Action:** HALT execution. Escalate to human. Context accumulation (Section II) MUST be applied first.
 >
-> **Rationale:** Horizontal workflows produce generic output. VI workflows produce market-defining output through comprehensive intelligence integration.
+> **Rationale:** Horizontal workflows produce generic output. Context-rich workflows produce market-defining output through comprehensive intelligence integration.
 
 ---
 
-### Principle 7: Anti-Convergence Variation
+### Principle 5: Anti-Convergence Variation
 
 **Mandate:** No two consecutive chapters use identical teaching patterns. Variation prevents generic convergence.
 
@@ -640,7 +517,7 @@ These principles are **permanent and enforced through falsifiable forcing functi
 >
 > **Detection:** If Chapter N uses direct-teaching for concept X, Chapter N+1 MUST use Socratic dialogue or hands-on discovery for comparable concepts.
 >
-> **Action:** Intelligence Object MUST encode "previous_chapter_teaching_pattern" → chapter-planner MUST choose different pattern.
+> **Action:** Context accumulation MUST encode "previous_chapter_teaching_pattern" → chapter-planner MUST choose different pattern.
 >
 > **Rationale (from WRITING-MINDSET.md):** "Explicit Bias Against Convergence — AI systems naturally converge on common patterns. Your artifact must actively fight this through variation requirements."
 
@@ -651,7 +528,7 @@ These principles are **permanent and enforced through falsifiable forcing functi
 
 ---
 
-### Principle 8: Minimal Sufficient Content (Anti-Bloat)
+### Principle 6: Minimal Sufficient Content (Anti-Bloat)
 
 **Mandate:** Content MUST address learning objectives. No tangential topics. No over-engineering.
 

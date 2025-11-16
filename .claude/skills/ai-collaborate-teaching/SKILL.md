@@ -29,9 +29,9 @@ Enable educators to design **co-learning experiences** where AI is a bidirection
 - Create ethical guidelines for responsible AI use
 - Assess appropriate balance of AI integration in curriculum
 
-## The Three Roles Framework (Section IIb, Constitution v4.0.1)
+## The Three Roles Framework (Section IIa Stage 2, Constitution v5.0.0)
 
-**CRITICAL**: All co-learning content MUST demonstrate this framework (per Section IIb forcing functions):
+**CRITICAL**: All co-learning content MUST demonstrate this framework (per Section IIa Stage 2 forcing functions):
 
 ### AI's Three Roles:
 1. **Teacher**: Suggests patterns, architectures, best practices students may not know

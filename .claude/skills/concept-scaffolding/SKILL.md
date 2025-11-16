@@ -16,7 +16,7 @@ version: "2.1.0"
 
 The concept-scaffolding skill helps educators break down complex Python concepts into manageable, progressive learning steps that respect cognitive load limitations. This skill applies evidence-based strategies from Cognitive Load Theory and scaffolding research to create effective learning progressions.
 
-## Relationship to Teaching Patterns (Constitution v4.0.1)
+## Relationship to Teaching Patterns (Constitution v5.0.0)
 
 **This skill determines HOW to break down concepts; teaching patterns determine WHEN and WHO delivers:**
 
