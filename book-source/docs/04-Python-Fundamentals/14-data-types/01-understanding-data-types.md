@@ -354,20 +354,6 @@ print(type([10, 20, 30]))
 
 ---
 
-## Key Takeaways
-
-Before moving to the Try With AI section, let's check your understanding:
-
-**Can you explain to someone else:**
-1. ✓ What a data type is? (Use kitchen or library analogy)
-2. ✓ Why types matter? (Give an example of a type mismatch error)
-3. ✓ The difference between int, float, and str? (Use age, price, name examples)
-4. ✓ How to use type() to inspect what type a value is?
-
-If you can explain all four, you're ready for the next lesson! If not, reread the relevant section.
-
----
-
 ## Try With AI
 
 Ready to deepen your understanding? Let's work with your AI assistant to explore data types from a different angle.

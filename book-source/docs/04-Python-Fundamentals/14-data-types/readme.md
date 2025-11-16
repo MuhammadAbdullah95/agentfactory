@@ -183,49 +183,6 @@ Chapter 18: Collections Deep Dive
     Building on: list, dict, tuple, set introduced in Ch 14
 ```
 
-## Success Criteria: What Mastery Looks Like
-
-You'll know you've mastered this chapter when you can:
-
-1. **Explain data types in your own words** (85% success target)
-   - "A data type is Python's classification system for different kinds of data, like organizing books by genre"
-
-2. **Classify real-world data correctly with reasoning** (80% success)
-   - Age → int (whole numbers, no fractional ages)
-   - Price → float (needs decimals for cents)
-   - Email → str (text data)
-   - Has passed test → bool (True/False)
-
-3. **Distinguish int vs float correctly** (90% success)
-   - Student count: int (can't have 25.5 students)
-   - Distance in km: float (can be 3.7 km)
-
-4. **Identify truthy/falsy values** (75% success)
-   - Falsy: `0`, `""`, `[]`, `{}`, `None`, `False`
-   - Truthy: everything else (non-zero, non-empty)
-
-5. **Use type() to inspect types** (85% success)
-   - `type(42)` → `<class 'int'>`
-   - Understand Python's type classification output
-
-6. **Perform type casting** (80% success)
-   - Convert `"25"` to `25` using `int()`
-   - Convert `25` to `"25"` using `str()`
-   - Convert `0` to `False` using `bool()`
-
-7. **Recognize collections but know Chapter 18 is the deep dive** (70% success)
-   - See `[1, 2, 3]` and think "that's a list, methods in Chapter 18"
-   - See `{"name": "Alice"}` and think "that's a dict, deep dive later"
-
-8. **Experience 40% less memorization, 40% more conceptual understanding**
-   - Focus on WHAT/WHY/WHEN instead of rote syntax memorization
-
-9. **Complete exercises without asking "Why int vs float?"** (90% success)
-   - Because the concept was explained BEFORE the code
-
-10. **Explain WHY types matter** (75% success)
-    - "Different types enable different operations—you can add numbers but can't add numbers to text"
-
 ## A Note on Engagement
 
 We've designed this chapter to be interesting and engaging, not just educational:
