@@ -71,8 +71,6 @@ prerequisites:
 
 # Installing and Authenticating Claude Code
 
-## From Concept to Reality: Getting Claude Code Running
-
 In Lesson 1, you learned why Claude Code is revolutionary. Now comes the crucial step: **getting it working on your machine.**
 
 This isn't just about following installation commands. It's about crossing the bridge from "interesting concept" to "tool I can actually use." By the end of this lesson, Claude Code will be installed, authenticated, and ready to assist with your development work.

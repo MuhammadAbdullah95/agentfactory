@@ -1,12 +1,8 @@
 # Part 6: AI Native Software Development
 
-## Overview
-
 Part 6 bridges your foundational skills from Parts 1-5 into production agent development. You've learned Python fundamentals (Part 4) and spec-driven development methodology (Part 5)—now you'll apply these skills to design, implement, test, and deploy AI agents for real-world applications.
 
 This part introduces agent frameworks, integration patterns, testing strategies, and data persistence—the building blocks of production AI systems. You'll move from educational examples to patterns you'd encounter building professional agent applications.
-
-**Prerequisites**: Part 4 (Python Fundamentals) and Part 5 (Spec-Driven Development) are required. Parts 1-3 (AIDD fundamentals, tools, and prompt engineering) provide recommended background.
 
 ---
 
@@ -54,21 +50,3 @@ Add persistence and knowledge retrieval. Integrate vector databases for RAG (47)
 Part 6 continues the teaching approach from earlier parts: chapters introduce concepts through hands-on practice, guide you in collaborating with AI to implement solutions, help you build reusable components when patterns recur, and culminate in capstone projects where you apply spec-driven development to compose what you've learned.
 
 You'll experience the same progression—foundation building, AI collaboration, creating reusable intelligence, and specification-first projects—now applied to production agent development rather than language fundamentals.
-
----
-
-## Capstone Expectations
-
-Each chapter concludes with a capstone project where you compose chapter concepts into a complete agent implementation. These capstones are learning demonstrations: you'll build functional agents with tests running locally, not production systems deployed to serve users.
-
-Capstones apply spec-driven development from Part 5: you'll write specifications first, then implement agents that fulfill those specs, validating alignment through testing. This reinforces the methodology while building practical experience with agent patterns.
-
-Expect capstones to include: agent implementations demonstrating chapter patterns, test suites validating behavior, and local deployment configurations. You'll practice the full development cycle in a learning-focused environment.
-
----
-
-## Getting Started
-
-Begin with **Chapter 34: Introduction to AI Agents** to establish foundational concepts before exploring framework-specific implementations in chapters 35-37.
-
-Parts 4 and 5 provide essential prerequisites—if you skipped them or need a refresher, review Python fundamentals and spec-driven development methodology before starting Part 6.

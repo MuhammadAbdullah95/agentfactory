@@ -75,11 +75,9 @@ These aren't random actions. They're **recurring patterns**—the same workflows
 
 This lesson transforms those tacit patterns into **explicit, reusable intelligence** you'll carry into every future project.
 
-**Time**: 60 minutes
-
 ---
 
-## Part 1: Pattern Recognition (20 minutes)
+## Part 1: Pattern Recognition
 
 ### Reflection Activity: Your Own Git Workflow
 
@@ -134,7 +132,7 @@ Every professional Git user follows these patterns. The fact that you've natural
 
 ---
 
-## Part 2: Create `git-workflow.md` (30 minutes)
+## Part 2: Create `git-workflow.md`
 
 ### Using Persona + Questions + Principles Framework
 
@@ -356,7 +354,7 @@ When facing a Git decision:
 
 ---
 
-## Part 3: Apply Pattern to New Scenario (10 minutes)
+## Part 3: Apply Pattern to New Scenario
 
 ### New Project: AI Authentication System
 
@@ -518,56 +516,4 @@ Step-by-step:
 
 **Expected Outcome**: AI walks you through applying your own patterns, validating the documentation is sufficient.
 
----
-
-## Safe AI Development Validation
-
-**Reflecting on Lesson 6:**
-
-By documenting your patterns, you've created the **professional foundation for safe AI-assisted development**.
-
-Check these boxes:
-
-- ✅ I can explain my Git workflow in plain language
-- ✅ I have documented patterns I'll reuse
-- ✅ I applied patterns to a new scenario successfully
-- ✅ I understand Git as a safety system, not command memorization
-- ✅ I'm ready to carry these patterns into Lesson 7 capstone project
-
----
-
-## Your `git-workflow.md` is Ready
-
-**File location**: Keep this file in your project root: `/your-project/git-workflow.md`
-
-**Use case**: Before starting any new project:
-1. Copy `git-workflow.md` to the new project
-2. Customize section 1-3 for that project's specifics
-3. Refer to it when facing Git decisions
-
-**Evolution**: As you encounter new patterns, add them:
-```markdown
-## Pattern 4: [Your New Pattern]
-...
-```
-
-Your workflow documentation grows with your experience.
-
----
-
-## Summary
-
-**You've synthesized tacit knowledge into explicit intelligence:**
-
-| Stage | What You Did | Result |
-|-------|-------------|--------|
-| **Recognition** | Reflected on L1-5 patterns | Identified 3 core workflows |
-| **Documentation** | Created git-workflow.md | Reusable reference for future |
-| **Application** | Applied to new scenario | Proved documentation is sufficient |
-| **Validation** | Reviewed with AI | Identified gaps and improvements |
-
-**Next**: In Lesson 7 (Capstone), you'll use this `git-workflow.md` alongside spec-first development to manage a complete multi-file AI-generated project.
-
 The patterns you've documented will be your safety net throughout the rest of Part 2 and beyond.
-
----

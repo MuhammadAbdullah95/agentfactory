@@ -54,7 +54,7 @@ This lesson covers exactly 5 concepts (within A1 cognitive limits):
 4. **Merging** — integrating changes from one branch back into another
 5. **Branch deletion** — cleaning up completed experiments with `git branch -d`
 
-By the end of this lesson, you'll have hands-on experience creating branches, watching code changes stay isolated, testing them safely, and merging winners back to main.
+By the end of, you'll have hands-on experience creating branches, watching code changes stay isolated, testing them safely, and merging winners back to main.
 
 ---
 
@@ -433,68 +433,6 @@ You now understand how branches work. But when should you **branch** instead of 
 
 ---
 
-## Part 5: Three Roles Summary—What Each of You Learned
-
-Let's reflect on the complete Three Roles cycle you experienced:
-
-### AI as Teacher
-
-- **Taught you:** Branch naming conventions (feature/, bugfix/, etc.)
-- **Taught you:** Documentation patterns (metrics in commits and PRs)
-- **Taught you:** Safe vs force-delete strategies
-- **What you gained:** Structured approach to organizing experiments
-
-### Student as Teacher
-
-- **Taught AI:** Your constraint (branch clutter in previous project)
-- **Taught AI:** Your preference (safe deletion over force-delete)
-- **Taught AI:** Your documentation needs (metrics matter for decisions)
-- **What AI gained:** Context-specific understanding of your workflow
-
-### Co-Worker Convergence
-
-- **Neither alone had:** Full performance documentation pattern (commit message + PR description)
-- **Neither alone had:** Strategy for preventing branch clutter while testing thoroughly
-- **Neither alone had:** Decision framework for when to branch vs commit
-- **Together you created:** Reusable workflow for multi-option testing
-
----
-
-## Part 6: Common Scenarios—Recognizing Your Pattern
-
-You'll encounter these situations repeatedly. Now you have the tools:
-
-### Scenario A: "AI gave me two ways to do this"
-
-**What you do:**
-1. Commit current main: `git commit -m "Before testing approaches"`
-2. Create branch: `git branch approach-a`
-3. Let AI implement approach-a on this branch
-4. Test it
-5. Switch to main: `git switch main`
-6. Create another branch: `git branch approach-b`
-7. Let AI implement approach-b
-8. Test it
-9. Compare and merge the better one
-
-### Scenario B: "I'm not sure if this change is safe"
-
-**What you do:**
-1. Create branch: `git checkout -b experimental-feature`
-2. Let AI generate the code
-3. Test thoroughly
-4. If it works: switch to main and merge
-5. If it breaks: switch to main (experimental-feature is deleted, main untouched)
-
-### Scenario C: "This is just a minor bug fix"
-
-**What you do:**
-1. Small, predictable fix → commit directly to main
-2. Large or risky fix → create a branch, test, merge
-3. When in doubt → branch (safer than sorry)
-
----
-
 ## Try With AI
 
 **Setup:** Open ChatGPT (chat.openai.com) or your preferred AI assistant.
@@ -522,7 +460,3 @@ on the same project? What additional practices would matter?"
 - **Prompt 3:** AI explains merge conflict prevention and code review patterns
 
 Remember: AI might suggest advanced concepts (rebasing, squashing) beyond beginner level—for now, focus on simple branch creation and merging. Ask AI to explain in beginner terms if it uses technical jargon.
-
-**Optional Stretch:**
-
-Create three actual branches with different naming styles and merge one into main. Practice the full workflow: create → test → merge → delete.

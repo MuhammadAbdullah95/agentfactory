@@ -66,8 +66,6 @@ prerequisites:
 
 # The Claude Code Origin Story and Paradigm Shift
 
-## The Development Tool That Nobody Meant to Build
-
 When Anthropic shipped Claude Code, they created what seemed like a modest developer experiment—a command-line interface that let developers chat with Claude AI directly from their terminal. The team expected a niche audience: maybe a few thousand command-line enthusiasts.
 
 What happened next surprised everyone.

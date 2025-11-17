@@ -67,8 +67,6 @@ prerequisites:
 
 # Discovering and Using Claude Code Plugins
 
-## The Problem: Reinventing the Wheel
-
 You've learned to create skills, use subagents, and connect MCP servers. But what if someone has already built exactly what you need?
 
 **Scenario**: You want Claude to help with:

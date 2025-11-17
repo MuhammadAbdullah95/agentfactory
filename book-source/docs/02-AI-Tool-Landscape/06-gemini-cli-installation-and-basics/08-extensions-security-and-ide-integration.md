@@ -37,11 +37,7 @@ learning_objectives:
 
 # Extensions, Security & Tool Safety
 
-**Duration**: 18-20 minutes
-
-> **A Word Before We Begin**
->
-> You've spent hours perfecting your Gemini CLI setup: 2 MCP servers, 3 custom commands, a detailed GEMINI.md file. Now your study partner asks: "How do I get the same setup for our learning group?" You realize you're about to write them a long step-by-step guide. There has to be a better way. In this lesson, you'll learn how extensions turn "follow 15 instructions" into one command: `gemini extensions install`
+You've spent hours perfecting your Gemini CLI setup: 2 MCP servers, 3 custom commands, a detailed GEMINI.md file. Now your study partner asks: "How do I get the same setup for our learning group?" You realize you're about to write them a long step-by-step guide. There has to be a better way. In this lesson, you'll learn how extensions turn "follow 15 instructions" into one command: `gemini extensions install`
 
 ---
 

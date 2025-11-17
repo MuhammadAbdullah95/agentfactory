@@ -67,8 +67,6 @@ prerequisites:
 
 # Hooks and Extensibility
 
-## The Problem: Repeating Setup Every Session
-
 You're working on a project. Every time you start a new Claude Code session, you manually:
 1. Explain the project structure
 2. Remind Claude about your naming conventions

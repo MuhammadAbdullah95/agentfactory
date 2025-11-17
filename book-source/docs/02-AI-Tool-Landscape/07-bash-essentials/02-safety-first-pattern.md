@@ -50,8 +50,6 @@ cognitive_load:
 
 # The Safety-First Dialogue Pattern
 
-## The Most Important Skill You'll Learn This Lesson
-
 Your AI companion is powerful and helpful. But power without safety is dangerous. This lesson teaches you a pattern that keeps you safe: a structured dialogue that ensures understanding BEFORE your AI executes anything.
 
 This isn't about memorizing commands. It's not about understanding bash syntax. It's about having conversations that prevent mistakes.

@@ -52,9 +52,7 @@ digcomp_mapping:
 
 # Installation, Authentication & First Steps
 
-> **A Word Before We Begin**
->
-> Installing Gemini CLI is like meeting a new colleague—someone who's available 24/7 to help with your work, answer questions, and solve problems. In this lesson, you'll install and launch Gemini CLI, which will then automatically guide you through authentication. You'll be up and running in minutes.
+Installing Gemini CLI is like meeting a new colleague—someone who's available 24/7 to help with your work, answer questions, and solve problems. In this lesson, you'll install and launch Gemini CLI, which will then automatically guide you through authentication. You'll be up and running in minutes.
 
 
 ## Prerequisites: What You Need
@@ -65,7 +63,6 @@ Make sure you have these before starting:
 |------------|-----------|-------------|
 | **Node.js 20+** | Runtime for JavaScript applications | Open terminal, type: `node --version` |
 | **npm** | Package manager (comes with Node.js) | Open terminal, type: `npm --version` |
-| **Internet connection** | For installation and Google authentication | You have this already ✓ |
 | **Google account** | For secure authentication | Gmail, YouTube, or any Google account |
 
 ### Don't Have Node.js 20+?

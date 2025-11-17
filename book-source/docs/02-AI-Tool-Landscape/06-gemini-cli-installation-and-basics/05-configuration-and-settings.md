@@ -50,9 +50,6 @@ digcomp_mapping:
 
 # Configuration & Settings
 
-
-## The Configuration Problem
-
 Imagine you're working on two projects with Gemini CLI:
 
 **Your Personal Projects**: You prefer `gemini-2.5-flash` (fast responses) and dark theme.

@@ -71,8 +71,6 @@ prerequisites:
 
 # Agent Skills: Teaching Claude New Capabilities
 
-## The Problem: Repeating Yourself Across Sessions
-
 You're working with Claude Code on multiple blog posts this week. Every time you start a new session, you give the same instructions:
 
 "Create an outline with 5 main sections, suggest 5 headline variations, make the introduction hook readers in the first sentence, keep paragraphs under 4 sentences..."

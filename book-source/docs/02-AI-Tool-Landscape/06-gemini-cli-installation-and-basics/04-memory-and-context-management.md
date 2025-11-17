@@ -57,10 +57,6 @@ digcomp_mapping:
 
 # Memory & Context Management
 
-**Duration**: 18-20 minutes
-
-## The Context Problem
-
 Imagine you're working on an e-commerce API project. You open a fresh Gemini CLI session and ask:
 
 > **You**: "What coding standards should I follow for this project?"

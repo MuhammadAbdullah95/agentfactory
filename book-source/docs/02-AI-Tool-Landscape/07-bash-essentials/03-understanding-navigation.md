@@ -43,8 +43,6 @@ cognitive_load:
 
 # Understanding File Navigation Through Dialogue
 
-## Paths Are Just Directions
-
 When you give someone directions, you might say:
 - **Absolute direction**: "Go to 123 Main Street, downtown" (complete address from a fixed starting point)
 - **Relative direction**: "Go down this street and turn left at the next corner" (relative to where you are now)

@@ -71,8 +71,6 @@ prerequisites:
 
 # CLAUDE.md Context Files
 
-## The Session Context Problem
-
 Imagine this: You've been working with Claude Code on your Python project for weeks. Claude has learned your naming conventions, understood your project structure, and adapted to your coding style. You close the terminal for the evening.
 
 The next morning, you open a new Claude Code session and type a question about your project. Claude responds with generic advice—treating your project like it's starting fresh. You have to re-explain your tech stack, your directory structure, your team's conventions.

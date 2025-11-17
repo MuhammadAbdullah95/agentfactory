@@ -11,8 +11,6 @@ What makes Gemini CLI particularly compelling is its accessibility. Developers g
 
 Through eight progressive lessons organized in three tiers, you'll move from installation through advanced customization—mastering not just Gemini CLI, but the judgment to choose the right AI tool for every development scenario.
 
-This chapter isn't about replacing Claude Code. It's about understanding **when to use each tool** and building the judgment to choose the right AI assistant for every development scenario you encounter.
-
 ## What You'll Learn
 
 By the end of this chapter, you'll understand:
@@ -27,3 +25,5 @@ By the end of this chapter, you'll understand:
 - **Custom automation**: Creating reusable slash commands with TOML files and injection patterns (`{{args}}`, `!{shell}`, `@{file}`) to automate repetitive workflows
 - **MCP integration**: Connecting external capabilities (databases, APIs, browsers) through the Model Context Protocol using `gemini mcp add/list/remove` commands and OAuth authentication
 - **Extensions and security**: Building extension bundles, filtering tools with allowlists/blocklists, and integrating with VS Code for diff-based editing
+
+This chapter isn't about replacing Claude Code. It's about understanding **when to use each tool** and building the judgment to choose the right AI assistant for every development scenario you encounter.

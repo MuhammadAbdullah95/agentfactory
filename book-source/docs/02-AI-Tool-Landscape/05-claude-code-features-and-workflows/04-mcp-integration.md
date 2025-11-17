@@ -71,8 +71,6 @@ prerequisites:
 
 # MCP Integration: Connecting to External Systems
 
-## The Problem: Claude Code's Limitation
-
 Right now, Claude Code can only see **files on your computer**.
 
 But what if you need Claude to:

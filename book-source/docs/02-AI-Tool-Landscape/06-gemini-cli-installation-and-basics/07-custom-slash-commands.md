@@ -37,11 +37,7 @@ learning_objectives:
 
 # Personalizing Your AI Learning Experience
 
-**Duration**: 14-16 minutes
-
-> **A Word Before We Begin**
->
-> You're learning something new—let's say you're researching "What is Python?" Every time you ask Gemini, you type: "Explain what Python is in simple terms, what it's used for, and why beginners learn it." That's 90+ characters every time. Then tomorrow you want to learn about JavaScript, and you type almost the same thing again. There has to be a better way. In this lesson, you'll learn how custom slash commands turn that 90-character prompt into 7 keystrokes: `/learn Python`
+You're learning something new—let's say you're researching "What is Python?" Every time you ask Gemini, you type: "Explain what Python is in simple terms, what it's used for, and why beginners learn it." That's 90+ characters every time. Then tomorrow you want to learn about JavaScript, and you type almost the same thing again. There has to be a better way. In this lesson, you'll learn how custom slash commands turn that 90-character prompt into 7 keystrokes: `/learn Python`
 
 ---
 
