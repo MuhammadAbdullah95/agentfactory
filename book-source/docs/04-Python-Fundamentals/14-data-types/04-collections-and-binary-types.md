@@ -65,11 +65,10 @@ version: "1.0.0"
 
 ## What You'll Learn
 
-In this lesson, you'll gain awareness of:
-- The five core collection types (list, tuple, dict, set, range) and their purposes
-- How to choose the right collection type based on your data needs
-- What binary types (bytes, bytearray, memoryview) are and when they're used
-- Reading type hints for collections
+- Five collection types (list, tuple, dict, set, range)
+- When to use each collection
+- Binary types for files and networks
+- Reading collection type hints
 
 ## Understanding Collections: Containers for Multiple Values
 

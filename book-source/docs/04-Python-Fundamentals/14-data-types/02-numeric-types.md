@@ -78,12 +78,11 @@ version: "1.0.0"
 
 ## What You'll Learn
 
-In this lesson, you'll master:
-- Understanding integers (int) for whole numbers and when to use them
-- Working with floats for decimal numbers and understanding precision
-- Recognizing complex numbers and their specialized applications
-- Choosing the right numeric type for different scenarios
-- Avoiding common numeric type mistakes
+- Whole numbers (int)
+- Decimal numbers (float)
+- Complex numbers (advanced)
+- When to use each type
+- Avoiding common mistakes
 
 ## Opening Hook: The Price Tag Problem
 

@@ -90,12 +90,12 @@ version: "1.0.0"
 
 ## What You'll Learn
 
-In this lesson, you'll master:
-- Using type(), id(), and isinstance() to inspect and validate types
-- Performing type casting (conversion) between compatible types
-- Distinguishing explicit vs. implicit type conversion
-- Understanding advanced topics like integer interning and number systems
-- Building a real-world User Profile Validator project
+- Inspecting types with type(), id(), isinstance()
+- Converting between types (casting)
+- When Python converts automatically
+- How Python stores integers 
+- Binary, hexadecimal, octal numbers
+- Building a User Profile Validator
 
 You've learned about Python's 13 data types across four lessons. Now it's time to master the tools that inspect, validate, and convert between types—and build a real project that brings everything together.
 

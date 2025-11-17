@@ -81,11 +81,11 @@ version: "1.0.0"
 
 ## What You'll Learn
 
-In this lesson, you'll master:
-- Understanding what data types are and why Python uses them
-- The 7 type categories that organize all Python data
-- A practical framework for choosing the right type
-- Using the type() function to inspect types
+- What are data types
+- Why types matter
+- Python's 7 type categories
+- How to choose the right type
+- Checking types with type()
 
 ## Opening Hook: The Kitchen Analogy
 

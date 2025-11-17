@@ -85,12 +85,11 @@ version: "1.0.0"
 
 ## What You'll Learn
 
-In this lesson, you'll master:
-- Understanding strings (str) as sequences of characters with different quote styles
-- Using booleans (bool) for True/False decisions
-- Identifying truthy and falsy values across all Python types
-- Understanding None as representing the absence of value
-- Recognizing string immutability and its implications
+- Text data (strings)
+- True/False decisions (booleans)
+- Truthy and falsy values
+- Representing "nothing" (None)
+- Why strings can't change
 
 ## Opening: Beyond Numbers
 
