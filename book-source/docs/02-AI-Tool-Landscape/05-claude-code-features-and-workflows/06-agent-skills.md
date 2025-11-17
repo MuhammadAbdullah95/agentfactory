@@ -8,6 +8,12 @@ learning_objectives:
   - "Write effective skill descriptions that trigger autonomous discovery"
   - "Improve skills through co-learning iteration with Claude"
   - "Recognize when to use skills vs subagents"
+skills:
+  - name: "Designing Reusable Agent Skills"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Create"
+    digcomp_area: "Digital Content Creation"
 ---
 
 # Agent Skills: Teaching Claude New Capabilities
@@ -455,93 +461,15 @@ Confidence: 98% (all fields validated)
 
 ---
 
-## Skill Best Practices (From Official Documentation)
+## Next Steps: Skill Best Practices
 
-Now that you've created your first skill, here are key best practices from Anthropic's official documentation:
+You've created your first skill! For best practices on writing effective descriptions, keeping skills focused, and avoiding common pitfalls, see **Lesson 9: Plugins and Best Practices** which includes a complete "Skill Best Practices Reference" section.
 
-### Writing Effective Descriptions
-
-The `description` field is **critical**—it's how Claude discovers when to use your skill.
-
-**Good description** (specific, includes triggers):
-```yaml
-description: "Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDFs or when user mentions forms or document extraction."
-```
-
-**Bad description** (vague, no triggers):
-```yaml
-description: "Helps with documents"
-```
-
-**Key principles**:
-- Be specific about what the skill does
-- Include file types, domains, and operation names
-- Mention activation triggers ("Use when...")
-- Use third-person perspective (avoid "I can help you")
-
-### Keep Skills Focused
-
-**One skill, one workflow.** Don't create a mega-skill that tries to do everything.
-
-**Good approach** (separate skills):
-- `blog-planner` — Planning and outlining
-- `blog-writer` — Actual writing and drafting
-- `blog-editor` — Editing and refinement
-
-**Bad approach** (one bloated skill):
-- `blog-everything` — Does planning, writing, editing, SEO, publishing...
-
-**Why?** Focused skills compose automatically. Claude can use multiple skills together more effectively than one complex skill trying to handle all cases.
-
-### Start Simple, Iterate
-
-**Don't** build complex skills with scripts and multiple files on your first try.
-
-**Do** start with basic Markdown instructions, test them, then add complexity.
-
-**Progression**:
-1. **Version 1.0**: Basic instructions in SKILL.md (what you just created)
-2. **Version 1.1**: Add examples and edge cases
-3. **Version 1.2**: Add reference files if needed
-4. **Version 2.0**: Add executable scripts for deterministic operations (if truly needed)
-
-### Common Pitfalls to Avoid
-
-**❌ Don't**:
-- Use Windows-style paths (`reference\guide.md`) — always use forward slashes (`reference/guide.md`)
-- Create deeply nested references — keep files one level deep from SKILL.md
-- Include time-sensitive information (dates, versions that change often)
-- Over-explain concepts Claude already understands
-- Provide too many options without a recommended default
-
-**✅ Do**:
-- Keep SKILL.md under 500 lines (split into reference files if longer)
-- Test skills with fresh Claude sessions (not just current conversation)
-- Include specific examples in SKILL.md
-- Version your skills (1.0.0, 1.1.0, etc.) for rollback capability
-- Document installation steps for any required tools
-
----
-
-## Learn More: Official Skill Examples
-
-Want to see professional-quality skills created by Anthropic?
-
-**Anthropic Skills Repository**: https://github.com/anthropics/skills
-
-This GitHub repository contains real-world skill examples you can:
-- Study to understand best practices
-- Adapt for your own needs
-- Use as starting templates
-
-**Recommended skills to study**:
-- **PDF skills** — File handling and extraction patterns
-- **Data analysis skills** — Working with structured data
-- **Writing skills** — Content generation workflows
-
-**Official Documentation**:
-- **How to create skills**: https://support.claude.com/en/articles/12512198-how-to-create-custom-skills
-- **Best practices**: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
+**Quick Reference**:
+- **Writing descriptions**: Be specific, include triggers ("Use when...")
+- **Keep focused**: One skill, one workflow (don't create mega-skills)
+- **Start simple**: Basic SKILL.md first, add complexity later
+- **Official examples**: Check Anthropic's skills repository (https://github.com/anthropics/skills)
 
 ---
 

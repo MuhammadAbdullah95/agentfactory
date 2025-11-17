@@ -2,6 +2,18 @@
 sidebar_position: 3
 title: "CLAUDE.md Context Files"
 duration: "8-10 min"
+learning_objectives:
+  - "Understand how CLAUDE.md provides persistent project context across sessions"
+  - "Create a complete CLAUDE.md file with all six standard sections"
+  - "Verify that CLAUDE.md auto-loads successfully in new Claude Code sessions"
+  - "Recognize what information belongs in CLAUDE.md vs what doesn't"
+  - "Understand CLAUDE.md as persistent context that eliminates repetition"
+skills:
+  - name: "Creating Project Context with CLAUDE.md"
+    proficiency_level: "A2-B1"
+    category: "Technical"
+    bloom_level: "Create"
+    digcomp_area: "Digital Content Creation"
 ---
 
 # CLAUDE.md Context Files
@@ -132,11 +144,152 @@ Here's what you've accomplished:
 - ✅ **No friction**: No re-explaining project structure, conventions, or setup
 - ✅ **Team alignment**: New team members read CLAUDE.md to understand the project
 
-This is a **specification mindset** applied to AI companionship. You specify once; the AI benefits forever.
+This is the principle of **"specify once, benefit always"**—define your project context one time, and every future session starts with full understanding.
 
 #### 💬 AI Colearning Prompt
 
 > "How does having persistent context in CLAUDE.md improve the quality of Claude Code's suggestions compared to starting fresh each session?"
+
+---
+
+## Co-Learning: Improving CLAUDE.md Together
+
+Let's see the **Three Roles Framework** in action—where you and Claude Code learn from each other to create a better CLAUDE.md.
+
+### Stage 1: Your First Draft
+
+You create an initial CLAUDE.md:
+
+```markdown
+# Project Overview
+A Python web app
+
+# Tech Stack
+- Python
+- FastAPI
+```
+
+It's basic, but it's a start.
+
+### Stage 2: AI as Teacher (Claude Teaches You)
+
+Ask Claude to review:
+
+```
+"Review my CLAUDE.md. What important sections am I missing?"
+```
+
+**Claude responds:**
+
+> "I notice your CLAUDE.md is missing several critical sections:
+>
+> 1. **Directory Structure** - Where are your route files, models, tests?
+> 2. **Coding Conventions** - What style guide? Type hints required?
+> 3. **Key Commands** - How do I run the app? Run tests?
+> 4. **Database Info** - What database? Migration strategy?
+> 5. **API Documentation** - Where's the OpenAPI spec?
+>
+> For a FastAPI project, these sections help me give better suggestions about imports, file locations, and best practices."
+
+**What just happened?** 🎓 **AI taught you** CLAUDE.md best practices you didn't know. You learned what makes context useful.
+
+### Stage 3: AI as Student (You Teach Claude)
+
+Now you provide domain-specific knowledge Claude doesn't have:
+
+```
+"Good points, but our team uses a custom auth pattern. Update CLAUDE.md to reflect:
+- All auth goes through middleware/auth.py
+- We use custom decorators: @require_auth, @require_admin
+- No third-party auth libraries (company policy)
+- JWT tokens stored in httpOnly cookies"
+```
+
+**Claude responds:**
+
+> "Got it. I'm updating the Coding Conventions section to reflect your team's auth architecture. This helps me:
+> - Suggest the correct decorator imports
+> - Avoid recommending third-party auth libraries
+> - Understand your security model when reviewing code
+>
+> Here's the updated CLAUDE.md..."
+
+**What just happened?** 🎓 **You taught AI** your team's constraints and patterns. Claude now understands context that doesn't exist in its training data.
+
+### Stage 4: AI as Co-Worker (Converging Together)
+
+You and Claude iterate to refine:
+
+```
+"This is better, but the directory structure doesn't show where database migrations live.
+How should we organize database-related files?"
+```
+
+**Claude responds:**
+
+> "Two common patterns:
+> 1. **Separated**: `alembic/` at root for migrations + `app/models/` for schemas
+> 2. **Grouped**: `database/` folder containing both migrations and models
+>
+> Which matches your team's style? Or is there a third pattern you prefer?"
+
+**You respond:**
+
+```
+"Option 1—we separate concerns. Migrations are infrastructure, models are app code. Update it."
+```
+
+**What just happened?** 🎓 **Neither of you** had the complete picture at start. Through conversation, you **converged** on the right solution—Claude offered options, you selected based on team context.
+
+### The Result: Context Created Through Co-Learning
+
+Your final CLAUDE.md is now:
+
+```markdown
+# Project Overview
+A Python FastAPI web application for internal business workflows
+
+# Tech Stack
+- Python 3.13
+- FastAPI 0.104
+- PostgreSQL 15
+- SQLAlchemy 2.0
+
+# Directory Structure
+```
+app/
+├── models/          # SQLAlchemy models
+├── routes/          # API endpoints
+├── middleware/      # Custom middleware (auth)
+└── tests/           # Pytest test files
+alembic/             # Database migrations
+```
+
+# Coding Conventions
+- Type hints required on all functions
+- Google-style docstrings
+- Custom auth: @require_auth, @require_admin decorators
+- All auth logic in middleware/auth.py
+- NO third-party auth libraries (company policy)
+- JWT tokens in httpOnly cookies
+
+# Key Commands
+- Run app: `uvicorn app.main:app --reload`
+- Run tests: `pytest`
+- Run migrations: `alembic upgrade head`
+- Create migration: `alembic revision --autogenerate -m "description"`
+
+# Important Notes
+- Database migrations MUST be reviewed before merge
+- All endpoints require authentication except /health
+```
+
+**This CLAUDE.md is better** because:
+- ✅ Claude taught you what sections to include
+- ✅ You taught Claude your team's specific patterns
+- ✅ You converged together on the right organization
+
+**This is the Three Roles Framework**—AI collaboration that makes both you and Claude smarter.
 
 ---
 

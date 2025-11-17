@@ -2,13 +2,24 @@
 sidebar_position: 1
 title: "The Claude Code Origin Story and Paradigm Shift"
 duration: "8-10 min"
+learning_objectives:
+  - "Understand the fundamental difference between passive AI assistance and agentic AI collaboration"
+  - "Recognize how context-aware file integration enables better AI suggestions"
+  - "Identify the paradigm shift from chat-based tools to development partners"
+  - "Explain why Claude Code represents a paradigm shift in AI-assisted development"
+skills:
+  - name: "Understanding Agentic AI vs Passive AI Assistance"
+    proficiency_level: "A2"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
 ---
 
 # The Claude Code Origin Story and Paradigm Shift
 
 ## The Development Tool That Nobody Meant to Build
 
-In February 2025, a small team at Anthropic shipped what they thought was a modest developer experiment. They called it "Claude Code"—a command-line interface that let developers chat with Claude AI directly from their terminal. The team expected a niche audience: maybe a few thousand command-line enthusiasts.
+When Anthropic shipped Claude Code, they created what seemed like a modest developer experiment—a command-line interface that let developers chat with Claude AI directly from their terminal. The team expected a niche audience: maybe a few thousand command-line enthusiasts.
 
 What happened next surprised everyone.
 

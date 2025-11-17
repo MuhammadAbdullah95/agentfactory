@@ -7,6 +7,12 @@ learning_objectives:
   - "Recognize precedence order: local > project > user"
   - "Check which settings files exist on your system"
   - "Know when to use each settings level"
+skills:
+  - name: "Understanding Configuration Precedence and Hierarchy"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
 ---
 
 # Settings Hierarchy
@@ -266,17 +272,37 @@ Explain what each level is for and why having three levels is better than one gl
 
 **Expected Outcome**: AI explains that hierarchy enables team standards without overriding personal preferences, and allows temporary overrides without affecting shared configuration.
 
-### Prompt 2: Show Your Settings Files
+### Prompt 2: Verify Your Settings Hierarchy (Hands-On)
+
+**First, check yourself which settings files exist**:
+
+```bash
+# Check user-level settings
+ls -la ~/.claude/settings.json
+
+# Check project-level settings (run from your project directory)
+ls -la .claude/settings.json
+
+# Check local-level settings
+ls -la .claude/settings.local.json
+```
+
+**What you'll see**:
+- "No such file or directory" = file doesn't exist (common for fresh installations)
+- File details = file exists (you have settings at that level)
+
+**Now ask Claude to explain what you found**:
 
 ```
-Show me what settings files exist on my machine:
-- Do I have ~/.claude/settings.json? (user level)
-- Do I have .claude/settings.json in my current project? (project level)
-- Do I have .claude/settings.local.json? (local level)
-Which ones exist? Where are they located?
+I just checked my settings files. Here's what exists:
+- User level (~/.claude/settings.json): [exists / doesn't exist]
+- Project level (.claude/settings.json): [exists / doesn't exist]
+- Local level (.claude/settings.local.json): [exists / doesn't exist]
+
+Explain what this tells me about my current configuration and which level is active.
 ```
 
-**Expected Outcome**: AI guides you to check which settings files exist and explains where to find them (home directory vs project root).
+**Expected Outcome**: You understand hierarchy through **direct observation**, not just theory. Claude explains which settings are actually controlling your current session.
 
 ### Prompt 3: Precedence Scenario
 

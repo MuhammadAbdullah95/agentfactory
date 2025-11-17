@@ -7,6 +7,12 @@ learning_objectives:
   - "Create a simple SessionStart hook"
   - "Recognize common hook events (PreToolUse, PostToolUse, SessionStart, SessionEnd)"
   - "Test hooks in a real Claude Code session"
+skills:
+  - name: "Implementing Event-Driven Automation with Hooks"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
 ---
 
 # Hooks and Extensibility

@@ -7,6 +7,12 @@ learning_objectives:
   - "Discover available plugins through marketplaces"
   - "Install and use pre-built plugins from Anthropic's skills repository"
   - "Recognize when a plugin solves your workflow needs"
+skills:
+  - name: "Leveraging Claude Code Ecosystem and Plugins"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
 ---
 
 # Discovering and Using Claude Code Plugins
@@ -501,6 +507,204 @@ Here's how all the pieces fit together:
 - **MCP** = External integrations (APIs, databases, web services)
 
 **All bundled in one plugin** for easy sharing and installation.
+
+---
+
+## Skill Best Practices Reference
+
+Now that you've learned to discover and use existing plugins, this reference section provides guidance for when you're ready to **create your own skills** (advanced content, typically Part 5+).
+
+**You learned the basics of skill creation in Lesson 6.** This section provides deeper best practices for writing production-quality skills.
+
+---
+
+### Writing Effective Descriptions
+
+The skill description is the most critical part of your SKILL.md file. Claude uses it to decide when to invoke your skill.
+
+**Good description pattern**:
+```markdown
+# Description
+This skill [what it does] by [how it does it].
+
+Use this skill when:
+- [Specific trigger scenario 1]
+- [Specific trigger scenario 2]
+- [Specific trigger scenario 3]
+
+Examples:
+- "Help me [example user request 1]"
+- "I need to [example user request 2]"
+```
+
+**Why this works**: The "Use this skill when" section gives Claude clear activation triggers. The examples show realistic user language patterns.
+
+**Example (Good)**:
+```markdown
+# Description
+This skill extracts form data from PDF documents and converts it to structured JSON.
+
+Use this skill when:
+- User uploads a PDF and asks to extract form fields
+- User needs to convert PDF forms to JSON/CSV
+- User mentions "PDF form data" or "extract PDF fields"
+
+Examples:
+- "Extract the form data from this uploaded PDF"
+- "I need to convert this PDF application to JSON"
+```
+
+**Example (Bad)**:
+```markdown
+# Description
+PDF processor
+```
+
+**What's missing**: No activation triggers, no examples of user language, too vague about what "processing" means.
+
+---
+
+### Keep Skills Focused
+
+**One skill, one workflow.** Don't create "mega-skills" that try to do everything.
+
+**Good (Focused)**:
+- Skill 1: Extract PDF form data → JSON
+- Skill 2: Merge multiple PDFs into one
+- Skill 3: Split PDF by page range
+
+**Bad (Mega-Skill)**:
+- Skill: "PDF-Tools" (does extraction, merging, splitting, conversion, OCR, annotation...)
+
+**Why focused is better**:
+- Easier to maintain (one workflow, one place)
+- Claude can compose skills (use Skill 1 + Skill 2 together when needed)
+- Clear activation triggers (no ambiguity about when to use it)
+- Simpler testing and debugging
+
+**Rule of thumb**: If your skill description has "and" more than twice, consider splitting it.
+
+---
+
+### Start Simple, Iterate
+
+Don't try to build the perfect skill on your first attempt. Start with a basic version, use it, then improve based on real usage.
+
+**Iteration pattern**:
+
+**Version 1 (Minimal Viable Skill)**:
+- Basic SKILL.md with description and simple prompt template
+- No scripts, no external dependencies
+- Handles the happy path only
+
+**Version 2 (After Real Usage)**:
+- Add error handling for edge cases you discovered
+- Add examples for common failure scenarios
+- Refine activation triggers based on when Claude used it incorrectly
+
+**Version 3 (Production-Grade)**:
+- Add implementation scripts if needed (Python, Bash, etc.)
+- Add validation and safety checks
+- Document prerequisites and dependencies
+
+**Example progression**:
+
+**V1**: "Extract PDF form data" (basic description, calls external tool)
+**V2**: "Extract PDF form data with error handling" (handles corrupt PDFs, missing fields)
+**V3**: "Extract PDF form data (production)" (validates output, supports multiple PDF formats, logs results)
+
+**Why this works**: You learn what your skill actually needs by using it, not by guessing up front.
+
+---
+
+### Common Pitfalls to Avoid
+
+**❌ Pitfall 1: Vague Descriptions**
+```markdown
+# Description
+Helps with database tasks
+```
+**Problem**: When should Claude use this? What does "helps" mean?
+
+**✅ Fix**:
+```markdown
+# Description
+This skill generates PostgreSQL migration scripts from plain English schema descriptions.
+
+Use this skill when:
+- User describes database schema changes in natural language
+- User needs to create a new table or modify an existing one
+- User mentions "database migration" or "schema change"
+```
+
+---
+
+**❌ Pitfall 2: Technology Lock-In**
+```markdown
+# Description
+Generates React components using Material-UI and Redux
+```
+**Problem**: What if your team switches to Vue? Or uses a different state library?
+
+**✅ Fix**:
+```markdown
+# Description
+Generates UI component code from design specifications, following the project's
+framework and component library (detected from package.json or user preference).
+
+Use this skill when:
+- User describes a UI component they want to build
+- User provides a design mockup or wireframe
+- User asks to "create a component for [feature]"
+```
+
+---
+
+**❌ Pitfall 3: No Examples**
+```markdown
+# Description
+Converts data formats
+
+Use when user needs data conversion.
+```
+**Problem**: Too abstract. Claude won't know when to activate this.
+
+**✅ Fix**:
+```markdown
+# Description
+Converts structured data between JSON, CSV, YAML, and TOML formats while preserving types and structure.
+
+Use this skill when:
+- User asks "convert this JSON to CSV"
+- User provides data in one format and needs it in another
+- User mentions format conversion (e.g., "I need this as YAML")
+
+Examples:
+- "Convert this JSON to CSV format"
+- "Take this CSV and give me a YAML file"
+- "Transform this config from TOML to JSON"
+```
+
+---
+
+### Learn More: Official Skill Examples
+
+**Anthropic's skills repository** has production-quality examples you can learn from:
+
+📦 **Repository**: https://github.com/anthropics/skills
+
+**Recommended skills to study**:
+- `canvas-design` — Shows how to handle visual/creative tasks
+- `web-app-testing` — Demonstrates complex multi-step workflows
+- `skill-creator` — Meta-skill that helps you create new skills
+
+**What to look for**:
+- How do they structure descriptions?
+- What activation triggers do they use?
+- How detailed are their examples?
+- When do they use implementation scripts vs. pure prompts?
+
+**Learning strategy**: Pick a skill similar to what you want to build. Read its SKILL.md. Understand its structure. Adapt its patterns to your use case.
 
 ---
 

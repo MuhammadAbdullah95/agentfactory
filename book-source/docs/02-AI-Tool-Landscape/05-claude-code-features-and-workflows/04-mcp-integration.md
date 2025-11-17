@@ -2,6 +2,18 @@
 sidebar_position: 4
 title: "MCP Integration"
 duration: "12-15 min"
+learning_objectives:
+  - "Understand Model Context Protocol (MCP) as safe external system access for Claude Code"
+  - "Install and configure Playwright MCP for web browsing capabilities"
+  - "Install and configure Context7 MCP for up-to-date documentation retrieval"
+  - "Execute practical workflows: browsing websites and fetching current docs"
+  - "Apply security best practices when enabling external MCP server access"
+skills:
+  - name: "Configuring MCP Servers for External Access"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Safety and Security"
 ---
 
 # MCP Integration: Connecting to External Systems
