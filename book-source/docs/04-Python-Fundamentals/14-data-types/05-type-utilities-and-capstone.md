@@ -99,29 +99,29 @@ version: "1.0.0"
 
 You've learned about Python's 13 data types across four lessons. Now it's time to master the tools that inspect, validate, and convert between types—and build a real project that brings everything together.
 
-## The type() Function: Type Object
+## The type() Function: Understanding Type Objects
 
-You first saw `type()` in Lesson 1. Now let's deepen your understanding.
+You've used `type()` throughout this chapter to inspect data types. But what does `type()` actually return?
 
-The `type()` function does one job: **it tells you what type Python assigned to a value**.
+**Key insight**: `type()` doesn't return a string like `"int"`. It returns a **type object** — Python's internal representation of the type class.
 
 ```python
-print(type(42))              # <class 'int'>
-print(type(3.14))            # <class 'float'>
-print(type("hello"))         # <class 'str'>
-print(type([1, 2, 3]))       # <class 'list'>
-print(type(True))            # <class 'bool'>
-print(type(None))            # <class 'NoneType'>
-print(type({1, 2, 3}))       # <class 'set'>
+result = type(42)
+print(result)              # <class 'int'>
+print(type(result))        # <class 'type'> — the type of a type!
 ```
 
-**What's actually returned?** Not a string like `"int"`, but a **type object**. This is useful when you need to check types programmatically (coming next with `isinstance()`).
+This matters when comparing types programmatically:
 
-**Why `type()` over `isinstance()`?**
-- Use `type(x) == int` when you need the **exact** type, nothing more general
-- Use `isinstance(x, int)` when you want to accept subclasses (more common, covered next)
+```python
+age: int = 25
+is_integer: bool = type(age) == int  # Comparing type objects
+print(is_integer)  # True
+```
 
-**Exercise**: Write code that prints the type of five values you create: a float, a string, a list, a set, and None. Which type surprises you most?
+**When to use type() vs isinstance()** (coming next):
+- `type(x) == int`: Checks for exact type match only
+- `isinstance(x, int)`: More flexible, accepts subclasses (preferred in most cases)
 
 ---
 
@@ -615,32 +615,35 @@ email: str = input("Email: ")
 
 print("\n--- Validation Results ---\n")
 
-# Step 2: Validate name (should be non-empty string)
-# TODO: Check if name is non-empty
-# TODO: Check if name contains only letters and spaces
-name_valid: bool = len(name) > 0 and isinstance(name, str)
-print(f"Name '{name}': {'✓ Valid' if name_valid else '✗ Invalid'}")
+# Step 2: Validate name (check type and content)
+# Using truthy/falsy from Lesson 3: empty strings are falsy
+name_is_string: bool = isinstance(name, str)
+name_has_content: bool = bool(name)  # True if not empty
+print(f"Name '{name}':")
+print(f"  - Is string: {name_is_string}")
+print(f"  - Has content: {name_has_content}")
 
 # Step 3: Validate and convert age
-# TODO: Convert age_input to int (assumes valid number for now)
-# TODO: Check if age is reasonable (e.g., 0-120)
-# Note: We'll handle errors properly in Chapter 21 (Exception Handling)
+# Convert age_input (string) to int
+# Note: Checking if age is valid requires Chapter 15 (operators)
 age: int = int(age_input)  # Assumes valid number for now
-age_valid: bool = 0 < age < 120
-print(f"Age {age}: {'✓ Valid' if age_valid else '✗ Invalid (out of range)'}")
+age_is_int: bool = isinstance(age, int)
+print(f"Age {age}:")
+print(f"  - Is integer: {age_is_int}")
+print(f"  - Successfully converted from string")
 
-# Step 4: Validate email (basic check: contains @)
-# TODO: Check if email contains @ symbol
-# TODO: Check if email is non-empty
-email_valid: bool = "@" in email and len(email) > 0
-print(f"Email '{email}': {'✓ Valid' if email_valid else '✗ Invalid'}")
+# Step 4: Validate email (check type and content)
+# Using truthy/falsy: empty strings are falsy
+email_is_string: bool = isinstance(email, str)
+email_has_content: bool = bool(email)  # True if not empty
+print(f"Email '{email}':")
+print(f"  - Is string: {email_is_string}")
+print(f"  - Has content: {email_has_content}")
+# Note: Checking email format (@) requires operators from Chapter 15
 
-# Step 5: Overall validation result
+# Step 5: Summary
 print("\n--- Summary ---")
-all_valid: bool = name_valid and age_valid and email_valid
-
-# TODO: Display final validation status
-print(f"Profile Status: {'✓ APPROVED' if all_valid else '✗ REJECTED'}")
+print("All validations complete! Review results above.")
 
 # Step 6: Show type information (educational)
 print("\n--- Type Information ---")
@@ -661,12 +664,18 @@ Email: alice@example.com
 
 --- Validation Results ---
 
-Name 'Alice Smith': ✓ Valid
-Age 25: ✓ Valid
-Email 'alice@example.com': ✓ Valid
+Name 'Alice Smith':
+  - Is string: True
+  - Has content: True
+Age 25:
+  - Is integer: True
+  - Successfully converted from string
+Email 'alice@example.com':
+  - Is string: True
+  - Has content: True
 
 --- Summary ---
-Profile Status: ✓ APPROVED
+All validations complete! Review results above.
 
 --- Type Information ---
 Name type: <class 'str'>
@@ -894,7 +903,3 @@ This is how real developers learn with AI—you identify the gap, ask specifical
 ---
 
 **Remember**: The goal is not to memorize syntax. The goal is to understand **why types exist**, **how to use the tools** that work with types, and **how to write clear type-hinted code**.
-
-You're ready to move to Chapter 15 (Operators). There, you'll use these types in operations, combining them, comparing them, and building logic. The types are the vocabulary; operators are the grammar.
-
-**Congratulations on completing Chapter 14!** You've mastered a foundational pillar of Python programming.

@@ -91,7 +91,7 @@ version: "1.0.0"
 - Representing "nothing" (None)
 - Why strings can't change
 
-## Opening: Beyond Numbers
+## Opening Hook: Beyond Numbers
 
 You've mastered numbers in the previous lesson. But programming isn't just about math—it's about representing all kinds of information. Consider these everyday examples:
 
@@ -423,12 +423,7 @@ This singleton property means checking `if x is None:` is the correct Python idi
 # Optional user phone (user might not provide it)
 user_phone: str | None = None
 
-# Function that might not return anything
-def find_user(user_id: int) -> dict | None:
-    # Returns user dict if found, None if not found
-    ...
-
-# Checking for None (comparison without if - you'll learn if in Chapter 17)
+# Checking for None
 is_none: bool = user_phone is None
 print(f"Phone is None: {is_none}")  # True
 
@@ -437,6 +432,8 @@ user_phone = "555-1234"
 is_none = user_phone is None
 print(f"Phone is None: {is_none}")  # False
 print(f"Phone: {user_phone}")       # Phone: 555-1234
+
+# Note: Functions that return None are covered in Chapter 20
 ```
 
 **Key syntax**: Use `str | None` (read as "string or None") to indicate a value that could be text OR nothing.

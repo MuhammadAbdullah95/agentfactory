@@ -146,15 +146,13 @@ inventory: int = 500
 
 **Notice**: Each variable includes a **type hint** (`: int`). This tells Python (and anyone reading your code) that this variable should hold an integer.
 
-To verify the type, use the `type()` function:
+Verify with `type()` (from Lesson 1):
 
 ```python
-print(type(age))              # Output: <class 'int'>
-print(type(student_count))    # Output: <class 'int'>
-print(type(-5))               # Output: <class 'int'>
+print(type(age))              # <class 'int'>
+print(type(student_count))    # <class 'int'>
+print(type(-5))               # <class 'int'>
 ```
-
-The `type()` function inspects what type Python assigned to a value. Always outputs `<class 'typename'>`.
 
 #### 💬 AI Colearning Prompt
 
@@ -231,7 +229,7 @@ In AI-native development, you don't memorize floating-point edge cases—you und
 
 ## Decision Guide: Integer vs. Float
 
-When faced with a numeric scenario, use this table to decide:
+Remember the Type Decision Framework from Lesson 1? Here's how it applies specifically to choosing between int and float:
 
 | Scenario | Type | Why |
 |----------|------|-----|
@@ -405,9 +403,14 @@ Classify each value as `int`, `float`, or `complex`. Write your reasoning.
 **Check your work with `type()`:**
 
 ```python
-values = [42, 3.14, -5, 0.5, 100, 2+3j, -0.001, 1000000, 0.0, 1e10, -3-4j, 99.99, 0, 7.5, 2e-5]
-for v in values:
-    print(f"{v} is {type(v)}")
+# Use type() to verify each classification
+print(f"42 is {type(42)}")
+print(f"3.14 is {type(3.14)}")
+print(f"-5 is {type(-5)}")
+print(f"0.5 is {type(0.5)}")
+print(f"100 is {type(100)}")
+# (Continue for remaining values...)
+# Note: Loops for repetitive tasks are covered in Chapter 17
 ```
 
 ### Exercise 2: Fix the Type Errors
@@ -447,8 +450,14 @@ e = 10 // 2
 f = 10.0 / 2
 g = type(10)  # Special: what's the type of type()?
 
-for value in [a, b, c, d, e, f, g]:
-    print(f"{value} has type {type(value)}")
+# Check each one (loops covered in Chapter 17)
+print(f"{a} has type {type(a)}")
+print(f"{b} has type {type(b)}")
+print(f"{c} has type {type(c)}")
+print(f"{d} has type {type(d)}")
+print(f"{e} has type {type(e)}")
+print(f"{f} has type {type(f)}")
+print(f"{g} has type {type(g)}")
 ```
 
 ---

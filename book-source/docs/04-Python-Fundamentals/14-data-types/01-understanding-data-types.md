@@ -82,7 +82,7 @@ version: "1.0.0"
 
 - What are data types
 - Why types matter
-- Python's 7 type categories
+- Python's main type categories
 - How to choose the right type
 - Checking types with type()
 
@@ -186,7 +186,7 @@ Python knows this. When you specify a type, Python can be smart about storage. F
 
 ---
 
-## The 7 Type Categories
+## Python's Main Type Categories
 
 Python organizes all data into categories. Here's the complete overview. Don't memorize these—just get a feel for them. We'll explore each in detail in future lessons.
 
@@ -197,7 +197,6 @@ Python organizes all data into categories. Here's the complete overview. Don't m
 | **Boolean** | bool | True or False | True, False |
 | **Collections** | list, tuple, dict, set, range | Groups of items | [1, 2, 3], \{"name": "Alice"\} |
 | **Binary** | bytes, bytearray, memoryview | Raw file/network data | Image files, network packets |
-| **Mapping** | dict | Key-value pairs | \{"age": 25, "name": "Alice"\} |
 | **Special** | NoneType | Absence of value | None |
 
 **Message for now**: "We'll explore each of these in detail soon!" For this lesson, we're building a foundation.
@@ -240,7 +239,7 @@ This framework is your superpower. **When you're unsure about types, ask: "What 
 
 ## Introducing type() — Your Type Detective
 
-Now we introduce our first **type inspection tool**: the `type()` function.
+Python provides three type inspection tools: `type()`, `isinstance()`, and `id()`. In this lesson, we'll focus on `type()`. You'll learn `isinstance()` and `id()` in Lesson 5.
 
 ### What Does type() Do?
 
