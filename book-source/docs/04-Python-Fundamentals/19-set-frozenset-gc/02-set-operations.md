@@ -89,7 +89,7 @@ differentiation:
   remedial_for_struggling: "Start with intersection (simpler logic), then union, then difference; practice with small, concrete sets before scaling"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-19/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -43,7 +43,7 @@ differentiation:
   remedial_for_struggling: "Start with VS Code only (simplest); skip optional Git Graph/GitLens extensions; focus on Source Control panel basics before AI extensions"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
 last_modified: "2025-11-07"

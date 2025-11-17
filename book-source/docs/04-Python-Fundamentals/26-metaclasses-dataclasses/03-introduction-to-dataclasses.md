@@ -88,7 +88,7 @@ differentiation:
   remedial_for_struggling: "Start with basic Point dataclass (just x, y); practice understanding auto-generated __init__ before adding defaults or parameters"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.2"
+generated_by: "content-implementer v3.0.2"
 source_spec: "specs/001-part-4-chapter-26/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -95,7 +95,7 @@ differentiation:
   remedial_for_struggling: "Provide starter code with menu loop and function stubs, focus on one CRUD operation at a time, use simpler JSON structure without timestamps, work through creating a single note before attempting full app"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-22/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -54,7 +54,7 @@ differentiation:
   remedial_for_struggling: "Focus on ISO 8601 format first; use timedelta for simple day arithmetic; default to UTC timezone before exploring local conversions"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.2"
+generated_by: "content-implementer v3.0.2"
 source_spec: "specs/001-part-4-chapter-23/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

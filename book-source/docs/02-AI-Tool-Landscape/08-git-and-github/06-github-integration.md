@@ -54,7 +54,7 @@ differentiation:
   remedial_for_struggling: "Use AI assistant to guide each step of remote setup and authentication; practice with simple test files before pushing real projects"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
 last_modified: "2025-11-07"

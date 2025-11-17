@@ -53,7 +53,7 @@ differentiation:
   remedial_for_struggling: "Focus on core workflow: 'Commit both files, teammate runs `uv sync`, environment matches exactly.' Practice one scenario fully before adding complexity"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/011-python-uv/plan.md"
 created: "2025-11-13"
 last_modified: "2025-11-13"

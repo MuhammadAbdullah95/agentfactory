@@ -107,7 +107,7 @@ differentiation:
   remedial_for_struggling: "Focus on one method type at a time. Start with instance methods, then add class methods, then static methods. Practice property decorator on simple cases (age validation) before computed properties."
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/020-oop-part-1-2/spec-chapter-24.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

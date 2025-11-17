@@ -64,12 +64,12 @@ differentiation:
   remedial_for_struggling: "Focus on one rounding function at a time; use concrete examples (money amounts, temperature) before abstract concepts; start with positive numbers only"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.2"
+generated_by: "content-implementer v3.0.2"
 source_spec: "specs/001-part-4-chapter-23/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
 git_author: "Claude Code"
-workflow: "lesson-writer subagent"
+workflow: "content-implementer subagent"
 version: "1.0.0"
 ---
 

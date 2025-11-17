@@ -58,7 +58,7 @@ differentiation:
   remedial_for_struggling: "Focus on core concept: 'uv run means use this project's packages.' Use analogy: separate toolboxes for each project. Let AI handle all commands."
 
 # Generation metadata
-generated_by: "lesson-writer v3.1.0"
+generated_by: "content-implementer v3.1.0"
 source_spec: "specs/011-python-uv/plan.md"
 created: "2025-11-13"
 last_modified: "2025-11-13"

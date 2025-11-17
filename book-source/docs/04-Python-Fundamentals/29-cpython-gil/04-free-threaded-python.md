@@ -117,7 +117,7 @@ differentiation:
   remedial_for_struggling: "For struggling students: Focus on paradigm shift (concept 1) and detection code (concept 6); use detection code as anchor; progress to performance characteristics only after detection is solid"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-29/spec.md (Lesson 4)"
 created: "2025-11-09"
 last_modified: "2025-11-09"

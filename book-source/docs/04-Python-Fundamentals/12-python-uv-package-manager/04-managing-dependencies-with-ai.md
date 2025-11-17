@@ -65,7 +65,7 @@ differentiation:
   remedial_for_struggling: "Focus on core pattern: 'Use Claude Code to add packages. Production = runtime. Development = testing/tools. That's it.' Don't get lost in version constraint syntax—let AI handle it."
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/011-python-uv/plan.md"
 created: "2025-11-13"
 last_modified: "2025-11-13"

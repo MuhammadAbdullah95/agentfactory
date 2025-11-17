@@ -50,7 +50,7 @@ differentiation:
   extension_for_advanced: "Explore all rule categories (D for docstrings, N for naming conventions); configure strict mode for learning"
   remedial_for_struggling: "Start with just line-length and one rule category (F for safety); add more rules gradually"
 
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-12-lightning-python-stack/plan.md"
 created: "2025-01-15"
 last_modified: "2025-01-15"

@@ -50,7 +50,7 @@ differentiation:
   extension_for_advanced: "Explore strict mode and advanced types (Union, Optional, Callable)"
   remedial_for_struggling: "Focus on basic: type hints are optional; function parameters and return types are the essential pieces"
 
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-12-lightning-python-stack/plan.md"
 created: "2025-01-15"
 last_modified: "2025-01-15"

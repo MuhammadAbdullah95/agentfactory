@@ -75,7 +75,7 @@ differentiation:
   remedial_for_struggling: "Start with 2 sources instead of 3; scaffold error handling patterns step-by-step; use skeleton code liberally"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-28/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

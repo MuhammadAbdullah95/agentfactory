@@ -91,7 +91,7 @@ cognitive_load:
 
 # Generation metadata
 generation_metadata:
-  generated_by: "lesson-writer (Claude Haiku 4.5)"
+  generated_by: "content-implementer (Claude Haiku 4.5)"
   source_spec: "specs/001-part-4-chapter-19/spec.md (FR-030 to FR-035)"
   source_plan: "specs/001-part-4-chapter-19/plan.md (Lesson 6, lines 1247-1586)"
   created: "2025-11-09"

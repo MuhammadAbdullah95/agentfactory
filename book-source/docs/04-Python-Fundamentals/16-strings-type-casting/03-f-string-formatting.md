@@ -67,7 +67,7 @@ differentiation:
   remedial_for_struggling: "Focus on basic f-string syntax first (just variables); practice with simple number formatting before complex expressions"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-16/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"

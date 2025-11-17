@@ -84,7 +84,7 @@ differentiation:
   remedial_for_struggling: "Focus on basic Path() and exists() checks first; practice / operator before glob patterns; use reference solutions for security section"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "/Users/mjs/Documents/code/panaversity-official/tutorgpt-build/ain/specs/001-part-4-chapter-22/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

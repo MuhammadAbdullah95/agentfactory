@@ -89,7 +89,7 @@ differentiation:
   remedial_for_struggling: "Start with individual pattern implementation first; build integrated system step-by-step; use provided code templates as scaffolding; focus on understanding pattern intent before optimization"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/020-oop-part-1-2/spec-chapter-25.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

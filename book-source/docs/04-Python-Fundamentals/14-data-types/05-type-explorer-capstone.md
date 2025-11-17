@@ -58,7 +58,7 @@ differentiation:
   remedial_for_struggling: "Start with just 2 types (int and str). Build those functions first. Test them thoroughly. Then add one type at a time (float, bool, None). Celebrate each success before adding the next. Quality over speed."
 
 # Generation metadata
-generated_by: "lesson-writer v1.0"
+generated_by: "content-implementer v1.0"
 source_spec: "specs/part-4-chapter-14/spec.md"
 source_plan: "specs/part-4-chapter-14/plan.md"
 created: "2025-11-08"

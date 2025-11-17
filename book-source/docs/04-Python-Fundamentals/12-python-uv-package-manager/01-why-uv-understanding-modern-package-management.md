@@ -53,7 +53,7 @@ differentiation:
   remedial_for_struggling: "Focus on core concept: 'UV is faster, simpler, and lets AI handle commands you don't need to memorize'"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/011-python-uv/plan.md"
 created: "2025-11-13"
 last_modified: "2025-11-13"

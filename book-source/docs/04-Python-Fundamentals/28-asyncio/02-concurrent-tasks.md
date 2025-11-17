@@ -75,7 +75,7 @@ differentiation:
   remedial_for_struggling: "Start with simple 2-3 task examples before scaling to 10; use timing diagrams to visualize concurrent execution"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-28/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

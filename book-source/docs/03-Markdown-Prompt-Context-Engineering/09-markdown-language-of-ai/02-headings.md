@@ -46,7 +46,7 @@ differentiation:
   remedial_for_struggling: "Focus on just two levels (# for title, ## for sections); practice with simple 3-section documents before adding level 3 headings"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-9-markdown/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-07"

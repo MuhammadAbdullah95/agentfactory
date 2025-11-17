@@ -93,7 +93,7 @@ differentiation:
   remedial_for_struggling: "Focus on single concept: CPU (does work) vs I/O (waits). Use concrete analogies: CPU is like a restaurant chef cooking (busy all the time); I/O is like a waiter waiting for customers (idle time). Have AI generate simple classification exercises with feedback; measure basic threading benchmark to experience GIL behavior empirically"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-29/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

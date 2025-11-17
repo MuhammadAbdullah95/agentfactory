@@ -83,7 +83,7 @@ differentiation:
   remedial_for_struggling: "Start with emphasis-only exercise (only bold, no italic); practice link syntax with provided URLs before finding own; use spec template with more scaffolding prompts"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-9-markdown/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-07"

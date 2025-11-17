@@ -76,7 +76,7 @@ differentiation:
   remedial_for_struggling: "Focus on simple benchmark examples before advanced decision trees; use visual comparisons (threading graph vs InterpreterPoolExecutor graph)"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-28/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -58,7 +58,7 @@ differentiation:
   remedial_for_struggling: "Focus on just int and float distinction; use physical analogies (whole apples vs. sliced apples); practice only basic type() calls before moving to isinstance()"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-14/lesson-2-spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"

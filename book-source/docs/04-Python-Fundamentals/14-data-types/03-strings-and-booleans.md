@@ -65,7 +65,7 @@ differentiation:
   remedial_for_struggling: "Focus on Concepts 1-2 first (strings and booleans). Use the concrete examples repeatedly. Type conversion (Concept 6) is a B1 skill—it's okay to spend extra time here."
 
 # Generation metadata
-generated_by: "lesson-writer v1.0"
+generated_by: "content-implementer v1.0"
 source_spec: "specs/part-4-chapter-14/spec.md"
 source_plan: "specs/part-4-chapter-14/plan.md"
 source_tasks: "specs/part-4-chapter-14/tasks.md"

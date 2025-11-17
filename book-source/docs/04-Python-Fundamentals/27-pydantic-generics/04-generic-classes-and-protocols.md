@@ -77,7 +77,7 @@ differentiation:
   remedial_for_struggling: "Start with single-type Stack[T] before multiple parameters; focus on why bounds matter through concrete comparison examples; pair programming with AI for complex implementations"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-27/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

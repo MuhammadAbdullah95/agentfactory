@@ -58,7 +58,7 @@ differentiation:
   remedial_for_struggling: "Start with single strategy (fallback) before combining multiple; use real-world scenarios from Lesson 5 capstone as concrete examples"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/015-part-4-chapter-21/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -48,7 +48,7 @@ cognitive_load:
   assessment: "3 concepts (install, account, config) within A1 limit ✓"
 
 # Generation metadata
-generated_by: "lesson-writer"
+generated_by: "content-implementer"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
 last_modified: "2025-11-07"

@@ -54,7 +54,7 @@ differentiation:
   extension_for_advanced: "Explore older string formatting methods; research Python style guide (PEP 8) comprehensively"
   remedial_for_struggling: "Focus on simple print() before introducing f-strings; practice indentation with editor that shows whitespace"
 
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/016-part-4-chapter-13/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -53,7 +53,7 @@ differentiation:
   remedial_for_struggling: "Start with just one variable: `name: str = 'Alex'`. Print it. Change the value. Print again. See what happens. Then add one more variable. Build confidence gradually. Don't worry about memorizing types yet—focus on the pattern: name, colon, type, equals, value."
 
 # Generation metadata
-generated_by: "lesson-writer v1.0"
+generated_by: "content-implementer v1.0"
 source_spec: "specs/part-4-chapter-14/spec.md"
 source_plan: "specs/part-4-chapter-14/plan.md"
 created: "2025-11-08"

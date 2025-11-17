@@ -78,7 +78,7 @@ differentiation:
   remedial_for_struggling: "Focus on break (early exit) and continue (skip) with simple list examples before introducing else clauses"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-17/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

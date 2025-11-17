@@ -60,7 +60,7 @@ differentiation:
   remedial_for_struggling: "Focus on 3-scenario decision tree: (1) Need to change? List. (2) Need order? List/Tuple. (3) Need fast lookup? Dict. Use decision flowchart as reference throughout."
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
