@@ -1,4 +1,5 @@
 ---
+name: lesson-template
 description: Generic lesson format for CoLearning Python & Agentic AI (13-part structure aspirational, with agentic AI and MCP guidance). Includes hidden skills proficiency metadata (CEFR/Bloom's) in YAML frontmatter for institutional integration.
 ---
 

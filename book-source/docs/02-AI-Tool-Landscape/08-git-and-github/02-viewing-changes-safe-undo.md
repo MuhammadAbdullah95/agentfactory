@@ -626,11 +626,7 @@ Explain why each command is the right choice.
 - draft.txt: `git restore draft.txt` (unstaged changes undo)
 - temp.txt: `git reset HEAD temp.txt` (unstage)
 
-Verify that ChatGPT understands the distinction between unstaging (reset) and discarding changes (restore).
-
----
-
-**Safety Note**: These three commands (`git diff`, `git restore`, `git reset HEAD`) are all safe to use. They won't permanently delete anything. The destructive command `git reset --hard` requires the `--hard` flag and should only be used when you're absolutely certain you want to delete commits.
+Verify that ChatGPT understands the distinction between unstaging (reset) and discarding changes (restore). Remember: `git diff`, `git restore`, and `git reset HEAD` are safe commands—they won't permanently delete anything (unlike `git reset --hard`).
 
 ---
 

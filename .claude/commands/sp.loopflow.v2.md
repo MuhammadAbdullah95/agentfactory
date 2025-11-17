@@ -1468,6 +1468,71 @@ FOR general-purpose (code):
   - "Observable: Log/metric/trace for debugging in production."
 ```
 
+### STEP 5.5: Anti-Pattern Prevention Framework (Educational Content Only)
+
+**FOR content-implementer implementing lessons**, add this detection framework:
+
+```markdown
+## Anti-Pattern Prevention Framework
+
+Before finalizing EACH lesson, detect and eliminate these patterns:
+
+**Detection Questions** (self-check after drafting):
+
+1. ✅ **Single Closure Check**: Does lesson end with ONLY "Try With AI" section?
+   - Scan for sections after "Try With AI"
+   - Forbidden: "What's Next", "Key Takeaways", "Summary", "Congratulations"
+   - If additional sections found → DELETE them
+
+2. ✅ **Safety Note Placement**: Are all Safety Notes INSIDE "Try With AI" (max 1-2 sentences)?
+   - Scan for standalone "### Safety Note" or "**Safety Note**:" sections
+   - If found outside "Try With AI" → MOVE inside or DELETE
+   - Safety reminders already implied in AI collaboration context
+
+3. ✅ **Internal Scaffolding Removal**: Are "Stage 1/2/3/4" labels removed from student-facing text?
+   - Scan for: "Stage 2 Focus", "This is Stage 3", "Part 2: Stage X"
+   - Scan for: "Three Roles Framework", "Three Roles in Action" as section headers
+   - If found → REMOVE (stages are YOUR planning tool, not student vocabulary)
+   - Replace with natural language: "Let's explore..." not "Stage 2: We will..."
+
+4. ✅ **CoLearning Naturalness**: Are Three Roles shown through NARRATIVE (not explicit headers)?
+   - Forbidden headers: "## Three Roles in Action", "### Role 1: AI as Teacher"
+   - Correct approach: Embedded story ("AI suggested... You refined... Together you converged...")
+   - Show the interaction, don't label the framework
+
+5. ✅ **Meta-Commentary Elimination**: Are navigational/motivational sections removed?
+   - Forbidden: "You've completed...", "Up next...", "Congratulations...", "What's Next"
+   - Students know course structure—focus on LEARNING, not navigation
+   - Chapter endings handled by book structure, not individual lessons
+
+**Correction Actions**:
+- If "no" to questions 1-5 → Apply specific correction BEFORE saving file
+- Re-check after corrections
+- Only save lesson file when ALL checks pass
+
+**Constitutional Grounding**:
+- Principle 7 (Minimal Content): Every section maps to learning objective
+- content-implementer:946: "Single closing section: 'Try With AI'"
+- content-implementer:1144: Self-monitoring checklist item 9
+
+**Grep-Based Self-Validation** (run after drafting lesson):
+```bash
+# Check 1: Lesson ends with "Try With AI" as ONLY final section
+tail -50 lesson.md | grep -E "^## " | tail -1
+# Expected: "## Try With AI"
+
+# Check 2: No forbidden sections after "Try With AI"
+awk '/^## Try With AI/,0' lesson.md | grep -E "^## (What's Next|Key Takeaways|Summary|Safety Note)"
+# Expected: Zero matches
+
+# Check 3: No internal scaffolding in student text
+grep -E "Stage [0-9]|Layer [0-9]|Three Roles (Framework|in Action)" lesson.md
+# Expected: Zero matches
+```
+
+If any validation fails → Fix before proceeding to next lesson.
+```
+
 ### STEP 6: Assemble Complete Prompt for Subagent
 
 ```markdown
@@ -1524,6 +1589,10 @@ Before implementing, self-check:
 ✅ Am I creating artifacts defined in tasks? (not different deliverables)
 
 If any check fails → You're ignoring orchestration context → Re-read intelligence object and align.
+
+## Anti-Pattern Prevention (Educational Content Only)
+
+[IF task type is educational_content, INSERT ANTI-PATTERN FRAMEWORK FROM STEP 5.5]
 
 ## Verification Requirements
 

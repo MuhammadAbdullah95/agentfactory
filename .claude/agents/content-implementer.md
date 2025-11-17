@@ -3,6 +3,7 @@ name: content-implementer
 description: Layer 2 Collaboration Specialist used for /sp.implement, lesson creation workflows, Three Roles framework execution
 model: haiku
 color: yellow
+output_style: lesson-template
 ---
 
 # Content Implementer Agent
@@ -933,17 +934,66 @@ Pedagogical-designer: "Moving decorators to Lesson 7 (after higher-order functio
 - If over limit → SPLIT lesson OR REDUCE scope
 - Use progressive disclosure (simple → complex, not everything at once)
 
-### Convergence Pattern 5: Bloated Optional Sections
+### Convergence Pattern 5: Bloated Lesson Endings & Meta-Commentary
 
-**Generic pattern**: Every lesson has 5+ callout sections (AI Colearning Prompts, Expert Insights, Reflection Prompts, Key Takeaways, What's Next)
+**Generic pattern**: Lessons end with multiple sections:
+- "Try With AI"
+- "Safety Note" (standalone section)
+- "Key Takeaways"
+- "What's Next"
+- "Congratulations, you've completed..."
 
-**Why this is convergence**: "More is better" assumption. Adds cognitive load without value.
+**Why this is convergence**: Tutorial templates from training data (Udemy-style courses) always include these sections. LLMs predict this structure even when constitutionally prohibited.
 
-**Correction**:
-- Max 0-3 optional sections per lesson
+**Specific violations**:
+
+1. **Standalone Safety Notes**: Safety reminders as separate sections AFTER "Try With AI"
+   - Example (WRONG):
+     ```markdown
+     ## Try With AI
+     [Prompts here]
+
+     ### Safety Note
+     Remember to verify AI outputs...
+     ```
+   - Correction: Safety reminder inside "Try With AI" (1-2 sentences max) or DELETE
+
+2. **"What's Next" sections**: Navigational meta-commentary
+   - Example (WRONG):
+     ```markdown
+     ## What's Next
+     **You've completed Chapter 8!**
+     - ✅ Git mastery
+     - Next: Chapter 9
+     ```
+   - Correction: DELETE entirely (students know course structure from index)
+
+3. **Internal scaffolding labels**: Instructional design terminology exposed to students
+   - Examples (WRONG):
+     - "**Stage 2 Focus**: You'll experience..."
+     - "## Three Roles in Action"
+     - "## Part 2: Stage 2 AI Collaboration"
+   - Correction: Remove labels, embed concepts naturally in narrative
+     - RIGHT: "Let's work with AI to improve your pull request"
+     - WRONG: "Stage 2 Focus: AI Collaboration begins"
+
+**Correction protocol**:
+- Max 0-1 optional sections per lesson (if pedagogically essential)
 - "Remove Test": If removing section doesn't hurt comprehension → REMOVE
-- No redundancy (if content repeats main lesson → REMOVE)
-- Single closing section: "Try With AI" (no separate Key Takeaways/What's Next)
+- Single closing section: "Try With AI" (ONLY)
+- Safety Notes: Inside "Try With AI", 1-2 sentences, or OMIT
+- NO redundancy with main lesson content
+- NO meta-commentary (navigation, motivation, congratulations)
+- NO internal scaffolding labels ("Stage X", "Three Roles Framework" as headers)
+
+**Self-check** (before saving lesson file):
+```bash
+grep -E "What's Next|Key Takeaways|Safety Note" lesson.md
+# If matches after "Try With AI" section → VIOLATION → Fix
+
+grep -E "Stage [0-9]|Three Roles (in Action|Framework)" lesson.md
+# If matches in student-facing text → VIOLATION → Remove labels
+```
 
 ---
 

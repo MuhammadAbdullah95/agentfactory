@@ -136,17 +136,13 @@ Before involving AI, you'll set up GitHub manually so you understand the platfor
 
 ---
 
-## Part 2: Stage 2 AI Collaboration — Three Roles Framework
+## Connecting Your Repository with AI
 
-Now you'll experience AI assistance through all three roles. GitHub setup with AI introduces complexity (authentication, remote configuration, potential errors) that benefits from bidirectional learning.
-
-### Scenario Setup
-
-You have a local Git repository with commits. Now you need to connect it to GitHub and push the code. Let's involve AI to guide this process while you maintain control.
+Now you'll work with AI to handle GitHub setup complexity (authentication, remote configuration, potential errors). You have a local Git repository with commits—let's connect it to GitHub and push the code with AI guidance.
 
 ---
 
-## Role 1: AI as Teacher — Learning Dual Backup+Portfolio Value
+## Learning Dual Backup+Portfolio Value
 
 **Your Question to ChatGPT/Claude**:
 
@@ -596,6 +592,4 @@ What are some GitHub best practices I should follow as I push more projects?
 - Documentation
 - Clear project descriptions
 
-**Verification**: If AI's suggestions align with what you learned, you understand GitHub's purpose. If something seems wrong, ask ChatGPT to clarify.
-
-**Safety Note**: ChatGPT may suggest advanced features (GitHub Actions, GitHub Pages, etc.). These are helpful but not required now. You've mastered the essentials: backup and portfolio.
+**Verification**: If AI's suggestions align with what you learned, you understand GitHub's purpose. If something seems wrong, ask ChatGPT to clarify. Note: ChatGPT may suggest advanced features (GitHub Actions, GitHub Pages)—these are helpful but not required now. You've mastered the essentials: backup and portfolio.

@@ -509,7 +509,7 @@ on the same project? What additional practices would matter?"
 - **Prompt 2:** AI suggests documentation in PRs and commit messages
 - **Prompt 3:** AI explains merge conflict prevention and code review patterns
 
-**Safety Note:** Remember these are exploratory prompts. AI might suggest advanced concepts (like rebasing or squashing) that are beyond A1 tier. For now, focus on simple branch creation and merging. Ask AI to explain in beginner terms if it uses technical jargon.
+Remember: AI might suggest advanced concepts (rebasing, squashing) beyond beginner level—for now, focus on simple branch creation and merging. Ask AI to explain in beginner terms if it uses technical jargon.
 
 **Optional Stretch:**
 

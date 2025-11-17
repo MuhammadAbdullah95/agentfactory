@@ -1025,34 +1025,6 @@ After exploring with AI, you should understand:
 
 5. **No Obsolescence Anxiety**: Git fundamentals (Lessons 1-7) remain unchanged. Agent HQ adds orchestration convenience on top. If you're comfortable with Git workflows now, you'll adapt to Agent HQ in hours (not months). Focus on mastering specifications and Git safety—these skills are permanent foundations.
 
-**Safety Note**: When exploring multi-agent scenarios with AI, remember this is aspirational (GitHub Agent HQ not yet GA). Focus on mastering specification-driven development and Git workflows TODAY. Agent HQ will be an evolution, not a revolution.
+Remember: Agent HQ is aspirational (not yet GA)—focus on mastering specification-driven development and Git workflows today. Agent HQ will be an evolution, not a revolution.
 
 **Optional Stretch**: Ask AI to generate a multi-agent project plan for a more complex application (e.g., web app with frontend, backend, database, tests). Have AI specify which specialized agent would handle which component and how branches would coordinate their work. This thought experiment deepens your understanding of multi-agent orchestration benefits without requiring Agent HQ access.
-
----
-
-## What's Next
-
-**You've completed Chapter 8!** You now have:
-- ✅ Complete Git mastery (from init to PR)
-- ✅ AI-generated project in your GitHub portfolio
-- ✅ Reusable git-workflow.md intelligence
-- ✅ Professional transparency practices
-- ✅ Awareness of GitHub's multi-agent orchestration future
-
-**Immediate Actions**:
-1. Share your GitHub repository URL (show your portfolio)
-2. Apply these Git patterns to your next AI-assisted project
-3. Reference your git-workflow.md for every new project
-4. Keep practicing specification-driven development
-
-**Future Learning**:
-- **Chapter 9**: Prompt Engineering (improve your AI specifications)
-- **Part 3**: Dive deeper into AI-native development patterns
-- **Part 6**: Advanced multi-agent workflows (when Agent HQ is GA)
-
-**Reflection**: Git is your safety system for AI experimentation. You can now fearlessly ask AI to generate complex code, knowing you can always undo, branch, test, and refine. This is the foundation of AI-native development—you're ready.
-
----
-
-**Congratulations on completing your Git & GitHub capstone!** 🎉

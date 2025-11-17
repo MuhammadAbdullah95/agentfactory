@@ -82,7 +82,7 @@ In this lesson, you'll master the professional GitHub workflow where code is rev
 
 **Why This Matters**: Pull requests (PRs) are how teams review code before it ships. In your case, they're also how you document and validate AI-generated code. This lesson teaches both professional practice AND transparency ethics.
 
-**Stage 2 Focus**: You'll experience bidirectional learning with AI—AI suggests PR best practices, you refine based on your context, and together you'll create clear, transparent documentation.
+You'll work with AI on PR best practices—AI will suggest approaches, you'll refine based on your context, and together you'll create clear, transparent documentation.
 
 ---
 
@@ -317,11 +317,11 @@ When reviewing a diff, ask these questions:
 
 ---
 
-## Three Roles in Action: Pull Request Review Iteration
+## Improving Your Pull Request with AI
 
-Now you'll experience bidirectional learning with AI around PR quality.
+Let's refine your PR description with AI assistance, exploring how you and AI learn from each other.
 
-### Role 1: AI as Teacher
+### AI Teaches You PR Best Practices
 
 You create a basic PR description:
 
@@ -345,7 +345,7 @@ Used ChatGPT to generate code
 
 ---
 
-### Role 2: AI as Student
+### You Teach AI Your Constraints
 
 AI writes a technical description:
 
@@ -377,9 +377,9 @@ What I Modified:
 
 ---
 
-### Role 3: AI as Co-Worker (Convergence)
+### Converging on the Best PR Description
 
-You and AI iterate on the PR description together:
+You and AI iterate together to create a PR description better than either of you would produce alone:
 
 **Iteration 1** (Starting point):
 - Basic summary

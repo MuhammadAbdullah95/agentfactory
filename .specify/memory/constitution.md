@@ -554,6 +554,34 @@ If lacking intelligence library → Continue Stage 3 across more lessons
 
 ---
 
+### Student-Facing Language Protocol
+
+**Internal vs Student-Facing Language**: Instructional designers (agents, content creators) use stage/layer terminology for planning. Students experience stages through pedagogy, NOT through explicit labels.
+
+**Internal Language** (planning documents, agent prompts, ADRs):
+- ✅ "Stage 1: Manual Foundation"
+- ✅ "Stage 2: AI Collaboration with Three Roles"
+- ✅ "This lesson demonstrates AI as Teacher/Student/Co-Worker"
+- ✅ "Apply Layer 2 collaboration patterns"
+
+**Student-Facing Language** (lesson content, book text):
+- ✅ "Let's explore how AI helps with pull requests"
+- ✅ "You and AI will iterate on the PR description together"
+- ✅ "AI suggested a pattern you hadn't considered..."
+- ✅ "Work with AI to improve your code"
+
+**Forbidden in Student Text**:
+- ❌ "Stage 2 Focus: You'll experience bidirectional learning"
+- ❌ "## Three Roles in Action"
+- ❌ "This is Layer 2, so we'll use AI collaboration"
+- ❌ "Part 2: Stage 2 AI Collaboration — Three Roles Framework"
+
+**Why**: Exposing instructional scaffolding breaks immersion and adds cognitive load without learning value. Students should EXPERIENCE pedagogical design, not STUDY it. Stage labels are like showing movie set scaffolding during the film—it ruins the experience.
+
+**Validation**: Grep student-facing lesson files for `"Stage [0-9]"`, `"Layer [0-9]"`, `"Three Roles (Framework|in Action)"`. Zero matches required.
+
+---
+
 ## III. Foundational Principles (7 Decision Frameworks)
 
 <!-- REASONING ACTIVATION: Principles as frameworks, not rules -->
@@ -964,6 +992,40 @@ Before finalizing content, ask:
 - Non-goals defined explicitly?
 
 If "no" to any → Content needs trimming.
+
+#### Lesson Ending Protocol (Educational Content)
+
+**Application to lesson structure**: Minimal content principle applies to lesson endings.
+
+**ONLY permitted final section**: "Try With AI"
+
+**Forbidden final sections** (violate minimal content):
+- ❌ "What's Next" (navigation—students know course structure from table of contents)
+- ❌ "Key Takeaways" (redundant—lesson already taught these; if students need summary, lesson was unclear)
+- ❌ "Summary" (redundant—duplication without learning value)
+- ❌ "Congratulations" (motivational fluff—adds zero learning value)
+- ❌ Standalone "Safety Note" (context-free reminder—safety already implicit in AI collaboration sections)
+
+**Safety Note placement**:
+- ✅ INSIDE "Try With AI" section (1-2 sentences, contextually relevant to prompts)
+- ❌ NOT as standalone section after "Try With AI"
+
+**Rationale**:
+- "What's Next" tells students what they'll learn instead of actual learning (meta-commentary without substance)
+- "Key Takeaways" duplicates learning objectives already stated at lesson start (redundancy)
+- Standalone Safety Notes add final section without serving learning objective (violates minimal content)
+- Students experience course through learning, not through reading about course structure
+
+**Validation**:
+```bash
+# Check lesson ends with "Try With AI" as ONLY final section
+tail -50 lesson.md | grep -E "^## " | tail -1
+# Expected: "## Try With AI"
+
+# Check no forbidden sections after "Try With AI"
+awk '/^## Try With AI/,0' lesson.md | grep -E "^## (What's Next|Key Takeaways|Summary|Safety Note)"
+# Expected: Zero matches
+```
 
 ---
 

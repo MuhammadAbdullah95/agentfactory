@@ -596,6 +596,4 @@ How does creating commits help me when I'm working with AI-generated code?
 - You can revert if AI-generated code breaks things
 - Multiple commits allow you to experiment safely
 
-**Verification**: If ChatGPT's answers match your understanding from this lesson, you've successfully learned the core concepts. If something doesn't match, ask ChatGPT to clarify, and then re-read the relevant section above.
-
-**Safety Note**: ChatGPT may occasionally explain Git concepts inaccurately or overly technically for your current level. Use your judgment—if the explanation doesn't match what you observed in this lesson, trust what you observed over what ChatGPT says. Git's behavior doesn't lie.
+**Verification**: If ChatGPT's answers match your understanding from this lesson, you've successfully learned the core concepts. If something doesn't match, ask ChatGPT to clarify, and then re-read the relevant section above. Remember: if ChatGPT's explanation doesn't match what you observed in this lesson, trust what you observed—Git's behavior doesn't lie.
