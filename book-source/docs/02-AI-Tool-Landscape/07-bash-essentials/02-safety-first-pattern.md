@@ -462,6 +462,8 @@ Here's what REAL dialogues look like. Try these with your AI tool and see how yo
 
 **Notice**: Gemini asked YOU to clarify what "old" means. **This is the agent asking Step 4 questions on your behalf.** You still get to decide safety parameters before anything happens.
 
+**Observation**: Notice how Gemini asked YOU to clarify what "old" means—this demonstrates AI as student, learning project-specific context from you. You refined AI's understanding through your constraints.
+
 ---
 
 ### Real Example 3: File Organization (Agent Hit Limitations)

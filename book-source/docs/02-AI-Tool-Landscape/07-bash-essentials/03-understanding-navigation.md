@@ -264,12 +264,7 @@ Show me how you navigate through folders.
 | Go back up | `cd ..` | `cd ..` |
 | Confirm location | `/Users/yourname` | (AI's path) |
 
-**Observation**:
-- Are the commands identical? (Yes—both use `cd`, `..`, folder names)
-- Is the pattern the same? (Yes—down into a folder, back up with `..`)
-- Do paths differ? (Yes—different computers, different projects)
-
-**Key Insight**: You and your AI navigate using the same commands. You can read and verify navigation paths because you've navigated yourself.
+**Observation**: Notice how you and your AI use identical commands (`cd`, `..`) but in different locations. This is co-learning—you understand AI's navigation because you've practiced the same pattern yourself. When AI suggests a path, you can verify it makes sense.
 
 ---
 
@@ -286,6 +281,8 @@ Walk me through the safety steps for navigation.
 
 **Expected Response**:
 Your AI will describe showing location with `pwd` and listing folders with `ls` before any operation. This is the foundation of safe collaboration—verifying location before taking action.
+
+**Key Insight**: By navigating yourself first, you built the mental model to supervise AI's navigation. You're not blindly trusting—you're collaborating from understanding.
 
 ---
 
