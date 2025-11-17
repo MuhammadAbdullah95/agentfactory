@@ -83,13 +83,16 @@ constitution_version: "6.0.0"
 
 # Cloud Backup & Portfolio - GitHub Integration
 
-## Catastrophe Prevention + Career Advancement
+## Backup Your Work + Build Your Portfolio
 
-Your computer crashes. Your hard drive fails. Your project folder corrupts. Everything you've built is gone.
+What if your computer crashes tomorrow? All your projects, gone.
 
-**Except it doesn't have to be.**
+**GitHub prevents this.** It's a cloud platform that stores your code online—safe from hardware failures.
 
-GitHub is your safety net—a cloud platform where you can store your projects online. But it's more than backup. GitHub is also your **portfolio**. When you share your GitHub profile with employers, clients, or collaborators, they see your projects, your commit history, your problem-solving approach. It's like showing your actual work rather than just talking about it.
+**Bonus:** GitHub is also your portfolio. Share your GitHub profile with employers and they see:
+- Your actual projects (not just claims on a resume)
+- Your commit history (proof you build things)
+- How you solve problems
 
 In this lesson, you'll:
 1. Create a free GitHub account
@@ -212,6 +215,11 @@ echo ".env" >> .gitignore
 git add .gitignore
 git commit -m "Add gitignore for secrets"
 ```
+
+**What these commands do:**
+- `echo "config.json" > .gitignore` = create `.gitignore` file with "config.json" as first line
+- `echo ".env" >> .gitignore` = append ".env" as second line (the `>>` adds without replacing)
+- `.gitignore` file format: one filename per line (any files matching these names won't be uploaded)
 
 **Why**: `.gitignore` tells Git which files to ignore. Secrets stay on your computer, never uploaded to GitHub.
 
@@ -591,30 +599,3 @@ What are some GitHub best practices I should follow as I push more projects?
 **Verification**: If AI's suggestions align with what you learned, you understand GitHub's purpose. If something seems wrong, ask ChatGPT to clarify.
 
 **Safety Note**: ChatGPT may suggest advanced features (GitHub Actions, GitHub Pages, etc.). These are helpful but not required now. You've mastered the essentials: backup and portfolio.
-
----
-
-## What You've Accomplished
-
-✅ Created GitHub account and portfolio identity
-✅ Created GitHub repository for your project
-✅ Protected secrets with .gitignore
-✅ Connected local repository to GitHub remote
-✅ Pushed commits to cloud (backup achieved)
-✅ Verified code recovery (tested cloning)
-✅ Experienced AI collaboration across three roles (Teacher/Student/Co-Worker)
-✅ Understood GitHub as both backup and portfolio platform
-
-**You now have cloud backup AND a shareable portfolio. Catastrophe prevention + career advancement achieved.**
-
----
-
-## Next Steps
-
-Before moving to Lesson 5, verify:
-- ✅ Your GitHub repository contains your project files
-- ✅ You can navigate to `github.com/yourname/your-repo` and see your code
-- ✅ Your commit history is visible on GitHub
-- ✅ You understand why `.gitignore` matters for security
-
-In Lesson 5, you'll learn Pull Requests—the professional workflow for proposing and reviewing changes, especially important when working with AI-generated code.

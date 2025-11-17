@@ -28,13 +28,19 @@ workflow: /sp.implement
 version: 1.0.0
 ---
 
-# Testing AI Safely with Branches: Parallel Universes for AI Experimentation
+# Testing AI Safely with Branches
 
-Imagine you're working on a feature and Claude Code suggests two completely different approaches. Which one is better? Faster? More maintainable? You can't test both simultaneously on the same code—without Git branches, you'd have to choose one, implement it, then discard it to try the other.
+## Parallel Testing for AI Experiments
 
-**Branches are Git's answer to this dilemma.** Think of a branch as a parallel universe where you can test changes without affecting your main codebase. You can create multiple branches, let AI generate solutions on each one, test them all in isolation, and then merge the winner back to main. If a branch experiment fails? Delete it and move on. Your main code was never at risk.
+Imagine Claude Code suggests two different approaches to solve a problem. Which is better? Without branches, you'd implement one, delete it, then try the other. **Branches let you test both simultaneously.**
 
-This lesson teaches you to use branches as **safe parallel testing environments for AI-generated code**, demonstrating how you and AI work together to evaluate options, iterate on approaches, and converge on the best solution.
+Think of a branch as a parallel universe. You can:
+- Create multiple branches for different AI solutions
+- Test each one safely (main code stays untouched)
+- Compare results
+- Merge the winner, delete the rest
+
+This lesson shows you how to use branches for **safe parallel testing** with AI-generated code.
 
 ---
 
@@ -135,6 +141,11 @@ Strategy: Keep it minimal
 - Quick to implement
 EOF
 ```
+
+**What this command does:**
+- `cat > approach-simple.txt << 'EOF'` = create file with multiple lines (from Lesson 2)
+- Everything between the first `EOF` and last `EOF` becomes the file content
+- Result: creates `approach-simple.txt` with the solution approach text inside
 
 **Add and commit on your branch:**
 
@@ -503,25 +514,3 @@ on the same project? What additional practices would matter?"
 **Optional Stretch:**
 
 Create three actual branches with different naming styles and merge one into main. Practice the full workflow: create → test → merge → delete.
-
----
-
-## What You've Accomplished
-
-By completing this lesson, you can now:
-
-1. ✅ **Create isolated development branches** for testing AI-generated code
-2. ✅ **Switch between branches** without affecting your main codebase
-3. ✅ **Recognize why branches exist** (safe parallel testing)
-4. ✅ **Merge tested branches** back into main when they work
-5. ✅ **Delete completed experiments** to keep your repository clean
-6. ✅ **Experience bidirectional learning** with AI (AI teaches patterns, you teach constraints, together you improve)
-7. ✅ **Distinguish branches from commits** (when to use which)
-
-**Most importantly:** You now have a concrete workflow for testing multiple AI suggestions safely. No more "implement one thing, discard it to try another." Branches let you test them all, compare, and keep the winner.
-
-Next lesson: **Cloud Backup & Portfolio** — pushing your Git repository to GitHub for backup and sharing.
-
----
-
-**Lesson Complete.** You can now create, switch, and merge branches with confidence. You've experienced AI as Teacher (learning patterns), Student (teaching it your constraints), and Co-Worker (converging on better solutions together).

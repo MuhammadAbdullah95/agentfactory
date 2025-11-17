@@ -210,11 +210,16 @@ Initialized empty Git repository in /Users/yourname/my-first-project/.git/
 
 ### Observation Prompt
 
-Look at your folder:
+Look at your folder to see the hidden `.git` directory:
 
 ```bash
 ls -la
 ```
+
+**What this command does:**
+- `ls` = list files in current directory
+- `-l` = show detailed information (permissions, size, date)
+- `-a` = show **all** files, including hidden ones (those starting with `.`)
 
 **You should see:**
 
@@ -244,7 +249,12 @@ echo "Hello, World! This is my first project." > hello.txt
 echo "My First Project - Experimenting with AI" > README.md
 ```
 
-You've created two files. Git doesn't know about them yet.
+**What these commands do:**
+- `echo` = print text to the screen (or in this case, into a file)
+- `>` = redirect the text into a new file (creates the file if it doesn't exist)
+- `hello.txt` and `README.md` = the filenames we're creating
+
+**Result**: You've created two files with text inside them. Git doesn't know about them yet.
 
 ### Activity 2.2: Check Git Status
 
@@ -385,15 +395,10 @@ git commit -m "Initial commit: first project files"
  create mode 100644 hello.txt
 ```
 
-**What This Means:**
-
-| Line | Meaning |
-|------|---------|
-| `[main (root-commit)` | Save point created on main branch (your first commit) |
-| `00b5fe3` | Unique identifier (hash) for this save point |
-| `Initial commit:...` | Your commit message explaining what changed |
-| `2 files changed` | Two files included in this save point |
-| `2 insertions(+)` | Two files added |
+**What happened:**
+- ✅ Created your first save point (commit) on the `main` branch
+- ✅ Git assigned it a unique ID: `00b5fe3`
+- ✅ Both files are now protected in this save point
 
 ### Activity 4.2: Verify the Commit
 
@@ -594,28 +599,3 @@ How does creating commits help me when I'm working with AI-generated code?
 **Verification**: If ChatGPT's answers match your understanding from this lesson, you've successfully learned the core concepts. If something doesn't match, ask ChatGPT to clarify, and then re-read the relevant section above.
 
 **Safety Note**: ChatGPT may occasionally explain Git concepts inaccurately or overly technically for your current level. Use your judgment—if the explanation doesn't match what you observed in this lesson, trust what you observed over what ChatGPT says. Git's behavior doesn't lie.
-
----
-
-## What You've Accomplished
-
-✅ Created your first Git repository with `git init`
-✅ Observed project state with `git status`
-✅ Staged files using `git add`
-✅ Created first commit with meaningful message
-✅ Understood commits as safety nets for AI experimentation
-✅ Discovered the staging area concept through observation
-✅ Verified your learning with AI explanation
-
-**You now have the manual foundation needed for AI-assisted Git workflows in upcoming lessons.**
-
----
-
-## Next Steps
-
-You've mastered the basic Git workflow. In Lesson 2, you'll learn how to view changes and undo mistakes safely—essential skills for confidently experimenting with AI-generated code.
-
-Before moving on:
-- ✅ Verify you can create a new folder and initialize Git
-- ✅ Confirm you understand what "staged" vs "untracked" means
-- ✅ Articulate one reason why commits are important for AI safety
