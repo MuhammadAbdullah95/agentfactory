@@ -673,7 +673,7 @@ git log --oneline --graph
 **From Spec (SC-002, SC-005, SC-007, SC-008)**:
 - ✅ SC-002: Executed core workflow (init → add → commit → push) successfully
 - ✅ SC-005: Committed AI-generated code within 30 seconds of generation
-- ✅ SC-007: Completed branch workflow in less than 5 minutes (create → test → merge)
+- ✅ SC-007: Completed branch workflow in under 5 minutes (create → test → merge)
 - ✅ SC-008: Documented AI assistance in PR (100% attribution)
 
 **Portfolio Impact**:
