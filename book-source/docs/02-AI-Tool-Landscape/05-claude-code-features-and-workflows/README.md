@@ -34,3 +34,84 @@ By the end of this chapter, you'll have:
 9. **Complete Extensibility** (Lesson 9) — Discovering and using plugins from marketplaces, hands-on installation of Anthropic's official skills repository
 
 Let's get a fully personalized, extensible AI companion ready for sophisticated AI-Driven Development workflows throughout the course
+
+---
+
+## Stage Progression: L1→L2→L3→L4
+
+This chapter follows the **4-Layer Teaching Method**, where each lesson builds your capabilities progressively:
+
+### Stage 1: Manual Foundation (Lessons 1-2)
+**What**: Understand agentic AI and get Claude Code working on your machine
+**Why**: You need to see how Claude Code differs from passive AI before we add complexity
+**Lessons**:
+- Lesson 1: Origin story and paradigm shift (mental model)
+- Lesson 2: Installation and authentication (working tool)
+
+### Stage 2: AI Collaboration (Lessons 3-7)
+**What**: Learn each major feature while collaborating with Claude Code
+**Why**: Each feature is more powerful with hands-on practice and Three Roles co-learning (AI teaches, you teach, convergence)
+**Lessons**:
+- Lesson 3: CLAUDE.md (persistent context—foundation for everything else)
+- Lesson 4: MCP (external integrations via safe protocols)
+- Lesson 5: Subagents (specialized assistants for complex tasks)
+- Lesson 6: Skills (reusable capabilities you design)
+- Lesson 7: Hooks (event-driven automation)
+
+### Stage 3: Intelligence Design (Lesson 8)
+**What**: Understand how to organize Claude Code for teams
+**Why**: Configuration hierarchy enables shared standards (team settings) + personal customization (local settings)
+**Lesson**:
+- Lesson 8: Settings hierarchy (user/project/local precedence)
+
+### Stage 4: Spec-Driven Integration (Lesson 9)
+**What**: Discover and use plugins that compose everything from Lessons 1-8
+**Why**: Capstone demonstrates that plugins = bundled skills + subagents + hooks + MCP = reusable organizational intelligence
+**Lesson**:
+- Lesson 9: Plugins from marketplace (composition pattern)
+
+---
+
+## Visual Stage Progression
+
+```
+┌─────────────────────────────────────────────────┐
+│ Stage 1: Manual Foundation (Lessons 1-2)       │
+│ ═══════════════════════════════════════════════ │
+│ Paradigm Shift → Installation & Setup          │
+│ (Mental model + working tool)                   │
+└──────────────┬──────────────────────────────────┘
+               ↓
+┌─────────────────────────────────────────────────┐
+│ Stage 2: AI Collaboration (Lessons 3-7)        │
+│ ═══════════════════════════════════════════════ │
+│ Context → External APIs → Subagents →          │
+│ Skills → Event Automation                       │
+│ (Each lesson: AI teaches, you teach,           │
+│  together convergence)                          │
+└──────────────┬──────────────────────────────────┘
+               ↓
+┌─────────────────────────────────────────────────┐
+│ Stage 3: Intelligence Design (Lesson 8)        │
+│ ═══════════════════════════════════════════════ │
+│ Settings Hierarchy: Personal + Team + Local    │
+│ (Organizational capability configuration)       │
+└──────────────┬──────────────────────────────────┘
+               ↓
+┌─────────────────────────────────────────────────┐
+│ Stage 4: Spec-Driven Composition (Lesson 9)    │
+│ ═══════════════════════════════════════════════ │
+│ Plugins = Skills + Subagents + Hooks + MCP     │
+│ (Reusable organizational intelligence)         │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## How to Use This Chapter
+
+**If you're new to Claude Code**: Follow Lessons 1-9 in order. Each builds on the previous.
+
+**If you already have Claude Code**: Start with Lesson 3 (CLAUDE.md) to unlock context management, then choose features (Lessons 4-7) based on your workflow needs.
+
+**If you're evaluating Claude Code for your team**: Review Lesson 8 (Settings) for team collaboration patterns and Lesson 9 (Plugins) for ecosystem extensibility.

@@ -1,18 +1,68 @@
 ---
-sidebar_position: 9
 title: "Discovering and Using Claude Code Plugins"
-duration: "10-12 min"
-learning_objectives:
-  - "Understand plugins as bundled capabilities (skills + agents + hooks + MCP)"
-  - "Discover available plugins through marketplaces"
-  - "Install and use pre-built plugins from Anthropic's skills repository"
-  - "Recognize when a plugin solves your workflow needs"
+sidebar_position: 9
+chapter: 5
+lesson: 9
+duration_minutes: 11
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 4"
+layer_progression: "L4 (Spec-Driven Composition - capstone)"
+layer_1_foundation: "N/A"
+layer_2_collaboration: "AI helps discover appropriate plugins for workflow needs, student evaluates plugin fit before installation"
+layer_3_intelligence: "Understanding plugin manifest structure as composition of accumulated intelligence (skills + agents + hooks + MCP)"
+layer_4_capstone: "Installing and orchestrating pre-built plugins, recognizing when to compose existing capabilities vs build custom, evaluating plugin marketplaces for workflow needs"
+
+# HIDDEN SKILLS METADATA
 skills:
   - name: "Leveraging Claude Code Ecosystem and Plugins"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can discover plugins through marketplaces, install pre-built plugins from Anthropic's repository, understand plugin composition architecture, and recognize when plugins solve workflow needs vs requiring custom development"
+
+learning_objectives:
+  - objective: "Understand plugins as bundled capabilities (skills + agents + hooks + MCP)"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of plugin manifest structure and component composition"
+  - objective: "Discover available plugins through marketplaces"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Navigation of Anthropic skills repository and marketplace listing"
+  - objective: "Install and use pre-built plugins from Anthropic's skills repository"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful installation of example-skills bundle using /plugin commands"
+  - objective: "Recognize when a plugin solves your workflow needs"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Decision analysis comparing existing plugin capabilities vs custom development requirements"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (plugin definition, component bundling, marketplaces, plugin manifest, /plugin commands, Anthropic skills repository, composition architecture, evaluation criteria) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Create custom plugin manifests bundling organization-specific capabilities; design multi-marketplace distribution strategies"
+  remedial_for_struggling: "Install example-skills and use canvas-design skill before understanding plugin architecture; practical experience before theoretical composition"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility
+prerequisites:
+  - "Lessons 1-8: Complete understanding of all Claude Code features"
+  - "Understanding of composition and orchestration"
 ---
 
 # Discovering and Using Claude Code Plugins
@@ -47,6 +97,9 @@ You've learned to create skills, use subagents, and connect MCP servers. But wha
 
 **Key insight**: You don't need to build everything yourself. Marketplaces provide ready-to-use plugins created by Anthropic and the community.
 
+#### 💬 AI Colearning Prompt
+> "Explain how plugins bundle multiple Claude Code components (skills, agents, hooks, MCP). Why is bundling better than installing each component separately?"
+
 ---
 
 ## Discovering Plugins: Anthropic's Skills Marketplace
@@ -57,24 +110,9 @@ The easiest way to extend Claude Code is using **Anthropic's official skills rep
 
 The Anthropic skills marketplace provides **two main plugin bundles**:
 
-**1. example-skills** - Creative and Development Capabilities:
-- Algorithmic art using p5.js with particle systems
-- Visual design (canvas art, diagrams)
-- Web application testing via Playwright
-- HTML artifacts using React and Tailwind CSS
-- Slack GIF creation
-- Internal communications (reports, newsletters, FAQs)
-- Brand guidelines application
-- Theme styling
-- Skill creator guide
-- MCP server building guide
+**1. example-skills** - Creative and development capabilities (canvas design, web testing, communications, and more)
 
-**2. document-skills** - Document Processing Suite:
-- Word documents (.docx)
-- PDFs (.pdf)
-- PowerPoint presentations (.pptx)
-- Excel spreadsheets (.xlsx)
-- Advanced file manipulation capabilities
+**2. document-skills** - Document processing suite (Word, PDF, PowerPoint, Excel)
 
 ### How to Add the Skills Marketplace
 
@@ -89,64 +127,29 @@ In Claude Code, run:
 2. Downloads the marketplace configuration
 3. Marketplace appears as **"anthropic-agent-skills"** in your plugin list
 
-### Browse Available Plugins
+### Browse and Install Plugins
 
-After adding the marketplace:
-
-```bash
-/plugin
-```
-
-**What you'll see**: Interactive menu with options:
-1. Browse and install plugins
-2. Manage and uninstall plugins
-3. Add marketplace
-4. Manage marketplaces
-
-Select **"Browse and install plugins"** → **"anthropic-agent-skills"**
-
-**You'll see the two plugin bundles**:
-- ◯ document-skills (Word, PDF, Excel, PowerPoint processing)
-- ◯ example-skills (Creative, development, enterprise tools)
+After adding the marketplace, run `/plugin` to see an interactive menu that guides you through browsing and installing available plugins.
 
 ### Install a Plugin Bundle
 
-**Option 1: Via UI** (Recommended):
-1. Run `/plugin`
-2. Select "Browse and install plugins"
-3. Choose "anthropic-agent-skills"
-4. Select `example-skills` or `document-skills`
-5. Review what will be installed
-6. Click "Install now"
+Use the `/plugin` UI to browse and install, or run directly:
 
-**Option 2: Via Command**:
 ```bash
 /plugin install example-skills@anthropic-agent-skills
 ```
 
-Or for document processing:
-```bash
-/plugin install document-skills@anthropic-agent-skills
-```
-
-**What happens**:
-1. Claude Code downloads all skills in the bundle
-2. Installs them to `.claude/skills/` directory
-3. All skills become available for Claude to use automatically
+Claude Code downloads the skills bundle and installs it to `.claude/skills/`, making all skills immediately available.
 
 ### Test Your Installed Skills
 
-After installing `example-skills`, try:
+After installing `example-skills`, try asking Claude to create a visual diagram. The canvas-design skill will activate automatically when it detects visual/design requests.
 
-```
-Help me create a visual diagram showing how plugins, skills,
-subagents, and MCP servers work together in Claude Code
-```
+#### 🤝 Practice Exercise
 
-**What happens**:
-- Claude recognizes "visual diagram" trigger from the canvas-design skill
-- Loads the skill's instructions automatically
-- Creates visual output using the skill's capabilities
+> **Ask your AI**: "I just installed the example-skills plugin from Anthropic. List what capabilities this plugin provides. Then help me create a simple visual diagram showing how plugins, skills, and subagents relate to each other."
+
+**Expected Outcome**: You'll understand what the plugin bundle includes and see a skill in action (canvas-design creating a visual).
 
 ---
 
@@ -191,142 +194,33 @@ You can add marketplaces from:
 
 ## When to Use Existing Plugins vs. Create Custom
 
-**Use existing plugins when**:
-- Someone has already built what you need (check marketplaces first!)
-- You need standard capabilities (design, testing, document processing)
-- You want to follow established patterns (Anthropic's skills are well-designed)
+**Use existing plugins** when standard capabilities exist (design, testing, document processing). **Create custom** when your workflow is team-specific or no existing plugin matches your needs. Check marketplaces first.
 
-**Create custom skills/agents when**:
-- Your workflow is unique to your team/project
-- No existing plugin matches your needs
-- You're building company-specific capabilities (brand guidelines, internal processes)
-
-**Bottom line**: Don't reinvent the wheel. Check marketplaces first, customize later if needed.
+#### 🎓 Expert Insight
+> In AI-native development, knowing what already exists is more valuable than building from scratch. Check marketplaces first—leverage community intelligence before creating custom solutions. Reuse is strategic; reinvention is waste.
 
 ---
 
 ## Hands-On: Set Up the Anthropic Skills Marketplace
 
-Let's actually add the marketplace and install a plugin bundle.
-
-### Step 1: Start Claude Code
-
-In your terminal:
+### Step 1: Add the Marketplace
 
 ```bash
 claude
-```
-
-### Step 2: Add the Anthropic Skills Marketplace
-
-In the Claude Code session, type:
-
-```
 /plugin marketplace add anthropics/skills
 ```
 
-**Expected output**:
-```
-⎿ Successfully added marketplace: anthropic-agent-skills
-```
+### Step 2: Install a Plugin Bundle
 
-The marketplace is now added! It appears as **"anthropic-agent-skills"** in the plugin system.
-
-### Step 3: Browse Available Plugins
-
-Type:
-
-```
-/plugin
+```bash
+/plugin install example-skills@anthropic-agent-skills
 ```
 
-**What you'll see**: Interactive menu:
-```
-╭─────────────────────────────────────────────────╮
-│ Plugins                                         │
-│                                                 │
-│ ❯ 1. Browse and install plugins                │
-│   2. Manage and uninstall plugins               │
-│   3. Add marketplace                            │
-│   4. Manage marketplaces                        │
-╰─────────────────────────────────────────────────╯
-```
+### Step 3: Test the Installation
 
-Select **"1. Browse and install plugins"**
+Ask Claude: "What skills do you have available?" You should see the installed skills listed.
 
-### Step 4: Select the Marketplace
-
-You'll see:
-```
-╭─────────────────────────────────────────────────╮
-│ Select marketplace                              │
-│                                                 │
-│ ❯ anthropic-agent-skills                       │
-│   2 plugins available                           │
-╰─────────────────────────────────────────────────╯
-```
-
-Select **"anthropic-agent-skills"**
-
-### Step 5: Choose a Plugin to Install
-
-You'll see:
-```
-╭─────────────────────────────────────────────────╮
-│ anthropic-agent-skills › Install plugins        │
-│                                                 │
-│ ❯ ◯ document-skills                            │
-│     Collection of document processing suite...  │
-│                                                 │
-│   ◯ example-skills                             │
-│     Collection of example skills demonstrating...│
-╰─────────────────────────────────────────────────╯
-```
-
-**Let's install `example-skills`** — select it, then choose **"Install now"**
-
-**What happens**:
-```
-Installing example-skills...
-✓ Downloaded plugin bundle
-✓ Installed skills to .claude/skills/
-✓ example-skills ready to use
-```
-
-### Step 6: Verify Installation
-
-Back in Claude Code, ask:
-
-```
-What skills do you have available?
-```
-
-**Expected response**: Claude lists the skills from example-skills bundle, including:
-- Skill creator
-- Canvas design
-- Algorithmic art
-- Web app testing
-- And more...
-
-### Step 7: Test a Skill (Optional)
-
-Try using one of the installed skills:
-
-```
-Help me create a simple visual diagram explaining what a plugin is
-```
-
-Claude should use the canvas-design skill to create visual output!
-
-### What You Just Did
-
-- ✅ Added Anthropic's official marketplace (`anthropic-agent-skills`)
-- ✅ Browsed available plugin bundles via interactive UI
-- ✅ Installed a real plugin bundle (`example-skills`)
-- ✅ Verified skills are now available for Claude to use
-- ✅ (Optional) Tested a skill from the bundle
-
-**This setup is permanent** — the marketplace and installed plugins stay available across all Claude Code sessions in this project.
+**What you just did**: Added Anthropic's marketplace and installed production-quality skills that are now available across all Claude Code sessions.
 
 ---
 
@@ -360,386 +254,106 @@ After using existing plugins, you can learn to create custom ones in advanced co
 
 ---
 
-## What Is a Plugin? (Architecture Reference)
+## Why This Matters: Composition as Organizational Practice
 
-A plugin directory (`.claude-plugin/`) can bundle:
+**Workflow Impact**: Plugins bundle everything you've learned (CLAUDE.md, MCP, Subagents, Skills, Hooks) into shareable, reusable packages.
 
-- **Skills** (autonomous capabilities discovered by Claude)
-- **Commands** (slash commands like `/code-review`)
-- **Agents** (specialized subagents with focused context)
-- **Hooks** (automation triggered by events like file saves)
-- **MCP Configuration** (external integrations)
+**Paradigm Connection**: This is L4—spec-driven composition. You define WHAT you need (design tools, testing automation, document processing), install the plugin, and orchestrate the capabilities.
 
-**A plugin is NOT a single feature—it's an integrated collection of extensions.**
+**Real-World Context**: Teams can distribute organizational intelligence as plugins. Your company's code review process, brand guidelines, deployment workflows—all packaged as plugins that work the same way for every team member.
 
-### Why Plugins Matter
-
-**Before Plugins** (scattered):
-- Skills in `.claude/skills/`
-- Subagents in `.claude/agents/`
-- MCP config in `~/.config/claude/`
-- Hooks scattered across your project
-
-**With Plugins** (unified):
-- Everything related to a feature bundled together
-- Share entire plugin with team or community
-- One installation installs entire integrated system
-- Version control and updates become simple
+**From scattered to unified**: Before plugins, skills lived in `.claude/skills/`, agents in `.claude/agents/`, MCP configs elsewhere. Plugins bundle everything into one installable package.
 
 ---
 
 ## Plugin Architecture: The Manifest
 
-Every plugin starts with a manifest file: `.claude-plugin/plugin.json`
+Every plugin has a `.claude-plugin/plugin.json` manifest listing its components:
 
 ```json
 {
   "name": "feature-dev",
   "version": "1.0.0",
-  "description": "Feature development plugin with code review, testing, and deployment hooks",
-
+  "description": "Feature development workflow",
   "components": {
-    "skills": [
-      { "path": "skills/code-quality-checker" },
-      { "path": "skills/test-coverage-analyzer" }
-    ],
-    "commands": [
-      { "name": "feature-dev", "path": "commands/feature-dev.md" },
-      { "name": "code-review", "path": "commands/code-review.md" }
-    ],
-    "agents": [
-      { "name": "test-orchestrator", "path": "agents/test-orchestrator.md" }
-    ],
-    "hooks": [
-      { "trigger": "PreToolUse", "path": "hooks/pre-tool-validation.md" }
-    ],
+    "skills": [{ "path": "skills/code-quality-checker" }],
+    "commands": [{ "name": "code-review", "path": "commands/code-review.md" }],
+    "agents": [{ "name": "test-orchestrator", "path": "agents/test-orchestrator.md" }],
+    "hooks": [{ "trigger": "PreToolUse", "path": "hooks/pre-tool-validation.md" }],
     "mcp_config": "mcp-servers.json"
   }
 }
 ```
 
-**What this says**: *"This plugin includes 2 skills, 2 commands, 1 agent, 1 hook, and MCP configuration."*
-
-### Inside a Plugin Directory Structure
-
-```
-.claude-plugin/
-├── plugin.json                    # Manifest
-├── commands/
-│   ├── feature-dev.md             # Slash command: /feature-dev
-│   └── code-review.md             # Slash command: /code-review
-├── agents/
-│   └── test-orchestrator.md       # Specialized subagent for testing
-├── skills/
-│   ├── code-quality-checker/
-│   │   ├── SKILL.md               # Skill definition
-│   │   └── scripts/
-│   │       └── analyzer.py        # Implementation script
-│   └── test-coverage-analyzer/
-│       ├── SKILL.md
-│       └── scripts/
-│           └── coverage.py
-├── hooks/
-│   └── pre-tool-validation.md     # Runs before tool execution
-└── mcp-servers.json               # External integrations
-```
-
-**Key insight**: A **single plugin** can deliver capabilities at multiple levels. The `feature-dev` plugin gives you:
-
-- ✅ Autonomous skills (code quality checking, coverage analysis)
-- ✅ Explicit commands (`/code-review`, `/feature-dev`)
-- ✅ Specialized agents (test orchestration)
-- ✅ Automation hooks (pre-execution validation)
-- ✅ External integrations (GitHub MCP for issue tracking)
+**A single plugin can bundle skills, commands, agents, hooks, and MCP—everything you've learned in Lessons 1-8.**
 
 ---
 
-## The Relationship Hierarchy: Plugins Contain Everything
+## How Components Work Together
 
-Here's how all the pieces fit together:
+**Skills**: Claude discovers and uses autonomously
+**Commands**: You invoke explicitly with `/command-name`
+**Agents**: Specialized assistants for focused tasks
+**Hooks**: Event-triggered automation
+**MCP**: External integrations
 
-```
-┌─────────────────────────────────────────────────────┐
-│                    PLUGIN (Container)               │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐  │
-│  │         SKILLS (Autonomous Discovery)        │  │
-│  │  • Code quality checker (autonomous)         │  │
-│  │  • Test coverage analyzer (autonomous)       │  │
-│  │  • Compliance checker (autonomous)           │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐  │
-│  │        COMMANDS (Explicit Slash Cmds)        │  │
-│  │  • /code-review                              │  │
-│  │  • /feature-dev                              │  │
-│  │  • /deploy                                   │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐  │
-│  │      AGENTS (Specialized Subagents)          │  │
-│  │  • test-orchestrator (runs tests)            │  │
-│  │  • security-auditor (checks vulnerabilities)│  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐  │
-│  │     HOOKS (Event-Triggered Automation)       │  │
-│  │  • PreToolUse: Validate before execution    │  │
-│  │  • PostToolUse: Log execution results        │  │
-│  │  • SessionStart: Initialize context          │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐  │
-│  │  MCP CONFIGURATION (External Integrations)  │  │
-│  │  • GitHub MCP (@github activation)          │  │
-│  │  • Filesystem MCP (@filesystem activation)  │  │
-│  │  • Jira MCP (@jira for issue tracking)      │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-```
-
-**Interpretation**:
-- **Skills** = Claude discovers and uses autonomously based on context
-- **Commands** = You explicitly invoke with `/command-name`
-- **Agents** = Specialized AI assistants you delegate to for focused tasks
-- **Hooks** = Automation triggered by events (file saves, session start, etc.)
-- **MCP** = External integrations (APIs, databases, web services)
-
-**All bundled in one plugin** for easy sharing and installation.
+**All bundled in one plugin** for easy sharing.
 
 ---
 
 ## Skill Best Practices Reference
 
-Now that you've learned to discover and use existing plugins, this reference section provides guidance for when you're ready to **create your own skills** (advanced content, typically Part 5+).
+**When you're ready to create custom skills** (covered in Lesson 6, advanced implementation in Part 5+), follow these patterns:
 
-**You learned the basics of skill creation in Lesson 6.** This section provides deeper best practices for writing production-quality skills.
-
----
-
-### Writing Effective Descriptions
-
-The skill description is the most critical part of your SKILL.md file. Claude uses it to decide when to invoke your skill.
-
-**Good description pattern**:
+### 1. Write Clear Descriptions
+Include activation triggers and examples in your SKILL.md:
 ```markdown
 # Description
 This skill [what it does] by [how it does it].
 
 Use this skill when:
-- [Specific trigger scenario 1]
-- [Specific trigger scenario 2]
-- [Specific trigger scenario 3]
+- [Specific trigger scenario]
+- [Another trigger scenario]
 
 Examples:
-- "Help me [example user request 1]"
-- "I need to [example user request 2]"
+- "Help me [example request]"
 ```
 
-**Why this works**: The "Use this skill when" section gives Claude clear activation triggers. The examples show realistic user language patterns.
+### 2. Keep Skills Focused
+One skill, one workflow. Don't create "mega-skills"—Claude can compose multiple focused skills together.
 
-**Example (Good)**:
-```markdown
-# Description
-This skill extracts form data from PDF documents and converts it to structured JSON.
+### 3. Start Simple, Iterate
+V1: Basic description + happy path
+V2: Add error handling from real usage
+V3: Production-grade with validation
 
-Use this skill when:
-- User uploads a PDF and asks to extract form fields
-- User needs to convert PDF forms to JSON/CSV
-- User mentions "PDF form data" or "extract PDF fields"
+### 4. Avoid Common Pitfalls
+- ❌ Vague descriptions ("helps with tasks")
+- ❌ Technology lock-in (hardcoded frameworks)
+- ❌ No examples (abstract triggers)
 
-Examples:
-- "Extract the form data from this uploaded PDF"
-- "I need to convert this PDF application to JSON"
-```
-
-**Example (Bad)**:
-```markdown
-# Description
-PDF processor
-```
-
-**What's missing**: No activation triggers, no examples of user language, too vague about what "processing" means.
-
----
-
-### Keep Skills Focused
-
-**One skill, one workflow.** Don't create "mega-skills" that try to do everything.
-
-**Good (Focused)**:
-- Skill 1: Extract PDF form data → JSON
-- Skill 2: Merge multiple PDFs into one
-- Skill 3: Split PDF by page range
-
-**Bad (Mega-Skill)**:
-- Skill: "PDF-Tools" (does extraction, merging, splitting, conversion, OCR, annotation...)
-
-**Why focused is better**:
-- Easier to maintain (one workflow, one place)
-- Claude can compose skills (use Skill 1 + Skill 2 together when needed)
-- Clear activation triggers (no ambiguity about when to use it)
-- Simpler testing and debugging
-
-**Rule of thumb**: If your skill description has "and" more than twice, consider splitting it.
-
----
-
-### Start Simple, Iterate
-
-Don't try to build the perfect skill on your first attempt. Start with a basic version, use it, then improve based on real usage.
-
-**Iteration pattern**:
-
-**Version 1 (Minimal Viable Skill)**:
-- Basic SKILL.md with description and simple prompt template
-- No scripts, no external dependencies
-- Handles the happy path only
-
-**Version 2 (After Real Usage)**:
-- Add error handling for edge cases you discovered
-- Add examples for common failure scenarios
-- Refine activation triggers based on when Claude used it incorrectly
-
-**Version 3 (Production-Grade)**:
-- Add implementation scripts if needed (Python, Bash, etc.)
-- Add validation and safety checks
-- Document prerequisites and dependencies
-
-**Example progression**:
-
-**V1**: "Extract PDF form data" (basic description, calls external tool)
-**V2**: "Extract PDF form data with error handling" (handles corrupt PDFs, missing fields)
-**V3**: "Extract PDF form data (production)" (validates output, supports multiple PDF formats, logs results)
-
-**Why this works**: You learn what your skill actually needs by using it, not by guessing up front.
-
----
-
-### Common Pitfalls to Avoid
-
-**❌ Pitfall 1: Vague Descriptions**
-```markdown
-# Description
-Helps with database tasks
-```
-**Problem**: When should Claude use this? What does "helps" mean?
-
-**✅ Fix**:
-```markdown
-# Description
-This skill generates PostgreSQL migration scripts from plain English schema descriptions.
-
-Use this skill when:
-- User describes database schema changes in natural language
-- User needs to create a new table or modify an existing one
-- User mentions "database migration" or "schema change"
-```
-
----
-
-**❌ Pitfall 2: Technology Lock-In**
-```markdown
-# Description
-Generates React components using Material-UI and Redux
-```
-**Problem**: What if your team switches to Vue? Or uses a different state library?
-
-**✅ Fix**:
-```markdown
-# Description
-Generates UI component code from design specifications, following the project's
-framework and component library (detected from package.json or user preference).
-
-Use this skill when:
-- User describes a UI component they want to build
-- User provides a design mockup or wireframe
-- User asks to "create a component for [feature]"
-```
-
----
-
-**❌ Pitfall 3: No Examples**
-```markdown
-# Description
-Converts data formats
-
-Use when user needs data conversion.
-```
-**Problem**: Too abstract. Claude won't know when to activate this.
-
-**✅ Fix**:
-```markdown
-# Description
-Converts structured data between JSON, CSV, YAML, and TOML formats while preserving types and structure.
-
-Use this skill when:
-- User asks "convert this JSON to CSV"
-- User provides data in one format and needs it in another
-- User mentions format conversion (e.g., "I need this as YAML")
-
-Examples:
-- "Convert this JSON to CSV format"
-- "Take this CSV and give me a YAML file"
-- "Transform this config from TOML to JSON"
-```
-
----
-
-### Learn More: Official Skill Examples
-
-**Anthropic's skills repository** has production-quality examples you can learn from:
-
-📦 **Repository**: https://github.com/anthropics/skills
-
-**Recommended skills to study**:
-- `canvas-design` — Shows how to handle visual/creative tasks
-- `web-app-testing` — Demonstrates complex multi-step workflows
-- `skill-creator` — Meta-skill that helps you create new skills
-
-**What to look for**:
-- How do they structure descriptions?
-- What activation triggers do they use?
-- How detailed are their examples?
-- When do they use implementation scripts vs. pure prompts?
-
-**Learning strategy**: Pick a skill similar to what you want to build. Read its SKILL.md. Understand its structure. Adapt its patterns to your use case.
+### 5. Learn from Anthropic's Repository
+Study production examples at https://github.com/anthropics/skills (canvas-design, web-app-testing, skill-creator)
 
 ---
 
 ## Try With AI
 
-### Exercise 1: Explore the Skills Marketplace
+### Exercise 1: Install and Use a Plugin
 
 ```
-I added the Anthropic skills marketplace. Show me all available skills
-and recommend 3 that would be useful for [describe your workflow:
-content creation / web development / data analysis / etc.]
+Install example-skills from anthropics/skills, then help me create
+a visual diagram showing the Claude Code plugin architecture
 ```
 
-**Expected outcome**: Claude lists available skills and recommends relevant ones for your workflow.
+**Expected outcome**: Claude uses the canvas-design skill to create visual output.
 
-### Exercise 2: Install and Test a Skill
-
-```
-Install the canvas-design skill from anthropics/skills.
-Then help me create a simple flowchart showing how I use Claude Code
-in my daily workflow.
-```
-
-**Expected outcome**: Skill installs successfully, Claude uses it to create visual output.
-
-### Exercise 3: Understand When to Build vs. Use
+### Exercise 2: Decision Framework
 
 ```
-I need Claude to help with [describe a specific task].
-Should I:
-(a) Look for an existing skill in the marketplace
-(b) Create a custom skill
-(c) Just ask Claude directly without a skill
-
-Walk me through the decision process.
+I need Claude to help with [describe your specific task].
+Should I use an existing plugin, create a custom skill, or just ask directly?
+Walk me through the decision.
 ```
 
-**Expected outcome**: Understanding of when to use existing plugins vs. create custom capabilities.
+**Expected outcome**: Understanding when to use existing vs. custom capabilities.
