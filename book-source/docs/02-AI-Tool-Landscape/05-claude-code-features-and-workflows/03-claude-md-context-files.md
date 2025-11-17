@@ -1,24 +1,72 @@
 ---
-sidebar_position: 3
 title: "CLAUDE.md Context Files"
-duration: "8-10 min"
-stage: "L2"
-prerequisites:
-  - "Lesson 2: Claude Code installed and authenticated"
-  - "Understanding of project directory structure basics"
-learning_objectives:
-  - "Understand how CLAUDE.md provides persistent project context across sessions"
-  - "Create a complete CLAUDE.md file with all six standard sections"
-  - "Verify that CLAUDE.md auto-loads successfully in new Claude Code sessions"
-  - "Recognize what information belongs in CLAUDE.md vs what doesn't"
-  - "Understand CLAUDE.md as persistent context that eliminates repetition"
+sidebar_position: 3
+chapter: 5
+lesson: 3
+duration_minutes: 9
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 2"
+layer_progression: "L1 → L2 (AI Collaboration begins)"
+layer_1_foundation: "Understanding what persistent context is, CLAUDE.md file structure basics"
+layer_2_collaboration: "Co-creating CLAUDE.md with AI through iterative refinement, AI teaches optimal context structure, student teaches project specifics"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
   - name: "Creating Project Context with CLAUDE.md"
-    proficiency_level: "A2-B1"
+    proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Create"
     digcomp_area: "Digital Content Creation"
-concept_count: 6
+    measurable_at_this_level: "Student can create a complete CLAUDE.md file with 6 standard sections (project overview, file structure, standards, commands, context, getting started), collaborate with AI to refine context, verify auto-loading works, and distinguish appropriate vs inappropriate content for persistent context"
+
+learning_objectives:
+  - objective: "Understand how CLAUDE.md provides persistent project context across sessions"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of how CLAUDE.md eliminates repetitive context-providing and comparison to session-based context"
+  - objective: "Create a complete CLAUDE.md file with all six standard sections"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Creation of functional CLAUDE.md with project overview, file structure, standards, commands, context, getting started"
+  - objective: "Verify that CLAUDE.md auto-loads successfully in new Claude Code sessions"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Starting new session and confirming Claude has project context without manual prompting"
+  - objective: "Recognize what information belongs in CLAUDE.md vs what doesn't"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Evaluation of content appropriateness for persistent context (e.g., project standards YES, task details NO)"
+  - objective: "Understand CLAUDE.md as persistent context that eliminates repetition"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of Three Roles pattern where AI and student iteratively refine CLAUDE.md"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (persistent context, CLAUDE.md file format, 6 standard sections, auto-loading, context appropriateness, Three Roles collaboration) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Create multi-file CLAUDE.md structure with references, experiment with `.claud ignoreContext`, set up project-specific CLAUDE.md templates for team standardization"
+  remedial_for_struggling: "Use pre-built CLAUDE.md template, focus on 3 core sections only (project overview, file structure, getting started), skip advanced context management"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility (Docusaurus)
+prerequisites:
+  - "Lesson 2: Claude Code installed and authenticated"
+  - "Understanding of project directory structure basics"
 ---
 
 # CLAUDE.md Context Files
@@ -70,6 +118,9 @@ Here's the mechanism (you don't need to do anything—it's automatic):
 Every new session repeats this process. CLAUDE.md is always loaded, always available.
 
 **One-time setup. Automatic benefit forever.**
+
+#### 💬 AI Colearning Prompt
+> "Explain how Claude Code loads CLAUDE.md automatically at session start. What's the mechanism that makes this work without manual commands?"
 
 #### 🎓 Expert Insight
 

@@ -1,23 +1,68 @@
 ---
-sidebar_position: 7
 title: "Hooks and Extensibility"
-duration: "5-7 min"
-stage: "L2"
-prerequisites:
-  - "Lessons 2-6: Claude Code, CLAUDE.md, MCP, Subagents, Skills"
-  - "Understanding of event-driven automation"
-learning_objectives:
-  - "Understand hooks as event-triggered automation"
-  - "Create a simple SessionStart hook"
-  - "Recognize common hook events (PreToolUse, PostToolUse, SessionStart, SessionEnd)"
-  - "Test hooks in a real Claude Code session"
+sidebar_position: 7
+chapter: 5
+lesson: 7
+duration_minutes: 6
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 2"
+layer_progression: "L2 (AI Collaboration)"
+layer_1_foundation: "N/A"
+layer_2_collaboration: "Co-designing hooks for specific workflows (Step 5), AI as Teacher suggesting hook patterns, Student as Teacher providing workflow context, AI as Co-Worker refining hook commands"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA
 skills:
   - name: "Implementing Event-Driven Automation with Hooks"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-concept_count: 5
+    measurable_at_this_level: "Student can understand hook event types, create SessionStart hooks in settings.json, recognize automation opportunities, and co-design hooks through AI collaboration"
+
+learning_objectives:
+  - objective: "Understand hooks as event-triggered automation"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of hook architecture and event-trigger-action pattern"
+  - objective: "Create a simple SessionStart hook"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Creation of functional SessionStart hook that displays project context"
+  - objective: "Recognize common hook events (PreToolUse, PostToolUse, SessionStart, SessionEnd)"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Identification of appropriate hook events for different automation scenarios"
+  - objective: "Test hooks in a real Claude Code session"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Verification that hook executes correctly during session start"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (hooks definition, event types [PreToolUse/PostToolUse/SessionStart/SessionEnd], automation patterns, settings.json configuration, Three Roles co-design) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Create PostToolUse hooks for code formatting and test automation; design hook chains that trigger sequentially"
+  remedial_for_struggling: "Start with simple SessionStart echo message before adding project context; understand conceptually before implementing"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility
+prerequisites:
+  - "Lessons 2-6: Claude Code, CLAUDE.md, MCP, Subagents, Skills"
+  - "Understanding of event-driven automation"
 ---
 
 # Hooks and Extensibility
@@ -94,6 +139,9 @@ Here are three practical scenarios showing hooks in action:
 | **Environment Setup** | SessionStart | When new Claude Code session opens | Load variables from `.env` and run `source setup.sh` | Project context always ready without manual setup |
 
 Each hook saves time by automating what you would otherwise do manually after specific events.
+
+#### 💬 AI Colearning Prompt
+> "Explain the difference between PreToolUse and PostToolUse hooks. Give 2 examples where each would be more appropriate than the other."
 
 ---
 

@@ -1,24 +1,72 @@
 ---
-sidebar_position: 4
 title: "MCP Integration"
-duration: "12-15 min"
-stage: "L2"
-prerequisites:
-  - "Lessons 2-3: Claude Code working, CLAUDE.md understanding"
-  - "Understanding of external APIs and web services"
-learning_objectives:
-  - "Understand Model Context Protocol (MCP) as safe external system access for Claude Code"
-  - "Install and configure Playwright MCP for web browsing capabilities"
-  - "Install and configure Context7 MCP for up-to-date documentation retrieval"
-  - "Execute practical workflows: browsing websites and fetching current docs"
-  - "Apply security best practices when enabling external MCP server access"
+sidebar_position: 4
+chapter: 5
+lesson: 4
+duration_minutes: 14
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 2"
+layer_progression: "L2 (AI Collaboration)"
+layer_1_foundation: "MCP protocol basics, external system concepts"
+layer_2_collaboration: "Co-exploring MCP servers with AI (AI suggests use cases, student provides application context, convergence on safe integration patterns)"
+layer_3_intelligence: "N/A (MCP servers themselves are reusable, but lesson teaches usage not creation)"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
   - name: "Configuring MCP Servers for External Access"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Safety and Security"
-concept_count: 6
+    measurable_at_this_level: "Student can understand MCP as standardized external access protocol, install and configure MCP servers (Playwright for web browsing, Context7 for documentation), execute workflows integrating external data, and apply security best practices when enabling external access"
+
+learning_objectives:
+  - objective: "Understand Model Context Protocol (MCP) as safe external system access for Claude Code"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of how MCP enables Claude Code to access web, databases, APIs safely vs direct access"
+  - objective: "Install and configure Playwright MCP for web browsing capabilities"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful installation and test of Playwright MCP with web browsing task"
+  - objective: "Install and configure Context7 MCP for up-to-date documentation retrieval"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful installation and retrieval of current library documentation"
+  - objective: "Execute practical workflows: browsing websites and fetching current docs"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Completion of workflow combining MCP with Claude Code task execution"
+  - objective: "Apply security best practices when enabling external MCP server access"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Explanation of MCP security model and appropriate vs inappropriate MCP uses"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (MCP protocol, external access, Playwright MCP, Context7 MCP, security model, workflow integration) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Create custom MCP server for team-specific needs (database access, internal APIs), explore GitHub MCP, Filesystem MCP, configure multiple MCP servers with different security profiles"
+  remedial_for_struggling: "Focus on single MCP server (Playwright only), use pre-configured examples, skip Context7 initially"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility (Docusaurus)
+prerequisites:
+  - "Lessons 2-3: Claude Code working, CLAUDE.md understanding"
+  - "Understanding of external APIs and web services"
 ---
 
 # MCP Integration: Connecting to External Systems
@@ -78,6 +126,9 @@ MCP is the bridge between local context and external intelligence.
 - **Database MCP**: Lets Claude query databases
 
 Think of each MCP server as a **specialist** Claude Code can consult when needed.
+
+#### 💬 AI Colearning Prompt
+> "Explain how MCP provides safe external access compared to direct API calls. What security model does MCP use to protect user data?"
 
 ---
 
@@ -155,6 +206,9 @@ What happens:
 - Ask follow-ups: "show the exact CLI command to add a server via stdio" or "compare Context7 MCP vs GitHub MCP"
 
 **Tip**: This is your "know about anything new" button. Use it anytime you need the latest docs without hunting across websites.
+
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize documentation URLs or bookmark 47 different API reference sites—you understand WHEN you need authoritative documentation vs community knowledge. MCP servers like Context7 are your just-in-time research partners, not replacements for understanding.
 
 ---
 

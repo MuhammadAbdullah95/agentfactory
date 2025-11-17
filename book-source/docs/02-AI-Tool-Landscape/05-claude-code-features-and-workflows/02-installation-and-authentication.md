@@ -1,24 +1,72 @@
 ---
-sidebar_position: 2
 title: "Installing and Authenticating Claude Code"
-duration: "15-20 min"
-stage: "L1"
-prerequisites:
-  - "Terminal access (Windows/macOS/Linux)"
-  - "Claude account (Claude.ai or Console API)"
-learning_objectives:
-  - "Choose appropriate Claude Code installation method for your operating system"
-  - "Install Claude Code successfully using one of four installation methods"
-  - "Authenticate with either Claude.ai subscription or Console API account"
-  - "Verify Claude Code installation and authentication are working correctly"
-  - "Understand security best practices for file access and command execution"
+sidebar_position: 2
+chapter: 5
+lesson: 2
+duration_minutes: 18
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 1"
+layer_progression: "L1 (Manual Foundation)"
+layer_1_foundation: "Terminal-based AI tool installation, authentication workflows, command execution verification"
+layer_2_collaboration: "N/A"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
   - name: "Claude Code Installation and Authentication"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-concept_count: 8
+    measurable_at_this_level: "Student can evaluate multiple installation methods (Homebrew, npm, pipx, direct download), select appropriate method for their OS, execute installation commands, authenticate with Claude.ai or Console API, and verify working installation"
+
+learning_objectives:
+  - objective: "Choose appropriate Claude Code installation method for your operating system"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Selection of installation method with justification based on OS and existing tools"
+  - objective: "Install Claude Code successfully using one of four installation methods"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful execution of installation commands with troubleshooting if needed"
+  - objective: "Authenticate with either Claude.ai subscription or Console API account"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Completion of authentication workflow and API key configuration"
+  - objective: "Verify Claude Code installation and authentication are working correctly"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Execution of `claude --version` and successful first session"
+  - objective: "Understand security best practices for file access and command execution"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of sandbox mode, file access patterns, and command approval workflows"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (4 installation methods, authentication types, API keys, terminal commands, security/sandboxing, verification) - within B1 limit of 10 ✓ (Re-staged from A2 to B1 due to concept count and intermediate complexity)"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Set up multiple Claude Code installations with different API keys for different projects, configure custom shells (zsh/bash aliases), explore advanced authentication patterns"
+  remedial_for_struggling: "Focus on single installation method (Homebrew for macOS, npm for Windows/Linux), use Claude.ai authentication (simpler than Console API)"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility (Docusaurus)
+prerequisites:
+  - "Terminal access (Windows/macOS/Linux)"
+  - "Claude account (Claude.ai or Console API)"
 ---
 
 # Installing and Authenticating Claude Code
@@ -98,6 +146,9 @@ npm install -g @anthropic-ai/claude-code
 
 **Which method?** macOS/Linux: Method 1 (curl) or 2 (Homebrew); Windows: Method 3 (PowerShell); Node.js users: Method 4 (npm, cross-platform)
 
+#### 💬 AI Colearning Prompt
+> "Explain why package managers like Homebrew and npm are used for installing developer tools instead of manual downloads. What problem do they solve?"
+
 #### 🎓 Expert Insight
 > In AI-native development, terminal comfort is a skill multiplier. The 5 minutes you invest learning basic terminal commands unlocks 10x productivity with AI tools. You're not becoming a "terminal expert"—you're removing the friction between intent and execution.
 
@@ -133,6 +184,9 @@ Do you have a Claude.ai account?
 ```
 
 **If you have both**: Use Claude.ai authentication (Method A)—it's simpler and you can switch to Console authentication later if needed.
+
+#### 🎓 Expert Insight
+> In AI-native development, authentication isn't just about access—it's about resource management. Claude.ai (subscription) vs Console API (pay-per-use) represents different cost models. Understanding your usage patterns determines which path saves money.
 
 ---
 

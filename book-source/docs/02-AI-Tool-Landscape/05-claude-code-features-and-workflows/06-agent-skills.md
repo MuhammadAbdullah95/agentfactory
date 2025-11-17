@@ -1,24 +1,72 @@
 ---
-sidebar_position: 6
 title: "Agent Skills"
-duration: "8-10 min"
-stage: "L2"
-prerequisites:
-  - "Lessons 2-5: Claude Code, CLAUDE.md, MCP, Subagents"
-  - "Understanding of reusable components"
-learning_objectives:
-  - "Understand skills as reusable capabilities that extend Claude's knowledge"
-  - "Create a working SKILL.md file with YAML frontmatter and instructions"
-  - "Write effective skill descriptions that trigger autonomous discovery"
-  - "Improve skills through co-learning iteration with Claude"
-  - "Recognize when to use skills vs subagents"
+sidebar_position: 6
+chapter: 5
+lesson: 6
+duration_minutes: 9
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 2"
+layer_progression: "L2 (AI Collaboration)"
+layer_1_foundation: "N/A"
+layer_2_collaboration: "Co-learning skill refinement (Step 4), AI as Teacher suggesting improvements, Student as Teacher specifying constraints, convergence toward optimized skill design"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA
 skills:
   - name: "Designing Reusable Agent Skills"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Create"
     digcomp_area: "Digital Content Creation"
-concept_count: 7
+    measurable_at_this_level: "Student can create SKILL.md files with YAML frontmatter and clear instructions, write descriptions that trigger autonomous discovery, and refine skills through co-learning iteration"
+
+learning_objectives:
+  - objective: "Understand skills as reusable capabilities that extend Claude's knowledge"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of skill architecture and autonomous discovery mechanism"
+  - objective: "Create a working SKILL.md file with YAML frontmatter and instructions"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Creation of functional skill file with proper structure and activation triggers"
+  - objective: "Write effective skill descriptions that trigger autonomous discovery"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Skill description that successfully activates in appropriate contexts"
+  - objective: "Improve skills through co-learning iteration with Claude"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Refinement of skill through AI collaboration demonstrating Three Roles convergence"
+  - objective: "Recognize when to use skills vs subagents"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Decision analysis comparing skill and subagent appropriateness for given scenarios"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (skills definition, three-level loading, autonomous discovery, SKILL.md structure, skills vs subagents, intelligence accumulation, co-learning refinement) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Create skill suites with interdependencies; design skills that compose with MCP servers for advanced workflows"
+  remedial_for_struggling: "Start with blog-planner example from lesson; copy and adapt working skill structure before creating from scratch"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility
+prerequisites:
+  - "Lessons 2-5: Claude Code, CLAUDE.md, MCP, Subagents"
+  - "Understanding of reusable components"
 ---
 
 # Agent Skills: Teaching Claude New Capabilities
@@ -60,6 +108,9 @@ You could use a subagent—but that requires explicitly saying "Use the blog-pla
 
 **Use subagents when**: Task is complex, needs guaranteed execution, or requires separate context (multi-step refactoring, comprehensive audits)
 
+#### 💬 AI Colearning Prompt
+> "Explain the tradeoff between skills (automatic activation) and subagents (guaranteed invocation with isolated context). When would you choose one over the other?"
+
 ---
 
 ## How Skills Work: The Three-Level Architecture
@@ -98,6 +149,9 @@ Three patterns trigger skill activation:
 3. **Explicit Request**: "Use the blog-writer skill" → Direct activation
 
 **To see available skills**: Ask Claude "What skills do you have?" in any session. Skills are discovered through conversation, not system commands.
+
+#### 🎓 Expert Insight
+> In AI-native development, skills encode reasoning patterns, not just commands. You're not teaching Claude "run this script"—you're teaching "when you see THIS context, apply THAT framework." This makes organizational intelligence transferable across projects and teams.
 
 ---
 
@@ -175,7 +229,13 @@ Help me plan a blog post about learning AI tools
 
 Claude recognizes "blog post" trigger, loads the skill, and applies its workflow automatically.
 
-### Step 4: 🤝 Refine Your Skill Through Co-Learning
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I just created a blog-planner skill. Help me test it: suggest 3 blog topics related to [your interest area]. Then explain which parts of the skill activated and how Claude knew to use it."
+
+**Expected Outcome**: You'll understand how skill descriptions trigger activation and see the skill in action with your own content.
+
+### Step 4: Refine Your Skill Through Co-Learning
 
 Ask Claude to review your skill:
 ```

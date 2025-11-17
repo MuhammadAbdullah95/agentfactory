@@ -1,23 +1,68 @@
 ---
-sidebar_position: 9
 title: "Discovering and Using Claude Code Plugins"
-duration: "10-12 min"
-stage: "L4"
-prerequisites:
-  - "Lessons 1-8: Complete understanding of all Claude Code features"
-  - "Understanding of composition and orchestration"
-learning_objectives:
-  - "Understand plugins as bundled capabilities (skills + agents + hooks + MCP)"
-  - "Discover available plugins through marketplaces"
-  - "Install and use pre-built plugins from Anthropic's skills repository"
-  - "Recognize when a plugin solves your workflow needs"
+sidebar_position: 9
+chapter: 5
+lesson: 9
+duration_minutes: 11
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 4"
+layer_progression: "L4 (Spec-Driven Composition - capstone)"
+layer_1_foundation: "N/A"
+layer_2_collaboration: "AI helps discover appropriate plugins for workflow needs, student evaluates plugin fit before installation"
+layer_3_intelligence: "Understanding plugin manifest structure as composition of accumulated intelligence (skills + agents + hooks + MCP)"
+layer_4_capstone: "Installing and orchestrating pre-built plugins, recognizing when to compose existing capabilities vs build custom, evaluating plugin marketplaces for workflow needs"
+
+# HIDDEN SKILLS METADATA
 skills:
   - name: "Leveraging Claude Code Ecosystem and Plugins"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-concept_count: 8
+    measurable_at_this_level: "Student can discover plugins through marketplaces, install pre-built plugins from Anthropic's repository, understand plugin composition architecture, and recognize when plugins solve workflow needs vs requiring custom development"
+
+learning_objectives:
+  - objective: "Understand plugins as bundled capabilities (skills + agents + hooks + MCP)"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of plugin manifest structure and component composition"
+  - objective: "Discover available plugins through marketplaces"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Navigation of Anthropic skills repository and marketplace listing"
+  - objective: "Install and use pre-built plugins from Anthropic's skills repository"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful installation of example-skills bundle using /plugin commands"
+  - objective: "Recognize when a plugin solves your workflow needs"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Decision analysis comparing existing plugin capabilities vs custom development requirements"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (plugin definition, component bundling, marketplaces, plugin manifest, /plugin commands, Anthropic skills repository, composition architecture, evaluation criteria) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Create custom plugin manifests bundling organization-specific capabilities; design multi-marketplace distribution strategies"
+  remedial_for_struggling: "Install example-skills and use canvas-design skill before understanding plugin architecture; practical experience before theoretical composition"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility
+prerequisites:
+  - "Lessons 1-8: Complete understanding of all Claude Code features"
+  - "Understanding of composition and orchestration"
 ---
 
 # Discovering and Using Claude Code Plugins
@@ -51,6 +96,9 @@ You've learned to create skills, use subagents, and connect MCP servers. But wha
 **Think of plugins as**: Pre-built toolkits that extend Claude's capabilities in specific domains (design, testing, development, enterprise workflows).
 
 **Key insight**: You don't need to build everything yourself. Marketplaces provide ready-to-use plugins created by Anthropic and the community.
+
+#### 💬 AI Colearning Prompt
+> "Explain how plugins bundle multiple Claude Code components (skills, agents, hooks, MCP). Why is bundling better than installing each component separately?"
 
 ---
 
@@ -97,6 +145,12 @@ Claude Code downloads the skills bundle and installs it to `.claude/skills/`, ma
 
 After installing `example-skills`, try asking Claude to create a visual diagram. The canvas-design skill will activate automatically when it detects visual/design requests.
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I just installed the example-skills plugin from Anthropic. List what capabilities this plugin provides. Then help me create a simple visual diagram showing how plugins, skills, and subagents relate to each other."
+
+**Expected Outcome**: You'll understand what the plugin bundle includes and see a skill in action (canvas-design creating a visual).
+
 ---
 
 ## Plugin Marketplaces: Beyond Anthropic
@@ -141,6 +195,9 @@ You can add marketplaces from:
 ## When to Use Existing Plugins vs. Create Custom
 
 **Use existing plugins** when standard capabilities exist (design, testing, document processing). **Create custom** when your workflow is team-specific or no existing plugin matches your needs. Check marketplaces first.
+
+#### 🎓 Expert Insight
+> In AI-native development, knowing what already exists is more valuable than building from scratch. Check marketplaces first—leverage community intelligence before creating custom solutions. Reuse is strategic; reinvention is waste.
 
 ---
 

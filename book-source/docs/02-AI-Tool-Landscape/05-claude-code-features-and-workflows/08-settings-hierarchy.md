@@ -1,23 +1,68 @@
 ---
-sidebar_position: 8
 title: "Settings Hierarchy"
-duration: "4-6 min"
-stage: "L3"
-prerequisites:
-  - "Lessons 2-7: All prior Claude Code features understood"
-  - "Understanding of configuration management and team coordination"
-learning_objectives:
-  - "Understand Claude Code's three-level settings hierarchy"
-  - "Recognize precedence order: local > project > user"
-  - "Check which settings files exist on your system"
-  - "Know when to use each settings level"
+sidebar_position: 8
+chapter: 5
+lesson: 8
+duration_minutes: 5
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 3"
+layer_progression: "L3 (Intelligence Design - understanding configuration as organizational pattern)"
+layer_1_foundation: "N/A"
+layer_2_collaboration: "AI explains settings hierarchy conceptually, student verifies which settings exist on their system"
+layer_3_intelligence: "Understanding three-level hierarchy as reusable organizational intelligence pattern (user/project/local), recognizing when to apply each level for team collaboration"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA
 skills:
   - name: "Understanding Configuration Precedence and Hierarchy"
     proficiency_level: "B1"
     category: "Conceptual"
     bloom_level: "Understand"
     digcomp_area: "Problem-Solving"
-concept_count: 5
+    measurable_at_this_level: "Student can explain three-level settings hierarchy, identify precedence order (local > project > user), verify which settings files exist, and determine appropriate level for different configuration scenarios"
+
+learning_objectives:
+  - objective: "Understand Claude Code's three-level settings hierarchy"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of user/project/local levels and their scope differences"
+  - objective: "Recognize precedence order: local > project > user"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Correct prediction of which setting wins in multi-level conflict scenarios"
+  - objective: "Check which settings files exist on your system"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Verification of settings file existence using ls commands"
+  - objective: "Know when to use each settings level"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Decision analysis matching configuration scenarios to appropriate hierarchy level"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (three-level hierarchy, user/project/local scopes, precedence order, organizational intelligence pattern, team vs personal settings) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Design multi-team configuration strategies with shared project standards and personal customizations; understand .gitignore patterns for settings.local.json"
+  remedial_for_struggling: "Focus on visual hierarchy diagram; understand user-level first before project and local complexity"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility
+prerequisites:
+  - "Lessons 2-7: All prior Claude Code features understood"
+  - "Understanding of configuration management and team coordination"
 ---
 
 # Settings Hierarchy
@@ -104,6 +149,9 @@ Claude Code settings exist at three levels, from general to specific:
 - Personal experiments (testing a new workflow locally)
 - Machine-specific settings (your laptop needs different settings than your desktop)
 
+#### 💬 AI Colearning Prompt
+> "Why would you use three levels of settings (user/project/local) instead of just one global settings file? What flexibility does this hierarchy provide?"
+
 **Example content**:
 ```json
 {
@@ -131,6 +179,9 @@ This connects to earlier lessons:
 - **Plugins (Lesson 9)** will use this same hierarchy to configure bundled capabilities
 
 **Real-World Impact**: Without this hierarchy, teams either enforce rigid standards (no personal customization) or descend into chaos (everyone's setup is different). The three-level system gives you both consistency AND flexibility.
+
+#### 🎓 Expert Insight
+> In AI-native development, configuration hierarchy mirrors organizational intelligence. User settings = your personal defaults. Project settings = team agreements. Local settings = safe experimentation space. Understanding WHEN to configure at each level is more valuable than memorizing settings syntax.
 
 ---
 

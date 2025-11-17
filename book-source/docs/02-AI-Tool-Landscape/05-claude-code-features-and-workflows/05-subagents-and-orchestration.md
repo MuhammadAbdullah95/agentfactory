@@ -1,24 +1,72 @@
 ---
-sidebar_position: 5
 title: "Subagents and Orchestration"
-duration: "6-8 min"
-stage: "L2"
-prerequisites:
-  - "Lessons 2-4: Claude Code, CLAUDE.md, MCP understanding"
-  - "Understanding of problem decomposition"
-learning_objectives:
-  - "Understand subagents as specialized AI assistants with isolated context"
-  - "Recognize when the built-in Plan subagent automatically activates for complex tasks"
-  - "Create custom subagents using the /agents workflow"
-  - "Understand the execution model: one task, one completion, return control"
-  - "Distinguish between automatic delegation and explicit subagent invocation"
+sidebar_position: 5
+chapter: 5
+lesson: 5
+duration_minutes: 7
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 2"
+layer_progression: "L2 (AI Collaboration)"
+layer_1_foundation: "N/A"
+layer_2_collaboration: "Co-learning subagent design (Step 2.5), Three Roles Framework applied to subagent creation, testing custom subagents with AI partnership"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "N/A"
+
+# HIDDEN SKILLS METADATA
 skills:
   - name: "Creating and Using Subagents for Task Specialization"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Create"
     digcomp_area: "Problem-Solving"
-concept_count: 6
+    measurable_at_this_level: "Student can create custom subagents using /agents workflow, apply Three Roles Framework to co-design subagent capabilities, and invoke subagents for specialized tasks"
+
+learning_objectives:
+  - objective: "Understand subagents as specialized AI assistants with isolated context"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of subagent execution model and context isolation benefits"
+  - objective: "Recognize when the built-in Plan subagent automatically activates for complex tasks"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Identification of task complexity patterns that trigger Plan subagent"
+  - objective: "Create custom subagents using the /agents workflow"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Creation of functional custom subagent with appropriate instructions and tool permissions"
+  - objective: "Understand the execution model: one task, one completion, return control"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Description of subagent lifecycle from invocation to completion"
+  - objective: "Distinguish between automatic delegation and explicit subagent invocation"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Analysis of when to use automatic vs explicit subagent invocation"
+
+# Cognitive load tracking
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (subagent definition, context isolation, Plan subagent, execution model, orchestration, Three Roles co-design) - within B1 limit of 10 ✓"
+
+# Differentiation guidance
+differentiation:
+  extension_for_advanced: "Design multi-subagent workflows with orchestration patterns; create domain-specific subagent suites for complex projects"
+  remedial_for_struggling: "Focus on using existing Plan subagent before creating custom subagents; start with simple single-purpose subagents"
+
+# Generation metadata
+generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+source_spec: "specs/029-chapter-5-refinement/spec.md"
+created: "2025-01-17"
+last_modified: "2025-01-17"
+git_author: "Claude Code"
+workflow: "/sp.implement"
+version: "2.0.0"
+
+# Legacy compatibility
+prerequisites:
+  - "Lessons 2-4: Claude Code, CLAUDE.md, MCP understanding"
+  - "Understanding of problem decomposition"
 ---
 
 # Subagents and Orchestration
@@ -51,6 +99,9 @@ Think of Claude Code as a project manager with a team of specialists:
 - **Custom subagents**: You can create specialists for your team's specific needs (content planning, research synthesis, document structuring, etc.)
 
 **Key benefit**: Each subagent has **clean context** (no clutter from other conversations) and **focused expertise** (specialized instructions for its task).
+
+#### 💬 AI Colearning Prompt
+> "Explain why subagents use isolated context windows instead of sharing the main conversation. What problems does context isolation solve?"
 
 ---
 
@@ -93,6 +144,9 @@ When you ask for complex work, Claude Code delegates to the Plan subagent:
 **Without Plan subagent**: Claude might jump straight to code without understanding your project structure, missing dependencies or creating conflicts.
 
 **With Plan subagent**: Research happens first, then a strategic plan, then execution—step by step.
+
+#### 🎓 Expert Insight
+> In AI-native development, orchestration is a design skill, not a technical one. You don't memorize subagent commands—you recognize WHEN a task needs specialized focus vs general assistance. The `/agents` syntax is cheap; knowing when to delegate is gold.
 
 ---
 
