@@ -105,7 +105,7 @@ differentiation:
   remedial_for_struggling: "For struggling students: Focus on decision framework table (concept 2) as primary anchor; work through 3-4 simple scenarios with explicit framework application; skip hybrid patterns until basic framework is solid"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-29/spec.md (Lesson 5)"
 created: "2025-11-09"
 last_modified: "2025-11-09"

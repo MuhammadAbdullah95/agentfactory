@@ -82,7 +82,7 @@ differentiation:
   remedial_for_struggling: "Start with simple 2-item fetch+process before scaling; use timing diagrams to visualize I/O and CPU overlap; focus on one pattern (batch OR pipeline) before combining"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-28/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

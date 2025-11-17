@@ -74,7 +74,7 @@ differentiation:
   remedial_for_struggling: "Start with Section 1-2 only (models and YAML loading); use AI to scaffold the architecture before diving into multi-source implementation; focus on getting basic version working first"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-27/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

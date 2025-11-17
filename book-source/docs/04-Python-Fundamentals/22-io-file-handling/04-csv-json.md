@@ -91,7 +91,7 @@ differentiation:
   remedial_for_struggling: "Focus on csv.DictReader and json.dump/load first; delay format selection comparison until concepts solidify"
 
 # Generation metadata
-generated_by: "lesson-writer v4.5.0"
+generated_by: "content-implementer v4.5.0"
 source_spec: "specs/001-part-4-chapter-22/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

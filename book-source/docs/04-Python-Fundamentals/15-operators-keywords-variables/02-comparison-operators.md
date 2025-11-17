@@ -47,12 +47,12 @@ differentiation:
   remedial_for_struggling: "Start with simple integer comparisons (5 > 3); practice each operator in isolation before combining; use concrete numbers before variables"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-15/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"
 git_author: "Claude Code"
-workflow: "lesson-writer subagent"
+workflow: "content-implementer subagent"
 version: "1.0.0"
 ---
 

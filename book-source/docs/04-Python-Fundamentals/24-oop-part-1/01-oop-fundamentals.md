@@ -77,7 +77,7 @@ differentiation:
   remedial_for_struggling: "Focus primarily on the bank account analogy. Use 'data storage' and 'actions' as foundational language before introducing 'attributes' and 'methods.'"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/020-oop-part-1-2/spec-chapter-24.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

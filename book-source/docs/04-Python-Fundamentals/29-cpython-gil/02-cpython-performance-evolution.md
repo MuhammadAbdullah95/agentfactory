@@ -79,7 +79,7 @@ differentiation:
   remedial_for_struggling: "Focus on conceptual understanding of 'pause time' and 'latency'; use analogies (restaurant service speed vs wait times); have AI create simple performance demonstrations; build intuition before diving into benchmark interpretation"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-29/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

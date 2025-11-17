@@ -77,7 +77,7 @@ differentiation:
   remedial_for_struggling: "Use shorter examples with simple names and focus on single-character operations first; practice len() and indexing separately before combining"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/part-4-chapter-16/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"

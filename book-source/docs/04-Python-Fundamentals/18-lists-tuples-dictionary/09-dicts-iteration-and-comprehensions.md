@@ -86,7 +86,7 @@ differentiation:
   remedial_for_struggling: "Start with .items() only; show loop-to-comprehension transformation explicitly; defer nested dicts until comfort with basic iteration; practice filtering separately from transformation"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -67,7 +67,7 @@ differentiation:
   remedial_for_struggling: "Focus on top 3-4 clarifying questions from AI; resolve those before moving to planning"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/10-chapter-31-redesign/spec.md"
 created: "2025-11-05"
 last_modified: "2025-11-05"

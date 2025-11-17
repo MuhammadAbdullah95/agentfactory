@@ -86,7 +86,7 @@ differentiation:
   remedial_for_struggling: "Build Character class completely before Player/Enemy. Test each class independently before integration. Focus on one feature at a time (health system → inventory → combat) rather than implementing everything at once."
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/020-oop-part-1-2/spec-chapter-24.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

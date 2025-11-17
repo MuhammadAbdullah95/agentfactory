@@ -91,7 +91,7 @@ differentiation:
   remedial_for_struggling: "Start with simple read-only operations before introducing write/append modes; use before/after file state diagrams; practice context manager syntax separately"
 
 # Generation metadata
-generated_by: "claude-code lesson-writer"
+generated_by: "claude-code content-implementer"
 source_spec: "specs/001-part-4-chapter-22/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

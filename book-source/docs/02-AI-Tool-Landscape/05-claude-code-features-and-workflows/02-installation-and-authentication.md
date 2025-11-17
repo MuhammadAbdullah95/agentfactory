@@ -1,6 +1,19 @@
 ---
 sidebar_position: 2
 title: "Installing and Authenticating Claude Code"
+duration: "15-20 min"
+learning_objectives:
+  - "Choose appropriate Claude Code installation method for your operating system"
+  - "Install Claude Code successfully using one of four installation methods"
+  - "Authenticate with either Claude.ai subscription or Console API account"
+  - "Verify Claude Code installation and authentication are working correctly"
+  - "Understand security best practices for file access and command execution"
+skills:
+  - name: "Claude Code Installation and Authentication"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
 ---
 
 # Installing and Authenticating Claude Code

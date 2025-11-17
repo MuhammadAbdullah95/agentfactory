@@ -72,7 +72,7 @@ differentiation:
   remedial_for_struggling: "Focus on core operations first; validate against top 3-4 acceptance criteria before diving into edge cases"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/10-chapter-31-redesign/spec.md"
 created: "2025-11-05"
 last_modified: "2025-11-05"

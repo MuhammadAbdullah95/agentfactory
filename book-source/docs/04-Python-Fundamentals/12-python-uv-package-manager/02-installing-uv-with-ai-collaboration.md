@@ -53,7 +53,7 @@ differentiation:
   remedial_for_struggling: "Focus on core goal: Run the command for your platform, verify it worked. Use AI only if you encounter errors."
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/011-python-uv/plan.md"
 created: "2025-01-13"
 last_modified: "2025-01-13"

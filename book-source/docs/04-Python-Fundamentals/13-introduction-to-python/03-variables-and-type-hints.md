@@ -47,7 +47,7 @@ differentiation:
   extension_for_advanced: "Explore type checking tools; research Python typing module for advanced type hints"
   remedial_for_struggling: "Focus on one type at a time; practice only int and str before float and bool"
 
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/016-part-4-chapter-13/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

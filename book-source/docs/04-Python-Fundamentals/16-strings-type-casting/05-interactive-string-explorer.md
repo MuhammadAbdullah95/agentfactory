@@ -72,7 +72,7 @@ differentiation:
   remedial_for_struggling: "Start with Code Example 5.1 (basic validator) and modify incrementally. Add one validation rule at a time. Use AI to help debug each addition. Focus on getting name cleaning working before moving to email/phone validation."
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-16/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"

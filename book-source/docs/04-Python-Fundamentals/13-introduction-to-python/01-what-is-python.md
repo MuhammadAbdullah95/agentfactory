@@ -45,7 +45,7 @@ differentiation:
   extension_for_advanced: "Research current AI frameworks built in Python (TensorFlow, PyTorch); analyze why readability matters for AI"
   remedial_for_struggling: "Focus on ChatGPT example as primary case study before introducing other applications"
 
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/016-part-4-chapter-13/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

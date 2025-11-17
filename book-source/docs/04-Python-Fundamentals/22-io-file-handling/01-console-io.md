@@ -67,7 +67,7 @@ differentiation:
   remedial_for_struggling: "Start with just input() and print() together; practice type conversion with simple examples before adding try/except"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "/Users/mjs/Documents/code/panaversity-official/tutorgpt-build/ain/specs/001-part-4-chapter-22/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

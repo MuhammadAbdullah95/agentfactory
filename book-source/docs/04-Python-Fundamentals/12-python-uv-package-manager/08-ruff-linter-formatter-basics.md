@@ -50,7 +50,7 @@ differentiation:
   extension_for_advanced: "Explore Ruff rule codes (F, E, B, I) and understand what each category detects"
   remedial_for_struggling: "Focus on two commands: `uv run ruff format .` (fixes style) and `uv run ruff check .` (finds problems)"
 
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-12-lightning-python-stack/plan.md"
 created: "2025-01-15"
 last_modified: "2025-01-15"

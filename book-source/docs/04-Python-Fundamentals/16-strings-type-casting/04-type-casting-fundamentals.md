@@ -67,7 +67,7 @@ differentiation:
   remedial_for_struggling: "Focus on simple conversions first (int and str); practice validation patterns before exploring error cases; use isinstance() as safety net"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/part-4-chapter-16/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"

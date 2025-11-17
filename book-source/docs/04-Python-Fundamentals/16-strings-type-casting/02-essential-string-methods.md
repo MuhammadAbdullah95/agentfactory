@@ -67,7 +67,7 @@ differentiation:
   remedial_for_struggling: "Start with upper/lower only; build slowly to split/join; use print statements with isinstance() to validate after each step"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-16/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"

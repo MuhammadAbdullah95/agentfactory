@@ -74,12 +74,12 @@ differentiation:
   remedial_for_struggling: "Focus on simple if/else binary decisions first; practice with flowchart visualizations before code; use concrete real-world scenarios (age verification, price calculation)"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-17/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
 git_author: "Claude Code"
-workflow: "lesson-writer subagent"
+workflow: "content-implementer subagent"
 version: "1.0.0"
 ---
 

@@ -60,7 +60,7 @@ differentiation:
   remedial_for_struggling: "Focus on core pipeline only (ingest → parse → filter → aggregate → output). Use the provided data structure templates. Pair with AI to debug step-by-step. Skip extensions. Ask instructor or AI for scaffolded hints."
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

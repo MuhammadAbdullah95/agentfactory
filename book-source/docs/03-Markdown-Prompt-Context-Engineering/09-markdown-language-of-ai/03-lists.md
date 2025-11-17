@@ -58,7 +58,7 @@ differentiation:
   remedial_for_struggling: "Master unordered lists first before ordered; use simple 3-item lists; practice with provided templates"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-9-markdown/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-07"

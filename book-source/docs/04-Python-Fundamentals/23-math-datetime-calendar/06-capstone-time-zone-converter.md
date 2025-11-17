@@ -74,7 +74,7 @@ differentiation:
   remedial_for_struggling: "Work through core application step-by-step with AI, focusing on parse_datetime() first, then other functions progressively"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.2"
+generated_by: "content-implementer v3.0.2"
 source_spec: "specs/001-part-4-chapter-23/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

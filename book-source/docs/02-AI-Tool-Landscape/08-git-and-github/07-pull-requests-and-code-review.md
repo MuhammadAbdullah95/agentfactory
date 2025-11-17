@@ -64,7 +64,7 @@ differentiation:
   remedial_for_struggling: "Focus on the pull request as a 'conversation with your code' using the given template; practice reviewing a simple PR diff before creating one"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/012-chapter-8-git-github-aidd/plan.md"
 created: "2025-11-05"
 last_modified: "2025-11-07"

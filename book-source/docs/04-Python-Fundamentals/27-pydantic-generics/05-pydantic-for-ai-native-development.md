@@ -78,7 +78,7 @@ differentiation:
   remedial_for_struggling: "Focus on Section 1 (validating basic models) and Section 2 (iterative refinement). Practice Try With AI Prompt 1-2 before attempting 3-4"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-27/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

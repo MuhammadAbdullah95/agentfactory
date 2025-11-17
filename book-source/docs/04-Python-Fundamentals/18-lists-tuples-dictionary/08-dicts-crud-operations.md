@@ -91,7 +91,7 @@ differentiation:
   remedial_for_struggling: "Focus on assignment-based add/update; defer pop() semantics to later practice; use inventory examples exclusively before moving to abstract scenarios"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

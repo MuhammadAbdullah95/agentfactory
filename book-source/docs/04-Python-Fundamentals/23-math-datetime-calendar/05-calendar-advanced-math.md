@@ -54,7 +54,7 @@ differentiation:
   remedial_for_struggling: "Students needing support: Focus on calendar display first (simplest concept), practice degree-to-radian conversion separately before trig functions, use calculators to verify results before examining code"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.2"
+generated_by: "content-implementer v3.0.2"
 source_spec: "specs/001-part-4-chapter-23/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -64,7 +64,7 @@ differentiation:
   remedial_for_struggling: "Struggling students practice step-by-step loop-to-comprehension transformation with explicit syntax breakdown; use simplified examples (doubling numbers, filtering even numbers) before moving to string filtering"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

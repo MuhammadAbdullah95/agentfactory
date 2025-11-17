@@ -84,7 +84,7 @@ differentiation:
   remedial_for_struggling: "Practice range() variations separately before combining with loops; use visual number line diagrams for range() sequences"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-17/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"

@@ -2,6 +2,18 @@
 sidebar_position: 5
 title: "Subagents and Orchestration"
 duration: "6-8 min"
+learning_objectives:
+  - "Understand subagents as specialized AI assistants with isolated context"
+  - "Recognize when the built-in Plan subagent automatically activates for complex tasks"
+  - "Create custom subagents using the /agents workflow"
+  - "Understand the execution model: one task, one completion, return control"
+  - "Distinguish between automatic delegation and explicit subagent invocation"
+skills:
+  - name: "Creating and Using Subagents for Task Specialization"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Create"
+    digcomp_area: "Problem-Solving"
 ---
 
 # Subagents and Orchestration
