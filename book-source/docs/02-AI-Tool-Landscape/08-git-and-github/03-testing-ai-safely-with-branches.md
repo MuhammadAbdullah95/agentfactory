@@ -120,25 +120,27 @@ nothing to commit, working tree clean
 
 ### Activity 3: Create Changes on Your Branch (Isolation in Action)
 
-Now you'll make a change **only on this branch**. Let's create a new file called `feature-simple.py`:
+Now you'll make a change **only on this branch**. Let's create a new file called `approach-simple.txt`:
 
 **Create the file with this content:**
 
-```python
-def simple_feature():
-    """A simple solution suggested by AI."""
-    print("This is a simple approach")
-    return "done"
+```bash
+cat > approach-simple.txt << 'EOF'
+Solution Approach: Simple
+========================
 
-if __name__ == "__main__":
-    simple_feature()
+Strategy: Keep it minimal
+- Use basic text format
+- Easy to understand
+- Quick to implement
+EOF
 ```
 
 **Add and commit on your branch:**
 
 ```bash
-git add feature-simple.py
-git commit -m "feat: add simple feature approach"
+git add approach-simple.txt
+git commit -m "feat: add simple approach"
 ```
 
 **Now switch back to main:**
@@ -153,7 +155,7 @@ git switch main
 ls
 ```
 
-**Expected output:** `feature-simple.py` disappears! It only exists on the `feature-simple` branch.
+**Expected output:** `approach-simple.txt` disappears! It only exists on the `feature-simple` branch.
 
 **This is branch isolation in action.** Your main branch is completely untouched. If this feature is terrible, you can simply delete the `feature-simple` branch and never merge it. Main code stays safe.
 
@@ -287,33 +289,33 @@ git switch feature-fast
 
 **Create a fast version of the feature:**
 
-```python
-def fast_feature():
-    """A fast solution suggested by AI (optimized)."""
-    import functools
+```bash
+cat > approach-fast.txt << 'EOF'
+Solution Approach: Optimized
+============================
 
-    @functools.cache
-    def expensive_computation():
-        return sum(range(1000))
+Strategy: Performance-focused
+- Use efficient algorithms
+- Implement caching
+- More complex structure
 
-    result = expensive_computation()
-    print(f"Fast approach with caching: {result}")
-    return result
-
-if __name__ == "__main__":
-    fast_feature()
+Performance Notes:
+- Faster execution
+- Higher memory usage
+- Requires more testing
+EOF
 ```
 
 **Commit on this branch:**
 
 ```bash
-git add feature-fast.py
-git commit -m "feat: add fast feature approach with caching"
+git add approach-fast.txt
+git commit -m "feat: add optimized approach with caching"
 ```
 
 **Now you have two feature branches:**
-- `feature-simple` (simple but slow)
-- `feature-fast` (complex but optimized)
+- `feature-simple` (simple but basic)
+- `feature-fast` (optimized but complex)
 
 Both exist independently. Main is untouched. Both can be tested and evaluated in isolation.
 
@@ -347,8 +349,8 @@ git merge feature-fast
 ```
 Updating <hash>...<hash>
 Fast-forward
- feature-fast.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ approach-fast.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 ```
 
 **Observe:**

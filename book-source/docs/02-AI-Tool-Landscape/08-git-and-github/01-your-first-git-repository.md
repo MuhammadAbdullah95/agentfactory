@@ -94,7 +94,7 @@ version: "1.0.0"
 
 # Your First Git Repository
 
-## Opening: Git as Your Safety Net
+## Git as Your Safety Net
 
 When you ask Claude Code, Gemini CLI, or ChatGPT to generate code, you're taking a risk. Will the code work? Will it break your project? How do you experiment fearlessly?
 
@@ -109,6 +109,69 @@ In this lesson, you'll create your first Git repository by executing commands an
 - How to tell Git which files to protect
 - How to create your first save point (commit)
 - Why this matters for AI-assisted development
+
+---
+
+## Prerequisites: Installing Git
+
+Before we begin, you need Git installed on your computer. Let's check if you already have it.
+
+### Check if Git is Installed
+
+Open your terminal and run:
+
+```bash
+git --version
+```
+
+**If you see something like:**
+```
+git version 2.39.0
+```
+
+✅ **You're ready!** Skip to Phase 1 below.
+
+**If you see an error** like `command not found: git`, follow the installation steps for your operating system:
+
+### Installing Git
+
+**macOS:**
+```bash
+# Option 1: Using Homebrew (recommended)
+brew install git
+
+# Option 2: Install Xcode Command Line Tools (includes Git)
+xcode-select --install
+```
+
+**Windows:**
+1. Download Git from [git-scm.com/download/win](https://git-scm.com/download/win)
+2. Run the installer
+3. Use default settings (just keep clicking "Next")
+4. Restart your terminal after installation
+
+**Linux:**
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install git
+
+# Fedora
+sudo dnf install git
+
+# Arch Linux
+sudo pacman -S git
+```
+
+**Verify Installation:**
+
+After installing, close and reopen your terminal, then run:
+
+```bash
+git --version
+```
+
+You should see a version number. Now you're ready!
 
 ---
 

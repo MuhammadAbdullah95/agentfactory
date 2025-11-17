@@ -133,7 +133,7 @@ git checkout main
 git checkout -b feature/enhanced-calculator
 
 # Make some changes to a file
-# (Edit calculator.py or similar)
+# (Edit feature-description.txt or similar)
 
 # Stage and commit changes
 git add .
@@ -213,7 +213,7 @@ Use this template for every PR:
 ### Example: Real PR with AI Transparency
 
 **Feature Branch**: `feature/enhanced-calculator`
-**Changes**: Added error handling to calculator.py
+**Changes**: Added error handling to feature-description.txt
 
 **PR Description Example**:
 
@@ -222,7 +222,7 @@ Use this template for every PR:
 Added error handling to calculator to prevent crashes on invalid input.
 
 ## Changes
-- Updated calculator.py: added input validation before operations
+- Updated feature-description.txt: added input validation before operations
 - Added try/except blocks for division by zero
 
 ## AI Assistance
@@ -452,7 +452,7 @@ git checkout -b feature/add-multiplication
 
 ### Step 2: Make a Simple Change
 
-Edit one of your project files (e.g., calculator.py, main.py, etc.):
+Edit one of your project files (e.g., feature-description.txt, main.py, etc.):
 
 ```python
 # Add a simple function
@@ -509,7 +509,7 @@ feat: add multiplication function to calculator
 Added multiplication function to calculator for basic arithmetic operations.
 
 ## Changes
-- calculator.py: Added multiply(a, b) function
+- feature-description.txt: Added multiply(a, b) function
 
 ## AI Assistance
 **AI Tool Used**: [Optional - only if AI helped]
@@ -638,9 +638,9 @@ feat: add comprehensive error handling to calculator
 Added error handling to calculator functions to gracefully handle invalid input and prevent crashes.
 
 ## Changes
-- calculator.py: Added try/except blocks to divide(), subtract(), add(), multiply()
-- calculator.py: Added new validate_input() function
-- calculator.py: Added user-friendly error messages
+- feature-description.txt: Added try/except blocks to divide(), subtract(), add(), multiply()
+- feature-description.txt: Added new validate_input() function
+- feature-description.txt: Added user-friendly error messages
 
 ## AI Assistance
 **AI Tool Used**: ChatGPT (Claude Code interface)
@@ -846,7 +846,7 @@ that documents:
 
 **Prompt 3 (Advanced - AI reviews your code diffs)**:
 ```
-Here's the code diff from my pull request (changes to calculator.py):
+Here's the code diff from my pull request (changes to feature-description.txt):
 
 [Paste your diff here]
 

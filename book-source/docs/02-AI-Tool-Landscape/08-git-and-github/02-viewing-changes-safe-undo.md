@@ -81,7 +81,7 @@ version: "1.0.0"
 
 # Viewing Changes & Safe Undo
 
-## Opening: Fearless Experimentation Through Error Recovery
+## Fearless Experimentation Through Error Recovery
 
 In Lesson 1, you discovered how commits save your work as "save points." But what happens between commits? You modify files, make mistakes, realize your approach is wrong. How do you recover?
 
@@ -111,19 +111,19 @@ cd git-lesson-2
 git init
 
 # Create a simple file
-cat > calculator.py << 'EOF'
-def add(a, b):
-    """Add two numbers."""
-    return a + b
+cat > shopping-list.txt << 'EOF'
+Shopping List
+=============
 
-def subtract(a, b):
-    """Subtract two numbers."""
-    return a - b
+Groceries:
+- Milk
+- Eggs
+- Bread
 EOF
 
 # Stage and commit
-git add calculator.py
-git commit -m "Initial calculator with add and subtract"
+git add shopping-list.txt
+git commit -m "Initial shopping list"
 ```
 
 **Verify**: Run `git log` to see your commit.
@@ -135,12 +135,12 @@ Now you'll intentionally change the file and observe what changed using `git dif
 **Execute**:
 
 ```bash
-# Modify the calculator.py file
-cat >> calculator.py << 'EOF'
+# Modify the shopping-list.txt file
+cat >> shopping-list.txt << 'EOF'
 
-def multiply(a, b):
-    """Multiply two numbers."""
-    return a * b
+Household:
+- Dish soap
+- Paper towels
 EOF
 
 # Check the status
@@ -154,7 +154,7 @@ On branch master
 Changes not staged for commit:
   (use "git add <file>..." to stage them)
   (use "git restore <file>..." to discard changes in working directory)
-	modified:   calculator.py
+	modified:   shopping-list.txt
 ```
 
 **Discovery Question**: "Git knows the file changed. But what exactly changed? How can I see the differences?"
@@ -165,23 +165,22 @@ Changes not staged for commit:
 
 ```bash
 # View changes
-git diff calculator.py
+git diff shopping-list.txt
 ```
 
 **Observe**: You'll see output like this:
 
 ```diff
-diff --git a/calculator.py b/calculator.py
+diff --git a/shopping-list.txt b/shopping-list.txt
 index abc1234..def5678 100644
---- a/calculator.py
-+++ b/calculator.py
-@@ -7,0 +7,7 @@ def subtract(a, b):
-     """Subtract two numbers."""
-     return a - b
-
-+def multiply(a, b):
-+    """Multiply two numbers."""
-+    return a * b
+--- a/shopping-list.txt
++++ b/shopping-list.txt
+@@ -6,0 +6,5 @@ Groceries:
+ - Bread
++
++Household:
++- Dish soap
++- Paper towels
 ```
 
 **Breaking Down the Diff Output**:
@@ -206,23 +205,35 @@ Now let's create an intentional mistake and discover how to recover from it.
 **Execute**:
 
 ```bash
-# Add a bad line to calculator.py (syntax error on purpose)
-cat >> calculator.py << 'EOF'
+# Add bad formatting to shopping-list.txt (messy content on purpose)
+cat >> shopping-list.txt << 'EOF'
 
-def divide(a, b):
-    return a / b  # Missing closing parenthesis on next line
+This line has no formatting and breaks the structure
+ALLCAPS AND CONFUSING TEXT
+!!!random symbols@@@###
 EOF
 
-# Try to run it (will fail)
-python calculator.py
+# View the broken file
+cat shopping-list.txt
 ```
 
-**Observe**: You get a syntax error:
+**Observe**: Your nicely formatted list is now messy:
 ```
-  File "calculator.py", line 16
-    return a / b  # Missing closing parenthesis on next line
-           ^^^^^^
-SyntaxError: invalid syntax
+Shopping List
+=============
+
+Groceries:
+- Milk
+- Eggs
+- Bread
+
+Household:
+- Dish soap
+- Paper towels
+
+This line has no formatting and breaks the structure
+ALLCAPS AND CONFUSING TEXT
+!!!random symbols@@@###
 ```
 
 **Discovery Question**: "Oh no! I broke the file. How do I get back to the version that worked?"
@@ -235,14 +246,15 @@ SyntaxError: invalid syntax
 
 ```bash
 # View all changes since last commit
-git diff calculator.py
+git diff shopping-list.txt
 ```
 
-**Observe**: The diff shows all your changes, including the broken code:
+**Observe**: The diff shows all your changes, including the messy text:
 
 ```diff
-+def divide(a, b):
-+    return a / b  # Missing closing parenthesis on next line
++This line has no formatting and breaks the structure
++ALLCAPS AND CONFUSING TEXT
++!!!random symbols@@@###
 ```
 
 **What You Learned**: `git diff` lets you see the bad changes before committing. This is your **inspection checkpoint** before saving.
@@ -272,19 +284,19 @@ You have two options:
 
 ```bash
 # Throw away all unstaged changes
-git restore calculator.py
+git restore shopping-list.txt
 
 # Verify the file is restored
-python calculator.py
+cat shopping-list.txt
 ```
 
-**Observe**: No error! The file now works again.
+**Observe**: The file is back to the clean version! The messy text is gone.
 
 **Verify**:
 
 ```bash
 # View diff again
-git diff calculator.py
+git diff shopping-list.txt
 ```
 
 **Observe**: No output. This means the file matches the last commit exactly.
@@ -432,12 +444,12 @@ When to use: Only if the commit is recent and unpushed to GitHub
 
 Here's a practice scenario. Identify which command you'd use:
 
-**Scenario A**: You edited `helper.py`, added 50 lines of code, then realized it doesn't work. The file is not staged yet. What do you do?
+**Scenario A**: You edited `notes.txt`, added 50 lines of text, then realized it's all wrong. The file is not staged yet. What do you do?
 
 <details>
 <summary>Answer</summary>
 
-Use `git restore helper.py` to throw away the changes and return to the working version. The changes are in your working directory, not staged, so `git restore` is the right command.
+Use `git restore notes.txt` to throw away the changes and return to the working version. The changes are in your working directory, not staged, so `git restore` is the right command.
 
 </details>
 
@@ -450,12 +462,12 @@ Use `git reset HEAD shopping_list.txt` to unstage it. The file will remain in yo
 
 </details>
 
-**Scenario C**: You modified `config.py` with test settings, staged it, and before committing you remember these are just temporary test values. What do you do?
+**Scenario C**: You modified `settings.txt` with test values, staged it, and before committing you remember these are just temporary test values. What do you do?
 
 <details>
 <summary>Answer</summary>
 
-First use `git diff --staged config.py` to review the changes (are you sure these are test-only?). Then use `git restore --staged config.py` to unstage it. The file remains modified in your working directory so you can review or revert it.
+First use `git diff --staged settings.txt` to review the changes (are you sure these are test-only?). Then use `git restore --staged settings.txt` to unstage it. The file remains modified in your working directory so you can review or revert it.
 
 </details>
 
@@ -468,19 +480,17 @@ Here's what these commands look like in real execution:
 ### Example 1: git diff Output
 
 ```
-$ git diff calculator.py
-diff --git a/calculator.py b/calculator.py
+$ git diff shopping-list.txt
+diff --git a/shopping-list.txt b/shopping-list.txt
 index 1234567..abcdefg 100644
---- a/calculator.py
-+++ b/calculator.py
-@@ -7,3 +7,10 @@ def subtract(a, b):
-     """Subtract two numbers."""
-     return a - b
-
-+def multiply(a, b):
-+    """Multiply two numbers."""
-+    return a * b
+--- a/shopping-list.txt
++++ b/shopping-list.txt
+@@ -7,0 +7,5 @@ Groceries:
+ - Bread
 +
++Household:
++- Dish soap
++- Paper towels
 ```
 
 **Reading the output**:
@@ -491,13 +501,13 @@ index 1234567..abcdefg 100644
 ### Example 2: git restore
 
 ```
-$ git diff calculator.py
-diff --git a/calculator.py b/calculator.py
-...showing the bad multiply function...
+$ git diff shopping-list.txt
+diff --git a/shopping-list.txt b/shopping-list.txt
+...showing the messy text additions...
 
-$ git restore calculator.py
+$ git restore shopping-list.txt
 
-$ git diff calculator.py
+$ git diff shopping-list.txt
 $ # No output = file matches last commit exactly
 
 $ git status
@@ -560,7 +570,7 @@ You're **always one command away** from recovery. This is the Git safety mindset
 **Prompt 1 (Conceptual)**:
 ```
 I accidentally staged the wrong files in Git.
-I used: git reset HEAD wrongfile.py
+I used: git reset HEAD wrongfile.txt
 
 Does this command delete the file?
 Explain what happens to the file after this command.
@@ -572,15 +582,15 @@ Explain what happens to the file after this command.
 
 **Prompt 2 (Scenario-based)**:
 ```
-I'm working with ChatGPT to improve my Python code.
-ChatGPT generated a function that has a bug.
-I already committed it to Git.
+I'm working with ChatGPT to edit my project files.
+ChatGPT made changes that broke my project.
+I already committed the broken changes to Git.
 
 I want to undo this commit and go back to the working version.
 
 What Git command should I use?
 Is it safe to use?
-What will happen to the broken code?
+What will happen to the broken changes?
 ```
 
 **Expected Outcome**: ChatGPT should suggest `git reset --hard HEAD~1` or similar, and explain that this is destructive (the broken code disappears). Compare this to what you learned in Phase 3—this is the nuclear option, destructive undo for committed changes. Good to know, but we usually prefer `git restore` for uncommitted changes.
@@ -590,18 +600,18 @@ What will happen to the broken code?
 **Prompt 3 (Practical)**:
 ```
 I edited three files for my project.
-- file1.py: I'm happy with these changes
-- file2.py: This has a bug, I want to throw away changes
-- file3.py: I staged this by accident, I want to unstage it
+- notes.txt: I'm happy with these changes
+- draft.txt: This has mistakes, I want to throw away changes
+- temp.txt: I staged this by accident, I want to unstage it
 
 For each file, tell me the Git command I should use.
 Explain why each command is the right choice.
 ```
 
 **Expected Outcome**: ChatGPT should distinguish:
-- file1.py: No command needed, keep the changes
-- file2.py: `git restore file2.py` (unstaged changes undo)
-- file3.py: `git reset HEAD file3.py` (unstage)
+- notes.txt: No command needed, keep the changes
+- draft.txt: `git restore draft.txt` (unstaged changes undo)
+- temp.txt: `git reset HEAD temp.txt` (unstage)
 
 Verify that ChatGPT understands the distinction between unstaging (reset) and discarding changes (restore).
 

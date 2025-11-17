@@ -83,7 +83,7 @@ constitution_version: "6.0.0"
 
 # Cloud Backup & Portfolio - GitHub Integration
 
-## Opening: Catastrophe Prevention + Career Advancement
+## Catastrophe Prevention + Career Advancement
 
 Your computer crashes. Your hard drive fails. Your project folder corrupts. Everything you've built is gone.
 
