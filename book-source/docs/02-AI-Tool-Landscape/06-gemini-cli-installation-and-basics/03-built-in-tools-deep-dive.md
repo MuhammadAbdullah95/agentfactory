@@ -833,8 +833,6 @@ What is Bash and why do I need to learn it before Python?
 
 **Expected outcome**: You'll see 🔍 indicator, Gemini searches the web, returns current information about Bash, its importance, and how it connects to Python programming.
 
-**What to observe**: Notice how Gemini explains Bash in beginner-friendly language and connects it to your learning journey. Gemini cites sources like official Bash docs and learning resource sites.
-
 ---
 
 ### Prompt 2: Practice File Operations — Your Learning Files
@@ -845,7 +843,6 @@ Read my learning-plan.md and tell me what I should focus on for the next week
 
 **Expected outcome**: You'll see 📁 indicator, Gemini reads your learning-plan.md file, understands your current progress, and suggests a focused next step.
 
-**What to observe**: Gemini references actual content from YOUR file (not generic advice). Gemini understands your personalized learning path.
 
 ---
 
@@ -857,8 +854,6 @@ What directory am I in? Show me what files I have for my learning.
 
 **Expected outcome**: You'll see ⚡ indicators for `pwd` and `ls` commands, showing your current directory and files in that directory. Gemini explains what files you have ready for learning.
 
-**What to observe**: Gemini shows the exact commands it ran (pwd, ls) and interprets the results in a way that helps you understand your file organization.
-
 ---
 
 ### Prompt 4: Practice Web Fetch — Official Documentation
@@ -869,36 +864,4 @@ Fetch the Python.org getting started page and tell me what Python is used for
 
 **Expected outcome**: You'll see 🌐 indicator, Gemini retrieves Python.org content, extracts beginner-friendly information about Python's uses, and connects it to your learning timeline (Chapter 12).
 
-**What to observe**: Gemini cites the specific URL (python.org) it fetched and provides accurate, current information directly from the official source.
 
----
-
-### Bonus Challenge: Combine Multiple Tools
-
-```
-What should I expect from learning Bash? Check if I have preparation materials already, then search for what Bash commands I'll learn first.
-```
-
-**Expected outcome**: Gemini will use:
-1. ⚡ Shell Integration (check your directory and files)
-2. 📁 File Operations (read your Bash preparation files if they exist)
-3. 🔍 Google Search (find what Bash commands beginners learn first)
-
-**What to observe**: Watch how Gemini uses multiple tools together: first checks YOUR setup and files, then researches what you'll learn, giving you a personalized roadmap for Chapter 7.
-
----
-
-## Key Takeaways
-
-You've learned that Gemini CLI has four built-in tools that activate automatically:
-
-1. **🔍 Google Search** - Current information about concepts and learning resources
-2. **📁 File Operations** - Reading your notes, plans, and course materials
-3. **⚡ Shell Integration** - Checking your system setup and file organization
-4. **🌐 Web Fetch** - Retrieving official documentation and learning materials
-
-**The Power**: You ask naturally, Gemini decides which tool to use.
-
-**The Skill**: Recognizing when tools are active (visual indicators, citations, command echo) and understanding when each tool is appropriate for your learning.
-
-**Next Steps**: In Lesson 4, you'll learn how Gemini manages conversation context so it remembers what you're working on across multiple questions, making your learning interactions more natural and personalized.

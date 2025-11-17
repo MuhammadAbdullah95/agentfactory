@@ -536,26 +536,3 @@ What's wrong? How do I fix it?
 
 **Expected outcome**: Specific help fixing your actual command.
 
----
-
-## Key Takeaways
-
-**Custom slash commands let you**:
-- ✅ Save your best learning prompts for reuse
-- ✅ Type 10 characters instead of 100
-- ✅ Get consistent, high-quality help every time
-- ✅ Build a personal library of learning tools
-- ✅ Focus on learning instead of remembering prompts
-
-**Start small**:
-1. Create one `/learn` command
-2. Use it for a week
-3. Notice what other prompts you repeat
-4. Create commands for those too
-5. Organize into folders when you have 5+ commands
-
-**Remember**: The goal isn't to create dozens of commands. The goal is to save the prompts that **you personally use repeatedly** so learning becomes easier and more consistent.
-
----
-
-**Next Lesson**: You'll learn how to use Gemini CLI's shell integration to run terminal commands while getting AI guidance—combining the power of your terminal with AI assistance.
