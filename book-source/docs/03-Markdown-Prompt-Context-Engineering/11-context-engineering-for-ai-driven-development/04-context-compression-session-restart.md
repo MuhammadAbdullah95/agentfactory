@@ -55,7 +55,7 @@ You have three options:
 **Option 3: Create checkpoint and restart** (optimal)
 - Compress session into summary
 - Restart with clean context
-- Restore key intelligence in <600 tokens
+- Restore key intelligence in under 600 tokens
 
 This is where **checkpoint compression** becomes essential.
 
@@ -84,7 +84,7 @@ A checkpoint is a compressed summary of your session that preserves critical int
 - Constraints that shouldn't be forgotten
 - Design principles guiding implementation
 
-**Target size**: <600 tokens (leaves 199.4K for fresh work)
+**Target size**: under 600 tokens (leaves 199.4K for fresh work)
 
 ### What DOESN'T Go in a Checkpoint
 
@@ -165,7 +165,7 @@ You're 90 minutes into the authentication session described above. Context is at
 ### Discovering What's Missing
 
 **Your response:**
-"This is comprehensive, but it's 720 tokens—too large. Our target is <600 tokens. What can we compress without losing essential context?"
+"This is comprehensive, but it's 720 tokens—too large. Our target is under 600 tokens. What can we compress without losing essential context?"
 
 **AI's analysis:**
 "Let's compress by removing redundancy and condensing explanations:
@@ -182,7 +182,7 @@ You're 90 minutes into the authentication session described above. Context is at
 - Deferred items (password reset to v2)
 - Current working state (what's functional)
 
-Let me compress to <600 tokens."
+Let me compress to under 600 tokens."
 
 ### Iterating Toward Concise Checkpoint
 
@@ -316,7 +316,7 @@ Context utilization: 88%
 ```
 
 **Your assignment**:
-1. Create a checkpoint <600 tokens that preserves essential decisions
+1. Create a checkpoint under 600 tokens that preserves essential decisions
 2. Identify what to KEEP vs what to DISCARD from the above
 3. Structure using: Decisions, Progress, Next Steps, Critical Context
 4. Validate token count (estimate: ~5 tokens per word)
@@ -393,7 +393,7 @@ We started this session at 9:00 AM. The goal was to migrate our database from SQ
 
 **Your assignment**:
 1. Identify redundant content (what's obvious or unnecessary)
-2. Compress to <600 tokens while preserving critical decisions
+2. Compress to under 600 tokens while preserving critical decisions
 3. Remove conversation details that don't impact future work
 4. Justify each deletion
 
@@ -430,12 +430,12 @@ Help me extract:
 3. What's left to do
 4. Any critical context that shouldn't be forgotten
 
-Target: <600 tokens while preserving everything essential to resume work.
+Target: under 600 tokens while preserving everything essential to resume work.
 ```
 
 **Prompt 2 — Identify Compression Targets:**
 ```
-This checkpoint draft is [N] tokens—too large. Our target is <600 tokens.
+This checkpoint draft is [N] tokens—too large. Our target is under 600 tokens.
 
 Review the checkpoint and identify:
 - What's redundant (obvious from code or standard practice)?
@@ -471,7 +471,7 @@ What's our current state, and what should we work on next?
 
 Through collaborative checkpoint creation, you should:
 - Extract essential decisions from conversational noise
-- Compress session intelligence into <600 tokens
+- Compress session intelligence into under 600 tokens
 - Discover what's truly critical versus what's redundant
 - Successfully restore context in a new session with minimal token cost
 

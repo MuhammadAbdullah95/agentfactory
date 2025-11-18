@@ -67,7 +67,7 @@ You've mastered this chapter when you can:
 2. **Design progressive loading collaboratively** (Lesson 3) — Work with AI using Three Roles framework to design Foundation→Current→On-Demand loading strategy
 3. **Apply compression and isolation** (Lessons 4-5) — Create checkpoint summaries when utilization exceeds 80%, isolate parallel tasks when similarity score drops below 50%
 4. **Build persistent memory architecture** (Lesson 6) — Design CLAUDE.md, architecture.md, decisions.md files that enable multi-session project continuity
-5. **Select optimal tools** (Lesson 7) — Choose Claude Code (<50K codebase, deep reasoning) vs Gemini CLI (>500K codebase, exploration) based on clear decision frameworks
+5. **Select optimal tools** (Lesson 7) — Choose Claude Code (under 50K codebase, deep reasoning) vs Gemini CLI (over 500K codebase, exploration) based on clear decision frameworks
 6. **Debug context problems** (Lesson 8) — Diagnose and fix 4 scenarios (high utilization, degradation, pollution, lost intelligence) using accumulated techniques
 7. **Write complete specifications** (Lesson 9) — Create 3-5 page implementation-ready spec with Intent, Success Criteria, Architecture, Algorithms (plain English), and Non-Goals
 

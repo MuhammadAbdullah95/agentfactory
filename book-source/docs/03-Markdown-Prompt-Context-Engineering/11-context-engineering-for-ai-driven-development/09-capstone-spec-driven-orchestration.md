@@ -119,7 +119,7 @@ Trigger: Alert when crossing 70%, 80%, 90% thresholds
 ### Requirement 2: Automatic Checkpoint Creation
 When: Utilization exceeds 80% AND session duration > 60 minutes
 What: Extract architectural decisions, progress summary, next steps
-How: Generate checkpoint in <2 minutes
+How: Generate checkpoint in under 2 minutes
 Size: Checkpoint &lt;600 tokens
 Output: Save as CHECKPOINT.md in project
 
@@ -156,7 +156,7 @@ Reasoning: Explain why chosen
 - Inputs: Utilization > 80%, session duration > 60 min
 - Triggers: Both conditions met → create checkpoint
 - Outputs: CHECKPOINT.md file (architecture + progress + next steps)
-- Algorithm: Summarize session activity in <600 tokens
+- Algorithm: Summarize session activity in under 600 tokens
 
 **Task Similarity Analyzer** (Component 3)
 - Responsibility: Evaluate if new task relates to current context

@@ -793,7 +793,7 @@ Now combine ALL strategies (Lessons 1-7) for a complex project.
 
 ### Work: Continue Authentication
 - Progressive loading: Foundation + auth work from Day 1
-- Utilization target: <70%
+- Utilization target: under 70%
 
 ### Evening: Checkpoint
 - Update decisions.md with new decisions
@@ -814,12 +814,12 @@ Now combine ALL strategies (Lessons 1-7) for a complex project.
 - Progressive loading: Foundation + payment files only
 
 ### Rationale for Isolation:
-- Similarity score: Auth vs Payment = 40% (<50% threshold)
+- Similarity score: Auth vs Payment = 40% (under 50% threshold)
 - Different domain (security vs transactions)
 - Prevent pattern cross-contamination
 
 ### Work: Payments Implementation
-- Utilization target: <70%
+- Utilization target: under 70%
 
 ### Evening: Checkpoint
 - Update memory files with payment decisions
@@ -863,7 +863,7 @@ Now combine ALL strategies (Lessons 1-7) for a complex project.
 - Day 5: Integration complete, all features tested
 
 **Context Health**:
-- No degradation incidents (checkpoints at <80%)
+- No degradation incidents (checkpoints at under 80%)
 - No pollution incidents (isolated sessions)
 - No persistence failures (memory files loaded daily)
 

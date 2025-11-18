@@ -64,7 +64,7 @@ Not all tasks need isolation. Some tasks share enough patterns that working on t
 
 **Decision threshold**: 
 - **≥50 points**: Work together (shared context adds value)
-- **<50 points**: Isolate (mixed patterns cause pollution)
+- **under 50 points**: Isolate (mixed patterns cause pollution)
 
 ### Scoring Examples
 
@@ -271,7 +271,7 @@ For each task pair, calculate similarity:
 
 ## Step 2: Apply Decision Threshold
 - If score ≥50: Work together (shared context adds value)
-- If score <50: Isolate (patterns interfere)
+- If score under 50: Isolate (patterns interfere)
 
 ## Step 3: Check Special Cases
 - Are tasks sequential (A must complete before B)? → Sequential isolation
@@ -396,7 +396,7 @@ Help me calculate task similarity scores using this framework:
 - Same file routes: +15
 - Same test patterns: +15
 
-For each task pair, calculate similarity and recommend whether to work together (≥50 points) or isolate (<50 points).
+For each task pair, calculate similarity and recommend whether to work together (≥50 points) or isolate (under 50 points).
 ```
 
 **Prompt 2 — Project-Specific Constraints:**

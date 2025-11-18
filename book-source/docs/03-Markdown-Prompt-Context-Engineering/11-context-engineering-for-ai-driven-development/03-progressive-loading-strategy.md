@@ -220,7 +220,7 @@ Total Foundation: ~[Z] tokens (~[%] of 200K context)
 **Foundation Decision Criteria**:
 - Does this apply to every task? (If no → Move to Current or On-Demand)
 - Does this change frequently? (If yes → Consider Current instead)
-- Is this file large? (If >15K tokens, justify the foundation spend)
+- Is this file large? (If over 15K tokens, justify the foundation spend)
 
 ## Current (Task-Specific)
 **Purpose**: Files for TODAY'S task only
@@ -377,10 +377,10 @@ Here's my final loading strategy:
 [Paste your Foundation/Current/On-Demand plan with token estimates]
 
 Validate this:
-- Is my Foundation too large? (Should be <20K tokens)
+- Is my Foundation too large? (Should be under 20K tokens)
 - Is my Current allocation reasonable for the task?
 - Have I reserved enough On-Demand capacity? (30% minimum)
-- What's my total preload percentage? (Should be <35%)
+- What's my total preload percentage? (Should be under 35%)
 ```
 
 ### Expected Outcomes
