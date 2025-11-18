@@ -426,99 +426,20 @@ You now understand the **big picture**: why Python has three fundamental collect
 
 ---
 
-## Try With AI: Data Structure Selection Challenge
+## Try With AI
 
-You've learned the WHY behind lists, tuples, and dictionaries. Now practice choosing the right structure for real problems—with AI as your architecture reviewer.
+Practice choosing the right collection type for real-world requirements.
 
-### Part 1: Design Game Data Structures (Your Turn First)
+**🔍 Explore Collection Selection:**
+> "Show me RPG game data examples: player stats (health, mana), inventory items in order, fixed spawn coordinates, enemy ID lookups. Explain which collection type (list/tuple/dict) fits each and why."
 
-**Before asking AI**, design data structures for a simple RPG game:
+**🎯 Practice Type Decisions:**
+> "Help me design a student roster: 100 students by ID (fast lookup), each has name, grades list, immutable enrollment date. Show type hints and sample data for 3 students."
 
-**Requirements**:
-1. **Player stats** (health=100, mana=50, level=1) - need fast lookup by stat name
-2. **Inventory slots** (5 items in order: sword, potion, shield, null, null) - indexed access
-3. **Starting position** (x=10, y=20) - never changes during game initialization
-4. **Enemy IDs to names** (101='Goblin', 102='Dragon', 103='Troll') - fast lookup by ID
+**🧪 Test Conflicting Requirements:**
+> "Identify tradeoffs when requirements conflict: inventory needs ordering AND fast 'contains' checks, config is key-value BUT display order matters. Show two approaches for each."
 
-**Your task**: For EACH requirement, choose list, tuple, or dict. Write:
-1. The data structure you'd use
-2. WHY that structure (mutable/immutable? ordered? keyed?)
-3. Type hint for each
-
-Make decisions BEFORE asking AI.
+**🚀 Apply to Nested Structures:**
+> "Build a university system: departments contain courses, courses contain students. Design the nested dict structure with proper type hints. Demonstrate lookup, iteration, and modification."
 
 ---
-
-### Part 2: AI Reviews Your Architecture (Discovery)
-
-Share your design with AI:
-
-> "Here's my game data structure design: [paste your choices]. For each:
-> 1. Is my choice correct? If wrong, explain why
-> 2. What's the performance difference? (O(1) lookup vs O(n) search)
-> 3. Show me the code to create each structure with sample data
-> 4. Explain: Why is tuple RIGHT for starting position but WRONG for current position?"
-
-**Your task**: Evaluate AI's architecture feedback.
-- Does it confirm dict for player stats (fast key-based access)?
-- Does it confirm list for inventory (ordered, mutable, indexed)?
-- Does it confirm tuple for starting position (immutable)?
-- Does it explain lookup performance (dict O(1) vs. list O(n))?
-- Can you now articulate the decision framework?
-
----
-
-### Part 3: Student Teaches AI (Edge Cases & Tradeoffs)
-
-AI reviewed your choices. But does it understand the TRADEOFFS?
-
-Challenge AI with conflicting requirements:
-
-> "What if requirements CONFLICT?
-> 1. Inventory needs ordering (suggests list) BUT also fast 'does player have sword?' checks (suggests set/dict)
-> 2. Config settings are key-value (suggests dict) BUT order matters for display (suggests list of tuples)
-> 3. Player coordinates change (suggests list) BUT want to prevent accidental modification (suggests tuple)
->
-> For each conflict:
-> - Show me TWO valid approaches
-> - Explain tradeoffs (performance vs. safety vs. clarity)
-> - Which would YOU choose and why?"
-
-**Your task**: Compare tradeoff solutions.
-- Does AI show hybrid approaches (list + set for inventory)?
-- Does it mention OrderedDict or dict (Python 3.7+ preserves order)?
-- Does it explain that immutability can be enforced with tuples returned from functions?
-- Which tradeoffs make sense to YOU?
-
----
-
-### Part 4: Build Student Roster Together (Convergence)
-
-Now design a complete data structure with AI:
-
-> "Design a student roster system:
-> - Store 100 students by ID (fast lookup)
-> - Each student has: name (str), grades (list of floats), enrollment_date (immutable)
-> - Need to iterate students in ID order
->
-> Requirements:
-> 1. Type hints for everything
-> 2. Sample data for 3 students
-> 3. Show how to: look up student by ID, add a grade, calculate average
-> 4. Explain: Why nested structures (dict of dicts with lists inside)?"
-
-**Your task**: Review the nested structure.
-- Does it use `dict[int, dict[str, Any]]` or similar type hint?
-- Does student dict contain grades as `list[float]`?
-- Does enrollment_date use tuple or date object?
-- Can you explain when nesting is appropriate vs. over-engineering?
-
-Iterate if needed:
-> "The type hint uses `Any`. Make it more specific showing exact structure of student dict."
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've designed data structures for real requirements, learned the performance implications (O(1) vs O(n)), understood tradeoffs, and practiced nested structures.
-
-**Safety Note**: Choice of data structure affects both correctness AND performance. A dict lookup is instant (O(1)), but searching a list of 1M items is slow (O(n)). Your architecture decisions matter.

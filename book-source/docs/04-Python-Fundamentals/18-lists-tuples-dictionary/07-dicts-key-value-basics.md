@@ -484,108 +484,20 @@ contact: dict[str, str | int | bool] = {
 
 **Check your understanding**: What would happen if you tried `contact["notes"]` with bracket notation? How is `.get()` different?
 
-## Try With AI: Dictionary Access Pattern Challenge
+## Try With AI
 
-You've learned dict creation, bracket notation `dict['key']`, and safe access `dict.get('key', default)`. Now master when to use each access pattern—with AI as your safety validator.
+Master dictionary access patterns and understand when to use bracket notation vs .get().
 
-### Part 1: Build User Profile (Your Turn First)
+**🔍 Explore Access Patterns:**
+> "Show me dict['key'] vs dict.get('key', default) with examples. Explain when KeyError is GOOD (required data, fail-fast) vs when defaults are GOOD (optional data). Give real scenarios for each."
 
-**Before asking AI**, create a user profile dictionary and access it TWO ways:
+**🎯 Practice Safe Access:**
+> "Help me create a user profile dict with name, email, age, premium. Access email with brackets, phone (missing) with .get('phone', 'Not provided'). Show what happens with user['phone']."
 
-**Requirements**:
-```python
-# Create user profile with:
-# - name: "Alice Smith"
-# - email: "alice@example.com"
-# - age: 28
-# - premium: True
+**🧪 Test Type Hint Limits:**
+> "Debug this: user: dict[str, str|int|bool] = {'name': 'Alice'}; user['scores'] = [95, 88]. Does Python stop me? What do type hints actually do? Would mypy catch this? Show TypedDict for strict typing."
 
-user: dict[str, str | int | bool] = ???
-
-# Task 1: Get email using bracket notation
-# Task 2: Get 'phone' (doesn't exist) using .get() with default "Not provided"
-# Task 3: Try getting 'phone' with bracket notation - what happens?
-```
-
-**Your task**:
-1. Create the dict with correct type hints
-2. Predict: What happens with `user['phone']`?
-3. Write down WHY you'd use `.get()` vs `[]`
+**🚀 Apply to Config System:**
+> "Build app config with required fields (app_name, port, debug) using brackets, and optional fields (log_file='app.log', max_connections=100) using .get(). Explain why required SHOULD crash if missing."
 
 ---
-
-### Part 2: AI Explains Access Patterns (Discovery)
-
-Share your code with AI:
-
-> "Here's my user profile dictionary: [paste code]. Explain:
-> 1. Why does `user['phone']` raise KeyError?
-> 2. When would I WANT a KeyError (bracket notation)?
-> 3. When would I want a default (get method)?
-> 4. Show me a real scenario where each pattern prevents bugs"
-
-**Your task**: Evaluate AI's safety guidance.
-- Does it explain KeyError is GOOD when data is required?
-- Does it show `.get()` is GOOD for optional fields?
-- Does it give examples (required: email, optional: phone)?
-- Can you now choose the right access pattern?
-
----
-
-### Part 3: Student Teaches AI (Type Hint Limitations)
-
-AI explained access patterns. But does it understand type hint LIMITATIONS?
-
-Challenge AI with runtime vs. static types:
-
-> "I declared my dict as `dict[str, str | int | bool]` but then did:
-> ```python
-> user: dict[str, str | int | bool] = {'name': 'Alice', 'age': 28}
-> user['scores'] = [95, 88, 92]  # Added a list! Type hint says str|int|bool!
-> ```
->
-> Questions:
-> 1. Does Python stop me at runtime? (Try it!)
-> 2. What does the type hint ACTUALLY do?
-> 3. Would mypy catch this error?
-> 4. Show me how to make the type hint MORE accurate for mixed data"
-
-**Your task**: Understand type hint reality.
-- Does AI explain that type hints are hints, not enforcement?
-- Does it show that Python allows ANY value in dicts?
-- Does it mention `Any` type or TypedDict for strict typing?
-- Can you explain: "Type hints document intent, don't enforce it"?
-
----
-
-### Part 4: Build Config System Together (Convergence)
-
-Now apply dict patterns to a real system:
-
-> "Build an app config system:
-> 1. Required settings: `app_name` (str), `port` (int), `debug` (bool)
-> 2. Optional settings: `log_file` (str, default='app.log'), `max_connections` (int, default=100)
-> 3. Use bracket notation for required (crash if missing)
-> 4. Use .get() for optional (provide defaults)
-> 5. Type hint: `dict[str, str | int | bool]`
->
-> Show code that:
-> - Creates config dict
-> - Accesses all settings safely
-> - Explains WHY each access pattern"
-
-**Your task**: Review the mixed access pattern.
-- Does it use `config['app_name']` for required fields?
-- Does it use `config.get('log_file', 'app.log')` for optional?
-- Does it explain that required fields SHOULD crash if missing?
-- Can you explain when defensive (.get) vs. strict ([]) makes sense?
-
-Iterate if needed:
-> "Add validation: If port exists but isn't an int, show error. Can you do this with type hints alone?"
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've mastered bracket notation for required data (fail-fast), .get() for optional data (defaults), understood type hint limitations, and built a production config pattern.
-
-**Safety Note**: Dicts DON'T enforce type hints at runtime. Always validate critical data (especially user input) even with type hints. Type hints help editors/mypy, not Python itself.

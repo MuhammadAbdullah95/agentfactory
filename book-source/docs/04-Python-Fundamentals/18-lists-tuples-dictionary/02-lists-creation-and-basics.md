@@ -421,54 +421,18 @@ You can now create lists with type hints and extract exactly the data you need u
 
 ## Try With AI
 
-**Tool**: Claude Code, Gemini CLI, or your preferred AI companion (or ChatGPT web if you haven't set up a CLI tool yet)
+Master list indexing, slicing, and the aliasing trap.
 
-Use your AI tool to deepen your understanding:
+**🔍 Explore Indexing Patterns:**
+> "Show me how ['apple', 'banana', 'cherry', 'date', 'elderberry'] behaves with [0], [-1], [1:3], [:2], and [::2]. Explain each result and when I'd use these patterns."
 
-### Prompt 1 (Remember): Index and Slice Review
+**🎯 Practice Slicing Operations:**
+> "Help me extract data from a 20-student list: first 5 students, last 3 students, every other student, reversed list. Show slice notation for each."
 
-> "For the list ['apple', 'banana', 'cherry', 'date', 'elderberry'], what does each expression return?
-> - `[0]`
-> - `[-1]`
-> - `[1:3]`
-> - `[:2]`
-> - `[::2]`
->
-> Explain why each one works the way it does."
+**🧪 Test Aliasing Behavior:**
+> "Debug this code: original = [1, 2, 3]; backup = original; original.append(4). Why does backup become [1, 2, 3, 4]? Show how to create a true independent copy."
 
-**Expected Outcome**: You'll confirm your understanding of indexing and slicing patterns and catch any misconceptions.
-
-### Prompt 2 (Understand): Negative Indexing Deep Dive
-
-> "I have a list of 8 items. Explain why `list[-3]` and `list[5]` refer to the same item (assuming the list has 8 items). Draw a numbered index diagram showing both positive and negative indices."
-
-**Expected Outcome**: You'll understand the mapping between positive and negative indices, making you confident with backward counting.
-
-### Prompt 3 (Apply): Slice for Real Problems
-
-> "I have a list of 20 students. Write slice notation to:
-> - Get the first 5 students
-> - Get the last 3 students
-> - Get every other student starting from index 0
-> - Reverse the entire list
->
-> For each slice, explain what you're trying to achieve."
-
-**Expected Outcome**: You'll recognize that slicing solves real problems and learn when to reach for `[start:stop:step]`.
-
-### Prompt 4 (Analyze): The Aliasing Trap
-
-> "Explain why this code is problematic:
-> ```python
-> original = [1, 2, 3]
-> backup = original
-> original.append(4)
-> # Now 'backup' is [1, 2, 3, 4]—why?
-> ```
-> Show how to fix it. Why would this bug be hard to catch in a large program?"
-
-**Expected Outcome**: You'll internalize the aliasing concept and always remember to use `.copy()` when you need an independent list.
+**🚀 Apply to Data Extraction:**
+> "Build a log analyzer that processes the last 100 entries from a list of 10,000 log messages, extracts every 10th entry for sampling, and creates independent backups. Demonstrate indexing and copying."
 
 ---
-
-**Safety & Ethics**: When working with real data, always verify that modifications are intentional. Aliasing bugs can cause data corruption if you accidentally modify a "backup" that you thought was independent. Ask your AI partner to review code where lists are assigned to catch this pattern.

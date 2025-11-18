@@ -467,38 +467,18 @@ backup.append(100)  # Original scores safe
 
 ## Try With AI
 
-Use **Claude Code, Gemini CLI, or ChatGPT** (whichever you're familiar with) to explore these methods and build your intuition.
+Master sorting, searching, and advanced list operations.
 
-**Prompt 1: Remember the Methods**
+**🔍 Explore Sorting Methods:**
+> "Show me the difference between .sort() and sorted() with examples. Explain why .sort() returns None while sorted() returns a list, and when I'd use each."
 
-> "List all the methods/functions we learned in this lesson: sort, sorted, reverse, count, index, copy. For each, write one sentence describing what it does and whether it modifies the original."
+**🎯 Practice List Operations:**
+> "Help me work with prices [45.99, 29.50, 99.99, 45.99, 15.25]: create sorted version, count occurrences of 45.99, find position of 99.99, reverse the list. Show the code."
 
-**Expected outcome**: You'll articulate the purpose and behavior of each method from memory.
+**🧪 Test Method Behavior:**
+> "Debug sorting issues: using .sort() in an assignment (backup = data.sort()), searching for missing values with .index(), modifying while iterating. Explain each problem and fix."
 
----
-
-**Prompt 2: Understand the Pattern**
-
-> "Explain why scores.sort() returns None but sorted(scores) returns a list. Why would Python design these differently?"
-
-**Expected outcome**: You'll grasp the design philosophy: explicit intent through method vs function distinction.
+**🚀 Apply to Grade Manager:**
+> "Build a grade management system that stores original grades, creates sorted displays, makes backups before modifications, and finds student rankings. Demonstrate sort(), sorted(), .copy(), and .index()."
 
 ---
-
-**Prompt 3: Apply to Real Data**
-
-> "You have a list of product prices: [45.99, 29.50, 99.99, 45.99, 15.25]. Write code that: (1) shows the original unsorted list, (2) creates a sorted list in ascending order, (3) counts how many items cost exactly $45.99, (4) finds the first position of the $99.99 item. Test your code with the provided prices."
-
-**Expected outcome**: You'll write working code that combines multiple methods in a realistic scenario.
-
----
-
-**Prompt 4: Analyze Design Decisions**
-
-> "You're designing a student grade management system. You need to: store original grades, create a sorted list for display, and make backups before modifications. For each operation, explain whether you'd use sort(), sorted(), .copy(), or another method and why."
-
-**Expected outcome**: You'll evaluate tradeoffs and justify architectural choices—this is B1-level thinking.
-
----
-
-**A note on responsible AI use**: When AI generates code for you, read it carefully before running. Ask AI to explain each line. If something looks wrong, ask "Why did you use approach X instead of Y?" This transforms AI from code generator to learning partner. Also, remember that `.sort()` modifying the original list is intentional design—not a bug—so understanding *why* Python works this way is more valuable than memorizing the behavior.

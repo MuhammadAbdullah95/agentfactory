@@ -681,146 +681,23 @@ Check yourself against these criteria:
 
 ---
 
-## Try With AI: Sales Data Pipeline Capstone (Chapter 18 Integration)
+## Try With AI
 
-You've completed all 10 lessons of Chapter 18 (lists, tuples, dicts, comprehensions, structure selection). Now build a complete data pipeline integrating EVERYTHING—with AI as your architecture partner.
+Build a complete sales data pipeline integrating all Chapter 18 concepts.
 
-### Part 1: Design Pipeline Architecture (Your Turn First)
+**🔍 Explore Pipeline Architecture:**
+> "Show me a sales CSV pipeline design: parse to list[dict], filter Electronics with price>$100, aggregate revenue by category. Explain structure choices and why dict for records, list for collection, dict for aggregation."
 
-**Before asking AI**, design a sales data pipeline from scratch:
+**🎯 Practice Pipeline Construction:**
+> "Help me build working code: CSV parsing (handle headers), type conversion (float/int), filtering with comprehension, revenue aggregation with dict accumulator, find top category. Show complete code with type hints."
 
-**Raw CSV Data**:
-```
-product,category,price,quantity
-Laptop,Electronics,999.99,5
-Mouse,Electronics,25.50,15
-Desk,Furniture,450.00,3
-Chair,Furniture,200.00,8
-Monitor,Electronics,350.00,6
-```
+**🧪 Test Edge Case Handling:**
+> "Debug production CSV issues: empty lines, missing fields, invalid prices ('N/A'), duplicate products. Show how code breaks for each, add validation (skip? defaults?), explain strict vs lenient tradeoffs."
 
-**Your Design Task**:
-1. **Parse**: Convert CSV to `list[dict[str, str | float | int]]`
-2. **Filter**: Electronics only, price > $100
-3. **Aggregate**: Total revenue per category (price × quantity)
-4. **Output**: Formatted summary showing top category
-
-**Your implementation**:
-- Choose structures (why dict for records? why list? why dict for aggregation?)
-- Write type hints for all variables
-- Use comprehension for filtering step
-- Sketch code BEFORE asking AI
+**🚀 Apply Multi-Dimensional Analysis:**
+> "Build advanced pipeline: revenue by category AND price bracket (<$100, $100-$500, $500+), top 3 products by revenue (sorted), summary stats, formatted table. Use nested dicts, comprehensions, sorted(), f-strings. Integrate all Chapter 18 concepts."
 
 ---
-
-### Part 2: Build with AI (Collaborative Construction)
-
-Share your design with AI:
-
-> "Here's my sales pipeline design: [paste pseudocode]. Build complete working code with:
-> 1. CSV parsing (split by lines, then by commas)
-> 2. Type conversion (price→float, quantity→int)
-> 3. Filtering with list comprehension (Electronics + price>100)
-> 4. Revenue aggregation using dict accumulator
-> 5. Find highest revenue category
-> 6. Type hints throughout
->
-> Show complete code I can run with sample data."
-
-**Your task**: Review AI's implementation critically.
-- Does it parse CSV correctly (handle headers)?
-- Does it use list[dict] for records?
-- Does it use comprehension for filter?
-- Does it use dict for aggregation pattern?
-- Can you trace execution for first 3 records?
-
-If unclear, ask:
-> "Explain the aggregation loop step-by-step. How does the dict accumulator work?"
-
----
-
-### Part 3: Student Teaches AI (Edge Cases & Validation)
-
-AI built basic pipeline. But does it handle REAL data issues?
-
-Challenge AI with production edge cases:
-
-> "Real CSV data has problems:
-> 1. Empty lines in CSV
-> 2. Missing fields (some rows have no quantity)
-> 3. Invalid price ('N/A' instead of number)
-> 4. Duplicate products (same name, different rows)
->
-> For EACH edge case:
-> - Show how current code BREAKS
-> - Fix with validation (skip invalid rows? default values?)
-> - Explain tradeoffs (strict vs. lenient validation)
->
-> Make the pipeline production-ready."
-
-**Your task**: Evaluate error handling.
-- Does it validate row length before parsing?
-- Does it skip or error on invalid price conversion?
-- Does it handle duplicates (sum quantities? keep both?)?
-- Which approach is safer for production?
-
----
-
-### Part 4: Extend to Multi-Dimensional Analysis (Convergence)
-
-Now add complex features with AI:
-
-> "Extend the pipeline with:
-> 1. Multi-category aggregation (revenue by category AND by price bracket: &lt;$100, $100-$500, $500+)
-> 2. Top 3 products by total revenue (sort list of dicts)
-> 3. Summary statistics (total products, total revenue, avg price)
-> 4. Formatted output table with aligned columns
->
-> Use:
-> - Nested dicts for multi-dimensional aggregation
-> - List comprehensions for filtering
-> - sorted() for ranking
-> - F-strings for formatting
->
-> Show complete code with all Chapter 18 concepts integrated."
-
-**Your task**: Review the integration.
-- Does it use nested dicts for 2D aggregation (category → bracket → revenue)?
-- Does it use `sorted(products, key=lambda p: p['revenue'], reverse=True)`?
-- Does it combine comprehensions, dict methods, and loops appropriately?
-- Can you explain EVERY structure choice?
-
-Iterate if needed:
-> "The nested dict is confusing. Add comments explaining the structure and how to access nested values."
-
----
-
-### Part 5: Transfer Pattern to New Domain
-
-Final test—apply the pattern without AI:
-
-**Challenge**: Adapt your pipeline to process employee payroll data:
-```
-name,department,salary,bonus
-Alice,Engineering,95000,5000
-Bob,Sales,75000,8000
-Carol,Engineering,105000,7000
-```
-
-**Your independent task**:
-1. Parse to list[dict]
-2. Filter: Engineering department only
-3. Aggregate: Total compensation per department (salary + bonus)
-4. Output: Department summary
-
-Build this YOURSELF, then ask AI to review.
-
----
-
-**Time**: 60-75 minutes total (full capstone!)
-**Outcome**: You've built a production-grade data pipeline integrating ALL Chapter 18 concepts—lists, tuples, dicts, comprehensions, aggregation, structure selection, edge case handling, and multi-dimensional analysis.
-
-**Safety Note**: Real data pipelines need validation at EVERY step (parsing, conversion, aggregation). Never assume CSV data is clean. Always validate before processing.
 
 ---
 

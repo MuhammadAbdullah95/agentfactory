@@ -682,41 +682,19 @@ Remaining: {'apples': 50, 'oranges': 20}
 
 ## Try With AI
 
-Use **ChatGPT web** (or your AI companion tool if already set up) for the following prompts.
+Master dictionary CRUD operations and safe deletion patterns.
 
-### Prompt 1 (Remember): List All CRUD Operations
+**🔍 Explore CRUD Operations:**
+> "Show me the four dict CRUD operations (Create, Read, Update, Delete) with examples. Demonstrate adding keys, accessing values, updating existing keys, and removing keys."
 
-> "List the four CRUD operations for dictionaries in Python: Create, Read, Update, Delete. For each one, show me the syntax with a simple example (e.g., adding a key, accessing a value, changing a value, removing a key)."
+**🎯 Practice Safe Deletion:**
+> "Help me understand del dict[key] vs dict.pop(key, default). Show what happens when key doesn't exist with each. Give a real scenario where pop() is safer (inventory management)."
 
-**Expected Outcome**: You recall all four operations and their syntax. You understand that Create/Update use the same assignment pattern.
+**🧪 Test User Settings:**
+> "Debug a user_settings dict: create with theme/notifications/language, update theme to 'dark', add auto_save=True, check if 'email' exists. Show the in operator and final dict state."
 
----
-
-### Prompt 2 (Understand): When to Use `del` vs `pop()`
-
-> "Explain the difference between using `del dict[key]` and `dict.pop(key, default)`. What happens if the key doesn't exist with each method? Give a real-world scenario where you'd use `pop()` instead of `del`."
-
-**Expected Outcome**: You understand that `del` fails if the key is missing, while `pop()` with a default handles missing keys gracefully. You can identify scenarios like inventory management where safe deletion matters.
+**🚀 Apply to Inventory System:**
+> "Build inventory management: add_item(), update_quantity(), remove_sold_out(), check_stock(). Explain which CRUD operation each uses. Handle edge cases: buying more than available, duplicate items, missing items."
 
 ---
-
-### Prompt 3 (Apply): Build a User Settings Dictionary
-
-> "Create a dictionary called `user_settings` that stores user preferences: 'theme' (light/dark), 'notifications' (true/false), 'language' (en/es/fr). Then update the theme to 'dark', add a new setting 'auto_save' set to true, and check if 'email' is in settings (it won't be). Show me the final dictionary."
-
-**Expected Outcome**: You write code that adds keys, updates values, and checks for key existence. You demonstrate understanding that missing keys can be checked with `in` operator.
-
----
-
-### Prompt 4 (Analyze): Design a Inventory Management System
-
-> "Design a dictionary-based inventory system for a small store. You need to add items, update quantities when purchased, remove sold-out items, and check if items are in stock. Show me the function signatures and explain which CRUD operation each function performs. What edge cases do you need to handle (e.g., buying more than available, adding duplicate items)?"
-
-**Expected Outcome**: You apply architectural thinking to dictionary design. You consider edge cases and explain how unique keys enforce data integrity. You design functions that match real business operations.
-
----
-
-**Safety Note**: When using `del`, always verify the key exists first or use `pop()` with a default to avoid crashes. In production code, defensive programming (checking existence before acting) prevents bugs.
-
-**Next Lesson Preview**: Lesson 9 teaches **dictionary iteration and comprehensions**. You'll learn `.keys()`, `.values()`, and `.items()` methods, plus how to transform dictionaries using comprehensions—essential skills for processing large datasets efficiently.
 

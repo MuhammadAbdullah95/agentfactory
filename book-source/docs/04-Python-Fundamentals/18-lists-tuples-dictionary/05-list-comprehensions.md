@@ -352,114 +352,21 @@ The traditional loop is much clearer. Use it.
 
 ---
 
-## Try With AI: Comprehension Mastery Challenge
+## Try With AI
 
-You've learned list comprehension syntax `[expression for item in iterable if condition]`. Now master when to use comprehensions vs. loops by building data transformations—with AI as your readability judge.
+Master list comprehensions and learn when to use them vs. traditional loops.
 
-### Part 1: Convert Loop to Comprehension (Your Turn First)
+**🔍 Explore Comprehension Patterns:**
+> "Show me comprehension syntax with examples: filter-only ([x for x in items if condition]), transform-only ([x*2 for x in items]), and filter+transform. Explain when each pattern applies."
 
-**Before asking AI**, convert these for loops to list comprehensions:
+**🎯 Practice Loop Conversion:**
+> "Help me convert these loops to comprehensions: square even numbers from 1-10, extract first letters from names, uppercase words longer than 4 chars. Show both versions and explain readability."
 
-**Challenge 1**: Square even numbers
-```python
-# Loop version
-squares: list[int] = []
-for n in range(1, 11):
-    if n % 2 == 0:
-        squares.append(n ** 2)
+**🧪 Test Readability Limits:**
+> "Debug this nested comprehension: [[x*y for x in range(1,6) if x%2==0] for y in range(1,4) if y!=2]. Explain what it does, why it's hard to read, rewrite as clear loops. Give me a rule for when NOT to use comprehensions."
 
-# Your comprehension version:
-squares: list[int] = ???
-```
-
-**Challenge 2**: Extract first letters
-```python
-names: list[str] = ["Alice", "Bob", "Charlie"]
-# Your comprehension: first letter of each name
-initials: list[str] = ???
-```
-
-**Your task**:
-1. Write both comprehensions
-2. Predict the output
-3. Decide: Is comprehension MORE readable than the loop?
+**🚀 Apply to Data Pipeline:**
+> "Build grade processor: filter scores >= 60 from [95, 67, 88, 72, 55, 91, 100, 45, 80], convert to letter grades (A/B/C/D). Use comprehension for filter, loop for grading. Explain when to mix approaches."
 
 ---
-
-### Part 2: AI Explains Comprehension Patterns (Discovery)
-
-Share your comprehensions with AI:
-
-> "Here are my comprehensions: [paste code]. For each:
-> 1. Is the syntax correct?
-> 2. Trace execution step-by-step (show intermediate values)
-> 3. Which pattern does it use: filter-only, transform-only, or filter+transform?
-> 4. Would YOU use a comprehension here or a loop? Why?"
-
-**Your task**: Evaluate AI's pattern analysis.
-- Does it identify filter pattern (`if` condition)?
-- Does it identify transform pattern (expression changes value)?
-- Does it explain that simple comprehensions are more readable?
-- Can you articulate the rule: "1-line comprehension = good, complex = use loop"?
-
----
-
-### Part 3: Student Teaches AI (When NOT to Use Comprehensions)
-
-AI explained when comprehensions work. But does it know their LIMITS?
-
-Challenge AI with unmaintainable code:
-
-> "I wrote this 'clever' comprehension:
-> ```python
-> result = [[x*y for x in range(1, 6) if x % 2 == 0] for y in range(1, 4) if y != 2]
-> ```
->
-> Problems:
-> 1. What does this even do? (Trace it)
-> 2. Why is this TERRIBLE code for a team project?
-> 3. Rewrite it using nested loops with clear variable names
-> 4. Give me a RULE: When should I NEVER use a comprehension?
->
-> Show me the refactored version and explain why it's better."
-
-**Your task**: Understand readability limits.
-- Does AI explain this is a nested comprehension (hard to read)?
-- Does it show the loop version is clearer with comments?
-- Does it give a rule like "If you can't explain it in one sentence, use a loop"?
-- Can you now judge when a comprehension is too clever?
-
----
-
-### Part 4: Build Data Pipeline Together (Convergence)
-
-Now apply comprehensions to real data processing:
-
-> "Build a grade processing pipeline:
-> 1. Start with test scores: `[95, 67, 88, 72, 55, 91, 100, 45, 80]`
-> 2. Filter: Keep only passing scores (>= 60)
-> 3. Transform: Convert to letter grades (90-100='A', 80-89='B', 70-79='C', 60-69='D')
-> 4. Count: How many of each grade?
->
-> Requirements:
-> - Use comprehension for filter step
-> - Use loop for transform step (letter grades need multiple conditions)
-> - Show type hints
-> - Explain: Why comprehension for step 2 but loop for step 3?"
-
-**Your task**: Review the hybrid approach.
-- Does it use comprehension for simple filter (`score >= 60`)?
-- Does it use loop for complex transform (if-elif-else for grades)?
-- Does it explain that comprehensions work for SIMPLE expressions?
-- Can you explain when to mix comprehensions and loops?
-
-Iterate if needed:
-> "Can the letter grade conversion be done with a comprehension using conditional expressions (ternary)? Show me, then tell me if it's more or less readable."
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've mastered list comprehension syntax, learned when they improve readability (simple filter/transform) vs. hurt it (nested/complex logic), and practiced hybrid approaches.
-
-**Safety Note**: Comprehensions execute eagerly (build full list in memory). For large datasets (millions of items), use generator expressions `(x for x in items)` instead—you'll learn these in Chapter 20.
 

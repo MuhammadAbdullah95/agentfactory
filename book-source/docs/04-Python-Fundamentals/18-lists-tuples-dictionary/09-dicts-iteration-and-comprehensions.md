@@ -710,39 +710,19 @@ This example uses:
 
 ## Try With AI
 
-Use **ChatGPT web** (or your AI companion tool if already set up) for the following prompts.
+Master dictionary iteration methods and dictionary comprehensions.
 
-### Prompt 1 (Remember): The Three Iteration Methods
+**🔍 Explore Iteration Methods:**
+> "Show me .keys(), .values(), and .items() with examples. Explain what each returns and when I'd use each (keys-only search, values-only processing, key-value pairs for both)."
 
-> "In Python dictionaries, what are the three main ways to iterate: `.keys()`, `.values()`, and `.items()`? Show me a simple example for each one and explain what you get in each case."
+**🎯 Practice Dict Comprehensions:**
+> "Help me write dict comprehension for temperature conversion: {'New York': 20, 'Los Angeles': 25} to Fahrenheit. Show formula (C*9/5)+32 and add filter for cities above 70°F."
 
-**Expected Outcome**: You recall all three methods and understand what each returns. You see the tuple unpacking pattern in `.items()`.
+**🧪 Test Loop vs Comprehension:**
+> "Debug filtering student grades >= 70: show both for-loop version and dict comprehension. Compare readability. When would I choose loop over comprehension for clarity?"
 
----
-
-### Prompt 2 (Understand): When to Use Each Method
-
-> "Explain when you would use `.keys()` vs `.values()` vs `.items()`. Give me a realistic scenario for each one where that method is the right choice."
-
-**Expected Outcome**: You understand that the choice depends on whether you need keys only, values only, or both. You can identify the appropriate method for a given task.
+**🚀 Apply to Data Transform:**
+> "Build grade analyzer: iterate over student_grades dict, calculate average, filter passing students, create summary dict. Demonstrate .items() unpacking, comprehension filtering, and safe iteration without modification."
 
 ---
-
-### Prompt 3 (Apply): Dictionary Comprehension for Temperature Conversion
-
-> "Write a dictionary comprehension that converts temperatures from Celsius to Fahrenheit. Start with a dict like `{'New York': 20, 'Los Angeles': 25}`. Show the original dict, the comprehension code, and the output. Then modify it to only include cities above 70°F in the result."
-
-**Expected Outcome**: You write a correct comprehension with the formula (C * 9/5) + 32, see the output, and add filtering. You understand the `{key: value for ...}` syntax and if conditions.
-
----
-
-### Prompt 4 (Analyze): Comparing Loops and Comprehensions
-
-> "Given a dictionary of student grades, show me how to filter only passing grades (>= 70) using: 1) a for loop, and 2) a comprehension. Which is more readable? When would you choose the loop over the comprehension?"
-
-**Expected Outcome**: You compare both approaches, understand readability tradeoffs, and can make defensible decisions about when comprehensions are appropriate vs when loops are clearer.
-
----
-
-**Safety Note**: When iterating dictionaries, don't modify (add/delete keys) while looping. Instead, collect the keys to modify, then apply changes after the loop completes. This prevents skipping items.
 

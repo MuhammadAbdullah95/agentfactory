@@ -428,47 +428,19 @@ Remember: **Parentheses alone don't make a tuple. The comma does.**
 
 ## Try With AI
 
-Use your AI companion (ChatGPT web, Gemini CLI, or Claude CLI) to explore tuples further.
+Practice tuple usage, unpacking, and understand immutability guarantees.
 
-#### Prompt 1 (Remember): Tuple Fundamentals
+**🔍 Explore Tuple Immutability:**
+> "Show me the difference between (1, 2, 3) and [1, 2, 3]. Explain what operations work on lists but fail on tuples, and give 3 real scenarios where immutability prevents bugs (coordinates, config, function returns)."
 
-**Tell your AI:**
+**🎯 Practice Tuple Unpacking:**
+> "Help me use tuple unpacking for: multiple return values from a function, swapping two variables without temp, extracting RGB color components. Show syntax and explain why tuples fit these patterns."
 
-> "Explain the difference between creating `data = (1, 2, 3)` and `data = [1, 2, 3]`. What can I do with one that I can't with the other?"
+**🧪 Test Dict Key Usage:**
+> "Debug using tuples as dict keys: build a chess board with (row, col) coordinates mapping to piece types. Show why coordinates must be tuples not lists, and demonstrate lookup and unpacking."
 
-**Expected Outcome**: You'll articulate immutability as the core distinction—lists allow modification, tuples don't.
-
----
-
-#### Prompt 2 (Understand): Immutability and Safety
-
-**Tell your AI:**
-
-> "In what real-world scenarios does immutability matter? Give me 3 examples where a tuple's 'can't change' property would be valuable (e.g., coordinates, function returns, settings). Explain why mutability would be dangerous in each case."
-
-**Expected Outcome**: You'll recognize that immutability is a feature, not a limitation—it prevents bugs and communicates intent.
+**🚀 Apply to Function Design:**
+> "Build a player info function returning (name, health, position). Compare returning tuple vs list vs dict. Analyze tradeoffs: unpacking, modification safety, readability, intent. When would I choose each?"
 
 ---
-
-#### Prompt 3 (Apply): Unpacking and Dict Keys
-
-**Tell your AI:**
-
-> "I'm building a chess game. The board has coordinates (row, column) like (0, 0) to (7, 7). I need to store piece positions and their types. Should coordinates be a tuple or a list? Show me code using coordinates as dict keys to store piece types. Then unpack a coordinate and print the piece at that location."
-
-**Expected Outcome**: You'll write correct code using tuples as dict keys and practice unpacking for practical use.
-
----
-
-#### Prompt 4 (Analyze): Comparing Data Structures
-
-**Tell your AI:**
-
-> "I have a function that returns three values: player name, health, and position coordinates. Should I return `[name, health, position]`, `(name, health, position)`, or a dict? Analyze the tradeoffs—consider: unpacking, modification, readability, and intent. When would I choose each?"
-
-**Expected Outcome**: You'll evaluate architectural decisions about data representation and recognize that tuples communicate immutability intent.
-
----
-
-**Safety Note**: Tuples themselves are immutable, but if a tuple contains mutable objects (like a list), those objects *can* be modified. For example: `data = ([1, 2], 3)` has an immutable structure, but you can modify the list inside: `data[0].append(4)`. For now, use simple immutable types in tuples (integers, strings, floats).
 

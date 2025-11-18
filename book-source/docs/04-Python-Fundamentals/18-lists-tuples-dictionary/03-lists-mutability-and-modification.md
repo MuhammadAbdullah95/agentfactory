@@ -497,26 +497,18 @@ Ask your AI companion:
 
 ## Try With AI
 
-Use your AI companion (ChatGPT web, Gemini CLI, or Claude Code) for this practice set:
+Practice list modification methods and understand their differences.
 
-**Prompt 1 (Remember)**: "List the six main list modification methods and what each does in one sentence: append, extend, insert, remove, pop, clear."
+**🔍 Explore Modification Methods:**
+> "Show me the six main list methods (append, extend, insert, remove, pop, clear) with examples. Explain what each does and when I'd choose one over another."
 
-Expected outcome: You recall the core purpose of each method.
+**🎯 Practice Method Combinations:**
+> "Help me transform [1, 2, 3, 4, 5]: add 6 to end, extend with [7, 8, 9], remove 3, pop last item, insert 10 at position 0. Show the code and final result."
 
----
+**🧪 Test Method Differences:**
+> "Debug common mistakes: using append() instead of extend() for multiple items, using remove() when value doesn't exist, using pop(0) repeatedly on large lists. Explain each issue and solution."
 
-**Prompt 2 (Understand)**: "Explain why `append()` and `extend()` are different. Give an example where using the wrong one would cause a bug in a shopping cart application."
-
-Expected outcome: You articulate the semantic distinction (single vs multiple items) and see a concrete consequence of the error.
-
----
-
-**Prompt 3 (Apply)**: "I have a list `[1, 2, 3, 4, 5]`. I want to: add 6 to the end, add [7, 8, 9] to it, remove 3, pop the last item, and insert 10 at position 0. Write the code and show the final list."
-
-Expected outcome: You translate natural language requirements into method calls and verify the result matches your prediction.
+**🚀 Apply to Task Manager:**
+> "Build a task list manager that adds tasks, inserts high-priority tasks at the front, marks tasks complete by removing them, and clears all completed tasks. Demonstrate proper method selection."
 
 ---
-
-**Prompt 4 (Analyze)**: "Compare these approaches: (1) `list.pop(0)` to remove the first item, (2) `list.remove(value)` to remove by value. When would you use each? What's the difference in what they require and return?"
-
-Expected outcome: You evaluate the semantic difference (index vs value, return value vs None) and understand when to reach for each method professionally.
