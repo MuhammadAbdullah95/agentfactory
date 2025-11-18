@@ -124,7 +124,7 @@ Reality check for your 5 study partners:
 What if your study partners could get your entire setup with one command?
 
 ```bash
-gemini extensions install https://github.com/yourname/study-tools
+gemini extensions install https://github.com/gemini-cli-extensions/security
 ```
 
 **That's exactly what extensions do.**
@@ -156,7 +156,7 @@ Result: Frustration, inconsistency
 
 **With extensions**:
 ```bash
-gemini extensions install https://github.com/yourname/study-tools
+gemini extensions install https://github.com/gemini-cli-extensions/security
 ```
 
 ```
@@ -191,19 +191,20 @@ gemini extensions install https://github.com/username/extension-name
 4. Loads GEMINI.md context files
 5. Applies settings and configurations
 
-**Example - Installing a learning tools extension**:
+**Example - Installing a enhance your repository's security posture extension**:
 ```bash
-gemini extensions install https://github.com/learning-tools/ai-study-kit
+gemini extensions install https://github.com/gemini-cli-extensions/security
 ```
 
 **Success message**:
 ```
-✓ Extension 'ai-study-kit' installed successfully
-✓ Installed 2 MCP servers (playwright, context7)
-✓ Added 3 custom commands (/learn, /quiz, /research)
-✓ Loaded context from GEMINI.md
-
-Restart Gemini CLI to use the extension.
+Installing extension "gemini-cli-security".
+**The extension you are about to install may have been created by a third-party developer and sourced from a public repository. Google does not vet, endorse, or guarantee the functionality or security of extensions. Please carefully inspect any extension and its source code before installing to understand the permissions it requires and the actions it may perform.**
+This extension will run the following MCP servers:
+  * securityServer (local): node C:\Users\A\AppData\Local\Temp\gemini-extensionTJGjh7/mcp-server/dist/security.js
+This extension will append info to your gemini.md context using GEMINI.md
+Do you want to continue? [Y/n]: Y
+Extension "gemini-cli-security" installed successfully and enabled.
 ```
 
 #### Install from Local Directory
@@ -220,22 +221,22 @@ This creates a copy in your extensions directory.
 
 **Install specific version**:
 ```bash
-gemini extensions install https://github.com/user/extension --ref v1.2.0
+gemini extensions install https://github.com/gemini-cli-extensions/security --ref v0.3.0
 ```
 
 **Enable auto-updates**:
 ```bash
-gemini extensions install https://github.com/user/extension --auto-update
+gemini extensions install https://github.com/gemini-cli-extensions/security --auto-update
 ```
 
 **Include pre-releases**:
 ```bash
-gemini extensions install https://github.com/user/extension --pre-release
+gemini extensions install https://github.com/gemini-cli-extensions/security --pre-release
 ```
 
 **Skip confirmation prompt**:
 ```bash
-gemini extensions install https://github.com/user/extension --consent
+gemini extensions install https://github.com/gemini-cli-extensions/security --consent
 ```
 
 ### Listing Installed Extensions
@@ -248,25 +249,28 @@ gemini extensions list
 
 **Example output**:
 ```
-Installed Extensions:
+✓ context7 (1.0.0)
+ ID: 16a7277d62eea8e1bcc1a9a47e65b76f3d3aae8bae5f630b8bc028116b09ea25
+ name: 0472116c93c00c7ca34dc790f805a3fd637a5a02f690d03f3d427bf273eb6492
+ Path: C:\Users\A\.gemini\extensions\context7
+ Source: https://github.com/upstash/context7 (Type: git)
+ Enabled (User): true
+ Enabled (Workspace): true
+ MCP servers:
+  context7
 
-1. ai-study-kit (v1.0.0)
-   Location: ~/.gemini/extensions/ai-study-kit
-   Status: Enabled
-   MCP Servers: playwright, context7
-   Commands: /learn, /quiz, /research
-
-2. python-helpers (v2.1.0)
-   Location: ~/.gemini/extensions/python-helpers
-   Status: Disabled
-   MCP Servers: python-executor
-   Commands: /run-python, /test-code
-
-3. web-dev-tools (v1.5.2)
-   Location: ~/.gemini/extensions/web-dev-tools
-   Status: Enabled (workspace only)
-   MCP Servers: browser-tools
-   Commands: /preview, /validate-html
+✓ gemini-cli-security (0.3.0)
+ ID: 3cd3f2199bc2138259a06d9fcff3e3c9e5bd0150ddf64c051097080eebe88f29
+ name: b8fcb80afdae08dc5e5c0d5b2ae222172e85337818d98e22d04c59328fdc8a58
+ Path: C:\Users\A\.gemini\extensions\gemini-cli-security
+ Source: https://github.com/gemini-cli-extensions/security (Type: github-release)
+ Release tag: v0.3.0
+ Enabled (User): true
+ Enabled (Workspace): true
+ Context files:
+  C:\Users\A\.gemini\extensions\gemini-cli-security\GEMINI.md
+ MCP servers:
+  securityServer
 ```
 
 **You can also list extensions from within Gemini CLI**:
@@ -281,7 +285,7 @@ This shows the same information in your active session.
 #### Update Single Extension
 
 ```bash
-gemini extensions update ai-study-kit
+gemini extensions update gemini-cli-security
 ```
 
 **What this does**:
@@ -292,15 +296,7 @@ gemini extensions update ai-study-kit
 
 **Example output**:
 ```
-Updating 'ai-study-kit'...
-✓ Updated from v1.0.0 to v1.1.0
-
-Changes:
-+ Added new command: /flashcards
-✎ Improved /quiz command with difficulty levels
-✓ Updated Playwright MCP to latest version
-
-Restart Gemini CLI to use updates.
+Extension "gemini-cli-security" is already up to date.
 ```
 
 #### Update All Extensions
@@ -324,7 +320,7 @@ Sometimes you want to temporarily disable an extension without uninstalling it.
 #### Disable Everywhere
 
 ```bash
-gemini extensions disable ai-study-kit
+gemini extensions disable gemini-cli-security
 ```
 
 The extension stays installed but won't load in any session.
@@ -334,7 +330,7 @@ The extension stays installed but won't load in any session.
 From inside your project directory:
 
 ```bash
-gemini extensions disable ai-study-kit --scope workspace
+gemini extensions disable gemini-cli-security --scope workspace
 ```
 
 **Use case**: "I want the study extension for personal learning, but not when working on client projects."
@@ -344,13 +340,13 @@ gemini extensions disable ai-study-kit --scope workspace
 Re-enable a disabled extension:
 
 ```bash
-gemini extensions enable ai-study-kit
+gemini extensions enable gemini-cli-security
 ```
 
 Or enable just for current workspace:
 
 ```bash
-gemini extensions enable ai-study-kit --scope workspace
+gemini extensions enable gemini-cli-security --scope workspace
 ```
 
 ### Uninstalling Extensions
@@ -358,7 +354,7 @@ gemini extensions enable ai-study-kit --scope workspace
 Remove an extension completely:
 
 ```bash
-gemini extensions uninstall ai-study-kit
+gemini extensions uninstall gemini-cli-security
 ```
 
 **What gets removed**:
