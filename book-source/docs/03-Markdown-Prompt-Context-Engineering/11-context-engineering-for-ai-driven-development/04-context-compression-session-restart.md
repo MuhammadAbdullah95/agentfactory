@@ -1,6 +1,42 @@
 ---
-title: Context Compression and Session Restart
+title: "Context Compression and Session Restart"
+description: "Extract session intelligence into checkpoints and restart with clean context while preserving decisions"
+sidebar_label: "Compression & Session Restart"
 sidebar_position: 4
+chapter: 11
+lesson: 4
+duration_minutes: 45
+proficiency: "B1"
+concepts: 5
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Context Compression and Checkpoint Creation"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student creates checkpoints under 600 tokens preserving essential session intelligence"
+
+learning_objectives:
+  - objective: "Extract essential decisions from sessions into concise checkpoints"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Checkpoint document created from sample session transcript"
+
+  - objective: "Restart sessions with clean context using checkpoint restoration"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Session restart demonstrating preserved intelligence"
+
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (compression, checkpointing, session restart, intelligence preservation, noise elimination) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Research automatic summarization techniques; compare checkpoint compression to RAG (Retrieval-Augmented Generation); design hierarchical checkpoint systems for multi-day projects"
+  remedial_for_struggling: "Focus on single compression: Take 10-minute conversation → Identify 3 key decisions → Write 3-sentence summary before learning full checkpoint methodology"
 ---
 
 # Context Compression and Session Restart

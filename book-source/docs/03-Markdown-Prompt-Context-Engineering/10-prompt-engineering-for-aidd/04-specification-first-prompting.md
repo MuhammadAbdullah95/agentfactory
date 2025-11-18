@@ -1,11 +1,16 @@
 ---
 title: "Specification-First Prompting"
+description: "Define success criteria and constraints before prompting AI to eliminate wasted iteration"
+sidebar_label: "Specification-First Prompting"
+sidebar_position: 4
 chapter: 10
 lesson: 4
-part: 3
 duration_minutes: 40
+proficiency: "B1"
+concepts: 7
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Specification-First Prompting"
     proficiency_level: "B1"
@@ -23,6 +28,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 7
   assessment: "7 concepts (specification-first principle, success criteria, acceptance tests, constraints, non-goals, output format, validation) at B1 threshold ✓"
+
+differentiation:
+  extension_for_advanced: "Analyze CoCounsel's specification methodology from Jake Heller's talk; create specification templates for 5 different task types; practice writing testable acceptance criteria"
+  remedial_for_struggling: "Focus on writing success criteria only: For 3 simple tasks, write 'What does success look like?' before attempting full specification documents"
 ---
 
 # Specification-First Prompting

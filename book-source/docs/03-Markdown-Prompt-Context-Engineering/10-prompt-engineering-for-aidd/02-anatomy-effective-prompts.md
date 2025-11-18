@@ -1,11 +1,16 @@
 ---
 title: "Anatomy of Effective Prompts"
+description: "Learn the three-part prompt structure that transforms vague requests into precise specifications"
+sidebar_label: "Anatomy of Effective Prompts"
+sidebar_position: 2
 chapter: 10
 lesson: 2
-part: 3
 duration_minutes: 35
+proficiency: "A2"
+concepts: 6
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Prompt Structure Mastery"
     proficiency_level: "A2"
@@ -28,6 +33,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 6
   assessment: "6 concepts (structure components, action verbs, specificity, constraints, success criteria, anti-patterns) within A2 limit of 5-7 ✓"
+
+differentiation:
+  extension_for_advanced: "Analyze Jake Heller's CoCounsel prompt templates; reverse-engineer success criteria from real-world AI product specifications; compare prompt structure patterns across OpenAI, Anthropic, and Google documentation"
+  remedial_for_struggling: "Focus on single component mastery: Practice writing only Intent statements for 5 scenarios before adding Constraints and Success Criteria"
 ---
 
 # Anatomy of Effective Prompts

@@ -1,6 +1,47 @@
 ---
-title: Context Windows and Token Counting
+title: "Context Windows and Token Counting"
+description: "Understand AI context windows and learn manual tracking through session notes and token estimation"
+sidebar_label: "Context Windows & Token Counting"
 sidebar_position: 1
+chapter: 11
+lesson: 1
+duration_minutes: 40
+proficiency: "A2"
+concepts: 4
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Context Window Understanding"
+    proficiency_level: "A2"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student explains context windows as working memory and estimates token usage"
+
+learning_objectives:
+  - objective: "Understand context windows as AI working memory with fixed capacity"
+    proficiency_level: "A2"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of context window concepts and real-world analogies"
+
+  - objective: "Estimate token usage using word-to-token conversion rules"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Token estimation calculations for sample texts"
+
+  - objective: "Create session notes to track context utilization manually"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Session note document with token tracking"
+
+cognitive_load:
+  new_concepts: 4
+  assessment: "4 concepts (context windows, tokens, utilization thresholds, session notes) within A2 limit of 5-7 ✓"
+
+differentiation:
+  extension_for_advanced: "Research tokenization algorithms; compare context window architectures across different LLMs; analyze how extended context (1M tokens) changes development workflows"
+  remedial_for_struggling: "Focus on single concept: 'Context is like computer RAM that fills up'. Practice only token estimation using 1 word = 1 token rule before learning session notes"
 ---
 
 # Context Windows and Token Counting

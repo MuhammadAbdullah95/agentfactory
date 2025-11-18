@@ -1,6 +1,42 @@
 ---
-title: Degradation Symptoms and Manual Tracking
+title: "Degradation Symptoms and Manual Tracking"
+description: "Recognize seven degradation symptoms and diagnose context issues through pattern recognition"
+sidebar_label: "Degradation Symptoms & Tracking"
 sidebar_position: 2
+chapter: 11
+lesson: 2
+duration_minutes: 45
+proficiency: "A2"
+concepts: 7
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Context Degradation Recognition"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student identifies degradation symptoms from conversation transcripts"
+
+learning_objectives:
+  - objective: "Recognize seven distinct symptoms of context degradation"
+    proficiency_level: "A2"
+    bloom_level: "Analyze"
+    assessment_method: "Symptom identification from conversation examples"
+
+  - objective: "Diagnose degradation patterns from session transcripts"
+    proficiency_level: "A2"
+    bloom_level: "Analyze"
+    assessment_method: "Comparison of healthy vs degraded session analysis"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (seven degradation symptoms) at A2 limit of 5-7 ✓"
+
+differentiation:
+  extension_for_advanced: "Study attention mechanism degradation in transformer models; analyze correlation between token position and recall accuracy; research context window optimization techniques"
+  remedial_for_struggling: "Focus on recognizing one symptom (repetitive suggestions) through 3 examples before learning other symptoms"
 ---
 
 # Degradation Symptoms and Manual Tracking

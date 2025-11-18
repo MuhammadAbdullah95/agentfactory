@@ -1,19 +1,42 @@
 ---
-title: Memory Files and Persistent Intelligence
+title: "Memory Files and Persistent Intelligence"
+description: "Design persistent memory file architecture to preserve project intelligence across sessions"
+sidebar_label: "Memory Files & Persistent Intelligence"
 sidebar_position: 6
 chapter: 11
 lesson: 6
+duration_minutes: 90
+proficiency: "B1"
+concepts: 6
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Memory File Architecture Design"
+    proficiency_level: "B1"
+    category: "Intelligence Design"
+    bloom_level: "Create"
+    digcomp_area: "Content Creation"
+    measurable_at_this_level: "Student designs CLAUDE.md, architecture.md, decisions.md structure for projects"
+
 learning_objectives:
-  - Design memory file architecture (CLAUDE.md, architecture.md, decisions.md)
-  - Implement memory persistence strategy across sessions
-  - Create reusable memory-file-architecture skill
-  - Recognize when and how to update persistent context
-estimated_time: 90 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
+  - objective: "Design memory file architecture (CLAUDE.md, architecture.md, decisions.md)"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Memory file structure document with persistence strategy"
+
+  - objective: "Create reusable memory-file-architecture skill for cross-project use"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Skill document demonstrating Persona + Questions + Principles pattern"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (memory files, persistent context, CLAUDE.md structure, architectural decisions, update triggers, cross-session intelligence) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Research documentation-as-code patterns; compare memory files to ADRs (Architecture Decision Records); design automated memory file updates triggered by git commits"
+  remedial_for_struggling: "Focus on creating single memory file (CLAUDE.md) with 3 project conventions before learning full architecture"
 ---
 
 # Memory Files and Persistent Intelligence

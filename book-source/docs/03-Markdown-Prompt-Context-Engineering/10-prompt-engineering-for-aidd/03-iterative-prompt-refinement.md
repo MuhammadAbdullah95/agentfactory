@@ -1,11 +1,16 @@
 ---
 title: "Iterative Prompt Refinement"
+description: "Master AI collaboration through iterative refinement using the Three Roles framework"
+sidebar_label: "Iterative Prompt Refinement"
+sidebar_position: 3
 chapter: 10
 lesson: 3
-part: 3
 duration_minutes: 45
+proficiency: "B1"
+concepts: 7
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "AI Collaboration Through Iteration"
     proficiency_level: "B1"
@@ -23,6 +28,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 7
   assessment: "7 concepts (iteration loop, AI as Teacher/Student/Co-Worker, convergence, bidirectional learning) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Study Jake Heller's 60%→97% accuracy improvement methodology; analyze iteration patterns in production AI systems; experiment with multi-round refinement tracking metrics"
+  remedial_for_struggling: "Focus on experiencing single iteration cycle: Write prompt → Review AI output → Identify one gap → Refine prompt → Compare improvement, before attempting full Three Roles framework"
 ---
 
 # Iterative Prompt Refinement

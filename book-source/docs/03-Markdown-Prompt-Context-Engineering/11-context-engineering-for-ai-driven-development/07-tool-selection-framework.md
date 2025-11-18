@@ -1,19 +1,47 @@
 ---
-title: Tool Selection Framework
+title: "Tool Selection Framework"
+description: "Compare Claude Code and Gemini CLI capabilities to select the right tool for different development scenarios"
+sidebar_label: "Tool Selection Framework"
 sidebar_position: 7
 chapter: 11
 lesson: 7
+duration_minutes: 75
+proficiency: "B1"
+concepts: 6
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "AI Tool Selection Decision Framework"
+    proficiency_level: "B1"
+    category: "Intelligence Design"
+    bloom_level: "Evaluate"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student evaluates task characteristics and selects appropriate AI tool (Claude Code vs Gemini CLI)"
+
 learning_objectives:
-  - Compare Claude Code and Gemini CLI across context window, reasoning depth, and file selection
-  - Apply decision framework for tool selection
-  - Evaluate tradeoffs between context size and reasoning capability
-  - Create reusable tool-selection-framework skill
-estimated_time: 75 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
+  - objective: "Compare Claude Code and Gemini CLI across context window, reasoning depth, and workflow integration"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Tool comparison matrix with capability analysis"
+
+  - objective: "Apply decision framework to select appropriate tool for development scenarios"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Tool selection decisions for 5 development scenarios with justification"
+
+  - objective: "Create reusable tool-selection-framework skill using Persona + Questions + Principles"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Skill document demonstrating decision framework pattern"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (tool capabilities, context tradeoffs, reasoning depth, file selection, task classification, sequential tool use) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Research additional AI coding tools (GitHub Copilot, Cursor, Aider); create comprehensive tool selection matrix across 10+ dimensions; design automated tool recommendation system"
+  remedial_for_struggling: "Focus on binary decision: 'Do I need to load 100+ files?' If yes → Gemini CLI, if no → Claude Code, before learning complex selection criteria"
 ---
 
 # Tool Selection Framework — Claude Code vs Gemini CLI

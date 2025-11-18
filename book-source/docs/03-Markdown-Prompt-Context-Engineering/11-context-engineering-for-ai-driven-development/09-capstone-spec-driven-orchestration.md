@@ -1,19 +1,47 @@
 ---
-title: Capstone Spec-Driven Orchestration
+title: "Capstone: Spec-Driven Context Orchestration"
+description: "Write complete specification for context-aware CLI tool orchestrating all Chapter 11 techniques"
+sidebar_label: "Capstone: Spec-Driven Orchestration"
 sidebar_position: 9
 chapter: 11
 lesson: 9
+duration_minutes: 120
+proficiency: "B1"
+concepts: 5
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Specification-Driven Context System Design"
+    proficiency_level: "B1"
+    category: "Spec-Driven Integration"
+    bloom_level: "Create"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student writes implementation-ready specification orchestrating context engineering techniques"
+
 learning_objectives:
-  - Write complete, implementation-ready specification for context-aware system
-  - Orchestrate accumulated intelligence from Lessons 1-8
-  - Validate specification completeness and clarity
-  - Demonstrate spec-first mastery (intent before implementation)
-estimated_time: 120 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
+  - objective: "Write complete, implementation-ready specification for context-aware CLI tool"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Peer-reviewable specification document with success criteria"
+
+  - objective: "Orchestrate accumulated intelligence from Lessons 1-8 into unified system design"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "System architecture showing integration of all context techniques"
+
+  - objective: "Validate specification completeness and clarity for implementation handoff"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Specification review checklist demonstrating implementation readiness"
+
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (specification completeness, system orchestration, implementation readiness, peer reviewability, validation criteria) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Research existing context management tools; design advanced features (ML-based degradation prediction, automated remediation, multi-user session tracking); create comprehensive testing framework"
+  remedial_for_struggling: "Focus on minimal viable specification: Define single core feature (monitor context utilization), 3 user stories, 3 success criteria before attempting full system design"
 ---
 
 # Capstone — Spec-Driven Context Orchestration

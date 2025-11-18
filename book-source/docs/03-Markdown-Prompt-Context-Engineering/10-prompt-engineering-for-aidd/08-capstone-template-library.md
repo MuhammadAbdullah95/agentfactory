@@ -1,11 +1,16 @@
 ---
 title: "Capstone: Prompt Template Library Specification"
+description: "Write complete specification for a Prompt Template Library tool orchestrating all Chapter 10 concepts"
+sidebar_label: "Capstone: Template Library"
+sidebar_position: 8
 chapter: 10
 lesson: 8
-part: 3
 duration_minutes: 60
+proficiency: "B1"
+concepts: 5
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Specification-Driven Prompt Engineering"
     proficiency_level: "B1"
@@ -23,6 +28,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 5
   assessment: "5 concepts (specification integration, template library architecture, version control, template discovery, usage analytics) at B1 threshold ✓"
+
+differentiation:
+  extension_for_advanced: "Research existing prompt management tools (PromptBase, LangChain prompts); design advanced features like A/B testing, analytics, and collaborative template sharing; create comprehensive validation framework"
+  remedial_for_struggling: "Focus on minimal viable specification: Define core user story (store and retrieve templates), 3 key features, and 3 success criteria before attempting full specification"
 ---
 
 # Capstone: Prompt Template Library Specification
