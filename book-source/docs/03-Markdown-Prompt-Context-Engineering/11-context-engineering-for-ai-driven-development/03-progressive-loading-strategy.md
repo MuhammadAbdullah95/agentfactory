@@ -555,57 +555,19 @@ Claude: [Suggests focused file list that fits your constraint]
 
 ## Try With AI
 
-You've now learned progressive loading strategy and seen Three Roles in action. Apply this immediately through AI collaboration.
+Ready to design and implement progressive loading for efficient context management?
 
-### Setup
+**🔍 Explore Phase Boundaries:**
+> "Explain the three phases of progressive loading (Foundation, Current, On-Demand) with examples. For a FastAPI project with authentication, payments, and notifications: which files go in each phase? Why is Foundation kept to 10-15% utilization?"
 
-Open Claude Code (or your preferred AI tool) with a real project you work on (or use an open-source project if you don't have one). You're going to implement a feature collaboratively with AI, managing context through progressive loading.
+**🎯 Practice Progressive Loading Design:**
+> "I have a [describe size] codebase with [X] modules. Help me design a progressive loading strategy for implementing [specific feature]. Ask me about my project structure, identify Foundation files (always needed), Current files (for this feature), and On-Demand files (fetch if needed). Target: under 50% utilization after Foundation + Current."
 
-### Three-Part Collaboration
+**🧪 Test Loading Efficiency:**
+> "Compare two approaches: (1) Loading all 50 files upfront (80% utilization immediately), (2) Progressive loading with 10 foundation + 15 current + on-demand fetching. For a 2-hour session implementing 3 features, which approach avoids degradation? Walk through token budget at each stage."
 
-**Part 1: Propose a Feature**
+**🚀 Apply to Real Development Session:**
+> "Guide me through progressive loading for [your actual project and task]. Start by identifying my Foundation phase files, then Current phase for this specific task. Create a loading checklist: load Foundation first, verify utilization, then load Current, reserve 30% for on-demand. Monitor for degradation symptoms."
 
-Load only the project README or structure, then say:
-
-```
-I'm thinking about implementing [feature name] in this project.
-I have about 200K context window and want to stay under 5%
-for planning. What files should I load?
-```
-
-**Observe**: AI suggests a loading pattern based on common dependency flows.
-
-**Part 2: Correct and Refine**
-
-After AI suggests files, say:
-
-```
-Actually, we structure things differently. We have [your-reality].
-Does that change your suggestion?
-```
-
-**Observe**: AI adapts its recommendation to your project's architecture.
-
-**Part 3: Iterate**
-
-As you load files and start implementing, raise concerns:
-
-```
-I'm worried we're loading too much. Context is approaching 10%.
-Should I pause and load on-demand instead of preloading [file]?
-```
-
-**Observe**: Through iteration, you arrive at a better strategy together.
-
-### Measure Success
-
-When done, you should:
-- ✅ Have a clear loading strategy specific to YOUR project
-- ✅ Know what files are Foundation vs Current vs On-Demand
-- ✅ Have experienced collaborative refinement through iterative dialogue
-- ✅ Have avoided degradation by staying under 70% context utilization during implementation
-
-### Safety Note
-
-When loading files, be mindful of **sensitive data** (API keys, secrets, PII). If your project has .env files, security credentials, or personal data, discuss with AI how to load structure without exposing secrets. Safe patterns: load code structure + tests, avoid raw credential files.
+---
 

@@ -692,42 +692,18 @@ In the next lesson, you'll learn how to create **reusable prompt templates** for
 
 ## Try With AI
 
-**Your Task**: Use QDD to generate a Git workflow guide for your team.
+Ready to transform AI from assumption-maker into requirements analyst through Question-Driven Development?
 
-**Part 1: Write the QDD Meta-Prompt** (3 minutes)
+**🔍 Explore QDD vs. Direct Implementation:**
+> "Show me the difference between direct implementation and QDD. For a 'user authentication system' feature: (1) generate code immediately with zero questions, (2) ask me 10 clarifying questions first (auth method, storage, session handling, security), then generate from my answers. Compare quality and fit."
 
-```markdown
-I need documentation explaining our Git workflow for new team members.
+**🎯 Practice Specification Through Questions:**
+> "I need [describe your feature]. Before implementing, ask me 8-10 targeted questions about: audience/use case, technical constraints, output format, success criteria, and non-goals. Based on my answers, create a specification document showing you captured my requirements accurately."
 
-Before creating the guide, ask me 5-8 clarifying questions about:
-- [Fill in question categories]
+**🧪 Test Hidden Assumption Discovery:**
+> "I want API documentation for authentication endpoints. First, list assumptions you'd make if I gave NO guidance. Then ask clarifying questions to replace those assumptions with my actual requirements. Show me how questions prevent wrong implementations."
 
-Based on my answers, create a specification document, then generate the guide.
-```
+**🚀 Apply to Your Real Project:**
+> "Help me build [your actual development task]. Use QDD: ask me detailed questions about architecture, data model, error handling, performance requirements, and testing strategy. Create a spec from my answers, let me validate it, then implement."
 
-**Part 2: Paste into AI and Answer Questions** (5 minutes)
-
-Open your AI coding assistant and paste your QDD prompt. When AI asks questions, answer with specifics:
-- Who's your audience? (junior devs? all team members? specific tech stack?)
-- What's your workflow? (Git Flow? GitHub Flow? trunk-based?)
-- What tools? (GitHub? GitLab? Bitbucket?)
-- What should guide cover? (branching? PRs? code review? deployment?)
-
-**Part 3: Validate the Specification** (2 minutes)
-
-AI will create a specification. Review it:
-- Does it capture your workflow accurately?
-- Are there gaps? (things you forgot to mention in answers)
-- Are there assumptions AI made? (mark these for correction)
-
-**Part 4: Request Implementation** (2 minutes)
-
-Once specification validated, tell AI: "Specification approved. Generate the guide."
-
-**Part 5: Reflection** (3 minutes)
-
-Compare:
-- **Without QDD**: How many iterations would generic "create Git workflow guide" take? (probably 5-8)
-- **With QDD**: How many iterations did this take? (specification caught issues upfront, likely 1-2)
-
-**Key learning**: Questions surface hidden requirements. Answering questions is faster than correcting assumptions after implementation.
+---

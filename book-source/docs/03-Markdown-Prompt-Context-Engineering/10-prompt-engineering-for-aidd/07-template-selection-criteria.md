@@ -560,94 +560,18 @@ In the final lesson (Lesson 8), you'll apply everything you've learned to create
 
 ## Try With AI
 
-**Your Task**: Evaluate 5 development tasks and select template vs custom approach.
+Ready to master template selection decision frameworks and choose the right approach in under 30 seconds?
 
-For each task below:
-1. Identify task category (Diagnostic, Transformative, Generative, Explanatory, Evaluative)
-2. Determine if template exists and fits
-3. Decide: Template / Custom / Adapt
-4. Write rationale (1-2 sentences)
+**🔍 Explore Template Decision Tree:**
+> "Walk me through the template selection framework for these 5 tasks: [list your tasks]. For each, apply the decision tree: Is it recurring? Does a template exist? Do assumptions match? Is adaptation faster than custom? Show your reasoning at each node."
 
----
+**🎯 Practice Template vs. Custom Decisions:**
+> "I have [describe your development task]. Ask me the 3 critical questions: (1) Have I done similar tasks 2+ times? (2) Does an existing template match this category and assumptions? (3) Is customizing the template faster than writing custom? Based on my answers, recommend template or custom with justification."
 
-**Task A**: "Explain the difference between authentication and authorization to a junior developer"
+**🧪 Test Hybrid Approach Recognition:**
+> "Show me when to use the hybrid approach (template + custom sections). Take these scenarios: (1) API documentation needing tutorial section, (2) bug fix with new feature addition, (3) refactoring with performance optimization. For each, decide: pure template, pure custom, or hybrid. Explain why."
 
-**Your decision**:
-- Category: _______
-- Template or Custom: _______
-- Rationale: _______
+**🚀 Apply to Your Workflow:**
+> "Help me build a decision framework for [your recurring task types]. I'll list tasks I do regularly. You help me: (1) identify patterns justifying templates, (2) spot unique tasks needing custom prompts, (3) create selection criteria I can apply in 30 seconds, (4) decide when to create NEW templates."
 
 ---
-
-**Task B**: "Fix the 500 error when users upload files larger than 10MB"
-
-**Your decision**:
-- Category: _______
-- Template or Custom: _______
-- Rationale: _______
-
----
-
-**Task C**: "Create OpenAPI documentation for our new payment API endpoints"
-
-**Your decision**:
-- Category: _______
-- Template or Custom: _______
-- Rationale: _______
-
----
-
-**Task D**: "Refactor the authentication module to support OAuth in addition to current JWT implementation"
-
-**Your decision**:
-- Category: _______
-- Template or Custom: _______
-- Rationale: _______
-
----
-
-**Task E**: "Review this pull request for security vulnerabilities and code quality"
-
-**Your decision**:
-- Category: _______
-- Template or Custom: _______
-- Rationale: _______
-
----
-
-**Answers** (Compare yours):
-
-**Task A**:
-- Category: **Explanatory**
-- Decision: **Custom** (or Explanation Template if you've created one)
-- Rationale: Educational explanation, not task execution. Needs concept comparison, not structured problem-solving.
-
-**Task B**:
-- Category: **Diagnostic**
-- Decision: **Bug Fix Template ✓**
-- Rationale: Classic bug (error message, reproducible, existing code). Template fits perfectly.
-
-**Task C**:
-- Category: **Generative**
-- Decision: **Documentation Template ✓** (possibly adapt for OpenAPI format)
-- Rationale: API documentation, known audience (developers), structured format. Template sections apply.
-
-**Task D**:
-- Category: **Transformative** (hybrid: refactoring + feature addition)
-- Decision: **Custom** (doesn't fit pure Refactoring Template)
-- Rationale: Behavior changes (adds OAuth), not just quality improvement. Too complex for standard template.
-
-**Task E**:
-- Category: **Evaluative**
-- Decision: **Code Review Template** (if exists) or **Custom**
-- Rationale: Structured checklist task (security, quality). If you've created review template, use it. Otherwise, custom with security/quality criteria.
-
----
-
-**Reflection Questions**:
-
-1. How long did each decision take? (Goal: \<30 seconds per task)
-2. Did you consider template assumptions or just category? (Assumptions matter!)
-3. For tasks where you chose "custom," would this task recur enough to justify creating a template?
-
-**Next time you face a real development task**: Run through this 3-question framework. Practice makes template selection automatic.

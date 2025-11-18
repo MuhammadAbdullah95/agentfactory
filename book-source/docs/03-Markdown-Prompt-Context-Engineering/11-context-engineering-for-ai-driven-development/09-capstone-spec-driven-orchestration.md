@@ -462,62 +462,18 @@ Your spec should demonstrate mastery of all 8 lessons:
 
 ## Try With AI
 
-**Setup**: You're ready to write your capstone spec.
+Ready to write an implementation-ready specification that orchestrates all context engineering techniques from Lessons 1-8?
 
-**Prompt Set**:
+**🔍 Explore Specification Architecture:**
+> "Explain the 6 components of the context-aware development tool (Context Monitor, Checkpoint Engine, Task Similarity Analyzer, Memory File Manager, Tool Selector, Orchestrator). For each: what's its responsibility, inputs, outputs, and decision logic? How do they interact (component flow diagram)? Which Lessons (1-8) does each component embody?"
 
-**Prompt 1: Get Clarification on Complex Concepts**
-```
-I'm writing a specification for a context-aware CLI tool.
+**🎯 Practice Specification Writing:**
+> "Help me write Intent and Success Criteria sections for the context-aware tool. Ask me clarifying questions: What problem does it solve? Who uses it? What's measurable success? Guide me to write: (1) Intent (WHAT, not HOW, 1-2 paragraphs), (2) Success Criteria (measurable, falsifiable, with numbers). Review my draft for spec-quality (no implementation details, clear observable behaviors)."
 
-Help me clarify these concepts:
-1. What should the "Checkpoint Engine" include? What goes inside a checkpoint?
-2. How does "Task Similarity Analyzer" calculate similarity? What criteria matter?
-3. What's the difference between updating CLAUDE.md vs architecture.md vs decisions.md?
-4. How do the 6 components interact? What's the execution order?
+**🧪 Test Implementation-Readiness:**
+> "Here's my specification draft: [paste Intent, Success Criteria, and Functional Requirements sections]. Could a developer who never took this course implement the tool from this spec alone? Identify ambiguities, missing details, vague requirements, and accidental implementation specifics. What questions would an implementer ask?"
 
-Provide clear, concise explanations (not implementation details).
-```
+**🚀 Apply Complete Specification:**
+> "Guide me through writing the complete context-aware tool specification orchestrating all Lessons 1-8 techniques. Create a specification outline: Intent, Success Criteria, Functional Requirements (Lesson 2: monitoring, Lesson 3: progressive loading, Lesson 4: compression, Lesson 5: isolation, Lesson 6: persistence, Lesson 7: tool selection), System Architecture (6 components), Algorithms, Non-Goals. Validate each section for spec-quality as I write."
 
-**Prompt 2: Review Draft Sections**
-```
-I've written the Intent and Success Criteria sections of my spec:
-
-[Paste your Intent section]
-
-[Paste your Success Criteria section]
-
-Is this spec-quality? Specifically:
-- Is the Intent clear about WHAT without HOW?
-- Are Success Criteria measurable and falsifiable?
-- Did I accidentally include implementation details?
-- What's missing or ambiguous?
-
-Suggest improvements.
-```
-
-**Prompt 3: Validate Completeness**
-```
-I've completed my full specification for the context-aware CLI tool.
-
-Validate completeness using this checklist:
-- [ ] Intent is clear (1-2 paragraphs)
-- [ ] Success criteria are measurable
-- [ ] Functional requirements are testable
-- [ ] 6 components defined with responsibilities
-- [ ] Algorithms specified (progressive loading, compression, isolation)
-- [ ] Multi-agent coordination described
-- [ ] Zero implementation code present
-- [ ] Spec is 3-5 pages
-
-[Paste your complete spec]
-
-Where are the gaps? What needs more detail?
-```
-
-**Expected Outcomes**:
-- Prompt 1: Clear conceptual understanding of each component
-- Prompt 2: Feedback on Intent/Criteria quality
-- Prompt 3: Completeness assessment and gaps identification
-
-**Safety Note**: Your specification should never include actual credentials, API keys, or sensitive data. Use placeholders like "STRIPE_API_KEY" instead of real keys.
+---

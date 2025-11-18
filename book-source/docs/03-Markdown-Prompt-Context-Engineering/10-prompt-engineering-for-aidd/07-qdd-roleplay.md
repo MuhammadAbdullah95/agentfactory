@@ -428,23 +428,19 @@ Keep using QDD: ask for questions first, then switch into your specialized role 
 
 ## Try With AI
 
-Goal: Experience QDD vs. direct implementation.
+Ready to combine Question-Driven Development with specialized roleplay for expert-level, tailored implementations?
 
-1) QDD approach for a Task Management REST API
-```
-I need to implement a Task Management REST API (tasks CRUD, auth, pagination).
+**🔍 Explore Roleplay Impact on Code Quality:**
+> "Create a password reset endpoint twice: (1) generic developer (no role), (2) senior backend engineer specializing in security with OWASP guidelines, defensive coding, and comprehensive error handling. Compare the security measures, error handling depth, and production-readiness of both versions."
 
-Before writing any code, ask me 10 detailed questions to tailor the solution to my needs. Cover auth strategy, data model, validation, error handling, performance, and testing. After I answer, propose an implementation plan and then generate the code.
-```
+**🎯 Practice QDD + Roleplay Combo:**
+> "You are a senior backend engineer with 10 years FastAPI experience. I need [your feature]. Before implementing, ask me 10 detailed questions about architecture, data model, security, performance, and testing. Based on my answers, generate production-grade code with defensive practices."
 
-2) Direct approach (for comparison)
-```
-Create a FastAPI REST API for task management with CRUD endpoints.
-```
+**🧪 Test Generic vs. Specialized Responses:**
+> "Compare responses from different roles. Generate user authentication code as: (1) generic developer, (2) senior backend engineer, (3) DevOps engineer focusing on security, (4) senior Python developer prioritizing testing. Show me how role specialization changes implementation priorities and code patterns."
 
-3) Compare
-- Which path produced code closer to your needs?
-- Which required fewer follow-up fixes?
+**🚀 Apply to Your Capstone:**
+> "Define the perfect AI role for [your project type]. I'll describe my project. You help me specify: role title, years experience, specialization areas, coding philosophy, quality standards, and anti-patterns to avoid. Then use that role to implement my first feature with QDD."
 
-Outcome: You practiced the interview-first collaboration that unlocks expert, tailored code from the AI.
+---
 

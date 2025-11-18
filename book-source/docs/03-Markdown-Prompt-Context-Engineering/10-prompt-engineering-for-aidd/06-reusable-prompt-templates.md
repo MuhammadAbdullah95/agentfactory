@@ -593,72 +593,18 @@ In the next lesson, you'll learn **template selection criteria**: decision frame
 
 ## Try With AI
 
-**Your Task**: Create a prompt template for a task YOU perform regularly.
+Ready to capture recurring prompt patterns into reusable templates that save time and ensure consistency?
 
-**Part 1: Identify Your Recurring Task** (3 minutes)
+**🔍 Explore Template-Worthy Patterns:**
+> "Analyze my last 5 development tasks: [list them]. Which tasks follow a consistent pattern (same questions asked, same structure needed)? For each recurring pattern, identify: what stays the same (template structure) vs. what changes (placeholders). Show me which are template-worthy."
 
-Think about your last 2 weeks. What task type did you perform 2+ times?
+**🎯 Practice Template Creation:**
+> "I perform [your recurring task] multiple times per week. Help me create a reusable template by asking: What sections does this task always need? What placeholders vary? What usage guidance prevents mistakes? What examples would help? Generate a v1.0 template structure."
 
-Examples:
-- Writing Git commit messages
-- Reviewing pull requests
-- Creating test cases
-- Explaining code to teammates
-- Debugging specific error types
-- Generating configuration files
+**🧪 Test Template vs. Custom Prompt:**
+> "Take my Bug Fix Template and a unique architecture redesign task. Show me: (1) when using the template saves time (straightforward bug), (2) when custom prompting is faster (template doesn't fit). Explain the decision criteria for template vs. custom."
 
-**Pick ONE task** that recurs for you.
-
-**Part 2: Draft Your Template** (10 minutes)
-
-Use this structure:
-
-```markdown
-[YOUR TASK] TEMPLATE
-
-PURPOSE: [When to use this template]
+**🚀 Apply to Your Workflow:**
+> "Help me systematize [your actual recurring task]. I'll describe what I do repeatedly. You ask clarifying questions about structure, placeholders, constraints, and output format. Together we'll create a template I can use next time, with clear usage notes preventing common mistakes."
 
 ---
-
-TASK: [Task description with [PLACEHOLDERS]]
-
-[SECTION 1 - Problem/Context]:
-[Questions with placeholders]
-
-[SECTION 2 - Constraints]:
-[Fixed or variable constraints]
-
-[SECTION 3 - Output]:
-[What AI should produce]
-
----
-
-USAGE NOTES:
-- [Guidance 1]
-- [Guidance 2]
-```
-
-**Part 3: Test Your Template** (8 minutes)
-
-1. Fill your template for a REAL instance of this task (from recent work)
-2. Paste filled template into AI
-3. Evaluate result: Did AI produce what you needed?
-
-**Part 4: Refine Based on Results** (4 minutes)
-
-Ask yourself:
-- What did AI misunderstand? (add clarity to that section)
-- What did you forget to include? (add that placeholder)
-- What was tedious to fill? (simplify that section)
-
-Update template to v1.1.
-
-**Part 5: Save Your Template** (2 minutes)
-
-Create file: `prompts/[task-name].md`
-
-Paste your refined template. Add version number and date.
-
-**Next time you perform this task**: Use your template. Notice what works and what needs adjustment. Evolve to v1.2.
-
-**Key learning**: Templates capture your prompting expertise into reusable patterns. Each use teaches you what makes a great template.

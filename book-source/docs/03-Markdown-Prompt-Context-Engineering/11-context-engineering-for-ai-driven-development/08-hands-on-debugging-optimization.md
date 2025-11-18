@@ -699,56 +699,21 @@ Day 1 morning: You start fresh. **Which strategies apply?**
 - Memory files document all decisions
 - Handoff ready
 
-### Try With AI
+## Try With AI
 
-**Setup**: Choose a real scenario or use provided example.
+Ready to diagnose and fix context problems using integrated strategies from all previous lessons?
 
-**Prompt Set**:
+**🔍 Explore Problem Diagnosis:**
+> "Identify symptoms and root causes for these scenarios: (1) AI repeats suggestions after 90-minute session at 85% utilization, (2) Authentication patterns appear in payment code within single session, (3) New session has no memory of yesterday's architectural decisions, (4) Loading all 80 files upfront hits 80% before implementing anything. Match each to degradation/pollution/saturation/persistence failure."
 
-**Prompt 1: Diagnose the Problem**
-```
-I'm experiencing this problem in my AI development session:
-[Describe your symptom: degradation, pollution, saturation, or persistence]
+**🎯 Practice Remediation Strategy:**
+> "I'm experiencing [describe your actual symptom: specific behavior, context utilization, session state]. Diagnose the problem type (degradation/pollution/saturation/persistence). Based on diagnosis, recommend the appropriate Lesson strategy (Lesson 2: recognition, 3: loading, 4: compression, 5: isolation, 6: persistence, 7: tool selection). Walk me through remediation steps with validation checkpoints."
 
-- Current context utilization: [X]%
-- Task: [What are you building?]
-- Session duration: [How long?]
+**🧪 Test Strategy Effectiveness:**
+> "Simulate 'before and after' for context compression: Before: 85% utilization, repetitive suggestions, 2-hour session. After applying Lesson 4 checkpoint strategy: what's new utilization? Do symptoms persist? What metrics validate that remediation worked (response quality, token budget, session continuity)?"
 
-Based on Lessons 1-7, what's the root cause?
-What symptom from Lesson 2 matches this?
-```
+**🚀 Apply Integrated Multi-Strategy Workflow:**
+> "Design a complete 5-day strategy for [your actual project] with 3 parallel features and [X] files. Orchestrate all techniques: Day 1 tool selection (Lesson 7), progressive loading strategy (Lesson 3), memory files initialization (Lesson 6), checkpoint triggers (Lesson 4), isolation decisions (Lesson 5). Create a daily workflow checklist with remediation protocols."
 
-**Prompt 2: Apply Remediation**
-```
-I've diagnosed the problem as [degradation/pollution/saturation/persistence].
-
-Based on Lesson [4/5/3/6], what's the remedy?
-
-Walk me through the steps to fix this:
-1. [What to do first]
-2. [What to do next]
-3. [How to validate it worked]
-```
-
-**Prompt 3: Multi-Strategy Approach**
-```
-I have a 5-day project with 3 parallel features and 100 files.
-
-Design a complete strategy using techniques from Lessons 1-7:
-- Which tool to start with? (Lesson 7)
-- How to use memory files? (Lesson 6)
-- How to apply progressive loading? (Lesson 3)
-- When to create checkpoints? (Lesson 4)
-- How to prevent pollution between features? (Lesson 5)
-- How to persist context across days? (Lesson 6)
-
-Create a detailed 5-day workflow.
-```
-
-**Expected Outcomes**:
-- Prompt 1: Clear diagnosis with Lesson reference
-- Prompt 2: Step-by-step remediation plan
-- Prompt 3: Complete integrated workflow across 5 days
-
-**Safety Note**: When sharing context with AI (memory files, transcripts), ensure no secrets or credentials are included. Use placeholders like "API_KEY_FROM_ENV" instead of actual keys.
+---
 

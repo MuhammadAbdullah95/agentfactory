@@ -164,28 +164,19 @@ Success criteria: Final code passes all 5 checklist steps
 
 ## Try With AI
 
-Goal: Practice validation by improving a database connection implementation.
+Ready to master the 5-step validation checklist and catch dangerous code before it touches your codebase?
 
-1) Generate code
-Copy/paste to your AI collaborator:
-```
-Create a Python function to connect to PostgreSQL and fetch all rows from a users table. Keep it simple.
-```
+**🔍 Explore Common Red Flags:**
+> "Generate a deliberately flawed database connection function with these issues: hardcoded password, no error handling, SQL injection vulnerability, missing type hints. Then apply the 5-step validation checklist (Read→Secrets→Issues→Test→Spec) and identify all problems you find."
 
-2) Validate using the 5 steps
-- Read First: imports, names, return type
-- Check Secrets: no hardcoded credentials; use env vars
-- Check Issues: parameterized queries, error handling, timeouts if HTTP present
-- Test It: outline happy/edge/error cases
-- Compare to Spec: ensure Python 3.11, SQLAlchemy 2.0 or psycopg2 with parameters, consistent with your project
+**🎯 Practice Validation-First Workflow:**
+> "Create a user login function. After generating code, ask me to validate it using the 5 steps. Guide me through checking: (1) code sanity, (2) secrets exposure, (3) security/style issues, (4) test coverage, (5) spec alignment. Point out what I miss."
 
-3) Iterate: Ask for a fix
-Example fix prompt:
-```
-Fix to avoid hardcoded credentials, use environment variables, parameterize the query, and add explicit error handling with clear exceptions. Include type hints and a docstring.
-```
+**🧪 Test Iteration-Based Fixing:**
+> "Generate a PostgreSQL connection function with typical beginner mistakes (hardcoded credentials, bare except, no type hints). I'll identify 3+ red flags using the checklist. Then fix each issue I found and regenerate improved code."
 
-4) Integrate: Only after it passes the checklist.
+**🚀 Apply to Your Code:**
+> "Help me validate [paste your actual AI-generated code]. Apply the 5-step checklist systematically. For each step, tell me: what to check, what you found, severity (critical/high/medium/low), and how to fix it. Don't skip secrets or security checks."
 
-Outcome: You practiced the safety habit that turns fast AI output into trustworthy, production-ready code.
+---
 

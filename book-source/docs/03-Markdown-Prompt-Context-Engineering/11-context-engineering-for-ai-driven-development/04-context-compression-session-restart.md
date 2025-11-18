@@ -587,71 +587,18 @@ Now it's your turn. Using a real or imagined project, create a checkpoint summar
 
 ## Try With AI
 
-**Setup**: Open Claude Code or your preferred AI development tool. We'll practice checkpoint creation with AI collaboration.
+Ready to master checkpoint creation and session restart for uninterrupted multi-hour development?
 
-**Scenario**: You've been working on authentication feature implementation for 2+ hours. You're at 85% context utilization. Time to create a checkpoint and restart.
+**🔍 Explore Checkpoint Components:**
+> "Explain the four essential components of an effective checkpoint (architectural decisions, progress summary, incomplete work, next steps). Why is each critical for session continuity? Compare a 200-token checkpoint vs. a 600-token checkpoint: what gets included at each size?"
 
-**Prompt Set**:
+**🎯 Practice Checkpoint Creation:**
+> "I'm 2 hours into implementing [describe your feature] at 85% context utilization. Help me create a checkpoint. Ask me about: (1) Key architectural decisions I've made, (2) Files created and their status, (3) What's incomplete or blocking, (4) Next priority steps. Guide me to a 400-600 token checkpoint that preserves critical context."
 
-**Prompt 1: Request Checkpoint Guidance**:
-```
-I've been working on authentication implementation for our FastAPI
-application. My context window is getting full (85% utilization).
-I need to create a checkpoint summary before restarting the session.
-What's a good structure for a checkpoint that will help me continue
-work efficiently in a new session?
-```
+**🧪 Test Checkpoint Effectiveness:**
+> "Here's my checkpoint: [paste your checkpoint from Practice prompt]. Simulate restarting in a fresh session: Can you continue implementing the refresh token rotation feature without asking clarifying questions about earlier decisions? Identify any missing context that would cause confusion."
 
-Listen for: AI suggests checkpoint structure with reasoning for each section.
-
-**Prompt 2: Provide Project Specifics**:
-```
-Good structure. Here's my situation specifically:
-
-DECISIONS MADE:
-1. JWT-based authentication (stateless)
-2. Refresh token rotation every 7 days
-3. Session blacklist for logout (stored in Redis)
-
-PROGRESS:
-- Created auth models (user, token, session)
-- Implemented login/logout routes
-- Added JWT token generation and validation
-
-INCOMPLETE:
-- Refresh token rotation logic
-- Session blacklist queries for revoked tokens
-
-Help me refine this into a proper checkpoint. What's missing
-that you'd need to understand to continue this work?
-```
-
-Listen for: AI asks clarifying questions about your project and adapts suggestions based on details.
-
-**Prompt 3: Optimize for Efficiency**:
-```
-AI is asking for details on my refresh token rotation. This is what
-I decided:
-
-"Refresh tokens stored in postgres (not Redis) with columns:
-token_value, user_id, issued_at, expires_at, rotated_token_value,
-rotation_timestamp. Each refresh generates new token with previous
-token value stored as rotated_token_value, preventing use of old token."
-
-My checkpoint is getting long though (already 650 tokens). How do I
-capture this decision concisely without losing the important details?
-```
-
-Listen for: AI helps you balance detail vs brevity to create an efficient yet complete checkpoint.
-
-**Expected Outcomes**:
-- Prompt 1: Discover effective checkpoint structure patterns
-- Prompt 2: Tailor checkpoint to your project's specific needs
-- Prompt 3: Optimize checkpoint for both completeness and token efficiency
-
-**Safety Note**: Checkpoints are most effective when they're honest about incomplete work and known issues—don't hide "abandoned attempts" or "bugs to fix" because that information helps AI avoid the same mistakes.
+**🚀 Apply Checkpoint-Restart Workflow:**
+> "Design a checkpoint strategy for [your actual project]. When should I trigger checkpoints (utilization threshold + time)? What project-specific information belongs in my checkpoint template? Create a reusable CHECKPOINT.md template with placeholders for my typical development sessions."
 
 ---
-
-**Version 1.0.0**
-**Next Lesson**: Lesson 5 - Context Isolation for Parallel Tasks (identifying when to separate vs combine contexts)

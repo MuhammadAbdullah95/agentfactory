@@ -687,58 +687,18 @@ Link expires in 1 hour.
 
 ## Try With AI
 
-Practice iterating with AI to refine code block specifications.
+Ready to master code blocks for precise output specification?
 
-**Setup**: Open Claude Code or Gemini CLI.
+**🔍 Explore Output vs Implementation:**
+> "Show me a 'user login error' specified two ways: (1) code block showing expected output (WHAT user sees) and (2) code block showing implementation code (HOW it's built). Explain why the first belongs in specifications and the second doesn't."
 
-**Part 1: Initial Precision Request**
+**🎯 Practice Output Precision:**
+> "I'm specifying a password reset feature: [paste your specification from the practice exercise]. Ask me questions to help specify exact outputs: What should the email say? What error messages for edge cases (expired link, weak password, invalid email)? What success confirmation text?"
 
-Take your password reset specification from the practice exercise. Ask AI:
+**🧪 Test Completeness:**
+> "Here's a basic login specification with one code block for 'success message'. Identify missing outputs I should specify: invalid email format, wrong password, account locked, empty fields, etc. Show me how to add these using labeled code blocks."
 
-```
-I'm specifying a password reset feature. Here's my current specification:
+**🚀 Apply to Multi-Step Feature:**
+> "Help me specify outputs for [describe your feature with multiple user interactions]. Guide me in creating labeled code blocks for each step's expected output (success states, error states, confirmation messages). Challenge me if any output is vague or missing."
 
-[Paste your specification from practice exercise]
-
-Can you suggest improvements to make the expected outputs more precise?
-What details am I missing?
-```
-
-**Part 2: Critical Review**
-
-Review AI's suggestions. Ask yourself:
-- Which suggestions improve clarity?
-- Which suggestions add complexity beyond my MVP?
-- What did AI assume about my project that isn't accurate?
-
-**Part 3: Constraint Communication**
-
-Based on your review, tell AI your actual requirements:
-
-```
-Good suggestions. But for my MVP:
-- No password strength meter (just basic validation: min 8 chars)
-- Email is plain text (no HTML)
-- No "resend link" feature (one-time send only)
-
-Please revise the specification with these constraints.
-```
-
-**Part 4: Clarity Validation**
-
-Test whether the specification is implementable. Ask AI:
-
-```
-Review this updated specification. Can you identify what needs to be implemented?
-Are there any ambiguous parts?
-```
-
-If AI identifies ambiguities (e.g., "What happens if user clicks expired link twice?"), refine your specification and re-validate.
-
-**Part 5: Final Check**
-
-Compare your original specification to the final version:
-- Which output details became more precise through iteration?
-- Which requirements did you add based on AI's questions?
-- Which suggestions did you reject as out-of-scope?
-- Can someone implement this specification without asking clarifying questions?
+---

@@ -404,82 +404,22 @@ Notice the power: The same feature, but now with explicit architectural decision
 
 ---
 
-## Try With AI: Testing Logic vs. Vague Prompts
+## Try With AI
 
-In this section, you'll experience the difference logic makes by testing three variations of the same request.
+Ready to see how implementation logic transforms generic code into your architectural design?
 
-### Setup
+**🔍 Explore Requirements vs. Logic:**
+> "Show me the difference between requirements and implementation logic. Generate a user registration endpoint twice: (1) from requirement 'create user registration system' with no steps, (2) from 8-step implementation logic specifying validation→database check→password hashing→record creation→response. Compare architectures."
 
-You'll need:
-- **ChatGPT** (web version at chat.openai.com - easiest option)
-- **Alternative**: Claude Code if you've already set it up
+**🎯 Practice Step-by-Step Logic Writing:**
+> "I need to build [your feature]. Ask me to specify implementation steps: What happens first? What validation occurs? What gets stored where? How are errors handled? What's returned? Then generate code following my exact steps."
 
-### Test 1: Vague Prompt (No Logic)
+**🧪 Test Logic Specificity Impact:**
+> "Create a payment processing function. First, show me what you'd build with vague logic ('process payment and return result'). Then I'll specify 8 detailed steps including validation, API calls, transaction logging, retry logic, and error handling. Compare the production-readiness of both versions."
 
-Copy and paste this into your AI tool:
-
-```
-Create a function to process payments
-```
-
-**Observe**: What does AI ask? What assumptions does it make? Does it ask clarifying questions or just generate generic code?
-
-**Expected outcome**: AI will either:
-- Ask you 5+ clarifying questions (good collaboration) OR
-- Generate generic payment code that requires lots of adaptation
+**🚀 Apply to Your Codebase:**
+> "Help me implement [your actual feature] with explicit logic. I'll specify the implementation flow (step 1: validate, step 2: check database, step 3: process, etc.), design patterns to use, error handling approach, and success criteria. Generate code matching my architectural design."
 
 ---
-
-### Test 2: Logic-Specified Prompt
-
-Copy and paste this into your AI tool:
-
-```
-Create a payment processing function following these implementation steps:
-
-1. Validate card details (check card number length, CVV, expiry date)
-2. Call Stripe API with validated card information
-3. If Stripe returns success, create transaction record in database with status="completed"
-4. If Stripe returns error, create transaction record in database with status="failed" and store error message
-5. In both cases (success or failure), log transaction to audit trail with timestamp and user ID
-6. Return a PaymentResult object containing: status (success/failure), transaction_id, error_message (if failed), amount, timestamp
-7. Handle network timeout errors: retry once after 2 seconds
-8. If retry fails, return failure status without raising exception
-```
-
-**Observe**: Does AI follow the numbered steps? Does it implement the Stripe integration, transaction logging, and error handling as specified? Does the code match your architectural decisions?
-
-**Expected outcome**: AI generates code that:
-- Includes validation step
-- Calls Stripe API
-- Creates transaction records with specified statuses
-- Returns PaymentResult with exact fields
-- Handles retries as specified
-
-**Comparison note**: This is likely more complete and production-ready than Test 1, with fewer iterations needed to reach working code.
-
----
-
-### Test 3: Your Own Implementation Steps (From Exercise 2)
-
-Using the 8 steps you wrote in **Exercise 2** (the to-do API endpoint), copy your prompt into your AI tool:
-
-```
-Implement the "create task" endpoint with these steps:
-
-[Your 8 steps from Exercise 2]
-```
-
-**Observe**:
-- Does AI generate code that follows your steps in order?
-- Does the return format match step 8?
-- Does it implement validation from your steps?
-- Compare this to what AI would generate without your steps
-
-**Reflection questions**:
-1. How did specifying logic change the AI response compared to Test 1?
-2. Which parts of your steps did AI follow exactly?
-3. Where, if anywhere, did AI deviate from your steps?
-4. If there were deviations, would you refine the steps to be more explicit next time?
 
 
