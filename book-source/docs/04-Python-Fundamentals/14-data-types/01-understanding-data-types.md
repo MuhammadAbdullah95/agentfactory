@@ -352,63 +352,21 @@ print(type([10, 20, 30]))
 
 ---
 
-## Try With AI: Type Classification Challenge
+## Try With AI
 
-You've learned WHAT data types are and WHY they matter. Now test your understanding by classifying real-world data with AI as your validation partner.
+Ready to classify real-world data into the right Python types?
 
-### Part 1: Build Your Own Type Classifier (Your Turn First)
+**🔍 Explore Type Categories:**
+> "Show me the practical differences between int, float, str, and bool. For each type, give me 3 real-world examples from everyday applications (like e-commerce, social media, or gaming) and explain why that specific type was chosen."
 
-**Scenario**: You're designing a library system. For each book, you need to store:
+**🎯 Practice Type Classification:**
+> "I'm designing a library system. For each book I need to store: title, page count, price, availability status, and publication year. Ask me questions to help me determine the correct Python type for each field. Challenge my reasoning if I pick the wrong type."
 
-1. **Title** (like "1984")
-2. **Pages** (like 328)
-3. **Price** (like $15.99)
-4. **Currently available?** (yes/no)
-5. **Publication year** (like 1949)
+**🧪 Test Type Mismatch Understanding:**
+> "Show me what happens when I store a book price as the string '15.99' instead of the float 15.99. Create Python code that tries to calculate the total cost for 3 books and breaks. Explain the error message and why Python rejects this operation."
 
-**Your task (before asking AI)**:
-For EACH piece of data, answer:
-- What kind of data is this? (number? text? yes/no? decimal?)
-- What Python type would you use? (Make your best guess: `int`, `str`, `float`, `bool`)
-- WHY is that the right type? (What would go wrong with a different type?)
-
-Write down your answers. Don't ask AI yet—this tests your mental model.
+**🚀 Apply to Your Data:**
+> "I want to build [describe a project you're interested in]. Help me identify what data I need to store and classify each piece into the appropriate Python type. Explain your reasoning for each choice."
 
 ---
-
-### Part 2: Compare with AI's Classification
-
-Now share your thinking with AI:
-
-> "I'm designing a library system. For each book I need: title (text), pages (whole number), price (dollars and cents), available (yes/no), and publication year (whole number). What Python type should I use for each piece of data? Explain your reasoning."
-
-**Your task**: Compare AI's answer to your Part 1 guesses.
-- Did you get the types right?
-- Did AI explain WHY each type makes sense?
-- What did you miss? What did you get correct?
-
-If confused, ask:
-> "Why `float` for price instead of `int`? What's the difference?"
-
----
-
-### Part 3: Student Teaches AI (Error Discovery)
-
-AI classified the data correctly. But does it understand what happens when types are WRONG?
-
-Tell AI about a mistake:
-
-> "What if I accidentally stored price as a string like '15.99' instead of float like 15.99? Write Python code showing what breaks when I try to calculate total cost for 3 books. Show me the error."
-
-**Your task**: Study AI's error demonstration.
-- What error does Python give? (TypeError? Something else?)
-- Can you explain WHY the error happens?
-- How would you fix it?
-
-This teaches AI about the consequences of type mismatches—and reinforces your understanding.
-
----
-
-**Time**: 15-20 minutes total
-**Outcome**: You've practiced the Type Decision Framework independently, validated your thinking with AI, and explored what happens when types are wrong.
 

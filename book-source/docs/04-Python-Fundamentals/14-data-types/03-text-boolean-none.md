@@ -647,81 +647,22 @@ This semantic clarity enables your AI collaborator to:
 
 ---
 
-## Try With AI: Truthy/Falsy Discovery Lab
+## Try With AI
 
-You've learned that Python has "truthy" and "falsy" values beyond just `True` and `False`. Now discover the patterns through experimentation with AI as your lab partner.
+Ready to master truthy/falsy evaluation and None semantics?
 
-### Part 1: Predict Truthy/Falsy (Your Turn First)
+**🔍 Explore Truthy/Falsy Patterns:**
+> "Test these 10 values with bool() and tell me which are truthy and falsy: '', 'hello', 0, 42, [], [1,2], None, False, True, '0'. Explain the pattern you observe. Why is '0' (string) truthy but 0 (int) falsy? What's the rule for empty vs. non-empty values?"
 
-**Before asking AI**, predict which values are truthy (act like True) and which are falsy (act like False):
+**🎯 Practice Boolean Validation:**
+> "Create a user registration validator that checks: (1) username is not empty, (2) age is not None and not zero, (3) email contains '@'. Use truthy/falsy checking instead of explicit comparisons like == ''. Show me the code with type hints and explain why if not username: is better than if username == '':"
 
-```python
-# Predict: Truthy or Falsy?
-1. ""           # Empty string
-2. "hello"      # Non-empty string
-3. 0            # Zero
-4. 42           # Non-zero number
-5. []           # Empty list
-6. [1, 2]       # Non-empty list
-7. None         # None
-8. False        # False itself
-9. True         # True itself
-10. "0"         # String containing "0"
-```
+**🧪 Test None vs. Empty Semantics:**
+> "Explain the difference between missing_data = None, zero_value = 0, and empty_text = ''. For optional user input (like middle name), which should I use? Create code showing why if value is None: is correct but if value == 0: would be wrong. Include a real bug this causes."
 
-Write down your predictions. Look for patterns—can you guess a rule?
+**🚀 Apply to Your Forms:**
+> "I'm building a form for [describe your application]. Help me identify which fields are required (str), optional (str | None), and boolean decisions (bool). For each field, show me the correct validation logic using truthy/falsy evaluation and None checking."
 
 ---
-
-### Part 2: Test with AI (Discovery)
-
-Now ask AI to verify your predictions:
-
-> "For these 10 values, tell me which are truthy and which are falsy in Python: `''`, `'hello'`, `0`, `42`, `[]`, `[1,2]`, `None`, `False`, `True`, `'0'`. Show me the results using `bool()` and explain the pattern."
-
-**Your task**: Compare AI's results to your predictions.
-- How many did you get right?
-- Did you discover the pattern? (Empty = falsy, non-empty = truthy, except for zero and None)
-- Which one surprised you most? (Hint: `"0"` is truthy even though it contains zero!)
-
----
-
-### Part 3: Student Teaches AI (None Semantics)
-
-AI showed you the truthy/falsy pattern. But does it understand WHY `None` is special?
-
-Challenge AI with a practical scenario:
-
-> "Explain the difference between these three variables: `missing_data = None`, `zero_value = 0`, `empty_text = ''`. If I'm checking whether a user provided optional data, which one should I use? Why is `if value is None:` better than `if value == 0:` for this check?"
-
-**Your task**: Evaluate AI's explanation.
-- Does it explain that `None` means "no data provided" (not zero, not empty—truly absent)?
-- Does it explain why `is None` is the correct idiom for checking None?
-- Can you explain the semantic difference in your own words now?
-
-This teaches AI about precise None semantics—and deepens your understanding.
-
----
-
-### Part 4: Build a Validation Function Together
-
-Now apply truthy/falsy knowledge to build something practical.
-
-Ask AI:
-
-> "Write a Python function that validates user input. It should check if: (1) name is not empty, (2) age is not None and not zero, (3) email is not empty. Use truthy/falsy checking (not explicit `== ''` comparisons). Show me the code with type hints."
-
-**Your task**: Review AI's code.
-- Does it use truthy/falsy idiomatically? (like `if not name:` instead of `if name == "":`)
-- Does it check `is None` correctly?
-- Can you explain WHY the truthy/falsy approach is cleaner than explicit comparisons?
-
-Iterate if needed:
-> "Explain why `if not name:` is better than `if name == '':`"
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've discovered truthy/falsy patterns through prediction and testing, learned the semantic meaning of None, and applied these concepts to practical validation code.
 
 

@@ -462,107 +462,20 @@ print(f"{g} has type {type(g)}")
 
 ---
 
-## Try With AI: Type Selection Decision Challenge
+## Try With AI
 
-### Part 1: Classify Data Types (Your Turn First)
+Ready to master when to use int vs. float vs. complex in real applications?
 
-**Before asking AI**, analyze these 15 real-world scenarios and choose the appropriate numeric type:
+**🔍 Explore Numeric Type Tradeoffs:**
+> "Compare int, float, and complex types. For each, show me 3 real-world scenarios where that type is the ONLY correct choice. Then show me a scenario where choosing the wrong type (like using float for inventory count) causes a bug. Include the actual error or unexpected behavior."
 
-| Scenario | int or float? | Why? |
-|----------|---------------|------|
-| Number of students in a class | ? | ? |
-| Average test score (0-100) | ? | ? |
-| Price of a product ($19.99) | ? | ? |
-| Days in a month | ? | ? |
-| Temperature in Celsius (23.5°C) | ? | ? |
-| Population of a city | ? | ? |
-| Distance in kilometers (42.195) | ? | ? |
-| Age of a person | ? | ? |
-| Stock price ($150.47) | ? | ? |
-| Count of items in inventory | ? | ? |
+**🎯 Practice Type Classification:**
+> "Give me 15 data scenarios (student count, product price, temperature, distance, age, stock price, etc.). For each, I'll choose int or float and explain my reasoning. Then challenge my choices—if I pick float for age, explain why int is better. If I pick int for money, show me the precision problem I'll encounter."
 
-**Your task**: Fill in the table. For EACH, write a one-sentence reason for your choice.
+**🧪 Test Edge Case Understanding:**
+> "Create Python code demonstrating these 3 edge cases: (1) float precision error with money (0.1 + 0.2), (2) integer division surprise (5 / 2 returns float), and (3) Python's unlimited int size (10**100). For each, explain why it happens and how to handle it correctly."
+
+**🚀 Apply to Your Domain:**
+> "I'm building [describe your project]. Help me identify every numeric value I need to store, then classify each as int or float. For financial data, warn me about float precision and suggest alternatives like Decimal or storing cents as int."
 
 ---
-
-### Part 2: AI Validates Your Reasoning (Discovery)
-
-Share your classification with AI:
-
-> "I classified these 10 scenarios as int or float. Here's my reasoning:
-> [paste your table]
->
-> For EACH: Tell me if I got it right. If I chose wrong, explain WHY the other type is better. Focus on:
-> 1. Does this data naturally have decimals?
-> 2. What happens if I choose wrong (int when I need float, or vice versa)?"
-
-**Your evaluation task**:
-- How many did you get right?
-- For wrong ones: Do you understand why now?
-- Can you articulate a RULE: "Use int when _____, use float when _____"?
-
----
-
-### Part 3: Challenge AI with Edge Cases (Student Teaches AI)
-
-Test AI's understanding with tricky scenarios:
-
-> "I have edge cases that challenge the int/float decision:
->
-> **Edge Case 1**: Money ($19.99)
-> - You said float, but what about floating-point precision errors (0.1 + 0.2 ≠ 0.3)?
-> - Show me an example where using float for money causes a bug
-> - What's the alternative? (Hint: Decimal type, cents as int)
->
-> **Edge Case 2**: Temperature (23.5°C)
-> - You said float, but what if I'm building a weather app that only shows whole degrees?
-> - Should I store as float and round for display, or store as int?
-> - What are the tradeoffs?
->
-> **Edge Case 3**: Large integers (population: 7,900,000,000)
-> - Does Python's int have a maximum size like other languages (32-bit, 64-bit)?
-> - What happens if I do: `x: int = 10**100` (googol)?
-> - Compare to float's maximum size."
-
-**Your debugging task**:
-- Run the money precision example. Can you reproduce the bug?
-- Which edge case surprised you most?
-
----
-
-### Part 4: Build a Type Selector Tool (Convergence)
-
-Create a decision flowchart with AI:
-
-> "Let's build a decision tree for choosing numeric types in MY projects:
->
-> **Decision Tree**:
-> ```
-> START: What data am I storing?
->   │
->   ├─ Whole numbers only? → Check...
->   │   ├─ Counts/quantities → int
->   │   ├─ Money (cents) → int
->   │   └─ Age/population → int
->   │
->   ├─ Decimals needed? → Check...
->   │   ├─ Scientific measurements → float
->   │   ├─ Percentages/ratios → float
->   │   ├─ Money (dollars) → Decimal (not float!)
->   │   └─ Geographic coordinates → float
->   │
->   └─ Complex numbers? → complex (rare)
-> ```
->
-> Expand this tree with:
-> 1. Add 3 more scenarios I might encounter
-> 2. Add decision criteria (size limits, precision needs)
-> 3. Add a 'Red Flags' section: When does my choice cause bugs?"
-
-**Refinement**:
-> "This tree doesn't cover: What if I'm reading data from a file/API and don't know the type in advance? Add a 'Type Validation' branch."
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've built a mental model for numeric type selection grounded in real-world scenarios and edge cases—not just memorizing definitions.
