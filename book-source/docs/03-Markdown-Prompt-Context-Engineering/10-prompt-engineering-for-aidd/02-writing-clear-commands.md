@@ -231,6 +231,10 @@ Strong prompts also:
 - **Build confidence**: Quick wins show you that "I can direct AI to build things"
 - **Scale your skills**: As tasks get complex, strong commands are the difference between working and failing
 
+#### 🎓 Expert Insight
+
+> The 10x productivity difference isn't about typing speed—it's about decision clarity. When you use strong verbs, you're forcing yourself to think precisely about what you want. That clarity not only helps AI; it helps you recognize whether you've actually thought through the problem. Vague prompts often reveal vague thinking.
+
 This lesson is about mastering that one difference.
 
 ---
@@ -242,6 +246,8 @@ Strong commands follow a simple, repeatable structure:
 ```
 [VERB] + [TARGET] + [DESIRED OUTCOME]
 ```
+
+![Diagram showing command structure formula with three components (Verb, Target, Desired Outcome) connected by plus signs, with arrow pointing to concrete example: Create + Python function + validates email with regex](/img/part-3/chapter-10/command-structure-formula.png)
 
 Let's break this down with real examples:
 
@@ -310,6 +316,10 @@ The structure works because it gives AI:
 3. **Success criteria** (Outcome): How you'll know if it's right
 
 AI fills in all the technical details because you've eliminated ambiguity.
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I've learned 8 technical action verbs (Create, Debug, Refactor, Optimize, Generate, Analyze, Migrate, Integrate). Help me understand: when would I use 'Refactor' instead of 'Optimize'? Give me a concrete example where choosing the wrong verb would lead to the wrong solution."
 
 ---
 
@@ -464,7 +474,6 @@ Why this is better:
 - Output is functional (even if not perfect) ✓
 - You can read and understand what the AI generated ✓
 
-**Important**: This is your FIRST code generation. The code doesn't need to be perfect. If there are small issues, that's completely normal—Lesson 5 will teach you how to refine and validate. For now, celebrate that **you can direct an AI to generate code.**
 
 ---
 

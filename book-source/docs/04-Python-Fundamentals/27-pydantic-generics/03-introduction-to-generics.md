@@ -65,7 +65,7 @@ differentiation:
   remedial_for_struggling: "Focus on single-type scenarios first (get_first_item[T]) before multiple-type examples; work through PEP 695 syntax step-by-step with interactive IDE"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-27/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
@@ -136,7 +136,7 @@ Now the function says: "I accept any type T, and I return the same type T." When
 **Why Python needs Generics**: Python is dynamically typed at runtime, but professionally-written Python uses static type checking with tools like mypy and Pylance (in your IDE). Generics bridge this gap: they preserve type information for tools while allowing flexible, reusable code.
 
 #### 💬 AI Colearning Prompt
-> "Ask your AI: What's the difference between using Generics and using `Any` type in Python? Show examples of why Generics are better."
+> "What's the difference between using Generics and using `Any` type in Python? Show examples of why Generics provide better type safety and IDE support."
 
 ---
 
@@ -201,8 +201,8 @@ if first_name is not None:
 
 The IDE catches bugs BEFORE you run the code. This is the real value of Generics—not just for runtime, but for your development experience.
 
-#### 🎓 Instructor Commentary
-> Generics preserve type information; `Any` throws it away. Generics = safety, Any = wild west. In professional Python, you almost never use `Any` when Generics are available. The goal: keep the IDE as your co-pilot.
+#### 🎓 Expert Insight
+> In AI-native development, Generics aren't about memorizing syntax—they're about preserving intent. When you write `Stack[User]`, you're telling both humans and AI agents: "This container holds Users." That clarity cascades through your codebase, making AI code generation more accurate and refactoring safer.
 
 ---
 
@@ -243,8 +243,6 @@ The `[T]` goes directly in the function definition. No imports, no separate Type
 
 **For this book, always use PEP 695 syntax.** It's simpler, more readable, and future-proof.
 
-#### ✨ Teaching Tip
-> Always use PEP 695 syntax in Python 3.14+. It's simpler, more readable, and represents the future of Python's type system. If you see legacy `TypeVar` imports in old code, recognize them but write modern code.
 
 ---
 
@@ -297,11 +295,11 @@ if first is not None:
 
 The type checker runs without executing code. It catches the `.upper()` error immediately in your IDE.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Tell your AI: "Create a generic function `get_last_item[T]` that returns the last element from a list or None if empty. Show me usage examples with both integers and strings, and explain how type information flows through."
+> **Ask your AI**: "Create a generic function `get_last_item[T]` that returns the last element from a list or None if empty. Show usage examples with both integers and strings, and explain how type information flows through the function."
 
-**Expected Outcome**: You'll see a generic function that mirrors `get_first_item` but accesses the last element, demonstrating that the generic pattern works for any container operation.
+**Expected Outcome**: You'll understand how type parameters flow through function signatures and return types, seeing the same generic pattern work for different container operations while maintaining full type safety.
 
 ---
 
@@ -344,8 +342,6 @@ if first is not None:
 
 You see the error in your editor BEFORE running the code. You fix it BEFORE it becomes a production bug. This is the real power—catch mistakes during development, not after deployment.
 
-#### 💬 AI Colearning Prompt
-> "Ask your AI: Create a generic function with a type mismatch bug (where operations don't match the type). Show how an IDE using type hints would catch this error before running."
 
 ---
 
@@ -414,48 +410,172 @@ Pick one style and stick with it. Modern PEP 695 is cleaner.
 
 ---
 
-## Try With AI
+## Try With AI: The Type Safety Discovery (4-Part Learning Challenge)
 
-Now let's practice Generics with your AI companion. These prompts progress from understanding concepts to creating new generic functions.
-
-### Prompt 1: Understand Why Generics Matter
-
-**Ask your AI**: "Why do we need Generics when Python is dynamically typed? Explain with 2-3 concrete examples of bugs that Generics help prevent."
-
-**Expected Outcome**: An explanation showing how Generics enable IDE autocomplete, help catch type mismatches before running code, and make refactoring safer. Examples might include "calling string methods on integers" or "passing wrong types to functions."
+This challenge teaches you why Generics matter and how they preserve type information through your code.
 
 ---
 
-### Prompt 2: Apply Generics to Create a Search Function
+### Part 1: You Discover (Student Discovers Problems)
 
-**Tell your AI**: "Create a generic function `find_item[T](items: list[T], predicate: callable) -> T | None` that finds the first item in a list matching a condition (predicate function). Show usage with both integer and User types, demonstrating how type information is preserved in each case."
+**Your Turn** — Build utility functions WITHOUT Generics to experience loss of type information:
 
-**Expected Outcome**: A working generic search function with:
-- Generic function signature using PEP 695 syntax
-- Type preservation across different data types (int, User, etc.)
-- Usage examples showing IDE type inference working correctly
-- Docstring explaining the type parameter
+```python
+# Part 1: Non-generic utilities (the fragile way)
+# Build three separate functions that do the same thing:
+
+def get_first_int(items: list[int]) -> int | None:
+    """Get first integer from list."""
+    return items[0] if items else None
+
+def get_first_str(items: list[str]) -> str | None:
+    """Get first string from list."""
+    return items[0] if items else None
+
+def get_first_any(items: list) -> any:
+    """Get first item—type is lost."""
+    return items[0] if items else None
+
+# Problem to discover:
+# - You're duplicating the same logic three times
+# - get_first_any() loses type information (IDE can't help)
+# - When you call get_first_int([1,2,3]), IDE knows return is int | None
+# - But what if you have a User class? You'd need get_first_user()
+# - This approach doesn't scale—you'd need a function for every type!
+
+class User:
+    def __init__(self, name: str):
+        self.name = name
+
+# Do you really need get_first_user()? Or can one function work for all?
+```
+
+**What You'll Realize**: Without Generics, you either duplicate code (one function per type) or lose type information (using `Any`). Neither is acceptable for professional code.
 
 ---
 
-### Prompt 3: Analyze Tradeoffs—Generics vs Any
+### Part 2: AI as Teacher (AI Explains Concepts)
 
-**Ask your AI**: "Compare using Generics vs using `Any` type. Create a side-by-side comparison showing what each approach loses or gains. When would you actually use `Any` instead of Generics?"
+**Ask your AI:**
 
-**Expected Outcome**: A comparison table or explanation covering:
-- Generics: Type safety, IDE support, clear contracts but require type parameter specification
-- Any: Maximum flexibility but loses type information and IDE help
-- Real scenarios where `Any` might be acceptable (very rare)
+> "I have this problem: I'm writing utility functions like 'get first item' that work with many types (int, str, User objects). I don't want to write separate functions for each type.
+>
+> Show me how Generics solve this. Explain:
+> 1. Why Generics are better than writing one function per type
+> 2. Why Generics are better than using `Any` type
+> 3. How type information 'flows' through a generic function
+> 4. Show me a generic `get_first[T]` function and how type information is preserved when calling it with int, str, and User"
+
+**What AI Should Show You**:
+- How PEP 695 syntax `def func[T](items: list[T]) -> T:` works
+- How the IDE infers T from the argument type
+- How type information flows through the return type
+- Concrete examples: get_first([1,2,3]) → int | None, get_first(["a","b"]) → str | None
+- Why this is better than Any: IDE provides autocomplete and catches errors
+
+**Your Role**: Ask clarifying questions. "So the IDE knows the return type without me telling it?" "What happens if I pass a mixed-type list?" Push for understanding, not just examples.
 
 ---
 
-### Prompt 4: Create a Generic Merge Function
+### Part 3: You as Teacher (You Challenge AI's Approach)
 
-**Tell your AI**: "Write a generic function `merge_sorted_lists[T](list1: list[T], list2: list[T]) -> list[T]` that combines two sorted lists into one sorted list. The function should work with any type (numbers, strings, etc.). Include type hints and demonstrate with both integers and strings, showing that the type information is preserved in the return value."
+**Challenge AI** — Ask it to handle edge cases and variations:
 
-**Expected Outcome**: A generic merge function with:
-- Correct PEP 695 syntax with type parameters
-- Full type hints on all parameters and return type
-- Implementation that works for any type T
-- Demonstration with multiple types (int, str, etc.)
-- Examples showing type preservation in usage
+> "Your generic function works, but I have real-world needs:
+> 1. What if I have a `find_all[T]` that returns ALL matching items instead of just first?
+> 2. What if I need a generic function that works with BOTH lists AND tuples?
+> 3. What if I have a custom User class—does the generic function work with User objects?
+> 4. When I call find_all(["a","b","c"]), does the IDE know I'm getting back list[str] | None?
+>
+> Show me: a) Working code for each case, b) Type preservation in each example, c) How to demonstrate that IDE autocomplete works correctly"
+
+**Your Role**: Push back on limitations. "Does this work with my custom User class without changing the code?" or "Can I pass a tuple instead of list?" This forces AI to clarify the flexibility of Generics.
+
+**AI's Response Should Show**:
+- How Generics work with different collection types
+- How type information is preserved across function calls
+- How to demonstrate IDE type inference actually works
+- Patterns for more sophisticated generic functions
+
+---
+
+### Part 4: You Build (Production Artifact)
+
+**Build a Type-Safe Utilities Library** — Synthesize into reusable components:
+
+```python
+# deliverable: generic_utils.py
+
+from typing import Sequence, Callable
+
+def get_first_item[T](items: Sequence[T]) -> T | None:
+    """Get first item from any sequence (list, tuple, etc.).
+
+    Type parameter T ensures type information flows through.
+    Works with any type—int, str, User, etc.
+    """
+    return items[0] if items else None
+
+def find_all[T](items: Sequence[T], predicate: Callable[[T], bool]) -> list[T]:
+    """Find all items matching condition.
+
+    Type parameter T is preserved in the return list[T].
+    """
+    return [item for item in items if predicate(item)]
+
+def get_last_item[T](items: Sequence[T]) -> T | None:
+    """Get last item from any sequence.
+
+    Demonstrates that Generics work for different operations.
+    """
+    return items[-1] if items else None
+
+class User:
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+
+# Test implementation—IDE autocomplete works perfectly
+if __name__ == "__main__":
+    # Works with integers
+    numbers = [1, 2, 3, 4, 5]
+    first_num = get_first_item(numbers)  # IDE knows this is int | None
+    if first_num is not None:
+        print(f"First number: {first_num + 10}")  # IDE allows int operations
+
+    # Works with strings
+    words = ["hello", "world"]
+    first_word = get_first_item(words)  # IDE knows this is str | None
+    if first_word is not None:
+        print(f"First word uppercase: {first_word.upper()}")  # IDE allows str operations
+
+    # Works with custom objects
+    users = [
+        User("Alice", 30),
+        User("Bob", 25),
+        User("Charlie", 35)
+    ]
+    first_user = get_first_item(users)  # IDE knows this is User | None
+    if first_user is not None:
+        print(f"First user: {first_user.name}, age {first_user.age}")  # IDE autocompletes name/age
+
+    # find_all preserves type
+    adults = find_all(users, lambda u: u.age >= 30)  # Returns list[User]
+    print(f"Found {len(adults)} adults")
+
+    # Works with tuples too (any Sequence)
+    tuple_data = ("a", "b", "c")
+    first_from_tuple = get_first_item(tuple_data)  # IDE knows this is str | None
+```
+
+**Success Criteria**:
+- Single generic function works with multiple types (int, str, custom objects)
+- IDE provides correct autocomplete for each type
+- Type information flows from input to output
+- No code duplication—one function definition works for all types
+- Works with different collection types (list, tuple, etc.)
+
+---
+
+## Time Estimate
+**30-35 minutes** (6 min discover, 8 min AI teaches, 8 min you challenge, 8 min build)

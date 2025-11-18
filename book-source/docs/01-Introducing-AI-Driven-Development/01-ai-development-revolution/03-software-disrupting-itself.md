@@ -54,6 +54,10 @@ differentiation:
 
 # Software Disrupting Itself
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/D05z2GBY44U" title="Software Disrupting Itself" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 For the past four decades, software has been the great disruptor. It reshaped retail (Amazon), transportation (Uber), media (Netflix), and nearly every other industry. Now, in a twist that catches even veteran technologists off guard, software is disrupting **itself**.
 
 This isn't just another technology trend. It's a fundamentally different kind of transformation—and understanding why it's different will help you see why it's happening so fast and why traditional approaches to learning software development are becoming obsolete.
@@ -98,7 +102,7 @@ When software disrupted retail, traditional retailers fought back. They had regu
 
 When AI tools disrupt software development, there's no external resistance. **Developers are adopting these tools voluntarily and enthusiastically** because they make work easier, faster, and more enjoyable. There's no lobbying against AI coding assistants, no regulatory barriers, no customer loyalty to overcome.
 
-The adoption curve shows this: **76% of developers are using or plan to use AI tools**, with 62% already using them (Stack Overflow 2024). That's not gradual acceptance—it's rapid embrace.
+The adoption curve shows this: **84% of developers are using or plan to use AI tools**, with 51% using them daily (Stack Overflow 2025). That's not gradual acceptance—it's rapid embrace.
 
 ### 2. Universal Impact Across Roles
 
@@ -187,13 +191,13 @@ Consider the evidence:
 
 This isn't hype or speculation. It's observable, measurable transformation happening right now.
 
-#### ✨ Teaching Tip
+#### 🎓 Expert Insight
 
-Think of it like smartphones replacing flip phones—once the tipping point hit, adoption became inevitable. AI coding tools crossed that threshold in Summer 2025.
+> Think of it like smartphones replacing flip phones. Once the tipping point hit, adoption became inevitable. AI coding tools crossed that threshold in Summer 2025. You're not deciding whether to adapt. You're deciding how quickly.
 
 ## What This Means for Your Learning Journey
 
-Understanding that software is disrupting itself—and that this disruption is internal, universal, fast, and inevitable—has direct implications for how you should approach learning:
+Understanding that software is disrupting itself has direct implications for how you should approach learning. This disruption is internal, universal, fast, and inevitable:
 
 1. **Traditional "learn syntax first" approaches are obsolete**. AI tools handle syntax. You need to learn concepts, patterns, and problem-solving strategies.
 
@@ -203,11 +207,11 @@ Understanding that software is disrupting itself—and that this disruption is i
 
 4. **Experienced developers need to reframe their value**. If your expertise is "I know Java syntax" or "I can write SQL queries," you're competing with automation. If your expertise is "I understand distributed systems" or "I can design secure architectures," you're more valuable than ever.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Quick Comparison**: Ask your AI: "Compare how long it took for cloud computing to reach 50% adoption (about 10 years) versus AI coding tools (about 2 years). List 3 specific reasons why AI tools are being adopted 5x faster."
+> **Ask your AI**: "Compare how long it took for cloud computing to reach 50% adoption (about 10 years) versus AI coding tools (about 2 years). What are 3 specific reasons why AI tools are being adopted 5x faster? Help me understand the factors at play."
 
-**Check**: Does the AI mention voluntary adoption, immediate productivity gains, and low switching costs—exactly the points this lesson covered?
+**What you're practicing**: Understanding technology adoption patterns. The AI will mention voluntary adoption, immediate productivity gains, and low switching costs. Exactly the points this lesson covered.
 
 In the next section, we'll look at how this transformation affects every single phase of the software development lifecycle—from initial planning through deployment and operations. The disruption isn't isolated to "writing code." It's systemic.
 

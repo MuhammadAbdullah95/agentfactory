@@ -124,6 +124,8 @@ What does the AI generate? It produces:
 
 The AIDD Context Stack has four layers, each answering a critical question the AI needs answered:
 
+![Diagram showing 4-layer context stack with vertical hierarchy: Layer 1 Project Context (What is this project?), Layer 2 Code Context (Where are we building?), Layer 3 Constraint Context (What rules apply?), Layer 4 Developer Context (Who is building and why?). Left bracket indicates complete context requires all 4 layers](/img/part-3/chapter-10/four-layer-context-stack.png)
+
 ### Layer 1: Project Context
 **The Question**: "What is this project, and what does it use?"
 
@@ -142,6 +144,12 @@ Current Phase: MVP development, focusing on user authentication and product cata
 ```
 
 **Why it matters**: Tells AI what tools and patterns your project uses, so it generates matching code.
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I'm working on [describe a real or hypothetical project]. If you were going to help me build a feature, what would you need to know to generate code that fits my project perfectly? List the questions you'd ask me about my project, code structure, constraints, and preferences."
+>
+> **What you're learning**: AI can teach you what good context looks like by showing you what questions a smart collaborator would ask.
 
 ---
 
@@ -226,6 +234,10 @@ Developer Context:
 ```
 
 **Why it matters**: Helps AI tailor explanations and code complexity to match your needs. A senior engineer and a junior developer need different solutions.
+
+#### 🎓 Expert Insight
+
+> Here's the paradigm shift: In traditional programming, you adapt generic code to your project. In AI-native development, you provide context once, and AI generates project-specific code from the start. You're not trading "understanding code" for "using AI"—you're trading "manually adapting code" for "clearly specifying requirements." The understanding is still yours; the mechanical adaptation is automated.
 
 ---
 
@@ -478,7 +490,6 @@ Build all four layers:
 
 Once you've written your contextual prompt, you'll test it with AI in the next section.
 
----
 
 ### Exercise 3: Use Existing Code as Context (5 minutes)
 

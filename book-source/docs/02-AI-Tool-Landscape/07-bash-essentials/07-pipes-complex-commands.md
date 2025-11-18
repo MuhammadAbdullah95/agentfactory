@@ -107,6 +107,9 @@ Output: Only Python files
 - Pipes chain them together
 - The output of one becomes input to the next
 
+#### 💬 AI Colearning Prompt
+> "Why do pipes use the `|` symbol? What's the conceptual connection between 'pipeline' and the vertical bar character?"
+
 ---
 
 ## Chain Multiple Commands with Pipes
@@ -193,6 +196,9 @@ Each command transforms the data in some way:
 
 **The power**: You build complex operations by combining simple commands.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize pipe syntax like `grep | awk | sed | sort | uniq`. You understand WHAT you need ("filter these logs, extract column 5, remove duplicates"), and AI chains the commands. Your job: understand each step's purpose, verify the output makes sense.
+
 ---
 
 ## Build Complex Pipelines for Real Problems
@@ -239,6 +245,12 @@ Pipes are central to bash because they're:
 
 Your AI builds the pipeline. You understand what's happening by tracing the data flow.
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Find all files in the current directory containing 'error', count how many matches exist, and explain each step of the pipeline. Then modify the pipeline to show only unique error messages."
+
+**Expected Outcome**: You understand how to chain grep, sort, uniq, and wc commands, and can request pipeline modifications from AI.
+
 ---
 
 ## Try With AI: Side-by-Side Pipeline Building
@@ -269,12 +281,7 @@ Explain what each command does and how data flows between them.
 | Count them | `wc -l` | (AI's counting command) |
 | Data flow | all files → Python files → count | (Same pattern) |
 
-**Observation**:
-- Is the command pattern the same? (Yes—list → filter → count)
-- Can you trace the data flow? (Yes—each step transforms the previous output)
-- Does your AI explain WHAT each command does? (Yes—not just the syntax, but the purpose)
-
-**Key Insight**: Pipes chain simple commands into powerful workflows. You don't memorize complex syntax—you specify what you want, and AI builds the pipeline.
+**Observation**: You specified WHAT you wanted (count Python files), AI built the HOW (pipeline). Then you traced the data flow to understand it. This is how complex workflows become understandable through AI collaboration.
 
 ---
 
@@ -296,6 +303,8 @@ Using the pipeline from above (list → filter → count Python files):
 Your AI will show the intermediate outputs at each stage and explain how modifications change the data flow. This builds your understanding of pipelines as transformations.
 
 **Key Principle**: Pipes are powerful because you can trace, predict, and modify them by understanding data flow.
+
+**Key Insight**: Through iterative refinement (trace → understand → modify → verify), you and AI converge on pipelines that solve your exact need. You're not memorizing syntax—you're reasoning about data transformations.
 
 ---
 

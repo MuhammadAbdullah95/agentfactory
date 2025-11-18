@@ -67,6 +67,8 @@ Think of these six components as **tools in your toolbox**:
 - 🔨 You don't use all tools for every job
 - 🪛 Knowing which tool to use when = expertise
 
+<!--![Grid of six AIDD context components in 3x2 layout: 1 Model Selection (Which AI tool?), 2 Development Tools (Code access), 3 Knowledge & Memory (What AI remembers), 4 Audio/Speech (Not for coding - de-emphasized), 5 Guardrails (Quality standards), 6 Orchestration (Workflow coordination). Component diagram shows strategic building blocks of context engineering](/img/part-3/chapter-11/six-components-aidd-context.png)-->
+
 **The Six Components:**
 1. **Model Selection** - Which AI tool for which task?
 2. **Development Tools** - How does AI access your code?
@@ -297,6 +299,9 @@ Show me the patterns used so I can implement new authentication consistently."
 
 **Why this matters:** Ensures your new code matches existing patterns.
 
+#### 💬 AI Colearning Prompt
+> "Of the six context components we just discussed, which two are most important for our current project? Explain your reasoning and suggest how we should prioritize loading them in our next specification task."
+
 ---
 
 ### Key Principle
@@ -425,6 +430,9 @@ Now implement product_service.py following this EXACT pattern."
 ```
 
 **Why this matters:** AI generates code matching your style, not generic code.
+
+#### 🎓 Expert Insight
+> The difference between assisted and driven development often comes down to how you use tool outputs. Beginners treat them as final answers; professionals treat them as context—feeding outputs back into specifications to refine requirements iteratively. This creates a convergence loop where each iteration gets closer to the ideal solution.
 
 ---
 
@@ -839,6 +847,14 @@ For each scenario, which component(s) are involved?
 
 **Scenario E:** "I broke feature into 5 sub-tasks"
 - Component: **6 - Orchestration** ✓
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Audit the current state of all six context components in our session. Which components are well-loaded? Which are thin or missing? Create a context health check report."
+
+**Expected Outcome**: Your AI should evaluate each component (conversation history: good, loaded files: 2 files loaded, instructions: CLAUDE.md active, etc.) and suggest specific improvements.
 
 ---
 

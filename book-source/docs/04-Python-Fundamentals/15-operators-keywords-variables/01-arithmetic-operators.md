@@ -47,12 +47,12 @@ differentiation:
   remedial_for_struggling: "Focus on first 4 operators (+, -, *, /); use concrete single-digit numbers; build confidence with simple expressions before advancing to //, %, **"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/part-4-chapter-15/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"
 git_author: "Claude Code"
-workflow: "lesson-writer subagent"
+workflow: "content-implementer subagent"
 version: "1.0.0"
 ---
 
@@ -109,6 +109,10 @@ Notice something: we're asking AI to explain the **design choice** behind operat
 ### Multiplication, Division, and Floor Division
 
 ```python
+# Continuing from previous example (x=10, y=3)
+x: int = 10
+y: int = 3
+
 # Multiplication: scaling
 mul_result: int = x * y
 print(f"{x} * {y} = {mul_result}")  # 10 * 3 = 30
@@ -126,13 +130,21 @@ Here's something important: **division with `/` always returns a float, even whe
 
 Why? Because division often produces decimals, so Python designed `/` to always return float. If you want an integer result (discarding the decimal), you use `//` (floor division).
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > In AI-native development, you don't memorize why Python made this choice. You understand what's happening (division produces floats, floor division gives integers) and use the right operator for your intent. Then you verify with `type()` to be sure.
 
 Let's verify this with `type()`:
 
 ```python
+# Continuing from previous example (x=10, y=3)
+x: int = 10
+y: int = 3
+
+# Calculate results
+div_result: float = x / y
+floor_result: int = x // y
+
 # Verify the types
 print(f"Type of 10 / 3: {type(div_result)}")    # <class 'float'>
 print(f"Type of 10 // 3: {type(floor_result)}")  # <class 'int'>
@@ -149,6 +161,10 @@ Notice: when you floor divide two floats, the result is still a float. Python fo
 ### Modulus: The Remainder Operator
 
 ```python
+# Continuing from previous example (x=10, y=3)
+x: int = 10
+y: int = 3
+
 # Modulus: finds the remainder
 mod_result: int = x % y
 print(f"{x} % {y} = {mod_result}")  # 10 % 3 = 1
@@ -163,6 +179,9 @@ The modulus operator `%` is useful when you care about what's left over. For exa
 ### Exponentiation: Raising to a Power
 
 ```python
+# Continuing from previous example (x=10)
+x: int = 10
+
 # Exponentiation: raising to a power
 exp_result: int = x ** 2
 print(f"{x} ** 2 = {exp_result}")  # 10 ** 2 = 100
@@ -175,11 +194,9 @@ print(f"2 ** 10 = {2 ** 10}")      # 1024 (exponents grow fast!)
 
 Notice the symbol: `**` (two asterisks), not `^`. The caret symbol `^` does something different in Python (bitwise XOR), so don't use it for exponentiation.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-
-> "I understand that arithmetic operators in Python are +, -, *, /, //, %, **. But why does `/` always return a float even when dividing two integers? And when would I actually use `//` vs. `/`? Give me a concrete example where using the wrong one would cause a bug."
+> **Ask your AI**: "I understand that arithmetic operators in Python are +, -, *, /, //, %, **. But why does `/` always return a float even when dividing two integers? And when would I actually use `//` vs. `/`? Give me a concrete example where using the wrong one would cause a bug."
 
 **Expected Outcome**: You'll understand the design decisions behind Python's division operators and how they interact with types.
 
@@ -206,10 +223,6 @@ print(type(mixed))             # <class 'float'>
 ```
 
 **The pattern**: When you mix `int` and `float`, the result is always `float`. Python considers this safe because a float can represent any integer value (though with potential precision loss for very large numbers).
-
-#### ✨ Teaching Tip
-
-> Use your AI tool to explore edge cases: "What happens if I try to add an integer to a string? Show me the error and explain what `TypeError` means."
 
 ## Operator Precedence: Order Matters
 
@@ -277,10 +290,6 @@ This example shows:
 - Different types in the results (int vs. float)
 - Type verification with `type()`
 
-#### 🎓 Instructor Commentary
-
-> In AI-native development, you don't memorize these operators—you understand them by using them, checking types, and asking AI when surprised. The moment you see an unexpected result (like `10 / 3` being `3.3333...`), you ask: "Why is this a float?" That question-asking habit is more valuable than memorization.
-
 ## Common Mistakes (And Why They Happen)
 
 **Mistake 1: Expecting `5 / 2` to give `2`**
@@ -302,85 +311,81 @@ result: float = 5 + 2.0   # Result is 2.0, not an int
 
 ```python
 # WRONG: This is division by 2, not 2 to the power
-result = 5 / 2           # 2.5 (not what you want)
+result: float = 5 / 2           # 2.5 (not what you want)
 
 # CORRECT: Use ** for exponentiation
-result = 5 ** 2          # 25 (5 squared)
+result: int = 5 ** 2          # 25 (5 squared)
 ```
 
 ---
 
-## Try With AI
+## Try With AI: Calculator Building Challenge
 
-Now it's your turn to explore arithmetic operators with an AI co-teacher. These prompts build from understanding to exploration to application.
+You've learned 7 arithmetic operators. Now build a real calculator to apply them—with AI as your code review partner.
 
-**Tool Choice**: Use Claude Code, Gemini CLI, or ChatGPT web—whatever you have access to.
+### Part 1: Build Basic Calculator (Your Turn First)
 
-### Prompt 1: Concept Exploration (Understand)
+**Before asking AI**, write a calculator program that:
 
-Copy and ask your AI:
+1. Takes two numbers: `num1 = 10` and `num2 = 3`
+2. Performs ALL 7 operations and displays results:
+   - Addition: `num1 + num2`
+   - Subtraction: `num1 - num2`
+   - Multiplication: `num1 * num2`
+   - Division: `num1 / num2`
+   - Floor division: `num1 // num2`
+   - Modulus: `num1 % num2`
+   - Exponentiation: `num1 ** num2`
+3. Uses type hints for all variables
+4. Uses f-strings to display: `"10 + 3 = 13"`
 
-> "I'm learning Python arithmetic operators. I understand +, -, *, but I'm confused about `/` vs. `//`.
-> - What's the difference between 10 / 3 and 10 // 3?
-> - Why does Python have both?
-> - Which one should I use and when?
->
-> Show me examples with their types using `type()`."
-
-**Expected Outcome**: You'll understand that `/` always returns float (division with decimals), while `//` returns integer (counting whole groups). You'll know when to use each based on what you need the result for.
-
----
-
-### Prompt 2: Application (Apply)
-
-Copy and ask your AI:
-
-> "Write Python code that calculates:
-> - Total cost = $50 base price
-> - Tax = 8% (multiply by 1.08)
-> - Delivery fee = $10
->
-> Write it with type hints for all variables. Use arithmetic operators to:
-> 1. Calculate total with tax
-> 2. Add the delivery fee
-> 3. Show the final total
->
-> Then explain: why is the final total a float and not an int? Use `type()` to verify."
-
-**Expected Outcome**: You'll see arithmetic operators applied to a realistic problem. You'll understand why mixing integers and floats produces floats. You'll practice reading and understanding type hints.
+Write this yourself. Save as `calculator.py` and run it.
 
 ---
 
-### Prompt 3: Edge Case Discovery (Explore)
+### Part 2: AI Reviews Your Calculator
 
-Copy and ask your AI:
+Share your code with AI:
 
-> "I want to understand what happens at the edges. Try these:
-> - 10 / 0 (divide by zero)
-> - 0.1 + 0.2 (floating point math)
-> - 10 % 0 (modulus by zero)
-> - 2 ** 100 (very large exponent)
->
-> For each one: Does it work or error? What's the result or error message? Why?"
+> "Here's my Python calculator: [paste code]. Review it for: (1) Correct use of all 7 arithmetic operators, (2) Proper type hints (are results int or float?), (3) Clear output formatting. What did I do well? What should I improve?"
 
-**Expected Outcome**: You'll discover that division by zero causes an error (expected), floating point numbers have precision issues (surprising!), and Python handles large exponents well. You'll see errors as learning opportunities, not failures.
+**Your task**: Read AI's feedback.
+- Did it catch type errors? (`/` returns float, not int!)
+- Did it suggest better f-string formatting?
+- Do you understand WHY each operator produces its result?
 
 ---
 
-### Prompt 4: Synthesis & Validation (Understand + Analyze)
+### Part 3: Student Teaches AI (Division Edge Case)
 
-Copy and ask your AI:
+AI reviewed your code. But does it understand the `/` vs `//` distinction deeply?
 
-> "I've learned that Python has 7 arithmetic operators. I remember from Chapter 14 that Python also has type hints. How do these connect?
->
-> - When I write `result: int = 5 + 3`, what does the type hint `: int` tell me?
-> - Why does `result: int = 5 / 2` cause a problem? (Hint: 5 / 2 is a float, not int!)
-> - Should I always use type hints with arithmetic operators?
->
-> Show me an example where the type hint helps catch a mistake."
+Challenge AI with a scenario:
 
-**Expected Outcome**: You'll understand that type hints are promises: you're saying "this variable will be an int" and Python checks if your code keeps that promise. You'll see how arithmetic operators interact with type hints from Chapter 14. You'll appreciate why type hints matter for catching bugs early.
+> "I'm calculating how many groups of 3 people I can make from 10 people. Should I use `10 / 3` or `10 // 3`? Explain: (1) What each gives, (2) Which one makes sense for counting groups, (3) What type each result is. Show code with type() to verify."
+
+**Your task**: Evaluate AI's explanation.
+- Does it explain that `//` gives whole groups (no partial people!)?
+- Does it show that `/` gives 3.333... which doesn't make sense for counting?
+- Can you now explain when to use `/` vs `//` in your own words?
 
 ---
 
-**Safety Note**: AI-generated code may contain errors. Always run it, check the results with `type()`, and ask "Why?" when something surprises you. If division by zero error appears, that's normal—it's telling you something can't be done.
+### Part 4: Extend Calculator with Validation
+
+Now iterate to add error handling:
+
+> "Extend my calculator to: (1) Check if num2 is zero before dividing, (2) Show an error message instead of crashing, (3) Add a calculation that shows `num1 % num2` only makes sense when num2 != 0. Keep type hints and clear output."
+
+**Your task**: Review AI's enhanced version.
+- Does it prevent division by zero crashes?
+- Does it explain WHY we check for zero?
+- Can you add more validations yourself now?
+
+Iterate if needed:
+> "Explain why `10 / 0` crashes but `10 ** 100` doesn't. What's the difference?"
+
+---
+
+**Time**: 25-30 minutes total
+**Outcome**: You've built a complete calculator applying all 7 operators, learned code review with AI, discovered the `/` vs `//` distinction through practical use, and added error handling for edge cases.

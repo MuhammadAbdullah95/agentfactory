@@ -62,6 +62,8 @@ This lesson teaches you to think like a software architect working with a builde
 
 **Definition**: Implementation logic is the explicit, step-by-step *how* you want a feature built—not just the *what*. It's numbered instructions that guide AI through your architectural decisions.
 
+<!--![Split-screen comparison showing requirements (WHAT) on left with single statement "Create a user registration system" versus implementation logic (HOW) on right with 5 numbered steps: validate email, check database, hash password, create record, return object. Arrow between sides shows transformation from vague to specific](/img/part-3/chapter-10/requirements-vs-logic-split-screen.png)-->
+
 Think of the difference this way:
 
 **Vague Requirement** (what many developers write):
@@ -92,6 +94,10 @@ Even an excellent AI agent will make *reasonable* guesses. But reasonable guesse
 When you specify implementation logic, you eliminate the guessing. You become the architect, and AI becomes the builder following your exact blueprints.
 
 **Professional Pattern**: "You design the solution architecture. AI implements it faithfully."
+
+#### 🎓 Expert Insight
+
+> This is where specification-first thinking becomes tangible. You're not just describing what you want—you're designing how it should be built. This architectural thinking is the skill that makes you valuable in the AI era. AI can write code; only you can decide the right way to solve the problem.
 
 ---
 
@@ -136,6 +142,12 @@ Studies with professional development teams show:
 - **With logic**: 1 prompt → AI generates code → 2-5 min validation → working
 
 The logic specification forces you to think architecturally upfront, which means the generated code matches your mental model from the start.
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I'm learning to specify implementation logic instead of just requirements. Help me understand: What's an example where two different implementation approaches (two different sets of logic steps) would produce the same feature but with very different performance or security characteristics?"
+>
+> **What you're learning**: AI can teach you why architectural decisions matter by showing you the consequences of different approaches.
 
 ---
 

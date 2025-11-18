@@ -72,7 +72,7 @@ differentiation:
   remedial_for_struggling: "Use provided specification template with examples; focus only on the 5 core operations before exploring edge cases"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/10-chapter-31-redesign/spec.md"
 created: "2025-11-05"
 last_modified: "2025-11-05"
@@ -148,6 +148,12 @@ That conversation becomes the specification's acceptance criteria. The spec says
 ```bash
 You: "/sp.specify Build Basic Calculator -Let's formalize our discussion into a specification."
 ```
+
+#### 💬 AI Colearning Prompt
+> "Explain the difference between 'evals' (business success criteria) and 'acceptance criteria' (testable requirements). Why do we define evals informally before writing the formal specification?"
+
+#### 🎓 Expert Insight
+> In AI-native development, the specification IS your code. A vague spec produces broken implementations—no amount of AI intelligence can fix ambiguous requirements. Professional developers spend 70% of their time clarifying specifications and 30% validating implementations, not typing syntax. The clearer your spec, the faster your AI generates correct code. This is why "specs are the new syntax."
 
 ---
 
@@ -263,6 +269,12 @@ A bad spec has:
 - Negative exponents in power()
 - Type mixing (int + float)
 - Boundary conditions (very large/small numbers)
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I've written my calculator specification in `specs/calculator/spec.md`. Can you review it and tell me: (1) Are my acceptance criteria SMART (Specific, Measurable, Achievable, Relevant, Time-bound) or vague? (2) What edge cases did I miss for the 5 operations? (3) How does my spec align with the Constitution standards we set earlier? Then suggest 2-3 improvements before I move to the Clarify phase."
+
+**Expected Outcome**: Your AI should identify vague criteria (e.g., "works correctly" → needs precision specification), suggest missing edge cases (e.g., power(0, 0), very large exponents), confirm Constitution alignment (type hints, testing requirements), and provide actionable improvements.
 
 ---
 

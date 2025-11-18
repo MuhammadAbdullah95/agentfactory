@@ -55,7 +55,11 @@ These guardrails produce code that fits your project the first time—no costly 
 
 ## Why: Constraints Ensure Project Fit
 
-Without constraints, AI may choose the newest API, an unsupported version, or a pattern that doesn’t match your stack. With constraints, AI delivers code that compiles, deploys, and integrates on day one. Constraints are not bureaucracy—they’re how you convert “good code” into “our code.”
+Without constraints, AI may choose the newest API, an unsupported version, or a pattern that doesn't match your stack. With constraints, AI delivers code that compiles, deploys, and integrates on day one. Constraints are not bureaucracy—they're how you convert "good code" into "our code."
+
+#### 🎓 Expert Insight
+
+> Constraints don't limit AI—they focus it. Think of constraints as the architectural requirements in a building project. Without them, the contractor might build something beautiful but unusable. With them, you get exactly what fits your needs. This is specification-first thinking in practice.
 
 ## How: Specifying Constraints and Using Examples
 
@@ -326,6 +330,12 @@ Formatting: Show what to add using diff format with context lines, so I can see 
 
 **Why better**: Shows exactly where in the file it goes, with surrounding context.
 
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I'm learning about formatting options for AI-generated code (complete files, snippets with integration points, or diff-style changes). Help me understand: For which scenarios would diff-style format be better than a complete file? What are the tradeoffs?"
+>
+> **What you're learning**: AI can teach you decision-making frameworks by explaining when different approaches work best.
+
 ---
 
 ## Exercise 1: Add Constraints to a Prompt (10 min)
@@ -342,7 +352,7 @@ Add constraints (example):
 - Password hashing with bcrypt (cost 12)
 - Type hints and Google-style docstrings; tests included
 
-Success criteria: AI’s output meets all specified constraints ✓
+Success criteria: AI's output meets all specified constraints ✓
 
 ---
 
@@ -429,7 +439,6 @@ Fill in this comparison table:
 
 **Success criteria**: You understand when to use each format and can specify it in your prompts ✓
 
----
 
 ## Exercise 4: Combine Constraints + Examples + Formatting (10 min)
 

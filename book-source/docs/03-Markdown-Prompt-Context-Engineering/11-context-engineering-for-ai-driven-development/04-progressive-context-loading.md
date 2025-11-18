@@ -308,6 +308,9 @@ Phase 3: Implementation
 Remaining capacity: 92% for refinement, testing, documentation!
 ```
 
+#### 💬 AI Colearning Prompt
+> "Think about a recent task where you loaded too much context upfront. What problems did that cause? How would progressive context loading (Overview → Focus → Deep Dive) have improved the workflow?"
+
 ---
 
 ## Practical Guidelines
@@ -351,6 +354,9 @@ Remaining capacity: 92% for refinement, testing, documentation!
 - Direct dependencies
 - Related tests
 - **Don't:** Load "just in case" files
+
+#### 🎓 Expert Insight
+> Progressive context loading mirrors how expert developers read codebases: they don't start by reading every file—they start with architecture docs, then zoom into relevant modules, then specific functions. AI-native developers apply this same pattern to context engineering, treating context as a navigation tool, not a dump truck.
 
 ---
 
@@ -466,6 +472,14 @@ How do you know if your progressive loading strategy is working?
 - ❌ AI seems confused about which approach to use
 
 **What to do:** Start a new session, reload only what's actually needed.
+
+---
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "We're about to add authentication to our application. Design a 3-phase progressive context loading strategy for this task. What would you load in each phase and why?"
+
+**Expected Outcome**: Your AI should propose Phase 1 (auth architecture overview, existing user model), Phase 2 (auth library comparison, security requirements), Phase 3 (specific implementation files, config files).
 
 ---
 

@@ -60,7 +60,7 @@ differentiation:
   remedial_for_struggling: "Focus on core pipeline only (ingest → parse → filter → aggregate → output). Use the provided data structure templates. Pair with AI to debug step-by-step. Skip extensions. Ask instructor or AI for scaffolded hints."
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
@@ -130,6 +130,13 @@ Each student is a **dict** (key-value mapping for field access by name), stored 
 ### Step 3: Filtered Data (List Comprehension)
 
 ```python
+students: list[dict[str, str | float]] = [
+    {"name": "Alice", "major": "Computer Science", "gpa": 3.8},
+    {"name": "Bob", "major": "Mathematics", "gpa": 3.2},
+    {"name": "Carol", "major": "Computer Science", "gpa": 3.9},
+    {"name": "Eve", "major": "Computer Science", "gpa": 3.5},
+]
+
 cs_students: list[dict[str, str | float]] = [
     student for student in students
     if student["major"] == "Computer Science" and student["gpa"] >= 3.5
@@ -240,6 +247,14 @@ Now that you have structured data, filter it. Let's find all Computer Science st
 #### Code Example: Filtering with List Comprehension
 
 ```python
+students: list[dict[str, str | float]] = [
+    {"name": "Alice", "major": "Computer Science", "gpa": 3.8},
+    {"name": "Bob", "major": "Mathematics", "gpa": 3.2},
+    {"name": "Carol", "major": "Computer Science", "gpa": 3.9},
+    {"name": "David", "major": "Physics", "gpa": 3.1},
+    {"name": "Eve", "major": "Computer Science", "gpa": 3.5},
+]
+
 # Filter: Computer Science students with GPA >= 3.5
 cs_high_achievers: list[dict[str, str | float]] = [
     student for student in students
@@ -287,6 +302,15 @@ Filtering is useful, but aggregation is powerful. Now calculate statistics **by 
 > **📘 Note**: This aggregation pattern—grouping data and calculating statistics—is fundamental to data analysis. In Chapter 20, you'll learn to package this logic into reusable functions. For now, focus on understanding the dict-based accumulation pattern.
 
 ```python
+students: list[dict[str, str | float]] = [
+    {"name": "Alice", "major": "Computer Science", "gpa": 3.8},
+    {"name": "Bob", "major": "Mathematics", "gpa": 3.2},
+    {"name": "Carol", "major": "Computer Science", "gpa": 3.9},
+    {"name": "David", "major": "Physics", "gpa": 3.1},
+    {"name": "Eve", "major": "Computer Science", "gpa": 3.5},
+    {"name": "Frank", "major": "Mathematics", "gpa": 3.6},
+]
+
 # Initialize empty dict to store statistics by major
 stats: dict[str, dict[str, float | int]] = {}
 
@@ -583,6 +607,14 @@ Sort students by GPA (highest first) before output:
 > **📘 Note**: The `lambda` syntax below is a shorthand for defining small, inline operations. You'll learn lambda functions in Chapter 20. For now, just understand: `key=lambda s: s["gpa"]` means "sort by the 'gpa' field of each student dict."
 
 ```python
+students: list[dict[str, str | float]] = [
+    {"name": "Alice", "major": "Computer Science", "gpa": 3.8},
+    {"name": "Bob", "major": "Mathematics", "gpa": 3.2},
+    {"name": "Carol", "major": "Computer Science", "gpa": 3.9},
+    {"name": "David", "major": "Physics", "gpa": 3.1},
+    {"name": "Eve", "major": "Computer Science", "gpa": 3.5},
+]
+
 top_students: list[dict[str, str | float]] = sorted(
     students,
     key=lambda s: s["gpa"],
@@ -649,45 +681,146 @@ Check yourself against these criteria:
 
 ---
 
-## Try With AI
+## Try With AI: Sales Data Pipeline Capstone (Chapter 18 Integration)
 
-Use your preferred AI companion (Claude Code, Gemini CLI, or ChatGPT web).
+You've completed all 10 lessons of Chapter 18 (lists, tuples, dicts, comprehensions, structure selection). Now build a complete data pipeline integrating EVERYTHING—with AI as your architecture partner.
 
-### Prompt 1: Recall Architecture (Remember)
-> "I'm building a data pipeline to process student records. Should I store each record as a dict or a tuple? Should I use a list or a dict to aggregate statistics? Explain your reasoning for each choice."
+### Part 1: Design Pipeline Architecture (Your Turn First)
 
-**Expected Outcome**: You'll verify your understanding of structure selection. AI reinforces why list[dict] works for records and why dict is natural for aggregations.
+**Before asking AI**, design a sales data pipeline from scratch:
+
+**Raw CSV Data**:
+```
+product,category,price,quantity
+Laptop,Electronics,999.99,5
+Mouse,Electronics,25.50,15
+Desk,Furniture,450.00,3
+Chair,Furniture,200.00,8
+Monitor,Electronics,350.00,6
+```
+
+**Your Design Task**:
+1. **Parse**: Convert CSV to `list[dict[str, str | float | int]]`
+2. **Filter**: Electronics only, price > $100
+3. **Aggregate**: Total revenue per category (price × quantity)
+4. **Output**: Formatted summary showing top category
+
+**Your implementation**:
+- Choose structures (why dict for records? why list? why dict for aggregation?)
+- Write type hints for all variables
+- Use comprehension for filtering step
+- Sketch code BEFORE asking AI
 
 ---
 
-### Prompt 2: Understand the Pattern (Understand)
-> "Explain how list comprehensions with if conditions work. Show me a concrete example that filters students by major and GPA, then explain each part of the comprehension syntax."
+### Part 2: Build with AI (Collaborative Construction)
 
-**Expected Outcome**: You'll deepen your understanding of comprehension syntax and be able to read/write more complex filtering logic independently.
+Share your design with AI:
+
+> "Here's my sales pipeline design: [paste pseudocode]. Build complete working code with:
+> 1. CSV parsing (split by lines, then by commas)
+> 2. Type conversion (price→float, quantity→int)
+> 3. Filtering with list comprehension (Electronics + price>100)
+> 4. Revenue aggregation using dict accumulator
+> 5. Find highest revenue category
+> 6. Type hints throughout
+>
+> Show complete code I can run with sample data."
+
+**Your task**: Review AI's implementation critically.
+- Does it parse CSV correctly (handle headers)?
+- Does it use list[dict] for records?
+- Does it use comprehension for filter?
+- Does it use dict for aggregation pattern?
+- Can you trace execution for first 3 records?
+
+If unclear, ask:
+> "Explain the aggregation loop step-by-step. How does the dict accumulator work?"
 
 ---
 
-### Prompt 3: Apply to New Data (Apply)
-> "Here's my student data pipeline working. Now I need to process employee records instead (name, department, salary). How would I modify my parsing, filtering, and aggregation functions for this new data? Show me the modified code with the same structure."
+### Part 3: Student Teaches AI (Edge Cases & Validation)
 
-**Expected Outcome**: You'll prove you can transfer the pipeline pattern to different domains. This demonstrates true competency—not just following steps, but understanding the underlying pattern.
+AI built basic pipeline. But does it handle REAL data issues?
+
+Challenge AI with production edge cases:
+
+> "Real CSV data has problems:
+> 1. Empty lines in CSV
+> 2. Missing fields (some rows have no quantity)
+> 3. Invalid price ('N/A' instead of number)
+> 4. Duplicate products (same name, different rows)
+>
+> For EACH edge case:
+> - Show how current code BREAKS
+> - Fix with validation (skip invalid rows? default values?)
+> - Explain tradeoffs (strict vs. lenient validation)
+>
+> Make the pipeline production-ready."
+
+**Your task**: Evaluate error handling.
+- Does it validate row length before parsing?
+- Does it skip or error on invalid price conversion?
+- Does it handle duplicates (sum quantities? keep both?)?
+- Which approach is safer for production?
 
 ---
 
-### Prompt 4: Debug and Extend (Analyze)
-> "I'm getting a KeyError when filtering by department. [Paste your code]. Why is this happening? Help me debug it. Then, show me how to add a feature that calculates average salary per department."
+### Part 4: Extend to Multi-Dimensional Analysis (Convergence)
 
-**Expected Outcome**: You'll practice debugging with AI as a partner, moving from error to understanding. You'll also extend the pipeline with new aggregations—real-world application building.
+Now add complex features with AI:
+
+> "Extend the pipeline with:
+> 1. Multi-category aggregation (revenue by category AND by price bracket: &lt;$100, $100-$500, $500+)
+> 2. Top 3 products by total revenue (sort list of dicts)
+> 3. Summary statistics (total products, total revenue, avg price)
+> 4. Formatted output table with aligned columns
+>
+> Use:
+> - Nested dicts for multi-dimensional aggregation
+> - List comprehensions for filtering
+> - sorted() for ranking
+> - F-strings for formatting
+>
+> Show complete code with all Chapter 18 concepts integrated."
+
+**Your task**: Review the integration.
+- Does it use nested dicts for 2D aggregation (category → bracket → revenue)?
+- Does it use `sorted(products, key=lambda p: p['revenue'], reverse=True)`?
+- Does it combine comprehensions, dict methods, and loops appropriately?
+- Can you explain EVERY structure choice?
+
+Iterate if needed:
+> "The nested dict is confusing. Add comments explaining the structure and how to access nested values."
 
 ---
 
-**Safety & Ethics Note**: When AI suggests code, validate that it:
-- Correctly handles the data you're working with
-- Doesn't skip error handling for edge cases (empty lists, missing keys, type mismatches)
-- Uses type hints appropriately
-- Matches your project's style and structure
+### Part 5: Transfer Pattern to New Domain
 
-Ask AI: "Why did you choose this approach? Are there tradeoffs I should consider?" This builds critical thinking alongside coding skills.
+Final test—apply the pattern without AI:
+
+**Challenge**: Adapt your pipeline to process employee payroll data:
+```
+name,department,salary,bonus
+Alice,Engineering,95000,5000
+Bob,Sales,75000,8000
+Carol,Engineering,105000,7000
+```
+
+**Your independent task**:
+1. Parse to list[dict]
+2. Filter: Engineering department only
+3. Aggregate: Total compensation per department (salary + bonus)
+4. Output: Department summary
+
+Build this YOURSELF, then ask AI to review.
+
+---
+
+**Time**: 60-75 minutes total (full capstone!)
+**Outcome**: You've built a production-grade data pipeline integrating ALL Chapter 18 concepts—lists, tuples, dicts, comprehensions, aggregation, structure selection, edge case handling, and multi-dimensional analysis.
+
+**Safety Note**: Real data pipelines need validation at EVERY step (parsing, conversion, aggregation). Never assume CSV data is clean. Always validate before processing.
 
 ---
 

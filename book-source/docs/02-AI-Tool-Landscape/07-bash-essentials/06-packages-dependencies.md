@@ -97,6 +97,9 @@ That dialogue shows:
 - Package managers handle version compatibility
 - Packages always get their required dependencies
 
+#### 💬 AI Colearning Prompt
+> "Why do package managers install dependencies automatically instead of making you install each one manually?"
+
 ---
 
 ## Use `npm` to Install Node.js Packages
@@ -226,6 +229,9 @@ The package manager traces this entire tree and installs everything needed. This
 - If versions conflict, installation can fail
 - Your AI understands these chains and resolves conflicts
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize package manager commands like `pip install -r requirements.txt` or `npm ci --production`. You understand WHAT you need ("install all dependencies from lockfile") and AI handles the specific syntax for your environment. Your job: verify all dependencies installed successfully.
+
 ---
 
 ## Try With AI: Side-by-Side Package Installation
@@ -254,12 +260,13 @@ Show me:
 | See output | (Installation progress) | (Installation progress) |
 | Verify | `pip show requests` | (AI verifies it) |
 
-**Observation**:
-- Are the commands the same pattern? (Yes—`pip install`, `npm install`, etc.)
-- Does your AI explain what's being installed? (Yes—shows dependencies)
-- Can you verify it worked? (Yes—with `pip show`, `npm list`, or import test)
+**Observation**: AI knows which package manager to use (`pip`, `npm`, `brew`) because it understands your project context. You verify it worked through testing. Together you ensure dependencies are correctly installed.
 
-**Key Insight**: Package managers automate dependency resolution. You don't have to find 5+ packages manually—you ask for one, and the manager finds the rest.
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Install the `requests` package for Python using pip. After installation, show me all dependencies that were installed automatically, and verify `requests` is available by importing it."
+
+**Expected Outcome**: You see the full dependency tree and understand how package managers handle transitive dependencies automatically.
 
 ---
 
@@ -281,6 +288,8 @@ Explain:
 Your AI will explain that packages depend on other packages, which depend on others. The package manager traces this entire dependency tree and installs everything needed. This is called transitive dependency resolution.
 
 **Key Principle**: Package managers handle complexity you'd never want to manage manually.
+
+**Key Insight**: Package management through AI collaboration means you focus on understanding what's being installed (and whether it worked), not memorizing package manager flags.
 
 ---
 

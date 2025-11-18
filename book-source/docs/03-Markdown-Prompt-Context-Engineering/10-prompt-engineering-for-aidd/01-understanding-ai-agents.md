@@ -137,6 +137,12 @@ In practical terms:
 - It includes any files or code you've shared
 - Once you exceed the window, older information gets "forgotten"
 
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I understand that context windows are like short-term memory. Help me understand this through an analogy: if you're like a contractor, what's the equivalent of 'showing you blueprints' versus 'not showing blueprints' in our conversation right now?"
+
+![Diagram showing context window as a container holding conversation history and loaded files, with overflow indicator showing forgotten information outside the window boundary](/img/part-3/chapter-10/context-window-mental-model.png)
+
 **Concrete Example**:
 
 Let's say you're working on a Python project and you give your AI agent this prompt:
@@ -196,6 +202,10 @@ AI agent reads this and understands:
 Result: Focused, project-specific code ready to use.
 
 **The Impact**: Research shows that clear prompts produce working code 70% of the time on the first try. Vague prompts? Developers spend hours debugging vague AI outputs. [Studies on prompt engineering effectiveness, 2024]
+
+#### 🎓 Expert Insight
+
+> Notice the shift happening here. You're not learning to be a better code typist. You're learning to be a better architect and communicator. The AI handles syntax; you handle strategy and intent. This is the fundamental skill shift of the AI-native era—from memorizing commands to articulating requirements.
 
 ## Rethinking Your Role: From Code Writer to AI Orchestrator
 

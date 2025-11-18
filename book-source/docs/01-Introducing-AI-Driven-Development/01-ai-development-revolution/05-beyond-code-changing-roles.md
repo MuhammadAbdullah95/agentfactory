@@ -64,6 +64,9 @@ Let's explore what's actually happening to the profession—and what it means fo
 
 ## From Typist to Orchestrator
 
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/9wY2BSvonUI" title="The AI Coding Revolution: From Typist To Architect
+" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 For most of software engineering's history, being a developer meant this:
 
 **You were a typist.**
@@ -99,9 +102,9 @@ Now, the same work looks like this:
 
 Your role shifted from **typing code** to **directing an AI agent**. You're orchestrating, not transcribing.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
-> This interaction pattern demonstrates the Three-Role AI Partnership: AI teaches you validation patterns you didn't specify, learns your business context (category-level discounts), and works alongside you as co-implementer. You provide intent, AI provides execution.
+> This interaction pattern demonstrates the Three-Role AI Partnership. AI teaches you validation patterns you didn't specify, learns your business context (category-level discounts), and works alongside you as co-implementer. You provide intent, AI provides execution. The value isn't in typing code. It's in articulating what the code should do.
 
 ## The Four Dimensions of the Orchestrator Role
 
@@ -181,6 +184,10 @@ This requires:
 
 You're not writing the code—but you're steering the AI toward the right solution through clear communication and testing.
 
+#### 💬 AI Colearning Prompt
+
+> **Practice the orchestrator workflow**: "I need a simple task management function in Python that adds tasks to a list and marks them complete. First, you generate the initial implementation. Then I'll act as the orchestrator: I'll review your code, identify improvements (add validation, handle edge cases, improve error messages), and guide you through iterations. This mirrors the real developer-as-orchestrator role."
+
 ## How This Transforms Across Seniority Levels
 
 The orchestrator role manifests differently depending on experience level:
@@ -237,9 +244,9 @@ All of these require human expertise, judgment, and creativity.
 
 Additionally, because AI tools make developers more productive, the **demand for software is increasing**, not decreasing. Companies that previously couldn't afford custom software can now build it. Individuals can create tools for personal use. The market is expanding.
 
-#### ✨ Teaching Tip
+#### 🎓 Expert Insight
 
-Higher productivity doesn't mean fewer jobs—it expands what's possible. Just like Excel made accountants more valuable (not obsolete) by enabling complex analysis at scale.
+> Higher productivity doesn't mean fewer jobs. It expands what's possible. Just like Excel made accountants more valuable (not obsolete) by enabling complex analysis at scale. When the constraint shifts from execution speed to decision quality, people who can make good decisions become more valuable.
 
 ## What This Means for Your Learning Path
 
@@ -247,7 +254,7 @@ If you're just starting:
 
 **Good news:** You don't need to memorize syntax or spend months learning to configure development environments. AI tools handle the mechanical parts. You can focus on concepts, patterns, and problem-solving.
 
-**The catch:** You need to learn **with** AI tools from the start, not **from** them. Use AI to understand concepts and explore solutions—don't just copy-paste code you don't understand.
+**The catch:** You need to learn with AI tools from the start, not from them. Use AI to understand concepts and explore solutions. Don't just copy-paste code you don't understand.
 
 If you're experienced:
 
@@ -276,19 +283,19 @@ These are **human skills** that AI can assist with but not replace. If you're de
 
 ## From Threat to Opportunity
 
-The shift from typist to orchestrator isn't a downgrade—it's an **elevation** of the profession.
+The shift from typist to orchestrator isn't a downgrade. It's an elevation of the profession.
 
-Imagine being a professional writer before word processors existed. You spent significant mental energy on penmanship, formatting, and retyping drafts. Word processors didn't make writers obsolete—they freed writers to focus on storytelling, argument construction, and creative expression.
+Imagine being a professional writer before word processors existed. You spent significant mental energy on penmanship, formatting, and retyping drafts. Word processors didn't make writers obsolete. They freed writers to focus on storytelling, argument construction, and creative expression.
 
 AI coding tools are doing the same for developers. You're liberated from syntax memorization, boilerplate generation, and mechanical implementation details. You can focus on what actually matters: solving problems, designing systems, and creating value.
 
 The developers who thrive in this new landscape are those who embrace the transformation rather than resist it.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Role Assessment**: Ask your AI: "I'm learning development in 2025. Which of these is MORE valuable: (A) knowing Python syntax perfectly, or (B) writing clear specifications and reviewing code quality? Explain why using concrete examples."
+> **Ask your AI**: "I'm learning development in 2025. Which is more valuable: (A) knowing Python syntax perfectly, or (B) writing clear specifications and reviewing code quality? Explain why using concrete examples from my learning context."
 
-**Check**: Does the AI prioritize specification and review skills—matching the orchestrator role this lesson describes?
+**What you're practicing**: Understanding what skills matter in the orchestrator role. The AI will prioritize specification and review skills, exactly what this lesson describes.
 
 In the next section, we'll look ahead to where this is going: the autonomous agent era, and what it means for the future of software development.
 

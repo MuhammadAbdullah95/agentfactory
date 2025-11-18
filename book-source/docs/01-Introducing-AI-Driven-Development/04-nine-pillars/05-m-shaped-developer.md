@@ -55,6 +55,10 @@ differentiation:
 
 # The M-Shaped Developer—What AIDD Makes Possible
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/BLbHFFQYsQg" title="The M-Shaped Developer - What AIDD Makes Possible" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 You've just learned about nine foundational pillars that define AI-Driven Development. But here's the transformation they unlock: **the M-Shaped Developer**—a professional who maintains deep expertise across multiple complementary domains, something that was practically impossible before AI augmentation.
 
 ## Beyond T-Shaped: Understanding M-Shaped
@@ -62,6 +66,8 @@ You've just learned about nine foundational pillars that define AI-Driven Develo
 For years, the career development ideal was the "T-shaped developer": deep expertise in one area with broad, shallow knowledge across others. A backend specialist who could read frontend code. A frontend expert who understood deployment basics.
 
 **The M-Shaped Developer is different.** Instead of one deep expertise peak, you develop multiple peaks—deep, production-level mastery across several complementary domains. On a skill graph, this creates an "M" shape: multiple areas of true expertise, not just surface familiarity.
+
+![Comparison of developer skill profiles: Specialist shows deep expertise in one domain, T-Shaped shows deep expertise in one domain with basic knowledge across others, M-Shaped shows deep expertise across multiple complementary domains](/img/part-1/chapter-4/m-shaped-developer-profile.png)
 
 Here's the distinction:
 
@@ -108,6 +114,8 @@ Traditional development required separate specialists because mastering multiple
 
 ## Real M-Shaped Profiles in Action
 
+![Three example M-shaped developer profiles: Vertical SaaS Builder combines healthcare domain knowledge with full-stack development, MLOps, and product design; Platform Engineer combines backend architecture, DevOps, cloud infrastructure, and security; AI Product Developer combines frontend React, ML model integration, API design, and user research](/img/part-1/chapter-4/m-shaped-profiles-examples.png)
+
 **Profile 1: The Vertical SaaS Builder**
 - **Deep Expertise:** Healthcare domain knowledge + Full-stack development + MLOps + Product design
 - **What This Enables:** Building a specialized medical scheduling platform with AI-powered patient routing
@@ -129,6 +137,12 @@ Traditional development required separate specialists because mastering multiple
 ## What's Your M-Shape?
 
 The M-Shaped developer isn't about being good at everything. It's about choosing **2-4 complementary domains** where you can maintain deep expertise with AI augmentation.
+
+#### 💬 AI Colearning Prompt
+
+> **Explore with your AI**: "I'm intrigued by the M-shaped developer concept. Help me discover: based on what I already know [describe your background], which TWO domains would pair most naturally as my 'M' shape? Walk me through why these two multiply each other specifically for MY starting point."
+
+Your AI can help you find combinations that leverage your existing strengths.
 
 ### Pause and Reflect
 
@@ -163,11 +177,23 @@ M-Shaped development is transformative, but it's not limitless. Understanding th
 
 **The key insight**: M-shaped development dramatically expands what's possible for individuals and small teams. But it's a **capability multiplier**, not a magic solution. Choose domains strategically, respect the limits of AI augmentation, and recognize that execution and judgment still matter more than ever.
 
+#### 🎓 Expert Insight
+
+> The M-shaped developer isn't trying to "know everything"—that's impossible and exhausting. Instead, you're building **complementary depth** in domains that naturally reinforce each other. Frontend + Backend + DevOps work together because they're sequential steps in one workflow. ML + Data Engineering + Backend combine because they share data pipelines. The "M" emerges from choosing domains that compound, not from arbitrary breadth.
+
 ## The Urgency Question
 
 Understanding that M-Shaped development is possible is exciting. You can see how AI augmentation enables one person to do what previously required entire teams.
 
 But here's the uncomfortable question: **Why is this urgent? Why learn all nine pillars NOW instead of gradually over the next few years?**
+
+We'll explore this question in the next lesson.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I've identified my ideal M-shape [name your two domains]. Now be brutally honest: what are the three hardest parts of developing depth in both? What would I be signing up for? Don't sugarcoat it."
+
+**What you're practicing**: Realistic self-assessment through AI partnership. Your AI helps you see the actual path, not the romanticized version.
 
 ---
 

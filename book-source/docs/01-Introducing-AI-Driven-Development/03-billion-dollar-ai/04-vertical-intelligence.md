@@ -57,7 +57,11 @@ differentiation:
 
 # From Code Reuse to Vertical Intelligence: The New Architecture of Software
 
-For 40 years, software architecture followed a principle called DRY: **Don't Repeat Yourself**. The goal was to write code once, reuse it everywhere. Libraries, frameworks, microservices—all built on the logic of code reuse.
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/bj5Mc5END0Y" title="From Code Reuse to Vertical Intelligence" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+For decades, software architecture followed principles of code reuse, formalized as DRY (Don't Repeat Yourself) in 1999. The goal was to write code once, reuse it everywhere. Libraries, frameworks, microservices all built on the logic of code reuse.
 
 This logic breaks down in the AI era.
 
@@ -65,17 +69,19 @@ This logic breaks down in the AI era.
 
 In the traditional era, code reuse was expensive to maintain. If your payment library had a bug, you had to fix it once, and every application benefited. This incentivized heavy upfront investment in reusable code.
 
-In the AI era, code is *disposable*. A subagent can generate 10,000 lines of specialized code in ten seconds. Maintaining that code across multiple applications is expensive. Generating fresh code for each application is free.
+In the AI era, code is disposable. A subagent can generate 10,000 lines of specialized code in ten seconds. Maintaining that code across multiple applications is expensive. Generating fresh code for each application is free.
 
-**The new principle is: Reuse intelligence, not code.**
+The new principle is: Reuse intelligence, not code.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
-> This paradigm shift is counterintuitive for developers trained in traditional software engineering. For decades, we learned "write once, run everywhere" and "don't repeat yourself." But when code generation is nearly free (seconds via AI), **maintaining reusable code becomes more expensive than regenerating specialized code**. Think of it like mass production vs. 3D printing: mass production requires expensive molds (reusable code), but 3D printing can create custom objects on demand (regenerated code). When customization is free, standardization loses its economic advantage.
+> This paradigm shift is counterintuitive for developers trained in traditional software engineering. For decades, we learned "write once, run everywhere" and "don't repeat yourself." But when code generation is nearly free (seconds via AI), maintaining reusable code becomes more expensive than regenerating specialized code. Think of it like mass production vs. 3D printing: mass production requires expensive molds (reusable code), but 3D printing can create custom objects on demand (regenerated code). When customization is free, standardization loses its economic advantage.
 
 ## The Five Components of a Reusable Subagent
 
 A super orchestrator relies on five components that are reusable across applications:
+
+![Layered architecture diagram showing five components of reusable AI sub-agents: system prompt, horizontal skills, vertical skills, MCP horizontal connections, and MCP vertical connections, arranged from generic (top) to domain-specific (bottom)](/img/part-1/chapter-3/five-components-architecture.png)
 
 ### 1. System Prompt (Persona + Scope)
 This is the intelligence layer. A system prompt defines who the subagent is, what it knows, and what its constraints are.
@@ -107,7 +113,7 @@ A subagent using MCP can read code from repositories, deploy containerized code 
 ### 5. MCP Vertical Connections (Industry APIs)
 This is where the defensibility lives. A finance subagent connects to Bloomberg API, real-time trading feeds, SEC EDGAR database. A healthcare subagent connects to hospital EHR systems (Epic, Cerner), drug databases (DrugBank), clinical literature (PubMed).
 
-These integrations are not reusable across industries, but they're the moat. A solo developer who builds tight integrations with Epic Systems (used by 55% of U.S. hospitals) creates defensibility that competitors must rebuild from scratch.
+These integrations are not reusable across industries, but they're the moat. A solo developer who builds tight integrations with Epic Systems (used by 55% of U.S. hospital beds) creates defensibility that competitors must rebuild from scratch.
 
 #### 💬 AI Colearning Prompt
 
@@ -123,13 +129,9 @@ These integrations are not reusable across industries, but they're the moat. A s
 | **Scalability** | Limited (library updates risk breaking changes) | Unlimited (new applications get fresh code) |
 | **Value Source** | Code logic | Domain expertise and integrations |
 
-#### ✨ Teaching Tip
-
-The shift from code reuse to intelligence reuse mirrors the shift from libraries to APIs: In the 1990s, you downloaded libraries (code reuse). In the 2010s, you called APIs (service reuse). In the 2020s, you configure subagents (intelligence reuse). Each evolution abstracted away more mechanical work, letting developers focus on higher-value strategy.
-
 ## A Concrete Example: Accounting Library vs. Accounting Subagent
 
-**Traditional approach**: You build an accounting library with Chart of Accounts, General Ledger, Tax reporting. You maintain it across five accounting software products. Every time tax code changes, you update the library once. Every app benefits. But the library is complex because it supports every feature of every app.
+**Traditional approach**: You build an accounting library with Chart of Accounts, General Ledger, Tax reporting. You maintain it across five accounting software products. Every time tax code changes, you update the library once, and every app benefits. But the library is complex because it supports every feature of every app.
 
 **AI-driven approach**: You build an accounting subagent with:
 - System prompt defining an expert accountant persona
@@ -137,19 +139,19 @@ The shift from code reuse to intelligence reuse mirrors the shift from libraries
 - Integrations with QuickBooks, Xero, Freshbooks, Wave (all major accounting software)
 - Vertical skills: GAAP standards, tax schedules, audit workflows
 
-When you want to serve a new customer, you don't reuse code. You generate *new* code tailored to that customer's workflows. But you reuse the intelligence—the system prompt, the tax knowledge, the integrations.
+When you want to serve a new customer, you don't reuse code. You generate new code tailored to that customer's workflows. But you reuse the intelligence: the system prompt, the tax knowledge, the integrations.
 
 The code is disposable. The intelligence is permanent. The value per developer stays high because you focus on domain expertise and integrations, not code maintenance.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Quick Test**: Pick a domain you know well (small business accounting, teacher lesson planning, real estate, etc.). Ask your AI: "Design the five components of a subagent for [your domain]. For each component, give me one specific example." Then validate: Are these components realistic, or is AI making assumptions about your domain it shouldn't?
+> **Ask your AI**: "Pick a domain I might know well (small business accounting, teacher lesson planning, real estate). Design the five components of a subagent for this domain. For each component, give me one specific example. Then help me validate: Are these components realistic, or are we making assumptions that don't match reality?"
 
-**What you're practicing**: Applying the five-component framework to YOUR domain, then using your domain knowledge to reality-check AI's design.
+**Expected Outcome**: You'll practice applying the five-component framework to a specific domain and learn to reality-check AI designs with domain knowledge. This teaches you to think architecturally about intelligence reuse.
 
 ---
 
-Now you understand the architecture of reusable intelligence. The next insight is how to actually enter a vertical market and execute this strategy. That's where the Piggyback Protocol Pivot comes in.
+Now you understand the architecture of reusable intelligence. The next insight is how to actually enter a vertical market and execute this strategy: the Piggyback Protocol Pivot.
 
 ---
 
@@ -159,28 +161,28 @@ Use your AI companion tool set up (e.g., ChatGPT web, Claude Code, Gemini CLI), 
 
 ### Prompt 1: Grasp Intelligence vs. Code Reuse
 ```
-The lesson says 'reuse intelligence, not code.' I'm struggling to grasp this. Explain the difference using a concrete example from everyday life (NOT software). Then apply it to a simple software scenario I can understand—maybe a calculator app or a todo list. What would 'reusing intelligence' look like vs 'reusing code'?
+The lesson says 'reuse intelligence, not code.' I'm struggling to grasp this. Explain the difference using a concrete example from everyday life (not software). Then apply it to a simple software scenario I can understand (maybe a calculator app or a todo list). What would 'reusing intelligence' look like vs 'reusing code'?
 ```
 
 **Expected outcome**: Crystal-clear understanding of "reusing intelligence" using non-technical analogies.
 
 ### Prompt 2: Deep Dive One Component
 ```
-The lesson lists five components of a reusable subagent: (1) system prompt, (2) horizontal skills, (3) vertical skills, (4) horizontal MCPs, (5) vertical MCPs. Pick ONE component and explain it in depth. Why does this component matter? Give me a real example from [healthcare / finance / education—pick one].
+The lesson lists five components of a reusable subagent: (1) system prompt, (2) horizontal skills, (3) vertical skills, (4) horizontal MCPs, (5) vertical MCPs. Pick one component and explain it in depth. Why does this component matter? Give me a real example from [healthcare / finance / education—pick one].
 ```
 
 **Expected outcome**: Deep dive into at least ONE component of a subagent (with real examples).
 
 ### Prompt 3: Build A Subagent Roadmap
 ```
-I'm confused by the accounting example at the end. Let's work together to create a roadmap: First, help me identify what I'd build FIRST for an 'accounting subagent for small businesses.' Then I'll tell you my constraints (time, budget, technical skill), and you adapt the roadmap based on MY reality. Let's iterate until we have a 3-step plan that's ambitious but achievable for someone like me.
+I'm confused by the accounting example at the end. Let's work together to create a roadmap: First, help me identify what I'd build first for an 'accounting subagent for small businesses.' Then I'll tell you my constraints (time, budget, technical skill), and you adapt the roadmap based on my reality. Let's iterate until we have a 3-step plan that's ambitious but achievable for someone like me.
 ```
 
 **Expected outcome**: Step-by-step roadmap for building your first subagent (not overwhelming), created through **collaborative planning** where your AI adapts to your specific constraints.
 
 ### Prompt 4: Understand Disposable Code Economics
 ```
-The lesson says 'code is disposable, intelligence is permanent.' This feels wasteful—why would I throw away code I just wrote? Help me understand: In what scenarios does DISPOSABLE code actually save time and money compared to REUSABLE code? Give me a practical decision framework.
+The lesson says 'code is disposable, intelligence is permanent.' This feels wasteful. Why would I throw away code I just wrote? Help me understand: In what scenarios does disposable code actually save time and money compared to reusable code? Give me a practical decision framework.
 ```
 
 **Expected outcome**: Decision framework for when to reuse code vs. regenerate it.

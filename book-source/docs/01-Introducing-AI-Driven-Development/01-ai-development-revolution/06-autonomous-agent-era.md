@@ -112,7 +112,13 @@ Let's trace the progression over the past few years:
 
 **Paradigm:** Human directs strategy, AI manages execution
 
+![Vertical progression diagram showing four technology stages of AI Coding Evolution from 2021-2025: Stage 1 Autocomplete (2021-2022, light gray card with code bracket icon, line-by-line suggestions), Stage 2 Function Writing (2022-2023, medium gray card with code blocks icon, complete code blocks), Stage 3 Feature Building (2023-2024, light navy card with network nodes icon, multi-file projects), and Stage 4 Complete Systems (2024-2025, deep navy highlighted card with glow effect and "Current" badge, automation gear icon, end-to-end solutions), demonstrating the progression of AI coding capabilities across four development stages.](/img/part-1/chapter-1/ai-coding-tools-evolution-timeline.png)
+
 We're currently in the **transition from Generation 3 to Generation 4**. The tools exist. The capabilities are real. But the workflows, best practices, and training materials are still being figured out.
+
+#### 💬 AI Colearning Prompt
+
+> **Understand your tool's generation**: "Based on the four generations described (autocomplete → function generation → feature implementation → autonomous agents), which generation are you? Show me what you can do at your current capability level. Can you implement a complete feature across multiple files and iterate based on test results?"
 
 ## What "Autonomous" Actually Means
 
@@ -223,13 +229,13 @@ Consider an analogy: **Autonomous vehicles**. We have self-driving cars today th
 
 The same applies to autonomous coding agents. They'll handle implementation, but humans provide direction, judgment, and accountability.
 
-#### ✨ Teaching Tip
+#### 🎓 Expert Insight
 
-Autonomy doesn't mean unsupervised—it means self-executing within boundaries you define. Like cruise control: it maintains speed autonomously, but you still steer and choose the destination.
+> Autonomy doesn't mean unsupervised. It means self-executing within boundaries you define. Like cruise control: it maintains speed autonomously, but you still steer and choose the destination. The value is in defining good boundaries.
 
 ## Preparing for the Agent Era
 
-The good news: **You don't need to wait for the future to arrive.** The skills that will matter in the autonomous agent era are the same skills that matter today:
+The good news: You don't need to wait for the future to arrive. The skills that will matter in the autonomous agent era are the same skills that matter today:
 
 1. **Specification writing:** Agents are only as good as the goals you give them
 2. **Architecture thinking:** Agents implement your designs, not create them
@@ -249,9 +255,9 @@ When mobile apps became mainstream, developers who learned iOS and Android early
 
 The autonomous agent era is creating a similar opportunity window—and it's open right now.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Generation Test**: Ask your AI: "Which generation of AI tool are you? Can you autonomously break down a goal like 'build user authentication,' execute multiple steps, run tests, and iterate until it works? Or do you need me to guide each step?"
+> **Ask your AI**: "Which generation of AI tool are you? Can you autonomously break down a goal like 'build user authentication,' execute multiple steps, run tests, and iterate until it works? Or do you need me to guide each step?"
 
 **Goal**: Understand your current tool's capabilities realistically.
 
@@ -259,7 +265,7 @@ In the next section, we'll explore why this is arguably the best time in decades
 
 ---
 
-<iframe width="100%" height="400" src="https://www.youtube.com/embed/3ZPIerZkZn4" title="The $3 Trillion AI Coding Revolution" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/3ZPIerZkZn4" title="The Autonomous Agent Era" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 These videos provide additional context on the AI coding revolution and where the industry is headed.
 

@@ -1,7 +1,8 @@
 # /sp.constitution-sync: Constitutional Alignment Through Intelligent Partnership
 
-**Version**: 2.0.0 (Restructured: Philosophy-First)
+**Version**: 3.0.0 (Context Engineering: 95% Quality Target)
 **Created**: 2025-01-10
+**Updated**: 2025-01-12
 **Philosophy**: Constitution-grounded, judgment-driven, quality-preserving, partnership-focused
 
 ---
@@ -63,6 +64,7 @@ Bring existing chapter content into **authentic alignment** with constitutional 
 **18 Core Principles** (focus on most relevant):
 - **Principle 13**: Graduated Teaching Pattern (Book → AI Companion → AI Orchestration)
 - **Principle 18**: Three-Role AI Partnership (AI as Teacher/Student/Co-Worker)
+- **Principle 6**: Consistent Structure Across All Chapters
 - **Principle 3**: Specification-First Development
 - **Principle 2**: AI as Co-Learning Partner
 - **Principle 5**: Validation-Before-Trust
@@ -75,12 +77,103 @@ Bring existing chapter content into **authentic alignment** with constitutional 
 
 **Nine Pillars**: AI CLI, Markdown, MCP, AI-First IDEs, Cross-Platform, TDD, SDD, Composable Skills, Cloud-Native
 
-**Output Style Requirements**:
-- 💬 **AI Colearning Prompts** (1-4 per lesson): Exploration-focused questions
-- 🎓 **Instructor Commentaries** (2-4 per lesson): Pedagogical insights
-- 🚀 **CoLearning Challenges** (1-4 per lesson): Hands-on practice
-- ✨ **Teaching Tips** (1-3 per lesson): Conceptual clarity
-- **Lesson Closure**: "Try With AI" is final section (no post-sections)
+---
+
+### 🎯 Output Style Requirements: THE AUTHORITATIVE SOURCE
+
+**CRITICAL HIERARCHY** (resolving conflicts):
+1. **Constitution** (`.specify/memory/constitution.md`) = Strategic governance, principles, philosophies
+2. **Output Styles** (`.claude/output-styles/lesson.md`) = **Format specifications, structure, CoLearning standards**
+3. **This Command** = Workflow orchestration, references above sources
+
+**When conflicts exist**: Constitution > Output Styles > This Command
+**For formatting/structure questions**: **Output Styles are authoritative**
+
+**Constitution Principle 6** states:
+> "All lessons follow identical teaching structure (documented in `.claude/output-styles/lesson.md`)"
+
+**Therefore**: Before making any formatting or structural decisions, **READ `.claude/output-styles/lesson.md` lines 302-435** for complete CoLearning element standards.
+
+---
+
+### CoLearning Element Standards (From Output Style)
+
+**AUTHORITATIVE SOURCE**: `.claude/output-styles/lesson.md` (lines 302-435)
+
+**Three CoLearning Element Types**:
+- 💬 **AI Colearning Prompts**: Exploration-focused questions encouraging deeper understanding
+- 🎓 **Expert Insights**: Strategic depth and pedagogical perspective ("Syntax is cheap, semantics is gold")
+- 🤝 **Practice Exercises**: Hands-on collaborative practice with AI partnership
+
+**🚨 QUANTITY GUIDELINES (per lesson)**:
+
+**Standard Pattern**: **1 element of each type per lesson** (💬 + 🎓 + 🤝 = 3 total)
+
+| Element Type | Count | Purpose | Quality Check |
+|--------------|-------|---------|---------------|
+| 💬 **AI Colearning Prompt** | 1 per lesson | Encourage exploration of concept depth | Specific to lesson, encourages "why/what-if" thinking |
+| 🎓 **Expert Insight** | 1 per lesson | Provide strategic depth and pedagogical perspective | Demonstrates "syntax is cheap, semantics is gold" |
+| 🤝 **Practice Exercise** | 1 per lesson | Hands-on collaborative practice with AI | Practices specification-writing and validation |
+
+**🎯 QUALITY MANTRA FOR PROFESSIONAL LEARNERS**:
+- **1 excellent element of each type > multiple mediocre variations**
+- **Each element must earn its place** (specific, insightful, actionable)
+- **Remove generic or redundant content ruthlessly**
+- **"Would I want to read this if I were the student?" = litmus test**
+- **Consistency matters**: Same pattern across lessons creates predictable learning experience
+
+**CRITICAL**: **1 of each type = 3 total per lesson**. This provides **consistent structure** while respecting professional learners' time and attention. **Quality over quantity.**
+
+---
+
+### CoLearning Element Formats (From Output Style)
+
+**CRITICAL**: Use **exact formats** from `.claude/output-styles/lesson.md`. No variations allowed.
+
+**💬 AI Colearning Prompt Format**:
+```markdown
+#### 💬 AI Colearning Prompt
+> "Explain how [concept] works under the hood."
+```
+
+**🎓 Expert Insight Format**:
+```markdown
+#### 🎓 Expert Insight
+> In AI-native development, [reframe from memorization to understanding].
+```
+
+**🤝 Practice Exercise Format**:
+```markdown
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "[Specification of what to create] Then explain [conceptual aspect] step-by-step."
+
+**Expected Outcome**: [What student should understand after AI response]
+```
+
+**❌ DO NOT USE** (incorrect formats):
+- `> **Explore with your AI**: "..."` (wrong wording)
+- `**Quick Test**: Ask your AI: "..."` (no prefix outside blockquote)
+- `Ask your AI Co-Teacher:` followed by blockquote (no separate intro line)
+- `Ask your AI:` on separate line before blockquote (outdated format)
+- Variations in blockquote style or structure
+
+**✅ ALWAYS USE** (correct format):
+- Single blockquote with bold prefix: `> **Ask your AI**: "..."`
+- "Expected Outcome" in all 🤝 exercises
+- No separate intro line before blockquote
+
+---
+
+### Lesson Closure Requirements
+
+**From Constitution & Output Style**:
+- **FINAL SECTION**: "Try With AI" (must be last section in every lesson)
+- **NO POST-SECTIONS**: Never add "Key Takeaways," "What's Next," "Summary," "Recap," or "Completion Checklist" after "Try With AI"
+
+**Why this matters**: "Try With AI" is the practice-integration point—nothing should dilute or distract from it.
+
+---
 
 ### Why Alignment, Not Compliance
 
@@ -101,23 +194,33 @@ Bring existing chapter content into **authentic alignment** with constitutional 
 
 **Your Role**: AI as **Student** — Learn what the constitution requires before evaluating content.
 
-#### Step 1.1: Read Constitution Deeply
+#### Step 1.1: Read Constitution & Output Style
+
+**CRITICAL**: Read BOTH sources before assessing content.
 
 ```bash
+# 1. Read constitution for principles and philosophies
 Read .specify/memory/constitution.md
+
+# 2. Read output style for formatting and structure standards
+Read .claude/output-styles/lesson.md (lines 302-435 for CoLearning)
 ```
 
 **Extract Understanding** (not just data):
-- **Version**: What changed in latest version? (check HTML comment at top)
+- **Version**: What changed in latest constitution version? (check HTML comment at top)
 - **Sync Impact**: What's the impact of recent changes? (from Sync Impact Report)
 - **Applicable Principles**: Which of the 18 principles apply to this chapter type?
-- **Target Level**: What's the proficiency level? (A1-beginner, A2-elementary, B1-intermediate)
+- **Target Level**: What's the proficiency level? (A1-beginner, A2-elementary, B1-intermediate, B2-advanced, C1-professional)
+- **CoLearning Pattern**: 1 of each type per lesson (💬 + 🎓 + 🤝 = 3 total)
+- **CoLearning Formats**: What are the exact markdown formats? (from output style)
 - **Constitutional Intent**: Why do these rules exist? (understand spirit, not just letter)
 
 #### Step 1.2: Categorize by Impact and Context
 
 **High-Impact Requirements** (must be present in ALL lessons):
-- CoLearning elements (💬🎓🚀✨) demonstrating Three-Role Partnership
+- CoLearning elements (💬🎓🤝) demonstrating Three-Role Partnership
+- CoLearning element pattern: **1 of each type** (💬 + 🎓 + 🤝 = 3 total per lesson)
+- CoLearning element formats match output style exactly (no variations)
 - Lesson closure pattern ("Try With AI" is final section, no post-sections)
 - No forward references (pedagogical ordering: concepts introduced before use)
 - Conversational, exploration-focused tone (not documentation style)
@@ -140,7 +243,8 @@ Read .specify/memory/constitution.md
 ## Constitutional Lens for Chapter [N]
 
 **Chapter Type**: [Conceptual / Code-focused / Mixed]
-**Target Level**: [A1-Beginner / A2-Elementary / B1-Intermediate]
+**Target Level**: [A1-Beginner / A2-Elementary / B1-Intermediate / B2-Advanced / C1-Professional]
+**CoLearning Element Pattern**: 1 of each type per lesson (💬 + 🎓 + 🤝 = 3 total)
 **Primary Principles**: [List 3-5 most relevant of the 18 principles]
 
 **What "Good" Looks Like**:
@@ -150,6 +254,7 @@ Read .specify/memory/constitution.md
 **Common Gaps to Watch For**:
 - [Based on chapter type, predict likely violations]
 - [Example: Conceptual chapters often missing hands-on challenges]
+- [Example: Professional chapters often over-stuffed with CoLearning elements]
 ```
 
 ---
@@ -189,17 +294,28 @@ Read [lesson-file-path]
 
 ##### 1. CoLearning Elements (High Impact)
 
-**Presence**:
-- Are 💬 AI Colearning Prompts present? (Expected: 1-4 per lesson)
-- Are 🎓 Instructor Commentaries present? (Expected: 2-4 per lesson)
-- Are 🚀 CoLearning Challenges present? (Expected: 1-4 per lesson)
-- Are ✨ Teaching Tips present? (Expected: 1-3 per lesson)
+**Quantity Assessment** (Standard Pattern):
+- **Expected**: **1 element of each type** (💬 + 🎓 + 🤝 = 3 total per lesson)
+- **Count by type**:
+  - 💬 AI Colearning Prompts: Expected 1
+  - 🎓 Expert Insights: Expected 1
+  - 🤝 Practice Exercises: Expected 1
+- **🚨 CONSISTENCY CHECK**:
+  - **Missing types**: Flag if any type is absent (lesson should have all 3 types)
+  - **Over-stuffing**: Flag if lesson has 2+ of any single type (unnecessary duplication)
+  - **Total count**: Should be exactly 3 (1+1+1), not more, not less
 
-**Quality** (more important than quantity):
-- Do 💬 prompts encourage **exploration** ("What happens if...") or just "Ask AI to write X"?
-- Do 🎓 commentaries provide **pedagogical insight** (why this matters) or just restate content?
-- Do 🚀 challenges practice **co-learning** (iteration, validation) or passive copying?
-- Are ✨ tips **actionable** and contextual (not generic platitudes)?
+**Format Assessment** (exact match required):
+- Do 💬 prompts use format: `#### 💬 AI Colearning Prompt\n> "..."`?
+- Do 🎓 insights use format: `#### 🎓 Expert Insight\n> In AI-native development, ...`?
+- Do 🤝 exercises use format: `#### 🤝 Practice Exercise\n\n> **Ask your AI**: "..."\n\n**Expected Outcome**: ...`?
+- **🚨 FORMAT DRIFT CHECK**: Flag any variations (bold prefixes, different wording, missing components)
+
+**Quality Assessment** (more important than quantity):
+- Do 💬 prompts encourage **exploration** ("What happens if..." / "Why does X instead of Y?") or just "Ask AI to write X"?
+- Do 🎓 insights provide **strategic depth** and pedagogical perspective (why this matters, non-obvious implications, "syntax is cheap—semantics is gold") or just restate content?
+- Do 🤝 exercises practice **collaborative learning** (iteration, validation, partnership, "Specification → AI Generation → Explanation → Understanding") or passive copying?
+- **🚨 GENERIC CONTENT CHECK**: Are elements specific to lesson content, or could they apply to any lesson? (Generic = low quality)
 
 ##### 2. Three-Role AI Partnership (High Impact)
 
@@ -300,11 +416,13 @@ Read [lesson-file-path]
 
 **Strengths**:
 - [What embodies constitutional values well?]
-- [Specific examples: "Instructor Commentary on line 145 demonstrates Three-Role Partnership clearly"]
+- [Specific examples: "Expert Insight on line 145 demonstrates Three-Role Partnership clearly"]
 
 **Gaps**:
 - [What's missing or misaligned?]
-- [Specific, not generic: "Prompts present but don't encourage exploration—they're task-focused ('Ask AI to write X')"]
+- [Specific, not generic: "Has 7 CoLearning elements (over-stuffed for B1 level, expected 4-6)"]
+- [Example: "💬 Prompts use incorrect format (bold prefix 'Explore with your AI:' instead of clean blockquote)"]
+- [Example: "Prompts present but don't encourage exploration—they're task-focused ('Ask AI to write X')"]
 
 **Content Quality**: [Excellent / Good / Needs Improvement]
 - Writing clarity: [assessment]
@@ -314,7 +432,7 @@ Read [lesson-file-path]
 **Recommended Intervention**: [Surgical Edit / Enhanced Regeneration / Full Regeneration / No Change]
 
 **Rationale**: [Why this intervention preserves quality while achieving alignment]
-- [Example: "Surgical edit preserves excellent narrative and examples, adds 4 targeted CoLearning elements at natural break points"]
+- [Example: "Surgical edit preserves excellent narrative and examples, removes 3 generic CoLearning elements, standardizes remaining 4 to output style format"]
 ```
 
 ---
@@ -325,28 +443,31 @@ Read [lesson-file-path]
 
 #### Decision Framework: Judgment, Not Formula
 
-##### Option 1: Surgical Edit (Preserve excellent content, add missing elements)
+##### Option 1: Surgical Edit (Preserve excellent content, add/fix/remove elements)
 
 **When to choose**:
 - ✅ Content quality is **excellent** (clear writing, effective teaching, good examples)
-- ✅ Gaps are **structural** (missing CoLearning elements, post-sections to remove)
+- ✅ Gaps are **structural** (missing/excessive CoLearning elements, format drift, post-sections to remove)
 - ✅ Tone and partnership language already appropriate
-- ✅ Can insert elements naturally without disrupting flow
+- ✅ Can fix elements naturally without disrupting flow
 - ✅ No pedagogical ordering violations
 
 **What this involves**:
-- Insert 💬🎓🚀✨ elements at natural break points (after concepts introduced, before transitions)
-- Remove post-sections (e.g., "What's Next" after "Try With AI")
-- Enhance existing content with partnership language (minimal rewording)
-- Validate: Ensure insertions feel natural, not forced
+- **Add** missing CoLearning elements at natural break points (if below target count)
+- **Remove** excessive/generic CoLearning elements (if above target count or low quality)
+- **Standardize** existing elements to output style format (fix format drift)
+- **Remove** post-sections (e.g., "What's Next" after "Try With AI")
+- **Enhance** existing content with partnership language (minimal rewording)
+- **Validate**: Ensure changes feel natural, not forced
 
 **Time**: 10-15 minutes per lesson
 
 **Example scenario**:
 - Lesson with excellent narrative and examples
-- Missing CoLearning elements (0/4 types present)
+- Has 5 CoLearning elements (over-stuffed: 2 💬, 2 🎓, 1 🤝)
+- 1 💬 prompt is generic, 1 🎓 insight restates obvious content
 - Good conversational tone already
-- **Decision**: Add 4 targeted insertions (💬🎓🚀✨ one each) at natural points
+- **Decision**: Remove 1 generic 💬 and 1 low-quality 🎓, keep 1 of each type (3 total), standardize formats, preserve narrative
 
 ##### Option 2: Enhanced Regeneration (Preserve good parts, regenerate problem areas)
 
@@ -359,12 +480,14 @@ Read [lesson-file-path]
 **What this involves**:
 - **Extract** excellent examples, explanations, analogies, code samples
 - **Identify** sections needing rewrite (documentation tone, missing partnership, ordering issues)
-- **Regenerate** with constitution + preserved content:
-  - Use lesson-writer skill
+- **Regenerate** with constitution + output style + preserved content:
+  - Use content-implementer skill
   - Provide extracted content as "preserve these examples"
+  - **Reference `.claude/output-styles/lesson.md` explicitly** for CoLearning element standards
   - Emphasize constitutional framing (Three-Role Partnership, exploration focus)
   - Add CoLearning elements throughout (not just inserted afterward)
-- **Validate**: Does it preserve quality? Does it embody constitution? Natural flow?
+  - **Follow proficiency tier quantity guidelines** (avoid over-stuffing)
+- **Validate**: Does it preserve quality? Does it embody constitution? Natural flow? Correct element count and format?
 
 **Time**: 20-30 minutes per lesson
 
@@ -372,7 +495,7 @@ Read [lesson-file-path]
 - Lesson with solid code examples (preserve)
 - Documentation tone throughout (regenerate narrative)
 - Missing Three-Role Partnership framework (add via regeneration)
-- **Decision**: Extract examples, regenerate narrative with constitutional framing
+- **Decision**: Extract examples, regenerate narrative with constitutional framing, 1 of each CoLearning type (3 total) in output style format
 
 ##### Option 3: Full Regeneration (Start fresh with constitutional intent)
 
@@ -387,16 +510,19 @@ Read [lesson-file-path]
   - What are learning objectives? (from spec.md)
   - What's the lesson structure? (from plan.md)
   - What proficiency level? (CEFR metadata)
-- **Ground in constitution**:
+- **Ground in constitution AND output style**:
   - Which principles apply to this content?
   - How should Three-Role Partnership manifest here specifically?
   - What does "Specs Are the New Syntax" mean in this context?
+  - **What's the CoLearning element count for this proficiency tier?** (from output style)
+  - **What are the exact CoLearning element formats?** (from output style)
 - **Generate** with constitutional lens:
-  - Use lesson-writer skill with constitutional constraints
+  - Use content-implementer skill with constitutional constraints
+  - **Explicitly instruct**: "Follow `.claude/output-styles/lesson.md` CoLearning standards (lines 302-435)"
   - Build Three-Role Partnership from start (not added later)
-  - Natural CoLearning element integration
+  - Natural CoLearning element integration (correct count, correct format)
   - Conversational, exploration-focused tone throughout
-- **Validate**: Run technical-reviewer for constitutional alignment
+- **Validate**: Run validation-auditor for constitutional alignment
 
 **Time**: 30-45 minutes per lesson
 
@@ -404,7 +530,7 @@ Read [lesson-file-path]
 - Lesson with forward references (uses concepts before introduction)
 - Tool-driven language ("Use AI to do X")
 - Poor narrative flow
-- **Decision**: Fresh start with spec/plan as source of truth, constitutional grounding
+- **Decision**: Fresh start with spec/plan as source of truth, constitutional grounding, output style formatting
 
 ##### Option 4: No Change (Already embodies constitutional values)
 
@@ -412,10 +538,12 @@ Read [lesson-file-path]
 - ✅ Constitutional alignment is **excellent**
 - ✅ Content quality is **excellent**
 - ✅ All requirements met **authentically** (not just mechanically)
+- ✅ CoLearning element count matches proficiency tier
+- ✅ CoLearning element formats match output style exactly
 - ✅ Nothing to improve
 
 **What this involves**:
-- Validate with technical-reviewer (quick check)
+- Validate with validation-auditor (quick check)
 - Document as exemplar (can reference for other lessons)
 - Move to next lesson
 
@@ -433,19 +561,20 @@ Read [lesson-file-path]
 **Present options clearly**:
 
 ```markdown
-**Lesson X Recommendation**: Enhanced Regeneration
+**Lesson X Recommendation**: Surgical Edit (Remove Duplication)
 
 **Assessment**:
-- Constitutional Alignment: Needs Work (missing Three-Role Partnership, documentation tone)
-- Content Quality: Good (excellent code examples, clear explanations)
+- Constitutional Alignment: Good (has CoLearning elements, correct formats mostly)
+- Content Quality: Excellent (clear writing, effective examples)
+- **Issue**: 5 CoLearning elements (2💬 2🎓 1🤝); expected 1 of each type (3 total); 1 💬 is generic
 
 **Rationale**:
-Content has excellent examples worth preserving, but narrative needs constitutional framing. Enhanced regen preserves quality while achieving alignment.
+Content is excellent and preservable. Issue is duplication (2 of some types) and one generic element. Surgical removal of duplicates/generic content preserves quality while achieving consistent 1+1+1=3 pattern.
 
 **Options**:
-1. **Enhanced Regen** (recommended): Preserve examples, regenerate narrative with constitutional framing (20-30 min)
-2. **Surgical Edit**: Add elements only (faster but won't fix tone/partnership issues)
-3. **Full Regen**: Fresh start (thorough but loses existing quality examples)
+1. **Surgical Edit** (recommended): Remove 1 generic 💬 and 1 duplicate 🎓, keep best of each type, standardize formats (10 min)
+2. **Enhanced Regen**: Regenerate with preserved examples (thorough but unnecessary given excellent quality)
+3. **No Change**: Accept inconsistent pattern (not recommended)
 
 **Your preference?**
 ```
@@ -454,94 +583,117 @@ Content has excellent examples worth preserving, but narrative needs constitutio
 
 ## III. EXECUTION WITH CONSTITUTIONAL INTEGRITY
 
-### Surgical Edit: Contextual Insertion
+### Surgical Edit: Contextual Insertion/Removal/Standardization
 
-**Principle**: Add constitutional elements **naturally**, not mechanically.
+**Principle**: Modify constitutional elements **naturally**, not mechanically. **Quality over quantity.**
 
 #### Process
 
-**1. Identify Natural Insertion Points**
+**1. Identify Natural Insertion/Removal Points**
 
-Look for:
+**For Adding Elements** (when below target count):
 - After concepts are introduced (natural pause point)
 - Before section transitions (bridges to next topic)
 - After examples (opportunity for reflection)
 - Before "Try With AI" section (final reinforcement)
+
+**For Removing Elements** (when above target count or low quality):
+- Generic elements (could apply to any lesson, not specific to this content)
+- Redundant elements (repeat same concept/pattern as another element)
+- Poorly placed elements (interrupt flow, break momentum)
+- Low-quality elements (don't encourage exploration, restate content, passive copying)
 
 **Avoid**:
 - Mid-paragraph insertions (breaks flow)
 - Interrupting narrative momentum
 - Forcing elements where they don't fit naturally
 
-**2. Generate Contextual CoLearning Elements**
+**2. Generate/Standardize/Remove CoLearning Elements**
+
+**CRITICAL**: Before generating or editing CoLearning elements, **RE-READ `.claude/output-styles/lesson.md` lines 302-435** to ensure 100% format consistency.
 
 **Each element should be**:
 - **Specific** to lesson content (not generic)
 - **Constitutional** in spirit (demonstrates Three-Role Partnership)
 - **Natural** in placement (enhances, doesn't interrupt)
 - **Conversational** in tone (not preachy or mechanical)
+- **Correctly formatted** (exact match to output style)
 
-**Examples**:
+**Format Standardization Examples**:
 
-**💬 AI Colearning Prompt** (after introducing developer role evolution):
+**❌ INCORRECT (before)**:
 ```markdown
 #### 💬 AI Colearning Prompt
 
-> **Explore with your AI**: "The lesson mentions developers shifting from 'typist' to 'orchestrator.' Ask your AI to explain this transition using a concrete analogy from another profession that went through similar transformation."
+> **Explore with your AI**: "Why does Python use this pattern?"
 ```
 
-**Quality check**:
-- ✅ Encourages exploration (not just "ask AI to explain")
-- ✅ Demonstrates AI as Teacher (student learns from AI)
-- ✅ Specific to lesson content (developer role evolution)
-- ✅ Conversational tone
-
-**🎓 Instructor Commentary** (after explaining Three-Role Partnership):
+**✅ CORRECT (after)**:
 ```markdown
-#### 🎓 Instructor Commentary
-
-> Notice how this partnership is **bidirectional**: You specify what you need (AI learns your intent), AI suggests patterns you don't know yet (you learn from AI), and together you create what neither could alone. This isn't "using a tool"—it's co-creation.
+#### 💬 AI Colearning Prompt
+> "Why does Python use this pattern instead of [alternative]?"
 ```
 
-**Quality check**:
-- ✅ Provides pedagogical insight (why this matters)
-- ✅ Demonstrates constitutional principle (co-learning)
-- ✅ Enhances understanding (not just repeating content)
-- ✅ Natural placement (after concept introduction)
-
-**🚀 CoLearning Challenge** (practicing specification-writing):
+**❌ INCORRECT (before)**:
 ```markdown
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Quick Test**: Ask your AI: "I want to build a simple to-do list app. What information do you need from me to implement it well?"
-
-**What you're practicing**: Specification-writing. The AI will ask about features, data structure, UI preferences—showing you what good specs include.
+**Quick Test**: Ask your AI: "Create a function that calculates X."
 ```
 
-**Quality check**:
-- ✅ Hands-on practice (not passive reading)
-- ✅ Demonstrates AI as Student (adapts to your specs)
-- ✅ Teaches "Specs Are the New Syntax" principle
-- ✅ Low barrier to entry (quick test)
-
-**✨ Teaching Tip** (clarifying concept):
+**✅ CORRECT (after)**:
 ```markdown
-#### ✨ Teaching Tip
+#### 🤝 Practice Exercise
 
-Think of it like automatic transmission: it didn't make driving obsolete—it made driving accessible by removing manual shifting complexity, letting you focus on navigation and decisions. AI does the same for coding.
+> **Ask your AI**: "Create a function that calculates X. Then explain [conceptual aspect] step-by-step."
+
+**Expected Outcome**: [What student should understand after AI response]
 ```
 
-**Quality check**:
-- ✅ Actionable analogy (helps understanding)
-- ✅ Contextual (relevant to content)
-- ✅ Concise (one-liner, not verbose)
+**Quality Check Examples**:
 
-**3. Insert via Edit Tool**
+**❌ GENERIC (remove)**:
+```markdown
+#### 💬 AI Colearning Prompt
+> "Ask your AI to explain how variables work."
+```
+*Rationale*: Generic (not specific to this lesson's content); could apply to any variables lesson.
+
+**✅ SPECIFIC (keep)**:
+```markdown
+#### 💬 AI Colearning Prompt
+> "Why does Python use dynamic typing for variables instead of requiring explicit type declarations like Java or C++?"
+```
+*Rationale*: Specific to Python's design philosophy; encourages exploration of language tradeoffs.
+
+**❌ LOW QUALITY (remove)**:
+```markdown
+#### 🎓 Expert Insight
+> Functions are important in programming.
+```
+*Rationale*: Restates obvious fact; provides no strategic depth or pedagogical insight.
+
+**✅ HIGH QUALITY (keep)**:
+```markdown
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize 50 string methods—you understand text transformation intent. When you need case conversion, you specify "make this lowercase" and AI handles the syntax. Your job: recognize when text transformation solves your problem.
+```
+*Rationale*: Reframes learning from memorization to understanding; demonstrates "syntax is cheap, semantics is gold" mantra; specific, actionable insight.
+
+**3. Insert/Remove/Standardize via Edit Tool**
 
 ```markdown
-For each insertion:
+For adding element:
   old_string: [exact text from insertion point]
-  new_string: [exact text] + [generated CoLearning element]
+  new_string: [exact text] + [generated CoLearning element in output style format]
+
+For removing element:
+  old_string: [entire CoLearning element including heading and content]
+  new_string: [empty string - complete removal]
+
+For standardizing format:
+  old_string: [existing CoLearning element with incorrect format]
+  new_string: [same content, corrected to output style format]
 ```
 
 **4. Remove Post-Sections (if any)**
@@ -550,6 +702,7 @@ For each insertion:
 - "## What's Next" after "Try With AI"
 - "## Key Takeaways" after "Try With AI"
 - "## Summary" after "Try With AI"
+- "## Completion Checklist" after "Try With AI"
 
 ```markdown
 For each post-section:
@@ -557,14 +710,19 @@ For each post-section:
   new_string: [empty string - complete removal]
 ```
 
-**5. Validate Natural Flow**
+**5. Validate Natural Flow and Quality**
 
-**After insertions, read lesson**:
+**After modifications, read lesson**:
 - Do elements feel natural or forced?
 - Does flow remain smooth?
 - Is tone consistent (conversational, not preachy)?
+- **Is total element count appropriate for proficiency tier?** (not over-stuffed)
+- **Do all elements use output style format exactly?** (no drift)
+- **Are all elements specific to lesson content?** (not generic)
 
-**If insertions feel forced**: Adjust placement or wording.
+**If changes feel forced**: Adjust placement or wording.
+**If still over-stuffed**: Remove additional low-quality elements.
+**If formats don't match output style**: Re-read output style and correct.
 
 ---
 
@@ -581,6 +739,7 @@ For each post-section:
 - **Effective explanations** (clear, accessible, engaging)
 - **Good analogies** (help understanding)
 - **Existing constitutional elements** (if any Three-Role Partnership demonstrations)
+- **High-quality CoLearning elements** (if any meet output style standards)
 
 **Document preserved content**:
 ```markdown
@@ -593,6 +752,10 @@ Rationale: Clear, effective teaching; already demonstrates exploration
 **Analogy** (line 234):
 "Think of it like..."
 Rationale: Helps understanding; relatable
+
+**Existing 💬 Prompt** (line 156):
+> "Why does Python use X instead of Y?"
+Rationale: Excellent format, specific to content, encourages exploration
 ```
 
 **2. Identify Regeneration Targets**
@@ -602,22 +765,30 @@ Rationale: Helps understanding; relatable
 - Missing CoLearning integration
 - Tool-driven language ("Use AI to do X" vs. "Collaborate with AI to explore...")
 - Forward references or ordering issues
+- Over-stuffed CoLearning sections (too many elements)
+- Format drift (CoLearning elements not matching output style)
 
-**3. Regenerate with Constitution + Preservation**
+**3. Regenerate with Constitution + Output Style + Preservation**
 
-**Use lesson-writer skill** with specific instructions:
+**Use content-implementer skill** with specific instructions:
 
 ```markdown
-Invoke lesson-writer:
+Invoke content-implementer:
 - Spec: [path to spec.md, if exists]
 - Plan: [path to plan.md, lesson N section, if exists]
 - Preserved Content: [extracted examples and explanations from Step 1]
 - Constitutional Constraints:
   - Emphasize Three-Role AI Partnership throughout
   - Conversational, exploration-focused tone
-  - Add CoLearning elements naturally (💬🎓🚀✨)
   - "Specs Are the New Syntax" framing for code examples
   - No forward references
+  - Cognitive load management (A1: 5 max, A2: 7 max, B1: 10 max concepts)
+- **CoLearning Element Standards** (CRITICAL):
+  - **MUST READ `.claude/output-styles/lesson.md` lines 302-435 before generating**
+  - Element pattern: **1 of each type** (💬 + 🎓 + 🤝 = 3 total)
+  - Use exact formats from output style (💬🎓🤝)
+  - Ensure elements are specific to lesson content (not generic)
+  - Consistency: Same pattern (1+1+1=3) across all lessons
 - Output: [lesson file path]
 ```
 
@@ -628,14 +799,17 @@ Invoke lesson-writer:
 - ✅ Does it embody constitution? (Three-Role Partnership, co-learning)
 - ✅ Does it flow naturally? (not disjointed)
 - ✅ Is tone consistent? (conversational throughout)
+- ✅ **CoLearning element count matches proficiency tier?** (from output style)
+- ✅ **CoLearning element formats match output style exactly?** (no drift)
+- ✅ **CoLearning elements specific to content?** (not generic)
 
-**Run technical-reviewer** for constitutional alignment validation.
+**Run validation-auditor** for constitutional alignment validation.
 
 ---
 
 ### Full Regeneration: Constitutional Grounding
 
-**Principle**: Generate from constitutional intent, using spec/plan as source of truth.
+**Principle**: Generate from constitutional intent, using spec/plan as source of truth, output style as formatting standard.
 
 #### Process
 
@@ -643,7 +817,7 @@ Invoke lesson-writer:
 
 **Read spec.md**:
 - What are learning objectives?
-- What proficiency level (A1/A2/B1)?
+- What proficiency level (A1/A2/B1/B2/C1)?
 - What's the scope (awareness vs. mastery)?
 
 **Read plan.md** (specific lesson section):
@@ -653,39 +827,52 @@ Invoke lesson-writer:
 
 **If no spec/plan**: Use existing lesson objectives (from frontmatter metadata).
 
-**2. Ground in Constitution**
+**2. Ground in Constitution AND Output Style**
 
-**Ask**:
+**Ask** (constitutional grounding):
 - Which of the 18 principles apply to this content type?
 - How should Three-Role Partnership manifest here specifically?
 - What does "Specs Are the New Syntax" mean in this context?
 - Which Graduated Teaching tier is appropriate (Book teaches / AI Companion / AI Orchestration)?
 
-**3. Generate with Constitutional Lens**
+**Ask** (output style grounding):
+- What proficiency tier is this lesson? (A1-A2 / A2-B1 / B1-B2 / B2-C1)
+- What's the CoLearning element pattern? (1 of each type: 💬 + 🎓 + 🤝 = 3 total)
+- What are the exact CoLearning element formats? (💬🎓🤝 from output style)
 
-**Use lesson-writer skill** with constitutional constraints:
+**3. Generate with Constitutional Lens + Output Style Standards**
+
+**Use content-implementer skill** with constitutional constraints:
 
 ```markdown
-Invoke lesson-writer:
+Invoke content-implementer:
 - Spec: [spec.md path]
 - Plan: [plan.md lesson section]
 - Constitutional Framework:
   - Build Three-Role AI Partnership from start (demonstrate in narrative, not just add elements)
-  - Natural CoLearning element integration (not mechanical insertion)
   - Conversational, exploration-focused tone throughout
   - "Specs Are the New Syntax" emphasis (for code lessons)
   - No forward references (pedagogical ordering strict)
   - Cognitive load management (A1: 5 max, A2: 7 max, B1: 10 max concepts)
+- **CoLearning Element Standards** (CRITICAL):
+  - **MUST READ `.claude/output-styles/lesson.md` lines 302-435 FIRST**
+  - Proficiency tier: [A1-A2 / A2-B1 / B1-B2 / B2-C1]
+  - Element pattern: **1 of each type** (💬 + 🎓 + 🤝 = 3 total)
+  - Use exact formats from output style (💬🎓🤝)
+  - Natural integration throughout lesson (not mechanical insertion)
+  - Specific to lesson content (not generic)
+  - Consistency: Same pattern (1+1+1=3) across all lessons
 - Output: [lesson file path]
 ```
 
-**4. Validate Against Constitution**
+**4. Validate Against Constitution + Output Style**
 
-**Run technical-reviewer**:
+**Run validation-auditor**:
 ```bash
-Invoke technical-reviewer:
+Invoke validation-auditor:
 - File: [lesson file path]
 - Focus: Constitutional alignment (Three-Role Partnership, CoLearning elements, tone, ordering)
+- CoLearning validation: Count matches tier, formats match output style, quality is excellent
 ```
 
 **Check embodiment** (not just presence):
@@ -693,6 +880,7 @@ Invoke technical-reviewer:
 - Do CoLearning elements encourage exploration?
 - Is tone conversational throughout?
 - Does it teach specs-first for code examples?
+- **Are CoLearning element quantity and format correct?**
 
 ---
 
@@ -706,7 +894,8 @@ Invoke technical-reviewer:
 
 **Check**:
 - ✅ Does chapter demonstrate **Three-Role Partnership progression**? (not just present in isolated lessons)
-- ✅ Are CoLearning elements **balanced** across lessons? (not heavy in L1, missing in L5)
+- ✅ Are CoLearning elements **consistent** across lessons? (1 of each type per lesson: 💬🎓🤝 = 3 total)
+- ✅ Are CoLearning element **formats consistent** across lessons? (all match output style exactly)
 - ✅ Does tone remain **conversational** throughout chapter?
 - ✅ Is **Graduated Teaching Pattern** evident across lessons? (if applicable)
 - ✅ No **forward references** across lessons? (Lesson N only uses concepts from 1 to N-1)
@@ -739,7 +928,7 @@ Invoke technical-reviewer:
   ✓ No forward references across lessons
   ✓ Prerequisite chain intact (L1→L2→L3...)
   ✓ Terminology consistent
-  ✓ CoLearning elements balanced
+  ✓ CoLearning elements consistent (1 of each type per lesson, matching formats)
 
 **Constitutional Embodiment**: ✅ PASS
   ✓ All 18 principles verified at chapter level
@@ -773,18 +962,20 @@ Invoke technical-reviewer:
 **Constitutional Gaps Addressed**:
 - [Not just "added elements" but "integrated Three-Role Partnership demonstration"]
 - [Specific constitutional principles that were missing and how they're now embodied]
+- [CoLearning element count adjustments (removed over-stuffing, standardized formats)]
 
 **Quality Improvements** (beyond compliance):
 - [How content got better, not just compliant]
 - [Examples preserved, tone improved, flow enhanced]
+- [Professional density achieved (quality over quantity)]
 
 ## Per-Lesson Decisions
 
 | Lesson | Alignment Before | Intervention | Rationale | Result |
 |--------|-----------------|--------------|-----------|---------|
-| L1 | Good (70%) | Surgical Edit | Excellent content, missing elements | 4 targeted insertions, preserved narrative |
-| L2 | Needs Work (55%) | Enhanced Regen | Good examples, documentation tone | Preserved examples, regenerated narrative with partnership framing |
-| L3 | Excellent (95%) | No Change | Already embodies values | Validation only |
+| L1 | Good (70%) | Surgical Edit (Remove) | Excellent content, 5 elements (2💬 2🎓 1🤝), 2 generic | Removed generic elements, kept 1 of each type (3 total), standardized formats |
+| L2 | Needs Work (55%) | Enhanced Regen | Good examples, documentation tone, format drift | Preserved examples, regenerated narrative with 1+1+1=3 pattern |
+| L3 | Excellent (95%) | No Change | Already has 1+1+1=3 pattern, correct formats | Validation only |
 
 ## Why This Approach Was Optimal
 
@@ -801,11 +992,13 @@ Invoke technical-reviewer:
 - Each lesson got what it needed
 - Quality: Maximized (preserve good, fix bad)
 - Time: Optimal (45 minutes for 3 lessons)
+- Professional density: Achieved (no over-stuffing)
 
 ## Constitutional Compliance Achieved
 
 ✅ All 18 constitutional principles verified compliant
-✅ CoLearning elements (100% coverage, quality-checked)
+✅ CoLearning elements (1 of each type per lesson: 💬🎓🤝 = 3 total, quality-checked)
+✅ CoLearning element formats (100% match to output style, no drift)
 ✅ Lesson closure pattern (100% compliant)
 ✅ Pedagogical ordering (no forward references)
 ✅ Three-Role Partnership (demonstrated authentically throughout)
@@ -821,12 +1014,13 @@ Invoke technical-reviewer:
 3. **Commit changes**:
    ```bash
    git add book-source/docs/[chapter-path]/*.md
-   git commit -m "Constitution sync: Chapter [N] aligned with v3.1.2
+   git commit -m "Constitution sync: Chapter [N] aligned with v3.1.3
 
    - Integrated Three-Role AI Partnership throughout
-   - Added CoLearning elements (💬🎓🚀✨) naturally
+   - Optimized CoLearning elements (removed over-stuffing, standardized formats)
    - Fixed lesson closure violations
-   - Preserved excellent narrative quality"
+   - Preserved excellent narrative quality
+   - Achieved professional density (quality over quantity)"
    ```
 4. **Process next chapter?**: Run `/sp.constitution-sync [N+1]`
 
@@ -843,13 +1037,15 @@ Invoke technical-reviewer:
 
 **What worked well?**
 - Which interventions preserved quality most effectively?
-- Which CoLearning insertions felt most natural?
+- Which CoLearning insertions/removals felt most natural?
 - What constitutional elements resonated most in this chapter?
+- Did professional density improve? (no over-stuffing)
 
 **What to improve next time?**
 - Were any interventions too heavy-handed?
 - Did any insertions feel forced?
 - How can next sync be more constitutionally grounded?
+- Were format standards followed consistently?
 
 **Document insights** for future syncs.
 
@@ -868,6 +1064,11 @@ Invoke technical-reviewer:
 - Adjust assessment lens
 - Re-evaluate what "good" looks like
 
+**When output style updates**:
+- Re-read output style for new standards
+- Update format examples in this command if needed
+- Ensure all future syncs use updated standards
+
 **When exemplars identified**:
 - Study what makes them excellent
 - Apply patterns to future syncs
@@ -883,6 +1084,8 @@ Invoke technical-reviewer:
 ✅ **User Partnership** (collaborative decisions, not dictation)
 ✅ **Publication Readiness** (chapter fully aligned and ready to ship)
 ✅ **Pedagogical Integrity** (teaches values, not just topics)
+✅ **Professional Density** (quality over quantity, no over-stuffing)
+✅ **Format Consistency** (100% match to output style standards)
 
 ---
 
@@ -892,15 +1095,20 @@ Invoke technical-reviewer:
 - ❌ Checking boxes mechanically
 - ❌ Following formulas blindly
 - ❌ Compliance for compliance's sake
+- ❌ Adding maximum CoLearning elements ("more is better")
+- ❌ Using format variations ("close enough")
 
 **Constitution-sync is about**:
 - ✅ Embodying constitutional values authentically
 - ✅ Preserving and enhancing content quality
 - ✅ Partnering with user intelligently
 - ✅ Teaching with AI, not just about AI
+- ✅ **Quality over quantity** (2-3 excellent elements > 6-8 mediocre ones)
+- ✅ **Professional density** (respect learner time and attention)
+- ✅ **Format precision** (exact match to output style, no drift)
 
-**Every decision should ask**: *Does this help content better embody what the constitution stands for?*
+**Every decision should ask**: *Does this help content better embody what the constitution stands for while respecting professional learners' needs?*
 
 ---
 
-**This command brings content into authentic alignment with constitutional values through intelligent, judgment-driven partnership.**
+**This command brings content into authentic alignment with constitutional values through intelligent, judgment-driven partnership, prioritizing quality over quantity and format consistency over variation.**

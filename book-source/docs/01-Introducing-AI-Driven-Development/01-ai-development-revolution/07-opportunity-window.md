@@ -54,6 +54,10 @@ differentiation:
 
 # The Opportunity Window
 
+**Lesson Video:**
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/A1yIQz3oiRw" title="The Opportunity Window" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 If you're feeling overwhelmed by everything we've covered so far—the scale of the transformation, the changing developer role, the autonomous agent era—here's the perspective that reframes everything:
 
 **This is the best time in three to four decades to be learning software development.**
@@ -80,7 +84,7 @@ Get one character wrong—forget the colon, miss the `with` statement, use the w
 
 **New reality:** You tell the AI what you want to do: "Read the contents of a text file." The AI handles syntax, error handling, encoding, and resource cleanup. You learn by seeing correct patterns and understanding **why** they work, not memorizing **how** to type them.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > The barriers falling aren't making programming easier—they're removing artificial gatekeepers. The real work (understanding problems, designing solutions, validating quality) remains. AI removes the busywork, letting you focus on what actually matters.
 
@@ -114,7 +118,7 @@ Many aspiring developers give up during this phase, never reaching actual coding
 
 **New reality:** With AI assistance, beginners can build production-quality applications in days or weeks. You learn by **building real projects** and using AI as a mentor, not by completing hundreds of isolated exercises.
 
-Sarah Chen from our opening story is a real example: from PHP tutorial to production SaaS dashboard in 48 hours. This wasn't possible five years ago.
+The Y Combinator W25 batch provides real evidence: a quarter of their startups had 95% AI-generated codebases built by technical founders who could have coded everything manually but chose AI orchestration instead. This wasn't possible five years ago.
 
 ## For Experienced Developers: Skills Multiply, Not Divide
 
@@ -181,10 +185,10 @@ This creates opportunities for new companies to build AI-native tools from scrat
 
 AI coding companies are seeing revenue ramps that have no historical precedent:
 
-- **GitHub Copilot:** Reached $100M ARR within 12 months of launch
+- **GitHub Copilot:** Reached $100M ARR within approximately 2 years (launched October 2021, reached milestone October 2023)
 - **Claude Code (Anthropic):** $500M run rate within months of announcement
-- **Cursor:** Reached profitability and 7-figure monthly revenue in under a year
-- **Replit:** Grew from developer playground to $1B+ valuation primarily on AI features
+- **Cursor:** Reached $100M ARR in approximately 12 months and 7-figure monthly revenue, making it one of the fastest-growing SaaS companies
+- **Replit:** Grew to $1.16B valuation (April 2023), powered significantly by AI-enhanced development features
 
 These aren't outliers—they're examples of a systemic shift. When technology makes something 10x better/faster/cheaper, adoption happens quickly and early movers capture disproportionate value.
 
@@ -200,6 +204,10 @@ Solo founders and small teams are building developer tools that compete with est
 
 The barrier to building sophisticated software has collapsed. If you have domain expertise and understand a problem space, AI can help you build the solution.
 
+#### 💬 AI Colearning Prompt
+
+> **Leverage domain expertise**: "I have expertise in [your field: healthcare, education, logistics, etc.] but zero coding experience. Help me identify one specific problem in my field that I could solve with a simple web application. Then outline what I'd need to learn (concepts, not syntax) to build it with AI assistance."
+
 ### Reason 4: Unsolved Problems Everywhere
 
 The transformation is so rapid that **new problems emerge faster than solutions**:
@@ -212,9 +220,9 @@ The transformation is so rapid that **new problems emerge faster than solutions*
 
 Each of these represents potential startup opportunities. The market is wide open.
 
-#### ✨ Teaching Tip
+#### 🎓 Expert Insight
 
-Unsolved problems are opportunities. Every technology transition creates new challenges faster than solutions—that's where startups thrive. AI coding is moving so fast, the problem space keeps expanding.
+> Unsolved problems are opportunities. Every technology transition creates new challenges faster than solutions. That's where startups thrive. AI coding is moving so fast, the problem space keeps expanding. The window is wide open.
 
 ## For Career Changers: Domain Expertise Becomes Your Superpower
 
@@ -291,9 +299,9 @@ The opportunity window is open. But windows don't stay open forever.
 
 **The question is: Will you participate, or watch from the sidelines?**
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Adoption Phase Check**: Ask your AI: "We're in the 'Early Majority' phase of AI coding adoption. Explain what this means: Am I too early (tools immature)? Too late (market saturated)? Or well-timed? Use the technology adoption curve to explain."
+> **Ask your AI**: "We're in the 'Early Majority' phase of AI coding adoption. Explain what this means: Am I too early (tools immature)? Too late (market saturated)? Or well-timed? Use the technology adoption curve to explain."
 
 **Goal**: Understand your timing advantage.
 

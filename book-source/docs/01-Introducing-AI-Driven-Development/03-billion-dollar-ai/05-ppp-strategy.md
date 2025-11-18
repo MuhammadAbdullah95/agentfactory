@@ -57,9 +57,15 @@ differentiation:
 
 # The Piggyback Protocol Pivot: Your Strategic Playbook for Entering Vertical Markets
 
-Now you understand the layers (Snakes and Ladders), the economics (super orchestrators), and the architecture (vertical intelligence). The final piece is strategy: *How do you actually enter a vertical market and dominate it as a solo entrepreneur?*
+**Lesson Video:**
 
-Enter the **Piggyback Protocol Pivot** (PPP): a three-phase strategy that lets you piggyback on incumbents, build defensibility, then pivot to strategic control.
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/CIlFrEGvyqg" title="The Piggyback Protocol Pivot Strategy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+Now you understand the layers (Snakes and Ladders), the economics (super orchestrators), and the architecture (vertical intelligence). The final piece is strategy: How do you actually enter a vertical market and dominate it as a solo entrepreneur?
+
+Enter the Piggyback Protocol Pivot (PPP): a three-phase strategy that lets you piggyback on incumbents, build defensibility, then pivot to strategic control.
+
+![Timeline showing three phases of Piggyback Protocol Pivot strategy: Phase 1 Infrastructure Layering (0-6 months), Phase 2 Market Validation (6-18 months), and Phase 3 Strategic Pivot (18-36 months), illustrating the sequential market entry roadmap for solo entrepreneurs](/img/part-1/chapter-3/three-phase-ppp-timeline.png)
 
 ## Phase 1: Infrastructure Layering (Months 0-6)
 
@@ -67,7 +73,7 @@ Enter the **Piggyback Protocol Pivot** (PPP): a three-phase strategy that lets y
 
 **The Problem You're Solving**: Every vertical has legacy fragmentation. In education, schools use Canvas, Blackboard, Google Classroom, or Moodle. In healthcare, hospitals use Epic, Cerner, or Athena. In accounting, firms use QuickBooks, Xero, NetSuite, or Wave. These systems don't talk to each other.
 
-**Your Move**: Build a standardized protocol (using MCP) that translates between all of them. You're not replacing the incumbents. You're becoming the bridge.
+**Your Move**: Build a standardized protocol (using MCP) that translates between all of them. You're not replacing the incumbents; you're becoming the bridge.
 
 Example: An education platform that reads student data from Canvas (quizzes, assignments, grades), syncs with Blackboard (discussions, announcements), integrates with Google Classroom (documents), and writes a unified dashboard showing progress across all platforms.
 
@@ -96,9 +102,9 @@ At this stage, you're still piggybacking. You're still integrating with incumben
 
 **Timeline**: 12-18 months to reach 60-80 customers, achieve product-market fit, stabilize CAC and retention.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
-> Phase 2 is where most solo entrepreneurs underinvest. They rush to build features (Phase 3) before proving customers actually want the bridge (Phase 2). The discipline here is **patience**: spend 12-18 months listening to customers, understanding their workflows, and building trust. This customer intimacy becomes your moat—you know what they need before they articulate it. Competitors who skip Phase 2 build features nobody wants.
+> Phase 2 is where most solo entrepreneurs underinvest. They rush to build features (Phase 3) before proving customers actually want the bridge (Phase 2). The discipline here is patience: spend 12-18 months listening to customers, understanding their workflows, and building trust. This customer intimacy becomes your moat. You know what they need before they articulate it. Competitors who skip Phase 2 build features nobody wants.
 
 ## Phase 3: Strategic Pivot (Months 18-36)
 
@@ -107,7 +113,7 @@ At this stage, you're still piggybacking. You're still integrating with incumben
 **What's Changed**: Over the last year, you've built:
 - Deep integrations with all major incumbent platforms
 - Data from 60-80 customers showing which workflows matter
-- A brand and trust among key decision-makers in the vertical
+- A brand and trust among key decision makers in the vertical
 
 **The Pivot**: Now you layer subagents on top of your infrastructure bridge. For each workflow that customers care about, you build a specialized subagent.
 
@@ -119,9 +125,9 @@ Example (education): You've been the bridge between Canvas, Blackboard, and Goog
 Suddenly, your infrastructure bridge becomes a super orchestrator. You're no longer just aggregating data; you're automating decisions.
 
 **Why incumbents can't respond**:
-1. **Organizational inertia**: Blackboard's product team is building features for next quarter, not rearchitecting for AI agents.
-2. **Legacy architecture**: Adding AI agents to Blackboard would require rewriting core systems. Too risky, too slow.
-3. **Incentives misaligned**: Blackboard makes money selling licenses. They don't want automation that reduces teachers needed.
+1. Organizational inertia: Blackboard's product team is building features for next quarter, not rearchitecting for AI agents.
+2. Legacy architecture: Adding AI agents to Blackboard would require rewriting core systems. Too risky, too slow.
+3. Incentives misaligned: Blackboard makes money selling licenses. They don't want automation that reduces teachers needed.
 
 Your agile solo team pivots in weeks. Their enterprise teams take months or years.
 
@@ -137,11 +143,7 @@ Three strategies exist for entering a vertical market:
 | **Direct Competition** | Full (100%) | Slower (build awareness) | Lower (feature parity) | High |
 | **Niche Market** | Moderate | 3x slower (small market) | Medium | Low |
 
-**Piggyback Protocol Pivot** wins on two dimensions: CAC and defensibility. You're not fighting for brand awareness (incumbents do that). You're leveraging their distribution. You're not racing feature-parity. You're building integrations they can't easily replicate.
-
-#### ✨ Teaching Tip
-
-PPP mirrors how Stripe entered payments: they didn't compete with PayPal for consumers—they built payment infrastructure for developers (Layer 2). Once developers adopted Stripe's APIs, Stripe pivoted to serve businesses directly (Layer 3). The "piggyback" phase gave them distribution and trust they couldn't have earned by competing head-on.
+Piggyback Protocol Pivot wins on two dimensions: CAC and defensibility. You're not fighting for brand awareness (incumbents do that); you're leveraging their distribution. You're not racing feature parity; you're building integrations they can't easily replicate.
 
 ### Realistic PPP Timeline
 
@@ -151,13 +153,13 @@ PPP mirrors how Stripe entered payments: they didn't compete with PayPal for con
 - **Months 24-36**: Full vertical dominance, ARR $5M-10M
 - **Months 36-48**: Integrate with adjacent verticals, expand to $20M-30M ARR
 
-This is the path to a billion dollars as a solo entrepreneur. Not in one year. But in five to seven years, building one vertical market deeply, then expanding strategically.
+This is the path to a billion dollars as a solo entrepreneur. Not in one year, but in five to seven years, building one vertical market deeply, then expanding strategically.
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-**Quick Test**: Pick a vertical market (education, healthcare, small business tools). Ask your AI: "Identify 2-3 incumbent systems in this vertical that don't talk to each other well. For each pair, explain: Why don't they integrate? What would a 'bridge solution' look like?" Then evaluate: Which integration would be easiest to build first?
+> **Ask your AI**: "Pick a vertical market (education, healthcare, small business tools). Identify 2-3 incumbent systems in this vertical that don't talk to each other well. For each pair, explain: Why don't they integrate? What would a 'bridge solution' look like? Then help me evaluate: Which integration would be easiest to build first?"
 
-**What you're practicing**: Applying PPP Phase 1 (infrastructure bridge) to a specific vertical, then using your judgment to prioritize which integration to tackle first.
+**Expected Outcome**: You'll practice applying PPP Phase 1 (infrastructure bridge) to a specific vertical and learn to prioritize integration opportunities using strategic judgment. This teaches market analysis and prioritization skills.
 
 ---
 
@@ -167,7 +169,7 @@ Use your AI companion tool set up (e.g., ChatGPT web, Claude Code, Gemini CLI), 
 
 ### Prompt 1: Reality-Check PPP Timeline
 ```
-The 'Piggyback Protocol Pivot' (PPP) strategy has three phases over 18-36 months. Let's reality-check this together: I'm [describe your situation: working full-time / in school / etc.]. First, help me assess whether PPP fits my constraints. Then I'll share my biggest concern (time? money? technical skill?), and you adapt the strategy to MY reality. Let's co-create a version of PPP that's ambitious but achievable for someone in my situation.
+The 'Piggyback Protocol Pivot' (PPP) strategy has three phases over 18-36 months. Let's reality-check this together: I'm [describe your situation: working full-time / in school / etc.]. First, help me assess whether PPP fits my constraints. Then I'll share my biggest concern (time? money? technical skill?), and you adapt the strategy to my reality. Let's co-create a version of PPP that's ambitious but achievable for someone in my situation.
 ```
 
 **Expected outcome**: Honest assessment of whether PPP fits YOUR time and resource constraints, achieved through **collaborative adaptation** where your AI helps you modify the strategy to match your reality.
@@ -188,7 +190,7 @@ The lesson says PPP beats 'direct competition' with 60-80% lower customer acquis
 
 ### Prompt 4: Plan Defensive Strategies
 ```
-I'm worried about Phase 3—the 'pivot.' What if the incumbent systems see me as a threat and cut off my access? Or what if they copy my subagent features? Give me 2-3 defensive strategies to protect my position during the pivot. Be realistic about risks.
+I'm worried about Phase 3, the 'pivot.' What if the incumbent systems see me as a threat and cut off my access? Or what if they copy my subagent features? Give me 2-3 defensive strategies to protect my position during the pivot. Be realistic about risks.
 ```
 
 **Expected outcome**: Risk mitigation strategies for protecting your position during the pivot.

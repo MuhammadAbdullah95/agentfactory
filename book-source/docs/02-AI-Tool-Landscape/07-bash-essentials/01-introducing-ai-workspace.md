@@ -181,6 +181,9 @@ Both are file paths. They're in different locations because you're on different 
 
 **Key insight**: Your AI doesn't have secret powers. It runs the same commands you do. When you ask "Where are you?", the AI translates that to `pwd` and shows you the output. You understand the output because you already ran it yourself.
 
+#### 💬 AI Colearning Prompt
+> "Why does pwd show `/Users/yourname` on Mac but `/home/yourname` on Linux?"
+
 ---
 
 ## Use `ls` to See What Files Are in a Directory
@@ -257,6 +260,9 @@ You can now read both because you know:
 
 When your AI says "I can see the `book-source` folder and `README.md` file here," you can verify it by looking at the `ls` output. You're not just trusting the AI—you're **reading the evidence yourself**.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize `ls` flags like `-lah` or `-R`. You understand WHAT you need to see ("show hidden files" or "list recursively"), and your AI handles the syntax. Your job: know what question to ask.
+
 ---
 
 ## Why This Matters: The Supervision Pattern
@@ -273,6 +279,12 @@ Then your AI shows you the location and files, and **you confirm** before anythi
 This is the supervision pattern: **Ask → Show Location → Show What's There → Verify → Execute**.
 
 You're not responsible for remembering commands. You're responsible for saying "Yes, that's the right folder to delete" before your AI proceeds.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Navigate to my Documents folder, show me what's there, and identify which items are folders vs files. Then explain how you determined the difference."
+
+**Expected Outcome**: You understand how AI uses `cd`, `ls -la`, and interprets the `d` prefix to identify directories.
 
 ---
 

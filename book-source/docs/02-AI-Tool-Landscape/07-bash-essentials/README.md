@@ -12,15 +12,9 @@ title: "Chapter 7: Bash Essentials for AI-Driven Development"
 By understanding your AI's native language, you become an equal partner. You're not following blindly. You're collaborating confidently.
 **This is learning for the AI era.**
 
-## Welcome to Understanding Your AI Companion's Native Language
-
-This chapter **does NOT teach bash as a traditional skill**. Instead, it teaches you to **understand and collaborate with your AI companion** as it uses bash on your behalf.
-
-**Core Learning Goal**: When your AI companion suggests a bash command, you understand **WHAT it's doing, WHY it matters, and WHETHER it's safe to execute**.
-
 ---
 
-## Learning Outcomes
+## What You'll Learn
 
 By the end of this chapter, you will be able to see when your AI Companion **collaborates**:
 
@@ -32,3 +26,7 @@ By the end of this chapter, you will be able to see when your AI Companion **col
 6. **Troubleshoot** common bash errors by reading error messages with AI help
 7. **Collaborate** confidently with AI to set up complete projects from scratch
 8. **Apply** the collaboration pattern to any bash task, with or without AI assistance
+
+This chapter **does NOT teach bash as a traditional skill**. Instead, it teaches you to **understand and collaborate with your AI companion** as it uses bash on your behalf.
+
+**Core Learning Goal**: When your AI companion suggests a bash command, you understand **WHAT it's doing, WHY it matters, and WHETHER it's safe to execute**.

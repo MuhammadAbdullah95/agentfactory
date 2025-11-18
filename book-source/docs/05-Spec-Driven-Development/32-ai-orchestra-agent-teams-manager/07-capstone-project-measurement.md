@@ -46,7 +46,7 @@ differentiation:
   remedial_for_struggling: "Focus on 3-feature system; use time tracking to show 2x speedup"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/002-chapter-32-redesign/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-06"
@@ -125,6 +125,9 @@ Before starting, answer:
 3. Are integration contracts clear? (Can you define what each feature needs?)
 
 If all YES, proceed to execution.
+
+#### 💬 AI Colearning Prompt
+> "Why is decomposition quality more important than implementation speed in multi-agent orchestration? What breaks when decomposition is poor but agents are fast?"
 
 ---
 
@@ -339,6 +342,9 @@ These are **tool descriptions**, not strategic insights.
 
 **Practice this out loud.** Record yourself. Refine.
 
+#### 🎓 Expert Insight
+> In AI-native development, your portfolio isn't about code you typed—it's about systems you orchestrated. Decomposition thinking, specification quality, and coordination capability are the skills employers value. Metrics matter: "coordinated 3-agent teams with 2.5x speedup and 1 merge conflict" demonstrates strategic orchestration, not syntax memorization.
+
 ---
 
 ## Completion Checklist
@@ -432,6 +438,12 @@ You've completed Chapter 32: *AI Orchestra - Agent Teams Manager*.
 **You are now**: A creative orchestrator who can coordinate autonomous teams at scale.
 
 Not because you're a faster coder. But because you understand how **clear specs eliminate meetings**, **good decomposition enables autonomous work**, and **this pattern scales to larger teams**.
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Review my capstone project metrics (paste time tracking and merge conflict data). Analyze what my measurements reveal about decomposition quality. Suggest what I should improve before scaling to 5-7 features."
+
+**Expected Outcome**: Data-driven feedback on decomposition effectiveness and actionable recommendations for scaling.
 
 ---
 

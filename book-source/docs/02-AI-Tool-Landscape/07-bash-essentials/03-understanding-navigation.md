@@ -43,8 +43,6 @@ cognitive_load:
 
 # Understanding File Navigation Through Dialogue
 
-## Paths Are Just Directions
-
 When you give someone directions, you might say:
 - **Absolute direction**: "Go to 123 Main Street, downtown" (complete address from a fixed starting point)
 - **Relative direction**: "Go down this street and turn left at the next corner" (relative to where you are now)
@@ -103,6 +101,9 @@ Your AI uses an absolute path—a complete address just like you did.
 **AI's path**: `/Users/mjs/Documents/code/panaversity-official/tutorgpt-build/colearning-python`
 
 Both are **absolute paths** because they start with `/` or `~` and specify a complete address. The folders are different because you're on different computers, but the **pattern is identical**.
+
+#### 💬 AI Colearning Prompt
+> "Why would you use an absolute path vs. a relative path when navigating? What are the tradeoffs?"
 
 ---
 
@@ -171,6 +172,9 @@ Paths are critical for safe navigation. Consider this scenario:
 
 By understanding paths—knowing exactly where your AI is—you prevent mistakes.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize path syntax like `../../folder/subfolder`. You understand the CONCEPT (go up two levels, then navigate to subfolder), and AI translates that to the correct path. Your job: verify AI is navigating to the RIGHT place.
+
 ---
 
 ## Use `cd ..` to Go Up One Level
@@ -223,6 +227,12 @@ Your AI uses `..` the same way you do.
 
 Both you and your AI used `cd ..` to move up one level. The **command is identical**. The starting and ending paths are different because you're on different computers, but **the navigation logic is the same**.
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Navigate from your current directory to your home directory, then into Documents, then back up one level. After each navigation step, show me where you are with pwd."
+
+**Expected Outcome**: You see the full navigation path and understand how `cd`, `cd ~`, and `cd ..` work together to move through the file system.
+
 ---
 
 ## Try With AI: Side-by-Side Comparison
@@ -252,12 +262,7 @@ Show me how you navigate through folders.
 | Go back up | `cd ..` | `cd ..` |
 | Confirm location | `/Users/yourname` | (AI's path) |
 
-**Observation**:
-- Are the commands identical? (Yes—both use `cd`, `..`, folder names)
-- Is the pattern the same? (Yes—down into a folder, back up with `..`)
-- Do paths differ? (Yes—different computers, different projects)
-
-**Key Insight**: You and your AI navigate using the same commands. You can read and verify navigation paths because you've navigated yourself.
+**Observation**: Notice how you and your AI use identical commands (`cd`, `..`) but in different locations. This is co-learning—you understand AI's navigation because you've practiced the same pattern yourself. When AI suggests a path, you can verify it makes sense.
 
 ---
 
@@ -274,6 +279,8 @@ Walk me through the safety steps for navigation.
 
 **Expected Response**:
 Your AI will describe showing location with `pwd` and listing folders with `ls` before any operation. This is the foundation of safe collaboration—verifying location before taking action.
+
+**Key Insight**: By navigating yourself first, you built the mental model to supervise AI's navigation. You're not blindly trusting—you're collaborating from understanding.
 
 ---
 

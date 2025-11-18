@@ -65,7 +65,7 @@ differentiation:
   remedial_for_struggling: "Focus on append() and remove() first. Add extend() after mastery. Use concrete shopping cart example exclusively. Practice with simple lists."
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
@@ -320,6 +320,7 @@ This is one of the most important patterns in Python, and understanding it will 
 
 **Methods** are functions attached to objects. They use dot notation:
 ```python
+cart: list[str] = ["eggs", "milk", "bread"]
 cart.append("milk")   # Method (attached to the cart list)
 cart.remove("eggs")   # Method
 cart.clear()          # Method
@@ -327,6 +328,7 @@ cart.clear()          # Method
 
 **Functions** are standalone. They use parentheses with the object as an argument:
 ```python
+cart: list[str] = ["eggs", "milk", "bread"]
 len(cart)             # Function (not attached to cart)
 sorted(cart)          # Function
 print(cart)           # Function
@@ -335,6 +337,8 @@ print(cart)           # Function
 Here's the pattern that matters: **Most list modification methods return `None` because they modify the list in-place.**
 
 ```python
+cart: list[str] = ["eggs", "milk", "bread"]
+
 # Methods that modify (return None)
 cart.append("milk")     # Returns None, modifies cart
 cart.extend(["butter"]) # Returns None, modifies cart
@@ -343,12 +347,14 @@ cart.remove("milk")     # Returns None, modifies cart
 cart.clear()            # Returns None, modifies cart
 
 # Functions that preserve the original (return new objects)
-sorted(cart)            # Returns new sorted list, doesn't modify cart
-len(cart)               # Returns count, doesn't modify cart
+cart_copy: list[str] = ["eggs", "milk", "bread"]
+sorted(cart_copy)       # Returns new sorted list, doesn't modify cart_copy
+len(cart_copy)          # Returns count, doesn't modify cart_copy
 ```
 
 **Never do this**:
 ```python
+cart: list[str] = ["milk", "eggs", "bread"]
 # Wrong! sorted() returns a new list, you're not using it
 sorted(cart)
 print(cart)  # Original cart is unchanged!

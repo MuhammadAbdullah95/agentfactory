@@ -65,7 +65,7 @@ differentiation:
   remedial_for_struggling: "Start with simple 2-feature contract before attempting 3-feature exercise; use visual diagrams of feature dependencies; pair with debugging support for hook configuration"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/002-chapter-32-redesign/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-06"
@@ -141,6 +141,9 @@ But when a contract is precise—"User API with endpoints [specific list], respo
 **Vague contracts = coordination overhead. Clear contracts = autonomous work.**
 
 Here's the data: Teams using explicit contracts report 60% reduction in sync meetings and 40% faster integration cycles. Why? Because the contract did the communicating, not you.
+
+#### 💬 AI Colearning Prompt
+> "How do integration contracts eliminate synchronous coordination meetings? What's the fundamental difference between contract-based vs. meeting-based coordination?"
 
 ---
 
@@ -256,6 +259,9 @@ Here's a concrete example. For the Product Catalog feature, here are the accepta
 This table is the contract's teeth. **When all boxes are checked, Feature 2 is done. No further discussion.**
 
 Agents build to this. You verify against this. Integration happens. Clean.
+
+#### 🎓 Expert Insight
+> In AI-native development, acceptance criteria aren't just checklists—they're the operational definition of "done" that enables autonomous coordination. Clear criteria = agents work independently. Vague criteria = constant orchestrator interruptions. At 10 agents, clarity isn't nice-to-have; it's the difference between scalable and chaos.
 
 ---
 
@@ -527,6 +533,12 @@ This is the capstone exercise. You're coordinating 3 agents building Features A,
 **Success**: You see all 3 features complete in the status report, and you haven't checked any of them individually.
 
 The insight: **At 3 agents, this feels overkill. But at 15 agents, this is essential. You're building the muscle now.**
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Write an integration contract for a payment feature that depends on user authentication. Include: provides, depends on, integration points, and 5 specific acceptance criteria. Then critique your own contract for ambiguity."
+
+**Expected Outcome**: Practical experience writing contracts and developing intuition for what makes criteria testable vs. vague.
 
 ---
 

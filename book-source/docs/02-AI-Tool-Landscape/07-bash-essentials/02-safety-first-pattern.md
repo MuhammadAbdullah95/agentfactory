@@ -50,8 +50,6 @@ cognitive_load:
 
 # The Safety-First Dialogue Pattern
 
-## The Most Important Skill You'll Learn This Lesson
-
 Your AI companion is powerful and helpful. But power without safety is dangerous. This lesson teaches you a pattern that keeps you safe: a structured dialogue that ensures understanding BEFORE your AI executes anything.
 
 This isn't about memorizing commands. It's not about understanding bash syntax. It's about having conversations that prevent mistakes.
@@ -103,6 +101,9 @@ Good questions to ask:
 ONLY after Steps 1-4 are complete, your AI runs the command. You already understand the plan, so you can review the output with confidence.
 
 **Example**: Your AI runs the commands, shows you the results, and confirms: "Done. You now have a backup folder with all your files."
+
+#### 💬 AI Colearning Prompt
+> "Why does the 5-step pattern put 'Verify' BEFORE 'Execute' instead of checking results afterward?"
 
 ---
 
@@ -213,6 +214,9 @@ $ rm -rf old-projects/
 **You**: "Actually, I see `important_data.csv` in there. Don't delete that. Let me move it first."
 
 **You saved important data** just by asking questions before executing.
+
+#### 🎓 Expert Insight
+> In AI-native development, the 5-step safety pattern isn't about not trusting AI—it's about collaborative verification. Your AI generates the plan (Step 2), you validate the intent (Steps 3-4). Neither works alone; both work together for safety.
 
 ---
 
@@ -396,6 +400,12 @@ Follow the 5-step pattern in a real conversation with your AI tool:
 
 The pattern itself is more important than the specific task. You're building a habit that will protect you in every bash operation going forward.
 
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "I want to delete my 'old-backups' folder. Walk me through the 5-step safety pattern before doing anything. For Step 4, I'll ask at least 3 clarifying questions."
+
+**Expected Outcome**: You experience the full pattern with your AI enforcing each step, and you practice asking safety-focused verification questions.
+
 ---
 
 ## Try With AI: Real Examples from Gemini
@@ -449,6 +459,8 @@ Here's what REAL dialogues look like. Try these with your AI tool and see how yo
 > Please tell me what criteria I should use to identify the files that should be deleted. For example, "delete all files last modified before today"."
 
 **Notice**: Gemini asked YOU to clarify what "old" means. **This is the agent asking Step 4 questions on your behalf.** You still get to decide safety parameters before anything happens.
+
+**Observation**: Notice how Gemini asked YOU to clarify what "old" means—this demonstrates AI as student, learning project-specific context from you. You refined AI's understanding through your constraints.
 
 ---
 

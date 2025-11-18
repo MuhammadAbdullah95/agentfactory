@@ -517,7 +517,24 @@ Let's examine why successful frameworks made their architectural choices:
 Django's `Model` metaclass automatically discovers database fields from class definitions:
 
 ```python
-# Django-style (simplified)
+# Django-style (conceptual - showing the pattern)
+# In real Django: from django.db import models
+# For this example, we'll use a simplified placeholder
+
+class models:
+    """Placeholder to demonstrate Django pattern (requires django package)."""
+    class Model:
+        pass
+    class CharField:
+        def __init__(self, max_length=100):
+            self.max_length = max_length
+    class EmailField:
+        def __init__(self, unique=False):
+            self.unique = unique
+    class DateTimeField:
+        def __init__(self, auto_now_add=False):
+            self.auto_now_add = auto_now_add
+
 class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -532,6 +549,9 @@ class User(models.Model):
 
 **Alternative approach** (with dataclass) would require explicit field listing:
 ```python
+from dataclasses import dataclass, field
+from datetime import datetime
+
 @dataclass
 class User:
     name: str
@@ -547,13 +567,18 @@ Pydantic (Chapter 27) builds on dataclass philosophy but adds powerful validatio
 
 ```python
 # Pydantic-style (preview of Chapter 27)
-# Note: Python 3.14's native type union syntax (X | Y) works seamlessly with Pydantic
-from pydantic import BaseModel, EmailStr
+# Note: Requires pydantic package (pip install pydantic)
+try:
+    from pydantic import BaseModel, EmailStr
 
-class User(BaseModel):
-    name: str
-    email: EmailStr  # Automatic email validation!
-    age: int
+    class User(BaseModel):
+        name: str
+        email: EmailStr  # Automatic email validation!
+        age: int
+
+    print("Pydantic example defined")
+except ImportError:
+    print("Pydantic not installed (optional dependency for this example)")
 ```
 
 **Why dataclass-inspired?** Pydantic's designers chose clarity over magic:
@@ -604,6 +629,9 @@ class SimplePropertiesMeta(type):
 **Dataclasses win on readability:**
 
 ```python
+from dataclasses import dataclass
+from typing import Optional
+
 # Immediately clear what data this represents
 @dataclass
 class UserProfile:
@@ -613,11 +641,12 @@ class UserProfile:
     followers_count: int = 0
 
 # Requires understanding metaclass mechanics to read
-class UserProfile(metaclass=UserProfileMeta):
-    username = StringField(required=True)
-    email = EmailField(unique=True)
-    bio = TextField(max_length=500, required=False)
-    followers_count = IntegerField(default=0)
+# (This would require defining UserProfileMeta, StringField, etc.)
+# class UserProfile(metaclass=UserProfileMeta):
+#     username = StringField(required=True)
+#     email = EmailField(unique=True)
+#     bio = TextField(max_length=500, required=False)
+#     followers_count = IntegerField(default=0)
 ```
 
 **Team impact**: Teams of varying expertise will read, understand, and maintain dataclass code more reliably.
@@ -627,6 +656,8 @@ class UserProfile(metaclass=UserProfileMeta):
 Always use type hints, regardless of choice:
 
 ```python
+from dataclasses import dataclass
+
 # ✅ GOOD: Clear what's happening (Python 3.14 supports | for union types natively)
 @dataclass
 class Config:
@@ -636,10 +667,11 @@ class Config:
     error_log_path: str | None = None  # Modern Python 3.14 syntax instead of Optional[str]
 
 # ✅ GOOD: Metaclass with type hints (Python 3.14 union syntax works here too)
-class ValidatedModel(metaclass=ValidationMeta):
-    name: str
-    value: int
-    status: str | None  # No need for Optional import
+# Note: Would require defining ValidationMeta
+# class ValidatedModel(metaclass=ValidationMeta):
+#     name: str
+#     value: int
+#     status: str | None  # No need for Optional import
 
 # ❌ AVOID: No type hints
 class Mystery:
@@ -682,7 +714,24 @@ class PostResponse:
 **Layer 2: Handlers with Automatic Registration (Metaclass)**
 
 ```python
+from dataclasses import dataclass
 from typing import Callable, Any
+
+# Re-define request/response models for this block
+@dataclass
+class CreatePostRequest:
+    title: str
+    content: str
+    tags: list[str]
+
+@dataclass
+class PostResponse:
+    id: int
+    title: str
+    content: str
+    tags: list[str]
+    author_id: int
+    created_at: str
 
 class HandlerRegistry:
     """Auto-registers handler classes"""
@@ -738,6 +787,47 @@ print(HandlerRegistry.handlers)  # {'createpost': <class 'CreatePostHandler'>, '
 **Layer 3: API Router Using Both**
 
 ```python
+from dataclasses import dataclass
+from typing import Any
+
+# Re-include all needed definitions for standalone execution
+@dataclass
+class CreatePostRequest:
+    title: str
+    content: str
+    tags: list[str]
+
+@dataclass
+class PostResponse:
+    id: int
+    title: str
+    content: str
+    tags: list[str]
+    author_id: int
+    created_at: str
+
+class HandlerRegistry:
+    handlers: dict[str, type] = {}
+
+class HandlerMeta(type):
+    def __new__(mcs, name: str, bases: tuple, namespace: dict):
+        cls = super().__new__(mcs, name, bases, namespace)
+        if name != "BaseHandler":
+            handler_name = name.replace("Handler", "").replace("_", "").lower()
+            HandlerRegistry.handlers[handler_name] = cls
+        return cls
+
+class BaseHandler(metaclass=HandlerMeta):
+    def process(self, request: Any) -> Any:
+        raise NotImplementedError
+
+class CreatePostHandler(BaseHandler):
+    def process(self, request: CreatePostRequest) -> PostResponse:
+        return PostResponse(
+            id=42, title=request.title, content=request.content,
+            tags=request.tags, author_id=1, created_at="2025-11-09T10:30:00Z"
+        )
+
 class APIRouter:
     """Routes requests to handlers"""
 
@@ -760,7 +850,7 @@ request = CreatePostRequest(
 )
 
 # Auto-routed to handler (metaclass registry)
-response = router.route("create_post", request)
+response = router.route("createpost", request)
 print(response)  # PostResponse(id=42, title='Learning Metaclasses', ...)
 ```
 

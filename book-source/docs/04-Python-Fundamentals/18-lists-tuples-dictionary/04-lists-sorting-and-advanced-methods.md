@@ -64,7 +64,7 @@ differentiation:
   remedial_for_struggling: "Focus on sort() vs sorted() distinction first; practice count() and index() separately before combining; use AI to debug aliasing errors"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-18/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
@@ -208,6 +208,8 @@ position = scores.index(100)  # ValueError: 100 is not in list
 **To avoid the error**, check first or use a loop:
 
 ```python
+scores: list[int] = [88, 92, 75, 88, 95]
+
 if 100 in scores:
     position = scores.index(100)
 else:
@@ -417,6 +419,8 @@ Write code that:
 **Mistake 1**: Expecting `.sort()` to return a sorted list
 
 ```python
+scores: list[int] = [88, 92, 75, 95]
+
 # ❌ WRONG
 sorted_scores = scores.sort()  # sorted_scores is None!
 
@@ -429,6 +433,8 @@ sorted_scores = sorted(scores)  # Create new sorted list
 **Mistake 2**: Using `.index()` without checking if value exists
 
 ```python
+scores: list[int] = [88, 92, 75, 95]
+
 # ❌ WRONG
 position = scores.index(999)  # ValueError if 999 not in list
 
@@ -442,6 +448,8 @@ else:
 **Mistake 3**: Not realizing assignment creates an alias
 
 ```python
+scores: list[int] = [88, 92, 75, 95]
+
 # ❌ WRONG
 backup = scores  # This is an alias!
 backup.append(100)  # Original scores changed!

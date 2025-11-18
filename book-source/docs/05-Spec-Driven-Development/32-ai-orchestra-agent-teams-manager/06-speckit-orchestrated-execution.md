@@ -60,7 +60,7 @@ differentiation:
   remedial_for_struggling: "Start with 3-feature system; emphasize contract.md clarity; use manual terminal spawning before tmux scripting"
 
 # Generation metadata
-generated_by: "Claude Code (lesson-writer)"
+generated_by: "Claude Code (content-implementer)"
 source_spec: "specs/002-chapter-32-redesign/spec.md"
 created: "2025-11-06"
 last_modified: "2025-11-06"
@@ -143,6 +143,9 @@ Here's why:
 - Strategic review (validation against contracts)
 
 **The "orchestration"**: You coordinate multiple Claude Code sessions through shared specifications and completion hooks. SpecKit Plus ensures each session knows what to build; you ensure they work together.
+
+#### 💬 AI Colearning Prompt
+> "How does SpecKit Plus orchestration differ from writing bash scripts that spawn 5 Claude sessions? What's the fundamental paradigm shift?"
 
 ---
 
@@ -549,6 +552,9 @@ Each Claude session will read the contract.md and tasks.md in its worktree and b
 
 > **Important**: If features have dependencies (e.g., Feature 2 depends on Feature 1), start dependent features AFTER their prerequisites complete. Check contract.md for the dependency order.
 
+#### 🎓 Expert Insight
+> In AI-native development, your job transforms from "telling agents what to do" to "ensuring agents know what to build." SpecKit Plus specifications enable autonomous execution—you define contracts once, agents execute independently. At 5 features, this saves hours. At 15 features, this is the only scalable approach.
+
 ---
 
 ## Phase 4: Autonomous Execution + Hooks (10 minutes)
@@ -684,6 +690,12 @@ After running `/sp.tasks`:
 6. **Creative Independence**: The moment when you can delegate execution and focus on strategy
 7. **Integration Validation**: Checklist-based approach to verifying agents delivered on their contracts
 8. **Scaling Pathway**: Understanding how patterns from 5 agents extend to 7-9 agents
+
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Design a 5-feature system decomposition for an e-commerce platform. Generate integration contracts using SpecKit Plus principles. Then create a dependency graph showing execution phases. Explain your orchestration strategy."
+
+**Expected Outcome**: Hands-on practice applying SpecKit orchestration thinking to real system design.
 
 ---
 

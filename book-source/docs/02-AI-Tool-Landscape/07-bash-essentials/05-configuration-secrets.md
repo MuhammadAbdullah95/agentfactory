@@ -96,6 +96,9 @@ Both set temporary variables. Both verified with `echo $`. Both will disappear w
 
 **Key insight**: Temporary variables are useful for testing but disappear when you exit the terminal.
 
+#### 💬 AI Colearning Prompt
+> "When would you use `export` for temporary configuration vs. a `.env` file for persistent configuration?"
+
 ---
 
 ## Use `.env` Files to Store Persistent Configuration
@@ -171,6 +174,9 @@ api_key = os.getenv('API_KEY')  # Read from environment, not hardcoded
 
 Secrets come from environment variables or .env files—never from code itself.
 
+#### 🎓 Expert Insight
+> In AI-native development, you don't memorize `.env` file syntax or `dotenv` library usage. You understand the CONCEPT (secrets belong in environment, not code), and AI handles `.gitignore`, `.env.example`, and secure loading. Your job: verify secrets never appear in version control.
+
 ---
 
 ## Try With AI: Side-by-Side Configuration Comparison
@@ -198,12 +204,13 @@ Let's practice safe configuration.
 | Verify it | `echo $TEST` | (AI verifies) |
 | Persistent (.env) | Create .env file | (AI creates .env file) |
 
-**Observation**:
-- Are the commands the same pattern? (Yes—both use environment variables)
-- What's the main difference? (One is temporary, one is persistent)
-- Why use .env for secrets? (Survives terminal restarts, easier to manage)
+**Observation**: Notice how AI suggested both temporary and persistent approaches—it taught you configuration options. Then you chose based on your project needs—teaching AI your context. This bidirectional learning is the pattern.
 
-**Key Insight**: Both temporary and persistent approaches keep secrets out of code. The difference is how long they last.
+#### 🤝 Practice Exercise
+
+> **Ask your AI**: "Create a `.env` file for my API key, add it to `.gitignore`, and verify the key is accessible but NOT committed to version control. Then explain why this matters for security."
+
+**Expected Outcome**: You understand secrets management workflow and can verify `.gitignore` is protecting sensitive configuration.
 
 ---
 
@@ -230,6 +237,8 @@ Your AI will explain:
 4. Add `.env` to `.gitignore` to prevent accidental commits
 
 **Key Principle**: Secrets belong in environment variables or configuration files, never in code.
+
+**Key Insight**: Configuration isn't about memorizing `export` syntax—it's about understanding persistence and verification through conversation with AI.
 
 ---
 

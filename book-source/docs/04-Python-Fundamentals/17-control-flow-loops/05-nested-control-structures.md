@@ -79,7 +79,7 @@ differentiation:
   remedial_for_struggling: "Focus on two-level nesting only; use visual diagrams to trace execution flow; practice with simpler multiplication table (5×5 instead of 10×10)"
 
 # Generation metadata
-generated_by: "lesson-writer v3.0.0"
+generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-part-4-chapter-17/spec.md"
 created: "2025-11-09"
 last_modified: "2025-11-09"
@@ -206,7 +206,7 @@ age, has_recommendation, has_health_clearance = 70, False, True
 
 Each level of indentation represents a deeper decision in the tree.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 > In AI-native development, you don't memorize nesting patterns—you understand the decision logic you need, then ask your AI to structure it clearly. The key skill is **describing your multi-criteria logic** so AI can help you implement it correctly.
 
 ---
@@ -260,9 +260,6 @@ Multiplication Table (1 to 10):
 2. **Inner loop** (`col`): For EACH row, runs 10 times (columns 1-10)
 3. **Total iterations**: 10 × 10 = 100 calculations
 
-#### 💬 AI Colearning Prompt
-> "Trace through the first 3 iterations of both loops when size=3. What are the values of `row`, `col`, and `product` at each step?"
-
 **Key insight**: The inner loop **completes all its iterations** for each single iteration of the outer loop. Think of it like reading a book: for each page (outer loop), you read every line on that page (inner loop) before turning to the next page.
 
 ---
@@ -311,13 +308,6 @@ Final sum of positive numbers: 29
 ```
 
 **Pattern**: The loop visits **every** item, but the `if` statement controls **which** items get processed.
-
-#### 🚀 CoLearning Challenge
-
-Ask your AI Co-Teacher:
-> "Generate code that finds all even numbers in a list and stores them in a new list. Use a for loop with an if statement to filter even numbers. Include type hints and explain the filtering logic. **Use inline code without functions.**"
-
-**Expected Outcome**: You'll understand how to combine iteration with conditional filtering to build new collections.
 
 ---
 
@@ -394,9 +384,6 @@ Processing cart items:
 
 **Why this matters**: In real applications, you often need to validate prerequisites before running expensive or sensitive operations. The loop only executes when it's safe and appropriate to do so.
 
-#### 🎓 Instructor Commentary
-> In AI-native development, recognizing WHEN to nest structures is more important than memorizing HOW. Ask yourself: "Do I need to decide BEFORE repeating, or decide DURING repetition?" That question determines your structure.
-
 ---
 
 #### 🎓 Note: You Might See Functions in AI Responses
@@ -425,17 +412,11 @@ Imagine a simple grid-based game where you need to:
 2. For each cell, determine if it contains a special item
 3. Apply different rules based on the item type
 
-**Specification for AI**:
+#### 🤝 Practice Exercise
 
-#### 🚀 CoLearning Challenge
+> **Ask your AI**: "Create Python code that processes a 5×5 game grid. Each cell contains either 'empty', 'coin', or 'trap'. The code should: use nested loops to visit every cell; if the cell is 'coin', add 10 points; if 'trap', subtract 5 points; track the total score and print what's found at each position. Include type hints and detailed comments explaining the nesting structure. Use inline code without functions."
 
-Tell your AI Co-Teacher:
-> "Create Python code that processes a 5×5 game grid. Each cell contains either 'empty', 'coin', or 'trap'. The code should:
-> - Use nested loops to visit every cell
-> - If the cell is 'coin', add 10 points
-> - If the cell is 'trap', subtract 5 points
-> - Track the total score and print what's found at each position
-> Include type hints and detailed comments explaining the nesting structure. **Use inline code without functions.**"
+**Expected Outcome**: You'll understand how to combine nested loops with conditionals for two-dimensional data processing and practice specification-driven AI collaboration.
 
 **Your AI might generate something like**:
 
@@ -534,9 +515,6 @@ If you have nested loops with large ranges, consider:
 - Can you filter before looping?
 - Is there a more efficient algorithm?
 
-#### ✨ Teaching Tip
-> Use your AI to evaluate complexity: "Is this nested structure too complex? How could I simplify it while keeping the same logic?" Your AI can suggest refactoring patterns and explain the tradeoffs.
-
 **When nesting gets too deep**: If your code is indented more than 3-4 levels, consider:
 - Combining conditions with `and` / `or`
 - Using early `continue` or `break` to reduce nesting
@@ -561,9 +539,6 @@ for i in range(5):
 ```
 
 **Solution**: Configure your editor to use 4 spaces per indentation level (Python standard). Most modern editors handle this automatically.
-
-#### ✨ Teaching Tip
-> If you get `IndentationError`, paste your code into your AI and ask: "Why am I getting an Indentation error? Show me where the indentation is inconsistent."
 
 ### 2. Loop Variable Confusion in Nested Loops
 
@@ -654,90 +629,132 @@ for item in items:
 - Use `continue` to skip early
 - Break complex logic into smaller, sequential steps
 
-#### 💬 AI Colearning Prompt
-> "Show me three ways to flatten this nested structure. Which approach is most readable and why?"
+---
+
+## Try With AI: Multiplication Table Builder (Chapter 17 Capstone)
+
+You've mastered conditionals (Lesson 1), pattern matching (Lesson 2), loops (Lesson 3), loop control (Lesson 4), and nested structures (Lesson 5). Now integrate ALL Chapter 17 concepts into a production-quality multiplication table generator.
+
+### Part 1: Design Nested Logic (Your Turn First)
+
+**Before asking AI**, design a multiplication table printer (1-10):
+
+**Requirements**:
+```
+1 × 1 = 1    1 × 2 = 2    1 × 3 = 3    ...
+2 × 1 = 2    2 × 2 = 4    2 × 3 = 6    ...
+3 × 1 = 3    3 × 2 = 6    3 × 3 = 9    ...
+...
+```
+
+**Your Design Task**:
+1. Which loop is outer (rows)? Which is inner (columns)?
+2. How many total iterations? (row count × column count)
+3. How would you format output so columns align?
+4. Should you use `for` or `while` loops? Why?
+
+Sketch pseudocode BEFORE implementing.
 
 ---
 
-## Try With AI
+### Part 2: Build with AI (Collaborative Construction)
 
-Now let's synthesize everything you've learned across all five lessons. Use your AI companion (Claude Code, Gemini CLI, or ChatGPT web) to deepen your understanding of nested control structures.
+Share your design with AI:
 
-**Tool**: Use your preferred AI companion tool (Claude Code, Gemini CLI) if you've set one up. If not, use ChatGPT web.
+> "Here's my multiplication table design: [paste pseudocode]. Build it with:
+> 1. Nested `for` loops (outer = rows 1-10, inner = columns 1-10)
+> 2. Calculate product: `row * col`
+> 3. Format output with alignment (right-align numbers in 4-character width)
+> 4. Type hints for all variables
+> 5. Print each row on one line (columns side-by-side)
+>
+> Show complete code I can run."
 
-### 1. Recall (Foundational Understanding)
+**Your task**: Review AI's nested loops critically.
+- Does outer loop iterate rows (1-10)?
+- Does inner loop iterate columns (1-10) for EACH row?
+- Does it use f-strings with width specifier (`:>4` for right-align)?
+- Can you trace the first 3 iterations manually?
 
-Copy this prompt to your AI:
-
-```
-Why is indentation critical in nested control structures in Python?
-What happens if I mix indentation levels incorrectly?
-```
-
-**Expected outcome**: Your AI will explain how Python uses indentation to determine nesting levels, and show examples of `IndentationError`. Understanding this prevents one of the most common nesting mistakes.
-
-### 2. Understand (Trace Execution)
-
-Copy this prompt to your AI:
-
-```
-Trace through this nested loop step-by-step for the first 6 iterations.
-For each iteration, tell me the values of `row`, `col`, and `product`:
-
-for row in range(1, 3):
-    for col in range(1, 4):
-        product = row * col
-        print(f"{row} × {col} = {product}")
-
-What's the pattern? How many total iterations will occur?
-```
-
-**Expected outcome**: Your AI will trace the execution showing how the inner loop completes fully for each iteration of the outer loop. This reinforces the execution model for nested loops.
-
-### 3. Apply (Generate Code)
-
-Copy this prompt to your AI:
-
-```
-Generate Python code with type hints that uses nested loops to find
-all pairs (i, j) where i + j = 10. Both i and j should range from 1 to 9.
-
-Print each pair in the format: "i + j = 10" (e.g., "3 + 7 = 10")
-
-Include:
-- Type hints on all variables
-- Comments showing the nesting structure
-- Use inline code without functions (I haven't learned functions yet)
-```
-
-**Expected outcome**: You'll receive code that combines nested loops with a conditional inside to filter pairs. This practices the "conditionals inside loops" pattern.
-
-### 4. Synthesize (Real-World Application)
-
-Copy this prompt to your AI:
-
-```
-Describe a real-world problem that requires nested control flow
-(combining loops and conditionals). Then ask the AI to implement it.
-
-Example scenarios:
-- Validating a seating chart (rows × seats, checking availability)
-- Processing a weekly schedule (days × time slots, filtering conflicts)
-- Analyzing a tic-tac-toe board (3×3 grid, checking win conditions)
-
-Choose your own scenario, describe it clearly, then ask AI to implement it
-with type hints and comments. After receiving the code, trace through one
-complete execution path manually.
-```
-
-**Expected outcome**: You'll practice translating real-world multi-step problems into nested control structures. Tracing execution builds debugging skills and deepens understanding of how nesting works.
+If AI's formatting is unclear, ask:
+> "The columns don't align. Show me how to use f-string format specifiers for fixed-width alignment."
 
 ---
 
-**Safety & Ethics Note**: Always review AI-generated nested code carefully. Verify:
-- Indentation is consistent (4 spaces per level)
-- Loop variables have unique, descriptive names
-- Nesting depth is reasonable (3 levels or fewer)
-- Logic matches your intended problem statement
+### Part 3: Student Teaches AI (Optimization & Edge Cases)
 
-**What you've mastered**: You can now combine all control flow concepts from this chapter—conditionals, pattern matching, loops, and loop control—to solve complex, multi-dimensional problems. As you continue learning Python, you'll discover how to organize and reuse this logic even more effectively.
+AI built a basic table. But can it optimize and handle edge cases?
+
+Challenge AI with enhancements:
+
+> "Optimize my multiplication table:
+> 1. Skip redundant calculations (6×7 is same as 7×6) - only show upper triangle
+> 2. Highlight perfect squares (1×1, 2×2, 3×3, ...) with asterisks
+> 3. Add row and column headers
+> 4. What if table size is 100×100? Would nested loops still work? What's the performance?
+>
+> For each optimization, show code and explain the logic change."
+
+**Your task**: Evaluate optimizations.
+- Does it use `for col in range(row, 11):` to skip lower triangle?
+- Does it detect perfect squares with `if row == col:`?
+- Does it explain O(n²) complexity for nested loops?
+- Which optimizations improve readability vs. performance?
+
+---
+
+### Part 4: Add Input Validation (Full Integration)
+
+Now combine ALL Chapter 17 concepts—conditionals + loops + nesting:
+
+> "Enhance the table to accept user input for size (1-20):
+> 1. Get table size from user (as string)
+> 2. Validate: Must convert to int, must be 1-20
+> 3. If invalid: show error, ask again (loop until valid)
+> 4. Generate table of that size
+> 5. Use `while True:` loop with `break` for input validation
+>
+> Show complete code with:
+> - Input validation loop (while + if + break)
+> - Nested loops for table generation
+> - Type hints throughout
+> - Clear error messages"
+
+**Your task**: Review the full integration.
+- Does it use `while True:` with `break` for input validation?
+- Does it check type conversion (`try:` or `.isdigit()`)?
+- Does it check range (1-20)?
+- Do nested loops use the user's input for range?
+
+Iterate if needed:
+> "The validation loop doesn't handle non-numeric input. Add try/except or .isdigit() check."
+
+---
+
+### Part 5: Debug Nested Logic (Convergence)
+
+Final challenge—fix broken nested code:
+
+> "This multiplication table has a bug:
+> ```python
+> for row in range(1, 11):
+>     for col in range(1, 11):
+>         product: int = row * col
+>         print(f'{product:>4}')  # Bug: prints vertically, not horizontally!
+> ```
+>
+> Problems:
+> 1. Each number prints on a new line (not side-by-side)
+> 2. No row separation
+> 3. Missing headers
+>
+> Fix it and explain: What's the difference between `print()` vs. `print(end=' ')` in nested loops?"
+
+**Outcome**: You understand how `print()` behavior affects nested loop output.
+
+---
+
+**Time**: 45-60 minutes total (capstone!)
+**Outcome**: You've designed, built, optimized, and debugged a production multiplication table—integrating conditionals, loops, nesting, input validation, and formatting from all 5 lessons of Chapter 17.
+
+**Safety Note**: Always trace nested loops manually for small inputs (3×3) before running large tables (100×100) to verify logic.

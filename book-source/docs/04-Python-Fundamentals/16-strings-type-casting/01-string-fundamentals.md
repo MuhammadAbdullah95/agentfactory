@@ -77,7 +77,7 @@ differentiation:
   remedial_for_struggling: "Use shorter examples with simple names and focus on single-character operations first; practice len() and indexing separately before combining"
 
 # Generation metadata
-generated_by: "lesson-writer v1.0.0"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/part-4-chapter-16/spec.md"
 created: "2025-11-08"
 last_modified: "2025-11-08"
@@ -193,7 +193,7 @@ print(f"Original preserved: {original == 'Python'}")  # True
 - Confirmed original is unchanged ✓
 - New string contains combined text ✓
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > In AI-native development, you don't memorize the exact error message. Instead, understand the principle: strings are immutable. When you encounter errors like "str object does not support item assignment," ask your AI: "Why can't I change this string?" This reinforces the concept and helps you design better data flows.
 
@@ -264,11 +264,9 @@ print(f"First character: {name[0]}")
 print(f"Last character: {name[-1]}")
 ```
 
-#### 🚀 CoLearning Challenge
+#### 🤝 Practice Exercise
 
-Ask your AI Co-Teacher:
-
-> "Show me code that takes a person's name as a string and prints out each character on a separate line. Then explain what position (index) each character is at."
+> **Ask your AI**: "Show me code that takes a person's name as a string and prints out each character on a separate line. Then explain what position (index) each character is at."
 
 **Expected Outcome**: You'll see how indexing and iteration work together, and you'll understand that each position in a string is accessible by its number.
 
@@ -311,9 +309,6 @@ print(greeting)  # "Hello, Bob!"
 
 Later in this chapter, you'll learn **f-strings**, which make this kind of building much easier. But the foundation—understanding concatenation—remains the same.
 
-#### ✨ Teaching Tip
-
-> When building strings with concatenation becomes awkward (many + operators), that's a sign f-strings will help. For now, focus on understanding that `+` combines strings and `*` repeats them. Ask your AI: "Show me different ways to build a greeting from variables" to see alternatives and understand why each exists.
 
 ## Type Validation: Checking for Strings
 
@@ -357,7 +352,7 @@ else:
 
 This pattern—describe intent with type hints (`user_input: str`), then validate at runtime with `isinstance()`—is foundational to AI-native development. It's how you tell Python "I expect this to be a string" and then confirm it before using it.
 
-#### 🎓 Instructor Commentary
+#### 🎓 Expert Insight
 
 > Syntax is cheap—validation is gold. Python syntax for isinstance() is simple, but the mindset is powerful: always validate your data before operating on it. This habit will save you hours debugging mysterious errors where a string operation fails because the variable was actually an integer.
 
@@ -375,68 +370,56 @@ This pattern—describe intent with type hints (`user_input: str`), then validat
 
 ---
 
-## Try With AI
+## Try With AI: String Immutability Discovery
 
-In this section, you'll deepen your understanding of strings by exploring them with an AI co-teacher. These prompts build on each other, starting with foundational understanding and progressing toward applying what you've learned.
+You've learned that strings are immutable sequences. Now discover WHY immutability matters through hands-on experimentation—with AI as your debugging partner.
 
-**Tool**: Use **ChatGPT** (web interface) or your preferred AI companion (Claude Code, Gemini CLI) if you've already set up one from previous lessons.
+### Part 1: Break It First (Your Turn)
 
-### Prompt 1: Recall/Understand — "Strings vs. Other Types"
+**Before asking AI**, try to modify a string and observe what happens:
 
-> What makes strings different from numbers in Python?
->
-> - Can I do math with a string like "5"?
-> - Can I change a character in a string after creating it?
-> - What's the difference between "5" and 5?
->
-> Show examples of each.
+```python
+# Task: Try to change "hello" to "Hello" by modifying the first character
+message: str = "hello"
+message[0] = "H"  # What happens when you run this?
+```
 
-**Expected Outcome**: You learn that strings are for text data (not numbers), cannot be modified in place, and that "5" (string) is fundamentally different from 5 (integer). This reinforces the type distinction from Chapter 14.
-
----
-
-### Prompt 2: Apply — "String Manipulation Task"
-
-> Create Python code that:
-> - Creates a string with your name
-> - Gets the length of the string using len()
-> - Accesses the first and last characters using indexing
-> - Creates a greeting combining your name with "Hello, "
-> - Validates that all results are strings using isinstance()
->
-> Show me the code and explain what happens.
-
-**Expected Outcome**: You apply indexing, `len()`, concatenation, and type validation in a complete example. You'll notice that `len()` returns an integer (not a string)—an important distinction.
+**Your exploration**:
+1. Run this code. What error do you get?
+2. Read the error message carefully. What does it tell you?
+3. Write down your hypothesis: WHY does Python prevent this?
 
 ---
 
-### Prompt 3: Analyze — "Why Immutability Matters"
+### Part 2: AI Explains the Design (Discovery)
 
-> I tried to do this:
-> ```python
-> text = "hello"
-> text[0] = "H"  # Change h to H
-> ```
->
-> But it fails with an error. Why? And how do I actually create "Hello" from "hello"?
+Now share your error with AI:
 
-**Expected Outcome**: You discover why Python makes strings immutable (safety and predictability), learn that operations return new strings (not modifications), and understand the design philosophy behind this choice.
+> "I tried to change a string character with `message[0] = 'H'` and got this error: [paste your error]. Why does Python make strings immutable? What problem does this solve?"
 
----
-
-### Prompt 4: Synthesize — "Connect to Chapter 14 Knowledge"
-
-> In Chapter 14, I learned about data types and isinstance().
-> How does that connect to strings?
->
-> - When should I use isinstance(x, str)?
-> - Why does len() matter for strings but not for numbers?
-> - If I have "42", how is it different from 42? How does type() help me see the difference?
->
-> Connect this to type hints I learned in Chapter 14.
-
-**Expected Outcome**: You synthesize your learning: type hints declare intent (`text: str`), `isinstance()` validates at runtime, and `type()` shows you what you actually got. This bridges foundational concepts and builds confidence in your understanding.
+**Your task**: Evaluate AI's explanation.
+- Does it explain the performance benefits? (sharing memory for identical strings)
+- Does it mention safety? (predictable behavior, no accidental modification)
+- Can you think of a scenario where immutability prevents bugs?
 
 ---
 
-**Safety & Ethics Note**: When exploring strings with AI, remember that strings can represent sensitive data (names, addresses, passwords). Always think about data protection: never paste real passwords or personal information into public AI chat tools. In professional development, consider encryption and access controls for sensitive string data.
+### Part 3: Student Teaches AI (Workarounds)
+
+AI explained WHY immutability exists. But does it know the BEST way to work with it?
+
+Challenge AI with practical scenarios:
+
+> "If I need to create 'Hello' from 'hello', I could: (1) use string slicing and concatenation, (2) use the .capitalize() method, (3) use .replace(). Which approach is most pythonic? For each, show code and explain when you'd use it."
+
+**Your task**: Compare AI's suggested approaches.
+- Which is most readable?
+- Which is most efficient for large strings?
+- Can you find an approach AI didn't mention?
+
+This teaches AI about style preferences—and reinforces YOUR understanding of string operations.
+
+---
+
+**Time**: 15-20 minutes total
+**Outcome**: You've discovered immutability through experimentation, learned the design rationale, and evaluated multiple approaches to working with immutable strings.
