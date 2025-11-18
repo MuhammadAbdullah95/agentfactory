@@ -532,81 +532,50 @@ In this challenge, you'll move through all four roles: discovering requirements 
 
 ## Part 1: Student Discovers Inheritance Problems in Agent Systems
 
-**Your Role**: System architect identifying design gaps
+**Your Role**: System architect identifying design gaps with AI collaboration
 
-### Discovery Exercise: Build an Agent Framework Without Inheritance
+### Discovery Exercise: Exploring Code Duplication in Agent Design
 
-Imagine you're building a multi-agent system. Each agent type (ChatAgent, CodeAgent, DataAgent) needs to process messages, but if you don't use inheritance, you'll duplicate code.
+Imagine you're building a multi-agent system. Each agent type (ChatAgent, CodeAgent, DataAgent) needs to process messages, but without inheritance, you'll duplicate code.
 
-**Stage 1: The Duplication Problem**
+#### 💬 AI CoLearning Prompt - Discovering the Duplication Problem
 
-Create three agent classes WITHOUT inheritance:
+> "I'm building a multi-agent system with ChatAgent, CodeAgent, and DataAgent. Each needs:
+> - `__init__(name, model)` that sets up name, model, messages_processed
+> - `process(message)` that processes messages (different for each agent type)
+> - `get_status()` that returns agent info
+>
+> Without inheritance, show me what the code looks like for all 3 agents. Then analyze:
+> 1. How many lines are duplicated across the 3 agents?
+> 2. If I need 100 agent types, how many times is `__init__` duplicated?
+> 3. If there's a bug in `get_status()`, how many places need fixing?
+> 4. What Python feature would eliminate this duplication?"
 
-```python
-# agents.py - Procedural approach (WRONG)
-class ChatAgent:
-    def __init__(self, name: str, model: str):
-        self.name = name
-        self.model = model
-        self.messages_processed = 0
+**Expected Understanding**: AI will show you the duplicated code pattern and explain that 100 agent types = 100 duplicate `__init__` methods, making bug fixes extremely risky. You'll SEE the maintenance nightmare before coding it yourself.
 
-    def process(self, message: str) -> str:
-        self.messages_processed += 1
-        return f"ChatAgent: Processing '{message}'"
+#### 💬 AI CoLearning Prompt - Understanding the Scaling Problem
 
-    def get_status(self) -> dict:
-        return {"name": self.name, "type": "chat", "processed": self.messages_processed}
+> "In my agent system without inheritance:
+> - 3 agent types = 3 duplicate __init__ methods
+> - 3 agent types = 3 duplicate get_status methods
+>
+> Explain the scaling problem: What happens at 10 agent types? 50? 100? Show me the math:
+> - How many total lines of duplicate initialization code?
+> - If I add a new attribute to all agents (like `created_at` timestamp), how many places need changing?
+> - What's the risk of forgetting to update one agent type?"
 
+**Expected Understanding**: AI will explain exponential maintenance cost. You'll understand that each new agent type adds duplicate code, and each new shared feature requires N changes (where N = number of agent types).
 
-class CodeAgent:
-    def __init__(self, name: str, model: str):
-        self.name = name
-        self.model = model
-        self.messages_processed = 0
+#### 💬 AI CoLearning Prompt - Previewing the Inheritance Solution
 
-    def process(self, message: str) -> str:
-        self.messages_processed += 1
-        return f"CodeAgent: Analyzing '{message}'"
+> "You showed me the duplication problem. Now preview the solution:
+> 1. What is inheritance in Python?
+> 2. How would a BaseAgent class eliminate duplication?
+> 3. Show me how ChatAgent, CodeAgent, DataAgent inherit from BaseAgent
+> 4. After inheritance, if I add `created_at` to BaseAgent, how many classes need changing?
+> 5. What's the code reduction percentage (before vs after inheritance)?"
 
-    def get_status(self) -> dict:
-        return {"name": self.name, "type": "code", "processed": self.messages_processed}
-
-
-class DataAgent:
-    def __init__(self, name: str, model: str):
-        self.name = name
-        self.model = model
-        self.messages_processed = 0
-
-    def process(self, message: str) -> str:
-        self.messages_processed += 1
-        return f"DataAgent: Analyzing data '{message}'"
-
-    def get_status(self) -> dict:
-        return {"name": self.name, "type": "data", "processed": self.messages_processed}
-```
-
-**Your task 1**: Copy this code and run it. Document in `agent_duplication_analysis.md`:
-- How many lines of duplicate code exist?
-- If you find a bug in the `__init__` method, how many places need fixing?
-- If you need to add a new agent type (ImageAgent), how many lines of code must you write?
-- What pattern do you notice?
-
-**Stage 2: Imagine 100 Agent Types**
-
-**Your task 2**: Predict in your analysis file:
-- If there were 100 different agent types, how many times would `__init__` be duplicated?
-- If you discovered a bug in message processing logic, how risky would it be to fix?
-- What feature of Python could solve this problem?
-
-### Your Discovery Document
-
-Create `inheritance_problem_statement.md` with:
-
-1. **The Code Duplication Problem**: Explain what you observed
-2. **The Scaling Problem**: What happens at 100 agent types?
-3. **The Bug Risk**: Why fixing one method in one class is risky
-4. **Your Prediction**: What language feature would solve this?
+**Expected Understanding**: AI will show you that BaseAgent centralizes shared behavior. Adding new agents requires only specialization code, not duplicate initialization. You'll see ~60-70% code reduction.
 
 ---
 

@@ -549,76 +549,55 @@ In this challenge, you'll discover why inheritance creates rigid designs, learn 
 
 ## Part 1: Student Discovers Inheritance Rigidity in Agent Design
 
-**Your Role**: System architect identifying design constraints
+**Your Role**: System architect identifying design constraints with AI collaboration
 
-### Discovery Exercise: Build an Agent System with Inheritance (the Wrong Way)
+### Discovery Exercise: Exploring Inheritance Limitations for Capability Mixing
 
-Imagine you're building an agent framework where agents need different capabilities. You try to model this with inheritance.
+Imagine you're building an agent framework where agents need different capabilities. You try to model this with inheritance and discover its limitations.
 
-**Stage 1: The Inheritance Hierarchy Problem**
+#### 💬 AI CoLearning Prompt - Discovering the Inheritance Rigidity Problem
 
-Create a rigid hierarchy of agent classes:
+> "I'm building agents with different capabilities:
+> - LLMAgent (has reasoning capability)
+> - DatabaseAgent (has query capability)
+> - SearchAgent (has web search capability)
+>
+> I want an agent with LLM + Database capabilities. Show me how to do this with multiple inheritance (CombinedAgent inherits from LLMAgent and DatabaseAgent).
+>
+> Then analyze the explosion problem:
+> 1. How many classes do I need for all 2-capability combinations of 3 capabilities?
+> 2. What about 3-capability combinations?
+> 3. If I have 5 capabilities (LLM, Database, Search, FileIO, CodeExec), how many combination classes?
+> 4. Why is this inheritance approach unsustainable?"
 
-```python
-# agents_inheritance.py - PROBLEMATIC
-class BaseAgent:
-    """Base for all agents"""
-    def __init__(self, name: str):
-        self.name = name
+**Expected Understanding**: AI will show you that capability combinations explode combinatorially. 5 capabilities = 31 possible combinations (2^5 - 1), requiring 31 classes! This is the inheritance rigidity problem.
 
+#### 💬 AI CoLearning Prompt - Understanding the Modification Problem
 
-class LLMAgent(BaseAgent):
-    """Agent with LLM capability"""
-    def reason(self, question: str) -> str:
-        return f"LLM reasoning: {question}"
+> "In my inheritance-based agent system:
+> - Each capability combination = separate class
+> - Example: LLM+Database = CombinedAgent class
+>
+> Explain the modification problem:
+> 1. If I need to add logging to ALL agents (new shared behavior), how many classes need modification?
+> 2. If I want to add/remove a capability from an existing agent AT RUNTIME, is this possible with inheritance?
+> 3. Why does inheritance lock in capability combinations at class definition time?
+> 4. What's the difference between 'is-a' (inheritance) vs 'has-a' (composition) relationships?"
 
+**Expected Understanding**: AI will explain that inheritance is static - you can't change an object's class at runtime. Adding new shared behavior requires modifying every combination class. Inheritance models identity ("is-a"), not capabilities ("has-a").
 
-class DatabaseAgent(BaseAgent):
-    """Agent with database capability"""
-    def query(self, query: str) -> str:
-        return f"Database result: {query}"
+#### 💬 AI CoLearning Prompt - Previewing the Composition Solution
 
+> "You showed me the inheritance rigidity problem. Now preview composition:
+> 1. What is composition? How is 'has-a' different from 'is-a'?
+> 2. Show me an Agent class that accepts engines as parameters (LLMEngine, DatabaseEngine, SearchEngine)
+> 3. How do I create an agent with LLM + Database capabilities using composition?
+> 4. With 5 engine types, how many Agent classes do I need? (Hint: just 1!)
+> 5. Can I add/remove capabilities at runtime with composition?
+>
+> Show me the code difference between inheritance approach (31 classes) vs composition approach (1 Agent class + 5 engine classes)."
 
-class CombinedAgent(LLMAgent, DatabaseAgent):
-    """Agent with BOTH capabilities - multiple inheritance!"""
-    pass
-
-
-# Test
-agent = CombinedAgent("MultiAgent")
-print(agent.reason("What is the answer?"))
-print(agent.query("SELECT * FROM users"))
-```
-
-**Your task 1**: Copy this code and document in `inheritance_rigidity_analysis.md`:
-- How many parent classes does CombinedAgent have?
-- If you need an agent with LLM + database + web-search, what inheritance structure would you need?
-- What happens with three capabilities? Five?
-- What pattern do you notice?
-
-**Stage 2: The Capability Explosion**
-
-**Your task 2**: Try to design an agent that has:
-- LLM reasoning
-- Database access
-- Web search
-- File I/O
-- Code execution
-
-Document:
-- How many inheritance paths would be needed?
-- Which capabilities would conflict?
-- Why is inheritance a poor fit for "mixing capabilities"?
-- What would a better design look like?
-
-### Your Discovery Document
-
-Create `composition_vs_inheritance_problem.md` with:
-
-1. **The Rigidity Problem**: Inheritance locks in capability combinations at compile time
-2. **The Explosion Problem**: Each new capability combination requires a new class
-3. **The Modification Problem**: Adding a new capability to existing agents is hard
-4. **Your Prediction**: What design pattern would allow mixing capabilities dynamically?
+**Expected Understanding**: AI will show you that composition creates flexibility. One Agent class composed from engines can handle any capability combination. Adding capabilities at runtime is trivial: just add/remove engines from the agent's engines dict.
 
 ---
 

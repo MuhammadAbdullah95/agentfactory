@@ -744,141 +744,187 @@ In this capstone challenge, you'll integrate all four design patterns (plus addi
 
 ---
 
-## Part 1: Student Discovers Pattern Interactions Through a Growing System
+## Part 1: Student Plans Multi-Pattern System with AI
 
-**Your Role**: System architect designing for evolving requirements
+**Your Role**: System architect planning integration of 4 design patterns with AI collaboration
 
-### Discovery Exercise: Build Agent Systems, Discover Missing Patterns
+### Planning Exercise: Design Multi-Pattern Agent Architecture
 
-Imagine you're building a customer service platform with increasingly complex requirements.
+You're building a customer service platform that needs all 4 design patterns working together. Instead of manually typing 200+ lines of pattern code, you'll PLAN the architecture with AI, then have AI generate it.
 
-**Stage 1: Naive Implementation (Single-Agent)**
+#### 💬 AI CoLearning Prompt - Understanding Pattern Integration Needs
 
-Start simple—one agent, no patterns:
+> "I'm building a customer service agent system with these requirements:
+>
+> **Requirement 1: Single Manager**
+> - Only ONE AgentManager should exist globally (not multiple instances)
+> - All parts of the system access the SAME manager instance
+>
+> **Requirement 2: Dynamic Agent Creation**
+> - Create ChatAgent, TicketAgent, EscalationAgent by type name
+> - Add new agent types without modifying creation code
+>
+> **Requirement 3: Event-Driven Communication**
+> - Agents notify each other via events (not direct calls)
+> - Adding new agents doesn't require modifying event system
+>
+> **Requirement 4: Swappable Routing Logic**
+> - Route messages using different strategies (sentiment-based, round-robin)
+> - Switch strategies at runtime without code changes
+>
+> For EACH requirement, tell me:
+> 1. Which design pattern solves this problem?
+> 2. What does that pattern do?
+> 3. How does it solve the problem?
+> 4. Give me a simple plain-language architecture description (no code yet!)"
 
-```python
-# Stage 1: No patterns - simple chatbot
-class ChatAgent:
-    def __init__(self, name: str):
-        self.name = name
+**Expected Understanding**: AI will map:
+- Requirement 1 → **Singleton pattern** (ensures single instance)
+- Requirement 2 → **Factory pattern** (decouples creation from types)
+- Requirement 3 → **Observer pattern** (event-driven, loose coupling)
+- Requirement 4 → **Strategy pattern** (encapsulates algorithms)
 
-    def process(self, message: str) -> str:
-        return f"Chat response: {message}"
+You'll understand WHAT each pattern does BEFORE seeing implementation code.
 
-# Usage
-agent = ChatAgent("Helper")
-print(agent.process("help me"))
-```
+#### 💬 AI CoLearning Prompt - Planning Pattern Interactions
 
-**Your task 1**: Document in `pattern_evolution_analysis.md`:
-- How many ChatAgent instances exist? (Can there be multiple?)
-- How do you create different agent types without modifying ChatAgent?
-- How would agents communicate with each other?
-- What happens when you need to switch algorithms at runtime?
+> "Now that I know the 4 patterns, help me plan how they work TOGETHER:
+>
+> **My Architecture Plan:**
+> - AgentManager (Singleton) coordinates everything
+> - AgentFactory (Factory) creates agents
+> - EventBus (Observer) handles communication
+> - RoutingStrategy (Strategy) decides which agent processes messages
+>
+> Help me think through the interactions:
+> 1. When a message arrives, what's the flow? (Manager → Strategy → Agent → EventBus?)
+> 2. How does the Manager use the Factory? (Does it call Factory.create()?)
+> 3. How do agents register with EventBus? (Manager does it, or agents do it themselves?)
+> 4. Can I swap the RoutingStrategy after the system starts?
+> 5. What's the initialization order? (Create patterns in what sequence?)
+>
+> Give me a step-by-step flow diagram in plain language showing how a message travels through all 4 patterns."
 
-**Stage 2: Requirements Grow**
+**Expected Understanding**: AI will explain the interaction flow:
+1. Manager receives message
+2. Manager asks RoutingStrategy which agent to use
+3. Manager uses Factory to create agent if needed (or retrieves existing)
+4. Agent processes message
+5. Agent publishes result to EventBus
+6. Other agents subscribed to EventBus react to event
 
-Now you need:
-- Multiple agent types (ChatAgent, TicketAgent, EscalationAgent)
-- Agents to communicate via events
-- Different routing strategies based on sentiment
-- Only one manager coordinating all agents
-
-Document:
-- How would you create different agent types without duplicate code?
-- How would agents notify each other of events?
-- How would you select routing strategy dynamically?
-- Which design patterns solve each problem?
-
-### Your Discovery Document
-
-Create `pattern_necessity_analysis.md` with:
-
-1. **Single Instance Problem**: Multiple managers cause conflicts; need Singleton
-2. **Creation Complexity Problem**: Creating different agent types is repetitive; need Factory
-3. **Communication Problem**: Agents are tightly coupled; need Observer
-4. **Algorithm Switching Problem**: Routing logic is hardcoded; need Strategy
-5. **Your Prediction**: What patterns would solve each problem? Why?
+You'll understand the DEPENDENCIES between patterns before implementing.
 
 ---
 
-## Part 2: AI Teaches Pattern Design Through Architecture
+## Part 2: AI Generates System, Student Validates Design
 
-**Your Role**: Student learning architectural patterns from AI Teacher
+**Your Role**: Design validator working with AI to generate and refine the multi-pattern system
 
-### AI Teaching Prompt
+### AI-Assisted Implementation
 
-Ask your AI companion:
+Instead of typing 300+ lines of pattern code manually, you'll have AI generate the complete system based on your architecture plan from Part 1, then YOU validate it.
 
-> "I'm building a customer service agent system. Currently:
-> - I create new agent instances everywhere (Problem: multiple managers)
-> - I add new agent types by copy-pasting code (Problem: duplicated initialization)
-> - Agents update each other directly by calling methods (Problem: tight coupling)
-> - Routing logic is hardcoded in one function (Problem: can't switch strategies)
+#### 💬 AI CoLearning Prompt - Generate Complete Multi-Pattern System
+
+> "Based on my architecture plan (4 patterns working together), generate the complete Python code for my agent system:
 >
-> For EACH problem, explain:
-> 1. What design pattern solves it?
-> 2. Show me the pattern implementation
-> 3. What benefit do I get?
-> 4. How do I add a new agent type without modifying existing code?
-> 5. What about combining patterns—how would Singleton, Factory, Observer, and Strategy work together?"
+> **Requirements:**
+>
+> 1. **AgentManager (Singleton pattern)**:
+>    - `__new__()` ensures only one instance
+>    - `_initialized` flag prevents re-initialization
+>    - `register_agent()`, `route_message()` methods
+>    - Holds references to EventBus and RoutingStrategy
+>
+> 2. **AgentFactory (Factory pattern)**:
+>    - `_registry` dict mapping type names to classes
+>    - `create(agent_type, name)` creates agents dynamically
+>    - `register(type_name, agent_class)` adds new types
+>    - Supports ChatAgent, TicketAgent, EscalationAgent
+>
+> 3. **EventBus (Observer pattern)**:
+>    - `_observers` list of subscribers
+>    - `attach(observer)`, `detach(observer)`, `notify(event)` methods
+>    - Supports any object with `update(event_type, data)` method
+>
+> 4. **RoutingStrategy (Strategy pattern)**:
+>    - Abstract base with `route(message)` method
+>    - SentimentBasedStrategy (routes by keywords like 'urgent', 'ticket')
+>    - RoundRobinStrategy (cycles through agents)
+>
+> 5. **Agent base class**:
+>    - Abstract with `process(message)` method
+>    - ChatAgent, TicketAgent, EscalationAgent concrete implementations
+>
+> **Important:**
+> - Add type hints to everything
+> - Include docstrings explaining each pattern's role
+> - Show main.py demonstrating all patterns working together
+> - Use proper module structure (patterns/, agents/, main.py)
+>
+> Generate the complete code. I'll validate it against my architecture plan."
 
-### Expected AI Response Summary
+**Expected AI Output**: ~150-200 lines of complete, working code implementing all 4 patterns with proper integration.
 
-AI will explain:
-- **Singleton**: Ensure AgentManager exists once across the system
-- **Factory**: Create agents by type without knowing exact classes
-- **Observer**: Agents register with EventBus; events notify all observers
-- **Strategy**: Pass routing strategy to manager; swap at runtime
-- **Integration**: Each pattern solves one problem; together they create flexible architecture
+---
 
-**AI will show architecture like**:
+### Validation Exercise: Check AI's Pattern Implementation
 
-```python
-# Singleton
-class AgentManager:
-    _instance = None
-    def __new__(cls):
-        if not cls._instance:
-            cls._instance = super().__new__(cls)
-        return cls._instance
+**Your task**: Read the AI-generated code and validate these architectural decisions:
 
-# Factory
-class AgentFactory:
-    def create(self, agent_type: str, name: str):
-        if agent_type == "chat":
-            return ChatAgent(name)
-        elif agent_type == "ticket":
-            return TicketAgent(name)
+**✅ Validation Checklist:**
 
-# Observer
-class EventBus:
-    def __init__(self):
-        self.observers = []
-    def attach(self, observer):
-        self.observers.append(observer)
-    def notify(self, event):
-        for observer in self.observers:
-            observer.handle(event)
+1. **Singleton Pattern**:
+   - Does AgentManager have `_instance` class variable? ✓
+   - Does `__new__()` return same instance every time? ✓
+   - Does `__init__()` guard against re-initialization? ✓
+   - Test: Create two references - are they the same object (same id)? ✓
 
-# Strategy
-class RoutingStrategy:
-    def route(self, sentiment: str) -> str:
-        raise NotImplementedError
-```
+2. **Factory Pattern**:
+   - Does AgentFactory have a registry dict? ✓
+   - Can I create agents without importing concrete classes? ✓
+   - Can I register new agent types without modifying factory code? ✓
+   - Test: Add new agent type - does it work without editing Factory? ✓
 
-### Convergence Activity
+3. **Observer Pattern**:
+   - Does EventBus maintain list of observers? ✓
+   - Can observers attach/detach dynamically? ✓
+   - Does notify() call update() on all observers? ✓
+   - Test: Add 3 agents as observers, publish event - do all receive it? ✓
 
-After AI explains, verify understanding:
+4. **Strategy Pattern**:
+   - Is RoutingStrategy an abstract base class? ✓
+   - Can I create multiple concrete strategies? ✓
+   - Can AgentManager's strategy be swapped at runtime? ✓
+   - Test: Switch from SentimentBased to RoundRobin - does routing change? ✓
 
-> "Walk me through how these patterns interact: AgentManager uses Factory to create agents, agents register with EventBus, EventBus notifies agents of events, and RoutingStrategy selects which agent handles each message. Explain what happens when a new agent type is added."
+5. **Pattern Integration**:
+   - Does AgentManager use AgentFactory to create agents? ✓
+   - Does AgentManager use RoutingStrategy to route messages? ✓
+   - Do agents publish events to EventBus? ✓
+   - Does the system work end-to-end (message in → routed → processed → event out)? ✓
+
+#### 🤝 CoLearning Convergence - Refining the Design
+
+After validating the basic implementation, ask AI to enhance it:
+
+> "The basic 4-pattern system works! Now enhance it with these real-world features:
+> 1. Add logging to AgentManager showing which pattern is used for each operation
+> 2. Add error handling: what if Factory can't create agent type?
+> 3. Add metrics: track how many messages each strategy routes
+> 4. Add event filtering: agents subscribe only to specific event types
+>
+> Show me the enhanced code focusing on production-readiness."
+
+**Expected Outcome**: AI adds production features while maintaining the 4-pattern architecture. You'll see how patterns compose into robust systems.
 
 ### Deliverable
 
-Write 2-paragraph summary: "How Design Patterns Compose to Enable Scalable Architectures" explaining:
-- What each pattern contributes
-- How they work together
-- Why you need all four for complete flexibility
+Write 2-paragraph summary: "How I Validated and Enhanced a Multi-Pattern System" explaining:
+- What architecture decisions you validated
+- What production features you added
+- Why pattern composition enables extensibility
 
 ---
 

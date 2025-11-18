@@ -605,68 +605,49 @@ In this challenge, you'll discover why custom objects need special methods, lear
 
 ## Part 1: Student Discovers the Limitation of Objects Without Special Methods
 
-**Your Role**: Developer discovering protocol limitations
+**Your Role**: Developer discovering protocol limitations with AI collaboration
 
-### Discovery Exercise: Try Using Custom Objects Like Built-In Types
+### Discovery Exercise: Exploring Why Custom Objects Feel Awkward
 
-Imagine you're building a Vector class for mathematical computations. You want to use it like built-in objects.
+Imagine you're building a Vector class for mathematical computations. You want to use it like built-in objects, but without special methods, it's clunky.
 
-**Stage 1: Objects That Don't Support Operators**
+#### 💬 AI CoLearning Prompt - Discovering the Protocol Limitation Problem
 
-Create a basic Vector class without special methods:
+> "I'm building a Vector class with x, y attributes. Show me what happens when I try to:
+> 1. Add two vectors: `v1 + v2`
+> 2. Print a vector: `print(v1)`
+> 3. Get length: `len(v1)`
+> 4. Iterate: `for component in v1`
+> 5. Use in set: `{v1, v2, v3}`
+>
+> Without special methods, which operations fail? Why does print() show '<__main__.Vector object at 0x...>' instead of something readable? What makes built-in types like list and dict feel natural to use?"
 
-```python
-# vector.py - NO SPECIAL METHODS
-class Vector:
-    """Basic 2D vector without special methods"""
+**Expected Understanding**: AI will show you that without special methods, custom objects don't integrate with Python's syntax. No `+` operator, ugly print output, can't iterate, can't use with len(). Built-in types work because they implement special methods.
 
-    def __init__(self, x: float, y: float) -> None:
-        self.x = x
-        self.y = y
+#### 💬 AI CoLearning Prompt - Understanding the Awkwardness Problem
 
-    def magnitude(self) -> float:
-        return (self.x ** 2 + self.y ** 2) ** 0.5
+> "For my Vector class without special methods, show me the workarounds:
+> 1. How do I add vectors without `+`? (Manual method like `v1.add(v2)`?)
+> 2. How do I print nicely without `__str__`? (Manually format every time?)
+> 3. How do I compare vectors without `==`? (Manual comparison logic?)
+>
+> Then explain: Why do these workarounds make code ugly? How do special methods make code feel 'Pythonic' by supporting operators and built-in functions?"
 
+**Expected Understanding**: AI will show you the manual workarounds (`v1.add(v2)` instead of `v1 + v2`, manual string formatting, etc.). You'll understand that special methods enable natural syntax that integrates with Python's operators and functions.
 
-# Try to use it like built-in types
-v1 = Vector(3, 4)
-v2 = Vector(1, 2)
+#### 💬 AI CoLearning Prompt - Previewing the Special Methods Solution
 
-# This fails - objects don't support +
-# result = v1 + v2  # TypeError: unsupported operand type(s)
+> "You showed me the limitations. Now preview special methods:
+> 1. What are special methods (magic methods / dunder methods)?
+> 2. Show me Vector with `__add__()` to support `v1 + v2`
+> 3. Show me `__str__()` to support `print(v1)` with readable output
+> 4. Show me `__len__()` to support `len(v1)` returning magnitude
+> 5. Show me `__iter__()` to support `for x, y in v1`
+> 6. Show me `__eq__()` and `__hash__()` to support `{v1, v2}` sets
+>
+> After adding special methods, how much more natural does Vector feel to use?"
 
-# This is confusing output
-print(v1)  # <__main__.Vector object at 0x7f...>
-
-# Can't use in sets or as dict keys without issues
-vectors = {v1: "magnitude_5"}  # Works but confusing
-
-# Can't iterate
-# for component in v1:  # TypeError: 'Vector' object is not iterable
-```
-
-**Your task 1**: Copy this code and document in `objects_without_protocols_analysis.md`:
-- What operations fail on custom Vector? (addition, printing, iteration, etc.)
-- Which built-in functions don't work (len(), iter(), etc.)?
-- How would you currently add two vectors manually?
-- What would make Vector "feel" like a built-in type?
-
-**Stage 2: The Hacky Workarounds**
-
-**Your task 2**: Try working around the limitations and document:
-- How would you add two vectors without the `+` operator?
-- How would you print a vector nicely?
-- What operations are awkward without protocol support?
-- What pattern emerges?
-
-### Your Discovery Document
-
-Create `special_methods_problem_statement.md` with:
-
-1. **The Limitation Problem**: Objects don't support standard Python operations
-2. **The Awkwardness Problem**: Code to work with custom objects feels unnatural
-3. **The Integration Problem**: Objects don't work with built-in functions (len, iter, etc.)
-4. **Your Prediction**: What Python feature would enable "magic method" behavior?
+**Expected Understanding**: AI will show you that special methods are the protocol contracts Python expects. Implement `__add__` and `+` works. Implement `__str__` and print() works. Special methods make custom objects feel like built-in types.
 
 ---
 

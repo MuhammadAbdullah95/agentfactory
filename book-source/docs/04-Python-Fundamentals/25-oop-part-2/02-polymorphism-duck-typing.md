@@ -697,76 +697,50 @@ In this challenge, you'll discover why polymorphism matters, learn how both ABC 
 
 ## Part 1: Student Discovers Type-Checking Problems in Agent Dispatch
 
-**Your Role**: System architect identifying design gaps
+**Your Role**: System architect identifying design gaps with AI collaboration
 
-### Discovery Exercise: Build an Agent Dispatcher Without Polymorphism
+### Discovery Exercise: Exploring Type-Checking Brittleness in Dispatchers
 
 Imagine you're building a multi-agent dispatcher that routes messages to different agent types. Without polymorphism, you must check types explicitly.
 
-**Stage 1: The Type-Checking Problem**
+#### 💬 AI CoLearning Prompt - Discovering the Type-Checking Problem
 
-Create three agent classes and a dispatcher that checks type explicitly:
+> "I'm building an agent dispatcher. I have ChatAgent, CodeAgent, and DataAgent - each with a `process(message)` method. Show me a dispatcher function WITHOUT polymorphism that uses `isinstance()` checks to route messages to the right agent type.
+>
+> Then analyze:
+> 1. How many isinstance() checks are needed for 3 agent types?
+> 2. If I add ImageAgent and VideoAgent (5 types total), how many checks?
+> 3. What happens if I forget to add the isinstance() check for a new agent type?
+> 4. Why is this dispatcher fragile and hard to maintain?"
 
-```python
-# agents.py - Type-checking approach (PROBLEMATIC)
-class ChatAgent:
-    def __init__(self, name: str):
-        self.name = name
+**Expected Understanding**: AI will show you the explosion of isinstance() checks. You'll understand that each new agent type requires modifying the dispatcher function - tight coupling that violates the Open/Closed Principle.
 
-    def process(self, message: str) -> str:
-        return f"Chat: {message}"
+#### 💬 AI CoLearning Prompt - Understanding the Scaling Nightmare
 
+> "In my dispatcher with isinstance() checks:
+> - 3 agent types = 3 if/elif branches
+> - Each new agent = 1 new branch in dispatcher
+>
+> Explain the scaling problem:
+> 1. At 20 agent types, how maintainable is this code?
+> 2. What happens if I add SearchAgent but forget to update the dispatcher?
+> 3. How do I know if my dispatcher is missing agent types?
+> 4. Why is this violating the 'Open for extension, closed for modification' principle?"
 
-class CodeAgent:
-    def __init__(self, name: str):
-        self.name = name
+**Expected Understanding**: AI will explain that the dispatcher becomes unmaintainable as agent types grow. Each addition requires modifying existing code (high risk of bugs). Missing checks cause silent failures.
 
-    def process(self, message: str) -> str:
-        return f"Code Analysis: {message}"
+#### 💬 AI CoLearning Prompt - Previewing the Polymorphism Solution
 
+> "You showed me the type-checking problem. Now preview the polymorphism solution:
+> 1. What is polymorphism and how does it eliminate isinstance() checks?
+> 2. Show me a BaseAgent abstract class with process() method
+> 3. Show me how ChatAgent, CodeAgent inherit and implement process()
+> 4. Show me a dispatcher that works with ANY Agent subclass - no isinstance()!
+> 5. When I add SearchAgent, does the dispatcher code change at all?
+>
+> Also explain the duck typing alternative: do I even need BaseAgent?"
 
-class DataAgent:
-    def __init__(self, name: str):
-        self.name = name
-
-    def process(self, message: str) -> str:
-        return f"Data Processing: {message}"
-
-
-# dispatcher.py - Without polymorphism
-def dispatch_message(agent, message: str) -> str:
-    """Route message to agent - REQUIRES TYPE CHECKING"""
-    if isinstance(agent, ChatAgent):
-        return agent.process(message)
-    elif isinstance(agent, CodeAgent):
-        return agent.process(message)
-    elif isinstance(agent, DataAgent):
-        return agent.process(message)
-    else:
-        raise ValueError(f"Unknown agent type: {type(agent)}")
-```
-
-**Your task 1**: Copy this code and document in `dispatcher_type_checking_analysis.md`:
-- How many `isinstance()` checks exist?
-- If you add a 4th agent type (ImageAgent), what must change in `dispatch_message()`?
-- What happens if you forget to add the check?
-- What pattern do you notice?
-
-**Stage 2: Adding New Agents Breaks Existing Code**
-
-**Your task 2**: Try adding `ImageAgent` without modifying `dispatch_message()`. Document:
-- The dispatcher still works, but does it route correctly?
-- How would you even know it's broken?
-- What architectural problem does this reveal?
-
-### Your Discovery Document
-
-Create `polymorphism_problem_statement.md` with:
-
-1. **The Type-Checking Problem**: Dispatcher code is coupled to specific agent types
-2. **The Scaling Problem**: What happens at 20 agent types? 100?
-3. **The Maintenance Risk**: How risky is adding a new agent type?
-4. **Your Prediction**: What language feature would eliminate this coupling?
+**Expected Understanding**: AI will show you that polymorphism makes the dispatcher simple: `agent.process(message)` works for any agent type. No isinstance() checks, no dispatcher modifications when adding new agents.
 
 ---
 
