@@ -383,45 +383,18 @@ Different AI models have different context window capacities. If you're designin
 
 ## Try With AI
 
-You've now observed context windows, estimated tokens, and spotted saturation symptoms. Before moving to Lesson 2 (mitigation strategies), validate your understanding through these self-check exercises.
+Ready to master token estimation and recognize context limits before they impact your development?
 
-**Exercise 1: Estimation Accuracy**
+**🔍 Explore Token Density Differences:**
+> "Compare token counts across three content types: (1) A 50-line Python function with docstrings and type hints, (2) A 50-message conversation with detailed technical explanations, (3) A 50-line JSON API response. Explain why each has different token densities and which consumes context fastest."
 
-Given these scenarios, estimate tokens (using 1.3 words per token):
+**🎯 Practice Real-Time Estimation:**
+> "I'm planning a development session. Help me estimate tokens for: (1) Loading 15 Python files averaging 300 lines each, (2) A 2-hour conversation with 100 messages, (3) Three git diff outputs totaling 500 lines. What's my projected context utilization in a 200K window? Ask me clarifying questions about code complexity and conversation depth."
 
-1. A Pydantic model with 25 lines of code (plus docstrings): ___ tokens
-2. A typical 80-message conversation between you and AI: ___ tokens
-3. A 500-line Python file with comments and docstrings: ___ tokens
+**🧪 Test Context Saturation Symptoms:**
+> "Simulate how AI behavior changes as context fills: Show me example responses at 30% utilization (fresh session), 70% (approaching limits), and 85% (degradation zone). What specific symptoms appear at each stage (repetition, contradictions, forgotten constraints, generic suggestions)?"
 
-<details>
-<summary>Reveal estimates</summary>
+**🚀 Apply to Multi-Session Project:**
+> "I'm working on [describe your actual project] with [X files, Y size]. Design a context budget strategy for a 3-day sprint: how many files can I load per session, when should I expect saturation symptoms, and what's my checkpoint trigger point?"
 
-Typical estimates:
-1. **25-line Pydantic model**: 200-300 tokens (code is token-dense)
-2. **80-message conversation**: 3,000-5,000 tokens (average 40-60 tokens per message)
-3. **500-line Python file**: 2,500-3,500 tokens
-
-Your estimates don't need to be exact. The point is recognizing **code takes more tokens than you'd guess from line count** and **conversations accumulate quickly**.
-
-</details>
-
-**Exercise 2: Identify Content Types**
-
-In your next Claude Code session, pause after 15 minutes and mentally inventory what's in your context:
-
-- How many files have you loaded? (estimate tokens)
-- How many messages exchanged? (estimate tokens)
-- Any command outputs? (estimate tokens)
-- What percentage of your 200K window is used?
-
-Write this down. You'll use similar observations in Lesson 2.
-
-**Exercise 3: Spot the Saturation Point**
-
-When you next work in Claude Code for 60+ minutes on a real task, watch for:
-- Do AI suggestions become more generic around 90 minutes?
-- Do contradictions appear?
-- Do responses get noticeably slower?
-- Record when you first notice degradation (rough time elapsed)
-
-This observation skill is your foundation for Lesson 2.
+---

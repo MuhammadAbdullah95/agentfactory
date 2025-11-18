@@ -700,118 +700,18 @@ Use this template during your next extended Claude Code session (60+ minutes):
 
 ## Try With AI
 
-You now understand degradation symptoms and three mitigation strategies. Validate this through self-check exercises:
+Ready to diagnose context degradation in real-time and choose the right recovery strategy?
 
-**Exercise 1: Symptom Recognition**
+**🔍 Explore Degradation Symptom Categories:**
+> "Explain the five degradation symptoms (repetitive suggestions, forgotten context, performance degradation, contradictory advice, context reference loss) with examples. Why does each occur when context fills? Which symptoms appear first vs. late-stage degradation?"
 
-Read the session snippet below and identify ALL degradation symptoms present:
+**🎯 Practice Symptom Diagnosis:**
+> "I'm in a 2-hour development session showing these behaviors: AI suggested the same caching pattern twice, contradicted earlier architectural decision about using Redis vs Postgres, and responses are taking 10+ seconds. Diagnose which symptoms are present and estimate my context utilization. Ask me clarifying questions about session history."
 
-```
-[01:30] You: We're building a recommendation engine. Load models/recommendation.py
-and routes/api.py.
+**🧪 Test Mitigation Strategy Selection:**
+> "Present three scenarios: (1) 80% utilization, same task, mild repetition, (2) 65% utilization, switching from auth to payments, (3) 90% utilization, severe contradictions, slow responses. For each, should I compress/checkpoint, isolate to new session, or full restart? Explain your reasoning."
 
-Claude: Loaded. I see you're using collaborative filtering with cosine similarity.
-Good approach. I recommend pre-computing similarity matrices to speed up
-recommendations. This is the most efficient pattern.
-
-[Later, after 60+ more messages...]
-
-[02:50] You: We need to handle cold start problem—new users with no history.
-
-Claude: For new users, I recommend using random recommendations until you have
-enough user history. Also, pre-compute the similarity matrices as I mentioned
-before. [RECOMMENDATION 1: Matrix pre-computation repeated]
-
-You: We already pre-computed the matrices. But I'm asking specifically about
-the cold start problem.
-
-Claude: Right, for cold start, use random recommendations. But also, you could
-compute similarity on-the-fly for every request instead of pre-computing.
-[CONTRADICTS EARLIER: Said pre-computation was best, now suggests on-the-fly]
-
-You: We were going to use matrix pre-computation, then switched to on-the-fly?
-What's the actual recommendation?
-
-Claude: Both approaches work depending on your use case. Random recommendations
-work well for new users...
-[Generic response, doesn't address contradiction]
-```
-
-**Identify**:
-1. Repetitive suggestion (what was repeated?): ___________
-2. Contradictory advice (what contradicts?): ___________
-3. Forgotten context (what's not referenced?): ___________
-
-<details>
-<summary>Reveal answers</summary>
-
-1. **Repetitive**: "Pre-compute similarity matrices" is mentioned at 01:30 and 02:50 with same reasoning both times.
-
-2. **Contradictory**: At 01:30, Claude says pre-computation is "most efficient pattern" and "best approach." At 02:50, suggests on-the-fly computation (opposite). Both are valid strategies, but contradicting within same session shows degradation.
-
-3. **Forgotten context**: Claude doesn't reference the architectural decision made at 01:30. Should say "remember we decided to pre-compute matrices for efficiency?"—instead re-suggests alternatives.
-
-</details>
-
-**Exercise 2: Real Session Tracking**
-
-In your next Claude Code session lasting 60+ minutes:
-1. Note timestamp when you first notice ANY degradation symptom
-2. Describe the specific symptom
-3. Estimate context utilization at that point
-4. Decide: compress, isolate, or restart?
-
-Write this down—you'll need this observation skill throughout your career.
-
-**Exercise 3: Self-Check Quiz**
-
-Answer without looking at the lesson:
-
-1. Name the 5 degradation symptoms:
-   - ________
-   - ________
-   - ________
-   - ________
-   - ________
-
-2. When should you COMPRESS (checkpoint + restart)?
-   ________________________________________________________
-
-3. When should you ISOLATE (separate session)?
-   ________________________________________________________
-
-4. When should you RESTART (fresh session)?
-   ________________________________________________________
-
-<details>
-<summary>Reveal answers</summary>
-
-1. **Five symptoms**:
-   - Repetitive suggestions
-   - Forgotten context
-   - Performance degradation (slower responses)
-   - Contradictory advice
-   - Context reference loss
-
-2. **Compress when**: Continuing SAME TASK, context 75%+ utilized, suggestions degrading but still useful. Saves 5 minutes, gains 30+ more minutes of productive work.
-
-3. **Isolate when**: Switching to DIFFERENT TASK, both important, want to avoid context pollution. Creates parallel sessions for unrelated work.
-
-4. **Restart when**: Severe degradation (contradictions, slow responses), compression failed, can't trust AI's references. Start fresh with essential context only.
-
-</details>
+**🚀 Apply Real-Time Monitoring Protocol:**
+> "Help me design a monitoring checklist for [describe your actual project]. What specific degradation symptoms should I watch for given my codebase size, typical session length, and development patterns? Create a decision tree: if I see [symptom X], then [action Y]."
 
 ---
-
-## Foundation Complete
-
-You've now learned to:
-- ✅ Observe context windows filling
-- ✅ Estimate token usage
-- ✅ Identify degradation symptoms (5 types)
-- ✅ Decide when to compress/isolate/restart
-- ✅ Track degradation manually
-
-**Manual foundation is complete.** You can diagnose context issues independently.
-
-In Lesson 3, you'll collaborate with AI on managing context—discovering how AI can suggest strategies, how you can teach AI your constraints, and how you converge together on optimal approaches.

@@ -544,60 +544,18 @@ Show for each item:
 
 ## Try With AI
 
-Practice iterating with AI to refine your list structures.
+Ready to master list structures and refine specifications through iteration?
 
-**Setup**: Open Claude Code or Gemini CLI.
+**🔍 Explore List Type Selection:**
+> "Show me the same set of requirements written three ways: (1) all bullet lists, (2) all numbered lists, and (3) mixed (bullets where order doesn't matter, numbers where it does). Use 'shopping cart operations' as the example. Explain when each list type is appropriate."
 
-**Part 1: Initial Structure Request**
+**🎯 Practice Constraint-Driven Refinement:**
+> "I'm specifying a shopping cart feature: [paste your specification from the practice exercise]. I'm building an MVP—ask me clarifying questions about scope, constraints, and what features to defer. Help me organize requirements using appropriate list types (bullets vs numbers, nested where needed)."
 
-Take your shopping cart specification from the practice exercise. Ask AI:
+**🧪 Test Edge Case Identification:**
+> "Here's a checkout process specification: [create a simple 5-step numbered list]. Identify edge cases I haven't covered (empty cart, out of stock items, payment failures, etc.). Show me where to add these in the specification using nested lists."
 
-```
-I'm creating a shopping cart specification. Here's what I wrote:
+**🚀 Apply to Your Requirements:**
+> "Help me organize requirements for [describe your actual feature]. Guide me in choosing bullet lists (for options/features where order doesn't matter) vs numbered lists (for sequential processes). Challenge me if I use the wrong list type."
 
-[Paste your specification]
-
-Can you suggest how to organize this more clearly using lists?
-What requirements am I missing?
-```
-
-**Part 2: Critical Evaluation**
-
-Review AI's response. Ask yourself:
-- Does this match my MVP scope?
-- Are there features too complex for v1?
-- What assumptions did AI make about my project?
-
-**Part 3: Constraint Teaching**
-
-Based on your evaluation, tell AI your constraints:
-
-```
-Good suggestions, but I'm building an MVP. Let's simplify:
-- No tax calculation (flat pricing for now)
-- No multiple shipping options (standard shipping only)
-- No saved addresses (one-time entry)
-
-Please revise the specification with these constraints.
-```
-
-**Part 4: Edge Case Discovery**
-
-Ask AI to identify what could go wrong:
-
-```
-What happens if:
-- User's cart is empty when they click checkout?
-- Item goes out of stock after being added to cart?
-- Payment fails?
-
-Add these edge cases to the specification.
-```
-
-**Part 5: Validation**
-
-Compare your original specification to the final version after iteration:
-- Which list types did you use? (Bullets for options, numbers for sequences)
-- What requirements emerged that you didn't initially write?
-- What did AI suggest that you rejected as out-of-scope?
-- Is this specification clearer than your first draft? Why?
+---

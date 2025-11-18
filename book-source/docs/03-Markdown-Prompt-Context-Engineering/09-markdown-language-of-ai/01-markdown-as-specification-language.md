@@ -501,33 +501,18 @@ Expected behavior:
 
 ## Try With AI
 
-Now that you've created your specification manually, let's validate it with AI.
+Ready to validate your markdown skills and explore specification clarity?
 
-**Setup**: Open Claude Code or Gemini CLI (from Chapter 5-6).
+**🔍 Explore Specification vs Implementation:**
+> "Show me two versions of a 'user login feature' specification: one written correctly in markdown (WHAT it does) and one that accidentally describes implementation (HOW to code it). Explain why the first is a specification and the second isn't."
 
-**Your Task**: Share your specification and ask AI to check your markdown syntax.
+**🎯 Practice Syntax Validation:**
+> "I created this markdown specification: [paste your specification from the practice exercise]. Check my syntax for: (1) spaces after # symbols, (2) consistent heading hierarchy (H1→H2→H3), and (3) whether I described WHAT (specification) or HOW (implementation). Ask me clarifying questions if my intent isn't clear."
 
-**Prompt**:
-```
-I'm learning markdown for specifications. I created this specification manually.
-Please check my markdown syntax:
-1. Are my headings formatted correctly (space after # symbols)?
-2. Is my heading hierarchy consistent (H1 → H2 → H3)?
-3. Did I describe WHAT the system does (not HOW to code it)?
+**🧪 Test Your Understanding:**
+> "Generate a markdown specification with 3 intentional syntax errors (missing spaces, skipped heading levels, inconsistent nesting). Then show me the corrected version and explain what was wrong with each error."
 
-[Paste your specification here]
-```
+**🚀 Apply to Your Project:**
+> "Help me outline a markdown specification for [describe your actual project idea]. Guide me through creating proper heading hierarchy and ensuring I describe WHAT the system does, not HOW to build it."
 
-**Expected Outcome**:
-
-AI will review your syntax and tell you:
-- ✅ If your headings are correctly formatted
-- ✅ If your hierarchy makes sense
-- ⚠️ If you have syntax errors (missing spaces, skipped levels)
-- ⚠️ If you accidentally described implementation instead of specification
-
-**If AI finds errors**: Fix them in your file, save, and check again.
-
-**If AI confirms correctness**: You've written valid markdown! You're ready for Lesson 2.
-
-**Safety Note**: AI is checking your markdown syntax here, not generating new specifications. You did the creative work (writing the spec). AI is the validator.
+---

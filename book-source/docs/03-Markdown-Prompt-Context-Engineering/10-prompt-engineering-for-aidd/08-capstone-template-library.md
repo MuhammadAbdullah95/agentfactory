@@ -655,46 +655,20 @@ You now understand:
 
 ---
 
-## Try With AI (Optional Extension)
+## Try With AI
 
-**Challenge**: Use Question-Driven Development to refine your specification.
+Ready to apply all 8 prompt engineering elements to create a specification-quality capstone project?
 
-**Part 1: Prompt AI to Review Your Spec**
+**🔍 Explore Specification-First Thinking:**
+> "Show me the difference between implementation-first and specification-first. For a 'Prompt Template Library tool': (1) start coding immediately with vague requirements, (2) write a complete specification first (success criteria, features, workflows, constraints, validation tests). Compare the clarity and implementability of both approaches."
 
-```markdown
-I've written a specification for a Prompt Template Library tool (see below).
+**🎯 Practice QDD for Specification Refinement:**
+> "I've drafted a Prompt Template Library specification [paste your draft]. Before suggesting improvements, ask me 8 clarifying questions about: success criteria measurability, missing features, workflow ambiguities, validation test gaps, and under-specified constraints. Based on my answers, identify specification improvements."
 
-Before suggesting improvements, ask me 5-7 clarifying questions about:
-- Success criteria measurability
-- Feature completeness (missing capabilities?)
-- Workflow clarity (ambiguous steps?)
-- Validation test coverage (gaps in testing?)
-- Constraints (under-specified technical details?)
+**🧪 Test Specification Completeness:**
+> "Review my specification using these criteria: Could a developer implement without questions? Are success criteria measurable? Are features detailed with examples? Are workflows step-by-step? Are validation tests specific? For each criterion, score 1-3 and explain gaps."
 
-Based on my answers, suggest specification improvements.
+**🚀 Apply to Your Capstone:**
+> "Help me create a complete specification for [your capstone project]. I'll describe my idea. You guide me through: (1) defining measurable success criteria, (2) listing core features with user value, (3) detailing user workflows, (4) specifying constraints, (5) writing validation tests. Produce a peer-reviewable specification."
 
-[Paste your specification]
-```
-
-**Part 2: Answer AI's Questions**
-
-AI will identify gaps (e.g., "How should template versioning work? How are conflicts resolved?").
-
-Answer each question specifically.
-
-**Part 3: Refine Specification to v1.1**
-
-Based on AI feedback, update your specification:
-- Add missing features
-- Clarify vague sections
-- Add validation tests for edge cases
-- Specify open questions as decisions
-
-**Part 4: Validate Refinement**
-
-Re-run completeness check:
-- Could a developer implement this without questions? (If yes → specification-quality ✓)
-
-**Key learning**: Specifications improve through iteration—just like prompts improve from 60% to 97% through refinement.
-
-Your v1.1 specification is now a portfolio-quality artifact demonstrating your prompt engineering mastery.
+---

@@ -633,66 +633,18 @@ Now it's your turn. Evaluate a real or hypothetical scenario.
 
 ## Try With AI
 
-**Setup**: Open Claude Code. We'll practice isolation decision-making with AI collaboration.
+Ready to master when to isolate contexts and prevent cross-task pollution?
 
-**Scenario**: You're implementing authentication. A production bug appears requiring urgent attention. You need to decide: compress or isolate?
+**🔍 Explore Isolation Criteria:**
+> "Explain the task similarity scoring system (shared domain +30, models +20, services +20, routes +15, tests +15). Why does similarity <50% trigger isolation? Compare two scenarios: (1) Auth + Payment (different domains, shared User model), (2) Auth login + Auth registration (same domain). Calculate similarity scores."
 
-**Prompt Set**:
+**🎯 Practice Isolation Decision:**
+> "I'm implementing [Task A: describe] when [Task B: describe urgent issue] appears. Help me score task similarity: Do they share domain, models, services, routes, or tests? Based on the score, should I compress (continue in same session), isolate (separate session), or use a hybrid approach? Ask me about my architecture to refine the recommendation."
 
-**Prompt 1: Request Isolation Guidance**:
-```
-I'm working on authentication (JWT tokens, refresh token rotation).
-A production bug just appeared in payment webhook handling. It's urgent.
-Should I stay in my current auth session and add payment context,
-or create a completely separate session for the payment bug?
-What factors should I consider?
-```
+**🧪 Test Pollution Detection:**
+> "Diagnose context pollution in this scenario: I'm working on stateless JWT authentication, then add Stripe webhook handling (stateful, idempotent) to the same session. What pollution symptoms might appear? How could authentication patterns inappropriately influence payment code, or vice versa? Identify specific risks."
 
-Listen for: AI explains decision criteria for compression vs isolation.
-
-**Prompt 2: Share Architecture Details**:
-```
-Thanks for the framework. Here's my actual situation:
-
-Payment bug: Stripe webhooks failing (high priority)
-Auth work: JWT refresh token rotation (medium priority)
-
-My codebase structure:
-- Both auth and payment live in /api/users module
-- Both use same User model and database session
-- Auth uses JWT pattern (stateless)
-- Payment webhook requires state tracking (idempotent)
-
-Given this architecture, which is better: compress or isolate?
-And WHY? What factors favor one over the other?
-```
-
-Listen for: AI adapts recommendation based on your architecture specifics.
-
-**Prompt 3: Explore Hybrid Approaches**:
-```
-I'm torn. Here's my concern with compression:
-"Stateless auth" and "stateful payment" patterns directly conflict.
-If I keep both in the same session, I'm worried I'll write code that's
-correct for auth but breaks payment's idempotence.
-
-Here's my concern with isolation:
-Both tasks modify the User model. If I isolate, the payment session
-might generate code that violates auth assumptions about user structure.
-
-What's the hybrid approach that avoids both pitfalls?
-```
-
-Listen for: AI helps you discover middle-ground solutions like explicit context switching.
-
-**Expected Outcomes**:
-- Prompt 1: Understand isolation decision criteria
-- Prompt 2: Get recommendation tailored to your specific architecture
-- Prompt 3: Discover hybrid approaches that balance competing constraints
-
-**Safety Note**: The best isolation decision depends on YOUR project structure, not generic rules. Don't isolate just because the guide says "different domains"—evaluate your specific coupling and pollution risk first.
+**🚀 Apply Multi-Task Strategy:**
+> "Design an isolation strategy for [your actual project] when juggling 3 parallel tasks: [Task 1], [Task 2], [Task 3]. For each pair, calculate similarity scores. Create a session organization plan: which tasks share sessions, which need isolation, and what context-switching protocol should I follow to maintain clarity?"
 
 ---
-
-**Version 1.0.0**
-**Next Lesson**: Lesson 6 - Memory Files and Persistent Intelligence (creating reusable context across sessions)

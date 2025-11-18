@@ -426,50 +426,19 @@ Test your memory files to confirm they work:
 
 ## Try With AI
 
-**Setup**: Open Claude Code. Create a new project directory with sample code (or use existing project).
+Ready to build persistent project memory that survives across sessions and eliminates re-explanation?
 
-**Prompt Set**:
+**🔍 Explore Memory File Architecture:**
+> "Explain the three memory files (CLAUDE.md, architecture.md, decisions.md) and their distinct purposes. Why separate conventions from architecture from decisions? For a FastAPI project with PostgreSQL and Redis: what content goes in each file? Provide examples of 2-3 entries per file."
 
-**Prompt 1: Design Memory Files**
-```
-I'm starting a new AI-assisted development project. Help me create
-three memory files (CLAUDE.md, architecture.md, decisions.md) for this codebase:
+**🎯 Practice Memory File Creation:**
+> "Help me create memory files for [describe your project: tech stack, size, domain]. Ask me about: (1) Naming conventions and patterns I follow, (2) System components and how they relate, (3) Major architectural decisions I've made or need to make. Generate customized templates for CLAUDE.md, architecture.md, and decisions.md specific to my project."
 
-[Paste your project structure and brief description]
+**🧪 Test Cross-Session Persistence:**
+> "Simulate two sessions separated by 2 days. Session 1: I'm implementing JWT authentication and decide to use Redis for session blacklisting (store decision in decisions.md). Session 2: New session starts, load memory files, I ask: 'Should I use database or Redis for logout blacklist?' Can you answer from memory files without asking me? Test if persistence worked."
 
-The memory files should capture:
-- Project conventions I should follow
-- System architecture (components and relationships)
-- Major architectural decisions I've made
+**🚀 Apply Memory Workflow to Multi-Day Project:**
+> "Design a memory file maintenance strategy for [your actual multi-day project]. When should I update each file (CLAUDE.md vs architecture.md vs decisions.md)? Create update triggers: 'Update CLAUDE.md when [X]', 'Update architecture.md when [Y]', 'Update decisions.md when [Z]'. Include conflict resolution protocol if decisions change."
 
-Generate templates for each file, ready for me to customize.
-```
-
-**Prompt 2: Initialize Session with Memory Files**
-```
-I'm loading my project memory. Here's my context:
-
-[Paste CLAUDE.md]
-[Paste architecture.md]
-[Paste decisions.md]
-
-Now, I need to [your actual task].
-What patterns from my memory files should influence this task?
-```
-
-**Prompt 3: Update Decisions**
-```
-I just made a new architectural decision:
-- [Describe the decision and why]
-
-Write a new ADR entry (decisions.md format) for this decision.
-Include context, rationale, alternatives considered, and consequences.
-```
-
-**Expected Outcomes**:
-- Prompt 1: You receive ready-to-customize memory file templates
-- Prompt 2: Claude references your project patterns and decisions in its response
-- Prompt 3: Claude generates properly formatted ADR following industry standard
-
-**Safety Note**: Memory files should never contain secrets (API keys, passwords, credentials). Store secrets in `.env` files or secret management systems, never in memory files. Reference them by name in memory files ("Uses STRIPE_API_KEY from .env") but never include the actual values.
+---
 

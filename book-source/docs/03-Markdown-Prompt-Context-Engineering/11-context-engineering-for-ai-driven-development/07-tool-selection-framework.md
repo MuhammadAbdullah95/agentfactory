@@ -339,54 +339,19 @@ This is **reusable intelligence** — the decision-making process you learned he
 
 ## Try With AI
 
-**Setup**: Think of a real project you have or a codebase you could work with.
+Ready to select the right AI tool for your development task and maximize effectiveness?
 
-**Prompt Set**:
+**🔍 Explore Tool Capabilities and Selection Criteria:**
+> "Compare Claude Code (200K-1M context, deep reasoning, progressive loading) vs Gemini CLI (2M context, broad analysis). For each tool, explain strengths and ideal use cases. When would I choose Claude Code for a 100-file codebase vs. Gemini CLI? What about a 500-file codebase?"
 
-**Prompt 1: Analyze Your Codebase**
-```
-I have a codebase with these characteristics:
-- [Number of files]: [50/150/500]
-- [Total lines of code]: [10K/100K/500K]
-- [Description of what it does]
+**🎯 Practice Tool Selection Decision:**
+> "I have a [size] codebase with [description]. My task: [specific goal]. Apply the decision framework: evaluate task scope (files/lines), complexity (reasoning depth needed), context budget (can I fit it?), and file control (selective vs. comprehensive). Recommend Claude Code or Gemini CLI with reasoning. Ask clarifying questions about my project."
 
-My task is: [implement feature / understand architecture / refactor code / fix bug]
+**🧪 Test Two-Phase Strategy:**
+> "Design a two-phase approach for: 'Understand and modernize a 150K-line legacy Python monolith'. Phase 1 (Exploration): What should I use Gemini CLI for (architectural analysis, pattern identification, dependency mapping)? Phase 2 (Implementation): What should I use Claude Code for (focused refactoring, feature implementation)? How do insights from Phase 1 inform Phase 2?"
 
-Based on the tool selection framework (Claude Code vs Gemini CLI),
-which tool should I use? Explain your reasoning considering:
-- Task scope (how much code?)
-- Complexity (how much reasoning needed?)
-- Context budget (can I load everything?)
-- File control (do I need to be selective?)
-```
+**🚀 Apply Multi-Day Tool Strategy:**
+> "Plan a 5-day development sprint for [your actual project and feature]. Which tool for Day 1 (architecture understanding)? Which for Days 2-4 (implementation)? How do I integrate memory files (Lesson 6) with tool switching? Create a day-by-day tool usage plan with session handoff protocols."
 
-**Prompt 2: Two-Phase Approach**
-```
-I need to both understand my large codebase AND implement specific changes.
-
-[Describe your codebase and goals]
-
-How would a two-phase approach work?
-- Phase 1: What would I use Gemini CLI for?
-- Phase 2: What would I use Claude Code for?
-- How would insights from Phase 1 guide Phase 2?
-```
-
-**Prompt 3: Memory Files for Long-Term Development**
-```
-I'm planning a 5-day feature implementation in a 100-file codebase.
-
-Based on Lesson 6 (Memory Files), how should I structure memory files
-to support Claude Code sessions across all 5 days?
-
-What should go in CLAUDE.md, architecture.md, and decisions.md
-for this feature development?
-```
-
-**Expected Outcomes**:
-- Prompt 1: Clear tool recommendation with reasoning
-- Prompt 2: Detailed two-phase strategy
-- Prompt 3: Memory file structure supporting multi-day continuity
-
-**Safety Note**: When using Gemini CLI for large codebase exploration, be mindful of what you upload. Never include files with secrets, credentials, or PII. Use `.gitignore` equivalents to exclude sensitive data before loading codebases into AI tools.
+---
 

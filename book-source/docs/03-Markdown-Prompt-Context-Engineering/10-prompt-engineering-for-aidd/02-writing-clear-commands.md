@@ -477,36 +477,21 @@ Why this is better:
 
 ---
 
-## Try With AI: Test Your Command Structure
+## Try With AI
 
-In Lesson 1, you saw how vague prompts ("Help me with Python code") lead to confusion while specific prompts get immediate results. Now it's time to test the command structure you learned in this lesson.
+Ready to master technical action verbs and see the power of clear command structure?
 
-### Setup
+**🔍 Explore Command Verb Impact:**
+> "Show me three versions of asking AI to improve authentication code: (1) using 'Help me', (2) using 'Refactor', and (3) using 'Optimize'. Generate sample responses for each and explain why the verb choice changes your approach and output."
 
-Open your AI tool:
-- **ChatGPT** (web version): Go to chat.openai.com and start a new chat (easiest option)
-- **Alternative**: If you've already set up Claude Code from previous lessons, use that instead
+**🎯 Practice [Verb] + [Target] + [Outcome] Structure:**
+> "I have a slow database query loading user orders. Ask me clarifying questions to help me build a complete command using the formula: [ACTION VERB] + [SPECIFIC TARGET] + [DESIRED OUTCOME]. Then execute that structured command."
 
----
+**🧪 Test Strong vs. Weak Commands:**
+> "Take this weak prompt: 'Make my code better.' Transform it into three strong commands using different technical verbs (Refactor, Optimize, Debug). For each, show how the verb choice produces different code improvements."
 
-### Test Your Own Prompt (Your first milestone)
-
-**Copy your prompt from Exercise 3 above** (the one you wrote yourself).
-
-**Paste it into your AI tool** and run it.
-
-**Observe**:
-- Did the AI understand your intent?
-- Is the generated code something you could use?
-- Are there parts you don't understand? (That's okay—ask AI to explain)
-- Does the output have the structure you expected?
-
-**Reflection Questions**:
-
-- **Which prompt saved more time?** Vague or strong?
-- **Why did the strong command produce better results?**
-- **Can you identify the verb, target, and outcome in your Exercise 3 prompt?**
-- **What would you change about your prompt to make it even stronger?**
+**🚀 Apply to Your Codebase:**
+> "Help me write a strong command for [your actual development task]. Ensure I use a precise action verb (Create/Debug/Refactor/Optimize/Generate/Analyze/Migrate/Integrate), specify the target component clearly, and define measurable success criteria. Challenge me if the command is vague."
 
 ---
 

@@ -477,28 +477,18 @@ Specify: imports, docstrings, type hints, where it goes
 
 ## Try With AI
 
-Goal: See the impact of constraints.
+Ready to transform generic code into project-specific, production-ready implementations using constraints and examples?
 
-1) Unconstrained run
-```
-Create a function to connect to a PostgreSQL database and return a connection.
-```
-Observe: Versions, error handling, and secrets handling may be generic or unsafe.
+**🔍 Explore Constraint Impact:**
+> "Create a database connection function three times: (1) no constraints, (2) + version constraints (Python 3.11, SQLAlchemy 2.0, PostgreSQL 15), (3) + all constraints (versions, security, error handling, type hints, docstrings). Show me how each constraint layer transforms the code."
 
-2) Constrained run
-```
-Create a Python 3.11 function that returns a SQLAlchemy 2.0 Session for PostgreSQL 15. 
-Constraints: No hardcoded secrets; read from environment variables. Add explicit error handling. Include type hints and a docstring. Match this error pattern:
+**🎯 Practice Example-Driven Style Matching:**
+> "I'll show you my existing error handling pattern [paste your code example]. Create a new API endpoint that matches this exact style: same error types, same logging format, same HTTP status codes, same docstring structure. Then show me what you'd generate WITHOUT the example."
 
-try:
-    result = await some_operation()
-except DatabaseError as e:
-    logger.error(f"Database error in operation: {str(e)}")
-    raise HTTPException(status_code=500, detail="Database error occurred")
-```
+**🧪 Test Formatting Options:**
+> "I need to add rate limiting to middleware.py. Show me three formatting approaches: (1) complete file with all existing code, (2) snippet with clear integration point, (3) diff-style showing only changes with context. Which format makes integration fastest?"
 
-3) Compare
-- Which output is safer and closer to your project?
-- What constraint had the biggest effect?
+**🚀 Apply to Your Project:**
+> "Help me build [your feature] with complete constraints. I'll specify: exact versions, security requirements (input validation, secrets handling), code quality standards (type hints, coverage), and an example showing our project's style. Generate production-ready code matching all constraints."
 
-Outcome: You practiced turning “good code” into “our code” with explicit guardrails.
+---

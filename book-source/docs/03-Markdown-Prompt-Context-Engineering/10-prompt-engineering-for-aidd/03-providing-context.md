@@ -670,78 +670,18 @@ If you built it for the user authentication function:
 
 ## Try With AI
 
-In this final section, you'll use your AI agent to confirm everything you've learned about context.
+Ready to transform generic AI code into project-specific implementations using 4-layer context?
 
-**Your AI Tool**: Use **ChatGPT** (web version at chat.openai.com) for this exercise.
+**🔍 Explore Context Layer Impact:**
+> "Show me how adding each context layer changes AI output. Generate a user authentication function four times: (1) no context, (2) + project context (FastAPI/PostgreSQL), (3) + code context (existing files/patterns), (4) + all constraints (security, type hints, error handling). Compare the results."
 
-**Alternative**: If you've already set up Claude Code from previous lessons, you can use that instead.
+**🎯 Practice 4-Layer Context Building:**
+> "I need to create an API endpoint for [your feature]. Ask me targeted questions to extract all four context layers: Project (stack, architecture), Code (files, models), Constraints (standards, security), Developer (experience, preferences). Then generate code using my complete context."
 
-### Prompt Set: Context Creates Specificity
+**🧪 Test Context vs. No Context:**
+> "Create a database connection function. First, generate it with zero context (generic version). Then I'll provide 4-layer context including PostgreSQL 15, SQLAlchemy 2.0, connection pooling requirements, and environment variable usage. Compare before/after: which version is production-ready?"
 
-**Prompt 1 — The Generic Baseline**
+**🚀 Apply to Your Project:**
+> "Help me build [your actual feature] with complete context. I'll provide: my tech stack, existing code patterns (show you a similar function), security constraints, and coding standards. Generate code that integrates seamlessly without modification."
 
-Run this first to establish what "no context" produces:
-
-```
-Create a function to validate email addresses
-```
-
-Copy the AI's response. Note:
-- What language it chose
-- Whether it includes type hints
-- The validation approach used
-- Time you estimate to integrate into a project
-
-**Prompt 2 — Adding Minimal Context**
-
-Run this next:
-
-```
-Create a Python function to validate email addresses with type hints and a docstring
-```
-
-Compare to Prompt 1:
-- More specific direction?
-- Closer to project-ready?
-- Still generic, or starting to match your needs?
-
-**Prompt 3 — Full 4-Layer Context** (Use your Exercise 2 prompt)
-
-Use the **contextual prompt you built and refined in Exercise 2**. This should include all four layers (project, code, constraints, developer).
-
-Compare to Prompts 1 and 2:
-- How much more specific is the output?
-- Could you integrate it immediately?
-- Does it match your project's style and standards?
-- How many adjustments would you need to make?
-
-### Expected Outcomes
-
-**After running all three prompts**:
-- Prompt 1 output: Generic, requires 10-15 minutes adaptation
-- Prompt 2 output: Better, requires 5-10 minutes adaptation
-- Prompt 3 output: Project-specific, requires 1-2 minutes integration
-
-**Your Key Insight**: The difference between "helps a little" and "production-ready" is not complex. It's just **providing complete context upfront**.
-
-### Safety & Verification Note
-
-As you review each AI output:
-
-- **Read the code first** — don't run code you don't understand
-- **Check for secrets** — no hardcoded passwords or API keys
-- **Verify against your constraints** — does it match what you specified?
-- **Plan how you'll integrate it** — can you copy-paste it, or does it need modification?
-
-Remember: **Trust but verify.** AI can hallucinate or miss requirements. Your 4-layer context helps prevent this, but always validate.
-
-### Next Steps After This Exercise
-
-You've now mastered three critical AI prompting skills:
-1. **Strong commands** (Lesson 2) — Tell AI clearly WHAT to do
-2. **4-Layer context** (Lesson 3) — Give AI the complete project picture
-3. Coming next: **Implementation logic** (Lesson 4) — Tell AI HOW to build it
-
-These three foundations will handle 80% of your AI-driven development work. The remaining lessons add advanced techniques for complex features, validation, and deployment-ready code.
-
-Keep your best prompt templates. Starting in Lesson 8, you'll organize them into a reusable library that accelerates all your future projects.
+---

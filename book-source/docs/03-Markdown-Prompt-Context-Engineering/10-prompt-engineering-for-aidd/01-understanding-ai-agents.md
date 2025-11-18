@@ -298,81 +298,19 @@ Now let's practice. Below are 5 pairs of prompts—one vague, one specific. Your
 
 ## Try With AI
 
-Now let's test your understanding with a hands-on exercise using an actual AI agent.
+Ready to experience how AI agents process prompts and why specificity matters?
 
-### Setup
+**🔍 Explore Prompt Clarity Impact:**
+> "Show me two versions of a prompt asking AI to create a Python function: (1) vague request 'help me with Python code' and (2) specific request with function name, parameters, return type, and docstring. Generate code for both and explain why the results differ dramatically."
 
-You'll use **ChatGPT** (web version at chat.openai.com) for this exercise.
+**🎯 Practice Context Window Thinking:**
+> "I need a function to validate email addresses. Ask me clarifying questions about my project context (language, framework, validation rules, return format). Then show me how your questions help you generate better code than if you guessed."
 
-**To get started**: Go to chat.openai.com, create a free account if needed, and start a new chat.
+**🧪 Test Token-by-Token Understanding:**
+> "Create a password hashing function. First, list the assumptions you'd make if I gave you NO context. Then ask me to specify: hashing algorithm, cost factor, salt handling, and error behavior. Compare the 'assumed' version with the 'specified' version."
 
-**Alternative**: If you've already set up Claude Code from earlier chapters, you can use that instead—the concepts are identical.
-
-### The Exercise: Compare Vague vs. Specific Prompts
-
-**Part 1: Vague Prompt**
-
-Copy and paste this prompt into your AI agent:
-
-```
-Help me with Python code
-```
-
-Observe what happens. The AI will likely ask clarifying questions because "Python code" could mean anything. This demonstrates the problem with vague communication.
-
-**Part 2: Specific Prompt**
-
-Now paste this prompt:
-
-```
-Create a Python function that takes two numbers as parameters and returns their sum. Include type hints and a docstring explaining what the function does.
-```
-
-Observe the difference. The AI generates focused, usable code immediately because you were specific.
-
-### Expected Outcomes
-
-**Vague Prompt Response** (Example):
-```
-I'd be happy to help! Could you clarify what you want the Python code to do? For example:
-- Do you need a web scraper?
-- A data analysis script?
-- A game?
-- An automation script?
-Please provide more details...
-```
-
-**Specific Prompt Response** (Example):
-```python
-def add_numbers(a: int, b: int) -> int:
-    """
-    Calculate the sum of two numbers.
-
-    Args:
-        a: The first number
-        b: The second number
-
-    Returns:
-        The sum of a and b
-    """
-    return a + b
-```
-
-Notice the difference? The second response is immediately useful.
-
-### Reflection
-
-After running both prompts, answer this question in your own words:
-
-**Why did the specific prompt produce working code immediately, while the vague prompt required clarification?**
-
-(Hint: Think about the context window and what information the AI agent had.)
-
-Your answer should mention that the specific prompt gave the AI agent enough context to understand exactly what to build, while the vague prompt left the AI agent guessing.
+**🚀 Apply to Your Development Need:**
+> "Help me build [describe a function you actually need]. Before generating code, identify what context you're missing (my tech stack, constraints, coding standards, integration points). Request that information, then generate project-specific code."
 
 ---
-
-**Now you understand the foundation.** You know what AI agents are, how they differ from other tools, why context windows matter, and why clear communication produces better code.
-
-In the next lesson, you'll put this knowledge into action by writing your first prompts that generate actual working code. You're ready to become an AI orchestrator.
 

@@ -658,150 +658,18 @@ Now put it all together.
 
 ## Try With AI
 
-Now validate your specification with AI feedback.
+Ready to validate your complete system specification and ensure it's implementation-ready?
 
-**Setup**: Open Claude Code or Gemini CLI.
+**🔍 Explore Specification Completeness:**
+> "Compare two task management specifications: (1) a vague one with missing edge cases and ambiguous requirements, and (2) a complete one with measurable success criteria and explicit constraints. Show me what makes the second one implementation-ready."
 
-**CRITICAL**: You are asking AI for feedback on **specification clarity**, NOT asking AI to implement code.
+**🎯 Practice Iterative Specification Refinement:**
+> "Review my task management specification: [paste your complete spec.md]. Ask clarifying questions about ambiguities, missing edge cases, and vague requirements. Help me refine it until you could implement the entire system without making assumptions. DO NOT implement code—only validate specification quality."
 
-### Exercise 1: Specification Clarity Review
+**🧪 Test Specification Clarity:**
+> "Here's my revised specification: [paste updated version]. Identify any remaining ambiguities: Can task names be duplicates? What characters are allowed? Where are tasks stored? What if storage fails? Are success criteria measurable? Are all edge cases covered?"
 
-**Prompt:**
-```
-I wrote a complete specification for a task management system.
-Please review for clarity and completeness.
-
-Questions:
-1. Can you identify all features I need to implement from this spec?
-2. Are there any ambiguous requirements?
-3. What edge cases am I missing?
-4. Is the specification clear enough that you could implement
-   the system without asking additional questions?
-
-DO NOT implement code yet. I only need feedback on specification quality.
-
-[Paste your complete specification]
-```
-
-**What AI will check**:
-- ✅ All features clearly defined
-- ⚠️ Ambiguous requirements ("What does 'simple' mean?")
-- ⚠️ Missing edge cases ("What if two tasks have same name?")
-- ⚠️ Vague success criteria ("What does 'fast' mean? Need measurable metric.")
-
-### Exercise 2: Refine Based on Feedback
-
-**AI might point out**:
-> "Your 'Create Task' feature doesn't specify:
-> - Can task names be duplicates?
-> - What characters are allowed in names?
-> - How are tasks stored (file format, location)?
-> - What if storage write fails?"
-
-**You refine specification** to address gaps:
-
-```markdown
-### Create Task
-
-**Purpose**: [...]
-
-**Required Inputs**:
-- Task name (text, max 100 characters, alphanumeric + spaces only)
-
-**Validation**:
-- If name empty: [error message]
-- If name > 100 chars: [error message]
-- If name contains invalid characters: "Only letters, numbers, and spaces allowed"
-
-**Duplicate Handling**:
-- Duplicate names allowed (tasks distinguished by ID)
-
-**Storage**:
-- Tasks saved to `tasks.json` in current directory
-- If write fails: "Error: Unable to save task. Check file permissions."
-
-**Success Criteria**:
-- ✅ Task saved within 1 second
-- ✅ Task appears in list immediately
-- ✅ Confirmation message includes task name and ID
-```
-
-**Then ask AI again**: "Does this address your questions?"
-
-### Exercise 3: Final Validation
-
-**Prompt:**
-```
-Here's my revised specification addressing your feedback:
-
-[Paste updated specification]
-
-Final questions:
-1. Is this specification now unambiguous?
-2. Can you implement the entire system from this spec without
-   needing to make assumptions?
-3. Are success criteria measurable?
-4. Are all edge cases handled?
-
-DO NOT implement. Just confirm specification quality.
-```
-
-**Expected AI Response**:
-> ✅ "Specification is clear and complete. I can implement all 3 features without assumptions. All edge cases covered. Success criteria measurable."
-
-**Or**:
-> ⚠️ "One remaining ambiguity: [specific issue]. Otherwise complete."
-
-**You iterate** until AI confirms complete clarity.
-
-### Exercise 4: Understanding Markdown as Intent Layer
-
-**Prompt:**
-```
-Now that we've validated the specification clarity:
-
-1. Explain how this markdown specification acts as the "Intent Layer"
-   in Spec-Driven Development.
-2. Why is it important that I wrote the specification FIRST before
-   any implementation?
-3. What would happen if I had started writing code without this spec?
-```
-
-**What AI will explain**:
-- Intent Layer = WHAT you want (stable)
-- Implementation Layer = HOW it's built (flexible)
-- Spec-first prevents wasted coding effort from unclear requirements
-- Same spec can generate Python, JavaScript, Go, etc. implementations
-- Specifications are **more reusable** than code
-
-**This is the foundation** you've built: Clear intent communication for AI-native development.
+**🚀 Apply to Your System:**
+> "Help me write a complete specification for [describe your actual project with 3-4 core features]. Guide me through composing all markdown skills (headings, lists, code blocks, templates) into an unambiguous specification. Challenge me when requirements are vague, edge cases are missing, or success criteria aren't measurable."
 
 ---
-
-## Final Reflection: What You've Accomplished
-
-**Lesson 1**: Learned markdown as specification language (headings for structure)
-**Lesson 2**: Organized requirements with lists (bullets for options, numbers for sequences)
-**Lesson 3**: Showed expected behavior with code blocks (specifications, not code)
-**Lesson 4**: Created reusable intelligence (templates with Persona + Questions + Principles)
-**Lesson 5**: Composed everything into complete system specification
-
-**You now have**:
-- A complete `task-manager-spec.md` specifying entire system
-- Validation from AI that specification is unambiguous
-- Understanding of markdown as Intent Layer in SDD-RI
-- Reusable template for future specifications
-- Foundation for Part 4 (Python) where you'll implement FROM specifications
-
-**Next Steps** (After This Chapter):
-
-**Chapter 10: Prompt Engineering** - How to communicate with AI agents effectively
-**Chapter 11: Context Engineering** - How to provide context for better AI outputs
-**Part 4: Python Fundamentals** - You'll write code FROM the specifications you create in markdown
-**Part 5: Spec-Driven Development** - Advanced specification techniques and professional workflows
-
-**Remember**: In AI-native development, **writing clear specifications is the primary skill**. Code is what AI generates FROM your specifications.
-
-You've mastered the Intent Layer. You're ready for implementation.
-
-**Congratulations on completing Chapter 9!**

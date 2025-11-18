@@ -414,15 +414,21 @@ Track these during your capstone to refine both prompts and templates.
 
 ## Try With AI
 
-Goal: Put templates and QDD into action.
+Ready to integrate all 8 AIDD elements into a complete, portfolio-ready capstone project?
 
-1) Pick one of the three templates above and customize it to your capstone.
+**🔍 Explore Complete 8-Element Prompt:**
+> "Show me how the 8 AIDD elements work together. Take the user registration example from this lesson. Identify where each element appears: Command, Context (4-layer), Logic, Roleplay, Formatting, Constraints, Examples, Questions. Explain why removing ANY element reduces code quality."
 
-2) Run a QDD round using the "ask 10 questions first" pattern. Answer thoroughly.
+**🎯 Practice Systematic Prompting:**
+> "Help me build [your capstone feature] using all 8 elements. Guide me through: (1) crafting the command with precise verb, (2) gathering 4-layer context, (3) specifying implementation logic, (4) defining AI role and style, (5) choosing formatting approach, (6) listing constraints, (7) providing code examples, (8) using QDD questions. Generate production-grade code from the complete prompt."
 
-3) Generate the initial implementation and tests. Apply the 5-step validation checklist.
+**🧪 Test Template Customization:**
+> "Take the New API Endpoint template from this lesson. Help me customize it for [your specific endpoint]. We'll fill in: my tech stack, implementation steps, role modifiers, constraints, and examples. Then use the filled template to generate code and compare it to what generic prompts would produce."
 
-Outcome: You've systematized your prompting, kicked off a capstone with QDD, and validated code like a professional AI collaborator.
+**🚀 Apply to Your Portfolio:**
+> "I'm building [describe your capstone project]. Help me create the master prompt incorporating all 8 elements, customize the 3 templates (endpoint, bug fix, refactor) for my project, and use QDD to clarify requirements before implementation. Produce working code with tests demonstrating AI-native development mastery."
+
+---
 
 ---
 

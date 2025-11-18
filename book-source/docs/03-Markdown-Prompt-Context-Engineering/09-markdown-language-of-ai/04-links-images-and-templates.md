@@ -596,75 +596,18 @@ When using this template:
 
 ## Try With AI
 
-Now validate your template's quality with AI feedback.
+Ready to create reusable templates and strengthen specifications with references?
 
-**Setup**: Open Claude Code or Gemini CLI.
+**🔍 Explore Links and Images Impact:**
+> "Show me two versions of an API specification: (1) without links or images, and (2) with links to documentation and a diagram showing request/response flow. Explain how links and images improve specification clarity."
 
-**Exercise 1: Template Quality Check**
+**🎯 Practice Template Design:**
+> "I'm creating a reusable template for [your chosen domain from practice exercise]: [paste your template]. Ask me questions to refine it: Is the Persona clear and actionable? Do the Questions force analysis (not just fill-in-blanks)? Are Principles decision-guiding? Is this general enough for 3+ scenarios?"
 
-**Prompt:**
-```
-I created a reusable template for [your template topic].
-Review this template and tell me:
+**🧪 Test Template Reusability:**
+> "Use this template to specify three different scenarios: [scenario 1], [scenario 2], [scenario 3]. [Paste your template]. Identify any sections that don't work for all scenarios, questions that are unclear, or principles that don't guide decisions."
 
-1. Does the Persona activate the right thinking stance?
-2. Do the Questions force analysis (not just structure-filling)?
-3. Are the Principles helpful for decision-making?
-4. Is this template general enough to apply to 3+ different scenarios?
+**🚀 Apply to Your Domain:**
+> "Help me create a reusable Feature Specification Template for [your actual work domain]. Guide me through designing Persona (thinking stance), Questions (force analysis of context/constraints/edge cases), and Principles (decision frameworks). Challenge me if any part is too vague or too specific."
 
-[Paste your template]
-```
-
-**What to expect**: AI will evaluate:
-- ✅ If persona is clear and actionable
-- ⚠️ If questions are too generic or too specific
-- ⚠️ If principles are vague ("be clear") vs actionable ("include measurable criteria")
-- ⚠️ If template is over-fitted to one scenario
-
-**Exercise 2: Test Template Reusability**
-
-**Prompt:**
-```
-Use this template to specify [new scenario 1].
-
-[Paste your template]
-
-Fill in all sections for: [describe scenario]
-```
-
-**Then repeat with scenario 2 and 3.**
-
-**What to notice**:
-- Does template work for all scenarios?
-- Are some sections always empty? (Template might be over-specific)
-- Do you struggle to fill some sections? (Questions might be unclear)
-
-If template doesn't work for all 3 scenarios → Refine and test again.
-
-**Exercise 3: Refinement Iteration**
-
-**Prompt:**
-```
-Based on testing my template with 3 scenarios, I found:
-- [Issue 1: what didn't work]
-- [Issue 2: what was unclear]
-
-How should I revise the template to fix these issues?
-```
-
-AI suggests improvements. You refine. Test again with new scenarios.
-
-**Expected Outcome**:
-
-After 2-3 iterations:
-- Template works for multiple different scenarios
-- Persona, Questions, and Principles are clear and actionable
-- You can use template without referring to this lesson
-- AI confirms template quality
-
-**Reflection Questions**:
-1. What did AI teach you about template design?
-2. How did testing with different scenarios reveal template weaknesses?
-3. Can you now use this template on future projects without rereading this lesson?
-
-**Safety Note**: Templates are reusable intelligence. You're creating tools you'll use repeatedly, not one-off specifications. Invest time in quality now; save time on every future use.
+---
