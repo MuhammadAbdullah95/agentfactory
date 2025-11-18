@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 chapter: 8
-lesson: 2
+lesson: 1
 title: "Your First Git Repository"
 description: "Discover Git as a safety system for AI experimentation through hands-on execution and observation"
 duration_minutes: 45

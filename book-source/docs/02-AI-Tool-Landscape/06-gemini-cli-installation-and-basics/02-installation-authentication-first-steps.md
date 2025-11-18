@@ -1,8 +1,9 @@
 ---
 sidebar_position: 2
-title: Installation, Authentication & First Steps
+title: "Installation, Authentication & First Steps"
 chapter: 6
 lesson: 2
+duration_minutes: 35
 cefr_level: A2
 proficiency: Beginner
 teaching_stage: 1

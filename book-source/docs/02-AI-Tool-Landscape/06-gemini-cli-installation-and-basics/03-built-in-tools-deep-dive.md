@@ -2,6 +2,7 @@
 sidebar_position: 3
 chapter: 6
 lesson: 3
+duration_minutes: 30
 title: "What Gemini Can Do: Built-In Tools in Action"
 cefr_level: A2
 proficiency: Beginner

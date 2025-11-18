@@ -2,8 +2,8 @@
 sidebar_position: 6
 chapter: 6
 lesson: 6
-title: MCP Servers & Integration
-duration: "20 minutes"
+duration_minutes: 35
+title: "MCP Servers & Integration"
 cefr_level: A2
 proficiency: Beginner
 teaching_stage: 2
