@@ -270,42 +270,6 @@ Select **"Create new agent"**
 
 **Choose 1** (Project) — this makes the agent available only in this project.
 
-### Step 2.5: Co-learn Subagent Design (Optional but Recommended)
-
-Before finalizing your subagent, collaborate with Claude Code to design it better.
-
-**🤝 Practice Exercise: Three Roles Subagent Design**
-
-Ask Claude Code:
-```
-I'm about to create a [YOUR PURPOSE] subagent. Before I finalize it,
-help me think through:
-1. What are 3 core decisions this subagent needs to make autonomously?
-2. What questions should it ask users to gather the right context?
-3. What principles should guide its recommendations?
-```
-
-**What happens in this collaboration**:
-
-1. **AI as Teacher**: Claude suggests subagent design patterns you might not know
-   - "For a code review subagent, consider asking about performance requirements"
-   - "A documentation subagent should check existing style guides first"
-   - "Testing subagents benefit from knowing your deployment environment"
-
-2. **Student as Teacher**: You provide domain expertise Claude doesn't have
-   - "In our codebase, we use [SPECIFIC PATTERN]"
-   - "Our team has a strong preference for [APPROACH]"
-   - "We've tried [X BEFORE] and it didn't work because [Y]"
-
-3. **Convergence**: Together you design a subagent that's better than either of you would create alone
-   - Not generic (Claude's default patterns)
-   - Not overly specific (your initial idea)
-   - But optimized for YOUR workflow and team needs
-
-**This co-learning makes subagents more useful**. Instead of copying examples, you understand WHY certain design choices matter.
-
-**Try this now** before completing your subagent creation.
-
 ### Step 3: Choose Creation Method
 
 ```
@@ -413,37 +377,20 @@ When analyzing a business idea:
 
 ## Try With AI
 
-Open Claude Code and complete these hands-on exercises:
+Let's build your first custom subagent and explore how subagent orchestration works in practice.
 
-### Exercise 1: Create Your Own Subagent
+**🎯 Practice Creating a Custom Subagent:**
 
-Follow the hands-on steps from earlier in this lesson:
+> "Walk me through creating a custom subagent for [describe a repeated task you do: code reviews / blog planning / meeting notes / test design]. Use the `/agents` command. Help me think through: What should this subagent do autonomously? What questions should it ask me to gather context? What should the output format be?"
 
-1. Type `/agents`
-2. Choose "Create new agent"
-3. Choose "Project" location
-4. Choose "Generate with Claude"
-5. Describe what it should do (try Blog Writer, Learning Guide, or Meeting Notes Organizer)
-6. Test your new subagent by invoking it explicitly
+**🔍 Explore the Plan Subagent:**
 
-**Expected outcome**: You'll have a working custom subagent stored in `.claude/agents/` that you can invoke anytime.
+> "I want to create a 6-month content marketing plan for my startup. Create a strategy showing the phases and what each phase includes. Help me understand: When does the Plan subagent activate? What research does it do? How does control return to you after it completes?"
 
-### Exercise 2: Trigger the Plan Subagent
+**🧪 Test Your Custom Subagent:**
 
-```
-I want to create a 6-month content marketing plan for my startup.
-Create a strategy showing the phases and what each phase includes.
-```
+> "I just created a [your subagent name] subagent. Help me test it with a real scenario: [describe your specific use case]. Invoke the subagent explicitly and walk me through what happens step-by-step. Show me the one-task, one-completion pattern in action."
 
-**Expected outcome**: Plan subagent researches content strategies, then presents a multi-phase breakdown (audience research → content pillars → production schedule → distribution). Observe the subagent working, then returning control to main Claude Code.
+**🚀 Design an Advanced Workflow:**
 
-### Exercise 3: Test Your Custom Subagent
-
-If you created a startup-planner subagent in Exercise 1:
-
-```
-Use the startup-planner subagent to analyze this business idea:
-"A mobile app that helps people find and book local fitness classes"
-```
-
-**Expected outcome**: Your custom subagent launches, researches the market, returns findings to main Claude Code, which presents them to you. You'll see the one-task, one-completion pattern in action.
+> "I have complex projects that could benefit from multiple specialized subagents (research, code review, documentation, testing). Help me design a workflow where I orchestrate several subagents for [describe your project type]. Which subagents should I create? When should each be invoked? How do I coordinate their outputs?"

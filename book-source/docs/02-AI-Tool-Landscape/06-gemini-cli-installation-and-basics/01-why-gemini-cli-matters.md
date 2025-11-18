@@ -198,32 +198,20 @@ As you work through this chapter, you're not just learning "another AI tool." Yo
 
 ## Try With AI
 
-Use your preferred AI companion (Gemini CLI or Claude Code) for these exercises. You can use either the CLI version or web interface—the prompts work with any tool.
+Let's apply the tool selection framework to understand which AI assistant best fits your specific needs.
 
-### Prompt 1: Understanding Tool Selection Dimensions
-```
-Explain the six key dimensions for choosing AI coding assistants from this lesson (licensing, cost, context window, extensibility, interface, support). For each dimension, give me a concrete scenario where that dimension would be the deciding factor.
-```
+**💡 Understand Selection Dimensions:**
 
-**Expected outcome**: Clear examples showing when each dimension matters most in real-world scenarios.
+> "This lesson describes six key dimensions for choosing AI coding assistants: licensing, cost, context window, extensibility, interface, and support. For each dimension, give me a concrete scenario where that dimension would be the deciding factor in choosing between tools."
 
-### Prompt 2: Analyzing My Context Needs
-```
-I'm working on a project with [describe: number of files, lines of code, documentation size]. Help me calculate roughly how many tokens this represents. Then explain whether a 200K token context window or 1M token context window would be more suitable, and why.
-```
+**🔍 Analyze Your Context Requirements:**
 
-**Expected outcome**: Token estimation methodology and practical guidance on context window requirements.
+> "I'm working on a project with [describe: number of files, lines of code, documentation size]. Help me estimate how many tokens this represents. Then explain whether a 200K token context window (Claude Code) or 1M token context window (Gemini CLI) would be more suitable for my project and why."
 
-### Prompt 3: Free Tier vs Paid Service Analysis
-```
-For a typical learning session where I make 50-100 AI requests per day over 3 months, compare the cost implications of: (1) using a free tier with limits, (2) using pay-per-use APIs, and (3) using a subscription service. What are the tradeoffs beyond just cost?
-```
+**🎯 Compare Cost Models:**
 
-**Expected outcome**: Comprehensive cost analysis with non-financial tradeoffs (rate limits, features, flexibility).
+> "For a typical learning scenario where I make 50-100 AI requests per day over 3 months, compare the cost implications of: (1) free tier with limits, (2) pay-per-use API billing, and (3) subscription service. What are the tradeoffs beyond just cost (rate limits, features, flexibility)?"
 
-### Prompt 4: Project-Specific Tool Evaluation
-```
-Given this project context [describe your project: team size, budget, technical requirements, timeline], evaluate which AI coding assistant characteristics matter most. Consider: open source vs proprietary, cost structure, context window size, extensibility needs, interface preferences, and support requirements. Provide a weighted assessment.
-```
+**🚀 Evaluate for Your Project:**
 
-**Expected outcome**: Structured evaluation framework applied to your specific project, helping you make an informed tool choice.
+> "Given my project context [describe: team size, budget, technical requirements, timeline], evaluate which AI assistant characteristics matter most. Weigh these factors: open source vs proprietary, cost structure, context window size, extensibility needs, interface preferences, and support requirements. Help me make an informed choice between Claude Code and Gemini CLI."

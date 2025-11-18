@@ -375,31 +375,20 @@ A typical CLAUDE.md is 1-3 KB. Context is cheap; clarity is expensive. A well-or
 
 ## Try With AI
 
-Open Claude Code in your project directory:
+Let's create a CLAUDE.md file that eliminates context friction and makes every session productive from the start.
 
-**Prompt 1: Generate CLAUDE.md**
-```
-Create a complete CLAUDE.md file with these sections:
-- Project Overview (1-2 sentences)
-- Technology Stack (bulleted list)
-- Directory Structure (tree diagram)
-- Coding Conventions (bulleted list)
-- Key Commands (bulleted list for running, testing, deploying)
-- Important Notes (any gotchas or critical context)
+**🔍 Explore Auto-Generation:**
 
-Base it on what you see in the codebase.
-```
+> "Help me create a complete CLAUDE.md file for this project. Analyze what you can see in the codebase and generate a file with these sections: Project Overview (1-2 sentences), Technology Stack (bulleted list), Directory Structure (tree diagram), Coding Conventions (bulleted list), Key Commands (for running, testing, deploying), and Important Notes (gotchas or critical context). Base everything on the actual files you can read."
 
-**Expected Outcome**: Claude generates a full CLAUDE.md ready to save.
+**🎯 Practice Collaborative Refinement:**
 
-**Prompt 2: Refine Based on Your Project**
-```
-Review the CLAUDE.md. Make these adjustments:
-[Add your specific corrections, missing sections, or clarifications]
-```
+> "Review the CLAUDE.md you just created. I need to add my team's specific constraints: [describe your specific conventions, patterns, or requirements]. Update the file to reflect these details, and ask me clarifying questions if anything is ambiguous."
 
-**Expected Outcome**: Claude refines CLAUDE.md based on your feedback.
+**🧪 Test Context Persistence:**
 
-**Prompt 3: Test Auto-Loading**
+> "I'm going to test if CLAUDE.md auto-loads correctly. First, tell me what tech stack this project uses based on the CLAUDE.md. Then I'll exit and start a new session to verify you remember it without me repeating anything."
 
-Exit Claude Code, start a new session, and ask about your project. Claude should reference your tech stack without you repeating it—proving CLAUDE.md auto-loaded.
+**🚀 Optimize for Your Workflow:**
+
+> "Now that CLAUDE.md is working, help me identify what ELSE should go in it based on my workflow: I frequently [describe your common tasks: write tests, add API endpoints, update documentation, etc.]. What context would help you give better suggestions for these tasks?"

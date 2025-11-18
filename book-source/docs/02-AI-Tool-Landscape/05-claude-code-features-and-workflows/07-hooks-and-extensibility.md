@@ -305,30 +305,20 @@ Not necessary. Claude Code works perfectly fine without custom hooks. You can:
 
 ## Try With AI
 
-Open Claude Code and explore hooks conceptually with your AI companion.
+Let's explore how hooks can automate repetitive tasks in your development workflow.
 
-### Prompt 1: Understand Hooks
+**💡 Understand Hook Fundamentals:**
 
-```
-claude "Explain hooks in Claude Code. Give 2-3 useful examples where a hook would save time by automating a repetitive task."
-```
+> "Explain hooks in Claude Code. Give me 3 concrete examples where a hook would save time by automating a repetitive task I currently do manually. For each example, explain: what event triggers the hook, what the hook does automatically, and how much time it saves."
 
-**Expected outcome**: AI explains hooks as event-triggered automation and provides concrete examples (format code, run tests, load environment).
+**🔍 Identify Automation Opportunities:**
 
-### Prompt 2: Identify Opportunities
+> "I frequently [describe your repetitive task: run tests before committing / format code after editing / check linting / load environment variables / deploy to staging]. Could a Claude Code hook automate this? If so, what would the hook do? Which event would trigger it? Walk me through what the automation would look like."
 
-Think of a task you do repeatedly in your projects (running tests, formatting code, checking linting, deploying, loading configuration).
+**🎯 Design Your First Hook:**
 
-```
-claude "I frequently [describe your repetitive task]. Could a Claude Code hook help automate this? If so, what would it do?"
-```
+> "Based on my workflow, help me design a simple hook to automate [your most annoying repetitive task]. What would the hook configuration look like? What command would it run? What event should trigger it? What could go wrong and how do I troubleshoot it?"
 
-**Expected outcome**: AI identifies how a hook could eliminate the repetitive step, discusses which event would trigger it, and explains the time savings.
+**🚀 Plan Your Learning Path:**
 
-### Prompt 3: Future Learning Path
-
-```
-claude "Can I build custom hooks in Claude Code? How hard is it? When would I learn this? What are the prerequisites?"
-```
-
-**Expected outcome**: AI clarifies that hook building is intermediate-to-advanced content, explains prerequisites (Part 5), and positions hooks in the larger Claude Code customization landscape.
+> "I want to learn how to build custom hooks. What are the prerequisites? When in this book will I learn this? How hard is it compared to what I've learned so far (CLAUDE.md, MCP servers, subagents, skills)? Give me a roadmap for mastering Claude Code extensibility."

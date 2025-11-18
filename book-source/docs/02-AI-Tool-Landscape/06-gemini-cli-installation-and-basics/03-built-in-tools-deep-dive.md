@@ -825,45 +825,22 @@ Source: python.org Official Tutorial
 
 ## Try With AI
 
-Now practice using Gemini's tools with these exercises. Use your preferred AI companion (Gemini CLI or Claude Code) - the prompts work with any tool.
+Let's practice using Gemini's built-in tools (Google Search, File Reading, Shell Execution) through hands-on exploration.
 
-### Prompt 1: Practice Google Search — Learning Concepts
+**🔍 Explore Web Search Integration:**
 
-```
-What is Bash and why do I need to learn it before Python?
-```
+> "What is Bash and why do I need to learn it before Python? Research current best practices and explain the connection between terminal skills and programming."
 
-**Expected outcome**: You'll see 🔍 indicator, Gemini searches the web, returns current information about Bash, its importance, and how it connects to Python programming.
+**📁 Practice File Operations:**
 
----
+> "Read my [filename.md] file and tell me what I should focus on for the next week. Analyze my current progress and suggest specific, actionable next steps based on what you see in the file."
 
-### Prompt 2: Practice File Operations — Your Learning Files
+**⚙️ Test Shell Integration:**
 
-```
-Read my learning-plan.md and tell me what I should focus on for the next week
-```
+> "What directory am I currently in? Show me what files I have in this directory and explain which ones are relevant for my learning. If you see configuration files (.env, package.json, pyproject.toml), explain what they're for."
 
-**Expected outcome**: You'll see 📁 indicator, Gemini reads your learning-plan.md file, understands your current progress, and suggests a focused next step.
+**🚀 Combine Multiple Tools:**
 
-
----
-
-### Prompt 3: Practice Shell Integration — Your System Setup
-
-```
-What directory am I in? Show me what files I have for my learning.
-```
-
-**Expected outcome**: You'll see ⚡ indicators for `pwd` and `ls` commands, showing your current directory and files in that directory. Gemini explains what files you have ready for learning.
-
----
-
-### Prompt 4: Practice Web Fetch — Official Documentation
-
-```
-Fetch the Python.org getting started page and tell me what Python is used for
-```
-
-**Expected outcome**: You'll see 🌐 indicator, Gemini retrieves Python.org content, extracts beginner-friendly information about Python's uses, and connects it to your learning timeline (Chapter 12).
+> "I'm working on [describe your project or learning goal]. Use Google Search to find current best practices, read my project files to understand what I've done so far, and execute shell commands to verify my environment setup. Then give me a comprehensive assessment with recommended next steps."
 
 

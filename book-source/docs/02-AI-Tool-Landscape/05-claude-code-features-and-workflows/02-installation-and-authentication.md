@@ -305,20 +305,20 @@ Before moving forward, let's address important security considerations:
 
 ## Try With AI
 
-Use Claude Code for this activity (preferred, since you just installed it). If you already have another AI companion tool set up (e.g., ChatGPT web, Gemini CLI), you may use that instead—the prompts are the same.
+Now that Claude Code is installed, let's build confidence through safe exploration and establish good security practices.
 
-### Prompt 1: Security Boundaries
+**🛡️ Establish Safety Boundaries:**
 
-```
-I have installed Claude Code - can you share 'security considerations' like file access and command execution. I'm nervous about this. Help me set up safe boundaries: What directories should I AVOID running Claude Code in? What commands should I NEVER approve? Create a 'safety checklist' I can follow until I'm more comfortable.
-```
+> "I just installed Claude Code and I'm nervous about file access and command execution. Help me set up safe boundaries: What directories should I AVOID running Claude Code in? What commands should I NEVER approve without careful review? Create a practical safety checklist I can follow until I'm more comfortable."
 
-**Expected outcome:** Practical safety boundaries and approval criteria
+**🎯 Practice First Commands:**
 
-### Prompt 2: First Test Commands
+> "I completed installation successfully! Give me 3-5 safe 'Hello World' style prompts I can try RIGHT NOW that will: (a) verify Claude Code works, (b) won't modify important files, (c) demonstrate basic capabilities. Include what I should expect to see for each prompt."
 
-```
-I completed installation successfully! Now I want to test it with a simple, safe first command. Give me 3-5 'Hello World' style prompts I can try RIGHT NOW that will: (a) show me Claude Code works, (b) won't break anything, (c) help me understand what it can do. Include expected outputs so I know if it's working correctly.
-```
+**🧪 Test Your Installation:**
 
-**Expected outcome:** Confidence-building first commands with expected results
+> "Walk me through testing my Claude Code installation step-by-step. Start with checking the version, then test file reading (on a safe test file), then test a simple command execution (like checking current directory). Explain what each output means and how to know if something's wrong."
+
+**🚀 Configure for Your Workflow:**
+
+> "I work primarily with [describe your tech stack: Python/JavaScript/Go/etc.]. Help me verify Claude Code can handle my environment: check for required tools, test reading my project structure, and suggest first productive task I could try that's relevant to my actual work."

@@ -651,34 +651,23 @@ Combine all MCP capabilities and built-in tools in one workflow.
 
 ## Try With AI
 
-**Setup**: Use Gemini CLI for this activity (preferred for this lesson). You may use Claude Code or other AI tools with MCP support if you prefer.
+Let's add MCP servers to extend Gemini CLI's capabilities beyond your local files.
 
-### Prompt 1: Setting Up Your First MCP Server
-```
-I want to add the Playwright MCP server to browse websites.
-Walk me through:
-1. Exact command to add it
-2. How to verify it's working
-3. A test prompt to make sure it's connected
-4. What to do if the connection fails
-```
+**🎯 Set Up Your First MCP Server:**
 
-**Expected outcome**: Step-by-step setup with verification commands.
+> "I want to add the Playwright MCP server to enable web browsing. Walk me through: the exact command to add it, how to verify it's working correctly, a test prompt to confirm the connection, and troubleshooting steps if the connection fails."
 
-**Safety reminder**: Only add MCP servers from trusted sources. Playwright is widely used and maintained by Microsoft.
+**🔍 Choose the Right MCP Server:**
 
-### Prompt 2: Choosing the Right MCP Server
-```
-I have this goal: [describe what you want to accomplish]
+> "I have this goal: [describe what you want to accomplish—examples: research products on e-commerce websites, stay current with documentation for tools I'm learning, gather information from multiple websites for a report]. Which MCP server should I use and why? How do I set it up? Explain like I'm a beginner with no programming experience."
 
-Examples:
-- "Research products on e-commerce websites"
-- "Stay current with documentation for tools I'm learning"
-- "Gather information from multiple websites for a report"
+**🧪 Test MCP Integration:**
 
-Which MCP server should I use? Why? How do I set it up?
-Explain like I'm a beginner with no programming experience.
-```
+> "I just added [MCP server name] to Gemini CLI. Help me test that it's working correctly. Give me 3 progressively complex test prompts: a simple test (verify basic connectivity), an intermediate test (use a real capability), and an advanced test (combine MCP with other Gemini features). For each, tell me what to expect."
+
+**🛡️ Secure Your MCP Setup:**
+
+> "The lesson emphasizes MCP security. Help me audit my MCP servers for safety. For each MCP I've enabled [list them], explain: what external access it has, what risks exist, what data it can see, and how to limit permissions using `excludeTools`. Create an MCP security checklist I can use for future additions."
 
 **Expected outcome**: Specific recommendation with beginner-friendly setup instructions.
 

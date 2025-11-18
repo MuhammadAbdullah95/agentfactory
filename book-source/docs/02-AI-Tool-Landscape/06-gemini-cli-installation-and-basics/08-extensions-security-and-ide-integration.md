@@ -424,35 +424,23 @@ Extensions install to a special folder. Your changes get overwritten on update.
 
 ## Try With AI
 
-**Use Gemini CLI** for these prompts to practice what you learned.
+Let's explore how to create secure, reusable Gemini CLI extensions and integrate with VS Code.
 
-### Prompt 1: Understanding Tool Safety
-```
-I'm looking at an extension that includes the filesystem MCP server.
-It has these tools available:
-- read_file
-- write_file
-- delete_file
-- list_directory
-- create_directory
+**🛡️ Understand Tool Safety:**
 
-Which tools are safe for a beginner learning AI tools?
-Which should I block with excludeTools?
-Explain why each dangerous tool is risky.
-```
+> "I'm looking at an extension that includes the filesystem MCP server with these tools: read_file, write_file, delete_file, list_directory, create_directory. Which tools are safe for a beginner learning AI tools? Which should I block with `excludeTools`? For each potentially dangerous tool, explain the specific risks and give me an example of how misuse could cause problems."
 
-**Expected outcome**: AI explains safety levels of each tool and recommends allowlist configuration.
+**🎯 Design a Learning Group Extension:**
 
-### Prompt 2: Planning a Learning Group Extension
-```
-I'm in a Python learning group (5 beginners).
-We want to create an extension for our study setup.
+> "I'm in a Python learning group (5 beginners). We want to create a shared Gemini CLI extension for our study setup. We need: Playwright MCP for researching documentation, a custom `/study-plan` command, a GEMINI.md with our learning goals, and safe tool filtering (read-only access). Help me design the complete extension.toml file with appropriate security settings."
 
-We need:
-- Playwright MCP for researching documentation
-- A custom /study-plan command
-- A GEMINI.md with our learning goals
-- Safe tool filtering (read-only access)
+**🔧 Set Up VS Code Integration:**
+
+> "Walk me through setting up Gemini CLI integration with VS Code. Show me: how to install the extension, how to configure it to use my existing Gemini CLI settings, how to use it within my editor workflow, and what advantages it has over using Gemini CLI in a separate terminal."
+
+**🚀 Build Your Extension Library:**
+
+> "Based on my workflow [describe what you do: web development / data analysis / content creation], help me design a custom Gemini CLI extension that combines: the right MCP servers, custom slash commands for my common tasks, security settings appropriate for my work, and IDE integration. Give me a complete, production-ready extension.toml file."
 
 Show me:
 1. What the gemini-extension.json should include

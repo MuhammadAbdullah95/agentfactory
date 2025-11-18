@@ -577,35 +577,23 @@ This is **automatic** (AI-triggered), unlike `/memory add` which is **manual** (
 
 ## Try With AI
 
-:::tip Instruction for AI Tools
-When practicing these prompts, use **Gemini CLI** as your preferred tool for this lesson. Gemini's built-in memory management commands (`/clear`, `/compress`, `/chat save`, `/memory add`) are specifically designed for this workflow.
-:::
+Let's master Gemini CLI's memory and context management to maintain productive long-running sessions.
 
-### Prompt 1: Context Management Strategy
-```
-I'm working on a large project in Gemini CLI. My conversations are getting long,
-and I'm worried about hitting the token limit.
+**💡 Understand Context Management Commands:**
 
-Should I use /clear, /compress, or /chat save? Show me:
-1. When to use each command
-2. What you preserve vs lose with each
-3. A daily workflow strategy for keeping context under control
-```
+> "I'm working on a large project in Gemini CLI and my conversations are getting long. I'm worried about hitting the token limit. Explain when to use `/clear`, `/compress`, and `/chat save`. For each command, show me: what it preserves vs what it loses, and when it's the right choice. Then give me a daily workflow strategy for keeping context under control."
 
-**Expected outcome**: Clear decision framework for context management.
+**🎯 Create Your GEMINI.md File:**
 
-### Prompt 2: GEMINI.md Setup for Your Project
-```
-Help me create a project-level GEMINI.md for a [describe your project type].
-Include:
-- Team conventions
-- Architecture overview
-- Common setup/commands
-- Key design decisions
-- Anything else AI should know on session start
+> "Help me create a project-level GEMINI.md file for my [describe your project type]. Include: team conventions, architecture overview, common setup/commands, key design decisions, and anything else you should know on session start. Keep it concise (target: 2000 tokens max) so it loads efficiently."
 
-Keep it concise (target: 2000 tokens max).
-```
+**🧪 Practice Chat Persistence:**
+
+> "Walk me through saving and loading chat sessions. Show me: how to save my current conversation with a descriptive name, how to list my saved chats, how to load a previous chat, and when this is useful vs when I should start fresh. Give me a practical workflow for managing multiple learning threads."
+
+**🚀 Optimize Long-Term Context:**
+
+> "I'm working on a 3-month learning project using Gemini CLI. Help me design a context management strategy that: uses GEMINI.md for persistent project info, saves key learning milestones with `/chat save`, compresses when needed, and knows when to clear and start fresh. What should go in permanent context vs ephemeral sessions?"
 
 **Expected outcome**: Ready-to-use GEMINI.md you can create in your project.
 

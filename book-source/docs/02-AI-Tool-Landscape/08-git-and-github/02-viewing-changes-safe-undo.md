@@ -467,30 +467,23 @@ When to use: Only if the commit is recent and unpushed to GitHub
 
 ## Try With AI
 
-**Setup**: Open ChatGPT (chat.openai.com) and explore how AI understands these undo commands.
+Let's master Git's undo commands so you can recover from mistakes confidently.
 
-**Prompt Set**:
+**💡 Understand Non-Destructive Undo:**
 
-**Prompt 1 (Conceptual)**:
-```
-I accidentally staged the wrong files in Git.
-I used: git reset HEAD wrongfile.txt
+> "I accidentally staged the wrong files in Git. I used: `git reset HEAD wrongfile.txt`. Does this command delete the file? Explain what happens to the file after this command. Is this safe to use or can it cause data loss?"
 
-Does this command delete the file?
-Explain what happens to the file after this command.
-```
+**🧪 Practice Recovery Scenarios:**
 
-**Expected Outcome**: ChatGPT should explain that `git reset HEAD` only unstages the file—the file still exists and is unchanged. Compare its answer to what you learned in Activity 7. Does ChatGPT understand that this is non-destructive? If it says the file is deleted, that's a mistake—correct it by telling ChatGPT "Actually, the file still exists, just unstaged."
+> "I'm working with AI to edit my project files. The AI made changes that broke my project. I already committed the broken changes to Git. Walk me through the safest way to undo this commit and go back to the working version. What's the difference between `git reset` and `git revert`? Which should I use and why?"
 
----
+**🎯 Build Confidence with Mistakes:**
 
-**Prompt 2 (Scenario-based)**:
-```
-I'm working with ChatGPT to edit my project files.
-ChatGPT made changes that broke my project.
-I already committed the broken changes to Git.
+> "I'm nervous about making mistakes in Git. Help me understand which Git commands are safe (non-destructive) vs dangerous (can lose work). For each dangerous command, explain: what it does, when you'd use it intentionally, and how to avoid using it accidentally."
 
-I want to undo this commit and go back to the working version.
+**🚀 Create Your Safety Workflow:**
+
+> "Design a 'safe undo' workflow for me. When I make a mistake, what's the checklist I should follow? Include: how to assess what went wrong, which undo command to use, how to verify the undo worked, and when to ask for help instead of experimenting."
 
 What Git command should I use?
 Is it safe to use?

@@ -238,101 +238,20 @@ What happens:
 
 ## Try With AI
 
-Use Claude Code for this activity (preferred, since you just installed it). If you already have another AI companion tool set up (e.g., ChatGPT web, Gemini CLI), you may use that instead—the prompts are the same.
+Let's explore MCP integration through hands-on practice with external system access.
 
-### 🤝 Practice Exercise: Three Roles MCP Exploration
+**🔍 Explore MCP Capabilities:**
 
-Now that you've added an MCP server, let's collaborate with Claude Code to explore what it can do.
+> "I've successfully added the Playwright MCP for web browsing. Show me 3 specific web testing tasks I could accomplish with this MCP right now. For each task, give me the exact prompt I should use and explain what Playwright will do."
 
-**Step 1: AI as Teacher** (Claude suggests capabilities)
+**🎯 Practice Building Workflows:**
 
-Ask Claude Code:
-```
-I've successfully added the Playwright MCP. What are 3 web testing
-tasks you could help me with using this MCP? Show me examples.
-```
+> "I need to test [describe your specific web application or research goal]. Walk me through building a complete workflow using Playwright MCP (for web browsing) and Context7 MCP (for documentation). Include: which MCP handles which part, exact prompts I should use, and how to verify everything works."
 
-Claude will suggest testing patterns you might not have considered—form submissions, screenshot comparisons, accessibility checks, etc.
+**🧪 Troubleshoot Integration Issues:**
 
-**Step 2: Student as Teacher** (You provide context Claude needs)
+> "I'm trying to add an MCP server and it's not working. I ran [paste your installation command]. The error says [paste error message]. Walk me through troubleshooting: What's the most likely cause? What should I check? Give me 3 diagnostic commands to run with expected outputs."
 
-Respond with your specific needs:
-```
-I need to test [YOUR SPECIFIC WEB APPLICATION]. Here's what I'm
-trying to verify: [YOUR TEST SCENARIO]. How would you approach
-this using Playwright MCP?
-```
+**🛡️ Establish Security Boundaries:**
 
-You teach Claude about your application, your requirements, your constraints.
-
-**Step 3: Convergence** (Together, refine the solution)
-
-Claude proposes a testing approach. You might say:
-- "That's close, but we also need to test mobile viewports"
-- "Can we make this test run faster?"
-- "How do we handle authentication in our tests?"
-
-Through this back-and-forth, you converge on a testing strategy that actually works for YOUR project—not a generic example, but a real solution.
-
-**This is AI collaboration**: Not just "asking Claude to do something," but teaching each other until you reach a better answer together.
-
-**Try this exercise now** with whichever MCP server you installed (Playwright or Context7).
-
----
-
-### Prompt 1: MCP Troubleshooting
-
-```
-I'm trying to add an MCP server to Claude Code and it's not working.
-I ran [paste your command].
-The error says [paste error message].
-Walk me through troubleshooting:
-(a) What's the most likely cause?
-(b) What should I check?
-(c) Give me 3 diagnostic commands to run.
-(d) If those fail, what's plan B?
-```
-
-**Expected outcome**: Troubleshooting guidance for MCP connection issues with specific diagnostic steps.
-
-### Prompt 2: Safe Testing Workflows
-
-```
-I successfully added Playwright MCP and Context7 MCP. Now I want to test them safely.
-Create 3 'Hello World' workflows for me:
-(a) One using Playwright to browse a safe website like Wikipedia,
-(b) One using Context7 to fetch docs for [my library/framework],
-(c) One combining BOTH MCPs in a single workflow.
-Include the exact prompts I should give Claude Code.
-```
-
-**Expected outcome**: Safe, tested workflows you can run immediately with exact prompts.
-
-### Prompt 3: Security Boundaries
-
-```
-The lesson emphasizes MCP security concerns. I'm nervous about external access.
-Help me establish safe boundaries:
-(a) What types of MCP servers should I AVOID as a beginner?
-(b) What permissions are risky?
-(c) How do I audit what an MCP server can access?
-(d) Create a 'MCP safety checklist' I can follow for any new MCP.
-```
-
-**Expected outcome**: Security boundaries and audit procedures you can apply to any MCP server.
-
-### Prompt 4: Design Your Own MCP Workflow
-
-```
-I want to use MCP servers to help with: [describe your goal: research a technology / stay current with docs / gather information from websites].
-
-Design a workflow for me:
-(a) Which MCP server(s) should I use? (Playwright for browsing? Context7 for docs? Other?)
-(b) What exact prompts should I give Claude Code?
-(c) How do I verify the MCP server is working correctly?
-(d) What could go wrong, and how do I troubleshoot it?
-
-Show me step-by-step with copyable prompts.
-```
-
-**Expected outcome**: Complete MCP workflow design customized to your actual needs with concrete, actionable steps.
+> "The lesson emphasizes MCP security. I'm nervous about giving Claude Code external access. Help me establish safe boundaries: What types of MCP servers should I avoid as a beginner? What permissions are risky? How do I audit what an MCP server can access? Create an MCP safety checklist I can follow."

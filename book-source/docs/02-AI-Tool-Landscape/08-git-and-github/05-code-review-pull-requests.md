@@ -335,30 +335,23 @@ When reviewing a diff, ask these questions:
 
 ## Try With AI
 
-Now practice this with ChatGPT or Claude.
+Let's practice creating professional pull requests that communicate your work clearly.
 
-### Setup
+**🔍 Review Your PR Description:**
 
-Have your GitHub PR open (or create a simple feature branch with changes and open a PR).
+> "I wrote this PR description for my GitHub pull request. Review it for clarity and suggest improvements: [Copy your PR description here]. Focus on: missing context, unclear explanations, lack of testing details, and anything that would confuse a reviewer."
 
-### Try With AI
+**🎯 Generate Professional PR Content:**
 
-**Prompt 1 (AI reviews your PR description)**:
-```
-I wrote this PR description for my GitHub pull request.
-Please review it for clarity and suggest improvements:
+> "I'm creating a pull request where I added error handling to my calculator app with help from AI. Write a professional PR title and bullet-point description that: explains what changed, why it changed, how to test it, and acknowledges AI assistance appropriately."
 
-[Copy your PR description here]
-```
+**🧪 Practice Self-Review:**
 
-**Expected Outcome**: AI will identify missing details, confusing language, or unclear sections. You learn what reviewers look for.
+> "Before submitting my PR, walk me through a self-review checklist. What should I check: in the code diff, in the PR description, in my commit messages, and in my test coverage? Help me catch issues before reviewers see them."
 
----
+**🚀 Prepare for Code Review:**
 
-**Prompt 2 (AI generates commit message format)**:
-```
-I'm creating a pull request where I added error handling to my calculator app
-with help from ChatGPT. Write a professional PR title and bullet-point description
+> "I'm about to submit my first PR for review. Help me prepare: What questions might reviewers ask? How should I respond to feedback? What if they suggest changes I disagree with? Give me a framework for productive code review conversations."
 that documents:
 - What the feature does
 - What ChatGPT generated

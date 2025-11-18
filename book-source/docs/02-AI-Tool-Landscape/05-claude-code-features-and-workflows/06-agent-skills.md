@@ -367,28 +367,20 @@ This shift—from "command what exists" to "describe what you want"—is fundame
 
 ## Try With AI
 
-**Setup**: Open Claude Code (`claude` command) for this activity.
+Let's design reusable skills that extend Claude Code's capabilities for your specific workflow.
 
-**Prompt 1: Design a Custom Skill**
-```
-Think about a repeated task in your workflow (code reviews, meeting notes, documentation).
-Design a skill for it:
-- What's the skill name and description?
-- When should Claude recognize it's relevant?
-- What workflow should it follow?
-Create the SKILL.md file structure.
-```
+**🎯 Practice Designing a Custom Skill:**
 
-**Prompt 2: Skill vs Subagent Decision**
-```
-Compare these two tasks:
-Task A: Draft weekly blog posts (happens 3x/week)
-Task B: Create comprehensive product launch strategy (one-time, complex)
+> "I have a repeated task in my workflow: [describe your task: code reviews / blog drafting / meeting notes / API documentation]. Help me design an agent skill for it. Walk me through: What should the skill name and description be? When should Claude recognize it's relevant and auto-load it? What workflow should the skill follow? Create the complete SKILL.md file structure with YAML frontmatter and instructions."
 
-For each: Should I build a Skill or Subagent? Why?
-What's the tradeoff between automatic activation (skills) vs. guaranteed control (subagents)?
-```
+**💡 Understand Skills vs Subagents:**
 
-**Expected Outcomes**: You'll design a skill matching your workflow and understand when skills vs subagents apply.
+> "Compare these two tasks: Task A) Draft weekly blog posts (happens 3x/week). Task B) Create comprehensive product launch strategy (one-time, complex). For each task, should I build a Skill or a Subagent? Explain the tradeoff between automatic activation (skills discover themselves) vs. guaranteed control (subagents invoked explicitly)."
 
-**Best Practices Reference**: See Lesson 9 for comprehensive skill design patterns and common pitfalls.
+**🧪 Test Skill Discovery:**
+
+> "I just created a [your skill name] skill and saved it to `.claude/skills/`. Help me test if Claude Code auto-loads it correctly. Give me a prompt that should trigger this skill's activation. Then explain how I can verify the skill is being used vs. Claude responding without the skill."
+
+**🚀 Build a Skill Suite:**
+
+> "I work on [describe your project type: web apps / data pipelines / documentation / etc.]. Help me identify 3-5 reusable skills I should create that would improve my workflow. For each skill, explain: what it does, when it activates, and why it's better as a skill than as a subagent or direct prompting."

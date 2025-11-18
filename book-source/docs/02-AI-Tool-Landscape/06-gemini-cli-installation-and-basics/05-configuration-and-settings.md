@@ -596,35 +596,23 @@ DATABASE_API_KEY=sk-secret-key-xyz789
 
 ## Try With AI
 
-:::tip Instruction for AI Tools
-When practicing these prompts, use **Gemini CLI** as your preferred tool for this lesson. Gemini's configuration system with `.env` support is specifically designed for multi-level settings management.
-:::
+Let's understand Gemini CLI's multi-level configuration system and how to secure sensitive data with `.env` files.
 
-### Prompt 1: Configuration Hierarchy Explained
-```
-I'm confused about Gemini CLI's configuration hierarchy.
-Explain the 7 levels and show an example where project-level settings override user-level settings.
-Also explain why this matters for teams.
-```
+**💡 Understand Configuration Hierarchy:**
 
-**Expected outcome**: Clear explanation of precedence with a practical team scenario.
+> "Explain Gemini CLI's 7-level configuration hierarchy in order of precedence. Give me a practical example where project-level settings override user-level settings. Then explain why this hierarchy matters for teams working on shared projects."
 
-### Prompt 2: Setting Up .env for Your Project
-```
-I'm setting up a Gemini CLI project that needs to connect to a PostgreSQL database
-and use an external API. Show me:
-1. What to put in settings.json
-2. What to put in .env
-3. What to add to .gitignore
-4. How to access these variables in a custom MCP server
-```
+**🛡️ Set Up Secure Configuration:**
 
-**Expected outcome**: Complete secure setup example you can copy for your project.
+> "I'm setting up a Gemini CLI project that needs to connect to a PostgreSQL database and use an external API. Show me: what to put in settings.json (non-sensitive config), what to put in .env (sensitive secrets), what to add to .gitignore (to avoid committing secrets), and how to access these variables securely in my custom MCP server."
 
-### Prompt 3: Troubleshooting Configuration Issues
-```
-I'm getting "Variable not found: DATABASE_URL" when trying to use an MCP server.
-My .env file has DATABASE_URL=postgresql://localhost/mydb.
+**🧪 Troubleshoot Configuration Problems:**
+
+> "I'm getting 'Variable not found: DATABASE_URL' when trying to use an MCP server. My .env file has DATABASE_URL=postgresql://localhost/mydb. Walk me through debugging: How do I verify Gemini CLI is reading my .env file? What are common mistakes with .env loading? How do I check which settings are actually active?"
+
+**🚀 Design Team Configuration:**
+
+> "My team is using Gemini CLI for a shared project. Help me design our configuration strategy: What goes in version-controlled settings.json (team standards)? What goes in .env (developer secrets)? What goes in personal user-level config? How do we document this so new team members set up correctly?"
 What could be wrong? How do I debug this?
 ```
 

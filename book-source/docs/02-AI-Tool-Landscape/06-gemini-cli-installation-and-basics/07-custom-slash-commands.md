@@ -469,35 +469,23 @@ Now you have three organized study-related commands!
 
 ## Try With AI
 
-:::tip Instruction for AI Tools
-When practicing these prompts, use **Gemini CLI** as your preferred tool. Gemini's custom slash commands are specifically designed to save your effective learning prompts for reuse.
-:::
+Let's create custom slash commands that save your most effective prompts for reuse in Gemini CLI.
 
-### Prompt 1: Create Your Personal Learning Command
-```
-Help me create a custom Gemini CLI command called /understand
-that takes a topic as argument and:
-1. Explains it in the simplest possible way
-2. Uses an analogy I can relate to
-3. Gives 2 real-world examples
-4. Tells me one practical thing I can do to learn more
+**🎯 Create Your Learning Command:**
 
-Show me:
-1. The exact TOML file content
-2. Where to save it (~/.gemini/commands/)
-3. How to test it works
-```
+> "Help me create a custom Gemini CLI command called `/understand` that takes a topic as argument and: explains it in the simplest way, uses an analogy I can relate to, gives 2 real-world examples, and tells me one practical thing I can do to learn more. Show me: the exact TOML file content, where to save it (~/.gemini/commands/), and how to test it works."
 
-**Expected outcome**: Ready-to-use TOML file you can create and test.
+**🔍 Build a Study Session Helper:**
 
-### Prompt 2: Build a Study Session Helper
-```
-I want to create a command that helps me plan study sessions.
+> "I want to create a `/session [topic]` command that helps me plan study sessions. When I run it, it should: suggest how long to study (30-60 min for beginners), break the topic into 3-4 smaller chunks, recommend a break schedule, and create a checklist I can follow. Generate the complete TOML file for this command."
 
-When I type /session [topic], it should:
-1. Suggest how long to study for (30-60 min for beginners)
-2. Break the topic into 3-4 smaller chunks
-3. Recommend a break schedule
+**🧪 Design a Code Review Command:**
+
+> "I'm learning to code and want a `/review` command that reviews my code with educational feedback. It should: check for common beginner mistakes, explain why something is wrong (not just what), suggest improvements with examples, and identify one learning opportunity. Create the TOML structure for this command."
+
+**🚀 Build Your Command Library:**
+
+> "Based on my learning style [describe how you learn best: visual/hands-on/conceptual/etc.], help me design 3-5 custom slash commands that would accelerate my learning. For each command, explain: what it does, when to use it, and provide the complete TOML file. Prioritize commands that save me the most time."
 4. Give me one focus goal for the session
 
 Write the TOML file for this command.

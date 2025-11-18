@@ -435,28 +435,22 @@ You now understand how branches work. But when should you **branch** instead of 
 
 ## Try With AI
 
-**Setup:** Open ChatGPT (chat.openai.com) or your preferred AI assistant.
+Let's explore how branches enable safe AI experimentation and comparison of different approaches.
 
-**Prompt Set:**
+**📋 Learn Naming Conventions:**
 
-```
-Prompt 1 (Naming conventions):
-"What are good Git branch naming conventions for a Python project?
-Show me examples for features, bug fixes, and experiments."
+> "What are good Git branch naming conventions for a Python project? Show me examples for features, bug fixes, and experiments. Explain the reasoning behind each naming pattern and how it helps with organization."
 
-Prompt 2 (Workflow review):
-"I'm testing two implementations of a feature on separate branches.
-What's a good process for deciding between them and documenting the decision?"
+**🎯 Practice Comparison Workflows:**
 
-Prompt 3 (Advanced):
-"How would branch workflows change if I were working with a team
-on the same project? What additional practices would matter?"
-```
+> "I'm testing two different implementations of the same feature on separate branches (one AI-generated, one I wrote manually). Help me design a process for: comparing them fairly, deciding which is better, documenting why I chose one over the other, and safely deleting the rejected branch."
 
-**Expected Outcomes:**
+**🧪 Test AI Suggestions Safely:**
 
-- **Prompt 1:** AI teaches you naming standards (feature/, bugfix/, etc.)
-- **Prompt 2:** AI suggests documentation in PRs and commit messages
-- **Prompt 3:** AI explains merge conflict prevention and code review patterns
+> "I want to let AI experiment with my code without risk. Walk me through a safe workflow: create an experiment branch, let AI make changes, test the changes, and either merge (if good) or discard (if bad). Include the exact Git commands and safety checks."
+
+**🚀 Plan for Team Collaboration:**
+
+> "How would branch workflows change if I were working with a team on the same project? What additional practices would matter? Explain merge conflict prevention, code review patterns, and how to coordinate with others using branches."
 
 Remember: AI might suggest advanced concepts (rebasing, squashing) beyond beginner level—for now, focus on simple branch creation and merging. Ask AI to explain in beginner terms if it uses technical jargon.

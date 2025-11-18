@@ -464,29 +464,23 @@ This is the core of **reusable intelligence**: capturing lessons learned so you 
 
 ## Try With AI
 
-**Setup**: You have your `git-workflow.md`. Now validate and extend it.
+Let's refine your personal Git workflow into a reliable reference you'll actually use.
 
-**Tool**: ChatGPT, Claude Code, or your AI assistant
+**🔍 Validate Your Workflow:**
 
-### Exercise 1: Validation Review
+> "I created this git-workflow.md guide for myself: [Paste your git-workflow.md]. Review it for: (1) Clarity - would someone else understand these patterns? (2) Completeness - are there scenarios I didn't cover? (3) Practicality - could I actually follow these steps under pressure? Identify gaps and suggest improvements."
 
-```
-I created this git-workflow.md guide for myself.
-[Paste your git-workflow.md]
+**🧪 Add Error Recovery:**
 
-Review it for:
-1. Clarity: Would someone else understand these patterns?
-2. Completeness: Are there scenarios I didn't cover?
-3. Practicality: Could I actually follow these steps under pressure?
-```
+> "My workflow handles the happy path but not errors. What error scenarios should I document? For each scenario, give me: the error symptom, the root cause, the recovery steps, and how to prevent it. Cover: merge conflicts, accidental commits, wrong branch work, and lost changes."
 
-**Expected Outcome**: AI identifies gaps ("You don't explain what to do if a merge conflicts" or "Your branch naming could be more consistent"). You revise accordingly.
+**🎯 Customize for AI Development:**
 
-### Exercise 2: Extend with Error Recovery
+> "I'm doing AI-assisted development where AI generates code frequently. Help me extend my Git workflow specifically for this: How often should I commit AI-generated code? How do I document what AI did vs what I did? What safety checks should I add? Create an 'AI-assisted development' section for my workflow."
 
-```
-My workflow handles the happy path.
-What error scenarios should I document?
+**🚀 Build Your Cheat Sheet:**
+
+> "Convert my git-workflow.md into a quick-reference cheat sheet. For the 10 most common Git operations I'll do, give me: one-line description, the exact command, when to use it, and one safety tip. Format it so I can print and keep at my desk."
 
 For each:
 - When this goes wrong (scenario)

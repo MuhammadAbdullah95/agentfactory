@@ -327,76 +327,20 @@ That's enough to understand when you encounter `.claude/settings.json` reference
 
 ## Try With AI
 
-Now let's explore settings hierarchy with Claude Code.
+Let's understand how Claude Code's three-level settings hierarchy enables both team collaboration and personal customization.
 
-**Setup**: Open Claude Code in your terminal and work through these prompts to understand how settings levels work together.
+**💡 Understand the Hierarchy:**
 
-### Prompt 1: Explain Settings Hierarchy
+> "Claude Code has settings at three levels: user (~/.claude/settings.json), project (.claude/settings.json), and local (.claude/settings.local.json). Explain what each level is for and why having three levels is better than one global settings file. Give me concrete examples of what I'd put at each level."
 
-```
-In Claude Code, settings exist at three levels: user (~/.claude/settings.json),
-project (.claude/settings.json), and local (.claude/settings.local.json).
+**🔍 Verify Your Current Configuration:**
 
-Explain what each level is for and why having three levels is better than one global settings file.
-```
+> "Help me check which settings files exist on my system. Walk me through the commands to check each level (user, project, local). Then, based on what exists, explain which settings are actually controlling my current Claude Code session and why."
 
-**Expected Outcome**: AI explains that hierarchy enables team standards without overriding personal preferences, and allows temporary overrides without affecting shared configuration.
+**🧪 Test Precedence Rules:**
 
-### Prompt 2: Verify Your Settings Hierarchy (Hands-On)
+> "Let's test precedence with a scenario: User level has outputStyle='Concise', Project level has outputStyle='Explanatory', and Local level is not set. Which outputStyle is active and why? Then, if I create a .claude/settings.local.json file with outputStyle='Verbose', what happens? Walk me through the precedence logic."
 
-**First, check yourself which settings files exist**:
+**🚀 Plan for Team Workflows:**
 
-```bash
-# Check user-level settings
-ls -la ~/.claude/settings.json
-
-# Check project-level settings (run from your project directory)
-ls -la .claude/settings.json
-
-# Check local-level settings
-ls -la .claude/settings.local.json
-```
-
-**What you'll see**:
-- "No such file or directory" = file doesn't exist (common for fresh installations)
-- File details = file exists (you have settings at that level)
-
-**Now ask Claude to explain what you found**:
-
-```
-I just checked my settings files. Here's what exists:
-- User level (~/.claude/settings.json): [exists / doesn't exist]
-- Project level (.claude/settings.json): [exists / doesn't exist]
-- Local level (.claude/settings.local.json): [exists / doesn't exist]
-
-Explain what this tells me about my current configuration and which level is active.
-```
-
-**Expected Outcome**: You understand hierarchy through **direct observation**, not just theory. Claude explains which settings are actually controlling your current session.
-
-### Prompt 3: Precedence Scenario
-
-```
-Let's say:
-- User level has: outputStyle = "Concise"
-- Project level has: outputStyle = "Explanatory"
-- Local level is: not set
-
-Which outputStyle is active? Why?
-Then: what happens if I add outputStyle = "Verbose" to local level?
-```
-
-**Expected Outcome**: AI correctly explains that project level wins initially (Explanatory), then local level overrides when you add it (Verbose)—demonstrating understanding of precedence order.
-
-### Prompt 4 (Stretch): Plan for Part 5
-
-```
-When I learn team workflows in Part 5, what settings would I modify?
-- User level (my personal preferences)?
-- Project level (team standards)?
-- Local level (temporary experiments)?
-
-Explain when each level is the right choice for different scenarios.
-```
-
-**Expected Outcome**: AI explains use cases—user level for personal defaults, project level for team standards, local level for temporary changes. You'll understand why hierarchy matters for team collaboration.
+> "When I learn team workflows in Part 5, help me understand which settings level to use for different scenarios: personal preferences (my editor style, my default verbosity), team standards (shared coding conventions, security policies), and temporary experiments (testing new configurations). Explain the decision framework for choosing the right level."

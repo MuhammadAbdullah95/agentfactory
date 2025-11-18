@@ -443,30 +443,23 @@ This is the power of GitHub as portfolio. You've transformed from "I did Git pro
 
 ## Try With AI
 
-You've now connected your project to GitHub and experienced AI collaboration across three roles. Let's explore GitHub features through AI assistance.
+Let's optimize your GitHub presence to showcase your work and build your professional portfolio.
 
-**Setup**: Open ChatGPT (chat.openai.com) or Claude (claude.com) in your browser.
+**🎨 Enhance Your GitHub Profile:**
 
-**Prompt 1: GitHub Profile Enhancement**:
+> "I just pushed my first project to GitHub and want to make my profile look professional for employers. What should I include in my GitHub profile? Cover: profile picture guidelines, bio writing tips, featured repositories selection, profile README.md (what to include), and links to external profiles."
 
-```
-I just pushed my first project to GitHub. I want to make my GitHub profile
-look professional for employers. What should I include in my GitHub profile?
-```
+**📂 Build Your Project Portfolio:**
 
-**Expected Outcome**: AI suggests:
-- Profile picture (professional)
-- Bio (2-3 sentences about you)
-- Featured repositories (highlight best projects)
-- README.md on your profile (GitHub feature)
-- Links to portfolio/blog/LinkedIn
+> "I'm building a portfolio of AI-assisted projects to demonstrate my skills to employers. What types of projects should I build? For each suggestion, explain: what it demonstrates, how to showcase the AI collaboration aspect, and what employers look for in that project type."
 
-**Prompt 2: Portfolio Building**:
+**🔍 Optimize Repository Presentation:**
 
-```
-I'm building a portfolio of AI-assisted projects. What projects should
-I build to demonstrate my skills to employers?
-```
+> "I have a project on GitHub but it looks bare. Help me make it professional: What should the README.md include? How do I explain that I used AI assistance? Should I add screenshots or demos? What license should I choose? Make the repository employer-ready."
+
+**🚀 Establish Your GitHub Workflow:**
+
+> "Design a sustainable GitHub workflow for me as I build multiple projects. How often should I push to GitHub? How do I organize multiple projects? Should I use GitHub Issues for solo projects? What habits will make my GitHub profile impressive over time?"
 
 **Expected Outcome**: AI suggests project ideas that demonstrate:
 - Your ability to work with AI assistants

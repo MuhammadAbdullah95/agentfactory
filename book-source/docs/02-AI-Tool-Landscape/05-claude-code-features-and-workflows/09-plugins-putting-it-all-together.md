@@ -337,21 +337,20 @@ Study production examples at https://github.com/anthropics/skills (canvas-design
 
 ## Try With AI
 
-### Exercise 1: Install and Use a Plugin
+Let's integrate everything you've learned about Claude Code's extensibility (CLAUDE.md, MCP, subagents, skills, hooks, settings) into a cohesive workflow.
 
-```
-Install example-skills from anthropics/skills, then help me create
-a visual diagram showing the Claude Code plugin architecture
-```
+**🔍 Explore the Plugin Ecosystem:**
 
-**Expected outcome**: Claude uses the canvas-design skill to create visual output.
+> "Show me how to install and use a skill plugin from the Anthropic skills repository (anthropics/skills). Walk me through: finding available plugins, installing one that seems useful, and testing it with a real task. How do I verify the plugin is active and working correctly?"
 
-### Exercise 2: Decision Framework
+**💡 Understand the Decision Framework:**
 
-```
-I need Claude to help with [describe your specific task].
-Should I use an existing plugin, create a custom skill, or just ask directly?
-Walk me through the decision.
-```
+> "I need Claude to help with [describe your specific task]. Should I: (a) use an existing plugin, (b) create a custom skill, (c) create a custom subagent, or (d) just ask Claude directly without customization? Walk me through the decision tree. What are the tradeoffs for each approach?"
 
-**Expected outcome**: Understanding when to use existing vs. custom capabilities.
+**🎯 Design Your Customization Stack:**
+
+> "Based on my workflow [describe what you do: web development / data analysis / content creation / etc.], help me design a complete Claude Code customization stack. What should I put in CLAUDE.md? Which MCP servers should I enable? Should I create custom skills or subagents? What hooks would save me time? Give me a prioritized action plan."
+
+**🚀 Build Integration Workflow:**
+
+> "I want to build a workflow that combines multiple Claude Code capabilities: use CLAUDE.md for project context, enable Playwright MCP for testing, create a custom 'test-generator' subagent, and add a pre-commit hook for linting. Help me design how these pieces work together. What's the setup order? How do they interact? What could go wrong?"

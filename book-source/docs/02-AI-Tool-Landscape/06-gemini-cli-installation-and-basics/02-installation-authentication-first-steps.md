@@ -546,32 +546,20 @@ AI troubleshooting:
 
 ## Try With AI
 
-Now that you've installed Gemini CLI, use your preferred AI companion (Gemini CLI or Claude Code) for these exercises. You can use either the CLI version or web interface—the prompts work with any tool.
+Now that Gemini CLI is installed and authenticated, let's test it with varied tasks to build confidence.
 
-### Prompt 1: Learn a New Concept
-```
-Explain machine learning to me in simple terms with a real example. Then give me 3 real-world applications of machine learning.
-```
+**💡 Learn a New Concept:**
 
-**Expected outcome**: Clear explanation with concrete examples and practical applications you can understand.
+> "Explain machine learning to me in simple terms with a real example I can understand. Then give me 3 real-world applications of machine learning that I interact with daily without realizing it."
 
-### Prompt 2: Write Professional Content
-```
-Write a professional email to my manager about my project status. The project is [describe your situation]. Make it concise and positive.
-```
+**🎯 Practice Professional Communication:**
 
-**Expected outcome**: Well-structured professional email you can use or adapt.
+> "Write a professional email to my manager about my project status. The project is [describe your situation: what you're working on, current progress, any blockers]. Make it concise, positive, and action-oriented."
 
-### Prompt 3: Problem Solving
-```
-I'm getting an error when I try to install a package. The error message is: [paste error]. What does it mean and how do I fix it?
-```
+**🧪 Troubleshoot Technical Issues:**
 
-**Expected outcome**: Clear explanation of the error and step-by-step solution.
+> "I'm getting an error when trying to [describe what you're doing]. The error message is: [paste your error]. Explain what this error means in simple terms and give me step-by-step instructions to fix it. If there are multiple possible causes, help me diagnose which one applies to my situation."
 
-### Prompt 4: Plan and Organize
-```
-I want to learn programming. What programming language should I start with and why? Give me a 4-week learning plan with specific goals for each week.
-```
+**🚀 Plan Your Learning Path:**
 
-**Expected outcome**: Personalized learning recommendation with structured plan you can follow immediately.
+> "I want to learn programming from scratch. Help me choose the right programming language to start with based on my interests: [describe what you want to build or your goals]. Then create a 4-week learning plan with specific, actionable goals for each week that I can follow using Gemini CLI as my learning partner."
