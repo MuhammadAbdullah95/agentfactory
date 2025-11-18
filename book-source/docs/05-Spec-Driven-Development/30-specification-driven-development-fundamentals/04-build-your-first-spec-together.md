@@ -2,7 +2,7 @@
 title: "Build Your First Spec: Basic Calculator"
 chapter: 30
 lesson: 4
-duration: "60-75 minutes"
+duration: "75-90 minutes"
 skills:
   - name: "Specification Writing"
     proficiency: "B1"
@@ -81,7 +81,7 @@ Before writing any code, we'll follow this cycle:
 
 ---
 
-## Part 1: User Stories (The "Why")
+## User Stories (The "Why")
 
 Every specification starts with **user stories**—what do users want to accomplish?
 
@@ -120,7 +120,7 @@ Your companion might provide:
 
 **Good start!** User stories capture _intent_ without prescribing _implementation_.
 
-## Part 2: Acceptance Criteria (The "What")
+## Acceptance Criteria (The "What")
 
 For each user story, we need **acceptance criteria**—specific conditions that must be true for the story to be "done."
 
@@ -167,7 +167,7 @@ Also add a scenario for 0.1 + 0.2 to document IEEE 754 precision behavior.
 #### 💬 AI Colearning Prompt
 > "Why do AI agents ask clarifying questions during spec-writing instead of just making assumptions? How does this question-asking improve the final specification quality?"
 
-## Part 3: Edge Cases & Design Decisions (The "Gotchas")
+## Edge Cases & Design Decisions (The "Gotchas")
 
 Acceptance criteria covered **expected behavior**. Edge cases reveal **boundary conditions** where specs must be most precise.
 
@@ -215,7 +215,7 @@ When writing any spec, ask:
 #### 🎓 Expert Insight
 > In AI-native development, edge cases aren't bugs waiting to happen—they're design decisions waiting to be made. When you specify "division by zero raises ZeroDivisionError" instead of leaving it ambiguous, you're not being pedantic. You're preventing your AI from making a choice you'll regret at 2 AM when production breaks.
 
-## Part 4: The Complete Calculator Specification
+## The Complete Calculator Specification
 
 Now let's compile user stories, acceptance criteria, and edge cases into one complete spec document.
 
@@ -232,7 +232,7 @@ Now create a calc/spec.md file and document the complete specification there. Al
 6. **Unambiguous:** No room for interpretation (e.g., "division always returns float")
 ```
 
-## Part 4a: Quality Iteration (Validate and Refine)
+## Quality Iteration (Validate and Refine)
 
 You've drafted a spec collaboratively. Now comes the critical step: **validating your spec against quality standards** before you ask AI to implement.
 
@@ -329,7 +329,7 @@ I've updated my spec. Before you implement, tell me:
 
 ---
 
-## Part 5: Test Your Specification (Co-Learning in Action)
+## Test Your Specification (Co-Learning in Action)
 
 Now comes the crucial moment. Ask your companion:
 
@@ -408,7 +408,7 @@ Then ask AI to regenerate. Now it implements correctly.
 
 ---
 
-## Part 6: Validate and Iterate
+## Validate and Iterate
 
 Now let's validate the implementation against our specification using all the test scenarios. You can carefully review the code and tests generated.
 

@@ -2,7 +2,7 @@
 title: "Your Team Needs Shared Rules: Memory Banks and Constitutions"
 chapter: 30
 lesson: 5
-duration: "60-75 minutes"
+duration: "45-60 minutes"
 skills:
   - name: "Team Governance"
     proficiency: "B1"

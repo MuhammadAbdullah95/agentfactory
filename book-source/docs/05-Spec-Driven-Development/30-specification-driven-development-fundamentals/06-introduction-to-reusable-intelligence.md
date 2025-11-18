@@ -2,19 +2,21 @@
 title: "Introduction to Reusable Intelligence"
 chapter: 30
 lesson: 6
+duration: "60-75 minutes"
+skills:
+  - name: "Pattern Recognition"
+    proficiency: "B1"
+    category: "Analytical"
+  - name: "Reusable Intelligence Design"
+    proficiency: "B1"
+    category: "Technical"
+  - name: "Decision Framework Application"
+    proficiency: "B1"
+    category: "Conceptual"
 learning_objectives:
-  - "Transform recurring specification patterns into reusable components (Skills and Subagents)"
-  - "Distinguish between Skills (2-4 decisions, guidance frameworks) and Subagents (5+ decisions, autonomous reasoning)"
-  - "Apply decision framework to identify when to encode patterns versus write fresh specifications"
-estimated_time: "60-75 minutes"
-stage: "3 - Intelligence Design"
-proficiency_tier: "B1"
-concepts_introduced: 2
-generated_by: "content-implementer v1.0.0"
-source_spec: "specs/030-chapter-30-sdd-ri-restructure/lesson-plan.md"
-created: "2025-01-18"
-workflow: "/sp.implement"
-version: "1.0.0"
+  - "Transform recurring specification patterns into reusable components (Skills and Subagents) (B1)"
+  - "Distinguish between Skills (2-4 decisions, guidance frameworks) and Subagents (5+ decisions, autonomous reasoning) (B1)"
+  - "Apply decision framework to identify when to encode patterns versus write fresh specifications (B1)"
 ---
 
 # Introduction to Reusable Intelligence
@@ -27,7 +29,7 @@ This lesson introduces the next level of SDD-RI thinking: **Reusable Intelligenc
 
 ---
 
-## Part 1: Real Skill Example — Error Handling Pattern (20 minutes)
+## Real Skill Example — Error Handling Pattern
 
 Let's start with a concrete example from actual professional practice.
 
@@ -130,7 +132,7 @@ Look at the specifications you've written (or reviewed) in Lessons 1-5:
 
 ---
 
-## Part 2: Real Subagent Example — Validation Auditor (20 minutes)
+## Real Subagent Example — Validation Auditor
 
 Now let's look at something more complex. Some patterns have more decisions and deeper expertise.
 
@@ -234,7 +236,7 @@ Think about your project context:
 
 ---
 
-## Part 3: Decision Framework — When to Use What (20 minutes)
+## Decision Framework — When to Use What
 
 Now that you've seen a Skill and a Subagent, how do you decide which type of Reusable Intelligence to create?
 
@@ -378,7 +380,7 @@ Conclusion: This is a SKILL (Error Handling Framework)
 
 ---
 
-## Part 4: The Bigger Picture — Intelligence Accumulation
+## The Bigger Picture — Intelligence Accumulation
 
 You now understand three levels of Reusable Intelligence:
 
@@ -409,7 +411,7 @@ You now understand three levels of Reusable Intelligence:
 
 **What you've accomplished**:
 - L1-3: Learned to write clear, quality specifications
-- L4: Discovered AI as collaborative partner (Three Roles Framework)
+- L4: Discovered AI as collaborative partner for spec refinement
 - L5: Built team governance (Constitutions ensure consistency)
 - **L6: Identified patterns and created Reusable Intelligence (Skills and Subagents)**
 
@@ -470,27 +472,3 @@ What framework could I provide that others could reuse without my help?
 Describe a time when you WISHED you had captured a pattern as reusable intelligence.
 What would the team have gained by doing so?
 ```
-
----
-
-## Summary
-
-In this lesson, you learned:
-
-1. **Reusable Intelligence (RI)**: Capturing recurring patterns (Skills and Subagents) so teams don't re-solve the same problems
-
-2. **Skills**: 2-4 decision frameworks that apply horizontally (error handling, pagination, validation, authentication)
-
-3. **Subagents**: 5+ autonomous reasoning systems that apply vertically in specialized domains (security auditing, performance optimization, accessibility review)
-
-4. **Decision Framework**: How to recognize patterns and categorize them as Constitutions (universal), Skills (horizontal), or Subagents (vertical)
-
-You're now thinking about SDD-RI as a complete methodology:
-- **Constitutions** enforce consistency (L5)
-- **Skills** capture horizontal patterns (L6)
-- **Subagents** embed domain expertise (L6)
-- **Together** they create organizational intelligence (Chapter 31+)
-
-**Key insight**: The goal isn't to be clever with tools. It's to capture what your team has learned and make it reusable so you can focus on novel problems, not re-solving familiar ones.
-
-Next lesson (L7): You'll learn **HOW** to design Reusable Intelligence using the **Persona + Questions + Principles (P+Q+P)** pattern that activates reasoning.

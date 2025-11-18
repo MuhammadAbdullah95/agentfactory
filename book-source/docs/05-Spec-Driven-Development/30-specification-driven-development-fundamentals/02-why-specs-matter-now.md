@@ -95,7 +95,7 @@ With AI agents, vague requirements produce incomplete code—they implement EXAC
 
 ---
 
-## Historical Context: Why Specs Failed Before (Compressed)
+## Historical Context: Why Specs Failed Before
 
 Understanding why previous specification approaches failed helps us appreciate why SDD succeeds now.
 
@@ -195,14 +195,3 @@ Ready to understand why SDD emerged at this specific moment in history? Explore 
 
 **🚀 Apply to Your Experience:**
 > "Think about my last 3 AI coding sessions. How many iterations did each take? If I had written a spec first, estimate how much time I would have saved. Be honest about the tradeoffs."
-
----
-
-## What's Next?
-
-You now understand:
-- **WHY** specs matter NOW (AI literal-mindedness + cost-benefit shift)
-- **WHEN** specs became essential (2025 AI capability convergence)
-- **HOW** SDD differs from past attempts (natural language, LLMs, no lock-in)
-
-**Lesson 3** shows you **WHAT** a good specification looks like—the anatomy and structure that makes specs work with AI agents.

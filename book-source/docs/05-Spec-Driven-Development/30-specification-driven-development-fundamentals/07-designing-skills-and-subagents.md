@@ -2,7 +2,7 @@
 title: "Designing Skills and Subagents with P+Q+P"
 chapter: 30
 lesson: 7
-duration: "60-75 minutes"
+duration: "75-90 minutes"
 skills:
   - name: "Intelligence Design"
     proficiency: "B1"
@@ -130,7 +130,7 @@ The strong principles guide **specific decisions** with clear reasoning. The wea
 
 ---
 
-## Part 1: Design Walkthrough — Input Validation Skill
+## Design Walkthrough — Input Validation Skill
 
 Let's design a real, reusable skill: **Input Validation at System Boundaries**.
 
@@ -298,7 +298,7 @@ Use this skill when your feature:
 
 ---
 
-## Part 2: Design Walkthrough — Performance Optimization Subagent
+## Design Walkthrough — Performance Optimization Subagent
 
 Now let's design something more complex: a **Performance Optimization Subagent**.
 
@@ -475,7 +475,7 @@ Subagent recommendations:
 
 ---
 
-## Part 3: Hands-On Practice — Design Your Components
+## Hands-On Practice — Design Your Components
 
 Now it's your turn. You'll design **two reusable intelligence components** using P+Q+P.
 
@@ -666,16 +666,3 @@ Help me count decision points and determine the right approach.
 - Prompt 3: Clear decision framework for Skill vs Subagent choice
 
 **Safety Note**: When using AI to help design intelligence patterns, verify that the Persona activates thinking (not just performance), Questions demand context analysis (not generic patterns), and Principles guide decisions (not state aspirations).
-
----
-
-## Next Lesson: Framework Landscape
-
-You now understand how to **design** reusable intelligence. Lesson 8 previews the **frameworks** that implement these designs in production systems.
-
-You'll explore:
-- How frameworks encode Personas, Questions, and Principles
-- Why Chapter 31+ teaches specific framework implementations
-- How SDD-RI connects design (what you just learned) to implementation (coming next)
-
-But first, **reflect on what you've built**: You've designed two pieces of reusable intelligence using reasoning-activation patterns. That's the entire foundation of SDD-RI methodology.

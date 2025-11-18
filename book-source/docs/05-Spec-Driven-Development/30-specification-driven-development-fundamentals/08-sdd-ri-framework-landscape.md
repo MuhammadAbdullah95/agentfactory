@@ -2,7 +2,7 @@
 title: "SDD-RI Framework Landscape & What's Next"
 chapter: 30
 lesson: 8
-duration: "60-75 minutes"
+duration: "45-60 minutes"
 skills:
   - name: "Framework Context Assessment"
     proficiency: "B1"
@@ -24,7 +24,7 @@ You've now completed your journey through SDD fundamentals (Lessons 1-5) and lea
 
 ---
 
-## Part 1: Know Your Context (15 minutes)
+## Know Your Context
 
 Before comparing frameworks, ground yourself in reality. **These three questions determine which tool actually fits.**
 
@@ -52,7 +52,7 @@ Before comparing frameworks, ground yourself in reality. **These three questions
 
 ---
 
-## Part 2: Four SDD Approaches (30 minutes)
+## Four SDD Approaches
 
 Four main SDD approaches emerged to serve different needs. Here's how to think about each one and when it fits.
 
@@ -125,7 +125,7 @@ Four main SDD approaches emerged to serve different needs. Here's how to think a
 
 ---
 
-## Part 3: Why This Book Teaches Spec-Kit Plus (15 minutes)
+## Why This Book Teaches Spec-Kit Plus
 
 You might wonder: "If Kiro is simpler, shouldn't I start there? If Spec-Kit is GitHub's standard, why not use that?"
 
@@ -168,17 +168,17 @@ You're not learning abstract theory. You're learning the practical framework tha
 
 ---
 
-## Part 4: Chapter 31 Bridge — From Understanding to Implementation (10 minutes)
+## From Understanding to Implementation
 
-### What You've Completed (Chapter 30)
+### What You've Completed
 
 - **Lessons 1-5**: SDD fundamentals — how to write clear specifications and plan implementations
 - **Lessons 6-7**: RI concepts — how to design reusable intelligence, capture reasoning, recognize when to create skills vs subagents
 - **Lesson 8**: Framework landscape — industry context and why Spec-Kit Plus fits AI-native teams
 
-### What's Next (Chapter 31+)
+### What's Next 
 
-Chapter 31 takes everything you've learned and puts it into practice:
+Next chapter 31 takes everything you've learned and puts it into practice:
 
 - **Build real features** using Spec-Kit Plus (not toy examples)
 - **Practice the complete SDD-RI workflow**: Specification → ADR decisions → Prompt → Code → PHR logging → Validation

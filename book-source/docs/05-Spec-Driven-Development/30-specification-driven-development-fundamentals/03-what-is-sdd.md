@@ -2,8 +2,8 @@
 title: "Anatomy of a Specification"
 chapter: 30
 lesson: 3
-duration: "60-75 minutes"
-stage: "Layer 1 (Manual Foundation)"
+duration: "75-90 minutes"
+stage: "Manual Foundation"
 skills:
   - name: "Specification Writing"
     proficiency: "B1"
@@ -25,7 +25,7 @@ In Lesson 1, you learned that vague specifications cost time, money, and sanity.
 
 In this lesson, you'll learn to structure that clarity. You'll discover what a professional specification looks like, why success criteria belong FIRST (not last), and how to write your own spec.md file by hand.
 
-This is **Layer 1 work** — building your foundation before AI collaboration. No AI agents. Just you, a blank document, and the structure that turns vague ideas into executable plans.
+This is **manual foundation work** — building your understanding before AI collaboration. No AI agents. Just you, a blank document, and the structure that turns vague ideas into executable plans.
 
 ---
 
@@ -304,7 +304,7 @@ Python applications need a way to save and load user settings (log level, output
 
 ---
 
-## Part 3: Quality Awareness — Good Specs vs Bad Specs
+## Quality Awareness — Good Specs vs Bad Specs
 
 You've seen what a good specification looks like. But how do you recognize a **bad spec**—and more importantly, how do you fix it?
 
@@ -663,18 +663,6 @@ Reference the pitfalls from Quality Awareness section:
 
    For each criterion that fails, rewrite using the **Good Specs vs Bad Specs** patterns from Quality Awareness section.
 
----
-
-## What's Next: Writing Better Specs WITH AI
-
-You've learned to:
-- ✅ Write specifications manually (understanding the structure)
-- ✅ Recognize quality criteria (clear intent, testable criteria, explicit constraints)
-- ✅ Validate specs using the quality checklist
-
-**Next lesson**: You'll learn how to write better specs **collaboratively with AI**—using AI as a partner to identify vagueness, suggest edge cases, and iterate toward production-ready specifications.
-
-You can write a spec manually. Lesson 4 shows how to write **better specs WITH AI**.
 
 ---
 

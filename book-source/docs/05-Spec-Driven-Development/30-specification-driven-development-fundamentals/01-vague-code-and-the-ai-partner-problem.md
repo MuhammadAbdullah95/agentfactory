@@ -2,7 +2,7 @@
 title: "Vague Code and the AI Partner Problem"
 chapter: 30
 lesson: 1
-duration: "1-1.5 hours"
+duration: "60-90 minutes"
 skills:
   - name: "Problem Identification"
     proficiency: "A2"
@@ -291,10 +291,7 @@ Option A—invalidate previous tokens. We don't want multiple valid reset links 
 Also add rate limiting: max 3 reset requests per email per hour.
 ```
 
-**Your companion:**
-
-> The complete specification shall be shared.
-
+**Your companion:** will generate the final spec.
 
 **What just happened?** Through 3 rounds of dialogue:
 1. **AI taught you** (suggested questions you didn't think of)
