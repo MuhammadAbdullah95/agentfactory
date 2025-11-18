@@ -316,7 +316,7 @@ Or: python -m pytest test_calculator.py
 import operations
 
 
-def test_add():
+def test_add() -> None:
     """Test addition operation."""
     assert operations.add(2, 3) == 5
     assert operations.add(-1, 1) == 0
@@ -324,7 +324,7 @@ def test_add():
     print("✓ test_add PASSED")
 
 
-def test_subtract():
+def test_subtract() -> None:
     """Test subtraction operation."""
     assert operations.subtract(5, 3) == 2
     assert operations.subtract(0, 5) == -5
@@ -332,7 +332,7 @@ def test_subtract():
     print("✓ test_subtract PASSED")
 
 
-def test_multiply():
+def test_multiply() -> None:
     """Test multiplication operation."""
     assert operations.multiply(3, 4) == 12
     assert operations.multiply(-2, 3) == -6
@@ -340,7 +340,7 @@ def test_multiply():
     print("✓ test_multiply PASSED")
 
 
-def test_divide():
+def test_divide() -> None:
     """Test division operation."""
     assert operations.divide(10, 2) == 5.0
     assert operations.divide(10, 0) is None  # Division by zero
@@ -348,7 +348,7 @@ def test_divide():
     print("✓ test_divide PASSED")
 
 
-def test_power():
+def test_power() -> None:
     """Test power operation."""
     assert operations.power(2, 3) == 8
     assert operations.power(10, 0) == 1
@@ -356,7 +356,7 @@ def test_power():
     print("✓ test_power PASSED")
 
 
-def test_square_root():
+def test_square_root() -> None:
     """Test square root operation."""
     assert operations.square_root(9) == 3.0
     assert operations.square_root(0) == 0.0

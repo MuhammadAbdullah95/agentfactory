@@ -262,10 +262,11 @@ students_list: list[dict[str, str | int]] = [
 ]
 
 # Lookup requires searching
-def find_student(sid: int):
+def find_student(sid: int) -> dict[str, int] | None:
     for student in students_list:  # O(n) - must check every student
         if student["id"] == sid:
             return student
+    return None
 ```
 
 The dict is the right structure because lookup speed matters and IDs are meaningful keys.
