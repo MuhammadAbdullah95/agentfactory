@@ -376,17 +376,15 @@ When you install an extension, it creates a directory with a specific structure.
 ### Extension Directory Layout
 
 ```
-ai-study-kit/
+gemini-cli-security/
 ├── gemini-extension.json    ← Configuration (what's included)
 ├── GEMINI.md                 ← Context for AI (optional)
 ├── commands/                 ← Custom slash commands
-│   ├── learn.toml
-│   ├── quiz.toml
-│   └── research/             ← Nested commands
-│       └── web.toml          ← Creates /research:web
+│   ├── analyze-github-pr.toml
+│   ├── analyze.toml
 ├── docs/                     ← Documentation (optional)
 │   └── README.md
-└── .env                      ← Settings (created on install)
+
 ```
 
 ### The Configuration File: `gemini-extension.json`
@@ -396,18 +394,17 @@ This is the heart of every extension. It tells Gemini CLI what to install and ho
 **Basic example**:
 ```json
 {
-  "name": "ai-study-kit",
-  "version": "1.0.0",
-  "description": "Tools for learning with AI assistants",
-
+  "name": "gemini-cli-security",
+  "version": "0.3.0",
+  "contextFileName": "GEMINI.md",
   "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+    "securityServer": {
+      "command": "node",
+      "args": [
+        "${extensionPath}/mcp-server/dist/security.js"
+      ]
     }
-  },
-
-  "contextFileName": "GEMINI.md"
+  }
 }
 ```
 
@@ -416,7 +413,7 @@ This is the heart of every extension. It tells Gemini CLI what to install and ho
 **`name`** (required): The extension's unique identifier
 - Must be lowercase with dashes (not spaces or underscores)
 - How users refer to the extension
-- Example: `"ai-study-kit"` not `"AI Study Kit"`
+- Example: `"gemini-cli-security"` not `"Gemini Cli Security"`
 
 **`version`** (required): Current version number
 - Format: `"1.0.0"` (major.minor.patch)
@@ -436,7 +433,6 @@ This is the heart of every extension. It tells Gemini CLI what to install and ho
 
 **`contextFileName`** (optional): Context file to load
 - Defaults to `GEMINI.md` if present
-- Can specify different name: `"contextFileName": "LEARNING_CONTEXT.md"`
 
 ### MCP Server Configuration
 
