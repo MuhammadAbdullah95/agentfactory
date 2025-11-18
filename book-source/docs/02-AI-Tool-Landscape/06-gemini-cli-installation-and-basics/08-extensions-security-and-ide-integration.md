@@ -2,7 +2,8 @@
 sidebar_position: 8
 chapter: 6
 lesson: 8
-title: Gemini CLI Extensions
+duration_minutes: 35
+title: "Gemini CLI Extensions"
 cefr_level: A2
 proficiency: Beginner
 teaching_stage: 2

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 chapter: 8
-lesson: 2
+lesson: 4
 title: "Cloud Backup & Portfolio - GitHub Integration"
 description: "Connect your local repository to GitHub for cloud backup and portfolio building through AI collaboration with Three Roles framework"
 duration_minutes: 40

@@ -2,7 +2,8 @@
 sidebar_position: 5
 chapter: 6
 lesson: 5
-title: Configuration & Settings
+duration_minutes: 25
+title: "Configuration & Settings"
 cefr_level: A2
 proficiency: Beginner
 teaching_stage: 2

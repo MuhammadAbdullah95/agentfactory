@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 chapter: 8
-lesson: 2
+lesson: 6
 title: "Reusable Git Patterns - Creating Your Workflow Skill"
 description: "Synthesize recurring Git patterns into a personal workflow documentation guide"
 duration_minutes: 60

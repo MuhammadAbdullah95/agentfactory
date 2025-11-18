@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
 chapter: 8
-lesson: 2
+lesson: 5
 title: "Code Review with Pull Requests"
 description: "Create pull requests, review changes, and document AI assistance transparently for professional GitHub workflows"
 

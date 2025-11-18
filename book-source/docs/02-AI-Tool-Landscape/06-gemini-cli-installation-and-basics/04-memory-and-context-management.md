@@ -2,7 +2,8 @@
 sidebar_position: 4
 chapter: 6
 lesson: 4
-title: Memory & Context Management
+duration_minutes: 25
+title: "Memory & Context Management"
 cefr_level: A2
 proficiency: Beginner
 teaching_stage: 2

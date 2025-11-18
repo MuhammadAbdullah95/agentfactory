@@ -1,7 +1,7 @@
 ---
 title: Testing AI Safely with Branches
 chapter: 8
-lesson: 2
+lesson: 3
 learning_objectives:
   - Create branches using `git branch` or `git checkout -b` for isolated experimentation
   - Switch branches using `git switch` or `git checkout` to change development contexts
