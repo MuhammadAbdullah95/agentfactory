@@ -83,7 +83,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 6: Capstone Project - Type-Safe Configuration Manager
+# Capstone Project - Type-Safe Configuration Manager
 
 ## The Configuration Problem in Production
 

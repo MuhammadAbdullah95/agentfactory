@@ -84,9 +84,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 6: Capstone — AI Agent System for Multi-Source Data Processing
+# Capstone — AI Agent System for Multi-Source Data Processing
 
-## Opening Hook: Real AI Systems Are Hybrid
 
 You've learned how asyncio handles concurrency, how InterpreterPoolExecutor enables true parallelism, and how to combine them. But you've studied these patterns in isolation—single API calls, simple parallel tasks.
 

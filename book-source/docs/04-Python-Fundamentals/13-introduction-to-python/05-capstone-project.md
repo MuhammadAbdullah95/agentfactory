@@ -49,7 +49,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Capstone Project – Personal Information Collector
+# Capstone Project – Personal Information Collector
 
 You've learned all the pieces. Now you'll assemble them into one complete, working program.
 

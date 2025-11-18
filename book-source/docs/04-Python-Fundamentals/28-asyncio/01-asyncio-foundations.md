@@ -84,9 +84,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 1: Asyncio Foundations — Event Loop and Coroutines
+# Asyncio Foundations — Event Loop and Coroutines
 
-## Opening Hook
 
 Imagine you need to fetch data from 10 different APIs for a weather dashboard. In traditional synchronous Python, you'd call each API one after another:
 

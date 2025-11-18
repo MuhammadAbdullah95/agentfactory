@@ -114,7 +114,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Choosing Your Concurrency Approach
+# Choosing Your Concurrency Approach
 
 You've now learned about CPython's architecture (Lesson 1), its performance evolution (Lesson 2), the traditional GIL (Lesson 3), and free-threaded Python (Lesson 4). You understand what changed and why it matters. But there's a critical gap in your knowledge: **how do you actually choose which approach to use?**
 

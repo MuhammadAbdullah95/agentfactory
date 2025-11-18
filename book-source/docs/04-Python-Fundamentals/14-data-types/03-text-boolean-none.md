@@ -91,7 +91,6 @@ version: "1.0.0"
 - Representing "nothing" (None)
 - Why strings can't change
 
-## Opening Hook: Beyond Numbers
 
 You've mastered numbers in the previous lesson. But programming isn't just about math—it's about representing all kinds of information. Consider these everyday examples:
 

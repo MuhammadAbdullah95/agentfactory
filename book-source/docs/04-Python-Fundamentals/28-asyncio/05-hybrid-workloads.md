@@ -91,9 +91,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Hybrid Workloads — Combining I/O and CPU for Peak Performance
+# Hybrid Workloads — Combining I/O and CPU for Peak Performance
 
-## Opening Hook
 
 Here's a realistic problem: **You're building an AI system that needs to fetch data from 1,000 API endpoints and process each response with heavy analysis.**
 

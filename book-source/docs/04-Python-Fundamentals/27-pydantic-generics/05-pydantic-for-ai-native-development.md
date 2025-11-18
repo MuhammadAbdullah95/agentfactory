@@ -87,7 +87,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Pydantic for AI-Native Development
+# Pydantic for AI-Native Development
 
 ## Introduction: The AI Trust Problem
 

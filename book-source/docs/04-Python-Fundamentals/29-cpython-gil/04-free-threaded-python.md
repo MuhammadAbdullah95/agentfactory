@@ -126,7 +126,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 4: Free-Threaded Python (3.14+ Production Ready)
+# Free-Threaded Python (3.14+ Production Ready)
 
 ## Opening: The Paradigm Shift
 

@@ -74,7 +74,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 6: Tuples — Immutable Sequences
+# Tuples — Immutable Sequences
 
 So far, you've learned that **lists are mutable**—you can change them after creation. But what if you *don't* want data to change? What if you need a guarantee that a value stays exactly as it is?
 

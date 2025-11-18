@@ -69,7 +69,7 @@ workflow: "/sp.implement lesson-10"
 version: "1.0.0"
 ---
 
-# Lesson 10: Choosing the Right Structure
+# Choosing the Right Structure
 
 ## Opening: The Architect's Moment
 

@@ -100,7 +100,7 @@ workflow: "manual lesson generation"
 version: "1.0.0"
 ---
 
-# Lesson 2: File I/O Fundamentals with Context Managers
+# File I/O Fundamentals with Context Managers
 
 ## Why Files Matter: From Console to Persistent Storage
 

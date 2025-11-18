@@ -85,9 +85,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 4: CPU-Bound Work — GIL and InterpreterPoolExecutor
+# CPU-Bound Work — GIL and InterpreterPoolExecutor
 
-## Opening Hook
 
 Here's a puzzle: In Lesson 1, you learned that asyncio lets you run multiple tasks concurrently. So why not use asyncio for CPU-heavy calculations?
 

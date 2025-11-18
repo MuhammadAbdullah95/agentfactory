@@ -104,7 +104,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Capstone - Note-Taking App
+# Capstone - Note-Taking App
 
 ## Introduction: Building a Real-World CLI Application
 

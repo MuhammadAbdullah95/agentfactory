@@ -102,7 +102,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 3: The Traditional GIL (Pre-3.13)
+# The Traditional GIL (Pre-3.13)
 
 In Lesson 1, you learned that CPython uses **reference counting** to manage memory—each Python object tracks how many references point to it. In Lesson 2, you explored performance optimizations that make CPython faster.
 

@@ -42,7 +42,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 2: Installing Python 3.14+ on Your Computer
+# Installing Python 3.14+ on Your Computer
 
 Without a working Python installation, nothing else in this chapter happens. So let's get this right.
 

@@ -76,7 +76,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 2: Essential String Methods — Transforming Text
+# Essential String Methods — Transforming Text
 
 In Lesson 1, you learned that strings are immutable—once created, they don't change. But strings can be *transformed* into new strings using **methods**—built-in actions that operate on string data.
 

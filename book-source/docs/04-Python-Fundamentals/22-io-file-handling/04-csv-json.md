@@ -100,7 +100,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 4: Structured Data Formats (CSV and JSON)
+# Structured Data Formats (CSV and JSON)
 
 Real-world applications rarely work with data in isolation. You need to import employee lists from Excel, export analysis results to share with colleagues, integrate with APIs that return JSON, and store application data for later retrieval. This lesson teaches you how to work with two of the most common structured data formats: CSV (Comma-Separated Values) for tabular data and JSON (JavaScript Object Notation) for nested, hierarchical data.
 

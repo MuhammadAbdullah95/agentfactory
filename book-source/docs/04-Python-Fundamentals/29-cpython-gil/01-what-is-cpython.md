@@ -95,7 +95,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 1: What is CPython?
+# What is CPython?
 
 When you type `python script.py` into your terminal, something remarkable happens behind the scenes. Your code passes through several transformation layers before your computer actually runs it. Understanding this process—and understanding that "Python" isn't just one thing—is foundational to working effectively with the language, especially when you need to optimize multi-agent AI systems or deploy Python code in constrained environments.
 

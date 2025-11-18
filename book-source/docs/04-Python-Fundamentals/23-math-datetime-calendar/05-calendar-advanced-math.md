@@ -63,7 +63,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Calendar and Advanced Math
+# Calendar and Advanced Math
 
 You've mastered basic math operations, time concepts, date/time handling, and formatting. Now you're ready to explore Python's advanced mathematical capabilities and calendar displays. These specialized tools unlock possibilities in scientific computing, scheduling interfaces, and wherever math meets programming.
 

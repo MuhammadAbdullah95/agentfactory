@@ -107,9 +107,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 6: Capstone - Multi-Agent Concurrency System
+# Capstone - Multi-Agent Concurrency System
 
-## Opening Hook
 
 You've mastered the theory: CPython's architecture, the GIL's mechanics, free-threading's capabilities, and the decision framework for choosing concurrency approaches. Now comes the synthesis—building a **production-ready multi-agent AI system** that demonstrates true parallel reasoning on multiple CPU cores.
 

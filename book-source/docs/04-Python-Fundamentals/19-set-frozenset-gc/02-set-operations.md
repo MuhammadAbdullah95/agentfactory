@@ -98,7 +98,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 2: Set Operations
+# Set Operations
 
 Now that you understand what sets are and how to create them, it's time to discover their real power. Sets aren't just useful for storing unique items—they're designed to perform mathematical operations on collections. In this lesson, you'll learn the four fundamental set operations that make sets essential for data comparison, filtering, and analysis.
 

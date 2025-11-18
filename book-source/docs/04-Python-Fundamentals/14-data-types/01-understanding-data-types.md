@@ -86,7 +86,6 @@ version: "1.0.0"
 - How to choose the right type
 - Checking types with type()
 
-## Opening Hook: The Kitchen Analogy
 
 Imagine you're organizing your kitchen. You don't throw flour, sugar, and salt into one jar. Instead, you label each jar clearly: "flour," "sugar," "salt." Why? Because each ingredient is different. They look different, they taste different, and they need different storage conditions.
 

@@ -71,7 +71,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 1: Set Basics
+# Set Basics
 
 Sets are Python's answer to a common problem: **How do you store a collection of unique items efficiently?** When you need to automatically eliminate duplicates and check if something exists quickly, sets are the perfect tool.
 

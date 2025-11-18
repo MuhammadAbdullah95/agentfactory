@@ -63,7 +63,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 4: Basic Syntax and Your First Programs
+# Basic Syntax and Your First Programs
 
 You've created variables. Now you'll write full programs—code that does something and shows results.
 

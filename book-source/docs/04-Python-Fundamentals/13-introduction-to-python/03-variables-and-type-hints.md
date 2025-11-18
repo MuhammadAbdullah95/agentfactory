@@ -56,7 +56,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 3: Variables and Type Hints – Describing Intent
+# Variables and Type Hints – Describing Intent
 
 You've learned what Python is. You've got it installed. Now you're ready for your first real Python code.
 

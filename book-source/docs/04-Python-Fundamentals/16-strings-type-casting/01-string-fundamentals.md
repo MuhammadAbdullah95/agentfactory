@@ -86,7 +86,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 1: String Fundamentals — Creating and Understanding Text
+# String Fundamentals — Creating and Understanding Text
 
 If you've ever typed a message, filled out a form, or read a name on a screen, you've encountered strings. A **string** is Python's way of handling text data—from single letters to entire documents. Strings are everywhere in programs: usernames, error messages, filenames, addresses. Understanding how strings work is essential because nearly every program you write will work with text.
 

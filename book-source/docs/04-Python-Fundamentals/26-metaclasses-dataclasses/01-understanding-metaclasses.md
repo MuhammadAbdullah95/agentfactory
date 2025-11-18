@@ -69,7 +69,7 @@ generation:
   version: "1.0"
 ---
 
-# Lesson 1: Understanding Metaclasses – The Classes That Create Classes
+# Understanding Metaclasses – The Classes That Create Classes
 
 ## Why This Matters
 

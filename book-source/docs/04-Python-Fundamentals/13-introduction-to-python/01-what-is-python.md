@@ -54,7 +54,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 1: What Is Python?
+# What Is Python?
 
 You've learned that AI-Driven Development is about describing intent clearly and letting AI handle the execution. You've practiced this with specifications, prompts, and context engineering. Now you're ready to learn Python—the primary language for expressing that intent to AI agents.
 

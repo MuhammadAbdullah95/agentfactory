@@ -93,7 +93,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 3: Repetition with Loops
+# Repetition with Loops
 
 Imagine you need to print the numbers 1 through 100. You *could* write 100 separate `print()` statements—but that would be tedious, error-prone, and wasteful. Or imagine checking a password: you want to give the user three attempts to enter the correct password. You don't know *how many tries they'll need*, but you know the loop should stop after three failures.
 

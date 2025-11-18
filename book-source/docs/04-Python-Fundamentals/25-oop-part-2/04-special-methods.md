@@ -93,7 +93,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 4: Special Methods (Magic Methods)
+# Special Methods (Magic Methods)
 
 ## Introduction: The Secret Behind Python Objects
 

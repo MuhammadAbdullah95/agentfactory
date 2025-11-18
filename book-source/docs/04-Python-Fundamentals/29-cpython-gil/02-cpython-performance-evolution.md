@@ -88,7 +88,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 2: CPython Performance Evolution (Python 3.14)
+# CPython Performance Evolution (Python 3.14)
 
 In Lesson 1, you learned what CPython is—the reference implementation written in C, executing Python code through bytecode compilation and interpretation. You discovered that CPython's design choices (reference counting, C API, single-threaded interpreter) have shaped Python development for 30 years.
 

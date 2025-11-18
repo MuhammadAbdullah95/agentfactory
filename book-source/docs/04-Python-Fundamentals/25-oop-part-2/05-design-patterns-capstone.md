@@ -98,7 +98,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: Design Patterns (Capstone)
+# Design Patterns (Capstone)
 
 ## Introduction: Architectural Thinking at Scale
 

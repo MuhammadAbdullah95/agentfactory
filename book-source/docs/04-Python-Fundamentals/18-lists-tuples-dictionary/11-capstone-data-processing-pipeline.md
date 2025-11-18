@@ -69,7 +69,7 @@ workflow: "/sp.implement lesson-11"
 version: "1.0.0"
 ---
 
-# Lesson 11: Capstone - Data Processing Pipeline
+# Capstone - Data Processing Pipeline
 
 ## The Challenge: From Data to Insight
 

@@ -84,7 +84,6 @@ version: "1.0.0"
 - When to use each type
 - Avoiding common mistakes
 
-## Opening Hook: The Price Tag Problem
 
 You walk into a store. You see two prices:
 - **Age**: 25 years old

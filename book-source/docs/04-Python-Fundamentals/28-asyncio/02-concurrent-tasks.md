@@ -84,9 +84,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 2: Concurrent Tasks — create_task(), gather(), and TaskGroup()
+# Concurrent Tasks — create_task(), gather(), and TaskGroup()
 
-## Opening Hook
 
 You've learned how asyncio works conceptually. Now comes the practical question: **How do you actually run multiple tasks at the same time?**
 

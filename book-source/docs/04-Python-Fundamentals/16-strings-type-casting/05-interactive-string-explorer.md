@@ -81,7 +81,7 @@ workflow: "lesson-implementation"
 version: "1.0.0"
 ---
 
-# Lesson 5: Contact Card Validator — Real-World Integration Project
+# Contact Card Validator — Real-World Integration Project
 
 You've learned four essential skills in this chapter: creating and manipulating strings, formatting output with f-strings, and safely converting between types. Now it's time to apply everything to solve a real problem—a **Contact Card Validator** that cleans, validates, and formats contact information.
 

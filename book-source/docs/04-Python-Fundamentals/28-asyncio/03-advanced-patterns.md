@@ -85,9 +85,8 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 3: Advanced Patterns — Timeouts, Futures, and Error Handling
+# Advanced Patterns — Timeouts, Futures, and Error Handling
 
-## Opening Hook
 
 You've learned how to run multiple tasks concurrently. Now imagine this: you're building a system that fetches data from 10 APIs in parallel. One of them starts responding slowly. Then slower. Then it never responds at all.
 

@@ -95,7 +95,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 2: Polymorphism and Duck Typing
+# Polymorphism and Duck Typing
 
 Polymorphism is the power of object-oriented programming. After mastering inheritance in Lesson 1, you now face a critical design question: **Should objects be related through inheritance, or should they simply share a common interface?** This lesson teaches you both paths—and when to use each one.
 

@@ -73,7 +73,7 @@ workflow: "/sp.implement"
 version: "1.0.0"
 ---
 
-# Lesson 5: List Comprehensions — Transforming Data
+# List Comprehensions — Transforming Data
 
 You've mastered creating, modifying, and sorting lists. Now comes one of Python's most elegant features: **list comprehensions**. They transform lists in a single line that reads almost like English: "a list of X for each Y in Z, if condition."
 
