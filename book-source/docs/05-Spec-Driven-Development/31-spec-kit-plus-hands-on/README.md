@@ -45,6 +45,7 @@ By completing this chapter, you'll master:
 6. **Architecture Planning** - Generating implementation plans and documenting decisions with ADRs
 7. **Task Decomposition** - Breaking plans into atomic work units with checkpoint-driven execution
 8. **AI-Driven Implementation** - Orchestrating code generation with systematic validation protocols
-9. **Independent Workflow** - Applying all skills end-to-end without guidance
+9. **Reusable Intelligence Design** - Transforming workflow patterns into skills and subagents that compound across projects
+10. **Independent Workflow** - Applying all skills end-to-end without guidance
 
-Most importantly, you'll build the muscle memory for specification-first thinking that makes you dramatically faster in Chapters 32 and beyond. Let's build something real.
+Most importantly, you'll build the muscle memory for specification-first thinking AND intelligence accumulation that makes you dramatically faster in Chapters 32 and beyond. Let's build something real.
