@@ -1,5 +1,5 @@
 ---
-title: "Lesson 6: Capstone - Multi-Agent Concurrency System"
+title: "Capstone - Multi-Agent Concurrency System"
 chapter: 29
 lesson: 6
 duration_minutes: 180

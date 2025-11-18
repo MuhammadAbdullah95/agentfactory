@@ -1,5 +1,5 @@
 ---
-title: "Lesson 4: Free-Threaded Python (3.14+ Production Ready)"
+title: "Free-Threaded Python (3.14+ Production Ready)"
 chapter: 29
 lesson: 4
 duration_minutes: 120

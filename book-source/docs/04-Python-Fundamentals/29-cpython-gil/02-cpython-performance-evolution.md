@@ -1,5 +1,5 @@
 ---
-title: "Lesson 2: CPython Performance Evolution (Python 3.14)"
+title: "CPython Performance Evolution (Python 3.14)"
 chapter: 29
 lesson: 2
 duration_minutes: 60

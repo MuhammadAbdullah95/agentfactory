@@ -1,5 +1,5 @@
 ---
-title: "Lesson 1: What is CPython?"
+title: "What is CPython?"
 chapter: 29
 lesson: 1
 duration_minutes: 60

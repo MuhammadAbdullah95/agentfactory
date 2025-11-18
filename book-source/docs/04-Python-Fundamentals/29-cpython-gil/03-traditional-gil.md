@@ -1,5 +1,5 @@
 ---
-title: "Lesson 3: The Traditional GIL (Pre-3.13)"
+title: "The Traditional GIL (Pre-3.13)"
 chapter: 29
 lesson: 3
 duration_minutes: 90

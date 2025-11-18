@@ -1,5 +1,5 @@
 ---
-title: "Lesson 5: Choosing Your Concurrency Approach"
+title: "Choosing Your Concurrency Approach"
 chapter: 29
 lesson: 5
 duration_minutes: 90
