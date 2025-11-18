@@ -345,92 +345,18 @@ This validation habit prevents errors and reinforces that *different operations 
 
 ## Try With AI
 
-Use your preferred AI companion (ChatGPT web, Claude Code, or Gemini CLI) for the following prompts. Each builds toward deeper understanding of string methods.
+Ready to master essential string methods for text processing?
 
-### Part 1: Build a Username Cleaner (Your Turn First)
+**🔍 Explore String Methods:**
+> "Compare strip(), lstrip(), rstrip(), upper(), lower(), title(), and replace(). For each method, show 2 examples and explain when you'd use it. Why does strip() remove whitespace but replace() requires arguments?"
 
-**Before asking AI**, create a username cleaner for user input:
+**🎯 Practice Username Cleaning:**
+> "Create a username cleaner that takes '  JohnDOE123  ' and produces 'johndoe123'. Use appropriate string methods (strip, lower, etc.). Then extend it to: remove special characters, validate length, check for profanity. Show method chaining vs. step-by-step approach."
 
-**Scenario**: Users type their username with inconsistent formatting:
-```python
-user_input: str = "  JohnDOE123  "
-```
+**🧪 Test Edge Cases:**
+> "Test these edge cases with string methods: (1) strip() on string with no whitespace, (2) replace('x', 'y') when 'x' doesn't exist, (3) upper() on string already uppercase. What happens? Do methods fail gracefully or return the original unchanged?"
 
-**Your task**: Clean and normalize it to: "johndoe123"
-1. Remove leading/trailing whitespace
-2. Convert to lowercase
-3. Validate it worked (check type, length, content)
-
-Write the code yourself. Which methods will you use? Predict the output before running.
+**🚀 Apply to Your Text Processing:**
+> "I'm processing user input for [describe your application]. Help me build a text normalizer using string methods: clean whitespace, normalize case, remove/replace unwanted characters, validate format. Show me the method chain and explain each step."
 
 ---
-
-### Part 2: AI Explains Method Design (Discovery)
-
-Share your approach with AI:
-
-> "Here's my username cleaner: [paste code]. Explain:
-> 1. Why does `.strip()` return a NEW string instead of changing the original?
-> 2. What would happen if I chained methods like `user_input.strip().lower()`?
-> 3. Are there other methods I should know for cleaning text (`.replace()`, `.removeprefix()`)?
-> 4. What's the difference between `.lower()` and `.casefold()` for normalization?"
-
-**Your task**: Evaluate AI's explanation.
-- Does it reinforce immutability (methods return new strings)?
-- Does it show method chaining patterns?
-- Can you explain WHY chaining works?
-
----
-
-### Part 3: Student Teaches AI (Edge Cases & Split/Join)
-
-AI explained basic methods. But does it know the trickiest string methods?
-
-Challenge AI with `split()` and `join()`:
-
-> "I don't understand `split()` and `join()`:
-> 1. Why does `'a,b,c'.split(',')` return a LIST not a string?
-> 2. Why does `' '.join(['a', 'b', 'c'])` have the separator BEFORE `.join()`?
-> 3. What happens with `'hello world'.split()` (no argument)?
-> 4. Show me how to split a CSV line, clean each part with `.strip()`, then join back together.
->
-> For each, explain the design—why are split/join designed this way?"
-
-**Your task**: Compare AI's explanation to your understanding.
-- Can you now explain why `split()` produces a list?
-- Does the `.join()` syntax make sense (separator is the "glue")?
-- Can you chain split/join with other methods?
-
----
-
-### Part 4: Build Text Processor Together (Convergence)
-
-Now solve a real problem with AI:
-
-> "Build a name formatter that takes messy input:
-> ```python
-> names: str = '  alice smith , bob jones , charlie brown  '
-> ```
->
-> And produces clean output: `'Alice Smith, Bob Jones, Charlie Brown'`
->
-> Steps:
-> 1. Split by comma into list of names
-> 2. For each name: strip whitespace, capitalize first letters
-> 3. Join back with ', ' separator
->
-> Show the complete code with type hints and validation."
-
-**Your task**: Study AI's solution.
-- Does it use `.split(',')` to separate names?
-- Does it use `.strip()` on each name?
-- Does it use `.title()` or `.capitalize()` for capitalization?
-- Does it use `', '.join()` to recombine?
-
-Iterate if needed:
-> "The code works but isn't readable. Add comments explaining each transformation step."
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've built text cleaners and processors, discovered why split/join have unique syntax, and learned to chain methods into data transformation pipelines.

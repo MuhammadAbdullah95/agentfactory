@@ -653,123 +653,20 @@ Ask your AI companion how to add any of these features. Each one uses Chapter 16
 
 You've completed all 4 lessons of Chapter 16. Now integrate everything—strings, methods, f-strings, and type casting—into a production-quality contact validator. This is YOUR capstone project with AI as your code review partner.
 
-### Part 1: Design Your Validator (Your Turn First)
+## Try With AI
 
-**Before asking AI to write code**, design the validation logic yourself:
+Ready to integrate strings, methods, f-strings, and type casting into a contact validator?
 
-**Data Quality Problems**:
-```python
-# Users will enter messy data like:
-name_input = "  bob_SMITH  "          # Extra spaces, underscores, wrong case
-email_input = "BOB@EXAMPLE.COM"       # Uppercase
-phone_input = "555-123-4567"          # Formatted with dashes
-age_input = "  30  "                  # Extra whitespace
-```
+**🔍 Explore Integration:**
+> "Show me how strings, methods, f-strings, and type casting work together. Create a contact validator that: cleans names (strip, title), validates email (contains '@'), parses age from string to int, formats output with f-strings. Explain how each component contributes."
 
-**Your Design Task**:
-1. List the string methods you'll use for EACH field (name, email, phone, age)
-2. Define validation rules:
-   - Name: Non-empty after stripping, title case
-   - Email: Contains `@` (not at start/end), lowercase
-   - Phone: Exactly 10 digits, format as (XXX) XXX-XXXX
-   - Age: Must be number 0-120, convert to int
-3. Decide: Show errors one-at-a-time or all-at-once? (Which is better UX?)
+**🎯 Practice Production Validation:**
+> "Build a production-ready contact validator for: name='  john doe  ', email='JOHN@EXAMPLE', age='25'. Use string methods to clean, f-strings to format output, type casting to convert age. Add validation: name not empty, email contains '@', age converts successfully. Show complete code with type hints."
 
-Write your design (pseudocode or bullet points) BEFORE coding.
+**🧪 Test Edge Cases:**
+> "Test this validator with edge cases: (1) empty name, (2) email without '@', (3) age='twenty-five' (non-numeric), (4) age='3.14' (decimal). For each, show what breaks and how to handle it gracefully with try/except or validation checks."
+
+**🚀 Apply to Your Data Intake:**
+> "I'm building a data intake form for [describe your application]. Help me create a comprehensive validator: clean text fields with string methods, validate formats, convert types with error handling, format output with f-strings. Make it impossible for bad input to crash the system."
 
 ---
-
-### Part 2: Build Validator with AI (Collaborative Construction)
-
-Share your design with AI:
-
-> "Here's my contact validator design: [paste your design]. Build the code with:
-> 1. Type hints for all variables
-> 2. Clean → Validate → Convert pattern for each field
-> 3. F-string formatted output showing validation results
-> 4. Contact card displays ONLY if all fields valid
->
-> Show complete working code I can test."
-
-**Your task**: Review AI's implementation critically.
-- Does it use the methods you identified?
-- Does it validate BEFORE converting (age to int)?
-- Does it match your UX decision (one-at-a-time vs. all-at-once)?
-- Can you explain EVERY line?
-
-If AI's code differs from your design, ask:
-> "Why did you use `.title()` instead of `.capitalize()` for names? What's the difference?"
-
----
-
-### Part 3: Student Teaches AI (Edge Case Stress Test)
-
-AI built a basic validator. But does it handle production-level edge cases?
-
-Challenge AI with impossible scenarios:
-
-> "My validator passes normal tests. But what happens with:
-> 1. Name: '123' (all numbers—is that valid?)
-> 2. Email: 'user@@example.com' (double @)
-> 3. Phone: '(555) 123-4567 ext 89' (contains extension text)
-> 4. Age: '30.5' (decimal—should we round or reject?)
-> 5. All fields empty (user just hits Enter 4 times)
->
-> For EACH, tell me: Should validation pass or fail? If fail, what error message? If pass, what's the cleaned result? Then show code that handles ALL these cases."
-
-**Your task**: Evaluate AI's hardened validator.
-- Does it reject numeric-only names?
-- Does it handle multiple `@` symbols gracefully?
-- Does it strip ALL non-digits from phone (including text)?
-- Does it have clear error messages for each failure?
-
-If AI's solution is too complex, iterate:
-> "The `.replace()` chain for phone cleaning is hard to read. Is there a cleaner pattern using a loop or list comprehension?"
-
----
-
-### Part 4: Production Review (Convergence to Best Practices)
-
-Now get AI to review YOUR implementation:
-
-> "Here's my complete contact validator: [paste YOUR code after incorporating AI feedback]. Review it like a senior developer:
-> 1. Code quality: Are variable names clear? Is logic readable?
-> 2. Validation completeness: Did I miss any edge cases?
-> 3. User experience: Are error messages helpful?
-> 4. Type safety: Are type hints accurate?
-> 5. Efficiency: Any redundant operations?
->
-> Give me specific improvements with before/after code examples."
-
-**Your task**: Apply AI's review feedback selectively.
-- Which suggestions improve readability?
-- Which catch bugs you missed?
-- Which are over-engineering for this skill level?
-
----
-
-### Part 5: Extend Beyond Chapter 16 (Preview Next Skills)
-
-Final challenge—preview what's possible with future chapters:
-
-> "My validator works perfectly for one contact. How would I extend it to:
-> 1. Let users re-enter invalid fields (instead of restarting)?
-> 2. Validate 10 contacts in a batch?
-> 3. Save validated contacts to a CSV file?
->
-> For EACH, tell me: What concept from future chapters do I need? (Control flow? Lists? File I/O?) Show a preview of the pattern WITHOUT full implementation."
-
-**Outcome**: You see how Chapter 16 skills integrate with upcoming chapters—understanding the learning path ahead.
-
----
-
-**Time**: 45-60 minutes total (this is a capstone!)
-**Outcome**: You've designed, built, hardened, and reviewed a production-quality contact validator—experiencing the full development lifecycle with AI as a collaborative partner, not just a code generator.
-
----
-
-**Safety & Ethics Note**: When building validators:
-- **You decide validation rules** (AI implements them)
-- **Test with realistic messy data** before deploying
-- **Balance strictness vs. user frustration** (too strict → users give up)
-- **Your judgment matters**—AI can't know your users' needs

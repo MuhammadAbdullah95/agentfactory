@@ -370,56 +370,20 @@ This pattern—describe intent with type hints (`user_input: str`), then validat
 
 ---
 
-## Try With AI: String Immutability Discovery
+## Try With AI
 
-You've learned that strings are immutable sequences. Now discover WHY immutability matters through hands-on experimentation—with AI as your debugging partner.
+Ready to understand string immutability and why it matters?
 
-### Part 1: Break It First (Your Turn)
+**🔍 Explore Immutability:**
+> "Explain string immutability in Python. Show me what happens when I try message = 'hello'; message[0] = 'H'. Why does this raise TypeError? Compare this to a list where list[0] = 'H' works. What are the benefits of immutability?"
 
-**Before asking AI**, try to modify a string and observe what happens:
+**🎯 Practice String Operations:**
+> "Create code demonstrating string operations that DON'T modify the original: upper(), lower(), replace(), strip(). For each, show that the original string remains unchanged. Why does message.upper() not change message but requires message = message.upper()?"
 
-```python
-# Task: Try to change "hello" to "Hello" by modifying the first character
-message: str = "hello"
-message[0] = "H"  # What happens when you run this?
-```
+**🧪 Test Performance Implications:**
+> "Show me the performance difference between string concatenation in a loop (slow) vs. join() (fast). Create an example building a string from 1000 items. Explain why repeated concatenation creates new string objects each time due to immutability."
 
-**Your exploration**:
-1. Run this code. What error do you get?
-2. Read the error message carefully. What does it tell you?
-3. Write down your hypothesis: WHY does Python prevent this?
+**🚀 Apply to Your String Handling:**
+> "I'm building [describe your application]. Help me handle string data correctly: when should I use methods that return new strings vs. when should I avoid string manipulation entirely? Show me memory-efficient patterns for my use case."
 
 ---
-
-### Part 2: AI Explains the Design (Discovery)
-
-Now share your error with AI:
-
-> "I tried to change a string character with `message[0] = 'H'` and got this error: [paste your error]. Why does Python make strings immutable? What problem does this solve?"
-
-**Your task**: Evaluate AI's explanation.
-- Does it explain the performance benefits? (sharing memory for identical strings)
-- Does it mention safety? (predictable behavior, no accidental modification)
-- Can you think of a scenario where immutability prevents bugs?
-
----
-
-### Part 3: Student Teaches AI (Workarounds)
-
-AI explained WHY immutability exists. But does it know the BEST way to work with it?
-
-Challenge AI with practical scenarios:
-
-> "If I need to create 'Hello' from 'hello', I could: (1) use string slicing and concatenation, (2) use the .capitalize() method, (3) use .replace(). Which approach is most pythonic? For each, show code and explain when you'd use it."
-
-**Your task**: Compare AI's suggested approaches.
-- Which is most readable?
-- Which is most efficient for large strings?
-- Can you find an approach AI didn't mention?
-
-This teaches AI about style preferences—and reinforces YOUR understanding of string operations.
-
----
-
-**Time**: 15-20 minutes total
-**Outcome**: You've discovered immutability through experimentation, learned the design rationale, and evaluated multiple approaches to working with immutable strings.
