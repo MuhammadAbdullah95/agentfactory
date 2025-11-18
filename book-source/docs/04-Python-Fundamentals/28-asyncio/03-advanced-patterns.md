@@ -877,4 +877,22 @@ python /tmp/resilient_fetcher.py
 
 **Key Takeaway**: You understand how production systems handle cascading failures—timeouts prevent hangs, retries handle transient errors, and circuit breakers prevent overwhelming struggling services.
 
-**Next lesson**: Lesson 4 tackles CPU-bound work and the GIL, introducing `InterpreterPoolExecutor` for true parallelism within async systems.
+---
+
+## Try With AI
+
+Why do production systems need timeouts, retries, AND circuit breakers when a single timeout seems sufficient?
+
+**🔍 Explore Timeout Patterns:**
+> "Show me asyncio.wait_for() with a 2-second timeout wrapping a slow API call. What exception gets raised? Compare this to asyncio.wait() with timeout parameter. When do I use each?"
+
+**🎯 Practice Retry Logic:**
+> "Implement exponential backoff retry (1s, 2s, 4s delays) for a flaky service that fails 70% of the time. Use asyncio.sleep() for delays. Show how retry count and total elapsed time differ."
+
+**🧪 Test Circuit Breaker:**
+> "Create a circuit breaker that opens after 3 consecutive failures, stays open for 10s, then allows 1 test request. Show state transitions: closed → open → half-open → closed. What prevents cascading failures?"
+
+**🚀 Apply to Resilient Gateway:**
+> "Design an API gateway with per-service timeouts (2s), 3-attempt retries with exponential backoff, and circuit breakers. Show how this handles: slow services, flaky services, and completely down services."
+
+---

@@ -965,3 +965,23 @@ python /tmp/free_threading_readiness.py
 **Time Estimate**: 30-38 minutes (6 min discover, 8 min teach/learn, 8 min edge cases, 8-16 min build artifact)
 
 **Key Takeaway**: Free-threading is a paradigm shift, not just a performance hack. It enables true parallelism but requires understanding thread safety. It's powerful for CPU-bound work but not always beneficial for I/O-bound or single-threaded work. Smart decisions come from measurement and understanding your workload.
+
+---
+
+## Try With AI
+
+How does Python 3.14 remove the GIL without breaking 30 years of code that assumes single-threaded execution?
+
+**🔍 Explore Free-Threading Architecture:**
+> "Explain per-object locking in free-threaded Python. Show how dict, list, and int objects become thread-safe. What overhead does this add? Use sys._is_gil_enabled() to detect free-threading mode."
+
+**🎯 Practice True Parallelism:**
+> "Benchmark CPU-bound task (sum of squares for 10M numbers) with 4 threads. Compare traditional Python (with GIL) vs free-threaded Python 3.14. Show speedup on 4-core machine. Why is it 3.2x not 4x?"
+
+**🧪 Test Thread Safety:**
+> "Create a shared counter incremented by 4 threads (1M increments each). Run with GIL (serialized, correct result) vs without GIL (race condition, wrong result). Add threading.Lock() to fix. Explain the trade-off."
+
+**🚀 Apply to Migration Strategy:**
+> "Analyze an existing multi-threaded program. Identify: (1) CPU-bound sections (benefit from free-threading), (2) I/O-bound sections (no benefit), (3) shared state (needs review for thread safety). Create migration checklist."
+
+---

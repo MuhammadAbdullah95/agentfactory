@@ -861,3 +861,23 @@ python /tmp/concurrency_strategy.py
 **Time Estimate**: 30-35 minutes (5 min discover, 8 min teach/learn, 8 min edge cases, 9-14 min build artifact)
 
 **Key Takeaway**: The GIL isn't a bug to ignore—it's a constraint to understand. Different workloads need different solutions. Knowing when threading helps (I/O), when it fails (CPU), and what alternatives exist is essential for Python system design.
+
+---
+
+## Try With AI
+
+Why does threading speed up I/O-bound work but NOT CPU-bound work in CPython?
+
+**🔍 Explore GIL Mechanics:**
+> "Show how the GIL works: create 2 threads doing CPU work (calculating primes). Measure total time vs single-threaded. Explain why you get NO speedup. What does the GIL prevent?"
+
+**🎯 Practice I/O vs CPU Workloads:**
+> "Compare threading for: (1) downloading 5 URLs (I/O-bound), (2) calculating 5 large factorials (CPU-bound). Show timing results. Why does (1) speed up but (2) doesn't? Where does GIL release happen?"
+
+**🧪 Test GIL Release Points:**
+> "Use threading with time.sleep() (releases GIL) vs tight loop (holds GIL). Show that sleep-based 'work' achieves concurrency but compute loops don't. Explain why I/O operations release GIL automatically."
+
+**🚀 Apply to Workload Classification:**
+> "Given 5 workloads (web scraping, matrix multiplication, file I/O, API calls, data compression), classify each as I/O-bound or CPU-bound. For each, recommend: threading, multiprocessing, or asyncio. Justify with GIL constraints."
+
+---

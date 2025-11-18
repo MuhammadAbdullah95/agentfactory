@@ -483,3 +483,23 @@ python /tmp/performance_profiler.py
 **Time Estimate**: 25-32 minutes (5 min discover, 8 min teach/learn, 7 min edge cases, 5-12 min build artifact)
 
 **Key Takeaway**: Performance optimization starts with measurement, not guessing. Python 3.14's improvements are real but context-dependent. The key is profiling your code to see where time actually goes.
+
+---
+
+## Try With AI
+
+Why did Python 3.11-3.14 get 40% faster without breaking backward compatibility?
+
+**🔍 Explore Performance Gains:**
+> "Explain Python 3.11's faster interpreter: how does inline caching speed up attribute access? Show a benchmark comparing Python 3.10 vs 3.11 for repeated dictionary lookups. What changed under the hood?"
+
+**🎯 Practice Performance Measurement:**
+> "Use timeit to benchmark tight loops in Python 3.14. Compare: (1) list comprehension, (2) generator expression, (3) explicit loop. Show that 3.14's faster frame creation benefits which pattern most."
+
+**🧪 Test GC Impact:**
+> "Create memory-intensive workload (1M objects with circular references). Use gc.get_stats() to measure collection pauses. Compare gc disabled vs incremental GC (Python 3.14). When does GC overhead matter?"
+
+**🚀 Apply to Production Optimization:**
+> "Profile a real function (data transformation pipeline). Identify if bottleneck is: bytecode execution (benefit from 3.11+), memory allocation (benefit from 3.12 GC), or I/O (no CPython version helps). Recommend optimization."
+
+---

@@ -807,3 +807,23 @@ python /tmp/concurrency_selector.py
 **Time Estimate**: 32-38 minutes (6 min discover, 8 min teach/learn, 8 min edge cases, 10-16 min build artifact)
 
 **Key Takeaway**: Concurrency decisions aren't about "best" approach—they're about "best for your constraints." Master the decision framework and benchmark on your actual workload to make confident, data-driven choices.
+
+---
+
+## Try With AI
+
+How do you choose between single-threaded, free-threaded, multiprocessing, and asyncio for a given workload?
+
+**🔍 Explore Decision Framework:**
+> "Walk me through the decision tree: I have a workload that processes 100 images (CPU-intensive). Is it CPU-bound? Yes. Needs parallelism? Yes. Shared state? No. What's the recommendation and why? Show the decision path."
+
+**🎯 Practice Benchmarking Methodology:**
+> "Create benchmarks for the same task (sum of squares) using: (1) single-threaded, (2) free-threaded 4 threads, (3) ProcessPoolExecutor 4 workers, (4) asyncio gather. Measure time and CPU utilization. Which wins? Why?"
+
+**🧪 Test Hybrid Approaches:**
+> "Design a system with both I/O (fetch from APIs) and CPU (data processing). Show how to combine asyncio for I/O and free-threaded Python for CPU. Explain why neither alone is sufficient."
+
+**🚀 Apply to Production Systems:**
+> "Given a multi-agent AI system with 10 agents, each doing reasoning (CPU) and API calls (I/O), recommend concurrency architecture. Consider: scalability, memory constraints, latency requirements, and Python 3.14 capabilities."
+
+---

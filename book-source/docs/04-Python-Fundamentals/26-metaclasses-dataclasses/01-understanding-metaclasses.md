@@ -835,24 +835,20 @@ Once your guide is complete, validate it by asking AI:
 
 ---
 
-## Summary: Bidirectional Learning Pattern
+## Try With AI
 
-In this lesson, you experienced all three roles:
+What happens when you call type(type) and why is type an instance of itself?
 
-**Part 1 (Student explores)**: You traced `type()` to discover that classes are objects
-**Part 2 (AI teaches)**: AI explained the metaclass concept and showed custom metaclass code
-**Part 3 (Student teaches)**: You challenged AI with timing and method resolution edge cases
-**Part 4 (Knowledge synthesis)**: You built a reusable metaclass reference guide
+**🔍 Explore Class Creation:**
+> "Explain the class creation timeline when I define class MyAgent. What happens at definition time vs instantiation? Show when metaclass __new__ executes versus class __init__."
 
-This pattern ensures you understand metaclasses not as syntax, but as a conceptual framework for understanding Python's object model.
+**🎯 Practice Custom Metaclasses:**
+> "Create a metaclass that validates all agent classes must define a process() method. Show what error appears if I forget process(). Explain why this catches errors earlier than runtime checks."
 
-### What You've Built
+**🧪 Test Metaclass Inheritance:**
+> "Create BaseAgentMeta that logs creation. If ChatAgent uses BaseAgentMeta and SpecialChatAgent inherits ChatAgent, what gets logged? Walk through the metaclass resolution order."
 
-1. `class_hierarchy_discoveries.txt` — Your observations about class types
-2. Metaclass hierarchy summary — Your understanding of how type creates classes
-3. Challenge documentation — Three edge cases you tested with AI
-4. `metaclass_reference_guide.md` — Your comprehensive metaclass reference
+**🚀 Apply to Framework Design:**
+> "Design a metaclass registry pattern where all agent classes auto-register themselves in a global directory when defined. Show how this eliminates manual registration code and enables plugin architectures."
 
-### Next Steps
-
-Lesson 2 will build on this foundation, showing practical metaclass patterns (registration, validation, framework design) that solve real problems. You'll see how Django and SQLAlchemy use metaclasses.
+---

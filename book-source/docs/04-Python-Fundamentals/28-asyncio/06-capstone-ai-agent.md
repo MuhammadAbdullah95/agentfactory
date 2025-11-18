@@ -928,3 +928,23 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 **Time Estimate**: 50-65 minutes (10 min verification, 10 min discovery, 12 min coach interaction, 12 min optimization, 6-15 min reflection)
 
 **Key Takeaway**: Asyncio isn't just syntax—it's a mindset. Event loops, structured concurrency, careful error handling, and measurement are how real systems are built. You've learned the architecture, not just the code.
+
+---
+
+## Try With AI
+
+How do you integrate async API calls, CPU-bound inference, timeouts, retries, and error handling in one AI agent system?
+
+**🔍 Explore Complete System Architecture:**
+> "Show me the architecture for an AI agent that: fetches data from APIs (asyncio), processes with ML model (ProcessPoolExecutor), stores results (asyncio). Trace a request through all layers and explain concurrency at each stage."
+
+**🎯 Practice Production Patterns:**
+> "Implement structured concurrency with TaskGroup for critical operations and gather() for optional enrichment. Add per-operation timeouts (2s API, 5s inference). Show how one failure doesn't crash the system."
+
+**🧪 Test Resilience Mechanisms:**
+> "Create an agent with 3 API dependencies. One API is down, one is slow (3s), one is flaky (50% failure rate). Implement retries, circuit breakers, and fallback responses. Measure end-to-end latency under degraded conditions."
+
+**🚀 Apply to Multi-Agent Orchestration:**
+> "Design a coordinator managing 5 agents concurrently. Each agent has Fetch → Infer → Store pipeline. Include backpressure (limit concurrent agents), error aggregation, and throughput monitoring. Explain bottleneck optimization strategy."
+
+---

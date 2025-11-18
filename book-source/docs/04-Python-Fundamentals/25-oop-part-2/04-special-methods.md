@@ -989,26 +989,20 @@ Complete `vector.py` and `sorted_list.py` with comprehensive special method impl
 
 ---
 
-## Summary: Bidirectional Learning in Action
+## Try With AI
 
-**Part 1 (Student discovers)**: You found that custom objects can't use operators or integrate with built-in functions
+Why can't you use + operator or len() on custom objects without special methods?
 
-**Part 2 (AI teaches)**: AI explained special methods and how Python uses them to enable protocol-driven design
+**🔍 Explore Operator Overloading:**
+> "Show me how Vector implements __add__, __sub__, __mul__ to support v1 + v2, v1 - v2, v1 * 3. Explain why __rmul__ handles 3 * v1 differently. What does NotImplemented mean?"
 
-**Part 3 (Student teaches)**: You challenged AI with edge cases about protocol composition and error handling
+**🎯 Practice Container Protocol:**
+> "Create SortedList implementing __len__, __getitem__, __contains__, __iter__. Demonstrate len(sl), sl[2], 5 in sl, for x in sl. Explain which special method each syntax triggers."
 
-**Part 4 (Knowledge synthesis)**: You built production custom types (Vector, SortedList) supporting multiple protocols
+**🧪 Test Comparison and Hashing:**
+> "Implement __eq__, __lt__, __hash__ for Event class. Show why Events can be dict keys and sorted in a list. What breaks if __hash__ is inconsistent with __eq__?"
 
-### What You've Built
+**🚀 Apply to Agent Messages:**
+> "Design Message class supporting comparison (by priority), iteration (over tokens), representation (__str__ for users, __repr__ for debugging), and arithmetic (+ concatenates messages)."
 
-1. `objects_without_protocols_analysis.md` — Problem analysis
-2. `special_methods_problem_statement.md` — Clear problem statement
-3. Challenge documentation — Three protocol edge cases
-4. `vector.py` — Feature-complete Vector with 10+ special methods
-5. `sorted_list.py` — Generic SortedList with container protocol
-6. `main.py` — Comprehensive test suite
-7. `special_methods_reference.md` — Protocol guide
-
-### Next Steps
-
-Lesson 5 (the capstone) integrates all Chapter 25 concepts—inheritance, polymorphism, composition, and special methods—to build complex design patterns in production systems.
+---

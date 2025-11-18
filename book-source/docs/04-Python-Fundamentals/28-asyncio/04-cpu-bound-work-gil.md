@@ -672,3 +672,23 @@ python /tmp/hybrid_pipeline.py
 **Time Estimate**: 35-40 minutes (5 min discover, 8 min teach/learn, 10 min edge cases, 12-17 min build artifact)
 
 **Key Takeaway**: You've mastered hybrid I/O + CPU systems. The GIL doesn't prevent parallelism—you just need the right tool (ProcessPoolExecutor) and careful orchestration to overlap I/O and CPU work.
+
+---
+
+## Try With AI
+
+Why does asyncio (I/O concurrency) NOT solve CPU-bound problems, and how does ProcessPoolExecutor change this?
+
+**🔍 Explore GIL Constraints:**
+> "Show me a CPU-intensive function (matrix multiplication simulation). Run it with asyncio.gather() on 4 concurrent calls. Measure total time. Explain why you get no speedup compared to sequential execution."
+
+**🎯 Practice Process Parallelism:**
+> "Implement the same CPU function using loop.run_in_executor(ProcessPoolExecutor()). Compare execution time on 4-core machine for 4 parallel calls. Why is this 3-4x faster than asyncio alone?"
+
+**🧪 Test Hybrid Orchestration:**
+> "Create a pipeline: fetch 6 datasets (I/O-bound, use asyncio), process each (CPU-bound, use ProcessPoolExecutor). Show how fetch and process overlap. Why is total time < fetch_time + process_time?"
+
+**🚀 Apply to AI Inference Pipeline:**
+> "Design a system that fetches 10 documents from API (asyncio), runs ML inference on each (CPU-bound, ProcessPoolExecutor), then stores results (asyncio). Measure throughput and explain bottleneck identification."
+
+---

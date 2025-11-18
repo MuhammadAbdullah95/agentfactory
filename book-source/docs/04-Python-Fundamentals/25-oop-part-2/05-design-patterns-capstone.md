@@ -1198,71 +1198,20 @@ Complete `chapter_25_integration_reflection.md` with thoughtful answers to all r
 
 ---
 
-## Summary: Capstone Integration
+## Try With AI
 
-**Part 1 (Student discovers)**: You identified problems that design patterns solve
+How do you coordinate Singleton (AgentManager), Factory (agent creation), Observer (events), and Strategy (routing) in one system?
 
-**Part 2 (AI teaches)**: AI explained how patterns compose into scalable architectures
+**🔍 Explore Pattern Integration:**
+> "Show me how AgentManager (Singleton) uses AgentFactory (Factory) to create agents, EventBus (Observer) to broadcast events, and RoutingStrategy (Strategy) to route messages. Trace a message through all 4 patterns."
 
-**Part 3 (Student teaches)**: You challenged AI with complex interaction scenarios
+**🎯 Practice Pattern Composition:**
+> "Design a system where Factory creates agents, Singleton manages them, Observer notifies on state changes, and Strategy determines behavior. Explain dependency flow and initialization order."
 
-**Part 4 (Knowledge synthesis)**: You built a production multi-agent system using all patterns
+**🧪 Test Pattern Interactions:**
+> "What happens when AgentFactory creates an agent that registers with EventBus and AgentManager simultaneously? Show the sequence of method calls and explain potential race conditions."
 
-**Part 5 (Reflection)**: You reflected on how all Chapter 25 concepts integrate together
-
-### What You've Built
-
-1. `pattern_evolution_analysis.md` — Problem analysis
-2. `pattern_necessity_analysis.md` — Pattern necessity statement
-3. Challenge documentation — Three complex architecture scenarios
-4. `agent_system/` — Production system with all 4 patterns
-5. `design_patterns_integration.md` — Architecture guide
-6. `chapter_25_integration_reflection.md` — Comprehensive learning synthesis
-
-### Chapter 25 Complete
-
-You've mastered:
-- **Lesson 1**: Inheritance and Method Resolution Order
-- **Lesson 2**: Polymorphism and Duck Typing
-- **Lesson 3**: Composition Over Inheritance and Code Organization
-- **Lesson 4**: Special Methods (Magic Methods) and Protocols
-- **Lesson 5**: Design Patterns and Architectural Integration
-
-You can now design and build sophisticated object-oriented systems that are:
-- Flexible through polymorphism and composition
-- Maintainable through design patterns
-- Scalable through proper architecture
-- Extensible without modifying existing code
-
-### Next
-
-In Part 5, you'll apply these OOP skills to build real-world projects integrating multiple domains: data processing, API design, testing frameworks, and more.
+**🚀 Apply to Production Architecture:**
+> "Build a complete multi-agent system using all Chapter 25 concepts: inheritance (agent types), polymorphism (dispatch), composition (capabilities), special methods (Event __eq__), and all 4 patterns. Explain design decisions."
 
 ---
-
-## About the Code Examples
-
-**Specifications Used**:
-- EX-CH25-022: Singleton pattern implementation (AgentManager)
-- EX-CH25-023: Factory pattern implementation (AgentFactory)
-- EX-CH25-024: Observer pattern implementation (EventBus)
-- EX-CH25-025: Strategy pattern implementation (DecisionStrategy)
-- EX-CH25-026: Integrated multi-agent system (all 4 patterns)
-
-**Validation Steps**:
-All code examples have been tested on Python 3.14+ with the following checks:
-1. Type hints validated with `pyright` (strict mode)
-2. All patterns instantiate correctly
-3. Singleton ensures single instance across multiple calls
-4. Factory creates correct agent types
-5. Observer notifies all attached listeners
-6. Strategy switches at runtime
-7. Integrated system coordinates all patterns
-
-**Platform Compatibility**:
-✓ Linux (Ubuntu 22.04+)
-✓ macOS (13.0+)
-✓ Windows 11+
-✓ All require Python 3.14+
-
-All examples are production-ready code that you can extend and deploy in real systems.

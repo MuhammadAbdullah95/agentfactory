@@ -825,24 +825,21 @@ Complete `agent_framework.py` with working implementation and docstring explaini
 
 ---
 
-## Summary: Bidirectional Learning in Action
+## Try With AI
 
-**Part 1 (Student discovers)**: You identified the duplication and scaling problems with procedural agent code
+How would you refactor a 100-agent system where each agent duplicates the same initialization logic?
 
-**Part 2 (AI teaches)**: AI explained how inheritance and super() solve these exact problems
+**🔍 Explore Inheritance Patterns:**
+> "Show me how BaseAgent eliminates duplication across ChatAgent, CodeAgent, and DataAgent. Explain why fixing a bug in BaseAgent's __init__ method automatically fixes all subclasses."
 
-**Part 3 (Student teaches)**: You challenged AI with edge cases to deepen mutual understanding
+**🎯 Practice Method Resolution Order:**
+> "Create a diamond inheritance scenario with BaseProcessor, TextMixin, CodeMixin, and UniversalProcessor. Call .mro() and explain which method executes first when I call process()."
 
-**Part 4 (Knowledge synthesis)**: You built a reusable agent framework proving the pattern
+**🧪 Test super() Chains:**
+> "Write a 3-level inheritance hierarchy where each level adds initialization logic. Show what breaks when the middle class forgets super().__init__() and explain why."
 
-### What You've Built
+**🚀 Apply to Multi-Agent Architecture:**
+> "Design an agent framework where I can add 20 new agent types without duplicating common behavior. Include error tracking, message history, and performance metrics in the base class."
 
-1. `agent_duplication_analysis.md` — Problem analysis
-2. `inheritance_problem_statement.md` — Clear statement of scaling issues
-3. Challenge documentation — Three edge cases you posed to AI
-4. `agent_framework.py` — Production-ready agent system demonstrating inheritance, super(), and MRO
-
-### Next Steps
-
-Lesson 2 deepens this with polymorphism and Abstract Base Classes. You'll use this agent framework to show how different agents respond differently to the same method call.
+---
 

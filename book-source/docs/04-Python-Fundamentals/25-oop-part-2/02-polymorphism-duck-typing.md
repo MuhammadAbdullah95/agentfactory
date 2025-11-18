@@ -1027,25 +1027,21 @@ Complete `agent_dispatcher.py` with all three polymorphic approaches and documen
 
 ---
 
-## Summary: Bidirectional Learning in Action
+## Try With AI
 
-**Part 1 (Student discovers)**: You identified the type-checking and coupling problems with explicit isinstance checks
+Why does a dispatcher with 50 isinstance() checks become unmaintainable?
 
-**Part 2 (AI teaches)**: AI explained how polymorphism—both ABC and duck typing—eliminates this coupling
+**🔍 Explore Polymorphic Dispatch:**
+> "Show me how process() works identically across ChatAgent, CodeAgent, and SearchAgent without isinstance checks. Explain why the dispatcher doesn't need to know agent types."
 
-**Part 3 (Student teaches)**: You challenged AI with edge cases about when each approach catches errors
+**🎯 Practice ABC vs Duck Typing:**
+> "Compare ABC inheritance and duck typing for ImageAgent and VideoAgent. When does compile-time validation catch errors that duck typing misses? Show me both approaches."
 
-**Part 4 (Knowledge synthesis)**: You built a production dispatcher demonstrating all three polymorphic approaches
+**🧪 Test Protocol Type Safety:**
+> "Create a typing.Protocol for Processable agents. Show how mypy detects when an agent is missing process() before runtime. Compare this safety to duck typing."
 
-### What You've Built
+**🚀 Apply to Multi-Agent Routing:**
+> "Design a router that dispatches to 20+ agent types based on message content. Use polymorphism to avoid any isinstance() or type() checks. Explain how adding a new agent requires zero router changes."
 
-1. `dispatcher_type_checking_analysis.md` — Problem analysis
-2. `polymorphism_problem_statement.md` — Clear problem statement
-3. Challenge documentation — Three edge cases you posed to AI
-4. `agent_dispatcher.py` — Production dispatcher with ABC, duck typing, and Protocol approaches
-5. `abc_vs_duck_typing.md` — Comparison guide for design decisions
-
-### Next Steps
-
-Lesson 3 shows how composition and modules organize agent systems. You'll use this polymorphic agent framework to build modular, scalable architectures.
+---
 

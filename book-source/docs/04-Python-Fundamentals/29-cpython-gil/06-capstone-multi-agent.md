@@ -930,12 +930,22 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 **Key Takeaway**: You've moved from "I understand CPython" to "I design production systems knowing how CPython works and what constraints/capabilities it provides." The next frontier is scaling beyond single-machine (Parts 10-14).
 
-**Congratulations!** You've completed Chapter 29 and mastered:
-- CPython's architecture
-- GIL evolution and free-threading
-- Concurrency decision-making
-- Building production multi-agent systems
-- Benchmarking and performance analysis
-- Error resilience and thread safety
+---
 
-You're now equipped to build AI-native systems that leverage modern hardware efficiently. The chapters ahead formalize this knowledge into production patterns that scale to thousands of agents and billions of requests.
+## Try With AI
+
+How do you build a multi-agent system that achieves 3-4x CPU speedup with free-threading while handling failures gracefully?
+
+**🔍 Explore Multi-Agent Architecture:**
+> "Design a 4-agent system where each agent does CPU-bound reasoning. Show the architecture with BaseAgent class, thread launching, shared results container, and coordinator. Explain why free-threading enables 4x speedup vs traditional threading."
+
+**🎯 Practice Comprehensive Benchmarking:**
+> "Implement benchmarks comparing: (1) sequential execution, (2) traditional threading (with GIL), (3) free-threaded Python, (4) multiprocessing. For each, measure time, CPU%, memory. Create comparison table showing winner and trade-offs."
+
+**🧪 Test Thread Safety:**
+> "Create shared ResultCollector that multiple agents write to simultaneously. Show race condition without Lock, then fix with threading.Lock(). Explain why free-threading exposes concurrency bugs that GIL hid."
+
+**🚀 Apply to Production Deployment:**
+> "Explain how this single-machine multi-agent system scales to Kubernetes (Part 11) with pods, or Ray (Part 14) with distributed actors. What changes? What stays the same? How does free-threading reduce infrastructure costs?"
+
+---

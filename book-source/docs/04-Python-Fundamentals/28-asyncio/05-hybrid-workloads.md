@@ -1233,3 +1233,23 @@ python /tmp/data_pipeline.py
 **Time Estimate**: 35-42 minutes (5 min discover, 8 min teach/learn, 10 min edge cases, 12-19 min build artifact)
 
 **Key Takeaway**: You've mastered production system design. Pipelining, queues, backpressure, and bottleneck analysis are the foundation of real-world AI data systems.
+
+---
+
+## Try With AI
+
+How does a 3-stage pipeline (Fetch → Process → Store) achieve higher throughput than sequential execution?
+
+**🔍 Explore Pipeline Architecture:**
+> "Explain pipelining with a 3-stage example: stage 1 takes 1s, stage 2 takes 2s, stage 3 takes 1s. For 10 items, show sequential time (40s) vs pipelined time (~22s). What enables the speedup?"
+
+**🎯 Practice Queue-Based Coordination:**
+> "Implement asyncio.Queue connecting Fetch (producer) and Process (consumer) stages. Show how maxsize=5 implements backpressure. What happens when Process is slower than Fetch?"
+
+**🧪 Test Bottleneck Identification:**
+> "Create a pipeline where Fetch=0.5s, Process=2s, Store=0.3s per item. Measure stage utilization and queue depths. Which stage is the bottleneck? How would you optimize throughput?"
+
+**🚀 Apply to Data Ingestion:**
+> "Design a production data pipeline: fetch from 5 APIs (asyncio), transform each item (CPU, ProcessPoolExecutor), store to database (asyncio). Include backpressure, error handling, and throughput measurement."
+
+---

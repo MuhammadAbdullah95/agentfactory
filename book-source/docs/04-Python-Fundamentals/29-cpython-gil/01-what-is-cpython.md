@@ -552,3 +552,23 @@ python /tmp/implementation_profiler.py
 **Time Estimate**: 25-30 minutes (5 min discover, 8 min teach/learn, 7 min edge cases, 5 min build artifact)
 
 **Key Takeaway**: CPython is one implementation among many. Its design choices (reference counting, C API, GIL) make sense given its constraints. Understanding why these choices exist prepares you for the GIL deep-dive in Lesson 2.
+
+---
+
+## Try With AI
+
+Why is CPython called an "implementation" when most developers just say "Python"?
+
+**🔍 Explore Implementation Differences:**
+> "Compare CPython, PyPy, and Jython. Show how the same Python code (x = [1, 2, 3]) behaves differently: CPython uses reference counting, PyPy uses JIT compilation, Jython runs on JVM. What changes and what stays the same?"
+
+**🎯 Practice Bytecode Analysis:**
+> "Write a simple function and use dis.dis() to show its bytecode. Explain how LOAD_CONST, BINARY_ADD, and RETURN_VALUE work. Why does CPython compile to bytecode before execution?"
+
+**🧪 Test Reference Counting:**
+> "Use sys.getrefcount() to track how many references exist to an object. Create scenarios where count increases (assignment, list append) and decreases (del, scope exit). Why does CPython use this vs garbage collection?"
+
+**🚀 Apply to Performance Understanding:**
+> "Explain why sys._is_gil_enabled() returns a boolean in Python 3.14. How does knowing your implementation (CPython with/without GIL) affect design decisions for multi-threaded programs?"
+
+---

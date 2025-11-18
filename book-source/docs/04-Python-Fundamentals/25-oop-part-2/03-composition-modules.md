@@ -910,25 +910,20 @@ Complete agent system with:
 
 ---
 
-## Summary: Bidirectional Learning in Action
+## Try With AI
 
-**Part 1 (Student discovers)**: You found that inheritance creates rigid, combinatorial designs that don't scale
+How would you combine reasoning, database, search, and API capabilities in 15 different agent configurations without creating 15 inheritance classes?
 
-**Part 2 (AI teaches)**: AI explained how composition provides flexibility—mix capabilities without creating new classes
+**🔍 Explore Composition Patterns:**
+> "Show me how Agent class composes ReasoningEngine, DatabaseEngine, and SearchEngine as capabilities. Explain why this creates 2^3 combinations without exponential class growth."
 
-**Part 3 (Student teaches)**: You challenged AI with edge cases about state management, dependencies, and module organization
+**🎯 Practice Module Organization:**
+> "Design a project structure with agents/, engines/, config/, and utils/ packages. Show __init__.py files that create clean public APIs. Explain dependency flow."
 
-**Part 4 (Knowledge synthesis)**: You built a production agent system with flexible composition and professional module organization
+**🧪 Test Capability Injection:**
+> "Write Agent.__init__ that accepts Dict[str, Engine] for flexible capability injection. Show configurations for ChatAgent (reasoning only), AnalystAgent (database only), and UniversalAgent (all capabilities)."
 
-### What You've Built
+**🚀 Apply to Multi-Agent Systems:**
+> "Create a configuration factory that generates 10 agent types by mixing 5 engine types. Demonstrate that adding a new engine (FileEngine) works with all existing agents without code changes."
 
-1. `inheritance_rigidity_analysis.md` — Problem analysis
-2. `composition_vs_inheritance_problem.md` — Clear problem statement
-3. Challenge documentation — Three architectural edge cases
-4. `agent_system/` — Production modular project with composition
-5. `composition_vs_inheritance_guide.md` — When to use each pattern
-6. `project_structure.md` — Module organization best practices
-
-### Next Steps
-
-Lesson 4 teaches special methods that make composed objects feel like built-in Python types. You'll use this flexible agent system and add Python protocol support.
+---

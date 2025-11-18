@@ -900,3 +900,23 @@ python /tmp/task_coordinator.py
 **Time Estimate**: 30-35 minutes (5 min discover, 8 min teach/learn, 8 min edge cases, 9-14 min build artifact)
 
 **Key Takeaway**: You've mastered three task coordination patterns and understand when to choose resilience (gather) over atomicity (TaskGroup).
+
+---
+
+## Try With AI
+
+Why does TaskGroup cancel all tasks when one fails, but gather() continues with return_exceptions=True?
+
+**🔍 Explore Task Coordination:**
+> "Compare asyncio.TaskGroup vs asyncio.gather() for 5 concurrent tasks. Show what happens when task 3 fails in each approach. Explain when atomicity (TaskGroup) matters vs resilience (gather)."
+
+**🎯 Practice Structured Concurrency:**
+> "Implement a service health checker using TaskGroup that tests 10 endpoints. Show how automatic cancellation protects against partial failures. What happens to tasks 5-10 when task 2 fails?"
+
+**🧪 Test Exception Handling:**
+> "Create 8 async tasks where 2 fail randomly. Use gather(return_exceptions=True) to continue despite failures. Show how to identify which tasks succeeded vs failed and handle errors gracefully."
+
+**🚀 Apply to Multi-Agent Systems:**
+> "Design an agent coordinator that launches 6 agents concurrently. Some agents must all succeed (use TaskGroup), others can fail independently (use gather). Explain your coordination strategy."
+
+---

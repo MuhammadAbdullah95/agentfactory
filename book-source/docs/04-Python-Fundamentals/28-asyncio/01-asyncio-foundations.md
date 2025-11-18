@@ -790,3 +790,23 @@ time python /tmp/async_fetcher.py
 **Time Estimate**: 25-30 minutes (5 min discover, 8 min teach/learn, 7 min edge cases, 5-10 min build artifact)
 
 **Key Takeaway**: You've moved from "I know asyncio syntax" to "I understand how to design concurrent systems and can teach the pattern to others."
+
+---
+
+## Try With AI
+
+How does asyncio.gather() run 5 API calls in 2 seconds when sequential calls would take 10 seconds?
+
+**🔍 Explore Event Loop Mechanics:**
+> "Explain what happens when I call asyncio.run(main()). Show the event loop lifecycle, when coroutines are scheduled, and how await suspends execution. Draw a timeline for 3 concurrent tasks."
+
+**🎯 Practice Concurrent Execution:**
+> "Create 5 async functions simulating API calls with different latencies (0.5s, 1s, 1.5s, 2s, 2.5s). Use asyncio.gather() to run them concurrently. Measure total time and explain why it's ~2.5s not 7.5s."
+
+**🧪 Test Error Propagation:**
+> "Implement asyncio.gather() with 5 tasks where task 3 raises an exception. Compare behavior with return_exceptions=True vs False. Which continues execution? Which stops immediately?"
+
+**🚀 Apply to API Gateway:**
+> "Design an async API aggregator that fetches from weather, news, and stock APIs concurrently. Include timeout handling (2s per API) and return partial results if one API fails."
+
+---

@@ -942,22 +942,20 @@ Once your guide is complete, validate it:
 
 ---
 
-## Summary: Bidirectional Learning Pattern
+## Try With AI
 
-In this lesson, you experienced all three roles:
+Why does @dataclass automatically generate __init__, __repr__, and __eq__ but you had to write 30 lines manually?
 
-**Part 1 (Student explores)**: You wrote manual boilerplate, then used @dataclass to eliminate it
-**Part 2 (AI teaches)**: AI explained all @dataclass parameters and options
-**Part 3 (Student teaches)**: You challenged AI with mutable defaults, field ordering, and nesting
-**Part 4 (Knowledge synthesis)**: You built a production patterns reference
+**🔍 Explore Dataclass Parameters:**
+> "Compare @dataclass(), @dataclass(frozen=True), and @dataclass(order=True) for Agent class. Show what methods each generates and when immutability or ordering matters in agent systems."
 
-### What You've Built
+**🎯 Practice Field Configuration:**
+> "Create AgentConfig with field(default_factory=list) for tools and field(repr=False) for api_key. Explain why list=[] as default is dangerous and when repr=False protects sensitive data."
 
-1. Before/after comparison showing boilerplate reduction
-2. Understanding of @dataclass parameters (in your own words)
-3. Edge case documentation from AI challenges
-4. `dataclass_patterns_guide.md` — Production-ready patterns
+**🧪 Test Nested Dataclasses:**
+> "Design Agent containing nested Config and Metrics dataclasses. Show proper __post_init__ validation ensuring config.timeout > 0. What happens when validation fails?"
 
-### Next Steps
+**🚀 Apply to Production Models:**
+> "Build a complete agent message system with Message, Metadata, and Response dataclasses. Include validation, immutability for sent messages, ordering by timestamp, and JSON serialization via asdict()."
 
-Lesson 4 builds on this, showing advanced features like `field()` metadata, `__post_init__()` validation, and when to use Pydantic instead of dataclasses.
+---
