@@ -146,12 +146,7 @@ Please analyze it for:
 What gaps should I address before planning?
 ```
 
-**What to expect**:
-
-- AI analyzes your specification
-- Lists 5-10 potential gaps or ambiguities
-- Asks clarifying questions
-- Organizes findings and update specification
+Your companion will analyze your specification, identify gaps or ambiguities, and ask clarifying questions. Review its findings and update your specification accordingly.
 
 ### Step 2: Re-Run /sp.clarify (Optional)
 

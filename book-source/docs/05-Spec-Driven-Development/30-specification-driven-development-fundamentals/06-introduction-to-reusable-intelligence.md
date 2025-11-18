@@ -474,27 +474,6 @@ You now understand:
 
 ---
 
-## What's Next: Learning to Design Reusable Intelligence
-
-**You now know WHAT reusable intelligence is, but not HOW to design it.**
-
-**Lesson 7 teaches**: The **Persona + Questions + Principles (P+Q+P) pattern** for designing Skills and Subagents that activate reasoning (not just pattern matching).
-
-**You'll learn**:
-- How to define effective Personas that activate domain expertise
-- How to articulate Questions that force context-specific analysis
-- How to establish Principles that guide consistent decisions
-- Why P+Q+P activates reasoning mode instead of prediction mode
-
-**Preparation**: Think about patterns you've encountered in your work:
-- What decisions have you made repeatedly across multiple features?
-- What domain expertise would have improved your designs?
-- What quality checks do you wish happened automatically?
-
-Bring these observations to Lesson 7, where you'll learn to design your own Skills and Subagents.
-
----
-
 ## Try With AI
 
 **Setup**: Open your AI coding assistant and explore the concept of reusable intelligence.
@@ -548,18 +527,3 @@ How would Orchestration ensure compliance?
 ```
 
 ---
-
-## Summary
-
-**The paradigm shift**: AI commoditizes code implementation → Intelligence becomes the strategic differentiator
-
-**The three components of Reusable Intelligence**:
-1. **Skills**: Horizontal expertise, broadly applicable patterns (error handling, validation)
-2. **Subagents**: Vertical specialization, domain expertise (security, performance, accessibility)
-3. **Orchestration**: Multi-agent workflows, systematic quality validation
-
-**The microservices analogy**: Just as microservices decompose applications, agent architectures decompose problem-solving into modular intelligence units
-
-**The strategic value**: Two teams with similar AI models achieve vastly different productivity based on intelligence library quality
-
-**Next lesson**: You'll learn HOW to design Skills and Subagents using the Persona + Questions + Principles (P+Q+P) pattern.

@@ -490,26 +490,26 @@ Notice what just happened across all steps:
 **Quality Iteration (Parts 1-4a):**
 - You drafted spec with AI (user stories, acceptance criteria, edge cases)
 - AI identified ambiguities: "Does 1 + 1.0 return int or float?"
-- You taught AI: "Division always returns float for consistency"
+- You provided design decisions: "Division always returns float for consistency"
 - Together, you refined spec before any code was written
 - **This is convergence at the specification level—neither perfect alone, both better together**
 
-**AI as Teacher** (Scenario 2):
+**When AI Suggested New Patterns** (Scenario 2):
 - AI suggested runtime type validation pattern you hadn't considered
 - AI asked "type hints or isinstance checks?" revealing a specification gap
-- You learned from AI's question (type checking strategies)
+- You evaluated the tradeoffs and made the design decision
 
-**You as Teacher** (Scenario 3):
-- AI assumed division by zero should return 0 (wrong)
+**When You Corrected Assumptions** (Scenario 3):
+- AI assumed division by zero should return 0 (wrong assumption)
 - You corrected: "Must raise ZeroDivisionError" (domain knowledge)
-- AI learned your constraint and regenerated correctly
+- AI regenerated with the correct constraint
 
-**Convergence Together** (All scenarios):
-- Draft spec → Quality check → Identify gaps → Refine with AI → Code generation → Validation → Remaining gaps revealed → Spec refinement → Regeneration
+**Iterative Refinement** (All scenarios):
+- Draft spec → Quality check → Identify gaps → Refine collaboratively → Code generation → Validation → Remaining gaps revealed → Spec refinement → Regeneration
 - Neither human nor AI could have written the perfect spec alone
 - Iteration produced production-ready specification
 
-This is **bidirectional learning**—both human and AI improve through collaboration. You bring domain knowledge and intent; AI brings systematic thinking and edge case discovery. Together, you create specifications that neither could write independently.
+This is **collaborative specification**—both human and AI improve through iteration. You bring domain knowledge and intent; AI brings systematic thinking and edge case discovery. Together, you create specifications that neither could write independently.
 
 **The quality iteration step (Part 4a) is where this truly shines:** You didn't just generate code and hope for the best. You validated your spec against quality criteria first. AI helped identify vagueness. You taught it your constraints. Only then did you ask for code.
 

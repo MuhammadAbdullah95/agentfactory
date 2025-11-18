@@ -265,7 +265,7 @@ What should I specify to make this complete? What questions should I answer upfr
 to avoid implementation surprises?
 ```
 
-**Your companion responds** (AI as Teacher):
+**Your companion responds**:
 
 > "To make this specification complete, you should answer:
 >
@@ -276,7 +276,7 @@ to avoid implementation surprises?
 > 5. **Password reset**: Email or SMS? Token expiration time?
 > 6. **Edge cases**: What if user tries to reset password for non-existent email?"
 
-**What just happened?** AI taught you 6 specification questions you didn't think to ask.
+**Reflect**: Which of these questions surprised you? Which requirements did you initially overlook?
 
 ### Step 1.5: You Teach AI (Your Constraints)
 
@@ -295,7 +295,7 @@ Good questions. Here are my constraints:
 6. Password reset for non-existent email: Return "success" anyway (don't leak which emails exist)
 ```
 
-**Your companion responds** (AI as Student):
+**Your companion responds**:
 
 > "Got it. A few clarifications based on your healthcare context:
 >
@@ -304,7 +304,7 @@ Good questions. Here are my constraints:
 > - Should we implement 2FA given the security requirements?
 > - What about session timeout after inactivity?"
 
-**What just happened?** AI learned your domain (healthcare) and adapted its suggestions. You taught AI constraints it didn't know.
+**Notice**: Your companion picked up on your healthcare context and raised compliance questions. Your constraints shaped its follow-up questions.
 
 ### Step 2: Converge Together (Iterative Refinement)
 
@@ -319,7 +319,7 @@ Password complexity: minimum 12 chars, at least one uppercase, one number, one s
 Session timeout: 15 minutes of inactivity.
 ```
 
-**Your companion responds** (AI as Co-Worker):
+**Your companion responds**:
 
 > "Perfect. I've incorporated those constraints. One edge case I noticed: what happens if someone requests password reset multiple times before the first token expires? Should we:
 >
@@ -336,12 +336,12 @@ Also add rate limiting: max 3 reset requests per email per hour.
 
 **Your companion:** will generate the final spec.
 
-**What just happened?** Through 3 rounds of dialogue:
-1. **AI taught you** (suggested questions you didn't think of)
-2. **You taught AI** (provided domain-specific constraints)
-3. **You both converged** (refined edge cases together)
+**What emerged from this dialogue?** Through 3 rounds of conversation:
+1. Your companion suggested questions you hadn't considered
+2. You provided domain-specific constraints and context
+3. Together, you discovered edge cases and refined requirements
 
-This is **co-learning**—neither you nor AI could have written this spec alone. You brought domain knowledge (healthcare context, security requirements). AI brought systematic thinking (edge cases, best practices). Together, you created a production-ready specification.
+This is **collaborative specification**—neither you nor your companion could have written this spec alone. You brought domain knowledge (healthcare context, security requirements). Your companion brought systematic thinking (edge cases, best practices). Together, you created a production-ready specification.
 
 #### 💬 AI Colearning Prompt
 > "Explain why the specification we just built collaboratively is better than what either a human or AI could write alone. What did each partner contribute that the other couldn't?"

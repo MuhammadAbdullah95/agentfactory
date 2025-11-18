@@ -420,33 +420,6 @@ You built a 3-feature system. What changes at larger scale?
 
 ---
 
-## Congratulations!
-
-You've completed Chapter 32: *AI Orchestra - Agent Teams Manager*.
-
-**You learned**:
-- Decomposition thinking (break complex problems into parallelizable units)
-- Task management (coordinate 3 agents/workflows simultaneously)
-- Integration contracts (define clear boundaries between features)
-- Scaling patterns (what works at 3 vs 5-7 vs 10-15 agents)
-
-**You proved**:
-- You can build real systems with 2-3x productivity gains
-- Clean specs eliminate coordination overhead
-- Good decomposition improves code quality
-
-**You are now**: A creative orchestrator who can coordinate autonomous teams at scale.
-
-Not because you're a faster coder. But because you understand how **clear specs eliminate meetings**, **good decomposition enables autonomous work**, and **this pattern scales to larger teams**.
-
-#### 🤝 Practice Exercise
-
-> **Ask your AI**: "Review my capstone project metrics (paste time tracking and merge conflict data). Analyze what my measurements reveal about decomposition quality. Suggest what I should improve before scaling to 5-7 features."
-
-**Expected Outcome**: Data-driven feedback on decomposition effectiveness and actionable recommendations for scaling.
-
----
-
 ## Try With AI
 
 You've completed a multi-feature project with measurable results—now transform those metrics into a portfolio narrative that demonstrates strategic orchestration capability.
