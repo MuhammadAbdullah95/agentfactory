@@ -404,143 +404,20 @@ except ValidationError as e:
 
 ---
 
-## Try With AI: The Data Validation Discovery (4-Part Learning Challenge)
+## Try With AI
 
-This challenge teaches you bidirectional learning: you discover problems, AI teaches concepts, you challenge AI's approach, then you build real artifacts.
+Apply Pydantic data validation through AI collaboration that builds type-safe application skills.
 
----
+**🔍 Explore Validation Pain:**
+> "Compare manual validation for user registration (username 3-20 chars, email with @, age 13-120) versus Pydantic BaseModel with Field() constraints. Show why runtime validation matters beyond type hints."
 
-### Part 1: You Discover (Student Discovers Problems)
+**🎯 Practice Field Constraints:**
+> "Build a User model with Pydantic validating: username (pattern r'^[a-z0-9_]+$'), email (@field_validator for domain check), age (ge=13, le=120), optional bio (max 200 chars). Handle ValidationError."
 
-**Your Turn** — Write code WITHOUT Pydantic to experience the validation problem:
+**🧪 Test Edge Cases:**
+> "Test Pydantic model with: '25' (string as int), 'test@localhost' (no domain dot), 120.5 (float as int), 201-char bio. Show how Pydantic coerces types and where custom validators are needed."
 
-```python
-# Part 1: Manual validation (the hard way)
-# Write a simple user registration system that validates data manually:
-
-user_data = {
-    "username": "alice",
-    "email": "alice@example.com",
-    "age": 25,
-    "bio": "Software developer"
-}
-
-# Challenge: Write validation functions that ensure:
-# 1. username: required, 3-20 characters, alphanumeric + underscore
-# 2. email: required, contains @, domain has dot
-# 3. age: required, integer between 13-120
-# 4. bio: optional, max 200 characters
-
-# Problem to discover:
-# - You'll write lots of boilerplate validation code
-# - Each field needs separate checks
-# - Error messages aren't centralized
-# - You can't reuse validation logic easily
-# - Testing validation is tedious
-```
-
-**What You'll Realize**: Manual validation is repetitive, error-prone, and impossible to scale. Each field needs its own checks. This is where Pydantic saves you.
+**🚀 Apply Production Patterns:**
+> "Create a complete user validation system with Pydantic showing: all errors at once (not first-fail), clear error messages, type coercion (str → int), custom validators, and explain when to use Field() vs @field_validator."
 
 ---
-
-### Part 2: AI as Teacher (AI Explains Concepts)
-
-**Ask your AI:**
-
-> "I just wrote manual validation code for a user registration system (3-5 fields with different constraints). It's repetitive and error-prone. Show me how Pydantic solves this problem.
->
-> First, explain the difference between type hints (static) and validation (runtime) with concrete examples from my validation code that would break. Then show me the same validation using Pydantic—how would you define a User model that validates the same rules automatically?"
-
-**What AI Should Show You**:
-- How Pydantic BaseModel replaces your manual validation functions
-- How type hints alone (str, int) aren't enough—Pydantic enforces them at runtime
-- How Field() constraints replace your custom validation logic
-- Side-by-side comparison: your manual code vs. Pydantic
-
-**Your Role**: Ask clarifying questions. "Why does Pydantic report ALL errors at once instead of stopping at the first one?" "Can I add custom validation beyond Field()?" "How does Pydantic know about email format?"
-
----
-
-### Part 3: You as Teacher (You Challenge AI's Approach)
-
-**Challenge AI** — Ask it to handle edge cases it might miss:
-
-> "Now test your Pydantic model with edge cases I discovered in my manual validation:
-> 1. What happens if I pass a string like '25' (quoted number) instead of integer 25?
-> 2. What if email is 'alice@localhost' (no dot in domain)?
-> 3. What if someone passes username='alice_' (underscore at end)?
-> 4. What if age is 120.5 (float instead of int)?
->
-> For each case, show me: a) What Pydantic does, b) Whether that's correct behavior, c) How to fix it if needed."
-
-**Your Role**: Push back. "Your model accepts 'test@localhost'—but we need a proper domain. How do we add that validation?" or "Can we coerce '25' to integer 25 automatically?" This forces AI to improve its model.
-
-**AI's Response Should Show**:
-- How Pydantic handles type coercion (strings → ints when possible)
-- How to add custom validators for complex rules
-- How to reject invalid data with clear error messages
-
----
-
-### Part 4: You Build (Production Artifact)
-
-**Build a Complete User Validation System** — Synthesize everything into a working module:
-
-```python
-# deliverable: user_validation.py
-
-from pydantic import BaseModel, Field, field_validator, ValidationError
-from typing import Optional
-
-class User(BaseModel):
-    """Production User model with comprehensive validation."""
-
-    # Define your fields with type hints + constraints
-    username: str = Field(min_length=3, max_length=20, pattern=r"^[a-z0-9_]+$")
-    email: str
-    age: int = Field(ge=13, le=120)
-    bio: Optional[str] = Field(default=None, max_length=200)
-
-    # Custom validators for complex rules
-    @field_validator('email')
-    @classmethod
-    def validate_email(cls, v: str) -> str:
-        if '@' not in v or '.' not in v.split('@')[1]:
-            raise ValueError('Invalid email format')
-        return v.lower()
-
-# Test your implementation
-if __name__ == "__main__":
-    # Valid user
-    user = User(
-        username="alice_123",
-        email="alice@example.com",
-        age=25,
-        bio="Software developer"
-    )
-    print(f"✓ User created: {user.username}")
-
-    # Invalid user—Pydantic catches all errors
-    try:
-        bad_user = User(
-            username="ab",  # Too short
-            email="alice@localhost",  # No dot in domain
-            age=150,  # Too old
-            bio="a" * 201  # Too long
-        )
-    except ValidationError as e:
-        print(f"✗ Validation failed with {len(e.errors())} errors:")
-        for error in e.errors():
-            print(f"  {error['loc'][0]}: {error['msg']}")
-```
-
-**Success Criteria**:
-- Your model validates all fields (no manual checks needed)
-- Invalid data raises ValidationError with clear messages
-- You understand why Field() worked vs. why you needed @field_validator
-- You can explain the difference between Pydantic's automatic and custom validation
-
----
-
-## Time Estimate
-**25-30 minutes** (5 min discover, 8 min AI teaches, 7 min you challenge, 5 min build)

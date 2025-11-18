@@ -911,163 +911,22 @@ configs = [
 
 ---
 
-## Try With AI: The Production API System Capstone (5-Part Deep Challenge)
+## Try With AI
 
-This capstone synthesizes ALL Chapter 27 concepts into a complete, production-quality system. You'll design architecture, build components, evaluate tradeoffs, create comprehensive tests, and reflect on everything you learned.
+Integrate Pydantic and generics into a complete type-safe configuration system through AI collaboration.
 
----
+**🔍 Explore System Architecture:**
+> "Design config manager using BaseSettings for environment loading, nested Pydantic models for validation, generic ConfigLoader[T: BaseModel] for type safety. List required components and validation strategy."
 
-### Part 1: You Discover (Student Discovers the Configuration Problem)
+**🎯 Practice Config Validation:**
+> "Build DatabaseConfig, APIConfig, FeatureFlags models with Pydantic. Create AppConfig composing them. Use BaseSettings with env_prefix, env_nested_delimiter. Validate complex constraints with @model_validator."
 
-**Your Turn** — Experience configuration complexity without proper tools:
+**🧪 Test Generic Loading:**
+> "Create generic ConfigLoader[T] that loads from .env, JSON, or YAML, validates with Pydantic model T, handles errors gracefully. Show type safety preserving T throughout."
 
-```python
-# Part 1: Ad-hoc configuration (the fragile way)
-
-import os
-import yaml
-
-# Without proper structure, config is fragile:
-DATABASE_HOST = os.getenv("DB_HOST", "localhost")  # String, no validation
-DATABASE_PORT = os.getenv("DB_PORT", "5432")  # String! Should be int
-DATABASE_PASSWORD = os.getenv("DB_PASSWORD")  # Could be None—crash later!
-
-DEBUG_MODE = os.getenv("DEBUG", "false")  # String "false" or actual bool?
-API_KEY = os.getenv("API_KEY")  # Required? Optional? Secret—don't log!
-
-# Loading from YAML:
-try:
-    with open("config.yaml") as f:
-        config_dict = yaml.safe_load(f)
-except FileNotFoundError:
-    config_dict = {}
-
-# Merging is manual and error-prone:
-if "DATABASE_HOST" in os.environ:
-    DATABASE_HOST = os.environ["DATABASE_HOST"]
-if "DATABASE_PORT" in os.environ:
-    DATABASE_PORT = os.environ["DATABASE_PORT"]
-
-# No validation—bad config crashes app hours later
-# No type safety—port is string "5432" not int 5432
-# No documentation—where do settings come from?
-# No tests—configuration loading is fragile and untested
-
-# Problem to discover:
-# - Configuration is scattered across environment, files, and code
-# - No centralized validation—errors aren't caught at startup
-# - Precedence is unclear (which wins: env or file?)
-# - Type coercion is manual and error-prone (port should be int!)
-# - Secrets aren't protected (API keys appear in logs)
-```
-
-**What You'll Realize**: Ad-hoc configuration is a nightmare. You need a system that loads from multiple sources, validates immediately, enforces type safety, and makes the precedence clear.
+**🚀 Apply Production System:**
+> "Build complete config management system: environment variable loading, file fallbacks, validation with clear errors, type-safe access, hot reload support. Reflect on Pydantic+generics enabling this architecture."
 
 ---
-
-### Part 2: AI as Teacher (AI Explains Architecture)
-
-**Ask your AI:**
-
-> "I'm building a production app that needs configuration from multiple sources (YAML file, environment variables, CLI args). The config must be validated at startup and type-safe throughout.
->
-> Explain:
-> 1. Why a centralized ConfigManager is better than os.getenv() scattered everywhere
-> 2. The architecture: models (Pydantic), loaders (YAML/env/CLI), merging with precedence
-> 3. How Pydantic validation fails fast at startup (catching errors early)
-> 4. How BaseSettings automates environment variable loading
-> 5. Why type safety matters for configuration
->
-> Show an example architecture diagram and explain each piece."
-
-**What AI Should Show You**:
-- Why configuration systems have layers (defaults → file → env → CLI)
-- How Pydantic provides both validation and type hints
-- How BaseSettings with env_prefix automates common patterns
-- The production pattern: load → validate → use with confidence
-
-**Your Role**: Ask clarifying questions. "Why is CLI highest priority?" "How do nested configs work?" "What if a file is missing?" Push for full understanding of the architecture.
-
----
-
-### Part 3: You as Teacher (You Challenge AI's Approach)
-
-**Challenge AI** — Ask it to handle real production requirements:
-
-> "Your basic architecture works, but production needs:
->
-> 1. **Nested Models**: DatabaseConfig, APIConfig, LoggingConfig, all nested in AppConfig
-> 2. **Validation with Constraints**: Port must be 1-65535, log_level must be DEBUG|INFO|WARNING|ERROR
-> 3. **Secret Management**: API keys and passwords shouldn't appear in logs (repr=False)
-> 4. **Multi-Source Loading**: Load from YAML → merge environment variables → merge CLI args, with clear precedence
-> 5. **Comprehensive Testing**: Unit tests for each loader, integration tests for precedence, validation error tests
-> 6. **Production Patterns**: Clear error messages when required fields missing, logging which sources were used
->
-> For each, show: a) How you'd implement it, b) Why Pydantic + BaseSettings is the right choice, c) Code examples, d) How you'd test it"
-
-**Your Role**: Push for completeness. "What if someone passes --database-port=99999?" or "How do I verify that CLI truly overrides env vars?" This forces AI to handle edge cases.
-
-**AI's Response Should Show**:
-- Complete nested Pydantic model structure
-- Field() constraints with validation messages
-- Multi-source loading with proper precedence
-- Production error handling and logging
-- Comprehensive test examples
-
----
-
-### Part 4: You Build (Production Artifact)
-
-**Build a Complete ConfigManager System** — Everything from Chapter 27 synthesized:
-
-*(The code in Section 2-6 of the lesson shows complete implementation. Focus on understanding why each piece matters.)*
-
-**Your deliverable should include:**
-- `config_manager/models.py` — Pydantic models (DatabaseConfig, APIConfig, AppConfig)
-- `config_manager/loader.py` — YAML, environment, and CLI loaders with precedence merge
-- `config_manager/manager.py` — Main ConfigManager class with type-safe access
-- `tests/` — Unit tests for each loader, integration tests for precedence and validation
-- `configs/dev.yaml` and `configs/prod.yaml` — Example configurations
-- `example_app.py` — Demo showing how to use the system
-- `README.md` — Architecture documentation
-
-**Success Criteria**:
-- Configuration loads from all three sources with correct precedence
-- Pydantic validates at startup and fails fast with clear errors
-- Type safety throughout (no string ports—they're ints)
-- Secrets aren't logged (repr=False works)
-- Tests prove the system works in all scenarios
-- Production-ready error handling
-
----
-
-### Part 5: You Reflect (Integration and Mastery)
-
-**Your Turn** — Synthesize and articulate learning:
-
-> **Write a 300-500 word reflection on Chapter 27:**
->
-> 1. **Type Hints vs Pydantic Validation**: Now that you've built a complete config system, explain the difference. Why are type hints alone not enough? How does Pydantic enforce rules at runtime?
->
-> 2. **Generics in Action**: You used generics in your ConfigManager (to support different config types, Optional types in fields, etc.). Explain what would break if you removed generic support.
->
-> 3. **The Design Pattern**: Your ConfigManager synthesizes Pydantic (validation), Generics (type safety), and multi-source loading. Explain why this architecture is better than ad-hoc configuration.
->
-> 4. **Professional Practice**: Explain how your ConfigManager would be used in:
->    - Local development (YAML file with defaults)
->    - Production deployment (environment variables)
->    - Debugging (CLI arguments override everything)
->
-> 5. **What You'd Do Differently**: If you were rebuilding this, what would you improve? Why?
-
-**Your Reflection Should Show**:
-- Clear distinction between type documentation (hints) and runtime enforcement (Pydantic)
-- Understanding of how generics enable type-safe reusable code
-- Appreciation for the multi-source, multi-validation architecture
-- Ability to explain production configuration patterns
-- Thoughtful reflection on tradeoffs and improvements
-
----
-
 ## Time Estimate
 **50-65 minutes** (10 min discover, 12 min AI teaches, 12 min you challenge, 15 min build, 6 min reflect)
