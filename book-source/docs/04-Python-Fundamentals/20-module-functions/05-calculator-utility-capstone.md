@@ -486,82 +486,115 @@ Your calculator imports operations like `import operations`. This works because 
 
 ---
 
-## Try With AI
+## Try With AI: Multi-Module Calculator Build
 
-Use your AI companion (Claude Code or Gemini CLI). You'll build, test, and extend the calculator project.
+### Part 1: Design Module Boundaries (Your Turn First)
 
-### Prompt 1: Build and Run the Project (Apply Level)
+**Before asking AI**, review the calculator project structure:
 
 ```
-Create the calculator project with these files:
-1. operations.py (with add, subtract, multiply, divide, power, square_root)
-2. utils.py (with display_menu, get_operation_choice, get_numbers, display_result)
-3. main.py (with run_calculator that imports and uses the modules)
-
-Run the calculator. Try all operations:
-- Add two numbers
-- Subtract
-- Multiply
-- Divide by zero (should handle gracefully)
-- Square root of negative (should handle gracefully)
-
-Did the program handle all cases correctly?
+calculator/
+├── operations.py      # Math functions
+├── utils.py          # I/O and display
+├── main.py           # Orchestration
+└── test_calculator.py # Tests
 ```
 
-**Expected outcome**: You build a working project and understand how modules fit together.
+**Your design tasks**:
+- Draw (on paper or mentally) what each module should contain
+- Predict: If you add a `history` feature (show last 5 calculations), which file should it go in?
+- Identify: Which functions are "pure" (no side effects) vs. which ones interact with users?
+- List 3 operations you want in your calculator beyond the basic six
+
+Document your design decisions before Part 2.
 
 ---
 
-### Prompt 2: Review Module Design (Analyze Level)
+### Part 2: AI Builds the Foundation (Discovery)
 
-```
-Look at the three files (operations.py, utils.py, main.py).
+Now collaborate with AI:
 
-For each file, answer:
-1. What does this file do?
-2. Why is it separate from the others?
-3. What would break if you moved its functions to main.py?
-4. Could you reuse this file in a different project?
+> "I'm building a multi-module calculator. Here's my module design: [paste your design]
+>
+> Start with `operations.py`:
+> 1. Create add, subtract, multiply, divide, power, square_root functions
+> 2. Each function should have type hints and handle edge cases (divide by zero, sqrt of negative)
+> 3. Use `float | None` return types where operations might fail
+> 4. Add docstrings following this pattern: [show the format from lesson]
+>
+> Then create `test_calculator.py` with at least 3 test cases per operation, including edge cases.
+> Run the tests and show me the output."
 
-This teaches you separation of concerns and why modular design matters.
-```
-
-**Expected outcome**: You articulate the value of modular organization and understand design principles.
-
----
-
-### Prompt 3: Extend the Project (Create Level)
-
-```
-Add two new operations to your calculator:
-1. Modulo (remainder): a % b
-2. Absolute value: abs(a)
-
-For each:
-- Add the function to operations.py with type hints and docstring
-- Add a test to test_calculator.py
-- Update main.py to call the new operation
-
-Run the calculator and test the new operations.
-Run the test file to verify all tests pass.
-```
-
-**Expected outcome**: You extend the project successfully, showing you understand the module structure.
+**Your evaluation task**:
+- Review each function's type signature - do they match the lesson examples?
+- Run the tests yourself - do they all pass?
+- Add one failing test on purpose (e.g., assert divide(10, 0) == 5) - what error message appears?
 
 ---
 
-### Prompt 4: Synthesize Professional Patterns (Synthesize Level)
+### Part 3: Student Teaches AI (Challenge Separation of Concerns)
 
-```
-Imagine sharing your calculator project with a team.
-Ask your AI: "What would a professional Python project add?
-Examples: documentation files, type checking (mypy), more tests, configuration files,
-error logging, version numbers, requirements.txt, etc."
+Challenge AI with a design question:
 
-Pick one suggestion and research it.
-Example: "How do I create a requirements.txt for my project?"
+> "I want to add a 'calculation history' feature that stores the last 10 calculations.
+>
+> Question: Should this go in operations.py, utils.py, or a new module history.py?
+>
+> For EACH option, explain:
+> - Why it might belong there
+> - What it would break (separation of concerns, testability, reusability)
+> - The long-term consequences of the choice
+>
+> Then implement your recommended approach: create the necessary functions, integrate them into main.py, and show me how to test the history feature."
 
-This bridges to Chapter 30 (Specification-Driven Development) and shows how projects evolve.
-```
+**Your debugging task**:
+- Try implementing history in the WRONG module (e.g., put it in operations.py)
+- Run your program - does it work functionally?
+- Ask yourself: Is this code easy to test? Easy to reuse? What's the hidden cost?
 
-**Expected outcome**: You see the project as a starting point for professional development. You understand that good code organization scales to larger projects.
+---
+
+### Part 4: Build Complete Calculator (Convergence)
+
+Create the full working project with AI:
+
+> "Complete the calculator project:
+>
+> 1. **utils.py**: Create display_menu, get_operation_choice, get_numbers, get_single_number, display_result
+>    - Add input validation for non-numeric input
+>    - Include error messages that guide the user
+>
+> 2. **main.py**: Build run_calculator() that:
+>    - Imports both modules using `import operations` and `import utils`
+>    - Handles all 6 operations in a menu loop
+>    - Exits gracefully on user command
+>    - Uses `if __name__ == '__main__'` pattern
+>
+> 3. **Extensions**: Add TWO new operations of your choice (modulo, absolute value, factorial, etc.)
+>
+> Run the complete calculator and test every operation including error cases."
+
+**Refinement (Deep Challenge)**:
+> "Refactor your calculator to use a PLUGIN architecture:
+> - Store operations in a dictionary: `{'add': operations.add, 'subtract': operations.subtract, ...}`
+> - Use the dictionary to dispatch operations instead of if/elif chains
+> - Show me how this makes adding new operations easier
+> - Bonus: How would you load operations dynamically from a config file?"
+
+---
+
+### Part 5: Professional Polish (Integration)
+
+> "Transform this into a professional project:
+> 1. Add a README.md with installation and usage instructions
+> 2. Create a requirements.txt (even if empty for now)
+> 3. Add type checking: run `mypy operations.py utils.py main.py` - fix any type errors
+> 4. Add logging: use Python's logging module to log each calculation to calculator.log
+> 5. Package structure: reorganize into a proper package with __init__.py
+>
+> Show me the final directory structure and demonstrate that everything still works."
+
+---
+
+**Time**: 60-75 minutes
+**Outcome**: You've built a complete multi-module project with clear separation of concerns, proper testing, type safety, and professional structure. You understand how code organization scales from scripts to applications.

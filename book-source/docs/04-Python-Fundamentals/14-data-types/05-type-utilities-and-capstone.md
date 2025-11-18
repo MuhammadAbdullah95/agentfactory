@@ -822,84 +822,97 @@ Build the User Profile Validator program following the scaffolded code above. Ge
 
 ---
 
-## Try With AI
+## Try With AI: Type Casting Debugging Challenge
 
-Now it's time to practice with your AI companion. You've learned the theory and built the capstone. Let's push your understanding further.
+You've learned `type()`, `isinstance()`, and type casting. Now apply these tools to debug real problems—with AI as your debugging partner.
 
-**Setup**: Use ChatGPT (chat.openai.com), Claude (claude.ai), or your installed AI tool (Claude CLI, Gemini CLI, etc.).
+### Part 1: Find the Type Errors (Your Turn First)
 
-### Prompt 1: Type Casting Scenarios (Beginner)
+**Before asking AI**, analyze this broken program and identify ALL type-related errors:
 
-Copy this prompt into your AI:
+```python
+# User Profile System (BROKEN VERSION)
+user_age = input("Enter your age: ")  # Returns string!
+user_score = "95.5"
+is_premium = "True"
 
-> I'm learning about type casting in Python. Give me 5 real-world scenarios where I need to convert between types. For each scenario, write code that:
-> 1. Shows what the original type is
-> 2. Casts it to a different type
-> 3. Explains what happens
->
-> Include at least one scenario that shows data loss (like float to int).
+# Calculations (these will break!)
+age_next_year = user_age + 1
+average_score = user_score / 2
+premium_check = is_premium and True
 
-**Expected output**: Five coded examples with explanations. Look for scenarios like:
-- User enters age as text, convert to int
-- Temperature sensors give float, convert to int for display
-- Store numbers as strings in a file, convert back to numbers
-- Boolean representing a feature flag, convert to string for logging
+print(f"Age next year: {age_next_year}")
+print(f"Average score: {average_score}")
+print(f"Premium status: {premium_check}")
+```
 
-### Prompt 2: isinstance() vs type() (Intermediate)
+**Your diagnostic task**:
+1. What type is `user_age`? What type does `+ 1` expect?
+2. What type is `user_score`? Can you divide a string?
+3. What type is `is_premium`? Will `and` work with strings?
+4. How would you fix EACH error using type casting?
 
-> Explain the difference between `isinstance(x, int)` and `type(x) == int` in Python. When should I use each? Give me a code example where one works and the other might fail.
-
-**Expected output**: Clear explanation plus code showing inheritance (a future topic, but AI can preview it).
-
-### Prompt 3: Extend Type Explorer (Intermediate)
-
-> I built a basic Type Explorer program that analyzes user input. Here's my code:
-> [Paste your Type Explorer code]
->
-> Now enhance it to:
-> 1. Handle user input that's a list (like "1,2,3")
-> 2. Show what happens when you add two values of different types
-> 3. Allow the user to convert between number systems (binary, hex)
->
-> Keep the enhancements modular (separate functions for each feature).
-
-**Expected output**: Enhanced Type Explorer with new features. Verify:
-- Code has type hints
-- Error handling for invalid inputs
-- Clear output explaining what's happening
-
-### Prompt 4: Integer Interning Deep Dive (Advanced)
-
-> I learned that Python caches integers -5 to 256. Create a program that:
-> 1. Tests which integers are cached (use the 'is' operator)
-> 2. Shows the boundary (where caching stops)
-> 3. Explains why this matters for memory efficiency
->
-> Make it visual—show a chart or clear output showing which numbers are cached and which aren't.
-
-**Expected output**: Program that explores interning comprehensively. This goes beyond the lesson, but is an excellent way to deepen understanding.
-
-### Prompt 5: Quiz Yourself (Assessment)
-
-> Create a 10-question quiz about Python data types and type utilities. Include:
-> - 2 questions about type()
-> - 2 questions about isinstance()
-> - 3 questions about type casting
-> - 2 questions about implicit vs explicit casting
-> - 1 question about integer interning
->
-> Make the questions tricky (not just "what does type() do?"). Include code snippets to analyze.
-
-**Expected output**: Assessment tool. Answer the questions, then paste your answers back to AI to get feedback.
-
-### Stretch Challenge: Your Own AI Collab
-
-Now flip it around. You prompt AI:
-
-> I want to understand [ANY type concept that confused you in Chapter 14]. Explain it like I'm learning it for the first time, then give me code that demonstrates it.
-
-This is how real developers learn with AI—you identify the gap, ask specifically, get targeted explanation and code.
+Write down your diagnosis before moving to Part 2.
 
 ---
 
-**Remember**: The goal is not to memorize syntax. The goal is to understand **why types exist**, **how to use the tools** that work with types, and **how to write clear type-hinted code**.
+### Part 2: Validate Diagnosis with AI
+
+Now share the broken code with AI:
+
+> "Here's a broken Python program with type errors: [paste code]. Find ALL the type-related bugs. For each bug: (1) Explain what's wrong, (2) Show the error Python would give, (3) Show the fix using type casting. Use `type()` to verify the fix works."
+
+**Your task**: Compare AI's diagnosis to yours.
+- Did you find all the errors?
+- Did AI explain the root cause correctly? (input() returns str, not int!)
+- Do the fixes use the right casting functions? (`int()`, `float()`, `bool()`)
+
+---
+
+### Part 3: Student Teaches AI (Edge Cases)
+
+AI fixed the obvious errors. But does it know about type casting edge cases?
+
+Challenge AI with tricky inputs:
+
+> "What happens if the user enters 'twenty-five' instead of '25' for age? What happens if they enter '3.14' (a decimal) when we expect an integer? Show me the errors and explain how to handle invalid input gracefully using try/except (preview of Chapter 21)."
+
+**Your task**: Study AI's error handling.
+- What error does `int('twenty-five')` raise? (ValueError!)
+- What about `int('3.14')`? (ValueError! Use float() first, then int())
+- Can you explain WHY these fail?
+
+This teaches AI about validation complexity—and prepares you for error handling.
+
+---
+
+### Part 4: Build Robust Type Validator Together
+
+Now iterate to create production-quality validation.
+
+Ask AI:
+
+> "Rewrite the User Profile System with robust type validation. For each input: (1) Use `isinstance()` to check type, (2) Use type casting with error handling, (3) Provide helpful error messages if casting fails. Make it impossible for bad input to crash the program."
+
+**Your task**: Review AI's robust version.
+- Does it validate types before using them?
+- Does it handle ValueError gracefully?
+- Can you explain WHY validation prevents crashes?
+
+Iterate if needed:
+> "Add type hints to all variables and show me how `type()` confirms the casts worked."
+
+---
+
+### Part 5: Extend the Capstone (Optional Advanced)
+
+Final challenge—enhance the Type Explorer capstone from the lesson:
+
+> "Extend my Type Explorer to: (1) Handle lists like '1,2,3' by splitting and casting each element, (2) Show implicit vs explicit casting with examples, (3) Test integer interning for numbers -10 to 300 using `is` operator. Keep code modular with type hints."
+
+**Outcome**: If you complete this, you've mastered type utilities at a professional level.
+
+---
+
+**Time**: 30-40 minutes total
+**Outcome**: You've practiced systematic type debugging, learned to handle edge cases, built robust validation with AI, and optionally extended the capstone project to production quality.

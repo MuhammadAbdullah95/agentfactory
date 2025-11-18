@@ -253,74 +253,97 @@ This is how professionals work—not from memory, but from clear thinking and AI
 
 ---
 
-## Try With AI
+## Try With AI: Module Import Detective
 
-Use your AI companion (Claude Code or Gemini CLI). You'll explore imports and built-in modules by asking questions and validating what you learn.
+### Part 1: Predict Import Behavior (Your Turn First)
 
-### Prompt 1: Recognize Import Variants (Remember/Understand Level)
+**Before asking AI**, analyze these three code snippets and predict what will happen:
 
+```python
+# Snippet A
+import math
+result = sqrt(16)
+
+# Snippet B
+from math import sqrt
+result = sqrt(16)
+
+# Snippet C
+import math as m
+result = m.sqrt(16)
 ```
-Explain the difference between these three import statements:
-1. import math
-2. from math import sqrt
-3. from math import sqrt as square_root
 
-For each one, explain:
-- What does the import statement do?
-- How do you use the function after importing?
-- What are the advantages and disadvantages of each style?
-```
+**Your prediction tasks**:
+- Which snippets will run without errors? Which will fail?
+- For failing code, what error message would you expect?
+- For working code, what's the trade-off between clarity and brevity?
 
-**Expected outcome**: You understand that all three import from math, but access the function differently. You can articulate when to use each style.
+Write down your predictions before moving to Part 2.
 
 ---
 
-### Prompt 2: Use the Math Module (Understand/Apply Level)
+### Part 2: AI Explains Import Mechanics (Discovery)
 
-```
-Write Python code that:
-1. Imports the math module
-2. Calculates the square root of 144
-3. Calculates 2 to the power of 10 using math.pow()
-4. Finds the floor and ceiling of 3.7
-5. Prints all results with clear labels
+Now share with AI:
 
-Run your code and show me the output. What does the math module do that you can't do with regular Python?
-```
+> "Here are my predictions about these three import patterns: [paste your predictions]
+>
+> Run each snippet and explain:
+> 1. Which ones work and which fail? Why?
+> 2. What's the exact error for failing code?
+> 3. For working imports, show me TWO more valid ways to access `math.ceil(3.7)`
+> 4. Create a quick reference table: Import Pattern | How to Call Function | When to Use"
 
-**Expected outcome**: You can write valid import statements and use math functions without errors. You understand that modules provide specialized capabilities.
-
----
-
-### Prompt 3: Choose the Right Module (Apply Level)
-
-```
-You need to solve these three tasks:
-1. Find the absolute value of -42
-2. Round 3.7 to the nearest integer
-3. Calculate 2 to the power of 8
-
-Which module would you use for each? Write the code to solve all three.
-Hint: math module has most of these functions.
-```
-
-**Expected outcome**: You can identify the math module for these operations and use functions like `math.fabs()`, `math.floor()` or `round()` (built-in), and `math.pow()` correctly.
+**Your evaluation task**:
+- Did your predictions match reality?
+- Which import pattern surprised you most?
+- Review the reference table - does it help you choose the right pattern?
 
 ---
 
-### Prompt 4: Connect Modules to Real Projects (Analyze/Synthesize Level)
+### Part 3: Student Teaches AI (Challenge Conflicting Imports)
 
-```
-Think about a project you'd like to build. It could be:
-- A game (card game, number guessing game)
-- A data analysis tool
-- A utility (scheduler, calculator, note organizer)
+Challenge AI with this problem:
 
-List 3 built-in modules that would be useful for your project. For each one, explain:
-- What does this module do?
-- Why would you need it for your project?
+> "What happens if I run this code:
+> ```python
+> from math import sqrt
+> from random import random as sqrt  # Reusing the name!
+> print(sqrt())
+> ```
+>
+> Will this work? If yes, which `sqrt` gets called? If no, what's the error?
+> Now test it: run the code and explain what Python actually does.
+>
+> Then ask: How would professional Python developers avoid this naming conflict in a large codebase?"
 
-Share your ideas with your AI. Ask: "Would I need any other modules for this project? Are there standard libraries I should know about?"
-```
+**Your debugging task**:
+- Run the code yourself in your environment
+- Was AI's prediction correct?
+- What happens if you swap the import order?
 
-**Expected outcome**: You connect module organization to real development. You understand that modules solve concrete problems and enable you to build more complex applications.
+---
+
+### Part 4: Build a Multi-Module Script (Convergence)
+
+Create a small program that demonstrates professional import usage:
+
+> "Write a Python script called `module_explorer.py` that:
+> 1. Imports `math`, `random`, and `os` using three DIFFERENT import patterns
+> 2. Uses at least 2 functions from each module
+> 3. Prints results showing which module each function came from
+> 4. Includes comments explaining WHY you chose each import pattern
+>
+> Requirements:
+> - Use `import module` for one
+> - Use `from module import func` for another
+> - Use `import module as alias` for the third
+> - Each function call should be meaningful (not just sqrt(4))"
+
+**Refinement**:
+> "Now add error handling: what if `os.getcwd()` fails in certain environments? Show me how to handle import errors gracefully using try/except."
+
+---
+
+**Time**: 25 minutes
+**Outcome**: You can predict import behavior, choose appropriate patterns for readability vs. brevity, avoid naming conflicts, and write production-ready imports with error handling.

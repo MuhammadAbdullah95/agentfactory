@@ -647,90 +647,81 @@ This semantic clarity enables your AI collaborator to:
 
 ---
 
-## Try With AI
+## Try With AI: Truthy/Falsy Discovery Lab
 
-This section reinforces your learning by engaging with an AI tool to practice truthy/falsy values and None semantics.
+You've learned that Python has "truthy" and "falsy" values beyond just `True` and `False`. Now discover the patterns through experimentation with AI as your lab partner.
 
-### Setup
+### Part 1: Predict Truthy/Falsy (Your Turn First)
 
-Use ChatGPT web (chat.openai.com) or your AI companion from earlier chapters.
+**Before asking AI**, predict which values are truthy (act like True) and which are falsy (act like False):
 
-### Prompt Set
-
-**Prompt 1: Truthy/Falsy Exploration**
-
-Copy and paste this prompt:
-
-```
-Create 20 examples of Python values and whether they're truthy or falsy.
-Include various types: booleans, numbers, strings, empty collections, None.
-Format: value → bool(value)
-
-Example format:
-0 → False
-1 → True
-"hello" → True
-[] → False
+```python
+# Predict: Truthy or Falsy?
+1. ""           # Empty string
+2. "hello"      # Non-empty string
+3. 0            # Zero
+4. 42           # Non-zero number
+5. []           # Empty list
+6. [1, 2]       # Non-empty list
+7. None         # None
+8. False        # False itself
+9. True         # True itself
+10. "0"         # String containing "0"
 ```
 
-**Expected Outcome**: AI generates a comprehensive list showing truthy/falsy patterns. You'll see that non-zero numbers are truthy, empty collections are falsy, and None is always falsy.
+Write down your predictions. Look for patterns—can you guess a rule?
 
 ---
 
-**Prompt 2: None vs Zero vs Empty String**
+### Part 2: Test with AI (Discovery)
 
-```
-What's the practical difference between None, 0, and "" in Python?
-When would you use each one? Give me 3 real-world scenarios where the
-distinction matters.
-```
+Now ask AI to verify your predictions:
 
-**Expected Outcome**: AI explains semantic differences: None = "no data at all," 0 = "numeric zero exists," "" = "text exists but empty." You'll understand why checking `if x is None:` is more precise than `if x == 0:`.
+> "For these 10 values, tell me which are truthy and which are falsy in Python: `''`, `'hello'`, `0`, `42`, `[]`, `[1,2]`, `None`, `False`, `True`, `'0'`. Show me the results using `bool()` and explain the pattern."
 
----
-
-**Prompt 3: String Quote Styles**
-
-```
-Show me examples of each string quote style in Python:
-1. Single quotes
-2. Double quotes
-3. Triple quotes (both """ and ''')
-
-For each, show when you'd prefer that style. What problem does each
-quote style solve?
-```
-
-**Expected Outcome**: AI demonstrates quote options and practical use cases. You'll see that choosing quotes isn't about preference—it's about making code readable when strings contain apostrophes or quotation marks.
+**Your task**: Compare AI's results to your predictions.
+- How many did you get right?
+- Did you discover the pattern? (Empty = falsy, non-empty = truthy, except for zero and None)
+- Which one surprised you most? (Hint: `"0"` is truthy even though it contains zero!)
 
 ---
 
-**Prompt 4: Type Hints as Specifications (Stretch)**
+### Part 3: Student Teaches AI (None Semantics)
 
-```
-How do these type hints communicate different semantic meanings?
+AI showed you the truthy/falsy pattern. But does it understand WHY `None` is special?
 
-1. name: str = "Alice"
-2. age: int | None = None
-3. is_active: bool = True
+Challenge AI with a practical scenario:
 
-For each, explain: What does the type hint tell you? What operations
-would be safe? What would be dangerous?
-```
+> "Explain the difference between these three variables: `missing_data = None`, `zero_value = 0`, `empty_text = ''`. If I'm checking whether a user provided optional data, which one should I use? Why is `if value is None:` better than `if value == 0:` for this check?"
 
-**Expected Outcome**: AI explains that type hints are executable specifications. `str` says "text operations OK, math unsafe." `int | None` says "might be numeric or absent—check before using." `bool` says "decision/flag use only." This connects type hints to semantic meaning.
+**Your task**: Evaluate AI's explanation.
+- Does it explain that `None` means "no data provided" (not zero, not empty—truly absent)?
+- Does it explain why `is None` is the correct idiom for checking None?
+- Can you explain the semantic difference in your own words now?
+
+This teaches AI about precise None semantics—and deepens your understanding.
 
 ---
 
-### Safety & Ethics Note
+### Part 4: Build a Validation Function Together
 
-When exploring truthy/falsy with AI, verify that:
+Now apply truthy/falsy knowledge to build something practical.
 
-- The AI correctly identifies falsy values (False, 0, "", [], {}, None)
-- The AI correctly identifies truthy values (everything else, including non-zero numbers, non-empty strings, non-empty collections)
-- The AI recognizes that `"0"` (string zero) is truthy, while `0` (integer zero) is falsy
-- The AI explains `is None` as the correct idiom, not `== None`
+Ask AI:
 
-Understanding truthy/falsy is critical because it's the foundation for conditional logic in Chapter 17. Make sure your AI examples align with these Python semantics.
+> "Write a Python function that validates user input. It should check if: (1) name is not empty, (2) age is not None and not zero, (3) email is not empty. Use truthy/falsy checking (not explicit `== ''` comparisons). Show me the code with type hints."
+
+**Your task**: Review AI's code.
+- Does it use truthy/falsy idiomatically? (like `if not name:` instead of `if name == "":`)
+- Does it check `is None` correctly?
+- Can you explain WHY the truthy/falsy approach is cleaner than explicit comparisons?
+
+Iterate if needed:
+> "Explain why `if not name:` is better than `if name == '':`"
+
+---
+
+**Time**: 25-30 minutes total
+**Outcome**: You've discovered truthy/falsy patterns through prediction and testing, learned the semantic meaning of None, and applied these concepts to practical validation code.
 
 

@@ -436,51 +436,68 @@ When you reach those chapters, you'll return to collections and learn everything
 
 **Expected Outcome**: You'll see how collection type choice depends on real-world constraints, not arbitrary preference. AI will help you think through the decision-making process.
 
-## Try With AI
+## Try With AI: Collection Type Decision Game
 
-Use your AI companion (Claude Code, Gemini CLI, or ChatGPT). These prompts deepen your understanding of collections before moving to Chapter 18.
+You've learned that Python has 5 collection types. Now practice choosing the RIGHT collection for different scenarios—with AI as your decision coach.
 
-### Prompt 1: Collection Types Comparison
+### Part 1: Match Scenarios to Collections (Your Turn First)
 
-```
-I see four main collection types: list, tuple, dict, and set.
-What is the main difference between each one?
-When would I use list instead of tuple?
-When would I use dict instead of list?
-Create a real-world example for each.
-```
+**Before asking AI**, match each scenario to the best collection type (list, tuple, dict, set, or range):
 
-**Expected outcome**: AI explains the four types with clear distinctions and real-world examples (ordered vs. unordered, mutable vs. immutable, indexed vs. key-based, duplicates vs. unique).
+**Scenarios:**
+1. Store student names for a class roster (might add/drop students)
+2. Store RGB color values (3 numbers that never change: red, green, blue)
+3. Store employee records (look up salary by employee ID)
+4. Store unique email addresses (no duplicates allowed)
+5. Generate numbers 0 to 99 for a countdown timer
 
-### Prompt 2: Collection Type Selection
+**Your answers:**
+- Scenario 1: _________ (Why?)
+- Scenario 2: _________ (Why?)
+- Scenario 3: _________ (Why?)
+- Scenario 4: _________ (Why?)
+- Scenario 5: _________ (Why?)
 
-```
-I need to store:
-1. A shopping list (might add/remove items)
-2. GPS coordinates (never change after recording)
-3. A phone book (look up by name)
-4. A list of unique product IDs (no duplicates)
+Write down your reasoning before moving to Part 2.
 
-Which collection type should I use for each? Why?
-```
+---
 
-**Expected outcome**: AI selects list, tuple, dict, and set respectively, explaining the reasoning for each choice based on mutability, access pattern, and ordering requirements.
+### Part 2: Validate with AI (Discovery)
 
-### Prompt 3: Reading Type Hints
+Now check your thinking with AI:
 
-```
-I see type hints like list[int], dict[str, float], tuple[float, float].
-What do these mean? What is the part inside the square brackets?
-Create three more examples and explain what each one means.
-```
+> "I'm learning Python collections. For each scenario, tell me which collection type to use and why:
+> 1. Student roster (might add/drop students)
+> 2. RGB color (3 fixed numbers)
+> 3. Employee salaries (look up by ID)
+> 4. Unique email addresses (no duplicates)
+> 5. Numbers 0-99 for countdown
+>
+> Explain the key decision factor for each."
 
-**Expected outcome**: AI explains that the brackets describe what's inside the collection (element type), with clear examples showing what each means.
+**Your task**: Compare AI's answers to yours.
+- Did you match them correctly?
+- What decision factors did you miss? (Mutability? Key-based lookup? Uniqueness?)
+- Can you now explain the pattern for choosing collections?
 
-### Prompt 4: Collection Operations Preview
+---
 
-```
-I know collections exist and why they matter. What operations can I perform
-with these collections? What can I DO with lists, dicts, sets, and tuples?
-```
+### Part 3: Student Teaches AI (Edge Cases)
 
-**Expected outcome**: AI lists operations like adding items to lists, removing items, looping through collections, checking membership, accessing items.
+AI gave you the "textbook" answers. But real-world data has edge cases.
+
+Challenge AI with a tricky scenario:
+
+> "What if I need to store GPS coordinates (latitude, longitude) for a delivery route? The coordinates are fixed pairs, but I have multiple stops. Should I use: (1) a list of tuples, (2) a list of lists, (3) a dict, or (4) something else? Explain the tradeoffs of each option."
+
+**Your task**: Evaluate AI's reasoning.
+- Does it explain why tuple is better than list for each coordinate pair?
+- Does it explain why a list of tuples makes sense for multiple stops?
+- Can you think of a case where dict might be better?
+
+This teaches AI about nested collections—and pushes your understanding.
+
+---
+
+**Time**: 15-20 minutes total
+**Outcome**: You've practiced the collection type decision framework, validated your reasoning with AI, and explored how collections can nest inside each other for complex data structures.
