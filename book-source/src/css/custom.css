@@ -4,6 +4,10 @@
  * work well for content-centric websites.
  */
 
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+
 /* You can override the default Infima variables here. */
 /* Polar Night Palette: Deep Navy with Sophisticated Grays - Bold & Elegant */
 :root {
