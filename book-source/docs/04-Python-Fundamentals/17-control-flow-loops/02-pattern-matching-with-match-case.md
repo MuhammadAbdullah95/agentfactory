@@ -466,10 +466,21 @@ match choice:
 
 ## Try With AI
 
-Time to practice pattern matching with your AI companion! Work through these four prompts in order.
+Ready to use pattern matching with match-case for cleaner conditionals?
 
-**Tool Selection:** Since we're in Part 4, and AI companion tools were introduced in Parts 1-3, use **your AI companion tool** (ChatGPT web, Claude CLI, Gemini CLI, or whichever you've set up). If you're using a CLI tool, the prompts below will work as-is. If you're using a web interface, just paste the prompt text.
+**🔍 Explore Match-Case Syntax:**
+> "Explain Python's match-case statement (pattern matching). How is it different from if/elif/else? Show me examples: matching literal values, using case _ as default, matching multiple values with |. Why was match-case added to Python 3.10?"
 
+**🎯 Practice Pattern Matching:**
+> "Create a command router that takes user input ('help', 'quit', 'save', 'load', etc.) and executes actions using match-case. Compare this to equivalent if/elif/else code. Which is more readable? When should I use match-case vs. if/elif?"
+
+**🧪 Test Advanced Patterns:**
+> "Demonstrate match-case with structural patterns: matching list lengths [x, y], dict keys {"type": "user"}, object attributes. Show me a real example like processing API responses with different structures. How does the wildcard pattern _ work as a catch-all?"
+
+**🚀 Apply to Your Routing Logic:**
+> "I'm building [describe your application]. Help me use match-case for: command routing, event handling, API response processing, or state machine transitions. Show me when match-case is clearer than if/elif and when if/elif is actually better."
+
+---
 ---
 
 ### 1. Recall: Wildcard Pattern Purpose

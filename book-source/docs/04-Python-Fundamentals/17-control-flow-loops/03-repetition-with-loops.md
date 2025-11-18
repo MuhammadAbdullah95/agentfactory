@@ -485,40 +485,23 @@ for i in range(0, 10, 0):  # ❌ Step can't be zero
 **AI Troubleshooting Prompt:**
 > "I got 'range() arg 3 must not be zero' error. What does this mean?"
 
-## Try With AI: Loop Patterns Mastery Challenge
+## Try With AI
 
-You've learned `for` loops (definite iteration) and `while` loops (condition-based). Now master loop patterns by building accumulator, counter, and search patterns—with AI as your debugging partner.
+Ready to master for and while loops for repetition?
 
-### Part 1: Build Loop Patterns (Your Turn First)
+**🔍 Explore Loop Types:**
+> "Compare for loops and while loops with examples. When should I use for (iterating over sequence) vs. while (condition-based)? Show me: for loop over range(10), for loop over list, while loop with counter, while loop with user input. Why does for loop prevent infinite loops?"
 
-**Before asking AI**, implement these 3 core loop patterns:
+**🎯 Practice Loop Patterns:**
+> "Create a number guessing game: computer picks random 1-100, user guesses until correct. Use while loop for repeated guessing, comparison operators for feedback (too high/low), break when correct. Then convert it to for loop with maximum 10 attempts. Compare the two approaches."
 
-**Pattern 1: Accumulator** (sum numbers 1-10)
-```python
-total: int = 0
-for i in range(1, 11):  # Your code here
-    # Add i to total
-```
+**🧪 Test Loop Edge Cases:**
+> "Demonstrate these loop edge cases: (1) for loop over empty list—does it run? (2) while True with no break—what happens? (3) range(0)—does it iterate? (4) nested loops—how many iterations for range(3) inside range(4)? Show me the output for each."
 
-**Pattern 2: Counter** (count even numbers from 1-20)
-```python
-count: int = 0
-for i in range(1, 21):
-    # Count how many are even
-```
+**🚀 Apply to Your Iteration Needs:**
+> "I'm building [describe your application]. Help me choose between for and while loops for: processing list items, reading file lines, retrying failed operations, or game loops. For each case, explain why that loop type is the better choice and show example code."
 
-**Pattern 3: Search** (find first number > 50 in [10, 25, 55, 60, 30])
-```python
-numbers: list[int] = [10, 25, 55, 60, 30]
-found: int | None = None
-# Your code: find first > 50
-```
-
-**Your task**:
-1. Write the code for all 3 patterns
-2. Predict the output BEFORE running
-3. Identify which pattern uses `for`, which could use `while`
-
+---
 ---
 
 ### Part 2: AI Explains Pattern Design (Discovery)

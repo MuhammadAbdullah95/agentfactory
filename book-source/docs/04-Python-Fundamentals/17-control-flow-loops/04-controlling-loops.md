@@ -593,31 +593,23 @@ for i in range(5):
 
 (Better solutions involve functions with `return`, which you'll learn in Chapter 18.)
 
-## Try With AI: Search and Validation Patterns
+## Try With AI
 
-You've learned `break`, `continue`, and `for...else`. Now master search and validation patterns by discovering when each control statement fits—with AI as your pattern validator.
+Ready to control loop execution with break, continue, and else?
 
-### Part 1: Build Prime Number Finder (Your Turn First)
+**🔍 Explore Loop Control:**
+> "Explain break, continue, and loop-else with examples. Show me: (1) break exits loop early, (2) continue skips to next iteration, (3) else runs if loop completes without break. Why is loop-else useful for search patterns? Demonstrate with finding item in list."
 
-**Before asking AI**, implement a prime number checker using loop control:
+**🎯 Practice Loop Control Patterns:**
+> "Create a password validator that checks: length >= 8, has uppercase, has number. Use for loop over password characters with continue to skip non-matching chars, break if invalid condition found, else clause to confirm valid. Show how break prevents else from running."
 
-**Task**: Find the first prime number after 20 using `break`:
-```python
-# Find first prime > 20
-number: int = 21
-while True:
-    # Check if number is prime
-    # If prime: print and break
-    # If not prime: increment and continue
-```
+**🧪 Test Control Flow Combinations:**
+> "Show me the difference between: (1) break in nested loops—does it exit both or just inner? (2) continue with enumerate—does index still increment? (3) multiple breaks in same loop—which executes first? Create code demonstrating each scenario."
 
-**Your implementation**:
-1. Use nested loop to check divisors (2 to number-1)
-2. Use `break` when prime is found
-3. Use `continue` implicitly (or explicitly) to skip non-primes
+**🚀 Apply to Your Search/Validation:**
+> "I'm building [describe your application]. Help me use break/continue/else for: searching through data, validating input with multiple conditions, retrying with early exit, or processing with skip logic. Show me when to use each control statement."
 
-Write the code BEFORE asking AI.
-
+---
 ---
 
 ### Part 2: AI Explains For...Else Pattern (Discovery)

@@ -614,47 +614,23 @@ if age >= 18:
 
 ---
 
-## Try With AI: Conditional Logic Debugging Challenge
+## Try With AI
 
-You've learned `if`, `elif`, `else`, and nested conditionals. Now debug broken decision logic to understand how conditionals fail—with AI as your logic validator.
+Ready to make decisions with if, elif, and else statements?
 
-### Part 1: Find the Bug (Your Turn First)
+**🔍 Explore Conditional Logic:**
+> "Explain if, elif, and else statements with examples. Show me how Python evaluates conditions top-to-bottom and stops at the first True. Why do we need elif instead of multiple if statements? Demonstrate with age checking: child (<13), teen (13-17), adult (18+)."
 
-**Before asking AI**, analyze these broken conditionals and predict what's wrong:
+**🎯 Practice Decision Trees:**
+> "Create a grade calculator that takes a score (0-100) and returns letter grade: A (90-100), B (80-89), C (70-79), D (60-69), F (<60). Use if/elif/else with comparison operators. Then extend it to handle edge cases: scores > 100, negative scores, non-numeric input."
 
-```python
-# Bug 1: Unreachable code
-score: int = 85
+**🧪 Test Nested Conditions:**
+> "Show me the difference between nested if statements and elif chains. For a login validator checking (1) username exists AND (2) password correct, compare: nested ifs vs. combined condition with 'and'. Which is more readable? Which handles error messages better?"
 
-if score >= 60:
-    grade: str = "D or better"
-elif score >= 80:  # Will this ever run?
-    grade: str = "B or better"
+**🚀 Apply to Your Business Logic:**
+> "I'm building [describe your application]. Help me write conditional logic for: eligibility checks, access control, data validation, or workflow routing. Show me the if/elif/else structure with clear conditions and explain why each branch exists."
 
-# Your prediction: What's wrong? What will grade be for score=85?
-
-# Bug 2: Impossible condition
-age: int = 25
-
-if age >= 18 and age < 13:  # Will this ever be True?
-    print("Teen discount")
-
-# Your prediction: Can this condition EVER be True? Why or why not?
-
-# Bug 3: Type mismatch
-user_age: str = "25"  # Notice: string, not int
-
-if user_age >= 18:
-    print("Access granted")
-
-# Your prediction: Will this crash? If yes, what error?
-```
-
-**Your task**:
-1. For each bug, predict: What will happen?
-2. Write down: Why is it broken?
-3. Sketch the fix BEFORE running the code
-
+---
 ---
 
 ### Part 2: AI Explains Decision Logic (Discovery)

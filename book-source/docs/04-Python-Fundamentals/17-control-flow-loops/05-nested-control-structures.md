@@ -631,30 +631,23 @@ for item in items:
 
 ---
 
-## Try With AI: Multiplication Table Builder (Chapter 17 Capstone)
+## Try With AI
 
-You've mastered conditionals (Lesson 1), pattern matching (Lesson 2), loops (Lesson 3), loop control (Lesson 4), and nested structures (Lesson 5). Now integrate ALL Chapter 17 concepts into a production-quality multiplication table generator.
+Ready to combine nested loops and conditionals for complex logic?
 
-### Part 1: Design Nested Logic (Your Turn First)
+**🔍 Explore Nesting Patterns:**
+> "Explain nested loops (loop inside loop) and nested conditionals (if inside if) with examples. Show me: (1) nested for loops for multiplication table, (2) if inside while for filtered processing, (3) break in nested loop—which loop exits? When does nesting become too complex?"
 
-**Before asking AI**, design a multiplication table printer (1-10):
+**🎯 Practice Nested Structures:**
+> "Create a tic-tac-toe board validator: Use nested loops to check 3x3 grid for winning patterns (rows, columns, diagonals). Show me how nested loops access board[row][col]. Add conditionals inside loops to detect 3-in-a-row. Explain the logic flow."
 
-**Requirements**:
-```
-1 × 1 = 1    1 × 2 = 2    1 × 3 = 3    ...
-2 × 1 = 2    2 × 2 = 4    2 × 3 = 6    ...
-3 × 1 = 3    3 × 2 = 6    3 × 3 = 9    ...
-...
-```
+**🧪 Test Nesting Complexity:**
+> "Compare these approaches for finding duplicates in list: (1) nested for loops (O(n²)), (2) single loop with set (O(n)), (3) nested loops with break optimization. Show execution count for each. When is nesting necessary vs. avoidable with better data structures?"
 
-**Your Design Task**:
-1. Which loop is outer (rows)? Which is inner (columns)?
-2. How many total iterations? (row count × column count)
-3. How would you format output so columns align?
-4. Should you use `for` or `while` loops? Why?
+**🚀 Apply to Your Grid/Matrix Operations:**
+> "I'm building [describe your application]. Help me use nested structures for: 2D data processing, tree traversal, filtering with multiple conditions, or game board logic. Show me how to keep nesting readable with clear variable names and comments."
 
-Sketch pseudocode BEFORE implementing.
-
+---
 ---
 
 ### Part 2: Build with AI (Collaborative Construction)
