@@ -486,115 +486,194 @@ Your calculator imports operations like `import operations`. This works because 
 
 ---
 
-## Try With AI: Multi-Module Calculator Build
+## Try With AI: Calculator Utility Capstone
 
-### Part 1: Design Module Boundaries (Your Turn First)
+### Part 1: Design Complete Module Architecture (Your Turn First)
 
-**Before asking AI**, review the calculator project structure:
+**Before asking AI**, design a production-ready calculator from scratch:
 
 ```
 calculator/
-├── operations.py      # Math functions
-├── utils.py          # I/O and display
-├── main.py           # Orchestration
-└── test_calculator.py # Tests
+├── operations.py      # Your design?
+├── utils.py          # Your design?
+├── main.py           # Your design?
+└── test_calculator.py # Your design?
 ```
 
-**Your design tasks**:
-- Draw (on paper or mentally) what each module should contain
-- Predict: If you add a `history` feature (show last 5 calculations), which file should it go in?
-- Identify: Which functions are "pure" (no side effects) vs. which ones interact with users?
-- List 3 operations you want in your calculator beyond the basic six
+**Your architecture tasks**:
+- **For operations.py**: List 6+ mathematical operations you'll implement
+  - Which functions can fail? (Design `Type | None` returns)
+  - Which operations need input validation?
+  - How will you handle edge cases (sqrt negative, divide by zero)?
 
-Document your design decisions before Part 2.
+- **For utils.py**: List all I/O functions needed
+  - Menu display, input capture, error handling, result formatting
+  - Design function signatures with type hints
 
----
+- **For main.py**: Sketch the program flow
+  - How will you map user choices to operations?
+  - Where does validation happen?
+  - How do you gracefully exit?
 
-### Part 2: AI Builds the Foundation (Discovery)
+- **Design decision**: If you add calculation history, which module owns it?
 
-Now collaborate with AI:
-
-> "I'm building a multi-module calculator. Here's my module design: [paste your design]
->
-> Start with `operations.py`:
-> 1. Create add, subtract, multiply, divide, power, square_root functions
-> 2. Each function should have type hints and handle edge cases (divide by zero, sqrt of negative)
-> 3. Use `float | None` return types where operations might fail
-> 4. Add docstrings following this pattern: [show the format from lesson]
->
-> Then create `test_calculator.py` with at least 3 test cases per operation, including edge cases.
-> Run the tests and show me the output."
-
-**Your evaluation task**:
-- Review each function's type signature - do they match the lesson examples?
-- Run the tests yourself - do they all pass?
-- Add one failing test on purpose (e.g., assert divide(10, 0) == 5) - what error message appears?
+Document your complete design before Part 2.
 
 ---
 
-### Part 3: Student Teaches AI (Challenge Separation of Concerns)
+### Part 2: AI Implements Core Operations (Discovery)
 
-Challenge AI with a design question:
+Share your architecture with AI:
 
-> "I want to add a 'calculation history' feature that stores the last 10 calculations.
+> "Here's my calculator architecture design: [paste your complete design]
 >
-> Question: Should this go in operations.py, utils.py, or a new module history.py?
+> Implement the foundation:
 >
-> For EACH option, explain:
-> - Why it might belong there
-> - What it would break (separation of concerns, testability, reusability)
-> - The long-term consequences of the choice
+> 1. **operations.py**: Create all mathematical functions following this pattern:
+>    - Type hints: `def divide(a: float, b: float) -> float | None:`
+>    - Docstrings with Parameters and Returns sections
+>    - Edge case handling (return None for invalid operations)
+>    - Pure functions (no printing, no side effects)
 >
-> Then implement your recommended approach: create the necessary functions, integrate them into main.py, and show me how to test the history feature."
+> 2. **test_calculator.py**: Write comprehensive tests:
+>    - At least 3 test cases per operation
+>    - Test normal cases, edge cases, and error cases
+>    - Use assert statements to validate behavior
+>    - Run all tests and show me the output
+>
+> 3. **Code review**: Compare your design to the implementation
+>    - Did AI follow your type hints?
+>    - Are edge cases handled correctly?
+>    - What would you improve?"
 
-**Your debugging task**:
-- Try implementing history in the WRONG module (e.g., put it in operations.py)
-- Run your program - does it work functionally?
-- Ask yourself: Is this code easy to test? Easy to reuse? What's the hidden cost?
+**Your evaluation**:
+- Run the tests yourself - add one test that FAILS on purpose to see error messages
+- Call operations directly in Python REPL - verify behavior matches expectations
+- Review docstrings - are they clear enough for another developer?
 
 ---
 
-### Part 4: Build Complete Calculator (Convergence)
+### Part 3: Student Teaches AI (Challenge Module Responsibility)
 
-Create the full working project with AI:
+Challenge AI with separation of concerns:
 
-> "Complete the calculator project:
+> "I want to extend the calculator with these features. For EACH feature, analyze which module should own it:
 >
-> 1. **utils.py**: Create display_menu, get_operation_choice, get_numbers, get_single_number, display_result
->    - Add input validation for non-numeric input
->    - Include error messages that guide the user
+> **Feature A: Calculation History**
+> - Store last 10 calculations as list of tuples: (operation, num1, num2, result)
+> - Show history on demand
 >
-> 2. **main.py**: Build run_calculator() that:
->    - Imports both modules using `import operations` and `import utils`
->    - Handles all 6 operations in a menu loop
->    - Exits gracefully on user command
->    - Uses `if __name__ == '__main__'` pattern
+> **Feature B: Result Formatting**
+> - Format results as currency, percentages, scientific notation
+> - User chooses format style
 >
-> 3. **Extensions**: Add TWO new operations of your choice (modulo, absolute value, factorial, etc.)
+> **Feature C: Operation Validation**
+> - Check if inputs are valid before calling operations
+> - Prevent invalid type combinations
 >
-> Run the complete calculator and test every operation including error cases."
+> For EACH feature, evaluate:
+> 1. Should it go in operations.py, utils.py, or a NEW module? Why?
+> 2. What would break if you put it in the WRONG module?
+> 3. How does this choice affect testability and reusability?
+> 4. Implement your recommended architecture for ONE feature"
 
-**Refinement (Deep Challenge)**:
-> "Refactor your calculator to use a PLUGIN architecture:
-> - Store operations in a dictionary: `{'add': operations.add, 'subtract': operations.subtract, ...}`
-> - Use the dictionary to dispatch operations instead of if/elif chains
-> - Show me how this makes adding new operations easier
-> - Bonus: How would you load operations dynamically from a config file?"
+**Your debugging**:
+- Deliberately implement a feature in the wrong module (e.g., put UI code in operations.py)
+- Run the calculator - it might work, but what's wrong architecturally?
+- Refactor to the correct module - measure the difference in code clarity
 
 ---
 
-### Part 5: Professional Polish (Integration)
+### Part 4: Build Complete Working Calculator (Convergence)
 
-> "Transform this into a professional project:
-> 1. Add a README.md with installation and usage instructions
-> 2. Create a requirements.txt (even if empty for now)
-> 3. Add type checking: run `mypy operations.py utils.py main.py` - fix any type errors
-> 4. Add logging: use Python's logging module to log each calculation to calculator.log
-> 5. Package structure: reorganize into a proper package with __init__.py
+Integrate everything into a working application:
+
+> "Complete the full calculator implementation:
 >
-> Show me the final directory structure and demonstrate that everything still works."
+> 1. **utils.py**: Implement all I/O functions
+>    ```python
+>    def display_menu() -> None: ...
+>    def get_operation_choice() -> str: ...
+>    def get_numbers() -> tuple[float, float] | None: ...
+>    def get_single_number() -> float | None: ...
+>    def display_result(operation: str, result: float | None) -> None: ...
+>    ```
+>    - Each function handles its own validation
+>    - Return None for invalid input
+>    - Clear error messages for users
+>
+> 2. **main.py**: Orchestrate the calculator
+>    - Import using `import operations` and `import utils`
+>    - Menu loop with user choice handling (1-7)
+>    - Call the correct operation based on choice
+>    - Handle None returns from both utils and operations
+>    - Use `if __name__ == '__main__':` pattern
+>
+> 3. **Extensions**: Add these operations
+>    - Modulo (remainder): 17 % 5 = 2
+>    - Absolute value: |-15| = 15
+>    - Update menu, add to operations.py, add tests
+>
+> 4. **Full integration test**: Run the calculator
+>    - Test every menu option including new operations
+>    - Trigger error cases (invalid input, divide by zero)
+>    - Verify graceful exit"
+
+**Refinement**:
+> "Refactor to a plugin architecture:
+> ```python
+> OPERATIONS = {
+>     '1': ('Addition', operations.add, 2),
+>     '2': ('Subtraction', operations.subtract, 2),
+>     # ... map choice to (name, function, num_inputs)
+> }
+> ```
+> - Replace if/elif chain with dictionary lookup
+> - Show how this makes adding operations trivial (just add dict entry)
+> - Demonstrate extensibility: add a new operation without modifying main loop logic"
 
 ---
 
-**Time**: 60-75 minutes
-**Outcome**: You've built a complete multi-module project with clear separation of concerns, proper testing, type safety, and professional structure. You understand how code organization scales from scripts to applications.
+### Part 5: Reflect and Integrate Chapter 20 Concepts (Capstone Reflection)
+
+Synthesize everything you learned across all 5 lessons:
+
+> "Review your complete calculator project and reflect on Chapter 20 concepts:
+>
+> **Module Organization (Lesson 1)**:
+> - How did you decide what goes in each module?
+> - What import patterns did you use? Why those specific patterns?
+> - What would break if you used `from operations import *`?
+>
+> **Function Design (Lesson 2)**:
+> - Review your function names - do they communicate intent clearly?
+> - Are your docstrings useful? Would another developer understand them?
+> - Which functions follow single responsibility principle? Which don't?
+>
+> **Parameters & Returns (Lesson 3)**:
+> - Which functions use optional parameters? Are the defaults sensible?
+> - Where did you use `Type | None` returns? Why there specifically?
+> - Show me a function call using keyword arguments for clarity
+>
+> **Scope & Closures (Lesson 4)**:
+> - Did you use any global variables? Could you eliminate them?
+> - Are all variables in appropriate scopes (local vs module-level)?
+> - Where could closures improve your design? (e.g., creating operation factories)
+>
+> **Integration Analysis**:
+> - What was the HARDEST design decision? Why?
+> - If you started over, what would you do differently?
+> - How would you extend this to support:
+>   - Persistent history (save to file)
+>   - Custom user-defined operations
+>   - Unit conversion (temperature, distance, etc.)
+>
+> Create a '**lessons_learned.md**' documenting:
+> - Top 3 design principles you applied
+> - Top 3 mistakes you made and how you fixed them
+> - Top 3 concepts that 'clicked' during this capstone"
+
+---
+
+**Time**: 45-60 minutes
+**Outcome**: You've built a production-quality multi-module calculator demonstrating module organization, function design, parameter patterns, scope management, and separation of concerns. You can articulate design decisions, evaluate trade-offs, and apply all Chapter 20 concepts in an integrated system.

@@ -253,97 +253,108 @@ This is how professionals work—not from memory, but from clear thinking and AI
 
 ---
 
-## Try With AI: Module Import Detective
+## Try With AI: Import Strategy Workshop
 
-### Part 1: Predict Import Behavior (Your Turn First)
+### Part 1: Organize Code Into Modules (Your Turn First)
 
-**Before asking AI**, analyze these three code snippets and predict what will happen:
+**Before asking AI**, you have this scattered calculator code in one file:
 
 ```python
-# Snippet A
+# messy_calculator.py - everything in one file!
 import math
-result = sqrt(16)
 
-# Snippet B
-from math import sqrt
-result = sqrt(16)
+price = 100.0
+tax_rate = 0.08
+discount = 0.15
 
-# Snippet C
-import math as m
-result = m.sqrt(16)
+discounted = price * (1 - discount)
+with_tax = discounted * (1 + tax_rate)
+final = math.ceil(with_tax)
+
+print(f"Final price: ${final}")
+
+# ... more calculations
+# ... validation functions
+# ... display functions
+# ... all mixed together
 ```
 
-**Your prediction tasks**:
-- Which snippets will run without errors? Which will fail?
-- For failing code, what error message would you expect?
-- For working code, what's the trade-off between clarity and brevity?
+**Your task**: Design a module structure
+- Sketch 2-3 module files (what would you name them?)
+- For each module, list what code belongs there (calculations? validation? display?)
+- Predict: Which import pattern would you use for each module and why?
 
-Write down your predictions before moving to Part 2.
+Write your module organization plan before Part 2.
 
 ---
 
-### Part 2: AI Explains Import Mechanics (Discovery)
+### Part 2: AI Explains Import Strategies (Discovery)
 
-Now share with AI:
+Share your design with AI:
 
-> "Here are my predictions about these three import patterns: [paste your predictions]
+> "I have calculator code scattered in one file. Here's my module organization plan: [paste your design]
 >
-> Run each snippet and explain:
-> 1. Which ones work and which fail? Why?
-> 2. What's the exact error for failing code?
-> 3. For working imports, show me TWO more valid ways to access `math.ceil(3.7)`
-> 4. Create a quick reference table: Import Pattern | How to Call Function | When to Use"
+> Help me understand import strategies:
+> 1. Compare `import math` vs `from math import ceil` - which is better for my calculator and why?
+> 2. Show me the difference between these three patterns with real examples: import X, from X import Y, from X import Y as Z
+> 3. Create a decision guide: when should I use each pattern?
+> 4. What's the danger of `from math import *`? (importing everything)"
 
-**Your evaluation task**:
-- Did your predictions match reality?
-- Which import pattern surprised you most?
-- Review the reference table - does it help you choose the right pattern?
+**Your evaluation**:
+- Test each import pattern AI shows you - run the code
+- Try the `from math import *` pattern - what happens? Can you see why it's risky?
+- Which pattern makes your code easiest to read?
 
 ---
 
-### Part 3: Student Teaches AI (Challenge Conflicting Imports)
+### Part 3: Student Teaches AI (Name Collision Chaos)
 
-Challenge AI with this problem:
+Challenge AI with this scenario:
 
-> "What happens if I run this code:
+> "I'm building a data processing tool. Analyze this code:
 > ```python
-> from math import sqrt
-> from random import random as sqrt  # Reusing the name!
-> print(sqrt())
+> from statistics import mean
+> from numpy import mean  # Same name, different library!
+>
+> data = [10, 20, 30]
+> result = mean(data)  # Which mean() gets called?
 > ```
 >
-> Will this work? If yes, which `sqrt` gets called? If no, what's the error?
-> Now test it: run the code and explain what Python actually does.
->
-> Then ask: How would professional Python developers avoid this naming conflict in a large codebase?"
+> For EACH of these questions:
+> 1. Which `mean` function actually runs? Why?
+> 2. How would you fix this to use BOTH libraries in the same file?
+> 3. In a 1000-line project, how would you prevent this naming collision bug?
+> 4. Show me three valid import patterns that avoid the collision"
 
-**Your debugging task**:
-- Run the code yourself in your environment
-- Was AI's prediction correct?
-- What happens if you swap the import order?
+**Your debugging**:
+- Create a file with this collision yourself
+- Add print statements to trace which function runs
+- Try AI's suggested fixes - do they all work?
 
 ---
 
-### Part 4: Build a Multi-Module Script (Convergence)
+### Part 4: Build Import Organization Template (Convergence)
 
-Create a small program that demonstrates professional import usage:
+Create a reusable import organization pattern:
 
-> "Write a Python script called `module_explorer.py` that:
-> 1. Imports `math`, `random`, and `os` using three DIFFERENT import patterns
-> 2. Uses at least 2 functions from each module
-> 3. Prints results showing which module each function came from
-> 4. Includes comments explaining WHY you chose each import pattern
+> "Create a Python project template showing professional import organization:
+>
+> **data_processor/**
+> - `calculations.py` - math operations using `math` module
+> - `validators.py` - data validation (import using `from X import Y` pattern)
+> - `formatters.py` - output formatting using aliases
+> - `main.py` - imports all custom modules and orchestrates them
 >
 > Requirements:
-> - Use `import module` for one
-> - Use `from module import func` for another
-> - Use `import module as alias` for the third
-> - Each function call should be meaningful (not just sqrt(4))"
+> 1. Each file uses a DIFFERENT import pattern (demonstrate all three)
+> 2. Include comments explaining why each pattern was chosen
+> 3. Add a `module_guide.md` documenting your import decisions
+> 4. Demonstrate circular import prevention (if main imports calculations, calculations shouldn't import main)"
 
 **Refinement**:
-> "Now add error handling: what if `os.getcwd()` fails in certain environments? Show me how to handle import errors gracefully using try/except."
+> "Add this challenge: create a `config.py` module that's imported by multiple files. Show me how to structure it to avoid repeated initialization. Bonus: use `if __name__ == '__main__'` to demonstrate the difference between importing vs running."
 
 ---
 
-**Time**: 25 minutes
-**Outcome**: You can predict import behavior, choose appropriate patterns for readability vs. brevity, avoid naming conflicts, and write production-ready imports with error handling.
+**Time**: 30 minutes
+**Outcome**: You can organize messy code into clean modules, choose import patterns that optimize for clarity and maintainability, prevent naming collisions in large projects, and create professional project structures.
