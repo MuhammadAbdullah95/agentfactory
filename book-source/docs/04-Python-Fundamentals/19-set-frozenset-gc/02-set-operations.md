@@ -394,48 +394,18 @@ Find:
 
 ## Try With AI
 
-### Setup
+Master set operations and comprehensions for data analysis.
 
-Use your preferred AI companion (ChatGPT web, Claude Code, or Gemini CLI if you've set one up from previous lessons).
+**🔍 Explore Set Operations:**
+> "Show me Venn diagrams for union (|), intersection (&), difference (-), symmetric difference (^). For each operation, explain with overlapping circles, give real-world example (user permissions, course enrollment, inventory)."
 
-### Prompt Set (Bloom's Progression)
+**🎯 Practice Operator vs Method:**
+> "Help me compare operator vs method syntax: set_a | set_b vs set_a.union(set_b). Show both for union, intersection, difference. Explain when to use concise operators vs explicit methods."
 
-**Prompt 1 - Concept Visualization (Understand Level):**
+**🧪 Test Symmetric Difference:**
+> "Debug symmetric difference: show A ^ B vs (A - B) | (B - A). Explain 'either but not both' concept with practical example. When is symmetric difference the clearest choice?"
 
-> "Create a Venn diagram explanation of union, intersection, difference, and symmetric difference. Use overlapping circles and shade the regions. For each operation, give me a real-world example."
-
-**Expected Outcome:** You visualize how the operations work mathematically and see practical business scenarios for each. Venn diagrams make abstract set theory concrete.
-
----
-
-**Prompt 2 - Operator vs. Method Comparison (Apply Level):**
-
-> "I can do `set_a | set_b` or `set_a.union(set_b)`. Show me both approaches for union, intersection, and difference. Are these exactly the same? When would I choose one over the other?"
-
-**Expected Outcome:** You understand both syntaxes, learn the trade-off (operators are concise, methods are explicit), and make informed choices based on readability.
+**🚀 Apply Set Comprehensions:**
+> "Build set comprehension filtering strings > 4 chars and converting to uppercase. Explain syntax step-by-step. Compare to list comprehension version. Show how automatic deduplication differs."
 
 ---
-
-**Prompt 3 - Symmetric Difference Deep Dive (Analyze Level):**
-
-> "I'm confused about symmetric difference. Show me a practical example where I'd use `A ^ B` vs. `(A - B) | (B - A)`. How are these related? When would symmetric difference be the clearest choice?"
-
-**Expected Outcome:** You grasp the "either but not both" concept deeply and understand when symmetric difference is the most elegant solution to a problem.
-
----
-
-**Prompt 4 - Set Comprehension Challenge (Evaluate Level):**
-
-> "Write a set comprehension that filters strings longer than 4 characters from a list, *then converts them to uppercase*. Explain the syntax step-by-step. Then show me how this differs from the list comprehension version."
-
-**Expected Outcome:** You master set comprehension syntax with transformation, understand the automatic deduplication benefit, and see why it's different from list comprehensions.
-
-**Safety Note:** "Set comprehensions are safe and powerful. The automatic deduplication is a feature, not a limitation. Use them whenever you want filtered, unique results."
-
----
-
-**Closing Reflection:**
-
-You now understand all four mathematical set operations—union, intersection, difference, and symmetric difference. You can combine them to solve complex data problems. You can write set comprehensions to create filtered, deduplicated collections. Most importantly, you understand *when* each operation answers your question: "What items do these collections have in common?" (intersection), "What items are in any of them?" (union), "What's missing from one?" (difference), or "What's different between them?" (symmetric difference).
-
-In the next lesson, you'll dive deeper into *why* sets are fast—exploring the hashing mechanism that makes O(1) lookup possible and understanding the trade-offs between sets and other collection types.

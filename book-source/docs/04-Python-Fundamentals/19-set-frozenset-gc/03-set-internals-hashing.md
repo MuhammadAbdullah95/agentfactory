@@ -482,87 +482,18 @@ Take your time with these. The goal isn't to memorize hash functions—it's to u
 
 ## Try With AI
 
-Now let's explore this topic deeper with AI as your thinking partner. Use this conversation to solidify your understanding and practice making architectural decisions.
+Understand hash functions, immutability requirements, and performance implications.
 
-### Prompt 1: Hash Function Exploration (Understand Level)
+**🔍 Explore Hash Functions:**
+> "Explain hash functions for beginners using library or phone directory analogy. Why does Python hash set elements? Show why hash(1) differs from hash('1'). Explain what breaks if hash values aren't stable."
 
-**Tell your AI:**
-```
-What is a hash function? Explain it like I'm new to programming.
-Why does Python need to hash set elements?
-Use an analogy I can relate to—something like a library or phone directory.
-```
+**🎯 Practice Immutability Analysis:**
+> "Help me understand why lists can't be in sets but tuples can. Walk through what breaks if mutable objects were allowed in sets. Show the error for {[1, 2, 3]} and explain why."
 
-**Expected Outcome**: You'll understand hashing as "converting objects to lookup keys" and see why it enables fast searches. The analogy should make the concept concrete before worrying about the details.
+**🧪 Test Performance Benchmarks:**
+> "Debug set vs list performance: create benchmark with 100K elements checking membership. Show timing for set (O(1)) vs list (O(n)). Explain why set time stays constant but list time varies by position."
 
-**Validation**: Can you explain why `hash(1)` is different from `hash("1")`? Can you predict what happens if hash values weren't stable?
-
-**AI Tool**: Use ChatGPT web for conceptual explanation with analogies, or Claude Code if you prefer code examples.
-
-**Follow-up**: "Can I create my own hash function for custom objects?" (Answer leads to Chapter 24: OOP and `__hash__`)
+**🚀 Apply to Architecture Decision:**
+> "Build user ID lookup system: 1M user IDs, 1M membership checks. Compare list vs set choice. Analyze tradeoffs: lookup frequency, dataset size, modification needs, ordering requirements. When does choice matter (10 users? 1000? 1M?)."
 
 ---
-
-### Prompt 2: Immutability Deep Dive (Analyze Level)
-
-**Tell your AI:**
-```
-Why exactly can't I put a list in a set, but I CAN put a tuple?
-Walk me through what would happen if I could put mutable objects in sets.
-How would the world break? Show me with an example.
-```
-
-**Expected Outcome**: You'll understand that mutable objects can't be hashed because their hash values would change, breaking lookups. The example should show what goes wrong when you modify a list that's supposed to be a set member.
-
-**Validation**: Before running code, predict: What error will you get if you try `{[1, 2, 3]}`? Can you explain why?
-
-**AI Tool**: Use Claude Code to show the code breakdown and error messages, or ChatGPT for conceptual explanation.
-
-**Follow-up**: "So frozenset works because it's immutable?" (Yes—and that's Lesson 4's focus)
-
----
-
-### Prompt 3: Performance Analysis (Apply Level)
-
-**Tell your AI:**
-```
-Show me code that proves sets are faster than lists for checking
-if an item exists. How much faster?
-Generate a benchmark comparing set vs. list lookup with 100,000 elements.
-Include the timing output so I can see the difference.
-```
-
-**Expected Outcome**: You'll see the real performance difference with concrete numbers. The benchmark should show sets being 100x-1000x faster depending on data size and position of the target element.
-
-**Validation**: Run the code and observe: Does the set time stay roughly the same regardless of which element you search for? Does the list time change based on element position?
-
-**AI Tool**: Use Claude Code to generate and run the benchmark code, explaining what each line does.
-
-**Safety Note**: "The actual speedup depends on dataset size, element position, and computer speed. These numbers are illustrative but realistic for production systems."
-
-**Follow-up**: "What if I'm only checking 10 elements?" (Answer: For small datasets, the difference doesn't matter; use whatever is clearest)
-
----
-
-### Prompt 4: Design Decision (Evaluate Level)
-
-**Tell your AI:**
-```
-I'm building a system that needs to check whether a user ID exists
-in my database 1 million times. I have 1M user IDs.
-Should I store them as a list or a set? Why?
-What if I only have 10 users? What if I never check membership,
-only iterate through all users?
-```
-
-**Expected Outcome**: You'll practice choosing data structures based on real constraints. The answer should consider: frequency of lookups, dataset size, need for modification, and need for ordering.
-
-**Validation**: Can you explain your choice in business terms? ("At this scale, using a list would make the system slow enough that users notice")
-
-**AI Tool**: Use Claude Code for a detailed analysis with timing code, or ChatGPT for a strategic discussion about tradeoffs.
-
-**Follow-up**: "At what point does the choice start to matter?" (Answer: Usually around 1,000-10,000 elements for production code)
-
----
-
-**Summary**: Through these AI conversations, you're practicing the core skill of specification-driven development: asking the right questions and evaluating tradeoffs rather than memorizing syntax. This mindset applies to every data structure decision you'll make. 💬🎓

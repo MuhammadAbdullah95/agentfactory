@@ -803,158 +803,23 @@ Write a paragraph explaining the integration:
 
 ---
 
-## Try With AI: Memory Profiler Capstone
+## Try With AI
 
-This capstone integrates ALL Chapter 19 concepts: sets, frozensets, and garbage collection.
+Build a Memory Profiler integrating all Chapter 19 concepts: sets, frozensets, and GC.
 
-### Part 1: Design Memory Tracker Architecture (Your Turn First)
+**🔍 Explore Profiler Architecture:**
+> "Show me Memory Profiler design: track object IDs using set[int] (why not list?), detect leaks (compare created vs deleted), categorize by type dict[str, int]. Explain structure choices and sketch track(), release(), report() methods."
 
-**Before asking AI**, design a memory profiling tool:
+**🎯 Practice Implementation:**
+> "Help me build MemoryProfiler class: tracked: set[int], methods track(obj), release(obj), report(), detect_leaks(). Use id(obj), integrate gc.collect() and gc.get_objects(), handle edge case of releasing non-tracked object. Show complete code with type hints."
 
-**Requirements**:
-1. Track object creation/deletion (using object IDs)
-2. Detect memory leaks (objects that should be deleted but aren't)
-3. Categorize objects by type (dict, list, set, etc.)
-4. Report memory usage statistics
+**🧪 Test Edge Cases:**
+> "Debug profiler with: 1) circular references (Node A→B, B→A, track both, del both, gc.collect() - are they freed?), 2) large graphs (1000 objects, delete 500, measure detect_leaks() speed), 3) frozensets as dict keys (group objects by attributes). Explain each."
 
-**Your design task**:
-- Which data structure for tracking object IDs? (list? set? Why?)
-- How do you detect "leaked" objects? (compare created vs deleted)
-- Can you use `frozenset` anywhere? (immutable keys in a dict?)
-- Sketch pseudocode for `track()`, `release()`, and `report()` methods
+**🚀 Apply Chapter Integration:**
+> "Build leak detection: use gc.get_objects(), filter tracked IDs with set operations (intersection? difference?), check gc.get_referrers(), optimize for 10K+ objects. Validate: track 100 objects, delete 50, verify count. Reflect: why set[int] vs list? where use frozensets? how gc.collect() works with refcount?"
 
 ---
-
-### Part 2: Build MemoryProfiler with AI (Discovery)
-
-Implement your design with AI guidance:
-
-> "I'm building a Memory Profiler tool. Here's my design:
->
-> **Class: MemoryProfiler**
-> - `tracked: set[int]` — IDs of living objects
-> - `created_count: int` — Total objects ever created
-> - `deleted_count: int` — Total objects deleted
-> - `type_counts: dict[str, int]` — Count per type ('dict', 'list', etc.)
->
-> **Methods**:
-> 1. `track(obj: object) -> None` — Add object ID to tracked set
-> 2. `release(obj: object) -> None` — Remove object ID from tracked set
-> 3. `report() -> dict[str, int]` — Return stats (living, created, deleted)
-> 4. `detect_leaks() -> list[int]` — Find objects that should be garbage collected but aren't (use `gc.get_objects()`)
->
-> Help me:
-> 1. Write complete code with type hints
-> 2. Use `id(obj)` to get object IDs
-> 3. Integrate `gc.collect()` and `gc.get_objects()`
-> 4. Handle edge case: What if user calls `release()` on non-tracked object?"
-
-**Your evaluation task**:
-- Does AI use `set[int]` for `tracked`? Why is that better than `list[int]`?
-- Run the code. Create objects, track them, delete them, call `report()`. Do the numbers make sense?
-
----
-
-### Part 3: Student Teaches AI (Edge Cases & Memory Leaks)
-
-Challenge AI with realistic memory leak scenarios:
-
-> "Let's test my Memory Profiler with edge cases:
->
-> **Edge Case 1: Circular References**
-> ```python
-> class Node:
->     def __init__(self, value):
->         self.value = value
->         self.next = None
->
-> # Create circular reference
-> a = Node(1)
-> b = Node(2)
-> a.next = b
-> b.next = a  # Circular!
->
-> profiler.track(a)
-> profiler.track(b)
-> del a
-> del b
-> gc.collect()  # Will GC clean up circular refs?
-> ```
->
-> For this case:
-> 1. Predict: After `del` and `gc.collect()`, are objects freed?
-> 2. Show how `profiler.detect_leaks()` would catch this
-> 3. Explain: Why doesn't reference counting alone handle this?
->
-> **Edge Case 2: Large Object Graphs**
-> - Create 1000 objects, track them all
-> - Delete 500 randomly
-> - Run `detect_leaks()`
-> - Measure: How long does it take? Is `set[int]` lookup fast enough (O(1))?
->
-> **Edge Case 3: Frozenset as Dict Key**
-> - Can I group objects by their attributes using frozensets?
-> - Example: Group nodes by `frozenset` of their values
-> - Show code where `frozenset[str]` is a dict key"
-
-**Your debugging task**:
-- Run Edge Case 1. Do circular refs get collected?
-- Which edge case surprised you most?
-
----
-
-### Part 4: Add Memory Leak Detection (Integration)
-
-Extend profiler with leak detection:
-
-> "Enhance Memory Profiler with leak detection:
->
-> **New Feature: `detect_leaks()`**
-> 1. Get ALL Python objects using `gc.get_objects()`
-> 2. Filter to objects we're tracking (IDs in `tracked` set)
-> 3. For EACH tracked object:
->    - Check if it's still referenced (use `gc.get_referrers()`)
->    - If references exist ONLY in profiler's set → it's leaked
-> 4. Return list of leaked object IDs
->
-> **Integration**:
-> - Use `set` operations (intersection? difference?)
-> - Handle types with `isinstance()`
-> - Report memory size with `sys.getsizeof()`
->
-> Show complete implementation with type hints."
-
-**Refinement**:
-> "This works, but `detect_leaks()` is slow on 10,000+ objects. Optimize it: Can I use set operations instead of loops? What's the time complexity?"
-
----
-
-### Part 5: Validate and Reflect (Convergence)
-
-Test your profiler and connect to Chapter 19 concepts:
-
-> "Let's validate the Memory Profiler and reflect on Chapter 19 integration:
->
-> **Validation Tests**:
-> 1. Create 100 objects, track them, delete 50, verify `report()` shows 50 living
-> 2. Create circular reference, verify `detect_leaks()` finds it
-> 3. Benchmark: Track 10,000 objects, measure `report()` speed
->
-> **Reflection Questions**:
-> 1. **Sets (Lesson 1)**: Why is `set[int]` better than `list[int]` for tracked IDs? (O(1) lookup vs O(n))
-> 2. **Frozensets (Lesson 4)**: Where could frozensets be dict keys in this tool?
-> 3. **GC (Lesson 5)**: How does `gc.collect()` interact with reference counting?
-> 4. **Integration**: How do these three concepts (sets/frozensets/GC) work TOGETHER?
->
-> For each question, give me a specific example from the Memory Profiler code."
-
-**Final challenge**:
-> "If I removed sets and used lists for everything, how would performance change? Calculate time complexity difference for 10,000 objects."
-
----
-
-**Time**: 60-90 minutes total
-**Outcome**: You've built a production-quality Memory Profiler integrating sets (O(1) lookup), frozensets (immutable dict keys), and garbage collection (leak detection)—demonstrating mastery of ALL Chapter 19 concepts in a cohesive system.
 
 ---
 

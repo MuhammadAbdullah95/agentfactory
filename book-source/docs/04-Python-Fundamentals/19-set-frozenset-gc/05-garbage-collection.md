@@ -644,84 +644,19 @@ Create a function `analyze_memory(structure_type: str) -> None:` that:
 
 ## Try With AI
 
-🤖 **Using Your AI Companion** (ChatGPT web or Claude Code from previous lessons)
+Understand Python's memory management: reference counting and garbage collection.
 
-### Prompt 1: Understand Reference Counting (Bloom's: Understand)
+**🔍 Explore Reference Counting:**
+> "Explain how Python knows when to delete objects using reference counting analogy (counting who's using this object). Show counter mechanics: increases on new reference, decreases on deletion, freed at zero. Is this automatic?"
 
-**Tell your AI:**
-```
-How does Python know when to delete an object?
-What is reference counting and why does Python use it instead of
-other garbage collection methods?
-```
+**🎯 Practice Circular References:**
+> "Help me understand circular references: show code where Object A references B and B references A. Explain why refcount never reaches zero, why reference counting can't free them, why Python needs cycle detector. Does Python fix this automatically?"
 
-**Expected Outcome**: AI explains refcount as "counting who's using this object." You understand:
-- Each object has a counter
-- Counter increases when new variable references it
-- Counter decreases when reference is deleted
-- Object freed when counter reaches zero
+**🧪 Test Memory Profiling:**
+> "Debug memory usage: create 100K objects, show object count before/after using gc.get_objects(), delete all objects, show freed count. Explain what reference counting did. Use sys.getrefcount() to observe."
 
-**Follow-up**: "Is this automatic or do I need to do something in my code?"
+**🚀 Apply Two-System Design:**
+> "Build understanding of why Python has both reference counting AND garbage collector. Compare: reference counting (fast, immediate, 95% objects) vs cycle detector (periodic, circular refs, 5%). When would I manually call gc.collect()?"
 
 ---
-
-### Prompt 2: Circular References Deep Dive (Bloom's: Understand)
-
-**Tell your AI:**
-```
-What's a circular reference in Python?
-Show me an example where two objects reference each other and
-explain why this causes problems for reference counting.
-```
-
-**Expected Outcome**: AI shows code where Object A references B and B references A, then explains:
-- Neither object's refcount ever reaches zero
-- Reference counting can't free them
-- Python's cycle detector is needed as backup
-- Most code doesn't have circular references
-
-**Follow-up**: "Does Python fix this automatically or do I need to call gc.collect()?"
-
----
-
-### Prompt 3: Memory Profiling Challenge (Bloom's: Apply)
-
-**Tell your AI:**
-```
-Write Python code that:
-1. Creates 100,000 objects (lists, strings, or sets)
-2. Shows how many objects are in memory before and after creation
-3. Deletes all objects
-4. Shows how many objects are freed
-5. Explains what reference counting did
-```
-
-**Expected Outcome**: AI generates profiling code using `gc.get_objects()` and `sys.getrefcount()`. You learn to:
-- Use `gc.get_objects()` to count all tracked objects
-- Create large object collections
-- Observe immediate deletion via reference counting
-- Confirm memory is freed
-
-**Safety Note**: "Memory usage varies by platform; focus on the count of objects, not exact bytes."
-
----
-
-### Prompt 4: Why Do We Need Two Memory Systems? (Bloom's: Evaluate)
-
-**Tell your AI:**
-```
-If reference counting deletes objects immediately, why does Python
-have a separate garbage collector? When would we need both?
-```
-
-**Expected Outcome**: AI explains the division of labor:
-- **Reference counting**: Fast, immediate (95% of objects)
-- **Cycle detector**: Periodic, catches circular references (5% of objects)
-- Professional insight: Most code doesn't need manual GC intervention
-
-**Follow-up**: "Should I manually call gc.collect() in my programs?"
-
----
-
-✨ **After completing these prompts**, you understand Python's memory management at a professional level. You know *why* Python does what it does and can explain it to others—that's deep understanding.
 

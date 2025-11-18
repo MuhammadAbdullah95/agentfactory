@@ -343,125 +343,20 @@ Ask your AI Co-Teacher:
 
 ---
 
-## Try With AI: Deduplication Detective Challenge
+## Try With AI
 
-### Part 1: Find Duplicate Problems (Your Turn First)
+Master set creation, deduplication, and understand hashability constraints.
 
-**Before asking AI**, analyze these three datasets and identify which ones have duplicates:
+**🔍 Explore Set Deduplication:**
+> "Show me converting lists with duplicates to sets: user_ids [101, 102, 103, 101, 104, 102, 105, 101], product_codes ['A1', 'B2', 'C3', 'A1', 'D4', 'B2'], temps [23.5, 24.0, 23.5, 22.1, 24.0]. For each, show unique count, type hints, explain what information is lost (order? duplicate counts?)."
 
-**Dataset 1: User IDs from login logs**
-```python
-user_ids: list[int] = [101, 102, 103, 101, 104, 102, 105, 101]
-```
+**🎯 Practice Hashability Rules:**
+> "Help me test which types work in sets: tuples (immutable), lists (mutable), frozensets (immutable), dicts (mutable). For each, predict if it works, show exact error if it fails, explain the hashability rule."
 
-**Dataset 2: Unique product codes**
-```python
-product_codes: list[str] = ["A1", "B2", "C3", "A1", "D4", "B2"]
-```
+**🧪 Test Empty Set Syntax:**
+> "Debug the quirk: why is empty = {} a dict, not a set? Show correct empty set syntax. Explain when {} creates dict vs when set literal {1, 2, 3} works."
 
-**Dataset 3: Temperature readings (Celsius)**
-```python
-temps: list[float] = [23.5, 24.0, 23.5, 22.1, 24.0]
-```
-
-**Your task**:
-1. For EACH dataset, count how many duplicates exist (manually or with code)
-2. Convert each to a set and predict the final size
-3. Write down: "Which type should I use for the set? `set[int]`? `set[str]`? `set[float]`?"
+**🚀 Apply to Tag System:**
+> "Build blog tag deduplication: extract all tags from posts, normalize to lowercase ('Python' and 'python' merge), remove empty tags, convert to unique set, sort alphabetically. Show complete code with type hints."
 
 ---
-
-### Part 2: AI Explains Set Deduplication (Discovery)
-
-Share your predictions with AI:
-
-> "I have three datasets with duplicates:
-> 1. User IDs (integers): [paste data]
-> 2. Product codes (strings): [paste data]
-> 3. Temperatures (floats): [paste data]
->
-> For EACH:
-> 1. Show me how to convert to a set with type hints
-> 2. Tell me the final size (unique count)
-> 3. Explain: Did I lose any important information when converting to set? (What about order? Duplicates might be meaningful!)
->
-> Then explain the syntax quirk: Why is `empty = {}` a dict, not an empty set?"
-
-**Your evaluation task**:
-- Compare AI's unique counts to yours. Did you get them right?
-- Does AI mention that sets are UNORDERED? Why does that matter?
-- Can you now explain the `{}` vs `set()` quirk to someone else?
-
----
-
-### Part 3: Student Teaches AI (Hashability Edge Cases)
-
-Challenge AI with tricky hashability scenarios:
-
-> "I want to create sets with different types. Predict which will FAIL:
->
-> ```python
-> # Test 1: Set of tuples
-> coords: set[tuple[float, float]] = {(10.5, 20.3), (15.0, 25.0)}
->
-> # Test 2: Set of lists
-> paths: set[list[str]] = {['home', 'docs'], ['home', 'photos']}
->
-> # Test 3: Set of frozensets
-> groups: set[frozenset[int]] = {frozenset([1, 2]), frozenset([3, 4])}
->
-> # Test 4: Set of dicts
-> configs: set[dict[str, int]] = {{'width': 800}, {'width': 1024}}
-> ```
->
-> For EACH:
-> 1. Will it work or fail? Why?
-> 2. If it fails, show me the EXACT error message
-> 3. Explain the rule: What makes a type 'hashable'?
->
-> Then I'll challenge you: If I NEED to store lists in a collection without duplicates, what's my alternative? (Hint: Convert lists to something hashable)"
-
-**Your debugging task**:
-- Run each test. Which ones actually fail?
-- Can you explain why `tuple` works but `list` doesn't using the word "mutable"?
-
----
-
-### Part 4: Build a Tag Deduplication System (Convergence)
-
-Create a real-world application with AI:
-
-> "Let's build a blog tag deduplication system:
->
-> **Requirements**:
-> 1. Multiple blog posts, each with tags (some tags repeat across posts)
-> 2. Extract ALL unique tags from all posts
-> 3. Handle case-insensitivity ('Python' and 'python' should be same tag)
-> 4. Remove empty tags ('')
-> 5. Sort final tags alphabetically (sets are unordered—how do we sort?)
->
-> **Sample data**:
-> ```python
-> posts: list[dict[str, list[str]]] = [
->     {'title': 'Intro to Python', 'tags': ['Python', 'beginner', 'tutorial']},
->     {'title': 'Advanced Python', 'tags': ['python', 'advanced', '']},
->     {'title': 'Data Science', 'tags': ['Python', 'data', 'tutorial', '']},
-> ]
-> ```
->
-> Walk me through:
-> 1. Extract all tags into one list (with duplicates)
-> 2. Normalize to lowercase
-> 3. Convert to set (deduplicates)
-> 4. Remove empty string
-> 5. Sort alphabetically (convert set→list→sort)
->
-> Show complete code with type hints."
-
-**Refinement**:
-> "This works, but what if I want to COUNT how many times each tag appears (before deduplication)? Sets lose that info. What data structure would I use instead? (Preview: Chapter 18 dicts)"
-
----
-
-**Time**: 25-30 minutes total
-**Outcome**: You've mastered set creation, understood hashability constraints through debugging, and built a production-pattern deduplication workflow.

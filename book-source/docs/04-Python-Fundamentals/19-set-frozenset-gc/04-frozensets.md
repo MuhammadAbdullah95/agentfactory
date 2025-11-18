@@ -612,54 +612,18 @@ Create a mutable set, convert it to a frozenset, then convert it back to a set. 
 
 ## Try With AI
 
-Use this section to solidify your understanding of frozensets through hands-on exploration with your AI companion.
+Understand frozenset immutability and when to use it over regular sets.
 
-💬 **Prompt 1: Understanding Immutability Trade-offs** (Understand Level)
+**🔍 Explore Immutability Tradeoffs:**
+> "Show me the difference between set and frozenset. Explain when I'd use frozenset instead of set (dict keys, set members, hashable requirements). What am I trading to get immutability? Any performance differences?"
 
-Ask your AI: "What's the difference between a set and a frozenset? Why would I ever use frozenset instead of set? What am I trading to get immutability?"
+**🎯 Practice Dict Key Usage:**
+> "Help me understand frozensets as dictionary keys with practical example (permission system, caching, grouping). Why can't I use regular set? Why not tuple? Show code demonstrating when frozenset is the ONLY solution."
 
-**Expected Outcome**: Your AI explains the immutability constraint and highlights specific scenarios where frozensets become necessary (dict keys, set members, function arguments requiring hashable types).
+**🧪 Test Nested Structures:**
+> "Debug nested frozensets: create set of frozensets representing company teams. Implement function finding employees in multiple teams together. Show type hints and explain the structure."
 
-**AI Tool to Use**: ChatGPT web (conceptual explanation with reasoning)
-
-**Follow-up Question**: "Are there any performance differences between set and frozenset?"
-
----
-
-💬 **Prompt 2: Dictionary Keys Use Case** (Apply Level)
-
-Ask your AI: "Show me a practical example where frozensets as dictionary keys is the ONLY solution. Why can't I use a regular set? Why can't I use a different data structure?"
-
-**Expected Outcome**: Your AI provides a realistic business scenario (permission system, caching, grouping) that demonstrates why frozensets are the right choice and why sets wouldn't work.
-
-**AI Tool to Use**: Claude Code (generate example code + explain design reasoning)
-
-**Follow-up Question**: "What if I try to use a tuple instead of a frozenset?"
+**🚀 Apply to Permission System:**
+> "Build user role system: compare list vs set vs frozenset for storing roles. Analyze tradeoffs (duplicates? mutability? comparison?). Show how to check if two users have same permissions. What if I need to add a role later?"
 
 ---
-
-💬 **Prompt 3: Nesting Practice** (Apply Level)
-
-Ask your AI: "Write code that creates a set of frozensets representing teams in a company. Then implement a function that finds which employees are in multiple teams together."
-
-**Expected Outcome**: Your AI generates working code using nested frozensets, includes type hints, and explains the structure clearly.
-
-**AI Tool to Use**: Claude Code (generate + explain pattern)
-
-**Safety Note**: Converting between set and frozenset is free — no performance penalty. Use frozenset when semantics require immutability, not as a performance optimization.
-
----
-
-💬 **Prompt 4: Real-World Scenario Analysis** (Analyze Level)
-
-Ask your AI: "I'm building a permission system where users have roles. Should I store user roles as a list, set, or frozenset? Compare the trade-offs and explain your choice. What if I need to check if two users have the same permissions?"
-
-**Expected Outcome**: Your AI analyzes the scenario, weighs trade-offs (list: can have duplicates, set: no duplicates but mutable, frozenset: no duplicates and immutable), and recommends the best choice with reasoning.
-
-**AI Tool to Use**: Claude Code or ChatGPT (design discussion with code examples)
-
-**Follow-up Question**: "What if I later need to add a new role to a user?"
-
----
-
-🎓 **Reflection**: After exploring with your AI, write a 2-3 sentence explanation of when you'd use frozenset instead of set. What capability unlocks? What trade-off are you making?
