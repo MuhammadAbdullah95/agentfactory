@@ -1,11 +1,16 @@
 ---
 title: "Template Selection and Decision Frameworks"
+description: "Apply systematic decision criteria to choose between templates and custom prompts"
+sidebar_label: "Template Selection Criteria"
+sidebar_position: 7
 chapter: 10
 lesson: 7
-part: 3
 duration_minutes: 35
+proficiency: "B1"
+concepts: 7
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Template Selection Decision Framework"
     proficiency_level: "B1"
@@ -23,6 +28,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 7
   assessment: "7 concepts (decision frameworks, template applicability, task classification, hybrid approaches, template adaptation, custom vs template tradeoffs, selection criteria) at B1 threshold ✓"
+
+differentiation:
+  extension_for_advanced: "Create decision tree for template selection across 10+ scenarios; analyze template usage patterns in professional development; build scoring system for template applicability"
+  remedial_for_struggling: "Practice binary decisions: For 5 tasks, answer only 'Have I done this 3+ times?' to decide template vs custom, before learning complex selection criteria"
 ---
 
 # Template Selection and Decision Frameworks

@@ -1,11 +1,16 @@
 ---
 title: "Creating Reusable Prompt Templates"
+description: "Capture recurring prompt patterns into reusable templates for consistency and efficiency"
+sidebar_label: "Creating Reusable Templates"
+sidebar_position: 6
 chapter: 10
 lesson: 6
-part: 3
 duration_minutes: 45
+proficiency: "B1"
+concepts: 8
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Reusable Prompt Templates"
     proficiency_level: "B1"
@@ -23,6 +28,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 8
   assessment: "8 concepts (prompt templates, pattern recognition, template structure, placeholders, reusability criteria, template documentation, template evolution, cross-project value) at B1 threshold ✓"
+
+differentiation:
+  extension_for_advanced: "Analyze Zia Kaukab's 8-Element Framework in depth; create template library with 10+ production-ready templates; study template patterns from Anthropic and OpenAI documentation"
+  remedial_for_struggling: "Focus on creating one simple template: Identify a task you do 3+ times, extract common elements, create fill-in-the-blank version, test on new scenario"
 ---
 
 # Creating Reusable Prompt Templates

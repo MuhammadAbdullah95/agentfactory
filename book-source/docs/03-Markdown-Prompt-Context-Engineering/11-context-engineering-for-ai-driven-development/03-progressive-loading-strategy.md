@@ -1,6 +1,42 @@
 ---
-title: Progressive Loading Strategy
+title: "Progressive Loading Strategy"
+description: "Design three-tier loading framework to prevent degradation through intelligent context allocation"
+sidebar_label: "Progressive Loading Strategy"
 sidebar_position: 3
+chapter: 11
+lesson: 3
+duration_minutes: 50
+proficiency: "B1"
+concepts: 6
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Progressive Loading Design"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student designs Foundation/Current/On-Demand loading strategy for projects"
+
+learning_objectives:
+  - objective: "Design three-tier progressive loading framework for project context"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Loading strategy document with tier allocation and rationale"
+
+  - objective: "Balance preloading efficiency with context waste through collaborative iteration"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Optimization analysis of loading strategy tradeoffs"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (three loading tiers, allocation strategy, context budget, preloading tradeoffs) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Research context caching strategies; analyze dynamic loading patterns in production AI systems; design adaptive loading based on task type detection"
+  remedial_for_struggling: "Focus on binary categorization: Separate files into 'Always need' vs 'Sometimes need' before learning three-tier framework"
 ---
 
 # Progressive Loading Strategy

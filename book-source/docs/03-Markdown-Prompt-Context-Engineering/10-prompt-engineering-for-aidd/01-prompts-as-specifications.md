@@ -1,11 +1,16 @@
 ---
 title: "From Commands to Specifications: Why Prompting Matters"
+description: "Understanding prompt engineering as a specification skill that separates AI-native developers from those who struggle with AI tools"
+sidebar_label: "From Commands to Specifications"
+sidebar_position: 1
 chapter: 10
 lesson: 1
-part: 3
 duration_minutes: 30
+proficiency: "A2"
+concepts: 5
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Understanding Prompts as Specifications"
     proficiency_level: "A2"
@@ -22,7 +27,11 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 5
-  assessment: "5 concepts (prompts as specs, WHAT vs HOW, spec-first, iteration 60%→97%, quality=output) at A2 limit ✓"
+  assessment: "5 concepts (prompts as specs, WHAT vs HOW, spec-first, iteration 60%→97%, quality=output) at A2 limit of 7 ✓"
+
+differentiation:
+  extension_for_advanced: "Research Jake Heller's Y Combinator talk; analyze how Casetext's iterative prompting led to 97% accuracy and $650M acquisition; compare prompt engineering frameworks across Anthropic, Google, and OpenAI"
+  remedial_for_struggling: "Focus on single core concept: 'Prompts describe WHAT, not HOW'; practice converting 3 commands into specifications before moving to iteration concepts"
 ---
 
 # From Commands to Specifications: Why Prompting Matters

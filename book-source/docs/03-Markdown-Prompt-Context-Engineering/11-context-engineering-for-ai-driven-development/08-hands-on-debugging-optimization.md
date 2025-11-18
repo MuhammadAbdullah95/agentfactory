@@ -1,19 +1,47 @@
 ---
-title: Hands-On Debugging and Optimization
+title: "Hands-On Debugging and Optimization"
+description: "Apply all context engineering techniques to diagnose and fix real degradation scenarios"
+sidebar_label: "Hands-On Debugging & Optimization"
 sidebar_position: 8
 chapter: 11
 lesson: 8
+duration_minutes: 90
+proficiency: "B1"
+concepts: 4
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Context Engineering Integration and Debugging"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student diagnoses context degradation and applies appropriate remediation from Lessons 1-7"
+
 learning_objectives:
-  - Diagnose context degradation from conversation symptoms
-  - Apply accumulated techniques (Lessons 1-7) to recover degraded sessions
-  - Optimize context strategy under production constraints
-  - Integrate all context engineering patterns systematically
-estimated_time: 90 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/002-011-chapter-11-redesign-fix/spec.md
-created: 2025-11-18
-version: 1.0.0
+  - objective: "Diagnose context degradation from conversation symptoms using Lesson 2 patterns"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Root cause analysis from degraded session transcripts"
+
+  - objective: "Apply accumulated techniques (progressive loading, compression, isolation, memory files, tool selection) to recover degraded sessions"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Remediation plan execution with validation metrics"
+
+  - objective: "Optimize context strategy under production constraints"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Context strategy optimization for real development scenarios"
+
+cognitive_load:
+  new_concepts: 4
+  assessment: "4 concepts (systematic diagnosis, technique integration, validation metrics, optimization under constraints) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Analyze multiple simultaneous degradation patterns; design automated monitoring and remediation systems; create context engineering playbook for team use"
+  remedial_for_struggling: "Focus on single scenario: Identify one symptom → Match to one technique → Apply → Validate, before attempting multiple simultaneous issues"
 ---
 
 # Hands-On Debugging and Optimization

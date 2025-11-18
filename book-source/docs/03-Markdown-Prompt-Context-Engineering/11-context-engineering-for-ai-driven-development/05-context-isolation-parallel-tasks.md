@@ -1,6 +1,42 @@
 ---
-title: Context Isolation and Parallel Tasks
+title: "Context Isolation and Parallel Tasks"
+description: "Measure task similarity and design multi-session workflows to prevent context pollution"
+sidebar_label: "Context Isolation & Parallel Tasks"
 sidebar_position: 5
+chapter: 11
+lesson: 5
+duration_minutes: 40
+proficiency: "B1"
+concepts: 5
+
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
+skills:
+  - name: "Context Isolation Strategy"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Evaluate"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student applies task similarity scoring to decide session isolation vs combination"
+
+learning_objectives:
+  - objective: "Measure task similarity using domain, data model, and component overlap"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Similarity scoring calculation for task pairs"
+
+  - objective: "Design multi-session workflows to prevent cross-task contamination"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "Session isolation plan for parallel development tasks"
+
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (context pollution, task similarity, isolation strategy, session workflows, contamination prevention) within B1 limit of 7-10 ✓"
+
+differentiation:
+  extension_for_advanced: "Research context switching costs in cognitive science; analyze session management patterns in professional development; design automated similarity detection algorithms"
+  remedial_for_struggling: "Focus on simple binary decision: 'Are these tasks related to same feature?' If no → separate sessions, before learning scoring framework"
 ---
 
 # Context Isolation and Parallel Tasks

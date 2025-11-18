@@ -1,11 +1,16 @@
 ---
 title: "Question-Driven Development"
+description: "Transform AI from assumption maker to requirements analyst through strategic questioning"
+sidebar_label: "Question-Driven Development"
+sidebar_position: 5
 chapter: 10
 lesson: 5
-part: 3
 duration_minutes: 35
+proficiency: "B1"
+concepts: 6
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Question-Driven Development"
     proficiency_level: "B1"
@@ -23,6 +28,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 6
   assessment: "6 concepts (QDD, clarifying questions, specification gaps, assumption discovery, requirement elicitation, iterative refinement) at B1 threshold ✓"
+
+differentiation:
+  extension_for_advanced: "Research requirement elicitation techniques from software engineering; compare QDD to traditional requirements gathering; create question templates for different project types"
+  remedial_for_struggling: "Practice single-round QDD: Write underspecified prompt → Ask AI for clarifying questions → Answer questions → Compare initial vs refined output"
 ---
 
 # Question-Driven Development
