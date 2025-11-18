@@ -96,104 +96,108 @@ This is discovery-based learning: you'll encounter the problem before seeing the
 
 ## Part 1: Student Discovers Procedural Pain Points
 
-**Your Role**: Software architect discovering OOP necessity
+**Your Role**: Code explorer discovering why OOP exists through experimentation
 
-Before learning OOP concepts, you'll experience why they exist. Real developers don't memorize definitions—they discover problems that drive design decisions.
+### Discovery Exercise: The Banking System Problem
 
-### Discovery Exercise: Build a Bank System Without OOP
+**Scenario**: You're building a simple banking system. Start with procedural code and watch it break down as you scale.
 
-**Scenario**: You're building a banking application. You decide to use only functions and variables. Let's see what happens.
+**Stage 1: One Account - Seems Fine**
 
-**Stage 1: One Account Works Fine**
+Create `bank_procedural.py` and run this:
 
 ```python
 # Procedural approach: data and functions are separate
-balance_alice = 1000
-account_holder_alice = "Alice"
+balance_alice: float = 1000.0
+account_holder_alice: str = "Alice"
 
-def deposit_alice(amount):
+def deposit_alice(amount: float) -> None:
     global balance_alice
     balance_alice += amount
-    print(f"Deposited {amount}. New balance: {balance_alice}")
 
-def withdraw_alice(amount):
+def withdraw_alice(amount: float) -> bool:
     global balance_alice
     if amount <= balance_alice:
         balance_alice -= amount
-        print(f"Withdrew {amount}. New balance: {balance_alice}")
-    else:
-        print("Insufficient funds")
+        return True
+    return False
 
+# Works perfectly for one account
 deposit_alice(200)
-withdraw_alice(50)
+print(f"Alice's balance: {balance_alice}")  # 1200.0
 ```
 
-**Your task 1**: Run this code and verify it works. What do you notice?
-- How many variables per account?
-- How many functions per account?
-- How clearly does it show "this function works on this account"?
-- Document your observations in `procedural_analysis.md`
+#### 💬 AI CoLearning Prompt
 
-**Stage 2: Add a Second Account**
+After running this, ask your AI:
 
-Now the bank hires you and says: "We need two accounts: Alice and Bob."
+> "I have one bank account using global variables and functions. This works, but what will happen when I need 100 accounts? Show me the code explosion problem - how many variables and functions would I need?"
+
+**Expected Understanding**: AI will show you that 100 accounts = 200 variables + 200 functions. You'll SEE the duplication problem before coding it yourself.
+
+---
+
+**Stage 2: Add a Second Account - Problems Emerge**
+
+Now try adding Bob's account manually:
 
 ```python
-# Add Bob's account
-balance_alice = 1000
-account_holder_alice = "Alice"
-balance_bob = 5000        # ← New variable
-account_holder_bob = "Bob"  # ← New variable
+# Now we need Bob's account too
+balance_bob: float = 5000.0
+account_holder_bob: str = "Bob"
 
-def deposit_alice(amount):
-    global balance_alice
-    balance_alice += amount
-
-def withdraw_alice(amount):
-    global balance_alice
-    if amount <= balance_alice:
-        balance_alice -= amount
-    else:
-        print("Insufficient funds")
-
-# Copy-paste ALL functions with new names for Bob
-def deposit_bob(amount):
+def deposit_bob(amount: float) -> None:  # Duplicate function!
     global balance_bob
     balance_bob += amount
 
-def withdraw_bob(amount):
+def withdraw_bob(amount: float) -> bool:  # Duplicate function!
     global balance_bob
     if amount <= balance_bob:
         balance_bob -= amount
-    else:
-        print("Insufficient funds")
-
-deposit_alice(200)
-deposit_bob(100)
-withdraw_alice(50)
+        return True
+    return False
 ```
 
-**Your task 2**: Add Bob and notice the problems:
-- How many duplicate function definitions?
-- If you find a bug in `withdraw_alice`, where else do you need to fix it?
-- What if you needed 100,000 accounts?
-- Document the scaling problem in your analysis file.
+#### 💬 AI CoLearning Prompt
 
-**Stage 3: Predict the Enterprise Problem**
+> "I just copy-pasted my deposit and withdraw functions for Bob. What's the maintenance problem here? If I find a bug in the withdrawal logic, how many places do I fix it? Show me how OOP would solve this with a single class definition."
 
-**Your task 3**: Before running code, answer these questions:
-- How many variables would you need for 100 accounts?
-- How many functions?
-- If you fix a bug in withdrawal logic, how many function definitions do you change?
-- How easy would it be to accidentally use wrong account's withdraw function?
+**Expected Understanding**: AI will explain that with N accounts, you need N copies of each function. Bug fixes multiply. Then AI will preview the OOP solution (1 class definition, N objects).
 
-### Your Discoveries
+---
 
-Write a summary called `procedural_problem_statement.md` with:
-1. The core problem: Why does procedural code with accounts become unmaintainable?
-2. The scaling problem: What happens at 100 accounts? 1 million?
-3. The bug-fix problem: Why is fixing one bug potentially risky across all account types?
-4. Your prediction: What programming feature would solve this problem?
+**Stage 3: The Scaling Question**
+
+Don't write more code. Instead, **ask AI to show you the scaling problem**:
+
+#### 💬 AI CoLearning Prompt
+
+> "Imagine I need 5 accounts (Alice, Bob, Carol, Dave, Eve) with procedural code:
+> 1. How many global variables do I need?
+> 2. How many function definitions?
+> 3. If I find a security bug in withdraw logic, how many places do I fix it?
+> 4. Show me what this code would look like - I want to SEE the duplication problem in full.
+>
+> Then show me the OOP version with a BankAccount class. How does OOP eliminate the duplication?"
+
+**Expected Understanding**: AI will generate code showing 10 variables, 10 functions, and the maintenance nightmare. Then show the OOP version: 1 class, 5 objects. You SEE the dramatic difference.
+
+---
+
+### Your Discovery Summary
+
+Instead of creating manual files, **use AI to synthesize** what you learned:
+
+#### 💬 AI CoLearning Prompt
+
+> "Based on my banking experiments, help me document these insights:
+> 1. What's the core problem with procedural code for multiple similar entities?
+> 2. Why does this problem get exponentially worse as the system scales?
+> 3. What's the OOP solution? (Hint: Define logic once, create many instances)
+>
+> Give me 3 concise bullet points I can reference throughout this chapter."
+
+**Deliverable**: Save AI's 3 bullet points in your notes. You've discovered the problem OOP solves—now you're ready to learn the solution.
 
 ---
 
