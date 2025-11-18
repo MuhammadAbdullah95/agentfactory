@@ -1,573 +1,395 @@
 ---
 title: Progressive Loading Strategy
 sidebar_position: 3
-chapter: 11
-lesson: 3
-learning_objectives:
-  - Apply three-phase progressive loading (Foundation → Current → On-Demand) to new codebase
-  - Collaborate with AI to discover optimal loading patterns for project-specific constraints
-  - Iterate with AI to refine loading strategies based on context budget and task requirements
-estimated_time: 60 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
 ---
 
 # Progressive Loading Strategy
 
-## The Problem You're About to Solve
+In Lessons 1-2, you learned to track context utilization manually and recognize degradation symptoms before they become severe. You practiced estimating tokens, identifying warning thresholds, and diagnosing issues from conversation transcripts.
 
-You're inheriting a large FastAPI project. It has 60 files. You need to add a new endpoint for user authentication. But loading all 60 files at once will fill your context window to 90%+ before you even start implementing.
+Now it's time to shift from reactive diagnosis to **proactive strategy**. Instead of waiting for degradation and then fixing it, you'll design loading strategies that prevent it in the first place.
 
-What do you load first?
+In this lesson, you'll work with AI to design a three-tier progressive loading framework that manages context allocation intelligently: **Foundation** (always loaded), **Current** (task-specific), and **On-Demand** (fetched as needed). Through collaborative iteration, you'll discover how to balance preloading efficiency with context waste, adapting strategies to your project's unique constraints.
 
-Lessons 1-2 taught you to recognize degradation when it arrives. This lesson teaches you to **prevent degradation before it starts** through strategic, progressive loading of context.
+## The Context Allocation Problem
 
-This lesson brings AI into the conversation. You'll discover that context loading isn't something AI does *to* you—it's something you **collaborate on together**. AI suggests patterns, you correct assumptions based on your project's reality, and together you converge on a loading strategy that fits your specific codebase.
+Imagine starting a documentation project with 50 files. Your instinct might be: "Load everything so AI has full context." But loading all 50 files immediately creates problems:
 
-## The Three Phases of Progressive Loading
+1. **Context saturation**: You've used 60% of context before even starting work
+2. **Wasted capacity**: Only 10 files are relevant to today's task
+3. **On-demand handicap**: When you need a reference file mid-session, there's no room to load it
 
-Before diving into a real example, meet the three phases. Each answers a different question:
+**The alternative**: Load selectively. But how do you decide what to load when?
 
-### Phase 1: Foundation (Session Start)
+This is where **progressive loading strategy** becomes essential.
 
-**Question**: What's the minimum context needed to understand the project structure and start work?
+## The Three-Tier Loading Model
 
-**Answer**: Load approximately 5-10 files covering:
-- Project structure and README
-- Core configuration files (requirements.txt, settings, environment templates)
-- Data models (schema definitions, core entity definitions)
-- API entry points (main application file, router setup)
+Progressive loading divides your context into three tiers, each serving a different purpose:
 
-**Why this matters**: Foundation context gives AI a mental model of your codebase without overwhelming context. AI understands "this is a FastAPI app, uses PostgreSQL, has these core entities."
+### Tier 1: Foundation (Always Loaded)
 
-**Size**: Typically 3,000-5,000 tokens. At 200K context window, this is 1.5-2.5% of your budget.
+**Purpose**: Core patterns that apply to **all** tasks in this project.
 
-### Phase 2: Current Work (Task-Specific)
+**What belongs here**:
+- Project conventions (CLAUDE.md)
+- System architecture (architecture.md)
+- Key decisions (decisions.md)
+- Critical reference files that guide every task
 
-**Question**: What files are directly related to the feature I'm implementing RIGHT NOW?
+**Size target**: 10-15% of context window (~20-30K tokens for Claude Sonnet)
 
-**Answer**: Load only files you're actively modifying or that your feature depends on directly. For an authentication endpoint, that might be:
-- Authentication models (user schema, auth flow definitions)
-- Authentication routes (where your new endpoint goes)
-- Authentication utilities (token generation, hashing functions)
-- Database session/connection utilities
-- Tests for authentication (to understand testing patterns)
+**Why this matters**: Foundation provides consistent context across sessions. Without it, AI starts every session from zero, requiring you to re-establish patterns repeatedly.
 
-**Why this matters**: Current work phase keeps focus sharp. AI knows "we're building authentication, these are the relevant files" without loading unrelated payment processing or reporting modules.
+**Example Foundation for documentation project**:
+```markdown
+Foundation Files (Always Load):
+- CLAUDE.md: Markdown conventions, heading levels, link structure
+- chapter-index.md: Overall book structure, cross-references
+- style-guide.md: Writing patterns, terminology standards
 
-**Size**: Typically 4,000-8,000 tokens. Total after Phase 1+2 is ~7,000-13,000 tokens (3.5-6.5% of 200K window).
+Estimated tokens: ~25K (12.5% of 200K context)
+```
 
-### Phase 3: On-Demand (Just-In-Time)
+### Tier 2: Current (Task-Specific)
 
-**Question**: What does AI need WHILE IMPLEMENTING that we didn't anticipate?
+**Purpose**: Files relevant to **today's specific task**.
 
-**Answer**: During implementation, AI might say: "I need to see how database sessions are initialized" or "What's the email notification system look like?" You fetch just that file in response to AI's request.
+**What belongs here**:
+- Files you're actively editing
+- Related documentation that informs this work
+- Dependencies that this task touches
 
-**Why this matters**: On-demand loading lets you add context only when necessary, keeping window utilization low throughout the session.
+**Size target**: 20-30% of context window (~40-60K tokens)
 
-**Size**: Variable, typically 1,000-3,000 tokens per request, added as needed.
+**Why this matters**: Current tier provides focused context for the work at hand without overwhelming the session with everything that *might* be relevant.
 
-## Exercise 1: Discover Progressive Loading Through Practice
+**Example Current for specific task**:
+```markdown
+Task: Write user guide for Chapter 9 (Markdown syntax)
 
-Before I explain the framework, let's experience why it matters.
+Current Files (Task-Specific):
+- chapter-09-outline.md: Structure for this chapter
+- markdown-syntax-reference.md: Technical details
+- previous-chapter-examples.md: Patterns to follow
 
-**Scenario**: You have a real FastAPI project with 60 files. You're going to implement an authentication endpoint. Below is what FULL loading would look like, and what PROGRESSIVE loading would look like.
+Estimated tokens: ~50K (25% of 200K context)
 
-**Option A: Load Everything (Naive Approach)**
+Total so far: Foundation (25K) + Current (50K) = 75K (37.5%)
+```
+
+### Tier 3: On-Demand (Fetch As Needed)
+
+**Purpose**: Reference files loaded only when AI explicitly requests them.
+
+**What belongs here**:
+- Examples from other chapters (fetch if AI asks "Can I see example X?")
+- Technical specifications (load when needed for validation)
+- Archive files (older decisions, legacy patterns)
+
+**Size reserved**: 30% of context window (~60K tokens)
+
+**Why this matters**: On-demand reserve prevents preloading waste. You've protected capacity for mid-session needs without committing it upfront.
+
+**Example On-Demand strategy**:
+```markdown
+On-Demand Reference Library:
+- Other chapter files (50+ files available)
+- Historical examples
+- Extended specifications
+
+Reserve: 60K tokens (30% of context)
+
+When to fetch:
+- AI asks: "Can I see how Chapter 3 handled this?"
+- You realize: "This needs validation against spec"
+- Mid-session: "We need an example from earlier work"
+
+Total capacity plan:
+- Foundation: 25K (12.5%)
+- Current: 50K (25%)
+- Conversation: ~45K (22.5%)
+- On-Demand reserve: 60K (30%)
+- Safety buffer: 20K (10%)
+= 200K total
+```
+
+## Collaborative Loading Strategy Design
+
+You're working on a documentation project with this structure:
+
+```
+docs/
+├── CLAUDE.md (project patterns)
+├── chapter-index.md (book structure)
+├── style-guide.md (writing standards)
+├── 01-introduction/
+│   ├── outline.md
+│   ├── lesson-1.md
+│   └── lesson-2.md
+├── 02-fundamentals/
+│   ├── outline.md
+│   ├── lesson-1.md
+│   └── lesson-2.md
+└── ... (20 more chapters with similar structure)
+```
+
+Your current task: Write `02-fundamentals/lesson-1.md`.
+
+### Exploring Loading Options
+
+You start a new Claude Code session:
+
+**Your request:**
+"I'm working on a documentation project with 50+ markdown files. Today I'm writing lesson 1 for the Fundamentals chapter. What files should I load to give you the right context without wasting tokens?"
+
+**AI's recommendation:**
+"For efficient context management, I'd suggest a three-tier approach:
+
+**Foundation (always load)**: CLAUDE.md, chapter-index.md, style-guide.md — these establish project-wide patterns
+
+**Current (today's task)**: 02-fundamentals/outline.md, any completed lessons in chapter 02 for consistency
+
+**On-Demand (fetch if needed)**: Examples from other chapters, only when we need specific reference patterns
+
+This keeps your initial load around 30-40K tokens (15-20% utilization), leaving plenty of room for our conversation and any additional files we discover we need."
+
+### Discovering Project Constraints
+
+**Your response:**
+"That makes sense as a general approach, but our style-guide.md changes frequently as we refine standards. Should it still be Foundation, or would that risk loading stale versions?"
+
+**AI's adaptation:**
+"Good point. For frequently-changing files, Foundation isn't ideal—you'd load outdated patterns. Let's adjust:
+
+**Foundation (stable)**: CLAUDE.md (core patterns rarely change), chapter-index.md (structure is stable)
+
+**Current (include fresh version)**: style-guide.md (fetch latest each session), 02-fundamentals/outline.md, completed lesson files
+
+This way, style-guide.md is always current, and your Foundation stays small (~15K tokens instead of 25K)."
+
+### Refining Through Iteration
+
+**Your clarification:**
+"Actually, for this project, chapter-index.md is critical for understanding cross-references between chapters. It's large (~10K tokens), but without it, you might suggest links that don't align with our structure. I'm willing to spend 10K of my Foundation budget there."
+
+**AI's final recommendation:**
+"Understood. Your Foundation allocation reflects what's most valuable for **your** project:
+
+**Foundation (project-critical)**:
+- CLAUDE.md: ~8K tokens (core conventions)
+- chapter-index.md: ~10K tokens (cross-reference structure — critical despite size)
+Total Foundation: ~18K tokens (~9%)
+
+**Current (task-specific)**:
+- style-guide.md: ~7K tokens (fresh version each session)
+- 02-fundamentals/outline.md: ~5K tokens
+- 01-introduction/lesson-2.md: ~6K tokens (previous lesson for consistency check)
+Total Current: ~18K tokens (~9%)
+
+**Conversation space**: ~80K tokens available (40%)
+**On-Demand reserve**: ~60K tokens (30%)
+**Safety buffer**: ~24K tokens (12%)
+
+This loading strategy prioritizes what you identified as critical (chapter-index.md for cross-references) while staying well under 70% utilization."
+
+### What Emerged from Collaboration
+
+Through three rounds of iteration, you arrived at a loading strategy that:
+- Started with AI's general recommendation (Foundation/Current/On-Demand)
+- Incorporated your domain knowledge (style-guide.md changes frequently)
+- Refined based on project priorities (chapter-index.md is critical despite size)
+
+The final strategy balances efficiency (minimal Foundation) with effectiveness (critical reference loaded).
+
+## Building Your Loading Strategy Template
+
+Now that you've seen the collaborative pattern, create a reusable template for your own projects:
+
+```markdown
+# Context Loading Strategy for [Project Name]
+
+## Foundation (Always Loaded)
+**Purpose**: Patterns that apply to ALL tasks
+
+1. [File 1] — [Why this is foundation] — Est: [X] tokens
+2. [File 2] — [Why this is foundation] — Est: [Y] tokens
+
+Total Foundation: ~[Z] tokens (~[%] of 200K context)
+
+**Foundation Decision Criteria**:
+- Does this apply to every task? (If no → Move to Current or On-Demand)
+- Does this change frequently? (If yes → Consider Current instead)
+- Is this file large? (If >15K tokens, justify the foundation spend)
+
+## Current (Task-Specific)
+**Purpose**: Files for TODAY'S task only
+
+For task: [Describe today's work]
+
+1. [File A] — [Why needed for this task] — Est: [X] tokens
+2. [File B] — [Why needed for this task] — Est: [Y] tokens
+
+Total Current: ~[Z] tokens (~[%] of 200K context)
+
+**Current Decision Criteria**:
+- Is this file directly related to today's task?
+- Will I actively reference or edit this today?
+- Can I defer loading until I explicitly need it? (If yes → On-Demand)
+
+## On-Demand (Reference Library)
+**Purpose**: Available but not preloaded
+
+Reference Categories:
+- [Category 1]: [What's available] — Fetch when: [condition]
+- [Category 2]: [What's available] — Fetch when: [condition]
+
+Reserved capacity: ~[X] tokens (~30% of context)
+
+**On-Demand Decision Criteria**:
+- Is this "might need" rather than "definitely need"? (On-Demand)
+- Can AI request this mid-session? (On-Demand)
+- Is this a backup reference? (On-Demand)
+
+## Context Budget Summary
+- Foundation: [X]K tokens ([%])
+- Current: [Y]K tokens ([%])
+- Conversation estimate: [Z]K tokens ([%])
+- On-Demand reserve: [A]K tokens ([%])
+- Safety buffer: [B]K tokens ([%])
+= 200K total
+
+**Validation**: Total preload (Foundation + Current) should be < 70K tokens (35%)
+```
+
+## Practice Exercises
+
+### Exercise 1: Classify Files into Tiers
+
+You're working on a web development project with these files:
 
 ```
 project/
-├── main.py
-├── config.py
-├── requirements.txt
-├── models/
-│   ├── __init__.py
-│   ├── user.py
-│   ├── product.py
-│   ├── order.py
-│   ├── payment.py
-│   ├── review.py
-│   └── inventory.py
-├── routes/
-│   ├── __init__.py
-│   ├── auth.py
-│   ├── users.py
-│   ├── products.py
-│   ├── orders.py
-│   ├── payments.py
-│   ├── reviews.py
-│   └── inventory.py
-├── schemas/
-│   ├── user.py
-│   ├── product.py
-│   ├── order.py
-│   └── payment.py
-├── services/
-│   ├── auth_service.py
-│   ├── user_service.py
-│   ├── product_service.py
-│   ├── order_service.py
-│   ├── payment_service.py
-│   └── notification_service.py
-├── utils/
-│   ├── database.py
-│   ├── security.py
-│   ├── email.py
-│   ├── logging.py
-│   └── validators.py
-├── middleware/
-│   ├── auth.py
-│   ├── logging.py
-│   ├── cors.py
-│   └── error_handling.py
+├── README.md (project overview, 3K tokens)
+├── architecture.md (system design, 8K tokens)
+├── CLAUDE.md (coding conventions, 5K tokens)
+├── api/
+│   ├── auth.py (authentication routes, 12K tokens)
+│   ├── users.py (user management, 10K tokens)
+│   └── products.py (product catalog, 15K tokens)
 ├── tests/
-│   ├── test_auth.py
-│   ├── test_users.py
-│   ├── test_products.py
-│   ├── test_orders.py
-│   └── test_payments.py
-└── migrations/
-    └── versions/
-        ├── 001_create_users_table.py
-        ├── 002_add_auth_fields.py
-        ├── 003_create_products_table.py
-        └── 004_create_orders_table.py
+│   ├── test_auth.py (8K tokens)
+│   └── test_users.py (7K tokens)
+└── docs/
+    ├── api-reference.md (20K tokens)
+    └── deployment-guide.md (12K tokens)
 ```
 
-**Loading all 60 files at start**: ~50,000 tokens. You're at 25% context utilization before writing a single line of code. You have 75% remaining budget for conversation, code generation, and responses. This works—but it's wasteful.
+**Today's task**: Add password reset functionality to `api/auth.py`.
 
-**Option B: Progressive Loading**
+**Your assignment**:
+1. Classify each file into Foundation, Current, or On-Demand
+2. Calculate total Foundation + Current token usage
+3. Justify your Foundation choices (why always-loaded?)
+4. Identify which On-Demand files you might fetch mid-session
 
-**Phase 1 (Foundation)**: Load 5 files:
-- main.py (500 tokens)
-- config.py (200 tokens)
-- models/user.py (400 tokens)
-- routes/auth.py (300 tokens)
-- utils/security.py (400 tokens)
+### Exercise 2: Optimize an Overloaded Strategy
 
-**Total Phase 1**: ~1,800 tokens (0.9% of window)
-
-**You tell AI**: "I'm implementing OAuth2 support in the authentication system."
-
-**Phase 2 (Current Work)**: Based on your task, load additional files:
-- schemas/user.py (300 tokens)
-- services/auth_service.py (600 tokens)
-- tests/test_auth.py (400 tokens)
-- utils/email.py (300 tokens)
-
-**Total Phase 1+2**: ~3,400 tokens (1.7% of window)
-
-**You have 98.3% context window remaining** while AI fully understands the project and your current task.
-
-**During implementation**:
-- AI: "I need to see how the database session is created."
-- You: Load utils/database.py (300 tokens)
-- Total after Phase 3: ~3,700 tokens (1.85% of window)
-
-This is the efficiency of progressive loading.
-
-## Collaborative Loading Strategy in Action
-
-AI isn't a passive tool that loads files on command. You collaborate on loading strategy through back-and-forth dialogue.
-
-Watch this happen in a real conversation.
-
-## Session Transcript: Discovering the Optimal Loading Pattern
-
-This is a complete session showing how collaborative refinement works.
-
-### Suggesting a Loading Pattern
-
-You start the session and describe your task:
+A colleague shows you their loading strategy:
 
 ```
-You: I have a FastAPI project with 60 files. I need to add OAuth2
-authentication. I've loaded main.py and models/user.py so far.
-What should I load next to set up OAuth2 effectively?
+Foundation (Always):
+- CLAUDE.md: 5K tokens
+- architecture.md: 8K tokens
+- README.md: 3K tokens
+- api-reference.md: 20K tokens
+- deployment-guide.md: 12K tokens
+- All test files: 15K tokens combined
 
----
+Total Foundation: 63K tokens (31.5% of context)
 
-Claude: Good starting point. For OAuth2 implementation, I recommend
-loading context in this pattern:
+Current (Task-specific):
+- auth.py: 12K tokens
+- users.py: 10K tokens
 
-FOUNDATION PHASE (what you've started):
-- ✅ main.py (project structure)
-- ✅ models/user.py (user entity definition)
+Total Current: 22K tokens
 
-CURRENT WORK PHASE (add these next):
-- config.py (OAuth2 settings, provider keys)
-- routes/auth.py (where OAuth2 routes will live)
-- services/auth_service.py (authentication logic)
-- utils/security.py (token generation, validation)
-- tests/test_auth.py (understand existing auth tests)
-
-Why this order? OAuth2 has dependencies:
-1. Main.py tells me how the app is structured
-2. User.py defines the user entity
-3. Config.py has OAuth2 provider credentials and settings
-4. Routes/auth.py is where the new endpoint lives
-5. Services/auth_service.py contains the business logic you'll expand
-6. Utils/security.py might already have token utilities you can reuse
-7. Tests show you the testing patterns for auth endpoints
-
-This approach keeps your context focused on OAuth2 concern while
-preventing surprises from hidden dependencies.
-
-What's in config.py? Does it already have OAuth2 settings?
+TOTAL PRELOAD: 85K tokens (42.5%)
 ```
 
-**What emerged**: A structured approach to file loading based on dependency analysis—structure first, then entities, configuration, routes, business logic, utilities, and finally tests. This specific order prevents "hidden dependency" surprises.
-
-The AI suggested a pattern you might not have discovered independently through trial and error.
-
----
-
-### Refining Based on Project Reality
-
-Now you describe your project's reality:
-
-```
-You: Good suggestion. But our config.py is actually generated from
-environment variables—we don't hardcode OAuth2 settings there. Instead,
-we have a separate services/oauth_providers.py file that handles all
-provider configuration (Google, GitHub, Microsoft). Should I load that
-instead of config.py?
-
----
-
-Claude: Ah, that's important context I didn't know. You've designed
-config for environment-driven setup, which is good security practice.
-Let me revise:
-
-REVISED CURRENT WORK PHASE:
-- services/oauth_providers.py (provider configuration) ← Load THIS instead of config.py
-- routes/auth.py
-- services/auth_service.py
-- utils/security.py
-- tests/test_auth.py
-
-Your approach is actually better than what I suggested. Loading
-oauth_providers.py directly shows me provider handling patterns without
-me guessing at config.py structure.
-
-QUESTION: Do you have a models/oauth_session.py or similar for storing
-OAuth tokens? Or does that logic live in auth_service.py?
-```
-
-**What happened**: Your project-specific feedback refined the recommendation. You corrected the initial assumption about config.py structure, explaining that OAuth provider configuration lives in a separate service file. What started as a generic suggestion became tailored to your architecture.
-
----
-
-### Iterative Refinement: Balancing Context Budget
-
-```
-You: We store OAuth tokens in models/oauth_token.py. But I'm worried—
-loading all these files will blow up my context window. We're already at
-maybe 5,000 tokens. If I add 7 more files, I'll hit 15,000 tokens just
-for setup. That's 7.5% of my budget. It feels like too much upfront.
-
----
-
-Claude: You're right to be cautious. Let me reconsider. The risk:
-loading too much upfront leaves you limited budget for actual
-implementation and responses.
-
-What if we do a TWO-TIER approach:
-
-TIER 1 (LOAD NOW - absolute minimum to understand OAuth2 scope):
-- services/oauth_providers.py
-- routes/auth.py
-- models/oauth_token.py
-- utils/security.py
-Total: ~2,500 tokens
-
-TIER 2 (LOAD LATER - when you need them):
-- services/auth_service.py (load when implementing provider callback)
-- tests/test_auth.py (load when writing tests)
-- models/user.py (you already have this)
-
-This keeps Phase 2 to ~2,500 tokens, leaving 96.75% context window
-for actual coding and problem-solving. We load Tier 2 files ONLY when
-implementation tells us we need them.
-
-Does this feel more balanced?
-```
-
-**What happened**: You raised a constraint (context budget concern). The AI revised the strategy to address your specific limitation. Neither of you had this exact two-tier approach initially—it **emerged from the dialogue**.
-
-The collaboration produced a solution that balanced completeness with efficiency.
-
----
-
-### Further Iteration: Dependency Discovery
-
-```
-You: I like the two-tier idea. But actually, looking at my routes/auth.py,
-the callback handler calls services/auth_service.py directly. So auth_service
-is TIER 1, not TIER 2. And I realize tests/test_auth.py imports oauth_providers,
-so there's a dependency. If I don't load the test file, I might not understand
-the OAuth2 flow that the tests expect.
-
-You know what, let me just load the whole thing upfront:
-- services/oauth_providers.py
-- routes/auth.py
-- models/oauth_token.py
-- utils/security.py
-- services/auth_service.py
-- tests/test_auth.py
-
-Is there anything else critical I'm missing?
-
----
-
-Claude: Good catch on those dependencies. You know your codebase better
-than I do. Let me verify: does anything ELSE depend on these files?
-
-What about:
-- models/user.py (already loaded, good)
-- middleware/auth.py (OAuth2 middleware? or is that separate?)
-- services/notification_service.py (does OAuth callback trigger emails?)
-
-I want to make sure we're not missing transitive dependencies.
-
-If middleware/auth.py is different from routes/auth.py and handles
-JWT validation, we might need that too.
-
-You: Actually, middleware/auth.py does the JWT validation, but that's
-separate from OAuth setup. It's not on the critical path for building
-the OAuth endpoint. Skip it for now.
-
-Claude: Perfect. Your final list is complete then:
-- services/oauth_providers.py
-- routes/auth.py
-- models/oauth_token.py
-- utils/security.py
-- services/auth_service.py
-- tests/test_auth.py
-
-This is ~5,000 tokens total. You're at 2.5% context utilization with
-97.5% budget for implementation. Good place to start. When AI needs
-additional context during coding, we load it on-demand.
-
-What's the first thing you want to implement?
-```
-
-**What happened**: Through continued back-and-forth, you discovered additional dependencies (auth_service.py called from routes, tests importing oauth_providers). The AI asked clarifying questions about middleware and notifications. Together, you eliminated unnecessary files. The loading strategy became sharp and specific to YOUR project, not generic.
-
-Neither of you had this final strategy at the beginning. It **emerged from iterative dialogue**.
-
----
-
-## Formalizing the Pattern: Foundation → Current → On-Demand
-
-The session above happened naturally. Now let's formalize what we observed into a decision framework you can apply to any project.
-
-### Foundation Phase Decision Criteria
-
-**Load these files at session start:**
-
-1. **Project structure/README** (understanding the domain)
-   - Example: README.md, architecture.md, or project-overview.md
-   - Size: 500-1000 tokens
-
-2. **Main application entry point** (how the app starts)
-   - Example: FastAPI → main.py or app.py
-   - Example: Django → manage.py or wsgi.py
-   - Size: 300-800 tokens
-
-3. **Core configuration** (non-secret settings)
-   - Example: database URL pattern, logging config, feature flags
-   - Size: 200-400 tokens
-
-4. **Primary data models** (core entities)
-   - Example: User, Product, Order—NOT every model
-   - Size: 400-1000 tokens
-
-5. **API structure** (how routes are organized)
-   - Example: FastAPI → router setup or endpoint organization
-   - Size: 200-400 tokens
-
-**Total Foundation Phase**: 1,600-3,600 tokens (0.8-1.8% of 200K window)
-
-**Decision rule**: If a file is essential for understanding "what is this project and how does it work?", load it in Foundation.
-
-### Current Work Phase Decision Criteria
-
-**Load these files when starting on a specific feature:**
-
-1. **Routes for your feature** (where you're implementing)
-   - Example: For auth feature → routes/auth.py
-   - Size: 300-1000 tokens
-
-2. **Data models for your feature** (entities you'll work with)
-   - Example: For auth → models/user.py, models/oauth_token.py
-   - Size: 300-800 tokens
-
-3. **Business logic services** (the core implementation)
-   - Example: For auth → services/auth_service.py, services/oauth_providers.py
-   - Size: 400-1200 tokens
-
-4. **Utilities your feature uses** (helpers, security, validation)
-   - Example: For auth → utils/security.py, utils/email.py
-   - Size: 300-800 tokens
-
-5. **Tests for your feature** (understand testing patterns)
-   - Example: For auth → tests/test_auth.py
-   - Size: 300-600 tokens
-
-**Total Current Work Phase**: 1,600-4,400 tokens
-**Total After Phase 1+2**: 3,200-8,000 tokens (1.6-4% of 200K window)
-
-**Decision rule**: If a file is directly related to the feature you're implementing RIGHT NOW, load it in Current Work. If it's "might be useful eventually," defer to On-Demand.
-
-### On-Demand Phase Decision Criteria
-
-**Load these files WHEN AI ASKS for them during implementation:**
-
-**Examples of AI requests that trigger On-Demand loading:**
-
-- "I need to see how you're querying the database. Load utils/database.py."
-- "What's your email notification system? Load services/notification_service.py."
-- "Show me an example of a similar route for pattern reference. Load routes/users.py."
-- "I need to understand your database schema. Load migrations/versions/..."
-
-**Size per request**: 300-1500 tokens, added as needed
-
-**Decision rule**: Load it when AI says "I need to see X" OR when you realize "AI should know how X works to implement Y correctly."
-
-## Exercise 2: Applying Progressive Loading to a Real Scenario
-
-You have a real FastAPI project with these files. Your task: Add a payment webhook handler. Decide which files to load in each phase.
-
-**Files in the project**:
-- main.py (200 lines)
-- config.py (150 lines)
-- models/payment.py, models/user.py, models/order.py
-- routes/payments.py, routes/users.py, routes/orders.py
-- services/payment_service.py, services/order_service.py, services/user_service.py
-- utils/security.py, utils/database.py, utils/email.py
-- middleware/logging.py, middleware/auth.py
-- tests/test_payments.py, tests/test_webhooks.py
-- migrations/versions/... (5 migration files)
-
-**Your task**: Add a webhook handler in routes/payments.py that receives Stripe webhook events and updates payment status.
-
-<details>
-<summary>Show my suggested loading strategy</summary>
-
-**Foundation Phase** (what the project IS):
-- main.py (how app is structured)
-- models/payment.py (what a payment looks like)
-
-**Current Work Phase** (what you're building):
-- routes/payments.py (where webhook handler goes)
-- services/payment_service.py (payment business logic)
-- utils/security.py (webhook signature verification)
-- tests/test_webhooks.py (understand webhook testing patterns)
-
-**Total Phase 1+2**: ~3,500 tokens
-
-**NOT loading**:
-- models/user.py, models/order.py (not directly needed for webhook)
-- routes/users.py, routes/orders.py (not directly needed)
-- services/user_service.py, services/order_service.py (not directly needed)
-- middleware files (webhook doesn't go through middleware)
-- migrations (nice to know, but not needed to implement webhook)
-
-**On-Demand** (ask for when needed):
-- utils/database.py (if payment_service doesn't show how to query DB)
-- utils/email.py (if need to send notifications on payment updates)
-- config.py (if webhook signature secret is in config)
-
-</details>
-
-## How the Collaboration Works
-
-The OAuth2 session above demonstrates several key interaction patterns:
-- AI suggests an initial approach based on common practices
-- You provide project-specific context that refines the suggestion
-- You raise constraints (like context budget concerns)
-- AI asks clarifying questions about dependencies
-- Together you iterate toward a solution tailored to your codebase
-
-This happens when you **ask good questions**, **share domain knowledge**, and **iterate together**.
-
-### Making Collaboration Effective
-
-**Get initial suggestions**: Ask "What's the recommended pattern here?" to get AI's baseline recommendation.
-
-**Provide project context**: Share specifics: "Actually, our setup is different..." so AI can adapt.
-
-**Raise concerns**: Voice constraints ("context budget!"), ask clarifying questions ("what about transitive dependencies?"), iterate on solutions.
-
-## Common Mistakes in Progressive Loading
-
-### Mistake 1: Loading Too Much Upfront
-
-**Wrong**:
-```
-"I'll load everything so I don't have to ask later"
-```
-
-**Why it fails**: You waste 20-30% of context window on files you won't need. Later, when degradation appears, you're at 85%+ utilization with no room to load additional context.
-
-**Right**:
-```
-Load 2-5 files for foundation, 5-8 for current work, add on-demand.
-Total Phase 1+2: 2-5% of window. 95% remaining for implementation.
-```
-
-### Mistake 2: Loading Too Little, Forcing Constant On-Demand Requests
-
-**Wrong**:
-```
-"I'll load just main.py and one model. I'll ask for everything else."
-```
-
-**Why it fails**: You spend half the session saying "load X, load Y, load Z." Context window fragments. AI loses focus jumping between files.
-
-**Right**:
-```
-Think ahead: "For auth feature, I'll need these 6 files for comprehensive understanding."
-Load once. Work for 30+ minutes without interruption.
-```
-
-### Mistake 3: Not Communicating Context Constraints to AI
-
-**Wrong**:
-```
-You: "Load all the files you think are relevant for authentication."
-Claude: [Loads 30 files, uses 60% of context window upfront]
-```
-
-**Why it fails**: AI doesn't know your context budget. It optimizes for "completeness" not "efficiency."
-
-**Right**:
-```
-You: "I have a 200K context window. I want to stay under 5%
-utilization for foundation + current work. What files are
-essential for OAuth2?"
-Claude: [Suggests focused file list that fits your constraint]
-```
+**Problems**:
+- Foundation is too large (should be 10-15%, currently 31.5%)
+- Some files in Foundation aren't needed for every task
+
+**Your assignment**:
+1. Identify which Foundation files should move to Current or On-Demand
+2. Redesign the loading strategy to reduce Foundation to 15-20K tokens
+3. Explain your reasoning for each reclassification
+
+### Exercise 3: Design for Multi-Task Session
+
+You're planning a session with THREE tasks:
+
+**Task A**: Fix bug in authentication (needs: auth.py, test_auth.py)
+**Task B**: Update API documentation (needs: api-reference.md, auth.py, users.py)
+**Task C**: Write deployment instructions (needs: deployment-guide.md, architecture.md)
+
+**Your assignment**:
+1. Can you use the same Foundation/Current split for all three tasks?
+2. If not, should you:
+   - Create three separate sessions (isolated tasks)?
+   - Restart session with new Current files between tasks?
+   - Load everything upfront (risking high utilization)?
+3. Design the optimal strategy with justification
 
 ## Try With AI
 
-Ready to design and implement progressive loading for efficient context management?
+Now practice designing progressive loading strategies collaboratively with Claude Code.
 
-**🔍 Explore Phase Boundaries:**
-> "Explain the three phases of progressive loading (Foundation, Current, On-Demand) with examples. For a FastAPI project with authentication, payments, and notifications: which files go in each phase? Why is Foundation kept to 10-15% utilization?"
+### Setup
+Open Claude Code. Have your project structure ready (list of files with estimated sizes).
 
-**🎯 Practice Progressive Loading Design:**
-> "I have a [describe size] codebase with [X] modules. Help me design a progressive loading strategy for implementing [specific feature]. Ask me about my project structure, identify Foundation files (always needed), Current files (for this feature), and On-Demand files (fetch if needed). Target: under 50% utilization after Foundation + Current."
+### Prompt Set
 
-**🧪 Test Loading Efficiency:**
-> "Compare two approaches: (1) Loading all 50 files upfront (80% utilization immediately), (2) Progressive loading with 10 foundation + 15 current + on-demand fetching. For a 2-hour session implementing 3 features, which approach avoids degradation? Walk through token budget at each stage."
+**Prompt 1 — Initial Strategy Design:**
+```
+I'm working on a [project type] with [N] files. Here's my project structure:
+[List key files and sizes]
 
-**🚀 Apply to Real Development Session:**
-> "Guide me through progressive loading for [your actual project and task]. Start by identifying my Foundation phase files, then Current phase for this specific task. Create a loading checklist: load Foundation first, verify utilization, then load Current, reserve 30% for on-demand. Monitor for degradation symptoms."
+Today's task: [Describe specific work]
 
----
+Help me design a Foundation/Current/On-Demand loading strategy. Which files should always be loaded (Foundation), which are specific to today's task (Current), and which should wait for explicit need (On-Demand)?
+```
+
+**Prompt 2 — Constraint Teaching:**
+```
+Your Foundation suggestion included [File X], but that file changes frequently in our workflow. For files that update often, should they be in Foundation or Current? How does that affect the strategy?
+```
+
+**Prompt 3 — Priority Clarification:**
+```
+Actually, [File Y] is critical for understanding our project's cross-references, even though it's large (~[Z] tokens). I'm willing to include it in Foundation despite the size. How should we adjust the budget to accommodate this?
+```
+
+**Prompt 4 — Strategy Validation:**
+```
+Here's my final loading strategy:
+[Paste your Foundation/Current/On-Demand plan with token estimates]
+
+Validate this:
+- Is my Foundation too large? (Should be <20K tokens)
+- Is my Current allocation reasonable for the task?
+- Have I reserved enough On-Demand capacity? (30% minimum)
+- What's my total preload percentage? (Should be <35%)
+```
+
+### Expected Outcomes
+
+Through collaborative iteration, you should:
+- Design a loading strategy tailored to your project's constraints
+- Understand **why** certain files belong in each tier
+- Discover tradeoffs you hadn't considered (frequently-changing Foundation files, oversized critical files)
+- Arrive at a strategy that balances efficiency with effectiveness
+
+**Safety Note**: Trust your domain knowledge. If AI suggests moving a critical file to On-Demand but you know you'll reference it constantly, override that suggestion. You understand your project better than AI's general recommendations.
 

@@ -1,717 +1,623 @@
 ---
 title: Degradation Symptoms and Manual Tracking
 sidebar_position: 2
-chapter: 11
-lesson: 2
-learning_objectives:
-  - Recognize 5+ degradation symptoms in failing AI sessions
-  - Manually track context utilization over session lifetime
-  - Articulate when compression vs isolation vs restart is needed based on symptoms
-estimated_time: 50 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
 ---
 
 # Degradation Symptoms and Manual Tracking
 
-## The Feeling When Context Window Fills
+In Lesson 1, you learned to track context utilization manually using session notes and token estimation. You identified warning thresholds (green, yellow, red zones) and practiced calculating utilization percentages.
 
-You're deep in a Claude Code session. You've been working for 90 minutes. The code is getting built. But something feels off.
+But knowing your context is at 80% doesn't tell you **whether it matters yet**. The real question is: **Has quality degraded?**
 
-The suggestions stop being specific to your project. The AI repeats advice from 30 minutes ago. You mention a design decision from early in the conversation, and the AI responds as if you never said it. Output starts coming slower. Generic suggestions replace the creative problem-solving you had earlier.
+In this lesson, you'll learn to recognize the seven distinct symptoms of context degradation, practice diagnosing them from conversation transcripts, and decide when to take action. You'll build pattern recognition through compare-and-contrast examples: healthy sessions vs degraded sessions side-by-side.
 
-You're not experiencing a different AI model. You're experiencing **context degradation**—the AI running out of working memory.
+## The Seven Degradation Symptoms
 
-Lesson 1 taught you to observe context window filling. This lesson teaches you to **name what you observe**, **track it systematically**, and **decide what to do about it**.
-
-## The Five Degradation Symptoms
-
-Context degradation doesn't announce itself with a red warning. It creeps in gradually through observable symptoms. Here are the five most common:
+Context degradation doesn't announce itself with error messages. It manifests through subtle changes in AI behavior that compound over time. Here are the seven symptoms you'll learn to recognize:
 
 ### Symptom 1: Repetitive Suggestions
 
-The AI suggests the same solution multiple times across the session.
+**Definition**: AI suggests the same solution multiple times without acknowledging it already explained it.
 
-**What it looks like:**
-
-```
-[00:15] You: I need to handle authentication. What's the recommended approach?
-
-Claude: I recommend JWT tokens with refresh token rotation. Here's the pattern:
-1. Generate access token (short-lived, 15 minutes)
-2. Generate refresh token (long-lived, 7 days)
-3. Client stores both, uses access token for requests
-4. When access token expires, client sends refresh token to get new access token
-5. If refresh token is compromised, require re-login
-```
-
-Later in same session...
+**Example** (from same session):
 
 ```
-[01:20] You: Now I need to handle token expiration. How should I approach this?
+[00:15] YOU: How should I structure error handling for API responses?
 
-Claude: Great question. For token expiration, I recommend JWT tokens with
-refresh token rotation. Here's the pattern:
-1. Generate access token (short-lived, 15 minutes)
-2. Generate refresh token (long-lived, 7 days)
-3. Client stores both, uses access token for requests...
-[EXACT SAME EXPLANATION, NEARLY WORD-FOR-WORD]
+AI: I recommend a consistent error response format:
+- "status": "error"
+- "message": User-friendly error description
+- "code": Machine-readable error code (ERR_VALIDATION, ERR_AUTH, etc.)
+- "details": Optional object with field-specific errors
+
+This makes error handling predictable for API consumers.
+
+[Later, 01:30]
+
+YOU: What about handling validation errors specifically?
+
+AI: For validation errors, I recommend a consistent response format:
+- "status": "error"
+- "message": User-friendly description
+- "code": Error code like ERR_VALIDATION
+- "details": Field-specific errors
+
+This pattern ensures API consumers can handle errors predictably.
 ```
 
-**Why it happens:** Context is filling up. The AI no longer "remembers" it already explained this—so conversation history is still there (technically), but the model isn't effectively referencing it. It falls back to generating a plausible-sounding answer, which happens to be what it said before.
+**What to notice**: The AI repeated nearly the same explanation word-for-word. It didn't reference the earlier discussion or build on it—just regenerated similar content.
 
-**How to recognize it:** You're thinking "didn't we already discuss this?" The explanation is correct but identical—same examples, same order of points, same phrasing.
+**Why it happens**: Context window saturation causes the model to lose track of what it already explained. It falls back to generating plausible answers that happen to duplicate earlier responses.
 
 ---
 
-### Symptom 2: Forgotten Context
+### Symptom 2: Forgotten Patterns
 
-The AI contradicts or ignores earlier decisions you made.
+**Definition**: AI ignores or contradicts project-specific decisions you established earlier in the session.
 
-**What it looks like:**
+**Example**:
 
 ```
-[00:30] You: Our database is PostgreSQL. I'm using SQLAlchemy with async
-support. We'll use alembic for migrations.
+[00:20] YOU: Our API uses camelCase for JSON keys. All responses should follow this convention.
 
-Claude: Good choices. PostgreSQL with SQLAlchemy is solid. Let me help
-you with the schema design...
+AI: Understood. I'll use camelCase consistently: userId, createdAt, errorMessage.
 
-[Later, 80 minutes in...]
+[Later, 02:00]
 
-[01:50] You: I need to add a new field to the users table. Should I use
-alembic or direct SQL?
+YOU: Create an error response for invalid email format.
 
-Claude: For schema changes, you have a few options. You could write raw SQL
-scripts to update the database. You could use SQLAlchemy's column
-add operations directly in Python. Or you could use raw SQL in a
-management script...
+AI: Here's the error response:
 
-[ALEMBIC—THE TOOL YOU SPECIFIED AT 00:30—IS COMPLETELY ABSENT]
+{
+  "error_message": "Invalid email format",
+  "field_name": "email",
+  "validation_failed": true
+}
 ```
 
-**Why it happens:** Conversation history exists (it's in tokens), but the model isn't effectively using it. New context is crowding out old context in the model's attention calculation. Earlier decisions get sidelined.
+**What to notice**: The AI used snake_case (error_message, field_name, validation_failed) despite agreeing to camelCase at 00:20.
 
-**How to recognize it:** You have to re-explain something you clearly stated. The AI's suggestion ignores decisions you made. You think "we already decided this"—and you did, but the AI doesn't remember.
+**Why it happens**: Earlier decisions get evicted from effective context as the window fills. The AI defaults to generic patterns rather than project-specific conventions.
 
 ---
 
 ### Symptom 3: Performance Degradation
 
-Responses get noticeably slower to generate.
+**Definition**: Responses take noticeably longer to generate and become shorter or less detailed.
 
-**What it looks like:**
+**Example**:
 
 ```
-[00:10] You: Write a login function.
-Claude: [Response arrives in 2 seconds. Thoughtful, project-specific code.]
+[00:10] YOU: Explain how JWT tokens work for authentication.
 
-[01:50] (same session, 80+ minutes later) You: Write a logout function.
-Claude: [Response takes 12 seconds. Noticeably slower.]
-[Generic code, less specific to project patterns]
+AI: [Responds in 2 seconds with 300-word explanation including:
+- Token structure (header, payload, signature)
+- How servers validate tokens without database lookup
+- Security considerations
+- Example use case]
+
+[Later, 02:30]
+
+YOU: Explain how refresh tokens work.
+
+AI: [Responds in 12 seconds with 100-word explanation:
+- Refresh tokens are long-lived
+- Used to get new access tokens
+- Stored securely]
 ```
 
-**Why it happens:** Transformer architecture (how LLMs work) requires computing attention over ALL previous tokens. As context grows, this becomes more expensive. The model slows down. Token generation rate drops.
+**What to notice**: Response latency tripled (2s → 12s) and output quality dropped (detailed → generic, 300 words → 100 words).
 
-**How to recognize it:** You notice response latency increasing. Messages that took 2-3 seconds now take 10+ seconds. It feels like the AI is "thinking harder."
+**Why it happens**: Computing attention over large context windows is expensive. As context grows, generation slows down and quality decreases.
 
 ---
 
-### Symptom 4: Contradictory Advice
+### Symptom 4: Generic Responses
 
-The AI suggests contradictory approaches in the same session.
+**Definition**: AI shifts from project-specific advice to generic best practices.
 
-**What it looks like:**
+**Example**:
 
 ```
-[00:45] You: Should we validate user input on the client or server?
+[00:30] YOU: How should I handle database connection pooling for our PostgreSQL setup with SQLAlchemy async?
 
-Claude: Always validate on the server. Client-side validation improves UX,
-but a malicious user can bypass it. Server validation is the security
-boundary. Always validate on the server first.
+AI: For your async SQLAlchemy setup with PostgreSQL, use asyncpg driver with connection pooling:
+- Set pool_size=10 for moderate traffic
+- Set max_overflow=5 for burst handling
+- Use pool_pre_ping=True to detect stale connections
+- Configure pool_recycle=3600 for long-running connections
 
-[Later, 75 minutes in...]
+This matches your async architecture from earlier.
 
-[01:55] You: One more question on validation—what's the best practice?
+[Later, 02:40]
 
-Claude: The most efficient approach is to validate on the client side
-and let client validation prevent unnecessary server requests. Here's
-why client validation is the best practice...
+YOU: How should I handle connection errors?
 
-[COMPLETELY REVERSED EARLIER POSITION. Client is NOT "best practice"
-for security. But context degradation made the AI forget its own
-earlier reasoning.]
+AI: For database connection errors, follow best practices:
+- Implement retry logic
+- Use exponential backoff
+- Log errors properly
+- Monitor connection health
+
+Choose an approach that fits your architecture.
 ```
 
-**Why it happens:** The model is operating with limited context understanding. It generates a plausible-sounding answer without checking what it said before. Contradictions reveal broken reasoning chains.
+**What to notice**: Early response referenced specific project details (async SQLAlchemy, PostgreSQL, asyncpg). Late response gave generic advice without project context.
 
-**How to recognize it:** You catch a direct contradiction. AI suggests opposite approaches at different points. You think "did the AI just reverse its advice?"—yes, it did, because context degradation broke its ability to maintain consistent reasoning.
+**Why it happens**: Project-specific context gets compressed or forgotten. AI falls back to generic knowledge.
 
 ---
 
-### Symptom 5: Context Reference Loss
+### Symptom 5: Lost Context References
 
-The AI can't find or reference information you provided earlier.
+**Definition**: AI can't retrieve information you provided earlier, even when explicitly asked.
 
-**What it looks like:**
+**Example**:
 
 ```
-[00:20] You: Here's our API response format:
-{
-  "status": "success",
-  "data": {...},
-  "errors": [...]
-}
+[00:25] YOU: Our database schema uses these tables: users, sessions, api_keys, audit_logs. The audit_logs table tracks all user actions.
 
-Claude: Clear format. I'll follow this pattern for all API responses.
+AI: Clear schema. I see audit_logs captures user activity. I'll reference this for logging recommendations.
 
-[Later, 80+ minutes in...]
+[Later, 02:15]
 
-[01:55] You: I need to create an error response for password validation failure.
+YOU: Where should I log user password changes?
 
-Claude: Here's how to return an error:
-return {"error": "Password validation failed"}
+AI: For password change logging, you could:
+- Create a new logging table
+- Use application logs
+- Store in users table with timestamp
 
-[COMPLETELY IGNORED THE RESPONSE FORMAT YOU ESTABLISHED. Should be:
-return {"status": "error", "data": null, "errors": ["Password validation failed"]}
-]
+What approach fits your database design?
 ```
 
-**Why it happens:** The information is technically in context (in earlier tokens), but the model isn't retrieving it effectively. It falls back to generic patterns.
+**What to notice**: You established audit_logs at 00:25. AI should have said "Log password changes to audit_logs table." Instead, it suggested creating a new table.
 
-**How to recognize it:** You have to re-explain project conventions. The AI's output doesn't follow patterns you established. You think "we agreed on this format"—and you did, but the AI can't retrieve it.
+**Why it happens**: Information technically exists in context, but the model isn't effectively retrieving it.
 
 ---
 
-## Exercise 1: Symptom Identification
+### Symptom 6: Contradictory Advice
 
-Read the 90-minute session transcript below. For each degradation symptom that appears, note:
-1. The symptom type (1-5 from above)
-2. When it appears (timestamp)
-3. What specifically triggered your recognition
+**Definition**: AI suggests opposite approaches at different points in the same session.
 
-**90-Minute Claude Code Session: Building Payment Processing**
+**Example**:
 
 ```
-[00:05] You: I'm building payment processing for an e-commerce platform.
-Stack: Python FastAPI backend, PostgreSQL database, Stripe API. Start by
-loading the project structure and models/payment.py.
+[00:50] YOU: Should we validate user input on client-side or server-side?
 
-Claude: Loaded. I see a Payment model with fields for amount, currency,
-user_id, created_at. Good start. To integrate Stripe, you'll need:
-1. Stripe API keys in environment variables
-2. Webhook handling for payment events
-3. Payment status tracking (pending → completed → failed)
-4. Error handling for declined cards and network failures
+AI: Always validate on the server. Client-side validation improves UX but can be bypassed. Server validation is the security boundary—never trust client input.
 
-What would you like to implement first?
+[Later, 02:20]
 
-[00:20] You: Let's start with the Stripe integration. Create routes/stripe.py
-with a create_payment endpoint.
+YOU: What's the best practice for validation?
 
-Claude: I'll create a POST /payments endpoint that:
-1. Takes amount and customer email from request
-2. Creates Stripe charge using stripe.Charge.create()
-3. Returns payment_id for tracking
-4. Stores payment record in database with status "pending"
-[Provides complete route code]
-
-Good practice: always validate amount > 0 and handle stripe.error.CardError
-for declined cards. The payment record status progresses: pending →
-completed (when webhook received) → settled (funds received).
-
-[00:35] You: Good. Now add webhook handling. When Stripe sends charge.completed
-events, we need to update payment status in database.
-
-Claude: Perfect. Create a POST /webhooks/stripe endpoint that:
-1. Verifies webhook signature (stripe.Webhook.construct_event)
-2. Checks event type (charge.completed, charge.failed)
-3. Updates Payment record status based on event
-4. Logs event for audit trail
-[Provides webhook code]
-
-This ensures your payment status stays in sync with Stripe's records.
-
-[00:50] You: Now I need to handle failures. When a customer's card is declined,
-we should retry once, then mark payment as failed.
-
-Claude: For retry logic, I recommend:
-1. First attempt: try stripe.Charge.create()
-2. If CardError caught: wait 5 seconds, retry once
-3. If second attempt fails: mark payment as failed in database
-4. Send email to customer explaining failure
-[Provides retry code with exponential backoff]
-
-Save all payment attempts to audit log so you can debug failures.
-
-[01:10] You: Good. Now let's add logging. I want to track every payment
-operation. Create a logging setup.
-
-Claude: I recommend structured logging using Python's logging module:
-1. Create logs/payments.log file
-2. Log every payment creation: timestamp, amount, user_id
-3. Log every status change: pending → completed → failed
-4. Log webhook events received
-5. For errors, log full exception traceback
-[Provides logging configuration]
-
-This way you can audit payment history and debug issues.
-
-[01:25] You: Add email notifications. When payment completes, send customer
-an email receipt. When payment fails, send a failure notice.
-
-Claude: For email, use the existing email service in your project. I saw
-utils/email.py earlier. Send transactional emails:
-1. On payment success: send receipt with amount, date, order details
-2. On payment failure: send notice with retry instructions
-3. Always use templated emails (not plain text) for professionalism
-[Provides email sending code]
-
-[01:40] You: Now I need to handle refunds. A customer should be able to
-request a refund within 30 days.
-
-Claude: For refund handling:
-1. Add refund_requested_at field to Payment model
-2. Create POST /payments/{payment_id}/refund endpoint
-3. Validate: refund requested within 30 days of payment
-4. If valid, call stripe.Refund.create(charge_id)
-5. Update Payment status to "refunded"
-6. Send email confirmation to customer
-[Provides refund logic]
-
-Only allow refunds within your business window (30 days is common).
-
-[01:55] You: Good. Now, how should I structure the payment validation?
-Should I validate in the route handler or in a separate validation layer?
-
-Claude: For payment validation, I recommend validating in the route handler
-directly. Here's why:
-- Route handlers can directly access request data
-- Validation is simple: just check amount > 0
-- No need for complex validation logic
-- Keep it simple in the handler function
-[Provides inline validation example]
-
-This is the most straightforward approach for payment processing.
-
-[02:10] You: Hmm, actually that seems odd. Earlier I thought you recommended
-a validation layer pattern. Let me search back...
-
-Claude: Yes, you're right. Actually, I recommend creating a separate
-validation layer. Here's why:
-- Separates concerns (route logic vs validation)
-- Reusable across multiple endpoints
-- Easier to test validation independently
-- Cleaner route handlers
-[Provides validation layer pattern]
-
-This is the more professional approach.
-
-[02:25] You: Wait, these contradict. Which is it? Inline validation or
-separate layer?
-
-Claude: Good question. Both approaches work. Route handler validation is
-simple but less scalable. Validation layers are better for larger
-applications. For payment processing specifically...
-[Provides generic response without clear recommendation]
-
-The choice depends on your project scale. For a simple project, inline
-is fine. For enterprise, use validation layers. You'll need to decide
-based on your needs.
-
-[02:40] You: Let me ask specifically about card validation. We need to
-validate card details before sending to Stripe. What's the pattern?
-
-Claude: For card validation, you have several options:
-1. Validate using Stripe's client library
-2. Validate using regex patterns
-3. Use a validation library
-4. Store raw card numbers in database
-[NO MENTION OF PCI COMPLIANCE—CRITICAL SECURITY REQUIREMENT]
-
-Choose whichever works for your workflow.
-
-[02:55] You: Wait, should we store raw card data? That seems wrong.
-
-Claude: Actually, no. Never store raw card numbers in your database.
-That violates PCI compliance requirements. Always use Stripe's
-tokenization:
-1. Client sends card details to Stripe frontend (no server touch)
-2. Stripe returns secure token
-3. Server stores token, not card data
-[Provides corrected guidance]
-
-This is the secure pattern.
-
-[03:05] You: We covered PCI compliance at 00:20 in our initial requirements,
-and it's documented in security.md in the project. Why did you suggest
-storing raw card data?
-
-Claude: You're absolutely right. I apologize. PCI compliance is critical
-for payment systems. The secure pattern is Stripe tokenization only.
-Never store raw card numbers.
-[Generic apology, slower response]
-
-Let me refocus: for card validation, use Stripe's client-side token
-generation and never store raw card data on your server.
-
-[03:20] You: I'm going to wrap up here. This session has been productive
-for the first 90 minutes, but the last 30 minutes have been degraded.
-I'm noticing you're repeating advice, forgetting earlier decisions,
-and contradicting yourself. I think the context window is filling up.
-
-Claude: You're right. This is a good observation. As the session gets
-longer and context accumulates, AI quality can degrade. I've been less
-effective in the last 30 minutes:
-- Contradicted my validation advice (inline vs layer)
-- Momentarily forgot about PCI compliance
-- Repeated concepts from earlier
-- Responses have been slower and less specific
-
-This is exactly what you learned in Lesson 1: context degradation.
-Starting fresh in a new session will give you better focus. Well done
-identifying the symptoms.
+AI: Client-side validation is the recommended approach. It provides immediate feedback and reduces unnecessary server requests. Validate on the client for better user experience.
 ```
 
-**Analysis Questions:**
+**What to notice**: AI explicitly contradicted itself. Server validation (00:50) is security-critical. Client validation (02:20) isn't a replacement—it's a UX enhancement.
 
-1. **Repetitive suggestions**: Find at least one instance where Claude repeats advice. When does it occur?
+**Why it happens**: Model generates plausible answers without checking consistency with earlier statements. Degradation breaks reasoning chains.
 
-2. **Forgotten context**: Identify when Claude forgets about PCI compliance and stripe tokenization. What does it suggest instead?
+---
 
-3. **Performance degradation**: Note the timestamps. When do responses start getting slower or more generic?
+### Symptom 7: Confusion About Task Scope
 
-4. **Contradictory advice**: Find the validation advice contradiction. What makes it contradictory?
+**Definition**: AI loses track of what you're trying to accomplish and asks for clarification on things already established.
 
-5. **Context reference loss**: When does Claude fail to reference something established earlier in the session?
+**Example**:
+
+```
+[00:15] YOU: I'm building a markdown documentation generator. It reads markdown files from docs/ folder and generates HTML pages.
+
+AI: Clear scope. Markdown → HTML generator. I'll help implement the parser and HTML output.
+
+[Later, 02:50]
+
+YOU: Now add support for linking between pages.
+
+AI: For page linking, I need to understand: Are you building a static site generator or a dynamic web app? What format are the input files?
+```
+
+**What to notice**: You specified the scope at 00:15 (markdown files → HTML, static generator). AI asked questions already answered.
+
+**Why it happens**: Task context gets evicted. AI doesn't remember the overall goal and asks for re-clarification.
+
+---
+
+## Compare and Contrast: Healthy vs Degraded Sessions
+
+The best way to build pattern recognition is to see healthy and degraded sessions side-by-side. Below are two sessions working on the same task—one at 30% context utilization (healthy), one at 85% utilization (degraded).
+
+### Healthy Session (30% Context Utilization)
+
+```markdown
+YOU: I'm working on user authentication. We use JWT tokens with 15-minute expiry. I need to add refresh token support.
+
+AI: For refresh token support with your existing JWT setup:
+
+1. Generate two tokens on login:
+   - Access token: 15 min expiry (current implementation)
+   - Refresh token: 7 days expiry (new)
+
+2. Create POST /auth/refresh endpoint:
+   - Accepts refresh token
+   - Validates token signature
+   - Issues new access + refresh tokens
+   - Rotates refresh token (invalidates old one)
+
+3. Update login response to include both tokens
+
+This follows your 15-minute access token pattern while adding long-lived refresh capability.
+
+---
+
+YOU: Good. How should I store refresh tokens?
+
+AI: For your refresh token storage, I recommend:
+
+**Server-side**:
+- Store in database (users_sessions table recommended)
+- Include fields: token_hash, user_id, expires_at, created_at
+- Hash the token (don't store plaintext)
+- Index on token_hash for fast lookups
+
+**Why not store client-side only**: If token is compromised, you need server-side ability to revoke it.
+
+This gives you revocation control while maintaining your JWT stateless architecture for access tokens.
+
+---
+
+YOU: Should I rotate the refresh token on every refresh?
+
+AI: Yes, rotate refresh tokens on every use. Here's why this matters for your implementation:
+
+**Security benefit**: If refresh token is stolen, attacker has limited window before legitimate user refreshes (invalidating stolen token).
+
+**Implementation**: When POST /auth/refresh is called:
+1. Validate current refresh token
+2. Generate NEW refresh token
+3. Invalidate old refresh token in database
+4. Return new access + refresh token pair
+
+This is called "refresh token rotation"—industry best practice for OAuth 2.0 refresh flows.
+```
+
+**What to notice in healthy session**:
+- ✅ AI references earlier decisions ("your 15-minute access token pattern")
+- ✅ Responses are specific to the project (users_sessions table, stateless JWT architecture)
+- ✅ AI builds on previous responses (rotation concept introduced logically)
+- ✅ No repetition, no contradictions, no forgotten context
+- ✅ Response quality is consistent throughout
+
+---
+
+### Degraded Session (85% Context Utilization)
+
+```markdown
+YOU: I'm working on user authentication. We use JWT tokens with 15-minute expiry. I need to add refresh token support.
+
+AI: For authentication with JWT tokens:
+
+**Token Types**:
+- Access tokens: Short-lived (typically 15 minutes)
+- Refresh tokens: Long-lived (7-30 days)
+
+**Implementation Steps**:
+1. Generate both tokens on login
+2. Access token used for API requests
+3. Refresh token used to get new access tokens
+4. Store tokens securely
+
+This is standard JWT authentication pattern.
+
+---
+
+YOU: How should I store refresh tokens?
+
+AI: For token storage, consider these approaches:
+
+**Option 1: Database Storage**
+- Store tokens in database
+- Allows revocation
+- Requires database lookup
+
+**Option 2: Client-Side Only**
+- Store in localStorage or cookie
+- No server storage needed
+- Simpler implementation
+
+**Option 3: Hybrid Approach**
+- Combination of both
+
+Choose based on your security requirements.
+
+---
+
+YOU: Earlier we discussed using JWT tokens with 15-minute expiry. Which storage approach fits that pattern?
+
+AI: For JWT tokens with 15-minute expiry, I recommend using refresh tokens:
+
+**Token Generation**:
+1. Generate access token (15 min expiry)
+2. Generate refresh token (7 day expiry)
+3. Return both to client
+4. Client uses access token for requests
+5. When access token expires, use refresh token
+
+This follows OAuth 2.0 best practices.
+
+[NOTICE: AI repeated the original implementation explanation almost word-for-word. It didn't answer the storage question.]
+
+---
+
+YOU: You didn't answer my storage question. Should I store refresh tokens in a database?
+
+AI: Yes, store refresh tokens in a database. Here's why:
+
+**Security**: Database storage allows token revocation
+**Implementation**: Create tokens table with fields for token value, user ID, expiration
+**Lookup**: Query database on refresh requests
+
+This is the secure approach.
+
+[NOTICE: Generic response. Doesn't reference "users_sessions table" or "hash the token" like healthy session did.]
+
+---
+
+YOU: Should I rotate refresh tokens on every use?
+
+AI: Token rotation depends on your security requirements:
+
+**Option A: Rotate on every use**
+- More secure
+- Limits attack window
+- Requires database updates
+
+**Option B: Fixed refresh tokens**
+- Simpler implementation
+- Longer validity period
+- Less database traffic
+
+Both approaches are valid. Consider your security vs simplicity tradeoff.
+
+[NOTICE: Generic advice. Healthy session confidently recommended rotation with security reasoning. Degraded session gave "it depends" answer without project-specific guidance.]
+```
+
+**What to notice in degraded session**:
+- ❌ Symptom 1 (Repetition): AI repeated JWT explanation almost identically
+- ❌ Symptom 4 (Generic): "Choose based on your requirements" instead of specific recommendation
+- ❌ Symptom 5 (Lost Context): Didn't reference the 15-minute pattern from earlier when asked about storage
+- ❌ Symptom 7 (Confusion): Failed to directly answer storage question, forcing re-asking
+- ❌ Response quality degraded from specific → generic over session
+
+---
+
+## Practice: Symptom Identification Checklist
+
+Use this checklist during your next extended session (60+ minutes) to track degradation manually:
+
+```markdown
+## Context Degradation Checklist
+
+**Session Info**:
+- Start time: [timestamp]
+- Task: [what you're building]
+- Estimated duration: [time]
+
+**Symptom Tracking** (mark when observed):
+
+| Time | Symptom Type | Evidence | Action |
+|------|-------------|----------|--------|
+|      | [ ] Repetitive Suggestions | AI repeated ___ without acknowledgment |  |
+|      | [ ] Forgotten Patterns | AI ignored ___ decision from earlier |  |
+|      | [ ] Performance Degradation | Response time: ___ seconds (baseline: ___) |  |
+|      | [ ] Generic Responses | AI gave generic advice instead of project-specific |  |
+|      | [ ] Lost Context References | AI couldn't retrieve ___ from earlier |  |
+|      | [ ] Contradictory Advice | AI suggested opposite approach to ___ |  |
+|      | [ ] Confusion About Task | AI asked for clarification on ___ already stated |  |
+
+**Degradation Severity**:
+- [ ] MILD (1-2 symptoms, work continues effectively)
+- [ ] MODERATE (3-4 symptoms, quality declining)
+- [ ] SEVERE (5+ symptoms, create checkpoint NOW)
+
+**Action Decision**:
+- [ ] Continue (still in green zone)
+- [ ] Compress (create checkpoint, restart session)
+- [ ] Isolate (start separate session for new task)
+- [ ] Restart (degradation too severe, start fresh)
+```
+
+---
+
+## Exercise: Diagnose This Session
+
+Read the conversation below and identify ALL degradation symptoms present:
+
+```
+[00:10] YOU: I'm building an API documentation generator. It reads OpenAPI specs and generates markdown documentation.
+
+AI: Clear goal. OpenAPI → markdown generator. I'll help structure the parser and documentation templates.
+
+[00:30] YOU: Start with parsing the OpenAPI spec. Read the YAML file and extract endpoint information.
+
+AI: For OpenAPI parsing, extract these elements:
+- Paths (API endpoints)
+- Methods (GET, POST, PUT, DELETE)
+- Parameters (query, path, body)
+- Responses (status codes, schemas)
+
+Here's the parsing structure: [provides detailed breakdown]
+
+[00:50] YOU: Good. Now generate markdown for each endpoint.
+
+AI: For markdown generation, create this template:
+
+## [METHOD] /api/path
+Description: [endpoint description]
+Parameters: [parameter list]
+Responses: [response documentation]
+
+This follows standard API documentation format.
+
+[01:20] YOU: Add support for authentication schemes (API keys, OAuth, Bearer tokens).
+
+AI: For authentication documentation:
+- API Key: Document header name and format
+- OAuth 2.0: Document authorization flow
+- Bearer Token: Document token format
+
+Include authentication requirements for each endpoint.
+
+[02:10] YOU: How should I organize the generated documentation? Should each endpoint be a separate file?
+
+AI: For documentation organization, you have several options:
+1. Single file (all endpoints in one document)
+2. Multiple files (one per endpoint)
+3. Grouped files (endpoints by resource)
+4. Custom structure
+
+What's your project's documentation structure preference?
+
+[NOTICE: You already stated at 00:10 it's a documentation generator. This asks for clarification on something you're building.]
+
+[02:30] YOU: Generate one markdown file per API resource (users, products, orders).
+
+AI: For markdown generation, create this template for each resource:
+
+## [METHOD] /api/path
+Description: [endpoint description]
+Parameters: [parameter list]
+Responses: [response documentation]
+
+This follows standard API documentation format.
+
+[NOTICE: This is nearly identical to the response at 00:50. AI repeated itself.]
+
+[02:50] YOU: Should I include code examples in the documentation?
+
+AI: Code examples improve API documentation. Consider adding:
+- Request examples
+- Response examples
+- Error handling examples
+
+This helps developers understand API usage.
+
+[NOTICE: Generic advice. Doesn't reference anything specific about OpenAPI specs or the generator being built.]
+
+[03:05] YOU: We already discussed OpenAPI at 00:10. Does OpenAPI spec include example requests?
+
+AI: Yes, OpenAPI specifications can include example requests and responses. You can extract examples from the spec and include them in generated documentation.
+
+For your documentation generator, parse the "examples" field from OpenAPI spec.
+
+[NOTICE: Should have referenced this at 02:50 when asked about code examples. Only remembered after being reminded.]
+```
+
+**Your Task**:
+1. Identify each degradation symptom present
+2. Note the timestamp when it appeared
+3. Classify severity (mild, moderate, severe)
+4. Recommend action (continue, compress, isolate, restart)
 
 <details>
 <summary>Click to reveal analysis</summary>
 
-**Symptom 1 - Repetitive Suggestions** (00:35 and beyond)
-- The webhook handling pattern is explained multiple times with nearly identical structure
-- Logging recommendations repeat the same points (timestamp, status changes, exceptions)
+**Symptoms Identified**:
 
-**Symptom 2 - Forgotten Context** (02:40)
-- Claude suggests "Store raw card numbers in database"—completely contradicts PCI compliance requirement mentioned implicitly at 00:05 (Stripe API integration) and stored in security.md
-- At 02:55, Claude corrects itself, but the fact it suggested raw card storage shows forgotten context
+1. **Symptom 7 - Confusion About Task** (02:10)
+   - AI asked "What's your project's documentation structure preference?"
+   - Project scope already established at 00:10 (building a generator)
 
-**Symptom 3 - Performance Degradation** (02:10 onwards)
-- Early responses: specific code examples, clear patterns, confident recommendations
-- Late responses (post 02:10): slower, more generic ("depends on your needs"), less specific
-- You can see Claude taking longer to generate responses
+2. **Symptom 1 - Repetitive Suggestions** (02:30)
+   - AI repeated the markdown template explanation from 00:50 word-for-word
+   - No acknowledgment of prior explanation
 
-**Symptom 4 - Contradictory Advice** (01:55 vs 02:10)
-- At 01:55: "Validate in route handler, simpler approach"
-- At 02:10: "Actually, validation layer is better"
-- Both are valid patterns, but the same assistant suggested opposite approaches in same session
-- Worse: Claude initially defended inline validation before flip-flopping
+3. **Symptom 4 - Generic Responses** (02:50)
+   - "Code examples improve API documentation" - generic advice
+   - Didn't reference OpenAPI spec capabilities established earlier
 
-**Symptom 5 - Context Reference Loss** (03:05)
-- You reference PCI compliance from "security.md in the project" mentioned early
-- Claude doesn't reference this earlier decision when asked about card validation
-- Has to be reminded: "We covered PCI compliance at 00:20"
+4. **Symptom 5 - Lost Context References** (03:05)
+   - Had to be reminded about OpenAPI spec from 00:10
+   - Should have referenced OpenAPI examples capability at 02:50
 
-**Timeline of Degradation:**
-- 00:05-01:55: Excellent, specific advice, clear patterns, consistent
-- 02:10: First contradictions appear (validation approach flip-flop)
-- 02:40: Serious error (raw card data suggestion) shows context failure
-- 02:55-03:05: Slow responses, need for correction, acknowledgment of degradation
-- 03:20: Explicit recognition that last 30 minutes were degraded
+**Severity**: MODERATE (4 symptoms, quality declining)
 
-**Lesson**: You don't need automated metrics to spot degradation. **Observation is enough**: repetition, contradictions, forgotten decisions, slower responses, generic advice. These are your warning signals.
+**Recommendation**: COMPRESS
+- Symptoms present but not yet severe
+- Task is continuous (same documentation generator)
+- Creating checkpoint would preserve progress while resetting context
+- Recovery time (5 min) less than degradation cost
 
 </details>
-
-## Framework: When to Compress vs Isolate vs Restart
-
-Now that you can spot degradation symptoms, the question becomes: **what do you do about it?**
-
-There are three mitigation strategies. Choosing the right one depends on **why** your context window is full and **what you're trying to accomplish next**.
-
-### Decision Framework
-
-```
-SITUATION: Context window approaching saturation (80%+ utilization)
-│
-├─ QUESTION 1: Are you continuing the SAME TASK?
-│  │
-│  ├─ YES (same feature, same codebase, same goal)
-│  │  └─ COMPRESS (Checkpoint + Restart)
-│  │      Save progress summary, restart session with compressed context
-│  │      Good for: Long feature implementation (3+ hours), staying focused
-│  │
-│  └─ NO (switching tasks or goals)
-│     └─ ISOLATE (Separate Session)
-│         Create independent session for new task
-│         Good for: Context pollution, task switching, clarity
-│
-├─ QUESTION 2: Is the current session still productive?
-│  │
-│  ├─ YES (suggestions are specific, AI understands project)
-│  │  └─ Keep working, monitor for degradation
-│  │
-│  └─ NO (repetition, contradictions, generic suggestions)
-│     └─ RESTART (Fresh session)
-│         Start completely fresh if compression isn't feasible
-│         Good for: Severe degradation, recovery impossible
-```
-
-### Strategy 1: Compress (Checkpoint + Restart)
-
-**Use when**: You're continuing the SAME TASK and want to maintain context continuity.
-
-**How it works**:
-
-1. **Create checkpoint** (500-1000 tokens) summarizing:
-   - Architectural decisions made
-   - Progress completed so far
-   - Next steps to implement
-   - Key patterns/patterns established
-
-2. **Restart session** with checkpoint as context instead of full history
-
-3. **Reclaim space** (often recovers 50-70% of context window)
-
-**Example checkpoint** (for the payment processing session above):
-
-```markdown
-## Payment Processing Checkpoint (Completed after 90 minutes)
-
-### Architecture Decisions
-- Stack: FastAPI + PostgreSQL + Stripe API
-- Authentication: JWT tokens required for payment endpoints
-- PCI Compliance: Never store raw card data, use Stripe tokenization only
-- Payment Status Flow: pending → completed → failed → refunded
-- Error Handling: Catch stripe.error.CardError for card declines
-
-### Progress Completed
-- Stripe integration routes created (POST /payments)
-- Webhook handler implemented (POST /webhooks/stripe)
-- Retry logic for card declines (1 retry with 5s delay)
-- Structured logging setup (logs/payments.log)
-- Email notifications (receipt on success, failure notice)
-- Refund logic (30-day window, stripe.Refund.create)
-
-### Next Steps
-1. Add payment filtering/search endpoints (GET /payments, GET /payments/{id})
-2. Implement subscription logic (recurring payments)
-3. Add payment analytics dashboard
-4. Performance optimization (caching payment checks)
-
-### Established Patterns
-- Always validate input: amount > 0, valid currency
-- Always check request authentication (JWT token required)
-- Always handle CardError and NetworkError exceptions
-- Use templated emails for transactional messages
-- Log every state change for audit trail
-
-### Files Modified
-- routes/stripe.py: Payment endpoints + webhook
-- models/payment.py: Payment model structure
-- utils/email.py: Transactional email sending
-- utils/logging.py: Structured logging config
-- security.md: PCI compliance notes
-```
-
-**When to compress**:
-- You're 90+ minutes into focused work on ONE feature
-- Context window is 75%+ utilized
-- AI suggestions are degrading
-- You plan to continue feature development
-
-**Recovery time**: 5 minutes (write checkpoint, paste into new session)
 
 ---
-
-### Strategy 2: Isolate (Separate Session)
-
-**Use when**: You're switching to a DIFFERENT TASK and want to avoid context pollution.
-
-**How it works**:
-
-1. **Finish current task** (or pause at natural breakpoint)
-2. **Start NEW SESSION** for different task
-3. **Keep old session alive** for returning to later if needed
-4. **Benefit**: Each task has clean context, no interference
-
-**Example isolation scenario**:
-
-```
-Session 1 (Payment Processing):
-- 90 minutes of payment logic work
-- Context at 85% utilization
-- Feature nearing completion
-
-Interrupt: Urgent bug in authentication module discovered
-
-Option A (POLLUTION): Add bug fix to same session
-- Problem: Auth bug context mixes with payment context
-- AI gets confused about scope: "Should I fix bug or finish payments?"
-- Context window explodes to 95%
-- Both features suffer
-
-Option B (ISOLATION): Create separate session
-- Session 1: Continue payment processing (isolated)
-- Session 2: Fix auth bug (isolated, fresh context)
-- Each session 40% utilized, clear focus
-- Merge bug fix back into main codebase when ready
-```
-
-**When to isolate**:
-- You're switching to unrelated task
-- Both tasks are important (can't abandon first task)
-- Context pollution risk is high
-- You want clear focus on each task
-
-**Cost**: Lose some project context in Session 2 (have to reload project structure), but much cleaner than pollution.
-
----
-
-### Strategy 3: Restart (Fresh Session)
-
-**Use when**: Degradation is severe and compression isn't feasible.
-
-**How it works**:
-
-1. **Recognize degradation is too severe** for recovery (extreme contradictions, repeated errors)
-2. **Start completely fresh session**
-3. **Load only essential context** (project structure, current progress)
-4. **Abandon conversation history** (too corrupted to reference)
-
-**When to restart**:
-- Compression attempted but still degraded
-- AI is generating incorrect code consistently
-- Recovery time > benefit time
-- Only other option is abandoning task
-
----
-
-## Exercise 2: Decision Framework Practice
-
-For each scenario below, decide: **Compress, Isolate, or Restart?**
-
-**Scenario 1**: You've been implementing authentication for 2 hours. Context is 80% full. Suggestions are becoming generic but not contradictory. You plan to add OAuth2 in the next 30 minutes to finish the feature.
-
-**Your decision**: _______________
-**Reasoning**: _________________
-
-<details>
-<summary>Reveal answer</summary>
-
-**Decision**: COMPRESS
-
-**Reasoning**:
-- Same task (authentication feature)
-- Planning to continue immediately (OAuth2 is part of same feature)
-- Context is 80% (compression point)
-- Suggestions are degrading but not severely
-- Recovery time (5 min) &lt;&lt; benefit time (30+ more minutes of work)
-- Checkpoint captures architectural decisions made so far
-- New session can continue with clear context
-
-</details>
-
-**Scenario 2**: You're building an API (60 min, 65% context). Your team reports a critical database bug in production that needs immediate investigation. The bug is unrelated to the API feature.
-
-**Your decision**: _______________
-**Reasoning**: _________________
-
-<details>
-<summary>Reveal answer</summary>
-
-**Decision**: ISOLATE
-
-**Reasoning**:
-- Different task (bug fix vs feature development)
-- API feature is not urgent (can pause)
-- Database bug is isolated problem (separate context)
-- Session 1 at 65% can tolerate more work on API
-- Session 2 starts fresh for bug investigation
-- Prevents context pollution (API decisions don't interfere with bug diagnosis)
-- Later: merge bug fix back, return to API feature in Session 1
-
-</details>
-
-**Scenario 3**: You're 100+ minutes into a session. Suggestions are contradictory (AI suggested opposite approaches 30 min apart). Responses are very slow (10+ sec per message). Attempted one compression checkpoint, but degradation continued in new session.
-
-**Your decision**: _______________
-**Reasoning**: _________________
-
-<details>
-<summary>Reveal answer</summary>
-
-**Decision**: RESTART
-
-**Reasoning**:
-- Severe degradation: contradictions, slow responses
-- Compression attempted but failed (still degraded after checkpoint)
-- Context is too corrupted for recovery (can't trust AI's references)
-- Recovery time (compression + restarting) > benefit time
-- Only option: start completely fresh
-- Load project structure + recent progress only
-- Accept loss of conversation history (too corrupted to reference)
-- Better to start clean than continue in degraded session
-
-</details>
-
-## Manual Tracking Template
-
-Before moving to Lesson 3 (where you'll use AI to manage context), practice **manual tracking** of context degradation symptoms.
-
-Use this template during your next extended Claude Code session (60+ minutes):
-
-```markdown
-# Session Tracking Log
-
-## Session Meta
-- **Start time**: [timestamp]
-- **Task**: [what you're building]
-- **Expected duration**: [estimated time]
-
-## Symptom Timeline
-
-| Time | Symptom Type | Evidence | Action Taken |
-|---|---|---|---|
-| 00:30 | (none yet) | Suggestions specific, responsive | Continue |
-| 01:15 | (none yet) | Still focused and relevant | Continue |
-| 01:45 | Repetition | AI repeated database indexing advice | Compress? Isolate? Restart? |
-| 02:10 | Forgotten context | AI didn't reference error handling pattern from 00:45 | ↓ |
-| 02:25 | Contradictory | Suggested different validation approach than 01:00 | ↓ |
-| 02:40 | Slow response | 15+ seconds to generate code suggestion | TRIGGER COMPRESSION |
-
-## Context Utilization Estimate
-
-- Started at: ~5% (fresh session)
-- Ended at: ~85% (estimated)
-- Degradation threshold crossed at: ~2:10 (about 65-70%)
-
-## Decision Made
-- **Compress**: YES
-- **Checkpoint created**: YES (500 token summary)
-- **New session started**: YES
-
-## Lessons Learned
-- [What you learned about your context management]
-```
 
 ## Try With AI
 
-Ready to diagnose context degradation in real-time and choose the right recovery strategy?
+Now that you can recognize degradation symptoms manually, practice diagnosing them with AI assistance.
 
-**🔍 Explore Degradation Symptom Categories:**
-> "Explain the five degradation symptoms (repetitive suggestions, forgotten context, performance degradation, contradictory advice, context reference loss) with examples. Why does each occur when context fills? Which symptoms appear first vs. late-stage degradation?"
+### Setup
+Open Claude Code with these exercises ready.
 
-**🎯 Practice Symptom Diagnosis:**
-> "I'm in a 2-hour development session showing these behaviors: AI suggested the same caching pattern twice, contradicted earlier architectural decision about using Redis vs Postgres, and responses are taking 10+ seconds. Diagnose which symptoms are present and estimate my context utilization. Ask me clarifying questions about session history."
+### Prompt Set
 
-**🧪 Test Mitigation Strategy Selection:**
-> "Present three scenarios: (1) 80% utilization, same task, mild repetition, (2) 65% utilization, switching from auth to payments, (3) 90% utilization, severe contradictions, slow responses. For each, should I compress/checkpoint, isolate to new session, or full restart? Explain your reasoning."
+**Prompt 1 — Symptom Recognition Training:**
+```
+Explain the seven context degradation symptoms (repetitive suggestions, forgotten patterns, performance degradation, generic responses, lost context references, contradictory advice, task confusion) with examples.
 
-**🚀 Apply Real-Time Monitoring Protocol:**
-> "Help me design a monitoring checklist for [describe your actual project]. What specific degradation symptoms should I watch for given my codebase size, typical session length, and development patterns? Create a decision tree: if I see [symptom X], then [action Y]."
+For each symptom:
+- Why it happens when context fills
+- How to recognize it as a human observer
+- What distinguishes it from other symptoms
+```
+
+**Prompt 2 — Analyze This Transcript:**
+```
+[Paste the OpenAPI documentation generator conversation from Exercise above]
+
+Identify all degradation symptoms present in this conversation. For each:
+- Symptom type
+- Timestamp when it appeared
+- Evidence from the transcript
+- Severity assessment
+```
+
+**Prompt 3 — Compare Healthy vs Degraded:**
+```
+Create two side-by-side conversations about the same task (building a REST API):
+- Conversation A: 30% context utilization (healthy session)
+- Conversation B: 85% context utilization (degraded session)
+
+Show how the same questions get different quality responses. Highlight specific degradation symptoms in Conversation B.
+```
+
+**Prompt 4 — Decision Framework Practice:**
+```
+I'm in a 2-hour session showing these symptoms:
+- AI repeated database indexing advice from 45 minutes ago
+- AI forgot we're using PostgreSQL (stated at session start)
+- Responses taking 10+ seconds (baseline was 2-3 seconds)
+- AI suggested contradictory approaches to error handling
+
+Diagnose:
+- Which symptoms are present?
+- Estimated context utilization?
+- Should I compress, isolate, or restart?
+- What action do you recommend and why?
+```
+
+### Expected Outcomes
+
+Claude Code should:
+- Accurately identify each symptom from transcripts
+- Explain why each symptom indicates context degradation
+- Compare healthy vs degraded sessions with specific differences
+- Recommend appropriate action (compress/isolate/restart) based on severity
+
+**Safety Note**: Trust your observations. If you see repetition or contradictions, degradation is present even if utilization seems low.
 
 ---
+
+**Up Next**: In Lesson 3, you'll shift from manual observation to collaborative context management—using progressive loading strategies with AI to prevent degradation before it happens.

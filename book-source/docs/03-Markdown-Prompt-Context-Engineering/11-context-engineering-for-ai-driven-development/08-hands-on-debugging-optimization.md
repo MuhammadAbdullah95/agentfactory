@@ -4,15 +4,15 @@ sidebar_position: 8
 chapter: 11
 lesson: 8
 learning_objectives:
-  - Diagnose failing context scenarios (degradation, pollution, saturation, persistence)
-  - Apply appropriate remediation strategies from Lessons 1-7
-  - Measure optimization results and validate improvements
-  - Demonstrate AI collaboration in complex troubleshooting
+  - Diagnose context degradation from conversation symptoms
+  - Apply accumulated techniques (Lessons 1-7) to recover degraded sessions
+  - Optimize context strategy under production constraints
+  - Integrate all context engineering patterns systematically
 estimated_time: 90 minutes
 proficiency_level: B1
 generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
+source_spec: specs/002-011-chapter-11-redesign-fix/spec.md
+created: 2025-11-18
 version: 1.0.0
 ---
 
@@ -30,473 +30,698 @@ Over the last 7 lessons, you've learned context engineering techniques:
 
 But **reading about techniques** and **executing them under pressure** are different skills.
 
-This lesson puts you in real failure scenarios. You'll **diagnose problems, apply solutions, measure results** — like you would in actual development work.
+This lesson puts you in real failure scenarios. You'll **diagnose problems, apply solutions, measure results**—like you would in actual development work.
 
 This is Layer 2 Validation: **Applying all learned patterns to integrated scenarios**.
 
-## Scenario 1: Degradation Crisis
+## Diagnostic Process: Your Debugging Framework
+
+Before diving into scenarios, understand the **systematic diagnostic workflow** you'll apply:
+
+**Step 1: Observe Symptoms**
+- What behaviors signal a problem?
+- Which Lesson 2 symptom appears? (Repetitive, forgotten, generic, etc.)
+- When did symptoms start? (Check session timeline)
+
+**Step 2: Identify Root Cause**
+- Symptom → Root cause mapping (from Lesson 2)
+- Which context engineering principle violated?
+- Utilization level? Session duration? Task structure?
+
+**Step 3: Select Remediation Strategy**
+- Which lesson's technique applies?
+- Lesson 3 (loading), 4 (compression), 5 (isolation), 6 (persistence), 7 (tool selection)?
+- What's the validation criterion?
+
+**Step 4: Execute and Validate**
+- Apply selected strategy
+- Measure: Did symptoms disappear?
+- Metrics: Utilization, response quality, continuity?
+
+Now you'll apply this to 4 real scenarios.
+
+---
+
+## Scenario 1: High Utilization Crisis (85%, 90-Minute Session)
 
 ### The Situation
 
-You're 3 hours into a feature implementation. The session started fresh with 200K tokens available. You've:
+You're 90 minutes into feature development. Session note shows:
 
-- Loaded project files (30K tokens)
-- Implemented core logic (40K tokens)
-- Added tests (35K tokens)
-- Fixed bugs (30K tokens)
-- **Current state**: 135K tokens used (67% utilization)
+```markdown
+# Development Session — 2025-11-18
 
-You're about to implement the final piece: error handling and edge cases.
+## Task: Implement Payment Processing
 
-You ask Claude to "implement comprehensive error handling for all edge cases."
+### Context Loaded:
+- CLAUDE.md (project patterns)
+- architecture.md (system design)
+- decisions.md (past decisions)
+- payment-routes.md (API structure)
+- stripe-integration.md (external service)
+- error-handling.md (patterns)
+- test-suite.md (testing approach)
 
-Claude responds with code that looks right, but you notice something odd:
+### Progress:
+- Hour 1: Core payment logic designed
+- Hour 1.5: Error handling added
+- Hour 2: Edge cases being addressed
 
-```python
-def process_payment(amount, customer_id):
-    """Process payment with error handling."""
+### Token Estimation:
+- Context loaded: ~30K tokens
+- Conversation so far: ~140K tokens
+- Total utilization: 170K / 200K = 85%
 
-    # Validate inputs
-    if amount <= 0:
-        raise ValueError("Amount must be positive")
-
-    # Check customer exists
-    customer = get_customer(customer_id)
-    if not customer:
-        raise ValueError("Customer not found")
-
-    # Process with payment gateway
-    result = stripe.charge.create(
-        amount=amount,
-        currency='usd',
-        customer_id=customer_id,
-        description=f"Payment for {customer_id}",
-        # PROBLEM: This contradicts earlier decision
-        test_mode=True  # Never use test mode in production!
-    )
-
-    return result
+### Observations:
+- AI responses getting shorter
+- AI suggestions becoming generic ("use standard patterns")
+- AI asking me to re-explain decisions I stated 45 minutes ago
 ```
 
-But you remember clearly: **Earlier in this session, you decided AGAINST test mode in production.** You have an environment-based approach:
+### Conversation Transcript (Degradation Evidence)
 
-```python
-# From 2 hours ago (early in session):
-stripe.api_key = os.getenv('STRIPE_SECRET')
-test_mode = os.getenv('ENVIRONMENT') == 'test'
+```
+[You, 10 minutes ago]:
+"For error handling, we decided to use environment-based config.
+Test mode should come from .env, NOT hardcoded."
+
+[Claude, now]:
+"Here's error handling approach:
+- Use try/catch blocks
+- Log errors to console
+- Return generic error messages
+
+For external service calls, enable test mode for safety:
+test_mode = True  # Prevents accidental production charges"
 ```
 
-Claude **forgot** this decision despite it being in the current session. It's suggesting a pattern contradictory to your earlier decision.
+**Problem**: Claude suggested `test_mode = True` (hardcoded) despite your clear decision 10 minutes ago: "test mode from .env, NOT hardcoded."
 
-**Why?** Degradation. Your context is 67% full. Claude is starting to lose memory of earlier decisions.
+**This is degradation**. Claude forgot your earlier constraint.
 
 ### Diagnosis Exercise
 
-Before looking at the solution, **diagnose the problem**:
+Before reading the solution, **diagnose this yourself**:
 
-1. **What's the symptom?** (Look at the evidence)
+1. **What's the symptom?**
+   - (Check Lesson 2 degradation checklist)
    - Claude forgot earlier decision
-   - Contradictory code suggestions
-   - Pattern regression
+   - Responses are generic
+   - Suggestions contradict earlier constraints
 
-2. **Which lessons does this relate to?**
-   - Lesson 1: Context window mechanics
-   - Lesson 2: Degradation symptoms (forgotten earlier decisions is Symptom #3)
+2. **Which lessons apply?**
+   - Lesson 1: Context window mechanics (85% is high)
+   - Lesson 2: Degradation symptom #2 (forgotten patterns)
 
 3. **What's the root cause?**
-   - Session at 67% utilization
-   - Earlier decisions fading from AI's available context
-   - Approaching degradation threshold
+   - Session at 85% utilization (nearing limit)
+   - 90-minute duration (long session)
+   - Earlier decisions fading from working memory
 
 4. **What strategy should fix this?**
    - Lesson 4: Context Compression with checkpoint
 
 ### Remediation: Create Checkpoint
 
-**Step 1: Identify what to checkpoint**
+**Step 1: Extract Key Decisions**
 
-What important decisions might be at risk of being forgotten?
+Create CHECKPOINT.md:
 
 ```markdown
-# Session Checkpoint
+# Session Checkpoint — 2025-11-18
 
 ## Architectural Decisions Made
-1. Environment-based configuration (not test mode in production)
-   - STRIPE_SECRET from .env
-   - test_mode = (ENVIRONMENT == 'test')
-   - Pattern: All external service calls check environment first
 
-2. Authentication approach: JWT with 24-hour expiry
-   - Tokens signed with HS256
-   - Refresh tokens stored in Redis
-   - No bcrypt here (Argon2 for password hashing only)
+### Decision 1: Environment-Based Configuration
+- Pattern: All external service calls check environment first
+- Implementation: test_mode = read from .env file
+- Constraint: NEVER hardcode test_mode
+- Rationale: Production safety; environment isolation
 
-3. Database approach: SQLAlchemy query API (not ORM)
-   - All queries explicit
-   - No lazy loading
-   - Migrations via Alembic
+### Decision 2: Error Handling Strategy
+- Pattern: Try/except at system boundaries only
+- Implementation: Validate inputs BEFORE processing
+- Logging: Log with context (not just message)
+- Constraint: No silent failures
 
-## Progress So Far
-- ✅ Core payment logic implemented
-- ✅ Database models created
-- ✅ API endpoints scaffolded
-- ✅ Tests for payment flow passing
-- ✅ Error handling partially implemented
+### Decision 3: Payment Flow Architecture
+- Pattern: Validate → Process → Confirm → Log
+- Integration: Stripe API with idempotency keys
+- Constraint: All payments must be idempotent
+
+## Progress Summary
+- ✅ Core payment logic completed
+- ✅ Error handling patterns established
+- ✅ Environment-based config implemented
+- ⏳ Edge case handling 70% complete
 
 ## Next Steps
-- [ ] Complete error handling (edge cases)
-- [ ] Add logging for all payment events
-- [ ] Integration tests with Stripe
-- [ ] Final deployment checklist
+1. Complete edge case handling (timeout, network failure, invalid input)
+2. Add comprehensive logging
+3. Write integration tests with Stripe
+4. Deploy to staging for validation
+
+## Context to Preserve
+- Environment-based config is CRITICAL pattern
+- Never hardcode test_mode or API keys
+- Always use idempotency keys for external services
 ```
 
-**Step 2: Create new session with checkpoint**
+**Step 2: Restart Session with Checkpoint**
 
-Close current session. Save checkpoint to `CHECKPOINT.md`.
-
-Start new session with:
+Close current session (85% full). Start new session:
 
 ```
-Here's my project context from memory files:
+## Session Restart
 
-[CLAUDE.md content]
-[architecture.md content]
+I'm continuing payment feature development.
 
-And here's my session checkpoint from earlier work:
+Here's my project context:
 
-[CHECKPOINT.md content]
+[Load CLAUDE.md]
+[Load architecture.md]
 
-Now continue: Complete error handling implementation, remembering:
-- Environment-based config pattern (NOT test_mode hardcoded)
-- JWT approach with 24h expiry
-- SQLAlchemy query API
+And here's my checkpoint from earlier session:
+
+[Paste CHECKPOINT.md]
+
+Now continue: Complete edge case handling, remembering:
+- Environment-based config pattern (test_mode from .env)
+- Error handling at system boundaries
+- Idempotency for all payments
 ```
 
-**Step 3: Verify checkpoint worked**
+**Step 3: Verify Checkpoint Worked**
 
 Claude's next response:
 
-```python
-def process_payment(amount, customer_id):
-    """Process payment with error handling."""
+```
+Based on your checkpoint, I see:
+- Environment-based config is established (test_mode from .env)
+- Edge cases to handle: timeout, network failure, invalid input
+- Pattern: Validate → Process → Confirm → Log
 
-    # Validate inputs
-    if amount <= 0:
-        raise ValueError("Amount must be positive")
+For edge case handling, following your environment-based pattern:
 
-    # Check customer exists
-    customer = get_customer(customer_id)
-    if not customer:
-        raise ValueError("Customer not found")
-
-    # Process with payment gateway
-    test_mode = os.getenv('ENVIRONMENT') == 'test'
-    result = stripe.charge.create(
-        amount=amount,
-        currency='usd',
-        customer_id=customer_id,
-        description=f"Payment for {customer_id}",
-        test_mode=test_mode  # Uses environment variable, not hardcoded!
-    )
-
-    return result
+Timeout handling:
+- Read timeout value from .env (DEFAULT_TIMEOUT=30)
+- Use configurable retry strategy
+- Log timeout events with request context
 ```
 
-**Checkpoint worked!** Claude recovered the environment-based config pattern and applied it correctly.
+**Checkpoint worked!** Claude recovered the environment-based pattern and applied it correctly.
 
 ### Metrics Validation
 
 **Before compression**:
-- Context utilization: 67%
-- Code quality: Degraded (contradictory patterns)
-- Session duration: 3 hours
+- Utilization: 85% (170K/200K)
+- Symptoms: Forgotten decisions, generic responses
+- Session: 90 minutes, degrading
 
 **After compression + restart**:
-- Context utilization: 25% (after loading checkpoint)
-- Code quality: Restored (correct patterns)
-- Session duration: 3+ hours (continued)
+- Utilization: 20% (40K/200K) — checkpoint + context
+- Symptoms: None — correct patterns remembered
+- Session: Continued seamlessly
 
-**Result**: Reclaimed 42% of context by creating checkpoint. Prevented degradation from getting worse.
+**Result**: Reclaimed 65% of context. Recovered correct patterns. Prevented further degradation.
 
 ---
 
-## Scenario 2: Context Pollution
+## Scenario 2: Context Pollution (Mixed Tasks, Wrong Patterns Applied)
 
 ### The Situation
 
-You're working on a fintech application. Two parallel tasks in the same session:
+Session note shows mixed tasks:
 
-**Task A** (started first): Implement authentication
-- JWT tokens, password hashing, login/logout
-- 15 files loaded, 40K tokens
+```markdown
+# Development Session — 2025-11-18
 
-**Task B** (added midway): Fix critical bug in payments
-- Stripe webhook handling, signature verification, transaction rollback
-- Added 12 more files, now 85K tokens
+## Tasks in Progress:
+1. Implement user authentication (JWT, password hashing)
+2. Fix critical payment bug (webhook signature verification)
 
-Now you're implementing webhook signature verification for Stripe:
+## Context Loaded:
+- auth-routes.md (authentication)
+- jwt-implementation.md (token handling)
+- password-hashing.md (security patterns)
+- payment-routes.md (payment processing)
+- stripe-webhooks.md (webhook handling)
+- error-handling.md (general patterns)
 
-```python
-def verify_webhook_signature(payload, signature, webhook_secret):
-    """Verify Stripe webhook signature."""
-
-    # Construct signed content
-    signed_content = payload + webhook_secret
-
-    # Generate HMAC
-    expected_signature = hmac.new(
-        webhook_secret.encode(),
-        signed_content.encode(),
-        hashlib.sha256
-    ).hexdigest()
-
-    return hmac.compare_digest(expected_signature, signature)
+## Token Estimation: ~85K tokens (42% utilization)
 ```
 
-But this is **wrong for Stripe**. Stripe's webhook signature verification is completely different:
+### Conversation Transcript (Pollution Evidence)
 
-```python
-# CORRECT Stripe approach:
-# 1. Reconstruct: timestamp + '.' + json_payload
-# 2. HMAC with webhook secret
-# 3. Compare with signature header
+```
+[You]:
+"Implement webhook signature verification for Stripe payments."
 
-def verify_stripe_webhook(request_body, signature_header, endpoint_secret):
-    """Correct Stripe webhook verification."""
+[Claude]:
+"For webhook signature verification, here's the approach:
 
-    timestamp = request_body.split(',')[0].split('=')[1]
-    signed_content = f'{timestamp}.{request_body}'
+1. Reconstruct signed content: payload + secret
+2. Generate HMAC: hash(payload + secret)
+3. Compare with signature header
 
-    expected_sig = hmac.new(
-        endpoint_secret.encode(),
-        signed_content.encode(),
-        hashlib.sha256
-    ).hexdigest()
-
-    return hmac.compare_digest(expected_sig, signature_header)
+This follows the general pattern from your password hashing approach:
+- Construct input
+- Hash with secret
+- Compare securely"
 ```
 
-Why did Claude generate wrong code?
+**Problem**: Claude applied **authentication patterns** (general HMAC from password hashing) to **payment domain** (Stripe-specific webhook verification).
 
-**Context pollution**: Both authentication and payment are in the same session. Claude mixed the authentication pattern (general HMAC verification) with the payment pattern (Stripe-specific signature format).
+Stripe webhooks use completely different format:
+- Reconstruct: `timestamp + '.' + json_payload`
+- HMAC the reconstructed string
+- Compare with signature from header
+
+**This is context pollution**. Mixed authentication and payment context in same session → AI confused which pattern applies where.
 
 ### Diagnosis Exercise
 
 1. **What's the symptom?**
-   - Wrong webhook verification approach
-   - Mixed authentication patterns into payment domain
+   - Wrong pattern applied to payment domain
+   - Authentication HMAC used where Stripe-specific format needed
+   - Domain boundaries unclear
 
-2. **Which lessons does this relate to?**
-   - Lesson 5: Context pollution and isolation
-   - Symptoms: AI suggesting patterns from one domain in another domain
+2. **Which lessons apply?**
+   - Lesson 5: Context Isolation and Parallel Tasks
+   - Symptom: Pattern cross-contamination
 
 3. **What's the root cause?**
-   - Both auth and payment context loaded together
-   - AI can't distinguish which pattern applies where
-   - Domain boundaries unclear in single session
+   - Both auth and payment loaded together (85K tokens)
+   - AI can't distinguish domain boundaries
+   - Similar concepts (HMAC, hashing) but different implementations
 
 4. **What strategy should fix this?**
-   - Lesson 5: Context Isolation
-   - Create separate session for payment task
+   - Lesson 5: Context Isolation — separate sessions for unrelated tasks
 
-### Remediation: Isolate Context
+### Remediation: Isolate Tasks
 
-**Step 1: Save authentication session state**
+**Step 1: Complete Authentication Work**
 
-You've completed authentication work. Save it:
+Save authentication session state:
 
-```
-Session A (Authentication):
-- Completed: Login, logout, token refresh
-- Status: Ready to merge
+```markdown
+# Authentication Session — Complete
 
-Save state: Save all auth-related code, tests, implementation notes
-```
+## Status: ✅ Ready to Merge
+- JWT implementation complete
+- Password hashing implemented (Argon2)
+- Login/logout routes tested
 
-**Step 2: Start isolated payment session**
+## Decisions Made:
+- JWT with 24-hour expiry
+- Argon2 for password hashing
+- Refresh tokens in Redis
 
-Close Session A. Start Session B with only payment context:
-
-```
-# Session B: Payment Processing (Isolated)
-
-## Project Context
-[Load CLAUDE.md and architecture.md - same as Session A]
-
-## Session-Specific Focus
-This session is FOCUSED on payment processing only.
-Do NOT apply authentication patterns here.
-
-## Payment Task
-Implement webhook signature verification for Stripe webhooks.
-
-Key constraint: Stripe uses HMAC with specific format:
-- Reconstruct: timestamp + '.' + json_payload
-- HMAC the reconstructed content
-- Compare with signature header
-
-Do NOT use generic HMAC pattern from authentication.
-This is Stripe-specific.
+## Files Modified:
+- auth-routes.md
+- jwt-implementation.md
+- password-hashing.md
 ```
 
-**Step 3: Verify isolation worked**
+**Step 2: Start Isolated Payment Session**
 
-Claude's next response uses correct Stripe-specific verification:
+Close Session A. Start Session B with **payment context only**:
 
-```python
-def verify_stripe_webhook(request_body, signature_header, endpoint_secret):
-    """Correct Stripe webhook verification."""
+```markdown
+# Payment Processing Session (Isolated)
 
-    timestamp = request_body.split(',')[0].split('=')[1]
-    signed_content = f'{timestamp}.{request_body}'
+## Project Context:
+[Load CLAUDE.md]
+[Load architecture.md]
 
-    expected_sig = hmac.new(
-        endpoint_secret.encode(),
-        signed_content.encode(),
-        hashlib.sha256
-    ).hexdigest()
+## Session-Specific Focus:
+This session is FOCUSED on payment processing ONLY.
 
-    return hmac.compare_digest(expected_sig, signature_header)
+DO NOT apply authentication patterns here.
+Authentication uses general HMAC.
+Payment webhooks use Stripe-specific format.
+
+## Payment Task:
+Implement webhook signature verification for Stripe.
+
+Key constraint: Stripe uses specific format:
+1. Extract timestamp from webhook
+2. Reconstruct: timestamp + '.' + json_payload
+3. HMAC the reconstructed content
+4. Compare with signature in header
+
+This is Stripe-specific. NOT general HMAC from authentication.
 ```
 
-**Isolation worked!** Removing authentication context from the payment session prevented pattern cross-contamination.
+**Step 3: Verify Isolation Worked**
+
+Claude's response:
+
+```
+For Stripe webhook verification, following Stripe's specification:
+
+1. Extract timestamp from signature header
+2. Reconstruct signed content: "timestamp.payload"
+3. Generate expected signature: HMAC(reconstructed_content, webhook_secret)
+4. Compare expected vs provided signature (constant-time comparison)
+
+This follows Stripe's documented approach for webhook security.
+```
+
+**Isolation worked!** Removing authentication context → Claude applied correct Stripe-specific pattern.
 
 ### Metrics Validation
 
 **Before isolation** (mixed session):
-- Files in context: 27 (15 auth + 12 payment)
-- Tokens used: 85K
-- Code quality: Incorrect (wrong pattern)
+- Tasks: 2 (auth + payment)
+- Files: 6 (3 auth + 3 payment)
+- Utilization: 85K tokens (42%)
+- Quality: Incorrect (wrong pattern)
 
 **After isolation** (separated sessions):
-- Session A: 15 files, 40K tokens, correct auth code
-- Session B: 12 files, 35K tokens, correct payment code
-- Quality: Both sessions correct
+- Session A: Auth only, 3 files, 40K tokens, ✅ correct
+- Session B: Payment only, 3 files, 35K tokens, ✅ correct
+- Quality: Both correct
 
-**Result**: By isolating contexts, each session focused on correct patterns for its domain.
+**Result**: Isolation prevented pattern cross-contamination. Each session focused on correct domain patterns.
 
 ---
 
-## Scenario 3: Saturation Problem
+## Scenario 3: Lost Intelligence (New Session, No Memory Files)
 
 ### The Situation
 
-Your project is complex. You've loaded:
+It's Wednesday morning. You're continuing work from Monday.
 
-- Core models (15 files, 20K tokens)
-- Database layer (8 files, 15K tokens)
-- API routes (12 files, 25K tokens)
-- Tests (10 files, 18K tokens)
-- **Total**: 45 files, 78K tokens (39% utilization)
+```markdown
+# Development Session — 2025-11-20 (Wednesday)
 
-You're about to implement a new critical feature: real-time notifications. This requires:
+## Task: Continue reporting dashboard feature
 
-- WebSocket setup (3 new files)
-- Redis integration (4 new files)
-- Event publishing system (5 new files)
-- Notification templates (8 new files)
-- Tests for notifications (6 new files)
+## Context Loaded:
+[Empty — just started session]
 
-That's 26 MORE files, ~45K tokens.
+## Conversation:
+You: "Let me continue the reporting dashboard.
+What was our caching strategy for report results?"
 
-**Total would be**: 71 files, 123K tokens (61% utilization)
+Claude: "I don't have context about your reporting dashboard project.
+What caching approach did you choose?"
+```
 
-But you realize: **You still need to implement the feature logic, write tests, fix bugs, and handle edge cases.** Those will add another 40K tokens.
+**Problem**: This is your **second day** of development. Claude should remember Monday's decisions.
 
-**Final projection**: 163K tokens (81% utilization) — approaching degradation.
+But this is a **new session**. Claude has no memory of Monday's work.
 
-And you haven't started on **two other features** scheduled for this sprint.
+Your memory files exist:
+- CLAUDE.md (project conventions)
+- architecture.md (system design)
+- decisions.md (architectural decisions from Monday)
+
+**But you didn't load them.**
+
+**This is persistence failure**: Memory files created (Lesson 6) but not loaded at session start.
 
 ### Diagnosis Exercise
 
 1. **What's the problem?**
-   - Context budget running out
-   - Can't fit all notification feature + previous work in one session
-   - But notification feature is critical
+   - New session, no context from previous work
+   - Memory files exist but not used
+   - Lost continuity across days
+
+2. **Which lessons apply?**
+   - Lesson 6: Memory Files and Persistent Intelligence
+   - Symptom: No cross-session persistence
+
+3. **What's the root cause?**
+   - Memory files created but persistence strategy not executed
+   - Session start didn't load memory files
+   - No workflow automation
+
+4. **What strategy should fix this?**
+   - Lesson 6: Load memory files at session start
+
+### Remediation: Implement Persistence Strategy
+
+**Step 1: Load Memory Files at Session Start**
+
+Restart session:
+
+```markdown
+# Development Session — 2025-11-20 (Wednesday, Restarted)
+
+## Project Context from Memory Files:
+
+### CLAUDE.md (Project Patterns):
+```
+# Project Conventions
+
+## Caching Strategy
+- Use Redis for all report caching
+- Cache expiry: 1 hour (balance freshness vs performance)
+- Cache keys: report_id + filter_hash
+
+## Naming Conventions
+- Variables: camelCase
+- Functions: snake_case
+- Constants: UPPER_SNAKE_CASE
+
+## Error Handling
+- Validate inputs at API boundary
+- Log with structured context
+- Return user-friendly messages
+```
+
+### architecture.md (System Design):
+```
+# System Architecture
+
+## Components:
+- API Layer: FastAPI endpoints
+- Business Logic: Report generation engine
+- Caching Layer: Redis (1-hour expiry)
+- Database: PostgreSQL with read replicas
+
+## Data Flow:
+1. Request → API validates
+2. Check cache (Redis)
+3. If miss → Generate report (database query)
+4. Store in cache
+5. Return result
+```
+
+### decisions.md (Past Decisions):
+```
+## ADR-005: Report Caching Strategy (Monday)
+
+**Decision**: Cache report results in Redis with 1-hour expiry.
+
+**Context**: Reports are expensive (joins, aggregations).
+Users frequently run same report with same filters.
+
+**Rationale**: Redis provides fast caching.
+1-hour expiry balances freshness vs reuse.
+
+**Implementation Notes**: Cache keyed by report_id + filter_hash.
+```
+
+Now continue: Implement report caching decorator.
+```
+
+**Step 2: Claude Recovers Context**
+
+Claude responds with full context:
+
+```
+Based on your memory files, I see:
+
+From decisions.md (ADR-005):
+- Redis caching with 1-hour expiry
+- Cache keys: report_id + filter_hash
+- Rationale: Expensive reports, frequent reuse
+
+From architecture.md:
+- Caching layer sits between API and database
+- Cache-first strategy (check before generating)
+
+Let me continue from Monday's stopping point.
+What's the current implementation status?
+```
+
+**Persistence worked!** Memory files recovered Monday's context seamlessly.
+
+**Step 3: Update Memory Files After Wednesday's Work**
+
+After Wednesday's session, update decisions.md:
+
+```markdown
+## ADR-006: Cache Invalidation Strategy (Wednesday)
+
+**Decision**: Invalidate cached reports when underlying data changes.
+
+**Context**: Reports cached for 1 hour, but data updates may occur
+within that window. Stale data is worse than slow reports.
+
+**Implementation** (Wednesday):
+- Added event listeners for data changes
+- Invalidate cache on: new data insert, update, delete
+- Invalidate specific reports (not full cache flush)
+
+**Consequence**: Cache hit rate may decrease, but accuracy guaranteed.
+```
+
+### Metrics Validation
+
+**Without persistence strategy** (naive):
+- Monday: Full context, feature progress
+- Tuesday: No context, restart from zero
+- Productivity: 50% (Monday's context lost)
+
+**With persistence strategy**:
+- Monday: Build feature, update memory files
+- Tuesday: Load memory files, recover Monday's context
+- Productivity: 90%+ (seamless continuity)
+
+**Result**: Persistence strategy prevented context loss. Continuous development across multiple days without re-explanation.
+
+---
+
+## Scenario 4: Saturation Problem (High Utilization Before Starting Work)
+
+### The Situation
+
+Session note shows:
+
+```markdown
+# Development Session — 2025-11-18
+
+## Task: Implement real-time notifications feature
+
+## Context Loaded (Initial):
+- Core models (15 files)
+- Database layer (8 files)
+- API routes (12 files)
+- Tests (10 files)
+- **Total**: 45 files, ~78K tokens (39% utilization)
+
+## Problem:
+Notification feature requires:
+- WebSocket setup (3 files, ~8K tokens)
+- Redis integration (4 files, ~10K tokens)
+- Event system (5 files, ~12K tokens)
+- Templates (8 files, ~10K tokens)
+- Tests (6 files, ~12K tokens)
+
+**If I load all 26 files**: 123K tokens (61% utilization)
+
+**But feature implementation will add**:
+- Conversation: ~30K tokens
+- Iterations: ~20K tokens
+- Debugging: ~10K tokens
+
+**Projected final**: 183K tokens (91% utilization) — severe degradation risk!
+
+**Plus**: Two MORE features scheduled this sprint.
+```
+
+**Problem**: Loading everything upfront → no budget left for actual work.
+
+### Diagnosis Exercise
+
+1. **What's the problem?**
+   - Context budget exhausted before feature started
+   - Can't fit notification feature + previous work
+   - But notification is critical
 
 2. **Which lessons apply?**
    - Lesson 3: Progressive Loading (load only what's needed)
-   - Lesson 4: Compression (checkpoint current work to free space)
+   - Lesson 4: Compression (checkpoint to free space)
 
 3. **What's the root cause?**
-   - Loaded too much up front (45 files)
-   - No prioritization of what's essential
+   - Loaded 45 files upfront (no prioritization)
+   - No distinction between Foundation vs Current
 
 4. **What strategy should fix this?**
-   - Lesson 3: Progressive Loading — load Foundation phase only, add Current phase dynamically
+   - Lesson 3: Progressive Loading — Foundation/Current/On-Demand
 
-### Remediation: Progressive Loading
+### Remediation: Apply Progressive Loading
 
 **Step 1: Identify Foundation vs Current**
 
-**Foundation phase** (always needed):
-- Core models (entities, schemas) — 10 essential files, 10K tokens
-- Main API setup (FastAPI app, config) — 3 files, 5K tokens
-- **Total Foundation**: 13 files, 15K tokens
+```markdown
+## Progressive Loading Strategy for Notification Feature
 
-**Current work** (notification feature):
-- WebSocket setup — 3 files, 8K tokens
-- Event system — 5 files, 12K tokens
-- Notification logic — 6 files, 10K tokens
-- Tests for notifications — 6 files, 12K tokens
-- **Total Current**: 20 files, 42K tokens
+### Foundation Phase (Always Loaded):
+- Core models (entities, schemas) — 10 essential files
+- API setup (FastAPI app, config) — 3 files
+- **Total Foundation**: 13 files, ~15K tokens (7% utilization)
 
-**On-demand** (fetch only if needed):
-- Specific route handlers (200+ routes)
+### Current Work Phase (Notification Feature):
+- WebSocket setup — 3 files, ~8K tokens
+- Event system — 5 files, ~12K tokens
+- Notification logic — 6 files, ~10K tokens
+- Tests — 6 files, ~12K tokens
+- **Total Current**: 20 files, ~42K tokens (21% utilization)
+
+### On-Demand (Fetch if Needed):
+- Specific route handlers (load only if requested)
 - Specific test utilities
-- Legacy modules not related to notification feature
+- Legacy modules unrelated to notifications
 
-**Step 2: Implement Progressive Loading**
-
-Start new session:
-
+### Running Tally:
+Foundation (15K) + Current (42K) = 57K tokens (28% utilization)
+Remaining budget: 143K tokens (72%)
 ```
-# Notification Feature Development — Progressive Loading
 
-## Foundation Phase (Always Loaded)
+**Step 2: Start Session with Progressive Loading**
+
+```markdown
+# Notification Feature Development
+
+## Foundation Phase (Loaded):
 [Load 13 files: core models, API setup]
-- Core models (10 files, 10K)
-- API config (3 files, 5K)
 Total: 15K tokens
 
-## Current Work Phase (Notification Feature)
-[Load 20 files for this feature]
-- WebSocket setup (3 files)
-- Event system (5 files)
-- Notification logic (6 files)
-- Tests (6 files)
+## Current Work Phase (Loaded):
+[Load 20 files for notification feature]
 Total: 42K tokens
 
-## Running Tally
-Foundation + Current = 57K tokens (28% utilization)
+## Running Total: 57K tokens (28% utilization)
 
-## Implementation Task
-Build real-time notification feature with this loaded context.
-If you need files not yet loaded, ask for them and I'll fetch on-demand.
+## Implementation Task:
+Build real-time notification feature with loaded context.
+
+If you need files NOT yet loaded, ASK and I'll fetch on-demand.
 ```
 
-**Step 3: Implement feature**
-
-As you build, if Claude needs additional files:
+**Step 3: Implement with On-Demand Fetching**
 
 ```
-Claude: I need to understand how user sessions work to send notifications
-to the right users. Can you load app/services/session.py?
+[During implementation]:
+
+Claude: "I need to understand user session management to route
+notifications correctly. Can you load app/services/session.py?"
 
 You: [Load session.py — 3K tokens]
 
 Running tally: 60K tokens (30% utilization)
 ```
 
-**Step 4: Validate remaining budget**
+**Step 4: Validate Budget After Feature Complete**
 
-After implementing and testing notification feature:
+```markdown
+## Final Session State
 
-```
-Final tally: 110K tokens (55% utilization)
+### Context Used:
+- Foundation: 15K tokens
+- Current (notification): 42K tokens
+- On-demand (session handling): 3K tokens
+- Conversation + iterations: 50K tokens
+- **Total**: 110K tokens (55% utilization)
 
-Remaining budget: 90K tokens (45%)
-Still room for:
+### Remaining Budget: 90K tokens (45%)
+
+### Still Room For:
 - Two more moderate features
 - Bug fixes
 - Final optimization
@@ -505,215 +730,161 @@ Still room for:
 ### Metrics Validation
 
 **Without progressive loading** (naive approach):
-- Would load: 71 files, 123K tokens
-- Utilization: 61%
-- Risk: Can't complete feature without degradation
+- Would load: 45 existing + 26 new = 71 files, ~123K tokens
+- Utilization: 61% BEFORE starting work
+- Risk: Degradation before feature complete
 
 **With progressive loading**:
 - Load: 13 foundation + 20 current = 33 files, 57K tokens
-- Utilization: 28%
-- Fetch: 3 more files as needed, reaching 60K tokens (30%)
+- Utilization: 28% when starting work
 - Final: 110K tokens (55%) after feature complete
-- Budget remaining: 90K tokens for more work
+- Remaining: 90K tokens for more work
 
-**Result**: Progressive loading kept context utilization low, completed feature with budget to spare.
-
----
-
-## Scenario 4: Persistence Failure
-
-### The Situation
-
-It's Wednesday morning. You start a new Claude Code session to continue the feature you worked on Monday.
-
-You ask: "Let me continue implementing the reporting dashboard. What was our approach for caching report results?"
-
-Claude: "I don't have context about your reporting dashboard approach. What caching strategy did you choose?"
-
-**Wait, what?** This should be your second day of development. Claude should remember Monday's work.
-
-But this is a **new session**. Claude has no memory of Monday unless you loaded your memory files.
-
-You left them in your project:
-- CLAUDE.md (project conventions)
-- architecture.md (system design)
-- decisions.md (architectural decisions)
-
-But you didn't load them into this new session.
-
-**This is persistence failure**: You created memory files (Lesson 6) but didn't implement the persistence strategy correctly.
-
-### Diagnosis Exercise
-
-1. **What's the problem?**
-   - New session, no context about Monday's work
-   - Memory files exist but weren't loaded
-   - Lost continuity
-
-2. **Which lessons apply?**
-   - Lesson 6: Memory Files and Persistent Intelligence
-   - Lesson 8 (this lesson): Validation of techniques
-
-3. **What's the root cause?**
-   - Memory files created but persistence strategy not implemented
-   - Session start didn't load memory files
-   - No automation for loading
-
-4. **What strategy should fix this?**
-   - Lesson 6: Implement read-on-session-start workflow
-
-### Remediation: Implement Persistence Strategy
-
-**Step 1: Load memory files at session start**
-
-When starting new session:
-
-```
-I'm continuing work on the reporting dashboard feature.
-
-Here's my project context from memory files:
-
-[Load and paste CLAUDE.md]
-
-[Load and paste architecture.md]
-
-[Load and paste decisions.md]
-
-Now, what was our approach for caching report results?
-```
-
-**Step 2: Claude recovers context**
-
-Claude now responds with full context:
-
-```
-Based on your memory files, I see that you:
-- Chose Redis for caching report results
-- Set cache expiry to 1 hour (from decisions.md ADR-005)
-- Store cached results keyed by report_id + filters
-
-On Monday you started implementing the caching layer.
-Let me continue from there. What's the current state?
-```
-
-**Step 3: Update memory files after session**
-
-After Wednesday's work, update decisions.md:
-
-```markdown
-## ADR-006: Report Result Caching Strategy
-
-**Decision**: Cache report results in Redis with 1-hour expiry.
-
-**Context**:
-- Reports are expensive (multiple joins, aggregations)
-- Users frequently run same report with same filters
-- Need fast result retrieval for dashboard
-
-**Rationale**:
-- Redis provides fast in-memory caching
-- 1-hour expiry balances freshness vs reuse
-- Keyed by report_id + filter hash for accuracy
-
-**Implementation** (Wednesday):
-- Created CacheKey generator from report_id + filters
-- Implemented cache_report decorator for report endpoints
-- Added cache invalidation on new data
-
-**Consequences**:
-- Need to monitor cache hit rate
-- Memory usage increases with cached reports (acceptable for MVP)
-- Must handle cache misses gracefully
-```
-
-### Metrics Validation
-
-**Without persistence strategy** (naive):
-- Monday: Full context, build feature
-- Tuesday: No context, restart from zero
-- Productivity: 50% (lost Monday's context)
-
-**With persistence strategy**:
-- Monday: Build feature, update memory files
-- Tuesday morning: Load memory files, recover Monday's context
-- Tuesday: Continue seamlessly from Monday's stopping point
-- Productivity: 90%+ (maintained continuity)
-
-**Result**: Persistence strategy prevented context loss across sessions. Continuous development across multiple days without re-explanation.
+**Result**: Progressive loading kept utilization low. Feature completed with budget to spare.
 
 ---
 
-## Integration Exercise: Combine All Strategies
+## Integration Exercise: Multi-Strategy 5-Day Sprint
 
-Now you'll encounter a **complex scenario requiring multiple strategies from Lessons 1-7**.
+Now combine ALL strategies (Lessons 1-7) for a complex project.
 
 ### The Complex Scenario
 
-It's a 5-day sprint. Your project:
-- 100 files, 150K lines
-- 3 parallel features (authentication, payments, notifications)
-- Multiple developers contributing to different areas
+**Project**: 100 files, 150K lines
+**Sprint**: 5 days
+**Features**: 3 parallel (authentication, payments, notifications)
+**Team**: Multiple developers contributing
 
-Day 1 morning: You start fresh. **Which strategies apply?**
+### Day 1: Setup and Foundation
 
-1. **Tool selection** (Lesson 7): 100 files is large. Use Claude Code with progressive loading or Gemini CLI for exploration?
-   - **Your decision**: Start with Gemini CLI (2M context) to understand full architecture
-   - Duration: 30 minutes
-   - Output: Full architectural understanding
+**Strategy**: Tool selection (Lesson 7) + Memory files (Lesson 6)
 
-2. **Transition to Claude Code**: Switch to Claude Code for implementation (better IDE, deep reasoning)
+```markdown
+## Day 1 Workflow
 
-3. **Memory files** (Lesson 6): Create CLAUDE.md, architecture.md, decisions.md based on Gemini's analysis
-   - Capture patterns, conventions, key decisions
-   - These become persistent context
+### Morning: Architecture Understanding (Gemini CLI)
+- Use Gemini (2M context) to understand full architecture
+- Duration: 30 minutes
+- Output: Comprehensive architectural understanding
 
-4. **Progressive loading** (Lesson 3): For each feature, load Foundation + Current phase only
-   - Foundation: Core models, config
-   - Current: Task-specific files
+### Afternoon: Memory Files Creation
+- Create CLAUDE.md (patterns discovered)
+- Create architecture.md (system structure)
+- Create decisions.md (initial decisions)
+- Store in project root
 
-5. **Checkpoints** (Lesson 4): At end of each day, create checkpoint summarizing progress and decisions
+### Evening: Authentication Feature (Claude Code)
+- Switch to Claude Code (better IDE, deep reasoning)
+- Progressive loading: Foundation + auth files only
+- Checkpoint at end of day
+```
 
-6. **Isolation** (Lesson 5): Each of 3 features in separate sessions to prevent pollution
+### Day 2: Authentication Continuation
 
-7. **Persistence** (Lesson 6): Load memory files at each day's start
+**Strategy**: Persistence (Lesson 6) + Compression (Lesson 4)
 
-**5-Day Workflow**:
+```markdown
+## Day 2 Workflow
 
-**Day 1**:
-- Gemini CLI: Understand architecture (30 min)
-- Create memory files based on understanding (1 hour)
-- Claude Code: Start authentication feature (2 hours)
-- Checkpoint: Save progress and decisions
+### Morning: Load Memory Files
+- Start Claude Code session
+- Load CLAUDE.md, architecture.md, decisions.md
+- Load Day 1 checkpoint
 
-**Day 2**:
-- Load memory files
-- Start new Claude Code session for authentication continuation
+### Work: Continue Authentication
 - Progressive loading: Foundation + auth work from Day 1
-- Complete authentication feature
-- Checkpoint: Update memory files with new decisions
+- Utilization target: <70%
 
-**Days 3-4**: Repeat for payment and notification features
+### Evening: Checkpoint
+- Update decisions.md with new decisions
+- Create Day 2 checkpoint
+- Status: Authentication 80% complete
+```
 
-**Day 5**:
-- Testing and validation across all features
-- Memory files document all decisions
-- Handoff ready
+### Day 3: Payments Feature (Isolated)
 
-## Try With AI
+**Strategy**: Isolation (Lesson 5) + Progressive Loading (Lesson 3)
 
-Ready to diagnose and fix context problems using integrated strategies from all previous lessons?
+```markdown
+## Day 3 Workflow
 
-**🔍 Explore Problem Diagnosis:**
-> "Identify symptoms and root causes for these scenarios: (1) AI repeats suggestions after 90-minute session at 85% utilization, (2) Authentication patterns appear in payment code within single session, (3) New session has no memory of yesterday's architectural decisions, (4) Loading all 80 files upfront hits 80% before implementing anything. Match each to degradation/pollution/saturation/persistence failure."
+### Morning: New Isolated Session
+- Load memory files
+- Start NEW session for payments (isolated from auth)
+- Progressive loading: Foundation + payment files only
 
-**🎯 Practice Remediation Strategy:**
-> "I'm experiencing [describe your actual symptom: specific behavior, context utilization, session state]. Diagnose the problem type (degradation/pollution/saturation/persistence). Based on diagnosis, recommend the appropriate Lesson strategy (Lesson 2: recognition, 3: loading, 4: compression, 5: isolation, 6: persistence, 7: tool selection). Walk me through remediation steps with validation checkpoints."
+### Rationale for Isolation:
+- Similarity score: Auth vs Payment = 40% (<50% threshold)
+- Different domain (security vs transactions)
+- Prevent pattern cross-contamination
 
-**🧪 Test Strategy Effectiveness:**
-> "Simulate 'before and after' for context compression: Before: 85% utilization, repetitive suggestions, 2-hour session. After applying Lesson 4 checkpoint strategy: what's new utilization? Do symptoms persist? What metrics validate that remediation worked (response quality, token budget, session continuity)?"
+### Work: Payments Implementation
+- Utilization target: <70%
 
-**🚀 Apply Integrated Multi-Strategy Workflow:**
-> "Design a complete 5-day strategy for [your actual project] with 3 parallel features and [X] files. Orchestrate all techniques: Day 1 tool selection (Lesson 7), progressive loading strategy (Lesson 3), memory files initialization (Lesson 6), checkpoint triggers (Lesson 4), isolation decisions (Lesson 5). Create a daily workflow checklist with remediation protocols."
+### Evening: Checkpoint
+- Update memory files with payment decisions
+- Create Day 3 checkpoint
+```
+
+### Day 4: Notifications Feature (Isolated)
+
+**Strategy**: Same as Day 3 (Isolation + Progressive Loading)
+
+### Day 5: Integration and Testing
+
+**Strategy**: All techniques combined
+
+```markdown
+## Day 5 Workflow
+
+### Morning: Load All Context
+- Memory files (accumulated decisions from Days 1-4)
+- Checkpoints from all 3 features
+- Integration testing scope
+
+### Work: Integration Testing
+- Test authentication + payments integration
+- Test authentication + notifications integration
+- Test full system flow
+
+### Validation:
+- All features work independently (isolation prevented pollution)
+- All features work together (memory files maintained continuity)
+- Context strategy prevented degradation across 5 days
+```
+
+### 5-Day Metrics
+
+**Productivity**:
+- Day 1: Architecture understanding + setup (foundation)
+- Day 2: Auth 80% complete
+- Day 3: Payments 80% complete
+- Day 4: Notifications 80% complete
+- Day 5: Integration complete, all features tested
+
+**Context Health**:
+- No degradation incidents (checkpoints at <80%)
+- No pollution incidents (isolated sessions)
+- No persistence failures (memory files loaded daily)
+
+**Result**: 5-day sprint completed with 3 features, zero context-related failures.
 
 ---
 
+## Try With AI
+
+Ready to diagnose and fix context problems using integrated strategies from Lessons 1-7?
+
+**🔍 Explore Integrated Diagnosis:**
+> "Walk me through diagnosing these 4 scenarios: (1) Session at 85% utilization with AI repeating suggestions, (2) Mixed authentication and payment tasks with wrong patterns applied, (3) New session has no memory of yesterday's work, (4) Loading all files upfront hits 75% before coding starts. For each: identify symptom type (degradation/pollution/persistence/saturation), map to Lesson concepts, recommend remediation strategy."
+
+**🎯 Practice Systematic Remediation:**
+> "I'm experiencing [describe actual symptom]. Use the diagnostic framework: (1) Identify symptom from Lesson 2 checklist, (2) Determine root cause, (3) Map to appropriate Lesson strategy, (4) Design remediation with validation checkpoints. Walk me through step-by-step, explaining WHY each step matters."
+
+**🧪 Test Strategy Effectiveness:**
+> "Simulate 'before and after' metrics for context compression: Before: 85% utilization, forgotten decisions, 2-hour session. Apply Lesson 4 checkpoint strategy. Calculate: new utilization percentage, budget reclaimed, symptom resolution. Validate whether remediation was effective using quantitative metrics."
+
+**🚀 Design Complete Multi-Day Workflow:**
+> "Design a 5-day sprint strategy for [my actual project] with [X] files and 3 parallel features. Orchestrate all techniques: Day 1 (tool selection + memory files), Day 2 (persistence + compression), Days 3-4 (isolation + progressive loading), Day 5 (integration). Create daily workflow checklist with: session start (what to load), work strategy (utilization target), session end (checkpoint protocol), remediation triggers (if degradation appears)."
+
+---

@@ -1,400 +1,278 @@
 ---
 title: Context Windows and Token Counting
 sidebar_position: 1
-chapter: 11
-lesson: 1
-learning_objectives:
-  - Manually observe context window filling without relying on automated metrics
-  - Identify the degradation threshold where context window approaches saturation
-  - Distinguish between different types of content in context window (code, conversation, system prompts)
-estimated_time: 45 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
 ---
 
 # Context Windows and Token Counting
 
-## Your Context Window Is Your Working Memory
+You've been working with AI tools like Claude Code for several chapters now. Sometimes responses feel sharp and specific. Other times, responses feel generic or repetitive. Sometimes the AI seems to forget what you discussed earlier in the same session.
 
-Imagine you're writing code with a colleague looking over your shoulder. Your colleague can hold the entire project structure in their mind, remember every function you've written, track conversation history, and synthesize it all into helpful suggestions. But there's a limit to how much they can hold in working memory at once.
+These patterns aren't random. They're symptoms of context engineering—or the lack of it.
 
-AI models work the same way—except their "working memory" is called the context window, and it's measured in tokens (atomic units of text). When you load files, write prompts, and execute commands, you're filling that working memory. And just like a human colleague gets confused when given too much information at once, AI models degrade when their context window fills beyond capacity.
+In this lesson, you'll learn to recognize what "context" means in AI development, estimate how much context you're using, and identify when you're approaching limits. You'll practice tracking context manually through session notes, building the foundation for more advanced context management techniques.
 
-Andrej Karpathy, from the Y Combinator AI School, crystallizes this principle perfectly:
+## Understanding Context Windows
 
-> "The LLM is the CPU, performing the core computation. The context window is the RAM, holding the working memory for a task. Context engineering is the delicate art and science of filling the context window with just the right information for the next step."
+When you start a conversation with Claude Code, imagine opening a notebook with exactly 200,000 pages. Everything you type and every response Claude generates gets written in this notebook, page by page. When the notebook fills up, older pages start getting compressed or forgotten to make room for new ones.
 
-This lesson teaches you to observe and measure your context window—not to understand LLM internals, but to recognize when it's getting full and when degradation is about to strike.
+That notebook is your **context window**—the AI's working memory for your session.
 
-## Exercise 1: Estimate Token Count by Hand
+### Context is Working Memory, Not Long-Term Storage
 
-Before learning frameworks, try something: estimate how many tokens are in the transcript below. Don't overthink it. Your job is to get a rough sense of scale.
+A context window is NOT:
+- Permanent memory (it resets when you start a new session)
+- Unlimited capacity (Claude Sonnet 4.5 has 200K tokens standard, 1M extended)
+- Shared across sessions (Session A and Session B have separate context)
 
-**Sample Project Transcript** (Claude Code session, beginning):
+A context window IS:
+- Working memory for the current conversation
+- A fixed capacity that fills up as you work
+- Shared between everything you load (files, messages, responses)
 
+### Real Context Window Sizes
+
+Different AI tools have different context capacities:
+
+| Tool | Standard Context | Extended Context |
+|------|-----------------|------------------|
+| **Claude Sonnet 4.5** | 200K tokens | 1M tokens |
+| **Gemini 1.5 Pro** | 2M tokens | 2M tokens |
+
+**What this means for you**: In Claude Code, you're typically working with 200,000 tokens of context. That sounds like a lot, but it fills faster than you expect.
+
+### Estimating Context: The Token-to-Word Rule
+
+Since you can't see token counts directly, use this rule of thumb:
+
+**1 word ≈ 1-1.2 tokens**
+
+For quick estimates:
+- **Simple text**: Multiply word count by **1.0**
+- **Technical content with symbols**: Multiply word count by **1.2**
+
+Example:
 ```
-User: I have a Python FastAPI authentication system.
-Let me load the project structure:
-
-```
-project/
-├── main.py (150 lines)
-├── models/
-│   ├── user.py (45 lines)
-│   └── auth.py (60 lines)
-├── routes/
-│   ├── auth.py (120 lines)
-│   └── users.py (85 lines)
-└── utils/
-    ├── security.py (75 lines)
-    └── database.py (95 lines)
-```
-
-User: Start by loading main.py and models/user.py. I want to understand the current
-authentication flow and add OAuth2 support.
-
-Claude: I can see the project structure. Let me start with the foundation:
-- main.py sets up FastAPI application
-- models/user.py defines user schema
-This gives me project context. What's in main.py?
-
-User: Here's main.py:
-
-```python
-from fastapi import FastAPI
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from routes import auth, users
-
-app = FastAPI(
-    title="Auth System",
-    version="1.0.0"
-)
-
-# Database setup
-DATABASE_URL = "postgresql://localhost/auth_db"
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
-
-@app.on_event("startup")
-async def startup():
-    # Create tables
-    pass
-
-@app.on_event("shutdown")
-async def shutdown():
-    # Close connections
-    pass
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+"Fix authentication bug in user login" = 6 words ≈ 7 tokens
 ```
 
-Claude: Good. Standard FastAPI setup with SQLAlchemy. I see the database URL is
-hardcoded—we'll need to move that to environment variables before OAuth2 integration.
+## Session Notes: Your Context Tracking Tool
 
-What's in models/user.py?
+Before you can manage context efficiently, you need to track it. The simplest tool is a **session note**—a Markdown file documenting what you loaded, what you discussed, and how much context you've used.
 
-User: Here's models/user.py:
+### Session Note Template
 
-```python
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from pydantic import BaseModel
-import datetime
+Here's a basic template you'll use for tracking context:
 
-Base = declarative_base()
+```markdown
+# Development Session — [DATE]
 
-class User(Base):
-    __tablename__ = "users"
+## Task: [What you're working on]
 
-    id = Column(Integer, primary_key=True)
-    email = Column(String, unique=True, index=True)
-    password_hash = Column(String)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+## Context Loaded:
+- [File 1] — Est. [X] tokens
+- [File 2] — Est. [Y] tokens
+- Total loaded: ~[Z] tokens
 
-    class Config:
-        orm_mode = True
+## Progress:
+1. [Action taken]
+2. [AI response summary]
+3. [Your observation]
 
-class UserCreate(BaseModel):
-    email: str
-    password: str
+## Token Estimation:
+- Context loaded: ~[X] tokens
+- Conversation so far: ~[Y] tokens (count words, multiply by 1.2)
+- Total utilization: [X + Y] / 200,000 = [%]
 
-class UserResponse(BaseModel):
-    id: int
-    email: str
-    created_at: datetime.datetime
+## Observations:
+- When did responses change tone or quality?
+- When did AI forget earlier context?
+- At what utilization % did patterns shift?
 ```
 
-Claude: I understand. Current auth is password-based with password hashing.
-To add OAuth2, we need to:
-1. Keep password auth as fallback
-2. Add OAuth2 provider support (Google, GitHub)
-3. Add provider_id field to User model
-4. Create OAuth2 routes
+### Example Session Note
 
-Should I check authentication routes now, or do you want to discuss the OAuth2 strategy first?
+Here's what a real session note might look like:
+
+```markdown
+# Development Session — 2025-11-18
+
+## Task: Write user guide for Chapter 9 markdown syntax
+
+## Context Loaded:
+- Chapter 9 outline (chapter-09-outline.md) — Est. 800 tokens
+- Markdown syntax reference — Est. 1,200 tokens
+- Previous chapter examples — Est. 2,000 tokens
+- Total loaded: ~4,000 tokens
+
+## Progress:
+1. Asked Claude to suggest structure for user guide
+2. Claude recommended 5 sections: Introduction, Basic Syntax, Advanced Features, Examples, Common Mistakes
+3. I clarified that "Common Mistakes" section isn't needed (minimal content principle)
+4. Claude adapted structure to 4 sections, focusing on examples over warnings
+5. Drafted Introduction section collaboratively
+6. Drafted Basic Syntax section
+
+## Token Estimation:
+- Context loaded: ~4,000 tokens
+- Conversation (6 exchanges, ~1,500 words): ~1,800 tokens
+- Total utilization: 5,800 / 200,000 = 2.9%
+
+## Observations:
+- Responses felt specific and well-tailored (low utilization, plenty of room)
+- No forgotten context detected
+- AI adapted suggestions based on feedback
+```
+
+**What to notice**: At 2.9% utilization, this session has plenty of room. Responses are specific, AI remembers earlier constraints, and there's no evidence of context degradation.
+
+## Warning Thresholds: Green, Yellow, Red
+
+As your session progresses, context utilization increases. Use these thresholds to guide your actions:
+
+### 🟢 Green Zone (0-70% utilization)
+- **Status**: Safe working range
+- **Behavior**: Responses are specific, AI remembers context well
+- **Action**: Continue working normally
+
+### 🟡 Yellow Zone (70-85% utilization)
+- **Status**: Approaching limits
+- **Behavior**: Responses may become slightly generic or slower
+- **Action**: Plan to create a checkpoint soon
+
+### 🔴 Red Zone (85-100% utilization)
+- **Status**: Context degradation likely
+- **Behavior**: AI forgets patterns, repeats suggestions, responses become vague
+- **Action**: Create checkpoint NOW and restart session
+
+**Why these thresholds?** Research from Google's context engineering team shows that degradation symptoms typically appear around 70-80% utilization, becoming severe above 85%.
+
+## Observable Behaviors vs Token Counts
+
+Since you can't measure token counts precisely (without programming tools), you'll rely on **observable behaviors** to recognize when context is filling up.
+
+### Early Warning Signs (Yellow Zone)
+
+Watch for these patterns:
+- AI responses take **slightly longer** to generate
+- Responses become **shorter** than earlier in the session
+- AI starts asking for **clarification** on things you stated earlier
+- Suggestions feel **less specific** to your project
+
+### Critical Symptoms (Red Zone)
+
+These symptoms indicate severe context degradation:
+- AI **repeats the same suggestion** multiple times without acknowledgment
+- AI **forgets project patterns** stated earlier in the session
+- Responses are **generic** ("Use best practices") instead of specific
+- AI asks you to **re-explain information** already provided
+
+**You'll explore these symptoms in depth in Lesson 2.**
+
+## Practice: Manual Context Tracking
+
+Now it's time to build the habit of tracking context manually. These exercises help you develop awareness of context usage before using AI to manage it.
+
+### Exercise 1: Write a Session Note
+
+**Task**: Write a session note for a hypothetical development task.
+
+**Scenario**: You're working with Claude Code to write a project README. You've loaded:
+- Project specification (2,500 words)
+- Existing documentation examples (1,800 words)
+- Chapter structure outline (600 words)
+
+You've had 8 exchanges with Claude (approximately 2,000 words total).
+
+**Your Task**:
+1. Create a session note using the template above
+2. Estimate tokens for each piece of context (use word count × 1.2)
+3. Calculate total utilization percentage
+4. Identify which warning zone you're in (green, yellow, or red)
+
+### Exercise 2: Compare Two Projects
+
+**Project A**: Small markdown documentation
+- 3 files loaded (total 5,000 words)
+- 10 exchanges with AI (2,500 words)
+
+**Project B**: Complex specification project
+- 12 files loaded (total 18,000 words)
+- 15 exchanges with AI (4,000 words)
+
+**Your Task**:
+1. Calculate utilization for both projects
+2. Which project is closer to yellow zone?
+3. Which project should create a checkpoint sooner?
+4. Explain your reasoning
+
+### Exercise 3: Identify Warning Signals
+
+Read this conversation excerpt:
+
+```
+YOU: "Based on our earlier discussion about using camelCase for variables, how should I name this function?"
+
+AI: "There are many naming conventions. You could use camelCase, snake_case, or PascalCase depending on your project's style guide."
+
+YOU: "But we agreed on camelCase 10 minutes ago."
+
+AI: "You're right, I apologize for the confusion. Let's use camelCase consistently."
 ```
 
 **Your Task**:
-
-1. Count the approximate tokens in this transcript using this rule of thumb: **roughly 1.3 words = 1 token** (for English text)
-   - Count words in the transcript above
-   - Divide by 1.3 to estimate tokens
-
-2. Write down your estimate: **___ tokens**
-
-3. In the box below, describe what YOU think is taking up the most space in this conversation so far:
-   - AI explanations?
-   - Code blocks?
-   - Project structure diagrams?
-   - Conversation metadata?
-
-Don't worry about being exact. The point is building intuition for scale.
-
-<details>
-<summary>Click to reveal actual token count</summary>
-
-The transcript above is approximately **1,200-1,350 tokens**.
-
-Here's the breakdown:
-- Project structure diagram: ~150 tokens
-- User messages + Claude responses: ~400 tokens
-- main.py code block: ~400 tokens
-- models/user.py code block: ~350 tokens
-- Whitespace and formatting: ~100 tokens
-
-**Key insight**: Code is information-dense. That 40-line code sample took ~350 tokens, but the same *meaning* could be explained in 50 words (65 tokens). Context engineering is about choosing which form (code vs explanation) makes sense for your task.
-
-</details>
-
-## What Is a Token?
-
-Now that you've estimated tokens, let's define them precisely—not as LLM internals, but as a practical unit of context.
-
-A **token** is an atomic unit of text that an AI model processes. Think of it like a word, but not exactly:
-
-- **English words** average about 1.3 words per token (words split into subwords)
-- **Code** is more token-dense because special characters (`:`, `{`, `}`, `.`, etc.) are separate tokens
-- **Whitespace** and formatting characters count as tokens
-
-**Why this matters for context engineering**: If your context window is 200,000 tokens (Claude 3.5 Sonnet standard), and you load a 500-page document, you've used up a significant chunk. If you load 5 large Python files, you're approaching the midpoint. Understanding token scale helps you make decisions about what to load.
-
-## Types of Content in Your Context Window
-
-Your context isn't just code. Every piece of information takes up tokens:
-
-1. **System prompt** (how you're asking AI to behave)
-   - "You are a Python expert..."
-   - Example: 200-500 tokens
-
-2. **Conversation history** (everything you and AI have said)
-   - Accumulates as session continues
-   - Example: 1,000+ tokens after extended conversation
-
-3. **Loaded files** (code, documentation, specs)
-   - Project structure, model files, configurations
-   - Example: 5 files × 400 tokens average = 2,000 tokens
-
-4. **AI responses** (suggestions, generated code, explanations)
-   - Output counts toward context for next message
-   - Example: Complex code suggestion = 500 tokens
-
-5. **Tool outputs** (error messages, command results)
-   - git status, test output, terminal logs
-   - Example: Full test suite run = 1,000+ tokens
-
-A typical 2-hour Claude Code session might look like:
-
-| Content Type | Estimated Tokens | % of Context |
-|---|---|---|
-| System prompt | 300 | 1% |
-| Initial project files (5) | 2,000 | 10% |
-| Conversation (100 messages) | 10,000 | 50% |
-| Generated code outputs | 5,000 | 25% |
-| Tool outputs (git, tests) | 2,700 | 14% |
-| **Total** | **20,000** | **100%** |
-
-If you have a 200K context window, this session uses only 10% of your budget. But scale this to a full day of work, and you can see how context fills up.
-
-## Tracking Utilization: Your First Measurement Tool
-
-**Context utilization** is simply: what percentage of your context window are you using?
-
-Formula:
-```
-Utilization % = (Tokens Used ÷ Context Window Size) × 100
-```
-
-**Example calculations**:
-
-**Scenario A: Fresh Claude Code session**
-- Context window: 200,000 tokens (Claude 3.5 Sonnet)
-- Used so far: 5,000 tokens (2 files loaded, brief conversation)
-- Utilization: (5,000 ÷ 200,000) × 100 = **2.5%** ✅ Very comfortable
-
-**Scenario B: Mid-session with extended conversation**
-- Context window: 200,000 tokens
-- Used: 130,000 tokens (100+ message conversation, 10 files, lots of code)
-- Utilization: (130,000 ÷ 200,000) × 100 = **65%** ✅ Still healthy
-
-**Scenario C: Long session getting crowded**
-- Context window: 200,000 tokens
-- Used: 160,000 tokens (90+ minute session, conversation fills up)
-- Utilization: (160,000 ÷ 200,000) × 100 = **80%** ⚠️ Approaching danger zone
-
-**Why track this?** Because at 80%+ utilization, AI quality degrades. Suggestions become repetitive. The model forgets earlier architectural decisions. Contradictions appear.
-
-## Exercise 2: Spot the Saturation Point
-
-Read the conversation transcript below. It shows a 2-hour Claude Code session where the developer is implementing authentication. Your job: **identify the message where context saturation starts affecting AI quality**.
-
-You're looking for:
-- Repetitive suggestions (AI repeats earlier advice)
-- Forgotten context (AI contradicts earlier statements)
-- Delayed responses (takes longer to generate)
-- Generic suggestions (loses project-specific understanding)
-
-**Session Transcript (Minutes 0-120)**:
-
-```
-[00:05] User: I'm building an auth module for FastAPI. My project uses
-PostgreSQL and Pydantic for validation. Load project structure +
-models/auth.py to start.
-
-[00:10] Claude: Loaded. I see your User model uses bcrypt for password
-hashing. Good security practice. I recommend adding JWT token support
-with 24-hour expiry for stateless auth. Here's a token generation
-function...
-
-[00:25] User: Great. Now I need route handlers for login, register,
-refresh token. Add routes/auth.py.
-
-[00:30] Claude: Perfect. I'll create login (username/password),
-register (email/password), and refresh_token routes. All following
-security best practices: password validation, rate limiting on login
-attempts...
-
-[00:45] User: This looks good. Now add a middleware to protect routes
-that need authentication.
-
-[00:50] Claude: [Provides middleware code with JWT verification] Good
-practice to include the @require_auth decorator for protecting routes.
-
-[01:15] User: Now I need to integrate this into my main application.
-Load main.py.
-
-[01:20] Claude: I see main.py has routes for /users, /auth, /health.
-I'll add the auth middleware to the FastAPI app configuration.
-
-[01:30] User: Perfect. Now I need email verification on registration.
-When user registers, send them a verification email.
-
-[01:35] Claude: For email verification, add a new field to User model:
-email_verified (boolean), then create routes/email.py for sending
-verification tokens.
-
-[01:50] User: Good. Now add a verify_email route handler.
-
-[01:55] Claude: [Provides verify_email route] This takes a token from
-email link, validates it, marks user as verified in database.
-
-[02:15] User: I need password reset now. User forgets password, we
-send reset email with token.
-
-[02:20] Claude: For password reset, I recommend JWT tokens with short
-expiry (15 minutes). Create a reset_password route that accepts token +
-new_password...
-
-[02:35] User: Good. Now I want to add OAuth2 support. Load
-routes/oauth2.py.
-
-[02:40] Claude: I see OAuth2 routes exist. For OAuth2, I recommend
-creating a password-based auth system first. Add password validation
-and... [NOTICE: This contradicts our approach from 00:10-00:50 where
-we already built password + JWT system]
-
-[02:55] Claude: Wait, I also notice I'm suggesting adding bcrypt
-password hashing again. Didn't we add that earlier?
-
-[03:10] User: Yes, we already have bcrypt, JWT, middleware, email
-verification. Why are you repeating?
-
-[03:15] Claude: [Generic response] You're right, let me review the
-conversation history... [Long pause, slower response time] I see JWT
-was implemented at 00:30. My apologies for the redundancy.
-
-[03:30] User: I'm also concerned about security. Should we use OAuth2
-refresh token rotation?
-
-[03:35] Claude: OAuth2 is a good security practice. I recommend using
-JWT tokens... [NOTICE: Ignoring your question about refresh token
-ROTATION, instead explaining OAuth2 basics already covered]
-
-[03:50] User: I'm going to start a new session. This one is getting
-unusable.
-```
-
-**What happened?**
-
-At **02:40** (minute 160 of a 200K context window), the AI started degrading:
-- **02:40**: Contradiction (suggesting password auth when already built)
-- **02:55**: Repetition (suggesting bcrypt hashing again)
-- **03:15**: Slowness (long pause, generic response, context overhead)
-- **03:35**: Context reference loss (forgets we discussed refresh token rotation)
-
-This is the saturation point. Not a sudden cliff—gradual degradation over 50 minutes as context fills from 60% to 85%+ utilization.
-
-## The Degradation Threshold
-
-You can't measure your exact context utilization (Claude Code doesn't display live token counts), but you can **observe** when degradation starts through:
-
-1. **Response quality drops** (generic instead of specific suggestions)
-2. **Repetition increases** (AI suggests same solution twice)
-3. **Contradictions appear** (AI contradicts earlier statements)
-4. **Forgotten context** (AI doesn't reference earlier decisions)
-5. **Response latency increases** (noticeably slower generations)
-
-The **degradation threshold** is typically **80%+ context utilization**, but you discover it through observation, not metrics.
-
-## Comparing Models: Context Window Specifications
-
-Different AI models have different context window capacities. If you're designing your context strategy, knowing these matters:
-
-| Model | Standard Context | Extended Context | Use Case |
-|---|---|---|---|
-| **Claude 3.5 Sonnet** | 200K tokens | 1M tokens (tier 4+) | Focused development, deep reasoning on focused codebases |
-| **Gemini 1.5 Pro** | 128K tokens | 2M tokens | Large codebase exploration, pattern analysis across files |
-
-**Context window growth over time** (2024-2025):
-- 2024: Standard windows 8K-32K tokens
-- 2025: Standard windows 128K-200K tokens, extended up to 2M tokens available
-- Trend: Access to larger context windows increasing, but cognitive load still applies (even with 2M tokens, quality degrades at high utilization)
-
-**Implication for context engineering**: More tokens are available, but your job isn't "load everything"—it's "load JUST THE RIGHT AMOUNT." A 2M token window is worthless if you load files randomly. Context engineering is about discipline.
+1. Which context degradation symptom is present?
+2. If you see this behavior, what utilization range are you likely in?
+3. What action should you take?
 
 ## Try With AI
 
-Ready to master token estimation and recognize context limits before they impact your development?
+Now that you understand context windows and manual estimation, practice validating your estimates with Claude Code.
 
-**🔍 Explore Token Density Differences:**
-> "Compare token counts across three content types: (1) A 50-line Python function with docstrings and type hints, (2) A 50-message conversation with detailed technical explanations, (3) A 50-line JSON API response. Explain why each has different token densities and which consumes context fastest."
+### Setup
+Open Claude Code and keep your session notes nearby for reference.
 
-**🎯 Practice Real-Time Estimation:**
-> "I'm planning a development session. Help me estimate tokens for: (1) Loading 15 Python files averaging 300 lines each, (2) A 2-hour conversation with 100 messages, (3) Three git diff outputs totaling 500 lines. What's my projected context utilization in a 200K window? Ask me clarifying questions about code complexity and conversation depth."
+### Prompt Set
 
-**🧪 Test Context Saturation Symptoms:**
-> "Simulate how AI behavior changes as context fills: Show me example responses at 30% utilization (fresh session), 70% (approaching limits), and 85% (degradation zone). What specific symptoms appear at each stage (repetition, contradictions, forgotten constraints, generic suggestions)?"
+**Prompt 1 — Verify Token Estimate:**
+```
+I estimated this session note uses approximately [X] tokens. Here's my breakdown:
+- [List your calculations]
 
-**🚀 Apply to Multi-Session Project:**
-> "I'm working on [describe your actual project] with [X files, Y size]. Design a context budget strategy for a 3-day sprint: how many files can I load per session, when should I expect saturation symptoms, and what's my checkpoint trigger point?"
+Looking at the word count and content complexity, is my estimate reasonable? What factors might I have missed?
+```
+
+**Prompt 2 — Estimate Utilization for Your Current Session:**
+```
+I've loaded these files: [list files with word counts]
+We've had [N] exchanges with approximately [M] words total.
+
+Help me estimate: What's my current context utilization percentage?
+```
+
+**Prompt 3 — Identify Warning Zone:**
+```
+Based on this utilization estimate: [your calculation]
+
+Which warning zone am I in (green/yellow/red)? What behaviors should I watch for at this utilization level?
+```
+
+**Prompt 4 — Plan Checkpoint Timing:**
+```
+My current utilization is [X%]. I have [Y] more tasks to complete in this session, each requiring approximately [Z] exchanges.
+
+Should I create a checkpoint now, or can I continue? Explain your recommendation.
+```
+
+### Expected Outcomes
+
+Claude Code should:
+- Validate your token estimates (within ~20% accuracy)
+- Explain factors you might have missed (formatting overhead, special characters)
+- Confirm warning zone thresholds
+- Recommend checkpoint timing based on remaining work
+
+**Safety Note**: Trust your manual observations over AI estimates. If responses feel generic or repetitive, you're likely in yellow/red zone regardless of calculated utilization.
 
 ---
+
+**Up Next**: In Lesson 2, you'll learn to recognize degradation symptoms systematically, comparing healthy sessions to degraded sessions and building your diagnostic intuition.

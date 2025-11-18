@@ -1,604 +1,479 @@
 ---
 title: Context Compression and Session Restart
 sidebar_position: 4
-chapter: 11
-lesson: 4
-learning_objectives:
-  - Create structured checkpoint summaries capturing architectural decisions, progress, and next steps
-  - Measure context reclamation after session restart (50%+ recovery target)
-  - Collaborate with AI to develop effective checkpoint structures tailored to project needs
-  - Iterate with AI to optimize checkpoint density and information preservation
-estimated_time: 75 minutes
-proficiency_level: B1
-generated_by: content-implementer v1.0.0
-source_spec: specs/001-011-chapter-11-context-engineering-rewrite/spec.md
-created: 2025-01-18
-version: 1.0.0
 ---
 
 # Context Compression and Session Restart
 
-## The Problem You're About to Solve
+In Lesson 3, you learned to design progressive loading strategies that prevent context degradation through intelligent Foundation/Current/On-Demand allocation. You discovered how to balance preloading efficiency with context waste, adapting strategies to project constraints.
 
-You've been working for two hours straight. You're implementing a payment processing feature for an e-commerce platform. You've:
+But even with optimal loading, long sessions eventually approach context limits. You might be deep into valuable work—design decisions made, patterns established, progress documented—when you hit 85% utilization.
 
-- Set up Stripe webhook integration
-- Built the payment processing service
-- Implemented idempotency keys to prevent duplicate charges
-- Written database migrations for payment history tracking
-- Added unit tests for edge cases
+**The question**: How do you preserve this intelligence while reclaiming context space?
 
-Your context window is at 85% utilization. You have 30K tokens remaining out of 200K.
+In this lesson, you'll learn **context compression**: extracting key decisions from a full session, consolidating them into a concise checkpoint, and restarting with a clean context window. Through collaborative iteration with AI, you'll discover what's essential to preserve versus what can be safely discarded, creating checkpoints that restore context effectively in under 600 tokens.
 
-And then it happens.
+## The Context Saturation Problem
 
-You ask Claude for help with the final webhook validation step, and Claude says: "For webhook validation, you'll want to implement signature verification using..." and starts suggesting a pattern that you already discussed and **rejected** two hours ago.
+Imagine you're 90 minutes into a development session:
 
-Claude forgot.
+```
+Current session state (at 85% utilization):
+- Foundation loaded: 25K tokens (CLAUDE.md, architecture.md, decisions.md)
+- Current files: 50K tokens (3 API files, 2 test files)
+- Conversation: 95K tokens (32 exchanges over 90 minutes)
+- Total: 170K / 200K = 85% utilization
 
-The context window is full. Lessons 1-2 taught you to recognize this degradation. Lesson 3 taught you to prevent it through strategic loading. But here you are, two hours into focused work, and degradation has arrived anyway.
+Work completed:
+- Designed authentication flow (password + JWT)
+- Decided on bcrypt hashing with 12 rounds
+- Implemented rate limiting (5 attempts per hour)
+- Discussed refresh token rotation strategy
+- Created 3 test cases covering happy paths and errors
 
-This lesson teaches you to **recover from degradation** through compression: creating a checkpoint summary that preserves essential knowledge, restarting the session with that checkpoint, and reclaiming context space to continue working.
+Remaining work:
+- Implement token blacklist for logout
+- Add email verification flow
+- Write integration tests
+- Document API endpoints
 
-## Understanding Checkpoints: Context Preservation Strategy
+Problem: You're at 85% with 60+ minutes of work remaining.
+```
 
-Before diving into a real example, let's understand what a checkpoint actually does.
+You have three options:
 
-### What Is a Checkpoint?
+**Option 1: Continue anyway** (risky)
+- Context will degrade further
+- AI will forget earlier decisions
+- Quality drops, errors increase
 
-A **checkpoint** is a structured summary of your session state—the decisions you've made, the work you've completed, and what comes next. It's not just a transcript. It's a carefully designed document that extracts the signal (important decisions) from the noise (implementation details, failed attempts, tangents).
+**Option 2: Restart from scratch** (wasteful)
+- Lose all session intelligence
+- Re-explain decisions
+- Rebuild context
 
-### The Checkpoint Structure
+**Option 3: Create checkpoint and restart** (optimal)
+- Compress session into summary
+- Restart with clean context
+- Restore key intelligence in <600 tokens
 
-An effective checkpoint has three core sections:
+This is where **checkpoint compression** becomes essential.
+
+## The Checkpoint Structure
+
+A checkpoint is a compressed summary of your session that preserves critical intelligence while discarding conversational noise.
+
+### What Goes in a Checkpoint
 
 **Section 1: Architectural Decisions Made**
-- Which major decisions shaped the work?
-- Why were those decisions made?
-- What constraints or requirements drove them?
+- Key choices that constrain future work
+- Why each decision was made (reasoning, not just outcome)
+- Alternatives considered and rejected
 
-Example:
-```
-ARCHITECTURAL DECISIONS:
-1. Stripe Webhook Signature Verification (REJECTED):
-   - Initial approach: Using raw signature verification library
-   - Decision: Use Stripe's official webhook validation library
-   - Why: Official library handles edge cases (clock skew, deprecations)
-   - Impact: Prevents common webhook validation bugs
-
-2. Idempotency Key Strategy (ADOPTED):
-   - Decision: Store idempotency keys in payment_idempotency table
-   - Why: Allows duplicate request detection without modifying payment records
-   - Constraint: Keys expire after 24 hours
-   - Impact: Prevents duplicate charges from network retries
-```
-
-**Section 2: Progress Completed**
-- What tasks finished?
-- What's the current state of the codebase?
-- Where did you leave off?
-
-Example:
-```
-PROGRESS COMPLETED:
-- ✅ Stripe API client initialization (services/stripe_client.py)
-- ✅ Webhook endpoint created (routes/webhooks.py) with signature validation
-- ✅ Idempotency key table schema (migrations/payment_idempotency.py)
-- ✅ Payment processing service core logic (services/payment_service.py)
-- ✅ Database transaction handling for atomicity
-- ✅ Unit tests for happy path and edge cases (tests/test_webhooks.py)
-- ⏳ IN PROGRESS: Webhook recovery (retry logic for failed webhook deliveries)
-```
+**Section 2: Progress Summary**
+- What was accomplished (features completed, files modified)
+- Current working state (what's functional, what's partially done)
 
 **Section 3: Next Steps**
-- What's immediately next?
-- What are the follow-up tasks?
-- Any blockers or dependencies?
+- Immediate tasks for next session
+- Blockers or unknowns to address
+- Dependencies or prerequisites
 
-Example:
-```
-NEXT STEPS:
-1. (HIGH PRIORITY) Implement webhook retry logic:
-   - Stripe sends failed webhooks up to 3 times
-   - Store failed webhook attempts with timestamps
-   - Implement exponential backoff for retries
-   - Add monitoring/alerting for permanently failed webhooks
+**Section 4: Context to Preserve**
+- Patterns discovered during session (not obvious from code)
+- Constraints that shouldn't be forgotten
+- Design principles guiding implementation
 
-2. (MEDIUM) Handle refund webhooks:
-   - Process refund events from Stripe
-   - Update payment status to "refunded"
-   - Trigger customer notification emails
+**Target size**: <600 tokens (leaves 199.4K for fresh work)
 
-3. (MEDIUM) Add webhook dead-letter queue:
-   - Webhooks failing after 3 retries go to DLQ
-   - Manual review process for DLQ items
+### What DOESN'T Go in a Checkpoint
 
-BLOCKERS: None currently
-```
+**Conversational details** (wasteful):
+- "At 10:15 AM, you asked..." → Discard timestamps
+- "I suggested X, then you said Y..." → Discard dialogue
 
-### Why This Structure Matters
+**Obvious information** (redundant):
+- "We're building an authentication system" → If already in project docs
+- "Python uses indentation for blocks" → Common knowledge
 
-The checkpoint extracts **signal**—decisions and progress—while filtering out **noise** from your session:
+**Exploratory dead-ends** (not actionable):
+- "We considered OAuth but rejected it" → If not influencing future work
+- "Briefly discussed microservices" → If not part of current scope
 
-- Noise: "I tried approach A, didn't work. Tried approach B, still broken. Finally tried approach C which worked." (implementation details)
-- Signal: "Decision: Use approach C because it handles edge case E." (decision and rationale)
+**Principle**: Checkpoint preserves **what you need to know** to resume effectively, not a complete transcript.
 
-The smaller, cleaner checkpoint becomes your new session context. Claude reads it and continues working with full understanding of your decisions, without the 50K tokens of conversation history.
+## Creating a Checkpoint: Collaborative Extraction
 
-## Exercise 1: Experience Degradation and Recovery
+You're 90 minutes into the authentication session described above. Context is at 85%. Time to compress.
 
-Let's experience checkpoint compression through a real scenario.
+### Requesting Checkpoint Creation
 
-### Scenario Setup
+**Your request:**
+"We've been working for 90 minutes and we're at 85% context utilization. I need to create a checkpoint so we can restart with clean context. Help me extract the key decisions and progress we've made."
 
-You've been implementing payment processing for 2 hours. Below is a **simulation** of what your session might look like near the end (degraded state), and then the checkpoint you'll create to recover.
-
-### Simulation: Session at 85% Utilization (Degraded)
-
-Imagine this is your session context after 2 hours:
-
-```
-[Earlier conversation history: 100K tokens worth of:]
-- Initial prompt about payment processing requirements
-- Back-and-forth on Stripe webhook signature validation
-- Discussion of idempotency patterns
-- Code generation and refinement rounds
-- Testing strategy discussions
-- Database migration design
-- Edge case handling
-[Many implementation details, failed attempts, refinements]
-
-[Recent message]
-You: Claude, for the webhook recovery logic, do we need to implement retry queues?
-
-Claude: Great question. For webhook recovery, I'd recommend a simple pattern:
-when a webhook fails, store it in a retry_queue table and process it
-later using a background job. You could use Celery for async processing...
-
-[But Claude is repeating earlier discussion and missing the context]
-```
-
-At this point, Claude has:
-- ✅ Seen 85% of context window (170K of 200K)
-- ❌ Lost some nuance of earlier decisions
-- ❌ Is repeating suggestions from earlier in conversation
-- ❌ Is forgetting that you discussed AND REJECTED retry_queue approach
-
-This is the compression moment.
-
-### Creating Your Checkpoint
-
-You stop active implementation and create a checkpoint:
+**AI's initial checkpoint draft:**
 
 ```markdown
-# Session Checkpoint: Stripe Payment Processing Integration
+# CHECKPOINT — Authentication Session Ending 2025-11-18 11:30 AM
 
-## Architectural Decisions Made
+## Architectural Decisions Made:
+1. **Authentication Method**: Password + JWT tokens
+   - Why: Balance security with stateless API design
+   - Rejected: OAuth (too complex for MVP), session cookies (stateless preference)
 
-### 1. Stripe Webhook Signature Verification
-- **Pattern Evaluated**: Using Stripe's signature verification library
-- **Decision**: ADOPTED - Use stripe.Webhook.construct_event()
-- **Rationale**: Official library handles timestamp validation, header parsing, edge cases
-- **Constraint**: Webhook secret key must be loaded from environment
-- **Implementation**: validation in routes/webhooks.py validates all incoming webhooks before processing
+2. **Password Security**: Bcrypt hashing, 12 rounds
+   - Why: Industry standard, sufficient security for our threat model
+   - Considered: Argon2 (better but overkill for current scale)
 
-### 2. Idempotency Key Strategy
-- **Pattern Evaluated**: Store idempotency keys in separate table vs embedding in payment records
-- **Decision**: ADOPTED - Separate payment_idempotency table
-- **Rationale**: Allows detecting duplicate requests without modifying core payment record. Enables tracking retry attempts separately.
-- **Constraint**: Keys expire after 24 hours (configurable)
-- **Implementation**: Check idempotency_key in table, if exists return previous result, if new store and process
+3. **Rate Limiting**: 5 login attempts per hour per IP
+   - Why: Prevent brute force without blocking legitimate retries
+   - Implementation: In-memory store (acceptable for single-server MVP)
 
-### 3. Retry Queue Pattern
-- **Pattern Evaluated**: Celery async queue for failed webhooks vs in-database retry table with background service
-- **Decision**: REJECTED Celery, ADOPTED in-database retry table with cron job
-- **Rationale**: Simpler initial implementation. Failed webhooks stored in webhook_failures table with attempt count and next_retry_time. Cron job processes retries. Reduces external dependencies for MVP.
-- **Constraint**: Cron runs every 5 minutes. Max 3 retry attempts per webhook.
-- **Implementation**: See services/webhook_retry_handler.py (in progress)
+4. **Token Strategy**: 15-minute access tokens, 7-day refresh tokens with rotation
+   - Why: Short-lived access limits exposure, refresh enables seamless UX
+   - Rotation: Invalidate old refresh token when issuing new one
 
-## Progress Completed
+5. **Database Schema**: users table with fields: id, email, password_hash, created_at, refresh_token_hash
+   - Why: Minimal schema for MVP, can extend later
 
-### Code Artifacts
-- ✅ services/stripe_client.py - Stripe API client initialization with API key from environment
-- ✅ routes/webhooks.py - POST /webhooks/stripe endpoint with signature validation
-- ✅ migrations/001_create_payments_table.py - Payment table schema
-- ✅ migrations/002_create_idempotency_keys_table.py - Idempotency table schema
-- ✅ services/payment_service.py - Core payment processing (charge, refund methods)
-- ✅ services/stripe_webhook_handler.py - Webhook event router (charge.succeeded, charge.failed, etc.)
-- ✅ tests/test_webhook_signature.py - Signature validation tests
-- ✅ tests/test_payment_idempotency.py - Duplicate detection tests
-- ✅ tests/test_webhook_handler.py - Event routing tests
+## Progress Summary:
+- Implemented password authentication endpoint (POST /auth/login)
+- Implemented JWT generation and validation utilities
+- Implemented bcrypt hashing with configuration
+- Created rate limiting middleware
+- Wrote 3 test cases: valid login, invalid password, rate limit enforcement
+- All tests passing
 
-### What Works Now
-- Webhooks from Stripe properly validated with signature verification
-- Duplicate webhook events detected via idempotency key lookup
-- Payment records created with status tracking (pending, completed, failed, refunded)
-- Basic transaction logging for audit trail
+## Next Steps:
+1. Implement token blacklist for logout (use Redis or in-memory for MVP)
+2. Add email verification flow (separate from core auth)
+3. Write integration tests (end-to-end login/logout/refresh)
+4. Document API endpoints in OpenAPI spec
 
-### In Progress
-- Webhook retry logic (currently at 40% completion)
-  - webhook_failures table schema complete
-  - webhook_retry_handler.py service skeleton written
-  - Cron scheduling setup started (not yet tested)
+## Context to Preserve:
+- Rate limiting implementation uses IP-based tracking; may need user-based tracking later if multiple users share IPs (corporate networks)
+- Refresh token rotation means old tokens become invalid; clients must handle 401 and re-authenticate
+- Password reset flow intentionally deferred to v2 (out of scope for MVP)
 
-## Next Steps (Immediate Priority Order)
-
-### 1. Complete Webhook Retry Logic (2-3 hours estimated)
-- Finish webhook_retry_handler.py to implement:
-  - Poll webhook_failures table for entries where next_retry_time <= now()
-  - Attempt webhook reprocessing up to 3 times
-  - Log attempt count and errors
-  - Move to permanent_failures table after 3 failed attempts
-- Test with manual webhook triggering (using Stripe CLI test events)
-
-### 2. Webhook Dead-Letter Queue (1-2 hours estimated)
-- Create permanent_failures table for webhooks failing 3+ times
-- Implement monitoring query: SELECT * FROM permanent_failures WHERE created_at > NOW() - INTERVAL 24h
-- Document manual remediation process for DevOps team
-
-### 3. Refund Webhook Handling (1 hour estimated)
-- Add handler for charge.refunded events
-- Update payment status to "refunded" in database
-- Trigger customer notification email via services/notification_service.py
-
-### 4. Testing in Staging (before production)
-- Use Stripe test mode webhook events
-- Verify retry logic with manual Stripe CLI webhook triggers
-- Load test with rapid webhook deliveries
-
-## Context Notes for Next Session
-
-**Codebase Structure**:
-- services/ - Business logic (stripe_client, payment_service, webhook handlers)
-- routes/ - API endpoints (webhooks.py is main webhook entry point)
-- migrations/ - Database schemas (numbered sequentially, always run migrations before testing)
-- tests/ - Unit tests (use pytest, test file names match source module names)
-
-**Configuration**:
-- Stripe API key: Read from STRIPE_API_KEY environment variable
-- Webhook secret: Read from STRIPE_WEBHOOK_SECRET environment variable
-- Database: PostgreSQL, connection via DATABASE_URL environment variable
-
-**Testing Pattern**:
-- Unit tests in tests/ directory
-- Use pytest fixtures for Stripe mock objects (stripe.Webhook.construct_event is mocked)
-- Test both success and failure paths for webhook handlers
-
-**Key Modules to Know**:
-- services/stripe_client.py - All Stripe API interactions flow through here
-- routes/webhooks.py - Webhook validation and routing (entry point for all webhooks)
-- services/stripe_webhook_handler.py - Event-specific handlers
-
-Token Budget: 450 tokens (within 500-token target)
+## Files Modified:
+- api/auth.py: Added login endpoint, JWT utilities
+- api/middleware.py: Added rate limiting
+- tests/test_auth.py: Added 3 test cases
+- models/user.py: Updated schema
 ```
 
-This checkpoint is **450 tokens**. Compare that to your **170K token session context**. You've compressed 2 hours of work into a few hundred tokens while preserving all the critical decisions.
+### Discovering What's Missing
 
-Now comes the powerful part: **session restart**.
+**Your response:**
+"This is comprehensive, but it's 720 tokens—too large. Our target is <600 tokens. What can we compress without losing essential context?"
 
-## Session Restart: Recovery in Action
+**AI's analysis:**
+"Let's compress by removing redundancy and condensing explanations:
 
-You close your Claude Code session. You open a **new** Claude Code session. Your first message is the checkpoint you just created:
+**What we can remove**:
+- Rejected alternatives (OAuth, Argon2) — interesting but not actionable
+- Implementation details already in code (JWT generation utilities, bcrypt configuration)
+- Obvious next steps (write tests → that's standard workflow)
+- Timestamp precision (11:30 AM → just date matters)
 
-```
-[Paste checkpoint as session opening message]
+**What we must keep**:
+- Core architectural decisions (Password+JWT, rate limiting strategy)
+- Non-obvious constraints (IP-based rate limiting limitation, refresh token rotation behavior)
+- Deferred items (password reset to v2)
+- Current working state (what's functional)
 
-Continue with: I was working on webhook retry logic.
-The service skeleton is in services/webhook_retry_handler.py
-but it's incomplete. Let me share that file...
+Let me compress to <600 tokens."
 
-[Paste webhook_retry_handler.py - partially written code]
+### Iterating Toward Concise Checkpoint
 
-I'll load the current state. Then help me implement
-the retry polling logic that checks webhook_failures
-table every 5 minutes.
-```
-
-What happens:
-
-1. **Claude reads the checkpoint** - Understanding your project state, all decisions made, and constraints
-2. **You provide the current code** - Claude sees webhook_retry_handler.py (partially written) and understands exactly what to implement
-3. **Context window resets** - You've freed up 140K+ tokens that were consumed by 2-hour conversation history
-4. **Work continues seamlessly** - Claude implements retry logic aware of all your architectural decisions
-
-**Context reclamation achieved**: You went from 85% (170K) utilization to ~20% (40K) utilization with fresh session.
-
-You've reclaimed **65%** of your context budget.
-
-## Exercise 2: Collaborating on Checkpoint Creation
-
-Now let's see how checkpoint creation benefits from collaboration with AI.
-
-### Discovering Checkpoint Structure
-
-**Scenario**: Session is degrading. You ask Claude for help structuring a checkpoint.
-
-```
-You: My session is running out of context. I need to create
-a checkpoint summary before restarting. What should go in it?
-
----
-
-Claude: Great instinct to checkpoint. Here's a pattern that works well:
-
-A CHECKPOINT HAS THREE CORE SECTIONS:
-
-1. **Architectural Decisions** - Major decisions made, rationale, constraints
-   - Why this decision matters: Future code must respect these constraints
-   - Example: "Rejected Celery queue pattern, using cron-based retry instead (constraint: 5-min intervals)"
-
-2. **Progress Completed** - What's done, what's in progress, code artifacts created
-   - Why this matters: Shows current state of codebase, prevents redundant work
-   - Example: "✅ Payment service created, ⏳ Webhook retry handler (40% complete)"
-
-3. **Next Steps** - Ordered by priority, with estimates and dependencies
-   - Why this matters: Prevents restart confusion about what to do next
-   - Example: "1. Complete webhook retry logic (2-3h), 2. Test with Stripe CLI (1h)"
-
-**TOKEN BUDGET**: 500 tokens maximum
-- Keeps checkpoint lightweight
-- Preserves only high-signal content
-- Leaves room for code context in new session
-
-**Why this structure?** Your checkpoint is like a commit message for your session.
-Good commit messages are specific, structured, and future-proof.
-```
-
-**What emerged**: A structured approach to checkpoint creation with three key sections (decisions, progress, next steps), explicit token budget discipline (500 tokens maximum), and clear reasoning for why each section matters for future session continuity.
-
-The AI suggested a pattern that helps extract signal from noise in your session history.
-
----
-
-### Refining with Project Specifics
-
-**Scenario**: You start drafting your checkpoint, then realize your generic structure misses important context.
-
-```
-Claude (generic checkpoint): Here's a checkpoint template:
-
-ARCHITECTURAL DECISIONS:
-- Webhook signature validation using Stripe library
-- Idempotency key storage pattern
-
-PROGRESS:
-- Payment service created
-- Webhook handler completed
-- 8 tests passing
-
-NEXT STEPS:
-- Implement webhook retries
-- Handle refunds
-- Add monitoring
-
----
-
-You: Wait, that's too vague. "Payment service created" doesn't
-tell me enough about what's ACTUALLY in that service. And
-"webhook retries" is too broad—I need to remember I specifically
-REJECTED the Celery queue pattern and decided on cron-based retries
-with constraints (5-minute intervals, max 3 attempts). That decision
-took me 30 minutes to reach. I need to record WHY I decided that.
-
-Also, in the next session, I might forget that webhook_failures
-goes to the database schema, not Celery. I need to be specific
-about the table name and its purpose.
-
----
-
-Claude: You're absolutely right. The generic template loses critical
-context. Let me revise to capture those specifics:
-
-ARCHITECTURAL DECISIONS:
-- **Webhook Signature Verification**
-  Decision: Use stripe.Webhook.construct_event() official library
-  Why: Handles edge cases (timestamp validation, header parsing)
-
-- **Retry Queue Pattern**
-  Evaluated: Celery async queue
-  Decision: REJECTED - Instead use in-database retry table with cron job
-  Why: Simpler MVP, fewer external dependencies
-  Constraint: Cron runs every 5 minutes, max 3 attempts per webhook
-
-PROGRESS:
-- ✅ services/stripe_client.py - API client
-- ✅ routes/webhooks.py - Endpoint with signature validation
-- ✅ services/stripe_webhook_handler.py - Event routing by type
-- ⏳ services/webhook_retry_handler.py - 40% complete (retry polling)
-
-This captures the DECISION RATIONALE and specific CONSTRAINTS
-that matter when you resume work.
-```
-
-**What happened**: Your feedback about specificity prompted a revision. You explained what was missing (the WHY behind decisions, the specific constraints like 5-minute cron intervals, the rejection of Celery). The checkpoint evolved from generic template to project-specific documentation that captures what you actually need to remember.
-
----
-
-### Iterative Optimization: Balancing Detail and Brevity
-
-**Scenario**: Working together to optimize token budget vs information density.
-
-```
-You: Your revised checkpoint is better, but now it's 800 tokens.
-That defeats the purpose—I'm trying to save context space.
-Can we compress it while keeping the important parts?
-
----
-
-Claude: Good catch. Let me trim non-essentials:
-
-CHECKPOINT v1 (Your attempt): 450 tokens (too sparse, missing decision rationale)
-CHECKPOINT v2 (My suggestion): 800 tokens (too verbose, loses budget efficiency)
-CHECKPOINT v3 (Converged): 500 tokens
-
-What did we drop from v2?
-- Removed: Verbose explanations of WHY each decision (students can infer)
-- Kept: Decision name, specific pattern chosen, constraint if critical
-- Result: 50% token reduction, 95% information retention
-
-For example, instead of:
-"Webhook signature verification using Stripe's official library
-is important because it handles edge cases like timestamp validation
-and HTTP header parsing, which custom implementations often miss"
-
-We write:
-"Decision: stripe.Webhook.construct_event() official library
-Why: Handles edge cases (timestamp, header parsing)
-Constraint: Webhook secret from environment"
-
-CHECKPOINT v3 DRAFT:
-[500 tokens with optimized sections]
-
-What's the first thing you'll do in the restarted session?
-
-You: I'll paste this checkpoint, then load the partially-written
-webhook_retry_handler.py file and ask you to complete the retry
-polling logic.
-
-Claude: Perfect. That means our checkpoint needs to reference
-webhook_retry_handler.py specifically—current state, line numbers,
-what's complete vs incomplete:
-
-"⏳ services/webhook_retry_handler.py - 40% complete
-  - ✅ Function signatures defined
-  - ✅ Database query scaffolding
-  - ❌ Retry attempt loop (needs implementation)
-  - ❌ Error handling for failed webhooks"
-
-This helps me understand exactly what to pick up on in the next session.
-
----
-
-[After 3-4 iterations]
-
-FINAL CHECKPOINT: 480 tokens
-- Sufficient detail for continuation
-- Efficient use of token budget
-- Captures all critical decisions
-- Points to specific code state (line counts, completion %)
-```
-
-**What happened**: Through multiple iterations, you and the AI converged on an optimal checkpoint. You raised the token budget concern, the AI suggested compression techniques, and together you identified what could be trimmed (verbose explanations) versus what must be preserved (decision names, constraints, specific file states).
-
-The result was:
-- **Detailed enough** to preserve critical context
-- **Concise enough** to reclaim budget
-- **Specific enough** to guide implementation in next session
-
-Neither of you had this exact balance initially. It **emerged from iterative refinement**.
-
----
-
-## Formalizing the Pattern: Checkpoint Structure and Metrics
-
-The session above happened naturally. Now let's formalize the checkpoint pattern and metrics you can apply.
-
-### Checkpoint Template (Production-Ready)
+**AI's compressed checkpoint:**
 
 ```markdown
-# Session Checkpoint: [Project Name]
+# CHECKPOINT — Auth Session 2025-11-18
 
-## Architectural Decisions Made
+## Key Decisions:
+1. Auth: Password + JWT (15min access, 7d refresh with rotation)
+2. Security: Bcrypt 12 rounds, rate limit 5/hour per IP
+3. Schema: users(id, email, password_hash, refresh_token_hash)
 
-### Decision 1: [Category/Component]
-- **Pattern Evaluated**: [What approaches you considered]
-- **Decision**: [Which pattern you chose]
-- **Rationale**: [Why this decision was made]
-- **Constraint**: [Critical limitations or requirements]
-- **Implementation Location**: [Key file or module]
+## Completed:
+- POST /auth/login endpoint functional
+- Rate limiting middleware implemented
+- 3 tests passing (valid login, invalid pw, rate limit)
 
-### Decision 2: [Category/Component]
-- **Pattern Evaluated**: ...
-- **Decision**: ...
+## Next:
+1. Token blacklist for logout
+2. Email verification flow
+3. Integration tests
+4. API docs
 
-[Repeat for each major decision, prioritized by impact]
+## Critical Context:
+- Rate limit is IP-based; may need user-based if shared IP issues arise
+- Refresh rotation invalidates old tokens; clients must handle 401
+- Password reset deferred to v2 (out of MVP scope)
 
-## Progress Completed
-
-### Artifacts
-- ✅ [File/Module] - [Brief purpose, e.g., "API client initialization"]
-- ✅ [File/Module] - [Brief purpose]
-- ⏳ [File/Module] - [Brief purpose, % completion if in progress]
-- ⏳ [File/Module] - [Brief purpose, specific gap/what needs completion]
-
-### Testing Status
-- [Number] unit tests passing
-- [Coverage percentage] code coverage
-- [Any test failures or gaps noted]
-
-## Next Steps (Ordered by Priority)
-
-### 1. [High-priority task]
-- **Subtasks**: [2-3 specific actions]
-- **Estimated time**: [Hours]
-- **Dependencies**: [Any other tasks this depends on]
-- **Success criteria**: [How you'll know this is done]
-
-### 2. [Medium-priority task]
-- [Same structure]
-
-### 3. [Lower-priority task]
-- [Same structure]
-
-**Blockers**: [Any obstacles preventing progress]
-**Critical Context**: [Anything the next session absolutely must know]
-
----
-Token Count: [Actual count, target 400-500]
+## Files: api/auth.py, api/middleware.py, tests/test_auth.py, models/user.py
 ```
 
-### Metrics: Measuring Checkpoint Effectiveness
+**Token count**: 487 tokens (~30% reduction from 720)
 
-A good checkpoint achieves these metrics:
+### What Emerged from Compression
 
-**Compression Ratio**: How much context did you reclaim?
-- Calculation: (Old session token count - New session token count) / Old session token count × 100%
-- Target: 50%+ recovery (e.g., from 170K to 85K utilization)
-- Example: 2-hour session = 150K tokens. Checkpoint = 500 tokens. Recovery: (150K - 500) / 150K = 99.67% freed
+Through two rounds of iteration, you arrived at a checkpoint that:
+- Started with AI's comprehensive draft (preserved everything)
+- Identified compression targets through your feedback (what's essential vs redundant)
+- Converged on a concise format that balances preservation with efficiency
 
-**Information Density**: Did you preserve critical context in small size?
-- Measurement: In new session, can you continue work without ramp-up or re-explanation?
-- Target: Zero re-explanation needed (Claude reads checkpoint and immediately understands constraints, decisions, code state)
+The final checkpoint captures **what you need to know** to resume work effectively, not every conversational detail.
 
-**Token Efficiency**: Did you stay within budget?
-- Target: Checkpoint + code files loaded in new session ≤ 70% of window
-- Example: Checkpoint (500) + Code files (8,000) + Prompt (500) = 9,000 tokens = 4.5% utilization. Goal achieved.
+## Session Restart Workflow
 
-**Continuation Quality**: Does work in new session respect checkpoint decisions?
-- Measurement: Does Claude's code in new session follow the patterns you decided on?
-- Target: 100% - Claude should never contradict architectural decisions from checkpoint
+Now that you have a checkpoint, here's how to restart with clean context:
 
-## Exercise 3: Design a Checkpoint for Your Project
+### Step 1: End Current Session
 
-Now it's your turn. Using a real or imagined project, create a checkpoint summary following the template above.
+**Current session**: 85% utilization, 170K tokens used, degradation symptoms likely
 
-**Scenario**: You've been working for 90+ minutes on a feature. Context is at 85%. Create a checkpoint that would let you restart effectively.
+**Action**: Save checkpoint to CHECKPOINT.md in project root
 
-**Your task**:
-1. Choose a real project you work on, OR use the Stripe payment processing example from earlier
-2. Identify 3-5 major architectural decisions you've made (or would make)
-3. List progress artifacts (files created, tests passing, what's incomplete)
-4. Define next steps in priority order
-5. Write the checkpoint using the template
-6. Count tokens (target: 400-500)
-7. Review: Could someone read this and understand your project's current state and constraints?
+### Step 2: Start New Session
 
----
+**New session**: 0% utilization, 200K tokens available, fresh context window
+
+**Initial prompt** (load checkpoint):
+```
+I'm resuming work on authentication from a previous session. Here's my checkpoint:
+
+[Paste full CHECKPOINT.md content]
+
+I'm ready to continue with the next tasks. What should we tackle first?
+```
+
+**Checkpoint loaded**: ~500 tokens (0.25% utilization)
+
+**Context reclaimed**: 170K → 0.5K tokens = 169.5K tokens freed (99.7% recovery)
+
+### Step 3: Verify Context Restoration
+
+**AI's response:**
+"Based on your checkpoint, I understand:
+
+- You've implemented password + JWT authentication with bcrypt and rate limiting
+- Tests are passing for core login functionality
+- Next priorities: token blacklist, email verification, integration tests, docs
+
+Let's start with the token blacklist for logout. Since this is MVP, would you prefer an in-memory implementation or Redis?"
+
+**Validation**: AI understood session state, remembered architectural decisions, ready to proceed.
+
+### When to Create Checkpoints
+
+Use this decision framework:
+
+```
+Checkpoint Trigger Decision:
+
+IF utilization > 80% AND session_duration > 60 minutes:
+  → CREATE checkpoint NOW (degradation imminent)
+
+ELSE IF utilization > 70% AND remaining_work > 30 minutes:
+  → PLAN checkpoint soon (degradation likely before completion)
+
+ELSE IF utilization < 70%:
+  → CONTINUE (sufficient capacity remains)
+
+ELSE IF degradation_symptoms_detected (from Lesson 2):
+  → CREATE checkpoint regardless of utilization (quality matters more)
+```
+
+**Principle**: Create checkpoints **before** degradation becomes severe, not after.
+
+## Practice Exercises
+
+### Exercise 1: Extract Checkpoint from Transcript
+
+You're 2 hours into a session. Here's a summary of the conversation:
+
+```
+Session: API Documentation Generator
+
+Discussion points:
+- Decided to use OpenAPI spec as input format
+- Chose markdown as output format (one file per endpoint)
+- Discussed authentication documentation (decided to extract from OpenAPI security schemes)
+- Explored folder structure options (settled on grouping by resource: users/, products/, orders/)
+- Implemented OpenAPI parser that extracts endpoints, parameters, responses
+- Created markdown template with sections: Description, Parameters, Responses, Examples
+- Wrote 2 test cases (basic endpoint, endpoint with authentication)
+- Discovered edge case: Some OpenAPI specs have incomplete descriptions
+- Decided to flag incomplete descriptions rather than generating placeholder text
+- Discussed but didn't implement: Code example generation (deferred to v2)
+- Current state: Parser works, template renders, 2 tests passing
+- Remaining: Handle edge cases, add more test coverage, support query parameters
+
+Files modified: parser.py, template.py, tests/test_parser.py
+Context utilization: 88%
+```
+
+**Your assignment**:
+1. Create a checkpoint <600 tokens that preserves essential decisions
+2. Identify what to KEEP vs what to DISCARD from the above
+3. Structure using: Decisions, Progress, Next Steps, Critical Context
+4. Validate token count (estimate: ~5 tokens per word)
+
+### Exercise 2: Compress an Oversized Checkpoint
+
+A colleague created this checkpoint (892 tokens):
+
+```markdown
+# CHECKPOINT — Database Migration Session
+
+## Background:
+We started this session at 9:00 AM. The goal was to migrate our database from SQLite to PostgreSQL because SQLite doesn't handle concurrent writes well and we're expecting increased traffic.
+
+## Decisions Made:
+1. **Database Choice**: PostgreSQL instead of MySQL
+   - Reasoning: Better JSON support, more robust transaction handling, team familiarity
+   - Alternatives: MySQL (considered but team less experienced), MongoDB (wrong fit for relational data), SQLite (current, insufficient for scale)
+   - Research: Consulted PostgreSQL docs, Stack Overflow, internal team survey
+
+2. **Migration Strategy**: Blue-green deployment
+   - Reasoning: Zero downtime requirement for production
+   - Alternatives: Maintenance window (unacceptable to business), gradual rollout (too complex)
+   - Timeline: 2-week implementation
+
+3. **Schema Changes**: Added indexes on frequently-queried columns
+   - Columns: user_id, created_at, status
+   - Reasoning: Query performance optimization based on production logs
+   - Expected improvement: 10x faster queries
+
+4. **Connection Pooling**: Using pgbouncer with 20 connections
+   - Reasoning: Handles connection overhead efficiently
+   - Configuration: Transaction pooling mode
+
+## What We Implemented:
+- Migration scripts for schema conversion
+- Connection pooling configuration
+- Test environment with PostgreSQL
+- Updated database connection code in main app
+- Modified 5 query functions to use PostgreSQL syntax
+
+## Testing Status:
+- Unit tests: 15/15 passing
+- Integration tests: 8/10 passing (2 failures related to timestamp timezone handling)
+
+## What's Left:
+- Fix 2 failing timezone tests
+- Set up production PostgreSQL instance
+- Create backup strategy
+- Write rollback procedure
+- Update deployment documentation
+- Train team on PostgreSQL administration
+- Monitor performance in staging for 1 week before production
+
+## Edge Cases Discovered:
+- Timezone handling differs between SQLite and PostgreSQL
+- Some implicit type conversions from SQLite don't work in PostgreSQL
+- Need to handle connection pool exhaustion gracefully
+
+## Files Modified:
+- db/connection.py
+- db/queries/users.py
+- db/queries/orders.py
+- db/queries/products.py
+- tests/test_db.py
+- config/database.yml
+
+## Conversation Highlights:
+- Discussed transaction isolation levels
+- Explored indexing strategies
+- Debated connection pool size
+- Reviewed PostgreSQL best practices
+```
+
+**Your assignment**:
+1. Identify redundant content (what's obvious or unnecessary)
+2. Compress to <600 tokens while preserving critical decisions
+3. Remove conversation details that don't impact future work
+4. Justify each deletion
+
+### Exercise 3: Design Checkpoint for Multi-Session Project
+
+You're working on a complex project that will take 5 sessions to complete:
+
+**Project**: E-commerce platform (authentication, product catalog, shopping cart, checkout, admin dashboard)
+
+**Session 1**: Authentication (completed, checkpoint created)
+**Session 2**: Product catalog (in progress, 75% context utilization)
+
+**Your assignment**:
+1. What decisions from Session 1 need to be in Session 2's checkpoint?
+2. What can be safely omitted from Session 2's checkpoint (already captured in Session 1)?
+3. Design a checkpoint strategy that accumulates intelligence across 5 sessions without redundancy
 
 ## Try With AI
 
-Ready to master checkpoint creation and session restart for uninterrupted multi-hour development?
+Now practice creating checkpoints collaboratively with Claude Code.
 
-**🔍 Explore Checkpoint Components:**
-> "Explain the four essential components of an effective checkpoint (architectural decisions, progress summary, incomplete work, next steps). Why is each critical for session continuity? Compare a 200-token checkpoint vs. a 600-token checkpoint: what gets included at each size?"
+### Setup
+Open Claude Code. Use a long development session (real or simulated) that's approaching 80%+ utilization.
 
-**🎯 Practice Checkpoint Creation:**
-> "I'm 2 hours into implementing [describe your feature] at 85% context utilization. Help me create a checkpoint. Ask me about: (1) Key architectural decisions I've made, (2) Files created and their status, (3) What's incomplete or blocking, (4) Next priority steps. Guide me to a 400-600 token checkpoint that preserves critical context."
+### Prompt Set
 
-**🧪 Test Checkpoint Effectiveness:**
-> "Here's my checkpoint: [paste your checkpoint from Practice prompt]. Simulate restarting in a fresh session: Can you continue implementing the refresh token rotation feature without asking clarifying questions about earlier decisions? Identify any missing context that would cause confusion."
+**Prompt 1 — Request Checkpoint Extraction:**
+```
+We've been working for [N] minutes and context utilization is at [X%]. I need to create a checkpoint to preserve our progress before restarting with clean context.
 
-**🚀 Apply Checkpoint-Restart Workflow:**
-> "Design a checkpoint strategy for [your actual project]. When should I trigger checkpoints (utilization threshold + time)? What project-specific information belongs in my checkpoint template? Create a reusable CHECKPOINT.md template with placeholders for my typical development sessions."
+Help me extract:
+1. Key architectural decisions we made (with reasoning)
+2. What we completed successfully
+3. What's left to do
+4. Any critical context that shouldn't be forgotten
 
----
+Target: <600 tokens while preserving everything essential to resume work.
+```
+
+**Prompt 2 — Identify Compression Targets:**
+```
+This checkpoint draft is [N] tokens—too large. Our target is <600 tokens.
+
+Review the checkpoint and identify:
+- What's redundant (obvious from code or standard practice)?
+- What's conversational noise (dialogue, timestamps)?
+- What's essential (decisions, non-obvious constraints, current state)?
+
+Help me compress without losing critical context.
+```
+
+**Prompt 3 — Validate Compression:**
+```
+Here's the compressed checkpoint (now [N] tokens):
+[Paste compressed checkpoint]
+
+Validate:
+- Is anything critical missing that would block work resumption?
+- Are decisions preserved with enough context to understand WHY?
+- Are next steps clear and actionable?
+- Could someone else resume this work from this checkpoint?
+```
+
+**Prompt 4 — Test Session Restart:**
+```
+[Start NEW Claude Code session]
+
+I'm resuming work from a previous session. Here's my checkpoint:
+[Paste checkpoint]
+
+What's our current state, and what should we work on next?
+```
+
+### Expected Outcomes
+
+Through collaborative checkpoint creation, you should:
+- Extract essential decisions from conversational noise
+- Compress session intelligence into <600 tokens
+- Discover what's truly critical versus what's redundant
+- Successfully restore context in a new session with minimal token cost
+
+**Safety Note**: If restarting with a checkpoint feels like starting from scratch (AI doesn't understand context), your checkpoint was too compressed. Include more detail about decisions and constraints.
+
