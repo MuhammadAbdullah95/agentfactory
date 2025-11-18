@@ -54,7 +54,7 @@ This isn't about Google versus Anthropic. It's about what happens when powerful 
 
 The story of Gemini CLI is the story of open source meeting cutting-edge AI. And that changes everything.
 
-## Three Game-Changing Differences
+## Two Game-Changing Differences
 
 ### 1. Open Source: From Black Box to Building Block
 
