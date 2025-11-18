@@ -361,6 +361,12 @@ After running a shell command, you're automatically returned to normal Gemini ch
 #### 🎓 Expert Insight
 > In AI-native development, you don't memorize commands like `/help` or `/tools`—you explore conversationally. If you forget a command, just ask: "What commands are available?" Your AI partner tells you. The skill isn't memorization; it's knowing how to ask.
 
+![Gemini CLI Interface](../../../assets/02-AI-Tool-Landscape/06-gemini-cli-installation-and-basics/l2-gemini-cli-interface.svg)
+
+
+> **Tip:** This is what your interface should look like after choosing a theme and authenticating. You can now type your first message or use slash commands (`/`) to explore Gemini CLI features.
+
+
 ---
 
 ## Your First Task with Gemini
