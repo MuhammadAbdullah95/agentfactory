@@ -1,7 +1,7 @@
 ---
 title: "Designing Reusable Intelligence from SDD Workflows"
 chapter: 31
-lesson: 8
+lesson: 9
 duration_minutes: 150
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
