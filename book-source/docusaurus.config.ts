@@ -81,6 +81,7 @@ const config: Config = {
     locales: ["en"],
   },
 
+  themes:['docusaurus-live-brython'],
   presets: [
     [
       "classic",

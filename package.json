@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"docusaurus-live-brython": "3.0.0-beta.28"
+	}
+}
