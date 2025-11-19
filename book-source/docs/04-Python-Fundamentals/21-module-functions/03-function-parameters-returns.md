@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Lesson 3: Function Parameters and Returns"
+title: "Function Parameters and Returns"
 description: "Master positional parameters, default parameters, multiple returns, and keyword arguments"
 keywords: ["parameters", "default parameters", "keyword arguments", "unpacking", "multiple returns", "tuples"]
 proficiency_level: "B1"

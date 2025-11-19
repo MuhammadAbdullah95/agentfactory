@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Lesson 5: Building a Calculator Utility (Capstone Project)"
+title: "Building a Calculator Utility (Capstone Project)"
 description: "Integrate modules, functions, parameters, returns, and scope into a real multi-module project"
 keywords: ["capstone", "modules", "multi-file", "separation of concerns", "testing", "project organization"]
 proficiency_level: "B1-B2"

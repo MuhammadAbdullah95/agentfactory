@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Lesson 1: Understanding Modules and Imports"
+title: "Understanding Modules and Imports"
 description: "Learn what modules are, how Python organizes code, and the three main import patterns"
 keywords: ["modules", "imports", "built-in modules", "import variants", "math", "random", "os"]
 proficiency_level: "A2"

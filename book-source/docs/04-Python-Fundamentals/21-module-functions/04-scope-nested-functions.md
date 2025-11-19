@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Lesson 4: Scope and Nested Functions"
+title: "Scope and Nested Functions"
 description: "Understand variable scope (local, global, enclosing) and how nested functions work"
 keywords: ["scope", "local scope", "global scope", "nested functions", "closures", "global keyword", "LEGB rule"]
 proficiency_level: "B1-B2"

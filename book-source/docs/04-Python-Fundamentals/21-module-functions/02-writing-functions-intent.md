@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Lesson 2: Writing Functions with Intent"
+title: "Writing Functions with Intent"
 description: "Learn how to write functions with clear parameters, return values, type hints, and docstrings"
 keywords: ["functions", "def", "type hints", "docstrings", "parameters", "return values", "intent"]
 proficiency_level: "A2-B1"
