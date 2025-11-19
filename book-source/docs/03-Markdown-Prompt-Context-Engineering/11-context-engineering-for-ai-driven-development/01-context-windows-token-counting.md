@@ -164,7 +164,7 @@ Here's what a real session note might look like:
 - AI adapted suggestions based on feedback
 ```
 
-**What to notice**: At 2.9% utilization, this session has plenty of room. Responses are specific, AI remembers earlier constraints, and there's no evidence of context degradation.
+**Observation**: At 2.9% utilization, this session has plenty of room. Responses are specific, AI remembers earlier constraints, and there's no evidence of context degradation.
 
 ## Warning Thresholds: Green, Yellow, Red
 

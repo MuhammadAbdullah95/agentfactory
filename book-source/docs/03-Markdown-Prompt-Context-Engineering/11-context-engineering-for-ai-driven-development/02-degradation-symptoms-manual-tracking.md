@@ -81,7 +81,7 @@ AI: For validation errors, I recommend a consistent response format:
 This pattern ensures API consumers can handle errors predictably.
 ```
 
-**What to notice**: The AI repeated nearly the same explanation word-for-word. It didn't reference the earlier discussion or build on it—just regenerated similar content.
+**Observation**: The AI repeated nearly the same explanation word-for-word. It didn't reference the earlier discussion or build on it—just regenerated similar content.
 
 **Why it happens**: Context window saturation causes the model to lose track of what it already explained. It falls back to generating plausible answers that happen to duplicate earlier responses.
 
@@ -111,7 +111,7 @@ AI: Here's the error response:
 }
 ```
 
-**What to notice**: The AI used snake_case (error_message, field_name, validation_failed) despite agreeing to camelCase at 00:20.
+**Observation**: The AI used snake_case (error_message, field_name, validation_failed) despite agreeing to camelCase at 00:20.
 
 **Why it happens**: Earlier decisions get evicted from effective context as the window fills. The AI defaults to generic patterns rather than project-specific conventions.
 
@@ -142,7 +142,7 @@ AI: [Responds in 12 seconds with 100-word explanation:
 - Stored securely]
 ```
 
-**What to notice**: Response latency tripled (2s → 12s) and output quality dropped (detailed → generic, 300 words → 100 words).
+**Observation**: Response latency tripled (2s → 12s) and output quality dropped (detailed → generic, 300 words → 100 words).
 
 **Why it happens**: Computing attention over large context windows is expensive. As context grows, generation slows down and quality decreases.
 
@@ -178,7 +178,7 @@ AI: For database connection errors, follow best practices:
 Choose an approach that fits your architecture.
 ```
 
-**What to notice**: Early response referenced specific project details (async SQLAlchemy, PostgreSQL, asyncpg). Late response gave generic advice without project context.
+**Observation**: Early response referenced specific project details (async SQLAlchemy, PostgreSQL, asyncpg). Late response gave generic advice without project context.
 
 **Why it happens**: Project-specific context gets compressed or forgotten. AI falls back to generic knowledge.
 
@@ -207,7 +207,7 @@ AI: For password change logging, you could:
 What approach fits your database design?
 ```
 
-**What to notice**: You established audit_logs at 00:25. AI should have said "Log password changes to audit_logs table." Instead, it suggested creating a new table.
+**Observation**: You established audit_logs at 00:25. AI should have said "Log password changes to audit_logs table." Instead, it suggested creating a new table.
 
 **Why it happens**: Information technically exists in context, but the model isn't effectively retrieving it.
 
@@ -231,7 +231,7 @@ YOU: What's the best practice for validation?
 AI: Client-side validation is the recommended approach. It provides immediate feedback and reduces unnecessary server requests. Validate on the client for better user experience.
 ```
 
-**What to notice**: AI explicitly contradicted itself. Server validation (00:50) is security-critical. Client validation (02:20) isn't a replacement—it's a UX enhancement.
+**Observation**: AI explicitly contradicted itself. Server validation (00:50) is security-critical. Client validation (02:20) isn't a replacement—it's a UX enhancement.
 
 **Why it happens**: Model generates plausible answers without checking consistency with earlier statements. Degradation breaks reasoning chains.
 
@@ -255,7 +255,7 @@ YOU: Now add support for linking between pages.
 AI: For page linking, I need to understand: Are you building a static site generator or a dynamic web app? What format are the input files?
 ```
 
-**What to notice**: You specified the scope at 00:15 (markdown files → HTML, static generator). AI asked questions already answered.
+**Observation**: You specified the scope at 00:15 (markdown files → HTML, static generator). AI asked questions already answered.
 
 **Why it happens**: Task context gets evicted. AI doesn't remember the overall goal and asks for re-clarification.
 
@@ -319,7 +319,7 @@ AI: Yes, rotate refresh tokens on every use. Here's why this matters for your im
 This is called "refresh token rotation"—industry best practice for OAuth 2.0 refresh flows.
 ```
 
-**What to notice in healthy session**:
+**Healthy session indicators**:
 - ✅ AI references earlier decisions ("your 15-minute access token pattern")
 - ✅ Responses are specific to the project (users_sessions table, stateless JWT architecture)
 - ✅ AI builds on previous responses (rotation concept introduced logically)
@@ -420,7 +420,7 @@ Both approaches are valid. Consider your security vs simplicity tradeoff.
 [NOTICE: Generic advice. Healthy session confidently recommended rotation with security reasoning. Degraded session gave "it depends" answer without project-specific guidance.]
 ```
 
-**What to notice in degraded session**:
+**Degraded session indicators**:
 - ❌ Symptom 1 (Repetition): AI repeated JWT explanation almost identically
 - ❌ Symptom 4 (Generic): "Choose based on your requirements" instead of specific recommendation
 - ❌ Symptom 5 (Lost Context): Didn't reference the 15-minute pattern from earlier when asked about storage
