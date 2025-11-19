@@ -2113,6 +2113,458 @@ git show HEAD~1:CLAUDE.md > CLAUDE.md.recovered  # Save to file
 
 ---
 
+## Optional Enhancement: Extracting Codebase Intelligence
+
+**When to use this**: After successfully completing brownfield adoption (SpecKit Plus installed, CLAUDE.md merged, everything working), you may realize your codebase itself contains valuable implicit knowledge that's not documented anywhere.
+
+### The Hidden Knowledge Problem
+
+**Scenario**: You've safely adopted SpecKit Plus on a legacy project:
+
+```
+legacy-api/
+├── CLAUDE.md ✅ (merged with SpecKit Plus template)
+├── .specify/ ✅ (constitution contains your coding standards)
+├── .claude/commands/ ✅ (custom commands preserved)
+├── src/ ⚠️ (50,000 lines of undocumented implementation)
+│   ├── api/
+│   ├── services/
+│   ├── models/
+│   └── utils/
+└── tests/ (15,000 lines)
+```
+
+**What you have documented**:
+- ✅ Coding standards (in constitution)
+- ✅ Architecture principles (in constitution)
+- ✅ AI collaboration patterns (in CLAUDE.md)
+
+**What's still implicit** (locked in code):
+- ❌ Architectural patterns (layering, dependency injection, error handling)
+- ❌ Domain models and business logic rules
+- ❌ Design decisions (why this approach? what was rejected?)
+- ❌ Reusable patterns worth extracting as skills
+
+**The opportunity**: Use `/reverse-engineer` to extract this implicit knowledge into explicit SDD-RI artifacts.
+
+---
+
+### The Reverse Engineering Workflow
+
+**Goal**: Extract specifications, architectural intelligence, and reusable patterns FROM existing implementation.
+
+#### Step 1: Analyze Your Codebase
+
+```bash
+# Inside your project (after SpecKit Plus brownfield adoption)
+claude code
+```
+
+Inside Claude Code interface:
+
+```
+> /reverse-engineer src/
+```
+
+**What the command does**:
+1. **Codebase reconnaissance** (30-60 min automated analysis):
+   - Maps directory structure and file types
+   - Discovers entry points (main functions, API routes, CLI commands)
+   - Analyzes dependencies and external integrations
+   - Assesses test coverage
+
+2. **Deep analysis** (AI-guided, 2-4 hours):
+   - **Intent archaeology**: Extracts WHAT the system does and WHY
+   - **Architecture recognition**: Identifies design patterns (MVC, hexagonal, microservices, etc.)
+   - **Code decomposition**: Breaks down into logical components and layers
+   - **Intelligence extraction**: Discovers reusable patterns and decision frameworks
+   - **Gap analysis**: Identifies missing documentation, tests, or error handling
+   - **Regeneration blueprint**: Creates the spec this codebase SHOULD have been built from
+
+3. **Artifact generation**:
+   - `spec.md` - The specification this codebase would have needed
+   - `plan.md` - The implementation plan that would produce this architecture
+   - `tasks.md` - Task breakdown for systematic development
+   - `intelligence-object.md` - Reusable patterns worth extracting as skills
+
+**Example output** (after analyzing a Flask API):
+
+```markdown
+# spec.md (generated from code analysis)
+
+## System Purpose
+REST API for user management with JWT authentication, role-based access control,
+and PostgreSQL persistence. Extracted from analysis of 15 API endpoints across
+3 controller modules.
+
+## Functional Requirements
+
+### FR-1: User Registration
+**Discovered from**: `src/api/auth/register.py:create_user()`
+- Accept: email, password, display_name
+- Validate: email format, password strength (8+ chars, complexity rules)
+- Side effects: Send verification email, create audit log entry
+
+### FR-2: JWT Authentication
+**Discovered from**: `src/api/auth/login.py:authenticate()`
+- Accept: email, password
+- Return: access_token (15 min expiry), refresh_token (7 days)
+- Error handling: Rate limiting after 5 failed attempts (observed in code)
+
+[... more requirements extracted ...]
+
+## Non-Functional Requirements
+
+### NFR-1: Performance
+**Evidence from codebase**:
+- Redis caching layer detected (15 cache decorators found)
+- Database connection pooling (max 20 connections)
+- Async endpoints using asyncio (12 of 15 endpoints)
+
+**Inferred requirement**: System must handle 1000+ req/sec (based on infrastructure)
+
+### NFR-2: Security
+**Evidence from codebase**:
+- JWT token signing with RS256 (asymmetric)
+- Password hashing with bcrypt (cost factor 12)
+- SQL injection prevention via SQLAlchemy ORM
+- Input validation using Pydantic models
+
+**Inferred requirement**: Must meet OWASP Top 10 security standards
+```
+
+```markdown
+# intelligence-object.md (reusable patterns discovered)
+
+## Pattern 1: Authenticated Endpoint Decorator
+
+**Where discovered**: Used 23 times across `src/api/` modules
+
+**Pattern**:
+```python
+@require_auth(roles=["admin", "moderator"])
+async def admin_endpoint(request: Request):
+    # Endpoint logic
+```
+
+**Reusable intelligence**:
+- Authentication + authorization as composable decorator
+- Role-based access control as declarative annotation
+- Token validation happens before handler execution
+
+**Skill candidate**: Yes - create `/skill/auth-decorator` for this pattern
+
+## Pattern 2: Repository Pattern for Data Access
+
+**Where discovered**: 8 repository classes in `src/repositories/`
+
+**Pattern**:
+- Interface: `BaseRepository` abstract class
+- Implementations: `UserRepository`, `PostRepository`, etc.
+- Dependency injection via constructor
+
+**Reusable intelligence**:
+- Separation of business logic from data access
+- Testability via interface abstraction
+- Consistent error handling across repositories
+
+**Skill candidate**: Yes - create `/skill/repository-pattern`
+
+[... more patterns discovered ...]
+```
+
+---
+
+#### Step 2: Enhance Your Constitution
+
+After `/reverse-engineer` completes, you have explicit knowledge about architectural decisions embedded in code. Use this to enhance your constitution:
+
+```bash
+> /sp.constitution
+```
+
+**What this does**:
+1. Reads the generated `intelligence-object.md`
+2. Reviews your existing `.specify/memory/constitution.md`
+3. Suggests additions based on discovered patterns
+
+**Interactive prompts** (example):
+
+```
+AI: I discovered 8 architectural patterns in your codebase.
+    Should I add these to your constitution as project principles?
+
+    Discovered patterns:
+    1. Repository pattern for data access (8 occurrences)
+    2. Authenticated endpoint decorator (23 occurrences)
+    3. Three-layer architecture (controllers → services → repositories)
+    4. Error handling with custom exception hierarchy
+    5. Input validation using Pydantic models
+    [... more ...]
+
+You: Yes, add patterns 1-3 as principles. Pattern 4-5 are implementation details.
+
+AI: Adding to constitution under "Architecture Principles" section...
+```
+
+**Result** (enhanced constitution):
+
+```markdown
+## Architecture Principles
+
+### Existing principles (from your manual merge):
+- FastAPI for all API services
+- PostgreSQL for primary database
+- Redis for caching
+
+### New principles (discovered from codebase):
+
+**Repository Pattern for Data Access** (discovered: 8 implementations)
+- MUST separate business logic from data persistence
+- All database access through repository interfaces
+- Enables test isolation via dependency injection
+
+**Three-Layer Architecture** (discovered: enforced across all modules)
+- Controllers: HTTP request/response handling
+- Services: Business logic and orchestration
+- Repositories: Data access abstraction
+- NO layer skipping (controllers must not access repositories directly)
+
+**Authenticated Endpoint Pattern** (discovered: 23 usages)
+- Use `@require_auth(roles=[...])` decorator for protected endpoints
+- Authentication happens before authorization
+- Token validation centralized (not per-endpoint logic)
+```
+
+---
+
+#### Step 3: Create Reusable Skills
+
+The `intelligence-object.md` identifies patterns worth extracting as reusable skills:
+
+```bash
+# For each "Skill candidate: Yes" pattern, create a skill
+
+> /skill create auth-decorator
+```
+
+**What this creates**: `.claude/skills/auth-decorator.md`
+
+**Skill structure** (Persona + Questions + Principles):
+
+```markdown
+---
+description: Create authenticated API endpoints with role-based access control
+---
+
+## Persona
+
+You are a security-focused API architect who implements authentication and
+authorization as declarative, composable patterns rather than imperative guards.
+
+## Questions
+
+Before implementing authenticated endpoints, ask:
+1. What roles are valid for this endpoint? (e.g., admin, user, guest)
+2. Should unauthenticated requests receive 401 or redirect to login?
+3. Does this endpoint need additional authorization beyond role check?
+4. Should failed auth attempts be logged/rate-limited?
+5. What token type: JWT access token, refresh token, or API key?
+
+## Principles
+
+**P1: Authentication precedes authorization**
+Always validate token/session BEFORE checking roles/permissions.
+Prevents authorization bypass attacks.
+
+**P2: Declarative over imperative**
+Prefer decorators/annotations over inline if-statements.
+Makes security requirements visible in route definitions.
+
+**P3: Fail secure**
+Default to denying access when auth state is ambiguous.
+Better UX error than security vulnerability.
+
+**P4: Centralized token validation**
+Single source of truth for token parsing/verification.
+Prevents inconsistent security across endpoints.
+
+[... implementation examples ...]
+```
+
+**When to use this skill**:
+- Creating new authenticated endpoints
+- Refactoring existing auth logic
+- Teaching team members the auth pattern
+
+---
+
+### When to Use Reverse Engineering vs Manual Documentation
+
+**Use `/reverse-engineer` when**:
+- ✅ Large codebase (10,000+ lines) with implicit knowledge
+- ✅ Original developers left, no documentation exists
+- ✅ Clear architectural patterns visible in code structure
+- ✅ You want to extract reusable intelligence (skills, patterns)
+- ✅ Planning major refactor (need baseline spec for comparison)
+
+**Skip reverse engineering when**:
+- ❌ Small codebase (<1,000 lines) - manual documentation faster
+- ❌ Code is throwaway prototype - not worth the investment
+- ❌ Architecture is chaotic - no patterns to extract
+- ❌ You already have comprehensive documentation
+
+---
+
+### Complete Enhancement Workflow
+
+**Full brownfield adoption + intelligence extraction**:
+
+```bash
+# PHASE 1: Safe SpecKit Plus adoption (Layers 1-4 from this lesson)
+git checkout -b experiment/speckit-plus
+cp CLAUDE.md CLAUDE.md.backup
+git add -A && git commit -m "backup before SpecKit Plus init"
+specifyplus init --here
+# (Merge CLAUDE.md content, commit result)
+
+# PHASE 2: Extract codebase intelligence (optional enhancement)
+claude code
+> /reverse-engineer src/
+# Wait for analysis (30-60 min reconnaissance + 2-4 hours deep analysis)
+# Review generated: spec.md, plan.md, tasks.md, intelligence-object.md
+
+# PHASE 3: Enhance constitution with discovered patterns
+> /sp.constitution
+# AI reads intelligence-object.md, suggests additions
+# Review and approve architectural principles from code
+
+# PHASE 4: Create reusable skills
+> /skill create repository-pattern
+> /skill create auth-decorator
+> /skill create error-handling
+# (For each pattern marked "Skill candidate: Yes")
+
+# PHASE 5: Commit intelligence artifacts
+git add spec.md plan.md tasks.md intelligence-object.md
+git add .specify/memory/constitution.md
+git add .claude/skills/*.md
+git commit -m "feat: extract codebase intelligence and create reusable skills
+
+Reverse engineered 50,000-line legacy codebase:
+- Generated specification from implementation
+- Discovered 8 architectural patterns
+- Enhanced constitution with 3 new principles
+- Created 3 reusable skills (auth, repository, error handling)
+
+Intelligence artifacts:
+- spec.md: Extracted requirements (15 functional, 5 non-functional)
+- plan.md: Implementation plan that would produce this architecture
+- tasks.md: Task breakdown for systematic development
+- intelligence-object.md: 8 reusable patterns identified
+
+Constitution enhancements:
+- Added repository pattern principle
+- Added three-layer architecture enforcement
+- Added authenticated endpoint pattern
+
+Skills created:
+- auth-decorator: Role-based access control pattern
+- repository-pattern: Data access abstraction
+- error-handling: Custom exception hierarchy"
+```
+
+---
+
+### Expected Time Investment
+
+**Reverse engineering effort** (varies by codebase size):
+
+| Codebase Size | Reconnaissance | Deep Analysis | Artifact Review | Skill Creation | Total |
+|--------------|---------------|---------------|----------------|----------------|-------|
+| 5,000 lines | 15 min | 1 hour | 30 min | 30 min | **2-3 hours** |
+| 20,000 lines | 30 min | 2 hours | 1 hour | 1 hour | **4-5 hours** |
+| 50,000 lines | 60 min | 4 hours | 2 hours | 2 hours | **8-10 hours** |
+| 100,000+ lines | 90 min | 6 hours | 3 hours | 3 hours | **12-15 hours** |
+
+**ROI calculation**:
+- **One-time cost**: 8-10 hours (50k line codebase)
+- **Ongoing benefit**: New team members understand architecture in 2 hours instead of 2 weeks
+- **Knowledge preservation**: Original developers' implicit decisions now explicit
+- **Skill reuse**: Patterns extracted once, applied across all future projects
+
+---
+
+### Self-Check: Should You Reverse Engineer?
+
+**Question 1**: You've completed brownfield adoption (SpecKit Plus installed, CLAUDE.md merged). Your codebase is 60,000 lines with clear layered architecture. Original developer left 6 months ago. Should you reverse engineer?
+
+<details>
+<summary>Answer</summary>
+
+**Yes, strong candidate for reverse engineering.**
+
+**Reasons**:
+- ✅ Large codebase (60k lines) - significant implicit knowledge
+- ✅ Original developer gone - knowledge at risk of loss
+- ✅ Clear architecture - patterns exist to extract
+- ✅ You've already invested in SpecKit Plus - intelligence extraction is natural next step
+
+**Expected outcome**:
+- Spec documenting 30-50 requirements embedded in code
+- 10-15 architectural patterns discovered
+- 5-8 reusable skills created
+- New developers onboard in days instead of months
+
+**Time investment**: ~10-12 hours
+**ROI**: Pays for itself when second developer onboards
+</details>
+
+**Question 2**: You've completed brownfield adoption on a 2,000-line utility script. Code is straightforward Python with minimal patterns. Should you reverse engineer?
+
+<details>
+<summary>Answer</summary>
+
+**No, manual documentation is more efficient.**
+
+**Reasons**:
+- ❌ Small codebase (2k lines) - can read entire thing in 1-2 hours
+- ❌ Straightforward - no complex patterns to extract
+- ❌ Reverse engineering overhead (30 min + 1 hour) exceeds manual docs time
+
+**Better approach**:
+- Spend 30 minutes writing a concise README explaining purpose/usage
+- Add inline comments for non-obvious logic
+- Document any environment dependencies in constitution
+
+**Time investment**: 30-45 minutes (vs 2-3 hours for reverse engineering)
+**ROI**: Better time use for small codebases
+</details>
+
+---
+
+### Key Takeaway
+
+**Brownfield adoption has two levels**:
+
+1. **Level 1: File-based knowledge** (this lesson's main focus)
+   - Merge custom CLAUDE.md with SpecKit Plus template
+   - Preserve coding standards in constitution
+   - Keep custom slash commands working
+
+2. **Level 2: Code-based knowledge** (this optional enhancement)
+   - Extract implicit architecture from implementation
+   - Discover reusable patterns worth creating skills
+   - Generate the spec the codebase should have had
+
+**Both levels complement each other**:
+- Level 1 preserves **explicit** knowledge (what developers wrote down)
+- Level 2 extracts **implicit** knowledge (what developers encoded in code)
+
+Together, they provide comprehensive knowledge preservation for brownfield projects.
+
+---
+
 ## Try With AI
 
 **Setup**: Open your preferred AI coding assistant (Claude Code, Cursor, Windsurf, etc.) and practice the brownfield adoption workflow with AI guidance.
