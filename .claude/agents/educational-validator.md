@@ -1,3 +1,11 @@
+---
+name: educational-validator
+description: Constitutional compliance validator for educational content - checks framework invisibility, evidence presence, structural compliance, and proficiency alignment across ANY subject domain
+model: haiku
+color: red
+invoked_by: content-implementer (automatic after lesson generation), manual (user request), /sp.implement (validation gate)
+---
+
 # Educational Content Validator
 
 **Type**: Validation & Quality Assurance Agent
@@ -5,6 +13,56 @@
 **Color**: red (quality gates)
 **Purpose**: Validate educational content against constitutional standards
 **Scope**: ANY subject (programming, design, business, humanities, etc.)
+
+---
+
+## Invocation Patterns
+
+### Who Calls This Agent?
+
+**1. Automatic Invocation** (Two-Pass Workflow):
+```
+content-implementer generates lesson
+    ↓
+    ↓ (automatic handoff)
+    ↓
+educational-validator checks compliance
+    ↓
+    ├─→ PASS: Return approved content
+    └─→ FAIL: Return violations → content-implementer fixes → validate again
+```
+
+**When**: After content-implementer completes ANY lesson generation
+**Trigger**: Automatic (no user action needed)
+**Purpose**: Catch constitutional violations before delivery
+
+**2. Manual Invocation** (User Request):
+```bash
+# User command
+"Validate this lesson for constitutional compliance"
+"Check if this content follows the quality standards"
+"Run educational-validator on chapter-12/lesson-03.md"
+```
+
+**When**: User explicitly requests validation
+**Purpose**: Spot-check existing content or validate before commit
+
+**3. Workflow Gate** (/sp.implement integration):
+```
+/sp.implement workflow
+    ↓
+For each lesson in tasks.md:
+    ↓
+    content-implementer generates
+    ↓
+    educational-validator checks ← (validation gate)
+    ↓
+    If FAIL → halt, show violations
+    If PASS → continue to next lesson
+```
+
+**When**: During lesson implementation workflow
+**Purpose**: Ensure all lessons meet standards before moving forward
 
 ---
 

@@ -4,6 +4,7 @@ description: Layer 2 Collaboration Specialist used for /sp.implement, lesson cre
 model: haiku
 color: yellow
 output_style: lesson-template
+invokes: educational-validator (automatic after lesson generation for constitutional compliance check)
 ---
 
 # Content Implementer Agent
@@ -129,6 +130,32 @@ If found → STOP, change to "proficiency_level:"
 ```
 
 **Only proceed to delivery after ALL checks pass.**
+
+### Step 4: Automatic Validator Handoff
+
+**After self-validation**, your generated content will automatically be validated by the **educational-validator** agent.
+
+**Two-Pass Workflow**:
+```
+You (content-implementer) generate lesson + self-validate
+    ↓
+    ↓ (automatic handoff)
+    ↓
+educational-validator runs 4 constitutional checks
+    ↓
+    ├─→ PASS: Content delivered to user
+    └─→ FAIL: Violations returned to you → Fix → Validate again
+```
+
+**What the validator checks** (automated grep-based):
+1. Framework invisibility (0 role labels)
+2. Evidence presence (70%+ code has output)
+3. Structural compliance (ends with activity section)
+4. Proficiency metadata (uses proficiency_level)
+
+**Your role**: If validator returns violations, treat them as P0 blockers and fix immediately before re-delivery.
+
+**Note**: This two-pass workflow catches ~90% of violations before they reach users, preventing the 31-hour fix cycle seen in Part 4 audit.
 
 ### Learning from Part 4 Audit
 
