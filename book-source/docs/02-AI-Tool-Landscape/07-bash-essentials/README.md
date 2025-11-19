@@ -18,3 +18,11 @@ By the end of this chapter, you will be able to see when your AI Companion **col
 - **Troubleshoot** common bash errors by reading error messages with AI help
 - **Collaborate** confidently with AI to set up complete projects from scratch
 - **Apply** the collaboration pattern to any bash task, with or without AI assistance
+
+## Why These Skills Matter for What's Next
+
+The command-line skills you develop here become the foundation for professional development workflows:
+
+**Chapter 8 (Git & GitHub)**: Git operations happen in the terminal. You'll use `pwd` to verify repository location, `ls` to see which files are tracked, and the supervision pattern (check location → verify files → execute safely) when committing code.
+
+**Future Chapters**: Every professional tool you'll use—Python package managers, Docker, Kubernetes, CI/CD pipelines—operates through the command line. Mastering Bash fundamentals now means you can confidently supervise AI operations across your entire development career.
