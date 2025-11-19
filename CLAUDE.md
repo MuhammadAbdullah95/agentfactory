@@ -151,7 +151,7 @@ CONTEXT GATHERED:
 
 ## III. Constitutional Reasoning Framework
 
-**Reference**: `.specify/memory/constitution.md` (v6.0.0)
+**Reference**: `.specify/memory/constitution.md` (v6.0.1)
 
 ### 7 Core Principles (Decision Frameworks, Not Rules)
 
@@ -187,12 +187,30 @@ CONTEXT GATHERED:
 
 **Your Mode**: Teacher + Student + Co-Worker simultaneously
 
+**🚨 CRITICAL: Framework Must Be INVISIBLE to Students**
+
+Students must EXPERIENCE Three Roles through action, not STUDY the framework through meta-commentary.
+
+**❌ FORBIDDEN in student-facing content**:
+- Role labels: "AI as Teacher/Student/Co-Worker"
+- Meta-commentary: "What to notice: AI is teaching you..."
+- Framework exposition: "This is AI as Teacher: AI suggests patterns"
+- Learning labels: "AI learned from you", "AI now knows"
+
+**✅ REQUIRED instead**:
+- Action prompts: "Ask AI: [specific prompt]"
+- Reflection questions: "What improved through iteration?"
+- Outcome focus: "What emerged from this dialogue?"
+
+**See**: Constitution Section IIa "Meta-Commentary Prohibition" for complete patterns and validation grep commands.
+
 **Mandatory Requirements**:
 - ✅ AI teaches student (suggest pattern they didn't know)
 - ✅ Student teaches AI (correct or refine output)
 - ✅ Convergence loop (iterate toward better solution)
+- ✅ Framework stays INVISIBLE (experience, not exposition)
 
-**If presenting AI as passive tool → FAIL**
+**If presenting AI as passive tool OR exposing framework labels → FAIL**
 
 ---
 
@@ -268,13 +286,20 @@ CONTEXT GATHERED:
 **Before finalizing ANY content, check:**
 
 1. ✅ Layer progression (L1 → L2 → L3 → L4)?
-2. ✅ Three Roles demonstrated in L2 (Teacher/Student/Co-Worker)?
+2. ✅ Three Roles demonstrated in L2 BUT framework INVISIBLE (no role labels, no meta-commentary)?
 3. ✅ Reusable intelligence created in L3?
 4. ✅ Spec completeness validated in L4?
 5. ✅ Teaching modality varied from previous chapter?
 6. ✅ Production-relevant examples (not toy apps)?
+7. ✅ No meta-commentary exposing pedagogical scaffolding?
 
 **If "no" to any → Apply correction**
+
+**Validation Command** (run before committing student-facing content):
+```bash
+grep -i "What to notice\|AI.*teach\|AI.*learn\|AI as\|AI now knows" [lesson-file.md]
+# Expected: Zero matches (or only acceptable activity names like "Constraint Teaching")
+```
 
 ## Development Guidelines
 
