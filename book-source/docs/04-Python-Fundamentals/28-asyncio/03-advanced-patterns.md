@@ -764,9 +764,9 @@ maximum delay cap of 32 seconds. Add jitter to prevent thundering herd."
 
 ## Challenge 3: The Async Context Manager Workshop
 
-This is a **4-part bidirectional learning challenge** where you master resilient async patterns through collaborative design.
+This challenge helps you master resilient async patterns through hands-on experimentation and AI collaboration.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Experience timeouts and error handling without AI guidance.
 
 **Deliverable**: Create `/tmp/timeout_discovery.py` containing:
@@ -787,23 +787,23 @@ This is a **4-part bidirectional learning challenge** where you master resilient
 
 ---
 
-### Part 2: AI as Teacher (Teaching Defensive Patterns)
-**Your AI Prompt**:
-> "I built an async API client that sometimes hangs forever waiting for responses. I added a timeout, but now I get TimeoutError and my whole program crashes. Teach me how to handle timeouts gracefully. Show me: 1) How to timeout a single request, 2) How to retry on timeout, 3) How to continue fetching other APIs if one times out. Code examples please."
+### Understanding Timeout and Retry Patterns
 
-**AI's Role**: Explain timeout mechanics (asyncio.timeout as context manager), show retry pattern with exponential backoff, and demonstrate partial failure handling.
+> **💬 AI Colearning Prompt**: "I built an async API client that sometimes hangs forever waiting for responses. I added a timeout, but now I get TimeoutError and my whole program crashes. Teach me how to handle timeouts gracefully. Show me: 1) How to timeout a single request, 2) How to retry on timeout, 3) How to continue fetching other APIs if one times out. Code examples please."
 
-**Interactive Moment**: Ask a clarifying question:
+**What You'll Learn**: Timeout mechanics (asyncio.timeout as context manager), retry pattern with exponential backoff, and partial failure handling.
+
+**Clarifying Question**: Deepen your understanding:
 > "You showed me catching TimeoutError inside a gather() call. But what's the difference between TimeoutError from asyncio.timeout() vs CancelledError from task cancellation? When would I see each one?"
 
 **Expected Outcome**: AI clarifies timeout behavior and task lifecycle. You understand that timeouts and cancellations are different mechanisms with different implications.
 
 ---
 
-### Part 3: You as Teacher (Discovering Resilience Patterns)
-**Setup**: AI generates a basic timeout implementation. Your job is to improve it and teach AI about resilience.
+### Improving Resilience Patterns
+**Activity**: Work with AI to improve timeout implementations and add retry logic.
 
-**AI's Initial Code** (ask for this):
+**First**, ask AI to generate a basic timeout implementation:
 ```python
 async def fetch_with_timeout(url: str) -> str:
     try:
@@ -836,8 +836,8 @@ async def main():
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build a resilient multi-source data fetcher.
+### Building a Resilient Data Fetcher
+**Capstone Activity**: Build a resilient multi-source data fetcher.
 
 **Specification**:
 - Fetch from 6 external services (simulated with asyncio.sleep)

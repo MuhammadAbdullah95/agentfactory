@@ -865,7 +865,7 @@ Tell your AI Co-Teacher:
 
 This is a **4-part bidirectional learning challenge** where you explore Python 3.14's paradigm shift and its implications.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Compare traditional and free-threaded Python performance.
 
 **Deliverable**: Create `/tmp/free_threading_discovery.py` containing:
@@ -886,7 +886,7 @@ This is a **4-part bidirectional learning challenge** where you explore Python 3
 
 ---
 
-### Part 2: AI as Teacher (Teaching the Paradigm Shift)
+### Understanding Free-Threading Concepts
 **Your AI Prompt**:
 > "I just learned that Python 3.14 makes the GIL optional. Teach me: 1) What actually changed in CPython to make this possible? 2) Why couldn't this be done 10 years ago? 3) What problems come with removing the GIL (thread safety, performance monitoring)? 4) When should I use free-threading vs traditional Python? 5) How does this affect my AI system design?"
 
@@ -899,7 +899,7 @@ This is a **4-part bidirectional learning challenge** where you explore Python 3
 
 ---
 
-### Part 3: You as Teacher (Discovering Production Constraints)
+### Analyzing Production Constraints
 **Setup**: AI generates detection and recommendation code. Your job is to test it and teach AI about deployment realities.
 
 **AI's Initial Code** (ask for this):
@@ -922,7 +922,7 @@ This is a **4-part bidirectional learning challenge** where you explore Python 3
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
+### Building a Free-Threaded Application
 **Your Capstone for This Challenge**: Build a free-threading readiness assessment tool.
 
 **Specification**:

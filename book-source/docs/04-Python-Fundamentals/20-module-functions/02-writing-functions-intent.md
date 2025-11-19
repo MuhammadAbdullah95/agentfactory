@@ -3,7 +3,7 @@ sidebar_position: 2
 title: "Lesson 2: Writing Functions with Intent"
 description: "Learn how to write functions with clear parameters, return values, type hints, and docstrings"
 keywords: ["functions", "def", "type hints", "docstrings", "parameters", "return values", "intent"]
-cefr_level: "A2-B1"
+proficiency_level: "A2-B1"
 estimated_time: "60 minutes"
 proficiency_by_end: "Students can write functions with type hints and docstrings that clearly communicate intent"
 prerequisites: ["Lesson 1: Module imports concept", "Chapter 14: Type hints syntax", "Chapter 18: Collections (lists, dicts)"]

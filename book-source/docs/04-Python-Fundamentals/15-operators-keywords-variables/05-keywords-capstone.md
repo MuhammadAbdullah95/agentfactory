@@ -281,6 +281,48 @@ print("Calculation complete!")
 print("=" * 50)
 ```
 
+**Output:**
+```
+==================================================
+SIMPLE CALCULATOR WITH TYPE SAFETY
+==================================================
+
+--- ARITHMETIC OPERATORS ---
+10.0 + 3.0 = 13.0 (type: float)
+10.0 - 3.0 = 7.0 (type: float)
+10.0 * 3.0 = 30.0 (type: float)
+
+--- COMPARISON OPERATORS ---
+10.0 == 3.0: False (type: bool)
+10.0 > 3.0: True (type: bool)
+10.0 < 3.0: False (type: bool)
+
+--- LOGICAL OPERATORS ---
+Both positive: True (type: bool)
+Either > 10: False (type: bool)
+Not equal: True (type: bool)
+
+--- ASSIGNMENT OPERATORS ---
+After adding result: total = 13.0
+After subtracting 5: total = 8.0
+After halving: total = 4.0 (type: float)
+
+--- KEYWORD AWARENESS ---
+Checking variable names:
+  'count' is OK - can use as variable name
+  'for' is RESERVED - don't use as variable name
+  'result' is OK - can use as variable name
+  'if' is RESERVED - don't use as variable name
+  'my_var' is OK - can use as variable name
+
+--- SAFE DIVISION ---
+10.0 / 3.0 = 3.3333333333333335 (type: float)
+
+==================================================
+Calculation complete!
+==================================================
+```
+
 **That's the complete calculator!** You've now integrated all four operator types (arithmetic, comparison, logical, assignment) plus keyword awareness and type validation—all using only the Python concepts you've learned so far (Chapters 13-15).
 
 **What about functions?** You might wonder why the calculator code is all in one block instead of organized into functions. That's intentional! Functions are taught in Chapter 20. For now, focus on understanding how operators work together. When you reach Chapter 20, you can come back and refactor this calculator using functions as practice.

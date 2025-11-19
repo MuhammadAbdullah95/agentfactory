@@ -652,15 +652,11 @@ print(f"Age type: {type(age)} (converted from {type(age_input)})")
 print(f"Email type: {type(email)}")
 ```
 
-### Example Output
-
+**Output:**
 ```
 === User Profile Validator ===
 
 Enter your profile information:
-Name: Alice Smith
-Age: 25
-Email: alice@example.com
 
 --- Validation Results ---
 

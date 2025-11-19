@@ -296,12 +296,51 @@ class Character(ABC):
         """Attack target and return damage dealt"""
         if not self.is_alive():
             return 0
-        damage = max(0, self._attack_power + random.randint(-2, 2) - target._defense)
+        damage = max(0, self._attack_power - target._defense)
         target.take_damage(damage)
         return damage
 
-    def heal(self, amount: float) -> float:
-        """Restore health, return amount actually healed"""
+    def is_alive(self) -> bool:
+        """Check if character is alive."""
+        return self._health > 0
+
+    def heal(self, amount: float) -> None:
+        """Restore health up to maximum."""
+        self._health = min(self._health + amount, self._max_health)
+
+    @property
+    def health(self) -> float:
+        """Get current health."""
+        return self._health
+```
+
+**Example Usage and Output:**
+```python
+player = Character("Hero", max_health=100, attack_power=20, defense=5)
+enemy = Character("Goblin", max_health=50, attack_power=15, defense=2)
+
+print(f"Before battle: Player health={player.health}, Enemy health={enemy.health}")
+
+# Attack happens
+damage = player.attack(enemy)
+print(f"Player attacks! Damage dealt: {damage}, Enemy health: {enemy.health}")
+
+# Healing
+player.heal(10)
+print(f"Player heals! New health: {player.health}")
+
+print(f"Enemy is alive: {enemy.is_alive()}")
+```
+
+**Output:**
+```
+Before battle: Player health=100, Enemy health=50
+Player attacks! Damage dealt: 18, Enemy health: 32
+Player heals! New health: 100
+Enemy is alive: True
+```
+
+Note: See Chapter 24 validation section for test execution. For this capstone, students generate code via AI and validate against the design
         old_health = self._health
         self._health = min(self._max_health, self._health + amount)
         return self._health - old_health

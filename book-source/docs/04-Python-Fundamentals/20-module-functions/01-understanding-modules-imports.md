@@ -3,7 +3,7 @@ sidebar_position: 1
 title: "Lesson 1: Understanding Modules and Imports"
 description: "Learn what modules are, how Python organizes code, and the three main import patterns"
 keywords: ["modules", "imports", "built-in modules", "import variants", "math", "random", "os"]
-cefr_level: "A2"
+proficiency_level: "A2"
 estimated_time: "55 minutes"
 proficiency_by_end: "Students can import built-in modules (math, random, os) and use their functions correctly"
 prerequisites: ["Chapter 13: Python basics (variables, print, execution flow)", "Chapter 14: Type hints syntax"]

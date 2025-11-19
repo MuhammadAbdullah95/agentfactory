@@ -754,9 +754,9 @@ Free-threading is the rethinking of GIL fundamentals. Lesson 4 shows how.
 
 ## Challenge 3: The GIL Impact Workshop
 
-This is a **4-part bidirectional learning challenge** where you understand the GIL's consequences and limitations.
+This challenge explores the GIL's consequences through hands-on experimentation and analysis.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Experience the GIL's blocking firsthand.
 
 **Deliverable**: Create `/tmp/gil_discovery.py` containing:
@@ -778,23 +778,23 @@ This is a **4-part bidirectional learning challenge** where you understand the G
 
 ---
 
-### Part 2: AI as Teacher (Teaching GIL Constraints)
-**Your AI Prompt**:
-> "I ran 4 threads for CPU work and got zero speedup—it took the same time as sequential. But I have 4 CPU cores. Teach me: 1) What is the GIL and why does it exist? 2) Why can't Python just remove it? 3) When DOES threading help in Python? 4) What alternatives exist (multiprocessing, asyncio)? Show me the architecture of each."
+### Understanding GIL Constraints
 
-**AI's Role**: Explain GIL (memory safety mechanism), discuss why it's hard to remove, clarify when threading helps (I/O bound), and compare solutions.
+> **💬 AI Colearning Prompt**: "I ran 4 threads for CPU work and got zero speedup—it took the same time as sequential. But I have 4 CPU cores. Teach me: 1) What is the GIL and why does it exist? 2) Why can't Python just remove it? 3) When DOES threading help in Python? 4) What alternatives exist (multiprocessing, asyncio)? Show me the architecture of each."
 
-**Interactive Moment**: Ask a clarifying question:
+**What You'll Learn**: GIL (memory safety mechanism), why it's hard to remove, when threading helps (I/O bound), and comparing solutions.
+
+**Clarifying Question**: Deepen your understanding:
 > "You said the GIL protects reference counting from race conditions. But why not just use locks per object instead of a global lock? Wouldn't that allow parallelism?"
 
 **Expected Outcome**: AI explains the tradeoff—fine-grained locks would be slower than global lock in practice. You learn about systems-level tradeoffs.
 
 ---
 
-### Part 3: You as Teacher (Discovering Workarounds)
-**Setup**: AI generates code showing GIL workarounds. Your job is to test each and teach AI about real-world constraints.
+### Exploring GIL Workarounds
+**Activity**: Work with AI to test different GIL workarounds and understand their tradeoffs.
 
-**AI's Initial Code** (ask for this):
+**First**, ask AI to show GIL workaround approaches:
 > "Show me 3 ways to work around the GIL: 1) Multiprocessing for CPU-bound work, 2) Asyncio for I/O-bound work, 3) C extensions (ctypes/cffi) that release the GIL. Code examples for each, showing speedup compared to threading. Explain when each workaround is appropriate."
 
 **Your Task**:
@@ -813,8 +813,8 @@ This is a **4-part bidirectional learning challenge** where you understand the G
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build a concurrency strategy recommendation system.
+### Building a Concurrency Strategy Analyzer
+**Capstone Activity**: Build a concurrency strategy recommendation system.
 
 **Specification**:
 - Analyze 5 workload types (CPU-heavy, I/O-heavy, hybrid, GPU-bound, memory-bound)

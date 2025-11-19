@@ -699,7 +699,7 @@ Memorizing this tree won't help you. Understanding the WHY behind each decision 
 
 This is a **4-part bidirectional learning challenge** where you master decision-making using the concurrency selection framework.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Classify real-world workloads using the decision framework.
 
 **Deliverable**: Create `/tmp/concurrency_classification.py` containing:
@@ -728,7 +728,7 @@ This is a **4-part bidirectional learning challenge** where you master decision-
 
 ---
 
-### Part 2: AI as Teacher (Teaching Decision Framework)
+### Understanding Decision Frameworks
 **Your AI Prompt**:
 > "I classified 8 workloads using the concurrency decision framework. Teach me: 1) Are my classifications correct? 2) For each workload type, what are the performance implications of wrong choices? 3) How does Python 3.14 free-threading change the classification (some that needed multiprocessing before might not now)? 4) When would I deliberately choose a suboptimal approach and why?"
 
@@ -741,7 +741,7 @@ This is a **4-part bidirectional learning challenge** where you master decision-
 
 ---
 
-### Part 3: You as Teacher (Discovering Edge Cases)
+### Exploring Edge Cases
 **Setup**: AI generates a benchmark comparing all approaches on a hybrid workload. Your job is to verify and teach AI about real-world constraints.
 
 **AI's Initial Code** (ask for this):
@@ -760,7 +760,7 @@ This is a **4-part bidirectional learning challenge** where you master decision-
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
+### Building a Decision Support Tool
 **Your Capstone for This Challenge**: Build an interactive concurrency strategy recommendation engine.
 
 **Specification**:

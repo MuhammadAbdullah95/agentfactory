@@ -541,9 +541,9 @@ Ask your AI Co-Teacher:
 
 ## Challenge 4: The CPU Parallelism Workshop
 
-This is a **4-part bidirectional learning challenge** where you discover how to parallelize CPU work despite the GIL.
+This challenge teaches you how to parallelize CPU work despite the GIL through hands-on experimentation.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Experience the GIL's effect without AI.
 
 **Deliverable**: Create `/tmp/gil_discovery.py` containing:
@@ -564,23 +564,23 @@ This is a **4-part bidirectional learning challenge** where you discover how to 
 
 ---
 
-### Part 2: AI as Teacher (Teaching Executor Patterns)
-**Your AI Prompt**:
-> "I tried to speed up my CPU calculation using ThreadPoolExecutor with 4 workers, but it's no faster than sequential. I read something about the GIL. Teach me: 1) What is the GIL? 2) Why does it prevent threading from helping CPU work? 3) What should I use instead of threading for CPU work? Show me code that actually achieves parallelism."
+### Understanding the GIL and Executor Patterns
 
-**AI's Role**: Explain GIL concept (memory safety, reference counting), why threading can't help CPU work, and show ProcessPoolExecutor or InterpreterPoolExecutor pattern.
+> **💬 AI Colearning Prompt**: "I tried to speed up my CPU calculation using ThreadPoolExecutor with 4 workers, but it's no faster than sequential. I read something about the GIL. Teach me: 1) What is the GIL? 2) Why does it prevent threading from helping CPU work? 3) What should I use instead of threading for CPU work? Show me code that actually achieves parallelism."
 
-**Interactive Moment**: Ask a clarifying question:
+**What You'll Learn**: GIL concept (memory safety, reference counting), why threading can't help CPU work, and ProcessPoolExecutor or InterpreterPoolExecutor pattern.
+
+**Clarifying Question**: Deepen your understanding:
 > "You mentioned ProcessPoolExecutor and InterpreterPoolExecutor—what's the difference? When would I choose one over the other? What about startup overhead?"
 
 **Expected Outcome**: AI clarifies that InterpreterPoolExecutor is lightweight (shared Python runtime) while ProcessPoolExecutor has high overhead (separate Python instances). You understand the tradeoff.
 
 ---
 
-### Part 3: You as Teacher (Discovering Hybrid Patterns)
-**Setup**: AI generates hybrid asyncio + executor code. Your job is to test it and teach AI about optimization.
+### Optimizing Hybrid Async/CPU Patterns
+**Activity**: Work with AI to optimize hybrid asyncio + executor code.
 
-**AI's Initial Code** (ask for this):
+**First**, ask AI to generate hybrid asyncio + executor code:
 ```python
 import asyncio
 from concurrent.futures import ProcessPoolExecutor
@@ -631,8 +631,8 @@ asyncio.run(main())
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build a realistic I/O + CPU pipeline.
+### Building a Hybrid I/O + CPU Pipeline
+**Capstone Activity**: Build a realistic I/O + CPU pipeline.
 
 **Specification**:
 - Fetch from 6 data sources concurrently (simulate with asyncio.sleep, each 0.5-1.5s)

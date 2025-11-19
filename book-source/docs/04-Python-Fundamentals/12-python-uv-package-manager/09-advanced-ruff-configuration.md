@@ -344,22 +344,7 @@ How do you configure Ruff for team standards and integrate multiple quality tool
 **🚀 Configure IDE Integration:**
 > "Create matching Zed `settings.json` that uses Ruff for formatting with format-on-save enabled, shows Ruff diagnostics and Pyright type errors inline, excludes .venv from file watching, and sets Python tab width to 4 spaces. Include both user-level settings (all projects) and workspace settings (project-specific)."
 
+**🔧 Troubleshoot Common Issues:**
+> "I'm seeing these problems with my Ruff setup: (1) Ruff says my pyproject.toml has a syntax error, (2) Format-on-save isn't working in Zed, (3) My rules look right but Ruff still complains. For each issue, explain what's happening and give me the fix or workaround. What are the most common configuration mistakes and how can I prevent them?"
+
 ---
-
-## Red Flags to Watch
-
-**Problem**: "Ruff says my pyproject.toml has a syntax error"
-- **What it means**: TOML formatting mistake (missing =, wrong quotes, wrong brackets)
-- **What to do**: Ask AI: "Check my pyproject.toml for syntax errors and fix them"
-- **Pro tip**: TOML is finicky; let AI handle it
-
-**Problem**: "Format-on-save isn't working in Zed"
-- **What it means**: Ruff LSP not connected, or Zed settings wrong
-- **What to do**: Check `.zed/settings.json` has correct Python formatter config; verify Ruff installed (`uv add ruff --dev`)
-- **Fallback**: Run `uv run ruff format .` manually (format-on-save is convenience, not required)
-
-**Problem**: "My rules look right but Ruff still complains"
-- **What it means**: Ruff might be using a cached configuration; or you didn't save the file
-- **What to do**: Save `pyproject.toml`, restart Zed (close and reopen), try again
-- **Nuclear option**: Delete `.venv` folder and run `uv sync` to rebuild everything
-

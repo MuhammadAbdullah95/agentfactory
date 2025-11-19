@@ -1109,9 +1109,9 @@ Ask your AI Co-Teacher:
 
 ## Challenge 5: The Hybrid Workload Builder
 
-This is a **4-part bidirectional learning challenge** where you architect complete production systems combining asyncio, executors, and intelligent orchestration.
+This challenge teaches you to architect complete production systems combining asyncio, executors, and intelligent orchestration.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Experience the power of pipelining without AI guidance.
 
 **Deliverable**: Create `/tmp/pipeline_discovery.py` containing:
@@ -1131,23 +1131,23 @@ This is a **4-part bidirectional learning challenge** where you architect comple
 
 ---
 
-### Part 2: AI as Teacher (Teaching System Design)
-**Your AI Prompt**:
-> "I have a system: fetch documents (2s), extract text (3s), generate embeddings (4s), store results (1s). I run these sequentially: 4 documents = 40 seconds. I tried running them in parallel but wasted resources. Teach me about pipelining. How would I fetch doc 2 while extracting doc 1 while generating embeddings for doc 0? Show me the architecture using asyncio + executors. What's the optimal pipeline depth?"
+### Understanding Pipeline Architecture
 
-**AI's Role**: Explain pipelining concept, show queue-based architecture, discuss how to balance stage speeds, and explain resource tradeoffs.
+> **💬 AI Colearning Prompt**: "I have a system: fetch documents (2s), extract text (3s), generate embeddings (4s), store results (1s). I run these sequentially: 4 documents = 40 seconds. I tried running them in parallel but wasted resources. Teach me about pipelining. How would I fetch doc 2 while extracting doc 1 while generating embeddings for doc 0? Show me the architecture using asyncio + executors. What's the optimal pipeline depth?"
 
-**Interactive Moment**: Ask a clarifying question:
+**What You'll Learn**: Pipelining concept, queue-based architecture, how to balance stage speeds, and resource tradeoffs.
+
+**Clarifying Question**: Deepen your understanding:
 > "You used a Queue to buffer between stages. What happens if the extract stage is much slower than fetch? Does the queue grow infinitely? How do I prevent memory exhaustion? What's backpressure?"
 
 **Expected Outcome**: AI clarifies queue dynamics and backpressure concepts. You understand that pipelines need flow control, not just throughput maximization.
 
 ---
 
-### Part 3: You as Teacher (Discovering Bottleneck Optimization)
-**Setup**: AI generates a simple pipeline. Your job is to identify bottlenecks and teach AI how to optimize.
+### Identifying and Optimizing Bottlenecks
+**Activity**: Work with AI to identify bottlenecks and optimize pipeline performance.
 
-**AI's Initial Code** (ask for this):
+**First**, ask AI to generate a simple pipeline:
 ```python
 import asyncio
 from concurrent.futures import ProcessPoolExecutor
@@ -1192,8 +1192,8 @@ asyncio.run(pipeline())
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build an optimized end-to-end data pipeline.
+### Building an Optimized Data Pipeline
+**Capstone Activity**: Build an optimized end-to-end data pipeline.
 
 **Specification**:
 - 3-stage pipeline: Fetch, Process, Store

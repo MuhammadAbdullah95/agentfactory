@@ -380,9 +380,9 @@ Each lesson builds on the previous. The performance improvements in Lesson 2 mat
 
 ## Challenge 2: The Performance Optimization Discovery
 
-This is a **4-part bidirectional learning challenge** where you understand Python 3.14 performance improvements and their real-world impact.
+This challenge explores Python 3.14 performance improvements through hands-on measurement and analysis.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Measure performance without AI guidance first.
 
 **Deliverable**: Create `/tmp/performance_discovery.py` containing:
@@ -404,23 +404,23 @@ This is a **4-part bidirectional learning challenge** where you understand Pytho
 
 ---
 
-### Part 2: AI as Teacher (Teaching Performance Optimization Context)
-**Your AI Prompt**:
-> "I measured Python's performance and want to understand improvements. Teach me: 1) What changed in Python 3.14 that makes it faster? 2) Which optimizations matter most for AI workloads? 3) What's the difference between interpreter speed (tail-call optimization) and GC speed (incremental GC)? 4) How much faster is Python 3.14 actually—5% or 50%? Show me benchmarks."
+### Understanding Performance Improvements
 
-**AI's Role**: Explain performance improvements (tail-call interpreter, incremental GC, deferred annotations), discuss which matter for different workloads, and show real-world benchmark numbers.
+> **💬 AI Colearning Prompt**: "I measured Python's performance and want to understand improvements. Teach me: 1) What changed in Python 3.14 that makes it faster? 2) Which optimizations matter most for AI workloads? 3) What's the difference between interpreter speed (tail-call optimization) and GC speed (incremental GC)? 4) How much faster is Python 3.14 actually—5% or 50%? Show me benchmarks."
 
-**Interactive Moment**: Ask a clarifying question:
+**What You'll Learn**: Performance improvements (tail-call interpreter, incremental GC, deferred annotations), which matter for different workloads, and real-world benchmark numbers.
+
+**Clarifying Question**: Deepen your understanding:
 > "You said incremental GC reduces pause times. But doesn't that mean longer total collection time? What's the tradeoff? When would I prefer longer total time with shorter pauses vs shorter total time with one long pause?"
 
 **Expected Outcome**: AI clarifies latency vs throughput—different applications optimize for different metrics. You learn to think about constraints (real-time AI needs low latency; batch processing cares about throughput).
 
 ---
 
-### Part 3: You as Teacher (Discovering Optimization Tradeoffs)
-**Setup**: AI generates micro-benchmarks showing improvements. Your job is to verify they're meaningful and teach AI about real-world constraints.
+### Analyzing Optimization Tradeoffs
+**Activity**: Work with AI to verify benchmarks and understand real-world applicability.
 
-**AI's Initial Code** (ask for this):
+**First**, ask AI to generate micro-benchmarks:
 > "Create simple benchmarks that show: 1) Tail-call interpreter speedup (tight loop of simple operations), 2) Incremental GC pause time reduction (create/destroy lots of objects, measure pause), 3) Deferred annotation speedup (import heavy module with many type hints). Compare results between Python 3.13 and 3.14 if available, or simulate expected improvements."
 
 **Your Task**:
@@ -436,8 +436,8 @@ This is a **4-part bidirectional learning challenge** where you understand Pytho
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build a benchmarking and profiling toolkit.
+### Building a Performance Profiling Toolkit
+**Capstone Activity**: Build a benchmarking and profiling toolkit.
 
 **Specification**:
 - Benchmark simple Python loop (tight loop of arithmetic)

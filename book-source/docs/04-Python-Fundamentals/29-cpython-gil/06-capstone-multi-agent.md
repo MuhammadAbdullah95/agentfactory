@@ -779,7 +779,7 @@ Free-threading excels for **CPU-bound workloads with shared state**. It's not au
 
 This is a **5-part bidirectional learning challenge** where you complete, evaluate, and reflect on your production multi-agent concurrency system.
 
-### Part 1: Verify and Benchmark Your Implementation (Student as Quality Engineer)
+### Verification and Benchmarking Phase
 **Your Challenge**: Ensure your built system actually demonstrates the concurrency concepts.
 
 **Verification Checklist**:
@@ -807,7 +807,7 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 2: Analyze Performance and Identify Optimization Opportunities (Student as Systems Engineer)
+### Performance Analysis Phase
 **Your Challenge**: Understand WHERE time is spent and HOW to optimize.
 
 **Analysis Tasks**:
@@ -830,7 +830,7 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 3: AI as Optimization Coach (AI Teaching Production Optimization)
+### Learning Production Optimization
 **Your AI Prompt**:
 > "I built a 4-agent system that achieves 3.2x speedup on 4 cores with free-threading. But when I test with 8 agents, speedup only goes to 3.4x, not 4x. Teach me: 1) Why does speedup plateau? 2) How do I profile to find the bottleneck? 3) What optimization strategies exist (load balancing, work distribution, architectural changes)? 4) Is 3.4x good enough or should I redesign? Show me decision framework."
 
@@ -843,7 +843,7 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 4: You as Architect (Extending and Validating the System)
+### System Architecture and Extension Phase
 **Setup**: AI generates an optimized version using techniques like load balancing and work stealing. Your job is to verify benefits and teach AI about trade-offs.
 
 **AI's Initial Code** (ask for this):
@@ -866,7 +866,7 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 5: Reflect and Synthesize (Student as Thoughtful Systems Architect)
+### Reflection and Synthesis Phase
 **Your Challenge**: Synthesize everything you've learned about CPython and concurrency into principle-based thinking.
 
 **Reflection Tasks**:

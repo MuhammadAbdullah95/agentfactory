@@ -339,22 +339,7 @@ Build a complete type-safe Python project integrating UV, Pyright, Ruff, and pyt
 **🚀 Configure Complete Toolchain:**
 > "Set up full toolchain in `pyproject.toml`: Ruff (line length 88, format on save), Pyright (standard mode, Python 3.13, report missing hints as warnings not errors), and pytest as dev dependency with one test for `add()` function using type hints. Show me the commands: `uv run ruff format .`, `uv run pyright`, `uv run pytest`. All should pass. Then create a teammate onboarding checklist with environment sync, dependency install, and verification steps."
 
+**🔧 Troubleshoot Type Checking Issues:**
+> "I'm seeing these problems with Pyright: (1) Pyright says type error but my code runs fine, (2) Pyright says `str | None` is invalid syntax, (3) Pyright shows 'LSP not connected' in Zed. For each issue, explain what's happening and give me the fix or workaround. How do I know if a type error is critical or just a warning I can safely ignore?"
+
 ---
-
-## Red Flags to Watch
-
-**Problem**: "Pyright says type error but my code runs fine"
-- **What it means**: Type hints catch static errors; not all runtime issues
-- **What to do**: Understand: Pyright prevents bugs early, but tests still catch logic errors
-- **Normal**: This is expected behavior; type hints are a safety net, not a guarantee
-
-**Problem**: "Pyright says `str | None` is invalid syntax"
-- **What it means**: You're using Python 3.12 or older; `|` syntax is Python 3.13+ only
-- **What to do**: Upgrade Python to 3.13 (`uv.lock` should handle this), or use `Union[str, None]` syntax
-- **Check version**: Run `python --version`
-
-**Problem**: "Pyright shows 'LSP not connected' in Zed"
-- **What it means**: Zed can't find Pyright LSP
-- **What to do**: Verify Pyright installed (`uv add pyright --dev`); restart Zed
-- **Not urgent**: You can still run `uv run pyright` from terminal; inline checking comes later
-
