@@ -693,5 +693,4 @@ Apply generic classes and Protocols through AI collaboration that builds flexibl
 > "Design generic API client using Protocol for serialization and Generic[T] for responses. Build DataLoader[T: Serializable] showing constrained generics with Protocol bounds. Explain composition patterns."
 
 ---
-## Time Estimate
-**35-40 minutes** (7 min discover, 9 min AI teaches, 9 min you challenge, 10 min build)
+
