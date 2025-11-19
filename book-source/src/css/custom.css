@@ -67,6 +67,8 @@ code {
     padding: 0.15rem 0.4rem;
     background: var(--ifm-color-emphasis-100);
     border: 1px solid var(--ifm-color-emphasis-200);
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
 }
 
 [data-theme="dark"] code {
