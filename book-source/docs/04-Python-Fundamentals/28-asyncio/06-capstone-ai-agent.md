@@ -785,7 +785,7 @@ This capstone demonstrates:
 
 This is a **5-part bidirectional learning challenge** where you complete, evaluate, and reflect on your production AI agent system.
 
-### Part 1: Verify and Test Your Implementation (Student as Quality Engineer)
+### Verification and Testing Phase
 **Your Challenge**: Ensure your built system actually works as intended.
 
 **Verification Checklist**:
@@ -811,7 +811,7 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 2: Discover Optimization Opportunities (Student as Scientist)
+### Performance Analysis Phase
 **Your Challenge**: Identify bottlenecks without AI help first.
 
 **Analysis Tasks**:
@@ -834,8 +834,9 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 3: AI as Optimization Coach (AI Teaching You Production Patterns)
-**Your AI Prompt**:
+### Learning Production Optimization Patterns
+
+> **💬 AI Colearning Prompt**:
 > "I built an AI agent that fetches from 3 sources (2-3s each) and processes results (2s each). Total time is ~5 seconds. I added timing instrumentation and identified that fetch is the bottleneck. Teach me about optimization strategies: 1) Early timeout to fail fast, 2) Caching to avoid refetching, 3) Request prioritization (fetch fast sources first), 4) Adaptive batch sizing. Show me code examples for each. Which would help most in my system?"
 
 **AI's Role**: Explain production optimization patterns, show code for each strategy, help you reason about tradeoffs (latency vs memory, throughput vs latency).
@@ -847,8 +848,8 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 4: You as Architect (Correcting and Extending the System)
-**Setup**: AI generates an optimized version of your system. Your job is to test it, find issues, and teach AI about production realities.
+### System Architecture and Extension Phase
+**Setup**: AI generates an optimized version of your system. Your job is to test it, find issues, and improve it based on production realities.
 
 **AI's Initial Code** (ask for this):
 > "Show me an optimized version of the AI agent that: 1) Implements per-source timeout (fail fast on slow sources), 2) Uses asyncio.as_completed() to process results as they arrive (not wait for all), 3) Adds exponential backoff for retries. Explain why this is better than my current version."
@@ -870,7 +871,7 @@ This is a **5-part bidirectional learning challenge** where you complete, evalua
 
 ---
 
-### Part 5: Reflect and Synthesize (Student as Thoughtful Engineer)
+### Reflection and Synthesis Phase
 **Your Challenge**: Synthesize everything you've learned about asyncio into principle-based thinking.
 
 **Reflection Tasks**:

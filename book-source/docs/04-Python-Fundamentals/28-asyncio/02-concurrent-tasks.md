@@ -790,9 +790,9 @@ Now you understand three approaches. How do you choose?
 
 ## Challenge 2: The Concurrent Tasks Builder
 
-This is a **4-part bidirectional learning challenge** where you master task scheduling patterns through collaborative exploration.
+This challenge helps you master task scheduling patterns through hands-on exploration and AI collaboration.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Explore the difference between sequential and concurrent patterns without AI.
 
 **Deliverable**: Create `/tmp/task_patterns.py` containing:
@@ -812,23 +812,23 @@ This is a **4-part bidirectional learning challenge** where you master task sche
 
 ---
 
-### Part 2: AI as Teacher (Teaching You Patterns)
-**Your AI Prompt**:
-> "I want to run 10 database queries concurrently, each taking 1 second. I tried wrapping them in `async def` and using `await` inside a for loop, but it still takes 10 seconds. Teach me the difference between 'awaiting immediately' and 'scheduling first.' Show me code using both `asyncio.gather()` and `asyncio.create_task()`. Which should I use when?"
+### Understanding Task Scheduling Patterns
 
-**AI's Role**: Explain the conceptual difference (immediate await blocks; scheduling creates pending tasks), show both patterns, and guide you on when each applies.
+> **💬 AI Colearning Prompt**: "I want to run 10 database queries concurrently, each taking 1 second. I tried wrapping them in `async def` and using `await` inside a for loop, but it still takes 10 seconds. Teach me the difference between 'awaiting immediately' and 'scheduling first.' Show me code using both `asyncio.gather()` and `asyncio.create_task()`. Which should I use when?"
 
-**Interactive Moment**: Ask a clarifying question:
+**What You'll Learn**: The conceptual difference (immediate await blocks; scheduling creates pending tasks), both patterns, and when each applies.
+
+**Clarifying Question**: Ask AI to deepen your understanding:
 > "You showed me `asyncio.gather(*[task() for task in ...]`. Explain exactly what gather() does—does it start the tasks? When do they actually start running?"
 
 **Expected Outcome**: AI clarifies that gather() takes coroutines (not tasks) and schedules them internally, then awaits all their results. You understand gather() as a convenience wrapper.
 
 ---
 
-### Part 3: You as Teacher (Discovering Edge Cases)
-**Setup**: AI generates code using TaskGroup. Your job is to explore behavior differences and teach AI.
+### Exploring Error Handling Patterns
+**Activity**: Work with AI to understand how different task coordination approaches handle failures.
 
-**AI's Initial Code** (ask for this):
+**First**, ask AI to generate example code with TaskGroup:
 ```python
 async def fetch_with_error(name: str, delay: float, fail: bool = False):
     await asyncio.sleep(delay)
@@ -859,8 +859,8 @@ asyncio.run(main())
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build a real-world task coordinator.
+### Building a Production Task Coordinator
+**Capstone Activity**: Build a real-world task coordinator.
 
 **Specification**:
 - Fetch from 8 external services with varied latency (use asyncio.sleep):

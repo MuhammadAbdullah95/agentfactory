@@ -3,7 +3,7 @@ sidebar_position: 3
 title: "Lesson 3: Function Parameters and Returns"
 description: "Master positional parameters, default parameters, multiple returns, and keyword arguments"
 keywords: ["parameters", "default parameters", "keyword arguments", "unpacking", "multiple returns", "tuples"]
-cefr_level: "B1"
+proficiency_level: "B1"
 estimated_time: "60 minutes"
 proficiency_by_end: "Students correctly call functions with positional and keyword arguments, and unpack multiple return values"
 prerequisites: ["Lesson 1-2: Function basics and type hints", "Chapter 18: Tuples (used for multiple returns)", "Chapter 14: Type hints with generics"]

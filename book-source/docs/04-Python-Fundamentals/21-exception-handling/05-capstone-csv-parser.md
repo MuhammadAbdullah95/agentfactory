@@ -310,6 +310,23 @@ if __name__ == "__main__":
     main()
 ```
 
+**Output (with valid data):**
+```
+==================================================
+CSV PARSING SUMMARY
+==================================================
+Total rows processed: 3
+Valid records: 3
+Invalid records: 0
+
+Valid Records:
+  - Alice (28) alice@example.com
+  - Bob (35) bob@example.com
+  - Charlie (45) charlie@example.com
+
+==================================================
+```
+
 #### ✨ Teaching Tip
 
 > Use Claude Code to test your parser with different inputs. Ask: "Create sample CSV files with valid data, malformed data, permission errors, and missing files. Test my parser against each."

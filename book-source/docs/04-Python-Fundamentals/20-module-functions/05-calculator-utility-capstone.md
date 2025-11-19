@@ -3,7 +3,7 @@ sidebar_position: 5
 title: "Lesson 5: Building a Calculator Utility (Capstone Project)"
 description: "Integrate modules, functions, parameters, returns, and scope into a real multi-module project"
 keywords: ["capstone", "modules", "multi-file", "separation of concerns", "testing", "project organization"]
-cefr_level: "B1-B2"
+proficiency_level: "B1-B2"
 estimated_time: "70 minutes"
 proficiency_by_end: "Students complete a working multi-module calculator project with clear separation of concerns"
 prerequisites: ["Lessons 1-4: All module and function concepts", "Chapter 14-18: Data types and operations"]
@@ -372,6 +372,18 @@ if __name__ == "__main__":
     test_power()
     test_square_root()
     print("\n✓ All tests passed!")
+```
+
+**Output:**
+```
+✓ test_add PASSED
+✓ test_subtract PASSED
+✓ test_multiply PASSED
+✓ test_divide PASSED
+✓ test_power PASSED
+✓ test_square_root PASSED
+
+✓ All tests passed!
 ```
 
 **Testing Pattern**:

@@ -341,6 +341,33 @@ if __name__ == "__main__":
     print("✓ Core profiler working!")
 ```
 
+**Output:**
+```
+Creating objects...
+
+==================================================
+MEMORY PROFILER REPORT
+==================================================
+Current objects in memory:       3
+Total objects created:           3
+Total objects deleted:           0
+Peak object count:               3
+==================================================
+
+Deleting objects...
+
+==================================================
+MEMORY PROFILER REPORT
+==================================================
+Current objects in memory:       3
+Total objects created:           3
+Total objects deleted:           0
+Peak object count:               3
+==================================================
+
+✓ Core profiler working!
+```
+
 **What This Shows**:
 - ✅ Sets track object IDs (Lesson 1 integration)
 - ✅ gc module analyzes memory (Lesson 5 integration)

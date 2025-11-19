@@ -805,9 +805,9 @@ The biggest insight: **Metaclasses exist to make building frameworks easier, not
 
 ---
 
-## Part 1: Build a Simple Plugin System Discovery
+## Hands-On Exercise: Build a Simple Plugin System
 
-**Your Role**: Active builder discovering real metaclass use
+**Your Goal**: Discover real metaclass use through hands-on building
 
 Instead of learning patterns abstractly, you'll build something concrete: a plugin system that auto-registers plugins. This forces you to understand why metaclasses solve this problem.
 
@@ -862,9 +862,7 @@ print(f"Registered: {list(PLUGIN_REGISTRY.keys())}")
 
 ---
 
-## Part 2: AI Teaches the Metaclass Solution
-
-**Your Role**: Student learning from AI Teacher
+## Learning the Metaclass Solution
 
 Now ask AI to teach you how a registration metaclass solves this problem.
 
@@ -933,11 +931,9 @@ Predict: Will `LanguageDetector` appear in the registry? Will there be 5 entries
 
 ---
 
-## Part 3: Student Challenges AI with Real Scenarios
+## Testing Edge Cases and Real Scenarios
 
-**Your Role**: Student teaching AI by testing edge cases
-
-Now reverse the roles. You'll pose real-world scenarios that test AI's understanding of metaclass registration.
+Now explore real-world scenarios that test understanding of metaclass registration.
 
 ### Challenge Design Pattern
 
@@ -1018,9 +1014,7 @@ Create scenarios where AI must:
 
 ---
 
-## Part 4: Build Plugin Framework Reference
-
-**Your Role**: Knowledge synthesizer creating production patterns
+## Building a Plugin Framework Reference
 
 Now integrate everything into a reference guide for building real plugin systems.
 
@@ -1232,24 +1226,24 @@ Once your guide is complete, validate it by asking AI:
 
 ---
 
-## Summary: Bidirectional Learning Pattern
+## Try With AI
 
-In this lesson, you experienced all three roles:
+Metaclasses power many production frameworks. Let's explore some real-world patterns.
 
-**Part 1 (Student explores)**: You experienced the manual plugin registration problem
-**Part 2 (AI teaches)**: AI showed how a metaclass solves it automatically
-**Part 3 (Student teaches)**: You challenged AI with inheritance, naming, and loading scenarios
-**Part 4 (Knowledge synthesis)**: You built a production-ready plugin system reference
+**🔍 Explore Django's ModelBase:**
+> "Show me how Django's ModelBase metaclass works. How does it transform class definitions with fields like `CharField` into database table definitions? Why does Django need a metaclass instead of simpler approaches?"
 
-This pattern ensures you understand metaclasses not as syntax, but as solutions to real architectural problems.
+**🎯 Practice Plugin Registration:**
+> "Help me build a plugin registry using a metaclass. Requirements: auto-register all subclasses, validate they have a 'name' attribute, store them in a registry dict. Show me the metaclass and 3 example plugins."
 
-### What You've Built
+**🧪 Test Metaclass vs __init_subclass__:**
+> "Compare metaclass validation vs __init_subclass__ validation. Create the same validation logic (require 'version' attribute) using both approaches. When would you choose each? Show pros and cons."
 
-1. Documentation of manual registration problems
-2. Metaclass solution explanation (in your own words)
-3. Challenge scenarios with AI predictions
-4. `plugin_system_patterns.md` — Production-ready plugin patterns
+**🚀 Apply to Real Framework:**
+> "I'm building a data processing framework. Each processor needs: validate() method, execute() method, and 'name' attribute. Should I use a metaclass, __init_subclass__, or just documentation? Recommend an approach and show code."
 
-### Next Steps
+---
 
-Lesson 3 shifts gears completely: from metaclasses (powerful but specialized) to dataclasses (practical and daily). You'll see how dataclasses use metaclasses under the hood, but abstract away the complexity for developer convenience.
+## Next Steps
+
+Lesson 3 shifts from metaclasses (powerful but specialized) to dataclasses (practical and daily). You'll see how dataclasses use metaclasses under the hood, but abstract away the complexity for developer convenience.

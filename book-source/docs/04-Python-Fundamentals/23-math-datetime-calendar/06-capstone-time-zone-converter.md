@@ -297,7 +297,7 @@ def main() -> None:
         source_tz: timezone = get_timezone_offset(source_tz_name)
         target_tz: timezone = get_timezone_offset(target_tz_name)
 
-        # Convert
+        # Convert timezone
         print("Converting...")
         converted: datetime = convert_timezone(dt, source_tz, target_tz)
 
@@ -318,6 +318,31 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+```
+
+**Output (example):**
+```
+Welcome to the Time Zone Converter!
+--------------------------------------------------
+
+Enter date (YYYY-MM-DD): 2025-11-19
+Enter time (HH:MM:SS): 14:30:00
+Enter source timezone (e.g., UTC, US/Eastern): UTC
+Enter target timezone (e.g., US/Pacific, Asia/Tokyo): US/Pacific
+
+Parsing input...
+Validating timezones...
+Converting...
+
+Converted Time in US/Pacific:
+  Friendly:    Wednesday, November 19, 2025 at 06:30 AM
+  ISO 8601:    2025-11-19T06:30:00
+  Timestamp:   1763533800 seconds since epoch
+  Timezone:    UTC-8.0
+
+Debug Info (from Lesson 2):
+  Source datetime: 2025-11-19 14:30:00 in UTC
+  Target datetime: 2025-11-19 06:30:00 in US/Pacific
 ```
 
 **What just happened**: You saw a complete, working Time Zone Converter. Every function has:

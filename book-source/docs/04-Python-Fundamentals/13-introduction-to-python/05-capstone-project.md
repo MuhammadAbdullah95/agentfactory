@@ -213,6 +213,31 @@ print("- F-strings to format output")
 print("- Comments to explain sections")
 ```
 
+**Output:**
+```
+=== Personal Information Collector ===
+
+What is your name? Alice
+How old are you? 25
+What is your favorite color? Blue
+What is your favorite hobby? Reading
+What city do you live in? Portland
+
+=== Your Profile ===
+Name: Alice
+Age: 25
+Favorite Color: Blue
+Favorite Hobby: Reading
+City: Portland
+
+Thank you, Alice! Your information has been recorded.
+This profile demonstrates:
+- Variables with type hints (all str)
+- input() function to collect information
+- F-strings to format output
+- Comments to explain sections
+```
+
 ## Phase 3: Test and Validate
 
 ### Run the Program

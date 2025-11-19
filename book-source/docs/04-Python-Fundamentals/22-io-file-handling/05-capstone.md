@@ -216,6 +216,12 @@ print("✅ Note-taking app initialized!")
 print(f"Data directory: {BASE_DIR.resolve()}")
 ```
 
+**Output:**
+```
+✅ Note-taking app initialized!
+Data directory: /home/user/notes
+```
+
 **Why this matters**:
 - Uses **pathlib** (Lesson 3) to create cross-platform paths
 - Creates directories only if they don't exist (idempotent)

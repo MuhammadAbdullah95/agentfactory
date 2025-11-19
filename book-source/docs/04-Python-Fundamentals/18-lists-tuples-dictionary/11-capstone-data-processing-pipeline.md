@@ -525,6 +525,24 @@ report: str = '\n'.join(lines)
 print(report)
 ```
 
+**Output:**
+```
+✓ Parsed 7 student records
+
+✓ Found 3 Computer Science students
+
+✓ Calculated statistics by major
+
+Student Statistics by Major
+==================================================
+
+Computer Science          | Count:  3 | Avg GPA: 3.73
+Mathematics               | Count:  2 | Avg GPA: 3.40
+Physics                   | Count:  2 | Avg GPA: 3.45
+
+==================================================
+```
+
 #### Validation Checklist
 
 - [ ] Data parses correctly (right number of students, correct field values)

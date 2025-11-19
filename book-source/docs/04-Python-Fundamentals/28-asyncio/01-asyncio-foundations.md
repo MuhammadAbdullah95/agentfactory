@@ -695,9 +695,9 @@ Async version (5 calls, concurrent): 1.00s
 
 ## Challenge 1: The Blocking I/O Discovery
 
-This is a **4-part bidirectional learning challenge** where you and AI explore asyncio through collaborative discovery.
+This challenge explores asyncio through hands-on experimentation and collaborative learning with AI.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Build two small programs without AI help.
 
 **Deliverable**: Create a file `/tmp/blocking_discovery.py` containing:
@@ -714,23 +714,23 @@ This is a **4-part bidirectional learning challenge** where you and AI explore a
 
 ---
 
-### Part 2: AI as Teacher (Teaching You the Pattern)
-**Your AI Prompt**:
-> "I built a sync program that calls time.sleep(3) five times in a row—takes 15 seconds total. Then I wrapped it in asyncio, but it still takes 15 seconds. Why doesn't asyncio help? Show me what I'm missing. Teach me the exact code pattern that makes asyncio run 5 tasks concurrently instead of sequentially."
+### Understanding Concurrent Patterns
 
-**AI's Role**: Explain the conceptual gap (sequential vs concurrent scheduling), then show you the specific code pattern (asyncio.gather or create_task).
+> **💬 AI Colearning Prompt**: "I built a sync program that calls time.sleep(3) five times in a row—takes 15 seconds total. Then I wrapped it in asyncio, but it still takes 15 seconds. Why doesn't asyncio help? Show me what I'm missing. Teach me the exact code pattern that makes asyncio run 5 tasks concurrently instead of sequentially."
 
-**Interactive Moment**: Ask AI a follow-up question:
+**What You'll Learn**: The conceptual gap between sequential and concurrent scheduling, and the specific code pattern (asyncio.gather or create_task) that enables true concurrency.
+
+**Follow-up Question**: Ask AI to deepen your understanding:
 > "You showed me asyncio.gather—explain what's happening inside gather() when I pass it 5 coroutines. How does it make them run 'at the same time' on a single thread?"
 
 **Expected Outcome**: AI articulates that gather() schedules all tasks, and the event loop switches between them when they hit await points. You understand task scheduling, not just syntax.
 
 ---
 
-### Part 3: You as Teacher (Correcting the Pattern)
-**Setup**: AI generates code with a subtle bug. Your job is to diagnose and teach AI why it's wrong.
+### Refining the Approach
+**Activity**: Work with AI to identify and fix a common asyncio mistake.
 
-**AI's Initial Code** (You ask AI to generate this):
+**First**, ask AI to generate example code (it will likely contain a subtle bug):
 ```python
 async def fetch_api(name: str, delay: float) -> str:
     await asyncio.sleep(delay)
@@ -758,8 +758,8 @@ asyncio.run(main())
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
-**Your Capstone for This Challenge**: Build a realistic concurrent API fetcher.
+### Building the Solution
+**Capstone Activity**: Build a realistic concurrent API fetcher.
 
 **Specification**:
 - Fetch data from 5 simulated "external services" (use asyncio.sleep to simulate latency)

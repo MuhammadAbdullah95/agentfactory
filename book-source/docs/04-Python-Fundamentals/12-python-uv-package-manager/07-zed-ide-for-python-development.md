@@ -291,21 +291,7 @@ How do you configure Zed IDE for efficient UV Python development?
 **🚀 Add Custom Keybindings:**
 > "Add keybindings for quick terminal toggle (if Ctrl+` doesn't work on my platform), file tree visibility toggle, and vertical editor split for viewing pyproject.toml alongside code. Show me the `keybindings.json` structure with these three shortcuts configured."
 
+**🔧 Troubleshoot Common Issues:**
+> "I'm seeing 'LSP not connected' in Zed's status bar. Is this a problem? Also, my terminal won't open with Ctrl+` and Zed feels slow. For each issue, explain what's happening and give me the fix or workaround."
+
 ---
-
-## Red Flags to Watch
-
-**Problem**: "Zed says 'LSP not connected'"
-- **What it means**: Pyright language server isn't installed yet
-- **What to do**: This is normal! We install it in Lesson 10. For now, you can still edit code.
-- **Not urgent**: Type checking isn't available, but that's OK for this lesson
-
-**Problem**: "Terminal won't open in Zed"
-- **What it means**: Keybinding might be different on your system
-- **What to do**: Use Command Palette instead (`Cmd+Shift+P` or `Ctrl+Shift+P`), type "terminal", press Enter
-- **Fallback**: Open external terminal; both work fine
-
-**Problem**: "Zed is slow / not responding"
-- **What it means**: Rare; usually a system resource issue
-- **What to do**: Close and reopen Zed; if still slow, check your computer's CPU/memory (Activity Monitor on Mac, Task Manager on Windows)
-- **Worst case**: Use VS Code as alternative (slower but more stable on older machines)

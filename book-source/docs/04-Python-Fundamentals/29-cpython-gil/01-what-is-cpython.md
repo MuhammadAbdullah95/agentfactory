@@ -453,7 +453,7 @@ Alternative implementations like PyPy escape these constraints by using differen
 
 This is a **4-part bidirectional learning challenge** where you explore CPython's architecture and design tradeoffs.
 
-### Part 1: Discover Independently (Student as Scientist)
+### Initial Exploration
 **Your Challenge**: Investigate CPython's execution pipeline without AI guidance.
 
 **Deliverable**: Create `/tmp/cpython_discovery.py` containing:
@@ -477,7 +477,7 @@ This is a **4-part bidirectional learning challenge** where you explore CPython'
 
 ---
 
-### Part 2: AI as Teacher (Teaching Implementation Landscape)
+### Understanding Python Implementations
 **Your AI Prompt**:
 > "I just discovered that Python has different implementations (CPython, PyPy, Jython, IronPython). Teach me: 1) Why are there multiple implementations instead of just one? 2) What's the difference between CPython and PyPy? 3) Why would someone use PyPy instead of CPython? 4) How do they differ in memory management and threading? Show me code that reveals these differences."
 
@@ -490,7 +490,7 @@ This is a **4-part bidirectional learning challenge** where you explore CPython'
 
 ---
 
-### Part 3: You as Teacher (Discovering Design Tradeoffs)
+### Exploring Design Tradeoffs
 **Setup**: AI generates code that reveals CPython design constraints. Your job is to test it and teach AI about implementation realities.
 
 **AI's Initial Code** (ask for this):
@@ -510,7 +510,7 @@ This is a **4-part bidirectional learning challenge** where you explore CPython'
 
 ---
 
-### Part 4: Build Production Artifact (Student as Engineer)
+### Building a Comparison Framework
 **Your Capstone for This Challenge**: Build an implementation-agnostic detection and profiling tool.
 
 **Specification**:
