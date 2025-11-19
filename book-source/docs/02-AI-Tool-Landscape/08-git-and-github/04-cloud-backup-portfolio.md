@@ -101,7 +101,7 @@ In this lesson, you'll:
 2. Connect your local Git repository to GitHub's cloud
 3. Push your commits to the cloud (backup)
 4. Clone a project to verify recovery works
-5. Experience **Three Roles** of AI collaboration: AI teaching you backup strategies, you correcting AI's approach, and together validating the system works
+5. Work with AI to validate your backup system through iterative testing and refinement
 
 **By the end**, your project will be:
 - ✅ Protected in the cloud (catastrophe prevention)
@@ -144,9 +144,9 @@ Now you'll work with AI to handle GitHub setup complexity (authentication, remot
 
 ---
 
-## Learning Dual Backup+Portfolio Value
+## Discovering GitHub's Dual Value
 
-**Your Question to ChatGPT/Claude**:
+**Ask Your AI**:
 
 ```
 I have a local Git repository on my computer and just created a GitHub
@@ -164,15 +164,15 @@ repository. I want to connect them. How do I back up my code to GitHub?
 #### 💬 AI Colearning Prompt
 > "Explain why GitHub serves as both backup and portfolio. What specific features make it useful for each purpose?"
 
-**What You Learned**: AI taught you that backup and portfolio are dual values of GitHub. You asked about backup, but AI added the career dimension you hadn't considered.
-
-**This is Role 1: AI as Teacher**—It suggests patterns beyond what you explicitly asked.
+**Notice what emerged**: You asked about backup, but AI added the career dimension you hadn't considered. GitHub serves dual purposes—both catastrophe prevention and professional showcase.
 
 ---
 
-## Role 2: AI as Student — You Teach AI Your Constraints
+## Refining AI's Approach with Your Constraints
 
-**Your Refinement to AI**:
+Before proceeding with the AI's suggestion, you realize a critical security issue:
+
+**Tell Your AI**:
 
 ```
 Wait—before you help me push to GitHub, I need to be careful. My project
@@ -180,7 +180,7 @@ has a config.json file with API secrets. I don't want to push that to GitHub.
 How do I avoid accidentally sharing secrets?
 ```
 
-**What AI Should Adapt**:
+**AI Adapts Based on Your Constraint**:
 
 > "Good catch—that's a critical security concern. Before pushing, you should
 > create a `.gitignore` file that tells Git to ignore `config.json`. Here's
@@ -196,9 +196,7 @@ How do I avoid accidentally sharing secrets?
 #### 🎓 Expert Insight
 > In AI-native development, you don't memorize `.gitignore` patterns—you understand that secrets and credentials must never be committed. AI can suggest patterns, but you verify nothing sensitive gets pushed.
 
-**What AI Learned**: Your security constraint (secrets must stay local). AI adapted its approach from naive "push everything" to "protect secrets first."
-
-**This is Role 2: AI as Student**—It learns your constraints and refines its output.
+**What changed**: AI's initial suggestion was generic "push to GitHub." Your security constraint refined the approach to "protect secrets first, then push." This is how collaboration improves results—you provide context AI can't know.
 
 ---
 
@@ -292,25 +290,25 @@ What should I do?
 
 ---
 
-## Role 3: AI as Co-Worker — Convergence Through Recovery Testing
+## Validating Your Backup Through Iterative Testing
 
-This is where AI becomes your peer, not just a guide. You iterate together to validate the system works.
+Now that your code is on GitHub, verify that recovery actually works.
 
-### Scenario: Test the Backup System
+### Testing Recovery: An Iterative Process
 
-**Your Request to AI**:
+**Ask Your AI**:
 
 ```
 Now I want to verify that GitHub is really a backup. Can we test
 recovering the project on a different machine? How would that work?
 ```
 
-**What AI Suggests (Iteration 1)**:
+**AI's Initial Suggestion**:
 
 > "Easy: Go to a different directory and run `git clone <URL>` to download
 > the repository. Then verify all files are there."
 
-**Your Response (Teaching AI)**:
+**Your Safety Consideration**:
 
 ```
 Let me test that. But wait—if something goes wrong in the clone, I want
@@ -318,7 +316,7 @@ to make sure my original local repository isn't affected. Should I clone
 to a completely different folder to test in isolation?
 ```
 
-**What AI Learns & Refines (Iteration 2)**:
+**AI Refines the Approach**:
 
 > "Exactly right! Good thinking. Clone to a temporary test folder:
 >
@@ -330,12 +328,7 @@ to a completely different folder to test in isolation?
 >
 > This tests recovery without risking your working project."
 
-**Your Convergence (Iteration 3)**:
-
-Together, you've designed a safe recovery verification process. Neither of you initially planned it this thoroughly:
-- You focused on testing
-- AI focused on the clone command
-- Together: **safe test in isolation** + **original project protected**
+**What emerged from iteration**: The final approach is safer than either the initial AI suggestion or your first question. Through back-and-forth refinement, you arrived at a solution that isolates the test and protects your original work.
 
 #### 🤝 Practice Exercise
 

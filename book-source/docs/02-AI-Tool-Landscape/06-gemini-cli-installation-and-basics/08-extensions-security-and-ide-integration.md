@@ -1327,21 +1327,3 @@ In this lesson, you've discovered how Gemini CLI extensions transform setup shar
 
 **Key Insight**:
 Extensions aren't just about bundling—they're about **maintaining consistency** across collaborators and **evolving setups** without resending files. The transformation from 45-minute manual setup to 2-minute installation isn't just about speed; it's about removing friction from learning and collaboration.
-
----
-
-## What's Next
-
-You've completed Chapter 6: Google Gemini CLI. You now understand:
-- Why Gemini CLI matters (Lesson 1)
-- How to install and authenticate (Lesson 2)
-- Built-in tools for file operations, shell, and web (Lesson 3)
-- Context and memory management (Lesson 4)
-- Configuration and settings hierarchy (Lesson 5)
-- MCP server integration for extended capabilities (Lesson 6)
-- Custom slash commands for automation (Lesson 7)
-- **Extensions for packaging and sharing complete setups (Lesson 8)** ← You are here
-
-**Next chapter**: Chapter 7 - Bash Essentials for AI-Driven Development
-
-You'll learn the command-line fundamentals that make you effective with AI coding tools: file operations, process management, environment variables, and shell automation. These skills amplify everything you've learned about Claude Code and Gemini CLI.
