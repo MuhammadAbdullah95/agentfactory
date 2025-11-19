@@ -460,8 +460,9 @@ Row 0, Col 3: Hit trap! (-5) Score: 5
 Row 0, Col 4: Found coin! (+10) Score: 15
 Row 1, Col 0: Found coin! (+10) Score: 25
 Row 1, Col 3: Found coin! (+10) Score: 35
-...
-🎮 Game Over! Final Score: 65
+Row 2, Col 0: Hit trap! (-5) Score: 30
+-----------------------------
+🎮 Game Over! Final Score: 70
 ```
 
 **Notice the nesting levels**:
