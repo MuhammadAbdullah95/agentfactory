@@ -762,13 +762,117 @@ For your Prompt Template Library specification, use the skill to design the temp
 1. Recurrence: 5 uses → YES, create template
 2. Variation:
    - **Constants**: Conventional Commits format, imperative mood, <50 char limit
-   - **Variants**: {{CHANGES_MADE}}, {{TICKET_ID}}, {{SCOPE}}, {{TYPE}}
+   - **Variants**: `CHANGES_MADE`, `TICKET_ID`, `SCOPE`, `TYPE`
 3. Complexity: 7 decisions (type, scope, ticket, subject length, body format, business value, imperative mood) → High value
 4. Domain knowledge: Team's Jira convention, business value focus → Project-specific
-5. Parameters: Descriptive (`{{CHANGES_MADE}}` with examples), typed, required vs optional marked
+5. Parameters: Descriptive (`CHANGES_MADE` with examples), typed, required vs optional marked
 6. Organization: Store in `templates/generate/git-commit.md`
 
-**Result**: Template similar to the one in `.claude/skills/prompt-template-designer/SKILL.md` (see example).
+**Result**: Here's the complete template you would create:
+
+```markdown
+---
+template_name: git-commit-message-conventional
+category: generate
+domain: general
+complexity: simple
+version: 2.0.0
+created: 2025-10-15
+last_updated: 2025-11-18
+success_rate: 95%
+usage_count: 47
+---
+
+# Git Commit Message Generator (Conventional Commits)
+
+## When to Use
+After staging changes (git add), before committing. Use when you need a commit message that:
+- Follows Conventional Commits format
+- Includes team's Jira ticket convention
+- Explains business value (not just technical changes)
+
+## Parameters
+
+### CHANGES_MADE
+- **Type**: composite (list of changes with context)
+- **Description**: List of changes made in this commit with technical details
+- **Example**:
+  - Added JWT refresh endpoint (/auth/refresh)
+  - Extended token expiration from 1h to 24h
+  - Fixed logout race condition in session handler
+- **Required**: yes
+
+### JIRA_TICKET
+- **Type**: text (format: PROJ-NNNN)
+- **Description**: Jira ticket ID from current branch name
+- **Example**: PROJ-1234
+- **Required**: yes (use "NO-TICKET" if no ticket exists)
+
+### SCOPE
+- **Type**: enum [auth, api, ui, db, devops, docs, test]
+- **Description**: Area of codebase affected
+- **Example**: auth
+- **Required**: yes
+
+### TYPE
+- **Type**: enum [feat, fix, docs, refactor, test, chore, perf]
+- **Description**: Type of change being made
+- **Example**: feat
+- **Required**: yes
+
+## Template
+
+GENERATE Git commit message using Conventional Commits format
+
+CHANGES MADE:
+[Insert your changes here]
+
+CONSTRAINTS:
+- Format: [TYPE]([SCOPE]): <description> [[JIRA_TICKET]]
+- Subject line: Imperative mood, <50 characters
+- Body: Bullet list explaining WHY (business value, not just technical what)
+- Include Jira ticket in brackets at end of subject line
+- Each change in body should explain impact/value
+
+SUCCESS CRITERIA:
+- Passes commitlint validation
+- Subject ≤50 characters
+- Body explains business value for each change
+- Teammate can understand changes without reading diff
+- Follows team's commit message style
+
+## Example (Filled)
+
+GENERATE Git commit message using Conventional Commits format
+
+CHANGES MADE:
+- Added JWT refresh endpoint (/auth/refresh)
+- Extended token expiration from 1h to 24h
+- Fixed logout race condition in session handler
+
+CONSTRAINTS:
+- Format: feat(auth): <description> [PROJ-1234]
+- Subject line: Imperative mood, <50 characters
+- Body: Bullet list explaining WHY (business value, not just technical what)
+- Include Jira ticket in brackets at end of subject line
+- Each change in body should explain impact/value
+
+SUCCESS CRITERIA:
+- Passes commitlint validation
+- Subject ≤50 characters
+- Body explains business value for each change
+- Teammate can understand changes without reading diff
+- Follows team's commit message style
+
+AI Response:
+---
+feat(auth): add JWT refresh and extend token lifetime [PROJ-1234]
+
+- Add /auth/refresh endpoint: improves mobile UX by eliminating frequent re-logins
+- Extend token expiration to 24h: reduces authentication friction for daily users
+- Fix logout race condition: ensures users are fully logged out (security improvement)
+---
+```
 
 **Key insight**: The skill teaches you to think systematically about template design, not just copy existing templates. This is Layer 3 intelligence—creating reusable patterns.
 
