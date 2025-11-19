@@ -111,7 +111,7 @@ Select template: 2
 ### 1. Success Criteria (Measurable Outcomes)
 
 Define what "successful tool" means:
-- User can find appropriate template in \<30 seconds?
+- User can find appropriate template in under 30 seconds?
 - Template selection accuracy >85%?
 - Filled templates meet completeness criteria?
 - Template usage tracked for improvement?
@@ -271,7 +271,7 @@ The tool is successful when:
 
 The Prompt Template Library is successful when:
 
-1. **Template Discovery Speed**: User finds appropriate template in \<30 seconds (vs 5+ minutes writing custom prompt)
+1. **Template Discovery Speed**: User finds appropriate template in under 30 seconds (vs 5+ minutes writing custom prompt)
 
 2. **Selection Accuracy**: Template recommendation matches user's task type >85% of the time (measured by user acceptance rate)
 
@@ -453,7 +453,7 @@ $ prompt-library fill bug-fix
 5. User pastes into AI assistant (Claude Code, Cursor, etc.)
    → AI receives complete, well-structured debugging prompt
 
-**Success**: User has complete debugging prompt in \<2 minutes (vs 8 minutes writing custom prompt)
+**Success**: User has complete debugging prompt in under 2 minutes (vs 8 minutes writing custom prompt)
 ```
 
 ---
@@ -480,8 +480,8 @@ $ prompt-library fill bug-fix
 - Clipboard access (for copy functionality)
 
 **Performance**:
-- Template search: \<1 second for 50 templates
-- Interactive filling: Real-time validation (\<100ms per field)
+- Template search: under 1 second for 50 templates
+- Interactive filling: Real-time validation (under 100ms per field)
 
 ---
 
