@@ -1,9 +1,9 @@
 ---
-sidebar_position: 22
-title: "Chapter 24: IO and File Handling"
+sidebar_position: 23
+title: "Chapter 23: IO and File Handling"
 ---
 
-# Chapter 24: IO and File Handling
+# Chapter 23: IO and File Handling
 
 Programs need to interact with the outside world. They accept user input, display results, save data to files, load configurations, and process structured data. Input/output operations are the foundation of every useful program—without I/O, your code lives in isolation.
 

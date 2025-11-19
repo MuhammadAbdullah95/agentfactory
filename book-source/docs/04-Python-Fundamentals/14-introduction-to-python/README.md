@@ -1,9 +1,9 @@
 ---
-sidebar_position: 13
-title: "Chapter 15: Introduction to Modern Python"
+sidebar_position: 14
+title: "Chapter 14: Introduction to Modern Python"
 ---
 
-# Chapter 15: Introduction to Modern Python
+# Chapter 14: Introduction to Modern Python
 
 You've spent Chapters 1–12 learning the philosophy and tools of AI-Driven Development. Now it's time to apply that philosophy to Python programming—the language that powers modern AI applications and enables you to describe your intent clearly so AI agents can help you build.
 

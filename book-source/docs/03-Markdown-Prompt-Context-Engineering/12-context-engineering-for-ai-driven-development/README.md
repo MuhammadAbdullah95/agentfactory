@@ -1,11 +1,11 @@
 ---
-title: "Chapter 13: Context Engineering for AI-Driven Development"
-sidebar_label: "Chapter 13: Context Engineering"
-sidebar_position: 11
+title: "Chapter 12: Context Engineering for AI-Driven Development"
+sidebar_label: "Chapter 12: Context Engineering"
+sidebar_position: 12
 description: "Master context window management, progressive loading, compression techniques, and persistent memory to engineer productive AI collaborations across sessions and projects"
 ---
 
-# Chapter 13: Context Engineering for AI-Driven Development
+# Chapter 12: Context Engineering for AI-Driven Development
 
 Context windows are the "working memory" of AI development tools. Just as engineers optimize RAM allocation in systems, AI-native developers engineer context windows for AI tools. Context engineering is the foundation of productive AI collaboration.
 

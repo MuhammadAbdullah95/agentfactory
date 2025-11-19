@@ -1,11 +1,11 @@
 ---
-title: "Chapter 12: Prompt Engineering for AI-Driven Development"
-sidebar_label: "Chapter 12: Prompt Engineering"
-sidebar_position: 10
+title: "Chapter 11: Prompt Engineering for AI-Driven Development"
+sidebar_label: "Chapter 11: Prompt Engineering"
+sidebar_position: 11
 description: "Learn to communicate clearly with AI through effective prompt writing, iteration, validation, and reusable templates"
 ---
 
-# Chapter 12: Prompt Engineering for AI-Driven Development
+# Chapter 11: Prompt Engineering for AI-Driven Development
 
 Clear prompts get better AI responses. Vague prompts waste time with back-and-forth clarification. This chapter teaches you how to communicate your intent effectively so AI can help you accomplish development tasks.
 

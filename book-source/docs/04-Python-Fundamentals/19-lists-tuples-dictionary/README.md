@@ -1,9 +1,9 @@
 ---
-sidebar_position: 18
-title: "Chapter 20: Lists, Tuples, and Dictionary"
+sidebar_position: 19
+title: "Chapter 19: Lists, Tuples, and Dictionary"
 ---
 
-# Chapter 20: Lists, Tuples, and Dictionary
+# Chapter 19: Lists, Tuples, and Dictionary
 
 Real programs work with collections of data, not individual values. User lists, product inventories, shopping carts, API responses—all require storing multiple related items together. Python provides three foundational collection structures for this purpose: **lists** (mutable sequences), **tuples** (immutable sequences), and **dictionaries** (key-value mappings).
 

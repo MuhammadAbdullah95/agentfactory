@@ -1,9 +1,9 @@
 ---
-sidebar_position: 26
-title: "Chapter 28: Metaclasses and Dataclasses"
+sidebar_position: 27
+title: "Chapter 27: Metaclasses and Dataclasses"
 ---
 
-# Chapter 28: Metaclasses and Dataclasses
+# Chapter 27: Metaclasses and Dataclasses
 
 Python classes are created by something—usually the `type` metaclass. Understanding this machinery unlocks framework internals and enables plugin systems. On the opposite end of the spectrum, dataclasses eliminate boilerplate for data-heavy applications. These two advanced features sit at opposite ends: the "magic behind the curtain" versus the "practical daily tool."
 

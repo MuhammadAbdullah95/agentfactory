@@ -1,9 +1,9 @@
 ---
-sidebar_position: 15
-title: "Chapter 17: Operators, Keywords, and Variables"
+sidebar_position: 16
+title: "Chapter 16: Operators, Keywords, and Variables"
 ---
 
-# Chapter 17: Operators, Keywords, and Variables
+# Chapter 16: Operators, Keywords, and Variables
 
 In Chapter 16, you learned about Python's core data types and how to store data in variables with type hints. Now it's time to learn **what you can DO with that data** using operators—the symbols that tell Python to perform actions.
 

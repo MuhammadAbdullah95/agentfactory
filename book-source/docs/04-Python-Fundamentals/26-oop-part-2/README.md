@@ -1,9 +1,9 @@
 ---
-sidebar_position: 25
-title: "Chapter 27: Object-Oriented Programming Part II"
+sidebar_position: 26
+title: "Chapter 26: Object-Oriented Programming Part II"
 ---
 
-# Chapter 27: Object-Oriented Programming Part II
+# Chapter 26: Object-Oriented Programming Part II
 
 Basic classes and objects are just the beginning. Professional OOP involves inheritance hierarchies, polymorphic behaviors, composable designs, and industry-standard patterns. You need to know when to inherit, when to compose, how to make objects behave like built-in types, and which design patterns solve recurring architectural problems.
 

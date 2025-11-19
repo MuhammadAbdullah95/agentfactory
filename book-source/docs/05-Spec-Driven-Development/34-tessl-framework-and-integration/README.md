@@ -1,9 +1,9 @@
 ---
-sidebar_position: 33
-title: "Chapter 35: Tessl and SpecifyPlus - The Ultimate Workflow"
+sidebar_position: 34
+title: "Chapter 34: Tessl and SpecifyPlus - The Ultimate Workflow"
 ---
 
-# Chapter 35: Tessl and SpecifyPlus - The Ultimate Workflow
+# Chapter 34: Tessl and SpecifyPlus - The Ultimate Workflow
 
 You've mastered SpecifyPlus's opinionated workflow: Constitution → Specify → Plan → Tasks → Implement. The PHRs and ADRs are there. You've learned how specifications serve as the coordination layer for AI agents. Now you're ready for the next evolution: **integrating Tessl with SpecifyPlus** to create the most powerful specification-driven development workflow available in 2025.
 

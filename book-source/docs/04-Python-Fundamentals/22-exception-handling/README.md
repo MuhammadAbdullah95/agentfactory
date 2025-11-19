@@ -1,9 +1,9 @@
 ---
-sidebar_position: 21
-title: "Chapter 23: Exception Handling"
+sidebar_position: 22
+title: "Chapter 22: Exception Handling"
 ---
 
-# Chapter 23: Exception Handling
+# Chapter 22: Exception Handling
 
 Errors happen in every program. Files go missing, users enter invalid data, networks fail. The difference between a program that crashes and one that handles errors gracefully is **exception handling**.
 

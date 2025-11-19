@@ -1,9 +1,9 @@
 ---
-sidebar_position: 20
-title: "Chapter 22: Modules and Functions"
+sidebar_position: 21
+title: "Chapter 21: Modules and Functions"
 ---
 
-# Chapter 22: Modules and Functions
+# Chapter 21: Modules and Functions
 
 As programs grow, copy-pasting code becomes unsustainable. You need to organize code into reusable pieces—**functions** that perform specific tasks with clear inputs and outputs, and **modules** (`.py` files) that group related functions together. This is how professional Python developers build maintainable applications.
 

@@ -1,9 +1,9 @@
 ---
-sidebar_position: 24
-title: "Chapter 26: Object-Oriented Programming - Part 1"
+sidebar_position: 25
+title: "Chapter 25: Object-Oriented Programming - Part 1"
 ---
 
-# Chapter 26: Object-Oriented Programming - Part 1
+# Chapter 25: Object-Oriented Programming - Part 1
 
 Real-world programs model real-world entities. A banking app has accounts with balances and transactions. A game has characters with health and abilities. An AI system has agents with state and capabilities. **Object-Oriented Programming (OOP)** is the paradigm for organizing code around these objects—bundles of data (attributes) and behavior (methods) that work together.
 
