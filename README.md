@@ -1,6 +1,6 @@
 # 🧠 AI Native Software Development
 
-> **Colearning Agentic AI with Python and TypeScript – The AI & Spec Driven Way**
+> **Colearning Agentic AI with Python and TypeScript – Spec Driven Reusable Intelligence**
 >
 > **Empowering developers, entrepreneurs, and organizations to learn, build, and collaborate with intelligent AI agents — building systems where AI is the core.**
 

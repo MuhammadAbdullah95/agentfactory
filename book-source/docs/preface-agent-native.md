@@ -19,7 +19,7 @@ For the first time in human history, you can ship production AI-native software 
 
 ## What This Book Is About
 
-This book, **"AI Native Software Development: Colearning Agentic AI with Python and TypeScript — The AI & Spec Driven Way,"** teaches you a fundamentally different approach to building software.
+This book, **"AI Native Software Development: Colearning Agentic AI with Python and TypeScript — Spec Driven Reusable Intelligence,"** teaches you a fundamentally different approach to building software.
 
 ### The Core Paradigm Shift
 
