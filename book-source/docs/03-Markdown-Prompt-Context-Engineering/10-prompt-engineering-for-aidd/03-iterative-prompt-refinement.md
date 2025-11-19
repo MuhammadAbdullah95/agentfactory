@@ -1,6 +1,6 @@
 ---
 title: "Iterative Prompt Refinement"
-description: "Master AI collaboration through iterative refinement using the Three Roles framework"
+description: "Master AI collaboration through iterative refinement using bidirectional learning patterns"
 sidebar_label: "Iterative Prompt Refinement"
 sidebar_position: 3
 chapter: 10
@@ -20,18 +20,18 @@ skills:
     measurable_at_this_level: "Student demonstrates iterative refinement achieving 30%+ quality improvement through AI collaboration"
 
 learning_objectives:
-  - objective: "Demonstrate bidirectional learning with AI (AI teaches patterns, student teaches constraints, both converge on solution)"
+  - objective: "Demonstrate bidirectional learning through iterative prompt refinement"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Live iteration session showing all three collaboration roles"
+    assessment_method: "Live iteration session showing collaborative improvement patterns"
 
 cognitive_load:
   new_concepts: 7
-  assessment: "7 concepts (iteration loop, AI as Teacher/Student/Co-Worker, convergence, bidirectional learning) within B1 limit of 7-10 ✓"
+  assessment: "7 concepts (iteration loop, bidirectional learning, convergence, progressive refinement) within B1 limit of 7-10 ✓"
 
 differentiation:
   extension_for_advanced: "Study Jake Heller's 60%→97% accuracy improvement methodology; analyze iteration patterns in production AI systems; experiment with multi-round refinement tracking metrics"
-  remedial_for_struggling: "Focus on experiencing single iteration cycle: Write prompt → Review AI output → Identify one gap → Refine prompt → Compare improvement, before attempting full Three Roles framework"
+  remedial_for_struggling: "Focus on experiencing single iteration cycle: Write prompt → Review AI output → Identify one gap → Refine prompt → Compare improvement"
 ---
 
 # Iterative Prompt Refinement
@@ -42,12 +42,7 @@ But here's what makes this different from "just trying prompts until something w
 
 **AI collaboration is bidirectional.**
 
-You're not a passive user issuing commands. You're in a partnership where:
-- AI teaches you patterns and approaches you didn't know
-- You teach AI your specific requirements and constraints
-- Together, through iteration, you converge on solutions neither of you had initially
-
-This is the shift from "using AI tools" to "co-creating with AI partners." By the end of this lesson, you'll experience all three roles AI plays in your development workflow, and you'll understand why iteration—not one-shot prompting—produces professional results.
+You're not a passive user issuing commands. You're in a partnership where both you and AI contribute knowledge, identify gaps, and converge on solutions through dialogue. By the end of this lesson, you'll experience how iteration produces professional results that neither you nor AI could achieve on the first try.
 
 ---
 
@@ -57,8 +52,8 @@ Let's start with honesty: **Your first prompt will not be perfect.**
 
 Even experienced developers don't nail prompts on the first try. Here's why:
 
-1. **You don't know what AI knows** (patterns, best practices AI can suggest)
-2. **AI doesn't know your context** (project constraints, team preferences)
+1. **You have domain knowledge AI doesn't** (project constraints, team preferences)
+2. **AI has pattern knowledge you don't** (best practices, conventions, standards)
 3. **Neither of you has the complete picture** (convergence happens through dialogue)
 
 Jake Heller's team discovered this building CoCounsel:
@@ -143,7 +138,7 @@ Ask yourself:
 - What's good about this output?
 - What's missing or wrong?
 - What assumptions did AI make?
-- What did AI suggest that I hadn't considered?
+- What patterns did AI suggest that I hadn't considered?
 
 ### Step 4: Refine
 Update prompt based on analysis:
@@ -160,64 +155,9 @@ Continue until output meets your success criteria (usually 3-7 iterations for ro
 
 ---
 
-## Three Roles: How AI Collaborates With You
-
-Here's the key insight most developers miss:
-
-**AI plays three different roles in the iteration loop**, and understanding these roles transforms how you collaborate.
-
-### Role 1: AI as Teacher (AI → You)
-
-**When this happens**: AI suggests patterns, conventions, or approaches you didn't know
-
-**What it looks like**:
-- You prompt: "Create a Git commit message for authentication changes"
-- AI returns: Message using Conventional Commits format (`feat(auth): add JWT refresh`)
-- You think: "I didn't know about Conventional Commits—this is better than my format!"
-
-**What you learn**: Patterns and best practices from AI's training on millions of code examples
-
-**Your response**: Adopt AI's suggestion, incorporate pattern into future prompts
-
----
-
-### Role 2: AI as Student (You → AI)
-
-**When this happens**: AI's output is generic or wrong, and you teach AI your specific requirements
-
-**What it looks like**:
-- AI returns: Generic commit message missing your project context
-- You respond: "Our team uses this format: `[ticket-id] type: description`. Include Jira ticket from branch name."
-- AI learns: Your team's specific commit convention
-- AI returns: Commit message matching your actual requirements
-
-**What you teach**: Project-specific constraints, team conventions, domain context
-
-**AI's response**: Adapted output incorporating your corrections
-
----
-
-### Role 3: AI as Co-Worker (You ↔ AI)
-
-**When this happens**: Neither you nor AI has the complete solution initially, but iteration produces something better than either of you started with
-
-**What it looks like**:
-- You start with basic requirement: "Commit message for auth changes"
-- AI suggests: Conventional Commits structure (teaches you)
-- You add: Project-specific ticket format (teach AI)
-- AI refines: Combines both patterns + suggests including breaking change notes
-- You evaluate: Good idea, but adds "BREAKING CHANGE" footer per convention
-- AI iterates: Perfect commit message using best of both contributions
-
-**What emerges**: Solution combining your domain knowledge with AI's pattern knowledge
-
-**The result**: Neither of you could have created this alone on first try
-
----
-
 ## Real Example: Git Commit Message Iteration
 
-Let's walk through a complete iteration session showing all three roles.
+Let's walk through a complete iteration session showing how you and AI improve together.
 
 **Your goal**: Generate a Git commit message for changes you just made to your project's authentication system.
 
@@ -279,19 +219,17 @@ Add JWT refresh and extend token lifetime
 - ✅ Specific changes listed
 - ✅ Imperative mood used
 - ✅ Concise subject line
-- ❌ **BUT**: AI used a conventional format you didn't know about!
+- ❓ **Interesting**: AI used a structured format with subject + bulleted body
 
-**What AI just taught you**: There's a standard pattern (subject + body with bullet points)
-
-**Quality**: ~70% (good, but you notice AI knows conventions you don't)
+**Quality**: ~70% (good structure, but you notice AI used conventions you didn't specify)
 
 ---
 
-### Iteration 3: Learn from AI (AI as Teacher)
+### Iteration 3: Discover Patterns
 
-You notice AI's structure is better than what you asked for. Let's ask AI to explain:
+You notice AI's structure looks professional. Let's ask:
 
-**Learning Prompt**:
+**Discovery Prompt**:
 ```
 This commit message structure is good. Is this following a particular convention?
 What makes this format effective?
@@ -317,17 +255,17 @@ For your changes, it would be:
 feat(auth): add JWT refresh and extend token lifetime
 ```
 
-**What you learned**: Conventional Commits is a real standard used in production
+**What you discovered**: Conventional Commits is a real standard used in production
 
-**Your decision**: Adopt this for your project
+**Your decision**: This pattern looks valuable—let's use it for your project
 
 ---
 
-### Iteration 4: Teach AI Your Project (AI as Student)
+### Iteration 4: Apply Discovered Patterns with Your Requirements
 
-Your team has specific requirements AI doesn't know about:
+Now combine the convention AI suggested with your team's specific needs:
 
-**Teaching Prompt**:
+**Integration Prompt**:
 ```
 GENERATE commit message using Conventional Commits format
 
@@ -355,17 +293,15 @@ feat(auth): add JWT refresh and extend token lifetime [PROJ-1234]
 - ✅ Jira ticket included
 - ✅ Scope specified
 - ✅ Each change explains "why" (not just "what")
-- This is better than iteration 2 because it combines AI's convention knowledge with your project requirements
-
-**What you taught AI**: Your team's specific commit format
+- This combines AI's conventional format with your project requirements
 
 **Quality**: ~85% (good, but could be even better)
 
 ---
 
-### Iteration 5: Co-Worker Convergence
+### Iteration 5: Refine Business Value Focus
 
-You and AI both contribute to making this even better:
+You review the "why" explanations and refine:
 
 **Refinement Prompt**:
 ```
@@ -392,49 +328,82 @@ feat(auth): add JWT refresh and extend token lifetime [PROJ-1234]
 
 **Quality**: ~95% (production-ready)
 
-**What emerged from collaboration**:
-- You learned: Conventional Commits standard (from AI)
-- AI learned: Your team's ticket + business value requirements (from you)
-- Together: Combined both into message that's conventional AND project-specific
+---
+
+## What Happened in That Iteration Session?
+
+Look back at the progression:
+
+**Iteration 1 → 2**: You added structure and constraints
+- Quality improved from 40% → 70%
+
+**Iteration 2 → 3**: You noticed AI suggested a professional format you didn't know
+- You asked AI to explain the pattern
+- You discovered Conventional Commits standard
+
+**Iteration 3 → 4**: You integrated AI's pattern with your team's requirements
+- AI adapted its conventional format to match your Jira ticket needs
+- Quality improved from 70% → 85%
+
+**Iteration 4 → 5**: You refined business value wording
+- AI adjusted language based on your feedback
+- Convergence produced optimal result combining both inputs
+- Quality improved from 85% → 95%
+
+**What emerged**: A commit message that's both conventional AND project-specific—something neither you nor AI had initially.
 
 ---
 
-## Reflection: The Three Roles in Action
+## Reflection: Patterns of Collaborative Improvement
 
-Look back at that iteration sequence:
+Three patterns emerged in that iteration sequence:
 
-**Iteration 2 → 3**: **AI as Teacher**
-- AI showed you Conventional Commits format
-- You learned a pattern you didn't know existed
-- You asked AI to explain the convention
-- AI taught you the structure and rationale
+### Pattern 1: Discovering Knowledge You Didn't Have
 
-**Iteration 3 → 4**: **AI as Student**
-- You taught AI your team's Jira ticket requirement
-- You taught AI your "why" explanation preference
-- AI adapted its output to match your constraints
-- AI learned project-specific requirements
+**What happened**: AI suggested Conventional Commits format without you asking for it
 
-**Iteration 4 → 5**: **AI as Co-Worker**
-- Neither of you had the perfect message initially
-- You refined business value focus based on AI's structure
-- AI refined wording based on your feedback
-- Convergence produced optimal result combining both inputs
+**Your response**: Instead of forcing AI back to your original vague approach, you asked AI to explain
 
-**This is bidirectional learning**—not "AI does what I say" but "AI and I improve together."
+**Result**: You learned a production standard that makes your commits better
 
-### Why Three Roles Matter for AI-Driven Development
+**Key insight**: When AI suggests patterns you didn't specify, investigate instead of rejecting
 
-**Traditional development**: You implement everything yourself.
+---
 
-**AI-Driven Development**: You and AI are partners:
-- **AI teaches** you patterns and best practices (you didn't know Conventional Commits)
-- **You teach** AI your project requirements (Jira ticket format, business value focus)
-- **Together** you converge on solutions better than either alone (combining convention + context)
+### Pattern 2: Providing Context AI Doesn't Have
 
-**This is the future of software development**: Not "human OR AI" but "human AND AI" collaborating through iterative prompt refinement.
+**What happened**: AI produced generic format missing your team's Jira ticket requirement
 
-**In the next lesson**, you'll learn how to define success criteria BEFORE iterating—ensuring your iterations target measurable quality thresholds (Jake Heller's "define what good looks like").
+**Your response**: You taught AI your project-specific constraints
+
+**Result**: AI adapted its conventional format to match your requirements
+
+**Key insight**: AI has pattern knowledge; you have domain knowledge. Share your context.
+
+---
+
+### Pattern 3: Converging Through Iteration
+
+**What happened**: Neither you nor AI had the perfect message initially
+
+**Your response**: You refined business value focus based on AI's structure; AI refined wording based on your feedback
+
+**Result**: Convergence produced optimal result combining both inputs
+
+**Key insight**: The best solutions emerge through dialogue, not one-shot prompting
+
+---
+
+## Why This Matters for AI-Driven Development
+
+**Traditional development**: You implement everything yourself based on your knowledge alone.
+
+**AI-Native development**: You and AI collaborate:
+- AI suggests patterns and best practices from millions of code examples
+- You provide project requirements, team conventions, and business context
+- Through iteration, you converge on solutions better than either could produce alone
+
+**This is the future of software development**: Not "human OR AI" but "human AND AI" collaborating through iterative refinement.
 
 ---
 
@@ -482,7 +451,7 @@ Jake Heller spent weeks iterating. You probably don't have weeks for a commit me
 
 ---
 
-### Mistake 2: Not Learning from AI's Suggestions
+### Mistake 2: Ignoring Patterns AI Suggests
 
 **Symptom**: AI returns output with improvements you didn't ask for, but you ignore them and force AI back to your original (inferior) approach.
 
@@ -492,11 +461,11 @@ Jake Heller spent weeks iterating. You probably don't have weeks for a commit me
 - You: "No, just simple dashes like I said"
 - Result: You get exactly what you asked for (inferior to what AI suggested)
 
-**Fix**: When AI suggests a better pattern, ask "Why did you use this format?" Learn from it.
+**Fix**: When AI suggests a better pattern, investigate it! Ask "Why did you use this format?"
 
 ---
 
-### Mistake 3: Not Teaching AI Your Constraints
+### Mistake 3: Not Providing Your Context
 
 **Symptom**: AI keeps producing generic output that doesn't fit your project, and you keep regenerating without explaining your requirements.
 
@@ -507,7 +476,7 @@ Jake Heller spent weeks iterating. You probably don't have weeks for a commit me
 - You: "Try again"
 - AI: Still generic because it doesn't know your constraints
 
-**Fix**: Teach AI your specific requirements: "Our project uses Bash, not Python. Our scripts follow Google Shell Style Guide. We log to /var/log/."
+**Fix**: Explain your specific requirements: "Our project uses Bash, not Python. Our scripts follow Google Shell Style Guide. We log to /var/log/."
 
 ---
 
@@ -565,19 +534,19 @@ Iteration 2: "Must be Bash, backup .md files, timestamped folders, error handlin
 
 ---
 
-### Strategy 2: Learn Then Apply
+### Strategy 2: Discover Then Apply
 
 **Use when**: You're unfamiliar with the domain or best practices
 
 **Approach**:
 1. Ask AI to suggest approach/structure
-2. Learn from AI's suggestion
-3. Apply learned pattern with your constraints
+2. Investigate AI's suggestion (ask for explanation)
+3. Apply discovered pattern with your constraints
 4. Refine based on project specifics
 
 **Example**:
 ```
-Iteration 1: "How should I structure commit messages?" (learn)
+Iteration 1: "How should I structure commit messages?" (discover)
 Iteration 2: "Use Conventional Commits format for my auth changes" (apply)
 Iteration 3: "Add our Jira ticket format requirement" (refine)
 ```
@@ -591,7 +560,7 @@ Iteration 3: "Add our Jira ticket format requirement" (refine)
 **Approach**:
 1. Start with rough requirement
 2. Let AI ask clarifying questions
-3. Answer questions (teach AI your context)
+3. Answer questions (provide your context)
 4. Iterate based on AI's refined understanding
 
 **Example**:
@@ -632,15 +601,15 @@ Don't immediately accept AI's output. Analyze it:
 - Does this explain WHAT changed?
 - Does this explain WHY changes were made?
 - Would a teammate understand this without reading the code diff?
-- Is there a format or structure AI used that you didn't know about?
+- Did AI use any format or structure you didn't specify?
 
-**If AI used an unfamiliar convention**: Ask AI to explain it! (Learn from AI as Teacher)
+**If AI used an unfamiliar convention**: Ask AI to explain it!
 
 ---
 
-### Part 3: Teach AI Your Project Standards
+### Part 3: Provide Your Project Context
 
-Now teach AI your specific requirements:
+Now add your specific requirements:
 
 ```
 Good start, but we use this commit format:
@@ -677,12 +646,12 @@ Continue refining. Add one or two new requirements per iteration:
 
 After reaching a satisfactory commit message, reflect:
 
-**What did AI teach you?**
+**What patterns did AI suggest that you hadn't considered?**
 - New format or convention?
 - Better wording or structure?
-- Patterns you hadn't considered?
+- Organizational patterns you hadn't thought of?
 
-**What did you teach AI?**
+**What context did you provide that improved AI's output?**
 - Project-specific requirements?
 - Team conventions?
 - Business value focus?
@@ -690,9 +659,11 @@ After reaching a satisfactory commit message, reflect:
 **What emerged from iteration that neither of you had initially?**
 - Combination of AI's conventional format + your project constraints?
 - Refinements discovered through back-and-forth dialogue?
+- Solutions that incorporated both your inputs?
 
 **How did output quality change from iteration 1 to final iteration?**
-- Estimate percentage improvement (e.g., 50% → 90%)
+- Estimate percentage improvement (e.g., 40% → 95%)
+- Track how many iterations it took to reach "good enough"
 
 ---
 
@@ -701,11 +672,11 @@ After reaching a satisfactory commit message, reflect:
 You've experienced AI collaboration as a **bidirectional partnership**, not a one-way tool:
 
 1. **Iteration loop pattern** (Prompt → Output → Analyze → Refine → Repeat)
-2. **AI as Teacher** (AI suggests patterns and conventions you didn't know)
-3. **AI as Student** (You teach AI your project-specific requirements)
-4. **AI as Co-Worker** (Convergence through dialogue produces better results than either alone)
+2. **Discovering patterns** AI suggests that you didn't know about
+3. **Providing context** that AI doesn't have about your project
+4. **Converging through dialogue** to produce better results than either alone
 5. **Convergence criteria** (When to stop: success met, diminishing returns, time budget)
-6. **Common mistakes** (Quitting early, ignoring AI's suggestions, not teaching constraints, changing too much at once)
+6. **Common mistakes** (Quitting early, ignoring AI's suggestions, not providing context, changing too much at once)
 
 In Lessons 1-2, you built prompt foundations manually. In this lesson, you started **collaborating with AI** to refine prompts through iteration.
 

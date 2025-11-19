@@ -765,9 +765,34 @@ By analyzing these rewrites, notice the pattern:
 
 ---
 
-## Summary: The Anatomy Checklist
+## Try With AI
 
-Before sending any prompt to AI, ask yourself:
+Now test your understanding of prompt anatomy by working with AI to critique and refine real prompts.
+
+### Part 1: Anatomy Checker
+
+Take this vague prompt and ask your AI companion to critique it:
+
+```
+Prompt to critique:
+"Write a script to help with deployments"
+
+Ask AI:
+Review this prompt using the Intent → Constraints → Success Criteria framework.
+What components are missing? What ambiguities exist? How would you rewrite
+this as a specification-quality prompt?
+```
+
+**Your task**:
+- Note what AI identifies as missing
+- Compare AI's critique to what you learned in this lesson
+- Check if AI's rewrite includes all three components
+
+---
+
+### Part 2: Self-Audit Practice
+
+Before sending your next prompt to AI, run this checklist:
 
 **Intent (WHAT)**:
 - [ ] Have I specified the exact output I want?
@@ -785,24 +810,52 @@ Before sending any prompt to AI, ask yourself:
 - [ ] Can I objectively test if output meets criteria?
 - [ ] Have I included edge cases and error scenarios?
 
-**If any checkbox is unchecked**, your prompt is incomplete. AI will fill gaps with guesses.
+**If any checkbox is unchecked**, your prompt is incomplete. Refine it before sending.
 
 ---
 
-## What You've Learned
+### Part 3: Real-World Application
 
-You now understand prompt anatomy at the structural level:
+Choose a task you actually need to do today (write documentation, debug script, create Git commit message, etc.).
 
-1. **Three-part structure** (Intent → Constraints → Success Criteria)
-2. **Eight technical action verbs** (Create, Debug, Refactor, Analyze, Optimize, Generate, Explain, Validate)
-3. **Constraint types** (technical, scope, quality, format)
-4. **Success criteria characteristics** (measurable, testable, objective)
-5. **Anti-patterns** (ambiguity, missing context, no validation, over-specification)
+**Step 1**: Write your prompt in structured format:
+```
+INTENT:
+[What should AI produce?]
 
-In Lesson 1, you learned that **prompts are specifications**. In this lesson, you learned **what components make specifications complete**.
+CONSTRAINTS:
+- [Technical requirements]
+- [Scope boundaries]
+- [Quality standards]
+- [Format requirements]
 
-In the next lesson, you'll start working with AI directly to practice **iterative prompt refinement**—the process Jake Heller used to go from 60% to 97% accuracy. You'll see how AI can teach you better prompt patterns, how you teach AI your specific requirements, and how iteration produces results neither of you could achieve alone.
+SUCCESS CRITERIA:
+- [Measurable condition 1]
+- [Measurable condition 2]
+- [Edge case handling]
+```
 
-**You're building the specification mindset step by step.** Manual analysis first (Lessons 1-2), then AI collaboration (Lessons 3-5), then reusable intelligence creation (Lessons 6-7), then spec-driven orchestration (Lesson 8).
+**Step 2**: Submit to AI and evaluate the response
 
-Keep practicing: Before your next AI interaction, sketch out Intent → Constraints → Success Criteria on paper. You'll be amazed how much better your results become.
+**Step 3**: Ask yourself:
+- Did AI produce what you intended?
+- Which constraints were most important for quality?
+- Could someone else validate the output using your success criteria?
+- What would you add to your prompt for iteration 2?
+
+---
+
+### Part 4: Compare Frameworks
+
+Ask AI about alternative prompting frameworks:
+
+```
+I learned about Intent → Constraints → Success Criteria structure.
+How does this compare to Google's Instructions/Context/Examples framework
+or Zia Kaukab's 8-element approach? Show me the same prompt written in
+all three styles.
+```
+
+**Observe**: Different terminology, same structural principle—specification prevents ambiguity.
+
+**In Lesson 3**, you'll practice iterative prompt refinement—the process Jake Heller used to go from 60% to 97% accuracy through collaboration with AI.
