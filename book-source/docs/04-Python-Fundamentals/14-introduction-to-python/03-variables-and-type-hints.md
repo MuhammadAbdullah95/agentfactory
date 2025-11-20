@@ -217,34 +217,28 @@ Now that you have variables, you might want to check what type they are. Python 
 
 **The `print()` function** — The `print()` function displays output to your screen. It's how you see what's inside variables.
 
-```python
-age: int = 25
+<InteractivePython initialCode={`age: int = 25
 print(age)  # Output: 25
 
 name: str = "Alice"
-print(name)  # Output: Alice
-```
+print(name)  # Output: Alice`} />
 
 **The `type()` function** — The `type()` function tells you what kind of data a variable holds.
 
-```python
-age: int = 25
+<InteractivePython initialCode={`age: int = 25
 print(type(age))  # Output: <class 'int'>
 
 name: str = "Alice"
-print(type(name))  # Output: <class 'str'>
-```
+print(type(name))  # Output: <class 'str'>`} />
 
 **The `isinstance()` function** — The `isinstance()` function checks if a variable is a specific type. It returns `True` or `False`.
 
-```python
-age: int = 25
+<InteractivePython initialCode={`age: int = 25
 print(isinstance(age, int))   # Output: True
 print(isinstance(age, str))   # Output: False
 
 name: str = "Alice"
-print(isinstance(name, str))  # Output: True
-```
+print(isinstance(name, str))  # Output: True`} />
 
 This function is especially useful for validation—checking whether data is the right type before using it.
 
@@ -252,8 +246,7 @@ This function is especially useful for validation—checking whether data is the
 
 Here's a complete program that demonstrates variables and type hints:
 
-```python
-# Demonstrating all four primitive types
+<InteractivePython initialCode={`# Demonstrating all four primitive types
 name: str = "Alice"
 age: int = 25
 height: float = 5.7
@@ -271,8 +264,7 @@ print(type(age))       # <class 'int'>
 
 # Validate types
 print(isinstance(age, int))      # True
-print(isinstance(age, str))      # False
-```
+print(isinstance(age, str))      # False`} />
 
 This example shows:
 - Creating variables with type hints

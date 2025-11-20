@@ -75,11 +75,9 @@ Python is unusual among programming languages in one fundamental way: **it uses 
 
 Unlike languages like JavaScript or Java that use curly braces `{}`, Python uses spaces.
 
-```python
-# Simple program with indentation
+<InteractivePython initialCode={`# Simple program with indentation
 name: str = "Alice"
-print(name)
-```
+print(name)`} />
 
 This program is fine because both lines are at the beginning (no indentation).
 
@@ -125,9 +123,7 @@ The poor comment just repeats what the code obviously does. The good comment exp
 
 The `print()` function displays text and data to your terminal. It's how you see what your program is doing.
 
-```python
-print("Hello, World!")
-```
+<InteractivePython initialCode={`print("Hello, World!")`} />
 
 Output:
 ```
@@ -136,20 +132,18 @@ Hello, World!
 
 You can print variables:
 
-```python
-name: str = "Alice"
+<InteractivePython initialCode={`name: str = "Alice"
 age: int = 25
 
 print(name)      # Output: Alice
-print(age)       # Output: 25
-```
+print(age)       # Output: 25`} />
 
 You can print multiple items:
 
-```python
+<InteractivePython initialCode={`name: str = "Alice"
+age: int = 25
 print("Name:", name, "Age:", age)
-# Output: Name: Alice Age: 25
-```
+# Output: Name: Alice Age: 25`} />
 
 `print()` is the primary way you'll validate what your program is doing throughout Part 4.
 
@@ -157,14 +151,12 @@ print("Name:", name, "Age:", age)
 
 **F-strings** (formatted string literals) let you insert variables into text cleanly.
 
-```python
-name: str = "Alice"
+<InteractivePython initialCode={`name: str = "Alice"
 age: int = 25
 
 # Using f-string
 print(f"My name is {name} and I am {age} years old")
-# Output: My name is Alice and I am 25 years old
-```
+# Output: My name is Alice and I am 25 years old`} />
 
 The `f` before the quote says "this is a formatted string." Variables go inside `{}` brackets.
 
@@ -200,11 +192,9 @@ The `.py` extension tells Python "this is a Python file."
 
 ### Step 2: Write Code
 
-```python
-# My first Python program
+<InteractivePython initialCode={`# My first Python program
 greeting: str = "Hello, Python!"
-print(greeting)
-```
+print(greeting)`} />
 
 Save the file as `hello.py` in a folder you can find (like your Desktop or Documents).
 
@@ -233,14 +223,12 @@ Congratulations—you've written and executed your first Python program.
 
 ### Example 1: Hello World with Variables
 
-```python
-# My first program
+<InteractivePython initialCode={`# My first program
 greeting: str = "Hello, Python!"
 name: str = "Alice"
 
 print(greeting)
-print(name)
-```
+print(name)`} />
 
 Output:
 ```
@@ -250,16 +238,14 @@ Alice
 
 ### Example 2: Variables and F-Strings
 
-```python
-# Introducing myself
+<InteractivePython initialCode={`# Introducing myself
 name: str = "Bob"
 age: int = 30
 city: str = "Portland"
 
 print(f"My name is {name}")
 print(f"I'm {age} years old")
-print(f"I live in {city}")
-```
+print(f"I live in {city}")`} />
 
 Output:
 ```
@@ -270,16 +256,14 @@ I live in Portland
 
 ### Example 3: Calculations and Output
 
-```python
-# Simple calculations
+<InteractivePython initialCode={`# Simple calculations
 price: float = 19.99
 quantity: int = 3
 total: float = price * quantity
 
-print(f"Price per item: ${price}")
+print(f"Price per item: \${price}")
 print(f"Quantity: {quantity}")
-print(f"Total: ${total}")
-```
+print(f"Total: \${total}")`} />
 
 Output:
 ```
