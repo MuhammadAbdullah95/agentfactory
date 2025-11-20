@@ -79,12 +79,12 @@ prerequisites:
 
 ## Reality Check: It's Just Copy-Paste
 
-**Setup Complexity**: Copy 3 text blocks, type 2 commands. That's it.
+**Setup Complexity**: Copy 3 text blocks, type 3 commands. That's it.
 
 **What you need**:
-- ✅ Node.js 18+ ([nodejs.org](https://nodejs.org/))
-- ✅ Free Google Account
-- ✅ 5 minutes
+- Node.js 18+ ([nodejs.org](https://nodejs.org/))
+- Free Google Account
+- 5 minutes
 
 **Verify Node.js** (if unsure):
 ```bash
@@ -95,26 +95,19 @@ If missing, install from [nodejs.org](https://nodejs.org/)
 
 ---
 
-## Step 1: Get Your Free Google API Key (2 minutes)
+## Step 1: Get Your Free Google API Key
 
-1. Go to: [https://ai.google.dev/](https://ai.google.dev/)
+1. Go to: [Google AI Studio](https://aistudio.google.com/api-keys)
 2. Click **"Get API Key"**
 3. Sign in with Google
 4. Click **"Create API Key"**
 5. **Copy the key** (looks like: `AIzaSyAaBbCcDd...`)
 
-⚠️ Save in password manager. Never share publicly.
-
-**Free tier**: 1,500 requests/day per API key
-- Resets at midnight Pacific Time
-- Each student gets their own quota (30K students = 30K × 1,500 = 45M requests/day total!)
-- More than enough for learning (typical session = 20-50 requests)
-
 ---
 
-## Step 2: Copy-Paste Setup (3 minutes)
+## Step 2: Copy-Paste Setup
 
-**Just copy this ENTIRE block and paste into terminal:**
+**Just copy commands from this block and paste into terminal:**
 
 ```bash
 # Install tools
@@ -148,22 +141,6 @@ cat > ~/.claude-code-router/config.json << 'EOF'
     "think": "gemini,gemini-2.5-flash",
     "longContext": "gemini,gemini-2.5-flash",
     "longContextThreshold": 60000
-  }
-}
-EOF
-
-# Create Claude Code settings
-cat > ~/.claude/settings.json << 'EOF'
-{
-  "env": {
-    "ANTHROPIC_AUTH_TOKEN": "router-token",
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:3456",
-    "ANTHROPIC_MODEL": "gemini-2.5-flash",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-2.5-flash",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "gemini-2.5-flash",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "gemini-2.5-flash",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "gemini-2.5-flash",
-    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-2.5-flash"
   }
 }
 EOF
@@ -212,7 +189,7 @@ echo $GOOGLE_API_KEY # Should show your key (not empty!)
 
 ---
 
-## Step 3: Daily Workflow (2 commands)
+## Step 3: Daily Workflow
 
 **Every time you want to code:**
 
@@ -223,14 +200,15 @@ ccr start
 
 # Terminal 2 - THEN use Claude (after router is ready)
 cd ~/your-project
+eval "$(ccr activate)"
 claude
 ```
 
-That's it. Two commands. Every day.
+That's it. One command in Terminal 1, three lines in Terminal 2. Just copy-paste!
 
 ---
 
-## Verification (1 minute)
+## Verification
 
 **Start a Claude session:**
 
@@ -247,36 +225,6 @@ hi
 **Expected**: Claude responds with a greeting confirming it's working! ✅ Success!
 
 That's it. If Claude responds, your free setup is working perfectly.
-
----
-
-## What You Don't Need to Understand
-
-❌ How the router works internally
-❌ What "localhost:3456" means
-❌ JSON syntax
-❌ Environment variables
-
-**You just need**: `ccr start` → `claude` → Build stuff
-
-**(Optional)**: See Appendix for architecture explanation
-
----
-
-## Setup Comparison: Understanding the Differences
-
-| Aspect | Official Setup (Lesson 2) | Free Alternative (This Lesson) |
-|--------|---------------------------|--------------------------------|
-| **Cost** | $20/month | $0 (free tier) |
-| **Model** | Claude Opus 4.1 / Sonnet 4.5 | Gemini 2.5 Flash |
-| **Requests/Day** | Unlimited | 1,500 (resets daily) |
-| **Support** | Official Anthropic support | Community (GitHub issues) |
-| **Setup Complexity** | Simple (authenticate once) | Moderate (router + env vars) |
-| **Daily Workflow** | 1 command (`claude`) | 2 commands (`ccr start`, `claude`) |
-| **Claude Code Features** | All features work | All features work identically |
-| **Learning Bonus** | Direct integration patterns | Backend abstraction + API architecture |
-
-**Key Insight**: Both setups are professional-grade. Official setup uses direct vendor integration. This alternative uses production-grade backend abstraction patterns (similar to LiteLLM, Portkey used by companies). All Claude Code features (subagents, skills, MCP, hooks) work identically in both setups.
 
 ---
 
@@ -300,188 +248,4 @@ That's it. If Claude responds, your free setup is working perfectly.
 → Check usage: https://aistudio.google.com/
 ```
 
-That's it. 95% success rate with copy-paste setup.
-
----
-
-## Try With AI
-
-**Exercise**: Ask Claude Code to create a Python TODO app with file storage.
-
-```
-Create a CLI TODO app in Python:
-- add task
-- list tasks
-- mark complete
-- save to JSON
-```
-
-**Expected**: Claude creates working multi-file project.
-
-**Advanced**: Try asking Claude to delegate test creation to a subagent (preview of Lesson 5).
-
----
-
-## What You Learned
-
-✅ **Zero-cost Claude Code setup** ($0/month, 1,500 req/day)
-✅ **Daily workflow mastery** (`ccr start`, `claude`)
-✅ **Identical features** (subagents, skills, MCP, hooks coming in Lessons 3-9)
-
-**You're ready for Lesson 3!** All remaining lessons work the same whether you used official or free setup.
-
----
-
-## Next: Lesson 3 (CLAUDE.md Context Files)
-
-Proceed to **Lesson 3** to learn persistent project context.
-
-**All remaining lessons work identically** with your free setup. Subagents, skills, MCP, hooks are CLI features (not backend-specific).
-
-Welcome to AI-driven development! 🚀
-
----
-
-## For Instructors: Dual Setup
-
-Run both Max + Gemini simultaneously (different terminals):
-
-```bash
-# Your Max work (no router)
-cd ~/curriculum
-claude
-
-# Student testing (with router)
-ccr start  # Terminal 3
-cd ~/test-projects && claude  # Terminal 4
-```
-
----
-
-## Quick Reference
-
-**Setup** (once):
-- Get API key from ai.google.dev
-- Copy-paste setup block
-- Replace "YOUR_KEY_HERE" with actual key
-
-**Daily** (every session):
-```bash
-ccr start  # Terminal 1
-claude     # Terminal 2
-```
-
-**Troubleshooting** (rare):
-- "npm not found" → Install Node.js
-- "Connection refused" → Run `ccr start`
-
----
-
-## Appendix: For Curious Students
-
-### Architecture (Optional Reading)
-
-**3-Layer System:**
-
-```
-You → Claude Code CLI → Router (localhost:3456) → Google Gemini API
-```
-
-**Why this works**: Claude Code sends requests in Anthropic format. Router translates to OpenAI format (what Google understands). Responses translate back. CLI doesn't know backend changed.
-
-**Production pattern**: Companies use this architecture (LiteLLM, Portkey) to switch models, handle failovers, optimize costs.
-
-**Learning bonus**: You're learning API-based architecture + backend abstraction beyond just Claude Code.
-
----
-
-## Appendix: Configuration Files
-
-### Router Config (`~/.claude-code-router/config.json`)
-
-```json
-{
-  "LOG": true,                    // Enable logging for debugging
-  "LOG_LEVEL": "info",            // Log verbosity (info, debug, error)
-  "HOST": "127.0.0.1",            // Localhost (router runs on your machine)
-  "PORT": 3456,                   // Router listens on this port
-  "API_TIMEOUT_MS": 600000,       // 10-minute timeout for long requests
-  "Providers": [                  // AI backend configurations
-    {
-      "name": "gemini",
-      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-      "api_key": "$GOOGLE_API_KEY",  // Uses environment variable
-      "models": ["gemini-2.5-flash", "gemini-2.0-flash"]
-    }
-  ],
-  "Router": {                     // Model routing rules
-    "default": "gemini,gemini-2.5-flash",       // All requests use this
-    "background": "gemini,gemini-2.5-flash",    // Background tasks
-    "think": "gemini,gemini-2.5-flash",         // Deep thinking mode
-    "longContext": "gemini,gemini-2.5-flash",   // Long context requests
-    "longContextThreshold": 60000               // Context length trigger
-  }
-}
-```
-
-### Claude Settings (`~/.claude/settings.json`)
-
-```json
-{
-  "env": {
-    "ANTHROPIC_AUTH_TOKEN": "router-token",              // Placeholder token
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:3456",      // Points to router
-    "ANTHROPIC_MODEL": "gemini-2.5-flash",              // Default model
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-2.5-flash",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "gemini-2.5-flash",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "gemini-2.5-flash",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "gemini-2.5-flash",   // Used in Lesson 5
-    "ANTHROPIC_SMALL_FAST_MODEL": "gemini-2.5-flash"
-  }
-}
-```
-
-**Why all models set to Gemini?** Claude Code CLI has multiple model selection modes (haiku for fast, opus for quality). Since we have one backend (Gemini), all selections route to the same model. This ensures consistent behavior regardless of internal model selection.
-
----
-
-## Resources
-
-**Official Documentation**:
-- Google Gemini API: [https://ai.google.dev/gemini-api/docs](https://ai.google.dev/gemini-api/docs)
-- Claude Code Router: [https://github.com/musistudio/claude-code-router](https://github.com/musistudio/claude-code-router)
-- Claude Code CLI: [https://code.claude.com/docs](https://code.claude.com/docs)
-
-**Community Support**:
-- Router Issues: [GitHub Issues](https://github.com/musistudio/claude-code-router/issues)
-- Book Discord: [Your community channel]
-
-**Rate Limits**:
-- Free tier: 1,500 requests/day (resets midnight Pacific)
-- Paid tier: See [Google AI pricing](https://ai.google.dev/pricing)
-
----
-
-## Success Checklist
-
-Before proceeding to Lesson 3, verify:
-
-- [ ] Node.js 18+ installed (`node --version` works)
-- [ ] Google API key obtained and saved securely
-- [ ] Router installed (`ccr --version` shows version)
-- [ ] Claude Code installed (`claude --version` shows version)
-- [ ] Router config created (`~/.claude-code-router/config.json` exists)
-- [ ] Claude settings created (`~/.claude/settings.json` exists)
-- [ ] API key set as environment variable (`echo $GOOGLE_API_KEY` shows key)
-- [ ] Router starts successfully (`ccr start` shows ✅)
-- [ ] Claude Code creates files (Exercise 1 passed)
-- [ ] Model identifies as Gemini/Google (Exercise 2 passed)
-- [ ] Daily workflow memorized (`ccr start` → `claude`)
-
-✅ **All checked?** You're ready for Lesson 3! Your free setup is production-ready.
-
----
-
-**END OF EXTENSION LESSON**
-
-*This extension provides an alternative path to Lesson 2's official setup. Both paths teach identical Claude Code CLI skills. Choose based on your budget, learning goals, and interest in API architecture.*
+That's it. Proceed to **Lesson 3** to learn persistent project context.
