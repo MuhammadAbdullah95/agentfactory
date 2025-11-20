@@ -72,6 +72,19 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
   const [isRunning, setIsRunning] = useState(false);
   const { pyodide, isLoading } = usePyodide();
   const outputRef = useRef<HTMLDivElement>(null);
+  
+  // Refs to track current state for keyboard shortcut (avoid stale closure)
+  const isLoadingRef = useRef(isLoading);
+  const isRunningRef = useRef(isRunning);
+  
+  // Keep refs in sync with state
+  useEffect(() => {
+    isLoadingRef.current = isLoading;
+  }, [isLoading]);
+  
+  useEffect(() => {
+    isRunningRef.current = isRunning;
+  }, [isRunning]);
 
   // Calculate dynamic editor height based on code lines
   const lineCount = code.split('\n').length;
@@ -104,7 +117,8 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
         (text) => setError(prev => prev + text)     // stderr callback
       );
     } catch (err) {
-      setError(`Error: ${err instanceof Error ? err.message : String(err)}`);
+      // Preserve any stderr output that was already captured
+      setError(prev => prev + `Error: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
       setIsRunning(false);
     }
@@ -190,8 +204,9 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
           }}
           onMount={(editor) => {
             // Add keyboard shortcut: Shift+Enter to run code
+            // Use refs to avoid stale closure capturing initial state values
             editor.addCommand(2048 + 13, () => {
-              if (!isLoading && !isRunning) {
+              if (!isLoadingRef.current && !isRunningRef.current) {
                 handleRun();
               }
             });
