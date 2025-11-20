@@ -1,8 +1,8 @@
 ---
 title: "Agent Skills"
-sidebar_position: 6
+sidebar_position: 7
 chapter: 5
-lesson: 6
+lesson: 7
 duration_minutes: 9
 
 # PEDAGOGICAL LAYER METADATA

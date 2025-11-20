@@ -77,6 +77,23 @@ This isn't just about following installation commands. It's about crossing the b
 
 ---
 
+## 🔀 Two Professional Paths Available
+
+This lesson covers the **official Claude subscription setup** (Pro $20/month or Max $200/month). If you prefer a **free/minimal cost alternative**, see **Lesson 3: Free Claude Code Setup with Google Gemini**.
+
+**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 4-10).
+
+| Path | Cost | What You Get |
+|------|------|--------------|
+| **This Lesson (Official)** | Pro: $20/month<br/>Max: $200/month | Official Anthropic models (Claude Sonnet/Opus), direct integration, official support |
+| **Lesson 3 (Free/Minimal)** | $0 (free tier)<br/>Pay-as-you-go option | Use Claude Code agent with **any LLM** (Gemini, GPT, local models), backend abstraction architecture |
+
+**Key difference**: Official path uses Anthropic's Claude models. Free path lets you use Claude Code's agentic architecture with any LLM backend through production-grade API routing.
+
+---
+
+---
+
 ## Why This Matters: Terminal Integration for AI Workflows
 
 Terminal-based AI integration changes how you work with AI assistance. Unlike web-based tools where you describe code problems and manually copy-paste solutions, terminal-integrated AI sees your actual project context—files, dependencies, structure—and proposes changes to your real codebase.

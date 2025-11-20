@@ -1,8 +1,8 @@
 ---
 title: "MCP Integration"
-sidebar_position: 4
+sidebar_position: 5
 chapter: 5
-lesson: 4
+lesson: 5
 duration_minutes: 14
 
 # PEDAGOGICAL LAYER METADATA

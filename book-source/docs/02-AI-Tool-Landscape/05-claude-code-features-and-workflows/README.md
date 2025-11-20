@@ -9,7 +9,7 @@ This chapter introduces you to the first real tool you'll use: Claude Code. Not 
 By the end of this chapter, you'll have:
 
 - **The Paradigm Shift** — Understanding how agentic AI (Claude Code) differs fundamentally from passive chat-based tools through context-aware, file-integrated collaboration
-- **Claude Code Installed & Working** — Complete setup on Windows/macOS/Linux with 4 installation methods, authentication, and first successful commands
+- **Claude Code Installed & Working** — Complete setup with **two professional paths**: Official Claude Max subscription (Lesson 2) OR Free Google Gemini backend (Lesson 3). Both teach identical Claude Code skills
 - **Persistent Project Context** — Creating CLAUDE.md files that eliminate repetitive context-sharing in every session
 - **External Integration** — MCP servers for safe access to external systems (web, APIs, docs) with practical Playwright and Context7 workflows
 - **Subagent Orchestration** — Recognizing when Claude automatically delegates to Explore agent (codebase search) or Plan mode (complex tasks) with hands-on exercises
