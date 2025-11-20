@@ -117,6 +117,7 @@ npm install -g @anthropic-ai/claude-code @musistudio/claude-code-router
 mkdir -p ~/.claude-code-router ~/.claude
 
 # Create router config
+# Create new config with native Gemini endpoint
 cat > ~/.claude-code-router/config.json << 'EOF'
 {
   "LOG": true,
@@ -127,12 +128,15 @@ cat > ~/.claude-code-router/config.json << 'EOF'
   "Providers": [
     {
       "name": "gemini",
-      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
       "api_key": "$GOOGLE_API_KEY",
       "models": [
         "gemini-2.5-flash",
         "gemini-2.0-flash"
-      ]
+      ],
+      "transformer": {
+        "use": ["gemini"]
+      }
     }
   ],
   "Router": {
@@ -144,6 +148,9 @@ cat > ~/.claude-code-router/config.json << 'EOF'
   }
 }
 EOF
+
+# Verify file was created
+cat ~/.claude-code-router/config.json
 
 # Set your API key (REPLACE "YOUR_KEY_HERE" with actual key!)
 echo 'export GOOGLE_API_KEY="YOUR_KEY_HERE"' >> ~/.zshrc
