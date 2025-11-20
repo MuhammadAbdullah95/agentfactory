@@ -4,7 +4,7 @@
  * Ensures Pyodide is initialized once and shared across the app
  */
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { PyodideRunner } from '@/lib/pyodide-singleton';
 
 /**
@@ -46,8 +46,14 @@ export const PyodideProvider: React.FC<{ children: React.ReactNode }> = ({ child
       });
   }, []);
 
+  // Memoize the context value to prevent unnecessary re-renders of consumers
+  const contextValue = useMemo(
+    () => ({ pyodide, isLoading, error }),
+    [pyodide, isLoading, error]
+  );
+
   return (
-    <PyodideContext.Provider value={{ pyodide, isLoading, error }}>
+    <PyodideContext.Provider value={contextValue}>
       {children}
     </PyodideContext.Provider>
   );
