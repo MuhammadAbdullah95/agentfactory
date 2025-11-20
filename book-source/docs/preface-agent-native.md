@@ -17,25 +17,6 @@ For the first time in human history, you can ship production AI-native software 
 
 ---
 
-## What This Book Is About
-
-This book, **"AI Native Software Development: Colearning Agentic AI with Python and TypeScript — Spec Driven Reusable Intelligence,"** teaches you a fundamentally different approach to building software.
-
-### The Core Paradigm Shift
-
-- **Traditional development:** You write code → machines execute it → you own all details.
-- **AI-native development:** You architect (by writing specifications collaboratively with your AI coding agent) → AI agents implement them → you validate the results.
-
-The consequences ripple through everything:
-- **What takes weeks now takes days** — not because you type faster, but because specification-first thinking eliminates rework
-- **Code quality becomes consistent** — AI follows patterns reliably; humans are inconsistent
-- **Where bugs hide shifts dramatically** — they're no longer in implementation details but in specification gaps
-- **Your role transforms** — from coder to architect and validator
-
-This isn't a small productivity boost. **This is a fundamental restructuring of how software gets built.**
-
----
-
 ## Fast-Track Tour to Supercharge Reusable Intelligence with Rise of AI Agents
 
 :::tip Open Full Slideshow
@@ -52,6 +33,25 @@ This isn't a small productivity boost. **This is a fundamental restructuring of 
     webkitallowfullscreen="true">
   </iframe>
 </div>
+
+---
+
+## What This Book Is About
+
+This book, **"AI Native Software Development: Colearning Agentic AI with Python and TypeScript — Spec Driven Reusable Intelligence,"** teaches you a fundamentally different approach to building software.
+
+### The Core Paradigm Shift
+
+- **Traditional development:** You write code → machines execute it → you own all details.
+- **AI-native development:** You architect (by writing specifications collaboratively with your AI coding agent) → AI agents implement them → you validate the results.
+
+The consequences ripple through everything:
+- **What takes weeks now takes days** — not because you type faster, but because specification-first thinking eliminates rework
+- **Code quality becomes consistent** — AI follows patterns reliably; humans are inconsistent
+- **Where bugs hide shifts dramatically** — they're no longer in implementation details but in specification gaps
+- **Your role transforms** — from coder to architect and validator
+
+This isn't a small productivity boost. **This is a fundamental restructuring of how software gets built.**
 
 ---
 
