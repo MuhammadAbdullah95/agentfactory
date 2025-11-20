@@ -107,7 +107,7 @@ export class PyodideRunner {
     this.pyodide.setStdout({
       batched: (msg: string) => {
         if (msg) {
-          onOutput(msg);
+          onOutput(msg + '\n');
         }
       }
     });
@@ -115,7 +115,7 @@ export class PyodideRunner {
     this.pyodide.setStderr({
       batched: (msg: string) => {
         if (msg) {
-          onError(msg);
+          onError(msg + '\n');
         }
       }
     });
