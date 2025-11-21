@@ -104,12 +104,14 @@ mixed: list = [1, "hello", 3.14]  # Can mix types, but not recommended
 
 **Simple example:**
 
-<InteractivePython initialCode={`# Create a list of student names
+```python
+# Create a list of student names
 students: list[str] = ["Alex", "Bob", "Charlie"]
 
 # Lists show what they are
 print(students)        # Output: ['Alex', 'Bob', 'Charlie']
-print(type(students))  # Output: <class 'list'>`} />
+print(type(students))  # Output: <class 'list'>
+```
 
 #### 💬 AI Colearning Prompt
 > "Why would you use a list instead of just writing four separate variables for four test scores? What problem does list solve?"
@@ -135,11 +137,13 @@ person_info: tuple[str, int] = ("Alex", 25)
 
 **Simple example:**
 
-<InteractivePython initialCode={`# GPS coordinates are fixed once recorded
+```python
+# GPS coordinates are fixed once recorded
 location: tuple[float, float] = (40.7128, -74.0060)  # NYC
 
 print(location)        # Output: (40.7128, -74.006)
-print(type(location))  # Output: <class 'tuple'>`} />
+print(type(location))  # Output: <class 'tuple'>
+```
 
 #### 💬 AI Colearning Prompt
 > "Why would you choose tuple for coordinates instead of list? What does making it immutable (unchangeable) protect?"
@@ -162,7 +166,8 @@ ages: dict[str, int] = {"Alice": 30, "Bob": 25, "Charlie": 28}
 
 **Simple example:**
 
-<InteractivePython initialCode={`# Store information about a person
+```python
+# Store information about a person
 person: dict[str, str] = {
     "name": "Alex",
     "email": "alex@example.com",
@@ -170,7 +175,8 @@ person: dict[str, str] = {
 }
 
 print(person)        # Output: {'name': 'Alex', 'email': 'alex@example.com', 'city': 'New York'}
-print(type(person))  # Output: <class 'dict'>`} />
+print(type(person))  # Output: <class 'dict'>
+```
 
 #### 💬 AI Colearning Prompt
 > "Why would you use a dictionary to store student records instead of a list? How does the lookup difference (by key vs. by position) change what you can do?"
@@ -199,12 +205,14 @@ numbers: set[int] = {1, 2, 3, 1, 2}  # Duplicates automatically removed
 
 **Simple example:**
 
-<InteractivePython initialCode={`# List of product IDs (some repeated)
+```python
+# List of product IDs (some repeated)
 product_ids: set[int] = {1, 2, 3, 2, 1, 4}
 
 print(product_ids)  # Output: {1, 2, 3, 4}
 # Notice: only unique values remain; duplicates are gone
-print(type(product_ids))  # Output: <class 'set'>`} />
+print(type(product_ids))  # Output: <class 'set'>
+```
 
 **Brief note on frozenset**: Python also has `frozenset`, which is an immutable version of set. It's less common but useful when you need a set that can't be changed.
 
@@ -224,11 +232,13 @@ countdown = range(5, 0, -1)  # 5, 4, 3, 2, 1
 
 **Simple example:**
 
-<InteractivePython initialCode={`# Generate numbers efficiently
+```python
+# Generate numbers efficiently
 numbers = range(0, 5)
 
 print(numbers)        # Output: range(0, 5)
-print(type(numbers))  # Output: <class 'range'>`} />
+print(type(numbers))  # Output: <class 'range'>
+```
 
 **Real-world analogy**: Range is like a recipe that generates numbers on demand, rather than a pre-made list. Instead of writing `[0, 1, 2, 3, 4]`, you say "start at 0, go to 5 (not including 5)" and Python generates those numbers as needed.
 
@@ -287,28 +297,34 @@ Binary types store data as bytes (0s and 1s) rather than as text or numbers. The
 - Once created, you can't change it
 - Used for: reading files, network protocols, storing binary data
 
-<InteractivePython initialCode={`data: bytes = b"Hello"
+```python
+data: bytes = b"Hello"
 
 print(data)            # Output: b'Hello'
-print(type(data))      # Output: <class 'bytes'>`} />
+print(type(data))      # Output: <class 'bytes'>
+```
 
 **bytearray** — Mutable binary data
 - You can change bytes after creating it
 - Used for: modifying binary data, building up data incrementally
 
-<InteractivePython initialCode={`mutable_data: bytearray = bytearray(b"World")
+```python
+mutable_data: bytearray = bytearray(b"World")
 
 print(mutable_data)    # Output: bytearray(b'World')
-print(type(mutable_data))  # Output: <class 'bytearray'>`} />
+print(type(mutable_data))  # Output: <class 'bytearray'>
+```
 
 **memoryview** — Efficient binary access without copying
 - Advanced type for accessing binary data without making copies in memory
 - Used for: high-performance file operations, large data processing
 
-<InteractivePython initialCode={`data: bytes = b"Binary"
+```python
+data: bytes = b"Binary"
 view = memoryview(data)
 
-print(type(view))      # Output: <class 'memoryview'>`} />
+print(type(view))      # Output: <class 'memoryview'>
+```
 
 ### Why Binary Types Exist
 

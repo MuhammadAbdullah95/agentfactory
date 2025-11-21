@@ -147,13 +147,11 @@ inventory: int = 500
 
 Verify with `type()` (from Lesson 1):
 
-<InteractivePython initialCode={`age: int = 25
-student_count: int = 100
-temperature: int = -5
-
+```python
 print(type(age))              # <class 'int'>
 print(type(student_count))    # <class 'int'>
-print(type(temperature))               # <class 'int'>`} />
+print(type(-5))               # <class 'int'>
+```
 
 #### 💬 AI Colearning Prompt
 
@@ -216,13 +214,11 @@ epsilon: float = 1e-6
 
 Verify the type with `type()`:
 
-<InteractivePython initialCode={`price: float = 19.99
-pi: float = 3.14159
-epsilon: float = 1e-6
-
+```python
 print(type(price))           # Output: <class 'float'>
 print(type(3.14))            # Output: <class 'float'>
-print(type(epsilon))            # Output: <class 'float'>`} />
+print(type(1e-6))            # Output: <class 'float'>
+```
 
 #### 🎓 Expert Insight
 
@@ -277,11 +273,13 @@ Complex numbers aren't just theoretical—they solve real problems:
 
 ### Code Example
 
-<InteractivePython initialCode={`z: complex = 2 + 3j
+```python
+z: complex = 2 + 3j
 print(type(z))     # Output: <class 'complex'>
 print(z.real)      # Output: 2.0 (real part)
 print(z.imag)      # Output: 3.0 (imaginary part)
-print(z + (1+2j))  # Output: (3+5j) (complex addition)`} />
+print(z + (1+2j))  # Output: (3+5j) (complex addition)
+```
 
 ### The Honest Message for Beginners
 

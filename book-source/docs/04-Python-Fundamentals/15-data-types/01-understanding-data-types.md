@@ -95,9 +95,11 @@ When you write a program, you work with many kinds of information: ages (numbers
 
 **Try this and see:**
 
-<InteractivePython initialCode={`print(5 + 5)        # This works fine: prints 10
+```python
+print(5 + 5)        # This works fine: prints 10
 print("hello" + " world")   # This also works: prints hello world
-print(5 + "hello")  # This breaks! TypeError: unsupported operand type(s) for +: 'int' and 'str'`} />
+print(5 + "hello")  # This breaks! TypeError: unsupported operand type(s) for +: 'int' and 'str'
+```
 
 Why does `5 + "hello"` fail, but `5 + 5` and `"hello" + "world"` work? Because **types determine what operations are valid**. This lesson explains the "why" before showing you the syntax.
 
@@ -156,16 +158,16 @@ You can't do addition with text. You can't ask "Is 25 the same as 26?" with text
 
 When you try to use the wrong operation on the wrong type, Python stops and tells you there's a problem:
 
-<InteractivePython initialCode={`age: int = 25
+```python
+age: int = 25
 result: int = age + 5     # Works! ✓ Both are numbers
-print(f"Age result: {result}")
 
 name: str = "Alice"
-greeting: str = name + " Smith"   # Works! ✓ Both are text
-print(f"Greeting result: {greeting}")
+result: str = name + " Smith"   # Works! ✓ Both are text
 
 # Now the error:
-# mixed = 25 + "hello"   # Uncomment this line to see the error!`} />
+mixed: ??? = 25 + "hello"   # Doesn't work! ✗ Can't add number + text
+```
 
 These errors are actually helpful. They force you to think: "Wait, what am I trying to do here?" and prevent bugs from sneaking into your code.
 
@@ -244,10 +246,28 @@ The `type()` function **tells you what type Python assigned to a value**. It's l
 
 **How to use it**:
 
-<InteractivePython initialCode={`print(type(42))          # Tells you that 42 is an int
-print(type(3.14))        # Tells you that 3.14 is a float
-print(type("hello"))     # Tells you that "hello" is a str
-print(type(True))        # Tells you that True is a bool`} />
+```python
+type(42)          # Tells you that 42 is an int
+type(3.14)        # Tells you that 3.14 is a float
+type("hello")     # Tells you that "hello" is a str
+type(True)        # Tells you that True is a bool
+```
+
+When you run these in Python, you'll see output like:
+
+```python
+type(42)
+# Output: <class 'int'>
+
+type(3.14)
+# Output: <class 'float'>
+
+type("hello")
+# Output: <class 'str'>
+
+type(True)
+# Output: <class 'bool'>
+```
 
 The output `<class 'int'>` means "This value belongs to the int class/type."
 
@@ -255,7 +275,8 @@ The output `<class 'int'>` means "This value belongs to the int class/type."
 
 Let's say you're creating a user profile for Alice:
 
-<InteractivePython initialCode={`name: str = "Alice"
+```python
+name: str = "Alice"
 age: int = 25
 price_of_item: float = 19.99
 is_student: bool = True
@@ -263,7 +284,8 @@ is_student: bool = True
 print(type(name))           # <class 'str'>
 print(type(age))            # <class 'int'>
 print(type(price_of_item))  # <class 'float'>
-print(type(is_student))     # <class 'bool'>`} />
+print(type(is_student))     # <class 'bool'>
+```
 
 Notice something: We already used **type hints** (the `: str`, `: int`, `: float`, `: bool` parts) to tell Python what type we intended. The `type()` function confirms that Python actually assigned those types.
 
@@ -271,7 +293,9 @@ Notice something: We already used **type hints** (the `: str`, `: int`, `: float
 
 From Chapter 15, you remember `print()`. It displays output. Here, we're using it to show what `type()` returns:
 
-<InteractivePython initialCode={`print(type(42))  # Displays: <class 'int'>`} />
+```python
+print(type(42))  # Displays: <class 'int'>
+```
 
 This combines two things:
 - `type(42)` → examines the value and returns its type
@@ -313,13 +337,15 @@ Your turn: Write your explanation now.
 
 Create a Python file and run these commands. For each one, predict what `type()` will return. Then run it and check if you were right.
 
-<InteractivePython initialCode={`# Predict first, then run and check
+```python
+# Predict first, then run and check
 
 print(type(100))
 print(type(100.5))
 print(type("hello"))
 print(type(False))
-print(type([10, 20, 30]))`} />
+print(type([10, 20, 30]))
+```
 
 **Reflection**: Were you surprised by any of the results? Write one sentence about what surprised you (or didn't).
 

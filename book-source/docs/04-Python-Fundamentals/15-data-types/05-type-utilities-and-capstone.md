@@ -105,15 +105,19 @@ You've used `type()` throughout this chapter to inspect data types. But what doe
 
 **Key insight**: `type()` doesn't return a string like `"int"`. It returns a **type object** — Python's internal representation of the type class.
 
-<InteractivePython initialCode={`result = type(42)
+```python
+result = type(42)
 print(result)              # <class 'int'>
-print(type(result))        # <class 'type'> — the type of a type!`} />
+print(type(result))        # <class 'type'> — the type of a type!
+```
 
 This matters when comparing types programmatically:
 
-<InteractivePython initialCode={`age: int = 25
+```python
+age: int = 25
 is_integer: bool = type(age) == int  # Comparing type objects
-print(is_integer)  # True`} />
+print(is_integer)  # True
+```
 
 **When to use type() vs isinstance()** (coming next):
 - `type(x) == int`: Checks for exact type match only
@@ -125,8 +129,10 @@ print(is_integer)  # True`} />
 
 Every object in Python has a unique identifier—its **memory address**. The `id()` function returns this.
 
-<InteractivePython initialCode={`x: int = 42
-print(id(x))  # Something like 140234567890 (exact number varies by system)`} />
+```python
+x: int = 42
+print(id(x))  # Something like 140234567890 (exact number varies by system)
+```
 
 **Why does this matter?**
 
@@ -138,16 +144,19 @@ print(id(x))  # Something like 140234567890 (exact number varies by system)`} />
 
 Python has a special rule: **there is only ONE `None` object in your entire program**. Every variable set to `None` points to the same object.
 
-<InteractivePython initialCode={`x: None = None
+```python
+x: None = None
 y: None = None
 
 print(id(x))           # Same ID
 print(id(y))           # Same ID
-print(x is y)          # True (same object!)`} />
+print(x is y)          # True (same object!)
+```
 
 This is why the `is` operator is important: **`is` checks object identity, while `==` checks value equality**.
 
-<InteractivePython initialCode={`a: int = 42
+```python
+a: int = 42
 b: int = 42
 
 print(a == b)          # True (values are equal)
@@ -157,7 +166,8 @@ print(a is b)          # True! (same cached object)
 x: int = 1000
 y: int = 1000
 print(x == y)          # True (values equal)
-print(x is y)          # False! (different objects, no caching for large integers)`} />
+print(x is y)          # False! (different objects, no caching for large integers)
+```
 
 **Key insight**: For numbers -5 to 256, Python reuses the same object. For larger numbers, it creates new objects. This is **integer interning** (covered in advanced section below).
 
@@ -165,12 +175,14 @@ print(x is y)          # False! (different objects, no caching for large integer
 
 When might you use `id()` in practice? Mostly for debugging or learning how Python works. But here's a practical example:
 
-<InteractivePython initialCode={`# Creating two greetings to compare their identity
+```python
+# Creating two greetings to compare their identity
 greeting1: str = "hello"
 greeting2: str = "hello"
 
 print(greeting1 == greeting2)  # True (same value)
-print(id(greeting1) == id(greeting2))  # Might be True! (Python optimizes string literals)`} />
+print(id(greeting1) == id(greeting2))  # Might be True! (Python optimizes string literals)
+```
 
 ---
 
@@ -182,13 +194,15 @@ print(id(greeting1) == id(greeting2))  # Might be True! (Python optimizes string
 
 **Returns**: `True` if the object is an instance of that type, `False` otherwise
 
-<InteractivePython initialCode={`age: int = 25
+```python
+age: int = 25
 price: float = 19.99
 name: str = "Alice"
 
 print(isinstance(age, int))      # True
 print(isinstance(price, float))  # True
-print(isinstance(name, str))     # True`} />
+print(isinstance(name, str))     # False (not a float)
+```
 
 ### isinstance() vs type() == ...
 
@@ -203,7 +217,8 @@ In beginner code, they're equivalent. But `isinstance()` is the Pythonic way.
 
 `isinstance()` can check if an object is **one of several types**:
 
-<InteractivePython initialCode={`value: float = 3.14
+```python
+value: float = 3.14
 
 # Is value a number (int OR float)?
 is_number: bool = isinstance(value, (int, float))
@@ -211,13 +226,15 @@ print(f"Is number: {is_number}")  # True
 
 # Is value text OR a number?
 is_text_or_number: bool = isinstance(value, (str, int, float))
-print(f"Is text or number: {is_text_or_number}")  # True`} />
+print(f"Is text or number: {is_text_or_number}")  # True
+```
 
 ### isinstance() in Real Code
 
 Here's a practical example showing how to check types:
 
-<InteractivePython initialCode={`# Checking different types and showing results
+```python
+# Checking different types and showing results
 val1: str = "hello"
 val2: int = 42
 val3: float = 3.14
@@ -231,7 +248,8 @@ print(f"'{val1}' is text: {is_text}")      # True
 print(f"{val2} is integer: {is_integer}")  # True
 print(f"{val3} is decimal: {is_decimal}")  # True
 
-# You'll learn to use these checks in conditional logic in Chapter 19`} />
+# You'll learn to use these checks in conditional logic in Chapter 19
+```
 
 **Exercise**: Write code that checks whether a value is a number (int or float), text, or something else using isinstance().
 
@@ -247,7 +265,8 @@ You've been doing this without realizing it. When you write `int("25")`, you're 
 
 **int() — Convert to integer:**
 
-<InteractivePython initialCode={`# String to int
+```python
+# String to int
 age_str: str = "25"
 age_int: int = int(age_str)
 print(age_int + 5)  # 30 (works because it's now a number)
@@ -260,22 +279,26 @@ print(whole)  # 19
 # Bool to int
 flag: bool = True
 as_int: int = int(flag)  # Becomes 1
-print(as_int)  # 1`} />
+print(as_int)  # 1
+```
 
 **float() — Convert to float:**
 
-<InteractivePython initialCode={`# String to float
+```python
+# String to float
 price_str: str = "19.99"
 price: float = float(price_str)
 
 # Int to float (no data loss)
 whole: int = 42
 decimal: float = float(whole)  # Becomes 42.0
-print(decimal)  # 42.0`} />
+print(decimal)  # 42.0
+```
 
 **str() — Convert to string:**
 
-<InteractivePython initialCode={`# Number to string
+```python
+# Number to string
 count: int = 100
 count_str: str = str(count)
 print(count_str + " items")  # 100 items
@@ -283,33 +306,40 @@ print(count_str + " items")  # 100 items
 # Any type to string
 result: str = str(3.14)  # "3.14"
 result2: str = str(True)  # "True"
-result3: str = str([1, 2, 3])  # "[1, 2, 3]"`} />
+result3: str = str([1, 2, 3])  # "[1, 2, 3]"
+```
 
 **bool() — Convert to boolean:**
 
-<InteractivePython initialCode={`# Any value to bool (uses Python's truthy/falsy rules from Lesson 3)
+```python
+# Any value to bool (uses Python's truthy/falsy rules from Lesson 3)
 print(bool(0))        # False (zero is falsy)
 print(bool(42))       # True (non-zero is truthy)
 print(bool(""))       # False (empty string is falsy)
 print(bool("hello"))  # True (non-empty string is truthy)
 print(bool([]))       # False (empty list is falsy)
 print(bool([1, 2]))   # True (non-empty list is truthy)
-print(bool(None))     # False (None is always falsy)`} />
+print(bool(None))     # False (None is always falsy)
+```
 
 ### Lossy Conversions: Data Loss
 
 When you convert a **float to an int**, the decimal part is **truncated** (chopped off, not rounded):
 
-<InteractivePython initialCode={`price: float = 19.99
+```python
+price: float = 19.99
 whole: int = int(price)  # 19 (not 20!)
 
 precise: float = 3.9
-rounded_down: int = int(precise)  # 3 (loses .9)`} />
+rounded_down: int = int(precise)  # 3 (loses .9)
+```
 
 If you need true rounding, use the built-in `round()` function:
 
-<InteractivePython initialCode={`price: float = 19.99
-rounded: int = round(price)  # 20 (proper rounding)`} />
+```python
+price: float = 19.99
+rounded: int = round(price)  # 20 (proper rounding)
+```
 
 **Always be aware of data loss when casting**. Document your intention clearly:
 
@@ -328,19 +358,23 @@ Sometimes Python converts types **without you asking**. This happens in **mixed 
 
 **Rule**: When you mix `int` and `float`, Python automatically converts the `int` to `float` and performs the operation as float arithmetic.
 
-<InteractivePython initialCode={`result: float = 5 + 3.14  # int + float
+```python
+result: float = 5 + 3.14  # int + float
 print(result)              # 8.14 (float)
 print(type(result))        # <class 'float'>
 
 # Python automatically converted the int 5 to 5.0 (float)
-# Then did: 5.0 + 3.14 = 8.14`} />
+# Then did: 5.0 + 3.14 = 8.14
+```
 
 This is convenient, but **be aware of precision loss with large numbers**:
 
-<InteractivePython initialCode={`big_int: int = 999999999999999999
+```python
+big_int: int = 999999999999999999
 big_float: float = 0.1
 result: float = big_int + big_float  # Int becomes float (might lose precision)
-print(result)  # Due to float's limited precision, small errors creep in`} />
+print(result)  # Due to float's limited precision, small errors creep in
+```
 
 ### Why Explicit is Better Than Implicit
 
@@ -382,19 +416,23 @@ This section is optional. It explains something advanced but doesn't affect your
 
 Python **caches integers from -5 to 256**. This means if you create two variables with the value 42, they're actually the same object in memory.
 
-<InteractivePython initialCode={`a: int = 42
+```python
+a: int = 42
 b: int = 42
 
 print(id(a) == id(b))  # True! Same object
-print(a is b)          # True! 'is' confirms they're identical`} />
+print(a is b)          # True! 'is' confirms they're identical
+```
 
 But larger numbers don't get cached:
 
-<InteractivePython initialCode={`x: int = 1000
+```python
+x: int = 1000
 y: int = 1000
 
 print(id(x) == id(y))  # Might be False (separate objects)
-print(x is y)          # Might be False`} />
+print(x is y)          # Might be False
+```
 
 ### Why Does Python Do This?
 
@@ -404,14 +442,16 @@ print(x is y)          # Might be False`} />
 
 In practical code: **rarely**. You use `==` to compare values, not `is`.
 
-<InteractivePython initialCode={`# This is what you do (correct)
+```python
+# This is what you do (correct)
 age: int = 25
 result: bool = age == 25
 print(f"Age is 25: {result}")  # True - this is reliable!
 
 # Don't do this (unreliable for numbers)
 result2: bool = age is 25  # Works sometimes, fails sometimes (depends on caching!)
-print(f"Age is 25 (using 'is'): {result2}")  # Might be True or False!`} />
+print(f"Age is 25 (using 'is'): {result2}")  # Might be True or False!
+```
 
 But understanding interning helps you grasp how Python manages memory behind the scenes.
 
@@ -421,7 +461,8 @@ But understanding interning helps you grasp how Python manages memory behind the
 
 Here's how to explore integer interning:
 
-<InteractivePython initialCode={`# Small integers (cached)
+```python
+# Small integers (cached)
 a: int = 100
 b: int = 100
 print(f"100: a is b = {a is b}")  # True (cached)
@@ -437,7 +478,8 @@ f: int = 257
 print(f"257: e is f = {e is f}")  # False (not cached)
 
 # But equality still works
-print(e == f)  # True (same value, different objects)`} />
+print(e == f)  # True (same value, different objects)
+```
 
 ---
 
@@ -453,25 +495,31 @@ But Python supports other number systems:
 
 **Binary (Base 2)** — Uses digits 0 and 1
 
-<InteractivePython initialCode={`binary: int = 0b1010  # 0b prefix means "binary"
+```python
+binary: int = 0b1010  # 0b prefix means "binary"
 print(binary)         # 10 (decimal equivalent)
 
 # Binary is how computers think
-# 0b1010 = 1×8 + 0×4 + 1×2 + 0×1 = 8 + 2 = 10`} />
+# 0b1010 = 1×8 + 0×4 + 1×2 + 0×1 = 8 + 2 = 10
+```
 
 **Hexadecimal (Base 16)** — Uses 0-9 and A-F (A=10, B=11, ..., F=15)
 
-<InteractivePython initialCode={`hex_val: int = 0x1A  # 0x prefix means "hexadecimal"
+```python
+hex_val: int = 0x1A  # 0x prefix means "hexadecimal"
 print(hex_val)       # 26 (decimal equivalent)
 
-# 0x1A = 1×16 + 10×1 = 16 + 10 = 26`} />
+# 0x1A = 1×16 + 10×1 = 16 + 10 = 26
+```
 
 **Octal (Base 8)** — Uses digits 0-7
 
-<InteractivePython initialCode={`octal: int = 0o12  # 0o prefix means "octal"
+```python
+octal: int = 0o12  # 0o prefix means "octal"
 print(octal)       # 10 (decimal equivalent)
 
-# 0o12 = 1×8 + 2×1 = 8 + 2 = 10`} />
+# 0o12 = 1×8 + 2×1 = 8 + 2 = 10
+```
 
 ### Why Different Number Systems?
 
@@ -483,7 +531,8 @@ print(octal)       # 10 (decimal equivalent)
 
 Python provides functions:
 
-<InteractivePython initialCode={`# Convert to binary string
+```python
+# Convert to binary string
 print(bin(10))      # '0b1010'
 
 # Convert to hex string
@@ -495,13 +544,15 @@ print(oct(10))      # '0o12'
 # Convert back to decimal (using int() with base argument)
 print(int('0b1010', 2))  # 10 (binary to decimal)
 print(int('0x1A', 16))   # 26 (hex to decimal)
-print(int('0o12', 8))    # 10 (octal to decimal)`} />
+print(int('0o12', 8))    # 10 (octal to decimal)
+```
 
 ### ASCII: Text as Numbers
 
 Each character has a number. **ASCII** (American Standard Code for Information Interchange) maps characters to numbers:
 
-<InteractivePython initialCode={`print(ord('A'))      # 65 (character to ASCII number)
+```python
+print(ord('A'))      # 65 (character to ASCII number)
 print(ord('a'))      # 97
 print(ord('0'))      # 48 (digit character zero, not the number zero)
 
@@ -510,7 +561,8 @@ print(chr(97))       # 'a'
 print(chr(48))       # '0'
 
 # This is why 'A' and 'a' are different!
-# 'A' = 65, 'a' = 97`} />
+# 'A' = 65, 'a' = 97
+```
 
 **Practical use**: You'll use `ord()` and `chr()` rarely in beginner code, but they're essential for advanced text processing.
 
@@ -658,7 +710,8 @@ Write a program that analyzes different values and shows their type properties:
 - Whether it's truthy (would be True in an if statement)
 - Whether it can be converted to string
 
-<InteractivePython initialCode={`# Exercise 1: Type Inspection Challenge
+```python
+# Exercise 1: Type Inspection Challenge
 # Analyze different values and show their type information
 
 # Test different values
@@ -686,7 +739,8 @@ print(f"  Is truthy? {bool(value2)}")
 print(f"  Can be string? {isinstance(str(value2), str)}")
 print()
 
-# TODO: Analyze value3, value4, and value5 following the same pattern`} />
+# TODO: Analyze value3, value4, and value5 following the same pattern
+```
 
 ### Exercise 2: Casting Chain Challenge
 
@@ -697,7 +751,8 @@ Write a program that:
 4. Converts that float back to string
 5. Prints each step and its type
 
-<InteractivePython initialCode={`# Exercise 2: Type Casting Chain
+```python
+# Exercise 2: Type Casting Chain
 # Demonstrate converting through multiple types
 
 original: str = "42"
@@ -721,7 +776,8 @@ print(f"Final: '{back_to_str}'")
 print(f"Same value? {original == back_to_str}")
 
 # TODO: Try with different starting values like "0", "100", "-5"
-# What happens when you start with "3.14"?`} />
+# What happens when you start with "3.14"?
+```
 
 ### Exercise 3: Implicit vs Explicit Conversion
 
