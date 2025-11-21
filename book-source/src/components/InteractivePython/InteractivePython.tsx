@@ -211,11 +211,15 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
           onMount={(editor) => {
             // Add keyboard shortcut: Shift+Enter to run code
             // Use refs to avoid stale closure capturing initial state values
-            editor.addCommand(2048 + 13, () => {
-              if (!isLoadingRef.current && !isRunningRef.current) {
-                handleRunRef.current?.();
-              }
-            });
+            // Access monaco from the editor's internal reference
+            const monaco = (window as any).monaco;
+            if (monaco) {
+              editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+                if (!isLoadingRef.current && !isRunningRef.current) {
+                  handleRunRef.current?.();
+                }
+              });
+            }
           }}
           loading={<div />}
         />
