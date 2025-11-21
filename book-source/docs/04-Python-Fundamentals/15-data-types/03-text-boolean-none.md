@@ -352,7 +352,7 @@ print(f"{repr([]):20} → bool() = {bool([])}")
 print(f"{repr({}):20} → bool() = {bool({})}")
 print(f"{repr(None):20} → bool() = {bool(None)}")
 
-print("\\n=== TRUTHY VALUES ===")
+print("\n=== TRUTHY VALUES ===")
 # Demonstrating each truthy value individually
 print(f"{repr(True):20} → bool() = {bool(True)}")
 print(f"{repr(1):20} → bool() = {bool(1)}")
