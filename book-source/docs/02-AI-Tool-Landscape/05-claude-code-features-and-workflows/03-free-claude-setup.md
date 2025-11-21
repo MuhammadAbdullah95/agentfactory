@@ -186,7 +186,7 @@ source ~/.bashrc
 
 ```bash
 claude --version     # Should show: Claude Code v2.x.x
-ccr --version        # Should show version number
+ccr version          # it will show version number (without hyphen)
 echo $GOOGLE_API_KEY # Should show your key (not empty!)
 
 # If any fail, see Troubleshooting section
@@ -204,6 +204,10 @@ echo $GOOGLE_API_KEY # Should show your key (not empty!)
 # Terminal 1 - Start router FIRST
 ccr start
 # Wait for: ✅ Service started successfully
+
+# if "ccr start" not work then,
+ccr code
+# it will work
 
 # Terminal 2 - THEN use Claude (after router is ready)
 cd ~/your-project
@@ -254,5 +258,6 @@ That's it. If Claude responds, your free setup is working perfectly.
 → Wait until midnight Pacific Time, or create new Google account
 → Check usage: https://aistudio.google.com/
 ```
+
 
 That's it. Proceed to **Lesson 3** to learn persistent project context.
