@@ -124,10 +124,11 @@ const config: Config = {
         },
       };
     },
-    // Webpack fix for react-py (Pyodide) compatibility
+    // Webpack fix for Pyodide compatibility
+    // This BannerPlugin adds a global __webpack_require__ stub to prevent runtime errors when Pyodide is loaded from CDN
     function (context, options) {
       return {
-        name: "react-py-webpack-fix",
+        name: "pyodide-webpack-fix",
         configureWebpack(config, isServer, utils) {
           if (isServer) return {};
           return {
