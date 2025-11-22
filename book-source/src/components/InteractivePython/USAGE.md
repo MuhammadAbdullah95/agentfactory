@@ -66,6 +66,15 @@ All Python built-ins work:
 - List/dict/set comprehensions
 - Slicing and unpacking
 
+### Pre-installed Packages
+- **`requests`** (v2.32.4) - HTTP library for API interactions
+  ```python
+  import requests
+  response = requests.get('https://api.example.com/data')
+  data = response.json()
+  ```
+  Available for making GET/POST requests and working with REST APIs
+
 ## Examples
 
 ### Example 1: Variables and Math
