@@ -589,6 +589,83 @@ asyncio.run(main())`}
 
 ---
 
+## HTTP Requests & API Interactions
+
+### 28. HTTP GET Request with requests Library
+
+<InteractivePython
+  initialCode={`import requests
+
+# Make a GET request to a public API
+response = requests.get('https://jsonplaceholder.typicode.com/posts/1')
+
+# Check the response status
+print('Status Code:', response.status_code)
+print()
+
+# Get the JSON response
+data = response.json()
+print('Title:', data['title'])
+print('Body:', data['body'][:50] + '...')
+print('User ID:', data['userId'])`}
+/>
+
+---
+
+### 29. HTTP POST Request with Data
+
+<InteractivePython
+  initialCode={`import requests
+import json
+
+# Create new data to send
+new_post = {
+    'title': 'My First Post',
+    'body': 'This is the content of my post',
+    'userId': 1
+}
+
+# Make a POST request
+response = requests.post(
+    'https://jsonplaceholder.typicode.com/posts',
+    json=new_post
+)
+
+print('Status Code:', response.status_code)
+print()
+
+# Get the created post back
+created_post = response.json()
+print('Created Post:')
+print(f"ID: {created_post['id']}")
+print(f"Title: {created_post['title']}")
+print(f"Body: {created_post['body']}")
+print(f"User ID: {created_post['userId']}")`}
+/>
+
+---
+
+### 30. GitHub API - Get Repository Info
+
+<InteractivePython
+  initialCode={`import requests
+
+# Get information about a GitHub repository
+response = requests.get('https://api.github.com/repos/python/cpython')
+
+if response.status_code == 200:
+    repo = response.json()
+    print('Repository:', repo['full_name'])
+    print('Stars:', repo['stargazers_count'])
+    print('Forks:', repo['forks_count'])
+    print('Language:', repo['language'])
+    print('Description:', repo['description'][:80] + '...')
+else:
+    print('Error:', response.status_code)`}
+/>
+
+---
+
 ## Summary
 
 The InteractivePython component successfully handles:
@@ -603,5 +680,9 @@ The InteractivePython component successfully handles:
 - ✅ User input with input()
 - ✅ Data processing and file operations
 - ✅ Asynchronous programming with asyncio
+- ✅ HTTP requests with requests library (GET/POST)
+- ✅ API interactions (JSONPlaceholder, GitHub API)
 
 **Ready to use in your Python curriculum!**
+
+**Note:** The `requests` package is pre-installed and ready to use for making HTTP requests to APIs and web services.
