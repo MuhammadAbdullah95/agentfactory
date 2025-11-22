@@ -136,6 +136,12 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
     <div className={styles.container}>
       {/* Header with title and icon buttons */}
       <div className={styles.header}>
+        {/* macOS-style window controls */}
+        <div className={styles.windowControls}>
+          <div className={`${styles.windowControl} ${styles.windowControlRed}`} title="Close" />
+          <div className={`${styles.windowControl} ${styles.windowControlYellow}`} title="Minimize" />
+          <div className={`${styles.windowControl} ${styles.windowControlGreen}`} title="Maximize" />
+        </div>
         <div className={styles.titleContainer}>
           <div className={styles.languageBadge}>
             <Code2 size={14} className={styles.badgeIcon} />
