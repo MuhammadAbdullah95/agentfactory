@@ -28,11 +28,37 @@
   cursor: help;
 }
 
-.titleIcon {
+.languageBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.08), rgba(34, 197, 94, 0.04));
+  border: 1px solid #d1fae5;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  cursor: help;
+}
+
+.languageBadge:hover {
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.12), rgba(34, 197, 94, 0.08));
+  border-color: #a7f3d0;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.1);
+}
+
+.badgeIcon {
   flex-shrink: 0;
   color: #16a34a;
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
+}
+
+.badgeLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #16a34a;
+  letter-spacing: 0.02em;
 }
 
 .title {
@@ -296,7 +322,22 @@
   color: #e0e0e0;
 }
 
-[data-theme="dark"] .titleIcon {
+[data-theme="dark"] .languageBadge {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.06));
+  border-color: #064e3b;
+}
+
+[data-theme="dark"] .languageBadge:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(52, 211, 153, 0.10));
+  border-color: #047857;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="dark"] .badgeIcon {
+  color: #10b981;
+}
+
+[data-theme="dark"] .badgeLabel {
   color: #10b981;
 }
 
@@ -395,9 +436,18 @@
     gap: 5px;
   }
 
-  .titleIcon {
-    width: 16px;
-    height: 16px;
+  .languageBadge {
+    padding: 3px 6px;
+    gap: 4px;
+  }
+
+  .badgeIcon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .badgeLabel {
+    font-size: 11px;
   }
 
   .title {

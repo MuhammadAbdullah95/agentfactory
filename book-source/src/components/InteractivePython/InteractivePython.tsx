@@ -22,7 +22,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
-import { RotateCcw, Copy, Zap, Code } from 'lucide-react';
+import { RotateCcw, Copy, Zap, Code2 } from 'lucide-react';
 import { usePyodide } from '@/contexts/PyodideContext';
 import styles from './styles.module.css';
 
@@ -137,7 +137,10 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
       {/* Header with title and icon buttons */}
       <div className={styles.header}>
         <div className={styles.titleContainer}>
-          <Code size={18} className={styles.titleIcon} />
+          <div className={styles.languageBadge}>
+            <Code2 size={14} className={styles.badgeIcon} />
+            <span className={styles.badgeLabel}>Python</span>
+          </div>
           {title && <h4 className={styles.title} title={title}>{title.toUpperCase()}</h4>}
         </div>
         <div className={styles.buttonGroup}>
