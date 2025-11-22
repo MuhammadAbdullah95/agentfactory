@@ -16,7 +16,6 @@
  * Usage:
  * <InteractivePython
  *   initialCode="print('Hello, World!')"
- *   title="My Code Block"
  * />
  */
 
@@ -29,14 +28,12 @@ import styles from './styles.module.css';
 export interface InteractivePythonProps {
   initialCode?: string;
   language?: string;
-  title?: string;
   showLineNumbers?: boolean;
 }
 
 export const InteractivePython: React.FC<InteractivePythonProps> = ({
   initialCode = 'print("Hello, World!")',
   language = 'python',
-  title,
   showLineNumbers = true,
 }) => {
   const [code, setCode] = useState(initialCode);
@@ -141,9 +138,6 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
           <div className={`${styles.windowControl} ${styles.windowControlRed}`} title="Close" />
           <div className={`${styles.windowControl} ${styles.windowControlYellow}`} title="Minimize" />
           <div className={`${styles.windowControl} ${styles.windowControlGreen}`} title="Maximize" />
-        </div>
-        <div className={styles.titleContainer}>
-          {title && <h4 className={styles.title} title={title}>{title.toUpperCase()}</h4>}
         </div>
         <div className={styles.buttonGroup}>
           <button
