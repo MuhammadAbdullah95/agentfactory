@@ -151,16 +151,13 @@ print(f"Square root of 16: {math.sqrt(16)}")`}
 
 ## Limitations & Notes
 
-⚠️ **No External Packages** - PyPI packages (NumPy, Pandas, etc.) are not available by default
-   - To enable: Use `micropip` to install packages from PyPI dynamically
-
-⚠️ **No File System** - Cannot read/write actual files (in-memory only)
-
-⚠️ **No Network Requests** - Cannot make HTTP requests from the browser
-
-⚠️ **Single-threaded** - Executes in main thread (no multi-threading)
-
-⚠️ **Performance** - Pyodide initialization takes ~2-5 seconds on first load
+-  Limited package availability (standard library + ~100 pre-built packages like numpy, pandas, matplotlib; see
+  [Pyodide packages list](https://pyodide.org/en/stable/usage/packages-in-pyodide.html))
+    - To enable other packages: Use `micropip` to install from PyPI dynamically
+- **No File System** - Cannot read/write actual files (in-memory only)
+- **Network Requests Supported** - You can make HTTP requests using the `requests` library
+- **Single-threaded** - Executes in main thread (no multi-threading)
+- **Performance** - Pyodide initialization takes ~2-5 seconds on first load
 
 ## Browser Support
 
