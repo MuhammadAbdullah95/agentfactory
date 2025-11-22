@@ -16,7 +16,6 @@ import InteractivePython from '@/components/InteractivePython';
 <InteractivePython
   initialCode={`print("Hello, World!")
 print(2 + 2)`}
-  title="Python Basics"
 />
 ```
 
@@ -26,8 +25,7 @@ print(2 + 2)`}
 |------|------|---------|-------------|
 | `initialCode` | `string` | `print("Hello, World!")` | The initial Python code to display in the editor |
 | `language` | `string` | `"python"` | Language identifier (currently supports `python`) |
-| `title` | `string` | `"Interactive Python"` | Title displayed at the top of the component |
-| `showLineNumbers` | `boolean` | `true` | Show/hide line numbers (future feature) |
+| `showLineNumbers` | `boolean` | `true` | Show/hide line numbers |
 
 ## Features
 
@@ -79,7 +77,6 @@ x = 10
 y = 20
 print(f"x + y = {x + y}")
 print(f"x * y = {x * y}")`}
-  title="Variables and Math"
 />
 ```
 
@@ -96,7 +93,6 @@ def fibonacci(n):
     print()
 
 fibonacci(10)`}
-  title="Fibonacci Sequence"
 />
 ```
 
@@ -111,7 +107,6 @@ print(f"Length: {len(text)}")
 print(f"Uppercase: {text.upper()}")
 print(f"Reversed: {text[::-1]}")
 print(f"Words: {text.split()}")`}
-  title="String Operations"
 />
 ```
 
@@ -127,7 +122,6 @@ evens = [x for x in numbers if x % 2 == 0]
 print(f"Original: {numbers}")
 print(f"Squares: {squares}")
 print(f"Evens: {evens}")`}
-  title="List Comprehensions"
 />
 ```
 
@@ -143,7 +137,6 @@ print(f"Sum: {sum(numbers)}")
 print(f"Mean: {statistics.mean(numbers)}")
 print(f"Median: {statistics.median(numbers)}")
 print(f"Square root of 16: {math.sqrt(16)}")`}
-  title="Using Standard Library"
 />
 ```
 
@@ -220,7 +213,6 @@ When code is executed, the output panel appears with:
 # Try printing your name!
 
 `}
-  title="Your First Python Program"
 />
 ```
 
