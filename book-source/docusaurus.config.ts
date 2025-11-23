@@ -89,7 +89,13 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-
+          remarkPlugins: [
+            // Auto-transform Python code blocks into interactive components
+            [require('./plugins/remark-interactive-python'), {
+              includePaths: ['/04-Python-Fundamentals/'],
+              excludeMeta: ['nointeractive', 'static'],
+            }],
+          ],
         },
         blog: false,
         theme: {
