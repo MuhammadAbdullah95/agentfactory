@@ -200,17 +200,21 @@ echo $GOOGLE_API_KEY # Should show your key (not empty!)
 
 **Every time you want to code:**
 
+### Terminal 1 - Start router FIRST
 ```bash
-# Terminal 1 - Start router FIRST
 ccr start
 # Wait for: ✅ Service started successfully
+```
 
-# if "ccr start" not work then,
-ccr code
-# it will work
+### Terminal 2 - THEN use Claude (after router is ready)
 
-# Terminal 2 - THEN use Claude (after router is ready)
+```
 cd ~/your-project
+
+# Use
+ccr code
+
+# OR
 eval "$(ccr activate)"
 claude
 ```
@@ -224,6 +228,8 @@ That's it. One command in Terminal 1, three lines in Terminal 2. Just copy-paste
 **Start a Claude session:**
 
 ```bash
+ccr code
+# OR
 claude
 ```
 
@@ -236,28 +242,6 @@ hi
 **Expected**: Claude responds with a greeting confirming it's working! ✅ Success!
 
 That's it. If Claude responds, your free setup is working perfectly.
-
----
-
-## Troubleshooting (Only 3 Things Go Wrong)
-
-**Problem 1: "npm: command not found"**
-```bash
-→ Install Node.js from https://nodejs.org/
-```
-
-**Problem 2: "Connection refused"**
-```bash
-→ Type `ccr start` in Terminal 1
-→ Wait for: ✅ Service started successfully
-```
-
-**Problem 3: "429 Too Many Requests"**
-```bash
-→ You've hit your daily limit (1,500 requests)
-→ Wait until midnight Pacific Time, or create new Google account
-→ Check usage: https://aistudio.google.com/
-```
 
 
 That's it. Proceed to **Lesson 3** to learn persistent project context.
