@@ -718,6 +718,194 @@
   box-shadow: 0 4px 12px rgba(0, 77, 153, 0.4);
 }
 
+/* Markdown Content Styling */
+.explanationContent p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ifm-font-color-base);
+}
+
+.explanationContent code {
+  background: rgba(0, 77, 153, 0.1);
+  color: var(--ifm-code-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  font-size: 0.9em;
+  word-break: break-word;
+}
+
+[data-theme='dark'] .explanationContent code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.explanationContent strong {
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+}
+
+.explanationContent em {
+  font-style: italic;
+}
+
+.explanationContent a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 77, 153, 0.3);
+  transition: all 0.2s ease;
+}
+
+.explanationContent a:hover {
+  color: var(--ifm-color-primary-dark);
+  border-bottom-color: var(--ifm-color-primary-dark);
+}
+
+[data-theme='dark'] .explanationContent a {
+  border-bottom-color: rgba(123, 164, 196, 0.3);
+}
+
+[data-theme='dark'] .explanationContent a:hover {
+  border-bottom-color: var(--ifm-color-primary-lighter);
+}
+
+/* Inline markdown in options */
+.optionText code {
+  background: rgba(0, 77, 153, 0.1);
+  color: var(--ifm-code-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  font-size: 0.9em;
+  word-break: break-word;
+}
+
+[data-theme='dark'] .optionText code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.optionText strong {
+  font-weight: 600;
+}
+
+.optionText em {
+  font-style: italic;
+}
+
+.optionText a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 77, 153, 0.3);
+  transition: all 0.2s ease;
+}
+
+.optionText a:hover {
+  color: var(--ifm-color-primary-dark);
+  border-bottom-color: var(--ifm-color-primary-dark);
+}
+
+[data-theme='dark'] .optionText a {
+  border-bottom-color: rgba(123, 164, 196, 0.3);
+}
+
+[data-theme='dark'] .optionText a:hover {
+  border-bottom-color: var(--ifm-color-primary-lighter);
+}
+
+/* Inline markdown in question text */
+.questionText code {
+  background: rgba(0, 77, 153, 0.1);
+  color: var(--ifm-code-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  font-size: 0.9em;
+  word-break: break-word;
+}
+
+[data-theme='dark'] .questionText code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.questionText strong {
+  font-weight: 600;
+}
+
+.questionText em {
+  font-style: italic;
+}
+
+.questionText a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 77, 153, 0.3);
+  transition: all 0.2s ease;
+}
+
+.questionText a:hover {
+  color: var(--ifm-color-primary-dark);
+  border-bottom-color: var(--ifm-color-primary-dark);
+}
+
+[data-theme='dark'] .questionText a {
+  border-bottom-color: rgba(123, 164, 196, 0.3);
+}
+
+[data-theme='dark'] .questionText a:hover {
+  border-bottom-color: var(--ifm-color-primary-lighter);
+}
+
+/* Review section markdown styling */
+.reviewQuestion code,
+.reviewAnswer code {
+  background: rgba(0, 77, 153, 0.1);
+  color: var(--ifm-code-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+  font-size: 0.9em;
+  word-break: break-word;
+}
+
+[data-theme='dark'] .reviewQuestion code,
+[data-theme='dark'] .reviewAnswer code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.reviewQuestion strong,
+.reviewAnswer strong {
+  font-weight: 600;
+}
+
+.reviewQuestion em,
+.reviewAnswer em {
+  font-style: italic;
+}
+
+.reviewQuestion a,
+.reviewAnswer a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 77, 153, 0.3);
+  transition: all 0.2s ease;
+}
+
+.reviewQuestion a:hover,
+.reviewAnswer a:hover {
+  color: var(--ifm-color-primary-dark);
+  border-bottom-color: var(--ifm-color-primary-dark);
+}
+
+[data-theme='dark'] .reviewQuestion a,
+[data-theme='dark'] .reviewAnswer a {
+  border-bottom-color: rgba(123, 164, 196, 0.3);
+}
+
+[data-theme='dark'] .reviewQuestion a:hover,
+[data-theme='dark'] .reviewAnswer a:hover {
+  border-bottom-color: var(--ifm-color-primary-lighter);
+}
+
 /* Responsive Design */
 
 /* Ultra-wide screens (> 1200px) */
