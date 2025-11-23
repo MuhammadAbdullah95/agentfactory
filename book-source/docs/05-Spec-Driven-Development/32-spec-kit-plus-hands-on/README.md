@@ -5,31 +5,19 @@ title: "Chapter 32: Spec-Kit Plus Hands-On"
 
 # Chapter 32: Spec-Kit Plus Hands-On
 
-Welcome to hands-on specification-driven development. This chapter transforms understanding (from Chapter 32) into practice. You won't read about specifications-you'll write them. You won't learn about AI collaboration - you'll build project with your AI companion from specifications to implementation.
+Welcome to hands-on specification-driven development. This chapter transforms understanding (from Chapter 32) into practice. You won't read about specifications-you'll write them. You won't learn about AI collaboration - you'll build project with your AI companion from specifications to implementation. Chapter 32 gave you the map. Chapter 33 teaches you to drive.
 
 ---
 
-## From Chapter 32 to Chapter 33
+import PDFViewer from '@site/src/components/PDFViewer';
 
-**Chapter 32** taught you the foundations:
-- Why specification-driven development matters (the vague code problem)
-- What SDD is (spec-first, spec-anchored, spec-as-source levels)
-- How to write your first spec (calculator exercise)
-- Why teams need shared rules (Constitutions, ADRs, PHRs)
-- When SDD became essential (AI convergence moment)
-- Which tools exist (Kiro, Spec-Kit, **Spec-Kit Plus**, Tessel)
+## 🎯 Before You Begin
 
-**Chapter 33** teaches you the workflow:
-- How to install and configure Spec-Kit Plus
-- How to create project Constitutions
-- How to collaborate with AI on specifications
-- How to refine specs iteratively
-- How to generate plans and document decisions (ADRs)
-- How to decompose work with checkpoint-driven execution
-- How to implement with validation protocols
-- How to complete end-to-end workflows independently
-
-**The Bridge**: Chapter 32 gave you the map. Chapter 33 teaches you to drive.
+<PDFViewer
+  src="slides/chapter-32-slides.pdf"
+  title="Chapter 32: Spec-Kit Plus Hands-On"
+  height={700}
+/>
 
 ---
 

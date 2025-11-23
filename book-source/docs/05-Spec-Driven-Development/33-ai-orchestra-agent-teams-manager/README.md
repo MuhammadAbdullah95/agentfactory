@@ -17,6 +17,18 @@ Finally, you’ll learn to orchestrate larger teams using **SpecKit Plus**, appl
 
 ---
 
+import PDFViewer from '@site/src/components/PDFViewer';
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-33-slides.pdf"
+  title="Chapter 33: AI Orchestra - Agent Teams Manager"
+  height={700}
+/>
+
+---
+
 ## What You'll Learn
 
 - **Decomposition Thinking** — Break complex systems into parallelizable units with clear, measurable contracts.
@@ -35,20 +47,3 @@ By mastering decomposition, you'll gain the ability to lead AI agents, human tea
 By the end, you'll embody **creative independence** — leading both human and AI teams with clarity, structure, and confidence.
 
 ---
-
-## Proficiency Transition
-
-**Note**: This chapter represents a proficiency level transition from **A2-B1** (Aspiring/Intermediate, Chapters 32-31) to **B1-B2** (Intermediate/Advanced). You'll move from learning individual workflow phases to coordinating multiple autonomous agents—a strategic skill that requires higher-level systems thinking.
-
-**What this means for you**:
-- Concepts increase from 5-7 per lesson to 7-10 per lesson
-- Less scaffolding, more independent problem-solving
-- Shift from "follow the workflow" to "design the coordination strategy"
-
-If you've completed Chapters 32-31 and feel confident with the SpecKit Plus workflow (Constitution → Specify → Plan → Tasks → Implement), you're ready for this transition.
-
----
-
-## What's Next?
-
-**Chapter 35 (Tessl Integration)** is planned for a future release. Chapters 32-32 provide a complete, production-ready foundation in Specification-Driven Development. When Chapter 35 releases, it will extend this foundation with advanced Tessl Framework and Registry integration for even greater reliability in AI-native development.

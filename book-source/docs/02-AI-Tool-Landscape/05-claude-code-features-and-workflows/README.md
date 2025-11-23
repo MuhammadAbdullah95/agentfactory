@@ -4,6 +4,20 @@ You know *why* AI-driven development matters—and that it's happening right now
 
 This chapter introduces you to the first real tool you'll use: Claude Code. Not as abstract theory, but as a working development partner on your machine. The goal is **not to build a supercomputer**, but to establish Claude Code as your **collaborative thinking partner** for everything.
 
+---
+
+import PDFViewer from '@site/src/components/PDFViewer';
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-05-slides.pdf"
+  title="Chapter 5: Claude Code Features and Workflows"
+  height={700}
+/>
+
+---
+
 ## What You'll Learn
 
 By the end of this chapter, you'll have:

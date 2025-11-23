@@ -6,6 +6,20 @@ What makes Gemini CLI particularly compelling is its accessibility. Developers g
 
 This chapter isn't about replacing Claude Code. It's about understanding **when to use each tool** and building the judgment to choose the right AI assistant for every development scenario you encounter.
 
+---
+
+import PDFViewer from '@site/src/components/PDFViewer';
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-06-slides.pdf"
+  title="Chapter 6: Gemini CLI Installation and Basics"
+  height={700}
+/>
+
+---
+
 ## What You'll Learn
 
 By the end of this chapter, you'll understand:

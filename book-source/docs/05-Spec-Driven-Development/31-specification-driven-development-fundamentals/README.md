@@ -11,23 +11,23 @@ Spec-Driven Development bridges human creativity and AI precision: it turns vagu
 
 As AI-driven development matures, one thing is clear: its future will be written not in code, but in **specifications + reusable intelligence**.
 
-**Note on Chapter Structure**: Chapter 32 teaches specification design methodology (conceptual foundation). Executable code implementation and testing is covered in Chapter 33 (Spec-Kit Plus Hands-On). This chapter focuses on building your specification-writing capability before generating code.
+---
 
-## How to Work Through This Chapter
+import PDFViewer from '@site/src/components/PDFViewer';
 
-**You'll need**: Your AI coding assistant open alongside this book.
+## 🎯 Before You Begin
 
-**The workflow**: When you see "Tell your companion:" or "Ask your companion:" prompts:
-1. **Copy the prompt** and paste it into your AI tool
-2. **Review the response** - does it make sense? Does it raise questions?
-3. **Refine through dialogue** - ask follow-up questions, request clarifications
-4. **Practice the patterns** - write specs, identify patterns, design reusable components
+<PDFViewer
+  src="slides/chapter-31-slides.pdf"
+  title="Chapter 31: Specification-Driven Development Fundamentals"
+  height={700}
+/>
 
-This isn't passive reading—it's active collaboration. By the end, you'll have real specification documents AND designed reusable intelligence components you created with AI.
+---
 
 ## What You'll Learn
 
-### SDD Fundamentals (Lessons 1-5)
+### SDD Fundamentals
 
 By the end of L1-5, you will be able to:
 
@@ -37,7 +37,7 @@ By the end of L1-5, you will be able to:
 * **Collaborate with AI on specs** (L4): Partner with AI to refine specifications through iterative dialogue—AI suggests patterns you didn't consider, you provide constraints AI doesn't know, and both converge on production-ready specs
 * **Enforce quality at scale** (L5): Apply Constitutions to ensure every team spec meets minimum quality standards and captures organizational learning
 
-### Reusable Intelligence (Lessons 6-8)
+### Reusable Intelligence
 
 By the end of L6-8, you will be able to:
 

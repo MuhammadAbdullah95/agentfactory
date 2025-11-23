@@ -3,6 +3,8 @@ sidebar_position: 4
 title: "Chapter 4: The Nine Pillars of AI-Driven Development"
 ---
 
+import PDFViewer from '@site/src/components/PDFViewer';
+
 # Chapter 4: The Nine Pillars of AI-Driven Development
 
 You've learned about the AI revolution transforming software development. You understand why 2025 is a genuine inflection point. You've seen frameworks for competing in the AI era.
@@ -14,6 +16,16 @@ How does an individual developer actually build software with AI as a full colla
 This chapter answers those questions by introducing **AI-Driven Development (AIDD)**—a specification-first methodology built on nine foundational pillars that work together as an integrated system. These nine pillars aren't random—they're the result of observing what world-class teams and individual developers do when they use AI effectively.
 
 More importantly, they're how *you* transition from using AI tools to orchestrating an AI-augmented development system.
+
+---
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-04-slides.pdf"
+  title="Chapter 4: The Nine Pillars of AI-Driven Development"
+  height={700}
+/>
 
 ---
 

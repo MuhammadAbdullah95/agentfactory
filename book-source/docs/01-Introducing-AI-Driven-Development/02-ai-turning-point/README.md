@@ -3,6 +3,8 @@ sidebar_position: 2
 title: "Chapter 2: The AI Turning Point"
 ---
 
+import PDFViewer from '@site/src/components/PDFViewer';
+
 # Chapter 2: The AI Turning Point
 
 In Chapter 1, you discovered a fundamental shift: you're no longer just a "coder." You're becoming an *orchestrator*—directing AI partners to do work alongside you.
@@ -13,6 +15,18 @@ This chapter provides evidence-based answers, concrete frameworks, and practical
 
 By the end of this chapter, you'll have the context, frameworks, and confidence to adopt AI-driven development thoughtfully—with discipline, not just speed.
 
+---
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-02-slides.pdf"
+  title="Chapter 2: The AI Turning Point"
+  height={700}
+/>
+
+---
+
 ## What You'll Learn
 
 By the end of this chapter, you'll understand:
@@ -22,5 +36,3 @@ By the end of this chapter, you'll understand:
 - **Development patterns**: When experimental "vibe coding" is appropriate versus when Spec-Driven Development (SDD) is necessary, including the complete 7-step SDD workflow
 - **Organizational readiness**: The "AI as amplifier" thesis and how to assess your team's readiness across the seven DORA capabilities that predict AI development success
 - **The modern AI development stack**: The three-layer architecture (Frontier Models, AI-First IDEs, Development Agents) and how the Model Context Protocol (MCP) prevents vendor lock-in
-
-

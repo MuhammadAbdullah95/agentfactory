@@ -4,6 +4,20 @@ This chapter teaches you how to use Git and GitHub as essential safety mechanism
 
 By the end of this chapter, you'll confidently use Git for safe experimentation with AI-generated code, connect your projects to GitHub for backup and portfolio building, set up a professional IDE with Git integration, and understand collaborative workflows through pull requests.
 
+---
+
+import PDFViewer from '@site/src/components/PDFViewer';
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-09-slides.pdf"
+  title="Chapter 9: Git & GitHub for AI-Driven Development"
+  height={700}
+/>
+
+---
+
 ## Building on Previous Chapters
 
 This chapter integrates skills from earlier chapters in Part 2:
@@ -16,6 +30,8 @@ This chapter integrates skills from earlier chapters in Part 2:
 - The supervision pattern (verify location before operations)
 
 **Skills Composition**: By combining Bash navigation + Git version control + AI assistance, you can safely experiment with AI-generated code while maintaining full control over your project.
+
+---
 
 ## What You'll Learn
 

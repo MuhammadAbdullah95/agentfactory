@@ -3,6 +3,8 @@ sidebar_position: 3
 title: "Chapter 3: How to Make a Billion Dollars in the AI Era"
 ---
 
+import PDFViewer from '@site/src/components/PDFViewer';
+
 # Chapter 3: How to Make a Billion Dollars in the AI Era
 
 In Chapters 1 and 2, you discovered that AI is fundamentally restructuring the developer role and that 2025 represents a genuine inflection point. You understand the transformation is real, evidence-based, and accelerating.
@@ -14,6 +16,18 @@ This chapter reveals something extraordinary: **the path to a billion dollars no
 Through eight interconnected sections, you'll discover the Snakes & Ladders framework that explains why vertical markets offer better odds than consumer apps, understand the super orchestrator economics that let 13 people (Instagram) and 1 person (you, potentially) generate billion-dollar value, learn the Piggyback Protocol Pivot strategy for entering markets with reduced risk, and identify the three requirements you need to succeed.
 
 This chapter is **strategic and conceptual**—no hands-on coding yet. The goal is to transform your understanding of what's economically possible before we dive into technical foundations in Chapter 4.
+
+---
+
+## 🎯 Before You Begin
+
+<PDFViewer
+  src="slides/chapter-03-slides.pdf"
+  title="Chapter 3: How to Make a Billion Dollars in the AI Era"
+  height={700}
+/>
+
+---
 
 ## What You'll Learn
 
