@@ -41,7 +41,9 @@ def main():
         from panaversity_fs.tools import content
         from panaversity_fs.tools import assets
         from panaversity_fs.tools import summaries
-        # Additional tool imports will be added as they're implemented
+        from panaversity_fs.tools import registry
+        from panaversity_fs.tools import search
+        from panaversity_fs.tools import bulk
 
         print(f"Tools registered successfully", file=sys.stderr)
         print(f"Starting server...", file=sys.stderr)

@@ -264,3 +264,48 @@ class ListSummariesInput(BaseModel):
 
     book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
     chapter_id: str | None = Field(default=None, description="Filter by chapter ID (optional)", pattern=r'^chapter-\d{2}$')
+
+
+# ============================================================================
+# Registry Input Models
+# ============================================================================
+
+class ListBooksInput(BaseModel):
+    """Input model for list_books tool (FR-024)."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    # No parameters needed - lists all books from registry
+
+
+# ============================================================================
+# Search Input Models
+# ============================================================================
+
+class GlobSearchInput(BaseModel):
+    """Input model for glob_search tool (FR-026)."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    pattern: str = Field(..., description="Glob pattern (e.g., '**/*.md', 'assets/images/**/*.png')", min_length=1, max_length=255)
+    all_books: bool = Field(default=False, description="Search across all books (default: single book)")
+
+
+class GrepSearchInput(BaseModel):
+    """Input model for grep_search tool (FR-027)."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    pattern: str = Field(..., description="Regex pattern to search for", min_length=1, max_length=500)
+    all_books: bool = Field(default=False, description="Search across all books (default: single book)")
+    max_results: int = Field(default=100, description="Maximum results to return", ge=1, le=1000)
+
+
+# ============================================================================
+# Bulk Operations Input Models
+# ============================================================================
+
+class GetBookArchiveInput(BaseModel):
+    """Input model for get_book_archive tool (FR-029)."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
