@@ -1,6 +1,10 @@
 ---
 sidebar_position: 18
 title: "Chapter 18: Control Flow and Loops"
+slides:
+  source: "slides/chapter-18-slides.pdf"
+  title: "Chapter 18: Control Flow and Loops"
+  height: 700
 ---
 
 # Chapter 18: Control Flow and Loops
@@ -9,15 +13,7 @@ Programs need to make decisions and repeat actions. Should we process this user'
 
 Control flow structures are the foundation of programming logic—they let your code respond to different conditions and automate repetitive tasks. You'll master conditional statements, pattern matching, loops, and control mechanisms that transform simple scripts into intelligent programs.
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-18-slides.pdf"
-  title="Chapter 18 Slides"
-  height={700}
-/>
 
 ---
 

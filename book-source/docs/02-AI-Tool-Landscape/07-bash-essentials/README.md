@@ -1,3 +1,10 @@
+---
+slides:
+  source: "slides/chapter-07-slides.pdf"
+  title: "Chapter 7: Bash Essentials for AI-Driven Development"
+  height: 700
+---
+
 # Chapter 7: Bash Essentials for AI-Driven Development
 
 The terminal isn't intimidating—it's just a different interface. With these essential concepts and AI assistance, you can accomplish anything you need in development.
@@ -6,19 +13,7 @@ By understanding your AI's native language, you become an equal partner. You're 
 
 This chapter **does NOT teach bash as a traditional skill**. Instead, it teaches you to **understand and collaborate with your AI companion** as it uses bash on your behalf. When your AI companion suggests a bash command, you'll understand **WHAT it's doing, WHY it matters, and WHETHER it's safe to execute**.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-07-slides.pdf"
-  title="Chapter 7: Bash Essentials for AI-Driven Development"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

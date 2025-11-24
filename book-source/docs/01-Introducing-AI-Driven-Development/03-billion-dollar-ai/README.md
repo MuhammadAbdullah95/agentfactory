@@ -1,9 +1,11 @@
 ---
 sidebar_position: 3
 title: "Chapter 3: How to Make a Billion Dollars in the AI Era"
+slides:
+  source: "slides/chapter-03-slides.pdf"
+  title: "Chapter 3: How to Make a Billion Dollars in the AI Era"
+  height: 700
 ---
-
-import PDFViewer from '@site/src/components/PDFViewer';
 
 # Chapter 3: How to Make a Billion Dollars in the AI Era
 
@@ -17,17 +19,7 @@ Through eight interconnected sections, you'll discover the Snakes & Ladders fram
 
 This chapter is **strategic and conceptual**—no hands-on coding yet. The goal is to transform your understanding of what's economically possible before we dive into technical foundations in Chapter 4.
 
----
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-03-slides.pdf"
-  title="Chapter 3: How to Make a Billion Dollars in the AI Era"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

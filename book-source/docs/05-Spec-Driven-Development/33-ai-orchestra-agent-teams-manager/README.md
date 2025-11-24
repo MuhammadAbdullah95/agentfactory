@@ -4,6 +4,10 @@ chapter: 32
 part: 5
 sidebar_position: 33
 description: "Master decomposition thinking and task management to coordinate 5-7 autonomous agents (AI or human)"
+slides:
+  source: "slides/chapter-33-slides.pdf"
+  title: "Chapter 33: AI Orchestra - Agent Teams Manager"
+  height: 700
 ---
 
 # Chapter 33: AI Orchestra – Manage Agent Teams
@@ -15,19 +19,7 @@ Next, you’ll explore how coordination scales: what works smoothly with three a
 
 Finally, you’ll learn to orchestrate larger teams using **SpecKit Plus**, applying contracts and completion hooks to manage 5–7 autonomous agents working in parallel.  
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-33-slides.pdf"
-  title="Chapter 33: AI Orchestra - Agent Teams Manager"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

@@ -1,6 +1,10 @@
 ---
 sidebar_position: 14
 title: "Chapter 14: Introduction to Modern Python"
+slides:
+  source: "slides/chapter-14-slides.pdf"
+  title: "Chapter 14: Introduction to Modern Python"
+  height: 700
 ---
 
 # Chapter 14: Introduction to Modern Python
@@ -11,15 +15,7 @@ This chapter isn't about memorizing Python syntax—it's about understanding Pyt
 
 This chapter applies the AI-Native Learning methodology throughout: you'll explore concepts with your AI companion (Claude Code or Gemini CLI), validate your understanding through hands-on practice, and learn from errors with AI's help.
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-14-slides.pdf"
-  title="Chapter 14 Slides"
-  height={700}
-/>
 
 ---
 

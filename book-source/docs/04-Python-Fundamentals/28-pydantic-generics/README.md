@@ -1,6 +1,10 @@
 ---
 sidebar_position: 28
 title: "Chapter 28: Pydantic and Generics"
+slides:
+  source: "slides/chapter-28-slides.pdf"
+  title: "Chapter 28: Pydantic and Generics"
+  height: 700
 ---
 
 # Chapter 28: Pydantic and Generics
@@ -11,16 +15,7 @@ This chapter teaches advanced type safety and data validation for AI-native Pyth
 
 By the end, you'll build a **Type-Safe Config Manager** capstone—a production-quality configuration system that's a portfolio-worthy project you can use in your own Python applications.
 
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-28-slides.pdf"
-  title="Chapter 28: Pydantic and Generics"
-  height={700}
-/>
 
 ---
 

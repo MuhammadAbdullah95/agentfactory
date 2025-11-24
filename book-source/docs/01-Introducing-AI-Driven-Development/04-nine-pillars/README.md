@@ -1,9 +1,11 @@
 ---
 sidebar_position: 4
 title: "Chapter 4: The Nine Pillars of AI-Driven Development"
+slides:
+  source: "slides/chapter-04-slides.pdf"
+  title: "Chapter 4: The Nine Pillars of AI-Driven Development"
+  height: 700
 ---
-
-import PDFViewer from '@site/src/components/PDFViewer';
 
 # Chapter 4: The Nine Pillars of AI-Driven Development
 
@@ -17,17 +19,7 @@ This chapter answers those questions by introducing **AI-Driven Development (AID
 
 More importantly, they're how *you* transition from using AI tools to orchestrating an AI-augmented development system.
 
----
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-04-slides.pdf"
-  title="Chapter 4: The Nine Pillars of AI-Driven Development"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

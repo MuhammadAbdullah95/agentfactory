@@ -1,6 +1,10 @@
 ---
 sidebar_position: 15
 title: "Chapter 15: Understanding Python Data Types"
+slides:
+  source: "slides/chapter-15-slides.pdf"
+  title: "Chapter 15: Understanding Python Data Types"
+  height: 700
 ---
 
 # Chapter 15: Understanding Python Data Types
@@ -11,15 +15,7 @@ This chapter answers these questions by teaching you Python's type system—the 
 
 By the end of this chapter, you'll understand Python's complete type system: from basic types like integers and strings to collections like lists and dictionaries, from boolean logic to advanced concepts like type casting and binary data. Most importantly, you'll develop a decision framework for choosing the right type for any data you encounter.
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-15-slides.pdf"
-  title="Chapter 15 Slides"
-  height={700}
-/>
 
 ---
 

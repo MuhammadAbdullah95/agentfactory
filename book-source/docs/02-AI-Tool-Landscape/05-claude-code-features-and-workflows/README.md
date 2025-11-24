@@ -1,22 +1,17 @@
+---
+slides:
+  source: "slides/chapter-05-slides.pdf"
+  title: "Chapter 5: How It All Started — The Claude Code Phenomenon"
+  height: 700
+---
+
 # Chapter 5: How It All Started — The Claude Code Phenomenon
 
 You know *why* AI-driven development matters—and that it's happening right now, in 2025. But understanding transformation and experiencing it are two different things.
 
 This chapter introduces you to the first real tool you'll use: Claude Code. Not as abstract theory, but as a working development partner on your machine. The goal is **not to build a supercomputer**, but to establish Claude Code as your **collaborative thinking partner** for everything.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-05-slides.pdf"
-  title="Chapter 5: Claude Code Features and Workflows"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

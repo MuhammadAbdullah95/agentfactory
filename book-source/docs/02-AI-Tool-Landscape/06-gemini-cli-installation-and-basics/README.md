@@ -1,3 +1,10 @@
+---
+slides:
+  source: "slides/chapter-06-slides.pdf"
+  title: "Chapter 6: Google Gemini CLI: Open Source and Everywhere"
+  height: 700
+---
+
 # Chapter 6: Google Gemini CLI: Open Source and Everywhere
 
 Google didn't just follow—they went big. Gemini CLI is fully open source under Apache 2.0 license, bringing the power of Gemini directly into developers' terminals with built-in tools for Google Search grounding, file operations, shell commands, and web fetching.
@@ -6,19 +13,7 @@ What makes Gemini CLI particularly compelling is its accessibility. Developers g
 
 This chapter isn't about replacing Claude Code. It's about understanding **when to use each tool** and building the judgment to choose the right AI assistant for every development scenario you encounter.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-06-slides.pdf"
-  title="Chapter 6: Gemini CLI Installation and Basics"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

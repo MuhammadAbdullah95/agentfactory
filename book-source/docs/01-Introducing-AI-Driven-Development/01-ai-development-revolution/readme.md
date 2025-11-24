@@ -1,9 +1,11 @@
 ---
 sidebar_position: 1
 title: "Chapter 1: The AI Development Revolution"
+slides:
+  source: "slides/chapter-01-slides.pdf"
+  title: "Chapter 1: The AI Development Revolution"
+  height: 700
 ---
-
-import PDFViewer from '@site/src/components/PDFViewer';
 
 # Chapter 1: The AI Development Revolution
 
@@ -11,21 +13,7 @@ Welcome to the most significant transformation in software development since the
 
 Through nine interconnected sections, you'll discover why a $3 trillion global economy is being restructured, why this disruption is different from all previous technology shifts, and why the developer role is evolving from typist to orchestrator.
 
-Whether you're a complete beginner wondering if it's too late, an experienced developer concerned about being replaced, an educator unsure how to prepare students, or a skeptic wanting evidence—this chapter answers your questions with data, not promises.
 
----
-
-## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-01-slides.pdf"
-  title="Chapter 1: The AI Development Revolution"
-  height={700}
-/>
-
----
-
-## What You'll Learn
 
 By the end of this chapter, you'll understand:
 

@@ -1,6 +1,10 @@
 ---
 sidebar_position: 19
 title: "Chapter 19: Lists, Tuples, and Dictionary"
+slides:
+  source: "slides/chapter-19-slides.pdf"
+  title: "Chapter 19: Lists, Tuples, and Dictionary"
+  height: 700
 ---
 
 # Chapter 19: Lists, Tuples, and Dictionary
@@ -9,19 +13,7 @@ Real programs work with collections of data, not individual values. User lists, 
 
 You'll learn when to use each structure, how to manipulate them effectively, and how to combine them in real-world applications. By the end of this chapter, you'll build a complete **Data Processing Pipeline** that ingests CSV data, filters it with comprehensions, aggregates statistics with dictionaries, and outputs formatted reports—demonstrating how all three structures work together in production code.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-19-slides.pdf"
-  title="Chapter 19 Slides"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

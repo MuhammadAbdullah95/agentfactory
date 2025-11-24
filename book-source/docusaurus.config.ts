@@ -95,6 +95,13 @@ const config: Config = {
               includePaths: ['/04-Python-Fundamentals/'],
               excludeMeta: ['nointeractive', 'static'],
             }],
+            // Metadata-driven content enhancements (slides, etc.)
+            [require('./plugins/remark-content-enhancements'), {
+              enableSlides: true,
+              slidesConfig: {
+                defaultHeight: 700,
+              },
+            }],
           ],
         },
         blog: false,

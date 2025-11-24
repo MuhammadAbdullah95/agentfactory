@@ -1,6 +1,10 @@
 ---
 sidebar_position: 13
 title: "Chapter 13: Python UV — The Fastest Python Package Manager"
+slides:
+  source: "slides/chapter-13-slides.pdf"
+  title: "Chapter 13: Python UV — The Fastest Python Package Manager"
+  height: 700
 ---
 
 # Chapter 13: Python UV — The Fastest Python Package Manager
@@ -9,16 +13,7 @@ Before you write Python programs, you need professional tools for managing depen
 
 You'll set up production-quality Python environments before writing your first `print()` statement—because modern Python development requires professional-grade project management from day one. This chapter focuses on **tool installation and basic usage**, not Python programming itself. You'll learn through simple AI-driven workflows where you specify what you want and AI helps with commands.
 
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-13-slides.pdf"
-  title="Chapter 13 Slides"
-  height={700}
-/>
 
 ---
 

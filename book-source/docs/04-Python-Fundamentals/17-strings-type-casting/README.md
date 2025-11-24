@@ -1,6 +1,10 @@
 ---
 sidebar_position: 17
 title: "Chapter 17: Strings and Type Casting"
+slides:
+  source: "slides/chapter-17-slides.pdf"
+  title: "Chapter 17: Strings and Type Casting"
+  height: 700
 ---
 
 # Chapter 17: Strings and Type Casting
@@ -11,15 +15,7 @@ You'll also learn **type casting**—how to safely convert between different dat
 
 By the end of this chapter, you'll be able to process text confidently and convert between types safely—two essential skills for building interactive programs.
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-17-slides.pdf"
-  title="Chapter 17 Slides"
-  height={700}
-/>
 
 ---
 

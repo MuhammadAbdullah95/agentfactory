@@ -1,6 +1,10 @@
 ---
 sidebar_position: 21
 title: "Chapter 21: Modules and Functions"
+slides:
+  source: "slides/chapter-21-slides.pdf"
+  title: "Chapter 21: Modules and Functions"
+  height: 700
 ---
 
 # Chapter 21: Modules and Functions
@@ -11,15 +15,7 @@ This chapter bridges foundational Python syntax (Chapters 15-19) with production
 
 By the end of this chapter, you'll build a real multi-module project (Calculator Utility) that demonstrates professional Python organization patterns.
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-21-slides.pdf"
-  title="Chapter 21 Slides"
-  height={700}
-/>
 
 ---
 

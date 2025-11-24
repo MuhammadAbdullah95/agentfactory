@@ -3,6 +3,10 @@ title: "Chapter 11: Prompt Engineering for AI-Driven Development"
 sidebar_label: "Chapter 11: Prompt Engineering"
 sidebar_position: 11
 description: "Learn to communicate clearly with AI through effective prompt writing, iteration, validation, and reusable templates"
+slides:
+  source: "slides/chapter-11-slides.pdf"
+  title: "Chapter 11: Prompt Engineering for AI-Driven Development"
+  height: 700
 ---
 
 # Chapter 11: Prompt Engineering for AI-Driven Development
@@ -11,19 +15,7 @@ Clear prompts get better AI responses. Vague prompts waste time with back-and-fo
 
 You'll learn to structure prompts clearly, iterate through collaboration with AI, validate outputs systematically, and build reusable prompt templates for recurring tasks. By the end of this chapter, you'll have your own prompt toolkit—a collection of tested templates you'll use in daily development work.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-11-slides.pdf"
-  title="Chapter 11: Prompt Engineering for AI-Driven Development"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

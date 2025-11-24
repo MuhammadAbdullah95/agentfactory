@@ -3,6 +3,10 @@ title: "Chapter 12: Context Engineering for AI-Driven Development"
 sidebar_label: "Chapter 12: Context Engineering"
 sidebar_position: 12
 description: "Master context window management, progressive loading, compression techniques, and persistent memory to engineer productive AI collaborations across sessions and projects"
+slides:
+  source: "slides/chapter-12-slides.pdf"
+  title: "Chapter 12: Context Engineering for AI-Driven Development"
+  height: 700
 ---
 
 # Chapter 12: Context Engineering for AI-Driven Development
@@ -13,19 +17,7 @@ This chapter teaches you to engineer context windows using hands-on discovery pe
 
 Chapter 12 taught you **what to SAY** to your AI agent. This chapter teaches you **what your AI agent KNOWS** when you say it—and how to manage that knowledge effectively across sessions and projects.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-12-slides.pdf"
-  title="Chapter 12: Context Engineering for AI-Driven Development"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

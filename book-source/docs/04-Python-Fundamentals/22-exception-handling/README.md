@@ -1,6 +1,10 @@
 ---
 sidebar_position: 22
 title: "Chapter 22: Exception Handling"
+slides:
+  source: "slides/chapter-22-slides.pdf"
+  title: "Chapter 22: Exception Handling"
+  height: 700
 ---
 
 # Chapter 22: Exception Handling
@@ -11,15 +15,7 @@ This chapter teaches you how to anticipate errors, handle them elegantly, and pr
 
 This chapter applies the AI-Native Learning methodology: you describe what error handling you want, explore exception patterns with your AI companion (Claude Code or Gemini CLI), validate your understanding through working code, and learn from errors by asking "why did this fail?"
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-22-slides.pdf"
-  title="Chapter 22 Slides"
-  height={700}
-/>
 
 ---
 

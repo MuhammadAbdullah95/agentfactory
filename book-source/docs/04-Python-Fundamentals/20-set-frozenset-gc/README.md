@@ -1,6 +1,10 @@
 ---
 sidebar_position: 20
 title: "Chapter 20: Set, Frozen Set, and GC"
+slides:
+  source: "slides/chapter-20-slides.pdf"
+  title: "Chapter 20: Set, Frozen Set, and GC"
+  height: 700
 ---
 
 # Chapter 20: Set, Frozen Set, and GC
@@ -13,19 +17,7 @@ But sets aren't magic—they require understanding **hashing** (how Python conve
 
 By the end of this chapter, you'll build a **Memory Profiler tool** that tracks object creation and deletion in your programs—integrating sets, frozensets, and garbage collection into a practical debugging aid.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-20-slides.pdf"
-  title="Chapter 20 Slides"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

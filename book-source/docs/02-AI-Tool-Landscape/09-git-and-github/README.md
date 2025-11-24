@@ -1,22 +1,17 @@
+---
+slides:
+  source: "slides/chapter-09-slides.pdf"
+  title: "Chapter 9: Git & GitHub for AI-Driven Development"
+  height: 700
+---
+
 # Chapter 9: Git & GitHub for AI-Driven Development
 
 This chapter teaches you how to use Git and GitHub as essential safety mechanisms for AI-driven development. When working with AI coding assistants like Claude Code or Gemini CLI, Git provides a crucial safety net—allowing you to experiment freely, track every change, and undo mistakes instantly. You'll learn Git not by memorizing commands, but by asking your AI assistant to perform Git operations using natural language.
 
 By the end of this chapter, you'll confidently use Git for safe experimentation with AI-generated code, connect your projects to GitHub for backup and portfolio building, set up a professional IDE with Git integration, and understand collaborative workflows through pull requests.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-09-slides.pdf"
-  title="Chapter 9: Git & GitHub for AI-Driven Development"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

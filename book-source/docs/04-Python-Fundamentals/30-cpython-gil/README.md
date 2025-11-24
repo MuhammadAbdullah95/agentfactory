@@ -1,6 +1,10 @@
 ---
 sidebar_position: 30
 title: "Chapter 30: CPython and GIL"
+slides:
+  source: "slides/chapter-30-slides.pdf"
+  title: "Chapter 30: CPython and GIL"
+  height: 700
 ---
 
 # Chapter 30: CPython and GIL
@@ -13,16 +17,7 @@ This chapter teaches three critical dimensions: CPython's architecture and how i
 
 **Why this matters for AI-native development**: Multi-agent systems can now reason in parallel on separate CPU cores, not just pseudo-concurrently. A 4-agent system on a 4-core machine achieves genuine parallelism—the exact pattern modern AI applications need.
 
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-30-slides.pdf"
-  title="Chapter 30: CPython and GIL"
-  height={700}
-/>
 
 ---
 

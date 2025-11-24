@@ -1,6 +1,10 @@
 ---
 sidebar_position: 23
 title: "Chapter 23: IO and File Handling"
+slides:
+  source: "slides/chapter-23-slides.pdf"
+  title: "Chapter 23: IO and File Handling"
+  height: 700
 ---
 
 # Chapter 23: IO and File Handling
@@ -11,15 +15,7 @@ You'll learn how programs interact with users through the console, persist data 
 
 This is the same pattern you'll use throughout your professional career. Your AI tool isn't a crutch—it's a partner in learning.
 
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-23-slides.pdf"
-  title="Chapter 23 Slides"
-  height={700}
-/>
 
 ---
 

@@ -3,6 +3,10 @@ title: "Chapter 10: Markdown - The Language of AI Communication"
 sidebar_label: "Chapter 10: Markdown"
 sidebar_position: 10
 description: "Master markdown syntax to write clear specifications that AI agents can parse and implement—the foundation of AI-native development"
+slides:
+  source: "slides/chapter-10-slides.pdf"
+  title: "Chapter 10: Markdown - The Language of AI Communication"
+  height: 700
 ---
 
 # Chapter 10: Markdown - The Language of AI Communication
@@ -11,19 +15,7 @@ Markdown is the **specification language** that lets you tell AI agents what to 
 
 By the end of this chapter, you'll write clear specifications that AI agents can parse and implement - the foundation of AI-native development.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-10-slides.pdf"
-  title="Chapter 10: Markdown - The Language of AI Communication"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

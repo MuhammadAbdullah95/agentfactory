@@ -1,9 +1,11 @@
 ---
 sidebar_position: 2
 title: "Chapter 2: The AI Turning Point"
+slides:
+  source: "slides/chapter-02-slides.pdf"
+  title: "Chapter 2: The AI Turning Point"
+  height: 700
 ---
-
-import PDFViewer from '@site/src/components/PDFViewer';
 
 # Chapter 2: The AI Turning Point
 
@@ -15,17 +17,8 @@ This chapter provides evidence-based answers, concrete frameworks, and practical
 
 By the end of this chapter, you'll have the context, frameworks, and confidence to adopt AI-driven development thoughtfully—with discipline, not just speed.
 
----
 
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-02-slides.pdf"
-  title="Chapter 2: The AI Turning Point"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

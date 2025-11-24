@@ -321,18 +321,23 @@ mv ~/Downloads/"Designing-Reusable-Intelligence.pdf" "book-source/static/slides/
 
 **6. Integrate into Documentation** (2 min)
 - Open chapter README: `book-source/docs/[part]/[chapter]/README.md`
-- Add PDFViewer component BEFORE "What You'll Learn" section:
+- Add slides metadata to frontmatter (YAML at top of file):
 
 ```markdown
 ---
+sidebar_position: 1
+title: "Chapter 1: [Chapter Title]"
+slides:
+  source: "slides/chapter-01-slides.pdf"
+  title: "Chapter 1: [Chapter Title]"
+  height: 700
+---
+
+# Chapter 1: [Chapter Title]
+
+[Chapter introduction content...]
 
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-01-slides.pdf"
-  title="Chapter 1: [Chapter Title]"
-  height={700}
-/>
 
 ---
 
@@ -342,11 +347,75 @@ By the end of this chapter, you'll understand:
 - [Learning objectives...]
 ```
 
-- **Heading**: Use "## 🎯 Before You Begin" (NOT "Chapter Slides")
-- **Placement**: BEFORE "What You'll Learn" section (NOT after)
+**Integration Details:**
+- **Location**: Add `slides:` metadata in frontmatter YAML block at top of file
+- **Format**: Use object format with `source`, `title`, and `height` fields
+- **Source Path**: Use relative path `slides/chapter-XX-slides.pdf` (NOT absolute path `/slides/...`)
+- **Automatic Injection**: Build-time plugin automatically injects PDFViewer component BEFORE "What You'll Learn" heading
+- **No Manual Import**: Do NOT add `import PDFViewer` or JSX components (handled automatically)
+- **Placement**: Slides appear after "## 🎯 Before You Begin" and before "## What You'll Learn"
 - **Rationale**: Progressive disclosure - students see big picture (slides) before detailed objectives
-- **Note**: Use relative path `slides/chapter-XX-slides.pdf` (NOT absolute path)
-- Save file and verify slides appear on Docusaurus site
+
+**Alternative Simple Format** (for quick integration):
+```yaml
+---
+title: "Chapter Title"
+slides: "slides/chapter-01-slides.pdf"
+---
+```
+This uses default height (700) and default title ("Chapter Slides").
+
+**Verification:**
+- Save file and build Docusaurus: `npm run build`
+- Check build output for: `[Slides Transformer] ✅ Injected slides/chapter-XX-slides.pdf`
+- Verify slides appear correctly in deployed site
+
+### Metadata-Driven Architecture (NEW)
+
+**What Changed:**
+The integration workflow now uses **metadata-driven slide injection** instead of manual JSX components.
+
+**Old Approach (Deprecated):**
+```markdown
+import PDFViewer from '@site/src/components/PDFViewer';
+
+<PDFViewer src="slides/chapter-01-slides.pdf" title="..." height={700} />
+```
+
+**New Approach (Current):**
+```yaml
+---
+slides:
+  source: "slides/chapter-01-slides.pdf"
+  title: "Chapter 1: Title"
+  height: 700
+---
+```
+
+**Benefits:**
+- ✅ **Cleaner Content**: No JSX imports or components cluttering markdown
+- ✅ **Consistent Placement**: Automatic injection before "What You'll Learn" (no manual positioning)
+- ✅ **Cloud-Ready**: Supports both local paths (`slides/file.pdf`) and URLs (`https://cdn.example.com/file.pdf`)
+- ✅ **Easier Maintenance**: Update metadata, not JSX code
+- ✅ **Build-Time Processing**: Remark plugin handles transformation automatically
+
+**How It Works:**
+1. Frontmatter metadata specifies slides source, title, and height
+2. Build-time remark plugin reads frontmatter during Docusaurus compilation
+3. Plugin finds "What You'll Learn" heading in markdown AST
+4. Plugin injects PDFViewer component node before that heading
+5. Docusaurus compiles MDX with component already in place
+6. Result: Clean HTML with slides embedded at correct location
+
+**For Cloud Migration:**
+When PDFs move to Cloudflare R2/S3, simply update the `source` field to the URL:
+```yaml
+slides:
+  source: "https://r2.cloudflare.com/tutorsgpt/slides/chapter-01.pdf"
+  title: "Chapter 1: Title"
+  height: 700
+```
+No code changes needed—just metadata updates.
 
 ### Time Estimates by Experience Level
 
@@ -409,8 +478,8 @@ For processing 3+ chapters in one session (recommended for Parts with multiple c
 
 ### Integration Phase (bulk, 10-15 min)
 10. Move all PDFs to `book-source/static/slides/` at once
-11. Integrate all PDFViewers into READMEs sequentially
-12. Verify all slides load correctly in local Docusaurus build
+11. Add slides metadata to frontmatter in all chapter READMEs sequentially
+12. Verify all slides load correctly in local Docusaurus build (`npm run build`)
 
 ### Time Savings
 - **Sequential approach**: 3 chapters × 25 min = 75 min
@@ -444,6 +513,7 @@ For batch processing multiple chapters with browser automation:
 8. Detect completion (download button appears)
 9. Download PDF to `.playwright-mcp/` directory
 10. Move PDF to `book-source/static/slides/` with standardized naming
+11. Update chapter README frontmatter with slides metadata (automated text manipulation)
 
 ### Benefits
 - **Time Savings**: ~40% faster for 3+ chapters due to reduced context switching

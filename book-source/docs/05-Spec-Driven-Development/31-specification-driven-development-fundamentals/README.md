@@ -1,6 +1,10 @@
 ---
 sidebar_position: 31
 title: "Chapter 31: Understanding Spec-Driven Development with Reusable Intelligence"
+slides:
+  source: "slides/chapter-31-slides.pdf"
+  title: "Chapter 31: Understanding Spec-Driven Development with Reusable Intelligence"
+  height: 700
 ---
 
 # Chapter 31: Understanding Spec-Driven Development with Reusable Intelligence
@@ -11,19 +15,7 @@ Spec-Driven Development bridges human creativity and AI precision: it turns vagu
 
 As AI-driven development matures, one thing is clear: its future will be written not in code, but in **specifications + reusable intelligence**.
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-31-slides.pdf"
-  title="Chapter 31: Specification-Driven Development Fundamentals"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

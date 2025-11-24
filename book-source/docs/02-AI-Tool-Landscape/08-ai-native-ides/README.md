@@ -1,3 +1,10 @@
+---
+slides:
+  source: "slides/chapter-08-slides.pdf"
+  title: "Chapter 8: AI-Native IDEs - Zed, Cursor, Antigravity, and the Future of Development"
+  height: 700
+---
+
 # Chapter 8: AI-Native IDEs - Zed, Cursor, Antigravity, and the Future of Development
 
 **Part 2: AI Tool Landscape** | **Proficiency Level**: A2-B1 | **Duration**: 6-8 hours
@@ -6,19 +13,7 @@
 
 This chapter introduces modern development environments designed from the ground up for AI collaboration. You'll explore three distinct approaches to AI-native IDEs: **Zed** (performance-focused), **Cursor** (VS Code evolution), and **Antigravity** (agent control plane architecture).
 
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-08-slides.pdf"
-  title="Chapter 8: AI-Native IDEs"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 

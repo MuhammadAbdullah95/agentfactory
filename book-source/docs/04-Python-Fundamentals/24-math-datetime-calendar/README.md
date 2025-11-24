@@ -1,6 +1,10 @@
 ---
 sidebar_position: 24
 title: "Chapter 24: Math, Date Time Calendar"
+slides:
+  source: "slides/chapter-24-slides.pdf"
+  title: "Chapter 24: Math, Date Time Calendar"
+  height: 700
 ---
 
 # Chapter 24: Math, Date Time Calendar
@@ -11,16 +15,7 @@ This chapter teaches Python's built-in modules for these tasks using Python 3.14
 
 You'll start with the `math` module for validated calculations, understand how computers measure time through epochs and timestamps, then master Python 3.14's **new** `date.strptime()` and `time.strptime()` methods for parsing dates and times. You'll format datetime objects for display, perform date arithmetic, convert between timezones, and generate calendars with color highlighting. The chapter culminates in a complete Time Zone Converter application that integrates all concepts.
 
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-24-slides.pdf"
-  title="Chapter 24: Math, Date Time Calendar"
-  height={700}
-/>
 
 ---
 

@@ -1,25 +1,16 @@
 ---
 sidebar_position: 32
 title: "Chapter 32: Spec-Kit Plus Hands-On"
+slides:
+  source: "slides/chapter-32-slides.pdf"
+  title: "Chapter 32: Spec-Kit Plus Hands-On"
+  height: 700
 ---
 
 # Chapter 32: Spec-Kit Plus Hands-On
 
 Welcome to hands-on specification-driven development. This chapter transforms understanding (from Chapter 32) into practice. You won't read about specifications-you'll write them. You won't learn about AI collaboration - you'll build project with your AI companion from specifications to implementation. Chapter 32 gave you the map. Chapter 33 teaches you to drive.
-
----
-
-import PDFViewer from '@site/src/components/PDFViewer';
-
 ## 🎯 Before You Begin
-
-<PDFViewer
-  src="slides/chapter-32-slides.pdf"
-  title="Chapter 32: Spec-Kit Plus Hands-On"
-  height={700}
-/>
-
----
 
 ## What You'll Learn
 
