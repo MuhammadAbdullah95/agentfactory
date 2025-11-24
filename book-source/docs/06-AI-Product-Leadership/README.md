@@ -1,9 +1,9 @@
 ---
 sidebar_position: 6
-title: "Part 6: AI Product Leadership & Engineering with Agent Teams"
+title: "Part 6: SDD-RI: AI Products Engineering"
 ---
 
-# Part 6: AI Product Leadership & Engineering with Agent Teams
+# Part 6: SDD-RI: AI Products Engineering
 
 You've mastered SDD-RI fundamentals (Part 4) and built Python expertise (Part 5). Now you're ready to think beyond code execution—to product thinking, business strategy, agent team management, and the leadership mindset that separates builders from architects.
 
