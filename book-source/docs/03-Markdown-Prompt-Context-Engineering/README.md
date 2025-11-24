@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+title: "Part 3: Markdown, Prompt & Context Engineering"
+---
+
 # Part 3: Markdown, Prompt & Context Engineering
 
 You're no longer just writing code—you're directing intelligent agents like Claude Code and Gemini CLI to implement what you specify. The developers who thrive in this new era aren't those who type the fastest, but those who communicate most clearly with their AI partners. The three foundational skills — markdown formatting, prompt engineering, and context engineering — determine whether AI helps you build faster or slows you down with buggy, generic code.
@@ -16,7 +21,7 @@ You're no longer just writing code—you're directing intelligent agents like Cl
 
 **Why it matters:** Clear prompts = working code on the first try. Vague prompts = hours spent debugging AI-generated mistakes. Mastering prompting techniques is essential for effective AI collaboration.
 
-### Chapter 13: Context Engineering for AI-Driven Development
+### Chapter 16: Context Engineering for AI-Driven Development
 
 **What it is:** Context engineering is managing what your AI agent "knows" about your project—the files, patterns, and decisions that make code fit your specific needs rather than generic tutorials.
 
