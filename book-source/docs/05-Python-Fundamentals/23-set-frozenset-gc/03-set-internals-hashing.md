@@ -343,31 +343,36 @@ Here's where this theory becomes practice. Let's say you're building a user auth
 # BAD APPROACH: Using a list (O(n) lookup)
 def is_user_in_list(user_id: int, user_database: list[int]) -> bool:
     return user_id in user_database  # Slow for large databases
-    # With 1M users, this is 500K comparisons on average
+    # With 100K users, this is 50K comparisons on average
 
 # GOOD APPROACH: Using a set (O(1) lookup)
 def is_user_in_set(user_id: int, user_database: set[int]) -> bool:
     return user_id in user_database  # Fast for large databases
-    # With 1M users, this is ~1 comparison always
+    # With 100K users, this is ~1 comparison always
 
 # Real performance test
-database_list: list[int] = list(range(1_000_000))
-database_set: set[int] = set(range(1_000_000))
+database_list: list[int] = list(range(100_000))
+database_set: set[int] = set(range(100_000))
 
 import time
 
-# Test single lookup
+# Test multiple lookups to get measurable time
 start = time.perf_counter()
-found = 999_999 in database_list
+for _ in range(1000):
+    found = 99_999 in database_list
 list_time = time.perf_counter() - start
 
 start = time.perf_counter()
-found = 999_999 in database_set
+for _ in range(1000):
+    found = 99_999 in database_set
 set_time = time.perf_counter() - start
 
 print(f"List lookup: {list_time*1000:.3f}ms")  # Noticeable delay
 print(f"Set lookup: {set_time*1000:.3f}ms")    # Instant
-print(f"Set is {list_time/set_time:.0f}x faster")
+if set_time > 0:
+    print(f"Set is {list_time/set_time:.0f}x faster")
+else:
+    print("Set is extremely fast (too fast to measure accurately)")
 
 # Practical insight:
 # If you're checking membership frequently (logins, permissions, caching),
