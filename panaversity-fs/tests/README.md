@@ -15,6 +15,8 @@ tests/
 │   └── test_content_workflows.py  # CRUD workflows, conflict detection
 ├── e2e/                           # End-to-end tests (complete scenarios)
 │   └── test_complete_book_workflow.py # Full book creation & management
+├── edge_cases/                    # Edge case tests (production scenarios)
+│   └── test_production_structure.py # Multi-part books, complex frontmatter, large volumes
 └── conftest.py                    # Shared fixtures
 ```
 
@@ -57,6 +59,9 @@ pytest tests/integration/
 
 # End-to-end tests only
 pytest tests/e2e/
+
+# Edge case tests only
+pytest tests/edge_cases/
 
 # Run with markers
 pytest -m unit
@@ -104,10 +109,11 @@ pytest -m e2e
 ## Test Coverage Metrics
 
 ```
-Total Tests: 40+
-- Unit: 30+ tests
-- Integration: 5+ tests
-- E2E: 5+ tests
+Total Tests: 55
+- Unit: 30 tests
+- Integration: 6 tests
+- E2E: 6 tests
+- Edge Cases: 13 tests (NEW)
 
 Tools Coverage: 14/14 (100%)
 - Content: 3/3 ✅
@@ -116,6 +122,13 @@ Tools Coverage: 14/14 (100%)
 - Registry: 1/1 ✅
 - Bulk: 1/1 ✅
 - Assets: 3/3 (requires binary data, tested manually)
+
+Production Scenarios Covered:
+- Multi-part books (13 parts, 117+ lessons) ✅
+- Complex frontmatter (skills, learning_objectives, cognitive_load) ✅
+- Large content volumes (100+ lessons, 10KB+ per lesson) ✅
+- Various naming conventions (dashes, underscores, numbers) ✅
+- Deep directory nesting (5+ levels) ✅
 ```
 
 ## Fixtures

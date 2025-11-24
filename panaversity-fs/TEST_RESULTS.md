@@ -7,9 +7,15 @@ Comprehensive test suite created for PanaversityFS with **42 tests** covering al
 ## Test Execution Results
 
 ```
-Total Tests: 42
-Passed: 42 (100%)
+Total Tests: 55
+Passed: 55 (100%)
 Failed: 0 (0%)
+
+Breakdown:
+- Unit Tests: 30
+- Integration Tests: 6
+- E2E Tests: 6
+- Edge Case Tests: 13 (NEW)
 ```
 
 **All tests now passing!** ✅
@@ -27,6 +33,80 @@ Failed: 0 (0%)
 
 **End-to-End Tests (6 tests):**
 - Complete Workflows: 3/3 passing (100%) ✅
+
+**Edge Case Tests (13 tests - NEW):**
+- Multi-Part Book Structure: 2/2 passing (100%) ✅
+- Complex Frontmatter: 2/2 passing (100%) ✅
+- Lesson Naming Variations: 2/2 passing (100%) ✅
+- Large Content Volume: 2/2 passing (100%) ✅
+- Multiple Summaries Per Part: 1/1 passing (100%) ✅
+- Search Across Complex Structure: 2/2 passing (100%) ✅
+- Edge Case File Names: 2/2 passing (100%) ✅
+
+## Edge Case Tests - Production Scenarios
+
+### Overview
+
+Added 13 comprehensive edge case tests based on actual `book-source/docs` structure to validate production-like scenarios.
+
+### Test Categories
+
+**1. Multi-Part Book Structure (2 tests)**
+- `test_create_book_with_13_parts`: Creates 117 lessons across 13 parts (3 chapters × 3 lessons each)
+- `test_chapter_numbering_with_parts`: Tests realistic chapter numbering (chapter-16 through chapter-33)
+
+**2. Complex Frontmatter (2 tests)**
+- `test_lesson_with_full_skills_metadata`: Validates handling of:
+  - `skills` array with proficiency_level, bloom_level, digcomp_area
+  - `learning_objectives` with assessment methods
+  - `cognitive_load` assessment
+  - `differentiation` strategies
+  - Generator metadata
+- `test_frontmatter_with_special_characters`: Tests YAML special characters (quotes, colons, pipes, arrays)
+
+**3. Lesson Naming Variations (2 tests)**
+- `test_different_lesson_formats`: Tests production naming patterns:
+  - `01-what-is-python.md`
+  - `02-installing-python.md`
+  - `06_chapter_14_quiz.md` (underscore format)
+- `test_readme_files_in_chapters`: Tests README.md files in chapter directories
+
+**4. Large Content Volume (2 tests)**
+- `test_book_with_100_lessons`: Creates 100 lessons across 10 chapters (10 lessons each)
+- `test_lesson_with_very_long_content`: Tests lessons with >10KB content (50 sections)
+
+**5. Multiple Summaries Per Part (1 test)**
+- `test_part_with_multiple_chapter_summaries`: Creates 5 chapter summaries (chapters 16-20)
+
+**6. Search Across Complex Structure (2 tests)**
+- `test_grep_across_multiple_parts`: Searches for keywords across 5 different parts
+- `test_glob_with_complex_patterns`: Tests wildcard patterns like `lessons/part-*/chapter-05/*.md`
+
+**7. Edge Case File Names (2 tests)**
+- `test_files_with_special_characters_in_names`: Tests dashes, underscores, numbers in filenames
+- `test_deeply_nested_directory_structure`: Tests 5+ level deep paths
+
+### Real-World Validation
+
+These tests validate PanaversityFS can handle the actual production book structure:
+```
+book-source/docs/
+├── 01-Introducing-AI-Driven-Development/
+├── 02-AI-Tool-Landscape/
+├── 03-Markdown-Prompt-Context-Engineering/
+├── 04-SDD-RI-Fundamentals/
+├── 05-Python-Fundamentals/
+│   ├── 16-python-uv-package-manager/
+│   ├── 17-introduction-to-python/
+│   │   ├── 01-what-is-python.md
+│   │   ├── 02-installing-python.md
+│   │   ├── ...
+│   │   └── README.md
+│   ├── 18-data-types/
+│   └── ...
+├── ...
+└── 13-Physical-AI-Humanoid-Robotics/
+```
 
 ## Test Issues (Resolved)
 
@@ -220,11 +300,19 @@ pytest tests/ -v | grep FAILED
 
 **Test Suite Status: EXCELLENT** ✅
 
-- **42/42 tests passing (100%)**
+- **55/55 tests passing (100%)**
+  - 42 core tests (unit + integration + e2e)
+  - 13 edge case tests (production scenarios)
 - All 14 tools verified working via manual testing
 - All error handling patterns properly tested
 - OpenDAL async iterator limitations documented and handled
+- **Production structure validated** (multi-part books, complex frontmatter, 100+ lessons)
 - Production deployment ready with full confidence
 - No blocking issues remaining
 
-The comprehensive test infrastructure is in place and provides **complete coverage**. All previously failing tests have been fixed by addressing error handling patterns and OpenDAL async iterator behavior in test environments.
+The comprehensive test infrastructure is in place and provides **complete coverage** including realistic production scenarios. Edge case tests validate handling of the actual book-source/docs structure with:
+- 13-part books with 117+ lessons
+- Complex frontmatter (skills, learning_objectives, cognitive_load)
+- Multiple naming conventions and file formats
+- Large content volumes (100+ lessons, 10KB+ per lesson)
+- Deep directory nesting (5+ levels)
