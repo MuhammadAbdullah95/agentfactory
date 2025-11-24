@@ -1,0 +1,15 @@
+[project]
+name = "panaversity-fs"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiofiles>=25.1.0",
+    "mcp>=1.22.0",
+    "opendal>=0.46.0",
+    "pydantic>=2.12.4",
+    "python-frontmatter>=1.1.0",
+    "python-magic>=0.4.27",
+    "pyyaml>=6.0.3",
+]
