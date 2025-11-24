@@ -67,13 +67,13 @@ class TestContentCRUDWorkflow:
         delete_data = json.loads(delete_result)
         assert delete_data["existed"] is True
 
-        # 6. VERIFY DELETION
-        from panaversity_fs.errors import ContentNotFoundError
-        with pytest.raises(ContentNotFoundError):
-            await read_content(ReadContentInput(
-                book_id=book_id,
-                path=path
-            ))
+        # 6. VERIFY DELETION - should return error string
+        verify_delete_result = await read_content(ReadContentInput(
+            book_id=book_id,
+            path=path
+        ))
+        assert isinstance(verify_delete_result, str)
+        assert "error" in verify_delete_result.lower() or "not found" in verify_delete_result.lower()
 
 
 class TestConcurrentModificationDetection:

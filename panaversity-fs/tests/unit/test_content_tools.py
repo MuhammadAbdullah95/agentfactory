@@ -27,12 +27,15 @@ class TestReadContent:
 
     @pytest.mark.asyncio
     async def test_read_nonexistent_content(self, setup_fs_backend):
-        """Test reading non-existent content raises error."""
-        with pytest.raises(ContentNotFoundError):
-            await read_content(ReadContentInput(
-                book_id="test-book",
-                path="lessons/nonexistent.md"
-            ))
+        """Test reading non-existent content returns error string."""
+        result = await read_content(ReadContentInput(
+            book_id="test-book",
+            path="lessons/nonexistent.md"
+        ))
+
+        # MCP tools return error strings instead of raising exceptions
+        assert isinstance(result, str)
+        assert "error" in result.lower() or "not found" in result.lower()
 
     @pytest.mark.asyncio
     async def test_read_content_includes_metadata(self, sample_book_data):
@@ -140,12 +143,13 @@ class TestDeleteContent:
         assert data["status"] == "success"
         assert data["existed"] is True
 
-        # Verify deletion
-        with pytest.raises(ContentNotFoundError):
-            await read_content(ReadContentInput(
-                book_id=sample_book_data["book_id"],
-                path=sample_book_data["lesson_path"]
-            ))
+        # Verify deletion - should return error string
+        verify_result = await read_content(ReadContentInput(
+            book_id=sample_book_data["book_id"],
+            path=sample_book_data["lesson_path"]
+        ))
+        assert isinstance(verify_result, str)
+        assert "error" in verify_result.lower() or "not found" in verify_result.lower()
 
     @pytest.mark.asyncio
     async def test_delete_nonexistent_content_idempotent(self, setup_fs_backend):

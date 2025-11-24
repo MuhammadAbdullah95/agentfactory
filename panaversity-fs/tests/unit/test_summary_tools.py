@@ -101,10 +101,11 @@ class TestGetSummary:
     @pytest.mark.asyncio
     async def test_get_nonexistent_summary(self, setup_fs_backend):
         """Test getting non-existent summary raises error."""
+        # This tool raises exception (unlike read_content which returns error string)
         with pytest.raises(ContentNotFoundError):
             await get_summary(GetSummaryInput(
                 book_id="test-book",
-                chapter_id="nonexistent"
+                chapter_id="chapter-99"  # Valid format but doesn't exist
             ))
 
 
