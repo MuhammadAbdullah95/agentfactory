@@ -75,7 +75,7 @@ curl -X POST http://localhost:3000/api/auth/sign-up/email \
 ### Test 2: Using the Client
 
 ```typescript
-// In your sso-client or sso-admin app
+// In your sso-server or sso-admin app
 import { authClient } from "@repo/auth-config/client";
 
 // Sign up

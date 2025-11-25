@@ -4,7 +4,7 @@ Shared UI component library for the SSO monorepo, built with shadcn/ui and Tailw
 
 ## Overview
 
-This package provides a centralized collection of reusable UI components that can be shared across all apps in the monorepo (`sso-client`, `sso-admin`, etc.).
+This package provides a centralized collection of reusable UI components that can be shared across all apps in the monorepo (`sso-server`, `sso-admin`, etc.).
 
 ## Project Structure
 
