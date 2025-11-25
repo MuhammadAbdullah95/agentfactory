@@ -71,14 +71,14 @@ def _create_supabase_operator(config: Config) -> opendal.AsyncOperator:
     """
     if not config.supabase_bucket:
         raise ValueError("SUPABASE_BUCKET required for supabase backend")
-    if not config.supabase_url or not config.supabase_service_key:
-        raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_KEY required")
+    if not config.supabase_url or not config.supabase_service_role_key:
+        raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY required")
 
     return opendal.AsyncOperator(
         "supabase",
         bucket=config.supabase_bucket,
         endpoint=config.supabase_url,
-        key=config.supabase_service_key
+        key=config.supabase_service_role_key
     )
 
 

@@ -36,7 +36,7 @@ class Config(BaseSettings):
     # Supabase Configuration (for supabase backend)
     supabase_bucket: str | None = None
     supabase_url: str | None = None
-    supabase_service_key: str | None = None
+    supabase_service_role_key: str | None = None
 
     # Authentication (API Key for MVP)
     api_key: str | None = None  # If None, auth disabled (dev mode)
@@ -73,8 +73,8 @@ class Config(BaseSettings):
         elif self.storage_backend == "supabase":
             if not self.supabase_bucket:
                 raise ValueError("SUPABASE_BUCKET required when STORAGE_BACKEND=supabase")
-            if not self.supabase_url or not self.supabase_service_key:
-                raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_KEY required for supabase backend")
+            if not self.supabase_url or not self.supabase_service_role_key:
+                raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY required for supabase backend")
 
 
 # Global config instance (singleton pattern)
