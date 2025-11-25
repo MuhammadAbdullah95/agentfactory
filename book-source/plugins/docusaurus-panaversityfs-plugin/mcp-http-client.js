@@ -27,7 +27,7 @@ class MCPHttpClient {
       method: 'tools/call',
       params: {
         name: toolName,
-        arguments: { params },
+        arguments: { params },  // Server expects params wrapper (Pydantic model)
       },
     };
 

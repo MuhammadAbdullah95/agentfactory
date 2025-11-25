@@ -45,6 +45,14 @@ module.exports = function panaversityFSPlugin(context, options) {
   const siteDir = context.siteDir;
   const docsPath = path.join(siteDir, docsDir);
 
+  // Create docsfs/ directory immediately if it doesn't exist
+  // This is required because Docusaurus validates docs folder existence
+  // BEFORE plugins can run loadContent()
+  if (enabled && !fs.existsSync(docsPath)) {
+    console.log('[PanaversityFS] Creating docsfs/ directory...');
+    fs.mkdirSync(docsPath, { recursive: true });
+  }
+
   return {
     name: 'docusaurus-panaversityfs-plugin',
 
