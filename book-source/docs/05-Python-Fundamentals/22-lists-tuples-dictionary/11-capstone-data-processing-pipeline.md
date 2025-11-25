@@ -404,7 +404,7 @@ lines.append("")
 lines.append("=" * 50)
 
 # Combine all lines into a single string with newlines
-report: str = r'\n'.join(lines)
+report: str = '\\n'.join(lines)
 print(report)
 
 # Output looks like:
@@ -521,7 +521,7 @@ for major in sorted_majors:
 lines.append("")
 lines.append("=" * 50)
 
-report: str = r'\n'.join(lines)
+report: str = "\\n".join(lines)
 print(report)
 ```
 
