@@ -1,8 +1,19 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import * as dotenv from "dotenv";
+
+// Load environment variables from .env file (for local development)
+// Production uses actual environment variables set in CI/CD
+dotenv.config();
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+// PanaversityFS: Determine docs path based on plugin mode
+// - When plugin enabled: Read from docsfs/ (fetched from MCP server)
+// - When plugin disabled: Read from docs/ (local sample content)
+const panaversityEnabled = process.env.PANAVERSITY_PLUGIN_ENABLED === "true";
+const docsPath = panaversityEnabled ? "docsfs" : "docs";
 
 const config: Config = {
   title: "AI Native Software Development",
@@ -86,6 +97,7 @@ const config: Config = {
       "classic",
       {
         docs: {
+          path: docsPath, // 'docs' (local) or 'docsfs' (from MCP server)
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -122,6 +134,21 @@ const config: Config = {
   plugins: [
     "./plugins/docusaurus-plugin-og-image-generator",
     "./plugins/docusaurus-plugin-structured-data",
+    // PanaversityFS Plugin - Fetch content from MCP server and write to docsfs/
+    // Enable via: PANAVERSITY_PLUGIN_ENABLED=true
+    // Server URL: PANAVERSITY_SERVER_URL or http://localhost:8000/mcp
+    // When enabled: Writes to docsfs/, Docusaurus reads from docsfs/
+    // When disabled: Docusaurus reads from docs/ (local sample content)
+    [
+      "./plugins/docusaurus-panaversityfs-plugin",
+      {
+        bookId: "ai-native-dev",
+        enabled: panaversityEnabled,
+        serverUrl: process.env.PANAVERSITY_SERVER_URL || "http://localhost:8000/mcp",
+        docsDir: "docsfs",  // Separate from docs/ to keep local sample content intact
+        cleanDocsDir: true, // Clean docsfs/ before writing fresh content
+      },
+    ],
     function (context, options) {
       return {
         name: "custom-webpack-config",
