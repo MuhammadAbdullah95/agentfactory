@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { authClient.resetPassword } from '@repo/auth-config/client';
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
+import { authClient } from '@repo/auth-config/client';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
   FormMessage,
   Button,
   Input,
@@ -19,8 +19,7 @@ import {
 import { resetPasswordSchema, type ResetPasswordFormData } from '@/lib/schemas/auth';
 import { FormError } from '@/components/auth/form-error';
 import { PasswordInput } from '@/components/auth/password-input';
-
-import { normalizeAuthError, ERROR_MESSAGES, isEmailExistsError } from '@/lib/utils/auth-errors';
+import { normalizeAuthError, ERROR_MESSAGES } from '@/lib/utils/auth-errors';
 import { Loader2, XCircle, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
@@ -74,33 +73,15 @@ export function ResetPasswordForm() {
     try {
       setFormError('');
 
-      // Call server action with timeout
-      const result = await (
-        authClient.resetPassword({
-          newPassword: data.newPassword,
-          token: data.token,
-        }),
-        30000
-      );
+      // Use better-auth client for password reset
+      const result = await authClient.resetPassword({
+        newPassword: data.newPassword,
+        token: data.token,
+      });
 
       if (result.error) {
-        // Handle backend errors
-        const error = result.error;
-
-        // Check for token expiration
-        if (error.message?.toLowerCase().includes('expired')) {
-          setFormError(ERROR_MESSAGES.TOKEN_EXPIRED);
-          return;
-        }
-
-        // Check for invalid token
-        if (error.message?.toLowerCase().includes('invalid')) {
-          setFormError(ERROR_MESSAGES.INVALID_TOKEN);
-          return;
-        }
-
-        // Generic error
-        setFormError(error.message || ERROR_MESSAGES.UNKNOWN);
+        const normalizedError = normalizeAuthError(result.error);
+        setFormError(normalizedError.message);
         return;
       }
 
@@ -109,8 +90,8 @@ export function ResetPasswordForm() {
         setSuccessMessage('Your password has been reset successfully!');
       }
     } catch (error) {
-      const apiError = handleAuthError(error);
-      setFormError(apiError.message);
+      const normalizedError = normalizeAuthError(error);
+      setFormError(normalizedError.message);
     }
   }
 

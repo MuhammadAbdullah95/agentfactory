@@ -1,10 +1,40 @@
 import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-// Initialize Resend with API key from environment
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Email provider type
+type EmailProvider = 'resend' | 'smtp' | 'none';
+
+// Determine which email provider to use based on environment variables
+const getEmailProvider = (): EmailProvider => {
+  if (process.env.RESEND_API_KEY) {
+    return 'resend';
+  }
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    return 'smtp';
+  }
+  return 'none';
+};
+
+const EMAIL_PROVIDER = getEmailProvider();
+
+// Initialize Resend (only if API key is available)
+const resend = EMAIL_PROVIDER === 'resend' ? new Resend(process.env.RESEND_API_KEY) : null;
+
+// Initialize SMTP transporter (only if SMTP credentials are available)
+const smtpTransporter = EMAIL_PROVIDER === 'smtp'
+  ? nodemailer.createTransport({
+      host: process.env.SMTP_HOST!,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER!,
+        pass: process.env.SMTP_PASS!,
+      },
+    })
+  : null;
 
 // Email configuration
-const EMAIL_FROM = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+const EMAIL_FROM = process.env.EMAIL_FROM || 'noreply@example.com';
 const APP_NAME = process.env.APP_NAME || 'SSO Platform';
 
 export interface SendEmailOptions {
@@ -15,27 +45,50 @@ export interface SendEmailOptions {
 }
 
 /**
- * Send an email using Resend
+ * Send an email using the configured provider (Resend or SMTP)
  */
 export async function sendEmail({ to, subject, html, text }: SendEmailOptions) {
+  // Log email provider being used
+  if (EMAIL_PROVIDER === 'none') {
+    console.warn('⚠️ No email provider configured. Email not sent:', { to, subject });
+    console.warn('Configure either RESEND_API_KEY or SMTP credentials (SMTP_HOST, SMTP_USER, SMTP_PASS)');
+    return { message: 'Email provider not configured' };
+  }
+
   try {
-    const { data, error } = await resend.emails.send({
-      from: EMAIL_FROM,
-      to,
-      subject,
-      html: html || text,
-      text,
-    });
+    if (EMAIL_PROVIDER === 'resend') {
+      // Use Resend - ensure we have valid content
+      const emailContent = html || text || '';
+      const { data, error } = await resend!.emails.send({
+        from: EMAIL_FROM,
+        to,
+        subject,
+        html: emailContent,
+      });
 
-    if (error) {
-      console.error('Failed to send email:', error);
-      throw new Error(`Email sending failed: ${error.message}`);
+      if (error) {
+        console.error('Failed to send email via Resend:', error);
+        throw new Error(`Email sending failed: ${error.message}`);
+      }
+
+      console.log('✅ Email sent successfully via Resend:', data);
+      return data;
+
+    } else if (EMAIL_PROVIDER === 'smtp') {
+      // Use SMTP
+      const info = await smtpTransporter!.sendMail({
+        from: EMAIL_FROM,
+        to,
+        subject,
+        html: html || text,
+        text,
+      });
+
+      console.log('✅ Email sent successfully via SMTP:', info.messageId);
+      return { id: info.messageId };
     }
-
-    console.log('Email sent successfully:', data);
-    return data;
   } catch (error) {
-    console.error('Email error:', error);
+    console.error(`Email error (${EMAIL_PROVIDER}):`, error);
     throw error;
   }
 }
@@ -190,4 +243,15 @@ If you didn't request a password reset, you can safely ignore this email. Your p
   `.trim();
 
   return sendEmail({ to, subject, html, text });
+}
+
+/**
+ * Get current email provider info (for debugging)
+ */
+export function getEmailProviderInfo() {
+  return {
+    provider: EMAIL_PROVIDER,
+    from: EMAIL_FROM,
+    configured: EMAIL_PROVIDER !== 'none',
+  };
 }

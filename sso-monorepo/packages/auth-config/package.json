@@ -12,6 +12,10 @@
     "@repo/database": "workspace:*",
     "better-auth": "latest",
     "dotenv": "latest",
+    "nodemailer": "^6.9.15",
     "resend": "^6.5.2"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.16"
   }
 }

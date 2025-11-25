@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Button } from '@repo/ui';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
-import { authClient.verifyEmail } from '@repo/auth-config/client';
+import { authClient } from '@repo/auth-config/client';
 import { normalizeAuthError } from '@/lib/utils/auth-errors';
 
-export default function VerifyEmailTokenPage() {
+function VerifyEmailTokenContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -26,28 +26,21 @@ export default function VerifyEmailTokenPage() {
       }
 
       try {
+        // Use better-auth client for email verification
         const result = await authClient.verifyEmail({
-          token,
-          callbackURL: '/signin',
+          query: { token },
         });
 
         if (result.error) {
           setStatus('error');
-          
-          // Handle specific error cases
-          if (result.error.message?.toLowerCase().includes('expired')) {
-            setErrorMessage(ERROR_MESSAGES.TOKEN_EXPIRED);
-          } else if (result.error.message?.toLowerCase().includes('invalid')) {
-            setErrorMessage(ERROR_MESSAGES.INVALID_TOKEN);
-          } else {
-            setErrorMessage(result.error.message || 'Failed to verify email. Please try again.');
-          }
+          const normalizedError = normalizeAuthError(result.error);
+          setErrorMessage(normalizedError.message);
           return;
         }
 
         // Success
         setStatus('success');
-        
+
         // Start countdown and redirect
         const timer = setInterval(() => {
           setCountdown(prev => {
@@ -63,7 +56,8 @@ export default function VerifyEmailTokenPage() {
         return () => clearInterval(timer);
       } catch (error) {
         setStatus('error');
-        setErrorMessage('An unexpected error occurred. Please try again.');
+        const normalizedError = normalizeAuthError(error);
+        setErrorMessage(normalizedError.message);
       }
     }
 
@@ -150,5 +144,22 @@ export default function VerifyEmailTokenPage() {
         </Link>
       </CardFooter>
     </Card>
+  );
+}
+
+export default function VerifyEmailTokenPage() {
+  return (
+    <Suspense fallback={
+      <Card>
+        <CardHeader>
+          <div className="flex justify-center mb-4">
+            <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
+          </div>
+          <CardTitle className="text-center">Loading...</CardTitle>
+        </CardHeader>
+      </Card>
+    }>
+      <VerifyEmailTokenContent />
+    </Suspense>
   );
 }

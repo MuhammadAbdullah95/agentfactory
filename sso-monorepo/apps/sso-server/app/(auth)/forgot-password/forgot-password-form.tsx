@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { authClient.forgetPassword } from '@repo/auth-config/client';
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
+import { authClient } from '@repo/auth-config/client';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
   FormMessage,
   Button,
   Input,
@@ -17,8 +17,7 @@ import {
 } from '@repo/ui';
 import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/lib/schemas/auth';
 import { FormError } from '@/components/auth/form-error';
-
-import { normalizeAuthError, ERROR_MESSAGES, isEmailExistsError } from '@/lib/utils/auth-errors';
+import { normalizeAuthError } from '@/lib/utils/auth-errors';
 import { Loader2, CheckCircle } from 'lucide-react';
 
 export function ForgotPasswordForm() {
@@ -39,18 +38,15 @@ export function ForgotPasswordForm() {
       setFormError('');
       setSuccessMessage('');
 
-      // Call server action with timeout
-      const result = await (
-        authClient.forgetPassword({
-          email: data.email,
-          redirectTo: `${window.location.origin}/reset-password`,
-        }),
-        30000
-      );
+      // Use better-auth client for password reset request
+      const result = await authClient.forgetPassword({
+        email: data.email,
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
 
       if (result.error) {
-        // Handle backend errors
-        setFormError(result.error.message || ERROR_MESSAGES.UNKNOWN);
+        const normalizedError = normalizeAuthError(result.error);
+        setFormError(normalizedError.message);
         return;
       }
 
@@ -62,8 +58,8 @@ export function ForgotPasswordForm() {
         form.reset();
       }
     } catch (error) {
-      const apiError = handleAuthError(error);
-      setFormError(apiError.message);
+      const normalizedError = normalizeAuthError(error);
+      setFormError(normalizedError.message);
     }
   }
 

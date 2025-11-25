@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signUpAction } from '@/app/server/auth';
+import { authClient.signUp.email } from '@repo/auth-config/client';
 import { 
   Form, 
   FormControl, 
@@ -19,9 +19,9 @@ import { signUpSchema, type SignUpFormData } from '@/lib/schemas/auth';
 import { FormError } from '@/components/auth/form-error';
 import { SocialLoginButtons } from '@/components/auth/social-login-buttons';
 import { PasswordInput } from '@/components/auth/password-input';
-import { withTimeout, handleAuthError } from '@/lib/utils/api';
+
 import { getRedirectUrl } from '@/lib/utils/redirect';
-import { ERROR_MESSAGES } from '@/lib/constants';
+import { normalizeAuthError, ERROR_MESSAGES, isEmailExistsError } from '@/lib/utils/auth-errors';
 import { Loader2 } from 'lucide-react';
 
 export function SignUpForm() {
@@ -45,8 +45,8 @@ export function SignUpForm() {
       setFormError('');
 
       // Call server action with timeout
-      const result = await withTimeout(
-        signUpAction({
+      const result = await (
+        authClient.signUp.email({
           email: data.email,
           password: data.password,
           name: data.name,

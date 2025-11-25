@@ -4,89 +4,75 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { authClient.signIn.email } from '@repo/auth-config/client';
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
+import { authClient } from '@repo/auth-config/client';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
   FormMessage,
   Button,
   Input
 } from '@repo/ui';
-import { signInSchema, type SignInFormData } from '@/lib/schemas/auth';
+import { signUpSchema, type SignUpFormData } from '@/lib/schemas/auth';
 import { FormError } from '@/components/auth/form-error';
 import { SocialLoginButtons } from '@/components/auth/social-login-buttons';
 import { PasswordInput } from '@/components/auth/password-input';
-
+import { normalizeAuthError, isEmailExistsError } from '@/lib/utils/auth-errors';
 import { getRedirectUrl } from '@/lib/utils/redirect';
-import { normalizeAuthError, ERROR_MESSAGES, isEmailExistsError } from '@/lib/utils/auth-errors';
 import { Loader2 } from 'lucide-react';
 
-export function SignInForm() {
+export function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formError, setFormError] = useState<string>('');
 
-  const form = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       password: '',
+      name: '',
     },
   });
 
   const { isSubmitting } = form.formState;
 
-  async function onSubmit(data: SignInFormData) {
+  async function onSubmit(data: SignUpFormData) {
     try {
       setFormError('');
 
-      // Call server action with timeout
-      const result = await (
-        authClient.signIn.email({
-          email: data.email,
-          password: data.password,
-          callbackURL: getRedirectUrl(searchParams),
-        }),
-        30000
-      );
+      // Use better-auth client for sign up
+      const result = await authClient.signUp.email({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        callbackURL: getRedirectUrl(searchParams),
+      });
 
       if (result.error) {
-        // Handle backend errors
-        const error = result.error;
+        // Normalize error message
+        const normalizedError = normalizeAuthError(result.error);
+        setFormError(normalizedError.message);
 
-        // Check for invalid credentials
-        if (error.message?.toLowerCase().includes('invalid') ||
-            error.message?.toLowerCase().includes('password') ||
-            error.message?.toLowerCase().includes('credentials')) {
-          setFormError(ERROR_MESSAGES.INVALID_CREDENTIALS);
-          return;
+        // Set field-specific errors
+        if (isEmailExistsError(result.error)) {
+          form.setError('email', {
+            message: normalizedError.message,
+          });
         }
 
-        // Check for email not verified
-        if (error.message?.toLowerCase().includes('verify') ||
-            error.message?.toLowerCase().includes('verification')) {
-          setFormError(ERROR_MESSAGES.EMAIL_NOT_VERIFIED);
-          return;
-        }
-
-        // Generic error
-        setFormError(error.message || ERROR_MESSAGES.UNKNOWN);
         return;
       }
 
-      // Success - redirect
+      // Success - redirect to verify email page
       if (result.data) {
-        const redirectUrl = getRedirectUrl(searchParams);
-        router.push(redirectUrl);
-        router.refresh(); // Force refresh to update session
+        router.push('/verify-email?email=' + encodeURIComponent(data.email));
       }
     } catch (error) {
-      const apiError = handleAuthError(error);
-      setFormError(apiError.message);
+      const normalizedError = normalizeAuthError(error);
+      setFormError(normalizedError.message);
     }
   }
 
@@ -94,6 +80,26 @@ export function SignInForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {formError && <FormError message={formError} />}
+
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="John Doe"
+                  autoComplete="name"
+                  disabled={isSubmitting}
+                  autoFocus
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -107,7 +113,6 @@ export function SignInForm() {
                   placeholder="john@example.com"
                   autoComplete="email"
                   disabled={isSubmitting}
-                  autoFocus
                   {...field}
                 />
               </FormControl>
@@ -125,7 +130,7 @@ export function SignInForm() {
               <FormControl>
                 <PasswordInput
                   placeholder="••••••••"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -135,14 +140,7 @@ export function SignInForm() {
           )}
         />
 
-        <div className="flex items-center justify-end">
-          <Link 
-            href="/forgot-password" 
-            className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-          >
-            Forgot password?
-          </Link>
-        </div>
+        <SocialLoginButtons callbackUrl={getRedirectUrl(searchParams)} />
 
         <Button
           type="submit"
@@ -152,14 +150,12 @@ export function SignInForm() {
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Signing in...
+              Creating account...
             </>
           ) : (
-            'Sign in'
+            'Create account'
           )}
         </Button>
-
-        <SocialLoginButtons callbackUrl={getRedirectUrl(searchParams)} />
       </form>
     </Form>
   );

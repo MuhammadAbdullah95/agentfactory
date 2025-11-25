@@ -1,7 +1,6 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { jwt } from 'better-auth/plugins';
-import { oidcProvider } from 'better-auth/plugins';
+import { jwt, oidcProvider } from 'better-auth/plugins';
 import { sendVerificationEmail, sendPasswordResetEmail } from './email';
 
 // Lazy load database to avoid build-time errors
@@ -101,13 +100,13 @@ export const auth = betterAuth({
         },
       },
     }),
-    
+
     oidcProvider({
-      loginPage: '/auth/login',
-      consentPage: '/auth/consent', 
+      loginPage: '/login',
+      consentPage: '/consent',
       useJWTPlugin: true,
       allowDynamicClientRegistration: true,
-      
+
       trustedClients: [
         {
           clientId: process.env.INTERNAL_CLIENT_ID || 'internal-dashboard',

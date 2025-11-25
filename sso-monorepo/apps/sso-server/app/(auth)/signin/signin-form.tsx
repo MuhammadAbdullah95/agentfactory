@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { authClient.signIn.email } from '@repo/auth-config/client';
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
+import { authClient } from '@repo/auth-config/client';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
   FormMessage,
   Button,
   Input
@@ -20,9 +20,8 @@ import { signInSchema, type SignInFormData } from '@/lib/schemas/auth';
 import { FormError } from '@/components/auth/form-error';
 import { SocialLoginButtons } from '@/components/auth/social-login-buttons';
 import { PasswordInput } from '@/components/auth/password-input';
-
+import { normalizeAuthError } from '@/lib/utils/auth-errors';
 import { getRedirectUrl } from '@/lib/utils/redirect';
-import { normalizeAuthError, ERROR_MESSAGES, isEmailExistsError } from '@/lib/utils/auth-errors';
 import { Loader2 } from 'lucide-react';
 
 export function SignInForm() {
@@ -44,49 +43,30 @@ export function SignInForm() {
     try {
       setFormError('');
 
-      // Call server action with timeout
-      const result = await (
-        authClient.signIn.email({
-          email: data.email,
-          password: data.password,
-          callbackURL: getRedirectUrl(searchParams),
-        }),
-        30000
-      );
+      // Use better-auth client for sign in (maintains OAuth flow)
+      const result = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        callbackURL: getRedirectUrl(searchParams),
+      });
 
       if (result.error) {
-        // Handle backend errors
-        const error = result.error;
-
-        // Check for invalid credentials
-        if (error.message?.toLowerCase().includes('invalid') ||
-            error.message?.toLowerCase().includes('password') ||
-            error.message?.toLowerCase().includes('credentials')) {
-          setFormError(ERROR_MESSAGES.INVALID_CREDENTIALS);
-          return;
-        }
-
-        // Check for email not verified
-        if (error.message?.toLowerCase().includes('verify') ||
-            error.message?.toLowerCase().includes('verification')) {
-          setFormError(ERROR_MESSAGES.EMAIL_NOT_VERIFIED);
-          return;
-        }
-
-        // Generic error
-        setFormError(error.message || ERROR_MESSAGES.UNKNOWN);
+        // Normalize error message
+        const normalizedError = normalizeAuthError(result.error);
+        setFormError(normalizedError.message);
         return;
       }
 
-      // Success - redirect
+      // Success - better-auth OIDC plugin will handle OAuth redirection
+      // For standard sign-in, redirect to the callback URL
       if (result.data) {
         const redirectUrl = getRedirectUrl(searchParams);
         router.push(redirectUrl);
         router.refresh(); // Force refresh to update session
       }
     } catch (error) {
-      const apiError = handleAuthError(error);
-      setFormError(apiError.message);
+      const normalizedError = normalizeAuthError(error);
+      setFormError(normalizedError.message);
     }
   }
 
