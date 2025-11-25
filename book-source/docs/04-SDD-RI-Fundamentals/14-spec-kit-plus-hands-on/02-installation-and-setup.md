@@ -99,6 +99,23 @@ By the end of this lesson, you'll have:
 
 ---
 
+## Prerequisites: Install Python First
+
+:::caution Python Required
+Spec-Kit Plus requires **Python 3.12 or higher**. If you haven't installed Python yet, complete the Python installation first before continuing.
+
+**Quick Check** - Run this in your terminal:
+```bash
+python --version
+```
+
+**If you see Python 3.12+ (e.g., `Python 3.12.0`)**: Continue to the next section.
+
+**If you see an error or a version below 3.12**: Follow the installation guide at [Installing Python](/docs/05-Python-Fundamentals/17-introduction-to-python/02-installing-python) and return here when complete.
+:::
+
+---
+
 ## Install Spec-Kit Plus Framework
 
 Now let's install the Spec-Kit Plus framework. This is independent of your AI tool choice.
@@ -117,12 +134,6 @@ python --version
 # - macOS: brew install python@3.12
 # - Ubuntu: sudo apt install python3.12
 # - Windows: Download from python.org
-```
-
-**Expected Output:**
-```
-Python 3.12.0  ✓ (or higher)
-Python 3.11.5  ✗ (too old - upgrade needed)
 ```
 
 **Step 2: Install Spec-Kit Plus**
