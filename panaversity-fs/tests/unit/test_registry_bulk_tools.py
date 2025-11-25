@@ -8,11 +8,11 @@ from panaversity_fs.models import ListBooksInput, GetBookArchiveInput
 
 
 class TestListBooks:
-    """Test list_books tool."""
+    """Test list_books tool (dynamic directory discovery)."""
 
     @pytest.mark.asyncio
-    async def test_list_books_with_registry(self, sample_book_data):
-        """Test listing books from registry."""
+    async def test_list_books_with_books_directory(self, sample_book_data):
+        """Test listing books by scanning books/ directory."""
         result = await list_books(ListBooksInput())
 
         data = json.loads(result)
@@ -21,51 +21,37 @@ class TestListBooks:
 
         book = data[0]
         assert "book_id" in book
-        assert "title" in book
         assert "storage_backend" in book
-        assert "created_at" in book
-        assert "status" in book
         assert book["book_id"] == "test-book"
 
     @pytest.mark.asyncio
-    async def test_list_books_no_registry(self, setup_fs_backend):
-        """Test listing books when registry doesn't exist returns error or empty array."""
+    async def test_list_books_no_books_directory(self, setup_fs_backend):
+        """Test listing books when books/ directory doesn't exist returns empty array."""
         result = await list_books(ListBooksInput())
-
-        # Tool returns error string when registry doesn't exist (OpenDAL NotFound exception)
-        # This is acceptable - treat as empty list
-        if "error" in result.lower() and "not found" in result.lower():
-            data = []
-        else:
-            data = json.loads(result)
-
+        data = json.loads(result)
         assert data == []
 
     @pytest.mark.asyncio
-    async def test_list_books_validates_entries(self, setup_fs_backend):
-        """Test that invalid entries are skipped."""
+    async def test_list_books_multiple_books(self, setup_fs_backend):
+        """Test listing multiple books from directory."""
         from panaversity_fs.storage import get_operator
 
         op = get_operator()
 
-        # Create registry with one valid and one invalid entry
-        registry = """books:
-  - book_id: valid-book
-    title: Valid Book
-    storage_backend: fs
-    created_at: "2025-01-01T00:00:00Z"
-    status: active
-  - book_id: invalid
-    # Missing required fields
-"""
-        await op.write("registry.yaml", registry.encode('utf-8'))
+        # Create multiple book directories with a file inside each
+        # (directories need content to be recognized by some backends)
+        await op.write("books/book-alpha/book.yaml", b"title: Alpha Book")
+        await op.write("books/book-beta/book.yaml", b"title: Beta Book")
+        await op.write("books/book-gamma/book.yaml", b"title: Gamma Book")
 
         result = await list_books(ListBooksInput())
         data = json.loads(result)
 
-        # Should only include valid entry
-        assert len(data) == 1
-        assert data[0]["book_id"] == "valid-book"
+        # Should find all three books
+        book_ids = [b["book_id"] for b in data]
+        assert "book-alpha" in book_ids
+        assert "book-beta" in book_ids
+        assert "book-gamma" in book_ids
 
 
 class TestGetBookArchive:

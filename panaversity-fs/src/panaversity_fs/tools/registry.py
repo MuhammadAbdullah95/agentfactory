@@ -1,22 +1,22 @@
 """Registry management tools for PanaversityFS.
 
 Implements 1 MCP tool for book registry operations:
-- list_books: List all registered books from registry.yaml
+- list_books: List all books by scanning books/ directory (dynamic discovery)
 """
 
 from panaversity_fs.app import mcp
-from panaversity_fs.models import ListBooksInput, BookMetadata, OperationType, OperationStatus
+from panaversity_fs.models import ListBooksInput, OperationType, OperationStatus
 from panaversity_fs.storage import get_operator
 from panaversity_fs.audit import log_operation
+from panaversity_fs.config import get_config
 from datetime import datetime, timezone
 import json
-import yaml
 
 
 @mcp.tool(
     name="list_books",
     annotations={
-        "title": "List Registered Books",
+        "title": "List Books",
         "readOnlyHint": True,
         "destructiveHint": False,
         "idempotentHint": True,
@@ -24,15 +24,16 @@ import yaml
     }
 )
 async def list_books(params: ListBooksInput) -> str:
-    """List all registered books from registry.yaml (FR-024).
+    """List all books by scanning books/ directory (FR-024).
 
-    Returns array of book metadata including status: [active, archived, migrating].
+    Dynamically discovers books by scanning subdirectories under books/.
+    Each subdirectory name is treated as a book_id.
 
     Args:
         params (ListBooksInput): Empty input model (no parameters required)
 
     Returns:
-        str: JSON array of book metadata
+        str: JSON array of book entries with book_id and storage_backend
 
     Example:
         ```
@@ -40,17 +41,11 @@ async def list_books(params: ListBooksInput) -> str:
         Output: [
           {
             "book_id": "ai-native-python",
-            "title": "AI-Native Python Development",
-            "storage_backend": "fs",
-            "created_at": "2025-01-01T00:00:00Z",
-            "status": "active"
+            "storage_backend": "fs"
           },
           {
             "book_id": "generative-ai-fundamentals",
-            "title": "Generative AI Fundamentals",
-            "storage_backend": "s3",
-            "created_at": "2025-02-01T00:00:00Z",
-            "status": "active"
+            "storage_backend": "fs"
           }
         ]
         ```
@@ -58,54 +53,53 @@ async def list_books(params: ListBooksInput) -> str:
     start_time = datetime.now(timezone.utc)
 
     try:
-        # Get operator
+        # Get operator and config
         op = get_operator()
+        config = get_config()
 
-        # Read registry.yaml
-        registry_path = "registry.yaml"
+        # List books/ directory
+        books_path = "books/"
+        book_list = []
 
         try:
-            registry_bytes = await op.read(registry_path)
-            registry_content = registry_bytes.decode('utf-8')
+            # List immediate children of books/
+            entries = await op.list(books_path)
 
-            # Parse YAML
-            registry_data = yaml.safe_load(registry_content)
+            async for entry in entries:
+                # Only include directories (paths ending with /)
+                if entry.path.endswith('/'):
+                    # Extract book_id from path: "books/ai-native-python/" -> "ai-native-python"
+                    path_parts = entry.path.rstrip('/').split('/')
+                    if len(path_parts) >= 2:
+                        book_id = path_parts[-1]
+                        # Skip hidden directories and special directories
+                        if not book_id.startswith('.') and book_id != 'books':
+                            book_list.append({
+                                "book_id": book_id,
+                                "storage_backend": config.storage_backend
+                            })
 
-            # Extract books array
-            books = registry_data.get('books', [])
+        except Exception:
+            # books/ directory doesn't exist yet, return empty array
+            pass
 
-            # Validate and return
-            book_list = []
-            for book in books:
-                try:
-                    # Validate with Pydantic model
-                    book_metadata = BookMetadata(**book)
-                    book_list.append(book_metadata.model_dump())
-                except Exception as e:
-                    # Skip invalid entries
-                    continue
+        # Log success
+        execution_time = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
+        await log_operation(
+            operation=OperationType.LIST_BOOKS,
+            path=books_path,
+            agent_id="system",
+            status=OperationStatus.SUCCESS,
+            execution_time_ms=execution_time
+        )
 
-            # Log success
-            execution_time = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
-            await log_operation(
-                operation=OperationType.LIST_BOOKS,
-                path=registry_path,
-                agent_id="system",
-                status=OperationStatus.SUCCESS,
-                execution_time_ms=execution_time
-            )
-
-            return json.dumps(book_list, indent=2, default=str)
-
-        except FileNotFoundError:
-            # Registry doesn't exist yet, return empty array
-            return json.dumps([], indent=2)
+        return json.dumps(book_list, indent=2)
 
     except Exception as e:
         # Log error
         await log_operation(
             operation=OperationType.LIST_BOOKS,
-            path="registry.yaml",
+            path="books/",
             agent_id="system",
             status=OperationStatus.ERROR,
             error_message=str(e)

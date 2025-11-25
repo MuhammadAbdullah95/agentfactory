@@ -90,33 +90,15 @@ class AssetMetadata(BaseModel):
 # Registry Models
 # ============================================================================
 
-class BookStatus(str, Enum):
-    """Book registry status (FR-024)."""
-    ACTIVE = "active"
-    ARCHIVED = "archived"
-    MIGRATING = "migrating"
+class BookEntry(BaseModel):
+    """Book entry returned by list_books tool (FR-024).
 
-
-class BookMetadata(BaseModel):
-    """Book registry entry (FR-024).
-
-    Stored in registry.yaml and returned by list_books tool.
+    Dynamically discovered from books/ directory structure.
     """
     model_config = ConfigDict(str_strip_whitespace=True)
 
-    book_id: str = Field(..., description="Unique book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
-    title: str = Field(..., description="Human-readable book title", min_length=1, max_length=200)
-    storage_backend: Literal["fs", "s3", "supabase"] = Field(..., description="Storage backend for this book")
-    created_at: datetime = Field(..., description="When book was added to registry")
-    status: BookStatus = Field(default=BookStatus.ACTIVE, description="Book status")
-
-    @field_validator('book_id')
-    @classmethod
-    def validate_book_id(cls, v: str) -> str:
-        """Validate book_id is lowercase with hyphens only."""
-        if not v.islower():
-            raise ValueError("book_id must be lowercase")
-        return v
+    book_id: str = Field(..., description="Unique book identifier (directory name)", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    storage_backend: Literal["fs", "s3", "supabase"] = Field(..., description="Storage backend serving this book")
 
 
 # ============================================================================

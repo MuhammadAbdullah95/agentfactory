@@ -23,22 +23,20 @@ class TestCompleteBookCreation:
         op = get_operator()
         book_id = "complete-book"
 
-        # 1. Create registry
-        registry = f"""books:
-  - book_id: {book_id}
-    title: Complete Test Book
-    storage_backend: fs
-    created_at: "2025-01-01T00:00:00Z"
-    status: active
+        # 1. Create book directory with metadata (list_books uses dynamic discovery)
+        book_yaml = """title: Complete Test Book
+author: Test Author
+version: 1.0.0
+storage_backend: fs
 """
-        await op.write("registry.yaml", registry.encode('utf-8'))
+        await op.write(f"books/{book_id}/book.yaml", book_yaml.encode('utf-8'))
 
-        # Verify registry
+        # Verify book appears in list
         books_result = await list_books(ListBooksInput())
         books = json.loads(books_result)
         assert any(b["book_id"] == book_id for b in books)
 
-        # 2. Create book metadata
+        # 2. Create book metadata (already done above)
         book_yaml = """title: Complete Test Book
 author: Test Author
 version: 1.0.0
