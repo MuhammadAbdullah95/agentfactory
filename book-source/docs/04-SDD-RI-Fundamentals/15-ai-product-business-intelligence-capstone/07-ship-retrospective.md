@@ -85,16 +85,28 @@ Check that all outputs exist and meet quality standards.
 ### Output Files Verification
 
 ```bash
-ls outputs/
+ls specs/*/output/
 ```
 
 **Expected files:**
-- `f1-brand-analysis.md`
-- `f2-market-brief.md`
-- `f3-content-strategy.md`
-- `f4-action-dashboard.md`
+- `specs/brand-profiler/output/f1-brand-analysis.md`
+- `specs/market-scanner/output/f2-market-brief.md`
+- `specs/content-strategy/output/f3-content-strategy.md`
+- `specs/action-dashboard/output/f4-action-dashboard.md`
 
 **Missing any files?** Go back and complete that feature.
+
+### SDD-RI Artifacts Verification
+
+```bash
+ls specs/*/
+```
+
+**Each feature should have:**
+- `spec.md` — Feature specification (created by /sp.specify)
+- `plan.md` — Implementation plan (created by /sp.plan)
+- `tasks.md` — Atomic tasks with checkpoints (created by /sp.tasks)
+- `output/` — Validated output (created by /sp.implement)
 
 ### Quality Gate Verification
 
@@ -102,7 +114,7 @@ For each output, verify it meets the constitution's quality gates:
 
 **F1: Brand Analysis**
 ```bash
-cat outputs/f1-brand-analysis.md | head -40
+cat specs/brand-profiler/output/f1-brand-analysis.md | head -40
 ```
 
 Checklist:
@@ -114,7 +126,7 @@ Checklist:
 
 **F2: Market Brief**
 ```bash
-cat outputs/f2-market-brief.md | head -40
+cat specs/market-scanner/output/f2-market-brief.md | head -40
 ```
 
 Checklist:
@@ -126,7 +138,7 @@ Checklist:
 
 **F3: Content Strategy**
 ```bash
-cat outputs/f3-content-strategy.md | head -40
+cat specs/content-strategy/output/f3-content-strategy.md | head -40
 ```
 
 Checklist:
@@ -138,7 +150,7 @@ Checklist:
 
 **F4: Action Dashboard**
 ```bash
-cat outputs/f4-action-dashboard.md | head -40
+cat specs/action-dashboard/output/f4-action-dashboard.md | head -40
 ```
 
 Checklist:
@@ -158,10 +170,8 @@ ls -la
 ```
 
 **Expected files:**
-- `my-profile-data.md` — Your raw profile data
-- `sources-list.md` — F2 research sources
 - `TIME_TRACKER.md` — Acceleration measurement
-- `.specify/memory/constitution.md` — Quality standards
+- `.specify/memory/constitution.md` — Quality standards (created by /sp.constitution)
 
 ### Skills Verification
 
@@ -170,8 +180,8 @@ ls .claude/skills/
 ```
 
 **Expected files:**
-- `structured-ai-prompting.md`
-- `multi-source-synthesis.md`
+- `sdd-ri-specification.md`
+- `checkpoint-implementation.md`
 - (optional third skill)
 
 ## Complete Your Acceleration Data
@@ -280,8 +290,8 @@ List friction points or things that didn't transfer as expected:
 
 | Skill | Purpose | When to Use Again |
 |-------|---------|-------------------|
-| Structured AI Prompting | _______ | _______ |
-| Multi-Source Synthesis | _______ | _______ |
+| SDD-RI Specification Design | _______ | _______ |
+| Checkpoint-Driven Implementation | _______ | _______ |
 | [Third skill if created] | _______ | _______ |
 
 ## One-Sentence Insight
@@ -358,8 +368,8 @@ outputs/
 
 ## Skills Created
 
-1. **Structured AI Prompting** — How to get consistent, structured outputs from AI tools
-2. **Multi-Source Synthesis** — How to combine multiple inputs without redundancy
+1. **SDD-RI Specification Design** — How to write /sp.specify specifications with Intent, Constraints, Success Evals
+2. **Checkpoint-Driven Implementation** — How to use /sp.implement checkpoints for systematic validation
 
 ## Key Learning
 
@@ -380,30 +390,44 @@ Your complete project should look like this:
 
 ```
 personal-bi-system/
-├── my-profile-data.md           # Your raw profile data
-├── sources-list.md              # F2 research sources
-├── TIME_TRACKER.md              # Acceleration measurement
-├── RETROSPECTIVE.md             # What you learned
-├── PROJECT_SUMMARY.md           # System overview
+├── TIME_TRACKER.md                      # Acceleration measurement
+├── RETROSPECTIVE.md                     # What you learned
+├── PROJECT_SUMMARY.md                   # System overview
 ├── .specify/
 │   └── memory/
-│       └── constitution.md      # Quality standards
+│       └── constitution.md              # Quality standards (created by /sp.constitution)
 ├── .claude/
 │   └── skills/
-│       ├── structured-ai-prompting.md
-│       └── multi-source-synthesis.md
-└── outputs/
-    ├── f1-brand-analysis.md
-    ├── f2-market-brief.md
-    ├── f3-content-strategy.md
-    └── f4-action-dashboard.md
+│       ├── sdd-ri-specification.md
+│       └── checkpoint-implementation.md
+└── specs/
+    ├── brand-profiler/                  # Feature 1
+    │   ├── spec.md
+    │   ├── plan.md
+    │   ├── tasks.md
+    │   └── output/f1-brand-analysis.md
+    ├── market-scanner/                  # Feature 2
+    │   ├── spec.md
+    │   ├── plan.md
+    │   ├── tasks.md
+    │   └── output/f2-market-brief.md
+    ├── content-strategy/                # Feature 3
+    │   ├── spec.md
+    │   ├── plan.md
+    │   ├── tasks.md
+    │   └── output/f3-content-strategy.md
+    └── action-dashboard/                # Feature 4
+        ├── spec.md
+        ├── plan.md
+        ├── tasks.md
+        └── output/f4-action-dashboard.md
 ```
 
 Verify your structure:
 
 ```bash
 ls -la
-ls outputs/
+ls specs/*/
 ls .claude/skills/
 ```
 
@@ -432,7 +456,8 @@ Questions:
 ```
 I just completed a Personal BI System with these results:
 - F4 took [X]% of F1 time
-- Created 2 skills: Structured AI Prompting, Multi-Source Synthesis
+- Used SDD-RI workflow (/sp.specify → /sp.plan → /sp.tasks → /sp.implement) for all 4 features
+- Created 2 skills: SDD-RI Specification Design, Checkpoint-Driven Implementation
 - Key learning: [your insight]
 
 I want to build a similar system for [new domain: job applications / research papers / etc.]

@@ -12,44 +12,44 @@ layer_4_capstone: "Combining F1 brand analysis + F2 market brief into actionable
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
-  - name: "Multi-Source AI Synthesis"
-    proficiency_level: "B1"
-    category: "Technical"
-    bloom_level: "Analyze"
-    digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can feed multiple structured inputs to AI and generate integrated output"
-
-  - name: "Content Pillar Design"
-    proficiency_level: "B1"
-    category: "Technical"
-    bloom_level: "Create"
-    digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can identify content themes that connect personal strengths to market demand"
-
-  - name: "Pipeline Composition"
-    proficiency_level: "B1"
-    category: "Conceptual"
-    bloom_level: "Understand"
-    digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can explain how F1 + F2 outputs become F3 inputs and produce integrated strategy"
-
-  - name: "Actionable Output Generation"
+  - name: "Feature Specification with /sp.specify"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
-    digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can generate specific action items from analysis, not vague recommendations"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can use /sp.specify to create structured specification for multi-input synthesis feature"
+
+  - name: "Implementation Planning with /sp.plan"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can generate implementation plan for content strategy synthesis"
+
+  - name: "Task Decomposition with /sp.tasks"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can break synthesis plan into atomic tasks with checkpoints"
+
+  - name: "AI-Driven Implementation with /sp.implement"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can execute content generation tasks with checkpoint review pattern"
 
 learning_objectives:
-  - objective: "Combine F1 brand analysis and F2 market brief into a unified content strategy"
+  - objective: "Use /sp.specify to create content strategy specification with multi-input dependencies"
     proficiency_level: "B1"
-    bloom_level: "Analyze"
-    assessment_method: "Content pillars explicitly connect F1 strengths to F2 trends"
+    bloom_level: "Apply"
+    assessment_method: "Specification file references F1 and F2 outputs as inputs"
 
-  - objective: "Generate actionable content plan with specific topics and schedule"
+  - objective: "Execute full SDD-RI workflow for Feature 3"
     proficiency_level: "B1"
-    bloom_level: "Create"
-    assessment_method: "Output includes 10+ topic ideas and weekly posting schedule"
+    bloom_level: "Apply"
+    assessment_method: "Student runs /sp.specify → /sp.plan → /sp.tasks → /sp.implement"
 
   - objective: "Demonstrate continued acceleration from F1 baseline"
     proficiency_level: "A2"
@@ -58,12 +58,12 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 4
-  reused_concepts: 6
-  assessment: "4 new concepts (content pillars, topic ideation, posting schedule, format selection) + 6 reused (structured prompting, validation, quality gates, Gemini App, time tracking, pipeline flow) within B1 limit ✓"
+  reused_concepts: 8
+  assessment: "4 new concepts (content pillars, topic ideation, posting schedule, format selection) + 8 reused from F1-F2 (/sp.specify, /sp.plan, /sp.tasks, /sp.implement, quality gates, checkpoint review, Gemini App, pipeline flow) within B1 limit ✓"
 
 differentiation:
-  extension_for_advanced: "Add audience persona development and content distribution channel strategy"
-  remedial_for_struggling: "Use provided prompt templates exactly; focus on validating pillar-to-trend connections"
+  extension_for_advanced: "Add audience persona development using /sp.clarify for specification refinement"
+  remedial_for_struggling: "Use provided specification template exactly; focus on checkpoint review"
 
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/015-chapter-15-redesign/spec.md"
@@ -71,7 +71,7 @@ created: "2025-11-25"
 last_modified: "2025-11-25"
 git_author: "Claude Code"
 workflow: "/sp.loopflow.v2"
-version: "3.0.0"
+version: "4.0.0"
 ---
 
 # Feature 3: Content Strategy Generator
@@ -80,68 +80,223 @@ You have a brand analysis (F1) and a market intelligence brief (F2). Now you'll 
 
 **This is multi-input synthesis.** You're feeding two complete outputs (F1 + F2) into Gemini App and asking it to produce an integrated strategy. This mirrors how real business intelligence systems work: data flows through a pipeline, each stage adding value.
 
-**Start your timer.** Record in TIME_TRACKER.md:
+**START YOUR TIMER NOW.** Update TIME_TRACKER.md:
 
 ```
 F3: Content Strategy Generator | Start: [current time] | End: | Duration: |
 ```
 
-## Review Your Constitution
+## Step 1: Create Your Specification (/sp.specify)
 
-Open your constitution and check Feature 3's quality gates:
+Run the specify command to create your feature specification:
 
-```bash
-cat .specify/memory/constitution.md | grep -A 10 "Content Strategy Generator"
+```
+/sp.specify
+
+Feature: Content Strategy Generator
+
+Intent:
+Synthesize my brand analysis (F1) and market brief (F2) using Gemini App to produce an actionable content strategy.
+The strategy connects my personal strengths to market trends through specific content pillars, topics, and a posting schedule.
+
+Input Data:
+- F1 brand analysis (specs/brand-profiler/output/f1-brand-analysis.md)
+  - Core strengths (3+)
+  - Brand gaps (2+)
+  - Positioning statement
+- F2 market brief (specs/market-scanner/output/f2-market-brief.md)
+  - Industry trends (3+)
+  - In-demand skills
+  - Opportunity areas
+
+Tool: Gemini App (gemini.google.com)
+
+Constraints:
+- Must use Gemini App (browser-based, no API)
+- Content pillars MUST connect F1 strengths to F2 trends
+- Must produce structured markdown output
+- Schedule must be realistic for stated time constraints
+
+Success Evals:
+- Output contains 3 content pillars
+- Each pillar explicitly connects one F1 strength to one F2 trend
+- Output contains 10+ topic ideas distributed across pillars
+- Output contains weekly posting schedule with time estimates
+- Output contains first week action items (5+)
+- Output saved to specs/content-strategy/output/f3-content-strategy.md
+
+Non-Goals:
+- No automated content publishing
+- No audience research (using F2 market data instead)
+- No competitor content analysis
 ```
 
-**Required outputs:**
-- 3 content pillars (themes you'll focus on)
-- Weekly posting schedule
-- 10+ topic ideas with brief descriptions
-- Format recommendations (posts, articles, videos)
-- First week action items
+**Agent does:**
+- Creates `specs/content-strategy/spec.md` with your specification
+- Validates against constitution quality gates
+- Confirms input dependencies (F1, F2) and success evals are testable
 
-**Quality gate:** Content pillars must connect F1 strengths to F2 market trends.
+**Verify the specification:**
 
-## Gather Your Inputs
-
-You need both F1 and F2 outputs ready:
-
-**Verify F1 output exists:**
 ```bash
-cat outputs/f1-brand-analysis.md
+cat specs/content-strategy/spec.md
 ```
 
-You should see:
-- Core strengths (3+)
-- Brand gaps (2+)
-- Positioning statement
-- Differentiation opportunities
+## Step 2: Generate Implementation Plan (/sp.plan)
 
-**Verify F2 output exists:**
-```bash
-cat outputs/f2-market-brief.md
+Run the plan command to generate your synthesis strategy:
+
+```
+/sp.plan
+
+Context: specs/content-strategy/spec.md
+
+Generate a plan for implementing the Content Strategy Generator using Gemini App.
+
+The plan should cover:
+1. How to gather and format F1 + F2 inputs
+2. What prompts to run for pillars, topics, schedule
+3. How to validate pillar-to-trend connections
+4. How to validate output against quality gates
+
+Tool constraints from constitution:
+- Gemini App at gemini.google.com (browser-based)
+- Multi-input synthesis (F1 + F2)
+- Structured markdown output
 ```
 
-You should see:
-- Industry trends (3+)
-- In-demand skills
-- Competitor landscape
-- Opportunity areas matched to your profile
+**Agent does:**
+- Creates `specs/content-strategy/plan.md`
+- Outlines phases: Input Gathering → Pillar Generation → Topic Expansion → Schedule Creation → Validation
+- References constitution quality gates
 
-**If either file is incomplete:** Go back and complete F1 or F2 before proceeding.
+**Verify the plan:**
 
-## Open Gemini App
+```bash
+cat specs/content-strategy/plan.md
+```
 
-Go to **gemini.google.com** in your browser.
+## Step 3: Break Into Tasks (/sp.tasks)
 
-Start a new conversation for Feature 3.
+Run the tasks command to decompose the plan into atomic work units:
 
-## Generate Content Pillars
+```
+/sp.tasks
 
-Content pillars are the 3 main themes you'll create content around. They should connect YOUR strengths (F1) to MARKET demand (F2).
+Context:
+- Specification: specs/content-strategy/spec.md
+- Plan: specs/content-strategy/plan.md
 
-**Copy this prompt and fill in your data:**
+Break down into atomic tasks with checkpoints.
+```
+
+**Agent does:**
+- Creates `specs/content-strategy/tasks.md`
+- Defines phases with checkpoints
+- Each task is small enough to verify independently
+
+**Expected task structure:**
+
+```
+Phase 1: Input Gathering
+├─ Task 1.1: Verify F1 brand analysis exists and is complete
+├─ Task 1.2: Verify F2 market brief exists and is complete
+├─ Task 1.3: Extract key data (strengths, gaps, positioning, trends, skills)
+└─ CHECKPOINT 1: Review inputs before synthesis
+
+Phase 2: Pillar Generation
+├─ Task 2.1: Open Gemini App and start new conversation
+├─ Task 2.2: Send pillar generation prompt with F1 + F2 data
+├─ Task 2.3: Verify each pillar connects F1 strength to F2 trend
+├─ Task 2.4: Iterate if connections are weak
+└─ CHECKPOINT 2: Review 3 pillars for F1→F2 connections
+
+Phase 3: Topic Expansion
+├─ Task 3.1: Send topic generation prompt with 3 pillars
+├─ Task 3.2: Verify 10+ topics distributed across pillars
+├─ Task 3.3: Verify topics are specific (not generic)
+└─ CHECKPOINT 3: Review topic list for quality
+
+Phase 4: Schedule and Actions
+├─ Task 4.1: Send schedule generation prompt with time constraints
+├─ Task 4.2: Verify schedule is realistic
+├─ Task 4.3: Send first week action items prompt
+├─ Task 4.4: Verify actions are specific and time-bounded
+└─ CHECKPOINT 4: Review schedule and actions
+
+Phase 5: Validation and Save
+├─ Task 5.1: Compile all responses into structured strategy
+├─ Task 5.2: Verify 3 pillars with F1→F2 connections
+├─ Task 5.3: Verify 10+ topics
+├─ Task 5.4: Verify realistic schedule
+├─ Task 5.5: Verify 5+ first week actions
+└─ CHECKPOINT 5: All quality gates pass?
+
+Phase 6: Save Output
+├─ Task 6.1: Create output directory
+├─ Task 6.2: Save validated output to f3-content-strategy.md
+└─ CHECKPOINT 6: Feature complete
+```
+
+**Verify the tasks:**
+
+```bash
+cat specs/content-strategy/tasks.md
+```
+
+## Step 4: Execute Implementation (/sp.implement)
+
+Now execute the tasks with checkpoint review:
+
+```
+/sp.implement
+
+Context:
+- Specification: specs/content-strategy/spec.md
+- Plan: specs/content-strategy/plan.md
+- Tasks: specs/content-strategy/tasks.md
+
+Execute Phase 1 (Input Gathering) with checkpoint.
+```
+
+### Phase 1: Input Gathering
+
+**Agent does:**
+- Task 1.1-1.2: Verifies both F1 and F2 outputs exist
+- Task 1.3: Extracts key data for synthesis
+
+**Agent reports:**
+
+```
+Input Verification:
+✓ F1 brand analysis found: specs/brand-profiler/output/f1-brand-analysis.md
+  - 3 core strengths identified
+  - 2 brand gaps identified
+  - Positioning statement present
+
+✓ F2 market brief found: specs/market-scanner/output/f2-market-brief.md
+  - 4 industry trends identified
+  - In-demand skills (technical + soft) present
+  - Opportunity areas matched to profile
+
+Inputs ready for synthesis.
+```
+
+**CHECKPOINT 1:** Review inputs before synthesis.
+- Are both F1 and F2 outputs complete?
+- Can you identify which F1 strengths might connect to which F2 trends?
+
+**Your decision:**
+- ✅ "Inputs look good. Proceed to Phase 2."
+- ❌ "F1/F2 incomplete. Need to go back and fix."
+
+### Phase 2: Pillar Generation
+
+```
+Continue /sp.implement - Execute Phase 2 (Pillar Generation)
+```
+
+**Agent provides pillar generation prompt:**
 
 ```
 You are a content strategist helping me build a personal brand content strategy.
@@ -149,24 +304,24 @@ You are a content strategist helping me build a personal brand content strategy.
 ## My Brand Analysis (from Feature 1)
 
 ### Core Strengths:
-[Paste your 3+ strengths from f1-brand-analysis.md]
+[Agent pastes your F1 strengths here]
 
 ### Brand Gaps:
-[Paste your 2+ gaps from f1-brand-analysis.md]
+[Agent pastes your F1 gaps here]
 
 ### Positioning Statement:
-[Paste your positioning statement]
+[Agent pastes your positioning statement]
 
 ## Market Intelligence (from Feature 2)
 
 ### Industry Trends:
-[Paste the top 3-5 trends from f2-market-brief.md]
+[Agent pastes your F2 trends here]
 
 ### In-Demand Skills:
-[Paste the technical and soft skills lists]
+[Agent pastes F2 skills lists]
 
 ### Opportunity Areas:
-[Paste the opportunity areas that matched your profile]
+[Agent pastes F2 opportunity areas]
 
 ## Task: Generate Content Pillars
 
@@ -182,28 +337,45 @@ For each pillar:
 Format as structured markdown with clear sections for each pillar.
 ```
 
-**Review the response:**
-- Does each pillar connect to at least one of your F1 strengths?
-- Does each pillar address at least one F2 trend or skill demand?
-- Do the example topics feel specific to YOU, not generic?
+**You do:**
+1. Open Gemini App
+2. Paste the prepared prompt
+3. Review the 3 pillars generated
 
-**If connections are weak:** Ask Gemini to revise:
+**Agent validates:**
+- Does each pillar connect to at least one F1 strength?
+- Does each pillar address at least one F2 trend?
+
+**If validation fails:**
 
 ```
-Pillar 2 doesn't clearly connect to my strengths. My strength is "[your strength]".
-Revise Pillar 2 to explicitly leverage that strength while still addressing the market trend.
+Pillar 2 doesn't clearly connect to your strengths.
+
+Your F1 strengths are:
+1. [Strength 1]
+2. [Strength 2]
+3. [Strength 3]
+
+Ask Gemini to revise:
+"Pillar 2 doesn't connect to my strengths. Please revise to leverage [specific strength] while still addressing the market trend."
 ```
 
-## Generate Topic Ideas
+**CHECKPOINT 2:** Review 3 pillars for F1→F2 connections.
+- ✅ "All pillars connect strengths to trends. Proceed to Phase 3."
+- ❌ "Pillar [X] weak. Need to iterate."
 
-Now expand each pillar into specific content topics.
+### Phase 3: Topic Expansion
 
-**Copy this prompt:**
+```
+Continue /sp.implement - Execute Phase 3 (Topic Expansion)
+```
+
+**Agent provides topic generation prompt:**
 
 ```
 Based on the 3 content pillars we just defined:
 
-[Paste the 3 pillars Gemini generated]
+[Agent includes the 3 pillars from Phase 2]
 
 Generate 10-15 specific content topic ideas across these pillars.
 
@@ -220,94 +392,108 @@ Avoid generic topics like "How to Get Started with X" or "Top 10 Tips for Y".
 Make each topic specific to my positioning and the market trends we identified.
 ```
 
-**Review the response:**
-- Are there 10+ topics?
-- Are topics distributed across all 3 pillars?
-- Do titles feel specific (not generic listicles)?
-- Are formats varied (not all the same type)?
+**Agent validates:**
+- 10+ topics generated?
+- Topics distributed across all 3 pillars?
+- Titles specific (not generic listicles)?
 
-## Generate Weekly Schedule
+**CHECKPOINT 3:** Review topic list for quality.
+- ✅ "10+ specific topics. Proceed to Phase 4."
+- ❌ "Only [X] topics / topics too generic. Need to re-prompt."
 
-Now create a realistic posting schedule.
-
-**Copy this prompt:**
-
-```
-I want to post content consistently but sustainably.
-
-My constraints:
-- I can spend [2-4] hours per week on content creation
-- I work best in the [morning/evening] for creative work
-- I prefer [LinkedIn/Twitter/Blog/YouTube] as my primary platform
-
-Based on the topics we generated, create a realistic weekly posting schedule.
-
-Include:
-1. **Day and Time** — When to post
-2. **Content Type** — Post, article, thread, video
-3. **Time Investment** — How long each piece takes to create
-4. **Batch Recommendations** — Which pieces can be created together
-
-Also recommend:
-- Which topic to start with (and why)
-- How to repurpose one piece across multiple formats
-- What to do if I miss a week
-
-Be realistic about time. Don't suggest daily posting if I only have 2 hours per week.
-```
-
-**Review the response:**
-- Is the schedule sustainable given your time constraints?
-- Are batch recommendations practical?
-- Does the "where to start" recommendation make sense for your brand?
-
-## Generate First Week Action Items
-
-Make the strategy immediately actionable.
-
-**Copy this prompt:**
+### Phase 4: Schedule and Actions
 
 ```
-Let's make this actionable for this week.
-
-From the content strategy we built:
-- 3 content pillars identified
-- 10+ topic ideas generated
-- Weekly schedule created
-
-Generate my FIRST WEEK action items.
-
-For each action item:
-1. **Task** — Specific action (not vague)
-2. **Time Required** — How long it takes
-3. **Output** — What I'll have when done
-4. **Why First** — Why this task should come before others
-
-Include both content creation AND content distribution tasks.
-
-Give me 5-7 action items total. No more than 4 hours total time investment.
-Make each task completable in a single sitting.
+Continue /sp.implement - Execute Phase 4 (Schedule and Actions)
 ```
 
-**Review the response:**
-- Are action items specific (not "work on content")?
-- Is total time reasonable?
-- Can you actually start on item #1 today?
+**Agent asks for your constraints:**
 
-## Compile Your Content Strategy
+```
+To generate a realistic schedule, I need your time constraints:
 
-Create the output file:
-
-```bash
-touch outputs/f3-content-strategy.md
+1. How many hours per week can you spend on content creation? [2-4 hours typical]
+2. When do you work best for creative tasks? [morning/evening]
+3. What's your primary platform? [LinkedIn/Twitter/Blog/YouTube]
 ```
 
-Compile all Gemini responses into a structured strategy:
+**You provide:**
+```
+- 3 hours per week for content
+- I work best in mornings
+- Primary platform: LinkedIn
+```
+
+**Agent provides schedule prompt and first week actions prompt:**
+
+(Schedule prompt with your constraints, then first week actions prompt)
+
+**Agent validates:**
+- Schedule realistic for stated hours?
+- First week actions specific and time-bounded?
+- Total time ≤ 4 hours?
+
+**CHECKPOINT 4:** Review schedule and actions.
+- ✅ "Schedule realistic, actions specific. Proceed to Phase 5."
+- ❌ "Schedule too aggressive. Need to adjust."
+
+### Phase 5: Validation and Save
+
+```
+Continue /sp.implement - Execute Phase 5 (Validation and Save)
+
+Here are all Gemini responses:
+
+## Pillars:
+[PASTE PILLAR RESPONSE]
+
+## Topics:
+[PASTE TOPIC RESPONSE]
+
+## Schedule:
+[PASTE SCHEDULE RESPONSE]
+
+## First Week Actions:
+[PASTE ACTIONS RESPONSE]
+```
+
+**Agent validates:**
+
+```
+Validation Results:
+✓ 3 content pillars defined
+✓ Pillar 1 connects [Strength] to [Trend]
+✓ Pillar 2 connects [Strength] to [Trend]
+✓ Pillar 3 connects [Strength] to [Trend]
+✓ 12 topic ideas generated
+✓ Topics distributed across all pillars
+✓ Weekly schedule within 3-hour constraint
+✓ 6 first week action items (specific and time-bounded)
+
+All quality gates PASS.
+```
+
+**CHECKPOINT 5:** All quality gates pass?
+- ✅ "All gates pass. Proceed to Phase 6."
+- ❌ "Need to fix [specific issue]. Retrying validation."
+
+### Phase 6: Save Output
+
+```
+Continue /sp.implement - Execute Phase 6 (Save Output)
+```
+
+**Agent does:**
+- Task 6.1: Creates `specs/content-strategy/output/` directory
+- Task 6.2: Saves validated output to `f3-content-strategy.md` with header
+
+**Output file format:**
 
 ```markdown
 # Feature 3: Content Strategy
 Generated: [today's date]
 Tool: Gemini App (gemini.google.com)
+Workflow: /sp.implement
 Inputs: F1 brand analysis + F2 market brief
 
 ---
@@ -340,7 +526,7 @@ Inputs: F1 brand analysis + F2 market brief
 
 ## Weekly Schedule
 
-[Paste the schedule Gemini generated]
+[Schedule content from Gemini]
 
 ### Time Investment Summary
 - Total weekly hours: [X]
@@ -360,46 +546,17 @@ Inputs: F1 brand analysis + F2 market brief
 ---
 
 ## Quality Gate Verification
-
-- [ ] 3 content pillars defined? ✓
-- [ ] Each pillar connects F1 strength to F2 trend? ✓
-- [ ] 10+ topic ideas generated? ✓
-- [ ] Weekly schedule is realistic? ✓
-- [ ] First week actions are specific? ✓
+- [x] 3 content pillars defined
+- [x] Each pillar connects F1 strength to F2 trend
+- [x] 10+ topic ideas generated
+- [x] Weekly schedule is realistic
+- [x] First week actions are specific
 ```
 
-**Verify the file:**
+**CHECKPOINT 6:** Feature complete.
 
 ```bash
-cat outputs/f3-content-strategy.md
-```
-
-## Validate Against Quality Gates
-
-Check your output against the constitution:
-
-**Checklist:**
-
-- [ ] **3 content pillars?** Count them.
-- [ ] **Pillars connect F1 to F2?** Each pillar should explicitly reference a strength AND a trend.
-- [ ] **10+ topic ideas?** Count them.
-- [ ] **Weekly schedule?** Is it specific about days/times?
-- [ ] **Format recommendations?** Are different formats suggested?
-- [ ] **First week actions?** Are there 5+ specific tasks?
-
-**If any check fails:** Go back to Gemini and ask for revisions.
-
-Example:
-
-```
-The content pillars don't clearly connect to my F2 market trends.
-
-My top 3 trends from market research were:
-1. [Trend 1]
-2. [Trend 2]
-3. [Trend 3]
-
-Revise the pillars to explicitly address at least one of these trends each.
+cat specs/content-strategy/output/f3-content-strategy.md
 ```
 
 ## Stop Your Timer
@@ -422,72 +579,54 @@ F3 as % of F1: _____ % (calculate: F3_time / F1_time × 100)
 ```
 
 **Interpretation:**
-- **< 66%**: Strong acceleration—patterns are compounding
+- **< 66%**: Strong acceleration—SDD-RI workflow patterns compounding
 - **66-80%**: Good acceleration—synthesis was efficient
 - **> 80%**: Check if you over-engineered or had tool issues
 
-**Pattern notes for TIME_TRACKER.md:**
+**Note what transferred from F1-F2:**
+- `/sp.specify` specification structure (now with multi-input dependencies)
+- `/sp.plan` → `/sp.tasks` decomposition approach
+- `/sp.implement` checkpoint review pattern
+- Quality gate validation workflow
+- Gemini App prompting patterns (from F1)
+
+## Commit Feature 3
 
 ```
-## Pattern Notes - Feature 3
-- Synthesis pattern: Feeding two outputs into single prompt (F1 + F2 → F3)
-- Iteration pattern: Asking for revisions when connections were weak
-- Validation pattern: Same checklist approach as F1 and F2
-- Acceleration driver: Reusing prompting structure from F1/F2
+/sp.git.commit_pr Commit Feature 3 (Content Strategy Generator) - specification, plan, tasks, and output.
 ```
 
 ## What You Built
 
 You now have:
 
-1. **Content strategy** in `outputs/f3-content-strategy.md`
-2. **3 content pillars** connecting your strengths to market demand
-3. **10+ topic ideas** distributed across pillars
-4. **Weekly schedule** with realistic time estimates
-5. **First week actions** to start immediately
-
-This output feeds Feature 4 (Action Dashboard). Your content strategy becomes one section of the unified dashboard alongside brand summary and market opportunities.
-
-## Try With AI
-
-Get feedback on your content strategy before moving to Feature 4:
-
-**Prompt 1: Pillar Differentiation Check**
-
-In Gemini App:
-
 ```
-Review these 3 content pillars:
-
-[Paste your 3 pillars]
-
-Questions:
-1. Are these pillars distinct enough? Or do they overlap too much?
-2. Which pillar is strongest for building authority quickly?
-3. Which pillar might be hardest to maintain consistently?
-4. If I could only focus on ONE pillar for the first month, which should it be?
+specs/content-strategy/
+├── spec.md              # Feature specification (with F1+F2 dependencies)
+├── plan.md              # Implementation plan
+├── tasks.md             # Atomic tasks with checkpoints
+└── output/
+    └── f3-content-strategy.md  # Validated output
 ```
 
-**Observe:** Gemini may identify overlap or suggest consolidation.
+**Artifacts created by SDD-RI workflow:**
+1. **Specification** defining multi-input dependencies (F1 + F2)
+2. **Plan** outlining synthesis approach
+3. **Tasks** breaking it into verifiable steps
+4. **Output** validated against quality gates
 
-**Prompt 2: Topic Gap Analysis**
+This output feeds Feature 4 (Action Dashboard). Your content strategy becomes one section of the unified dashboard.
+
+## Pattern Notes
+
+Record in TIME_TRACKER.md:
 
 ```
-I have these 10+ content topics:
-
-[Paste your topic list]
-
-Gap analysis:
-1. What content types am I missing? (tutorials, case studies, opinions, etc.)
-2. Which topics would perform well on [your platform] specifically?
-3. Are there any "low-hanging fruit" topics I'm missing—easy to create but high value?
-4. Which topic should be my FIRST published piece and why?
+## Pattern Notes - Feature 3
+- Workflow: /sp.specify → /sp.plan → /sp.tasks → /sp.implement (same as F1, F2)
+- Synthesis pattern: Multi-input specification (F1 + F2 as inputs)
+- Tool pattern: Gemini App for content generation (same as F1)
+- Acceleration: SDD-RI workflow now automatic, only new element was multi-input synthesis
 ```
 
-**Update your `f3-content-strategy.md`** with insights from these checks.
-
----
-
-**Feature 3 complete.** You've synthesized F1 + F2 into an actionable content strategy.
-
-Start Lesson 5: Feature 4 (Action Dashboard). Record your F4 start time. This is the acceleration test—F4 should take less than 50% of F1's time.
+**Start Lesson 5: Feature 4 (Action Dashboard).** Record your F4 start time. This is the acceleration test—F4 should take less than 50% of F1's time.

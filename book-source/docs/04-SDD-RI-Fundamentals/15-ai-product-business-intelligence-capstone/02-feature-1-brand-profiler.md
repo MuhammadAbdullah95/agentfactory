@@ -7,49 +7,49 @@ duration_minutes: 60
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 4"
-layer_progression: "L4 capstone - baseline measurement with Gemini App"
-layer_4_capstone: "Brand analysis using AI tool, establishing acceleration baseline"
+layer_progression: "L4 capstone - baseline measurement with full SDD-RI workflow"
+layer_4_capstone: "Brand analysis using Gemini App, establishing acceleration baseline"
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
-  - name: "AI-Assisted Brand Analysis"
+  - name: "Feature Specification with /sp.specify"
     proficiency_level: "B1"
     category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Information Literacy"
-    measurable_at_this_level: "Student can use Gemini App to analyze personal profile data and extract structured insights"
-
-  - name: "Prompt Engineering for Analysis"
-    proficiency_level: "B1"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Communication"
-    measurable_at_this_level: "Student can craft prompts that produce structured, actionable AI outputs"
-
-  - name: "Output Validation Against Specification"
-    proficiency_level: "B1"
-    category: "Technical"
-    bloom_level: "Analyze"
-    digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can verify AI output meets quality gates from constitution"
-
-  - name: "Baseline Time Measurement"
-    proficiency_level: "A2"
-    category: "Soft"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can track feature build time for acceleration comparison"
+    measurable_at_this_level: "Student can use /sp.specify to create structured specification for AI tool feature"
+
+  - name: "Implementation Planning with /sp.plan"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can generate implementation plan from specification"
+
+  - name: "Task Decomposition with /sp.tasks"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can break plan into atomic tasks with checkpoints"
+
+  - name: "AI-Driven Implementation with /sp.implement"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can execute tasks with checkpoint review pattern"
 
 learning_objectives:
-  - objective: "Use Gemini App to analyze personal profile data"
+  - objective: "Use /sp.specify to create brand analysis specification"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Brand analysis output contains required sections from constitution"
+    assessment_method: "Specification file created with intent, constraints, success evals"
 
-  - objective: "Validate AI output against constitution quality gates"
+  - objective: "Execute full SDD-RI workflow for Feature 1"
     proficiency_level: "B1"
-    bloom_level: "Analyze"
-    assessment_method: "Output cites specific profile phrases as evidence"
+    bloom_level: "Apply"
+    assessment_method: "Student runs /sp.specify → /sp.plan → /sp.tasks → /sp.implement"
 
   - objective: "Establish baseline time for intelligence accumulation measurement"
     proficiency_level: "A2"
@@ -58,11 +58,11 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 6
-  assessment: "6 concepts (Gemini App usage, structured prompting, brand analysis, output validation, quality gates, baseline measurement) within B1 limit ✓"
+  assessment: "6 concepts (/sp.specify, /sp.plan, /sp.tasks, /sp.implement, checkpoint review, baseline measurement) within B1 limit ✓"
 
 differentiation:
-  extension_for_advanced: "Add competitive positioning section comparing to peers in industry"
-  remedial_for_struggling: "Use provided prompt templates exactly; focus on output validation"
+  extension_for_advanced: "Add competitive positioning section; refine spec with /sp.clarify"
+  remedial_for_struggling: "Use provided specification template exactly; focus on checkpoint review"
 
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/015-chapter-15-redesign/spec.md"
@@ -70,49 +70,201 @@ created: "2025-11-25"
 last_modified: "2025-11-25"
 git_author: "Claude Code"
 workflow: "/sp.loopflow.v2"
-version: "3.0.0"
+version: "4.0.0"
 ---
 
 # Feature 1: Personal Brand Profiler
 
-**This is your baseline.** You're analyzing your professional profile using Gemini App to produce a structured brand analysis. You'll measure how long this takes—then build Features 2-4 and compare acceleration.
+**This is your baseline.** You're building Feature 1 using the full SDD-RI workflow: specification → plan → tasks → implement. You'll measure how long this takes—then build Features 2-4 and compare acceleration.
 
-**START YOUR TIMER NOW.** Record in TIME_TRACKER.md:
+**START YOUR TIMER NOW.** Update TIME_TRACKER.md:
 
 ```
 F1: Personal Brand Profiler | Start: [current time] | End: | Duration: |
 ```
 
-## Review Your Specification
+## Step 1: Create Your Specification (/sp.specify)
 
-Open your constitution and review Feature 1's quality gates:
+Run the specify command to create your feature specification:
 
-```bash
-cat .specify/memory/constitution.md | grep -A 10 "Personal Brand Profiler"
+```
+/sp.specify
+
+Feature: Personal Brand Profiler
+
+Intent:
+Analyze my professional profile using Gemini App to produce a structured brand analysis.
+The analysis identifies my core strengths, brand gaps, and positioning opportunities.
+
+Input Data:
+- LinkedIn About section (I'll paste this into Gemini)
+- GitHub bio
+- Portfolio description (if available)
+- Target role/industry
+
+Tool: Gemini App (gemini.google.com)
+
+Constraints:
+- Must use Gemini App (browser-based, no API)
+- Must produce structured markdown output
+- Must complete within 60 minutes total
+
+Success Evals:
+- Output contains 3+ core strengths
+- Each strength includes quoted evidence from my profile
+- Output contains 2+ brand gaps
+- Output contains positioning statement (1-2 sentences)
+- Output contains differentiation opportunities (3-5 items)
+- Output contains confidence score (0-100) with reasoning
+- Output saved to specs/brand-profiler/output/f1-brand-analysis.md
+
+Non-Goals:
+- No automated profile scraping
+- No competitor analysis (that's Feature 2)
+- No content recommendations (that's Feature 3)
 ```
 
-**Required outputs:**
-- 3+ core strengths identified
-- 2+ brand gaps (areas needing development)
-- Positioning statement (1-2 sentences)
-- Differentiation opportunities
-- Confidence score (0-100)
+**Agent does:**
+- Creates `specs/brand-profiler/spec.md` with your specification
+- Validates against constitution quality gates
+- Confirms intent is clear and success evals are testable
 
-**Quality gate:** Must cite specific phrases from your profile as evidence for each strength.
+**Verify the specification:**
 
-## Open Gemini App
+```bash
+cat specs/brand-profiler/spec.md
+```
 
-Go to **gemini.google.com** in your browser.
+## Step 2: Generate Implementation Plan (/sp.plan)
 
-If you're not logged in, sign in with your Google account.
+Run the plan command to generate your implementation strategy:
 
-Start a new conversation (click "+ New chat" if needed).
+```
+/sp.plan
 
-## Create the Analysis Prompt
+Context: specs/brand-profiler/spec.md
 
-You'll build a structured prompt that tells Gemini exactly what to produce.
+Generate a plan for implementing the Personal Brand Profiler using Gemini App.
 
-**Copy this prompt template and fill in your data:**
+The plan should cover:
+1. How to structure the Gemini prompt for best results
+2. What sections the output must include
+3. How to validate output against quality gates
+4. How to save the final output
+
+Tool constraints from constitution:
+- Gemini App at gemini.google.com (browser-based)
+- No API calls
+- Structured markdown output
+```
+
+**Agent does:**
+- Creates `specs/brand-profiler/plan.md`
+- Outlines phases: Prompt Design → Execution → Validation → Save
+- References constitution quality gates
+
+**Verify the plan:**
+
+```bash
+cat specs/brand-profiler/plan.md
+```
+
+## Step 3: Break Into Tasks (/sp.tasks)
+
+Run the tasks command to decompose the plan into atomic work units:
+
+```
+/sp.tasks
+
+Context:
+- Specification: specs/brand-profiler/spec.md
+- Plan: specs/brand-profiler/plan.md
+
+Break down into atomic tasks with checkpoints.
+```
+
+**Agent does:**
+- Creates `specs/brand-profiler/tasks.md`
+- Defines phases with checkpoints
+- Each task is small enough to verify independently
+
+**Expected task structure:**
+
+```
+Phase 1: Prompt Preparation
+├─ Task 1.1: Gather profile data (LinkedIn, GitHub, portfolio)
+├─ Task 1.2: Create structured prompt with output requirements
+└─ CHECKPOINT 1: Review prompt before sending to Gemini
+
+Phase 2: Gemini Execution
+├─ Task 2.1: Open Gemini App and start new conversation
+├─ Task 2.2: Paste prompt and submit
+├─ Task 2.3: Wait for complete response
+└─ CHECKPOINT 2: Review raw Gemini output
+
+Phase 3: Validation
+├─ Task 3.1: Count strengths (need 3+)
+├─ Task 3.2: Verify each strength has evidence citation
+├─ Task 3.3: Count gaps (need 2+)
+├─ Task 3.4: Verify positioning statement exists
+├─ Task 3.5: Verify differentiation opportunities (need 3-5)
+├─ Task 3.6: Verify confidence score with reasoning
+└─ CHECKPOINT 3: All quality gates pass?
+
+Phase 4: Save Output
+├─ Task 4.1: Create output directory
+├─ Task 4.2: Save validated output to f1-brand-analysis.md
+└─ CHECKPOINT 4: Feature complete
+```
+
+**Verify the tasks:**
+
+```bash
+cat specs/brand-profiler/tasks.md
+```
+
+## Step 4: Execute Implementation (/sp.implement)
+
+Now execute the tasks with checkpoint review:
+
+```
+/sp.implement
+
+Context:
+- Specification: specs/brand-profiler/spec.md
+- Plan: specs/brand-profiler/plan.md
+- Tasks: specs/brand-profiler/tasks.md
+
+Execute Phase 1 (Prompt Preparation) with checkpoint.
+```
+
+### Phase 1: Prompt Preparation
+
+**Agent does:**
+- Task 1.1: Asks you to provide your profile data
+- Task 1.2: Creates structured prompt with your data
+
+**You provide:**
+
+```
+Here's my profile data:
+
+## LinkedIn About
+[PASTE YOUR LINKEDIN ABOUT HERE]
+
+## GitHub Bio
+[PASTE YOUR GITHUB BIO HERE]
+
+## Portfolio Description
+[PASTE YOUR PORTFOLIO DESCRIPTION HERE - or "No portfolio"]
+
+## Target Role/Industry
+[PASTE YOUR TARGET ROLE/INDUSTRY]
+```
+
+**Agent creates prompt:**
+
+The agent will generate a structured prompt like:
 
 ```
 You are a personal branding expert analyzing a professional's online presence.
@@ -120,16 +272,16 @@ You are a personal branding expert analyzing a professional's online presence.
 ## My Profile Data
 
 ### LinkedIn About Section:
-[PASTE YOUR LINKEDIN ABOUT HERE]
+[Your LinkedIn content]
 
 ### GitHub Bio:
-[PASTE YOUR GITHUB BIO HERE]
+[Your GitHub bio]
 
 ### Portfolio Description:
-[PASTE YOUR PORTFOLIO DESCRIPTION HERE - or write "No portfolio" if you don't have one]
+[Your portfolio content]
 
 ### Target Role/Industry:
-[PASTE YOUR TARGET ROLE/INDUSTRY]
+[Your target]
 
 ## Analysis Request
 
@@ -159,72 +311,135 @@ Analyze this profile data and produce a structured brand analysis. Your output M
 Format your response as structured markdown with clear headers.
 ```
 
-**Before sending:** Verify you've replaced all `[PASTE...]` placeholders with YOUR actual data.
+**CHECKPOINT 1:** Review the prompt before sending to Gemini.
+- Is your profile data complete?
+- Are all required output sections listed?
+- Is the format clear?
 
-## Run the Analysis
+**Your decision:**
+- ✅ "Looks good. Proceed to Phase 2."
+- ❌ "Need to add more profile data. Let me update."
 
-Paste your complete prompt into Gemini App and send it.
+### Phase 2: Gemini Execution
 
-**Wait for the full response.** Gemini will produce a structured analysis. This typically takes 15-30 seconds.
-
-## Validate Against Quality Gates
-
-Check your output against the constitution's quality gates:
-
-**Checklist:**
-
-- [ ] **3+ core strengths?** Count the strengths listed. Must be 3 or more.
-- [ ] **Evidence citations?** Each strength must include a quoted phrase from your profile.
-- [ ] **2+ brand gaps?** Count the gaps listed. Must be 2 or more.
-- [ ] **Positioning statement?** Is there a 1-2 sentence positioning statement?
-- [ ] **Differentiation opportunities?** Are there 3-5 specific suggestions?
-- [ ] **Confidence score?** Is there a 0-100 score with reasoning?
-
-**If any check fails:** Ask Gemini to fix it.
-
-Example follow-up prompt:
 ```
-Your analysis is missing evidence citations for the strengths.
-Please revise strength #2 to include a specific quote from my profile that demonstrates it.
+Continue /sp.implement - Execute Phase 2 (Gemini Execution)
 ```
 
-## Save Your Output
+**Agent instructs:**
+- Task 2.1: Open gemini.google.com in your browser
+- Task 2.2: Start a new conversation, paste the prompt
+- Task 2.3: Wait for complete response (15-30 seconds)
 
-Once validated, save the analysis:
+**You do:**
+1. Open Gemini App
+2. Paste the prepared prompt
+3. Send and wait for response
+4. Copy Gemini's complete response
 
-```bash
-mkdir -p outputs
-touch outputs/f1-brand-analysis.md
+**CHECKPOINT 2:** Review Gemini's raw output.
+- Did Gemini produce structured markdown?
+- Are all 5 sections present?
+- Does it look complete?
+
+**Your decision:**
+- ✅ "Got complete response. Proceed to Phase 3."
+- ❌ "Response incomplete. Need to retry with Gemini."
+
+### Phase 3: Validation
+
+```
+Continue /sp.implement - Execute Phase 3 (Validation)
+
+Here's Gemini's response:
+[PASTE GEMINI'S COMPLETE RESPONSE]
 ```
 
-Copy Gemini's response into this file. Add a header:
+**Agent validates:**
+- Task 3.1: Counts strengths (need 3+)
+- Task 3.2: Checks each strength for evidence citation
+- Task 3.3: Counts gaps (need 2+)
+- Task 3.4: Verifies positioning statement
+- Task 3.5: Counts differentiation opportunities (need 3-5)
+- Task 3.6: Verifies confidence score
+
+**Agent reports:**
+
+```
+Validation Results:
+✓ 3 core strengths found
+✓ All strengths have evidence citations
+✓ 2 brand gaps identified
+✓ Positioning statement present (2 sentences)
+✓ 4 differentiation opportunities listed
+✓ Confidence score: 75 with reasoning
+
+All quality gates PASS.
+```
+
+**If validation fails:**
+
+```
+Validation Results:
+✓ 4 core strengths found
+✗ Strength #2 missing evidence citation
+✓ 2 brand gaps identified
+...
+
+Quality gate FAILED: Missing evidence citation.
+
+Suggested fix: Ask Gemini to revise strength #2 to include a specific quote from your profile.
+```
+
+**You fix:**
+
+Go back to Gemini and ask:
+```
+Your analysis is missing evidence citations for strength #2.
+Please revise to include a specific quote from my profile that demonstrates this strength.
+```
+
+**CHECKPOINT 3:** All quality gates pass?
+- ✅ "All gates pass. Proceed to Phase 4."
+- ❌ "Need to fix [specific issue]. Retrying validation."
+
+### Phase 4: Save Output
+
+```
+Continue /sp.implement - Execute Phase 4 (Save Output)
+```
+
+**Agent does:**
+- Task 4.1: Creates `specs/brand-profiler/output/` directory
+- Task 4.2: Saves validated output to `f1-brand-analysis.md` with header
+
+**Output file format:**
 
 ```markdown
 # Feature 1: Personal Brand Analysis
 Generated: [today's date]
 Tool: Gemini App (gemini.google.com)
-Input: my-profile-data.md
+Workflow: /sp.implement
 
 ---
 
-[PASTE GEMINI'S COMPLETE RESPONSE HERE]
-```
+[GEMINI'S VALIDATED RESPONSE]
 
-**Verify the file:**
-
-```bash
-cat outputs/f1-brand-analysis.md
-```
+---
 
 ## Quality Gate Verification
+- [x] 3+ core strengths with evidence citations
+- [x] 2+ brand gaps
+- [x] Positioning statement
+- [x] 3-5 differentiation opportunities
+- [x] Confidence score with reasoning
+```
 
-Run a final check against your constitution:
+**CHECKPOINT 4:** Feature complete.
 
-**Constitution says:** "Must cite specific phrases from your profile as evidence for each strength."
-
-**Your output:** Open `f1-brand-analysis.md` and verify each strength has a quoted evidence phrase.
-
-**If missing:** Go back to Gemini and ask for revisions until all quality gates pass.
+```bash
+cat specs/brand-profiler/output/f1-brand-analysis.md
+```
 
 ## Stop Your Timer
 
@@ -238,59 +453,43 @@ F1: Personal Brand Profiler | Start: [time] | End: [current time] | Duration: [c
 
 This is your **baseline**. Feature 4 should take less than 50% of this time.
 
+## Commit Feature 1
+
+```
+/sp.git.commit_pr Commit Feature 1 (Personal Brand Profiler) - specification, plan, tasks, and output.
+```
+
 ## What You Built
 
 You now have:
 
-1. **Structured brand analysis** in `outputs/f1-brand-analysis.md`
-2. **Validated output** that meets constitution quality gates
-3. **Baseline time** for measuring intelligence accumulation
+```
+specs/brand-profiler/
+├── spec.md              # Feature specification
+├── plan.md              # Implementation plan
+├── tasks.md             # Atomic tasks with checkpoints
+└── output/
+    └── f1-brand-analysis.md  # Validated output
+```
+
+**Artifacts created by SDD-RI workflow:**
+1. **Specification** defining what success looks like
+2. **Plan** outlining how to achieve it
+3. **Tasks** breaking it into verifiable steps
+4. **Output** validated against quality gates
 
 This output feeds Feature 2 (Market Intelligence Scanner). Your strengths and gaps inform what market opportunities to research.
 
-## Try With AI
+## Pattern Notes
 
-Before moving to Feature 2, get feedback on your analysis:
-
-**Prompt 1: Quality Check**
-
-In Gemini App, ask:
-
-```
-Review this brand analysis I just created:
-
-[Paste your f1-brand-analysis.md content]
-
-Questions:
-1. Is the positioning statement specific enough to differentiate me?
-2. Are the brand gaps actionable—can I actually fix them?
-3. What's missing that would make this analysis more useful for content planning?
-```
-
-**Observe:** Gemini will likely suggest making the positioning statement more specific. This is common—first drafts tend toward generic.
-
-**Prompt 2: Iteration**
-
-If Gemini suggests improvements:
-
-```
-Based on your feedback, revise my positioning statement to be more specific.
-Current: "[your current positioning statement]"
-My target industry: [your target]
-Make it concrete and differentiated.
-```
-
-**Update your `f1-brand-analysis.md`** with the improved positioning statement.
-
----
-
-**Feature 1 complete.** Record your pattern notes in TIME_TRACKER.md:
+Record in TIME_TRACKER.md:
 
 ```
 ## Pattern Notes - Feature 1
-- Prompting pattern: Structured request with specific output format
-- Validation pattern: Checklist against constitution quality gates
-- Iteration pattern: Follow-up prompts to fix missing elements
+- Workflow: /sp.specify → /sp.plan → /sp.tasks → /sp.implement
+- Checkpoint pattern: Review at each phase boundary
+- Validation pattern: Check output against quality gates before saving
+- Iteration pattern: Ask Gemini to fix specific issues when validation fails
 ```
 
-Start Lesson 3: Feature 2 (Market Intelligence Scanner with NotebookLM). Record your F2 start time.
+**Start Lesson 3: Feature 2 (Market Intelligence Scanner).** Record your F2 start time. You'll use the same SDD-RI workflow with NotebookLM.

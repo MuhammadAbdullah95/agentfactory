@@ -120,12 +120,12 @@ D) Feature 1 output is needed for error handling
 
 ### Question 5
 
-In the P+Q+P framework for creating reusable skills, what do these three components represent?
+What is the correct sequence of commands in the SDD-RI workflow for building a feature?
 
-A) Process, Questions, Procedures
-B) Plan, Queries, Practices
-C) Persona, Questions, Principles
-D) Purpose, Quality, Patterns
+A) /sp.plan → /sp.specify → /sp.implement → /sp.tasks
+B) /sp.specify → /sp.plan → /sp.tasks → /sp.implement
+C) /sp.constitution → /sp.specify → /sp.implement → /sp.plan
+D) /sp.tasks → /sp.plan → /sp.specify → /sp.implement
 
 ---
 
@@ -170,12 +170,12 @@ D) To automatically post content to social media
 
 ### Question 10
 
-A pattern becomes worth formalizing into a reusable skill when it:
+What is the primary purpose of checkpoints in /sp.implement?
 
-A) Uses advanced AI techniques or sophisticated algorithms
-B) Appears in 2+ features AND involves multiple decision points or variations in application
-C) Was difficult to implement initially in any single feature
-D) Is suggested by an AI assistant during prompting
+A) To slow down the workflow for quality control
+B) To pause at phase boundaries for human review before proceeding
+C) To automatically save progress to git
+D) To generate documentation for the feature
 
 ---
 
@@ -226,20 +226,25 @@ You've built Features 1-4 and identified a recurring pattern: "structured AI pro
 
 **4. B** - Content pillars must connect personal strengths (F1) to market trends (F2), requiring both inputs. This is the pipeline architecture principle—Feature 3 synthesizes two upstream outputs to create content strategy that bridges personal brand and market opportunity.
 
-**5. C** - Persona, Questions, Principles.
-- **Persona** defines who applies this skill and what they value
-- **Questions** guide critical decisions before implementation
-- **Principles** constrain how the skill should be applied and why
+**5. B** - /sp.specify → /sp.plan → /sp.tasks → /sp.implement. This is the core SDD-RI workflow:
+- **/sp.specify** creates the feature specification (Intent, Constraints, Success Evals)
+- **/sp.plan** generates the implementation plan from the specification
+- **/sp.tasks** breaks the plan into atomic tasks with checkpoints
+- **/sp.implement** executes the tasks with human review at each checkpoint
 
 **6. C** - "Must cite specific phrases from your profile as evidence for each strength." Quality gates must be measurable and testable—not subjective statements like "work well" or "be helpful." This gate can be verified by checking if each strength includes a quoted phrase.
 
 **7. C** - Patterns from F1-F3 (structured prompting, validation, quality gates) transfer directly, reducing cognitive load. Intelligence accumulation means you're not re-solving similar problems from scratch; you inherit proven approaches and can focus on Feature 4's unique aggregation task.
 
-**8. False** - Skills should be designed for reuse across multiple projects and domains. The entire value of formalizing a pattern using P+Q+P is to make it applicable beyond the immediate context. This is why the pattern must recur in 2+ contexts and have 5+ decision points—criteria that ensure general applicability.
+**8. False** - Skills should be designed for reuse across multiple projects and domains. The entire value of formalizing a pattern using the P+Q+P framework (Persona, Questions, Principles) is to make it applicable beyond the immediate context. This is why the pattern must recur in 2+ contexts and have 5+ decision points—criteria that ensure general applicability.
 
 **9. B** - To aggregate outputs from all upstream features (F1 + F2 + F3) into a unified view with priority actions. The dashboard serves as the final integration point that makes the entire personal BI pipeline actionable—combining brand summary, market opportunities, content calendar, and synthesized actions.
 
-**10. B** - It appears in 2+ features AND involves multiple decision points or variations in application. Patterns that recur and require judgment calls are worth capturing in a reusable skill; isolated, one-time patterns are not. The 5+ decision points criterion ensures the skill captures meaningful complexity worth encoding.
+**10. B** - To pause at phase boundaries for human review before proceeding. Checkpoints are the core mechanism of /sp.implement that ensures quality at every phase:
+- The agent reports what was done
+- Presents options (✅ Proceed or ❌ Fix issue)
+- Waits for human decision before continuing
+- This prevents errors from propagating through the workflow
 
 **11. C** - All features output structured markdown, ensuring upstream outputs can be validated against quality gates consistently. This demonstrates the constitution principle of "Structured Outputs" being applied uniformly. It enables composition: F1 output becomes F3 input, F2 output becomes F3 input, all three become F4 input.
 
@@ -274,7 +279,7 @@ You've built Features 1-4 and identified a recurring pattern: "structured AI pro
 | Intelligence Accumulation | Q2, Q7, Q14 | 21% |
 | Tool Selection | Q3 | 7% |
 | Pipeline Architecture | Q4, Q9 | 14% |
-| P+Q+P Framework | Q5, Q10 | 14% |
+| SDD-RI Workflow | Q5, Q10 | 14% |
 | Quality Gates | Q6, Q11 | 14% |
 | Retrospective Value | Q12 | 7% |
 | Skill Formalization | Q8, Q14 | 14% |

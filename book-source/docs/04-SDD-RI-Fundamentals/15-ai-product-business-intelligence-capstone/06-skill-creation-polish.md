@@ -87,24 +87,24 @@ Now you'll formalize those patterns into actual reusable skills using the **P+Q+
 Review your four features. Find the patterns you used multiple times.
 
 **Feature 1: Personal Brand Profiler**
-- How did you structure the prompt for Gemini App?
-- How did you validate the output against quality gates?
-- What format did you use for the saved output?
+- How did you structure the `/sp.specify` specification?
+- How did the `/sp.plan` → `/sp.tasks` decomposition work?
+- How did `/sp.implement` checkpoints guide the workflow?
 
 **Feature 2: Market Intelligence Scanner**
-- How did you structure research queries for NotebookLM?
-- How did you ensure sources were properly cited?
-- How did you connect F1 output to F2 research focus?
+- How did you adapt `/sp.specify` for a different tool (NotebookLM)?
+- How did the checkpoint pattern transfer from F1?
+- How did you connect F1 output to F2 specification inputs?
 
 **Feature 3: Content Strategy Generator**
-- How did you feed F1 + F2 outputs into a single prompt?
-- How did you validate that pillars connected to both sources?
+- How did you specify multi-input dependencies in `/sp.specify`?
+- How did `/sp.implement` validate pillar-to-trend connections?
 - How did you iterate when the output was incomplete?
 
 **Feature 4: Action Dashboard**
-- How did you aggregate three outputs into one view?
-- How did you synthesize priority actions from all features?
-- How did you eliminate redundancy across sections?
+- How did you specify three-input dependencies in `/sp.specify`?
+- How did `/sp.implement` handle redundancy checking?
+- How did the SDD-RI workflow accelerate compared to F1?
 
 **List your top 2-3 patterns** (things you solved multiple times):
 
@@ -116,21 +116,21 @@ Review your four features. Find the patterns you used multiple times.
 
 | Pattern | Where It Appeared | Decision Points |
 |---------|------------------|-----------------|
-| **Structured AI Prompting** | F1, F2, F3, F4 | Format request, specify output, include examples, validate result |
-| **Output Validation** | F1, F2, F3, F4 | Checklist against quality gates, iterate on failures |
-| **Multi-Source Synthesis** | F3, F4 | Combine inputs, eliminate redundancy, trace to sources |
-| **Research with Citations** | F2, (F3) | Upload sources, query for synthesis, verify citations |
+| **SDD-RI Workflow** | F1, F2, F3, F4 | /sp.specify → /sp.plan → /sp.tasks → /sp.implement |
+| **Specification Structure** | F1, F2, F3, F4 | Intent, Input Data, Tool, Constraints, Success Evals, Non-Goals |
+| **Checkpoint Review** | F1, F2, F3, F4 | Phase boundaries, validation, decision points |
+| **Multi-Input Dependencies** | F3, F4 | Specifying upstream outputs as inputs |
 | **Pipeline Data Flow** | F1→F2, F2→F3, F3→F4 | Output format matches next input needs |
 
-## Create Your First Skill: Structured AI Prompting
+## Create Your First Skill: SDD-RI Specification Design
 
-This pattern appeared in all four features. You asked Gemini App (or NotebookLM) for structured output, validated it, and iterated when incomplete.
+This pattern appeared in all four features. You used `/sp.specify` to create structured specifications with Intent, Constraints, and Success Evals.
 
 ### Step 1: Create the File
 
 ```bash
 mkdir -p .claude/skills
-touch .claude/skills/structured-ai-prompting.md
+touch .claude/skills/sdd-ri-specification.md
 ```
 
 ### Step 2: Write the Skill
@@ -138,58 +138,58 @@ touch .claude/skills/structured-ai-prompting.md
 Open the file and add this content (customize the Example Application with YOUR actual prompts):
 
 ```markdown
-# Structured AI Prompting Skill
+# SDD-RI Specification Design Skill
 
 ## Persona
 
-You are an AI prompt engineer who designs prompts that produce structured, validated outputs. You value clarity, specificity, and explicit output formats. You iterate when outputs miss requirements rather than accepting incomplete results.
+You are a specification architect who designs feature specifications using the SDD-RI workflow. You value clear intent, testable success criteria, and explicit constraints. You use `/sp.specify` to create specifications that guide the entire implementation workflow.
 
-## Questions (Ask Before Prompting)
+## Questions (Ask Before Specifying)
 
-1. **What is the exact output format I need?** (JSON, markdown with specific sections, table, etc.)
+1. **What is the intent of this feature?** (What problem does it solve? What does success look like?)
 
-2. **What input data am I providing?** (What context does the AI need to produce accurate output?)
+2. **What input data does this feature need?** (Raw data, upstream feature outputs, external sources?)
 
-3. **What are my quality gates?** (How will I know the output is complete and correct?)
+3. **What tool will execute this feature?** (Gemini App, NotebookLM, Claude Code, other?)
 
-4. **What examples of good output can I show?** (Does the AI need a template to follow?)
+4. **What constraints must be respected?** (Tool limitations, format requirements, time bounds?)
 
-5. **What iteration approach will I use?** (How will I ask for revisions if output is incomplete?)
+5. **What are the testable success evals?** (How will you verify the output is correct and complete?)
 
-## Principles (Apply During Prompting)
+## Principles (Apply During Specification)
 
-- **Specify Output Structure First**: Start the prompt with the exact format you want. "Output as markdown with these sections: [list sections]" or "Return JSON with these fields: [list fields]"
+- **Intent Before Implementation**: Start with WHY this feature exists, not HOW it will work. "/sp.specify" captures intent; "/sp.plan" captures implementation.
 
-- **Provide Complete Context**: Include all data the AI needs. Don't assume it knows your goals, constraints, or preferences.
+- **Make Success Evals Testable**: "Output contains 3+ strengths" is testable. "Output is useful" is not. Each success eval should be verifiable in "/sp.implement" validation phase.
 
-- **Define Quality Criteria Explicitly**: Tell the AI what "good" looks like. "Each strength must cite evidence from the profile" is better than "be specific."
+- **Specify Input Dependencies Explicitly**: If F3 depends on F1 + F2 outputs, list them with file paths. The agent needs to verify inputs exist before proceeding.
 
-- **Request Validation in Output**: Ask the AI to confirm it met requirements. "At the end, list which quality gates this output passes."
+- **Include Non-Goals**: What this feature explicitly does NOT do. Prevents scope creep during implementation.
 
-- **Plan for Iteration**: Assume the first response won't be perfect. Prepare follow-up prompts: "Revise section X to include Y."
+- **Match Tool Constraints**: Specification must respect the tool's capabilities. "Browser-based, no API" for Gemini App. "Multi-source synthesis" for NotebookLM.
 
 ## Example Application
 
-When building Feature 1 (Personal Brand Profiler), I used this pattern:
+When building Feature 3 (Content Strategy Generator), I used this pattern:
 
-**Question 1 answered**: Output format = markdown with 5 sections (strengths, gaps, positioning, differentiation, confidence score)
+**Question 1 answered**: Intent = Synthesize F1 brand + F2 market into content strategy that connects my strengths to market trends
 
-**Question 2 answered**: Input = LinkedIn About, GitHub bio, portfolio description, target role
+**Question 2 answered**: Inputs = F1 brand analysis (specs/brand-profiler/output/f1-brand-analysis.md), F2 market brief (specs/market-scanner/output/f2-market-brief.md)
 
-**Question 3 answered**: Quality gates = 3+ strengths with evidence citations, 2+ gaps, positioning statement
+**Question 3 answered**: Tool = Gemini App (gemini.google.com)
 
-**Question 4 answered**: Example = "Format: Strength: [name] — Evidence: '[exact quote from profile]'"
+**Question 4 answered**: Constraints = Browser-based, content pillars MUST connect F1 strengths to F2 trends, structured markdown output
 
-**Question 5 answered**: Iteration = "Your analysis is missing evidence citations. Please revise strength #2 to include a specific quote."
+**Question 5 answered**: Success evals = 3 pillars, each connecting F1 strength to F2 trend, 10+ topics, weekly schedule, first week actions
 
 **Principles applied**:
-- Specified output structure at prompt start (5 required sections)
-- Provided complete profile data (not just summary)
-- Defined quality criteria ("cite specific phrases")
-- Requested validation ("include confidence score with reasoning")
-- Iterated when citations were missing
+- Intent captured the WHY (connect strengths to market)
+- Success evals are testable ("each pillar connects F1 strength to F2 trend")
+- Input dependencies explicit (file paths to F1, F2 outputs)
+- Non-goals defined (no automated publishing, no audience research)
+- Tool constraints respected (Gemini App, browser-based)
 
-**Result**: Structured brand analysis that met constitution quality gates after one iteration.
+**Result**: Specification that guided /sp.plan → /sp.tasks → /sp.implement with clear validation criteria.
 ```
 
 **Save the file.**
@@ -204,76 +204,76 @@ Check your skill file:
 - [ ] Example Application shows YOUR actual work from F1-F4
 - [ ] Example answers each Question and applies each Principle
 
-## Create Your Second Skill: Multi-Source Synthesis
+## Create Your Second Skill: Checkpoint-Driven Implementation
 
-This pattern appeared in Features 3 and 4. You combined multiple inputs into unified output without redundancy.
+This pattern appeared in all four features. You used `/sp.implement` checkpoints to review progress at phase boundaries before proceeding.
 
 ### Step 1: Create the File
 
 ```bash
-touch .claude/skills/multi-source-synthesis.md
+touch .claude/skills/checkpoint-implementation.md
 ```
 
 ### Step 2: Write the Skill
 
 ```markdown
-# Multi-Source Synthesis Skill
+# Checkpoint-Driven Implementation Skill
 
 ## Persona
 
-You are a synthesis specialist who combines multiple information sources into unified outputs. You value source traceability, elimination of redundancy, and clear aggregation. You ensure every piece of output traces to its source.
+You are an implementation specialist who uses checkpoints to ensure quality at every phase boundary. You value explicit review points, clear decision criteria, and systematic validation. You use `/sp.implement` to execute tasks with human-in-the-loop checkpoints.
 
-## Questions (Ask Before Synthesizing)
+## Questions (Ask Before Implementing)
 
-1. **What sources am I combining?** (List each input and its structure)
+1. **What phases does this implementation have?** (List the major phases from tasks.md)
 
-2. **What is the unified output structure?** (How should combined information be organized?)
+2. **What must be true at each checkpoint?** (What validates that a phase is complete?)
 
-3. **How do I handle overlapping information?** (What appears in multiple sources? Where does it belong in output?)
+3. **What decisions need human input?** (Where should the workflow pause for review?)
 
-4. **What traceability do I need?** (Should output cite which source each piece came from?)
+4. **What happens if a checkpoint fails?** (Retry? Fix? Go back to previous phase?)
 
-5. **What is the synthesis goal?** (Summary? Action items? Recommendations? All of these?)
+5. **How do I continue after approval?** (What's the prompt to resume /sp.implement?)
 
-## Principles (Apply During Synthesis)
+## Principles (Apply During Implementation)
 
-- **Map Sources to Sections**: Before synthesizing, decide which source feeds which output section. "F1 → Brand Summary, F2 → Market Opportunities, F3 → Content Calendar"
+- **Pause at Phase Boundaries**: Every phase ends with a CHECKPOINT. Don't auto-continue; wait for explicit approval before proceeding.
 
-- **Eliminate Redundancy Explicitly**: If information appears in multiple sources, put it in ONE place. Note in other sections: "See [Section X] for details."
+- **State What Was Done**: At each checkpoint, report what tasks completed and what was produced. "Phase 1 complete: 3 sources gathered, sources-list.md created."
 
-- **Trace Every Claim**: Output should reference where each piece of information came from. "Based on market research (F2), top trends are..."
+- **Ask for Decision**: Present clear options: "✅ Proceed to Phase 2" or "❌ Need to fix [issue]". Don't assume the answer.
 
-- **Synthesize, Don't Just Combine**: Good synthesis creates NEW value—insights that weren't in any single source. "Combining brand strengths with market trends reveals opportunity X."
+- **Handle Failures Explicitly**: If validation fails, explain what failed and suggest a fix. "Quality gate FAILED: Missing evidence citation. Suggested fix: Ask AI to revise."
 
-- **Validate Completeness**: After synthesizing, check: "Does this output use ALL sources? Is anything missing? Is anything duplicated?"
+- **Continue Cleanly**: When resuming, state context: "Continue /sp.implement - Execute Phase 2" so the agent knows where you are in the workflow.
 
 ## Example Application
 
-When building Feature 4 (Action Dashboard), I synthesized F1, F2, and F3:
+When building Feature 2 (Market Intelligence Scanner), I used checkpoints:
 
-**Question 1 answered**:
-- F1: Brand analysis (strengths, gaps, positioning)
-- F2: Market brief (trends, skills, opportunities)
-- F3: Content strategy (pillars, topics, schedule)
+**Question 1 answered**: Phases = Source Gathering → NotebookLM Setup → Query Execution → Synthesis → Validation → Save
 
-**Question 2 answered**: Dashboard with 5 sections: Brand Summary, Market Opportunities, Content Calendar, Priority Actions, 30/60/90 Goals
+**Question 2 answered**:
+- CHECKPOINT 1: 3+ sources gathered, sources-list.md created
+- CHECKPOINT 2: All sources uploaded and "Ready" in NotebookLM
+- CHECKPOINT 3: All 4 queries executed, responses copied
+- CHECKPOINT 4: All quality gates pass
+- CHECKPOINT 5: Output saved to correct location
 
-**Question 3 answered**:
-- Overlapping: "Skills" appeared in both F1 (my skills) and F2 (market skills)
-- Resolution: Put market skills in "Opportunities" section, my skills in "Brand Summary"
+**Question 3 answered**: Human reviews sources before upload (CHECKPOINT 1), reviews query responses before validation (CHECKPOINT 3)
 
-**Question 4 answered**: Each section cites source feature. Traceability table at end.
+**Question 4 answered**: If CHECKPOINT 3 fails (incomplete response), re-query NotebookLM with more specific prompt
 
-**Question 5 answered**: Goal = unified action plan with specific next steps
+**Question 5 answered**: "Continue /sp.implement - Execute Phase [N] ([Phase Name])"
 
 **Principles applied**:
-- Mapped: F1→Brand Summary, F2→Market Opportunities, F3→Content Calendar
-- Eliminated redundancy: Skills appear once in most relevant section
-- Traced claims: "Top 3 trends relevant to my positioning (from F2)"
-- Synthesized: Priority actions combine insights from all three features
-- Validated: Checked that dashboard uses all outputs, no section duplicates another
+- Paused at every phase boundary (5 checkpoints total)
+- Stated what was done ("4 industry trends found with citations")
+- Asked for decision ("✅ All sources ready. Proceed to Phase 2?")
+- Handled failure explicitly ("Trend #2 missing citation. Ask NotebookLM to revise.")
+- Continued cleanly ("Continue /sp.implement - Execute Phase 3 (Query Execution)")
 
-**Result**: Unified dashboard that aggregates without redundancy, with source traceability.
+**Result**: Systematic implementation with human review at every critical point, no skipped validation.
 ```
 
 **Save the file.**
@@ -290,44 +290,44 @@ You're building a system to research job postings and prepare targeted applicati
 - Feature C: Application Generator (create tailored cover letter + resume highlights)
 - Feature D: Interview Prep Dashboard (combine A + B + C into prep material)
 
-### Apply Skill 1: Structured AI Prompting
+### Apply Skill 1: SDD-RI Specification Design
 
 Answer your skill's 5 Questions for Feature A (Job Posting Analyzer):
 
-**Q1: What is the exact output format I need?**
+**Q1: What is the intent of this feature?**
 Your answer: _________________________________________________
 
-**Q2: What input data am I providing?**
+**Q2: What input data does this feature need?**
 Your answer: _________________________________________________
 
-**Q3: What are my quality gates?**
+**Q3: What tool will execute this feature?**
 Your answer: _________________________________________________
 
-**Q4: What examples of good output can I show?**
+**Q4: What constraints must be respected?**
 Your answer: _________________________________________________
 
-**Q5: What iteration approach will I use?**
+**Q5: What are the testable success evals?**
 Your answer: _________________________________________________
 
 **Did your Questions cover the design decisions for Feature A?** If not, what Question is missing?
 
-### Apply Skill 2: Multi-Source Synthesis
+### Apply Skill 2: Checkpoint-Driven Implementation
 
 Answer your skill's 5 Questions for Feature D (Interview Prep Dashboard):
 
-**Q1: What sources am I combining?**
+**Q1: What phases does this implementation have?**
 Your answer: _________________________________________________
 
-**Q2: What is the unified output structure?**
+**Q2: What must be true at each checkpoint?**
 Your answer: _________________________________________________
 
-**Q3: How do I handle overlapping information?**
+**Q3: What decisions need human input?**
 Your answer: _________________________________________________
 
-**Q4: What traceability do I need?**
+**Q4: What happens if a checkpoint fails?**
 Your answer: _________________________________________________
 
-**Q5: What is the synthesis goal?**
+**Q5: How do I continue after approval?**
 Your answer: _________________________________________________
 
 **Did your Questions cover the design decisions for Feature D?** If not, what Question is missing?
@@ -354,10 +354,10 @@ Look back at Features 1-4. Did you solve any other patterns repeatedly?
 
 | Pattern | Where Used | Worth Formalizing? |
 |---------|------------|-------------------|
+| **Multi-Input Dependencies** | F3, F4 | Yes if you build more pipeline features |
 | **Quality Gate Validation** | All features | Yes if 5+ decision points |
-| **Research Query Design** | F2 (NotebookLM) | Yes if you'll use NotebookLM again |
-| **Time Tracking for Acceleration** | All features | Maybe—simpler pattern |
-| **Constitution-Based Decision Making** | F1 setup, all validation | Yes if you'll write more constitutions |
+| **Tool-Specific Prompting** | F1 (Gemini), F2 (NotebookLM) | Yes if reusing these tools |
+| **Constitution-Based Decision Making** | /sp.constitution, all features | Yes if you'll write more constitutions |
 
 **Create a third skill only if:**
 - Pattern appeared in 2+ features
@@ -375,8 +375,8 @@ ls .claude/skills/
 ```
 
 You should see:
-- `structured-ai-prompting.md`
-- `multi-source-synthesis.md`
+- `sdd-ri-specification.md`
+- `checkpoint-implementation.md`
 - (optional third skill)
 
 These skills are now part of your project. They can be referenced in future work or copied to new projects.
@@ -392,7 +392,7 @@ In Gemini App:
 ```
 Review this skill definition for reusability:
 
-[Paste your structured-ai-prompting.md content]
+[Paste your sdd-ri-specification.md content]
 
 Questions:
 1. Are the 5 Questions specific enough to guide real design decisions?
@@ -406,13 +406,13 @@ Questions:
 **Prompt 2: Transferability Test**
 
 ```
-I created these skills from a Personal BI project (brand analysis, market research, content strategy):
+I created these skills from a Personal BI project using the SDD-RI workflow:
 
-Skill 1: Structured AI Prompting
-[Brief description]
+Skill 1: SDD-RI Specification Design
+- Guides how to write /sp.specify specifications with Intent, Constraints, Success Evals
 
-Skill 2: Multi-Source Synthesis
-[Brief description]
+Skill 2: Checkpoint-Driven Implementation
+- Guides how to use /sp.implement checkpoints for systematic validation
 
 Now I want to use these skills for a completely different project: Planning a vacation using AI tools.
 

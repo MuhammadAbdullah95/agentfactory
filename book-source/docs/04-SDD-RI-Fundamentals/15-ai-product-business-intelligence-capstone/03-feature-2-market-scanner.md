@@ -12,44 +12,44 @@ layer_4_capstone: "Multi-source research synthesis, pipeline architecture (F1→
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
-  - name: "Multi-Source Research Synthesis"
-    proficiency_level: "B1"
-    category: "Technical"
-    bloom_level: "Analyze"
-    digcomp_area: "Information Literacy"
-    measurable_at_this_level: "Student can upload multiple sources to NotebookLM and generate synthesized insights with citations"
-
-  - name: "NotebookLM Research Workflow"
+  - name: "Feature Specification with /sp.specify"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
-    digcomp_area: "Information Literacy"
-    measurable_at_this_level: "Student can create notebook, add sources, and query for structured analysis"
-
-  - name: "Pipeline Architecture Understanding"
-    proficiency_level: "B1"
-    category: "Conceptual"
-    bloom_level: "Understand"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can explain how F1 brand analysis feeds F2 market research focus"
+    measurable_at_this_level: "Student can use /sp.specify to create structured specification for NotebookLM research feature"
 
-  - name: "Source Citation and Validation"
+  - name: "Implementation Planning with /sp.plan"
     proficiency_level: "B1"
     category: "Technical"
-    bloom_level: "Analyze"
-    digcomp_area: "Information Literacy"
-    measurable_at_this_level: "Student can verify NotebookLM citations trace back to uploaded sources"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can generate implementation plan for multi-source research workflow"
+
+  - name: "Task Decomposition with /sp.tasks"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can break research plan into atomic tasks with checkpoints"
+
+  - name: "AI-Driven Implementation with /sp.implement"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can execute NotebookLM research tasks with checkpoint review pattern"
 
 learning_objectives:
-  - objective: "Use NotebookLM to synthesize market intelligence from multiple sources"
-    proficiency_level: "B1"
-    bloom_level: "Analyze"
-    assessment_method: "Market brief includes insights from 3+ sources with citations"
-
-  - objective: "Connect F1 brand analysis to F2 market research focus"
+  - objective: "Use /sp.specify to create market research specification"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Research targets align with F1 strengths and gaps"
+    assessment_method: "Specification file created with intent, tool constraints, success evals"
+
+  - objective: "Execute full SDD-RI workflow for Feature 2"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student runs /sp.specify → /sp.plan → /sp.tasks → /sp.implement"
 
   - objective: "Measure first acceleration against F1 baseline"
     proficiency_level: "A2"
@@ -58,12 +58,12 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 5
-  reused_concepts: 4
-  assessment: "5 new concepts (NotebookLM, multi-source synthesis, citations, market brief, research queries) + 4 reused from F1 (quality gates, time tracking, structured output, validation) within B1 limit ✓"
+  reused_concepts: 6
+  assessment: "5 new concepts (NotebookLM, multi-source synthesis, citations, market brief, research queries) + 6 reused from F1 (/sp.specify, /sp.plan, /sp.tasks, /sp.implement, quality gates, checkpoint review) within B1 limit ✓"
 
 differentiation:
-  extension_for_advanced: "Add competitive analysis section comparing 3 direct competitors"
-  remedial_for_struggling: "Use provided source list; focus on query templates exactly as written"
+  extension_for_advanced: "Add competitive analysis section comparing 3 direct competitors; use /sp.clarify for specification refinement"
+  remedial_for_struggling: "Use provided specification template exactly; focus on checkpoint review"
 
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/015-chapter-15-redesign/spec.md"
@@ -71,123 +71,254 @@ created: "2025-11-25"
 last_modified: "2025-11-25"
 git_author: "Claude Code"
 workflow: "/sp.loopflow.v2"
-version: "3.0.0"
+version: "4.0.0"
 ---
 
 # Feature 2: Market Intelligence Scanner
 
 Your Feature 1 brand analysis identified strengths, gaps, and positioning opportunities. Now you'll research your target market to discover where those strengths match real demand.
 
-**This is your first acceleration measurement.** You've already practiced structured prompting and output validation in F1. Those patterns transfer directly to F2—you're just using a different tool (NotebookLM instead of Gemini App).
+**This is your first acceleration measurement.** You've already practiced the full SDD-RI workflow in F1. Those patterns transfer directly to F2—you're just using a different tool (NotebookLM instead of Gemini App).
 
-**Start your timer.** Record in TIME_TRACKER.md:
+**START YOUR TIMER NOW.** Update TIME_TRACKER.md:
 
 ```
 F2: Market Intelligence Scanner | Start: [current time] | End: | Duration: |
 ```
 
-## Review Your Constitution
+## Step 1: Create Your Specification (/sp.specify)
 
-Open your constitution and check Feature 2's quality gates:
+Run the specify command to create your feature specification:
 
-```bash
-cat .specify/memory/constitution.md | grep -A 10 "Market Intelligence Scanner"
+```
+/sp.specify
+
+Feature: Market Intelligence Scanner
+
+Intent:
+Research my target market using NotebookLM to produce a structured market brief.
+The brief identifies industry trends, in-demand skills, competitor landscape, and opportunities matching my profile.
+
+Input Data:
+- F1 brand analysis (specs/brand-profiler/output/f1-brand-analysis.md)
+- 3-5 research sources I'll upload to NotebookLM:
+  - Target company pages (About, Careers)
+  - Job postings for my target role
+  - Industry articles on trends
+
+Tool: NotebookLM (notebooklm.google.com)
+
+Constraints:
+- Must use NotebookLM (browser-based, no API)
+- Must upload 3+ sources before querying
+- Must produce structured markdown output with citations
+- Must connect findings to F1 strengths/gaps
+
+Success Evals:
+- Output contains 3+ industry trends
+- Each trend includes source citation
+- Output contains in-demand skills list (technical + soft)
+- Output contains competitor/peer landscape
+- Output contains opportunity areas matched to F1 strengths
+- All insights cite specific uploaded sources
+- Output saved to specs/market-scanner/output/f2-market-brief.md
+
+Non-Goals:
+- No paid research databases
+- No automated source scraping
+- No content recommendations (that's Feature 3)
 ```
 
-**Required outputs:**
-- 3+ industry trends
-- In-demand skills list
-- Competitor/peer landscape
-- Opportunity areas matching your profile
-- Source citations
+**Agent does:**
+- Creates `specs/market-scanner/spec.md` with your specification
+- Validates against constitution quality gates
+- Confirms intent is clear and success evals are testable
 
-**Quality gate:** Must synthesize 3+ different sources with specific citations.
-
-## Open NotebookLM
-
-Go to **notebooklm.google.com** in your browser.
-
-Sign in with your Google account if not already logged in.
-
-Click **"+ New Notebook"** to create a fresh research space.
-
-Name it: `Personal BI - Market Research`
-
-## Gather Your Research Sources
-
-NotebookLM synthesizes information from sources you upload. You need 3-5 high-quality sources about your target market.
-
-**Based on your F1 brand analysis, gather:**
-
-1. **Target company pages** (2-3 companies from your `my-profile-data.md`)
-   - Their About pages or Company pages
-   - Their Careers/Jobs pages (shows what skills they hire for)
-
-2. **Job postings** (2-3 relevant roles)
-   - Search LinkedIn Jobs or Indeed for your target role
-   - Copy the full job description text
-
-3. **Industry articles** (1-2 recent pieces)
-   - Search for "[your industry] trends 2024" or "[your industry] skills demand"
-   - Choose articles from credible sources (not ads)
-
-**Create a sources file for reference:**
+**Verify the specification:**
 
 ```bash
-touch sources-list.md
+cat specs/market-scanner/spec.md
 ```
 
-Add your sources:
+## Step 2: Generate Implementation Plan (/sp.plan)
 
-```markdown
-# F2 Research Sources
+Run the plan command to generate your research strategy:
 
-## Target Companies
-1. [Company Name] - [URL to About or Careers page]
-2. [Company Name] - [URL to About or Careers page]
-3. [Company Name] - [URL to About or Careers page]
+```
+/sp.plan
+
+Context: specs/market-scanner/spec.md
+
+Generate a plan for implementing the Market Intelligence Scanner using NotebookLM.
+
+The plan should cover:
+1. How to gather and upload research sources
+2. What queries to run against the sources
+3. How to synthesize responses into market brief
+4. How to validate output against quality gates
+
+Tool constraints from constitution:
+- NotebookLM at notebooklm.google.com (browser-based)
+- Multi-source synthesis with citations
+- Structured markdown output
+```
+
+**Agent does:**
+- Creates `specs/market-scanner/plan.md`
+- Outlines phases: Source Gathering → NotebookLM Setup → Query Execution → Synthesis → Validation
+- References constitution quality gates
+
+**Verify the plan:**
+
+```bash
+cat specs/market-scanner/plan.md
+```
+
+## Step 3: Break Into Tasks (/sp.tasks)
+
+Run the tasks command to decompose the plan into atomic work units:
+
+```
+/sp.tasks
+
+Context:
+- Specification: specs/market-scanner/spec.md
+- Plan: specs/market-scanner/plan.md
+
+Break down into atomic tasks with checkpoints.
+```
+
+**Agent does:**
+- Creates `specs/market-scanner/tasks.md`
+- Defines phases with checkpoints
+- Each task is small enough to verify independently
+
+**Expected task structure:**
+
+```
+Phase 1: Source Gathering
+├─ Task 1.1: Create sources-list.md with 3-5 target sources
+├─ Task 1.2: Gather target company URLs (About, Careers pages)
+├─ Task 1.3: Copy job posting text for target roles
+├─ Task 1.4: Find industry trend articles
+└─ CHECKPOINT 1: Review sources before uploading to NotebookLM
+
+Phase 2: NotebookLM Setup
+├─ Task 2.1: Open NotebookLM and create new notebook
+├─ Task 2.2: Upload all sources (websites and text)
+├─ Task 2.3: Wait for all sources to show "Ready" status
+└─ CHECKPOINT 2: Confirm all sources processed successfully
+
+Phase 3: Query Execution
+├─ Task 3.1: Query for industry trends (with citation requirements)
+├─ Task 3.2: Query for in-demand skills (technical + soft)
+├─ Task 3.3: Query for competitor/peer landscape
+├─ Task 3.4: Query for opportunity mapping (using F1 strengths/gaps)
+└─ CHECKPOINT 3: Review all query responses for completeness
+
+Phase 4: Synthesis and Validation
+├─ Task 4.1: Compile responses into structured market brief
+├─ Task 4.2: Verify 3+ trends with citations
+├─ Task 4.3: Verify skills list is separated (technical/soft)
+├─ Task 4.4: Verify opportunity areas connect to F1 strengths
+├─ Task 4.5: Verify all insights cite uploaded sources
+└─ CHECKPOINT 4: All quality gates pass?
+
+Phase 5: Save Output
+├─ Task 5.1: Create output directory
+├─ Task 5.2: Save validated output to f2-market-brief.md
+└─ CHECKPOINT 5: Feature complete
+```
+
+**Verify the tasks:**
+
+```bash
+cat specs/market-scanner/tasks.md
+```
+
+## Step 4: Execute Implementation (/sp.implement)
+
+Now execute the tasks with checkpoint review:
+
+```
+/sp.implement
+
+Context:
+- Specification: specs/market-scanner/spec.md
+- Plan: specs/market-scanner/plan.md
+- Tasks: specs/market-scanner/tasks.md
+
+Execute Phase 1 (Source Gathering) with checkpoint.
+```
+
+### Phase 1: Source Gathering
+
+**Agent does:**
+- Task 1.1: Asks you to identify 3-5 research sources
+- Task 1.2-1.4: Guides you to gather URLs and text
+
+**You provide:**
+
+```
+Here are my research sources:
+
+## Target Companies (from my F1 data)
+1. [Company Name] - [About page URL]
+2. [Company Name] - [Careers page URL]
+3. [Company Name] - [URL]
 
 ## Job Postings
-1. [Job Title] at [Company] - [URL or "pasted text"]
-2. [Job Title] at [Company] - [URL or "pasted text"]
+1. [Job Title] at [Company] - [URL or paste full text]
+2. [Job Title] at [Company] - [URL or paste full text]
 
 ## Industry Articles
-1. "[Article Title]" - [Source/Publication] - [URL]
-2. "[Article Title]" - [Source/Publication] - [URL]
-
-Total sources: [count - must be 3+]
+1. "[Article Title]" - [Publication] - [URL]
+2. "[Article Title]" - [Publication] - [URL]
 ```
 
-## Add Sources to NotebookLM
+**CHECKPOINT 1:** Review sources before uploading to NotebookLM.
+- Do you have 3+ sources?
+- Are sources relevant to your target role/industry?
+- Can NotebookLM access these URLs (public pages)?
 
-In NotebookLM, click **"+ Add source"** in the left panel.
+**Your decision:**
+- ✅ "Sources look good. Proceed to Phase 2."
+- ❌ "Need more sources. Let me add more."
 
-**For web pages:**
-- Click "Website"
-- Paste the URL
-- NotebookLM will fetch and process the content
+### Phase 2: NotebookLM Setup
 
-**For job postings (if you copied text):**
-- Click "Copied text"
-- Paste the full job description
-- Give it a title like "Senior Developer Role - TechCorp"
+```
+Continue /sp.implement - Execute Phase 2 (NotebookLM Setup)
+```
 
-**For articles:**
-- Click "Website" and paste the URL
-- Or copy-paste the article text if behind paywall
+**Agent instructs:**
+- Task 2.1: Open notebooklm.google.com, create new notebook named "Personal BI - Market Research"
+- Task 2.2: Add sources using "+ Add source" → Website or Copied text
+- Task 2.3: Wait for "Ready" status on all sources
 
-**Add all your sources** (minimum 3, aim for 5).
+**You do:**
+1. Open NotebookLM
+2. Create new notebook
+3. Add each source (website URL or pasted text)
+4. Wait for processing to complete
 
-NotebookLM will process each source. Wait for all sources to show "Ready" status.
+**CHECKPOINT 2:** Confirm all sources processed successfully.
+- Do all sources show "Ready" status?
+- Did any sources fail to load?
 
-## Query for Market Intelligence
+**Your decision:**
+- ✅ "All sources ready. Proceed to Phase 3."
+- ❌ "Some sources failed. Need to retry or replace."
 
-Now you'll ask NotebookLM to synthesize insights across all your sources.
+### Phase 3: Query Execution
 
-**Query 1: Industry Trends**
+```
+Continue /sp.implement - Execute Phase 3 (Query Execution)
+```
 
-In the chat panel, ask:
+**Agent provides query templates:**
 
+**Task 3.1: Industry Trends Query**
 ```
 Based on all the sources I've uploaded, what are the top 3-5 industry trends
 that appear across multiple sources?
@@ -198,10 +329,7 @@ For each trend:
 3. Explain why this trend matters for someone entering this field
 ```
 
-**Copy NotebookLM's response.** Note which sources it cites.
-
-**Query 2: In-Demand Skills**
-
+**Task 3.2: In-Demand Skills Query**
 ```
 Analyze the job postings and company pages I've uploaded.
 
@@ -215,10 +343,7 @@ Format as:
 Cite which sources mention each skill.
 ```
 
-**Copy the response.**
-
-**Query 3: Competitor/Peer Landscape**
-
+**Task 3.3: Competitor/Peer Landscape Query**
 ```
 Based on these sources, who are the key players in this space?
 
@@ -230,12 +355,7 @@ Identify:
 Cite specific evidence from each source.
 ```
 
-**Copy the response.**
-
-**Query 4: Opportunity Mapping**
-
-This query connects F1 (your brand) to F2 (market research):
-
+**Task 3.4: Opportunity Mapping Query (uses F1 output)**
 ```
 I have these professional strengths (from my brand analysis):
 [Paste your 3+ strengths from f1-brand-analysis.md]
@@ -251,53 +371,123 @@ Based on the market intelligence from these sources:
 
 **This is the pipeline connection**: F1's output (your strengths and gaps) becomes F2's input for opportunity analysis.
 
-## Compile Your Market Brief
+**You do:**
+1. Run each query in NotebookLM
+2. Copy responses
+3. Note which sources are cited
 
-Create the output file:
+**CHECKPOINT 3:** Review all query responses for completeness.
+- Did NotebookLM cite specific sources?
+- Are all required sections covered?
 
-```bash
-touch outputs/f2-market-brief.md
+**Your decision:**
+- ✅ "Got complete responses. Proceed to Phase 4."
+- ❌ "Responses incomplete. Need to re-query."
+
+### Phase 4: Synthesis and Validation
+
+```
+Continue /sp.implement - Execute Phase 4 (Synthesis and Validation)
+
+Here are NotebookLM's responses:
+
+## Industry Trends Response:
+[PASTE RESPONSE]
+
+## In-Demand Skills Response:
+[PASTE RESPONSE]
+
+## Competitor Landscape Response:
+[PASTE RESPONSE]
+
+## Opportunity Mapping Response:
+[PASTE RESPONSE]
 ```
 
-Compile NotebookLM's responses into a structured brief:
+**Agent validates:**
+- Task 4.1-4.5: Checks each quality gate
+
+**Agent reports:**
+
+```
+Validation Results:
+✓ 4 industry trends found with citations
+✓ Skills separated into technical and soft categories
+✓ Competitor landscape includes 3 companies
+✓ Opportunity areas connected to F1 strengths
+✓ All insights cite uploaded sources
+
+All quality gates PASS.
+```
+
+**If validation fails:**
+
+```
+Validation Results:
+✓ 3 industry trends found
+✗ Trend #2 missing source citation
+✓ Skills list complete
+...
+
+Quality gate FAILED: Missing source citation.
+
+Suggested fix: Ask NotebookLM to revise trend #2 to include specific citation.
+```
+
+**CHECKPOINT 4:** All quality gates pass?
+- ✅ "All gates pass. Proceed to Phase 5."
+- ❌ "Need to fix [specific issue]. Retrying validation."
+
+### Phase 5: Save Output
+
+```
+Continue /sp.implement - Execute Phase 5 (Save Output)
+```
+
+**Agent does:**
+- Task 5.1: Creates `specs/market-scanner/output/` directory
+- Task 5.2: Saves validated output to `f2-market-brief.md` with header
+
+**Output file format:**
 
 ```markdown
 # Feature 2: Market Intelligence Brief
 Generated: [today's date]
 Tool: NotebookLM (notebooklm.google.com)
+Workflow: /sp.implement
 Sources: [count] sources analyzed
 
 ---
 
 ## Industry Trends
 
-[Paste Query 1 response - edited for clarity if needed]
+[Validated trend content with citations]
 
 ## In-Demand Skills
 
 ### Technical Skills
-[List from Query 2]
+[List from query response]
 
 ### Soft Skills
-[List from Query 2]
+[List from query response]
 
 ### Emerging Skills
-[List from Query 2]
+[List from query response]
 
 ## Competitor/Peer Landscape
 
-[Paste Query 3 response]
+[Validated competitor content]
 
 ## Opportunity Areas (Matched to My Profile)
 
 ### Strengths That Match Market Demand
-[From Query 4 - which of your strengths are in demand]
+[Content connecting F1 strengths to market demand]
 
 ### Priority Gaps to Address
-[From Query 4 - which gaps matter most given market needs]
+[Content identifying critical gaps]
 
 ### Unique Opportunity Areas
-[From Query 4 - where your profile meets unmet needs]
+[Content on opportunity intersection]
 
 ---
 
@@ -307,33 +497,21 @@ Sources: [count] sources analyzed
 2. [Source 2 name and URL]
 3. [Source 3 name and URL]
 [etc.]
+
+---
+
+## Quality Gate Verification
+- [x] 3+ industry trends with citations
+- [x] In-demand skills (technical + soft)
+- [x] Competitor/peer landscape
+- [x] Opportunity areas matched to F1 strengths
+- [x] All insights cite specific sources
 ```
 
-**Verify the file:**
+**CHECKPOINT 5:** Feature complete.
 
 ```bash
-cat outputs/f2-market-brief.md
-```
-
-## Validate Against Quality Gates
-
-Check your output against the constitution:
-
-**Checklist:**
-
-- [ ] **3+ industry trends?** Count the trends listed.
-- [ ] **In-demand skills list?** Are technical and soft skills separated?
-- [ ] **Competitor landscape?** Are specific companies or players named?
-- [ ] **Opportunity areas?** Do they connect to YOUR strengths from F1?
-- [ ] **3+ source citations?** Are specific sources referenced throughout?
-
-**If any check fails:** Go back to NotebookLM and ask follow-up questions.
-
-Example follow-up:
-
-```
-Your response about industry trends didn't cite specific sources.
-Please revise and add citations from the uploaded documents for each trend.
+cat specs/market-scanner/output/f2-market-brief.md
 ```
 
 ## Stop Your Timer
@@ -355,70 +533,53 @@ F2 as % of F1: _____ % (calculate: F2_time / F1_time × 100)
 ```
 
 **Interpretation:**
-- **< 75%**: Strong acceleration—patterns from F1 transferred well
-- **75-100%**: Moderate acceleration—some patterns transferred
-- **> 100%**: F2 took longer—new tool learning overhead
+- **< 75%**: Strong acceleration—SDD-RI workflow patterns from F1 transferred well
+- **75-100%**: Moderate acceleration—some patterns transferred, new tool overhead
+- **> 100%**: F2 took longer—NotebookLM learning curve offset pattern reuse
 
-**Note in TIME_TRACKER.md what transferred from F1:**
-- Structured prompting approach
-- Output validation against quality gates
-- Iterative refinement when output was incomplete
+**Note what transferred from F1:**
+- `/sp.specify` specification structure
+- `/sp.plan` → `/sp.tasks` decomposition approach
+- `/sp.implement` checkpoint review pattern
+- Quality gate validation workflow
+
+## Commit Feature 2
+
+```
+/sp.git.commit_pr Commit Feature 2 (Market Intelligence Scanner) - specification, plan, tasks, and output.
+```
 
 ## What You Built
 
 You now have:
 
-1. **Market intelligence brief** in `outputs/f2-market-brief.md`
-2. **Source documentation** in `sources-list.md`
-3. **First acceleration measurement** in TIME_TRACKER.md
-
-This output feeds Feature 3 (Content Strategy Generator). Your market trends and skill demands inform what content topics will resonate with your target audience.
-
-## Try With AI
-
-Get feedback on your market research before moving to Feature 3:
-
-**Prompt 1: Coverage Check**
-
-In NotebookLM (or Gemini App), ask:
-
 ```
-Review this market intelligence brief:
-
-[Paste your f2-market-brief.md content]
-
-Questions:
-1. Are there obvious gaps in the market research? What topics should I research more?
-2. Are the opportunity areas specific enough to act on?
-3. What additional sources would strengthen this analysis?
+specs/market-scanner/
+├── spec.md              # Feature specification
+├── plan.md              # Implementation plan
+├── tasks.md             # Atomic tasks with checkpoints
+└── output/
+    └── f2-market-brief.md  # Validated output
 ```
 
-**Observe:** NotebookLM may suggest gaps—like missing competitor analysis or thin skill data.
+**Artifacts created by SDD-RI workflow:**
+1. **Specification** defining what success looks like (NotebookLM research)
+2. **Plan** outlining how to achieve it (source gathering → queries → synthesis)
+3. **Tasks** breaking it into verifiable steps
+4. **Output** validated against quality gates
 
-**Prompt 2: Source Quality Check**
+This output feeds Feature 3 (Content Strategy Generator). Your market trends and skill demands inform what content pillars to create.
 
-```
-I used these sources for my market research:
-[Paste your sources-list.md]
+## Pattern Notes
 
-Evaluate:
-1. Are these sources credible and current?
-2. Am I missing any category of source? (e.g., industry reports, thought leaders)
-3. Which source contributed most to my insights?
-```
-
-**Update your brief** if you discover gaps worth addressing.
-
----
-
-**Feature 2 complete.** Record your pattern notes in TIME_TRACKER.md:
+Record in TIME_TRACKER.md:
 
 ```
 ## Pattern Notes - Feature 2
+- Workflow: /sp.specify → /sp.plan → /sp.tasks → /sp.implement (same as F1)
 - Tool pattern: NotebookLM for multi-source synthesis (different from F1's Gemini App)
-- Query pattern: Structured questions with citation requirements
-- Validation pattern: Same checklist approach as F1
 - Pipeline pattern: F1 output (strengths/gaps) became F2 input for opportunity mapping
+- Acceleration: SDD-RI workflow familiar, only new element was NotebookLM
 ```
 
-Start Lesson 4: Feature 3 (Content Strategy Generator). Record your F3 start time. This feature synthesizes F1 + F2 outputs into actionable content strategy.
+**Start Lesson 4: Feature 3 (Content Strategy Generator).** Record your F3 start time. You'll use the same SDD-RI workflow with Gemini App to synthesize F1 + F2 outputs.
