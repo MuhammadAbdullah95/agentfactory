@@ -9,6 +9,7 @@
  * - Write content to docs/ folder for Docusaurus to process
  * - Preserves directory structure from server (content/ -> docs/)
  * - Cleans docs/ folder before writing (when enabled)
+ * - Filters out .summary.md files (stored in R2 but not rendered in book)
  *
  * @param {Object} context - Docusaurus context
  * @param {Object} options - Plugin options
@@ -24,7 +25,21 @@ module.exports = function panaversityFSPlugin(context, options) {
     serverUrl = process.env.PANAVERSITY_SERVER_URL || 'http://localhost:8000/mcp',
     docsDir = 'docs', // Output directory relative to siteDir
     cleanDocsDir = true, // Clean docs/ before writing
+    // Files matching these patterns are stored in R2 but NOT written to docs/
+    // They remain accessible via MCP server for other purposes (AI summaries, etc.)
+    excludePatterns = [
+      /\.summary\.md$/,  // AI-generated summaries (e.g., lesson.summary.md)
+    ],
   } = options;
+
+  /**
+   * Check if a file path should be excluded from docs/ output
+   * @param {string} filePath - File path to check
+   * @returns {boolean} True if file should be excluded
+   */
+  function shouldExclude(filePath) {
+    return excludePatterns.some(pattern => pattern.test(filePath));
+  }
 
   const siteDir = context.siteDir;
   const docsPath = path.join(siteDir, docsDir);
@@ -72,9 +87,17 @@ module.exports = function panaversityFSPlugin(context, options) {
 
         // Write each file to docs/
         let writtenCount = 0;
+        let excludedCount = 0;
         for (const file of allContent) {
           // Skip non-markdown files
           if (!file.path?.endsWith('.md')) {
+            continue;
+          }
+
+          // Skip files matching exclude patterns (e.g., .summary.md)
+          // These files remain in R2 storage but are not rendered in the book
+          if (shouldExclude(file.path)) {
+            excludedCount++;
             continue;
           }
 
@@ -92,11 +115,15 @@ module.exports = function panaversityFSPlugin(context, options) {
         }
 
         console.log(`[PanaversityFS] Written ${writtenCount} files to ${docsPath}`);
+        if (excludedCount > 0) {
+          console.log(`[PanaversityFS] Excluded ${excludedCount} files (summary files, etc.)`);
+        }
 
         // Return summary for contentLoaded hook
         return {
           totalFiles: allContent.length,
           writtenFiles: writtenCount,
+          excludedFiles: excludedCount,
           source: 'panaversityfs-http',
           serverUrl,
           bookId,
