@@ -218,6 +218,7 @@ today: datetime = datetime.now(timezone.utc)
 # Calculate important dates
 tomorrow: datetime = today + timedelta(days=1)
 next_week: datetime = today + timedelta(weeks=1)
+next_month: datetime = today + timedelta(days=30)
 next_year: datetime = today + timedelta(days=365)
 
 # Go backwards
