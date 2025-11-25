@@ -1,152 +1,126 @@
 /**
  * Docusaurus PanaversityFS Plugin
  *
- * Fetches educational content from PanaversityFS MCP server instead of local filesystem.
+ * Fetches educational content from PanaversityFS MCP server via HTTP
+ * and writes it to the docs/ folder before Docusaurus processes it.
  *
  * Features:
- * - Fetch content from PanaversityFS at build time
- * - Cache content locally for fast builds
- * - Support multiple storage backends (local/R2/Supabase)
- * - Preserve frontmatter and metadata
+ * - Fetch all book content at build time using read_content (scope=book)
+ * - Write content to docs/ folder for Docusaurus to process
+ * - Preserves directory structure from server (content/ -> docs/)
+ * - Cleans docs/ folder before writing (when enabled)
  *
  * @param {Object} context - Docusaurus context
  * @param {Object} options - Plugin options
  */
-const MCPClient = require('./mcp-client');
+const fs = require('fs');
+const path = require('path');
+const MCPHttpClient = require('./mcp-http-client');
 
 module.exports = function panaversityFSPlugin(context, options) {
   const {
-    bookId = 'ai-native-software-development',
-    enabled = false, // Disabled by default (POC)
-    useMockData = true, // Use mock data for POC
-    cacheDir = '.docusaurus/panaversityfs-cache',
-    serverPath = '../../panaversity-fs',
-    storageBackend = process.env.PANAVERSITY_STORAGE_BACKEND || 'fs',
-    storageRoot = process.env.PANAVERSITY_STORAGE_ROOT || '/tmp/panaversity-test',
+    bookId = 'ai-native-dev',
+    enabled = false, // Disabled by default
+    serverUrl = process.env.PANAVERSITY_SERVER_URL || 'http://localhost:8000/mcp',
+    docsDir = 'docs', // Output directory relative to siteDir
+    cleanDocsDir = true, // Clean docs/ before writing
   } = options;
 
-  let mcpClient = null;
+  const siteDir = context.siteDir;
+  const docsPath = path.join(siteDir, docsDir);
 
   return {
     name: 'docusaurus-panaversityfs-plugin',
 
     async loadContent() {
-      console.log('[PanaversityFS] Loading content...');
+      console.log('[PanaversityFS] Plugin starting...');
       console.log(`[PanaversityFS] Book ID: ${bookId}`);
       console.log(`[PanaversityFS] Enabled: ${enabled}`);
-      console.log(`[PanaversityFS] Mock Data: ${useMockData}`);
+      console.log(`[PanaversityFS] Server URL: ${serverUrl}`);
+      console.log(`[PanaversityFS] Docs Path: ${docsPath}`);
 
       if (!enabled) {
-        console.log('[PanaversityFS] Plugin disabled, skipping content loading');
+        console.log('[PanaversityFS] Plugin disabled, using existing docs/ folder');
         return null;
       }
 
-      if (useMockData) {
-        // POC: Return mock data to test plugin integration
-        console.log('[PanaversityFS] Using mock data for POC');
-        return {
-          lessons: [
-            {
-              id: 'chapter-02-lesson-01',
-              path: '/docs/01-Introducing-AI-Driven-Development/02-ai-turning-point/01-the-inflection-point',
-              title: 'The Inflection Point',
-              content: '# The Inflection Point\n\nThis is mock content from PanaversityFS plugin.\n\n**Status**: Plugin working! Ready to connect to real MCP server.',
-              frontmatter: {
-                title: 'The Inflection Point',
-                chapter: 2,
-                lesson: 1,
-              },
-            },
-          ],
-          summary: {
-            totalLessons: 1,
-            source: 'mock-data',
-            timestamp: new Date().toISOString(),
-          },
-        };
-      }
-
-      // Connect to PanaversityFS MCP server
+      // Connect to PanaversityFS MCP server via HTTP
       try {
-        console.log('[PanaversityFS] Connecting to MCP server...');
-        mcpClient = new MCPClient({
-          serverPath,
-          storageBackend,
-          storageRoot,
-        });
+        const client = new MCPHttpClient({ serverUrl, bookId });
 
-        await mcpClient.start();
-        console.log('[PanaversityFS] MCP server connected successfully');
+        // Check server availability
+        console.log('[PanaversityFS] Checking server availability...');
+        const available = await client.ping();
+        if (!available) {
+          throw new Error(`Server not available at ${serverUrl}`);
+        }
+        console.log('[PanaversityFS] Server is available');
 
-        // Fetch all lesson files
-        console.log('[PanaversityFS] Searching for lessons...');
-        const paths = await mcpClient.globSearch(bookId, '**/*.md');
-        console.log(`[PanaversityFS] Found ${paths.length} files`);
+        // Fetch all content using scope=book (single request, all files)
+        console.log('[PanaversityFS] Fetching all book content...');
+        const allContent = await client.readBookContent(bookId);
+        console.log(`[PanaversityFS] Received ${allContent.length} files from server`);
 
-        // Read content for each lesson
-        const lessons = [];
-        for (const path of paths) {
-          // Skip README files for now
-          if (path.includes('README.md')) {
+        // Clean docs/ directory if enabled
+        if (cleanDocsDir && fs.existsSync(docsPath)) {
+          console.log('[PanaversityFS] Cleaning docs/ directory...');
+          fs.rmSync(docsPath, { recursive: true, force: true });
+        }
+
+        // Create docs/ directory
+        fs.mkdirSync(docsPath, { recursive: true });
+
+        // Write each file to docs/
+        let writtenCount = 0;
+        for (const file of allContent) {
+          // Skip non-markdown files
+          if (!file.path?.endsWith('.md')) {
             continue;
           }
 
-          console.log(`[PanaversityFS] Reading: ${path}`);
-          const contentData = await mcpClient.readContent(bookId, path);
+          // Transform path: content/01-Part/01-Chapter/lesson.md -> docs/01-Part/01-Chapter/lesson.md
+          const relativePath = file.path.replace(/^content\//, '');
+          const outputPath = path.join(docsPath, relativePath);
+          const outputDir = path.dirname(outputPath);
 
-          // Extract lesson ID from path (e.g., "02-ai-turning-point/01-the-inflection-point.md")
-          const parts = path.split('/');
-          const filename = parts[parts.length - 1].replace('.md', '');
-          const chapterDir = parts[parts.length - 2];
+          // Create directory structure
+          fs.mkdirSync(outputDir, { recursive: true });
 
-          lessons.push({
-            id: `${chapterDir}-${filename}`,
-            path: `/docs/${path.replace('.md', '')}`,
-            title: contentData.metadata?.title || filename,
-            content: contentData.content,
-            frontmatter: contentData.metadata || {},
-            sha256: contentData.sha256,
-          });
+          // Write the file
+          fs.writeFileSync(outputPath, file.content || '', 'utf-8');
+          writtenCount++;
         }
 
-        console.log(`[PanaversityFS] Loaded ${lessons.length} lessons from MCP server`);
+        console.log(`[PanaversityFS] Written ${writtenCount} files to ${docsPath}`);
 
-        // Stop MCP server
-        await mcpClient.stop();
-        mcpClient = null;
-
+        // Return summary for contentLoaded hook
         return {
-          lessons,
-          summary: {
-            totalLessons: lessons.length,
-            source: 'panaversityfs-mcp',
-            storageBackend,
-            timestamp: new Date().toISOString(),
-          },
+          totalFiles: allContent.length,
+          writtenFiles: writtenCount,
+          source: 'panaversityfs-http',
+          serverUrl,
+          bookId,
+          timestamp: new Date().toISOString(),
         };
       } catch (error) {
-        console.error('[PanaversityFS] Error connecting to MCP server:', error);
+        console.error('[PanaversityFS] Error fetching content:', error.message);
 
-        // Cleanup on error
-        if (mcpClient) {
-          try {
-            await mcpClient.stop();
-          } catch (stopError) {
-            console.error('[PanaversityFS] Error stopping MCP server:', stopError);
-          }
-          mcpClient = null;
+        // Check if docs/ exists - if not, this is a fatal error
+        if (!fs.existsSync(docsPath)) {
+          throw new Error(
+            `PanaversityFS failed to fetch content and no docs/ folder exists. ` +
+              `Either disable the plugin or ensure the server is running at ${serverUrl}`
+          );
         }
 
-        // Fall back to mock data on error
-        console.log('[PanaversityFS] Falling back to mock data due to error');
+        // docs/ exists, warn and continue with existing content
+        console.warn('[PanaversityFS] Using existing docs/ folder as fallback');
         return {
-          lessons: [],
-          summary: {
-            totalLessons: 0,
-            source: 'error-fallback',
-            error: error.message,
-            timestamp: new Date().toISOString(),
-          },
+          totalFiles: 0,
+          writtenFiles: 0,
+          source: 'fallback-existing',
+          error: error.message,
+          timestamp: new Date().toISOString(),
         };
       }
     },
@@ -156,36 +130,14 @@ module.exports = function panaversityFSPlugin(context, options) {
         return;
       }
 
-      console.log(`[PanaversityFS] Content loaded: ${content.lessons.length} lessons`);
+      const { createData } = actions;
 
-      const { createData, addRoute } = actions;
+      // Store build metadata
+      await createData('panaversityfs-build.json', JSON.stringify(content, null, 2));
 
-      // Create routes for each lesson
-      for (const lesson of content.lessons) {
-        const lessonData = await createData(
-          `panaversityfs-${lesson.id}.json`,
-          JSON.stringify(lesson)
-        );
-
-        // Note: In full implementation, this would integrate with Docusaurus docs
-        // For POC, we just log that we'd create routes
-        console.log(`[PanaversityFS] Would create route: ${lesson.path}`);
-      }
-
-      // Store summary data
-      const summaryData = await createData(
-        'panaversityfs-summary.json',
-        JSON.stringify(content.summary)
-      );
-
-      console.log('[PanaversityFS] Content loaded successfully');
+      console.log('[PanaversityFS] Build metadata saved');
+      console.log(`[PanaversityFS] Source: ${content.source}`);
+      console.log(`[PanaversityFS] Files written: ${content.writtenFiles}`);
     },
-
-    getPathsToWatch() {
-      // Watch cache directory for changes
-      return [cacheDir];
-    },
-
-    // Removed getThemePath() - not needed for this plugin
   };
 };

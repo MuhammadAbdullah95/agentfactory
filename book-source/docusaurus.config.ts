@@ -122,14 +122,17 @@ const config: Config = {
   plugins: [
     "./plugins/docusaurus-plugin-og-image-generator",
     "./plugins/docusaurus-plugin-structured-data",
-    // PanaversityFS Plugin - Fetch content from MCP server (POC)
+    // PanaversityFS Plugin - Fetch content from MCP server and write to docs/
+    // Enable via: PANAVERSITY_PLUGIN_ENABLED=true
+    // Server URL: PANAVERSITY_SERVER_URL or http://localhost:8000/mcp
     [
       "./plugins/docusaurus-panaversityfs-plugin",
       {
-        bookId: "ai-native-software-development",
-        enabled: true,  // Enable plugin for testing
-        useMockData: true,  // Use mock data for POC
-        cacheDir: ".docusaurus/panaversityfs-cache",
+        bookId: "ai-native-dev",
+        enabled: process.env.PANAVERSITY_PLUGIN_ENABLED === "true",
+        serverUrl: process.env.PANAVERSITY_SERVER_URL || "http://localhost:8000/mcp",
+        docsDir: "docs",
+        cleanDocsDir: true,  // Clean docs/ before writing fresh content
       },
     ],
     function (context, options) {
