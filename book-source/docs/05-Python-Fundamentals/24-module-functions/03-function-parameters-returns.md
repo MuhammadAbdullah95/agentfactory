@@ -112,7 +112,7 @@ def schedule_meeting(
     time: str = "9:00 AM",
     duration_minutes: int = 60,
     online: bool = True
-) -> str:
+) -> dict:
     """Schedule a meeting with many optional parameters."""
     meeting_info = {
         "Meeting" : title,
