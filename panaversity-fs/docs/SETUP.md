@@ -95,43 +95,146 @@ uv run pytest tests/ -v
 
 1. **Cloudflare Account**: Sign up at https://dash.cloudflare.com
 2. **R2 Enabled**: Go to R2 section in dashboard
-3. **Create Bucket**: Create a bucket named `panaversity-books`
 
-### Get Credentials
+### Step 1: Create R2 Bucket
 
-#### Step 1: Create R2 API Token
+1. Go to **Cloudflare Dashboard** → **R2 Object Storage**
+2. Click **Create bucket**
+3. Configure:
+   - **Bucket name**: `panaversity-books`
+   - **Location hint**: (choose closest region, or leave default)
+4. Click **Create bucket**
 
-1. Go to **R2 → Manage R2 API Tokens**
+### Step 2: Enable Public Access (for CDN URLs)
+
+After creating the bucket:
+
+1. Click on your bucket (`panaversity-books`)
+2. Go to **Settings** tab
+3. Under **Public access**, click **Allow Access**
+4. Choose **R2.dev subdomain** (easiest option)
+5. Click **Allow Access** to confirm
+6. Copy the public URL shown (e.g., `https://pub-abc123xyz.r2.dev`)
+
+This gives you a public CDN URL like:
+```
+https://pub-abc123xyz.r2.dev/books/ai-native-dev/static/images/...
+```
+
+### Step 3: Create R2 API Token
+
+1. Go to **R2** → **Manage R2 API Tokens** (top right)
 2. Click **Create API token**
 3. Configure:
-   - **Token Name**: `panaversity-fs-token`
-   - **Permissions**: Object Read & Write
-   - **Apply to specific buckets**: Select `panaversity-books`
+   - **Token name**: `panaversity-fs-token`
+   - **Permissions**: **Object Read & Write**
+   - **Specify bucket(s)**: Select `panaversity-books`
+   - **TTL**: (optional, leave blank for no expiry)
 4. Click **Create API token**
-5. **Save these values** (shown only once):
-   - Access Key ID
-   - Secret Access Key
-   - Endpoint URL (format: `https://<account-id>.r2.cloudflarestorage.com`)
+5. **IMPORTANT - Save these values** (shown only once):
+   ```
+   Access Key ID:     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   Secret Access Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-#### Step 2: Get Account ID
+   Endpoint:          https://<account-id>.r2.cloudflarestorage.com
+   ```
 
-1. Go to **R2 → Overview**
-2. Copy your **Account ID** (shown in the sidebar)
+### Step 4: Get Your Account ID
+
+Your Account ID is shown in:
+- The endpoint URL from Step 3
+- Or go to **R2 Overview** → look in the right sidebar
 
 ### Configuration
 
+Create/update your `.env` file:
+
 ```bash
-# Set environment variables
+# Cloudflare R2 Configuration
+PANAVERSITY_STORAGE_BACKEND=s3
+PANAVERSITY_S3_BUCKET=panaversity-books
+PANAVERSITY_S3_REGION=auto
+PANAVERSITY_S3_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+PANAVERSITY_S3_ACCESS_KEY_ID=<your-access-key-id>
+PANAVERSITY_S3_SECRET_ACCESS_KEY=<your-secret-access-key>
+
+# Public CDN URL (from Step 2)
+PANAVERSITY_CDN_BASE_URL=https://pub-<hash>.r2.dev
+```
+
+Or export as environment variables:
+
+```bash
 export PANAVERSITY_STORAGE_BACKEND=s3
 export PANAVERSITY_S3_BUCKET=panaversity-books
 export PANAVERSITY_S3_REGION=auto
 export PANAVERSITY_S3_ACCESS_KEY_ID=<your-access-key-id>
 export PANAVERSITY_S3_SECRET_ACCESS_KEY=<your-secret-access-key>
 export PANAVERSITY_S3_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
-
-# Optional: Set public CDN URL (if using R2 public buckets)
 export PANAVERSITY_CDN_BASE_URL=https://pub-<hash>.r2.dev
 ```
+
+### Step 5: Migrate Content
+
+```bash
+# Dry run first
+uv run python scripts/migrate_book_source.py --dry-run
+
+# Full migration with URL rewriting
+uv run python scripts/migrate_book_source.py --rewrite-urls
+
+# Or migrate in parts
+uv run python scripts/migrate_book_source.py --assets-only      # Assets first
+uv run python scripts/migrate_book_source.py --content-only --rewrite-urls  # Then content
+```
+
+### Step 6: Verify Upload
+
+1. Go to **R2** → **panaversity-books** → **Objects**
+2. You should see:
+   ```
+   books/
+   └── ai-native-dev/
+       ├── content/
+       │   └── 01-Part/
+       │       └── 01-Chapter/
+       │           └── 01-lesson.md
+       └── static/
+           ├── images/
+           │   └── *.png
+           └── slides/
+               └── *.pdf
+   ```
+
+3. Test a public URL:
+   ```bash
+   curl -I "https://pub-<hash>.r2.dev/books/ai-native-dev/content/01-Part/README.md"
+   # Should return 200 OK
+   ```
+
+### Custom Domain (Optional)
+
+Instead of `pub-<hash>.r2.dev`, you can use a custom domain:
+
+1. In bucket **Settings** → **Public access** → **Custom Domains**
+2. Click **Connect Domain**
+3. Enter your domain (e.g., `cdn.panaversity.com`)
+4. Follow DNS configuration instructions
+5. Update `.env`:
+   ```bash
+   PANAVERSITY_CDN_BASE_URL=https://cdn.panaversity.com
+   ```
+
+### R2 Pricing (as of 2024)
+
+| Resource | Free Tier | After Free Tier |
+|----------|-----------|-----------------|
+| Storage | 10 GB/month | $0.015/GB/month |
+| Class A ops (writes) | 1M/month | $4.50/M |
+| Class B ops (reads) | 10M/month | $0.36/M |
+| Egress | Free | Free (no bandwidth charges!) |
+
+**Note**: R2 has no egress fees, making it ideal for CDN use cases.
 
 ### Create Test Data in R2
 
@@ -213,38 +316,98 @@ uv run python test_all_tools.py
 1. **Supabase Account**: Sign up at https://supabase.com
 2. **Create Project**: Create a new project
 
-### Get Credentials
-
-#### Step 1: Create Storage Bucket
+### Step 1: Create Storage Bucket
 
 1. Go to **Storage** in sidebar
 2. Click **New bucket**
 3. Configure:
-   - **Name**: `books`
-   - **Public**: No (keep private)
-   - **File size limit**: 50MB
+   - **Name**: `panaversity-books`
+   - **Public bucket**: **ON** (toggle this for public CDN access)
+   - **File size limit**: 50MB (or higher for large PDFs)
 4. Click **Create bucket**
 
-#### Step 2: Get API Credentials
+**Important**: Toggle **Public bucket** ON if you want public CDN URLs. Otherwise you'll get 404 errors.
 
-1. Go to **Settings → API**
+### Step 2: Get API Credentials
+
+1. Go to **Project Settings** (gear icon) → **API**
 2. Copy these values:
    - **Project URL**: `https://<project-ref>.supabase.co`
-   - **anon public key**: (for client-side, not needed for server)
-   - **service_role key**: (⚠️ Keep secret! Server-side only)
+   - **service_role key**: Under "Project API keys" section (⚠️ Keep secret!)
 
-### Configuration
+**Note**: Use `service_role` key (not `anon` key) for server-side uploads.
+
+### Step 3: Configure Environment
+
+Create/update your `.env` file:
 
 ```bash
-# Set environment variables
+# Supabase Storage Configuration
+PANAVERSITY_STORAGE_BACKEND=supabase
+PANAVERSITY_SUPABASE_URL=https://<project-ref>.supabase.co
+PANAVERSITY_SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+PANAVERSITY_SUPABASE_BUCKET=panaversity-books
+
+# CDN URL (auto-generated from above, but can be explicit)
+PANAVERSITY_CDN_BASE_URL=https://<project-ref>.supabase.co/storage/v1/object/public/panaversity-books
+```
+
+Or export as environment variables:
+
+```bash
 export PANAVERSITY_STORAGE_BACKEND=supabase
 export PANAVERSITY_SUPABASE_URL=https://<project-ref>.supabase.co
-export PANAVERSITY_SUPABASE_SERVICE_KEY=<your-service-role-key>
-export PANAVERSITY_SUPABASE_BUCKET=books
-
-# Optional: Set public CDN URL
-export PANAVERSITY_CDN_BASE_URL=https://<project-ref>.supabase.co/storage/v1/object/public/books
+export PANAVERSITY_SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
+export PANAVERSITY_SUPABASE_BUCKET=panaversity-books
 ```
+
+### Step 4: Migrate Content
+
+```bash
+# Dry run first
+uv run python scripts/migrate_book_source.py --dry-run
+
+# Full migration with URL rewriting
+uv run python scripts/migrate_book_source.py --rewrite-urls
+```
+
+### Step 5: Verify Upload
+
+1. Go to **Storage** → **panaversity-books**
+2. You should see:
+   ```
+   books/
+   └── ai-native-dev/
+       ├── content/
+       └── static/
+           ├── images/
+           └── slides/
+   ```
+
+3. Test a public URL:
+   ```bash
+   curl -I "https://<project-ref>.supabase.co/storage/v1/object/public/panaversity-books/books/ai-native-dev/content/01-Part/README.md"
+   # Should return 200 OK
+   ```
+
+### Making Existing Bucket Public
+
+If you already created a private bucket:
+
+1. Go to **Storage** → click on your bucket
+2. Click **Settings** (gear icon in bucket view)
+3. Toggle **Public bucket** to **ON**
+4. Confirm the change
+
+### Supabase Pricing (as of 2024)
+
+| Resource | Free Tier | Pro ($25/mo) |
+|----------|-----------|--------------|
+| Storage | 1 GB | 100 GB |
+| Bandwidth | 2 GB/month | 250 GB/month |
+| File uploads | 50 MB max | 5 GB max |
+
+**Note**: Free tier is sufficient for development and small books.
 
 ### Create Test Data in Supabase
 
