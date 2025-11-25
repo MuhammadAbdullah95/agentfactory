@@ -3,21 +3,21 @@ sidebar_position: 7
 title: "Ship + Retrospective"
 chapter: 15
 lesson: 7
-duration_minutes: 45
+duration_minutes: 30
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 4"
 layer_progression: "L4 capstone - shipping and reflection"
-layer_4_capstone: "Final verification, retrospective analysis, git commit"
+layer_4_capstone: "Final verification, retrospective analysis, documented learnings"
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
-  - name: "End-to-End Pipeline Verification"
+  - name: "System Verification"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Analyze"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can run complete pipeline on fresh data and verify all features integrate correctly"
+    measurable_at_this_level: "Student can verify all system outputs exist and meet quality standards"
 
   - name: "Acceleration Analysis"
     proficiency_level: "B1"
@@ -33,18 +33,18 @@ skills:
     digcomp_area: "Communication"
     measurable_at_this_level: "Student can write honest retrospective capturing what worked, what slowed down, and learnings for future"
 
-  - name: "Git Workflow Execution"
+  - name: "Project Completion"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can stage, commit, and verify git history for shipped project"
+    measurable_at_this_level: "Student can finalize project with proper documentation and file organization"
 
 learning_objectives:
-  - objective: "Verify complete pipeline works end-to-end with fresh data"
+  - objective: "Verify all system outputs exist and meet quality gates"
     proficiency_level: "B1"
     bloom_level: "Analyze"
-    assessment_method: "All four features run without errors on new company URL"
+    assessment_method: "All four feature outputs verified against constitution"
 
   - objective: "Calculate and interpret acceleration metrics from TIME_TRACKER.md"
     proficiency_level: "B1"
@@ -56,358 +56,396 @@ learning_objectives:
     bloom_level: "Evaluate"
     assessment_method: "RETROSPECTIVE.md includes specific patterns, friction points, and transferable learnings"
 
-  - objective: "Ship project with proper git commits and README documentation"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Git log shows commits for data, results, and documentation"
-
 cognitive_load:
-  new_concepts: 4
+  new_concepts: 3
   reused_concepts: 8
-  assessment: "4 new concepts (retrospective analysis, acceleration interpretation, shipping workflow, README update) + 8 reused from F1-F4 (pipeline, verification, git, documentation) within B1 limit ✓"
+  assessment: "3 new concepts (retrospective analysis, acceleration interpretation, project shipping) + 8 reused from F1-F4 (verification, quality gates, documentation, file organization) within B1 limit ✓"
 
 differentiation:
   extension_for_advanced: "Add detailed acceleration analysis by decision type; propose Feature 5 specification"
-  remedial_for_struggling: "Focus on pipeline verification and basic retrospective; use provided templates"
+  remedial_for_struggling: "Focus on verification checklist and basic retrospective; use provided templates"
 
-# Generation metadata
 generated_by: "content-implementer v3.0.0"
-source_spec: "specs/001-013-chapter-capstone/spec.md"
+source_spec: "specs/015-chapter-15-redesign/spec.md"
 created: "2025-11-25"
 last_modified: "2025-11-25"
 git_author: "Claude Code"
 workflow: "/sp.loopflow.v2"
-version: "2.0.0"
+version: "3.0.0"
 ---
 
 # Ship + Retrospective
 
-Your four features are built. Your acceleration data is recorded. Now verify everything works together, document what you learned, and ship.
+Your four features are built. Your skills are created. Now verify everything is complete, document what you learned, and ship.
 
-## Final Pipeline Test
+## Verify Your System
 
-Process a new company through all four features in sequence. Use fresh data to ensure all features integrate correctly and no intermediate errors propagate.
+Check that all outputs exist and meet quality standards.
 
-```bash
-# Create a test company (different from earlier development data)
-URL="https://github.com"
-
-# Run through complete pipeline in order
-echo "Testing Lead Profiler..."
-python lead_profiler.py $URL > campaign_data/profiles/github.json
-
-echo "Testing ICP Scorer..."
-python icp_scorer.py campaign_data/profiles/github.json > campaign_data/scores/github.json
-
-echo "Testing Outreach Generator..."
-python outreach_generator.py campaign_data/profiles/github.json campaign_data/scores/github.json > campaign_data/outreach/github.json
-
-echo "Testing Campaign Dashboard..."
-python campaign_dashboard.py ./campaign_data/
-
-echo "Pipeline complete!"
-```
-
-### Verify Complete Output
-
-Before proceeding, check:
-
-1. **Lead Profiler output** — View the JSON structure:
-   ```bash
-   cat campaign_data/profiles/github.json
-   ```
-   Should contain: company_name, industry, size, tech_stack, hiring_indicators (if detectable)
-
-2. **ICP Scorer output** — Verify scores were calculated:
-   ```bash
-   cat campaign_data/scores/github.json
-   ```
-   Should contain: icp_score (0-100), category (high/medium/low), breakdown, reasoning
-
-3. **Outreach Generator output** — Check personalized message:
-   ```bash
-   cat campaign_data/outreach/github.json
-   ```
-   Should contain: personalized_message, subject_line, follow_up_angle (based on company profile and ICP score)
-
-4. **Dashboard output** — View unified summary:
-   ```bash
-   # Terminal will display table with all leads, their scores, and outreach status
-   # No errors or warnings should appear
-   ```
-
-**Troubleshooting**: If any step fails:
-- Check JSON syntax: `python -m json.tool campaign_data/profiles/github.json`
-- Review error message carefully—it shows which field caused the issue
-- Fix the field in the previous feature's output, then re-run that step
-- Don't proceed to shipping until all four features run cleanly
-
-## Complete Your TIME_TRACKER Data
-
-Open or create `TIME_TRACKER.md` in your project root. Fill in your actual build times:
+### Output Files Verification
 
 ```bash
-# Create file if it doesn't exist
-touch TIME_TRACKER.md
+ls outputs/
 ```
 
-```markdown
-# Feature Build Times - Final Data
+**Expected files:**
+- `f1-brand-analysis.md`
+- `f2-market-brief.md`
+- `f3-content-strategy.md`
+- `f4-action-dashboard.md`
 
-Record the actual minutes you spent building each feature (from start of spec to first working output):
+**Missing any files?** Go back and complete that feature.
 
-| Feature | Minutes | % of F1 | Acceleration |
-|---------|---------|---------|--------------|
-| F1: Lead Profiler | _____ | 100% | baseline |
-| F2: ICP Scorer | _____ | ___% | ___% faster |
-| F3: Outreach Generator | _____ | ___% | ___% faster |
-| F4: Campaign Dashboard | _____ | ___% | ___% faster |
+### Quality Gate Verification
 
-### Calculate Acceleration Step-by-Step
+For each output, verify it meets the constitution's quality gates:
 
-Use F1 time as your baseline. Let's say F1 took 120 minutes.
-
-**F2 Acceleration:**
-- F1: 120 minutes
-- F2: 95 minutes
-- Calculation: ((120 - 95) / 120) × 100 = 21% faster
-- As % of F1: (95 / 120) × 100 = 79% (F2 is 79% of F1's time)
-
-**F3 Acceleration:**
-- F1: 120 minutes (baseline)
-- F3: 70 minutes
-- Calculation: ((120 - 70) / 120) × 100 = 42% faster
-- As % of F1: (70 / 120) × 100 = 58% (F3 is 58% of F1's time)
-
-**F4 Acceleration (the target):**
-- F1: 120 minutes (baseline)
-- F4: 50 minutes
-- Calculation: ((120 - 50) / 120) × 100 = 58% faster
-- As % of F1: (50 / 120) × 100 = 42% (F4 is 42% of F1's time)
-
-### Target Verification
-
-Did you achieve the "50% of F1" goal for Feature 4?
-
-- F1 baseline (actual minutes): _____
-- F4 target (50% of F1): _____
-- F4 actual (actual minutes): _____
-- **Target achieved:** YES / NO
-
-### Total Impact: Intelligence Accumulation
-
-What if you'd rebuilt Feature 1 four times instead of leveraging intelligence?
-
-- All 4 features (with reuse): _____ minutes total
-- F1 × 4 (no reuse): (F1 time) × 4 = _____ minutes
-- **Time saved by intelligence accumulation:** _____ minutes
-
-This is the real ROI of SDD-RI—you proved it with your data.
+**F1: Brand Analysis**
+```bash
+cat outputs/f1-brand-analysis.md | head -40
 ```
 
-**Fill in your actual numbers now.** If you didn't hit the 50% target for F4, that's still valuable data. Record what happened—understanding why teaches more than hitting a target you expected.
+Checklist:
+- [ ] 3+ core strengths with evidence citations?
+- [ ] 2+ brand gaps identified?
+- [ ] Positioning statement (1-2 sentences)?
+- [ ] Differentiation opportunities?
+- [ ] Confidence score?
+
+**F2: Market Brief**
+```bash
+cat outputs/f2-market-brief.md | head -40
+```
+
+Checklist:
+- [ ] 3+ industry trends?
+- [ ] In-demand skills list?
+- [ ] Competitor/peer landscape?
+- [ ] Opportunity areas matched to your profile?
+- [ ] 3+ source citations?
+
+**F3: Content Strategy**
+```bash
+cat outputs/f3-content-strategy.md | head -40
+```
+
+Checklist:
+- [ ] 3 content pillars?
+- [ ] Each pillar connects F1 strength to F2 trend?
+- [ ] 10+ topic ideas?
+- [ ] Weekly posting schedule?
+- [ ] First week action items?
+
+**F4: Action Dashboard**
+```bash
+cat outputs/f4-action-dashboard.md | head -40
+```
+
+Checklist:
+- [ ] Brand summary from F1?
+- [ ] Market opportunities from F2?
+- [ ] Content calendar from F3?
+- [ ] Top 5 priority actions?
+- [ ] 30/60/90 day goals?
+- [ ] No redundancy across sections?
+
+**If any check fails:** Go back to the relevant feature and fix it before proceeding.
+
+### Supporting Files Verification
+
+```bash
+ls -la
+```
+
+**Expected files:**
+- `my-profile-data.md` — Your raw profile data
+- `sources-list.md` — F2 research sources
+- `TIME_TRACKER.md` — Acceleration measurement
+- `.specify/memory/constitution.md` — Quality standards
+
+### Skills Verification
+
+```bash
+ls .claude/skills/
+```
+
+**Expected files:**
+- `structured-ai-prompting.md`
+- `multi-source-synthesis.md`
+- (optional third skill)
+
+## Complete Your Acceleration Data
+
+Open `TIME_TRACKER.md` and fill in any missing data:
+
+```bash
+cat TIME_TRACKER.md
+```
+
+**Required data:**
+
+| Feature | Duration | % of F1 |
+|---------|----------|---------|
+| F1 | _____ min | 100% (baseline) |
+| F2 | _____ min | _____% |
+| F3 | _____ min | _____% |
+| F4 | _____ min | _____% |
+
+**Calculate your acceleration:**
+
+```
+F4 as % of F1 = (F4 duration / F1 duration) × 100
+
+Example:
+- F1 = 60 minutes
+- F4 = 25 minutes
+- F4 as % of F1 = (25 / 60) × 100 = 42%
+- Result: F4 took 42% of F1 time (target was ≤ 50%)
+```
+
+**Did you achieve the target?**
+
+| Result | Interpretation |
+|--------|----------------|
+| **F4 < 50% of F1** | Target achieved. Intelligence accumulation proven. |
+| **F4 = 50-66% of F1** | Good acceleration. Patterns transferred well. |
+| **F4 = 66-80% of F1** | Moderate acceleration. Some overhead remained. |
+| **F4 > 80% of F1** | Limited acceleration. Analyze what didn't transfer. |
 
 ## Write Your Retrospective
 
-Create `RETROSPECTIVE.md` in your project root. This is not an essay. Answer each question directly and concisely.
+Create the retrospective file:
 
 ```bash
 touch RETROSPECTIVE.md
 ```
 
-Use this template. Answer in 1-3 sentences per question:
+Copy this template and fill it in:
 
 ```markdown
-# AI Sales Assistant Retrospective
+# Personal BI System Retrospective
 
-## 1. What Specific Patterns Made Features 2-4 Faster?
+## Acceleration Results
 
-List the concrete reusable patterns, not just "AI helped":
+- **F1 baseline:** _____ minutes
+- **F4 actual:** _____ minutes
+- **F4 as % of F1:** _____% (target: ≤ 50%)
+- **Target achieved:** YES / NO
 
-- Pattern: _____ (example: "JSON transformation for company profile data")
-  - Where it appeared: Feature 1 (_____), Feature 2 (_____), Feature 3 (_____), Feature 4 (_____)
-  - Why it was reusable: _____
+## What Accelerated Development?
 
-- Pattern: _____
-  - Where it appeared: Features _____, _____, _____
-  - Why it was reusable: _____
+List specific patterns that made F2-F4 faster than F1:
 
-## 2. What Slowed You Down or Didn't Transfer Well?
+### Pattern 1: _______________________
+- **Where used:** Features ___, ___, ___
+- **Why it accelerated:** _______________________
+- **Example:** _______________________
 
-What patterns seemed like they'd be reusable but actually required rethinking?
+### Pattern 2: _______________________
+- **Where used:** Features ___, ___, ___
+- **Why it accelerated:** _______________________
+- **Example:** _______________________
 
-- Bottleneck: _____
-  - Why it didn't transfer: _____
-  - What you did instead: _____
+### Pattern 3: _______________________
+- **Where used:** Features ___, ___
+- **Why it accelerated:** _______________________
 
-- Bottleneck: _____
-  - Why it didn't transfer: _____
+## What Slowed Development?
 
-## 3. Your F1 Actual Build Time vs Your Expectations
+List friction points or things that didn't transfer as expected:
 
-- Did F1 take longer/shorter than you expected? Why?
-- What surprised you most about Feature 1's complexity?
+### Friction Point 1: _______________________
+- **Which feature:** F___
+- **Why it slowed down:** _______________________
+- **What you'd do differently:** _______________________
 
-## 4. Features 2-4 Compared to Your Predictions
+### Friction Point 2: _______________________
+- **Which feature:** F___
+- **Why it slowed down:** _______________________
+- **What you'd do differently:** _______________________
 
-Did Features 2-4 actually accelerate as much as you hoped?
+## Tool Learnings
 
-- F4 target was 50% of F1. You achieved: ____%
-- If you missed the target: What would you change in F1's design to make F2-F4 even faster?
-- If you exceeded the target: What surprised you about the acceleration?
+### Gemini App (F1, F3, F4)
+- **What worked well:** _______________________
+- **What was frustrating:** _______________________
+- **Prompting insight:** _______________________
 
-## 5. Reusable Skills You Created
+### NotebookLM (F2)
+- **What worked well:** _______________________
+- **What was frustrating:** _______________________
+- **Research insight:** _______________________
 
-List the skills you formalized in Lesson 6:
+## Skills Created
 
-- Skill 1: [name] — When would you use this again?
-- Skill 2: [name] — What problem does it solve?
-- Skill 3: [name] — How is it different from ad-hoc coding?
+| Skill | Purpose | When to Use Again |
+|-------|---------|-------------------|
+| Structured AI Prompting | _______ | _______ |
+| Multi-Source Synthesis | _______ | _______ |
+| [Third skill if created] | _______ | _______ |
 
-## 6. One Sentence: Intelligence Accumulation Lesson
+## One-Sentence Insight
 
-What's the single biggest insight from this project?
+What's the single most important thing you learned from this project?
 
-Example: "Investing 2 hours in a clear specification for Feature 1 saved 4+ hours across Features 2-4 because each feature reused the pattern."
+> _______________________
 
-Your insight: _____
+## What Would You Do Differently?
 
-## 7. What Would You Do Differently Next Time?
+If starting a similar project tomorrow:
 
-If building a new project:
+1. **Constitution:** _______________________
+2. **Feature order:** _______________________
+3. **Time tracking:** _______________________
+4. **Tool selection:** _______________________
 
-1. Would you start the same way (full spec for Feature 1)? Why or why not?
-2. At what point would you have created skills instead of waiting until Lesson 6?
-3. What would you time differently?
+## Transfer to Other Projects
+
+This approach would work for:
+- [ ] Job application preparation
+- [ ] Research paper writing
+- [ ] Product launch planning
+- [ ] Event planning
+- [ ] Other: _______________________
+
+Why? Because the pattern of [personal data] → [market research] → [strategy] → [action plan] applies broadly.
 ```
 
-## Ship It: Commit and Push
+**Save the file.**
 
-Your project is complete. Document it with clear commit messages:
+## Project Summary
+
+Create a summary file that captures your complete system:
 
 ```bash
-# Commit your timing and retrospective
-git add TIME_TRACKER.md RETROSPECTIVE.md
-git commit -m "Data: Final timing metrics - Feature 4 achieved X% acceleration"
-
-# If you have campaign_data with results
-git add campaign_data/
-git commit -m "Data: Complete campaign pipeline results - 4 features tested and verified"
-
-# Update your project README with final results
-git add README.md
-git commit -m "Docs: Final project summary and intelligence accumulation results"
-
-# Verify all commits are recorded
-git log --oneline -10
+touch PROJECT_SUMMARY.md
 ```
 
-## Update Your README with Final Results
-
-Open `README.md` and replace placeholders with your actual data:
-
 ```markdown
-# AI Sales Assistant
+# Personal AI Business Intelligence System
 
-A complete sales intelligence pipeline demonstrating SDD-RI workflow and intelligence accumulation in action.
+## What This Is
 
-## The Challenge
+A 4-feature personal intelligence system built entirely with AI tools (Gemini App, NotebookLM). No code written—just structured prompting, validation, and synthesis.
 
-Build four interconnected features (Lead Profiler → ICP Scorer → Outreach Generator → Campaign Dashboard) and prove that Feature 4 takes less than 50% of Feature 1's build time.
+## Features
 
-## Features Built
+| Feature | Tool | Input | Output |
+|---------|------|-------|--------|
+| F1: Brand Profiler | Gemini App | Your profile data | Brand analysis |
+| F2: Market Scanner | NotebookLM | Target company research | Market brief |
+| F3: Content Strategy | Gemini App | F1 + F2 outputs | Content plan |
+| F4: Action Dashboard | Gemini App | F1 + F2 + F3 outputs | Unified action plan |
 
-1. **Lead Profiler** — Analyze company websites, extract structured profiles (company name, industry, size, tech stack, hiring indicators)
-2. **ICP Scorer** — Score each lead against Ideal Customer Profile criteria (0-100 scale with reasoning)
-3. **Outreach Generator** — Create personalized outreach messages based on company profile and ICP score
-4. **Campaign Dashboard** — Unified dashboard showing all leads, scores, and personalized outreach
+## Outputs Produced
 
-## Intelligence Acceleration Results
+```
+outputs/
+├── f1-brand-analysis.md    # Your strengths, gaps, positioning
+├── f2-market-brief.md      # Trends, skills, opportunities
+├── f3-content-strategy.md  # Pillars, topics, schedule
+└── f4-action-dashboard.md  # Unified dashboard + actions
+```
 
-| Feature | Build Time | % of F1 | Acceleration |
-|---------|-----------|---------|--------------|
-| F1: Lead Profiler | X min | 100% | baseline |
-| F2: ICP Scorer | Y min | __% | __% faster |
-| F3: Outreach Generator | A min | __% | __% faster |
-| F4: Campaign Dashboard | B min | __% | __% faster |
+## Intelligence Accumulation Proof
 
-**Target achieved:** Feature 4 completed in __% of Feature 1 time (target: 50%)
+| Feature | Duration | % of F1 |
+|---------|----------|---------|
+| F1 | [your time] | 100% |
+| F4 | [your time] | [your %] |
+
+**F4 built in [X]% of F1 time.** Patterns from F1 (structured prompting, validation, quality gates) transferred directly to F2-F4.
+
+## Skills Created
+
+1. **Structured AI Prompting** — How to get consistent, structured outputs from AI tools
+2. **Multi-Source Synthesis** — How to combine multiple inputs without redundancy
 
 ## Key Learning
 
-[Your one-sentence insight from RETROSPECTIVE.md]
+[Your one-sentence insight from retrospective]
 
-## Reusable Skills Created
+## How to Reuse This Approach
 
-Patterns formalized using P+Q+P framework for future projects:
-
-- **[Skill 1]**: [Brief description of when you'd use this]
-- **[Skill 2]**: [Brief description of when you'd use this]
-- **[Skill 3]**: [Brief description of when you'd use this]
-
-## Running the Pipeline
-
-Start with a fresh company URL:
-
-```bash
-URL="https://example.com"
-python lead_profiler.py $URL > campaign_data/profiles/example.json
-python icp_scorer.py campaign_data/profiles/example.json > campaign_data/scores/example.json
-python outreach_generator.py campaign_data/profiles/example.json campaign_data/scores/example.json > campaign_data/outreach/example.json
-python campaign_dashboard.py ./campaign_data/
+1. Start with **constitution** defining quality gates
+2. Build **F1 slowly** — establish patterns
+3. Build **F2-F4 faster** — reuse patterns
+4. **Track time** — prove accumulation
+5. **Create skills** — encode learnings
 ```
 
-## What This Proves
+## Final Project Structure
 
-This project demonstrates that Specification-Driven Development with Reusable Intelligence (SDD-RI) isn't theoretical. When you invest in clarity (specs) and reusable patterns (skills), subsequent features accelerate measurably. Your timing data is proof.
+Your complete project should look like this:
+
+```
+personal-bi-system/
+├── my-profile-data.md           # Your raw profile data
+├── sources-list.md              # F2 research sources
+├── TIME_TRACKER.md              # Acceleration measurement
+├── RETROSPECTIVE.md             # What you learned
+├── PROJECT_SUMMARY.md           # System overview
+├── .specify/
+│   └── memory/
+│       └── constitution.md      # Quality standards
+├── .claude/
+│   └── skills/
+│       ├── structured-ai-prompting.md
+│       └── multi-source-synthesis.md
+└── outputs/
+    ├── f1-brand-analysis.md
+    ├── f2-market-brief.md
+    ├── f3-content-strategy.md
+    └── f4-action-dashboard.md
 ```
 
-Commit the updated README:
+Verify your structure:
 
 ```bash
-git add README.md
-git commit -m "Docs: Final project results - intelligence accumulation measured and documented"
-
-# Optional: Create a release tag marking project completion
-git tag -a "v1.0-shipped" -m "AI Sales Assistant capstone complete - 4 features, measured acceleration"
-git log --oneline -15  # View your completed work
+ls -la
+ls outputs/
+ls .claude/skills/
 ```
 
 ## Try With AI
 
-Open your AI tool (Claude, Gemini, or your preferred assistant) and use these prompts to deepen your retrospective analysis:
+Get final feedback on your project:
 
-**Prompt 1: Analyze Your Acceleration Data**
+**Prompt 1: Retrospective Analysis**
 
-```
-Here's my TIME_TRACKER.md data from the AI Sales Assistant capstone:
-
-[Paste your complete TIME_TRACKER table]
-
-I achieved X% acceleration from Feature 1 to Feature 4.
-
-Analyze:
-1. Is this meaningful acceleration? (compare to industry benchmarks for similar projects)
-2. What specific patterns in my work caused this acceleration?
-3. If I missed the 50% target, what architecture choices would unlock faster Feature 4 build?
-4. If I exceeded the target, what surprised you most about the acceleration?
-```
-
-**Prompt 2: Skills for Future Projects**
+In Gemini App:
 
 ```
-During the AI Sales Assistant capstone, I created these reusable skills:
+Review my retrospective from a Personal BI System project:
 
-[List your skills from Lesson 6]
+[Paste your RETROSPECTIVE.md content]
 
-For each skill, suggest:
-1. Three new projects where this skill would accelerate development
-2. How I would adapt this skill for a different domain (e.g., if "JSON Data Transformer" was a skill, how would it change in a data science vs. sales context?)
-3. What additional principles should I add to make this skill more powerful?
+Questions:
+1. Based on my acceleration data, what specific patterns drove the most time savings?
+2. For the friction points I identified, what would you recommend doing differently?
+3. Am I missing any key insight about why F4 was [faster/slower] than expected?
+4. What question should I add to my retrospective that would help me learn more?
 ```
 
-**Expected Outcomes:**
-- Prompt 1 deepens your understanding of what actually drove acceleration (was it specification clarity? reusable patterns? better AI prompts? all three?)
-- Prompt 2 connects your learning to future projects and compounds the ROI of skills you created
+**Prompt 2: Next Project Planning**
 
-Your capstone is complete. You've proven that intelligence accumulates. Ship it.
+```
+I just completed a Personal BI System with these results:
+- F4 took [X]% of F1 time
+- Created 2 skills: Structured AI Prompting, Multi-Source Synthesis
+- Key learning: [your insight]
+
+I want to build a similar system for [new domain: job applications / research papers / etc.]
+
+Questions:
+1. Which of my skills would transfer directly?
+2. What new skill would I need for this domain?
+3. How should I adapt my constitution for this new use case?
+4. What's my target acceleration for this second project? (Should I expect even better than 50%?)
+```
+
+---
+
+**Project complete.** You've built a real Personal AI Business Intelligence System, proven intelligence accumulation with data, and created reusable skills.
+
+Proceed to the Chapter 15 Quiz to assess your understanding.

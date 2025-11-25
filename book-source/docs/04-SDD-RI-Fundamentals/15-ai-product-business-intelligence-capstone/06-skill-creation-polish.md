@@ -3,12 +3,12 @@ sidebar_position: 6
 title: "Skill Creation + Polish"
 chapter: 15
 lesson: 6
-duration_minutes: 90
+duration_minutes: 45
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 3"
-layer_progression: "L3 intelligence design - skill formalization"
-layer_3_intelligence: "P+Q+P skill creation from recurring patterns"
+layer_progression: "L3 intelligence design - skill formalization from capstone patterns"
+layer_3_intelligence: "P+Q+P skill creation from recurring AI tool patterns"
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
@@ -17,7 +17,7 @@ skills:
     category: "Conceptual"
     bloom_level: "Analyze"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can identify patterns that appear 2+ times with 5+ decision points"
+    measurable_at_this_level: "Student can identify patterns that appear 2+ times with 5+ decision points across features"
 
   - name: "P+Q+P Skill File Design"
     proficiency_level: "B1"
@@ -26,19 +26,19 @@ skills:
     digcomp_area: "Content Creation"
     measurable_at_this_level: "Student can write a complete skill file with Persona, Questions (5+), Principles (5+), and Example Application"
 
-  - name: "Skill Application and Testing"
+  - name: "Skill Application Testing"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can apply skill Questions and Principles to new problem (Feature 5) and evaluate completeness"
+    measurable_at_this_level: "Student can apply skill Questions and Principles to new scenario and evaluate completeness"
 
-  - name: "Skill Refinement"
+  - name: "AI Tool Pattern Abstraction"
     proficiency_level: "B1"
     category: "Conceptual"
-    bloom_level: "Evaluate"
+    bloom_level: "Analyze"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can identify gaps in skill coverage and add missing Questions or Principles"
+    measurable_at_this_level: "Student can abstract AI tool usage patterns into reusable frameworks"
 
 learning_objectives:
   - objective: "Identify recurring patterns from Features 1-4 worth formalizing as skills"
@@ -46,543 +46,383 @@ learning_objectives:
     bloom_level: "Analyze"
     assessment_method: "Student lists 2-3 patterns with occurrence count and decision points"
 
-  - objective: "Create complete P+Q+P skill files following the framework"
+  - objective: "Create complete P+Q+P skill file following the framework"
     proficiency_level: "B1"
     bloom_level: "Create"
     assessment_method: "Skill file includes Persona, 5+ Questions, 5+ Principles, Example Application"
 
-  - objective: "Apply skills to Feature 5 scenario and evaluate completeness"
+  - objective: "Apply skills to new scenario and evaluate transferability"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Student answers skill Questions for Feature 5 and identifies any gaps"
+    assessment_method: "Student answers skill Questions for new scenario and identifies any gaps"
 
 cognitive_load:
-  new_concepts: 5
+  new_concepts: 4
   reused_concepts: 6
-  assessment: "5 new concepts (P+Q+P framework, Persona definition, skill Questions, skill Principles, skill testing) + 6 reused from F1-F4 (pattern recognition, JSON schema, pipeline, specification) within B1 limit ✓"
+  assessment: "4 new concepts (P+Q+P framework, Persona definition, skill Questions, skill Principles) + 6 reused from F1-F4 (pattern recognition, structured prompting, validation, quality gates) within B1 limit ✓"
 
 differentiation:
-  extension_for_advanced: "Create third skill; add cross-domain applicability analysis"
-  remedial_for_struggling: "Focus on one skill; use provided JSON Data Transformer example as template"
+  extension_for_advanced: "Create third skill; analyze cross-domain applicability"
+  remedial_for_struggling: "Focus on one skill; use provided Structured AI Prompting example as template"
 
-# Generation metadata
 generated_by: "content-implementer v3.0.0"
-source_spec: "specs/001-013-chapter-capstone/spec.md"
+source_spec: "specs/015-chapter-15-redesign/spec.md"
 created: "2025-11-25"
 last_modified: "2025-11-25"
 git_author: "Claude Code"
 workflow: "/sp.loopflow.v2"
-version: "2.0.0"
+version: "3.0.0"
 ---
 
 # Skill Creation + Polish
 
-You've built four features in less time than Feature 1 alone consumed. That acceleration wasn't luck. You solved the same problem patterns multiple times: JSON transformations appeared in Features 1, 2, 3, and 4. The specification structure you refined for Lead Profiler shaped every feature that followed. Error handling approaches you developed once got reused four times without rethinking.
+You've built four features. Each feature built faster than the last—not because the features were simpler, but because you reused patterns. The structured prompting approach from F1 carried to F2, F3, and F4. The validation checklist you created once got used four times. The quality gate workflow became automatic.
 
-This is intelligence accumulation. Patterns that repeat 2+ times with 5+ decision points become skills. Skills encode knowledge so future projects benefit immediately—no re-solving, no re-discovering, no re-deciding.
+This is intelligence accumulation. Patterns that repeat 2+ times with 5+ decision points become **skills**. Skills encode knowledge so future projects benefit immediately—no re-discovering, no re-deciding.
 
-Now you'll formalize those patterns into actual reusable skills using the **P+Q+P Framework: Persona + Questions + Principles**. You'll create real skill files you can invoke in future projects.
+Now you'll formalize those patterns into actual reusable skills using the **P+Q+P Framework: Persona + Questions + Principles**.
 
 ## Identify Recurring Patterns
 
-Open your project folder. Review each feature's spec AND implementation.
+Review your four features. Find the patterns you used multiple times.
 
-**Go through each feature file and find moments where you solved the same problem**:
+**Feature 1: Personal Brand Profiler**
+- How did you structure the prompt for Gemini App?
+- How did you validate the output against quality gates?
+- What format did you use for the saved output?
 
-**Feature 1: Lead Profiler**
-- How did you structure the output JSON?
-- How did you handle invalid/missing website data?
-- What validation happened before returning results?
+**Feature 2: Market Intelligence Scanner**
+- How did you structure research queries for NotebookLM?
+- How did you ensure sources were properly cited?
+- How did you connect F1 output to F2 research focus?
 
-**Feature 2: ICP Scorer**
-- What input format did it expect from Feature 1's output?
-- How did you calculate the score?
-- How did you document the scoring breakdown?
+**Feature 3: Content Strategy Generator**
+- How did you feed F1 + F2 outputs into a single prompt?
+- How did you validate that pillars connected to both sources?
+- How did you iterate when the output was incomplete?
 
-**Feature 3: Outreach Generator**
-- How did you structure the outreach message?
-- What data from Features 1-2 did you use?
-- How did you handle cases where ICP score was too low?
+**Feature 4: Action Dashboard**
+- How did you aggregate three outputs into one view?
+- How did you synthesize priority actions from all features?
+- How did you eliminate redundancy across sections?
 
-**Feature 4: Campaign Dashboard**
-- How did you aggregate data from Features 1-3?
-- What formatting rules did you apply for display?
-- How did you handle missing or incomplete records?
-
-**Now list your top 2-3 patterns** (things you solved multiple times):
+**List your top 2-3 patterns** (things you solved multiple times):
 
 1. _________________ (appeared in features: _____)
 2. _________________ (appeared in features: _____)
-3. _________________ (appeared in features: _____) [optional]
+3. _________________ (appeared in features: _____)
 
-**Examples of patterns to look for**:
-- **JSON data transformer**: Input JSON → processing → structured JSON output (likely Features 1, 2, 3, 4)
-- **Specification structure**: Input/Output/Success Criteria/Error Cases template (Features 1, 2, 3, 4)
-- **Pipeline connector**: Output of Feature N feeds input of Feature N+1 (Features 1→2, 2→3, 3→4)
-- **Error handler**: Validation, missing fields, graceful failure (probably all features)
-- **Data validator**: Schema validation before transformation (likely multiple features)
-- **CLI/Output formatter**: Terminal output, JSON display, summaries (Feature 4 and earlier)
+**Common patterns to look for:**
 
-## Create Your First Skill File
+| Pattern | Where It Appeared | Decision Points |
+|---------|------------------|-----------------|
+| **Structured AI Prompting** | F1, F2, F3, F4 | Format request, specify output, include examples, validate result |
+| **Output Validation** | F1, F2, F3, F4 | Checklist against quality gates, iterate on failures |
+| **Multi-Source Synthesis** | F3, F4 | Combine inputs, eliminate redundancy, trace to sources |
+| **Research with Citations** | F2, (F3) | Upload sources, query for synthesis, verify citations |
+| **Pipeline Data Flow** | F1→F2, F2→F3, F3→F4 | Output format matches next input needs |
 
-Choose your most valuable pattern—the one you want every future project to inherit. This should be a pattern you found in step 1 above (ideally appearing in 3+ features).
+## Create Your First Skill: Structured AI Prompting
+
+This pattern appeared in all four features. You asked Gemini App (or NotebookLM) for structured output, validated it, and iterated when incomplete.
 
 ### Step 1: Create the File
 
 ```bash
 mkdir -p .claude/skills
-touch .claude/skills/[your-pattern-name].md
+touch .claude/skills/structured-ai-prompting.md
 ```
 
-Replace `[your-pattern-name]` with your pattern name in kebab-case (example: `json-data-transformer`).
+### Step 2: Write the Skill
 
-### Step 2: Write the Persona Section
+Open the file and add this content (customize the Example Application with YOUR actual prompts):
 
-Your persona should describe:
-- Your role in building this pattern
-- Your values (what matters to you)
-- What you prioritize when making decisions
-
-**Template**:
 ```markdown
+# Structured AI Prompting Skill
+
 ## Persona
-You are a [specific role]. You [value system]. You prioritize [decision criteria].
-```
 
-**Example for JSON Data Transformer**:
-```markdown
-## Persona
-You are a data pipeline architect who transforms JSON inputs into structured JSON outputs.
-You value schema consistency and clear error messages. You prioritize graceful failure and explicit validation.
-```
+You are an AI prompt engineer who designs prompts that produce structured, validated outputs. You value clarity, specificity, and explicit output formats. You iterate when outputs miss requirements rather than accepting incomplete results.
 
-### Step 3: Write 5 Key Questions
+## Questions (Ask Before Prompting)
 
-These are the design decisions you ask BEFORE implementing the pattern. They should:
-- Force you to think about requirements explicitly
-- Address edge cases and constraints
-- Clarify inputs and outputs
+1. **What is the exact output format I need?** (JSON, markdown with specific sections, table, etc.)
 
-**Template**:
-```markdown
-## Questions (Ask Before Implementing)
-1. [Question about inputs or requirements]
-2. [Question about outputs or constraints]
-3. [Question about error cases]
-4. [Question about validation or edge cases]
-5. [Question about testing or verification]
-```
+2. **What input data am I providing?** (What context does the AI need to produce accurate output?)
 
-**Example for JSON Data Transformer**:
-```markdown
-## Questions (Ask Before Implementing)
-1. What is the input JSON schema? (required fields, optional fields, nested structures?)
-2. What is the output JSON schema? (exact field names, types, nested structure?)
-3. What happens when required input fields are missing or invalid?
-4. Should transformation preserve original fields or only output derived fields?
-5. What validation should occur before transformation? (type checking, range validation?)
-```
+3. **What are my quality gates?** (How will I know the output is complete and correct?)
 
-### Step 4: Write 5 Principles
+4. **What examples of good output can I show?** (Does the AI need a template to follow?)
 
-These are the implementation patterns you apply while building. They should:
-- Guide implementation choices
-- Explain why each choice matters
-- Be testable (you can verify you followed them)
+5. **What iteration approach will I use?** (How will I ask for revisions if output is incomplete?)
 
-**Template**:
-```markdown
-## Principles (Apply During Implementation)
-- **[Name]**: [Why this matters and when to apply it]
-- **[Name]**: [Why this matters and when to apply it]
-...
-```
+## Principles (Apply During Prompting)
 
-**Example for JSON Data Transformer**:
-```markdown
-## Principles (Apply During Implementation)
-- **Schema First**: Define output schema before writing transformation logic (prevents rework)
-- **Fail Explicitly**: Missing required fields → error with clear message, not silent default (easier debugging)
-- **Preserve Context**: Include source reference or metadata in output when relevant (helps trace data lineage)
-- **Type Safety**: Validate input types match expected schema before processing (catches errors early)
-- **Test Edge Cases**: Empty arrays, null values, missing optional fields, boundary values (ensures robustness)
-```
+- **Specify Output Structure First**: Start the prompt with the exact format you want. "Output as markdown with these sections: [list sections]" or "Return JSON with these fields: [list fields]"
 
-### Step 5: Write the Example Application
+- **Provide Complete Context**: Include all data the AI needs. Don't assume it knows your goals, constraints, or preferences.
 
-This should show how you ACTUALLY used this pattern in one of Features 1-4. Be specific:
-- Which feature did you use this pattern in?
-- What was the concrete input and output?
-- Which questions did you answer?
-- Which principles did you apply?
+- **Define Quality Criteria Explicitly**: Tell the AI what "good" looks like. "Each strength must cite evidence from the profile" is better than "be specific."
 
-**Example for JSON Data Transformer**:
-```markdown
+- **Request Validation in Output**: Ask the AI to confirm it met requirements. "At the end, list which quality gates this output passes."
+
+- **Plan for Iteration**: Assume the first response won't be perfect. Prepare follow-up prompts: "Revise section X to include Y."
+
 ## Example Application
-When building ICP Scorer (Feature 2), you transformed Lead Profile JSON into Score JSON:
 
-**Input**: Lead Profile from Feature 1
-```json
-{
-  "company_name": "Acme Corp",
-  "industry": "manufacturing",
-  "size": "enterprise",
-  "tech_indicators": ["AWS", "Python"],
-  "confidence_score": 85
-}
+When building Feature 1 (Personal Brand Profiler), I used this pattern:
+
+**Question 1 answered**: Output format = markdown with 5 sections (strengths, gaps, positioning, differentiation, confidence score)
+
+**Question 2 answered**: Input = LinkedIn About, GitHub bio, portfolio description, target role
+
+**Question 3 answered**: Quality gates = 3+ strengths with evidence citations, 2+ gaps, positioning statement
+
+**Question 4 answered**: Example = "Format: Strength: [name] — Evidence: '[exact quote from profile]'"
+
+**Question 5 answered**: Iteration = "Your analysis is missing evidence citations. Please revise strength #2 to include a specific quote."
+
+**Principles applied**:
+- Specified output structure at prompt start (5 required sections)
+- Provided complete profile data (not just summary)
+- Defined quality criteria ("cite specific phrases")
+- Requested validation ("include confidence score with reasoning")
+- Iterated when citations were missing
+
+**Result**: Structured brand analysis that met constitution quality gates after one iteration.
 ```
 
-**Output**: ICP Score JSON
-```json
-{
-  "lead_id": "acme-corp",
-  "score": 78,
-  "category": "high_fit",
-  "breakdown": {
-    "industry_match": 90,
-    "size_match": 85,
-    "tech_match": 60
-  },
-  "reasoning": "Enterprise + matching industry, slight tech gap"
-}
-```
+**Save the file.**
 
-**Questions you answered**:
-- Input schema: Lead Profile with 5 fields (answered Q1)
-- Output schema: Score + category + breakdown (answered Q2)
-- Error handling: Missing fields return score 0 with "incomplete profile" message (answered Q3)
-- Preserve or transform: Transformed only derived fields (answered Q4)
-- Validation: Type check all fields before processing (answered Q5)
+### Step 3: Validate Your Skill
 
-**Principles you applied**:
-- Schema First: Wrote the Score JSON schema before scoring logic
-- Fail Explicitly: Missing company_name returns error, not null score
-- Preserve Context: Included breakdown so others can understand score
-- Type Safety: Validated industry was string, size was enum before scoring
-- Test Edge Cases: Tested empty tech_indicators, null confidence_score, missing fields
-```
+Check your skill file:
 
-### Step 6: Create Your Actual Skill File
-
-Now create `.claude/skills/[your-pattern-name].md` with all five sections. Use the structure above as a template.
-
-**Your skill file checklist**:
-- [ ] Persona describes your role and values (1-2 sentences)
-- [ ] 5 Questions are specific and testable (not generic)
+- [ ] Persona describes WHO applies this skill and WHAT they value
+- [ ] 5 Questions are specific (not generic "what do you need?")
 - [ ] 5 Principles explain WHY they matter (not just WHAT to do)
-- [ ] Example Application shows real code/data from one of your features (not hypothetical)
-- [ ] Example answers each of the 5 Questions
-- [ ] Example shows which Principles you applied and where
+- [ ] Example Application shows YOUR actual work from F1-F4
+- [ ] Example answers each Question and applies each Principle
 
-## Create Your Second Skill File
+## Create Your Second Skill: Multi-Source Synthesis
 
-Choose another pattern—ideally different from your first. If your first skill is data-focused (JSON transformer), your second might be structural (spec writing) or operational (error handling).
+This pattern appeared in Features 3 and 4. You combined multiple inputs into unified output without redundancy.
 
-Review the pattern candidates below. Which one did you use in 2+ features?
-
-**Example candidates** (with indicators of where they appeared):
-
-**Pattern 1: Feature Specification Writer**
-- Appears in: Every feature (F1, F2, F3, F4)
-- Signs you used it: Spec.md for each feature, consistent Input/Output/Success Criteria structure
-- Questions it answers: How to structure intent clearly? What belongs in each section?
-
-**Pattern 2: Error Handler**
-- Appears in: Any feature with validation (likely all 4)
-- Signs you used it: Error messages, validation logic, graceful failure handling
-- Questions it answers: When to fail vs. gracefully degrade? What error info to return?
-
-**Pattern 3: Data Validator**
-- Appears in: Any feature accepting input (likely F1, F2, F3)
-- Signs you used it: Schema checking, field validation, type validation
-- Questions it answers: What makes data valid? When to reject vs. transform?
-
-**Pattern 4: CLI Output Formatter**
-- Appears in: Feature 4, possibly others
-- Signs you used it: Table formatting, summary display, list organization
-- Questions it answers: How to display data clearly? What detail to show/hide?
-
-### Step 1: Choose Your Second Pattern
-
-**Decision**: Which pattern appeared in your features and would be most valuable to reuse?
-
-Pattern name: _______________________
-
-Features where it appeared: _________, _________, _________
-
-### Step 2: Use the Template Structure
-
-Follow the same five-section template from your first skill:
-
-1. **Persona** (1-2 sentences describing your role and values)
-2. **Questions** (5 design decisions to ask before implementing)
-3. **Principles** (5 implementation patterns and why they matter)
-4. **Example Application** (real code/data from one of your features showing how you applied it)
-
-### Step 3: Be Specific and Concrete
-
-Your second skill should be SPECIFIC to your actual work, not generic. Examples:
-
-**Too generic** (bad):
-- Persona: "You write good error messages"
-- Principle: "Be clear about errors"
-
-**Specific and testable** (good):
-- Persona: "You are a data validation expert who returns structured errors with field-level diagnostics"
-- Principle: "Validation Errors Are Data": Return field names, error types, and suggested values (not vague "error" messages)
-
-### Step 4: Create the File
+### Step 1: Create the File
 
 ```bash
-touch .claude/skills/[your-second-pattern-name].md
+touch .claude/skills/multi-source-synthesis.md
 ```
 
-Write the complete skill with all five sections. Use your first skill as a template for format and depth.
+### Step 2: Write the Skill
 
-**Your second skill file checklist**:
-- [ ] Different focus than first skill (not another data transformer)
-- [ ] Persona is specific to how YOU solved this problem
-- [ ] 5 Questions are testable (can you verify you asked them?)
-- [ ] 5 Principles are grounded in your actual experience (not theory)
-- [ ] Example shows real code or structure from one of your features
-- [ ] Example proves you can apply the skill again (to another feature or project)
+```markdown
+# Multi-Source Synthesis Skill
 
-## Test Skills Against Feature 5
+## Persona
 
-Now test whether your skills are actually reusable. Build a Feature 5 specification using ONLY your skills' Questions and Principles. Don't look at Features 1-4 implementations—instead, let your skills guide the design.
+You are a synthesis specialist who combines multiple information sources into unified outputs. You value source traceability, elimination of redundancy, and clear aggregation. You ensure every piece of output traces to its source.
 
-**Feature 5: Lead Nurture Sequencer**
+## Questions (Ask Before Synthesizing)
 
-**Scenario**: After outreach sent, no response in 3 days → recommend next action with timing and message variant.
+1. **What sources am I combining?** (List each input and its structure)
 
-**High-level requirement**: Takes combined lead data (lead profile + ICP score + outreach history) and recommends the next action with timing and variant message.
+2. **What is the unified output structure?** (How should combined information be organized?)
 
-### Part 1: Apply Your First Skill (Answer the Questions)
+3. **How do I handle overlapping information?** (What appears in multiple sources? Where does it belong in output?)
 
-Open your first skill file and read its 5 Questions. For Feature 5, answer each question:
+4. **What traceability do I need?** (Should output cite which source each piece came from?)
 
-**Question 1**: [Your first skill's Q1]
-**Your answer for Feature 5**: _______________________________________________
+5. **What is the synthesis goal?** (Summary? Action items? Recommendations? All of these?)
 
-**Question 2**: [Your first skill's Q2]
-**Your answer for Feature 5**: _______________________________________________
+## Principles (Apply During Synthesis)
 
-**Question 3**: [Your first skill's Q3]
-**Your answer for Feature 5**: _______________________________________________
+- **Map Sources to Sections**: Before synthesizing, decide which source feeds which output section. "F1 → Brand Summary, F2 → Market Opportunities, F3 → Content Calendar"
 
-**Question 4**: [Your first skill's Q4]
-**Your answer for Feature 5**: _______________________________________________
+- **Eliminate Redundancy Explicitly**: If information appears in multiple sources, put it in ONE place. Note in other sections: "See [Section X] for details."
 
-**Question 5**: [Your first skill's Q5]
-**Your answer for Feature 5**: _______________________________________________
+- **Trace Every Claim**: Output should reference where each piece of information came from. "Based on market research (F2), top trends are..."
 
-**Example** (if your first skill is "JSON Data Transformer"):
+- **Synthesize, Don't Just Combine**: Good synthesis creates NEW value—insights that weren't in any single source. "Combining brand strengths with market trends reveals opportunity X."
 
-**Q1: What is the input JSON schema?**
-**Answer**: Lead Nurture input combines three data sources:
-```json
-{
-  "lead_profile": { /* from Feature 1 */ },
-  "icp_score": { /* from Feature 2 */ },
-  "outreach_history": [
-    { "sent_date": "2025-11-22", "status": "sent", "variant_id": 1 },
-    { "sent_date": "2025-11-25", "status": "no_response", "variant_id": 1 }
-  ]
-}
-```
-Required fields: lead_profile, icp_score, outreach_history (non-empty)
+- **Validate Completeness**: After synthesizing, check: "Does this output use ALL sources? Is anything missing? Is anything duplicated?"
 
-**Q2: What is the output JSON schema?**
-**Answer**: Nurture recommendation output:
-```json
-{
-  "lead_id": "string",
-  "next_action": "follow_up" | "escalate" | "pause",
-  "recommended_timing": "immediate" | "1_day" | "3_days",
-  "message_variant": 1 | 2 | 3,
-  "reasoning": "string",
-  "confidence": 0-100
-}
+## Example Application
+
+When building Feature 4 (Action Dashboard), I synthesized F1, F2, and F3:
+
+**Question 1 answered**:
+- F1: Brand analysis (strengths, gaps, positioning)
+- F2: Market brief (trends, skills, opportunities)
+- F3: Content strategy (pillars, topics, schedule)
+
+**Question 2 answered**: Dashboard with 5 sections: Brand Summary, Market Opportunities, Content Calendar, Priority Actions, 30/60/90 Goals
+
+**Question 3 answered**:
+- Overlapping: "Skills" appeared in both F1 (my skills) and F2 (market skills)
+- Resolution: Put market skills in "Opportunities" section, my skills in "Brand Summary"
+
+**Question 4 answered**: Each section cites source feature. Traceability table at end.
+
+**Question 5 answered**: Goal = unified action plan with specific next steps
+
+**Principles applied**:
+- Mapped: F1→Brand Summary, F2→Market Opportunities, F3→Content Calendar
+- Eliminated redundancy: Skills appear once in most relevant section
+- Traced claims: "Top 3 trends relevant to my positioning (from F2)"
+- Synthesized: Priority actions combine insights from all three features
+- Validated: Checked that dashboard uses all outputs, no section duplicates another
+
+**Result**: Unified dashboard that aggregates without redundancy, with source traceability.
 ```
 
-**Q3: What happens when required fields are missing?**
-**Answer**: If outreach_history is empty → error "Cannot recommend nurture action without prior outreach". If lead_profile incomplete → return confidence < 50 with note.
+**Save the file.**
 
-**Q4: Should output preserve original fields or only derived fields?**
-**Answer**: Only derived recommendation fields (action, timing, variant, reasoning). Don't repeat lead data. If caller needs to correlate, they have lead_id.
+## Test Your Skills Against a New Scenario
 
-**Q5: What validation before transformation?**
-**Answer**: Validate outreach_history has at least one entry. Validate ICP score is 0-100. Validate lead_profile has company_name and industry.
+Test whether your skills are actually reusable. Apply them to a NEW scenario—not another feature in your Personal BI system.
 
-### Part 2: Apply Your First Skill (Review the Principles)
+**New Scenario: Job Application Intelligence System**
 
-Now read your first skill's 5 Principles. For each principle, identify how it applies to Feature 5:
+You're building a system to research job postings and prepare targeted applications:
+- Feature A: Job Posting Analyzer (extract requirements from posting)
+- Feature B: Company Researcher (gather company info from public sources)
+- Feature C: Application Generator (create tailored cover letter + resume highlights)
+- Feature D: Interview Prep Dashboard (combine A + B + C into prep material)
 
-**Principle 1**: ____________________
-**How it applies to Feature 5**: _______________________________________________
+### Apply Skill 1: Structured AI Prompting
 
-**Principle 2**: ____________________
-**How it applies to Feature 5**: _______________________________________________
+Answer your skill's 5 Questions for Feature A (Job Posting Analyzer):
 
-**Principle 3**: ____________________
-**How it applies to Feature 5**: _______________________________________________
+**Q1: What is the exact output format I need?**
+Your answer: _________________________________________________
 
-**Principle 4**: ____________________
-**How it applies to Feature 5**: _______________________________________________
+**Q2: What input data am I providing?**
+Your answer: _________________________________________________
 
-**Principle 5**: ____________________
-**How it applies to Feature 5**: _______________________________________________
+**Q3: What are my quality gates?**
+Your answer: _________________________________________________
 
-**Example** (if your first skill has "Schema First" principle):
+**Q4: What examples of good output can I show?**
+Your answer: _________________________________________________
 
-**Schema First**: Define output schema before writing recommendation logic
-**How it applies**: Write the nurture recommendation JSON schema (action, timing, variant, reasoning, confidence) BEFORE writing the logic that decides which action to recommend. This prevents logic creep where recommendations grow unstructured.
+**Q5: What iteration approach will I use?**
+Your answer: _________________________________________________
 
-### Part 3: Apply Your Second Skill
+**Did your Questions cover the design decisions for Feature A?** If not, what Question is missing?
 
-Using your second skill's Questions and Principles, answer the same way:
+### Apply Skill 2: Multi-Source Synthesis
 
-**Your second skill's 5 Questions:**
+Answer your skill's 5 Questions for Feature D (Interview Prep Dashboard):
 
-Q1: [Your skill's question 1 applied to Feature 5]
-**Answer**: _____________________________________________________________________
+**Q1: What sources am I combining?**
+Your answer: _________________________________________________
 
-Q2: [Your skill's question 2 applied to Feature 5]
-**Answer**: _____________________________________________________________________
+**Q2: What is the unified output structure?**
+Your answer: _________________________________________________
 
-Q3: [Your skill's question 3 applied to Feature 5]
-**Answer**: _____________________________________________________________________
+**Q3: How do I handle overlapping information?**
+Your answer: _________________________________________________
 
-Q4: [Your skill's question 4 applied to Feature 5]
-**Answer**: _____________________________________________________________________
+**Q4: What traceability do I need?**
+Your answer: _________________________________________________
 
-Q5: [Your skill's question 5 applied to Feature 5]
-**Answer**: _____________________________________________________________________
+**Q5: What is the synthesis goal?**
+Your answer: _________________________________________________
 
-**Your second skill's 5 Principles** (how they apply):
+**Did your Questions cover the design decisions for Feature D?** If not, what Question is missing?
 
-P1: ____________ → applies to Feature 5 by: _________________________________
-
-P2: ____________ → applies to Feature 5 by: _________________________________
-
-P3: ____________ → applies to Feature 5 by: _________________________________
-
-P4: ____________ → applies to Feature 5 by: _________________________________
-
-P5: ____________ → applies to Feature 5 by: _________________________________
-
-### Part 4: Validate Your Design Decisions
-
-After answering all questions and principles from both skills, you should have a complete Feature 5 design. Check:
-
-**Input Completeness**:
-- [ ] You defined exactly what data Feature 5 receives
-- [ ] You validated what makes input acceptable vs. incomplete
-- [ ] You know what happens if data is missing
-
-**Output Completeness**:
-- [ ] You defined exactly what Feature 5 returns
-- [ ] The output schema is clear and machine-parseable (likely JSON)
-- [ ] Downstream features could use this output
-
-**Error Handling**:
-- [ ] You identified 3+ error cases (missing history, low confidence, etc.)
-- [ ] You decided whether each error fails or gracefully degrades
-- [ ] Error messages would help someone debug the recommendation
-
-**Reusability**:
-- [ ] Someone else could read your skills and build Feature 5 independently
-- [ ] Your skills answered 80%+ of design decisions
-- [ ] The 20% remaining decisions are feature-specific (not skill gaps)
-
-### Part 5: Identify Skill Gaps
+## Identify Skill Gaps
 
 If you found design decisions NOT answered by your skills:
 
-**Decision missing from first skill**: _______________________________________________
+**Gap in Skill 1**: _________________________________________________
 
-**Why was it missing?** (too specific? wrong pattern? new question needed?)
+**How to fix**: Add a Question or Principle to cover this case
 
-**Decision missing from second skill**: ______________________________________________
+**Gap in Skill 2**: _________________________________________________
 
-**Why was it missing?**
+**How to fix**: Add a Question or Principle to cover this case
 
-**Should you refine your skills?**
-- If 1-2 gaps: Minor refinement (add a Question or Principle)
-- If 3+ gaps: Major gap (rethink whether this is the right pattern for a skill)
+**Update your skill files** if you found gaps.
 
-**Refine your skill files now** if needed.
-
-## Create Your Third Skill (Optional)
+## Optional: Create a Third Skill
 
 Look back at Features 1-4. Did you solve any other patterns repeatedly?
 
-**Candidates**:
-- **Pipeline Connector**: How output of one feature becomes input for the next (appears in F1→F2, F2→F3, F3→F4)
-- **Specification Template**: Consistent structure across all specs (appears in F1, F2, F3, F4)
-- **API/CLI Interface**: How features expose inputs and outputs (appears across all features)
-- **Logging and Debugging**: Error messages, diagnostics, traces (appears if you added instrumentation)
+**Candidates:**
 
-**Should you create a third skill?**
+| Pattern | Where Used | Worth Formalizing? |
+|---------|------------|-------------------|
+| **Quality Gate Validation** | All features | Yes if 5+ decision points |
+| **Research Query Design** | F2 (NotebookLM) | Yes if you'll use NotebookLM again |
+| **Time Tracking for Acceleration** | All features | Maybe—simpler pattern |
+| **Constitution-Based Decision Making** | F1 setup, all validation | Yes if you'll write more constitutions |
 
-Ask yourself:
-- Did this pattern appear in 2+ features? (Yes → create skill)
-- Does it have 5+ decision points? (Yes → create skill)
-- Would future projects benefit from encoding this? (Yes → create skill)
+**Create a third skill only if:**
+- Pattern appeared in 2+ features
+- Pattern has 5+ decision points
+- Future projects will use this pattern
 
-**If all three are YES, create your third skill file** using the same five-section template.
+If all three are YES, create `.claude/skills/[pattern-name].md` using the same P+Q+P template.
 
-**If NO to any, stop here.** Two skills are often sufficient. Quality > quantity.
+## Save Your Skills
 
----
+Verify your skills are saved:
+
+```bash
+ls .claude/skills/
+```
+
+You should see:
+- `structured-ai-prompting.md`
+- `multi-source-synthesis.md`
+- (optional third skill)
+
+These skills are now part of your project. They can be referenced in future work or copied to new projects.
 
 ## Try With AI
 
-Use AI to validate and improve your skills.
+Get feedback on your skills:
 
-**Prompt 1: Get Feedback on Your First Skill**
+**Prompt 1: Skill Quality Check**
 
-"Review this skill definition for reusability:
+In Gemini App:
 
-[PASTE YOUR FIRST SKILL FILE]
+```
+Review this skill definition for reusability:
 
-Answer these questions:
-1. Does the P+Q+P structure actually cover the design decisions needed to implement this pattern again?
-2. What key Questions or Principles am I missing?
-3. What parts are too specific and should be removed?
-4. If someone used only this skill (no other context), could they build this pattern correctly?
+[Paste your structured-ai-prompting.md content]
 
-Be direct about gaps."
+Questions:
+1. Are the 5 Questions specific enough to guide real design decisions?
+2. Are the 5 Principles actionable (not vague advice)?
+3. Would someone with no context be able to apply this skill?
+4. What's missing that would make this skill more complete?
+```
 
-**Expected response**: AI should identify:
-- Questions that are too vague or domain-specific
-- Missing principles (e.g., if you didn't mention testing)
-- Principles that are redundant or overlap
-- Whether your example application is convincing
+**Observe**: Gemini may identify vague questions or principles that need tightening.
 
-**How to use feedback**:
-- Add missing questions → refined skill is more reusable
-- Consolidate overlapping principles → cleaner, clearer skill
-- Remove too-specific details → transferable to new domains
-- If AI says example isn't convincing → add concrete code or data
+**Prompt 2: Transferability Test**
 
-**Prompt 2: Test Transferability**
+```
+I created these skills from a Personal BI project (brand analysis, market research, content strategy):
 
-"I built a sales pipeline with these two skills:
+Skill 1: Structured AI Prompting
+[Brief description]
 
-[SKILL 1 NAME]: [BRIEF DESCRIPTION]
-[SKILL 2 NAME]: [BRIEF DESCRIPTION]
+Skill 2: Multi-Source Synthesis
+[Brief description]
 
-Now I'm building a completely different pipeline for B2B hiring (not sales). The features are similar structure (1. Candidate Profiler, 2. Fit Scorer, 3. Outreach Generator, 4. Pipeline Dashboard).
+Now I want to use these skills for a completely different project: Planning a vacation using AI tools.
 
-Which of my two skills would transfer directly to the hiring pipeline? Which would need adaptation? What third skill pattern should I create that's specific to hiring?"
+Which skill transfers directly? Which needs adaptation? What skill am I missing for vacation planning?
+```
 
-**Expected response**: AI should:
-- Identify which skills transfer unchanged (likely JSON Data Transformer works for both)
-- Identify which skills need adaptation (spec template might be slightly different)
-- Suggest what pattern is unique to hiring (e.g., Skills Matcher, Interview Scheduler)
+**Observe**: Skills that transfer unchanged prove high reusability. Skills that need heavy adaptation may be too project-specific.
 
-**How to use feedback**:
-- Skills that transfer unchanged → prove high reusability (good sign)
-- Skills that need adaptation → identify what changes and why
-- New pattern suggestion → validate whether you should create a third skill
+---
+
+**Skill creation complete.** You now have reusable skills that encode your intelligence accumulation from this capstone.
+
+Start Lesson 7: Ship + Retrospective. You'll finalize your outputs and measure your total acceleration.

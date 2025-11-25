@@ -8,7 +8,7 @@ duration_minutes: 30
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 4"
 layer_progression: "L4 capstone foundation"
-layer_4_capstone: "Constitution as decision framework for F1-F4"
+layer_4_capstone: "Constitution as decision framework for personal BI system"
 
 # HIDDEN SKILLS METADATA (Institutional Integration Layer)
 skills:
@@ -17,96 +17,135 @@ skills:
     category: "Technical"
     bloom_level: "Create"
     digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can create a constitution document that defines quality standards, constraints, and non-goals for a multi-feature project"
+    measurable_at_this_level: "Student can create a constitution document that defines quality standards for a multi-feature AI system"
 
   - name: "Establishing Quality Gates"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can define measurable quality gates for each feature in a project specification"
+    measurable_at_this_level: "Student can define measurable quality gates for each feature output"
 
-  - name: "Project Structure Design"
+  - name: "Personal Data Preparation"
     proficiency_level: "A2"
-    category: "Technical"
+    category: "Soft"
     bloom_level: "Apply"
-    digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can initialize and verify a Spec-Kit Plus project structure with correct directory layout"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can gather and organize their own professional profile data"
 
 learning_objectives:
-  - objective: "Create a project constitution that defines quality standards for multi-feature development"
+  - objective: "Create a project constitution for a personal BI system"
     proficiency_level: "B1"
     bloom_level: "Create"
-    assessment_method: "Constitution document includes vision, principles, feature specs, non-goals, and quality standards"
+    assessment_method: "Constitution includes vision, principles, feature specs, quality gates"
 
-  - objective: "Initialize a Spec-Kit Plus project with correct directory structure"
+  - objective: "Prepare personal profile data for analysis"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Project contains .specify/ directory with memory/, templates/ subdirectories"
+    assessment_method: "Student has LinkedIn About, GitHub bio, and portfolio text ready"
 
-  - objective: "Set up a time tracker for measuring intelligence accumulation"
+  - objective: "Set up time tracker for measuring intelligence accumulation"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "TIME_TRACKER.md file created with correct template structure"
+    assessment_method: "TIME_TRACKER.md created with correct template"
 
 cognitive_load:
   new_concepts: 5
-  assessment: "5 new concepts (constitution, quality gates, non-goals, time tracking, decision framework) within B1 limit of 10 ✓"
+  assessment: "5 concepts (constitution, quality gates, personal BI, time tracking, data preparation) within B1 limit ✓"
 
 differentiation:
-  extension_for_advanced: "Add additional quality constraints for error handling, logging, and API design patterns"
-  remedial_for_struggling: "Focus on constitution template; copy and modify rather than write from scratch"
+  extension_for_advanced: "Add additional quality constraints for content voice consistency"
+  remedial_for_struggling: "Use provided constitution template; focus on data gathering"
 
-# Generation metadata
 generated_by: "content-implementer v3.0.0"
-source_spec: "specs/001-013-chapter-capstone/spec.md"
+source_spec: "specs/015-chapter-15-redesign/spec.md"
 created: "2025-11-25"
 last_modified: "2025-11-25"
 git_author: "Claude Code"
 workflow: "/sp.loopflow.v2"
-version: "2.0.0"
+version: "3.0.0"
 ---
 
 # Project Setup + Constitution
 
-You're building an AI Sales Assistant with four features: Lead Profiler, ICP Scorer, Outreach Generator, and Campaign Dashboard. Before writing any code, you'll establish a project structure and a constitution that defines quality standards. This constitution becomes your source of truth—the decision framework you reference when building Feature 1, Feature 2, and Feature 3. If Feature 4 builds significantly faster, you'll know it's because you stopped re-deciding quality standards and reused the constitution from Feature 1.
+You're building a Personal AI Business Intelligence System with four features: Brand Profiler, Market Scanner, Content Strategy, and Action Dashboard. Before using any AI tools, you'll establish a project structure and a constitution that defines quality standards.
 
-## Create Your Project Directory
+This constitution becomes your decision framework—the standard you reference when building each feature. If Feature 4 builds significantly faster than Feature 1, you'll know it's because you stopped re-deciding quality standards and reused your constitution.
 
-Start in your terminal:
+## Gather Your Personal Data
+
+Before anything else, collect the raw material for your brand analysis.
+
+**Open these in browser tabs:**
+1. **LinkedIn** — Your profile's "About" section
+2. **GitHub** — Your profile bio and pinned repositories
+3. **Portfolio** (if you have one) — Your main description/tagline
+
+**Create a working file:**
 
 ```bash
-mkdir ai-sales-assistant
-cd ai-sales-assistant
-pwd
+mkdir personal-bi-system
+cd personal-bi-system
+touch my-profile-data.md
 ```
 
-**Expected output**: Path ending in `ai-sales-assistant`
+**Copy your data into `my-profile-data.md`:**
 
-Initialize Spec-Kit Plus (the framework you learned in Chapter 14):
+```markdown
+# My Profile Data (Raw Input for Feature 1)
+
+## LinkedIn About Section
+[Paste your LinkedIn About section here - usually 1-3 paragraphs]
+
+## GitHub Bio
+[Paste your GitHub profile bio here - usually 1-2 sentences]
+
+## Portfolio/Personal Site Description
+[Paste your portfolio tagline or about page content here]
+
+## Target Role/Industry
+[Write 1-2 sentences: What kind of roles are you targeting? What industry?]
+
+## 3-5 Target Companies
+[List companies you'd want to work for - you'll research these in Feature 2]
+1.
+2.
+3.
+4.
+5.
+```
+
+**Verify you have real data:**
 
 ```bash
+cat my-profile-data.md
+```
+
+You should see YOUR actual profile content—not placeholders. This data feeds Feature 1.
+
+## Initialize Project Structure
+
+Set up the SDD-RI framework (same as Chapter 14):
+
+```bash
+# If specifyplus is installed from Chapter 14:
 specifyplus init --here
-```
 
-Verify the structure:
-
-```bash
+# Verify structure:
 ls -la
 ```
 
-**Expected output**: You see `.specify/` directory with subdirectories:
-- `.specify/memory/` (stores constitution)
-- `.specify/templates/` (reusable patterns)
-- `.specify/scripts/` (utilities)
+**Expected output:** `.specify/` directory with `memory/`, `templates/`, `scripts/` subdirectories.
 
-**Troubleshooting**: If `.specify/` is missing, check Chapter 14 installation. Run `specifyplus --version` to confirm it's installed, then retry `specifyplus init --here`.
+If `.specify/` is missing, create it manually:
+
+```bash
+mkdir -p .specify/memory .specify/templates .specify/scripts
+```
 
 ## Write Your Constitution
 
-The constitution answers questions that come up during Feature 1, 2, 3, and 4 builds: "Should we include this?" "How detailed?" "In scope or out?"
-
-Create the file:
+The constitution defines quality standards for all four features. Create it:
 
 ```bash
 touch .specify/memory/constitution.md
@@ -115,130 +154,119 @@ touch .specify/memory/constitution.md
 Open in your editor and write:
 
 ```markdown
-# AI Sales Assistant Constitution
+# Personal AI Business Intelligence Constitution
 
 ## Project Vision
 
-Build an intelligent system that helps sales teams identify, qualify, and engage high-potential leads through AI-powered analysis and personalized outreach recommendations.
+Build an intelligent system that analyzes your professional presence, researches your target market, and generates actionable career positioning strategy—all using AI tools (Gemini App, NotebookLM, Claude Code) without writing code.
 
-The system processes company information, evaluates fit against ideal customer profile criteria, and generates targeted outreach messages—all structured for integration into sales workflows.
+The system processes your profile data, synthesizes market research, and produces a concrete action plan for professional growth.
 
 ## Core Principles
 
-1. **Structured over Freeform**: All feature outputs are JSON-structured. No feature generates plain text that requires manual parsing.
+1. **Your Real Data**: All analysis uses YOUR actual profiles and target companies—not hypothetical data.
 
-2. **Lead-Centric Design**: Every feature serves the lead evaluation workflow. Lead profiling → ICP scoring → Personalized outreach → Campaign tracking.
+2. **Structured Outputs**: Every feature produces structured output (JSON or markdown with clear sections). No freeform text that requires interpretation.
 
-3. **Decisiveness**: Features provide clear verdicts (scores, recommendations, summaries). Ambiguous outputs are errors.
+3. **Actionable Results**: Every output includes specific next steps. Analysis without action items is incomplete.
 
-4. **Traceability**: Every output includes reasoning or source data so sales users can validate AI suggestions.
+4. **Source Traceability**: Market research cites specific sources. Brand analysis references specific profile sections.
 
 ## Feature Specifications
 
-### Lead Profiler (Feature 1)
+### Personal Brand Profiler (Feature 1)
+**Tool**: Gemini App (gemini.google.com)
+**Input**: Your LinkedIn About, GitHub bio, portfolio description
+**Output**: Brand analysis with:
+- 3+ core strengths identified
+- 2+ brand gaps (areas needing development)
+- Positioning statement (1-2 sentences)
+- Differentiation opportunities
+- Confidence score (0-100)
 
-**Input**: Company name, website URL or description
+**Quality Gate**: Must cite specific phrases from your profile as evidence for each strength.
 
-**Output**: Structured profile with:
-- Company name
-- Industry classification
-- Estimated employee count
-- Technology stack indicators (programming languages, frameworks detected)
-- Identified pain points (inferred from company description, website focus)
-- Confidence score (0-100 for data quality)
+### Market Intelligence Scanner (Feature 2)
+**Tool**: NotebookLM (notebooklm.google.com)
+**Input**: 3-5 target company pages, job postings, industry articles
+**Output**: Market brief with:
+- 3+ industry trends
+- In-demand skills list
+- Competitor/peer landscape
+- Opportunity areas matching your profile
+- Source citations
 
-**Quality Gate**: Every profile must include minimum 3 pain points identified from available data.
+**Quality Gate**: Must synthesize 3+ different sources with specific citations.
 
-### ICP Scorer (Feature 2)
+### Content Strategy Generator (Feature 3)
+**Tool**: Gemini App
+**Input**: F1 brand analysis + F2 market brief
+**Output**: Content strategy with:
+- 3 content pillars (themes you'll focus on)
+- Weekly posting schedule
+- 10+ topic ideas with brief descriptions
+- Format recommendations (posts, articles, videos)
+- First week action items
 
-**Input**: Ideal Customer Profile criteria (industry, company size, technology requirements), Lead profile from Feature 1
+**Quality Gate**: Content pillars must connect F1 strengths to F2 market trends.
 
-**Output**: Fitness score (0-100) with:
-- Match breakdown (industry match, size match, tech alignment)
-- Reasoning for score (e.g., "Industry match: 90 (exact match), Size match: 75 (candidate at higher end of range)")
-- Recommendation (Strong Fit / Good Fit / Monitor / Not a Fit)
+### Action Dashboard (Feature 4)
+**Tool**: Claude Code (markdown aggregation)
+**Input**: F1 + F2 + F3 outputs
+**Output**: Unified dashboard showing:
+- Brand summary (from F1)
+- Market opportunities (from F2)
+- Content calendar (from F3)
+- Priority action items (top 5)
+- 30/60/90 day goals
 
-**Quality Gate**: Every score must be justified with at least 2 matching criteria explained.
-
-### Outreach Generator (Feature 3)
-
-**Input**: Lead profile (Feature 1), ICP score and reasoning (Feature 2)
-
-**Output**: Personalized outreach message with:
-- Subject line (specific to company, 50 char max)
-- Email body (reference 2+ specific pain points from lead profile, 150-200 words)
-- Call-to-action (clear next step)
-
-**Quality Gate**: Outreach must cite specific data from lead profile (not generic). If lead profile is missing data, outreach must flag that limitation.
-
-### Campaign Dashboard (Feature 4)
-
-**Input**: Lead profiles, ICP scores, outreach messages
-
-**Output**: Summary dashboard showing:
-- Total leads processed
-- Score distribution (how many fit each category)
-- Top pain points across all leads
-- Sample outreach messages
-- Performance metrics (if available: open rate, response rate)
-
-**Quality Gate**: Dashboard aggregates all lead data without redundancy. Metrics are accurate to underlying feature outputs.
+**Quality Gate**: Dashboard aggregates all three features without redundancy. Each section traces to source feature.
 
 ## Non-Goals
 
-- Production deployment (prototype quality acceptable)
-- User authentication or login systems
-- Persistent database (file-based storage acceptable)
-- Visual UI polish (functional over beautiful)
-- Real-time lead data ingestion (batch processing acceptable)
-- Multi-language support
+- Production web application
+- Automated social media posting
+- Database or persistent storage beyond files
+- Real-time market data feeds
+- Multi-platform publishing integration
 
 ## Quality Standards
 
-### Code Quality
-
-- Python 3.8+ compatibility
-- Type hints on all functions
-- Docstrings on all feature functions
-- Error handling for missing/invalid inputs
-- Test coverage for core logic (70%+ target)
-
 ### Output Quality
+- All outputs in markdown or JSON format
+- Clear section headers for navigation
+- Specific citations (not vague references)
+- Action items are concrete (not "consider" or "maybe")
 
-- Structured JSON only (no plain text outputs)
-- All strings UTF-8 encoded
-- Numeric scores (0-100) with no fractional decimals
-- Timestamps in ISO 8601 format if time data included
+### Process Quality
+- Each feature starts with specification review
+- Outputs validated against quality gates before proceeding
+- Time tracked for acceleration measurement
 
-### Documentation Standards
-
-- Every feature has a specification (intent, input/output contract, quality gates)
-- Every feature has example inputs and expected outputs
-- README describes how to run all four features in sequence
+### Tool Usage
+- Gemini App: Brand analysis, content generation
+- NotebookLM: Research synthesis with source citations
+- Claude Code: SDD-RI workflow, dashboard aggregation
 
 ## Constraints
 
-- Single developer building sequentially (Features 1 → 2 → 3 → 4)
-- Features depend on prior feature outputs (must build in order)
-- Each feature must be completable in under 2 hours (acceleration goal)
-- All external API calls (if any) must be wrapped with fallback/mock data
+- Tools: Only Gemini App, NotebookLM, Claude Code
+- Data: Only public information + your own profiles
+- No code: You don't write Python (AI tools do the work)
+- Time: Each feature should be < 60 minutes (F4 target: < 30 minutes)
 ```
 
-**Save this file and verify:**
+**Save and verify:**
 
 ```bash
 cat .specify/memory/constitution.md
 ```
 
-You should see the full constitution. This is your quality gate document—every feature (F1, F2, F3, F4) must satisfy these standards.
+Read through it once. This is your quality gate document for all four features.
 
-**Quick practice**: Read through the constitution once. Pick ONE feature (Lead Profiler). What quality gates does it have? (Hint: See "Quality Gate:" line for each feature.)
+## Create Time Tracker
 
-## Create Your Time Tracker
-
-The time tracker measures how intelligence compounds. When you build Feature 1, you'll spend time deciding quality standards. When you build Feature 4, you'll reuse those decisions—so Feature 4 should take less than 50% of Feature 1's time.
-
-Create the file:
+The time tracker measures intelligence accumulation:
 
 ```bash
 touch TIME_TRACKER.md
@@ -247,97 +275,99 @@ touch TIME_TRACKER.md
 Add this content:
 
 ```markdown
-# Feature Build Times - AI Sales Assistant
+# Feature Build Times - Personal BI System
 
 | Feature | Start Time | End Time | Duration (min) | Notes |
 |---------|------------|----------|----------------|-------|
-| F1: Lead Profiler | | | | |
-| F2: ICP Scorer | | | | |
-| F3: Outreach Generator | | | | |
-| F4: Campaign Dashboard | | | | |
+| F1: Personal Brand Profiler | | | | |
+| F2: Market Intelligence Scanner | | | | |
+| F3: Content Strategy Generator | | | | |
+| F4: Action Dashboard | | | | |
 
 ## Acceleration Analysis
 
-After all four features, calculate:
+After all four features:
 
-- F1 baseline time: _____ minutes (Feature 1 total time)
-- F2 actual time: _____ minutes
-- F3 actual time: _____ minutes
-- F4 actual time: _____ minutes
-- F4 vs F1 ratio: _____ % (calculate: F4_time / F1_time × 100)
-- **Target: F4 should be ≤50% of F1**
+- F1 baseline: _____ minutes
+- F2 actual: _____ minutes
+- F3 actual: _____ minutes
+- F4 actual: _____ minutes
+- **F4 vs F1 ratio**: _____ % (calculate: F4_time / F1_time × 100)
+- **Target: F4 ≤ 50% of F1**
 
-## Decision Time Breakdown (Optional)
+## Pattern Transfer Notes
 
-For each feature, track WHERE time went:
+What patterns from earlier features made later features faster?
 
-- Designing specification: _____ min
-- Making quality decisions: _____ min
-- Writing code: _____ min
-- Testing: _____ min
-
-This shows if reusing the constitution actually reduces "quality decision" time in Features 2-4.
-
----
+- Prompting patterns reused:
+- Output validation shortcuts:
+- Quality gate checks that became automatic:
 ```
 
-Verify the file:
+**Verify:**
 
 ```bash
 cat TIME_TRACKER.md
 ```
 
-You'll fill in start/end times as you complete each feature lesson.
+## Verify Setup
 
-## Verify Your Project Structure
-
-Check your setup:
+Check your complete project structure:
 
 ```bash
 ls -la
-```
-
-**Expected output**: Shows `.specify/`, `TIME_TRACKER.md`, and config files.
-
-Verify constitution is in place:
-
-```bash
 ls -la .specify/memory/
 ```
 
-**Expected output**: `constitution.md` listed
+**Expected files:**
+- `my-profile-data.md` — Your raw profile content
+- `.specify/memory/constitution.md` — Quality standards
+- `TIME_TRACKER.md` — Acceleration measurement
 
-Verify content is correct:
+**Verify data is real:**
 
 ```bash
-wc -l .specify/memory/constitution.md
-wc -l TIME_TRACKER.md
+head -20 my-profile-data.md
 ```
 
-You should see:
-- `constitution.md`: ~160 lines (full feature specs + quality gates)
-- `TIME_TRACKER.md`: ~30 lines (empty cells to fill during feature builds)
-
-If files are missing or empty, troubleshoot before proceeding to Feature 1.
+You should see YOUR LinkedIn/GitHub content—not placeholder text.
 
 ## Try With AI
 
+Before starting Feature 1, get AI feedback on your setup:
+
 **Prompt 1: Constitution Review**
 
-Open your AI tool and copy your entire constitution. Ask:
+Open Gemini App (gemini.google.com) and ask:
 
-"Review this constitution for missing constraints. Specifically: Are there quality gates that would prevent Feature 1 (Lead Profiler) or Feature 4 (Campaign Dashboard) from working together? What integration points between features did I miss?"
+```
+Review this constitution for a personal business intelligence system:
 
-**Observe**: The AI will likely identify gaps in your Feature 1 output format that affect Feature 2 (which consumes Feature 1's output). This is exactly what you need to fix BEFORE building.
+[Paste your entire constitution.md content]
 
-**Prompt 2: Feature 1 Specification Start**
+Questions:
+1. Are the quality gates specific enough to validate?
+2. What integration issues might arise between Feature 1 output and Feature 2 input?
+3. What's missing that would prevent Feature 4 from aggregating everything properly?
+```
 
-Now ask:
+**Observe**: Gemini will likely identify gaps in how Feature 1's brand analysis feeds Feature 3's content strategy. Fix these in your constitution before proceeding.
 
-"Using this constitution, outline the specification for Feature 1 (Lead Profiler). What should I specify? Cover: (1) What structure the input is (company name, URL, or both?), (2) What JSON structure the output has (show an example), (3) How I validate a profile is 'complete' according to the constitution's quality gate."
+**Prompt 2: Profile Data Check**
 
-**Observe**: The AI will help you move from constitution (principles) to specification (executable requirements).
+```
+Here's my profile data that will feed into a brand analysis:
+
+[Paste your my-profile-data.md content]
+
+Before I analyze this with AI:
+1. Is there enough content for meaningful analysis?
+2. What additional information should I add?
+3. Are my target companies specific enough for market research?
+```
+
+**Observe**: Gemini will tell you if your profile data is too thin. Add more content if needed.
 
 ---
 
-**You're ready for Feature 1.** Close this lesson. Start Lesson 2: Build Feature 1: Lead Profiler. When you start, open TIME_TRACKER.md and record your start time.
+**Setup complete.** Close this lesson. Start Lesson 2: Build Feature 1 (Personal Brand Profiler). When you start, open TIME_TRACKER.md and record your start time.
