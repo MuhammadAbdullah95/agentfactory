@@ -107,8 +107,7 @@ const config: Config = {
           // beforeDefaultRemarkPlugins run BEFORE Docusaurus's internal plugins
           // This is critical for modifying frontmatter via file.data.frontMatter
           beforeDefaultRemarkPlugins: [
-            // Inject .summary.md content into lesson frontmatter (for LessonContent tabs)
-            require('./plugins/remark-summary-injector'),
+            // Summary injection handled by docusaurus-summaries-plugin (global data approach)
           ],
           remarkPlugins: [
             // Auto-transform Python code blocks into interactive components
