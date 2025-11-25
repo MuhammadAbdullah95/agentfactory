@@ -99,8 +99,17 @@ const config: Config = {
         docs: {
           path: docsPath, // 'docs' (local) or 'docsfs' (from MCP server)
           sidebarPath: "./sidebars.ts",
+          // Exclude .summary.md files from being rendered as pages
+          // They are injected into lesson frontmatter by the summary injector plugin
+          exclude: ["**/*.summary.md"],
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
+          // beforeDefaultRemarkPlugins run BEFORE Docusaurus's internal plugins
+          // This is critical for modifying frontmatter via file.data.frontMatter
+          beforeDefaultRemarkPlugins: [
+            // Inject .summary.md content into lesson frontmatter (for LessonContent tabs)
+            require('./plugins/remark-summary-injector'),
+          ],
           remarkPlugins: [
             // Auto-transform Python code blocks into interactive components
             [require('./plugins/remark-interactive-python'), {
@@ -134,6 +143,13 @@ const config: Config = {
   plugins: [
     "./plugins/docusaurus-plugin-og-image-generator",
     "./plugins/docusaurus-plugin-structured-data",
+    // Summaries Plugin - Makes .summary.md content available via useGlobalData()
+    [
+      "./plugins/docusaurus-summaries-plugin",
+      {
+        docsPath: docsPath, // Use same docs path as content-docs
+      },
+    ],
     // PanaversityFS Plugin - Fetch content from MCP server and write to docsfs/
     // Enable via: PANAVERSITY_PLUGIN_ENABLED=true
     // Server URL: PANAVERSITY_SERVER_URL or http://localhost:8000/mcp
