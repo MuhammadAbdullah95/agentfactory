@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Migration script: book-source → PanaversityFS storage (via OpenDAL).
+"""Migration script: book-source → PanaversityFS storage.
 
 This script migrates content from the Docusaurus book-source structure
-to ANY configured storage backend (fs, s3, supabase) using OpenDAL.
+to ANY configured storage backend (fs, s3, supabase).
+
+Backends:
+- fs, s3: Uses OpenDAL for unified interface
+- supabase: Uses Supabase Python SDK directly (OpenDAL Python lacks support)
 
 Source structure (book-source/):
     docs/
@@ -130,13 +134,17 @@ class MigrationConfig:
         return self.source_dir / "static"
 
 
-class OpenDALMigrator:
-    """Migrate book-source to storage backend via OpenDAL."""
+class Migrator:
+    """Migrate book-source to storage backend.
+
+    Uses OpenDAL for fs/s3 backends and Supabase SDK for supabase backend.
+    """
 
     def __init__(self, config: MigrationConfig):
         self.config = config
         self.stats = MigrationStats()
-        self.operator = None
+        self.operator = None  # OpenDAL operator (for fs/s3)
+        self.supabase_client = None  # Supabase client (for supabase)
         self.storage_config = None
         self.resumed = not bool(config.resume_from)
 
@@ -146,7 +154,7 @@ class OpenDALMigrator:
         }
 
     async def connect(self):
-        """Initialize OpenDAL operator from environment config."""
+        """Initialize storage client based on backend type."""
         try:
             from panaversity_fs.config import get_config
             self.storage_config = get_config()
@@ -163,13 +171,32 @@ class OpenDALMigrator:
             print(f"[DRY RUN] Would connect to storage backend: {self.storage_config.storage_backend}")
             return
 
-        try:
-            from panaversity_fs.storage import get_operator
-            self.operator = get_operator()
-            print(f"✓ Connected to storage: {self.storage_config.storage_backend}")
-        except Exception as e:
-            print(f"ERROR: Failed to connect to storage: {e}")
-            sys.exit(1)
+        backend = self.storage_config.storage_backend
+
+        if backend == "supabase":
+            # Use Supabase SDK directly (OpenDAL Python lacks supabase support)
+            try:
+                from supabase import create_client, Client
+                self.supabase_client = create_client(
+                    self.storage_config.supabase_url,
+                    self.storage_config.supabase_service_role_key
+                )
+                print(f"✓ Connected to storage: supabase (via SDK)")
+            except ImportError:
+                print("ERROR: supabase package not installed. Run: uv add supabase")
+                sys.exit(1)
+            except Exception as e:
+                print(f"ERROR: Failed to connect to Supabase: {e}")
+                sys.exit(1)
+        else:
+            # Use OpenDAL for fs and s3 backends
+            try:
+                from panaversity_fs.storage import get_operator
+                self.operator = get_operator()
+                print(f"✓ Connected to storage: {backend} (via OpenDAL)")
+            except Exception as e:
+                print(f"ERROR: Failed to connect to storage: {e}")
+                sys.exit(1)
 
     def should_skip(self, path: Path) -> bool:
         """Check if file should be skipped."""
@@ -310,6 +337,33 @@ class OpenDALMigrator:
 
         return new_content, count
 
+    def _get_content_type(self, file_path: Path) -> str:
+        """Get MIME type for file based on extension."""
+        suffix = file_path.suffix.lower()
+        mime_types = {
+            '.md': 'text/markdown',
+            '.mdx': 'text/markdown',
+            '.txt': 'text/plain',
+            '.json': 'application/json',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.gif': 'image/gif',
+            '.svg': 'image/svg+xml',
+            '.webp': 'image/webp',
+            '.ico': 'image/x-icon',
+            '.pdf': 'application/pdf',
+            '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            '.ppt': 'application/vnd.ms-powerpoint',
+            '.mp4': 'video/mp4',
+            '.webm': 'video/webm',
+            '.mov': 'video/quicktime',
+            '.mp3': 'audio/mpeg',
+            '.wav': 'audio/wav',
+            '.ogg': 'audio/ogg',
+        }
+        return mime_types.get(suffix, 'application/octet-stream')
+
     async def upload_file(self, local_path: Path, storage_path: str, is_text: bool = False) -> bool:
         """Upload a single file to storage.
 
@@ -343,7 +397,22 @@ class OpenDALMigrator:
                 self.stats.bytes_uploaded += size
                 return True
 
-            await self.operator.write(storage_path, file_bytes)
+            # Upload based on backend type
+            if self.supabase_client:
+                # Supabase SDK upload
+                content_type = self._get_content_type(local_path)
+                bucket = self.storage_config.supabase_bucket
+
+                # Supabase upsert mode to overwrite existing files
+                self.supabase_client.storage.from_(bucket).upload(
+                    path=storage_path,
+                    file=file_bytes,
+                    file_options={"content-type": content_type, "upsert": "true"}
+                )
+            else:
+                # OpenDAL upload (for fs/s3)
+                await self.operator.write(storage_path, file_bytes)
+
             self.stats.bytes_uploaded += size
 
             if self.config.verbose:
@@ -454,13 +523,14 @@ class OpenDALMigrator:
         await self.connect()
 
         backend = self.storage_config.storage_backend if self.storage_config else "unknown"
+        sdk_info = "Supabase SDK" if self.supabase_client else "OpenDAL"
 
         print(f"""
 {'='*60}
-OpenDAL Migration (ADR-0018)
+PanaversityFS Migration (ADR-0018)
 {'='*60}
 Source:       {self.config.source_dir}
-Backend:      {backend}
+Backend:      {backend} (via {sdk_info})
 Book ID:      {self.config.book_id}
 Mode:         {'DRY RUN' if self.config.dry_run else 'LIVE'}
 Content:      {'Yes' if not self.config.assets_only else 'No'}
@@ -576,7 +646,7 @@ def main():
         resume_from=args.resume_from,
     )
 
-    migrator = OpenDALMigrator(config)
+    migrator = Migrator(config)
     stats = asyncio.run(migrator.run())
 
     if stats.content_failed or stats.assets_failed:
