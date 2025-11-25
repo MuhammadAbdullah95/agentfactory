@@ -3,7 +3,7 @@
 import pytest
 import json
 from panaversity_fs.tools.content import write_content
-from panaversity_fs.tools.summaries import add_summary, get_summary, list_summaries
+from panaversity_fs.tools.summaries import write_summary, read_summary
 from panaversity_fs.tools.registry import list_books
 from panaversity_fs.tools.search import glob_search, grep_search
 from panaversity_fs.tools.bulk import get_book_archive
@@ -100,7 +100,7 @@ age = 25
             ))
 
         # 4. Create chapter summary
-        await add_summary(AddSummaryInput(
+        await write_summary(WriteSummaryInput(
             book_id=book_id,
             chapter_id="chapter-01",
             content="""# Chapter 1 Summary

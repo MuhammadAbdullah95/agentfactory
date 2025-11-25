@@ -83,8 +83,8 @@ Server will run at: **http://0.0.0.0:8000/mcp**
 ### Run Tests
 
 ```bash
-# In a new terminal
-uv run python test_all_tools.py
+# Run the test suite
+uv run pytest tests/ -v
 ```
 
 ---

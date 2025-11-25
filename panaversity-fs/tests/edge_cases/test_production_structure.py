@@ -11,7 +11,7 @@ Tests realistic scenarios based on actual book-source/docs structure:
 import pytest
 import json
 from panaversity_fs.tools.content import write_content, read_content, delete_content
-from panaversity_fs.tools.summaries import add_summary, list_summaries
+from panaversity_fs.tools.summaries import write_summary, read_summary
 from panaversity_fs.tools.search import glob_search, grep_search
 from panaversity_fs.tools.bulk import get_book_archive
 from panaversity_fs.models import *
@@ -451,7 +451,7 @@ Students can now:
 Proceed to chapter {chapter_num + 1}.
 """
 
-            result = await add_summary(AddSummaryInput(
+            result = await write_summary(WriteSummaryInput(
                 book_id=book_id,
                 chapter_id=chapter_id,
                 content=summary_content
@@ -459,18 +459,17 @@ Proceed to chapter {chapter_num + 1}.
             data = json.loads(result)
             assert data["status"] == "success"
 
-        # List all summaries
-        list_result = await list_summaries(ListSummariesInput(
-            book_id=book_id
-        ))
-        summaries = json.loads(list_result)
-        assert len(summaries) == 5  # chapters 16-20
-
-        # Verify summaries have correct metadata
-        for summary in summaries:
-            assert "path" in summary
-            assert "file_size" in summary
-            assert "last_modified" in summary
+        # Verify summaries can be read back
+        for chapter_num in range(16, 21):
+            chapter_id = f"chapter-{chapter_num:02d}"
+            read_result = await read_summary(ReadSummaryInput(
+                book_id=book_id,
+                chapter_id=chapter_id
+            ))
+            read_data = json.loads(read_result)
+            assert "content" in read_data
+            assert "sha256" in read_data
+            assert f"Chapter {chapter_num}" in read_data["content"]
 
 
 class TestSearchAcrossComplexStructure:

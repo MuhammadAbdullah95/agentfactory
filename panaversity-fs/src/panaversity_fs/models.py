@@ -34,10 +34,9 @@ class OperationType(str, Enum):
     UPLOAD_ASSET = "upload_asset"
     GET_ASSET = "get_asset"
     LIST_ASSETS = "list_assets"
-    ADD_SUMMARY = "add_summary"
-    UPDATE_SUMMARY = "update_summary"
-    GET_SUMMARY = "get_summary"
-    LIST_SUMMARIES = "list_summaries"
+    READ_SUMMARY = "read_summary"
+    WRITE_SUMMARY = "write_summary"
+    DELETE_SUMMARY = "delete_summary"
     GET_BOOK_ARCHIVE = "get_book_archive"
     LIST_BOOKS = "list_books"
     GLOB_SEARCH = "glob_search"
@@ -232,8 +231,16 @@ class ListAssetsInput(BaseModel):
 # Summary Input Models
 # ============================================================================
 
-class AddSummaryInput(BaseModel):
-    """Input model for add_summary tool (FR-014)."""
+class ReadSummaryInput(BaseModel):
+    """Input model for read_summary tool."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    chapter_id: str = Field(..., description="Chapter identifier (e.g., 'chapter-01')", pattern=r'^chapter-\d{2}$')
+
+
+class WriteSummaryInput(BaseModel):
+    """Input model for write_summary tool."""
     model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
 
     book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
@@ -241,29 +248,12 @@ class AddSummaryInput(BaseModel):
     content: str = Field(..., description="Summary markdown content", min_length=1, max_length=100_000)
 
 
-class UpdateSummaryInput(BaseModel):
-    """Input model for update_summary tool (FR-015)."""
+class DeleteSummaryInput(BaseModel):
+    """Input model for delete_summary tool."""
     model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
 
     book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
     chapter_id: str = Field(..., description="Chapter identifier (e.g., 'chapter-01')", pattern=r'^chapter-\d{2}$')
-    content: str = Field(..., description="Summary markdown content", min_length=1, max_length=100_000)
-
-
-class GetSummaryInput(BaseModel):
-    """Input model for get_summary tool (FR-016)."""
-    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
-
-    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
-    chapter_id: str = Field(..., description="Chapter identifier (e.g., 'chapter-01')", pattern=r'^chapter-\d{2}$')
-
-
-class ListSummariesInput(BaseModel):
-    """Input model for list_summaries tool (FR-017)."""
-    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
-
-    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
-    chapter_id: str | None = Field(default=None, description="Filter by chapter ID (optional)", pattern=r'^chapter-\d{2}$')
 
 
 # ============================================================================

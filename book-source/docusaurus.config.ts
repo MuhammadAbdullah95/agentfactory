@@ -122,6 +122,16 @@ const config: Config = {
   plugins: [
     "./plugins/docusaurus-plugin-og-image-generator",
     "./plugins/docusaurus-plugin-structured-data",
+    // PanaversityFS Plugin - Fetch content from MCP server (POC)
+    [
+      "./plugins/docusaurus-panaversityfs-plugin",
+      {
+        bookId: "ai-native-software-development",
+        enabled: true,  // Enable plugin for testing
+        useMockData: true,  // Use mock data for POC
+        cacheDir: ".docusaurus/panaversityfs-cache",
+      },
+    ],
     function (context, options) {
       return {
         name: "custom-webpack-config",

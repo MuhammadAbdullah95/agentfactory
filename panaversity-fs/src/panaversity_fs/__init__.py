@@ -9,14 +9,13 @@ Architecture:
 - Pydantic models for validation
 - JSONL audit logging with eventual consistency
 
-MCP Tools (14 total):
+MCP Tools (12 total):
 - Content: read_content, write_content, delete_content
+- Summaries: read_summary, write_summary, delete_summary
 - Assets: upload_asset, get_asset, list_assets
-- Summaries: add_summary, update_summary, get_summary, list_summaries
-- Bulk: get_book_archive
-- Registry: list_books
 - Search: glob_search, grep_search
-- Audit: get_audit_log (deferred to post-MVP per tasks.md)
+- Registry: list_books
+- Bulk: get_book_archive
 """
 
 __version__ = "0.1.0"
