@@ -1,11 +1,11 @@
 ---
-sidebar_position: 11
-title: "Part 11: Building Agentic Frontends and Realtime Systems"
+sidebar_position: 10
+title: "Part 10: Building Agentic Frontends and Realtime Systems"
 ---
 
-# Part 11: Building Agentic Frontends and Realtime Systems
+# Part 10: Building Agentic Frontends and Realtime Systems
 
-You've mastered Python for AI backends (Part 5), built agentic architectures (Part 7), deployed cloud infrastructure (Part 8), and learned TypeScript fundamentals (Part 10). Now you'll combine these skills to build the **user-facing layer of AI products**—interactive chat interfaces, voice-enabled agents, and realtime collaborative experiences.
+You've mastered Python for AI backends (Part 5), built agentic architectures (Part 6), deployed cloud infrastructure (Part 7), and learned TypeScript fundamentals (Part 9). Now you'll combine these skills to build the **user-facing layer of AI products**—interactive chat interfaces, voice-enabled agents, and realtime collaborative experiences.
 
 This part transforms backend intelligence into delightful user experiences. You'll learn to build production-grade frontends that make AI systems accessible, responsive, and engaging.
 
@@ -98,11 +98,11 @@ You'll optimize realtime performance:
 
 This part builds on:
 - **Part 5 (Python)**: Understanding async patterns that apply to TypeScript/JavaScript
-- **Part 7 (AI Native)**: Knowing agent APIs (OpenAI SDK, MCP) you'll integrate with
-- **Part 8 (Cloud Native)**: FastAPI knowledge—you'll build frontends for these backends
-- **Part 10 (TypeScript)**: Language fundamentals, async patterns, HTTP/WebSocket communication
+- **Part 6 (AI Native)**: Knowing agent APIs (OpenAI SDK, MCP) you'll integrate with
+- **Part 7 (Cloud Native)**: FastAPI knowledge—you'll build frontends for these backends
+- **Part 9 (TypeScript)**: Language fundamentals, async patterns, HTTP/WebSocket communication
 
-You need **Part 10 completed** before starting this part.
+You need **Part 9 completed** before starting this part.
 
 ---
 
@@ -222,6 +222,6 @@ By the end, you'll have built production-grade frontends for AI systems—experi
 
 ## Looking Ahead
 
-After mastering agentic frontends, you're ready for **Part 12: Agentic AI is the Future**—exploring emerging patterns like the Agentic Web (open protocols like Nanda/A2A vs. closed ecosystems like OpenAI Apps), Agentic Organizations (how companies reorganize around AI agents), and Agentic Commerce (AI-driven marketplaces and transactions).
+After mastering agentic frontends, you're ready for **Part 11: Agentic AI is the Future**—exploring emerging patterns like the Agentic Web (open protocols like Nanda/A2A vs. closed ecosystems like OpenAI Apps), Agentic Organizations (how companies reorganize around AI agents), and Agentic Commerce (AI-driven marketplaces and transactions).
 
-You've built the full stack: Backend intelligence (Parts 5-8), Language mastery (Part 10), Frontend experience (Part 11). Part 12 shows you where this technology is heading.
+You've built the full stack: Backend intelligence (Parts 5-7), Language mastery (Part 9), Frontend experience (Part 10). Part 11 shows you where this technology is heading.

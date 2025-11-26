@@ -1,19 +1,19 @@
 ---
-sidebar_position: 8
-title: "Part 8: AI Cloud Native Development"
+sidebar_position: 7
+title: "Part 7: AI Cloud Native Development"
 ---
 
-# Part 8: AI Cloud Native Development
+# Part 7: AI Cloud Native Development
 
-You've built AI agents locally in Parts 1-7—designing agent architectures, implementing integrations, and mastering spec-driven development. Part 8 bridges local development to production deployment at scale. You'll learn containerization strategies, orchestration patterns, and operational excellence practices that transform agents from learning projects into production systems serving real users.
+You've built AI agents locally in Parts 1-6—designing agent architectures, implementing integrations, and mastering spec-driven development. Part 7 bridges local development to production deployment at scale. You'll learn containerization strategies, orchestration patterns, and operational excellence practices that transform agents from learning projects into production systems serving real users.
 
-**Prerequisites**: Parts 4-5 (SDD-RI fundamentals and Python fundamentals) are required. Part 7 (AI Native Software Development) is strongly recommended for agent building experience before tackling deployment.
+**Prerequisites**: Parts 4-5 (SDD-RI fundamentals and Python fundamentals) are required. Part 6 (AI Native Software Development) is strongly recommended for agent building experience before tackling deployment.
 
 ---
 
 ## Goals
 
-By completing Part 8, you will:
+By completing Part 7, you will:
 
 - **Understand agent deployment architectures**: Learn how containerized agents, orchestration platforms (Kubernetes, Dapr), and infrastructure patterns enable production-scale systems
 - **Implement containerization strategies**: Package agents with Docker, manage multi-stage builds, and optimize images for deployment efficiency
@@ -24,7 +24,7 @@ By completing Part 8, you will:
 
 ## Chapter Progression
 
-Part 8's 12 chapters build deployment capability through four stages:
+Part 7's 12 chapters build deployment capability through four stages:
 
 ### Foundational Infrastructure (Chapters 50-52)
 

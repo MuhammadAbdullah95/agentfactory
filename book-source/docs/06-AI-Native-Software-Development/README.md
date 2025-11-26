@@ -1,11 +1,11 @@
 ---
-sidebar_position: 7
-title: "Part 7: AI Native Software Development"
+sidebar_position: 6
+title: "Part 6: AI Native Software Development"
 ---
 
-# Part 7: AI Native Software Development
+# Part 6: AI Native Software Development
 
-Part 7 bridges your foundational skills from Parts 1-6 into production agent development. You've learned SDD-RI fundamentals (Part 4), Python fundamentals (Part 5), and AI product leadership (Part 6)—now you'll apply these skills to design, implement, test, and deploy AI agents for real-world applications.
+Part 6 bridges your foundational skills from Parts 1-5 into production agent development. You've learned SDD-RI fundamentals (Part 4) and Python fundamentals (Part 5)—now you'll apply these skills to design, implement, test, and deploy AI agents for real-world applications.
 
 This part introduces agent frameworks, integration patterns, testing strategies, and data persistence—the building blocks of production AI systems. You'll move from educational examples to patterns you'd encounter building professional agent applications.
 
@@ -13,7 +13,7 @@ This part introduces agent frameworks, integration patterns, testing strategies,
 
 ## Goals
 
-By completing Part 7, you will:
+By completing Part 6, you will:
 
 - **Understand agent architectures**: Learn how modern agent frameworks (OpenAI Agents SDK, Google ADK, Anthropic Agents Kit) structure agentic systems
 - **Implement integration patterns**: Practice connecting agents through MCP (Model Context Protocol) and building interoperable systems
@@ -26,7 +26,7 @@ By completing Part 7, you will:
 
 ## Chapter Progression
 
-Part 7's 16 chapters build through six thematic stages:
+Part 6's 16 chapters build through six thematic stages:
 
 ### Agent Frameworks (Chapters 35-37)
 Establish core agent concepts and framework-specific patterns. Start with agent fundamentals (34), then explore implementation across OpenAI (35), Google (36), and Anthropic (37) platforms using AIDD and spec-driven development.
@@ -52,6 +52,6 @@ Add persistence and knowledge retrieval. Integrate vector databases for RAG (47)
 
 ## Methodology Note
 
-Part 7 continues the teaching approach from earlier parts: chapters introduce concepts through hands-on practice, guide you in collaborating with AI to implement solutions, help you build reusable components when patterns recur, and culminate in capstone projects where you apply spec-driven development to compose what you've learned.
+Part 6 continues the teaching approach from earlier parts: chapters introduce concepts through hands-on practice, guide you in collaborating with AI to implement solutions, help you build reusable components when patterns recur, and culminate in capstone projects where you apply spec-driven development to compose what you've learned.
 
 You'll experience the same progression—foundation building, AI collaboration, creating reusable intelligence, and specification-first projects—now applied to production agent development rather than language fundamentals.

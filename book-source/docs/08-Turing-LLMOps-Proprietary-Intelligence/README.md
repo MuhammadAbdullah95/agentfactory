@@ -1,11 +1,11 @@
 ---
-sidebar_position: 9
-title: "Part 9: Turing LLMOps — Proprietary Intelligence"
+sidebar_position: 8
+title: "Part 8: Turing LLMOps — Proprietary Intelligence"
 ---
 
-# Part 9: Turing LLMOps — Proprietary Intelligence
+# Part 8: Turing LLMOps — Proprietary Intelligence
 
-You've built AI-native applications using foundation models (Parts 1-8)—prompting, orchestrating agents, deploying at scale. Now you'll learn when and how to go beyond off-the-shelf models to create **proprietary intelligence** through custom model training, fine-tuning, and managed deployment.
+You've built AI-native applications using foundation models (Parts 1-7)—prompting, orchestrating agents, deploying at scale. Now you'll learn when and how to go beyond off-the-shelf models to create **proprietary intelligence** through custom model training, fine-tuning, and managed deployment.
 
 This part introduces LLMOps (Large Language Model Operations)—the discipline of training, deploying, and operating custom AI models in production using the Turing platform.
 
@@ -57,12 +57,11 @@ You'll connect custom models to systems you've built:
 
 ## Prerequisites
 
-This part builds on everything from Parts 1-8:
+This part builds on everything from Parts 1-7:
 - **Part 4 (SDD-RI)**: You'll write specifications for model training—defining tasks, success criteria, evaluation frameworks
 - **Part 5 (Python)**: Understanding data processing, evaluation scripts, and API integration
-- **Part 6 (AI Products)**: Applying evaluation-first thinking to model quality assessment
-- **Part 7 (AI Native)**: Integrating custom models with agent frameworks (OpenAI SDK, MCP)
-- **Part 8 (Cloud Native)**: Deploying custom model endpoints in production infrastructure
+- **Part 6 (AI Native)**: Integrating custom models with agent frameworks (OpenAI SDK, MCP)
+- **Part 7 (Cloud Native)**: Deploying custom model endpoints in production infrastructure
 
 ---
 
@@ -157,6 +156,6 @@ By the end, you'll have the skills to evaluate "should we fine-tune a model for 
 
 ## Looking Ahead
 
-After mastering LLMOps, you're ready for **Part 10: TypeScript**—learning the language of realtime interaction and frontend development. You'll build user interfaces that connect to your custom models, creating complete AI products from backend intelligence to frontend experience.
+After mastering LLMOps, you're ready for **Part 9: TypeScript**—learning the language of realtime interaction and frontend development. You'll build user interfaces that connect to your custom models, creating complete AI products from backend intelligence to frontend experience.
 
-**Turing + TypeScript** enables the full stack: Train custom models in Part 9, build interactive UIs in Part 10, deploy realtime systems in Part 11.
+**Turing + TypeScript** enables the full stack: Train custom models in Part 8, build interactive UIs in Part 9, deploy realtime systems in Part 10.

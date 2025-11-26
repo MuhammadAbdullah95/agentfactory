@@ -1,11 +1,11 @@
 ---
-sidebar_position: 13
-title: "Part 13: Physical AI & Humanoid Robotics"
+sidebar_position: 12
+title: "Part 12: Physical AI & Humanoid Robotics"
 ---
 
-# Part 13: Physical AI & Humanoid Robotics
+# Part 12: Physical AI & Humanoid Robotics
 
-You've mastered the complete stack of AI-native software development across Parts 1-12: from AI-driven development methodologies to specification engineering, Python programming, agentic architectures, cloud deployment, custom model training, TypeScript frontends, and strategic positioning in the agentic future. Now you'll extend AI beyond digital systems into the **physical world**—building robots that see, move, speak, and interact naturally with humans.
+You've mastered the complete stack of AI-native software development across Parts 1-11: from AI-driven development methodologies to specification engineering, Python programming, agentic architectures, cloud deployment, custom model training, TypeScript frontends, and strategic positioning in the agentic future. Now you'll extend AI beyond digital systems into the **physical world**—building robots that see, move, speak, and interact naturally with humans.
 
 This part bridges software intelligence to embodied systems. You'll learn to give your AI agents physical form, creating machines that operate in reality, understand physical laws, and interact naturally in human-centered environments.
 
@@ -92,12 +92,12 @@ You'll implement robot vision and sensing:
 
 ## Prerequisites
 
-This part requires the complete foundation from Parts 1-12:
+This part requires the complete foundation from Parts 1-11:
 - **Part 5 (Python)**: All robot control code is Python—you need mastery of async, OOP, and APIs
-- **Part 7 (AI Native)**: Agents you build here use the same architectures as software agents
-- **Part 8 (Cloud Native)**: Robots are distributed systems—concepts like pub/sub, service meshes apply
-- **Part 10 (TypeScript)**: Robot control interfaces are built with web technologies
-- **Part 11 (Realtime)**: Robots stream sensor data and require real-time communication patterns
+- **Part 6 (AI Native)**: Agents you build here use the same architectures as software agents
+- **Part 7 (Cloud Native)**: Robots are distributed systems—concepts like pub/sub, service meshes apply
+- **Part 9 (TypeScript)**: Robot control interfaces are built with web technologies
+- **Part 10 (Realtime)**: Robots stream sensor data and require real-time communication patterns
 
 **This is the capstone**—integrating everything you've learned into physical systems.
 
@@ -213,18 +213,18 @@ By the end, you'll have built the foundation for professional robotics work—de
 ## The Complete Journey
 
 **You started** learning to collaborate with AI agents (Part 1).
-**You progressed** through specification engineering, programming, deployment, and strategic thinking (Parts 2-12).
+**You progressed** through specification engineering, programming, deployment, and strategic thinking (Parts 2-11).
 **You finish** by giving AI physical form—robots that exist in reality, not just screens.
 
 This is the **full spectrum of AI engineering**:
-- **Digital intelligence** (Parts 1-12): Agents that think, plan, and communicate
-- **Physical intelligence** (Part 13): Agents that see, move, and interact
+- **Digital intelligence** (Parts 1-11): Agents that think, plan, and communicate
+- **Physical intelligence** (Part 12): Agents that see, move, and interact
 
 ---
 
 ## Looking Beyond
 
-After completing Part 13, you possess a rare combination: **software engineering mastery + physical AI capabilities**.
+After completing Part 12, you possess a rare combination: **software engineering mastery + physical AI capabilities**.
 
 This positions you for:
 - **Robotics companies**: Building the next generation of humanoid platforms

@@ -1,11 +1,11 @@
 ---
-sidebar_position: 10
-title: "Part 10: TypeScript — The Language of Realtime and Interaction"
+sidebar_position: 9
+title: "Part 9: TypeScript — The Language of Realtime and Interaction"
 ---
 
-# Part 10: TypeScript — The Language of Realtime and Interaction
+# Part 9: TypeScript — The Language of Realtime and Interaction
 
-You've mastered Python for AI backend systems (Part 5), built agentic architectures (Part 7), and deployed cloud-native infrastructure (Part 8). Now you'll learn TypeScript—the language that powers modern frontend experiences, realtime interactions, and the user-facing layer of AI products.
+You've mastered Python for AI backend systems (Part 5), built agentic architectures (Part 6), and deployed cloud-native infrastructure (Part 7). Now you'll learn TypeScript—the language that powers modern frontend experiences, realtime interactions, and the user-facing layer of AI products.
 
 This part bridges backend intelligence to frontend experience. You'll learn to build the interfaces that make AI systems accessible, interactive, and delightful.
 
@@ -72,8 +72,8 @@ You'll write reliable TypeScript code with professional testing practices:
 
 This part assumes:
 - **Part 5 (Python)**: Programming fundamentals transfer—control flow, functions, async concepts
-- **Part 7 (AI Native)**: Understanding agent APIs (OpenAI SDK, MCP) you'll integrate with
-- **Part 8 (Cloud Native)**: FastAPI knowledge—you'll build TypeScript clients for your Python APIs
+- **Part 6 (AI Native)**: Understanding agent APIs (OpenAI SDK, MCP) you'll integrate with
+- **Part 7 (Cloud Native)**: FastAPI knowledge—you'll build TypeScript clients for your Python APIs
 
 **No prior JavaScript/TypeScript experience required**. We teach TypeScript as a first language for AI engineers who know Python.
 
@@ -186,6 +186,6 @@ By the end, you'll be comfortable building TypeScript components for any AI syst
 
 ## Looking Ahead
 
-After mastering TypeScript fundamentals, you're ready for **Part 11: Building Agentic Frontends and Realtime Systems**—where you'll apply TypeScript skills to build interactive chat UIs with React/Next.js, implement voice interfaces with browser audio APIs, and create realtime collaborative experiences.
+After mastering TypeScript fundamentals, you're ready for **Part 10: Building Agentic Frontends and Realtime Systems**—where you'll apply TypeScript skills to build interactive chat UIs with React/Next.js, implement voice interfaces with browser audio APIs, and create realtime collaborative experiences.
 
-**TypeScript (Part 10) + Realtime Systems (Part 11)** = Complete frontend stack for AI products.
+**TypeScript (Part 9) + Realtime Systems (Part 10)** = Complete frontend stack for AI products.

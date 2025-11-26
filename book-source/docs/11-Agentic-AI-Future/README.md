@@ -1,11 +1,11 @@
 ---
-sidebar_position: 12
-title: "Part 12: Agentic AI is the Future"
+sidebar_position: 11
+title: "Part 11: Agentic AI is the Future"
 ---
 
-# Part 12: Agentic AI is the Future
+# Part 11: Agentic AI is the Future
 
-You've mastered the full stack of AI-native development: Python backends (Part 5), agentic architectures (Part 7), cloud deployment (Part 8), proprietary intelligence (Part 9), TypeScript frontends (Part 10), and realtime interfaces (Part 11). Now you'll explore the **emerging patterns reshaping how society, organizations, and commerce operate** in the age of agentic AI.
+You've mastered the full stack of AI-native development: Python backends (Part 5), agentic architectures (Part 6), cloud deployment (Part 7), proprietary intelligence (Part 8), TypeScript frontends (Part 9), and realtime interfaces (Part 10). Now you'll explore the **emerging patterns reshaping how society, organizations, and commerce operate** in the age of agentic AI.
 
 This part is your window into the future—understanding where this technology is heading and how to position yourself at the forefront of transformation.
 
@@ -106,8 +106,8 @@ You'll explore how markets evolve when agents are economic actors:
 
 This part synthesizes knowledge from the entire book:
 - **Parts 1-3**: Understanding the AI revolution and strategic frameworks
-- **Parts 4-8**: Technical mastery of building and deploying agents
-- **Parts 9-11**: Production systems across the full stack
+- **Parts 4-7**: Technical mastery of building and deploying agents
+- **Parts 8-10**: Production systems across the full stack
 
 **This is a capstone part**—less about building systems, more about **strategic thinking**.
 
@@ -212,15 +212,15 @@ These artifacts guide real-world decisions—what to build, where to work, how t
 
 ## Looking Ahead
 
-After completing Part 12, you have two paths:
+After completing Part 11, you have two paths:
 
 ### Path 1: Enter the Market
 Apply everything you've learned to build AI-native products, join AI-first companies, or consult on AI transformation. You have the full stack: technical mastery + strategic intelligence.
 
-### Path 2: Go Physical (Part 13)
+### Path 2: Go Physical (Part 12)
 Extend AI beyond digital systems into the physical world. Learn Physical AI and Humanoid Robotics—giving your agents bodies that can see, move, and interact in the real world.
 
-**Part 12 prepares you for either path**—understanding the landscape helps you choose where to focus next.
+**Part 11 prepares you for either path**—understanding the landscape helps you choose where to focus next.
 
 ---
 
