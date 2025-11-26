@@ -6,27 +6,44 @@ duration_minutes: 30
 proficiency_level: "A2"
 cognitive_load:
   new_concepts: 4
+  assessment: "4 new concepts (constitution purpose, cascade effect, testable standards, git commit) within A2 limit of 7 ✓"
 learning_objectives:
-  - "Use `/sp.constitution` command to define project-wide quality standards"
-  - "Understand how constitution guides all downstream specification and implementation phases"
-  - "Write testable quality criteria that apply across all features in a project"
-  - "Distinguish between constitution (global rules) and specification (feature-specific requirements)"
+  - objective: "Use `/sp.constitution` command to define project-wide quality standards"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Successfully run /sp.constitution and generate constitution file"
+  - objective: "Understand how constitution guides all downstream specification and implementation phases"
+    proficiency_level: "A2"
+    bloom_level: "Understand"
+    assessment_method: "Explain the cascade effect with concrete examples"
+  - objective: "Write testable quality criteria that apply across all features in a project"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Identify vague vs testable standards in constitution"
+  - objective: "Distinguish between constitution (global rules) and specification (feature-specific requirements)"
+    proficiency_level: "A2"
+    bloom_level: "Understand"
+    assessment_method: "Correctly categorize example rules as constitution vs specification"
 generated_by: "content-implementer v1.0.0"
-source_spec: "specs/chapter-14-spec-kit-plus/lesson-3-spec.md"
+source_spec: "specs/037-chapter-14-research-paper-pivot/spec.md"
 created: "2025-11-26"
-last_modified: "2025-11-26"
+last_modified: "2025-11-27"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "2.0.0"
+version: "3.0.0"
 ---
 
 # Constitution Phase — Project-Wide Quality Standards
 
-Welcome to hands-on work with `/sp.constitution`. In Chapter 13, you learned that a Constitution is a document defining immutable standards applying to **all features** in a project. Now you'll create one for a research paper project.
+You've installed Spec-Kit Plus and initialized your project. Now it's time to create the foundational rules that will guide every part of your research paper project.
 
-The Constitution answers a critical question: **What standards apply to every piece of work I do?** Not just for this paper, but for every paper in your academic career. Not just for this deadline, but for your professional reputation.
+The Constitution answers a critical question: **What standards apply to every piece of work you do?** Not just for this paper, but for all papers. Not just this deadline, but for your professional reputation.
 
-Before diving in, let's understand what a Constitution actually is and why it matters for **any** project—papers, code, data pipelines, books.
+Think of it like team rules before building a big LEGO project:
+- What if you want all towers square, but your helper builds round ones?
+- What if you decide the roof must be blue, but your helper builds red?
+
+The Constitution is your team's **Rulebook**. It lists the most important rules that both you and your AI companion MUST follow, no matter what.
 
 ---
 
@@ -34,38 +51,34 @@ Before diving in, let's understand what a Constitution actually is and why it ma
 
 ### Constitution: Global Rules, One Per Project
 
-A **Constitution** is a document that defines **immutable standards** applying to **all features** in a project. It's distinct from a **Specification**, which applies to **one feature**.
+A **Constitution** defines **immutable standards** applying to **all work** in a project. It's distinct from a **Specification**, which applies to **one feature**.
 
 **Constitution applies to (research paper project)**:
-- Quality standards for all papers (citation accuracy, source verification, writing clarity)
-- Audience-level consistency (all papers written for same proficiency level)
-- Academic integrity requirements (plagiarism checking, source documentation)
-- Structural standards (formatting, section organization, reference style)
-- Revision and review processes (how feedback loops work)
+- Citation standards for ALL papers (APA format, source verification)
+- Writing clarity for ALL papers (Flesch-Kincaid grade level)
+- Academic integrity for ALL papers (plagiarism checking)
+- Source requirements for ALL papers (peer-reviewed minimum)
 
-**Specification applies to (one specific research paper)**:
-- This paper's thesis statement
-- Specific research questions to explore
-- Sources to investigate (this paper's sources, not all papers)
-- Target length and deadline
-- Specific acceptance criteria for this paper's completion
+**Specification applies to (one specific paper)**:
+- THIS paper's thesis statement
+- THIS paper's specific research questions
+- THIS paper's word count and deadline
+- THIS paper's acceptance criteria
 
 **Example**:
 
 ```
-CONSTITUTION (applies to ALL research papers):
-  ✅ "All papers must cite primary sources, not just secondary sources"
-  ✅ "All claims must be verified against authoritative sources"
-  ✅ "Writing must be clear and direct (Flesch-Kincaid grade 10-12)"
-  ✅ "All papers reviewed for plagiarism before submission"
-  ✅ "All references formatted in APA style"
+CONSTITUTION (applies to ALL papers):
+  ✅ "All papers must cite primary sources"
+  ✅ "All claims must be verified against sources"
+  ✅ "APA citation format required"
+  ✅ "Zero plagiarism tolerance"
 
-SPECIFICATION (applies only to SPECIFIC RESEARCH PAPER):
-  ✅ "This paper explores AI development methodology"
+SPECIFICATION (applies only to THIS paper):
+  ✅ "Thesis: AI-native development requires spec-first thinking"
   ✅ "Target length: 5,000 words"
-  ✅ "Minimum 12 peer-reviewed sources required"
+  ✅ "Minimum 12 peer-reviewed sources"
   ✅ "Due date: December 15"
-  ✅ "Thesis: AI-native development requires thinking in specifications, not code"
 ```
 
 ### Why Constitution Matters: The Cascade
@@ -83,144 +96,68 @@ Clear Specification
     ↓
 Clear Plan
     ↓
-(ensures tasks include review and verification)
+(ensures tasks include verification)
     ↓
 Clear Tasks
     ↓
-(enables AI to generate writing that's accurate and well-cited)
+(enables AI to generate properly cited writing)
     ↓
 Published Research Paper
 ```
 
 **Weak Constitution** produces:
-- Specs that don't specify citation requirements (leading to uncited claims)
-- Plans that don't include plagiarism checking
-- Writing that lacks source verification
+- Specs that don't specify citation requirements
+- Plans that skip plagiarism checking
+- Writing with uncited claims
 - Papers that fail fact-checking
-- Integration issues because quality standards weren't enforced upstream
 
 **Strong Constitution** produces:
-- Specs that automatically include source quality and citation requirements
-- Plans with built-in fact-checking and verification steps
-- Writing that's automatically verified against sources
+- Specs that automatically include source quality requirements
+- Plans with built-in verification steps
+- Writing that's properly cited
 - Papers that pass publication standards
-- Integration that works because quality was clear from the start
 
-### Constitution Is One-Time, Project Work Is Repetitive
+### Constitution is One-Time, Feature Work is Repetitive
 
-This is crucial: You write the Constitution **once per project**. Then, for each paper you write, you:
-
-1. Write a specification (addressing this paper only)
-2. Generate a plan
-3. Generate tasks
-4. Implement the paper with AI collaboration
-
-But you never rewrite the Constitution for each paper. It's the foundation everything builds on.
-
-**Best Practice Pattern**:
+You write the Constitution **once per project**. Then, for each paper:
 
 ```
-1. Initialize research project
-2. Write Constitution (quality standards for ALL papers in this project)
+1. Initialize project
+2. Write Constitution (quality standards for ALL papers)
 3. Commit Constitution to git
 4. FOR EACH PAPER:
    - Run /sp.specify (new specification for this paper)
    - Run /sp.clarify (refine specification)
    - Run /sp.plan (new plan for this paper)
    - Run /sp.tasks (new tasks for this paper)
-   - Run /sp.implement (write paper with AI collaboration)
+   - Run /sp.implement (write paper with AI)
    - Commit paper to git
 ```
 
-#### 💬 Explore This Concept
-
-> "Why does a strong Constitution cascade to all downstream work? What would happen if I wrote a vague Constitution like 'papers should be good' but tried to write a precise specification for a specific research paper?"
-
 ---
 
-## Part A: Understanding `/sp.constitution` Command
+## Part A: Reading the Base Constitution
 
-Before writing your Constitution, let's understand what the `/sp.constitution` command does.
-
-### What `/sp.constitution` Does
-
-The `/sp.constitution` command **interactively guides you** to create a Constitution by asking targeted questions about:
-
-1. **Project intent**: What are you building? What matters most?
-2. **Quality principles**: What non-negotiable standards apply to ALL work?
-3. **Constraints**: What limitations or requirements always apply?
-4. **Success criteria**: How will you know if quality standards are met?
-5. **Technical requirements**: What tools, formats, or processes are required?
-
-**The command does NOT**:
-- Write your Constitution for you (you make decisions)
-- Assume your project type (it asks)
-- Copy templates blindly (it personalizes to YOUR project)
-
-### Constitution Structure
-
-When you run `/sp.constitution`, the agent creates a document with sections like:
-
-```markdown
-# Project Constitution
-
-## Section 1: Core Principles
-[Your project's non-negotiable values]
-
-## Section 2: Quality Standards
-[Testable criteria for evaluating work]
-
-## Section 3: Technical Requirements
-[Tools, formats, processes required]
-
-## Section 4: Constraints
-[Limitations that always apply]
-
-## Section 5: Success Criteria
-[How to verify quality standards are met]
-```
-
-Each section contains **specific, testable** statements—not vague aspirations.
-
-#### 🎓 Expert Insight
-
-> In specification-driven development, the Constitution isn't bureaucracy—it's leverage. Write it once with clear, testable standards ("all papers must cite primary sources and pass plagiarism checking before submission"), and every specification and plan you create automatically inherits those standards. Vague Constitutions produce vague downstream work. Precise Constitutions produce precise downstream work.
-
----
-
-## Part B: Create Your Research Paper Constitution
-
-Now you'll create a Constitution for a research paper project using `/sp.constitution`.
-
-### Step 1: Plan Your Constitution (5 minutes)
-
-Before running the command, think about your research paper project. Answer these questions:
-
-**About your project**:
-- What is the research paper about?
-- Who is the audience (academic, general public, specific discipline)?
-- What's most important: accuracy? Clarity? Innovation? Accessibility?
-
-**About your quality standards**:
-- What citation standard matters (APA, Chicago, MLA)?
-- Must sources be primary or secondary or both?
-- How will you verify claims are accurate?
-- What writing clarity is expected?
-
-**About constraints**:
-- How long should papers be (word count range)?
-- How many sources are required?
-- Are there format requirements (margins, fonts, spacing)?
-
-### Step 2: Run `/sp.constitution` Command
-
-Open your agent (Claude Code or similar) and run:
+Before writing your own, look at the base Constitution file that `specifyplus init` created:
 
 ```bash
-/sp.constitution
+# Open the constitution file
+cat .specify/memory/constitution.md
 ```
 
-**Then describe your research paper project**. Example prompt:
+**What you'll see**: A starter template with placeholder sections for principles, standards, and constraints.
+
+**The Key Insight**: Constitutions are project-specific. Your research paper Constitution would never mention "type hints" because that's for code. A software project Constitution wouldn't need "citation format" because that's for papers.
+
+---
+
+## Part B: Writing Your Research Paper Constitution
+
+Now let's write YOUR Constitution for the research paper project.
+
+### Step 1: Run `/sp.constitution`
+
+Open your AI tool and run the constitution command with your project requirements:
 
 ```
 /sp.constitution
@@ -231,7 +168,7 @@ Core principles:
 - Accuracy through primary source verification
 - Clarity for academic audience (computer science background)
 - Reproducibility (all claims cited and traceable)
-- Rigor (only peer-reviewed sources or authoritative technical documentation)
+- Rigor (peer-reviewed sources preferred)
 
 Key standards:
 - All factual claims must be traceable to sources
@@ -243,244 +180,212 @@ Key standards:
 Constraints:
 - Word count: 5,000-7,000 words
 - Minimum 15 sources
-- Deadlines: draft by Dec 1, final by Dec 15
 - Format: PDF with embedded citations
 
 Success criteria:
 - All claims verified against sources
 - Zero plagiarism detected
 - Passes fact-checking review
-- Meets word count and source requirements
 ```
 
 **What the agent does**:
-- Asks clarifying questions if needed
-- Creates a comprehensive Constitution file
+- Creates a comprehensive Constitution file at `.specify/memory/constitution.md`
 - Defines testable quality standards
 - Documents all constraints and success criteria
 - Shows you the generated Constitution
 
-### Step 3: Review and Improve Your Constitution
+### Step 2: Review Your Constitution
 
-After the agent generates your Constitution, **review it carefully**:
+After the agent generates your Constitution, **review it carefully**.
 
-**Check these aspects**:
-
-1. **Are standards testable?** (NOT vague like "good writing")
-   - ❌ Vague: "Papers should be well-written"
-   - ✅ Testable: "Papers use active voice 75% of time; Flesch-Kincaid grade 10-12"
-
-2. **Are constraints explicit?** (NOT assumptions)
-   - ❌ Assumption: "Sources should be recent"
-   - ✅ Explicit: "Primary sources published within 10 years; seminal papers published within 30 years"
-
-3. **Are success criteria measurable?** (NOT subjective)
-   - ❌ Subjective: "Paper is well-researched"
-   - ✅ Measurable: "15+ sources; 50%+ peer-reviewed; all claims cited"
-
-4. **Does it cover all essential categories?**
-   - Quality standards (citation accuracy, source types, writing clarity)
-   - Constraints (length, format, deadline)
-   - Academic integrity (plagiarism checking, source verification)
-   - Review process (how feedback loops work)
-
-**If anything is vague or missing, ask the agent**:
+**Your Prompt**:
 
 ```
-Review my Constitution and suggest improvements:
-(1) Which standards are testable vs vague?
-(2) What critical standards am I missing?
-(3) Are constraints realistic for this research project?
+Show me the generated constitution file and explain what it contains.
+```
+
+**Agent shows**:
+- **Core Principles** — Your research philosophy
+- **Quality Standards** — Testable criteria for all papers
+- **Source Requirements** — Citation and verification rules
+- **Constraints** — Length, format, deadlines
+- **Success Criteria** — How to know if standards are met
+
+### Step 3: Improve Your Constitution
+
+Think about what "good research" means for YOUR project. Ask the agent:
+
+```
+Review my Constitution at .specify/memory/constitution.md and improve it:
+
+1. Are all standards testable (not vague)?
+   - ❌ Vague: "Papers should be well-written"
+   - ✅ Testable: "Flesch-Kincaid grade 10-12; active voice 75%+ of time"
+
+2. Did I cover essential categories?
+   - Citation accuracy
+   - Source verification
+   - Writing clarity
+   - Plagiarism checking
+   - Review process
+
+3. Are any standards unrealistic?
+
 Suggest 2-3 concrete improvements.
 ```
 
-### Step 4: Commit Constitution to Git
-
-Once your Constitution is complete and reviewed, commit it:
-
-```bash
-/sp.git.commit_pr Commit research paper constitution to feature branch
-```
-
-**Why commit first?**
-1. **Immutability**: Constitution is foundational; committing signals "this is our standard"
-2. **Clarity**: Everyone sees Constitution as baseline for all paper work
-3. **Traceability**: Git history shows when and why Constitution was created
-4. **Reversibility**: You can revert to previous Constitution if needed (rarely)
+**What the agent does**:
+- Identifies vague standards and makes them testable
+- Suggests missing categories
+- Flags unrealistic constraints
+- Updates the Constitution file
 
 ---
 
-## Part C: How Constitution Guides Downstream Phases
+## Part C: Commit Constitution to Git
+
+Here's a critical best practice: **Always commit the Constitution before starting feature work.**
+
+### Why Commit First?
+
+1. **Immutability**: Constitution is foundational; committing signals "this is our standard"
+2. **Clarity**: Everyone (including your AI) sees Constitution as the baseline
+3. **Traceability**: Git history shows when and why Constitution was created
+4. **Reversibility**: You can revert if needed (rare, but important)
+
+### Commit Steps
+
+**Your Prompt**:
+
+```
+/sp.git.commit_pr Commit the constitution to a feature branch
+```
+
+**Agent Does**:
+- Creates a conventional commit for the constitution
+- Pushes to a new feature branch
+- Creates a draft PR (or shares compare URL)
+
+The Constitution is now the foundation for all your paper work. Every specification you write, every plan you generate—they all work within the Constitution's constraints.
+
+---
+
+## How Constitution Guides Downstream Phases
 
 Now that you've created a Constitution, let's see how it cascades through every other phase.
 
 ### Constitution → Specification Phase
-
-When you write a specification for a **specific research paper**, your Constitution automatically influences it:
 
 **Your Constitution says**:
 ```
 - All papers must cite primary sources
 - Minimum 50% peer-reviewed sources
 - APA citation format
-- Flesch-Kincaid grade 10-12
 - Zero plagiarism tolerance
 ```
 
 **Your Specification for Paper #1 must respect this**:
 ```
 This specification inherits Constitution standards:
-- Thesis: "Explain ML model interpretability for non-technical audience"
+- Thesis: "AI-native development requires spec-first thinking"
 - Length: 5,000 words
-- Sources: minimum 15 total, minimum 8 peer-reviewed, minimum 5 primary
+- Sources: minimum 15 total, minimum 8 peer-reviewed
 - Format: APA style (inherited from Constitution)
-- Deadline: December 15
-- Success criteria: Thesis supported by cited sources, Flesch-Kincaid 10-12
+- Success criteria: All claims cited, Flesch-Kincaid 10-12
 ```
 
 Notice: You DON'T re-specify citation format or plagiarism checking. The Constitution already requires it.
 
 ### Constitution → Plan Phase
 
-When you create a plan for research, your Constitution shapes the planning:
-
 **Your Constitution says**:
 ```
 - All claims must be verified against sources
 - Plagiarism check required before submission
-- Fact-checking review process in place
 ```
 
 **Your Plan must account for this**:
 ```
-Phase 1: Research and source identification (find sources meeting Constitution standards)
-Phase 2: Detailed outline with source assignments (map claims to sources)
-Phase 3: Draft writing (write with inline citations as per Constitution)
-Phase 4: Fact-checking pass (verify all claims against sources)
-Phase 5: Plagiarism scanning (check against Constitution's 0% tolerance)
+Phase 1: Research and source identification
+Phase 2: Detailed outline with source assignments
+Phase 3: Draft writing with inline citations
+Phase 4: Fact-checking pass (verify all claims)
+Phase 5: Plagiarism scanning (0% tolerance)
 Phase 6: Final review and submission
 ```
 
-Notice: The plan INCLUDES verification steps because Constitution REQUIRES them.
-
-### Constitution → Task Phase
-
-When you break work into tasks, Constitution constraints apply:
-
-**Your Constitution says**:
-```
-- Maximum 7,000 words
-- Minimum 15 sources (50%+ peer-reviewed)
-- APA format
-- Deadline: December 15
-```
-
-**Your Tasks must respect these**:
-```
-Task 1: Find 15+ sources (prioritize peer-reviewed)
-Task 2: Create outline with source assignments
-Task 3: Write Section 1 (Introduction, ~1,200 words with citations)
-Task 4: Write Section 2 (Literature Review, ~2,000 words with citations)
-Task 5: Write Section 3 (Analysis, ~2,000 words with citations)
-Task 6: Write Conclusion (~800 words)
-Task 7: Format all citations in APA style
-Task 8: Run plagiarism check (must be 0% before submission)
-Task 9: Fact-check all claims
-Task 10: Final review and submission
-```
-
-Every task respects Constitution constraints (word count, sources, format, plagiarism check).
+The plan INCLUDES verification steps because Constitution REQUIRES them.
 
 ### Constitution → Implementation
 
-When you write the paper with AI collaboration, Constitution standards guide every interaction:
+When you write the paper with AI, Constitution standards guide every interaction:
 
 ```
-You: "Write the Introduction section for my research paper.
-Use these sources: [list].
-Follow the Constitution: APA citations, Flesch-Kincaid 10-12,
-verify all claims against sources."
+You: "Write the Introduction section. Use these sources: [list].
+Follow the Constitution: APA citations, verify all claims."
 
-AI: "I'll write the introduction accounting for:
+AI: "I'll write the introduction with:
 - In-text APA citations for each claim
 - Plain language targeting grade 10-12 reading level
-- Verification of claims against provided sources
-- ~1,200 words to fit your Constitution word-count budget"
+- Verification of claims against provided sources"
 
-[AI writes introduction with citations and source verification]
+[AI writes introduction with citations]
 
-You: "This is good, but the third claim about ML interpretability
-needs a primary source, not just secondary. The Constitution requires
-50% primary sources. Can you verify this claim?"
+You: "The third claim needs a primary source, not secondary.
+Constitution requires 50% primary sources."
 
-AI: "You're right. Let me check the sources... The primary research
-on LIME (Local Interpretable Model-Agnostic Explanations) is at [source].
-I'll revise to cite this primary paper instead."
+AI: "You're right. Let me find the primary research on that topic
+and revise the citation."
 
-[AI revises with primary source citation]
+[AI revises with primary source]
 ```
 
-Notice: Constitution REQUIREMENTS (primary sources, APA style, verification) shape every interaction.
-
-#### 🤝 Reflection Exercise
-
-> Think about YOUR Constitution for the research paper project. How would these standards change the way you write the paper? What would be different if your Constitution required "primary sources only" vs "primary sources not required"? How would that change your Plan? Your Tasks? Your Implementation?
+Constitution REQUIREMENTS shape every interaction.
 
 ---
 
 ## Common Mistakes
 
-### Mistake 1: Writing Too General a Constitution
+### Mistake 1: Copying Constitution Without Customization
 
-**The Error**: "All papers must be good quality and well-researched"
+**The Error**: "I'll use the example Constitution as-is."
 
-**Why It's Wrong**: "Good" and "well-researched" are subjective. No one can verify these or test them during review.
+**Why It's Wrong**: Constitutions are project-specific. A code project Constitution mentions "type hints"—irrelevant for papers.
+
+**The Fix**: Read examples for structure, but write rules specific to YOUR project.
+
+### Mistake 2: Vague Quality Standards
+
+**The Error**: "Papers must be good quality" or "Sources should be credible"
+
+**Why It's Wrong**: "Good" and "credible" are subjective. No one can verify these.
 
 **The Fix**: Use testable criteria:
-- ❌ Vague: "Papers should be good quality"
-- ✅ Testable: "Papers must pass plagiarism check; all claims verified against sources; Flesch-Kincaid grade 10-12; APA citations"
-
-### Mistake 2: Constitution Too Specific to One Paper
-
-**The Error**: "This Constitution applies only to my AI research paper"
-
-**Why It's Wrong**: You can't reuse it for future papers. Constitution should guide ALL papers in your project.
-
-**The Fix**: Write Constitution that applies to ANY paper:
-- ❌ Too specific: "AI research papers must cite these 5 AI researchers"
-- ✅ General: "All papers must cite primary sources; minimum 50% peer-reviewed; APA citations"
+- ❌ Vague: "Good writing quality"
+- ✅ Testable: "Flesch-Kincaid grade 10-12; all claims cited; zero plagiarism"
 
 ### Mistake 3: Forgetting to Commit Constitution
 
-**The Error**: Create Constitution, then start writing spec without committing
+**The Error**: Create Constitution, then start spec without committing.
 
-**Why It's Wrong**: Constitution becomes "whatever I remember" instead of "documented standard." No traceability.
+**Why It's Wrong**: Constitution becomes "whatever I remember" instead of "documented standard."
 
-**The Fix**: Always commit Constitution first:
-```
-1. Create Constitution
-2. Commit Constitution (git add + git commit)
-3. THEN start /sp.specify for specific papers
-```
+**The Fix**: Always commit Constitution BEFORE starting `/sp.specify`.
 
 ---
 
 ## Try With AI
 
-Ready to validate your Constitution and understand how quality standards cascade through your research work? Explore these prompts with your AI companion:
-
-**Setup**: You've created a Constitution for your research paper project with standards for citation accuracy, source verification, and writing clarity.
-
-**Explore Cascade Effect:**
-> "I created a Constitution for my research paper project with standards for: (1) all claims must cite primary sources, (2) writing clarity must be Flesch-Kincaid grade 10-12, (3) zero plagiarism tolerance before submission. Explain how these Constitution rules cascade into downstream phases: How do they affect the Specification I write for a specific paper? How do they affect the Plan I create? How do they affect the Tasks I break down? Give me a concrete example."
+Validate your Constitution and understand how quality rules cascade:
 
 **Test Constitution Completeness:**
-> "Review my Constitution at `.specify/memory/constitution.md`. Check for: (1) Are all quality standards testable and specific (not vague)? (2) Did I cover essential categories (citation standards, source types, writing clarity, plagiarism checking, review process)? (3) Are any standards unrealistic or conflicting? Suggest 2-3 concrete improvements to make it clearer and more practical for research papers."
 
-**Validate Against Specification:**
-> "Based on my Constitution, what requirements MUST a specification for a specific research paper include? Walk through: (1) Citation and source requirements inherited from Constitution, (2) Plagiarism checking and fact-verification requirements, (3) Writing clarity and format standards. This shows if my Constitution is specific enough to guide paper specifications."
+> "Review my Constitution at `.specify/memory/constitution.md`. Check: (1) Are all standards testable and specific? (2) Did I cover citation, source verification, writing clarity, plagiarism checking? (3) Are any standards unrealistic? Suggest 2-3 improvements."
 
-**Apply to Your Domain:**
-> "Help me draft a Constitution for [describe your research project: climate policy analysis / medical literature review / AI ethics research]. What quality standards, citation requirements, source verification, plagiarism checking, and writing clarity standards should I define? How would Constitution rules differ for different research domains?"
+**Explore Cascade Effect:**
 
----
+> "I wrote a Constitution with standards for APA citations, source verification, and zero plagiarism tolerance. Explain how these rules cascade: How do they affect my Specification? My Plan? My Implementation? Give me a concrete example."
+
+**Test Specification Alignment:**
+
+> "Based on my Constitution rules, what constraints MUST a specification for my first paper section include? Walk through: citation requirements, source types, verification steps, and quality standards."
