@@ -387,7 +387,60 @@ As the main request completes, you MUST create and complete a PHR (Prompt Histor
 
 ---
 
-## IX. Quick Reference
+## IX. Post-Session Intelligence Harvesting
+
+**After completing successful work** (especially sessions with corrections, fixes, or discoveries), harvest learnings into permanent organizational intelligence.
+
+### When to Harvest (Automatic Triggers)
+
+Suggest harvesting when session involved:
+- Correcting format drift (wrong file structure, YAML, invocation patterns)
+- Adding missing checks to orchestration files
+- Identifying failure modes worth preventing
+- Touching 3+ files with similar pattern corrections
+- Creating a PHR that documents significant learning
+
+### How to Harvest
+
+**Use the `session-intelligence-harvester` skill**:
+
+```
+Harvest learnings from this session using the session-intelligence-harvester skill.
+```
+
+Or manually route learnings:
+
+| Learning Type | Target Component | Location |
+|---------------|------------------|----------|
+| Context-gathering gaps | CLAUDE.md | Section I (new step) |
+| Failure mode example | CLAUDE.md | Failure Modes section |
+| Agent convergence pattern | Agent file | Convergence Patterns section |
+| Missing orchestration check | Command file | Phase 0 or relevant phase |
+| Reusable workflow | New skill | `.claude/skills/` |
+| Canonical source format | Chapter lesson | Authoritative format section |
+
+### Post-Harvest Checklist
+
+Before closing significant sessions:
+- [ ] Identified what corrections were made
+- [ ] Determined why errors occurred (missing check, format drift, etc.)
+- [ ] Routed learnings to correct RII components
+- [ ] Created PHR if learnings are significant
+- [ ] Cross-references added where pattern appears in multiple files
+
+### Why This Matters
+
+One-time fixes become permanent organizational knowledge. The session that corrected Chapter 14's skill format drift is now encoded in:
+- CLAUDE.md (failure mode example)
+- chapter-planner.md (convergence pattern + canonical source check)
+- sp.loopflow.v2.md (Phase 0 canonical source check)
+- content-implementer.md (post-implementation checklist)
+
+Future sessions automatically benefit from past learnings.
+
+---
+
+## X. Quick Reference
 
 ### Layer Recognition Matrix
 
@@ -408,7 +461,7 @@ As the main request completes, you MUST create and complete a PHR (Prompt Histor
 
 ---
 
-## X. Success Metrics
+## XI. Success Metrics
 
 **You Succeed When**:
 - ✅ Automatically identify layer and apply appropriate reasoning
