@@ -87,7 +87,7 @@ An agent's effectiveness isn't about code correctness. It's about whether the ag
 
 - **Goal Completion**: Did the agent successfully answer the customer's question? (70% target)
 - **User Satisfaction**: Would the customer rate this response as helpful? (75%+ target)
-- **Latency**: Did the agent respond within acceptable time? (<2 seconds target)
+- **Latency**: Did the agent respond within acceptable time? (less than 2 seconds target)
 - **Cost**: What's the per-interaction cost? ($0.10 target)
 
 Notice these aren't technical metrics (error rate, uptime). They're business metrics (goal completion, user satisfaction). This is the paradigm shift in Agent Ops: **You measure agent success the way you measure human employee success—did they accomplish the job well?**
@@ -438,7 +438,7 @@ Here's how these pieces fit into a real operational system:
 
 You have an agent in production. Before making any changes:
 
-1. **Define KPIs**: Goal completion (target: 75%), user satisfaction (target: 4.2/5), latency (<2s)
+1. **Define KPIs**: Goal completion (target: 75%), user satisfaction (target: 4.2/5), latency (less than 2s)
 
 2. **Build Golden Dataset**: Collect 50 representative customer questions with correct responses
 
@@ -449,7 +449,7 @@ You have an agent in production. Before making any changes:
 
 ### Week 2: Improvement Hypothesis
 
-You notice latency is creeping up (currently 1.8s, should be <2s). You hypothesize:
+You notice latency is creeping up (currently 1.8s, should be less than 2s). You hypothesize:
 
 > "If we increase the context window limit by 50%, the agent will have better information and reach decisions faster."
 
