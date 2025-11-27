@@ -1,17 +1,19 @@
 ---
 name: session-intelligence-harvester
-description: This skill should be used after productive sessions to extract learnings and route them to appropriate Reusable Intelligence Infrastructure (RII) components. Use when corrections were made, format drift was fixed, new patterns emerged, or the user explicitly asks to "harvest learnings" or "capture session intelligence". Transforms one-time fixes into permanent organizational knowledge.
+description: This skill should be used after productive sessions to extract learnings and route them to appropriate Reusable Intelligence Infrastructure (RII) components. Use when corrections were made, format drift was fixed, new patterns emerged, or the user explicitly asks to "harvest learnings" or "capture session intelligence". Transforms one-time fixes into permanent organizational knowledge by implementing updates across multiple files.
 ---
 
 # Session Intelligence Harvester
 
 ## Overview
 
-Transform session learnings into permanent organizational intelligence. After productive sessions involving corrections, discoveries, or pattern identification, this skill systematically extracts what was learned and routes it to the correct RII component (CLAUDE.md, constitution, agents, skills, commands).
+Transform session learnings into permanent organizational intelligence by implementing updates across RII components. After productive sessions involving corrections, discoveries, or pattern identification, systematically extract what was learned, route it to the correct component, and apply the changes.
+
+**Why this matters**: One-time fixes that aren't encoded into RII components will recur. The Chapter 14 skill format drift happened because no check existed to prevent it. After harvesting, that failure mode is encoded in 4 files—future sessions automatically benefit.
 
 ## When to Use This Skill
 
-**Automatic Triggers** (suggest harvesting):
+**Automatic Triggers** (proactively suggest harvesting):
 - Session corrected format drift (wrong file structure, YAML, invocation)
 - Session added missing checks to orchestration files
 - Session identified failure mode worth preventing
@@ -26,9 +28,11 @@ Transform session learnings into permanent organizational intelligence. After pr
 
 ## Workflow
 
+**Default to action**: Implement all updates rather than only proposing them. Read target files, make edits, and commit changes. Only propose without implementing if explicitly asked.
+
 ### Step 1: Session Analysis
 
-Analyze the session by answering:
+Analyze the session by answering these questions. Write your analysis to track progress:
 
 ```
 1. CORRECTIONS MADE
@@ -36,10 +40,18 @@ Analyze the session by answering:
    - What was wrong vs what is now correct?
    - Why did the error occur? (missing check, format drift, etc.)
 
+   WHY THIS MATTERS: Understanding root cause determines which RII
+   component prevents recurrence. Format drift → agent convergence
+   pattern. Missing context → CLAUDE.md protocol step.
+
 2. PATTERNS IDENTIFIED
    - What recurring patterns emerged?
    - What canonical sources were referenced?
    - What validation would have caught this earlier?
+
+   WHY THIS MATTERS: Patterns that recur across sessions deserve
+   encoding. If you referenced a canonical source, other sessions
+   will need that same reference.
 
 3. LEARNING CLASSIFICATION
    - Context-gathering gap? (CLAUDE.md)
@@ -47,27 +59,37 @@ Analyze the session by answering:
    - Agent convergence pattern? (Agents)
    - Reusable workflow? (Skills)
    - Missing orchestration check? (Commands)
+
+   WHY THIS MATTERS: Wrong routing means learnings don't trigger at
+   the right time. A convergence pattern in CLAUDE.md won't help
+   chapter-planner catch it during planning.
 ```
 
 ### Step 2: Route to RII Components
 
-Use this routing table to determine where learnings belong:
+Use this routing table. Route learnings to the component where they will be discovered at the right time:
 
-| Learning Type | Target Component | Location | What to Add |
-|---------------|------------------|----------|-------------|
-| Context-gathering gaps | CLAUDE.md | Section I | New step in context protocol |
-| Failure mode example | CLAUDE.md | Failure modes | New failure mode section |
-| Pedagogical framework | Constitution | Section IIa | Teaching method update |
-| Agent convergence pattern | Agent file | Convergence Patterns | New pattern with correction |
-| Agent self-monitoring | Agent file | Self-Monitoring Checklist | New checklist item |
-| Canonical source lookup | Multiple agents | Analysis Questions | Cross-reference check |
-| Reusable workflow | New skill | .claude/skills/ | New SKILL.md |
-| Orchestration check | Command file | Phase 0 or relevant phase | New validation step |
-| Format specification | Canonical source chapter | Lesson content | Authoritative format |
+| Learning Type | Target Component | Location | What to Add | When It Triggers |
+|---------------|------------------|----------|-------------|------------------|
+| Context-gathering gaps | CLAUDE.md | Section I | New step in context protocol | Before ANY chapter work |
+| Failure mode example | CLAUDE.md | Failure modes | Named example with correction | When similar situation detected |
+| Pedagogical framework | Constitution | Section IIa | Teaching method update | During lesson design |
+| Agent convergence pattern | Agent file | Convergence Patterns | Pattern + why + correction | During agent execution |
+| Agent self-monitoring | Agent file | Self-Monitoring Checklist | New checklist item | Before agent finalizes output |
+| Canonical source lookup | Multiple agents | Analysis Questions | Cross-reference check | During planning phase |
+| Reusable workflow | New skill | .claude/skills/ | New SKILL.md | When user invokes skill |
+| Orchestration check | Command file | Phase 0 or relevant phase | New validation step | During workflow execution |
+| Format specification | Canonical source chapter | Lesson content | Authoritative format | When teaching that pattern |
 
-### Step 3: Generate Updates
+**WHY ROUTING MATTERS**: Learnings placed in the wrong component don't prevent recurrence. A check in `content-implementer.md` won't help if the error happens during `chapter-planner` execution.
 
-For each identified learning, generate:
+### Step 3: Read Target Files and Generate Updates
+
+For each identified learning:
+
+1. **Read the target file** to understand current structure and find exact placement
+2. **Generate the update** with surrounding context for precise placement
+3. **Track progress** as you work through multiple files
 
 ```markdown
 ## Learning: [Brief Title]
@@ -76,40 +98,73 @@ For each identified learning, generate:
 
 **Target**: [File path]
 
-**Current State**:
-[What's missing or incorrect]
+**Current State** (after reading file):
+[What's missing or incorrect - quote existing content if helpful]
 
-**Proposed Addition**:
-[Exact content to add, with surrounding context for placement]
+**Exact Placement**:
+[Which section, after which content - be specific enough to Edit]
+
+**Content to Add**:
+[Exact content, matching the file's style and format]
 
 **Rationale**:
-[Why this prevents recurrence]
+[Why this prevents recurrence - what will trigger this check]
 
 **Canonical Source** (if applicable):
 [Which chapter/lesson defines the authoritative format]
 ```
 
-### Step 4: Validation Checks
+### Step 4: Implement Updates
 
-Before finalizing updates, verify:
+**Take action**: Edit each target file. Use the Edit tool to make changes.
+
+For each update:
+1. Read the target file (if not already read)
+2. Locate the exact insertion point
+3. Apply the edit using Edit tool
+4. Verify the edit was applied correctly
+
+Track completion:
+```
+Updates Progress:
+- [x] CLAUDE.md - Added failure mode section
+- [x] chapter-planner.md - Added convergence pattern 6
+- [ ] sp.loopflow.v2.md - Adding Phase 0 check (in progress)
+- [ ] content-implementer.md - Pending
+```
+
+### Step 5: Validation
+
+Before finalizing, verify each of these (check the box as you confirm):
 
 ```
-- [ ] Each learning has clear target component
-- [ ] Updates include exact placement location
-- [ ] Canonical sources identified for format-related learnings
-- [ ] No duplicate information (check existing content first)
-- [ ] Updates use imperative form (agent files) or appropriate style
-- [ ] Cross-references added where pattern appears in multiple files
+- [ ] Read each target file before editing (no speculation about structure)
+- [ ] Verified each learning routes to the component where it triggers at the right time
+- [ ] Confirmed updates include exact placement context (not vague locations)
+- [ ] Checked canonical sources exist for format-related learnings
+- [ ] Searched target files to confirm no duplicate information exists
+- [ ] Used imperative form for agent files, appropriate style for others
+- [ ] Added cross-references where pattern appears in multiple files
+- [ ] All edits applied successfully (no pending changes)
 ```
 
-### Step 5: Create PHR (Optional)
+### Step 6: Create PHR and Commit
 
-If session learnings are significant, create PHR documenting:
-- What was learned
-- Where it was encoded
-- Why this improves future work
+1. **Create PHR** documenting:
+   - What was learned
+   - Where it was encoded (list all files)
+   - Why this improves future work
 
-Use stage: `misc` for general learnings, or appropriate feature stage if tied to specific feature.
+2. **Commit changes** with descriptive message:
+   ```
+   feat(intelligence): Harvest session learnings into RII
+
+   Updates:
+   - [File 1]: [What was added]
+   - [File 2]: [What was added]
+
+   Prevents: [What failure mode this prevents]
+   ```
 
 ## RII Component Reference
 
@@ -118,27 +173,35 @@ Use stage: `misc` for general learnings, or appropriate feature stage if tied to
 ```
 Section I: Context Gathering Protocol
   - Step 1-N: Sequential context steps
+  - Each step has WHAT to do and WHY it matters
   - "Find canonical source" step for pattern teaching
 
-Failure Modes:
-  - Named failure examples with what went wrong
-  - "What I should have done" corrections
+Failure Modes (between Section I and II):
+  - Named failure examples: "FAILURE MODE: [Name] Example"
+  - "What I did wrong" list
+  - "What I should have done" numbered steps
+  - "Result" showing what was prevented
 ```
 
 ### Agent File Structure
 
 ```
 Analysis Questions (Section III):
-  - Numbered questions with "Why this matters"
+  - Numbered questions with "Why this matters" explanation
+  - Self-check prompt at end
 
 Principles (Section IV):
-  - Decision frameworks with application guidance
+  - Named principles with Framework + What this means + Application guidance
+  - Self-check prompt
 
 Convergence Patterns (Section VI):
-  - Generic pattern → Why it's convergence → Correction
+  - "Generic pattern" description
+  - "Why this is convergence" explanation
+  - "Correction" with specific steps
 
 Self-Monitoring Checklist (Section VIII):
-  - Numbered checklist items
+  - Numbered checklist with checkmark emoji prefix
+  - Each item is a verification question
 ```
 
 ### Command File Structure
@@ -147,89 +210,106 @@ Self-Monitoring Checklist (Section VIII):
 Phase 0: Foundation checks
   - Constitutional reading
   - Canonical source checks (for educational content)
+  - Each step explains WHY
 
-Convergence Patterns (Section VI):
-  - Pattern detection and correction guidance
+Convergence Patterns:
+  - Symptom description
+  - Detection method
+  - Correction steps
 ```
 
 ## Output Format
 
-After harvesting, provide summary:
+After completing harvest, provide summary:
 
 ```markdown
 ## Session Intelligence Harvest Summary
 
 **Session**: [Brief description]
 **Date**: [ISO date]
+**Status**: COMPLETE
 
 ### Learnings Extracted: [N]
 
 | # | Learning | Type | Target | Status |
 |---|----------|------|--------|--------|
-| 1 | [Title] | [Type] | [File] | [Applied/Proposed] |
-| 2 | [Title] | [Type] | [File] | [Applied/Proposed] |
+| 1 | [Title] | [Type] | [File] | Applied |
+| 2 | [Title] | [Type] | [File] | Applied |
 
 ### Updates Applied
 
-1. **[File]**: [What was added]
-2. **[File]**: [What was added]
+1. **[File]**: [What was added] (lines X-Y)
+2. **[File]**: [What was added] (lines X-Y)
 
 ### PHR Created
-- Path: [PHR path if created]
+- Path: [PHR path]
 - Stage: [Stage]
 
 ### Canonical Sources Referenced
 - [Pattern]: [Chapter X Lesson Y]
 
-### Recommended Follow-ups
-- [Any additional work needed]
+### Commit
+- Hash: [commit hash]
+- Message: [commit message summary]
 ```
 
 ## Examples
 
-### Example 1: Format Drift Correction
+### Example 1: Format Drift Correction (Multi-File)
 
 **Session**: Fixed Chapter 14 skill format to match Chapter 5 canonical source
 
-**Harvest**:
+**Analysis**:
 ```
-Learning: Skill format drift
-Type: Convergence pattern + Missing check
-Targets:
-  - chapter-planner.md (new convergence pattern)
-  - sp.loopflow.v2.md (canonical source check in Phase 0)
-  - content-implementer.md (post-implementation checklist)
-  - CLAUDE.md (failure mode example)
+CORRECTIONS MADE:
+- Wrong: .claude/skills/section-writer.md (flat file)
+- Correct: .claude/skills/section-writer/SKILL.md (directory structure)
+- Root cause: No check to read canonical source before teaching patterns
 
-Updates:
-1. Added Convergence Pattern 6: Format Drift to chapter-planner
-2. Added Step 1.5: Canonical Source Check to sp.loopflow
-3. Added failure mode "Chapter 14 Format Drift" to CLAUDE.md
+PATTERNS IDENTIFIED:
+- Canonical source for skills: Chapter 5 Lesson 7
+- Multiple agents could benefit from canonical source check
+
+CLASSIFICATION:
+- Failure mode → CLAUDE.md
+- Convergence pattern → chapter-planner.md, content-implementer.md
+- Missing check → sp.loopflow.v2.md Phase 0
 ```
 
-### Example 2: Missing Validation
+**Updates Applied**:
+1. CLAUDE.md: Added "FAILURE MODE: Chapter 14 Format Drift Example"
+2. chapter-planner.md: Added Question 5 (Canonical Source Analysis), Principle 5, Convergence Pattern 6
+3. sp.loopflow.v2.md: Added Step 1.5 (Canonical Source Check), Pattern 5
+4. content-implementer.md: Added Post-Implementation Checklist
+
+### Example 2: Missing Validation (Single File)
 
 **Session**: Discovered lessons weren't checking chapter-index.md for prerequisites
 
-**Harvest**:
+**Analysis**:
 ```
-Learning: Missing prerequisite validation
-Type: Context-gathering gap
-Target: CLAUDE.md Section I
+CORRECTIONS MADE:
+- Wrong: Started chapter work without reading chapter-index.md
+- Correct: MUST read chapter-index.md first to get Part, proficiency, prerequisites
+- Root cause: No mandatory step in context protocol
 
-Update:
-- Added Step 1 requirement to read chapter-index.md
-- Extract Part number, proficiency level, prerequisites
+CLASSIFICATION:
+- Context-gathering gap → CLAUDE.md Section I
 ```
+
+**Updates Applied**:
+1. CLAUDE.md: Added Step 1 to read chapter-index.md with specific extraction requirements
 
 ## Self-Monitoring
 
-Before completing harvest, verify:
+Before marking harvest complete, verify you have:
 
-- [ ] All corrections from session are captured
-- [ ] Each learning is routed to correct component
-- [ ] Updates include exact placement context
-- [ ] Canonical sources identified where applicable
-- [ ] No information duplicated across components
-- [ ] Multi-file patterns have cross-references added
-- [ ] Summary accurately reflects changes made
+- [ ] Analyzed session to identify all corrections and patterns
+- [ ] Classified each learning to determine correct routing
+- [ ] Read each target file before editing (no speculation)
+- [ ] Applied all edits using Edit tool (not just proposed)
+- [ ] Verified edits match target file's style and structure
+- [ ] Added cross-references where patterns appear in multiple files
+- [ ] Created PHR documenting the harvest
+- [ ] Committed changes with descriptive message
+- [ ] Generated summary showing all updates applied
