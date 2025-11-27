@@ -18,9 +18,9 @@ This lesson teaches students to create reusable skills through conversation with
 
 - **Start skill conversation**: After good session, say "I want to create a skill for [workflow]. During my work, I noticed my best [outputs] had [specific qualities]. Help me turn this into a reusable skill."
 
-- **Complete skill file structure**: Metadata (name, category, when to use) → Process steps → Quality criteria (ready vs needs work) → Usage example → Self-check validation.
+- **Complete skill file structure**: YAML frontmatter (`name`, `description`, `version`) → When to use → Process steps → Output format → Quality criteria → Example.
 
-- **Save to `.claude/skills/`**: Create directory with `mkdir -p .claude/skills`, then save skill file. This integrates with your Spec-Kit Plus project structure.
+- **Save to `.claude/skills/<skill-name>/SKILL.md`**: Create skill directory with `mkdir -p .claude/skills/section-writer`, then save SKILL.md inside. Skills use directory structure (skill-name/SKILL.md), not flat files.
 
 - **Test skill on real task**: Apply skill to actual work, evaluate: Did AI follow the process? Did output meet criteria? What's missing?
 

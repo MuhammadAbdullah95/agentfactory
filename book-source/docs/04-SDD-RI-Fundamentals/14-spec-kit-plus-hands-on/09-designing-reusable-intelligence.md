@@ -120,72 +120,51 @@ You: "I check:
 
 ### Step 3: AI Builds the Skill File
 
-Based on your conversation, AI creates a complete skill file. Ask:
+Based on your conversation, AI creates a complete SKILL.md file. Ask:
 
 ```
 Create the skill file with:
-- Metadata (name, description, when to use)
+- YAML frontmatter (name, description, version)
+- When to use this skill
 - Process steps from our conversation
-- Quality criteria I described
-- A usage example
-- Self-check validation
+- Output format
+- Example with input and output
 
-Format it as a complete .md file I can save.
+Format it as a SKILL.md file I can save.
 ```
 
 **AI generates:**
 
 ```markdown
-# Skill: Section Writing for Research Papers
+---
+name: "section-writer"
+description: "Write clear, evidence-supported research paper sections with proper citations and logical flow. Use when user asks to write a section, needs help with academic writing, or wants to structure research content."
+version: "1.0.0"
+---
 
-**Name**: section-writer
-**Category**: Research & Academic Writing
-**Complexity**: Medium (6 decision points)
-**Created**: [date]
-**Reusable Across**: Any research paper, thesis, technical documentation
-
-## Description
-
-Guide for writing clear, evidence-supported research paper sections.
-Use when writing any section that needs to communicate complex ideas
-with proper citations and logical flow.
+# Section Writing Skill
 
 ## When to Use This Skill
 
-- Apply when: Writing sections for research papers
-- Apply when: Need consistent quality across multiple sections
-- Apply when: Want evidence properly integrated (not tacked on)
-- Apply when: Refining sections through iteration
-- Skip when: Writing is one-off (low reuse value)
-- Skip when: Different context (creative fiction, informal blog)
+- User asks to "write a section" or "draft content" for a research paper
+- User mentions thesis, evidence integration, or academic writing
+- User needs help structuring research content with citations
 
-## Process
+## How This Skill Works
 
-### Step 1: Outline Key Points
-Before writing, identify 3-5 key points the section must make.
-Each point should connect to the thesis.
+1. **Outline key points**: Identify 3-5 main points the section must make
+2. **Write opening paragraph**: Establish context, hook interest, connect to thesis
+3. **Develop each point**: Topic sentence → evidence/citation → significance → transition
+4. **Write closing**: Summarize insights, connect to thesis, set up next section
+5. **Quality check**: Verify claims cited, flow smooth, thesis connected
 
-### Step 2: Write Opening Paragraph
-Establish what this section explains and why it matters.
-Hook reader interest. Connect to thesis.
+## Output Format
 
-### Step 3: Develop Each Point with Evidence
-For each key point:
-- State the point clearly (topic sentence)
-- Provide evidence or citation
-- Explain significance (don't let evidence speak for itself)
-- Transition to next point
-
-### Step 4: Write Closing
-Summarize key insights. Connect back to thesis.
-Set up the next section.
-
-### Step 5: Quality Check
-Before considering done, verify:
-- [ ] Every paragraph has clear topic sentence
-- [ ] Every factual claim is cited
-- [ ] Section reads smoothly (read aloud test)
-- [ ] Section connects to thesis
+Provide:
+- **Opening Paragraph**: Hook + context + thesis connection
+- **Body Segments**: For each key point: topic sentence, evidence, significance
+- **Transitions**: Smooth connections between paragraphs
+- **Closing Paragraph**: Summary + thesis connection + setup for next section
 
 ## Quality Criteria
 
@@ -195,59 +174,29 @@ A section is ready when:
 - No sentences require re-reading to understand
 - Opening hooks interest, closing connects to thesis
 
-A section needs more work when:
-- Claims feel unsupported
-- Reader has to re-read sentences
-- Flow feels choppy between paragraphs
-- Connection to thesis is unclear
+## Example
 
-## Usage Example
+**Input**: "Write the Literature Review section on AI in K-12 education. Key points: (1) Current state of AI in K-12, (2) Teacher workload research, (3) Student outcome studies. Thesis: AI tools can measurably improve K-12 classroom efficiency."
 
-**Scenario**: Writing Literature Review section on AI in K-12 education
-
-**Invocation**:
-```
-Use the section-writer skill to write my Literature Review.
-
-Key points to cover:
-1. Current state of AI in K-12 education
-2. Research on teacher workload reduction
-3. Studies on student outcome improvements
-
-Thesis: AI tools can measurably improve K-12 classroom efficiency.
-```
-
-**Expected Output**: A structured section with clear opening establishing
-context, 3 body segments each with topic sentence + evidence + significance,
-smooth transitions, and closing that connects findings to thesis.
-
-## Self-Check Validation
-
-Before considering skill application complete, verify:
-- [ ] Opening paragraph hooks interest and establishes context
-- [ ] Each key point has topic sentence, evidence, significance
-- [ ] Transitions connect paragraphs smoothly
-- [ ] Closing summarizes insights and connects to thesis
-- [ ] Read-aloud test passes (no awkward sentences)
-- [ ] All factual claims have citations
-- [ ] Someone unfamiliar could follow the logic
+**Output**:
+- **Opening**: "The integration of artificial intelligence into K-12 classrooms represents one of the most significant shifts in educational technology since the introduction of personal computers. As schools face mounting pressure to improve outcomes while managing limited resources, AI tools offer promising solutions—but what does the research actually show?"
+- **Body**: [3 segments with topic sentences, evidence from studies, significance explained]
+- **Closing**: "The evidence suggests AI tools can meaningfully reduce teacher workload while improving student engagement. However, implementation challenges and equity concerns require careful attention as districts consider adoption."
 ```
 
 ### Step 4: Save the Skill File
 
-Create the skills directory and save your skill:
+Skills use a specific directory structure. Create the skill directory and save:
 
 ```bash
-# Create skills directory (if it doesn't exist)
-mkdir -p .claude/skills
-
-# AI saves the skill file
+# Create skill directory (skill-name/SKILL.md structure)
+mkdir -p .claude/skills/section-writer
 ```
 
 Then tell AI:
 
 ```
-Save this skill to .claude/skills/section-writer.md
+Save this skill to .claude/skills/section-writer/SKILL.md
 ```
 
 Your directory structure now includes:
@@ -255,9 +204,10 @@ Your directory structure now includes:
 ```
 my-research-paper/
 ├── .claude/
-│   ├── commands/           # Slash commands from specifyplus init
-│   └── skills/             # YOUR reusable intelligence
-│       └── section-writer.md
+│   ├── commands/              # Slash commands from specifyplus init
+│   └── skills/                # YOUR reusable intelligence
+│       └── section-writer/    # Skill directory
+│           └── SKILL.md       # Main skill file
 ├── .specify/
 │   └── memory/
 │       └── constitution.md
@@ -268,6 +218,8 @@ my-research-paper/
 │       └── tasks.md
 └── ...
 ```
+
+**Note**: Skills can also include supporting files (scripts, reference docs) in the skill directory. For now, SKILL.md is all you need.
 
 ### Step 5: Test the Skill
 
@@ -447,16 +399,21 @@ If you get prediction mode responses, your skill needs strengthening. Revise wit
 
 ### Organizing Your Skills
 
-Standard directory structure:
+Standard directory structure (each skill gets its own folder):
 
 ```
 my-research-paper/
 ├── .claude/
 │   ├── commands/                    # Slash commands (from specifyplus)
 │   └── skills/                      # YOUR accumulated intelligence
-│       ├── section-writer.md        ← Your first skill
-│       ├── outline-refiner.md       ← Future skill
-│       └── source-evaluator.md      ← Future skill
+│       ├── section-writer/          # Skill directory
+│       │   └── SKILL.md             # Main skill file
+│       ├── outline-refiner/         # Future skill
+│       │   └── SKILL.md
+│       └── source-evaluator/        # Future skill
+│           ├── SKILL.md
+│           └── scripts/             # Optional supporting files
+│               └── verify_source.py
 ├── .specify/
 │   └── memory/
 │       └── constitution.md
@@ -472,7 +429,7 @@ my-research-paper/
 # Project 2: Different research paper
 I'm writing a section on climate policy impacts.
 
-Apply the section-writer skill from .claude/skills/section-writer.md
+Use the section-writer skill.
 
 Context: This is for a policy paper, not education research.
 Key points: (1) Current policy landscape, (2) Economic impacts, (3) Implementation challenges
@@ -574,7 +531,7 @@ Ready to create your first reusable skill? Practice conversation-based skill cre
 
 **Generate Complete Skill File:**
 
-> "Based on our conversation, create a complete skill file with: metadata (name, category, when to use), process steps, quality criteria, usage example, and self-check validation. Format as a .md file I can save to .claude/skills/section-writer.md"
+> "Based on our conversation, create a complete SKILL.md file with: YAML frontmatter (name, description, version), when to use, process steps, output format, and example. Format it so I can save to .claude/skills/section-writer/SKILL.md"
 
 **Test Your Skill:**
 
