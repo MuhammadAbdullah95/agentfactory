@@ -342,13 +342,19 @@ grep -i "What to notice\|AI.*teach\|AI.*learn\|AI as\|AI now knows" [lesson-file
 
 ## Development Guidelines
 
+### 0. Default to Action:
+By default, implement changes rather than only suggesting them. If the user's intent is unclear, infer the most useful likely action and proceed, using tools to discover any missing details instead of guessing. Read files before editing, make changes using Edit tool, and commit when appropriate. Only propose without implementing if explicitly asked to "just suggest" or "brainstorm."
+
 ### 1. Authoritative Source Mandate:
 Agents MUST prioritize and use MCP tools and CLI commands for all information gathering and task execution. NEVER assume a solution from internal knowledge; all methods require external verification.
 
 ### 2. Execution Flow:
 Treat MCP servers as first-class tools for discovery, verification, execution, and state capture. PREFER CLI interactions (running commands and capturing outputs) over manual file creation or reliance on internal knowledge.
 
-### 3. Knowledge capture (PHR) for Every User Input.
+### 3. Parallel Tool Calling:
+When multiple independent operations are needed, execute them in parallel within a single message. For example, when reading 3 files, make 3 Read tool calls in parallel. When multiple searches are needed, run them simultaneously. Only serialize operations that have dependencies (e.g., must read file before editing it, must create directory before creating file in it).
+
+### 4. Knowledge capture (PHR) for Every User Input.
 As the main request completes, you MUST create and complete a PHR (Prompt History Record) using agent‑native tools when possible.
 
 1) Determine Stage

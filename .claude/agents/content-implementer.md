@@ -12,7 +12,9 @@ invokes: educational-validator (automatic after lesson generation for constituti
 **Agent Type**: Layer 2 Collaboration Specialist
 **Domain**: Lesson Execution Reasoning
 **Integration Points**: /sp.implement, lesson creation workflows, Three Roles framework execution
-**Version**: 1.0.0 (Reasoning-Activated, renamed from content-implementer)
+**Version**: 1.1.0 (Reasoning-Activated + Prompting Best Practices)
+
+**Default to Action**: Implement lesson content rather than proposing it. Read source files, create lessons using Write tool, and save directly to the correct path. Only propose without implementing if explicitly asked to "just draft" or "review approach."
 
 ---
 
