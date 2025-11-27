@@ -202,57 +202,66 @@ Now comes the leverage: you're going to invoke `/sp.implement` with explicit ski
 
 ### The `section-writer` Skill From Lesson 9
 
-In Lesson 9, you created the `section-writer` skill using **Persona + Questions + Principles**:
+In Lesson 9, you created the `section-writer` skill at `.claude/skills/section-writer/SKILL.md`:
 
 ```markdown
-# Skill: Section Writer
+---
+name: "section-writer"
+description: "Write clear, evidence-supported research paper sections with proper citations and logical flow. Use when user asks to write a section, needs help with academic writing, or wants to structure research content."
+version: "1.0.0"
+---
 
-## Persona
-You are a research paper writer who understands:
-- Academic writing standards and tone
-- Claim development with evidence integration
-- Source validation and citation practices
-- Logical progression and reader clarity
-- Constraint satisfaction and quality metrics
+# Section Writing Skill
 
-## Questions (Decision Framework)
-1. What is the core claim being developed in this section?
-2. What evidence best supports this claim?
-3. How do we maintain consistent academic tone?
-4. Where might a reader get lost or confused?
-5. Are all success criteria from specification being met?
+## When to Use This Skill
 
-## Principles (Reasoning Framework)
-1. **Specification Primacy**: Write to meet spec success evals, not generic standards
-2. **Evidence First**: No claim stands without supporting sources
-3. **Clarity Over Cleverness**: Academic writing serves reader understanding
-4. **Consistency Matters**: Tone, structure, citations must align with introduction
-5. **Quality Validation**: Verify output against constitution standards
+- User asks to "write a section" or "draft content" for a research paper
+- User mentions thesis, evidence integration, or academic writing
+- User needs help structuring research content with citations
+
+## How This Skill Works
+
+1. **Outline key points**: Identify 3-5 main points the section must make
+2. **Write opening paragraph**: Establish context, hook interest, connect to thesis
+3. **Develop each point**: Topic sentence → evidence/citation → significance → transition
+4. **Write closing**: Summarize insights, connect to thesis, set up next section
+5. **Quality check**: Verify claims cited, flow smooth, thesis connected
+
+## Quality Criteria
+
+A section is ready when:
+- Someone unfamiliar with topic can follow the logic
+- All claims supported by evidence
+- No sentences require re-reading to understand
+- Opening hooks interest, closing connects to thesis
 ```
 
-When you reference this skill in `/sp.implement`, the AI assistant doesn't start from scratch—it applies this reasoning framework, which accelerates the entire writing process.
+When AI discovers this skill (through the description), it applies this reasoning framework, which accelerates the entire writing process.
 
 ### Understanding Skill Invocation
 
-Your `/sp.implement` command will look like this:
+Skills are automatically discovered through their descriptions. When you run `/sp.implement` and mention writing a section, AI finds your `section-writer` skill:
 
-```bash
-/sp.implement --feature paper-main-body \
-  --skills section-writer \
-  --spec specs/paper-project/main-body-section.md
+```
+/sp.implement
+
+I need to write the main body section for my research paper.
+Use my section-writer skill to guide the process.
+
+Specification: specs/paper-project/main-body-section.md
 ```
 
-**What this means**:
-- `--feature paper-main-body` — This is the feature being implemented (main body section)
-- `--skills section-writer` — The pre-built skill encapsulating writing intelligence
-- `--spec` — Reference your specification written in Step 1
+**How skill discovery works**:
+1. AI scans `.claude/skills/` for available skills
+2. Your `section-writer` description says "Use when user asks to write a section"
+3. AI automatically loads and applies that skill's workflow
 
 **The AI assistant will**:
 1. Read your specification
-2. Load your `section-writer` skill (Persona + Questions + Principles)
-3. Invoke the skill to write the section
-4. Validate output against success evals
-5. Report completion
+2. Discover and load your `section-writer` skill (from `.claude/skills/section-writer/SKILL.md`)
+3. Follow the skill's "How This Skill Works" steps
+4. Apply the skill's quality criteria
+5. Validate output against success evals
 
 **What you're NOT doing**:
 - ❌ Writing from scratch (no discovery phase)
@@ -268,10 +277,18 @@ Your skill has already encoded this knowledge.
 
 When you're ready (your specification complete, your introduction from Lesson 8 available, research sources gathered), run this command:
 
-```bash
-/sp.implement --feature paper-main-body \
-  --skills section-writer \
-  --spec specs/paper-project/main-body-section.md
+```
+/sp.implement
+
+Write the main body section of my research paper.
+Use the section-writer skill from .claude/skills/.
+
+Specification: specs/paper-project/main-body-section.md
+
+Key claims to develop:
+1. [Your first claim from introduction]
+2. [Your second claim from introduction]
+3. [Your third claim from introduction]
 ```
 
 ### What Happens During Execution
@@ -283,10 +300,10 @@ The AI assistant will:
    - Identify that this section develops three claims from introduction
    - Extract quality standards from constitution (Chapter 03)
 
-2. **Invoke Your Skill**
-   - Apply `section-writer` skill reasoning (Persona + Questions + Principles)
-   - Use the decision framework to structure writing
-   - Apply reasoning principles for claim validation
+2. **Discover and Apply Your Skill**
+   - Find `section-writer` skill in `.claude/skills/section-writer/SKILL.md`
+   - Follow the skill's process (outline → opening → develop → closing → quality check)
+   - Apply the skill's quality criteria
    - Check academic tone consistency with introduction
 
 3. **Execute the Writing**
