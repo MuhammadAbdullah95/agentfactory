@@ -1257,14 +1257,15 @@ Review the generated spec.md...
 2. **Find canonical source**: Read the chapter where pattern is first/primarily taught
 3. **Use consistent format**: Match the format exactly
 
-**Example** (skills format drift - Chapter N failure mode):
-- ❌ **WRONG**: `.claude/skills/section-writer.md` (flat file, no YAML)
-- ✅ **RIGHT**: `.claude/skills/section-writer/SKILL.md` (directory + YAML frontmatter)
+**Example** (skills format drift - domain organization):
+- ❌ **WRONG**: `.claude/skills/section-writer.md` (flat file, no domain)
+- ✅ **RIGHT**: `.claude/skills/authoring/section-writer/SKILL.md` (domain + directory + YAML frontmatter)
 
-**Canonical sources** (add to this list):
-- **Skills**: Chapter N Lesson 7 (agent-skills.md)
-- **Specifications**: Chapter N (specification-driven-development-fundamentals)
-- **ADRs**: Chapter N Lesson 6 (plan-phase.md)
+**Canonical paths**:
+- **Authoring Skills**: `.claude/skills/authoring/<name>/SKILL.md`
+- **Engineering Skills**: `.claude/skills/engineering/<name>/SKILL.md`
+- **Authoring Agents**: `.claude/agents/authoring/<name>.md`
+- **Engineering Agents**: `.claude/agents/engineering/<name>.md`
 
 ---
 

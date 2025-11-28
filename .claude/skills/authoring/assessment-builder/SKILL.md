@@ -279,7 +279,7 @@ Read templates/rubric-template.yml
 Check assessment balance using validation script:
 
 ```bash
-python .claude/skills/assessment-builder/scripts/validate-assessment.py assessment.yml
+python .claude/skills/authoring/assessment-builder/scripts/validate-assessment.py assessment.yml
 ```
 
 The script checks:

@@ -115,10 +115,10 @@ Every task MUST strictly follow this format:
    - If lessons teach patterns (skills, subagents, ADRs, PHRs), add verification task
    - Example: `- [ ] T0XX [P] [US1] Verify skill format matches Chapter N Lesson 7 canonical source`
    - Canonical source lookup:
-     - **Skills**: Chapter N Lesson 7 (agent-skills.md) → `.claude/skills/<name>/SKILL.md`
-     - **Subagents**: Chapter N Lesson 7 → `.claude/agents/<name>.md`
-     - **ADRs**: Chapter N Lesson 6 → `specs/<feature>/adrs/`
-     - **PHRs**: Chapter N Lesson 8 → `history/prompts/<feature>/`
+     - **Skills**: `.claude/skills/authoring/<name>/SKILL.md` (content) or `.claude/skills/engineering/<name>/SKILL.md` (platform)
+     - **Agents**: `.claude/agents/authoring/<name>.md` (content) or `.claude/agents/engineering/<name>.md` (platform)
+     - **ADRs**: `specs/<feature>/adrs/`
+     - **PHRs**: `history/prompts/<feature>/`
    - Purpose: Prevent format drift across book content
 
 3. **From Contracts**:

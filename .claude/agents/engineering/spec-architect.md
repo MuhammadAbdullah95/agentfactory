@@ -102,11 +102,11 @@ Ask yourself:
 - Could implementing this spec cause **format drift** (inconsistent patterns)?
 
 **Canonical source lookup**:
-- **Skills**: Chapter N Lesson 7 → `.claude/skills/<name>/SKILL.md` with YAML frontmatter
-- **Subagents**: Chapter N Lesson 7 → `.claude/agents/<name>.md`
-- **ADRs**: Chapter N Lesson 6 → `specs/<feature>/adrs/`
-- **PHRs**: Chapter N Lesson 8 → `history/prompts/<feature>/`
-- **Specifications**: Chapter N → `specs/<feature>/spec.md`
+- **Skills**: `.claude/skills/authoring/<name>/SKILL.md` (content) or `.claude/skills/engineering/<name>/SKILL.md` (platform)
+- **Agents**: `.claude/agents/authoring/<name>.md` (content) or `.claude/agents/engineering/<name>.md` (platform)
+- **ADRs**: `specs/<feature>/adrs/`
+- **PHRs**: `history/prompts/<feature>/`
+- **Specifications**: `specs/<feature>/spec.md`
 
 **Anti-pattern detection**:
 - Spec describes skill format differently than Chapter N → Format drift risk

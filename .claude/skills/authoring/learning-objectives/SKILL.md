@@ -211,7 +211,7 @@ LO-001: Implement user authentication working with AI as co-learning partner
 Once you've generated objectives, invoke the validation script to check they're measurable:
 
 ```bash
-python .claude/skills/learning-objectives/scripts/validate-objectives.py objectives.yml
+python .claude/skills/authoring/learning-objectives/scripts/validate-objectives.py objectives.yml
 ```
 
 The script checks:

@@ -599,13 +599,15 @@ Students will implement error handling using AI collaboration, demonstrating all
 
 **Canonical source lookup**:
 ```markdown
-| Pattern | Canonical Source | Key Format Elements |
-|---------|------------------|---------------------|
-| Skills | Ch 5 L7 (agent-skills.md) | `.claude/skills/<name>/SKILL.md`, YAML frontmatter: name, description, version |
-| Subagents | Ch 5 L7 (agent-skills.md) | `.claude/agents/<name>.md` |
-| ADRs | Ch 14 L6 (plan-phase.md) | `specs/<feature>/adrs/` |
-| PHRs | Ch 14 L8 (implementation-phase.md) | `history/prompts/<feature>/` |
-| Specifications | Ch 13 | `specs/<feature>/spec.md` |
+| Pattern | Domain | Path |
+|---------|--------|------|
+| Authoring Skills | Content creation | `.claude/skills/authoring/<name>/SKILL.md` |
+| Engineering Skills | Platform/tooling | `.claude/skills/engineering/<name>/SKILL.md` |
+| Authoring Agents | Content workflows | `.claude/agents/authoring/<name>.md` |
+| Engineering Agents | Platform workflows | `.claude/agents/engineering/<name>.md` |
+| ADRs | Decisions | `specs/<feature>/adrs/` |
+| PHRs | History | `history/prompts/<feature>/` |
+| Specifications | Design | `specs/<feature>/spec.md` |
 ```
 
 **Validation workflow**:
@@ -814,7 +816,7 @@ Pedagogical-designer: "VALIDATED. Dependency order satisfied."
 
 **Why this is convergence**: Generating plausible-looking formats from training data instead of reading actual canonical sources. Results in inconsistent student learning.
 
-**Example failure**: Chapter N originally taught skills as `Persona + Questions + Principles` format when the canonical format (Chapter N Lesson 7) is `.claude/skills/<name>/SKILL.md` with YAML frontmatter.
+**Example failure**: Teaching skills without domain organization. The canonical format requires domain folders: `.claude/skills/authoring/<name>/SKILL.md` for content skills or `.claude/skills/engineering/<name>/SKILL.md` for platform skills.
 
 **Correction**:
 - BEFORE planning any pattern-teaching lesson, identify canonical source

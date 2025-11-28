@@ -27,6 +27,16 @@ equipped with procedural knowledge that no model can fully possess.
 Every skill consists of a required SKILL.md file and optional bundled resources:
 
 ```
+.claude/skills/
+├── authoring/                    # Content creation skills
+│   └── skill-name/
+│       ├── SKILL.md (required)
+│       └── Bundled Resources (optional)
+└── engineering/                  # Platform/tooling skills
+    └── skill-name/
+        ├── SKILL.md (required)
+        └── Bundled Resources (optional)
+
 skill-name/
 ├── SKILL.md (required)
 │   ├── YAML frontmatter metadata (required)
@@ -38,6 +48,21 @@ skill-name/
     ├── references/       - Documentation intended to be loaded into context as needed
     └── assets/           - Files used in output (templates, icons, fonts, etc.)
 ```
+
+#### Domain Organization (REQUIRED)
+
+Skills MUST be placed in the appropriate domain folder:
+
+| Domain | Path | Purpose |
+|--------|------|---------|
+| **authoring** | `.claude/skills/authoring/` | Content creation (lessons, assessments, translations) |
+| **engineering** | `.claude/skills/engineering/` | Platform development (deployment, UI, infrastructure) |
+
+**Examples:**
+- Lesson generator → `.claude/skills/authoring/lesson-generator/SKILL.md`
+- Urdu translator → `.claude/skills/authoring/urdu-translator/SKILL.md`
+- Deployment tool → `.claude/skills/engineering/docusaurus-deployer/SKILL.md`
+- Hardware filter → `.claude/skills/engineering/hardware-filter/SKILL.md`
 
 #### SKILL.md (required)
 
@@ -140,8 +165,16 @@ When creating a new skill from scratch, always run the `init_skill.py` script. T
 Usage:
 
 ```bash
-scripts/init_skill.py <skill-name> --path <output-directory>
+# For authoring skills (content creation)
+scripts/init_skill.py <skill-name> --path .claude/skills/authoring/
+
+# For engineering skills (platform/tooling)
+scripts/init_skill.py <skill-name> --path .claude/skills/engineering/
 ```
+
+**IMPORTANT**: Always specify the correct domain path:
+- Content creation skills → `.claude/skills/authoring/`
+- Platform/tooling skills → `.claude/skills/engineering/`
 
 The script:
 

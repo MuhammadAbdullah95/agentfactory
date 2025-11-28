@@ -201,7 +201,7 @@ differentiation:
 - **Differentiation guidance**: Enables extension for advanced, remedial for struggling students
 - **Hidden by design**: Metadata is in YAML frontmatter, not visible to students, but available for institutional systems
 
-**Reference**: `.claude/skills/skills-proficiency-mapper/` for CEFR research, Bloom's alignment, DigComp 2.1, and assessment rubrics.
+**Reference**: `.claude/skills/authoring/learning-objectives/` for Bloom's alignment and assessment rubrics.
 
 ---
 

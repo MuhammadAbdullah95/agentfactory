@@ -234,8 +234,10 @@ INTELLIGENCE OPPORTUNITIES:
 ```
 
 For Stage 3 lessons, explicitly create:
-- `.claude/skills/<skill-name>/SKILL.md` with YAML frontmatter
-- OR `.claude/agents/<agent-name>.md` for complex patterns
+- Authoring skill: `.claude/skills/authoring/<skill-name>/SKILL.md` (content creation)
+- Engineering skill: `.claude/skills/engineering/<skill-name>/SKILL.md` (platform/tooling)
+- Authoring agent: `.claude/agents/authoring/<agent-name>.md` (content workflows)
+- Engineering agent: `.claude/agents/engineering/<agent-name>.md` (platform workflows)
 
 ## Completion Validation
 

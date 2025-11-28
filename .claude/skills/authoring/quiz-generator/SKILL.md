@@ -260,12 +260,12 @@ LLMs are excellent at content creation but struggle with strict procedural const
 After quiz generation, automatically fix answer distribution bias using the bundled Python script:
 
 ```bash
-python .claude/skills/quiz-generator/scripts/redistribute_answers_v2.py <quiz_file_path> <sequence_letter>
+python .claude/skills/authoring/quiz-generator/scripts/redistribute_answers_v2.py <quiz_file_path> <sequence_letter>
 ```
 
 **Example:**
 ```bash
-python .claude/skills/quiz-generator/scripts/redistribute_answers_v2.py \
+python .claude/skills/authoring/quiz-generator/scripts/redistribute_answers_v2.py \
   book-source/docs/04-Python-Fundamentals/14-data-types/quiz.md A
 ```
 
