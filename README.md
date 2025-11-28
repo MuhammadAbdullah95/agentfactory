@@ -94,7 +94,6 @@ Signup → Hardware Survey → Personalized Content
 
 ```
 .claude/
-├── AGENTS.md                    # Master orchestration
 ├── skills/                      # HOW (reusable across all books)
 │   ├── authoring/
 │   │   ├── lesson-generator/SKILL.md
@@ -111,11 +110,7 @@ Signup → Hardware Survey → Personalized Content
 │   └── engineering/
 │       ├── rag-builder/AGENT.md
 │       └── scaffolder/AGENT.md
-└── mcp/                         # External tools
-    ├── context7.json            # Library docs
-    ├── better-auth.json         # Auth (supersedes Context7)
-    ├── tavily.json              # Research
-    └── deepwiki.json            # Repo understanding
+└.mcp.json
 
 knowledge/                       # WHAT (project-specific)
 ├── robotics/
