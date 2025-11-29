@@ -31,6 +31,11 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
   }
+
+  /* Remove default padding since sidebar now starts below navbar */
+  [class*='sidebarViewport'] > [class*='sidebar'] {
+    padding-top: 0 !important;
+  }
 }
 
 /* ============================================================================
