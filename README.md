@@ -167,10 +167,11 @@ Signup → Hardware Survey → Personalized Content
 
 | Task | Deliverable | Status |
 |------|-------------|--------|
-| 2.1 | Generate Module 1 lessons via lesson-writer agent | ⏳ |
-| 2.2 | Generate Module 2-4 key lessons | ⏳ |
-| 2.3 | Create Mermaid diagrams | ⏳ |
-| 2.4 | Add hardware-filtered sections | ⏳ |
+| 2.1 | Plan Part Readmes | ⏳ |
+| 2.2 | Generate All Chapters in Part 1 | ⏳ |
+| 2.3 | Add Readme for chapter in other modules | ⏳ |
+| 2.4 | Create Mermaid/React Flow diagrams | ⏳ |
+| 2.5 | Add hardware-filtered sections | ⏳ |
 
 **Exit:** 4-6 polished lessons with diagrams and hardware variants
 
