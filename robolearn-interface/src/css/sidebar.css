@@ -22,12 +22,12 @@
     contain: none !important;
   }
 
-  /* The sidebar viewport - this is the sticky element (Docusaurus default) */
+  /* The sidebar viewport - sticky below the navbar */
   [class*='sidebarViewport'] {
     position: sticky !important;
-    top: 0 !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
+    top: var(--ifm-navbar-height) !important;
+    height: calc(100vh - var(--ifm-navbar-height)) !important;
+    max-height: calc(100vh - var(--ifm-navbar-height)) !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
   }
