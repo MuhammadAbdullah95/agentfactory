@@ -289,7 +289,7 @@ const config: Config = {
         {
           type: "html",
           position: "right",
-          value: '<a href="/docs/preface-agent-native" class="navbar__cta-button">Start Free</a>',
+          value: '<a href="/robolearn/docs/preface-agent-native" class="navbar__cta-button">Start Free</a>',
         },
       ],
     },
