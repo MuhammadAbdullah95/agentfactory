@@ -11,6 +11,29 @@
  */
 
 /* ============================================================================
+   0. FIXED SIDEBAR LAYOUT — Stays in place while content scrolls
+   ============================================================================ */
+
+@media (min-width: 997px) {
+  /* Override Docusaurus clip-path that breaks sticky positioning */
+  [class*='docSidebarContainer'] {
+    clip-path: none !important;
+    overflow: visible !important;
+    contain: none !important;
+  }
+
+  /* The sidebar viewport - this is the sticky element (Docusaurus default) */
+  [class*='sidebarViewport'] {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* ============================================================================
    1. SIDEBAR CONTAINER — The Neural Interface Frame
    ============================================================================ */
 
@@ -19,8 +42,6 @@
   border-right: 1px solid var(--ifk-sidebar-border) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  position: relative;
-  overflow: hidden;
 }
 
 /* Subtle gradient overlay for depth */
@@ -551,10 +572,7 @@
   will-change: transform, opacity;
 }
 
-/* Contain layout repaints */
-.theme-doc-sidebar-container {
-  contain: layout style;
-}
+/* Note: removed contain: layout style as it breaks sticky positioning */
 
 /* Prevent text selection during navigation */
 .menu__link--sublist {
