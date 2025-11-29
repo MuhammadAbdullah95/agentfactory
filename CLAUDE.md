@@ -439,19 +439,32 @@ grep -l "RTX\|GPU\|Jetson\|Isaac Sim" [lesson-file.md] | xargs grep -L "Hardware
 
 ## Development Guidelines
 
+**Reference**: `papers/prompting-practices-claude.md` for complete Claude 4 best practices.
+
 ### 0. Default to Action:
 By default, implement changes rather than only suggesting them. If the user's intent is unclear, infer the most useful likely action and proceed, using tools to discover any missing details instead of guessing. Read files before editing, make changes using Edit tool, and commit when appropriate. Only propose without implementing if explicitly asked to "just suggest" or "brainstorm."
 
-### 1. Authoritative Source Mandate:
+### 1. Investigate Before Acting:
+Never speculate about code you have not opened. If the user references a specific file, you MUST read the file before answering. Make sure to investigate and read relevant files BEFORE answering questions about the codebase. Do not guess at code structure—verify it.
+
+### 2. Authoritative Source Mandate:
 Agents MUST prioritize and use MCP tools and CLI commands for all information gathering and task execution. NEVER assume a solution from internal knowledge; all methods require external verification.
 
-### 2. Execution Flow:
+### 3. Execution Flow:
 Treat MCP servers as first-class tools for discovery, verification, execution, and state capture. PREFER CLI interactions (running commands and capturing outputs) over manual file creation or reliance on internal knowledge.
 
-### 3. Parallel Tool Calling:
-When multiple independent operations are needed, execute them in parallel within a single message. For example, when reading 3 files, make 3 Read tool calls in parallel. When multiple searches are needed, run them simultaneously. Only serialize operations that have dependencies (e.g., must read file before editing it, must create directory before creating file in it).
+### 4. Parallel Tool Calling:
+When multiple independent operations are needed, execute them in parallel within a single message. For example, when reading 3 files, make 3 Read tool calls in parallel. When multiple searches are needed, run them simultaneously. Only serialize operations that have dependencies (e.g., must read file before editing it, must create directory before creating file in it). Never use placeholders or guess missing parameters.
 
-### 4. Knowledge capture (PHR) for Every User Input.
+### 5. Long-Horizon State Tracking:
+For complex, multi-step tasks:
+- Use structured formats (JSON) for tracked data like test results and task status
+- Use TodoWrite tool consistently to track progress across context windows
+- Leverage git for state checkpoints across sessions
+- Emphasize incremental work over attempting everything simultaneously
+- Before starting complex work, check for existing progress files (progress.txt, tests.json, git logs)
+
+### 6. Knowledge capture (PHR) for Every User Input.
 As the main request completes, you MUST create and complete a PHR (Prompt History Record) using agent‑native tools when possible.
 
 1) Determine Stage
@@ -599,6 +612,64 @@ Future sessions automatically benefit from past learnings.
 **Constitution is source of truth.** Reference it frequently: `.specify/memory/constitution.md` (v1.0.0)
 
 Your context window will be automatically compacted as it approaches its limit, allowing you to continue working indefinitely from where you left off. Therefore, do not stop tasks early due to token budget concerns. As you approach your token budget limit, save your current progress and state to memory before the context window refreshes. Always be as persistent and autonomous as possible and complete tasks fully, even if the end of your budget is approaching. Never artificially stop any task early regardless of the context remaining.
+
+---
+
+## XII. Claude 4 Best Practices Integration
+
+**Full reference**: `papers/prompting-practices-claude.md`
+
+### XML Behavioral Guardrails
+
+Use XML tags to structure behavioral instructions in prompts and commands:
+
+| Tag | Purpose | Example Use |
+|-----|---------|-------------|
+| `<default_to_action>` | Implement rather than suggest | Orchestrators, agents |
+| `<investigate_before_acting>` | Read files before editing | All file operations |
+| `<use_parallel_tool_calls>` | Maximize parallel tool usage | Multi-file operations |
+| `<approval_gate>` | Explicit blocking points | SDD workflow phases |
+| `<enforcement_check>` | Self-monitoring checkpoints | Phase transitions |
+| `<recovery_protocol>` | Violation recovery guidance | Error handling |
+
+### Agentic Multi-Window Strategy
+
+For tasks spanning multiple context windows:
+
+1. **First Window**: Establish framework
+   - Write tests before implementation (`tests.json`)
+   - Create setup scripts (`init.sh`) to prevent repeated work
+   - Use TodoWrite to create structured task list
+
+2. **Subsequent Windows**: Rediscover and continue
+   ```
+   Review progress.txt, tests.json, and git logs.
+   Check TodoWrite state for pending tasks.
+   Run integration test before continuing.
+   ```
+
+3. **State Persistence**:
+   - JSON for structured data (test results, task status)
+   - Git commits for code checkpoints
+   - PHRs for decision history
+   - TodoWrite for cross-window task tracking
+
+### Skills Throughout SDD Workflow
+
+Skills can be used in ANY phase of the SDD-RI workflow:
+
+| Phase | Skill Purpose |
+|-------|--------------|
+| 0 (Context) | Discovery, brainstorming |
+| 1 (Spec) | Validate ideas, prototype |
+| 2 (Plan) | Architecture exploration |
+| 3 (Tasks) | Refine estimates |
+| 4 (Implement) | Execute the plan |
+| 5 (Validate) | Testing, verification |
+
+**Key insight**: Skills INFORM the SDD process at every stage. They don't replace phases—they enhance them.
+
+---
 
 ## Platform Technologies
 
