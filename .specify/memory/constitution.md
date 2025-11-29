@@ -708,6 +708,62 @@ Counterexample: [Name]
 - [ ] Code examples tested or from official sources
 - [ ] Three Roles framework INVISIBLE but present
 
+### Docusaurus/RoboLearn Platform Quality (Learned 2025-11-29)
+
+**Why this section exists**: Module 1 ROS 2 implementation (25 lessons) required extensive fixes due to platform-specific conventions not being followed. This section prevents recurrence.
+
+#### File Naming Standards
+- [ ] File extension is `.md` (NOT `.mdx` - project doesn't use MDX components)
+- [ ] Chapter/module index files named `README.md` (NOT `index.md`)
+- [ ] Lesson files follow `NN-descriptive-name.md` pattern (e.g., `01-digital-to-physical.md`)
+
+#### MDX Syntax Safety
+- [ ] No `<` characters in prose outside code blocks (causes JSX parsing errors)
+  - Use: "less than", "under", "fewer than"
+- [ ] No `>` characters in prose outside code blocks
+  - Use: "more than", "over", "greater than"
+- [ ] Comparison operators ONLY inside code blocks or inline code
+
+#### Diagram Constraints
+- [ ] NO Mermaid diagrams (plugin not configured for this project)
+- [ ] ASCII text diagrams for simple flows
+- [ ] Image files for complex diagrams
+
+#### Metadata Field Standards
+| Correct | Incorrect (deprecated) |
+|---------|----------------------|
+| `proficiency_level` | `cefr_level` |
+| `duration_minutes` | `duration`, `estimated_time` |
+| `id: lesson-{C}-{L}-{slug}` | No `id` or non-unique |
+| `sidebar_label: "{C}.{L} Title"` | No label or verbose |
+
+#### Required Frontmatter Fields
+```yaml
+id: lesson-{chapter}-{lesson}-{slug}  # Unique across all docs
+title: "Lesson {C}.{L}: {Title}"
+sidebar_position: {N}
+sidebar_label: "{C}.{L} {Short}"
+description: "{One-line SEO text}"
+duration_minutes: {45|60|75|90}
+proficiency_level: "{A2|B1|C2}"
+layer: "{L1|L2|L3|L4}"
+hardware_tier: {1|2|3|4}
+learning_objectives: [{array}]
+skills: [{array}]
+```
+
+#### Internal Link Standards
+- [ ] Links use `.md` extension (NOT `.mdx`)
+- [ ] Links use `README.md` (NOT `index.md`)
+- [ ] Relative paths from current file location
+
+#### Build Verification
+- [ ] Run `npm run build` after creating content
+- [ ] Expected: `[SUCCESS] Generated static files in "build"`
+- [ ] Fix any duplicate ID errors, MDX syntax errors, or broken links
+
+**Reference**: See `.claude/skills/authoring/docusaurus-conventions/SKILL.md` for complete guidelines.
+
 ### Code Quality
 - [ ] Type hints for Python, TypeScript strict mode
 - [ ] Tests accompany implementation
@@ -876,6 +932,7 @@ Platform Knowledge Base
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2025-11-28 | Initial RoboLearn Platform constitution |
+| 1.0.1 | 2025-11-29 | Added Docusaurus/RoboLearn Platform Quality section from Module 1 lessons learned |
 
 ---
 
