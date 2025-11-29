@@ -1,39 +1,69 @@
 # RoboLearn Auth Server
 
-Standalone authentication server for the RoboLearn platform using Better Auth with Next.js.
+OAuth 2.1 / OIDC authentication server for the RoboLearn platform using Better Auth.
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      Auth Server (Port 3001)                     │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
+│  │  OIDC Provider  │  │  Admin Plugin   │  │   User Mgmt     │  │
+│  │  - /authorize   │  │  - Role mgmt    │  │  - Profiles     │  │
+│  │  - /token       │  │  - User admin   │  │  - Preferences  │  │
+│  │  - /userinfo    │  │  - Ban/unban    │  │                 │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+│                              │                                   │
+│                    ┌─────────┴─────────┐                        │
+│                    │  Neon Postgres    │                        │
+│                    │  (User data)      │                        │
+│                    └───────────────────┘                        │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                    OAuth 2.1 Flow
+                              │
+┌─────────────────────────────────────────────────────────────────┐
+│                   Book Interface (Port 3000)                     │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
+│  │  OAuth Client   │  │  Token Storage  │  │   NavbarAuth    │  │
+│  │  - Auth flow    │  │  - localStorage │  │  - User menu    │  │
+│  │  - Callback     │  │  - Auto-refresh │  │  - Sign out     │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ## Features
 
-- Email/password authentication
-- User profile with software background level (beginner/intermediate/advanced)
-- Session management (7-day duration)
-- Rate limiting (5 attempts/minute/IP)
-- CORS support for robolearn-interface
+- **OAuth 2.1 Compliant**: Authorization Code Flow with PKCE support
+- **OIDC Discovery**: Standard `.well-known/openid-configuration` endpoint
+- **Role-Based Access**: Admin, user, and custom roles
+- **Multi-App SSO**: Single sign-on across all RoboLearn applications
+- **User Profiles**: Software background level tracking
+- **Rate Limiting**: 5 attempts/minute/IP
+- **Session Management**: 7-day sessions with 24-hour refresh
 
-## Tech Stack
+## Quick Start
 
-- **Framework**: Next.js 15 (App Router)
-- **Auth**: Better Auth
-- **Database**: Neon Postgres (serverless)
-- **ORM**: Drizzle
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- Neon Postgres database
-
-### Installation
+### Local Development
 
 ```bash
+# 1. Install dependencies
 cd auth-server
 npm install
+
+# 2. Copy environment file
+cp .env.example .env.local
+
+# 3. Edit .env.local with your Neon database URL
+
+# 4. Push database schema
+npm run db:push
+
+# 5. Start development server
+npm run dev  # Runs on http://localhost:3001
 ```
 
 ### Environment Variables
-
-Copy `.env.example` to `.env.local` and fill in:
 
 ```env
 # Database (Neon Postgres)
@@ -43,69 +73,316 @@ DATABASE_URL=postgresql://user:password@host.neon.tech/dbname?sslmode=require
 BETTER_AUTH_SECRET=your-secret-key-minimum-32-characters-long
 BETTER_AUTH_URL=http://localhost:3001
 
-# CORS - Allowed origins (comma-separated)
-ALLOWED_ORIGINS=http://localhost:3000,https://your-production-domain.com
+# OAuth Client (for robolearn-interface)
+ROBOLEARN_CLIENT_SECRET=your-client-secret-here
 
-# Public URL for client-side redirects
+# CORS - Allowed origins (comma-separated)
+ALLOWED_ORIGINS=http://localhost:3000,https://robolearn.github.io
+
+# Redirect URLs
 NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3001
 NEXT_PUBLIC_BOOK_URL=http://localhost:3000
 ```
 
-### Database Setup
+---
 
-Push the schema to your database:
+## Admin Setup & Role Management
 
-```bash
-npm run db:push
-```
+### Creating the First Admin
 
-### Development
+**Option 1: Using the script (recommended)**
 
 ```bash
-npm run dev
+# Create admin user directly in database
+node scripts/set-admin-role.js
 ```
 
-Server runs on http://localhost:3001
+**Option 2: Manual SQL**
 
-## API Endpoints
+```sql
+-- First, sign up a user through the UI, then run:
+UPDATE "user" SET role = 'admin' WHERE email = 'your-email@example.com';
+```
 
-### Authentication (Better Auth)
-
-- `POST /api/auth/sign-up` - Register new user
-- `POST /api/auth/sign-in/email` - Sign in with email/password
-- `POST /api/auth/sign-out` - Sign out
-- `GET /api/auth/session` - Get current session
-
-### Profile
-
-- `GET /api/profile` - Get current user's profile (authenticated)
-- `POST /api/profile` - Create user profile after signup (authenticated)
-- `PUT /api/profile` - Update software background level (authenticated)
-
-## Integration with robolearn-interface
-
-Add to your robolearn-interface:
+**Option 3: Via code in auth.ts**
 
 ```typescript
-// lib/auth-client.ts
-import { createAuthClient } from "better-auth/react";
-
-export const authClient = createAuthClient({
-  baseURL: "http://localhost:3001", // or production URL
-});
+// In src/lib/auth.ts, add to admin plugin config:
+admin({
+  defaultRole: "user",
+  adminRoles: ["admin"],
+  adminUserIds: ["your-user-id-here"],  // Gets admin on first login
+}),
 ```
+
+### Role Hierarchy
+
+| Role | Permissions |
+|------|-------------|
+| `admin` | Full access: manage users, ban/unban, view all data, manage OAuth clients |
+| `user` | Default: access own profile, use book interface |
+| Custom | Define in `adminRoles` array for custom permissions |
+
+### Admin API Endpoints
+
+```bash
+# List all users (admin only)
+GET /api/auth/admin/list-users
+
+# Ban a user
+POST /api/auth/admin/ban-user
+{ "userId": "user-id", "banReason": "Spam" }
+
+# Unban a user
+POST /api/auth/admin/unban-user
+{ "userId": "user-id" }
+
+# Set user role
+POST /api/auth/admin/set-role
+{ "userId": "user-id", "role": "admin" }
+```
+
+### Admin Dashboard
+
+Access the admin dashboard at: `http://localhost:3001/admin`
+
+Features:
+- User management (list, search, ban/unban)
+- OAuth client management
+- Session monitoring
+
+---
+
+## Data Ownership
+
+### Who Owns the User Data?
+
+**You own all user data.** The auth server stores everything in YOUR Neon Postgres database.
+
+```
+Your Neon Database
+├── user              # Core user data (email, name, role)
+├── session           # Active sessions
+├── account           # Auth provider accounts (credentials, OAuth)
+├── user_profile      # RoboLearn-specific preferences
+├── oauth_application # Registered OAuth clients
+├── oauth_access_token # Issued tokens
+└── oauth_consent     # User consent records
+```
+
+### Data Portability
+
+Export all user data:
+
+```sql
+-- Export users
+SELECT * FROM "user";
+
+-- Export with profiles
+SELECT u.*, p.software_background
+FROM "user" u
+LEFT JOIN user_profile p ON u.id = p.user_id;
+```
+
+### Data Deletion (GDPR Compliance)
+
+```sql
+-- Delete user and all related data (cascades automatically)
+DELETE FROM "user" WHERE id = 'user-id';
+```
+
+---
+
+## OAuth 2.1 Endpoints
+
+### OIDC Discovery
+
+```bash
+GET /.well-known/openid-configuration
+# Returns all available endpoints
+```
+
+### Authorization Endpoint
+
+```bash
+GET /api/auth/oauth2/authorize
+  ?client_id=robolearn-interface
+  &redirect_uri=http://localhost:3000/auth/callback
+  &response_type=code
+  &scope=openid profile email
+  &state=random-state-string
+```
+
+### Token Endpoint
+
+```bash
+POST /api/auth/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code=authorization-code
+&redirect_uri=http://localhost:3000/auth/callback
+&client_id=robolearn-interface
+&client_secret=your-client-secret
+```
+
+### UserInfo Endpoint
+
+```bash
+GET /api/auth/oauth2/userinfo
+Authorization: Bearer access-token
+```
+
+---
 
 ## Deployment
 
-### Vercel
+### Vercel (Recommended)
 
-1. Connect repository to Vercel
-2. Set environment variables
-3. Deploy
+1. **Push to GitHub**
 
-### Environment Variables for Production
+2. **Create Vercel Project**
+   - Import repository
+   - Set root directory to `auth-server`
 
-- `DATABASE_URL` - Neon Postgres connection string
-- `BETTER_AUTH_SECRET` - Random 32+ character secret
-- `BETTER_AUTH_URL` - Production auth server URL
-- `ALLOWED_ORIGINS` - Production origins (comma-separated)
+3. **Set Environment Variables**
+   ```
+   DATABASE_URL=your-neon-connection-string
+   BETTER_AUTH_SECRET=random-32-char-secret
+   BETTER_AUTH_URL=https://your-auth-domain.vercel.app
+   ALLOWED_ORIGINS=https://robolearn.github.io,https://your-book-domain.com
+   ROBOLEARN_CLIENT_SECRET=your-production-secret
+   ```
+
+4. **Deploy**
+
+### Cloud Run / Railway / Render
+
+Same process - set environment variables and deploy the Next.js app.
+
+### Production Checklist
+
+- [ ] Set strong `BETTER_AUTH_SECRET` (32+ random chars)
+- [ ] Set unique `ROBOLEARN_CLIENT_SECRET`
+- [ ] Update `ALLOWED_ORIGINS` to production domains
+- [ ] Update `BETTER_AUTH_URL` to production URL
+- [ ] Enable HTTPS (automatic on Vercel/Railway)
+- [ ] Create admin user and set role
+- [ ] Test OAuth flow end-to-end
+
+---
+
+## Registering New OAuth Clients
+
+For future apps that want to use this auth server:
+
+### Option 1: Pre-register in Code
+
+```typescript
+// In src/lib/auth.ts, add to trustedClients:
+{
+  clientId: "new-app",
+  clientSecret: process.env.NEW_APP_CLIENT_SECRET,
+  name: "New Application",
+  redirectUrls: ["https://new-app.com/callback"],
+  skipConsent: false,  // Show consent screen
+}
+```
+
+### Option 2: Dynamic Registration
+
+The OIDC provider supports dynamic client registration:
+
+```bash
+POST /api/auth/oauth2/register
+{
+  "client_name": "New App",
+  "redirect_uris": ["https://new-app.com/callback"]
+}
+```
+
+---
+
+## Security Considerations
+
+### Token Lifetimes
+
+| Token | Lifetime |
+|-------|----------|
+| Access Token | 1 hour |
+| Refresh Token | 30 days |
+| Session | 7 days |
+
+### Security Features
+
+- **PKCE**: Supported for public clients
+- **Rate Limiting**: 5 attempts/minute per IP
+- **CORS**: Strict origin checking
+- **Secure Cookies**: HTTPOnly, SameSite in production
+- **HTTPS**: Required in production
+
+### Secrets Management
+
+Never commit secrets. Use:
+- Vercel Environment Variables
+- Railway/Render secrets
+- `.env.local` (gitignored)
+
+---
+
+## Troubleshooting
+
+### "Cannot read properties of undefined (reading 'find')"
+
+Wrong property name in trustedClients. Use `redirectUrls` (lowercase), not `redirectURLs`.
+
+### CORS Errors
+
+Add your origin to `ALLOWED_ORIGINS` environment variable.
+
+### Session Not Persisting
+
+Check cookies are being set with correct domain. In development, both apps must be on localhost.
+
+### OAuth Callback 404
+
+Ensure the callback URL exactly matches what's registered in `trustedClients.redirectUrls`.
+
+---
+
+## API Reference
+
+### Authentication
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/auth/sign-up/email` | POST | Register new user |
+| `/api/auth/sign-in/email` | POST | Sign in |
+| `/api/auth/sign-out` | POST | Sign out |
+| `/api/auth/get-session` | GET | Get current session |
+
+### OAuth/OIDC
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/.well-known/openid-configuration` | GET | OIDC discovery |
+| `/api/auth/oauth2/authorize` | GET | Authorization |
+| `/api/auth/oauth2/token` | POST | Token exchange |
+| `/api/auth/oauth2/userinfo` | GET | User info |
+
+### Profile
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/profile` | GET | Get profile |
+| `/api/profile` | POST | Create profile |
+| `/api/profile` | PUT | Update profile |
+
+### Admin
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/auth/admin/list-users` | GET | List all users |
+| `/api/auth/admin/ban-user` | POST | Ban user |
+| `/api/auth/admin/unban-user` | POST | Unban user |
+| `/api/auth/admin/set-role` | POST | Set user role |
