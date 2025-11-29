@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { oauth2 } from "@/lib/auth-client";
 
 interface OAuthClient {
   id: string;
@@ -58,22 +57,27 @@ export default function ClientsPage() {
     setIsCreating(true);
 
     const isPublic = newClient.clientType === "public";
+    const redirectUrls = newClient.redirectUrls.split("\n").filter(Boolean);
 
     try {
-      const result = await oauth2.register({
-        redirect_uris: newClient.redirectUrls.split("\n").filter(Boolean),
-        client_name: newClient.name,
-        scope: newClient.scope,
-        // For public clients (SPAs, mobile apps), use PKCE without client_secret
-        // For confidential clients (server-side apps), use client_secret
-        token_endpoint_auth_method: isPublic ? "none" : "client_secret_post",
-        grant_types: ["authorization_code", "refresh_token"],
+      // Use our custom registration endpoint that properly handles public clients
+      const response = await fetch("/api/admin/clients/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newClient.name,
+          redirectUrls,
+          scope: newClient.scope,
+          clientType: newClient.clientType,
+        }),
       });
 
-      if (result.data) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setCreatedClient({
-          clientId: result.data.client_id,
-          clientSecret: result.data.client_secret || "",
+          clientId: result.client_id,
+          clientSecret: result.client_secret || "",
           isPublic,
         });
 
@@ -82,6 +86,8 @@ export default function ClientsPage() {
 
         // Reload clients from database
         await loadClients();
+      } else {
+        alert(result.error || "Failed to create OAuth client");
       }
     } catch (error) {
       console.error("Failed to create client:", error);
@@ -129,33 +135,12 @@ export default function ClientsPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-900">OAuth Clients</h1>
-        <div className="flex gap-3">
-          <button
-            onClick={async () => {
-              try {
-                const res = await fetch('/api/admin/seed-public-client', { method: 'POST' });
-                const data = await res.json();
-                if (res.ok) {
-                  alert(`✅ ${data.message}`);
-                  loadClients();
-                } else {
-                  alert(`❌ ${data.error}`);
-                }
-              } catch (e) {
-                alert(`❌ Failed: ${e}`);
-              }
-            }}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium"
-          >
-            Seed Public Client
-          </button>
-          <button
-            onClick={() => setShowCreateForm(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
-          >
-            Register New Client
-          </button>
-        </div>
+        <button
+          onClick={() => setShowCreateForm(true)}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
+        >
+          Register New Client
+        </button>
       </div>
 
       {/* Client Created Success Modal */}
