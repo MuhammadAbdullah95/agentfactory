@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { getOAuthAuthorizationUrl } from '@/lib/auth-client';
+import { useAuth } from '@/contexts/AuthContext';
+import { getHomeUrl } from '@/lib/url-utils';
 import styles from './styles.module.css';
 
 /**
@@ -14,6 +16,7 @@ import styles from './styles.module.css';
  */
 export function HeroSection(): React.ReactElement {
   const { siteConfig } = useDocusaurusContext();
+  const { session, isLoading } = useAuth();
   const authUrl = (siteConfig.customFields?.authUrl as string) || 'http://localhost:3001';
   const oauthClientId = (siteConfig.customFields?.oauthClientId as string) || 'robolearn-interface';
 
@@ -23,9 +26,16 @@ export function HeroSection(): React.ReactElement {
     clientId: oauthClientId,
   };
 
-  // Handle OAuth sign up flow
+  // Handle Get Started button click
   const handleGetStarted = async () => {
-    // Go to sign-up page, then redirect to OAuth flow
+    // If user is already logged in, redirect to docs
+    if (session?.user) {
+      const homeUrl = getHomeUrl();
+      window.location.href = `${homeUrl}docs/preface-agent-native`;
+      return;
+    }
+
+    // If not logged in, go to sign-up page, then redirect to OAuth flow
     const oauthUrl = await getOAuthAuthorizationUrl('signup', oauthConfig);
     const signupUrl = `${authUrl}/auth/sign-up?redirect=${encodeURIComponent(oauthUrl)}`;
     window.location.href = signupUrl;

@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { getHomeUrl } from '@/lib/url-utils';
 import { useScrollReveal } from '../../../hooks/useScrollReveal';
 import styles from './styles.module.css';
 
@@ -45,8 +47,22 @@ export function CTABlock({
   buttonLink,
 }: CTABlockProps): React.ReactElement {
   const { siteConfig } = useDocusaurusContext();
+  const { session } = useAuth();
   const authUrl = (siteConfig.customFields?.authUrl as string) || 'http://localhost:3001';
-  const finalButtonLink = buttonLink || `${authUrl}/auth/sign-up`;
+  
+  // Determine button link based on auth status
+  const getButtonLink = () => {
+    if (buttonLink) return buttonLink;
+    // If user is logged in, redirect to docs
+    if (session?.user) {
+      const homeUrl = getHomeUrl();
+      return `${homeUrl}docs/preface-agent-native`;
+    }
+    // If not logged in, go to sign-up
+    return `${authUrl}/auth/sign-up`;
+  };
+  
+  const finalButtonLink = getButtonLink();
 
   const { ref, isVisible } = useScrollReveal<HTMLElement>();
 
