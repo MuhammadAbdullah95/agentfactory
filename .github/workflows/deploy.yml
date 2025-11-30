@@ -47,6 +47,13 @@ jobs:
 
       - name: Build site
         working-directory: robolearn-interface
+        env:
+          # Pass repository secrets as environment variables to build
+          # These are read by docusaurus.config.ts via process.env
+          AUTH_URL: ${{ secrets.AUTH_URL }}
+          OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+          # Optional: Add other env vars if needed
+          # GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
         run: npm run build
 
       - name: Upload build artifacts
