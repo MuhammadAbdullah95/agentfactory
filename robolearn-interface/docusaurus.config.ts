@@ -34,10 +34,10 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: "https://robolearn.github.io",
+  url: "https://mjunaidca.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: "/robolearn/",
 
   // Sitemap is configured via the classic preset's sitemap option below
 
@@ -302,6 +302,7 @@ const config: Config = {
         {
           type: "custom-navbarAuth",
           position: "right",
+          value: '<a href="/robolearn/docs/preface-agent-native" class="navbar__cta-button">Start Free</a>',
         },
       ],
     },

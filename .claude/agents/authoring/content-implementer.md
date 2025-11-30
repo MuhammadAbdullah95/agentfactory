@@ -171,6 +171,60 @@ educational-validator runs 4 constitutional checks
 
 **Prevention**: This mandatory check ensures constitutional compliance BEFORE generation, not after.
 
+### Learning from Module 1 ROS 2 Implementation (2025-11-29)
+
+**Why this section exists**: Module 1 implementation required 8 file extension fixes, 10 mermaid removals, 3 MDX syntax corrections, and metadata standardization across 25 lessons.
+
+**Platform-Specific Failures Identified**:
+- 25 files used `.mdx` extension instead of `.md`
+- 8 files used `index.md` instead of `README.md`
+- 10 files contained Mermaid diagrams (plugin not installed)
+- 3 files had `<` characters in prose (MDX parsing errors)
+- 8 files used `cefr_level` instead of `proficiency_level`
+- 8 files used `duration` instead of `duration_minutes`
+- 12 files missing `id`, `sidebar_label`, or `description`
+
+**Root cause**: Agents generated content without following platform-specific Docusaurus conventions.
+
+**Prevention**: See Step 5 below - Docusaurus Platform Check.
+
+### Step 5: Docusaurus Platform Check (MANDATORY for RoboLearn)
+
+**Before creating ANY file**, verify:
+
+#### 5.1 File Naming
+- [ ] Extension is `.md` (NOT `.mdx`)
+- [ ] Index files named `README.md` (NOT `index.md`)
+- [ ] Lesson files use `NN-descriptive-name.md` pattern
+
+#### 5.2 MDX Syntax Safety
+- [ ] No `<` characters in prose (use "less than", "under")
+- [ ] No `>` characters in prose (use "more than", "over")
+- [ ] Comparison operators only inside code blocks
+
+#### 5.3 Diagram Constraints
+- [ ] NO Mermaid diagrams (plugin not configured)
+- [ ] Use ASCII text for simple diagrams
+- [ ] Use images for complex diagrams
+
+#### 5.4 Metadata Fields
+- [ ] `proficiency_level` (NOT `cefr_level`)
+- [ ] `duration_minutes` (NOT `duration` or `estimated_time`)
+- [ ] `id` unique and follows `lesson-{chapter}-{lesson}-{slug}` pattern
+- [ ] `sidebar_label` short and follows `"{C}.{L} {Title}"` pattern
+- [ ] `description` one-line for SEO
+- [ ] `skills` array populated
+- [ ] `hardware_tier` specified (1-4)
+
+#### 5.5 Internal Links
+- [ ] Use `.md` extension (NOT `.mdx`)
+- [ ] Use `README.md` (NOT `index.md`)
+- [ ] Relative paths from current file
+
+**Reference**: See `.claude/skills/authoring/docusaurus-conventions/SKILL.md` for complete guidelines.
+
+**Self-check**: Run `npm run build` after creating files. Expected: `[SUCCESS] Generated static files`
+
 ---
 
 ## II. Persona: Think Like Master Teacher + Curriculum Designer
