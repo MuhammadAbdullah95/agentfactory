@@ -214,6 +214,7 @@ const config: Config = {
         apiKey: process.env.GEMINI_API_KEY,
         cacheDir: ".translation-cache",
         docsPath: "docs",
+        temperature: 0.1, // Low temperature for deterministic translations (better code preservation)
       },
     ],
     // Local Search Plugin - No external service needed, works offline

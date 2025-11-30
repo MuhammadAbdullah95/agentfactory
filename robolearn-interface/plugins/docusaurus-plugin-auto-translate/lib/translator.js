@@ -7,15 +7,22 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 /**
- * Initialize Gemini client
+ * Initialize Gemini client with configurable temperature
+ * Lower temperature (0.1-0.3) = more deterministic, less creative, better for code preservation
+ * Higher temperature (0.7-1.0) = more creative, but may introduce errors
  */
-function createGeminiClient(apiKey, model = 'gemini-flash-lite-latest') {
+function createGeminiClient(apiKey, model = 'gemini-flash-lite-latest', temperature = 0.1) {
   if (!apiKey) {
     throw new Error('GEMINI_API_KEY is required');
   }
   
   const genAI = new GoogleGenerativeAI(apiKey);
-  return genAI.getGenerativeModel({ model });
+  return genAI.getGenerativeModel({ 
+    model,
+    generationConfig: {
+      temperature: temperature, // Low temperature for more deterministic translations
+    },
+  });
 }
 
 /**
@@ -29,13 +36,17 @@ function createTranslationPrompt(sourceContent, sourceLocale, targetLocale) {
 
   return `Translate the following ${localeNames[sourceLocale]} educational content to ${localeNames[targetLocale]}.
 
-CRITICAL INSTRUCTIONS:
-1. Preserve ALL code blocks exactly as-is (do not translate code, comments, or code syntax)
-2. Keep technical terms in English: ROS, URDF, API, SDK, GPU, CPU, etc. Add Urdu explanation in parentheses if helpful
-3. Preserve frontmatter metadata exactly (do not translate YAML frontmatter)
-4. Use conversational Urdu (not formal literary style)
-5. Maintain markdown formatting (headers, lists, links, etc.)
-6. Preserve all special characters and symbols
+CRITICAL INSTRUCTIONS - DO NOT VIOLATE THESE RULES:
+1. Preserve ALL code blocks exactly as-is (do not translate code, comments, code syntax, or any content inside code fences)
+2. Preserve ALL MDX/JSX syntax exactly: <Component>, {variable}, import statements, export statements, function calls, etc.
+3. Preserve ALL JavaScript/TypeScript syntax: variable names, function names, object properties, array syntax, etc.
+4. Keep technical terms in English: ROS, URDF, API, SDK, GPU, CPU, etc. Add Urdu explanation in parentheses if helpful
+5. Preserve frontmatter metadata exactly (do not translate YAML frontmatter)
+6. Use conversational Urdu (not formal literary style)
+7. Maintain markdown formatting (headers, lists, links, etc.)
+8. Preserve all special characters and symbols
+9. DO NOT translate anything that looks like code, variables, or technical syntax - even if it appears outside code blocks
+10. If you see patterns like: <Component prop={value}>, import X from Y, export const Z, function name(), variable names, etc. - preserve them EXACTLY
 
 Content to translate:
 

@@ -24,6 +24,7 @@ module.exports = function autoTranslatePlugin(context, options) {
     apiKey = process.env.GEMINI_API_KEY,
     cacheDir = '.translation-cache',
     docsPath = 'docs',
+    temperature = 0.1, // Low temperature for deterministic translations (preserves code better)
   } = options;
 
   return {
@@ -64,7 +65,7 @@ module.exports = function autoTranslatePlugin(context, options) {
       let geminiModel = null;
       if (apiProvider === 'gemini') {
         try {
-          geminiModel = translator.createGeminiClient(apiKey, model);
+          geminiModel = translator.createGeminiClient(apiKey, model, temperature);
         } catch (error) {
           console.error(`[Auto-Translate] Failed to initialize Gemini client: ${error.message}`);
           return;
@@ -86,9 +87,38 @@ module.exports = function autoTranslatePlugin(context, options) {
 
             // Check cache
             if (cache.isCacheValid(cacheDirPath, relativePath, original, targetLocale)) {
-              cachedCount++;
-              console.log(`[Auto-Translate] Cache hit: ${relativePath}`);
-              continue;
+              // Validate cached translation for common corruption patterns
+              const cachedPath = cache.getCachedTranslationPath(cacheDirPath, relativePath, targetLocale);
+              if (cachedPath && fs.existsSync(cachedPath)) {
+                const cachedContent = fs.readFileSync(cachedPath, 'utf8');
+                // Check for common MDX/JSX corruption patterns (errors that would break build)
+                const corruptionPatterns = [
+                  /ReferenceError:\s*\w+\s+is not defined/i,
+                  /undefined variable/i,
+                  /undefined identifier/i,
+                  /\bundefined\s+is not a function/i,
+                ];
+                const hasCorruption = corruptionPatterns.some(pattern => cachedContent.match(pattern));
+                
+                if (hasCorruption) {
+                  console.warn(`[Auto-Translate] Detected corruption in cached translation: ${relativePath}, invalidating cache and deleting corrupted file`);
+                  cache.invalidateCache(cacheDirPath, relativePath, targetLocale);
+                  // Delete corrupted translation file
+                  try {
+                    fs.unlinkSync(cachedPath);
+                  } catch (err) {
+                    // Ignore if file doesn't exist
+                  }
+                  // Continue to re-translate below
+                } else {
+                  cachedCount++;
+                  console.log(`[Auto-Translate] Cache hit: ${relativePath}`);
+                  continue;
+                }
+              } else {
+                // Cache says valid but file doesn't exist, invalidate cache
+                cache.invalidateCache(cacheDirPath, relativePath, targetLocale);
+              }
             }
 
             // Translate content
