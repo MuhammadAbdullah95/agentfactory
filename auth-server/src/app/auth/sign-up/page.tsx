@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 export default async function SignUpPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ redirect?: string }> | { redirect?: string };
+  searchParams: Promise<{ redirect?: string }>;
 }) {
   // Redirect authenticated users away from sign-up page
   const headersList = await headers();
@@ -18,10 +18,8 @@ export default async function SignUpPage({
   if (session) {
     // If user is already logged in and there's an OAuth redirect, go to OAuth flow
     // Otherwise redirect to home
-    const params = searchParams && typeof searchParams === 'object' && 'then' in searchParams
-      ? await searchParams
-      : (searchParams as { redirect?: string } | undefined);
-    const redirectUrl = params?.redirect || "/";
+    const params = await searchParams;
+    const redirectUrl = params.redirect || "/";
     redirect(redirectUrl);
   }
 
