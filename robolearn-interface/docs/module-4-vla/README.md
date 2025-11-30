@@ -77,7 +77,7 @@ The course finale. Your humanoid receives a voice command ("find the red cup and
 
 ---
 
-[**← Part 3: NVIDIA Isaac**](../module-3-isaac/README.md) · [**Start Chapter 9 →**](./09-kinematics/README.md)
+[**← Part 3: NVIDIA Isaac**](../module-3-isaac/README.md)
 
 ---
 

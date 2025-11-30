@@ -68,6 +68,6 @@ Build a system where your robot uses VSLAM to localize, Nav2 to plan paths, and 
 
 ---
 
-[**← Part 2: Simulation**](../module-2-simulation/README.md) · [**Start Chapter 6 →**](./06-isaac-sim/README.md)
+[**← Part 2: Simulation**](../module-2-simulation/README.md)
 
 **Next:** [Part 4: Vision-Language-Action →](../module-4-vla/README.md)
