@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getOAuthAuthorizationUrl } from '@/lib/auth-client';
+import { getHomeUrl } from '@/lib/url-utils';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
@@ -38,7 +39,17 @@ export function NavbarAuth() {
   };
 
   // For sign up, go to auth server sign-up page then OAuth flow
+  // If user is already logged in locally, redirect to docs instead
   const handleSignUp = async () => {
+    // If user is already logged in locally, redirect to docs
+    if (session?.user) {
+      const homeUrl = getHomeUrl();
+      window.location.href = `${homeUrl}docs/preface-agent-native`;
+      return;
+    }
+
+    // If not logged in locally, use signup flow
+    // The sign-up page now properly handles users already logged in on auth server
     const oauthUrl = await getOAuthAuthorizationUrl('signup', oauthConfig);
     const signupUrl = `${authUrl}/auth/sign-up?redirect=${encodeURIComponent(oauthUrl)}`;
     window.location.href = signupUrl;
