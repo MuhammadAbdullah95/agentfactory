@@ -39,7 +39,7 @@ INSERT INTO oauth_application (
   'robolearn-public-client',
   NULL, -- No secret for public client (PKCE only)
   'RoboLearn Public Client',
-  'http://localhost:3000/auth/callback', -- Add production URLs as comma-separated if needed
+  'http://localhost:3000/auth/callback,https://robolearn.github.io/auth/callback', -- Comma-separated: dev + prod URLs
   'public',
   false,
   '{"token_endpoint_auth_method":"none","grant_types":["authorization_code","refresh_token"]}',
