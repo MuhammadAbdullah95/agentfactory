@@ -193,6 +193,31 @@ const config: Config = {
         docsPath: "docs",
       },
     ],
+    // Local Search Plugin - No external service needed, works offline
+    // Note: We use a custom search bar component, so we disable the default navbar search
+    [
+      require.resolve("@easyops-cn/docusaurus-search-local"),
+      {
+        // Index all docs
+        indexDocs: true,
+        // Don't index blog (disabled)
+        indexBlog: false,
+        // Index pages
+        indexPages: true,
+        // Language support
+        language: ["en"],
+        // Search result highlighting
+        highlightSearchTermsOnTargetPage: true,
+        // Explicit search path
+        docsRouteBasePath: "/docs",
+        // Search result limit
+        searchResultLimits: 8,
+        // Search result context max length
+        searchResultContextMaxLength: 50,
+        // Disable default navbar search (we use custom component)
+        // The plugin will still index content, but won't add default search bar
+      },
+    ],
     function (context, options) {
       return {
         name: "custom-webpack-config",
@@ -300,8 +325,7 @@ const config: Config = {
           position: "left",
         },
         {
-          href: "https://github.com/mjunaidca/robolearn",
-          label: "GitHub",
+          type: "custom-searchBar",
           position: "right",
         },
         {
