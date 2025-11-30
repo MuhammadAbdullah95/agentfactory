@@ -52,6 +52,7 @@ jobs:
           # These are read by docusaurus.config.ts via process.env
           AUTH_URL: ${{ secrets.AUTH_URL }}
           OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
+          BASE_URL: ${{ secrets.BASE_URL }}
           # Optional: Add other env vars if needed
           # GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
         run: npm run build

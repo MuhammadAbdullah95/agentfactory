@@ -16,6 +16,9 @@ const OAUTH_CLIENT_ID = process.env.OAUTH_CLIENT_ID || "robolearn-public-client"
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+// Base URL configuration - defaults to "/" for local development
+const BASE_URL = process.env.BASE_URL || "/";
+
 const config: Config = {
   title: "RoboLearn",
   tagline:
@@ -37,7 +40,9 @@ const config: Config = {
   url: "https://mjunaidca.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/robolearn/",
+  // For local development, use '/' (default)
+  // For production/GitHub Pages, set BASE_URL=/robolearn/ in environment
+  baseUrl: BASE_URL,
 
   // Sitemap is configured via the classic preset's sitemap option below
 
@@ -302,7 +307,7 @@ const config: Config = {
         {
           type: "custom-navbarAuth",
           position: "right",
-          value: '<a href="/robolearn/docs/preface-agent-native" class="navbar__cta-button">Start Free</a>',
+          value: `<a href="${BASE_URL}docs/preface-agent-native" class="navbar__cta-button">Start Free</a>`,
         },
       ],
     },

@@ -1,4 +1,5 @@
 import { createAuthClient } from "better-auth/react";
+import { getRedirectUri } from "./url-utils";
 
 // Default fallbacks for development
 const DEFAULT_AUTH_URL = "http://localhost:3001";
@@ -44,6 +45,7 @@ export interface OAuthConfig {
   authUrl?: string;
   clientId?: string;
   redirectUri?: string;
+  // baseUrl removed - we detect it automatically from current URL
 }
 
 // OAuth2 Authorization URL builder with PKCE
@@ -51,9 +53,9 @@ export interface OAuthConfig {
 export async function getOAuthAuthorizationUrl(state?: string, config?: OAuthConfig): Promise<string> {
   const authUrl = config?.authUrl || DEFAULT_AUTH_URL;
   const clientId = config?.clientId || DEFAULT_CLIENT_ID;
-  const redirectUri = config?.redirectUri || (typeof window !== 'undefined'
-    ? `${window.location.origin}/auth/callback`
-    : "http://localhost:3000/auth/callback");
+  
+  // Generate redirect URI - use provided one, or auto-detect from current URL
+  const redirectUri = config?.redirectUri || getRedirectUri();
 
   // Generate PKCE code verifier and challenge
   const codeVerifier = generateCodeVerifier();

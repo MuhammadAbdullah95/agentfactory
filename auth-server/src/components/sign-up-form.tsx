@@ -99,11 +99,15 @@ export function SignUpForm() {
       });
 
       if (result.error) {
-        if (result.error.message?.includes("already exists")) {
-          setErrors({ email: "This email is already registered. Try signing in instead." });
+        if (result.error.message?.includes("already exists") || result.error.message?.includes("already registered")) {
+          setErrors({ 
+            email: "This email is already registered. Try signing in instead.",
+            general: "An account with this email already exists. Please sign in instead."
+          });
         } else {
           setErrors({ general: result.error.message || "Registration failed. Please try again." });
         }
+        setIsLoading(false);
         return;
       }
 

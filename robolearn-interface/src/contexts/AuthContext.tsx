@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { refreshAccessToken } from '../lib/auth-client';
 import { verifyIDToken, extractUserFromToken } from '../lib/jwt-verifier';
+import { getHomeUrl } from '../lib/url-utils';
 
 interface User {
   id: string;
@@ -153,14 +154,18 @@ export function AuthProvider({ children, authUrl, oauthClientId }: AuthProviderP
     // Clear session state
     setSession(null);
 
+    // Get home URL - auto-detects base path from current URL
+    const homeUrl = getHomeUrl();
+
     if (global) {
       // Global logout: redirect to auth server to end session there too
       // This logs user out from all apps using this auth server
-      window.location.href = `${effectiveAuthUrl}/api/auth/sign-out?redirectTo=${encodeURIComponent(window.location.origin)}`;
+      const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}${homeUrl}` : homeUrl;
+      window.location.href = `${effectiveAuthUrl}/api/auth/sign-out?redirectTo=${encodeURIComponent(redirectTo)}`;
     } else {
       // Local logout: just redirect to home
       // User stays logged in at auth server (SSO pattern)
-      window.location.href = '/';
+      window.location.href = homeUrl;
     }
   };
 

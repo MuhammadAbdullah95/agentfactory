@@ -63,16 +63,28 @@ export function SignInForm() {
       });
 
       if (result.error) {
-        // Check if email needs verification (403 status)
-        if (result.error.status === 403 || result.error.message?.includes("verify")) {
+        // Log error for debugging (remove in production if needed)
+        console.error("[SignIn] Error:", result.error.status, result.error.message);
+        
+        // Check if email needs verification (403 status or message contains verify)
+        if (result.error.status === 403 || result.error.message?.toLowerCase().includes("verify") || result.error.message?.toLowerCase().includes("verification") || result.error.message?.toLowerCase().includes("not verified")) {
           setErrors({
-            general: "Please verify your email address before signing in.",
+            general: "Please verify your email address before signing in. Check your inbox for the verification email.",
             needsVerification: true,
           });
+        } else if (result.error.message?.toLowerCase().includes("password") || result.error.message?.toLowerCase().includes("incorrect") || result.error.message?.toLowerCase().includes("invalid password")) {
+          // Wrong password
+          setErrors({ general: "Invalid password. Please check your password and try again." });
+        } else if (result.error.message?.toLowerCase().includes("not found") || result.error.message?.toLowerCase().includes("does not exist") || result.error.message?.toLowerCase().includes("no account")) {
+          // Email not found
+          setErrors({ general: "No account found with this email. Please sign up first." });
         } else {
           // Generic error message for security (don't reveal which field is wrong)
-          setErrors({ general: "Invalid credentials. Please check your email and password." });
+          // But show the actual error message if it's helpful
+          const errorMsg = result.error.message || "Invalid credentials. Please check your email and password.";
+          setErrors({ general: errorMsg });
         }
+        setIsLoading(false);
         return;
       }
 

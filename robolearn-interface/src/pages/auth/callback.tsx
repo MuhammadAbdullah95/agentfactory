@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { getRedirectUri, getHomeUrl } from '@/lib/url-utils';
 
 // OAuth callback page - exchanges authorization code for tokens using PKCE
 export default function OAuthCallback(): React.JSX.Element {
@@ -11,9 +12,8 @@ export default function OAuthCallback(): React.JSX.Element {
   // Get OAuth config from Docusaurus context
   const authUrl = (siteConfig.customFields?.authUrl as string) || 'http://localhost:3001';
   const oauthClientId = (siteConfig.customFields?.oauthClientId as string) || 'robolearn-interface';
-  const redirectUri = typeof window !== 'undefined'
-    ? `${window.location.origin}/auth/callback`
-    : 'http://localhost:3000/auth/callback';
+  // Generate redirect URI - auto-detects base path from current URL
+  const redirectUri = getRedirectUri();
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -86,9 +86,9 @@ export default function OAuthCallback(): React.JSX.Element {
 
         setStatus('success');
 
-        // Redirect to home page after short delay
+        // Redirect to home page after short delay (respects baseUrl)
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.href = getHomeUrl();
         }, 1500);
 
       } catch (err) {
@@ -99,7 +99,7 @@ export default function OAuthCallback(): React.JSX.Element {
     };
 
     handleCallback();
-  }, []);
+  }, [authUrl, oauthClientId, redirectUri]);
 
   return (
     <Layout title="Authentication" description="Completing authentication...">
@@ -182,7 +182,7 @@ export default function OAuthCallback(): React.JSX.Element {
               {error}
             </p>
             <a
-              href="/"
+              href={getHomeUrl()}
               style={{
                 padding: '0.75rem 1.5rem',
                 backgroundColor: '#3b82f6',
