@@ -10,3 +10,4 @@ export default function SearchBarNavbarItem(): React.ReactElement {
   return <CustomSearchBar />;
 }
 
+

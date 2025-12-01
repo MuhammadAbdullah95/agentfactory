@@ -425,3 +425,4 @@ const handleAskSelectedText = useCallback(async () => {
 - **ChatKit UI Spec**: `specs/008-chatkit-ui-widget/spec.md`
 - **Implementation**: `rag-agent/chatkit_server.py`, `robolearn-interface/src/components/ChatKitWidget/`
 
+

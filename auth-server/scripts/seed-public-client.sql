@@ -32,3 +32,4 @@ ON CONFLICT (client_id) DO UPDATE SET
   metadata = EXCLUDED.metadata,
   updated_at = NOW();
 
+

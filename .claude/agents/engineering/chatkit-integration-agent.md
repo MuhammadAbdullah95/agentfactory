@@ -180,3 +180,4 @@ Before finalizing ChatKit integration:
 - **Skill**: `.claude/skills/engineering/chatkit-integration/SKILL.md`
 - **Implementation**: `rag-agent/chatkit_server.py`, `robolearn-interface/src/components/ChatKitWidget/`
 
+
