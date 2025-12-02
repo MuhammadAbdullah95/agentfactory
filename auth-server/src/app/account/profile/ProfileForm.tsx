@@ -65,7 +65,7 @@ export default function ProfileForm({
         </div>
 
         {/* Read-only Email */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <label className="block text-sm font-semibold text-slate-700">
             Email Address
           </label>
@@ -99,7 +99,7 @@ export default function ProfileForm({
         </div>
 
         {/* Full Name */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <label className="block text-sm font-semibold text-slate-700">
             Full Name
           </label>
@@ -114,7 +114,7 @@ export default function ProfileForm({
 
         {/* First & Last Name Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <label className="block text-sm font-semibold text-slate-700">
               First Name
             </label>
@@ -126,7 +126,7 @@ export default function ProfileForm({
               className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300"
             />
           </div>
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <label className="block text-sm font-semibold text-slate-700">
               Last Name
             </label>
@@ -149,7 +149,7 @@ export default function ProfileForm({
         </div>
 
         {/* Software Background */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <label className="block text-sm font-semibold text-slate-700">
             Software Background
           </label>
@@ -165,7 +165,7 @@ export default function ProfileForm({
         </div>
 
         {/* Hardware Tier */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <label className="block text-sm font-semibold text-slate-700">
             Hardware Tier
           </label>
@@ -197,7 +197,7 @@ export default function ProfileForm({
 
         {/* Language & Timezone Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <label className="block text-sm font-semibold text-slate-700">
               Language
             </label>
@@ -214,7 +214,7 @@ export default function ProfileForm({
             </select>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <label className="block text-sm font-semibold text-slate-700">
               Timezone
             </label>
