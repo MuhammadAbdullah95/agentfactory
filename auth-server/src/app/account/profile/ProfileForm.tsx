@@ -164,26 +164,26 @@ export default function ProfileForm({
           </select>
         </div>
 
-        {/* Hardware Tier */}
+        {/* Hardware & OS */}
         <div className="space-y-3">
           <label className="block text-sm font-semibold text-slate-700">
-            Hardware Tier
+            Hardware & Operating System
           </label>
           <select
             value={formData.hardwareTier}
             onChange={(e) => setFormData({...formData, hardwareTier: e.target.value})}
             className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
           >
-            <option value="tier1">Tier 1 — Laptop/Cloud (Browser-based)</option>
-            <option value="tier2">Tier 2 — RTX GPU (Local simulation)</option>
-            <option value="tier3">Tier 3 — Jetson Edge (Real sensors)</option>
-            <option value="tier4">Tier 4 — Physical Robot (Unitree Go2/G1)</option>
+            <option value="tier1">Windows PC — Desktop or laptop</option>
+            <option value="tier2">Mac — MacBook or iMac</option>
+            <option value="tier3">Linux — Ubuntu, Fedora, etc.</option>
+            <option value="tier4">Chromebook/Web — Browser-based only</option>
           </select>
           <p className="text-xs text-slate-500 leading-relaxed flex items-center gap-1.5">
             <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            Your tier determines which content and features are available
+            Your hardware and OS setup for development
           </p>
         </div>
       </section>
