@@ -267,7 +267,7 @@ async function createAdminUser() {
 /**
  * Seed default organization (production + dev)
  */
-async function seedDefaultOrganization(adminUserId: string) {
+async function seedDefaultOrganization(adminUserId: string | null) {
   console.log("\n📊 Seeding default organization...\n");
 
   // Create or update default organization
@@ -294,35 +294,39 @@ async function seedDefaultOrganization(adminUserId: string) {
     });
   }
 
-  // Add admin user as owner
-  const existingMember = await db
-    .select()
-    .from(member)
-    .where(
-      and(
-        eq(member.userId, adminUserId),
-        eq(member.organizationId, DEFAULT_ORG_ID)
-      )
-    );
+  // Add admin user as owner (only if user exists)
+  if (adminUserId) {
+    const existingMember = await db
+      .select()
+      .from(member)
+      .where(
+        and(
+          eq(member.userId, adminUserId),
+          eq(member.organizationId, DEFAULT_ORG_ID)
+        )
+      );
 
-  if (existingMember.length > 0) {
-    console.log(`  ✅ Admin already owner of ${DEFAULT_ORG_NAME}`);
+    if (existingMember.length > 0) {
+      console.log(`  ✅ Admin already owner of ${DEFAULT_ORG_NAME}`);
+    } else {
+      console.log(`  ✅ Adding admin as owner`);
+      await db.insert(member).values({
+        id: `member-${adminUserId}-${DEFAULT_ORG_ID}`,
+        userId: adminUserId,
+        organizationId: DEFAULT_ORG_ID,
+        role: "owner",
+        createdAt: new Date(),
+      });
+    }
   } else {
-    console.log(`  ✅ Adding admin as owner`);
-    await db.insert(member).values({
-      id: `member-${adminUserId}-${DEFAULT_ORG_ID}`,
-      userId: adminUserId,
-      organizationId: DEFAULT_ORG_ID,
-      role: "owner",
-      createdAt: new Date(),
-    });
+    console.log(`  ⏭️  Skipping admin membership (user will be auto-added on signup)`);
   }
 }
 
 /**
  * Seed test organization (dev only)
  */
-async function seedTestOrganization(adminUserId: string) {
+async function seedTestOrganization(adminUserId: string | null) {
   console.log("\n📊 Seeding test organization...\n");
 
   // Create or update test organization
@@ -349,28 +353,32 @@ async function seedTestOrganization(adminUserId: string) {
     });
   }
 
-  // Add admin user as owner
-  const existingMember = await db
-    .select()
-    .from(member)
-    .where(
-      and(
-        eq(member.userId, adminUserId),
-        eq(member.organizationId, TEST_ORG.id)
-      )
-    );
+  // Add admin user as owner (only if user exists)
+  if (adminUserId) {
+    const existingMember = await db
+      .select()
+      .from(member)
+      .where(
+        and(
+          eq(member.userId, adminUserId),
+          eq(member.organizationId, TEST_ORG.id)
+        )
+      );
 
-  if (existingMember.length > 0) {
-    console.log(`  ✅ Admin already member of ${TEST_ORG.name}`);
+    if (existingMember.length > 0) {
+      console.log(`  ✅ Admin already member of ${TEST_ORG.name}`);
+    } else {
+      console.log(`  ✅ Adding admin as owner`);
+      await db.insert(member).values({
+        id: `member-${adminUserId}-${TEST_ORG.id}`,
+        userId: adminUserId,
+        organizationId: TEST_ORG.id,
+        role: "owner",
+        createdAt: new Date(),
+      });
+    }
   } else {
-    console.log(`  ✅ Adding admin as owner`);
-    await db.insert(member).values({
-      id: `member-${adminUserId}-${TEST_ORG.id}`,
-      userId: adminUserId,
-      organizationId: TEST_ORG.id,
-      role: "owner",
-      createdAt: new Date(),
-    });
+    console.log(`  ⏭️  Skipping admin membership (user will join via API)`);
   }
 }
 
@@ -417,7 +425,7 @@ async function seed() {
     .from(user)
     .where(eq(user.email, TEST_ADMIN_EMAIL));
 
-  let adminUserId: string;
+  let adminUserId: string | null = null;
   if (existingAdmin.length > 0) {
     adminUserId = existingAdmin[0].id;
     console.log(`  ✅ Admin user exists: ${TEST_ADMIN_EMAIL}`);
@@ -428,11 +436,7 @@ async function seed() {
     console.log(`     curl -X POST http://localhost:3001/api/auth/sign-up/email \\`);
     console.log(`       -H "Content-Type: application/json" \\`);
     console.log(`       -d '{"email":"${TEST_ADMIN_EMAIL}","password":"${TEST_ADMIN_PASSWORD}","name":"${TEST_ADMIN_NAME}"}'`);
-
-    // Create a placeholder user ID for organization membership
-    // The actual user will be created via API, but we need an ID now for the org setup
-    adminUserId = "admin-user-placeholder-id";
-    console.log(`  ⏭️  Using placeholder ID for organization setup`);
+    console.log(`  ℹ️  User will be auto-added to default organization on signup`);
   }
 
   // Seed default organization (ALWAYS - both dev and prod)
