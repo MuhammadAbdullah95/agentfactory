@@ -13,6 +13,7 @@ import { eq, and } from "drizzle-orm";
 import { Resend } from "resend";
 import * as nodemailer from "nodemailer";
 import { TRUSTED_CLIENTS, DEFAULT_ORG_ID } from "./trusted-clients";
+import bcrypt from "bcryptjs";
 
 // Cached default organization ID (validated at startup)
 let cachedDefaultOrgId: string | null = null;
@@ -171,11 +172,9 @@ export const auth = betterAuth({
     // Better Auth default is scrypt, but we use bcrypt for compatibility
     password: {
       hash: async (password) => {
-        const bcrypt = await import("bcryptjs");
         return await bcrypt.hash(password, 10);
       },
       verify: async ({ hash, password }) => {
-        const bcrypt = await import("bcryptjs");
         return await bcrypt.compare(password, hash);
       },
     },
