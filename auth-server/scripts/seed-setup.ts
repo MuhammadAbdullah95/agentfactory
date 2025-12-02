@@ -2,8 +2,6 @@
 import * as dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
 import { pgTable, text, boolean, timestamp } from "drizzle-orm/pg-core";
 import { eq, and } from "drizzle-orm";
 import {
@@ -76,9 +74,36 @@ const member = pgTable("member", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+/**
+ * Initialize database connection with environment-aware driver selection
+ *
+ * - Production/Neon: Uses @neondatabase/serverless (HTTP/WebSockets)
+ * - CI/Standard PostgreSQL: Uses postgres-js (TCP)
+ *
+ * Detection: If DATABASE_URL contains "localhost" or "127.0.0.1", use standard PostgreSQL
+ */
+async function initDatabase() {
+  const databaseUrl = process.env.DATABASE_URL!;
+  const isLocalPostgres = databaseUrl.includes("localhost") || databaseUrl.includes("127.0.0.1");
 
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
+  if (isLocalPostgres) {
+    // Standard PostgreSQL (CI, local development with standard Postgres)
+    console.log("📦 Using standard PostgreSQL driver (postgres-js)");
+    const postgres = (await import("postgres")).default;
+    const { drizzle } = await import("drizzle-orm/postgres-js");
+    const sql = postgres(databaseUrl);
+    return drizzle(sql);
+  } else {
+    // Neon serverless (production, staging)
+    console.log("📦 Using Neon serverless driver");
+    const { neon } = await import("@neondatabase/serverless");
+    const { drizzle } = await import("drizzle-orm/neon-http");
+    const sql = neon(databaseUrl);
+    return drizzle(sql);
+  }
+}
+
+let db: Awaited<ReturnType<typeof initDatabase>>;
 
 // Default organization configuration (production-ready)
 const DEFAULT_ORG = {
@@ -328,6 +353,9 @@ async function seed() {
     console.error("   Please set DATABASE_URL in .env.local");
     process.exit(1);
   }
+
+  // Initialize database with appropriate driver
+  db = await initDatabase();
 
   const dbHost = process.env.DATABASE_URL.split("@")[1]?.split("/")[0] || "Connected";
   console.log(`📊 Database: ${dbHost}`);

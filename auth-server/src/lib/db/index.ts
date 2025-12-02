@@ -1,5 +1,3 @@
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "@/auth-schema"; // Use Better Auth generated schema
 
 // Get database URL from environment
@@ -18,8 +16,34 @@ const getDatabaseUrl = (): string => {
   return "postgresql://placeholder:placeholder@localhost:5432/placeholder";
 };
 
-const sql = neon(getDatabaseUrl());
+/**
+ * Initialize database connection with environment-aware driver selection
+ *
+ * - Production/Neon: Uses @neondatabase/serverless (HTTP/WebSockets)
+ * - CI/Standard PostgreSQL: Uses postgres (TCP)
+ *
+ * Detection: If DATABASE_URL contains "localhost" or "127.0.0.1", use standard PostgreSQL
+ */
+function initDatabase() {
+  const databaseUrl = getDatabaseUrl();
+  const isLocalPostgres =
+    databaseUrl.includes("localhost") || databaseUrl.includes("127.0.0.1");
 
-export const db = drizzle(sql, { schema });
+  if (isLocalPostgres) {
+    // Standard PostgreSQL (CI, local development with standard Postgres)
+    const postgres = require("postgres");
+    const { drizzle } = require("drizzle-orm/postgres-js");
+    const sql = postgres(databaseUrl);
+    return drizzle(sql, { schema });
+  } else {
+    // Neon serverless (production, staging)
+    const { neon } = require("@neondatabase/serverless");
+    const { drizzle } = require("drizzle-orm/neon-http");
+    const sql = neon(databaseUrl);
+    return drizzle(sql, { schema });
+  }
+}
+
+export const db = initDatabase();
 
 export type Database = typeof db;
