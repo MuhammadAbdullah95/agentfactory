@@ -7,6 +7,13 @@ import * as dotenv from "dotenv";
 // Production uses actual environment variables set in CI/CD
 dotenv.config();
 
+// Auth server URL for login/signup redirects
+const AUTH_URL = process.env.AUTH_URL || "http://localhost:3001";
+
+// OAuth client ID - use the pre-configured trusted client (PKCE + JWKS)
+// This matches the trustedClients configuration in auth-server
+const OAUTH_CLIENT_ID = process.env.OAUTH_CLIENT_ID || "ai-native-public-client";
+
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 // PanaversityFS: Determine docs path based on plugin mode
@@ -20,6 +27,12 @@ const config: Config = {
   tagline:
     "Colearning Agentic AI with Python and TypeScript – Spec Driven Reusable Intelligence",
   favicon: "img/favicon.ico",
+
+  // Custom fields accessible via useDocusaurusContext().siteConfig.customFields
+  customFields: {
+    authUrl: AUTH_URL,
+    oauthClientId: OAUTH_CLIENT_ID,
+  },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -139,6 +152,27 @@ const config: Config = {
     ],
   ],
 
+  themes: [
+    // Local search plugin - generates search index at build time
+    // We use our custom SearchBar UI, so disable the plugin's auto-injected search bar
+    [
+      require.resolve("@easyops-cn/docusaurus-search-local"),
+      {
+        hashed: true,
+        language: ["en"],
+        indexDocs: true,
+        indexBlog: false,
+        indexPages: false,
+        docsRouteBasePath: "/docs",
+        highlightSearchTermsOnTargetPage: true,
+        searchResultLimits: 8,
+        searchResultContextMaxLength: 50,
+        explicitSearchResultPath: true,
+        // Disable the plugin's auto-injected search bar - we use custom-searchBar instead
+        searchBarShortcutHint: false,
+      },
+    ],
+  ],
   plugins: [
     "./plugins/docusaurus-plugin-og-image-generator",
     "./plugins/docusaurus-plugin-structured-data",
@@ -259,8 +293,11 @@ const config: Config = {
           label: "Book",
         },
         {
-          href: "https://github.com/panaversity/ai-native-software-development",
-          label: "GitHub",
+          type: "custom-searchBar",
+          position: "right",
+        },
+        {
+          type: "custom-navbarAuth",
           position: "right",
         },
       ],

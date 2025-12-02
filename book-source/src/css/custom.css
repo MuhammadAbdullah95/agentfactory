@@ -82,27 +82,79 @@ pre code {
     padding: 0;
 }
 
-/* Enhance navbar */
-.navbar {
+/* Enhance navbar - SOLID background, no transparency */
+.navbar,
+.navbar--fixed-top,
+html .navbar,
+html[data-theme="light"] .navbar,
+:root .navbar {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(10px);
-    position: relative;
-    z-index: 100;
+    /* Keep default sticky positioning from Docusaurus */
+    z-index: 200;
+    /* Solid WHITE background for light mode - override everything */
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
-[data-theme="dark"] .navbar {
-    /* Polar Night header - dark charcoal with subtle transparency */
-    background: linear-gradient(
-        180deg,
-        rgba(17, 17, 17, 0.98) 0%,
-        rgba(26, 26, 26, 0.95) 100%
-    );
+/* Mobile navbar adjustments */
+@media (max-width: 996px) {
+    .navbar {
+        /* Solid background on mobile - no transparency */
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        padding: 0 0.5rem !important;
+    }
+
+    [data-theme="dark"] .navbar {
+        /* Solid dark background on mobile */
+        background: #111111 !important;
+        background-color: #111111 !important;
+    }
+
+    /* Reduce gap between hamburger and Book link */
+    .navbar__toggle {
+        margin-right: -0.5rem !important;
+        padding: 0.5rem !important;
+    }
+
+    .navbar__items {
+        gap: 0 !important;
+    }
+
+    /* Tighten left navbar items spacing */
+    .navbar__items--left {
+        gap: 0 !important;
+        margin-left: -0.25rem !important;
+    }
+
+    .navbar__link {
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
+
+    /* Reduce inner wrapper padding */
+    .navbar__inner {
+        gap: 0 !important;
+    }
+}
+
+html[data-theme="dark"] .navbar,
+html[data-theme="dark"] .navbar--fixed-top,
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .navbar--fixed-top {
+    /* Polar Night header - lighter gray to contrast with dark hero (#111111) */
+    background: #2d2d2d !important;
+    background-color: #2d2d2d !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     box-shadow:
         0 2px 12px rgba(0, 0, 0, 0.4),
         0 1px 3px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(170, 170, 170, 0.08);
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
 }
 
 /* Navbar brand title styling */
@@ -602,8 +654,8 @@ pre code {
 
 /* Global touch target enforcement for mobile */
 @media screen and (max-width: 768px) {
-    /* All buttons and links */
-    button,
+    /* All buttons and links - EXCEPT navbar custom components */
+    button:not([class*="searchTrigger"]):not([class*="signInLink"]):not([class*="getStartedButton"]):not([class*="userButton"]):not([class*="clearButton"]),
     a[role="button"],
     input[type="button"],
     input[type="submit"],
@@ -635,7 +687,8 @@ pre code {
     }
 
     /* Interactive elements spacing - only for specific button types, not all links */
-    button,
+    /* EXCEPT navbar custom components */
+    button:not([class*="searchTrigger"]):not([class*="signInLink"]):not([class*="getStartedButton"]):not([class*="userButton"]):not([class*="clearButton"]),
     [role="button"],
     input[type="checkbox"],
     input[type="radio"],
@@ -660,6 +713,37 @@ pre code {
 /* ============================================================================
    MOBILE NAVBAR FIX - Ensure hamburger menu works properly
    ============================================================================ */
+
+/* Hide navbar title when hamburger menu appears */
+@media (max-width: 996px) {
+    .navbar__title {
+        display: none !important;
+    }
+}
+
+/* Hide the plugin's auto-injected search bar - we use custom-searchBar instead */
+/* Target specifically the plugin's generated classes */
+.navbar .DocSearch,
+.navbar .DocSearch-Button,
+.navbar__search,
+.navbar__search-input,
+button.DocSearch.DocSearch-Button {
+    display: none !important;
+}
+
+/* Add space between theme toggle and auth buttons */
+/* The color mode toggle button needs margin-left to separate from Get Started */
+.navbar__items--right .colorModeToggle_node_modules-\@docusaurus-theme-classic-lib-theme-Navbar-ColorModeToggle-styles-module,
+.navbar__items--right [class*="colorModeToggle"],
+.navbar__items--right [class*="toggle_node"],
+button[class*="toggleButton"] {
+    margin-left: 1rem !important;
+}
+
+/* Ensure proper gap in navbar right items */
+.navbar__items--right {
+    gap: 0.5rem;
+}
 
 /* Ensure mobile sidebar appears above all content */
 @media (max-width: 996px) {
