@@ -144,6 +144,8 @@ export function NavbarAuth() {
                   )}
                   {session.user.hardwareTier && (
                     <div className={styles.profileItem}>
+                      <span className={styles.profileLabel}>Hardware:</span>
+                      <span className={styles.profileValue}>
                         {session.user.hardwareTier === 'tier1' ? 'Windows PC' :
                          session.user.hardwareTier === 'tier2' ? 'Mac' :
                          session.user.hardwareTier === 'tier3' ? 'Linux' :
