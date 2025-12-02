@@ -1,404 +1,668 @@
-# RoboLearn: AI-Native Textbook Platform
+# RoboLearn Auth Server
 
-## The Thesis
+OAuth 2.1 / OIDC authentication server using Better Auth with PKCE, JWKS, and multi-tenancy support.
 
-**The software industry has disrupted itself. Spec-Driven Development with Reusable Intelligence (SDD-RI) transforms what traditionally takes months into days—not through faster coding, but through compounding intelligence.**
+## Documentation
 
-This hackathon isn't just about winning 300 points. It's about launching a platform.
+### Getting Started
+- [Integration Guide](docs/integration-guide.md) - **Complete guide for backend services (FastAPI, MCP, etc.)**
+- [Environment Variables](docs/environment-variables.md) - Complete reference for all config options
 
----
+### Authentication & Authorization
+- [PKCE OAuth Flow](docs/pkce-flow.md) - Public client authentication
+- [JWT & JWKS](docs/jwt-jwks.md) - Token signing and verification
+- [RBAC & Scopes](docs/rbac-and-scopes.md) - Roles and permissions
+- [FastAPI Integration](docs/fastapi-integration.md) - Backend integration examples
 
-## What We're Actually Building
+### Additional Resources
+- [CI/CD Pipeline](docs/ci-cd.md) - Test suite documentation and troubleshooting (51 automated tests)
+- [Redis Setup](docs/redis-setup.md) - Distributed rate limiting for multi-instance deployments
+- [Flow Diagrams](docs/flow-diagrams.md) - Visual authentication flows
+- [Troubleshooting](docs/troubleshooting.md) - Common issues and solutions
 
-| Traditional Timeline | Our Timeline |
-|---------------------|--------------|
-| Book content: 6-18 months | 48 hours |
-| Author platform: 3-6 months | Week 1-2 |
-| Multi-book infrastructure: 6-12 months | Month 1 |
-| Institutional features: 12+ months | Month 2 |
+## Setup
 
-**Why?** Because every hour invested in reusable intelligence compounds. The lesson-writer agent that creates Module 1 creates Module 4 at the same speed. The skills that power RoboLearn power the next ten books.
-
----
-
-## Platform Vision
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    RoboLearn Platform                        │
-├───────────────────┬───────────────────┬─────────────────────┤
-│     STUDENTS      │      AUTHORS      │    INSTITUTIONS     │
-│                   │                   │                     │
-│ Personalized      │ AI-assisted       │ White-label         │
-│ Hardware-aware    │ Days not months   │ Analytics           │
-│ Multilingual      │ Revenue share     │ Curriculum control  │
-│ Interactive       │ Agent workforce   │ Bulk licensing      │
-└───────────────────┴───────────────────┴─────────────────────┘
+```bash
+cd auth-server
+npm install
+cp .env.example .env.local
+# Edit .env.local with your values
+npm run db:push
+# Seed the trusted public client (see below)
+npm run dev  # http://localhost:3001
 ```
 
----
+### Seed OAuth Clients
 
-## Hackathon Deliverables (Sunday 6 PM)
+After running `db:push`, you need to register OAuth clients for applications to authenticate through the SSO server.
 
-### Scoring Target: 300/300
+**🚀 Unified Setup (Recommended)**
 
-| Requirement | Points | Deliverable |
-|-------------|--------|-------------|
-| Book + RAG Chatbot | 100 | 4 modules, context-aware chat |
-| Reusable Intelligence | 50 | Skills, agents, knowledge, MCP configs |
-| Auth + Onboarding | 50 | Better-Auth, hardware survey, profile-based filtering |
-| Personalization | 50 | AI rewrites content for user context |
-| Urdu Translation | 50 | Toggle between English/Urdu |
-| **Total** | **300** | |
+The auth server uses a single setup script that imports from `src/lib/trusted-clients.ts`:
 
-### Student Experience
+```bash
+# Development setup (all 3 trusted clients + test organization)
+pnpm run seed:setup
 
-```
-Signup → Hardware Survey → Personalized Content
-                ↓
-    ┌────────┬────────┬────────────┐
-    │ Learn  │Visualize│Personalize │  ← 3-Tab UI
-    │ (MDX)  │(Diagram)│   (AI)     │
-    └────────┴────────┴────────────┘
-                ↓
-    ┌─────────────────────────────┐
-    │    Interactive Python Lab    │
-    │  Pyodide + MockROS + Robot   │
-    └─────────────────────────────┘
-                ↓
-    ┌─────────────────────────────┐
-    │      RAG Chat Sidebar        │
-    │  Context-aware • Select-ask  │
-    └─────────────────────────────┘
-                ↓
-           🔄 EN ↔ UR
+# Production setup (only Panaversity SSO + AI Native, skips RoboLearn)
+pnpm run seed:prod
 ```
 
----
+**What gets seeded:**
 
-## Technical Architecture
+| Mode | Clients | Organization | Use Case |
+|------|---------|--------------|----------|
+| **Development** (`seed:setup`) | • RoboLearn<br>• Panaversity SSO<br>• AI Native | ✅ Test org | Local development & testing |
+| **Production** (`seed:prod`) | • Panaversity SSO<br>• AI Native | ❌ None | Production deployment |
 
-### Stack
+**Features:**
+- ✅ Single source of truth (`src/lib/trusted-clients.ts`)
+- ✅ Automatic localhost filtering in production (via `getRedirectUrls()`)
+- ✅ Idempotent (safe to run multiple times)
+- ✅ Optional multi-tenancy setup (organizations)
 
-| Layer | Choice | Why |
-|-------|--------|-----|
-| Frontend | Docusaurus | MDX-native, fast builds |
-| Hosting | GitHub Pages → Cloudflare | Free, global CDN |
-| Backend | FastAPI + Cloud Run | Serverless, scales to zero |
-| Database | Neon Postgres | Profiles, hardware configs |
-| Vector DB | Qdrant Cloud | RAG embeddings |
-| Auth | Better-Auth | Modern, official MCP server |
-| AI | OpenAI Agents SDK | Chat, personalization |
+**Option 2: Manual SQL (Advanced)**
 
-### Reusable Intelligence Structure
+Execute this SQL in your database (via psql, pgAdmin, or your database tool):
 
-```
-.claude/
-├── skills/                           # HOW (reusable patterns)
-│   ├── authoring/                    # Content creation skills
-│   │   ├── lesson-generator/         # Generate lessons (4-layer framework)
-│   │   ├── assessment-builder/       # Create quizzes and assessments
-│   │   ├── learning-objectives/      # Design learning objectives
-│   │   ├── mermaid-diagram/          # Generate educational diagrams
-│   │   ├── urdu-translator/          # Translate content to Urdu
-│   │   ├── quiz-generator/           # Generate quiz questions
-│   │   ├── summary-generator/        # Create lesson summaries
-│   │   ├── notebooklm-slides/        # Generate slide decks
-│   │   └── concept-scaffolding/      # Scaffold complex concepts
-│   │   └── visual-asset-workflow/    # Create educational visuals
-│   └── engineering/                  # Platform development skills
-│       ├── pyodide-exercise/         # Browser-based Python exercises
-│       ├── docusaurus-deployer/      # Deploy to GitHub Pages
-│       ├── frontend-design/          # UI component design
-│       ├── image-generator/          # Generate images with Gemini
-│       ├── mcp-builder/              # Create MCP servers
-│       ├── skill-creator/            # Create new skills
-│       ├── chatkit-integration/       # ChatKit framework integration patterns
-│       └── session-intelligence-harvester/  # Capture learnings
-│
-├── agents/                           # WHO (autonomous workers)
-│   ├── super-orchestra.md            # General workflow orchestration
-│   ├── authoring/                    # Content creation agents
-│   │   ├── content-implementer.md    # Implement lessons from specs
-│   │   ├── chapter-planner.md        # Plan chapter structure
-│   │   ├── educational-validator.md  # Validate constitutional compliance
-│   │   └── validation-auditor.md     # Quality validation before publish
-│   └── engineering/                  # Platform development agents
-│       ├── spec-architect.md         # Design specifications
-│       └── chatkit-integration-agent.md  # ChatKit integration workflow
-│
-├── commands/                         # Slash commands (/sp.*)
-└── .mcp.json                         # MCP server configuration
-
-# Domain knowledge lives in authoritative sources:
-# - requirement.md (course structure, hardware specs)
-# - .specify/memory/constitution.md (principles, tiers)
-# - README.md (platform vision)
+```sql
+INSERT INTO oauth_application (
+  id,
+  client_id,
+  client_secret,
+  name,
+  redirect_urls,
+  type,
+  disabled,
+  metadata,
+  created_at,
+  updated_at
+) VALUES (
+  'robolearn-public-client-id',
+  'robolearn-public-client',
+  NULL, -- No secret for public client (PKCE only)
+  'RoboLearn Public Client',
+  'http://localhost:3000/auth/callback,http://localhost:3000/robolearn/auth/callback,https://mjunaidca.github.io/robolearn/auth/callback', -- Comma-separated: dev (both variants) + prod URLs
+  'public',
+  false,
+  '{"token_endpoint_auth_method":"none","grant_types":["authorization_code","refresh_token"]}',
+  NOW(),
+  NOW()
+)
+ON CONFLICT (client_id) DO UPDATE SET
+  name = EXCLUDED.name,
+  redirect_urls = EXCLUDED.redirect_urls,
+  type = EXCLUDED.type,
+  disabled = EXCLUDED.disabled,
+  metadata = EXCLUDED.metadata,
+  updated_at = NOW();
 ```
 
-### MCP Strategy
 
-| Server | Use | Rationale |
-|--------|-----|-----------|
-| **Better-Auth MCP** | Auth implementation | Active introspection — generates schemas, supersedes docs |
-| **Context7** | Library docs | Generalist for React, FastAPI, Pyodide |
-| **Tavily** | Research | Synthesized answers for content generation |
-| **DeepWiki** | Repo understanding | Understand panaversity base template |
+## Environment Variables
 
----
+```env
+# Required
+DATABASE_URL=postgresql://user:pass@host.neon.tech/db?sslmode=require
+BETTER_AUTH_SECRET=your-32-char-secret  # openssl rand -base64 32
+BETTER_AUTH_URL=http://localhost:3001
+# Comma-separated list of allowed origins for CORS
+# Production: Include your production domain(s)
+ALLOWED_ORIGINS=http://localhost:3000,https://mjunaidca.github.io
+NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3001
 
-## Execution Plan (10 Hours)
+# Optional: Email verification
+# Option 1: Resend (free tier: 100/day)
+# RESEND_API_KEY=re_xxxxxxxxx
+# RESEND_FROM_EMAIL=onboarding@resend.dev
 
-### Phase 1: Foundation + Intelligence (Hour 0-2) ✅ COMPLETE
+# Option 2: SMTP (Gmail, custom SMTP, etc.)
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USER=your@gmail.com
+# SMTP_PASS=app-password
+# SMTP_FROM=your@gmail.com
+# EMAIL_FROM=your@gmail.com
+```
 
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| 1.1 | Fork repo, rename to `robolearn`, verify build | ✅ |
-| 1.2 | Create folder structure (skills, agents, knowledge, mcp) | ✅ |
-| 1.3 | Write knowledge files (vocabulary, hardware-tiers, course-structure) | ✅ |
-| 1.4 | Write skill files (lesson-generator, hardware-filter, urdu-translator) | ✅ |
-| 1.5 | Write agent files (lesson-writer, rag-builder) | ✅ |
-| 1.6 | Configure MCP servers | ✅ |
-| 1.7 | Content cleanup, rebrand, navigation | ✅ |
-| 1.8 | Component stubs, first deploy | ✅ |
-| 1.9 | Homepage redesign (Industrial Confidence design system) | ✅ |
+## Features
 
-**Exit:** ✅ Live at `username.github.io/robolearn` with intelligence infrastructure + redesigned homepage
+- OAuth 2.1 with PKCE (no client secrets in browser)
+- JWKS (JSON Web Key Set) for client-side token verification (RS256)
+- Secure client registration (admin-only)
+- Multi-tenancy with organizations (tenant_id in tokens)
+- Role-based access control (admin/user + organization roles)
+- Custom claims: software_background, hardware_tier, tenant_id
+- Optional email verification via Resend or SMTP
+- 7-day sessions with auto-refresh
 
-### Phase 2: Content Generation (Hour 2-4) ✅ COMPLETE
+## Testing
 
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| 2.1 | Module 1: ROS 2 Foundations (7 chapters, 25 lessons) | ✅ |
-| 2.2 | Module 2: Gazebo/Unity Simulation (6 chapters, 22 lessons) | ✅ |
-| 2.3 | Module READMEs and chapter structure | ✅ |
-| 2.4 | 8 authoring skills created | ✅ |
+The test suite is organized into 3 tiers for fast feedback and comprehensive coverage.
 
-**Exit:** ✅ 47 lessons across 2 modules with complete skill infrastructure
+### Quick Start
 
-**Extensions** (moved to Phase 5):
-- Create Mermaid/React Flow diagrams
-- Add hardware-filtered sections
+```bash
+# 1. Start the auth server
+pnpm dev  # http://localhost:3001
 
-### Phase 3: Auth + Profiles (Hour 4-5)
+# 2. Seed OAuth clients and default organization
+pnpm run seed:setup
 
-| Task | Deliverable |
-|------|-------------|
-| 3.1 | Better-Auth setup (use official MCP) |
-| 3.2 | Neon Postgres schema |
-| 3.3 | Survey component |
+# 3. Run tests (in another terminal)
+pnpm test-api   # Fast API tests (~60s)
+pnpm test-e2e   # Playwright visual tests (~30s)
+pnpm test-all   # Everything (~90s)
+```
 
-**Exit:** Users can signup, complete survey, see filtered content
+### Test Suites
 
-### Phase 4: Backend + RAG (Hour 5-7) ✅ COMPLETE
+#### 🚀 **Suite 1: `test-api`** - Fast API Tests (7 tests, ~60s)
 
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| 4.1 | FastAPI app structure | ✅ |
-| 4.2 | Qdrant collection setup | ✅ |
-| 4.3 | Embedding pipeline (content → vectors) | ✅ |
-| 4.4 | OpenAI Agents SDK config | ✅ |
-| 4.5 | Deploy to Cloud Run | ✅ |
+**Requirements**: Auth server running
 
-**Exit:** ✅ RAG chatbot answering questions with book context + visual enhancements
+**Tests**:
+- OAuth 2.1 flows (PKCE + Confidential client)
+- JWT tenant claims
+- Edge case handling
+- Default organization auto-join
+- OAuth 2.1/OIDC compliance validation
 
-**Extensions Completed**:
-- ChatKit server integration with PostgreSQL persistence
-- Context injection (user profile, page context, conversation history)
-- Streaming responses for real-time UX
-- Complete specifications reverse-engineered (`specs/007-chatkit-server/`)
+```bash
+pnpm test-api
+```
 
-### Phase 5: Chat UI (Hour 7-8) ✅ COMPLETE
-
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| 5.1 | ChatKit widget component | ✅ |
-| 5.2 | Current page context injection | ✅ |
-| 5.3 | Select-to-ask functionality | ✅ |
-| 5.4 | Hardware-aware responses | ✅ |
-| 5.5 | User authentication integration | ✅ |
-| 5.6 | Personalization menu | ✅ |
-| 5.7 | Script loading detection | ✅ |
-
-**Exit:** ✅ Functional ChatKit widget with context awareness, text selection "Ask", and user personalization
-
-**Extensions Completed**:
-- ChatKit React component integration
-- Custom fetch interceptor for auth and metadata
-- Page context extraction (URL, title, headings, meta tags)
-- User profile context transmission
-- Complete specifications reverse-engineered (`specs/008-chatkit-ui-widget/`)
-- Reusable intelligence harvested (skill + agent)
-
-### Phase 6: Bonus Features (Hour 9-9.5) ✅ COMPLETE
-
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| 6.1 | Urdu translation or Multi Language | ✅ |
-| 6.2 | LanguageToggle component | ✅ |
-
-**Exit:** ✅ Full 300-point feature set
-
-**Completed Features**:
-- LanguageToggle component with locale switching (`/en/` and `/ur/` routes)
-- Docusaurus i18n plugin for auto-translation (Gemini API)
-- RTL (Right-to-Left) CSS support for Urdu content
-- Language preference persistence (localStorage)
-- Complete specification (`specs/006-i18n-auto-translate-gemini/`)
-
-### Phase 7: Ship (Hour 9.5-10) ✅ MOSTLY COMPLETE
-
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| 7.1 | End-to-end testing | ✅ |
-| 7.2 | 90-second demo video | 🟡 Pending |
-| 7.3 | README with setup instructions | ✅ |
-| 7.4 | Submit | 🟡 Pending |
-
-**Exit:** ✅ Hackathon submission ready (demo video pending)
-
-**Completed**:
-- End-to-end testing completed for ChatKit integration
-- Comprehensive README with setup instructions
-- Complete documentation (specs, ADRs, PHRs)
-- Reusable intelligence infrastructure
-
-
-### Phase 8: Interactive Lab (Hour 8-9)
-
-| Task | Deliverable |
-|------|-------------|
-| 6.1 | PythonRunner component (Pyodide) |
-| 6.2 | MockROSBridge class |
-| 6.3 | RobotViewer component |
-| 6.4 | Wire up: code → mock ROS → robot responds |
-| 6.5 | Personalization endpoint |
-| 6.6 | Personalize tab in content |
-
-**Exit:** Students write ROS-like code, see robot react
+**What it covers**:
+- ✅ OIDC Discovery
+- ✅ PKCE Flow (public client)
+- ✅ Confidential Client Flow
+- ✅ Authorization & Token Exchange
+- ✅ Userinfo endpoint
+- ✅ Multi-tenancy (tenant_id, organization_ids)
+- ✅ Security edge cases
+- ✅ Default org auto-join
 
 ---
 
-## Post-Hackathon Roadmap
+#### 🎭 **Suite 2: `test-e2e`** - Playwright Visual Tests (3 tests, ~30s)
 
-### Week 1-2: Author Platform
+**Requirements**: Auth server + Book Interface (localhost:3000) + Playwright
 
-| Feature | Description |
-|---------|-------------|
-| Author Dashboard | Book management, chapter organization |
-| Agent Studio | Configure lesson-writer, review AI drafts |
-| Analytics | Reader engagement, chat queries, hardware distribution |
+**Tests**:
+- Complete SSO flow (sign-up → OAuth → callback)
+- PKCE flow with browser automation
 
-### Month 1: Multi-Book
+```bash
+pnpm test-e2e
+```
 
-| Feature | Description |
-|---------|-------------|
-| Book isolation | Separate knowledge folders per book |
-| Shared infrastructure | Common auth, RAG, components |
-| Second book | "CoLearning Python: The AI-Driven Way" |
+**What it covers**:
+- ✅ Book Interface integration
+- ✅ Visual sign-up flow
+- ✅ OAuth authorization UI
+- ✅ Callback handling
+- ✅ Profile access
+- ✅ Screenshots for debugging
 
-### Month 2: Institutional
-
-| Feature | Description |
-|---------|-------------|
-| White-label | Custom branding per institution |
-| Bulk licensing | Student seat management |
-| LMS integration | Grade passback, SSO |
-
-### Month 3+: Scale
-
-| Feature | Description |
-|---------|-------------|
-| Mobile app | React Native |
-| Offline mode | Downloaded content |
-| Real ROS 2 | Beyond MockROS for advanced users |
-| Marketplace | Third-party authors |
+**Note**: Playwright tests gracefully fail if Book Interface isn't running.
 
 ---
 
-## Revenue Model
+#### ✅ **Suite 3: `test-all`** - Complete Test Suite (10 tests, ~90s)
 
-### Individual Learners
+**Requirements**: Everything
 
-| Tier | Price | Features |
-|------|-------|----------|
-| Free | $0 | Read content, basic exercises |
-| Professional | $49/month | RAG chat, personalization, multilingual, certificates |
-| Annual | $399/year | Professional features + 30% savings |
+Runs both API and E2E tests sequentially.
 
-### Corporate Training
-
-| Tier | Price | Features |
-|------|-------|----------|
-| Team | $199/month | 10 seats, progress tracking, admin dashboard |
-| Department | $799/month | 50 seats, custom learning paths, analytics |
-| Enterprise | Custom | Unlimited seats, SSO, dedicated support, SLA |
-
-### Institutional (Universities, Bootcamps)
-
-| Tier | Price | Features |
-|------|-------|----------|
-| Academic | $2,500/year | 200 students, LMS integration, grade passback |
-| Campus | $10,000/year | 1,000 students, white-label option, curriculum control |
-| Enterprise | $50,000+/year | Unlimited, custom development, dedicated success manager |
-
-### Author Revenue
-
-| Model | Split |
-|-------|-------|
-| Free Books | 0% platform fee |
-| Paid Books | 70% author / 30% platform |
-| Enterprise Licensing | 60% author / 40% platform (includes support overhead) |
+```bash
+pnpm test-all
+```
 
 ---
 
-## Competitive Moat
+### Special Tests
 
-**Why this is hard to copy:**
+#### Admin Client Management (`test-client-admin`)
 
-| Layer | Moat |
-|-------|------|
-| **Skills** | Compound with every book authored |
-| **Knowledge** | Domain expertise encoded |
-| **Agents** | Workflows refined through use |
-| **Network** | Zia Khan's 50K+ student distribution |
-| **Data** | Chat queries reveal what students struggle with |
+**Tests OAuth client CRUD operations**. Now with auto-login!
 
-Every book makes the platform smarter. Every student interaction improves the RAG. The intelligence compounds.
+```bash
+pnpm test-client-admin
+```
 
----
+**Auto-login**: No manual cookie required - signs in automatically using `admin@robolearn.io` credentials.
 
-## Risk Mitigation
+**Override credentials** (optional):
+```bash
+ADMIN_EMAIL=custom@example.com ADMIN_PASSWORD=CustomPass pnpm test-client-admin
+```
 
-| Risk | Mitigation |
-|------|------------|
-| Deadline pressure | Phases ordered by point value, cut from bottom |
-| RAG quality | Start basic, iterate |
-| Live demo fails | Pre-recorded backup video |
-| Content thin | 3 polished lessons > 10 rough ones |
-| MockROS feels fake | Frame as "pedagogical simulation" — judges evaluate concept |
+#### Playwright Test Spec (`test-playwright-spec`)
 
----
+**Runs e2e-auth-test.spec.ts using Playwright Test framework**.
 
-## Success Metrics
+```bash
+pnpm test-playwright-spec
+```
 
-| Phase | Metric | Target |
-|-------|--------|--------|
-| Hackathon | Score | 300 points |
-| Week 1 | Author dashboard | MVP live |
-| Month 1 | Books | 2 live |
-| Month 1 | Students | 500 active |
-| Month 3 | MRR | $2,000 |
-| Month 6 | Students | 10,000 |
+#### Manual PKCE Generator (`test-manual-pkce`)
+
+**Utility to generate PKCE pairs for manual testing**.
+
+```bash
+pnpm test-manual-pkce
+```
 
 ---
 
-## The Bottom Line
+### Test Files
 
-We don't just submit a hackathon project. We launch a platform.
+**Kept (11 tests)**:
+- ✅ `test-oauth-flows.js` - OAuth PKCE + Confidential
+- ✅ `test-tenant-claims.js` - JWT tenant_id claims
+- ✅ `test-edge-cases.js` - Security edge cases
+- ✅ `test-tenant-edge-cases.js` - Tenant edge cases
+- ✅ `test-confidential-client.js` - Confidential flow
+- ✅ `test-default-organization.js` - Default org auto-join
+- ✅ `oauth-validation.test.ts` - OAuth 2.1 compliance
+- ✅ `test-complete-sso.js` - Full SSO flow (Playwright)
+- ✅ `test-pkce-playwright.mjs` - PKCE browser test
+- ✅ `test-client-edit.js` - Admin API (with auto-login)
+- ✅ `e2e-auth-test.spec.ts` - Playwright Test spec
 
-The same intelligence that builds RoboLearn builds the next ten books. The same agents that write Physical AI lessons write Python lessons. The same infrastructure that serves 100 students serves 100,000.
-
-This is what AI-driven development with Spec-Driven methodology and Reusable Intelligence makes possible.
+**Removed (5 duplicates)**:
+- 🗑️ `test-oauth-api.mjs` - Covered by test-oauth-flows.js
+- 🗑️ `test-pkce-oauth.js` - Covered by test-oauth-flows.js
+- 🗑️ `test-full-oauth.js` - Duplicate of test-complete-sso.js
+- 🗑️ `test-visual-flow.js` - Covered by test-complete-sso.js
+- 🗑️ `test-oauth-flow.js` - Covered by test-complete-sso.js
 
 ---
+
+### Troubleshooting
+
+**Tests timing out?**
+- ✅ Ensure auth server is running (`pnpm dev`)
+- ✅ Check http://localhost:3001 returns a page
+
+**Playwright tests failing?**
+- ✅ Playwright may not be installed: `npx playwright install`
+- ✅ Book Interface not running: Tests will gracefully fail (expected)
+
+**Admin tests failing?**
+- ✅ Ensure default admin exists: `pnpm run seed:setup`
+- ✅ Check credentials: `admin@robolearn.io` / `Admin123!@#`
+
+## Endpoints
+
+| Endpoint                            | Description                             |
+| ----------------------------------- | --------------------------------------- |
+| `/.well-known/openid-configuration` | OIDC discovery document                 |
+| `/api/auth/jwks`                    | JWKS public keys for token verification |
+| `/api/auth/oauth2/authorize`        | Start OAuth flow                        |
+| `/api/auth/oauth2/token`            | Exchange code for tokens                |
+| `/api/auth/oauth2/userinfo`         | Get user info                           |
+| `/api/admin/clients/register`       | Register OAuth client (admin only)      |
+
+## Register New OAuth Client
+
+**SECURITY**: Open client registration is disabled. Use one of these secure methods:
+
+### Option 1: Admin Dashboard (Recommended for UI)
+
+1. Sign in as admin at `http://localhost:3001/auth/sign-in`
+2. Navigate to `/admin/clients`
+3. Create client via UI
+
+### Option 2: Admin API Endpoint
+
+```bash
+curl -X POST http://localhost:3001/api/admin/clients/register \
+  -H "Content-Type: application/json" \
+  -H "Cookie: your-admin-session-cookie" \
+  -d '{
+    "name": "My App",
+    "redirectUrls": ["http://localhost:4000/callback"],
+    "clientType": "public"
+  }'
+```
+
+Returns `client_id` and `client_secret` (if confidential) to use in your OAuth flow.
+
+## Create Admin User
+
+```sql
+-- After signing up via UI:
+UPDATE "user" SET role = 'admin' WHERE email = 'you@example.com';
+```
+
+## Integration Guide
+
+### Quick Start: Integrate Your Application
+
+All RoboLearn applications authenticate using this OAuth 2.1/OIDC server.
+
+#### Step 1: Register Your Application
+
+Use the admin dashboard at `/admin/clients` to register your application:
+
+```json
+{
+  "name": "My RoboLearn App",
+  "redirectUrls": ["https://myapp.com/auth/callback"],
+  "clientType": "public"  // or "confidential" for backend apps
+}
+```
+
+You'll receive:
+- **Public clients**: `client_id` only (PKCE required)
+- **Confidential clients**: `client_id` + `client_secret` (save it - shown once!)
+
+#### Step 2: Configure Your Application
+
+**Environment Variables**:
+```env
+OAUTH_ISSUER=https://auth.robolearn.org
+OAUTH_CLIENT_ID=your-client-id-here
+OAUTH_CALLBACK_URL=https://myapp.com/auth/callback
+
+# Only for confidential clients:
+# OAUTH_CLIENT_SECRET=your-secret-here
+```
+
+---
+
+### Frontend Integration (Public Clients)
+
+**Example**: React/Next.js SPA using PKCE
+
+```typescript
+// lib/auth-client.ts
+import { createAuthClient } from "better-auth/react";
+
+export const authClient = createAuthClient({
+  baseURL: process.env.NEXT_PUBLIC_AUTH_URL,
+
+  // OAuth 2.1 configuration
+  oauth: {
+    clientId: process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID!,
+    // No clientSecret for public clients (PKCE handles security)
+  },
+});
+
+// components/LoginButton.tsx
+export function LoginButton() {
+  const handleLogin = async () => {
+    // Redirects to auth server with PKCE challenge
+    await authClient.signIn.social({
+      provider: "oauth2",
+      callbackURL: "/auth/callback",
+    });
+  };
+
+  return <button onClick={handleLogin}>Sign In</button>;
+}
+
+// app/auth/callback/page.tsx
+export default async function CallbackPage() {
+  // Better Auth handles PKCE verification automatically
+  const session = await authClient.getSession();
+
+  if (session) {
+    redirect("/dashboard");
+  }
+
+  return <div>Signing you in...</div>;
+}
+```
+
+**Manual OAuth Flow** (if not using Better Auth client):
+
+```typescript
+// 1. Generate PKCE verifier & challenge
+const verifier = generateRandomString(128);
+const challenge = await sha256(verifier).then(base64url);
+
+// 2. Redirect to authorization endpoint
+const authUrl = new URL("https://auth.robolearn.org/api/auth/oauth2/authorize");
+authUrl.searchParams.set("client_id", CLIENT_ID);
+authUrl.searchParams.set("redirect_uri", CALLBACK_URL);
+authUrl.searchParams.set("response_type", "code");
+authUrl.searchParams.set("scope", "openid profile email");
+authUrl.searchParams.set("code_challenge", challenge);
+authUrl.searchParams.set("code_challenge_method", "S256");
+window.location.href = authUrl.toString();
+
+// 3. Exchange code for tokens (in callback)
+const tokenResponse = await fetch("https://auth.robolearn.org/api/auth/oauth2/token", {
+  method: "POST",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({
+    grant_type: "authorization_code",
+    code: authorizationCode,
+    redirect_uri: CALLBACK_URL,
+    client_id: CLIENT_ID,
+    code_verifier: verifier,  // PKCE verification
+  }),
+});
+
+const { access_token, id_token, refresh_token } = await tokenResponse.json();
+```
+
+---
+
+### Backend Integration (Confidential Clients)
+
+**Example**: FastAPI backend with client secret
+
+```python
+# config.py
+OAUTH_ISSUER = "https://auth.robolearn.org"
+OAUTH_CLIENT_ID = "your-confidential-client-id"
+OAUTH_CLIENT_SECRET = "your-client-secret"
+OAUTH_CALLBACK_URL = "https://api.myapp.com/auth/callback"
+
+# auth.py
+import httpx
+from jose import jwt, jwk
+from jose.utils import base64url_decode
+
+# 1. Fetch JWKS for token verification
+async def get_jwks():
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{OAUTH_ISSUER}/api/auth/jwks")
+        return response.json()
+
+# 2. Verify ID token
+async def verify_id_token(id_token: str) -> dict:
+    jwks = await get_jwks()
+
+    # Decode header to get key ID
+    header = jwt.get_unverified_header(id_token)
+    key = next((k for k in jwks["keys"] if k["kid"] == header["kid"]), None)
+
+    if not key:
+        raise ValueError("Key not found in JWKS")
+
+    # Verify signature using RS256
+    public_key = jwk.construct(key)
+    claims = jwt.decode(
+        id_token,
+        public_key,
+        algorithms=["RS256"],
+        audience=OAUTH_CLIENT_ID,
+        issuer=OAUTH_ISSUER,
+    )
+
+    return claims  # Contains user info + custom claims
+
+# 3. Exchange authorization code for tokens
+async def exchange_code(code: str) -> dict:
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{OAUTH_ISSUER}/api/auth/oauth2/token",
+            data={
+                "grant_type": "authorization_code",
+                "code": code,
+                "redirect_uri": OAUTH_CALLBACK_URL,
+                "client_id": OAUTH_CLIENT_ID,
+                "client_secret": OAUTH_CLIENT_SECRET,  # Confidential client
+            },
+        )
+        return response.json()
+
+# 4. Get user info
+async def get_user_info(access_token: str) -> dict:
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            f"{OAUTH_ISSUER}/api/auth/oauth2/userinfo",
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+        return response.json()
+```
+
+---
+
+### Token Claims Reference
+
+**ID Token Claims** (JWT signed with RS256):
+
+```json
+{
+  "iss": "https://auth.robolearn.org",
+  "aud": "your-client-id",
+  "sub": "user-uuid",
+  "exp": 1234567890,
+  "iat": 1234567890,
+  "auth_time": 1234567890,
+
+  // Standard OIDC claims
+  "email": "user@example.com",
+  "email_verified": true,
+  "name": "John Doe",
+  "given_name": "John",
+  "family_name": "Doe",
+  "picture": "https://...",
+
+  // RoboLearn custom claims
+  "role": "admin" | "user",
+  "tenant_id": "org-uuid",
+  "organization_ids": ["org-1", "org-2"],
+  "org_role": "owner" | "admin" | "member",
+  "software_background": "beginner" | "intermediate" | "advanced",
+  "hardware_tier": "tier1" | "tier2" | "tier3" | "tier4"
+}
+```
+
+**Access Token**: Opaque bearer token for API access (validate via UserInfo endpoint)
+
+**Refresh Token**: Used to get new access tokens when expired
+
+---
+
+### OIDC Discovery
+
+Discover all endpoints automatically:
+
+```bash
+curl https://auth.robolearn.org/api/auth/.well-known/openid-configuration
+```
+
+Returns:
+```json
+{
+  "issuer": "https://auth.robolearn.org",
+  "authorization_endpoint": "https://auth.robolearn.org/api/auth/oauth2/authorize",
+  "token_endpoint": "https://auth.robolearn.org/api/auth/oauth2/token",
+  "userinfo_endpoint": "https://auth.robolearn.org/api/auth/oauth2/userinfo",
+  "jwks_uri": "https://auth.robolearn.org/api/auth/jwks",
+  "scopes_supported": ["openid", "profile", "email", "offline_access"],
+  "response_types_supported": ["code"],
+  "grant_types_supported": ["authorization_code", "refresh_token"],
+  "code_challenge_methods_supported": ["S256", "plain"]
+}
+```
+
+---
+
+### Multi-Tenant Applications
+
+Use `tenant_id` and `organization_ids` claims to scope data:
+
+```typescript
+// Example: Filter lessons by organization
+const session = await authClient.getSession();
+const tenantId = session.user.tenant_id;
+
+const lessons = await db.select()
+  .from(lessons)
+  .where(eq(lessons.organizationId, tenantId));
+```
+
+**Switching Organizations**:
+
+```typescript
+// Update active organization (affects tenant_id in next token)
+await authClient.organization.setActive({ organizationId: "new-org-id" });
+```
+
+---
+
+### Security Best Practices
+
+1. **Always use HTTPS** in production
+2. **Validate `iss` and `aud`** in ID tokens
+3. **Verify signatures** using JWKS keys
+4. **Use PKCE** for public clients (SPAs, mobile)
+5. **Rotate refresh tokens** periodically
+6. **Set short access token expiry** (6 hours)
+7. **Store tokens securely**:
+   - Frontend: HttpOnly cookies (Better Auth handles this)
+   - Backend: Encrypted database or secure key vault
+
+---
+
+### Testing Your Integration
+
+**1. Authorization Flow**:
+```bash
+# Start OAuth flow
+open "https://auth.robolearn.org/api/auth/oauth2/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_CALLBACK&response_type=code&scope=openid profile email&code_challenge=CHALLENGE&code_challenge_method=S256"
+```
+
+**2. Verify JWKS**:
+```bash
+curl https://auth.robolearn.org/api/auth/jwks | jq
+```
+
+**3. Decode ID Token**:
+```bash
+# Copy ID token from response, paste at https://jwt.io
+# Verify:
+# - iss matches auth server URL
+# - aud matches your client_id
+# - Signature verifies using JWKS
+```
+
+**4. Call UserInfo**:
+```bash
+curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  https://auth.robolearn.org/api/auth/oauth2/userinfo
+```
+
+---
+
+### Example Applications
+
+- **robolearn-interface**: Public SPA using PKCE ([View Source](https://github.com/mjunaidca/robolearn-interface))
+- **robolearn-api**: FastAPI backend with JWT verification (Coming Soon)
+- **robolearn-mobile**: React Native app with OAuth (Coming Soon)
+
+---
+
+## Deploy to Vercel
+
+1. Push to GitHub
+2. Import in Vercel, set root to `auth-server`
+3. Add environment variables
+4. Deploy
