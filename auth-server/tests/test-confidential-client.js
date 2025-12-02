@@ -10,9 +10,9 @@
  */
 
 const CLIENT_ID = "robolearn-confidential-client";
-const CLIENT_SECRET = "test-secret-key-change-in-production";
+const CLIENT_SECRET = "robolearn-confidential-secret-for-testing-only";
 const AUTH_SERVER = "http://localhost:3001";
-const REDIRECT_URI = "http://localhost:8000/callback"; // FastAPI would listen here
+const REDIRECT_URI = "http://localhost:8000/auth/callback"; // Must match trusted-clients.ts
 
 // Test user credentials
 const TEST_USER = {
@@ -65,12 +65,20 @@ async function testConfidentialClient() {
       redirect: "manual"
     });
 
-    const location = authResponse.headers.get("location");
-    if (!location || !location.includes("code=")) {
+    // Better Auth returns JSON with redirect URL (not a 302 redirect)
+    let code;
+    if (authResponse.status === 200) {
+      const body = await authResponse.json();
+      if (body.redirect && body.url) {
+        const match = body.url.match(/code=([^&]+)/);
+        if (match) code = match[1];
+      }
+    }
+
+    if (!code) {
       throw new Error("No authorization code in redirect");
     }
 
-    const code = new URL(location, REDIRECT_URI).searchParams.get("code");
     console.log("✓ Authorization code received:", code.substring(0, 20) + "...\n");
 
     // Step 4: Exchange code for tokens using client secret
