@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       disabled: false,
       metadata: JSON.stringify({
         token_endpoint_auth_method: isPublic ? "none" : "client_secret_post",
-        grant_types: ["authorization_code", "refresh_token"],
+        grant_types: ["authorization_code", "refresh_token", "client_credentials"],
         scope: scope || "openid profile email",
         skip_consent: skipConsent === true, // For first-party trusted apps
         client_name: name, // Display name on consent screen
