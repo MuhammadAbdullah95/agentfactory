@@ -8,7 +8,7 @@ This guide explains how to integrate FastAPI, MCP, and other backend services wi
 2. [OAuth Authorization Code Flow](#2-oauth-authorization-code-flow)
 3. [Verifying Tokens (JWKS)](#3-verifying-tokens-jwks)
 4. [Enforcing Authorization](#4-enforcing-authorization)
-5. [Client Credentials Grant (Coming Soon)](#5-client-credentials-grant-coming-soon)
+5. [Client Credentials Grant (Machine-to-Machine)](#5-client-credentials-grant-machine-to-machine-auth)
 6. [Production Considerations](#6-production-considerations)
 
 ---
@@ -712,39 +712,238 @@ async def get_tenant_analytics(
 
 ---
 
-## 5. Client Credentials Grant (Coming Soon)
+## 5. Client Credentials Grant (Machine-to-Machine Auth)
 
-For **headless/backend-to-backend** authentication (machine-to-machine), we plan to support the **Client Credentials** grant type.
+For **headless/backend-to-backend** authentication (machine-to-machine), use the **Client Credentials** grant type.
 
-**Status**: 🚧 Not yet implemented. Track issue [#XX] for updates.
+**Status**: ✅ **Fully Supported** - Available for all confidential clients registered via `/api/admin/clients/register`
 
-**Planned Usage**:
+### How It Works
+
+Client Credentials flow is for services authenticating themselves (not on behalf of a user):
+
+```
+┌─────────────────┐                    ┌──────────────┐
+│  Your Backend   │                    │ Auth Server  │
+│   (FastAPI)     │                    │ (Better Auth)│
+└─────────────────┘                    └──────────────┘
+         │                                     │
+         │  1. POST /oauth2/token              │
+         │     grant_type=client_credentials   │
+         │     + HTTP Basic Auth               │
+         │────────────────────────────────────▶│
+         │                                     │
+         │                    2. Verify client │
+         │                       credentials   │
+         │                                     │
+         │  3. Return access_token             │
+         │◀────────────────────────────────────│
+         │                                     │
+         │  4. Use token to call APIs          │
+         │                                     │
+```
+
+### Implementation
+
+#### Python (FastAPI/httpx)
+
 ```python
-# Future implementation
-async def get_service_token():
+import httpx
+import os
+from typing import Dict, Optional
+
+# Configuration
+OAUTH_AUTH_URL = os.getenv("OAUTH_AUTH_URL", "http://localhost:3001")
+CLIENT_ID = os.getenv("OAUTH_CLIENT_ID")
+CLIENT_SECRET = os.getenv("OAUTH_CLIENT_SECRET")
+
+async def get_service_token(scope: str = "api:read api:write") -> Dict[str, str]:
     """
-    Machine-to-machine authentication.
+    Machine-to-machine authentication using Client Credentials Grant.
     No user context - service acts on its own behalf.
+
+    Args:
+        scope: Space-separated list of scopes to request
+
+    Returns:
+        Dictionary with access_token, token_type, expires_in
     """
     token_url = f"{OAUTH_AUTH_URL}/api/auth/oauth2/token"
 
-    response = await httpx.AsyncClient().post(
-        token_url,
-        data={
-            "grant_type": "client_credentials",
-            "scope": "api:read api:write"
-        },
-        auth=(CLIENT_ID, CLIENT_SECRET)  # HTTP Basic Auth
-    )
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            token_url,
+            data={
+                "grant_type": "client_credentials",
+                "scope": scope
+            },
+            auth=(CLIENT_ID, CLIENT_SECRET)  # HTTP Basic Auth
+        )
+        response.raise_for_status()
+        return response.json()
 
-    return response.json()
+# Usage example
+async def background_job():
+    """Example: Background job that needs API access"""
+    # Get service token
+    token_data = await get_service_token(scope="api:read api:write")
+    access_token = token_data["access_token"]
+
+    # Use token to call APIs
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            "https://api.example.com/protected",
+            headers={"Authorization": f"Bearer {access_token}"}
+        )
+        return response.json()
 ```
 
-**Use Cases**:
+#### Node.js (TypeScript)
+
+```typescript
+import axios from 'axios';
+
+interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+}
+
+async function getServiceToken(scope: string = 'api:read api:write'): Promise<TokenResponse> {
+  const tokenUrl = `${process.env.OAUTH_AUTH_URL}/api/auth/oauth2/token`;
+
+  const response = await axios.post(
+    tokenUrl,
+    new URLSearchParams({
+      grant_type: 'client_credentials',
+      scope: scope
+    }),
+    {
+      auth: {
+        username: process.env.OAUTH_CLIENT_ID!,
+        password: process.env.OAUTH_CLIENT_SECRET!
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  );
+
+  return response.data;
+}
+
+// Usage
+async function backgroundJob() {
+  const { access_token } = await getServiceToken();
+
+  const apiResponse = await axios.get('https://api.example.com/protected', {
+    headers: { Authorization: `Bearer ${access_token}` }
+  });
+
+  return apiResponse.data;
+}
+```
+
+#### cURL (Testing)
+
+```bash
+# Request service token
+curl -X POST http://localhost:3001/api/auth/oauth2/token \
+  -u "your-client-id:your-client-secret" \
+  -d "grant_type=client_credentials" \
+  -d "scope=api:read api:write"
+
+# Response
+{
+  "access_token": "eyJhbGc...",
+  "token_type": "Bearer",
+  "expires_in": 21600,
+  "scope": "api:read api:write"
+}
+
+# Use the token
+curl https://api.example.com/protected \
+  -H "Authorization: Bearer eyJhbGc..."
+```
+
+### Token Caching (Recommended)
+
+Client credentials tokens should be cached and reused until expiration:
+
+```python
+from datetime import datetime, timedelta
+from typing import Optional
+
+class ServiceTokenManager:
+    """Cache and manage service tokens"""
+
+    def __init__(self):
+        self._token: Optional[str] = None
+        self._expires_at: Optional[datetime] = None
+
+    async def get_token(self, scope: str = "api:read api:write") -> str:
+        """Get cached token or fetch new one if expired"""
+
+        # Return cached token if still valid
+        if self._token and self._expires_at:
+            if datetime.now() < self._expires_at - timedelta(minutes=5):
+                return self._token
+
+        # Fetch new token
+        token_data = await get_service_token(scope)
+        self._token = token_data["access_token"]
+        self._expires_at = datetime.now() + timedelta(seconds=token_data["expires_in"])
+
+        return self._token
+
+# Global instance
+token_manager = ServiceTokenManager()
+
+# Usage
+async def call_api():
+    token = await token_manager.get_token()
+    # Use token...
+```
+
+### Verifying Client Credentials Tokens
+
+Client credentials tokens are standard JWTs - verify them the same way as authorization code tokens (see [Section 3](#3-verifying-tokens-jwks)):
+
+```python
+from fastapi import Depends
+
+@app.get("/api/service-endpoint")
+async def service_endpoint(
+    user: TokenPayload = Depends(get_current_user)
+):
+    """
+    Endpoint accepting both user tokens and service tokens.
+
+    Service tokens will have:
+    - sub: client_id (not user ID)
+    - scope: client-defined scopes
+    - No user-specific claims (name, email, etc.)
+    """
+    if user.sub.startswith("client-"):  # Check if service token
+        return {"message": "Service-to-service call", "client": user.sub}
+    else:
+        return {"message": "User call", "user_id": user.sub}
+```
+
+### Use Cases
+
+✅ **Perfect for**:
 - Background jobs accessing APIs
 - Service-to-service communication
 - Cron jobs that don't act on behalf of a user
 - Internal microservices
+- Data sync processes
+
+❌ **Not suitable for**:
+- User-facing applications (use Authorization Code Flow)
+- Actions that require user context/permissions
+- Consent screens or user profile access
 
 ---
 
