@@ -40,7 +40,7 @@ export async function GET() {
     }).from(oauthApplication);
 
     // Parse redirectUrls and metadata - handle both JSON strings and plain strings
-    const parsedClients = clients.map(client => {
+    const parsedClients = clients.map((client: typeof clients[number]) => {
       let redirectUrls: string[] = [];
       let metadata: Record<string, unknown> = {};
 
@@ -52,7 +52,7 @@ export async function GET() {
         } catch {
           // Not JSON, treat as single URL or comma-separated
           redirectUrls = client.redirectUrls.includes(',')
-            ? client.redirectUrls.split(',').map(u => u.trim())
+            ? client.redirectUrls.split(',').map((u: string) => u.trim())
             : [client.redirectUrls];
         }
       }

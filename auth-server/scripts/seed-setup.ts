@@ -174,9 +174,9 @@ const TEST_ORG = {
  * Upsert OAuth client from trusted-clients.ts configuration
  */
 async function upsertClient(client: typeof TRUSTED_CLIENTS[0]) {
-  // Determine auth method based on client type
-  const authMethod = client.type === "confidential" ? "client_secret_basic" : "none";
+  // Determine auth method based on presence of client secret
   const clientSecret = 'clientSecret' in client ? client.clientSecret : null;
+  const authMethod = clientSecret ? "client_secret_basic" : "none";
 
   const dbClient = {
     id: `${client.clientId}-id`,
@@ -223,50 +223,10 @@ async function upsertClient(client: typeof TRUSTED_CLIENTS[0]) {
 }
 
 /**
- * Create or get admin user
+ * Note: Admin user creation is handled via Better Auth API (see createAdminViaAPI above)
+ * This ensures password hashing uses Better Auth's exact implementation.
+ * The seed script only checks for existing admin and provides API instructions if needed.
  */
-async function createAdminUser() {
-  // Check if admin user exists
-  const existingUser = await db
-    .select()
-    .from(user)
-    .where(eq(user.email, TEST_ADMIN_EMAIL));
-
-  if (existingUser.length > 0) {
-    console.log(`  ✅ Admin user exists: ${TEST_ADMIN_EMAIL}`);
-    return existingUser[0].id;
-  }
-
-  // Create admin user
-  console.log(`  ✅ Creating admin user: ${TEST_ADMIN_EMAIL}`);
-  const userId = crypto.randomUUID();
-  const hashedPassword = await hashPassword(TEST_ADMIN_PASSWORD);
-
-  await db.insert(user).values({
-    id: userId,
-    email: TEST_ADMIN_EMAIL,
-    emailVerified: true, // Skip email verification for local dev
-    name: TEST_ADMIN_NAME,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
-
-  // Create account with password
-  await db.insert(account).values({
-    id: crypto.randomUUID(),
-    userId: userId,
-    accountId: userId,
-    providerId: "credential",
-    password: hashedPassword,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
-
-  console.log(`  📧 Email: ${TEST_ADMIN_EMAIL}`);
-  console.log(`  🔑 Password: ${TEST_ADMIN_PASSWORD}`);
-
-  return userId;
-}
 
 /**
  * Seed default organization (production + dev)

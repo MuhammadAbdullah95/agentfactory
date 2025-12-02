@@ -1,28 +1,25 @@
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import { pgTable, text, boolean } from "drizzle-orm/pg-core";
+import { db } from "../src/lib/db";
+import { user } from "../auth-schema";
 import { eq } from "drizzle-orm";
-import dotenv from "dotenv";
 
-dotenv.config({ path: ".env.local" });
+async function verifyTestUser() {
+  try {
+    const result = await db
+      .update(user)
+      .set({ emailVerified: true })
+      .where(eq(user.email, "testuser@example.com"))
+      .returning();
 
-const user = pgTable("user", {
-  id: text("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false).notNull(),
-});
-
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
-
-async function main() {
-  const result = await db.update(user)
-    .set({ emailVerified: true })
-    .where(eq(user.email, "admin@robolearn.io"))
-    .returning({ id: user.id, email: user.email, emailVerified: user.emailVerified });
-
-  console.log("User verified:", result);
+    if (result.length > 0) {
+      console.log("✅ Email verified for testuser@example.com");
+      console.log("User:", result[0]);
+    } else {
+      console.log("❌ User not found");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
   process.exit(0);
 }
 
-main().catch(console.error);
+verifyTestUser();

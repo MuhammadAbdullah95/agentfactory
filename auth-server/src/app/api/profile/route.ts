@@ -43,7 +43,7 @@ export async function GET() {
       .from(member)
       .where(eq(member.userId, session.user.id));
 
-    const organizationIds = memberships.map((m) => m.organizationId);
+    const organizationIds = memberships.map((m: typeof memberships[number]) => m.organizationId);
 
     // Return flattened structure with organizationIds (expected by tests)
     return NextResponse.json({

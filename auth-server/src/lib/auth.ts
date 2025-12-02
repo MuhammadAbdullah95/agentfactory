@@ -498,7 +498,7 @@ export const auth = betterAuth({
           .where(eq(member.userId, user.id));
 
         // Get all organization IDs the user belongs to
-        const organizationIds = memberships.map((m) => m.organizationId);
+        const organizationIds = memberships.map((m: typeof memberships[number]) => m.organizationId);
 
         // Primary tenant is the first organization (can be extended to support active org)
         const primaryTenantId = organizationIds[0] || null;

@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function ProfileForm({ user }: { user: any }) {
-  const router = useRouter();
+export default function ProfileForm({
+  user,
+  redirectUrl
+}: {
+  user: any;
+  redirectUrl: string | null;
+}) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     // OIDC Standard Claims (editable)
@@ -33,8 +37,13 @@ export default function ProfileForm({ user }: { user: any }) {
       });
 
       if (response.ok) {
-        // Refresh the page to get updated session data
-        window.location.reload();
+        if (redirectUrl) {
+          // Redirect back to client app
+          window.location.href = redirectUrl;
+        } else {
+          // No redirect URL, just reload current page
+          window.location.reload();
+        }
       } else {
         const error = await response.json();
         alert(`Error: ${error.message}`);

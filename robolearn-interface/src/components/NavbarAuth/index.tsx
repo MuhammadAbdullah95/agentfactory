@@ -6,7 +6,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
 export function NavbarAuth() {
-  const { session, isLoading, signOut } = useAuth();
+  const { session, isLoading, signOut, refreshUserData } = useAuth();
   const { siteConfig } = useDocusaurusContext();
   const authUrl = (siteConfig.customFields?.authUrl as string) || 'http://localhost:3001';
   const oauthClientId = (siteConfig.customFields?.oauthClientId as string) || 'robolearn-interface';
@@ -62,6 +62,26 @@ export function NavbarAuth() {
     }
     return email ? email[0].toUpperCase() : '?';
   };
+
+  // Handle Edit Profile - open auth server profile page
+  const handleEditProfile = () => {
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const profileUrl = `${authUrl}/account/profile?redirect=${encodeURIComponent(currentUrl)}`;
+
+    // Store a flag so we know to refresh data when user returns
+    localStorage.setItem('robolearn_refresh_on_return', 'true');
+
+    window.location.href = profileUrl;
+  };
+
+  // Refresh data if user just returned from profile editing
+  useEffect(() => {
+    const shouldRefresh = localStorage.getItem('robolearn_refresh_on_return');
+    if (shouldRefresh === 'true' && session?.user) {
+      localStorage.removeItem('robolearn_refresh_on_return');
+      refreshUserData();
+    }
+  }, [session]);
 
   if (isLoading) {
     return (
@@ -139,6 +159,12 @@ export function NavbarAuth() {
             )}
             
             <div className={styles.dropdownDivider} />
+            <button onClick={handleEditProfile} className={styles.dropdownItem}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M11.3333 2.00004C11.5084 1.82494 11.716 1.68605 11.9441 1.59129C12.1722 1.49653 12.4165 1.44775 12.6633 1.44775C12.9101 1.44775 13.1544 1.49653 13.3825 1.59129C13.6106 1.68605 13.8183 1.82494 13.9933 2.00004C14.1684 2.17513 14.3073 2.38283 14.4021 2.61091C14.4968 2.83899 14.5456 3.08333 14.5456 3.33004C14.5456 3.57675 14.4968 3.82109 14.4021 4.04917C14.3073 4.27725 14.1684 4.48495 13.9933 4.66004L5.33333 13.32L2 14L2.68 10.6667L11.3333 2.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Edit Profile
+            </button>
             <button onClick={() => signOut()} className={styles.dropdownItem}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M6 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

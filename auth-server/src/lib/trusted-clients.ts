@@ -73,7 +73,7 @@ export const TRUSTED_CLIENTS = [
   {
     clientId: "robolearn-confidential-client",
     name: "RoboLearn Backend Service (Test)",
-    type: "confidential" as const,
+    type: "web" as const, // "web" type for server-side confidential clients with secrets
     clientSecret: "robolearn-confidential-secret-for-testing-only",
     redirectUrls: getRedirectUrls([
       "http://localhost:8000/auth/callback",
