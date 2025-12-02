@@ -33,13 +33,13 @@ export default function AuthLayout({
           </p>
           <div className="mt-3 flex items-center justify-center gap-2">
             <div className="h-px w-12 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
-            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+            <div className="w-1.5 h-1.5 rounded-full bg-pana-500" />
             <div className="h-px w-12 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
           </div>
         </div>
 
         {/* Form container with glass effect */}
-        <div className="glass-effect rounded-2xl shadow-2xl shadow-indigo-500/10 p-8 md:p-10 animate-in scale-in">
+        <div className="glass-effect rounded-2xl shadow-2xl shadow-pana-500/10 p-8 md:p-10 animate-in scale-in">
           {children}
         </div>
 

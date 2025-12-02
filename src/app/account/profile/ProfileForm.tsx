@@ -121,7 +121,7 @@ export default function ProfileForm({
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
             placeholder="John Doe"
-            className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300"
+            className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300"
           />
         </div>
 
@@ -136,7 +136,7 @@ export default function ProfileForm({
               value={formData.givenName}
               onChange={(e) => setFormData({...formData, givenName: e.target.value})}
               placeholder="John"
-              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300"
+              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300"
             />
           </div>
           <div className="space-y-3">
@@ -148,7 +148,7 @@ export default function ProfileForm({
               value={formData.familyName}
               onChange={(e) => setFormData({...formData, familyName: e.target.value})}
               placeholder="Doe"
-              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300"
+              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300"
             />
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function ProfileForm({
           <select
             value={formData.softwareBackground}
             onChange={(e) => setFormData({...formData, softwareBackground: e.target.value})}
-            className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
+            className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
           >
             <option value="beginner">Beginner — Just starting out</option>
             <option value="intermediate">Intermediate — Some experience</option>
@@ -185,7 +185,7 @@ export default function ProfileForm({
           <select
             value={formData.hardwareTier}
             onChange={(e) => setFormData({...formData, hardwareTier: e.target.value})}
-            className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
+            className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
           >
             <option value="tier1">Windows PC — Desktop or laptop</option>
             <option value="tier2">Mac — MacBook or iMac</option>
@@ -217,7 +217,7 @@ export default function ProfileForm({
             <select
               value={formData.locale}
               onChange={(e) => setFormData({...formData, locale: e.target.value})}
-              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
+              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
             >
               <option value="en-US">English (US)</option>
               <option value="en-GB">English (UK)</option>
@@ -234,7 +234,7 @@ export default function ProfileForm({
             <select
               value={formData.zoneinfo}
               onChange={(e) => setFormData({...formData, zoneinfo: e.target.value})}
-              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
+              className="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-pana-500 focus:ring-4 focus:ring-pana-500/10 transition-all duration-200 bg-white hover:border-slate-300 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e')] bg-[length:1.25rem] bg-[right_0.75rem_center] bg-no-repeat"
             >
               <option value="America/New_York">Eastern Time (US)</option>
               <option value="America/Chicago">Central Time (US)</option>
@@ -253,7 +253,7 @@ export default function ProfileForm({
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 relative py-4 px-6 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-indigo-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden group"
+          className="flex-1 relative py-4 px-6 bg-gradient-to-r from-pana-600 to-pana-700 text-white font-bold rounded-xl shadow-lg shadow-pana-500/30 hover:shadow-xl hover:shadow-pana-500/40 hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-pana-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden group"
         >
           {loading ? (
             <span className="flex items-center justify-center">
@@ -271,7 +271,7 @@ export default function ProfileForm({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-800 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-r from-pana-700 to-pana-800 opacity-0 group-hover:opacity-100 transition-opacity" />
             </>
           )}
         </button>

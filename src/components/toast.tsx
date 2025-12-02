@@ -49,7 +49,7 @@ export function Toast({ message, type = "success", duration = 5000, onClose }: T
       ),
     },
     info: {
-      container: "bg-gradient-to-br from-blue-500 via-indigo-500 to-violet-600",
+      container: "bg-gradient-to-br from-blue-500 via-pana-500 to-violet-600",
       glow: "shadow-blue-500/40",
       particles: "from-blue-300/60 to-violet-400/60",
       icon: (

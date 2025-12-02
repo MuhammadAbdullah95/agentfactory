@@ -339,37 +339,37 @@ export function SignUpForm() {
           <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
           <div className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${
-            currentStep >= 1 ? "bg-gradient-to-r from-indigo-600 to-indigo-500" : "bg-slate-200"
+            currentStep >= 1 ? "bg-gradient-to-r from-pana-600 to-pana-500" : "bg-slate-200"
           }`} />
           <div className={`mx-3 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 shadow-lg ${
             currentStep >= 1 
-              ? "bg-gradient-to-br from-indigo-600 to-indigo-700 text-white scale-110 shadow-indigo-500/50" 
+              ? "bg-gradient-to-br from-pana-600 to-pana-700 text-white scale-110 shadow-pana-500/50" 
               : "bg-slate-200 text-slate-400"
           }`}>
             1
           </div>
           <div className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${
-            currentStep >= 2 ? "bg-gradient-to-r from-indigo-600 to-indigo-500" : "bg-slate-200"
+            currentStep >= 2 ? "bg-gradient-to-r from-pana-600 to-pana-500" : "bg-slate-200"
           }`} />
           <div className={`mx-3 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 shadow-lg ${
             currentStep >= 2 
-              ? "bg-gradient-to-br from-indigo-600 to-indigo-700 text-white scale-110 shadow-indigo-500/50" 
+              ? "bg-gradient-to-br from-pana-600 to-pana-700 text-white scale-110 shadow-pana-500/50" 
               : "bg-slate-200 text-slate-400"
           }`}>
             2
           </div>
           <div className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${
-            currentStep >= 2 ? "bg-gradient-to-r from-indigo-600 to-indigo-500" : "bg-slate-200"
+            currentStep >= 2 ? "bg-gradient-to-r from-pana-600 to-pana-500" : "bg-slate-200"
           }`} />
         </div>
         <div className="flex justify-between text-xs font-semibold mt-2">
           <span className={`transition-colors duration-300 ${
-            currentStep === 1 ? "text-indigo-600" : "text-slate-400"
+            currentStep === 1 ? "text-pana-600" : "text-slate-400"
           }`}>
             Account
           </span>
           <span className={`transition-colors duration-300 ${
-            currentStep === 2 ? "text-indigo-600" : "text-slate-400"
+            currentStep === 2 ? "text-pana-600" : "text-slate-400"
           }`}>
             Learning Profile
           </span>
@@ -413,13 +413,13 @@ export function SignUpForm() {
                   errors.name
                     ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                     : focusedField === "name"
-                    ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                    : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                    ? "border-pana-400 focus:border-pana-500 focus:ring-2 focus:ring-pana-500/20 shadow-sm shadow-pana-500/10"
+                    : "border-slate-200 focus:border-pana-400 focus:ring-2 focus:ring-pana-500/20"
                 }`}
                 placeholder="Your full name"
               />
               {focusedField === "name" && (
-                <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+                <div className="absolute inset-0 rounded-xl border-2 border-pana-500 pointer-events-none animate-in scale-in opacity-50" />
               )}
             </div>
               {errors.name && (
@@ -445,13 +445,13 @@ export function SignUpForm() {
                   errors.email 
                     ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20" 
                     : focusedField === "email"
-                    ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                    : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                    ? "border-pana-400 focus:border-pana-500 focus:ring-2 focus:ring-pana-500/20 shadow-sm shadow-pana-500/10"
+                    : "border-slate-200 focus:border-pana-400 focus:ring-2 focus:ring-pana-500/20"
                 }`}
                 placeholder="you@example.com"
               />
               {focusedField === "email" && (
-                <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+                <div className="absolute inset-0 rounded-xl border-2 border-pana-500 pointer-events-none animate-in scale-in opacity-50" />
               )}
             </div>
               {errors.email && (
@@ -477,8 +477,8 @@ export function SignUpForm() {
                   errors.password
                     ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                     : focusedField === "password"
-                    ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                    : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                    ? "border-pana-400 focus:border-pana-500 focus:ring-2 focus:ring-pana-500/20 shadow-sm shadow-pana-500/10"
+                    : "border-slate-200 focus:border-pana-400 focus:ring-2 focus:ring-pana-500/20"
                 }`}
                 placeholder="At least 8 characters"
               />
@@ -492,7 +492,7 @@ export function SignUpForm() {
                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
               {focusedField === "password" && (
-                <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+                <div className="absolute inset-0 rounded-xl border-2 border-pana-500 pointer-events-none animate-in scale-in opacity-50" />
               )}
             </div>
               {errors.password && (
@@ -518,8 +518,8 @@ export function SignUpForm() {
                   errors.confirmPassword
                     ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                     : focusedField === "confirmPassword"
-                    ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                    : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                    ? "border-pana-400 focus:border-pana-500 focus:ring-2 focus:ring-pana-500/20 shadow-sm shadow-pana-500/10"
+                    : "border-slate-200 focus:border-pana-400 focus:ring-2 focus:ring-pana-500/20"
                 }`}
                 placeholder="Confirm your password"
               />
@@ -533,7 +533,7 @@ export function SignUpForm() {
                 {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
               {focusedField === "confirmPassword" && (
-                <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+                <div className="absolute inset-0 rounded-xl border-2 border-pana-500 pointer-events-none animate-in scale-in opacity-50" />
               )}
             </div>
               {errors.confirmPassword && (
@@ -544,7 +544,7 @@ export function SignUpForm() {
 
           <button
             type="submit"
-            className="w-full relative py-3.5 px-4 mt-6 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 overflow-hidden group"
+            className="w-full relative py-3.5 px-4 mt-6 bg-gradient-to-r from-pana-600 to-pana-700 text-white font-semibold rounded-xl shadow-lg shadow-pana-500/30 hover:shadow-xl hover:shadow-pana-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pana-500 transition-all duration-200 overflow-hidden group"
           >
             <span className="flex items-center justify-center">
               Continue
@@ -595,7 +595,7 @@ export function SignUpForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full relative py-3.5 px-4 mt-6 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
+            className="w-full relative py-3.5 px-4 mt-6 bg-gradient-to-r from-pana-600 to-pana-700 text-white font-semibold rounded-xl shadow-lg shadow-pana-500/30 hover:shadow-xl hover:shadow-pana-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pana-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">
@@ -625,7 +625,7 @@ export function SignUpForm() {
 
         <a
           href={`/auth/sign-in${searchParams.toString() ? `?${searchParams.toString()}` : ""}`}
-          className="block w-full text-center py-3 px-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+          className="block w-full text-center py-3 px-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-pana-300 hover:text-pana-700 hover:bg-pana-50/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pana-500 transition-all duration-200"
         >
           Sign in
         </a>

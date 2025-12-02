@@ -50,17 +50,17 @@ export default async function HomePage() {
             </p>
             <div className="mt-3 flex items-center justify-center gap-2">
               <div className="h-px w-12 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              <div className="w-1.5 h-1.5 rounded-full bg-pana-500" />
               <div className="h-px w-12 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
             </div>
           </div>
 
           {/* Main Card - glass effect matching auth pages */}
-          <div className="glass-effect rounded-2xl shadow-2xl shadow-indigo-500/10 p-8 md:p-10 animate-in scale-in">
+          <div className="glass-effect rounded-2xl shadow-2xl shadow-pana-500/10 p-8 md:p-10 animate-in scale-in">
             {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 mb-6">
-              <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-              <span className="text-xs font-semibold text-indigo-700 tracking-wide uppercase">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-pana-50 border border-pana-200 mb-6">
+              <div className="w-2 h-2 rounded-full bg-pana-500 animate-pulse" />
+              <span className="text-xs font-semibold text-pana-700 tracking-wide uppercase">
                 Authenticated
               </span>
             </div>
@@ -76,9 +76,9 @@ export default async function HomePage() {
             </div>
 
             {/* Session Info */}
-            <div className="bg-gradient-to-br from-indigo-50 to-slate-50 rounded-xl p-5 mb-8 border border-indigo-100">
+            <div className="bg-gradient-to-br from-pana-50 to-slate-50 rounded-xl p-5 mb-8 border border-pana-100">
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-indigo-500/30">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pana-500 to-pana-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-pana-500/30">
                   <svg
                     className="w-5 h-5 text-white"
                     fill="none"
@@ -108,7 +108,7 @@ export default async function HomePage() {
             <div className="space-y-3">
               <a
                 href={continueUrl}
-                className="block w-full py-3.5 px-6 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-indigo-600 shadow-lg shadow-indigo-500/30 text-center transition-all duration-200 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5"
+                className="block w-full py-3.5 px-6 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-pana-500 to-pana-600 shadow-lg shadow-pana-500/30 text-center transition-all duration-200 hover:shadow-xl hover:shadow-pana-500/40 hover:-translate-y-0.5"
               >
                 Continue to Application →
               </a>

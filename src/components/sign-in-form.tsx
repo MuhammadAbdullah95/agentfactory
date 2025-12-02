@@ -172,13 +172,13 @@ export function SignInForm() {
                 errors.email 
                   ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20" 
                   : focusedField === "email"
-                  ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                  : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                  ? "border-pana-400 focus:border-pana-500 focus:ring-2 focus:ring-pana-500/20 shadow-sm shadow-pana-500/10"
+                  : "border-slate-200 focus:border-pana-400 focus:ring-2 focus:ring-pana-500/20"
               }`}
               placeholder="you@example.com"
             />
             {focusedField === "email" && (
-              <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+              <div className="absolute inset-0 rounded-xl border-2 border-pana-500 pointer-events-none animate-in scale-in opacity-50" />
             )}
           </div>
           {errors.email && (
@@ -204,8 +204,8 @@ export function SignInForm() {
                 errors.password
                   ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                   : focusedField === "password"
-                  ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                  : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                  ? "border-pana-400 focus:border-pana-500 focus:ring-2 focus:ring-pana-500/20 shadow-sm shadow-pana-500/10"
+                  : "border-slate-200 focus:border-pana-400 focus:ring-2 focus:ring-pana-500/20"
               }`}
               placeholder="Enter your password"
             />
@@ -219,7 +219,7 @@ export function SignInForm() {
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
             {focusedField === "password" && (
-              <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+              <div className="absolute inset-0 rounded-xl border-2 border-pana-500 pointer-events-none animate-in scale-in opacity-50" />
             )}
           </div>
           {errors.password && (
@@ -230,7 +230,7 @@ export function SignInForm() {
         <div className="flex items-center justify-between pt-1">
           <a 
             href="/auth/forgot-password" 
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
+            className="text-sm font-medium text-pana-600 hover:text-pana-700 transition-colors"
           >
             Forgot password?
           </a>
@@ -239,7 +239,7 @@ export function SignInForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full relative py-3.5 px-4 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg overflow-hidden group"
+          className="w-full relative py-3.5 px-4 bg-gradient-to-r from-pana-500 to-pana-600 text-white font-semibold rounded-xl shadow-lg shadow-pana-500/30 hover:shadow-xl hover:shadow-pana-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pana-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg overflow-hidden group"
         >
           {isLoading ? (
             <span className="flex items-center justify-center">
@@ -268,7 +268,7 @@ export function SignInForm() {
 
         <a
           href={`/auth/sign-up${searchParams.toString() ? `?${searchParams.toString()}` : ""}`}
-          className="block w-full text-center py-3 px-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+          className="block w-full text-center py-3 px-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-pana-300 hover:text-pana-700 hover:bg-pana-50/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pana-500 transition-all duration-200"
         >
           Create an account
         </a>

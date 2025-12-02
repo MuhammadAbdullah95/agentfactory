@@ -20,7 +20,7 @@ export default async function ProfilePage({
   const redirectUrl = params.redirect || null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-pana-50/30 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Refined Header Section */}
         <div className="mb-8">
@@ -42,7 +42,7 @@ export default async function ProfilePage({
           {/* Hero Header */}
           <div className="relative">
             {/* Decorative accent */}
-            <div className="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 to-indigo-600 rounded-full" />
+            <div className="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-pana-500 to-pana-600 rounded-full" />
 
             <div className="pl-6">
               <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-3 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text">
@@ -58,7 +58,7 @@ export default async function ProfilePage({
         {/* Form Card with Enhanced Shadow */}
         <div className="relative">
           {/* Subtle glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-100/20 via-transparent to-purple-100/20 rounded-2xl blur-2xl -z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-pana-100/20 via-transparent to-purple-100/20 rounded-2xl blur-2xl -z-10" />
 
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200/50 p-8 md:p-10">
             <ProfileForm user={session.user} redirectUrl={redirectUrl} />
