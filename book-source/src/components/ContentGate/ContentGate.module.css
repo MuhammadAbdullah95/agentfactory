@@ -1,0 +1,477 @@
+/* Content Gate - Editorial/Luxury Learning Aesthetic */
+
+/* CSS Custom Properties */
+.gateContainer {
+  --gate-navy: #0a1628;
+  --gate-navy-light: #162338;
+  --gate-gold: #d4a574;
+  --gate-gold-light: #e8c9a8;
+  --gate-gold-dark: #b8956a;
+  --gate-cream: #faf8f5;
+  --gate-text: #2d3748;
+  --gate-text-muted: #64748b;
+  --gate-shadow: rgba(10, 22, 40, 0.12);
+  --gate-blur: 12px;
+
+  position: relative;
+  margin: 2rem 0;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+/* Dark mode overrides */
+[data-theme='dark'] .gateContainer {
+  --gate-navy: #0f172a;
+  --gate-navy-light: #1e293b;
+  --gate-cream: #1a1a2e;
+  --gate-text: #e2e8f0;
+  --gate-text-muted: #94a3b8;
+  --gate-shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--gate-text-muted);
+  font-size: 0.9rem;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--ifm-color-emphasis-200);
+  border-top-color: var(--gate-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Preview Container - Shows blurred content */
+.previewContainer {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  overflow: hidden;
+}
+
+.blurredContent {
+  filter: blur(var(--gate-blur));
+  transform: scale(1.02);
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+}
+
+.blurOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 30%,
+    rgba(255, 255, 255, 0.8) 70%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+}
+
+[data-theme='dark'] .blurOverlay {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(15, 23, 42, 0.3) 30%,
+    rgba(15, 23, 42, 0.8) 70%,
+    rgba(15, 23, 42, 0.95) 100%
+  );
+}
+
+/* Gate Card - The main CTA */
+.gateCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  background: var(--gate-cream);
+  border-radius: 20px;
+  box-shadow:
+    0 4px 6px -1px var(--gate-shadow),
+    0 10px 15px -3px var(--gate-shadow),
+    0 20px 40px -10px var(--gate-shadow);
+  text-align: center;
+  animation: gateCardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  border: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+[data-theme='dark'] .gateCard {
+  background: var(--gate-navy-light);
+  border-color: rgba(212, 165, 116, 0.15);
+}
+
+@keyframes gateCardEnter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Gate Icon */
+.gateIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1.25rem;
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--gate-gold-light) 0%, var(--gate-gold) 100%);
+  border-radius: 16px;
+  box-shadow:
+    0 4px 12px rgba(212, 165, 116, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 4px 12px rgba(212, 165, 116, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 6px 20px rgba(212, 165, 116, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Gate Title */
+.gateTitle {
+  margin: 0 0 0.75rem;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gate-navy);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+[data-theme='dark'] .gateTitle {
+  color: var(--gate-cream);
+}
+
+/* Gate Description */
+.gateDescription {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--gate-text-muted);
+}
+
+/* Benefit Badge */
+.benefitBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gate-gold-dark);
+  background: rgba(212, 165, 116, 0.12);
+  border: 1px solid rgba(212, 165, 116, 0.25);
+  border-radius: 100px;
+}
+
+[data-theme='dark'] .benefitBadge {
+  background: rgba(212, 165, 116, 0.1);
+  color: var(--gate-gold-light);
+}
+
+.checkIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Gate Actions */
+.gateActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Sign In Button - Primary CTA */
+.signInButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--gate-navy) 0%, var(--gate-navy-light) 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow:
+    0 2px 4px var(--gate-shadow),
+    0 4px 8px var(--gate-shadow);
+}
+
+.signInButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px var(--gate-shadow),
+    0 8px 16px var(--gate-shadow);
+}
+
+.signInButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.signInButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[data-theme='dark'] .signInButton {
+  background: linear-gradient(135deg, var(--gate-gold) 0%, var(--gate-gold-dark) 100%);
+  color: var(--gate-navy);
+}
+
+.buttonIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.buttonSpinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+[data-theme='dark'] .buttonSpinner {
+  border-color: rgba(10, 22, 40, 0.3);
+  border-top-color: var(--gate-navy);
+}
+
+/* Sign Up Button - Secondary CTA */
+.signUpButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gate-navy);
+  background: transparent;
+  border: 2px solid var(--gate-gold);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signUpButton:hover:not(:disabled) {
+  background: rgba(212, 165, 116, 0.1);
+  border-color: var(--gate-gold-dark);
+}
+
+.signUpButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+[data-theme='dark'] .signUpButton {
+  color: var(--gate-gold-light);
+  border-color: var(--gate-gold);
+}
+
+[data-theme='dark'] .signUpButton:hover:not(:disabled) {
+  background: rgba(212, 165, 116, 0.15);
+}
+
+/* Gate Footer */
+.gateFooter {
+  margin: 1.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--gate-text-muted);
+}
+
+/* Content Wrapper - For unlock animation */
+.contentWrapper {
+  position: relative;
+}
+
+.contentWrapper.unlocking {
+  animation: unlockReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes unlockReveal {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .gateContainer {
+    margin: 1.5rem 0;
+    min-height: 280px;
+  }
+
+  .gateCard {
+    width: 95%;
+    padding: 2rem 1.5rem;
+  }
+
+  .gateIcon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.75rem;
+    border-radius: 14px;
+  }
+
+  .gateTitle {
+    font-size: 1.5rem;
+  }
+
+  .gateDescription {
+    font-size: 0.95rem;
+  }
+
+  .benefitBadge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.875rem;
+  }
+
+  .signInButton,
+  .signUpButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gateContainer {
+    margin: 1rem 0;
+    border-radius: 16px;
+  }
+
+  .gateCard {
+    padding: 1.75rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .gateIcon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .gateTitle {
+    font-size: 1.35rem;
+  }
+
+  .gateDescription {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .benefitBadge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .gateActions {
+    gap: 0.625rem;
+  }
+
+  .signInButton,
+  .signUpButton {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 10px;
+  }
+
+  .gateFooter {
+    font-size: 0.75rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .gateCard {
+    animation: none;
+  }
+
+  .gateIcon {
+    animation: none;
+  }
+
+  .contentWrapper.unlocking {
+    animation: none;
+  }
+
+  .loadingSpinner,
+  .buttonSpinner {
+    animation: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.signInButton:focus-visible,
+.signUpButton:focus-visible {
+  outline: 2px solid var(--gate-gold);
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .gateCard {
+    border: 2px solid var(--gate-navy);
+  }
+
+  .signInButton {
+    border: 2px solid white;
+  }
+
+  .signUpButton {
+    border-width: 3px;
+  }
+}

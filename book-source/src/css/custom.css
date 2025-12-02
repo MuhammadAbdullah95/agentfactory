@@ -27,6 +27,10 @@
     --ifm-color-primary-lighter: #003366;
     --ifm-color-primary-lightest: #004080;
 
+    /* NAVBAR - SOLID backgrounds, no transparency */
+    --ifm-navbar-background-color: #ffffff;
+    --ifm-navbar-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+
     --ifm-code-font-size: 95%;
     --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
     --ifm-heading-font-weight: 600;
@@ -45,6 +49,10 @@
     --ifm-color-primary-light: #bbbbbb;
     --ifm-color-primary-lighter: #cccccc;
     --ifm-color-primary-lightest: #dddddd;
+
+    /* NAVBAR - SOLID dark background to contrast with hero (#111111) */
+    --ifm-navbar-background-color: #3a3a3a;
+    --ifm-navbar-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 
     --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.05);
     --ifm-background-color: #111111;
@@ -82,36 +90,49 @@ pre code {
     padding: 0;
 }
 
-/* Enhance navbar - SOLID background, no transparency */
-.navbar,
-.navbar--fixed-top,
-html .navbar,
-html[data-theme="light"] .navbar,
-:root .navbar {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    /* Keep default sticky positioning from Docusaurus */
-    z-index: 200;
-    /* Solid WHITE background for light mode - override everything */
-    background: #ffffff !important;
-    background-color: #ffffff !important;
+/* ============================================
+   NAVBAR - SOLID BACKGROUND, NO TRANSPARENCY
+   Using native Docusaurus variables + direct overrides
+   ============================================ */
+
+/* Light mode navbar */
+.navbar {
+    background: var(--ifm-navbar-background-color, #ffffff) !important;
+    background-color: var(--ifm-navbar-background-color, #ffffff) !important;
     background-image: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    box-shadow: var(--ifm-navbar-shadow, 0 1px 2px rgba(0, 0, 0, 0.05)) !important;
+    z-index: 200;
 }
 
-/* Mobile navbar adjustments */
+/* Dark mode navbar - MUST use higher specificity */
+/* Using #3a3a3a for better contrast against hero (#111111) */
+html[data-theme="dark"] .navbar,
+[data-theme="dark"] .navbar {
+    background: #3a3a3a !important;
+    background-color: #3a3a3a !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile navbar - ensure solid background on all screen sizes */
 @media (max-width: 996px) {
+    /* Light mode mobile */
     .navbar {
-        /* Solid background on mobile - no transparency */
         background: #ffffff !important;
         background-color: #ffffff !important;
         padding: 0 0.5rem !important;
     }
 
+    /* Dark mode mobile - explicit overrides */
+    html[data-theme="dark"] .navbar,
     [data-theme="dark"] .navbar {
-        /* Solid dark background on mobile */
-        background: #111111 !important;
-        background-color: #111111 !important;
+        background: #3a3a3a !important;
+        background-color: #3a3a3a !important;
     }
 
     /* Reduce gap between hamburger and Book link */
@@ -139,22 +160,6 @@ html[data-theme="light"] .navbar,
     .navbar__inner {
         gap: 0 !important;
     }
-}
-
-html[data-theme="dark"] .navbar,
-html[data-theme="dark"] .navbar--fixed-top,
-[data-theme="dark"] .navbar,
-[data-theme="dark"] .navbar--fixed-top {
-    /* Polar Night header - lighter gray to contrast with dark hero (#111111) */
-    background: #2d2d2d !important;
-    background-color: #2d2d2d !important;
-    background-image: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow:
-        0 2px 12px rgba(0, 0, 0, 0.4),
-        0 1px 3px rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
 }
 
 /* Navbar brand title styling */
@@ -745,39 +750,231 @@ button[class*="toggleButton"] {
     gap: 0.5rem;
 }
 
-/* Ensure mobile sidebar appears above all content */
+/* ============================================================================
+   MOBILE SIDEBAR — Premium navigation drawer styling
+   ============================================================================ */
 @media (max-width: 996px) {
     /* Docusaurus navbar sidebar for mobile */
     .navbar-sidebar {
         z-index: 1000 !important;
-        height: 100vh !important;  /* Expand to full viewport height */
-        max-height: 100vh !important;  /* Ensure it doesn't exceed viewport */
-        width: 100% !important;  /* Full viewport width */
-        right: 0 !important;  /* Flush to the right edge */
-        background-color: var(--ifm-navbar-background-color) !important;  /* Match navbar bg */
-        background: linear-gradient(180deg, var(--ifm-navbar-background-color) 0%, var(--ifm-background-color) 100%) !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        width: 85% !important;
+        max-width: 340px !important;
+        right: auto !important;
+        left: 0 !important;
+        background: #ffffff !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
-        -webkit-overflow-scrolling: touch !important;  /* Smooth scrolling on iOS */
+        -webkit-overflow-scrolling: touch !important;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar {
+        background: #1a1a1a !important;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Mobile sidebar header - contains close button and brand */
+    .navbar-sidebar__brand {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0.75rem 1rem !important;
+        border-bottom: 1px solid rgba(0, 31, 63, 0.1) !important;
+        background: #fafbfc !important;
+        min-height: 56px !important;
+        gap: 0.5rem !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__brand {
+        background: #242424 !important;
+        border-bottom-color: rgba(170, 170, 170, 0.12) !important;
+    }
+
+    /* Brand link in mobile sidebar (logo + title wrapper) */
+    .navbar-sidebar__brand > a,
+    .navbar-sidebar__brand .navbar__brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+    }
+
+    /* Logo in mobile sidebar */
+    .navbar-sidebar__brand .navbar__logo {
+        height: 28px !important;
+        width: auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Title in mobile sidebar */
+    .navbar-sidebar__brand .navbar__title {
+        display: block !important;
+        font-size: 0.9375rem !important;
+        font-weight: 600 !important;
+        color: #1a1a2e !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__brand .navbar__title {
+        color: #e0e0e0 !important;
+    }
+
+    /* Right side buttons container (theme toggle + close) */
+    .navbar-sidebar__brand > div,
+    .navbar-sidebar__brand > button:last-child {
+        flex-shrink: 0 !important;
+    }
+
+    /* All buttons in sidebar header - consistent sizing and alignment */
+    .navbar-sidebar__brand button,
+    .navbar-sidebar__brand [class*="toggle"],
+    .navbar-sidebar__brand [class*="colorMode"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: rgba(0, 31, 63, 0.05) !important;
+        border: 1px solid rgba(0, 31, 63, 0.1) !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease !important;
+        flex-shrink: 0 !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__brand button,
+    [data-theme="dark"] .navbar-sidebar__brand [class*="toggle"],
+    [data-theme="dark"] .navbar-sidebar__brand [class*="colorMode"] {
+        background: rgba(170, 170, 170, 0.08) !important;
+        border-color: rgba(170, 170, 170, 0.15) !important;
+    }
+
+    .navbar-sidebar__brand button:hover,
+    .navbar-sidebar__brand [class*="toggle"]:hover,
+    .navbar-sidebar__brand [class*="colorMode"]:hover {
+        background: rgba(0, 31, 63, 0.1) !important;
+        border-color: rgba(0, 31, 63, 0.2) !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__brand button:hover,
+    [data-theme="dark"] .navbar-sidebar__brand [class*="toggle"]:hover,
+    [data-theme="dark"] .navbar-sidebar__brand [class*="colorMode"]:hover {
+        background: rgba(170, 170, 170, 0.15) !important;
+        border-color: rgba(170, 170, 170, 0.25) !important;
+    }
+
+    /* Icons in sidebar header buttons */
+    .navbar-sidebar__brand button svg,
+    .navbar-sidebar__brand [class*="toggle"] svg,
+    .navbar-sidebar__brand [class*="colorMode"] svg {
+        width: 18px !important;
+        height: 18px !important;
+        color: #4a4a5a !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__brand button svg,
+    [data-theme="dark"] .navbar-sidebar__brand [class*="toggle"] svg,
+    [data-theme="dark"] .navbar-sidebar__brand [class*="colorMode"] svg {
+        color: #a0a0a0 !important;
+    }
+
+    /* Close button specific - ensure it's on the right */
+    .navbar-sidebar__close,
+    button.clean-btn.navbar-sidebar__close {
+        order: 10 !important;
+        margin-left: 0.5rem !important;
+    }
+
+    /* Mobile sidebar items container */
+    .navbar-sidebar__items {
+        padding: 0.5rem 0 !important;
+    }
+
+    /* Primary sidebar content */
+    .navbar-sidebar__item {
+        padding: 0 0.5rem !important;
+    }
+
+    /* Back button in secondary view */
+    .navbar-sidebar__back {
+        display: flex !important;
+        align-items: center !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+        color: #4a4a5a !important;
+        border-bottom: 1px solid rgba(0, 31, 63, 0.08) !important;
+        margin-bottom: 0.5rem !important;
+        gap: 0.5rem !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__back {
+        color: #a0a0a0 !important;
+        border-bottom-color: rgba(170, 170, 170, 0.1) !important;
+    }
+
+    .navbar-sidebar__back:hover {
+        background: rgba(0, 31, 63, 0.05) !important;
+        color: #1a1a2e !important;
+    }
+
+    [data-theme="dark"] .navbar-sidebar__back:hover {
+        background: rgba(170, 170, 170, 0.08) !important;
+        color: #e0e0e0 !important;
+    }
+
+    /* Hide duplicate icons in mobile sidebar menu items */
+    .navbar-sidebar .menu__caret,
+    .navbar-sidebar .menu__link--sublist-caret,
+    .navbar-sidebar .menu__link svg,
+    .navbar-sidebar [class*="collapsibleButton"],
+    .navbar-sidebar .menu__list-item-collapsible svg,
+    .navbar-sidebar .menu__link--sublist svg,
+    .navbar-sidebar .menu__link--sublist > svg,
+    .navbar-sidebar [class*="expandButton"],
+    .navbar-sidebar [class*="menuCaret"] {
+        display: none !important;
+    }
+
+    /* Keep only ONE theme toggle in mobile sidebar header - hide duplicates */
+    .navbar-sidebar__brand [class*="colorMode"]:not(:first-of-type),
+    .navbar-sidebar__brand [class*="toggle"]:not(:last-of-type):not(.navbar-sidebar__close),
+    .navbar-sidebar__brand > div > [class*="toggle"]:not(:first-child) {
+        display: none !important;
+    }
+
+    /* Ensure only single theme icon shows - hide any extras */
+    .navbar-sidebar__brand [class*="toggleButton"]:nth-of-type(n+2) {
+        display: none !important;
     }
 
     /* Backdrop behind the mobile menu */
     .navbar-sidebar__backdrop {
         z-index: 999 !important;
-        background-color: rgba(0, 0, 0, 0.5) !important;  /* Semi-transparent dark overlay */
+        background-color: rgba(0, 0, 0, 0.5) !important;
     }
 
-    /* Light mode: Darker backdrop for better visibility and contrast */
+    /* Light mode: Darker backdrop for better visibility */
     [data-theme='light'] .navbar-sidebar__backdrop {
-        background-color: rgba(0, 0, 0, 0.7) !important;
+        background-color: rgba(0, 0, 0, 0.6) !important;
     }
 
-    /* When sidebar is open (navbar--show class present), hide main content */
+    /* When sidebar is open, hide main content */
     .navbar--fixed-top.navbar-sidebar--show ~ .main-wrapper {
         display: none !important;
     }
 
-    /* Also hide footer when sidebar is open to prevent content overlap */
+    /* Also hide footer when sidebar is open */
     .navbar--fixed-top.navbar-sidebar--show ~ footer {
         display: none !important;
     }
