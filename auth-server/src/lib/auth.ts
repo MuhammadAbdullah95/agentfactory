@@ -172,10 +172,16 @@ export const auth = betterAuth({
     // Better Auth default is scrypt, but we use bcrypt for compatibility
     password: {
       hash: async (password) => {
+        console.log("[AUTH] Hashing password with bcrypt");
         return await bcrypt.hash(password, 10);
       },
       verify: async ({ hash, password }) => {
-        return await bcrypt.compare(password, hash);
+        console.log("[AUTH] Verifying password with bcrypt");
+        console.log("[AUTH] Hash starts with:", hash?.substring(0, 10));
+        console.log("[AUTH] Password length:", password?.length);
+        const result = await bcrypt.compare(password, hash);
+        console.log("[AUTH] Verification result:", result);
+        return result;
       },
     },
     // Password reset (only when email is configured)
