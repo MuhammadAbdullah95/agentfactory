@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
-import { userProfile, user, SoftwareBackground, HardwareTier } from "@/lib/db/schema";
+import { user } from "@/auth-schema";
 import { eq } from "drizzle-orm";
-import { randomUUID } from "crypto";
+import type { SoftwareBackground, HardwareTier } from "@/types/profile";
+
+// TODO: Migrate softwareBackground and hardwareTier to member.metadata in Proposal 001
+// Currently stored in user table via additionalFields
 
 // GET /api/profile - Get current user's profile
 export async function GET() {
@@ -20,26 +23,31 @@ export async function GET() {
       );
     }
 
-    // Get user profile
-    const profile = await db.query.userProfile.findFirst({
-      where: eq(userProfile.userId, session.user.id),
-    });
+    // Get user with profile fields
+    const [userRecord] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, session.user.id))
+      .limit(1);
+
+    if (!userRecord) {
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       user: {
-        id: session.user.id,
-        email: session.user.email,
-        name: session.user.name,
-        image: session.user.image,
+        id: userRecord.id,
+        email: userRecord.email,
+        name: userRecord.name,
+        image: userRecord.image,
       },
-      profile: profile
-        ? {
-            softwareBackground: profile.softwareBackground,
-            hardwareTier: profile.hardwareTier,
-            createdAt: profile.createdAt,
-            updatedAt: profile.updatedAt,
-          }
-        : null,
+      profile: {
+        softwareBackground: userRecord.softwareBackground,
+        hardwareTier: userRecord.hardwareTier,
+      },
     });
   } catch (error) {
     console.error("Error fetching profile:", error);
@@ -50,7 +58,7 @@ export async function GET() {
   }
 }
 
-// POST /api/profile - Create user profile (called after signup)
+// POST /api/profile - Create/update user profile (called after signup or by user)
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -62,10 +70,11 @@ export async function POST(request: NextRequest) {
     // OR with authenticated session (user is signed in)
     if (userId) {
       // Validate user exists and was created recently (within 5 minutes)
-      // This prevents abuse while allowing signup-time profile creation
-      const userRecord = await db.query.user.findFirst({
-        where: eq(user.id, userId),
-      });
+      const [userRecord] = await db
+        .select()
+        .from(user)
+        .where(eq(user.id, userId))
+        .limit(1);
 
       if (!userRecord) {
         return NextResponse.json(
@@ -102,7 +111,7 @@ export async function POST(request: NextRequest) {
 
     // Validate software background
     const validBackgrounds: SoftwareBackground[] = ["beginner", "intermediate", "advanced"];
-    if (!validBackgrounds.includes(softwareBackground)) {
+    if (softwareBackground && !validBackgrounds.includes(softwareBackground)) {
       return NextResponse.json(
         { error: "Invalid software background. Must be: beginner, intermediate, or advanced" },
         { status: 400 }
@@ -111,46 +120,41 @@ export async function POST(request: NextRequest) {
 
     // Validate hardware tier
     const validTiers: HardwareTier[] = ["tier1", "tier2", "tier3", "tier4"];
-    if (!hardwareTier || !validTiers.includes(hardwareTier)) {
+    if (hardwareTier && !validTiers.includes(hardwareTier)) {
       return NextResponse.json(
         { error: "Invalid hardware tier. Must be: tier1, tier2, tier3, or tier4" },
         { status: 400 }
       );
     }
 
-    // Check if profile already exists
-    const existingProfile = await db.query.userProfile.findFirst({
-      where: eq(userProfile.userId, targetUserId),
-    });
+    // Update user record with profile fields
+    const updateData: { softwareBackground?: string; hardwareTier?: string; updatedAt: Date } = {
+      updatedAt: new Date(),
+    };
+    if (softwareBackground) updateData.softwareBackground = softwareBackground;
+    if (hardwareTier) updateData.hardwareTier = hardwareTier;
 
-    if (existingProfile) {
+    const updatedUser = await db
+      .update(user)
+      .set(updateData)
+      .where(eq(user.id, targetUserId))
+      .returning();
+
+    if (updatedUser.length === 0) {
       return NextResponse.json(
-        { error: "Profile already exists. Use PUT to update." },
-        { status: 409 }
+        { error: "Failed to update profile" },
+        { status: 500 }
       );
     }
 
-    // Create profile
-    const newProfile = await db
-      .insert(userProfile)
-      .values({
-        id: randomUUID(),
-        userId: targetUserId,
-        softwareBackground,
-        hardwareTier,
-      })
-      .returning();
-
     return NextResponse.json({
       profile: {
-        softwareBackground: newProfile[0].softwareBackground,
-        hardwareTier: newProfile[0].hardwareTier,
-        createdAt: newProfile[0].createdAt,
-        updatedAt: newProfile[0].updatedAt,
+        softwareBackground: updatedUser[0].softwareBackground,
+        hardwareTier: updatedUser[0].hardwareTier,
       },
     });
   } catch (error) {
-    console.error("Error creating profile:", error);
+    console.error("Error creating/updating profile:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -160,77 +164,6 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/profile - Update user profile
 export async function PUT(request: NextRequest) {
-  try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const body = await request.json();
-    const { softwareBackground, hardwareTier } = body;
-
-    // Validate software background (if provided)
-    if (softwareBackground) {
-      const validBackgrounds: SoftwareBackground[] = ["beginner", "intermediate", "advanced"];
-      if (!validBackgrounds.includes(softwareBackground)) {
-        return NextResponse.json(
-          { error: "Invalid software background. Must be: beginner, intermediate, or advanced" },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Validate hardware tier (if provided)
-    if (hardwareTier) {
-      const validTiers: HardwareTier[] = ["tier1", "tier2", "tier3", "tier4"];
-      if (!validTiers.includes(hardwareTier)) {
-        return NextResponse.json(
-          { error: "Invalid hardware tier. Must be: tier1, tier2, tier3, or tier4" },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Build update object with only provided fields
-    const updateData: { softwareBackground?: SoftwareBackground; hardwareTier?: HardwareTier; updatedAt: Date } = {
-      updatedAt: new Date(),
-    };
-    if (softwareBackground) updateData.softwareBackground = softwareBackground;
-    if (hardwareTier) updateData.hardwareTier = hardwareTier;
-
-    // Update profile
-    const updatedProfile = await db
-      .update(userProfile)
-      .set(updateData)
-      .where(eq(userProfile.userId, session.user.id))
-      .returning();
-
-    if (updatedProfile.length === 0) {
-      return NextResponse.json(
-        { error: "Profile not found. Create one first." },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      profile: {
-        softwareBackground: updatedProfile[0].softwareBackground,
-        hardwareTier: updatedProfile[0].hardwareTier,
-        createdAt: updatedProfile[0].createdAt,
-        updatedAt: updatedProfile[0].updatedAt,
-      },
-    });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
+  // Same as POST for now (upsert behavior)
+  return POST(request);
 }

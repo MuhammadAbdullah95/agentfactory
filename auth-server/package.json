@@ -10,19 +10,20 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "seed:clients": "npx tsx scripts/seed-test-clients.ts",
-    "seed:org": "npx tsx scripts/seed-test-organization.ts",
+    "seed:setup": "npx tsx scripts/seed-setup.ts",
+    "seed:prod": "npx tsx scripts/seed-setup.ts --prod",
     "test-auth": "node tests/test-oauth-flows.js",
     "test-tenant": "node tests/test-tenant-claims.js",
     "test-edge": "node tests/test-edge-cases.js",
     "test-tenant-edge": "node tests/test-tenant-edge-cases.js",
     "test-confidential": "node tests/test-confidential-client.js",
-    "test-all": "node tests/test-oauth-flows.js && node tests/test-tenant-claims.js && node tests/test-edge-cases.js && node tests/test-tenant-edge-cases.js && node tests/test-confidential-client.js"
+    "test-client-edit": "node tests/test-client-edit.js",
+    "test-all": "node tests/test-oauth-flows.js && node tests/test-tenant-claims.js && node tests/test-edge-cases.js && node tests/test-tenant-edge-cases.js && node tests/test-confidential-client.js && node tests/test-client-edit.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.0",
     "bcryptjs": "^3.0.3",
-    "better-auth": "^1.4.4-beta.2",
+    "better-auth": "^1.4.4",
     "drizzle-orm": "^0.36.0",
     "next": "^15.1.0",
     "nodemailer": "^7.0.11",
@@ -41,8 +42,10 @@
     "autoprefixer": "^10.4.0",
     "dotenv": "^16.4.0",
     "drizzle-kit": "^0.28.0",
+    "jose": "^6.1.2",
     "postcss": "^8.4.0",
     "tailwindcss": "^3.4.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.6.0"
   }
 }

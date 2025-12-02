@@ -14,16 +14,35 @@ function ConsentContent() {
   } | null>(null);
 
   const consentCode = searchParams.get("consent_code");
-  const clientName = searchParams.get("client_name") || "Unknown Application";
+  const clientId = searchParams.get("client_id");
   const scopeParam = searchParams.get("scope") || "openid profile email";
   const scopes = scopeParam.split(" ").filter(Boolean);
 
   useEffect(() => {
-    setClientInfo({
-      name: clientName,
-      scopes: scopes,
-    });
-  }, [clientName, scopeParam]);
+    // Fetch client info from database using client_id
+    if (clientId) {
+      fetch(`/api/oauth/client-info?client_id=${encodeURIComponent(clientId)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setClientInfo({
+            name: data.name || "Unknown Application",
+            scopes: scopes,
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to fetch client info:", error);
+          setClientInfo({
+            name: "Unknown Application",
+            scopes: scopes,
+          });
+        });
+    } else {
+      setClientInfo({
+        name: "Unknown Application",
+        scopes: scopes,
+      });
+    }
+  }, [clientId, scopeParam]);
 
   const handleConsent = async (accept: boolean) => {
     if (!consentCode) return;

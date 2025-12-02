@@ -33,6 +33,9 @@ export default function ClientsPage() {
   } | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingClientId, setDeletingClientId] = useState<string | null>(null);
+  const [editingClient, setEditingClient] = useState<OAuthClient | null>(null);
+  const [editRedirectUrls, setEditRedirectUrls] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     loadClients();
@@ -120,6 +123,46 @@ export default function ClientsPage() {
       alert("Failed to delete client. Please try again.");
     } finally {
       setDeletingClientId(null);
+    }
+  };
+
+  const handleEditClient = (client: OAuthClient) => {
+    setEditingClient(client);
+    const urls = Array.isArray(client.redirectUrls)
+      ? client.redirectUrls.join("\n")
+      : (client.redirectUrls as any).split(",").join("\n");
+    setEditRedirectUrls(urls);
+  };
+
+  const handleUpdateClient = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingClient) return;
+
+    setIsUpdating(true);
+
+    try {
+      const response = await fetch("/api/admin/clients", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientId: editingClient.clientId,
+          redirectUrls: editRedirectUrls.split("\n").filter(Boolean),
+        }),
+      });
+
+      if (response.ok) {
+        setEditingClient(null);
+        setEditRedirectUrls("");
+        await loadClients();
+      } else {
+        const data = await response.json();
+        alert(data.error || "Failed to update client");
+      }
+    } catch (error) {
+      console.error("Failed to update client:", error);
+      alert("Failed to update client. Please try again.");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -351,6 +394,24 @@ export default function ClientsPage() {
                   placeholder="openid profile email"
                 />
               </div>
+
+              {/* Skip Consent Note */}
+              <div className="border border-blue-200 rounded-lg p-4 bg-blue-50">
+                <div className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <p className="text-sm font-medium text-blue-900">OAuth Consent Screen</p>
+                    <p className="text-xs text-blue-700 mt-1">
+                      All dynamically registered clients will show a consent screen.
+                      To skip consent for first-party apps, configure them as trusted clients in <code className="bg-blue-100 px-1 py-0.5 rounded">auth.ts</code>.
+                      See the pre-configured "RoboLearn Book Interface" client as an example.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex gap-3 pt-4">
                 <button
                   type="button"
@@ -372,9 +433,71 @@ export default function ClientsPage() {
         </div>
       )}
 
+      {/* Edit Client Modal */}
+      {editingClient && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Edit OAuth Client
+            </h3>
+
+            <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+              <div className="text-sm">
+                <span className="font-medium text-gray-700">Client:</span>{" "}
+                <span className="text-gray-900">{editingClient.name}</span>
+              </div>
+              <div className="text-xs text-gray-500 mt-1">
+                <code className="bg-gray-100 px-1 py-0.5 rounded">
+                  {editingClient.clientId}
+                </code>
+              </div>
+            </div>
+
+            <form onSubmit={handleUpdateClient} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Redirect URLs (one per line)
+                </label>
+                <textarea
+                  value={editRedirectUrls}
+                  onChange={(e) => setEditRedirectUrls(e.target.value)}
+                  required
+                  rows={5}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                  placeholder="https://myapp.com/callback&#10;http://localhost:3000/callback"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Add localhost URLs for testing, remove them for production security
+                </p>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingClient(null);
+                    setEditRedirectUrls("");
+                  }}
+                  className="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUpdating}
+                  className="flex-1 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {isUpdating ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Clients List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white rounded-lg shadow overflow-hidden overflow-x-auto">
+        <table className="w-full min-w-max">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -470,13 +593,21 @@ export default function ClientsPage() {
                     {client.isTrusted ? (
                       <span className="text-xs text-gray-400">Pre-configured</span>
                     ) : (
-                      <button
-                        onClick={() => handleDeleteClient(client.clientId)}
-                        disabled={deletingClientId === client.clientId}
-                        className="text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-50"
-                      >
-                        {deletingClientId === client.clientId ? "Deleting..." : "Delete"}
-                      </button>
+                      <div className="flex items-center justify-end gap-3">
+                        <button
+                          onClick={() => handleEditClient(client)}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClient(client.clientId)}
+                          disabled={deletingClientId === client.clientId}
+                          className="text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-50"
+                        >
+                          {deletingClientId === client.clientId ? "Deleting..." : "Delete"}
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>

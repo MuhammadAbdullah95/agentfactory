@@ -1,19 +1,38 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { signUp } from "@/lib/auth-client";
 import { BackgroundSelect } from "./background-select";
 import { HardwareTierSelect } from "./hardware-tier-select";
-import { SoftwareBackground, HardwareTier } from "@/lib/db/schema";
+import { Toast } from "./toast";
+import type { SoftwareBackground, HardwareTier } from "@/types/profile";
 
 interface FormErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  name?: string;
   background?: string;
   hardwareTier?: string;
   general?: string;
+}
+
+// Generate username from name: lowercase + remove special chars + random 6-char suffix
+function generateUsername(name: string): string {
+  // Convert to lowercase, remove special characters, replace spaces with empty string
+  const cleanName = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
+    .substring(0, 20); // Max 20 chars for name part
+
+  // Generate random 6-character alphanumeric suffix
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const suffix = Array.from({ length: 6 }, () =>
+    chars.charAt(Math.floor(Math.random() * chars.length))
+  ).join('');
+
+  return `${cleanName}_${suffix}`; // Use underscore (allowed by Better Auth)
 }
 
 // Eye icons for password visibility toggle
@@ -33,7 +52,6 @@ const EyeOffIcon = () => (
 type Step = 1 | 2;
 
 export function SignUpForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState<Step>(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +59,9 @@ export function SignUpForm() {
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   // Check for OAuth parameters or redirect param
   const clientId = searchParams.get("client_id");
@@ -64,7 +85,13 @@ export function SignUpForm() {
   const validateStep1 = (): boolean => {
     const newErrors: FormErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!emailRegex.test(formData.email)) {
@@ -87,7 +114,7 @@ export function SignUpForm() {
 
   const validateStep2 = (): boolean => {
     const newErrors: FormErrors = {};
-    
+
     if (!formData.hardwareTier) {
       newErrors.hardwareTier = "Please select your hardware tier";
     }
@@ -126,28 +153,54 @@ export function SignUpForm() {
         }));
       }
 
+      // Auto-generate username from name
+      const username = generateUsername(formData.name);
+
       const result = await signUp.email({
         email: formData.email,
         password: formData.password,
-        name: formData.name || "",
+        name: formData.name,
+        username,
         callbackURL: isOAuthFlow ? "/auth/verify-callback" : "/",
       });
 
       if (result.error) {
-        if (result.error.message?.includes("already exists") || result.error.message?.includes("already registered")) {
-          setErrors({ 
+        console.error("Signup error:", result.error); // Debug: log full error
+
+        const errorMessage = result.error.message || "";
+
+        // Handle compromised password from HIBP
+        if (errorMessage.includes("compromised") || errorMessage.includes("breach") || errorMessage.includes("PASSWORD_COMPROMISED")) {
+          setErrors({
+            password: errorMessage,
+            general: errorMessage
+          });
+          setCurrentStep(1);
+        }
+        // Handle duplicate email
+        else if (errorMessage.includes("already exists") || errorMessage.includes("already registered")) {
+          setErrors({
             email: "This email is already registered. Try signing in instead.",
             general: "An account with this email already exists. Please sign in instead."
           });
           setCurrentStep(1);
-        } else {
-          setErrors({ general: result.error.message || "Registration failed. Please try again." });
+        }
+        // Handle invalid username
+        else if (errorMessage.includes("username") || errorMessage.includes("Username")) {
+          setErrors({
+            general: `Username error: ${errorMessage}. Please try again with a different name.`
+          });
+          setCurrentStep(1);
+        }
+        // Handle other errors
+        else {
+          setErrors({ general: errorMessage || "Registration failed. Please try again." });
         }
         setIsLoading(false);
         return;
       }
 
-      // Create profile directly during signup (simpler and more deterministic)
+      // Create profile with hardware/software preferences
       if (result.data?.user?.id) {
         try {
           const profileResponse = await fetch("/api/profile", {
@@ -171,6 +224,7 @@ export function SignUpForm() {
         }
       }
 
+      // Handle OAuth flow - continue with authorization
       if (clientId && redirectUri && responseType) {
         const oauthParams = new URLSearchParams({
           client_id: clientId,
@@ -181,16 +235,25 @@ export function SignUpForm() {
           ...(codeChallenge && { code_challenge: codeChallenge }),
           ...(codeChallengeMethod && { code_challenge_method: codeChallengeMethod }),
         });
+        // Note: OAuth will be blocked until email is verified (Better Auth enforces this)
         window.location.href = `/api/auth/oauth2/authorize?${oauthParams.toString()}`;
         return;
       }
 
+      // Handle custom redirect
       if (redirectParam) {
         window.location.href = redirectParam;
         return;
       }
 
-      window.location.href = "/";
+      // Default: Show toast and redirect to sign-in
+      setUserEmail(formData.email);
+      setShowToast(true);
+
+      // Redirect to sign-in page after showing toast
+      setTimeout(() => {
+        window.location.href = `/auth/sign-in${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+      }, 2000); // 2 second delay to show toast
     } catch (error) {
       setErrors({ general: "An unexpected error occurred. Please try again." });
     } finally {
@@ -200,8 +263,80 @@ export function SignUpForm() {
 
   return (
     <div className="w-full">
-      {/* Progress indicator */}
-      <div className="mb-8">
+      {/* Toast Notification */}
+      {showToast && (
+        <Toast
+          message="✅ Account created! Please check your email to verify your account."
+          type="success"
+          duration={2000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
+
+      {/* Success Message (for OAuth flows or fallback) */}
+      {signupSuccess && (
+        <div className="animate-in slide-in-from-bottom duration-500">
+          <div className="bg-gradient-to-br from-green-50 to-green-50/50 border-2 border-green-200 rounded-2xl p-8 mb-6 shadow-lg shadow-green-500/10">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30 animate-in scale-in">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+
+            <h2 className="text-2xl font-bold text-green-900 text-center mb-2">
+              Account Created Successfully!
+            </h2>
+
+            <p className="text-green-800 text-center mb-6">
+              We've sent a verification email to:
+            </p>
+
+            <div className="bg-white rounded-lg px-4 py-3 mb-6 border border-green-200">
+              <p className="text-green-900 font-semibold text-center break-all">
+                {userEmail}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-lg p-4 mb-6 border border-green-200">
+              <h3 className="text-sm font-bold text-green-900 mb-2 flex items-center">
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Next Steps:
+              </h3>
+              <ol className="text-sm text-green-800 space-y-1.5 ml-6 list-decimal">
+                <li>Check your email inbox (and spam folder)</li>
+                <li>Click the verification link in the email</li>
+                <li>You'll be redirected back to sign in</li>
+              </ol>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <a
+                href={`/auth/resend-verification?email=${encodeURIComponent(userEmail)}`}
+                className="w-full text-center py-3 px-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-200"
+              >
+                Didn't receive email? Resend verification
+              </a>
+
+              <a
+                href="/auth/sign-in"
+                className="w-full text-center py-3 px-4 border-2 border-green-200 text-green-700 font-semibold rounded-xl hover:border-green-300 hover:bg-green-50/50 transition-all duration-200"
+              >
+                Already verified? Sign in
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Signup Form (hidden when success) */}
+      {!signupSuccess && (
+        <>
+          {/* Progress indicator */}
+          <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
           <div className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${
             currentStep >= 1 ? "bg-gradient-to-r from-indigo-600 to-indigo-500" : "bg-slate-200"
@@ -256,28 +391,40 @@ export function SignUpForm() {
         }`}>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-slate-900 mb-2">Create your account</h2>
-            <p className="text-sm text-slate-600">Get started with RoboLearn in seconds</p>
+            <p className="text-sm text-slate-600">Get started in seconds</p>
           </div>
 
           <div className="space-y-1.5">
             <label htmlFor="name" className="block text-sm font-semibold text-slate-700">
-              Name <span className="text-slate-400 font-normal text-xs">(optional)</span>
+              Name <span className="text-red-500">*</span>
             </label>
-            <input
-              id="name"
-              type="text"
-              autoComplete="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              onFocus={() => setFocusedField("name")}
-              onBlur={() => setFocusedField(null)}
-              className={`w-full px-4 py-3 border rounded-xl transition-all duration-200 bg-white/50 backdrop-blur-sm ${
-                focusedField === "name"
-                  ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
-                  : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
-              }`}
-              placeholder="Your name"
-            />
+            <div className="relative">
+              <input
+                id="name"
+                type="text"
+                required
+                autoComplete="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onFocus={() => setFocusedField("name")}
+                onBlur={() => setFocusedField(null)}
+                className={`w-full px-4 py-3 border rounded-xl transition-all duration-200 bg-white/50 backdrop-blur-sm ${
+                  errors.name
+                    ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                    : focusedField === "name"
+                    ? "border-indigo-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-sm shadow-indigo-500/10"
+                    : "border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
+                }`}
+                placeholder="Your full name"
+              />
+              {focusedField === "name" && (
+                <div className="absolute inset-0 rounded-xl border-2 border-indigo-500 pointer-events-none animate-in scale-in opacity-50" />
+              )}
+            </div>
+            {errors.name && (
+              <p className="text-sm text-red-600 animate-in slide-in-from-top">{errors.name}</p>
+            )}
+            <p className="text-xs text-slate-500">Your username will be auto-generated from your name</p>
           </div>
 
           <div className="space-y-1.5">
@@ -482,6 +629,8 @@ export function SignUpForm() {
           Sign in
         </a>
       </form>
+        </>
+      )}
     </div>
   );
 }

@@ -1,1 +1,0 @@
-ALTER TABLE "user_profile" ADD COLUMN "hardware_tier" text;

@@ -1,5 +1,5 @@
 import { db } from "../src/lib/db";
-import { user, account } from "../src/lib/db/schema";
+import { user, account } from "@/auth-schema";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 

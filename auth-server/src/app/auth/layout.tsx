@@ -24,10 +24,12 @@ export default function AuthLayout({
         {/* Logo/Brand */}
         <div className="text-center mb-10 animate-in slide-in-from-top">
           <h1 className="text-4xl font-bold mb-2">
-            <span className="text-gradient">RoboLearn</span>
+            <span className="text-gradient">
+              {process.env.NEXT_PUBLIC_APP_NAME || "Panaversity SSO"}
+            </span>
           </h1>
-          <p className="text-sm text-slate-600 font-medium tracking-wide uppercase">
-            Physical AI & Humanoid Robotics
+          <p className="text-sm text-slate-600 font-medium tracking-wide">
+            {process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On"}
           </p>
           <div className="mt-3 flex items-center justify-center gap-2">
             <div className="h-px w-12 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />

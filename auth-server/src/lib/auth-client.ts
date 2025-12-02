@@ -2,6 +2,7 @@ import { createAuthClient } from "better-auth/react";
 import { oidcClient } from "better-auth/client/plugins";
 import { adminClient } from "better-auth/client/plugins";
 import { organizationClient } from "better-auth/client/plugins";
+import { usernameClient } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3001",
@@ -9,6 +10,7 @@ export const authClient = createAuthClient({
     oidcClient(),
     adminClient(),
     organizationClient(),
+    usernameClient(), // Matches server's username() plugin for profile usernames
   ],
 });
 

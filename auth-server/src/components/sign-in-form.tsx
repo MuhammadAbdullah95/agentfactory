@@ -132,7 +132,7 @@ export function SignInForm() {
     <div className="w-full">
       <div className="mb-8">
         <h2 className="text-2xl font-semibold text-slate-900 mb-2">Welcome back</h2>
-        <p className="text-sm text-slate-600">Sign in to continue your learning journey</p>
+        <p className="text-sm text-slate-600">Sign in to your account</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">

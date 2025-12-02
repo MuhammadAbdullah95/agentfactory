@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
-import { oauthApplication } from "@/lib/db/schema";
+import { oauthApplication } from "@/auth-schema";
 import crypto from "crypto";
 
 // Generate a random client ID
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, redirectUrls, scope, clientType } = body;
+    const { name, redirectUrls, scope, clientType, skipConsent } = body;
 
     if (!name || !redirectUrls || !Array.isArray(redirectUrls) || redirectUrls.length === 0) {
       return NextResponse.json(
@@ -51,13 +51,16 @@ export async function POST(request: NextRequest) {
       clientId,
       clientSecret: clientSecret || null, // Ensure null instead of empty string
       name,
-      redirectURLs: redirectUrls.join(","), // Database field is redirectURLs (capital URLs) - Better Auth documented field name
+      // Comma-separated format as per Better Auth docs
+      redirectUrls: redirectUrls.join(","),
       type: isPublic ? "public" : "confidential",
       disabled: false,
       metadata: JSON.stringify({
         token_endpoint_auth_method: isPublic ? "none" : "client_secret_post",
         grant_types: ["authorization_code", "refresh_token"],
         scope: scope || "openid profile email",
+        skip_consent: skipConsent === true, // For first-party trusted apps
+        client_name: name, // Display name on consent screen
       }),
       createdAt: new Date(),
       updatedAt: new Date(),

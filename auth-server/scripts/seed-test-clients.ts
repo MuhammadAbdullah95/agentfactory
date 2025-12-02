@@ -61,7 +61,9 @@ const CONFIDENTIAL_CLIENT = {
   }),
 };
 
-async function upsertClient(client: typeof PUBLIC_CLIENT) {
+async function upsertClient(
+  client: typeof PUBLIC_CLIENT | typeof CONFIDENTIAL_CLIENT
+) {
   const existing = await db
     .select()
     .from(oauthApplication)

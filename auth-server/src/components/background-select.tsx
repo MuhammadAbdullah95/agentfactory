@@ -1,6 +1,6 @@
 "use client";
 
-import { SoftwareBackground } from "@/lib/db/schema";
+import type { SoftwareBackground } from "@/types/profile";
 
 interface BackgroundSelectProps {
   value: SoftwareBackground;

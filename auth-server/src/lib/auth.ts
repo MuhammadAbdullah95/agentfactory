@@ -4,15 +4,59 @@ import { oidcProvider } from "better-auth/plugins/oidc-provider";
 import { admin } from "better-auth/plugins/admin";
 import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
+import { username } from "better-auth/plugins";
+import { haveIBeenPwned } from "better-auth/plugins";
 import { db } from "./db";
-import * as schema from "./db/schema";
-import { userProfile, member } from "./db/schema";
-import { eq } from "drizzle-orm";
+import * as schema from "../../auth-schema"; // Use Better Auth generated schema
+import { member } from "../../auth-schema";
+import { eq, and } from "drizzle-orm";
 import { Resend } from "resend";
 import * as nodemailer from "nodemailer";
+import { TRUSTED_CLIENTS, DEFAULT_ORG_ID } from "./trusted-clients";
 
-// Client ID for robolearn-interface (public client - no secret needed with PKCE)
-const ROBOLEARN_INTERFACE_CLIENT_ID = "robolearn-public-client";
+// Cached default organization ID (validated at startup)
+let cachedDefaultOrgId: string | null = null;
+
+/**
+ * Get default organization ID with validation and fallback
+ * This function is called at app startup to validate the default org exists
+ * and cache its ID to avoid DB lookups on every signup
+ */
+async function validateAndCacheDefaultOrg(): Promise<string | null> {
+  try {
+    // Check if default org exists
+    const defaultOrg = await db
+      .select()
+      .from(schema.organization)
+      .where(eq(schema.organization.id, DEFAULT_ORG_ID))
+      .limit(1);
+
+    if (defaultOrg.length > 0) {
+      cachedDefaultOrgId = defaultOrg[0].id;
+      console.log("[Auth] Default organization validated:", cachedDefaultOrgId);
+      return cachedDefaultOrgId;
+    }
+
+    // Default org doesn't exist - warn but don't fail startup
+    console.warn("[Auth] WARNING: Default organization not found!");
+    console.warn(`[Auth] Expected ID: ${DEFAULT_ORG_ID}`);
+    console.warn("[Auth] Run 'pnpm run seed:setup' to create default organization");
+    console.warn("[Auth] New users will NOT be auto-added to any organization");
+
+    return null;
+  } catch (error) {
+    console.error("[Auth] Failed to validate default organization:", error);
+    return null;
+  }
+}
+
+/**
+ * Get the default organization ID for auto-join
+ * Returns null if default org doesn't exist (users won't auto-join)
+ */
+function getDefaultOrgId(): string | null {
+  return cachedDefaultOrgId;
+}
 
 // Email configuration - supports multiple providers
 // Priority: SMTP (Google/custom) > Resend
@@ -97,8 +141,25 @@ export const auth = betterAuth({
   }),
 
   // Disable /token endpoint when using OIDC Provider (OAuth equivalent is /oauth2/token)
-  disabledPaths: ["/token"],
+  // Disable /sign-in/username - users sign in with email only, username is for profiles
+  disabledPaths: ["/token", "/sign-in/username"],
 
+  // OIDC Standard Claims - extends user table with standard profile fields
+  user: {
+    additionalFields: {
+      // OIDC Standard Claims
+      givenName: { type: "string", required: false },
+      familyName: { type: "string", required: false },
+      picture: { type: "string", required: false },
+      phoneNumber: { type: "string", required: false },
+      phoneNumberVerified: { type: "boolean", required: false, defaultValue: false },
+      locale: { type: "string", required: false },
+      zoneinfo: { type: "string", required: false },
+      // TODO: Migrate to member.metadata in Proposal 001 (tenant-specific fields)
+      softwareBackground: { type: "string", required: false },
+      hardwareTier: { type: "string", required: false },
+    },
+  },
 
   // Email/password authentication
   emailAndPassword: {
@@ -109,16 +170,91 @@ export const auth = betterAuth({
     // Password reset (only when email is configured)
     ...(emailEnabled && {
       sendResetPassword: async ({ user, url }) => {
+        const appName = process.env.NEXT_PUBLIC_APP_NAME || "Panaversity SSO";
+        const appDescription = process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On";
+        const orgName = process.env.NEXT_PUBLIC_ORG_NAME || "Panaversity";
+
         await sendEmail({
           to: user.email,
-          subject: "Reset your RoboLearn password",
+          subject: `Reset your ${appName} password`,
           html: `
-            <h2>Password Reset Request</h2>
-            <p>You requested to reset your password. Click the button below to set a new password:</p>
-            <p><a href="${url}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Reset Password</a></p>
-            <p>Or copy and paste this link: ${url}</p>
-            <p>This link expires in 1 hour.</p>
-            <p>If you didn't request this, you can safely ignore this email.</p>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            </head>
+            <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f5f5f5; padding: 40px 0;">
+                <tr>
+                  <td align="center">
+                    <!-- Main container -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                      <!-- Header -->
+                      <tr>
+                        <td style="padding: 40px 40px 30px; text-align: center; border-bottom: 1px solid #e5e7eb;">
+                          <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #1f2937;">${appName}</h1>
+                          <p style="margin: 8px 0 0; font-size: 14px; color: #6b7280;">${appDescription}</p>
+                        </td>
+                      </tr>
+
+                      <!-- Content -->
+                      <tr>
+                        <td style="padding: 40px;">
+                          <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 600; color: #111827;">Password Reset Request</h2>
+                          <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
+                            Hello${user.name ? ` ${user.name}` : ''},
+                          </p>
+                          <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
+                            We received a request to reset your password. Click the button below to create a new password:
+                          </p>
+
+                          <!-- Button -->
+                          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                              <td align="center" style="padding: 0 0 24px;">
+                                <a href="${url}" style="display: inline-block; padding: 14px 32px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 15px;">Reset Password</a>
+                              </td>
+                            </tr>
+                          </table>
+
+                          <p style="margin: 0 0 16px; font-size: 14px; line-height: 20px; color: #6b7280;">
+                            Or copy and paste this link into your browser:
+                          </p>
+                          <p style="margin: 0 0 24px; padding: 12px; background-color: #f9fafb; border-radius: 4px; font-size: 13px; color: #374151; word-break: break-all; font-family: monospace;">
+                            ${url}
+                          </p>
+
+                          <div style="padding: 16px; background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px; margin-bottom: 24px;">
+                            <p style="margin: 0; font-size: 14px; color: #92400e;">
+                              <strong>⏱️ This link expires in 1 hour</strong> for your security.
+                            </p>
+                          </div>
+
+                          <p style="margin: 0; font-size: 14px; line-height: 20px; color: #6b7280;">
+                            If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.
+                          </p>
+                        </td>
+                      </tr>
+
+                      <!-- Footer -->
+                      <tr>
+                        <td style="padding: 30px 40px; text-align: center; border-top: 1px solid #e5e7eb; background-color: #f9fafb;">
+                          <p style="margin: 0 0 8px; font-size: 13px; color: #6b7280;">
+                            This is an automated message from <strong>${appName}</strong>
+                          </p>
+                          <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+                            Secure authentication for your ${orgName} applications
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </body>
+            </html>
           `,
         });
       },
@@ -131,15 +267,96 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     expiresIn: 3600, // 1 hour
     sendVerificationEmail: async ({ user, url }) => {
+      const appName = process.env.NEXT_PUBLIC_APP_NAME || "Panaversity SSO";
+      const appDescription = process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On";
+      const orgName = process.env.NEXT_PUBLIC_ORG_NAME || "Panaversity";
+
       await sendEmail({
         to: user.email,
-        subject: "Verify your RoboLearn account",
+        subject: `Verify your ${appName} account`,
         html: `
-          <h2>Welcome to RoboLearn!</h2>
-          <p>Please verify your email address by clicking the link below:</p>
-          <p><a href="${url}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Verify Email</a></p>
-          <p>Or copy and paste this link: ${url}</p>
-          <p>This link expires in 1 hour.</p>
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          </head>
+          <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f5f5f5; padding: 40px 0;">
+              <tr>
+                <td align="center">
+                  <!-- Main container -->
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <!-- Header -->
+                    <tr>
+                      <td style="padding: 40px 40px 30px; text-align: center; border-bottom: 1px solid #e5e7eb;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #1f2937;">${appName}</h1>
+                        <p style="margin: 8px 0 0; font-size: 14px; color: #6b7280;">${appDescription}</p>
+                      </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                      <td style="padding: 40px;">
+                        <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 600; color: #111827;">Welcome to ${orgName}!</h2>
+                        <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
+                          Hello${user.name ? ` ${user.name}` : ''},
+                        </p>
+                        <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
+                          Thank you for creating your account. To get started, please verify your email address by clicking the button below:
+                        </p>
+
+                        <!-- Button -->
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td align="center" style="padding: 0 0 24px;">
+                              <a href="${url}" style="display: inline-block; padding: 14px 32px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 15px;">Verify Email Address</a>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <p style="margin: 0 0 16px; font-size: 14px; line-height: 20px; color: #6b7280;">
+                          Or copy and paste this link into your browser:
+                        </p>
+                        <p style="margin: 0 0 24px; padding: 12px; background-color: #f9fafb; border-radius: 4px; font-size: 13px; color: #374151; word-break: break-all; font-family: monospace;">
+                          ${url}
+                        </p>
+
+                        <div style="padding: 16px; background-color: #dbeafe; border-left: 4px solid #2563eb; border-radius: 4px; margin-bottom: 24px;">
+                          <p style="margin: 0; font-size: 14px; color: #1e3a8a;">
+                            <strong>⏱️ This link expires in 1 hour</strong> for your security.
+                          </p>
+                        </div>
+
+                        <div style="padding: 16px; background-color: #f0fdf4; border-left: 4px solid #10b981; border-radius: 4px;">
+                          <p style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #065f46;">
+                            🎓 What's next?
+                          </p>
+                          <p style="margin: 0; font-size: 14px; color: #065f46; line-height: 20px;">
+                            Once verified, you'll have secure access to all ${orgName} applications with a single account.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                      <td style="padding: 30px 40px; text-align: center; border-top: 1px solid #e5e7eb; background-color: #f9fafb;">
+                        <p style="margin: 0 0 8px; font-size: 13px; color: #6b7280;">
+                          This is an automated message from <strong>${appName}</strong>
+                        </p>
+                        <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+                          Secure authentication for your ${orgName} applications
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </body>
+          </html>
         `,
       });
     },
@@ -161,10 +378,63 @@ export const auth = betterAuth({
     useSecureCookies: process.env.NODE_ENV === "production",
   },
 
-  // Rate limiting
+  // Rate limiting - Configured for 100k users scale
+  // Peak calculation: 10k concurrent × 5 API calls = 50k requests
+  // Distributed over 10 minutes = 5k req/min + 20% buffer = 6k req/min
+  // Conservative limit: 3000 req/min (50 req/sec) to prevent abuse
   rateLimit: {
-    window: 60, // 1 minute
-    max: 5, // 5 attempts per window
+    window: 60, // 60 seconds
+    max: 3000, // 3000 requests per minute - supports 100k user base
+    storage: "memory", // Memory storage (consider Redis for multi-instance deployments)
+
+    // Per-endpoint rules for security-sensitive operations
+    customRules: {
+      // Authentication endpoints - strict limits to prevent brute force
+      "/sign-in/email": {
+        window: 60,
+        max: 10, // 10 login attempts per minute per IP
+      },
+      "/sign-up/email": {
+        window: 60,
+        max: 5, // 5 signups per minute per IP
+      },
+      "/forgot-password": {
+        window: 300, // 5 minutes
+        max: 3, // 3 password reset requests per 5 minutes
+      },
+      "/reset-password": {
+        window: 300, // 5 minutes
+        max: 3, // 3 password reset attempts per 5 minutes
+      },
+
+      // OAuth 2.1 endpoints - generous limits for normal flows
+      "/oauth2/authorize": {
+        window: 60,
+        max: 200, // Authorization requests (initial OAuth flow)
+      },
+      "/oauth2/token": {
+        window: 60,
+        max: 100, // Token exchanges (code → token)
+      },
+      "/oauth2/userinfo": {
+        window: 60,
+        max: 300, // UserInfo endpoint (frequently called by clients)
+      },
+
+      // Admin endpoints - moderate limits
+      "/admin/clients/register": {
+        window: 60,
+        max: 10, // Client registration (admin only)
+      },
+      "/admin/clients": {
+        window: 60,
+        max: 50, // Client management operations
+      },
+
+      // Session management - no rate limit (called frequently by all clients)
+      "/get-session": false, // Disable rate limiting for session checks
+      "/session": false, // Disable rate limiting for session checks
+    },
   },
 
   // Trusted origins for CORS
@@ -177,12 +447,21 @@ export const auth = betterAuth({
   plugins: [
     // JWT Plugin - Enables JWKS endpoint for asymmetric key signing (RS256)
     // This allows client-side token verification, reducing server load
+    // Enterprise Security: Automatic key rotation + encrypted private keys
     jwt({
       jwks: {
         keyPairConfig: {
           alg: "RS256", // RSA with SHA-256 - standard for OIDC/JWKS
         },
-        disablePrivateKeyEncryption: true, // Disable encryption for simplicity
+        // Automatic key rotation for enterprise security
+        // Keys rotate every 90 days with 30-day grace period
+        // Clients automatically use correct key via 'kid' in JWT header
+        rotationInterval: 60 * 60 * 24 * 90, // 90 days (7,776,000 seconds)
+        gracePeriod: 60 * 60 * 24 * 30, // 30 days grace period (2,592,000 seconds)
+
+        // Private key encryption enabled for security (AES-256-GCM)
+        // Recommended by Better Auth for production environments
+        disablePrivateKeyEncryption: false, // Enable encryption (production security)
       },
     }),
 
@@ -197,37 +476,17 @@ export const auth = betterAuth({
       accessTokenExpiresIn: 60 * 60 * 6, // 6 hours (21600 seconds)
       refreshTokenExpiresIn: 60 * 60 * 24 * 7, // 7 days (604800 seconds)
       codeExpiresIn: 600, // 10 minutes (authorization code expiry)
-      // Pre-register robolearn-interface as a public client (uses PKCE, no secret)
-      trustedClients: [
-        {
-          clientId: ROBOLEARN_INTERFACE_CLIENT_ID,
-          // No clientSecret needed for public clients with PKCE + JWKS
-          // ID tokens are signed with asymmetric keys (RS256) from JWKS
-          name: "RoboLearn Book Interface",
-          type: "public", // Public client for SPA/browser apps - uses PKCE for auth
-          // Redirect URLs for OAuth callback
-          // Production: Set ROBOLEARN_INTERFACE_CALLBACK_URL env var
-          // Development: Falls back to localhost:3000/auth/callback
-          redirectUrls: process.env.ROBOLEARN_INTERFACE_CALLBACK_URL
-            ? [process.env.ROBOLEARN_INTERFACE_CALLBACK_URL]
-            : (process.env.NODE_ENV === "development"
-                ? ["http://localhost:3000/auth/callback"]
-                : []),
-          disabled: false,
-          skipConsent: true, // First-party app, no consent screen needed
-          metadata: {},
-        },
-      ],
+      // Pre-register first-party clients (skip consent screen)
+      // IMPORTANT: These clients MUST also exist in the database for token storage!
+      // The database stores access tokens with FK constraint to oauth_application.
+      // Seed them with: pnpm run seed:prod
+      // Configuration: See src/lib/trusted-clients.ts
+      trustedClients: TRUSTED_CLIENTS,
       // SECURITY: Disable open dynamic client registration
       // Use /api/admin/clients/register (admin auth) or /api/clients/register (API key) instead
       allowDynamicClientRegistration: false,
       // Add custom claims to userinfo endpoint and ID token
       async getAdditionalUserInfoClaim(user) {
-        // Fetch user profile with software_background and hardware_tier
-        const profile = await db.query.userProfile.findFirst({
-          where: eq(userProfile.userId, user.id),
-        });
-
         // Fetch user's organization memberships for tenant_id
         const memberships = await db
           .select()
@@ -241,14 +500,22 @@ export const auth = betterAuth({
         const primaryTenantId = organizationIds[0] || null;
 
         return {
-          software_background: profile?.softwareBackground || null,
-          hardware_tier: profile?.hardwareTier || null,
+          // OIDC Standard Claims (from additionalFields)
+          given_name: user.givenName || null,
+          family_name: user.familyName || null,
+          picture: user.picture || null,
+          phone_number: user.phoneNumber || null,
+          phone_number_verified: user.phoneNumberVerified || false,
+          locale: user.locale || null,
+          zoneinfo: user.zoneinfo || null,
+          // Multi-tenant claims
           role: user.role || "user",
-          // Tenant/organization claims
           tenant_id: primaryTenantId,
           organization_ids: organizationIds,
-          // Organization role from primary tenant
           org_role: memberships[0]?.role || null,
+          // Temporary: RoboLearn-specific fields (TODO: move to member.metadata in Proposal 001)
+          software_background: user.softwareBackground || null,
+          hardware_tier: user.hardwareTier || null,
         };
       },
     }),
@@ -267,12 +534,80 @@ export const auth = betterAuth({
       // Allow any user to create organizations (can be restricted later)
       allowUserToCreateOrganization: true,
     }),
+
+    // Username plugin - Adds username fields for user profiles
+    // Sign-in with username is DISABLED (see disabledPaths above)
+    // Uses Better Auth defaults: 3-30 chars, alphanumeric+underscore+dots, lowercase normalization
+    username(),
+
+    // HIBP (Have I Been Pwned) - Prevents use of compromised passwords
+    // Checks password against HIBP breach database on signup/password change
+    // Security: Only first 5 chars of SHA-1 hash sent to API (k-anonymity)
+    haveIBeenPwned({
+      customPasswordCompromisedMessage: "This password has been exposed in a data breach. Please choose a more secure password.",
+    }),
   ],
+
+  // Database hooks - Automatically add new users to default organization
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          // Get default org ID (returns null if not configured)
+          const defaultOrgId = getDefaultOrgId();
+
+          if (!defaultOrgId) {
+            console.warn(`[Auth] No default organization configured - user ${user.email} not auto-added to any org`);
+            return;
+          }
+
+          try {
+            // Check if user is already a member (prevent duplicates)
+            const existingMembership = await db
+              .select()
+              .from(member)
+              .where(
+                and(
+                  eq(member.userId, user.id),
+                  eq(member.organizationId, defaultOrgId)
+                )
+              )
+              .limit(1);
+
+            if (existingMembership.length > 0) {
+              console.log(`[Auth] User ${user.email} already member of default organization`);
+              return;
+            }
+
+            // Add user to default Panaversity organization
+            await db.insert(member).values({
+              id: crypto.randomUUID(),
+              userId: user.id,
+              organizationId: defaultOrgId,
+              role: "member",
+              createdAt: new Date(),
+            });
+
+            console.log(`[Auth] ✅ Added user ${user.email} to default organization`);
+          } catch (error: any) {
+            // Log error but don't fail user creation
+            // User can still sign in and join organization later via admin UI
+            console.error(`[Auth] ❌ Failed to add user ${user.email} to default organization:`, error.message);
+          }
+        },
+      },
+    },
+  },
+});
+
+// Validate default organization at startup
+validateAndCacheDefaultOrg().catch((error) => {
+  console.error("[Auth] Failed to validate default organization at startup:", error);
 });
 
 // Export client config for use in robolearn-interface (no secret for public client)
 export const oauthClientConfig = {
-  clientId: ROBOLEARN_INTERFACE_CLIENT_ID,
+  clientId: "robolearn-public-client",
 };
 
 export type Auth = typeof auth;

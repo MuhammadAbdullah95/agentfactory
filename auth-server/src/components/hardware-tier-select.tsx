@@ -1,6 +1,6 @@
 "use client";
 
-import { HardwareTier } from "@/lib/db/schema";
+import type { HardwareTier } from "@/types/profile";
 
 interface HardwareTierSelectProps {
   value: HardwareTier | "";
@@ -11,27 +11,27 @@ interface HardwareTierSelectProps {
 const hardwareTiers: { value: HardwareTier; label: string; shortLabel: string; description: string }[] = [
   {
     value: "tier1",
-    label: "Tier 1: Laptop/Cloud",
-    shortLabel: "Laptop/Cloud",
-    description: "Browser-based learning",
+    label: "Windows PC",
+    shortLabel: "Windows PC",
+    description: "Desktop or laptop",
   },
   {
     value: "tier2",
-    label: "Tier 2: RTX GPU Workstation",
-    shortLabel: "RTX GPU",
-    description: "Local Isaac Sim & Gazebo",
+    label: "Mac (macOS)",
+    shortLabel: "Mac",
+    description: "MacBook or iMac",
   },
   {
     value: "tier3",
-    label: "Tier 3: Jetson Edge Device",
-    shortLabel: "Jetson Edge",
-    description: "Real sensors & edge deployment",
+    label: "Linux PC",
+    shortLabel: "Linux",
+    description: "Ubuntu, Fedora, etc.",
   },
   {
     value: "tier4",
-    label: "Tier 4: Physical Robot",
-    shortLabel: "Physical Robot",
-    description: "Real-world testing",
+    label: "Chromebook/Web",
+    shortLabel: "Chromebook/Web",
+    description: "Browser-based only",
   },
 ];
 
@@ -39,7 +39,7 @@ export function HardwareTierSelect({ value, onChange, error }: HardwareTierSelec
   return (
     <div className="space-y-3">
       <label className="block mt-6 px-4 py-3 bg-gradient-to-r from-indigo-50 to-indigo-50/50 border-l-4 border-indigo-500 rounded-r-lg text-sm font-bold text-indigo-900">
-        What hardware do you have access to?
+        What hardware and OS do you use?
       </label>
       <div className="grid grid-cols-2 gap-3">
         {hardwareTiers.map((tier) => (
