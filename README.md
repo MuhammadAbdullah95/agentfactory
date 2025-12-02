@@ -1,4 +1,4 @@
-# RoboLearn Auth Server
+# Auth Server
 
 OAuth 2.1 / OIDC authentication server using Better Auth with PKCE, JWKS, and multi-tenancy support.
 
