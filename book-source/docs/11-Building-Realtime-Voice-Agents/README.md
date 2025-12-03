@@ -131,24 +131,24 @@ These skills enable you to build:
 
 ## Chapter Progression
 
-This part's 6 chapters build realtime and voice capability:
+This part's chapters build realtime and voice capability:
 
-### Chapter 76: Realtime APIs for Agents
+### Realtime APIs for Agents
 Implement SSE, WebSockets, and WebRTC for bidirectional agent communication. Handle reconnection, heartbeats, and graceful degradation.
 
-### Chapter 77: Browser Audio Capture
+### Browser Audio Capture
 Use Web Audio API to capture user speech. Implement Voice Activity Detection to know when users are speaking.
 
-### Chapter 78: TTS/STT Pipelines
+### TTS/STT Pipelines
 Build end-to-end speech processing workflows. Integrate with OpenAI Whisper, Google STT, ElevenLabs, and optimize for latency.
 
-### Chapter 79: Multimodal IO
+### Multimodal IO
 Add image/screen capture, tool visualization, and rich media rendering to your AI interfaces.
 
-### Chapter 80: Mobile & PWA
+### Mobile & PWA
 Optimize for mobile devices, implement Progressive Web App patterns, and handle background audio processing.
 
-### Chapter 81: Load, Cost, and QoS
+### Load, Cost, and QoS
 Manage backpressure, implement fallback strategies, and optimize costs for realtime AI systems.
 
 ---

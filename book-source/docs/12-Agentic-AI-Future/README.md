@@ -186,15 +186,15 @@ This part uses **Layer 4 (Spec-Driven Integration)** thinking applied to strateg
 
 ## Chapter Progression
 
-This part's 3 chapters explore the agentic future:
+This part's chapters explore the agentic future:
 
-### Chapter 82: Agentic Web
+### Agentic Web
 Understanding open protocols (Nanda, A2A) vs. closed ecosystems (OpenAI Apps). Strategic implications for builders choosing platforms.
 
-### Chapter 83: Agentic Organizations
+### Agentic Organizations
 How companies restructure around AI agents. Organizational design patterns, AI maturity levels, and leadership in the AI era.
 
-### Chapter 84: Agentic Commerce
+### Agentic Commerce
 Economic implications of agents as market participants. Business model innovation and regulatory landscape.
 
 ---

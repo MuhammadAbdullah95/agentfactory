@@ -48,9 +48,9 @@ A complete system for creating, serving, and personalizing educational content:
 
 ## Chapter Progression
 
-This part's 7 chapters build the complete platform:
+This part's chapters build the complete platform:
 
-### Chapter 86: Building on Top of Docusaurus
+### Building on Top of Docusaurus
 
 Transform Docusaurus from a static site generator into an AI-native learning platform:
 - **Custom plugins**: Extending Docusaurus with TypeScript plugins
@@ -59,7 +59,7 @@ Transform Docusaurus from a static site generator into an AI-native learning pla
 - **Theming and customization**: Creating distinctive learning experiences
 - **Performance optimization**: Caching, code splitting, lazy loading
 
-### Chapter 87: Book Reusable Intelligence Components
+### Book Reusable Intelligence Components
 
 Apply Part 4's SDD-RI patterns to create reusable intelligence for book authoring:
 - **Content validation skills**: Checking factual accuracy, pedagogical quality
@@ -68,7 +68,7 @@ Apply Part 4's SDD-RI patterns to create reusable intelligence for book authorin
 - **Cross-reference detection**: Finding related content across chapters
 - **Consistency checking**: Ensuring terminology and style consistency
 
-### Chapter 88: Storage — File System for Agents
+### Storage — File System for Agents
 
 Build PanaversityFS, an agent-optimized storage layer:
 - **Why agents need special storage**: Challenges with traditional file systems
@@ -78,7 +78,7 @@ Build PanaversityFS, an agent-optimized storage layer:
 - **Cloud integration**: Cloudflare R2/S3 for scalable storage
 - **Agent-friendly APIs**: Designed for LLM tool use
 
-### Chapter 89: Auth — BetterAuth Multi-Tenant SSO
+### Auth — BetterAuth Multi-Tenant SSO
 
 Implement production authentication for multi-tenant book platforms:
 - **BetterAuth fundamentals**: Modern auth library patterns
@@ -88,7 +88,7 @@ Implement production authentication for multi-tenant book platforms:
 - **API authentication**: Securing agent endpoints
 - **Session management**: Handling long-running learning sessions
 
-### Chapter 90: RAG — Using Qdrant
+### RAG — Using Qdrant
 
 Build semantic search and retrieval for book content:
 - **Qdrant fundamentals**: Vector database concepts and setup
@@ -98,7 +98,7 @@ Build semantic search and retrieval for book content:
 - **Incremental indexing**: Updating vectors as content changes
 - **Performance tuning**: Latency optimization for interactive queries
 
-### Chapter 91: Personalized Content
+### Personalized Content
 
 Create adaptive learning experiences:
 - **Learning path generation**: Customizing chapter sequences per student
@@ -108,7 +108,7 @@ Create adaptive learning experiences:
 - **Knowledge gap detection**: Identifying missing prerequisites
 - **Spaced repetition**: Scheduling reviews for long-term retention
 
-### Chapter 92: Chatbot — ChatKit + Agents SDK
+### Chatbot — ChatKit + Agents SDK
 
 Build the conversational interface for the book:
 - **ChatKit integration**: Streaming chat UI for book interactions

@@ -103,15 +103,15 @@ These skills enable you to build:
 
 ## Chapter Progression
 
-This part's 3 chapters build frontend capability:
+This part's chapters build frontend capability:
 
-### Chapter 73: Building Chat UIs
+### Building Chat UIs
 Build conversational interfaces with streaming tokens, tool call visualization, and conversation management. Master message rendering and error handling patterns.
 
-### Chapter 74: Frontend Frameworks for Agents
+### Frontend Frameworks for Agents
 Learn modern web frameworks optimized for streaming AI responses. Implement server components and server actions for calling AI backends.
 
-### Chapter 75: Deploy & Preview Environments
+### Deploy & Preview Environments
 Deploy AI frontends with instant preview URLs for every feature branch. Set up production monitoring and error tracking.
 
 ---
