@@ -241,12 +241,6 @@ Lesson 9: Layer 4 (Spec-Driven)? If spec-first appears earlier → TOO EARLY
 
 **Step 2: Find the Canonical Source**
 - Where is this pattern PRIMARILY taught in the book?
-- **Skills**: Chapter 5 Lesson 7 (agent-skills.md)
-- **Subagents**: Chapter 5 Lesson 7 (agent-skills.md)
-- **Specifications**: Chapter 13 (specification-driven-development-fundamentals)
-- **ADRs**: Chapter 14 Lesson 6 (plan-phase.md)
-- **PHRs**: Chapter 14 Lesson 8 (implementation-phase.md)
-- **Slash Commands**: Chapter 5 Lesson 6 (slash-commands.md)
 
 **Step 3: Read and Align**
 - READ the canonical source BEFORE planning lessons
@@ -599,13 +593,15 @@ Students will implement error handling using AI collaboration, demonstrating all
 
 **Canonical source lookup**:
 ```markdown
-| Pattern | Canonical Source | Key Format Elements |
-|---------|------------------|---------------------|
-| Skills | Ch 5 L7 (agent-skills.md) | `.claude/skills/<name>/SKILL.md`, YAML frontmatter: name, description, version |
-| Subagents | Ch 5 L7 (agent-skills.md) | `.claude/agents/<name>.md` |
-| ADRs | Ch 14 L6 (plan-phase.md) | `specs/<feature>/adrs/` |
-| PHRs | Ch 14 L8 (implementation-phase.md) | `history/prompts/<feature>/` |
-| Specifications | Ch 13 | `specs/<feature>/spec.md` |
+| Pattern | Domain | Path |
+|---------|--------|------|
+| Authoring Skills | Content creation | `.claude/skills/authoring/<name>/SKILL.md` |
+| Engineering Skills | Platform/tooling | `.claude/skills/engineering/<name>/SKILL.md` |
+| Authoring Agents | Content workflows | `.claude/agents/authoring/<name>.md` |
+| Engineering Agents | Platform workflows | `.claude/agents/engineering/<name>.md` |
+| ADRs | Decisions | `specs/<feature>/adrs/` |
+| PHRs | History | `history/prompts/<feature>/` |
+| Specifications | Design | `specs/<feature>/spec.md` |
 ```
 
 **Validation workflow**:
@@ -721,8 +717,8 @@ Pedagogical-designer: "VALIDATED. Dependency order satisfied."
 
 **Workflow**:
 ```
-1. Chapter-planner: "Ready to plan Chapter 5"
-2. Spec-architect: Validates specs/chapter-5/spec.md
+1. Chapter-planner: "Ready to plan Chapter N"
+2. Spec-architect: Validates specs/chapter-N/spec.md
    - Check: Intent clear?
    - Check: Success evals defined?
    - Check: Constraints explicit?
@@ -814,7 +810,7 @@ Pedagogical-designer: "VALIDATED. Dependency order satisfied."
 
 **Why this is convergence**: Generating plausible-looking formats from training data instead of reading actual canonical sources. Results in inconsistent student learning.
 
-**Example failure**: Chapter 14 originally taught skills as `Persona + Questions + Principles` format when the canonical format (Chapter 5 Lesson 7) is `.claude/skills/<name>/SKILL.md` with YAML frontmatter.
+**Example failure**: Teaching skills without domain organization. The canonical format requires domain folders: `.claude/skills/authoring/<name>/SKILL.md` for content skills or `.claude/skills/engineering/<name>/SKILL.md` for platform skills.
 
 **Correction**:
 - BEFORE planning any pattern-teaching lesson, identify canonical source

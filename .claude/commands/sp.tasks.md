@@ -113,12 +113,12 @@ Every task MUST strictly follow this format:
 
 2. **Cross-Reference Verification Tasks** (For educational content):
    - If lessons teach patterns (skills, subagents, ADRs, PHRs), add verification task
-   - Example: `- [ ] T0XX [P] [US1] Verify skill format matches Chapter 5 Lesson 7 canonical source`
+   - Example: `- [ ] T0XX [P] [US1] Verify skill format matches Chapter N Lesson 7 canonical source`
    - Canonical source lookup:
-     - **Skills**: Chapter 5 Lesson 7 (agent-skills.md) → `.claude/skills/<name>/SKILL.md`
-     - **Subagents**: Chapter 5 Lesson 7 → `.claude/agents/<name>.md`
-     - **ADRs**: Chapter 14 Lesson 6 → `specs/<feature>/adrs/`
-     - **PHRs**: Chapter 14 Lesson 8 → `history/prompts/<feature>/`
+     - **Skills**: `.claude/skills/authoring/<name>/SKILL.md` (content) or `.claude/skills/engineering/<name>/SKILL.md` (platform) or `.claude/skills/<name>/SKILL.md` (general)
+     - **Agents**: `.claude/agents/authoring/<name>.md` (content) or `.claude/agents/engineering/<name>.md` (platform) or `.claude/agents/<name>.md` (general)
+     - **ADRs**: `specs/<feature>/adrs/`
+     - **PHRs**: `history/prompts/<feature>/`
    - Purpose: Prevent format drift across book content
 
 3. **From Contracts**:
