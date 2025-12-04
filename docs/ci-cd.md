@@ -251,7 +251,7 @@ curl -X POST http://localhost:3001/api/auth/sign-up/email \
   -H "Content-Type: application/json" \
   -d '{
     "email": "admin@robolearn.io",
-    "password": "RoboLearnAdmin2024!SecureTest",
+    "password": "Admin123!@#",
     "name": "Admin User"
   }'
 ```

@@ -13,7 +13,7 @@ const crypto = require("crypto");
 
 const AUTH_URL = "http://localhost:3001";
 const TEST_EMAIL = "admin@robolearn.io";
-const TEST_PASSWORD = "RoboLearnAdmin2024!SecureTest";
+const TEST_PASSWORD = "Admin123!@#";
 
 // Results tracking
 const results = { passed: 0, failed: 0, tests: [] };
