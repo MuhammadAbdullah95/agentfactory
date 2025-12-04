@@ -83,6 +83,16 @@ class Config(BaseSettings):
     archive_timeout_seconds: int = 60  # FR-030: <60s for 500 files / 200MB
     presign_expiry_seconds: int = 3600  # Presigned URL validity (1 hour default)
 
+    # Database Configuration
+    # PostgreSQL: postgresql+asyncpg://user:pass@host/db
+    # SQLite: sqlite+aiosqlite:///./panaversity_fs.db
+    database_url: str | None = None  # Falls back to SQLite if not set
+
+    @property
+    def effective_database_url(self) -> str:
+        """Get database URL, defaulting to SQLite for development."""
+        return self.database_url or "sqlite+aiosqlite:///./panaversity_fs.db"
+
     def validate_backend_config(self) -> None:
         """Validate that required configuration exists for selected backend.
 

@@ -6,14 +6,21 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "aiofiles>=25.1.0",
+    "aiosqlite>=0.21.0",
+    "alembic>=1.17.2",
+    "asyncpg>=0.31.0",
+    "greenlet>=3.2.4",
+    "hypothesis>=6.148.6",
     "mcp>=1.22.0",
     "opendal>=0.46.0",
+    "prometheus-client>=0.23.1",
     "pydantic>=2.12.4",
     "pyjwt>=2.8.0",
     "python-dotenv>=1.0.0",
     "python-frontmatter>=1.1.0",
     "python-magic>=0.4.27",
     "pyyaml>=6.0.3",
+    "sqlalchemy>=2.0.44",
     "supabase>=2.0.0",
 ]
 
@@ -52,6 +59,11 @@ disallow_untyped_defs = false
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest-asyncio>=1.3.0",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/panaversity_fs"]
