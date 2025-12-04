@@ -67,6 +67,19 @@ const scenarios = [
     redirectUrl: "/account/settings",
     expected: true,
     description: "Internal navigation within SSO"
+  },
+  // OAuth callback URL blocking (prevents PKCE errors)
+  {
+    name: "OAuth callback URL (BLOCKED - prevents PKCE error)",
+    redirectUrl: "https://mjunaidca.github.io/robolearn/auth/callback",
+    expected: false,
+    description: "OAuth callback URLs must not be used as profile redirects"
+  },
+  {
+    name: "OAuth callback URL with localhost",
+    redirectUrl: "http://localhost:3000/auth/callback",
+    expected: false,
+    description: "Localhost OAuth callbacks also blocked"
   }
 ];
 
@@ -99,5 +112,10 @@ console.log();
 console.log("Summary:");
 console.log("  • Users from trusted apps (RoboLearn, AI Native) can return to their app");
 console.log("  • Security is maintained by blocking untrusted redirect URLs");
+console.log("  • OAuth callback URLs (/auth/callback) are BLOCKED to prevent PKCE errors");
 console.log("  • Internal navigation continues to work as expected");
+console.log();
+console.log("IMPORTANT: Client apps should use non-callback URLs for profile redirects!");
+console.log("  ✓ Good: https://example.com/settings (after profile update)");
+console.log("  ✗ Bad:  https://example.com/auth/callback (causes PKCE error)");
 console.log("=".repeat(80));

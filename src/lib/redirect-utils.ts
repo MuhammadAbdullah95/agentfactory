@@ -1,11 +1,26 @@
 /**
  * Redirect URL Validation Utilities
- * 
+ *
  * Validates redirect URLs against trusted client origins to prevent open redirect attacks.
  * Uses the TRUSTED_CLIENTS configuration to derive allowed origins.
+ *
+ * IMPORTANT: OAuth callback URLs (e.g., /auth/callback) are explicitly blocked
+ * because redirecting to them after profile updates causes PKCE errors when
+ * the client app tries to complete a non-existent OAuth flow.
  */
 
 import { TRUSTED_CLIENTS } from "./trusted-clients";
+
+/**
+ * OAuth callback URL patterns that should NEVER be used as redirect targets
+ * These URLs are for OAuth authorization code flow only, not general navigation
+ */
+const OAUTH_CALLBACK_PATTERNS = [
+  '/auth/callback',
+  '/oauth/callback',
+  '/callback',
+  '/api/auth/callback',
+];
 
 /**
  * Extract unique origins from trusted client redirect URLs
@@ -40,31 +55,70 @@ export function getTrustedOrigins(): string[] {
 }
 
 /**
+ * Check if a URL path matches any OAuth callback pattern
+ * @param pathname - The URL pathname to check
+ * @returns true if the path is an OAuth callback URL
+ */
+function isOAuthCallbackUrl(pathname: string): boolean {
+  const normalizedPath = pathname.toLowerCase();
+  return OAUTH_CALLBACK_PATTERNS.some(
+    (pattern) =>
+      normalizedPath === pattern ||
+      normalizedPath.endsWith(pattern) ||
+      normalizedPath.includes(`${pattern}?`) ||
+      normalizedPath.includes(`${pattern}/`)
+  );
+}
+
+/**
  * Validate if a redirect URL is safe to use
  * @param url - The redirect URL to validate
  * @returns true if the URL is safe, false otherwise
+ *
+ * Security rules:
+ * 1. Reject empty URLs
+ * 2. Allow relative URLs (same origin) - but NOT OAuth callback paths
+ * 3. Reject non-HTTP(S) URLs
+ * 4. Reject OAuth callback URLs (prevents PKCE errors after profile updates)
+ * 5. Allow URLs from trusted client origins only
  */
 export function isValidRedirectUrl(url: string): boolean {
   // Reject empty or whitespace-only URLs
   if (!url || url.trim().length === 0) {
     return false;
   }
-  
-  // Allow relative URLs (same origin)
+
+  // Allow relative URLs (same origin) - but NOT OAuth callback paths
   if (url.startsWith('/')) {
+    // Block OAuth callback paths even for same-origin
+    if (isOAuthCallbackUrl(url)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Redirect to OAuth callback URL blocked: ${url}`);
+      }
+      return false;
+    }
     return true;
   }
-  
+
   // Reject URLs that don't start with http:// or https://
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     return false;
   }
-  
+
   try {
-    // Parse the URL to get its origin
+    // Parse the URL to get its origin and pathname
     const parsedUrl = new URL(url);
     const trustedOrigins = getTrustedOrigins();
-    
+
+    // Block OAuth callback URLs - these cause PKCE errors when redirected to
+    // after profile updates because the client tries to complete a non-existent OAuth flow
+    if (isOAuthCallbackUrl(parsedUrl.pathname)) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Redirect to OAuth callback URL blocked: ${url}`);
+      }
+      return false;
+    }
+
     // Check if the origin is in the trusted list
     return trustedOrigins.includes(parsedUrl.origin);
   } catch (error) {

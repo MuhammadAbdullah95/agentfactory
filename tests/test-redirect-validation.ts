@@ -117,6 +117,61 @@ test("Valid Redirect - Panaversity.org", () => {
   return hasPanaversity && isValidRedirectUrl("https://panaversity.org/home");
 });
 
+// =============================================================================
+// OAuth Callback URL Blocking Tests (Prevents PKCE errors after profile updates)
+// =============================================================================
+console.log("\n--- OAuth Callback URL Blocking Tests ---\n");
+
+// Test 16: Block RoboLearn OAuth callback URL
+test("Invalid Redirect - RoboLearn OAuth Callback", () => {
+  return !isValidRedirectUrl("https://mjunaidca.github.io/robolearn/auth/callback");
+});
+
+// Test 17: Block AI Native OAuth callback URL
+test("Invalid Redirect - AI Native OAuth Callback", () => {
+  return !isValidRedirectUrl("https://ai-native.panaversity.org/auth/callback");
+});
+
+// Test 18: Block localhost OAuth callback URL
+test("Invalid Redirect - Localhost OAuth Callback", () => {
+  return !isValidRedirectUrl("http://localhost:3000/auth/callback");
+});
+
+// Test 19: Block relative OAuth callback URL
+test("Invalid Redirect - Relative OAuth Callback", () => {
+  return !isValidRedirectUrl("/auth/callback");
+});
+
+// Test 20: Block OAuth callback with query params
+test("Invalid Redirect - OAuth Callback with Query Params", () => {
+  return !isValidRedirectUrl("https://mjunaidca.github.io/robolearn/auth/callback?code=abc123");
+});
+
+// Test 21: Block /oauth/callback pattern
+test("Invalid Redirect - OAuth Pattern /oauth/callback", () => {
+  return !isValidRedirectUrl("http://localhost:3000/oauth/callback");
+});
+
+// Test 22: Block /callback pattern
+test("Invalid Redirect - Bare /callback Pattern", () => {
+  return !isValidRedirectUrl("http://localhost:3000/callback");
+});
+
+// Test 23: Allow non-callback paths on same origin
+test("Valid Redirect - Non-callback Path on Trusted Origin", () => {
+  return isValidRedirectUrl("https://mjunaidca.github.io/robolearn/dashboard");
+});
+
+// Test 24: Allow deep paths that don't match callback
+test("Valid Redirect - Deep Path Without Callback", () => {
+  return isValidRedirectUrl("https://ai-native.panaversity.org/projects/123/settings");
+});
+
+// Test 25: Block same-origin callback
+test("Invalid Redirect - Same Origin OAuth Callback", () => {
+  return !isValidRedirectUrl("http://localhost:3001/auth/callback");
+});
+
 console.log("\n============================================================");
 console.log(`Results: ${passedTests}/${totalTests} tests passed`);
 if (passedTests !== totalTests) {
