@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { createAuthMiddleware, APIError, getSessionFromCtx } from "better-auth/api";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { oidcProvider } from "better-auth/plugins/oidc-provider";
 import { admin } from "better-auth/plugins/admin";
@@ -6,6 +7,7 @@ import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
 import { haveIBeenPwned } from "better-auth/plugins";
+import { apiKey } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
@@ -440,6 +442,28 @@ export const auth = betterAuth({
         max: 50, // Client management operations
       },
 
+      // API Key endpoints - M2M authentication
+      "/api-key/create": {
+        window: 60,
+        max: 10, // Key creation (admin only, low volume)
+      },
+      "/api-key/verify": {
+        window: 60,
+        max: 500, // Verification endpoint (high volume from M2M services)
+      },
+      "/api-key/list": {
+        window: 60,
+        max: 50, // List keys (admin dashboard)
+      },
+      "/api-key/delete": {
+        window: 60,
+        max: 10, // Key deletion (admin only, low volume)
+      },
+      "/api-key/update": {
+        window: 60,
+        max: 20, // Key updates (admin only)
+      },
+
       // Session management - no rate limit (called frequently by all clients)
       "/get-session": false, // Disable rate limiting for session checks
       "/session": false, // Disable rate limiting for session checks
@@ -450,7 +474,7 @@ export const auth = betterAuth({
   // Production: Set ALLOWED_ORIGINS env var (comma-separated list of URLs)
   // Development: Falls back to localhost:3000
   trustedOrigins: process.env.ALLOWED_ORIGINS?.split(",") ||
-    (process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
+    (process.env.NODE_ENV === "development" ? ["http://localhost:3000", "http://localhost:3001"] : []),
 
   // Plugins
   plugins: [
@@ -560,6 +584,35 @@ export const auth = betterAuth({
     haveIBeenPwned({
       customPasswordCompromisedMessage: "This password has been exposed in a data breach. Please choose a more secure password.",
     }),
+
+    // API Key Plugin - M2M (Machine-to-Machine) authentication
+    // Enables services like GitHub Actions, MCP servers to authenticate programmatically
+    // Keys are hashed with argon2id, never stored in plaintext
+    apiKey({
+      // Prefix for generated API keys (e.g., "pana_abc123...")
+      defaultPrefix: "pana_",
+      // Require a name when creating API keys for identification
+      requireName: true,
+      // Enable metadata storage for additional key info (service name, description)
+      enableMetadata: true,
+      // Store first 8 characters for key identification in UI (includes prefix)
+      startingCharactersConfig: {
+        shouldStore: true,
+        charactersLength: 8,
+      },
+      // Rate limiting for API key verification (prevent brute force)
+      rateLimit: {
+        enabled: true,
+        timeWindow: 60000, // 1 minute window
+        maxRequests: 100, // 100 requests per minute per key
+      },
+      // Key expiration defaults (can be overridden per key)
+      keyExpiration: {
+        defaultExpiresIn: null, // No expiration by default
+        minExpiresIn: 1, // Minimum 1 day if expiration set
+        maxExpiresIn: 365, // Maximum 1 year
+      },
+    }),
   ],
 
   // Database hooks - Automatically add new users to default organization
@@ -617,6 +670,33 @@ export const auth = betterAuth({
   // Enables distributed rate limiting across multiple server instances
   // Falls back to memory storage if Redis is not configured
   ...(redisStorage && { secondaryStorage: redisStorage }),
+
+  // Authorization hooks - Restrict sensitive operations to admins only
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      // Only check admin authorization for API key management endpoints
+      const adminOnlyPaths = ["/api-key/create", "/api-key/update", "/api-key/delete"];
+
+      if (adminOnlyPaths.includes(ctx.path)) {
+        // Use getSessionFromCtx to properly retrieve session from request
+        const session = await getSessionFromCtx(ctx);
+
+        if (!session) {
+          throw new APIError("UNAUTHORIZED", {
+            message: "Authentication required to manage API keys",
+          });
+        }
+
+        // Check if user has admin role
+        const userRole = (session.user as { role?: string })?.role;
+        if (userRole !== "admin") {
+          throw new APIError("FORBIDDEN", {
+            message: "Only administrators can manage API keys",
+          });
+        }
+      }
+    }),
+  },
 });
 
 // Validate default organization at startup

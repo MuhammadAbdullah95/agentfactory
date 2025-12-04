@@ -1,4 +1,4 @@
-import * as schema from "@/auth-schema"; // Use Better Auth generated schema
+import * as schema from "../../../auth-schema"; // Use Better Auth generated schema
 
 // Get database URL from environment
 // Production: DATABASE_URL must be set
