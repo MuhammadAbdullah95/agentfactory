@@ -1,27 +1,28 @@
 name: Auth Server Tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
       - feat/**
     paths:
-      - 'src/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - '*.ts'
-      - '*.json'
-      - '.github/workflows/test-auth.yml'
+      - "src/**"
+      - "scripts/**"
+      - "tests/**"
+      - "*.ts"
+      - "*.json"
+      - ".github/workflows/test-auth.yml"
   pull_request:
     branches:
       - main
     paths:
-      - 'src/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - '*.ts'
-      - '*.json'
-      - '.github/workflows/test-auth.yml'
+      - "src/**"
+      - "scripts/**"
+      - "tests/**"
+      - "*.ts"
+      - "*.json"
+      - ".github/workflows/test-auth.yml"
 
 jobs:
   test:
@@ -56,9 +57,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
-          cache-dependency-path: 'pnpm-lock.yaml'
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -100,7 +101,7 @@ jobs:
 
       - name: Start auth server in background
         run: |
-          pnpm dev &
+          pnpm dev > server.log 2>&1 &
           echo $! > .server.pid
           # Wait for server to be ready (max 120 seconds for first compilation)
           echo "Waiting for Next.js to compile and server to be ready..."
@@ -126,11 +127,69 @@ jobs:
 
       - name: Create admin user via Better Auth API
         run: |
+          set -euo pipefail
           echo "Creating admin user through Better Auth signup..."
-          curl -X POST http://localhost:3001/api/auth/sign-up/email \
+          RESPONSE_FILE=$(mktemp)
+          STATUS=$(curl -s -o "$RESPONSE_FILE" -w "%{http_code}" -X POST http://localhost:3001/api/auth/sign-up/email \
             -H "Content-Type: application/json" \
-            -d '{"email":"admin@robolearn.io","password":"RoboLearnAdmin2024!SecureTest","name":"Admin User"}' \
-            -v || echo "Admin user might already exist (that's okay)"
+            -d '{"email":"admin@robolearn.io","password":"admin@robolearn.io","name":"Admin User"}')
+
+          if [ "$STATUS" = "200" ] || [ "$STATUS" = "201" ]; then
+            echo "✅ Admin user created via API"
+          elif [ "$STATUS" = "409" ] || [ "$STATUS" = "422" ]; then
+            echo "ℹ️  Admin user already exists (status $STATUS)"
+          else
+            echo "❌ Admin signup failed with status $STATUS"
+            echo "=== Response body ==="
+            cat "$RESPONSE_FILE"
+            echo ""
+            echo "=== Server logs (last 100 lines) ==="
+            tail -100 server.log || echo "No server.log found"
+            exit 1
+          fi
+
+          rm -f "$RESPONSE_FILE"
+
+      - name: Set admin role and verify email
+        run: |
+          echo "Setting admin role and email verification..."
+          psql postgresql://postgres:postgres@localhost:5432/auth_test -c \
+            "UPDATE \"user\" SET role = 'admin', email_verified = true WHERE email = 'admin@robolearn.io';"
+          echo "Admin user updated!"
+
+      - name: Verify admin test user exists
+        run: |
+          echo "Verifying admin@robolearn.io exists with correct role and verification..."
+          RESULT=$(psql -t -A postgresql://postgres:postgres@localhost:5432/auth_test -c \
+            "SELECT COUNT(*) FROM \"user\" WHERE email = 'admin@robolearn.io' AND email_verified = true AND role = 'admin';" | tr -d '[:space:]')
+
+          if [ "$RESULT" != "1" ]; then
+            echo "❌ Admin user verification failed (expected 1, got $RESULT)"
+            echo "Dumping user row for debugging:"
+            psql postgresql://postgres:postgres@localhost:5432/auth_test -c \
+              "SELECT email, role, email_verified, created_at FROM \"user\" WHERE email = 'admin@robolearn.io';"
+            exit 1
+          fi
+
+          echo "✅ Admin user verified"
+
+      - name: Validate admin credentials
+        run: |
+          set -euo pipefail
+          echo "Validating admin password via sign-in endpoint..."
+          RESPONSE_FILE=$(mktemp)
+          STATUS=$(curl -s -o "$RESPONSE_FILE" -w "%{http_code}" -X POST http://localhost:3001/api/auth/sign-in/email \
+            -H "Content-Type: application/json" \
+            -d '{"email":"admin@robolearn.io","password":"admin@robolearn.io"}')
+
+          if [ "$STATUS" != "200" ]; then
+            echo "❌ Admin sign-in failed (status $STATUS)"
+            cat "$RESPONSE_FILE"
+            exit 1
+          fi
+
+          echo "✅ Admin password confirmed"
+          rm -f "$RESPONSE_FILE"
 
       - name: Run API tests
         run: pnpm test-api
@@ -174,9 +233,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
-          cache-dependency-path: 'pnpm-lock.yaml'
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -3,6 +3,7 @@ import { oidcClient } from "better-auth/client/plugins";
 import { adminClient } from "better-auth/client/plugins";
 import { organizationClient } from "better-auth/client/plugins";
 import { usernameClient } from "better-auth/client/plugins";
+import { apiKeyClient } from "better-auth/client/plugins";
 import { inferAdditionalFields } from "better-auth/client/plugins";
 import type { auth } from "./auth";
 
@@ -14,6 +15,7 @@ export const authClient = createAuthClient({
     adminClient(),
     organizationClient(),
     usernameClient(), // Matches server's username() plugin for profile usernames
+    apiKeyClient(), // M2M authentication - API key management
   ],
 });
 

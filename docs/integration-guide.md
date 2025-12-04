@@ -9,6 +9,7 @@ This guide explains how to integrate FastAPI, MCP, and other backend services wi
 3. [Verifying Tokens (JWKS)](#3-verifying-tokens-jwks)
 4. [Enforcing Authorization](#4-enforcing-authorization)
 5. [Client Credentials Grant (Machine-to-Machine)](#5-client-credentials-grant-machine-to-machine-auth)
+5b. [API Key Authentication (Machine-to-Machine)](#5b-api-key-authentication-machine-to-machine)
 6. [Production Considerations](#6-production-considerations)
 
 ---
@@ -947,6 +948,255 @@ async def service_endpoint(
 
 ---
 
+## 5b. API Key Authentication (Machine-to-Machine)
+
+For simpler **machine-to-machine** authentication without OAuth complexity, use **API Keys**. API Keys are ideal for services that need a static credential without token refresh flows.
+
+**Status**: ✅ **Fully Supported** - Create keys via admin dashboard or API
+
+### How API Keys Work
+
+```
+┌─────────────────┐                    ┌──────────────┐
+│  External       │                    │ Auth Server  │
+│  Service        │                    │ (SSO)        │
+│  (FastAPI/Node) │                    │              │
+└─────────────────┘                    └──────────────┘
+         │                                     │
+         │  1. POST /api/api-key/verify        │
+         │     body: {"key": "pana_xxx..."}    │
+         │────────────────────────────────────▶│
+         │                                     │
+         │                    2. Hash key,     │
+         │                       lookup in DB  │
+         │                                     │
+         │  3. Return validation result        │
+         │     {valid: true, key: {...}}       │
+         │◀────────────────────────────────────│
+         │                                     │
+```
+
+### Creating API Keys
+
+API keys are created by admins via the dashboard or API:
+
+**Dashboard**: `/admin/service-keys` - Create, revoke, delete keys
+
+**API** (requires admin session):
+```bash
+curl -X POST http://localhost:3001/api/auth/api-key/create \
+  -H "Content-Type: application/json" \
+  -H "Cookie: robolearn_session=<admin-session>" \
+  -d '{
+    "name": "ai-native-service",
+    "expiresIn": 2592000
+  }'
+
+# Response (SAVE THIS KEY - cannot be retrieved later!)
+{
+  "key": "pana_lniZlImAbPDnAWURoySDCKNVDfiPuRXxkNNYLCBpXTKHitxlUXqcKtWuaFMWIbqI",
+  "id": "6bo876z0qVVKew66bzXdguuRqsii4YwQ",
+  "name": "ai-native-service",
+  "expiresAt": "2026-01-03T15:33:38.440Z"
+}
+```
+
+**⚠️ Important**: The full API key is only shown once during creation. Store it securely!
+
+### Verifying API Keys
+
+**Endpoint**: `POST /api/api-key/verify`
+
+This endpoint is **public** (no authentication required) - designed for external services to validate incoming API keys.
+
+#### Python (FastAPI)
+
+```python
+import httpx
+from fastapi import HTTPException, Security
+from fastapi.security import APIKeyHeader
+
+# Configuration
+SSO_URL = "http://localhost:3001"  # Your SSO server URL
+
+api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+async def verify_api_key(api_key: str) -> dict:
+    """
+    Verify API key against the SSO server.
+
+    Returns:
+        dict with key info if valid, raises HTTPException if invalid
+    """
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{SSO_URL}/api/api-key/verify",
+            json={"key": api_key}
+        )
+
+        data = response.json()
+
+        if not data.get("valid"):
+            error = data.get("error", {})
+            raise HTTPException(
+                status_code=401,
+                detail=f"Invalid API key: {error.get('message', 'Unknown error')}"
+            )
+
+        return data["key"]
+
+async def get_api_key(api_key: str = Security(api_key_header)) -> dict:
+    """FastAPI dependency for API key authentication"""
+    if not api_key:
+        raise HTTPException(status_code=401, detail="API key required")
+
+    return await verify_api_key(api_key)
+
+# Usage in routes
+@app.get("/api/protected")
+async def protected_endpoint(key_info: dict = Security(get_api_key)):
+    """Protected by API key"""
+    return {
+        "message": "Authenticated via API key",
+        "key_name": key_info.get("name"),
+        "user_id": key_info.get("userId")
+    }
+```
+
+#### Node.js (Express/NestJS)
+
+```typescript
+import axios from 'axios';
+
+const SSO_URL = process.env.SSO_URL || 'http://localhost:3001';
+
+interface ApiKeyInfo {
+  id: string;
+  name: string;
+  userId: string;
+  enabled: boolean;
+  expiresAt: string | null;
+  metadata: Record<string, unknown> | null;
+}
+
+interface VerifyResponse {
+  valid: boolean;
+  key?: ApiKeyInfo;
+  error?: { code: string; message: string };
+}
+
+async function verifyApiKey(apiKey: string): Promise<ApiKeyInfo> {
+  const response = await axios.post<VerifyResponse>(
+    `${SSO_URL}/api/api-key/verify`,
+    { key: apiKey }
+  );
+
+  if (!response.data.valid) {
+    throw new Error(response.data.error?.message || 'Invalid API key');
+  }
+
+  return response.data.key!;
+}
+
+// Express middleware
+export async function apiKeyAuth(req, res, next) {
+  const apiKey = req.headers['x-api-key'];
+
+  if (!apiKey) {
+    return res.status(401).json({ error: 'API key required' });
+  }
+
+  try {
+    req.keyInfo = await verifyApiKey(apiKey);
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: error.message });
+  }
+}
+
+// Usage
+app.get('/api/protected', apiKeyAuth, (req, res) => {
+  res.json({
+    message: 'Authenticated via API key',
+    keyName: req.keyInfo.name,
+    userId: req.keyInfo.userId
+  });
+});
+```
+
+#### cURL (Testing)
+
+```bash
+# Valid key
+curl -X POST http://localhost:3001/api/api-key/verify \
+  -H "Content-Type: application/json" \
+  -d '{"key": "pana_lniZlImAbPDnAWURoySDCKNVDfiPuRXxkNNYLCBpXTKHitxlUXqcKtWuaFMWIbqI"}'
+
+# Response (valid)
+{
+  "valid": true,
+  "key": {
+    "id": "6bo876z0qVVKew66bzXdguuRqsii4YwQ",
+    "name": "ai-native",
+    "userId": "75U31gmiBIut08ODLsGAO837rmM0vIz0",
+    "enabled": true,
+    "expiresAt": "2026-01-03T15:33:38.440Z",
+    "metadata": null
+  }
+}
+
+# Invalid key
+curl -X POST http://localhost:3001/api/api-key/verify \
+  -H "Content-Type: application/json" \
+  -d '{"key": "pana_invalid_key"}'
+
+# Response (invalid)
+{
+  "valid": false,
+  "error": {
+    "message": "Invalid API key.",
+    "code": "KEY_NOT_FOUND"
+  }
+}
+```
+
+### Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `MISSING_KEY` | 400 | No key provided in request body |
+| `KEY_NOT_FOUND` | 401 | API key doesn't exist or is invalid |
+| `EXPIRED_API_KEY` | 401 | API key has expired |
+| `DISABLED_API_KEY` | 401 | API key has been revoked/disabled |
+| `INTERNAL_ERROR` | 500 | Server error during verification |
+
+### API Keys vs Client Credentials
+
+| Feature | API Keys | Client Credentials |
+|---------|----------|-------------------|
+| **Complexity** | Simple (single key) | Complex (OAuth flow) |
+| **Token Refresh** | Not needed (static key) | Required (access tokens expire) |
+| **Revocation** | Instant (disable key) | Until token expires |
+| **Rotation** | Create new key, update client | Rotate client secret |
+| **Scopes** | Via metadata | Standard OAuth scopes |
+| **User Context** | Linked to key owner | Client-level only |
+
+### Use Cases
+
+✅ **Perfect for API Keys**:
+- External services calling your APIs (FastAPI, NestJS, MCP servers)
+- GitHub Actions and CI/CD pipelines
+- Partner integrations with simple auth needs
+- Webhook receivers that need to validate authenticity
+- Services where you want to track usage per key
+
+❌ **Use Client Credentials instead for**:
+- Internal microservices with fine-grained scopes
+- Services that need token-based caching strategies
+- OAuth ecosystem integration
+
+---
+
 ## 6. Production Considerations
 
 ### Security Best Practices
@@ -1155,6 +1405,11 @@ async def health_check():
 | `/api/auth/oauth2/userinfo` | GET | Get user info (requires access token) |
 | `/api/auth/jwks` | GET | Public keys for token verification |
 | `/.well-known/openid-configuration` | GET | OIDC discovery endpoint |
+| `/api/api-key/verify` | POST | Verify API key (public, for M2M services) |
+| `/api/auth/api-key/create` | POST | Create API key (requires admin session) |
+| `/api/auth/api-key/list` | GET | List user's API keys (requires session) |
+| `/api/auth/api-key/delete` | POST | Delete API key (requires session) |
+| `/api/auth/api-key/update` | POST | Update/revoke API key (requires session) |
 
 ### Environment Variables
 

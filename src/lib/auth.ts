@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+// Note: createAuthMiddleware, APIError, getSessionFromCtx removed - using custom endpoints for admin auth
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { oidcProvider } from "better-auth/plugins/oidc-provider";
 import { admin } from "better-auth/plugins/admin";
@@ -6,6 +7,7 @@ import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
 import { haveIBeenPwned } from "better-auth/plugins";
+import { apiKey } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
@@ -144,7 +146,16 @@ export const auth = betterAuth({
 
   // Disable /token endpoint when using OIDC Provider (OAuth equivalent is /oauth2/token)
   // Disable /sign-in/username - users sign in with email only, username is for profiles
-  disabledPaths: ["/token", "/sign-in/username"],
+  // Disable API key management endpoints - use custom admin-only endpoints instead
+  // Note: /api-key/verify is NOT disabled - it's needed for M2M services (handled by custom route)
+  disabledPaths: [
+    "/token",
+    "/sign-in/username",
+    "/api-key/create",  // Use /api/admin/api-keys/create instead
+    "/api-key/delete",  // Use /api/admin/api-keys/delete instead
+    "/api-key/update",  // Use /api/admin/api-keys/update instead
+    "/api-key/list",    // Use /api/admin/api-keys/list instead
+  ],
 
   // OIDC Standard Claims - extends user table with standard profile fields
   user: {
@@ -456,6 +467,28 @@ export const auth = betterAuth({
         max: 50, // Client management operations
       },
 
+      // API Key endpoints - M2M authentication
+      "/api-key/create": {
+        window: 60,
+        max: 10, // Key creation (admin only, low volume)
+      },
+      "/api-key/verify": {
+        window: 60,
+        max: 500, // Verification endpoint (high volume from M2M services)
+      },
+      "/api-key/list": {
+        window: 60,
+        max: 50, // List keys (admin dashboard)
+      },
+      "/api-key/delete": {
+        window: 60,
+        max: 10, // Key deletion (admin only, low volume)
+      },
+      "/api-key/update": {
+        window: 60,
+        max: 20, // Key updates (admin only)
+      },
+
       // Session management - no rate limit (called frequently by all clients)
       "/get-session": false, // Disable rate limiting for session checks
       "/session": false, // Disable rate limiting for session checks
@@ -466,7 +499,7 @@ export const auth = betterAuth({
   // Production: Set ALLOWED_ORIGINS env var (comma-separated list of URLs)
   // Development: Falls back to localhost:3000
   trustedOrigins: process.env.ALLOWED_ORIGINS?.split(",") ||
-    (process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : []),
+    (process.env.NODE_ENV === "development" ? ["http://localhost:3000", "http://localhost:3001"] : []),
 
   // Plugins
   plugins: [
@@ -577,6 +610,35 @@ export const auth = betterAuth({
     haveIBeenPwned({
       customPasswordCompromisedMessage: "This password has been exposed in a data breach. Please choose a more secure password.",
     }),
+
+    // API Key Plugin - M2M (Machine-to-Machine) authentication
+    // Enables services like GitHub Actions, MCP servers to authenticate programmatically
+    // Keys are hashed with argon2id, never stored in plaintext
+    apiKey({
+      // Prefix for generated API keys (e.g., "pana_abc123...")
+      defaultPrefix: "pana_",
+      // Require a name when creating API keys for identification
+      requireName: true,
+      // Enable metadata storage for additional key info (service name, description)
+      enableMetadata: true,
+      // Store first 8 characters for key identification in UI (includes prefix)
+      startingCharactersConfig: {
+        shouldStore: true,
+        charactersLength: 8,
+      },
+      // Rate limiting for API key verification (prevent brute force)
+      rateLimit: {
+        enabled: true,
+        timeWindow: 60000, // 1 minute window
+        maxRequests: 100, // 100 requests per minute per key
+      },
+      // Key expiration defaults (can be overridden per key)
+      keyExpiration: {
+        defaultExpiresIn: null, // No expiration by default
+        minExpiresIn: 1, // Minimum 1 day if expiration set
+        maxExpiresIn: 365, // Maximum 1 year
+      },
+    }),
   ],
 
   // Database hooks - Automatically add new users to default organization
@@ -634,6 +696,9 @@ export const auth = betterAuth({
   // Enables distributed rate limiting across multiple server instances
   // Falls back to memory storage if Redis is not configured
   ...(redisStorage && { secondaryStorage: redisStorage }),
+
+  // Note: API key authorization is handled via custom admin endpoints at /api/admin/api-keys/*
+  // Better Auth's /api-key/* endpoints are disabled via disabledPaths above
 });
 
 // Validate default organization at startup

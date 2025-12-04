@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  integer,
+  index,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -25,10 +32,8 @@ export const user = pgTable("user", {
   phoneNumberVerified: boolean("phone_number_verified").default(false),
   locale: text("locale"),
   zoneinfo: text("zoneinfo"),
-  // TODO: Migrate to member.metadata in Proposal 001 (tenant-specific fields)
   softwareBackground: text("software_background"),
   hardwareTier: text("hardware_tier"),
-  // Additional profile fields (003-user-profile-fields)
   gender: text("gender"),
   fatherName: text("father_name"),
   city: text("city"),
@@ -53,7 +58,7 @@ export const session = pgTable(
     impersonatedBy: text("impersonated_by"),
     activeOrganizationId: text("active_organization_id"),
   },
-  (table) => [index("session_userId_idx").on(table.userId)],
+  (table) => [index("session_userId_idx").on(table.userId)]
 );
 
 export const account = pgTable(
@@ -77,7 +82,7 @@ export const account = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("account_userId_idx").on(table.userId)],
+  (table) => [index("account_userId_idx").on(table.userId)]
 );
 
 export const verification = pgTable(
@@ -93,7 +98,7 @@ export const verification = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("verification_identifier_idx").on(table.identifier)],
+  (table) => [index("verification_identifier_idx").on(table.identifier)]
 );
 
 export const jwks = pgTable("jwks", {
@@ -120,7 +125,7 @@ export const oauthApplication = pgTable(
     createdAt: timestamp("created_at"),
     updatedAt: timestamp("updated_at"),
   },
-  (table) => [index("oauthApplication_userId_idx").on(table.userId)],
+  (table) => [index("oauthApplication_userId_idx").on(table.userId)]
 );
 
 export const oauthAccessToken = pgTable(
@@ -142,7 +147,7 @@ export const oauthAccessToken = pgTable(
   (table) => [
     index("oauthAccessToken_clientId_idx").on(table.clientId),
     index("oauthAccessToken_userId_idx").on(table.userId),
-  ],
+  ]
 );
 
 export const oauthConsent = pgTable(
@@ -161,7 +166,7 @@ export const oauthConsent = pgTable(
   (table) => [
     index("oauthConsent_clientId_idx").on(table.clientId),
     index("oauthConsent_userId_idx").on(table.userId),
-  ],
+  ]
 );
 
 export const organization = pgTable("organization", {
@@ -189,7 +194,7 @@ export const member = pgTable(
   (table) => [
     index("member_organizationId_idx").on(table.organizationId),
     index("member_userId_idx").on(table.userId),
-  ],
+  ]
 );
 
 export const invitation = pgTable(
@@ -211,7 +216,40 @@ export const invitation = pgTable(
   (table) => [
     index("invitation_organizationId_idx").on(table.organizationId),
     index("invitation_email_idx").on(table.email),
-  ],
+  ]
+);
+
+export const apikey = pgTable(
+  "apikey",
+  {
+    id: text("id").primaryKey(),
+    name: text("name"),
+    start: text("start"),
+    prefix: text("prefix"),
+    key: text("key").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    refillInterval: integer("refill_interval"),
+    refillAmount: integer("refill_amount"),
+    lastRefillAt: timestamp("last_refill_at"),
+    enabled: boolean("enabled").default(true),
+    rateLimitEnabled: boolean("rate_limit_enabled").default(true),
+    rateLimitTimeWindow: integer("rate_limit_time_window").default(60000),
+    rateLimitMax: integer("rate_limit_max").default(100),
+    requestCount: integer("request_count").default(0),
+    remaining: integer("remaining"),
+    lastRequest: timestamp("last_request"),
+    expiresAt: timestamp("expires_at"),
+    createdAt: timestamp("created_at").notNull(),
+    updatedAt: timestamp("updated_at").notNull(),
+    permissions: text("permissions"),
+    metadata: text("metadata"),
+  },
+  (table) => [
+    index("apikey_key_idx").on(table.key),
+    index("apikey_userId_idx").on(table.userId),
+  ]
 );
 
 export const userRelations = relations(user, ({ many }) => ({
@@ -222,6 +260,7 @@ export const userRelations = relations(user, ({ many }) => ({
   oauthConsents: many(oauthConsent),
   members: many(member),
   invitations: many(invitation),
+  apikeys: many(apikey),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -247,7 +286,7 @@ export const oauthApplicationRelations = relations(
     }),
     oauthAccessTokens: many(oauthAccessToken),
     oauthConsents: many(oauthConsent),
-  }),
+  })
 );
 
 export const oauthAccessTokenRelations = relations(
@@ -261,7 +300,7 @@ export const oauthAccessTokenRelations = relations(
       fields: [oauthAccessToken.userId],
       references: [user.id],
     }),
-  }),
+  })
 );
 
 export const oauthConsentRelations = relations(oauthConsent, ({ one }) => ({
@@ -298,6 +337,13 @@ export const invitationRelations = relations(invitation, ({ one }) => ({
   }),
   user: one(user, {
     fields: [invitation.inviterId],
+    references: [user.id],
+  }),
+}));
+
+export const apikeyRelations = relations(apikey, ({ one }) => ({
+  user: one(user, {
+    fields: [apikey.userId],
     references: [user.id],
   }),
 }));

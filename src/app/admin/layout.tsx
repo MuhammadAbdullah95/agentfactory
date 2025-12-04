@@ -74,6 +74,12 @@ export default function AdminLayout({
                 >
                   OAuth Clients
                 </Link>
+                <Link
+                  href="/admin/service-keys"
+                  className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                >
+                  Service Keys
+                </Link>
               </nav>
             </div>
             <div className="flex items-center gap-4">
