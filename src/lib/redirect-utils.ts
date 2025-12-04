@@ -15,6 +15,8 @@ export function getTrustedOrigins(): string[] {
   const origins = new Set<string>();
   
   // Add SSO server's own origin (same-origin redirects are always safe)
+  // In client-side: use window.location.origin
+  // In server-side: this will be skipped, but server-side doesn't need same-origin check
   if (typeof window !== 'undefined') {
     origins.add(window.location.origin);
   }
@@ -26,8 +28,10 @@ export function getTrustedOrigins(): string[] {
         const url = new URL(redirectUrl);
         origins.add(url.origin);
       } catch (error) {
-        // Skip invalid URLs
-        console.warn(`Invalid redirect URL in trusted clients: ${redirectUrl}`);
+        // Skip invalid URLs - only log in development
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Invalid redirect URL in trusted clients: ${redirectUrl}`);
+        }
       }
     }
   }
@@ -64,8 +68,10 @@ export function isValidRedirectUrl(url: string): boolean {
     // Check if the origin is in the trusted list
     return trustedOrigins.includes(parsedUrl.origin);
   } catch (error) {
-    // Invalid URL format
-    console.warn(`Invalid redirect URL format: ${url}`, error);
+    // Invalid URL format - only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Invalid redirect URL format: ${url}`, error);
+    }
     return false;
   }
 }
