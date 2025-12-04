@@ -15,57 +15,14 @@ Authentication:
 - If PANAVERSITY_JWT_SECRET is set: JWT auth is enabled
 - If not set: Server runs in dev mode without auth
 
-Lifespan Management:
-- Database engine is initialized on startup
-- Database engine is properly disposed on shutdown
-- Follows MCP SDK best practices for resource lifecycle
+Database Connections:
+- Uses NullPool pattern - no persistent connections
+- Each request gets fresh connection, disposed after use
+- Cloud databases (Neon, Supabase) handle pooling externally
 """
-
-from collections.abc import AsyncIterator
-from contextlib import asynccontextmanager
-from dataclasses import dataclass
-from typing import Optional
 
 from mcp.server.fastmcp import FastMCP
 from panaversity_fs.config import get_config
-
-
-@dataclass
-class AppContext:
-    """Application context with typed dependencies for lifespan management."""
-    db_initialized: bool = False
-
-
-@asynccontextmanager
-async def app_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
-    """Manage application lifecycle with proper resource cleanup.
-
-    This context manager:
-    1. Initializes the database on startup
-    2. Disposes the database engine on shutdown
-
-    Following MCP SDK best practices for resource management.
-    """
-    from panaversity_fs.database.connection import get_engine, reset_engine, init_db
-
-    # Startup: initialize database
-    print("[PanaversityFS] Initializing database connection...")
-    try:
-        # Ensure tables exist (for dev/test - production uses migrations)
-        await init_db()
-        print("[PanaversityFS] Database initialized successfully")
-        db_initialized = True
-    except Exception as e:
-        print(f"[PanaversityFS] Database initialization failed: {e}")
-        db_initialized = False
-
-    try:
-        yield AppContext(db_initialized=db_initialized)
-    finally:
-        # Shutdown: cleanup resources
-        print("[PanaversityFS] Disposing database connections...")
-        await reset_engine()
-        print("[PanaversityFS] Database connections disposed")
 
 
 def _create_mcp() -> FastMCP:
@@ -80,7 +37,6 @@ def _create_mcp() -> FastMCP:
     kwargs = {
         "stateless_http": True,  # Enable Stateless Streamable HTTP (FR-004)
         "json_response": True,   # Disable SSE, use pure JSON responses
-        "lifespan": app_lifespan # Proper resource lifecycle management
     }
 
     # Add authentication if configured

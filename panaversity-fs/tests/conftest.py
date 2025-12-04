@@ -34,15 +34,23 @@ def temp_storage_root():
 
 @pytest.fixture
 async def setup_db():
-    """Setup in-memory SQLite database for testing."""
-    from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+    """Setup in-memory SQLite database for testing.
+
+    Uses a shared in-memory database with a single engine instance
+    that persists for the duration of the test.
+    """
+    from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+    from sqlalchemy.pool import StaticPool
     from panaversity_fs.database.models import Base
     from panaversity_fs.database import connection
 
-    # Use in-memory SQLite for tests
+    # Use shared in-memory SQLite for tests
+    # StaticPool keeps the same connection for the whole test
     test_engine = create_async_engine(
         "sqlite+aiosqlite:///:memory:",
-        echo=False
+        echo=False,
+        poolclass=StaticPool,  # Share single connection in memory DB
+        connect_args={"check_same_thread": False}
     )
 
     # Create all tables
@@ -52,17 +60,22 @@ async def setup_db():
     # Create session factory
     test_factory = async_sessionmaker(
         test_engine,
+        class_=AsyncSession,
         expire_on_commit=False
     )
 
-    # Monkey-patch the connection module to use test factory
-    original_factory = connection._session_factory
-    connection._session_factory = test_factory
+    # Monkey-patch _create_engine to return our test engine
+    original_create_engine = connection._create_engine
+
+    def mock_create_engine():
+        return test_engine
+
+    connection._create_engine = mock_create_engine
 
     yield test_factory
 
     # Cleanup
-    connection._session_factory = original_factory
+    connection._create_engine = original_create_engine
     await test_engine.dispose()
 
 
@@ -101,10 +114,9 @@ async def sample_book_data(setup_fs_backend):
     from panaversity_fs.storage import get_operator
     from panaversity_fs.storage_utils import compute_sha256
     from panaversity_fs.database.models import FileJournal
-    from panaversity_fs.database.connection import get_session_factory
+    from panaversity_fs.database.connection import get_session
 
     op = get_operator()
-    session_factory = get_session_factory()
 
     # Create registry
     registry = """books:
@@ -145,7 +157,7 @@ Test summary content.
     await op.write("books/test-book/content/01-Part/01-Chapter/01-lesson.summary.md", summary_bytes)
 
     # Create journal entries (FR-002)
-    async with session_factory() as session:
+    async with get_session() as session:
         session.add(FileJournal(
             book_id="test-book",
             path="content/01-Part/01-Chapter/01-lesson.md",

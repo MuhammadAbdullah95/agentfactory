@@ -18,22 +18,35 @@ async def db_session():
     Handles rollback for tests that expect integrity errors.
     """
     import os
-    os.environ["PANAVERSITY_DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
+    from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+    from sqlalchemy.pool import StaticPool
+    from panaversity_fs.database.models import Base
+    from panaversity_fs.database import connection
 
-    # Reset cached engine/session
-    await reset_engine()
+    # Use shared in-memory SQLite for this test
+    test_engine = create_async_engine(
+        "sqlite+aiosqlite:///:memory:",
+        echo=False,
+        poolclass=StaticPool,
+        connect_args={"check_same_thread": False}
+    )
 
-    # Ensure we import fresh config
-    from panaversity_fs import config
-    config._config = None
+    # Create all tables
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
-    # Initialize database
-    await init_db()
+    # Create session factory
+    test_factory = async_sessionmaker(
+        test_engine,
+        class_=AsyncSession,
+        expire_on_commit=False
+    )
 
-    from panaversity_fs.database.connection import get_session_factory
-    factory = get_session_factory()
+    # Monkey-patch _create_engine to return our test engine
+    original_create_engine = connection._create_engine
+    connection._create_engine = lambda: test_engine
 
-    async with factory() as session:
+    async with test_factory() as session:
         try:
             yield session
             await session.commit()
@@ -41,7 +54,9 @@ async def db_session():
             await session.rollback()
             # Don't re-raise - test already handled the expected exception
 
-    await reset_engine()
+    # Cleanup
+    connection._create_engine = original_create_engine
+    await test_engine.dispose()
 
 
 @pytest.mark.asyncio
