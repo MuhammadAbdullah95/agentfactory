@@ -126,8 +126,32 @@ class Config(BaseSettings):
 
     @property
     def effective_database_url(self) -> str:
-        """Get database URL, defaulting to SQLite for development."""
-        return self.database_url or "sqlite+aiosqlite:///./panaversity_fs.db"
+        """Get database URL, defaulting to SQLite for development.
+
+        Handles common URL formats:
+        - postgresql://... → postgresql+asyncpg://...
+        - postgres://... → postgresql+asyncpg://...
+        - Removes sslmode=require (asyncpg uses ssl=require instead)
+        """
+        if not self.database_url:
+            return "sqlite+aiosqlite:///./panaversity_fs.db"
+
+        url = self.database_url
+
+        # Auto-convert to asyncpg driver
+        if url.startswith("postgresql://"):
+            url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        elif url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql+asyncpg://", 1)
+
+        # Convert sslmode to asyncpg's ssl parameter
+        # asyncpg uses ssl=require, not sslmode=require
+        if "sslmode=require" in url:
+            url = url.replace("sslmode=require", "ssl=require")
+        elif "sslmode=verify-full" in url:
+            url = url.replace("sslmode=verify-full", "ssl=verify-full")
+
+        return url
 
     def validate_backend_config(self) -> None:
         """Validate that required configuration exists for selected backend.

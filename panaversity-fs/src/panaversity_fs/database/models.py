@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import String, DateTime, Text, Index, CheckConstraint, Integer
+from sqlalchemy import String, Text, Index, CheckConstraint, Integer, TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -33,7 +33,7 @@ class FileJournal(Base):
     path: Mapped[str] = mapped_column(String(1024), primary_key=True)
     user_id: Mapped[str] = mapped_column(String(255), primary_key=True, default="__base__")
     sha256: Mapped[str] = mapped_column(String(64), nullable=False)
-    last_written_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    last_written_at: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), default=datetime.utcnow)
     storage_backend: Mapped[str] = mapped_column(String(50), default="s3")
 
     __table_args__ = (
@@ -59,7 +59,7 @@ class ManifestSnapshot(Base):
 
     manifest_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
     book_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), default=datetime.utcnow)
     file_count: Mapped[int] = mapped_column(Integer, default=0)
     content_json: Mapped[str] = mapped_column(Text, nullable=False)  # JSON: {path: sha256}
 
@@ -94,7 +94,7 @@ class AuditLog(Base):
     __tablename__ = "audit_log"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    timestamp: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), default=datetime.utcnow, index=True)
     agent_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
     operation: Mapped[str] = mapped_column(String(50), nullable=False)
     book_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
