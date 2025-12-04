@@ -132,6 +132,13 @@ jobs:
             -d '{"email":"admin@robolearn.io","password":"RoboLearnAdmin2024!SecureTest","name":"Admin User"}' \
             -v || echo "Admin user might already exist (that's okay)"
 
+      - name: Set admin role and verify email
+        run: |
+          echo "Setting admin role and email verification..."
+          psql postgresql://postgres:postgres@localhost:5432/auth_test -c \
+            "UPDATE \"user\" SET role = 'admin', email_verified = true WHERE email = 'admin@robolearn.io';"
+          echo "Admin user updated!"
+
       - name: Run API tests
         run: pnpm test-api
         timeout-minutes: 5
