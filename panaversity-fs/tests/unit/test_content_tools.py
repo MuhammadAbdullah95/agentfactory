@@ -34,7 +34,7 @@ class TestReadContent:
         """Test reading non-existent content returns error string."""
         result = await read_content(ReadContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/nonexistent.md"
+            path="content/01-Part/01-Chapter/01-nonexistent.md"
         ))
 
         # MCP tools return error strings instead of raising exceptions
@@ -64,7 +64,7 @@ class TestWriteContent:
         """Test creating new content."""
         result = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/new-lesson.md",
+            path="content/01-Part/01-Chapter/01-new-lesson.md",
             content=sample_lesson_content
         ))
 
@@ -130,7 +130,7 @@ class TestWriteContent:
         """Test creating new file without expected_hash succeeds (FR-005)."""
         result = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/new-file.md",
+            path="content/01-Part/01-Chapter/01-new-file.md",
             content=sample_lesson_content
         ))
         data = json.loads(result)
@@ -143,7 +143,7 @@ class TestWriteContent:
         with pytest.raises(ContentNotFoundError):
             await write_content(WriteContentInput(
                 book_id="test-book",
-                path="content/01-Part/01-Chapter/nonexistent.md",
+                path="content/01-Part/01-Chapter/01-nonexistent.md",
                 content="# New content",
                 expected_hash="a" * 64  # Hash for non-existent file
             ))
@@ -177,7 +177,7 @@ class TestDeleteContent:
         """Test that deleting non-existent content is idempotent."""
         result = await delete_content(DeleteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/nonexistent.md"
+            path="content/01-Part/01-Chapter/01-nonexistent.md"
         ))
 
         data = json.loads(result)

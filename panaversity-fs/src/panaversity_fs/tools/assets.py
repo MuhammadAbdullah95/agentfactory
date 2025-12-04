@@ -14,7 +14,7 @@ from panaversity_fs.models import (
     UploadAssetInput, GetAssetInput, ListAssetsInput,
     AssetMetadata, OperationType, OperationStatus
 )
-from panaversity_fs.storage import get_operator
+from panaversity_fs.storage import get_operator, presign_write, supports_presign
 from panaversity_fs.storage_utils import (
     compute_sha256, validate_path, sanitize_filename,
     get_mime_type, build_cdn_url
@@ -137,9 +137,10 @@ async def upload_asset(params: UploadAssetInput) -> str:
             await log_operation(
                 operation=OperationType.UPLOAD_ASSET,
                 path=asset_path,
-                agent_id="system",  # TODO: Get from auth context
+                agent_id="asset-uploader",  # TODO: Extract from MCP context
                 status=OperationStatus.SUCCESS,
-                execution_time_ms=execution_time
+                execution_time_ms=execution_time,
+                book_id=params.book_id
             )
 
             # Build response
@@ -172,27 +173,74 @@ async def upload_asset(params: UploadAssetInput) -> str:
                 safe_filename
             )
 
-            # TODO: Generate presigned write URL using OpenDAL presign API
-            # This requires checking if the storage backend supports presigning
-            # For now, return placeholder indicating feature is not yet implemented
+            # Generate presigned write URL using OpenDAL
+            if not supports_presign():
+                # Filesystem backend doesn't support presigned URLs
+                # Log error
+                await log_operation(
+                    operation=OperationType.UPLOAD_ASSET,
+                    path=asset_path,
+                    agent_id="asset-uploader",
+                    status=OperationStatus.ERROR,
+                    error_message="Backend does not support presigned URLs",
+                    book_id=params.book_id
+                )
+
+                return json.dumps({
+                    "status": "error",
+                    "error_type": "UnsupportedOperation",
+                    "message": f"Storage backend '{config.storage_backend}' does not support presigned URLs. "
+                              "For large file uploads, use S3 or Supabase backend.",
+                    "cdn_url": cdn_url,
+                    "file_size": params.file_size,
+                    "path": asset_path
+                }, indent=2)
+
+            # Generate presigned URL
+            presigned_url = await presign_write(asset_path, config.presign_expiry_seconds)
+
+            if not presigned_url:
+                # Presign failed
+                await log_operation(
+                    operation=OperationType.UPLOAD_ASSET,
+                    path=asset_path,
+                    agent_id="asset-uploader",
+                    status=OperationStatus.ERROR,
+                    error_message="Failed to generate presigned URL",
+                    book_id=params.book_id
+                )
+
+                return json.dumps({
+                    "status": "error",
+                    "error_type": "PresignError",
+                    "message": "Failed to generate presigned URL. Check storage backend configuration.",
+                    "path": asset_path
+                }, indent=2)
 
             # Log presigned URL request
             execution_time = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
             await log_operation(
                 operation=OperationType.UPLOAD_ASSET,
                 path=asset_path,
-                agent_id="system",
+                agent_id="asset-uploader",
                 status=OperationStatus.SUCCESS,
-                execution_time_ms=execution_time
+                execution_time_ms=execution_time,
+                book_id=params.book_id
             )
 
             response = {
-                "status": "presigned_url_not_implemented",
+                "status": "presigned_url",
                 "method": "presigned",
-                "message": "Presigned URL generation not yet implemented. Please use direct upload for files <10MB.",
+                "upload_url": presigned_url,
                 "cdn_url": cdn_url,
                 "file_size": params.file_size,
-                "path": asset_path
+                "path": asset_path,
+                "expires_in_seconds": config.presign_expiry_seconds,
+                "upload_instructions": {
+                    "method": "PUT",
+                    "content_type": get_mime_type(safe_filename),
+                    "note": "Upload file content directly via HTTP PUT to the upload_url"
+                }
             }
 
             return json.dumps(response, indent=2)
@@ -205,9 +253,10 @@ async def upload_asset(params: UploadAssetInput) -> str:
         await log_operation(
             operation=OperationType.UPLOAD_ASSET,
             path=f"books/{params.book_id}/static/{params.asset_type.value}/{params.filename}",
-            agent_id="system",
+            agent_id="asset-uploader",  # TODO: Extract from MCP context
             status=OperationStatus.ERROR,
-            error_message=str(e)
+            error_message=str(e),
+            book_id=params.book_id
         )
 
         return f"Error uploading asset: {type(e).__name__}: {str(e)}"
@@ -317,9 +366,10 @@ async def get_asset(params: GetAssetInput) -> str:
         await log_operation(
             operation=OperationType.GET_ASSET,
             path=asset_path,
-            agent_id="system",
+            agent_id="asset-reader",  # TODO: Extract from MCP context
             status=OperationStatus.SUCCESS,
-            execution_time_ms=execution_time
+            execution_time_ms=execution_time,
+            book_id=params.book_id
         )
 
         return asset_metadata.model_dump_json(indent=2)
@@ -329,9 +379,10 @@ async def get_asset(params: GetAssetInput) -> str:
         await log_operation(
             operation=OperationType.GET_ASSET,
             path=f"books/{params.book_id}/static/{params.asset_type.value}/{params.filename}",
-            agent_id="system",
+            agent_id="asset-reader",  # TODO: Extract from MCP context
             status=OperationStatus.ERROR,
-            error_message="Asset not found"
+            error_message="Asset not found",
+            book_id=params.book_id
         )
 
         raise
@@ -341,9 +392,10 @@ async def get_asset(params: GetAssetInput) -> str:
         await log_operation(
             operation=OperationType.GET_ASSET,
             path=f"books/{params.book_id}/static/{params.asset_type.value}/{params.filename}",
-            agent_id="system",
+            agent_id="asset-reader",  # TODO: Extract from MCP context
             status=OperationStatus.ERROR,
-            error_message=str(e)
+            error_message=str(e),
+            book_id=params.book_id
         )
 
         return f"Error getting asset: {type(e).__name__}: {str(e)}"
@@ -474,9 +526,10 @@ async def list_assets(params: ListAssetsInput) -> str:
         await log_operation(
             operation=OperationType.LIST_ASSETS,
             path=f"books/{params.book_id}/static/",
-            agent_id="system",
+            agent_id="asset-lister",  # TODO: Extract from MCP context
             status=OperationStatus.SUCCESS,
-            execution_time_ms=execution_time
+            execution_time_ms=execution_time,
+            book_id=params.book_id
         )
 
         return json.dumps(assets, indent=2)
@@ -486,9 +539,10 @@ async def list_assets(params: ListAssetsInput) -> str:
         await log_operation(
             operation=OperationType.LIST_ASSETS,
             path=f"books/{params.book_id}/static/",
-            agent_id="system",
+            agent_id="asset-lister",  # TODO: Extract from MCP context
             status=OperationStatus.ERROR,
-            error_message=str(e)
+            error_message=str(e),
+            book_id=params.book_id
         )
 
         return f"Error listing assets: {type(e).__name__}: {str(e)}"

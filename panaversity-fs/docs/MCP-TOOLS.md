@@ -7,7 +7,7 @@
 
 ## Overview
 
-PanaversityFS exposes **9 MCP tools** organized into 5 categories (ADR-0018):
+PanaversityFS exposes **12 MCP tools** organized into 6 categories (ADR-0018):
 
 | Category | Tools | Count |
 |----------|-------|-------|
@@ -16,6 +16,7 @@ PanaversityFS exposes **9 MCP tools** organized into 5 categories (ADR-0018):
 | [Search](#search-tools) | `glob_search`, `grep_search` | 2 |
 | [Registry](#registry-tools) | `list_books` | 1 |
 | [Bulk](#bulk-tools) | `get_book_archive` | 1 |
+| [Validation & Build](#validation--build-tools) | `validate_book`, `delta_build` | 2 |
 
 **Note**: Summary tools were removed in ADR-0018. Summaries are now managed via content tools using the `.summary.md` naming convention.
 
@@ -27,7 +28,7 @@ Content tools handle both lessons and summaries (ADR-0018).
 
 ### `read_content`
 
-Read markdown content with metadata. Works for lessons and summaries. Supports bulk reading of entire chapters or parts.
+Read markdown content with metadata. Works for lessons and summaries. Supports bulk reading of entire chapters, parts, or the entire book. Supports user overlay personalization (FR-016).
 
 **Annotations**: `readOnlyHint=true`, `idempotentHint=true`
 
@@ -35,7 +36,8 @@ Read markdown content with metadata. Works for lessons and summaries. Supports b
 |-------|----------|-------------|
 | `book_id` | Yes | Book identifier |
 | `path` | Yes | Content path (file, chapter directory, or part directory) |
-| `scope` | No | `file` (default), `chapter`, or `part` |
+| `scope` | No | `file` (default), `chapter`, `part`, or `book` |
+| `user_id` | No | User ID for overlay personalization (FR-016) |
 
 **Input (Single File - Default)**:
 ```json
@@ -100,6 +102,26 @@ Read markdown content with metadata. Works for lessons and summaries. Supports b
 - `file`: Read single file (original behavior)
 - `chapter`: Read all `.md` files directly in the chapter directory (not subdirectories)
 - `part`: Read all `.md` files recursively in the part directory (includes all chapters)
+- `book`: Read all `.md` files in the entire book's content/ directory
+
+**Overlay Personalization (FR-016)**:
+When `user_id` is provided, checks overlay first and falls back to base:
+```json
+{
+  "book_id": "ai-native-python",
+  "path": "content/01-Part/01-Chapter/01-intro.md",
+  "user_id": "user123"
+}
+```
+
+Response includes `source` field indicating where content was read from:
+```json
+{
+  "content": "...",
+  "source": "overlay",  // or "base"
+  "file_hash_sha256": "..."
+}
+```
 
 **Errors**:
 - `ContentNotFoundError`: File/directory does not exist
@@ -108,9 +130,14 @@ Read markdown content with metadata. Works for lessons and summaries. Supports b
 
 ### `write_content`
 
-Write content with upsert semantics and optional conflict detection. Works for lessons and summaries.
+Write content with upsert semantics and conflict detection. Works for lessons and summaries. Supports user overlay personalization (FR-017).
 
 **Annotations**: `idempotentHint=true`
+
+**Conflict Detection Protocol**:
+- **FR-003**: If `expected_hash` provided, verify it matches current hash before write
+- **FR-004**: If `expected_hash` omitted AND file exists, reject with `HashRequiredError`
+- **FR-005**: If `expected_hash` omitted AND file doesn't exist, create succeeds
 
 **Input (Lesson)**:
 ```json
@@ -136,7 +163,29 @@ Write content with upsert semantics and optional conflict detection. Works for l
 | `book_id` | Yes | Book identifier (lowercase alphanumeric + hyphens) |
 | `path` | Yes | Relative path within book (use `.summary.md` for summaries) |
 | `content` | Yes | Markdown content (max 500KB) |
-| `file_hash` | No | SHA256 hash for conflict detection |
+| `expected_hash` | No | SHA256 hash for conflict detection (REQUIRED for updates) |
+| `user_id` | No | User ID for overlay personalization (FR-017) |
+
+**Overlay Personalization (FR-017)**:
+When `user_id` is provided, writes to user's overlay namespace:
+```json
+{
+  "book_id": "ai-native-python",
+  "path": "content/01-Part/01-Chapter/01-intro.md",
+  "content": "# My personalized notes...",
+  "user_id": "user123"
+}
+```
+
+Response includes `namespace` field:
+```json
+{
+  "status": "success",
+  "mode": "created",
+  "namespace": "overlay",
+  "file_hash": "..."
+}
+```
 
 **Output**:
 ```json
@@ -151,23 +200,14 @@ Write content with upsert semantics and optional conflict detection. Works for l
 
 **Errors**:
 - `ConflictError`: Hash mismatch (another agent modified the file)
+- `HashRequiredError`: Update attempted without expected_hash (FR-004)
 - `InvalidPathError`: Path contains traversal or invalid characters
-
-**Conflict Detection Flow**:
-```
-1. Agent reads content → gets file_hash
-2. Agent modifies content locally
-3. Agent writes with original file_hash
-4. Server verifies hash matches current file
-5. If match: write succeeds, return new hash
-6. If mismatch: raise ConflictError (agent must re-read and merge)
-```
 
 ---
 
 ### `delete_content`
 
-Delete content file (lesson or summary).
+Delete content file (lesson or summary). Supports user overlay personalization (FR-018).
 
 **Annotations**: `destructiveHint=true`, `idempotentHint=true`
 
@@ -187,6 +227,12 @@ Delete content file (lesson or summary).
 }
 ```
 
+| Field | Required | Description |
+|-------|----------|-------------|
+| `book_id` | Yes | Book identifier |
+| `path` | Yes | Content path to delete |
+| `user_id` | No | User ID for overlay delete (FR-018) |
+
 **Output**:
 ```json
 {
@@ -196,6 +242,29 @@ Delete content file (lesson or summary).
   "message": "File deleted"
 }
 ```
+
+**Overlay Personalization (FR-018)**:
+When `user_id` is provided, ONLY deletes from user's overlay namespace (base content is NEVER deleted):
+```json
+{
+  "book_id": "ai-native-python",
+  "path": "content/01-Part/01-Chapter/01-intro.md",
+  "user_id": "user123"
+}
+```
+
+Response includes `namespace` field:
+```json
+{
+  "status": "success",
+  "path": "books/ai-native-python/users/user123/content/01-Part/01-Chapter/01-intro.md",
+  "existed": true,
+  "namespace": "overlay",
+  "message": "File deleted"
+}
+```
+
+This effectively "resets" the user's personalized content back to the base version.
 
 **Note**: Idempotent - returns success even if file doesn't exist (`existed: false`).
 
@@ -520,12 +589,131 @@ Generate ZIP archive of entire book.
 
 ---
 
+## Validation & Build Tools
+
+### `validate_book`
+
+Validate book structure against the expected schema (FR-007, FR-008).
+
+**Annotations**: `readOnlyHint=true`, `idempotentHint=true`
+
+**Input**:
+```json
+{
+  "book_id": "ai-native-python",
+  "strict": false,
+  "include_warnings": true
+}
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `book_id` | Yes | Book identifier |
+| `strict` | No | Fail on first error (default: false) |
+| `include_warnings` | No | Include non-critical warnings (default: true) |
+
+**Output**:
+```json
+{
+  "valid": true,
+  "book_id": "ai-native-python",
+  "errors": [],
+  "warnings": [
+    {
+      "path": "content/01-Part/setup.md",
+      "issue": "Filename doesn't follow NN-name pattern",
+      "suggestion": "Consider renaming to '00-setup.md'"
+    }
+  ],
+  "summary": {
+    "total_files": 45,
+    "content_files": 42,
+    "asset_files": 3,
+    "error_count": 0,
+    "warning_count": 1
+  }
+}
+```
+
+**Validation Rules**:
+- **Content paths (FR-007)**: Must match `content/{NN-Name}/{NN-Name}/{NN-name}(.summary)?.md`
+- **Asset paths (FR-008)**: Must be in `static/(img|slides|videos|audio)/{path}`
+
+**Errors**:
+- `ContentNotFoundError`: Book does not exist
+
+---
+
+### `delta_build`
+
+Detect files changed since a given timestamp for incremental builds (FR-025).
+
+**Annotations**: `readOnlyHint=true`, `idempotentHint=true`
+
+**Input**:
+```json
+{
+  "book_id": "ai-native-python",
+  "since": "2025-01-01T00:00:00Z",
+  "include_content": false,
+  "user_id": null
+}
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `book_id` | Yes | Book identifier |
+| `since` | Yes | ISO 8601 timestamp (returns files modified after this) |
+| `include_content` | No | Include file content in response (default: false) |
+| `user_id` | No | Include user's overlay changes |
+
+**Output (without user_id)**:
+```json
+{
+  "changed_count": 3,
+  "since": "2025-01-01T00:00:00Z",
+  "book_id": "ai-native-python",
+  "changed_files": [
+    {
+      "path": "content/01-Part/01-Chapter/01-lesson.md",
+      "sha256": "abc123...",
+      "last_modified": "2025-01-02T10:30:00Z",
+      "namespace": "base"
+    }
+  ]
+}
+```
+
+**Output (with user_id)**:
+```json
+{
+  "changed_count": 5,
+  "since": "2025-01-01T00:00:00Z",
+  "book_id": "ai-native-python",
+  "user_id": "user123",
+  "base_changes": 3,
+  "overlay_changes": 2,
+  "changed_files": [
+    {"path": "...", "namespace": "base", ...},
+    {"path": "...", "namespace": "overlay", "user_id": "user123", ...}
+  ]
+}
+```
+
+**Use Cases**:
+- Incremental Docusaurus builds (only rebuild changed pages)
+- CI/CD pipelines detecting what to deploy
+- User-specific change tracking for personalized builds
+
+---
+
 ## Error Types
 
 | Error | HTTP Status | Description |
 |-------|-------------|-------------|
 | `ContentNotFoundError` | 404 | Requested file/asset/summary not found |
 | `ConflictError` | 409 | Hash mismatch during write (concurrent modification) |
+| `HashRequiredError` | 400 | Update attempted without expected_hash (FR-004) |
 | `InvalidPathError` | 400 | Path contains traversal or invalid characters |
 | `ValidationError` | 400 | Input validation failed (Pydantic) |
 

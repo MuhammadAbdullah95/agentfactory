@@ -35,8 +35,9 @@ class TestStreamingArchiveBuffer:
         """Successfully add file within memory limit."""
         with StreamingArchiveBuffer() as buffer:
             content = b"Hello, World!" * 100
-            result = buffer.add_file("test.txt", content)
-            assert result is True
+            success, status = buffer.add_file("test.txt", content)
+            assert success is True
+            assert status == "added"
             assert buffer.current_size > 0
 
     def test_add_file_tracks_size(self):
@@ -58,10 +59,11 @@ class TestStreamingArchiveBuffer:
         """File rejected if it would exceed memory limit."""
         # Use small limit for testing
         with StreamingArchiveBuffer(max_bytes=1024) as buffer:
-            # Add file that's exactly at limit
+            # Add file that's larger than the buffer limit
             content = b"X" * 2000  # More than 1KB
-            result = buffer.add_file("big.txt", content)
-            assert result is False
+            success, status = buffer.add_file("big.txt", content)
+            assert success is False
+            assert status == "too_large"
 
     def test_get_bytes_returns_valid_zip(self):
         """get_bytes() returns valid ZIP archive."""

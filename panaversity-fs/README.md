@@ -2,16 +2,17 @@
 
 Agent-Native Multi-Book Storage System - MCP server for educational content management.
 
-**[Specification](../specs/030-panaversity-fs/spec.md)** | **[Architecture](docs/ARCHITECTURE.md)** | **[MCP Tools](docs/MCP-TOOLS.md)** | **[Setup](docs/SETUP.md)** | **[ADR-0018](../history/adr/0018-panaversityfs-docusaurus-aligned-structure.md)**
+**[Developer Guide](docs/guide/)** | **[Tools Reference](docs/guide/03-tools-reference.md)** | **[Architecture](docs/guide/02-architecture.md)** | **[Setup](docs/SETUP.md)**
 
 ## Features
 
-- **9 MCP Tools**: Content, assets, search, bulk operations (ADR-0018)
-- **Bulk Content Reads**: `read_content` supports `scope` parameter (file/chapter/part)
-- **Binary Asset Download**: `get_asset` with `include_binary=true` for direct data
-- **3 Storage Backends**: Local filesystem, Cloudflare R2, Supabase
-- **60 Tests**: Unit, integration, e2e, edge cases (100% passing)
-- **Docusaurus-Aligned**: Storage structure mirrors Docusaurus docs/ convention
+- **12 MCP Tools**: Content, assets, search, bulk, validation, delta builds
+- **301 Tests**: Unit, integration, property, performance, e2e
+- **User Overlays**: Per-user content personalization (FR-016/017/018)
+- **Conflict Detection**: Hash-based optimistic concurrency (FR-002/003/004)
+- **Audit Trail**: Append-only hash chain with agent provenance
+- **3 Storage Backends**: Filesystem, Cloudflare R2, Supabase
+- **Schema Validation**: Path enforcement (FR-007/008/009)
 
 ## Quick Start
 
@@ -19,31 +20,31 @@ Agent-Native Multi-Book Storage System - MCP server for educational content mana
 # Install
 cd panaversity-fs && uv sync
 
-# Configure
+# Configure local backend
 export PANAVERSITY_STORAGE_BACKEND=fs
 export PANAVERSITY_STORAGE_ROOT=/tmp/panaversity-test
 
-# Test
+# Run tests
 uv run pytest tests/ -q
-# Expected: 60 passed
+# Expected: 301 passed
 
-# Run server
+# Start server
 uv run python -m panaversity_fs.server
+# Server at http://localhost:8000/mcp
 ```
 
-## MCP Tools (9 Total - ADR-0018)
+## MCP Tools (12 Total)
 
 | Category | Tools | Description |
 |----------|-------|-------------|
-| Content | `read_content`, `write_content`, `delete_content` | Lesson/summary CRUD with conflict detection. Supports `scope` for bulk reads |
-| Assets | `upload_asset`, `get_asset`, `list_assets` | Binary assets with CDN URLs. `get_asset` supports `include_binary` |
-| Search | `glob_search`, `grep_search` | File pattern and content search |
-| Registry | `list_books` | Dynamic book discovery (no registry.yaml required) |
-| Bulk | `get_book_archive` | ZIP archive generation |
+| **Content** | `read_content`, `write_content`, `delete_content` | Lesson/summary CRUD with overlay support |
+| **Assets** | `upload_asset`, `get_asset`, `list_assets` | Binary assets with CDN URLs |
+| **Search** | `glob_search`, `grep_search` | File pattern and content search |
+| **Registry** | `list_books` | Dynamic book discovery |
+| **Bulk** | `get_book_archive` | ZIP archive generation (<60s) |
+| **Validation** | `validate_book`, `delta_build` | Schema check, incremental builds |
 
-**Note**: Summary operations use content tools with `.summary.md` naming convention (ADR-0018).
-
-See **[MCP Tools Reference](docs/MCP-TOOLS.md)** for complete API documentation.
+See **[Tools Reference](docs/guide/03-tools-reference.md)** for complete API documentation.
 
 ## Architecture
 
@@ -56,7 +57,7 @@ See **[MCP Tools Reference](docs/MCP-TOOLS.md)** for complete API documentation.
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 PanaversityFS MCP Server                    │
-│  FastMCP + Pydantic v2 + OpenDAL                           │
+│  12 Tools + Audit + Metrics + Path Validation               │
 └─────────────────────────┬───────────────────────────────────┘
                           │
          ┌────────────────┼────────────────┐
@@ -64,39 +65,35 @@ See **[MCP Tools Reference](docs/MCP-TOOLS.md)** for complete API documentation.
     Filesystem      Cloudflare R2     Supabase
 ```
 
-See **[Architecture Guide](docs/ARCHITECTURE.md)** for design details.
+See **[Architecture Guide](docs/guide/02-architecture.md)** for design details.
 
 ## Project Structure
 
 ```
 panaversity-fs/
 ├── src/panaversity_fs/
-│   ├── server.py       # MCP server entry point
-│   ├── config.py       # Environment configuration
-│   ├── models.py       # Pydantic input/output models
-│   ├── storage.py      # OpenDAL storage abstraction
-│   ├── audit.py        # Operation logging
-│   ├── errors.py       # Custom error types
-│   └── tools/          # 9 MCP tool implementations (ADR-0018)
-│       ├── content.py  # read/write/delete_content (handles summaries too)
-│       ├── assets.py   # upload/get/list_assets
-│       ├── search.py   # glob/grep_search
-│       ├── registry.py # list_books
-│       └── bulk.py     # get_book_archive
-├── tests/
-│   ├── unit/           # Component tests
-│   ├── integration/    # Workflow tests
-│   ├── e2e/            # End-to-end tests
-│   └── edge_cases/     # Production-like scenario tests
+│   ├── server.py          # MCP server entry point
+│   ├── config.py          # Environment configuration
+│   ├── models.py          # Pydantic input/output models
+│   ├── storage.py         # OpenDAL storage abstraction
+│   ├── path_utils.py      # Path validation (FR-007/008/009)
+│   ├── audit.py           # Hash chain audit logging
+│   ├── metrics.py         # Prometheus instrumentation
+│   ├── database/          # SQLAlchemy + Alembic
+│   └── tools/             # 12 MCP tool implementations
+├── tests/                 # 301 tests
+│   ├── unit/              # Component tests
+│   ├── integration/       # Workflow tests
+│   ├── property/          # Hypothesis invariant tests
+│   ├── performance/       # Latency/throughput tests
+│   └── e2e/               # End-to-end tests
 └── docs/
-    ├── ARCHITECTURE.md # System design
-    ├── MCP-TOOLS.md    # Tool API reference
-    └── SETUP.md        # Backend configuration
+    └── guide/             # Developer documentation
 ```
 
 ## Storage Backends
 
-### Local Filesystem (Default)
+### Local Filesystem
 ```bash
 export PANAVERSITY_STORAGE_BACKEND=fs
 export PANAVERSITY_STORAGE_ROOT=/tmp/panaversity-data
@@ -109,14 +106,13 @@ export PANAVERSITY_S3_BUCKET=your-bucket
 export PANAVERSITY_S3_ENDPOINT=https://xxx.r2.cloudflarestorage.com
 export PANAVERSITY_S3_ACCESS_KEY_ID=your-key
 export PANAVERSITY_S3_SECRET_ACCESS_KEY=your-secret
-export PANAVERSITY_S3_REGION=auto
 ```
 
 ### Supabase
 ```bash
 export PANAVERSITY_STORAGE_BACKEND=supabase
 export PANAVERSITY_SUPABASE_URL=https://xxx.supabase.co
-export PANAVERSITY_SUPABASE_SERVICE_ROLE_KEY=your-service-key
+export PANAVERSITY_SUPABASE_SERVICE_ROLE_KEY=your-key
 export PANAVERSITY_SUPABASE_BUCKET=panaversity-books
 ```
 
@@ -129,34 +125,34 @@ See **[Setup Guide](docs/SETUP.md)** for detailed instructions.
 uv run pytest tests/ -v
 
 # By category
-uv run pytest tests/unit/ -v
-uv run pytest tests/integration/ -v
-uv run pytest tests/e2e/ -v
-uv run pytest tests/edge_cases/ -v
+uv run pytest tests/unit/ -v           # ~170 component tests
+uv run pytest tests/integration/ -v    # 24 workflow tests
+uv run pytest tests/property/ -v       # 33 invariant tests
+uv run pytest tests/performance/ -v    # 9 benchmark tests
 ```
+
+## Documentation
+
+| Guide | Purpose |
+|-------|---------|
+| [Quickstart](docs/guide/01-quickstart.md) | Get running in 5 minutes |
+| [Architecture](docs/guide/02-architecture.md) | System design & components |
+| [Tools Reference](docs/guide/03-tools-reference.md) | All 12 MCP tools |
+| [Codebase Map](docs/guide/04-codebase-map.md) | Source code navigation |
+| [Testing](docs/guide/05-testing.md) | Test suites & best practices |
+| [Extending](docs/guide/06-extending.md) | Adding new features |
+| [Operations](docs/guide/07-operations.md) | Deployment & monitoring |
 
 ## Technology Stack
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| MCP Framework | FastMCP | MCP server implementation |
-| Storage | OpenDAL | Unified storage abstraction |
-| Validation | Pydantic v2 | Input/output validation |
-| Config | pydantic-settings | Environment configuration |
-| Testing | pytest-asyncio | Async test support |
-
-## Container Deployment
-
-```dockerfile
-FROM python:3.13-slim
-RUN apt-get update && apt-get install -y libmagic1 && rm -rf /var/lib/apt/lists/*
-WORKDIR /app
-COPY . .
-RUN pip install uv && uv sync --frozen
-CMD ["uv", "run", "python", "-m", "panaversity_fs.server"]
-```
-
-**System dependency**: `libmagic` required for MIME type detection.
+| Component | Technology |
+|-----------|------------|
+| MCP Framework | FastMCP |
+| Storage | OpenDAL |
+| Database | SQLAlchemy + Alembic |
+| Validation | Pydantic v2 |
+| Metrics | prometheus-client |
+| Testing | pytest + hypothesis |
 
 ## License
 

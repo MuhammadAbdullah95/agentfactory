@@ -235,21 +235,20 @@ Content here...
 
 
 class TestLessonNamingVariations:
-    """Test various lesson naming patterns found in production."""
+    """Test various lesson naming patterns per FR-007 schema."""
 
     @pytest.mark.asyncio
-    async def test_different_lesson_formats(self, setup_fs_backend):
-        """Test lessons with different numbering and naming patterns."""
+    async def test_valid_lesson_formats(self, setup_fs_backend):
+        """Test lessons with valid NN-Name pattern (FR-007 schema)."""
         book_id = "naming-test"
 
-        # Different naming patterns found in production
+        # Valid naming patterns per FR-007: NN-Name format
         lesson_patterns = [
             "01-what-is-python.md",
             "02-installing-python.md",
             "03-variables-and-type-hints.md",
             "04-basic-syntax-and-first-programs.md",
             "05-capstone-project.md",
-            "06_chapter_14_quiz.md",  # Note: underscore instead of dash
         ]
 
         for i, filename in enumerate(lesson_patterns, 1):
@@ -279,42 +278,37 @@ Content for {filename}
         assert isinstance(json.loads(glob_result), list)
 
     @pytest.mark.asyncio
-    async def test_readme_files_in_chapters(self, setup_fs_backend):
-        """Test README.md files in chapter directories."""
+    async def test_invalid_underscore_naming_rejected(self, setup_fs_backend):
+        """Test that underscore naming is rejected (FR-007 schema enforcement)."""
+        from panaversity_fs.errors import InvalidPathError
+        book_id = "naming-test"
+
+        # Underscore naming violates FR-007 schema
+        with pytest.raises(InvalidPathError) as exc_info:
+            await write_content(WriteContentInput(
+                book_id=book_id,
+                path="content/05-Part/17-Chapter/06_chapter_quiz.md",
+                content="# Invalid"
+            ))
+        assert "SCHEMA_VIOLATION" in str(exc_info.value)
+
+    @pytest.mark.asyncio
+    async def test_readme_files_rejected(self, setup_fs_backend):
+        """Test README.md files are rejected by FR-007 schema enforcement.
+
+        FR-007: Content paths must match content/{NN-Name}/{NN-Name}/{NN-name}.md
+        README.md doesn't match the required NN-name pattern.
+        """
+        from panaversity_fs.errors import InvalidPathError
         book_id = "readme-test"
 
-        # Create README in chapter directory (ADR-0018: content/ structure)
-        readme_content = """# Chapter 17: Introduction to Python
-
-This chapter covers the fundamentals of Python programming.
-
-## Lessons
-
-1. What is Python?
-2. Installing Python
-3. Variables and Type Hints
-
-## Prerequisites
-
-None - this is an introductory chapter.
-"""
-
-        result = await write_content(WriteContentInput(
-            book_id=book_id,
-            path="content/05-Part/17-Chapter/README.md",
-            content=readme_content
-        ))
-
-        data = json.loads(result)
-        assert data["status"] == "success"
-
-        # Verify README can be read
-        read_result = await read_content(ReadContentInput(
-            book_id=book_id,
-            path="content/05-Part/17-Chapter/README.md"
-        ))
-        read_data = json.loads(read_result)
-        assert "Prerequisites" in read_data["content"]
+        with pytest.raises(InvalidPathError) as exc_info:
+            await write_content(WriteContentInput(
+                book_id=book_id,
+                path="content/05-Part/17-Chapter/README.md",
+                content="# Chapter README"
+            ))
+        assert "SCHEMA_VIOLATION" in str(exc_info.value)
 
 
 class TestLargeContentVolume:
@@ -540,12 +534,13 @@ Learning Python programming concepts in part {part_num}.
         book_id = "glob-test"
 
         # Create diverse file structure (ADR-0018: content/ structure)
+        # All paths must conform to FR-007: content/{NN-Name}/{NN-Name}/{NN-name}.md
         paths = [
             "content/01-Part/01-Chapter/01-lesson.md",
             "content/01-Part/01-Chapter/02-lesson.md",
             "content/01-Part/02-Chapter/01-lesson.md",
             "content/02-Part/05-Chapter/01-lesson.md",
-            "content/02-Part/05-Chapter/README.md",
+            "content/02-Part/05-Chapter/02-lesson.md",
         ]
 
         for path in paths:
@@ -575,19 +570,19 @@ Learning Python programming concepts in part {part_num}.
 
 
 class TestEdgeCaseFileNames:
-    """Test handling of edge case file names and paths."""
+    """Test handling of edge case file names and paths per FR-007 schema."""
 
     @pytest.mark.asyncio
-    async def test_files_with_special_characters_in_names(self, setup_fs_backend):
-        """Test files with dashes, underscores, and numbers."""
+    async def test_valid_filenames_with_dashes(self, setup_fs_backend):
+        """Test files with valid NN-name pattern (dashes and numbers)."""
         book_id = "special-names"
 
-        # Various naming conventions found in production (ADR-0018: content/ structure)
+        # Valid naming conventions per FR-007: NN-name pattern (dashes allowed)
         filenames = [
             "01-introduction.md",
-            "02_chapter_quiz.md",
+            "02-chapter-quiz.md",
             "03-hands-on-exercise.md",
-            "04_capstone_project.md",
+            "04-capstone-project.md",
             "05-advanced-concepts-part-1.md",
         ]
 
@@ -601,17 +596,59 @@ class TestEdgeCaseFileNames:
             assert data["status"] == "success"
 
     @pytest.mark.asyncio
-    async def test_deeply_nested_directory_structure(self, setup_fs_backend):
-        """Test deeply nested paths (5+ levels)."""
+    async def test_invalid_underscore_filenames_rejected(self, setup_fs_backend):
+        """Test that underscore filenames are rejected per FR-007 schema."""
+        from panaversity_fs.errors import InvalidPathError
+        book_id = "special-names"
+
+        # Underscore naming violates FR-007 schema
+        invalid_filenames = [
+            "02_chapter_quiz.md",
+            "04_capstone_project.md",
+        ]
+
+        for filename in invalid_filenames:
+            with pytest.raises(InvalidPathError) as exc_info:
+                await write_content(WriteContentInput(
+                    book_id=book_id,
+                    path=f"content/01-Part/01-Chapter/{filename}",
+                    content=f"# {filename}"
+                ))
+            assert "SCHEMA_VIOLATION" in str(exc_info.value)
+
+    @pytest.mark.asyncio
+    async def test_deeply_nested_directory_rejected(self, setup_fs_backend):
+        """Test that deeply nested paths (5+ levels) are rejected per FR-007 schema.
+
+        FR-007: Content paths must match content/{NN-Name}/{NN-Name}/{NN-name}.md
+        Only 3 levels after content/ are allowed.
+        """
+        from panaversity_fs.errors import InvalidPathError
         book_id = "deep-nested"
 
-        # ADR-0018: content/ structure with deep nesting
+        # 5-level nesting violates FR-007 schema (max 3 levels after content/)
         deep_path = "content/05-Part/17-Chapter/01-Section/02-Subsection/01-lesson.md"
+
+        with pytest.raises(InvalidPathError) as exc_info:
+            await write_content(WriteContentInput(
+                book_id=book_id,
+                path=deep_path,
+                content="# Deeply nested lesson"
+            ))
+        assert "SCHEMA_VIOLATION" in str(exc_info.value)
+
+    @pytest.mark.asyncio
+    async def test_valid_three_level_structure(self, setup_fs_backend):
+        """Test valid 3-level structure per FR-007 schema."""
+        book_id = "valid-nested"
+
+        # Valid 3-level path: content/{Part}/{Chapter}/{lesson}.md
+        valid_path = "content/05-Part/17-Chapter/01-lesson.md"
 
         result = await write_content(WriteContentInput(
             book_id=book_id,
-            path=deep_path,
-            content="# Deeply nested lesson"
+            path=valid_path,
+            content="# Valid nested lesson"
         ))
 
         data = json.loads(result)
@@ -620,7 +657,7 @@ class TestEdgeCaseFileNames:
         # Verify can read back
         read_result = await read_content(ReadContentInput(
             book_id=book_id,
-            path=deep_path
+            path=valid_path
         ))
         read_data = json.loads(read_result)
-        assert "Deeply nested" in read_data["content"]
+        assert "Valid nested" in read_data["content"]

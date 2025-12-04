@@ -13,6 +13,8 @@ import panaversity_fs.tools.assets   # noqa: F401 - upload_asset, get_asset, lis
 import panaversity_fs.tools.registry # noqa: F401 - list_books
 import panaversity_fs.tools.search   # noqa: F401 - glob_search, grep_search
 import panaversity_fs.tools.bulk     # noqa: F401 - get_book_archive
+import panaversity_fs.tools.validate # noqa: F401 - validate_book
+import panaversity_fs.tools.delta    # noqa: F401 - delta_build, plan_build
 
 # Load and validate configuration
 config = get_config()

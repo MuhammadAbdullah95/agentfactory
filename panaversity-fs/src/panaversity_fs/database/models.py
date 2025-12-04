@@ -41,6 +41,33 @@ class FileJournal(Base):
     )
 
 
+class ManifestSnapshot(Base):
+    """Stores historical manifest snapshots for delta build computation (FR-025/026).
+
+    Each snapshot captures the complete state of a book's base content at a point
+    in time, enabling plan_build to compute true deltas by comparing current state
+    to any previous manifest.
+
+    Attributes:
+        manifest_hash: SHA-256 hash of the manifest (primary key)
+        book_id: Identifier for the book
+        created_at: When this manifest was captured
+        file_count: Number of files in this manifest
+        content_json: JSON map of {path: sha256} for all files in manifest
+    """
+    __tablename__ = "manifest_snapshot"
+
+    manifest_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    book_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    file_count: Mapped[int] = mapped_column(Integer, default=0)
+    content_json: Mapped[str] = mapped_column(Text, nullable=False)  # JSON: {path: sha256}
+
+    __table_args__ = (
+        Index("ix_manifest_book_created", "book_id", "created_at"),
+    )
+
+
 class AuditLog(Base):
     """Append-only audit trail with hash chain integrity.
 

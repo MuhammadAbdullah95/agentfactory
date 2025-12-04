@@ -20,7 +20,7 @@ class TestConflictDetection:
         # Create initial file
         create_result = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/concurrent-test.md",
+            path="content/01-Part/01-Chapter/01-concurrent-test.md",
             content="# Initial Content"
         ))
         create_data = json.loads(create_result)
@@ -33,7 +33,7 @@ class TestConflictDetection:
         # Agent 1 writes first (succeeds)
         result1 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/concurrent-test.md",
+            path="content/01-Part/01-Chapter/01-concurrent-test.md",
             content="# Agent 1 Update",
             expected_hash=agent1_hash
         ))
@@ -45,7 +45,7 @@ class TestConflictDetection:
         with pytest.raises(ConflictError) as exc_info:
             await write_content(WriteContentInput(
                 book_id="test-book",
-                path="content/01-Part/01-Chapter/concurrent-test.md",
+                path="content/01-Part/01-Chapter/01-concurrent-test.md",
                 content="# Agent 2 Update",
                 expected_hash=agent2_hash  # Stale hash
             ))
@@ -59,7 +59,7 @@ class TestConflictDetection:
         # Create file
         await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/hash-required.md",
+            path="content/01-Part/01-Chapter/01-hash-required.md",
             content="# Initial"
         ))
 
@@ -67,7 +67,7 @@ class TestConflictDetection:
         with pytest.raises(HashRequiredError) as exc_info:
             await write_content(WriteContentInput(
                 book_id="test-book",
-                path="content/01-Part/01-Chapter/hash-required.md",
+                path="content/01-Part/01-Chapter/01-hash-required.md",
                 content="# Updated without hash"
             ))
 
@@ -79,7 +79,7 @@ class TestConflictDetection:
         """FR-005: New files don't need expected_hash."""
         result = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/new-file.md",
+            path="content/01-Part/01-Chapter/01-new-file.md",
             content="# New File Content"
         ))
 
@@ -93,7 +93,7 @@ class TestConflictDetection:
         with pytest.raises(ContentNotFoundError):
             await write_content(WriteContentInput(
                 book_id="test-book",
-                path="content/01-Part/01-Chapter/does-not-exist.md",
+                path="content/01-Part/01-Chapter/01-does-not-exist.md",
                 content="# Content",
                 expected_hash="a" * 64
             ))
@@ -104,7 +104,7 @@ class TestConflictDetection:
         # Create
         r1 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/chain.md",
+            path="content/01-Part/01-Chapter/01-chain.md",
             content="# Version 1"
         ))
         d1 = json.loads(r1)
@@ -113,7 +113,7 @@ class TestConflictDetection:
         # Update 1
         r2 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/chain.md",
+            path="content/01-Part/01-Chapter/01-chain.md",
             content="# Version 2",
             expected_hash=hash1
         ))
@@ -124,7 +124,7 @@ class TestConflictDetection:
         # Update 2
         r3 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/chain.md",
+            path="content/01-Part/01-Chapter/01-chain.md",
             content="# Version 3",
             expected_hash=hash2
         ))
@@ -135,7 +135,7 @@ class TestConflictDetection:
         # Verify final content
         read_result = await read_content(ReadContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/chain.md"
+            path="content/01-Part/01-Chapter/01-chain.md"
         ))
         read_data = json.loads(read_result)
         assert "Version 3" in read_data["content"]
@@ -155,7 +155,7 @@ class TestJournalStorageAtomic:
 
         result = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/atomic-test.md",
+            path="content/01-Part/01-Chapter/01-atomic-test.md",
             content="# Atomic Test"
         ))
         data = json.loads(result)
@@ -164,7 +164,7 @@ class TestJournalStorageAtomic:
         async with get_session() as session:
             stmt = select(FileJournal).where(
                 FileJournal.book_id == "test-book",
-                FileJournal.path == "content/01-Part/01-Chapter/atomic-test.md",
+                FileJournal.path == "content/01-Part/01-Chapter/01-atomic-test.md",
                 FileJournal.user_id == "__base__"
             )
             result = await session.execute(stmt)
@@ -175,7 +175,7 @@ class TestJournalStorageAtomic:
 
         # Verify storage file exists
         op = get_operator()
-        content = await op.read("books/test-book/content/01-Part/01-Chapter/atomic-test.md")
+        content = await op.read("books/test-book/content/01-Part/01-Chapter/01-atomic-test.md")
         assert b"Atomic Test" in content
 
     @pytest.mark.asyncio
@@ -188,7 +188,7 @@ class TestJournalStorageAtomic:
         # Create
         r1 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/update-journal.md",
+            path="content/01-Part/01-Chapter/01-update-journal.md",
             content="# Original"
         ))
         d1 = json.loads(r1)
@@ -197,7 +197,7 @@ class TestJournalStorageAtomic:
         # Update
         r2 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/update-journal.md",
+            path="content/01-Part/01-Chapter/01-update-journal.md",
             content="# Modified",
             expected_hash=original_hash
         ))
@@ -208,7 +208,7 @@ class TestJournalStorageAtomic:
         async with get_session() as session:
             stmt = select(FileJournal).where(
                 FileJournal.book_id == "test-book",
-                FileJournal.path == "content/01-Part/01-Chapter/update-journal.md",
+                FileJournal.path == "content/01-Part/01-Chapter/01-update-journal.md",
                 FileJournal.user_id == "__base__"
             )
             result = await session.execute(stmt)
@@ -225,7 +225,7 @@ class TestJournalStorageAtomic:
         # Create file
         r1 = await write_content(WriteContentInput(
             book_id="test-book",
-            path="content/01-Part/01-Chapter/conflict-no-change.md",
+            path="content/01-Part/01-Chapter/01-conflict-no-change.md",
             content="# Original Content"
         ))
 
@@ -233,13 +233,13 @@ class TestJournalStorageAtomic:
         with pytest.raises(ConflictError):
             await write_content(WriteContentInput(
                 book_id="test-book",
-                path="content/01-Part/01-Chapter/conflict-no-change.md",
+                path="content/01-Part/01-Chapter/01-conflict-no-change.md",
                 content="# Should Not Be Written",
                 expected_hash="0" * 64
             ))
 
         # Verify storage still has original content
         op = get_operator()
-        content = await op.read("books/test-book/content/01-Part/01-Chapter/conflict-no-change.md")
+        content = await op.read("books/test-book/content/01-Part/01-Chapter/01-conflict-no-change.md")
         assert b"Original Content" in content
         assert b"Should Not Be Written" not in content

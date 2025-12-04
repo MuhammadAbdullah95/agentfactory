@@ -5,7 +5,7 @@ across content writes, overlay resolution, and validation tools.
 
 Pattern Format (FR-007, FR-008):
 - Content: content/{NN-Name}/{NN-Name}/{NN-name}(.summary)?.md
-- Assets: static/(img|slides|videos|audio)/{path}
+- Assets: static/(images|slides|videos|audio)/{path}
 - Overlays: users/{user_id}/content/{...}
 """
 
@@ -48,12 +48,12 @@ CONTENT_PATH_PATTERN = re.compile(
     r"(?P<summary>\.summary)?\.md$"  # Optional .summary + .md extension
 )
 
-# Asset path: static/(img|slides|videos|audio)/{path}
-# - Allowed asset types are specific
+# Asset path: static/(images|slides|videos|audio)/{path}
+# - Allowed asset types are specific (matches AssetType enum values)
 # - Path after type can be any valid filename/path
 ASSET_PATH_PATTERN = re.compile(
     r"^static/"
-    r"(?P<asset_type>img|slides|videos|audio)/"
+    r"(?P<asset_type>images|slides|videos|audio)/"
     r"(?P<filename>.+)$"
 )
 
@@ -149,13 +149,13 @@ def validate_content_path(path: str) -> ValidationResult:
 def validate_asset_path(path: str) -> ValidationResult:
     """Validate an asset file path (FR-008).
 
-    Valid format: static/(img|slides|videos|audio)/{path}
+    Valid format: static/(images|slides|videos|audio)/{path}
 
     Examples:
-        - static/img/diagram.png (valid)
+        - static/images/diagram.png (valid)
         - static/videos/lesson1.mp4 (valid)
         - static/docs/readme.txt (invalid - docs not allowed type)
-        - assets/img/photo.jpg (invalid - wrong prefix)
+        - assets/images/photo.jpg (invalid - wrong prefix)
 
     Args:
         path: Path to validate
@@ -172,7 +172,7 @@ def validate_asset_path(path: str) -> ValidationResult:
         return ValidationResult(
             is_valid=False,
             errors=[
-                f"Path must match static/(img|slides|videos|audio)/{{filename}}",
+                f"Path must match static/(images|slides|videos|audio)/{{filename}}",
                 f"Got: {path}"
             ]
         )

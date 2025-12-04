@@ -110,7 +110,7 @@ async def glob_search(params: GlobSearchInput) -> str:
         await log_operation(
             operation=OperationType.GLOB_SEARCH,
             path=search_base,
-            agent_id="system",
+            agent_id="glob-searcher",  # FR-021: No 'system' agent_id
             status=OperationStatus.SUCCESS,
             execution_time_ms=execution_time
         )
@@ -122,7 +122,7 @@ async def glob_search(params: GlobSearchInput) -> str:
         await log_operation(
             operation=OperationType.GLOB_SEARCH,
             path=f"books/{params.book_id}/",
-            agent_id="system",
+            agent_id="glob-searcher",  # FR-021: No 'system' agent_id
             status=OperationStatus.ERROR,
             error_message=str(e)
         )
@@ -300,7 +300,7 @@ async def grep_search(params: GrepSearchInput) -> str:
         await log_operation(
             operation=OperationType.GREP_SEARCH,
             path=search_base,
-            agent_id="system",
+            agent_id="grep-searcher",  # FR-021: No 'system' agent_id
             status=OperationStatus.SUCCESS,
             execution_time_ms=execution_time
         )
@@ -312,7 +312,7 @@ async def grep_search(params: GrepSearchInput) -> str:
         await log_operation(
             operation=OperationType.GREP_SEARCH,
             path=f"books/{params.book_id}/",
-            agent_id="system",
+            agent_id="grep-searcher",  # FR-021: No 'system' agent_id
             status=OperationStatus.ERROR,
             error_message=str(e)
         )

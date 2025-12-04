@@ -52,7 +52,7 @@ class TestArchiveThroughput:
 
         with StreamingArchiveBuffer(max_bytes=MAX_ARCHIVE_MEMORY_BYTES) as buffer:
             for arcname, content in test_files:
-                result = buffer.add_file(arcname, content)
+                success, status = buffer.add_file(arcname, content)
                 # Track peak memory within buffer
                 if buffer.current_size > peak_memory:
                     peak_memory = buffer.current_size
@@ -75,19 +75,23 @@ class TestArchiveThroughput:
         with StreamingArchiveBuffer(max_bytes=small_limit) as buffer:
             # Add files until limit reached
             added_count = 0
+            memory_limit_hit = False
             for i in range(100):
                 content = b"X" * (200 * 1024)  # 200KB per file
-                result = buffer.add_file(f"file-{i:03d}.bin", content)
-                if result:
+                success, status = buffer.add_file(f"file-{i:03d}.bin", content)
+                if success:
                     added_count += 1
+                    if status == "memory_limit":
+                        memory_limit_hit = True
+                        break
                 else:
                     break
 
             # Should have added some files but not all
             assert added_count > 0
             assert added_count < 100
-            # Buffer should be near limit
-            assert buffer.current_size <= small_limit
+            # Buffer should be near limit or have hit memory limit
+            assert buffer.current_size <= small_limit or memory_limit_hit
 
     def test_throughput_benchmark(self, synthetic_files):
         """Benchmark: Process files within time constraints.
@@ -103,7 +107,8 @@ class TestArchiveThroughput:
         with StreamingArchiveBuffer() as buffer:
             files_added = 0
             for arcname, content in test_files:
-                if buffer.add_file(arcname, content):
+                success, status = buffer.add_file(arcname, content)
+                if success:
                     files_added += 1
 
         elapsed = time.perf_counter() - start_time
@@ -131,7 +136,8 @@ class TestProgressTracking:
             for i in range(10):
                 content = b"Content" * (i + 1) * 100
                 total_input_bytes += len(content)
-                if buffer.add_file(f"file-{i}.txt", content):
+                success, status = buffer.add_file(f"file-{i}.txt", content)
+                if success:
                     progress.files_processed += 1
                     progress.total_bytes += len(content)
 

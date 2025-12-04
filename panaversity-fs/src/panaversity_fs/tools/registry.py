@@ -195,7 +195,7 @@ async def list_books(params: ListBooksInput) -> str:
         await log_operation(
             operation=OperationType.LIST_BOOKS,
             path=books_path,
-            agent_id="system",
+            agent_id="registry-reader",  # FR-021: No 'system' agent_id
             status=OperationStatus.SUCCESS,
             execution_time_ms=execution_time
         )
@@ -207,7 +207,7 @@ async def list_books(params: ListBooksInput) -> str:
         await log_operation(
             operation=OperationType.LIST_BOOKS,
             path="books/",
-            agent_id="system",
+            agent_id="registry-reader",  # FR-021: No 'system' agent_id
             status=OperationStatus.ERROR,
             error_message=str(e)
         )

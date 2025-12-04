@@ -42,10 +42,10 @@ class TestJournalStorageConsistency:
     @settings(**HYPOTHESIS_SETTINGS)
     async def test_create_ensures_journal_storage_match(self, setup_fs_backend, content):
         """R2: After create, journal hash == storage hash."""
-        # Create unique path for this test
+        # Create unique path for this test - use valid NN-Name format (FR-007 schema)
         import uuid
         unique_id = str(uuid.uuid4())[:8]
-        path = f"content/01-Part/01-Chapter/{unique_id}.md"
+        path = f"content/01-Part/01-Chapter/01-lesson{unique_id}.md"
 
         # Create file
         result = await write_content(WriteContentInput(
@@ -91,9 +91,10 @@ class TestJournalStorageConsistency:
         """R2: After update, journal hash == storage hash."""
         assume(original_content != updated_content)
 
+        # Use valid NN-Name format (FR-007 schema)
         import uuid
         unique_id = str(uuid.uuid4())[:8]
-        path = f"content/01-Part/01-Chapter/update-{unique_id}.md"
+        path = f"content/01-Part/01-Chapter/01-update{unique_id}.md"
 
         # Create
         r1 = await write_content(WriteContentInput(
@@ -135,9 +136,10 @@ class TestJournalStorageConsistency:
     @settings(max_examples=5, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture])
     async def test_read_returns_journal_consistent_hash(self, setup_fs_backend, content):
         """Read returns hash consistent with journal."""
+        # Use valid NN-Name format (FR-007 schema)
         import uuid
         unique_id = str(uuid.uuid4())[:8]
-        path = f"content/01-Part/01-Chapter/read-{unique_id}.md"
+        path = f"content/01-Part/01-Chapter/01-read{unique_id}.md"
 
         # Create
         await write_content(WriteContentInput(
@@ -174,11 +176,12 @@ class TestHashDeterminism:
     @settings(**HYPOTHESIS_SETTINGS)
     async def test_same_content_same_hash(self, setup_fs_backend, content):
         """Same content always produces same hash."""
+        # Use valid NN-Name format (FR-007 schema)
         import uuid
         unique1 = str(uuid.uuid4())[:8]
         unique2 = str(uuid.uuid4())[:8]
-        path1 = f"content/01-Part/01-Chapter/same1-{unique1}.md"
-        path2 = f"content/01-Part/01-Chapter/same2-{unique2}.md"
+        path1 = f"content/01-Part/01-Chapter/01-same1{unique1}.md"
+        path2 = f"content/01-Part/01-Chapter/02-same2{unique2}.md"
 
         # Create two files with same content
         r1 = await write_content(WriteContentInput(
@@ -208,11 +211,12 @@ class TestHashDeterminism:
         """Different content produces different hash (with high probability)."""
         assume(content1 != content2)
 
+        # Use valid NN-Name format (FR-007 schema)
         import uuid
         unique1 = str(uuid.uuid4())[:8]
         unique2 = str(uuid.uuid4())[:8]
-        path1 = f"content/01-Part/01-Chapter/diff1-{unique1}.md"
-        path2 = f"content/01-Part/01-Chapter/diff2-{unique2}.md"
+        path1 = f"content/01-Part/01-Chapter/01-diff1{unique1}.md"
+        path2 = f"content/01-Part/01-Chapter/02-diff2{unique2}.md"
 
         r1 = await write_content(WriteContentInput(
             book_id="test-book",

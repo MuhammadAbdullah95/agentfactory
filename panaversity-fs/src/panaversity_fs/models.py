@@ -42,7 +42,7 @@ class ContentScope(str, Enum):
 
 
 class OperationType(str, Enum):
-    """Audit log operation types (9 tools per ADR-0018)."""
+    """Audit log operation types (11 tools per ADR-0018 + validate_book + delta_build + plan_build)."""
     READ_CONTENT = "read_content"
     WRITE_CONTENT = "write_content"
     DELETE_CONTENT = "delete_content"
@@ -53,6 +53,9 @@ class OperationType(str, Enum):
     LIST_BOOKS = "list_books"
     GLOB_SEARCH = "glob_search"
     GREP_SEARCH = "grep_search"
+    VALIDATE_BOOK = "validate_book"
+    DELTA_BUILD = "delta_build"
+    PLAN_BUILD = "plan_build"
 
 
 class OperationStatus(str, Enum):
@@ -149,12 +152,17 @@ class ReadContentInput(BaseModel):
     - scope=chapter: Read all .md files in the chapter (path should be chapter directory)
     - scope=part: Read all .md files in the part (path should be part directory)
     - scope=book: Read all .md files in the entire book's content/ directory
+
+    Overlay support (FR-016):
+    - If user_id provided, check overlay first, fall back to base content
+    - If user_id omitted, read base content only
     """
     model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
 
     book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
     path: str = Field(default="content", description="Content path relative to book root (e.g., 'content/01-Part/01-Chapter/01-lesson.md' for file, 'content' for book scope)", min_length=1, max_length=255)
     scope: ContentScope = Field(default=ContentScope.FILE, description="Read scope: 'file' (single file), 'chapter' (all .md in chapter), 'part' (all .md in part), 'book' (all .md in book)")
+    user_id: str | None = Field(default=None, description="User ID for personalized overlay content (FR-016). If provided, checks overlay first, falls back to base.", pattern=r'^[a-zA-Z0-9_-]+$', min_length=1, max_length=100)
 
 
 class WriteContentInput(BaseModel):
@@ -164,6 +172,10 @@ class WriteContentInput(BaseModel):
     - If expected_hash provided: Update with conflict detection (FR-003)
     - If expected_hash omitted AND file exists: REJECTED with HASH_REQUIRED (FR-004)
     - If expected_hash omitted AND file doesn't exist: Create operation (FR-005)
+
+    Overlay support (FR-017):
+    - If user_id provided, write to overlay namespace (books/{book}/users/{user_id}/...)
+    - If user_id omitted, write to base content
     """
     model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
 
@@ -171,14 +183,21 @@ class WriteContentInput(BaseModel):
     path: str = Field(..., description="Lesson path relative to book root", min_length=1, max_length=255)
     content: str = Field(..., description="Markdown content with YAML frontmatter", min_length=1, max_length=500_000)
     expected_hash: str | None = Field(default=None, description="SHA256 hash for conflict detection. REQUIRED when updating existing files (FR-004)", min_length=64, max_length=64)
+    user_id: str | None = Field(default=None, description="User ID for personalized overlay content (FR-017). If provided, writes to overlay namespace.", pattern=r'^[a-zA-Z0-9_-]+$', min_length=1, max_length=100)
 
 
 class DeleteContentInput(BaseModel):
-    """Input model for delete_content tool."""
+    """Input model for delete_content tool.
+
+    Overlay support (FR-018):
+    - If user_id provided, delete overlay only (never affects base content)
+    - If user_id omitted, delete base content
+    """
     model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
 
     book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
     path: str = Field(..., description="Lesson path to delete", min_length=1, max_length=255)
+    user_id: str | None = Field(default=None, description="User ID for personalized overlay content (FR-018). If provided, deletes overlay only, never base.", pattern=r'^[a-zA-Z0-9_-]+$', min_length=1, max_length=100)
 
 
 class UploadAssetInput(BaseModel):
@@ -289,4 +308,76 @@ class GetBookArchiveInput(BaseModel):
     scope: ArchiveScope = Field(
         default=ArchiveScope.CONTENT,
         description="Archive scope: 'content' (markdown only, default), 'assets' (images/slides), 'all' (entire book - may timeout)"
+    )
+
+
+class ValidateBookInput(BaseModel):
+    """Input model for validate_book tool (FR-007, FR-008).
+
+    Validates book structure against schema:
+    - Content paths: content/{NN-Name}/{NN-Name}/{NN-name}(.summary)?.md
+    - Asset paths: static/(images|slides|videos|audio)/{path}
+    """
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier to validate", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    strict: bool = Field(
+        default=False,
+        description="Strict mode: fail on first error vs collect all errors"
+    )
+    include_warnings: bool = Field(
+        default=True,
+        description="Include non-critical warnings in report"
+    )
+
+
+class DeltaBuildInput(BaseModel):
+    """Input model for delta_build tool.
+
+    Detects changed files since a given timestamp for incremental builds.
+    Uses FileJournal to track what has changed.
+
+    Note: For manifest-hash-based delta detection, use plan_build instead (FR-025).
+    """
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    since: str = Field(
+        ...,
+        description="ISO 8601 timestamp (e.g., '2025-01-01T00:00:00Z'). Returns files modified after this time.",
+        pattern=r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$'
+    )
+    include_content: bool = Field(
+        default=False,
+        description="Include file content in response (default: False for performance)"
+    )
+    user_id: str | None = Field(
+        default=None,
+        description="Optional user ID to include overlay changes",
+        pattern=r'^[a-zA-Z0-9_-]+$',
+        min_length=1,
+        max_length=100
+    )
+
+
+class PlanBuildInput(BaseModel):
+    """Input model for plan_build tool (FR-025, FR-026, FR-027).
+
+    Computes manifest hash and returns delta of changed files since target manifest.
+    This enables CI/CD to download only changed files for incremental builds.
+
+    Manifest Hash Algorithm:
+    1. Filter: Only base content entries (user_id="__base__")
+    2. Sort: Lexicographically by path
+    3. Concatenate: "{path}:{sha256}\\n" for each entry
+    4. Hash: SHA256 of concatenated string
+    """
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+
+    book_id: str = Field(..., description="Book identifier", pattern=r'^[a-z0-9-]+$', min_length=3, max_length=50)
+    target_manifest_hash: str | None = Field(
+        default=None,
+        description="Manifest hash from previous build. If omitted, returns all files (first build).",
+        min_length=64,
+        max_length=64
     )

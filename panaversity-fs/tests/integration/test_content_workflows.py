@@ -17,7 +17,7 @@ class TestContentCRUDWorkflow:
     async def test_complete_crud_workflow(self, setup_fs_backend):
         """Test create -> read -> update -> delete workflow."""
         book_id = "test-book"
-        path = "lessons/workflow-test.md"
+        path = "content/01-Part/01-Chapter/01-workflow-test.md"
         content_v1 = "# Version 1\n\nOriginal content."
         content_v2 = "# Version 2\n\nUpdated content."
 
@@ -86,7 +86,7 @@ class TestConcurrentModificationDetection:
     async def test_concurrent_update_detection(self, setup_fs_backend):
         """Test that concurrent updates are detected (FR-003, FR-004)."""
         book_id = "test-book"
-        path = "content/01-Part/01-Chapter/concurrent-test.md"
+        path = "content/01-Part/01-Chapter/01-concurrent-test.md"
 
         # Initial write
         initial_content = "# Initial\n\nContent."
@@ -135,7 +135,7 @@ class TestConcurrentModificationDetection:
     async def test_update_without_hash_rejected(self, setup_fs_backend):
         """Test that updates without expected_hash are rejected (FR-004)."""
         book_id = "test-book"
-        path = "content/01-Part/01-Chapter/hash-required-test.md"
+        path = "content/01-Part/01-Chapter/01-hash-required-test.md"
 
         # Create initial file
         await write_content(WriteContentInput(
@@ -163,9 +163,9 @@ class TestBulkContentOperations:
         """Test creating multiple lessons in sequence."""
         book_id = "test-book"
         lessons = [
-            ("lessons/lesson-01.md", "# Lesson 1\n\nFirst lesson."),
-            ("lessons/lesson-02.md", "# Lesson 2\n\nSecond lesson."),
-            ("lessons/lesson-03.md", "# Lesson 3\n\nThird lesson."),
+            ("content/01-Part/01-Chapter/01-lesson.md", "# Lesson 1\n\nFirst lesson."),
+            ("content/01-Part/01-Chapter/02-lesson.md", "# Lesson 2\n\nSecond lesson."),
+            ("content/01-Part/01-Chapter/03-lesson.md", "# Lesson 3\n\nThird lesson."),
         ]
 
         # Create all lessons

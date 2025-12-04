@@ -116,7 +116,7 @@ class TestAssetPathValidation:
 
     def test_valid_img_path(self):
         """Valid image asset path."""
-        result = validate_asset_path("static/img/diagram.png")
+        result = validate_asset_path("static/images/diagram.png")
         assert result.is_valid
 
     def test_valid_slides_path(self):
@@ -136,7 +136,7 @@ class TestAssetPathValidation:
 
     def test_valid_nested_path(self):
         """Valid nested path within asset type."""
-        result = validate_asset_path("static/img/chapter1/diagram.png")
+        result = validate_asset_path("static/images/chapter1/diagram.png")
         assert result.is_valid
 
     def test_invalid_wrong_prefix(self):
@@ -255,7 +255,7 @@ class TestPathTypeCheckers:
 
     def test_is_asset_path_true(self):
         """Correctly identify asset path."""
-        assert is_asset_path("static/img/photo.png")
+        assert is_asset_path("static/images/photo.png")
 
     def test_is_asset_path_false(self):
         """Correctly reject non-asset path."""

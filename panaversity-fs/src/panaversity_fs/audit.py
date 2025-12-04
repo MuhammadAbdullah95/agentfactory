@@ -1,15 +1,67 @@
-"""JSONL audit logging for PanaversityFS.
+"""Database-backed audit logging for PanaversityFS.
 
-Implements direct JSONL writes with eventual consistency (FR-018).
-Audit entries are written to .audit/YYYY-MM-DD.jsonl files.
+Implements append-only audit log with hash chain integrity per FR-020, FR-021, FR-022, FR-023.
+Uses PostgreSQL/SQLite via SQLAlchemy for production-grade audit trail.
 """
 
-import aiofiles
-import json
+import sys
 from datetime import datetime, timezone
-from pathlib import Path
-from panaversity_fs.models import AuditEntry, OperationType, OperationStatus
-from panaversity_fs.storage import get_operator
+from typing import Optional
+
+from sqlalchemy import select, and_, desc
+from sqlalchemy.exc import SQLAlchemyError
+
+from panaversity_fs.database.connection import get_session
+from panaversity_fs.database.models import AuditLog
+from panaversity_fs.models import OperationType, OperationStatus
+
+
+def extract_agent_id_from_context() -> str | None:
+    """Extract agent_id from MCP request context (FR-021).
+
+    Currently returns None as we need to integrate with FastMCP's
+    request context. The calling code should provide agent_id explicitly.
+
+    Future: Hook into FastMCP's context to extract authenticated agent ID
+    from the MCP request headers or auth token.
+
+    Returns:
+        Agent ID from context, or None if not available
+    """
+    # TODO: Integrate with FastMCP context when available
+    # For now, callers must provide agent_id explicitly
+    return None
+
+
+def _parse_path_components(full_path: str) -> tuple[str, str, str]:
+    """Parse full path into (book_id, relative_path, user_id).
+
+    Handles both base paths and overlay paths:
+    - Base: books/{book_id}/content/... -> (book_id, content/..., "__base__")
+    - Overlay: books/{book_id}/users/{user_id}/content/... -> (book_id, content/..., user_id)
+
+    Args:
+        full_path: Full storage path
+
+    Returns:
+        Tuple of (book_id, relative_path, user_id)
+    """
+    parts = full_path.split("/")
+
+    if len(parts) < 2 or parts[0] != "books":
+        return ("unknown", full_path, "__base__")
+
+    book_id = parts[1]
+
+    # Check for overlay path: books/{book_id}/users/{user_id}/...
+    if len(parts) > 4 and parts[2] == "users":
+        user_id = parts[3]
+        relative_path = "/".join(parts[4:])
+        return (book_id, relative_path, user_id)
+
+    # Base path: books/{book_id}/...
+    relative_path = "/".join(parts[2:]) if len(parts) > 2 else ""
+    return (book_id, relative_path, "__base__")
 
 
 async def log_operation(
@@ -18,174 +70,238 @@ async def log_operation(
     agent_id: str,
     status: OperationStatus,
     error_message: str | None = None,
-    execution_time_ms: int | None = None
+    execution_time_ms: int | None = None,
+    new_hash: str | None = None,
+    book_id: str | None = None,
+    user_id: str | None = None,
 ) -> None:
-    """Log operation to JSONL audit file.
+    """Log operation to audit database with hash chain integrity (FR-020, FR-022, FR-023).
 
-    Writes to .audit/YYYY-MM-DD.jsonl in storage backend.
-    Uses async append with eventual consistency (line interleaving acceptable per FR-018).
+    Append-only INSERT (FR-023) with hash chain linking consecutive operations
+    on the same (book_id, path, user_id) tuple (FR-022).
 
     Args:
         operation: Operation type performed
-        path: File path affected
-        agent_id: Agent/user ID performing operation
+        path: File path affected (full path or relative)
+        agent_id: Agent/user ID performing operation (FR-021 - must not be 'system' or empty)
         status: Operation result status
         error_message: Error details if status=error
         execution_time_ms: Operation execution time in milliseconds
+        new_hash: SHA256 hash of content after operation (null for delete/read)
+        book_id: Book identifier (extracted from path if not provided)
+        user_id: User ID for overlay operations (extracted from path if not provided)
 
     Example:
         ```python
         await log_operation(
             operation=OperationType.WRITE_CONTENT,
-            path="books/ai-native-python/lessons/part-1/chapter-01/lesson-01.md",
-            agent_id="agent-123",
+            path="books/ai-native-python/content/01-Part/01-Chapter/01-lesson.md",
+            agent_id="claude-lesson-writer-7",
             status=OperationStatus.SUCCESS,
-            execution_time_ms=45
+            execution_time_ms=45,
+            new_hash="abc123..."
         )
         ```
     """
     try:
-        # Create audit entry
-        entry = AuditEntry(
-            timestamp=datetime.now(timezone.utc),
-            agent_id=agent_id,
-            operation=operation,
-            path=path,
-            status=status,
-            error_message=error_message,
-            execution_time_ms=execution_time_ms
-        )
+        # ALWAYS parse path to get relative path for consistent storage
+        # This ensures verify_hash_chain can find entries regardless of how path was passed
+        parsed_book_id, relative_path, parsed_user_id = _parse_path_components(path)
 
-        # Get today's audit file path
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        audit_path = f".audit/{today}.jsonl"
+        # Use explicitly provided values if available, otherwise use parsed values
+        book_id = book_id or parsed_book_id
+        user_id = user_id or parsed_user_id
 
-        # Serialize to JSONL (single line)
-        jsonl_line = entry.model_dump_json() + "\n"
+        async with get_session() as session:
+            # Query prev_hash from previous entry on same (book_id, path, user_id) (FR-022)
+            prev_hash_stmt = select(AuditLog.new_hash).where(
+                and_(
+                    AuditLog.book_id == book_id,
+                    AuditLog.path == relative_path,
+                    AuditLog.user_id == user_id
+                )
+            ).order_by(desc(AuditLog.timestamp), desc(AuditLog.id)).limit(1)
 
-        # Write to storage backend via OpenDAL
-        # Note: This is an append operation. We read existing content,
-        # append new line, and write back. Not atomic, but acceptable per FR-018.
-        op = get_operator()
+            result = await session.execute(prev_hash_stmt)
+            prev_hash_row = result.scalar_one_or_none()
 
-        try:
-            # Read existing content
-            existing_content = await op.read(audit_path)
-            new_content = existing_content + jsonl_line.encode('utf-8')
-        except Exception:
-            # File doesn't exist yet, create it
-            new_content = jsonl_line.encode('utf-8')
+            # Create audit entry (append-only INSERT per FR-023)
+            audit_entry = AuditLog(
+                timestamp=datetime.now(timezone.utc),
+                agent_id=agent_id,
+                operation=operation.value,
+                book_id=book_id,
+                path=relative_path,
+                user_id=user_id,
+                prev_hash=prev_hash_row,
+                new_hash=new_hash,
+                status=status.value,
+                error_message=error_message,
+                execution_time_ms=execution_time_ms
+            )
 
-        # Write back (upsert)
-        await op.write(audit_path, new_content)
+            session.add(audit_entry)
+            # Commit happens on context exit
 
-    except Exception as e:
+    except SQLAlchemyError as e:
         # Audit logging failures should not block operations
         # Log to stderr but don't raise
-        import sys
+        print(f"WARNING: Audit log write failed (database): {e}", file=sys.stderr)
+    except Exception as e:
+        # Catch-all for unexpected errors
         print(f"WARNING: Audit log write failed: {e}", file=sys.stderr)
 
 
 async def query_audit_log(
-    start_date: str,
-    end_date: str,
+    start_date: str | None = None,
+    end_date: str | None = None,
     agent_id: str | None = None,
     operation: OperationType | None = None,
     status: OperationStatus | None = None,
+    book_id: str | None = None,
+    path_pattern: str | None = None,
     limit: int = 100
-) -> list[AuditEntry]:
-    """Query audit log entries with filters (FR-020).
+) -> list[AuditLog]:
+    """Query audit log entries with filters (FR-024).
 
-    Scans JSONL files for date range and applies filters.
+    Queries database for audit entries matching filter criteria.
 
     Args:
-        start_date: Start date (YYYY-MM-DD)
-        end_date: End date (YYYY-MM-DD, inclusive)
+        start_date: Start date (YYYY-MM-DD) - optional
+        end_date: End date (YYYY-MM-DD, inclusive) - optional
         agent_id: Filter by agent ID (optional)
         operation: Filter by operation type (optional)
         status: Filter by status (optional)
-        limit: Maximum entries to return (default: 100, max per FR-020)
+        book_id: Filter by book ID (optional)
+        path_pattern: Filter by path pattern with SQL LIKE syntax (optional)
+        limit: Maximum entries to return (default: 100, max per FR-024)
 
     Returns:
-        list[AuditEntry]: Matching audit entries (most recent first)
+        list[AuditLog]: Matching audit entries (most recent first)
 
     Example:
         ```python
         entries = await query_audit_log(
             start_date="2025-11-24",
             end_date="2025-11-24",
-            agent_id="agent-123",
+            agent_id="claude-lesson-writer-7",
             status=OperationStatus.SUCCESS,
             limit=50
         )
         ```
     """
-    entries: list[AuditEntry] = []
-    op = get_operator()
+    from datetime import timedelta
 
-    # Parse date range
-    from datetime import datetime, timedelta
-    start = datetime.strptime(start_date, "%Y-%m-%d")
-    end = datetime.strptime(end_date, "%Y-%m-%d")
+    try:
+        async with get_session() as session:
+            # Build query with dynamic filters
+            stmt = select(AuditLog)
 
-    # Iterate through date range
-    current = start
-    while current <= end:
-        date_str = current.strftime("%Y-%m-%d")
-        audit_path = f".audit/{date_str}.jsonl"
+            conditions = []
 
-        try:
-            # Read JSONL file
-            content = await op.read(audit_path)
-            lines = content.decode('utf-8').strip().split('\n')
+            # Date range filter
+            if start_date:
+                start_dt = datetime.strptime(start_date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                conditions.append(AuditLog.timestamp >= start_dt)
 
-            # Parse each line
-            for line in lines:
-                if not line.strip():
-                    continue
+            if end_date:
+                # End of day for inclusive end date
+                end_dt = datetime.strptime(end_date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                end_dt = end_dt + timedelta(days=1) - timedelta(microseconds=1)
+                conditions.append(AuditLog.timestamp <= end_dt)
 
-                try:
-                    data = json.loads(line)
-                    entry = AuditEntry(**data)
+            # Agent ID filter
+            if agent_id:
+                conditions.append(AuditLog.agent_id == agent_id)
 
-                    # Apply filters
-                    if agent_id and entry.agent_id != agent_id:
-                        continue
-                    if operation and entry.operation != operation:
-                        continue
-                    if status and entry.status != status:
-                        continue
+            # Operation type filter
+            if operation:
+                conditions.append(AuditLog.operation == operation.value)
 
-                    entries.append(entry)
+            # Status filter
+            if status:
+                conditions.append(AuditLog.status == status.value)
 
-                except Exception as e:
-                    # Skip malformed lines
-                    print(f"WARNING: Skipping malformed audit entry: {e}", file=sys.stderr)
-                    continue
+            # Book ID filter
+            if book_id:
+                conditions.append(AuditLog.book_id == book_id)
 
-        except Exception:
-            # File doesn't exist for this date, skip
-            pass
+            # Path pattern filter (SQL LIKE)
+            if path_pattern:
+                conditions.append(AuditLog.path.like(path_pattern))
 
-        # Move to next day
-        current += timedelta(days=1)
+            # Apply all conditions
+            if conditions:
+                stmt = stmt.where(and_(*conditions))
 
-    # Sort by timestamp (most recent first)
-    entries.sort(key=lambda e: e.timestamp, reverse=True)
+            # Order by timestamp descending (most recent first)
+            stmt = stmt.order_by(desc(AuditLog.timestamp), desc(AuditLog.id))
 
-    # Apply limit
-    return entries[:limit]
+            # Apply limit
+            stmt = stmt.limit(limit)
+
+            # Execute query
+            result = await session.execute(stmt)
+            entries = result.scalars().all()
+
+            return list(entries)
+
+    except SQLAlchemyError as e:
+        print(f"WARNING: Audit log query failed: {e}", file=sys.stderr)
+        return []
 
 
-async def rotate_audit_logs() -> None:
-    """Rotate audit logs at midnight (FR-019).
+async def verify_hash_chain(book_id: str, path: str, user_id: str = "__base__") -> dict:
+    """Verify hash chain integrity for a specific file's audit trail (FR-022).
 
-    This is a no-op for direct JSONL approach - rotation happens naturally
-    by using date-based filenames (.audit/YYYY-MM-DD.jsonl).
+    Checks that entry[n].new_hash == entry[n+1].prev_hash for all consecutive entries.
 
-    This function exists for API compatibility and future enhancements
-    (e.g., archiving logs older than 30 days).
+    Args:
+        book_id: Book identifier
+        path: Relative path within book
+        user_id: User ID for overlays (default: "__base__")
+
+    Returns:
+        dict with:
+            - valid: bool - Whether hash chain is intact
+            - entries: int - Number of entries checked
+            - breaks: list - Indices where chain breaks (if any)
     """
-    # No-op for direct JSONL approach
-    # Future: Could implement archiving of old logs here
-    pass
+    try:
+        async with get_session() as session:
+            stmt = select(AuditLog).where(
+                and_(
+                    AuditLog.book_id == book_id,
+                    AuditLog.path == path,
+                    AuditLog.user_id == user_id
+                )
+            ).order_by(AuditLog.timestamp, AuditLog.id)
+
+            result = await session.execute(stmt)
+            entries = result.scalars().all()
+
+            if len(entries) <= 1:
+                return {"valid": True, "entries": len(entries), "breaks": []}
+
+            breaks = []
+            for i in range(len(entries) - 1):
+                current = entries[i]
+                next_entry = entries[i + 1]
+
+                # Chain rule: current.new_hash == next.prev_hash
+                if current.new_hash != next_entry.prev_hash:
+                    breaks.append({
+                        "index": i,
+                        "current_new_hash": current.new_hash,
+                        "next_prev_hash": next_entry.prev_hash
+                    })
+
+            return {
+                "valid": len(breaks) == 0,
+                "entries": len(entries),
+                "breaks": breaks
+            }
+
+    except SQLAlchemyError as e:
+        print(f"WARNING: Hash chain verification failed: {e}", file=sys.stderr)
+        return {"valid": False, "entries": 0, "breaks": [], "error": str(e)}

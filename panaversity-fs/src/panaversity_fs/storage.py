@@ -136,6 +136,78 @@ def get_operator() -> opendal.AsyncOperator:
     return _operator
 
 
+def supports_presign() -> bool:
+    """Check if current storage backend supports presigned URLs.
+
+    Returns:
+        bool: True if presigned URLs are supported (S3, R2, etc.)
+    """
+    config = get_config()
+    # Filesystem backend doesn't support presigned URLs
+    # S3 and Supabase do (though Supabase via S3 compatibility)
+    return config.storage_backend in ("s3", "supabase")
+
+
+async def presign_write(path: str, expire_seconds: int = 3600) -> str | None:
+    """Generate a presigned URL for writing to storage.
+
+    Args:
+        path: Storage path to write to
+        expire_seconds: URL validity in seconds (default: 1 hour)
+
+    Returns:
+        Presigned URL string, or None if backend doesn't support presigning
+
+    Example:
+        ```python
+        url = await presign_write("books/test/large-video.mp4")
+        if url:
+            # Client can PUT directly to this URL
+            print(f"Upload to: {url}")
+        ```
+    """
+    if not supports_presign():
+        return None
+
+    try:
+        op = get_operator()
+        # OpenDAL presign_write returns a PresignedRequest with url, method, headers
+        presigned = await op.presign_write(path, expire_seconds)
+        return presigned.url
+    except Exception:
+        # If presign fails (e.g., backend doesn't support it), return None
+        return None
+
+
+async def presign_read(path: str, expire_seconds: int = 3600) -> str | None:
+    """Generate a presigned URL for reading from storage.
+
+    Args:
+        path: Storage path to read from
+        expire_seconds: URL validity in seconds (default: 1 hour)
+
+    Returns:
+        Presigned URL string, or None if backend doesn't support presigning
+
+    Example:
+        ```python
+        url = await presign_read("books/test/large-video.mp4")
+        if url:
+            # Client can GET directly from this URL
+            print(f"Download from: {url}")
+        ```
+    """
+    if not supports_presign():
+        return None
+
+    try:
+        op = get_operator()
+        presigned = await op.presign_read(path, expire_seconds)
+        return presigned.url
+    except Exception:
+        return None
+
+
 async def health_check() -> dict[str, str]:
     """Check storage backend health.
 
