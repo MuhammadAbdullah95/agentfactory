@@ -185,7 +185,7 @@ export function NavbarAuth() {
         Sign In
       </button>
       <button onClick={handleSignUp} className={styles.getStartedButton}>
-        Get Started
+        Sign Up
       </button>
     </div>
   );

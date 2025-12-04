@@ -5,6 +5,7 @@
 
 .searchContainer {
   position: relative;
+  margin-right: 1.5rem; /* Spacing before auth buttons (FR-004) */
 }
 
 /* Search Trigger Button */
@@ -553,6 +554,10 @@
 
 /* Mobile Responsive */
 @media (max-width: 996px) {
+  .searchContainer {
+    margin-right: 0.75rem; /* Mobile spacing before auth buttons (FR-005) */
+  }
+
   .searchTrigger {
     padding: 0.35rem;
     min-height: auto;
