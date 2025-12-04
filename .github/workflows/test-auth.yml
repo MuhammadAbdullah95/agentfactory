@@ -101,7 +101,7 @@ jobs:
 
       - name: Start auth server in background
         run: |
-          pnpm dev &
+          pnpm dev > server.log 2>&1 &
           echo $! > .server.pid
           # Wait for server to be ready (max 120 seconds for first compilation)
           echo "Waiting for Next.js to compile and server to be ready..."
@@ -140,7 +140,11 @@ jobs:
             echo "ℹ️  Admin user already exists (status $STATUS)"
           else
             echo "❌ Admin signup failed with status $STATUS"
+            echo "=== Response body ==="
             cat "$RESPONSE_FILE"
+            echo ""
+            echo "=== Server logs (last 100 lines) ==="
+            tail -100 server.log || echo "No server.log found"
             exit 1
           fi
 
