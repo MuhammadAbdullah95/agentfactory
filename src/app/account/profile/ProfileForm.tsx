@@ -7,6 +7,7 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { CountrySelect } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
+import { isValidRedirectUrl } from "@/lib/redirect-utils";
 
 export default function ProfileForm({
   user,
@@ -89,16 +90,8 @@ export default function ProfileForm({
       setTimeout(() => {
         if (redirectUrl) {
           // Validate redirect URL to prevent open redirect vulnerability
-          const isValidRedirect = (url: string): boolean => {
-            try {
-              const parsed = new URL(url, window.location.origin);
-              return parsed.origin === window.location.origin;
-            } catch {
-              return url.startsWith('/'); // Allow relative URLs
-            }
-          };
-
-          if (isValidRedirect(redirectUrl)) {
+          // Uses trusted client origins from TRUSTED_CLIENTS configuration
+          if (isValidRedirectUrl(redirectUrl)) {
             // Add cache-busting parameter for client app
             const redirectWithRefresh = redirectUrl.includes("?")
               ? `${redirectUrl}&refresh=${Date.now()}`
@@ -106,6 +99,7 @@ export default function ProfileForm({
             window.location.href = redirectWithRefresh;
           } else {
             // Invalid redirect URL, just reload
+            console.warn(`Redirect to untrusted origin blocked: ${redirectUrl}`);
             window.location.reload();
           }
         } else {
