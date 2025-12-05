@@ -243,5 +243,112 @@ hi
 
 That's it. If Claude responds, your free setup is working perfectly.
 
+---
+
+## Alternative: DeepSeek Setup
+
+**DeepSeek offers another free alternative** with competitive pricing and strong coding capabilities. Follow these steps to configure DeepSeek as your backend.
+
+### Step 1: Get Your DeepSeek API Key
+
+1. Go to: [DeepSeek API Platform](https://platform.deepseek.com/)
+2. Sign up or log in with your account
+3. Navigate to **API Keys** section
+4. Click **"Create API Key"**
+5. **Copy the key** (looks like: `sk-...`)
+
+---
+
+### Step 2: DeepSeek Copy-Paste Setup
+
+**Just copy commands from this block and paste into terminal:**
+
+```bash
+# Install tools (if not already installed)
+npm install -g @anthropic-ai/claude-code @musistudio/claude-code-router
+
+# Create config directories (if not already created)
+mkdir -p ~/.claude-code-router ~/.claude
+
+# Create router config with DeepSeek endpoint
+cat > ~/.claude-code-router/config.json << 'EOF'
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "HOST": "127.0.0.1",
+  "PORT": 3456,
+  "API_TIMEOUT_MS": 600000,
+  "Providers": [
+    {
+      "name": "deepseek",
+      "api_base_url": "https://api.deepseek.com/v1",
+      "api_key": "$DEEPSEEK_API_KEY",
+      "models": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ],
+      "transformer": {
+        "use": ["openai"]
+      }
+    }
+  ],
+  "Router": {
+    "default": "deepseek,deepseek-chat",
+    "background": "deepseek,deepseek-chat",
+    "think": "deepseek,deepseek-reasoner",
+    "longContext": "deepseek,deepseek-chat",
+    "longContextThreshold": 60000
+  }
+}
+EOF
+
+# Verify file was created
+cat ~/.claude-code-router/config.json
+
+# Set your API key (REPLACE "YOUR_KEY_HERE" with actual key!)
+echo 'export DEEPSEEK_API_KEY="YOUR_KEY_HERE"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**Windows users**: Replace last 2 lines with:
+```powershell
+# Windows PowerShell (Run as Administrator)
+[System.Environment]::SetEnvironmentVariable('DEEPSEEK_API_KEY', 'YOUR_KEY_HERE', 'User')
+
+# Then CLOSE and REOPEN PowerShell completely
+# Verify it worked:
+echo $env:DEEPSEEK_API_KEY
+```
+
+**Bash users** (older macOS/Linux):
+```bash
+# Check your shell first:
+echo $SHELL
+
+# If shows /bin/zsh → use ~/.zshrc (already done above)
+# If shows /bin/bash → Change last 2 lines to:
+echo 'export DEEPSEEK_API_KEY="YOUR_KEY_HERE"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+---
+
+### ✅ Verify DeepSeek Setup Worked
+
+**After pasting setup commands, verify immediately:**
+
+```bash
+claude --version        # Should show: Claude Code v2.x.x
+ccr version             # Should show version number
+echo $DEEPSEEK_API_KEY  # Should show your key (not empty!)
+
+# If any fail, see Troubleshooting section
+```
+
+✅ **Done!** DeepSeek setup is complete.
+
+**Note**: The daily workflow (Step 3) and verification steps are identical - just use `ccr start` and `ccr code` as shown above. DeepSeek will work with all the same Claude Code features.
+
+---
 
 That's it. Proceed to **Lesson 3** to learn persistent project context.
