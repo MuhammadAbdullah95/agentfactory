@@ -1,4 +1,8 @@
-"""Pytest configuration and fixtures for PanaversityFS tests."""
+"""Pytest configuration and fixtures for PanaversityFS tests.
+
+Updated for FR-002: Journal-backed content operations.
+Updated for FR-021: MCP Context with client_id for audit logging.
+"""
 
 import pytest
 import asyncio
@@ -6,6 +10,8 @@ import tempfile
 import shutil
 import os
 from pathlib import Path
+from datetime import datetime, timezone
+from unittest.mock import MagicMock
 
 # Add src to path
 import sys
@@ -29,8 +35,58 @@ def temp_storage_root():
 
 
 @pytest.fixture
-def setup_fs_backend(temp_storage_root):
-    """Setup filesystem backend for testing."""
+async def setup_db():
+    """Setup in-memory SQLite database for testing.
+
+    Uses a shared in-memory database with a single engine instance
+    that persists for the duration of the test.
+    """
+    from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+    from sqlalchemy.pool import StaticPool
+    from panaversity_fs.database.models import Base
+    from panaversity_fs.database import connection
+
+    # Use shared in-memory SQLite for tests
+    # StaticPool keeps the same connection for the whole test
+    test_engine = create_async_engine(
+        "sqlite+aiosqlite:///:memory:",
+        echo=False,
+        poolclass=StaticPool,  # Share single connection in memory DB
+        connect_args={"check_same_thread": False}
+    )
+
+    # Create all tables
+    async with test_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    # Create session factory
+    test_factory = async_sessionmaker(
+        test_engine,
+        class_=AsyncSession,
+        expire_on_commit=False
+    )
+
+    # Monkey-patch _create_engine to return our test engine
+    original_create_engine = connection._create_engine
+
+    def mock_create_engine():
+        return test_engine
+
+    connection._create_engine = mock_create_engine
+
+    yield test_factory
+
+    # Cleanup
+    connection._create_engine = original_create_engine
+    await test_engine.dispose()
+
+
+@pytest.fixture
+async def setup_fs_backend(temp_storage_root, setup_db):
+    """Setup filesystem backend for testing with database.
+
+    FR-002: Includes database setup for journal-backed operations.
+    """
     os.environ['PANAVERSITY_STORAGE_BACKEND'] = 'fs'
     os.environ['PANAVERSITY_STORAGE_ROOT'] = temp_storage_root
 
@@ -53,8 +109,14 @@ async def sample_book_data(setup_fs_backend):
     """Create sample book data for testing.
 
     ADR-0018: Updated to use Docusaurus-aligned content/ structure.
+    FR-002: Creates journal entries alongside storage files.
+
+    Note: setup_fs_backend includes setup_db, so database is already configured.
     """
     from panaversity_fs.storage import get_operator
+    from panaversity_fs.storage_utils import compute_sha256
+    from panaversity_fs.database.models import FileJournal
+    from panaversity_fs.database.connection import get_session
 
     op = get_operator()
 
@@ -83,19 +145,45 @@ def test():
     return "Hello"
 ```
 """
-    await op.write("books/test-book/content/01-Part/01-Chapter/01-lesson.md", lesson.encode('utf-8'))
+    lesson_bytes = lesson.encode('utf-8')
+    lesson_hash = compute_sha256(lesson_bytes)
+    await op.write("books/test-book/content/01-Part/01-Chapter/01-lesson.md", lesson_bytes)
 
     # Create sample lesson summary (ADR-0018: .summary.md naming convention)
     summary = """# Lesson 1 Summary
 
 Test summary content.
 """
-    await op.write("books/test-book/content/01-Part/01-Chapter/01-lesson.summary.md", summary.encode('utf-8'))
+    summary_bytes = summary.encode('utf-8')
+    summary_hash = compute_sha256(summary_bytes)
+    await op.write("books/test-book/content/01-Part/01-Chapter/01-lesson.summary.md", summary_bytes)
+
+    # Create journal entries (FR-002)
+    async with get_session() as session:
+        session.add(FileJournal(
+            book_id="test-book",
+            path="content/01-Part/01-Chapter/01-lesson.md",
+            user_id="__base__",
+            sha256=lesson_hash,
+            last_written_at=datetime.now(timezone.utc),
+            storage_backend="fs"
+        ))
+        session.add(FileJournal(
+            book_id="test-book",
+            path="content/01-Part/01-Chapter/01-lesson.summary.md",
+            user_id="__base__",
+            sha256=summary_hash,
+            last_written_at=datetime.now(timezone.utc),
+            storage_backend="fs"
+        ))
+        await session.commit()
 
     return {
         "book_id": "test-book",
         "lesson_path": "content/01-Part/01-Chapter/01-lesson.md",
-        "summary_path": "content/01-Part/01-Chapter/01-lesson.summary.md"
+        "summary_path": "content/01-Part/01-Chapter/01-lesson.summary.md",
+        "lesson_hash": lesson_hash,
+        "summary_hash": summary_hash
     }
 
 
@@ -126,3 +214,15 @@ def sample_summary_content():
 
 Key concepts covered in this chapter.
 """
+
+
+@pytest.fixture
+def mock_context():
+    """Create a mock MCP Context object for tool testing.
+
+    FR-021: Tools require Context object for client_id extraction.
+    This fixture provides a mock Context that simulates an authenticated client.
+    """
+    ctx = MagicMock()
+    ctx.client_id = "test-client-id"
+    return ctx

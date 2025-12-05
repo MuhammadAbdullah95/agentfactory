@@ -14,6 +14,11 @@ server.py and tools import consistently.
 Authentication:
 - If PANAVERSITY_JWT_SECRET is set: JWT auth is enabled
 - If not set: Server runs in dev mode without auth
+
+Database Connections:
+- Uses NullPool pattern - no persistent connections
+- Each request gets fresh connection, disposed after use
+- Cloud databases (Neon, Supabase) handle pooling externally
 """
 
 from mcp.server.fastmcp import FastMCP
@@ -31,7 +36,7 @@ def _create_mcp() -> FastMCP:
     # Base configuration
     kwargs = {
         "stateless_http": True,  # Enable Stateless Streamable HTTP (FR-004)
-        "json_response": True    # Disable SSE, use pure JSON responses
+        "json_response": True,   # Disable SSE, use pure JSON responses
     }
 
     # Add authentication if configured
@@ -45,9 +50,7 @@ def _create_mcp() -> FastMCP:
             kwargs["auth"] = auth_settings
 
         print(f"[PanaversityFS] JWT authentication enabled")
-        if config.auth_issuer:
-            print(f"[PanaversityFS] Issuer: {config.auth_issuer}")
-        print(f"[PanaversityFS] Required scopes: {config.required_scopes}")
+        print(f"[PanaversityFS] Auth server: {config.auth_server_url}")
     else:
         print("[PanaversityFS] Running in dev mode (no authentication)")
 

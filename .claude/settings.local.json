@@ -11,8 +11,7 @@
     "ask": []
   },
   "disabledMcpjsonServers": [
-    "playwright",
-    "context7"
   ],
+  "enableAllProjectMcpServers": true,
   "alwaysThinkingEnabled": false
 }

@@ -1,26 +1,71 @@
 """Content operation tools for PanaversityFS.
 
 Implements 3 MCP tools for content management (lessons and summaries per ADR-0018):
-- read_content: Read markdown content with metadata
-- write_content: Upsert with conflict detection (file_hash)
-- delete_content: Delete content file
+- read_content: Read markdown content with metadata (FR-016: overlay support)
+- write_content: Upsert with conflict detection via FileJournal (FR-002, FR-003, FR-004, FR-005, FR-017)
+- delete_content: Delete content file (FR-018: overlay support)
 
 Path structure (Docusaurus-aligned):
 - Lessons: content/{part}/{chapter}/{lesson}.md
 - Summaries: content/{part}/{chapter}/{lesson}.summary.md
+
+Overlay structure (FR-015):
+- User overlays: books/{book}/users/{user_id}/content/...
 """
+
+from mcp.server.fastmcp.server import Context
 
 from panaversity_fs.app import mcp
 from panaversity_fs.models import ReadContentInput, WriteContentInput, DeleteContentInput, ContentMetadata, ContentScope
 from panaversity_fs.storage import get_operator
 from panaversity_fs.storage_utils import compute_sha256, validate_path
-from panaversity_fs.errors import ContentNotFoundError, ConflictError, InvalidPathError
+from panaversity_fs.errors import ContentNotFoundError, ConflictError, InvalidPathError, HashRequiredError
 from panaversity_fs.audit import log_operation
 from panaversity_fs.models import OperationType, OperationStatus
 from panaversity_fs.config import get_config
+from panaversity_fs.database.connection import get_session
+from panaversity_fs.database.models import FileJournal
+from panaversity_fs.metrics import instrument_write
+from panaversity_fs.path_utils import validate_overlay_path, validate_content_path
+from sqlalchemy import select
 from datetime import datetime, timezone
 import json
 import fnmatch
+
+
+# =============================================================================
+# Helper Functions for Overlay Support
+# =============================================================================
+
+def build_storage_path(book_id: str, path: str, user_id: str | None = None) -> str:
+    """Build full storage path, optionally for overlay namespace.
+
+    Args:
+        book_id: Book identifier
+        path: Relative content path
+        user_id: Optional user ID for overlay (FR-015, FR-017)
+
+    Returns:
+        Full storage path
+    """
+    if user_id:
+        # Overlay namespace: books/{book}/users/{user_id}/{path}
+        return f"books/{book_id}/users/{user_id}/{path}"
+    else:
+        # Base namespace: books/{book}/{path}
+        return f"books/{book_id}/{path}"
+
+
+def get_journal_user_id(user_id: str | None) -> str:
+    """Get user_id value for journal queries.
+
+    Args:
+        user_id: Optional user ID from request
+
+    Returns:
+        User ID or "__base__" for base content
+    """
+    return user_id if user_id else "__base__"
 
 
 @mcp.tool(
@@ -33,8 +78,8 @@ import fnmatch
         "openWorldHint": False
     }
 )
-async def read_content(params: ReadContentInput) -> str:
-    """Read markdown content with metadata (FR-009).
+async def read_content(params: ReadContentInput, ctx: Context) -> str:
+    """Read markdown content with metadata (FR-009, FR-016 overlay support).
 
     Supports four scopes:
     - file (default): Read single file, return content + metadata
@@ -42,15 +87,22 @@ async def read_content(params: ReadContentInput) -> str:
     - part: Read all .md files in a part directory (all chapters)
     - book: Read all .md files in the entire book's content/ directory
 
+    Overlay Support (FR-016):
+    When user_id is provided, reads from overlay first, falls back to base if not found.
+    - Overlay path: books/{book_id}/users/{user_id}/content/...
+    - Base path: books/{book_id}/content/...
+    - Response includes "source" field: "overlay" or "base"
+
     Args:
         params (ReadContentInput): Validated input containing:
             - book_id (str): Book identifier (e.g., 'ai-native-python')
             - path (str): Content path relative to book root (ignored for book scope)
             - scope (ContentScope): file/chapter/part/book (default: file)
+            - user_id (str | None): Optional user ID for overlay content (FR-016)
 
     Returns:
         str: JSON-formatted response
-            - scope=file: Single ContentMetadata object
+            - scope=file: Single ContentMetadata object (with source field if user_id)
             - scope=chapter/part/book: Array of ContentMetadata objects with path field
 
     Example:
@@ -58,6 +110,11 @@ async def read_content(params: ReadContentInput) -> str:
         # Read single file (default)
         Input: {"book_id": "my-book", "path": "content/01-Part/01-Chapter/01-lesson.md"}
         Output: {"content": "...", "file_size": 1234, ...}
+
+        # Read with overlay support (FR-016)
+        Input: {"book_id": "my-book", "path": "content/01-Part/01-Chapter/01-lesson.md", "user_id": "user123"}
+        Output: {"content": "...", "file_size": 1234, "source": "overlay", ...}
+        # Falls back to base if no overlay exists
 
         # Read entire chapter
         Input: {"book_id": "my-book", "path": "content/01-Part/01-Chapter", "scope": "chapter"}
@@ -88,9 +145,25 @@ async def read_content(params: ReadContentInput) -> str:
     start_time = datetime.now(timezone.utc)
 
     try:
-        # Validate path
+        # Security validation (traversal, null bytes, etc.)
         if not validate_path(params.path):
             raise InvalidPathError(params.path, "Path contains invalid characters or traversal attempts")
+
+        # FR-007: Schema validation for file scope (single file reads)
+        # For chapter/part/book scopes, validation happens per-file during iteration
+        if params.scope == ContentScope.FILE:
+            schema_result = validate_content_path(params.path)
+            if not schema_result.is_valid:
+                error_msg = f"SCHEMA_VIOLATION: {'; '.join(schema_result.errors)}"
+                await log_operation(
+                    operation=OperationType.READ_CONTENT,
+                    path=f"books/{params.book_id}/{params.path}",
+                    status=OperationStatus.ERROR,
+                    error_message=error_msg,
+                    book_id=params.book_id,
+                    user_id=params.user_id
+                )
+                raise InvalidPathError(params.path, error_msg)
 
         # Get operator
         op = get_operator()
@@ -98,11 +171,25 @@ async def read_content(params: ReadContentInput) -> str:
 
         # Handle different scopes
         if params.scope == ContentScope.FILE:
-            # Original single-file behavior
-            full_path = f"books/{params.book_id}/{params.path}"
+            # FR-016: Overlay-first, then base fallback for single files
+            source = "base"  # Track where content came from
 
-            # Read content
-            content_bytes = await op.read(full_path)
+            if params.user_id:
+                # Try overlay path first
+                overlay_path = build_storage_path(params.book_id, params.path, params.user_id)
+                try:
+                    content_bytes = await op.read(overlay_path)
+                    full_path = overlay_path
+                    source = "overlay"
+                except Exception:
+                    # Overlay doesn't exist, fall back to base
+                    full_path = build_storage_path(params.book_id, params.path)
+                    content_bytes = await op.read(full_path)
+            else:
+                # No user_id, read from base
+                full_path = build_storage_path(params.book_id, params.path)
+                content_bytes = await op.read(full_path)
+
             content = content_bytes.decode('utf-8')
 
             # Get metadata
@@ -125,12 +212,20 @@ async def read_content(params: ReadContentInput) -> str:
             await log_operation(
                 operation=OperationType.READ_CONTENT,
                 path=full_path,
-                agent_id="system",
                 status=OperationStatus.SUCCESS,
-                execution_time_ms=execution_time
+                execution_time_ms=execution_time,
+                new_hash=file_hash,  # Include hash for provenance
+                book_id=params.book_id,
+                user_id=params.user_id
             )
 
-            return response.model_dump_json(indent=2)
+            # Include source field if user_id was provided (FR-016)
+            if params.user_id:
+                response_dict = response.model_dump()
+                response_dict["source"] = source
+                return json.dumps(response_dict, indent=2, default=str)
+            else:
+                return response.model_dump_json(indent=2)
 
         else:
             # Bulk read: chapter, part, or book scope
@@ -207,9 +302,9 @@ async def read_content(params: ReadContentInput) -> str:
             await log_operation(
                 operation=OperationType.READ_CONTENT,
                 path=base_path,
-                agent_id="system",
                 status=OperationStatus.SUCCESS,
-                execution_time_ms=execution_time
+                execution_time_ms=execution_time,
+                book_id=params.book_id
             )
 
             return json.dumps(results, indent=2)
@@ -219,9 +314,10 @@ async def read_content(params: ReadContentInput) -> str:
         await log_operation(
             operation=OperationType.READ_CONTENT,
             path=f"books/{params.book_id}/{params.path}",
-            agent_id="system",
             status=OperationStatus.ERROR,
-            error_message="Content not found"
+            error_message="Content not found",
+            book_id=params.book_id,
+            user_id=params.user_id
         )
 
         raise ContentNotFoundError(f"books/{params.book_id}/{params.path}")
@@ -235,9 +331,10 @@ async def read_content(params: ReadContentInput) -> str:
         await log_operation(
             operation=OperationType.READ_CONTENT,
             path=f"books/{params.book_id}/{params.path}",
-            agent_id="system",
             status=OperationStatus.ERROR,
-            error_message=str(e)
+            error_message=str(e),
+            book_id=params.book_id,
+            user_id=params.user_id
         )
 
         return f"Error reading content: {type(e).__name__}: {str(e)}"
@@ -253,125 +350,239 @@ async def read_content(params: ReadContentInput) -> str:
         "openWorldHint": False
     }
 )
-async def write_content(params: WriteContentInput) -> str:
-    """Write content with upsert semantics and conflict detection (FR-007, FR-008).
+@instrument_write
+async def write_content(params: WriteContentInput, ctx: Context) -> str:
+    """Write content with journal-backed conflict detection (FR-002, FR-003, FR-004, FR-005, FR-017).
 
     Works for lessons and summaries (ADR-0018).
 
-    Supports two modes:
-    - Update mode (file_hash provided): Verify hash matches before write, detect conflicts
-    - Create mode (file_hash omitted): Create new file or overwrite existing
+    Conflict detection protocol:
+    - FR-003: If expected_hash provided, verify it matches journal hash before write
+    - FR-004: If expected_hash omitted AND file exists in journal, reject with HASH_REQUIRED
+    - FR-005: If expected_hash omitted AND file doesn't exist, create operation succeeds
+    - FR-002: Journal entry recorded BEFORE returning success; atomic rollback on failure
+
+    Overlay Support (FR-017):
+    When user_id is provided, writes to user's overlay namespace:
+    - Overlay path: books/{book_id}/users/{user_id}/content/...
+    - Base content is NOT modified (user gets personalized version)
+    - Conflict detection uses overlay journal entry (not base)
 
     Args:
         params (WriteContentInput): Validated input containing:
             - book_id (str): Book identifier
             - path (str): Content path relative to book root
             - content (str): Markdown content
-            - file_hash (str | None): SHA256 hash for conflict detection (optional)
+            - expected_hash (str | None): SHA256 hash for conflict detection (REQUIRED for updates)
+            - user_id (str | None): Optional user ID for overlay writes (FR-017)
 
     Returns:
-        str: Success message with file metadata
+        str: JSON response with status, path, file_size, file_hash, mode ("created"|"updated")
+             Includes "namespace": "overlay" when user_id is provided
 
     Example:
         ```
-        # Create lesson
+        # Create lesson (no expected_hash needed for new files)
         Input: {
           "book_id": "my-book",
           "path": "content/01-Part/01-Chapter/01-lesson.md",
           "content": "# Lesson 1\\n\\nContent..."
         }
+        Output: {"status": "success", "mode": "created", ...}
 
-        # Create summary for that lesson
+        # Write to user overlay (FR-017)
         Input: {
           "book_id": "my-book",
-          "path": "content/01-Part/01-Chapter/01-lesson.summary.md",
-          "content": "# Summary\\n\\nKey points..."
+          "path": "content/01-Part/01-Chapter/01-lesson.md",
+          "content": "# My Notes\\n\\nPersonalized...",
+          "user_id": "user123"
         }
+        Output: {"status": "success", "mode": "created", "namespace": "overlay", ...}
 
-        # Update with conflict detection
+        # Update with conflict detection (expected_hash REQUIRED)
         Input: {
           "book_id": "my-book",
           "path": "content/01-Part/01-Chapter/01-lesson.md",
           "content": "# Lesson 1 (Updated)\\n\\nNew content...",
-          "file_hash": "a591a6d40bf420404a011733cfb7b190..."
+          "expected_hash": "a591a6d40bf420404a011733cfb7b190..."
         }
+        Output: {"status": "success", "mode": "updated", ...}
         ```
+
+    Raises:
+        ConflictError: expected_hash doesn't match current journal hash (FR-003)
+        HashRequiredError: Updating existing file without expected_hash (FR-004)
+        InvalidPathError: Path contains traversal or invalid characters
     """
     start_time = datetime.now(timezone.utc)
+    config = get_config()
 
     try:
-        # Validate path
+        # Security validation (traversal, null bytes, etc.)
         if not validate_path(params.path):
             raise InvalidPathError(params.path, "Path contains invalid characters or traversal attempts")
 
-        # Build full path
-        full_path = f"books/{params.book_id}/{params.path}"
+        # FR-007: Schema validation - content paths must match Docusaurus pattern
+        # Validate the path structure (content/{NN-Name}/{NN-Name}/{NN-name}.md)
+        schema_result = validate_content_path(params.path)
+        if not schema_result.is_valid:
+            error_msg = f"SCHEMA_VIOLATION: {'; '.join(schema_result.errors)}"
+            await log_operation(
+                operation=OperationType.WRITE_CONTENT,
+                path=f"books/{params.book_id}/{params.path}",
+                status=OperationStatus.ERROR,
+                error_message=error_msg,
+                book_id=params.book_id,
+                user_id=params.user_id
+            )
+            raise InvalidPathError(params.path, error_msg)
+
+        # FR-017: Build full path (base or overlay namespace)
+        full_path = build_storage_path(params.book_id, params.path, params.user_id)
+
+        # Determine journal user_id (actual user_id or "__base__")
+        journal_user_id = get_journal_user_id(params.user_id)
+
+        # Track namespace for response
+        namespace = "overlay" if params.user_id else "base"
 
         # Get operator
         op = get_operator()
 
-        # If file_hash provided, verify it matches (conflict detection)
-        if params.file_hash:
-            try:
-                existing_content = await op.read(full_path)
-                existing_hash = compute_sha256(existing_content)
+        # Compute new content hash before any DB operations
+        content_bytes = params.content.encode('utf-8')
+        new_hash = compute_sha256(content_bytes)
 
-                if existing_hash != params.file_hash:
-                    # Conflict detected
+        # Use atomic transaction for journal + storage (FR-002)
+        async with get_session() as session:
+            # Query FileJournal for existing entry (FR-002)
+            # FR-017: Query overlay journal if user_id provided
+            stmt = select(FileJournal).where(
+                FileJournal.book_id == params.book_id,
+                FileJournal.path == params.path,
+                FileJournal.user_id == journal_user_id  # Base or overlay
+            )
+            result = await session.execute(stmt)
+            existing_entry = result.scalar_one_or_none()
+
+            # Determine mode and validate hash requirements
+            if existing_entry:
+                # File exists in journal
+                if params.expected_hash is None:
+                    # FR-004: Reject update without expected_hash
                     await log_operation(
                         operation=OperationType.WRITE_CONTENT,
                         path=full_path,
-                        agent_id="system",
-                        status=OperationStatus.CONFLICT,
-                        error_message=f"Hash mismatch: expected {params.file_hash}, got {existing_hash}"
+                        status=OperationStatus.ERROR,
+                        error_message=f"HASH_REQUIRED: Cannot update existing file without expected_hash",
+                        book_id=params.book_id,
+                        user_id=params.user_id
                     )
+                    raise HashRequiredError(full_path, existing_entry.sha256)
 
-                    raise ConflictError(full_path, params.file_hash, existing_hash)
+                if params.expected_hash != existing_entry.sha256:
+                    # FR-003: Conflict detected - hash mismatch
+                    await log_operation(
+                        operation=OperationType.WRITE_CONTENT,
+                        path=full_path,
+                        status=OperationStatus.CONFLICT,
+                        error_message=f"Hash mismatch: expected {params.expected_hash}, journal has {existing_entry.sha256}",
+                        book_id=params.book_id,
+                        user_id=params.user_id
+                    )
+                    raise ConflictError(full_path, params.expected_hash, existing_entry.sha256)
 
-            except FileNotFoundError:
-                # File doesn't exist, can't verify hash - treat as create
-                pass
+                # Valid update: hash matches
+                mode = "updated"
+                existing_entry.sha256 = new_hash
+                existing_entry.last_written_at = datetime.now(timezone.utc)
+                existing_entry.storage_backend = config.storage_backend
 
-        # Write content
-        content_bytes = params.content.encode('utf-8')
-        await op.write(full_path, content_bytes)
+            else:
+                # FR-005: File doesn't exist - create operation
+                if params.expected_hash is not None:
+                    # User provided expected_hash for non-existent file
+                    # This could indicate they thought file existed - warn them
+                    await log_operation(
+                        operation=OperationType.WRITE_CONTENT,
+                        path=full_path,
+                        status=OperationStatus.ERROR,
+                        error_message=f"NOT_FOUND: Cannot update non-existent file with expected_hash",
+                        book_id=params.book_id,
+                        user_id=params.user_id
+                    )
+                    raise ContentNotFoundError(full_path)
 
-        # Get metadata of written file
+                mode = "created"
+                new_entry = FileJournal(
+                    book_id=params.book_id,
+                    path=params.path,
+                    user_id=journal_user_id,  # FR-017: Use overlay user_id or "__base__"
+                    sha256=new_hash,
+                    last_written_at=datetime.now(timezone.utc),
+                    storage_backend=config.storage_backend
+                )
+                session.add(new_entry)
+
+            # Write to storage (within transaction scope for rollback)
+            try:
+                await op.write(full_path, content_bytes)
+            except Exception as storage_error:
+                # Storage write failed - transaction will rollback
+                await log_operation(
+                    operation=OperationType.WRITE_CONTENT,
+                    path=full_path,
+                    status=OperationStatus.ERROR,
+                    error_message=f"Storage write failed: {str(storage_error)}",
+                    book_id=params.book_id,
+                    user_id=params.user_id
+                )
+                raise
+
+            # Session commits on context exit if no exception
+
+        # Get metadata of written file (outside transaction)
         metadata = await op.stat(full_path)
-        new_hash = compute_sha256(content_bytes)
 
         # Log success
         execution_time = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
         await log_operation(
             operation=OperationType.WRITE_CONTENT,
             path=full_path,
-            agent_id="system",
             status=OperationStatus.SUCCESS,
-            execution_time_ms=execution_time
+            execution_time_ms=execution_time,
+            new_hash=new_hash,  # Hash chain: new_hash for this operation
+            book_id=params.book_id,
+            user_id=params.user_id
         )
 
-        # Build response
+        # Build response (FR-005: mode indicates created vs updated)
         response = {
             "status": "success",
             "path": full_path,
             "file_size": metadata.content_length,
             "file_hash": new_hash,
-            "mode": "updated" if params.file_hash else "created"
+            "mode": mode
         }
+
+        # FR-017: Include namespace in response for overlay writes
+        if params.user_id:
+            response["namespace"] = namespace
 
         return json.dumps(response, indent=2)
 
-    except ConflictError:
-        raise  # Re-raise ConflictError as-is
+    except (ConflictError, HashRequiredError, ContentNotFoundError, InvalidPathError):
+        raise  # Re-raise known errors as-is
 
     except Exception as e:
         # Log error
         await log_operation(
             operation=OperationType.WRITE_CONTENT,
             path=f"books/{params.book_id}/{params.path}",
-            agent_id="system",
             status=OperationStatus.ERROR,
-            error_message=str(e)
+            error_message=str(e),
+            book_id=params.book_id,
+            user_id=params.user_id
         )
 
         return f"Error writing content: {type(e).__name__}: {str(e)}"
@@ -387,62 +598,114 @@ async def write_content(params: WriteContentInput) -> str:
         "openWorldHint": False
     }
 )
-async def delete_content(params: DeleteContentInput) -> str:
-    """Delete content file (lesson or summary).
+async def delete_content(params: DeleteContentInput, ctx: Context) -> str:
+    """Delete content file (lesson or summary) with overlay support (FR-018).
 
-    Idempotent: Deleting non-existent file returns success.
+    Idempotent: Deleting non-existent file returns success (R3 invariant).
     Works for lessons and summaries (ADR-0018).
+
+    IMPORTANT: Deletes BOTH storage file AND FileJournal entry atomically
+    to maintain R2 (journal-storage consistency) invariant.
+
+    Overlay Support (FR-018):
+    When user_id is provided, ONLY deletes from user's overlay namespace:
+    - Overlay path: books/{book_id}/users/{user_id}/content/...
+    - Base content is NEVER deleted (user personalization only)
+    - This effectively "resets" user's personalized content to base version
 
     Args:
         params (DeleteContentInput): Validated input containing:
             - book_id (str): Book identifier
             - path (str): Content path to delete
+            - user_id (str | None): Optional user ID for overlay delete (FR-018)
 
     Returns:
-        str: Success confirmation message
+        str: Success confirmation message with namespace info
 
     Example:
         ```
-        # Delete lesson
+        # Delete lesson from base (admin only, no user_id)
         Input: {"book_id": "my-book", "path": "content/01-Part/01-Chapter/01-lesson.md"}
-
-        # Delete summary
-        Input: {"book_id": "my-book", "path": "content/01-Part/01-Chapter/01-lesson.summary.md"}
-
         Output: {"status": "success", "path": "books/my-book/...", "existed": true}
+
+        # Delete user's overlay (FR-018) - resets to base
+        Input: {"book_id": "my-book", "path": "content/01-Part/01-Chapter/01-lesson.md", "user_id": "user123"}
+        Output: {"status": "success", "path": "books/my-book/users/user123/...", "existed": true, "namespace": "overlay"}
         ```
     """
     start_time = datetime.now(timezone.utc)
 
     try:
-        # Validate path
+        # Security validation (traversal, null bytes, etc.)
         if not validate_path(params.path):
             raise InvalidPathError(params.path, "Path contains invalid characters or traversal attempts")
 
-        # Build full path
-        full_path = f"books/{params.book_id}/{params.path}"
+        # FR-007: Schema validation - content paths must match Docusaurus pattern
+        schema_result = validate_content_path(params.path)
+        if not schema_result.is_valid:
+            error_msg = f"SCHEMA_VIOLATION: {'; '.join(schema_result.errors)}"
+            await log_operation(
+                operation=OperationType.DELETE_CONTENT,
+                path=f"books/{params.book_id}/{params.path}",
+                status=OperationStatus.ERROR,
+                error_message=error_msg,
+                book_id=params.book_id,
+                user_id=params.user_id
+            )
+            raise InvalidPathError(params.path, error_msg)
+
+        # FR-018: Build full path (base or overlay namespace)
+        full_path = build_storage_path(params.book_id, params.path, params.user_id)
+
+        # Determine journal user_id (actual user_id or "__base__")
+        journal_user_id = get_journal_user_id(params.user_id)
+
+        # Track namespace for response
+        namespace = "overlay" if params.user_id else "base"
 
         # Get operator
         op = get_operator()
 
-        # Check if file exists
+        # Check if file exists in storage
         existed = True
         try:
             await op.stat(full_path)
         except:
             existed = False
 
-        # Delete file (idempotent)
-        await op.delete(full_path)
+        # Atomic deletion: Remove from BOTH journal AND storage (R2 invariant)
+        async with get_session() as session:
+            # Delete FileJournal entry if exists
+            stmt = select(FileJournal).where(
+                FileJournal.book_id == params.book_id,
+                FileJournal.path == params.path,
+                FileJournal.user_id == journal_user_id
+            )
+            result = await session.execute(stmt)
+            existing_entry = result.scalar_one_or_none()
 
-        # Log success
+            if existing_entry:
+                await session.delete(existing_entry)
+
+            # Delete from storage (idempotent - R3 invariant)
+            try:
+                await op.delete(full_path)
+            except Exception as storage_error:
+                # Storage delete failed - transaction will rollback journal delete
+                raise storage_error
+
+            # Session commits on context exit if no exception
+
+        # Log success (new_hash=None for deletes)
         execution_time = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
         await log_operation(
             operation=OperationType.DELETE_CONTENT,
             path=full_path,
-            agent_id="system",
             status=OperationStatus.SUCCESS,
-            execution_time_ms=execution_time
+            execution_time_ms=execution_time,
+            new_hash=None,  # Deleted files have no hash
+            book_id=params.book_id,
+            user_id=params.user_id
         )
 
         # Build response
@@ -453,6 +716,10 @@ async def delete_content(params: DeleteContentInput) -> str:
             "message": f"File {'deleted' if existed else 'did not exist (idempotent delete)'}"
         }
 
+        # FR-018: Include namespace in response for overlay deletes
+        if params.user_id:
+            response["namespace"] = namespace
+
         return json.dumps(response, indent=2)
 
     except Exception as e:
@@ -460,9 +727,10 @@ async def delete_content(params: DeleteContentInput) -> str:
         await log_operation(
             operation=OperationType.DELETE_CONTENT,
             path=f"books/{params.book_id}/{params.path}",
-            agent_id="system",
             status=OperationStatus.ERROR,
-            error_message=str(e)
+            error_message=str(e),
+            book_id=params.book_id,
+            user_id=params.user_id
         )
 
         return f"Error deleting content: {type(e).__name__}: {str(e)}"

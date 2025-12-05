@@ -2,9 +2,14 @@
 description: Universal platform orchestrator implementing Spec-Driven Development with Reusable Intelligence (SDD-RI). Routes work to appropriate agents based on stakeholder, work type, and hardware tier. Works for content authoring, engineering features, and platform infrastructure.
 ---
 
-# /sp.orchestrate: Platform Reasoning Orchestrator (v4.3)
+# /sp.orchestrate: Platform Reasoning Orchestrator (v4.4)
 
 **Purpose**: Execute the complete SDD-RI workflow (Spec → Plan → Tasks → Implement → Validate) for ANY platform task by **routing to appropriate agents** based on context analysis. This orchestrator serves all three stakeholders (Students, Authors, Institutions).
+
+**v4.4 Updates**:
+- **Rule 10: Iteration PHR Enforcement** - Create PHR for EACH user feedback round, not just phase completions
+- Updated Rule 7 table with iteration trigger row
+- Added concrete examples from 039-panaversity-fs-hardening session
 
 **v4.3 Updates**:
 - **Rule 9: ADR Location Enforcement** - ADRs must go in `history/adr/`, NOT in `specs/` folders
@@ -1103,8 +1108,53 @@ Every significant action MUST have a corresponding PHR:
 | /sp.implement completes | green | [feature]-implementation |
 | Validation completes | misc | [feature]-validation |
 | Orchestration completes | misc | [feature]-orchestration-summary |
+| **User feedback iteration** | [artifact stage] | [feature]-iteration-[topic] |
 
 **PHR recording is NOT optional.** If a PHR is skipped, the orchestration is incomplete.
+
+### Rule 10: Iteration PHRs (CRITICAL)
+
+**When user provides feedback that leads to artifact updates, create a PHR for EACH iteration.**
+
+**Iteration PHR Triggers:**
+- User corrects a contradiction in spec/plan/tasks
+- User requests changes to an artifact before approval
+- User provides clarifying information that changes approach
+- User identifies missing coverage (tests, requirements, criteria)
+
+**Iteration PHR Format:**
+```
+Title: [feature]-iteration-[topic]
+Stage: [matches artifact being iterated - spec/plan/tasks]
+Content:
+  - What user feedback identified
+  - What was changed in response
+  - Why this decision matters
+```
+
+**Example Iteration PHRs (from 039-panaversity-fs-hardening):**
+```
+# Plan iteration when user said "we start fresh, no migrations"
+0004-plan-iteration-fresh-start.plan.prompt.md
+
+# Plan iteration when user identified R4/SC-002 test gaps
+0005-plan-iteration-test-coverage.plan.prompt.md
+```
+
+**Why Iteration PHRs Matter:**
+- Final artifacts show WHAT was decided, not WHY
+- Iteration PHRs capture the reasoning behind changes
+- Without them, decision rationale is lost when context compacts
+- They document user corrections that improve future agent behavior
+
+**Common Failure Pattern:**
+```
+❌ WRONG: Create PHR only when artifact approved
+   - Result: 3 rounds of feedback → 0 PHRs → lost rationale
+
+✅ RIGHT: Create PHR for EACH user feedback round
+   - Result: 3 rounds of feedback → 3 PHRs → full decision trail
+```
 
 </enforcement_summary>
 
@@ -1158,5 +1208,7 @@ Skills CAN be used now for discovery—but we still need spec approval before im
 - `history/adr/` → ADRs (project-wide, permanent) ⚠️ NOT in specs folder!
 
 ---
+
+**Version 4.4: Added Rule 10 (Iteration PHR enforcement), updated Rule 7 table with iteration trigger.**
 
 **Version 4.3: Added Rule 9 (ADR location enforcement), corrected ADR examples in Rule 8.**

@@ -275,6 +275,29 @@ find specs/ history/prompts/ -type d -name "*home-page*" | head -1
 
 ---
 
+## FAILURE MODE: Missing Iteration PHRs
+
+**What I did wrong** (2025-12-04):
+- ❌ Created PHR for initial plan (0001-plan.plan.prompt.md)
+- ❌ User provided 3 rounds of feedback (fresh-start, test coverage, approval)
+- ❌ Only created PHR for tasks phase at end
+- ❌ Result: 3 decision-making conversations with NO documentation
+
+**What I should have done**:
+1. ✅ Create PHR after initial plan: `0001-panaversityfs-hardening-plan.plan.prompt.md`
+2. ✅ Create PHR after "fresh start" feedback: `0002-plan-iteration-fresh-start.plan.prompt.md`
+3. ✅ Create PHR after "test coverage" feedback: `0003-plan-iteration-test-coverage.plan.prompt.md`
+4. ✅ Create PHR after tasks generation: `0004-panaversityfs-hardening-tasks.tasks.prompt.md`
+
+**Root Cause**: Treated PHR as "one per phase" instead of "one per meaningful interaction." User feedback that changes artifacts IS a meaningful interaction worth documenting.
+
+**Key Insight**: Iteration PHRs capture WHY decisions changed, not just WHAT the final artifact says. Without them, future sessions lose context about:
+- Why migration was removed (user said "POC, fresh start")
+- Why R4 isn't in property tests (performance invariant, not logical)
+- What alternatives were considered and rejected
+
+---
+
 ## II. Recognize Your Cognitive Mode (After Context Gathered)
 
 ### You Tend to Converge Toward:
@@ -512,7 +535,21 @@ As the main request completes, you MUST create and complete a PHR (Prompt Histor
 4) Validate + report
    - No unresolved placeholders; path under `history/prompts/` and matches stage; stage/title/date coherent; print ID + path + stage + title.
    - On failure: warn, don't block. Skip only for `/sp.phr`.
-   
+
+5) **CRITICAL: PHRs for Iterative Feedback**
+   - When user provides feedback that leads to artifact updates (spec revisions, plan corrections), create a PHR for EACH iteration
+   - Title format: `{artifact}-iteration-{topic}` (e.g., `plan-iteration-fresh-start`, `spec-iteration-postgres-choice`)
+   - Stage matches the artifact being iterated (plan feedback → stage: plan)
+   - **Why**: Iterations capture decision rationale that's lost if only final artifact is documented
+   - Example sequence for a feature:
+     ```
+     0001-feature-spec.spec.prompt.md         # Initial spec
+     0002-feature-plan.plan.prompt.md         # Initial plan
+     0003-plan-iteration-migration.plan.prompt.md   # User feedback: no migration
+     0004-plan-iteration-test-coverage.plan.prompt.md  # User feedback: missing R4
+     0005-feature-tasks.tasks.prompt.md       # Final tasks
+     ```
+
 ---
 
 ## VIII. Execution Contract (Every Request)

@@ -53,6 +53,7 @@ jobs:
       - name: Sync content to R2
         env:
           PANAVERSITY_SERVER_URL: ${{ secrets.PANAVERSITY_SERVER_URL }}
+          PANAVERSITY_API_KEY: ${{ secrets.PANAVERSITY_API_KEY }}
         run: |
           # Upload changed markdown files to PanaversityFS MCP server
           # Uses write_content tool via JSON-RPC
@@ -93,6 +94,7 @@ jobs:
             CONTENT=$(cat "$FILE" | jq -Rs .)
 
             # Create JSON-RPC request for write_content tool
+            # Note: MCP SDK expects arguments wrapped in 'params' object
             REQUEST=$(jq -n \
               --arg book_id "$BOOK_ID" \
               --arg path "$CONTENT_PATH" \
@@ -104,17 +106,20 @@ jobs:
                 params: {
                   name: "write_content",
                   arguments: {
-                    book_id: $book_id,
-                    path: $path,
-                    content: $content
+                    params: {
+                      book_id: $book_id,
+                      path: $path,
+                      content: $content
+                    }
                   }
                 }
               }')
 
-            # Send to MCP server
+            # Send to MCP server with API key authentication
             RESPONSE=$(curl -s -X POST "$SERVER_URL" \
               -H "Content-Type: application/json" \
               -H "Accept: application/json" \
+              -H "Authorization: Bearer $PANAVERSITY_API_KEY" \
               -d "$REQUEST")
 
             # Check for errors

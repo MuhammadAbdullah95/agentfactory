@@ -138,3 +138,34 @@ class ArchiveGenerationError(PanaversityFSError):
             f"Suggestion: Use individual file download tools (read_content, get_asset)"
         )
         super().__init__(message)
+
+
+class SchemaViolationError(PanaversityFSError):
+    """Path does not conform to required schema (FR-007, FR-008)."""
+
+    def __init__(self, path: str, pattern_name: str, expected_format: str):
+        self.path = path
+        self.pattern_name = pattern_name
+        self.expected_format = expected_format
+
+        message = (
+            f"Schema violation for path: {path}\n"
+            f"Expected format ({pattern_name}): {expected_format}\n\n"
+            f"Suggestion: Use valid path matching the book schema"
+        )
+        super().__init__(message)
+
+
+class HashRequiredError(PanaversityFSError):
+    """Update operation requires expected_hash but none provided (FR-004)."""
+
+    def __init__(self, path: str, current_hash: str):
+        self.path = path
+        self.current_hash = current_hash
+
+        message = (
+            f"Hash required for update: {path}\n"
+            f"Current content hash: {current_hash}\n\n"
+            f"Suggestion: Read current content first, then provide expected_hash in write request"
+        )
+        super().__init__(message)
