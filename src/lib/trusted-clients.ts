@@ -87,8 +87,8 @@ export const TRUSTED_CLIENTS = [
     name: "Panaversity SSO",
     type: "public" as const,
     redirectUrls: getRedirectUrls([
-      "http://localhost:3000/auth/callback",
-      "https://panaversity.org/auth/callback",
+      "http://localhost:3000/api/auth/callback",
+      "https://panaversity.org/api/auth/callback",
     ]),
     disabled: false,
     skipConsent: true,
@@ -101,6 +101,18 @@ export const TRUSTED_CLIENTS = [
     redirectUrls: getRedirectUrls([
       "http://localhost:3000/auth/callback",
       "https://ai-native.panaversity.org/auth/callback",
+    ]),
+    disabled: false,
+    skipConsent: true,
+    metadata: {},
+  },
+  {
+    clientId: "assessment-public-client",
+    name: "Panaversity Assessment Platform",
+    type: "public" as const,
+    redirectUrls: getRedirectUrls([
+      "http://localhost:3000/api/auth/callback",
+      "https://assessment.panaversity.org/api/auth/callback",
     ]),
     disabled: false,
     skipConsent: true,
@@ -131,6 +143,11 @@ export const CLIENT_DESCRIPTIONS = {
   "ai-native-public-client": {
     purpose: "AI Native development platform",
     audience: "Developers building AI applications",
+    security: "Public client with PKCE, no client secret",
+  },
+  "assessment-public-client": {
+    purpose: "Panaversity Assessment Platform",
+    audience: "Students taking assessments and quizzes",
     security: "Public client with PKCE, no client secret",
   },
 } as const;
