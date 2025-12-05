@@ -1,7 +1,16 @@
-import { auth } from "@/lib/auth";
+import { auth, AUTH_COOKIE_PREFIX } from "@/lib/auth";
 import { TRUSTED_CLIENTS } from "@/lib/trusted-clients";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+
+/**
+ * Better Auth session cookie names
+ * Derived from AUTH_COOKIE_PREFIX for consistency with auth config
+ */
+const SESSION_COOKIE_NAMES = [
+  `${AUTH_COOKIE_PREFIX}.session_token`,
+  `${AUTH_COOKIE_PREFIX}.session_data`,
+];
 
 /**
  * Allowed post-logout redirect origins
@@ -76,11 +85,12 @@ function isValidPostLogoutUri(uri: string): boolean {
 async function handleEndSession(request: NextRequest) {
   const url = new URL(request.url);
 
-  // Get query parameters
-  const idTokenHint = url.searchParams.get("id_token_hint");
+  // Get query parameters (OIDC RP-Initiated Logout spec)
+  // Note: id_token_hint and client_id are optional per spec - captured for logging/future use
+  const _idTokenHint = url.searchParams.get("id_token_hint");
   const postLogoutRedirectUri = url.searchParams.get("post_logout_redirect_uri");
   const state = url.searchParams.get("state");
-  const clientId = url.searchParams.get("client_id");
+  const _clientId = url.searchParams.get("client_id");
 
   // Validate post_logout_redirect_uri if provided
   if (postLogoutRedirectUri && !isValidPostLogoutUri(postLogoutRedirectUri)) {
@@ -102,11 +112,17 @@ async function handleEndSession(request: NextRequest) {
       .join("; ");
 
     // Call Better Auth's sign-out endpoint internally
-    await auth.api.signOut({
+    const signOutResponse = await auth.api.signOut({
       headers: {
         cookie: cookieHeader,
       },
     });
+
+    // Check for signOut errors (Better Auth returns success: true on success)
+    if (!signOutResponse?.success) {
+      console.warn("[EndSession] SignOut returned non-success:", signOutResponse);
+      // Continue anyway - we'll still clear cookies explicitly
+    }
 
     // Build redirect response (URI already validated above)
     if (postLogoutRedirectUri) {
@@ -117,9 +133,8 @@ async function handleEndSession(request: NextRequest) {
 
       const response = NextResponse.redirect(redirectUrl.toString(), 302);
 
-      // Clear auth cookies explicitly
-      const cookieNames = ["robolearn.session_token", "robolearn.session_data"];
-      for (const name of cookieNames) {
+      // Clear auth cookies explicitly using dynamic prefix
+      for (const name of SESSION_COOKIE_NAMES) {
         response.cookies.set(name, "", {
           expires: new Date(0),
           path: "/",
