@@ -1,12 +1,77 @@
 import { auth } from "@/lib/auth";
+import { TRUSTED_CLIENTS } from "@/lib/trusted-clients";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+
+/**
+ * Allowed post-logout redirect origins
+ * Derived from trusted clients + SSO's own origin
+ * Security: Prevents open redirect attacks (CWE-601)
+ */
+function getAllowedPostLogoutOrigins(): string[] {
+  const origins = new Set<string>();
+
+  // Add SSO's own origin
+  const ssoUrl = process.env.BETTER_AUTH_URL || "http://localhost:3001";
+  try {
+    origins.add(new URL(ssoUrl).origin);
+  } catch {
+    // Invalid URL, skip
+  }
+
+  // Add all trusted client redirect URL origins
+  for (const client of TRUSTED_CLIENTS) {
+    for (const redirectUrl of client.redirectUrls) {
+      try {
+        origins.add(new URL(redirectUrl).origin);
+      } catch {
+        // Invalid URL, skip
+      }
+    }
+  }
+
+  // Add allowed CORS origins
+  const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
+  for (const origin of allowedOrigins) {
+    const trimmed = origin.trim();
+    if (trimmed && trimmed.startsWith("http")) {
+      try {
+        origins.add(new URL(trimmed).origin);
+      } catch {
+        // Invalid URL, skip
+      }
+    }
+  }
+
+  return Array.from(origins);
+}
+
+/**
+ * Validate post_logout_redirect_uri against allowed origins
+ * Security: Prevents open redirect attacks
+ */
+function isValidPostLogoutUri(uri: string): boolean {
+  try {
+    const parsedUri = new URL(uri);
+    const allowedOrigins = getAllowedPostLogoutOrigins();
+
+    // Check if origin matches any allowed origin
+    return allowedOrigins.includes(parsedUri.origin);
+  } catch {
+    return false;
+  }
+}
 
 /**
  * OIDC RP-Initiated Logout Endpoint
  * Handles session termination and optionally redirects to post-logout URI
  *
  * Spec: https://openid.net/specs/openid-connect-rpinitiated-1_0.html
+ *
+ * Security:
+ * - Validates post_logout_redirect_uri against allowed origins
+ * - Prevents open redirect attacks (CWE-601)
+ * - Clears session cookies securely
  */
 async function handleEndSession(request: NextRequest) {
   const url = new URL(request.url);
@@ -16,6 +81,15 @@ async function handleEndSession(request: NextRequest) {
   const postLogoutRedirectUri = url.searchParams.get("post_logout_redirect_uri");
   const state = url.searchParams.get("state");
   const clientId = url.searchParams.get("client_id");
+
+  // Validate post_logout_redirect_uri if provided
+  if (postLogoutRedirectUri && !isValidPostLogoutUri(postLogoutRedirectUri)) {
+    console.warn("[EndSession] Rejected invalid post_logout_redirect_uri:", postLogoutRedirectUri);
+    return NextResponse.json(
+      { error: "invalid_request", error_description: "Invalid post_logout_redirect_uri" },
+      { status: 400 }
+    );
+  }
 
   try {
     // Clear session using Better Auth's sign-out
@@ -28,13 +102,13 @@ async function handleEndSession(request: NextRequest) {
       .join("; ");
 
     // Call Better Auth's sign-out endpoint internally
-    const signOutResponse = await auth.api.signOut({
+    await auth.api.signOut({
       headers: {
         cookie: cookieHeader,
       },
     });
 
-    // Build redirect response
+    // Build redirect response (URI already validated above)
     if (postLogoutRedirectUri) {
       const redirectUrl = new URL(postLogoutRedirectUri);
       if (state) {
@@ -66,7 +140,7 @@ async function handleEndSession(request: NextRequest) {
   } catch (error) {
     console.error("[EndSession] Error:", error);
 
-    // Even on error, try to redirect if URI provided
+    // On error, still redirect if valid URI was provided
     if (postLogoutRedirectUri) {
       const redirectUrl = new URL(postLogoutRedirectUri);
       if (state) {
