@@ -7,14 +7,32 @@ import { NextRequest, NextResponse } from "next/server";
  * Better Auth session cookie names
  * Derived from AUTH_COOKIE_PREFIX for consistency with auth config
  *
+ * IMPORTANT: In production with secure cookies, Better Auth prepends "__Secure-" to cookie names.
+ * We must clear BOTH variants to handle all environments correctly.
+ *
  * Note: Better Auth uses chunked cookies for large session data, so we need to
  * clear both the base cookie and any chunked variants (e.g., .session_data.0, .session_data.1)
  */
-const SESSION_COOKIE_NAMES = [
+const BASE_COOKIE_NAMES = [
   `${AUTH_COOKIE_PREFIX}.session_token`,
   `${AUTH_COOKIE_PREFIX}.session_data`,
   `${AUTH_COOKIE_PREFIX}.dont_remember`,
 ];
+
+// In production, Better Auth uses __Secure- prefix for cookies
+const SECURE_PREFIX = "__Secure-";
+
+/**
+ * Get all cookie names to clear, including both secure and non-secure variants
+ */
+function getSessionCookieNames(): string[] {
+  const names: string[] = [];
+  for (const name of BASE_COOKIE_NAMES) {
+    names.push(name); // Non-secure variant (development)
+    names.push(`${SECURE_PREFIX}${name}`); // Secure variant (production)
+  }
+  return names;
+}
 
 /**
  * Allowed post-logout redirect origins
@@ -160,16 +178,18 @@ async function handleEndSession(request: NextRequest) {
     );
   }
 
-  // Clear all known session cookies
+  // Clear all known session cookies (both secure and non-secure variants)
   // This is the critical part - we MUST clear cookies regardless of signOut API success
-  for (const name of SESSION_COOKIE_NAMES) {
+  for (const name of getSessionCookieNames()) {
     response.cookies.set(name, "", cookieClearOptions);
   }
 
   // Also clear any chunked cookies that Better Auth may have created
   // Better Auth uses chunking for large session data: cookie.0, cookie.1, etc.
+  // Match both regular and __Secure- prefixed cookies
   for (const cookie of allCookies) {
-    if (cookie.name.startsWith(`${AUTH_COOKIE_PREFIX}.`)) {
+    if (cookie.name.startsWith(`${AUTH_COOKIE_PREFIX}.`) ||
+        cookie.name.startsWith(`${SECURE_PREFIX}${AUTH_COOKIE_PREFIX}.`)) {
       response.cookies.set(cookie.name, "", cookieClearOptions);
     }
   }
