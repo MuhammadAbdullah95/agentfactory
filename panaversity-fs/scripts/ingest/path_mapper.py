@@ -211,20 +211,29 @@ def _map_asset_path(source_path: str) -> MappedPath:
     parts = source_path.split("/")
 
     # Find the asset type directory (img, slides, videos, audio)
-    asset_types = {"img", "slides", "videos", "audio"}
+    # Note: "img" variants normalize to "images" to match server storage
+    asset_type_aliases = {
+        "img": "images",
+        "image": "images",
+        "images": "images",
+        "slides": "slides",
+        "videos": "videos",
+        "audio": "audio"
+    }
     asset_type = None
     asset_filename = None
 
     for i, part in enumerate(parts):
-        if part.lower() in asset_types:
-            asset_type = part.lower()
+        normalized = asset_type_aliases.get(part.lower())
+        if normalized:
+            asset_type = normalized
             # Everything after asset type is the filename (may include subdirs)
             asset_filename = "/".join(parts[i + 1:])
             break
 
     if not asset_type or not asset_filename:
-        # No recognized asset type directory, use "img" as default
-        asset_type = "img"
+        # No recognized asset type directory, use "images" as default
+        asset_type = "images"
         asset_filename = parts[-1]
 
     # Sanitize asset filename components to prevent path traversal
@@ -270,8 +279,9 @@ def validate_storage_path(storage_path: str) -> tuple[bool, Optional[str]]:
     )
 
     # Asset path pattern (FR-008)
+    # Note: Accept both "img" and "images" for backwards compatibility
     asset_pattern = re.compile(
-        r"^static/(img|slides|videos|audio)/.+"
+        r"^static/(img|images|slides|videos|audio)/.+"
     )
 
     if storage_path.startswith("content/"):

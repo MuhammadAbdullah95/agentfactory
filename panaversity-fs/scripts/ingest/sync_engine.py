@@ -16,7 +16,6 @@ from typing import Optional
 from scripts.common.mcp_client import MCPClient, MCPToolError
 from scripts.ingest.source_scanner import SourceFile, ScanResult, get_valid_files
 from scripts.ingest.path_mapper import ContentType
-from scripts.ingest.asset_cache import AssetCache
 
 
 @dataclass
@@ -107,33 +106,31 @@ async def get_storage_hashes(
     """
     hashes: dict[str, Optional[str]] = {}
 
-    # Initialize asset cache for assets
-    asset_cache = AssetCache()
-
     # Create path -> source_file mapping
     path_to_source = {f.mapped.storage_path: f for f in source_files}
 
     for path in paths:
         source_file = path_to_source.get(path)
 
-        # For assets, check local cache instead of read_content
-        # (read_content doesn't work for assets due to schema validation)
-        if source_file and source_file.mapped.content_type == ContentType.ASSET:
-            cached_hash = asset_cache.get(book_id, path)
-            hashes[path] = cached_hash
-            if verbose and cached_hash:
-                print(f"  Asset cache hit: {path}")
-            continue
-
-        # For markdown/summary files, query server
+        # Query server for hash (works for both content/ and static/ paths in v1)
         try:
             result = await client.read_content(book_id, path)
-            # Use the server's authoritative hash (accounts for content normalization)
-            content_hash = result.get("file_hash_sha256")
-            if content_hash:
-                hashes[path] = content_hash
+
+            # For assets, read_content returns {"file_hash_sha256": "...", "exists": true/false}
+            # For markdown, it returns full ContentMetadata with "file_hash_sha256" field
+            if "exists" in result:
+                # Asset path response
+                if result["exists"]:
+                    hashes[path] = result.get("file_hash_sha256")
+                else:
+                    hashes[path] = None  # Asset not in FileJournal yet
             else:
-                hashes[path] = None
+                # Markdown path response
+                content_hash = result.get("file_hash_sha256")
+                if content_hash:
+                    hashes[path] = content_hash
+                else:
+                    hashes[path] = None
         except MCPToolError:
             # File doesn't exist in storage
             hashes[path] = None
@@ -274,12 +271,8 @@ async def sync_file(
                 binary_data=binary_data
             )
 
-            # Cache asset hash to prevent re-upload on next sync
-            asset_cache = AssetCache()
-            asset_cache.set(book_id, storage_path, source_file.content_hash, source_file.size_bytes)
-
-            # For assets, we trust the upload_asset response
-            # (verifying binary content would require downloading and comparing)
+            # Server now tracks assets in FileJournal automatically
+            # No need for local cache - hash is stored in PostgreSQL
         else:
             # Text file - read as UTF-8
             content = source_file.absolute_path.read_text(encoding="utf-8")
