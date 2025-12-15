@@ -133,19 +133,19 @@ sync-verbose:
 
 test:
 	@echo "Running tests..."
-	$(PYTHON) -m pytest tests/ -v
+	uv run --extra dev pytest tests/ -v
 
 test-unit:
 	@echo "Running unit tests..."
-	$(PYTHON) -m pytest tests/unit/ -v
+	uv run --extra dev pytest tests/unit/ -v
 
 test-integration:
 	@echo "Running integration tests..."
-	$(PYTHON) -m pytest tests/integration/ -v
+	uv run --extra dev pytest tests/integration/ -v
 
 test-scripts:
 	@echo "Running script tests..."
-	$(PYTHON) -m pytest tests/scripts/ -v
+	uv run --extra dev pytest tests/scripts/ -v
 
 # ============================================================
 # Setup & Cleanup
@@ -177,8 +177,8 @@ dev-server:
 
 lint:
 	@echo "Running linter..."
-	uv run ruff check .
+	uv run --extra dev ruff check .
 
 format:
 	@echo "Formatting code..."
-	uv run ruff format .
+	uv run --extra dev ruff format .
