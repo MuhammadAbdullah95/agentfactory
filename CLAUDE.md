@@ -40,17 +40,15 @@
    - **Platform Work**: Auth, RAG, personalization, infrastructure
    - **Intelligence Work**: Skills, subagents, knowledge files
 
-### Step 1: Read the Platform Context (MANDATORY)
+### Step 1: Read the Context (MANDATORY)
 
 **For ALL Work**: Read these files FIRST (no exceptions):
 1. **`.specify/memory/constitution.md`** - Platform governance principles
 
 **For Content Work** (lessons, modules): Additionally read:
-4. **Module context** - Which of 4 modules (ROS 2, Gazebo/Unity, Isaac, VLA)?
-5. **Previous lesson** (if exists) - Understand progression
-6. **Specification** (if exists in `specs/`) - Check for existing design decisions
-
-### Step 1: Read the Learning Context (MANDATORY)
+2. **Module context** - Which of 4 modules (ROS 2, Gazebo/Unity, Isaac, VLA)?
+3. **Previous lesson** (if exists) - Understand progression
+4. **Specification** (if exists in `specs/`) - Check for existing design decisions
 
 **For Chapter Work**: Read these files FIRST (no exceptions):
 1. **`book-source/docs/chapter-index.md`** - Locate the chapter number and extract:
@@ -93,7 +91,7 @@ Ask yourself these questions **in order**:
 - **If YES**: Proceed with that layer's approach
 - **If NO**: STOP and ask user for clarification
 
-### Step 4: Check for Conflicts
+### Step 3: Check for Conflicts
 
 **Common conflicts to detect:**
 
@@ -113,7 +111,7 @@ Ask yourself these questions **in order**:
 - **Wrong**: Motor control without safety checks
 - **Right**: Safety validation before any physical deployment concepts
 
-### Step 5: Small Scope Verification (For Complex Work)
+### Step 4: Small Scope Verification (For Complex Work)
 
 **Apply when**: 5+ interacting entities OR 3+ constraint types OR safety-critical content
 
@@ -143,7 +141,7 @@ Ask yourself these questions **in order**:
 
 **When to skip**: Simple single-entity work, purely informational content, complexity < 5 entities AND < 3 constraints
 
-### Step 6: State Your Understanding (BEFORE starting work)
+### Step 5: State Your Understanding (BEFORE starting work)
 
 **Output this summary** (shows your reasoning):
 
@@ -216,12 +214,7 @@ version: "1.0.0"
 ---
 ```
 
-1. ✅ Every exercise MUST work for Tier 1 (laptop/cloud)
-2. ✅ Tier 2+ content marked: `<HardwareGate minTier={2}>`
-3. ✅ Provide `<CloudFallback>` for students without hardware
-4. ✅ Personalization filters content by student's hardware profile
-
-**Result**: All students can complete core learning regardless of equipment.
+**Result**: Would have avoided teaching incorrect skill format that contradicts Chapter 5.
 
 ---
 
@@ -321,17 +314,17 @@ find specs/ history/prompts/ -type d -name "*home-page*" | head -1
 - **L3 (Intelligence)**: Pattern recurs 2+, create reusable skill/subagent
 - **L4 (Spec-Driven)**: Capstone project, orchestrate accumulated intelligence
 
-**2. Complexity Tier** (What's the target proficiency?)
+**3. Complexity Tier** (What's the target proficiency?)
 - **A2 (Beginner)**: ~5-7 concepts, heavy scaffolding, 2 options max
 - **B1 (Intermediate)**: ~7-10 concepts, moderate scaffolding, 3-4 options
 - **C2 (Professional)**: No artificial limits, realistic production complexity
 
-**3. Cross-Book Value** (Does this compound?)
+**4. Cross-Book Value** (Does this compound?)
 - Platform-level skill → Reusable across ALL books
 - Domain-level skill → Reusable across robotics books
 - Book-level knowledge → Specific to THIS book only
 
-**4. Stage Transition Readiness** (Can student move to next layer?)
+**5. Stage Transition Readiness** (Can student move to next layer?)
 - L1→L2: Student can explain concept manually + evaluate AI outputs?
 - L2→L3: Pattern encountered 2+, has 5+ decision points, cross-project value?
 - L3→L4: Student has 3+ reusable components + can write clear specifications?
@@ -435,6 +428,27 @@ Students must EXPERIENCE Three Roles through action, not STUDY the framework thr
 
 **All skills use**: Persona + Questions + Principles (activates reasoning, not prediction)
 
+### Monorepo Skills (Nx-Based, Available to All Agents)
+
+When working in an Nx monorepo, these 3 skills provide specialized guidance:
+
+| Skill | Purpose | Invoke When |
+|-------|---------|-------------|
+| `nx-monorepo` | Project graph, affected detection, generators, caching | Analyzing deps, running affected, code generation |
+| `monorepo-workflow` | PR stacking, trunk-based dev | Managing PRs, breaking changes (tool-agnostic) |
+| `monorepo-team-lead` | CODEOWNERS, task routing | Team coordination, ownership (tool-agnostic) |
+
+**Key Insight**: Nx has an official MCP server (`nx-mcp`) providing `nx_docs` and `nx_available_plugins` tools. Use **Nx CLI** for all build operations.
+
+**Standard Toolchain (2025)**:
+| Layer | Tool | Why |
+|-------|------|-----|
+| **Build Orchestrator** | **Nx** | Official MCP server, TypeScript-native, AI-first |
+| **JS/TS Deps** | **pnpm** | Nx integrates natively with pnpm |
+| **MCP Tools** | `nx_docs`, `nx_available_plugins` | Documentation queries, plugin discovery |
+
+**Why Nx over Bazel**: Official MCP server with deep AI integration, TypeScript-native ecosystem, 5-minute setup vs 3-6 month learning curve. See ADR-0020.
+
 ---
 
 ## VI. Agent Architecture (Platform Scope)
@@ -460,6 +474,18 @@ Agents are organized by function. Explore the directory to discover available ag
 - **Engineering agents**: RAG pipelines, project scaffolding, specifications
 - **Validation agents**: Quality checks, constitutional compliance, accuracy
 - **Orchestration agents**: Workflow coordination, planning
+- **Monorepo agent**: Autonomous monorepo operations (analysis, setup, migration)
+
+### Monorepo Skills Architecture
+
+**Location**: `.claude/skills/engineering/monorepo/**`
+
+Three skills cover all monorepo needs:
+- **nx-monorepo**: Nx-specific operations (graph, affected, generators, caching)
+- **monorepo-workflow**: Tool-agnostic workflows (PRs, trunk-based dev, code review)
+- **monorepo-team-lead**: Tool-agnostic management (CODEOWNERS, routing, RFCs)
+
+**MCP Integration**: The `nx-mcp` server provides `nx_docs` and `nx_available_plugins` tools for documentation and plugin discovery.
 
 ---
 
