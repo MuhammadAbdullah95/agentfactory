@@ -1,7 +1,8 @@
 ---
 name: monorepo-agent
 description: Use this agent for autonomous monorepo operations including analysis, setup, and migration. Spawns when complex multi-step monorepo tasks need autonomous execution. Combines Nx CLI, MCP tools, and 3 monorepo skills for comprehensive monorepo work.
-model: sonnet
+model: haiku
+color: red
 skills:
   - nx-monorepo
   - monorepo-workflow
