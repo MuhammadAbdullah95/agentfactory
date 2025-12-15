@@ -28,6 +28,14 @@
         "command": "pnpm typecheck"
       },
       "cache": true
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/learn-app",
+        "command": "pnpm typecheck"
+      },
+      "cache": true
     }
   },
   "implicitDependencies": [
