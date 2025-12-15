@@ -108,8 +108,6 @@ Terminal-based AI integration changes how you work with AI assistance. Unlike we
 
 ## Prerequisites: What You Need Before Installing
 
-**📍 Location Note**: Claude Code requires authentication from Anthropic-supported countries. Check availability at https://claude.ai during signup.
-
 Before we begin, verify you have the following:
 
 **1. Terminal Access**
@@ -121,6 +119,7 @@ Before we begin, verify you have the following:
 **2. Claude Account** (one of the following):
 - **Option A**: Claude.ai subscription (Pro $20/month, Max $200/month, or Enterprise) - Sign up at: https://claude.ai
 - **Option B**: Claude Console account with API credits - Create account at: https://console.anthropic.com
+- **📍 Location**: Claude Code requires authentication from [Anthropic-supported countries](https://www.anthropic.com/supported-countries). Check availability during signup.
 
 **3. System Requirements**
 - **macOS**: 10.15 (Catalina) or later
