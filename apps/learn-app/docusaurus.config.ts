@@ -174,12 +174,12 @@ const config: Config = {
           ],
           remarkPlugins: [
             // Auto-transform Python code blocks into interactive components
-            [require('./plugins/remark-interactive-python'), {
+            [require('../../libs/docusaurus/remark-interactive-python'), {
               includePaths: ['/05-Python-Fundamentals/'],
               excludeMeta: ['nointeractive', 'static'],
             }],
             // Metadata-driven content enhancements (slides, etc.)
-            [require('./plugins/remark-content-enhancements'), {
+            [require('../../libs/docusaurus/remark-content-enhancements'), {
               enableSlides: true,
               slidesConfig: {
                 defaultHeight: 700,
@@ -224,11 +224,11 @@ const config: Config = {
     ],
   ],
   plugins: [
-    "./plugins/docusaurus-plugin-og-image-generator",
-    "./plugins/docusaurus-plugin-structured-data",
+    "../../libs/docusaurus/plugin-og-image",
+    "../../libs/docusaurus/plugin-structured-data",
     // Summaries Plugin - Makes .summary.md content available via useGlobalData()
     [
-      "./plugins/docusaurus-summaries-plugin",
+      "../../libs/docusaurus/summaries-plugin",
       {
         docsPath: docsPath, // Use same docs path as content-docs
       },
@@ -239,7 +239,7 @@ const config: Config = {
     // When enabled: Uses build-source/ (hydrated by CI workflow before Docusaurus build)
     // When disabled: Docusaurus reads from docs/ (local sample content where authors write)
     [
-      "./plugins/docusaurus-panaversityfs-plugin",
+      "../../libs/docusaurus/panaversityfs-plugin",
       {
         bookId: "ai-native-dev",
         enabled: panaversityEnabled,

@@ -45,3 +45,4 @@ htmlcov/
 
 robolearn-interface/
 feedback/
+.nx/

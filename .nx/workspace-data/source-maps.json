@@ -8,6 +8,298 @@
       "apps/learn-app/project.json",
       "nx/core/project-json"
     ],
+    "tags": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.0": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.1": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.2": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.3": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.4": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.5": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.6": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.7": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.docusaurus.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.start.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.check:jsonld.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.swizzle.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.deploy.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clear.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-translations.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids.executor": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids.options": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids.metadata": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids.options.script": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids.metadata.scriptContent": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.write-heading-ids.metadata.runCommand": [
+      "apps/learn-app/package.json",
+      "nx/core/package-json"
+    ],
     "$schema": [
       "apps/learn-app/project.json",
       "nx/core/project-json"
@@ -45,10 +337,6 @@
       "nx/core/project-json"
     ],
     "implicitDependencies.panaversityfs-plugin": [
-      "apps/learn-app/project.json",
-      "nx/core/project-json"
-    ],
-    "targets": [
       "apps/learn-app/project.json",
       "nx/core/project-json"
     ],
@@ -139,6 +427,402 @@
     "targets.typecheck.parallelism": [
       "nx.json",
       "nx/target-defaults"
+    ]
+  },
+  "libs/docusaurus/panaversityfs-plugin": {
+    "root": [
+      "libs/docusaurus/panaversityfs-plugin/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/docusaurus/panaversityfs-plugin/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:docusaurus": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:plugin": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:panaversityfs": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:mcp": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.executor": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.dependsOn": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.options": [
+      "libs/docusaurus/panaversityfs-plugin/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/docusaurus/panaversityfs-plugin/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/docusaurus/panaversityfs-plugin/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/docusaurus/panaversityfs-plugin/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/docusaurus/plugin-og-image": {
+    "root": [
+      "libs/docusaurus/plugin-og-image/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/docusaurus/plugin-og-image/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:docusaurus": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:plugin": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:og-image": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:open-graph": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.executor": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.dependsOn": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.options": [
+      "libs/docusaurus/plugin-og-image/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/docusaurus/plugin-og-image/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/docusaurus/plugin-og-image/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/docusaurus/plugin-og-image/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/docusaurus/remark-content-enhancements": {
+    "root": [
+      "libs/docusaurus/remark-content-enhancements/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/docusaurus/remark-content-enhancements/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:remark": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:remark-plugin": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:markdown": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:mdx": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:docusaurus": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:slides": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:interactive-code": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:metadata-driven": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.executor": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.dependsOn": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.options": [
+      "libs/docusaurus/remark-content-enhancements/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/docusaurus/remark-content-enhancements/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/docusaurus/remark-content-enhancements/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/docusaurus/remark-content-enhancements/project.json",
+      "nx/core/project-json"
+    ]
+  },
+  "libs/docusaurus/remark-interactive-python": {
+    "root": [
+      "libs/docusaurus/remark-interactive-python/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "libs/docusaurus/remark-interactive-python/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:remark": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:remark-plugin": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:python": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:interactive": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:pyodide": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.executor": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.dependsOn": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.options": [
+      "libs/docusaurus/remark-interactive-python/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "libs/docusaurus/remark-interactive-python/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "libs/docusaurus/remark-interactive-python/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "libs/docusaurus/remark-interactive-python/project.json",
+      "nx/core/project-json"
     ]
   },
   "apps/panaversity-fs-py": {
@@ -307,50 +991,6 @@
       "nx/target-defaults"
     ]
   },
-  "libs/docusaurus/panaversityfs-plugin": {
-    "root": [
-      "libs/docusaurus/panaversityfs-plugin/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/docusaurus/panaversityfs-plugin/project.json",
-      "nx/core/project-json"
-    ],
-    "$schema": [
-      "libs/docusaurus/panaversityfs-plugin/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/docusaurus/panaversityfs-plugin/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/docusaurus/panaversityfs-plugin/project.json",
-      "nx/core/project-json"
-    ]
-  },
-  "libs/docusaurus/plugin-og-image": {
-    "root": [
-      "libs/docusaurus/plugin-og-image/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/docusaurus/plugin-og-image/project.json",
-      "nx/core/project-json"
-    ],
-    "$schema": [
-      "libs/docusaurus/plugin-og-image/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/docusaurus/plugin-og-image/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/docusaurus/plugin-og-image/project.json",
-      "nx/core/project-json"
-    ]
-  },
   "libs/docusaurus/plugin-structured-data": {
     "root": [
       "libs/docusaurus/plugin-structured-data/project.json",
@@ -370,50 +1010,6 @@
     ],
     "sourceRoot": [
       "libs/docusaurus/plugin-structured-data/project.json",
-      "nx/core/project-json"
-    ]
-  },
-  "libs/docusaurus/remark-content-enhancements": {
-    "root": [
-      "libs/docusaurus/remark-content-enhancements/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/docusaurus/remark-content-enhancements/project.json",
-      "nx/core/project-json"
-    ],
-    "$schema": [
-      "libs/docusaurus/remark-content-enhancements/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/docusaurus/remark-content-enhancements/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/docusaurus/remark-content-enhancements/project.json",
-      "nx/core/project-json"
-    ]
-  },
-  "libs/docusaurus/remark-interactive-python": {
-    "root": [
-      "libs/docusaurus/remark-interactive-python/project.json",
-      "nx/core/project-json"
-    ],
-    "name": [
-      "libs/docusaurus/remark-interactive-python/project.json",
-      "nx/core/project-json"
-    ],
-    "$schema": [
-      "libs/docusaurus/remark-interactive-python/project.json",
-      "nx/core/project-json"
-    ],
-    "projectType": [
-      "libs/docusaurus/remark-interactive-python/project.json",
-      "nx/core/project-json"
-    ],
-    "sourceRoot": [
-      "libs/docusaurus/remark-interactive-python/project.json",
       "nx/core/project-json"
     ]
   },
