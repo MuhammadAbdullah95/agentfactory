@@ -18,5 +18,5 @@ Claude Code uses a three-level settings hierarchy (user → project → local) w
 - Using project level for personal experiments instead of local level (pollutes team standards)
 
 ### Connections
-- **Builds on**: CLAUDE.md for project context (Lesson 5), Skills for capability customization (Lesson 4)
+- **Builds on**: CLAUDE.md for project context (Lesson 7), Skills for capability customization (Lesson 6)
 - **Leads to**: Part 5 detailed settings configuration and team workflow policies

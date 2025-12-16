@@ -28,4 +28,4 @@ Terminal-integrated AI fundamentally changes your development workflow—Claude 
 
 ### Connections
 - **Builds on**: Lesson 1's distinction between passive AI tools and agentic collaboration
-- **Leads to**: Lesson 3 (free Gemini alternative) or Lesson 4 (Agent Skills)
+- **Leads to**: Lesson 3 (free Gemini alternative) or Lesson 6 (Agent Skills)

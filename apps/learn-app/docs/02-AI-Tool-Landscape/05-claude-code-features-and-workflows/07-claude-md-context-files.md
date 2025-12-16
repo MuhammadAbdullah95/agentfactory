@@ -202,7 +202,7 @@ Here's what you've accomplished:
 
 This is the principle of **"specify once, benefit always"**—define your project context one time, and every future session starts with full understanding.
 
-In later lessons, you'll see how subagents (Lesson 7) and skills (Lesson 4) inherit and extend this CLAUDE.md context—making it the foundation for all Claude Code intelligence.
+In later lessons, you'll see how subagents (Lesson 9) and skills (Lesson 6) inherit and extend this CLAUDE.md context—making it the foundation for all Claude Code intelligence.
 
 #### 💬 AI Colearning Prompt
 

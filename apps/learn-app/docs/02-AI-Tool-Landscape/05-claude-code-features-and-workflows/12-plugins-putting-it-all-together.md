@@ -301,7 +301,7 @@ Every plugin has a `.claude-plugin/plugin.json` manifest listing its components:
 
 ## Skill Best Practices Reference
 
-**When you're ready to create custom skills** (covered in Lesson 4, advanced implementation in Part 5+), follow these patterns:
+**When you're ready to create custom skills** (covered in Lesson 6, advanced implementation in Part 5+), follow these patterns:
 
 ### 1. Write Clear Descriptions
 Include activation triggers and examples in your SKILL.md:

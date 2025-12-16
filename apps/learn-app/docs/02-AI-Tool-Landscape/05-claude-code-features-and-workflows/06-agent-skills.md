@@ -566,7 +566,7 @@ Think of Claude Code as a **garden**:
 
 **Real-World Application**: Production teams create skills for domain-specific code reviews (security, performance), architectural pattern enforcement (API design, error handling), and documentation standards.
 
-**Link to Capstone**: In Lesson 10, you'll see how plugins bundle skills—turning your custom reasoning patterns into shareable marketplace capabilities.
+**Link to Capstone**: In Lesson 12, you'll see how plugins bundle skills—turning your custom reasoning patterns into shareable marketplace capabilities.
 
 ---
 

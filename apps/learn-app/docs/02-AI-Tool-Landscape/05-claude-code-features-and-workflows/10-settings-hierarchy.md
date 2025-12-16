@@ -176,9 +176,9 @@ Claude Code settings exist at three levels, from general to specific:
 - **Local settings**: Your private testing and experiments (gitignored, never committed)
 
 This connects to earlier lessons:
-- **CLAUDE.md (Lesson 5)** provides content context at the project level
-- **Skills (Lesson 4)** can be enabled at any hierarchy level
-- **Plugins (Lesson 10)** will use this same hierarchy to configure bundled capabilities
+- **CLAUDE.md (Lesson 7)** provides content context at the project level
+- **Skills (Lesson 6)** can be enabled at any hierarchy level
+- **Plugins (Lesson 12)** will use this same hierarchy to configure bundled capabilities
 
 **Real-World Impact**: Without this hierarchy, teams either enforce rigid standards (no personal customization) or descend into chaos (everyone's setup is different). The three-level system gives you both consistency AND flexibility.
 
