@@ -43,7 +43,6 @@
     "remark-content-enhancements",
     "plugin-og-image",
     "plugin-structured-data",
-    "summaries-plugin",
-    "panaversityfs-plugin"
+    "summaries-plugin"
   ]
 }
