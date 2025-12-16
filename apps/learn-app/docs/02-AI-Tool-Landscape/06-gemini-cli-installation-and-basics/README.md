@@ -1,10 +1,3 @@
----
-slides:
-  source: "slides/chapter-06-slides.pdf"
-  title: "Chapter 6: Google Gemini CLI: Open Source and Everywhere"
-  height: 700
----
-
 # Chapter 6: Google Gemini CLI: Open Source and Everywhere
 
 Google didn't just follow—they went big. Gemini CLI is fully open source under Apache 2.0 license, bringing the power of Gemini directly into developers' terminals with built-in tools for Google Search grounding, file operations, shell commands, and web fetching.

@@ -88,7 +88,6 @@ Make sure you have these before starting:
 
 ## Installation Methods
 
-![Installation flowchart showing Python check, pip/uv install options, API key configuration, authentication verification, and troubleshooting branches](/img/part-2/chapter-06/gemini-cli-installation-setup-flow.png)
 
 There are three ways to install Gemini CLI, depending on your needs:
 
@@ -207,7 +206,6 @@ Tips for getting started:
  ~/Your/Current/Directory       no sandbox       auto
 ```
 
-![Gemini CLI terminal interface showing ASCII logo, welcome tips, input box with prompt, and status bar displaying directory, sandbox mode, and execution mode](/img/part-2/chapter-06/gemini-cli-terminal-interface.png)
 
 **What you see:**
 - **Logo**: The "GEMINI" banner at the top
@@ -368,7 +366,6 @@ After running a shell command, you're automatically returned to normal Gemini ch
 #### 🎓 Expert Insight
 > In AI-native development, you don't memorize commands like `/help` or `/tools`—you explore conversationally. If you forget a command, just ask: "What commands are available?" Your AI partner tells you. The skill isn't memorization; it's knowing how to ask.
 
-![Gemini CLI Interface](/img/02-AI-Tool-Landscape/06-gemini-cli-installation-and-basics/l2-gemini-cli-interface.svg)
 
 
 > **Tip:** This is what your interface should look like after choosing a theme and authenticating. You can now type your first message or use slash commands (`/`) to explore Gemini CLI features.
