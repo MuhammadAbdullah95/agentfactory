@@ -188,33 +188,88 @@ nx run-many -t build
 
 ## Common Patterns
 
-### Adding a New App
+### Adding a New JS/TS App
 
 ```bash
-# 1. Generate app
-nx g @nx/next:app dashboard --directory=apps/dashboard
+# 1. Add plugin (if not already installed)
+pnpm nx add @nx/next    # For Next.js
+pnpm nx add @nx/react   # For React
+pnpm nx add @nx/node    # For Node/Express
 
-# 2. Verify in graph
-nx graph --focus=dashboard
+# 2. Generate app
+pnpm nx g @nx/next:app dashboard --directory=apps/dashboard
 
-# 3. Build
-nx build dashboard
+# 3. Verify in graph
+pnpm nx graph --focus=dashboard
 
-# 4. Serve
-nx serve dashboard
+# 4. Build & Serve
+pnpm nx build dashboard
+pnpm nx serve dashboard
 ```
+
+### Adding a Python App (Manual Setup)
+
+Nx doesn't have native Python generators, so Python projects use manual setup with `project.json`:
+
+```bash
+# 1. Create directory and initialize
+mkdir -p apps/my-python-app
+cd apps/my-python-app
+uv init
+uv add --group dev pytest ruff mypy
+
+# 2. Create project.json for Nx integration
+```
+
+**apps/my-python-app/project.json:**
+```json
+{
+  "name": "my-python-app",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "command": "uv build",
+      "options": { "cwd": "apps/my-python-app" }
+    },
+    "test": {
+      "command": "uv run --extra dev pytest",
+      "options": { "cwd": "apps/my-python-app" }
+    },
+    "lint": {
+      "command": "uv run --extra dev ruff check .",
+      "options": { "cwd": "apps/my-python-app" }
+    },
+    "format": {
+      "command": "uv run --extra dev ruff format .",
+      "options": { "cwd": "apps/my-python-app" }
+    }
+  }
+}
+```
+
+```bash
+# 3. Verify Nx recognizes it
+pnpm nx show projects
+pnpm nx graph --focus=my-python-app
+
+# 4. Run tasks via Nx
+pnpm nx test my-python-app
+pnpm nx lint my-python-app
+```
+
+**Key Insight**: Python dependencies are managed by `uv` per-project. Nx only orchestrates tasks—it doesn't manage Python deps.
 
 ### Creating Shared Libraries
 
 ```bash
-# UI library
-nx g @nx/react:lib ui --directory=libs/shared/ui
+# JS/TS UI library
+pnpm nx g @nx/react:lib ui --directory=libs/shared/ui
 
-# Utility library
-nx g @nx/js:lib utils --directory=libs/shared/utils
+# JS/TS Utility library
+pnpm nx g @nx/js:lib utils --directory=libs/shared/utils
 
 # Domain library
-nx g @nx/js:lib auth --directory=libs/domain/auth
+pnpm nx g @nx/js:lib auth --directory=libs/domain/auth
 ```
 
 ### CI Pipeline (GitHub Actions)
@@ -278,14 +333,25 @@ nx graph --file=graph.json
 
 | Task | Command |
 |------|---------|
-| Interactive graph | `nx graph` |
-| Affected build | `nx affected -t build` |
-| Run all tests | `nx run-many -t test` |
-| Generate app | `nx g @nx/next:app name` |
-| Generate lib | `nx g @nx/js:lib name` |
-| Clear cache | `nx reset` |
-| Show projects | `nx show projects` |
-| List generators | `nx list @nx/next` |
+| Interactive graph | `pnpm nx graph` |
+| Affected build | `pnpm nx affected -t build` |
+| Run all tests | `pnpm nx run-many -t test` |
+| Generate JS/TS app | `pnpm nx g @nx/next:app name` |
+| Generate JS/TS lib | `pnpm nx g @nx/js:lib name` |
+| Add plugin | `pnpm nx add @nx/next` |
+| Clear cache | `pnpm nx reset` |
+| Show projects | `pnpm nx show projects` |
+| List generators | `pnpm nx list @nx/next` |
+
+### Python-Specific (uv)
+
+| Task | Command |
+|------|---------|
+| Init Python project | `cd apps/name && uv init` |
+| Add runtime dep | `uv add <package>` |
+| Add dev dep | `uv add --group dev <package>` |
+| Sync deps | `uv sync --extra dev` |
+| Run via Nx | `pnpm nx test my-python-app` |
 
 ## Related Skills
 

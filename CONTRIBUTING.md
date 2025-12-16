@@ -124,7 +124,29 @@ uv sync --extra dev
 
 ## Creating New Projects
 
-### New JS/TS Project
+### Option 1: JS/TS App with Nx Generators (Recommended)
+
+First, add the appropriate Nx plugin:
+
+```bash
+# From root - add plugin for your tech stack
+pnpm nx add @nx/next    # Next.js apps
+pnpm nx add @nx/react   # React apps
+pnpm nx add @nx/node    # Node/Express backends
+```
+
+Then generate the app:
+
+```bash
+# Generate new app
+pnpm nx g @nx/next:app apps/my-new-app
+pnpm nx g @nx/node:app apps/my-api
+
+# Verify it shows in graph
+pnpm nx graph --focus=my-new-app
+```
+
+### Option 2: Manual JS/TS Project
 
 ```bash
 # Create directory
@@ -135,10 +157,29 @@ cd apps/my-new-app
 pnpm init
 
 # Add to pnpm workspace (already configured via apps/*)
-# Create project.json for Nx
 ```
 
-### New Python Project
+Create `apps/my-new-app/project.json`:
+```json
+{
+  "name": "my-new-app",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "command": "pnpm build",
+      "options": { "cwd": "apps/my-new-app" }
+    },
+    "dev": {
+      "command": "pnpm dev",
+      "options": { "cwd": "apps/my-new-app" }
+    }
+  }
+}
+```
+
+### Option 3: Python Project (Manual Setup)
+
+Nx doesn't have native Python generators, so Python projects use manual setup:
 
 ```bash
 # Create directory
@@ -148,7 +189,62 @@ cd apps/my-python-app
 # Initialize with uv
 uv init
 
-# Create project.json for Nx integration
+# Add dev dependencies
+uv add --group dev pytest ruff mypy
+```
+
+Create `apps/my-python-app/project.json` for Nx integration:
+```json
+{
+  "name": "my-python-app",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "command": "uv build",
+      "options": { "cwd": "apps/my-python-app" }
+    },
+    "test": {
+      "command": "uv run --extra dev pytest",
+      "options": { "cwd": "apps/my-python-app" }
+    },
+    "lint": {
+      "command": "uv run --extra dev ruff check .",
+      "options": { "cwd": "apps/my-python-app" }
+    },
+    "format": {
+      "command": "uv run --extra dev ruff format .",
+      "options": { "cwd": "apps/my-python-app" }
+    }
+  }
+}
+```
+
+### Option 4: Shared Library
+
+```bash
+# JS/TS shared library
+pnpm nx add @nx/js
+pnpm nx g @nx/js:lib libs/shared-utils
+
+# Or manually
+mkdir -p libs/my-lib
+# Add package.json + project.json
+```
+
+### Verify New Project
+
+After adding any project:
+
+```bash
+# Verify Nx recognizes it
+pnpm nx show projects
+
+# View in project graph
+pnpm nx graph
+
+# Test the targets work
+pnpm nx build my-new-app
+pnpm nx test my-new-app
 ```
 
 ## Nx Tips
