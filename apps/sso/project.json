@@ -21,9 +21,9 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
+      "command": "next lint",
       "options": {
-        "lintFilePatterns": ["apps/sso/**/*.{ts,tsx,js,jsx}"]
+        "cwd": "apps/sso"
       }
     }
   }
