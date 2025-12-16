@@ -63,7 +63,7 @@ INTENT → CONSTRAINTS → SUCCESS CRITERIA
 **Constraints**: Rules that MUST be followed (boundaries)
 **Success Criteria**: How you'll know the output is good (validation)
 
-![Four-component prompt template diagram showing: Persona section (purple, "Act as [expert role]"), Task section (blue, "Create [specific deliverable]"), Context section (orange, "For [target audience/use case] with [technical constraints]"), and Format section (green, "Output as [structure/format]"). Right side shows filled example: "Act as senior backend developer", "Create authentication API", "For mobile app with JWT tokens", "Output as Python FastAPI code". Arrows connect template components to concrete example.](/img/part-3/chapter-11/prompt-pattern-template-four-components.png)
+![Four-component prompt template diagram showing: Persona section (purple, "Act as [expert role]"), Task section (blue, "Create [specific deliverable]"), Context section (orange, "For [target audience/use case] with [technical constraints]"), and Format section (green, "Output as [structure/format]"). Right side shows filled example: "Act as senior backend developer", "Create authentication API", "For mobile app with JWT tokens", "Output as Python FastAPI code". Arrows connect template components to concrete example.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-11/prompt-pattern-template-four-components.png)
 
 Let's break down each component.
 

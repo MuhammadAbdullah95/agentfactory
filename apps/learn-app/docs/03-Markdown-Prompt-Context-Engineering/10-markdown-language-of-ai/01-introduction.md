@@ -117,7 +117,7 @@ According to GitHub's documentation, almost every software project has a README 
 
 When you write in markdown, you're using the same format that millions of developers use to communicate with both humans and AI.
 
-![Visual breakdown showing four markdown elements side-by-side: heading syntax (# Header), list syntax (- item), inline code (`code`), and link syntax ([text](url)). Each element displays raw markdown on left and rendered output on right, with arrows indicating how AI interprets structure for parsing specifications.](/img/part-3/chapter-10/markdown-syntax-anatomy.png)
+![Visual breakdown showing four markdown elements side-by-side: heading syntax (# Header), list syntax (- item), inline code (`code`), and link syntax ([text](url)). Each element displays raw markdown on left and rendered output on right, with arrows indicating how AI interprets structure for parsing specifications.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-syntax-anatomy.png)
 
 ![Reference sheet displaying common markdown file extensions and their use cases: .md (standard markdown), .markdown (verbose alternative), .mdown (deprecated), and .mdx (markdown with JSX components for React). Includes table showing which extensions are recognized by GitHub, VS Code, and Docusaurus, with checkmarks indicating compatibility for each platform.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-file-types-extensions.png)
 
