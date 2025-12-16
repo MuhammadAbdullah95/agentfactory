@@ -54,7 +54,7 @@ jobs:
       - name: Install dependencies
         working-directory: apps/panaversity-fs-py
         run: |
-          pip install click httpx pydantic python-dotenv
+          pip install click httpx pydantic python-dotenv mcp pydantic-settings
 
       - name: Get changed files
         id: changed
