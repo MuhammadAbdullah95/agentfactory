@@ -44,7 +44,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Python dependencies
-        run: uv sync --extra dev
+        run: uv sync --all-extras
 
       # Use nrwl/nx-set-shas to automatically determine base/head for affected
       - name: Derive appropriate SHAs for base and head
