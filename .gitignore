@@ -46,3 +46,4 @@ htmlcov/
 robolearn-interface/
 feedback/
 .nx/
+.vercel

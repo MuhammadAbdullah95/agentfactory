@@ -40,8 +40,11 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-      - name: Install dependencies
+      - name: Install JS dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install Python dependencies
+        run: uv sync --extra dev
 
       # Use nrwl/nx-set-shas to automatically determine base/head for affected
       - name: Derive appropriate SHAs for base and head
