@@ -11,9 +11,6 @@ from panaversity_fs.path_utils import (
     is_overlay_path,
     is_content_path,
     is_asset_path,
-    CONTENT_PATH_PATTERN,
-    ASSET_PATH_PATTERN,
-    OVERLAY_PATH_PATTERN,
 )
 
 

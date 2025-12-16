@@ -111,8 +111,7 @@ class TestConcurrentModificationDetection:
             content=user_b_content,
             expected_hash=hash1  # B has the current hash
         ), mock_context)
-        data_b = json.loads(write_b)
-        hash_b = data_b["file_hash"]
+        json.loads(write_b)  # Verify write succeeded
 
         # User A tries to update with stale hash - should fail (FR-003)
         user_a_content = "# User A Update\n\nA's changes."

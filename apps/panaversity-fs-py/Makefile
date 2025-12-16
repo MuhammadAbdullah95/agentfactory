@@ -177,8 +177,7 @@ dev-server:
 
 lint:
 	@echo "Running linter..."
-	@# Note: --exit-zero allows CI to pass while we address existing lint issues
-	uv run --extra dev ruff check . --exit-zero
+	uv run --extra dev ruff check .
 
 format:
 	@echo "Formatting code..."

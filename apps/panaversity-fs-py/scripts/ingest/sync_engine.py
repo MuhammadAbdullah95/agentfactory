@@ -10,7 +10,6 @@ Handles the synchronization logic including:
 import asyncio
 import base64
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Optional
 
 from scripts.common.mcp_client import MCPClient, MCPToolError
@@ -106,12 +105,7 @@ async def get_storage_hashes(
     """
     hashes: dict[str, Optional[str]] = {}
 
-    # Create path -> source_file mapping
-    path_to_source = {f.mapped.storage_path: f for f in source_files}
-
     for path in paths:
-        source_file = path_to_source.get(path)
-
         # Query server for hash (works for both content/ and static/ paths in v1)
         try:
             result = await client.read_content(book_id, path)
@@ -238,7 +232,6 @@ async def sync_file(
     Returns:
         Tuple of (success, bytes_transferred, error_message)
     """
-    import hashlib
 
     storage_path = source_file.mapped.storage_path
     if not storage_path:
@@ -264,7 +257,7 @@ async def sync_file(
                     break
 
             # Upload asset
-            result = await client.upload_asset(
+            await client.upload_asset(
                 book_id=book_id,
                 asset_type=asset_type,
                 filename=source_file.absolute_path.name,

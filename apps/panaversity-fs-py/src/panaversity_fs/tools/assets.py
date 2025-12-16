@@ -18,10 +18,10 @@ from panaversity_fs.models import (
 )
 from panaversity_fs.storage import get_operator, presign_write, supports_presign
 from panaversity_fs.storage_utils import (
-    compute_sha256, validate_path, sanitize_filename,
+    sanitize_filename,
     get_mime_type, build_cdn_url
 )
-from panaversity_fs.errors import ContentNotFoundError, InvalidPathError
+from panaversity_fs.errors import ContentNotFoundError
 from panaversity_fs.audit import log_operation
 from panaversity_fs.config import get_config
 from panaversity_fs.database.connection import get_session
@@ -169,9 +169,6 @@ async def upload_asset(params: UploadAssetInput, ctx: Context) -> str:
             # Hash different or asset doesn't exist - proceed with upload
             # Write to storage
             await op.write(asset_path, binary_content)
-
-            # Get metadata
-            metadata = await op.stat(asset_path)
 
             # Write to FileJournal (THE FIX! - track assets like markdown)
             async with get_session() as session:
@@ -410,7 +407,7 @@ async def get_asset(params: GetAssetInput, ctx: Context) -> str:
         # Check if asset exists and get metadata
         try:
             metadata = await op.stat(asset_path)
-        except:
+        except Exception:
             raise ContentNotFoundError(asset_path)
 
         # Build CDN URL
@@ -588,7 +585,7 @@ async def list_assets(params: ListAssetsInput, ctx: Context) -> str:
 
                         assets.append(asset_metadata.model_dump(mode='json'))
 
-                    except Exception as e:
+                    except Exception:
                         # Skip files that can't be accessed
                         continue
 

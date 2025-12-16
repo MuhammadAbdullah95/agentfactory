@@ -9,7 +9,7 @@ Defines all entity models used throughout the system:
 Note: Summary files use content tools with .summary.md naming convention (ADR-0018).
 """
 
-from pydantic import BaseModel, Field, field_validator, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Literal
 from datetime import datetime
 from enum import Enum

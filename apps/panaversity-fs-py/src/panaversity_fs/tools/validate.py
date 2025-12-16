@@ -12,9 +12,7 @@ from panaversity_fs.models import ValidateBookInput, OperationType, OperationSta
 from panaversity_fs.storage import get_operator
 from panaversity_fs.path_utils import (
     validate_content_path,
-    validate_asset_path,
-    is_content_path,
-    is_asset_path
+    validate_asset_path
 )
 from panaversity_fs.audit import log_operation
 from datetime import datetime, timezone

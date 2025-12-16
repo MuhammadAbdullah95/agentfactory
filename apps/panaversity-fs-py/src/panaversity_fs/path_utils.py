@@ -138,7 +138,7 @@ def validate_content_path(path: str) -> ValidationResult:
         return ValidationResult(
             is_valid=False,
             errors=[
-                f"Path must match content/{{NN-Name}}/{{NN-Name}}/{{NN-name}}(.summary)?.md",
+                "Path must match content/{NN-Name}/{NN-Name}/{NN-name}(.summary)?.md",
                 f"Got: {path}"
             ]
         )
@@ -172,7 +172,7 @@ def validate_asset_path(path: str) -> ValidationResult:
         return ValidationResult(
             is_valid=False,
             errors=[
-                f"Path must match static/(images|slides|videos|audio)/{{filename}}",
+                "Path must match static/(images|slides|videos|audio)/{filename}",
                 f"Got: {path}"
             ]
         )
@@ -204,7 +204,7 @@ def validate_overlay_path(path: str, expected_user_id: str) -> ValidationResult:
         return ValidationResult(
             is_valid=False,
             errors=[
-                f"Overlay path must match users/{{user_id}}/content/...",
+                "Overlay path must match users/{user_id}/content/...",
                 f"Got: {path}"
             ]
         )
@@ -214,7 +214,7 @@ def validate_overlay_path(path: str, expected_user_id: str) -> ValidationResult:
         return ValidationResult(
             is_valid=False,
             errors=[
-                f"User ID mismatch in overlay path",
+                "User ID mismatch in overlay path",
                 f"Path user: {path_user_id}, expected: {expected_user_id}"
             ]
         )

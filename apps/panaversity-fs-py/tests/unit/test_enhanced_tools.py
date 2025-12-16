@@ -9,7 +9,6 @@ Tests for:
 import pytest
 import json
 import base64
-import os
 from pathlib import Path
 
 from panaversity_fs.tools.content import read_content
@@ -18,8 +17,6 @@ from panaversity_fs.models import (
     ReadContentInput, GetAssetInput, ListAssetsInput, UploadAssetInput,
     ContentScope, AssetType
 )
-from panaversity_fs.storage import get_operator
-from panaversity_fs.config import get_config
 
 
 @pytest.fixture
@@ -392,7 +389,6 @@ class TestUploadAssetStaticPath:
         Note: Uses setup_fs_backend (not temp_storage) because upload_asset
         requires database access for FileJournal tracking.
         """
-        from pathlib import Path
         temp_storage = Path(setup_fs_backend)
         # Create book directory
         (temp_storage / "books" / "upload-test").mkdir(parents=True, exist_ok=True)

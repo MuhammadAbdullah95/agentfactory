@@ -12,7 +12,6 @@ from mcp.server.fastmcp.server import Context
 from panaversity_fs.app import mcp
 from panaversity_fs.models import DeltaBuildInput, PlanBuildInput, OperationType, OperationStatus
 from panaversity_fs.storage import get_operator
-from panaversity_fs.storage_utils import compute_sha256
 from panaversity_fs.audit import log_operation
 from panaversity_fs.database.connection import get_session
 from panaversity_fs.database.models import FileJournal, ManifestSnapshot

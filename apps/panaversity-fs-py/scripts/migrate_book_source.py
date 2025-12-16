@@ -176,12 +176,12 @@ class Migrator:
         if backend == "supabase":
             # Use Supabase SDK directly (OpenDAL Python lacks supabase support)
             try:
-                from supabase import create_client, Client
+                from supabase import create_client
                 self.supabase_client = create_client(
                     self.storage_config.supabase_url,
                     self.storage_config.supabase_service_role_key
                 )
-                print(f"✓ Connected to storage: supabase (via SDK)")
+                print("✓ Connected to storage: supabase (via SDK)")
             except ImportError:
                 print("ERROR: supabase package not installed. Run: uv add supabase")
                 sys.exit(1)

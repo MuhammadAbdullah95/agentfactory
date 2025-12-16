@@ -56,7 +56,7 @@ def two_distinct_users(draw):
 def two_distinct_lessons(draw):
     """Generate two distinct lesson names."""
     lesson1 = draw(lesson_name_strategy)
-    lesson2 = draw(lesson_name_strategy.filter(lambda l: l != lesson1))
+    lesson2 = draw(lesson_name_strategy.filter(lambda name: name != lesson1))
     return lesson1, lesson2
 
 

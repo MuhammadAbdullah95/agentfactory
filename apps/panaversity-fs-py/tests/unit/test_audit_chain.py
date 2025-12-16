@@ -4,8 +4,6 @@ Tests FR-022: entry[n].new_hash == entry[n+1].prev_hash
 """
 
 import pytest
-import json
-from datetime import datetime, timezone
 from panaversity_fs.audit import log_operation, query_audit_log, verify_hash_chain
 from panaversity_fs.models import OperationType, OperationStatus
 from panaversity_fs.database.connection import get_session

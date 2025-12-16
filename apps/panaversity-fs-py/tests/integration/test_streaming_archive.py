@@ -7,7 +7,6 @@ Tests real ZIP generation with filesystem backend to verify:
 """
 
 import pytest
-import json
 import zipfile
 import io
 import os

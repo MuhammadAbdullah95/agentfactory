@@ -53,6 +53,10 @@ target-version = ['py313']
 line-length = 100
 target-version = "py313"
 
+[tool.ruff.lint]
+# E402: Module level import not at top of file - needed for scripts that modify sys.path
+per-file-ignores = { "scripts/*.py" = ["E402"], "tests/scripts/*.py" = ["E402"] }
+
 [tool.mypy]
 python_version = "3.13"
 warn_return_any = true

@@ -149,13 +149,13 @@ async def _ingest_async(
 
     # Step 3: Report results
     if dry_run:
-        print(f"\nDry run summary:")
+        print("\nDry run summary:")
         print(f"  Would add: {result.files_added} files")
         print(f"  Would update: {result.files_updated} files")
         print(f"  Unchanged: {result.files_skipped} files")
         print(f"  Total transfer: {format_bytes(result.bytes_transferred)}")
     else:
-        print(f"\nSync complete:")
+        print("\nSync complete:")
         print(f"  Added: {result.files_added} files")
         print(f"  Updated: {result.files_updated} files")
         print(f"  Unchanged: {result.files_skipped} files")

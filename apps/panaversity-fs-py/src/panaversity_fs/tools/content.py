@@ -26,11 +26,10 @@ from panaversity_fs.config import get_config
 from panaversity_fs.database.connection import get_session
 from panaversity_fs.database.models import FileJournal
 from panaversity_fs.metrics import instrument_write
-from panaversity_fs.path_utils import validate_overlay_path, validate_content_path
+from panaversity_fs.path_utils import validate_content_path
 from sqlalchemy import select
 from datetime import datetime, timezone
 import json
-import fnmatch
 
 
 # =============================================================================
@@ -164,9 +163,6 @@ async def read_content(params: ReadContentInput, ctx: Context) -> str:
         # ASSET HASH QUERY PATH (v1 Incremental Build)
         # If path starts with "static/", return hash from FileJournal (no content/metadata)
         if params.path.startswith("static/"):
-            # Extract journal path (remove "static/" prefix to match FileJournal.path format)
-            journal_path = '/'.join(params.path.split('/')[2:])  # e.g., "static/images/diagram.png" → "diagram.png"
-
             # Query FileJournal for hash
             async with get_session() as session:
                 stmt = select(FileJournal).where(
@@ -526,7 +522,7 @@ async def write_content(params: WriteContentInput, ctx: Context) -> str:
                         operation=OperationType.WRITE_CONTENT,
                         path=full_path,
                         status=OperationStatus.ERROR,
-                        error_message=f"HASH_REQUIRED: Cannot update existing file without expected_hash",
+                        error_message="HASH_REQUIRED: Cannot update existing file without expected_hash",
                         book_id=params.book_id,
                         user_id=params.user_id
                     )
@@ -559,7 +555,7 @@ async def write_content(params: WriteContentInput, ctx: Context) -> str:
                         operation=OperationType.WRITE_CONTENT,
                         path=full_path,
                         status=OperationStatus.ERROR,
-                        error_message=f"NOT_FOUND: Cannot update non-existent file with expected_hash",
+                        error_message="NOT_FOUND: Cannot update non-existent file with expected_hash",
                         book_id=params.book_id,
                         user_id=params.user_id
                     )
@@ -722,7 +718,7 @@ async def delete_content(params: DeleteContentInput, ctx: Context) -> str:
         existed = True
         try:
             await op.stat(full_path)
-        except:
+        except Exception:
             existed = False
 
         # Atomic deletion: Remove from BOTH journal AND storage (R2 invariant)

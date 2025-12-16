@@ -1,8 +1,6 @@
 """Unit tests for Prometheus metrics instrumentation (T017)."""
 
 import pytest
-import asyncio
-from unittest.mock import AsyncMock, patch
 
 from panaversity_fs.metrics import (
     write_total,
@@ -15,7 +13,6 @@ from panaversity_fs.metrics import (
     track_memory,
     track_duration,
     get_metrics,
-    REGISTRY,
 )
 
 
@@ -151,8 +148,8 @@ class TestTrackMemoryContextManager:
         archive_memory_bytes.set(0)
 
         with track_memory():
-            # Allocate memory
-            data = bytearray(1024 * 100)  # 100KB
+            # Allocate memory (intentionally unused - testing memory tracking)
+            _data = bytearray(1024 * 100)  # 100KB  # noqa: F841
 
         # Gauge should have been updated (peak memory tracked)
         # We can't easily verify the exact value since Python manages memory

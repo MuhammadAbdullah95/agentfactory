@@ -103,7 +103,7 @@ class TestOverlayLatency:
         avg_overlay = statistics.mean(overlay_times)
         latency_diff = avg_overlay - avg_base
 
-        print(f"\nLatency Results:")
+        print("\nLatency Results:")
         print(f"  Base read avg: {avg_base:.2f}ms")
         print(f"  Overlay read avg: {avg_overlay:.2f}ms")
         print(f"  Difference: {latency_diff:.2f}ms")
@@ -160,7 +160,7 @@ class TestOverlayLatency:
         avg_fallback = statistics.mean(fallback_times)
         latency_diff = avg_fallback - avg_base
 
-        print(f"\nFallback Latency Results:")
+        print("\nFallback Latency Results:")
         print(f"  Direct base avg: {avg_base:.2f}ms")
         print(f"  Fallback avg: {avg_fallback:.2f}ms")
         print(f"  Difference: {latency_diff:.2f}ms")
@@ -209,7 +209,7 @@ class TestOverlayLatency:
         avg_time = statistics.mean(read_times)
         max_time = max(read_times)
 
-        print(f"\nMulti-User Read Times:")
+        print("\nMulti-User Read Times:")
         print(f"  Average: {avg_time:.2f}ms")
         print(f"  Max: {max_time:.2f}ms")
 
@@ -253,7 +253,7 @@ class TestOverlayLatency:
         avg_time = statistics.mean(write_times)
         max_time = max(write_times)
 
-        print(f"\nOverlay Write Times:")
+        print("\nOverlay Write Times:")
         print(f"  Average: {avg_time:.2f}ms")
         print(f"  Max: {max_time:.2f}ms")
 

@@ -11,7 +11,6 @@ from datetime import datetime, timezone, timedelta
 from panaversity_fs.tools.delta import delta_build, plan_build
 from panaversity_fs.tools.content import write_content
 from panaversity_fs.models import DeltaBuildInput, WriteContentInput, PlanBuildInput
-from panaversity_fs.storage import get_operator
 
 
 class TestDeltaBuildBasic:

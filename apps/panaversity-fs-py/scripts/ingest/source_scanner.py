@@ -7,7 +7,7 @@ and computes hashes for change detection.
 import hashlib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterator, Optional
+from typing import Iterator
 
 from scripts.ingest.path_mapper import (
     ContentType,

@@ -10,7 +10,6 @@ sys.path.insert(0, str(scripts_dir.parent))
 
 from scripts.ingest.path_mapper import (
     ContentType,
-    MappedPath,
     map_source_to_storage,
     map_and_validate,
     validate_storage_path,

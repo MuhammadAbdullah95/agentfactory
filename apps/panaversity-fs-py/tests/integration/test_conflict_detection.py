@@ -5,7 +5,6 @@ Tests concurrent write conflicts and journal-based detection per FR-002, FR-003,
 
 import pytest
 import json
-import asyncio
 from panaversity_fs.tools.content import read_content, write_content
 from panaversity_fs.models import ReadContentInput, WriteContentInput
 from panaversity_fs.errors import ConflictError, HashRequiredError, ContentNotFoundError
@@ -223,7 +222,7 @@ class TestJournalStorageAtomic:
         from panaversity_fs.storage import get_operator
 
         # Create file
-        r1 = await write_content(WriteContentInput(
+        await write_content(WriteContentInput(
             book_id="test-book",
             path="content/01-Part/01-Chapter/01-conflict-no-change.md",
             content="# Original Content"

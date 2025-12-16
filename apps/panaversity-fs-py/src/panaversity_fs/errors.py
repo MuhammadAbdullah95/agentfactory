@@ -28,7 +28,7 @@ class ContentNotFoundError(PanaversityFSError):
 
         message = f"Content not found: {path}"
         if suggested_paths:
-            message += f"\n\nSuggested valid paths:\n" + "\n".join(f"  - {p}" for p in suggested_paths[:5])
+            message += "\n\nSuggested valid paths:\n" + "\n".join(f"  - {p}" for p in suggested_paths[:5])
 
         super().__init__(message)
 
@@ -91,7 +91,7 @@ class BookNotFoundError(PanaversityFSError):
 
         message = f"Book not found: {book_id}"
         if available_books:
-            message += f"\n\nAvailable books:\n" + "\n".join(f"  - {b}" for b in available_books[:10])
+            message += "\n\nAvailable books:\n" + "\n".join(f"  - {b}" for b in available_books[:10])
 
         super().__init__(message)
 

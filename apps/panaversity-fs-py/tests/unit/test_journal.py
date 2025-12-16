@@ -1,13 +1,12 @@
 """Unit tests for FileJournal database model (T009)."""
 
 import pytest
-import asyncio
 from datetime import datetime
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from panaversity_fs.database import FileJournal, AuditLog, get_session, init_db, reset_engine
+from panaversity_fs.database import FileJournal, AuditLog
 
 
 @pytest.fixture(scope="function")
@@ -17,7 +16,6 @@ async def db_session():
     Uses in-memory SQLite to ensure isolation between tests.
     Handles rollback for tests that expect integrity errors.
     """
-    import os
     from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
     from sqlalchemy.pool import StaticPool
     from panaversity_fs.database.models import Base

@@ -48,13 +48,13 @@ async def test_jwt_auth(token: str, auth_server_url: str) -> bool:
         result = await verifier.verify_token(token)
 
         if result:
-            print(f"\n✅ JWT verification SUCCESSFUL")
+            print("\n✅ JWT verification SUCCESSFUL")
             print(f"   User ID (sub): {result.client_id}")
             print(f"   Scopes: {result.scopes}")
             print(f"   Expires at: {result.expires_at}")
             return True
         else:
-            print(f"\n❌ JWT verification FAILED")
+            print("\n❌ JWT verification FAILED")
             print("   Token is invalid, expired, or signature doesn't match")
             return False
 
@@ -82,14 +82,14 @@ async def test_api_key_auth(api_key: str, auth_server_url: str) -> bool:
         result = await verifier.verify_api_key(api_key)
 
         if result:
-            print(f"\n✅ API Key verification SUCCESSFUL")
+            print("\n✅ API Key verification SUCCESSFUL")
             print(f"   User ID: {result.user_id}")
             print(f"   Auth Type: {result.auth_type}")
             print(f"   Permissions: {result.permissions}")
             print(f"   Metadata: {result.metadata}")
             return True
         else:
-            print(f"\n❌ API Key verification FAILED")
+            print("\n❌ API Key verification FAILED")
             print("   Key is invalid or not found")
             return False
 
@@ -122,7 +122,7 @@ async def test_dual_auth_bearer(token: str, auth_server_url: str) -> bool:
         result = await validator.validate(authorization=f"Bearer {token}")
 
         if result:
-            print(f"\n✅ DualAuth (Bearer) validation SUCCESSFUL")
+            print("\n✅ DualAuth (Bearer) validation SUCCESSFUL")
             print(f"   User ID: {result.user_id}")
             print(f"   Auth Type: {result.auth_type}")
             print(f"   Role: {result.role}")
@@ -130,7 +130,7 @@ async def test_dual_auth_bearer(token: str, auth_server_url: str) -> bool:
             print(f"   Permissions: {result.permissions}")
             return True
         else:
-            print(f"\n❌ DualAuth (Bearer) validation FAILED")
+            print("\n❌ DualAuth (Bearer) validation FAILED")
             return False
 
     except Exception as e:
@@ -162,7 +162,7 @@ async def test_dual_auth_api_key(api_key: str, auth_server_url: str) -> bool:
         result = await validator.validate(x_api_key=api_key)
 
         if result:
-            print(f"\n✅ DualAuth (x-api-key) validation SUCCESSFUL")
+            print("\n✅ DualAuth (x-api-key) validation SUCCESSFUL")
             print(f"   User ID: {result.user_id}")
             print(f"   Auth Type: {result.auth_type}")
             print(f"   Role: {result.role}")
@@ -170,7 +170,7 @@ async def test_dual_auth_api_key(api_key: str, auth_server_url: str) -> bool:
             print(f"   Permissions: {result.permissions}")
             return True
         else:
-            print(f"\n❌ DualAuth (x-api-key) validation FAILED")
+            print("\n❌ DualAuth (x-api-key) validation FAILED")
             return False
 
     except Exception as e:

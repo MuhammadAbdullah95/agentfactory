@@ -334,7 +334,7 @@ class TestDualAuthValidator:
     @pytest.mark.asyncio
     async def test_bearer_token_validates_jwt(self):
         """Test that Bearer token triggers JWT validation."""
-        from panaversity_fs.auth import DualAuthValidator, JWKSTokenVerifier, APIKeyVerifier, AuthContext
+        from panaversity_fs.auth import DualAuthValidator, JWKSTokenVerifier, APIKeyVerifier
         from mcp.server.auth.provider import AccessToken
 
         jwks_verifier = JWKSTokenVerifier(

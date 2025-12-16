@@ -6,7 +6,6 @@ Uses PostgreSQL/SQLite via SQLAlchemy for production-grade audit trail.
 
 import sys
 from datetime import datetime, timezone
-from typing import Optional
 
 from sqlalchemy import select, and_, desc
 from sqlalchemy.exc import SQLAlchemyError

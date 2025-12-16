@@ -5,12 +5,10 @@ Uses hypothesis from_regex strategy for property-based testing.
 """
 
 import pytest
-from hypothesis import given, strategies as st, settings, HealthCheck, assume
+from hypothesis import given, strategies as st, settings, HealthCheck
 from panaversity_fs.path_utils import (
     validate_content_path,
     validate_asset_path,
-    CONTENT_PATH_PATTERN,
-    ASSET_PATH_PATTERN,
 )
 
 

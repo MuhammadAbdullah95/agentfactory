@@ -12,12 +12,11 @@ from panaversity_fs.models import GetBookArchiveInput, OperationType, OperationS
 from panaversity_fs.storage import get_operator
 from panaversity_fs.audit import log_operation
 from panaversity_fs.config import get_config
-from panaversity_fs.metrics import instrument_archive, archive_memory_bytes, track_duration, write_duration_seconds
+from panaversity_fs.metrics import instrument_archive, archive_memory_bytes
 from datetime import datetime, timezone
 import json
 import zipfile
 import io
-import asyncio
 import tempfile
 import os
 from dataclasses import dataclass, field

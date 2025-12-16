@@ -5,7 +5,6 @@ Validates SC-001/R4: 500 files / 200MB archive within 60s, <64MB memory.
 
 import pytest
 import time
-import io
 import tracemalloc
 from panaversity_fs.tools.bulk import (
     StreamingArchiveBuffer,
@@ -114,7 +113,7 @@ class TestArchiveThroughput:
         elapsed = time.perf_counter() - start_time
 
         # Log performance metrics
-        print(f"\nPerformance Benchmark:")
+        print("\nPerformance Benchmark:")
         print(f"  Files processed: {files_added}/{len(test_files)}")
         print(f"  Time elapsed: {elapsed:.2f}s")
         print(f"  Files/second: {files_added / elapsed:.1f}")
