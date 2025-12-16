@@ -2,6 +2,8 @@
 
 OAuth 2.1 / OIDC authentication server using Better Auth with PKCE, JWKS, and multi-tenancy support.
 
+> **Note**: This app is part of the Panaversity Nx monorepo. Run commands from the repo root using `pnpm nx`.
+
 ## Documentation
 
 ### Getting Started
@@ -23,13 +25,13 @@ OAuth 2.1 / OIDC authentication server using Better Auth with PKCE, JWKS, and mu
 ## Setup
 
 ```bash
-cd auth-server
-npm install
-cp .env.example .env.local
-# Edit .env.local with your values
-npm run db:push
-# Seed the trusted public client (see below)
-npm run dev  # http://localhost:3001
+# From monorepo root
+cp apps/sso/.env.example apps/sso/.env.local
+# Edit apps/sso/.env.local with your values
+
+pnpm nx run sso:db:push        # Push database schema
+pnpm nx run sso:seed:setup     # Seed OAuth clients (dev)
+pnpm nx serve sso              # Start dev server on http://localhost:3001
 ```
 
 ### Seed OAuth Clients
@@ -42,10 +44,10 @@ The auth server uses a single setup script that imports from `src/lib/trusted-cl
 
 ```bash
 # Development setup (all 3 trusted clients + test organization)
-pnpm run seed:setup
+pnpm nx run sso:seed:setup
 
 # Production setup (only Panaversity SSO + AI Native, skips RoboLearn)
-pnpm run seed:prod
+pnpm nx run sso:seed:prod
 ```
 
 **What gets seeded:**
@@ -143,16 +145,16 @@ The test suite is organized into 3 tiers for fast feedback and comprehensive cov
 ### Quick Start
 
 ```bash
-# 1. Start the auth server
-pnpm dev  # http://localhost:3001
+# 1. Start the auth server (from monorepo root)
+pnpm nx serve sso  # http://localhost:3001
 
 # 2. Seed OAuth clients and default organization
-pnpm run seed:setup
+pnpm nx run sso:seed:setup
 
 # 3. Run tests (in another terminal)
-pnpm test-api   # Fast API tests (~60s)
-pnpm test-e2e   # Playwright visual tests (~30s)
-pnpm test-all   # Everything (~90s)
+pnpm nx run sso:test-api   # Fast API tests (~60s)
+pnpm nx run sso:test-e2e   # Playwright visual tests (~30s)
+pnpm nx run sso:test-all   # Everything (~90s)
 ```
 
 ### Test Suites
@@ -169,7 +171,7 @@ pnpm test-all   # Everything (~90s)
 - OAuth 2.1/OIDC compliance validation
 
 ```bash
-pnpm test-api
+pnpm nx run sso:test-api
 ```
 
 **What it covers**:
@@ -193,7 +195,7 @@ pnpm test-api
 - PKCE flow with browser automation
 
 ```bash
-pnpm test-e2e
+pnpm nx run sso:test-e2e
 ```
 
 **What it covers**:
@@ -215,7 +217,7 @@ pnpm test-e2e
 Runs both API and E2E tests sequentially.
 
 ```bash
-pnpm test-all
+pnpm nx run sso:test-all
 ```
 
 ---
@@ -227,14 +229,14 @@ pnpm test-all
 **Tests OAuth client CRUD operations**. Now with auto-login!
 
 ```bash
-pnpm test-client-admin
+pnpm nx run sso:test-client-admin
 ```
 
 **Auto-login**: No manual cookie required - signs in automatically using `admin@robolearn.io` credentials.
 
 **Override credentials** (optional):
 ```bash
-ADMIN_EMAIL=custom@example.com ADMIN_PASSWORD=CustomPass pnpm test-client-admin
+ADMIN_EMAIL=custom@example.com ADMIN_PASSWORD=CustomPass pnpm nx run sso:test-client-admin
 ```
 
 #### Playwright Test Spec (`test-playwright-spec`)
@@ -242,7 +244,7 @@ ADMIN_EMAIL=custom@example.com ADMIN_PASSWORD=CustomPass pnpm test-client-admin
 **Runs e2e-auth-test.spec.ts using Playwright Test framework**.
 
 ```bash
-pnpm test-playwright-spec
+pnpm nx run sso:test-playwright-spec
 ```
 
 #### Manual PKCE Generator (`test-manual-pkce`)
@@ -250,7 +252,7 @@ pnpm test-playwright-spec
 **Utility to generate PKCE pairs for manual testing**.
 
 ```bash
-pnpm test-manual-pkce
+pnpm nx run sso:test-manual-pkce
 ```
 
 ---
@@ -282,7 +284,7 @@ pnpm test-manual-pkce
 ### Troubleshooting
 
 **Tests timing out?**
-- ✅ Ensure auth server is running (`pnpm dev`)
+- ✅ Ensure auth server is running (`pnpm nx serve sso`)
 - ✅ Check http://localhost:3001 returns a page
 
 **Playwright tests failing?**
@@ -290,7 +292,7 @@ pnpm test-manual-pkce
 - ✅ Book Interface not running: Tests will gracefully fail (expected)
 
 **Admin tests failing?**
-- ✅ Ensure default admin exists: `pnpm run seed:setup`
+- ✅ Ensure default admin exists: `pnpm nx run sso:seed:setup`
 - ✅ Check credentials: `admin@robolearn.io` / `admin@robolearn.io`
 
 ## Endpoints
@@ -660,9 +662,33 @@ curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
 
 ---
 
+## Nx Commands Reference
+
+All commands run from the monorepo root:
+
+```bash
+# Development
+pnpm nx serve sso              # Start dev server (port 3001)
+pnpm nx build sso              # Production build
+
+# Database
+pnpm nx run sso:db:push        # Push schema to database
+pnpm nx run sso:db:generate    # Generate migration files
+pnpm nx run sso:db:studio      # Open Drizzle Studio
+
+# Seeding
+pnpm nx run sso:seed:setup     # Dev: all clients + test org
+pnpm nx run sso:seed:prod      # Prod: Panaversity + AI Native only
+
+# Testing
+pnpm nx run sso:test-api       # API tests (~60s)
+pnpm nx run sso:test-e2e       # Playwright tests (~30s)
+pnpm nx run sso:test-all       # All tests (~90s)
+```
+
 ## Deploy to Vercel
 
 1. Push to GitHub
-2. Import in Vercel, set root to `auth-server`
+2. Import in Vercel, set root to `apps/sso`
 3. Add environment variables
 4. Deploy
