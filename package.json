@@ -10,10 +10,17 @@
   },
   "devDependencies": {
     "@nx/js": "^22.2.3",
+    "@nx/next": "^22.2.5",
     "@nx/workspace": "^22.2.3",
     "nx": "^22.2.3"
   },
   "engines": {
     "node": ">=20.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^19.2.7",
+      "@types/react-dom": "^19.2.3"
+    }
   }
 }

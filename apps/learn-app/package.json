@@ -40,6 +40,8 @@
     "@docusaurus/tsconfig": "3.9.2",
     "@docusaurus/types": "3.9.2",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@vercel/og": "^0.8.5",
     "autoprefixer": "^10.4.21",
     "dotenv": "^17.2.3",
