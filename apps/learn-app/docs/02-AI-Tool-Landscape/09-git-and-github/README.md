@@ -1,6 +1,6 @@
 ---
 slides:
-  source: "slides/chapter-09-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-09-slides.pdf"
   title: "Chapter 9: Git & GitHub for AI-Driven Development"
   height: 700
 ---
@@ -28,4 +28,4 @@ By completing this chapter, you will be able to:
 
 By combining Bash navigation + Git version control + AI assistance, you can safely experiment with AI-generated code while maintaining full control over your project.
 
-![Workflow showing AI helping at each stage: analyzing diffs for commit messages, reviewing PR changes for suggestions, resolving conflicts by understanding context, with Three Roles framework (Teacher/Student/Co-Worker) highlighted](/img/part-2/chapter-09/ai-assisted-git-workflow.png)
+![Workflow showing AI helping at each stage: analyzing diffs for commit messages, reviewing PR changes for suggestions, resolving conflicts by understanding context, with Three Roles framework (Teacher/Student/Co-Worker) highlighted](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-09/ai-assisted-git-workflow.png)

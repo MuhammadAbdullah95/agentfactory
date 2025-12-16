@@ -2,7 +2,7 @@
 sidebar_position: 2
 title: "Chapter 2: The AI Turning Point"
 slides:
-  source: "slides/chapter-02-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-02-slides.pdf"
   title: "Chapter 2: The AI Turning Point"
   height: 700
 ---

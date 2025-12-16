@@ -2,7 +2,7 @@
 sidebar_position: 18
 title: "Chapter 18: Operators, Keywords, and Variables"
 slides:
-  source: "slides/chapter-18-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-18-slides.pdf"
   title: "Chapter 18: Operators, Keywords, and Variables"
   height: 700
 ---

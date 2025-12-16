@@ -2,7 +2,7 @@
 sidebar_position: 20
 title: "Chapter 20: Control Flow and Loops"
 slides:
-  source: "slides/chapter-20-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-20-slides.pdf"
   title: "Chapter 20: Control Flow and Loops"
   height: 700
 ---

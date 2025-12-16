@@ -63,7 +63,7 @@ This is where **progressive loading strategy** becomes essential.
 
 Progressive loading divides your context into three tiers, each serving a different purpose:
 
-![Three-tier pyramid diagram showing context loading hierarchy: Foundation tier (base, widest, always loaded, includes README, architecture.md, core conventions), Current tier (middle, task-specific files for today's work), and On-Demand tier (top, narrowest, reference files fetched only when needed). Width represents frequency of use and token allocation. Annotations show Foundation uses 10-15% tokens, Current uses 20-30%, On-Demand reserves 30% for mid-session needs.](/img/part-3/chapter-12/context-hierarchy-pyramid-three-tiers.png)
+![Three-tier pyramid diagram showing context loading hierarchy: Foundation tier (base, widest, always loaded, includes README, architecture.md, core conventions), Current tier (middle, task-specific files for today's work), and On-Demand tier (top, narrowest, reference files fetched only when needed). Width represents frequency of use and token allocation. Annotations show Foundation uses 10-15% tokens, Current uses 20-30%, On-Demand reserves 30% for mid-session needs.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-12/context-hierarchy-pyramid-three-tiers.png)
 
 ### Tier 1: Foundation (Always Loaded)
 
@@ -152,7 +152,7 @@ Total capacity plan:
 = 200K total
 ```
 
-![2x2 matrix showing file importance classification: X-axis shows frequency (Low to High), Y-axis shows impact (Low to High). Four quadrants: Top-right quadrant (green, High Impact × High Frequency, "Always Load" - Foundation tier, examples: CLAUDE.md, architecture.md), Top-left quadrant (blue, High Impact × Low Frequency, "Load When Critical" - On-Demand tier, examples: deployment specs, security docs), Bottom-right quadrant (yellow, Low Impact × High Frequency, "Quick Reference" - Current tier, examples: style guides, templates), Bottom-left quadrant (gray, Low Impact × Low Frequency, "Rarely Load" - Archive tier, examples: old decisions, legacy patterns). Arrows show decision flow for classifying files into loading tiers.](/img/part-3/chapter-12/file-importance-matrix-impact-frequency.png)
+![2x2 matrix showing file importance classification: X-axis shows frequency (Low to High), Y-axis shows impact (Low to High). Four quadrants: Top-right quadrant (green, High Impact × High Frequency, "Always Load" - Foundation tier, examples: CLAUDE.md, architecture.md), Top-left quadrant (blue, High Impact × Low Frequency, "Load When Critical" - On-Demand tier, examples: deployment specs, security docs), Bottom-right quadrant (yellow, Low Impact × High Frequency, "Quick Reference" - Current tier, examples: style guides, templates), Bottom-left quadrant (gray, Low Impact × Low Frequency, "Rarely Load" - Archive tier, examples: old decisions, legacy patterns). Arrows show decision flow for classifying files into loading tiers.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-12/file-importance-matrix-impact-frequency.png)
 
 ## Collaborative Loading Strategy Design
 

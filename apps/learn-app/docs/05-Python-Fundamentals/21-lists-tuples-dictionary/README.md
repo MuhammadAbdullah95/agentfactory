@@ -2,7 +2,7 @@
 sidebar_position: 21
 title: "Chapter 21: Lists, Tuples, and Dictionary"
 slides:
-  source: "slides/chapter-21-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-21-slides.pdf"
   title: "Chapter 21: Lists, Tuples, and Dictionary"
   height: 700
 ---

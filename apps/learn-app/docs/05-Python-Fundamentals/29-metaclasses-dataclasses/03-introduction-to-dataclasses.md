@@ -103,7 +103,7 @@ Imagine you need to create a class that just holds data. No complex behavior, no
 
 ## The Boilerplate Problem
 
-![Visual comparison highlighting dataclass benefits over traditional classes: automatic __init__ generation, built-in __repr__ and __eq__ methods, reduced boilerplate code, and clearer intent through type hints](/img/part-5/chapter-29/python-dataclass-benefits.png)
+![Visual comparison highlighting dataclass benefits over traditional classes: automatic __init__ generation, built-in __repr__ and __eq__ methods, reduced boilerplate code, and clearer intent through type hints](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-29/python-dataclass-benefits.png)
 
 Let's start with a traditional class that holds person information:
 

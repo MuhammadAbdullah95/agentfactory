@@ -2,7 +2,7 @@
 sidebar_position: 3
 title: "Chapter 3: How to Make a Billion Dollars in the AI Era"
 slides:
-  source: "slides/chapter-03-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-03-slides.pdf"
   title: "Chapter 3: How to Make a Billion Dollars in the AI Era"
   height: 700
 ---

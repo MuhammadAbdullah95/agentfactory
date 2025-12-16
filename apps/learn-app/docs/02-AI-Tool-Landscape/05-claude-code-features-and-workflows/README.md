@@ -1,6 +1,6 @@
 ---
 slides:
-  source: "slides/chapter-05-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-05-slides.pdf"
   title: "Chapter 5: How It All Started — The Claude Code Phenomenon"
   height: 700
 ---

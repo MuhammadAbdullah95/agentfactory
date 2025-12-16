@@ -4,7 +4,7 @@ sidebar_label: "Chapter 10: Markdown"
 sidebar_position: 10
 description: "Master markdown syntax to write clear specifications that AI agents can parse and implement—the foundation of AI-native development"
 slides:
-  source: "slides/chapter-10-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-10-slides.pdf"
   title: "Chapter 10: Markdown - The Language of AI Communication"
   height: 700
 ---

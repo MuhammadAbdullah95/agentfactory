@@ -4,7 +4,7 @@ sidebar_label: "Chapter 12: Context Engineering"
 sidebar_position: 12
 description: "Master context window management, progressive loading, compression techniques, and persistent memory to engineer productive AI collaborations across sessions and projects"
 slides:
-  source: "slides/chapter-12-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-12-slides.pdf"
   title: "Chapter 12: Context Engineering for AI-Driven Development"
   height: 700
 ---

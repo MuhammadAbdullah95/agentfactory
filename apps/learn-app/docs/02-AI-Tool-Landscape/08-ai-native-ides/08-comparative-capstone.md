@@ -1089,9 +1089,9 @@ Total Scores:
 
 ## IDE Selection Decision Framework
 
-![Comparative summary showing Zed, Cursor, and Antigravity rated across five dimensions (speed, code quality, learning curve, autonomy, testing) with spider chart visualization and ideal use case recommendations](/img/part-2/chapter-08/comparative-capstone.png)
+![Comparative summary showing Zed, Cursor, and Antigravity rated across five dimensions (speed, code quality, learning curve, autonomy, testing) with spider chart visualization and ideal use case recommendations](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-08/comparative-capstone.png)
 
-![Decision tree with questions: Need extensions? (Yes→VS Code, No→continue), Need max speed? (Yes→Zed, No→Cursor), Want AI-first experience? (Yes→Cursor, No→VS Code), leading to recommended IDE](/img/part-2/chapter-08/ide-selection-decision-tree.png)
+![Decision tree with questions: Need extensions? (Yes→VS Code, No→continue), Need max speed? (Yes→Zed, No→Cursor), Want AI-first experience? (Yes→Cursor, No→VS Code), leading to recommended IDE](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-08/ide-selection-decision-tree.png)
 
 Based on what you've learned, use this framework to choose IDEs for different scenarios.
 

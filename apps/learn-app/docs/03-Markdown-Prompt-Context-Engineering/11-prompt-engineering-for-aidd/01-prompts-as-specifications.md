@@ -97,7 +97,7 @@ FORMAT: Return array of {userId, email, invalidReason}
 ```
 *Focus: WHAT to achieve (AI figures out HOW to implement)*
 
-![Split-screen comparison showing requirements (WHAT) versus implementation logic (HOW). Left side (light gray background) shows "REQUIREMENTS (WHAT)" with single requirement box: "Create a user registration system". Right side (white background) shows "LOGIC (HOW)" with 5 numbered steps: validate email, check duplicates, hash password, create record, return object. Arrow points from left to right illustrating transformation from specification to implementation.](/img/part-3/chapter-10/requirements-vs-logic-split-screen.png)
+![Split-screen comparison showing requirements (WHAT) versus implementation logic (HOW). Left side (light gray background) shows "REQUIREMENTS (WHAT)" with single requirement box: "Create a user registration system". Right side (white background) shows "LOGIC (HOW)" with 5 numbered steps: validate email, check duplicates, hash password, create record, return object. Arrow points from left to right illustrating transformation from specification to implementation.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/requirements-vs-logic-split-screen.png)
 
 **This is specification thinking**: Define the target, not the path to the target.
 
@@ -273,7 +273,7 @@ The oldest rule in computing applies to AI:
 **Garbage prompts → Garbage outputs**
 **Excellent prompts → Excellent outputs**
 
-![Split-screen comparison showing vague prompt (left, red warning indicators, "Create auth" generating incomplete code missing security features like token validation and rate limiting) versus clear specification prompt (right, green success indicators, "JWT auth with bcrypt hashing, 24h token expiry, rate limiting enabled" generating complete, production-ready authentication implementation with all security features). Arrows highlight missing elements in vague output and complete coverage in specification-driven output.](/img/part-3/chapter-11/vague-vs-clear-specification-comparison.png)
+![Split-screen comparison showing vague prompt (left, red warning indicators, "Create auth" generating incomplete code missing security features like token validation and rate limiting) versus clear specification prompt (right, green success indicators, "JWT auth with bcrypt hashing, 24h token expiry, rate limiting enabled" generating complete, production-ready authentication implementation with all security features). Arrows highlight missing elements in vague output and complete coverage in specification-driven output.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-11/vague-vs-clear-specification-comparison.png)
 
 Let's see this in action with five real examples.
 

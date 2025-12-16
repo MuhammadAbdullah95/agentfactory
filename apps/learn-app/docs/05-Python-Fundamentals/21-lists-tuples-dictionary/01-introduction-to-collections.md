@@ -130,7 +130,7 @@ This exploration helps you think structurally—you're not memorizing facts, you
 
 ## Concept 2: Sequences vs Mappings
 
-![Comparison matrix showing Python collection types: lists (ordered, mutable), tuples (ordered, immutable), and dictionaries (key-value, mutable) with use cases and performance characteristics](/img/part-5/chapter-21/python-collection-types-comparison-matrix.png)
+![Comparison matrix showing Python collection types: lists (ordered, mutable), tuples (ordered, immutable), and dictionaries (key-value, mutable) with use cases and performance characteristics](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-21/python-collection-types-comparison-matrix.png)
 
 Collections fall into two fundamental categories based on **how you access items**:
 

@@ -57,7 +57,7 @@ Type hints are not just syntax—they're your contract with other developers and
 
 ## Function Definition — The Structure
 
-![Anatomy diagram of Python function signature showing def keyword, function name, parameters with type hints, return type annotation, and docstring structure with clear labeling](/img/part-5/chapter-23/python-function-signature-anatomy.png)
+![Anatomy diagram of Python function signature showing def keyword, function name, parameters with type hints, return type annotation, and docstring structure with clear labeling](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-23/python-function-signature-anatomy.png)
 
 **Components of a Function**:
 

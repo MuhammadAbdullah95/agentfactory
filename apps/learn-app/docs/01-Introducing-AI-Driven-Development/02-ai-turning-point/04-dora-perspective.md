@@ -243,7 +243,7 @@ Filename: seven-dora-capabilities-ai-success.png
 Alt Text: Grid dashboard showing the seven DORA organizational capabilities that determine AI adoption success: Clear AI Stance, Healthy Data Ecosystem, AI-Accessible Internal Data, Strong Version Control, Working in Small Batches, User-Centric Focus, and Quality Internal Platform, each with descriptions of what they mean and why they matter.
 -->
 
-<!--![Seven DORA organizational capabilities that determine AI adoption success](/img/part-1/chapter-2/seven-dora-capabilities-ai-success.png)-->
+<!--![Seven DORA organizational capabilities that determine AI adoption success](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/seven-dora-capabilities-ai-success.png)-->
 
 > **Explore these capabilities together**: Look at the seven DORA capabilities. Pick the two that feel MOST present in your current work (or learning environment) and the two that feel MOST absent. Share these with your AI partner and ask: "Why do you think these specific gaps matter for AI adoption? What problems would they cause?" Let your AI help you discover the connections between organizational readiness and AI success through your specific context.
 

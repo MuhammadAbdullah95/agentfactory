@@ -2,7 +2,7 @@
 sidebar_position: 13
 title: "Chapter 13: Understanding Spec-Driven Development with Reusable Intelligence"
 slides:
-  source: "slides/chapter-13-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-13-slides.pdf"
   title: "Chapter 13: Understanding Spec-Driven Development with Reusable Intelligence"
   height: 700
 ---

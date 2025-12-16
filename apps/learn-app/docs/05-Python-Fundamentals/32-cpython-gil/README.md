@@ -2,7 +2,7 @@
 sidebar_position: 32
 title: "Chapter 32: CPython and GIL"
 slides:
-  source: "slides/chapter-32-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-32-slides.pdf"
   title: "Chapter 32: CPython and GIL"
   height: 700
 ---

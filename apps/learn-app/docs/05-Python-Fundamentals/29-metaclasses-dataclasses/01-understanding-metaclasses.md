@@ -127,7 +127,7 @@ Notice: `type(Dog)` returns `type`, not `<class 'Dog'>`. The class object itself
 
 **This is the first big insight**: *In Python, classes are objects too. And the class that creates them is called a metaclass.*
 
-![Flow diagram showing Python class creation process from class definition through type metaclass, __new__ and __init__ methods, to final class object instantiation](/img/part-5/chapter-29/python-class-creation-flow.png)
+![Flow diagram showing Python class creation process from class definition through type metaclass, __new__ and __init__ methods, to final class object instantiation](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-29/python-class-creation-flow.png)
 
 ## Core Concept 2: The `type` Metaclass
 
@@ -195,7 +195,7 @@ class MyClass:
     attr = 42
 ```
 
-![Flow diagram illustrating Python class creation process from class definition through metaclass __new__ and __init__ methods, showing how type creates class objects and the role of namespace, bases, and class name](/img/part-5/chapter-29/python-class-creation-flow.png)
+![Flow diagram illustrating Python class creation process from class definition through metaclass __new__ and __init__ methods, showing how type creates class objects and the role of namespace, bases, and class name](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-29/python-class-creation-flow.png)
 
 Python executes this flow:
 

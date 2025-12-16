@@ -73,7 +73,7 @@ In this lesson, you'll learn to create date, time, and datetime objects, parse u
 
 In the previous lesson, you learned about timestamps (seconds since epoch) and the `time` module. The `datetime` module takes a different approach—instead of storing everything as a number, it provides **objects** that represent dates and times as structured data.
 
-![Grid visualization showing Python datetime module components including date, time, datetime, timedelta, and timezone objects with their attributes and relationships](/img/part-5/chapter-26/python-datetime-components-grid.png)
+![Grid visualization showing Python datetime module components including date, time, datetime, timedelta, and timezone objects with their attributes and relationships](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-26/python-datetime-components-grid.png)
 
 Think of it like this: A timestamp (`1699564800.12345`) is efficient for comparison and calculation, but hard for humans to read. A `datetime` object (`2025-11-09 14:30:00`) is structured—it knows about years, months, days, hours separately.
 
@@ -370,7 +370,7 @@ print(f"Operation took {duration}")
 
 Here's a critical concept that trips up many developers: **naive vs timezone-aware datetime objects**.
 
-![Diagram comparing naive datetime objects without timezone information versus timezone-aware datetime objects with UTC offset, showing pitfalls of mixing naive and aware datetimes](/img/part-5/chapter-26/python-timezone-naive-aware.png)
+![Diagram comparing naive datetime objects without timezone information versus timezone-aware datetime objects with UTC offset, showing pitfalls of mixing naive and aware datetimes](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-26/python-timezone-naive-aware.png)
 
 A **naive** datetime doesn't know what timezone it's in:
 

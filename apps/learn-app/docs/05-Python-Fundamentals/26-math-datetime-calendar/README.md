@@ -2,7 +2,7 @@
 sidebar_position: 26
 title: "Chapter 26: Math, Date Time Calendar"
 slides:
-  source: "slides/chapter-26-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-26-slides.pdf"
   title: "Chapter 26: Math, Date Time Calendar"
   height: 700
 ---

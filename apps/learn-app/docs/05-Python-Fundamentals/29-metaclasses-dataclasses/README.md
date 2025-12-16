@@ -2,7 +2,7 @@
 sidebar_position: 29
 title: "Chapter 29: Metaclasses and Dataclasses"
 slides:
-  source: "slides/chapter-29-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-29-slides.pdf"
   title: "Chapter 29: Metaclasses and Dataclasses"
   height: 700
 ---

@@ -136,7 +136,7 @@ Before we begin, verify you have the following:
 
 Claude Code installation has been simplified with official installers for each platform. Choose your operating system below to see platform-specific installation methods.
 
-![Installation flowchart showing Node.js check, npx/npm install options, authentication with API key or web login, and verification steps with decision points and success/error paths](/img/part-2/chapter-05/claude-code-installation-authentication-flow.png)
+![Installation flowchart showing Node.js check, npx/npm install options, authentication with API key or web login, and verification steps with decision points and success/error paths](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/claude-code-installation-authentication-flow.png)
 
 ---
 

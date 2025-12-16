@@ -159,7 +159,7 @@ Filename: ai-capability-breakthroughs-2025.png
 Alt Text: Dashboard displaying four key AI capability breakthrough statistics from 2025: OpenAI's perfect 12/12 score at ICPC World Finals, Gemini 2.5's 10/12 gold medal performance, Claude Opus 4.1's 49% win rate against human experts, and GPT-5's 40.6% win rate on the GDPval benchmark.
 -->
 
-![AI capability breakthroughs showing competitive programming achievements and benchmark results from 2025](/img/part-1/chapter-2/ai-capability-breakthroughs-2025.png)
+![AI capability breakthroughs showing competitive programming achievements and benchmark results from 2025](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/ai-capability-breakthroughs-2025.png)
 
 ### Leadership Perspectives Confirm the Shift
 
@@ -292,7 +292,7 @@ Filename: evidence-compared-2024-vs-2025.png
 Alt Text: Side-by-side comparison dashboard showing five key dimensions of AI development transformation from 2024 to 2025, demonstrating dramatic improvements in capability, adoption rates, enterprise confidence, professional workflow integration, and developer role evolution.
 -->
 
-<!--![Comparison of AI development across five dimensions between 2024 and 2025](/img/part-1/chapter-2/evidence-compared-2024-vs-2025.png)-->
+<!--![Comparison of AI development across five dimensions between 2024 and 2025](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/evidence-compared-2024-vs-2025.png)-->
 
 #### 💬 AI Colearning Prompt
 

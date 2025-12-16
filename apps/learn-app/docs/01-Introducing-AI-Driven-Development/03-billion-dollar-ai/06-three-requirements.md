@@ -63,7 +63,7 @@ differentiation:
 
 You now have strategy (Snakes and Ladders), economics (super orchestrators), architecture (vertical intelligence), and a playbook (PPP). But execution requires three capabilities working in perfect sync. Lack any one, and you fail.
 
-![Venn diagram showing three overlapping requirements for vertical market success: domain expertise, deep integrations, and complete agentic solutions, with center intersection labeled "SUCCESS ZONE" illustrating that all three must be present simultaneously](/img/part-1/chapter-3/three-requirements-venn-diagram.png)
+![Venn diagram showing three overlapping requirements for vertical market success: domain expertise, deep integrations, and complete agentic solutions, with center intersection labeled "SUCCESS ZONE" illustrating that all three must be present simultaneously](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-3/three-requirements-venn-diagram.png)
 
 ## Requirement 1: Increase Domain Expertise with Fine-Tuned Models and/or Vertical Reusable Intelligence
 
@@ -76,7 +76,7 @@ Your subagents must be smarter than general-purpose AI. A general ChatGPT conver
 
 Both paths work. The choice depends on your resources, timeline, and the characteristics of your vertical market. Many successful companies use both together.
 
-![Decision diagram showing two paths to achieving domain expertise for AI sub-agents: Path 1 (Fine-Tuned Models) for deep pattern recognition with expensive updates, and Path 2 (Vertical Intelligence with sub-agents and skills) for fast iteration with transparent design, helping entrepreneurs choose based on resources and timeline](/img/part-1/chapter-3/two-paths-domain-expertise.png)
+![Decision diagram showing two paths to achieving domain expertise for AI sub-agents: Path 1 (Fine-Tuned Models) for deep pattern recognition with expensive updates, and Path 2 (Vertical Intelligence with sub-agents and skills) for fast iteration with transparent design, helping entrepreneurs choose based on resources and timeline](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-3/two-paths-domain-expertise.png)
 
 ### Path 1: Fine-Tuned Models
 

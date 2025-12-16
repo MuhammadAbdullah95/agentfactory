@@ -167,7 +167,7 @@ What's different NOW?
 3. **Specs became the interface** between humans and AI
 4. **Cost-benefit finally works**: Specs save measurable time with AI
 
-![Historical timeline showing evolution of specification approaches from 1970s Formal Methods through 2025 SDD emergence, illustrating what changed to make specifications viable with AI agents](/img/part-4/chapter-13/sdd-evolution-timeline.png)
+![Historical timeline showing evolution of specification approaches from 1970s Formal Methods through 2025 SDD emergence, illustrating what changed to make specifications viable with AI agents](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-13/sdd-evolution-timeline.png)
 
 ---
 

@@ -2,7 +2,7 @@
 sidebar_position: 25
 title: "Chapter 25: IO and File Handling"
 slides:
-  source: "slides/chapter-25-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-25-slides.pdf"
   title: "Chapter 25: IO and File Handling"
   height: 700
 ---

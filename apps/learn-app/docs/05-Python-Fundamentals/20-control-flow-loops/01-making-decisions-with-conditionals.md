@@ -296,7 +296,7 @@ else:
 
 **Important**: Python evaluates conditions **from top to bottom** and stops at the first `True` condition. Once a condition matches, the rest are skipped.
 
-![Decision tree diagram showing if-elif-else flow with evaluation order from top to bottom, demonstrating how Python stops at first True condition](/img/part-5/chapter-20/control-flow-decision-tree-if-elif-else.png)
+![Decision tree diagram showing if-elif-else flow with evaluation order from top to bottom, demonstrating how Python stops at first True condition](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-20/control-flow-decision-tree-if-elif-else.png)
 
 Let's classify grades:
 

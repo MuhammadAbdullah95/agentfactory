@@ -2,7 +2,7 @@
 sidebar_position: 28
 title: "Chapter 28: Object-Oriented Programming Part II"
 slides:
-  source: "slides/chapter-28-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-28-slides.pdf"
   title: "Chapter 28: Object-Oriented Programming Part II"
   height: 700
 ---

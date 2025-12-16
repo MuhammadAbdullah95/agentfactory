@@ -63,7 +63,7 @@ In March 2025, Y Combinator managing partner Jared Friedman revealed something r
 
 Think about what that means. Technical founders capable of coding everything themselves found it more effective to specify what they wanted and let AI generate the implementation. They focused on architecture decisions, product strategy, and user experience while AI handled the mechanical work of translating requirements into code. However, as YC CEO Garry Tan noted, these founders still needed deep technical skills: "You have to have the taste and enough training to know that an LLM is spitting bad stuff or good stuff."
 
-![Infographic showing 25% of Y Combinator Winter 2025 startups had approximately 95% AI-generated codebases, visualized as a grid of 100 startup icons with 25 highlighted in orange](/img/part-1/chapter-1/yc-w25-ai-generated-code-stats.png)
+![Infographic showing 25% of Y Combinator Winter 2025 startups had approximately 95% AI-generated codebases, visualized as a grid of 100 startup icons with 25 highlighted in orange](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-1/yc-w25-ai-generated-code-stats.png)
 
 This pattern is appearing everywhere in software development. Junior developers are building features that previously required senior architects. Mid-level engineers are prototyping in hours what used to take weeks. Senior developers are orchestrating autonomous agents to handle implementation details while they focus on system design and business logic.
 
@@ -73,7 +73,7 @@ This pattern is appearing everywhere in software development. Junior developers 
 
 ## This Isn't Incremental Improvement—It's Transformation
 
-![This is How I See My Life From Now On](/img/part-1/chapter-1/l1-life-now.png)
+![This is How I See My Life From Now On](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-1/l1-life-now.png)
 Here's what makes this moment different from previous shifts in software development:
 
 **Previous transitions** (assembly to C, procedural to object-oriented, desktop to cloud, monolithic to microservices) took **10-15 years** to become standard practice. They made developers incrementally more productive. They required retraining, but skills remained transferable.

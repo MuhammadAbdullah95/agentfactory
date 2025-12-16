@@ -144,7 +144,7 @@ print(dir(my_dog))  # What attributes/methods does it have?
 
 ---
 
-![Anatomy diagram showing Python class structure with constructor, attributes, methods, self parameter, and type hints](/img/part-5/chapter-27/python-class-structure-anatomy.png)
+![Anatomy diagram showing Python class structure with constructor, attributes, methods, self parameter, and type hints](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-27/python-class-structure-anatomy.png)
 
 **Stage 2: Add Data to Objects**
 
@@ -249,7 +249,7 @@ Instead of manual documentation, **use AI to synthesize** what you learned:
 
 Now that you've experienced the limitations of manual attribute setting, it's time to learn the solution.
 
-![Anatomical breakdown of Python class structure showing class definition, __init__ constructor, instance attributes, instance methods, and the role of self parameter in connecting methods to object instances](/img/part-5/chapter-27/python-class-structure-anatomy.png)
+![Anatomical breakdown of Python class structure showing class definition, __init__ constructor, instance attributes, instance methods, and the role of self parameter in connecting methods to object instances](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-27/python-class-structure-anatomy.png)
 
 ### AI Teaching Prompt
 

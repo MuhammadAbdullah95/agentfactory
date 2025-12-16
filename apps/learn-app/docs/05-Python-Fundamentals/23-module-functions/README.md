@@ -2,7 +2,7 @@
 sidebar_position: 23
 title: "Chapter 23: Modules and Functions"
 slides:
-  source: "slides/chapter-23-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-23-slides.pdf"
   title: "Chapter 23: Modules and Functions"
   height: 700
 ---

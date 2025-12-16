@@ -2,7 +2,7 @@
 sidebar_position: 30
 title: "Chapter 30: Pydantic and Generics"
 slides:
-  source: "slides/chapter-30-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-30-slides.pdf"
   title: "Chapter 30: Pydantic and Generics"
   height: 700
 ---

@@ -208,7 +208,7 @@ print(account.get_balance())  # 1000
 
 ### Discovery Exercise 2: Multiple Method Types
 
-![Comparison grid showing Python method types: instance methods with self parameter operating on object state, class methods with cls parameter using @classmethod decorator, and static methods with @staticmethod decorator for utility functions](/img/part-5/chapter-27/python-method-types-comparison.png)
+![Comparison grid showing Python method types: instance methods with self parameter operating on object state, class methods with cls parameter using @classmethod decorator, and static methods with @staticmethod decorator for utility functions](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-27/python-method-types-comparison.png)
 
 **Stage 4: Instance Methods vs Class Methods vs Static Methods**
 

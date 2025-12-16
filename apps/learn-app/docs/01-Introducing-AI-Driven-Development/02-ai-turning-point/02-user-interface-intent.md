@@ -218,7 +218,7 @@ Filename: paradigm-shift-interface-to-intent.png
 Alt Text: Side-by-side comparison diagram showing the fundamental shift from User Interface paradigm (user navigates explicit interfaces to trigger prescribed actions) to User Intent paradigm (user states goals conversationally and AI agents orchestrate adaptive workflows autonomously).
 -->
 
-![Paradigm shift from User Interface to User Intent showing the transformation in how users interact with software](/img/part-1/chapter-2/paradigm-shift-interface-to-intent.png)
+![Paradigm shift from User Interface to User Intent showing the transformation in how users interact with software](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/paradigm-shift-interface-to-intent.png)
 
 Agentic AI can do this because it possesses five fundamental capabilities that, when combined, enable autonomous orchestration:
 
@@ -404,7 +404,7 @@ Filename: five-powers-ai-agents.png
 Alt Text: Pentagon-pattern diagram showing the five fundamental AI agent capabilities arranged around a central "Orchestration" hub: See (visual understanding), Hear (audio processing), Reason (complex decision-making), Act (execute and orchestrate), and Remember (maintain context and learn), with examples for each capability.
 -->
 
-![The five powers of AI agents showing capabilities that enable autonomous orchestration](/img/part-1/chapter-2/five-powers-ai-agents.png)
+![The five powers of AI agents showing capabilities that enable autonomous orchestration](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/five-powers-ai-agents.png)
 
 #### 🎓 Expert Insight
 

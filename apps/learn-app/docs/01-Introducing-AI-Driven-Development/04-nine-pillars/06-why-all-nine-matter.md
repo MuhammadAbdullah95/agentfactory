@@ -115,7 +115,7 @@ Traditional mastery required thousands of solo hours per skill. AI changes the e
 - **Progressive practice** builds capability incrementally
 - **Cross-pollination** means skills reinforce each other (cloud knowledge improves your backend work; DevOps knowledge improves your testing)
 
-![18-month learning pathway for mastering all nine AIDD pillars. Months 1-6 focus on foundational competency with pillars 1-3 (AI CLI and Coding Agents, Markdown as Programming Language, MCP Standard). Months 7-12 cover intermediate integration with pillars 4-6 (AI-First IDEs, Linux Universal Dev Environment, Test-Driven Development). Months 13-18 advance to orchestration with pillars 7-9 (Specification-Driven Development, Composable Vertical Skills, Universal Cloud Deployment)](/img/part-1/chapter-4/learning-pathway-timeline.png)
+![18-month learning pathway for mastering all nine AIDD pillars. Months 1-6 focus on foundational competency with pillars 1-3 (AI CLI and Coding Agents, Markdown as Programming Language, MCP Standard). Months 7-12 cover intermediate integration with pillars 4-6 (AI-First IDEs, Linux Universal Dev Environment, Test-Driven Development). Months 13-18 advance to orchestration with pillars 7-9 (Specification-Driven Development, Composable Vertical Skills, Universal Cloud Deployment)](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-4/learning-pathway-timeline.png)
 
 **Realistic timeline:**
 - **Months 1-6:** Foundational competency (pillars 1-3)

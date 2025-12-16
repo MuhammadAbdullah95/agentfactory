@@ -105,7 +105,7 @@ These aren't design flaws—they're natural properties of exploration-first deve
 
 **Spec-Driven Development (SDD)** inverts the order. You write a specification first, defining what you're building, why, and how success looks. Then you write tests that encode that specification. Only then do you implement the feature.
 
-![Spec-driven development Workflow](/img/part-1/chapter-2/l4-sdd-flow.png)
+![Spec-driven development Workflow](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/l4-sdd-flow.png)
 
 ### The 7-Step SDD Workflow
 
@@ -261,7 +261,7 @@ Filename: team-comparison-vibe-vs-spec-timeline.png
 Alt Text: Dual-timeline comparison showing Team A using vibe coding completes initial work in 10 hours but requires 24 hours of rework when requirements change (total 34 hours), while Team B using spec-driven development invests 10 hours upfront and adds extensions in 2 hours with no rework (total 12 hours), demonstrating sustainable velocity.
 -->
 
-![Timeline comparison of vibe coding vs spec-driven development showing total time and rework costs](/img/part-1/chapter-2/team-comparison-vibe-vs-spec-timeline.png)
+![Timeline comparison of vibe coding vs spec-driven development showing total time and rework costs](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/team-comparison-vibe-vs-spec-timeline.png)
 
 #### 🤝 Practice Exercise
 

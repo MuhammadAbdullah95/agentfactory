@@ -1,6 +1,6 @@
 ---
 slides:
-  source: "slides/chapter-07-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-07-slides.pdf"
   title: "Chapter 7: Bash Essentials for AI-Driven Development"
   height: 700
 ---
@@ -38,6 +38,6 @@ The command-line skills you develop here become the foundation for professional 
 
 ## Quick Reference
 
-![Reference card showing 12 essential bash commands (ls, cd, pwd, mkdir, rm, cp, mv, cat, grep, find) with syntax, common flags, and practical usage examples](/img/part-2/chapter-07/bash-commands-reference-card.png)
+![Reference card showing 12 essential bash commands (ls, cd, pwd, mkdir, rm, cp, mv, cat, grep, find) with syntax, common flags, and practical usage examples](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-07/bash-commands-reference-card.png)
 
-![Common CLI patterns showing command chaining (&&, ||, ;), pipes (|), redirection (>, >>), background processes (&), and command substitution ($())](/img/part-2/chapter-07/bash-common-cli-patterns.png)
+![Common CLI patterns showing command chaining (&&, ||, ;), pipes (|), redirection (>, >>), background processes (&), and command substitution ($())](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-07/bash-common-cli-patterns.png)

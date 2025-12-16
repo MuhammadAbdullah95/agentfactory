@@ -2,7 +2,7 @@
 sidebar_position: 31
 title: "Chapter 31: Asyncio — Concurrent I/O and CPU-Parallel Workloads"
 slides:
-  source: "slides/chapter-31-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-31-slides.pdf"
   title: "Chapter 31: Asyncio — Concurrent I/O and CPU-Parallel Workloads"
   height: 700
 ---

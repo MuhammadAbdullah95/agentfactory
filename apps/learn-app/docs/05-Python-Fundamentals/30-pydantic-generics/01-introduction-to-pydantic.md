@@ -80,7 +80,7 @@ version: "1.0.0"
 
 ## The Validation Problem
 
-![Flow diagram showing Pydantic validation process from raw input data through BaseModel validation layer with type checking and constraints, to validated output or ValidationError exceptions](/img/part-5/chapter-30/python-pydantic-validation-flow.png)
+![Flow diagram showing Pydantic validation process from raw input data through BaseModel validation layer with type checking and constraints, to validated output or ValidationError exceptions](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-30/python-pydantic-validation-flow.png)
 
 Imagine you're building an AI agent that accepts user data. A user registers with their name, email, and age. But what happens if someone submits:
 

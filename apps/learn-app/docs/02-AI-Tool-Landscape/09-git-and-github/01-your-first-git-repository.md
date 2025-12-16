@@ -210,7 +210,7 @@ Initialized empty Git repository in /Users/yourname/my-first-project/.git/
 
 **What just happened?** Git created a hidden folder called `.git` inside your project. This folder is Git's workspace—it will store your entire project history, save points, and metadata.
 
-![Diagram showing git init command creating .git directory with subdirectories (objects, refs, hooks, config) and transforming regular folder into Git repository](/img/part-2/chapter-09/git-init-repository-creation.png)
+![Diagram showing git init command creating .git directory with subdirectories (objects, refs, hooks, config) and transforming regular folder into Git repository](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-09/git-init-repository-creation.png)
 
 ### Observation Prompt
 
@@ -308,9 +308,9 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 Before creating a save point (commit), Git uses an intermediate zone called the **staging area** (sometimes called the "index"). Think of it as a checklist where you choose which files to include in your next save point.
 
-![Three-stage diagram showing Working Directory (modified files), Staging Area (git add, files ready to commit), and Repository (git commit, permanent snapshots), with command arrows and file state transitions](/img/part-2/chapter-09/git-three-stage-workflow.png)
+![Three-stage diagram showing Working Directory (modified files), Staging Area (git add, files ready to commit), and Repository (git commit, permanent snapshots), with command arrows and file state transitions](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-09/git-three-stage-workflow.png)
 
-![Close-up of staging concept showing git add command moving files from working directory to staging area, with examples of modified, staged, and committed states](/img/part-2/chapter-09/git-add-staging-concept.png)
+![Close-up of staging concept showing git add command moving files from working directory to staging area, with examples of modified, staged, and committed states](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-09/git-add-staging-concept.png)
 
 ### Activity 3.1: Stage the First File
 

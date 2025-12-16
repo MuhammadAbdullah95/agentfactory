@@ -2,7 +2,7 @@
 sidebar_position: 22
 title: "Chapter 22: Set, Frozen Set, and GC"
 slides:
-  source: "slides/chapter-22-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-22-slides.pdf"
   title: "Chapter 22: Set, Frozen Set, and GC"
   height: 700
 ---

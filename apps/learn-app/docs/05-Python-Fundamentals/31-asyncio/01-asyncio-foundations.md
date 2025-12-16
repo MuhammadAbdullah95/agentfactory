@@ -108,7 +108,7 @@ In this lesson, you'll understand how asyncio works, when to use it, and why it 
 
 ## What Is Asyncio, Really?
 
-![Timeline comparison showing synchronous execution blocking on each I/O operation sequentially versus asynchronous execution with concurrent task switching during I/O wait times, demonstrating performance gains](/img/part-5/chapter-31/python-sync-vs-async-timeline.png)
+![Timeline comparison showing synchronous execution blocking on each I/O operation sequentially versus asynchronous execution with concurrent task switching during I/O wait times, demonstrating performance gains](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-31/python-sync-vs-async-timeline.png)
 
 Asyncio is Python's **asynchronous I/O library**. It's built on three core ideas:
 
@@ -128,7 +128,7 @@ The **event loop** is the waiter. **Coroutines** are the tables. The **`await` k
 
 ## The Event Loop Conceptually
 
-![Conceptual diagram of Python event loop showing task queue, coroutine execution, await suspension points, and task switching mechanism that enables cooperative multitasking](/img/part-5/chapter-31/python-event-loop-concept.png)
+![Conceptual diagram of Python event loop showing task queue, coroutine execution, await suspension points, and task switching mechanism that enables cooperative multitasking](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-31/python-event-loop-concept.png)
 
 Let's make this concrete. Here's what happens when you run async code:
 

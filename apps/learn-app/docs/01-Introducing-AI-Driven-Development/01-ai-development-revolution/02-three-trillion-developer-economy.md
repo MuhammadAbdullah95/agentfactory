@@ -71,7 +71,7 @@ Here's the math, laid out transparently:
 
 **~30 million professional developers worldwide** × **$100,000 in annual generated value per developer** = **~$3 trillion in aggregate economic output**
 
-![Horizontal flow diagram showing three connected metric cards revealing the structure of the $3 trillion developer economy: 30 million professional developers (with globe icon) multiplied by $100,000 annual generated value per developer (with dollar icon) equals $3 trillion in aggregate economic output (with growth arrow icon), connected by multiplication and equals operators with flow arrows demonstrating how individual value compounds at scale.](/img/part-1/chapter-1/developer-economy-calculation-breakdown.png)
+![Horizontal flow diagram showing three connected metric cards revealing the structure of the $3 trillion developer economy: 30 million professional developers (with globe icon) multiplied by $100,000 annual generated value per developer (with dollar icon) equals $3 trillion in aggregate economic output (with growth arrow icon), connected by multiplication and equals operators with flow arrows demonstrating how individual value compounds at scale.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-1/developer-economy-calculation-breakdown.png)
 
 Let's break down each component of this calculation to understand what it represents and why it's conservative.
 
@@ -170,7 +170,7 @@ Previous platform shifts in software development took 10-15 years to reach major
 - Claude Code: announced 2025, hit $500 million annualized revenue within two months
 - Overall AI tool usage: 84% of developers using or planning to use AI tools, with 51% using them daily (Stack Overflow 2025 Developer Survey)
 
-![Horizontal timeline showing five technology waves as descending staircase bars revealing accelerating adoption speeds in software development: Personal Computers (12 years, 1980s, light gray), Internet (10 years, 1990s, medium gray), Cloud Computing (15 years, 2000s, medium gray), Mobile Development (8 years, 2010s, light navy), and AI Coding Tools (3 years, 2020s, deep navy highlighted), with downward arrow on right showing acceleration trend and descending staircase pattern demonstrating exponential acceleration of technology adoption.](/img/part-1/chapter-1/technology-adoption-speed-acceleration.png)
+![Horizontal timeline showing five technology waves as descending staircase bars revealing accelerating adoption speeds in software development: Personal Computers (12 years, 1980s, light gray), Internet (10 years, 1990s, medium gray), Cloud Computing (15 years, 2000s, medium gray), Mobile Development (8 years, 2010s, light navy), and AI Coding Tools (3 years, 2020s, deep navy highlighted), with downward arrow on right showing acceleration trend and descending staircase pattern demonstrating exponential acceleration of technology adoption.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-1/technology-adoption-speed-acceleration.png)
 
 #### 🎓 Expert Insight
 

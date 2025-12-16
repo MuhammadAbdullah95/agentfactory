@@ -81,7 +81,7 @@ The new principle is: Reuse intelligence, not code.
 
 A super orchestrator relies on five components that are reusable across applications:
 
-![Layered architecture diagram showing five components of reusable AI sub-agents: system prompt, horizontal skills, vertical skills, MCP horizontal connections, and MCP vertical connections, arranged from generic (top) to domain-specific (bottom)](/img/part-1/chapter-3/five-components-architecture.png)
+![Layered architecture diagram showing five components of reusable AI sub-agents: system prompt, horizontal skills, vertical skills, MCP horizontal connections, and MCP vertical connections, arranged from generic (top) to domain-specific (bottom)](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-3/five-components-architecture.png)
 
 ### 1. System Prompt (Persona + Scope)
 This is the intelligence layer. A system prompt defines who the subagent is, what it knows, and what its constraints are.

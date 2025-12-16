@@ -101,7 +101,7 @@ Discovery → Architecture → Development → QA → Release → Maintenance
 
 The names vary by methodology (Waterfall, Agile, DevOps), but the fundamental phases remain consistent. You figure out what to build, design how to build it, write the code, verify it works, ship it to users, and keep it running.
 
-![Before-and-after comparison diagram showing software development phases: top section displays six light gray rectangular cards in sequence (Planning, Design, Code, Test, Deploy, Monitor) labeled "Sequential Phases" with arrows connecting them; middle divider shows "vs."; bottom section shows the same six phases as dark navy blue cards labeled "Concurrent Phases" with white checkmark icons, demonstrating the transformation from traditional sequential workflow to modern concurrent AI-enabled development.](/img/part-1/chapter-1/development-lifecycle-transformation-diagram.png)
+![Before-and-after comparison diagram showing software development phases: top section displays six light gray rectangular cards in sequence (Planning, Design, Code, Test, Deploy, Monitor) labeled "Sequential Phases" with arrows connecting them; middle divider shows "vs."; bottom section shows the same six phases as dark navy blue cards labeled "Concurrent Phases" with white checkmark icons, demonstrating the transformation from traditional sequential workflow to modern concurrent AI-enabled development.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-1/development-lifecycle-transformation-diagram.png)
 
 Each phase traditionally required different skills, different tools, and different specialists:
 - **Product managers** handled planning

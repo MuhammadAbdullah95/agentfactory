@@ -2,7 +2,7 @@
 sidebar_position: 14
 title: "Chapter 14: Master Spec-Kit Plus"
 slides:
-  source: "slides/chapter-14-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-14-slides.pdf"
   title: "Chapter 14: Master Spec-Kit Plus"
   height: 700
 ---

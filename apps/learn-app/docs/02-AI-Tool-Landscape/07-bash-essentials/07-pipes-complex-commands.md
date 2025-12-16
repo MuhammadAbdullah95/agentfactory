@@ -107,7 +107,7 @@ Output: Only Python files
 - Pipes chain them together
 - The output of one becomes input to the next
 
-![Pipeline diagram showing command output flowing through pipe to next command, with examples of ls and grep, redirection operators, and tee for splitting output](/img/part-2/chapter-07/bash-piping-redirection.png)
+![Pipeline diagram showing command output flowing through pipe to next command, with examples of ls and grep, redirection operators, and tee for splitting output](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-07/bash-piping-redirection.png)
 
 #### 💬 AI Colearning Prompt
 > "Why do pipes use the `|` symbol? What's the conceptual connection between 'pipeline' and the vertical bar character?"
@@ -308,7 +308,7 @@ Your AI will show the intermediate outputs at each stage and explain how modific
 
 **Key Insight**: Through iterative refinement (trace → understand → modify → verify), you and AI converge on pipelines that solve your exact need. You're not memorizing syntax—you're reasoning about data transformations.
 
-![Workflow showing script creation, chmod +x permission setting, shebang interpretation (#!/bin/bash), execution methods (./script.sh vs bash script.sh), and output capture](/img/part-2/chapter-07/bash-script-execution-workflow.png)
+![Workflow showing script creation, chmod +x permission setting, shebang interpretation (#!/bin/bash), execution methods (./script.sh vs bash script.sh), and output capture](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-07/bash-script-execution-workflow.png)
 
 ---
 

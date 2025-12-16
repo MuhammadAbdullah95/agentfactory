@@ -259,7 +259,7 @@ print(f"{val3} is decimal: {is_decimal}")  # True
 
 **Type casting** (also called **type conversion**) means converting data from one type to another.
 
-![Network diagram showing types (blue nodes: str, int, float, bool) connected by casting functions with green edges (valid: int("42"), str(42)) and red edges (invalid: int("hello"), float("text"))](/img/part-5/chapter-17/type-casting-flow-valid-invalid-conversions.png)
+![Network diagram showing types (blue nodes: str, int, float, bool) connected by casting functions with green edges (valid: int("42"), str(42)) and red edges (invalid: int("hello"), float("text"))](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-17/type-casting-flow-valid-invalid-conversions.png)
 
 ### Explicit Casting: You Control It
 

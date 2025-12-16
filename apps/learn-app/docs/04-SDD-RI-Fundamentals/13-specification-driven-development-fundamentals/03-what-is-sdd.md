@@ -172,7 +172,7 @@ When you write these criteria first, you're writing your acceptance tests. The i
 
 A production-ready spec.md file has these sections:
 
-![Diagram showing four core sections of a specification: Intent, Success Criteria, Constraints, and Non-Goals, with examples illustrating each section](/img/part-4/chapter-13/spec-anatomy-four-sections.png)
+![Diagram showing four core sections of a specification: Intent, Success Criteria, Constraints, and Non-Goals, with examples illustrating each section](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-13/spec-anatomy-four-sections.png)
 
 ### 1. Intent (What problem does this solve?)
 

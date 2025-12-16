@@ -339,7 +339,7 @@ while count <= 5:
 
 Both loop types can accomplish many of the same tasks, but each has its ideal use cases:
 
-![Comparison diagram showing for loop vs while loop characteristics, use cases, and when to choose each loop type](/img/part-5/chapter-20/loop-types-comparison-for-vs-while.png)
+![Comparison diagram showing for loop vs while loop characteristics, use cases, and when to choose each loop type](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-20/loop-types-comparison-for-vs-while.png)
 
 | Loop Type | Use When | Example Scenarios |
 |-----------|----------|-------------------|

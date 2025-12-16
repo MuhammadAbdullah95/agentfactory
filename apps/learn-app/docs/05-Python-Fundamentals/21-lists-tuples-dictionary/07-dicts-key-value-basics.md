@@ -92,7 +92,7 @@ In this lesson, you'll learn how to create dictionaries, access their values saf
 
 A **dictionary** is a Python data structure that stores **key-value pairs**. Each key maps to one value, like a real dictionary where you look up a word (key) to find its definition (value).
 
-![Diagram showing Python dictionary structure with key-value pairs, hash table concept, unique keys requirement, and value access patterns](/img/part-5/chapter-21/python-dictionary-structure-key-value-pairs.png)
+![Diagram showing Python dictionary structure with key-value pairs, hash table concept, unique keys requirement, and value access patterns](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-21/python-dictionary-structure-key-value-pairs.png)
 
 Here's a simple example:
 

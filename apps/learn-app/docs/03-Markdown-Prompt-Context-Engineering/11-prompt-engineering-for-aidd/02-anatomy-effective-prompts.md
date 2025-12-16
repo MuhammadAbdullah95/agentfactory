@@ -286,7 +286,7 @@ conventional commits format (<type>(<scope>): <description>)
 
 When you use CREATE, DEBUG, REFACTOR, GENERATE — you're making AI a development partner who BUILDS code, scripts, and documentation with you. This is AI-Driven Development: specifying WHAT you need (using precise verbs + constraints), and AI generates HOW to implement it.
 
-![Diagram showing command structure formula with three components connected by plus signs: VERB (action to take) + TARGET (what to act upon) + DESIRED OUTCOME (specific result wanted). Arrow points downward to concrete example showing formula in action: "Create" + "Python function" + "validates email with regex". Clean, minimalist design emphasizes the 3-part pattern for constructing effective AI prompts.](/img/part-3/chapter-10/command-structure-formula.png)
+![Diagram showing command structure formula with three components connected by plus signs: VERB (action to take) + TARGET (what to act upon) + DESIRED OUTCOME (specific result wanted). Arrow points downward to concrete example showing formula in action: "Create" + "Python function" + "validates email with regex". Clean, minimalist design emphasizes the 3-part pattern for constructing effective AI prompts.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/command-structure-formula.png)
 
 **In the next lesson**, you'll see how iteration refines these verb-based prompts from 60% to 97% through collaboration.
 

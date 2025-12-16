@@ -4,7 +4,7 @@ sidebar_label: "Chapter 11: Prompt Engineering"
 sidebar_position: 11
 description: "Learn to communicate clearly with AI through effective prompt writing, iteration, validation, and reusable templates"
 slides:
-  source: "slides/chapter-11-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-11-slides.pdf"
   title: "Chapter 11: Prompt Engineering for AI-Driven Development"
   height: 700
 ---

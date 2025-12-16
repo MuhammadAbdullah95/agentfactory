@@ -98,7 +98,7 @@ Think of Claude Code as a project manager with a team of specialists:
 - **Plan subagent**: Researches your codebase and creates multi-step plans
 - **Custom subagents**: You can create specialists for your team's specific needs (content planning, research synthesis, document structuring, etc.)
 
-![Three-tier hierarchy tree showing Claude Code (orchestrator) at top, Subagents (specialized agents) in middle tier, and Skills (reusable capabilities) at bottom, with delegation arrows and example instances](/img/part-2/chapter-05/skills-subagents-hierarchy-tree.png)
+![Three-tier hierarchy tree showing Claude Code (orchestrator) at top, Subagents (specialized agents) in middle tier, and Skills (reusable capabilities) at bottom, with delegation arrows and example instances](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/skills-subagents-hierarchy-tree.png)
 
 **Key benefit**: Each subagent has **clean context** (no clutter from other conversations) and **focused expertise** (specialized instructions for its task).
 

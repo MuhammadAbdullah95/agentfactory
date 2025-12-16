@@ -332,7 +332,7 @@ Use a direct image URL from the web:
 Put images in a folder (like `images/` or `assets/`) and reference them:
 
 ```markdown
-![App screenshot](./images/screenshot.png)
+![App screenshot](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/screenshot.png)
 ```
 
 **For beginners**: Start with online image URLs (from GitHub, documentation sites). Later you can add local images to your projects.
@@ -398,7 +398,7 @@ This creates a *link* to the image, not an embedded image. Always use `![...]` f
 **Mistake 2: Broken image paths**
 
 ```markdown
-![Screenshot](screenshot.png)
+![Screenshot](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/screenshot.png)
 ```
 
 If `screenshot.png` doesn't exist in the same folder, the image won't show. Check your paths!

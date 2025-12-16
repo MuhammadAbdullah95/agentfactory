@@ -2,7 +2,7 @@
 sidebar_position: 19
 title: "Chapter 19: Strings and Type Casting"
 slides:
-  source: "slides/chapter-19-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-19-slides.pdf"
   title: "Chapter 19: Strings and Type Casting"
   height: 700
 ---

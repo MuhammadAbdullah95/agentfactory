@@ -161,7 +161,7 @@ File operations have different risk levels:
 | **Move** | `mv old-name new-name` | Medium | Original location changes |
 | **Delete** | `rm file` | High | Difficult to undo |
 
-![Reference card showing cp (copy), mv (move), and rm (remove) commands with syntax, common flags (-r, -i, -v), safety warnings, and before/after directory state diagrams](/img/part-2/chapter-07/bash-file-operations-cp-mv-rm.png)
+![Reference card showing cp (copy), mv (move), and rm (remove) commands with syntax, common flags (-r, -i, -v), safety warnings, and before/after directory state diagrams](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-07/bash-file-operations-cp-mv-rm.png)
 
 **Before ANY operation**, you MUST:
 1. **Show what files are affected** (list them first)
@@ -231,7 +231,7 @@ This is the foundation of safe collaboration—thinking before acting.
 
 **Key Insight**: Through this dialogue, you and AI established a safety protocol together. You specified the questions, AI internalized the pattern. This is collaborative safety culture.
 
-![Reference card showing 12 essential commands (ls, cd, pwd, mkdir, rm, cp, mv, cat, grep, find) with syntax, common flags, and practical examples](/img/part-2/chapter-07/bash-commands-reference-card.png)
+![Reference card showing 12 essential commands (ls, cd, pwd, mkdir, rm, cp, mv, cat, grep, find) with syntax, common flags, and practical examples](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-07/bash-commands-reference-card.png)
 
 ---
 

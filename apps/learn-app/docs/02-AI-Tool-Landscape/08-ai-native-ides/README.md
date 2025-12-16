@@ -1,6 +1,6 @@
 ---
 slides:
-  source: "slides/chapter-08-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-08-slides.pdf"
   title: "Chapter 8: AI-Native IDEs - Zed, Cursor, Antigravity, and the Future of Development"
   height: 700
 ---
@@ -26,5 +26,5 @@ By the end of this chapter, you will be able to:
 5. **Compare AI-native IDEs** through hands-on observation, documenting workflow differences
 6. **Critically evaluate** AI-generated code for correctness, security, and quality
 
-![Landscape overview showing AI-native IDE ecosystem: Zed (performance), Cursor (VS Code evolution), Antigravity (agent architecture), with positioning across AI integration depth and extensibility axes](/img/part-2/chapter-08/ai-native-ide-landscape.png)
+![Landscape overview showing AI-native IDE ecosystem: Zed (performance), Cursor (VS Code evolution), Antigravity (agent architecture), with positioning across AI integration depth and extensibility axes](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-08/ai-native-ide-landscape.png)
 

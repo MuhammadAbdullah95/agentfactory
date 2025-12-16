@@ -142,7 +142,7 @@ The reason `for`, `if`, `def` are reserved is that Python needs them for languag
 
 > In AI-native development, you don't memorize all 35 keywords. You develop a reflex: "If I get a SyntaxError when naming a variable, it might be a keyword. Let me check with `keyword.iskeyword()`." This defensive habit will save you debugging time.
 
-![Diagram showing Python variable naming rules and conventions: valid identifiers must start with letter or underscore, can contain letters numbers underscores, cannot be keywords, with examples of valid and invalid names plus PEP 8 style guidelines](/img/part-5/chapter-18/python-variable-naming-rules-conventions.png)
+![Diagram showing Python variable naming rules and conventions: valid identifiers must start with letter or underscore, can contain letters numbers underscores, cannot be keywords, with examples of valid and invalid names plus PEP 8 style guidelines](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-18/python-variable-naming-rules-conventions.png)
 
 ### Checking if a Word is Reserved
 

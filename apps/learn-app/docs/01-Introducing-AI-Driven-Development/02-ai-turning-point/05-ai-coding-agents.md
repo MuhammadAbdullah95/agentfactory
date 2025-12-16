@@ -211,7 +211,7 @@ Filename: three-layer-ai-development-stack.png
 Alt Text: Layered architecture diagram showing the three-layer AI development stack: Layer 1 (Frontier Models like GPT-5 and Claude Opus 4 providing intelligence), Layer 2 (AI-First IDEs like VS Code and Cursor as workspace), and Layer 3 (Development Agents like Claude Code CLI and Aider for orchestration), with bi-directional arrows showing how layers communicate and examples of tools in each layer.
 -->
 
-![The three-layer AI development stack showing modular, interoperable, composable architecture](/img/part-1/chapter-2/three-layer-ai-development-stack.png)
+![The three-layer AI development stack showing modular, interoperable, composable architecture](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/three-layer-ai-development-stack.png)
 
 > **Explore the stack through YOUR workflow**: Think about how you currently use AI tools (or plan to). Ask your AI partner: "Based on how I described my workflow, which layer am I using most? Which layer am I NOT using but could benefit from?" Let your AI help you discover gaps in how you're leveraging the three-layer architecture through dialogue about your actual practices.
 
@@ -368,7 +368,7 @@ Filename: stack-evolution-2024-to-2025.png
 Alt Text: Side-by-side comparison showing the evolution from 2024 monolithic AI tool silos with vendor lock-in (GitHub Copilot, Claude Chat, Cursor as isolated proprietary tools) to 2025 modular three-layer stack with low lock-in (composable Development Agents, AI-First IDEs, and Frontier Models that can be independently chosen and swapped using MCP standard).
 -->
 
-![Evolution from 2024 monolithic tool silos to 2025 modular three-layer stack](/img/part-1/chapter-2/stack-evolution-2024-to-2025.png)
+![Evolution from 2024 monolithic tool silos to 2025 modular three-layer stack](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-1/chapter-2/stack-evolution-2024-to-2025.png)
 
 #### 🤝 Practice Exercise
 

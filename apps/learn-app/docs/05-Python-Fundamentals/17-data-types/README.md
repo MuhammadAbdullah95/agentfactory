@@ -2,7 +2,7 @@
 sidebar_position: 17
 title: "Chapter 17: Understanding Python Data Types"
 slides:
-  source: "slides/chapter-17-slides.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-17-slides.pdf"
   title: "Chapter 17: Understanding Python Data Types"
   height: 700
 ---

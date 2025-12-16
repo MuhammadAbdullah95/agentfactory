@@ -146,7 +146,7 @@ Here's what UV does:
 
 And it does all of this **10–100x faster** than the traditional tools.
 
-![UV four-step workflow showing Install UV (curl/brew), Create venv (uv venv), Install packages (uv pip install), Run code (uv run app.py), with speed indicators and success checkpoints](/img/part-5/chapter-15/uv-workflow-four-step-setup.png)
+![UV four-step workflow showing Install UV (curl/brew), Create venv (uv venv), Install packages (uv pip install), Run code (uv run app.py), with speed indicators and success checkpoints](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-5/chapter-15/uv-workflow-four-step-setup.png)
 
 ### Why Is UV So Fast?
 

@@ -97,7 +97,7 @@ Think of it as a **persistent project brief** that travels with your code:
 
 When Claude Code starts a new session, it reads CLAUDE.md automatically. Claude **immediately understands your project** without you saying a word.
 
-![Four-layer context architecture showing Working Directory (base), .claude/context files (project knowledge), Message History (conversation state), and Current Tools (active capabilities), with information flow arrows](/img/part-2/chapter-05/claude-code-context-architecture-four-layers.png)
+![Four-layer context architecture showing Working Directory (base), .claude/context files (project knowledge), Message History (conversation state), and Current Tools (active capabilities), with information flow arrows](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/claude-code-context-architecture-four-layers.png)
 
 #### 💬 AI Colearning Prompt
 
