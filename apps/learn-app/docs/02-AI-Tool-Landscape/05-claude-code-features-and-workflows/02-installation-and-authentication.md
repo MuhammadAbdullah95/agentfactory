@@ -182,40 +182,48 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 **Requirements**: Windows 10 version 2004+ or Windows 11, WSL 1 or WSL 2
 
-#### Method 2: Git Bash
+#### Method 2: Native Windows (PowerShell or CMD)
 
-**When to use**: You prefer Git for Windows over WSL, or WSL isn't available on your system.
+**When to use**: You want to run Claude Code natively on Windows without WSL.
 
-**Step 1**: Install [Git for Windows](https://git-scm.com/downloads/win) if not already installed.
-
-**Step 2**: Install Claude Code using PowerShell:
+**Option A - PowerShell**:
 
 ```powershell
 irm https://claude.ai/install.ps1 | iex
 ```
 
-**Step 3**: Configure Claude Code to use Git Bash (run in PowerShell):
+**Option B - Command Prompt (CMD)**:
+
+```cmd
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+```
+
+**Requirements**: Windows 10+, Git for Windows (provides the bash shell Claude Code needs)
+
+**Step 1**: Install [Git for Windows](https://git-scm.com/downloads/win) if not already installed.
+
+**Step 2**: Run one of the install commands above.
+
+**Step 3**: For portable Git installations, configure the bash path (run in PowerShell):
 
 ```powershell
 $env:CLAUDE_CODE_GIT_BASH_PATH="C:\Program Files\Git\bin\bash.exe"
 ```
 
-To make this permanent, add the line to your PowerShell profile:
+To make this permanent, add to your PowerShell profile:
 
 ```powershell
 notepad $PROFILE
 # Add the line: $env:CLAUDE_CODE_GIT_BASH_PATH="C:\Program Files\Git\bin\bash.exe"
 ```
 
-**Step 4**: Run Claude Code from Git Bash or PowerShell:
+**Step 4**: Run Claude Code:
 
 ```bash
 claude
 ```
 
-**What this does**: The PowerShell command installs Claude Code; the environment variable tells it where to find bash.
-
-**Requirements**: Git for Windows, PowerShell 5.1+
+**What this does**: The installer downloads Claude Code; Git for Windows provides the bash shell it runs in.
 
 #### Windows Verification
 
@@ -225,10 +233,12 @@ Open your shell (WSL terminal or Git Bash) and check your installation:
 claude --version
 ```
 
-**Expected output** (version number may vary):
+**Expected output**:
 ```
-2.0.37 (Claude Code)
+X.X.XX (Claude Code)
 ```
+
+(Your version number will differ—Claude Code auto-updates frequently.)
 
 #### 💬 AI Colearning Prompt
 > "Explain the difference between WSL and Git Bash for Windows developers. When would you choose one over the other for AI-native development workflows?"
@@ -239,19 +249,34 @@ claude --version
 
 **Decision Tree**:
 ```
-Do you have Homebrew installed?
-├─ Yes → Method 1 (Homebrew) - RECOMMENDED
+Which installation method do you prefer?
+├─ Native install (simplest)
+│   └─ Method 1 (curl/bash) - RECOMMENDED
 │
-├─ No, and I don't want to install Homebrew
-│   └─ Method 2 (curl/bash)
+├─ I prefer Homebrew for package management
+│   └─ Method 2 (Homebrew)
 │
 └─ I have Node.js 18+
     └─ Method 3 (npm) - See Cross-Platform npm section below
 ```
 
-#### Method 1: Homebrew (RECOMMENDED)
+#### Method 1: Native Install (RECOMMENDED)
 
-**Why recommended**: Standard macOS package manager, handles updates automatically, integrated with macOS ecosystem.
+**Why recommended**: Official installer, works out of the box, no dependencies required.
+
+Open Terminal and run:
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**What this does**: Downloads and executes the official installer script.
+
+**Requirements**: curl and bash (pre-installed on macOS)
+
+#### Method 2: Homebrew
+
+**When to use**: You prefer managing packages through Homebrew for centralized updates.
 
 Open Terminal and run:
 
@@ -269,20 +294,6 @@ brew install --cask claude-code
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-#### Method 2: curl/bash
-
-**When to use**: You don't have Homebrew and prefer not to install it.
-
-Open Terminal and run:
-
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
-```
-
-**What this does**: Downloads and executes the official installer script.
-
-**Requirements**: curl and bash (pre-installed on macOS)
-
 #### macOS Verification
 
 Check your installation:
@@ -291,13 +302,15 @@ Check your installation:
 claude --version
 ```
 
-**Expected output** (version number may vary):
+**Expected output**:
 ```
-2.0.37 (Claude Code)
+X.X.XX (Claude Code)
 ```
 
+(Your version number will differ—Claude Code auto-updates frequently.)
+
 #### 🎓 Expert Insight
-> Package managers like Homebrew transform tool management. Instead of manually downloading, installing, and updating dozens of developer tools, `brew upgrade` updates everything. This is why 90%+ of professional macOS developers use Homebrew.
+> Claude Code auto-updates itself, so you get the latest features without manual intervention. If you use Homebrew for other tools, `brew install --cask claude-code` integrates Claude Code into your existing workflow—but the native installer works equally well.
 
 ---
 
@@ -359,10 +372,12 @@ Check your installation:
 claude --version
 ```
 
-**Expected output** (version number may vary):
+**Expected output**:
 ```
-2.0.37 (Claude Code)
+X.X.XX (Claude Code)
 ```
+
+(Your version number will differ—Claude Code auto-updates frequently.)
 
 ---
 
@@ -447,6 +462,56 @@ Use this command if you encounter issues during installation or authentication.
 > In AI-native development, terminal comfort is a skill multiplier. The 5 minutes you invest learning basic terminal commands unlocks 10x productivity with AI tools. You're not becoming a "terminal expert"—you're removing the friction between intent and execution.
 
 ---
+
+### Uninstallation
+
+If you need to remove Claude Code (for reinstallation or troubleshooting):
+
+**macOS/Linux/WSL (Native Install)**:
+
+```bash
+rm -f ~/.local/bin/claude
+rm -rf ~/.claude-code
+```
+
+**Windows PowerShell**:
+
+```powershell
+Remove-Item -Path "$env:LOCALAPPDATA\Programs\claude-code" -Recurse -Force
+Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\WindowsApps\claude.exe" -Force
+```
+
+**Homebrew**:
+
+```bash
+brew uninstall --cask claude-code
+```
+
+**npm**:
+
+```bash
+npm uninstall -g @anthropic-ai/claude-code
+```
+
+**Optional: Remove Configuration Files**
+
+To also remove your settings and credentials:
+
+**macOS/Linux/WSL**:
+
+```bash
+rm -rf ~/.claude
+rm ~/.claude.json
+```
+
+**Windows PowerShell**:
+
+```powershell
+Remove-Item -Path "$env:USERPROFILE\.claude" -Recurse -Force
+Remove-Item -Path "$env:USERPROFILE\.claude.json" -Force
+```
+
+---
 ## Authentication: Connecting Claude Code to Your Account
 
 Once installed, Claude Code needs to authenticate with your Claude account. There are **three authentication paths** depending on your account type and use case.
@@ -488,7 +553,7 @@ claude
 
 **Expected output**:
 ```
- Claude Code can be used with your Claude subscription or billed based on API usage through your 
+ Claude Code can be used with your Claude subscription or billed based on API usage through your
  Console account.
 
  Select login method:
