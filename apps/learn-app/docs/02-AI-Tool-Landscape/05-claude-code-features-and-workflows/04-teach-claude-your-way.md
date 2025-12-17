@@ -89,7 +89,7 @@ Every time you re-explain your preferences, you pay a tax. Not just in typing—
 
 Claude Code starts each session fresh. It doesn't remember that you prefer TypeScript over JavaScript, or that your meeting notes always have action items at the top. The conversation history helps within a session, but across sessions? You're starting over.
 
-You've already learned about CLAUDE.md files (Lesson 07 covers them in depth). They help—persistent context that loads automatically. But CLAUDE.md is about *project context*: what this codebase does, what architecture it follows, what conventions matter here.
+You may have heard about CLAUDE.md files (covered later in this chapter). They help—persistent context that loads automatically. But CLAUDE.md is about *project context*: what this codebase does, what architecture it follows, what conventions matter here.
 
 Your *procedures* are different. They're not project-specific. They're YOU-specific.
 
@@ -316,17 +316,83 @@ That's a procedure ready for encoding.
 
 ## What's Ahead
 
-Lesson 06 shows you how to turn procedures into working skills:
+**Lesson 05** dives deeper into the architecture behind skills:
+- Why Anthropic says "stop building agents, build skills instead"
+- The three-level loading architecture (how Claude manages skill context efficiently)
+- How skills complement MCP servers (expertise + connectivity)
+- The "applications layer" paradigm shift
 
+**Lesson 06** shows you how to build:
 - The SKILL.md format and YAML metadata
-- The three-level loading architecture (how Claude discovers skills efficiently)
 - Hands-on: Create a blog-planner skill from scratch
 - Skills vs. subagents: detailed decision criteria
-- Co-learning refinement: improving skills through iteration with Claude
+- Co-learning refinement: improving skills through iteration
+- Using the skill-creator to build skills efficiently
 
-You'll go from understanding skills conceptually to having a working skill in your `.claude/skills/` folder.
+The procedure you mapped in this lesson becomes your raw material for Lesson 06.
 
-The procedure you mapped in this lesson? That's your raw material for Lesson 06.
+---
+
+## Hands-On: Experience Skills in Action
+
+Before you create your own skills (Lesson 06), experience what working with skills feels like. We've prepared a Skills Lab with 8 ready-to-use skills.
+
+### Step 1: Download the Skills Lab
+
+1. Go to [github.com/panaversity/claude-code-skills-lab](https://github.com/panaversity/claude-code-skills-lab)
+2. Click the green **Code** button
+3. Select **Download ZIP**
+4. Extract the ZIP file
+5. Open the extracted folder in your terminal
+
+### Step 2: Explore Available Skills
+
+The lab includes skills for common workflows:
+
+| Skill | What It Does |
+|-------|--------------|
+| `docx` | Create and edit Word documents with formatting |
+| `pptx` | Build PowerPoint presentations with layouts |
+| `xlsx` | Create spreadsheets with formulas and analysis |
+| `pdf` | Extract text, merge PDFs, handle forms |
+| `doc-coauthoring` | Structured workflows for proposals and specs |
+| `internal-comms` | Templates for newsletters, reports, FAQs |
+| `theme-factory` | 10 professional themes for documents |
+| `skill-creator` | Guide for building your own skills |
+
+### Step 3: Try a Skill
+
+Open Claude Code in the skills lab directory:
+
+```bash
+claude
+```
+
+Then try one of these prompts:
+
+**Test the docx skill:**
+> "Create a professional project proposal document for a mobile app redesign project. Include executive summary, timeline, and budget sections."
+
+**Test the pptx skill:**
+> "Create a 5-slide presentation about the benefits of AI-native development. Make it visually engaging with a professional theme."
+
+**Test the internal-comms skill:**
+> "Help me write a company newsletter announcing our new AI development initiative. Keep it under 500 words and engaging."
+
+### Step 4: Notice the Difference
+
+As you use these skills, observe:
+
+1. **Automatic activation**: You didn't say "use the docx skill"—Claude recognized the task
+2. **Consistent structure**: Output follows the skill's defined format
+3. **Domain expertise**: Claude applies specific knowledge about document formatting, presentation design, or communication style
+
+**Reflection prompt**: After trying 2-3 skills, ask Claude:
+> "Which skills did you use in our conversation so far? How did you decide when to activate each one?"
+
+This reveals the skill discovery mechanism in action.
+
+You've now felt the user side of skills. Lesson 06 flips the perspective—you become the skill creator.
 
 ---
 

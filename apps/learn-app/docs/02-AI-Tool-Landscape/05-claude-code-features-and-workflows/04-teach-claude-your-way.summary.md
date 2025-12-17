@@ -53,6 +53,29 @@ If you've explained the same thing to Claude more than twice, and it's stable en
 
 ---
 
+## Hands-On: Skills Lab
+
+Experience skills in action before creating your own:
+
+1. Go to [github.com/panaversity/claude-code-skills-lab](https://github.com/panaversity/claude-code-skills-lab)
+2. Click green **Code** button → **Download ZIP**
+3. Extract and open folder in terminal
+4. Run `claude`
+
+**Available skills to try**:
+- `docx` — Word document creation
+- `pptx` — PowerPoint presentations
+- `xlsx` — Spreadsheets with formulas
+- `pdf` — PDF manipulation
+- `doc-coauthoring` — Proposals and specs
+- `internal-comms` — Newsletters and reports
+- `theme-factory` — Professional styling
+- `skill-creator` — Build new skills
+
+**Test prompt**: "Create a project proposal document for a mobile app redesign"
+
+---
+
 ## Preparation for Lesson 06
 
 Before Lesson 06, identify one procedure you want to encode:
