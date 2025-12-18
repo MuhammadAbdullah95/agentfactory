@@ -68,14 +68,21 @@ function getDefaultOrgId(): string | null {
   return cachedDefaultOrgId;
 }
 
-// Email configuration - supports multiple providers
-// Priority: SMTP (Google/custom) > Resend
-// Required: EMAIL_FROM or provider-specific from address
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Email Configuration - Production-Ready with Fallback
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Priority: Resend (primary) → Gmail SMTP (fallback)
+// Features: Retry with exponential backoff, idempotency, graceful fallback
 
 const EMAIL_FROM = process.env.EMAIL_FROM || process.env.RESEND_FROM_EMAIL || process.env.SMTP_FROM;
 
-// Provider 1: SMTP (Google Gmail, custom SMTP, etc.)
-// For Gmail: SMTP_HOST=smtp.gmail.com, SMTP_PORT=587, SMTP_USER=your@gmail.com, SMTP_PASS=app-password
+// Provider 1: Resend (Primary - production-grade email API)
+// Get API key: https://resend.com/api-keys
+// IMPORTANT: Verify your domain at https://resend.com/domains for production
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+
+// Provider 2: Gmail SMTP (Fallback)
+// For Gmail: Enable 2FA, create App Password at Google Account > Security > App passwords
 const smtpConfigured = !!(
   process.env.SMTP_HOST &&
   process.env.SMTP_USER &&
@@ -94,54 +101,202 @@ const smtpTransport = smtpConfigured
     })
   : null;
 
-// Provider 2: Resend
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
 // Email is enabled if we have any provider AND a from address
-const emailEnabled = !!(EMAIL_FROM && (smtpTransport || resend));
+const emailEnabled = !!(EMAIL_FROM && (resend || smtpTransport));
 
-// Log which provider is active on startup
+// Log provider status on startup
 if (emailEnabled) {
-  console.log("[Auth] Email enabled via:", smtpTransport ? "SMTP" : "Resend", "from:", EMAIL_FROM);
+  const providers = [];
+  if (resend) providers.push("Resend (primary)");
+  if (smtpTransport) providers.push("SMTP (fallback)");
+  console.log("[Auth] Email enabled via:", providers.join(" → "), "| from:", EMAIL_FROM);
 } else {
   console.log("[Auth] Email disabled - missing provider or EMAIL_FROM");
 }
 
-// Generic email sender - tries SMTP first, then Resend
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Email Sending with Retry Logic and Fallback
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+interface ResendError {
+  name: string;
+  message: string;
+  statusCode?: number;
+}
+
+interface EmailResult {
+  success: boolean;
+  provider?: "resend" | "smtp";
+  messageId?: string;
+  error?: string;
+}
+
+/**
+ * Sleep helper for exponential backoff
+ */
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Check if error is retryable (transient) vs permanent (validation)
+ */
+function isRetryableError(error: ResendError): boolean {
+  // Don't retry validation errors - they'll always fail
+  const permanentErrors = [
+    "validation_error",
+    "missing_required_field",
+    "invalid_api_key",
+    "invalid_from_address",
+    "domain_not_verified",
+  ];
+  return !permanentErrors.includes(error.name);
+}
+
+/**
+ * Send email via Resend with retry logic
+ */
+async function sendViaResend(
+  to: string,
+  subject: string,
+  html: string,
+  idempotencyKey: string,
+  maxRetries = 3
+): Promise<EmailResult> {
+  if (!resend || !EMAIL_FROM) {
+    return { success: false, error: "Resend not configured" };
+  }
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const { data, error } = await resend.emails.send(
+        {
+          from: EMAIL_FROM,
+          to,
+          subject,
+          html,
+        },
+        {
+          // Idempotency key prevents duplicate sends on retry
+          idempotencyKey,
+        }
+      );
+
+      if (!error && data?.id) {
+        return { success: true, provider: "resend", messageId: data.id };
+      }
+
+      if (error) {
+        const resendError = error as ResendError;
+
+        // Don't retry permanent errors
+        if (!isRetryableError(resendError)) {
+          console.error(`[Auth] Resend permanent error:`, resendError.message);
+          return { success: false, error: resendError.message };
+        }
+
+        // Retry transient errors with exponential backoff
+        if (attempt < maxRetries) {
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000); // Max 10s
+          console.warn(`[Auth] Resend attempt ${attempt} failed, retrying in ${delay}ms:`, resendError.message);
+          await sleep(delay);
+          continue;
+        }
+
+        return { success: false, error: resendError.message };
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Unknown error";
+
+      if (attempt < maxRetries) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
+        console.warn(`[Auth] Resend attempt ${attempt} threw, retrying in ${delay}ms:`, errorMsg);
+        await sleep(delay);
+        continue;
+      }
+
+      return { success: false, error: errorMsg };
+    }
+  }
+
+  return { success: false, error: "Max retries exceeded" };
+}
+
+/**
+ * Send email via SMTP (Gmail fallback)
+ */
+async function sendViaSMTP(
+  to: string,
+  subject: string,
+  html: string
+): Promise<EmailResult> {
+  if (!smtpTransport || !EMAIL_FROM) {
+    return { success: false, error: "SMTP not configured" };
+  }
+
+  try {
+    const result = await smtpTransport.sendMail({
+      from: EMAIL_FROM,
+      to,
+      subject,
+      html,
+    });
+    return { success: true, provider: "smtp", messageId: result.messageId };
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : "Unknown SMTP error";
+    return { success: false, error: errorMsg };
+  }
+}
+
+/**
+ * Production-ready email sender
+ * - Tries Resend first (with retry + idempotency)
+ * - Falls back to Gmail SMTP if Resend fails
+ * - Comprehensive error logging
+ */
 async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   if (!emailEnabled || !EMAIL_FROM) {
     console.warn("[Auth] Email not configured - skipping email to:", to);
     return;
   }
 
-  try {
-    // Priority 1: SMTP (Google, custom)
-    if (smtpTransport) {
-      const result = await smtpTransport.sendMail({
-        from: EMAIL_FROM,
-        to,
-        subject,
-        html,
-      });
-      console.log("[Auth] Email sent via SMTP to:", to, "messageId:", result.messageId);
+  // Generate idempotency key to prevent duplicate sends on retry
+  // Uses recipient + subject hash + timestamp (minute-level granularity for dedup window)
+  const timestamp = Math.floor(Date.now() / 60000); // 1-minute granularity
+  const idempotencyKey = `${to}-${Buffer.from(subject).toString("base64").slice(0, 20)}-${timestamp}`;
+
+  let lastError: string | undefined;
+
+  // Priority 1: Resend (primary provider)
+  if (resend) {
+    const result = await sendViaResend(to, subject, html, idempotencyKey);
+
+    if (result.success) {
+      console.log("[Auth] ✅ Email sent via Resend to:", to, "| id:", result.messageId);
       return;
     }
 
-    // Priority 2: Resend
-    if (resend) {
-      const result = await resend.emails.send({
-        from: EMAIL_FROM,
-        to,
-        subject,
-        html,
-      });
-      console.log("[Auth] Email sent via Resend to:", to, "id:", result.data?.id);
+    lastError = result.error;
+    console.warn("[Auth] Resend failed, attempting SMTP fallback:", result.error);
+  }
+
+  // Priority 2: Gmail SMTP (fallback)
+  if (smtpTransport) {
+    const result = await sendViaSMTP(to, subject, html);
+
+    if (result.success) {
+      console.log("[Auth] ✅ Email sent via SMTP fallback to:", to, "| messageId:", result.messageId);
       return;
     }
-  } catch (error) {
-    console.error("[Auth] Failed to send email to:", to, "error:", error);
-    throw error; // Re-throw so Better Auth knows it failed
+
+    lastError = result.error;
+    console.error("[Auth] SMTP fallback also failed:", result.error);
   }
+
+  // Both providers failed
+  const errorMsg = `All email providers failed. Last error: ${lastError || "No providers configured"}`;
+  console.error("[Auth] ❌", errorMsg);
+  throw new Error(errorMsg);
 }
 
 export const auth = betterAuth({
