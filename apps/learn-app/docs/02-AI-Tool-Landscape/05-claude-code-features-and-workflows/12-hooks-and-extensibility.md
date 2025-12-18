@@ -1,8 +1,8 @@
 ---
 title: "Hooks and Extensibility"
-sidebar_position: 11
+sidebar_position: 12
 chapter: 5
-lesson: 11
+lesson: 12
 duration_minutes: 10
 
 # PEDAGOGICAL LAYER METADATA

@@ -21,6 +21,7 @@ By the end of this chapter, you'll have:
 - **Claude Code Installed & Working** — Complete setup with **two professional paths**: Official Claude Max subscription (Lesson 2) OR Free Google Gemini backend (Lesson 3). Both teach identical Claude Code skills
 - **Persistent Project Context** — Creating CLAUDE.md files that eliminate repetitive context-sharing in every session
 - **External Integration** — MCP servers for safe access to external systems (web, APIs, docs) with practical Playwright and Context7 workflows
+- **Token Optimization** — Compiling MCP servers to Skills for 80-98% token reduction through code execution patterns and progressive disclosure
 - **Subagent Orchestration** — Recognizing when Claude automatically delegates to Explore agent (codebase search) or Plan mode (complex tasks) with hands-on exercises
 - **Autonomous Expertise** — Agent Skills with progressive disclosure pattern (metadata → full definition → supporting files) and autonomous discovery
 - **Event-Driven Automation** — Hooks for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart) with hands-on SessionStart hook creation

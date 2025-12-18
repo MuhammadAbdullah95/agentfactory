@@ -1,8 +1,8 @@
 ---
 title: "Settings Hierarchy"
-sidebar_position: 10
+sidebar_position: 11
 chapter: 5
-lesson: 10
+lesson: 11
 duration_minutes: 8
 
 # PEDAGOGICAL LAYER METADATA

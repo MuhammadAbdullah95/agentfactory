@@ -1,8 +1,8 @@
 ---
 title: "Discovering and Using Claude Code Plugins"
-sidebar_position: 12
+sidebar_position: 13
 chapter: 5
-lesson: 12
+lesson: 13
 duration_minutes: 15
 
 # PEDAGOGICAL LAYER METADATA
