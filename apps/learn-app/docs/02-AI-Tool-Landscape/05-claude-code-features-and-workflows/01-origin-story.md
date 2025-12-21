@@ -3,7 +3,7 @@ title: "The Claude Code Origin Story and Paradigm Shift"
 sidebar_position: 1
 chapter: 5
 lesson: 1
-duration_minutes: 10
+duration_minutes: 15
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
@@ -42,8 +42,8 @@ learning_objectives:
 
 # Cognitive load tracking
 cognitive_load:
-  new_concepts: 5
-  assessment: "5 concepts (agentic AI, context awareness, file integration, terminal-based AI, paradigm shift) - within A2 limit of 7 ✓"
+  new_concepts: 7
+  assessment: "7 concepts (agentic AI, context awareness, General Agents, OODA loop, Agent Factory, terminal integration, code as universal interface) - within A2 limit of 7 ✓"
 
 # Differentiation guidance
 differentiation:
@@ -116,9 +116,65 @@ Claude Code operates in an **agentic model**. You describe your goal. Claude rea
 
 Think of it this way: passive AI is a consultant giving advice over the phone. Agentic AI is a pair programmer sitting next to you, looking at your screen.
 
-:::info General Agents vs Custom Agents
-Claude Code is what the industry calls a **General Agent**—an AI that can reason, plan, and execute across many domains. In Part 6, you'll learn to build **Custom Agents** for specific business workflows using SDKs like OpenAI Agents SDK and Google ADK. Here's the powerful insight: you'll use Claude Code (a General Agent) to *build* those Custom Agents. General Agents are builders; Custom Agents are the products they build.
-:::
+### Understanding General Agents: The Trojan Horse
+
+Here's a secret that changes how you think about Claude Code: **calling it a "coding agent" is like calling a CEO an "email writer."**
+
+Yes, a CEO uses email. But email is just the interface. The real work is decision-making, strategy, and getting things done. Same with Claude Code. It uses code, but code is just how it exerts control over your computer.
+
+Claude Code is a **General Agent**—an AI that can reason through problems, make plans, and take action across many domains. The terminal isn't a limitation. It's Claude Code's command center for controlling your entire digital world.
+
+**The Habitat Difference:**
+
+| Feature | Coding Assistant (Copilot) | General Agent (Claude Code) |
+|---------|---------------------------|----------------------------|
+| Where it lives | Inside your text editor | In the terminal (your OS) |
+| What it sees | Just the file you're editing | Your entire file system |
+| What it does | Suggests text completions | Executes commands |
+| Scope | "Complete this line" | "Solve this problem" |
+
+A coding assistant lives in a text box. A General Agent has the keys to the machine.
+
+### How General Agents Think: The OODA Loop
+
+Traditional AI assistants **predict** the next word. General Agents **reason** through problems.
+
+When you ask ChatGPT a question, it predicts what text should come next based on your input. When you ask Claude Code to debug an error, it runs a reasoning loop:
+
+1. **Observe**: "I see an error in the logs. Let me read the error message."
+2. **Orient**: "This looks like a database connection issue. The config file might be wrong."
+3. **Decide**: "I'll check the database config file first."
+4. **Act**: *reads config file, finds the problem*
+5. **Correct**: "That wasn't it. Let me check environment variables instead."
+
+This is called the **OODA Loop** (Observe, Orient, Decide, Act)—plus the critical addition of self-correction. Claude Code doesn't just respond once. It keeps going until the problem is solved.
+
+**Prediction vs Reasoning:**
+
+| Prediction (ChatGPT) | Reasoning (Claude Code) |
+|---------------------|------------------------|
+| "Based on your description, try X" | *runs X, sees it fail, tries Y* |
+| Single response, then waits | Loops until goal is achieved |
+| Can't verify its own suggestions | Tests its work, fixes mistakes |
+| You adapt the output to your code | It adapts to your actual code |
+
+This is why Claude Code feels different. It's not guessing what might help—it's working through the problem step by step, adjusting as it learns more.
+
+### General Agents vs Custom Agents: The Strategic Choice
+
+In Part 6, you'll learn to build **Custom Agents** using SDKs like OpenAI Agents SDK and Google ADK. Here's how they differ:
+
+| Aspect | General Agent (Claude Code) | Custom Agent (SDK-built) |
+|--------|----------------------------|-------------------------|
+| Analogy | Senior consultant who figures things out | Factory machine for a specific task |
+| Best for | Novel problems, debugging, exploration | Repetitive workflows, customer-facing |
+| Flexibility | Handles anything you throw at it | Does one thing extremely well |
+| Setup time | Instant (install and run) | Weeks (design and build) |
+| Error tolerance | High (you review everything) | Low (must be reliable at scale) |
+
+**The powerful insight:** You'll use Claude Code (a General Agent) to *build* Custom Agents. General Agents are the builders. Custom Agents are the products.
+
+This is the **Agent Factory** model: your expertise + Claude Code + SDK = deployable product.
 
 ![Split-screen workflow comparison showing traditional chat AI requiring manual copy-paste steps (left, red bottlenecks) versus Claude Code's autonomous workflow with file context and command execution (right, green flow)](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/traditional-chat-vs-claude-code-workflow.png)
 
@@ -164,7 +220,25 @@ The terminal isn't a limitation. It's the foundation that makes context-aware, a
 
 Here's an insight that surprises many people: **Claude Code isn't just for software development.**
 
-"Code" sounds like programming. But code is actually the universal interface to the digital world. Through code, Claude can:
+"Code" sounds like programming. But code is actually the universal interface to the digital world. We don't just write code to build software—we use code to **interrogate reality**.
+
+**Example: A Business Question**
+
+Your CEO asks: "Why did sales drop in Q3?"
+
+A coding assistant would be useless here. But a General Agent?
+
+1. **Writes SQL** to fetch sales data from your database
+2. **Writes Python** to analyze trends and find patterns
+3. **Creates a chart** showing the drop happened in the Enterprise segment
+4. **Reads customer churn data** to correlate with the timing
+5. **Reports**: "Sales dropped because of 40% churn in Enterprise accounts, concentrated in August when we raised prices."
+
+That's not "coding." That's using code as a tool to answer real questions.
+
+### Beyond Software: Any Domain
+
+Through code, Claude can:
 
 - **Call APIs** to pull data from any service
 - **Organize files** in any format (Word, Excel, PowerPoint, PDF)
@@ -172,11 +246,27 @@ Here's an insight that surprises many people: **Claude Code isn't just for softw
 - **Generate reports** in any structure you need
 - **Automate workflows** across any digital tool
 
-A financial analyst can use Claude Code to pull data from accounting systems, analyze it, and generate formatted reports—without writing traditional "code." A recruiter can use it to process candidate information and generate evaluation summaries. A marketer can use it to research competitors and create strategy documents.
+**Real examples:**
+
+| Domain | What Claude Code Can Do |
+|--------|------------------------|
+| **Finance** | Pull data from QuickBooks, reconcile accounts, generate audit reports |
+| **Legal** | Extract clauses from contracts, compare document versions, find inconsistencies |
+| **Marketing** | Analyze competitor websites, generate content calendars, track campaign metrics |
+| **HR** | Process resumes, schedule interviews, generate offer letters |
+| **Education** | Create quizzes from content, grade assignments, personalize learning paths |
 
 **The scaffolding is thin**: Bash commands, file system access, and Python execution. That's all Claude Code needs to become useful for virtually any digital knowledge work.
 
-This is why the lessons ahead teach "skills" that work across domains—not just programming skills, but expertise in finance, marketing, legal, education, and more. Claude Code is the platform. Your domain expertise is what makes it specifically valuable.
+### Skills as Monetizable Assets
+
+This is why the lessons ahead teach "skills" that work across domains—not just programming skills, but expertise in finance, marketing, legal, education, and more.
+
+Claude Code is the platform. **Your domain expertise is what makes it valuable.**
+
+When you create a Skill that automates financial audits, or legal contract review, or sales outreach—that's not just a productivity tool for yourself. That's **intellectual property you can sell**.
+
+In Lesson 14 of this chapter, we'll show you exactly how Skills become revenue. For now, understand this: every Skill you create in this chapter is a potential product.
 
 So what does this new paradigm actually produce?
 

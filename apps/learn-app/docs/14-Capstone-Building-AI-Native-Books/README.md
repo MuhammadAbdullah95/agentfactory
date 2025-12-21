@@ -174,6 +174,39 @@ These skills enable you to build:
 
 ---
 
+## From Capstone to Business
+
+Everything you build here can become a product.
+
+In Chapter 5 Lesson 14, you learned about the Digital FTE model and four revenue approaches. The capstone components map directly to business opportunities:
+
+| Capstone Component | Business Application |
+|-------------------|---------------------|
+| **RAG Service** | "AI Research Assistant" - $500/month per team |
+| **Personalization Engine** | "Adaptive Learning Platform" - license to schools |
+| **Book Chatbot** | "AI Tutor" - success fee per student session |
+| **Content Intelligence** | "Quality Assurance Agent" - marketplace skill |
+| **Auth System** | White-label to other edtech startups |
+
+### The Platform Play
+
+The complete capstone—Docusaurus + RAG + Auth + Personalization + Chatbot—is a **platform you can sell**.
+
+Consider the math:
+- 100 schools at $2,000/month = $2.4M annual revenue
+- 1,000 individual tutors at $100/month = $1.2M annual revenue
+- White-label license to 10 edtech companies at $50,000/year = $500K
+
+Your capstone isn't just a learning exercise. It's the foundation of an **AI-native education business**.
+
+### Distribution via OpenAI Apps
+
+The chatbot component can be published to the OpenAI Apps marketplace (800M+ users). Instead of selling to schools directly, you reach millions of students looking for AI tutoring help.
+
+This is the path from builder to business owner.
+
+---
+
 ## Pedagogical Approach
 
 This part uses **Layer 4 (Spec-Driven Integration)** throughout:
