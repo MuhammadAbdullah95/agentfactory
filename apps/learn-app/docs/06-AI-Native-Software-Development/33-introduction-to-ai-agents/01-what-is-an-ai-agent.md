@@ -171,6 +171,21 @@ You don't choose between General and Custom—you use General Agents to *create*
 
 Skills you create in Claude Code (Chapter 5) become the building blocks. In Chapters 34-36, you'll use Claude Code to build Custom Agents with OpenAI, Claude, and Google SDKs.
 
+### The Business Angle
+
+Custom Agents aren't just technical artifacts—they're **products you can sell**.
+
+In Chapter 5 Lesson 14, you learned about the Digital FTE model: packaging AI agents as "virtual employees" with monthly subscriptions. The agents you build in this chapter are the technical foundation for that business model.
+
+| What You Build | How It Makes Money |
+|---------------|-------------------|
+| Customer support agent | Digital FTE: $1,000/month subscription |
+| Document review agent | Success fee: $5 per document processed |
+| Lead qualification agent | License: $50,000/year to enterprises |
+| Data analysis agent | Marketplace: Publish to OpenAI Apps |
+
+The technical skills in Chapters 34-36 directly translate to revenue. Every agent you learn to build is a potential product.
+
 ## Try With AI
 
 Use Claude, ChatGPT, or Gemini to practice classification.

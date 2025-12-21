@@ -21,11 +21,15 @@ More importantly, you'll experience the paradigm shift from Part 1 becoming real
 
 This part consists of five interconnected chapters that build practical proficiency with AI development tools and professional workflows.
 
-### Chapter 5: How It All Started—The Claude Code Phenomenon
+### Chapter 5: Claude Code—Your First General Agent
 
-You'll install and configure Claude Code, understanding why this "simple" command-line interface triggered such rapid adoption. We explore the origin story (how an internal Anthropic tool became a public phenomenon), walk through a straightforward npm installation, and learn Claude Code's key features through hands-on experience: subagents for specialized tasks, agent skills for autonomous discovery, and MCP servers for external data access.
+You'll install and configure Claude Code, but more importantly, you'll understand what it really is: a **General Agent**. Not just a coding assistant—a reasoning system that uses code as its universal interface to control your entire digital world.
 
-This chapter establishes Claude Code as a **collaborative thinking partner**—not an automation supercomputer. By the end, Claude Code will be running on your machine with your first subagent and skill working, and you'll have experienced the paradigm shift from passive AI assistance to active AI collaboration.
+We explore the origin story (how an internal Anthropic tool became a public phenomenon), the "Trojan Horse" insight (why calling it a "coding agent" misses the point), and the OODA reasoning loop that makes General Agents fundamentally different from prediction-based assistants. You'll learn Claude Code's key features through hands-on experience: subagents for specialized tasks, agent skills for autonomous discovery, and MCP servers for external data access.
+
+The chapter concludes with the business angle: the Skills you create are intellectual property. They can be packaged, licensed, and sold. By the end, you'll have Claude Code running on your machine, your first Skills working, and a clear understanding of how to turn your expertise into products using the Digital FTE model and four revenue approaches.
+
+This chapter establishes Claude Code as a **General Agent**—a collaborative thinking partner that can tackle any domain, not just programming.
 
 ### Chapter 6: Google Gemini CLI—Open Source and Everywhere
 

@@ -39,22 +39,37 @@ For the first time in human history, you can ship production AI-native software 
 The presentation above introduces **The 2026 AI Commercial Playbook**—the strategic framework for turning AI expertise into revenue. It reveals a critical insight: there are two paths to monetization.
 
 **Path A: General Agents** (Claude Code, Gemini CLI)
-- Ready-to-use AI partners that reason, plan, and execute
-- Best for: Novel problems, complex debugging, ad-hoc analysis
-- Speed to value: Instant (install and start working)
+
+Here's a secret most people miss: calling Claude Code a "coding agent" is like calling a CEO an "email writer." Yes, it uses code—but code is just how it controls your computer.
+
+General Agents are reasoning systems. They don't just predict text; they run an **OODA loop** (Observe, Orient, Decide, Act, Correct) until they solve your problem. They see your entire file system, execute commands, test their work, and fix their mistakes.
+
+- **What they do**: Reason through problems, make plans, take action across ANY domain
+- **Best for**: Novel problems, complex debugging, research, ad-hoc analysis
+- **Speed to value**: Instant (install and start working)
+- **Your role**: Director who specifies intent; the agent figures out how
 
 **Path B: Custom Agents** (OpenAI SDK, Claude SDK, Google ADK)
-- Purpose-built AI systems you design and deploy
-- Best for: Standardized workflows, customer-facing products, high-volume automation
-- Speed to value: Weeks to design and build
 
-**The paradigm shift:** General Agents can *build* Custom Agents. Claude Code isn't just a coding tool—it's an **Agent Factory** that transforms your domain expertise into deployable products.
+Purpose-built AI systems you design for specific workflows. Less flexible, but more reliable and customer-ready.
+
+- **What they do**: Execute one task extremely well with guardrails
+- **Best for**: Standardized workflows, customer-facing products, high-volume automation
+- **Speed to value**: Weeks to design and build
+- **Your role**: Builder who creates the agent for others to use
+
+**The Agent Factory Paradigm**
+
+Here's the powerful insight: **General Agents build Custom Agents.**
+
+Claude Code isn't just a tool you use—it's an **Agent Factory** that transforms your domain expertise into deployable products. You write specifications, Claude Code builds the Skills and Custom Agents, and you package them for revenue.
 
 This book teaches both paths:
-- **Parts 2-4**: Master General Agents (Claude Code, Gemini CLI) and specification-driven development
+- **Chapter 5**: Master General Agents (Claude Code) and understand the OODA reasoning loop
+- **Parts 2-4**: Build Skills, MCP integrations, and specifications
 - **Part 6**: Build Custom Agents using SDKs, with General Agents as your implementation partner
 
-By the end, you'll know when to use each path—and how they work together.
+By the end, you'll know when to use each path—and how they work together to create businesses.
 
 ---
 
@@ -112,6 +127,78 @@ Code becomes regenerable output; intelligence becomes your durable asset. **This
 - **Test-Driven & Evaluation-Driven Development** — ensure quality and safety at AI scale
 
 **The transformation:** From learning syntax → to shipping intelligent systems that solve real problems in specific domains.
+
+---
+
+## The Business Opportunity: From Skills to Revenue
+
+This book doesn't just teach you to build AI agents. It teaches you to **sell** them.
+
+### The Digital FTE Revolution
+
+A traditional employee works 40 hours per week. An AI agent works 168 hours—24/7, no breaks, no vacations. This creates a new product category: the **Digital Full-Time Equivalent (FTE)**.
+
+| Metric | Human Employee | Digital FTE |
+|--------|---------------|-------------|
+| Hours per week | 40 | 168 (24/7) |
+| Monthly cost | $4,000-8,000+ | $500-2,000 |
+| Ramp-up time | 3-6 months | Instant |
+| Scaling | Hire more people | Clone instantly |
+| Cost per task | ~$3-6 | ~$0.25-0.50 |
+
+**The pitch to a CEO:** "Pay $1,500/month for a Digital Sales Agent that does the work of a $6,000/month junior employee—and works nights and weekends."
+
+This isn't about replacing humans. It's about **handling the work humans don't have time for**—the repetitive tasks, the overnight monitoring, the high-volume processing.
+
+### Four Ways to Monetize AI Agents
+
+**1. Digital FTE Subscription ($500-2,000/month)**
+Sell fully managed AI agents as monthly subscriptions. The client gets a "Digital Accountant" or "Digital SDR" that handles specific workflows. You host it, maintain it, improve it.
+
+**2. Success Fee (Pay per Result)**
+Charge based on outcomes: $5 per qualified lead, 2% of cost savings, $50 per document processed. High trust required, but aligns your incentives with the client's.
+
+**3. License (Sell the Recipe)**
+Sell your Agent Skills as intellectual property. Clients run the agent themselves; you get annual license fees. Best for enterprises that need data to stay in-house (healthcare, finance, defense).
+
+**4. Skill Marketplace (Volume Play)**
+Publish your Skills to platforms like OpenAI Apps. Reach millions of users. Build a brand around your niche expertise.
+
+### The Math: From Skill to Unicorn
+
+Here's why this matters:
+
+```
+1 Digital FTE at $1,000/month = $12,000/year per customer
+1,000 customers = $12 million annual revenue
+10,000 customers = $120 million annual revenue
+100,000 customers = $1.2 billion annual revenue
+```
+
+With cloud-native deployment, your costs don't scale linearly with customers. A team of 5-10 people can support millions of users. This is the **"Micro-Unicorn"** model—small team, massive reach.
+
+### The Distribution Breakthrough: OpenAI Apps
+
+Traditional enterprise sales takes 6 months and a 500-person sales team. The OpenAI Apps marketplace (chatgpt.com/apps) changes this:
+
+- **800+ million users** already on the platform
+- **1+ million businesses** looking for AI solutions
+- **Single-click adoption**—no procurement, no IT integration meetings
+
+You don't need a sales team. You need a great agent and good positioning. The platform does the distribution.
+
+### What You'll Build in This Book
+
+By the end of this book, you'll have:
+
+1. **Agent Skills** (SKILL.md files) that encode your expertise
+2. **MCP integrations** that connect agents to real data
+3. **Custom Agents** built with production SDKs
+4. **Deployment skills** for cloud-native scaling
+
+These aren't just learning exercises. They're the **building blocks of a business**. Chapter 5 teaches you to build Skills and MCP integrations. Chapter 5's final lesson shows you how to package them for revenue.
+
+**The question isn't whether AI agents will transform work. The question is: will you be selling them, or competing against them?**
 
 ---
 
