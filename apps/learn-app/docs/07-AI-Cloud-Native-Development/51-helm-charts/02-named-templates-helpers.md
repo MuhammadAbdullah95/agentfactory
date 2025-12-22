@@ -39,6 +39,27 @@ This lesson introduces **named templates** and the **_helpers.tpl convention**�
 
 ---
 
+## What You'll Learn
+
+This lesson teaches you how to eliminate template duplication using Helm's named templates and helper conventions.
+
+| Concept Group | Topics | Why It Matters |
+|---------------|--------|----------------|
+| **Template Reuse** | `define`, `end`, `include` | Stop repeating labels/selectors across manifests |
+| **Conventions** | `_helpers.tpl`, naming patterns | Follow industry-standard organization |
+| **Output Control** | `include` vs `template`, `nindent` | Prevent broken YAML indentation |
+| **Scope Management** | `.` context, `$` root reference | Access values correctly in nested templates |
+| **Common Patterns** | Labels, selectors, image pull secrets | Apply real-world helper designs |
+
+**Prerequisites:**
+- Lesson 1 (Go templating: variables, pipelines, conditionals, ranges)
+- Understand YAML indentation rules
+- Familiarity with Kubernetes labels and selectors
+
+**Time Estimate:** 45 minutes
+
+---
+
 ## 1. Named Templates with `define`
 
 In Lesson 1, every template you wrote was a full file that produced output. But templates can also define **functions** that output nothing on their own.
@@ -226,6 +247,33 @@ metadata:
 
 ---
 
+### Checkpoint: Template Definition and Inclusion
+
+**Quick Reference:**
+
+| Action | Syntax | Purpose |
+|--------|--------|---------|
+| Define template | `{{ define "name" }}...{{ end }}` | Create reusable template fragment |
+| Include template | `{{ include "name" . }}` | Call template and return string |
+| Control indentation | `{{ include "name" . \| nindent 4 }}` | Pipe output to indent function |
+| Store helpers | `_helpers.tpl` | Convention for non-rendered templates |
+
+**Self-Check Questions:**
+
+1. What happens when you render a template file starting with `_`?
+   *Answer: Nothing—underscore files are not rendered as manifests.*
+
+2. Why does `{{ template "myapp.labels" . }}` break YAML indentation?
+   *Answer: `template` renders directly without supporting pipes, so you can't control indentation.*
+
+3. What does the `.` in `{{ include "myapp.labels" . }}` represent?
+   *Answer: The current context being passed to the named template (root context: `.Chart`, `.Values`, etc.).*
+
+4. Where should you define all your chart's helper templates?
+   *Answer: In `templates/_helpers.tpl` following Helm convention.*
+
+---
+
 ## 5. Scope Rules: What `.` Means Inside a Named Template
 
 When you call a named template, you pass `.` as the current context. Inside the template, `.` refers to whatever you passed.
@@ -346,6 +394,130 @@ The standard Helm convention is: `chartname.component`
 2. **Clarity**: `myapp.labels` immediately shows purpose
 3. **Searchability**: `grep "myapp\." _helpers.tpl` finds all your helpers
 4. **Consistency**: Everyone following convention means predictable code
+
+---
+
+### Checkpoint: Scope and Naming Conventions
+
+**Quick Reference:**
+
+| Scope Element | What It Refers To | Example |
+|---------------|-------------------|---------|
+| `.` | Current context (what you passed to `include`) | `{{ include "myapp.labels" . }}` → `.` is root context |
+| `$` | Always root context, even in nested loops | `{{ $.Chart.Name }}` inside `range` |
+| `.Chart`, `.Values` | Accessible when root context is passed | Only work if you passed `.` to `include` |
+
+**Self-Check Questions:**
+
+1. Inside a `{{ range .Values.tags }}` loop within a named template, what does `.` refer to?
+   *Answer: Each individual tag value (the current iteration item), not the root context.*
+
+2. How do you access `.Chart.Name` inside a `range` loop in a named template?
+   *Answer: Use `{{ $.Chart.Name }}` where `$` always refers to the root context.*
+
+3. What naming convention should you follow for helper templates?
+   *Answer: `chartname.component` (e.g., `myapp.labels`, `postgresql.fullname`).*
+
+4. Why prefix helper names with the chart name?
+   *Answer: Prevents namespace collisions with subchart helpers and improves searchability.*
+
+---
+
+## Common Mistakes
+
+Before you start the exercises, avoid these frequent errors:
+
+### Mistake 1: Forgetting to Pass Context (`.`)
+
+**Wrong:**
+```yaml
+{{ include "myapp.labels" }}
+```
+
+**Why it fails:** The template can't access `.Chart`, `.Values`, etc. without context.
+
+**Correct:**
+```yaml
+{{ include "myapp.labels" . }}
+```
+
+---
+
+### Mistake 2: Using Wrong Indentation Level
+
+**Wrong:**
+```yaml
+metadata:
+  labels:
+    {{ include "myapp.labels" . | nindent 2 }}
+```
+
+**Why it fails:** Labels are already at 4-space indent (under `metadata:`), but `nindent 2` only indents 2 spaces.
+
+**Correct:**
+```yaml
+metadata:
+  labels:
+    {{ include "myapp.labels" . | nindent 4 }}
+```
+
+**Rule:** Count the spaces from the left margin to where the first key should appear.
+
+---
+
+### Mistake 3: Using `template` Instead of `include`
+
+**Wrong:**
+```yaml
+{{ template "myapp.labels" . }}
+```
+
+**Why it fails:** Can't pipe to `nindent`, breaks YAML indentation.
+
+**Correct:**
+```yaml
+{{ include "myapp.labels" . | nindent 4 }}
+```
+
+---
+
+### Mistake 4: Creating Helpers Without the Chart Name Prefix
+
+**Wrong:**
+```yaml
+{{- define "labels" }}
+```
+
+**Why it fails:** If you use a subchart that also defines `labels`, they collide.
+
+**Correct:**
+```yaml
+{{- define "myapp.labels" }}
+```
+
+---
+
+### Mistake 5: Losing Root Context in Nested Loops
+
+**Wrong:**
+```yaml
+{{- define "myapp.labels" }}
+{{- range .Values.tags }}
+tag: {{ . }}
+chart: {{ .Chart.Name }}  # .Chart doesn't exist here—. is now the tag string
+{{- end }}
+{{- end }}
+```
+
+**Correct:**
+```yaml
+{{- define "myapp.labels" }}
+{{- range .Values.tags }}
+tag: {{ . }}
+chart: {{ $.Chart.Name }}  # $ always refers to root context
+{{- end }}
+{{- end }}
+```
 
 ---
 

@@ -37,6 +37,27 @@ This lesson teaches the testing safety net that stands between a working chart i
 
 ---
 
+## What You'll Learn
+
+This lesson covers Helm testing approaches from static validation to live deployment verification:
+
+| Testing Category | Tools/Concepts | What They Validate |
+|-----------------|----------------|-------------------|
+| **Static Analysis** | `helm lint`, `helm template` | Chart structure, template syntax, YAML validity, rendered output |
+| **Runtime Testing** | Test pods, `helm test`, exit codes | Deployed resources, service connectivity, integration behavior |
+| **Unit Testing** | helm-unittest framework | Template logic, conditionals, variable substitution |
+| **Integration Testing** | Test pods with kubectl commands | Live cluster behavior, resource interactions |
+
+**Prerequisites**:
+- Completed Lessons 1-5 (templates, values, helpers, conditionals, dependencies)
+- Access to a Kubernetes cluster (minikube, kind, or cloud provider)
+- Helm 3.x installed locally
+- Basic understanding of exit codes and shell scripting
+
+**Time Estimate**: 45 minutes
+
+---
+
 ## Concept 1: Validating Charts with helm lint
 
 `helm lint` checks your chart for structural errors, missing required fields, and configuration problems. It runs before installation, catching issues early.
@@ -232,6 +253,19 @@ helm template my-release . --debug 2>&1 | grep -A 5 "service.yaml"
 ```
 
 **Output shows** template variables, function evaluations, and which conditionals evaluated to true/false.
+
+---
+
+### Checkpoint
+
+Before moving to runtime testing, verify your understanding:
+
+✅ You can run `helm lint` on any chart directory and interpret the output
+✅ You understand what `helm template` produces and how it differs from `helm install`
+✅ You can use `--debug` to troubleshoot template rendering issues
+✅ You've tested rendering a chart with multiple values files
+
+**Self-Check**: Create a chart with a broken conditional (`{{- if .Values.nonexistent }}`). Use `helm template --debug` to confirm the conditional evaluates to false and produces no output.
 
 ---
 
@@ -555,6 +589,85 @@ Pod agent-chart-integration-test succeeded
 | **Example** | "Does deployment have correct image?" | "Can the service reach the deployment?" |
 
 **Decision rule**: Start with unit tests for template logic. Add integration tests only if deployment behavior needs verification (service connectivity, data persistence, etc.).
+
+---
+
+### Checkpoint
+
+Before the exercise, confirm you can:
+
+✅ Write a test pod with `helm.sh/hook: test` annotation
+✅ Use exit codes to signal test success (0) or failure (non-zero)
+✅ Run `helm test` against a deployed release
+✅ Distinguish when to use unit tests vs integration tests
+✅ Install and run helm-unittest for template logic testing
+
+**Self-Check**: Write a test pod that verifies a ConfigMap exists with `kubectl get configmap <name>`. Deploy the chart, run `helm test`, and confirm the test passes.
+
+---
+
+## Common Mistakes
+
+### Mistake 1: Running helm test Before Deployment
+
+**Problem**: Running `helm test my-release` when the release doesn't exist.
+
+**Error**:
+```
+Error: release: not found
+```
+
+**Fix**: Always deploy first with `helm install` or `helm upgrade`, then run `helm test`.
+
+### Mistake 2: Forgetting the Test Hook Annotation
+
+**Problem**: Creating a test pod without `helm.sh/hook: test`.
+
+**Result**: Pod is created during deployment instead of during testing phase. It runs immediately and may fail before dependencies are ready.
+
+**Fix**:
+```yaml
+metadata:
+  annotations:
+    helm.sh/hook: test  # REQUIRED for test pods
+```
+
+### Mistake 3: Test Pod Doesn't Clean Up
+
+**Problem**: Test pods remain after testing completes, cluttering the namespace.
+
+**Fix**: Add deletion policy:
+```yaml
+metadata:
+  annotations:
+    helm.sh/hook: test
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+```
+
+### Mistake 4: Assuming helm lint Catches All Errors
+
+**Problem**: `helm lint` passes but deployment fails because of Kubernetes-specific validation (resource limits, invalid service types, etc.).
+
+**Reality**: `helm lint` validates chart structure and template syntax, NOT Kubernetes resource semantics.
+
+**Fix**: Combine `helm lint` with `helm template --validate` (requires cluster connection) or deploy to a test namespace.
+
+### Mistake 5: Testing Without Timeouts
+
+**Problem**: Test pods hang indefinitely waiting for external dependencies (databases, APIs).
+
+**Fix**: Always specify a timeout:
+```bash
+helm test my-release --timeout 5m
+```
+
+### Mistake 6: Unit Tests That Depend on Cluster State
+
+**Problem**: Writing helm-unittest tests that expect certain cluster resources to exist.
+
+**Reality**: Unit tests run locally without a cluster—they test template logic only.
+
+**Fix**: Use integration test pods for cluster-dependent validation.
 
 ---
 

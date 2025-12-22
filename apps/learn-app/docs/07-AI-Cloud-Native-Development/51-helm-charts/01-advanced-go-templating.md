@@ -37,6 +37,25 @@ Go templating is the foundation of every Helm chart. Master this, and you'll wri
 
 ---
 
+## What You'll Learn
+
+This lesson covers 9 core templating concepts in 3 groups:
+
+| Group | Concepts | What You'll Do |
+|-------|----------|----------------|
+| **Data Handling** | Variables, Pipelines, `with` blocks | Store values, transform text, simplify access |
+| **Logic** | Operators, Conditionals, Iteration | Make decisions, repeat blocks |
+| **Context** | Built-in variables, Whitespace, Named templates | Access release info, control formatting |
+
+**Prerequisites**: You should be comfortable with:
+- Basic Helm syntax (`{{ .Values.x }}`) from Chapter 50 Lesson 20
+- YAML structure and indentation
+- Running `helm template` and `helm install`
+
+**Time estimate**: 45-60 minutes (work through concepts, then try exercises)
+
+---
+
 ## The Problem: Dynamic vs Static Manifests
 
 Consider a Deployment that needs environment variables for different use cases:
@@ -293,6 +312,25 @@ spec:
 ```
 
 This renders the entire Ingress block ONLY if `.Values.ingress` is defined.
+
+---
+
+### Checkpoint: Data Handling Complete
+
+You've now learned the three core data handling patterns:
+
+| Pattern | Syntax | Use When |
+|---------|--------|----------|
+| **Variables** | `$var := .Values.x` | You need to reuse a value multiple times |
+| **Pipelines** | `value | func1 | func2` | You need to transform values (quote, uppercase, etc.) |
+| **`with` blocks** | `{{- with .Values.x }}...{{- end }}` | You're accessing many properties from the same nested object |
+
+**Quick self-check**: Can you...
+- Store a value in a variable and use it in two places?
+- Chain `upper` and `quote` together in a pipeline?
+- Rewrite `.Values.container.name`, `.Values.container.image` using `with`?
+
+If yes, continue to the Logic concepts. If not, re-read the examples above—these patterns appear in every production chart.
 
 ---
 
@@ -554,6 +592,27 @@ port-1: 50051
 
 ---
 
+### Checkpoint: Logic Complete
+
+You've now learned how to control what gets rendered:
+
+| Pattern | Syntax | Use When |
+|---------|--------|----------|
+| **Conditionals** | `{{- if condition }}...{{- end }}` | Include/exclude entire blocks based on values |
+| **Comparison** | `eq`, `ne`, `gt`, `lt`, `and`, `or` | Compare values in conditionals |
+| **Iteration** | `{{- range .Values.list }}...{{- end }}` | Generate repeated blocks from arrays or maps |
+
+**Common mistake**: Forgetting that Go uses `eq` not `==`. If your conditional isn't working, check your operator syntax.
+
+**Quick self-check**: Can you...
+- Conditionally render an Ingress only when `ingress.enabled` is true?
+- Combine two conditions with `and`?
+- Loop over a list of ports to generate container port entries?
+
+The final three concepts (7-9) are about context and formatting—less critical for basic charts but essential for production.
+
+---
+
 ## Concept 7: Built-in Variables
 
 Helm provides special variables you can use inside templates.
@@ -667,6 +726,22 @@ metadata:
 ```
 
 This eliminates copying labels across multiple manifests.
+
+---
+
+## Common Mistakes
+
+Before trying the exercises, know these frequent errors:
+
+| Mistake | Wrong | Correct |
+|---------|-------|---------|
+| Using `==` instead of `eq` | `{{- if .Values.env == "prod" }}` | `{{- if eq .Values.env "prod" }}` |
+| Forgetting to quote strings | `value: {{ .Values.name }}` | `value: {{ .Values.name \| quote }}` |
+| Missing whitespace control | `{{ if ... }}` (adds blank lines) | `{{- if ... }}` (clean output) |
+| Wrong scope in `with` | `{{ .Release.Name }}` inside `with` | `{{ $.Release.Name }}` (use `$` to access root) |
+| Forgetting `end` | `{{- if .Values.x }}...` | `{{- if .Values.x }}...{{- end }}` |
+
+**Debugging tip**: When templates fail, run `helm template --debug ./my-chart` to see the exact error location and line number.
 
 ---
 

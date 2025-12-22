@@ -37,6 +37,27 @@ But production deployments require more: clarity about which override takes prec
 
 ---
 
+## What You'll Learn
+
+This lesson covers 8 concepts in 4 groups:
+
+| Group | Concepts | What You'll Do |
+|-------|----------|----------------|
+| **Precedence** | Override hierarchy, merge behavior | Understand which value source wins when multiple are specified |
+| **Organization** | Nested vs flat structure, grouping patterns | Design maintainable values.yaml that scales with chart complexity |
+| **Environment Files** | Dev/staging/prod patterns, minimal overrides | Create environment-specific files that only change what differs |
+| **Validation** | Schema creation, type checking, required fields | Write values.schema.json that prevents invalid deployments |
+
+**Prerequisites**: You should be comfortable with:
+- Basic Helm chart structure (Lesson 1)
+- Template rendering with `{{ .Values }}` (Lesson 2)
+- YAML syntax (nested objects, lists, strings)
+- JSON Schema basics (types, required fields, enums)
+
+**Time estimate**: 45-60 minutes
+
+---
+
 ## The Values Override Precedence Hierarchy
 
 When you deploy a Helm chart, values come from multiple sources. Understanding the order matters—if you override something and it doesn't work, you're probably at the wrong level of the hierarchy.
@@ -255,6 +276,34 @@ The pattern is clear: `--set` beats `-f`, which beats values.yaml defaults.
 
 ---
 
+### Checkpoint: Precedence Hierarchy
+
+You've learned how Helm merges values from multiple sources. Quick reference:
+
+| Source | Priority | Use Case | Example |
+|--------|----------|----------|---------|
+| **values.yaml** | Lowest | Baseline defaults for all environments | `replicaCount: 1` |
+| **-f values-prod.yaml** | Medium | Environment-specific overrides | `helm install -f values-prod.yaml` |
+| **--set** | Highest | One-off changes, debugging | `--set image.tag=v1.0.1` |
+
+**Self-check:**
+
+1. If you run `helm install my-app ./chart -f values-prod.yaml --set replicas=7`, and values-prod.yaml has `replicas: 5`, what's the final replica count?
+   <details><summary>Answer</summary>7 (--set has highest priority)</details>
+
+2. Which values source should contain passwords and API keys?
+   <details><summary>Answer</summary>None—use Kubernetes Secrets or --set with external secret managers</details>
+
+3. When would you use `--set` instead of creating a new environment file?
+   <details><summary>Answer</summary>Emergency hotfixes, testing new values, or one-off debugging (not for permanent config)</details>
+
+**Common mistakes:**
+- Putting all config in `--set` (hard to reproduce, not version-controlled)
+- Repeating unchanged defaults in environment files (creates maintenance burden)
+- Storing secrets in values files (security risk)
+
+---
+
 ## Designing values.yaml Structure: Flat vs Nested
 
 As your chart grows, values.yaml can become unwieldy. Should you organize values hierarchically or keep them flat? The answer depends on cognitive load and reusability.
@@ -380,6 +429,34 @@ secret:
 ```
 
 The first approach is maintainable. The second scatters related values across different top-level keys.
+
+---
+
+### Checkpoint: Values Organization
+
+You've learned how to structure values.yaml for maintainability. Quick reference:
+
+| Approach | When to Use | Template Access | Override Syntax |
+|----------|-------------|-----------------|-----------------|
+| **Flat** | Simple charts (< 10 values) | `{{ .Values.agentName }}` | `--set agentName=x` |
+| **Nested** | Complex charts (10+ values) | `{{ .Values.agent.name }}` | `--set agent.name=x` |
+| **Hybrid** | Most production charts | Mix based on concept grouping | Varies by path |
+
+**Self-check:**
+
+1. Which structure is better for a chart with agent, database, redis, and monitoring configuration?
+   <details><summary>Answer</summary>Nested—group by concept (agent.*, database.*, redis.*, monitoring.*)</details>
+
+2. How do you access `agent.config.logLevel` in a template?
+   <details><summary>Answer</summary>`{{ .Values.agent.config.logLevel }}`</details>
+
+3. What's wrong with organizing values by template file (deployment.*, service.*, configMap.*)?
+   <details><summary>Answer</summary>Scatters related configuration—database password separated from database host just because they're in different templates</details>
+
+**Common mistakes:**
+- Over-nesting (5+ levels deep makes templates hard to read)
+- Mixing organizational strategies (some values flat, others nested with no pattern)
+- Organizing by template location instead of by concept
 
 ---
 
@@ -537,6 +614,34 @@ Each command uses the same chart with different configurations. The chart stays 
 
 ---
 
+### Checkpoint: Environment-Specific Files
+
+You've learned the three-tier environment pattern. Quick reference:
+
+| Environment | File | Replicas | Resources | Logging | Use Case |
+|-------------|------|----------|-----------|---------|----------|
+| **Dev** | values.yaml | 1 | Minimal | DEBUG | Local development, quick iteration |
+| **Staging** | values-staging.yaml | 2-3 | Moderate | INFO | Pre-production testing, integration |
+| **Production** | values-prod.yaml | 5+ | High | WARN/ERROR | Live traffic, high availability |
+
+**Self-check:**
+
+1. Should values-prod.yaml repeat all values from values.yaml?
+   <details><summary>Answer</summary>No—only override what differs from defaults (replicas, resources, logging, external services)</details>
+
+2. Where should production database passwords be stored?
+   <details><summary>Answer</summary>Kubernetes Secrets, referenced in templates via secretKeyRef or --set at deploy time</details>
+
+3. What's the advantage of the three-tier pattern over a single values.yaml?
+   <details><summary>Answer</summary>Same chart deploys to all environments with appropriate config; changes tracked in version control; minimal duplication</details>
+
+**Common mistakes:**
+- Duplicating all values in environment files (makes updates error-prone)
+- Hardcoding secrets in values-prod.yaml (security risk)
+- Using different chart versions per environment (defeats purpose of single source)
+
+---
+
 ## Command-Line --set Overrides
 
 While environment files are preferred (they're version-controlled and documented), `--set` overrides are useful for debugging, quick tests, and emergency patches. Understanding the syntax is essential.
@@ -604,6 +709,34 @@ The file's contents become the value of `agent.customConfig`. In your template, 
 ```
 
 **Output:** The environment variable contains the entire JSON config from the file.
+
+---
+
+### Checkpoint: Command-Line Overrides
+
+You've learned three `--set` variants for different value types. Quick reference:
+
+| Variant | Use Case | Example | Result |
+|---------|----------|---------|--------|
+| **--set** | Simple values (auto-typed) | `--set replicas=5` | Number: 5 |
+| **--set-string** | Force string type | `--set-string apiKey=12345` | String: "12345" |
+| **--set-file** | Multi-line content | `--set-file config=file.json` | File contents as value |
+
+**Self-check:**
+
+1. When would `--set agent.port=8000` fail but `--set-string agent.port=8000` succeed?
+   <details><summary>Answer</summary>When template expects string but --set infers number (environment variables need strings)</details>
+
+2. Why use `--set-file` instead of `--set` for TLS certificates?
+   <details><summary>Answer</summary>Certificates are multi-line and contain special characters; loading from file avoids escaping issues</details>
+
+3. Should you use `--set` for permanent configuration changes?
+   <details><summary>Answer</summary>No—use environment files (version-controlled, documented). Use --set for temporary/emergency changes only</details>
+
+**Common mistakes:**
+- Using `--set` for secrets (visible in shell history)
+- Not using `--set-string` for numeric-looking strings (API keys, ports as env vars)
+- Forgetting that `--set` overrides are lost on next deployment (not persisted)
 
 ---
 
@@ -835,6 +968,44 @@ The `with` block sets `.` to the nested object, reducing repetition.
 
 ---
 
+### Checkpoint: Schema Validation and Template Patterns
+
+You've learned how to validate values and access them in templates. Quick reference:
+
+| Validation Feature | JSON Schema Syntax | Effect |
+|-------------------|-------------------|--------|
+| **Required fields** | `"required": ["name", "replicas"]` | Helm rejects if missing |
+| **Type checking** | `"type": "integer"` | Rejects non-numbers |
+| **Enum validation** | `"enum": ["DEBUG", "INFO", "WARN"]` | Rejects invalid options |
+| **Range limits** | `"minimum": 1, "maximum": 100` | Enforces numeric bounds |
+| **Pattern matching** | `"pattern": "^[0-9]+(Mi\|Gi)$"` | Validates format (memory, CPU) |
+
+**Template access patterns:**
+
+| Pattern | Use Case | Example |
+|---------|----------|---------|
+| **Dot notation** | Direct access | `{{ .Values.agent.name }}` |
+| **Range loop** | Iterate lists | `{{- range .Values.ports }}` |
+| **With block** | Reduce repetition | `{{- with .Values.agent.config }}` |
+
+**Self-check:**
+
+1. What happens if you deploy with `--set agent.logLevel=TRACE` when schema only allows DEBUG/INFO/WARN/ERROR?
+   <details><summary>Answer</summary>Helm rejects with validation error: "Unsupported value" (prevents invalid deployment)</details>
+
+2. When should you use `with` instead of repeated dot notation?
+   <details><summary>Answer</summary>When accessing multiple fields from the same nested object (cleaner, less repetition)</details>
+
+3. What's the benefit of schema validation over template-based checks?
+   <details><summary>Answer</summary>Fails fast before rendering (better error messages), validates types/formats (catches typos), documents valid options</details>
+
+**Common mistakes:**
+- Skipping schema validation (allows invalid values to reach production)
+- Making all fields required (prevents environment-specific overrides)
+- Using `with` when you need to access other parts of `.Values` (changes scope)
+
+---
+
 ## Best Practices for values.yaml Design
 
 ### 1. Sensible Defaults
@@ -954,6 +1125,43 @@ Or use `--set` with Secret values at deploy time:
 ```bash
 helm install my-agent ./my-agent-chart \
   --set-string database.password=$(kubectl get secret db-credentials -o jsonpath='{.data.password}' | base64 -d)
+```
+
+---
+
+## Common Mistakes
+
+Before moving to exercises, review these frequent errors when working with Helm values:
+
+| Mistake | Why It Fails | Correct Approach |
+|---------|--------------|------------------|
+| **Putting secrets in values.yaml** | Visible in version control, shared with all environments | Use Kubernetes Secrets, reference via secretKeyRef or --set from external vault |
+| **Repeating all defaults in environment files** | Creates duplication; updates require changing multiple files | Only override values that differ from defaults |
+| **Using --set for all configuration** | Not version-controlled, lost on next deployment, hard to reproduce | Use environment files for permanent config; --set for temporary changes only |
+| **No schema validation** | Invalid values only caught at runtime, poor error messages | Create values.schema.json with required fields, types, and enums |
+| **Flat structure for complex charts** | Names become verbose (agentImageRepository, agentImageTag) | Use nested structure grouped by concept (agent.image.repository, agent.image.tag) |
+| **Over-nesting values** | 5+ levels deep makes templates hard to read | Limit to 3 levels; use hybrid approach where needed |
+| **Organizing by template file** | Scatters related config (database.* split across deployment.*, service.*) | Organize by concept, not by where used in templates |
+| **Making all fields required in schema** | Prevents environment-specific overrides from working | Only require fields that MUST be set; allow defaults for others |
+| **Using --set for multi-line values** | Shell escaping becomes nightmare for certificates, JSON | Use --set-file for multi-line content |
+| **Not documenting values** | Developers don't know what values do or valid options | Add YAML comments explaining purpose, valid options, environment recommendations |
+
+**Quick validation checklist before deploying:**
+
+```bash
+# 1. Validate values against schema
+helm template my-chart ./chart -f values-prod.yaml
+
+# 2. Check effective values after merge
+helm template my-chart ./chart -f values-prod.yaml --debug | grep -A 20 "COMPUTED VALUES"
+
+# 3. Verify no secrets in files
+grep -i "password\|secret\|token\|key" values*.yaml
+# Should only show empty values or secretKeyRef references
+
+# 4. Test override precedence
+helm template my-chart ./chart -f values-prod.yaml --set replicas=1 | grep replicas
+# Verify --set value appears, not file value
 ```
 
 ---

@@ -39,6 +39,25 @@ By the end of this lesson, you'll understand how library charts enforce consiste
 
 ---
 
+## What You'll Learn
+
+This lesson covers 8 concepts organized into 3 groups:
+
+| Concept Group | Concepts | What You'll Build |
+|---------------|----------|-------------------|
+| **Library Chart Fundamentals** | 1-2 | Understand library chart type and installation restrictions |
+| **Creating Reusable Templates** | 3-5 | Build organizational templates and consume them in applications |
+| **Advanced Patterns** | 6-8 | Implement overrides, enterprise use cases, and template inheritance |
+
+**Prerequisites:**
+- Completed Lessons 1-4 (Helm basics, templating, values)
+- Understanding of `include` function and template helpers
+- Experience creating application charts
+
+**Time Estimate:** 45 minutes
+
+---
+
 ## Concept 1: Library Chart Type
 
 Library charts declare their purpose in `Chart.yaml` with `type: library`. This tells Helm that this chart exists to be included as a dependency, not to be installed directly.
@@ -125,6 +144,25 @@ for more information.
 ```
 
 This restriction is intentional. Library charts have no `.Chart.Name` release—they're meant to provide helper functions that application charts use. Installing them directly would create an empty release with no resources, providing no value.
+
+---
+
+### Checkpoint: Library Chart Fundamentals
+
+**Quick Reference:**
+- **Library charts**: `type: library` in Chart.yaml, cannot be installed directly
+- **Purpose**: Provide reusable templates consumed by application charts
+- **Usage**: Included as dependencies, not standalone releases
+
+**Self-Check Questions:**
+1. What happens if you try to `helm install` a library chart?
+2. Why does Helm prevent library chart installation?
+3. Where does the library chart declaration go in Chart.yaml?
+
+**Answers:**
+1. Helm returns an error: "chart is a library chart. Library charts are not installable"
+2. Library charts contain only template definitions, not complete deployable resources
+3. `type: library` field in Chart.yaml
 
 ---
 
@@ -482,6 +520,26 @@ Each application overrides organizational defaults for its context while maintai
 
 ---
 
+### Checkpoint: Creating and Consuming Library Templates
+
+**Quick Reference:**
+- **Template files**: Prefix with `_` (e.g., `_labels.tpl`), define with `{{- define "name" -}}`
+- **Dependency setup**: Add to Chart.yaml dependencies, run `helm dependency update`
+- **Template usage**: `{{- include "org-standards.labels" . | nindent 4 }}`
+- **Override values**: Pass through `org-standards:` section in application values.yaml
+
+**Self-Check Questions:**
+1. How do application charts reference library chart templates?
+2. What command fetches library chart dependencies?
+3. How can applications override library default values?
+
+**Answers:**
+1. Using `include` function: `{{- include "library-name.template-name" . }}`
+2. `helm dependency update <chart-directory>/`
+3. Through values.yaml hierarchy under the library chart's name (e.g., `org-standards:`)
+
+---
+
 ## Concept 7: Enterprise Use Cases
 
 Library charts solve real organizational problems: enforcing security policies, maintaining labeling conventions, and standardizing resource defaults across hundreds of deployments.
@@ -596,6 +654,66 @@ livenessProbe:
 ```
 
 The library chart defines structure and defaults, but applications customize behavior through values without modifying templates.
+
+---
+
+### Checkpoint: Advanced Patterns
+
+**Quick Reference:**
+- **Enterprise patterns**: Security enforcement, compliance labels, cost attribution
+- **Template inheritance**: Use `default` function and conditional logic for overrides
+- **Flexibility**: Provide escape hatches (`.custom` blocks) for complete overrides
+
+**Self-Check Questions:**
+1. How can library charts enforce security policies across all deployments?
+2. What's the pattern for allowing applications to override library defaults?
+3. Why include compliance labels in library charts instead of application charts?
+
+**Answers:**
+1. Define security templates (SecurityContext, resource limits) that all apps include automatically
+2. Use `default` function and conditional logic: `{{ .Values.custom | default .Values.libraryDefault }}`
+3. Ensures consistency across all deployments, simplifies auditing, prevents human error
+
+---
+
+## Common Mistakes
+
+Before starting the exercises, be aware of these common pitfalls:
+
+### Mistake 1: Forgetting `type: library` in Chart.yaml
+**Problem:** Creating a library chart without declaring the type
+**Symptom:** Chart can be installed but produces empty release
+**Fix:** Add `type: library` to Chart.yaml
+
+### Mistake 2: Using Library Chart Name Instead of Template Name
+**Problem:** `{{- include "org-standards" . }}` instead of `{{- include "org-standards.labels" . }}`
+**Symptom:** Error: "template: no template \"org-standards\" associated with template"
+**Fix:** Reference the full template name defined in library chart
+
+### Mistake 3: Incorrect Dependency Repository Path
+**Problem:** `repository: "../org-standards"` instead of `repository: "file://../org-standards"`
+**Symptom:** `helm dependency update` fails to find chart
+**Fix:** Use `file://` prefix for local file paths
+
+### Mistake 4: Not Running `helm dependency update`
+**Problem:** Adding dependency to Chart.yaml but not updating dependencies
+**Symptom:** Template errors: "template \"org-standards.labels\" not found"
+**Fix:** Run `helm dependency update` after modifying Chart.yaml dependencies
+
+### Mistake 5: Overriding in Wrong Values Section
+**Problem:** Putting overrides at root level instead of under library chart name
+**Symptom:** Library chart ignores custom values, uses defaults
+**Fix:** Nest overrides under library chart name:
+```yaml
+org-standards:  # Library chart name
+  organization:
+    team: frontend  # Override here
+```
+
+### Mistake 6: Hardcoding Values in Library Templates
+**Problem:** Defining fixed values in library templates instead of reading from values.yaml
+**Symptom:** Applications can't customize behavior without forking library
+**Fix:** Use `{{ .Values.fieldName | default "fallback" }}` pattern
 
 ---
 

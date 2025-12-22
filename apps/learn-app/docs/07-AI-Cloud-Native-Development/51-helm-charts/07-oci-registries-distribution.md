@@ -39,6 +39,36 @@ This lesson teaches you how to package charts into distributable artifacts, auth
 
 ---
 
+## What You'll Learn
+
+This lesson covers the complete workflow for distributing Helm charts via OCI-compliant registries.
+
+### Concept Groups
+
+| Concepts | Topics Covered | Why It Matters |
+|----------|----------------|----------------|
+| **OCI Fundamentals** (1-3) | OCI adoption rationale, packaging with `helm package`, OCI URL format | Understand why Helm moved to OCI and how chart distribution works |
+| **Registry Operations** (4-6) | Authentication (`helm registry login`), pushing charts (`helm push`), pulling charts (`helm pull`) | Execute the complete publish-and-consume workflow |
+| **Versioning & Integration** (7-9) | Semantic versioning for charts, installing from OCI URLs, OCI dependencies in Chart.yaml | Apply production-grade versioning and chart composition |
+
+### Prerequisites
+
+Before starting this lesson, you should have:
+
+- ✅ Completed Lessons 1-6 (chart templating, dependencies, hooks, validation)
+- ✅ A working Helm chart (from previous lessons or your own project)
+- ✅ Docker CLI installed (for registry authentication)
+- ✅ Access to an OCI registry (Docker Hub account, AWS ECR, or local registry)
+- ✅ Kubernetes cluster running (Minikube, Kind, or cloud cluster) for installation testing
+
+### Time Estimate
+
+- **Reading & Concepts**: 25 minutes
+- **Hands-On Exercises**: 20 minutes
+- **Total**: ~45 minutes
+
+---
+
 ## Concept 1: OCI Basics — Why Helm Adopted OCI for Charts
 
 Before you can push a chart to a registry, understand what OCI is and why Helm moved from Helm repositories (custom format) to OCI.
@@ -380,6 +410,33 @@ The version goes into the tag (after the colon), not the image name. This matche
 
 ---
 
+### Checkpoint: OCI Fundamentals
+
+You've learned the foundation of OCI-based chart distribution.
+
+**Quick Reference:**
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `helm package .` | Create `.tgz` archive from chart directory | Creates `myapp-chart-1.2.3.tgz` |
+| `oci://registry/repo/chart:version` | OCI URL format | `oci://docker.io/username/myapp-chart:1.2.3` |
+| Chart version | From `Chart.yaml` `version` field | Determines filename and registry tag |
+
+**Self-Check Questions:**
+
+1. Why did Helm adopt OCI standards instead of maintaining custom Helm repositories?
+   - **Answer**: To unify distribution with container images—same registry, same authentication, same versioning
+
+2. What file determines the name of the `.tgz` archive created by `helm package`?
+   - **Answer**: `Chart.yaml` (`name` and `version` fields create `{name}-{version}.tgz`)
+
+3. How does an OCI chart URL differ from a Docker image URL?
+   - **Answer**: They're structurally identical (`oci://registry/repo/name:tag`), but the content type is different (charts vs images)
+
+**If you can't answer these, review Concepts 1-3 before continuing.**
+
+---
+
 ## Concept 6: Pulling Charts — helm pull
 
 Download charts from OCI registries using `helm pull`.
@@ -470,6 +527,33 @@ total 24
 -rw-r--r--  6 username  staff  198 Nov 27 service.yaml
 -rw-r--r--  6 username  staff  523 Nov 27 _helpers.tpl
 ```
+
+---
+
+### Checkpoint: Registry Operations
+
+You've mastered the publish-and-consume workflow for OCI registries.
+
+**Quick Reference:**
+
+| Command | Purpose | Authentication Required |
+|---------|---------|------------------------|
+| `helm registry login docker.io` | Authenticate with registry | Yes (username/password or token) |
+| `helm push chart.tgz oci://registry/repo/` | Upload chart to registry | Yes (must login first) |
+| `helm pull oci://registry/repo/chart:version` | Download chart from registry | Public: No, Private: Yes |
+
+**Self-Check Questions:**
+
+1. Where does Helm store registry credentials after `helm registry login`?
+   - **Answer**: `~/.docker/config.json` (same location as Docker CLI credentials)
+
+2. What happens if you push a chart version that already exists in the registry?
+   - **Answer**: Registry behavior varies—some overwrite, some reject. Best practice: never reuse versions (bump version instead)
+
+3. Can you install a chart directly from an OCI URL without pulling first?
+   - **Answer**: Yes, use `helm install my-release oci://registry/repo/chart:version`
+
+**If you can't answer these, review Concepts 4-6 before continuing.**
 
 ---
 
@@ -702,6 +786,162 @@ $ ls myapp-chart/charts/
 postgresql-12.1.5.tgz
 prometheus-15.2.1.tgz
 ```
+
+---
+
+### Checkpoint: Versioning & Integration
+
+You've learned production-grade versioning and chart composition strategies.
+
+**Quick Reference:**
+
+| Concept | Key Principle | Example |
+|---------|--------------|---------|
+| **Semantic Versioning** | MAJOR.MINOR.PATCH format | Bug fix: `1.2.3` → `1.2.4`, New feature: `1.2.3` → `1.3.0`, Breaking change: `1.2.3` → `2.0.0` |
+| **Direct Installation** | Install from OCI URL without pulling | `helm install my-release oci://registry/chart:version` |
+| **OCI Dependencies** | Reference dependencies via `oci://` URLs | `repository: "oci://docker.io/bitnamicharts"` in Chart.yaml |
+
+**Self-Check Questions:**
+
+1. When should you bump the MAJOR version of a Helm chart?
+   - **Answer**: When making breaking changes (new required fields, changed chart name, incompatible template changes)
+
+2. Can you install a chart from an OCI registry without downloading it first?
+   - **Answer**: Yes, `helm install` and `helm upgrade` accept OCI URLs directly
+
+3. What's the advantage of using OCI URLs in Chart.yaml dependencies instead of HTTP repository URLs?
+   - **Answer**: Unified authentication, same registry as container images, simpler infrastructure
+
+**If you can't answer these, review Concepts 7-9 before continuing.**
+
+---
+
+## Common Mistakes
+
+Before starting the exercises, avoid these frequent errors:
+
+### Mistake 1: Forgetting to Authenticate Before Push
+
+**Wrong:**
+```bash
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+# Error: failed to authorize: failed to fetch anonymous token
+```
+
+**Right:**
+```bash
+helm registry login docker.io
+# Username: your-username
+# Password: your-token
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+```
+
+**Why**: Private registries (and even public pushes) require authentication. Always `helm registry login` before pushing.
+
+---
+
+### Mistake 2: Mismatched Chart Version and Tag
+
+**Wrong:**
+```yaml
+# Chart.yaml
+version: 1.0.0
+```
+```bash
+helm package .
+# Creates: myapp-chart-1.0.0.tgz
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+# Pushed to: oci://docker.io/username/myapp-chart:1.0.0
+
+# Later, you install:
+helm install myrelease oci://docker.io/username/myapp-chart:1.1.0
+# Error: not found (you never pushed 1.1.0)
+```
+
+**Right:**
+```bash
+# Update Chart.yaml version BEFORE packaging
+sed -i 's/version: 1.0.0/version: 1.1.0/' Chart.yaml
+helm package .
+helm push myapp-chart-1.1.0.tgz oci://docker.io/username/
+# Now 1.1.0 exists in registry
+```
+
+**Why**: The version in `Chart.yaml` determines both the `.tgz` filename and the registry tag. Keep them synchronized.
+
+---
+
+### Mistake 3: Using Docker Pull on Helm Charts
+
+**Wrong:**
+```bash
+docker pull docker.io/username/myapp-chart:1.0.0
+# Error: manifest unknown
+```
+
+**Right:**
+```bash
+helm pull oci://docker.io/username/myapp-chart:1.0.0
+# Downloaded to myapp-chart-1.0.0.tgz
+```
+
+**Why**: Helm charts are stored in OCI registries but aren't Docker images. Use `helm pull`, not `docker pull`.
+
+---
+
+### Mistake 4: Including Trailing Slash Incorrectly in OCI URLs
+
+**Wrong:**
+```bash
+# Missing trailing slash in helm push
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username
+# May fail depending on registry
+
+# Including chart name in push URL
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/myapp-chart
+# Error: chart name included twice
+```
+
+**Right:**
+```bash
+# Helm push: repository path WITH trailing slash
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+
+# Helm pull/install: full path WITHOUT trailing slash
+helm pull oci://docker.io/username/myapp-chart:1.0.0
+```
+
+**Why**: `helm push` expects a repository path (directory), while `helm pull` and `helm install` expect a full artifact reference (chart name + version).
+
+---
+
+### Mistake 5: Reusing Version Numbers After Pushing
+
+**Wrong:**
+```bash
+# Push version 1.0.0
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+
+# Oops, found a bug, fix it
+# Don't change version in Chart.yaml
+helm package .
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+# Overwrites existing 1.0.0 (registry-dependent behavior)
+```
+
+**Right:**
+```bash
+# Push version 1.0.0
+helm push myapp-chart-1.0.0.tgz oci://docker.io/username/
+
+# Found a bug, fix it
+# Bump version to 1.0.1 in Chart.yaml
+helm package .
+helm push myapp-chart-1.0.1.tgz oci://docker.io/username/
+# New version, no conflicts
+```
+
+**Why**: Reusing versions creates ambiguity. Consumers can't tell if they have the buggy or fixed version. Follow semantic versioning: always bump version for changes.
 
 ---
 

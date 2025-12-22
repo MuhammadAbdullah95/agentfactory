@@ -39,6 +39,27 @@ Think of hooks as lifecycle-aware automation. Instead of manually running `kubec
 
 ---
 
+## What You'll Learn
+
+This lesson covers 10 concepts in 3 groups:
+
+| Group | Concepts | What You'll Do |
+|-------|----------|----------------|
+| **Hook Basics** | Hook types, annotations, timing | Understand the 9 hook points in the release lifecycle |
+| **Control** | Weights, delete policies, success/failure | Control execution order and cleanup behavior |
+| **Operations** | Testing, debugging, rollback | Validate and troubleshoot hooks in practice |
+
+**Prerequisites**: You should be comfortable with:
+- Kubernetes Jobs and Pods
+- `kubectl logs` and `kubectl describe`
+- Basic Helm install/upgrade/rollback cycle
+
+**Why this matters**: Without hooks, you'd manually run `kubectl exec` for database migrations before every deployment. Hooks automate this—your chart becomes self-orchestrating.
+
+**Time estimate**: 50-60 minutes
+
+---
+
 ## Concept 1: What Are Helm Hooks?
 
 A Helm hook is a Kubernetes resource (Pod, Job, Deployment, etc.) that Helm executes at a specific point in the release lifecycle. Hooks are declared using annotations in your chart templates.
@@ -410,6 +431,33 @@ spec:
 ```
 
 **Output:** When you run `helm test my-app`, Helm executes this Job and reports the result. If the test succeeds (exit 0), Helm shows "TEST SUITE: PASSED". If it fails (non-zero exit), Helm shows "TEST SUITE: FAILED" and you know there's a problem.
+
+---
+
+### Checkpoint: Hook Types Complete
+
+You've now learned the 9 hook types. Here's the quick reference:
+
+| Hook | When It Runs | Common Use |
+|------|--------------|------------|
+| `pre-install` | Before any resources created | DB schema init |
+| `post-install` | After all resources created | Service registration |
+| `pre-upgrade` | Before upgrade starts | DB migrations |
+| `post-upgrade` | After upgrade completes | Cache invalidation |
+| `pre-delete` | Before deletion starts | Data backup |
+| `post-delete` | After deletion completes | Cleanup external resources |
+| `pre-rollback` | Before rollback starts | Log the rollback |
+| `post-rollback` | After rollback completes | Notify team |
+| `test` | On `helm test` | Smoke tests |
+
+**The most common pair**: `pre-upgrade` for database migrations + `post-upgrade` for cache clearing.
+
+**Quick self-check**: Can you identify which hook you'd use for...
+- Initializing a database before first deploy? (`pre-install`)
+- Running migrations before new code deploys? (`pre-upgrade`)
+- Verifying your app works after deploy? (`test`)
+
+If yes, continue to learn how to control hook execution.
 
 ---
 

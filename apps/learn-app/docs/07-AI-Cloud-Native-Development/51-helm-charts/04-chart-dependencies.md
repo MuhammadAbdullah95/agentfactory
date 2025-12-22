@@ -39,6 +39,28 @@ This lesson teaches how to declare, configure, and manage chart dependencies—t
 
 ---
 
+## What You'll Learn
+
+This lesson covers 9 concepts organized into three groups:
+
+| Concept Group | Concepts | Focus |
+|---------------|----------|-------|
+| **Dependency Declaration** | 1-3 | Chart.yaml syntax, version constraints, fetching subcharts |
+| **Conditional Management** | 4-5 | Enabling/disabling dependencies with conditions and tags |
+| **Configuration Patterns** | 6-9 | Passing values, import-values, aliases, complete workflow |
+
+**Prerequisites:**
+- Lessons 1-3 completed (Chart.yaml structure, templates, values management)
+- Understanding of semantic versioning (MAJOR.MINOR.PATCH)
+- Familiarity with YAML nested structures
+
+**Time Estimate:** 50 minutes
+- Concepts: 25 minutes
+- Exercises: 20 minutes
+- Try With AI: 5 minutes
+
+---
+
 ## Concept 1: Chart.yaml Dependencies Section
 
 A Helm chart declares its dependencies in Chart.yaml using a `dependencies:` list. Each dependency specifies a repository, chart name, version, and optional metadata.
@@ -275,6 +297,31 @@ To enable all data services:
 ```bash
 helm install my-agent ./my-agent-chart --set tags.cache=true --set tags.messaging=true
 ```
+
+---
+
+### Checkpoint: Dependency Declaration & Control
+
+You've covered the fundamentals of dependency management. Here's a quick reference:
+
+| Feature | Syntax | Purpose | Example |
+|---------|--------|---------|---------|
+| **Basic dependency** | `name:`, `version:`, `repository:` | Declare subchart requirement | `postgresql 13.2.0` |
+| **Version constraint** | `^`, `~`, `>=`, ranges | Allow compatible updates | `^13.0.0` (minor/patch OK) |
+| **Condition** | `condition: subchart.enabled` | Optional dependency | Enable/disable per environment |
+| **Tags** | `tags: [database]` | Group dependencies | Enable all databases together |
+| **Fetch subcharts** | `helm dependency update` | Download to `charts/` | Creates local copies |
+
+**Self-Check Questions:**
+
+1. **Version Constraints**: If you declare `version: "^18.5.0"` for Redis, will Helm accept version 19.0.0?
+   <details><summary>Answer</summary>No. Caret (`^`) allows minor and patch updates within the same major version (18.x.x), but not major version changes.</details>
+
+2. **Conditions vs Tags**: When would you use `condition:` instead of `tags:`?
+   <details><summary>Answer</summary>Use `condition:` for individual dependency control. Use `tags:` when grouping related dependencies (like all caching services) for bulk enable/disable.</details>
+
+3. **Missing helm dependency update**: What happens if you add a dependency to Chart.yaml but skip `helm dependency update`?
+   <details><summary>Answer</summary>Helm install will fail with a "dependency not found" error because the subchart files don't exist in `charts/` yet.</details>
 
 ---
 
@@ -516,6 +563,94 @@ Resources created:
 ```
 
 A single `helm install` command deployed your agent, its database, and all supporting infrastructure.
+
+---
+
+## Common Mistakes
+
+**1. Forgetting `helm dependency update` After Changing Chart.yaml**
+
+```yaml
+# Added new dependency to Chart.yaml
+dependencies:
+  - name: redis
+    version: "^18.0.0"
+    repository: "https://charts.bitnami.com/bitnami"
+```
+
+```bash
+# Immediately run helm install without updating
+helm install my-agent ./my-agent-chart
+# ERROR: dependency "redis" not found
+```
+
+**Fix:** Always run `helm dependency update` after modifying the `dependencies:` section.
+
+**2. Using Exact Versions in Production**
+
+```yaml
+dependencies:
+  - name: postgresql
+    version: "13.2.0"  # ❌ Locked to exact version, no security patches
+```
+
+**Fix:** Use semantic versioning constraints like `^13.2.0` to automatically receive patch and minor updates.
+
+**3. Conflicting Condition and Tag Settings**
+
+```yaml
+# Chart.yaml
+dependencies:
+  - name: postgresql
+    condition: postgresql.enabled
+    tags:
+      - database
+```
+
+```yaml
+# values.yaml - CONFLICT
+tags:
+  database: false  # Tag says disable
+
+postgresql:
+  enabled: true    # Condition says enable
+```
+
+**What happens:** The `condition:` field takes precedence over `tags:`, so PostgreSQL WILL be installed (enabled=true wins).
+
+**Fix:** When using both conditions and tags, set individual `enabled:` to `null` and control via tags only.
+
+**4. Incorrect import-values Mapping**
+
+```yaml
+# Chart.yaml - WRONG
+import-values:
+  - child: auth
+    parent: postgresql.auth  # ❌ Don't nest under subchart name
+```
+
+**Fix:** The `parent:` field creates a NEW top-level key in parent values:
+```yaml
+import-values:
+  - child: auth
+    parent: postgresAuth  # ✅ Top-level key
+```
+
+**5. Forgetting to Configure Subchart Service Names**
+
+```yaml
+# Parent deployment.yaml - WRONG
+env:
+  - name: DATABASE_HOST
+    value: "postgresql"  # ❌ Missing release name prefix
+```
+
+**Fix:** Subchart service names are prefixed with the release name:
+```yaml
+env:
+  - name: DATABASE_HOST
+    value: "{{ .Release.Name }}-postgresql"  # ✅ Full service name
+```
 
 ---
 
