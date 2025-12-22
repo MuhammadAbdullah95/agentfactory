@@ -209,6 +209,34 @@ Given that feature description, do this:
 - Written for business stakeholders, not developers.
 - DO NOT create any checklists that are embedded in the spec. That will be a separate command.
 
+## Educational Content Guidelines (Chapters/Lessons)
+
+When the feature is educational content (book chapter, lesson series), the spec MUST include:
+
+1. **Assumed Knowledge Section** (REQUIRED):
+   ```markdown
+   ## Assumed Knowledge
+
+   **What students know BEFORE this chapter**:
+   - [List specific concepts, tools, vocabulary they already have]
+   - [Reference which prior chapters taught these]
+
+   **What this chapter must explain from scratch**:
+   - [List concepts students DON'T know yet]
+   - [These become foundational context in L1 lessons]
+   ```
+
+2. **Proficiency Level**: Include `proficiency_level: [A1/A2/B1/B2/C1/C2]` from chapter-index.md
+
+3. **Layer Progression Validation**:
+   - Does L1 (Manual) build vocabulary needed for L4 (Spec-Driven)?
+   - Is the manual foundation sufficient before AI collaboration?
+
+4. **Domain Expert Check** (add to checklist):
+   - [ ] Chapter teaches AI-native thinking, not just tool mechanics
+   - [ ] L1 lessons build vocabulary/mental models (not just syntax)
+   - [ ] Chapter connects to Part 6 agent (if in Part 7)
+
 ### Section Requirements
 
 - **Mandatory sections**: Must be completed for every feature

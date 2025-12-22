@@ -119,6 +119,19 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **File-based coordination**: Tasks affecting the same files must run sequentially
    - **Validation checkpoints**: Verify each phase completion before proceeding
 
+   **For Educational Content (Chapters/Lessons)**:
+
+   **BEFORE spawning content-implementer agents**:
+   1. **Read 2-3 existing chapters** in the same part to understand voice, level, and patterns
+   2. **Extract from spec.md**: What does student know BEFORE this chapter? What foundational context must be included?
+   3. **Verify Layer progression**: Does L1 build vocabulary needed for L4 specs? Is the manual foundation sufficient?
+   4. **Domain expert question**: "Is this chapter teaching the tool OR teaching AI-native thinking with the tool?"
+
+   **WHEN spawning content-implementer agents**:
+   - Include in prompt: "Target audience knows: [X, Y, Z]. Must explain: [A, B, C] from scratch."
+   - Include in prompt: "Read existing lesson [path] for voice/level calibration before writing."
+   - For parallel lesson generation: Stagger by 2-3 lessons to allow early feedback to inform later lessons
+
 6a. **Constitutional Validation Gate** (for educational content):
    - **MANDATORY** for lesson/chapter creation tasks
    - **Two-Pass Workflow**: content-implementer → educational-validator → filesystem
@@ -142,6 +155,9 @@ You **MUST** consider the user input before proceeding (if not empty).
    - ✅ Evidence presence (70%+ code has output, claims have citations)
    - ✅ Structural compliance (ends with "Try With AI/Practice/Explore" ONLY)
    - ✅ Proficiency metadata (uses `proficiency_level`, not deprecated `cefr_level`)
+   - ✅ **MDX safety**: No angle brackets before letters/numbers (e.g., `<100MB` breaks MDX)
+     - Run: `grep -E '<[a-zA-Z0-9]' lesson.md` — must return empty
+     - Fix pattern: Change `<100MB` to `under 100MB` or `less than 100MB`
 
    **When to Skip**:
    - ❌ Non-educational tasks (API endpoints, database models, scripts)
