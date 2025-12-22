@@ -1,7 +1,7 @@
 ---
-sidebar_position: 7
+sidebar_position: 11
 chapter: 49
-lesson: 7
+lesson: 11
 duration_minutes: 50
 title: "Security & Best Practices"
 proficiency_level: B1

@@ -1,7 +1,7 @@
 ---
-sidebar_position: 9
+sidebar_position: 13
 chapter: 49
-lesson: 9
+lesson: 13
 duration_minutes: 90
 title: "Capstone: Production-Ready Agent Container"
 proficiency_level: B1

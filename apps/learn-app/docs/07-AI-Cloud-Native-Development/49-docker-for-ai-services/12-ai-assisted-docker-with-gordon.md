@@ -1,7 +1,7 @@
 ---
-sidebar_position: 8
+sidebar_position: 12
 chapter: 49
-lesson: 8
+lesson: 12
 duration_minutes: 45
 title: "AI-Assisted Docker with Gordon"
 proficiency_level: B1

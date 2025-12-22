@@ -1,7 +1,7 @@
 ---
-sidebar_position: 6
+sidebar_position: 10
 chapter: 49
-lesson: 6
+lesson: 10
 duration_minutes: 55
 title: "Docker Compose for Development"
 proficiency_level: B1

@@ -1,7 +1,7 @@
 ---
-sidebar_position: 10
+sidebar_position: 14
 chapter: 49
-lesson: 10
+lesson: 14
 duration_minutes: 60
 title: "Building the Production Dockerfile Skill"
 proficiency_level: B1
