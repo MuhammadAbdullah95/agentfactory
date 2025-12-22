@@ -17,7 +17,7 @@ By the end, your containerized FastAPI agent from Chapter 49 will be running on 
 By the end of this chapter, you'll be able to:
 
 - **Understand Kubernetes architecture**: Control plane, worker nodes, and the declarative model
-- **Deploy containers on Kubernetes**: Pods, Deployments, ReplicaSets, and lifecycle management
+- **Deploy containers on Kubernetes**: Pods, Deployments, ReplicaSets, Jobs, CronJobs, and lifecycle management
 - **Use advanced Pod patterns**: Init containers for setup, sidecars for logging and monitoring
 - **Organize workloads**: Namespaces for isolation, resource quotas for multi-tenancy
 - **Expose services**: ClusterIP, NodePort, LoadBalancer, Ingress for HTTP routing
@@ -52,22 +52,23 @@ By the end of this chapter, you'll be able to:
 | 16 | RBAC: Securing Agent Deployments | L1 | ServiceAccount, Role, RoleBinding |
 | 17 | Kubernetes Security for AI Services | L1 | SecurityContext, NetworkPolicy, Pod Security |
 | 18 | Health Checks & Probes | L1 | Liveness, readiness, startup probes |
-| 19 | AI-Assisted K8s with kubectl-ai | L2 | Natural language to manifests, debugging |
-| 20 | Helm Charts for AI Agent Packaging | L1 | Charts, templates, releases |
-| 21 | Capstone: Deploy Your Agent to Kubernetes | L4 | Spec-driven deployment, full validation |
-| 22 | Building the Kubernetes Deployment Skill | L3 | Persona + Questions + Principles |
+| 19 | Jobs & CronJobs: Batch Workloads | L1 | One-time tasks, scheduled jobs, parallelism |
+| 20 | AI-Assisted K8s with kubectl-ai | L2 | Natural language to manifests, debugging |
+| 21 | Helm Charts for AI Agent Packaging | L1 | Charts, templates, releases |
+| 22 | Capstone: Deploy Your Agent to Kubernetes | L4 | Spec-driven deployment, full validation |
+| 23 | Building the Kubernetes Deployment Skill | L3 | Persona + Questions + Principles |
 
 ## 4-Layer Teaching Progression
 
 This chapter follows the **4-Layer Teaching Method**:
 
-- **Lessons 1-18, 20 (Layer 1)**: Build mental models of Kubernetes concepts manually before AI assistance. This includes core primitives (Pods, Deployments, Services), advanced patterns (init containers, sidecars, StatefulSets), networking (Ingress, service discovery), storage, security (RBAC, NetworkPolicy), autoscaling, and Helm packaging.
+- **Lessons 1-19, 21 (Layer 1)**: Build mental models of Kubernetes concepts manually before AI assistance. This includes core primitives (Pods, Deployments, Services), advanced patterns (init containers, sidecars, StatefulSets), networking (Ingress, service discovery), storage, security (RBAC, NetworkPolicy), autoscaling, batch workloads (Jobs/CronJobs), and Helm packaging.
 
-- **Lesson 19 (Layer 2)**: Collaborate with kubectl-ai using Three Roles to translate natural language into cluster operations. By this point, you have deep Kubernetes knowledge to evaluate AI-generated manifests critically.
+- **Lesson 20 (Layer 2)**: Collaborate with kubectl-ai using Three Roles to translate natural language into cluster operations. By this point, you have deep Kubernetes knowledge to evaluate AI-generated manifests critically.
 
-- **Lesson 21 (Layer 4)**: Apply all lessons in a spec-driven capstone project. Deploy your Part 6 FastAPI agent with proper configuration, security, health checks, and resource management.
+- **Lesson 22 (Layer 4)**: Apply all lessons in a spec-driven capstone project. Deploy your Part 6 FastAPI agent with proper configuration, security, health checks, and resource management.
 
-- **Lesson 22 (Layer 3)**: Create reusable intelligence—a Kubernetes deployment skill that compounds across cloud-native projects.
+- **Lesson 23 (Layer 3)**: Create reusable intelligence—a Kubernetes deployment skill that compounds across cloud-native projects.
 
 ## Prerequisites
 
@@ -80,11 +81,11 @@ This chapter follows the **4-Layer Teaching Method**:
 
 Throughout this chapter, we deploy your Part 6 FastAPI agent to Kubernetes:
 
-- **Lessons 1-18**: Learn Kubernetes concepts using your agent as the running example—from basic Pod deployment to production-ready configurations with security, autoscaling, and health checks
-- **Lesson 19**: Use kubectl-ai to generate deployment manifests and troubleshoot cluster issues collaboratively
-- **Lesson 20**: Package your agent as a Helm chart for repeatable, environment-specific deployments
-- **Lesson 21 (Capstone)**: Deploy your containerized Part 6 agent to a Kubernetes cluster with all production patterns applied
-- **Lesson 22**: Create a reusable skill for future Kubernetes deployment work
+- **Lessons 1-19**: Learn Kubernetes concepts using your agent as the running example—from basic Pod deployment to production-ready configurations with security, autoscaling, and health checks
+- **Lesson 20**: Use kubectl-ai to generate deployment manifests and troubleshoot cluster issues collaboratively
+- **Lesson 21**: Package your agent as a Helm chart for repeatable, environment-specific deployments
+- **Lesson 22 (Capstone)**: Deploy your containerized Part 6 agent to a Kubernetes cluster with all production patterns applied
+- **Lesson 23**: Create a reusable skill for future Kubernetes deployment work
 
 By the end, your agent runs on an orchestrated cluster with automatic scaling, self-healing, proper security, and rolling updates.
 

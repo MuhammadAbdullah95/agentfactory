@@ -1,7 +1,7 @@
 ---
-sidebar_position: 21
+sidebar_position: 22
 chapter: 50
-lesson: 21
+lesson: 22
 duration_minutes: 50
 title: "Capstone: Deploy Your Part 6 Agent to Kubernetes"
 proficiency_level: B1

@@ -1,7 +1,7 @@
 ---
-sidebar_position: 20
+sidebar_position: 21
 chapter: 51
-lesson: 20
+lesson: 21
 duration_minutes: 45
 title: "Helm Charts for AI Agent Packaging"
 proficiency_level: B1
