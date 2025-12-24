@@ -14,7 +14,7 @@ export default function Footer() {
                     {/* Brand / Newsletter - Spans 5 columns */}
                     <div className="md:col-span-5 flex flex-col justify-between h-full">
                         <div>
-                            <h3 className="text-2xl font-semibold mb-6 tracking-tight">AI Native Development</h3>
+                            <h3 className="text-2xl font-semibold mb-6 tracking-tight">The AI Agent Factory</h3>
                         </div>
                     </div>
 

@@ -44,7 +44,7 @@ export default function Navbar() {
                             <div className="h-8 w-8 bg-primary rounded-none flex items-center justify-center text-primary-foreground text-sm font-bold">
                                 AI
                             </div>
-                            <span>Native</span>
+                            <span>Agent Factory</span>
                         </Link>
                     </div>
 

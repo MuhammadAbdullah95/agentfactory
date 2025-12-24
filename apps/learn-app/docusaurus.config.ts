@@ -24,9 +24,9 @@ const hydrateEnabled = process.env.R2_HYDRATE_ENABLED === "true";
 const docsPath = hydrateEnabled ? "../build-source" : "docs";
 
 const config: Config = {
-  title: "AI Native Software Development",
+  title: "The AI Agent Factory",
   tagline:
-    "Colearning Agentic AI with Python and TypeScript – Spec Driven Reusable Intelligence",
+    "The Spec-Driven Blueprint for Building and Monetizing Digital FTEs",
   favicon: "favicon.png",
 
   // Custom fields accessible via useDocusaurusContext().siteConfig.customFields
@@ -281,11 +281,11 @@ const config: Config = {
 
     // Open Graph metadata for social media sharing
     metadata: [
-      { property: "og:title", content: "AI Native Software Development" },
+      { property: "og:title", content: "The AI Agent Factory" },
       {
         property: "og:description",
         content:
-          "Colearning Agentic AI with Python and TypeScript – Spec Driven Reusable Intelligence",
+          "The Spec-Driven Blueprint for Building and Monetizing Digital FTEs",
       },
       { property: "og:type", content: "website" },
       {
@@ -296,11 +296,11 @@ const config: Config = {
       { property: "og:image:height", content: "630" },
       { property: "og:url", content: "https://ai-native.panaversity.org" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AI Native Software Development" },
+      { name: "twitter:title", content: "The AI Agent Factory" },
       {
         name: "twitter:description",
         content:
-          "Colearning Agentic AI with Python and TypeScript – Spec Driven Reusable Intelligence",
+          "The Spec-Driven Blueprint for Building and Monetizing Digital FTEs",
       },
       {
         name: "twitter:image",
@@ -317,7 +317,7 @@ const config: Config = {
       },
     },
     navbar: {
-      title: "AI Native Development",
+      title: "Agent Factory",
       // logo: {
       //   alt: 'Panaversity Logo',
       //   src: 'img/book-cover.png',
@@ -414,7 +414,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} <strong>Panaversity</strong> • AI Native Software Development • Free & Open Source`,
+      copyright: `Copyright © ${new Date().getFullYear()} <strong>Panaversity</strong> • The AI Agent Factory • Free & Open Source`,
     },
     prism: {
       theme: prismThemes.github,

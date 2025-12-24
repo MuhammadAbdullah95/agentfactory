@@ -31,20 +31,20 @@ function HomepageHeader() {
               </span>
               <span className="w-12 h-[1px] bg-border"></span>
               <span className="font-mono text-xs text-muted-foreground/60 tracking-wider">
-                SPEC-DRIVEN REUSABLE INTELLIGENCE
+                BUILD & MONETIZE DIGITAL FTEs
               </span>
             </div>
 
             {/* Heading */}
             <div className="space-y-6 mb-10">
               <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tighter text-foreground leading-[1.0] uppercase">
-                AI NATIVE <br />
+                THE AI AGENT <br />
                 <span className="text-primary block text-2xl md:text-4xl lg:text-5xl xl:text-6xl tracking-tight mt-1">
-                  SOFTWARE DEVELOPMENT
+                  FACTORY
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground font-normal leading-[1.6] max-w-xl">
-                Master <span className="text-foreground font-medium">Reusable Intelligence</span> with Spec-Driven methodology.
+                The <span className="text-foreground font-medium">Spec-Driven Blueprint</span> for building and monetizing Digital FTEs.
                 Learn how General AI Agents build Custom AI Agents. Create <span className="text-foreground font-medium">Reliable Digital FTEs</span>—intelligent systems you can trust, deploy, and monetize.
               </p>
             </div>
@@ -84,7 +84,7 @@ function HomepageHeader() {
             <div className="relative z-10 transform transition-transform duration-700 hover:scale-[1.28] scale-[1.25]">
               <ThreeDBook
                 src="/img/book-cover-page.png"
-                alt="AI Native Software Development Book Cover"
+                alt="The AI Agent Factory Book Cover"
               />
             </div>
           </div>
@@ -517,8 +517,8 @@ export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title="AI Native Software Development"
-      description="Master Reusable Intelligence with Spec-Driven methodology. Learn how General AI Agents build Custom AI Agents. Create Reliable Digital FTEs—intelligent systems you can trust, deploy, and monetize."
+      title="The AI Agent Factory"
+      description="The Spec-Driven Blueprint for Building and Monetizing Digital FTEs. Learn how General AI Agents build Custom AI Agents. Create Reliable Digital FTEs—intelligent systems you can trust, deploy, and monetize."
     >
       <HomepageHeader />
       <AISpectrumSection />
