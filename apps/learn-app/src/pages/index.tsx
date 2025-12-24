@@ -50,12 +50,20 @@ function HomepageHeader() {
             </div>
 
             {/* CTA Area */}
-            <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center mb-16">
-              <Button asChild size="lg" className="h-14 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 text-primary-foreground transition-all">
-                <Link to="/docs/preface-agent-native" className="flex items-center gap-3">
-                  START READING <ArrowRight className="w-5 h-5" />
-                </Link>
-              </Button>
+            {/* CTA Area */}
+            <div className="flex flex-col items-start gap-6 mb-16">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button asChild size="lg" className="h-14 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 text-primary-foreground transition-all">
+                  <Link to="/docs/preface-agent-native" className="flex items-center gap-3">
+                    START READING <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="h-14 px-8 text-lg font-bold rounded-none transition-all">
+                  <Link to="https://panaversity.org/">
+                    Explore Panaversity
+                  </Link>
+                </Button>
+              </div>
               <div className="text-sm text-muted-foreground font-mono">
                 // Open Source
               </div>
