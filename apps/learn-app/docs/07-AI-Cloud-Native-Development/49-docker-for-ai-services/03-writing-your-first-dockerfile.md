@@ -183,9 +183,9 @@ def health_check() -> dict:
 This Task API provides:
 - **POST /tasks**: Create a new task
 - **GET /tasks**: List all tasks
-- **GET /tasks/{id}**: Get a specific task
-- **PUT /tasks/{id}**: Update a task
-- **DELETE /tasks/{id}**: Delete a task
+- **GET /tasks/\{id\}**: Get a specific task
+- **PUT /tasks/\{id\}**: Update a task
+- **DELETE /tasks/\{id\}**: Delete a task
 - **GET /health**: Health check endpoint (essential for container orchestration)
 
 Next, create the `pyproject.toml` for UV package management:

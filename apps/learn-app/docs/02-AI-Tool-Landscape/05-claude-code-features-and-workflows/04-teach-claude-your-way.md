@@ -140,7 +140,7 @@ The Skills Lab contains two types of skills:
 **Requires Python installed** (for later):
 - `docx`, `pdf`, `pptx`, `xlsx` - These document skills run Python scripts on your machine
 
-Don't have Python? No problem! We'll use `internal-comms` in this lesson—it works perfectly without any extra setup. You'll install Python in [Chapter 16](/05-Python-Fundamentals/16-introduction-to-python/) and unlock the document skills then.
+Don't have Python? No problem! We'll use `internal-comms` in this lesson—it works perfectly without any extra setup. You'll install Python in [Chapter 16](/docs/Python-Fundamentals/introduction-to-python/) and unlock the document skills then.
 :::
 
 ### Step 1: Download the Skills Lab
@@ -268,7 +268,7 @@ Here are more examples to try (all work without Python):
 Each time, Claude will activate the relevant skill based on your request. You can invoke explicitly by name or let Claude detect which skill applies.
 
 :::tip After Installing Python
-Once you have Python installed (covered in [Chapter 16](/05-Python-Fundamentals/16-introduction-to-python/)), come back and try the document skills:
+Once you have Python installed (covered in [Chapter 16](/docs/Python-Fundamentals/introduction-to-python/)), come back and try the document skills:
 - "Create a PowerPoint presentation about AI agents." (pptx skill)
 - "Create a budget spreadsheet with monthly totals." (xlsx skill)
 - "Extract text from this PDF and summarize it." (pdf skill)

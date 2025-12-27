@@ -59,7 +59,7 @@ By the end of this lesson, you'll have Spec-Kit Plus installed, your AI tool con
 
 ## Prerequisites: Python 3.12+
 
-Spec-Kit Plus requires **Python 3.12 or higher**. If you haven't installed Python yet, complete the Python installation chapter first (see [Chapter 11: Python Installation]([/docs/05-Python-Foundations/15-setting-up-python/README.md](https://ai-native.panaversity.org/docs/Python-Fundamentals/introduction-to-python/installing-python))).
+Spec-Kit Plus requires **Python 3.12 or higher**. If you haven't installed Python yet, complete the Python installation chapter first (see [Python UV Package Manager](/docs/Python-Fundamentals/python-uv-package-manager/)).
 
 **Check your Python version:**
 
