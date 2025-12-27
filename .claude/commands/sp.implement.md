@@ -81,10 +81,12 @@ You MUST use subagents for ALL educational content. Direct file writes bypass qu
    - Quality reference lesson path
    - "Execute autonomously without confirmation"
    - Full frontmatter requirements
-3. SUBAGENT generates lesson and reports back
-4. YOU invoke educational-validator on generated content
-5. IF PASS → Write to filesystem
-6. IF FAIL → Fix or regenerate (DO NOT write failing content)
+3. SUBAGENT writes file directly and returns confirmation only (~50 lines max)
+   ✅ Returns: "Created path.md - 847 lines - Validation: PASS"
+   ❌ Does NOT return: full lesson content (wastes context)
+4. YOU invoke educational-validator on the WRITTEN FILE (read from disk)
+5. IF PASS → Task complete
+6. IF FAIL → Fix file directly or regenerate
 ```
 
 **Why This Matters**:
@@ -196,8 +198,8 @@ THEN STOP and invoke proper subagent workflow
 
 6. Execute implementation following the task plan:
    - For each lesson, use a separate content-implementer subagent. You can run them in parallel or sequentially based on the task details in tasks.md.
-   - You're in collaboration with user and responsible to orchestrate the subagents. Ensure the instructions are clear and well-defined, use the evaluation rubric skill to assess the quality of the implementation. Continuously iterate, once you're satisfied with each lesson, and add them in the directory.
-   - All content-implementer subagents report back to you and you're responsible to add the lessons in the main file system.
+   - You're in collaboration with user and responsible to orchestrate the subagents. Ensure the instructions are clear and well-defined, use the evaluation rubric skill to assess the quality of the implementation.
+   - **Subagents write files directly** - they return only confirmation (~50 lines), NOT full content. You then validate the written files.
    - **Phase-by-phase execution**: Complete each phase before moving to the next
    - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together
    - **Follow TDD approach**: Execute test tasks before their corresponding implementation tasks
@@ -260,14 +262,14 @@ THEN STOP and invoke proper subagent workflow
 
    **Process**:
    ```
-   1. content-implementer generates draft lesson
-      ↓ (report back to orchestrator)
-   2. educational-validator validates constitutional compliance
+   1. content-implementer writes lesson directly to specified path
+      ↓ (returns confirmation only: "✅ Created path.md - 847 lines")
+   2. educational-validator reads file from disk and validates
       ↓
-      ├─→ PASS: Write to filesystem, mark task complete
+      ├─→ PASS: Mark task complete
       └─→ FAIL: Show violations
           ↓
-          Option A: Auto-fix (if trivial: metadata, heading format)
+          Option A: Auto-fix file directly (if trivial: metadata, heading format)
           Option B: Regenerate with violations as context
           Option C: Report to user for manual review
    ```
@@ -288,8 +290,8 @@ THEN STOP and invoke proper subagent workflow
 
    **Invocation**:
    - Use Task tool with `subagent_type: "educational-validator"`
-   - Pass generated lesson content as input
-   - Review validation report before filesystem write
+   - Pass the **file path** (validator reads from disk, not content in prompt)
+   - Review validation report and fix issues if any
 
    **Reference**: `.claude/agents/educational-validator.md` for full validation framework
 
@@ -317,6 +319,25 @@ THEN STOP and invoke proper subagent workflow
    - Confirm the implementation follows the technical plan
    - Report final status with summary of completed work
    - **Educational content**: Ensure all lessons passed constitutional validation (step 6a)
+
+10. **Create PHR for Implementation Work** (MANDATORY):
+
+    **⚠️ BEFORE completing**, document the implementation work:
+
+    ```bash
+    Skill: sp.phr
+    Args: "Implemented [feature-name]: [brief summary of what was completed]"
+    ```
+
+    **PHR must capture**:
+    - Number of tasks completed
+    - Files created/modified
+    - Validation results (PASS/FAIL counts for educational content)
+    - Any issues encountered and how they were resolved
+
+    **Stage**: Use `green` for successful implementation, `red` if debugging was involved
+
+    **Why this matters**: PHRs enable pattern recognition across implementations, provide audit trail, and feed into spaced repetition learning.
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/sp.tasks` first to regenerate the task list.
 

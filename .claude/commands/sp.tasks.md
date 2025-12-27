@@ -42,7 +42,11 @@ You **MUST** consider the user input before proceeding (if not empty).
   - Invoke skill: learning-objectives (generate measurable outcomes)
   - Invoke skill: exercise-designer (3 exercises per lesson)
   - Invoke skill: ai-collaborate-teaching (if L2+)
-  - Use content-implementer subagent with quality reference
+  - Use content-implementer subagent:
+    - Writes file directly to absolute path
+    - Returns confirmation only (~50 lines), NOT full content
+    - In Tasks must assign path and everything properly to it.
+  - Invoke educational-validator (reads file from disk)
   - Invoke skill: content-evaluation-framework (before marking complete)
 ```
 
@@ -50,7 +54,18 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Mandatory Subagent Orchestration (CONTENT WORK)
 
-**Direct task generation for content is BLOCKED. You MUST embed subagent requirements in tasks:**
+**Direct task generation for content is BLOCKED. You MUST embed subagent requirements in tasks.**
+
+### Direct-Write Protocol (CRITICAL)
+
+Subagents write files directly and return only confirmation:
+
+| ❌ OLD (Wasteful) | ✅ NEW (Efficient) |
+|-------------------|-------------------|
+| Subagent → returns 800 lines → orchestrator writes | Subagent writes directly → returns "✅ Created path - 847 lines" |
+| Bloats context by 1600+ lines per lesson | Returns ~50 lines max |
+
+**Why this matters**: Returning full content wastes tokens and bloats orchestrator context.
 
 | Phase | Subagent | Embedded In Task |
 |-------|----------|------------------|
@@ -63,9 +78,10 @@ You **MUST** consider the user input before proceeding (if not empty).
 - [ ] T0XX [USY] Lesson Z: [Title]
   - **SUBAGENT**: content-implementer
     - Output path: /absolute/path/to/lesson.md
+    - Writes file directly (returns confirmation only, NOT full content)
     - Execute autonomously without confirmation
     - Include quality reference lesson path
-  - **VALIDATION**: educational-validator (MUST PASS before marking complete)
+  - **VALIDATION**: educational-validator reads file from disk (MUST PASS before marking complete)
   - **SKILLS**: learning-objectives, exercise-designer, fact-check-lesson
 ```
 

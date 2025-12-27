@@ -7,11 +7,53 @@ handoffs:
     send: true
 ---
 
-# /sp.chapter: Research-First Chapter Creation (v1.0)
+# /sp.chapter: Research-First Chapter Creation (v1.3)
 
 **Purpose**: Build deep expertise BEFORE writing content. Creates a programmatic skill for the technical domain, tests it on real projects, then uses that expertise to write high-quality chapter content.
 
 **When to Use**: Creating new technical chapters (Part 6-7) that teach frameworks, SDKs, or tools.
+
+---
+
+## ⛔ ENFORCEMENT RULES (READ FIRST) ⛔
+
+**These rules are NON-NEGOTIABLE. Violations cause quality drift.**
+
+### Rule 1: NO SKIPPING STEPS
+Every step marked "EXECUTE - DO NOT SKIP" MUST be executed with the FULL prompt shown.
+- ❌ FORBIDDEN: Outputting just `/sp.specify` without executing
+- ❌ FORBIDDEN: Skipping clarification because "spec looks complete"
+- ❌ FORBIDDEN: Combining multiple steps to "save time"
+- ✅ REQUIRED: Execute each step, wait for completion, verify output, proceed
+
+### Rule 2: NO ABBREVIATED PROMPTS
+Each Skill/Task invocation MUST include the FULL prompt context shown.
+- ❌ FORBIDDEN: `Skill: sp.tasks Args: chapter-37` (too short)
+- ✅ REQUIRED: Full multi-line prompt with all context, requirements, paths
+
+### Rule 3: NO QUALITY SHORTCUTS
+- ❌ FORBIDDEN: Skipping validators because "content looks good"
+- ❌ FORBIDDEN: Writing content directly instead of using subagents
+- ❌ FORBIDDEN: Skipping PHR creation because "we're almost done"
+- ✅ REQUIRED: Every validator must run and pass before commit
+
+### Rule 4: PROGRESS REPORTING
+After EACH step, you MUST report:
+```
+✅ Step [X]: [Name] COMPLETE
+   Created: [file path or "N/A"]
+   Summary: [1-2 sentences]
+   Verified: [checklist items checked]
+   Next: Step [X+1]
+```
+
+### Rule 5: FAILURE RESPONSE
+If ANY step fails:
+1. DO NOT proceed to next step
+2. Report the failure with specific error
+3. Fix the issue
+4. Re-run the failed step
+5. Only proceed when step passes
 
 ---
 
@@ -318,138 +360,466 @@ Research sources:
 Tested on: TaskManager agent implementation"
 ```
 
+### Step A.6: Create PHR for Phase A
+
+**⚠️ MANDATORY**: Document the skill creation work.
+
+```
+Skill: sp.phr
+Args: "Created [framework] expertise skill with research from DeepWiki, Context7, and community sources"
+```
+
 ---
 
 ## PHASE B: CHAPTER CREATION
 
-**Now with verified skill as knowledge source:**
+**⛔ CRITICAL: EVERY STEP IS MANDATORY. DO NOT SKIP OR ABBREVIATE. ⛔**
 
-### Step B.1: Specification
+Each step below MUST be executed with the FULL prompt shown. Simply outputting a command name (e.g., "/sp.specify") without executing it is a FAILURE.
+
+**Progress Tracking Required**: After each step, report:
+```
+✅ Step B.N: [Step Name] COMPLETE
+   Created: [file path]
+   Content: [brief summary]
+   Next: Step B.N+1
+```
+
+---
+
+### Step B.1: Specification (EXECUTE - DO NOT SKIP)
+
+**Invoke the Skill tool with FULL context:**
 
 ```
 Skill: sp.specify
-Args: "Chapter [N]: [Title]"
+Args: |
+  Create specification for Chapter [N]: [Title]
 
-Include in spec:
-- Reference skill: .claude/skills/building-with-[framework]
-- Running example: TaskManager Agent
-- Auxiliary examples: Legal, Finance, Healthcare agents
+  CONTEXT (from Phase A skill):
+  - Framework/SDK: [framework name]
+  - Expertise skill created: .claude/skills/building-with-[framework]/SKILL.md
+  - Running example: TaskManager Agent
+  - Target proficiency: [A1|A2|B1|B2|C1|C2]
+
+  REQUIRED IN SPEC:
+  1. Chapter overview with learning outcomes
+  2. Lesson breakdown (7-10 lessons typical)
+  3. Layer progression: L1 (manual) → L2 (collaboration) → L3 (skill) → L4 (orchestration)
+  4. Prerequisites from earlier chapters
+  5. Reference to expertise skill for accurate API patterns
+  6. Images/videos available for this chapter (list paths)
+
+  OUTPUT: specs/chapter-[N]-[slug]/spec.md
+
+  Execute autonomously. DO NOT ask "Should I proceed?"
 ```
 
-### Step B.2: Clarification
+**After completion, verify**:
+- [ ] spec.md exists at correct path
+- [ ] Contains 7-10 lesson titles
+- [ ] Layer progression is explicit
+- [ ] References expertise skill
+
+---
+
+### Step B.2: Clarification (EXECUTE - DO NOT SKIP)
+
+**Invoke the Skill tool to resolve ambiguities:**
 
 ```
 Skill: sp.clarify
-Args: [feature-name]
+Args: |
+  Review and clarify specification: specs/chapter-[N]-[slug]/spec.md
+
+  CHECK FOR:
+  1. Ambiguous lesson scope (too broad/narrow?)
+  2. Missing prerequisites
+  3. Unclear proficiency expectations
+  4. Technology version specifications
+  5. Exercise complexity alignment
+
+  ASK UP TO 5 clarification questions if needed.
+  ENCODE answers back into spec.md.
+
+  If spec is already clear, confirm: "Spec is complete, no clarifications needed."
 ```
 
-### Step B.3: Planning
+**After completion, verify**:
+- [ ] Any ambiguities resolved
+- [ ] Spec updated with clarifications (if any)
+
+---
+
+### Step B.3: Planning (EXECUTE - DO NOT SKIP)
+
+**Invoke with chapter-planner subagent (NOT general planning):**
 
 ```
-Skill: sp.plan
-Args: [feature-name]
+Task subagent_type=chapter-planner
+Prompt: |
+  Create implementation plan for: specs/chapter-[N]-[slug]/spec.md
 
-Plan should leverage:
-- Skill's decision logic for lesson structure
-- Skill's examples for "Try With AI" sections
-- Skill's safety notes for guardrails
+  LEVERAGE EXPERTISE SKILL:
+  - Read: .claude/skills/building-with-[framework]/SKILL.md
+  - Use skill's decision logic for lesson structure
+  - Use skill's examples for "Try With AI" sections
+  - Use skill's safety notes for guardrails
+
+  PLAN MUST INCLUDE:
+  1. Lesson-by-lesson breakdown with:
+     - Title and learning objectives
+     - Layer (L1/L2/L3/L4)
+     - Proficiency level (CEFR)
+     - Key concepts from expertise skill
+     - Estimated duration
+  2. Pedagogical arc (Foundation → Practice → Integration → Mastery)
+  3. Cognitive load assessment per lesson
+  4. Content dependencies and ordering
+  5. Images/videos to include (from available assets)
+
+  QUALITY REFERENCE:
+  Match structure of: apps/learn-app/docs/01-Introducing-AI-Driven-Development/01-agent-factory-paradigm/
+
+  OUTPUT: specs/chapter-[N]-[slug]/plan.md
+
+  Execute autonomously without confirmation.
 ```
 
-### Step B.4: Task Generation
+**After completion, verify**:
+- [ ] plan.md exists at correct path
+- [ ] Each lesson has layer and proficiency specified
+- [ ] Pedagogical arc is clear
+- [ ] References expertise skill
+
+---
+
+### Step B.4: Task Generation (EXECUTE - DO NOT SKIP)
+
+**Generate actionable task list:**
 
 ```
 Skill: sp.tasks
-Args: [feature-name]
+Args: |
+  Generate tasks from plan: specs/chapter-[N]-[slug]/plan.md
+
+  FOR EACH LESSON, CREATE TASK WITH:
+  - Task ID: T[N].L[X]
+  - Description: "Create lesson X: [Title]"
+  - Output path: apps/learn-app/docs/[part]/[chapter]/[lesson-slug].md
+  - Dependencies: List prior lessons if any
+  - Acceptance criteria:
+    * Full YAML frontmatter (skills, learning_objectives, cognitive_load)
+    * 3 "Try With AI" prompts with explanations
+    * Evidence blocks for all code
+    * Ends with activity section (no summary after)
+
+  ADDITIONAL TASKS:
+  - T[N].README: Chapter README.md
+  - T[N].ASSESS: Chapter assessment/quiz
+  - T[N].VALIDATE: Run all validators
+
+  OUTPUT: specs/chapter-[N]-[slug]/tasks.md
 ```
 
-### Step B.5: Analysis
+**After completion, verify**:
+- [ ] tasks.md exists with all lessons as tasks
+- [ ] Each task has acceptance criteria
+- [ ] Output paths are absolute
+
+---
+
+### Step B.5: Cross-Artifact Analysis (EXECUTE - DO NOT SKIP)
+
+**Validate consistency across artifacts:**
 
 ```
 Skill: sp.analyze
-Args: [feature-name]
+Args: |
+  Analyze artifacts for chapter: specs/chapter-[N]-[slug]/
+
+  CHECK:
+  1. spec.md ↔ plan.md alignment (all lessons in both?)
+  2. plan.md ↔ tasks.md alignment (all tasks for all lessons?)
+  3. Proficiency consistency (same levels throughout?)
+  4. Dependency correctness (no circular dependencies?)
+  5. Output path validity (directories exist?)
+
+  REPORT:
+  - Gaps found
+  - Inconsistencies
+  - Recommended fixes
+
+  If issues found, FIX THEM before proceeding.
 ```
 
-### Step B.6: GitHub Issues
+**After completion, verify**:
+- [ ] All artifacts aligned
+- [ ] Issues fixed (if any were found)
+
+---
+
+### Step B.6: GitHub Issues (EXECUTE - DO NOT SKIP)
+
+**Convert tasks to trackable issues:**
 
 ```
 Skill: sp.taskstoissues
-Args: [feature-name]
+Args: |
+  Create GitHub issues from: specs/chapter-[N]-[slug]/tasks.md
+
+  FOR EACH TASK:
+  - Create issue with task description
+  - Add labels: content, chapter-[N], lesson
+  - Add to milestone: Chapter [N]
+  - Include acceptance criteria in issue body
+
+  RETURN: List of created issue numbers
 ```
 
-### Step B.7: Implementation
+**After completion, verify**:
+- [ ] Issues created in GitHub
+- [ ] Issue numbers recorded in tasks.md
+
+---
+
+### Step B.7: Implementation (EXECUTE - DO NOT SKIP)
+
+**⛔ USE SUBAGENTS - DO NOT WRITE CONTENT DIRECTLY ⛔**
 
 ```
 Skill: sp.implement
-Args: [feature-name]
+Args: |
+  Implement chapter: specs/chapter-[N]-[slug]/
 
-Each lesson subagent has access to:
-- The framework skill (building-with-[framework])
-- Content skills (ai-collaborate-teaching, exercise-designer)
-- Validation skills (content-evaluation-framework)
+  EXECUTION RULES:
+  1. For EACH lesson task, spawn content-implementer subagent
+  2. Each subagent writes directly to output path
+  3. Subagent returns confirmation only (~50 lines), NOT full content
+  4. After each lesson written, invoke educational-validator on the file
+  5. Fix any validation failures before moving to next lesson
+
+  SUBAGENT PROMPT MUST INCLUDE:
+  ```
+  Execute autonomously without confirmation.
+
+  Create lesson: [Title]
+  Output path: [ABSOLUTE PATH]
+  DO NOT create new directories.
+
+  EXPERTISE SOURCE:
+  Read: .claude/skills/building-with-[framework]/SKILL.md
+  Use accurate API patterns from this skill.
+
+  QUALITY REFERENCE:
+  Match: apps/learn-app/docs/01-Introducing-AI-Driven-Development/01-agent-factory-paradigm/01-digital-fte-revolution.md
+
+  REQUIRED:
+  - Full YAML frontmatter (skills, learning_objectives, cognitive_load, differentiation)
+  - 3 "Try With AI" prompts with "What you're learning" explanations
+  - Evidence blocks (Output:) for all executable code
+  - Safety note at end
+  - NO sections after "Try With AI" (no Summary, no What's Next)
+  ```
+
+  PROGRESS: After each lesson, update tasks.md to mark [X] complete.
 ```
 
-### Step B.8: Validation (MANDATORY GATE)
+**After completion, verify**:
+- [ ] All lesson files created at correct paths
+- [ ] All tasks marked complete in tasks.md
+- [ ] Educational-validator passed for each lesson
 
-**⛔ BLOCKING REQUIREMENT**: Content MUST pass all validators before commit.
+### Step B.8: Validation (MANDATORY GATE - DO NOT SKIP)
 
-**Launch ALL validators in parallel:**
+**⛔ BLOCKING REQUIREMENT**: Content MUST pass ALL validators before commit.
+
+**Launch validators in parallel with FULL prompts:**
 
 ```
-# Educational compliance (per lesson - run 8 in parallel for 8 lessons)
-Task subagent_type=educational-validator (per lesson file)
-  - Framework invisibility check
-  - Evidence presence check
-  - Structural compliance check
-  - Proficiency alignment check
-  - Three Roles demonstration check
+# Per-lesson validation (spawn N parallel agents for N lessons)
+FOR EACH lesson file in chapter:
+  Task subagent_type=educational-validator
+  Prompt: |
+    Validate lesson: [ABSOLUTE PATH TO LESSON]
 
-# Comprehensive quality (chapter-wide)
+    READ SKILLS FIRST (MANDATORY):
+    1. Read .claude/skills/content-evaluation-framework/SKILL.md
+    2. Read .claude/skills/ai-collaborate-teaching/SKILL.md
+    3. Read .claude/skills/learning-objectives/SKILL.md
+
+    CHECK:
+    1. Framework invisibility (no "AI as Teacher", "Part 2:", meta-commentary)
+    2. Evidence presence (70%+ code has Output: blocks)
+    3. Structural compliance (ends with "Try With AI", no sections after)
+    4. Proficiency alignment (uses proficiency_level, matches tier)
+    5. Three Roles demonstration (student teaches AI at some point)
+
+    RETURN: PASS with summary, or FAIL with specific line numbers and fixes
+
+# Chapter-wide validation (parallel with per-lesson)
 Task subagent_type=validation-auditor
-  - Technical accuracy
-  - Pedagogical effectiveness
-  - Writing quality
-  - Structure & organization
+Prompt: |
+  Validate chapter: apps/learn-app/docs/[part]/[chapter]/
 
-# Fact verification (chapter-wide)
+  Apply 6-category weighted rubric:
+  - Technical Accuracy (30%)
+  - Pedagogical Effectiveness (25%)
+  - Writing Quality (20%)
+  - Structure & Organization (15%)
+  - AI-First Teaching (10%)
+  - Constitution Compliance (Pass/Fail gate)
+
+  RETURN: Overall score and per-category breakdown
+
 Task subagent_type=factual-verifier
-  - API patterns against official docs
-  - Statistics and dates
-  - Code examples accuracy
+Prompt: |
+  Verify all facts in chapter: apps/learn-app/docs/[part]/[chapter]/
 
-# Learning progression (chapter-wide)
+  FOR EACH lesson:
+  1. Extract all statistics, dates, quotes
+  2. WebSearch to verify accuracy
+  3. Flag any unverified or incorrect claims
+
+  RETURN: List of verified claims and unverified claims
+
 Task subagent_type=pedagogical-designer
-  - Concept scaffolding validation
-  - Cognitive load assessment
-  - Layer progression check (L1→L2→L3→L4)
+Prompt: |
+  Validate learning progression in: apps/learn-app/docs/[part]/[chapter]/
+
+  CHECK:
+  1. Layer progression L1→L2→L3→L4 is honored
+  2. Cognitive load appropriate per proficiency tier
+  3. Concept scaffolding builds properly
+  4. No prerequisite violations
+
+  RETURN: PASS or FAIL with specific issues
 ```
 
 **GATE CRITERIA - ALL MUST PASS:**
-| Validator | Pass Criteria |
-|-----------|---------------|
-| `educational-validator` | All 5 checks pass per lesson |
-| `validation-auditor` | Score ≥ 80% weighted average |
-| `factual-verifier` | Zero unverified claims |
-| `pedagogical-designer` | Progression validated |
+| Validator | Pass Criteria | Failure Action |
+|-----------|---------------|----------------|
+| `educational-validator` | All 5 checks pass per lesson | Fix issues, re-validate lesson |
+| `validation-auditor` | Score ≥ 80% weighted average | Identify weak areas, improve |
+| `factual-verifier` | Zero unverified claims | WebSearch and fix all claims |
+| `pedagogical-designer` | Progression validated | Reorder or add bridging content |
 
 **IF ANY VALIDATOR FAILS:**
-1. DO NOT proceed to Step B.9
-2. Fix identified issues
-3. Re-run failed validators
-4. Only proceed when all pass
+1. ⛔ DO NOT proceed to Step B.9
+2. Read validation report carefully
+3. Fix ALL identified issues in the affected files
+4. Re-run ONLY the failed validators
+5. Repeat until all pass
+6. Only then proceed
 
-### Step B.9: Close Issues
+---
+
+### Step B.9: Close GitHub Issues (EXECUTE - DO NOT SKIP)
+
+**Update task tracking:**
 
 ```bash
-# For each completed task
-gh issue close [issue-number] --comment "Completed in [commit]"
+# Read tasks.md to get issue numbers
+# For each completed task with issue number:
+gh issue close [issue-number] --comment "Completed in [commit-sha]
+
+Files created:
+- [list of lesson files]
+
+Validation results:
+- educational-validator: PASS
+- validation-auditor: [score]%
+- factual-verifier: [N] claims verified
+- pedagogical-designer: PASS"
 ```
 
-### Step B.10: Commit and PR
+**After completion, verify**:
+- [ ] All issues closed
+- [ ] Comments include validation results
+
+---
+
+### Step B.10: Create PHRs (EXECUTE - DO NOT SKIP)
+
+**⚠️ MANDATORY**: Document ALL chapter work with PHRs.
+
+```
+# PHR for Phase A (skill creation)
+Skill: sp.phr
+Args: |
+  Created [framework] expertise skill for Chapter [N]
+
+  Research sources used:
+  - DeepWiki: [repo]
+  - Context7: [library docs]
+  - Community: [key sources]
+
+  Skill output: .claude/skills/building-with-[framework]/SKILL.md
+  Tested on: TaskManager implementation
+
+# PHR for Phase B (chapter implementation)
+Skill: sp.phr
+Args: |
+  Implemented Chapter [N]: [Title]
+
+  Lessons created: [count]
+  Files: [list of paths]
+  Validation results:
+  - educational-validator: [X]/[N] lessons passed
+  - validation-auditor: [score]%
+  - factual-verifier: [N] claims verified
+  - pedagogical-designer: PASS
+
+  Issues closed: [list of issue numbers]
+```
+
+**After completion, verify**:
+- [ ] PHR files created in history/prompts/
+- [ ] Both Phase A and Phase B documented
+
+---
+
+### Step B.11: Commit and PR (EXECUTE - DO NOT SKIP)
+
+**Create atomic commit and PR:**
 
 ```
 Skill: sp.git.commit_pr
-Args: [feature-name]
+Args: |
+  Commit and create PR for Chapter [N]: [Title]
+
+  COMMIT MESSAGE FORMAT:
+  feat(content): add Chapter [N] - [Title]
+
+  Lessons:
+  - [List of lesson titles]
+
+  Skills created:
+  - building-with-[framework]
+
+  Validation: All validators passed
+  PHRs: [PHR IDs]
+
+  PR BODY:
+  ## Summary
+  - [N] lessons teaching [framework]
+  - Layer progression: L1→L2→L3→L4
+  - Proficiency: [tier]
+
+  ## Validation Results
+  - educational-validator: ✅ All lessons passed
+  - validation-auditor: [score]%
+  - factual-verifier: [N] claims verified
+  - pedagogical-designer: ✅ Progression validated
+
+  ## Files Changed
+  [List of files]
 ```
+
+**After completion, verify**:
+- [ ] Commit created with proper message
+- [ ] PR created with validation summary
+- [ ] All files included
 
 ---
 
@@ -562,7 +932,7 @@ apps/learn-app/docs/06-AI-Native-Software-Development/34-openai-agents-sdk/
 
 ---
 
-**Version**: 1.1 (December 2025)
+**Version**: 1.3 (December 2025) - Complete rewrite of Phase B with explicit prompts, enforcement rules, progress tracking, NO SHORTCUTS policy
 **Required Skills**: researching-with-deepwiki, fetching-library-docs, creating-skills
 **Required Validators**: educational-validator, validation-auditor, factual-verifier, pedagogical-designer
 **Best For**: Technical chapters teaching frameworks/SDKs (Part 6-7)

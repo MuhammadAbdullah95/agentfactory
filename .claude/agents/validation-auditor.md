@@ -1,7 +1,7 @@
 ---
 name: validation-auditor
 description: Use this agent when content (lesson, chapter, or feature) is complete and needs comprehensive validation before publication. This agent performs multi-dimensional quality assessment across technical correctness, pedagogical effectiveness, factual accuracy, and accessibility. Replaces both validation-auditor and factual-verifier with unified quality gates.
-model: sonnet
+model: opus
 skills:
   - content-evaluation-framework
   - technical-clarity

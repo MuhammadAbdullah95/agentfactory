@@ -2,11 +2,46 @@
 description: Execute autonomous end-to-end SDD-RI workflow with parallel subagents. Runs from specification through implementation and validation with minimal human intervention. Designed for content authoring and feature development at scale.
 ---
 
-# /sp.autonomous: Autonomous Orchestration Mode (v1.0)
+# /sp.autonomous: Autonomous Orchestration Mode (v1.2)
 
 **Purpose**: Take the reins and **autonomously complete** a feature or content piece through the full SDD-RI workflow, leveraging parallel subagents, skills, and validators. Human only intervenes at critical gates.
 
 **When to Use**: User says "autonomous mode", "take the reins", "ship it", or explicitly requests end-to-end execution.
+
+---
+
+## ⛔ ENFORCEMENT RULES (READ FIRST) ⛔
+
+**Autonomous mode means EXECUTE fully, not SKIP or ABBREVIATE.**
+
+### Rule 1: EVERY PHASE EXECUTES FULLY
+- ❌ FORBIDDEN: Skipping /sp.clarify because "spec looks complete"
+- ❌ FORBIDDEN: Outputting command names without executing them
+- ❌ FORBIDDEN: Reducing content quality to "finish faster"
+- ✅ REQUIRED: Execute each phase with full prompts, wait for completion
+
+### Rule 2: QUALITY CANNOT BE TRADED FOR SPEED
+- ❌ FORBIDDEN: Skipping validators to ship faster
+- ❌ FORBIDDEN: Weak "Try With AI" sections (must have 3 prompts)
+- ❌ FORBIDDEN: Missing YAML frontmatter (skills, learning_objectives required)
+- ✅ REQUIRED: All validators must pass before commit
+
+### Rule 3: SUBAGENT PROMPTS MUST BE COMPLETE
+- ❌ FORBIDDEN: Short prompts like "write lesson 1"
+- ✅ REQUIRED: Include absolute paths, quality reference, execution rules, requirements
+
+### Rule 4: PROGRESS TRACKING IS MANDATORY
+After each phase, report:
+```
+✅ PHASE [N] COMPLETE: [Phase Name]
+   Output: [file paths created]
+   Status: [PASS/FAIL with details]
+   Next: PHASE [N+1]
+```
+
+### Rule 5: PHR CREATION IS NOT OPTIONAL
+- PHRs MUST be created in Step 6.1 before commit
+- Skipping PHRs because "we're almost done" is a FAILURE
 
 ---
 
@@ -71,6 +106,8 @@ Claude Code now supports **async subagents** that run in the background:
 │  /sp.taskstoissues → Create GitHub issues (optional)            │
 │     ↓                                                           │
 │  Validators → Quality gates (PARALLEL)                          │
+│     ↓                                                           │
+│  /sp.phr → Document all phases with PHRs (MANDATORY)            │
 │     ↓                                                           │
 │  /sp.git.commit_pr → Commit and create PR                       │
 │     ↓                                                           │
@@ -185,7 +222,27 @@ Args: [feature-name from context]
 - Gathers requirements from context
 - Produces complete specification
 
-### Step 1.2: Approval Gate
+### Step 1.2: Validate Specification
+
+**Before approval gate**, invoke spec-architect to validate spec quality:
+
+```
+Task subagent_type=spec-architect
+Prompt: |
+  Validate specification: specs/[feature]/spec.md
+
+  Check for:
+  1. Completeness (all required sections present)
+  2. Testability (requirements are measurable)
+  3. Clarity (no ambiguous terms)
+  4. Consistency (no contradictions)
+
+  Return PASS with summary, or FAIL with specific issues.
+```
+
+**If FAIL**: Fix issues before presenting to user for approval.
+
+### Step 1.3: Approval Gate
 
 <approval_gate>
 **STOP AND WAIT FOR USER APPROVAL**
@@ -468,7 +525,34 @@ Overall: 2/3 PASS, 1 needs revision
 
 ## PHASE 6: COMMIT AND PR
 
-### Step 6.1: Stage and Commit
+### Step 6.1: Create PHRs for All Phases
+
+**⚠️ MANDATORY**: Before committing, document the work with PHRs.
+
+```bash
+# PHR for specification phase
+Skill: sp.phr
+Args: "Created specification for [feature-name]"
+
+# PHR for planning phase
+Skill: sp.phr
+Args: "Designed implementation plan for [feature-name]"
+
+# PHR for task generation
+Skill: sp.phr
+Args: "Generated tasks for [feature-name]"
+
+# PHR for implementation
+Skill: sp.phr
+Args: "Implemented [feature-name] with [N] lessons/components"
+```
+
+**Why PHRs matter**:
+- Enables spaced repetition learning
+- Creates searchable pattern library
+- Provides audit trail for future reference
+
+### Step 6.2: Stage and Commit
 
 ```
 Skill: sp.git.commit_pr
@@ -481,7 +565,7 @@ Args: [feature-name]
 - Pushes to remote
 - Creates PR with proper description
 
-### Step 6.2: Gather Usage Metrics
+### Step 6.3: Gather Usage Metrics
 
 Before generating the final report, collect skill and subagent usage from activity logs:
 
@@ -499,7 +583,7 @@ SUBAGENTS_SPAWNED=$(cat .claude/activity-logs/subagent-usage.jsonl | jq -r "sele
 # This requires correlating subagent session IDs with their skill usage
 ```
 
-### Step 6.3: Final Report
+### Step 6.4: Final Report
 
 ```
 ╔══════════════════════════════════════════════════════════════════════╗
@@ -776,7 +860,7 @@ Approve plan to continue?
 
 ---
 
-**Version**: 1.1 (December 2025)
+**Version**: 1.2 (December 2025) - Added mandatory PHR creation (Step 6.1), spec-architect validation (Step 1.2)
 **Requires**: Claude Code with async subagent support
 **Best For**: Content authoring, chapter creation, feature implementation
 
