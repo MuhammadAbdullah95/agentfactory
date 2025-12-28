@@ -1,0 +1,494 @@
+---
+sidebar_position: 4
+title: "Deploying Kafka with Strimzi"
+description: "Deploy Apache Kafka on Kubernetes using the Strimzi operator with KRaft mode"
+keywords: [kafka, strimzi, kubernetes, kraft, helm, event-driven, kafka-operator]
+chapter: 52
+lesson: 4
+duration_minutes: 50
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Kubernetes Operator Deployment"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Cloud Infrastructure"
+    measurable_at_this_level: "Student can deploy Strimzi operator using Helm and verify successful installation"
+
+  - name: "Kafka Cluster Configuration"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Distributed Systems"
+    measurable_at_this_level: "Student can configure Kafka cluster using KafkaNodePool and Kafka CRDs in KRaft mode"
+
+  - name: "Declarative Topic Management"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Cloud Infrastructure"
+    measurable_at_this_level: "Student can create and manage Kafka topics using KafkaTopic custom resources"
+
+learning_objectives:
+  - objective: "Deploy Strimzi operator on Docker Desktop Kubernetes using Helm"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful operator deployment with running pods verified via kubectl"
+
+  - objective: "Create a Kafka cluster using KafkaNodePool and Kafka CRDs in KRaft mode"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Running Kafka cluster with verified broker connectivity"
+
+  - objective: "Manage Kafka topics declaratively using KafkaTopic custom resources"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Topics created via CRD and visible in cluster"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (Strimzi operator, Helm install, KafkaNodePool, Kafka CRD, KRaft mode, KafkaTopic) within B1 limit of 7-10"
+
+differentiation:
+  extension_for_advanced: "Deploy a multi-node cluster with separate controller and broker node pools; explore TLS listener configuration"
+  remedial_for_struggling: "Focus on single command execution and verification; use the provided YAML files without modification first"
+---
+
+# Deploying Kafka with Strimzi
+
+You've built the mental model of Kafka architecture. Now it's time to run a real cluster.
+
+In production Kubernetes environments, you don't manually configure Kafka brokers. You use an **operator**—a Kubernetes-native controller that understands Kafka's operational requirements and manages the cluster lifecycle automatically. The industry standard for Kafka on Kubernetes is **Strimzi**, a CNCF project with widespread adoption.
+
+This lesson walks you through deploying Kafka on Docker Desktop Kubernetes using Strimzi. By the end, you'll have a running Kafka cluster that you can use throughout this chapter.
+
+## Prerequisites Check
+
+Before proceeding, verify your environment is ready:
+
+```bash
+# Check Docker Desktop Kubernetes is running
+kubectl cluster-info
+```
+
+**Output:**
+```
+Kubernetes control plane is running at https://127.0.0.1:6443
+CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```
+
+```bash
+# Check Helm is installed
+helm version
+```
+
+**Output:**
+```
+version.BuildInfo{Version:"v3.16.3", GitCommit:"...", GitTreeState:"clean", GoVersion:"go1.22.7"}
+```
+
+If either command fails, revisit Chapters 49-51 to set up Docker Desktop Kubernetes and Helm.
+
+## What is Strimzi?
+
+Strimzi provides Kubernetes-native Kafka deployment through Custom Resource Definitions (CRDs). Instead of writing complex deployment manifests, you describe your Kafka cluster declaratively, and Strimzi handles the operational complexity.
+
+| Component | Role |
+|-----------|------|
+| **Cluster Operator** | Watches Kafka CRDs and manages broker lifecycle |
+| **Entity Operator** | Contains Topic Operator and User Operator |
+| **Topic Operator** | Syncs KafkaTopic CRDs to actual Kafka topics |
+| **User Operator** | Manages KafkaUser CRDs and credentials |
+
+The operator pattern means you declare intent ("I want a 3-broker Kafka cluster") and Strimzi figures out how to achieve and maintain it.
+
+## Step 1: Install Strimzi Operator
+
+Add the Strimzi Helm repository and install the operator:
+
+```bash
+# Add Strimzi Helm repository
+helm repo add strimzi https://strimzi.io/charts/
+helm repo update
+```
+
+**Output:**
+```
+"strimzi" has been added to your repositories
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "strimzi" chart repository
+Update Complete. Happy Helming!
+```
+
+```bash
+# Create namespace for Kafka resources
+kubectl create namespace kafka
+```
+
+**Output:**
+```
+namespace/kafka created
+```
+
+```bash
+# Install Strimzi operator
+helm install strimzi-kafka-operator strimzi/strimzi-kafka-operator \
+  --namespace kafka
+```
+
+**Output:**
+```
+NAME: strimzi-kafka-operator
+LAST DEPLOYED: [timestamp]
+NAMESPACE: kafka
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Thank you for installing strimzi-kafka-operator-0.44.0
+```
+
+## Step 2: Verify Operator is Running
+
+Wait for the operator pod to be ready:
+
+```bash
+# Watch operator pod status
+kubectl get pods -n kafka -w
+```
+
+**Output:**
+```
+NAME                                        READY   STATUS    RESTARTS   AGE
+strimzi-cluster-operator-6d4f5c5b9d-x7j2k   1/1     Running   0          45s
+```
+
+Press `Ctrl+C` once you see `1/1 Running`. The operator is now watching for Kafka CRDs.
+
+## Step 3: Create KafkaNodePool (Dual-Role for Development)
+
+Kafka in KRaft mode has two node roles: **controllers** (manage metadata) and **brokers** (handle messages). For development, we combine both roles in a single node to minimize resource usage.
+
+Create a file named `kafka-nodepool.yaml`:
+
+```yaml
+# kafka-nodepool.yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: dual-role
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: task-events
+spec:
+  replicas: 1
+  roles:
+    - controller
+    - broker
+  storage:
+    type: ephemeral  # Use persistent-claim for production
+```
+
+**Key configuration points:**
+
+| Field | Value | Purpose |
+|-------|-------|---------|
+| `replicas` | 1 | Single node for development (use 3+ for production) |
+| `roles` | controller, broker | Combined roles save resources in dev |
+| `storage.type` | ephemeral | Data lost on restart (use persistent-claim for production) |
+| `strimzi.io/cluster` | task-events | Links this pool to the Kafka cluster |
+
+Apply the node pool:
+
+```bash
+kubectl apply -f kafka-nodepool.yaml
+```
+
+**Output:**
+```
+kafkanodepool.kafka.strimzi.io/dual-role created
+```
+
+## Step 4: Create Kafka Cluster (KRaft Mode)
+
+Now create the Kafka cluster that uses the node pool. Create a file named `kafka-cluster.yaml`:
+
+```yaml
+# kafka-cluster.yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: task-events
+  namespace: kafka
+  annotations:
+    strimzi.io/node-pools: enabled
+    strimzi.io/kraft: enabled
+spec:
+  kafka:
+    version: 3.8.0
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      offsets.topic.replication.factor: 1
+      transaction.state.log.replication.factor: 1
+      transaction.state.log.min.isr: 1
+      default.replication.factor: 1
+      min.insync.replicas: 1
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+```
+
+**Key configuration points:**
+
+| Field | Value | Purpose |
+|-------|-------|---------|
+| `strimzi.io/kraft: enabled` | - | Uses KRaft mode (no ZooKeeper) |
+| `strimzi.io/node-pools: enabled` | - | Uses KafkaNodePool for node config |
+| `listeners.plain` | port 9092 | Unencrypted internal access |
+| `listeners.tls` | port 9093 | TLS-encrypted internal access |
+| `replication.factor: 1` | - | Single replica for dev (use 3 for production) |
+| `entityOperator` | topicOperator, userOperator | Enable declarative topic/user management |
+
+Apply the cluster:
+
+```bash
+kubectl apply -f kafka-cluster.yaml
+```
+
+**Output:**
+```
+kafka.kafka.strimzi.io/task-events created
+```
+
+## Step 5: Wait for Cluster Ready
+
+The Strimzi operator will now create the Kafka pods. This takes 1-2 minutes on first deployment:
+
+```bash
+# Watch all Kafka-related pods
+kubectl get pods -n kafka -w
+```
+
+**Output (after ~90 seconds):**
+```
+NAME                                        READY   STATUS    RESTARTS   AGE
+strimzi-cluster-operator-6d4f5c5b9d-x7j2k   1/1     Running   0          5m
+task-events-dual-role-0                     1/1     Running   0          90s
+task-events-entity-operator-7f4d8b9c-2kj3l  2/2     Running   0          45s
+```
+
+Press `Ctrl+C` once all pods show `Running`.
+
+Verify the Kafka cluster status:
+
+```bash
+kubectl get kafka -n kafka
+```
+
+**Output:**
+```
+NAME          DESIRED KAFKA REPLICAS   DESIRED ZK REPLICAS   READY   METADATA STATE   WARNINGS
+task-events   1                                              True    KRaft
+```
+
+The `READY: True` and `METADATA STATE: KRaft` confirm your cluster is operational.
+
+## Step 6: Create Topics via KafkaTopic CRD
+
+With the Entity Operator running, you can manage topics declaratively. Create a file named `kafka-topic.yaml`:
+
+```yaml
+# kafka-topic.yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: task-created
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: task-events
+spec:
+  partitions: 3
+  replicas: 1
+  config:
+    retention.ms: "604800000"  # 7 days
+    cleanup.policy: delete
+```
+
+**Key configuration points:**
+
+| Field | Value | Purpose |
+|-------|-------|---------|
+| `partitions` | 3 | Parallel processing units (scale consumers up to 3) |
+| `replicas` | 1 | Single copy for dev (use 3 for production) |
+| `retention.ms` | 604800000 | Keep messages for 7 days |
+| `cleanup.policy` | delete | Remove old segments (vs "compact" for changelogs) |
+
+Apply the topic:
+
+```bash
+kubectl apply -f kafka-topic.yaml
+```
+
+**Output:**
+```
+kafkatopic.kafka.strimzi.io/task-created created
+```
+
+Verify the topic was created:
+
+```bash
+kubectl get kafkatopics -n kafka
+```
+
+**Output:**
+```
+NAME           CLUSTER       PARTITIONS   REPLICATION FACTOR   READY
+task-created   task-events   3            1                    True
+```
+
+## How Topic Operator Works
+
+The Topic Operator watches for KafkaTopic resources and syncs them to the actual Kafka cluster:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  You apply YAML                                             │
+│    └─ kubectl apply -f kafka-topic.yaml                     │
+├─────────────────────────────────────────────────────────────┤
+│  Kubernetes API stores KafkaTopic CR                        │
+├─────────────────────────────────────────────────────────────┤
+│  Topic Operator watches and detects new CR                  │
+│    └─ Creates topic in Kafka cluster                        │
+│    └─ Updates CR status (READY: True)                       │
+├─────────────────────────────────────────────────────────────┤
+│  Topic exists in Kafka, managed via GitOps                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+This declarative approach means your topic configuration is version-controlled and reproducible across environments.
+
+## Verify Kafka is Accessible
+
+Test connectivity by running a temporary pod with the Kafka CLI:
+
+```bash
+# Start a temporary pod with Kafka tools
+kubectl run kafka-test -n kafka --rm -it \
+  --image=quay.io/strimzi/kafka:0.44.0-kafka-3.8.0 \
+  --restart=Never \
+  -- bin/kafka-topics.sh --bootstrap-server task-events-kafka-bootstrap:9092 --list
+```
+
+**Output:**
+```
+task-created
+```
+
+This confirms:
+1. The Kafka broker is accepting connections
+2. The `task-events-kafka-bootstrap` service routes to the broker
+3. The `task-created` topic exists
+
+## Understanding the Bootstrap Service
+
+Strimzi creates a Kubernetes Service for client connections:
+
+```bash
+kubectl get svc -n kafka | grep bootstrap
+```
+
+**Output:**
+```
+task-events-kafka-bootstrap   ClusterIP   10.96.45.123   <none>   9091/TCP,9092/TCP,9093/TCP   5m
+```
+
+Clients connect to `task-events-kafka-bootstrap:9092` (or port 9093 for TLS). This service load-balances across all broker pods, providing a stable endpoint regardless of pod restarts.
+
+## Development vs Production Configuration
+
+The configuration in this lesson is optimized for learning on Docker Desktop. Production requires different settings:
+
+| Setting | Development | Production |
+|---------|-------------|------------|
+| Node pool replicas | 1 | 3+ (controller: 3, broker: 3+) |
+| Storage type | ephemeral | persistent-claim |
+| Replication factor | 1 | 3 |
+| min.insync.replicas | 1 | 2 |
+| Separate controller pool | No (dual-role) | Yes |
+
+Lesson 18 covers production Strimzi configuration in detail.
+
+## Cleanup (Optional)
+
+If you need to remove the Kafka cluster:
+
+```bash
+# Delete in reverse order
+kubectl delete kafkatopic task-created -n kafka
+kubectl delete kafka task-events -n kafka
+kubectl delete kafkanodepool dual-role -n kafka
+helm uninstall strimzi-kafka-operator -n kafka
+kubectl delete namespace kafka
+```
+
+For now, keep the cluster running—you'll use it in the remaining lessons.
+
+## Try With AI
+
+You've deployed Kafka using Strimzi's operator pattern. Now explore how this fits into broader infrastructure decisions.
+
+**Production Configuration Review**
+
+```
+I just deployed Kafka on Docker Desktop Kubernetes using Strimzi with:
+- Single node (dual-role: controller + broker)
+- Ephemeral storage
+- Replication factor 1
+
+Review my configuration for production readiness:
+1. What specific changes would I need for a production deployment?
+2. For a 3-broker production cluster, what would the KafkaNodePool
+   and Kafka CRDs look like?
+3. What monitoring should I add to detect problems before they
+   cause outages?
+```
+
+**What you're learning:** Production Kafka requires careful sizing and redundancy configuration. AI can help you understand the gap between development convenience and production reliability.
+
+**Debugging Operator Issues**
+
+```
+My Strimzi operator is running but my Kafka cluster isn't becoming ready.
+kubectl get kafka shows READY: False.
+
+Help me debug:
+1. What logs should I check first?
+2. What are common reasons Kafka clusters fail to start?
+3. How do I interpret Strimzi's status conditions?
+```
+
+**What you're learning:** Operators provide status information through CRD conditions. Understanding how to read operator status helps you debug declarative infrastructure.
+
+**Alternative Topic Configurations**
+
+```
+I created a topic with partitions: 3 and replicas: 1.
+
+Help me understand:
+1. How do I decide how many partitions a topic needs?
+2. What's the relationship between partitions and consumer scaling?
+3. When should I use cleanup.policy: compact vs delete?
+```
+
+**What you're learning:** Topic configuration directly impacts performance and semantics. The right settings depend on your use case—high-throughput streaming vs change data capture vs event sourcing.
+
+**Safety note:** When modifying production Kafka configurations, always test changes in a staging environment first. Incorrect replication or partition settings can cause data loss.

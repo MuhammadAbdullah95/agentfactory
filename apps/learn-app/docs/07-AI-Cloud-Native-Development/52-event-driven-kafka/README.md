@@ -8,7 +8,7 @@ description: "Build decoupled, scalable agent systems with Apache Kafka event st
 
 Request-response APIs work for simple interactions. But production agent systems need decoupling—when a task is created, a notification service should be triggered, an audit log should be written, and a recurring task engine should be notified. If these are direct API calls, one slow service blocks everything. If they're events on Kafka, each service consumes independently.
 
-This chapter provides comprehensive Kafka coverage for AI agent developers. You'll progress from EDA fundamentals through production reliability patterns, learning to build event-driven systems that scale. Like Chapters 49-51, we run everything on **Docker Desktop Kubernetes** using the Bitnami Kafka Helm chart—one platform, one workflow.
+This chapter provides comprehensive Kafka coverage for AI agent developers. You'll progress from EDA fundamentals through production reliability patterns, learning to build event-driven systems that scale. Like Chapters 49-51, we run everything on **Docker Desktop Kubernetes**—deploying Kafka with the Strimzi operator (the industry standard for Kafka on Kubernetes).
 
 **Key Update (2025):** Kafka 4.0 removed ZooKeeper entirely. This chapter teaches KRaft-only deployment—the modern, simplified architecture.
 
@@ -26,7 +26,7 @@ By the end of this chapter, you'll be able to:
 - **Use transactions**: Consume-process-produce pattern, zombie fencing, read_committed isolation
 - **Build data pipelines**: Kafka Connect, Debezium CDC, outbox pattern for microservices
 - **Implement agent patterns**: Task events, notification fanout, audit logs, saga pattern
-- **Run Kafka on Kubernetes**: Bitnami Helm chart, KRaft mode, production configuration
+- **Run Kafka on Kubernetes**: Strimzi operator, Kafka CRDs, KRaft mode, production configuration
 - **Debug production issues**: Consumer lag, under-replicated partitions, rebalancing storms
 
 ## Chapter Structure
@@ -43,7 +43,7 @@ By the end of this chapter, you'll be able to:
 
 | # | Lesson | Focus |
 |---|--------|-------|
-| 4 | Deploying Kafka on Kubernetes | Bitnami Helm chart, KRaft mode, Kafka UI, kubectl port-forward |
+| 4 | Deploying Kafka with Strimzi | Strimzi operator Helm install, Kafka CRD, KRaft mode, Kafka UI |
 | 5 | Your First Producer (Python) | confluent-kafka-python, sync send, fire-and-forget vs sync vs async |
 | 6 | Producer Deep Dive: Reliability | acks (0, 1, all), retries, delivery.timeout.ms, idempotent producer |
 | 7 | Your First Consumer (Python) | Consumer groups, poll loop, auto-commit vs manual, offset management |
@@ -77,7 +77,7 @@ By the end of this chapter, you'll be able to:
 
 | # | Lesson | Focus |
 |---|--------|-------|
-| 18 | Production Kafka Configuration | Multi-broker setup, resource limits, persistence, Helm values for production |
+| 18 | Production Kafka with Strimzi | Multi-broker Kafka CRD, resource limits, persistence, Strimzi Entity Operator |
 | 19 | Monitoring & Debugging Kafka | Consumer lag, under-replicated partitions, key metrics, tooling |
 
 ### Part G: AI Collaboration & Capstone (Lessons 20-22)
@@ -100,7 +100,8 @@ By the end of this chapter, you'll be able to:
 
 | Component | Choice | Rationale |
 |-----------|--------|-----------|
-| **Kafka** | Bitnami Kafka Helm (KRaft) | One command install, no ZooKeeper, production-ready |
+| **Kafka Operator** | Strimzi | CNCF project, industry standard for Kafka on K8s |
+| **Kafka Mode** | KRaft (no ZooKeeper) | Kafka 4.0+ default, simpler architecture |
 | **Python Client** | confluent-kafka-python | Best performance, native async, Schema Registry support |
 | **Schemas** | Avro + Confluent Schema Registry | Industry standard, evolution support |
 | **Platform** | Docker Desktop Kubernetes | Consistent with Chapters 49-51 |
@@ -116,7 +117,6 @@ This chapter focuses on **developer skills**, not SRE operations:
 - Kafka Streams framework — separate advanced topic
 - Broker hardware sizing and tuning
 - ZooKeeper — removed in Kafka 4.0
-- Strimzi Operator — enterprise production use (Bitnami Helm covers learning needs)
 
 ## Looking Ahead
 
