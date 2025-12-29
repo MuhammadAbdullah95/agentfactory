@@ -7,7 +7,7 @@ handoffs:
     send: true
 ---
 
-# /sp.chapter: Research-First Chapter Creation (v1.5)
+# /sp.chapter: Research-First Chapter Creation (v1.7)
 
 ## ⛔ HARD GATES (EXECUTION BLOCKED WITHOUT THESE) ⛔
 
@@ -245,6 +245,53 @@ IF spec seems "clear enough":
   → But the invocation MUST happen
 ```
 
+### GATE 7: Part 7 DACA Source Material (BLOCKING for Ch55-65)
+
+```
+FOR Part 7 Enterprise/Planetary chapters (Ch55-65):
+
+TRACKING ISSUE: #556 (Part 7 Complete Structure)
+
+1. IDENTIFY chapter tier and DACA source:
+
+   TIER 2 - ENTERPRISE (Ch55-60):
+   ┌─────────┬────────────────────────────────────────────────────────────┐
+   │ Chapter │ DACA Source Location                                       │
+   ├─────────┼────────────────────────────────────────────────────────────┤
+   │ Ch55    │ 08_daca_deployment_guide/02_Enterprise/05_Observability/   │
+   │ Ch56    │ 08_daca_deployment_guide/02_Enterprise/04_Autoscaling/     │
+   │ Ch58    │ 08_daca_deployment_guide/02_Enterprise/06_Load_Testing/    │
+   │ Ch59    │ 08_daca_deployment_guide/02_Enterprise/03_Security/        │
+   │ Ch60    │ 08_daca_deployment_guide/02_Enterprise/01_Cluster_Prov/    │
+   └─────────┴────────────────────────────────────────────────────────────┘
+
+   TIER 3 - PLANETARY (Ch61-65):
+   ┌─────────┬────────────────────────────────────────────────────────────┐
+   │ Chapter │ DACA Source Location                                       │
+   ├─────────┼────────────────────────────────────────────────────────────┤
+   │ Ch61    │ 08_daca_deployment_guide/03_Planetary/01_Global-Cluster/   │
+   │ Ch62    │ 08_daca_deployment_guide/03_Planetary/02_Geo_Replication/  │
+   │ Ch63    │ 08_daca_deployment_guide/03_Planetary/02_Geo_Replication/  │
+   │ Ch64    │ 08_daca_deployment_guide/03_Planetary/05_Disaster_Recovery/│
+   │ Ch65    │ 08_daca_deployment_guide/03_Planetary/03_Advanced_Auto/    │
+   └─────────┴────────────────────────────────────────────────────────────┘
+
+2. READ all .md files in DACA source directory BEFORE Phase A:
+   → List all topics covered
+   → Note code examples provided
+   → Identify gaps needing additional research
+
+3. DACA content becomes PRIMARY source for:
+   → Expertise skill references/
+   → Lesson content transformation
+   → Code examples
+
+4. CHECK Issue #556 for:
+   → Skills to create (Claude's expertise skill)
+   → Student skill name (what learners build in L00)
+   → Docs to fetch via /fetching-library-docs
+```
+
 ---
 
 **Purpose**: Build deep expertise BEFORE writing content. Creates a programmatic skill for the technical domain, tests it on real projects, then uses that expertise to write high-quality chapter content.
@@ -435,6 +482,38 @@ By chapter end, students have:
 ---
 
 ## PHASE A: SKILL RESEARCH & CREATION
+
+### Step A.0: DACA Source Review (Part 7 Only)
+
+**For Part 7 chapters (Ch55-65), read DACA source FIRST:**
+
+```text
+Read all files in DACA source directory for this chapter.
+
+DACA SOURCE: 08_daca_deployment_guide/[TIER]/[SECTION]/
+
+For each .md file found:
+1. List the topic it covers
+2. Note code examples and configurations provided
+3. Identify what's complete vs what needs additional research
+
+Create a content map:
+┌──────────────────────┬─────────────────────────────────┬──────────────┐
+│ DACA File            │ Topics Covered                  │ Gaps         │
+├──────────────────────┼─────────────────────────────────┼──────────────┤
+│ [filename.md]        │ [topics]                        │ [gaps]       │
+│ ...                  │ ...                             │ ...          │
+└──────────────────────┴─────────────────────────────────┴──────────────┘
+
+OUTPUT: Understanding of what DACA provides and what to supplement
+```
+
+**Verification:**
+- [ ] All DACA source files read and catalogued
+- [ ] Content map created showing topics and gaps
+- [ ] Gaps identified for additional research (official docs, WebSearch)
+
+---
 
 ### Step A.1: Identify the Technical Domain
 
@@ -1182,6 +1261,94 @@ Args: |
 
 ---
 
+## EXAMPLE: Part 7 Chapter 55 (Observability Stack)
+
+### Invocation
+
+```text
+/sp.chapter Chapter 55: Observability Stack
+
+CONTEXT:
+- Part 7: AI Cloud Native Development
+- Tier: Enterprise (Tier 2)
+- Prerequisites: Ch49-54 (Docker, K8s, Helm, Kafka, Dapr, GitOps)
+- Running example: Task API
+- Target proficiency: B2
+- Platform: Docker Desktop K8s → Real Cloud ready
+
+DACA SOURCE:
+- Location: 08_daca_deployment_guide/02_Enterprise/05_Observability/
+- Files to read: Install-Prometheus-Grafana.md, Enable-Dapr-Metrics-and-Tracing.md, Centralized-Logging-with-Loki-or-EFK.md
+
+SKILL-FIRST PATTERN:
+- L00: "Build Your Observability Skill" - students create observability-stack skill
+- Student skill name: observability-stack
+
+EXPERTISE SKILL TO CREATE:
+- Name: building-with-observability
+- References: prometheus.md, grafana.md, opentelemetry.md, loki.md
+
+DOCS TO FETCH:
+- /fetching-library-docs prometheus
+- /fetching-library-docs grafana
+- /fetching-library-docs opentelemetry
+
+TRACKING: Issue #556
+
+Execute autonomously. Follow Phase A → Phase B.
+```
+
+### Phase A.0 Output (DACA Content Map)
+
+```
+┌─────────────────────────────────────┬─────────────────────────────────────┬──────────────────────┐
+│ DACA File                           │ Topics Covered                      │ Gaps                 │
+├─────────────────────────────────────┼─────────────────────────────────────┼──────────────────────┤
+│ Install-Prometheus-Grafana.md       │ Helm install, config, dashboards    │ Custom metrics       │
+│ Enable-Dapr-Metrics-and-Tracing.md  │ Dapr sidecar metrics, Zipkin        │ OpenTelemetry setup  │
+│ Centralized-Logging-with-Loki-or-EFK│ Loki/EFK stack, log aggregation     │ Structured logging   │
+└─────────────────────────────────────┴─────────────────────────────────────┴──────────────────────┘
+
+Gaps to fill:
+- OpenTelemetry distributed tracing (fetch official docs)
+- Custom application metrics in Python
+- Alerting configuration (Alertmanager)
+```
+
+### Phase A Output (Expertise Skill)
+
+```
+.claude/skills/building-with-observability/
+├── SKILL.md
+├── references/
+│   ├── prometheus.md      # From DACA + official docs
+│   ├── grafana.md         # Dashboard patterns
+│   ├── opentelemetry.md   # Tracing (fetched docs)
+│   └── logging.md         # Loki/EFK patterns
+└── scripts/
+    └── verify.py
+```
+
+### Phase B Output (Chapter Content)
+
+```
+apps/learn-app/docs/07-AI-Cloud-Native-Development/55-observability-stack/
+├── 00-build-your-observability-skill.md   # L00 - Skill-First
+├── 01-why-observability-matters.md
+├── 02-prometheus-fundamentals.md
+├── 03-grafana-dashboards.md
+├── 04-metrics-for-distributed-systems.md
+├── 05-distributed-tracing-opentelemetry.md
+├── 06-centralized-logging.md
+├── 07-alerting-incident-response.md
+├── 08-dapr-observability-integration.md
+├── 09-capstone-full-observability-stack.md
+├── 10-finalize-your-observability-skill.md
+└── README.md
+```
+
+---
+
 ## EXAMPLE: Chapter 34 (OpenAI Agents SDK)
 
 ### Phase A Research
@@ -1261,14 +1428,24 @@ apps/learn-app/docs/06-AI-Native-Software-Development/34-openai-agents-sdk/
 
 ---
 
-**Version**: 1.6 (December 2025) - Added Skill-First Learning Pattern with mandatory L00 and "Reflect on Your Skill" sections
+**Version**: 1.7 (December 2025) - Added Part 7 DACA integration with Gate 7 and Phase A.0
 **Required Skills**: researching-with-deepwiki, fetching-library-docs, creating-skills
 **Required Validators**: educational-validator, validation-auditor, factual-verifier, pedagogical-designer
 **Best For**: Technical chapters teaching frameworks/SDKs (Part 6-7)
+**Tracking**: Issue #556 for Part 7 Enterprise/Planetary chapters
 
 ---
 
 ## CHANGELOG
+
+### v1.7 (2025-12-29)
+**PART 7 DACA INTEGRATION**: Added support for Part 7 Enterprise/Planetary chapters using DACA deployment guide as source:
+- New GATE 7: Part 7 DACA Source Material (BLOCKING for Ch55-65)
+- Added chapter-to-DACA-source mapping tables for Enterprise (Ch55-60) and Planetary (Ch61-65) tiers
+- New Step A.0: DACA Source Review with content mapping template
+- Added Part 7 Chapter 55 example showing full invocation and expected outputs
+- Reference to tracking Issue #556 (Part 7 Complete Structure)
+- DACA content becomes PRIMARY source for expertise skills and lesson content
 
 ### v1.6 (2025-12-29)
 **SKILL-FIRST LEARNING PATTERN**: Added mandatory L00 requirement for Part 7+ chapters:
