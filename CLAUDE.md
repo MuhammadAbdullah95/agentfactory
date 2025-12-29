@@ -356,6 +356,90 @@ PHASE B: Create Chapter Content
 
 ---
 
+## SKILL-FIRST LEARNING PATTERN (Parts 5-7)
+
+**The thesis**: "manufacture Digital FTEs powered by agents, specs, skills"
+
+**The insight**: Traditional learning produces knowledge. Skill-First produces **assets**.
+
+### Why Skill-First Fulfills the Thesis
+
+Students don't "learn FastAPI" or "learn Kubernetes"—they **build and own** skills:
+- `fastapi-agent-api` skill
+- `kubernetes-deployer` skill
+- `helm-chart-architect` skill
+
+By Part 7's end, they have 10+ production skills grounded in official documentation. These skills ARE the Digital FTE components. Students graduate owning a **sellable skill portfolio**.
+
+### The L00 Lesson Structure
+
+Every practical chapter (Parts 5-7) starts with **Lesson 0: Build Your [X] Skill**:
+
+```
+L00: Build Your [X] Skill (25 min)
+  │   1. Clone skills-lab fresh (no state assumptions)
+  │   2. Write LEARNING-SPEC.md (what/why/success criteria)
+  │   3. /fetching-library-docs [technology] → Official docs via Context7
+  │   4. /skill-creator → Build skill from docs (NOT from memory)
+  │   5. Verify skill works
+  │
+  ├── L01-Ln: Learn the Technology
+  │   └── Each lesson TESTS and IMPROVES the skill
+  │   └── "Reflect on Your Skill" section at lesson end
+  │
+  └── Capstone: Finalize Your Skill
+      └── Production-ready, tested, deployable asset
+```
+
+### Key Principles
+
+| Traditional | Skill-First |
+|-------------|-------------|
+| Learn technology → Maybe build skill later | Build skill FIRST → Learn to improve it |
+| Knowledge from AI memory (unreliable) | Knowledge from **official docs** (reliable) |
+| Assume prior state | **Clone fresh each chapter** |
+| Student "figures it out" | Student writes **LEARNING-SPEC.md** |
+| Random skill quality | **Grounded in documentation** |
+
+### Chapters with L00 Skill-First Lessons
+
+**Part 6 (AI-Native Software Development)**:
+- Ch34: `openai-agents` skill
+- Ch35: `google-adk` skill
+- Ch36: `claude-agent-sdk` skill
+- Ch38: `mcp-server-builder` skill
+- Ch40: `fastapi-agent-api` skill
+- Ch41: `chatkit-server` skill
+
+**Part 7 (AI Cloud-Native Development)**:
+- Ch49: `docker-deployment` skill
+- Ch50: `kubernetes-deployer` skill
+- Ch51: `helm-chart-architect` skill
+- Ch52: `kafka-event-schema` skill
+- Ch54: `gitops-deployment` skill
+
+### Chapters WITHOUT L00 (Conceptual Only)
+
+- Ch33: Introduction to AI Agents (Google whitepaper, no code)
+- Ch37: MCP Fundamentals (using existing MCP, not building)
+- Ch39: Agent Skills (meta—chapter IS about skill building)
+
+### Running Example Consistency
+
+The book uses **Task/TaskManager** as the unified running example:
+
+| Part | Example | Deployed As |
+|------|---------|-------------|
+| Part 5 | `Task` class (OOP) | — |
+| Part 6 Ch40 | `Task API` (FastAPI + SQLModel) | — |
+| Part 7 Ch49 | Containerized Task API | Docker image |
+| Part 7 Ch50 | Task API on Kubernetes | K8s deployment |
+| Part 7 Ch51 | `task-api-chart` | Helm chart |
+
+**Naming rule**: Use `task-api` consistently (NOT `ai-agent`).
+
+---
+
 ## References
 
 - Constitution (source of truth): `.specify/memory/constitution.md`
