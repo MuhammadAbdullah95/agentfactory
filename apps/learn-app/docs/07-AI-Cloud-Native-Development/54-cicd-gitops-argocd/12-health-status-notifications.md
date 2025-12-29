@@ -3,6 +3,61 @@ sidebar_position: 12
 title: "Health Status and Notifications"
 description: "Monitor application health and configure alerts for deployment events"
 keywords: [argocd, health, notifications, alerts, slack, webhook, monitoring]
+chapter: 54
+lesson: 12
+duration_minutes: 55
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Health Status Interpretation"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can explain the five health states (Healthy, Progressing, Degraded, Unknown, Missing) and their causes"
+
+  - name: "Custom Health Check Implementation"
+    proficiency_level: "B2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can write Lua health checks for custom resources in argocd-cm ConfigMap"
+
+  - name: "Notification Pipeline Configuration"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Communication"
+    measurable_at_this_level: "Student can configure argocd-notifications with Slack triggers and templates for sync and health events"
+
+learning_objectives:
+  - objective: "Interpret health status for standard Kubernetes resources"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Student explains why a Deployment shows Degraded and proposes troubleshooting steps"
+
+  - objective: "Write custom Lua health checks for operator-managed resources"
+    proficiency_level: "B2"
+    bloom_level: "Apply"
+    assessment_method: "Student creates health check that marks CRD as Healthy based on status.phase field"
+
+  - objective: "Configure Slack notifications for sync success, failure, and health degradation"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student sets up argocd-notifications-cm with triggers and templates that send alerts to Slack"
+
+  - objective: "Subscribe Applications to notification triggers using labels"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student adds notification subscription labels to Application and receives alerts on sync events"
+
+cognitive_load:
+  new_concepts: 9
+  assessment: "9 concepts (5 health states, health aggregation, Lua health checks, notification triggers, notification templates, Slack service, webhook service, notification subscriptions, trigger conditions) within B2 tolerance (10+ concepts acceptable for advanced lesson)"
+
+differentiation:
+  extension_for_advanced: "Implement custom health checks for complex operators; create webhook integration with incident management system; design multi-channel notification strategy"
+  remedial_for_struggling: "Focus on built-in health status interpretation only; add Slack notifications after understanding health states"
 ---
 
 # Health Status and Notifications

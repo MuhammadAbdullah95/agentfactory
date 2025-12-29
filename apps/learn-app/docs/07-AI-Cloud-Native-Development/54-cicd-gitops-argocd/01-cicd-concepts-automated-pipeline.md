@@ -2,7 +2,57 @@
 sidebar_position: 1
 title: "CI/CD Concepts: The Automated Pipeline"
 description: "Understand pipeline stages, triggers, artifacts, and why automation matters for deployment at scale"
-keywords: [ci/cd, continuous integration, continuous deployment, pipeline, automation, github actions, quality gates]
+keywords: ["ci/cd", "continuous integration", "continuous deployment", "pipeline", "automation", "github actions", "quality gates", "artifacts", "versioning"]
+chapter: 54
+lesson: 1
+duration_minutes: 45
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Understanding CI/CD Pipeline Stages"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can explain the five stages of a CI/CD pipeline (trigger, build, test, push, deploy) and what happens at each stage"
+
+  - name: "Distinguishing CI from CD"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can differentiate between Continuous Integration and Continuous Deployment, explaining which stages belong to each"
+
+  - name: "Understanding Quality Gates"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can explain how quality gates block deployment failures and why automated testing is essential for production systems"
+
+learning_objectives:
+  - objective: "Explain the five stages of a CI/CD pipeline and their purpose"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Describe what happens at each stage using a concrete example (FastAPI agent deployment)"
+
+  - objective: "Distinguish between Continuous Integration and Continuous Deployment"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Categorize pipeline stages into CI vs CD and explain the risk profile of each"
+
+  - objective: "Describe how artifacts flow through a pipeline and why versioning matters"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Trace an artifact from source code to running service, identifying version identifiers at each stage"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (trigger, build, test, push, deploy, artifacts, quality gates) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Design a pipeline for your own project identifying specific quality gates and rollback strategies for each stage"
+  remedial_for_struggling: "Focus on the five-stage diagram first; trace a single commit through each stage before examining artifacts and quality gates"
 ---
 
 # CI/CD Concepts: The Automated Pipeline

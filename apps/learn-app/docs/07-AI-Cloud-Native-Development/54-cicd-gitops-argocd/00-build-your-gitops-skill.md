@@ -23,6 +23,10 @@ learning_objectives:
 cognitive_load:
   new_concepts: 2
   assessment: "Applies existing Ch5 knowledge to GitOps domain"
+
+differentiation:
+  extension_for_advanced: "Add CI/CD patterns and secret management to initial skill"
+  remedial_for_struggling: "Follow exact prompts; customization comes in later lessons"
 ---
 
 # Build Your GitOps Skill

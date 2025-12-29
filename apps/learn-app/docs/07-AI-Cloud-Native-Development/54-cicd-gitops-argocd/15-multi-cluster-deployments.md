@@ -3,6 +3,61 @@ sidebar_position: 15
 title: "Multi-Cluster Deployments"
 description: "Deploy to multiple Kubernetes clusters with ArgoCD hub-spoke architecture"
 keywords: [argocd, multi-cluster, hub-spoke, cluster registration, applicationset, gitops]
+chapter: 54
+lesson: 15
+duration_minutes: 60
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Understanding Hub-Spoke Architecture"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can explain hub-spoke topology for ArgoCD and compare it with cluster-local ArgoCD deployments"
+
+  - name: "Registering External Clusters"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can register external Kubernetes clusters with ArgoCD and manage cluster credentials securely"
+
+  - name: "Implementing Cluster Generator ApplicationSets"
+    proficiency_level: "B2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can create ApplicationSets with cluster generators and per-cluster Helm value overrides"
+
+learning_objectives:
+  - objective: "Explain the hub-spoke architecture for multi-cluster ArgoCD deployments"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Describe why hub-spoke provides a single pane of glass and the tradeoffs versus cluster-local ArgoCD"
+
+  - objective: "Register external Kubernetes clusters with ArgoCD"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Create service account, configure RBAC, and register a cluster using argocd cluster add"
+
+  - objective: "Create ApplicationSets with cluster generators for multi-cluster deployments"
+    proficiency_level: "B2"
+    bloom_level: "Apply"
+    assessment_method: "Implement an ApplicationSet that deploys to multiple clusters with environment-specific configurations"
+
+  - objective: "Design disaster recovery strategies for multi-cluster deployments"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explain ArgoCD high availability configuration and cluster failover strategies"
+
+cognitive_load:
+  new_concepts: 9
+  assessment: "9 concepts (hub-spoke topology, cluster registration, cluster secrets, Cluster generator, per-cluster values, cross-cluster networking, ArgoCD HA, cluster failover, DNS failover) within B1-B2 limit (7-12 concepts)"
+
+differentiation:
+  extension_for_advanced: "Design a complete multi-region deployment with automated DNS failover, health monitoring, and disaster recovery runbooks"
+  remedial_for_struggling: "Focus on registering one external cluster first; verify cluster connectivity before attempting ApplicationSets with cluster generators"
 ---
 
 # Multi-Cluster Deployments

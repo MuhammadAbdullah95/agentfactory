@@ -3,6 +3,56 @@ sidebar_position: 7
 title: "Your First ArgoCD Application"
 description: "Create an Application CRD that syncs a Helm chart from Git to your cluster"
 keywords: [argocd, application, crd, helm, sync, gitops, kubernetes]
+chapter: 54
+lesson: 7
+duration_minutes: 45
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "ArgoCD Application CRD Configuration"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can create an Application CRD with correct source, destination, and syncPolicy configuration"
+
+  - name: "GitOps Deployment Methods"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can deploy applications using UI, CLI, and declarative YAML approaches"
+
+  - name: "Sync and Health Status Interpretation"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can distinguish between sync status (OutOfSync, Synced) and health status (Healthy, Degraded, Progressing)"
+
+learning_objectives:
+  - objective: "Create an ArgoCD Application CRD with source, destination, and syncPolicy configurations"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student deploys a working Application that syncs from Git and reports Healthy status"
+
+  - objective: "Deploy applications using three methods: UI, CLI, and declarative YAML"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student demonstrates all three deployment approaches and explains tradeoffs"
+
+  - objective: "Interpret sync status and health status to diagnose deployment issues"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Student explains what OutOfSync, Synced, Healthy, Progressing, and Degraded mean and appropriate responses"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (Application CRD, source/destination/syncPolicy, UI deployment, CLI deployment, declarative YAML, sync status, health status) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Configure multi-source Applications that combine Helm values from one repo with chart from another; implement health checks for custom resources"
+  remedial_for_struggling: "Focus on declarative YAML approach only; use the provided example manifest and modify values incrementally"
 ---
 
 # Your First ArgoCD Application

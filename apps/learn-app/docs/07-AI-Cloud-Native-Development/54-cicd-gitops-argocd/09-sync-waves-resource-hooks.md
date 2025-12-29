@@ -3,6 +3,61 @@ sidebar_position: 9
 title: "Sync Waves and Resource Hooks"
 description: "Control deployment ordering with waves and lifecycle hooks"
 keywords: [argocd, sync waves, hooks, presync, postsync, migration, deployment order]
+chapter: 54
+lesson: 9
+duration_minutes: 50
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Sync Wave Ordering"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can annotate resources with sync-wave to control deployment order"
+
+  - name: "Resource Hook Implementation"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can create PreSync, PostSync, and SyncFail hooks with appropriate deletion policies"
+
+  - name: "Database Migration Pattern"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can implement database migrations as PreSync hooks that run before application deployment"
+
+learning_objectives:
+  - objective: "Annotate resources with sync-wave to control deployment ordering"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates multi-wave deployment where config deploys before application"
+
+  - objective: "Implement PreSync and PostSync hooks for database migrations and notifications"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates a PreSync Job that runs database migration before Deployment starts"
+
+  - objective: "Configure hook deletion policies for one-time jobs and debugging"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student explains and applies HookSucceeded, HookFailed, and BeforeHookCreation policies"
+
+  - objective: "Troubleshoot failed hooks using kubectl logs and describe"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Student diagnoses why a hook Job failed and proposes fix"
+
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (sync waves, wave ordering, PreSync/PostSync/SyncFail hooks, hook deletion policies, migration pattern, notification pattern, troubleshooting) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Implement rollback hooks that restore previous state on SyncFail; create complex multi-phase deployments with dependent hooks"
+  remedial_for_struggling: "Focus on sync waves only first; add a simple PreSync hook after understanding wave ordering"
 ---
 
 # Sync Waves and Resource Hooks

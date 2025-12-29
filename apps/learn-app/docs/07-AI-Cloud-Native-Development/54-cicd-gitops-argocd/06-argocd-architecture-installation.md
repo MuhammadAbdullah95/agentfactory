@@ -2,7 +2,57 @@
 sidebar_position: 6
 title: "ArgoCD Architecture & Installation"
 description: "Install ArgoCD 3.x on Minikube and understand its component architecture"
-keywords: [argocd, installation, helm, minikube, architecture, kubernetes, gitops]
+keywords: ["argocd", "installation", "helm", "minikube", "architecture", "kubernetes", "gitops", "application controller", "repo server", "crds"]
+chapter: 54
+lesson: 6
+duration_minutes: 50
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Understanding ArgoCD Architecture"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can explain the roles of ArgoCD's five core components (API Server, Repo Server, Application Controller, Redis, Dex)"
+
+  - name: "Installing ArgoCD with Helm"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can install ArgoCD on a Minikube cluster using Helm and verify all components are running"
+
+  - name: "Accessing ArgoCD UI and CLI"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can access the ArgoCD web UI via port-forward and authenticate using the CLI"
+
+learning_objectives:
+  - objective: "Explain the role of each ArgoCD component in the reconciliation process"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Describe what each component does when syncing an application from Git to cluster"
+
+  - objective: "Install ArgoCD on Minikube using Helm"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Execute Helm commands to deploy ArgoCD and verify all pods are running"
+
+  - objective: "Access and authenticate with ArgoCD UI and CLI"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Port-forward to ArgoCD server, retrieve admin password, and log in via both UI and CLI"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (API Server, Repo Server, Application Controller, Redis, CRDs, Helm installation, CLI authentication) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Configure ArgoCD with custom resource limits for constrained environments; set up OIDC authentication with GitHub"
+  remedial_for_struggling: "Focus on the installation steps first; understand the component architecture after verifying the installation works"
 ---
 
 # ArgoCD Architecture & Installation

@@ -3,6 +3,70 @@ sidebar_position: 18
 title: "Building the GitOps Deployment Skill"
 description: "Create a reusable skill with Persona, Questions, and Principles"
 keywords: [skill, gitops, reusable, persona, principles, argocd, deployment]
+chapter: 54
+lesson: 18
+duration_minutes: 60
+proficiency_level: "B2"
+layer: "L3"
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Transforming Tacit Knowledge into Skills"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can extract decision patterns and reasoning frameworks from experience and encode them as reusable skills"
+
+  - name: "Designing Skill Personas"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Communication"
+    measurable_at_this_level: "Student can craft a persona that activates the right mental model for making domain-specific decisions"
+
+  - name: "Creating Contextual Questions"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can identify the contextual questions that reveal decision-relevant constraints for GitOps deployments"
+
+  - name: "Articulating Decision Principles"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can extract and articulate principles with clear statements, reasoning, and application guidance"
+
+learning_objectives:
+  - objective: "Transform tacit GitOps knowledge into a reusable skill structure"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Create a complete skill document with Persona, Questions, and Principles sections"
+
+  - objective: "Design a persona that activates strategic deployment thinking"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Write a 2-3 sentence persona that shifts thinking from tactical how-to to strategic architecture"
+
+  - objective: "Identify contextual questions that reveal deployment constraints"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Create 15+ contextual questions across deployment, architecture, team, and production readiness domains"
+
+  - objective: "Articulate decision principles with reasoning and application guidance"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Document 6 principles with clear statements, reasoning (why it matters), and guidance (how to apply)"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (skill design framework, persona creation, contextual questions, decision principles, validation criteria, skill application) within B2 limit (7-12 concepts)"
+
+differentiation:
+  extension_for_advanced: "Apply the skill to a real deployment scenario; validate that someone unfamiliar with your thinking can make sound decisions by following your skill"
+  remedial_for_struggling: "Start with one principle from the chapter (e.g., Sync Strategy by Risk); fully articulate it before attempting the complete skill structure"
 ---
 
 # Building the GitOps Deployment Skill

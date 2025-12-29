@@ -3,6 +3,61 @@ sidebar_position: 10
 title: "ApplicationSets: Scaling Deployments"
 description: "Deploy to multiple environments with List, Cluster, Matrix, and Git generators"
 keywords: [argocd, applicationset, generators, multi-environment, gitops, kubernetes, scaling]
+chapter: 54
+lesson: 10
+duration_minutes: 55
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "ApplicationSet Generator Selection"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can select appropriate generator type (List, Cluster, Matrix, Git) based on deployment requirements"
+
+  - name: "Multi-Environment Deployment"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can create ApplicationSet that deploys to dev/staging/prod with environment-specific configurations"
+
+  - name: "Template Parameterization"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can use template placeholders to generate dynamic Application names, namespaces, and Helm values"
+
+learning_objectives:
+  - objective: "Create ApplicationSet with List generator for multi-environment deployments"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student deploys same application to dev, staging, prod with different replica counts"
+
+  - objective: "Select appropriate generator type based on deployment requirements"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Student explains when to use List vs Cluster vs Matrix vs Git generators"
+
+  - objective: "Use template placeholders to parameterize Application configuration"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates template with dynamic name, namespace, and Helm values from generator elements"
+
+  - objective: "Implement Matrix generator for environment x region combinations"
+    proficiency_level: "B2"
+    bloom_level: "Apply"
+    assessment_method: "Student creates ApplicationSet that generates Applications for all combinations of 2 environments and 2 regions"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (ApplicationSet CRD, List generator, Cluster generator, Matrix generator, Git generator, template placeholders, Cartesian product) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Combine Git generator with Matrix to auto-discover environments from directory structure; implement progressive rollout across clusters"
+  remedial_for_struggling: "Focus on List generator only; create a simple dev/prod ApplicationSet before exploring other generators"
 ---
 
 # ApplicationSets: Scaling Deployments

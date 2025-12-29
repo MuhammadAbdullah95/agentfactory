@@ -2,7 +2,57 @@
 sidebar_position: 5
 title: "GitOps Principles: Git as Truth"
 description: "Understand declarative infrastructure, reconciliation loops, and drift detection"
-keywords: [gitops, declarative, reconciliation, drift detection, git, kubernetes, argocd]
+keywords: ["gitops", "declarative", "reconciliation", "drift detection", "git", "kubernetes", "argocd", "infrastructure as code", "source of truth"]
+chapter: 54
+lesson: 5
+duration_minutes: 40
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Understanding Declarative vs Imperative Infrastructure"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can explain why declarative infrastructure (defining desired state) is safer than imperative commands (executing steps)"
+
+  - name: "Understanding GitOps Reconciliation"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can describe the observe-diff-act reconciliation loop and how controllers continuously sync cluster state to Git"
+
+  - name: "Recognizing Drift Detection Benefits"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can explain how drift detection automatically corrects manual cluster changes and why this improves reliability"
+
+learning_objectives:
+  - objective: "Explain why Git as source of truth improves auditability and collaboration"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Compare audit trails between manual kubectl deployments and GitOps-managed deployments"
+
+  - objective: "Describe the GitOps reconciliation loop (observe, diff, act)"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Trace what happens when Git declares 3 replicas but the cluster has 5"
+
+  - objective: "Identify how drift detection corrects manual cluster modifications"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explain what happens when someone manually changes an environment variable in a running pod"
+
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (declarative vs imperative, Git as source of truth, reconciliation loop, drift detection, self-healing) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Analyze a production incident where manual changes caused issues; design a GitOps-based incident response workflow"
+  remedial_for_struggling: "Focus on the kubectl vs GitOps comparison table; understand the audit trail benefits before diving into reconciliation mechanics"
 ---
 
 # GitOps Principles: Git as Truth

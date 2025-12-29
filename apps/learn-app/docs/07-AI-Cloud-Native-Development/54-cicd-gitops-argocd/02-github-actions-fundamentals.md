@@ -2,7 +2,62 @@
 sidebar_position: 2
 title: "GitHub Actions Fundamentals"
 description: "Create automated workflows with triggers, jobs, steps, and secrets"
-keywords: [github actions, workflow, yaml, triggers, jobs, steps, ci, automation]
+keywords: ["github actions", "workflow", "yaml", "triggers", "jobs", "steps", "ci", "automation", "secrets", "matrix builds"]
+chapter: 54
+lesson: 2
+duration_minutes: 50
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Writing GitHub Actions Workflows"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can write a GitHub Actions workflow file with triggers, jobs, and steps that runs tests on code push"
+
+  - name: "Configuring Workflow Triggers"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can configure push, pull_request, schedule, and manual triggers for different automation scenarios"
+
+  - name: "Managing Secrets and Environment Variables"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Safety"
+    measurable_at_this_level: "Student can securely reference secrets and environment variables in workflows without hardcoding credentials"
+
+learning_objectives:
+  - objective: "Create a GitHub Actions workflow file with proper YAML structure"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Write a workflow that triggers on push, installs dependencies, and runs pytest"
+
+  - objective: "Configure workflow triggers for different automation scenarios"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Set up push, pull_request, and schedule triggers with branch filtering"
+
+  - objective: "Use secrets and environment variables securely in workflows"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Reference GitHub secrets for registry authentication without exposing credentials"
+
+  - objective: "Implement matrix builds for testing across multiple Python versions"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Create a workflow that tests on Python 3.10, 3.11, and 3.12 in parallel"
+
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (workflow file, triggers, jobs, steps, actions, secrets, environment variables, matrix) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Create a workflow with conditional job execution, artifact caching, and parallel job dependencies"
+  remedial_for_struggling: "Start with the minimal workflow example; add one feature at a time (trigger, then steps, then secrets)"
 ---
 
 # GitHub Actions Fundamentals

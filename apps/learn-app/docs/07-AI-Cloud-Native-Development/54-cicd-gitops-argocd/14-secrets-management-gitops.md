@@ -3,6 +3,61 @@ sidebar_position: 14
 title: "Secrets Management for GitOps"
 description: "Handle secrets safely without storing them in Git"
 keywords: [argocd, secrets, sealed secrets, external secrets, vault, gitops, security]
+chapter: 54
+lesson: 14
+duration_minutes: 55
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Understanding GitOps Secrets Architecture"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Safety"
+    measurable_at_this_level: "Student can explain why plaintext secrets in Git are dangerous and describe the tension between GitOps principles and security requirements"
+
+  - name: "Implementing Sealed Secrets"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can encrypt secrets using kubeseal and deploy applications with sealed secrets through ArgoCD"
+
+  - name: "Configuring External Secrets Operator"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can configure SecretStore and ExternalSecret resources to sync secrets from external vaults"
+
+learning_objectives:
+  - objective: "Explain why secrets must never be stored in plaintext in Git repositories"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Describe three security risks of committing secrets to version control"
+
+  - objective: "Implement Sealed Secrets for Kubernetes deployments"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Encrypt a secret using kubeseal and deploy it through ArgoCD"
+
+  - objective: "Configure External Secrets Operator to sync from external vaults"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Create SecretStore and ExternalSecret resources that sync credentials from HashiCorp Vault"
+
+  - objective: "Apply best practices for API key rotation and access control"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Demonstrate a secret rotation workflow using Sealed Secrets or External Secrets"
+
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (secrets security, Sealed Secrets, kubeseal, External Secrets Operator, SecretStore, ExternalSecret, Vault integration, secret rotation) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Implement a complete secrets pipeline with automatic rotation, audit logging, and multi-environment secret separation using External Secrets with HashiCorp Vault"
+  remedial_for_struggling: "Focus on Sealed Secrets workflow only; practice the encrypt-commit-deploy cycle before exploring External Secrets patterns"
 ---
 
 # Secrets Management for GitOps

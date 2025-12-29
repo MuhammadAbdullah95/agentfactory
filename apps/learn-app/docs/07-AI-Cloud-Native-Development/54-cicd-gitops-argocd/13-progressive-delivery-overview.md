@@ -3,6 +3,56 @@ sidebar_position: 13
 title: "Progressive Delivery Overview"
 description: "Understand canary and blue-green deployments with Argo Rollouts"
 keywords: [argocd, argo rollouts, canary, blue-green, progressive delivery, deployment]
+chapter: 54
+lesson: 13
+duration_minutes: 50
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Understanding Progressive Delivery Strategies"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can explain why AI agents benefit from progressive delivery and describe the mechanics of canary vs blue-green strategies"
+
+  - name: "Analyzing Deployment Risk"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can compare canary and blue-green deployment strategies and identify when each approach is appropriate for different workloads"
+
+  - name: "Configuring Argo Rollouts"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can interpret Rollout CRD configurations and understand how Argo Rollouts integrates with ArgoCD"
+
+learning_objectives:
+  - objective: "Explain why progressive delivery is critical for AI agent deployments"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Describe the risks of all-or-nothing deployments for services with subtle behavior changes"
+
+  - objective: "Compare canary and blue-green deployment strategies"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Given a workload scenario, recommend the appropriate progressive delivery strategy with justification"
+
+  - objective: "Interpret Argo Rollouts configuration for canary and blue-green strategies"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Read a Rollout manifest and explain the traffic shifting steps and analysis criteria"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (progressive delivery, canary deployment, blue-green deployment, traffic shifting, Argo Rollouts, Rollout CRD, analysis templates) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Design a canary rollout strategy with custom metrics analysis for an AI agent that monitors task completion rates and response quality"
+  remedial_for_struggling: "Focus on understanding the visual models of canary vs blue-green; trace the traffic percentages step-by-step before examining Rollout YAML"
 ---
 
 # Progressive Delivery Overview

@@ -3,6 +3,56 @@ sidebar_position: 8
 title: "Sync Strategies and Policies"
 description: "Configure auto-sync, auto-prune, self-heal, and sync windows for precise control over ArgoCD deployments"
 keywords: [argocd, sync, auto-sync, prune, self-heal, gitops, deployment, syncPolicy]
+chapter: 54
+lesson: 8
+duration_minutes: 40
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Sync Policy Configuration"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can configure syncPolicy with automated sync, prune, and selfHeal options"
+
+  - name: "Sync Strategy Tradeoff Analysis"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can analyze when to use manual vs automated sync, and when to enable prune and selfHeal"
+
+  - name: "Sync Window Scheduling"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can configure cron-based sync windows to restrict deployment times"
+
+learning_objectives:
+  - objective: "Configure automated sync policies with prune and selfHeal options"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates Application with automated sync and demonstrates drift correction"
+
+  - objective: "Analyze tradeoffs between manual sync, auto-sync, auto-prune, and self-heal"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Student recommends appropriate sync strategy for staging vs production environments with justification"
+
+  - objective: "Configure sync windows to restrict deployments to maintenance periods"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates sync window using cron syntax that blocks deployments during business hours"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (manual sync, auto-sync, auto-prune, self-heal, Replace vs Apply, sync windows) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Design a multi-tier sync strategy for dev/staging/prod with different policies; implement emergency override procedures"
+  remedial_for_struggling: "Focus on auto-sync and self-heal only; practice enabling/disabling these options and observing behavior"
 ---
 
 # Sync Strategies and Policies

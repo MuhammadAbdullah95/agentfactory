@@ -3,9 +3,70 @@ sidebar_position: 17
 title: "Capstone: End-to-End Agent Pipeline"
 description: "Build a complete CI/CD pipeline from code push to running agent using GitHub Actions and ArgoCD"
 keywords: [capstone, ci/cd, github actions, argocd, cicd pipeline, fastapi, gitops, automation]
+chapter: 54
+lesson: 17
 duration_minutes: 90
 proficiency_level: "B1-B2"
 layer: "L4"
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Designing CI/CD Pipeline Specifications"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can write a complete pipeline specification with intent, success criteria, components, and non-goals before implementation"
+
+  - name: "Implementing GitHub Actions CI Workflows"
+    proficiency_level: "B2"
+    category: "Technical"
+    bloom_level: "Create"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can create GitHub Actions workflows that test, build, push images, and update GitOps repositories"
+
+  - name: "Orchestrating GitOps CD with ArgoCD"
+    proficiency_level: "B2"
+    category: "Technical"
+    bloom_level: "Create"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can configure ArgoCD Applications that automatically sync from GitOps repositories and validate health before traffic"
+
+  - name: "Validating End-to-End Deployments"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Evaluate"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can validate a complete pipeline from code push to running agent and demonstrate rollback procedures"
+
+learning_objectives:
+  - objective: "Write a specification-first pipeline design with clear success criteria"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Create a pipeline specification document before implementing any YAML files"
+
+  - objective: "Implement a GitHub Actions CI workflow with test, build, and push stages"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Create ci.yaml that enforces 80% coverage, builds multi-platform images, and updates GitOps repository"
+
+  - objective: "Configure ArgoCD to automatically sync from GitOps repositories"
+    proficiency_level: "B2"
+    bloom_level: "Create"
+    assessment_method: "Create ArgoCD Application with auto-sync, health checks, and proper retry configuration"
+
+  - objective: "Validate end-to-end pipeline and demonstrate rollback"
+    proficiency_level: "B2"
+    bloom_level: "Evaluate"
+    assessment_method: "Push code, verify deployment, introduce a bug, rollback via git revert, and verify recovery"
+
+cognitive_load:
+  new_concepts: 10
+  assessment: "10 concepts (pipeline specification, GitHub Actions jobs, test coverage gates, multi-platform builds, Kustomize image updates, GitOps repository structure, ArgoCD auto-sync, health validation, rollback procedures, audit trails) within B2 capstone limit (10-12 concepts)"
+
+differentiation:
+  extension_for_advanced: "Extend the pipeline with ApplicationSets for multi-environment deployment, Slack notifications, and Argo Rollouts for canary releases"
+  remedial_for_struggling: "Focus on each pipeline stage independently; verify CI workflow works before adding GitOps update job; verify ArgoCD syncs before testing rollback"
 ---
 
 # Capstone: End-to-End Agent Pipeline

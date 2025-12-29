@@ -3,6 +3,61 @@ sidebar_position: 11
 title: "ArgoCD Projects and RBAC"
 description: "Configure multi-tenancy with Projects, resource restrictions, and role-based access"
 keywords: [argocd, projects, rbac, multi-tenancy, security, access control]
+chapter: 54
+lesson: 11
+duration_minutes: 50
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "AppProject Security Boundaries"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Safety"
+    measurable_at_this_level: "Student can create AppProject with source repository and destination namespace restrictions"
+
+  - name: "RBAC Policy Configuration"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Safety"
+    measurable_at_this_level: "Student can write RBAC policies that grant team-specific permissions using p and g policy syntax"
+
+  - name: "Multi-Tenancy Design"
+    proficiency_level: "B2"
+    category: "Conceptual"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can design team isolation strategy combining Projects and RBAC for secure multi-tenant GitOps"
+
+learning_objectives:
+  - objective: "Create AppProject with source repository and destination namespace restrictions"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates Project that restricts frontend team to frontend namespace and frontend repo"
+
+  - objective: "Configure RBAC policies using p (permission) and g (group) syntax"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates roles for viewer, developer, and admin with appropriate permission scopes"
+
+  - objective: "Implement resource whitelists and blacklists for cluster-scoped resources"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student blocks Namespace and ClusterRole creation in a tenant project"
+
+  - objective: "Design multi-tenancy strategy for team isolation"
+    proficiency_level: "B2"
+    bloom_level: "Analyze"
+    assessment_method: "Student designs and explains Project + RBAC configuration for frontend and backend teams"
+
+cognitive_load:
+  new_concepts: 8
+  assessment: "8 concepts (AppProject, sourceRepos, destinations, clusterResourceBlacklist, namespaceResourceWhitelist, p policies, g policies, least privilege) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Implement SSO integration with OIDC groups mapped to ArgoCD roles; design cross-team collaboration patterns with shared Projects"
+  remedial_for_struggling: "Focus on AppProject restrictions only; add RBAC after understanding namespace isolation"
 ---
 
 # ArgoCD Projects and RBAC

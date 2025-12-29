@@ -3,6 +3,56 @@ sidebar_position: 16
 title: "AI-Assisted GitOps Workflows"
 description: "Collaborate with Claude to generate and refine ArgoCD configurations"
 keywords: [argocd, ai, claude, manifest generation, gitops, collaboration]
+chapter: 54
+lesson: 16
+duration_minutes: 45
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Evaluating AI-Generated Manifests"
+    proficiency_level: "B2"
+    category: "Applied"
+    bloom_level: "Evaluate"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can critically evaluate AI-generated ArgoCD configurations and identify environment-specific issues that require human expertise"
+
+  - name: "Iterative AI Collaboration for GitOps"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Communication"
+    measurable_at_this_level: "Student can provide environment constraints to AI and refine generated manifests through multiple rounds of collaboration"
+
+  - name: "Validating Deployment Configurations"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can validate AI-generated manifests using argocd dry-run, diff, and sync commands before production deployment"
+
+learning_objectives:
+  - objective: "Evaluate AI-generated GitOps manifests for environment-specific correctness"
+    proficiency_level: "B2"
+    bloom_level: "Evaluate"
+    assessment_method: "Review an AI-generated ApplicationSet and identify at least 3 issues requiring human expertise to correct"
+
+  - objective: "Apply iterative collaboration to refine AI-generated configurations"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Through 3+ rounds of refinement, transform a generic AI manifest into a production-ready deployment for specific infrastructure"
+
+  - objective: "Validate manifests using ArgoCD commands before deployment"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Use dry-run, diff, and sync commands to verify AI-generated configurations work in the target environment"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (AI manifest generation, environment constraints, iterative refinement, manifest validation, dry-run testing, production readiness checks) within B1-B2 limit (7-12 concepts)"
+
+differentiation:
+  extension_for_advanced: "Create a systematic checklist for evaluating AI-generated GitOps configurations that can be used as a team standard for code review"
+  remedial_for_struggling: "Focus on the 7-point validation checklist; practice identifying issues in example manifests before attempting AI collaboration"
 ---
 
 # AI-Assisted GitOps Workflows

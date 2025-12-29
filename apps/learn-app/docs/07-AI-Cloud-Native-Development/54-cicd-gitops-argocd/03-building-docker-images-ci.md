@@ -2,7 +2,57 @@
 sidebar_position: 3
 title: "Building Docker Images in CI"
 description: "Automate multi-platform Docker builds with GitHub Actions and registry push"
-keywords: [docker, buildx, multi-platform, github actions, container registry, ghcr, ci]
+keywords: ["docker", "buildx", "multi-platform", "github actions", "container registry", "ghcr", "ci", "qemu", "image tagging", "build cache"]
+chapter: 54
+lesson: 3
+duration_minutes: 45
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Building Multi-Platform Docker Images"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can configure Docker buildx with QEMU to build images for both amd64 and arm64 architectures"
+
+  - name: "Authenticating with Container Registries"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Safety"
+    measurable_at_this_level: "Student can authenticate with GHCR or Docker Hub using GitHub Actions secrets and push images securely"
+
+  - name: "Implementing Image Tagging Strategies"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can implement tagging strategies with commit SHA, semantic versions, and branch names for traceability"
+
+learning_objectives:
+  - objective: "Configure multi-platform Docker builds using buildx and QEMU"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Create a workflow that builds images for linux/amd64 and linux/arm64"
+
+  - objective: "Authenticate and push images to container registries"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Configure GHCR authentication using GITHUB_TOKEN and push images"
+
+  - objective: "Implement image tagging strategies for version traceability"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Tag images with commit SHA, branch name, and semantic version using metadata-action"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (buildx, QEMU, registry authentication, image tagging, build cache, metadata action) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Implement split builds per platform to avoid QEMU emulation overhead; add vulnerability scanning before push"
+  remedial_for_struggling: "Focus on single-platform builds first; add multi-platform and caching after basic workflow works"
 ---
 
 # Building Docker Images in CI

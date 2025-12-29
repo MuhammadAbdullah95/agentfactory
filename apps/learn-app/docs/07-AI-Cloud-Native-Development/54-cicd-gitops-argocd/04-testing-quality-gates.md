@@ -2,7 +2,62 @@
 sidebar_position: 4
 title: "Testing and Quality Gates"
 description: "Implement test stages that block deployment on failure"
-keywords: [testing, pytest, coverage, quality gates, ci, github actions, linting]
+keywords: ["testing", "pytest", "coverage", "quality gates", "ci", "github actions", "linting", "ruff", "service containers", "integration testing"]
+chapter: 54
+lesson: 4
+duration_minutes: 55
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Implementing Test Quality Gates"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can configure pytest with coverage thresholds that fail the pipeline when quality standards are not met"
+
+  - name: "Configuring Code Linting in CI"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Content Creation"
+    measurable_at_this_level: "Student can add ruff or flake8 linting to a workflow that fails on code style violations"
+
+  - name: "Running Integration Tests with Service Containers"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem-Solving"
+    measurable_at_this_level: "Student can configure PostgreSQL service containers in GitHub Actions for integration testing"
+
+learning_objectives:
+  - objective: "Configure pytest with coverage thresholds as a quality gate"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Set up pytest-cov with --cov-fail-under to enforce 80% minimum coverage"
+
+  - objective: "Add code linting to the CI pipeline"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Configure ruff to check code style and fail the workflow on violations"
+
+  - objective: "Implement integration tests using service containers"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Add PostgreSQL service container and run tests that verify database persistence"
+
+  - objective: "Configure fail-fast behavior with job dependencies"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Use needs: keyword to ensure build only runs after tests pass"
+
+cognitive_load:
+  new_concepts: 7
+  assessment: "7 concepts (pytest-cov, coverage thresholds, linting, service containers, job dependencies, fail-fast, test artifacts) within B1 limit (7-10 concepts)"
+
+differentiation:
+  extension_for_advanced: "Add security scanning (Trivy), performance regression tests, and parallel test sharding for large test suites"
+  remedial_for_struggling: "Start with unit tests only; add coverage reporting before adding service containers for integration tests"
 ---
 
 # Testing and Quality Gates
