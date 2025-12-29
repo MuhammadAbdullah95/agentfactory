@@ -1,11 +1,11 @@
 ---
 name: building-with-dapr
-description: Use when building distributed microservices with Dapr sidecar architecture. Triggers include Dapr components, service invocation, state management, pub/sub, secrets, bindings, configuration. For actors/workflows use Ch59 patterns. NOT for direct infrastructure clients (use building-with-kafka-strimzi instead).
+description: Use when building distributed microservices with Dapr sidecar architecture. Triggers include Dapr components, service invocation, state management, pub/sub, secrets, bindings, configuration, actors, and workflows. NOT for direct infrastructure clients (use building-with-kafka-strimzi instead).
 ---
 
 # Building Distributed Systems with Dapr
 
-Production-ready distributed microservices using Dapr's portable building blocks on Kubernetes.
+Production-ready distributed microservices using Dapr's portable building blocks on Kubernetes. Includes stateful actors and durable workflow orchestration.
 
 ## Persona
 
@@ -16,7 +16,9 @@ You are a Dapr and distributed systems expert with production Kubernetes experie
 - Pub/Sub messaging with CloudEvents and topic routing
 - Bindings for external system integration
 - Secrets management and configuration APIs
-- Python SDK (dapr-client) and FastAPI extension (dapr-ext-fastapi)
+- **Virtual Actors** with turn-based concurrency, timers, and reminders
+- **Durable Workflows** with fault-tolerant orchestration patterns
+- Python SDKs: dapr-client, dapr-ext-fastapi, dapr-ext-workflow
 
 ## When to Use
 
@@ -27,11 +29,12 @@ You are a Dapr and distributed systems expert with production Kubernetes experie
 - Pub/sub without broker-specific SDKs
 - Secrets retrieval from multiple stores
 - Deploying Dapr on Kubernetes with Helm
+- **Stateful entities** with identity (actors for chat sessions, IoT devices, game entities)
+- **Long-running orchestration** (workflows for order processing, approval flows, sagas)
 
 ## When NOT to Use
 
 - Need direct Kafka access (use building-with-kafka-strimzi)
-- Building actors or workflows (saved for Chapter 59)
 - Simple single-service applications without distributed needs
 
 ## Core Concepts
@@ -78,12 +81,16 @@ You are a Dapr and distributed systems expert with production Kubernetes experie
 | **Secrets** | `/v1.0/secrets/{store}/{key}` | Retrieve secrets from configured stores |
 | **Configuration** | `/v1.0/configuration/{store}` | Dynamic configuration with subscriptions |
 
-### Building Blocks NOT in Ch53 (Chapter 59)
+### Building Blocks: Actors & Workflows (Chapter 59)
 
-| Building Block | Why Deferred |
-|----------------|--------------|
-| **Actors** | Stateful virtual actors require separate mental model |
-| **Workflows** | Long-running orchestration builds on actors |
+| Building Block | API Endpoint | Description |
+|----------------|--------------|-------------|
+| **Actors** | `/v1.0/actors/{actorType}/{actorId}/method/{method}` | Virtual actors with turn-based concurrency |
+| **Workflows** | `/v1.0/workflows/dapr/{workflowName}/start` | Durable orchestration with fault tolerance |
+
+**See detailed reference files:**
+- `references/actors.md` - Actor model, Python SDK, timers/reminders
+- `references/workflows.md` - Workflow patterns (chaining, fan-out, saga, monitor)
 
 ## Decision Logic
 
@@ -96,6 +103,11 @@ You are a Dapr and distributed systems expert with production Kubernetes experie
 | Send to external systems | Output Bindings | Abstracted destination |
 | API keys, credentials | Secrets | Centralized, secure access |
 | Feature flags, settings | Configuration | Dynamic updates, subscriptions |
+| **Stateful entity with identity** | **Actors** | Turn-based concurrency, timers, reminders |
+| **Long-running orchestration** | **Workflows** | Durable, fault-tolerant, retries |
+| **Multi-step business process** | **Workflows** | Compensation (saga), external events |
+| **Parallel task execution** | **Workflows** | Fan-out/fan-in pattern |
+| **Scheduled recurring work** | **Actor Reminders** | Survives restarts, persistent |
 
 ## Dapr Deployment on Kubernetes
 
@@ -676,8 +688,19 @@ async def publish_event(event: dict):
 
 ## References
 
+**Official Documentation:**
 - [Dapr Documentation](https://docs.dapr.io/)
 - [Dapr Python SDK](https://github.com/dapr/python-sdk)
 - [Dapr Building Blocks](https://docs.dapr.io/concepts/building-blocks-concept/)
 - [Dapr Components](https://docs.dapr.io/reference/components-reference/)
 - [Dapr on Kubernetes](https://docs.dapr.io/operations/hosting/kubernetes/)
+
+**Actors & Workflows:**
+- [Dapr Actors Overview](https://docs.dapr.io/developing-applications/building-blocks/actors/actors-overview/)
+- [Dapr Workflow Overview](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/)
+- [Workflow Patterns](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-patterns/)
+- [Python SDK Workflow Examples](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+
+**Skill Reference Files:**
+- `references/actors.md` - Actor model, Python SDK patterns, timers/reminders
+- `references/workflows.md` - Workflow patterns, determinism rules, management CLI
