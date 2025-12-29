@@ -359,6 +359,81 @@ $ARGUMENTS
 
 ---
 
+## SKILL-FIRST LEARNING PATTERN (MANDATORY for Part 7+)
+
+**Two Types of Skills**:
+
+| Skill Type | Created By | Purpose | Location |
+|------------|------------|---------|----------|
+| **Expertise Skill** | Phase A (Claude) | Claude uses for accurate content | `.claude/skills/building-with-[framework]/` |
+| **Student Skill** | L00 (Student) | Student owns as Digital FTE asset | Student's `.claude/skills/[domain]-deployment/` |
+
+### L00: Build Your [X] Skill (MANDATORY FIRST LESSON)
+
+Every technical chapter MUST start with L00 that:
+1. **Clones the skills-lab**: `git clone https://github.com/panaversity/claude-code-skills-lab.git`
+2. **Fetches docs**: Uses `/fetching-library-docs` to get official documentation
+3. **Creates student skill**: Uses `/skill-creator` to build `[domain]-deployment` skill
+4. **Tests the skill**: Student generates artifacts using their new skill
+
+**Example L00 structure**:
+```markdown
+# Build Your [Domain] Skill
+
+You're about to learn [topic]. But you won't start with "what is [topic]?"
+You'll start by **building a skill that knows [topic]**.
+
+## Step 1: Clone the Skills Lab
+## Step 2: Write Your Learning Spec
+## Step 3: Fetch Official Documentation
+## Step 4: Create the Skill
+## Step 5: Test Your Skill
+
+## What Happens Next
+| Lesson | You Learn | Your Skill Improves |
+...
+```
+
+### Every Lesson: Reflect on Your Skill (MANDATORY ENDING)
+
+Every lesson (L01+) MUST end with a "Reflect on Your Skill" section:
+
+```markdown
+---
+
+## Reflect on Your Skill
+
+You built a `[domain]-deployment` skill in Lesson 0. Test and improve it.
+
+### Test Your Skill
+```
+Using my [domain]-deployment skill, [task related to this lesson].
+Does my skill [specific check]?
+```
+
+### Identify Gaps
+Ask yourself:
+- Did my skill include [concept from this lesson]?
+- Did it handle [pattern from this lesson]?
+
+### Improve Your Skill
+If you found gaps:
+```
+My [domain]-deployment skill is missing [concept].
+Update it to include [specific improvement].
+```
+```
+
+### Digital FTE Outcome
+
+By chapter end, students have:
+- **Tested their skill 10+ times** (once per lesson)
+- **Iteratively improved it** with each lesson's concepts
+- **A production-ready skill** they OWN as a Digital FTE component
+- **Sellable intelligence** in their skill portfolio
+
+---
+
 ## PHASE A: SKILL RESEARCH & CREATION
 
 ### Step A.1: Identify the Technical Domain
@@ -644,11 +719,15 @@ Args: |
 
   REQUIRED IN SPEC:
   1. Chapter overview with learning outcomes
-  2. Lesson breakdown (7-10 lessons typical)
+  2. Lesson breakdown with L00 FIRST:
+     - L00: "Build Your [Domain] Skill" (MANDATORY - Skill-First pattern)
+     - L01-LN: Content lessons (7-10 typical)
+     - Each lesson ends with "Reflect on Your Skill" section
   3. Layer progression: L1 (manual) → L2 (collaboration) → L3 (skill) → L4 (orchestration)
   4. Prerequisites from earlier chapters
   5. Reference to expertise skill for accurate API patterns
   6. Images/videos available for this chapter (list paths)
+  7. Student skill name: [domain]-deployment (e.g., docker-deployment, gitops-deployment)
 
   OUTPUT: specs/chapter-[N]-[slug]/spec.md
 
@@ -657,9 +736,11 @@ Args: |
 
 **After completion, verify**:
 - [ ] spec.md exists at correct path
-- [ ] Contains 7-10 lesson titles
+- [ ] L00 "Build Your [X] Skill" is FIRST lesson
+- [ ] Contains 7-10 content lessons after L00
 - [ ] Layer progression is explicit
 - [ ] References expertise skill
+- [ ] Specifies student skill name
 
 ---
 
@@ -1180,7 +1261,7 @@ apps/learn-app/docs/06-AI-Native-Software-Development/34-openai-agents-sdk/
 
 ---
 
-**Version**: 1.5 (December 2025) - Added 6 HARD GATES with blocking enforcement for all failure modes from Chapter 40 incident
+**Version**: 1.6 (December 2025) - Added Skill-First Learning Pattern with mandatory L00 and "Reflect on Your Skill" sections
 **Required Skills**: researching-with-deepwiki, fetching-library-docs, creating-skills
 **Required Validators**: educational-validator, validation-auditor, factual-verifier, pedagogical-designer
 **Best For**: Technical chapters teaching frameworks/SDKs (Part 6-7)
@@ -1188,6 +1269,14 @@ apps/learn-app/docs/06-AI-Native-Software-Development/34-openai-agents-sdk/
 ---
 
 ## CHANGELOG
+
+### v1.6 (2025-12-29)
+**SKILL-FIRST LEARNING PATTERN**: Added mandatory L00 requirement for Part 7+ chapters:
+- New section: "SKILL-FIRST LEARNING PATTERN" explaining two skill types
+- L00 "Build Your [X] Skill" is now MANDATORY first lesson
+- Every lesson must end with "Reflect on Your Skill" section
+- Updated Step B.1 to require L00 in specification
+- Documents Digital FTE outcome (sellable skill portfolio)
 
 ### v1.5 (2025-12-27)
 **ADDITIONAL FIXES**: Added 2 more hard gates after further analysis of Chapter 40 incident:
