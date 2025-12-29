@@ -65,7 +65,7 @@ Before touching code, define precisely what you're building. A clear specificati
 
 ### The Task API Dapr Migration Specification
 
-```markdown
+````markdown
 # Task API with Dapr Integration
 
 ## Intent
@@ -190,7 +190,7 @@ class Task(BaseModel):
     created_at: datetime
     updated_at: datetime
 ```
-```
+````
 
 ### Why This Specification Matters
 

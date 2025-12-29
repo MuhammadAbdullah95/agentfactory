@@ -1020,7 +1020,7 @@ Does my skill understand Go template syntax like if/else, range, and pipelines?
 
 Ask yourself:
 - Did my skill use proper comparison operators (eq, ne, gt, lt) instead of symbols?
-- Did it include whitespace control ({{- and -}}) to prevent blank lines?
+- Did it include whitespace control (`{{-` and `-}}`) to prevent blank lines?
 - Does it handle pipelines with functions like quote, upper, default?
 - Did it demonstrate range loops over lists and maps correctly?
 
