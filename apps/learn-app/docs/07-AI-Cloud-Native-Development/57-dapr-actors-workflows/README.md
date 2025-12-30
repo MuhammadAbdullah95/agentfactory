@@ -1,10 +1,10 @@
 ---
 sidebar_position: 57
-title: "Chapter 59: Dapr Actors & Workflows"
+title: "Chapter 57: Dapr Actors & Workflows"
 description: "Build stateful agents with virtual actors and durable workflows"
 ---
 
-# Chapter 59: Dapr Actors & Workflows
+# Chapter 57: Dapr Actors & Workflows
 
 Stateless pub/sub and service invocation handle many patterns. But agents often need state—conversation history, user preferences, task progress. And long-running operations—multi-step workflows that survive restarts, with retries and compensation logic.
 
