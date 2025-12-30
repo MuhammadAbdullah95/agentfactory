@@ -30,7 +30,7 @@ By the end of this chapter, you'll be able to:
 | # | Lesson | Duration | Description |
 |---|--------|----------|-------------|
 | 1 | [MCP Architecture Overview](./01-mcp-architecture-overview.md) | 14 min | The integration explosion problem, Host-Client-Server model, and protocol design |
-| 2 | [Transport Layers](./02-transport-layers.md) | 12 min | stdio for local servers, Streamable HTTP for remote, and when to use each |
+| 2 | [Transport Layers](./02-transport-layers.md) | 15 min | stdio for local servers, Streamable HTTP for remote, HTTP fundamentals primer, and when to use each |
 | 3 | [Tools: The Model-Controlled Primitive](./03-tools-the-model-controlled-primitive.md) | 14 min | Executable functions that LLMs invoke to perform actions |
 | 4 | [Resources: The App-Controlled Primitive](./04-resources-the-app-controlled-primitive.md) | 12 min | Read-only data sources that provide context to AI |
 | 5 | [Prompts: The User-Controlled Primitive](./05-prompts-the-user-controlled-primitive.md) | 12 min | Pre-crafted instruction templates encoding domain expertise |
@@ -39,7 +39,7 @@ By the end of this chapter, you'll be able to:
 | 8 | [Debugging and Troubleshooting](./08-debugging-and-troubleshooting.md) | 12 min | MCP Inspector, connection diagnostics, and common error patterns |
 | 9 | [Chapter Quiz](./09-chapter-quiz.md) | 15 min | Test your understanding of MCP fundamentals |
 
-**Total Chapter Duration**: ~2 hours
+**Total Chapter Duration**: ~2 hours 5 min
 
 ## Prerequisites
 
