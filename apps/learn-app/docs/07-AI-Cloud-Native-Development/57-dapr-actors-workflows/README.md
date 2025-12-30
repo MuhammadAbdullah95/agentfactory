@@ -1,5 +1,5 @@
 ---
-sidebar_position: 59
+sidebar_position: 57
 title: "Chapter 59: Dapr Actors & Workflows"
 description: "Build stateful agents with virtual actors and durable workflows"
 ---
