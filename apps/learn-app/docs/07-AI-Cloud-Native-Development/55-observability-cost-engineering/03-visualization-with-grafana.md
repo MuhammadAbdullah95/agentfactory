@@ -468,9 +468,9 @@ Always specify units in panel settings:
 ### 3. Meaningful Thresholds
 
 Set thresholds based on SLOs:
-- **Green**: Within SLO (e.g., <500ms latency)
+- **Green**: Within SLO (e.g., under 500ms latency)
 - **Yellow**: Approaching SLO breach (e.g., 500-800ms)
-- **Red**: SLO violated (e.g., >800ms)
+- **Red**: SLO violated (e.g., over 800ms)
 
 ### 4. Include Time Context
 

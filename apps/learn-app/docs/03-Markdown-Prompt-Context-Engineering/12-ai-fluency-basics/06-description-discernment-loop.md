@@ -471,7 +471,7 @@ When all boxes are checked, you're done.
 | >20% per iteration | Continue iterating |
 | 10-20% per iteration | Consider stopping, check if major gaps remain |
 | 5-10% per iteration | Likely diminishing returns; stop unless critical gap |
-| <5% per iteration | Stop; polish isn't worth more iterations |
+| Under 5% per iteration | Stop; polish isn't worth more iterations |
 
 **How to measure**: Use your evaluation scores. If iteration N scores 27/30 and iteration N+1 scores 28/30, that's a 3.7% improvement. Likely time to stop.
 
