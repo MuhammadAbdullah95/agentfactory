@@ -1,13 +1,11 @@
 ---
 title: "Chapter 7: Claude Code for Professions"
-sidebar_label: "Chapter 7: Professions"
+sidebar_label: "Chapter 7: Claude Code for Professions"
 sidebar_position: 7
 description: "Apply Claude Code to professional domains - financial planning, accounting, healthcare, legal, education, and real estate"
 ---
 
 # Chapter 7: Claude Code for Professions
-
-**Part 2: AI Tool Landscape** | **Proficiency Level**: A2-B1 | **Duration**: 4-6 hours
 
 ## Overview
 
