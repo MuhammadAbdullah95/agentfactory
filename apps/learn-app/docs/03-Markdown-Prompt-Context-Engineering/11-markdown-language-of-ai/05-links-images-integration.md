@@ -3,7 +3,7 @@ title: "Links, Images & Your First Complete Specification"
 description: "Integrating all markdown skills to create a complete AI-parseable specification"
 sidebar_label: "Links, Images & Your First Complete Specification"
 sidebar_position: 5
-chapter: 9
+chapter: 11
 lesson: 5
 duration_minutes: 60
 proficiency: "A2"

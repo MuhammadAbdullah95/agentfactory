@@ -3,7 +3,7 @@ title: "Introduction to Markdown"
 description: "Understanding markdown's role as the specification language in AI-driven development"
 sidebar_label: "Introduction to Markdown"
 sidebar_position: 1
-chapter: 9
+chapter: 11
 lesson: 1
 duration_minutes: 40
 proficiency: "A1"

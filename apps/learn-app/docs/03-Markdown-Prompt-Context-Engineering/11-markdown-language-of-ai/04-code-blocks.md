@@ -3,7 +3,7 @@ title: "Code Blocks - Showing Examples"
 description: "Learning to include code examples and expected output in markdown specifications"
 sidebar_label: "Code Blocks - Showing Examples"
 sidebar_position: 4
-chapter: 9
+chapter: 11
 lesson: 4
 duration_minutes: 45
 proficiency: "A2"

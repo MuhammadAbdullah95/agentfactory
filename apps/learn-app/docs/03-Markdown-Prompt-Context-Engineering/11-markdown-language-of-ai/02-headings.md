@@ -3,7 +3,7 @@ title: "Headings - Creating Document Hierarchy"
 description: "Learning to structure specifications with clear heading hierarchy"
 sidebar_label: "Headings - Creating Document Hierarchy"
 sidebar_position: 2
-chapter: 9
+chapter: 11
 lesson: 2
 duration_minutes: 40
 proficiency: "A2"
