@@ -200,7 +200,7 @@ Now implement the specification by composing patterns from earlier lessons. This
 
 First, implement the event schema and producer integration for the Task API.
 
-**File: `events/schemas.py`**
+Create `events/schemas.py`:
 
 ```python
 from dataclasses import dataclass, field, asdict
@@ -313,7 +313,7 @@ class TaskEvent:
 
 Create a reliable publisher that integrates with FastAPI's lifespan.
 
-**File: `events/publisher.py`**
+Create `events/publisher.py`:
 
 ```python
 from confluent_kafka import Producer
@@ -408,7 +408,7 @@ INFO:events.publisher:Event delivered: topic=task-events, partition=0, offset=42
 
 Connect the publisher to FastAPI endpoints.
 
-**File: `main.py`**
+Update `main.py`:
 
 ```python
 from contextlib import asynccontextmanager
@@ -538,7 +538,7 @@ INFO:events.publisher:Event delivered: topic=task-events, partition=0, offset=43
 
 Create a consumer that processes task events for notifications.
 
-**File: `services/notification_service.py`**
+Create `services/notification_service.py`:
 
 ```python
 from confluent_kafka import Consumer, KafkaError
@@ -655,7 +655,7 @@ INFO:__main__:NOTIFICATION: Task completed - 'Write capstone lesson' (ID: abc123
 
 Create a consumer that logs all events to an immutable audit trail.
 
-**File: `services/audit_service.py`**
+Create `services/audit_service.py`:
 
 ```python
 from confluent_kafka import Consumer, KafkaError

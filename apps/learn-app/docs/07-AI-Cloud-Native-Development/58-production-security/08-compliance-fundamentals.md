@@ -302,10 +302,9 @@ total 48
 
 ### Audit Policy Configuration
 
-Kubernetes audit logging records who did what when. Configure audit policy for compliance:
+Kubernetes audit logging records who did what when. Configure audit policy for compliance. Create `audit-policy.yaml`:
 
 ```yaml
-# audit-policy.yaml
 apiVersion: audit.k8s.io/v1
 kind: Policy
 rules:

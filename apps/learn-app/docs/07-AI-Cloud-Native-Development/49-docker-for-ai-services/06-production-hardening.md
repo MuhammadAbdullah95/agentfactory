@@ -128,9 +128,10 @@ ENV API_HOST=0.0.0.0
 ENV API_PORT=8000
 ```
 
-Your application reads these values at runtime:
+Your application reads these values at runtime.
 
-**File: main.py**
+Update `main.py`:
+
 ```python
 import os
 from fastapi import FastAPI
@@ -232,9 +233,10 @@ Orchestrators like Kubernetes need to know if your container is healthy. A conta
 
 ### Adding a Health Endpoint to FastAPI
 
-First, ensure your FastAPI service has a health endpoint:
+First, ensure your FastAPI service has a health endpoint.
 
-**File: main.py**
+Update `main.py`:
+
 ```python
 from fastapi import FastAPI
 import os
@@ -493,15 +495,17 @@ This template includes:
 
 ### Building and Testing the Complete Template
 
-Create the required files:
+Create the required files.
 
-**File: requirements.txt**
+Create `requirements.txt`:
+
 ```
 fastapi==0.115.0
 uvicorn==0.30.0
 ```
 
-**File: main.py**
+Create `main.py`:
+
 ```python
 import os
 from fastapi import FastAPI

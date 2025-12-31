@@ -196,10 +196,9 @@ NAME       TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
 task-api   ClusterIP   10.96.78.234   <none>        8000/TCP   2h
 ```
 
-Now create an IngressRoute that routes `/api/v1/tasks` to the Task API:
+Now create `task-api-ingressroute.yaml` that routes `/api/v1/tasks` to the Task API:
 
 ```yaml
-# task-api-ingressroute.yaml
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -301,10 +300,9 @@ This expressive matching is something standard Ingress cannot do without control
 
 Your AI agent's Task API could be expensive to run. Without rate limiting, a single user could exhaust your compute budget. Traefik Middlewares handle this.
 
-Create a RateLimit Middleware:
+Create `ratelimit-middleware.yaml`:
 
 ```yaml
-# ratelimit-middleware.yaml
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -333,10 +331,9 @@ kubectl apply -f ratelimit-middleware.yaml
 middleware.traefik.io/rate-limit created
 ```
 
-Now attach the Middleware to your IngressRoute:
+Now attach the Middleware to your IngressRoute. Create `task-api-ingressroute-ratelimited.yaml`:
 
 ```yaml
-# task-api-ingressroute-ratelimited.yaml
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -415,10 +412,9 @@ Sometimes your backend expects a different path than what external clients use. 
 
 ### StripPrefix Middleware
 
-Remove a path prefix before forwarding:
+Remove a path prefix before forwarding. Create `strip-prefix-middleware.yaml`:
 
 ```yaml
-# strip-prefix-middleware.yaml
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -438,10 +434,9 @@ If a client requests `/api/v1/tasks`, Traefik forwards `/tasks` to the backend. 
 
 ### AddPrefix Middleware
 
-Add a path prefix before forwarding:
+Add a path prefix before forwarding. Create `add-prefix-middleware.yaml`:
 
 ```yaml
-# add-prefix-middleware.yaml
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -460,10 +455,9 @@ A request to `/tasks` becomes `/internal/tasks` when reaching the backend.
 
 ### Headers Middleware
 
-Add or modify HTTP headers:
+Add or modify HTTP headers. Create `headers-middleware.yaml`:
 
 ```yaml
-# headers-middleware.yaml
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:

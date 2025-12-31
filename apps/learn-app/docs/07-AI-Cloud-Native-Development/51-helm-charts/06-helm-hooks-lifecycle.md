@@ -871,7 +871,7 @@ By using idempotent migrations (IF NOT EXISTS, CREATE INDEX IF NOT EXISTS, etc.)
 
 Create a pre-install hook that initializes a PostgreSQL database schema:
 
-**File: `task-api-chart/templates/hooks/db-init.yaml`**
+Create `task-api-chart/templates/hooks/db-init.yaml`:
 
 ```yaml
 {{ if .Values.postgres.enabled }}
@@ -930,7 +930,7 @@ spec:
 
 Create two pre-upgrade hooks where the migration runs before validation:
 
-**File: `task-api-chart/templates/hooks/pre-upgrade.yaml`**
+Create `task-api-chart/templates/hooks/pre-upgrade.yaml`:
 
 ```yaml
 apiVersion: batch/v1
@@ -1019,7 +1019,7 @@ If validation fails, the upgrade is blocked and rolled back. The deployment does
 
 Create a hook that clears Redis cache after a successful upgrade:
 
-**File: `task-api-chart/templates/hooks/post-upgrade.yaml`**
+Create `task-api-chart/templates/hooks/post-upgrade.yaml`:
 
 ```yaml
 apiVersion: batch/v1
@@ -1054,7 +1054,7 @@ spec:
 
 Create a pre-upgrade hook that intentionally fails to see how Helm handles it:
 
-**File: `task-api-chart/templates/hooks/debug-failure.yaml`**
+Create `task-api-chart/templates/hooks/debug-failure.yaml`:
 
 ```yaml
 apiVersion: batch/v1
@@ -1096,7 +1096,7 @@ spec:
 
 Deploy a hook, let it succeed, and verify it's cleaned up:
 
-**File: `task-api-chart/templates/hooks/cleanup-test.yaml`**
+Create `task-api-chart/templates/hooks/cleanup-test.yaml`:
 
 ```yaml
 apiVersion: batch/v1
@@ -1137,7 +1137,7 @@ spec:
 
 Create three hooks that run in specific order using different weights:
 
-**File: `task-api-chart/templates/hooks/sequence.yaml`**
+Create `task-api-chart/templates/hooks/sequence.yaml`:
 
 ```yaml
 apiVersion: batch/v1

@@ -123,10 +123,11 @@ OPENAI_API_KEY=sk-your-key-here
 DATABASE_URL=postgresql://...
 ```
 
-Update your Settings class:
+Update your Settings class.
+
+Create `config.py`:
 
 ```python
-# config.py
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -155,10 +156,11 @@ pydantic_settings.sources.SettingsError: error loading settings
 
 ## Step 2: Create the Vector Store Service
 
-Separate your RAG logic from your endpoints:
+Separate your RAG logic from your endpoints.
+
+Create `services/vector_store.py`:
 
 ```python
-# services/vector_store.py
 from langchain_openai import OpenAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from langchain_core.documents import Document
@@ -213,11 +215,9 @@ Collection 'task_descriptions' created with 1536-dimensional vectors
 
 ## Step 3: Index Task Descriptions
 
-When tasks are created or updated, index them for semantic search:
+When tasks are created or updated, index them for semantic search. Add these methods to `TaskVectorStore`:
 
 ```python
-# services/vector_store.py (continued)
-
 class TaskVectorStore:
     # ... previous methods ...
 
@@ -274,11 +274,9 @@ class TaskVectorStore:
 
 ## Step 4: Implement Semantic Search
 
-Add the search method that powers your endpoint:
+Add the search method that powers your endpoint. Add this import and method to `services/vector_store.py`:
 
 ```python
-# services/vector_store.py (continued)
-
 from qdrant_client import models
 
 
@@ -349,10 +347,11 @@ class TaskVectorStore:
 
 ## Step 5: Create the FastAPI Endpoint
 
-Wire the vector store service into your API:
+Wire the vector store service into your API.
+
+Create `routers/semantic_search.py`:
 
 ```python
-# routers/semantic_search.py
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
 from typing import Optional
@@ -441,10 +440,11 @@ curl -X POST "http://localhost:8000/tasks/search/semantic?query=container%20depl
 
 ## Step 6: Register the Router
 
-Add the semantic search router to your main app:
+Add the semantic search router to your main app.
+
+Update `main.py`:
 
 ```python
-# main.py
 from fastapi import FastAPI
 from routers import tasks, semantic_search
 
@@ -469,10 +469,11 @@ async def health_check():
 
 ## Step 7: Auto-Index on Task Creation
 
-Integrate indexing with your existing CRUD operations:
+Integrate indexing with your existing CRUD operations.
+
+Update `routers/tasks.py`:
 
 ```python
-# routers/tasks.py (modified)
 from fastapi import APIRouter, Depends, HTTPException
 from services.vector_store import TaskVectorStore
 

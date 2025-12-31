@@ -154,10 +154,11 @@ Build a stateful task management system that combines:
 
 ## TaskActor Implementation
 
-The TaskActor manages individual task state with deadline reminders:
+The TaskActor manages individual task state with deadline reminders.
+
+Create `task_actor_service/actors/task_actor.py`:
 
 ```python
-# task_actor_service/actors/task_actor.py
 from datetime import datetime, timedelta
 from dapr.actor import Actor, ActorInterface, actormethod
 from dapr.actor.runtime.context import ActorRuntimeContext
@@ -283,10 +284,11 @@ TaskActor task-001: Status updated to 'overdue'
 
 ## ChatActor Implementation
 
-The ChatActor maintains conversation history per user:
+The ChatActor maintains conversation history per user.
+
+Create `task_actor_service/actors/chat_actor.py`:
 
 ```python
-# task_actor_service/actors/chat_actor.py
 from datetime import datetime
 from dapr.actor import Actor, ActorInterface, actormethod
 from dapr.actor.runtime.context import ActorRuntimeContext
@@ -402,10 +404,11 @@ Event published: {"event_type": "conversation.updated", "user_id": "user-alice",
 
 ## TaskProcessingWorkflow with Saga
 
-The workflow orchestrates task processing with compensation:
+The workflow orchestrates task processing with compensation.
+
+Create `task_workflow_service/workflows/task_workflow.py`:
 
 ```python
-# task_workflow_service/workflows/task_workflow.py
 import dapr.ext.workflow as wf
 from dataclasses import dataclass
 from datetime import timedelta
@@ -536,8 +539,9 @@ def task_processing_workflow(
 
 ### Activity Implementations
 
+Create `task_workflow_service/activities/task_activities.py`:
+
 ```python
-# task_workflow_service/activities/task_activities.py
 from dapr.actor import ActorProxy, ActorId
 from datetime import datetime
 
@@ -674,10 +678,11 @@ Workflow completed: {status: "failed", message: "Processing failed, compensation
 
 ## FastAPI Integration
 
-Wire actors and workflows into a FastAPI application:
+Wire actors and workflows into a FastAPI application.
+
+Create `task_actor_service/main.py`:
 
 ```python
-# task_actor_service/main.py
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from dapr.ext.fastapi import DaprActor, DaprApp

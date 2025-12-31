@@ -118,8 +118,9 @@ Apply the security components you've built throughout this chapter. Each file re
 
 ### Step 1: Namespace with PSS Labels (L05)
 
+Create `01-namespace.yaml`:
+
 ```yaml
-# 01-namespace.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -135,8 +136,9 @@ metadata:
 
 ### Step 2: RBAC (L02)
 
+Create `02-rbac.yaml`:
+
 ```yaml
-# 02-rbac.yaml
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -172,8 +174,9 @@ roleRef:
 
 ### Step 3: NetworkPolicy (L03)
 
+Create `03-network-policy.yaml`:
+
 ```yaml
-# 03-network-policy.yaml
 ---
 # Default deny all traffic
 apiVersion: networking.k8s.io/v1
@@ -274,8 +277,9 @@ spec:
 
 ### Step 4: Secrets Management (L04)
 
+Create `04-secrets.yaml`:
+
 ```yaml
-# 04-secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -289,8 +293,9 @@ data:
 
 ### Step 5: Dapr Components with Scopes (L07)
 
+Create `05-dapr-components.yaml`:
+
 ```yaml
-# 05-dapr-components.yaml
 ---
 apiVersion: dapr.io/v1alpha1
 kind: Component
@@ -313,8 +318,9 @@ spec:
 
 ### Step 6: Task API Deployment (All Layers)
 
+Create `06-deployment.yaml`:
+
 ```yaml
-# 06-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -867,10 +873,9 @@ kubectl delete pod network-attacker -n task-api
 
 **Attack**: Pod attempts to run privileged container or escape PSS restrictions.
 
-**Setup:**
+**Setup:** Create `privileged-attacker.yaml`:
 
 ```yaml
-# privileged-attacker.yaml
 apiVersion: v1
 kind: Pod
 metadata:

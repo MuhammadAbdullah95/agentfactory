@@ -129,10 +129,9 @@ kubectl create namespace task-api
 namespace/task-api created
 ```
 
-Now create a dedicated ServiceAccount. The critical setting is `automountServiceAccountToken: false`, which prevents Kubernetes from automatically mounting the token into your pods:
+Now create a dedicated ServiceAccount. The critical setting is `automountServiceAccountToken: false`, which prevents Kubernetes from automatically mounting the token into your pods. Create `task-api-sa.yaml`:
 
 ```yaml
-# task-api-sa.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -173,10 +172,9 @@ automountServiceAccountToken: false
 
 ## Step 2: Define the Role (Minimum Required Permissions)
 
-Your Task API needs to read its ConfigMap for configuration. It doesn't need to create, update, or delete ConfigMaps. It doesn't need access to Secrets. Define exactly that:
+Your Task API needs to read its ConfigMap for configuration. It doesn't need to create, update, or delete ConfigMaps. It doesn't need access to Secrets. Define exactly that. Create `task-api-role.yaml`:
 
 ```yaml
-# task-api-role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -244,10 +242,9 @@ rules:
 
 ## Step 3: Create the RoleBinding
 
-The RoleBinding connects your ServiceAccount to the Role:
+The RoleBinding connects your ServiceAccount to the Role. Create `task-api-binding.yaml`:
 
 ```yaml
-# task-api-binding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -489,10 +486,9 @@ Subjects:
 
 ## The Complete RBAC Pattern
 
-Here's the complete set of resources in a single file for easy deployment:
+Here's the complete set of resources in a single file for easy deployment. Create `task-api-rbac-complete.yaml`:
 
 ```yaml
-# task-api-rbac-complete.yaml
 ---
 apiVersion: v1
 kind: ServiceAccount

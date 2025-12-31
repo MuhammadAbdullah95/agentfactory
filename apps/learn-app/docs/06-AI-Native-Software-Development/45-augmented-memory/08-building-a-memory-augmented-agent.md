@@ -110,10 +110,11 @@ OPENAI_API_KEY=your-openai-api-key
 
 ## Building Memory Tools
 
-First, let's create the memory tools that our agent will use:
+First, let's create the memory tools that our agent will use.
+
+Create `memory_tools.py`:
 
 ```python
-# memory_tools.py
 from mem0 import Memory
 from agents import function_tool
 from typing import Optional
@@ -267,10 +268,11 @@ Relevant memories:
 
 ## Creating the Agent
 
-Now let's create the Task Manager Agent with memory capabilities:
+Now let's create the Task Manager Agent with memory capabilities.
+
+Create `agent.py`:
 
 ```python
-# agent.py
 from agents import Agent
 from memory_tools import (
     recall_memories,
@@ -330,10 +332,11 @@ def create_task_manager_agent() -> Agent:
 
 ## Running the Agent
 
-Create the main conversation loop:
+Create the main conversation loop.
+
+Create `main.py`:
 
 ```python
-# main.py
 import asyncio
 from dotenv import load_dotenv
 from agents import Runner
@@ -477,10 +480,11 @@ TASKS:
 
 ## Testing Memory Persistence
 
-Verify that memory works across completely independent sessions:
+Verify that memory works across completely independent sessions.
+
+Create `test_memory.py`:
 
 ```python
-# test_memory.py
 import asyncio
 from dotenv import load_dotenv
 from agents import Runner

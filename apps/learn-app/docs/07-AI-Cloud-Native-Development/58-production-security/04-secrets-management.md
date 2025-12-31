@@ -479,10 +479,9 @@ ESO creates a standard Kubernetes Secret that your pods consume via volume mount
 
 ## Task API Secret Configuration
 
-Here's the complete Secret and volume mount configuration for Task API:
+Here's the complete Secret and volume mount configuration for Task API. Create `task-api-secrets.yaml`:
 
 ```yaml
-# task-api-secrets.yaml
 ---
 apiVersion: v1
 kind: Secret

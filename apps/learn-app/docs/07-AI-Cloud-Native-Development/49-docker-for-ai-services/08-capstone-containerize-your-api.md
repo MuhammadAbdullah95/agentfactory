@@ -108,9 +108,7 @@ The specification-first approach is critical. Jumping straight to code is the Vi
 
 Before any implementation, you write a specification. This is the specification-first approach that separates professional development from Vibe Coding. The spec defines WHAT you're building and HOW you'll know it works.
 
-**Create this file in your project directory:**
-
-**File: containerization-spec.md**
+Create `containerization-spec.md` in your project directory:
 
 ```markdown
 # Containerization Specification: Task API
@@ -244,7 +242,7 @@ def health_check():
 
 Now apply the multi-stage build pattern from Lesson 5. Reference your specification: under 200MB, Alpine base, non-root user.
 
-**File: Dockerfile**
+Create `Dockerfile`:
 
 ```dockerfile
 # =============================================================================

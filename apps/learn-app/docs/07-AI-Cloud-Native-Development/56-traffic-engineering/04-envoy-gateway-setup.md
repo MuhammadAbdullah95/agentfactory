@@ -331,10 +331,9 @@ The `controllerName` field is the key. Any Gateway referencing `gatewayClassName
 
 Now create a Gateway that uses the `eg` GatewayClass. This Gateway will listen for HTTP traffic on port 80.
 
-**Create the Gateway resource:**
+Create `task-api-gateway.yaml`:
 
 ```yaml
-# task-api-gateway.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -478,10 +477,9 @@ The Service type is `LoadBalancer` by default. On Docker Desktop, the external I
 
 The default Envoy deployment works for development. For production, you may need to customize resource limits, replicas, or add pod anti-affinity. Envoy Gateway provides the `EnvoyProxy` CRD for this.
 
-**Create an EnvoyProxy configuration:**
+Create `envoy-proxy-config.yaml`:
 
 ```yaml
-# envoy-proxy-config.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
@@ -515,10 +513,9 @@ spec:
 
 **Reference the EnvoyProxy from GatewayClass:**
 
-To use this configuration, create a custom GatewayClass:
+To use this configuration, create `production-gatewayclass.yaml`:
 
 ```yaml
-# production-gatewayclass.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:

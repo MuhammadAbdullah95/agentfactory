@@ -301,8 +301,9 @@ task-api/
 
 ### Memory Module
 
+Create `memory.py`:
+
 ```python
-# memory.py
 from mem0 import Memory
 
 # Initialize shared memory instance
@@ -351,8 +352,9 @@ async def store_interaction(user_id: str, messages: list, category: str = "inter
 
 ### FastAPI Integration
 
+Create `main.py`:
+
 ```python
-# main.py
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from typing import Optional
@@ -456,8 +458,9 @@ async def set_preference(user_id: str, preference: str):
 
 ### Testing the Integration
 
+Create `test_memory_api.py`:
+
 ```python
-# test_memory_api.py
 import httpx
 import asyncio
 

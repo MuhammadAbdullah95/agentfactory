@@ -213,7 +213,7 @@ Now refactor the Task API by composing patterns from Lessons 03-08. This phase d
 
 First, create the Pydantic models for tasks and events.
 
-**File: `models.py`**
+Create `models.py`:
 
 ```python
 from pydantic import BaseModel, Field
@@ -268,7 +268,7 @@ class TaskEvent(BaseModel):
 
 Create the FastAPI application that uses Dapr for all infrastructure.
 
-**File: `main.py`**
+Create `main.py`:
 
 ```python
 from contextlib import asynccontextmanager
@@ -479,7 +479,7 @@ $ curl -X POST http://localhost:8000/tasks \
 
 Configure the Dapr components that your application uses.
 
-**File: `components/statestore.yaml`**
+Create `components/statestore.yaml`:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -497,7 +497,7 @@ spec:
       value: ""
 ```
 
-**File: `components/pubsub.yaml`**
+Create `components/pubsub.yaml`:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -513,7 +513,7 @@ spec:
       value: redis-master.default.svc.cluster.local:6379
 ```
 
-**File: `components/secrets.yaml`**
+Create `components/secrets.yaml`:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -545,7 +545,7 @@ component.dapr.io/kubernetes-secrets created
 
 Create the Kubernetes deployment with Dapr sidecar injection.
 
-**File: `k8s/deployment.yaml`**
+Create `k8s/deployment.yaml`:
 
 ```yaml
 apiVersion: apps/v1
@@ -598,7 +598,7 @@ spec:
             periodSeconds: 30
 ```
 
-**File: `k8s/service.yaml`**
+Create `k8s/service.yaml`:
 
 ```yaml
 apiVersion: v1

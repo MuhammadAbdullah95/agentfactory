@@ -135,7 +135,6 @@ Installed 23 packages in 89ms
 
 Now replace the contents of `main.py` with the Task API:
 
-**File: main.py**
 ```python
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -607,7 +606,6 @@ Docker wastes time processing these, and worse—secrets could end up in your im
 
 Create `.dockerignore`:
 
-**File: .dockerignore**
 ```
 # Python artifacts
 __pycache__/

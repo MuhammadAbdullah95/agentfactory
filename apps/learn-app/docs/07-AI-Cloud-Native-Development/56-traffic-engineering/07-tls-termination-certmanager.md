@@ -261,10 +261,9 @@ Always test with staging first. Production rate limits can lock you out for a we
 
 ### Creating a Staging ClusterIssuer
 
-Start with staging to validate your configuration:
+Start with staging to validate your configuration. Create `clusterissuer-staging.yaml`:
 
 ```yaml
-# clusterissuer-staging.yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -362,10 +361,9 @@ The `ACME account was registered` message confirms cert-manager successfully aut
 
 ### Creating a Production ClusterIssuer
 
-Once staging works, create the production issuer:
+Once staging works, create `clusterissuer-production.yaml`:
 
 ```yaml
-# clusterissuer-production.yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -405,8 +403,9 @@ With cert-manager installed and ClusterIssuer configured, update your Gateway to
 
 ### Gateway with TLS Configuration
 
+Create `task-api-gateway-tls.yaml`:
+
 ```yaml
-# task-api-gateway-tls.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -719,10 +718,9 @@ This error means the challenge HTTPRoute is not serving the token correctly.
 
 ## HTTP to HTTPS Redirect
 
-Production deployments should redirect HTTP traffic to HTTPS. Create an HTTPRoute that redirects all HTTP requests:
+Production deployments should redirect HTTP traffic to HTTPS. Create `http-redirect.yaml`:
 
 ```yaml
-# http-redirect.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -773,10 +771,9 @@ Note: The redirect should not interfere with ACME challenges. cert-manager creat
 
 ## Self-Signed Certificates for Local Development
 
-For local development without DNS or when you cannot reach Let's Encrypt, use a self-signed ClusterIssuer:
+For local development without DNS or when you cannot reach Let's Encrypt, use a self-signed ClusterIssuer. Create `clusterissuer-selfsigned.yaml`:
 
 ```yaml
-# clusterissuer-selfsigned.yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:

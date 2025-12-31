@@ -154,10 +154,9 @@ kubectl get namespace task-api -o yaml | grep pod-security
 
 ## Testing Enforcement: Privileged Pod Rejection
 
-With enforcement active, attempt to deploy a privileged container:
+With enforcement active, attempt to deploy a privileged container. Create `test-privileged.yaml`:
 
 ```yaml
-# test-privileged.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -187,10 +186,9 @@ The admission controller rejected the pod before it could be created. This is PS
 
 ## Writing a Restricted-Compliant Pod Spec
 
-The Restricted profile requires specific securityContext fields. Here is a compliant Task API deployment:
+The Restricted profile requires specific securityContext fields. Here is a compliant Task API deployment. Create `task-api-deployment.yaml`:
 
 ```yaml
-# task-api-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:

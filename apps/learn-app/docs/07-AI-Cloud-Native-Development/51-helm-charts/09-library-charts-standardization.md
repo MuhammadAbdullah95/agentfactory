@@ -68,18 +68,21 @@ Start with the basic structure:
 
 ```bash
 mkdir -p org-standards/templates
+```
 
-# Create Chart.yaml
-cat > org-standards/Chart.yaml <<'EOF'
+Create `org-standards/Chart.yaml`:
+
+```yaml
 apiVersion: v2
 name: org-standards
 description: "Organizational standards for labels, probes, and security"
 type: library
 version: 1.0.0
-EOF
+```
 
-# Create values.yaml with organizational defaults
-cat > org-standards/values.yaml <<'EOF'
+Create `org-standards/values.yaml` with organizational defaults:
+
+```yaml
 organization:
   name: "my-company"
   team: "platform"
@@ -96,10 +99,6 @@ securityDefaults:
   runAsNonRoot: true
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
-EOF
-
-# Create empty templates directory
-mkdir org-standards/templates
 ```
 
 **Output:**
@@ -172,8 +171,9 @@ Create reusable templates in the library chart that enforce organizational patte
 
 ### Creating Labels Template
 
-```bash
-cat > org-standards/templates/_labels.tpl <<'EOF'
+Create `org-standards/templates/_labels.tpl`:
+
+```gotemplate
 {{- define "org-standards.labels" -}}
 app.kubernetes.io/name: {{ include "org-standards.name" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -186,24 +186,24 @@ env: {{ .Values.organization.environment }}
 {{- define "org-standards.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
-EOF
 ```
 
 ### Creating Common Annotations Template
 
-```bash
-cat > org-standards/templates/_annotations.tpl <<'EOF'
+Create `org-standards/templates/_annotations.tpl`:
+
+```gotemplate
 {{- define "org-standards.annotations" -}}
 documentation: {{ .Values.commonAnnotations.doc-link }}
 updated-at: {{ now | date "2006-01-02T15:04:05Z07:00" }}
 {{- end }}
-EOF
 ```
 
 ### Creating Probes Template
 
-```bash
-cat > org-standards/templates/_probes.tpl <<'EOF'
+Create `org-standards/templates/_probes.tpl`:
+
+```gotemplate
 {{- define "org-standards.livenessProbe" -}}
 livenessProbe:
   httpGet:
@@ -225,7 +225,6 @@ readinessProbe:
   timeoutSeconds: 3
   failureThreshold: 2
 {{- end }}
-EOF
 ```
 
 **Output:**
@@ -254,9 +253,11 @@ Application charts declare library charts as dependencies in `Chart.yaml`.
 
 ```bash
 mkdir -p my-api/templates
+```
 
-# Create Chart.yaml with library dependency
-cat > my-api/Chart.yaml <<'EOF'
+Create `my-api/Chart.yaml` with library dependency:
+
+```yaml
 apiVersion: v2
 name: my-api
 description: "AI agent API service"
@@ -268,10 +269,11 @@ dependencies:
     version: "1.0.0"
     repository: "file://../org-standards"
     condition: org-standards.enabled
-EOF
+```
 
-# Create application values.yaml
-cat > my-api/values.yaml <<'EOF'
+Create `my-api/values.yaml`:
+
+```yaml
 appName: my-api
 replicaCount: 2
 image:
@@ -285,9 +287,11 @@ org-standards:
     name: my-company
     team: platform
     environment: prod
-EOF
+```
 
-# Update Helm dependencies
+Update Helm dependencies:
+
+```bash
 helm dependency update my-api/
 ```
 
@@ -314,8 +318,9 @@ Application charts use `include` function to reference templates from library ch
 
 ### Creating Application Deployment Using Library Templates
 
-```bash
-cat > my-api/templates/deployment.yaml <<'EOF'
+Create `my-api/templates/deployment.yaml`:
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -349,7 +354,6 @@ spec:
           limits:
             cpu: 500m
             memory: 512Mi
-EOF
 ```
 
 **Output:**
@@ -427,11 +431,15 @@ Applications override library defaults through the values.yaml hierarchy while m
 
 ### Creating Multiple Application Charts with Overrides
 
-```bash
-# Application 1: Web service
-mkdir -p web-service/templates
+**Application 1: Web service**
 
-cat > web-service/Chart.yaml <<'EOF'
+```bash
+mkdir -p web-service/templates
+```
+
+Create `web-service/Chart.yaml`:
+
+```yaml
 apiVersion: v2
 name: web-service
 description: "Web frontend"
@@ -441,9 +449,11 @@ dependencies:
   - name: org-standards
     version: "1.0.0"
     repository: "file://../org-standards"
-EOF
+```
 
-cat > web-service/values.yaml <<'EOF'
+Create `web-service/values.yaml`:
+
+```yaml
 appName: web-service
 replicaCount: 3  # More replicas for web traffic
 
@@ -465,12 +475,17 @@ org-standards:
         path: /api/health
         port: 8080
       initialDelaySeconds: 15  # Faster startup
-EOF
+```
 
-# Application 2: Background worker
+**Application 2: Background worker**
+
+```bash
 mkdir -p bg-worker/templates
+```
 
-cat > bg-worker/Chart.yaml <<'EOF'
+Create `bg-worker/Chart.yaml`:
+
+```yaml
 apiVersion: v2
 name: bg-worker
 description: "Background job processor"
@@ -480,9 +495,11 @@ dependencies:
   - name: org-standards
     version: "1.0.0"
     repository: "file://../org-standards"
-EOF
+```
 
-cat > bg-worker/values.yaml <<'EOF'
+Create `bg-worker/values.yaml`:
+
+```yaml
 appName: bg-worker
 replicaCount: 2
 
@@ -496,7 +513,6 @@ org-standards:
     name: my-company
     team: backend  # Override team
     environment: prod
-EOF
 ```
 
 **Output:**
@@ -548,8 +564,9 @@ Library charts solve real organizational problems: enforcing security policies, 
 
 **Pattern 1: Security Enforcement**
 
-```bash
-cat > org-standards/templates/_security.tpl <<'EOF'
+Create `org-standards/templates/_security.tpl`:
+
+```gotemplate
 {{- define "org-standards.securityContext" -}}
 securityContext:
   runAsNonRoot: true
@@ -560,35 +577,34 @@ securityContext:
       - ALL
   readOnlyRootFilesystem: true
 {{- end }}
-EOF
 ```
 
 All deployments automatically get security hardening without individual configuration.
 
 **Pattern 2: Compliance Labels**
 
-```bash
-cat > org-standards/values.yaml <<'EOF'
+Add to `org-standards/values.yaml`:
+
+```yaml
 complianceLabels:
   audit-enabled: "true"
   pci-dss: "required"
   hipaa: "not-applicable"
   gdpr-processing: "true"
-EOF
 ```
 
 Platform teams enforce compliance requirements that auditors verify through labels.
 
 **Pattern 3: Cost Attribution**
 
-```bash
-cat > org-standards/templates/_costAttribution.tpl <<'EOF'
+Create `org-standards/templates/_costAttribution.tpl`:
+
+```gotemplate
 {{- define "org-standards.costLabels" -}}
 cost-center: {{ .Values.costCenter }}
 project: {{ .Values.projectName }}
 owning-team: {{ .Values.organization.team }}
 {{- end }}
-EOF
 ```
 
 Finance teams track costs per team/project through labels injected by the library.
@@ -601,8 +617,9 @@ Templates in library charts can be extended or overridden by application charts,
 
 ### Base Probe Template with Override Points
 
-```bash
-cat > org-standards/templates/_probes-extended.tpl <<'EOF'
+Create `org-standards/templates/_probes-extended.tpl`:
+
+```gotemplate
 {{- define "org-standards.livenessProbe" -}}
 livenessProbe:
   {{- if .Values.probes.liveness.custom }}
@@ -617,13 +634,13 @@ livenessProbe:
   failureThreshold: {{ .Values.probes.liveness.failureThreshold | default 3 }}
   {{- end }}
 {{- end }}
-EOF
 ```
 
 ### Application Chart Overrides Probe Behavior
 
-```bash
-cat > my-app/values.yaml <<'EOF'
+Create `my-app/values.yaml`:
+
+```yaml
 # Standard org-standards usage
 org-standards:
   enabled: true
@@ -637,7 +654,6 @@ probes:
     path: /custom-health-check
     initialDelay: 60
     failureThreshold: 5
-EOF
 ```
 
 **Output:**
