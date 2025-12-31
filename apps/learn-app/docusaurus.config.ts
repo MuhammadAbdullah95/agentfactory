@@ -350,15 +350,15 @@ const config: Config = {
           items: [
             {
               label: "Start Your Journey",
-              to: "/docs/preface-agent-native",
+              to: "/docs/thesis",
             },
             {
               label: "Full Curriculum",
-              to: "/docs/preface-agent-native",
+              to: "/docs/thesis",
             },
             {
               label: "Learning Path",
-              to: "/docs/preface-agent-native",
+              to: "/docs/thesis",
             },
           ],
         },

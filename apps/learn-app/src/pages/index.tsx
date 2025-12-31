@@ -52,7 +52,7 @@ function HomepageHeader() {
             <div className="flex flex-col items-start gap-4 sm:gap-6 mb-12 sm:mb-16">
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
                 <Button asChild size="lg" className="h-11 sm:h-14 px-5 sm:px-8 text-sm sm:text-lg font-bold rounded-none bg-primary hover:bg-primary/90 text-primary-foreground transition-all">
-                  <Link to="/docs/preface-agent-native" className="flex items-center gap-2 sm:gap-3">
+                  <Link to="/docs/thesis" className="flex items-center gap-2 sm:gap-3">
                     START READING <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Link>
                 </Button>
@@ -695,7 +695,7 @@ function FinalCTA() {
           and generate recurring revenue
         </p>
         <Button variant="outline" size="lg" className="h-14 px-8 text-lg font-semibold" asChild>
-          <Link to="/docs/preface-agent-native">
+          <Link to="/docs/thesis">
             Start Reading
           </Link>
         </Button>
