@@ -31,6 +31,10 @@ learning_objectives:
     proficiency_level: "B1"
     bloom_level: "Apply"
     assessment_method: "Successfully execute browser automation with compiled skill"
+  - objective: "Use fetch-library-docs skill with content-type filtering"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Fetch documentation with different content types and observe token savings"
   - objective: "Compare token usage between direct MCP and compiled skill"
     proficiency_level: "B1"
     bloom_level: "Analyze"
@@ -43,7 +47,7 @@ learning_objectives:
 # Cognitive load tracking
 cognitive_load:
   new_concepts: 3
-  assessment: "3 concepts (MCP token bloat, code execution pattern, using compiled skills) - within B1 limit"
+  assessment: "3 concepts (MCP token bloat, code execution pattern, content-type filtering) - within B1 limit. Two skills (playwright, fetch-docs) reinforce same pattern."
 
 # Differentiation guidance
 differentiation:
@@ -359,6 +363,138 @@ scripts/           # Scripts Claude executes locally
 
 ---
 
+## Hands-On 2: Use fetch-library-docs Skill
+
+Let's try a second compiled skill that demonstrates a different use case: **fetching library documentation with intelligent filtering**. This skill wraps the Context7 MCP server and reduces tokens by 60-90% through content-type filtering.
+
+:::note No Programming Required
+You don't need to understand the code in the documentation—you're learning how **token reduction** works, not React or Next.js. Focus on the numbers: how many tokens before vs after.
+:::
+
+### What fetch-library-docs Does
+
+When developers need documentation, they typically ask questions like:
+- "How do I install Next.js?"
+- "Show me examples of useState"
+- "What's the API for fetch in JavaScript?"
+
+**Without the skill**: Context7 MCP returns everything—examples, explanations, API references, troubleshooting—consuming thousands of tokens.
+
+**With the skill**: You specify what you need (`setup`, `examples`, `api-ref`), and the skill filters locally, returning only relevant content.
+
+### Step 1: Try fetch-library-docs Skill
+
+In your Skills Lab folder, start Claude:
+
+```bash
+claude
+```
+
+Ask Claude to fetch installation instructions:
+
+```
+Use fetch-library-docs skill to look up "getting started" for Next.js.
+I only need setup instructions, not code examples.
+```
+
+**What happens:**
+
+1. Claude loads fetch-library-docs SKILL.md (~150 tokens)
+2. Skill executes bash command locally:
+   ```bash
+   bash scripts/fetch-docs.sh --library nextjs --topic "getting started" --content-type setup
+   ```
+3. Script calls Context7 MCP via subprocess (outside Claude's context)
+4. **Filters response locally** to extract only terminal commands and setup instructions
+5. Returns filtered content (~50-100 tokens instead of ~500-800)
+
+**You'll see output like:**
+
+```
+## Setup Instructions
+
+### Installation
+npm create next-app@latest my-app
+
+### Run Development Server
+cd my-app
+npm run dev
+
+[Token savings: 81%]
+```
+
+### Step 2: Compare Content Types
+
+Now try the same library but requesting code examples:
+
+```
+Use fetch-library-docs skill to look up "data fetching" for Next.js.
+I want code examples only.
+```
+
+**Different content type = different filtering:**
+
+```bash
+bash scripts/fetch-docs.sh --library-id /vercel/next.js --topic "data fetching" --content-type examples
+```
+
+**You'll see:**
+
+```
+## Code Examples
+
+### Example 1
+export default async function Page() {
+  let data = await fetch('https://api.vercel.app/blog')
+  let posts = await data.json()
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+
+[Token savings: 92%]
+```
+
+### Step 3: Understand the Token Savings
+
+Ask Claude to explain what just happened:
+
+```
+Compare the token usage between:
+1. Calling Context7 MCP directly for "Next.js data fetching"
+2. Using fetch-library-docs skill with --content-type examples
+
+Show me the savings breakdown.
+```
+
+### Step 4: Explore the Skill Structure
+
+Ask Claude to show you the internal structure of fetch-library-docs skill:
+
+You'll see:
+
+```
+SKILL.md           # Decision logic for when/how to fetch docs
+references/        # Library IDs, patterns, API details
+scripts/           # Shell scripts that call Context7 MCP locally
+  ├── fetch-docs.sh      # Main orchestrator
+  ├── fetch-raw.sh       # Calls Context7 MCP
+  ├── filter-by-type.sh  # Routes to content extractors
+  └── extract-*.sh       # Content-type specific filters
+```
+
+**Key insight**: The filtering happens in shell scripts (local execution), not in Claude's context. This is why tokens are saved—heavy processing stays outside the conversation.
+
+#### 💬 AI Colearning Prompt
+
+> "I used fetch-library-docs skill with two different content types: setup and examples. Explain: (1) Why does 'setup' have higher token savings than 'examples'? (2) What happens locally when the skill filters content? (3) If I needed both examples AND API reference, how would I request that?"
+
+---
+
 ## When to Compile MCP Servers
 
 Not every MCP server benefits from compilation. Use this decision framework:
@@ -367,7 +503,7 @@ Not every MCP server benefits from compilation. Use this decision framework:
 
 ✅ **High token overhead** (>5,000 tokens per query)
 
-- Example: Playwright, Google Drive, Database MCP
+- Example: Playwright, Google Drive, Database MCP, Context7 (documentation)
 
 ✅ **Frequent use** (3+ times per session or across projects)
 
@@ -449,7 +585,8 @@ Research and tools supporting this lesson:
 
 ## Try With AI
 
-**Use browsing-with-playwright Skill:**
+### browsing-with-playwright Skill
+
 
 > "I've downloaded the Skills Lab. Guide me through using the browsing-with-playwright skill to extract product names from an e-commerce site. Show me the token savings compared to direct MCP."
 
@@ -457,9 +594,17 @@ Research and tools supporting this lesson:
 
 > "I used browsing-with-playwright skill for 3 browser operations. Calculate the token savings: (1) Estimate tokens if I used Playwright MCP directly, (2) Estimate tokens with browsing-with-playwright skill, (3) Show percentage reduction with explanation."
 
-**Understand Internals:**
+### fetch-library-docs Skill
 
-> "Open the browsing-with-playwright skill files and explain: (1) What does SKILL.md contain? (2) What do the scripts in scripts/ folder do? (3) How does this achieve token reduction?"
+**Fetch Different Content Types:**
+
+> "Use fetch-library-docs skill to look up React useState. First fetch with --content-type examples, then with --content-type api-ref. Compare the outputs and explain why they're different sizes."
+
+
+**Compare Token Savings:**
+
+> "I need to look up 'routing' for Next.js. Show me the token difference between: (1) Using fetch-library-docs with --content-type setup, (2) Using fetch-library-docs with --content-type all (no filtering). Calculate the percentage saved."
+
 
 **Decide When to Use:**
 
@@ -468,7 +613,3 @@ Research and tools supporting this lesson:
 **Compare Direct MCP vs Compiled Skill:**
 
 > "I want to understand the difference: (1) Run a browser automation task using Playwright MCP directly, (2) Run the same task using browsing-with-playwright skill, (3) Show me the exact token difference and explain where savings come from."
-
-**Explore Skills Lab:**
-
-> "What other compiled skills are available in Skills Lab? For each skill, explain: (1) What MCP server it compiles, (2) What operations it supports, (3) When I should use it vs direct MCP."
