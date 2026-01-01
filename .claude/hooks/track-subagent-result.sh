@@ -1,44 +1,42 @@
 #!/usr/bin/env bash
 # Track Task tool results (subagent completion)
+# Cross-platform: Windows (Git Bash), macOS, Linux
 # Silently exit on any error to avoid blocking Claude Code
+
+# Get script directory and source common functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_common.sh" 2>/dev/null || exit 0
 
 # Read JSON input from stdin
 INPUT=$(cat 2>/dev/null) || exit 0
 
 # Validate input is JSON
-echo "$INPUT" | jq -e . >/dev/null 2>&1 || exit 0
+validate_json "$INPUT" || exit 0
 
 # Extract tool name - only process Task tool
-TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null) || exit 0
+TOOL=$(parse_json "$INPUT" "tool_name")
 [ "$TOOL" != "Task" ] && exit 0
 
 # Extract result info
-SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // "unknown"' 2>/dev/null) || exit 0
-AGENT_ID=$(echo "$INPUT" | jq -r '.tool_result.agent_id // ""' 2>/dev/null) || AGENT_ID=""
-RESULT_TEXT=$(echo "$INPUT" | jq -r '.tool_result // ""' 2>/dev/null) || RESULT_TEXT=""
+SUBAGENT_TYPE=$(parse_json "$INPUT" "tool_input.subagent_type")
+[ -z "$SUBAGENT_TYPE" ] && SUBAGENT_TYPE="unknown"
+
+AGENT_ID=$(parse_json "$INPUT" "tool_result.agent_id")
+RESULT_TEXT=$(parse_json "$INPUT" "tool_result")
 
 # Determine status
+STATUS="completed"
 if echo "$RESULT_TEXT" | grep -qi "error\|failed\|exception" 2>/dev/null; then
     STATUS="error"
-else
-    STATUS="completed"
 fi
 
-SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"' 2>/dev/null) || exit 0
-TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+SESSION_ID=$(parse_json "$INPUT" "session_id")
+[ -z "$SESSION_ID" ] && SESSION_ID="unknown"
 
-# Ensure log directory exists
-mkdir -p .claude/activity-logs 2>/dev/null || exit 0
+TIMESTAMP=$(get_timestamp)
 
 # Write subagent completion event
-jq -nc \
-  --arg ts "$TIMESTAMP" \
-  --arg sid "$SESSION_ID" \
-  --arg agent "$SUBAGENT_TYPE" \
-  --arg aid "$AGENT_ID" \
-  --arg status "$STATUS" \
-  '{timestamp: $ts, session_id: $sid, subagent: $agent, agent_id: $aid, status: $status, event: "complete"}' \
-  >> .claude/activity-logs/subagent-usage.jsonl 2>/dev/null
+LOG_ENTRY=$(create_json "timestamp" "$TIMESTAMP" "session_id" "$SESSION_ID" "subagent" "$SUBAGENT_TYPE" "agent_id" "$AGENT_ID" "status" "$STATUS" "event" "complete")
+write_jsonl ".claude/activity-logs/subagent-usage.jsonl" "$LOG_ENTRY"
 
-# Silent - no stdout to avoid hook errors
 exit 0
