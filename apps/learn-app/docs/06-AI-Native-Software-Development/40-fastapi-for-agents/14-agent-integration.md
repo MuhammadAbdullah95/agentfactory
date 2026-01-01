@@ -1,10 +1,10 @@
 ---
-sidebar_position: 12
+sidebar_position: 14
 title: "Agent Integration"
 description: "Transform your API endpoints into agent tools—the bridge between FastAPI and AI agents"
 keywords: [agent-tools, openai-agents, function-calling, fastapi, ai-integration]
 chapter: 40
-lesson: 12
+lesson: 14
 duration_minutes: 50
 
 # HIDDEN SKILLS METADATA

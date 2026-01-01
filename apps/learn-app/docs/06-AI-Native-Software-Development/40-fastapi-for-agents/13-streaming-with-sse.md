@@ -1,8 +1,8 @@
 ---
 title: "Streaming with SSE"
-sidebar_position: 11
+sidebar_position: 13
 chapter: 40
-lesson: 11
+lesson: 13
 duration_minutes: 55
 
 # HIDDEN SKILLS METADATA

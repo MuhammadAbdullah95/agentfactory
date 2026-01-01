@@ -1,10 +1,10 @@
 ---
-sidebar_position: 13
+sidebar_position: 15
 title: "Capstone: Agent-Powered Task Service"
 description: "Build a complete, deployable multi-agent API by composing every pattern from this chapter into a specification-driven service"
 keywords: [fastapi, capstone, multi-agent, specification-driven, jwt, postgresql, streaming, rate-limiting, digital-fte]
 chapter: 40
-lesson: 13
+lesson: 15
 duration_minutes: 90
 
 # HIDDEN SKILLS METADATA

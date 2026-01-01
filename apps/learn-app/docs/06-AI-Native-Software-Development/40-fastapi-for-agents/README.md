@@ -19,13 +19,13 @@ L00: Build Your FastAPI Skill (25 min)
   ├── L01-05: FastAPI Fundamentals
   │   └── Each lesson TESTS and IMPROVES your skill
   │
-  ├── L06-09: Production Essentials
-  │   └── Add database, auth, security to your skill
+  ├── L06-10: Production Essentials
+  │   └── Add database, auth, security, dependency injection
   │
-  ├── L10-12: Agent Integration
-  │   └── Your skill learns to generate agent APIs
+  ├── L11-14: Infrastructure & Agent Integration
+  │   └── Middleware, lifespan, streaming, agent APIs
   │
-  └── L13: Capstone - Finalize Your Skill
+  └── L15: Capstone - Finalize Your Skill
       └── Production-ready, tested, deployable asset
 ```
 
@@ -41,12 +41,14 @@ L00: Build Your FastAPI Skill (25 min)
 | 5 | Error Handling | Add: HTTPException patterns |
 | 6 | Environment Variables | Add: config management |
 | 7 | SQLModel + Neon Setup | Add: database integration |
-| 8 | JWT Authentication | Add: auth scaffolding |
-| 9 | Password Hashing + Rate Limiting | Add: security patterns |
+| 8 | User Management + Password Hashing | Add: secure user storage |
+| 9 | JWT Authentication | Add: token-based auth |
 | 10 | Dependency Injection | Refine: proper DI structure |
-| 11 | Streaming with SSE | Add: streaming support |
-| 12 | Agent Integration | Add: agent API patterns |
-| **13** | **Capstone: Finalize Your Skill** | **Production-ready** |
+| 11 | Middleware & CORS | Add: request interception |
+| 12 | Lifespan Events | Add: startup/shutdown handling |
+| 13 | Streaming with SSE | Add: streaming support |
+| 14 | Agent Integration | Add: agent API patterns |
+| **15** | **Capstone: Finalize Your Skill** | **Production-ready** |
 
 ## Every Lesson Has Skill Reflection
 
@@ -56,7 +58,7 @@ Each lesson ends with **"Reflect on Your Skill"**:
 2. **Identify gaps**: What's missing?
 3. **Improve**: Add or refine the capability
 
-By Lesson 13, you've tested and improved your skill 12+ times.
+By Lesson 15, you've tested and improved your skill 14+ times.
 
 ## Prerequisites
 
@@ -67,9 +69,9 @@ By Lesson 13, you've tested and improved your skill 12+ times.
 
 ## The Running Example
 
-**Lessons 1-9**: Build a Task API—production-ready CRUD with testing, database, and auth.
+**Lessons 1-10**: Build a Task API—production-ready CRUD with testing, database, auth, and dependency injection.
 
-**Lessons 10-13**: Integrate with TaskManager Agent—the key insight: **APIs are functions, functions become tools, agents use tools**.
+**Lessons 11-15**: Add infrastructure and agent integration—middleware, lifespan, streaming, and the key insight: **APIs are functions, functions become tools, agents use tools**.
 
 ## What You'll Own
 
