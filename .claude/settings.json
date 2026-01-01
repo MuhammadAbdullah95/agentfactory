@@ -8,7 +8,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/track-prompt.sh"
+            "command": "bash .claude/hooks/track-prompt.sh"
           }
         ]
       }
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/track-skill-start.sh"
+            "command": "bash .claude/hooks/track-skill-start.sh"
           }
         ]
       },
@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/track-skill-invoke.sh"
+            "command": "bash .claude/hooks/track-skill-invoke.sh"
           }
         ]
       },
@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/track-subagent.sh"
+            "command": "bash .claude/hooks/track-subagent.sh"
           }
         ]
       }
@@ -48,7 +48,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/track-skill-end.sh"
+            "command": "bash .claude/hooks/track-skill-end.sh"
           }
         ]
       },
@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/track-subagent-result.sh"
+            "command": "bash .claude/hooks/track-subagent-result.sh"
           }
         ]
       }

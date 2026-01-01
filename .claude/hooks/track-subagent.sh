@@ -1,39 +1,38 @@
 #!/usr/bin/env bash
 # Track Task tool invocations (subagent spawning)
+# Cross-platform: Windows (Git Bash), macOS, Linux
 # Silently exit on any error to avoid blocking Claude Code
+
+# Get script directory and source common functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_common.sh" 2>/dev/null || exit 0
 
 # Read JSON input from stdin
 INPUT=$(cat 2>/dev/null) || exit 0
 
 # Validate input is JSON
-echo "$INPUT" | jq -e . >/dev/null 2>&1 || exit 0
+validate_json "$INPUT" || exit 0
 
 # Extract tool name - only process Task tool
-TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null) || exit 0
+TOOL=$(parse_json "$INPUT" "tool_name")
 [ "$TOOL" != "Task" ] && exit 0
 
 # Extract subagent details
-SUBAGENT_TYPE=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // "unknown"' 2>/dev/null) || exit 0
-DESCRIPTION=$(echo "$INPUT" | jq -r '.tool_input.description // ""' 2>/dev/null) || DESCRIPTION=""
-RUN_IN_BACKGROUND=$(echo "$INPUT" | jq -r '.tool_input.run_in_background // false' 2>/dev/null) || RUN_IN_BACKGROUND="false"
-MODEL=$(echo "$INPUT" | jq -r '.tool_input.model // "inherit"' 2>/dev/null) || MODEL="inherit"
+SUBAGENT_TYPE=$(parse_json "$INPUT" "tool_input.subagent_type")
+[ -z "$SUBAGENT_TYPE" ] && SUBAGENT_TYPE="unknown"
 
-SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"' 2>/dev/null) || exit 0
-TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+DESCRIPTION=$(parse_json "$INPUT" "tool_input.description")
+RUN_IN_BACKGROUND=$(parse_json_bool "$INPUT" "tool_input.run_in_background")
+MODEL=$(parse_json "$INPUT" "tool_input.model")
+[ -z "$MODEL" ] && MODEL="inherit"
 
-# Ensure log directory exists
-mkdir -p .claude/activity-logs 2>/dev/null || exit 0
+SESSION_ID=$(parse_json "$INPUT" "session_id")
+[ -z "$SESSION_ID" ] && SESSION_ID="unknown"
+
+TIMESTAMP=$(get_timestamp)
 
 # Write subagent spawn event
-jq -nc \
-  --arg ts "$TIMESTAMP" \
-  --arg sid "$SESSION_ID" \
-  --arg agent "$SUBAGENT_TYPE" \
-  --arg desc "$DESCRIPTION" \
-  --arg bg "$RUN_IN_BACKGROUND" \
-  --arg model "$MODEL" \
-  '{timestamp: $ts, session_id: $sid, subagent: $agent, description: $desc, background: ($bg == "true"), model: $model, event: "spawn"}' \
-  >> .claude/activity-logs/subagent-usage.jsonl 2>/dev/null
+LOG_ENTRY=$(create_json "timestamp" "$TIMESTAMP" "session_id" "$SESSION_ID" "subagent" "$SUBAGENT_TYPE" "description" "$DESCRIPTION" "background" "$RUN_IN_BACKGROUND" "model" "$MODEL" "event" "spawn")
+write_jsonl ".claude/activity-logs/subagent-usage.jsonl" "$LOG_ENTRY"
 
-# Silent - no stdout to avoid hook errors
 exit 0

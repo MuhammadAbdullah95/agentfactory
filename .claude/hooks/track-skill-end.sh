@@ -1,25 +1,36 @@
 #!/usr/bin/env bash
 # Track skill verification results (sync - fast operation)
+# Cross-platform: Windows (Git Bash), macOS, Linux
 # Silently exit on any error to avoid blocking Claude Code
+
+# Get script directory and source common functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_common.sh" 2>/dev/null || exit 0
 
 # Read JSON input from stdin
 INPUT=$(cat 2>/dev/null) || exit 0
 
 # Validate input is JSON
-echo "$INPUT" | jq -e . >/dev/null 2>&1 || exit 0
+validate_json "$INPUT" || exit 0
 
 # Extract command and exit code
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || exit 0
-EXIT_CODE=$(echo "$INPUT" | jq -r '.tool_result.exit_code // empty' 2>/dev/null) || exit 0
+COMMAND=$(parse_json "$INPUT" "tool_input.command")
+EXIT_CODE=$(parse_json "$INPUT" "tool_result.exit_code")
+
+[ -z "$COMMAND" ] && exit 0
+
+# Normalize path separators for cross-platform matching
+NORMALIZED_CMD=$(echo "$COMMAND" | sed 's/\\/\//g')
 
 # Check if command is running verify.py
-if [[ "$COMMAND" =~ skills/([^/]+)/scripts/verify\.py ]]; then
+SKILL_NAME=""
+if [[ "$NORMALIZED_CMD" =~ skills/([^/]+)/scripts/verify\.py ]]; then
     SKILL_NAME="${BASH_REMATCH[1]}"
-elif [[ "$COMMAND" =~ python.*verify\.py ]] && [[ "$COMMAND" =~ skills/([^/]+)/ ]]; then
+elif [[ "$NORMALIZED_CMD" =~ verify\.py ]] && [[ "$NORMALIZED_CMD" =~ skills/([^/]+)/ ]]; then
     SKILL_NAME="${BASH_REMATCH[1]}"
-else
-    exit 0
 fi
+
+[ -z "$SKILL_NAME" ] && exit 0
 
 # Determine status from exit code
 if [ "$EXIT_CODE" = "0" ]; then
@@ -28,14 +39,13 @@ else
     STATUS="failure"
 fi
 
-SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"' 2>/dev/null) || exit 0
-TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+SESSION_ID=$(parse_json "$INPUT" "session_id")
+[ -z "$SESSION_ID" ] && SESSION_ID="unknown"
 
-# Ensure log directory exists
-mkdir -p .claude/activity-logs 2>/dev/null || exit 0
+TIMESTAMP=$(get_timestamp)
 
-# Write verify event using jq for proper JSON (compact for JSONL)
-jq -nc --arg ts "$TIMESTAMP" --arg sid "$SESSION_ID" --arg skill "$SKILL_NAME" --arg status "$STATUS" \
-  '{timestamp: $ts, session_id: $sid, skill: $skill, event: "verify", status: $status}' >> .claude/activity-logs/skill-usage.jsonl 2>/dev/null
+# Write verify event
+LOG_ENTRY=$(create_json "timestamp" "$TIMESTAMP" "session_id" "$SESSION_ID" "skill" "$SKILL_NAME" "event" "verify" "status" "$STATUS")
+write_jsonl ".claude/activity-logs/skill-usage.jsonl" "$LOG_ENTRY"
 
 exit 0

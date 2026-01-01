@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 # Force Claude to evaluate skills before proceeding
 # Based on research showing 84% activation vs 20% with simple hooks
+# Cross-platform: Windows (Git Bash), macOS, Linux
+
 echo '{"async":false}'
 
+# Get script directory and source common functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_common.sh" 2>/dev/null || exit 0
+
 # Read JSON input from stdin
-INPUT=$(cat)
-PROMPT=$(echo "$INPUT" | jq -r '.prompt // empty')
+INPUT=$(cat 2>/dev/null) || exit 0
+
+# Validate input is JSON
+validate_json "$INPUT" || exit 0
+
+PROMPT=$(parse_json "$INPUT" "prompt")
 
 # Skip short prompts (greetings, confirmations)
 [ ${#PROMPT} -lt 20 ] && exit 0
