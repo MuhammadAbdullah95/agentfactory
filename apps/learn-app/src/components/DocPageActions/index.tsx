@@ -13,8 +13,10 @@
  * - Responsive design (collapses on mobile)
  */
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useDoc } from '@docusaurus/plugin-content-docs/client';
+import { usePluginData } from '@docusaurus/useGlobalData';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -24,6 +26,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { siClaude } from "simple-icons/icons";
 import TurndownService from 'turndown';
+import { useAuth } from '@/contexts/AuthContext';
+import { getOAuthAuthorizationUrl } from '@/lib/auth-client';
+
+// Concurrency limit for parallel fetching
+const FETCH_CONCURRENCY = 4;
 
 // ============================================================================
 // ICONS - Optimized for animations
@@ -167,6 +174,102 @@ const MarkdownIcon = () => (
     </svg>
 );
 
+const BookIcon = () => (
+    <svg
+        className="doc-actions-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </svg>
+);
+
+const PageIcon = () => (
+    <svg
+        className="doc-actions-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+    </svg>
+);
+
+const LockIcon = () => (
+    <svg
+        className="doc-actions-icon doc-actions-icon--muted"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+);
+
+const LoadingIcon = () => (
+    <svg
+        className="doc-actions-icon doc-actions-icon--spin"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
+);
+
+// ============================================================================
+// TYPES
+// ============================================================================
+
+interface ChapterLesson {
+    id: string;
+    normalizedId: string;
+    title: string;
+    slug: string;
+    order: number;
+}
+
+interface Chapter {
+    title: string;
+    part: string;
+    partPath: string;
+    chapterPath: string;
+    lessons: ChapterLesson[];
+}
+
+interface ChapterManifestData {
+    chapters: Record<string, Chapter>;
+    docToChapter: Record<string, string>;
+}
+
 // ============================================================================
 // TURNDOWN SERVICE - Markdown extraction
 // ============================================================================
@@ -223,12 +326,55 @@ const Tooltip = ({ content, shortcut, children, position = 'bottom' }: TooltipPr
 
 export function DocPageActions() {
     const doc = useDoc();
-    const [copied, setCopied] = React.useState(false);
-    const [downloaded, setDownloaded] = React.useState(false);
+    const { siteConfig } = useDocusaurusContext();
+    const { session, isLoading: authLoading } = useAuth();
+    const [copied, setCopied] = useState(false);
+    const [downloaded, setDownloaded] = useState(false);
+    const [chapterDownloading, setChapterDownloading] = useState(false);
+    const [chapterDownloaded, setChapterDownloaded] = useState(false);
+    const [downloadProgress, setDownloadProgress] = useState('');
+
+    // Auth config from site config
+    const authUrl = siteConfig.customFields?.authUrl as string | undefined;
+    const oauthClientId = siteConfig.customFields?.oauthClientId as string | undefined;
+
+    // Get chapter manifest from global data
+    let chapterManifest: ChapterManifestData | null = null;
+    try {
+        chapterManifest = usePluginData('docusaurus-chapter-manifest-plugin') as ChapterManifestData;
+    } catch {
+        // Plugin might not be loaded
+    }
+
+    // Find current chapter info
+    const docId = doc.metadata.id;
+    const chapterKey = chapterManifest?.docToChapter?.[docId];
+    const currentChapter = chapterKey ? chapterManifest?.chapters?.[chapterKey] : null;
 
     // Detect platform for keyboard shortcut display
     const isMac = typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
     const modKey = isMac ? '⌘' : 'Ctrl';
+
+    // Check if user is logged in
+    const isLoggedIn = !authLoading && session?.user;
+
+    /**
+     * Redirect to login page with return URL
+     */
+    const handleLoginRedirect = useCallback(async () => {
+        try {
+            const returnUrl = window.location.href;
+            // Store return URL for after login
+            localStorage.setItem('auth_return_url', returnUrl);
+            const loginUrl = await getOAuthAuthorizationUrl(undefined, {
+                authUrl,
+                clientId: oauthClientId,
+            });
+            window.location.href = loginUrl;
+        } catch (err) {
+            console.error('Failed to redirect to login:', err);
+        }
+    }, [authUrl, oauthClientId]);
 
     /**
      * Extract markdown from the rendered page content.
@@ -355,6 +501,210 @@ export function DocPageActions() {
         }
     }, [doc.metadata.title]);
 
+    /**
+     * Extract markdown from a URL by fetching the page and converting HTML to Markdown.
+     */
+    const extractMarkdownFromUrl = useCallback(async (url: string, title: string): Promise<string> => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch ${url}`);
+            }
+            const html = await response.text();
+
+            // Parse HTML and extract article content
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const article = doc.querySelector('article');
+
+            if (!article) {
+                return `# ${title}\n\n*Content could not be extracted*\n\nSource: ${url}`;
+            }
+
+            const clone = article.cloneNode(true) as HTMLElement;
+
+            // Remove UI elements
+            const selectorsToRemove = [
+                '.theme-doc-footer',
+                '.pagination-nav',
+                '.doc-content-header',
+                '.floating-actions',
+                '.theme-code-block-copied-btn',
+                '.docSidebarContainer',
+                '.tocCollapsible',
+                'button',
+                '.admonition-icon',
+                '.hash-link',
+            ];
+
+            selectorsToRemove.forEach(selector => {
+                clone.querySelectorAll(selector).forEach(el => el.remove());
+            });
+
+            // Check if there's already an H1
+            const hasH1 = clone.querySelector('h1');
+            let markdown = '';
+
+            if (!hasH1 && title) {
+                markdown = `# ${title}\n\n`;
+            }
+
+            markdown += turndownService.turndown(clone.innerHTML);
+            markdown += `\n\n---\nSource: ${url}`;
+
+            return markdown;
+        } catch (err) {
+            console.error(`Failed to extract markdown from ${url}:`, err);
+            return `# ${title}\n\n*Content could not be extracted*\n\nSource: ${url}`;
+        }
+    }, []);
+
+    /**
+     * Helper to create clean filename from title
+     */
+    const toFilename = useCallback((title: string, order: number): string => {
+        const cleanTitle = title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .substring(0, 50);
+        return `${String(order).padStart(2, '0')}-${cleanTitle}.md`;
+    }, []);
+
+    /**
+     * Parallel fetch with concurrency limit
+     */
+    const fetchWithConcurrency = useCallback(async <T,>(
+        items: T[],
+        fetcher: (item: T, index: number) => Promise<{ index: number; result: string }>,
+        onProgress: (completed: number, current: string) => void
+    ): Promise<Map<number, string>> => {
+        const results = new Map<number, string>();
+        let completedCount = 0;
+
+        // Process in batches
+        for (let i = 0; i < items.length; i += FETCH_CONCURRENCY) {
+            const batch = items.slice(i, i + FETCH_CONCURRENCY);
+            const batchPromises = batch.map((item, batchIndex) =>
+                fetcher(item, i + batchIndex)
+            );
+
+            const batchResults = await Promise.all(batchPromises);
+
+            for (const { index, result } of batchResults) {
+                results.set(index, result);
+                completedCount++;
+                const item = items[index] as ChapterLesson;
+                onProgress(completedCount, item.title);
+            }
+        }
+
+        return results;
+    }, []);
+
+    /**
+     * Download entire chapter as a ZIP file with separate markdown files.
+     * Only available for logged-in users.
+     */
+    const handleDownloadChapter = useCallback(async () => {
+        if (!currentChapter) return;
+
+        // If not logged in, redirect to login
+        if (!isLoggedIn) {
+            await handleLoginRedirect();
+            return;
+        }
+
+        setChapterDownloading(true);
+        setDownloadProgress('Preparing...');
+
+        try {
+            // Dynamic import JSZip (no upfront cost)
+            const JSZip = (await import('jszip')).default;
+            const zip = new JSZip();
+
+            const baseUrl = window.location.origin;
+            const chapterFolderName = currentChapter.title.replace(/[^a-zA-Z0-9-_ ]/g, '');
+            const folder = zip.folder(chapterFolderName);
+
+            if (!folder) {
+                throw new Error('Failed to create ZIP folder');
+            }
+
+            // Create _index.md with chapter overview
+            const indexContent = [
+                `# ${currentChapter.part}: ${currentChapter.title}`,
+                '',
+                `> Downloaded from Agent Factory on ${new Date().toLocaleDateString()}`,
+                `> Total lessons: ${currentChapter.lessons.length}`,
+                '',
+                '## Lessons',
+                '',
+                ...currentChapter.lessons.map((lesson, i) =>
+                    `${i + 1}. [${lesson.title}](${toFilename(lesson.title, lesson.order)})`
+                ),
+                '',
+                '---',
+                '',
+                `Source: ${window.location.origin}/docs/${currentChapter.partPath}/${currentChapter.chapterPath}`,
+            ].join('\n');
+
+            folder.file('_index.md', indexContent);
+
+            // Fetch all lessons in parallel with concurrency limit
+            const lessonResults = await fetchWithConcurrency(
+                currentChapter.lessons,
+                async (lesson, index) => {
+                    const lessonUrl = `${baseUrl}${lesson.slug}`;
+                    const markdown = await extractMarkdownFromUrl(lessonUrl, lesson.title);
+                    return { index, result: markdown };
+                },
+                (completed, currentTitle) => {
+                    setDownloadProgress(`${currentTitle} (${completed}/${currentChapter.lessons.length})`);
+                }
+            );
+
+            // Add all lesson files to ZIP
+            for (const lesson of currentChapter.lessons) {
+                const index = currentChapter.lessons.indexOf(lesson);
+                const markdown = lessonResults.get(index) || `# ${lesson.title}\n\n*Content could not be extracted*`;
+                const filename = toFilename(lesson.title, lesson.order);
+                folder.file(filename, markdown);
+            }
+
+            setDownloadProgress('Creating ZIP...');
+
+            // Generate ZIP file
+            const blob = await zip.generateAsync({
+                type: 'blob',
+                compression: 'DEFLATE',
+                compressionOptions: { level: 6 }
+            });
+
+            // Download ZIP
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${chapterFolderName}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            setChapterDownloaded(true);
+            setTimeout(() => setChapterDownloaded(false), 3000);
+        } catch (err) {
+            console.error('Failed to download chapter:', err);
+            setDownloadProgress('Download failed');
+            setTimeout(() => setDownloadProgress(''), 2000);
+        } finally {
+            setChapterDownloading(false);
+            if (!downloadProgress.includes('failed')) {
+                setDownloadProgress('');
+            }
+        }
+    }, [currentChapter, isLoggedIn, handleLoginRedirect, extractMarkdownFromUrl, toFilename, fetchWithConcurrency, downloadProgress]);
+
     // Keyboard shortcut handler
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -411,6 +761,7 @@ export function DocPageActions() {
                         </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="doc-page-actions-content">
+                        {/* Download Markdown (single lesson) */}
                         <DropdownMenuItem
                             onClick={handleDownloadMarkdown}
                             className={downloaded ? 'doc-actions-item--success' : ''}
@@ -419,6 +770,38 @@ export function DocPageActions() {
                             <span>{downloaded ? 'Downloaded!' : 'Download Markdown'}</span>
                             <kbd className="doc-actions-menu-shortcut">{modKey}+⇧+D</kbd>
                         </DropdownMenuItem>
+
+                        {/* Chapter Download - Show to everyone, gate the action */}
+                        {currentChapter && (
+                            <DropdownMenuItem
+                                onClick={handleDownloadChapter}
+                                className={`doc-actions-chapter-item ${chapterDownloaded ? 'doc-actions-item--success' : ''} ${!isLoggedIn ? 'doc-actions-item--locked' : ''}`}
+                                disabled={chapterDownloading}
+                            >
+                                <span className="doc-actions-chapter-icon">
+                                    {chapterDownloading ? <LoadingIcon /> : chapterDownloaded ? <CheckIcon /> : <BookIcon />}
+                                </span>
+                                <span className="doc-actions-chapter-content">
+                                    <span className="doc-actions-chapter-label">
+                                        {chapterDownloading
+                                            ? downloadProgress
+                                            : chapterDownloaded
+                                                ? 'Chapter Downloaded!'
+                                                : `Download Chapter`
+                                        }
+                                    </span>
+                                    {!chapterDownloading && !chapterDownloaded && (
+                                        <span className="doc-actions-chapter-meta">
+                                            {isLoggedIn
+                                                ? `${currentChapter.lessons.length} lessons as ZIP`
+                                                : <><LockIcon /> Sign in to download</>
+                                            }
+                                        </span>
+                                    )}
+                                </span>
+                            </DropdownMenuItem>
+                        )}
+
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={handleOpenInChatGPT}>
                             <ChatGPTIcon />

@@ -238,6 +238,13 @@ const config: Config = {
         docsPath: docsPath, // Use same docs path as content-docs
       },
     ],
+    // Chapter Manifest Plugin - Enables chapter download for logged-in users
+    [
+      "../../libs/docusaurus/chapter-manifest-plugin",
+      {
+        docsPath: docsPath,
+      },
+    ],
     function (context, options) {
       return {
         name: "custom-webpack-config",

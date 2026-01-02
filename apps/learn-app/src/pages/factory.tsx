@@ -25,7 +25,7 @@ const checkpoints: Checkpoint[] = [
   {
     id: "A1",
     title: "Extract Your Human Job Into Skills",
-    goal: "Turn what you already do into 3–5 focused, reusable agent skills.",
+    goal: "Turn what you already do into 3–5 focused, reusable capabilities that replace parts of your own job and could help others with similar work.",
     status: "active",
     actions: [
       "Describe your daily/weekly work to Claude Code",
@@ -45,7 +45,7 @@ const checkpoints: Checkpoint[] = [
     helpingLessons: "Classes 01–09",
     lessonsLink: "/docs/Introducing-AI-Driven-Development/agent-factory-paradigm",
     additionalContext: "https://www.youtube.com/watch?v=2Vcn2bAu2FA",
-    successSignal: "You used at least one of these skills this week instead of doing the task manually.",
+    successSignal: "At least one skill replaces a manual task for you this week.",
   },
   {
     id: "A2",
