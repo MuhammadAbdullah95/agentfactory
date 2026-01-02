@@ -92,10 +92,10 @@ Which field in a SKILL.md YAML frontmatter helps Claude Code understand when to 
 
 What is the correct syntax for variable placeholders in email templates?
 
-- A) [variable_name]
-- B) {variable_name}
+- A) `[variable_name]`
+- B) `{variable_name}`
 - C) `{{variable_name}}`
-- D) $variable_name
+- D) `$variable_name`
 
 <details>
 <summary>Answer</summary>
