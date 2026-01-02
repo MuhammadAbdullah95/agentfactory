@@ -95,11 +95,11 @@ module.exports = function chapterManifestPlugin(context, options) {
       const chapters = {};
       const docToChapter = {};
 
-      // Find all markdown files (excluding .summary.md and README.md)
+      // Find all markdown files (excluding .summary.md)
       const mdFiles = glob.sync('**/*.md', {
         cwd: docsDir,
         absolute: false,
-        ignore: ['**/*.summary.md', '**/README.md', 'README.md'],
+        ignore: ['**/*.summary.md'],
       });
 
       console.log(`[Chapter Manifest] Found ${mdFiles.length} doc files`);
@@ -110,17 +110,20 @@ module.exports = function chapterManifestPlugin(context, options) {
           const content = fs.readFileSync(fullPath, 'utf-8');
           const { data: frontmatter } = matter(content);
 
-          // Parse path structure: "Part/Chapter/Lesson.md"
+          // Parse path structure: "Part/Chapter/Lesson.md" or "Part/Chapter/README.md"
           const segments = relativePath.split('/');
+          const filename = path.basename(relativePath);
+          const isReadme = filename.toLowerCase() === 'readme.md';
 
           // Skip files not in chapter structure (e.g., root-level files like preface.md)
+          // README.md at Part/Chapter level needs exactly 3 segments
+          // Lessons need 3+ segments
           if (segments.length < 3) {
             continue;
           }
 
           const partSegment = segments[0]; // e.g., "02-AI-Tool-Landscape"
           const chapterSegment = segments[1]; // e.g., "05-claude-code-features-and-workflows"
-          const lessonFile = segments.slice(2).join('/'); // e.g., "01-origin-story.md"
 
           // Create chapter key (preserves numeric prefixes for sorting)
           const chapterKey = `${partSegment}/${chapterSegment}`;
@@ -136,14 +139,25 @@ module.exports = function chapterManifestPlugin(context, options) {
             };
           }
 
+          // Build the slug (URL path) - Docusaurus normalizes this
+          const docIdRaw = relativePath.replace(/\.md$/, '');
+          const docId = normalizeToDocId(docIdRaw);
+
+          // Map doc to its chapter (including README.md)
+          docToChapter[docIdRaw] = chapterKey;
+          docToChapter[docId] = chapterKey; // Also map normalized ID
+
+          // Skip README.md from lessons array (it's the chapter intro, not a lesson)
+          if (isReadme) {
+            continue;
+          }
+
+          const lessonFile = segments.slice(2).join('/'); // e.g., "01-origin-story.md"
+
           // Extract lesson info
           const lessonBasename = path.basename(lessonFile, '.md');
           const lessonOrder = extractOrder(lessonBasename);
           const lessonTitle = extractTitle(fullPath, frontmatter);
-
-          // Build the slug (URL path) - Docusaurus normalizes this
-          const docIdRaw = relativePath.replace(/\.md$/, '');
-          const docId = normalizeToDocId(docIdRaw);
 
           // Add lesson to chapter
           chapters[chapterKey].lessons.push({
@@ -153,10 +167,6 @@ module.exports = function chapterManifestPlugin(context, options) {
             slug: `/docs/${docId}`,
             order: lessonOrder,
           });
-
-          // Map doc to its chapter
-          docToChapter[docIdRaw] = chapterKey;
-          docToChapter[docId] = chapterKey; // Also map normalized ID
 
         } catch (err) {
           console.warn(`[Chapter Manifest] Failed to process ${relativePath}:`, err.message);
