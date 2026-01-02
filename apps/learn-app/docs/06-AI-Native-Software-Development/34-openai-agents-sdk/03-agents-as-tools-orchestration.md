@@ -548,7 +548,7 @@ Think about what specialized roles would help your support desk:
 
 **Step 2: Create the Knowledge Researcher agent**
 
-Using the [Basic Agents-as-Tools Pattern](#basic-agents-as-tools-pattern) section as reference:
+Using the [Orchestrator Pattern](#the-orchestrator-pattern-manager-stays-in-control) section as reference:
 ```python
 knowledge_researcher = Agent(
     name="KnowledgeResearcher",
@@ -577,7 +577,7 @@ This specialist analyzes requests to determine:
 
 **Step 5: Convert agents to tools**
 
-Use the `.as_tool()` method you learned in [Converting Agents to Tools](#converting-agents-to-tools):
+Use the `.as_tool()` method you learned in [Converting Agents to Tools](#converting-agents-to-tools-with-as_tool):
 ```python
 knowledge_researcher.as_tool(
     tool_name="research_knowledge",

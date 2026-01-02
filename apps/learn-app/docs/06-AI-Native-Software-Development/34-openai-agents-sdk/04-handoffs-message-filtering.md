@@ -701,7 +701,7 @@ Add fields to track handoffs:
 
 **Step 2: Create a handoff logging callback**
 
-Using the [Handoff Callbacks](#handoff-callbacks-on_handoff) section as reference, create a factory function that logs when handoffs occur:
+Using the [Handoff Callbacks](#handoff-callbacks-with-on_handoff) section as reference, create a factory function that logs when handoffs occur:
 ```python
 def log_handoff(specialist_name: str):
     def callback(ctx: RunContextWrapper[SupportContext]):
@@ -726,7 +726,7 @@ This is the "end of the line" agent for cases requiring human review:
 
 **Step 5: Create specialist agents with escalation paths**
 
-Create three specialist agents using the [Creating Agent Handoffs](#creating-agent-handoffs) pattern:
+Create three specialist agents using the [Basic Handoffs](#basic-handoffs-the-handoffs-list) pattern:
 - **BillingSpecialist**: handles invoices, refunds up to $200, payment updates
 - **TechnicalSpecialist**: handles setup, troubleshooting, warranty claims
 - **SalesSpecialist**: handles quotes, pricing, upgrades

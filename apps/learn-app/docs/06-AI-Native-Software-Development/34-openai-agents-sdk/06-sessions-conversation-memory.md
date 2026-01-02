@@ -581,7 +581,7 @@ class SupportContext(BaseModel):
 
 **Step 2: Create a ticket management tool**
 
-Using the [@function_tool decorator](/docs/06-AI-Native-Software-Development/34-openai-agents-sdk/02-function-tools-context-objects#the-function_tool-decorator) from Lesson 2, create a `create_ticket` tool that:
+Using the [@function_tool decorator](./02-function-tools-context-objects#creating-your-first-tool) from Lesson 2, create a `create_ticket` tool that:
 - Generates a ticket ID (e.g., `TKT-1001`)
 - Records the subject, description, priority, and status
 - Appends the ticket to `ctx.context.tickets`

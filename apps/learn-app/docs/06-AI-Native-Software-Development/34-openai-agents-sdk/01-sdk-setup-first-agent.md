@@ -599,7 +599,7 @@ Create a new file called `support_desk.py` in your project folder.
 
 **Step 2: Import the SDK**
 
-At the top of your file, import `Agent` and `Runner` from the `agents` package---just like you saw in the [Creating Your First Agent](#creating-your-first-agent) section.
+At the top of your file, import `Agent` and `Runner` from the `agents` package---just like you saw in the [Your First Agent](#your-first-agent-hello-world) section.
 
 **Step 3: Create your agent**
 
@@ -615,7 +615,7 @@ Look back at the examples earlier in this lesson to see how instructions are for
 
 **Step 4: Run the agent**
 
-Use `Runner.run_sync()` to send a test message to your agent and print the response. Refer to the [Running Your Agent](#running-your-agent) section if you need a reminder.
+Use `Runner.run_sync()` to send a test message to your agent and print the response. Refer to the [Running with Different Models](#running-with-different-models) section if you need a reminder.
 
 **Step 5: Test with multiple queries**
 

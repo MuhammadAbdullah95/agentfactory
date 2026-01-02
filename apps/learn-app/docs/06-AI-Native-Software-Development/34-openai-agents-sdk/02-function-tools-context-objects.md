@@ -486,7 +486,7 @@ Now it's your turn to extend the Support Desk from Lesson 1. Using the patterns 
 
 **Step 1: Create a context model**
 
-Using the [Context Objects](#context-objects-typed-state) section as reference, create a `SupportContext` class with Pydantic's `BaseModel`:
+Using the [Context Objects](#introducing-context-objects) section as reference, create a `SupportContext` class with Pydantic's `BaseModel`:
 - `customer_id`: string for tracking the customer
 - `customer_name`: string for personalization
 - `account_tier`: string with default `"standard"` (could be `"premium"`)
@@ -500,7 +500,7 @@ Create a simple dictionary called `ORDERS_DB` with 3-4 fake orders. Each order s
 
 **Step 3: Create the `lookup_order` tool**
 
-Using the [@function_tool decorator](#the-function_tool-decorator) section as reference:
+Using the [Creating Your First Tool](#creating-your-first-tool) section as reference:
 - Decorate with `@function_tool`
 - Take an `order_id` parameter
 - Return order details from your database (or "not found" message)
@@ -508,7 +508,7 @@ Using the [@function_tool decorator](#the-function_tool-decorator) section as re
 
 **Step 4: Create the `create_ticket` tool**
 
-This tool needs context access. Refer to [Context-Aware Tools](#context-aware-tools):
+This tool needs context access. Refer to [Accessing Context in Tools](#accessing-context-in-tools):
 - First parameter: `ctx: RunContextWrapper[SupportContext]`
 - Additional parameters: `subject`, `description`, `priority`
 - Generate a random ticket ID

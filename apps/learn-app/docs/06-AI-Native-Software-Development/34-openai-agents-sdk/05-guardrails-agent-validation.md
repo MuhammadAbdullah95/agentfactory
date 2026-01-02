@@ -856,7 +856,7 @@ Test three scenarios:
 
 ### Extension Challenge
 
-Try adding an **agent-based guardrail** that uses another agent for nuanced content moderation (see [Agent-Based Guardrails](#agent-based-guardrails-advanced) section).
+Try adding an **agent-based guardrail** that uses another agent for nuanced content moderation (see [Agent-Based Guardrails](#agent-based-guardrails) section).
 
 ### What's Next
 
