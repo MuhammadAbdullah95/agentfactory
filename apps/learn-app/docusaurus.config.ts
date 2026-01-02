@@ -327,6 +327,12 @@ const config: Config = {
       hideOnScroll: false,
       items: [
         {
+          to: "/factory",
+          position: "left",
+          label: "🏭 Factory",
+          className: "navbar-factory-link",
+        },
+        {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
@@ -348,6 +354,10 @@ const config: Config = {
         {
           title: "Learn",
           items: [
+            {
+              label: "Factory Dashboard",
+              to: "/factory",
+            },
             {
               label: "Start Your Journey",
               to: "/docs/thesis",

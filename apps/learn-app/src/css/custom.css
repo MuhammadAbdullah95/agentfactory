@@ -293,3 +293,22 @@ ul.tabs[role="tablist"] {
     background-color: var(--card) !important;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3) !important;
 }
+/* ============================================
+   Factory Dashboard Navbar Link
+   ============================================ */
+
+.navbar-factory-link {
+    font-family: var(--font-mono) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.025em !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+}
+
+.navbar-factory-link:hover {
+    color: oklch(0.77 0.16 77) !important; /* Amber accent */
+}
+
+[data-theme='dark'] .navbar-factory-link:hover {
+    color: oklch(0.85 0.18 77) !important; /* Brighter amber in dark mode */
+}
