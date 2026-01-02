@@ -355,10 +355,6 @@ const config: Config = {
           title: "Learn",
           items: [
             {
-              label: "Factory Dashboard",
-              to: "/factory",
-            },
-            {
               label: "Start Your Journey",
               to: "/docs/thesis",
             },
@@ -405,8 +401,8 @@ const config: Config = {
               href: "https://github.com/panaversity/ai-native-software-development/tree/main/specs",
             },
             {
-              label: "Example Projects",
-              href: "https://github.com/panaversity",
+              label: "Factory Dashboard",
+              to: "/factory",
             },
           ],
         },
