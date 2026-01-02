@@ -94,7 +94,7 @@ What is the correct syntax for variable placeholders in email templates?
 
 - A) [variable_name]
 - B) {variable_name}
-- C) {{variable_name}}
+- C) `{{variable_name}}`
 - D) $variable_name
 
 <details>
@@ -102,7 +102,7 @@ What is the correct syntax for variable placeholders in email templates?
 
 **Correct Answer**: C
 
-**Explanation**: The double-brace syntax {{variable_name}} is the standard for email templates because it's unambiguous and Claude recognizes it immediately. Single brackets (A) could be confused with markdown links. Single braces (B) might conflict with other formatting. Dollar sign syntax (D) is associated with shell variables and could cause parsing issues in markdown contexts.
+**Explanation**: The double-brace syntax `{{variable_name}}` is the standard for email templates because it's unambiguous and Claude recognizes it immediately. Single brackets (A) could be confused with markdown links. Single braces (B) might conflict with other formatting. Dollar sign syntax (D) is associated with shell variables and could cause parsing issues in markdown contexts.
 </details>
 
 ---

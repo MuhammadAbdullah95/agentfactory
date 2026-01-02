@@ -17,7 +17,7 @@ pagination_prev: null
   fontWeight: '500',
   color: 'var(--ifm-color-emphasis-800)'
 }}>
-In the AI era, the most valuable companies won't sell software—they'll manufacture digital employees, powered by agents, specs, skills, autonomy and cloud-native technologies.
+In the AI era, the most valuable companies won’t sell software—they’ll manufacture AI employees, powered by agents, specs, skills, MCP, autonomy and cloud-native technologies
 </p>
 
 </div>
