@@ -1,8 +1,10 @@
 ---
 sidebar_position: 1
-title: "Project Setup & Email Drafter Skill"
-sidebar_label: "Project Setup & Email Drafter"
+title: "Email-1: Project Setup & Email Drafter Skill"
+sidebar_label: "Email-1: Project Setup & Drafter"
 description: "Set up the Email Assistant project directory structure and create your first email-drafter skill with consistent tone guidelines for professional communication."
+series: "email"
+series_position: 1
 keywords:
   - Claude Code Skills
   - email automation

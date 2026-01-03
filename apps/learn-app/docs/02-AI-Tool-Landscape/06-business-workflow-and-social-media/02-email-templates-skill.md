@@ -1,7 +1,10 @@
 ---
 sidebar_position: 2
-title: "Email Templates Skill"
+title: "Email-2: Email Templates Skill"
+sidebar_label: "Email-2: Templates Skill"
 description: "Build a reusable email-templates skill with variable substitution, template libraries, and intelligent selection logic for consistent professional communication."
+series: "email"
+series_position: 2
 keywords:
   - email templates
   - Claude Code skills

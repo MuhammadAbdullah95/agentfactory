@@ -1,8 +1,10 @@
 ---
 sidebar_position: 6
-title: "Orchestrating the Complete System"
-sidebar_label: "Orchestrating Complete System"
+title: "Email-6: Orchestrating the Complete System"
+sidebar_label: "Email-6: Orchestration"
 description: "Build the email-assistant master skill that orchestrates skills, subagents, and MCP into a complete Triage-to-Send workflow with graceful degradation and error handling."
+series: "email"
+series_position: 6
 keywords:
   - master skill
   - orchestration

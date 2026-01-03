@@ -1,8 +1,10 @@
 ---
 sidebar_position: 5
-title: "Gmail MCP Integration"
-sidebar_label: "Gmail MCP Integration"
+title: "Email-5: Gmail MCP Integration"
+sidebar_label: "Email-5: Gmail MCP"
 description: "Connect Claude Code to your Gmail inbox using the Gmail MCP server. Configure authentication with SMTP App Password (2 min) or OAuth (10 min), test 19 Gmail tools, and apply essential safety protocols for email automation."
+series: "email"
+series_position: 5
 keywords:
   - Gmail MCP
   - Claude Code email

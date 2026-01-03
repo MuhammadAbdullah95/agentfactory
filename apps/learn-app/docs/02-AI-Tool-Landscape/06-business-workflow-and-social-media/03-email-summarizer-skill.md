@@ -1,8 +1,10 @@
 ---
 sidebar_position: 3
-title: "Email Summarizer Skill"
-sidebar_label: "Email Summarizer"
+title: "Email-3: Email Summarizer Skill"
+sidebar_label: "Email-3: Summarizer Skill"
 description: "Build an email-summarizer skill that parses email threads, extracts decisions, action items, and open questions, with multiple output formats for different use cases."
+series: "email"
+series_position: 3
 keywords:
   - email summarization
   - thread parsing

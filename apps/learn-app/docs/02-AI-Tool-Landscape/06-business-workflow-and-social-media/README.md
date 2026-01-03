@@ -1,23 +1,48 @@
 ---
 slides:
   source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-06-slides.pdf"
-  title: "Chapter 6: Building a Complete Email Assistant"
+  title: "Chapter 6: Claude Code for Business Workflows"
   height: 700
 ---
 
-# Chapter 6: Building a Complete Email Assistant
+# Chapter 6: Claude Code for Business Workflows
 
-You've mastered individual Claude Code skills and understand how MCP servers extend your agent's capabilities. Now it's time to combine everything into a **complete AI workflow**—an Email Assistant system that demonstrates how skills, subagents, and MCP integration work together in production.
+You've learned Claude Code's features and understood MCP integration. Now it's time to set up Claude Code as a **General Agent** you'll use professionally — with an organized workspace, version-controlled skills, and real business automations.
 
-This chapter builds your first **Digital FTE component**: an Email Assistant that can triage your inbox, suggest responses, draft professional emails, and send them—all orchestrated through Claude Code. By the end, you'll understand the architecture pattern that transforms individual capabilities into a cohesive, intelligent system.
+This chapter establishes your professional Claude Code setup using Obsidian as a knowledge vault and Git for version control. You'll then build a complete Email Assistant that triages your inbox, drafts professional responses, and sends them on your behalf.
+
+The patterns you learn here — organizing skills, building subagents, integrating MCP servers — apply to any business workflow. Email is just the first.
+
+## Your Professional Setup
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  YOUR VAULT (Professional Claude Code Workspace)                │
+│                                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐        │
+│  │ CLAUDE   │  │ Skills   │  │ Subagents│  │ Git      │        │
+│  │ .md      │  │          │  │          │  │ History  │        │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘        │
+│                                                                  │
+│  Organized workspace for building business automations          │
+│                                                                  │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐    │
+│  │ Email          │  │ Social Media   │  │ Document       │    │
+│  │ Assistant      │  │ Manager        │  │ Processor      │    │
+│  │ (This Chapter) │  │ (Future)       │  │ (Future)       │    │
+│  └────────────────┘  └────────────────┘  └────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ## Before You Begin
 
 ### Prerequisites Checklist
 
 - [ ] **Chapter 5: Claude Code Features and Workflows** (REQUIRED) — You must understand skills, subagents, MCP integration, and orchestration concepts
-- [ ] **Gmail account** (optional for Lesson 5) — Required only if you want to connect to actual email; lessons 1-4 work without it
-- [ ] **Claude Code installed and working** — From Chapter 5, Lesson 2 or 3
+- [ ] **Obsidian installed** (RECOMMENDED) — Or use any folder-based approach
+- [ ] **Git installed** — For version control
+- [ ] **Gmail account** (optional for Email-5) — Required only if you want to connect to actual email
+- [ ] **Claude Code installed and working** — From Chapter 5
 
 ### Proficiency Level
 
@@ -25,86 +50,77 @@ This chapter builds your first **Digital FTE component**: an Email Assistant tha
 
 ### Estimated Time
 
-**Total Chapter Duration**: ~3.5 hours
+**Total Chapter Duration**: ~4 hours
 
-## What You'll Learn
+## What You'll Build
 
-By the end of this chapter, you'll be able to:
+### Professional Workspace (Foundation)
 
-- **Create interconnected Claude Code skills** — Build 4 skills that work together: email drafter, templates, summarizer, and orchestrator
-- **Build custom subagents for specialized processing** — Design 3 subagents (inbox-triager, response-suggester, follow-up-tracker) that handle specific email workflows
-- **Configure Gmail MCP server with authentication** — Connect Claude Code to real email using OAuth and the 19 Gmail MCP tools
-- **Distinguish when to use skills vs subagents** — Apply the decision framework: skills for guidance (2-4 decision points), subagents for autonomous reasoning (5+ decision points)
-- **Design orchestration patterns** — Combine skills + subagents + MCP into a complete Triage to Suggest to Draft to Send workflow
-- **Build a "Digital FTE" component** — Create a reusable Email Assistant system that could become the foundation of a sellable product
+- **Obsidian vault** as organized workspace
+- **Git repository** for version control
+- **CLAUDE.md** for project context
+- **Structured folders** for skills and subagents
 
-## System Architecture
+### Email Assistant (Email Series)
 
-This is what you'll build:
-
-```
-Email Assistant System
-├── Skills (4 Components)
-│   ├── /email-drafter        → Compose emails with tone specification
-│   ├── /email-templates      → Variable substitution, 3 template types
-│   ├── /email-summarizer     → Thread parsing, action extraction
-│   └── /email-assistant      → Orchestrator skill (combines everything)
-│
-├── Subagents (3 Workers)
-│   ├── inbox-triager         → Categorize and prioritize incoming emails
-│   ├── response-suggester    → Generate contextual reply options
-│   └── follow-up-tracker     → Monitor pending responses and deadlines
-│
-├── MCP Integration
-│   └── Gmail MCP Server      → 19 tools: read, send, search, label, archive
-│
-└── Orchestration Flow
-    └── Triage → Suggest → Draft → Send
-```
-
-## Skills You'll Create
-
-| Skill | Purpose | Key Learning |
-|-------|---------|--------------|
-| **email-drafter** | Compose professional emails with tone control | Your first skill with variable inputs |
-| **email-templates** | Apply templates with placeholder substitution | Reusable content patterns |
-| **email-summarizer** | Extract actions and key points from threads | Information processing skills |
-| **email-assistant** | Orchestrate all components together | Meta-skill design pattern |
+| Component | Type | Purpose |
+|-----------|------|---------|
+| `email-drafter` | Skill | Compose with tone control |
+| `email-templates` | Skill | Variable substitution, 3 templates |
+| `email-summarizer` | Skill | Thread parsing, action extraction |
+| `email-assistant` | Skill | Master orchestrator |
+| `inbox-triager` | Subagent | Priority classification |
+| `response-suggester` | Subagent | Quick reply options |
+| `follow-up-tracker` | Subagent | Deadline monitoring |
+| Gmail MCP | Integration | 19 tools for real email operations |
 
 ## Lesson Navigation
 
+### Foundation
+
 | Lesson | Title | Duration | What You'll Build |
 |--------|-------|----------|-------------------|
-| [01](./01-project-setup-email-drafter.md) | Project Setup & Email Drafter Skill | 30 min | First skill with tone specification |
-| [02](./02-email-templates-skill.md) | Email Templates Skill | 25 min | Template system with variable substitution |
-| [03](./03-email-summarizer-skill.md) | Email Summarizer Skill | 25 min | Thread parsing and action extraction |
-| [04](./04-creating-custom-subagents.md) | Creating Custom Subagents | 35 min | 3 email processing subagents |
-| [05](./05-gmail-mcp-integration.md) | Gmail MCP Integration | 30 min | OAuth setup and 19 Gmail tools |
-| [06](./06-orchestrating-complete-system.md) | Orchestrating Complete System | 40 min | Capstone: combine everything |
-| [07](./07-chapter-quiz.md) | Chapter Quiz | 15 min | 15 questions on skills, subagents, MCP |
+| [Foundation](./00-setting-up-your-ai-vault.md) | Setting Up Your AI Vault | 30 min | Professional workspace with Obsidian and Git |
+
+### Email Workflow Series
+
+| Lesson | Title | Duration | What You'll Build |
+|--------|-------|----------|-------------------|
+| [Email-1](./01-project-setup-email-drafter.md) | Project Setup & Email Drafter | 30 min | First skill with tone specification |
+| [Email-2](./02-email-templates-skill.md) | Email Templates Skill | 25 min | Template system with variable substitution |
+| [Email-3](./03-email-summarizer-skill.md) | Email Summarizer Skill | 25 min | Thread parsing and action extraction |
+| [Email-4](./04-creating-custom-subagents.md) | Creating Custom Subagents | 35 min | 3 email processing subagents |
+| [Email-5](./05-gmail-mcp-integration.md) | Gmail MCP Integration | 30 min | OAuth setup and 19 Gmail tools |
+| [Email-6](./06-orchestrating-complete-system.md) | Orchestrating Complete System | 40 min | Capstone: combine everything |
+| [Email-7](./07-chapter-quiz.md) | Chapter Quiz | 15 min | 15 questions on skills, subagents, MCP |
+
+### Future Workflow Series (Planned)
+
+| Series | Domain | What You'll Build |
+|--------|--------|-------------------|
+| `SMC-N` | Social Media Content | Content scheduling and management |
+| `CRM-N` | Customer Relationship | Client communication automation |
+| `Doc-N` | Document Processing | Document analysis and generation |
 
 ## The Bigger Picture
 
-This chapter teaches a fundamental pattern: **composable AI systems**.
+This chapter teaches how to organize Claude Code for **real business work**.
 
-Individual skills are useful. But real productivity comes from combining them:
+### The Problem
 
-- **Skills** provide expertise (how to write emails, what tone to use)
-- **Subagents** provide reasoning (when to escalate, what needs follow-up, how to prioritize)
-- **MCP servers** provide integration (access to actual email systems)
-- **Orchestration** provides workflow (the complete inbox-to-sent pipeline)
+Most people use AI tools chaotically:
+- Skills scattered across random folders
+- No version history of what worked
+- Starting fresh each conversation
+- Losing accumulated knowledge
 
-This is the architecture pattern for Digital FTEs. Master it here with email, and you can apply it to any domain—customer support, document processing, data analysis, content creation.
+### The Solution
 
-### Why Email First?
-
-Email is the ideal first system to build because:
-
-1. **Universal relevance** — Everyone manages email, so the patterns immediately apply
-2. **Clear inputs and outputs** — Email threads in, professional responses out
-3. **Measurable improvement** — Time saved per email is quantifiable
-4. **Composition opportunity** — Multiple skills (drafting, summarizing, templating) naturally combine
-5. **Real integration target** — Gmail MCP provides actual send/receive capabilities
+A professional workspace:
+- **Vault as workspace** — All skills in one organized place
+- **Git as history** — Every change tracked, nothing lost
+- **CLAUDE.md as context** — Claude Code understands your project
+- **Structured folders** — Skills and subagents where they belong
 
 ### Skills vs Subagents Decision Framework
 
@@ -116,6 +132,16 @@ You'll learn when to use each:
 | **Subagent** | Autonomous reasoning required | 5+ | Inbox triage prioritization |
 | **MCP Tool** | External system integration | N/A | Gmail read/send |
 
-**By the end of this chapter**, you'll have built a complete Email Assistant that demonstrates production-ready AI system design. More importantly, you'll understand the patterns that let you build similar systems for any workflow.
+### Why Email First?
 
-Let's build your first complete AI system.
+Email is the ideal first project because:
+
+1. **Universal relevance** — Everyone manages email
+2. **Clear inputs and outputs** — Threads in, professional responses out
+3. **Measurable improvement** — Time saved per email is quantifiable
+4. **Composition opportunity** — Multiple skills naturally combine
+5. **Real integration** — Gmail MCP provides actual send/receive
+
+**By the end of this chapter**, you'll have a complete Email Assistant and, more importantly, the professional workspace pattern you'll use for all future business automations.
+
+Let's build.

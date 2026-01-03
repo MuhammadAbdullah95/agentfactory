@@ -1,8 +1,10 @@
 ---
 sidebar_position: 4
-title: "Creating Custom Subagents"
-sidebar_label: "Creating Custom Subagents"
+title: "Email-4: Creating Custom Subagents"
+sidebar_label: "Email-4: Custom Subagents"
 description: "Build three specialized email processing subagents for inbox triaging, response suggestion, and follow-up tracking using the Claude Code agent architecture."
+series: "email"
+series_position: 4
 keywords:
   - Claude Code subagents
   - inbox triage
