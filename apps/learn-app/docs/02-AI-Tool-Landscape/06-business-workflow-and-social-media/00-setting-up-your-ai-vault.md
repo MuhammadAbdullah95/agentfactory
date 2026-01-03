@@ -360,6 +360,8 @@ Claude Code can already:
 
 MCP adds value when you need **actions Claude Code can't do natively** (like sending emails via Gmail MCP in Email-5). For reading/writing files in your vault, the filesystem is the simplest interface.
 
+**Note**: Obsidian MCP servers exist (like `obsidian-mcp`) and add features like semantic `[[wiki links]]` and tag search. For this chapter, direct filesystem access is simpler. You can add Obsidian MCP later if you want deeper integration.
+
 **Principle**: Prove value first, add complexity only when needed.
 
 ---
