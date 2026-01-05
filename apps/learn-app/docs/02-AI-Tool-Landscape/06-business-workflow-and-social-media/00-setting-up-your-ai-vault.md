@@ -79,20 +79,20 @@ created: "2026-01-03"
 version: "3.0.0"
 ---
 
-# Setting Up Your AI Vault
+# Setting Up Your AI Vault - Agent Memory
 
 You're setting up Claude Code as your **General Agent** for professional work. Your projects and rules aren't forgotten when you close the session. Claude reads your vault and starts with memory every time.
 
 ![ai-vault](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-06/ai-vault.png)
 
-This setup separates **memory**, **reasoning**, and **execution**:
+This setup separates **memory** and **reasoning**:
 
-- 🗂 **Memory** – Stored in a vault (an Obsidian workspace you control)
-- 🧠 **Reasoning + Execution** – Done by Claude Code reading that vault
-- 📘 **Skills** – Explicitly documented behaviors Claude Code follows
-- 🛠 **MCP** – Connects your General Agent with real-world actions (like Xero MCP for accounting)
+- 🗂 **Memory** – Your vault (notes, SOPs, tasks, rules)
+- 🧠 **Reasoning** – Claude Code reads your vault and acts on it
+- 📘 **Skills** – Teaching documents that make behavior predictable
+- 🛠 **MCP** – Tool connectors for real-world actions (Gmail, Xero, etc.)
 
-**The result**: A predictable, stateful AI partner that follows your rules, retains context, and builds on prior knowledge.
+**Think of it this way**: Your vault is a **Second Brain**. Until now, it just stored knowledge. Skills give your Second Brain **hands**. Claude Code can now *act* on your knowledge, not just retrieve it.
 
 ---
 
@@ -110,16 +110,18 @@ Even advanced users copy-paste context, re-explain their rules, and lose knowled
 
 **The question**: How do we make AI work like a **trained professional**, not a clever chat agent without context about your professional work?
 
+**The answer**: Give it a filesystem. A folder of markdown files solves the memory limitation of chat-only models. Claude Code reads files before every conversation, so it *thinks beyond a single session*. Your vault becomes Claude's long-term memory.
+
 ---
 
 ## The Core Insight
 
-**Separate memory, reasoning, and execution.**
+**Separate memory from reasoning.**
 
 | Role | Tool | What It Does |
 |------|------|--------------|
 | **Memory** | Obsidian Vault | Source of truth you curate (notes, rules, SOPs) |
-| **Reasoning + Execution** | Claude Code | Reads memory, follows rules, produces work |
+| **Reasoning** | Claude Code | Reads memory, follows rules, produces work |
 | **Training** | Skills | Explicit teaching — repeatable, reviewable, auditable |
 
 **Mental model**: Claude Code is a junior professional with access to your shared drive. Not autonomous. Not magical. Just capable and fast — and it follows your written instructions.
@@ -206,6 +208,25 @@ Save the file. Now if you open vault folder you will notice an AGENTS.md file th
 
 ---
 
+## What Goes In Your Vault?
+
+Your vault isn't just governance files. It's your **professional memory**:
+
+| Content Type | Example | How Claude Uses It |
+|--------------|---------|-------------------|
+| **SOPs** | `sops/client-onboarding.md` | Follows your documented process |
+| **Client Notes** | `clients/acme-corp.md` | Knows context when writing emails |
+| **Task Lists** | `tasks/this-week.md` | Prioritizes based on your priorities |
+| **Templates** | `templates/weekly-report.md` | Uses your established formats |
+| **Meeting Notes** | `meetings/2026-01-03-standup.md` | Remembers decisions and action items |
+| **Reference Docs** | `references/pricing-tiers.md` | Gives accurate answers about your business |
+
+**Start simple**: Begin with just governance files (AGENTS.md, CLAUDE.md). Add knowledge as you work. Every note you add makes Claude smarter about your specific domain.
+
+**The accumulation effect**: Each piece of knowledge you add compounds. Client notes help with emails. Meeting notes inform task priorities. SOPs ensure consistent execution. Over months, your vault becomes institutional knowledge that makes Claude increasingly effective.
+
+---
+
 ## Step 4: Create CLAUDE.md
 
 This is the entry point Claude Code reads first. Create `CLAUDE` Note in the vault root:
@@ -223,6 +244,43 @@ Read @AGENTS.md for governance rules, formats, and structure.
 ```
 
 Save the file.
+
+### Personalizing Your CLAUDE.md
+
+The example above is minimal. As you use your vault, personalize it to reflect how you work:
+
+```markdown
+# Skills Lab
+
+This is my professional Claude Code workspace.
+
+Read @AGENTS.md for governance rules, formats, and structure.
+
+## About Me
+
+- **Role**: Marketing consultant for SaaS startups
+- **Timezone**: PST (working hours 9am-5pm)
+- **Communication style**: Direct, no fluff, bullet points over paragraphs
+
+## My Preferences
+
+- Use American English spelling
+- When drafting emails, match the formality of the recipient
+- Default to concise (3 paragraphs max) unless I ask for detail
+- Always include next steps at the end of client communications
+
+## Current Focus
+
+- **Email-N series**: Building an Email Assistant
+- **Priority client**: Acme Corp (see `clients/acme-corp.md`)
+
+## What I'm NOT Working On
+
+- Internal company communications (use templates from `templates/internal/`)
+- Social media (handled separately)
+```
+
+**Why this matters**: Claude Code reads this file first. The more it knows about your preferences, role, and working style, the less you need to re-explain. Your CLAUDE.md becomes your professional profile that shapes every interaction.
 
 ---
 
@@ -307,27 +365,28 @@ To see and edit `.claude/skills/` directly in Obsidian, install the Show Hidden 
 
 ---
 
-## Why No MCP for Obsidian?
+## Where is MCP for Obsidian?
 
-You might wonder: "Why not use an Obsidian MCP server to connect Claude Code to my vault?"
+You might wonder: "Where is Obsidian MCP server to connect Claude Code to my vault?"
 
-**Answer**: We're proving value with the simplest approach first.
-
-| Approach | Complexity | Value |
-|----------|------------|-------|
-| **Direct filesystem (what we did)** | Zero setup | Claude Code already reads files |
-| MCP server | Extra dependency | Same result, more moving parts |
+**Answer**: We're completing initial setup to start getting value with the simplest approach first.
+|
 
 Claude Code can already:
 - Read your `CLAUDE.md` and `AGENTS.md`
 - Create files in `.claude/skills/`
 - Execute skills you define
 
-MCP adds value when you need **actions Claude Code can't do natively** (like sending emails via Gmail MCP in Email-5). For reading/writing files in your vault, the filesystem is the simplest interface.
+We will setup MCP later as it adds value with **actions Claude Code can't do natively**.
 
-**Note**: Obsidian MCP servers exist (like `obsidian-mcp`) and add features like semantic `[[wiki links]]` and tag search. For this chapter, direct filesystem access is simpler. You can add Obsidian MCP later if you want deeper integration.
+**Note**: Obsidian MCP servers exist (like [`cyanheads/obsidian-mcp-server`](https://github.com/cyanheads/obsidian-mcp-server) and [`mcp-obsidian`](https://github.com/MarkusPfundstein/mcp-obsidian)) and add features beyond filesystem access:
 
-**Principle**: Prove value first, add complexity only when needed.
+| MCP Feature | What It Does |
+|-------------|--------------|
+| **Backlink discovery** | Find all notes that link to a given note |
+| **Graph connections** | Traverse note relationships via NetworkX graph |
+| **Tag/frontmatter search** | Query notes by metadata, not just content |
+| **Vault structure** | Get directory tree and connection patterns |
 
 ---
 
