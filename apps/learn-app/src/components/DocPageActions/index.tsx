@@ -523,17 +523,6 @@ export function DocPageActions() {
         }
     }, []);
 
-    /**
-     * Helper to create clean filename from title
-     */
-    const toFilename = useCallback((title: string, order: number): string => {
-        const cleanTitle = title
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .substring(0, 50);
-        return `${String(order).padStart(2, '0')}-${cleanTitle}.md`;
-    }, []);
 
     /**
      * Parallel fetch with concurrency limit
@@ -567,7 +556,8 @@ export function DocPageActions() {
     }, []);
 
     /**
-     * Download entire chapter as a ZIP file with separate markdown files.
+     * Download entire chapter as a single consolidated Markdown file.
+     * All lessons are concatenated with a table of contents.
      * Only available for logged-in users.
      */
     const handleDownloadChapter = useCallback(async () => {
@@ -583,37 +573,7 @@ export function DocPageActions() {
         setDownloadProgress('Preparing...');
 
         try {
-            // Dynamic import JSZip (no upfront cost)
-            const JSZip = (await import('jszip')).default;
-            const zip = new JSZip();
-
             const baseUrl = window.location.origin;
-            const chapterFolderName = currentChapter.title.replace(/[^a-zA-Z0-9-_ ]/g, '');
-            const folder = zip.folder(chapterFolderName);
-
-            if (!folder) {
-                throw new Error('Failed to create ZIP folder');
-            }
-
-            // Create _index.md with chapter overview
-            const indexContent = [
-                `# ${currentChapter.part}: ${currentChapter.title}`,
-                '',
-                `> Downloaded from Agent Factory on ${new Date().toLocaleDateString()}`,
-                `> Total lessons: ${currentChapter.lessons.length}`,
-                '',
-                '## Lessons',
-                '',
-                ...currentChapter.lessons.map((lesson, i) =>
-                    `${i + 1}. [${lesson.title}](${toFilename(lesson.title, lesson.order)})`
-                ),
-                '',
-                '---',
-                '',
-                `Source: ${window.location.origin}/docs/${currentChapter.partPath}/${currentChapter.chapterPath}`,
-            ].join('\n');
-
-            folder.file('_index.md', indexContent);
 
             // Fetch all lessons in parallel with concurrency limit
             const lessonResults = await fetchWithConcurrency(
@@ -628,28 +588,62 @@ export function DocPageActions() {
                 }
             );
 
-            // Add all lesson files to ZIP
+            setDownloadProgress('Building document...');
+
+            // Generate anchor ID from lesson title
+            const toAnchor = (title: string): string => {
+                return title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-');
+            };
+
+            // Build table of contents
+            const toc = currentChapter.lessons.map((lesson, i) =>
+                `${i + 1}. [${lesson.title}](#${toAnchor(lesson.title)})`
+            ).join('\n');
+
+            // Build consolidated markdown
+            const sections: string[] = [
+                `# ${currentChapter.part}: ${currentChapter.title}`,
+                '',
+                `> Downloaded from Agent Factory on ${new Date().toLocaleDateString()}`,
+                `> Total lessons: ${currentChapter.lessons.length}`,
+                '',
+                '## Table of Contents',
+                '',
+                toc,
+                '',
+                '---',
+                '',
+            ];
+
+            // Add each lesson's content
             for (const lesson of currentChapter.lessons) {
                 const index = currentChapter.lessons.indexOf(lesson);
-                const markdown = lessonResults.get(index) || `# ${lesson.title}\n\n*Content could not be extracted*`;
-                const filename = toFilename(lesson.title, lesson.order);
-                folder.file(filename, markdown);
+                let markdown = lessonResults.get(index) || `# ${lesson.title}\n\n*Content could not be extracted*`;
+
+                // Remove the "Source:" footer from individual lessons (we'll add one at the end)
+                markdown = markdown.replace(/\n\n---\nSource:.*$/, '');
+
+                sections.push(markdown);
+                sections.push('');
+                sections.push('---');
+                sections.push('');
             }
 
-            setDownloadProgress('Creating ZIP...');
+            // Add final source attribution
+            sections.push(`Source: ${window.location.origin}/docs/${currentChapter.partPath}/${currentChapter.chapterPath}`);
 
-            // Generate ZIP file
-            const blob = await zip.generateAsync({
-                type: 'blob',
-                compression: 'DEFLATE',
-                compressionOptions: { level: 6 }
-            });
+            const consolidatedMarkdown = sections.join('\n');
 
-            // Download ZIP
+            // Download as single MD file
+            const chapterFileName = currentChapter.title.replace(/[^a-zA-Z0-9-_ ]/g, '');
+            const blob = new Blob([consolidatedMarkdown], { type: 'text/markdown' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${chapterFolderName}.zip`;
+            a.download = `${chapterFileName}.md`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -667,7 +661,7 @@ export function DocPageActions() {
                 setDownloadProgress('');
             }
         }
-    }, [currentChapter, isLoggedIn, handleLoginRedirect, extractMarkdownFromUrl, toFilename, fetchWithConcurrency, downloadProgress]);
+    }, [currentChapter, isLoggedIn, handleLoginRedirect, extractMarkdownFromUrl, fetchWithConcurrency, downloadProgress]);
 
     // Keyboard shortcut handler
     useEffect(() => {
@@ -755,7 +749,7 @@ export function DocPageActions() {
                                     {!chapterDownloading && !chapterDownloaded && (
                                         <span className="doc-actions-chapter-meta">
                                             {isLoggedIn
-                                                ? `(${currentChapter.lessons.length} files)`
+                                                ? `(${currentChapter.lessons.length} lessons)`
                                                 : <><LockIcon /> Sign in</>
                                             }
                                         </span>
