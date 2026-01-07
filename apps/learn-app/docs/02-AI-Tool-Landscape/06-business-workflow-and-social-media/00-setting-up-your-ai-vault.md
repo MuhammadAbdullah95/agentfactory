@@ -159,8 +159,8 @@ Download from [obsidian.md](https://obsidian.md)
 
 1. Open Obsidian
 2. Select **"Create new vault"**
-3. Name your vault: `skills-lab`
-4. Choose location: `~/projects/skills-lab`
+3. Name your vault: `ai-vault` (or any name you prefer)
+4. Choose location: `~/projects/ai-vault`
 5. Click **Create**
 
 Obsidian opens with an empty vault.
@@ -182,7 +182,7 @@ This vault is where I (human) and Claude Code (General Agent) work together on b
 
 ## Workspace Structure
 
-skills-lab/
+ai-vault/
 ├── .claude/
 │   ├── skills/        # Reusable expertise (SKILL.md format)
 │   └── agents/        # Autonomous workers
@@ -289,7 +289,7 @@ Read @AGENTS.md for governance rules, formats, and structure.
 Now test that Claude Code picks up your context.
 
 ```bash
-cd ~/projects/skills-lab
+cd ~/projects/ai-vault
 claude
 ```
 
@@ -395,10 +395,10 @@ We will setup MCP later as it adds value with **actions Claude Code can't do nat
 If you want institutional memory — tracking every change to your skills and agents:
 
 ```bash
-cd ~/projects/skills-lab
+cd ~/projects/ai-vault
 git init
 git add .
-git commit -m "Initialize skills-lab vault"
+git commit -m "Initialize ai-vault workspace"
 ```
 
 This is good practice but not required for the Email series.
@@ -408,7 +408,7 @@ This is good practice but not required for the Email series.
 ## Your Setup Complete
 
 ```
-skills-lab/
+ai-vault/
 ├── .claude/
 │   ├── skills/         ← Visible in Obsidian, ready for Email-1
 │   └── agents/         ← Visible in Obsidian, ready for Email-4
