@@ -96,9 +96,24 @@ The problem isn't that you can't write emails. The problem is that your email vo
 
 What if your email preferences were encoded once and applied consistently forever? That's what you'll build in this lesson: an **email-drafter skill** that understands your tone, follows your communication patterns, and produces drafts that sound like you wrote them. The skill becomes a reusable asset you can invoke with `/email-drafter` anytime you need professional correspondence.
 
+:::note What You'll Build From Scratch
+In this lesson, you'll create everything yourself—no templates, no starter code. By the end, you'll have built:
+- A new project directory (`email-assistant/`)
+- Your first skill folder (`.claude/skills/email-drafter/`)
+- A complete `SKILL.md` file with your expertise encoded
+- A `tone-guidelines.md` reference document capturing your voice
+- A project-level `CLAUDE.md` for context
+
+Every file you create in this chapter becomes part of your **Email Digital FTE**—a reusable, portable system you own.
+:::
+
 ---
 
 ## Understanding the Skills Architecture
+
+:::tip Quick Recap from Chapter 5
+You learned about skills in Chapter 5 (Lessons 5-7). This section is a brief refresher before we build our first real skill system. If you're comfortable with the skills architecture, skim this section and jump to "Setting Up Your Project."
+:::
 
 Before creating your first skill, you need to understand where skills live and how Claude Code finds them.
 
@@ -107,7 +122,7 @@ Before creating your first skill, you need to understand where skills live and h
 The folder structure looks like this:
 
 ```
-your-project/
+email-assistant/
 ├── .claude/
 │   └── skills/
 │       └── email-drafter/          # The skill folder
@@ -131,18 +146,13 @@ This three-level architecture protects Claude's working memory:
 
 ## Setting Up Your Project
 
-Let's create the project structure from scratch. Open your terminal and navigate to where you want to create the Email Assistant project.
+In Chapter 5, you learned about skills architecture and the SKILL.md format. Now you'll apply that knowledge by building a real skill system from the ground up.
 
-**Create the base project directory:**
+**Create the project directory.** Open your terminal and navigate to where you keep your projects:
 
 ```bash
-mkdir skills-lab
-cd skills-lab
-```
-
-**Output:**
-```
-(no output - directory created silently)
+mkdir email-assistant
+cd email-assistant
 ```
 
 **Create the Claude Code skill directories:**
@@ -282,7 +292,7 @@ This document captures specific, actionable preferences. "Professional" is vague
 
 ## Creating the Project CLAUDE.md
 
-The project-level `CLAUDE.md` file provides context about your project to Claude Code. Create this at `skills-lab/CLAUDE.md`:
+The project-level `CLAUDE.md` file provides context about your project to Claude Code. Create this at `email-assistant/CLAUDE.md`:
 
 ```markdown
 # Email Assistant Project
@@ -301,7 +311,7 @@ This project contains skills and subagents for automated email communication.
 Invoke skills with `/skill-name` syntax.
 ```
 
-This file helps Claude Code understand the project context when you open the `skills-lab` folder.
+This file helps Claude Code understand the project context when you open the `email-assistant` folder.
 
 ---
 
@@ -310,25 +320,24 @@ This file helps Claude Code understand the project context when you open the `sk
 Before testing, verify your project structure is correct:
 
 ```bash
-find skills-lab -type f -o -type d | sort
+find . -name "*.md" -o -type d | grep -E "(\.claude|CLAUDE)" | sort
 ```
 
 **Output:**
 ```
-skills-lab
-skills-lab/.claude
-skills-lab/.claude/skills
-skills-lab/.claude/skills/email-drafter
-skills-lab/.claude/skills/email-drafter/references
-skills-lab/.claude/skills/email-drafter/references/tone-guidelines.md
-skills-lab/.claude/skills/email-drafter/SKILL.md
-skills-lab/CLAUDE.md
+./.claude
+./.claude/skills
+./.claude/skills/email-drafter
+./.claude/skills/email-drafter/references
+./.claude/skills/email-drafter/references/tone-guidelines.md
+./.claude/skills/email-drafter/SKILL.md
+./CLAUDE.md
 ```
 
 Your complete directory structure should look like this:
 
 ```
-skills-lab/
+email-assistant/
 ├── .claude/
 │   └── skills/
 │       └── email-drafter/
@@ -344,7 +353,7 @@ If any files are missing, create them now using the content provided in the prev
 
 ## Invoking Your First Skill
 
-Now for the moment of truth: using your skill. Open Claude Code in the `skills-lab` directory and invoke the email-drafter:
+Now for the moment of truth: using your skill. Open Claude Code in the `email-assistant` directory and invoke the email-drafter:
 
 ```
 /email-drafter
@@ -470,7 +479,7 @@ Without specifying expected output format (subject lines + body + closing), each
 
 ## Try With AI
 
-**Setup:** Open Claude Code in your `skills-lab` directory with the email-drafter skill installed.
+**Setup:** Open Claude Code in the `email-assistant` directory with the email-drafter skill installed.
 
 **Prompt 1: Test Skill Activation**
 

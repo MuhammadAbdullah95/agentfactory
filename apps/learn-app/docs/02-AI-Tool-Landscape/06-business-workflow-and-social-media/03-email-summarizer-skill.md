@@ -786,7 +786,7 @@ Once the basic skill works, consider these enhancements:
 
 ## Try With AI
 
-**Setup:** Open Claude Code in your `skills-lab` directory with the email-summarizer skill installed.
+**Setup:** Open Claude Code in the `email-assistant` directory with the email-summarizer skill installed.
 
 **Prompt 1: Basic Thread Extraction**
 

@@ -195,7 +195,7 @@ mkdir -p .claude/skills/email-assistant/references
 Your complete project structure should now look like this:
 
 ```
-skills-lab/
+email-assistant/
 ├── .claude/
 │   ├── skills/
 │   │   ├── email-drafter/
