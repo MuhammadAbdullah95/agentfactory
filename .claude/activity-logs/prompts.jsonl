@@ -614,3 +614,7 @@ null
 {"timestamp":"2026-01-07T12:12:02Z","session_id":"1e1c2014-31fc-4062-a2a9-ee0b9e161143","prompt":"while creating issue, you suggested to add in chapter 3 and chapter 3 lesson 5"}
 {"timestamp":"2026-01-07T12:13:41Z","session_id":"1e1c2014-31fc-4062-a2a9-ee0b9e161143","prompt":"Add both now and i will review. don't commit"}
 {"timestamp":"2026-01-07T12:16:56Z","session_id":"1e1c2014-31fc-4062-a2a9-ee0b9e161143","prompt":"Chapter 3 (Digital FTE Strategy): Add a table showing SaaS categories most vulnerable to agent disruption (CRM, project management, marketing automation, HR, accounting)\nWhat about this?"}
+
+
+{"timestamp":"2026-01-07T14:29:49Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"have we fixed all sepsequence lessos with these harcoded string?"}
+{"timestamp":"2026-01-07T14:36:17Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"is all commited and pushed to main including logs?"}
