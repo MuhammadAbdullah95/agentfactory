@@ -592,3 +592,21 @@ null
 {"timestamp":"2026-01-06T04:23:08Z","session_id":"fd80dd63-0a2a-4b96-921b-7693d4a6dfd5","prompt":"this looks better Testing Your Skill: Deploy a Different Application "}
 
 {"timestamp":"2026-01-07T05:18:15Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"give this chap a final review"}
+
+{"timestamp":"2026-01-07T06:00:01Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"So it is like packages kafka on k8 with helm chart?"}
+{"timestamp":"2026-01-07T06:00:54Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"Is is strizimi a crd? And what are crds"}
+{"timestamp":"2026-01-07T06:01:48Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"Is operator here something speciific to k8?"}
+{"timestamp":"2026-01-07T06:02:41Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"Do you think in lesson 4 we shall have this in Strizgami Operator kafka hands on start?"}
+{"timestamp":"2026-01-07T06:03:43Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"yes and define strizgami as well"}
+{"timestamp":"2026-01-07T06:11:53Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"So i was reading this https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/event-driven-kafka/deploying-kafka-with-strimzi and a little confusion on happens like what a re we doing wha wll happen when i run this file. Though till now no wrror in running anything. Like for example i create kafka clustrer yaml file and a one befroe tha what si diff between each"}
+{"timestamp":"2026-01-07T06:14:04Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"yes"}
+{"timestamp":"2026-01-07T06:37:33Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"Q:  Why do we use confluent instead of aiokafka? https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/event-driven-kafka/your-first-producer "}
+{"timestamp":"2026-01-07T06:39:38Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"do it"}
+
+
+
+{"timestamp":"2026-01-07T07:06:34Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"Think of a simple solution this is book for all"}
+null
+{"timestamp":"2026-01-07T07:11:41Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"summarize what is updates for local development now"}
+{"timestamp":"2026-01-07T07:36:29Z","session_id":"68d0945e-bd31-4450-a567-a68282391f9b","prompt":"commit and push all"}
+

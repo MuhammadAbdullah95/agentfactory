@@ -63,6 +63,23 @@ In production Kubernetes environments, you don't manually configure Kafka broker
 
 This lesson walks you through deploying Kafka on Docker Desktop Kubernetes using Strimzi. By the end, you'll have a running Kafka cluster that you can use throughout this chapter.
 
+## Docker Desktop Configuration
+
+Before starting, configure Docker Desktop with enough resources for Kafka:
+
+1. Open **Docker Desktop → Settings → Resources**
+2. Configure based on your machine:
+
+| Your Machine RAM | Docker Desktop Memory | Docker Desktop CPUs | Swap |
+|------------------|----------------------|---------------------|------|
+| 8GB | 5GB | 4 | 1GB |
+| 16GB | 8GB | 4 | 1GB |
+| 32GB+ | 12GB+ | 6+ | 2GB |
+
+3. Click **Apply & Restart**
+
+Without this, Kafka pods will crash with `OOMKilled` or `CrashLoopBackOff` errors.
+
 ## Prerequisites Check
 
 Before proceeding, verify your environment is ready:
@@ -265,11 +282,11 @@ spec:
     type: ephemeral  # Use persistent-claim for production
   resources:
     requests:
-      memory: 1Gi
-      cpu: 250m
+      memory: 512Mi   # Works on 8GB machines
+      cpu: 200m
     limits:
-      memory: 2Gi
-      cpu: 1000m
+      memory: 1Gi     # Increase to 2Gi for 16GB+ machines
+      cpu: 500m
 ```
 
 **Key configuration points:**
