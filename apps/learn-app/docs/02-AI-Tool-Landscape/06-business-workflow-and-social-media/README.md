@@ -13,7 +13,7 @@ slides:
 
 This chapter guides you through building a **Digital FTE** — an AI agent that proactively manages your personal and business affairs 24/7. Not a chatbot you poke when you need something. An employee that watches for work, plans its approach, asks permission for sensitive actions, and reports results.
 
-By the end of this chapter, you'll have built a Personal AI Employee using **Claude Code** as the reasoning engine, **Obsidian** as the knowledge base, **MCP servers** for real-world actions, and **Python Watchers** for autonomous perception.
+By the end of this chapter, you'll have built a Personal AI Employee using **Claude Code** as the reasoning engine, **Obsidian** as the Memory Bank (SOPs and Knowledge Base), **MCP servers** for real-world actions, and **Python Watchers** for autonomous perception.
 
 ## What You'll Build
 
