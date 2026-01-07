@@ -136,6 +136,8 @@ When agriculture faced tractors, farmers could adapt gradually—some modernized
 
 The speed is merciless. The developers and organizations that move first capture disproportionate value. Those that lag behind find themselves competing with fundamentally different business models.
 
+Consider the SaaS industry as an example. SaaS solved the *deployment* problem—you didn't need to install software, manage updates, or provision servers. AI agents solve the *intelligence* problem—they don't just help humans do cognitive work, they *do* the work. A company paying $150/user/month for CRM software still needs humans to input data, analyze reports, and follow up with leads. An AI sales agent does those tasks directly. The business model shifts from "pay for tools" to "pay for outcomes"—and companies built around per-seat licensing face pressure from solutions that charge per result.
+
 ---
 
 ## 2.3: The Opportunity Window

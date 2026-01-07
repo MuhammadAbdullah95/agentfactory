@@ -51,7 +51,25 @@ There are four ways to monetize a Digital FTE. We'll cover two in this lesson (S
 - Your risk exposure if the FTE underperforms
 - How much the client trusts your solution
 
-Let's start with the two most common.
+### The Shift: From Seats to Outcomes
+
+Before diving into specific models, understand what's changing. Traditional SaaS charges per seat—$150/user/month for CRM, $30/user/month for project management. The client pays for *access to tools*, then still needs humans to do the work.
+
+Digital FTEs flip this model. Instead of selling tool access, you sell task completion. The business model shifts from "pay for seats" to "pay for outcomes."
+
+This creates massive opportunity in categories where SaaS currently dominates:
+
+| SaaS Category | Current Model | Digital FTE Opportunity |
+|---------------|---------------|------------------------|
+| **CRM** (Salesforce, HubSpot) | $150/user/month for tools | Agent that *does* data entry, follow-ups, analysis |
+| **Project Management** (Asana, Monday) | $30/user/month for tracking | Agent that *does* task assignment, status updates, reporting |
+| **Marketing Automation** (Marketo, Pardot) | $1,000+/month for campaigns | Agent that *does* campaign creation, A/B testing, optimization |
+| **HR Systems** (Workday, BambooHR) | $8/employee/month for records | Agent that *does* screening, onboarding, policy Q&A |
+| **Accounting** (QuickBooks, Xero) | $80/month for bookkeeping tools | Agent that *does* categorization, reconciliation, reporting |
+
+The pattern: SaaS charges for *capability*. Digital FTEs charge for *completion*. Clients don't want software—they want the job done.
+
+Now let's examine the four models for capturing this value, starting with the two most common.
 
 ## Model 1: Subscription (The Recurring Revenue Play)
 
