@@ -47,8 +47,8 @@ learning_objectives:
     assessment_method: "Topics created via CRD and visible in cluster"
 
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (Strimzi operator, Helm install, KafkaNodePool, Kafka CRD, KRaft mode, KafkaTopic) within B1 limit of 7-10"
+  new_concepts: 8
+  assessment: "8 concepts (CRD, Operator pattern, Strimzi, Helm install, KafkaNodePool, Kafka CRD, KRaft mode, KafkaTopic) within B1 limit of 7-10"
 
 differentiation:
   extension_for_advanced: "Deploy a multi-node cluster with separate controller and broker node pools; explore TLS listener configuration"
@@ -90,9 +90,42 @@ version.BuildInfo{Version:"v3.16.3", GitCommit:"...", GitTreeState:"clean", GoVe
 
 If either command fails, revisit Chapters 49-51 to set up Docker Desktop Kubernetes and Helm.
 
+## Understanding Operators and CRDs
+
+Before diving into Strimzi, let's clarify two Kubernetes concepts you'll use throughout this lesson.
+
+### What's a CRD?
+
+Kubernetes has built-in resources like Pods and Services. A **Custom Resource Definition (CRD)** extends Kubernetes with new resource types:
+
+| Built-in Resources | Custom Resources (after Strimzi) |
+|--------------------|----------------------------------|
+| `kubectl get pods` | `kubectl get kafka` |
+| `kubectl get services` | `kubectl get kafkatopic` |
+| `kubectl get deployments` | `kubectl get kafkauser` |
+
+CRDs let you manage Kafka the same way you manage any Kubernetes resource—with `kubectl apply -f`.
+
+### What's an Operator?
+
+An **operator** is a Kubernetes-specific pattern: a program that watches your CRDs and takes action to make reality match your desired state.
+
+```
+You apply YAML → Operator sees it → Operator creates/manages resources
+        ↑                                      |
+        └──────── Continuous loop ─────────────┘
+```
+
+Think of it as a **24/7 expert** encoded in software. A Kafka operator knows how to deploy, scale, upgrade, and heal Kafka clusters automatically. Without an operator, you'd write hundreds of lines of YAML and handle all operations manually.
+
 ## What is Strimzi?
 
-Strimzi provides Kubernetes-native Kafka deployment through Custom Resource Definitions (CRDs). Instead of writing complex deployment manifests, you describe your Kafka cluster declaratively, and Strimzi handles the operational complexity.
+**Strimzi** is a CNCF open-source project that provides a Kafka operator for Kubernetes. When you install Strimzi, it:
+
+1. **Registers CRDs** — Teaches Kubernetes what `Kafka`, `KafkaTopic`, `KafkaUser` resources are
+2. **Runs an operator** — A controller that watches those CRDs and manages actual Kafka clusters
+
+Instead of writing complex deployment manifests, you describe your Kafka cluster declaratively, and Strimzi handles the operational complexity.
 
 | Component | Role |
 |-----------|------|
@@ -165,6 +198,48 @@ strimzi-cluster-operator-6d4f5c5b9d-x7j2k   1/1     Running   0          45s
 ```
 
 Press `Ctrl+C` once you see `1/1 Running`. The operator is now watching for Kafka CRDs.
+
+## Understanding the Two-File Pattern
+
+Before creating files, understand what we're about to build. Strimzi uses two CRDs that work together:
+
+| File | CRD Type | What It Defines |
+|------|----------|-----------------|
+| `kafka-nodepool.yaml` | KafkaNodePool | **The machines** — how many nodes, their roles, storage |
+| `kafka-cluster.yaml` | Kafka | **The cluster config** — Kafka version, listeners, settings |
+
+**Why two files?** Think of it like building a car:
+
+- **KafkaNodePool** = "I want 1 engine that does both driving and steering" (hardware)
+- **Kafka** = "Here's how to configure the car" (software settings)
+
+**What happens when you apply each:**
+
+```
+Step 3: kubectl apply -f kafka-nodepool.yaml
+        └─ Strimzi: "Got it, storing node specification. Waiting for cluster..."
+           (Nothing runs yet)
+
+Step 4: kubectl apply -f kafka-cluster.yaml
+        └─ Strimzi: "Now I have both! Creating:"
+           → Pod: task-events-dual-role-0 (actual Kafka broker)
+           → Service: task-events-kafka-bootstrap (client connection point)
+           → Entity Operator (manages topics/users)
+```
+
+The files are linked by name—the NodePool references which Kafka cluster it belongs to:
+
+```yaml
+# In kafka-nodepool.yaml
+labels:
+  strimzi.io/cluster: task-events  # ← Links to Kafka named "task-events"
+
+# In kafka-cluster.yaml
+metadata:
+  name: task-events  # ← The name referenced above
+```
+
+Now let's create each file.
 
 ## Step 3: Create KafkaNodePool (Dual-Role for Development)
 
@@ -241,10 +316,16 @@ spec:
         port: 9092
         type: internal
         tls: false
-      - name: tls
-        port: 9093
-        type: internal
-        tls: true
+      - name: external
+        port: 9094
+        type: nodeport
+        tls: false
+        configuration:
+          bootstrap:
+            nodePort: 30092
+          brokers:
+            - broker: 0
+              nodePort: 30093
     config:
       offsets.topic.replication.factor: 1
       transaction.state.log.replication.factor: 1
@@ -265,8 +346,8 @@ spec:
 | `strimzi.io/node-pools: enabled` | - | Uses KafkaNodePool for node config |
 | `version` | 4.1.1 | Kafka version (requires Strimzi 0.49+) |
 | `metadataVersion` | 4.1-IV0 | KRaft metadata format version |
-| `listeners.plain` | port 9092 | Unencrypted internal access |
-| `listeners.tls` | port 9093 | TLS-encrypted internal access |
+| `listeners.plain` | port 9092, internal | For pod-to-pod communication inside K8s |
+| `listeners.external` | port 9094, nodeport 30092 | For your local machine to connect |
 | `replication.factor: 1` | - | Single replica for dev (use 3 for production) |
 | `auto.create.topics.enable` | false | Prevents accidental topic creation |
 | `entityOperator` | topicOperator, userOperator | Enable declarative topic/user management |

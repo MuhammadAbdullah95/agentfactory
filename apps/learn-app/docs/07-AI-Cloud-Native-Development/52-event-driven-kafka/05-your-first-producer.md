@@ -76,6 +76,17 @@ By the end of this lesson, you'll have working producer code that sends messages
 
 The `confluent-kafka-python` library is the official Confluent client for Python. It wraps the high-performance librdkafka C library, giving you the best performance available for Python Kafka clients.
 
+**Why not aiokafka?** You might see `aiokafka` in tutorials—it has cleaner async/await syntax. We use `confluent-kafka` because:
+
+| confluent-kafka | aiokafka |
+|-----------------|----------|
+| Official (Confluent maintains it) | Community-maintained |
+| ~10x faster (C library underneath) | Pure Python |
+| Native Schema Registry support | Requires extra libraries |
+| Production standard | Less common in production |
+
+The callback pattern takes getting used to, but it's what you'll see in real Kafka jobs, and you'll need Schema Registry support in Lesson 10.
+
 Install it with `uv`:
 
 ```bash
@@ -98,6 +109,23 @@ pip install confluent-kafka
 
 The library requires librdkafka to be available on your system. On macOS, the pip/uv installation handles this automatically. On Linux, you may need to install it separately (`apt-get install librdkafka-dev` on Debian/Ubuntu).
 
+## Connect to Your Kafka Cluster
+
+Your Kafka cluster from Lesson 4 includes a **NodePort listener** on port `30092`. This exposes Kafka directly on your localhost—no extra setup needed.
+
+**Verify the NodePort is working:**
+
+```bash
+kubectl get svc -n kafka | grep external
+```
+
+**Output:**
+```
+task-events-kafka-external-bootstrap   NodePort   10.96.x.x   <none>   9094:30092/TCP
+```
+
+Your Python code connects to `localhost:30092`. That's it.
+
 ## The Minimal Producer
 
 Let's start with the simplest producer that actually works:
@@ -107,7 +135,7 @@ from confluent_kafka import Producer
 
 # Create producer with minimal configuration
 producer = Producer({
-    'bootstrap.servers': 'localhost:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'my-first-producer'
 })
 
@@ -166,7 +194,7 @@ def delivery_report(err, msg):
         print(f'SUCCESS: topic={msg.topic()} partition={msg.partition()} offset={msg.offset()}')
 
 producer = Producer({
-    'bootstrap.servers': 'localhost:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api-producer'
 })
 
@@ -242,7 +270,7 @@ def delivery_report(err, msg):
 def create_producer():
     """Create a configured Kafka producer."""
     return Producer({
-        'bootstrap.servers': 'localhost:9092',
+        'bootstrap.servers': 'localhost:30092',
         'client.id': 'task-api-producer',
     })
 
