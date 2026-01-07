@@ -360,7 +360,7 @@ AI's response will be tailored:
 >
 > ```python
 > producer = Producer({
->     'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+>     'bootstrap.servers': 'localhost:30092',
 >     'client.id': 'task-api-producer',
 >
 >     # Reliability (critical data)

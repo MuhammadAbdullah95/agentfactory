@@ -118,21 +118,21 @@ from confluent_kafka import Producer
 
 # Critical business events: acks=all
 critical_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api-critical',
     'acks': 'all'  # Wait for all ISR replicas
 })
 
 # Analytics events: acks=1
 analytics_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api-analytics',
     'acks': '1'  # Wait for leader only
 })
 
 # Metrics (loss acceptable): acks=0
 metrics_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api-metrics',
     'acks': '0'  # Fire and forget
 })
@@ -191,7 +191,7 @@ Kafka's idempotent producer prevents this by assigning each message a sequence n
 from confluent_kafka import Producer
 
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api',
     'acks': 'all',
     'enable.idempotence': True,  # Prevent duplicates on retry
@@ -281,7 +281,7 @@ def delivery_report(err, msg):
         print(f'Delivered {msg.key()} to {msg.topic()} [{msg.partition()}] @ {msg.offset()}')
 
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'acks': 'all',
     'enable.idempotence': True
 })
@@ -328,7 +328,7 @@ The producer's retry behavior is controlled by several settings:
 
 ```python
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'acks': 'all',
     'enable.idempotence': True,
 
@@ -445,7 +445,7 @@ def create_production_producer(bootstrap_servers: str, client_id: str) -> Produc
 
 # Usage
 producer = create_production_producer(
-    bootstrap_servers='task-events-kafka-bootstrap:9092',
+    bootstrap_servers='localhost:30092',
     client_id='task-api'
 )
 

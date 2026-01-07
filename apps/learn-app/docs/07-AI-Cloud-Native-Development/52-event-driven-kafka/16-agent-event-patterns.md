@@ -195,7 +195,7 @@ def delivery_callback(err, msg):
 async def lifespan(app: FastAPI):
     global producer
     producer = Producer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'client.id': 'task-api',
         'acks': 'all',
         'enable.idempotence': True
@@ -294,7 +294,7 @@ from confluent_kafka import Consumer, KafkaError
 
 def create_email_consumer():
     consumer = Consumer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'group.id': 'notification-email',  # Unique group for email
         'auto.offset.reset': 'earliest',
         'enable.auto.commit': False
@@ -357,7 +357,7 @@ from confluent_kafka import Consumer, KafkaError
 
 def create_slack_consumer():
     consumer = Consumer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'group.id': 'notification-slack',  # Different group from email
         'auto.offset.reset': 'earliest',
         'enable.auto.commit': False
@@ -425,7 +425,7 @@ from confluent_kafka import Consumer, KafkaError
 
 def create_audit_consumer():
     consumer = Consumer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'group.id': 'audit-log',  # Dedicated group for audit
         'auto.offset.reset': 'earliest',  # Never miss an event
         'enable.auto.commit': False

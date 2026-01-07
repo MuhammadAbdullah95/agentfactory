@@ -344,7 +344,7 @@ For real-time event streaming where latency matters more than throughput:
 from confluent_kafka import Producer
 
 low_latency_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api-realtime',
     'acks': 'all',
     'enable.idempotence': True,
@@ -365,7 +365,7 @@ For bulk event processing where throughput matters more than latency:
 from confluent_kafka import Producer
 
 high_throughput_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'client.id': 'task-api-bulk',
     'acks': 'all',
     'enable.idempotence': True,
@@ -397,7 +397,7 @@ from confluent_kafka import Producer
 import time
 
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'linger.ms': 50,
     'batch.size': 65536,  # 64KB
     'statistics.interval.ms': 5000  # Report stats every 5 seconds
@@ -414,7 +414,7 @@ def stats_callback(stats_json):
 
 # Register callback
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'linger.ms': 50,
     'batch.size': 65536,
     'stats_cb': stats_callback,
@@ -447,7 +447,7 @@ For the lifecycle events, you might start with:
 
 ```python
 lifecycle_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'acks': 'all',
     'enable.idempotence': True,
     'linger.ms': 10,
@@ -468,7 +468,7 @@ If view events are truly non-critical, they could use a lower-durability configu
 
 ```python
 view_producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'acks': '1',  # Leader only, faster
     'linger.ms': 100,  # Aggressive batching for volume
     'batch.size': 262144,  # 256KB batches

@@ -331,7 +331,7 @@ avro_serializer = AvroSerializer(
 
 # Producer configuration
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'acks': 'all',
     'enable.idempotence': True
 })
@@ -389,7 +389,7 @@ avro_deserializer = AvroDeserializer(
 
 # Consumer configuration
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'notification-service',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False

@@ -108,13 +108,22 @@ Install the same library you used for the producer:
 uv add confluent-kafka
 ```
 
+### Connecting to Kafka
+
+Like in Lesson 5, use the NodePort to connect from your local machine:
+
+| Where Your Code Runs | Bootstrap Server |
+|---------------------|------------------|
+| Local machine (Mac/Windows) | `localhost:30092` |
+| Pod in same namespace | `task-events-kafka-bootstrap:9092` |
+
 ### Basic Consumer Configuration
 
 ```python
 from confluent_kafka import Consumer, KafkaError
 
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap.kafka.svc.cluster.local:9092',
+    'bootstrap.servers': 'localhost:30092',  # NodePort for local dev
     'group.id': 'task-notification-service',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': True,
@@ -181,7 +190,7 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 # Consumer configuration
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap.kafka.svc.cluster.local:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'task-notification-service',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': True,
@@ -311,7 +320,7 @@ Manual commit lets you commit AFTER successful processing:
 from confluent_kafka import Consumer, KafkaError
 
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap.kafka.svc.cluster.local:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'task-audit-service',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False  # Disable auto-commit

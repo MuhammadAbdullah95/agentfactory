@@ -133,7 +133,7 @@ Every transactional producer needs a unique, stable identifier:
 from confluent_kafka import Producer
 
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'transactional.id': 'task-processor-1',  # REQUIRED: unique and stable
     'enable.idempotence': True  # Automatically enabled with transactional.id
 })
@@ -183,7 +183,7 @@ Each transaction follows a strict lifecycle:
 from confluent_kafka import Producer, KafkaError
 
 producer = Producer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'transactional.id': 'task-processor-1'
 })
 
@@ -341,7 +341,7 @@ By default, consumers see messages as soon as they're written---even if the tran
 ```python
 # Default consumer sees uncommitted messages
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'notification-service',
     # isolation.level defaults to 'read_uncommitted'
 })
@@ -357,7 +357,7 @@ To see only committed messages, set `isolation.level`:
 from confluent_kafka import Consumer, KafkaError
 
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'notification-service',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False,
@@ -513,7 +513,7 @@ class AtomicOrderProcessor:
 if __name__ == '__main__':
     processor = AtomicOrderProcessor(
         processor_id='1',
-        bootstrap_servers='task-events-kafka-bootstrap:9092'
+        bootstrap_servers='localhost:30092'
     )
 
     try:

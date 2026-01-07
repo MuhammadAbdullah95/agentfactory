@@ -124,7 +124,15 @@ kubectl get svc -n kafka | grep external
 task-events-kafka-external-bootstrap   NodePort   10.96.x.x   <none>   9094:30092/TCP
 ```
 
-Your Python code connects to `localhost:30092`. That's it.
+**Connection Reference:**
+
+| Where Your Code Runs | Bootstrap Server |
+|---------------------|------------------|
+| Local machine (Mac/Windows) | `localhost:30092` |
+| Pod in same namespace | `task-events-kafka-bootstrap:9092` |
+| Pod in different namespace | `task-events-kafka-bootstrap.kafka.svc.cluster.local:9092` |
+
+For this lesson, you run code locally, so use `localhost:30092`.
 
 ## The Minimal Producer
 

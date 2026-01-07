@@ -104,7 +104,7 @@ async def lifespan(app: FastAPI):
 
     # Startup: Initialize producer
     producer = Producer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'client.id': 'task-api',
         'acks': 'all',
         'enable.idempotence': True,
@@ -248,7 +248,7 @@ shutdown_event = Event()
 def consume_loop():
     """Background thread that consumes Kafka messages."""
     consumer = Consumer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'group.id': 'task-api-worker',
         'auto.offset.reset': 'earliest',
         'enable.auto.commit': False
@@ -306,7 +306,7 @@ async def lifespan(app: FastAPI):
 
     # Startup: Initialize producer
     producer = Producer({
-        'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+        'bootstrap.servers': 'localhost:30092',
         'client.id': 'task-api',
         'acks': 'all',
         'enable.idempotence': True
@@ -404,7 +404,7 @@ async def lifespan(app: FastAPI):
 
     # Initialize async producer
     producer = AIOKafkaProducer(
-        bootstrap_servers='task-events-kafka-bootstrap:9092',
+        bootstrap_servers='localhost:30092',
         value_serializer=lambda v: json.dumps(v).encode()
     )
     await producer.start()
@@ -412,7 +412,7 @@ async def lifespan(app: FastAPI):
     # Initialize async consumer
     consumer = AIOKafkaConsumer(
         'task-created',
-        bootstrap_servers='task-events-kafka-bootstrap:9092',
+        bootstrap_servers='localhost:30092',
         group_id='task-api-worker'
     )
     await consumer.start()
@@ -472,7 +472,7 @@ from datetime import datetime
 # Configuration
 KAFKA_BOOTSTRAP = os.environ.get(
     'KAFKA_BOOTSTRAP_SERVERS',
-    'task-events-kafka-bootstrap:9092'
+    'localhost:30092'
 )
 
 # Global state
@@ -615,7 +615,7 @@ async def health():
 ```
 $ uvicorn main:app --reload
 INFO:     Started server process
-Kafka integration ready (bootstrap: task-events-kafka-bootstrap:9092)
+Kafka integration ready (bootstrap: localhost:30092)
 INFO:     Application startup complete.
 
 $ curl -X POST http://localhost:8000/tasks \

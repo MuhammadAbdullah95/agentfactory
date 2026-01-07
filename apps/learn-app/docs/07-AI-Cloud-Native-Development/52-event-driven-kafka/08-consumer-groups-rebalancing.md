@@ -152,7 +152,7 @@ def on_revoke(consumer, partitions):
 
 # Configure consumer
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'notification-service',
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False  # Manual commit for safety
@@ -232,7 +232,7 @@ Configure cooperative rebalancing in your consumer:
 
 ```python
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'notification-service',
     'partition.assignment.strategy': 'cooperative-sticky',  # Cooperative mode
     'enable.auto.commit': False
@@ -251,7 +251,7 @@ Every time a consumer restarts (even briefly), it triggers a rebalance. In Kuber
 import os
 
 consumer = Consumer({
-    'bootstrap.servers': 'task-events-kafka-bootstrap:9092',
+    'bootstrap.servers': 'localhost:30092',
     'group.id': 'notification-service',
     'group.instance.id': f"notification-{os.environ.get('HOSTNAME', 'local')}",  # Static identity
     'session.timeout.ms': 45000,  # Longer timeout for restarts
@@ -380,7 +380,7 @@ class ProductionConsumer:
         self.consumer = Consumer({
             'bootstrap.servers': os.environ.get(
                 'KAFKA_BOOTSTRAP_SERVERS',
-                'task-events-kafka-bootstrap:9092'
+                'localhost:30092'
             ),
             'group.id': group_id,
             'group.instance.id': f"{group_id}-{os.environ.get('HOSTNAME', 'local')}",
