@@ -146,7 +146,7 @@ STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-Thank you for installing strimzi-kafka-operator-0.44.0
+Thank you for installing strimzi-kafka-operator-0.49.1
 ```
 
 ## Step 2: Verify Operator is Running
@@ -188,6 +188,13 @@ spec:
     - broker
   storage:
     type: ephemeral  # Use persistent-claim for production
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 250m
+    limits:
+      memory: 2Gi
+      cpu: 1000m
 ```
 
 **Key configuration points:**
@@ -197,6 +204,7 @@ spec:
 | `replicas` | 1 | Single node for development (use 3+ for production) |
 | `roles` | controller, broker | Combined roles save resources in dev |
 | `storage.type` | ephemeral | Data lost on restart (use persistent-claim for production) |
+| `resources` | requests/limits | Memory and CPU allocation for stability |
 | `strimzi.io/cluster` | task-events | Links this pool to the Kafka cluster |
 
 Apply the node pool:
@@ -226,7 +234,8 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
-    version: 3.8.0
+    version: 4.1.1
+    metadataVersion: 4.1-IV0
     listeners:
       - name: plain
         port: 9092
@@ -242,6 +251,7 @@ spec:
       transaction.state.log.min.isr: 1
       default.replication.factor: 1
       min.insync.replicas: 1
+      auto.create.topics.enable: false  # Production best practice
   entityOperator:
     topicOperator: {}
     userOperator: {}
@@ -253,9 +263,12 @@ spec:
 |-------|-------|---------|
 | `strimzi.io/kraft: enabled` | - | Uses KRaft mode (no ZooKeeper) |
 | `strimzi.io/node-pools: enabled` | - | Uses KafkaNodePool for node config |
+| `version` | 4.1.1 | Kafka version (requires Strimzi 0.49+) |
+| `metadataVersion` | 4.1-IV0 | KRaft metadata format version |
 | `listeners.plain` | port 9092 | Unencrypted internal access |
 | `listeners.tls` | port 9093 | TLS-encrypted internal access |
 | `replication.factor: 1` | - | Single replica for dev (use 3 for production) |
+| `auto.create.topics.enable` | false | Prevents accidental topic creation |
 | `entityOperator` | topicOperator, userOperator | Enable declarative topic/user management |
 
 Apply the cluster:
@@ -308,7 +321,7 @@ With the Entity Operator running, you can manage topics declaratively. Create a 
 
 ```yaml
 # kafka-topic.yaml
-apiVersion: kafka.strimzi.io/v1beta2
+apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
 metadata:
   name: task-created
@@ -383,7 +396,7 @@ Test connectivity by running a temporary pod with the Kafka CLI:
 ```bash
 # Start a temporary pod with Kafka tools
 kubectl run kafka-test -n kafka --rm -it \
-  --image=quay.io/strimzi/kafka:0.44.0-kafka-3.8.0 \
+  --image=quay.io/strimzi/kafka:0.49.1-kafka-4.1.1 \
   --restart=Never \
   -- bin/kafka-topics.sh --bootstrap-server task-events-kafka-bootstrap:9092 --list
 ```

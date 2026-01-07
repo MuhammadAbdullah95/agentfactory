@@ -26,4 +26,4 @@ Build a complete event-driven notification system using spec-driven development:
 
 ### Connections
 - **Builds on**: All lessons 1-20 (producers, consumers, schemas, reliability, patterns)
-- **Leads to**: Lesson 22 (Building the Kafka Event Schema Skill - extracting reusable patterns)
+- **Leads to**: Chapter 53 (Dapr) - abstracting pub/sub behind portable APIs using concepts learned here

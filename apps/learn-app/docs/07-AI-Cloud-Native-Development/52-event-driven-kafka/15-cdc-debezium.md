@@ -162,7 +162,7 @@ metadata:
   annotations:
     strimzi.io/use-connector-resources: "true"  # Enable KafkaConnector CRDs
 spec:
-  version: 3.8.0
+  version: 4.1.1
   replicas: 1
   bootstrapServers: task-events-kafka-bootstrap:9092
   config:
@@ -289,7 +289,7 @@ psql -h postgres-service -U debezium -d taskdb -c \
 
 # Consume from the CDC topic
 kubectl run kafka-consumer --rm -it --restart=Never \
-  --image=quay.io/strimzi/kafka:latest-kafka-3.8.0 \
+  --image=quay.io/strimzi/kafka:0.49.1-kafka-4.1.1 \
   -n kafka -- bin/kafka-console-consumer.sh \
   --bootstrap-server task-events-kafka-bootstrap:9092 \
   --topic taskdb.public.tasks \
@@ -519,7 +519,7 @@ COMMIT;
 
 # Consume from the routed topic
 kubectl run kafka-consumer --rm -it --restart=Never \
-  --image=quay.io/strimzi/kafka:latest-kafka-3.8.0 \
+  --image=quay.io/strimzi/kafka:0.49.1-kafka-4.1.1 \
   -n kafka -- bin/kafka-console-consumer.sh \
   --bootstrap-server task-events-kafka-bootstrap:9092 \
   --topic Task.events \

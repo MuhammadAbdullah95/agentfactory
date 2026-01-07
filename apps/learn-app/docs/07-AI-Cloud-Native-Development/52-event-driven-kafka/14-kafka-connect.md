@@ -170,7 +170,7 @@ metadata:
   annotations:
     strimzi.io/use-connector-resources: "true"  # Enable KafkaConnector CRD
 spec:
-  version: 3.8.0
+  version: 4.1.1
   replicas: 2  # Two workers for fault tolerance
   bootstrapServers: task-events-kafka-bootstrap:9092
 
@@ -185,7 +185,7 @@ spec:
           - type: maven
             group: org.apache.kafka
             artifact: connect-file
-            version: 3.8.0
+            version: 4.1.1
       - name: debezium-postgres
         artifacts:
           - type: maven
