@@ -443,18 +443,8 @@ Without MCP, your AI Employee is "stuck" in the vault directory. With MCP, Claud
 :::
 
 :::warning Obsidian Must Be Running
-The REST API plugin requires Obsidian to be open. For always-on access (Silver tier watchers), keep Obsidian running or use the lightweight alternative below.
+The REST API plugin requires Obsidian to be open. For always-on access (Silver tier watchers), keep Obsidian running in the background.
 :::
-
-### Alternative: Filesystem-Based MCP (No Plugin Required)
-
-If you prefer not to install the Obsidian plugin, use [@smithery-ai/mcp-obsidian](https://github.com/smithery-ai/mcp-obsidian) (1.3k stars):
-
-```bash
-claude mcp add obsidian --scope user -- npx -y @smithery/cli@latest run @smithery-ai/mcp-obsidian --config "{\"vaultPath\":\"/path/to/your/vault\"}"
-```
-
-This works directly on the filesystem without requiring Obsidian to be running.
 
 ---
 
