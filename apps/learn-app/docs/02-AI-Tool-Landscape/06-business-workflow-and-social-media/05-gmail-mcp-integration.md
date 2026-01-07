@@ -203,22 +203,31 @@ Choose your scope:
 | 🌍 **User Scope** (Recommended) | `--scope user` | Available in all your projects |
 | 📁 **Project Scope** | `--scope project` | Only in current project |
 
-Open your terminal and run:
+**Project scope** (current project only):
 
 ```bash
-claude mcp add gmail --scope user -- npx mcp-remote \
+claude mcp add gmail --transport http \
   https://deep-red-marten.fastmcp.app/mcp \
   --header "X-Gmail-Email: your-email@gmail.com" \
-  --header "X-Gmail-Password: xxxx xxxx xxxx xxxx"
+  --header "X-Gmail-Password: xxxx-xxxx-xxxx-xxxx"
+```
+
+**User scope** (available in all projects - recommended):
+
+```bash
+claude mcp add gmail --transport http --scope user \
+  https://deep-red-marten.fastmcp.app/mcp \
+  --header "X-Gmail-Email: your-email@gmail.com" \
+  --header "X-Gmail-Password: xxxx-xxxx-xxxx-xxxx"
 ```
 
 **Replace these values:**
 - `your-email@gmail.com` → Your actual Gmail address
-- `xxxx xxxx xxxx xxxx` → The 16-character App Password you generated
+- `xxxx-xxxx-xxxx-xxxx` → The 16-character App Password you generated
 
 **Output:**
 ```
-Added mcp server gmail to user settings
+Added gmail to user settings
 ```
 
 :::warning .mcp.json Conflict
@@ -337,21 +346,33 @@ Choose your scope:
 | Scope | Flag | Use When |
 |-------|------|----------|
 | 🌍 **User Scope** (Recommended) | `--scope user` | Available in all your projects |
-| 📁 **Project Scope** | `--scope project` | Only in current project |
+| 📁 **Project Scope** | (default) | Only in current project |
+
+**Project scope** (current project only):
 
 ```bash
-claude mcp add gmail-oauth --scope user -- npx mcp-remote \
+claude mcp add gmail --transport http \
   https://deep-red-marten.fastmcp.app/mcp \
-  --header "X-Gmail-OAuth-Client-ID: YOUR_CLIENT_ID" \
-  --header "X-Gmail-OAuth-Client-Secret: YOUR_CLIENT_SECRET" \
-  --header "X-Gmail-OAuth-Refresh-Token: YOUR_REFRESH_TOKEN"
+  --header "X-Gmail-Client-Id: YOUR_CLIENT_ID" \
+  --header "X-Gmail-Client-Secret: YOUR_CLIENT_SECRET" \
+  --header "X-Gmail-Refresh-Token: YOUR_REFRESH_TOKEN"
+```
+
+**User scope** (available in all projects - recommended):
+
+```bash
+claude mcp add gmail --transport http --scope user \
+  https://deep-red-marten.fastmcp.app/mcp \
+  --header "X-Gmail-Client-Id: YOUR_CLIENT_ID" \
+  --header "X-Gmail-Client-Secret: YOUR_CLIENT_SECRET" \
+  --header "X-Gmail-Refresh-Token: YOUR_REFRESH_TOKEN"
 ```
 
 **Replace the placeholder values with your actual credentials.**
 
 **Output:**
 ```
-Added mcp server gmail-oauth to user settings
+Added gmail to user settings
 ```
 
 :::warning .mcp.json Conflict
