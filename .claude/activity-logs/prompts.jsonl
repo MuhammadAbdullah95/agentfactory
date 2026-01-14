@@ -630,17 +630,3 @@ null
 null
 
 
-{"timestamp":"2026-01-07T21:49:10Z","session_id":"4235d240-cbb0-4dd3-bad0-97dc1ebcfa4b","prompt":"C:\\Program Files\\Git\\sp.chapter > \\sp.chapter we have written ch5 @apps\\learn-app\\docs\\02-AI-Tool-Landscape\\05-claude-code-features-and-workflows . Now there is an article  \n  from creator of claude code how he uses claude code. follow this link https;\\\\venturebeat.com\\technology\\the-creator-of-claude-code-just-revealed-his-workflow-and-developers-are to get complete article.  We have covered the claude code concepts   \n  now we want to add last lessons for students to provide how claude code creator uses claude code and connect with concepts."}
-{"timestamp":"2026-01-07T21:59:25Z","session_id":"4235d240-cbb0-4dd3-bad0-97dc1ebcfa4b","prompt":"C:/Program Files/Git/sp.phr "}
-{"timestamp":"2026-01-07T22:02:50Z","session_id":"4235d240-cbb0-4dd3-bad0-97dc1ebcfa4b","prompt":"refine it"}
-{"timestamp":"2026-01-12T06:52:10Z","session_id":"f485eadc-c906-4204-8015-3b777e6efd64","prompt":"hi"}
-{"timestamp":"2026-01-12T10:02:56Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"did you stop somewhere?"}
-{"timestamp":"2026-01-12T10:31:55Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"I see some issues, the sidebar positions are conflicting. the numbering are also conflicting. the chapter quiz should be last. \nsecondly, the starting example react react application seems technical for those who don't know react. what other example can be added?"}
-{"timestamp":"2026-01-12T10:46:47Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"Create the summary files for apps\\learn-app\\docs\\02-AI-Tool-Landscape\\05-claude-code-features-and-workflows\\15-ralph-wiggum-loop.md and apps\\learn-app\\docs\\02-AI-Tool-Landscape\\05-claude-code-features-and-workflows\\16-from-skills-to-business.md"}
-
-{"timestamp":"2026-01-12T11:00:55Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"I have a question for my understanding. The completion promise and the text are dynamic in this plugin? like when user add while running the loop, it updates? YOu need to search the documentation using fetch-library-docs skills, and web to find the answer of this. "}
-{"timestamp":"2026-01-12T11:06:04Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"add this to the lesson at appropriate section. "}
-{"timestamp":"2026-01-12T11:18:22Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"Now check this lesson for verbosity and see if something is being repeated"}
-{"timestamp":"2026-01-12T11:20:45Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"Implement the recommended approach"}
-{"timestamp":"2026-01-12T11:23:19Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"now analyze this lesson against our constituion, our lesson structure practice as provided in content-implementer subagent. Use this subagent to reivew that and propose changes. "}
-{"timestamp":"2026-01-12T11:38:46Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","prompt":"i didn't created the branch before adding. let's create the branch and shift these changes to there. "}

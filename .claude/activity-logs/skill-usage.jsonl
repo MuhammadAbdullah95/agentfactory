@@ -965,4 +965,3 @@
 {"timestamp":"2026-01-03T18:04:38Z","session_id":"83ce9337-81ad-485e-874f-b1139d0b44dc","skill":"concept-scaffolding","event":"start"}
 {"timestamp":"2026-01-03T18:04:38Z","session_id":"83ce9337-81ad-485e-874f-b1139d0b44dc","skill":"technical-clarity","event":"start"}
 {"timestamp":"2026-01-03T18:04:38Z","session_id":"83ce9337-81ad-485e-874f-b1139d0b44dc","skill":"ai-collaborate-teaching","event":"start"}
-{"timestamp":"2026-01-12T11:01:03Z","session_id":"c5e3cf9f-1278-4e8e-aeab-b23a33daba47","skill":"fetch-library-docs","args":"Claude Code ralph-wiggum plugin","event":"invoke","source":"Skill_tool"}

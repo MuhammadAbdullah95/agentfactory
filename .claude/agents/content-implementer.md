@@ -253,7 +253,7 @@ Before generating ANY content, you MUST:
 | YAML frontmatter | ALL fields from reference |
 | Narrative opening | 2-3 paragraphs with business hook |
 | Code with Output | 100% of code blocks |
-| Try With AI | 3 prompts with explanations |
+| Try With AI | 2 prompts with explanations |
 | Safety note | Present if technical content |
 
 ### CRITICAL: File Writing Protocol
@@ -741,7 +741,7 @@ differentiation:
 |---------|-------------|---------------------|
 | **Narrative Opening** | Real-world scenario, 2-3 paragraphs | ❌ Generic intro |
 | **Evidence Depth** | Tables, diagrams, business impact | ❌ Text-only explanations |
-| **Try With AI** | 3 prompts with "What you're learning" | ❌ 1 prompt, no explanations |
+| **Try With AI** | 2 prompts with "What you're learning" | ❌ 1 prompt, no explanations |
 | **Fact-Checking** | WebSearch ALL stats, dates, quotes | ❌ Memory-based claims |
 
 ### Quality Reference Lesson
@@ -770,6 +770,128 @@ Do NOT confuse these:
 - Wrong: "MCP is USB for AI agents. AAIF governs it." (references unknown MCP to explain AAIF)
 - Right: "Traffic signals work the same everywhere. MCP works the same across all AI platforms." (universal analogy)
 - Right: "AAIF is the USB Implementers Forum for AI agents." (explains governance with known concept)
+
+---
+
+## Content Leanness Requirements (MANDATORY - Added 2026-01-12)
+
+**Chapter 5 Audit Finding**: Content was verbose, redundant, and lacked connection between lessons.
+
+### Word Limits (HARD CAPS)
+
+| Lesson Type | Word Limit | Violation = Rewrite |
+|-------------|------------|---------------------|
+| Conceptual intro | 600-800 | Over 1000 = cut 30% |
+| Hands-on practical | 800-1000 | Over 1200 = cut 25% |
+| Installation/setup | 400-600 | Over 800 = cut 40% |
+| Capstone | 1000-1200 | Over 1500 = cut 25% |
+
+**How to count**: Exclude YAML frontmatter. Count body only.
+
+### The Three Enemies (ELIMINATE)
+
+#### Enemy 1: Verbosity
+
+| Symptom | Fix |
+|---------|-----|
+| Multiple analogies for same concept | ONE analogy maximum per concept |
+| "Why This Matters" restating the obvious | Cut unless reveals non-obvious insight |
+| Paragraph AND table for same info | Choose ONE format, delete other |
+| "Reflection" sections | DELETE entirely (zero value) |
+| "Expert Insight" restating content | Cut unless genuinely advanced |
+
+#### Enemy 2: Redundancy
+
+| Symptom | Fix |
+|---------|-----|
+| Concept explained in L(N), re-explained in L(N+1) | Explain ONCE, reference thereafter |
+| Same info in different formats | ONE format per concept |
+| Lessons that overlap significantly | MERGE into single lesson |
+
+#### Enemy 3: Disconnection
+
+| Symptom | Fix |
+|---------|-----|
+| Lesson reads like standalone article | Open with prior lesson reference |
+| Different examples each lesson | ONE running example across chapter |
+| Conceptual lesson between practical ones | Fold concepts INTO practical lessons |
+
+### Structural Requirements
+
+**Opening Formula (MANDATORY)**:
+```markdown
+# [Lesson Title]
+
+In [Lesson N-1], you [key accomplishment]. Now you'll [this lesson's goal].
+```
+
+Exception: First lesson of chapter opens with hook, not prior reference.
+
+**Running Example Requirement**:
+- Chapters MUST have ONE running example that evolves
+- Each lesson MUST use or extend that example
+- New examples must relate to running example
+
+**Try With AI Limit**:
+- EXACTLY 2 prompts (not 3, not 4)
+- Each prompt targets different skill
+- Each has "What you're learning:" explanation
+
+**Deleted Sections**:
+- NO "Reflection" sections
+- NO "Summary" sections
+- NO "What's Ahead" unless it adds specific value
+
+### Leanness Checklist (Before Writing)
+
+```
+□ Word count within limit for lesson type
+□ ONE analogy per concept maximum
+□ ONE format per concept (paragraph OR table, not both)
+□ EXACTLY 2 "Try With AI" prompts
+□ Opens with connection to prior lesson
+□ Uses chapter's running example
+□ NO "Reflection" section
+□ NO redundant re-explanation of prior lesson concepts
+```
+
+### Failure Examples (From Chapter 5 Audit)
+
+**Verbosity violation**:
+```markdown
+## The Paradigm Shift: Agentic vs. Passive
+
+Traditional AI assistants operate in a passive model...
+[paragraph explanation]
+
+| Aspect | Passive AI | Agentic AI |
+[table with same info]
+
+Think of it this way: passive AI is a consultant...
+[another analogy]
+
+| Prediction | Reasoning |
+[another table]
+```
+
+**Fix**: ONE explanation. Delete duplicate tables/analogies.
+
+**Disconnection violation**:
+```markdown
+# Lesson 5: The Concept Behind Skills
+
+"Stop building agents. Build skills instead."
+[Completely new topic, no reference to L4]
+```
+
+**Fix**:
+```markdown
+# Lesson 5: Why Skills Matter
+
+In Lesson 4, you experienced skills in action. Now you'll understand
+the architecture that makes them work—and why Anthropic says
+"stop building agents, build skills instead."
+```
 
 ---
 
