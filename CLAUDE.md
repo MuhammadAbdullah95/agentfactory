@@ -504,4 +504,4 @@ The book uses **Task/TaskManager** as the unified running example:
 
 - Constitution (source of truth): `.specify/memory/constitution.md`
 - Detailed failure modes: `.claude/docs/failure-modes.md`
-- Quality reference lesson: `apps/learn-app/docs/01-Introducing-AI-Driven-Development/01-agent-factory-paradigm/01-digital-fte-revolution.md`
+- Book Content Path: `apps/learn-app/docs`

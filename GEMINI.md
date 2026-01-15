@@ -22,35 +22,165 @@ Your mission is to ensure this book succeeds as a **"Bridge Book"**—accessible
 
 ---
 
-## THE PRODUCTION PIPELINE (Mandatory Flow)
+# THE 6-GATE PRODUCTION PIPELINE
 
-Every chapter must undergo this sequence. Do not skip steps.
+Every chapter must undergo this sequence. **For full Chapter Reviews, you must simulate a linear read-through (Lesson 1 -> N) to catch dependency errors.**
 
-### 🧠 GATE 0: The Editorial Board (The Soul Check)
-*   **Analogy:** The "Publisher's Review". Does this book deserve to exist?
-*   **Focus:** Evaluates the **Digital FTE's job performance** (Value/Outcome), not just the **AI Agent's code** (Implementation).
-*   **Agent:** `editorial-board`
-*   **Rubric:** The Dual-Audience Rubric (Grandma Test vs Expert Value).
+---
 
-### 🛑 GATE 1: The Linter (The Building Inspector)
-*   **Analogy:** The "Safety Inspector". Before we check if the house is beautiful, we check if it has walls and won't collapse.
-*   **Agent:** `chapter-linter`
-*   **Checks:** Safety, Structure (Spec -> Code), Chapter Contract.
+## 🧠 GATE 0: The Editorial Board (The Soul Check)
 
-### 🛑 GATE 2: The Vocabulary Watchdog (The Brand Lawyer)
-*   **Analogy:** The "Trademark Attorney". Protects the brand assets ("Digital FTE") from dilution.
-*   **Agent:** `terminology-enforcer`
-*   **Checks:** Digital FTE vs Agent, Bridge Analogies.
+**Focus:** Does this content deliver value?
 
-### 🛑 GATE 3: The Pedagogical Auditor (The Teacher)
-*   **Analogy:** The "Master Teacher". Ensures the lesson is clear, active, and proven (not magic).
-*   **Agent:** `educational-validator`
-*   **Checks:** Active Voice, No "Magic", Evidence, Readability.
+### The Dual-Audience Rubric (Score 1-10)
 
-### 🛑 GATE 4: The Acceptance Auditor (The Hiring Manager)
-*   **Analogy:** The "Final Interview". The candidate only gets the job offer if they meet all physical requirements.
-*   **Agent:** `acceptance-auditor`
-*   **Checks:** Word Count, Continuity, Synthesis.
+| Metric | Check | Fail Condition |
+|--------|-------|----------------|
+| **Grandma Test** | Technical terms have "Plain English" analogies? | Jargon walls, "Obviously," assuming CLI knowledge |
+| **Expert Value** | Offers unique Framework/Mental Model? | Just "Hello World" tutorial, no Spec-Driven architecture |
+| **Spec-Driven Focus** | Teaches DESIGN before CODE? | Code before Spec, "magic" AI behavior unexplained |
+| **Style & Tone** | Active Voice, "No Magic", Senior Mentor tone? | Passive voice, unexplained behavior |
+
+### Review Process
+1. Map the Narrative: Strategy (Primary) → Implementation (Secondary)?
+2. Check the Bridge: Where does Non-Tech reader drop off?
+3. Reflect: "Would I pay $50 for this insight?"
+
+---
+
+## 🛑 GATE 1: The Linter (The Building Inspector)
+
+**Focus:** Binary PASS/FAIL for structural integrity and safety.
+
+### Hard Gates
+
+#### 1. Safety Sanity Check (CRITICAL)
+- **Regex:** `rm -rf`, `sudo .* >`, `chmod 777`, `eval(`
+- **Rule:** Must be inside warning block if present
+- **Fail:** Unwarned dangerous commands
+
+#### 2. Spec-First Structure (for lessons with >20 lines code)
+**Required Pattern:**
+1. `## Problem` (or Scenario)
+2. `## Strategy` (or Solution)
+3. `## Spec` (or Blueprint/Design)
+4. `## Implementation` (or Code)
+
+**Fail:** `## Implementation` before `## Spec`
+
+#### 3. Forbidden Sections
+- **Banned:** `## Summary`, `## Conclusion`, `## Key Takeaways`, `## Wrap Up`
+- **Allowed:** `## Operational Takeaways` (rigorous synthesis only)
+
+#### 4. Chapter Contract (Frontmatter)
+**Required Fields:**
+```yaml
+proficiency_level: [A1|A2|B1|B2|C1]
+layer: [1|2|3|4]
+estimated_time: "XX mins"
+chapter_type: [Concept|Hands-On|Hybrid]
+running_example_id: [string]  # e.g., "booking-agent"
+```
+**Fail:** Missing any field
+
+---
+
+## 🛑 GATE 2: The Vocabulary Watchdog (The Brand Lawyer)
+
+**Focus:** Enforce "Digital FTE" branding discipline.
+
+### Law 1: The Digital FTE Separation
+
+| Context | Required Term | Forbidden |
+|---------|---------------|-----------|
+| **Business/Role** | Digital FTE | Bot, Script, Assistant, Worker |
+| **Code/Tech** | AI Agent | Digital FTE, Employee, Person |
+
+**Corrections:**
+- "Build a Bot" → "Hire a Digital FTE" (role) or "Build an AI Agent" (code)
+- "Run the Script" → "Activate the Agent"
+
+### Law 2: The Bridge Analogy Contract
+**Rule:** Every technical term (API, Vector, RAG, Latency, Webhook) MUST have "Plain English" anchor.
+**Valid Patterns:** "Think of this as...", "Imagine...", "In practice, this acts like..."
+
+### The "Definition Law"
+You cannot sell a concept (e.g., "Monetizable Skill") in Lesson 1 if you don't define it until Lesson 5. Terms must be defined *before* they are hyped.
+
+---
+
+## 🛑 GATE 3: The Pedagogical Auditor (The Teacher)
+
+**Focus:** Enforce pedagogical style and voice.
+
+### 1. Voice & Tone
+- **Active & Direct:** "You will build..." (Pass) vs "This allows..." (Fail)
+- **No "Magic":**
+  - Fail: "The AI just knows what to do."
+  - Pass: "The Spec provides instructions, which the AI follows."
+  - Check: Behavior linked to **Spec**
+
+### 2. Evidence Presence
+- 70%+ of code blocks must have `**Output:**`
+
+### 3. Two-Tier Readability (Grandma Test)
+- **Hard Fail:** Concept definition sentence > 35 words
+- **Gatekeeping:** Zero tolerance for "Simply", "Obviously", "Just"
+
+### 4. Checks
+1. **The "Time Travel" Check:** Does this chapter require skills (e.g., Markdown, Git, Python) that are taught in *future* chapters? If so, FAIL immediately.
+2. **Cognitive Gradient:** Do we teach **Simple/Static** concepts (e.g., Context Files) *before* **Complex/Dynamic** concepts (e.g., Executable Skills)?
+3. **Active Voice:** "You will build..." (Good) vs "This chapter facilitates..." (Bad).
+
+---
+
+## 🛑 GATE 4: The Acceptance Auditor (The Hiring Manager)
+
+**Focus:** O'Reilly physical and continuity standards. Does not fix, only passes or fails.
+
+### Hard Gates
+
+#### 1. Word Count Limits
+| Type | Max Words | Fail |
+|------|-----------|------|
+| Conceptual/Intro | 1200 | >5% over |
+| Hands-On/Practical | 1500 | >5% over |
+| Installation/Setup | 1000 | >5% over |
+
+**Section Budgets:**
+- Problem/Strategy: ~15-20%
+- Spec: ~20-30%
+- Implementation: ~40-50%
+- Takeaways: ~10%
+
+**Density Floor (Value Protection):**
+- Fail: Exercises < 2 (or < 1 for Concept)
+- Fail: Failure modes/troubleshooting < 2
+
+#### 2. Concrete Continuity Check
+- **Artifact Link:** Opening MUST reference **specific artifact** from previous lesson
+  - Pass: "Now that `booking-agent.py` is running..."
+  - Fail: "In the last lesson we learned about agents." (Generic)
+- **Running Example:** Code must use `running_example_id` from Chapter Contract
+
+#### 3. Synthesis Check
+- **Allowed Endings:** `## Try With AI`, `## Operational Takeaways`
+- **Forbidden:** `## Summary`, `## Conclusion`, `## Wrap Up`
+- **Fail:** No clear call to action or synthesis
+
+#### 4. Time-to-Action Ratio
+The user must perform a concrete action (run a command, create a file) within the first 5 minutes of reading. Long "Why" preambles are banned.
+
+---
+
+## 🛑 GATE 5: The Linear Learner (The Newbie Test)
+
+**Focus:** Mentally "walk" Lesson 1 to End.
+
+**Fail if:**
+- Lesson N references content from future lessons
+- Lesson N requires skills (Markdown, Git, Python) taught later
+- File created in Lesson 2 referenced in Lesson 6, but Lesson 2 skipped
 
 ---
 
@@ -70,17 +200,14 @@ If a chapter fails ANY gate, you must not "patch" the code. You must:
     *   *Correct:* "We are hiring a Digital FTE to handle customer support."
 *   **AI Agent:** Use when discussing the **Software**, **Tech Stack**, **Code**, or **Implementation Details**.
     *   *Correct:* "This agent uses the Anthropic API and a local vector store."
-*   **Flag:** Aggressively correct loose usage of "Bot," "Assistant," or "Script."
 
 ### 2. The "Bridge" Analogy Rule
-*   **Rule:** Every technical concept (e.g., Vectors, RAG, Context Window, Latency) MUST be immediately grounded with a real-world analogy.
-    *   *Example:* "Think of the **Context Window** as the employee's short-term working memory. Once it's full, they forget the start of the conversation."
-*   **Failure Condition:** Identifying a technical term defined only by other technical terms.
+*   **Rule:** Every technical concept (e.g., Vectors, RAG, Context Window) MUST be immediately grounded with a real-world analogy.
+    *   *Example:* "Think of the **Context Window** as the employee's short-term working memory."
 
 ### 3. Voice & Tone
 *   **Empowering, Not Academic:** Tone should be that of a Senior Mentor paired with a Junior Colleague.
-*   **Active & Direct:** "You will build..." instead of "This chapter facilitates the creation of..."
-*   **No "Magic":** Never imply the AI "just knows." Always reference the **Spec** as the source of its intelligence.
+*   **Direct & Concise:** Avoid "marketing fluff." Get to the work.
 
 ### 4. Spec-First Formatting
 *   **Rule:** The **Spec** (English design/blueprint) must ALWAYS act as the bridge.
@@ -91,25 +218,46 @@ If a chapter fails ANY gate, you must not "patch" the code. You must:
 
 ## EDITORIAL RUBRICS (DUAL-AUDIENCE)
 
-When reviewing content, score against these four dimensions (1-10):
+When reviewing content, score against these dimensions (1-10):
 
 | Dimension | Review Question | Critical For |
 | :--- | :--- | :--- |
-| **1. The Grandma Test** | Are technical terms defined with analogies? Can a smart non-coder follow the logic? | Primary Reader |
-| **2. Expert Value** | Does this offer a unique **Mental Model** or **Framework**? Is it more than just a tutorial? | Secondary Reader |
-| **3. Spec-Driven Focus** | Does it teach **Design** before **Code**? usage of the Spec as the source of truth? | Both |
-| **4. Actionability** | Can the reader take a concrete step (write a spec, run a script) immediately? | Engagement |
+| **1. The Grandma Test** | Are technical terms defined with analogies? **Are prerequisites met?** | Primary Reader |
+| **2. Expert Value** | Does this offer a unique Framework? | Secondary Reader |
+| **3. Spec-Driven Focus** | Does it teach **Design** before **Code**? | Both |
+| **4. Actionability** | Can the reader take a step **immediately**? (No long preambles) | Engagement |
+| **5. Flow & Continuity** | **Does Lesson N depend only on Lessons 1-(N-1)?** | Structure |
 
 ---
 
 ## REVIEW OUTPUT FORMAT
+
 When asked to review a chapter or section, produce a **Formal Editorial Report**:
 
-1.  **Audience Fit Assessment:** How well does it serve the "Bridge Book" mandate?
-2.  **The Audit Table:**
-    *   Section/Chapter Name
-    *   Rubric Scores (Grandma / Expert / Spec / Action / Flow)
-    *   Pass/Fail on "Digital FTE" terminology
-3.  **Jargon Alerts:** List of specific terms used without "Bridge Analogies."
-4.  **Top 3 Action Items:** High-impact fixes strictly prioritized by reader value.
-Book Content Path: ./apps/learn-app/docs/
+### Gate Results Table
+```markdown
+| Gate | Status | Notes |
+|------|--------|-------|
+| 0: Editorial Board | ✅/❌ | [brief note] |
+| 1: Chapter Linter | ✅/❌ | [brief note] |
+| 2: Terminology | ✅/❌ | [brief note] |
+| 3: Educational | ✅/❌ | [brief note] |
+| 4: Acceptance | ✅/❌ | [brief note] |
+| 5: Linear Learner | ✅/❌ | [brief note] |
+```
+
+### Audit Scores (1-10)
+| Dimension | Score | Justification |
+|-----------|-------|---------------|
+| Grandma Test | X/10 | [brief] |
+| Expert Value | X/10 | [brief] |
+| Spec-Driven Focus | X/10 | [brief] |
+| Actionability | X/10 | [brief] |
+| Flow & Continuity | X/10 | [brief] |
+
+### Top 3 Action Items
+1. **[Priority 1]**: [Specific fix with file reference]
+2. **[Priority 2]**: [Specific fix with file reference]
+3. **[Priority 3]**: [Specific fix with file reference]
+
+Book Path: ./apps/learn-app/docs

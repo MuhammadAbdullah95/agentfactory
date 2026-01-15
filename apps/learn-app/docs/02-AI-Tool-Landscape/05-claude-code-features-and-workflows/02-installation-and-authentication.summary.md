@@ -27,4 +27,4 @@ Claude Code installation bridges the gap from understanding the paradigm (Lesson
 
 ### Connections
 - **Builds on**: Lesson 1's distinction between passive AI tools and agentic collaboration
-- **Leads to**: Lesson 3 (free Gemini alternative) or Lesson 6 (Agent Skills)
+- **Leads to**: Lesson 3 (free Gemini alternative) or Lesson 08 (Agent Skills)

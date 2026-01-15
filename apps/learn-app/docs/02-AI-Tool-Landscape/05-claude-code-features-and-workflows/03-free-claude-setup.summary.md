@@ -19,4 +19,4 @@ Claude Code's **CLI is frontend-agnostic**—it can work with any OpenAI-compati
 
 ### Connections
 - **Alternative to**: Lesson 2's official Claude Max subscription—both paths teach identical Claude Code skills
-- **Leads to**: Lessons 4-9 work identically regardless of which setup path you chose (persistent context, MCP, subagents, skills, hooks, configuration)
+- **Leads to**: Lessons 4-11 work identically regardless of which setup path you chose (persistent context, MCP, subagents, skills, hooks, configuration)

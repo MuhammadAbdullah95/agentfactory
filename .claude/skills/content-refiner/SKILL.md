@@ -1,181 +1,197 @@
 ---
 name: content-refiner
-description: Refine verbose educational content by eliminating redundancy, tightening prose, and strengthening lesson connections. Use when content is wordy, repetitive, or lacks narrative flow between sections.
-allowed-tools: Read, Edit, Write, Grep, Glob
+description: POST-GATE TOOL. Refine verbose content by eliminating redundancy, trimming word count, and strengthening lesson connections. Use ONLY to fix Gate 4 failures.
 ---
 
-# Content Refiner Skill
+# Content Refiner (The Fixer)
 
-Transform verbose, redundant educational content into lean, connected lessons.
+## Purpose
+**POST-GATE TOOL.**
+Transforms content that **FAILED Gate 4** into passing content.
+Focuses on trimming verbosity and fixing continuity.
 
 ## When to Use
+- **Trigger**: Gate 4 (Acceptance Auditor) returned `[FAIL]`.
+- **Goal**: Fix word count OR continuity issues (or both).
+- **Key**: Diagnose what failed BEFORE applying fixes.
 
-- Content feedback mentions: verbose, redundant, wordy, repetitive
-- Lessons feel disconnected or read like standalone blog posts
-- Same concept explained multiple ways within a lesson
-- "Try With AI" sections have 4+ prompts
-- Lessons exceed 1200 words without justification
+## CRITICAL: Pre-Refinement Diagnosis
 
-## The Three Enemies
+**DO NOT apply fixes blindly.** Gate 4 fails for different reasons requiring different strategies.
 
-### Enemy 1: Verbosity
-**Symptoms:**
-- Multiple analogies for the same concept
-- "Why This Matters" sections that restate the obvious
-- Tables that duplicate paragraph content
-- "Reflection" sections that add no value
+### Step 0: Identify What Failed (Mandatory)
 
-**Treatment:**
-- ONE analogy per concept maximum
-- Cut "Why This Matters" unless it reveals non-obvious insight
-- Choose: paragraph OR table, not both
-- Delete "Reflection" sections entirely
+Ask the user OR examine the Gate 4 failure message:
 
-### Enemy 2: Redundancy
-**Symptoms:**
-- Concept explained in Lesson N, re-explained in Lesson N+1
-- Same information in different formats (paragraph, bullets, table)
-- "Expert Insight" callouts restating what was just said
-- Multiple lessons that could be one
+| Failure Type | Question | Action |
+|--------------|----------|--------|
+| **Word Count** | "Is the lesson over the target (typically 1500 words)?" | Calculate exact % to cut |
+| **Continuity** | "Does the opening reference the previous lesson?" | Rewrite opening only |
+| **Both** | "Word count AND continuity broken?" | Two-phase approach |
 
-**Treatment:**
-- Concepts taught ONCE, referenced thereafter
-- One format per concept
-- Expert Insights only for genuinely advanced perspectives
-- Merge lessons that cover same ground
+**DIAGNOSIS EXAMPLES**:
 
-### Enemy 3: Disconnection
-**Symptoms:**
-- Each lesson reads like standalone article
-- No "Previously you learned X, now we build on Y" bridges
-- Different examples in each lesson (no running example)
-- Conceptual lessons sandwiched between practical ones
-
-**Treatment:**
-- Opening sentence references prior lesson's key takeaway
-- ONE running example evolves across the chapter
-- Conceptual content folded INTO practical lessons
-- Clear skill progression: each lesson adds ONE new capability
-
-## Refinement Procedure
-
-### Step 1: Measure Current State
+**Example 1: Word Count Only**
 ```
-Count:
-- Total words
-- Number of analogies per concept
-- Number of "Try With AI" prompts
-- Number of tables
-- "Reflection" sections present?
-- "Expert Insight" callouts
+Content: 1950 words, Target: 1500
+Excess: 450 words
+% to cut: (450 / 1950) × 100 = 23%
+→ CUT EXACTLY 23%, not generic 15-20%
 ```
 
-### Step 2: Apply Cuts
+**Example 2: Continuity Only**
+```
+Opening: "Let's explore this new topic..."
+Problem: Doesn't reference Lesson N-1
+→ Rewrite opening only; don't cut words
+```
 
-**Mandatory cuts:**
-1. Delete ALL "Reflection" sections
-2. Reduce "Try With AI" to exactly 2 prompts
-3. Keep ONE analogy per concept, delete others
-4. Delete tables that duplicate paragraph content
-5. Cut "Why This Matters" if it only restates the concept
+**Example 3: Both**
+```
+Word count: 1950 (23% over)
+Opening: Generic, missing prior lesson reference
+→ Phase 1: Rewrite opening (identify anchor from Lesson N-1)
+→ Phase 2: Cut words to 23% (context-aware)
+```
 
-**Word targets:**
-| Lesson Type | Target Words |
-|-------------|--------------|
-| Conceptual intro | 600-800 |
-| Hands-on practical | 800-1000 |
-| Installation/setup | 400-600 |
-| Capstone | 1000-1200 |
+### Step 1: Assess Content Layer (Context-Aware Cutting)
 
-### Step 3: Strengthen Connections
+Read the lesson's frontmatter to determine layer:
 
-**Opening formula:**
+| Layer | Cutting Strategy |
+|-------|-----------------|
+| **L1 (Manual)** | Keep foundational explanations; cut elaboration |
+| **L2 (AI-Collaboration)** | Keep Try With AI sections (core); cut narrative padding |
+| **L3 (Intelligence)** | Keep pattern insights; cut explanatory scaffolding |
+| **L4 (Spec-Driven)** | Keep specification details; cut conceptual scaffolding |
+
+---
+
+## The Refinement Procedure (Layer-Aware)
+
+### Phase 1: The Connection Builder (Continuity Fix)
+
+**Do this FIRST if opening is generic.**
+
+**Formula:**
 ```markdown
-# [Lesson Title]
-
-In [Lesson N-1], you [key accomplishment]. Now you'll [this lesson's goal].
+In [Previous Lesson], you [SPECIFIC OUTCOME from Lesson N-1].
+Now, we will [CONNECT outcome to new goal] by [STRATEGY].
 ```
 
-**Running example rule:**
-- Identify the chapter's running example
-- This lesson MUST use or extend that example
-- If introducing new example, it must relate to running example
+**Validation**:
+- [ ] Opening references Lesson N-1 by name
+- [ ] Specific outcome (not generic "learned about...")
+- [ ] Clear connection shows why this lesson matters (builds on N-1)
 
-### Step 4: Verify Quality
+**After fixing**: Proceed to Fluff Cutter if word count also fails.
 
-Checklist:
-- [ ] Under word limit for lesson type
-- [ ] One analogy per concept max
-- [ ] Exactly 2 "Try With AI" prompts
-- [ ] No "Reflection" section
-- [ ] Opens with connection to prior lesson
-- [ ] Uses or extends running example
-- [ ] No repeated explanations from earlier lessons
+### Phase 2: The Fluff Cutter (Word Count Fix)
+
+**Apply layer-specific cuts in this order:**
+
+**FOR ALL LAYERS:**
+1. Delete redundant "Why This Matters" sections
+   - Keep ONLY if it reveals non-obvious insight
+   - If same point made in text AND in "Why This Matters" → delete WTM
+2. Merge repeated examples
+   - Find duplicate explanations
+   - Keep first, delete second
+3. Tighten transitions between sections
+   - Replace "As we discussed earlier, X..." with direct reference
+
+**FOR L1-L2 ONLY** (students still building foundation):
+4. Reduce "Try With AI" sections to exactly 2 prompts
+   - Keep foundational + one advanced
+   - Delete exploratory extras
+5. Keep educational scaffolding (explanations, examples)
+
+**FOR L3-L4 ONLY** (students ready for advanced patterns):
+4. Trim narrative scaffolding
+   - Keep pattern insights and rules
+   - Delete "why this matters philosophically"
+5. Remove beginner-level explanations
+   - Assume students understand fundamentals
+
+**FOR ALL LAYERS:**
+6. **One Analogy Rule**: Keep the BEST analogy for the concept; delete redundant ones
+7. **Merge Tables/Text**: Use ONE format (table OR prose), never both
+8. **Reduce Examples**: Keep 2-3 best; delete "also consider..."
+9. **Tighten Lists**: Convert 5-item lists to 3 core items
+
+**Verification**:
+- [ ] Word count after cuts: [TARGET ± 5%]
+- [ ] No L1 content cut from L1 lessons
+- [ ] No pattern insights lost from L3-L4 lessons
+- [ ] Try With AI: 2 prompts if L1-L2, keep all if L3-L4
+
+### Phase 3: Post-Refinement Validation (CRITICAL)
+
+**After applying fixes, verify the content now PASSES Gate 4:**
+
+```
+✓ Word Count Check:
+  Current: [X] words
+  Target: [target_from_spec]
+  Status: [PASS if ≤target ± 5%, FAIL if over]
+
+✓ Continuity Check:
+  Opening references Lesson [N-1]? [YES/NO]
+  Specific outcome mentioned? [YES/NO]
+  Connection to new lesson clear? [YES/NO]
+
+✓ Layer Appropriateness:
+  No foundational cuts from L1-L2? [YES/NO]
+  No pattern insight loss from L3-L4? [YES/NO]
+
+✓ Content Integrity:
+  Removed examples still explained elsewhere? [YES/NO]
+  Cut sections non-essential? [YES/NO]
+```
+
+**NEXT STEP RECOMMENDATION:**
+```
+"Refined content is ready.
+
+Word count: [after] (target: ≤[target])
+Continuity: Now references Lesson [N-1]
+
+Recommend re-submitting to acceptance-auditor for Gate 4 re-validation.
+Command: [provide re-validation instruction]"
+```
+
+---
 
 ## Output Format
-
-When refining a lesson, produce:
 
 ```markdown
 ## Refinement Report: [Lesson Name]
 
+### Diagnosis
+**Issue Found**: [Word count | Continuity | Both]
+**Layer**: [L1/L2/L3/L4]
+
 ### Metrics
-| Before | After |
-|--------|-------|
-| X words | Y words |
-| N analogies | 1 analogy |
-| N Try With AI | 2 prompts |
+| Metric | Before | After | Target | Status |
+|--------|--------|-------|--------|--------|
+| Word Count | 1950 | 1485 | ≤1500 | ✅ PASS |
+| Continuity | Generic opening | References Lesson 2 | Specific reference | ✅ PASS |
 
-### Key Cuts Made
-1. [Deleted section/content and why]
-2. [Deleted section/content and why]
-3. [Deleted section/content and why]
+### Fixes Applied
+1. **Phase 1**: Rewrote opening to reference "booking-agent implementation" from Lesson 2
+2. **Phase 2**: Deleted 240 words using layer-aware cuts:
+   - Removed redundant "Why This Matters" section (line 45, 120 words)
+   - Merged duplicate example (lines 67-89, 85 words)
+   - Cut 1 extra "Try With AI" prompt (35 words)
+3. **Phase 3**: Validated word count and continuity
 
-### Connection Added
-- Opening: "[New opening sentence]"
-- Running example: [How it connects]
+### Ready for Re-validation
+✅ Word count: 1485 (≤1500)
+✅ Continuity: Opening references Lesson 2
+✅ Layer integrity: All L2 AI examples preserved
+
+**Next**: Re-submit to acceptance-auditor for Gate 4 validation
 
 ### Refined Content
 [Full refined lesson content]
 ```
-
-## Example: Before/After
-
-**BEFORE (verbose):**
-```markdown
-## Why This Matters
-
-Skills are important because they save you time. When you create a skill,
-you're investing once to benefit forever. Think of it like teaching a
-friend your preferences. Or like programming a robot. Or like writing
-a recipe book. The key insight is that skills encode your expertise.
-
-| Aspect | Without Skills | With Skills |
-|--------|---------------|-------------|
-| Time | Repeat yourself | Invest once |
-| Quality | Inconsistent | Consistent |
-| Sharing | Hard | Easy |
-
-As you can see, skills provide significant advantages...
-```
-
-**AFTER (lean):**
-```markdown
-Skills encode your expertise once so Claude applies it automatically.
-Instead of explaining your LinkedIn tone every time, teach it once.
-```
-
-## Anti-Patterns to Eliminate
-
-1. **The Triple Explanation**: Paragraph + Table + Analogy for same concept
-2. **The Standalone Syndrome**: Lesson that doesn't reference what came before
-3. **The Prompt Explosion**: 4+ "Try With AI" prompts
-4. **The Obvious Insight**: "Expert Insight" that adds nothing experts wouldn't know
-5. **The Setup Novel**: 3 paragraphs of motivation before getting to content
-6. **The Example Carousel**: New example every lesson instead of building one
-
-## Skill Composition
-
-This skill works well with:
-- `content-implementer`: Apply these principles when creating new content
-- `educational-validator`: Validate refined content still meets pedagogical requirements

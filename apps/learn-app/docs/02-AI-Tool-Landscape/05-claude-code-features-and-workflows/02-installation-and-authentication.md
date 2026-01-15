@@ -44,6 +44,8 @@ learning_objectives:
     bloom_level: "Understand"
     assessment_method: "Explanation of sandbox mode, file access patterns, and command approval workflows"
 
+- **Leads to**: Lesson 3 (free Gemini alternative) or Lesson 8 (Agent Skills)
+
 # Cognitive load tracking
 cognitive_load:
   new_concepts: 8
@@ -81,7 +83,7 @@ This isn't just about following installation commands. It's about crossing the b
 
 This lesson covers the **official Claude subscription setup** (Pro $20/month or Max $200/month). If you prefer a **free/minimal cost alternative**, see **Lesson 3: Free Claude Code Setup with Google Gemini**.
 
-**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 04-12).
+**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 05-13).
 
 | Path | Cost | What You Get |
 |------|------|--------------|

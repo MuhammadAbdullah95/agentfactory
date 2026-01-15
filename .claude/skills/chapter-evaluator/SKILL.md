@@ -53,6 +53,7 @@ Evaluate as a beginner encountering this content for the first time.
 - Story/narrative flow vs disconnected facts
 - Visual breaks (diagrams, tables, code blocks)
 - Pacing variety (concept → hands-on → concept)
+- **Comparative Value** (vs alternatives like VS Code/Copilot)
 
 #### 2.2 Length Assessment
 
@@ -83,6 +84,7 @@ Evaluate as a beginner encountering this content for the first time.
 - Logical flow between paragraphs
 - Transitions between sections
 - Prerequisites assumed vs stated
+- **Safety Checks:** No concatenated commands or risky copy-pastes
 
 #### 2.4 Hands-On Effectiveness (1-10)
 
@@ -218,7 +220,7 @@ Evaluate as an instructional designer assessing pedagogical soundness.
 - 2-3 prompts per lesson (not 1, not 5+)
 - Prompts reference lesson content specifically
 - Progressive difficulty across prompts
-- "What you're learning" explanations present
+- "What's you're learning" explanations present
 
 #### 3.6 Assessment/Verification Quality (1-10)
 
@@ -235,6 +237,82 @@ Evaluate as an instructional designer assessing pedagogical soundness.
 - "You should see X" confirmations
 - Error states explained
 - End-of-lesson checkpoint
+
+## Dimension Criticality & Publication Gate
+
+**CRITICAL**: Not all dimensions are equally important for publication. Use this gate to determine if content is ready.
+
+### Gate Dimensions (MUST BE 7+)
+
+These dimensions BLOCK publication if below 7/10. Fix these first.
+
+| Dimension | Why Critical | Remediation |
+|-----------|-------------|------------|
+| **Clarity** | If unclear, nothing works. Confused students abandon. | Use `technical-clarity` skill |
+| **Scaffolding** | Poor progression breaks learning. Students can't build on prior knowledge. | Use `concept-scaffolding` skill |
+| **Layer Appropriateness** | Wrong layer means students lack prerequisites or are under-challenged. | Redesign layer; check prerequisites |
+
+### Important Dimensions (6+)
+
+These should be strong but minor issues are fixable.
+
+| Dimension | Target | Remediation |
+|-----------|--------|------------|
+| **Engagement** | 6+ | Use `code-example-generator` for better examples |
+| **Learning Objectives** | 6+ | Use `learning-objectives` skill |
+| **Assessment/Verification** | 6+ | Add verification steps; clarity checks |
+| **Cognitive Load** | 6+ | Reduce concepts per lesson; add practice |
+
+### Enhancement Dimensions (5+)
+
+These are nice-to-have; publication doesn't require perfection here.
+
+- Progression Clarity (5+)
+- Hands-On Effectiveness (5+)
+- Confidence (5+)
+- Try With AI Effectiveness (5+)
+
+---
+
+## Publication Decision Logic
+
+Use this decision tree AFTER scoring all dimensions:
+
+```
+IF any gate dimension (Clarity, Scaffolding, Layer) < 7:
+  → REVISE: Content not ready
+  → Fix the failing dimension(s)
+  → Re-evaluate
+
+ELSE IF (Engagement < 6) AND (Hands-On < 6):
+  → CONDITIONAL PASS: Functional but needs improvement
+  → Content is usable; improvements recommended
+  → Can publish with revision plan
+
+ELSE IF any important dimension (Objectives, Assessment, Load) < 5:
+  → CONDITIONAL PASS: Missing elements but learnable
+  → Flag for revision; can publish
+
+ELSE:
+  → PASS ✅: Ready for publication
+  → All gate dimensions 7+
+  → Most important dimensions 6+
+```
+
+### Example Decision
+
+**Chapter Evaluation Results:**
+- Clarity: 8 ✅
+- Scaffolding: 7 ✅
+- Layer Appropriateness: 8 ✅
+- Engagement: 5 (below ideal)
+- Cognitive Load: 7 ✅
+- Learning Objectives: 6 ✅
+- Assessment: 7 ✅
+
+**Decision**: PASS ✅ — All gate dimensions 7+. Engagement is low, but structure is solid. Recommend: Add more compelling examples in next revision.
+
+---
 
 ### Step 4: Gap Analysis
 
@@ -378,6 +456,37 @@ Generate analysis in this structure:
 | 1 | [Issue] | [Action] | Low/Med/High | L0X |
 ...
 
+## Publication Decision
+
+### Gate Status
+| Gate | Dimension | Score | Status |
+|------|-----------|-------|--------|
+| 🚧 BLOCK if <7 | Clarity | X/10 | ✅/❌ |
+| 🚧 BLOCK if <7 | Scaffolding | X/10 | ✅/❌ |
+| 🚧 BLOCK if <7 | Layer Appropriateness | X/10 | ✅/❌ |
+
+### Publication Verdict
+**Status**: [PASS ✅ | CONDITIONAL | REVISE]
+**Recommendation**: [Ready for publication | Fix gates first | Needs revision plan]
+
+## Next Steps
+
+If PASS:
+- [ ] Ready for publication
+- [ ] Note: Optional improvements in Priority 3 section above
+
+If CONDITIONAL:
+- [ ] Content is functional
+- [ ] Recommended: Address Priority 1 issues in next iteration
+- [ ] Can publish now; plan revision cycle
+
+If REVISE:
+- [ ] STOP: Fix gate dimensions first
+- [ ] [Gate dimension 1]: [Specific action]
+- [ ] [Gate dimension 2]: [Specific action]
+- [ ] Use remediation skills: [skill-1, skill-2]
+- [ ] Re-evaluate after fixes
+
 ## Summary Metrics
 
 | Metric | Value |
@@ -387,6 +496,7 @@ Generate analysis in this structure:
 | Student Score | X/10 |
 | Teacher Score | X/10 |
 | Overall Score | X/10 |
+| Gate Pass? | Yes/No |
 | Critical Issues | X |
 | Estimated Fix Time | X hours |
 ```

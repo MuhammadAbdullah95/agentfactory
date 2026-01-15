@@ -740,4 +740,4 @@ Once your free setup is working, try these prompts to verify everything works:
 
 ---
 
-That's it. Proceed to **Lesson 04** to learn about teaching Claude your way of working.
+That's it. Proceed to **Lesson 05** to learn about teaching Claude your way of working.

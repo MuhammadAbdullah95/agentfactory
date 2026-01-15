@@ -1981,13 +1981,10 @@ Common convergence points we've observed:
 
 **Domain Knowledge**: `specs/book/chapter-index.md`, `.claude/skills/`, `.claude/output-styles/`
 
-**Strategic Frameworks**: `papers/compass_artifact_wf-411b5e9e-2fa8-4d2a-9086-5d63431afb98_text_markdown.md` (reasoning activation research)
 
 **Book Vision**: `apps/learn-app/docs/preface-agent-native.md`, `apps/learn-app/docs/thesis.md`
 
 ---
-
-**This constitution activates reasoning mode in AI agents through Persona + Questions + Principles pattern. It replaces rule-following (prediction mode) with decision frameworks (reasoning mode). All principles are progressive—applying differently across Layers 1-4 and complexity tiers A1-C2.**
 
 **Version 7.0.0 represents a MAJOR paradigm shift from "AI-native development" to "Agent Factory" thesis. The book's purpose is now explicitly to produce Digital FTEs—sellable AI products that encode domain expertise. Every lesson must contribute to this outcome.**
 

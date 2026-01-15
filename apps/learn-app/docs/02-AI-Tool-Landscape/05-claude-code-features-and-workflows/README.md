@@ -21,14 +21,18 @@ By the end of this chapter, you'll have:
 
 - **General Agents Explained** — Understanding why Claude Code is fundamentally different from coding assistants: the OODA reasoning loop, the "Trojan Horse" insight, and code as a universal interface to any domain
 - **Claude Code Installed & Working** — Complete setup with **two different paths**: Official Claude Pro/Max subscription (Lesson 2) OR Free Google Gemini backend (Lesson 3). Both teach identical Claude Code skills
-- **Persistent Project Context** — Creating CLAUDE.md files that eliminate repetitive context-sharing in every session
-- **External Integration** — MCP servers for safe access to external systems (web, APIs, docs) with practical Playwright and Context7 workflows
-- **Token Optimization** — Compiling MCP servers to Skills for 80-98% token reduction through code execution patterns and progressive disclosure
-- **Subagent Orchestration** — Recognizing when Claude automatically delegates to Explore agent (codebase search) or Plan mode (complex tasks) with hands-on exercises
-- **Autonomous Expertise** — Agent Skills with progressive disclosure pattern (metadata → full definition → supporting files) and autonomous discovery
-- **Skill Factory Pattern** — Using skill-creator to generate skills efficiently, building integrated skill systems, and understanding meta-skill concepts
-- **Event-Driven Automation** — Hooks for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart) with hands-on SessionStart hook creation
-- **Configuration Mastery** — Settings hierarchy (User, Project, Local) and precedence rules for team collaboration and personal customization
-- **Complete Extensibility** — Discovering and using plugins from marketplaces, hands-on installation of Anthropic's official skills repository
-- **From Skills to Business** — Understanding how Skills become monetizable products, the Digital FTE model, four revenue approaches, and the path from expertise to enterprise
-- **The Creator's Workflow** — How Boris Cherny (Claude Code's creator) uses Claude Code: parallel sessions, Plan Mode discipline, team CLAUDE.md practices, verification loops, and the principles that make it all work together
+- **Hello World** — Mastering the CLI interface (Lesson 4): slash commands, permission loops, and the "Cost Pill" for safe and efficient usage
+- **Persistent Project Context** — Creating CLAUDE.md files (Lesson 5) that eliminate repetitive context-sharing and establish team memory
+- **Teach Claude Your Way** — Mastering custom instructions (Lesson 6) to align Claude's behavior with your personal or team standards
+- **Autonomous Expertise** — Agent Skills (Lessons 7-8) with prompt patterns (Persona + Questions + Principles) and autonomous discovery
+- **Skill Factory Pattern** — Using skill-creator (Lesson 9) to generate skills efficiently and building integrated skill systems
+- **External Integration** — MCP servers (Lesson 10) for safe access to external systems with practical Playwright and Context7 workflows
+- **Token Optimization** — Compiling MCP servers to Skills (Lesson 11) for 80-98% token reduction through progressive disclosure
+- **Subagent Orchestration** — Recognizing when Claude automatically delegates to Explore agent or Plan mode (Lesson 12) for complex tasks
+- **Configuration Mastery** — Settings hierarchy (Lesson 13) and precedence rules (User, Project, Local) for team collaboration
+- **Event-Driven Automation** — Hooks (Lesson 14) for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart)
+- **Complete Extensibility** — Discovering and using plugins (Lesson 15) from marketplaces like Anthropic's official skills repository
+- **Autonomous Iteration** — The Ralph Wiggum Loop (Lesson 16) for self-correcting, multi-step autonomous workflows
+- **Strategic Tool Selection** — A decision framework (Lesson 17) for choosing between Skills, Subagents, MCP, and Hooks based on workflow needs
+- **The Creator's Workflow** — How Boris Cherny (Lesson 18) uses Claude Code: parallel sessions, Plan Mode discipline, and verification loops
+- **From Skills to Business** — Understanding how Skills become monetizable products (Lesson 19), the Digital FTE model, and the path to revenue
