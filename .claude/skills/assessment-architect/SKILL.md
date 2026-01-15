@@ -227,20 +227,36 @@ Create distinct sections per source or merge thematically (user preference).
 
 ---
 
+## Output Location
+
+All generated assessments are automatically saved to:
+```
+assessments/
+├── assessment-chapter-5-claude-code-features.md
+├── test-part-2-ai-native-development.docx
+└── quick-quiz-kubernetes-fundamentals.pdf
+```
+
+**Features**:
+- ✅ `assessments/` folder auto-created if missing
+- ✅ Filenames cleaned from titles (lowercase, hyphens, no special chars)
+- ✅ Format extension added automatically
+- ✅ Easy to organize and share
+
+---
+
 ## Output Format
 
 ```markdown
 # [Exam Title]
-## MIT PhD Qualifying Examination
 
 **Source:** [file(s)]
 **Questions:** [N]
-**Duration:** [X] minutes
-**Generated:** [date]
+**Duration:** Estimated [X] min / Maximum [Y] min
 
 ---
 
-### PART A: [Topic] ([X] Questions)
+## Questions
 
 **Q1.** [Question stem]
 A) [Option]
@@ -252,21 +268,23 @@ D) [Option]
 
 ---
 
-## ANSWER KEY
+## Answer Key
 
-| Q# | Ans | Section | Difficulty | Bloom |
-|----|-----|---------|------------|-------|
+| Q# | Answer | Section | Difficulty | Bloom |
+|----|--------|---------|------------|-------|
 | 1 | C | Part A | Medium | Apply |
 
 ---
 
-## EXPLANATIONS
+## Explanations
 
 ### Q1
 **Correct: C**
-[Explanation with section reference - NO direct quotes]
+[Explanation with section reference]
 Section: [Heading from source]
 ```
+
+**Structure**: Questions → Answer Key (at END) → Explanations
 
 ---
 

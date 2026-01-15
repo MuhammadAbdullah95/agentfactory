@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Output Formatter - Convert exam data to multiple formats
+Output Formatter - Convert exam data to multiple formats and save
 
 Supported formats:
 - markdown: Standard markdown (default, easy to convert)
 - docx: Microsoft Word (uses docx skill)
 - pdf: PDF export (via markdown -> docx -> pdf)
+
+Output location: assessments/ folder in project root (auto-created if needed)
 """
 
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
+from pathlib import Path
+import json
+import re
 
 
 @dataclass
@@ -254,13 +259,100 @@ def format_exam(exam: Exam, format: str = "markdown") -> str:
     if format.lower() == "markdown":
         return format_exam_markdown(exam)
     elif format.lower() in ["docx", "docx-json"]:
-        import json
         return json.dumps(format_exam_docx_json(exam), indent=2)
     elif format.lower() == "pdf":
         # PDF would go through markdown -> docx -> pdf
         return format_exam_markdown(exam)
     else:
         raise ValueError(f"Unsupported format: {format}")
+
+
+def get_assessments_folder() -> Path:
+    """
+    Get or create assessments/ folder in project root.
+
+    Returns:
+        Path to assessments/ directory
+    """
+    # Navigate from: mem/.claude/skills/assessment-architect/scripts/output_formatter.py
+    # To: mem/assessments/
+    current_file = Path(__file__).resolve()
+    root = current_file.parents[4]  # mem/
+    assessments_dir = root / "assessments"
+
+    # Create if doesn't exist
+    assessments_dir.mkdir(exist_ok=True)
+
+    return assessments_dir
+
+
+def generate_filename(exam_title: str, format: str) -> str:
+    """
+    Generate clean filename from exam title.
+
+    Example: "Assessment: Chapter 5 - Claude Code" → "assessment-chapter-5-claude-code.md"
+
+    Args:
+        exam_title: Exam title
+        format: File format (markdown, docx, pdf)
+
+    Returns:
+        Filename with extension
+    """
+    # Clean title: lowercase, replace spaces with hyphens, remove special chars
+    clean = exam_title.lower()
+    clean = re.sub(r'[^a-z0-9\s\-]', '', clean)  # Remove special chars
+    clean = re.sub(r'\s+', '-', clean)  # Spaces to hyphens
+    clean = re.sub(r'-+', '-', clean)  # Multiple hyphens to single
+    clean = clean.strip('-')  # Strip leading/trailing hyphens
+
+    # Add extension
+    extensions = {
+        'markdown': '.md',
+        'md': '.md',
+        'docx': '.docx',
+        'pdf': '.pdf'
+    }
+    ext = extensions.get(format.lower(), '.md')
+
+    return f"{clean}{ext}"
+
+
+def save_exam(
+    exam: Exam,
+    content: str,
+    format: str = "markdown"
+) -> Tuple[Path, str]:
+    """
+    Save exam to assessments/ folder and return path + filename.
+
+    Args:
+        exam: Exam object (for title)
+        content: Formatted exam content
+        format: Output format (markdown, docx, pdf)
+
+    Returns:
+        Tuple of (file_path, formatted_message)
+    """
+    # Get output directory
+    assessments_dir = get_assessments_folder()
+
+    # Generate filename
+    filename = generate_filename(exam.title, format)
+    file_path = assessments_dir / filename
+
+    # Save file
+    if format.lower() in ["docx", "docx-json"]:
+        # JSON content for docx (will be processed by docx skill)
+        file_path.write_text(content, encoding='utf-8')
+    else:
+        # Markdown/PDF as text
+        file_path.write_text(content, encoding='utf-8')
+
+    # Return confirmation message
+    message = f"✅ Saved to: assessments/{filename}\n   Full path: {file_path}"
+
+    return file_path, message
 
 
 if __name__ == "__main__":
