@@ -56,3 +56,5 @@ cloud-books/
 
 # IDE caches
 .git/cursor
+assessments/
+local/
