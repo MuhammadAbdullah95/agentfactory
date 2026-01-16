@@ -101,26 +101,54 @@ Gather context to ensure successful exam generation:
 
 ---
 
-## Assessment Specifications
+## Assessment Specifications by Tier
 
-| Parameter | Value | Notes |
-|-----------|-------|-------|
-| **Questions** | 90-120 (typical) | Min 25, Max 120 |
-| **Estimated Time** | 1-2.5 hours | ~1 min/question (varies by content type) |
-| **Maximum Duration** | 180 min (3 hours) | Hard cap on test duration |
-| **Points** | 1 per question | Equal weighting |
-| **Time Estimation** | Auto-calculated | Content type affects pace (conceptual slower, coding slower) |
+### Questions & Duration
 
-### Grading Scale
+| Tier | Questions | Est. Time | Max Duration |
+|------|-----------|-----------|--------------|
+| **T1 (Foundational)** | 50-100 | 1-1.5 hours | 2 hours |
+| **T2 (Intermediate)** | 100-150 | 1.5-2.5 hours | 3 hours |
+| **T3 (Advanced)** | 150-200 | 2.5-4 hours | 4 hours |
+| **T4 (PhD Qualifying)** | 200-250 | 3-6 hours | 6 hours |
 
-| Grade | % | Classification |
-|-------|---|----------------|
-| A+ | 95-100 | Exceptional - PhD qualifying |
-| A | 90-94.99 | Strong mastery |
-| B+ | 85-89.99 | Good foundation |
-| B | 80-84.99 | Satisfactory |
-| C | 70-79.99 | Marginal pass |
-| F | <70 | Fail - Retake required |
+**Time Calculation:** ~1 min/question base, adjusted by content type (conceptual +20%, procedural +30%, coding +25%)
+
+**Points:** 1 per question (equal weighting)
+
+### Grading Scales by Tier
+
+#### T1: Foundational Certification
+| Grade | % | Pass? |
+|-------|---|-------|
+| Pass with Distinction | 90-100 | ✓ |
+| Competent | 80-89% | ✓ |
+| Minimally Competent | 70-79% | ✓ |
+| Not Yet Competent | <70% | ✗ |
+
+#### T2: Intermediate Certification
+| Grade | % | Pass? |
+|-------|---|-------|
+| Expert | 90-100% | ✓ |
+| Proficient | 80-89% | ✓ |
+| Competent | 75-79% | ✓ |
+| Needs Improvement | <75% | ✗ |
+
+#### T3: Advanced Certification
+| Grade | % | Pass? |
+|-------|---|-------|
+| Advanced Mastery | 90-100% | ✓ |
+| Solid Expertise | 85-89% | ✓ |
+| Competent Specialist | 80-84% | ✓ |
+| Does Not Meet Standard | <80% | ✗ |
+
+#### T4: PhD Qualifying
+| Grade | % | Pass? |
+|-------|---|-------|
+| Exceptional - Research Ready | 95-100% | ✓ |
+| Strong - Research Ready | 90-94% | ✓ |
+| Acceptable - Doctoral Qualified | 85-89% | ✓ |
+| Does Not Meet Doctoral Standard | <85% | ✗ |
 
 ---
 
@@ -145,12 +173,17 @@ Gather context to ensure successful exam generation:
    │   ├── T3 (Advanced): Specialist credential, 40% pass expected
    │   └── T4 (PhD Qualifying): Doctoral preparation, 25% pass expected
    │
-   ├── QUESTION 2: Question Count & Time
-   │   └── Show tier-specific recommendation (T1:50-100, T2:100-150, T3:150-200, T4:200-250)
-   │   └── Options: Accept / More challenging (+15%) / Quick (-35%) / Custom
+   ├── QUESTION 2: Question Count & Time ⭐ (Tier-Specific)
+   │   ├── SHOW RECOMMENDATION: "[Tier] Recommendation: 120 questions (1.5-2.5 hours estimated / 3 hours max)"
+   │   ├── OPTIONS:
+   │   │   ├── Accept recommended (Default for tier)
+   │   │   ├── More challenging (+15% questions)
+   │   │   ├── Quick (-35% questions, shorter time)
+   │   │   └── Custom count (25-250 range)
+   │   └── Display time calculation based on content type
    │
    └── QUESTION 3: Output Format
-       └── Options: DOCX (professional printable) / Markdown / PDF
+       ├── Options: DOCX (professional printable) / Markdown (git-friendly) / PDF (printable)
        └── Default: DOCX
 
 4. SELECT DISTRIBUTION (from references/academic-rigor-tiers.md)
@@ -347,11 +380,25 @@ Create distinct sections per source or merge thematically (user preference).
 
 ---
 
-## Output Location
+## Output Location & Paths
 
-All generated assessments are automatically saved to:
+### Source Content Path
+```
+apps/learn-app/docs/
+├── 01-agent-factory-paradigm/
+├── 02-AI-Tool-Landscape/
+│   └── 05-claude-code-features-and-workflows/
+│       ├── 04-hello-world-basics.md
+│       ├── 05-tool-landscaping.md
+│       └── [... other lessons ...]
+└── [... other chapters ...]
+```
+**How to specify:** "Create exam for Chapter 5" → Auto-discovers `02-AI-Tool-Landscape/05-claude-code-features-and-workflows/*.md`
+
+### Generated Assessment Output Path
 ```
 assessments/
+├── assessment-chapter-5-claude-code-features.docx
 ├── assessment-chapter-5-claude-code-features.md
 ├── test-part-2-ai-native-development.docx
 └── quick-quiz-kubernetes-fundamentals.pdf
@@ -359,9 +406,19 @@ assessments/
 
 **Features**:
 - ✅ `assessments/` folder auto-created if missing
-- ✅ Filenames cleaned from titles (lowercase, hyphens, no special chars)
-- ✅ Format extension added automatically
-- ✅ Easy to organize and share
+- ✅ Filenames cleaned from exam title (lowercase, hyphens, no special chars)
+- ✅ Format extension added automatically (.docx / .md / .pdf)
+- ✅ All formats saved simultaneously (use whichever you prefer)
+- ✅ Easy to organize and share with students/stakeholders
+
+**Example filename derivation:**
+```
+User input: "Create exam for Chapter 5: Claude Code Features and Workflows"
+Generated outputs:
+  - assessment-chapter-5-claude-code-features.docx (professional printing)
+  - assessment-chapter-5-claude-code-features.md (version control, editing)
+  - assessment-chapter-5-claude-code-features.pdf (digital distribution)
+```
 
 ---
 
