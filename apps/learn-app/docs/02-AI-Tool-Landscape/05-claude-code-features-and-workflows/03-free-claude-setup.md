@@ -88,16 +88,10 @@ Before setup, decide which backend suits you. All three options provide identica
 | Factor | OpenRouter | Gemini | DeepSeek |
 | :--- | :--- | :--- | :--- |
 | **Available Models** | 5+ free options | Gemini 2.5 Flash | DeepSeek Chat/Reasoner |
-| **Free Tier** | Multiple models, token-based | Generous, no daily limit | Token-based (~$0.14/M tokens) |
-| **Best For** | Model flexibility + diversity | Learning + production | High-volume coding |
+| **Free Tier** | Daily request limits per model | Daily request limits | Token-based (~$0.14/M tokens) |
 | **Speed** | Very Fast | Very Fast | Fast |
 | **Setup Complexity** | Manual, most transparent | Easiest (few steps) | Slightly more involved |
 | **Reasoning Models** | Available (Qwen, Llama) | Native support | Native support |
-
-**Our recommendation:**
-- **Beginner:** Start with **Gemini** for simplicity
-- **Exploratory:** Use **OpenRouter** for model variety (no vendor lock-in)
-- **Production Coding:** Scale to **DeepSeek** for high volumes
 
 ---
 
@@ -228,7 +222,7 @@ You should see your API key displayed ✅
 
 ---
 
-### ✅ Verify Setup
+### Verify Setup
 
 ```powershell
 claude --version     # Should show: Claude Code v2.x.x
@@ -314,7 +308,7 @@ source ~/.zshrc
 
 ---
 
-### ✅ Verify Setup
+### Verify Setup
 
 ```bash
 claude --version          # Should show: Claude Code v2.x.x
@@ -404,7 +398,7 @@ Run `echo $SHELL` to see which shell you use. If it shows `/bin/zsh`, use `~/.zs
 
 ---
 
-### ✅ Verify Setup
+### Verify Setup
 
 ```bash
 claude --version          # Should show: Claude Code v2.x.x
@@ -628,7 +622,7 @@ You should see your API key displayed ✅
 
 ---
 
-### ✅ Verify Setup
+### Verify Setup
 
 ```powershell
 claude --version     # Should show: Claude Code v2.x.x
@@ -711,7 +705,7 @@ source ~/.zshrc
 
 ---
 
-### ✅ Verify Setup
+### Verify Setup
 
 ```bash
 claude --version     # Should show: Claude Code v2.x.x
@@ -798,7 +792,7 @@ Run `echo $SHELL` to see your shell. If it shows `/bin/zsh`, use `~/.zshrc` inst
 
 ---
 
-### ✅ Verify Setup
+### Verify Setup
 
 ```bash
 claude --version     # Should show: Claude Code v2.x.x
