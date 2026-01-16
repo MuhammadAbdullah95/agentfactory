@@ -1,501 +1,244 @@
 ---
 name: assessment-architect
-description: Create rigorous assessments with scope intelligence, adaptive distribution, and automatic bias prevention. Auto-discovers Chapter/Part scope, detects content type (conceptual/procedural/coding), generates questions with aligned question types, and eliminates answer patterns. Scales intelligently from 25-200 questions (typically 90-120). Triggers on "create quiz", "generate exam", "make practice questions", "assessment", or "test me on".
+description: Generate MIT-standard assessments through plan-validate-iterate cycles. Reads source material and generates question plans validated against psychometric standards (DIF, DIS, DF, KR-20). Subagents reason autonomously about question distribution based on content type and cognitive requirements. Adaptive scoring from 25-120 questions with automatic feedback loops for quality improvement. Triggers on "create quiz", "generate exam", "make practice questions", "assessment", or "test me on".
 ---
 
-# Assessment Architect
+# Assessment Architect (MIT Standard)
 
-Create intelligent, bias-free assessments from structured content with scope discovery and adaptive question distribution.
+Generate rigorous, pedagogically sound assessments using Claude reasoning for each question type.
+
+## Core Principle
+
+**MIT-Standard = Pedagogically Sound + Psychometrically Valid + Unbiased**
+
+Each assessment must meet these standards:
+- **DIF** (Difficulty Index): 55-70% correct answers (balance between too easy/hard)
+- **DIS** (Discrimination Index): > 0.30 (strong questions differentiate performers)
+- **DF** (Distractor Functionality): ≥ 5% (all options are plausible)
+- **KR-20** (Reliability): ≥ 0.70 (consistent across test-takers)
+- **Bloom Distribution**: 25% Remember/Understand, 35% Apply, 30% Analyze, 10% Evaluate
+
+Each question generated through Claude reasoning:
+1. Testable concept extraction from source material
+2. Pedagogically appropriate question type selection
+3. Reference-guided distractor generation using academic strategies
+4. Real-time validation against psychometric standards
+
+---
 
 ## What This Skill Does
 
-- **Scope Intelligence**: Parse "Chapter 5" or "Part 2" → Auto-discovers all lessons
-- **Content Classification**: Analyzes content type (conceptual/procedural/coding/mixed)
-- **Adaptive Distribution**: Selects question type mix based on content (more Conceptual Distinction for conceptual content, more Specification Design for coding)
-- **Intelligent Scaling**: Auto-recommends question count (25-200 range, typical 90-120 for full chapters)
-- **Bias Prevention**: Detects and eliminates length bias, position bias, specificity bias
-- **Multi-format Output**: Default DOCX (professional documents), also Markdown and PDF
-- **Quality Validation**: Validates answer distribution, difficulty spread, source coverage, and answer biases
+**Default: T2 Intermediate Certification** (adjustable via user config)
+
+### Exam Structure
+- **100-150 questions** (100 default for T2)
+- **150-180 minutes** (2.5-3 hours, adjustable)
+- **Pass threshold**: 75%
+- **Question Type Distribution**:
+  - Precision_Recall (factual): 15%
+  - Conceptual_Distinction (compare/contrast): 20%
+  - Critical_Evaluation (trade-offs/analysis): 20%
+  - Architecture_Analysis (system integration): 20%
+  - Decision_Matrix (scenario-based): 25%
+
+### Workflow
+1. **Scope Discovery**: Parse request → Auto-discover lesson structure
+2. **Content Analysis**: Extract testable concepts and classify cognitive requirements
+3. **Autonomous Planning**: Subagents reason about optimal distribution
+4. **Validation Loop**: Check against DIF/DIS/DF/KR-20 standards
+5. **Iteration**: Subagents refine until all questions pass validation
+6. **Format Output**: Generate DOCX, Markdown, or PDF (uses `/docx` skill for DOCX generation)
 
 ---
 
-## Required Clarifications (AskUserQuestion)
+## How It Works
 
-The skill automatically asks users **two key questions**:
+### Phase 1: Scope Discovery & Analysis
 
-| # | Question | Options | Default |
-|----|----------|---------|---------|
-| 1 | **Question Count & Time** | Accept recommended / More challenging / Quick / Custom | Auto-recommended (90-120) |
-| 2 | **Output Format** | DOCX (printable) / Markdown / PDF | DOCX (professional) |
+```
+INPUT: "Generate exam for Chapter 5"
 
-**Note**: Scope is auto-discovered and confirmed, no user decision needed.
+STEP 1: Auto-discover scope
+  └── List all Part directories (01-, 02-, 03-, ...)
+  └── For Part 2, find Chapter 05 subdirectory
+  └── Discover 18 lessons in 05-claude-code-features-and-workflows/
 
-### Format Details
+STEP 2: Content analysis
+  └── Read all 18 lessons
+  └── Extract testable concepts (~5-8 per lesson = 95 total concepts)
+  └── Classify content type: Procedural (70%) + Conceptual (30%)
+  └── Note Bloom levels for each concept
+  └── Determine question count: 100 questions (standard T2 tier)
+```
 
-**DOCX (Recommended - Printable Format)**
-- Professional exam header: Title, exam code, question count, duration
-- Questions: Each on new line with all options on separate lines (A., B., C., D.)
-- Answer Key: Compact quick reference (10 answers per line for fast checking)
-- Explanations: Full detailed section for each question with source context
-- **Best for**: Printing, formal assessment, professional distribution
+### Phase 2: User Configuration
 
-**Markdown**
-- Version control friendly (text-based)
-- Table-based answer key (detailed with metadata)
-- Full explanations with source sections
-- **Best for**: Editing, version control, publishing to web
+Ask two questions:
 
-### Optional Clarifications
+| # | Question | Default |
+|----|----------|---------|
+| 1 | **Question Count & Time?** | 100 questions (2 hours estimated, 3 hour max) |
+| 2 | **Output Format?** | DOCX (professional) |
 
-Ask only if relevant:
-- Specific sections to emphasize or exclude?
-- Target audience adjustment (undergrad vs PhD)?
+### Phase 3: Distribution Strategy
 
-### Scope Examples
+**T2 Intermediate Certification** targets practicing professionals (default tier):
 
-- "Generate exam for Chapter 5" → Auto-discovers 12 lessons in Chapter 5
-- "Generate exam for Part 2" → Auto-discovers all 8 chapters in Part 2
-- "From these files: lesson1.md, lesson2.md" → Use explicit files
+#### Question Types (why this distribution)
 
+| Type | Count | Cognitive Focus | Purpose |
+|------|-------|---|---|
+| **Precision_Recall** | 15 | Remember/Understand | Ensure foundational knowledge |
+| **Conceptual_Distinction** | 20 | Understand/Apply | Distinguish between similar concepts |
+| **Critical_Evaluation** | 20 | Analyze/Evaluate | Identify trade-offs and limitations |
+| **Architecture_Analysis** | 20 | Apply/Analyze | Understand system integration |
+| **Decision_Matrix** | 25 | Apply/Analyze | Multi-criteria decision-making in context |
+
+#### Bloom's Cognitive Distribution
+
+| Level | % | Definition |
+|-------|---|---|
+| **Remember/Understand** | 25% | Recall facts and basic comprehension |
+| **Apply** | 35% | Use knowledge in new situations |
+| **Analyze** | 30% | Break down and understand relationships |
+| **Evaluate** | 10% | Make judgments based on criteria |
+
+### Phase 4: Generation + Validation Loop
+
+**Reference Directory**: `references/`
+
+Spawn parallel subagent for each question type. Each subagent:
+
+1. **Read source material** from lesson directory
+2. **Read MIT standards references**:
+   - `references/distractor-generation-strategies.md`
+   - `references/psychometric-standards.md`
+   - `references/bloom-taxonomy.md`
+   - `references/academic-rigor-tiers.md`
+3. **Generate question plan** (NOT final questions yet)
+   - Propose question types and distribution based on content analysis
+   - Show reasoning for each choice
+   - Output: JSON with proposed questions + reasoning
+4. **Main session validates plan** against psychometric standards
+
+### Phase 4B: Validation & Iteration
+
+Validate each question against T2 Intermediate standards:
+
+#### Per-Question Validation
+
+| Metric | What It Means | Target | Action If Failed |
+|--------|---|---|---|
+| **DIF** (Difficulty Index) | % of test-takers answering correctly | 55-70% | Too easy? Add complexity. Too hard? Clarify wording |
+| **DIS** (Discrimination Index) | How well question differentiates top vs bottom performers | > 0.30 | Top performers answering incorrectly? Ambiguous wording or trick question → revise |
+| **DF** (Distractor Functionality) | % selecting each distractor (should be plausible) | ≥ 5% each | No one selecting a distractor? Too obviously wrong → make more plausible |
+| **Position Bias** | Answer distribution across A/B/C/D | 20-30% per letter | Skewed? Adjust answer keys to avoid patterns |
+
+#### Per-Assessment Validation (100 questions)
+
+| Metric | Target | What It Measures |
+|--------|--------|---|
+| **KR-20** | ≥ 0.70 | Overall test reliability (internal consistency) |
+| **Type Distribution** | 15/20/20/20/25 | Cognitive diversity (not all recall, not all analysis) |
+| **Bloom Distribution** | 25%/35%/30%/10% | Cognitive level alignment with T2 standards |
+| **Position Distribution** | 20-30% per letter | No answer key patterns (no 4+ consecutive A's) |
+
+**If validation fails:**
+- Flag specific questions with feedback (e.g., "DIS = 0.15, target > 0.30")
+- Subagent iterates using validation data
+- Revalidate and repeat
+
+**If validation passes:**
+- Proceed to final question generation with explanations
+- Include psychometric metadata in output
+
+### Phase 5: Assembly & Output
+
+Merge all validated questions into final assessment:
+
+1. **Combine all question types** in optimal order (mix across cognitive levels)
+2. **Final validation checks**:
+   - Position distribution 20-30% per letter
+   - No >3 consecutive same-letter answers
+   - All Bloom levels represented
+   - Calculate KR-20 (overall reliability, should be ≥ 0.70)
+3. **Generate assessment**:
+   - Markdown version (version control, easy to edit)
+   - Include metadata: DIF, DIS, DF, Bloom level for each question
+   - Include answer key with rationales
+4. **Convert to DOCX** (if requested):
+   - Use `/docx` skill: "Create professional exam in DOCX format from markdown assessment"
+   - Formats with: header (title, instructions), questions numbered, answer key at end
+   - Ready for printing/distribution
 
 ---
 
-## Before Implementation
+## Reference Materials for Autonomous Reasoning
 
-**Gather context to ensure successful autonomous question generation:**
+Subagents access these materials to reason about MIT-standard assessment design:
 
-| Source | Gather | Autonomous Reasoning |
-|--------|--------|---------------------|
-| **Scope Discovery** | Parse user input for chapter identifier (e.g., "Chapter 5"). Traverse hierarchy: (1) List all Part dirs (01-, 02-, 03-...) in apps/learn-app/docs/, (2) For each Part, list subdirectories to find chapters, (3) Match requested chapter number, (4) Return chapter directory path and discover lessons. Handles "Chapter X", "Part Y", "Part Y, Chapter X" formats. | Scopes auto-discovered; no manual path entry needed except for custom multi-file inputs |
-| **Content Classification** | Analyze content type (conceptual/procedural/coding/mixed) to inform distribution selection. | Determines which question types to emphasize (Conceptual → +7% Conceptual Distinction; Coding → +8% Specification Design) |
-| **Concept Extraction** | Extract 5-8 testable concepts per lesson. Note complexity (factual, procedural, conceptual, evaluative). | Used later to decide question type (factual → Precision Recall; conceptual → Conceptual Distinction; scenario → Decision Matrix) |
-| **Reference Mapping** | For each concept, note source section and Bloom level (Remember/Understand/Apply/Analyze/Evaluate/Create). | Ensures every question has source context in explanations. |
-| **Distribution Budget** | Select Bloom distribution (25% Remember/Understand, 20% Apply, 25% Analyze, 18% Evaluate, 12% Create) and question type distribution per academic-rigor-tiers.md. | Creates type budget: "of 100 questions, Precision Recall = 10, Conceptual Distinction = 15, etc." Used for batch coordination. |
+| Reference | Path | Purpose |
+|-----------|------|---------|
+| **Distractor Strategies** | `references/distractor-generation-strategies.md` | Pedagogically sound distractor design for each question type |
+| **Academic Rigor Tiers** | `references/academic-rigor-tiers.md` | T1-T4 frameworks for assessment difficulty and grading |
+| **Psychometric Standards** | `references/psychometric-standards.md` | DIF/DIS/DF/KR-20 validation metrics and targets |
+| **Bloom's Taxonomy** | `references/bloom-taxonomy.md` | Cognitive levels and question type mapping |
 
-
-**State File Management** (Priority 2):
-Before generation, create `questions_progress.json`:
-```json
-{
-  "total_questions": 100,
-  "batch_strategy": "parallel_5x20",
-  "batches": [
-    {"batch_id": 1, "range": "Q1-Q20", "status": "pending", "generated": 0},
-    {"batch_id": 2, "range": "Q21-Q40", "status": "pending", "generated": 0},
-    {"batch_id": 3, "range": "Q41-Q60", "status": "pending", "generated": 0},
-    {"batch_id": 4, "range": "Q61-Q80", "status": "pending", "generated": 0},
-    {"batch_id": 5, "range": "Q81-Q100", "status": "pending", "generated": 0}
-  ],
-  "global_distribution": {
-    "position": {"A": 0, "B": 0, "C": 0, "D": 0},
-    "question_types": {"Precision_Recall": 0, "Conceptual_Distinction": 0, ...},
-    "bloom_levels": {"Remember": 0, "Understand": 0, ...},
-    "option_lengths": []
-  }
-}
-```
-
-**Reference Usage During Generation** (Priority 4 - Mandatory Checks):
-
-| Step | Reference File | When | What to Do | Outcome |
-|------|---------|------|-----------|---------|
-| **Step 4** | `academic-rigor-tiers.md` | Before distributing question types | Read tier-specific distributions (T1-T4); select default T2 or user preference | Type targets: "of 100 Q, use 10% Precision Recall, 15% Conceptual Distinction, ..." |
-| **Step 5** (per Q) | `distractor-generation-strategies.md` | After deciding question type (via decision tree) | Read Section [1A/2A/3A/...] matching type; extract specific distractor procedure | 3 distractors generated per type strategy, not generic "plausible" answers |
-| **Step 5** (per 10 Q) | `psychometric-standards.md` | After every 10 questions in batch | Check DIF/DIS/DF/KR-20 thresholds vs tier targets | Validate metrics; if out of range, adjust next 10 questions |
-| **Step 6** | `psychometric-standards.md` | During validation | Check all red flags (DIF too high/low, DIS < min, DF < 5%) | If issues found, flag for review/remediation |
-
-**MANDATORY VALIDATION**: Before generating ANY questions:
-```
-ABORT if ANY missing:
-  ✓ academic-rigor-tiers.md exists? If NO → STOP with error
-  ✓ distractor-generation-strategies.md exists? If NO → STOP with error
-  ✓ psychometric-standards.md exists? If NO → STOP with error
-  ✓ generation-procedures.md exists? If NO → STOP with error
-
-BEFORE STEP 4: READ academic-rigor-tiers.md completely
-BEFORE STEP 5: READ generation-procedures.md completely
-BEFORE STEP 5: READ distractor-generation-strategies.md completely (all 9 sections)
-BEFORE STEP 6: READ psychometric-standards.md completely
-
-If you cannot read these files, ABORT and inform user that references are missing from skill directory.
-```
-
-### Explicit Reference Reading Protocol
-
-**Step 4 (Distribution Selection)**:
-```
-CHECK: Is academic-rigor-tiers.md present?
-READ: Section for selected tier (T1/T2/T3/T4)
-EXTRACT: Question type percentages, Bloom distribution, grading scale, DIF/DIS targets
-APPLY: Create type budget (e.g., "100 questions → 10 Precision Recall, 15 Conceptual Distinction...")
-VALIDATE: Budget matches tier targets
-```
-
-**Step 5 (Per-Question Generation)**:
-```
-FOR EACH QUESTION:
-  1. DECIDE: Use decision tree → Determine question type
-  2. CHECK: Is distractor-generation-strategies.md present?
-  3. READ: Section [1A/2A/3A/4A/4B/5A/5B/6A/6B/7A/8A/9A] matching type decision
-  4. EXTRACT: Type-specific distractor procedure (e.g., "Precision Recall → Off-by-one, unit error, misconception")
-  5. GENERATE: 3 distractors following EXACT procedure from reference
-  6. VALIDATE: Check position/length/distractor_functionality immediately
-```
-
-**Step 5 (Per-10-Questions Checkpoint)**:
-```
-AFTER Q10, Q20, Q30, ... in each batch:
-  1. CHECK: Is psychometric-standards.md present?
-  2. READ: Tier-specific thresholds (Mean DIF, Min DIS, Min DF, KR-20 targets)
-  3. CALCULATE: Current metrics for this batch of 10
-  4. COMPARE: Current vs. tier targets
-  5. ADJUST: If out of range, modify next 10 questions (easier/harder/adjust types)
-  6. UPDATE: Log metrics in questions_progress.json
-```
+Subagents reason through these materials (not follow step-by-step) to generate pedagogically sound assessments that meet validation thresholds.
 
 ---
 
-## Assessment Specifications
-
-| Parameter | Value | Notes |
-|-----------|-------|-------|
-| **Questions** | 90-120 (typical) | Min 25, Max 120 |
-| **Estimated Time** | 1-2.5 hours | ~1 min/question (varies by content type) |
-| **Maximum Duration** | 180 min (3 hours) | Hard cap on test duration |
-| **Points** | 1 per question | Equal weighting |
-| **Time Estimation** | Auto-calculated | Content type affects pace (conceptual slower, coding slower) |
-
-### Grading Scale
-
-| Grade | % | Classification |
-|-------|---|----------------|
-| A+ | 95-100 | Exceptional - PhD qualifying |
-| A | 90-94.99 | Strong mastery |
-| B+ | 85-89.99 | Good foundation |
-| B | 80-84.99 | Satisfactory |
-| C | 70-79.99 | Marginal pass |
-| F | <70 | Fail - Retake required |
-
----
-
-## Generation Workflow with Autonomous Reasoning
-
-```
-1. DISCOVER SCOPE
-   └── Parse input: "Chapter 5", "Part 2", or explicit files
-   └── Auto-discover lessons if scope-based input
-   └── Confirm with user: "Found 19 lessons. Analyzing..."
-
-2. ANALYZE CONTENT
-   └── Read source files → Extract concepts → Map sections
-   └── Detect content type: conceptual / procedural / coding / mixed
-   └── Estimate: 95 concepts (19 lessons × 5 concepts/lesson)
-   └── REASONING: Use complexity assessment to inform type distribution
-
-3. CALIBRATE & ASK USER ⭐ (AskUserQuestion)
-   ├── QUESTION 1: Question Count & Time
-   │   └── Show recommendation: "95 questions (1.6 hours est. / 2.1 hours max)"
-   │   └── Options: Accept / More challenging (+15%) / Quick (-35%) / Custom (25-120)
-   │   └── Display estimated time + maximum time (capped at 3 hours)
-   │
-   └── QUESTION 2: Output Format
-       └── Options: DOCX (professional) / Markdown (version control) / PDF (printable)
-       └── Default: DOCX
-
-4. DISTRIBUTE ADAPTIVELY & CREATE TYPE BUDGET
-   ├── Select tier from academic-rigor-tiers.md (default: T2 Intermediate)
-   ├── Read academic-rigor-tiers.md → Apply tier-specific distributions
-   ├── Detect content type → Modify distributions (Conceptual: +7% Conceptual Distinction; Coding: +8% Specification Design)
-   ├── Create type budget: "of 100 questions, Precision_Recall = 10, Conceptual_Distinction = 15, Decision_Matrix = 12.5, ..."
-   └── REASONING: Budget ensures all batches coordinate on type distribution (Priority 2)
-
-5. PARALLEL BATCH GENERATION (Priority 5)
-   ├── Initialize questions_progress.json with batch schema
-   ├── Calculate concept distribution: 20 concepts per batch
-   ├── SPAWN 5 PARALLEL BACKGROUND TASKS:
-   │   ├── Background Task 1 → Generate Q1-20 (reads progress file, updates atomically)
-   │   ├── Background Task 2 → Generate Q21-40 (reads progress file, updates atomically)
-   │   ├── Background Task 3 → Generate Q41-60 (reads progress file, updates atomically)
-   │   ├── Background Task 4 → Generate Q61-80 (reads progress file, updates atomically)
-   │   └── Background Task 5 → Generate Q81-100 (reads progress file, updates atomically)
-   ├── Main session: Poll progress file every 30s
-   ├── When all batches status="complete": Proceed to Step 6
-   ├── If any batch fails: Retry that batch only (not entire generation)
-   └── REASONING: Parallel batches prevent context overflow & enable quality focus per batch (Priority 5)
-
-   **BACKGROUND TASK TEMPLATE** (see "Background Task Implementation" section below):
-   For each task generating 20 questions:
-   ├── Read shared questions_progress.json
-   ├── Calculate available type budget for this batch (e.g., if 20% Precision Recall total = 20 questions, batch 1 already has 4, batch 2 can have max 4 more)
-   ├── For EACH question Q1-Q20 in batch:
-   │   ├── DECISION 1: Extract concept from lessons
-   │   ├── DECISION 2: Decide question type using decision tree (below)
-   │   ├── DECISION 3: Check type budget - if full, pick different type
-   │   ├── ACTION: Read distractor-generation-strategies.md Section [1A/2A/3A/etc] matching question type (Priority 4)
-   │   ├── ACTION: Generate correct answer + 3 distractors per strategy
-   │   ├── VALIDATE: After every question, check position/length/type distribution (Priority 3)
-   │   │   └── If position B > 30% of batch → Force next answer to A/C/D
-   │   │   └── If avg correct answer > 16 words → Simplify next answer
-   │   │   └── If type exceeds budget → Next question must be different type
-   │   ├── UPDATE: Atomically update questions_progress.json
-   │   └── CONTINUE: Process next question
-   ├── Mark batch as "complete" in progress file
-   └── Return to main session
-
-6. CONTINUOUS VALIDATION (Priority 3) - DURING GENERATION, NOT AFTER
-   ├── Per question: Check position distribution (target 25% per letter)
-   ├── Per question: Check option lengths (all within ±3 words of median)
-   ├── Per question: Check distractor functionality (all should be ≥5% plausible)
-   ├── Per 10 questions: Validate against psychometric-standards.md thresholds
-   │   └── DIF (Difficulty Index) within tier range (T2: 50-65%)
-   │   └── DIS (Discrimination Index) > 0.30
-   │   └── DF (Distractor Functionality) ≥ 5%
-   │   └── KR-20 (Reliability) on track for tier (T2: ≥0.70)
-   ├── Auto-adjust next batch based on metrics
-   └── REASONING: Real-time validation prevents accumulation of bias (Priority 3)
-
-7. ASSEMBLE & OUTPUT (Format Selected by User)
-   ├── DOCX: Professional document (via docx skill)
-   │   └── Structure: Metadata → Questions → Answer Key (at END) → Explanations
-   ├── Markdown: Version control friendly
-   │   └── Same structure, easy to edit
-   └── PDF: Printable (via markdown → docx → pdf conversion)
-```
-
-**See references/generation-procedures.md for detailed decision trees and type-selection logic.**
-
----
-
-## Question Type Distribution
-
-| Type | % | Purpose |
-|------|---|---------|
-| Precision Recall | 10 | Exact values, definitions |
-| Conceptual Distinction | 15 | Paired/contrasting concepts |
-| Decision Matrix | 12.5 | Multi-criteria scenarios |
-| Architecture Analysis | 12.5 | System components, flows |
-| Economic/Quantitative | 10 | Calculations, comparisons |
-| Specification Design | 10 | Framework application |
-| Critical Evaluation | 12.5 | Trade-offs, judgments |
-| Strategic Synthesis | 10 | Multi-concept integration |
-| Research Extension | 7.5 | Novel scenario extrapolation |
-
-See `references/question-patterns.md` for templates and examples.
-
----
-
-## Bloom's Taxonomy Distribution
-
-| Level | % | Question Characteristics |
-|-------|---|--------------------------|
-| Remember/Understand | 25 | Recall facts, explain concepts |
-| Apply | 20 | Use in new situations |
-| Analyze | 25 | Break down, compare, contrast |
-| Evaluate | 18 | Judge, critique, justify |
-| Create/Synthesize | 12 | Design, propose, integrate |
-
-See `references/bloom-taxonomy.md` for level indicators.
-
----
-
-## Answer Construction Rules
-
-### Baseline Requirements
-
-1. **Option A**: Never "All/None of the above"
-2. **Correct Answer**: One clearly correct option
-3. **Distractors**: Plausible but fail on critical detail (70-90% correct)
-4. **Distribution**: Roughly equal A:B:C:D across exam (20-30% per letter)
-5. **Sequences**: No more than 3 consecutive same-letter answers
-
-### Bias Prevention Requirements (NEW)
-
-6. **Length Parity**: All options within ±3 words
-   - Prevents test-takers selecting longest/shortest option
-   - Validated automatically; flagged for manual fix if needed
-
-7. **Specificity Balance**: All options equally detailed
-   - If correct answer includes examples ("e.g.", "such as"), distractors should too
-   - Match qualifier density ("typically", "usually")
-   - Avoid: "Yes" vs "Large organizations with strong metrics and documented processes..."
-
-8. **Position Distribution**: Correct answers evenly spread across A/B/C/D
-   - Target: 25% per letter
-   - Acceptable range: 20-30% per letter
-   - Middle (B+C) ≤55%, Outer (A+D) ≥40%
-   - Auto-fixed using pre-made sequences if imbalanced
-
-See `references/bias-detection-guide.md` for detailed examples and remediation strategies.
-
----
-
-## Autonomous Decision Making: Decision Framework (Priority 1)
-
-**See `references/generation-procedures.md` → Decision Tree for Question Type Selection**
-
-For EACH extracted concept, use the 8-decision tree to autonomously select question type. The decision tree:
-1. Evaluates concept characteristics (exact value? paired concepts? multi-criteria? etc.)
-2. Maps to corresponding question type (Precision Recall, Conceptual Distinction, Decision Matrix, etc.)
-3. Returns strategy section from distractor-generation-strategies.md (e.g., Section 1A, 2B, 3A)
-
-This enables Claude to reason about WHICH question type is appropriate, not just apply templates.
-
----
-
-## Parallel Batch Architecture (Priority 5)
-
-**Why parallel batches?** Sequential generation fills context window, accumulates bias, and creates all-or-nothing failures. Parallel batches enable:
-- 5 × 20 questions instead of 100 sequential
-- Independent validation per batch
-- Shared state prevents conflicts
-- Failure isolation (retry only failed batch)
-
-**See `references/generation-procedures.md` → Parallel Batch Coordination Logic** for budget calculation examples and main session orchestration details.
-
----
-
-## Background Task Implementation (Priority 6)
-
-**See `references/generation-procedures.md` → Background Task Template & Continuous Validation Triggers**
-
-Each background task follows a standard template:
-1. **Setup**: Read questions_progress.json, calculate available budget per type
-2. **Per-Question Loop** (20 iterations):
-   - Extract concept, Decide type (via decision tree), Read strategy, Generate question
-   - Continuous validation: Check position/length/type distributions after EACH question
-   - Auto-adjust next question if metrics drift (e.g., if B > 30%, force next answer to A/C/D)
-3. **Finalization**: Validate batch against psychometric-standards.md, mark complete
-
-**Key Autonomous Decisions**:
-- **Type Selection**: Decision tree based on concept characteristics
-- **Type Enforcement**: Budget check (if Precision Recall budget exhausted, pick different type)
-- **Position Control**: Real-time check (if B > 30% of batch, force next answer to A/C/D)
-- **Length Control**: Real-time check (if option lengths drift, rewrite to maintain ±3 word parity)
-
----
-
-## Multi-Document Handling
-
-When multiple source files provided:
-
-```
-weight[doc] = word_count[doc] / total_word_count
-questions[doc] = round(total_questions * weight[doc])
-```
-
-Create distinct sections per source or merge thematically (user preference).
-
----
-
-## Output Location
-
-All generated assessments are automatically saved to:
-```
-assessments/
-├── assessment-chapter-5-claude-code-features.md
-├── test-part-2-ai-native-development.docx
-└── quick-quiz-kubernetes-fundamentals.pdf
-```
-
-**Features**:
-- ✅ `assessments/` folder auto-created if missing
-- ✅ Filenames cleaned from titles (lowercase, hyphens, no special chars)
-- ✅ Format extension added automatically
-- ✅ Easy to organize and share
-
----
-
-## Output Format Details
-
-**DOCX** (Recommended): Professional header → Questions (4 options each) → Answer Key (10 per line) → Explanations with source context.
-
-**Markdown**: Same structure, version-control friendly with metadata table for quick reference.
-
-**PDF**: Generated from Markdown via docx conversion for read-only distribution.
-
-See `references/output-format-examples.md` for detailed examples and formatting specifications.
-
----
-
-## Scaling Algorithm
-
-```python
-def calculate_questions(content):
-    concepts = extract_testable_concepts(content)
-
-    if len(concepts) >= 100:
-        return 200  # Full exam
-    elif len(concepts) >= 50:
-        return 100  # Half exam
-    elif len(concepts) >= 25:
-        return 50   # Quarter exam
-    else:
-        return max(25, len(concepts))  # Minimum viable
-```
-
----
-
-## Edge Case Handling
-
-| Situation | Action |
-|-----------|--------|
-| **Conflicting info in source** | Flag in exam notes; create question testing the distinction |
-| **Ambiguous concepts** | Skip or ask user for clarification before generating |
-| **Too few testable facts** | Scale down; warn user if <25 questions possible |
-| **Highly technical jargon** | Include definition in question stem if needed |
-| **Multiple valid interpretations** | Avoid or phrase as "According to [source]..." |
-| **Source has errors** | Do not correct; test what source states (note discrepancy) |
-
----
-
-## Validation Pipeline
-
-Run ALL checks before delivery. See `references/validation-rules.md`.
-
-### Quick Checklist
-
-- [ ] Question count matches calculated target
-- [ ] Each question has exactly 4 options (A-D)
-- [ ] Answer distribution within 20-30% per letter
+## Quality Standards
+
+### Per-Question (Subagent Responsibility)
+- [ ] Stem: Single sentence, ≤25 words, unambiguous
+- [ ] Correct answer: ≤15 words, defensible from source
+- [ ] Distractors: Plausible (70-90%), distinct, follow strategy
+- [ ] Options: Within ±3 words of median length
+
+### Per-10-Questions (Checkpoint)
+- [ ] DIF within T2 range (50-65%)
+- [ ] DIS > 0.30 (good discrimination)
+- [ ] DF ≥ 5% (all distractors plausible)
+- [ ] Position trending toward 25% per letter
+
+### Final Validation (100 questions)
+- [ ] Position distribution 20-30% per letter
 - [ ] No >3 consecutive same-letter answers
-- [ ] All Bloom levels represented per distribution
-- [ ] All question types represented per distribution
-- [ ] Every question has section reference
-- [ ] No direct quotes in explanations
-- [ ] Difficulty distribution matches content complexity
+- [ ] All types present (15, 20, 20, 20, 25)
+- [ ] All Bloom levels present per distribution
+- [ ] KR-20 ≥ 0.70 (reliable)
+- [ ] No length, position, or specificity bias
+
+## Failure Remediation
+
+| Failure Type | Remediation |
+|--------------|-------------|
+| Answer imbalance | Swap correct answers to balance |
+| Consecutive sequence | Reorder questions or swap answers |
+| Missing question type | Generate additional questions of that type |
+| Missing Bloom level | Adjust existing or add questions |
+| Weak distractors | Rewrite with stronger alternatives |
+| Quote in explanation | Paraphrase and add section reference |
+| Missing section ref | Add appropriate reference |
 
 ---
 
-## Reference Files
+## Grading Scale (T2)
 
-**Core Domain Knowledge** (MIT Professional Standards):
-| File | Purpose | When to Read |
-|------|---------|-------------|
-| `references/academic-rigor-tiers.md` | T1-T4 framework with tier-specific distributions, rigor levels, grading scales | Step 4: Select tier and apply distributions |
-| `references/distractor-generation-strategies.md` | Type-specific distractor procedures (9 sections: 1A-9A+) with examples | Step 5: Per question, after deciding type |
-| `references/psychometric-standards.md` | Professional metrics (DIF, DIS, DF, KR-20) and tier-specific thresholds | Step 5: After every 10 questions |
-| `references/generation-procedures.md` | Decision tree for question type selection + background task template + budget coordination | Step 5: Background task implementation |
-| `references/output-format-examples.md` | Detailed DOCX, Markdown, PDF formatting specs with examples | Step 7: Output assembly |
+| Grade | % |
+|-------|---|
+| A+ | 95-100 |
+| A | 90-94 |
+| B+ | 85-89 |
+| B | 80-84 |
+| C | 70-79 |
+| F | <70 |
 
-**Quality & Validation**:
-| File | Purpose |
-|------|---------|
-| `references/question-patterns.md` | Templates for each question type with examples |
-| `references/bloom-taxonomy.md` | Cognitive level classification |
-| `references/validation-rules.md` | Quality validation criteria |
-| `references/bias-detection-guide.md` | Length, position, specificity bias detection and remediation |
+---
 
-## Scripts
+## Success Metrics
 
-| Script | Purpose |
-|--------|---------|
-| `scripts/scope_discovery.py` | Parse scope input and auto-discover lesson files |
-| `scripts/content_classifier.py` | Detect content type (conceptual/procedural/coding) |
-| `scripts/adaptive_distribution.py` | Select distribution based on content type |
-| `scripts/bias_detector.py` | Detect length, position, and specificity biases |
-| `scripts/option_normalizer.py` | Analyze and normalize option word counts |
-| `scripts/validate_exam.py` | Complete validation pipeline orchestration |
-| `scripts/config.py` | Centralized configuration and thresholds |
+✅ MIT-Quality Assessment = Pedagogically sound + Technically valid + Unbiased + Well-sourced
 
-## Book
-Content Path: `apps/learn-app/docs`
+After user request identify the correct chapters list and list all lessons in each chapter. The book content is at `apps/learn-app/docs`. THe book contains parts and chapters in each part.

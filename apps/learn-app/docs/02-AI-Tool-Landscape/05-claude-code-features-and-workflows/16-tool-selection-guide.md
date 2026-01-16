@@ -163,25 +163,25 @@ The Compliance Officer doesn't do the work; they typically *stop* work that is d
 
 ## Common Scenarios: What Would You Pick?
 
-#### Scenario A: "I want Claude to check our Jira board for new tickets."
+- **Scenario A:** "I want Claude to check our Jira board for new tickets."
 
 **Analysis:** Does it need external data? Yes (Jira is a project management tool outside your computer).
 
 **Selection:** **MCP**. You need a Jira MCP server.
 
-#### Scenario B: "Every time Claude writes code, I want it to follow our naming conventions consistently."
+- Scenario B: "Every time Claude writes code, I want it to follow our naming conventions consistently."
 
 **Analysis:** Is it a repeated preference? Yes.
 
 **Selection:** **CLAUDE.md** (if it's a global project rule) or **Skill** (if specific to one task type). Likely **CLAUDE.md**.
 
-#### Scenario C: "I want to give Claude a 'Research Mode' where it browses the web, summarizes 50 pages, and writes a report without distracting me."
+- Scenario C: "I want to give Claude a 'Research Mode' where it browses the web, summarizes 50 pages, and writes a report without distracting me."
 
 **Analysis:** Is it complex? Yes. Does it need focused autonomy? Yes.
 
 **Selection:** **Subagent**. Create a "Researcher" subagent equipped with Browser MCP.
 
-#### Scenario D: "Stop Claude from committing secrets/API keys to git."
+- Scenario D: "Stop Claude from committing secrets/API keys to git."
 
 **Analysis:** Is it safety/validation? Yes (preventing accidental leaks of passwords).
 

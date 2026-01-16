@@ -63,7 +63,7 @@ prerequisites:
 
 # Hello Claude: Your First Conversation
 
-You've installed Claude Code. Now it's time to actually use it.
+You've installed Claude Code your General Agent. Now it's time to actually use it.
 
 This lesson isn't about learning complex features. It's about having your first real conversation with Claude and realizing it's not intimidating—it's actually natural.
 
@@ -81,11 +81,14 @@ That's it. You're now in Claude Code.
 
 You'll see a prompt. It looks something like:
 
-```
+```               
+▗ ▗   ▖ ▖  Claude Code v2.1.9                                                                                                                                              
+           Haiku 4.5 · Claude Max                                                                                                                                          
+  ▘▘ ▝▝    ~/Documents/code/panaversity-official/tutorsgpt/mem                                                                                                   
 > _
 ```
 
-This is where you talk to Claude. In plain English. No special syntax. No commands you need to memorize.
+This is where you talk to Claude. In natural language. No special syntax. No commands you need to memorize.
 
 ---
 
@@ -94,7 +97,7 @@ This is where you talk to Claude. In plain English. No special syntax. No comman
 Let's start with the basics. Ask Claude where you are:
 
 ```
-> Where am I in the filesystem?
+> Where am I right now??
 ```
 
 Claude will tell you. Your current directory. Simple context.
@@ -118,14 +121,14 @@ Here's something useful. Let's find recent AI news and save it to a file.
 Ask Claude:
 
 ```
-> Search for the latest news about AI agents in 2026 and create a file called 'ai-news-2026.md' with what you find
+> Search for the latest news about AI agents in 2026 and create a file called 'ai-news-2026.txt' with what you find
 ```
 
 Watch what happens:
 
 1. **Claude reads the web** for recent news
 2. **Claude proposes a file** with formatted content
-3. **You'll see a prompt asking:** `> Create file ai-news-2026.md?`
+3. **You'll see a prompt asking:** `> Create file ai-news-2026.txt?`
 4. **You press Enter** to approve
 
 Done. You now have a file with actual, current information.
@@ -170,23 +173,4 @@ If you reject, you can ask Claude to try differently. That's steering.
 **Test the approval workflow:**
 > "Ask Claude to create a file, and when it asks for approval, press Esc to reject. Then ask it to do something different. Notice how Claude adapts without frustration."
 
----
-
-## What You Just Did
-
-You opened Claude Code and had a conversation. No installation wizards. No configuration files. No learning curve.
-
-You asked questions. Claude answered. You created a file with current information from the web.
-
-This is agentic development at its simplest: **describing your intent in natural language and letting Claude handle the mechanics.**
-
-In the next lessons, you'll learn how to:
-- Save Claude's instructions about *your* project (Lesson 5)
-- Build reusable Skills (Lesson 7)
-- Connect Claude to external systems (Lesson 9)
-
-But here's the truth: Everything you just did—the conversation, the approval, the file creation—that's the foundation for all of it.
-
----
-
-**Next Up:** Now that you're comfortable conversing with Claude, let's teach Claude about YOUR project. Proceed to **Lesson 5: Teaching Claude Your Project with CLAUDE.md**.
+**Next Up:** Now that you're comfortable conversing with Claude, let's teach Claude about YOUR preferences.
