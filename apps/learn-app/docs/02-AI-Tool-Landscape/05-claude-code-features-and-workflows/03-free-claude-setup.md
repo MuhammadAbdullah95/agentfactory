@@ -1,5 +1,5 @@
 ---
-title: "Free Claude Code Setup with Google Gemini"
+title: "Free Claude Code Setup"
 sidebar_position: 3
 chapter: 5
 lesson: 3
@@ -7,81 +7,485 @@ duration_minutes: 15
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
-layer_progression: "L1 (Manual Foundation - Alternative Path)"
-layer_1_foundation: "API-based architecture setup, environment configuration, backend routing"
+layer_progression: "L1 (Manual Foundation - Free Backend Path)"
+layer_1_foundation: "API-based architecture setup, environment configuration, backend routing, model selection"
 layer_2_collaboration: "N/A"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
 
 # HIDDEN SKILLS METADATA
 skills:
-  - name: "Alternative Claude Code Backend Configuration"
+  - name: "Free Claude Code Backend Configuration"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can configure Claude Code to use alternative AI backends via API routing, understand the architecture of backend abstraction, and evaluate trade-offs between official and alternative setups"
+    measurable_at_this_level: "Student can configure Claude Code to use free AI backends (Gemini or DeepSeek) via API routing, understand the architecture of backend abstraction, and evaluate trade-offs between different free options"
 
 learning_objectives:
   - objective: "Understand API-based architecture where frontend (Claude Code CLI) separates from backend (AI model)"
     proficiency_level: "B1"
     bloom_level: "Understand"
     assessment_method: "Explanation of three-layer architecture (CLI → Router → API)"
-  - objective: "Configure Claude Code Router to translate API formats between Anthropic and OpenAI standards"
+  - objective: "Evaluate and choose between free backend options (Gemini vs DeepSeek) based on use case"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Selection of appropriate backend with articulation of trade-offs"
+  - objective: "Configure Claude Code Router to translate API formats between different LLM standards"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Successful router configuration with Google Gemini backend"
+    assessment_method: "Successful router configuration with chosen free backend"
   - objective: "Set up environment variables for secure API key management"
     proficiency_level: "B1"
     bloom_level: "Apply"
     assessment_method: "API key stored as environment variable, not hardcoded"
-  - objective: "Verify alternative setup produces identical Claude Code functionality"
+  - objective: "Verify free backend setup produces identical Claude Code functionality"
     proficiency_level: "B1"
     bloom_level: "Evaluate"
     assessment_method: "Completion of same verification tasks as Lesson 2 (official setup)"
-  - objective: "Evaluate trade-offs between official subscription and free API backend"
-    proficiency_level: "B1"
-    bloom_level: "Evaluate"
-    assessment_method: "Articulation of when each approach is appropriate"
 
 # Cognitive load tracking
 cognitive_load:
   new_concepts: 9
-  assessment: "9 concepts (API routing, backend abstraction, format translation, environment variables, free tier limits, router configuration, daily workflow, architecture layers, trade-off evaluation) - within B1 limit of 10 ✓"
+  assessment: "9 concepts (API routing, backend selection, format translation, environment variables, free tier limits, router configuration, daily workflow, architecture layers, trade-off evaluation) - within B1 limit of 10 ✓"
 
 # Differentiation guidance
 differentiation:
-  extension_for_advanced: "Configure multiple backends (Gemini + local Ollama), implement custom routing logic, monitor API usage patterns"
-  remedial_for_struggling: "Focus on copy-paste setup first, understand architecture later; verify it works before understanding why"
+  extension_for_advanced: "Configure multiple backends in parallel, implement custom routing logic for specific use cases, monitor API usage and costs across backends"
+  remedial_for_struggling: "Choose one backend (recommend Gemini for simplicity), focus on copy-paste setup first, verify it works before understanding the architecture"
 
 # Generation metadata
 generated_by: "AI-Native Software Development Curriculum Team"
-source_spec: "Educational accessibility initiative"
+source_spec: "Educational accessibility initiative - Multiple backend support"
 created: "2025-11-20"
-last_modified: "2025-12-24"
-version: "2.0.0"
+last_modified: "2026-01-16"
+version: "2.1.0"
 
 # Legacy compatibility
 prerequisites:
   - "Lesson 1: Understanding Claude Code paradigm"
   - "Node.js 18+ installed"
-  - "Free Google Account"
+  - "Free account with Gemini and/or DeepSeek"
   - "Terminal access"
 ---
 
-# Free Claude Code Setup with Google Gemini
+# Free Claude Code Setup
 
-**This lesson provides a free alternative to use Claude Code** using Google's free Gemini API as the backend. You'll learn the same Claude Code CLI interface and features covered in Lesson 2.
+**This lesson provides free alternatives to use Claude Code** without a subscription. You'll choose between Google Gemini or DeepSeek as your backend, learning the same Claude Code CLI interface and features covered in Lesson 2.
 
-**All features work identically**: Subagents, skills, MCP servers, hooks, and all other capabilities covered in Lessons 04-12 function the same way with this free setup. The only difference is the backend AI model (Gemini instead of Claude) and the setup process (router configuration instead of direct authentication).
+**All features work identically**: Subagents, skills, MCP servers, hooks, and all other capabilities covered in Lessons 05-15 function the same way with free backends. The only difference is the backend AI model and API provider.
 
 :::tip Free Ongoing Usage
-By using **Gemini's free tier** or **OpenRouter's free models**, you get ongoing free consumption—no subscription required. This setup isn't just for learning; many developers use it as their daily driver. The free tiers are generous enough for real development work.
+By using **Gemini's free tier** or **DeepSeek's competitive API**, you get ongoing free or low-cost consumption—no subscription required. This setup isn't just for learning; many developers use it as their daily driver. The free tiers are generous enough for real development work.
 :::
 
 ---
 
-## Step 1: Get Your Free Google API Key
+## Choose Your Free Backend
+
+Before setup, decide which backend suits you. All three options provide identical Claude Code functionality:
+
+| Factor | OpenRouter | Gemini | DeepSeek |
+| :--- | :--- | :--- | :--- |
+| **Available Models** | 5+ free options | Gemini 2.5 Flash | DeepSeek Chat/Reasoner |
+| **Free Tier** | Multiple models, token-based | Generous, no daily limit | Token-based (~$0.14/M tokens) |
+| **Best For** | Model flexibility + diversity | Learning + production | High-volume coding |
+| **Speed** | Very Fast | Very Fast | Fast |
+| **Setup Complexity** | Manual, most transparent | Easiest (few steps) | Slightly more involved |
+| **Reasoning Models** | Available (Qwen, Llama) | Native support | Native support |
+
+**Our recommendation:**
+- **Beginner:** Start with **Gemini** for simplicity
+- **Exploratory:** Use **OpenRouter** for model variety (no vendor lock-in)
+- **Production Coding:** Scale to **DeepSeek** for high volumes
+
+---
+
+## OpenRouter Setup
+
+**This section guides you through configuring Claude Code with OpenRouter's multi-model platform.**
+
+OpenRouter aggregates multiple AI models (including Gemini, Qwen, Llama) under one API. This gives you maximum flexibility to experiment with different models without re-configuring.
+
+### Step 1: Get Your OpenRouter API Key
+
+1. Go to: [OpenRouter API Keys](https://openrouter.ai/keys)
+2. Click **"Create Key"**
+3. Name it (e.g., "Claude Code Router")
+4. **Copy the key** (starts with: `sk-or-v1-...`)
+
+---
+
+### Step 2: Install and Configure
+
+**Select your operating system:**
+
+::::os-tabs
+
+::windows
+
+### Verify Node.js
+
+```powershell
+node --version  # Should show v18.x.x or higher
+```
+
+If missing, install from [nodejs.org](https://nodejs.org/)
+
+---
+
+### Install Tools
+
+Open PowerShell and run:
+
+```powershell
+npm install -g @anthropic-ai/claude-code @musistudio/claude-code-router
+```
+
+---
+
+### Create Config Directories
+
+```powershell
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude-code-router"
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude"
+```
+
+---
+
+### Create the Config File
+
+1. Open **Notepad** (search "Notepad" in Windows Start menu)
+2. Copy and paste this exactly:
+
+```json
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "HOST": "127.0.0.1",
+  "PORT": 3456,
+  "API_TIMEOUT_MS": 600000,
+  "Providers": [
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1",
+      "api_key": "$OPENROUTER_API_KEY",
+      "models": [
+        "qwen/qwen-coder-32b-vision",
+        "google/gemini-2.0-flash-exp:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "qwen/qwen3-14b:free",
+        "xiaomi/mimo-v2-flash:free"
+      ],
+      "transformer": {
+        "use": ["openrouter"]
+      }
+    }
+  ],
+  "Router": {
+    "default": "openrouter,qwen/qwen-coder-32b-vision",
+    "background": "openrouter,qwen/qwen-coder-32b-vision",
+    "think": "openrouter,meta-llama/llama-3.3-70b-instruct:free",
+    "longContext": "openrouter,qwen/qwen-coder-32b-vision",
+    "longContextThreshold": 60000
+  }
+}
+```
+
+:::warning Do NOT Change $OPENROUTER_API_KEY
+Leave `"api_key": "$OPENROUTER_API_KEY"` exactly as written. The router reads your key from the environment variable you'll set in the next step.
+:::
+
+3. Click **File → Save As**
+4. In the "File name" field, type exactly: `%USERPROFILE%\.claude-code-router\config.json`
+5. Click **Save**
+
+---
+
+### Set Your API Key
+
+**Run PowerShell as Administrator:**
+1. Search "PowerShell" in Windows Start menu
+2. **Right-click** on "Windows PowerShell"
+3. Click **"Run as administrator"**
+4. Click "Yes" if prompted
+
+Run this command (replace `YOUR_KEY_HERE` with your key from Step 1):
+
+```powershell
+[System.Environment]::SetEnvironmentVariable('OPENROUTER_API_KEY', 'YOUR_KEY_HERE', 'User')
+```
+
+5. **Close PowerShell completely** (not just the tab—close the whole window)
+6. Open a **new regular PowerShell** (not as admin)
+7. Verify it worked:
+
+```powershell
+echo $env:OPENROUTER_API_KEY
+```
+
+You should see your API key displayed ✅
+
+---
+
+### ✅ Verify Setup
+
+```powershell
+claude --version     # Should show: Claude Code v2.x.x
+ccr version          # Should show version number
+echo $env:OPENROUTER_API_KEY  # Should show your key
+```
+
+✅ **Done!** Proceed to Step 3: Daily Workflow below.
+
+::macos
+
+### Verify Node.js
+
+```bash
+node --version  # Should show v18.x.x or higher
+```
+
+If missing, install from [nodejs.org](https://nodejs.org/)
+
+---
+
+### Copy-Paste Setup
+
+Copy and paste this entire block into Terminal:
+
+```bash
+# Install tools
+npm install -g @anthropic-ai/claude-code @musistudio/claude-code-router
+
+# Create config directories
+mkdir -p ~/.claude-code-router ~/.claude
+
+# Create router config
+cat > ~/.claude-code-router/config.json << 'EOF'
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "HOST": "127.0.0.1",
+  "PORT": 3456,
+  "API_TIMEOUT_MS": 600000,
+  "Providers": [
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1",
+      "api_key": "$OPENROUTER_API_KEY",
+      "models": [
+        "qwen/qwen-coder-32b-vision",
+        "google/gemini-2.0-flash-exp:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "qwen/qwen3-14b:free",
+        "xiaomi/mimo-v2-flash:free"
+      ],
+      "transformer": {
+        "use": ["openrouter"]
+      }
+    }
+  ],
+  "Router": {
+    "default": "openrouter,qwen/qwen-coder-32b-vision",
+    "background": "openrouter,qwen/qwen-coder-32b-vision",
+    "think": "openrouter,meta-llama/llama-3.3-70b-instruct:free",
+    "longContext": "openrouter,qwen/qwen-coder-32b-vision",
+    "longContextThreshold": 60000
+  }
+}
+EOF
+
+# Verify file was created
+cat ~/.claude-code-router/config.json
+```
+
+---
+
+### Set Your API Key
+
+Replace `YOUR_KEY_HERE` with your actual API key:
+
+```bash
+# For zsh (default on macOS):
+echo 'export OPENROUTER_API_KEY="YOUR_KEY_HERE"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+---
+
+### ✅ Verify Setup
+
+```bash
+claude --version          # Should show: Claude Code v2.x.x
+ccr version               # Should show version number
+echo $OPENROUTER_API_KEY # Should show your key
+```
+
+✅ **Done!** Proceed to Step 3: Daily Workflow below.
+
+::linux
+
+### Verify Node.js
+
+```bash
+node --version  # Should show v18.x.x or higher
+```
+
+If missing, install via your package manager or [nodejs.org](https://nodejs.org/)
+
+---
+
+### Copy-Paste Setup
+
+Copy and paste this entire block into your terminal:
+
+```bash
+# Install tools
+npm install -g @anthropic-ai/claude-code @musistudio/claude-code-router
+
+# Create config directories
+mkdir -p ~/.claude-code-router ~/.claude
+
+# Create router config
+cat > ~/.claude-code-router/config.json << 'EOF'
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "HOST": "127.0.0.1",
+  "PORT": 3456,
+  "API_TIMEOUT_MS": 600000,
+  "Providers": [
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1",
+      "api_key": "$OPENROUTER_API_KEY",
+      "models": [
+        "qwen/qwen-coder-32b-vision",
+        "google/gemini-2.0-flash-exp:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "qwen/qwen3-14b:free",
+        "xiaomi/mimo-v2-flash:free"
+      ],
+      "transformer": {
+        "use": ["openrouter"]
+      }
+    }
+  ],
+  "Router": {
+    "default": "openrouter,qwen/qwen-coder-32b-vision",
+    "background": "openrouter,qwen/qwen-coder-32b-vision",
+    "think": "openrouter,meta-llama/llama-3.3-70b-instruct:free",
+    "longContext": "openrouter,qwen/qwen-coder-32b-vision",
+    "longContextThreshold": 60000
+  }
+}
+EOF
+
+# Verify file was created
+cat ~/.claude-code-router/config.json
+```
+
+---
+
+### Set Your API Key
+
+Replace `YOUR_KEY_HERE` with your actual API key:
+
+```bash
+# For bash:
+echo 'export OPENROUTER_API_KEY="YOUR_KEY_HERE"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+:::tip Check Your Shell
+Run `echo $SHELL` to see which shell you use. If it shows `/bin/zsh`, use `~/.zshrc` instead of `~/.bashrc`.
+:::
+
+---
+
+### ✅ Verify Setup
+
+```bash
+claude --version          # Should show: Claude Code v2.x.x
+ccr version               # Should show version number
+echo $OPENROUTER_API_KEY # Should show your key
+```
+
+✅ **Done!** Proceed to Step 3: Daily Workflow below.
+
+::::
+
+---
+
+### Step 3: Daily Workflow
+
+**Every time you want to code:**
+
+::::os-tabs
+
+::windows
+
+**PowerShell 1** - Start router FIRST:
+```powershell
+ccr start
+```
+
+Leave this window running. You'll see a warning message—that's normal!
+
+**PowerShell 2** - Open a NEW PowerShell window and run:
+```powershell
+cd C:\your\project\folder
+ccr code
+```
+
+:::tip First Startup Takes Time
+**Wait 10-20 seconds** after running `ccr code` on first startup. The router needs time to initialize.
+:::
+
+**When done:** Press `Ctrl+C` in both windows.
+
+::macos
+
+**Terminal 1** - Start router FIRST:
+```bash
+ccr start
+# Wait for: ✅ Service started successfully
+```
+
+**Terminal 2** - THEN use Claude:
+```bash
+cd ~/your-project
+ccr code
+```
+
+**When done:** Press `Ctrl+C` in both terminals.
+
+::linux
+
+**Terminal 1** - Start router FIRST:
+```bash
+ccr start
+# Wait for: ✅ Service started successfully
+```
+
+**Terminal 2** - THEN use Claude:
+```bash
+cd ~/your-project
+ccr code
+```
+
+**When done:** Press `Ctrl+C` in both terminals.
+
+::::
+
+---
+
+## Gemini Setup
+
+**This section guides you through configuring Claude Code with Google's Gemini API.**
+
+### Step 1: Get Your Free Google API Key
 
 1. Go to: [Google AI Studio](https://aistudio.google.com/api-keys)
 2. Click **"Get API Key"**
@@ -91,7 +495,7 @@ By using **Gemini's free tier** or **OpenRouter's free models**, you get ongoing
 
 ---
 
-## Step 2: Install and Configure
+### Step 2: Install and Configure
 
 **Select your operating system:**
 
@@ -408,7 +812,7 @@ echo $GOOGLE_API_KEY # Should show your key
 
 ---
 
-## Step 3: Daily Workflow
+### Step 3: Daily Workflow
 
 **Every time you want to code:**
 
@@ -471,23 +875,13 @@ ccr code
 
 ---
 
-## Verification
+## DeepSeek Setup
 
-**Start a Claude session and say hi:**
+**This section guides you through configuring Claude Code with DeepSeek's API.**
 
-```
-hi
-```
+If you already completed the **Gemini Setup** above, you already have Node.js and the Claude Code Router installed. You only need to create the DeepSeek configuration and set your API key.
 
-**Expected**: Claude responds with a greeting confirming it's working! ✅ Success!
-
----
-
-## Alternative: DeepSeek Setup
-
-**DeepSeek offers another free alternative** with competitive pricing and strong coding capabilities.
-
-### Get Your DeepSeek API Key
+### Step 1: Get Your DeepSeek API Key
 
 1. Go to: [DeepSeek API Platform](https://platform.deepseek.com/)
 2. Sign up or log in with your account
@@ -495,17 +889,15 @@ hi
 4. Click **"Create API Key"**
 5. **Copy the key** (looks like: `sk-...`)
 
-### DeepSeek Configuration
+---
+
+### Step 2: Configure DeepSeek
 
 ::::os-tabs
 
 ::windows
 
-:::info Already Completed Gemini Setup?
-If you completed the Windows Gemini setup above, you already have Node.js and the tools installed. Just create the new config and set the API key.
-:::
-
-**Step 1**: Create the config file. Open **Notepad** and paste:
+**Create the config file:** Open **Notepad** and paste:
 
 ```json
 {
@@ -544,7 +936,7 @@ Leave `"api_key": "$DEEPSEEK_API_KEY"` exactly as written.
 
 Save as: `%USERPROFILE%\.claude-code-router\config.json`
 
-**Step 2**: Set your API key (Run PowerShell as Administrator):
+**Set your API key** (Run PowerShell as Administrator):
 
 ```powershell
 [System.Environment]::SetEnvironmentVariable('DEEPSEEK_API_KEY', 'YOUR_KEY_HERE', 'User')
@@ -640,7 +1032,19 @@ source ~/.bashrc
 
 ::::
 
-The daily workflow is identical—use `ccr start` and `ccr code` as shown above.
+---
+
+## Verification
+
+Both Gemini and DeepSeek use the **same daily workflow** and verification process.
+
+**Start a Claude session and say hi:**
+
+```
+hi
+```
+
+**Expected**: Claude responds with a greeting confirming it's working! ✅ Success!
 
 ---
 
@@ -736,7 +1140,7 @@ Once your free setup is working, try these prompts to verify everything works:
 
 **Understand the Architecture:**
 
-> "Explain the architecture of my current setup: I'm using Claude Code CLI with a router pointing to Gemini. What's happening when I send you a message? Walk me through the request flow."
+> "Explain the architecture of my current setup: I'm using Claude Code CLI with a router pointing to a free backend. What's happening when I send you a message? Walk me through the request flow."
 
 ---
 

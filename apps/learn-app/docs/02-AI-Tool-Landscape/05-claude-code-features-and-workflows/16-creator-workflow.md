@@ -1,8 +1,8 @@
 ---
 title: "The Creator's Workflow: How Boris Uses Claude Code"
-sidebar_position: 17
+sidebar_position: 16
 chapter: 5
-lesson: 17
+lesson: 16
 duration_minutes: 15
 estimated_time: "15 mins"
 chapter_type: Hybrid
@@ -65,7 +65,7 @@ refinement_notes: "v1.1.0 - Removed meta-commentary (Three Roles Framework menti
 
 # Legacy compatibility (Docusaurus)
 prerequisites:
-  - "Lessons 01-17: Complete Claude Code chapter foundations"
+  - "Lessons 01-15: Complete Claude Code features"
   - "Understanding of CLAUDE.md, MCP, skills, subagents, hooks, and settings"
 ---
 

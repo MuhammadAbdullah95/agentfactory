@@ -20,7 +20,7 @@ The goal is **not to build a supercomputer**, but to establish Claude Code as yo
 By the end of this chapter, you'll have:
 
 - **General Agents Explained** — Understanding why Claude Code is fundamentally different from coding assistants: the OODA reasoning loop, the "Trojan Horse" insight, and code as a universal interface to any domain
-- **Claude Code Installed & Working** — Complete setup with **two different paths**: Official Claude Pro/Max subscription (Lesson 2) OR Free Google Gemini backend (Lesson 3). Both teach identical Claude Code skills
+- **Claude Code Installed & Working** — Complete setup with **multiple paths**: Official Claude Pro/Max subscription (Lesson 2), OR free backends via OpenRouter, Gemini, or DeepSeek (Lesson 3). All teach identical Claude Code skills
 - **Hello World** — Mastering the CLI interface (Lesson 4): slash commands, permission loops, and the "Cost Pill" for safe and efficient usage
 - **Persistent Project Context** — Creating CLAUDE.md files (Lesson 5) that eliminate repetitive context-sharing and establish team memory
 - **Teach Claude Your Way** — Mastering custom instructions (Lesson 6) to align Claude's behavior with your personal or team standards
@@ -32,6 +32,5 @@ By the end of this chapter, you'll have:
 - **Event-Driven Automation** — Hooks (Lesson 13) for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart)
 - **Complete Extensibility** — Discovering and using plugins (Lesson 14) from marketplaces like Anthropic's official skills repository
 - **Autonomous Iteration** — The Ralph Wiggum Loop (Lesson 15) for self-correcting, multi-step autonomous workflows
-- **Strategic Tool Selection** — A decision framework (Lesson 16) for choosing between Skills, Subagents, MCP, and Hooks based on workflow needs
-- **The Creator's Workflow** — How Boris Cherny (Lesson 17) uses Claude Code: parallel sessions, Plan Mode discipline, and verification loops
-- **From Skills to Business** — Understanding how Skills become monetizable products (Lesson 18), the Digital FTE model, and the path to revenue
+- **The Creator's Workflow** — How Boris Cherny (Lesson 16) uses Claude Code: parallel sessions, Plan Mode discipline, and verification loops
+- **From Skills to Business** — Understanding how Skills become monetizable products (Lesson 17), the Digital FTE model, and the path to revenue

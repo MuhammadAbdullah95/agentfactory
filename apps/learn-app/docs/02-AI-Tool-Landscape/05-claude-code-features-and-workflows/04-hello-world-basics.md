@@ -162,6 +162,41 @@ If you reject, you can ask Claude to try differently. That's steering.
 
 ---
 
+## Next: Extending Claude (Preview)
+
+Once you master basic conversations, you'll start asking more ambitious questions:
+
+- *"How do I make Claude repeat this task every morning?"*
+- *"How do I connect Claude to my Jira board so it can check for new tickets?"*
+- *"How do I enforce my team's naming conventions automatically?"*
+- *"How do I give Claude access to my company's database?"*
+
+This is where Claude's extension tools come in. You don't need to understand them yet—just know they exist.
+
+### The Five Extension Tools at a Glance
+
+| If you need... | Then use... | Appears in... |
+| :--- | :--- | :--- |
+| **Persistent context** for every Claude session | **CLAUDE.md** | Lessons 5-6 |
+| **Repeated procedures** done your way | **Skill** | Lessons 7-8 |
+| **Delegation & focus** for complex workflows | **Subagent** | Lessons 11-12 |
+| **External systems & data** (APIs, databases, websites) | **MCP** | Lessons 9-10 |
+| **Automated quality gates & safety rules** | **Hook** | Lesson 13 |
+
+**Here's the pattern:** You learn each tool individually (Lessons 5-13), then in Lesson 16, you'll see how an expert combines them in a production workflow—like a manager building a team, not a developer writing functions.
+
+### Why This Matters Now
+
+As you continue through the chapter, you'll recognize patterns:
+
+- "I need Claude to always format code like this" → You'll think: *That's a CLAUDE.md use case*
+- "I want Claude to research and write a report without interrupting me" → *That's a Subagent*
+- "I need Claude to check GitHub for vulnerabilities before I commit" → *That's a Hook*
+
+You're building a **mental model**. The tools are the same; the architecture is what separates amateur automation from professional systems.
+
+---
+
 ## Try With AI
 
 **Explore naturally:**
