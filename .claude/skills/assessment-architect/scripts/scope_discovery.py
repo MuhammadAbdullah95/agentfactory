@@ -2,11 +2,32 @@
 """
 Scope Discovery - Parse input and discover lesson files
 
-Handles:
+Book Structure (Hierarchy):
+  apps/learn-app/docs/
+  ├── 01-Part-Name/              (Part 1)
+  │   ├── 01-Chapter-Name/       (Chapter 1 - lessons inside)
+  │   ├── 02-Chapter-Name/       (Chapter 2 - lessons inside)
+  │   └── 03-Chapter-Name/       (Chapter 3 - lessons inside)
+  ├── 02-Part-Name/              (Part 2)
+  │   ├── 04-Chapter-Name/       (Chapter 4)
+  │   ├── 05-Chapter-Name/       (Chapter 5) ← Example: global chapter 5
+  │   └── ...
+  └── 05-Part-Name/              (Part 5)
+      ├── 15-Chapter-Name/       (Chapter 15)
+      └── ...
+
+Supported Input Formats:
 - "Part 2" → All chapters in Part 2
-- "Chapter 5" → Chapter 5 (asks if ambiguous)
-- "Chapter 5 from Part 2" → Specific chapter
-- Absolute paths → Use directly
+- "Chapter 5" → Chapter 5 (searches across all parts)
+- "Part 2, Chapter 5" → Chapter 5 specifically in Part 2
+- "Chapter 5 from Part 2" → Alternative format for specific chapter
+- Absolute paths → Use directly (custom file lists)
+
+Algorithm: Traverse Part → Chapter → Lessons hierarchy:
+1. List all Part directories (02-*, 03-*, etc.)
+2. For each Part (or specific Part if given), list chapter subdirectories
+3. Match requested chapter number
+4. Discover all lesson files in matched chapter directory
 """
 
 import re
@@ -99,28 +120,39 @@ def find_chapter_directories(part_number: int, chapter_number: int, base_path: P
     """
     Find all chapter directories matching chapter number.
 
+    Hierarchy traversal (simplified approach):
+    1. If part_number specified: Search only that Part's subdirectories
+    2. If part_number not specified: Iterate all Parts, search each for matching chapter
+    3. Match chapter by directory name prefix (NN-* where NN is chapter number)
+
     Returns list of matching directories (may be multiple if chapter number exists in multiple parts)
     """
     all_chapters = []
 
     if part_number > 0:
-        # Search specific part for matching chapter number
+        # Search SPECIFIC PART for matching chapter number
+        # Step 1: Find the Part directory
         part_pattern = f"{part_number:02d}-*"
-        for part_dir in sorted(base_path.glob(part_pattern)):
-            if part_dir.is_dir():
-                # Look for chapter directories within this part
-                chapter_pattern = f"{chapter_number:02d}-*"
-                for chapter_dir in sorted(part_dir.glob(chapter_pattern)):
-                    if chapter_dir.is_dir():
-                        all_chapters.append(chapter_dir)
+        part_dirs = sorted([d for d in base_path.glob(part_pattern) if d.is_dir()])
+
+        if not part_dirs:
+            return all_chapters
+
+        # Step 2: Look for chapter directories within this specific part
+        for part_dir in part_dirs:
+            chapter_pattern = f"{chapter_number:02d}-*"
+            chapter_dirs = sorted([d for d in part_dir.glob(chapter_pattern) if d.is_dir()])
+            all_chapters.extend(chapter_dirs)
     else:
-        # Search across all parts for matching chapter number
-        for part_dir in sorted(base_path.glob(f"[0-9][0-9]-*")):
-            if part_dir.is_dir():
-                chapter_pattern = f"{chapter_number:02d}-*"
-                for chapter_dir in sorted(part_dir.glob(chapter_pattern)):
-                    if chapter_dir.is_dir():
-                        all_chapters.append(chapter_dir)
+        # Search ACROSS ALL PARTS for matching chapter number
+        # Step 1: List all Part directories (XX-PartName format)
+        part_dirs = sorted([d for d in base_path.glob("[0-9][0-9]-*") if d.is_dir()])
+
+        # Step 2: For each Part, look for matching chapter subdirectories
+        for part_dir in part_dirs:
+            chapter_pattern = f"{chapter_number:02d}-*"
+            chapter_dirs = sorted([d for d in part_dir.glob(chapter_pattern) if d.is_dir()])
+            all_chapters.extend(chapter_dirs)
 
     return all_chapters
 
@@ -172,36 +204,42 @@ def discover_lesson_files(scope: ScopeMetadata, base_path: Path) -> Tuple[List[P
     """
     Discover lesson files based on scope.
 
+    Hierarchy traversal algorithm:
+    - Part search: List all Part dirs in docs/ → List chapter subdirs in Part → Collect all lessons
+    - Chapter search (specific part): Navigate to Part → Find chapter subdir → Collect lessons
+    - Chapter search (all parts): Iterate all Parts → Find matching chapter in each → Collect lessons
+
     Returns (lesson_files, warning_message)
     """
     lesson_files = []
     warnings = []
 
     if scope.scope_type == "part":
-        # Find all chapters in part
+        # PART SEARCH: Find all chapters in specified part
+        # Step 1: Locate the Part directory (e.g., 02-AI-Tool-Landscape)
         part_dir = find_part_directory(scope.part_number, base_path)
         if not part_dir:
             return [], f"Part {scope.part_number} not found"
 
-        # Discover lessons from all chapters
-        for chapter_dir in sorted(part_dir.glob(f"[0-9][0-9]-*")):
-            if chapter_dir.is_dir():
-                lessons = discover_lessons_in_directory(chapter_dir)
-                lesson_files.extend(lessons)
+        # Step 2: Discover lessons from all chapter subdirectories in this part
+        chapter_dirs = sorted([d for d in part_dir.glob("[0-9][0-9]-*") if d.is_dir()])
+        for chapter_dir in chapter_dirs:
+            lessons = discover_lessons_in_directory(chapter_dir)
+            lesson_files.extend(lessons)
 
     elif scope.scope_type == "chapter":
-        # Find specific chapter
+        # CHAPTER SEARCH: Find specific chapter
         if scope.part_number:
-            # Specific part + chapter
+            # Case A: Specific Part + Chapter (e.g., "Part 2, Chapter 5")
+            # Step 1: Navigate to Part directory
             part_dir = find_part_directory(scope.part_number, base_path)
             if not part_dir:
                 return [], f"Part {scope.part_number} not found"
-            chapter_dirs = [
-                d for d in part_dir.glob(f"{scope.chapter_number:02d}-*")
-                if d.is_dir()
-            ]
+            # Step 2: Find chapter subdir in this part only
+            chapter_dirs = sorted([d for d in part_dir.glob(f"{scope.chapter_number:02d}-*") if d.is_dir()])
         else:
-            # Chapter number only (search all parts)
+            # Case B: Chapter only, search across all parts (e.g., "Chapter 5")
+            # Uses explicit Part → Chapter traversal via find_chapter_directories()
             chapter_dirs = find_chapter_directories(0, scope.chapter_number, base_path)
 
         if not chapter_dirs:
@@ -211,6 +249,7 @@ def discover_lesson_files(scope: ScopeMetadata, base_path: Path) -> Tuple[List[P
             warnings.append(f"⚠️  Found {len(chapter_dirs)} chapters with number {scope.chapter_number}")
             warnings.append("Using first match. Specify 'Chapter X from Part Y' for disambiguation.")
 
+        # Step 3: Discover all lessons in the selected chapter directory
         chapter_dir = chapter_dirs[0]
         lesson_files = discover_lessons_in_directory(chapter_dir)
 
@@ -321,10 +360,12 @@ if __name__ == "__main__":
 
     if len(sys.argv) < 2:
         print("Usage: scope_discovery.py '<scope_input>'")
-        print("Examples:")
-        print("  'Part 2'")
-        print("  'Chapter 5'")
-        print("  'Chapter 5 from Part 2'")
+        print("\nExamples (with hierarchy traversal):")
+        print("  'Part 2'                    → All chapters in Part 2 (iterates 02-*/ subdirs)")
+        print("  'Chapter 5'                 → Chapter 5 (searches all Parts for 05-* subdir)")
+        print("  'Part 2, Chapter 5'         → Chapter 5 in Part 2 specifically (navigates 02-*/05-*/)")
+        print("  'Chapter 5 from Part 2'     → Alternative format for above")
+        print("\nNote: Hierarchy is Part → Chapter → Lessons")
         sys.exit(1)
 
     scope_input = sys.argv[1]

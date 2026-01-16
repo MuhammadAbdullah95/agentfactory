@@ -66,7 +66,7 @@ Ask only if relevant:
 
 | Source | Gather | Autonomous Reasoning |
 |--------|--------|---------------------|
-| **Scope Discovery** | Parse user input for chapter identifier. If user says "Chapter 5 Claude Code", extract: chapter_name="claude code", chapter_num="5". List all chapters in each part to find the relevant target directory and starting working in that.
+| **Scope Discovery** | Parse user input for chapter identifier (e.g., "Chapter 5"). Traverse hierarchy: (1) List all Part dirs (01-, 02-, 03-...) in apps/learn-app/docs/, (2) For each Part, list subdirectories to find chapters, (3) Match requested chapter number, (4) Return chapter directory path and discover lessons. Handles "Chapter X", "Part Y", "Part Y, Chapter X" formats. | Scopes auto-discovered; no manual path entry needed except for custom multi-file inputs |
 | **Content Classification** | Analyze content type (conceptual/procedural/coding/mixed) to inform distribution selection. | Determines which question types to emphasize (Conceptual → +7% Conceptual Distinction; Coding → +8% Specification Design) |
 | **Concept Extraction** | Extract 5-8 testable concepts per lesson. Note complexity (factual, procedural, conceptual, evaluative). | Used later to decide question type (factual → Precision Recall; conceptual → Conceptual Distinction; scenario → Decision Matrix) |
 | **Reference Mapping** | For each concept, note source section and Bloom level (Remember/Understand/Apply/Analyze/Evaluate/Create). | Ensures every question has source context in explanations. |
