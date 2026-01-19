@@ -92,6 +92,43 @@ That's what skills do. Not saving keystrokes—**preserving your personal touch*
 
 ---
 
+## Two Problems, Not One
+
+In Lesson 5, you learned about the first problem: **Claude forgets between sessions.** That's why CLAUDE.md exists—to give Claude project context it would otherwise lose.
+
+But there's a second problem most people don't notice: **even within a single session, Claude's outputs vary.**
+
+Ask Claude to write a LinkedIn post. Then ask again with the exact same words. You'll get different results. Not wrong—just different. Different structure, different tone, different emoji choices.
+
+For casual conversation, this is fine. For your professional output? It's a problem.
+
+**The double variability trap:**
+
+When you manually explain your preferences each time, you introduce TWO sources of inconsistency:
+
+1. **You phrase things differently** each time you ask
+2. **Claude generates differently** even for identical requests
+
+| Problem | Impact | What Constrains It |
+|---------|--------|-------------------|
+| Session memory loss (L05) | Claude forgets your project | CLAUDE.md |
+| Output variability (this lesson) | Claude's results drift | **Skills** |
+
+**How skills constrain this:**
+
+In the Agent Skills format, a skill is a folder containing a `SKILL.md` file (metadata + instructions), optionally with scripts, templates, or assets. When a task matches the skill's description, Claude loads the full instructions and follows them.
+
+This constrains drift because Claude isn't reinventing your structure and preferences every time:
+- **Your exact structure** (not reinvented each time)
+- **Your specific examples** (showing what you want)
+- **Your preferences documented** (not remembered—written down)
+
+The result: Claude's output still varies (that's inherent to how LLMs work), but it stays within YOUR boundaries. Every LinkedIn post has your tone, your emoji style, your engagement hooks—because your skill defines them.
+
+Think of it like the difference between asking a stranger for directions versus asking someone who knows your neighborhood. The stranger gives generic advice. Your neighbor knows your shortcuts.
+
+---
+
 ## What Skills Actually Are
 
 Think about the difference between a generic assistant and a personal assistant who knows you well.
@@ -105,7 +142,7 @@ That personalized touch is the difference between generic output and YOUR output
 
 **Claude with skills**: Your personalized assistant. When you mention LinkedIn, Claude doesn't think "how to write a post?" It thinks "friendly-professional tone, 2-3 emojis, end with question"—because that's YOUR style, loaded automatically.
 
-**Simple definition**: A skill is your personal style guide. It captures how YOU approach specific tasks—your tone, your structure, your preferences—so Claude creates output that sounds like you.
+**Simple definition**: A skill is a folder with a `SKILL.md` file containing your instructions for a specific task—your tone, your structure, your preferences—so Claude creates output that sounds like you.
 
 :::tip The Matrix Analogy
 Remember the scene in *The Matrix* where Trinity needs to fly a helicopter? She doesn't know how—until Tank uploads the B-212 helicopter pilot program directly into her mind. Seconds later, she's an expert pilot.
@@ -344,7 +381,7 @@ Want me to create flashcards for the key terms?
 
 **The payoff:** Instead of hours reorganizing messy content before exams, they spend 15 minutes right after each lecture. Most importantly, they actually use their notes because they're structured and easy to review.
 
-The skill took about 45 minutes to create. Now it automatically structures every lecture the same way, creating consistent, effective study materials from the text they already have.
+In this example, the skill took under an hour to create. Now it automatically structures every lecture the same way, creating consistent, effective study materials from the text they already have.
 
 ---
 
@@ -425,31 +462,3 @@ That's your personal style guide ready to become a skill!
 **Practice Your Procedure:**
 
 > "I want to create a skill for [your chosen task]. Let's practice! Ask me questions about how I like to do this task. Then show me how you'd describe my style as a simple guide someone else could follow."
-
-**Get Ready for Next Lesson:**
-
-> "Based on my [task/thing I repeat], what should I prepare before the next lesson where we actually build skills? What files or information should I have ready?"
-
----
-
-## Reflection
-
-You've just seen how skills transform Claude from a helpful assistant into YOUR personalized helper.
-
-Think about it:
-- Without skills: Every time you need help, you explain your preferences
-- With skills: Claude already knows your style and applies it automatically
-
-This is like teaching a friend your preferences—once. Instead of saying "I like my LinkedIn posts friendly but professional" every time, your friend just knows.
-
-**Your Next Steps:**
-1. ✅ Downloaded the Skills Lab and tried skills
-2. ✅ Seen the difference between generic and personalized output
-3. ✅ Identified tasks you repeat regularly
-4. ✅ Defined your personal style for one task
-
-**Coming Next:** In Lesson 08, you'll actually CREATE your first skill using the `skill-creator` skill from the lab. You'll turn your personal style guide into a working skill that activates automatically.
-
-**Remember:** The best skills are for tasks you do regularly. Start simple—maybe a LinkedIn post skill or a study notes organizer. Build it, use it, refine it. Then create another.
-
-Your AI partnership is about to get a lot more personal. 🚀

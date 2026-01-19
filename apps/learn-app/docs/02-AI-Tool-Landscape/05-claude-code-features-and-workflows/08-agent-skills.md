@@ -100,7 +100,6 @@ That's it. A skill can be a single markdown file. The simplicity is intentionalâ
 ---
 name: "meeting-notes"
 description: "Transform meeting transcripts or raw notes into structured summaries with action items, decisions, and follow-ups. Use when user shares meeting content or asks for meeting notes."
-version: "1.0.0"
 ---
 ```
 
@@ -208,7 +207,6 @@ Create `.claude/skills/blog-planner/SKILL.md`:
 ---
 name: "blog-planner"
 description: "Plan engaging blog posts with topic research, structured outlines, headline variations, and compelling introductions. Use when user asks to plan, outline, or write blog content."
-version: "1.0.0"
 ---
 
 # Blog Planning Skill
@@ -348,10 +346,10 @@ When do you create a skill vs. a subagent?
 
 | Factor | Choose Skill | Choose Subagent |
 |--------|--------------|-----------------|
-| **Invocation** | Automatic (Claude decides) | Explicit (you invoke) |
+| **Invocation** | Automatic OR explicit by name | Explicit only (you invoke) |
 | **Context** | Shared with main conversation | Isolated context window |
 | **Complexity** | Lightweight, single-focus | Multi-step, complex workflows |
-| **Guarantee** | Soft activation (might not trigger) | Hard invocation (always runs) |
+| **Guarantee** | Flexible (auto-triggers or invoke by name) | Hard invocation (always runs) |
 | **Best for** | Repeated patterns, formatting, procedures | Audits, refactoring, comprehensive analysis |
 
 **Use skill when**: "I want Claude to automatically do this whenever it's relevant."
@@ -536,27 +534,6 @@ Here's the process to follow for each new skill:
 - Share with teammates by sharing the folder
 - Consider contributing to open skill repositories
 
----
-
-## Try With AI
-
-**Create Your Custom Skill:**
-
-> "I have a procedure I want to encode as a skill: [describe your procedure from Lesson 06]. Walk me through creating a SKILL.md file. Help me write: (1) an effective description that triggers at the right times, (2) clear instructions Claude can follow, (3) quality criteria that match my standards, (4) an example input/output."
-
-**Use Skill-Creator:**
-
-> "Use the skill-creator to help me build a skill for [your domain: technical writing / project planning / code review / research summaries]. Start by asking me questions about my procedure, then generate the complete SKILL.md file."
-
-**Refine an Existing Skill:**
-
-> "Here's my current [skill-name] skill: [paste SKILL.md content]. I've used it 3 times and noticed: [what worked], [what didn't work]. Help me improve the skill to fix these issues."
-
-**Design a Skill Suite:**
-
-> "I work on [describe your project type]. Help me identify 3-5 skills I should create that would work together. For each skill, suggest: what it does, when it activates, and how it complements the others."
-
----
 
 ## Skills Beyond Software: Universal Applicability
 
@@ -596,10 +573,20 @@ A skill for "quarterly financial analysis" doesn't just help you today. It becom
 
 ---
 
-## Reflection
+## Try With AI
 
-You've gone from understanding skills (Lesson 06) to understanding their architecture (Lesson 07) to building them yourself.
+**Create Your Custom Skill:**
 
-The skills you create now will compound. Each one makes Claude more useful for YOUR specific work. Share them with teammates, and the whole team benefits from encoded expertise. And as you'll see in Part 6, these same skills become building blocks for Custom Agents you can deploy.
+> "I have a procedure I want to encode as a skill: [describe your procedure from Lesson 06]. Walk me through creating a SKILL.md file. Help me write: (1) an effective description that triggers at the right times, (2) clear instructions Claude can follow, (3) quality criteria that match my standards, (4) an example input/output."
 
-The next lessons explore features that complement skills: project context files, external connectivity, and complex task handling. Skills are just the beginning.
+**Use Skill-Creator:**
+
+> "Use the skill-creator to help me build a skill for [your domain: technical writing / project planning / code review / research summaries]. Start by asking me questions about my procedure, then generate the complete SKILL.md file."
+
+**Refine an Existing Skill:**
+
+> "Here's my current [skill-name] skill: [paste SKILL.md content]. I've used it 3 times and noticed: [what worked], [what didn't work]. Help me improve the skill to fix these issues."
+
+**Design a Skill Suite:**
+
+> "I work on [describe your project type]. Help me identify 3-5 skills I should create that would work together. For each skill, suggest: what it does, when it activates, and how it complements the others."

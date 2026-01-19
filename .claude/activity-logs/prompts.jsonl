@@ -799,3 +799,5 @@ The text you pasted appears to be an incomplete fragment (it cuts off mid-senten
 {"timestamp":"2026-01-19T06:01:28Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","prompt":"Now let's plan what gets updated in our book chapter 5 @apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/ I think the primary impact can be wwithin mcp and compiling mcp into skills lesson or not? "}
 {"timestamp":"2026-01-19T06:07:04Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"Now review lesson 08 and share if you think it cna be better"}
 {"timestamp":"2026-01-19T06:10:05Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"maks sense 1. yes 2. remove version it will confused, 3. we can remove this aspect as well allowedtools wil confuse"}
+{"timestamp":"2026-01-19T06:11:25Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"did we rmeove that tools filter confusiona s well?"}
+{"timestamp":"2026-01-19T06:13:34Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"I stil feel lik e 08 is too verbose and most will never reach that meta skills part "}

@@ -367,39 +367,6 @@ You now understand the architecture:
 - Skills compound across teams and organizations
 - Skills are the "applications layer" of the agent stack
 
-Lesson 08 teaches execution:
-
-- The SKILL.md format and YAML metadata structure
-- Creating a working blog-planner skill from scratch
-- Testing skill activation and refinement
-- Decision criteria: when skills vs. subagents
-
-The procedure you mapped in Lesson 06—your repeated task with clear preferences and quality criteria—that's your raw material. Lesson 08 shows you how to encode it.
-
----
-
-## Try With AI
-
-**Understand the Architecture:**
-
-> "Anthropic says 'code is all we need' as the universal interface for agents. Help me understand: how does a coding agent (like Claude Code) become useful for non-coding tasks like finance reports or legal research? Walk me through the architecture—what role do skills play in making a coding agent general-purpose?"
-
-**Identify Skill Opportunities in Your Domain:**
-
-> "I work in [your domain: marketing / finance / research / operations / legal / etc.]. Based on the three skill sources (foundational, partner, enterprise), help me identify: (1) What foundational skills probably already exist for my work? (2) What third-party skills might exist for tools I use? (3) What custom skills would capture MY team's specific procedures?"
-
-**Evaluate the Stack Analogy:**
-
-> "Explain the 'skills are like applications' analogy. If Claude is the processor and Claude Code is the operating system, what makes skills different from just being good at prompting? Why is encoding expertise as a skill different from getting better at asking questions?"
-
-**Challenge the Paradigm:**
-
-> "The Anthropic talk claims 'stop building agents, build skills instead.' When WOULD someone still need to build a custom agent? What can't skills do? Help me understand where the boundary is between 'a skill is enough' and 'you need something more.'"
-
-Note: These prompts explore the conceptual framework. Lesson 08 teaches hands-on skill creation—the syntax, structure, and workflow for actually building your first skill.
-
----
-
 ## Watch the Original Talk
 
 This lesson is based on the Anthropic talk "Don't Build Agents, Build Skills Instead" by Barry Zhang and Mahesh Murag. Watch the full presentation to hear these concepts directly from the team that built Claude Code and Agent Skills:
@@ -424,3 +391,26 @@ This lesson is based on the Anthropic talk "Don't Build Agents, Build Skills Ins
 - **9:06** — The complete architecture diagram
 - **12:02** — Sharing and distribution vision
 - **14:32** — The stack analogy (processors → OS → applications)
+
+---
+
+## Try With AI
+
+**Understand the Architecture:**
+
+> "Anthropic says 'code is all we need' as the universal interface for agents. Help me understand: how does a coding agent (like Claude Code) become useful for non-coding tasks like finance reports or legal research? Walk me through the architecture—what role do skills play in making a coding agent general-purpose?"
+
+**Identify Skill Opportunities in Your Domain:**
+
+> "I work in [your domain: marketing / finance / research / operations / legal / etc.]. Based on the three skill sources (foundational, partner, enterprise), help me identify: (1) What foundational skills probably already exist for my work? (2) What third-party skills might exist for tools I use? (3) What custom skills would capture MY team's specific procedures?"
+
+**Evaluate the Stack Analogy:**
+
+> "Explain the 'skills are like applications' analogy. If Claude is the processor and Claude Code is the operating system, what makes skills different from just being good at prompting? Why is encoding expertise as a skill different from getting better at asking questions?"
+
+**Challenge the Paradigm:**
+
+> "The Anthropic talk claims 'stop building agents, build skills instead.' When WOULD someone still need to build a custom agent? What can't skills do? Help me understand where the boundary is between 'a skill is enough' and 'you need something more.'"
+
+---
+

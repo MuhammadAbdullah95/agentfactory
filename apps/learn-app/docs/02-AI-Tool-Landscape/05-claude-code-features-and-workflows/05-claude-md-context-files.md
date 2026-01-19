@@ -104,6 +104,46 @@ When Claude Code starts a new session, it reads CLAUDE.md automatically. Claude 
 
 ---
 
+## The Stateless API: Why Every Session Starts Fresh
+
+Here's something most Claude users don't realize: **Large Language Models are fundamentally stateless.**
+
+Every API call to Claude is independent. The model doesn't "remember" your previous conversation—it processes each request in isolation based only on what you include in that request.
+
+**Wait, but Claude seems to remember things in a conversation?**
+
+That's an illusion created by the application layer. When you use Claude.ai or ChatGPT:
+- The interface secretly re-sends your entire conversation history with every new message
+- The AI processes this as if seeing it for the first time
+- You experience "memory" because the history is always there
+
+**Why this matters for coding work:**
+
+For quick questions, re-sending history works fine. But for ongoing project work:
+
+| Approach | Works For | Breaks When |
+|----------|-----------|-------------|
+| Re-send history | Short conversations | Context grows beyond limits |
+| Manual context | Small, simple projects | Explaining 50 files repeatedly |
+| Stateless each time | One-off questions | Multi-session projects |
+
+Claude Code solves this differently. Instead of trying to keep everything in the conversation history, it treats your **file system as external memory**.
+
+**The insight**: Your code files already contain your project's state. Instead of describing your project to Claude, Claude reads your project directly.
+
+This is why file system access unlocks the "agentic" capability you saw in Lesson 01:
+- **Stateless API** + **File System** = Persistent state through your actual files
+- **CLAUDE.md** = The "boot sector" that helps Claude orient immediately in your project
+- **Every session**: Claude reads CLAUDE.md, understands context, and continues work
+
+The model is still stateless. But your files persist. CLAUDE.md ensures Claude's first action in any session is reading the context it needs.
+
+#### 💬 AI Colearning Prompt
+
+> "Explain the difference between how ChatGPT maintains conversation memory versus how Claude Code uses file system access for context persistence. What are the trade-offs of each approach?"
+
+---
+
 ## How CLAUDE.md Auto-Loads
 
 You don't need to do anything. When you start `claude` in a directory, **Claude Code automatically detects and reads the CLAUDE.md file**, loading it into context immediately.
