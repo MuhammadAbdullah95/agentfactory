@@ -6,6 +6,86 @@ license: Proprietary. LICENSE.txt has complete terms
 
 # PPTX creation, editing, and analysis
 
+## Operating Contract (Read First — Non-Negotiables)
+
+This skill must produce a **coherent story** and **faithful coverage** before it produces beautiful slides. If there is any conflict between sections of this SKILL.md, the rules in this section win.
+
+### 1. Fidelity: No Invented Facts
+
+- **No metrics, stats, ARR, pricing, or adoption numbers** unless they appear verbatim in source material
+- If you need a number for illustration, mark it explicitly: "Example: ~$X (placeholder)" in speaker notes
+- **If unsure whether a fact is in the source: omit it**
+
+### 2. Scope Lock: Stay Inside the Chapter
+
+The deck must cover the chapter's learning goals—nothing more.
+
+**Forbidden topics** (unless explicitly in the chapter content):
+- Business models, pricing strategies
+- ARR, MAU, revenue projections
+- "Sell today", "monetize", market sizing
+- "Digital FTE economics" calculations
+- Competitive landscape analysis
+
+**If a slide drifts into forbidden territory: delete or rewrite it.**
+
+### 3. One Narrative Spine (No Topic Whiplash)
+
+Pick ONE spine and stick to it throughout:
+
+| Spine Type | Flow |
+|------------|------|
+| **Teaching spine** | Problem → Concept → Mechanism → Workflow → Examples → Pitfalls → Summary → Next steps |
+| **Chapter spine** | Hook → Learning objectives → Lesson-by-lesson (Concept → Example → Try) → Summary → CTA |
+
+**Rules**:
+- Every slide must map to exactly one spine step
+- No A→B→A jumps (if you covered topic A, don't return to it later)
+- If a slide doesn't fit the spine: **remove it or split into appropriate steps**
+
+### 4. Coverage Requirement
+
+**Required artifacts** before generating any PPTX file:
+
+| Artifact | Purpose |
+|----------|---------|
+| `workspace/content-audit.md` | Research notes per lesson (existing) |
+| `workspace/slide-outline.md` | Storyboard with titles as conclusions (existing) |
+| `workspace/coverage-matrix.md` | Maps every lesson/objective to ≥1 slide |
+| `workspace/semantic-qa.md` | Final coherence checklist |
+
+**Coverage rules**:
+- Every lesson must appear in at least one slide
+- Every learning objective must be addressed
+- If you can't cover everything: **add more slides**—don't shrink content
+- Omissions must be explicitly justified in coverage-matrix.md
+
+### 5. Semantic QA Gate (Must Pass Before Delivery)
+
+Before generating the final presentation, complete `workspace/semantic-qa.md` with this checklist:
+
+- [ ] Slide order follows chosen spine (no A→B→A jumps)
+- [ ] Every slide has ONE clear takeaway matching the outline
+- [ ] No new topics introduced that aren't in the approved outline
+- [ ] All terminology is introduced before use
+- [ ] No invented facts, metrics, or claims
+- [ ] No forbidden topics (see Section 2)
+- [ ] Coverage-matrix shows 100% lesson coverage
+
+**If ANY check fails: revise and regenerate. Do NOT ship a failing presentation.**
+
+### 6. Conflict Resolution Policy
+
+When content doesn't fit a slide:
+
+1. **Split into more slides** (preferred)
+2. Move detail to speaker notes
+3. Replace text with diagram/visual
+4. Only then compress wording
+5. **NEVER** shrink text below MIT typography minimums (24pt body, 40pt titles)
+
+---
+
 ## Overview
 
 A user may ask you to create, edit, or analyze the contents of a .pptx file. A .pptx file is essentially a ZIP archive containing XML files and other resources that you can read or edit. You have different tools and workflows available for different tasks.
@@ -651,6 +731,39 @@ For each slide in outline, ask:
 
 **Do NOT proceed to generation until user approves the outline.**
 
+#### Step 2e: Create Coverage Matrix
+
+After user approval, create `workspace/coverage-matrix.md` to verify complete coverage:
+
+```markdown
+# Coverage Matrix: [Chapter Name]
+
+**Chosen spine**: [Teaching / Chapter]
+
+| # | Lesson Title | Key Concepts | Slide(s) | Status |
+|---|--------------|--------------|----------|--------|
+| 1 | [Lesson 1 title] | [Main concepts] | 4, 5 | ✓ Covered |
+| 2 | [Lesson 2 title] | [Main concepts] | 6, 7, 8 | ✓ Covered |
+| ... | ... | ... | ... | ... |
+
+## Learning Objectives Coverage
+
+| Objective | Slide(s) | Status |
+|-----------|----------|--------|
+| [Objective 1] | 3 | ✓ |
+| [Objective 2] | 5, 6 | ✓ |
+
+## Omissions (must justify)
+
+- None / [Reason for any excluded content]
+```
+
+**Rules**:
+- Every lesson must have ≥1 slide
+- Every learning objective must appear
+- Omissions must be explicitly justified
+- If coverage is incomplete: **add slides, don't compress**
+
 ### Phase 3: Apply Design System
 
 #### Pedagogical Layer Colors
@@ -683,28 +796,104 @@ For each slide in outline, ask:
 2. Apply MIT typography rules (24pt minimum, 4 bullets max)
 3. Save as `workspace/draft-v1.pptx`
 
-### Phase 5: Verification Loop
+### Phase 5: Verification Loop (TWO-LAYER)
 
-**This is iterative—repeat until all checks pass.**
+**This phase has TWO layers. Layer 1 (semantic) MUST pass before Layer 2 (visual).**
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│  Generate/Fix → Thumbnails → Review → Pass? ──Yes──→ Done
-│       ↑                         │                   │
-│       │                         No                  │
-│       │                         │                   │
-│       └─────────────────────────┘                   │
-│                                                     │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│  Draft → Semantic QA → Pass? ─No─→ Revise outline/content            │
+│              │                           │                           │
+│             Yes                          │                           │
+│              ↓                           │                           │
+│        Thumbnails → Visual QA → Pass? ─No─→ Fix layout/typography    │
+│              │                       │                               │
+│             Yes                      │                               │
+│              ↓                       │                               │
+│            Done ←────────────────────┘                               │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
-#### Step 5a: Generate Thumbnail Grid
+---
+
+#### LAYER 1: Semantic Verification (Do This FIRST)
+
+**Before generating thumbnails**, verify the presentation tells a coherent story.
+
+##### Step 5a: Create Semantic QA Checklist
+
+Create `workspace/semantic-qa.md`:
+
+```markdown
+# Semantic QA: [Chapter Name] Presentation
+
+**Chosen spine**: [Teaching / Chapter]
+**Date**: [YYYY-MM-DD]
+
+## Checklist
+
+| Check | Pass? | Issue (if any) |
+|-------|-------|----------------|
+| Slides follow chosen spine (no A→B→A jumps) | | |
+| Each slide has ONE clear takeaway | | |
+| No topics introduced outside approved outline | | |
+| All terminology introduced before use | | |
+| No invented facts, metrics, or claims | | |
+| No forbidden topics (pricing, revenue, market size) | | |
+| Coverage-matrix shows 100% lesson coverage | | |
+
+## Slide-by-Slide Review
+
+| Slide | Title | Spine Role | Takeaway | Issues |
+|-------|-------|------------|----------|--------|
+| 1 | | Title | | |
+| 2 | | Hook | | |
+| 3 | | Roadmap | | |
+| ... | | | | |
+
+## Flagged Issues
+
+1. [Issue description and which slide]
+2. ...
+
+## Decision
+
+- [ ] **PASS** — Ready for visual QA (Layer 2)
+- [ ] **FAIL** — Must revise (see flagged issues above)
+```
+
+##### Step 5b: Evaluate Against Semantic Criteria
+
+For each slide, verify:
+1. **Spine alignment**: Does this slide belong in the narrative flow?
+2. **Single takeaway**: Can you state the ONE point in one sentence?
+3. **Source fidelity**: Is every fact traceable to chapter content?
+4. **Scope compliance**: No forbidden topics (pricing, revenue, etc.)?
+
+##### Step 5c: Fix Semantic Violations
+
+If ANY semantic check fails:
+1. Identify which slides violate which rules
+2. Revise the outline if needed
+3. Regenerate affected slides
+4. Re-run Layer 1 until all checks pass
+
+**Do NOT proceed to Layer 2 until Layer 1 passes.**
+
+---
+
+#### LAYER 2: Visual Verification
+
+**Only after Layer 1 passes**, verify visual quality.
+
+##### Step 5d: Generate Thumbnail Grid
 ```bash
 python scripts/thumbnail.py workspace/draft-v1.pptx workspace/review --cols 4
 ```
 
-#### Step 5b: Visual Inspection Checklist
+##### Step 5e: Visual Inspection Checklist
 
 Review each thumbnail and check:
 
@@ -720,7 +909,7 @@ Review each thumbnail and check:
 | No text cut off or overlapping | | |
 | Adequate whitespace (not cramped) | | |
 
-#### Step 5c: Fix Violations
+##### Step 5f: Fix Visual Violations
 
 For each failed check:
 1. Note the slide number and issue
@@ -728,10 +917,10 @@ For each failed check:
 3. Fix in source HTML/code
 4. Regenerate affected slides
 
-#### Step 5d: Iterate
+##### Step 5g: Iterate
 
-Repeat Steps 5a-5c until:
-- All checklist items pass
+Repeat Steps 5d-5f until:
+- All visual checklist items pass
 - Thumbnail review shows professional quality
 - Would pass the "KubeCon talk" test
 
@@ -794,3 +983,110 @@ Required dependencies (should already be installed):
 - **LibreOffice**: `sudo apt-get install libreoffice` (for PDF conversion)
 - **Poppler**: `sudo apt-get install poppler-utils` (for pdftoppm to convert PDF to images)
 - **defusedxml**: `pip install defusedxml` (for secure XML parsing)
+
+## Artifact Templates
+
+Copy these templates when creating the required workspace artifacts.
+
+### coverage-matrix.md Template
+
+```markdown
+# Coverage Matrix: [Chapter Name]
+
+**Chapter path**: [apps/learn-app/docs/.../XX-chapter-name/]
+**Chosen spine**: [Teaching / Chapter]
+**Date**: [YYYY-MM-DD]
+
+## Lesson Coverage
+
+| # | Lesson Title | Key Concepts | Slide(s) | Status |
+|---|--------------|--------------|----------|--------|
+| 1 | | | | |
+| 2 | | | | |
+| 3 | | | | |
+| ... | | | | |
+
+## Learning Objectives Coverage
+
+| Objective (from chapter README) | Slide(s) | Status |
+|---------------------------------|----------|--------|
+| | | |
+| | | |
+
+## Omissions
+
+List any content intentionally excluded and justify why:
+
+- **None** — all content covered
+
+OR
+
+- **[Topic]**: [Reason for exclusion]
+
+## Verification
+
+- [ ] Every lesson has ≥1 slide
+- [ ] Every learning objective is addressed
+- [ ] All omissions are justified above
+```
+
+### semantic-qa.md Template
+
+```markdown
+# Semantic QA: [Chapter Name] Presentation
+
+**Chosen spine**: [Teaching / Chapter]
+**Date**: [YYYY-MM-DD]
+**Reviewer**: Claude
+
+## Semantic Checklist
+
+| # | Check | Pass? | Issue (if failed) |
+|---|-------|-------|-------------------|
+| 1 | Slides follow chosen spine (no A→B→A jumps) | | |
+| 2 | Each slide has ONE clear takeaway | | |
+| 3 | No topics introduced outside approved outline | | |
+| 4 | All terminology introduced before use | | |
+| 5 | No invented facts, metrics, or claims | | |
+| 6 | No forbidden topics (pricing, revenue, market size) | | |
+| 7 | Coverage-matrix shows 100% lesson coverage | | |
+
+## Slide-by-Slide Audit
+
+| Slide | Title | Spine Role | Single Takeaway | Issues |
+|-------|-------|------------|-----------------|--------|
+| 1 | | | | |
+| 2 | | | | |
+| 3 | | | | |
+| ... | | | | |
+
+## Flagged Issues
+
+List all issues found during review:
+
+1. [None found]
+
+OR
+
+1. **Slide X**: [Description of issue]
+2. **Slide Y**: [Description of issue]
+
+## Forbidden Topic Scan
+
+Searched for and found:
+
+- [ ] Business models / pricing → **Not found** / Found on slide(s): ___
+- [ ] ARR / MAU / revenue → **Not found** / Found on slide(s): ___
+- [ ] Market sizing → **Not found** / Found on slide(s): ___
+- [ ] "Digital FTE economics" → **Not found** / Found on slide(s): ___
+
+## Final Decision
+
+- [ ] **PASS** — All semantic checks pass. Ready for Layer 2 (visual QA).
+- [ ] **FAIL** — Issues found above must be fixed before proceeding.
+
+### If FAIL, action plan:
+
+1. [What needs to change]
+2. [Which slides to regenerate]
+```

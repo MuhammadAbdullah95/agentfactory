@@ -825,3 +825,21 @@ null
 
 
 
+{"timestamp":"2026-01-19T08:30:20Z","session_id":"ac1fcef8-ac11-4adf-87b5-03f6d02a7f51","prompt":"We need current ch 5 presentation that everyone can use to presen it from practical classes to profesisonal board room dorector meetigns and  traininsgs"}
+{"timestamp":"2026-01-19T08:30:49Z","session_id":"b3c7f13b-1b04-4ca0-9170-e27d60ab5e1a","prompt":"/pptx We need current ch 5 presentation that everyone can use to presen it from             \n  practical classes to profesisonal board room dorector meetigns and  traininsgs "}
+{"timestamp":"2026-01-19T08:37:42Z","session_id":"b3c7f13b-1b04-4ca0-9170-e27d60ab5e1a","prompt":"First 7 slides sounds too verbose and incorrect like Claude -> General Agent works from a trip planning to accounting and software. and OODA Loop can be skipped and what about Factory Model shall be reall at this point? "}
+
+{"timestamp":"2026-01-19T08:39:53Z","session_id":"b3c7f13b-1b04-4ca0-9170-e27d60ab5e1a","prompt":"Looks better lets ship"}
+
+{"timestamp":"2026-01-19T09:09:57Z","session_id":"b3c7f13b-1b04-4ca0-9170-e27d60ab5e1a","prompt":"I really don;t like the sldes, somewher enumbers are missing and somewhere the slides themself make no sense, no fluency or professionalism and many important points looks missed. The question is \nI really don;t like the sldes, somewher enumbers are missing and somewhere the        \n  slides themself make no sense, no fluency or professionalism and many important       \n  points looks missed. The question is      \n\n\nWe jump from topic a to b and then come back to a and mention tokens randomly too tehcncal and then back to business. It;s like a 3 calss chile making this fris time to learn pptx "}
+{"timestamp":"2026-01-19T09:10:36Z","session_id":"d06b4ccb-69e8-40d2-8fe2-11347ed5073d","prompt":"Readers feedbacl: Hooks don;t work and FYI w ehave hooks setup even here @.claude/hooks so check offical docs and replan this lesson as well"}
+{"timestamp":"2026-01-19T09:12:19Z","session_id":"d06b4ccb-69e8-40d2-8fe2-11347ed5073d","prompt":"Now your lesson looks really weird idon;t know what plugins are and why use them. and why did you use content imlementor subagent for fixing this elsson. And also Readers feedbacl: Hooks don;t work and FYI w ehave hooks setup even here @.claude/hooks so check offical docs and replan this lesson as well"}
+{"timestamp":"2026-01-19T09:14:21Z","session_id":"b3c7f13b-1b04-4ca0-9170-e27d60ab5e1a","prompt":"What is problem in oir skill pptx"}
+
+
+
+
+
+{"timestamp":"2026-01-19T09:37:34Z","session_id":"65d4fc15-8ea7-4c84-b42e-28034e950579","prompt":"Can you improve this so it;s easy to udnerstand \n**Hooks are user-defined shell commands that execute at specific points in Claude Code's lifecycle.**\n\nThey give you **deterministic control** over Claude's behavior—ensuring certain actions *always* happen rather than relying on the LLM to choose to run them."}
+{"timestamp":"2026-01-19T09:39:10Z","session_id":"d06b4ccb-69e8-40d2-8fe2-11347ed5073d","prompt":" Can you improve this so it;s easy to udnerstand                                       \n  **Hooks are user-defined shell commands that execute at specific points in Claude     \n  Code's lifecycle.**                                                                   \n                                                                                        \n  They give you **deterministic control** over Claude's behavior—ensuring certain       \n  actions *always* happen rather than relying on the LLM to choose to run them.         \n "}
+{"timestamp":"2026-01-19T09:39:30Z","session_id":"65d4fc15-8ea7-4c84-b42e-28034e950579","prompt":"as. a user what prompt shall i use with this skill  "}

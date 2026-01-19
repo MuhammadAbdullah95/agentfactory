@@ -9,7 +9,10 @@
     "affected": "nx affected"
   },
   "dependencies": {
-    "nx": "^22.2.3"
+    "nx": "^22.2.3",
+    "playwright": "^1.57.0",
+    "pptxgenjs": "^4.0.1",
+    "sharp": "^0.34.4"
   },
   "devDependencies": {
     "@nx/js": "^22.2.3",

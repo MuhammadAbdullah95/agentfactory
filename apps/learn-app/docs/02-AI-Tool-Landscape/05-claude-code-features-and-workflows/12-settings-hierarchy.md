@@ -361,11 +361,11 @@ The `.claude/` directory is how Claude Code stores project customization. Deleti
 
 This lesson teaches you that **settings exist and how the hierarchy works**. You don't need to configure them yet. Basic Claude Code usage works perfectly fine with defaults.
 
-**Detailed settings configuration** (what specific settings do, how to change them, team policies) is **Part 5 content** (Spec-Driven Development, team workflows). For now, just know:
+**Detailed settings configuration** (what specific settings do, how to change them, team policies) is **Part 4 content** (Spec-Driven Development, team workflows). For now, just know:
 
-✅ Settings exist at three levels
-✅ Precedence is: local > project > user
-✅ This hierarchy enables team collaboration + personal customization
+- ✅ Settings exist at three levels
+- ✅ Precedence is: local > project > user
+- ✅ This hierarchy enables team collaboration + personal customization
 
 That's enough to understand when you encounter `.claude/settings.json` references in documentation.
 

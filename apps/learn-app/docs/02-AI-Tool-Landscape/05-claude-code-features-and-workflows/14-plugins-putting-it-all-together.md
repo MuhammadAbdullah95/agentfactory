@@ -1,309 +1,344 @@
 ---
-title: "Discovering and Using Claude Code Plugins"
+title: "Plugins: Discover and Install"
 sidebar_position: 14
 chapter: 5
 lesson: 14
-duration_minutes: 15
+duration_minutes: 12
 
 # PEDAGOGICAL LAYER METADATA
-primary_layer: "Layer 4"
-layer_progression: "L4 (Spec-Driven Composition - capstone)"
+primary_layer: "Layer 2"
+layer_progression: "L2 (AI Collaboration)"
 layer_1_foundation: "N/A"
-layer_2_collaboration: "AI helps discover appropriate plugins for workflow needs, student evaluates plugin fit before installation"
-layer_3_intelligence: "Understanding plugin manifest structure as composition of accumulated intelligence (skills + agents + hooks + MCP)"
-layer_4_capstone: "Installing and orchestrating pre-built plugins, recognizing when to compose existing capabilities vs build custom, evaluating plugin marketplaces for workflow needs"
+layer_2_collaboration: "AI helps discover appropriate plugins for workflow needs, student evaluates plugin fit"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "N/A"
 
 # HIDDEN SKILLS METADATA
 skills:
-  - name: "Leveraging Claude Code Ecosystem and Plugins"
+  - name: "Discovering and Installing Claude Code Plugins"
     proficiency_level: "B1"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can discover plugins through marketplaces, install pre-built plugins from Anthropic's repository, understand plugin composition architecture, and recognize when plugins solve workflow needs vs requiring custom development"
+    measurable_at_this_level: "Student can browse the plugin marketplace, install plugins, and use installed plugin commands"
 
 learning_objectives:
-  - objective: "Understand plugins as bundled capabilities (skills + agents + hooks + MCP)"
+  - objective: "Browse the official plugin marketplace using /plugin"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful navigation of Discover tab and plugin details"
+  - objective: "Install a plugin from the official marketplace"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Successful installation of commit-commands or another plugin"
+  - objective: "Use an installed plugin's commands"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Execution of plugin command like /commit-commands:commit"
+  - objective: "Understand what plugins bundle (skills, agents, hooks, MCP)"
     proficiency_level: "B1"
     bloom_level: "Understand"
-    assessment_method: "Explanation of plugin manifest structure and component composition"
-  - objective: "Discover available plugins through marketplaces"
-    proficiency_level: "B1"
-    bloom_level: "Apply"
-    assessment_method: "Navigation of Anthropic skills repository and marketplace listing"
-  - objective: "Install and use pre-built plugins from Anthropic's skills repository"
-    proficiency_level: "B1"
-    bloom_level: "Apply"
-    assessment_method: "Successful installation of example-skills bundle using /plugin commands"
-  - objective: "Recognize when a plugin solves your workflow needs"
-    proficiency_level: "B1"
-    bloom_level: "Evaluate"
-    assessment_method: "Decision analysis comparing existing plugin capabilities vs custom development requirements"
+    assessment_method: "Explanation of plugin components"
 
 # Cognitive load tracking
 cognitive_load:
-  new_concepts: 8
-  assessment: "8 concepts (plugin definition, component bundling, marketplaces, plugin manifest, /plugin commands, Anthropic skills repository, composition architecture, evaluation criteria) - within B1 limit of 10 ✓"
+  new_concepts: 4
+  assessment: "4 concepts (plugin marketplace, Discover tab, installation scopes, plugin commands) - within B1 limit of 10 ✓"
 
 # Differentiation guidance
 differentiation:
-  extension_for_advanced: "Create custom plugin manifests bundling organization-specific capabilities; design multi-marketplace distribution strategies"
-  remedial_for_struggling: "Install example-skills and use canvas-design skill before understanding plugin architecture; practical experience before theoretical composition"
+  extension_for_advanced: "Add third-party marketplaces; explore plugin manifest structure"
+  remedial_for_struggling: "Focus on installing and using one plugin before exploring categories"
 
 # Generation metadata
-generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
+generated_by: "content-implementer v1.0.0"
 source_spec: "specs/029-chapter-5-refinement/spec.md"
 created: "2025-01-17"
-last_modified: "2025-01-17"
+last_modified: "2026-01-19"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "2.0.0"
+version: "3.0.0"
 
 # Legacy compatibility
 prerequisites:
-  - "Lessons 01-13: Complete understanding of all Claude Code features"
-  - "Understanding of composition and orchestration"
+  - "Lessons 01-13: Claude Code features including skills, subagents, hooks, settings"
 ---
 
-# Discovering and Using Claude Code Plugins
+# Plugins: Discover and Install
 
-You've learned to create skills, use subagents, and connect MCP servers. But what if someone has already built exactly what you need?
-
-**Scenario**: You want Claude to help with:
-- Creating visual designs (canvas art, diagrams)
-- Building web apps with React components
-- Testing web applications automatically
-- Following your company's brand guidelines
-
-**Question**: Should you build these capabilities from scratch, or use what already exists?
-
-**Answer**: Use existing plugins from marketplaces.
+You've learned to create skills, configure hooks, and use subagents. But what if someone has already built exactly what you need?
 
 ---
 
 ## What Are Plugins?
 
-**Definition**: A plugin is a **bundled package** that can include:
+A **plugin** bundles multiple Claude Code components into one installable package:
 
-1. **Skills** (autonomous capabilities Claude discovers)
-2. **Subagents** (specialized AI assistants)
-3. **Hooks** (event-driven automation)
-4. **Commands** (slash commands like `/design`)
-5. **MCP configuration** (external integrations)
+| Component | What It Does |
+|-----------|--------------|
+| **Skills** | Autonomous capabilities Claude discovers and uses |
+| **Commands** | Slash commands like `/commit-commands:commit` |
+| **Agents** | Specialized subagents for focused tasks |
+| **Hooks** | Event automation (format on save, validate on edit) |
+| **MCP servers** | External integrations (GitHub, Slack, etc.) |
 
-**Think of plugins as**: Pre-built toolkits that extend Claude's capabilities in specific domains (design, testing, development, enterprise workflows).
-
-**Key insight**: You don't need to build everything yourself. Marketplaces provide ready-to-use plugins created by Anthropic and the community.
-
-#### 💬 AI Colearning Prompt
-> "Explain how plugins bundle multiple Claude Code components (skills, agents, hooks, MCP). Why is bundling better than installing each component separately?"
+**Think of plugins as**: Complete capability packages. Instead of manually setting up skills, hooks, agents, and MCP servers separately, you install one plugin and everything works together.
 
 ---
 
-## Discovering Plugins: Anthropic's Skills Marketplace
+## Why Use Plugins?
 
-The easiest way to extend Claude Code is using **Anthropic's official skills repository**—a curated collection of pre-built capabilities.
+**Without plugins**, adding GitHub integration means:
+1. Find an MCP server for GitHub
+2. Configure it in your settings
+3. Maybe create skills to use it well
+4. Maybe add hooks for automation
+5. Test everything works together
 
-### What's Available in the Skills Repository?
-
-The Anthropic skills marketplace provides **two main plugin bundles**:
-
-**1. example-skills** - Creative and development capabilities (canvas design, web testing, communications, and more)
-
-**2. document-skills** - Document processing suite (Word, PDF, PowerPoint, Excel)
-
-### How to Add the Skills Marketplace
-
-In Claude Code, run:
-
-```bash
-/plugin marketplace add anthropics/skills
+**With plugins**, you run:
+```
+/plugin install github@claude-plugins-official
 ```
 
-**What happens**:
-1. Claude Code connects to https://github.com/anthropics/skills
-2. Downloads the marketplace configuration
-3. Marketplace appears as **"anthropic-agent-skills"** in your plugin list
+Done. GitHub integration works—including MCP config, any bundled skills, and automation hooks.
 
-### Browse and Install Plugins
-
-After adding the marketplace, run `/plugin` to see an interactive menu that guides you through browsing and installing available plugins.
-
-### Install a Plugin Bundle
-
-Use the `/plugin` UI to browse and install, or run directly:
-
-```bash
-/plugin install example-skills@anthropic-agent-skills
-```
-
-Claude Code downloads the skills bundle and installs it to `.claude/skills/`, making all skills immediately available.
-
-### Test Your Installed Skills
-
-After installing `example-skills`, try asking Claude to create a visual diagram. The canvas-design skill will activate automatically when it detects visual/design requests.
-
-#### 🤝 Practice Exercise
-
-> **Ask your AI**: "I just installed the example-skills plugin from Anthropic. List what capabilities this plugin provides. Then help me create a simple visual diagram showing how plugins, skills, and subagents relate to each other."
-
-**Expected Outcome**: You'll understand what the plugin bundle includes and see a skill in action (canvas-design creating a visual).
+**The principle**: Check what exists before building from scratch.
 
 ---
 
-## Plugin Marketplaces: Beyond Anthropic
+## You Already Have a Plugin Marketplace
 
-### Adding Custom Marketplaces
+Run this command in Claude Code right now:
 
-You can add marketplaces from:
-
-**GitHub repositories**:
-```bash
-/plugin marketplace add owner/repo
 ```
-
-**GitLab or other git services**:
-```bash
-/plugin marketplace add https://gitlab.com/company/plugins.git
-```
-
-**Local paths** (for development):
-```bash
-/plugin marketplace add ./my-marketplace
-```
-
-**Direct URLs**:
-```bash
-/plugin marketplace add https://url.of/marketplace.json
-```
-
-### List Installed Marketplaces
-
-```bash
-/plugin marketplace list
+/plugin
 ```
 
 **What you'll see**:
-- All marketplaces you've added
-- Source URLs
-- Number of plugins available from each
-
----
-
-## When to Use Existing Plugins vs. Create Custom
-
-**Use existing plugins** when standard capabilities exist (design, testing, document processing). **Create custom** when your workflow is team-specific or no existing plugin matches your needs. Check marketplaces first.
-
-#### 🎓 Expert Insight
-> In AI-native development, knowing what already exists is more valuable than building from scratch. Check marketplaces first—leverage community intelligence before creating custom solutions. Reuse is strategic; reinvention is waste.
-
----
-
-## Hands-On: Set Up the Anthropic Skills Marketplace
-
-### Step 1: Add the Marketplace
-
-```bash
-claude
-/plugin marketplace add anthropics/skills
+```
+│ Plugin Manager                                                                       │
+│                                                                                      │
+│   Discover   │   Installed   │   Marketplaces   │   Errors                          │
+│                                                                                      │
+│   Code intelligence                                                                  │
+│   ❯ typescript-lsp - TypeScript/JavaScript language server                          │
+│     python-lsp - Python language server (Pyright)                                   │
+│     rust-analyzer-lsp - Rust language server                                        │
+│     gopls-lsp - Go language server                                                  │
+│                                                                                      │
+│   External integrations                                                              │
+│     github - GitHub integration                                                      │
+│     slack - Slack integration                                                        │
+│     linear - Linear project management                                               │
+│                                                                                      │
+│   Development workflows                                                              │
+│     commit-commands - Git commit workflows                                           │
+│     pr-review-toolkit - Pull request review agents                                   │
 ```
 
-### Step 2: Install a Plugin Bundle
+The **official Anthropic marketplace** is automatically available. No setup needed.
 
-```bash
-/plugin install example-skills@anthropic-agent-skills
+Use **Tab** to switch between tabs:
+- **Discover**: Browse available plugins
+- **Installed**: See what you've installed
+- **Marketplaces**: Manage plugin sources
+- **Errors**: Debug plugin issues
+
+---
+
+## Try It Now: Install Your First Plugin
+
+Let's install **commit-commands**—a plugin that helps with git workflows.
+
+### Option 1: Use the UI
+
+1. Run `/plugin`
+2. Go to the **Discover** tab
+3. Find **commit-commands** under "Development workflows"
+4. Press **Enter** to see details
+5. Choose **User scope** (available in all projects)
+
+### Option 2: Install Directly
+
+```
+/plugin install commit-commands@claude-plugins-official
 ```
 
-### Step 3: Test the Installation
-
-Ask Claude: "What skills do you have available?" You should see the installed skills listed.
-
-**What you just did**: Added Anthropic's marketplace and installed production-quality skills that are now available across all Claude Code sessions.
-
----
-
-## Official Resources
-
-**Anthropic Skills Repository**:
-- https://github.com/anthropics/skills
-- Browse all available skills
-- View skill source code and documentation
-- Learn from professional skill examples
-
-**Plugin Marketplaces Documentation**:
-- https://code.claude.com/docs/en/plugin-marketplaces
-- How to create custom marketplaces
-- Team distribution strategies
-- Advanced marketplace configuration
-
-**When You're Ready to Build**:
-After using existing plugins, you can learn to create custom ones in advanced content (Part 5+).
+**What happens**:
+- Plugin downloads and installs
+- New commands become available immediately
+- Plugin appears in your **Installed** tab
 
 ---
 
-## Why This Matters: Composition as Organizational Practice
+## Try It Now: Use Your New Plugin
 
-**Workflow Impact**: Plugins bundle everything you've learned (CLAUDE.md, MCP, Subagents, Skills, Hooks) into shareable, reusable packages.
+After installing **commit-commands**, make a small change to any file, then run:
 
-**Paradigm Connection**: This is L4—spec-driven composition. You define WHAT you need (design tools, testing automation, document processing), install the plugin, and orchestrate the capabilities.
-
-**Real-World Context**: Teams can distribute organizational intelligence as plugins. Your company's code review process, brand guidelines, deployment workflows—all packaged as plugins that work the same way for every team member.
-
-**From scattered to unified**: Before plugins, skills lived in `.claude/skills/`, agents in `.claude/agents/`, MCP configs elsewhere. Plugins bundle everything into one installable package.
-
----
-
-## Plugin Architecture: The Manifest
-
-Every plugin has a `.claude-plugin/plugin.json` manifest listing its components:
-
-```json
-{
-  "name": "feature-dev",
-  "version": "1.0.0",
-  "description": "Feature development workflow",
-  "components": {
-    "skills": [{ "path": "skills/code-quality-checker" }],
-    "commands": [{ "name": "code-review", "path": "commands/code-review.md" }],
-    "agents": [{ "name": "test-orchestrator", "path": "agents/test-orchestrator.md" }],
-    "hooks": [{ "trigger": "PreToolUse", "path": "hooks/pre-tool-validation.md" }],
-    "mcp_config": "mcp-servers.json"
-  }
-}
+```
+/commit-commands:commit
 ```
 
-**A single plugin can bundle skills, commands, agents, hooks, and MCP—everything you've learned in Lessons 1-13.**
+**What happens**:
+1. Plugin stages your changes
+2. Generates a commit message based on the diff
+3. Creates the commit
+
+**That's it!** You just extended Claude Code with one command.
 
 ---
 
-## How Components Work Together
+## What's in the Official Marketplace?
 
-**Skills**: Claude discovers and uses autonomously
-**Commands**: You invoke explicitly with `/command-name`
-**Agents**: Specialized assistants for focused tasks
-**Hooks**: Event-triggered automation
-**MCP**: External integrations
+| Category | Plugins | What They Do |
+|----------|---------|--------------|
+| **Code intelligence** | `typescript-lsp`, `python-lsp`, `rust-analyzer-lsp`, `gopls-lsp` | Jump to definitions, find references, see type errors |
+| **External integrations** | `github`, `gitlab`, `slack`, `linear`, `notion`, `figma` | Connect to external services |
+| **Development workflows** | `commit-commands`, `pr-review-toolkit`, `plugin-dev` | Git workflows, PR reviews, plugin creation |
+| **Output styles** | `explanatory-output-style`, `learning-output-style` | Customize how Claude responds |
 
-**All bundled in one plugin** for easy sharing.
+### Code Intelligence Plugins
+
+These use the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) (LSP)—the same technology that powers VS Code's code intelligence.
+
+**After installing** (e.g., `typescript-lsp`), Claude can:
+- Jump to function definitions
+- Find all references to a variable
+- See type errors immediately after edits
+
+**Note**: LSP plugins require the language server binary installed on your system. If you see "Executable not found," install the required binary:
+
+| Plugin | Binary Required |
+|--------|-----------------|
+| `typescript-lsp` | `typescript-language-server` |
+| `python-lsp` | `pyright-langserver` |
+| `rust-analyzer-lsp` | `rust-analyzer` |
+| `gopls-lsp` | `gopls` |
+
+### External Integration Plugins
+
+Connect Claude to services you already use:
+
+```
+/plugin install github@claude-plugins-official
+```
+
+Now Claude can interact with GitHub issues, PRs, and repositories directly.
+
+---
+
+## Installation Scopes
+
+When you install a plugin, choose where it applies:
+
+| Scope | Who Uses It | Where It's Stored |
+|-------|-------------|-------------------|
+| **User** | Just you, all projects | `~/.claude/` |
+| **Project** | Everyone on this repo | `.claude/settings.json` |
+| **Local** | Just you, this repo only | Local settings |
+
+**Recommendation**: Start with **User scope** for personal tools, **Project scope** for team standards.
+
+---
+
+## Managing Plugins
+
+### See What's Installed
+
+```
+/plugin
+```
+
+Go to the **Installed** tab.
+
+### Disable Without Uninstalling
+
+```
+/plugin disable plugin-name@marketplace-name
+```
+
+### Re-enable
+
+```
+/plugin enable plugin-name@marketplace-name
+```
+
+### Completely Remove
+
+```
+/plugin uninstall plugin-name@marketplace-name
+```
+
+---
+
+## Adding More Marketplaces
+
+The official marketplace is just the start. You can add others:
+
+**GitHub repositories**:
+```
+/plugin marketplace add owner/repo
+```
+
+**GitLab or other git hosts**:
+```
+/plugin marketplace add https://gitlab.com/company/plugins.git
+```
+
+**Local development**:
+```
+/plugin marketplace add ./my-marketplace
+```
+
+### The Demo Marketplace
+
+Anthropic maintains a demo marketplace with example plugins:
+
+```
+/plugin marketplace add anthropics/claude-code
+```
+
+This shows what's possible with the plugin system.
+
+---
+
+## When to Use Plugins vs. Build Custom
+
+| Situation | Recommendation |
+|-----------|----------------|
+| Standard task (git, GitHub, Slack) | Install existing plugin |
+| Team-specific workflow | Check marketplace first, then build custom |
+| Learning how plugins work | Install examples, study their structure |
+| No matching plugin exists | Create custom (advanced, Part 5+) |
+
+**Rule of thumb**: Check the marketplace before building from scratch.
+
+---
+
+### What's Next
+
+Lesson 15 introduces the **Ralph Wiggum Loop**—an autonomous iteration pattern where Claude validates and refines its own work. You'll see how to combine everything you've learned (skills, subagents, hooks, plugins) into self-correcting workflows.
 
 ---
 
 ## Try With AI
 
-Let's integrate everything you've learned about Claude Code's extensibility (CLAUDE.md, MCP, subagents, skills, hooks, settings) into a cohesive workflow.
+**🔍 Explore the Marketplace:**
 
-**🔍 Explore the Plugin Ecosystem:**
+> "Run /plugin and show me what's in the Discover tab. What categories of plugins are available? Which ones would be useful for [your work: web development / Python / data analysis]?"
 
-> "Show me how to install and use a skill plugin from the Anthropic skills repository (anthropics/skills). Walk me through: finding available plugins, installing one that seems useful, and testing it with a real task. How do I verify the plugin is active and working correctly?"
+**📦 Install and Test:**
 
-**💡 Understand the Decision Framework:**
+> "Help me install the commit-commands plugin. After it's installed, walk me through using /commit-commands:commit to commit a change. What other commands does this plugin provide?"
 
-> "I need Claude to help with [describe your specific task]. Should I: (a) use an existing plugin, (b) create a custom skill, (c) create a custom subagent, or (d) just ask Claude directly without customization? Walk me through the decision tree. What are the tradeoffs for each approach?"
+**🔌 Code Intelligence:**
 
-**🎯 Design Your Customization Stack:**
+> "I write [TypeScript / Python / Rust / Go]. Help me install the LSP plugin for my language. What do I need to install on my system first? After installation, show me how Claude can now jump to definitions and find references."
 
-> "Based on my workflow [describe what you do: web development / data analysis / content creation / etc.], help me design a complete Claude Code customization stack. What should I put in CLAUDE.md? Which MCP servers should I enable? Should I create custom skills or subagents? What hooks would save me time? Give me a prioritized action plan."
+**🔗 External Integration:**
 
-**🚀 Build Integration Workflow:**
+> "I want to connect Claude to [GitHub / Slack / Linear]. Help me install the appropriate plugin. What capabilities does it add? Show me an example of using it."
 
-> "I want to build a workflow that combines multiple Claude Code capabilities: use CLAUDE.md for project context, enable Playwright MCP for testing, create a custom 'test-generator' subagent, and add a pre-commit hook for linting. Help me design how these pieces work together. What's the setup order? How do they interact? What could go wrong?"
+**⚖️ Plugin Decision:**
+
+> "I need Claude to help with [describe your task]. Should I: (a) install an existing plugin, (b) create a custom skill, (c) just ask Claude directly? Help me decide based on what's available in the marketplace."

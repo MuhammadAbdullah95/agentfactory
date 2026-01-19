@@ -447,6 +447,18 @@ pnpm nx serve learn-app      # Dev server
 pnpm nx affected -t build    # Build affected
 ```
 
+### Pro Tip: Dev Server with PM2
+
+Run dev server in background so Claude Code can selectively read logs without bloating context:
+
+```bash
+pm2 start "pnpm nx serve learn-app" --name learn-app
+pm2 logs learn-app --lines 50    # Check recent logs
+pm2 logs learn-app --err         # Check errors only
+pm2 restart learn-app            # After config changes
+pm2 stop learn-app               # Stop server
+```
+
 ## PHR Documentation
 
 After completing significant work:
