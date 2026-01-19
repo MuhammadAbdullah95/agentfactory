@@ -997,3 +997,13 @@
 {"timestamp":"2026-01-16T12:15:07Z","session_id":"160a346a-cae7-42e1-82dd-8d325eeee12c","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
 {"timestamp":"2026-01-16T12:18:03Z","session_id":"160a346a-cae7-42e1-82dd-8d325eeee12c","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
 {"timestamp":"2026-01-16T12:18:38Z","session_id":"160a346a-cae7-42e1-82dd-8d325eeee12c","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T05:15:52Z","session_id":"7e157f2b-3076-4770-b691-b6b1f6615cfe","subagent":"Explore","description":"Explore Chapter 5 structure","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T05:16:37Z","session_id":"7e157f2b-3076-4770-b691-b6b1f6615cfe","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T05:51:52Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","description":"Explore Chapter 05 structure","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T05:51:52Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","description":"Explore current PPTX skill","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T05:51:52Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","description":"Research MIT-style slides","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T05:52:47Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T05:53:00Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T05:53:22Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T05:53:53Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Plan","description":"Design MIT-standard PPTX skill","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T05:57:12Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Plan","agent_id":"","status":"completed","event":"complete"}
