@@ -512,6 +512,21 @@ python scripts/thumbnail.py template.pptx analysis --cols 4
 
 When asked to create slides for a chapter (e.g., "make slides for Chapter 5"):
 
+### Workspace Structure
+
+All working files go in a `workspace/` directory (created in project root or specified location):
+
+```
+workspace/
+├── content-audit.md      ← Phase 1: Research notes
+├── slide-outline.md      ← Phase 2: Storyboard (user approves)
+├── draft-v1.pptx         ← Phase 4: First draft
+├── draft-v2.pptx         ← Phase 5: After fixes
+├── review/               ← Phase 5: Thumbnail grids
+│   └── thumbnails.jpg
+└── [chapter]-slides.pptx ← Phase 6: Final delivery
+```
+
 ### Phase 0: Resolve Chapter Path
 
 **CRITICAL**: Follow the CHAPTER/PART RESOLUTION PROTOCOL from CLAUDE.md.
@@ -529,7 +544,8 @@ When asked to create slides for a chapter (e.g., "make slides for Chapter 5"):
    ```bash
    ls apps/learn-app/docs/02-AI-Tool-Landscape/05-*/*.md | wc -l
    ```
-4. **Confirm with user** before proceeding
+4. **Create workspace**: `mkdir -p workspace`
+5. **Confirm with user** before proceeding
 
 **Example**: "ch 5" → `ls -d apps/learn-app/docs/*/05-*/` → `02-AI-Tool-Landscape/05-claude-code-features-and-workflows/`
 
@@ -537,15 +553,35 @@ When asked to create slides for a chapter (e.g., "make slides for Chapter 5"):
 
 **Goal**: Deeply understand content before any slide planning.
 
+**Output**: Save to `workspace/content-audit.md`
+
 1. **Read the chapter README** for learning objectives and scope
 2. **Read each lesson completely** and take structured notes:
    ```markdown
-   ## Lesson X: [Title]
+   # Content Audit: [Chapter Name]
+
+   **Chapter path**: [discovered path]
+   **Total lessons**: [N]
+   **Pedagogical layer**: [L1/L2/L3/L4]
+
+   ---
+
+   ## Lesson 1: [Title]
    - **Core concept**: [One sentence]
    - **Key takeaways**: [3-5 bullets]
    - **Needs diagram**: [Yes/No - what kind?]
    - **Memorable quote/example**: [If any]
    - **Word count**: [X words]
+
+   ## Lesson 2: [Title]
+   ...
+
+   ---
+
+   ## Narrative Arc
+   - **Problem this chapter solves**: [...]
+   - **The "aha moment"**: [...]
+   - **What to remember a week later**: [...]
    ```
 3. **Identify the narrative arc**:
    - What problem does this chapter solve?
@@ -557,6 +593,8 @@ When asked to create slides for a chapter (e.g., "make slides for Chapter 5"):
 
 **Goal**: Create a complete slide outline BEFORE generating any slides.
 
+**Output**: Save to `workspace/slide-outline.md`
+
 #### Step 2a: Determine Slide Budget
 
 | Content Type | Slides per 1000 words | Character |
@@ -567,7 +605,7 @@ When asked to create slides for a chapter (e.g., "make slides for Chapter 5"):
 
 #### Step 2b: Draft Slide-by-Slide Outline
 
-Create a detailed storyboard saved to `slide-outline.md`:
+Create a detailed storyboard in `workspace/slide-outline.md`:
 
 ```markdown
 # Chapter X Presentation Outline
@@ -639,9 +677,11 @@ For each slide in outline, ask:
 
 ### Phase 4: Generate Draft
 
+**Output**: Save to `workspace/draft-v1.pptx`
+
 1. Generate slides following the approved outline
 2. Apply MIT typography rules (24pt minimum, 4 bullets max)
-3. Save as `draft-v1.pptx`
+3. Save as `workspace/draft-v1.pptx`
 
 ### Phase 5: Verification Loop
 
@@ -661,7 +701,7 @@ For each slide in outline, ask:
 
 #### Step 5a: Generate Thumbnail Grid
 ```bash
-python scripts/thumbnail.py draft-v1.pptx workspace/review --cols 4
+python scripts/thumbnail.py workspace/draft-v1.pptx workspace/review --cols 4
 ```
 
 #### Step 5b: Visual Inspection Checklist
@@ -697,12 +737,17 @@ Repeat Steps 5a-5c until:
 
 ### Phase 6: Final Delivery
 
-1. Rename `draft-vN.pptx` to `[chapter-name]-slides.pptx`
-2. Generate final thumbnail grid for user review
+**Output**: Save to `workspace/[chapter-name]-slides.pptx`
+
+1. Rename `workspace/draft-vN.pptx` to `workspace/[chapter-name]-slides.pptx`
+2. Generate final thumbnail grid for user review:
+   ```bash
+   python scripts/thumbnail.py workspace/[chapter-name]-slides.pptx workspace/final --cols 4
+   ```
 3. Present to user with:
    - Final slide count
    - Any deviations from approved outline (and why)
-   - Thumbnail grid image
+   - Thumbnail grid image (`workspace/final-thumbnails.jpg`)
 
 ## Converting Slides to Images
 
