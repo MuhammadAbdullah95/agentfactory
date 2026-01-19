@@ -84,6 +84,44 @@ When content doesn't fit a slide:
 4. Only then compress wording
 5. **NEVER** shrink text below MIT typography minimums (24pt body, 40pt titles)
 
+### 7. Standalone Framing (Default)
+
+Unless explicitly requested otherwise, presentations should be **standalone**:
+
+- ❌ **Wrong**: "Chapter 5: Claude Code Features" (assumes book context)
+- ✅ **Correct**: "Claude Code: Your General Agent" (works for any audience)
+
+**Rules**:
+- No chapter/section/lesson numbers in titles
+- No "as we discussed in Lesson X" references
+- Presentation should work for someone who never read the source material
+- If user wants educational context markers, they must explicitly request it
+
+### 8. Approachable Language
+
+Use language that invites rather than intimidates:
+
+| ❌ Avoid | ✅ Use Instead |
+|----------|---------------|
+| "What You'll Master" | "By the End of This Session" |
+| "Prerequisites you must know" | "What helps to know first" |
+| "Advanced concepts" | "Deeper patterns" |
+| "Expert techniques" | "Pro tips" |
+
+**Tone**: Confident but welcoming. Never condescending, never gatekeeping.
+
+### 9. Lead with Hook, Not Objectives
+
+The first content slide must create curiosity, not list deliverables.
+
+**Slide order**:
+1. Title slide (compelling value proposition)
+2. Hook slide (paradigm shift, provocative question, or "what if")
+3. THEN learning objectives
+
+❌ **Wrong opening**: Slide 2 = "What You'll Learn: 1. Install... 2. Configure..."
+✅ **Correct opening**: Slide 2 = "What if one General Agent could build all your Custom Agents?"
+
 ---
 
 ## Overview
@@ -142,6 +180,35 @@ When creating a new PowerPoint presentation from scratch, use the **html2pptx** 
 - ✅ Create clear visual hierarchy through size, weight, and color
 - ✅ Ensure readability: strong contrast, appropriately sized text, clean alignment
 - ✅ Be consistent: repeat patterns, spacing, and visual language across slides
+
+#### MANDATORY Design Declaration
+
+Before writing ANY code, you MUST output a design declaration like this:
+
+```
+## Design Approach
+
+**Content analysis**: This presentation covers [topic]. The content suggests [mood/tone/energy].
+
+**Color palette**: [Palette name] because [reason tied to content]
+- Primary: #XXXXXX — [purpose, e.g., "titles, key statements"]
+- Accent 1: #XXXXXX — [purpose, e.g., "highlights, CTAs"]
+- Accent 2: #XXXXXX — [purpose, e.g., "secondary elements"]
+- Background: #XXXXXX — light for projection
+
+**Visual approach**: [e.g., "Accent bars on left edge, colored by topic"]
+```
+
+❌ **NEVER skip this declaration** — jumping straight to code caused bland, forgettable presentations.
+
+#### Color Anti-Patterns (NEVER DO)
+
+| ❌ Anti-Pattern | Why It's Wrong | ✅ Do Instead |
+|----------------|----------------|---------------|
+| Navy (#1a1a2e) + Gray (#666) | "Corporate safe" = forgettable | Vibrant palette matching content |
+| Default blue (#0066cc) | Looks like template placeholder | Intentional color with meaning |
+| All black text on white | Zero visual energy | Colored titles, accent elements |
+| Skipping declaration | Leads to autopilot choices | Always state approach first |
 
 #### Color Palette Selection
 
@@ -937,6 +1004,23 @@ Repeat Steps 5d-5f until:
    - Final slide count
    - Any deviations from approved outline (and why)
    - Thumbnail grid image (`workspace/final-thumbnails.jpg`)
+
+### Common Mistakes to Avoid
+
+These mistakes caused real presentation failures. Don't repeat them.
+
+| Mistake | What Happened | Prevention |
+|---------|---------------|------------|
+| **Skipping design declaration** | Jumped to code → bland navy/gray colors | ALWAYS output design approach FIRST |
+| **Using "Chapter X" in title** | Not standalone, assumes book context | Frame for ANY audience unless told otherwise |
+| **Opening with objectives** | Dry, no hook, audience disengages | Lead with paradigm shift or provocative question |
+| **Academic language** | "Master", "prerequisites" sounds gatekeeping | Use welcoming language: "By the end..." |
+| **Default colors** | Navy + gray = corporate template look | Vibrant, intentional palette matching content |
+| **Skipping thumbnail review** | Visual issues caught only by user | Generate + inspect thumbnails before delivery |
+| **Abbreviated semantic QA** | Missed coverage gaps, spine violations | Complete FULL slide-by-slide audit |
+| **Using python-pptx directly** | Manual positioning, harder to iterate | Prefer html2pptx for new presentations |
+
+**Rule**: If user has to correct design/framing issues, the skill failed. These should be right on first delivery.
 
 ## Converting Slides to Images
 
