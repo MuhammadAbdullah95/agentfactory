@@ -146,7 +146,7 @@ function AISpectrumSection() {
                 <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">AI as Helper</p>
               </div>
               <p className="text-muted-foreground mb-6 flex-grow">
-                AI enhances your productivity with code completion, debugging assistance, and documentation generation.
+                AI improves your productivity with code completion, debugging assistance, and documentation generation.
               </p>
               <ul className="space-y-2 mb-6 text-sm text-muted-foreground">
                 <li className="flex items-start"><span className="mr-2 text-primary">•</span>Code completion & suggestions</li>
