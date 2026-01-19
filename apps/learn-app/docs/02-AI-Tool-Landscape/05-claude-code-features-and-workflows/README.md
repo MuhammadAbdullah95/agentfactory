@@ -25,9 +25,9 @@ By the end of this chapter, you'll have:
 - **Persistent Project Context** — Creating CLAUDE.md files (Lesson 5) that eliminate repetitive context-sharing and establish team memory
 - **Teach Claude Your Way** — Mastering custom instructions (Lesson 6) to align Claude's behavior with your personal or team standards
 - **Autonomous Expertise** — Agent Skills (Lessons 7-8) with prompt patterns (Persona + Questions + Principles) and autonomous discovery
-- **External Integration** — MCP servers (Lesson 9) for safe access to external systems with practical Playwright and Context7 workflows
-- **Token Optimization** — Compiling MCP servers to Skills (Lesson 10) for 80-98% token reduction through progressive disclosure
-- **Subagent Orchestration** — Recognizing when Claude automatically delegates to Explore agent or Plan mode (Lesson 11) for complex tasks
+- **Subagent Orchestration** — Recognizing when Claude automatically delegates to Explore agent or Plan mode (Lesson 9) for complex tasks
+- **External Integration** — MCP servers (Lesson 10) for safe access to external systems with practical Playwright and Context7 workflows
+- **Token Optimization** — Compiling MCP servers to Skills (Lesson 11) for 80-98% token reduction through progressive disclosure
 - **Configuration Mastery** — Settings hierarchy (Lesson 12) and precedence rules (User, Project, Local) for team collaboration
 - **Event-Driven Automation** — Hooks (Lesson 13) for custom behaviors triggered by events (PreToolUse, PostToolUse, SessionStart)
 - **Complete Extensibility** — Discovering and using plugins (Lesson 14) from marketplaces like Anthropic's official skills repository

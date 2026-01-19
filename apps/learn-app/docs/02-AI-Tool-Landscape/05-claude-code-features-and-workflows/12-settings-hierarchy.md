@@ -67,7 +67,7 @@ prerequisites:
 
 # Settings Hierarchy
 
-You've built **Skills** (Lesson 8), connected **MCP servers** (Lesson 9), and used **Subagents** (Lesson 11). As your agent system grows, so does the complexity.
+You've built **Skills** (Lesson 8), used **Subagents** (Lesson 9), and connected **MCP servers** (Lesson 10). As your agent system grows, so does the complexity.
 
 How do you control permissions for all these tools? How do you ensure your team uses the same safety rules? How do you switch models without editing every file?
 

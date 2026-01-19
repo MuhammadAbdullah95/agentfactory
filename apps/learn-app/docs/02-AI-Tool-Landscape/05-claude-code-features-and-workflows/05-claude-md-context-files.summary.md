@@ -30,5 +30,5 @@ CLAUDE.md is a markdown file in your project root that Claude Code automatically
 
 ### Connections
 - **Builds on**: Claude Code installation and authentication (Lesson 2)
-- **Leads to**: Skills (Lessons 07-08) and Subagents (Lesson 11) inherit and extend CLAUDE.md context
+- **Leads to**: Skills (Lessons 07-08) and Subagents (Lesson 09) inherit and extend CLAUDE.md context
 - **Related standard**: AGENTS.md (universal), MCP (tool connections)—all now under AAIF governance

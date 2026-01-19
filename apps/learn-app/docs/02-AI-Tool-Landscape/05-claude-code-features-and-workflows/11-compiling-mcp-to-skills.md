@@ -1,14 +1,14 @@
 ---
 title: "Compiling MCP to Skills"
-sidebar_position: 10
+sidebar_position: 11
 chapter: 5
-lesson: 10
+lesson: 11
 duration_minutes: 20
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 2"
 layer_progression: "L2 (AI Collaboration) - using pre-compiled browsing-with-playwright skill to understand code execution pattern"
-layer_1_foundation: "Completed in Lessons 05-07 (Skills) and 09 (MCP)"
+layer_1_foundation: "Completed in Lessons 05-08 (Skills) and 10 (MCP)"
 layer_2_collaboration: "Experiencing token reduction through using compiled skill vs direct MCP"
 layer_3_intelligence: "N/A - Advanced lessons will cover skill creation"
 layer_4_capstone: "N/A"
@@ -67,12 +67,12 @@ version: "1.2.0"
 prerequisites:
   - "Lesson 06: Teach Claude Your Way (Skills Lab download)"
   - "Lesson 08: Agent Skills (SKILL.md format)"
-  - "Lesson 9: MCP Integration"
+  - "Lesson 10: MCP Integration"
 ---
 
 # Compiling MCP to Skills
 
-You learned in Lesson 9 that Claude Code's Tool Search automatically reduces MCP overhead by ~85%. For many workflows, that's enough.
+You learned in Lesson 10 that Claude Code's Tool Search automatically reduces MCP overhead by ~85%. For many workflows, that's enough.
 
 But what if you need:
 - **98% reduction** instead of 85%?
@@ -618,9 +618,9 @@ Now you have three approaches. Here's when to use each:
 
 ## What's Ahead
 
-You've experienced compiled skills and their massive token reduction—up to 98% savings while preserving full functionality. You understand the code execution pattern and why it works. But what happens when you need multiple skills working together on complex tasks?
+You've experienced compiled skills and their massive token reduction—up to 98% savings while preserving full functionality. You understand the code execution pattern and why it works.
 
-**Lesson 11: Subagents and Orchestration** introduces the next level: specialized AI assistants that handle specific types of work with isolated context. Where compiled skills give you _efficiency_, subagents give you _coordination_—a team of focused specialists instead of one overloaded generalist.
+**Lesson 12: Settings Hierarchy** introduces the three-level configuration system that lets you control permissions, share team standards, and customize Claude Code across projects—tying together all the features you've learned (CLAUDE.md, skills, subagents, MCP) into a cohesive, configurable system.
 
 **In advanced lessons**, you'll learn to create your own compiled skills using skill-creator, compiling other MCP servers (Google Drive, Database, etc.) and designing custom workflows. The skills you use from Skills Lab now become templates for creating your own later.
 

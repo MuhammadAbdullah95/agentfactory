@@ -25,5 +25,5 @@ MCP servers load ALL tool definitions at startup (5,000-8,000+ tokens each), cre
 - **Use compiled skill**: Repeated workflows (3+ calls), high-token servers (5,000+), large datasets needing filtering, multi-step workflows, team sharing, privacy-sensitive data
 
 ### Connections
-- **Builds on**: Skills (Lessons 07-08) for SKILL.md format and Skills Lab; MCP Integration (Lesson 9) for understanding MCP servers
-- **Leads to**: Subagents and Orchestration (Lesson 11) for composing skills into multi-agent workflows; Advanced lessons for creating your own compiled skills
+- **Builds on**: Skills (Lessons 07-08) for SKILL.md format and Skills Lab; MCP Integration (Lesson 10) for understanding MCP servers
+- **Leads to**: Settings Hierarchy (Lesson 12) for configuration management; Advanced lessons for creating your own compiled skills

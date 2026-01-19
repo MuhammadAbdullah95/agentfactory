@@ -182,7 +182,7 @@ This might be the most important insight from Boris's workflow:
 **The Philosophy**: You don't trust AI output—you instrument it. Give Claude tools to check its own work, and quality improves dramatically.
 
 **Connection to Chapter Concepts**:
-- **Lesson 9 (MCP Integration**): MCP tools can include verification capabilities—testing endpoints, validating outputs, checking UI state
+- **Lesson 10 (MCP Integration)**: MCP tools can include verification capabilities—testing endpoints, validating outputs, checking UI state
 - **Lesson 14 (Hooks)**: Hooks can trigger automated verification after Claude makes changes
 
 ---

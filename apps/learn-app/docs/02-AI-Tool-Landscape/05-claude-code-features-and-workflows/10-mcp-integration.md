@@ -1,8 +1,8 @@
 ---
 title: "MCP Integration"
-sidebar_position: 9
+sidebar_position: 10
 chapter: 5
-lesson: 9
+lesson: 10
 duration_minutes: 14
 
 # PEDAGOGICAL LAYER METADATA
@@ -360,7 +360,7 @@ Or set in `settings.json`:
 
 **For most users**: You don't need to do anything. Tool Search works automatically.
 
-**For power users**: Lesson 10 shows how to achieve even greater efficiency (98% reduction) through compilation—and how skills can intelligently guide which approach to use.
+**For power users**: Lesson 11 shows how to achieve even greater efficiency (98% reduction) through compilation—and how skills can intelligently guide which approach to use.
 
 #### 💬 AI Colearning Prompt
 > "I have 4 MCP servers installed. Help me understand: (1) How much context overhead am I generating? (2) Is Tool Search active for me? (3) What's my actual token consumption with Tool Search enabled vs disabled?"
@@ -425,7 +425,7 @@ Remember **Lesson 05 (CLAUDE.md)**? You taught Claude your project: files, folde
 
 Then **Lesson 08 (Skills)**? You taught Claude your domain procedures: workflows, decision trees, quality standards. That gave Claude Code *procedures*.
 
-Now **Lesson 9 (MCP)** teaches Claude where to find the world's knowledge and tools. That gives Claude Code *reach*.
+Now **Lesson 10 (MCP)** teaches Claude where to find the world's knowledge and tools. That gives Claude Code *reach*.
 
 **Together, these three pillars form the foundation of AI-native development:**
 
@@ -451,9 +451,7 @@ MCP extends Claude Code's reach from your local filesystem to the entire world o
 
 But what if you need even more control?
 
-**Lesson 10: Compiling MCP to Skills** teaches advanced optimization—achieving 98% token reduction through compilation. You'll also learn how skills can intelligently guide Claude on when to use Tool Search vs compiled patterns.
-
-**Lesson 11: Subagents and Orchestration** introduces specialized AI assistants that coordinate multiple skills and MCP servers together.
+**Lesson 11: Compiling MCP to Skills** teaches advanced optimization—achieving 98% token reduction through compilation. You'll learn how skills can intelligently guide Claude on when to use Tool Search vs compiled patterns, combining the subagent orchestration you learned in Lesson 9 with MCP's external access.
 
 ---
 

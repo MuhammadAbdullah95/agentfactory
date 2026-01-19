@@ -204,7 +204,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 0,
       explanation: "This scenario demonstrates a key use case for MCP: extending Claude Code's capabilities with project-specific tools. By creating an MCP server that exposes database operations (e.g., 'query_users', 'update_order') implemented using your internal package, you make these operations first-class tools in Claude Code's toolbox. This is more effective than documentation alone because tools are directly invokable with typed interfaces, reducing ambiguity. Option B (CLAUDE.md) can help but doesn't give Claude Code direct access to the package's capabilities. Option C misunderstands the issue—installation doesn't teach Claude Code when or how to use the package. Option D (hooks) would require post-processing generated code, which is fragile and complex. MCP's value is adding capabilities through structured, typed tool interfaces that Claude Code can use as naturally as built-in tools.",
-      source: "Lesson 9: MCP Integration"
+      source: "Lesson 10: MCP Integration"
     },
     {
       question: "You're implementing an MCP server that provides access to your company's internal knowledge base. During testing, Claude Code makes many redundant API calls to fetch the same documentation. Which design principle would most effectively optimize this scenario?",
@@ -216,7 +216,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 1,
       explanation: "This question tests understanding of where optimization belongs in system architecture. The MCP server is the correct layer for caching because it controls the external API interaction and can implement intelligent caching policies (TTL, invalidation, etc.) transparently to Claude Code. This follows the single responsibility principle—the MCP server manages API interaction efficiency, while Claude Code focuses on using the tools. Option B is ineffective because CLAUDE.md guidance can't reliably prevent redundant calls—Claude Code might need the information multiple times for different contexts. Option C damages functionality by removing useful capabilities just to avoid optimization. Option D doesn't exist—Claude Code doesn't have built-in MCP request batching, and even if it did, caching is still needed. The principle here is architectural: handle cross-cutting concerns (caching, rate limiting) at the appropriate abstraction layer, not through caller-side behavior constraints.",
-      source: "Lesson 9: MCP Integration"
+      source: "Lesson 10: MCP Integration"
     },
     {
       question: "Your MCP server exposes a 'deploy_to_production' tool. After an incident where Claude Code triggered an unintended deployment, your team wants to add safeguards. Which approach best balances safety with MCP's tool-based architecture?",
@@ -228,7 +228,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 3,
       explanation: "This scenario illustrates how to design safe MCP tools without sacrificing automation benefits. By adding required parameters like 'confirmed=true' or 'approval_code' to the deploy tool, you force explicit intent—Claude Code must consciously construct a call with these parameters, reducing accidental triggers. This is analogous to 'rm -rf' requiring explicit paths rather than having a default. Option B overreacts by eliminating valuable automation. Option C is unreliable because CLAUDE.md guidance can be overridden or misunderstood in complex task contexts. Option D defeats MCP's purpose entirely. The design principle here is 'safe by default': tools with significant consequences should require explicit confirmation through their interface design (parameters, multi-step flows) rather than relying on external guardrails.",
-      source: "Lesson 9: MCP Integration"
+      source: "Lesson 10: MCP Integration"
     },
     {
       question: "You're building an MCP server to integrate with your GraphQL API. Claude Code needs to query user data, orders, and inventory. Which design approach would create the most maintainable and flexible MCP integration?",
@@ -240,7 +240,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 2,
       explanation: "This question tests understanding of API design principles applied to MCP. Specific, purpose-built tools (get_user, get_order) provide better developer experience than generic execution tools because they have typed parameters, clear documentation, and validation. This mirrors the REST vs. RPC debate—specific endpoints are more self-documenting than generic 'execute' endpoints. Option A (generic executor) is tempting for flexibility but creates poor UX: Claude Code must construct correct GraphQL query strings (error-prone) and handle arbitrary response shapes. Option C artificially limits functionality without clear justification. Option D leads to combinatorial explosion—too many overly-specific tools that are hard to maintain. The principle here is API design: find the right abstraction level—not so generic that it's hard to use, not so specific that it's hard to maintain. Purpose-built tools for domain concepts strike this balance.",
-      source: "Lesson 9: MCP Integration"
+      source: "Lesson 10: MCP Integration"
     },
     {
       question: "After configuring an MCP server, you run Claude Code but see 'MCP server failed to start'. The logs show 'connection refused on port 3000'. What does this error pattern suggest about MCP architecture?",
@@ -252,7 +252,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 0,
       explanation: "This debugging scenario reveals MCP's architectural model: MCP servers are separate processes (often long-running services) that Claude Code connects to via network protocols (HTTP, WebSocket, etc.). The 'connection refused' error indicates the server process isn't running or isn't listening on the expected port. This architecture enables language-agnostic MCP servers (Python, Go, Node.js) and allows servers to maintain state across multiple Claude Code sessions. Option B is incorrect—port 3000 is arbitrary; MCP servers can use any configured port. Option C misunderstands startup responsibility—MCP servers typically start independently and persist across Claude Code sessions. Option D is wrong—network communication doesn't inherently require elevated privileges (for non-privileged ports >1024). The principle here is process architecture: understanding that MCP uses inter-process communication helps debug connection issues effectively.",
-      source: "Lesson 9: MCP Integration"
+      source: "Lesson 10: MCP Integration"
     },
     {
       question: "You're working on a complex feature requiring database migrations, API updates, and frontend changes. You want Claude Code to handle each area using specialized configurations. Which Claude Code capability best addresses this orchestration challenge?",
@@ -264,7 +264,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 3,
       explanation: "This scenario tests understanding of when to use subagents versus other extensibility mechanisms. Subagents are designed for exactly this use case: orchestrating complex tasks by delegating subtasks to specialized agents, each with appropriate tools and context. For example, a database subagent might have only database-related MCP tools, while a frontend subagent has browser automation tools. This prevents tool overload and allows different prompting strategies per domain. Option B (skills) are more about reasoning patterns than orchestration—they don't provide tool isolation. Option C (hooks) are for validation/transformation, not delegation. Option D (MCP) provides tools but doesn't handle orchestration—Claude Code would still need to manage all domains simultaneously, creating complexity. The key insight is architectural: subagents enable divide-and-conquer approaches to complex problems through controlled delegation.",
-      source: "Lesson 11: Subagents and Orchestration"
+      source: "Lesson 9: Subagents and Orchestration"
     },
     {
       question: "You've created a subagent for code review tasks. During testing, you notice the subagent generates excellent feedback but takes much longer than expected. Which subagent configuration would most directly address this performance issue?",
@@ -276,7 +276,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 1,
       explanation: "This question tests understanding of the performance/quality tradeoffs in model selection. Claude Code supports multiple models (Haiku, Sonnet, Opus) with different speed/capability tradeoffs. For code review, if quality is sufficient with Haiku but Sonnet is slower, switching to Haiku directly addresses the performance issue. Haiku is designed for speed while maintaining good quality for structured tasks. Option B might help but could reduce quality by limiting necessary tools—it's treating symptoms, not optimizing configuration. Option C isn't a real configuration option and would harm quality by limiting context. Option D adds orchestration complexity without addressing the root cause (model speed). The principle here mirrors performance optimization in software engineering: before adding complexity (parallelization, caching), first optimize the direct parameter (model choice) that controls the speed/quality tradeoff.",
-      source: "Lesson 11: Subagents and Orchestration"
+      source: "Lesson 9: Subagents and Orchestration"
     },
     {
       question: "Your main agent delegates a task to a subagent for implementation. The subagent completes the work but returns results that don't match the main agent's expectations. What does this scenario reveal about subagent communication design?",
@@ -288,7 +288,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 2,
       explanation: "This scenario illustrates a fundamental principle of distributed systems: clear interface contracts are essential when components communicate. Just as microservices need well-defined APIs, agent orchestration requires clear specifications of what the main agent expects (inputs, outputs, success criteria) and what the subagent delivers. Without this, you get impedance mismatch. Option B is defeatist—complex tasks are exactly when orchestration helps, but they require better contracts. Option C is a good practice but doesn't prevent the mismatch; validation catches problems but doesn't prevent them. Option D is backwards—autonomy without constraints leads to unpredictable results. The correct approach combines clear contracts with autonomy: 'Here's what I need (contract), you decide how (autonomy).' This mirrors software engineering: good abstractions have clear interfaces but hide implementation details.",
-      source: "Lesson 11: Subagents and Orchestration"
+      source: "Lesson 9: Subagents and Orchestration"
     },
     {
       question: "You're designing a subagent for testing tasks. The main agent needs visibility into test results without managing test execution details. Which information architecture best achieves this separation of concerns?",
@@ -300,7 +300,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 0,
       explanation: "This question tests understanding of interface design in agent orchestration. A structured summary (pass/fail counts, failing test names) provides the right abstraction level: enough information for the main agent to make decisions (e.g., 'tests failed, need fixes') without overwhelming it with raw output. This applies the interface segregation principle: clients (main agent) should receive only the information they need. Option B violates this by dumping all details, forcing the main agent to parse complex output. Option C adds latency and complexity through file I/O when direct return would work. Option D overcomplicates with an additional abstraction layer (MCP) when simple return values suffice. The principle here is information hiding: good interfaces expose the right level of abstraction, not all implementation details.",
-      source: "Lesson 11: Subagents and Orchestration"
+      source: "Lesson 9: Subagents and Orchestration"
     },
     {
       question: "You're orchestrating a deployment pipeline using subagents: one for tests, one for builds, one for deployment. Tests pass, but the build subagent fails. The deployment subagent starts anyway. What does this reveal about orchestration control flow?",
@@ -312,7 +312,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 1,
       explanation: "This scenario highlights that orchestration isn't automatic—the main agent must explicitly manage dependencies and handle errors. Just as a bash script doesn't automatically stop on errors (without 'set -e'), subagent orchestration requires intentional control flow. The main agent should check the build subagent's return status and conditionally invoke the deploy subagent only on success. Option B is incorrect—parallel vs. sequential execution depends on how the main agent invokes subagents, not a global configuration. Option C describes ideal behavior but isn't automatic—you must implement this logic. Option D misses the point—deployment pipelines inherently have dependencies (can't deploy before building). The principle here mirrors error handling in programming: explicit is better than implicit. Robust orchestration requires intentional dependency management, not assumptions about automatic behavior.",
-      source: "Lesson 11: Subagents and Orchestration"
+      source: "Lesson 9: Subagents and Orchestration"
     },
     {
       question: "You're creating an agent skill for API testing. The skill needs to handle authentication, request construction, and response validation. What does this scope reveal about effective skill design?",
@@ -600,7 +600,7 @@ Test your understanding of Claude Code's architecture, extensibility features, a
       ],
       correctOption: 1,
       explanation: "This scenario tests understanding of performance bottlenecks in Claude Code extensibility. Synchronous MCP network calls without caching create the most significant performance impact because they: (1) block execution waiting for responses, (2) repeat the same slow operations when Claude Code calls the tool multiple times, and (3) depend on external service latency. Option A (CLAUDE.md size) affects context window usage but doesn't slow down execution significantly—larger context increases token cost, not runtime. Option C (skill complexity) affects reasoning quality but Claude processes text quickly—prompts don't typically cause noticeable slowness. Option D (hooks on every write) might add overhead but validation logic is usually fast compared to network I/O. The principle here mirrors performance optimization: I/O operations (especially network) are typically the slowest part of systems. Optimize I/O first before worrying about computational complexity.",
-      source: "Lesson 9: MCP Integration"
+      source: "Lesson 10: MCP Integration"
     },
     {
       question: "You've built a comprehensive Claude Code setup with project instructions, MCP integrations, custom skills, and hooks. A colleague joining the project asks: 'How do I learn this system?' Which architectural principle would make the system more learnable?",
