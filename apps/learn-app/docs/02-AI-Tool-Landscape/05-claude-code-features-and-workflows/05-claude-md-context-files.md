@@ -104,39 +104,54 @@ When Claude Code starts a new session, it reads CLAUDE.md automatically. Claude 
 
 ---
 
-## The Stateless API: Why Every Session Starts Fresh
+## How Claude Code Works Behind the Scenes
 
-Here's something most Claude users don't realize: **Large Language Models are fundamentally stateless.**
+When you type a message in Claude Code, here's what happens:
 
-Every API call to Claude is independent. The model doesn't "remember" your previous conversation—it processes each request in isolation based only on what you include in that request.
+```
+You → Claude Code (the CLI tool) → AI Model (the LLM) → Response back to you
+```
 
-**Wait, but Claude seems to remember things in a conversation?**
+Claude Code is the interface you interact with. It calls an AI model (in this case, Claude) behind the scenes. This distinction matters because of one surprising fact:
 
-That's an illusion created by the application layer. When you use Claude.ai or ChatGPT:
-- The interface secretly re-sends your entire conversation history with every new message
-- The AI processes this as if seeing it for the first time
-- You experience "memory" because the history is always there
+**The AI model has no memory between calls.**
+
+Close your terminal. Open a new Claude Code session tomorrow. Ask Claude about your project. Claude won't remember anything—not your tech stack, not your file structure, not even that you talked yesterday. Every new session starts completely blank.
+
+This is called being **"stateless."** Large Language Models (LLMs)—like those powering ChatGPT (OpenAI), Claude (Anthropic), and Gemini (Google)—don't store any state (memory, history, context) between requests. Each call is processed in complete isolation.
+
+**"But my conversation seems continuous?"**
+
+That's Claude Code doing extra work. Here's what actually happens:
+
+1. You send message #1 → Claude Code sends it to Claude
+2. You send message #2 → Claude Code secretly bundles message #1 + #2 and sends *both*
+3. You send message #3 → Claude Code bundles #1 + #2 + #3 and sends *all three*
+
+The LLM reads the whole bundle fresh each time. It *looks* like a continuous conversation because Claude Code re-sends the history with every message. But the LLM itself is still stateless—it's just being shown the full history repeatedly.
+
+Web apps like ChatGPT and Claude.ai use the same trick.
 
 **Why this matters for coding work:**
 
-For quick questions, re-sending history works fine. But for ongoing project work:
+For quick questions, re-sending chat history works fine. But for ongoing project work:
 
-| Approach | Works For | Breaks When |
-|----------|-----------|-------------|
-| Re-send history | Short conversations | Context grows beyond limits |
-| Manual context | Small, simple projects | Explaining 50 files repeatedly |
-| Stateless each time | One-off questions | Multi-session projects |
+| Approach | Good For | Problem |
+|----------|----------|---------|
+| Re-send chat history | Short conversations | Gets too long eventually |
+| Explain project each time | Simple projects | Exhausting with complex projects |
+| Start fresh each time | Quick one-off questions | Loses project understanding |
 
-Claude Code solves this differently. Instead of trying to keep everything in the conversation history, it treats your **file system as external memory**.
+**Claude Code solves this differently.** Instead of trying to keep everything in the conversation history, it treats your **file system as external memory**.
 
 **The insight**: Your code files already contain your project's state. Instead of describing your project to Claude, Claude reads your project directly.
 
 This is why file system access unlocks the "agentic" capability you saw in Lesson 01:
-- **Stateless API** + **File System** = Persistent state through your actual files
-- **CLAUDE.md** = The "boot sector" that helps Claude orient immediately in your project
-- **Every session**: Claude reads CLAUDE.md, understands context, and continues work
+- **Stateless LLM** + **File System Access** = Persistent state through your actual files
+- **CLAUDE.md** = The orientation guide Claude reads first in every session
+- **Every session**: Claude reads CLAUDE.md, understands your project, and gets to work
 
-The model is still stateless. But your files persist. CLAUDE.md ensures Claude's first action in any session is reading the context it needs.
+The LLM is still stateless. But your files persist. CLAUDE.md ensures Claude's first action in any session is reading the context it needs.
 
 #### 💬 AI Colearning Prompt
 

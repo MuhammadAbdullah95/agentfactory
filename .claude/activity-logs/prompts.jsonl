@@ -849,3 +849,15 @@ null
 {"timestamp":"2026-01-19T10:28:29Z","session_id":"e0356bef-ebaf-473c-8d89-1affff8f5281","prompt":"THere is no color 2. You mention Chapter 5 we shall not givie such refrences 3. The start shall had ben from General Agent: Something not what is here too dry and bad making no sene. What do you mean by master"}
 {"timestamp":"2026-01-19T10:34:00Z","session_id":"e0356bef-ebaf-473c-8d89-1affff8f5281","prompt":"Much better now reflect on your behavior so we have at least this level of work for each presentation request. The colors are essential and smae goes for everything. Even now i think many important concepts here are missed @.claude/skills/pptx/ "}
 {"timestamp":"2026-01-19T10:36:51Z","session_id":"e0356bef-ebaf-473c-8d89-1affff8f5281","prompt":"Have you improved SKILL.md itself?"}
+
+{"timestamp": "2026-01-19T15:50:53Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "but the stateless is very important word and shall used. LLM's are stateless. However you suggest a better way to explain it. what do you suggest. "}
+{"timestamp": "2026-01-19T15:56:21Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "what if we use LLM like Cluade which claude code calls behind the scene, something like that. "}
+{"timestamp": "2026-01-19T16:05:28Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "update the lesson with these improvements and also update the lesson summary"}
+{"timestamp": "2026-01-19T16:13:32Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "rather than Claude (the LLM) why don't we call it AI Model. "}
+{"timestamp": "2026-01-19T16:15:58Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "I didn't said to change LLM to AI Model, I told you to change Claude to AI Model. Rather than Claude (the LLM), insted use it AI Model (the LLM)"}
+
+{"timestamp": "2026-01-19T16:39:29Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "but do you think Cluade is a model, GPT is Model and Gemini is model?"}
+{"timestamp": "2026-01-19T16:41:38Z", "session_id": "1c719c1b-0a18-4876-b163-9eeb4913242b", "prompt": "implement the option you provided"}
+
+{"timestamp": "2026-01-19T17:09:21Z", "session_id": "58a28ff8-22b4-4683-bef5-fbedf2116a5c", "prompt": "what do you recommend"}
+{"timestamp": "2026-01-19T17:17:01Z", "session_id": "58a28ff8-22b4-4683-bef5-fbedf2116a5c", "prompt": "implement the lesson and the summary"}

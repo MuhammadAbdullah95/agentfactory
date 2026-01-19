@@ -63,6 +63,43 @@ prerequisites:
 
 # Teach Claude Your Way of Working
 
+Ask Claude to write a LinkedIn post about learning AI. Now ask again with the exact same words.
+
+You'll get different results. Not wrong—just different. Different structure, different tone, different emoji choices.
+
+Try it yourself:
+
+```
+> Write a LinkedIn post about learning AI development.
+```
+
+Run it twice. Compare the outputs.
+
+This isn't a bug. It's how AI models work.
+
+---
+
+## Why AI Outputs Vary
+
+AI models like Claude are **non-deterministic**—the same input can produce different outputs each time.
+
+**Non-deterministic** simply means "not guaranteed to give the same result." When you roll a die, you can't predict the exact number. When you ask an AI model the same question twice, you can't predict the exact wording of the response.
+
+For casual conversation, this is fine. For your professional output? It's a problem.
+
+Now add a second variable: **you phrase your requests differently each time too.**
+
+| Source of Variation | Example |
+|---------------------|---------|
+| **You** (different phrasing) | "Write a LinkedIn post" vs. "Help me with a LinkedIn update" vs. "I need a professional post for LinkedIn" |
+| **AI model** (non-deterministic) | Same exact prompt → different structure, tone, length each time |
+
+Two sources of drift = unpredictable results.
+
+---
+
+## What If You Could Constrain the Output?
+
 In Lesson 5, you solved the **project context** problem with `CLAUDE.md`. Claude now knows your tech stack and file structure.
 
 But what about **your personal style**?
@@ -92,38 +129,27 @@ That's what skills do. Not saving keystrokes—**preserving your personal touch*
 
 ---
 
-## Two Problems, Not One
+## Two Problems, Two Solutions
 
-In Lesson 5, you learned about the first problem: **Claude forgets between sessions.** That's why CLAUDE.md exists—to give Claude project context it would otherwise lose.
+You now know about two distinct problems:
 
-But there's a second problem most people don't notice: **even within a single session, Claude's outputs vary.**
+| Problem | Impact | Solution |
+|---------|--------|----------|
+| Session memory loss (Lesson 5) | Claude forgets your project between sessions | `CLAUDE.md` |
+| Output variability (this lesson) | Claude's results drift from non-determinism | **Skills** |
 
-Ask Claude to write a LinkedIn post. Then ask again with the exact same words. You'll get different results. Not wrong—just different. Different structure, different tone, different emoji choices.
+`CLAUDE.md` gives Claude **project context**. Skills give Claude **your personal style**.
 
-For casual conversation, this is fine. For your professional output? It's a problem.
+**How skills constrain non-determinism:**
 
-**The double variability trap:**
-
-When you manually explain your preferences each time, you introduce TWO sources of inconsistency:
-
-1. **You phrase things differently** each time you ask
-2. **Claude generates differently** even for identical requests
-
-| Problem | Impact | What Constrains It |
-|---------|--------|-------------------|
-| Session memory loss (L05) | Claude forgets your project | CLAUDE.md |
-| Output variability (this lesson) | Claude's results drift | **Skills** |
-
-**How skills constrain this:**
-
-In the Agent Skills format, a skill is a folder containing a `SKILL.md` file (metadata + instructions), optionally with scripts, templates, or assets. When a task matches the skill's description, Claude loads the full instructions and follows them.
+A skill is a folder containing a `SKILL.md` file (metadata + instructions), optionally with scripts, templates, or assets. When a task matches the skill's description, Claude loads the full instructions and follows them.
 
 This constrains drift because Claude isn't reinventing your structure and preferences every time:
 - **Your exact structure** (not reinvented each time)
 - **Your specific examples** (showing what you want)
 - **Your preferences documented** (not remembered—written down)
 
-The result: Claude's output still varies (that's inherent to how LLMs work), but it stays within YOUR boundaries. Every LinkedIn post has your tone, your emoji style, your engagement hooks—because your skill defines them.
+The result: Claude's output still varies (that's inherent to non-determinism), but it stays within YOUR boundaries. Every LinkedIn post has your tone, your emoji style, your engagement hooks—because your skill defines them.
 
 Think of it like the difference between asking a stranger for directions versus asking someone who knows your neighborhood. The stranger gives generic advice. Your neighbor knows your shortcuts.
 

@@ -2,61 +2,76 @@
 
 ## Key Concepts
 
-### 1. The Repetition Problem
-Every time you re-explain preferences to Claude, you lose time and context. Skills eliminate this by encoding your style once, permanently.
+### 1. AI Models Are Non-Deterministic
 
-### 2. Skills = Your Personal Style Guide
-A skill captures how YOU approach specific tasks—your tone, structure, and preferences—so Claude creates output that sounds like you.
+**Non-deterministic** means "not guaranteed to give the same result." The same input can produce different outputs each time.
 
-**Simple definition**: A skill is a folder of instructions that teaches Claude your way of doing things.
+```
+> Write a LinkedIn post about learning AI development.
+```
 
-### 3. Generic vs. Personalized Output
-- **Without skills**: "Here's a LinkedIn post about learning AI." (generic)
-- **With skills**: "Here's a LinkedIn post that matches your friendly-professional tone, includes 2-3 emojis, and ends with an engagement question." (YOUR style)
+Run this twice. You'll get different results—different structure, tone, length. Not wrong, just different.
 
-### 4. Two Ways Skills Activate
+This is fundamental to how AI models work, not a bug.
+
+### 2. The Double Variability Problem
+
+Two sources of drift make outputs unpredictable:
+
+| Source | What Happens |
+|--------|--------------|
+| **You** | Phrase requests differently each time |
+| **AI model** | Generates differently even for identical requests |
+
+For casual conversation, this is fine. For consistent professional output? It's a problem.
+
+### 3. Two Problems, Two Solutions
+
+| Problem | Impact | Solution |
+|---------|--------|----------|
+| Session memory loss (Lesson 5) | Claude forgets your project | `CLAUDE.md` |
+| Output variability (this lesson) | Results drift from non-determinism | **Skills** |
+
+`CLAUDE.md` = project context. Skills = personal style.
+
+### 4. Skills Constrain Non-Determinism
+
+A skill is a folder with a `SKILL.md` file containing your instructions—tone, structure, preferences—so Claude creates output within YOUR boundaries.
+
+Claude's output still varies (non-determinism doesn't disappear), but it stays within your defined constraints. Every LinkedIn post has your tone, your emoji style, your engagement hooks.
+
+### 5. Skills ≠ Saved Prompts
+
+| Concept | What It Encodes |
+|---------|-----------------|
+| **Prompts** | WHAT you want ("Write a blog post") |
+| **Skills** | HOW you think about a task (structure, preferences, quality criteria) |
+
+Prompts get you *a* result. Skills get you *your* result.
+
+### 6. Two Activation Modes
 
 | Method | How It Works | When to Use |
 |--------|--------------|-------------|
 | **Automatic** | Claude recognizes when your style applies | Normal workflow—just ask naturally |
 | **Explicit** | You say "Use [skill-name]..." | When you want a specific skill for sure |
 
-Both work! Explicit invocation is great for learning; automatic activation is convenient once you're comfortable.
-
-### 5. Skills Are NOT Saved Prompts
-- **Prompts**: Commands WHAT you want ("Write a blog post")
-- **Skills**: Encode HOW you think about a task (your structure, preferences, quality criteria)
-
-Prompts get you *a* result. Skills get you *your* result.
-
-### 6. Python Requirements
-
-| Category | Python Required? | Examples |
-|----------|------------------|----------|
-| **Communication Skills** | **No** | `internal-comms`, `brand-guidelines` |
-| **Document Skills** | **Yes** | `docx`, `pdf`, `pptx`, `xlsx` |
-
-Document skills run Python scripts locally on your machine. Without Python, use `internal-comms` and `brand-guidelines`—they work perfectly without any extra setup.
-
-### 7. Skills Beyond Code
-Skills work for any repeated task:
-- Social media posts
-- Study notes organization
-- Email templates
-- Meeting notes
-- Project status updates
+Both work! Start with explicit invocation to see skills in action clearly.
 
 ---
 
 ## Mental Models
 
+### The Constraint Model
+Non-determinism = infinite possible outputs. Your skill = boundaries that keep outputs within YOUR style. The AI still varies, but only within your constraints.
+
 ### The Personal Assistant Model
-- **Generic assistant**: Helps with anything but uses a default approach
+- **Generic assistant**: Helps with anything, uses default approach
 - **Personal assistant who knows you**: Applies YOUR preferences automatically
 
-Skills transform Claude from generic assistant to personal assistant.
+Skills transform Claude from generic to personal.
 
-### The Procedure Identification Test
+### The Procedure Test
 If you've explained the same thing to Claude more than twice, and it's stable enough to document, it's a skill candidate.
 
 ---
@@ -68,19 +83,24 @@ If you've explained the same thing to Claude more than twice, and it's stable en
 3. Extract and open folder in terminal
 4. Run `claude`
 
-**Try without a skill:**
-> "Write a LinkedIn post about learning how to build software with AI Agents."
+**Test non-determinism (without skill):**
+```
+> Write a LinkedIn post about learning how to build software with AI Agents.
+```
+Run twice, compare outputs.
 
-**Try with a skill:**
-> "Use internal-comms and write a LinkedIn post about learning how to build software with AI Agents."
+**Test with skill constraint:**
+```
+> Use internal-comms and write a LinkedIn post about learning how to build software with AI Agents.
+```
 
-**Notice the difference**: The skill-enhanced output has personality, strategic emojis, and an engagement question.
+**Notice**: The skill-enhanced output stays within defined boundaries—personality, strategic emojis, engagement question.
 
-**Skills to try now** (no Python needed):
+### Skills Available Now (no Python needed)
 - `internal-comms` — Status reports, newsletters, LinkedIn posts
 - `brand-guidelines` — Apply brand colors and typography
 
-**After installing Python** (Chapter 16):
+### Skills After Python (Chapter 16)
 - `docx`, `pdf`, `pptx`, `xlsx` — Document creation and manipulation
 
 ---
@@ -97,22 +117,22 @@ A skill that transforms messy lecture notes into structured study materials:
 6. Create quick review section
 7. Save as organized markdown file
 
-**The payoff**: 15 minutes after each lecture instead of hours before exams.
+**The payoff**: Consistent structure every time, despite non-determinism.
 
 ---
 
 ## Common Mistakes to Avoid
 
-1. **Thinking skills are "saved prompts"** — Skills encode reasoning patterns, not just text to paste
-2. **Only considering coding tasks** — Skills work for any repeated procedure
-3. **Overcomplicating** — "LinkedIn posts: friendly tone, 2-3 emojis, end with question" is enough
-4. **Fear of Python requirements** — Start with `internal-comms` and `brand-guidelines`, add document skills later
+1. **Thinking non-determinism is a bug** — It's fundamental to AI models; skills constrain it, not eliminate it
+2. **Confusing skills with saved prompts** — Skills encode reasoning patterns, not just text to paste
+3. **Only considering coding tasks** — Skills work for any repeated procedure
+4. **Overcomplicating** — "LinkedIn posts: friendly tone, 2-3 emojis, end with question" is enough
 
 ---
 
 ## Preparation for Next Lesson
 
-Before the next lesson, identify one procedure you want to encode:
+Identify one procedure you want to encode:
 
 1. **When do I do this?** (trigger)
 2. **How do I like it?** (your style)
@@ -125,9 +145,11 @@ Document your answers. This becomes raw material for your first skill.
 
 ## Quick Reference
 
-**Skill**: Your personal style guide that Claude loads automatically (or on request)
+**Non-deterministic**: Same input → different output each time (fundamental to AI models)
 
-**Key insight**: Prompts encode WHAT. Skills encode HOW.
+**Skill**: Your personal style guide that constrains Claude's output to YOUR boundaries
+
+**Key insight**: `CLAUDE.md` = project context. Skills = personal style.
 
 **Two activation modes**: Automatic (Claude decides) or Explicit (you name it)
 

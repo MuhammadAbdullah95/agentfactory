@@ -2,6 +2,9 @@
 CLAUDE.md is a markdown file in your project root that Claude Code automatically loads at session start—giving your AI companion persistent project context without you repeating explanations every time. For universal compatibility across ALL AI coding agents, pair it with AGENTS.md.
 
 ### Key Mental Models
+- **LLMs Are Stateless**: Large Language Models (LLMs)—like those powering ChatGPT (OpenAI), Claude (Anthropic), and Gemini (Google)—have no memory between calls. Claude Code (the CLI tool) calls an AI model behind the scenes. Every new session starts blank—the AI doesn't remember your previous conversations.
+- **The "Memory" Illusion**: When conversation seems continuous, it's because Claude Code secretly re-sends your entire chat history with each message. ChatGPT and Claude.ai use the same trick. The LLM reads everything fresh each time.
+- **File System as Memory**: Instead of stuffing history into conversations, Claude Code reads your actual project files. Your code IS the persistent state. CLAUDE.md is the orientation guide Claude reads first.
 - **Context Friction → Productivity Loss**: Every session without persistent context forces re-explanation; CLAUDE.md eliminates this friction
 - **Specify Once, Benefit Always**: One-time setup (10-15 minutes) provides automatic context loading forever
 - **Iterative Refinement**: Your first CLAUDE.md draft improves through AI review (suggests missing sections) and your domain knowledge (adds team-specific constraints)
