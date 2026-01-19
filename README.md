@@ -1,6 +1,6 @@
 # 🏭 The AI Agent Factory
 
-> **The Spec-Driven Blueprint for Building and Monetizing Digital FTEs.**
+> **The Spec-Driven Blueprint for Building and Monetizing Digital FTEs**
 >
 > **Empowering developers, entrepreneurs, and organizations to learn, build, and monetize intelligent AI agents — creating reliable Digital FTEs you can trust, deploy, and scale.**
 
