@@ -9,8 +9,8 @@ You are an Agent Factory architect building an educational platform that teaches
 **STOP. Before executing, complete this protocol:**
 
 1. **Identify work type**: Content (lessons) | Platform (code) | Intelligence (skills)
-2. **For content work**, read these files FIRST:
-   - `apps/learn-app/docs/chapter-index.md` → Get part number, proficiency level
+2. **For content work**, discover paths via filesystem FIRST:
+   - Run `ls -d apps/learn-app/docs/*/XX-*/` → Discover chapter path (XX = chapter number)
    - Chapter README → Get lesson structure, constraints
    - Previous lesson (if exists) → Understand progression
    - **Reference lesson for quality**: Read a high-quality lesson from the same or similar chapter
@@ -22,6 +22,99 @@ You are an Agent Factory architect building an educational platform that teaches
 4. **State your understanding** and get user confirmation before proceeding
 
 **Why this matters**: Skipping context caused 5 wrong lessons, 582-line spec revert (Chapter 9 incident).
+
+---
+
+## CHAPTER/PART RESOLUTION PROTOCOL (MANDATORY)
+
+**Problem**: "Chapter 5" and "Part 5" are different things. Ambiguous references cause wrong paths.
+
+| User Says | Interpretation | Example |
+|-----------|----------------|---------|
+| `ch 5` / `chapter 5` | Chapter 5 (single chapter) | Claude Code Features (in Part 2) |
+| `part 5` / `p5` | Part 5 (all chapters in part) | Python Fundamentals (18 chapters) |
+| `5` (bare number) | **AMBIGUOUS** | Must ask user to clarify |
+
+### Authoritative Source: The Filesystem
+
+**The filesystem at `apps/learn-app/docs/` is the source of truth.**
+
+```
+apps/learn-app/docs/
+├── 01-Introducing-AI-Driven-Development/     ← Part 1
+│   ├── 01-agent-factory-paradigm/            ← Chapter 1
+│   ├── 02-aiff-foundation/                   ← Chapter 2
+│   └── ...
+├── 02-AI-Tool-Landscape/                     ← Part 2
+│   ├── 05-claude-code-features-and-workflows/ ← Chapter 5
+│   └── ...
+└── ...
+```
+
+**Structure**: Parts are top-level folders (`NN-*`), chapters are inside them (`NN-*/`).
+
+### Resolution Procedure
+
+**BEFORE any chapter/part work, run these bash commands:**
+
+```bash
+# Step 1: Parse input and discover path
+
+# For "ch 5" / "chapter 5" → Find chapter folder:
+ls -d apps/learn-app/docs/*/05-*/
+# Returns: apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/
+
+# For "part 5" / "p5" → Find part folder:
+ls -d apps/learn-app/docs/05-*/
+# Returns: apps/learn-app/docs/05-Python-Fundamentals/
+
+# For bare "5" → AMBIGUOUS, ask user first!
+```
+
+```bash
+# Step 2: Validate and count contents
+
+# Count lessons in a chapter:
+ls apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/*.md | wc -l
+
+# Count chapters in a part:
+ls -d apps/learn-app/docs/05-Python-Fundamentals/*/ | wc -l
+```
+
+```bash
+# Step 3: Confirm with user before proceeding
+```
+
+**Example confirmation**:
+```
+"You said 'ch 5'. I found:
+- Chapter 5: claude-code-features-and-workflows
+- Path: apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/
+- Part: 02-AI-Tool-Landscape
+- Lessons: 12 files
+
+Is this correct?"
+```
+
+### Key Rule: Chapter Numbers Are Global
+
+Chapter numbers are **global across the book**, not local to parts.
+
+- `ch 5` → Chapter 5 (lives in Part 2, folder `05-*`)
+- `part 5` → Part 5 (folder `05-Python-Fundamentals/`, contains chapters 15-32)
+
+**`ch 5` ≠ `part 5`** — completely different locations!
+
+### Failure Modes
+
+- ❌ **"Ch 5" → Part 5 folder** (Wrong! Ch 5 is in Part 2)
+- ❌ **Guessing paths without running `ls`** (Always discover via filesystem)
+- ❌ **Not asking for clarification on bare numbers** ("5" is ambiguous)
+- ❌ **Trusting stale documentation over filesystem** (Filesystem is source of truth)
+
+**Always run `ls -d` to discover paths. Never guess.**
+
+---
 
 ## Critical Rules
 
@@ -90,6 +183,7 @@ Before deep implementation:
 **These patterns caused real failures. Don't repeat them:**
 
 ### Content Failures
+- ❌ **"Chapter 5" → Part 5 folder** → Wrong location (Ch 5 is in Part 2, not Part 5)
 - ❌ Skipping chapter-index.md → Wrong pedagogical layer
 - ❌ Teaching patterns without checking canonical source → Format drift
 - ❌ Writing specs directly instead of `/sp.specify` → Bypassed templates

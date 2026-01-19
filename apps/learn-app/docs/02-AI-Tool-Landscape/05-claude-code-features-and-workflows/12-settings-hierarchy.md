@@ -184,7 +184,7 @@ Claude Code settings exist at three levels, from general to specific:
 This connects to earlier lessons:
 - **CLAUDE.md (Lesson 05)** provides content context at the project level
 - **Skills (Lesson 08)** can be enabled at any hierarchy level
-- **Plugins (Lesson 15)** will use this same hierarchy to configure bundled capabilities
+- **Plugins (Lesson 14)** will use this same hierarchy to configure bundled capabilities
 
 ### Practical Applications
 

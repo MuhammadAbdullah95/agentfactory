@@ -46,8 +46,8 @@ learning_objectives:
 
 # Cognitive load tracking
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (MCP protocol, external access, Playwright MCP, Context7 MCP, security model, workflow integration) - within B1 limit of 10 ✓"
+  new_concepts: 8
+  assessment: "8 concepts (MCP protocol, external access, Playwright MCP, Context7 MCP, security model, workflow integration, Tool Search, configuration) - within B1 limit of 10 ✓"
 
 # Differentiation guidance
 differentiation:
@@ -58,10 +58,10 @@ differentiation:
 generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
 source_spec: "specs/029-chapter-5-refinement/spec.md"
 created: "2025-01-17"
-last_modified: "2025-01-17"
+last_modified: "2026-01-19"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "2.0.0"
+version: "2.1.0"
 
 # Legacy compatibility
 prerequisites:
@@ -102,75 +102,6 @@ Imagine Claude Code is a brilliant assistant who works in your office (your comp
 
 ---
 
-## Skills + MCP: Expertise Packs Meet Data Pipes
-
-Here's a powerful mental model from Anthropic:
-
-| Component | Role | Analogy |
-|-----------|------|---------|
-| **Skills** | The "How-To" — expertise packs | Teaching Claude a specific workflow |
-| **MCP** | The "With-What" — data pipes | Connecting skills to live data |
-
-**Skills are Expertise Packs**: They encode your procedures, your quality criteria, your domain knowledge. "How to analyze financial statements according to our Q4 risk framework."
-
-**MCP provides Data Pipes**: They connect those expertise packs to live data sources. Your SQL database. Your Jira board. The web.
-
-**Together**: Claude knows HOW to do something (skill) and has access to WHAT it needs (MCP).
-
-**Example**: A skill encodes your company's financial reporting procedures. An MCP server connects Claude to your accounting database. Result: automated reports that follow your exact standards using real-time data.
-
----
-
-## Why This Matters: Safe External Integration
-
-**Workflow Impact**: MCP gives Claude Code safe, standardized access beyond your local files. Without it, AI is limited to your codebase. With it, AI can browse documentation, fetch real-time data, interact with external services—all through secure, permission-controlled protocols.
-
-**Paradigm Connection**: This is where AI-driven development becomes truly powerful. CLAUDE.md (Lesson 05) gives AI your project context. MCP gives AI access to the *entire world* of external knowledge and tools—documentation, APIs, databases, web content—while maintaining security boundaries.
-
-**Real-World Context**: When building production applications, you'll use MCP to:
-- Fetch latest library documentation (Context7 MCP)
-- Test web interfaces automatically (Playwright MCP)
-- Query databases safely (PostgreSQL MCP)
-- Access internal company APIs (custom MCP servers)
-
-MCP is the bridge between local context and external intelligence.
-
----
-
-## Why This Matters: What MCP Unlocks
-
-Still not convinced you need MCP? Here's what changes:
-
-| Task | Without MCP | With MCP |
-|------|-------------|----------|
-| **Browse Amazon for products** | Can't—no web access. You do the shopping. | Playwright MCP: Claude navigates, extracts prices/reviews, summarizes results |
-| **Check React docs for latest API** | Uses training data (outdated). May hallucinate. | Context7 MCP: Fetches current docs. Real examples. Live citations. |
-| **Query your production database** | Can't—no database access. You run queries, paste results. | Database MCP: Claude executes queries safely, analyzes results |
-| **Post updates to your Slack channel** | Can't—no API access. You copy-paste manually. | Slack MCP: Claude sends messages, threads, reactions automatically |
-| **Analyze a GitHub repo structure** | Can't—no GitHub access. You clone locally. | GitHub MCP: Claude clones, analyzes, answers questions about code |
-| **Risk of data exposure** | N/A | All secured: MCP uses allow-lists, tokens stored in keychain, no secrets in plain text |
-
-**The pattern**: Without MCP, you're the bottleneck. With MCP, Claude Code becomes your autonomous partner.
-
----
-
-## What Is Model Context Protocol (MCP)?
-
-**Simple definition**: MCP lets Claude Code safely use external tools through standardized connections.
-
-**An "MCP server"** is a helper tool Claude can call:
-- **Playwright MCP**: Lets Claude browse websites
-- **Context7 MCP**: Lets Claude fetch up-to-date documentation
-- **GitHub MCP**: Lets Claude query GitHub repositories
-- **Database MCP**: Lets Claude query databases
-
-Think of each MCP server as a **specialist** Claude Code can consult when needed.
-
-#### 💬 AI Colearning Prompt
-> "Explain how MCP provides safe external access compared to direct API calls. What security model does MCP use to protect user data?"
-
----
-
 ## In This Lesson
 
 You will:
@@ -179,6 +110,8 @@ You will:
 3. Understand when you need external access
 
 No programming experience required. Just copy, paste, and see it work.
+
+---
 
 ## A Note on Security (Read This First)
 
@@ -329,6 +262,111 @@ claude mcp list
 
 ---
 
+## Understanding MCP: The Bigger Picture
+
+Now that you've tried MCP in action, let's understand the concepts more deeply.
+
+### Skills + MCP: Expertise Packs Meet Data Pipes
+
+Here's a powerful mental model from Anthropic:
+
+| Component | Role | Analogy |
+|-----------|------|---------|
+| **Skills** | The "How-To" — expertise packs | Teaching Claude a specific workflow |
+| **MCP** | The "With-What" — data pipes | Connecting skills to live data |
+
+**Skills are Expertise Packs**: They encode your procedures, your quality criteria, your domain knowledge. "How to analyze financial statements according to our Q4 risk framework."
+
+**MCP provides Data Pipes**: They connect those expertise packs to live data sources. Your SQL database. Your Jira board. The web.
+
+**Together**: Claude knows HOW to do something (skill) and has access to WHAT it needs (MCP).
+
+**Example**: A skill encodes your company's financial reporting procedures. An MCP server connects Claude to your accounting database. Result: automated reports that follow your exact standards using real-time data.
+
+### What MCP Unlocks
+
+| Task | Without MCP | With MCP |
+|------|-------------|----------|
+| **Browse Amazon for products** | Can't—no web access. You do the shopping. | Playwright MCP: Claude navigates, extracts prices/reviews, summarizes results |
+| **Check React docs for latest API** | Uses training data (outdated). May hallucinate. | Context7 MCP: Fetches current docs. Real examples. Live citations. |
+| **Query your production database** | Can't—no database access. You run queries, paste results. | Database MCP: Claude executes queries safely, analyzes results |
+| **Post updates to your Slack channel** | Can't—no API access. You copy-paste manually. | Slack MCP: Claude sends messages, threads, reactions automatically |
+| **Analyze a GitHub repo structure** | Can't—no GitHub access. You clone locally. | GitHub MCP: Claude clones, analyzes, answers questions about code |
+
+**The pattern**: Without MCP, you're the bottleneck. With MCP, Claude Code becomes your autonomous partner.
+
+#### 💬 AI Colearning Prompt
+> "Explain how MCP provides safe external access compared to direct API calls. What security model does MCP use to protect user data?"
+
+---
+
+## How Claude Code Manages MCP Tools
+
+When you add MCP servers, Claude Code doesn't just connect to them—it **intelligently manages** how tool definitions are loaded.
+
+### The Challenge: Tool Definition Overhead
+
+Each MCP server comes with tool definitions—descriptions of what each tool does, its parameters, and expected outputs. With multiple servers, these definitions can consume significant context:
+
+- Playwright MCP: ~5,000-8,000 tokens of tool definitions
+- Context7 MCP: ~3,000-5,000 tokens
+- GitHub MCP: ~8,000-12,000 tokens
+
+**With 5 servers installed**: 25,000-40,000 tokens before you've asked a question.
+
+### The Solution: MCP Tool Search (Built-In)
+
+Since January 2026, Claude Code 2.1.7+ includes **MCP Tool Search**—automatic lazy loading that defers tool definitions until needed.
+
+**How it works:**
+1. Claude Code monitors your installed MCP servers
+2. When tool definitions exceed 10% of context, Tool Search activates
+3. Instead of loading all tools upfront, Claude searches for relevant tools on-demand
+4. Only the tools you actually use get loaded
+
+**Result**: ~85% automatic reduction in MCP overhead.
+
+### Control and Configuration
+
+**Requirements:** Claude Code 2.1.7+ (auto-updates by default)
+
+**Control it manually:**
+
+```bash
+# Default: activates when MCP tools exceed 10% of context
+ENABLE_TOOL_SEARCH=auto claude
+
+# Custom threshold (activate at 5%)
+ENABLE_TOOL_SEARCH=auto:5 claude
+
+# Always on (useful for testing)
+ENABLE_TOOL_SEARCH=true claude
+
+# Always off (legacy behavior, loads all tools upfront)
+ENABLE_TOOL_SEARCH=false claude
+```
+
+Or set in `settings.json`:
+
+```json
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "auto:5"
+  }
+}
+```
+
+### What This Means for You
+
+**For most users**: You don't need to do anything. Tool Search works automatically.
+
+**For power users**: Lesson 10 shows how to achieve even greater efficiency (98% reduction) through compilation—and how skills can intelligently guide which approach to use.
+
+#### 💬 AI Colearning Prompt
+> "I have 4 MCP servers installed. Help me understand: (1) How much context overhead am I generating? (2) Is Tool Search active for me? (3) What's my actual token consumption with Tool Search enabled vs disabled?"
+
+---
+
 ## When to Use MCP (And When NOT To)
 
 MCP is powerful, but it's not the right tool for everything. This section shows you the boundaries.
@@ -409,11 +447,13 @@ This is the thesis of AI-native development: **Context + Procedures + Access = D
 
 ## What's Ahead
 
-MCP extends Claude Code's reach from your local filesystem to the entire world of external systems. But Claude Code can do more than just access external tools—it can delegate complex tasks to specialized assistants.
+MCP extends Claude Code's reach from your local filesystem to the entire world of external systems. Tool Search handles the baseline efficiency automatically.
 
-### Coming Up: Subagents
+But what if you need even more control?
 
-Lesson 11 introduces **subagents**: focused AI specialists that handle specific types of work with isolated context. Where MCP gives Claude Code new *capabilities*, subagents give Claude Code a *team*.
+**Lesson 10: Compiling MCP to Skills** teaches advanced optimization—achieving 98% token reduction through compilation. You'll also learn how skills can intelligently guide Claude on when to use Tool Search vs compiled patterns.
+
+**Lesson 11: Subagents and Orchestration** introduces specialized AI assistants that coordinate multiple skills and MCP servers together.
 
 ---
 

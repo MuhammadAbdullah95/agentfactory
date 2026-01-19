@@ -215,7 +215,7 @@ Once you understand the pattern, you can create subagents for any specialized ta
 2. Identify key decisions (what autonomy does it need?)
 3. Specify output format (how should results be delivered?)
 
-You learned this pattern in Step 2.5 (Co-learn Subagent Design). Apply it to create any subagent your workflow needs.
+Apply this pattern to create any subagent your workflow needs.
 
 For detailed subagent architecture, see `.claude/agents/` directory for real examples from this book's production system.
 
@@ -367,7 +367,7 @@ When analyzing a business idea:
 
 ### What's Next
 
-Lesson 13 introduces **settings hierarchy**—three levels of configuration that enable personal customization, team standards, and local experimentation to coexist without conflict. You'll learn how to share your subagents and skills with your team while keeping your personal preferences private.
+Lesson 12 introduces **settings hierarchy**—three levels of configuration that enable personal customization, team standards, and local experimentation to coexist without conflict. You'll learn how to share your subagents and skills with your team while keeping your personal preferences private.
 
 ---
 

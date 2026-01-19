@@ -46,8 +46,8 @@ learning_objectives:
 
 # Cognitive load tracking
 cognitive_load:
-  new_concepts: 3
-  assessment: "3 concepts (MCP token bloat, code execution pattern, content-type filtering) - within B1 limit. Two skills (playwright, fetch-docs) reinforce same pattern."
+  new_concepts: 4
+  assessment: "4 concepts (code execution pattern, content-type filtering, skills as guides, decision framework) - within B1 limit of 10 ✓"
 
 # Differentiation guidance
 differentiation:
@@ -58,10 +58,10 @@ differentiation:
 generated_by: "content-implementer v1.0.0 (045-lesson-09-compiling-mcp-skills)"
 source_spec: "specs/045-lesson-09-compiling-mcp-skills/spec.md"
 created: "2025-12-19"
-last_modified: "2025-12-19"
+last_modified: "2026-01-19"
 git_author: "Claude Code"
 workflow: "/sp.implement"
-version: "1.1.0"
+version: "1.2.0"
 
 # Legacy compatibility
 prerequisites:
@@ -72,11 +72,19 @@ prerequisites:
 
 # Compiling MCP to Skills
 
-You've learned MCP servers connect Claude Code to external systems. You've mastered skills as encoded expertise. Now: what happens when you want both, but MCP's token consumption makes it expensive?
+You learned in Lesson 9 that Claude Code's Tool Search automatically reduces MCP overhead by ~85%. For many workflows, that's enough.
+
+But what if you need:
+- **98% reduction** instead of 85%?
+- **Local filtering** to process 1,000 items and return only 20?
+- **Cross-agent portability** (Codex, Goose support Skills)?
+- **Team-shareable workflows** (portable SKILL.md files)?
+
+This lesson shows you the next level: **compile MCP servers into lean skills** that run operations locally and return only filtered results.
+
+And here's the key insight: **skills can guide Claude on which approach to use**—automatically selecting Tool Search for simple queries and compiled patterns for complex workflows.
 
 ![skills-mcp](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/skills-mcp.png)
-
-This lesson shows you a powerful pattern: **compile high-token MCP servers into lean skills**, reducing context consumption by up to 98.7% while maintaining full functionality.
 
 :::tip Industry Standard
 Skills format is now supported by Claude Code, OpenAI Codex (beta), and Goose.
@@ -91,6 +99,14 @@ When Claude Code loads an MCP server, it eagerly loads ALL tool definitions upfr
 
 > "Tool descriptions occupy more context window space, increasing response time and costs. For agents with thousands of tools, this means processing hundreds of thousands of tokens before reading a request."
 > — Anthropic, [Code Execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)
+
+:::info Context
+The quote above describes MCP behavior before Tool Search (January 2026).
+Claude Code now handles 85% of this automatically via Tool Search.
+
+This lesson covers the remaining 15%—and how to build skills that
+intelligently orchestrate both approaches.
+:::
 
 **Concrete examples from the blog:**
 
@@ -476,6 +492,64 @@ scripts/           # Shell scripts that call Context7 MCP locally
 
 ---
 
+## Skills as Intelligent Guides
+
+Here's a powerful pattern: your SKILL.md can include logic that helps Claude decide when to use Tool Search vs compiled patterns.
+
+### Example: Smart Browser Automation Skill
+
+```markdown
+# SKILL.md for browsing-with-playwright
+
+## When to Use This Skill
+
+**Use compiled pattern (this skill) when:**
+- Extracting data from 50+ elements (local filtering needed)
+- Running multi-step workflows (navigate → extract → transform)
+- Need consistent, repeatable automation
+- Sharing workflows with team (portable SKILL.md)
+
+**Let Tool Search handle it when:**
+- Single page navigation
+- Quick element check
+- One-off screenshot
+- Simple form interaction
+
+## Procedure
+
+If this is a simple single-action task:
+→ Suggest using Playwright MCP directly (Tool Search will handle efficiency)
+
+If this requires filtering or multi-step workflows:
+→ Use compiled scripts below...
+```
+
+### The Meta-Pattern: Skills That Know When They're Needed
+
+Notice what's happening: the skill itself contains decision logic. Claude reads the SKILL.md and determines the best approach based on:
+
+1. **Task complexity**: Simple → Tool Search; Complex → Compiled
+2. **Output requirements**: Raw data → Tool Search; Filtered → Compiled
+3. **Team needs**: Personal → Either; Shared workflow → Compiled (portable)
+
+**This is intelligent orchestration**: Your skills become advisors, not just executors.
+
+### Try It: Ask Claude About Approach Selection
+
+```
+I have browsing-with-playwright skill and Playwright MCP installed.
+For each task, tell me which approach you'd use and why:
+
+1. Take a screenshot of example.com
+2. Extract all product prices from an e-commerce page (100+ items)
+3. Fill out a contact form
+4. Scrape competitor pricing daily and compare to our database
+```
+
+**Expected**: Claude uses the skill's guidance to recommend the right approach.
+
+---
+
 ## When to Compile MCP Servers
 
 Not every MCP server benefits from compilation. Use this decision framework:
@@ -518,28 +592,27 @@ Not every MCP server benefits from compilation. Use this decision framework:
 
 ---
 
-## Decision Framework: When to Compile vs. Use Direct MCP
+## Decision Framework: Automatic vs Compiled
 
-Not every MCP server needs compilation. Use this matrix to decide:
+Now you have three approaches. Here's when to use each:
 
-| Scenario                                   | Recommendation   | Reasoning                                        |
-| ------------------------------------------ | ---------------- | ------------------------------------------------ |
-| **One-off query**                          | Use MCP directly | Compilation overhead not worth it for single use |
-| **Repeated workflow** (3+ times)           | Compile to skill | Amortizes compilation cost across multiple uses  |
-| **High token definitions** (5,000+ tokens) | Compile to skill | Token savings justify upfront work               |
-| **Low token definitions** (&lt;500 tokens) | Use MCP directly | Compilation provides minimal benefit             |
-| **Rapidly changing API**                   | Use MCP directly | Compiled skill becomes stale quickly             |
-| **Stable tool set**                        | Compile to skill | Skill remains accurate over time                 |
-| **Privacy-sensitive data**                 | Compile to skill | Local script execution avoids context logging    |
-| **Integration with other skills**          | Compile to skill | Composability improves with skill format         |
-| **Team workflow**                          | Compile to skill | Shareable SKILL.md vs proprietary MCP setup      |
+| Scenario | Approach | Why |
+|----------|----------|-----|
+| Simple query | Tool Search (auto) | Built-in efficiency, zero effort |
+| Multi-step workflow | Compile to skill | Local execution, better control |
+| Need local filtering | Compile to skill | Process 1000 → return 20 |
+| Cross-agent work | Compile to skill | Skills format is portable |
+| Team workflow | Compile to skill | Shareable SKILL.md |
+| One-off query | Direct MCP | Overhead acceptable for single use |
+
+**The smart approach**: Build skills with decision logic (like the example above). Let the skill guide Claude on which pattern to use.
 
 **Decision shortcut**:
 
-- Calling MCP 1-2 times? → Use direct MCP
-- Calling MCP 3+ times in same session? → Compile to skill
-- Working with high-token server? → Compile to skill
-- Building production workflow? → Compile to skill
+- Simple, infrequent? → Let Tool Search handle it
+- Complex, repeated? → Compile to skill
+- Need filtering? → Compile to skill
+- Team workflow? → Compile to skill (portable)
 
 ---
 

@@ -288,42 +288,6 @@ Every plugin has a `.claude-plugin/plugin.json` manifest listing its components:
 
 ---
 
-## Skill Best Practices Reference
-
-**When you're ready to create custom skills** (covered in Lesson 08, advanced implementation in Part 5+), follow these patterns:
-
-### 1. Write Clear Descriptions
-Include activation triggers and examples in your SKILL.md:
-```markdown
-# Description
-This skill [what it does] by [how it does it].
-
-Use this skill when:
-- [Specific trigger scenario]
-- [Another trigger scenario]
-
-Examples:
-- "Help me [example request]"
-```
-
-### 2. Keep Skills Focused
-One skill, one workflow. Don't create "mega-skills"—Claude can compose multiple focused skills together.
-
-### 3. Start Simple, Iterate
-V1: Basic description + happy path
-V2: Add error handling from real usage
-V3: Production-grade with validation
-
-### 4. Avoid Common Pitfalls
-- ❌ Vague descriptions ("helps with tasks")
-- ❌ Technology lock-in (hardcoded frameworks)
-- ❌ No examples (abstract triggers)
-
-### 5. Learn from Anthropic's Repository
-Study production examples at https://github.com/anthropics/skills (canvas-design, web-app-testing, skill-creator)
-
----
-
 ## Try With AI
 
 Let's integrate everything you've learned about Claude Code's extensibility (CLAUDE.md, MCP, subagents, skills, hooks, settings) into a cohesive workflow.

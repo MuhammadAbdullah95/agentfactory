@@ -141,6 +141,77 @@ When creating a new PowerPoint presentation from scratch, use the **html2pptx** 
 - Edge-to-edge color bands
 - Negative space as a design element
 
+### MIT-Standard Typography Requirements
+
+**MANDATORY for all presentations. These are non-negotiable quality gates.**
+
+#### Font Size Rules
+
+| Element | Minimum | Recommended | Rationale |
+|---------|---------|-------------|-----------|
+| Slide titles | 40pt | 44pt | Visible from rear of large auditorium |
+| Body text | 24pt | 28pt | MIT minimum for professional settings |
+| Bullet text | 24pt | 28pt | Same as body—no smaller bullets |
+| Code blocks | 18pt | 20pt | Monospace acceptable slightly smaller |
+| Captions/footnotes | 16pt | 18pt | Only for non-critical details |
+
+**Enforcement**: Before finalizing any slide, verify ALL text meets these minimums. If any text is below 24pt (except captions), increase it.
+
+#### Content Density Rules
+
+1. **ONE idea per slide** — Each slide has a single takeaway
+2. **Max 4 bullets** — Stricter than MIT's 6 for impact
+3. **Max 6 words per bullet** — Forces concision
+4. **Max 50 words per slide** — Slides are visual aids, not documents
+5. **Title as conclusion** — "Data proves X" not "Data Analysis"
+
+#### Visual Hierarchy Principles
+
+- **Size communicates importance**: Largest element = primary focus
+- **Color restraint**: 3 colors maximum (plus black/white)
+- **Strategic whitespace**: 20%+ padding creates breathing room
+- **Light backgrounds**: Critical for projection (dark modes project poorly)
+- **Consistent alignment**: Grid-based, predictable patterns
+
+#### Self-Validation Checklist
+
+Before delivering ANY presentation, verify:
+
+- [ ] All titles are actionable conclusions (not labels)
+- [ ] No text below 24pt (except captions)
+- [ ] No slide has more than 4 bullets
+- [ ] No bullet has more than 6 words
+- [ ] At least 30% of slides have visual elements
+- [ ] Color palette limited to 3 colors + black/white
+- [ ] Light backgrounds throughout
+- [ ] Code examples use syntax highlighting
+
+### Creating "Spirited" Presentations
+
+The difference between mechanical and engaging slides:
+
+**Mechanical (avoid)**:
+- Generic titles: "Introduction", "Overview", "Summary"
+- Bullet dumps: 8+ items in a list
+- Text-only: No diagrams or visual elements
+- Uniform density: Every slide has same amount of content
+- Default colors: Basic blue/gray without intention
+
+**Spirited (target)**:
+- Actionable titles: "Skills Reduce Output Drift by 80%"
+- Focused content: 1 idea, 3-4 supporting points max
+- Visual storytelling: Diagrams, flowcharts, comparisons
+- Adaptive density: More slides for complex topics
+- Intentional colors: Match layer/topic/mood
+
+#### The "Spirit" Test
+
+Before finalizing, ask:
+1. Could someone understand the key message from titles alone?
+2. Does each slide have a clear visual focal point?
+3. Would this look professional at a KubeCon/Strange Loop talk?
+4. Is there breathing room (whitespace) on every slide?
+
 ### Layout Tips
 **When creating slides with charts or tables:**
 - **Two-column layout (PREFERRED)**: Use a header spanning the full width, then two columns below - text/bullets in one column and the featured content in the other. This provides better balance and makes charts/tables more readable. Use flexbox with unequal column widths (e.g., 40%/60% split) to optimize space for each content type.
@@ -436,6 +507,202 @@ python scripts/thumbnail.py presentation.pptx
 # Combine options: custom name, columns
 python scripts/thumbnail.py template.pptx analysis --cols 4
 ```
+
+## Creating Presentations from Educational Chapters
+
+When asked to create slides for a chapter (e.g., "make slides for Chapter 5"):
+
+### Phase 0: Resolve Chapter Path
+
+**CRITICAL**: Follow the CHAPTER/PART RESOLUTION PROTOCOL from CLAUDE.md.
+
+1. **Parse input**: `ch X` = Chapter X, `part X` = Part X, bare `X` = ASK USER
+2. **Discover path via filesystem** (source of truth):
+   ```bash
+   # For chapter:
+   ls -d apps/learn-app/docs/*/05-*/   # Chapter 5
+
+   # For part:
+   ls -d apps/learn-app/docs/05-*/     # Part 5
+   ```
+3. **Count content**:
+   ```bash
+   ls apps/learn-app/docs/02-AI-Tool-Landscape/05-*/*.md | wc -l
+   ```
+4. **Confirm with user** before proceeding
+
+**Example**: "ch 5" → `ls -d apps/learn-app/docs/*/05-*/` → `02-AI-Tool-Landscape/05-claude-code-features-and-workflows/`
+
+### Phase 1: Research & Discovery
+
+**Goal**: Deeply understand content before any slide planning.
+
+1. **Read the chapter README** for learning objectives and scope
+2. **Read each lesson completely** and take structured notes:
+   ```markdown
+   ## Lesson X: [Title]
+   - **Core concept**: [One sentence]
+   - **Key takeaways**: [3-5 bullets]
+   - **Needs diagram**: [Yes/No - what kind?]
+   - **Memorable quote/example**: [If any]
+   - **Word count**: [X words]
+   ```
+3. **Identify the narrative arc**:
+   - What problem does this chapter solve?
+   - What's the "aha moment"?
+   - What should someone remember a week later?
+4. **Note pedagogical layer** (L1-L4) from frontmatter
+
+### Phase 2: Storyboard & Plan
+
+**Goal**: Create a complete slide outline BEFORE generating any slides.
+
+#### Step 2a: Determine Slide Budget
+
+| Content Type | Slides per 1000 words | Character |
+|--------------|----------------------|-----------|
+| Conceptual (L1) | 6-8 | More diagrams, analogies |
+| Procedural (L2) | 8-10 | Step-by-step visuals |
+| Technical (L3-L4) | 5-7 | Code examples, architecture |
+
+#### Step 2b: Draft Slide-by-Slide Outline
+
+Create a detailed storyboard saved to `slide-outline.md`:
+
+```markdown
+# Chapter X Presentation Outline
+
+**Total slides**: [N]
+**Estimated duration**: [N slides × 1-2 min = X minutes]
+**Primary color**: [Layer color]
+
+## Opening (Slides 1-3)
+1. **Title**: "[Chapter Title]" — [Type: Title]
+2. **Hook**: "[Provocative question or problem statement]" — [Type: Hook]
+3. **Roadmap**: "What you'll learn" — [Type: Concept, 3 bullets max]
+
+## Lesson 1: [Title] (Slides 4-8)
+4. **[Slide title as conclusion]** — [Type: Concept]
+   - Key point 1
+   - Key point 2
+   - Visual: [diagram description]
+5. **[Next conclusion]** — [Type: Comparison]
+   - Left: [Option A]
+   - Right: [Option B]
+...
+
+## Closing (Slides N-2 to N)
+- **Summary**: "3 Things to Remember" — [Type: Summary]
+- **Call to Action**: "[What to do next]" — [Type: Title]
+```
+
+#### Step 2c: Apply the "So What?" Test
+
+For each slide in outline, ask:
+- **What's the ONE takeaway?** (If unclear, split or cut)
+- **Why does the audience care?** (Connect to their goals)
+- **Could this be a visual instead?** (Prefer diagrams over bullets)
+
+#### Step 2d: Get User Approval
+
+**STOP and present the outline to the user:**
+- Total slide count
+- Narrative flow summary
+- Any content you're omitting (and why)
+- Questions about emphasis or audience
+
+**Do NOT proceed to generation until user approves the outline.**
+
+### Phase 3: Apply Design System
+
+#### Pedagogical Layer Colors
+
+| Layer | Primary | Accent | Use For |
+|-------|---------|--------|---------|
+| L1 | #4472C4 (Blue) | #2E5C9A | Foundations, first exposure |
+| L2 | #70AD47 (Green) | #548235 | AI collaboration |
+| L3 | #9B59B6 (Purple) | #7D3C98 | Skills, MCP, automation |
+| L4 | #ED7D31 (Orange) | #C65911 | Capstone, production code |
+
+#### Slide Type Patterns
+
+| Type | Use When | Visual Treatment |
+|------|----------|-----------------|
+| Title | Opening slide | Large centered text, layer color |
+| Hook | Narrative opening | Quote or provocative question |
+| Concept | Definition/framework | Diagram + 2-3 bullets max |
+| Comparison | Contrasting options | Side-by-side table |
+| Process | Step-by-step | Numbered path/flowchart |
+| Example | Code/demo | Dark code block with output |
+| Try-With-AI | Interactive prompt | Styled as chat/terminal card |
+| Summary | Key takeaways | 3 numbered conclusions |
+
+### Phase 4: Generate Draft
+
+1. Generate slides following the approved outline
+2. Apply MIT typography rules (24pt minimum, 4 bullets max)
+3. Save as `draft-v1.pptx`
+
+### Phase 5: Verification Loop
+
+**This is iterative—repeat until all checks pass.**
+
+```
+┌─────────────────────────────────────────────────────┐
+│                                                     │
+│  Generate/Fix → Thumbnails → Review → Pass? ──Yes──→ Done
+│       ↑                         │                   │
+│       │                         No                  │
+│       │                         │                   │
+│       └─────────────────────────┘                   │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+#### Step 5a: Generate Thumbnail Grid
+```bash
+python scripts/thumbnail.py draft-v1.pptx workspace/review --cols 4
+```
+
+#### Step 5b: Visual Inspection Checklist
+
+Review each thumbnail and check:
+
+| Check | Pass? | Fix Required |
+|-------|-------|--------------|
+| All titles are conclusions (not labels) | | |
+| No text appears smaller than body text | | |
+| No slide has more than 4 bullets | | |
+| No bullet wraps to 2+ lines (too long) | | |
+| Every slide has clear visual hierarchy | | |
+| Light backgrounds throughout | | |
+| Consistent color palette | | |
+| No text cut off or overlapping | | |
+| Adequate whitespace (not cramped) | | |
+
+#### Step 5c: Fix Violations
+
+For each failed check:
+1. Note the slide number and issue
+2. Identify root cause (content too dense? font too small?)
+3. Fix in source HTML/code
+4. Regenerate affected slides
+
+#### Step 5d: Iterate
+
+Repeat Steps 5a-5c until:
+- All checklist items pass
+- Thumbnail review shows professional quality
+- Would pass the "KubeCon talk" test
+
+### Phase 6: Final Delivery
+
+1. Rename `draft-vN.pptx` to `[chapter-name]-slides.pptx`
+2. Generate final thumbnail grid for user review
+3. Present to user with:
+   - Final slide count
+   - Any deviations from approved outline (and why)
+   - Thumbnail grid image
 
 ## Converting Slides to Images
 

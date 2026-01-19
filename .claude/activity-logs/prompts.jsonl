@@ -801,3 +801,21 @@ The text you pasted appears to be an incomplete fragment (it cuts off mid-senten
 {"timestamp":"2026-01-19T06:10:05Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"maks sense 1. yes 2. remove version it will confused, 3. we can remove this aspect as well allowedtools wil confuse"}
 {"timestamp":"2026-01-19T06:11:25Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"did we rmeove that tools filter confusiona s well?"}
 {"timestamp":"2026-01-19T06:13:34Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"I stil feel lik e 08 is too verbose and most will never reach that meta skills part "}
+{"timestamp":"2026-01-19T06:16:05Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"re read the lesson once and thens hare your suggestions"}
+{"timestamp":"2026-01-19T06:17:54Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"yes"}
+{"timestamp":"2026-01-19T06:18:48Z","session_id":"00524f41-8471-4e41-9d96-5e2645bce0d1","prompt":"Review consitution, thesis of book and report back"}
+{"timestamp":"2026-01-19T06:20:19Z","session_id":"00524f41-8471-4e41-9d96-5e2645bce0d1","prompt":"Now read and amke notes Source: The New Stack https://thenewstack.io/the-key-to-agentic-success-let-unix-bash-lead-the-way/ "}
+
+
+
+
+{"timestamp":"2026-01-19T06:41:55Z","session_id":"57f4af03-ee47-4d46-98d5-371c1d414e34","prompt":"how it works if i say give ne ch 5 slides?"}
+{"timestamp":"2026-01-19T06:44:20Z","session_id":"57f4af03-ee47-4d46-98d5-371c1d414e34","prompt":"Shoulsn;t there be a verification loop at end. Before making slides is there a planning part where claude reviews each lesson and take notes then drafts and finalize the plan like total slides and content for each. How does profesionals draft presentationation?"}
+{"timestamp":"2026-01-19T06:44:53Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"NOw pleae review lesson 11, 12, 13 and 14 as well"}
+
+{"timestamp":"2026-01-19T06:58:44Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"yes"}
+{"timestamp":"2026-01-19T06:59:57Z","session_id":"57f4af03-ee47-4d46-98d5-371c1d414e34","prompt":"perfect now another problem i can thinking of is claude unable to fnd relevant content i say ch 5 and it goes to part 5. For this a good andidate can be CLAUDE>md isntead of skills as we saw similar problem in assessment architect skill as well."}
+null
+{"timestamp":"2026-01-19T07:01:51Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"Now hceck apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/09-mcp-integration.md it's so confusing and have no coherneces or seamless learning"}
+{"timestamp":"2026-01-19T07:04:51Z","session_id":"57f4af03-ee47-4d46-98d5-371c1d414e34","prompt":"Hmmm the correct source isn apps/learn-app/docs/ where you can run bash commands main dores are parts and inside them are hcapters? "}
+{"timestamp":"2026-01-19T07:07:28Z","session_id":"ebdabfb6-a3be-4088-9a12-376ad831b6e4","prompt":"yes this makes sense and we did sthat shopping example explicitly as this book and lesson is for all not just devs. and Tool Search optimization this part mayb e incorrectly places but the concept is really imp so not optional or brief"}

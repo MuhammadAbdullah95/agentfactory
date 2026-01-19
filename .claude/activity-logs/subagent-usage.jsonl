@@ -1007,3 +1007,11 @@
 {"timestamp":"2026-01-19T05:53:22Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
 {"timestamp":"2026-01-19T05:53:53Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Plan","description":"Design MIT-standard PPTX skill","background":"false","model":"inherit","event":"spawn"}
 {"timestamp":"2026-01-19T05:57:12Z","session_id":"54c54dc3-31e1-4e0b-804e-ff2a08bdfb72","subagent":"Plan","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T06:15:59Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","subagent":"pedagogical-designer","description":"Design integration of Tool Search","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T06:15:59Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","subagent":"Explore","description":"Find chapter authoring guidelines","background":"false","model":"sonnet","event":"spawn"}
+{"timestamp":"2026-01-19T06:15:59Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","subagent":"Explore","description":"Analyze MCP lessons pedagogical flow","background":"false","model":"sonnet","event":"spawn"}
+{"timestamp":"2026-01-19T06:17:25Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T06:17:46Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","subagent":"pedagogical-designer","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T06:18:06Z","session_id":"5c42a534-32e2-4c29-8933-df922e9255a6","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-19T06:32:29Z","session_id":"00524f41-8471-4e41-9d96-5e2645bce0d1","subagent":"Explore","description":"Explore Chapter 5 lesson structure","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-19T06:32:44Z","session_id":"00524f41-8471-4e41-9d96-5e2645bce0d1","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}

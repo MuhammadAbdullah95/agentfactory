@@ -355,6 +355,36 @@ The agent infrastructure is mature. The extensibility mechanisms (MCP for connec
 
 ---
 
+## Skills vs. Subagents: Decision Criteria
+
+When do you create a skill vs. a subagent?
+
+| Factor | Choose Skill | Choose Subagent |
+|--------|--------------|-----------------|
+| **Invocation** | Automatic OR explicit by name | Explicit only (you invoke) |
+| **Context** | Shared with main conversation | Isolated context window |
+| **Complexity** | Lightweight, single-focus | Multi-step, complex workflows |
+| **Guarantee** | Flexible (auto-triggers or invoke by name) | Hard invocation (always runs) |
+| **Best for** | Repeated patterns, formatting, procedures | Audits, refactoring, comprehensive analysis |
+
+**Use skill when**: "I want Claude to automatically do this whenever it's relevant."
+
+**Use subagent when**: "I need guaranteed execution with isolated context for this complex task."
+
+### Examples
+
+**Skill appropriate**:
+- Meeting notes formatting (happens often, simple procedure)
+- Blog post planning (repeated task, consistent structure)
+- Code comment style (automatic enforcement)
+
+**Subagent appropriate**:
+- Comprehensive security audit (complex, needs isolation)
+- Multi-file refactoring (guaranteed execution required)
+- Full codebase analysis (too large for skill context)
+
+---
+
 ## From Understanding to Action
 
 You now understand the architecture:

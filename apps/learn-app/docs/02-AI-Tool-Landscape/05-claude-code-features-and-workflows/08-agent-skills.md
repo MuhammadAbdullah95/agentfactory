@@ -138,6 +138,45 @@ That's a complete skill. No scripts required. No complex setup. Just clear instr
 
 ---
 
+## The Fast Way: Let Claude Build Your Skill
+
+Here's the power move: use Claude to create skills for you.
+
+Remember the Skills Lab you downloaded in Lesson 06? It includes a `skill-creator` skill—a meta-skill for creating other skills.
+
+From the skills lab directory:
+
+```bash
+cd claude-code-skills-lab
+claude
+```
+
+Then:
+
+```
+I want to create a skill for [your procedure]. Use the skill-creator to help me build it.
+```
+
+For example:
+
+```
+I want to create a skill for writing technical documentation.
+My procedure:
+1. Start with a one-sentence summary
+2. List prerequisites
+3. Provide step-by-step instructions with code examples
+4. End with troubleshooting section
+5. Keep jargon minimal, explain terms on first use
+
+Use the skill-creator to build this into a proper skill.
+```
+
+The skill-creator guides you through understanding your procedure, writing effective descriptions, and generating a complete SKILL.md file. **This is how most people should create skills.**
+
+The rest of this lesson teaches you what's happening under the hood—useful for refining skills and understanding why they work.
+
+---
+
 ## The Description Field: Your Skill's Activation Trigger
 
 The `description` in YAML frontmatter is the most important line you write. It determines **when Claude activates your skill**.
@@ -340,236 +379,9 @@ What's different? Should we update the skill to match my real style?
 
 ---
 
-## Skills vs. Subagents: Decision Criteria
+## The Bigger Picture
 
-When do you create a skill vs. a subagent?
-
-| Factor | Choose Skill | Choose Subagent |
-|--------|--------------|-----------------|
-| **Invocation** | Automatic OR explicit by name | Explicit only (you invoke) |
-| **Context** | Shared with main conversation | Isolated context window |
-| **Complexity** | Lightweight, single-focus | Multi-step, complex workflows |
-| **Guarantee** | Flexible (auto-triggers or invoke by name) | Hard invocation (always runs) |
-| **Best for** | Repeated patterns, formatting, procedures | Audits, refactoring, comprehensive analysis |
-
-**Use skill when**: "I want Claude to automatically do this whenever it's relevant."
-
-**Use subagent when**: "I need guaranteed execution with isolated context for this complex task."
-
-### Examples
-
-**Skill appropriate**:
-- Meeting notes formatting (happens often, simple procedure)
-- Blog post planning (repeated task, consistent structure)
-- Code comment style (automatic enforcement)
-
-**Subagent appropriate**:
-- Comprehensive security audit (complex, needs isolation)
-- Multi-file refactoring (guaranteed execution required)
-- Full codebase analysis (too large for skill context)
-
----
-
-## Skill Design Principles
-
-### Keep It Concise
-
-Claude is intelligent. Don't over-explain.
-
-**Too verbose**:
-```markdown
-## How to Create an Outline
-An outline is a structured plan for your content. It helps organize thoughts.
-To create an outline, first think about your main points. Then arrange them
-in logical order. Each point should support your thesis. Consider your
-audience when deciding how much detail to include...
-```
-
-**Just right**:
-```markdown
-## Outline Creation
-- 3-5 main sections
-- Problem → insight → application structure
-- Each section: clear topic + brief description
-```
-
-### Show, Don't Just Tell
-
-Include examples. Claude learns better from concrete demonstrations.
-
-```markdown
-## Headline Format
-
-**Formula**: [Unexpected element] + [Benefit/Promise]
-
-**Examples**:
-- "Why Most Productivity Advice Makes You Less Productive"
-- "The Lazy Developer's Guide to Clean Code"
-- "Stop Trying to Be Consistent (Do This Instead)"
-```
-
-### Specify Quality Criteria
-
-Make your standards explicit:
-
-```markdown
-## Quality Standards
-
-- Paragraphs: 3 sentences max
-- Headlines: Curiosity-driven, never clickbait
-- Numbers: Specific ("37%") over vague ("significant")
-- Tone: Conversational, not academic
-```
-
----
-
-## Adding Supporting Files (Optional)
-
-For complex skills, add scripts or references in subdirectories:
-
-```
-.claude/skills/pdf-extractor/
-├── SKILL.md                    # Main instructions
-├── scripts/
-│   └── extract_tables.py       # Python extraction tool
-└── references/
-    └── pdf-standards.md        # Format specifications
-```
-
-**Level 3 loading**: Claude only accesses supporting files when executing the skill—they don't consume context until needed.
-
-For most skills, SKILL.md alone is sufficient. Add supporting files only when your skill needs:
-- Executable scripts for deterministic tasks
-- Reference documentation for complex domains
-- Templates or assets for output generation
-
----
-
-## Building Skills with the Skill-Creator
-
-Here's where it gets powerful: use Claude to create skills.
-
-Remember the Skills Lab you downloaded in Lesson 06? It includes a `skill-creator` skill. This is a meta-skill—a skill for creating other skills.
-
-If you haven't downloaded it yet:
-1. Go to [github.com/panaversity/claude-code-skills-lab](https://github.com/panaversity/claude-code-skills-lab)
-2. Click the green **Code** button → **Download ZIP**
-3. Extract and open the folder in your terminal
-
-### Using Skill-Creator
-
-From the skills lab directory:
-
-```bash
-cd claude-code-skills-lab
-claude
-```
-
-Then:
-
-```
-I want to create a skill for [your procedure]. Use the skill-creator to help me build it.
-```
-
-For example:
-
-```
-I want to create a skill for writing technical documentation.
-My procedure:
-1. Start with a one-sentence summary
-2. List prerequisites
-3. Provide step-by-step instructions with code examples
-4. End with troubleshooting section
-5. Keep jargon minimal, explain terms on first use
-
-Use the skill-creator to build this into a proper skill.
-```
-
-### What Skill-Creator Does
-
-The skill-creator guides you through:
-
-1. **Understanding your skill**: Asks clarifying questions about your procedure
-2. **Planning structure**: Determines what goes in SKILL.md vs. supporting files
-3. **Writing the description**: Crafts activation triggers that work
-4. **Creating the file**: Generates complete SKILL.md with proper format
-5. **Testing guidance**: Suggests prompts to verify the skill works
-
-### The Meta-Skill Advantage
-
-Using skill-creator, you can build skills for:
-- Your meeting note format
-- Your code review checklist
-- Your email writing style
-- Your research summary template
-- Any repeated procedure you identified in Lesson 06
-
-Each skill you create makes Claude more useful for YOUR work. And you can share these skills with your team—everyone benefits from encoded expertise.
-
----
-
-## Your Skill Creation Workflow
-
-Here's the process to follow for each new skill:
-
-### 1. Identify the Procedure
-- What task do you repeat?
-- What makes your approach distinctive?
-- What would take 10+ minutes to explain to someone new?
-
-### 2. Draft the Skill
-- Write SKILL.md with YAML frontmatter
-- Include clear "when to use" triggers
-- Document your procedure step-by-step
-- Add an example input/output
-
-### 3. Test and Iterate
-- Try the skill with real tasks
-- Note what works and what doesn't
-- Ask Claude for improvement suggestions
-- Refine based on actual usage
-
-### 4. Share (Optional)
-- Skills are portable—same format across Claude.ai, Claude Code, API
-- Share with teammates by sharing the folder
-- Consider contributing to open skill repositories
-
-
-## Skills Beyond Software: Universal Applicability
-
-Remember: skills aren't just for coding. They work for ANY domain where you have expertise worth encoding.
-
-**Examples from non-technical fields:**
-
-| Role | Skill Example | What It Encodes |
-|------|--------------|-----------------|
-| **Financial Analyst** | `quarterly-report` | Company's specific KPI formatting, variance analysis approach |
-| **HR Manager** | `candidate-evaluation` | Interview rubric, scoring criteria, red flag checklist |
-| **Marketing Lead** | `campaign-brief` | Brand voice, audience targeting framework, channel strategy |
-| **Legal Counsel** | `contract-review` | Clause analysis workflow, risk flagging criteria |
-| **Educator** | `lesson-plan` | Learning objectives structure, assessment alignment |
-
-The pattern is universal: **if you repeat a procedure and it has your expertise embedded in it, it's a skill candidate.**
-
----
-
-## The Bigger Picture: Skills as Building Blocks
-
-Here's what makes skills strategically valuable:
-
-**Today**: Skills make Claude more useful for your personal work.
-
-**Tomorrow**: Skills you create become building blocks for larger systems.
-
-In Part 6 of this book, you'll learn to build **Custom Agents** using SDKs (OpenAI, Claude, Google). Here's the insight: **skills you create now can be integrated into those Custom Agents.**
-
-```
-Your Expertise → Skills → Custom Agent → Deployed Product
-```
-
-A skill for "quarterly financial analysis" doesn't just help you today. It becomes a component in a financial analysis agent you could deploy for clients. A skill for "candidate evaluation" becomes part of a recruiting automation system.
-
-**Skills are reusable intellectual property.** They compound in value—first for your personal productivity, then for your team, and potentially for products you build or sell.
+Skills you create now become building blocks for larger systems. In Part 6, you'll build **Custom Agents** using SDKs—and skills you create here integrate directly into those agents. **Skills are reusable intellectual property** that compound in value.
 
 ---
 
