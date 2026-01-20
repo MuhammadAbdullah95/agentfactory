@@ -485,6 +485,10 @@ That's your personal style guide ready to become a skill!
 
 > "I'm a student who uses Claude for [describe what you do: studying, social media, projects, etc.]. Help me identify 3 repetitive tasks that would make good skills. For each one, tell me: what the skill would do and why it would save me time."
 
+**What you're learning:** How to spot skill opportunities in your own workflow. The patterns you notice here become the building blocks for Lesson 08.
+
 **Practice Your Procedure:**
 
 > "I want to create a skill for [your chosen task]. Let's practice! Ask me questions about how I like to do this task. Then show me how you'd describe my style as a simple guide someone else could follow."
+
+**What you're learning:** The interview-based approach to skill design. Claude asks questions, you provide expertise—this Three Roles pattern creates better skills than writing alone.

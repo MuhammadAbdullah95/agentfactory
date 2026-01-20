@@ -642,7 +642,7 @@ The loop stops. Claude Code requires persistent connection. When you reconnect, 
 
 **Q: Can I run multiple Ralph Loops in parallel?**
 
-Yes, in separate Claude Code sessions (like Boris's parallel sessions pattern from Lesson 18). Each loop operates independently.
+Yes, in separate Claude Code sessions (like Boris's parallel sessions pattern from Lesson 16). Each loop operates independently.
 
 **Q: How do I know if Ralph Loop is actually making progress?**
 

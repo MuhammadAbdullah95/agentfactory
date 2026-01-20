@@ -185,11 +185,17 @@ You don't need Part 6 to make money. Skills + MCP integrations = immediate consu
 **🔍 Identify Your Expertise:**
 > "What domain can I encode into a Skill? What questions do people ask repeatedly? What tasks do others find difficult?"
 
+**What you're learning:** Expertise mining—recognizing what you know that others would pay for. The first step in any monetization strategy.
+
 **💰 Calculate the Value:**
 > "Pick one task. How much does it cost in human time? If an agent could do it for 10% of that cost, what are monthly/yearly savings?"
 
+**What you're learning:** Value quantification—translating capability into dollars. This skill makes the business case for every AI product you build.
+
 **🏗️ Design the Product:**
 > "Which revenue model fits? What do I need to build (Skills, MCP, hosting)?"
+
+**What you're learning:** Product design thinking—matching technical capabilities to business models. The connection between what you build and how it generates revenue.
 
 ---
 

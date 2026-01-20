@@ -248,7 +248,7 @@ Here's what you've accomplished:
 
 This is the principle of **"specify once, benefit always"**—define your project context one time, and every future session starts with full understanding.
 
-In later lessons, you'll see how subagents (Lesson 12) and skills (Lesson 08) inherit and extend this CLAUDE.md context—making it the foundation for all Claude Code intelligence.
+In later lessons, you'll see how subagents (Lesson 09) and skills (Lesson 08) inherit and extend this CLAUDE.md context—making it the foundation for all Claude Code intelligence.
 
 #### 💬 AI Colearning Prompt
 
@@ -520,14 +520,22 @@ Let's create a CLAUDE.md file that eliminates context friction and makes every s
 
 > "Help me create a complete CLAUDE.md file for this project. Analyze what you can see in the codebase and generate a file with these sections: Project Overview (1-2 sentences), Technology Stack (bulleted list), Directory Structure (tree diagram), Coding Conventions (bulleted list), Key Commands (for running, testing, deploying), and Important Notes (gotchas or critical context). Base everything on the actual files you can read."
 
+**What you're learning:** How Claude Code uses filesystem access to generate context it couldn't create from conversation alone. The AI reads your actual code to propose accurate context.
+
 **🎯 Practice Collaborative Refinement:**
 
 > "Review the CLAUDE.md you just created. I need to add my team's specific constraints: [describe your specific conventions, patterns, or requirements]. Update the file to reflect these details, and ask me clarifying questions if anything is ambiguous."
+
+**What you're learning:** The Three Roles pattern in action—you teach Claude your domain knowledge (constraints, conventions) while Claude teaches you what good CLAUDE.md structure looks like.
 
 **🧪 Test Context Persistence:**
 
 > "I'm going to test if CLAUDE.md auto-loads correctly. First, tell me what tech stack this project uses based on the CLAUDE.md. Then I'll exit and start a new session to verify you remember it without me repeating anything."
 
+**What you're learning:** Verifying that persistent context actually works. This builds trust in the mechanism before you rely on it for real work.
+
 **🚀 Optimize for Your Workflow:**
 
 > "Now that CLAUDE.md is working, help me identify what ELSE should go in it based on my workflow: I frequently [describe your common tasks: write tests, add API endpoints, update documentation, etc.]. What context would help you give better suggestions for these tasks?"
+
+**What you're learning:** How to evolve CLAUDE.md from "good enough" to "optimized for you." Context that helps Claude help you is always worth discovering.

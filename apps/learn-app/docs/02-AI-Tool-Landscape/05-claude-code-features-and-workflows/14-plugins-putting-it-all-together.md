@@ -327,18 +327,28 @@ Lesson 15 introduces the **Ralph Wiggum Loop**—an autonomous iteration pattern
 
 > "Run /plugin and show me what's in the Discover tab. What categories of plugins are available? Which ones would be useful for [your work: web development / Python / data analysis]?"
 
+**What you're learning:** Plugin discovery—understanding what capability extensions exist before building from scratch. The ecosystem often has what you need.
+
 **📦 Install and Test:**
 
 > "Help me install the commit-commands plugin. After it's installed, walk me through using /commit-commands:commit to commit a change. What other commands does this plugin provide?"
+
+**What you're learning:** The full plugin workflow—from installation through verification. Knowing the complete cycle builds confidence with new plugins.
 
 **🔌 Code Intelligence:**
 
 > "I write [TypeScript / Python / Rust / Go]. Help me install the LSP plugin for my language. What do I need to install on my system first? After installation, show me how Claude can now jump to definitions and find references."
 
+**What you're learning:** How plugins add capabilities Claude doesn't have natively—in this case, language-server-level code understanding.
+
 **🔗 External Integration:**
 
 > "I want to connect Claude to [GitHub / Slack / Linear]. Help me install the appropriate plugin. What capabilities does it add? Show me an example of using it."
 
+**What you're learning:** Platform integration through plugins—extending Claude's reach to external services without writing custom MCP servers.
+
 **⚖️ Plugin Decision:**
 
 > "I need Claude to help with [describe your task]. Should I: (a) install an existing plugin, (b) create a custom skill, (c) just ask Claude directly? Help me decide based on what's available in the marketplace."
+
+**What you're learning:** The build vs. buy decision for AI capabilities—when to use existing solutions vs. creating custom ones.

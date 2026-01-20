@@ -644,9 +644,13 @@ Research and tools supporting this lesson:
 
 > "I've downloaded the Skills Lab. Guide me through using the browsing-with-playwright skill to extract product names from an e-commerce site. Show me the token savings compared to direct MCP."
 
+**What you're learning:** How compiled skills execute locally, reducing round-trips and token overhead. The skill does what MCP would do—but more efficiently.
+
 **Measure Token Reduction:**
 
 > "I used browsing-with-playwright skill for 3 browser operations. Calculate the token savings: (1) Estimate tokens if I used Playwright MCP directly, (2) Estimate tokens with browsing-with-playwright skill, (3) Show percentage reduction with explanation."
+
+**What you're learning:** Quantifying efficiency gains—the skill of measuring token consumption. This matters when you're optimizing production workflows for cost.
 
 ### fetch-library-docs Skill
 
@@ -654,15 +658,19 @@ Research and tools supporting this lesson:
 
 > "Use fetch-library-docs skill to look up React useState. First fetch with --content-type examples, then with --content-type api-ref. Compare the outputs and explain why they're different sizes."
 
+**What you're learning:** Content-type filtering as a token optimization technique—get exactly what you need, not everything available.
 
 **Compare Token Savings:**
 
 > "I need to look up 'routing' for Next.js. Show me the token difference between: (1) Using fetch-library-docs with --content-type setup, (2) Using fetch-library-docs with --content-type all (no filtering). Calculate the percentage saved."
 
+**What you're learning:** The concrete cost of over-fetching. Small decisions about filtering compound into significant savings at scale.
 
 **Decide When to Use:**
 
 > "I have these MCP servers installed: [list]. For each, should I look for a compiled skill or use direct MCP? Use the decision framework to recommend."
+
+**What you're learning:** The decision framework in practice—when compilation helps vs. when it's overkill. Not every MCP needs a skill.
 
 **Compare Direct MCP vs Compiled Skill:**
 

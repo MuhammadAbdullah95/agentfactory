@@ -153,7 +153,7 @@ A Skill is **encoded expertise**—a document (SKILL.md) that teaches Claude a p
 
 Your domain expertise, encoded as a Skill, is intellectual property. When you create a Skill that automates financial audits, legal contract review, or sales outreach—that's not just a tool for yourself. That's **something you can sell**.
 
-In Lesson 18, we show you exactly how these Skills become revenue. For now: every Skill you build in this chapter is a potential product.
+In Lesson 17, we show you exactly how these Skills become revenue. For now: every Skill you build in this chapter is a potential product.
 
 ---
 
@@ -171,12 +171,18 @@ This is the future you're entering.
 
 > "I use ChatGPT for coding help. Show me one workflow where copy-paste friction wastes time—maybe debugging an error or integrating a library. Then show what that same workflow looks like with filesystem access. What do I type? What does the AI see? What's different?"
 
+**What you're learning:** The concrete difference between passive AI (you describe code) and agentic AI (AI sees your code directly). This distinction shapes everything that follows.
+
 **💡 Understand Product Overhang:**
 
 > "Claude could already explore codebases—it just needed filesystem access. What other capabilities are locked inside AI models right now, waiting for the right product? Give me 2-3 examples."
 
+**What you're learning:** How to spot "product overhang"—latent AI capabilities waiting for the right interface. This pattern-recognition skill helps you identify opportunities others miss.
+
 **🚀 Apply to Your Work:**
 
 > "I work on [your domain]. Based on the paradigm shift, what parts of my workflow involve the most copy-paste friction? Where would filesystem access help most?"
+
+**What you're learning:** Transferring the paradigm shift to your specific context. The goal isn't just understanding Claude Code—it's recognizing where agentic AI transforms YOUR work.
 
 **Note:** Start with non-sensitive projects. Review changes before accepting.

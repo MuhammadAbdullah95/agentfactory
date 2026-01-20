@@ -95,7 +95,7 @@ Boris doesn't run one Claude Code session. He runs **15-20 concurrent sessions**
 
 **Connection to Chapter Concepts**:
 - **Lesson 01 (Origin Story)**: The agentic paradigm means Claude works autonomously. Parallel sessions multiply this agency.
-- **Lesson 12 (Subagents)**: Each session is like a subagent with a specific task—research in one, implementation in another, testing in a third.
+- **Lesson 09 (Subagents)**: Each session is like a subagent with a specific task—research in one, implementation in another, testing in a third.
 
 ---
 
@@ -117,7 +117,7 @@ Boris activates Plan Mode (Shift+Tab twice) for every non-trivial task. He itera
 **Why this works**: When you spend time on planning, you align Claude's understanding with your intent. The investment in planning pays off through faster, more accurate execution. No wasted iterations fixing misunderstandings.
 
 **Connection to Chapter Concepts**:
-- **Lesson 12 (Subagents)**: Plan is a built-in subagent that researches your codebase and creates multi-step strategies
+- **Lesson 09 (Subagents)**: Plan is a built-in subagent that researches your codebase and creates multi-step strategies
 - The "one task, one completion" pattern applies—Plan subagent does research, returns a plan, then main Claude executes
 
 ---
@@ -161,7 +161,7 @@ Boris uses custom subagents for his most common workflows:
 **The Pattern**: Identify workflows you repeat for every PR. Create a subagent that handles that workflow with specialized instructions.
 
 **Connection to Chapter Concepts**:
-- **Lesson 12 (Subagents)**: You learned to create subagents with `/agents`. Boris shows what a mature subagent ecosystem looks like.
+- **Lesson 09 (Subagents)**: You learned to create subagents with `/agents`. Boris shows what a mature subagent ecosystem looks like.
 - **Lessons 06-08 (Skills)**: Subagents are like skills with their own context and tool access—specialized experts for specific phases of work.
 
 ---
@@ -183,7 +183,7 @@ This might be the most important insight from Boris's workflow:
 
 **Connection to Chapter Concepts**:
 - **Lesson 10 (MCP Integration)**: MCP tools can include verification capabilities—testing endpoints, validating outputs, checking UI state
-- **Lesson 14 (Hooks)**: Hooks can trigger automated verification after Claude makes changes
+- **Lesson 13 (Hooks)**: Hooks can trigger automated verification after Claude makes changes
 
 ---
 
@@ -203,7 +203,7 @@ Boris's team uses a simple but effective hook:
 This runs the formatter after every file write or edit. Claude generates well-formatted code 90% of the time, and the hook handles the remaining 10% to prevent CI formatting failures.
 
 **Connection to Chapter Concepts**:
-- **Lesson 14 (Hooks)**: You learned the PostToolUse pattern. This is a production example that prevents a common frustration (CI failures due to formatting).
+- **Lesson 13 (Hooks)**: You learned the PostToolUse pattern. This is a production example that prevents a common frustration (CI failures due to formatting).
 
 ---
 
@@ -281,15 +281,23 @@ Apply what you've learned from the creator's workflow:
 
 > "Compare my current Claude Code workflow to Boris Cherny's. I've been using [describe your typical usage pattern]. What's the biggest gap between my practice and his? Which of his techniques would have the most impact if I adopted it?"
 
+**What you're learning:** Self-assessment against expert practice—identifying your highest-leverage improvement opportunity rather than random experimentation.
+
 **🎯 Implement Plan Mode Discipline:**
 
 > "I want to start using Plan Mode consistently. Walk me through the workflow: I'll describe a task I need to complete, you help me create a solid plan before we execute. Let's practice with: [describe a real task you need to complete]."
+
+**What you're learning:** The plan-first discipline on a real task. This isn't theory—it's practice that builds the habit.
 
 **🔧 Create a Verification Subagent:**
 
 > "Help me create a verify-app subagent for my project. My project is [describe your project]. What should this subagent check? What tools does it need? Walk me through creating it with /agents and testing it on my codebase."
 
+**What you're learning:** How to design verification infrastructure specific to your project. Boris's principle: quality comes from feedback loops, not hope.
+
 **🚀 Design Your Parallel Workflow:**
 
 > "I want to experiment with running multiple Claude Code sessions. Help me think through: What tasks should run in parallel? How should I organize and track them? What system notifications should I set up? Start with 3 parallel sessions—what should each one focus on for [describe your current project]?"
+
+**What you're learning:** Parallelization strategy—thinking about Claude Code as capacity to orchestrate, not a single conversation to manage.
 

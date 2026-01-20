@@ -463,14 +463,22 @@ Let's explore MCP integration through hands-on practice with external system acc
 
 > "I've successfully added the Playwright MCP for web browsing. Show me 3 specific web testing tasks I could accomplish with this MCP right now. For each task, give me the exact prompt I should use and explain what Playwright will do."
 
+**What you're learning:** Discovering MCP capability boundaries—what becomes possible with external access that wasn't possible with filesystem alone.
+
 **🎯 Practice Building Workflows:**
 
 > "I need to test [describe your specific web application or research goal]. Walk me through building a complete workflow using Playwright MCP (for web browsing) and Context7 MCP (for documentation). Include: which MCP handles which part, exact prompts I should use, and how to verify everything works."
+
+**What you're learning:** Multi-MCP orchestration—combining external capabilities into coherent workflows. This is the "data pipes" concept from the architecture.
 
 **🧪 Troubleshoot Integration Issues:**
 
 > "I'm trying to add an MCP server and it's not working. I ran [paste your installation command]. The error says [paste error message]. Walk me through troubleshooting: What's the most likely cause? What should I check? Give me 3 diagnostic commands to run with expected outputs."
 
+**What you're learning:** MCP debugging methodology—the systematic approach to integration problems. This skill transfers to any external system connection.
+
 **🛡️ Establish Security Boundaries:**
 
 > "The lesson emphasizes MCP security. I'm nervous about giving Claude Code external access. Help me establish safe boundaries: What types of MCP servers should I avoid as a beginner? What permissions are risky? How do I audit what an MCP server can access? Create an MCP safety checklist I can follow."
+
+**What you're learning:** Security-first thinking for AI external access—essential for production use where trust and verification matter.

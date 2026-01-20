@@ -379,14 +379,22 @@ Let's understand how Claude Code's three-level settings hierarchy enables both t
 
 > "Claude Code has settings at three levels: user (~/.claude/settings.json), project (.claude/settings.json), and local (.claude/settings.local.json). Explain what each level is for and why having three levels is better than one global settings file. Give me concrete examples of what I'd put at each level."
 
+**What you're learning:** Configuration architecture—how layered settings enable both personal customization and team standardization without conflict.
+
 **🔍 Verify Your Current Configuration:**
 
 > "Help me check which settings files exist on my system. Walk me through the commands to check each level (user, project, local). Then, based on what exists, explain which settings are actually controlling my current Claude Code session and why."
+
+**What you're learning:** Configuration debugging—knowing what's actually active vs. what you think is active. This skill prevents hours of "why isn't this working?"
 
 **🧪 Test Precedence Rules:**
 
 > "Let's test precedence with a scenario: User level has outputStyle='Concise', Project level has outputStyle='Explanatory', and Local level is not set. Which outputStyle is active and why? Then, if I create a .claude/settings.local.json file with outputStyle='Verbose', what happens? Walk me through the precedence logic."
 
+**What you're learning:** Precedence mental model—understanding which settings "win" when layers conflict. This applies to any layered configuration system.
+
 **🚀 Plan for Team Workflows:**
 
 > "When I learn team workflows in Part 5, help me understand which settings level to use for different scenarios: personal preferences (my editor style, my default verbosity), team standards (shared coding conventions, security policies), and temporary experiments (testing new configurations). Explain the decision framework for choosing the right level."
+
+**What you're learning:** Configuration strategy—deciding where settings belong before creating them. Planning prevents the mess of scattered configurations.

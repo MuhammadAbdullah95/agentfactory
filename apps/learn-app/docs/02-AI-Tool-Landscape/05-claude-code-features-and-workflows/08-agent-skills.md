@@ -391,14 +391,22 @@ Skills you create now become building blocks for larger systems. In Part 6, you'
 
 > "I have a procedure I want to encode as a skill: [describe your procedure from Lesson 06]. Walk me through creating a SKILL.md file. Help me write: (1) an effective description that triggers at the right times, (2) clear instructions Claude can follow, (3) quality criteria that match my standards, (4) an example input/output."
 
+**What you're learning:** The complete skill creation workflow—from procedure to SKILL.md. This is the hands-on application of Lesson 07's architecture.
+
 **Use Skill-Creator:**
 
 > "Use the skill-creator to help me build a skill for [your domain: technical writing / project planning / code review / research summaries]. Start by asking me questions about my procedure, then generate the complete SKILL.md file."
+
+**What you're learning:** How meta-skills (skills that create skills) accelerate your capability building. The skill-creator pattern appears throughout professional AI workflows.
 
 **Refine an Existing Skill:**
 
 > "Here's my current [skill-name] skill: [paste SKILL.md content]. I've used it 3 times and noticed: [what worked], [what didn't work]. Help me improve the skill to fix these issues."
 
+**What you're learning:** Skills improve through iteration, not perfection on first attempt. The feedback loop between usage and refinement is how skills mature.
+
 **Design a Skill Suite:**
 
 > "I work on [describe your project type]. Help me identify 3-5 skills I should create that would work together. For each skill, suggest: what it does, when it activates, and how it complements the others."
+
+**What you're learning:** How to think in skill ecosystems, not isolated tools. Skills that complement each other create more value than skills that work alone.

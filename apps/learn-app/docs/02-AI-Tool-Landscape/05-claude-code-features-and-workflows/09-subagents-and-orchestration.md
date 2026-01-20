@@ -345,17 +345,25 @@ Lesson 10 introduces **MCP Integration**—connecting Claude to external systems
 
 > "Use the Explore subagent to find all configuration files in this project. Then explain what each one does."
 
+**What you're learning:** How the Explore subagent does research autonomously—it reads files, follows imports, and reports findings without manual guidance.
+
 **📋 Plan a Feature:**
 
 > "Use the Plan subagent to create an implementation plan for adding dark mode to a React application. Include phases, dependencies, and testing strategy."
+
+**What you're learning:** How Plan Mode creates comprehensive strategies before execution. This pattern—plan first, execute second—produces better outcomes than iterative guessing.
 
 **⚡ Parallel Agents:**
 
 > "Use Explore to find all API routes in this project, AND use Plan to suggest how to add authentication to routes that don't have it."
 
+**What you're learning:** Parallel agent execution—running multiple specialists simultaneously. This pattern appears in production workflows where throughput matters.
+
 **🛠️ Create a Custom Agent:**
 
 > "Walk me through creating a custom subagent for [your repeated task: code reviews, blog planning, meeting notes, test design]. Help me think through: What should it do? What questions should it ask? What format should output be?"
+
+**What you're learning:** The subagent design process—from identifying a need to defining behavior. Custom subagents are your first step toward building specialized AI teams.
 
 **🎯 Orchestrate Multiple Agents:**
 

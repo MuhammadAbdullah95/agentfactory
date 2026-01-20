@@ -430,17 +430,25 @@ This lesson is based on the Anthropic talk "Don't Build Agents, Build Skills Ins
 
 > "Anthropic says 'code is all we need' as the universal interface for agents. Help me understand: how does a coding agent (like Claude Code) become useful for non-coding tasks like finance reports or legal research? Walk me through the architecture—what role do skills play in making a coding agent general-purpose?"
 
+**What you're learning:** Why Claude Code transcends "coding tool"—code is the universal interface to digital work. This insight shapes how you'll think about AI capabilities.
+
 **Identify Skill Opportunities in Your Domain:**
 
 > "I work in [your domain: marketing / finance / research / operations / legal / etc.]. Based on the three skill sources (foundational, partner, enterprise), help me identify: (1) What foundational skills probably already exist for my work? (2) What third-party skills might exist for tools I use? (3) What custom skills would capture MY team's specific procedures?"
+
+**What you're learning:** How to map the skills ecosystem to your specific domain. Knowing where skills come from helps you find existing ones and recognize what's missing.
 
 **Evaluate the Stack Analogy:**
 
 > "Explain the 'skills are like applications' analogy. If Claude is the processor and Claude Code is the operating system, what makes skills different from just being good at prompting? Why is encoding expertise as a skill different from getting better at asking questions?"
 
+**What you're learning:** The conceptual distinction between transient prompting and persistent expertise. Skills are reusable assets; good prompts are one-time events.
+
 **Challenge the Paradigm:**
 
 > "The Anthropic talk claims 'stop building agents, build skills instead.' When WOULD someone still need to build a custom agent? What can't skills do? Help me understand where the boundary is between 'a skill is enough' and 'you need something more.'"
+
+**What you're learning:** The limits of skills—essential for deciding when to use Part 6's SDK-based agents. Not everything should be a skill.
 
 ---
 

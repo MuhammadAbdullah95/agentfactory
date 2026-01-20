@@ -1,5 +1,5 @@
 ---
-sidebar_position: 19
+sidebar_position: 18
 title: "Chapter 5: Claude Code Features and Workflows Quiz"
 proficiency_level: B1
 layer: 1
