@@ -31,22 +31,25 @@ You are an Agent Factory architect building an educational platform that teaches
 
 | User Says | Interpretation | Example |
 |-----------|----------------|---------|
-| `ch 5` / `chapter 5` | Chapter 5 (single chapter) | Claude Code Features (in Part 2) |
-| `part 5` / `p5` | Part 5 (all chapters in part) | Python Fundamentals (18 chapters) |
+| `ch 11` / `chapter 11` | Chapter 11 (single chapter) | AI-Native IDEs (in Part 3) |
+| `part 4` / `p4` | Part 4 (all chapters in part) | Coding for Problem Solving |
 | `5` (bare number) | **AMBIGUOUS** | Must ask user to clarify |
 
 ### Authoritative Source: The Filesystem
 
-**The filesystem at `apps/learn-app/docs/` is the source of truth.**
+**The filesystem at `apps/learn-app/docs/` is the source of truth. No hardcoded index file exists — always discover via `ls`.**
 
 ```
 apps/learn-app/docs/
-├── 01-Introducing-AI-Driven-Development/     ← Part 1
+├── 01-General-Agents-Foundations/             ← Part 1
 │   ├── 01-agent-factory-paradigm/            ← Chapter 1
-│   ├── 02-aiff-foundation/                   ← Chapter 2
+│   ├── 02-general-agents/                    ← Chapter 2
+│   └── 03-seven-principles/                  ← Chapter 3
+├── 02-Applied-General-Agent-Workflows/        ← Part 2
+│   ├── 06-build-your-first-personal-ai-employee/
 │   └── ...
-├── 02-AI-Tool-Landscape/                     ← Part 2
-│   ├── 05-claude-code-features-and-workflows/ ← Chapter 5
+├── 03-SDD-RI-Fundamentals/                   ← Part 3
+│   ├── 11-ai-native-ides/                    ← Chapter 11
 │   └── ...
 └── ...
 ```
@@ -60,13 +63,13 @@ apps/learn-app/docs/
 ```bash
 # Step 1: Parse input and discover path
 
-# For "ch 5" / "chapter 5" → Find chapter folder:
-ls -d apps/learn-app/docs/*/05-*/
-# Returns: apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/
+# For "ch 11" / "chapter 11" → Find chapter folder:
+ls -d apps/learn-app/docs/*/11-*/
+# Returns: apps/learn-app/docs/03-SDD-RI-Fundamentals/11-ai-native-ides/
 
-# For "part 5" / "p5" → Find part folder:
-ls -d apps/learn-app/docs/05-*/
-# Returns: apps/learn-app/docs/05-Python-Fundamentals/
+# For "part 4" / "p4" → Find part folder:
+ls -d apps/learn-app/docs/04-*/
+# Returns: apps/learn-app/docs/04-Coding-for-Problem-Solving/
 
 # For bare "5" → AMBIGUOUS, ask user first!
 ```
@@ -75,10 +78,10 @@ ls -d apps/learn-app/docs/05-*/
 # Step 2: Validate and count contents
 
 # Count lessons in a chapter:
-ls apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/*.md | wc -l
+ls apps/learn-app/docs/03-SDD-RI-Fundamentals/11-ai-native-ides/*.md | wc -l
 
 # Count chapters in a part:
-ls -d apps/learn-app/docs/05-Python-Fundamentals/*/ | wc -l
+ls -d apps/learn-app/docs/04-Coding-for-Problem-Solving/*/ | wc -l
 ```
 
 ```bash
@@ -87,11 +90,11 @@ ls -d apps/learn-app/docs/05-Python-Fundamentals/*/ | wc -l
 
 **Example confirmation**:
 ```
-"You said 'ch 5'. I found:
-- Chapter 5: claude-code-features-and-workflows
-- Path: apps/learn-app/docs/02-AI-Tool-Landscape/05-claude-code-features-and-workflows/
-- Part: 02-AI-Tool-Landscape
-- Lessons: 12 files
+"You said 'ch 11'. I found:
+- Chapter 11: ai-native-ides
+- Path: apps/learn-app/docs/03-SDD-RI-Fundamentals/11-ai-native-ides/
+- Part: 03-SDD-RI-Fundamentals
+- Lessons: 17 files
 
 Is this correct?"
 ```
@@ -100,19 +103,19 @@ Is this correct?"
 
 Chapter numbers are **global across the book**, not local to parts.
 
-- `ch 5` → Chapter 5 (lives in Part 2, folder `05-*`)
-- `part 5` → Part 5 (folder `05-Python-Fundamentals/`, contains chapters 15-32)
+- `ch 11` → Chapter 11 (lives in Part 3, folder `11-*`)
+- `part 4` → Part 4 (folder `04-Coding-for-Problem-Solving/`)
 
-**`ch 5` ≠ `part 5`** — completely different locations!
+**`ch 4` ≠ `part 4`** — completely different locations!
 
 ### Failure Modes
 
-- ❌ **"Ch 5" → Part 5 folder** (Wrong! Ch 5 is in Part 2)
 - ❌ **Guessing paths without running `ls`** (Always discover via filesystem)
 - ❌ **Not asking for clarification on bare numbers** ("5" is ambiguous)
 - ❌ **Trusting stale documentation over filesystem** (Filesystem is source of truth)
+- ❌ **Referencing hardcoded index files** (No chapter-index.md exists — use `ls -d` only)
 
-**Always run `ls -d` to discover paths. Never guess.**
+**Always run `ls -d` to discover paths. Never guess. Never reference a hardcoded file.**
 
 ---
 
@@ -123,6 +126,24 @@ Chapter numbers are **global across the book**, not local to parts.
 3. **Default to action** - Implement rather than suggest
 4. **Skills over repetition** - Pattern recurs 2+? Create a skill
 5. **Absolute paths for subagents** - Never let agents infer directories
+
+---
+
+## Seven Principles of Agent Work
+
+These principles (from Part 1, Chapter 3) govern ALL work in this project:
+
+| # | Principle | Application to This Project |
+|---|-----------|----------------------------|
+| 1 | **Bash is the Key** | Use `ls -d`, `wc -l`, `grep` to navigate — never hardcoded files |
+| 2 | **Code as Universal Interface** | Express work as code/specs, not prose descriptions |
+| 3 | **Verification as Core Step** | After every operation, verify it succeeded (`ls -la`, read file) |
+| 4 | **Small, Reversible Decomposition** | Break tasks into verifiable chunks, commit incrementally |
+| 5 | **Persisting State in Files** | Track progress in files (todos, READMEs), not memory |
+| 6 | **Constraints and Safety** | Respect folder boundaries, confirm before destructive ops |
+| 7 | **Observability** | Show reasoning, report results, log actions |
+
+**Meta-Principle**: General agents are most effective when they leverage computing fundamentals rather than fighting against them. File systems, shells, code execution, version control—these are foundations, not limitations.
 
 ---
 
@@ -183,8 +204,8 @@ Before deep implementation:
 **These patterns caused real failures. Don't repeat them:**
 
 ### Content Failures
-- ❌ **"Chapter 5" → Part 5 folder** → Wrong location (Ch 5 is in Part 2, not Part 5)
-- ❌ Skipping chapter-index.md → Wrong pedagogical layer
+- ❌ **Confusing chapter and part numbers** → `ch 11` ≠ `part 4` (always `ls -d` to discover)
+- ❌ Skipping chapter README → Wrong pedagogical layer (use `ls` + README to understand chapter structure)
 - ❌ Teaching patterns without checking canonical source → Format drift
 - ❌ Writing specs directly instead of `/sp.specify` → Bypassed templates
 - ❌ Subagent prompts with "Should I proceed?" → Deadlock (can't receive confirmation)
@@ -471,7 +492,7 @@ Stages: spec | plan | tasks | general
 
 ## CHAPTER CREATION PROTOCOL (Technical Chapters)
 
-**For new technical chapters (Part 6-7), use `/sp.chapter`:**
+**For new technical chapters (Part 5-6), use `/sp.chapter`:**
 
 ### Two-Phase Approach
 
@@ -522,7 +543,7 @@ PHASE B: Create Chapter Content
 
 ---
 
-## SKILL-FIRST LEARNING PATTERN (Parts 5-7)
+## SKILL-FIRST LEARNING PATTERN (Parts 4-6)
 
 **The thesis**: "manufacture Digital FTEs powered by agents, specs, skills"
 
@@ -535,11 +556,11 @@ Students don't "learn FastAPI" or "learn Kubernetes"—they **build and own** sk
 - `kubernetes-deployer` skill
 - `helm-chart-architect` skill
 
-By Part 7's end, they have 10+ production skills grounded in official documentation. These skills ARE the Digital FTE components. Students graduate owning a **sellable skill portfolio**.
+By Part 6's end, they have 10+ production skills grounded in official documentation. These skills ARE the Digital FTE components. Students graduate owning a **sellable skill portfolio**.
 
 ### The L00 Lesson Structure
 
-Every practical chapter (Parts 5-7) starts with **Lesson 0: Build Your [X] Skill**:
+Every practical chapter (Parts 4-6) starts with **Lesson 0: Build Your [X] Skill**:
 
 ```
 L00: Build Your [X] Skill (25 min)
@@ -569,7 +590,7 @@ L00: Build Your [X] Skill (25 min)
 
 ### Chapters with L00 Skill-First Lessons
 
-**Part 6 (AI-Native Software Development)**:
+**Part 5 (Building Custom Agents)**:
 - Ch34: `openai-agents` skill
 - Ch35: `google-adk` skill
 - Ch36: `claude-agent-sdk` skill
@@ -577,7 +598,7 @@ L00: Build Your [X] Skill (25 min)
 - Ch40: `fastapi-agent-api` skill
 - Ch41: `chatkit-server` skill
 
-**Part 7 (AI Cloud-Native Development)**:
+**Part 6 (AI Cloud Native Development)**:
 - Ch49: `docker-deployment` skill
 - Ch50: `kubernetes-deployer` skill
 - Ch51: `helm-chart-architect` skill
@@ -596,11 +617,11 @@ The book uses **Task/TaskManager** as the unified running example:
 
 | Part | Example | Deployed As |
 |------|---------|-------------|
-| Part 5 | `Task` class (OOP) | — |
-| Part 6 Ch40 | `Task API` (FastAPI + SQLModel) | — |
-| Part 7 Ch49 | Containerized Task API | Docker image |
-| Part 7 Ch50 | Task API on Kubernetes | K8s deployment |
-| Part 7 Ch51 | `task-api-chart` | Helm chart |
+| Part 4 | `Task` class (OOP) | — |
+| Part 5 Ch40 | `Task API` (FastAPI + SQLModel) | — |
+| Part 6 Ch49 | Containerized Task API | Docker image |
+| Part 6 Ch50 | Task API on Kubernetes | K8s deployment |
+| Part 6 Ch51 | `task-api-chart` | Helm chart |
 
 **Naming rule**: Use `task-api` consistently (NOT `ai-agent`).
 
