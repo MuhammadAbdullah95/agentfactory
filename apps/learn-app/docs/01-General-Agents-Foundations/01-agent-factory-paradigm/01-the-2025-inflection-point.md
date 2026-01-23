@@ -169,11 +169,12 @@ To understand this role, imagine the difference between a **Micromanager** and a
 * **The Old Way (Micromanager):** You had to tell the AI exactly what to write, step-by-step. "Write a function for login. Now write the HTML for the button. Now write the CSS to make it blue."
 * **The New Way (Director):** You focus on the **outcome**, not the steps. You tell the agent *what* you want to achieve, and you let the agent figure out *how* to do it.
 
-As the Director, your job shifts to three high-level tasks:
+As the Director, your job shifts to four high-level tasks:
 
 1. **Set the Intent:** You describe the goal clearly. ("Build a user registration system that is secure.")
-2. **Review the Work:** The agent builds it. You look at it and spot what’s missing. ("This looks good, but it crashes if the password is too short.")
-3. **Course Correct:** You give feedback, and the agent changes its own plan to fix it. ("Add validation to ensure passwords are at least 8 characters.")
+2. **Provide the Access**: You ensure the agent has the "dossier"—read/write access to the relevant files so it can see the context.
+3. **Review the Work:** The agent builds it. You look at it and spot what’s missing. ("This looks good, but it crashes if the password is too short.")
+4. **Course Correct:** You give feedback, and the agent changes its own plan to fix it. ("Add validation to ensure passwords are at least 8 characters.")
 
 **What is "Zero-Shot Planning"?**
 
@@ -185,6 +186,19 @@ As the Director, your job shifts to three high-level tasks:
 Because the agent has "reasoning" capabilities, it can look at your goal ("Build a registration system") and create its *own* checklist on the fly. It says to itself: *"Okay, to do that, I first need a database, then an API, then a frontend."*
 
 You didn't have to plan the project; the Agent planned it for you, instantly.
+
+However, unlike older AI that just guessed based on internet data, 2026 Agents are **Context-Aware**. They don't just know *code*; they know *your code*.
+
+* **The "Scripted" Way (Old):** You had to spoon-feed the AI context. You’d paste a file and say, "Given this file, write a function." If the AI needed to know about a different file, it failed.
+* **The "Zero-Shot" Way (New):** You give the agent a goal and access to your folder.
+1. **Context Retrieval:** The agent scans your repository structure (`/src`, `/components`, `database.schema`). It sees what tools and libraries you are *already* using.
+2. **Inference-Time Reasoning:** Before writing code, the agent pauses to "think." It simulates different approaches to your problem using your specific architecture.
+3. **Dynamic Execution:** It creates a custom checklist.
+
+It says to itself: *"Okay, the user wants a registration system. I see they use **Next.js** and **Tailwind** in this folder, and **Supabase** in the backend folder. I will draft a plan that connects these specific pieces."*
+
+You didn't have to explain your tech stack; the Agent observed it and planned accordingly.
+
 
 **Summary Comparison**
 
