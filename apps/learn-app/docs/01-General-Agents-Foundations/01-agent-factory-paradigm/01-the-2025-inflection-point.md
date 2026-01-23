@@ -154,6 +154,7 @@ A **General Agent** is a multi-purpose reasoning system designed to handle ANY t
 
 **The Tools** (2026 landscape):
 - **Claude Code** (Anthropic): Natural language interface to AI-native development, designed for exploration, prototyping, and iterative problem-solving. Activates reasoning mode through extended thinking and artifact generation. Built for human-in-the-loop collaboration. Anthropic also just dropped **Cowork** - basically Claude Code for non-coding tasks.
+- **OpenAI Codex** (OpenAI): Agentic coding system built to plan/build/test/review/deploy inside real codebases. Runs as a local terminal UI (TUI) that can read your repo, propose edits as diffs, and run commands/tests with configurable approval modes. Supports task automation via scripting, optional web search, and tool/context extensibility via Model Context Protocol (MCP)—plus cloud-task execution flows without leaving the terminal. Available across terminal (Codex CLI) and web (ChatGPT Codex).
 - **Gemini CLI** (Google): Open-source, CLI-first approach to agentic development. Lightweight, accessible from terminal or programmatic context. Strong structured reasoning through function calling. Community-driven ecosystem.
 - **Goose** (Block/Cognition): Browser automation + code execution + reasoning. Specialized for web-based tasks and visual understanding. Growing ecosystem for agent composition. Strong on multimodal reasoning. It has been brought under the Linux Foundation (LF) through the newly formed Agentic AI Foundation (AAIF). 
 
