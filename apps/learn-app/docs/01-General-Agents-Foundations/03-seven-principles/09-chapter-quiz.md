@@ -234,7 +234,7 @@ Test your understanding of the seven principles that make agentic AI workflows e
     {
       question: "You ask AI to fix a bug and it reports 'Done!' but doesn't show what it changed. You later discover it modified files you didn't want touched. What principle would have prevented this?",
       options: [
-        "Bash as universal interface—AI should use terminal more carefully",
+        "Bash is the key—AI should use terminal more carefully",
         "Code as universal interface—you should have specified changes as code",
         "Observability—AI should show what it's doing as it works",
         "Decomposition—you should have broken the task into smaller steps"
@@ -298,9 +298,9 @@ Test your understanding of the seven principles that make agentic AI workflows e
 
 | Question | Correct Answer | Principle Tested |
 |----------|---------------|------------------|
-| 1 | B | Principle 1: Bash as Universal Interface |
-| 2 | B | Principle 1: Bash as Universal Interface |
-| 3 | D | Principle 1: Bash as Universal Interface |
+| 1 | B | Principle 1: Bash is the Key |
+| 2 | B | Principle 1: Bash is the Key |
+| 3 | D | Principle 1: Bash is the Key |
 | 4 | B | Principle 2: Code as Universal Interface |
 | 5 | B | Principle 2: Code as Universal Interface |
 | 6 | C | Principle 2: Code as Universal Interface |

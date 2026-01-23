@@ -11,7 +11,7 @@ This chapter introduces **The Seven Principles of General Agent Problem Solving*
 
 The seven principles are:
 
-1. **Bash as the Universal Interface** — Terminal access is the foundational capability that distinguishes agentic AI from passive assistants
+1. **Bash is the Key** — Terminal access is the foundational capability that distinguishes agentic AI from passive assistants
 2. **Code as the Universal Interface** — Code provides the precision that natural language lacks, making it the true shared language of human-AI collaboration
 3. **Verification as Core Step** — Continuous testing and validation, not as an afterthought but as the primary workflow
 4. **Small, Reversible Decomposition** — Breaking problems into atomic steps that can be independently tested and rolled back

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Principle 1: Bash as the Universal Interface"
+title: "Principle 1: Bash is the Key"
 chapter: 3
 lesson: 1
 duration_minutes: 25
@@ -55,7 +55,7 @@ differentiation:
   remedial_for_struggling: "Focus on concrete before/after examples: show a task (like running tests) attempted without terminal access vs. with terminal access, and explain the difference in practical terms."
 ---
 
-# Principle 1: Bash as the Universal Interface
+# Principle 1: Bash is the Key
 
 You've probably used ChatGPT to get code suggestions. You paste in an error message, it suggests a fix. You copy that fix back into your editor. You run the command. It fails. You paste the new error. This cycle repeats—sometimes dozens of times—until you either solve the problem or give up.
 

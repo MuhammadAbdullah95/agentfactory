@@ -59,7 +59,7 @@ differentiation:
 
 You've learned the seven principles of general agent problem solving:
 
-1. **Bash as Universal Interface** - Terminal access enables agentic capability
+1. **Bash is the Key** - Terminal access enables agentic capability
 2. **Code as Universal Interface** - Code provides precision in communication
 3. **Verification as Core Step** - Continuous testing ensures reliability
 4. **Small, Reversible Decomposition** - Breaking problems into manageable steps
@@ -89,7 +89,7 @@ You get a report: "Users are seeing 'Invalid token' errors when logging in."
 
 ### Applying the Principles
 
-**Principle 1: Bash as Universal Interface**
+**Principle 1: Bash is the Key**
 ```bash
 # AI can investigate directly
 tail -f /var/log/app.log              # Real-time logs
@@ -237,7 +237,7 @@ git diff                     # Review changes
 npm run build               # Verify build
 ```
 
-**Principle 1: Bash as Universal Interface**
+**Principle 1: Bash is the Key**
 ```bash
 # AI executes each step
 # Step 1: Modify schema
@@ -342,7 +342,7 @@ npm run lint                  # Ensure code quality
 npm run build                 # Ensure build succeeds
 ```
 
-**Principle 1: Bash as Universal Interface**
+**Principle 1: Bash is the Key**
 ```bash
 # AI executes refactor steps
 git checkout -b refactor/auth-extraction

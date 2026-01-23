@@ -25,5 +25,5 @@ Code is the most precise communication medium between humans and AI because it e
 - Skipping code review because AI-generated code "looks right" (race conditions, missing error handling, and wrong assumptions hide in plausible-looking code)
 
 ### Connections
-- **Builds on**: Principle 1 (Bash as Universal Interface)--terminal access enables reading and writing code directly, making code the shared artifact
+- **Builds on**: Principle 1 (Bash is the Key)--terminal access enables reading and writing code directly, making code the shared artifact
 - **Leads to**: Principle 3 (Verification as Core Step)--once code is the shared interface, you can run it to verify correctness rather than debating in natural language
