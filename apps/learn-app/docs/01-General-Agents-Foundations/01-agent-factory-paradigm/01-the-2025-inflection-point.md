@@ -164,6 +164,40 @@ When you use a General Agent, your role is **Director**. You specify intent clea
 
 This is **zero-shot planning capability**: You don't need to pre-specify every detail. The agent reasons through the problem dynamically as new information surfaces.
 
+To understand this role, imagine the difference between a **Micromanager** and a **Project Lead**.
+
+* **The Old Way (Micromanager):** You had to tell the AI exactly what to write, step-by-step. "Write a function for login. Now write the HTML for the button. Now write the CSS to make it blue."
+* **The New Way (Director):** You focus on the **outcome**, not the steps. You tell the agent *what* you want to achieve, and you let the agent figure out *how* to do it.
+
+As the Director, your job shifts to three high-level tasks:
+
+1. **Set the Intent:** You describe the goal clearly. ("Build a user registration system that is secure.")
+2. **Review the Work:** The agent builds it. You look at it and spot what’s missing. ("This looks good, but it crashes if the password is too short.")
+3. **Course Correct:** You give feedback, and the agent changes its own plan to fix it. ("Add validation to ensure passwords are at least 8 characters.")
+
+**What is "Zero-Shot Planning"?**
+
+"Zero-shot" is a technical term that sounds complicated, but in this context, it simply means **"Planning from scratch without a script."**
+
+* **The "Scripted" Way:** In older software, if you wanted a computer to build a website, you (the human) had to provide a strict template or a list of rules for it to follow.
+* **The "Zero-Shot" Way:** You give the agent **zero** templates and **zero** prior examples. You just give it a goal.
+
+Because the agent has "reasoning" capabilities, it can look at your goal ("Build a registration system") and create its *own* checklist on the fly. It says to itself: *"Okay, to do that, I first need a database, then an API, then a frontend."*
+
+You didn't have to plan the project; the Agent planned it for you, instantly.
+
+**Summary Comparison**
+
+Here is a quick way to visualize the difference between how you used to use AI versus how you use these new General Agents:
+
+| Feature | The Old Way (Prompt Engineering) | The New Way (Directing) |
+| --- | --- | --- |
+| **Your Input** | "Write code for a Submit button." | "Build a contact form." |
+| **The Planning** | **You** create the plan in your head. | **The Agent** creates the plan (Zero-shot). |
+| **The Process** | You paste code, test it, and paste errors back. | The Agent writes code, tests it, and fixes its own errors. |
+| **Your Focus** | Syntax and code lines. | Features and user experience. |
+
+
 ### Path B: Custom Agents
 
 A **Custom Agent** is purpose-built for a specific workflow. Instead of zero-shot reasoning on anything, it's optimized for one job—and does that job better than a General Agent ever could.
