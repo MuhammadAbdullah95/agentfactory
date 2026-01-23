@@ -128,7 +128,7 @@ Consider the SaaS industry. SaaS solved the *deployment* problem—you didn't ne
 
 ### The Opportunity Window
 
-Technology transitions create brief windows where early adopters gain permanent advantages. In AI-native software development, that window is **right now (2025)** and closing fast.
+Technology transitions create brief windows where early adopters gain permanent advantages. In AI-native software development, that window is **right now (2026)** and closing fast.
 
 Consider previous transitions: The web (1995-2005)—developers who learned web technologies in 1996-1998 became industry leaders; those who waited until 2003 fought to catch up. Mobile (2008-2015)—iOS developers in 2009 had massive career advantage over 2012 arrivals. Cloud (2010-2018)—early AWS engineers shaped the entire era; late arrivals learned someone else's conventions.
 
