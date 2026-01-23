@@ -152,8 +152,8 @@ The answer surprises most developers: There isn't one path. There are two fundam
 
 A **General Agent** is a multi-purpose reasoning system designed to handle ANY task you throw at it. Think of it as a flexible professional who can turn their hand to almost anything.
 
-**The Tools** (2025 landscape):
-- **Claude Code** (Anthropic): Natural language interface to AI-native development, designed for exploration, prototyping, and iterative problem-solving. Activates reasoning mode through extended thinking and artifact generation. Built for human-in-the-loop collaboration.
+**The Tools** (2026 landscape):
+- **Claude Code** (Anthropic): Natural language interface to AI-native development, designed for exploration, prototyping, and iterative problem-solving. Activates reasoning mode through extended thinking and artifact generation. Built for human-in-the-loop collaboration. Anthropic also just dropped **Cowork** - basically Claude Code for non-coding tasks.
 - **Gemini CLI** (Google): Open-source, CLI-first approach to agentic development. Lightweight, accessible from terminal or programmatic context. Strong structured reasoning through function calling. Community-driven ecosystem.
 - **Goose** (Block/Cognition): Browser automation + code execution + reasoning. Specialized for web-based tasks and visual understanding. Growing ecosystem for agent composition. Strong on multimodal reasoning.
 
