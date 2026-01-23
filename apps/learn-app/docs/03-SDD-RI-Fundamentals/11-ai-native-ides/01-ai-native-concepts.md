@@ -12,11 +12,11 @@ learning_objectives:
 
 # AI-Native Concepts
 
-Before installing and using AI-native IDEs, you need to understand what makes them different from traditional code editors. This lesson builds the conceptual foundation for the rest of Chapter 8.
+Before installing and using AI-native IDEs, you need to understand what makes them different from traditional code editors. This lesson builds the conceptual foundation for the rest of Chapter 11.
 
 ## What Makes an IDE "AI-Native"?
 
-You've used AI tools before—Claude Code in Chapter 5, maybe Gemini CLI in Chapter 6. But what makes a code editor "AI-native" instead of just "having AI features"?
+You've used AI tools before—Claude Code in Chapter 3, maybe Gemini CLI in Chapter 7. But what makes a code editor "AI-native" instead of just "having AI features"?
 
 ### The Core Distinction
 

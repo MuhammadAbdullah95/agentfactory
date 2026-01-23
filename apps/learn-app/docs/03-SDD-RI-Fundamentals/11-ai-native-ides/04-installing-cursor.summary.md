@@ -20,5 +20,5 @@ Cursor represents a different approach to AI-native IDEs: taking VS Code's prove
 - Leaving auto-indexing on massive monorepos—configure Index Ignore to skip large generated directories
 
 ### Connections
-- **Builds on**: Zed installation and verification (Lesson 2), AI provider authentication concepts (Chapter 5-6)
+- **Builds on**: Zed installation and verification (Lesson 2), AI provider authentication concepts (Chapter 3)
 - **Leads to**: Cursor Chat/Agent mode deep dive (Lesson 5), IDE comparison and workflow selection (Lesson 7)

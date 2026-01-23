@@ -17,7 +17,7 @@ This part establishes the mental models and practical skills you need for AI-nat
 
 ## What You'll Learn in Part 1
 
-Part 1 consists of three chapters that build from concepts to tools to principles:
+Part 1 consists of four chapters that build from concepts to communication to tools to principles:
 
 ### Chapter 1: The AI Agent Factory Paradigm (Conceptual Foundation)
 
@@ -29,9 +29,15 @@ Part 1 consists of three chapters that build from concepts to tools to principle
 
 **The Methodology (Lessons 7-8)**: You'll learn Spec-Driven Development—specifications as the new syntax—and how to orchestrate AI collaboration across the development lifecycle. The final lesson synthesizes everything into a coherent vision for building Digital FTEs.
 
-### Chapter 2: General Agents - Claude Code & Cowork
+### Chapter 2: Markdown - Writing Instructions
 
-Now that you understand *why* AI-driven development matters, Chapter 2 teaches you *how* to work with Claude's General Agents in practice.
+Before you can work with AI agents effectively, you need to write clear instructions. Markdown is the format used for CLAUDE.md files, project documentation, and agent instructions throughout this book.
+
+**Markdown Syntax (Lessons 1-5)**: You'll learn headings for document structure, lists for organizing information, code blocks for showing examples, and links and images for connecting to resources. Each element is taught through practical examples that mirror the files you'll write in subsequent chapters.
+
+### Chapter 3: General Agents - Claude Code & Cowork
+
+Now that you understand *why* AI-driven development matters and *how* to write clear instructions, Chapter 3 teaches you how to work with Claude's General Agents in practice.
 
 **Claude Code Essentials (Lessons 1-8)**: You'll install and configure Claude Code, master the CLI interface, learn persistent project context with CLAUDE.md files, create custom instructions, build Agent Skills, and understand subagent orchestration.
 
@@ -41,9 +47,9 @@ Now that you understand *why* AI-driven development matters, Chapter 2 teaches y
 
 **Business Application (Lessons 22-26)**: You'll understand safety limitations and what's coming, master built-in document skills, learn the Code vs. Cowork decision framework, and discover how Skills become monetizable products.
 
-### Chapter 3: The Seven Principles of General Agent Problem Solving
+### Chapter 4: The Seven Principles of General Agent Problem Solving
 
-Chapter 3 synthesizes learnings from Chapters 1 and 2 into actionable problem-solving principles that generalize across all General Agent workflows.
+Chapter 4 synthesizes learnings from Chapters 1-3 into actionable problem-solving principles that generalize across all General Agent workflows.
 
 **The Principles (Lessons 1-7)**: You'll master Bash is the Key, Code as Universal Interface, Verification as Core Step, Small Reversible Decomposition, Persisting State in Files, Constraints and Safety, and Observability. Each principle is explored in both Claude Code (terminal) and Claude Cowork (desktop) contexts—showing how these are truly *General Agent* principles, not tool-specific tricks.
 

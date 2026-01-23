@@ -11,7 +11,7 @@ keywords:
   - bottleneck detection
   - proactive suggestions
   - autonomous reporting
-chapter: 6
+chapter: 10
 lesson: 11
 duration_minutes: 45
 tier: "Silver"

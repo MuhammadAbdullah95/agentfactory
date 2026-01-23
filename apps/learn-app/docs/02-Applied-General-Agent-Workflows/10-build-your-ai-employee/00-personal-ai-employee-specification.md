@@ -12,7 +12,7 @@ keywords:
   - Watchers
   - Human-in-the-Loop
   - autonomous agent
-chapter: 6
+chapter: 10
 lesson: 0
 duration_minutes: 30
 

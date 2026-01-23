@@ -17,7 +17,7 @@ Developer B's company sells for $10 million. Developer A is still debugging.
 
 The difference? **Specification-Driven Development**.
 
-If you've completed Parts 1-4, you have AI tools and Python skills. But you're about to learn the methodology that separates tactical coders from strategic architects—the discipline that lets solo developers build systems that previously required 100+ person engineering teams.
+If you've completed Parts 1-2, you have AI tools and practical workflow experience. Now you're ready to learn the methodology that separates tactical coders from strategic architects—the discipline that lets solo developers build systems that previously required 100+ person engineering teams.
 
 ## What Makes This Moment Different
 
@@ -33,17 +33,21 @@ But here's what matters most: **Specifications aren't documentation—they're AI
 
 That's what this part teaches you.
 
-## What You'll Learn in Part 4
+## What You'll Learn in Part 3
 
-This part consists of two chapters (13-14) that transform you from code-first to specification-first thinking:
+This part consists of three chapters (11-13) that take you from AI-native tooling to specification-first thinking:
 
-### Chapter 13: Understanding Specification-Driven Development with Reusable Intelligence
+### Chapter 11: AI-Native IDEs
+
+You'll explore the new generation of development environments—Zed, Cursor, and Antigravity—that integrate AI directly into the editing experience. You'll understand what makes an IDE "AI-native" versus merely "AI-assisted" and choose the right tool for your workflow.
+
+### Chapter 12: Understanding Specification-Driven Development with Reusable Intelligence
 
 You'll discover why specifications matter through experience, not lectures. Starting with a vague requirement that fails, you'll diagnose the problem, then work with your AI companion to understand SDD-RI philosophy, tools, and history. You'll learn why SDD is now making shipping 10x better NOW (not 10 years ago), explore the tools ecosystem (Kiro, Spec-Kit Plus, Tessel), and confront the spec-as-source vision realistically.
 
-### Chapter 14: SDD-RI Hands-On: YouTube Content Workflow with Gemini
+### Chapter 13: SDD-RI Hands-On: Master Spec-Kit Plus
 
-Here you'll practice specification-first development with your AI companion building a real-world YouTube content workflow using Gemini. You'll learn the SpecifyPlus opinionated workflow and how to apply it to practical projects. 
+Here you'll practice specification-first development hands-on, building a real-world project using the Spec-Kit Plus workflow. You'll learn the full SDD-RI pipeline from specification through implementation with reusable intelligence.
 
 ## What You Won't Learn (Yet)
 
@@ -51,7 +55,7 @@ Here you'll practice specification-first development with your AI companion buil
 
 Here's why: Jumping into implementation patterns before mastering specifications leads to the same technical debt that plagues traditional development. You'd be optimizing code structure when you should be optimizing requirement clarity. You'd be debugging integration issues that specifications would prevent.
 
-Think of Part 4 as learning architecture before interior design. Without clear specifications, everything built later requires constant rework. With them, subsequent development becomes faster and more reliable.
+Think of Part 3 as learning architecture before interior design. Without clear specifications, everything built later requires constant rework. With them, subsequent development becomes faster and more reliable.
 
 ## A Note on Mindset
 

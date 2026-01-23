@@ -19,5 +19,5 @@ Zed provides the fastest path to AI-native development—a Rust-based IDE with b
 - Expecting instant first response: initial requests take longer as the connection establishes
 
 ### Connections
-- **Builds on**: Terminal basics (Chapter 7) for running installation commands
+- **Builds on**: Terminal basics (Chapter 5) for running installation commands
 - **Leads to**: Building real projects with AI collaboration (Lesson 3)

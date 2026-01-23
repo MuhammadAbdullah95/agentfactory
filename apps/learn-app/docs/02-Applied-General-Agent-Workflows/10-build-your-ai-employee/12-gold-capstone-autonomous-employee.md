@@ -11,7 +11,7 @@ keywords:
   - audit logging
   - production-ready
   - Digital FTE
-chapter: 6
+chapter: 10
 lesson: 12
 duration_minutes: 60
 tier: "Gold"

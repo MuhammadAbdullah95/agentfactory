@@ -11,7 +11,7 @@ keywords:
   - skills
   - subagents
   - MCP
-chapter: 6
+chapter: 10
 lesson: 13
 duration_minutes: 20
 

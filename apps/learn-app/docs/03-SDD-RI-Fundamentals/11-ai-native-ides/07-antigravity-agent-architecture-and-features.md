@@ -1890,7 +1890,7 @@ Is this ready to approve? What should I ask the agent to fix before approval?
 
 **Lesson 8: Comparative Capstone — "Try With AI"**
 
-You've learned three IDEs. Now you'll choose one and build a real project, documenting how your chosen IDE compared to the others. This capstone synthesizes all lessons in Chapter 8 and demonstrates mastery of AI-native development workflows.
+You've learned three IDEs. Now you'll choose one and build a real project, documenting how your chosen IDE compared to the others. This capstone synthesizes all lessons in Chapter 11 and demonstrates mastery of AI-native development workflows.
 
 You'll submit a 1500-2000 word comparative analysis plus a working application built with your chosen IDE.
 

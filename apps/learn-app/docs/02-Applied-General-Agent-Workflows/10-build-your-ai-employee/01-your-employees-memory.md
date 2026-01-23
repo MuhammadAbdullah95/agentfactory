@@ -10,7 +10,7 @@ keywords:
   - AGENTS.md
   - CLAUDE.md
   - professional workspace
-chapter: 6
+chapter: 10
 lesson: 1
 duration_minutes: 25
 

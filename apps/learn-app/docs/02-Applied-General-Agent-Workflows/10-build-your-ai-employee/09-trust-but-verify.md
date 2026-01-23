@@ -10,7 +10,7 @@ keywords:
   - permission boundaries
   - sensitive actions
   - governance
-chapter: 6
+chapter: 10
 lesson: 9
 duration_minutes: 30
 tier: "Silver"

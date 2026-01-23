@@ -14,7 +14,7 @@ keywords:
   - meeting requests
   - professional communication
   - SKILL.md
-chapter: 6
+chapter: 10
 lesson: 3
 duration_minutes: 25
 

@@ -15,7 +15,7 @@ keywords:
   - Email Digital FTE
   - Claude Code
   - workflow automation
-chapter: 6
+chapter: 10
 lesson: 7
 duration_minutes: 40
 

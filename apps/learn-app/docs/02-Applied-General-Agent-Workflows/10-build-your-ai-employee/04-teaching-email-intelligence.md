@@ -14,7 +14,7 @@ keywords:
   - decision extraction
   - skill chaining
   - professional communication
-chapter: 6
+chapter: 10
 lesson: 4
 duration_minutes: 25
 

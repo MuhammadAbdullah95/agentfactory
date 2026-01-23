@@ -1,6 +1,6 @@
 ---
 title: "Comparative Capstone: Choosing Your AI-Native Workflow"
-chapter: 9
+chapter: 11
 lesson_number: 8
 proficiency_level: "B1"
 estimated_time: "150-180 minutes"

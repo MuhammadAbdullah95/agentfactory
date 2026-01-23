@@ -14,7 +14,7 @@ keywords:
   - email automation
   - Gmail API
   - AI email assistant
-chapter: 6
+chapter: 10
 lesson: 6
 duration_minutes: 30
 

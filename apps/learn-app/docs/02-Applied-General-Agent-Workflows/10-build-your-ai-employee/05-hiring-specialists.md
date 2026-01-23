@@ -14,7 +14,7 @@ keywords:
   - autonomous reasoning
   - response suggestion
   - follow-up tracking
-chapter: 6
+chapter: 10
 lesson: 5
 duration_minutes: 35
 

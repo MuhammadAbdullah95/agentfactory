@@ -10,7 +10,7 @@ keywords:
   - perception layer
   - autonomous agent
   - event-driven
-chapter: 6
+chapter: 10
 lesson: 8
 duration_minutes: 45
 tier: "Silver"

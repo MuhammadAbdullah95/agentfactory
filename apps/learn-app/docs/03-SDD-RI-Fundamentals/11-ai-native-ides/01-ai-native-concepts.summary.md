@@ -17,5 +17,5 @@ An AI-native IDE is a code editor designed from the ground up with AI collaborat
 - Underestimating architecture impact on complex projects—context quality and agent capabilities depend on architectural access
 
 ### Connections
-- **Builds on**: Claude Code (Chapter 5), Gemini CLI (Chapter 6)—you've used AI tools, now understand what makes editors AI-native
+- **Builds on**: Claude Code (Chapter 3), Gemini CLI (Chapter 7)—you've used AI tools, now understand what makes editors AI-native
 - **Leads to**: Hands-on installation and usage of Zed, Cursor, and Antigravity (Lessons 2-7)

@@ -1,6 +1,6 @@
 ---
 title: "Zed AI Features & Workflows"
-chapter: 9
+chapter: 11
 lesson_number: 3
 proficiency_level: "A2-B1"
 estimated_time: "75-90 minutes"
@@ -36,7 +36,7 @@ This lesson teaches you to observe and evaluate AI-generated code—developing c
 
 ## Opening: From Installation to Collaboration
 
-Think back to Chapter 5 when you learned Claude Code. You opened the terminal, typed commands, and Claude executed them in a sandboxed environment. That's **asynchronous collaboration**—you request something, AI delivers results, you evaluate and iterate. There's a context switch: from your development environment to the terminal, back to your code.
+Think back to Chapter 3 when you learned Claude Code. You opened the terminal, typed commands, and Claude executed them in a sandboxed environment. That's **asynchronous collaboration**—you request something, AI delivers results, you evaluate and iterate. There's a context switch: from your development environment to the terminal, back to your code.
 
 Zed introduces **synchronous collaboration**. Your AI assistant is always visible in your editor, responding to prompts in milliseconds, suggesting improvements as you type, adapting to your project context. The assistant isn't separate from your work—it's embedded in your editing environment. You never leave your editor.
 

@@ -11,7 +11,7 @@ keywords:
   - daemon process
   - always-on
   - scheduled tasks
-chapter: 6
+chapter: 10
 lesson: 10
 duration_minutes: 35
 tier: "Silver"
