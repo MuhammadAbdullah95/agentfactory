@@ -170,7 +170,7 @@ A **Custom Agent** is purpose-built for a specific workflow. Instead of zero-sho
 
 **The Tools** (SDK landscape):
 - **OpenAI Agents SDK**: Built on OpenAI's function-calling and structured reasoning. Integrates native with OpenAI models. Mature tool ecosystem, strong for production workloads. Growing market for packaged agents.
-- **Anthropic Agents Kit** (Claude SDK): Anthropic's native agent framework. Deep integration with Claude's reasoning capabilities. Multi-turn conversation continuity and state management. Strong for complex reasoning chains.
+- **Anthropic Claude Agent SDK**: Anthropic's native agent framework. Deep integration with Claude's reasoning capabilities. Multi-turn conversation continuity and state management. Strong for complex reasoning chains. Claude Agent SDK is the underlying infrastructure extracted from Claude Code and made available to developers. The point to note is that Claude Code came first, and the Claude Agent SDK was extracted from it.
 - **Google ADK** (Agentic Design Kit): Google's approach to structured agent design. Emphasis on multimodal reasoning and vision. Integration with Google's ecosystem (Search, Workspace, Cloud). Emerging framework gaining adoption.
 
 **Your Role: Builder**
