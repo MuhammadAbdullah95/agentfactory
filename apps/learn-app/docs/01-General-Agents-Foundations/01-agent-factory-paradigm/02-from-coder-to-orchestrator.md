@@ -244,7 +244,7 @@ ACT: Implement alternative fix
 
 ## Four Generations of AI Tools: The Path to Autonomy
 
-To understand where we are in 2025, we need to trace how AI development tools evolved. Each generation represents a fundamental expansion of scope—what the tool can tackle autonomously, what requires human guidance, and what remains impossible.
+To understand where we are in 2026, we need to trace how AI development tools evolved. Each generation represents a fundamental expansion of scope—what the tool can tackle autonomously, what requires human guidance, and what remains impossible.
 
 ### Generation 1 (2021-2022): Intelligent Autocomplete
 
