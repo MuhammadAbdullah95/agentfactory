@@ -10,8 +10,8 @@ Use this when spawning the Task subagent for Subagent A:
 
 ```
 You are generating certification exam questions. You will create {COUNT_A} questions:
-- {SCENARIO_COUNT} Scenario Analysis questions (40% of exam)
-- {TRANSFER_COUNT} Transfer Application questions (20% of exam)
+- {SCENARIO_COUNT} Scenario Analysis questions ({SCENARIO_PCT}% of exam)
+- {TRANSFER_COUNT} Transfer Application questions ({TRANSFER_PCT}% of exam)
 
 ## Your Inputs
 
@@ -20,6 +20,28 @@ You are generating certification exam questions. You will create {COUNT_A} quest
 
 2. QUESTION TYPE REFERENCE (read this file):
    {ABSOLUTE_PATH}/.claude/skills/assessment-architect/references/question-types.md
+
+## Domain Constraint
+
+Chapter type: {CHAPTER_TYPE}
+Chapter domain keywords: {DOMAIN_KEYWORDS}
+
+RULES FOR SCENARIO DOMAINS:
+- For PRACTICAL-TOOL chapters:
+  Scenarios MUST be set in development/coding/engineering contexts.
+  Use the chapter's actual tools and workflows as scenario settings.
+  Example settings: a developer using {TOOL}, a team configuring {FEATURE}, an engineer debugging {WORKFLOW}
+  Do NOT transfer to unrelated domains (medical, legal, manufacturing, agriculture, aviation).
+  The ONLY exception is Transfer Application questions, which may use adjacent technical domains.
+
+- For CONCEPTUAL chapters:
+  Scenarios may use diverse professional domains to test principle transfer.
+  Keep scenarios grounded and realistic (not contrived).
+  Prefer development-adjacent domains when possible.
+
+- For HYBRID chapters:
+  Follow practical-tool rules for questions testing tool-specific concepts.
+  Follow conceptual rules for questions testing abstract principles.
 
 ## Readability Principle
 
@@ -125,8 +147,8 @@ Use this when spawning the Task subagent for Subagent B:
 
 ```
 You are generating certification exam questions. You will create {COUNT_B} questions:
-- {RELATIONSHIP_COUNT} Concept Relationship questions (25% of exam)
-- {EVALUATION_COUNT} Critical Evaluation questions (15% of exam)
+- {RELATIONSHIP_COUNT} Concept Relationship questions ({RELATIONSHIP_PCT}% of exam)
+- {EVALUATION_COUNT} Critical Evaluation questions ({EVALUATION_PCT}% of exam)
 
 ## Your Inputs
 
@@ -135,6 +157,26 @@ You are generating certification exam questions. You will create {COUNT_B} quest
 
 2. QUESTION TYPE REFERENCE (read this file):
    {ABSOLUTE_PATH}/.claude/skills/assessment-architect/references/question-types.md
+
+## Domain Constraint
+
+Chapter type: {CHAPTER_TYPE}
+Chapter domain keywords: {DOMAIN_KEYWORDS}
+
+RULES FOR SCENARIO DOMAINS:
+- For PRACTICAL-TOOL chapters:
+  Scenarios MUST be set in development/coding/engineering contexts.
+  Use the chapter's actual tools and workflows as scenario settings.
+  Example settings: a developer using {TOOL}, a team configuring {FEATURE}, an engineer debugging {WORKFLOW}
+  Do NOT use unrelated domains (medical, legal, manufacturing, agriculture, aviation).
+
+- For CONCEPTUAL chapters:
+  Scenarios may use diverse professional domains to test principle transfer.
+  Keep scenarios grounded and realistic.
+
+- For HYBRID chapters:
+  Follow practical-tool rules for tool-specific concepts.
+  Follow conceptual rules for abstract principles.
 
 ## Readability Principle
 
@@ -260,11 +302,28 @@ When spawning subagents, replace these variables:
 |----------|--------|---------|
 | `{ABSOLUTE_PATH}` | Working directory | `/Users/x/agentfactory` |
 | `{SLUG}` | Chapter/part slug from Phase 0 | `claude-code-features` |
-| `{COUNT_A}` | 60% of total question count | `45` (for 75 total) |
-| `{COUNT_B}` | 40% of total question count | `30` (for 75 total) |
-| `{SCENARIO_COUNT}` | 40% of total | `30` |
-| `{TRANSFER_COUNT}` | 20% of total | `15` |
-| `{RELATIONSHIP_COUNT}` | 25% of total | `19` |
-| `{EVALUATION_COUNT}` | 15% of total | `11` |
+| `{CHAPTER_TYPE}` | From Phase 0.5 classification | `practical-tool` |
+| `{DOMAIN_KEYWORDS}` | From Phase 0.5 notes | `Claude Code, CLI, skills, subagents, hooks, MCP` |
+| `{TOOL}` | Primary tool taught in chapter | `Claude Code` |
+| `{FEATURE}` | Example feature from chapter | `hooks` |
+| `{WORKFLOW}` | Example workflow from chapter | `subagent orchestration` |
+| `{COUNT_A}` | (Scenario% + Transfer%) of total | `49` (for 75 total, practical-tool) |
+| `{COUNT_B}` | (Relationship% + Evaluation%) of total | `26` (for 75 total, practical-tool) |
+| `{SCENARIO_COUNT}` | Scenario% of total | `45` (60% of 75, practical-tool) |
+| `{SCENARIO_PCT}` | Scenario percentage | `60` (practical-tool) |
+| `{TRANSFER_COUNT}` | Transfer% of total | `4` (5% of 75, practical-tool) |
+| `{TRANSFER_PCT}` | Transfer percentage | `5` (practical-tool) |
+| `{RELATIONSHIP_COUNT}` | Relationship% of total | `15` (20% of 75, practical-tool) |
+| `{RELATIONSHIP_PCT}` | Relationship percentage | `20` (practical-tool) |
+| `{EVALUATION_COUNT}` | Evaluation% of total | `11` (15% of 75, practical-tool) |
+| `{EVALUATION_PCT}` | Evaluation percentage | `15` (practical-tool) |
+
+**Distribution by chapter type:**
+
+| Type | Scenario | Relationship | Transfer | Evaluation |
+|------|----------|--------------|----------|------------|
+| practical-tool | 60% | 20% | 5% | 15% |
+| conceptual | 35% | 25% | 25% | 15% |
+| hybrid | interpolate based on lesson mix |
 
 **Rounding:** If percentages don't divide evenly, round down for smaller types and add remainder to Scenario Analysis (the largest type).
