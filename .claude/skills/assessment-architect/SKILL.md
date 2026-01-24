@@ -22,7 +22,7 @@ These rules are structural and cannot be overridden:
 3. **Concepts before questions.** The concept map (built from notes) is the contract for Phase 2. Never generate questions by walking through lessons sequentially.
 4. **Filesystem discovery only.** No hardcoded book structure. Use `ls -d` to find paths. The filesystem is the source of truth.
 5. **Structural validation.** Anti-memorization (grep patterns) and anti-gaming (distribution bias) are FAIL conditions. Readability is a principle, not a word-count gate.
-6. **Dynamic question count with lesson floor.** At minimum 2 questions per lesson. 38 lessons = at least 75 questions, not 40.
+6. **Importance-weighted question count.** Core lessons get 3-5 questions, supporting get 1-2, intro get 0-1. No flat "2 per lesson" — weight by importance.
 7. **TaskList for coordination.** Create tasks upfront. Update status at each phase. Subagents receive the TaskList ID.
 8. **2 subagents maximum.** Each receives only the concept map + `references/question-types.md`. Not the full skill file.
 9. **Persisted state.** Notes, concept map, and question files saved to `assessments/`. Validation results reported at each phase.
@@ -104,6 +104,7 @@ As you read each lesson, write observations to `assessments/{SLUG}-notes.md`. Th
 ```markdown
 ## Lesson: {filename}
 
+**Weight:** {core | supporting | intro}
 **Key concepts:** {2-5 concepts worth testing}
 **Relationships to other lessons:** {what connects to what}
 **Testable trade-offs:** {decisions or comparisons in this lesson}
@@ -119,16 +120,39 @@ As you read each lesson, write observations to `assessments/{SLUG}-notes.md`. Th
 
 ---
 
-## 4 Question Types
+## 4 Question Types (Adaptive Distribution)
 
 All questions require a concise scenario before the stem. No fact-recall patterns allowed.
 
-| Type | % | Bloom Level | Key Constraint |
-|------|---|-------------|----------------|
-| **Scenario Analysis** | 40% | Apply/Analyze | Novel situation not appearing in lessons |
-| **Concept Relationship** | 25% | Analyze/Evaluate | Tests CONNECTION between 2+ concepts |
-| **Transfer Application** | 20% | Apply/Create | Apply principle to a domain NOT in the chapter |
-| **Critical Evaluation** | 15% | Evaluate | Identify WHY an approach fails in context |
+| Type | Bloom Level | Key Constraint |
+|------|-------------|----------------|
+| **Scenario Analysis** | Apply/Analyze | Novel situation not appearing in lessons |
+| **Concept Relationship** | Analyze/Evaluate | Tests CONNECTION between 2+ concepts |
+| **Transfer Application** | Apply/Create | Apply principle to a domain NOT in the chapter |
+| **Critical Evaluation** | Evaluate | Identify WHY an approach fails in context |
+
+**Distribution adapts to chapter type** (classified in Phase 0.5):
+
+```
+PRACTICAL-TOOL chapters (e.g., Claude Code CLI, Docker, FastAPI):
+  Scenario Analysis:     60%  (realistic usage scenarios in the tool's domain)
+  Concept Relationship:  20%  (how tool components interact)
+  Transfer Application:   5%  (minimal — stay in the tool's domain)
+  Critical Evaluation:   15%  (identify why an approach fails with this tool)
+
+CONCEPTUAL chapters (e.g., Seven Principles, Architecture Patterns):
+  Scenario Analysis:     35%  (apply principle to realistic situations)
+  Concept Relationship:  25%  (how principles connect and interact)
+  Transfer Application:  25%  (appropriate — abstract principles transfer broadly)
+  Critical Evaluation:   15%  (evaluate when a principle is misapplied)
+
+HYBRID chapters:
+  Interpolate between practical-tool and conceptual based on lesson mix.
+  Count practical vs conceptual lessons, weight accordingly.
+  Example: 60% practical lessons → use 80% of practical distribution + 20% of conceptual.
+```
+
+**Rationale:** Practical-tool chapters should test whether students can USE the tool in realistic scenarios, not transfer principles to unrelated domains. Conceptual chapters should test whether students can apply principles broadly.
 
 For detailed patterns and examples, see `references/question-types.md`.
 
@@ -170,18 +194,31 @@ Same concept. Same difficulty. The right version is just clearer because it has 
 
 ---
 
-## Dynamic Question Count
+## Dynamic Question Count (Importance-Weighted)
 
-The count must ensure adequate coverage. A chapter with 25 lessons getting 30 questions means barely 1 question per lesson - that's a quiz, not an exam.
+Question count is driven by concept importance, not flat per-lesson allocation.
+
+**Step 1: During concept extraction (Phase 1), tag each lesson's weight:**
 
 ```
-concept_count = number of concepts extracted in Phase 1
-lesson_count = total lessons in scope
+LESSON_WEIGHT:
+  "core"       → Teaches a key capability or central concept (3-5 questions)
+                 Signals: new tools, complex workflows, architectural patterns, capstone integration
+  "supporting" → Provides context, setup, or secondary skills (1-2 questions)
+                 Signals: configuration, secondary features, examples of core concepts
+  "intro"      → Opening, overview, or minimal-content lesson (0-1 questions)
+                 Signals: motivational content, history, "what you'll learn", installation-only
+```
+
+**Step 2: Calculate target count:**
+
+```
+weighted_sum = sum of (lesson_weight_max for each lesson)
+  where core=5, supporting=2, intro=1
 
 concept_base = ceil(concept_count * 0.8)
-lesson_floor = lesson_count * 2          # At minimum: 2 questions per lesson
 
-base = max(concept_base, lesson_floor)   # Whichever is HIGHER
+base = max(concept_base, weighted_sum)   # Whichever is HIGHER
 
 tier_multiplier:
   T1 (Introductory) = 0.7
@@ -192,23 +229,65 @@ raw = base * tier_multiplier
 result = clamp(round_to_nearest_5(raw), min=30, max=150)
 ```
 
-Examples:
-- 15 lessons, 25 concepts (T2) -> max(20, 30) = 30 -> 30
-- 38 lessons, 52 concepts (T2) -> max(42, 76) = 76 -> rounded to 75
-- 8 lessons, 60 concepts (T2) -> max(48, 16) = 48 -> rounded to 50
-- 25 lessons, 95 concepts (T2) -> max(76, 50) = 76 -> rounded to 75
+**Step 3: Allocate questions proportionally:**
 
-The lesson_floor prevents exams that skip lessons. Present recommendation to user. User can override with any value 30-150.
+Distribute the total question count across lessons based on weight. Core lessons get the most questions. Intro lessons may get zero.
+
+Examples:
+- 25 lessons (5 core, 15 supporting, 5 intro), 60 concepts (T2)
+  weighted_sum = 5*5 + 15*2 + 5*1 = 60, concept_base = 48
+  base = max(48, 60) = 60, result = 60
+
+- 8 lessons (6 core, 2 supporting), 40 concepts (T2)
+  weighted_sum = 6*5 + 2*2 = 34, concept_base = 32
+  base = max(32, 34) = 34, result = 35
+
+- 38 lessons (10 core, 20 supporting, 8 intro), 90 concepts (T3)
+  weighted_sum = 10*5 + 20*2 + 8*1 = 98, concept_base = 72
+  base = max(72, 98) = 98, raw = 98*1.3 = 127, result = 125
+
+Present recommendation to user with the lesson weighting breakdown. User can override with any value 30-150.
 
 ---
 
 ## 4-Phase Workflow
 
-### Phase 0.5: Read Lessons & Write Grounding Notes (this agent)
+### Phase 0.5: Read Lessons, Classify Chapter & Write Grounding Notes (this agent)
 
 Read ALL lessons in scope. As you read each one, APPEND observations to `assessments/{SLUG}-notes.md` (see Grounding Notes section above).
 
 This is not optional. The notes file is the evidence that you actually engaged with the content. Phase 1 builds the concept map FROM the notes file, not from memory.
+
+**After reading all lessons, classify the chapter type:**
+
+```
+CHAPTER_TYPE classification (determine from lesson content):
+
+  "practical-tool"  → Chapter teaches how to USE a specific tool
+                      Signals: CLI commands, installation steps, configuration files,
+                      code blocks with tool invocations, "run this command" patterns
+                      Examples: Claude Code CLI, Docker, FastAPI, Kubernetes
+
+  "conceptual"      → Chapter teaches principles, patterns, architecture
+                      Signals: "when to use", "why", trade-off discussions,
+                      design patterns, decision frameworks, no specific tool commands
+                      Examples: Seven Principles, General Agent Architecture, Design Patterns
+
+  "hybrid"          → Mix of tool-usage and principle lessons
+                      Signals: some lessons are hands-on tool usage,
+                      others are conceptual/architectural
+                      Examples: MCP (concept + implementation), Agent Skills (concept + creation)
+```
+
+**Extract domain keywords** from lesson content (the specific tools, technologies, and workflows the chapter teaches). These keywords constrain scenario generation in Phase 2.
+
+Write classification and keywords to the top of the notes file:
+```markdown
+# Chapter Classification
+- Type: {practical-tool | conceptual | hybrid}
+- Domain keywords: {comma-separated list of specific terms from the chapter}
+- Example domains for scenarios: {2-3 example settings appropriate for this chapter}
+```
 
 Update task status: mark "Read lessons and write grounding notes" as in_progress, then completed.
 
@@ -254,9 +333,11 @@ Format:
 ```
 
 After extraction:
-1. Report concept count and recommend question count (dynamic algorithm above)
-2. Ask user to confirm or override question count
-3. Ask user for difficulty tier (T1/T2/T3, default T2)
+1. Report lesson weight breakdown (core/supporting/intro counts)
+2. Report concept count and recommend question count (importance-weighted algorithm above)
+3. Report the adaptive type distribution for the detected chapter type
+4. Ask user to confirm or override question count
+5. Ask user for difficulty tier (T1/T2/T3, default T2)
 
 ---
 
@@ -265,17 +346,24 @@ After extraction:
 Spawn 2 Task subagents. Each receives ONLY:
 - The concept map (`assessments/{SLUG}-concepts.md`)
 - Question type reference (`references/question-types.md`)
+- Chapter type and domain keywords (from notes file classification)
 - Their assigned types and count
 
 See `references/subagent-template.md` for prompt templates.
 
 **Subagent A:** Scenario Analysis + Transfer Application questions
 - Output: `assessments/{SLUG}-questions-A.md`
-- Count: 60% of total (40% Scenario + 20% Transfer)
+- Count: (Scenario% + Transfer%) of total — varies by chapter type:
+  - Practical-tool: 65% of total (60% Scenario + 5% Transfer)
+  - Conceptual: 60% of total (35% Scenario + 25% Transfer)
+  - Hybrid: interpolate
 
 **Subagent B:** Concept Relationship + Critical Evaluation questions
 - Output: `assessments/{SLUG}-questions-B.md`
-- Count: 40% of total (25% Relationship + 15% Evaluation)
+- Count: (Relationship% + Evaluation%) of total — varies by chapter type:
+  - Practical-tool: 35% of total (20% Relationship + 15% Evaluation)
+  - Conceptual: 40% of total (25% Relationship + 15% Evaluation)
+  - Hybrid: interpolate
 
 ---
 
@@ -425,7 +513,7 @@ pandoc assessments/{SLUG}-answer-key.md -o assessments/{SLUG}-Answer-Key.docx --
 | Longest-is-correct gaming | Anti-gaming FAIL: >40% longest correct | Word count comparison |
 | Answer bias (74% A) | Anti-gaming FAIL: any letter >30% | Count distribution per letter |
 | Fabricated concepts | Grounding notes required | Every concept must cite a notes entry |
-| Too few questions | lesson_floor = lessons * 2 | 38 lessons must produce ≥75, not 40 |
+| Too few questions | Importance-weighted: core=3-5, supporting=1-2, intro=0-1 | Weighted sum drives minimum, not flat count |
 | Wrong chapter/part | `ls -d` filesystem discovery | Path validation before proceeding |
 | Missing lessons | Complete lesson count + notes file | Notes file has entry per lesson |
 | No coordination | TaskList created upfront | Task status visible across phases |
@@ -457,11 +545,18 @@ For historical context on these failures, see the Jan 2026 postmortem in the ski
 Report at each phase transition:
 
 ```
+Phase 0.5 Complete:
+  - Chapter type: {practical-tool | conceptual | hybrid}
+  - Domain keywords: {keywords}
+  - Lessons: {N} total ({N} core, {N} supporting, {N} intro)
+  - Notes: assessments/{SLUG}-notes.md
+
 Phase 1 Complete:
   - Concepts extracted: {N}
   - Relationships found: {N}
   - Trade-offs identified: {N}
-  - Recommended question count: {N} (T{tier})
+  - Weighted question count: {N} (T{tier})
+  - Type distribution: Scenario={N}% Relationship={N}% Transfer={N}% Evaluation={N}%
   - Concept map: assessments/{SLUG}-concepts.md
 
 Phase 2 Complete:

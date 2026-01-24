@@ -1119,3 +1119,19 @@
 {"timestamp":"2026-01-24T14:03:23Z","session_id":"840dd1d7-fedf-4c1f-a0cf-4c31ffa061a8","subagent":"general-purpose","description":"Fix long options in File B","background":"false","model":"inherit","event":"spawn"}
 {"timestamp":"2026-01-24T14:06:30Z","session_id":"840dd1d7-fedf-4c1f-a0cf-4c31ffa061a8","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
 {"timestamp":"2026-01-24T14:07:08Z","session_id":"840dd1d7-fedf-4c1f-a0cf-4c31ffa061a8","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T17:33:57Z","session_id":"0ea907f0-c4c4-4a7f-90e2-66df9645bfee","subagent":"general-purpose","description":"Generate Relationship + Evaluation questions","background":"true","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T17:33:57Z","session_id":"0ea907f0-c4c4-4a7f-90e2-66df9645bfee","subagent":"general-purpose","description":"Generate Scenario + Transfer questions","background":"true","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T17:33:57Z","session_id":"0ea907f0-c4c4-4a7f-90e2-66df9645bfee","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T17:33:57Z","session_id":"0ea907f0-c4c4-4a7f-90e2-66df9645bfee","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T17:46:44Z","session_id":"0ea907f0-c4c4-4a7f-90e2-66df9645bfee","subagent":"general-purpose","description":"Assemble exam and answer key files","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T17:48:38Z","session_id":"0ea907f0-c4c4-4a7f-90e2-66df9645bfee","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T18:01:13Z","session_id":"1983096a-1656-4a8a-8c0e-dda67936d273","subagent":"Explore","description":"Explore existing eval patterns","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T18:01:13Z","session_id":"1983096a-1656-4a8a-8c0e-dda67936d273","subagent":"Explore","description":"Understand chapter content structure","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T18:02:18Z","session_id":"1983096a-1656-4a8a-8c0e-dda67936d273","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T18:02:55Z","session_id":"1983096a-1656-4a8a-8c0e-dda67936d273","subagent":"Explore","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T18:03:39Z","session_id":"1983096a-1656-4a8a-8c0e-dda67936d273","subagent":"Plan","description":"Design eval system for skill","background":"false","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T18:07:19Z","session_id":"1983096a-1656-4a8a-8c0e-dda67936d273","subagent":"Plan","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T19:16:48Z","session_id":"f9e0b57c-be3b-4fc7-b509-ab36c623b6e5","subagent":"general-purpose","description":"Generate Relationship + Evaluation questions (44)","background":"true","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T19:16:48Z","session_id":"f9e0b57c-be3b-4fc7-b509-ab36c623b6e5","subagent":"general-purpose","description":"Generate Scenario + Transfer questions (76)","background":"true","model":"inherit","event":"spawn"}
+{"timestamp":"2026-01-24T19:16:48Z","session_id":"f9e0b57c-be3b-4fc7-b509-ab36c623b6e5","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
+{"timestamp":"2026-01-24T19:16:48Z","session_id":"f9e0b57c-be3b-4fc7-b509-ab36c623b6e5","subagent":"general-purpose","agent_id":"","status":"completed","event":"complete"}
