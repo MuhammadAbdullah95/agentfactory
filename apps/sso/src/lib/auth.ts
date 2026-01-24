@@ -587,7 +587,7 @@ export const auth = betterAuth({
       // Authentication endpoints - strict limits to prevent brute force
       "/sign-in/email": {
         window: 60,
-        max: 10, // 10 login attempts per minute per IP
+        max: 100, // 100 login attempts per minute per IP
       },
       "/sign-up/email": {
         window: 60,
@@ -619,7 +619,7 @@ export const auth = betterAuth({
       // Admin endpoints - moderate limits
       "/admin/clients/register": {
         window: 60,
-        max: 10, // Client registration (admin only)
+        max: 100, // Client registration (admin only)
       },
       "/admin/clients": {
         window: 60,
@@ -629,7 +629,7 @@ export const auth = betterAuth({
       // API Key endpoints - M2M authentication
       "/api-key/create": {
         window: 60,
-        max: 10, // Key creation (admin only, low volume)
+        max: 100, // Key creation (admin only)
       },
       "/api-key/verify": {
         window: 60,
@@ -641,7 +641,7 @@ export const auth = betterAuth({
       },
       "/api-key/delete": {
         window: 60,
-        max: 10, // Key deletion (admin only, low volume)
+        max: 100, // Key deletion (admin only)
       },
       "/api-key/update": {
         window: 60,
