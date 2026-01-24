@@ -936,3 +936,73 @@ null
 {"timestamp":"2026-01-24T09:20:10Z","session_id":"ade69f67-0644-439c-a473-67878d874f57","prompt":"check are permissions okay fr PAT token fine grained one Your new personal access token SSO_PAT will be ready for use immediately. It will expire on Monday, February 23, 2026.\n\nSSO_PAT grants you 15 permissions for 1 repository:\n\nActions\nRead-only\nAdministration\nRead-only\nCodespaces\nRead-only\nContents\nRead and write\nDeployments\nRead-only\nDiscussions\nRead-only\nEnvironments\nRead-only\nMetadata\nRead-only\nPull requests\nRead-only\nCustom properties\nRead-only\nWebhooks\nRead-only\nCode scanning alerts\nRead-only\nCommit statuses\nRead-only\nDependabot alerts\nRead-only\nWorkflows\nRead and write"}
 {"timestamp":"2026-01-24T09:34:52Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"Now in authors page speckitplus intro shall be based on this Spec-Kit Plus is an SDD-RI (Specification-Driven Development with Reusable Intelligence) framework built around one core idea:\n\nCapture intelligence, not just deliver code.\n\n and review juniar d intro to improve"}
 {"timestamp":"2026-01-24T09:37:34Z","session_id":"ade69f67-0644-439c-a473-67878d874f57","prompt":"will this run on main branch sall commits?"}
+null
+Usage: Security [-h] [-i] [-l] [-p prompt] [-q] [-v] [command] [opt ...]
+    -i    Run in interactive mode.
+    -l    Run /usr/bin/leaks -nocontext before exiting.
+    -p    Set the prompt to "prompt" (implies -i).
+    -q    Be less verbose.
+    -v    Be more verbose about what's going on.
+Security commands are:
+    help                                 Show all commands, or show usage for a command.
+    list-keychains                       Display or manipulate the keychain search list.
+    list-smartcards                      Display available smartcards.
+    default-keychain                     Display or set the default keychain.
+    login-keychain                       Display or set the login keychain.
+    create-keychain                      Create keychains and add them to the search list.
+    delete-keychain                      Delete keychains and remove them from the search list.
+    lock-keychain                        Lock the specified keychain.
+    unlock-keychain                      Unlock the specified keychain.
+    set-keychain-settings                Set settings for a keychain.
+    set-keychain-password                Set password for a keychain.
+    show-keychain-info                   Show the settings for keychain.
+    dump-keychain                        Dump the contents of one or more keychains.
+    create-keypair                       Create an asymmetric key pair.
+    add-generic-password                 Add a generic password item.
+    add-internet-password                Add an internet password item.
+    add-certificates                     Add certificates to a keychain.
+    find-generic-password                Find a generic password item.
+    delete-generic-password              Delete a generic password item.
+    set-generic-password-partition-list  Set the partition list of a generic password item.
+    find-internet-password               Find an internet password item.
+    delete-internet-password             Delete an internet password item.
+    set-internet-password-partition-list Set the partition list of a internet password item.
+    find-key                             Find keys in the keychain
+    set-key-partition-list               Set the partition list of a key.
+    find-certificate                     Find a certificate item.
+    find-identity                        Find an identity (certificate + private key).
+    delete-certificate                   Delete a certificate from a keychain.
+    delete-identity                      Delete an identity (certificate + private key) from a keychain.
+    set-identity-preference              Set the preferred identity to use for a service.
+    get-identity-preference              Get the preferred identity to use for a service.
+    create-db                            Create a db using the DL.
+    export                               Export items from a keychain.
+    import                               Import items into a keychain.
+    export-smartcard                     Export items from a smartcard.
+    cms                                  Encode or decode CMS messages.
+    install-mds                          Install (or re-install) the MDS database.
+    add-trusted-cert                     Add trusted certificate(s).
+    remove-trusted-cert                  Remove trusted certificate(s).
+    dump-trust-settings                  Display contents of trust settings.
+    user-trust-settings-enable           Display or manipulate user-level trust settings.
+    trust-settings-export                Export trust settings.
+    trust-settings-import                Import trust settings.
+    verify-cert                          Verify certificate(s).
+    authorize                            Perform authorization operations.
+    authorizationdb                      Make changes to the authorization policy database.
+    execute-with-privileges              Execute tool with privileges.
+    leaks                                Run /usr/bin/leaks on this process.
+    error                                Display a descriptive message for the given error code(s).
+    create-filevaultmaster-keychain      Create a keychain containing a key pair for FileVault recovery use.
+    smartcards                           Enable, disable or list disabled smartcard tokens.
+    translocate-policy-check             Check whether a path would be translocated.
+    translocate-status-check             Check whether a path is translocated.
+    translocate-original-path            Find the original path for a translocated path.
+    requirement-evaluate                 Evaluate a requirement against a cert chain.
+    filevault                            Handles FileVault specific settings and overrides.
+    platformsso                          Handles Platform SSO specific settings and overrides.
+  origin/main
+1f1f86f761ba9f1cb882372e56ecda1ca5b1f637
+branch 'main' set up to track 'origin/main'.
+Your branch is up to date with 'origin/main'.
+{"timestamp":"2026-01-24T09:56:11Z","session_id":"ade69f67-0644-439c-a473-67878d874f57","prompt":"It worked /panaversity-global/sso-mirror-mono.git\n45584d5f92c82e4a74af4a232da35f8cefad0077    HEAD\n45584d5f92c82e4a74af4a232da35f8cefad0077    refs/heads/main\nmjs@Muhammads-MacBook-Pro- I think you need to load the secret like we do in othe rithub actions?3 ~ % "}

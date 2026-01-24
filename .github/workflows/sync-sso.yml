@@ -13,6 +13,7 @@ jobs:
           fetch-depth: 0
 
       - name: Push to SSO mirror
+        env:
+          SSO_PAT: ${{ secrets.SSO_PAT }}
         run: |
-          git remote add sso-sync https://x-access-token:${{ secrets.SSO_PAT }}@github.com/panaversity-global/sso-mirror-mono.git
-          git push sso-sync main --force
+          git push "https://x-access-token:${SSO_PAT}@github.com/panaversity-global/sso-mirror-mono.git" HEAD:main --force
