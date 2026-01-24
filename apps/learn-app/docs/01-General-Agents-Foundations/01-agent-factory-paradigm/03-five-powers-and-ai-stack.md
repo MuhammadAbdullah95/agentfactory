@@ -247,7 +247,7 @@ Agentic AI can accomplish this transformation because it possesses five fundamen
 
 ---
 
-## Part 3: The Modern AI Stack (2026 Revision)
+## Part 3: The Modern AI Stack
 
 The Five Powers explain *what* agents can do. The Modern AI Stack explains *how* they're built. By early 2026, we have moved from "Chatbots with tools" to **Protocol-Driven Autonomous Workers**.
 
@@ -266,7 +266,7 @@ This is the most significant change. Instead of "Custom Agents," we now build **
 **What the Agent Skills Standard (`agentskills.io`) Provides:**
 
 * **Progressive Disclosure:** An agent doesn't need to read 1,000 pages of documentation at once. It reads the "Skill Metadata" first (name and description). It only "loads" the full instructions and scripts when the task specifically requires them.
-* **Skill Portability:** A "SQL Expert" skill you write for **Claude Code** works instantly in **GitHub Copilot** or **OpenAI Codex**.
+* **Skill Portability:** A "SQL Expert" skill you write for **Claude Code** works instantly in **Gemini CLI** or **OpenAI Codex**.
 * **Procedural Knowledge:** Skills are stored as simple folders containing a `SKILL.md` file. They tell the agent *how* to do things (e.g., "Review this PR following the Google Style Guide").
 
 **The 2026 Logic:**
