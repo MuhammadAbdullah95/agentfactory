@@ -38,22 +38,22 @@ Comprehensive guide to understanding, detecting, and preventing answer option bi
 
 ```markdown
 Q1: Is B correct and longest?
-A) Yes. [2 words - rank 0]
-B) Yes, absolutely, with extensive details and reasoning. [9 words - rank 3 - CORRECT]
-C) Somewhat. [2 words - rank 0]
-D) Maybe not. [3 words - rank 0]
+**A.** Yes. [2 words - rank 0]
+**B.** Yes, absolutely, with extensive details and reasoning. [9 words - rank 3 - CORRECT]
+**C.** Somewhat. [2 words - rank 0]
+**D.** Maybe not. [3 words - rank 0]
 
 Q2: Is C correct and longest?
-A) No explanation. [2 words - rank 0]
-B) Few details given. [3 words - rank 0]
-C) Comprehensive explanation including examples, evidence, and detailed reasoning. [9 words - rank 3 - CORRECT]
-D) Brief comment. [2 words - rank 0]
+**A.** No explanation. [2 words - rank 0]
+**B.** Few details given. [3 words - rank 0]
+**C.** Comprehensive explanation including examples, evidence, and detailed reasoning. [9 words - rank 3 - CORRECT]
+**D.** Brief comment. [2 words - rank 0]
 
 Q3: Is A correct and longest?
-A) No, but here's a long detailed explanation of why not. [10 words - rank 3 - CORRECT]
-B) Yes. [1 word - rank 0]
-C) Maybe. [1 word - rank 0]
-D) Uncertain. [1 word - rank 0]
+**A.** No, but here's a long detailed explanation of why not. [10 words - rank 3 - CORRECT]
+**B.** Yes. [1 word - rank 0]
+**C.** Maybe. [1 word - rank 0]
+**D.** Uncertain. [1 word - rank 0]
 
 Result: 3/3 correct answers are longest (100% bias) → FAIL ✗
 ```
@@ -66,16 +66,16 @@ Result: 3/3 correct answers are longest (100% bias) → FAIL ✗
 
 ```markdown
 Q1: Correct is now in position A
-A) Yes, absolutely, with extensive details and reasoning. [9 words - CORRECT]
-B) Yes. [2 words]
-C) Somewhat. [2 words]
-D) Maybe not. [3 words]
+**A.** Yes, absolutely, with extensive details and reasoning. [9 words - CORRECT]
+**B.** Yes. [2 words]
+**C.** Somewhat. [2 words]
+**D.** Maybe not. [3 words]
 
 Q2: Correct is now in position D
-A) No explanation. [2 words]
-B) Few details given. [3 words]
-C) Comprehensive explanation including examples, evidence, and detailed reasoning. [9 words]
-D) No, but here's a long detailed explanation of why not. [10 words - CORRECT]
+**A.** No explanation. [2 words]
+**B.** Few details given. [3 words]
+**C.** Comprehensive explanation including examples, evidence, and detailed reasoning. [9 words]
+**D.** No, but here's a long detailed explanation of why not. [10 words - CORRECT]
 
 Result: Distribution now 1 shortest, 1 longest, 1 middle → Balanced ✓
 ```
@@ -186,19 +186,19 @@ score = (word_count × 0.5) + (example_count × 10) + (qualifier_count × 5) + (
 ```markdown
 Q: What best describes the role of the API gateway?
 
-A) It's important.
+**A.** It's important.
    Specificity: (2 words × 0.5) + 0 + 0 + 0 = 1/100
 
-B) Manages incoming requests and routes them to appropriate backend services.
+**B.** Manages incoming requests and routes them to appropriate backend services.
    Specificity: (9 words × 0.5) + 0 + 0 + (technical words) = 15/100
 
-C) Acts as a centralized entry point that handles cross-cutting concerns
+**C.** Acts as a centralized entry point that handles cross-cutting concerns
    such as authentication, rate limiting, logging, and request transformation,
    ensuring consistent policies across all microservices.
    Specificity: (35 words × 0.5) + (1 example: "such as") + (4 qualifiers implied) = 57/100
    [CORRECT]
 
-D) It helps with stuff.
+**D.** It helps with stuff.
    Specificity: (4 words × 0.5) + 0 + 0 + 0 = 2/100
 
 Analysis:
@@ -219,17 +219,17 @@ Severity: CRITICAL (>50% questions show this pattern) → FAIL ✗
 
 ```markdown
 Before (weak distractors):
-C) Acts as a centralized entry point that handles cross-cutting concerns
+**C.** Acts as a centralized entry point that handles cross-cutting concerns
    such as authentication, rate limiting, logging, and request transformation,
    ensuring consistent policies across all microservices. [CORRECT - very specific]
 
-A) It's important. [Too vague]
+**A.** It's important. [Too vague]
 
 After (enhanced):
-C) Acts as a centralized entry point that handles cross-cutting concerns
+**C.** Acts as a centralized entry point that handles cross-cutting concerns
    such as authentication, rate limiting, and request transformation. [CORRECT - still specific]
 
-A) Manages incoming requests and routes them to services based on a static routing table.
+**A.** Manages incoming requests and routes them to services based on a static routing table.
    [Same specificity level, but incorrect]
 ```
 
@@ -237,12 +237,12 @@ A) Manages incoming requests and routes them to services based on a static routi
 
 ```markdown
 Before:
-C) Acts as a centralized entry point that handles cross-cutting concerns
+**C.** Acts as a centralized entry point that handles cross-cutting concerns
    such as authentication, rate limiting, logging, and request transformation,
    ensuring consistent policies across all microservices. [CORRECT]
 
 After:
-C) Centralizes handling of cross-cutting concerns like authentication and rate limiting. [CORRECT]
+**C.** Centralizes handling of cross-cutting concerns like authentication and rate limiting. [CORRECT]
 ```
 
 **Option 3: Regenerate Question**
@@ -250,14 +250,14 @@ C) Centralizes handling of cross-cutting concerns like authentication and rate l
 ```markdown
 Before (problem: correct is too specific):
 Q: What role does the API gateway play?
-C) [Very specific, detailed answer] - CORRECT
+**C.** [Very specific, detailed answer] - CORRECT
 
 After (solution: all options equally specific):
 Q: Select the PRIMARY role of the API gateway:
-A) Centralized request validation with policy enforcement [Specific but incorrect]
-B) Centralized request routing with cross-cutting concerns handling [Specific and CORRECT]
-C) Decentralized service discovery with client-side routing [Specific but incorrect]
-D) Load balancing with direct client-to-service connections [Specific but incorrect]
+**A.** Centralized request validation with policy enforcement [Specific but incorrect]
+**B.** Centralized request routing with cross-cutting concerns handling [Specific and CORRECT]
+**C.** Decentralized service discovery with client-side routing [Specific but incorrect]
+**D.** Load balancing with direct client-to-service connections [Specific but incorrect]
 
 Now all options are equally specific, so guess-by-detail doesn't work.
 ```

@@ -36,10 +36,10 @@ Used for: Numbers, rankings, sequences, version numbers
 Fact from source: "The Digital FTE operates 168 hours weekly (24 × 7)"
 
 Q: According to the document, how many hours per week does a Digital FTE operate?
-A) 120 hours  [Off-by-1: Removes 2 days (operates 5 days only)]
-B) 148 hours  [Off-by-1: Removes 20 hours weekly]
-C) 168 hours  [CORRECT]
-D) 200 hours  [Off-by-1: Assumes "always fully operational" misconception]
+**A.** 120 hours  [Off-by-1: Removes 2 days (operates 5 days only)]
+**B.** 148 hours  [Off-by-1: Removes 20 hours weekly]
+**C.** 168 hours  [CORRECT]
+**D.** 200 hours  [Off-by-1: Assumes "always fully operational" misconception]
 
 Strategy: All wrong answers in plausible range (120-200), correct is middle
 
@@ -57,10 +57,10 @@ Used for: Measurements, rates, conversions
 Fact from source: "Agent Framework improves developer productivity by 45% annually"
 
 Q: What is the stated productivity improvement rate?
-A) 45% annually    [CORRECT]
-B) 3.75% monthly   [Unit error: correctly divided 45/12 but converted wrong]
-C) 45% per sprint  [Unit confusion: assumed 2-week sprint]
-D) 540% annually   [Calculation error: 45 × 12 instead of 45% once]
+**A.** 45% annually    [CORRECT]
+**B.** 3.75% monthly   [Unit error: correctly divided 45/12 but converted wrong]
+**C.** 45% per sprint  [Unit confusion: assumed 2-week sprint]
+**D.** 540% annually   [Calculation error: 45 × 12 instead of 45% once]
 
 Strategy: Distractors show common unit conversion mistakes
 
@@ -79,10 +79,10 @@ Fact from source: "MCP (Model Context Protocol) enables bidirectional communicat
 between AI and external systems"
 
 Q: What does MCP primarily enable?
-A) Authentication between local and cloud services  [Related but different]
-B) Bidirectional communication between AI and external systems  [CORRECT]
-C) Model training and fine-tuning workflows  [Related but different - that's SFT]
-D) Version control for AI model checkpoints  [Related but different]
+**A.** Authentication between local and cloud services  [Related but different]
+**B.** Bidirectional communication between AI and external systems  [CORRECT]
+**C.** Model training and fine-tuning workflows  [Related but different - that's SFT]
+**D.** Version control for AI model checkpoints  [Related but different]
 
 Strategy: All distractors are real AI concepts, just not what MCP does
 
@@ -100,10 +100,10 @@ Used for: Ranges, sequences, boundaries
 Fact from source: "The assessment scoring scale: A+ (95-100%), A (90-94.99%), B+ (85-89.99%)"
 
 Q: What is the score range for an "A" grade on the certification exam?
-A) 90-95%     [Fence-post error: excludes 94.99%]
-B) 90-94%     [Fence-post error: excludes 94.99%]
-C) 90-94.99%  [CORRECT]
-D) 90-100%    [Fence-post error: includes A+]
+**A.** 90-95%     [Fence-post error: excludes 94.99%]
+**B.** 90-94%     [Fence-post error: excludes 94.99%]
+**C.** 90-94.99%  [CORRECT]
+**D.** 90-100%    [Fence-post error: includes A+]
 
 Strategy: Common boundary inclusion/exclusion errors
 
@@ -131,13 +131,13 @@ Used for: Concepts with clear but incomplete distinctions
 Concept pair: Synchronous vs. Asynchronous communication
 
 Q: Which BEST differentiates synchronous from asynchronous communication?
-A) Synchronous is faster; asynchronous is slower
+**A.** Synchronous is faster; asynchronous is slower
    [Surface-level: Speed varies with conditions, not inherent]
-B) Synchronous requires sender to wait; asynchronous doesn't
+**B.** Synchronous requires sender to wait; asynchronous doesn't
    [CORRECT: Blocking behavior is the core distinction]
-C) Synchronous uses TCP; asynchronous uses UDP
+**C.** Synchronous uses TCP; asynchronous uses UDP
    [Tangential: Protocol choice is independent of sync model]
-D) Synchronous is more reliable; asynchronous loses messages
+**D.** Synchronous is more reliable; asynchronous loses messages
    [Partially true but orthogonal to the distinction]
 
 Strategy: A identifies real difference (speed) but not THE distinguishing feature
@@ -159,13 +159,13 @@ Concept pair: Authentication (who are you?) vs. Authorization (what can you do?)
 
 Q: Which BEST differentiates authentication from authorization?
 
-A) Authentication is faster; authorization takes longer
+**A.** Authentication is faster; authorization takes longer
    [Speed misconception: orthogonal to the distinction]
-B) Authentication verifies identity; authorization verifies permissions
+**B.** Authentication verifies identity; authorization verifies permissions
    [CORRECT: This is the core distinction]
-C) Authentication is more important for security
+**C.** Authentication is more important for security
    [Priority misconception: both equally critical]
-D) Authorization is older (HTTP Basic); authentication is newer (OAuth)
+**D.** Authorization is older (HTTP Basic); authentication is newer (OAuth)
    [Historical misconception: both exist in multiple forms]
 
 Strategy: Distractors confuse the concepts without swapping them
@@ -186,13 +186,13 @@ Concept pair: REST (architectural style) vs. HTTP (protocol)
 
 Q: Which BEST differentiates REST from HTTP?
 
-A) REST is a protocol; HTTP is an implementation detail
+**A.** REST is a protocol; HTTP is an implementation detail
    [REVERSED: learners often think this]
-B) HTTP is a protocol; REST is an architectural style built on top of HTTP
+**B.** HTTP is a protocol; REST is an architectural style built on top of HTTP
    [CORRECT]
-C) REST is only for APIs; HTTP is for web pages
+**C.** REST is only for APIs; HTTP is for web pages
    [Scope misconception: both can serve both purposes]
-D) REST requires RESTful databases; HTTP requires RESTful servers
+**D.** REST requires RESTful databases; HTTP requires RESTful servers
    [Implementation misconception: REST applies to service design, not infrastructure]
 
 Strategy: Distractor A specifically targets the most common reversal
@@ -223,13 +223,13 @@ Constraints: Low cost, fast to implement (weeks, not months), scales to 1M users
 Q: Given low budget, tight timeline, and need to scale to 1M users,
    which approach is MOST appropriate?
 
-A) Enterprise data warehouse (Snowflake/BigQuery)
+**A.** Enterprise data warehouse (Snowflake/BigQuery)
    [Fails constraint: High licensing cost ($50k+/year)]
-B) Custom-built system from scratch in Node.js
+**B.** Custom-built system from scratch in Node.js
    [Fails constraint: 4-6 months development (too slow)]
-C) Managed streaming service (Kafka on AWS)
+**C.** Managed streaming service (Kafka on AWS)
    [Fails constraint: Requires infrastructure learning]
-D) Open-source streaming stack (Kafka + Flink) on existing cloud infrastructure
+**D.** Open-source streaming stack (Kafka + Flink) on existing cloud infrastructure
    [CORRECT: Open-source (low cost), proven scalable, team knows cloud ops]
 
 Strategy: Each distractor fails exactly one constraint
@@ -249,13 +249,13 @@ Constraints: Startup founder needs rapid MVP, limited DevOps knowledge
 
 Q: For a startup MVP requiring authentication, which choice is BEST?
 
-A) Firebase Authentication
+**A.** Firebase Authentication
    [CORRECT: Managed, <1 day integration, no ops knowledge needed]
-B) Implement OAuth 2.0 with Keycloak
+**B.** Implement OAuth 2.0 with Keycloak
    [Viable but requires: DevOps setup (defeats "limited knowledge"), 2-3 weeks]
-C) Use JWT tokens with custom validation
+**C.** Use JWT tokens with custom validation
    [Viable but requires: Security knowledge (risks), 5-7 days]
-D) Username/password with bcrypt hashing
+**D.** Username/password with bcrypt hashing
    [Viable but requires: Implements 90% of OAuth value manually, riskier]
 
 Strategy: All answers are viable; correct is BEST given constraints
@@ -275,13 +275,13 @@ Constraints: Real-time (<100ms), reliable (99.99% uptime), budget-conscious
 
 Q: For real-time, highly reliable system on limited budget, which approach?
 
-A) Eventually consistent distributed cache (Redis cluster)
+**A.** Eventually consistent distributed cache (Redis cluster)
    [Wrong trade-off: Sacrifices reliability (cache loss possible)]
-B) Strongly consistent relational DB with read replicas + monitoring
+**B.** Strongly consistent relational DB with read replicas + monitoring
    [CORRECT: Achieves reliability + realtime + cost-effective]
-C) In-memory database (Memcached) for speed
+**C.** In-memory database (Memcached) for speed
    [Wrong trade-off: Sacrifices reliability (no persistence)]
-D) Single powerful database server (vertical scale)
+**D.** Single powerful database server (vertical scale)
    [Wrong trade-off: Sacrifices reliability (single point of failure)]
 
 Strategy: Distractors represent common wrong trade-offs
@@ -311,13 +311,13 @@ System: Event-driven microservices with message broker
 
 Q: In event-driven architecture, what is the PRIMARY role of the message broker?
 
-A) Process and transform events into application objects
+**A.** Process and transform events into application objects
    [Role of: Event processor/stream processor, not broker]
-B) Decouple producers from consumers using asynchronous message queues
+**B.** Decouple producers from consumers using asynchronous message queues
    [CORRECT]
-C) Store events permanently for audit and replay
+**C.** Store events permanently for audit and replay
    [Role of: Event store/data lake, not broker's primary role]
-D) Validate event schemas against declared contracts
+**D.** Validate event schemas against declared contracts
    [Role of: Schema registry, not message broker]
 
 Strategy: Each distractor is real component responsibility
@@ -337,13 +337,13 @@ Component: Load balancer in web application
 
 Q: What is the PRIMARY role of a load balancer?
 
-A) Distribute incoming traffic across multiple servers
+**A.** Distribute incoming traffic across multiple servers
    [CORRECT]
-B) Detect failing servers and route traffic away automatically
+**B.** Detect failing servers and route traffic away automatically
    [Secondary role: Health checking (feature, not primary purpose)]
-C) Terminate SSL/TLS encryption
+**C.** Terminate SSL/TLS encryption
    [Possible role: SSL termination (optimization, not primary)]
-D) Cache frequently requested content
+**D.** Cache frequently requested content
    [Role of: Reverse proxy/cache layer, not load balancer's primary]
 
 Strategy: All answers describe real load balancer functions
@@ -363,13 +363,13 @@ Architecture layer: API Gateway
 
 Q: In microservices architecture, what is the PRIMARY role of the API gateway?
 
-A) Aggregate responses from multiple microservices
+**A.** Aggregate responses from multiple microservices
    [Possible in some patterns, but not API gateway's primary role]
-B) Provide a single entry point handling routing, auth, and rate limiting
+**B.** Provide a single entry point handling routing, auth, and rate limiting
    [CORRECT]
-C) Manage service discovery and load balancing between services
+**C.** Manage service discovery and load balancing between services
    [Role of: Service mesh or orchestrator, not gateway]
-D) Store session state for authenticated requests
+**D.** Store session state for authenticated requests
    [Anti-pattern: Stateless design, not gateway's role]
 
 Strategy: Distractors describe real architecture functions
@@ -400,10 +400,10 @@ Facts: Human FTE costs $8,000/month, Digital FTE costs $2,000/month
 
 Q: What is the annual savings if 30 Human FTEs are replaced with Digital FTEs?
 
-A) $180,000   [Error: 30 × 6,000 (monthly diff, not annual)]
-B) $2,160,000 [CORRECT: 30 × $6,000/month × 12 months]
-C) $720,000   [Error: 30 × 24,000 (double-counts, or yearly on both)]
-D) $18,000    [Error: 30 × 600 (decimal place error)]
+**A.** $180,000   [Error: 30 × 6,000 (monthly diff, not annual)]
+**B.** $2,160,000 [CORRECT: 30 × $6,000/month × 12 months]
+**C.** $720,000   [Error: 30 × 24,000 (double-counts, or yearly on both)]
+**D.** $18,000    [Error: 30 × 600 (decimal place error)]
 
 Strategy: Each wrong answer shows specific calculation error
 
@@ -423,9 +423,9 @@ Facts: System A: $100k setup + $10k/month ongoing for 3 years
 
 Q: After 3 years, what is the total cost difference?
 
-A) $460,000   [Error: ($100k + 10k×36) - $500k = $40k (wrong sign)]
-B) $40,000    [Error: Only accounts for 4 months ($500k - $100k - $40k)]
-C) $400,000   [CORRECT: System B($500k) - System A($460k) = $40k NO WAIT]
+**A.** $460,000   [Error: ($100k + 10k×36) - $500k = $40k (wrong sign)]
+**B.** $40,000    [Error: Only accounts for 4 months ($500k - $100k - $40k)]
+**C.** $400,000   [CORRECT: System B($500k) - System A($460k) = $40k NO WAIT]
    [Let me recalculate: System A = $100k + ($10k × 36 months) = $460k]
    [System B = $500k, Difference = $500k - $460k = $40k NOT $400k]
 
@@ -435,10 +435,10 @@ Q: After 3 years, which has lower total cost of ownership (TCO)?
    System A: $100k setup + $5k/month maintenance
    System B: $0 setup + $20k/month + $150k at year 3
 
-A) System B (TCO lower by $150k)    [Error: Ignores year-3 cost]
-B) System A (TCO lower by $70k)     [CORRECT: A=$280k, B=$350k, diff=$70k]
-C) System B (TCO lower by $70k)     [Error: Reversed winner]
-D) They're equal (both $300k)       [Error: Wrong calculation entirely]
+**A.** System B (TCO lower by $150k)    [Error: Ignores year-3 cost]
+**B.** System A (TCO lower by $70k)     [CORRECT: A=$280k, B=$350k, diff=$70k]
+**C.** System B (TCO lower by $70k)     [Error: Reversed winner]
+**D.** They're equal (both $300k)       [Error: Wrong calculation entirely]
 
 Strategy: Each error shows missed calculation step
 
@@ -467,13 +467,13 @@ Framework: REST API design for resource collection
 
 Q: When designing a REST API for listing users, which is BEST?
 
-A) GET /users?page=1&limit=100&search=john&role=admin&status=active
+**A.** GET /users?page=1&limit=100&search=john&role=admin&status=active
    [Over-specification: Filters are for POST body or query normalization]
-B) GET /users with standard pagination (limit, offset) and optional filters
+**B.** GET /users with standard pagination (limit, offset) and optional filters
    [CORRECT: Query params for filters, follows REST conventions]
-C) POST /users with search criteria in request body
+**C.** POST /users with search criteria in request body
    [Wrong method: Use GET for retrieval, not POST]
-D) GET /users/search/john?role=admin (separate search endpoint)
+**D.** GET /users/search/john?role=admin (separate search endpoint)
    [Over-engineered: Unnecessary special-case endpoint]
 
 Strategy: Distractors show common over/under-engineering mistakes
@@ -493,13 +493,13 @@ Framework: Microservices communication pattern
 
 Q: When services need to communicate asynchronously, what is the MINIMUM viable pattern?
 
-A) Implement full event streaming (Kafka, NATS, etc.)
+**A.** Implement full event streaming (Kafka, NATS, etc.)
    [Over-specified: Overkill for simple async]
-B) Message queue with reliable delivery + consumer acknowledgment
+**B.** Message queue with reliable delivery + consumer acknowledgment
    [CORRECT: Minimum viable async, ensures reliability]
-C) Simple HTTP polling between services
+**C.** Simple HTTP polling between services
    [Under-specified: Wasteful, unreliable]
-D) Shared database with polling
+**D.** Shared database with polling
    [Under-specified: Creates tight coupling]
 
 Strategy: Distractors show under/over-application of framework
@@ -529,13 +529,13 @@ Decision: Implement eventual consistency in financial system
 
 Q: What is the PRIMARY trade-off of implementing eventual consistency?
 
-A) Higher infrastructure costs
+**A.** Higher infrastructure costs
    [Secondary concern: Usually reduces cost]
-B) Temporary data divergence requiring conflict resolution logic
+**B.** Temporary data divergence requiring conflict resolution logic
    [CORRECT: PRIMARY trade-off - the defining characteristic]
-C) Increased complexity of deployment
+**C.** Increased complexity of deployment
    [Secondary concern: Operational, not fundamental]
-D) Reduced system throughput
+**D.** Reduced system throughput
    [Misconception: Eventual consistency improves throughput]
 
 Strategy: Correct answer addresses CORE trade-off, not side effects
@@ -555,13 +555,13 @@ Decision: Use denormalization in NoSQL database
 
 Q: What is the PRIMARY limitation of data denormalization?
 
-A) Query performance degrades (makes queries slower)
+**A.** Query performance degrades (makes queries slower)
    [Benefit misframed: Denorm improves query speed]
-B) Write complexity increases due to maintaining multiple copies
+**B.** Write complexity increases due to maintaining multiple copies
    [CORRECT: PRIMARY limitation - data consistency burden]
-C) Storage requirements increase (redundant data)
+**C.** Storage requirements increase (redundant data)
    [Consequence, not primary limitation]
-D) Development team needs SQL training
+**D.** Development team needs SQL training
    [Orthogonal: Training is independent concern]
 
 Strategy: Distractor A frames the benefit as limitation
@@ -592,13 +592,13 @@ Goal: Design system that is scalable, maintainable, AND performant
 Q: To achieve scalability + maintainability + performance simultaneously,
    which combination is MOST appropriate?
 
-A) Monolith with aggressive caching + CDN for performance
+**A.** Monolith with aggressive caching + CDN for performance
    [Misses: Maintains monolith (not maintainable for scale)]
-B) Microservices + comprehensive logging + async processing
+**B.** Microservices + comprehensive logging + async processing
    [Missing: Doesn't address performance optimization]
-C) Microservices + clear interfaces + async processing + strategic caching + monitoring
+**C.** Microservices + clear interfaces + async processing + strategic caching + monitoring
    [CORRECT: Addresses all three concerns]
-D) API gateway + load balancer + database replication
+**D.** API gateway + load balancer + database replication
    [Missing: Doesn't address maintainability (service boundaries)]
 
 Strategy: Each distractor omits one key element
@@ -628,13 +628,13 @@ Principle: "Horizontal scaling (adding servers) is preferred over vertical scali
 
 Q: If this principle applies to web servers, which extrapolation is MOST rigorous?
 
-A) Horizontal scaling always better than vertical for ANY workload
+**A.** Horizontal scaling always better than vertical for ANY workload
    [Over-generalization: Doesn't apply to single-threaded workloads]
-B) Database scaling may differ: vertical scaling acceptable for latency-sensitive operations
+**B.** Database scaling may differ: vertical scaling acceptable for latency-sensitive operations
    [CORRECT: Qualifies principle based on specific constraints]
-C) Horizontal scaling is required for all systems >1M users
+**C.** Horizontal scaling is required for all systems >1M users
    [Over-generalization: Netflix scaled significantly with vertical]
-D) Vertical scaling is obsolete and should never be used
+**D.** Vertical scaling is obsolete and should never be used
    [Extreme over-generalization: Still valid for many scenarios]
 
 Strategy: Distractors show various over-generalizations
@@ -655,13 +655,13 @@ Principle: "Cache frequently accessed data for performance"
 Q: A healthcare system must cache patient records for speed. Which extrapolation
    considers the MOST critical new constraint (regulatory compliance)?
 
-A) Cache all patient data using Redis (applies principle directly)
+**A.** Cache all patient data using Redis (applies principle directly)
    [Ignores: HIPAA compliance - what data can be cached?]
-B) Cache only aggregated statistics and metadata; never cache PII
+**B.** Cache only aggregated statistics and metadata; never cache PII
    [CORRECT: Recognizes new constraint limits principle]
-C) Cache with encryption to satisfy compliance
+**C.** Cache with encryption to satisfy compliance
    [Partial: Addresses symptom, not root issue]
-D) Use managed database caching with vendor compliance certification
+**D.** Use managed database caching with vendor compliance certification
    [Delegates: Trusts vendor, doesn't question applicability]
 
 Strategy: Distractors show various failures to account for new constraints
@@ -714,50 +714,50 @@ For EVERY question you generate, verify all distractors meet:
 ### ❌ Mistake 1: Absurd/Silly Options
 ```
 Q: What is 2 + 2?
-A) 4
-B) 3
-C) 27    [Obviously wrong - wastes slot]
-D) Banana  [Absurd - doesn't test knowledge]
+**A.** 4
+**B.** 3
+**C.** 27    [Obviously wrong - wastes slot]
+**D.** Banana  [Absurd - doesn't test knowledge]
 ```
 **Fix:** Make C something like "5" (off-by-one error) or "22" (concatenation error)
 
 ### ❌ Mistake 2: Nonfunctional Distractors
 ```
 Q: Which HTTP status code means "Not Found"?
-A) 404  [Correct]
-B) 502  [Obviously wrong - nobody picks this]
-C) 500  [Obviously wrong - nobody picks this]
-D) 403  [Better - authorization confusion, ~8% pick this]
+**A.** 404  [Correct]
+**B.** 502  [Obviously wrong - nobody picks this]
+**C.** 500  [Obviously wrong - nobody picks this]
+**D.** 403  [Better - authorization confusion, ~8% pick this]
 ```
 **Fix:** Replace B and C with 405 (Method Not Allowed) and 401 (Unauthorized)
 
 ### ❌ Mistake 3: Repeating Same Error
 ```
 Q: Best practice for cache invalidation?
-A) Time-based expiration (TTL)  [CORRECT]
-B) Manual invalidation on data changes  [Incomplete - doesn't mention TTL]
-C) No invalidation needed  [Repeats: "Incomplete understanding"]
-D) Developer disables caching  [Repeats: "No caching at all"]
+**A.** Time-based expiration (TTL)  [CORRECT]
+**B.** Manual invalidation on data changes  [Incomplete - doesn't mention TTL]
+**C.** No invalidation needed  [Repeats: "Incomplete understanding"]
+**D.** Developer disables caching  [Repeats: "No caching at all"]
 ```
 **Fix:** Make C something like "Never cache writes, only reads" (common misconception)
 
 ### ❌ Mistake 4: Trick Wording
 ```
 Q: Which of the following is LEAST likely to cause performance issues?
-A) Sequential database queries
-B) Synchronous API calls
-C) Blocking I/O  [Trick: "LEAST likely" reverses expected answer]
-D) Asynchronous processing
+**A.** Sequential database queries
+**B.** Synchronous API calls
+**C.** Blocking I/O  [Trick: "LEAST likely" reverses expected answer]
+**D.** Asynchronous processing
 ```
 **Fix:** Ask positive: "Which approach is MOST likely to improve performance?"
 
 ### ❌ Mistake 5: Length Bias
 ```
 Q: What is API rate limiting?
-A) Prevents overload  [2 words]
-B) Rate limiting  [2 words]
-C) Protects the server from being overwhelmed by too many requests coming too fast  [Correct, 14 words - obviously longest!]
-D) Denies access  [2 words]
+**A.** Prevents overload  [2 words]
+**B.** Rate limiting  [2 words]
+**C.** Protects the server from being overwhelmed by too many requests coming too fast  [Correct, 14 words - obviously longest!]
+**D.** Denies access  [2 words]
 ```
 **Fix:** Rewrite correct answer: "Protects server from request overload by limiting request rate"
 

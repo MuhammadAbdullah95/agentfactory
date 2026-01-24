@@ -34,10 +34,10 @@ STEM (one clear question):
 What approach addresses [the problem in the scenario]?
 
 OPTIONS (concise, one idea each):
-A) [Wrong concept applied — plausible but mismatched]
-B) [Correct application]
-C) [Partially correct — misses a key constraint]
-D) [Common misconception]
+**A.** [Wrong concept applied — plausible but mismatched]
+**B.** [Correct application]
+**C.** [Partially correct — misses a key constraint]
+**D.** [Common misconception]
 ```
 
 **Example:**
@@ -48,10 +48,10 @@ questioning AI outputs.
 
 How should the team handle AI outputs that show no uncertainty signal?
 
-A) Trust outputs that match historical weather patterns
-B) Verify all forecasts independently before publishing
-C) Add disclaimers noting AI may contain errors
-D) Use a different model trained on more weather data
+**A.** Trust outputs that match historical weather patterns
+**B.** Verify all forecasts independently before publishing
+**C.** Add disclaimers noting AI may contain errors
+**D.** Use a different model trained on more weather data
 ```
 Total: ~70 words. Clear. Tests confidence-trap concept.
 
@@ -76,10 +76,10 @@ STEM (one clear question):
 What relationship between [A] and [B] does this demonstrate?
 
 OPTIONS (concise, one idea each):
-A) [Reverses the dependency direction]
-B) [Correct relationship with proper causality]
-C) [Denies any relationship exists]
-D) [Confuses with a different concept pair]
+**A.** [Reverses the dependency direction]
+**B.** [Correct relationship with proper causality]
+**C.** [Denies any relationship exists]
+**D.** [Confuses with a different concept pair]
 ```
 
 **Example:**
@@ -90,10 +90,10 @@ than ops could deploy it.
 
 What relationship between CI and deployment automation does this show?
 
-A) CI eliminates the need for deployment automation
-B) CI creates demand for deployment automation to realize its benefits
-C) CI and deployment are independent practices without interaction
-D) Deployment automation makes CI unnecessary
+**A.** CI eliminates the need for deployment automation
+**B.** CI creates demand for deployment automation to realize its benefits
+**C.** CI and deployment are independent practices without interaction
+**D.** Deployment automation makes CI unnecessary
 ```
 Total: ~80 words. Tests the "creates-demand-for" relationship.
 
@@ -121,10 +121,10 @@ STEM (one clear question):
 Applying [principle], which approach addresses [the problem]?
 
 OPTIONS (concise, one idea each):
-A) [Surface-level fix that misses the structural principle]
-B) [Correct structural transfer]
-C) [Different principle applied incorrectly]
-D) [Domain-specific solution ignoring transferable insight]
+**A.** [Surface-level fix that misses the structural principle]
+**B.** [Correct structural transfer]
+**C.** [Different principle applied incorrectly]
+**D.** [Domain-specific solution ignoring transferable insight]
 ```
 
 **Example (chapter teaches event-driven architecture):**
@@ -135,10 +135,10 @@ dangerous delays.
 
 Applying the publish-subscribe pattern, which redesign reduces delays?
 
-A) Faster polling that checks all units simultaneously
-B) Units broadcast availability changes to a central hub in real-time
-C) Assign more dispatchers to parallelize manual polling
-D) Predict availability from historical shift patterns
+**A.** Faster polling that checks all units simultaneously
+**B.** Units broadcast availability changes to a central hub in real-time
+**C.** Assign more dispatchers to parallelize manual polling
+**D.** Predict availability from historical shift patterns
 ```
 Total: ~70 words. Domain (emergency services) not in chapter.
 
@@ -165,10 +165,10 @@ STEM (one clear question):
 What is the PRIMARY weakness of this approach here?
 
 OPTIONS (concise, one idea each):
-A) [Secondary weakness, not primary in this context]
-B) [Correct primary weakness tied to scenario specifics]
-C) [A strength misframed as weakness]
-D) [Weakness of a different approach entirely]
+**A.** [Secondary weakness, not primary in this context]
+**B.** [Correct primary weakness tied to scenario specifics]
+**C.** [A strength misframed as weakness]
+**D.** [Weakness of a different approach entirely]
 ```
 
 **Example:**
@@ -179,10 +179,10 @@ real-time overdraft prevention.
 
 What is the PRIMARY weakness of eventual consistency here?
 
-A) Read operations will be slower due to node synchronization
-B) Overdraft prevention requires strong consistency, which eventual can't provide
-C) Eventual consistency can't work across geographic regions
-D) The system needs more storage for cross-region data replication
+**A.** Read operations will be slower due to node synchronization
+**B.** Overdraft prevention requires strong consistency, which eventual can't provide
+**C.** Eventual consistency can't work across geographic regions
+**D.** The system needs more storage for cross-region data replication
 ```
 Total: ~80 words. Tests WHY eventual consistency specifically fails for this constraint.
 

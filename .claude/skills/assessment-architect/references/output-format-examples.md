@@ -89,19 +89,25 @@ Manufacturing agents transforms domain expertise into codified systems...
 
 **Q1.** The 'Agent Factory Thesis' primarily reframes the AI business opportunity as:
 
-A) Manufacturing digital employees rather than selling traditional software
-B) Shipping UI features rather than codifying organizational expertise
-C) Selling token bundles rather than selling recurring subscriptions
-D) Optimizing chat workflows rather than deploying autonomous systems
+**A.** Manufacturing digital employees rather than selling traditional software
+
+**B.** Shipping UI features rather than codifying organizational expertise
+
+**C.** Selling token bundles rather than selling recurring subscriptions
+
+**D.** Optimizing chat workflows rather than deploying autonomous systems
 
 ---
 
 **Q2.** Which of the following best describes the core value proposition?
 
-A) Reducing software licenses by 50%
-B) Replacing human expertise with commodity AI
-C) Codifying expert knowledge into autonomous, repeatable systems
-D) Increasing chat interface sophistication
+**A.** Reducing software licenses by 50%
+
+**B.** Replacing human expertise with commodity AI
+
+**C.** Codifying expert knowledge into autonomous, repeatable systems
+
+**D.** Increasing chat interface sophistication
 
 ---
 
@@ -154,7 +160,7 @@ that can operate autonomously within defined constraints.
 
 - **Metadata**: YAML-style key-value pairs at top
 - **Questions**: Bold "Q#." format with full question text
-- **Options**: Lettered A-D with parenthesis: A), B), C), D)
+- **Options**: Lettered A-D with bold and period: **A.**, **B.**, **C.**, **D.** (prevents pandoc list interpretation)
 - **Answer Key Table**: Includes source section, Bloom level, question type, difficulty
 - **Explanations**: Section per question with correct answer highlighted, rationale, and why other options are wrong
 

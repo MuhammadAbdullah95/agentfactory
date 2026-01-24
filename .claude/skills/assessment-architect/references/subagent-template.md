@@ -99,13 +99,13 @@ Format each question as:
 
 {Clear stem. One direct question. Active voice.}
 
-A) {One idea. Verb or noun start. Concise.}
+**A.** {One idea. Verb or noun start. Concise.}
 
-B) {One idea. Verb or noun start. Concise.}
+**B.** {One idea. Verb or noun start. Concise.}
 
-C) {One idea. Verb or noun start. Concise.}
+**C.** {One idea. Verb or noun start. Concise.}
 
-D) {One idea. Verb or noun start. Concise.}
+**D.** {One idea. Verb or noun start. Concise.}
 
 **Answer:** {letter}
 **Reasoning:** {Why correct answer is right and each distractor is wrong}
@@ -249,13 +249,13 @@ Format each question as:
 
 {Clear stem. One direct question. Active voice.}
 
-A) {One idea. Verb or noun start. Concise.}
+**A.** {One idea. Verb or noun start. Concise.}
 
-B) {One idea. Verb or noun start. Concise.}
+**B.** {One idea. Verb or noun start. Concise.}
 
-C) {One idea. Verb or noun start. Concise.}
+**C.** {One idea. Verb or noun start. Concise.}
 
-D) {One idea. Verb or noun start. Concise.}
+**D.** {One idea. Verb or noun start. Concise.}
 
 **Answer:** {letter}
 **Reasoning:** {Why correct answer is right and each distractor is wrong}

@@ -95,10 +95,10 @@ DF = (Times Distractor Selected) / (Total Test-Takers)
 ```
 Example (bad):
 Q: What is 2 + 2?
-A) 4        [Correct - 85% select]
-B) 3        [0.3% select - nonfunctional]
-C) 5        [1.2% select - nonfunctional]
-D) 27       [13.5% select - just guessing]
+**A.** 4        [Correct - 85% select]
+**B.** 3        [0.3% select - nonfunctional]
+**C.** 5        [1.2% select - nonfunctional]
+**D.** 27       [13.5% select - just guessing]
 
 Analysis:
 - A: Functional ✓
@@ -107,10 +107,10 @@ Analysis:
 
 Better design:
 Q: What is 2 + 2?
-A) 4        [Correct - 85% select]
-B) 3        [6% select - off-by-one error]
-C) 22       [5% select - concatenation error]
-D) 5        [4% select - addition vs. subtraction confusion]
+**A.** 4        [Correct - 85% select]
+**B.** 3        [6% select - off-by-one error]
+**C.** 22       [5% select - concatenation error]
+**D.** 5        [4% select - addition vs. subtraction confusion]
 
 Analysis: All distractors functional (each >5%)
 ```
@@ -186,19 +186,19 @@ ITC = 0.12 (Weak - memorization task, not architecture understanding)
 ```
 GOOD Distribution:
 Q: What is the role of load balancers?
-A) Distribute traffic across servers          [75% select - Correct]
-B) Store session data in cache                [8% select - related but wrong]
-C) Encrypt all data in transit                [10% select - security confusion]
-D) Monitor system health and send alerts      [7% select - monitoring confusion]
+**A.** Distribute traffic across servers          [75% select - Correct]
+**B.** Store session data in cache                [8% select - related but wrong]
+**C.** Encrypt all data in transit                [10% select - security confusion]
+**D.** Monitor system health and send alerts      [7% select - monitoring confusion]
 
 All distractors > 5% ✓ Exam works well
 
 BAD Distribution:
 Q: What is the role of load balancers?
-A) Distribute traffic across servers          [90% select - Correct]
-B) Make coffee for developers                 [1% select - obviously absurd]
-C) Write code for the application             [2% select - obviously wrong]
-D) Monitor system health and send alerts      [7% select - only legitimate distractor]
+**A.** Distribute traffic across servers          [90% select - Correct]
+**B.** Make coffee for developers                 [1% select - obviously absurd]
+**C.** Write code for the application             [2% select - obviously wrong]
+**D.** Monitor system health and send alerts      [7% select - only legitimate distractor]
 
 Two distractors < 5% ✗ Wastes question real estate
 ```
@@ -210,10 +210,10 @@ Two distractors < 5% ✗ Wastes question real estate
 #### Strategy 1: Off-by-One / Calculation Error (for Precision Recall)
 ```
 Q: What is the standard HTTP status code for "Unauthorized"?
-A) 200  [Off by 200 - related code family]
-B) 401  [CORRECT]
-C) 403  [Off by 2 - related code (Forbidden)]
-D) 404  [Off by 3 - related code (Not Found)]
+**A.** 200  [Off by 200 - related code family]
+**B.** 401  [CORRECT]
+**C.** 403  [Off by 2 - related code (Forbidden)]
+**D.** 404  [Off by 3 - related code (Not Found)]
 
 Why this works: All distractors in same "family", each off by small amount
 Typical selection: A:5%, C:12%, D:8% (all functional)
@@ -223,13 +223,13 @@ Typical selection: A:5%, C:12%, D:8% (all functional)
 ```
 Q: What PRIMARILY distinguishes a microservice from a monolith?
 
-A) Microservices are written in different languages
+**A.** Microservices are written in different languages
    [Partially true - often true, but not the distinguishing feature]
-B) Microservices scale independently and own their data
+**B.** Microservices scale independently and own their data
    [CORRECT - this is the PRIMARY architectural distinction]
-C) Microservices use REST APIs instead of function calls
+**C.** Microservices use REST APIs instead of function calls
    [Partially true - communication style, but not core distinction]
-D) Microservices are always deployed in containers
+**D.** Microservices are always deployed in containers
    [Partially true - deployment practice, not architectural feature]
 
 Why this works: All answers contain truth; correct answer identifies CORE distinction
@@ -241,13 +241,13 @@ Typical selection: A:8%, C:15%, D:10% (all functional)
 Q: Given: low budget, fast timeline, need real-time performance
     Which solution is MOST appropriate?
 
-A) Enterprise data warehouse (BigQuery)
+**A.** Enterprise data warehouse (BigQuery)
    [Fails: High cost, not real-time]
-B) Real-time stream processing (Kafka + Flink)
+**B.** Real-time stream processing (Kafka + Flink)
    [CORRECT - open-source (low cost), real-time, proven fast]
-C) Custom-built system from scratch
+**C.** Custom-built system from scratch
    [Fails: Contradicts fast timeline]
-D) Commercial SaaS platform with API
+**D.** Commercial SaaS platform with API
    [Fails: High cost]
 
 Why this works: Each distractor fails on one specific constraint
@@ -258,13 +258,13 @@ Typical selection: A:12%, C:8%, D:15% (all functional)
 ```
 Q: In a database-per-service microservices pattern, what is the PRIMARY trade-off?
 
-A) Improved availability through independent scaling
+**A.** Improved availability through independent scaling
    [Benefit, not trade-off]
-B) Reduced network latency between services
+**B.** Reduced network latency between services
    [Benefit]
-C) Loss of ACID consistency across services + data duplication complexity
+**C.** Loss of ACID consistency across services + data duplication complexity
    [CORRECT - this is the primary trade-off]
-D) Decreased operational complexity through unified deployment
+**D.** Decreased operational complexity through unified deployment
    [Benefit]
 
 Why this works: Both correct answer and distractors are plausible architectural concerns
@@ -275,13 +275,13 @@ Typical selection: A:10%, B:8%, D:12% (all functional)
 ```
 Q: Why is "eventual consistency" LESS restrictive than "strong consistency"?
 
-A) Eventual consistency allows higher throughput and availability
+**A.** Eventual consistency allows higher throughput and availability
    [Plausible misconception - true but not why it's "less restrictive"]
-B) Strong consistency requires all nodes agree; eventual allows temporary divergence
+**B.** Strong consistency requires all nodes agree; eventual allows temporary divergence
    [CORRECT - addresses the core distinction in guarantee strength]
-C) Eventual consistency uses cheaper hardware
+**C.** Eventual consistency uses cheaper hardware
    [Common misconception - infrastructure doesn't determine consistency model]
-D) Eventually consistent systems don't need to handle conflicts
+**D.** Eventually consistent systems don't need to handle conflicts
    [Common misconception - still must handle conflicts, just later]
 
 Why this works: Distractors target real misconceptions about consistency models

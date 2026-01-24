@@ -34,10 +34,10 @@ must NOT appear in any lesson - it is novel.}
 Given {specific constraint from scenario}, which approach would most
 effectively {desired outcome} while {maintaining constraint}?
 
-A) {Addresses symptom, not root cause - plausible but shallow}
-B) {Correct - addresses root cause using the concept}
-C) {Applies concept to wrong aspect of the scenario}
-D) {Over-engineers - correct concept but disproportionate to problem}
+**A.** {Addresses symptom, not root cause - plausible but shallow}
+**B.** {Correct - addresses root cause using the concept}
+**C.** {Applies concept to wrong aspect of the scenario}
+**D.** {Over-engineers - correct concept but disproportionate to problem}
 
 **Answer:** B
 **Reasoning:** B correctly applies {concept} because {explanation}.
@@ -78,10 +78,10 @@ the concepts exist.}
 This situation best demonstrates which relationship between {concept_A}
 and {concept_B}?
 
-A) {Reverses the direction of the relationship}
-B) {Correct - accurately describes how A relates to B}
-C) {Confuses this relationship with a different concept pair}
-D) {Denies the relationship exists or claims independence}
+**A.** {Reverses the direction of the relationship}
+**B.** {Correct - accurately describes how A relates to B}
+**C.** {Confuses this relationship with a different concept pair}
+**D.** {Denies the relationship exists or claims independence}
 
 **Answer:** B
 **Reasoning:** The scenario shows {concept_A} {relationship} {concept_B}
@@ -123,10 +123,10 @@ using chapter terminology.}
 Applying the principle of {concept} to this {domain} context, which
 approach would most effectively address {domain-specific goal}?
 
-A) {Surface-level analogy - matches vocabulary but not structure}
-B) {Correct structural transfer - applies the underlying principle}
-C) {Applies a different chapter concept incorrectly}
-D) {Domain-specific solution that ignores the transferable principle}
+**A.** {Surface-level analogy - matches vocabulary but not structure}
+**B.** {Correct structural transfer - applies the underlying principle}
+**C.** {Applies a different chapter concept incorrectly}
+**D.** {Domain-specific solution that ignores the transferable principle}
 
 **Answer:** B
 **Reasoning:** The structural principle of {concept} is {abstract form}.
@@ -169,10 +169,10 @@ a subtle mismatch between the approach and the context's requirements.}
 What is the PRIMARY weakness of this approach given the specific
 constraints described in the scenario?
 
-A) {Real weakness but SECONDARY - not the main issue here}
-B) {Correct PRIMARY weakness - tied to scenario-specific constraints}
-C) {Actually a STRENGTH misframed as a weakness}
-D) {Weakness of a DIFFERENT approach, not the one described}
+**A.** {Real weakness but SECONDARY - not the main issue here}
+**B.** {Correct PRIMARY weakness - tied to scenario-specific constraints}
+**C.** {Actually a STRENGTH misframed as a weakness}
+**D.** {Weakness of a DIFFERENT approach, not the one described}
 
 **Answer:** B
 **Reasoning:** The primary weakness is {B} because the scenario specifies

@@ -175,7 +175,7 @@ Applying the principle that confidence is uncorrelated with accuracy in AI
 systems, which practice would most improve the department's forecast
 communication reliability?
 
-A) Requiring independent verification of AI forecasts against ensemble models
+**A.** Requiring independent verification of AI forecasts against ensemble models
 before accepting any prediction, regardless of how confidently it is presented
 ```
 
@@ -187,7 +187,7 @@ Junior staff stopped questioning AI outputs.
 
 How should the team handle AI outputs that show no uncertainty signal?
 
-A) Verify all AI forecasts against independent sources before publishing
+**A.** Verify all AI forecasts against independent sources before publishing
 ```
 
 Same concept. Same difficulty. The right version is just clearer because it has no filler.
@@ -450,10 +450,13 @@ Q1. {scenario paragraph}
 
 {stem ending in ?}
 
-A) {option}
-B) {option}
-C) {option}
-D) {option}
+**A.** {option}
+
+**B.** {option}
+
+**C.** {option}
+
+**D.** {option}
 
 ---
 
@@ -481,6 +484,9 @@ A: {count} ({%}) | B: {count} ({%}) | C: {count} ({%}) | D: {count} ({%})
 ## Type Distribution
 {Scenario Analysis: X | Concept Relationship: X | Transfer Application: X | Critical Evaluation: X}
 ```
+
+**CRITICAL: Option format must be `**A.** text` (bold letter, period, space).**
+Never use `A)` — pandoc interprets it as an ordered list marker and renders bullet points in DOCX.
 
 **Step 3: Convert to DOCX (two files)**
 ```bash
@@ -520,6 +526,7 @@ pandoc assessments/{SLUG}-answer-key.md -o assessments/{SLUG}-Answer-Key.docx --
 | Context overload | Subagents receive only concept map + types | ~300 lines context vs 937+176KB |
 | Internal tags in exam | Strip [Type] and [Concept:] in Phase 4 | grep for brackets in exam.md = 0 |
 | Answers in student file | Two separate files (exam + key) | No "Answer:" in exam DOCX |
+| Bullet points in DOCX | Use `**A.**` format, never `A)` | pandoc treats `A)` as list marker |
 
 For historical context on these failures, see the Jan 2026 postmortem in the skill's git history.
 

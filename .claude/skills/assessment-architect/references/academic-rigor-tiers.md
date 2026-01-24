@@ -38,10 +38,10 @@ Each tier represents distinct cognitive demands and professional expectations:
 ```
 Q: What is the PRIMARY role of an API gateway in microservices architecture?
 
-A) Acts as a load balancer between client and server
-B) Provides a single entry point that handles request routing, authentication, and rate limiting
-C) Stores session data for user authentication
-D) Encrypts all communication between services
+**A.** Acts as a load balancer between client and server
+**B.** Provides a single entry point that handles request routing, authentication, and rate limiting
+**C.** Stores session data for user authentication
+**D.** Encrypts all communication between services
 
 Correct: B (Straightforward definition, distractors address common confusion)
 ```
@@ -77,14 +77,14 @@ Q: A team must deploy a real-time analytics system with: strict latency requirem
    scale to 1M events/second, and maintain audit logs for compliance. Which architecture
    best balances these requirements?
 
-A) Event streaming (Kafka) → Stream processor (Flink) → Time-series DB (InfluxDB)
+**A.** Event streaming (Kafka) → Stream processor (Flink) → Time-series DB (InfluxDB)
    [Fails on audit trail - stream processors typically lack audit]
-B) Event queue (RabbitMQ) → Worker processing → Data warehouse (Snowflake)
+**B.** Event queue (RabbitMQ) → Worker processing → Data warehouse (Snowflake)
    [Fails on latency - too slow for 100ms at 1M events/sec]
-C) Event streaming (Kafka) → Stream processor (Kafka Streams) → Dual-write
+**C.** Event streaming (Kafka) → Stream processor (Kafka Streams) → Dual-write
    to analytics DB + audit log DB
    [Correct - handles throughput, latency, and compliance]
-D) Real-time database (Firebase) → Change feeds to Elasticsearch
+**D.** Real-time database (Firebase) → Change feeds to Elasticsearch
    [Fails on scale - not designed for 1M events/sec]
 
 Correct: C (Requires understanding trade-offs between multiple constraints)
@@ -121,19 +121,19 @@ Q: In designing a distributed consensus algorithm for a financial ledger system 
    Byzantine fault tolerance requirements, which combination of properties requires
    the MOST careful trade-off analysis?
 
-A) Consistency vs. Availability (CAP theorem)
+**A.** Consistency vs. Availability (CAP theorem)
    Message complexity vs. round complexity (number of consensus rounds)
    [Incomplete - misses safety vs. liveness consideration]
 
-B) Safety (no conflicting transactions) vs. Liveness (continued progress)
+**B.** Safety (no conflicting transactions) vs. Liveness (continued progress)
    Network model assumptions (synchronous vs. asynchronous)
    [Correct - captures the core tension in BFT algorithm design]
 
-C) Commit latency vs. Throughput per validator
+**C.** Commit latency vs. Throughput per validator
    Storage requirements vs. Network bandwidth
    [Fails to prioritize - lists optimization metrics, not fundamental trade-offs]
 
-D) Number of Byzantine nodes tolerated vs. Fault detection speed
+**D.** Number of Byzantine nodes tolerated vs. Fault detection speed
    Cryptographic assumptions vs. Hardware requirements
    [Correct technically but less fundamental than answer B]
 
@@ -170,22 +170,22 @@ Correct: B (Tests synthesis of distributed systems theory, not just definitions)
 Q: A researcher proposes using eventual consistency in a blockchain system to improve
    throughput. Which combination of concerns most rigorously challenges this proposal?
 
-A) Economic incentive structures for Byzantine validators
+**A.** Economic incentive structures for Byzantine validators
    Game-theoretic analysis of double-spending attacks
    Empirical data on actual node failure rates
    [Addresses real concerns but misses theoretical foundation]
 
-B) Formal verification of safety properties under asynchronous network conditions
+**B.** Formal verification of safety properties under asynchronous network conditions
    Empirical evaluation across multiple consensus implementations
    Analysis of how consistency guarantees affect application-level correctness
    [Correct - combines formal rigor, empirical validation, and application-level reasoning]
 
-C) Performance benchmarking against centralized databases
+**C.** Performance benchmarking against centralized databases
    User perception of "eventual" latency windows
    Regulatory compliance with financial transaction standards
    [Conflates operational concerns with fundamental correctness questions]
 
-D) Comparison with academic papers on proof-of-stake algorithms
+**D.** Comparison with academic papers on proof-of-stake algorithms
    Cost analysis of network infrastructure requirements
    Survey of current blockchain deployments
    [Relies on literature review without independent critical analysis]
@@ -317,10 +317,10 @@ Create:              15%  ███
 **Example:**
 ```
 Q: What is the standard HTTP status code for "Not Found"?
-A) 200  [Correct: 404 - WRONG]
-B) 403  [Wrong - Authorization failure]
-C) 404  [CORRECT]
-D) 500  [Wrong - Server error]
+**A.** 200  [Correct: 404 - WRONG]
+**B.** 403  [Wrong - Authorization failure]
+**C.** 404  [CORRECT]
+**D.** 500  [Wrong - Server error]
 
 Strategy: A and D are "obviously wrong" (not "not found"), B is plausible confusion
 ```
@@ -333,13 +333,13 @@ Strategy: A and D are "obviously wrong" (not "not found"), B is plausible confus
 **Example:**
 ```
 Q: In REST API design, which constraint BEST addresses stateless communication?
-A) Store session data in database instead of server memory
+**A.** Store session data in database instead of server memory
    [Plausible but incomplete - sessions ≠ state]
-B) Each request contains all information needed for the server to process it
+**B.** Each request contains all information needed for the server to process it
    [CORRECT - true stateless definition]
-C) Use JWT tokens for authentication across multiple services
+**C.** Use JWT tokens for authentication across multiple services
    [Plausible but orthogonal - authentication ≠ statefulness]
-D) Implement caching headers to reduce server load
+**D.** Implement caching headers to reduce server load
    [True but not addressing statelessness]
 
 Strategy: All answers address distributed systems; correct answer is MOST direct
@@ -355,14 +355,14 @@ Strategy: All answers address distributed systems; correct answer is MOST direct
 Q: When designing for Byzantine fault tolerance, why is synchronous network assumption
    more restrictive than asynchronous?
 
-A) Synchronous networks guarantee message delivery, reducing tolerating Byzantine nodes
+**A.** Synchronous networks guarantee message delivery, reducing tolerating Byzantine nodes
    [Partially true but misses core distinction]
-B) Asynchronous networks allow arbitrary message delays, requiring safety proofs
+**B.** Asynchronous networks allow arbitrary message delays, requiring safety proofs
    work under ANY timing conditions (stricter requirement on algorithm)
    [CORRECT - asynchronous is actually harder, not easier]
-C) Synchronous networks reduce security because all nodes must communicate in lockstep
+**C.** Synchronous networks reduce security because all nodes must communicate in lockstep
    [Confuses synchrony with security model]
-D) Byzantine nodes are less dangerous in synchronous networks because detection is easier
+**D.** Byzantine nodes are less dangerous in synchronous networks because detection is easier
    [True but orthogonal to the core distinction]
 
 Strategy: Requires understanding that "asynchronous" = harder problem for consensus
@@ -379,14 +379,14 @@ Q: A researcher claims a new consensus algorithm achieves both Byzantine fault t
    AND asynchronous safety without cryptographic assumptions. Which concern most
    rigorously challenges this claim?
 
-A) All asynchronous BFT algorithms require cryptographic signatures for authenticity
+**A.** All asynchronous BFT algorithms require cryptographic signatures for authenticity
    [Technically correct but doesn't disprove - could be novel crypto]
-B) According to impossibility results (FLP theorem adapted), asynchronous consensus
+**B.** According to impossibility results (FLP theorem adapted), asynchronous consensus
    requires either fault tolerance <1/3 OR non-determinism; algorithm tolerates >1/3
    [CORRECT - cites formal lower bound that the algorithm violates]
-C) No peer-reviewed venues published this algorithm in top conferences
+**C.** No peer-reviewed venues published this algorithm in top conferences
    [Ad hominem - doesn't address technical correctness]
-D) The algorithm requires more rounds than synchronous algorithms
+**D.** The algorithm requires more rounds than synchronous algorithms
    [True but orthogonal - synchronous/asynchronous compare different threat models]
 
 Strategy: Requires knowledge of formal impossibility results, not just practical issues
@@ -421,10 +421,10 @@ All tiers must enforce:
 ```
 Q: What is the PRIMARY purpose of API rate limiting?
 
-A) To prevent unauthorized access to the API
-B) To protect the server from being overwhelmed by requests
-C) To ensure all users receive responses in <100ms
-D) To encrypt user data in transit
+**A.** To prevent unauthorized access to the API
+**B.** To protect the server from being overwhelmed by requests
+**C.** To ensure all users receive responses in <100ms
+**D.** To encrypt user data in transit
 
 Correct: B (Simple definition, distractors are off-topic)
 ```
@@ -434,13 +434,13 @@ Correct: B (Simple definition, distractors are off-topic)
 Q: When implementing rate limiting for a public API serving both internal services
    and external partners, which approach BEST balances user fairness with system protection?
 
-A) Fixed limit (100 req/sec per client regardless of account tier)
+**A.** Fixed limit (100 req/sec per client regardless of account tier)
    [Fair but inefficient - doesn't account for different needs]
-B) Token bucket per account tier + exponential backoff for limit violations
+**B.** Token bucket per account tier + exponential backoff for limit violations
    [CORRECT - tiered fairness + graceful degradation]
-C) Adaptive limits based on current server load + burst allowance
+**C.** Adaptive limits based on current server load + burst allowance
    [Plausible but unfair - doesn't differentiate clients]
-D) Distributed rate limiting across load balancers with shared counter
+**D.** Distributed rate limiting across load balancers with shared counter
    [Technically sound but ignores the fairness question]
 
 Correct: B (Requires understanding multiple constraints and their interaction)
@@ -452,13 +452,13 @@ Q: In a microservices architecture with multiple rate-limited APIs and shared
    infrastructure, which design decision MOST significantly impacts tail latency
    for high-percentile requests?
 
-A) Redis-based distributed counter with write-through cache for limit state
+**A.** Redis-based distributed counter with write-through cache for limit state
    [Addresses correctness but not latency]
-B) Local sliding window counters synchronized every N seconds with eventual consistency
+**B.** Local sliding window counters synchronized every N seconds with eventual consistency
    [Correct - balances latency and accuracy; accepts brief over-limit windows]
-C) Database-backed rate limit tracking with transaction consistency guarantees
+**C.** Database-backed rate limit tracking with transaction consistency guarantees
    [Fails on latency - defeats purpose of rate limiting with high-latency backend]
-D) Token bucket with preemptive token regeneration predicted by load forecast
+**D.** Token bucket with preemptive token regeneration predicted by load forecast
    [Novel approach but introduces unnecessary complexity]
 
 Correct: B (Requires understanding trade-offs between consistency, latency, and correctness)
@@ -471,13 +471,13 @@ Q: You're designing a rate-limiting algorithm for a federated system where autho
    single malicious domain can cause unfair allocation. Which theoretical framework
    would MOST rigorously support your proof?
 
-A) Byzantine fault tolerance theory (assumes malicious but bounded participants)
+**A.** Byzantine fault tolerance theory (assumes malicious but bounded participants)
    [Applicable but too broad - doesn't address fairness specifically]
-B) Game theory with budget constraints (assumes rational actors maximizing advantage)
+**B.** Game theory with budget constraints (assumes rational actors maximizing advantage)
    [Incorrect model - malicious actors don't behave rationally in economic sense]
-C) Distributed consensus algorithms with fairness properties (like Raft with fairness extensions)
+**C.** Distributed consensus algorithms with fairness properties (like Raft with fairness extensions)
    [Plausible but insufficient - doesn't guarantee non-collusion]
-D) Verifiable random functions (VRF) with provably fair allocation + cryptographic commitments
+**D.** Verifiable random functions (VRF) with provably fair allocation + cryptographic commitments
    [CORRECT - provides fairness guarantee against Byzantine adversaries]
 
 Correct: D (Requires synthesis of cryptography, distributed systems, and game theory)
