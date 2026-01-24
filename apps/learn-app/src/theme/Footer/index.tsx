@@ -38,6 +38,9 @@ export default function Footer() {
                             <Button variant="link" className="h-auto p-0 justify-start text-muted-foreground hover:text-foreground" asChild>
                                 <Link to="https://github.com/panaversity">Projects</Link>
                             </Button>
+                            <Button variant="link" className="h-auto p-0 justify-start text-muted-foreground hover:text-foreground" asChild>
+                                <Link to="/authors">Authors</Link>
+                            </Button>
                         </div>
 
                         {/* Column 2 (Company) */}

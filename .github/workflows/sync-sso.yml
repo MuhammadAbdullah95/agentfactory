@@ -1,0 +1,18 @@
+name: Sync to SSO Mirror
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to SSO mirror
+        run: |
+          git remote add sso-sync https://x-access-token:${{ secrets.SSO_PAT }}@github.com/panaversity-global/sso-mirror-mono.git
+          git push sso-sync main --force

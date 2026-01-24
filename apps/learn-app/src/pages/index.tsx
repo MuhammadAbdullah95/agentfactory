@@ -12,6 +12,8 @@ import styles from "./index.module.css";
 
 
 import { ThreeDBook } from "@/components/ThreeDBook";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { authors } from "@/data/authors";
 import { Code, Container, Cpu, Terminal, ArrowRight, BookOpen, Layers, GitBranch, Bot, Server, GraduationCap } from "lucide-react";
 
 function HomepageHeader() {
@@ -62,8 +64,59 @@ function HomepageHeader() {
                   </Link>
                 </Button>
               </div>
-              <div className="text-xs sm:text-sm text-muted-foreground font-mono">
-                // Open Source
+              {/* Authors */}
+              {/* Co-Authors - Premium Chip Design */}
+              <div className="flex flex-col gap-3 mt-4">
+                <span className="text-[10px] font-bold tracking-widest text-muted-foreground/60 uppercase pl-1">
+                  Co-Authored by
+                </span>
+
+                <div className="flex flex-wrap items-center gap-3 allow-rounded">
+                  {/* Lead Author */}
+                  <a
+                    href={authors[0].link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all duration-300 group animate-scale-in"
+                  >
+                    <Avatar className="h-8 w-8 border border-primary/30">
+                      <AvatarImage src={authors[0].avatar} alt={authors[0].name} className="object-cover" />
+                      <AvatarFallback className="bg-primary/10 text-[10px] text-primary font-bold">{authors[0].initials}</AvatarFallback>
+                    </Avatar>
+                    <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+                      {authors[0].name}
+                    </span>
+                  </a>
+
+                  {/* Co-Authors */}
+                  {authors.filter(a => !a.isAI && a.name !== authors[0].name).map((author, index) => (
+                    <a
+                      key={author.name}
+                      href={author.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-border bg-background/50 hover:bg-muted/80 hover:border-border/80 transition-all duration-300 group animate-scale-in opacity-0 fill-mode-forwards delay-${(index + 1) * 100}`}
+                      style={{ animationDelay: `${(index + 1) * 100}ms` }}
+                    >
+                      <Avatar className="h-8 w-8 border border-border/50 bg-muted/50">
+                        <AvatarImage src={author.avatar} alt={author.name} className="object-cover" />
+                        <AvatarFallback className="text-[10px] font-medium text-muted-foreground">{author.initials}</AvatarFallback>
+                      </Avatar>
+                      <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                        {author.name}
+                      </span>
+                    </a>
+                  ))}
+
+                  {/* See All Link */}
+                  <Link
+                    to="/authors"
+                    className="flex items-center gap-1 ml-1 px-2 py-1 text-[10px] font-medium text-muted-foreground hover:text-primary transition-colors animate-scale-in opacity-0"
+                    style={{ animationDelay: '500ms' }}
+                  >
+                    & AI Agents <ArrowRight className="w-3 h-3 ml-0.5" />
+                  </Link>
+                </div>
               </div>
             </div>
 

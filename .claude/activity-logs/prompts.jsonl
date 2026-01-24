@@ -919,3 +919,20 @@ null
 
 
 {"timestamp":"2026-01-23T08:39:19Z","session_id":"0b085d16-d767-4123-bef4-b38ece7fbaed","prompt":"Let me know onc eit;s ready"}
+
+
+{"timestamp":"2026-01-24T06:48:56Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"start server so i cn check and here is linkedIn for all Muhammad Junaid Shaukat: https://www.linkedin.com/in/mrjunaid/, Zia Khan: https://www.linkedin.com/in/ziaukhan/ Rehan ul  Haq https://www.linkedin.com/in/m-rehan-ul-haq-333bb6363/ Wania Kazmi: https://www.linkedin.com/in/waniakazmi/"}
+{"timestamp":"2026-01-24T06:52:24Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"1. Too Small and visuall too un professional and I feel like the Open Souece can be removed it makes no Sense and mainvalue is concent?"}
+{"timestamp":"2026-01-24T06:55:20Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"Shall we remove 6 Contirubeters looks Overkill? And Shall there be images same as of linkedas you have linkedin of all and? waht?"}
+{"timestamp":"2026-01-24T07:12:34Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"For home page i don;t like the current desgin like we don;t have autohrs name or know anything. Also i added all images in that authos folder"}
+{"timestamp":"2026-01-24T07:18:30Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"start server"}
+{"timestamp":"2026-01-24T07:25:41Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"Now as professional planner think why this is bad and what can be beter"}
+{"timestamp":"2026-01-24T07:32:30Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"okay deign and i will review"}
+{"timestamp":"2026-01-24T07:41:45Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"what if name come on hpver and all uing size is same as Sir Zia img and on hober we see space ad nane"}
+{"timestamp":"2026-01-24T07:45:36Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"It looks like images are too overlappin"}
+{"timestamp":"2026-01-24T08:49:58Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"restart server or start in dev mode"}
+{"timestamp":"2026-01-24T08:54:51Z","session_id":"bcc5aa03-5160-4063-81f9-cc38c5b4a213","prompt":"Situation: learn-app is deployd onv ercela nd connected with ci/ad with ssyn=sync origin you have. Currently we manually push there but i was thinking how to automate. Idea: Have a hcangelog fuela nd github action so on any main PR merge or commit we run this action and it udate chagelog and using that private git user creds or PAT token. So that user in this repo and provate one as well. Benifit is that after commiting here we can just pish to that other and it wil auto deplpy. Reflect on this plan and your thoughts "}
+
+{"timestamp":"2026-01-24T09:20:10Z","session_id":"ade69f67-0644-439c-a473-67878d874f57","prompt":"check are permissions okay fr PAT token fine grained one Your new personal access token SSO_PAT will be ready for use immediately. It will expire on Monday, February 23, 2026.\n\nSSO_PAT grants you 15 permissions for 1 repository:\n\nActions\nRead-only\nAdministration\nRead-only\nCodespaces\nRead-only\nContents\nRead and write\nDeployments\nRead-only\nDiscussions\nRead-only\nEnvironments\nRead-only\nMetadata\nRead-only\nPull requests\nRead-only\nCustom properties\nRead-only\nWebhooks\nRead-only\nCode scanning alerts\nRead-only\nCommit statuses\nRead-only\nDependabot alerts\nRead-only\nWorkflows\nRead and write"}
+{"timestamp":"2026-01-24T09:34:52Z","session_id":"ccf4d08a-dbc1-4026-922c-6425d4d84c29","prompt":"Now in authors page speckitplus intro shall be based on this Spec-Kit Plus is an SDD-RI (Specification-Driven Development with Reusable Intelligence) framework built around one core idea:\n\nCapture intelligence, not just deliver code.\n\n and review juniar d intro to improve"}
+{"timestamp":"2026-01-24T09:37:34Z","session_id":"ade69f67-0644-439c-a473-67878d874f57","prompt":"will this run on main branch sall commits?"}
