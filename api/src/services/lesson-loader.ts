@@ -1,6 +1,11 @@
 /**
- * Lesson content loader
- * Reads lesson markdown from filesystem based on URL path
+ * Lesson content loader with tiered retrieval
+ *
+ * Content Loading Priority (strict order):
+ * - Tier 1: Current page - FULL content (always)
+ * - Tier 2: Explicitly referenced pages - FULL content (if user mentions topic)
+ * - Tier 3: Same chapter/part - Summaries
+ * - Tier 4: Other book pages - Indexed snippets (on-demand)
  */
 
 import * as fs from 'fs';
@@ -10,6 +15,26 @@ import { StudyModeError } from '../types';
 
 export interface LessonLoaderConfig {
   docsRoot: string; // Absolute path to docs directory
+}
+
+export type StudyMode = 'teach' | 'ask';
+
+export interface TieredLoadResult {
+  tier1: string;           // Current page (full)
+  tier2: string;           // Explicitly referenced content (full)
+  tier3: string;           // Same chapter/part summaries
+  tier4: string;           // Other book snippets (on-demand)
+  referencedTopics: string[]; // Topics detected in user message
+}
+
+/**
+ * Topic patterns to detect in user messages
+ * Maps common terms to their page slugs
+ */
+interface TopicMatch {
+  pattern: RegExp;
+  pageSlug: string;
+  label: string;
 }
 
 /**
@@ -98,9 +123,160 @@ export function truncateContent(content: string, maxLength: number = 50000): str
 
 export class LessonLoader {
   private config: LessonLoaderConfig;
+  private topicIndex: Map<string, string> = new Map(); // slug -> full path
+  private indexBuilt = false;
 
   constructor(config: LessonLoaderConfig) {
     this.config = config;
+  }
+
+  /**
+   * Build an index of all topics/pages in the book for Tier 2/4 lookup
+   * Run once lazily on first need
+   */
+  private async buildTopicIndex(): Promise<void> {
+    if (this.indexBuilt) return;
+
+    try {
+      const parts = await fs.promises.readdir(this.config.docsRoot, { withFileTypes: true });
+      for (const part of parts.filter(p => p.isDirectory() && /^\d+-/.test(p.name))) {
+        const partPath = path.join(this.config.docsRoot, part.name);
+        const chapters = await fs.promises.readdir(partPath, { withFileTypes: true });
+
+        for (const chapter of chapters.filter(c => c.isDirectory() && /^\d+-/.test(c.name))) {
+          const chapterPath = path.join(partPath, chapter.name);
+          const files = await fs.promises.readdir(chapterPath);
+
+          for (const file of files.filter(f => f.endsWith('.md') && !f.endsWith('.summary.md'))) {
+            // Extract slug from filename (e.g., "03-openai-agents-sdk.md" -> "openai-agents-sdk")
+            const slugMatch = file.match(/^\d+-(.+)\.md$/);
+            const slug = slugMatch ? slugMatch[1] : file.replace('.md', '');
+
+            // Also extract from chapter name
+            const chapterSlugMatch = chapter.name.match(/^\d+-(.+)/);
+            const chapterSlug = chapterSlugMatch ? chapterSlugMatch[1] : chapter.name;
+
+            // Index by both file slug and keywords
+            this.topicIndex.set(slug.toLowerCase(), path.join(chapterPath, file));
+            this.topicIndex.set(chapterSlug.toLowerCase(), path.join(chapterPath, 'README.md'));
+
+            // Also index common word variations
+            const words = slug.split('-').filter(w => w.length > 3);
+            for (const word of words) {
+              if (!this.topicIndex.has(word)) {
+                this.topicIndex.set(word, path.join(chapterPath, file));
+              }
+            }
+          }
+        }
+      }
+      this.indexBuilt = true;
+    } catch {
+      // Index build failed, will operate without Tier 2/4
+    }
+  }
+
+  /**
+   * Detect topic references in user message
+   * Returns page slugs that match topics mentioned
+   */
+  private async detectTopicReferences(userMessage: string): Promise<string[]> {
+    await this.buildTopicIndex();
+
+    const message = userMessage.toLowerCase();
+    const matchedPaths: string[] = [];
+
+    // Check each indexed topic against the message
+    for (const [topic, pagePath] of this.topicIndex.entries()) {
+      // Only match if it's a meaningful word (not too short)
+      if (topic.length > 4 && message.includes(topic)) {
+        if (!matchedPaths.includes(pagePath)) {
+          matchedPaths.push(pagePath);
+        }
+      }
+    }
+
+    // Limit to top 3 matches to control context size
+    return matchedPaths.slice(0, 3);
+  }
+
+  /**
+   * Load full content from explicitly referenced pages (Tier 2)
+   */
+  private async loadReferencedContent(pagePaths: string[], currentPagePath: string): Promise<string> {
+    if (pagePaths.length === 0) return '';
+
+    const contents: string[] = [];
+    for (const pagePath of pagePaths) {
+      // Skip if this is the current page
+      if (pagePath.includes(currentPagePath)) continue;
+
+      try {
+        const content = await fs.promises.readFile(pagePath, 'utf-8');
+        const withoutFrontmatter = content.replace(/^---[\s\S]*?---\n*/, '');
+
+        // Extract page slug for labeling
+        const fileName = path.basename(pagePath, '.md');
+        const slugMatch = fileName.match(/^\d+-(.+)/);
+        const slug = slugMatch ? slugMatch[1] : fileName;
+
+        // Truncate each page to fit context (5000 chars each)
+        const truncated = withoutFrontmatter.length > 5000
+          ? withoutFrontmatter.slice(0, 5000) + '\n[...truncated]'
+          : withoutFrontmatter;
+
+        contents.push(`\n--- From: ${slug} ---\n${truncated}`);
+      } catch {
+        // Skip files that can't be read
+      }
+    }
+
+    if (contents.length > 0) {
+      return '\n\n=== REFERENCED CONTENT (from topics you mentioned) ===\n' + contents.join('\n');
+    }
+    return '';
+  }
+
+  /**
+   * Load book-wide summaries for Tier 4 (on-demand, limited)
+   * Only used when Tier 1-3 don't have the answer
+   */
+  private async loadBookSnippets(userMessage: string): Promise<string> {
+    // Only load summaries from all chapters (not full content)
+    // This is a fallback - keep it lightweight
+    try {
+      const parts = await fs.promises.readdir(this.config.docsRoot, { withFileTypes: true });
+      const partDirs = parts
+        .filter(p => p.isDirectory() && /^\d+-/.test(p.name))
+        .map(p => p.name)
+        .sort();
+
+      const snippets: string[] = [];
+      let totalSize = 0;
+      const maxSize = 15000; // Limit total Tier 4 content
+
+      for (const partName of partDirs) {
+        if (totalSize >= maxSize) break;
+
+        const partPath = path.join(this.config.docsRoot, partName);
+        const partSummaries = await this.loadPartChapterSummaries(partPath);
+
+        if (partSummaries) {
+          const partMatch = partName.match(/^(\d+)-(.+)/);
+          const partLabel = partMatch ? partMatch[2].replace(/-/g, ' ') : partName;
+
+          snippets.push(`\n--- ${partLabel} ---\n${partSummaries.slice(0, 3000)}`);
+          totalSize += partSummaries.length;
+        }
+      }
+
+      if (snippets.length > 0) {
+        return '\n\n=== BOOK-WIDE CONTEXT (summaries) ===\n' + snippets.join('\n');
+      }
+      return '';
+    } catch {
+      return '';
+    }
   }
 
   /**
@@ -351,109 +527,138 @@ export class LessonLoader {
   }
 
   /**
-   * Load lesson content from filesystem
-   * Works with lessons, chapters, parts, and any page with markdown content
-   * For chapter README pages, also loads all lesson summaries for context
+   * Load Tier 1 content (current page - always FULL)
    */
-  async load(urlPath: string): Promise<LessonContext> {
+  private async loadTier1Content(urlPath: string): Promise<{ content: string; filePath: string; title: string }> {
     const relativePath = urlPathToFilePath(urlPath);
-
-    // First, try to resolve path with numbered prefixes
     const resolvedPath = await this.resolvePathWithPrefixes(relativePath);
 
-    // Try different file paths (order matters - most specific first)
     const candidates = [
-      // Resolved path variants (with number prefixes)
       path.join(this.config.docsRoot, `${resolvedPath}.md`),
       path.join(this.config.docsRoot, `${resolvedPath}.mdx`),
       path.join(this.config.docsRoot, resolvedPath, 'index.md'),
       path.join(this.config.docsRoot, resolvedPath, 'index.mdx'),
       path.join(this.config.docsRoot, resolvedPath, 'README.md'),
       path.join(this.config.docsRoot, resolvedPath, 'README.mdx'),
-      // Original path variants (fallback)
       path.join(this.config.docsRoot, `${relativePath}.md`),
       path.join(this.config.docsRoot, `${relativePath}.mdx`),
       path.join(this.config.docsRoot, relativePath, 'index.md'),
       path.join(this.config.docsRoot, relativePath, 'index.mdx'),
       path.join(this.config.docsRoot, relativePath, 'README.md'),
       path.join(this.config.docsRoot, relativePath, 'README.mdx'),
-      // Root level README for parts
       path.join(this.config.docsRoot, resolvedPath.split('/')[0], 'README.md'),
     ];
 
-    let content: string | null = null;
-    let foundFilePath: string | null = null;
-
     for (const candidate of candidates) {
       try {
-        content = await fs.promises.readFile(candidate, 'utf-8');
-        foundFilePath = candidate;
-        break;
+        const content = await fs.promises.readFile(candidate, 'utf-8');
+        return { content, filePath: candidate, title: extractTitle(content) };
       } catch {
-        // Try next candidate
+        // Try next
       }
     }
 
-    if (!content || !foundFilePath) {
-      // Try to find ANY markdown file in the resolved directory as fallback
-      try {
-        const dirPath = path.join(this.config.docsRoot, resolvedPath);
-        const files = await fs.promises.readdir(dirPath);
-        const mdFile = files.find(f => f.endsWith('.md') && !f.includes('.summary.'));
-        if (mdFile) {
-          content = await fs.promises.readFile(path.join(dirPath, mdFile), 'utf-8');
-          foundFilePath = path.join(dirPath, mdFile);
-        }
-      } catch {
-        // Directory doesn't exist or can't be read
+    // Fallback: find any markdown in directory
+    try {
+      const dirPath = path.join(this.config.docsRoot, resolvedPath);
+      const files = await fs.promises.readdir(dirPath);
+      const mdFile = files.find(f => f.endsWith('.md') && !f.includes('.summary.'));
+      if (mdFile) {
+        const content = await fs.promises.readFile(path.join(dirPath, mdFile), 'utf-8');
+        return { content, filePath: path.join(dirPath, mdFile), title: extractTitle(content) };
       }
+    } catch {
+      // Directory doesn't exist
     }
 
-    if (!content || !foundFilePath) {
-      throw new StudyModeError(
-        'LESSON_NOT_FOUND',
-        `Could not load content for: ${urlPath}`
-      );
-    }
+    throw new StudyModeError('LESSON_NOT_FOUND', `Could not load content for: ${urlPath}`);
+  }
 
-    // If this is a README, load additional context
-    let additionalContent = '';
-    if (foundFilePath.endsWith('README.md') || foundFilePath.endsWith('README.mdx')) {
-      const dir = path.dirname(foundFilePath);
-
-      // Check if this is a Part-level README (has chapter subdirectories) or Chapter-level
+  /**
+   * Load Tier 3 content (same chapter/part summaries)
+   */
+  private async loadTier3Content(filePath: string): Promise<string> {
+    if (filePath.endsWith('README.md') || filePath.endsWith('README.mdx')) {
+      const dir = path.dirname(filePath);
       const entries = await fs.promises.readdir(dir, { withFileTypes: true });
       const hasChapterDirs = entries.some(e => e.isDirectory() && /^\d+-/.test(e.name));
 
       if (hasChapterDirs) {
-        // This is a Part-level README - load summaries from all chapters
-        additionalContent = await this.loadPartChapterSummaries(dir);
+        return await this.loadPartChapterSummaries(dir);
       } else {
-        // This is a Chapter-level README - load lesson summaries
-        additionalContent = await this.loadChapterSummaries(dir);
+        return await this.loadChapterSummaries(dir);
       }
     }
 
-    // If content is too short (< 1000 chars), it's likely a minimal page
-    // Load ALL book summaries for full context
-    const contentTextOnly = content.replace(/<[^>]*>/g, '').replace(/\{[^}]*\}/g, '').trim();
-    if (contentTextOnly.length < 1000 && additionalContent.length === 0) {
-      // Load summaries from all Parts in the book
-      additionalContent = await this.loadAllBookSummaries();
+    // For lesson pages, load sibling lesson summaries
+    const chapterDir = path.dirname(filePath);
+    return await this.loadChapterSummaries(chapterDir);
+  }
+
+  /**
+   * Main load method with tiered retrieval
+   *
+   * @param urlPath - Current page URL path
+   * @param userMessage - User's question (for topic detection)
+   * @param mode - 'teach' or 'ask' (affects loading strategy)
+   */
+  async loadWithContext(
+    urlPath: string,
+    userMessage: string = '',
+    mode: StudyMode = 'ask'
+  ): Promise<LessonContext> {
+    // Tier 1: Current page (always FULL)
+    const { content: tier1Content, filePath, title } = await this.loadTier1Content(urlPath);
+
+    // Tier 3: Same chapter/part summaries (lightweight, always load)
+    const tier3Content = await this.loadTier3Content(filePath);
+
+    // Tier 2: Referenced content (only if user mentions topics)
+    let tier2Content = '';
+    if (userMessage && mode === 'ask') {
+      // Only do Tier 2 for Ask mode (full book search)
+      const referencedPaths = await this.detectTopicReferences(userMessage);
+      tier2Content = await this.loadReferencedContent(referencedPaths, urlPath);
     }
 
-    const title = extractTitle(content);
+    // Tier 4: Book-wide snippets (only for minimal pages or Ask mode with no results)
+    let tier4Content = '';
+    const contentTextOnly = tier1Content.replace(/<[^>]*>/g, '').replace(/\{[^}]*\}/g, '').trim();
+    const isMinimalPage = contentTextOnly.length < 1000 && tier3Content.length === 0;
+
+    if (isMinimalPage || (mode === 'ask' && tier2Content.length === 0 && tier3Content.length < 500)) {
+      tier4Content = await this.loadBookSnippets(userMessage);
+    }
+
+    // Combine all tiers with clear labels
     const { chapterNumber, lessonNumber } = extractNumbers(urlPath);
-    const fullContent = content + additionalContent;
-    const truncatedContent = truncateContent(fullContent);
+    let fullContent = tier1Content;
+
+    if (tier2Content) {
+      fullContent += tier2Content;
+    }
+    if (tier3Content) {
+      fullContent += tier3Content;
+    }
+    if (tier4Content) {
+      fullContent += tier4Content;
+    }
 
     return {
       path: urlPath,
       title,
-      content: truncatedContent,
+      content: truncateContent(fullContent),
       chapterNumber,
       lessonNumber,
     };
+  }
+
+  /**
+   * Simple load method (backwards compatible)
+   * For basic loading without tiered retrieval
+   */
+  async load(urlPath: string): Promise<LessonContext> {
+    return this.loadWithContext(urlPath, '', 'teach');
   }
 }
 

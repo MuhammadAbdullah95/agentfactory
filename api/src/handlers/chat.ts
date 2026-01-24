@@ -113,12 +113,17 @@ export async function handleChat(
   const request: ChatRequest = body;
 
   try {
-    // 3. Try to load lesson content
+    // 3. Load lesson content with tiered retrieval
     let lessonContext;
     let isGeneralMode = false;
 
     try {
-      lessonContext = await lessonLoader.load(request.lessonPath);
+      // Use tiered loading: pass user message and mode for intelligent context loading
+      lessonContext = await lessonLoader.loadWithContext(
+        request.lessonPath,
+        request.userMessage,
+        request.mode
+      );
     } catch (loadError) {
       // Content not found - use general mode with guidance
       isGeneralMode = true;
