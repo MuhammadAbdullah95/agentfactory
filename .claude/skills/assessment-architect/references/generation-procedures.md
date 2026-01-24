@@ -1,256 +1,306 @@
-# Question Generation Procedures: Autonomous Reasoning Framework
+# Generation Procedures: Concept-First Workflow
 
-This document contains the detailed procedural knowledge for autonomous question generation. Referenced during generation by Decision Framework and Background Task execution.
-
----
-
-## Decision Tree for Question Type Selection
-
-**For EACH extracted concept, use this decision tree to select question type:**
-
-```
-DECISION 1: Is this an exact value, definition, or factual recall?
-  → YES: Precision Recall
-        (Read distractor-generation-strategies.md Section 1A)
-        (Distractors: off-by-one, unit errors, adjacent values)
-  → NO: Go to Decision 2
-
-DECISION 2: Does this concept pair/contrast with another concept?
-  → YES: Conceptual Distinction
-        (Read distractor-generation-strategies.md Section 2A-2C)
-        (Distractors: surface-level confusion, reverse logic, common misconceptions)
-  → NO: Go to Decision 3
-
-DECISION 3: Does this require evaluating multiple criteria or constraints?
-  → YES: Decision Matrix
-        (Read distractor-generation-strategies.md Section 3A-3C)
-        (Distractors: missing constraint, wrong priority, calculation error)
-  → NO: Go to Decision 4
-
-DECISION 4: Does this involve system components, flows, or architecture?
-  → YES: Architecture Analysis
-        (Read distractor-generation-strategies.md Section 4A-4C)
-        (Distractors: wrong component role, swapped relationships, incomplete flow)
-  → NO: Go to Decision 5
-
-DECISION 5: Does this require calculation, comparison, or quantitative reasoning?
-  → YES: Economic/Quantitative
-        (Read distractor-generation-strategies.md Section 5A-5B)
-        (Distractors: common calculation errors, unit conversion mistakes, off-by-factor)
-  → NO: Go to Decision 6
-
-DECISION 6: Does this require applying a framework or specification?
-  → YES: Specification Design
-        (Read distractor-generation-strategies.md Section 6A-6B)
-        (Distractors: misapplied framework, partial application, alternative framework)
-  → NO: Go to Decision 7
-
-DECISION 7: Does this require judgment, trade-offs, or weighing alternatives?
-  → YES: Critical Evaluation
-        (Read distractor-generation-strategies.md Section 7A-7B)
-        (Distractors: incomplete analysis, biased judgment, ignoring tradeoff)
-  → NO: Go to Decision 8
-
-DECISION 8: Does this require integrating multiple concepts into synthesis?
-  → YES: Strategic Synthesis
-        (Read distractor-generation-strategies.md Section 8A-8B)
-        (Distractors: fragmented synthesis, wrong integration, missing connection)
-  → NO: Research Extension (default for novel scenarios)
-        (Read distractor-generation-strategies.md Section 9A)
-        (Distractors: plausible extrapolations, related but wrong conclusions)
-```
-
-### Implementation During Generation
-
-```python
-# For each concept extracted:
-question_type = decision_tree(concept)
-strategy_section = get_strategy_section(question_type)  # e.g., "1A", "2B", "3A"
-distractor_instructions = read_file("references/distractor-generation-strategies.md")
-relevant_section = extract_section(distractor_instructions, strategy_section)
-# Generate question using specific strategy from that section
-```
+Step-by-step procedures for the 4-phase assessment generation workflow.
 
 ---
 
-## Background Task Implementation Template
+## Phase 1: Concept Extraction Procedure
 
-**Each background task executes this template** (generates 20 questions for its range):
+**Executor:** The forked skill agent (not a subagent)
 
-```
-BACKGROUND TASK: Generate Batch [N] (Questions [Start]-[End])
-
-SETUP:
-├── Read shared questions_progress.json
-├── Identify batch budget:
-│   └── For EACH question type:
-│       (total_target × target_percent / 100) / 5
-│       = budget_per_batch per type
-│   └── Example: Precision Recall = 10 total, 10%, so 2 per batch
-├── Identify already-generated counts per batch
-└── Calculate available budget for THIS batch
-
-GENERATION LOOP (for Q[Start] through Q[End]):
-
-  For EACH question in batch:
-    1. EXTRACT CONCEPT
-       └── Select testable concept from assigned lesson range
-       └── Note: Complexity (factual/procedural/conceptual/evaluative)
-       └── Note: Source section (for explanations)
-
-    2. DECIDE QUESTION TYPE (AUTONOMY POINT)
-       └── Use decision tree (above)
-       └── Check budget: If type = Precision_Recall and batch budget exhausted, pick next type
-       └── Verify type selection aligns with Bloom level target
-
-    3. READ DISTRACTOR STRATEGY
-       └── Use decision tree result → get strategy_section (e.g., "2A")
-       └── Read references/distractor-generation-strategies.md [section]
-       └── Extract specific procedure for this type
-
-    4. GENERATE QUESTION
-       ├── Formulate correct answer (simple, clear, 12-15 words target)
-       ├── Generate 3 distractors per type-specific strategy
-       ├── All options within ±3 words (check lengths)
-       ├── All options at similar detail level (specificity balance)
-       └── Verify distractors are ≥5% plausible
-
-    5. VALIDATE CONTINUOUSLY (AUTONOMY POINT)
-       ├── Update local position distribution: A/B/C/D counts
-       ├── Check: Is position distribution still balanced?
-       │   └── If B > 30% of batch so far → Force next Q answer to A/C/D
-       │   └── If A+D < 40% of batch so far → Prefer next Q answer to A/D
-       ├── Check: Are option lengths consistent?
-       │   └── Collect word counts: [14, 18, 12, 15] vs median = 14.5
-       │   └── If current question: [8, 8, 8, 20] → Rewrite to [10, 10, 10, 12]
-       ├── Check: Type distribution still on track?
-       │   └── Precision_Recall budget: If used 2 of 2, next questions CANNOT be Precision Recall
-       └── Update questions_progress.json atomically with:
-           - Current Q position in batch
-           - Updated position counts (A/B/C/D)
-           - Updated type counts
-           - Current option lengths
-
-    6. STORE QUESTION
-       └── Record: [question, A, B, C, D, correct_answer, source_section, bloom_level, question_type]
-
-  END LOOP
-
-FINALIZATION:
-├── Validate batch: All 20 questions generated
-├── Check psychometric-standards.md thresholds:
-│   ├── DIF (Difficulty Index) within tier range
-│   ├── DIS (Discrimination Index) > 0.30
-│   ├── DF (Distractor Functionality) ≥ 5%
-│   └── Option length distribution acceptable (within ±3 words)
-├── Update questions_progress.json: batch status = "complete"
-└── Return questions to main session
-```
-
-### Key Autonomous Decisions Per Question
-
-1. **Which question type to use** (via decision tree based on concept characteristics)
-2. **Which distractor strategy section to read** (from decision tree result)
-3. **When to force answer position** (based on real-time distribution check - if B > 30%, force A/C/D)
-4. **When to force different type** (based on budget check - if Precision Recall budget exhausted, pick next type)
-5. **When to adjust option lengths** (if median length drifts, rewrite to maintain ±3 word parity)
-
----
-
-## Parallel Batch Coordination Logic
-
-**Budget Calculation Example** (for 100-question exam with target distributions):
+### Step 1.1: Discover and Read Lessons
 
 ```
-Total questions: 100
-Question type targets:
-  - Precision Recall: 10%
-  - Conceptual Distinction: 15%
-  - Decision Matrix: 12.5%
-  - Architecture Analysis: 12.5%
-  - Economic/Quantitative: 10%
-  - Specification Design: 10%
-  - Critical Evaluation: 12.5%
-  - Strategic Synthesis: 10%
-  - Research Extension: 7.5%
+1. PATH confirmed from Input Parsing (SKILL.md)
+2. List all lessons:
+   ls {PATH}/*.md | grep -v README | grep -v summary | grep -v quiz
+3. Count: wc -l
+4. Read ALL lessons (not a sample)
+```
 
-Batch strategy: 5 batches × 20 questions each
+### Step 1.2: Extract Concepts
 
-Budget per batch:
-  - Precision Recall: 10 total / 5 batches = 2 per batch
-  - Conceptual Distinction: 15 total / 5 batches = 3 per batch
-  - Decision Matrix: 12.5 total / 5 batches = 2.5 (round: 2-3 across batches)
-  - Architecture Analysis: 12.5 total / 5 batches = 2.5
-  - Economic/Quantitative: 10 total / 5 batches = 2 per batch
-  - Specification Design: 10 total / 5 batches = 2 per batch
-  - Critical Evaluation: 12.5 total / 5 batches = 2.5
-  - Strategic Synthesis: 10 total / 5 batches = 2 per batch
-  - Research Extension: 7.5 total / 5 batches = 1.5 (round: 1-2 across batches)
+For each lesson, identify:
+- Named concepts (ideas, patterns, principles worth testing)
+- Skip facts (dates, version numbers, statistics, definitions)
 
-During Batch 2 generation:
-  - Read questions_progress.json
-  - Check: Batches 1 already generated 20 questions
-  - Precision Recall used in Batch 1: 2 of 2 budget
-  - Current batch budget still available: 2 of 2
-  - As Batch 2 generates Q21-Q40:
-    - Q21: Extract concept → Decide type (Decision Tree) → Check budget: Precision Recall available (2/2 remaining) ✓
-    - Q22-Q27: Generate other types
-    - Q28: Extract concept → Decide type → Check budget: Precision Recall now at 2/2 USED
-    - Q29-Q40: CANNOT be Precision Recall (budget exhausted), must pick other type
+**Decision criteria:** "Could I write a scenario-based question about this?"
+- YES → It's a concept (extract it)
+- NO → It's a fact (skip it)
+
+See `references/concept-extraction-guide.md` for detailed extraction rules.
+
+### Step 1.3: Map Relationships
+
+After extracting all concepts:
+1. For each pair of concepts, ask: "Does A affect B?"
+2. If yes, classify: enables / conflicts-with / extends / requires / alternative-to
+3. Record with direction: `A --enables--> B`
+
+### Step 1.4: Identify Trade-offs
+
+Scan for patterns:
+- "X vs Y" comparisons in lessons
+- "advantage/disadvantage" discussions
+- "when to use" decision points
+
+### Step 1.5: Generate Transfer Domains
+
+For each concept:
+1. Identify the STRUCTURAL principle (strip domain-specific details)
+2. Brainstorm 2-3 domains where this structure applies
+3. Verify domain NOT in chapter: `grep -ri "{domain}" {PATH}/`
+4. If grep returns matches: discard that domain, try another
+
+### Step 1.6: Write Concept Map
+
+Output to `assessments/{SLUG}-concepts.md` following the format in `concept-extraction-guide.md`.
+
+### Step 1.7: Calculate Question Count
+
+```
+concept_count = number of concepts extracted
+base = ceil(concept_count * 0.8)
+tier_multiplier = {T1: 0.7, T2: 1.0, T3: 1.3}[user_tier]
+raw = base * tier_multiplier
+result = clamp(round_to_nearest_5(raw), min=30, max=150)
+```
+
+Report to user:
+```
+Concept extraction complete:
+- Concepts: {N}
+- Relationships: {N}
+- Trade-offs: {N}
+- Recommended questions: {result} (Tier {tier})
+- Override? (enter number 30-150, or press enter for {result})
 ```
 
 ---
 
-## Continuous Validation Triggers
+## Phase 2: Subagent Spawning Procedure
 
-**After EACH question**, check these conditions:
+**Executor:** The forked skill agent (spawns 2 Task subagents)
 
-| Condition | Check | Action |
-|-----------|-------|--------|
-| **Position Bias** | Position A/B/C/D distribution | If B > 30% of batch: Force next answer to A/C/D |
-| **Length Bias** | Option word counts | If max - min > 3 words: Rewrite to compress/expand |
-| **Type Distribution** | Question type budget per batch | If budget exhausted for type: Pick different type |
-| **Bloom Distribution** | Bloom level counts | If Bloom level exceeds batch target: Adjust next Q complexity |
-| **Distractor Quality** | Would any distractor be selected by <5%? | If yes: Enhance distractor or replace |
+### Step 2.1: Calculate Counts
 
-**After EVERY 10 QUESTIONS** (mid-batch checkpoint):
+```
+TOTAL = confirmed question count (from Phase 1)
 
-| Metric | Reference | Action if Off-Track |
-|--------|-----------|---------------------|
-| **DIF** (Difficulty Index) | psychometric-standards.md | Adjust difficulty of next 10 Q |
-| **DIS** (Discrimination Index) | psychometric-standards.md | Review distractor quality |
-| **DF** (Distractor Functionality) | psychometric-standards.md | Enhance weak distractors |
-| **Option Lengths** | bias-detection-guide.md | Normalize lengths in next batch |
+Subagent A:
+  SCENARIO_COUNT = round(TOTAL * 0.40)
+  TRANSFER_COUNT = round(TOTAL * 0.20)
+  COUNT_A = SCENARIO_COUNT + TRANSFER_COUNT
+
+Subagent B:
+  RELATIONSHIP_COUNT = round(TOTAL * 0.25)
+  EVALUATION_COUNT = TOTAL - COUNT_A - RELATIONSHIP_COUNT  # remainder
+  COUNT_B = RELATIONSHIP_COUNT + EVALUATION_COUNT
+
+Verify: COUNT_A + COUNT_B == TOTAL
+```
+
+### Step 2.2: Prepare Variables
+
+```
+ABSOLUTE_PATH = working directory (pwd)
+SLUG = chapter/part slug (from Phase 0)
+```
+
+### Step 2.3: Spawn Subagents (Parallel)
+
+Use `references/subagent-template.md` templates. Spawn both using the Task tool simultaneously.
+
+Key points:
+- Each subagent receives ONLY the concept map + question-types.md
+- Each writes to its own output file
+- Both execute autonomously (no confirmation prompts)
+
+### Step 2.4: Verify Outputs
+
+After both subagents complete:
+```
+ls -la assessments/{SLUG}-questions-A.md  # Subagent A output
+ls -la assessments/{SLUG}-questions-B.md  # Subagent B output
+
+# Verify non-empty
+wc -l assessments/{SLUG}-questions-A.md   # Should be substantial
+wc -l assessments/{SLUG}-questions-B.md   # Should be substantial
+```
 
 ---
 
-## MIT Professional Standards Enforcement
+## Phase 3: Validation Procedure
 
-**Tier-Specific Rigor** (per academic-rigor-tiers.md):
+**Executor:** The forked skill agent (not a subagent)
 
-| Tier | Target Pass % | DIF Range | Bloom Focus | Question Type Emphasis |
-|------|---------------|-----------|------------|------------------------|
-| **T1** (Foundational) | 70% | 50-80% | Remember/Understand (60%) | Precision Recall (+15%) |
-| **T2** (Intermediate) | 65% | 50-65% | Analyze (25%) | Conceptual Distinction (+7%) |
-| **T3** (Advanced) | 40% | 30-50% | Evaluate (25%) | Critical Evaluation (+7%) |
-| **T4** (PhD Qualifying) | 25% | 15-30% | Create (25%) | Research Extension (+5%) |
+### Step 3.1: Anti-Memorization Scan
 
-**Psychometric Standards** (per psychometric-standards.md):
+```bash
+# Check for recall patterns
+grep -inE "(According to|Lesson [0-9]|the document states|as discussed in|as described in|the chapter explains|we learned that)" assessments/{SLUG}-questions-*.md
+```
 
-- **DIF** (Difficulty Index): % who select correct answer
-- **DIS** (Discrimination Index): >0.30 (distinguish high/low performers)
-- **DF** (Distractor Functionality): Each distractor selected by ≥5%
-- **KR-20** (Internal Consistency): Tier-specific targets (T1: ≥0.75, T2: ≥0.70, T3: ≥0.65)
+If matches found: record question numbers and patterns.
+
+### Step 3.2: Structural Scan
+
+For each question in both files:
+1. Verify scenario paragraph exists (text before the "?" stem)
+2. Verify stem exists (sentence ending in "?")
+3. Verify 4 options (A-D) are present
+4. Verify concept tag maps to concept map
+
+### Step 3.3: Concept Mapping Verification
+
+```
+FOR each question:
+  concept_tag = extract from [Concept: {name}] header
+  IF concept_tag not in concept_map_concepts:
+    FAIL "Q{N}: references concept '{name}' not in map"
+```
+
+### Step 3.4: Transfer Domain Verification
+
+```
+FOR each [Transfer Application] question:
+  Extract domain from scenario context
+  grep -ri "{domain}" {CHAPTER_PATH}/*.md
+  IF matches found:
+    FAIL "Q{N}: transfer domain '{domain}' appears in chapter"
+```
+
+### Step 3.5: Distribution Analysis
+
+```
+# Count answers
+answers_A = grep -c "Answer.*A" assessments/{SLUG}-questions-*.md
+answers_B = grep -c "Answer.*B" assessments/{SLUG}-questions-*.md
+answers_C = grep -c "Answer.*C" assessments/{SLUG}-questions-*.md
+answers_D = grep -c "Answer.*D" assessments/{SLUG}-questions-*.md
+
+# Check 20-30% each
+total = answers_A + answers_B + answers_C + answers_D
+FOR each letter:
+  pct = count / total * 100
+  IF pct < 20 or pct > 30: FAIL
+```
+
+### Step 3.6: Type Distribution Check
+
+```
+scenario_count = grep -c "Scenario Analysis" assessments/{SLUG}-questions-*.md
+relationship_count = grep -c "Concept Relationship" assessments/{SLUG}-questions-*.md
+transfer_count = grep -c "Transfer Application" assessments/{SLUG}-questions-*.md
+evaluation_count = grep -c "Critical Evaluation" assessments/{SLUG}-questions-*.md
+
+# Each should be within 15% of target
+```
+
+### Step 3.7: Produce Validation Report
+
+See `references/validation-rules.md` for report format.
 
 ---
 
-## When to Read Each Reference File
+## Phase 4: Assembly Procedure
 
-| File | When | Purpose |
-|------|------|---------|
-| `academic-rigor-tiers.md` | Step 4 (Distribute Adaptively) | Select tier, read tier-specific distributions |
-| `distractor-generation-strategies.md` | Step 5, per question (Decision 3 in Background Task) | Read section matching question type for specific distractor procedure |
-| `psychometric-standards.md` | Step 5, after every 10 questions | Validate DIF, DIS, DF, KR-20 metrics, adjust next batch if needed |
-| `bias-detection-guide.md` | Step 5, continuous validation | Check length/position/specificity bias after each question |
-| `generation-procedures.md` (this file) | Step 5, Background Task execution | Reference decision tree and budget calculation logic |
+**Executor:** The forked skill agent (not a subagent)
 
+### Step 4.1: Load and Merge Questions
+
+```
+1. Read assessments/{SLUG}-questions-A.md
+2. Read assessments/{SLUG}-questions-B.md
+3. Parse into individual question objects
+4. Interleave (alternate A/B, don't group by type)
+5. Renumber Q1 through Q{TOTAL}
+```
+
+### Step 4.2: Build Exam Markdown
+
+Following the format specified in SKILL.md Phase 4 Step 2:
+- Header with metadata (count, time, passing score)
+- Questions section (numbered, with scenarios)
+- Answer key table
+- Educator metadata section
+
+### Step 4.3: Strip Internal Tags
+
+Remove from final output:
+```
+- [Scenario Analysis] tags
+- [Concept Relationship] tags
+- [Transfer Application] tags
+- [Critical Evaluation] tags
+- [Concept: {name}] tags
+- **Reasoning:** sections (keep in separate educator key)
+```
+
+The student-facing exam contains ONLY: question numbers, scenarios, stems, and A/B/C/D options.
+The answer key contains: question number, correct letter, type (for educator reference).
+
+### Step 4.4: Write Final Markdown
+
+```
+Write to: assessments/{SLUG}-exam.md
+```
+
+### Step 4.5: Convert to DOCX
+
+```bash
+pandoc assessments/{SLUG}-exam.md -o assessments/{SLUG}-Assessment-Final.docx --from=markdown --to=docx
+```
+
+### Step 4.6: Post-Conversion Verification
+
+```bash
+ls -la assessments/{SLUG}-Assessment-Final.docx
+# Verify exists and size > 10KB
+```
+
+### Step 4.7: Report Completion
+
+```
+Phase 4 Complete:
+  - DOCX: assessments/{SLUG}-Assessment-Final.docx
+  - Size: {N}KB
+  - Questions: {TOTAL}
+  - Concept coverage: {X}/{Y} ({Z}%)
+  - Answer distribution: A={N} B={N} C={N} D={N}
+  - Ready for distribution
+```
+
+---
+
+## Error Recovery
+
+### If Subagent Fails to Write Output
+
+```
+IF file not found after subagent completion:
+  1. Report which subagent failed
+  2. Re-spawn ONLY that subagent
+  3. Maximum 2 retries
+  4. If still failing: report to user
+```
+
+### If Validation Finds >20% Failures
+
+```
+IF failed_questions / total > 0.20:
+  1. Identify which subagent produced most failures
+  2. Re-spawn that subagent with failure report as additional context
+  3. Re-validate
+  4. Maximum 2 regeneration cycles
+```
+
+### If Distribution Is Off
+
+```
+IF answer distribution outside 20-30%:
+  1. Identify over/under-represented letters
+  2. Find questions where correct answer can be swapped without changing question quality
+  3. Swap answer positions (move correct answer to under-represented letter)
+  4. Re-verify distribution
+```
