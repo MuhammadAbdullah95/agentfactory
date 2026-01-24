@@ -64,9 +64,53 @@ function parseMessageForClickables(content: string): {
   let mainContent = content;
   let label = '';
 
-  // Pattern for "Do you also want to know about?" (Teach mode topics)
+  // Pattern for "Think about this:" (Teach mode Socratic questions)
+  const socraticMatch = content.match(/🤔\s*\*\*Think about this:\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
+  if (socraticMatch) {
+    label = '🤔 Think about this:';
+    const socraticSection = socraticMatch[1];
+    // Extract bullet points (• or -)
+    const bulletPoints = socraticSection.match(/[•\-]\s*([^\n]+)/g);
+    if (bulletPoints) {
+      bulletPoints.forEach(bp => {
+        const text = bp.replace(/^[•\-]\s*/, '').trim();
+        if (text) {
+          clickables.push({ text, type: 'topic' });
+        }
+      });
+    }
+    // Remove the Socratic section from main content
+    mainContent = content.replace(/🤔\s*\*\*Think about this:\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
+  }
+
+  // Pattern for "Let me check:" (Teach mode opening Socratic question)
+  const checkMatch = content.match(/🤔\s*\*\*Let me check:\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
+  if (checkMatch && clickables.length === 0) {
+    label = '🤔 Let me check:';
+    const checkSection = checkMatch[1];
+    // Extract bullet points or single question
+    const bulletPoints = checkSection.match(/[•\-]\s*([^\n]+)/g);
+    if (bulletPoints) {
+      bulletPoints.forEach(bp => {
+        const text = bp.replace(/^[•\-]\s*/, '').trim();
+        if (text) {
+          clickables.push({ text, type: 'topic' });
+        }
+      });
+    } else {
+      // Single question without bullets
+      const singleQuestion = checkSection.trim();
+      if (singleQuestion) {
+        clickables.push({ text: singleQuestion, type: 'topic' });
+      }
+    }
+    // Remove the check section from main content
+    mainContent = content.replace(/🤔\s*\*\*Let me check:\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
+  }
+
+  // Pattern for "Do you also want to know about?" (Teach mode topics - legacy)
   const topicsMatch = content.match(/🤔\s*\*\*Do you also want to know about\?\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
-  if (topicsMatch) {
+  if (topicsMatch && clickables.length === 0) {
     label = '🤔 Do you also want to know about?';
     const topicsSection = topicsMatch[1];
     // Extract bullet points (• or -)
@@ -83,9 +127,9 @@ function parseMessageForClickables(content: string): {
     mainContent = content.replace(/🤔\s*\*\*Do you also want to know about\?\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
   }
 
-  // Pattern for "What would you like to know?" (Ask mode questions)
-  const questionsMatch = content.match(/❓\s*\*\*What would you like to know\?\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
-  if (questionsMatch) {
+  // Pattern for "What would you like to know?" (Ask mode questions) - handles with or without bold
+  const questionsMatch = content.match(/❓\s*\*{0,2}What would you like to know\??\*{0,2}:?\s*([\s\S]*?)(?=\n\n|$)/i);
+  if (questionsMatch && clickables.length === 0) {
     label = '❓ What would you like to know?';
     const questionsSection = questionsMatch[1];
     // Extract numbered items (1. 2. 3.)
@@ -93,13 +137,42 @@ function parseMessageForClickables(content: string): {
     if (numberedItems) {
       numberedItems.forEach(item => {
         const text = item.replace(/^\d+\.\s*/, '').trim();
-        if (text) {
+        if (text && !text.startsWith('[')) {  // Skip template placeholders
           clickables.push({ text, type: 'question' });
         }
       });
     }
+    // Also try bullet points if no numbered items found
+    if (clickables.length === 0) {
+      const bulletPoints = questionsSection.match(/[•\-]\s*([^\n]+)/g);
+      if (bulletPoints) {
+        bulletPoints.forEach(bp => {
+          const text = bp.replace(/^[•\-]\s*/, '').trim();
+          if (text && !text.startsWith('[')) {
+            clickables.push({ text, type: 'question' });
+          }
+        });
+      }
+    }
     // Remove the questions section from main content
-    mainContent = mainContent.replace(/❓\s*\*\*What would you like to know\?\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
+    mainContent = mainContent.replace(/❓\s*\*{0,2}What would you like to know\??\*{0,2}:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
+  }
+
+  // Pattern for "What else would you like to know?" (Ask mode follow-up)
+  const followUpMatch = content.match(/🤔\s*\*{0,2}What else would you like to know\??\*{0,2}:?\s*([\s\S]*?)(?=\n\n|$)/i);
+  if (followUpMatch && clickables.length === 0) {
+    label = '🤔 What else would you like to know?';
+    const followUpSection = followUpMatch[1];
+    const bulletPoints = followUpSection.match(/[•\-]\s*([^\n]+)/g);
+    if (bulletPoints) {
+      bulletPoints.forEach(bp => {
+        const text = bp.replace(/^[•\-]\s*/, '').trim();
+        if (text && !text.startsWith('[')) {
+          clickables.push({ text, type: 'question' });
+        }
+      });
+    }
+    mainContent = mainContent.replace(/🤔\s*\*{0,2}What else would you like to know\??\*{0,2}:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
   }
 
   // Also support old formats for backward compatibility
@@ -158,24 +231,25 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
 
   const { sendMessage } = useStudyModeAPI();
 
-  // Get current conversation for this lesson
-  const conversation = getCurrentConversation(lessonPath);
+  // Get current conversation for this lesson + mode (separate conversations per mode)
+  const conversationKey = `${lessonPath}:${mode}`;
+  const conversation = getCurrentConversation(conversationKey);
 
   // Ref for message list container to control scrolling
   const messageListRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(0);
 
-  // Handle sending messages
+  // Handle sending messages (use conversationKey for mode-specific storage)
   const handleSend = useCallback((text: string) => {
     if (text.trim()) {
-      sendMessage(lessonPath, text.trim());
+      sendMessage(lessonPath, text.trim(), `${lessonPath}:${mode}`);
     }
-  }, [lessonPath, sendMessage]);
+  }, [lessonPath, mode, sendMessage]);
 
-  // Handle clearing conversation
+  // Handle clearing conversation (clears current mode's conversation only)
   const handleClear = useCallback(() => {
-    clearConversation(lessonPath);
-  }, [lessonPath, clearConversation]);
+    clearConversation(`${lessonPath}:${mode}`);
+  }, [lessonPath, mode, clearConversation]);
 
   // Track previous mode to detect changes
   const prevModeRef = useRef(mode);
@@ -189,19 +263,23 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
     if (currentCount > prevCount && currentCount > 0) {
       const lastMessage = conversation.messages[currentCount - 1];
       if (lastMessage.role === 'assistant') {
-        // Find the message list scroll container and scroll to show the new message from top
-        setTimeout(() => {
-          const messageList = document.querySelector('.cs-message-list');
-          if (messageList) {
-            // Find the last message element
-            const messages = messageList.querySelectorAll('.cs-message');
-            const lastMessageEl = messages[messages.length - 1];
-            if (lastMessageEl) {
-              // Scroll to show the start of the message (with some padding)
-              lastMessageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+        // Scroll to show the START of the new AI message (not the end)
+        const scrollToStart = () => {
+          const scrollWrapper = document.querySelector('.cs-message-list__scroll-wrapper');
+          const messages = document.querySelectorAll('.cs-message');
+          const lastMessageEl = messages[messages.length - 1] as HTMLElement;
+
+          if (scrollWrapper && lastMessageEl) {
+            // Scroll to position the message at the top with padding
+            const targetScroll = lastMessageEl.offsetTop - 10;
+            scrollWrapper.scrollTop = targetScroll;
           }
-        }, 100);
+        };
+
+        // Run multiple times to override ChatScope's auto-scroll
+        setTimeout(scrollToStart, 50);
+        setTimeout(scrollToStart, 150);
+        setTimeout(scrollToStart, 300);
       }
     }
 
@@ -211,18 +289,22 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   // Handle mode change - auto-send initial message
   const handleModeChange = useCallback((newMode: 'teach' | 'ask') => {
     setMode(newMode);
-    // Clear conversation when switching modes
-    clearConversation(lessonPath);
+    // DON'T clear conversation - keep separate conversations per mode
 
-    // Auto-send initial message based on mode
-    setTimeout(() => {
-      if (newMode === 'ask') {
-        sendMessage(lessonPath, 'show suggestions');
-      } else if (newMode === 'teach') {
-        sendMessage(lessonPath, 'teach me');
-      }
-    }, 100);
-  }, [setMode, clearConversation, lessonPath, sendMessage]);
+    // Only auto-send initial message if that mode has no conversation yet
+    const newConversationKey = `${lessonPath}:${newMode}`;
+    const existingConversation = getCurrentConversation(newConversationKey);
+
+    if (existingConversation.messages.length === 0) {
+      setTimeout(() => {
+        if (newMode === 'ask') {
+          sendMessage(lessonPath, 'show suggestions', newConversationKey);
+        } else if (newMode === 'teach') {
+          sendMessage(lessonPath, 'teach me', newConversationKey);
+        }
+      }, 100);
+    }
+  }, [setMode, lessonPath, sendMessage, getCurrentConversation]);
 
   // Handle escape key to close panel
   useEffect(() => {
@@ -280,7 +362,14 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
         {/* Custom Header with Mode Toggle */}
         <div className={styles.chatKitHeader}>
           <div className={styles.headerTop}>
-            <h2 className={styles.title}>Study Mode</h2>
+            <div className={styles.titleSection}>
+              <h2 className={styles.title}>Study Mode</h2>
+              {mode === 'teach' && (
+                <span className={styles.methodBadge}>
+                  Teaching by Socratic Method (OpenAI Study Mode & Google Extended Learning)
+                </span>
+              )}
+            </div>
             <div className={styles.headerActions}>
               <button
                 className={styles.iconButton}
@@ -319,11 +408,28 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
           </div>
         )}
 
+        {/* Mode indicator bar */}
+        <div className={`${styles.modeIndicator} ${mode === 'teach' ? styles.modeTeach : styles.modeAsk}`}>
+          {mode === 'teach' ? (
+            <>
+              <span className={styles.modeIcon}>📚</span>
+              <span>Socratic Teaching - AI guides you with questions</span>
+            </>
+          ) : (
+            <>
+              <span className={styles.modeIcon}>⚡</span>
+              <span>Quick Answers - Direct responses only</span>
+            </>
+          )}
+        </div>
+
         {/* ChatScope Chat Container */}
         <div className={styles.chatKitContainer}>
           <MainContainer>
             <ChatContainer>
               <MessageList
+                autoScrollToBottom={false}
+                autoScrollToBottomOnMount={false}
                 typingIndicator={
                   isLoading ? (
                     <TypingIndicator content="AI Tutor is thinking..." />

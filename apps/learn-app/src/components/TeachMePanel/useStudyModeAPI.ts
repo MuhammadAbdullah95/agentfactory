@@ -59,10 +59,20 @@ export function useStudyModeAPI() {
 
   /**
    * Send a message to the AI and get a response
+   * @param lessonPath - The lesson path for API context
+   * @param userMessage - The user's message
+   * @param conversationKey - Optional key for storing conversation (defaults to lessonPath)
    */
-  const sendMessage = useCallback(async (lessonPath: string, userMessage: string): Promise<void> => {
+  const sendMessage = useCallback(async (
+    lessonPath: string,
+    userMessage: string,
+    conversationKey?: string
+  ): Promise<void> => {
+    // Use conversationKey for storage, defaults to lessonPath for backward compatibility
+    const storageKey = conversationKey || lessonPath;
+
     // Get current conversation history
-    const conversation = getCurrentConversation(lessonPath);
+    const conversation = getCurrentConversation(storageKey);
 
     // Create user message
     const userMsg: Message = {
@@ -72,7 +82,7 @@ export function useStudyModeAPI() {
     };
 
     // Add user message to conversation immediately
-    addMessage(lessonPath, userMsg);
+    addMessage(storageKey, userMsg);
 
     // Prepare request
     const request: ChatRequest = {
@@ -108,7 +118,7 @@ export function useStudyModeAPI() {
         timestamp: new Date().toISOString(),
       };
 
-      addMessage(lessonPath, assistantMsg);
+      addMessage(storageKey, assistantMsg);
       setLoading(false);
 
     } catch (error) {
