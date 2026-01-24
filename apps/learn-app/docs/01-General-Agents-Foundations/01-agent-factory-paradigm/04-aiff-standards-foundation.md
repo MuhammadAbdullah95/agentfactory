@@ -57,7 +57,7 @@ differentiation:
 
 # AIFF Standards - The Foundation
 
-You've built a Digital SDR that qualifies leads 24/7. It works brilliantly with Claude. Now a client asks: "Does it work with ChatGPT? We're standardizing on OpenAI."
+You've built a Digital Sales Development Representative (SDR) that qualifies leads 24/7. It works brilliantly with Claude. Now a client asks: "Does it work with ChatGPT? We're standardizing on OpenAI."
 
 What do you say?
 
