@@ -247,36 +247,33 @@ Agentic AI can accomplish this transformation because it possesses five fundamen
 
 ---
 
-## Part 3: The Modern AI Stack
+## Part 3: The Modern AI Stack (2026 Revision)
 
-The Five Powers explain *what* agents can do. The Modern AI Stack explains *how* they're built. As of early 2026, the three-layer architecture has matured from "modular components" to a **seamlessly integrated agentic ecosystem**.
+The Five Powers explain *what* agents can do. The Modern AI Stack explains *how* they're built. By early 2026, we have moved from "Chatbots with tools" to **Protocol-Driven Autonomous Workers**.
 
 ### Layer 1: Frontier Models—The Reasoning Engines
 
-The "Brain" layer has moved beyond mere text generation to **System 2 thinking** (extended reasoning) as the default.
-
-**Current Frontier Models (January 2026):**
-
-* **Claude 4.5 Opus** (Anthropic) — Released late 2025; currently the SOTA (State of the Art) leader for coding and agentic task planning. Features a "Thinking Mode" with high token efficiency.
-* **GPT-5.2** (OpenAI) — The benchmark leader in complex logical reasoning and mathematics. Known for its "Extended Reasoning" variant that handles multi-day autonomous tasks.
-* **Gemini 3 Pro** (Google) — The king of **native multimodality**. Its 2M+ token context window and integration with the Google ecosystem make it the preferred choice for enterprise-wide data grounding.
+* **Claude 4.5 / GPT-5.2 / Gemini 3:** The foundation. These models now feature "Native Agentic Reasoning," allowing them to pause, think, and call tools without needing a separate orchestration layer for simple tasks.
 
 ### Layer 2: AI-First IDEs—The Context Orchestrators
 
-In 2026, the "IDE" is no longer just a place to write code; it is a **context engine** that feeds the models everything they need to be useful.
+* **Cursor / Windsurf / VS Code:** These tools no longer just "see" your code; they act as the **Skill Host**. They are the environment where the models, tools, and local file systems meet.
 
-**The 2026 Leaderboard:**
+### Layer 3: Agent Skills—The Autonomous Workers
 
-* **Cursor / Windsurf:** These have become the "Big Two" for agentic development. They feature **Multi-file Orchestration**, allowing an AI to refactor an entire repository in one go.
-* **VS Code + Copilot (GPT-5.2 Codex):** Still the most used. Recent updates have added "Agent Mode," which allows Copilot to run terminal commands and fix test failures autonomously.
-* **Zed:** The performance choice. Its Rust-based architecture and native **MCP support** make it the fastest environment for real-time AI collaboration.
+This is the most significant change. Instead of "Custom Agents," we now build **Modular Skills**.
 
-### Layer 3: Autonomous Agents—The Digital Workforce
+**What the Agent Skills Standard (`agentskills.io`) Provides:**
 
-The top layer has shifted from "Chatbots" to **Agentic Workflows**. We no longer just "ask" AI; we "assign" it.
+* **Progressive Disclosure:** An agent doesn't need to read 1,000 pages of documentation at once. It reads the "Skill Metadata" first (name and description). It only "loads" the full instructions and scripts when the task specifically requires them.
+* **Skill Portability:** A "SQL Expert" skill you write for **Claude Code** works instantly in **GitHub Copilot** or **OpenAI Codex**.
+* **Procedural Knowledge:** Skills are stored as simple folders containing a `SKILL.md` file. They tell the agent *how* to do things (e.g., "Review this PR following the Google Style Guide").
 
-* **Multi-Agent Orchestration:** Modern agents now work in teams. You might have a **Lead Agent** (using Claude 4.5 Opus) planning the architecture, while several **Sub-Agents** (using Haiku 4.5) execute the unit tests and documentation in parallel.
-* **Self-Correction Loops:** Agents now utilize "Sampling" (via MCP) to check their own work. If a build fails, the agent reads the error, reasons through a fix, and tries again without human intervention.
+**The 2026 Logic:**
+
+* **MCP** = The "USB Cable" (Connects the agent to your Database/Slack/Jira).
+* **Agent Skills** = The "App" (Teaches the agent *how* to use that connection to achieve a goal).
+
 
 ---
 
@@ -333,56 +330,45 @@ This evolution unlocked the Five Powers working together, making the UX→Intent
 
 ---
 
-## Part 5: The 2024 vs 2025 Shift—From Silos to Composition
-
-This is the crucial evolution happening right now:
+## Part 5: The 2024 vs 2026 Shift—From Silos to Composition
 
 ### 2024: Tool Silos (Monolithic)
 
-Each vendor bundled everything:
-- Model + IDE + Agent = One package
-- Switching models meant relearning the IDE
-- Custom integrations only worked with one platform
-- Vendor lock-in was inevitable
+* **Bundled Capabilities:** Each tool had its own "plugin" system. A "GPT Action" didn't work in Claude.
+* **Heavy Context:** You had to paste massive instructions into your prompt every time to make the AI follow a specific workflow.
+* **Vendor Lock-in:** Moving from one agent to another meant rewriting all your "Custom GPTs."
 
-### 2025: Modular Stack (Composable)
+### 2026: Modular Stack (Composable)
 
-Layers are independent:
-- Pick your model (Claude, GPT, Gemini)
-- Pick your IDE (Cursor, VS Code, Zed)
-- Pick your agent (Claude Code, Aider, Devin)
-- Connect them via MCP for data access
-
-**Why this matters**: Competition drives innovation. When tools are modular, each layer improves independently. The best models compete with each other. The best IDEs compete with each other. You benefit from this competition.
+* **Open Standards:** The industry has converged on **MCP** and **agentskills.io**.
+* **On-Demand Expertise:** Agents "install" skills dynamically. You can say, *"Install the Stripe-Support skill,"* and your agent instantly knows the procedural steps for refunding a customer without you teaching it.
+* **Cross-Platform Agency:** You own your skills. They live in your repo as `.md` files, making your agents independent of any single model provider.
 
 ---
 
 ## Part 6: Why This Shift Matters
 
-The design challenge shifts from *"How do we make this interface intuitive?"* to *"How do we make this agent understand intent accurately?"*
+The design challenge has shifted from **"How do we prompt this?"** to **"How do we author the skill?"**
 
 ### The Skill Shift
 
-**What mattered in the Interface era:**
-- UI/UX design (visual hierarchy, information architecture)
-- Frontend frameworks (React, Vue, Angular)
-- Form validation and input handling
-- CSS and responsive design
-- Click-through testing
+| 2024 Focus (Prompting Era) | 2026 Focus (Skill Era) |
+| --- | --- |
+| **Prompt Engineering:** Writing long, fragile "System Prompts." | **Skill Authoring:** Writing structured `SKILL.md` files with clear YAML metadata. |
+| **Tool Integration:** Writing custom API wrappers for every project. | **Skill Discovery:** Ensuring agents can find the right "Skill" for the job. |
+| **Manual Correction:** Telling the AI "no, do it this way" repeatedly. | **Constraint Engineering:** Defining rigid workflows within a Skill that the AI *must* follow. |
 
-**What matters in the Intent era:**
-- **Intent modeling** (understanding user goals from natural language)
-- **Context management** (memory, personalization, preferences)
-- **Agent orchestration** (coordinating multi-step workflows)
-- **Specification writing** (clear, testable intent descriptions)
-- **Evaluation design** (how do you test "understanding"?)
-- **Behavioral testing** (does agent respond appropriately to variations?)
+**The Skill that Matters Most: Skill Architecture.**
 
-**The skill that matters most**: Clear specification writing.
+In 2026, high-level developers don't just write code; they write the **Skills** that allow agents to write the code.
 
-But the nature of specs changes:
-- **Before**: "When user clicks button X, do Y"
-- **Now**: "When user expresses intent Z (in any phrasing), agent understands and acts appropriately"
+* **Before:** You wrote a prompt: *"Please check the database for errors."*
+* **Now:** You author a **Database-SRE Skill** that includes:
+1. **Metadata:** "Use this when checking for Postgres performance bottlenecks."
+2. **Logic:** A Python script that pulls logs via an MCP connector.
+3. **Procedure:** A step-by-step markdown guide for how to interpret those logs.
+
+**The result:** You aren't just giving an agent a task; you are giving it a **permanent capability.**
 
 ---
 
