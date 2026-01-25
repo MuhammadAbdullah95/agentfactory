@@ -731,16 +731,8 @@ This is where the Agent Skills standard becomes your competitive moat. Because y
 
 | Strategy | CAC Impact | Agility | Defensibility |
 | --- | --- | --- | --- |
-| **PPP + Agent Skills** | <br>**Reduces CAC by 60-80%** 
-
- | **High:** Agents use modular skills that can be swapped or upgraded instantly. | <br>**High:** You own the Protocol (MCP) and the Skill Registry.
-
- |
-| **Direct Competition** | High (Vendor loyalty barriers) 
-
- | **Low:** Hard-coded integrations are brittle and hard to change. | Low (High integration complexity).
-
- |
+| **PPP + Agent Skills** | **Reduces CAC by 60-80%** | **High:** Agents use modular skills that can be swapped or upgraded instantly. | **High:** You own the Protocol (MCP) and the Skill Registry. |
+| **Direct Competition** | High (Vendor loyalty barriers) | **Low:** Hard-coded integrations are brittle and hard to change. | Low (High integration complexity). |
 
 ### Implementation Roadmap
 
