@@ -528,7 +528,7 @@ This is the Agent Factory. This is how AI products actually get built.
 
 ## Try With AI
 
-Use these prompts to deepen your understanding of both the inflection point evidence and the Two Paths Framework.
+Use these prompts to deepen your understanding of both the inflection point evidence and the Agent Maturity Model.
 
 ### Prompt 1: Evidence Analysis (Critical Evaluation)
 
@@ -552,7 +552,7 @@ than single-source claims?
 I need to build [describe a real problem you're facing: customer support bot, data analysis pipeline,
 code review system, internal tool, etc.].
 
-Based on the Two Paths Framework, help me think through whether I should:
+Based on the Agent Maturity Model, help me think through whether I should:
 A) Use a General Agent (Claude Code) to explore and prototype
 B) Build a Custom Agent (OpenAI/Claude/Google SDK) for production
 
@@ -566,7 +566,7 @@ Ask me these questions to figure it out:
 Then recommend: General Agent, Custom Agent, or both in sequence.
 ```
 
-**What you're learning**: Applying the Two Paths decision framework to real problems. You're learning to evaluate development scenarios through the lens of problem definition, usage frequency, production constraints, and exploration needs—and choosing the right approach based on tradeoffs, not hype.
+**What you're learning**: Applying the Agent Maturity Model decision framework to real problems. You're learning to evaluate development scenarios through the lens of problem definition, usage frequency, production constraints, and exploration needs—and choosing the right approach based on tradeoffs, not hype.
 
 ### Prompt 3: Personal Positioning (Where Am I in This Transition?)
 

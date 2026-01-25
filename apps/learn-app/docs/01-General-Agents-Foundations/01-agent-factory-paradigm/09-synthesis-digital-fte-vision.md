@@ -215,7 +215,7 @@ In this chapter, you learned:
 
 7. **Spec-Driven Development** (Lesson 7): The four-phase methodology (specify → clarify → plan → implement) that makes AI collaboration effective.
 
-8. **The Digital FTE Vision** (this lesson): Custom Agents and General Agents in certain circustances become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
+8. **The Digital FTE Vision** (this lesson): Custom Agents and General Agents can become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
 
 You now have the mental models for AI-native development.
 
