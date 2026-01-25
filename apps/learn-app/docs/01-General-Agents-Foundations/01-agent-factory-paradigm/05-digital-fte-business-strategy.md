@@ -629,8 +629,6 @@ Imagine you build a "Writing Assistant Agent" for content creators.
 4. For enterprise customers, offer License
 5. Result: Marketplace is your acquisition funnel, other models are your monetization
 
-Here is the updated **Piggyback Protocol Pivot (PPP)** strategy. This version integrates the **Agent Skills** standard (based on the `agentskills.io` framework) as the functional execution layer that sits on top of the **Model Context Protocol (MCP)** data layer.
-
 ### The Piggyback Protocol Pivot (PPP): Your Strategic Playbook
 
 You've assessed your competitive layer, understood the economics, and designed your monetization model. Now comes the critical piece: How do you actually enter a vertical market and dominate it as a solo entrepreneur?
@@ -770,13 +768,13 @@ This is where the Agent Skills standard becomes your competitive moat. Because y
 
 You've mapped your PPP strategy and understand how to enter a vertical market. But execution requires three capabilities working in perfect sync. Lack any one, and you fail.
 
-**Requirement 1: Domain Expertise (via Fine-Tuned Models OR Vertical Intelligence)**
+**Requirement 1: Domain Expertise (via Fine-Tuned Models OR Vertical Intelegence)**
 
 Your Custom Agents must be smarter than general-purpose AI. A general ChatGPT conversation does anything at 70% quality. Your finance Custom Agent must do portfolio analysis at 99% quality because money is at stake. Your healthcare Custom Agent must diagnose at 99% accuracy because lives are at stake.
 
 **There are two paths to achieving this 99% domain expertise:**
 
-**Path 1: Fine-Tuned Models** — Training the underlying model (Claude, Gemini, GPT-4) on domain-specific data: financial earnings reports, healthcare clinical literature, education curriculum standards. The model learns the language, patterns, and nuances of your domain at a deep level.
+**Path 1: Fine-Tuned Models** — Training the underlying model (Claude, Gemini, ChatGPT) on domain-specific data: financial earnings reports, healthcare clinical literature, education curriculum standards. The model learns the language, patterns, and nuances of your domain at a deep level.
 
 *Strengths:* Deeply understands domain language and patterns; handles ambiguity better; less prompt engineering needed
 *Challenges:* Requires large domain-specific datasets; expensive to create and update; longer iteration cycles
@@ -790,7 +788,7 @@ Both paths work. Both are defensible. The choice depends on your resources, time
 
 **Why intelligence is the new competitive asset:** Remember how Instagram had 13 employees building a $1B company? Because they accumulated intelligence—deep understanding of why people share photos, what features drive engagement, how to prioritize through noise. That accumulated knowledge was their moat. Competitors with more employees and resources couldn't replicate what Instagram understood about human behavior because understanding takes time.
 
-In AI-driven markets, the same principle applies. Intelligence (accumulated domain knowledge) has replaced effort as the source of competitive advantage. A generic AI system available to everyone creates no defensibility. But AI enhanced with your months of accumulated knowledge—whether encoded as fine-tuned models or vertical intelligence—creates a barrier competitors cannot quickly overcome.
+In AI-driven markets, the same principle applies. Intelligence (accumulated domain knowledge) has replaced effort as the source of competitive advantage. A generic AI system available to everyone creates no defensibility. But AI enhanced with your months and years of accumulated knowledge—whether encoded as fine-tuned models or vertical intelligence—creates a barrier competitors cannot quickly overcome.
 
 **Requirement 2: Deep Integrations with Existing Systems**
 
