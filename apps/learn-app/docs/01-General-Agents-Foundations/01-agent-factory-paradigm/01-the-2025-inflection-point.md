@@ -63,7 +63,10 @@ But 2025 is genuinely different. Three independent trends are converging simulta
 
 This convergence creates a fundamental question: **How do you actually build AI products?**
 
-The answer surprises most developers: There isn't one path. There are two fundamentally different approaches—**General Agents** and **Custom Agents**—and understanding when to use each is the core strategic insight of the Agent Factory paradigm. This lesson introduces both the evidence for the transformation and the framework that structures everything you'll learn in this book.
+The answer surprises most developers. They expect a single methodology—one right way to build. Instead, they discover an evolutionary process where AI systems mature through distinct stages. **General Agents** serve as incubators—fertile environments where raw requirements transform into functional logic through rapid iteration. Once patterns stabilize and requirements crystallize, **Custom Agents** emerge as specialists—purpose-built systems optimized for reliability, speed, and governance.
+
+This isn't a choice between two alternatives. It's a progression. The incubator gives birth to the specialist. Understanding this evolution—and knowing where you are in it—is the core strategic insight of the Agent Factory paradigm. This lesson introduces both the evidence for the transformation and the maturity model that structures everything you'll learn in this book.
+
 
 ## The 2025 Inflection Point: Convergent Evidence
 

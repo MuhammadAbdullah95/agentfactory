@@ -309,6 +309,19 @@ This mental model isn't pessimistic—it's pragmatic. When you understand the co
 
 ---
 
+### The Hallucination Risk
+
+LLMs can confidently generate code that looks correct but contains subtle bugs, references non-existent APIs, or implements logic that doesn't match your intent. 
+This isn't lying—it's the probabilistic nature producing confident-sounding outputs from statistical patterns. This is why validation isn't optional: you cannot trust AI-generated code without verification.
+
+---
+
+### Context and Cost
+
+Every token in the context window costs money. Frontier model APIs charge per input and output token. A poorly managed context (stuffing irrelevant files, long conversation histories) directly increases costs. Efficient specifications and smart context engineering aren't just about quality—they're about economics at scale.
+
+---
+
 ## Try With AI
 
 **Constraint Exploration Exercise**
