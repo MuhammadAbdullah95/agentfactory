@@ -72,7 +72,7 @@ Here is the refined synthesis, incorporating the requirement for 24/7 autonomous
 
 ## Synthesis: The Digital FTE Vision
 
-You've traveled through seven lessons that established a new mental model for software development. You've seen the evidence of an inflection point and understood the scale of transformation. You’ve learned how the **Agent Factory** paradigm works, what makes AI agents powerful, and how to structure work for AI collaboration.
+You've traveled through eight lessons that established a new mental model for software development. You've seen the evidence of an inflection point, understood the fundamental constraints of LLMs, and learned the scale of transformation. You've learned how the **Agent Factory** paradigm works, what makes AI agents powerful, and how to structure work for AI collaboration.
 
 Now it's time to see where this leads—and the critical choice you face.
 
@@ -159,12 +159,13 @@ The concepts from this chapter form an integrated system:
 | Lesson | Core Concept | Connection to Digital FTEs |
 |--------|-------------|---------------------------|
 | 1 | 2025 Inflection Point | AI coding is production-ready—Digital FTEs are now practical |
-| 2 | From Coder to Orchestrator | You manage Digital FTEs, you don't compete with them |
-| 3 | Five Powers & AI Stack | Digital FTEs combine See, Hear, Reason, Act, Remember via MCP |
-| 4 | AIFF Standards | AGENTS.md, Skills, and MCP make Digital FTEs portable and reliable |
-| 5 | Digital FTE Strategy | Business case: specialized roles, cost structure, ROI |
-| 6 | Nine Pillars | Digital FTEs are the natural evolution of AI-Native Design |
-| 7 | Spec-Driven Development | The methodology that lets you delegate to Digital FTEs reliably |
+| 2 | Three Core LLM Constraints | Understanding statelessness, probabilistic outputs, and context limits shapes how you design Digital FTEs |
+| 3 | From Coder to Orchestrator | You manage Digital FTEs, you don't compete with them |
+| 4 | Five Powers & AI Stack | Digital FTEs combine See, Hear, Reason, Act, Remember via MCP |
+| 5 | AIFF Standards | AGENTS.md, Skills, and MCP make Digital FTEs portable and reliable |
+| 6 | Digital FTE Strategy | Business case: specialized roles, cost structure, ROI |
+| 7 | Nine Pillars | Digital FTEs are the natural evolution of AI-Native Design |
+| 8 | Spec-Driven Development | The methodology that lets you delegate to Digital FTEs reliably |
 
 Each concept builds on the others. The Five Powers require the AI Stack. Digital FTEs require AIFF Standards to be portable. Spec-Driven Development is how you direct them.
 
@@ -203,19 +204,21 @@ In this chapter, you learned:
 
 1. **The 2025 Inflection Point** (Lesson 1): Concrete evidence that AI coding reached production quality—ICPC perfect scores, 84% developer adoption, $3 trillion economy transformation.
 
-2. **From Coder to Orchestrator** (Lesson 2): Your role shifts from typing code to directing AI. The 10% you contribute—judgment, specifications, validation—becomes infinitely more valuable.
+2. **Three Core Operational Constraints of LLMs** (Lesson 2): LLMs are stateless (no memory between sessions), probabilistic (variable outputs from identical inputs), and context-limited (finite working memory). These constraints explain why methodologies like SDD, AGENTS.md, and context engineering exist.
 
-3. **The Five Powers & AI Stack** (Lesson 3): Agents combine See, Hear, Reason, Act, and Remember via a three-layer stack (Frontier Models → AI-First IDEs → Development Agents) connected by MCP.
+3. **From Coder to Orchestrator** (Lesson 3): Your role shifts from typing code to directing AI. The 10% you contribute—judgment, specifications, validation—becomes infinitely more valuable.
 
-4. **AIFF Standards Foundation** (Lesson 4): The governance body and three standards (AGENTS.md, Agent Skills, MCP) that make agents portable, reliable, and interoperable.
+4. **The Five Powers & AI Stack** (Lesson 4): Agents combine See, Hear, Reason, Act, and Remember via a three-layer stack (Frontier Models → AI-First IDEs → Development Agents) connected by MCP.
 
-5. **Digital FTE Business Strategy** (Lesson 5): How specialized AI agents map to business roles, their cost structure compared to humans, and the strategic advantages they offer.
+5. **AIFF Standards Foundation** (Lesson 5): The governance body and three standards (AGENTS.md, Agent Skills, MCP) that make agents portable, reliable, and interoperable.
 
-6. **Nine Pillars of AI-Native Design** (Lesson 6): Design principles from intent-based UI to progressive disclosure that define the AI-Native Development paradigm.
+6. **Digital FTE Business Strategy** (Lesson 6): How specialized AI agents map to business roles, their cost structure compared to humans, and the strategic advantages they offer.
 
-7. **Spec-Driven Development** (Lesson 7): The four-phase methodology (specify → clarify → plan → implement) that makes AI collaboration effective.
+7. **Nine Pillars of AI-Native Design** (Lesson 7): Design principles from intent-based UI to progressive disclosure that define the AI-Native Development paradigm.
 
-8. **The Digital FTE Vision** (this lesson): Custom Agents and General Agents can become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
+8. **Spec-Driven Development** (Lesson 8): The four-phase methodology (specify → clarify → plan → implement) that makes AI collaboration effective.
+
+9. **The Digital FTE Vision** (this lesson): Custom Agents and General Agents can become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
 
 You now have the mental models for AI-native development.
 

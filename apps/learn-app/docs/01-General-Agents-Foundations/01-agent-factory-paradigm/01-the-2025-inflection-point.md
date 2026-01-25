@@ -70,7 +70,7 @@ This isn't a choice between two alternatives. It's a progression. The incubator 
 
 ## The 2025 Inflection Point: Convergent Evidence
 
-Let's establish why 2025 represents a genuine inflection point, not marketing hype. The evidence comes from independent, credible sources—all pointing in the same direction.
+Let's establish why 2025 represents a genuine inflection point. The evidence comes from independent, credible sources—all pointing in the same direction.
 
 ### Capability Breakthroughs: From Autocomplete to Problem-Solving
 
@@ -78,7 +78,7 @@ In September 2025, something unprecedented happened at the ICPC World Finals in 
 
 Competitive programming problems require understanding complex requirements, designing efficient algorithms, implementing solutions under time pressure, and debugging edge cases. These aren't code completion tasks—they distinguish exceptional programmers from good ones.
 
-The GDPval Benchmark from September 2025 confirms this trend. Claude Opus 4.1 achieved a **49% win rate** against human expert programmers, while GPT-5 reached **40.6%**. Eighteen months ago, the best AI models scored below 15% on similar benchmarks. This is exponential improvement, not incremental progress.
+The GDPval Benchmark from September 2025 confirms this trend. Claude Opus 4.1 (the frontier model at the time) achieved a **49% win rate** against human expert programmers, while GPT-5 reached **40.6%**. Eighteen months ago, the best AI models scored below 15% on similar benchmarks. This is exponential improvement, not incremental progress. (By January 2026, the frontier has advanced further—Claude Opus 4.5, GPT-5.2, and Gemini 3 Pro represent the current generation.)
 
 Industry leadership confirms the shift. Dario Amodei, CEO of Anthropic, stated that "AI will be writing 90% of the code" within months—extrapolating from what he observed at Anthropic, where developers increasingly orchestrate AI-generated code rather than writing it manually. Sundar Pichai, Google's CEO, reported that AI tools increased developer productivity by 10% across Google's engineering organization. At Google's scale, that's equivalent to adding 8,000 full-time developers overnight.
 
@@ -109,7 +109,7 @@ Notice what validates these signals:
 - **Startup economics** (Y Combinator)—founders betting capital based on what works
 - **Financial decisions** (Workday acquisition)—executives risking real money, not making predictions
 
-When you see the same signal from academia, independent surveys, startup founders, and multi-billion dollar corporations, you're looking at convergent validation—not coordinated hype.
+When you see the same signal from academia, independent surveys, startup founders, and multi-billion dollar corporations, you're looking at convergent validation—independent sources reaching the same conclusion.
 
 ## The $3 Trillion Developer Economy
 
@@ -214,9 +214,9 @@ This is fundamentally different from the old way of working with AI:
 | **Process** | You paste code, test, paste errors back | The agent writes, tests, and fixes iteratively |
 | **Your Focus** | Syntax and code lines | Features and user experience |
 
-### How the Incubator Works: Zero-Shot Planning
+### How the Incubator Works: Dynamic Planning
 
-"Zero-shot" means **planning from scratch without a template**. You provide zero prior examples, zero scripts, zero rigid instructions. Just a goal.
+In the context of agentic development, we call this **dynamic planning**—the agent plans from scratch without pre-defined templates. You provide no prior examples, no scripts, no rigid step-by-step instructions. Just a goal.
 
 Because General Agents have reasoning capabilities, they can decompose your goal into subtasks on the fly. You say "Build a registration system" and the agent thinks: *"Okay, I need a database schema, then an API endpoint, then a frontend form, then validation logic..."*
 
@@ -320,7 +320,7 @@ General Agents are powerful - but that power comes with costs that don't scale:
 
 | Challenge | General Agent (Incubator) | Custom Agent (Specialist) |
 |-----------|--------------------------|---------------------------|
-| **Speed** | Slower (zero-shot reasoning requires more tokens) | Faster (predefined workflows, minimal reasoning) |
+| **Speed** | Slower (dynamic reasoning requires more tokens) | Faster (predefined workflows, minimal reasoning) |
 | **Cost** | Higher per request (exploration is expensive) | Lower per request (optimized prompts, bounded scope) |
 | **Reliability** | Variable (creative means unpredictable) | Consistent (same inputs → same outputs) |
 | **Governance** | Harder (flexibility resists constraints) | Easier (guardrails are built-in) |
@@ -514,7 +514,7 @@ This is the Agent Factory. This is how AI products actually get built.
 | **Core Purpose** | Explore, discover, prototype | Execute, scale, govern |
 | **Optimization Target** | Flexibility and reasoning | Reliability and efficiency |
 | **Your Role** | Director | Builder |
-| **Planning Style** | Zero-shot (dynamic) | Pre-designed (encoded) |
+| **Planning Style** | Dynamic (from scratch) | Pre-designed (encoded) |
 | **Context Model** | Repository-aware, adaptive | Tool-aware, structured |
 | **Governance** | Human-in-the-loop | Guardrails by design |
 | **Reliability** | Variable (creative) | Consistent (deterministic) |

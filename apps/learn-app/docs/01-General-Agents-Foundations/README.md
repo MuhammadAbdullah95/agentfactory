@@ -21,13 +21,13 @@ Part 1 consists of four chapters that build from concepts to communication to to
 
 ### Chapter 1: The AI Agent Factory Paradigm (Conceptual Foundation)
 
-**The Transformation Context (Lessons 1-2)**: You'll examine concrete evidence proving 2026 is a genuine inflection point—ICPC perfect scores, 84% developer adoption, $3 trillion economy transformation. You'll understand why this disruption is fundamentally different from previous technology shifts and how your role evolves from coder to orchestrator.
+**Foundational Concepts (Lessons 1-3)**: You'll examine concrete evidence proving 2025 is a genuine inflection point—ICPC perfect scores, 84% developer adoption, $3 trillion economy transformation. You'll understand the three core operational constraints of LLMs (statelessness, probabilistic outputs, context limits) that shape all AI-native development, and learn how your role evolves from coder to orchestrator through the OODA Loop.
 
-**The Technical Foundation (Lessons 3-4)**: You'll learn the Five Powers that enable autonomous agents (See, Hear, Reason, Act, Remember), the three-layer AI development stack, and the AIFF standards ecosystem (MCP, AGENTS.md, Agent Skills) that makes Digital FTEs possible.
+**Technical Architecture (Lessons 4-5)**: You'll learn the Five Powers that enable autonomous agents (See, Hear, Reason, Act, Remember), the three-layer AI development stack, and the AIFF standards ecosystem (MCP, AGENTS.md, Agent Skills) that makes Digital FTEs possible.
 
-**The Business Strategy (Lessons 5-6)**: You'll discover how to position your domain expertise as a competitive moat, understand the Digital FTE business model and monetization strategies, and master the nine pillars of AI-Driven Development (AIDD).
+**Business Strategy (Lessons 6-7)**: You'll discover how to position your domain expertise as a competitive moat, understand the Digital FTE business model and monetization strategies, and master the nine pillars of AI-Driven Development (AIDD).
 
-**The Methodology (Lessons 7-8)**: You'll learn Spec-Driven Development—specifications as the new syntax—and how to orchestrate AI collaboration across the development lifecycle. The final lesson synthesizes everything into a coherent vision for building Digital FTEs.
+**Methodology & Synthesis (Lessons 8-9)**: You'll learn Spec-Driven Development—specifications as the new syntax—and how to orchestrate AI collaboration across the development lifecycle. The final lesson synthesizes everything into a coherent vision for building Digital FTEs.
 
 ### Chapter 2: Markdown - Writing Instructions
 
