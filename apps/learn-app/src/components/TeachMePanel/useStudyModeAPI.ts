@@ -39,10 +39,10 @@ interface ErrorResponse {
 // API Configuration
 // =============================================================================
 
-// API base URL - can be configured via window variable or defaults to API server
+// API base URL - can be configured via window variable or defaults to ChatKit server
 const API_BASE_URL = typeof window !== 'undefined'
-  ? (window as unknown as { __STUDY_MODE_API_URL__?: string }).__STUDY_MODE_API_URL__ || 'http://localhost:3001/api'
-  : 'http://localhost:3001/api';
+  ? (window as unknown as { __STUDY_MODE_API_URL__?: string }).__STUDY_MODE_API_URL__ || 'http://localhost:8000/api'
+  : 'http://localhost:8000/api';
 
 // =============================================================================
 // Hook
@@ -62,14 +62,19 @@ export function useStudyModeAPI() {
    * @param lessonPath - The lesson path for API context
    * @param userMessage - The user's message
    * @param conversationKey - Optional key for storing conversation (defaults to lessonPath)
+   * @param overrideMode - Optional mode override (use when mode state may not be updated yet)
    */
   const sendMessage = useCallback(async (
     lessonPath: string,
     userMessage: string,
-    conversationKey?: string
+    conversationKey?: string,
+    overrideMode?: ChatMode
   ): Promise<void> => {
     // Use conversationKey for storage, defaults to lessonPath for backward compatibility
     const storageKey = conversationKey || lessonPath;
+
+    // Use override mode if provided (for when React state hasn't updated yet)
+    const effectiveMode = overrideMode || mode;
 
     // Get current conversation history
     const conversation = getCurrentConversation(storageKey);
@@ -89,7 +94,7 @@ export function useStudyModeAPI() {
       lessonPath,
       userMessage,
       conversationHistory: conversation.messages,
-      mode,
+      mode: effectiveMode,
     };
 
     setLoading(true);

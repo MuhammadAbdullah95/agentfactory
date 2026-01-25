@@ -64,26 +64,57 @@ function parseMessageForClickables(content: string): {
   let mainContent = content;
   let label = '';
 
-  // Pattern for "Think about this:" (Teach mode Socratic questions)
-  const socraticMatch = content.match(/🤔\s*\*\*Think about this:\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
-  if (socraticMatch) {
-    label = '🤔 Think about this:';
-    const socraticSection = socraticMatch[1];
-    // Extract bullet points (• or -)
-    const bulletPoints = socraticSection.match(/[•\-]\s*([^\n]+)/g);
-    if (bulletPoints) {
-      bulletPoints.forEach(bp => {
-        const text = bp.replace(/^[•\-]\s*/, '').trim();
-        if (text) {
-          clickables.push({ text, type: 'topic' });
-        }
-      });
+  // NEW: "Quick check:" format: 🤔 **Quick check:** [question]
+  const quickCheckMatch = content.match(/🤔\s*\*\*Quick check:\*\*\s*([^\n]+)/i);
+  if (quickCheckMatch) {
+    const question = quickCheckMatch[1].trim();
+    if (question) {
+      label = '🤔 Quick check:';
+      clickables.push({ text: question, type: 'topic' });
+      // Remove the quick check line from main content
+      mainContent = content.replace(/🤔\s*\*\*Quick check:\*\*\s*[^\n]+/i, '').trim();
     }
-    // Remove the Socratic section from main content
-    mainContent = content.replace(/🤔\s*\*\*Think about this:\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
   }
 
-  // Pattern for "Let me check:" (Teach mode opening Socratic question)
+  // Single question format: 🤔 **[Question here?]**
+  if (clickables.length === 0) {
+    const singleSocraticMatch = content.match(/🤔\s*\*\*([^*]+\?)\*\*/);
+    if (singleSocraticMatch) {
+      const question = singleSocraticMatch[1].trim();
+      // Make sure it's a real question, not a section header
+      if (question && !question.includes(':') && question.endsWith('?')) {
+        label = '🤔 Your turn to think:';
+        clickables.push({ text: question, type: 'topic' });
+        // Remove just the question line from main content
+        mainContent = content.replace(/🤔\s*\*\*[^*]+\?\*\*/, '').trim();
+        // Also remove the optional "(Just share your thoughts...)" line
+        mainContent = mainContent.replace(/\(Just share your thoughts[^)]*\)/i, '').trim();
+      }
+    }
+  }
+
+  // Legacy: Pattern for "Think about this:" (Teach mode Socratic questions with bullets)
+  if (clickables.length === 0) {
+    const socraticMatch = content.match(/🤔\s*\*\*Think about this:\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
+    if (socraticMatch) {
+      label = '🤔 Think about this:';
+      const socraticSection = socraticMatch[1];
+      // Extract bullet points (• or -)
+      const bulletPoints = socraticSection.match(/[•\-]\s*([^\n]+)/g);
+      if (bulletPoints) {
+        bulletPoints.forEach(bp => {
+          const text = bp.replace(/^[•\-]\s*/, '').trim();
+          if (text) {
+            clickables.push({ text, type: 'topic' });
+          }
+        });
+      }
+      // Remove the Socratic section from main content
+      mainContent = content.replace(/🤔\s*\*\*Think about this:\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
+    }
+  }
+
+  // Legacy: Pattern for "Let me check:" (Teach mode opening Socratic question)
   const checkMatch = content.match(/🤔\s*\*\*Let me check:\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
   if (checkMatch && clickables.length === 0) {
     label = '🤔 Let me check:';
@@ -108,7 +139,7 @@ function parseMessageForClickables(content: string): {
     mainContent = content.replace(/🤔\s*\*\*Let me check:\*\*:?\s*[\s\S]*?(?=\n\n|$)/i, '').trim();
   }
 
-  // Pattern for "Do you also want to know about?" (Teach mode topics - legacy)
+  // Legacy: Pattern for "Do you also want to know about?" (Teach mode topics)
   const topicsMatch = content.match(/🤔\s*\*\*Do you also want to know about\?\*\*:?\s*([\s\S]*?)(?=\n\n|$)/i);
   if (topicsMatch && clickables.length === 0) {
     label = '🤔 Do you also want to know about?';
@@ -254,6 +285,21 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   // Track previous mode to detect changes
   const prevModeRef = useRef(mode);
 
+  // Auto-send initial message when panel opens with empty conversation
+  useEffect(() => {
+    if (isOpen && conversation.messages.length === 0 && !isLoading) {
+      // Small delay to ensure component is fully mounted
+      const timer = setTimeout(() => {
+        if (mode === 'teach') {
+          sendMessage(lessonPath, 'teach me', `${lessonPath}:${mode}`, mode);
+        } else if (mode === 'ask') {
+          sendMessage(lessonPath, 'show suggestions', `${lessonPath}:${mode}`, mode);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, conversation.messages.length, isLoading, mode, lessonPath, sendMessage]);
+
   // Scroll to show the start of new AI response (not the end)
   useEffect(() => {
     const currentCount = conversation.messages.length;
@@ -265,21 +311,21 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
       if (lastMessage.role === 'assistant') {
         // Scroll to show the START of the new AI message (not the end)
         const scrollToStart = () => {
-          const scrollWrapper = document.querySelector('.cs-message-list__scroll-wrapper');
-          const messages = document.querySelectorAll('.cs-message');
-          const lastMessageEl = messages[messages.length - 1] as HTMLElement;
+          // Find the last message element and scroll it into view at the TOP
+          const messageList = document.querySelector('.cs-message-list');
+          const messages = messageList?.querySelectorAll('.cs-message-group');
+          const lastMessageGroup = messages?.[messages.length - 1] as HTMLElement;
 
-          if (scrollWrapper && lastMessageEl) {
-            // Scroll to position the message at the top with padding
-            const targetScroll = lastMessageEl.offsetTop - 10;
-            scrollWrapper.scrollTop = targetScroll;
+          if (lastMessageGroup) {
+            // Use scrollIntoView with 'start' to show beginning of message
+            lastMessageGroup.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         };
 
-        // Run multiple times to override ChatScope's auto-scroll
-        setTimeout(scrollToStart, 50);
-        setTimeout(scrollToStart, 150);
-        setTimeout(scrollToStart, 300);
+        // Delay to let DOM render, then override ChatScope's auto-scroll
+        setTimeout(scrollToStart, 100);
+        setTimeout(scrollToStart, 250);
+        setTimeout(scrollToStart, 500);
       }
     }
 
@@ -298,9 +344,11 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
     if (existingConversation.messages.length === 0) {
       setTimeout(() => {
         if (newMode === 'ask') {
-          sendMessage(lessonPath, 'show suggestions', newConversationKey);
+          // Pass mode explicitly to avoid stale state issue
+          sendMessage(lessonPath, 'show suggestions', newConversationKey, newMode);
         } else if (newMode === 'teach') {
-          sendMessage(lessonPath, 'teach me', newConversationKey);
+          // Pass mode explicitly to avoid stale state issue
+          sendMessage(lessonPath, 'teach me', newConversationKey, newMode);
         }
       }, 100);
     }
@@ -552,3 +600,4 @@ export { ModeToggle } from './ModeToggle';
 export { ChatMessages } from './ChatMessages';
 export { ChatInput } from './ChatInput';
 export { useStudyModeAPI } from './useStudyModeAPI';
+
