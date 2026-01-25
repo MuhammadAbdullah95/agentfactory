@@ -5,7 +5,7 @@ title: "Chapter 1: The AI Agent Factory Paradigm"
 
 # Chapter 1: The AI Agent Factory Paradigm
 
-Welcome to the foundational chapter that establishes the mental models you need for AI-native development. This chapter consolidates the essential concepts into a focused, 8-lesson journey that will transform how you think about building software with AI.
+Welcome to the foundational chapter that establishes the mental models you need for AI-native development. This chapter consolidates the essential concepts into a focused, 9-lesson journey that will transform how you think about building software with AI.
 
 By the end of this chapter, you'll understand not just *that* AI is changing software development, but *how to think about this transformation strategically*. You'll see why 2026 is a genuine inflection point, what the Agent Factory paradigm is, and how to position yourself to build Digital FTEs—AI-powered agents that work 24/7 and generate recurring revenue.
 
@@ -19,6 +19,8 @@ This chapter builds your conceptual framework through four integrated progressio
 - Your evolving role from coder to orchestrator
 
 **The Technical Foundation**
+- The Agent Maturity Model
+- The Core LLM Constraints
 - The Five Powers that enable autonomous agents
 - The three-layer AI development stack
 - How user intent is replacing user interface
@@ -30,7 +32,7 @@ This chapter builds your conceptual framework through four integrated progressio
 - The nine pillars of AI-Driven Development (AIDD)
 - Why discipline matters more when AI amplifies your habits
 
-**The Methodology (Lessons 7-8)**
+**The Methodology (Lessons 8-9)**
 - Spec-Driven Development: specifications as the new syntax
 - How to orchestrate AI collaboration across the development lifecycle
 - Synthesis: bringing it all together into a coherent vision
