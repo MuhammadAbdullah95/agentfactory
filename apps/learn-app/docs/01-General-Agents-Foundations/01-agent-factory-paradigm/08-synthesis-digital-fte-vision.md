@@ -64,25 +64,48 @@ workflow: "synthesis lesson"
 version: "1.0.0"
 ---
 
-# Synthesis - The Digital FTE Vision
+That’s a vital distinction. The transition from a "session-based tool" to a "Digital FTE" is defined by **autonomy** and **persistence**. A teammate doesn't wait for you to wake them up every morning; they are already monitoring the codebase or the queue.
 
-You've traveled through seven lessons that established a new mental model for software development. You've seen the evidence of an inflection point. You've understood the scale of transformation. You've learned how the Agent Factory paradigm works, what makes AI agents powerful, and how to structure work for AI collaboration.
+Here is the refined synthesis, incorporating the requirement for 24/7 autonomous operation.
+
+---
+
+## Synthesis: The Digital FTE Vision
+
+You've traveled through seven lessons that established a new mental model for software development. You've seen the evidence of an inflection point and understood the scale of transformation. You’ve learned how the **Agent Factory** paradigm works, what makes AI agents powerful, and how to structure work for AI collaboration.
 
 Now it's time to see where this leads—and the critical choice you face.
 
-## From Tools to Teammates
+### From Tools to Teammates
 
 Throughout this chapter, we've been building toward a realization that changes how you think about AI in software development.
 
-**Traditional View**: AI is a tool. You prompt it, it responds, you use the output.
+* **Traditional View:** AI is a tool. You prompt it, it responds, you use the output.
+* **Agent Factory View:** AI agents are teammates. They reason, remember, act, and improve.
+* **Digital FTE View:** AI agents become **Digital Full-Time Employees**—specialized digital workers that handle entire functions within your organization.
 
-**Agent Factory View**: AI agents are *teammates*. They reason, remember, act, and improve. General Agents help you explore and prototype. Custom Agents execute specialized tasks reliably.
+### The Evolution: Generalists vs. Digital FTEs
 
-**Digital FTE View**: Custom Agents become **Digital Full-Time Employees**—specialized digital workers that handle entire functions within your organization or product.
+A common question arises: *Can’t a powerful General Agent (like Claude Code) act as a Digital FTE?*
 
-This isn't metaphor. It's the logical extension of everything you've learned.
+The answer is **yes**, provided it is moved out of the "chat box" and into a production environment. A General Agent becomes a Digital FTE when you augment its raw reasoning with **Agent Skills** and **MCP (Model Context Protocol)**, and—crucially—deploy it to run **autonomously 24/7**.
 
-A **Digital FTE** is a Custom Agent engineered to own a specific function—customer support, code review, content moderation, data analysis—with the reliability you'd expect from a human team member.
+| Component | Role in the Digital FTE |
+| --- | --- |
+| **The General Model** | The **Brain**: Reasoning, logic, and communication. |
+| **MCP & Tooling** | The **Hands**: Direct access to your specific codebase, cloud infrastructure, or databases. |
+| **Agent Skills** | The **Training**: The specialized SOPs, guardrails, and domain knowledge required for the role. |
+| **Autonomous Loop** | The **Shift**: The ability to run 24/7, monitoring triggers and taking action without a human "Start" command. |
+
+### The New Standard of Work
+
+A **Digital FTE** is the total package: a Custom Agent (or a Generalist with specific MCP and Agent Skills integrations) engineered to **own a specific function**—such as continuous security auditing, real-time code review, or automated tier-1 support.
+
+> **The FTE Threshold:** It isn't just about what the agent *can* do, but *how* it exists. A tool waits for a prompt; a Digital FTE monitors its domain, identifies needs, and executes solutions with the reliability and persistence you'd expect from a human team member.
+
+This isn't a metaphor. It's the logical extension of everything you've learned. Whether built from scratch or configured via a Generalist's skills, the goal remains the same: moving from "AI as an assistant" to "AI as a functional owner."
+
+---
 
 ## The Critical Fork: Vibe Coding vs. Spec-Driven Development
 
@@ -192,11 +215,11 @@ In this chapter, you learned:
 
 7. **Spec-Driven Development** (Lesson 7): The four-phase methodology (specify → clarify → plan → implement) that makes AI collaboration effective.
 
-8. **The Digital FTE Vision** (this lesson): Custom Agents become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
+8. **The Digital FTE Vision** (this lesson): Custom Agents and General Agents in certain circustances become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
 
 You now have the mental models for AI-native development.
 
-**Next**: Chapter 2 dives deeper into the Agent Foundation Framework (AIFF) standards that make building Digital FTEs practical.
+**Next**: Chapter 2: Markdown - Writing Instructions explores the syntax and strategies for documenting the "Standard Operating Procedures" that allow your Digital FTEs to operate with precision and clarity.
 
 ## Try With AI
 
