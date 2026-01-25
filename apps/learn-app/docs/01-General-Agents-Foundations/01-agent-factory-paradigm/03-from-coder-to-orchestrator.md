@@ -2,9 +2,9 @@
 title: "From Coder to Orchestrator and the OODA Loop"
 description: "Understand how developer roles evolve from implementing code to directing AI collaborators, and how the OODA Loop powers autonomous agents"
 sidebar_label: "From Coder to Orchestrator and the OODA Loop"
-sidebar_position: 2
+sidebar_position: 3
 chapter: 1
-lesson: 2
+lesson: 3
 duration_minutes: 30
 
 # PEDAGOGICAL LAYER METADATA

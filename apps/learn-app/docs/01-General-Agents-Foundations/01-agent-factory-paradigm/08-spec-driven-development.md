@@ -1,8 +1,8 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 title: "Spec-Driven Development"
 chapter: 1
-lesson: 7
+lesson: 8
 duration_minutes: 30
 
 # HIDDEN SKILLS METADATA

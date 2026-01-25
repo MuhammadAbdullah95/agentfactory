@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 10
 title: "Chapter 1: The AI Agent Factory Paradigm Quiz"
 proficiency_level: A2
 layer: 1

@@ -1,9 +1,9 @@
 ---
 title: "Five Powers and the Modern AI Stack"
 chapter: 1
-lesson: 3
+lesson: 4
 duration_minutes: 30
-sidebar_position: 3
+sidebar_position: 4
 
 # HIDDEN SKILLS METADATA
 skills:

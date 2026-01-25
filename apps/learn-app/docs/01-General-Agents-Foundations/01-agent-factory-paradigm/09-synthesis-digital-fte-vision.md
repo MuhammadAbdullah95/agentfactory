@@ -1,9 +1,9 @@
 ---
 title: "Synthesis - The Digital FTE Vision"
 sidebar_label: "Synthesis - Digital FTE Vision"
-sidebar_position: 8
+sidebar_position: 9
 chapter: 1
-lesson: 8
+lesson: 9
 duration_minutes: 10
 proficiency: "A1"
 concepts: 3

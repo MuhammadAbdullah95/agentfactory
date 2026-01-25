@@ -1,8 +1,8 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 title: "Nine Pillars of AIDD"
 chapter: 1
-lesson: 6
+lesson: 7
 duration_minutes: 30
 
 # HIDDEN SKILLS METADATA

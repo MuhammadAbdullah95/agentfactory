@@ -1,10 +1,10 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 title: "AIFF Standards - The Foundation"
 description: "Understanding the Agentic AI Foundation standards (MCP, AGENTS.md, goose, Skills, MCP Apps) that enable portable, sellable Digital FTEs"
 keywords: [AAIF, Agentic AI Foundation, MCP, AGENTS.md, goose, Agent Skills, MCP Apps, Linux Foundation, open standards]
 chapter: 1
-lesson: 4
+lesson: 5
 duration_minutes: 40
 
 # HIDDEN SKILLS METADATA

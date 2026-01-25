@@ -1,10 +1,10 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: "Digital FTE Business Strategy"
 description: "Transform your domain expertise into a defensible AI product: competitive positioning, economics, monetization models, market entry strategy, and guardrails."
 reading_time: "15 minutes"
 chapter: 1
-lesson: 5
+lesson: 6
 duration_minutes: 40
 
 # HIDDEN SKILLS METADATA
