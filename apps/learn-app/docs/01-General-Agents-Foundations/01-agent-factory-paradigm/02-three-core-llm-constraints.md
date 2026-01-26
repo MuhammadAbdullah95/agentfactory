@@ -110,7 +110,7 @@ Message 3: You -> "I'm building a registration system"
 | What You Might Expect | What Actually Happens | How to Adapt |
 |----------------------|----------------------|--------------|
 | "It remembers my coding style" | Model has no memory of past sessions | Provide style guides in AGENTS.md or specifications |
-| "It knows my project" | Each message starts fresh | Give the model access to your codebase; use AI-first IDEs |
+| "It knows my project" | Each message starts fresh | Give the model access to your codebase; use AI-first IDEs and/or Coding Agents |
 | "It learned from our last conversation" | No learning occurs between sessions | Document decisions and re-inject context |
 | "It will remember this preference" | Preferences are forgotten immediately | Encode preferences in persistent configuration files |
 
