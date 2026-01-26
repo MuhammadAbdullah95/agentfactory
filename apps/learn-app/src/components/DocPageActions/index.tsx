@@ -28,6 +28,7 @@ import { siClaude } from "simple-icons/icons";
 import TurndownService from 'turndown';
 import { useAuth } from '@/contexts/AuthContext';
 import { getOAuthAuthorizationUrl } from '@/lib/auth-client';
+import { useStudyMode } from '@/contexts/StudyModeContext';
 
 // Concurrency limit for parallel fetching
 const FETCH_CONCURRENCY = 4;
@@ -207,6 +208,24 @@ const LoadingIcon = () => (
     </svg>
 );
 
+const TeachMeIcon = () => (
+    <svg
+        className="doc-actions-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+    </svg>
+);
+
 // ============================================================================
 // TYPES
 // ============================================================================
@@ -290,6 +309,7 @@ export function DocPageActions() {
     const doc = useDoc();
     const { siteConfig } = useDocusaurusContext();
     const { session, isLoading: authLoading } = useAuth();
+    const { openPanel } = useStudyMode();
     const [copied, setCopied] = useState(false);
     const [downloaded, setDownloaded] = useState(false);
     const [chapterDownloading, setChapterDownloading] = useState(false);
@@ -684,6 +704,18 @@ export function DocPageActions() {
 
     return (
         <div className="doc-page-actions" role="toolbar" aria-label="Page actions">
+            {/* Teach Me Button */}
+            <Tooltip content="AI Study Mode" position="bottom">
+                <button
+                    className="doc-page-actions-teach-me"
+                    onClick={openPanel}
+                    aria-label="Open AI Study Mode"
+                >
+                    <TeachMeIcon />
+                    <span>Teach Me</span>
+                </button>
+            </Tooltip>
+
             {/* Split Button: Main action + Dropdown trigger */}
             <div className={`doc-page-actions-split ${copied ? 'doc-page-actions-split--success' : ''}`}>
                 {/* Primary Action: Copy Markdown */}

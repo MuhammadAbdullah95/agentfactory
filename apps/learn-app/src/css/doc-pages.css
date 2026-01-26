@@ -143,6 +143,44 @@ article {
 .doc-page-actions {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+}
+
+/* Teach Me button - prominent purple gradient */
+.doc-page-actions-teach-me {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary), oklch(0.5 0.2 280));
+  border: none;
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  box-shadow: 0 2px 8px oklch(0 0 0 / 0.15);
+  min-height: 36px;
+}
+
+.doc-page-actions-teach-me:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 0.2);
+}
+
+.doc-page-actions-teach-me:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.doc-page-actions-teach-me svg {
+  width: 16px;
+  height: 16px;
+}
+
+[data-theme='dark'] .doc-page-actions-teach-me {
+  background: linear-gradient(135deg, var(--primary), oklch(0.45 0.2 280));
 }
 
 /* Split button container - pill shape with subtle shadow */
@@ -740,39 +778,6 @@ article {
 .back-to-top-button {
   width: 40px !important;
   height: 40px !important;
-}
-
-/* Teach Me button - prominent styling */
-.teach-me-button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 0.5rem !important;
-  width: auto !important;
-  padding: 0.75rem 1rem !important;
-  border-radius: 8px !important;
-  background: linear-gradient(135deg, var(--primary), oklch(0.5 0.2 280)) !important;
-  border: none !important;
-  color: white !important;
-  font-weight: 600 !important;
-  font-size: 0.875rem !important;
-  cursor: pointer !important;
-  transition: all 200ms ease-out !important;
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.2) !important;
-}
-
-.teach-me-button:hover {
-  transform: translateY(-2px) scale(1.02) !important;
-  box-shadow: 0 6px 20px oklch(0 0 0 / 0.25) !important;
-}
-
-.teach-me-button svg {
-  width: 18px !important;
-  height: 18px !important;
-}
-
-[data-theme='dark'] .teach-me-button {
-  background: linear-gradient(135deg, var(--primary), oklch(0.45 0.2 280)) !important;
 }
 
 /* Hide Docusaurus's built-in back-to-top button (we use custom implementation) */
