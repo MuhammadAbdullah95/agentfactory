@@ -2,6 +2,75 @@
 
 Migration and utility scripts for PanaversityFS.
 
+## upload_asset.py
+
+Upload any asset (PDF, image, video, audio) and get the CDN URL back.
+
+### Usage
+
+```bash
+cd apps/panaversity-fs-py
+
+# Upload PDF for Chapter 1 quiz
+uv run python scripts/upload_asset.py \
+    --file ./chapter-01-quiz.pdf \
+    --type slides \
+    --part 01 \
+    --chapter 01
+
+# Upload with custom name
+uv run python scripts/upload_asset.py \
+    --file ./quiz.pdf \
+    --type slides \
+    --part 01 \
+    --chapter 01 \
+    --name chapter-assessment
+
+# Dry run (preview URL without uploading)
+uv run python scripts/upload_asset.py \
+    --file ./quiz.pdf \
+    --type slides \
+    --part 01 \
+    --chapter 01 \
+    --dry-run
+```
+
+### Asset Types
+
+| Type | Extensions |
+|------|------------|
+| `images` | .png, .jpg, .jpeg, .gif, .svg, .webp |
+| `slides` | .pdf, .pptx, .key |
+| `videos` | .mp4, .webm, .mov |
+| `audio` | .mp3, .wav, .ogg, .m4a |
+
+### Output
+
+```
+✓ Uploaded:
+  https://pub-xxx.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-01/chapter-assessment.pdf
+
+Ready to use:
+  [Download chapter-assessment](https://pub-xxx.r2.dev/...)
+  Or embed: <embed src="..." type="application/pdf" width="100%" height="600px" />
+```
+
+---
+
+## upload_image.py
+
+Upload images specifically (simpler interface for common case).
+
+```bash
+uv run python scripts/upload_image.py \
+    --image ./diagram.png \
+    --part 02 \
+    --chapter 05 \
+    --name skill-architecture
+```
+
+---
+
 ## migrate_book_source.py
 
 Migrate content from `book-source/` to any storage backend via OpenDAL.

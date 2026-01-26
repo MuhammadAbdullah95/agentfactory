@@ -630,5 +630,4 @@ The book uses **Task/TaskManager** as the unified running example:
 ## References
 
 - Constitution (source of truth): `.specify/memory/constitution.md`
-- Detailed failure modes: `.claude/docs/failure-modes.md`
 - Book Content Path: `apps/learn-app/docs`
