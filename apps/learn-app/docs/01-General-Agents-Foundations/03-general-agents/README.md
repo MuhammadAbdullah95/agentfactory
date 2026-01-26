@@ -11,9 +11,9 @@ slides:
 
 You know *why* AI-driven development matters—and that it's happening right now, in 2026. But understanding transformation and experiencing it are two different things.
 
-This chapter introduces you to **Claude's General Agents**—Claude Code and Claude Cowork. These aren't just AI assistants; they're **agentic AI systems** that can reason through problems, make plans, and take action across domains.
+This chapter introduces you to **Claude's General Agents**—Claude Code and Cowork. These aren't just AI assistants; they're **agentic AI systems** that can reason through problems, make plans, and take action across domains.
 
-What's a General Agent? An AI that observes, orients, decides, and acts—the OODA loop—executing actions rather than just generating text. Claude Code uses the terminal interface (for developers), while Claude Cowork uses the desktop interface (for knowledge workers). Both run on the same Claude Agent SDK.
+What's a General Agent? An AI that observes, orients, decides, and acts—the OODA loop—executing actions rather than just generating text. Claude Code uses the terminal interface (for developers), while Claude Cowork uses the desktop interface (for knowledge workers). Both are powered by the same Claude Agent SDK.
 
 The goal is **not to build a supercomputer**, but to establish Claude as your **collaborative thinking partner** for everything—and to build Skills that can become products.
 
@@ -24,7 +24,7 @@ The goal is **not to build a supercomputer**, but to establish Claude as your **
 By the end of this chapter, you'll have:
 
 - **General Agents Explained** — Understanding why Claude's agentic AI is fundamentally different from passive assistants: the OODA reasoning loop, the Product Overhang insight, and filesystem access as the universal interface
-- **Two Interfaces, One AI** — Claude Code (terminal-based for developers) and Claude Cowork (desktop-based for knowledge workers), both running on the Claude Agent SDK
+- **Two Interfaces, One AI** — Claude Code (terminal-based for developers) and Cowork (desktop-based for knowledge workers), both running on the Claude Agent SDK
 - **Claude Code Installed & Working** — Complete setup with **multiple paths**: Official Claude Pro/Max subscription (Lesson 2), OR free backends via OpenRouter, Gemini, or DeepSeek (Lesson 3)
 - **Hello World** — Mastering the CLI interface (Lesson 4): slash commands, permission loops, and safe usage patterns
 - **Persistent Project Context** — Creating CLAUDE.md files (Lesson 5) that eliminate repetitive context-sharing and establish team memory
