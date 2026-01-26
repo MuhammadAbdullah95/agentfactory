@@ -1055,3 +1055,12 @@ null
 
 {"timestamp":"2026-01-25T20:27:11Z","session_id":"7a55846d-67fd-4886-bbcf-485ff0f0e4d6","prompt":"Is evethig above fixed and implemented?"}
 {"timestamp":"2026-01-25T20:52:51Z","session_id":"7a55846d-67fd-4886-bbcf-485ff0f0e4d6","prompt":"branch commit puh and pr to main"}
+{"timestamp": "2026-01-26T06:17:33Z", "session_id": "aece10a7-daf0-4998-81ae-41fec9bce8f4", "prompt": "This is the chapter 4 of our book @apps/learn-app/docs/01-General-Agents-Foundations/04-seven-principles/01-bash-is-the-key.md . Yet it is the start of the book, the content is enriched and seems good but from beginner point of view, I see the examples given are more kind of for those who already know the programming language. What do you think about that. What other issue you see in this lesson. "}
+{"timestamp": "2026-01-26T08:12:18Z", "session_id": "6e43bd08-ee99-4b28-a2ec-7469181141dc", "prompt": "create a new branch and let's update lesson 1 as per our findings"}
+{"timestamp": "2026-01-26T08:23:40Z", "session_id": "6e43bd08-ee99-4b28-a2ec-7469181141dc", "prompt": "Rather than outline, let's restructure the lesson to keep the core idea and concepts of the principle. We also need to make sure that it is beginner friendly, talking to the User rather than authoritative tone, like a first person and not verbose. "}
+
+{"timestamp": "2026-01-26T08:32:06Z", "session_id": "6e43bd08-ee99-4b28-a2ec-7469181141dc", "prompt": "2. the second problem is, you are introducing claude code and claude cowork which the reader hasn"}
+{"timestamp": "2026-01-26T08:33:08Z", "session_id": "6e43bd08-ee99-4b28-a2ec-7469181141dc", "prompt": "2. the second problem is, you are introducing claude code and claude cowork which the reader hasn't read yet. So we need to be general and focus on general agent approach rather than claude code and cowork. the principle i gave you was the idea, the concept"}
+{"timestamp": "2026-01-26T08:36:10Z", "session_id": "6e43bd08-ee99-4b28-a2ec-7469181141dc", "prompt": "we don't need \"tools where terminal is hidden\" . that can be explained where cowork is introduced. We should focus on the concept which is bash is the key"}
+
+{"timestamp": "2026-01-26T09:17:55Z", "session_id": "6e43bd08-ee99-4b28-a2ec-7469181141dc", "prompt": "Update the lesson 1 summary as per updated lesson 1 content"}
