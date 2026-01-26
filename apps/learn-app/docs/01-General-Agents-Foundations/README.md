@@ -61,7 +61,7 @@ The Agent Factory paradigm changes everything about how you think about building
 
 - **General Agents** (like Claude Code) are thinking partners who help you explore problems and build solutions
 - **Custom Agents** (built with SDKs) are specialized products deployed at scale
-- **Digital FTEs** are Custom Agents engineered to own entire business functions
+- **Digital FTEs** are AI Agents engineered to own entire business functions
 
 The critical insight: **General Agents BUILD Custom Agents.** Claude Code isn't competing with the OpenAI SDK—it's using Claude Code to build the Custom Agents you'll deploy.
 
