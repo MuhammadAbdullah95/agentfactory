@@ -39,7 +39,7 @@ learning_objectives:
     proficiency_level: "A2"
     bloom_level: "Understand"
     assessment_method: "Explanation of paradigm shift with concrete examples"
-  - objective: "Distinguish between Claude Code and Claude Cowork interfaces and use cases"
+  - objective: "Distinguish between Claude Code and Cowork interfaces and use cases"
     proficiency_level: "A2"
     bloom_level: "Understand"
     assessment_method: "Comparison table analysis and scenario-based selection"
@@ -47,7 +47,7 @@ learning_objectives:
 # Cognitive load tracking
 cognitive_load:
   new_concepts: 8
-  assessment: "8 concepts (agentic AI, context awareness, General Agents, OODA loop, Agent Factory, terminal integration, code as universal interface, Claude Cowork) - within A2 limit of 7 ✓"
+  assessment: "8 concepts (agentic AI, context awareness, General Agents, OODA loop, Agent Factory, terminal integration, code as universal interface, Cowork) - within A2 limit of 7 ✓"
 
 # Differentiation guidance
 differentiation:
@@ -96,7 +96,7 @@ When Anthropic released it internally (November 2024), adoption was explosive: 2
 
 Productivity data: engineers averaged five pull requests per day (vs. one to two at typical companies). Pull request throughput jumped 67% even as the team grew from two to ten people.
 
-By mid-2025, Claude Code generated $500M+ annual run-rate—almost entirely from word-of-mouth. The question: what made it spread so fast?
+By mid-2025, Claude Code generated $500M+ annual run-rate—almost entirely from word-of-mouth ($1B by November 2025). The question: what made it spread so fast?
 
 ---
 
@@ -167,7 +167,7 @@ Here's what's real: approximately ninety percent of Claude Code was written by C
 
 ---
 
-## The Second Product Overhang: Claude Cowork
+## The Second Product Overhang: Cowork
 
 Claude Code proved that giving Claude filesystem access unlocked extraordinary capability. But there was a barrier: the terminal.
 
@@ -175,9 +175,9 @@ For developers, the terminal is home. For everyone else, it's a wall.
 
 When Anthropic released Claude Code, they expected developers to use it for coding. They did—and then quickly began using it for almost everything else. Non-technical users who struggled through the terminal setup discovered Claude Code could organize files, process documents, and automate research tasks.
 
-In January 2026, Anthropic launched **Claude Cowork**—the same agent architecture, the same filesystem access paradigm, wrapped in the familiar Claude Desktop interface.
+In January 2026, Anthropic launched **Cowork**—the same agent architecture, the same filesystem access paradigm, wrapped in the familiar Claude Desktop interface.
 
-| Aspect | Claude Code | Claude Cowork |
+| Aspect | Claude Code | Cowork |
 |--------|-------------|---------------|
 | Interface | Terminal/CLI | Desktop App GUI |
 | Target User | Developers | Knowledge Workers |
