@@ -14,10 +14,13 @@ import type ContentType from '@theme/DocItem/Content';
 import type { WrapperProps } from '@docusaurus/types';
 import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import { usePluginData } from '@docusaurus/useGlobalData';
+import { useLocation } from '@docusaurus/router';
 import LessonContent from '../../../components/LessonContent';
 import ReactMarkdown from 'react-markdown';
 import ReadingProgress from '@/components/ReadingProgress';
 import DocPageActions from '@/components/DocPageActions';
+import { TeachMePanel } from '@/components/TeachMePanel';
+import { useStudyMode } from '@/contexts/StudyModeContext';
 
 type Props = WrapperProps<typeof ContentType>;
 
@@ -48,6 +51,29 @@ function ReadingTime() {
       </svg>
       <span>{readingTime} min read</span>
     </div>
+  );
+}
+
+/**
+ * Teach Me Button Component
+ * Opens the Study Mode panel
+ */
+function TeachMeButton() {
+  const { openPanel } = useStudyMode();
+
+  return (
+    <button
+      onClick={openPanel}
+      className="teach-me-button"
+      title="Open Study Mode"
+      aria-label="Open Study Mode - Get AI tutoring for this lesson"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+      <span>Teach Me</span>
+    </button>
   );
 }
 
@@ -168,6 +194,10 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   // Look up summary by doc ID (the key format matches how plugin stores them)
   const summary = summaries[docId];
 
+  // Get lesson path for TeachMePanel
+  const location = useLocation();
+  const lessonPath = location.pathname.replace(/^\/docs\//, '').replace(/\/$/, '');
+
   // If no summary, just render original content
   if (!summary) {
     return (
@@ -179,6 +209,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         </div>
         {/* Floating action buttons */}
         <div className="floating-actions">
+          <TeachMeButton />
           <BackToTopButton />
           <button
             onClick={() => setZenMode(!zenMode)}
@@ -204,6 +235,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </button>
         </div>
         <Content {...props} />
+        <TeachMePanel lessonPath={lessonPath} />
       </>
     );
   }
@@ -231,6 +263,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       </div>
       {/* Floating action buttons */}
       <div className="floating-actions">
+        <TeachMeButton />
         <BackToTopButton />
         <button
           onClick={() => setZenMode(!zenMode)}
@@ -258,6 +291,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       <LessonContent summaryElement={summaryElement}>
         <Content {...props} />
       </LessonContent>
+      <TeachMePanel lessonPath={lessonPath} />
     </>
   );
 }
