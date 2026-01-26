@@ -71,7 +71,9 @@ prerequisites:
 
 # Free Claude Code Setup
 
-**This lesson provides free alternatives to use Claude Code** without a subscription. You'll choose between Google Gemini or DeepSeek as your backend, learning the same Claude Code CLI interface and features covered in Lesson 2.
+**This lesson provides free alternatives to use Claude Code** without a subscription. You'll choose between Open Router, oGoogle Gemini or DeepSeek as your backend, learning the same Claude Code CLI interface and features covered in Lesson 2.
+
+⚠️ **Important (January 2026)**: Google significantly reduced Gemini API free tier limits in December 2025. Daily request limits dropped 50-80% for most models. OpenRouter free models have daily request limits that vary by model. OpenRouter offers 30+ free models AI Free API but with daily request limits. Models rotate and quality varies. [DeepSeek](https://api-docs.deepseek.com/quick_start/pricing) is not truly "free" but offers very low pricing (~$0.028-$0.42 per million tokens). Both deepseek-chat and deepseek-reasoner follow the same pricing: $0.028 per million input tokens (cache hit), $0.28 per million input tokens (cache miss), and $0.42 per million output tokens. Groq has a [Free Tier](https://community.groq.com/t/is-there-a-free-tier-and-what-are-its-limits/790) for its API via GroqCloud. Plan your usage accordingly and have backup options ready.
 
 **All features work identically**: Subagents, skills, MCP servers, hooks, and all other capabilities covered in Lessons 05-15 function the same way with free backends. The only difference is the backend AI model and API provider.
 
@@ -88,7 +90,7 @@ Before setup, decide which backend suits you. All three options provide identica
 | Factor | OpenRouter | Gemini | DeepSeek |
 | :--- | :--- | :--- | :--- |
 | **Available Models** | 5+ free options | Gemini 2.5 Flash | DeepSeek Chat/Reasoner |
-| **Free Tier** | Daily request limits per model | Daily request limits | Token-based (~$0.14/M tokens) |
+| **Free Tier** | Daily request limits per model | Daily request limits | Token-based (~$0.07-$1.68/M tokens) |
 | **Speed** | Very Fast | Very Fast | Fast |
 | **Setup Complexity** | Manual, most transparent | Easiest (few steps) | Slightly more involved |
 | **Reasoning Models** | Available (Qwen, Llama) | Native support | Native support |
