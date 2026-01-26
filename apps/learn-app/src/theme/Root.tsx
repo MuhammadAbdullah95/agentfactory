@@ -15,6 +15,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { PyodideProvider } from '@/contexts/PyodideContext';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
+import { StudyModeProvider } from '@/contexts/StudyModeContext';
 
 export default function Root({ children }: { children: React.ReactNode }) {
   const { siteConfig } = useDocusaurusContext();
@@ -24,9 +25,11 @@ export default function Root({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider authUrl={authUrl} oauthClientId={oauthClientId}>
       <PyodideProvider>
-        <AnalyticsTracker>
-          {children}
-        </AnalyticsTracker>
+        <StudyModeProvider>
+          <AnalyticsTracker>
+            {children}
+          </AnalyticsTracker>
+        </StudyModeProvider>
       </PyodideProvider>
     </AuthProvider>
   );

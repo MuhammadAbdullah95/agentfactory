@@ -14,10 +14,12 @@ import type ContentType from '@theme/DocItem/Content';
 import type { WrapperProps } from '@docusaurus/types';
 import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import { usePluginData } from '@docusaurus/useGlobalData';
+import { useLocation } from '@docusaurus/router';
 import LessonContent from '../../../components/LessonContent';
 import ReactMarkdown from 'react-markdown';
 import ReadingProgress from '@/components/ReadingProgress';
 import DocPageActions from '@/components/DocPageActions';
+import { TeachMePanel } from '@/components/TeachMePanel';
 
 type Props = WrapperProps<typeof ContentType>;
 
@@ -168,6 +170,10 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   // Look up summary by doc ID (the key format matches how plugin stores them)
   const summary = summaries[docId];
 
+  // Get lesson path for TeachMePanel
+  const location = useLocation();
+  const lessonPath = location.pathname.replace(/^\/docs\//, '').replace(/\/$/, '');
+
   // If no summary, just render original content
   if (!summary) {
     return (
@@ -204,6 +210,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </button>
         </div>
         <Content {...props} />
+        <TeachMePanel lessonPath={lessonPath} />
       </>
     );
   }
@@ -258,6 +265,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       <LessonContent summaryElement={summaryElement}>
         <Content {...props} />
       </LessonContent>
+      <TeachMePanel lessonPath={lessonPath} />
     </>
   );
 }
