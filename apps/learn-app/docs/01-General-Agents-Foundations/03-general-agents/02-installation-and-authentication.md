@@ -79,7 +79,7 @@ This isn't just about following installation commands. It's about crossing the b
 
 ## 🔀 Two Professional Paths Available
 
-This lesson covers the **official Claude subscription setup** (Pro $20/month or Max $200/month). If you prefer a **free/minimal cost alternative**, see **Lesson 3: Free Claude Code Setup with Google Gemini**.
+This lesson covers the **official Claude subscription setup** (Pro $20/month or Max $200/month). If you prefer a **free/minimal cost alternative**, see **Lesson 3: Free Claude Code Setup**.
 
 **Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 05-13).
 
@@ -108,13 +108,14 @@ Before we begin, verify you have the following:
 - **📍 Location**: Claude Code requires authentication from [Anthropic-supported countries](https://www.anthropic.com/supported-countries). Check availability during signup.
 
 **3. System Requirements**
-- **macOS**: 10.15 (Catalina) or later
+- **macOS**: 13 (Ventura) or later
 - **Windows**: Windows 10 or later
 - **Linux**: Ubuntu 20.04+ / Debian 10+
-- **RAM**: 4GB minimum
+- **RAM**: 8GB minimum
 
 **4. Optional (for npm installation only)**
 - **Node.js**: Version 18 or later (only required if using npm installation method)
+- **Deprecated**: NPM installation is deprecated. Use the native installation method when possible. 
 
 ---
 
@@ -371,6 +372,7 @@ X.X.XX (Claude Code)
 - You prefer npm-based workflows
 - You need to manage Claude Code versions via package.json
 - Your platform isn't officially supported by platform-specific installers
+- **Deprecated**: NPM installation is deprecated. Use the native installation method when possible.
 
 **Platforms**: Windows, macOS, Linux, WSL
 
@@ -455,6 +457,7 @@ If you need to remove Claude Code (for reinstallation or troubleshooting):
 ```bash
 rm -f ~/.local/bin/claude
 rm -rf ~/.claude-code
+rm ~/.claude.json
 ```
 
 **Windows PowerShell**:
