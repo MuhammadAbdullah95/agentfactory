@@ -14,6 +14,7 @@ Test your understanding of the foundational concepts that define AI-Driven Devel
 
 <Quiz
   title="Chapter 1: The AI Agent Factory Paradigm Assessment"
+  questionsPerBatch={30}
   questions={[
     {
       question: "Which of the following is concrete evidence that AI coding capability reached production quality in 2024-2025?",
