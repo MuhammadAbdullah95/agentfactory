@@ -1,9 +1,9 @@
 ---
-sidebar_position: 7
-title: "Chapter 6: Data Analysis & Financial Modeling"
+sidebar_position: 8
+title: "Chapter 8: Data Analysis & Financial Modeling"
 ---
 
-# Chapter 6: Data Analysis & Financial Modeling
+# Chapter 8: Data Analysis & Financial Modeling
 
 You have a spreadsheet with six months of transactions. A client wants a financial projection. Your accountant needs a reconciliation report. Each analysis requires combining data from multiple sources, applying domain-specific rules, and presenting results in a format stakeholders can act on.
 
@@ -53,7 +53,7 @@ By the end of this chapter, you'll be able to:
 | [L10](./10-capstone-finance-digital-fte.md) | Capstone: Finance Digital FTE | Complete financial analysis workflow |
 | [Quiz](./11-chapter-quiz.md) | Chapter Quiz | Test your understanding |
 
-## Connection to AI Employee (Chapter 10)
+## Connection to AI Employee (Chapter 11)
 
 The data analysis patterns you build here power your AI Employee's analytical capabilities. In Chapter 10, your employee uses these techniques to:
 

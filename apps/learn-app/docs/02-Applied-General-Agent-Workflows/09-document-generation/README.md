@@ -1,9 +1,9 @@
 ---
-sidebar_position: 8
-title: "Chapter 7: Professional Document Generation"
+sidebar_position: 9
+title: "Chapter 9: Professional Document Generation"
 ---
 
-# Chapter 7: Professional Document Generation
+# Chapter 9: Professional Document Generation
 
 Your manager needs a project proposal by end of day. You need quarterly slides for the board. A client asked for a technical specification. Each document has a different format, tone, and structure — and you're starting from a blank page every time.
 
@@ -47,9 +47,9 @@ By the end of this chapter, you'll be able to:
 | L06 | Iterative Refinement | Revision workflows and focused editing prompts |
 | L07 | Document Generation Capstone | Complete document suite for a project |
 
-## Connection to AI Employee (Chapter 10)
+## Connection to AI Employee (Chapter 11)
 
-The document generation patterns you build here power your AI Employee's output capabilities. In Chapter 10, your employee uses these techniques to:
+The document generation patterns you build here power your AI Employee's output capabilities. In Chapter 11, your employee uses these techniques to:
 
 - Draft email responses in your voice and style
 - Generate weekly status reports from activity logs
