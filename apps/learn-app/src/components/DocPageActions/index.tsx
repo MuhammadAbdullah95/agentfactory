@@ -704,8 +704,8 @@ export function DocPageActions() {
 
     return (
         <div className="doc-page-actions" role="toolbar" aria-label="Page actions">
-            {/* Teach Me Button */}
-            <Tooltip content="AI Study Mode" position="bottom">
+            {/* Teach Me Button - temporarily disabled */}
+            {/* <Tooltip content="AI Study Mode" position="bottom">
                 <button
                     className="doc-page-actions-teach-me"
                     onClick={openPanel}
@@ -714,7 +714,7 @@ export function DocPageActions() {
                     <TeachMeIcon />
                     <span>Teach Me</span>
                 </button>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Split Button: Main action + Dropdown trigger */}
             <div className={`doc-page-actions-split ${copied ? 'doc-page-actions-split--success' : ''}`}>
