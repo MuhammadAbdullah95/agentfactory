@@ -1,10 +1,9 @@
 ---
-sidebar_position: 9
-title: "Chapter 9: Version Control & Safe Experimentation"
+sidebar_position: 10
+title: "Chapter 10: Version Control & Safe Experimentation"
 ---
 
-# Chapter 9: Version Control & Safe Experimentation
-
+# Chapter 10: Version Control & Safe Experimentation
 You've been working on a document for three hours. You try something experimental. It breaks everything. You frantically press Ctrl+Z twenty times hoping to get back to the working version. Sometimes it works. Sometimes you lose an hour of progress.
 
 **The problem isn't experimentation. It's experimenting without a safety net.**
@@ -47,7 +46,7 @@ By the end of this chapter, you'll be able to:
 | [L04](./04-cloud-backup-portfolio.md) | Cloud Backup & Portfolio | remote, push, pull — GitHub as your safety net |
 | [L05](./05-code-review-pull-requests.md) | Code Review & Pull Requests | PR workflow for reviewing AI-generated changes |
 | [L06](./06-reusable-git-patterns.md) | Reusable Git Patterns | Common workflows you'll use repeatedly |
-| [Quiz](./07_chapter_09_quiz.md) | Chapter Quiz | Test your understanding |
+| [Quiz](./07-chapter-quiz.md) | Chapter Quiz | Test your understanding |
 
 ## Connection to AI Employee (Chapter 10)
 

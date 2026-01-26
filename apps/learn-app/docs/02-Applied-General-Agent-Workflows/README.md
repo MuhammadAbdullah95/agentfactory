@@ -16,24 +16,24 @@ This part is a progressive skills lab. Each chapter tackles a specific problem d
 Each chapter solves a real-world problem while explicitly applying the Seven Principles from Chapter 4. The complexity builds:
 
 ```
-Ch 5: File Processing         → Navigate and organize (Bash is the Key)
-Ch 6: Research Synthesis      → Gather and compare (Verification)
-Ch 7: Data Analysis           → Calculate and validate (Code as Interface)
-Ch 8: Document Generation     → Produce and refine (Persisting State)
-Ch 9: Version Control         → Track and recover (Reversible Decomposition)
-Ch 10: Build Your AI Employee → COMBINE EVERYTHING (All Seven Principles)
+Ch 6: File Processing         → Navigate and organize (Bash is the Key)
+Ch 7: Research Synthesis      → Gather and compare (Verification)
+Ch 8: Data Analysis           → Calculate and validate (Code as Interface)
+Ch 9: Document Generation     → Produce and refine (Persisting State)
+Ch 10: Version Control         → Track and recover (Reversible Decomposition)
+Ch 11: Build Your AI Employee → COMBINE EVERYTHING (All Seven Principles)
 ```
 
 ## What You'll Build
 
 | Chapter | Problem You Solve | Primary Principle | Output |
 |---------|-------------------|-------------------|--------|
-| **5. File Processing** | 2,000 unsorted files | Bash is the Key | Organized project structure |
-| **6. Research Synthesis** | 20 browser tabs, no synthesis | Verification | Decision document |
-| **7. Data Analysis** | Raw spreadsheet, no insights | Code as Universal Interface | Financial model |
-| **8. Document Generation** | Blank page, deadline tomorrow | Persisting State in Files | Professional document suite |
-| **9. Version Control** | Experimental changes, no safety net | Small, Reversible Decomposition | Git-tracked project |
-| **10. AI Employee** | All of the above, 24/7 | **All Seven Principles** | Working Digital FTE |
+| **6. File Processing** | 2,000 unsorted files | Bash is the Key | Organized project structure |
+| **7. Research Synthesis** | 20 browser tabs, no synthesis | Verification | Decision document |
+| **8. Data Analysis** | Raw spreadsheet, no insights | Code as Universal Interface | Financial model |
+| **9. Document Generation** | Blank page, deadline tomorrow | Persisting State in Files | Professional document suite |
+| **10. Version Control** | Experimental changes, no safety net | Small, Reversible Decomposition | Git-tracked project |
+| **11. AI Employee** | All of the above, 24/7 | **All Seven Principles** | Working Digital FTE |
 
 ## Two Interfaces, One Agent
 
@@ -46,37 +46,37 @@ Each chapter specifies which interface suits the problem. By Chapter 10, you'll 
 
 ## Chapter Overview
 
-### Chapter 5: File Processing & System Navigation
+### Chapter 6: File Processing & System Navigation
 
 Your downloads folder has 2,000 files. Learn to navigate and process files using terminal commands you understand, verify operations are safe, and collaborate with AI on filesystem tasks.
 
 **Principle focus**: Bash is the Key, Verification, Safety
 
-### Chapter 6: Research & Knowledge Synthesis
+### Chapter 7: Research & Knowledge Synthesis
 
 You need to make an informed decision. Learn to delegate research, synthesize multiple sources, and produce structured comparison documents.
 
 **Principle focus**: Verification, Persisting State, Observability
 
-### Chapter 7: Data Analysis & Financial Modeling
+### Chapter 8: Data Analysis & Financial Modeling
 
 You have raw data and need insights. Learn to connect to spreadsheets, build financial models, and apply governance to analytical workflows.
 
 **Principle focus**: Code as Universal Interface, Verification, Safety
 
-### Chapter 8: Professional Document Generation
+### Chapter 9: Professional Document Generation
 
 You have a blank page and a deadline. Learn to generate professional proposals, reports, and specifications from structured inputs.
 
 **Principle focus**: Persisting State, Constraints, Code as Interface
 
-### Chapter 9: Version Control & Safe Experimentation
+### Chapter 10: Version Control & Safe Experimentation
 
 You want to experiment without breaking things. Learn Git as a safety net that enables confident, reversible changes.
 
 **Principle focus**: Small Reversible Decomposition, Verification, Observability
 
-### Chapter 10: Build Your AI Employee (Capstone)
+### Chapter 11: Build Your AI Employee (Capstone)
 
 Combine everything into a working Digital FTE that processes files, researches answers, analyzes data, generates documents, tracks changes safely, and operates 24/7 on your behalf. This capstone chapter incorporates automation patterns alongside all other workflow types.
 
@@ -93,4 +93,4 @@ Each chapter starts with a problem you recognize from your own work. The solutio
 3. **Execute** in small, reversible steps
 4. **Persist** the output for future reuse
 
-This is the General Agent workflow. By Chapter 10, it will be second nature.
+This is the General Agent workflow. By Chapter 11, it will be second nature.

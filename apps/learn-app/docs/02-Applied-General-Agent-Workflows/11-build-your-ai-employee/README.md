@@ -1,9 +1,9 @@
 ---
-sidebar_position: 10
-title: "Chapter 10: Build Your AI Employee"
+sidebar_position: 11
+title: "Chapter 11: Build Your AI Employee"
 ---
 
-# Chapter 10: Build Your AI Employee
+# Chapter 11: Build Your AI Employee
 
 You've spent nine chapters learning individual skills: file processing, research, data analysis, document generation, version control, and automation. Each chapter solved a specific problem. Each produced useful results.
 

@@ -1,9 +1,9 @@
 ---
-sidebar_position: 5
-title: "Chapter 4: File Processing & System Navigation"
+sidebar_position: 6
+title: "Chapter 6: File Processing & System Navigation"
 ---
 
-# Chapter 4: File Processing & System Navigation
+# Chapter 6: File Processing & System Navigation
 
 Your downloads folder has 2,000 files. Your project directories are scattered across three locations. You need to find that PDF from last Tuesday, rename a batch of images, or organize months of accumulated files into a sensible structure.
 
@@ -47,9 +47,9 @@ By the end of this chapter, you will be able to:
 | [L05](./05-configuration-secrets.md) | Configuration & Secrets | Environment variables and API key management |
 | [L06](./06-packages-dependencies.md) | Packages & Dependencies | What happens when you install software |
 | [L07](./07-pipes-complex-commands.md) | Pipes & Complex Commands | Chaining operations for powerful data processing |
-| [Quiz](./08_chapter_05_quiz.md) | Chapter Quiz | Test your understanding |
+| [Quiz](./08-chapter-quiz.md) | Chapter Quiz | Test your understanding |
 
-## Connection to AI Employee (Chapter 10)
+## Connection to AI Employee (Chapter 11)
 
 The file processing skills you develop here are foundational for your AI Employee. In Chapter 10, your employee uses these capabilities to:
 

@@ -1,9 +1,9 @@
 ---
-sidebar_position: 6
-title: "Chapter 5: Research & Knowledge Synthesis"
+sidebar_position: 7
+title: "Chapter 7: Research & Knowledge Synthesis"
 ---
 
-# Chapter 5: Research & Knowledge Synthesis
+# Chapter 7: Research & Knowledge Synthesis
 
 You need to make an informed decision — choosing a technology, evaluating a competitor, or understanding a market trend. Today, that means opening 20 browser tabs, skimming articles, losing track of which source said what, and ultimately making a decision based on incomplete information and gut feeling.
 
@@ -46,7 +46,7 @@ By the end of this chapter, you'll be able to:
 | L05 | Knowledge Base Assembly | Organizing research outputs into reusable references |
 | L06 | Research Synthesis Capstone | End-to-end research project producing a decision document |
 
-## Connection to AI Employee (Chapter 10)
+## Connection to AI Employee (Chapter 11)
 
 The research patterns you build here become the foundation for your AI Employee's intelligence. In Chapter 10, your employee uses these same synthesis techniques to:
 
