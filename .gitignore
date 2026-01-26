@@ -57,4 +57,4 @@ cloud-books/
 # IDE caches
 .git/cursor
 assessments/
-local/
+local/api/chatkit-server/.env

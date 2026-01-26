@@ -1,0 +1,25 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/api/chat.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/chat",
+      "dest": "src/api/chat.ts"
+    },
+    {
+      "src": "/api/health",
+      "dest": "src/api/chat.ts"
+    }
+  ],
+  "env": {
+    "AI_PROVIDER": "@ai-provider",
+    "OPENAI_API_KEY": "@openai-api-key",
+    "ANTHROPIC_API_KEY": "@anthropic-api-key"
+  }
+}
