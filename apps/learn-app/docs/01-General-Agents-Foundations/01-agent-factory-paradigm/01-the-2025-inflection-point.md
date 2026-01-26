@@ -59,7 +59,7 @@ differentiation:
 
 You've seen the headlines: "AI will write all the code," "The end of programming as we know it," "Every developer needs to learn AI or get left behind." It's easy to dismiss this as hype—another cycle of breathless predictions that fizzle into disappointment.
 
-But 2025 is genuinely different. Three independent trends are converging simultaneously: AI capability has reached production quality, mainstream adoption has passed the tipping point, and enterprises are betting billions on AI-native architecture. The evidence isn't coming from marketing teams—it's from academic competitions, industry-wide surveys, venture-backed startups, and billion-dollar acquisition decisions.
+But 2025 was genuinely different. Three independent trends converged simultaneously: AI capability reached production quality, mainstream adoption passed the tipping point, and enterprises are betting billions on AI-native architecture. The evidence didn't just come from marketing teams—it came from academic competitions, industry-wide surveys, venture-backed startups, and billion-dollar acquisition decisions.
 
 This convergence creates a fundamental question: **How do you actually build AI products?**
 
