@@ -113,7 +113,11 @@ According to GitHub's documentation, almost every software project has a README 
 1. **Developers can read it** — No special software needed, just plain text
 2. **AI can parse it** — The structure tells AI what each section means
 3. **It renders beautifully** — GitHub, documentation sites, and AI tools display it formatted
-4. **It's stable** — Created in 2004, standardized in 2014, hasn't changed since
+4. **It's stable** — Created in 2004 by John Gruber, with [CommonMark](https://commonmark.org/) providing a formal specification starting in 2014
+
+:::note[Markdown Flavors]
+You'll encounter different "flavors" of markdown. **CommonMark** is the base standard. **GitHub Flavored Markdown (GFM)** extends it with tables, task lists (`- [ ]`), and strikethrough (`~~text~~`). Most tools you'll use support GFM, so these extensions work almost everywhere.
+:::
 
 When you write in markdown, you're using the same format that millions of developers use to communicate with both humans and AI.
 
@@ -196,6 +200,8 @@ You write **what you want** in a specification using markdown. Your spec describ
 - How to know if it's working
 
 **Your responsibility**: Make your intent clear.
+
+**Why markdown stays in Layer 1**: The specification represents **your intent** — the authoritative definition of what should be built. Even when AI helps draft or refine the spec, you have final approval authority. The implementation (Layer 3) must match the specification, not the other way around. This keeps you in control: change the spec, and the AI rebuilds to match.
 
 ### Layer 2: Reasoning Layer (AI works here)
 
