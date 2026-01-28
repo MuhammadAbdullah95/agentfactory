@@ -423,7 +423,7 @@ A typical CLAUDE.md is 1-3 KB. Context is cheap; clarity is expensive. A well-or
 
 ## The Universal Standard: AGENTS.md
 
-You've learned how CLAUDE.md provides project context for Claude Code. But what about other AI coding agents—Cursor, GitHub Copilot, Gemini CLI, Devin, and dozens more?
+You've learned how CLAUDE.md provides project context for Claude Code. But what about other AI coding agents—Cursor, GitHub Copilot, Gemini CLI, OpenAI Codex, and dozens more?
 
 **Enter AGENTS.md**—a universal standard that works across ALL AI coding tools.
 

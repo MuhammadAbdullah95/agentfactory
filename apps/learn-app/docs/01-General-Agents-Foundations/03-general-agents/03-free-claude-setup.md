@@ -90,7 +90,7 @@ Before setup, decide which backend suits you. All three options provide identica
 | Factor | OpenRouter | Gemini | DeepSeek |
 | :--- | :--- | :--- | :--- |
 | **Available Models** | 5+ free options | Gemini 2.5 Flash | DeepSeek Chat/Reasoner |
-| **Free Tier** | Daily request limits per model | Daily request limits | Token-based (~$0.07-$1.68/M tokens) |
+| **Free Tier** | Daily request limits per model | Daily request limits | Token-based (~$0.028-$0.42/M tokens) |
 | **Speed** | Very Fast | Very Fast | Fast |
 | **Setup Complexity** | Manual, most transparent | Easiest (few steps) | Slightly more involved |
 | **Reasoning Models** | Available (Qwen, Llama) | Native support | Native support |
