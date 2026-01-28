@@ -100,15 +100,35 @@ Use **unordered lists** when you have items that don't need to be in any specifi
 - Third item
 ```
 
-Or with asterisks (same result):
+Or with asterisks or plus signs (same result):
 
 ```text
 * First item
 * Second item
 * Third item
+
++ First item
++ Second item
++ Third item
 ```
 
-**Tip**: Pick one style (dash or asterisk) and stick with it throughout your document.
+**Tip**: Pick one style (`-`, `*`, or `+`) and stick with it throughout your document.
+
+### Nested Lists
+
+You can create sub-items by indenting with 2 spaces:
+
+```text
+- Main feature
+  - Sub-feature A
+  - Sub-feature B
+- Another feature
+  - Sub-feature C
+```
+
+:::note
+Some markdown parsers require a blank line before lists to render correctly. If your list isn't rendering, add a blank line above it.
+:::
 
 ### When to Use Unordered Lists
 
@@ -153,7 +173,17 @@ Use **ordered lists** when items must be done in a specific sequence. In markdow
 3. Third step
 ```
 
-**Note**: Markdown is smart about numbering. Even if you type all `1.`, it will automatically number them `1, 2, 3`. But it's clearer to number them correctly as you write.
+:::note[Markdown Numbering Behavior]
+Markdown auto-numbers based on the **first number** in the list. If you start with `11.`, the next items render as `12, 13, 14...` regardless of what you type:
+
+```text
+11. This renders as 11
+2. This renders as 12 (not 2!)
+3. This renders as 13
+```
+
+**For AI-native development**: Always use correct sequential numbers (`1. 2. 3.`) in your raw markdown. AI agents often read the source file directly, not the rendered HTML. Writing all `1.`s may confuse older models parsing your specification.
+:::
 
 ### When to Use Ordered Lists
 
@@ -196,9 +226,9 @@ If you see this error, try these steps in order:
 
 The sequence matters here too — you check Python first, then location, then reinstall, then venv.
 
-#### 🎓 Expert Insight
-
-> Notice how ordered lists communicate dependencies. In the installation example, step 2 depends on step 1 completing successfully. This dependency chain is critical for AI agents—they know they can't run the program before installing packages, and can't install packages before verifying Python exists. Clear sequencing prevents AI from generating incorrect workflows where steps run out of order.
+:::info[Expert Insight]
+Notice how ordered lists communicate dependencies. In the installation example, step 2 depends on step 1 completing successfully. This dependency chain is critical for AI agents—they know they can't run the program before installing packages, and can't install packages before verifying Python exists. Clear sequencing prevents AI from generating incorrect workflows where steps run out of order.
+:::
 
 ---
 
@@ -245,6 +275,8 @@ These features are independent. Adding dark mode doesn't require export to PDF f
 ```
 
 You **must** create an account before verifying email. You **must** verify email before setting up profile.
+
+![Side-by-side comparison clarifying when to use lists versus code blocks: Left panel shows unordered lists (bullet points for features, independent items), ordered lists (numbered steps for sequential processes), and when each applies. Right panel shows fenced code blocks (triple backticks for showing code examples, command output, or multi-line text). Decision tree helps identify: "Are these separate ideas/steps?" → Lists. "Are you showing code/output?" → Code blocks.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
 
 #### 🤝 Practice Exercise
 
@@ -293,6 +325,20 @@ Under each Level 3 heading in the Features section, add bullet points describing
 - Confirm before deleting to prevent accidents
 ```
 
+:::tip[Pro-Tip: Nested Lists vs. More Headings]
+If a feature has sub-requirements, use **nested lists** instead of creating more Level 3 headings:
+
+```text
+### Add Tasks
+- Create tasks with title and description
+  - Title is required (max 100 characters)
+  - Description is optional
+- Set optional due dates
+```
+
+**Rule of thumb**: Use headings for major sections, nested lists for details within a section. If you find yourself creating 10+ Level 3 headings, consider consolidating with nested lists.
+:::
+
 **Part 2: Add Installation Steps (Ordered List)**
 
 Fill in the Installation section with numbered steps:
@@ -314,12 +360,12 @@ Under the Problem section, describe what problem this app solves (1-2 sentences 
 
 Check your updated specification:
 
-- [ ] Feature descriptions use unordered lists (`-`) under each Level 3 heading
-- [ ] Installation uses ordered list (`1. 2. 3. 4.`)
-- [ ] Each list item starts with dash/number + space
-- [ ] Feature lists have no specific order (could be rearranged)
-- [ ] Installation steps must be done in sequence
-- [ ] Problem section is a paragraph (not a list)
+1. Feature descriptions use unordered lists (`-`) under each Level 3 heading
+2. Installation uses ordered list (`1. 2. 3. 4.`)
+3. Each list item starts with dash/number + space
+4. Feature lists have no specific order (could be rearranged)
+5. Installation steps must be done in sequence
+6. Problem section is a paragraph (not a list)
 
 **Save this file!** You'll add code blocks in Lesson 4.
 
@@ -383,8 +429,6 @@ Features usually don't have a required order.
 
 Installation steps must be in the right sequence.
 
-![Side-by-side comparison clarifying when to use lists versus code blocks: Left panel shows unordered lists (bullet points for features, independent items), ordered lists (numbered steps for sequential processes), and when each applies. Right panel shows fenced code blocks (triple backticks for showing code examples, command output, or multi-line text). Decision tree helps identify: "Are these separate ideas/steps?" → Lists. "Are you showing code/output?" → Code blocks.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
-
 ---
 
 ## Why This Matters for AI
@@ -398,9 +442,9 @@ When you use lists correctly in specifications, AI agents can:
 
 Good list usage makes your specifications clearer, which leads to better AI-generated code.
 
-#### 🎓 Expert Insight
-
-> Professional specifications use list type as semantic information. When AI sees an unordered list under "Features," it knows these are parallel capabilities that can be developed independently—perfect for parallel development or modular architecture. When it sees ordered lists under "Installation," it knows to generate sequential scripts or documentation. This semantic clarity reduces miscommunication and speeds up development.
+:::info[Expert Insight]
+Professional specifications use list type as semantic information. When AI sees an unordered list under "Features," it knows these are parallel capabilities that can be developed independently—perfect for parallel development or modular architecture. When it sees ordered lists under "Installation," it knows to generate sequential scripts or documentation. This semantic clarity reduces miscommunication and speeds up development.
+:::
 
 ---
 
