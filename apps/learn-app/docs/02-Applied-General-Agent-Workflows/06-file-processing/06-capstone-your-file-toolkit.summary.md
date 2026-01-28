@@ -1,0 +1,27 @@
+### Core Concept
+
+Every expert who works with General Agents builds a personal prompt toolkit. Proven patterns get documented. New problems get solved by adapting existing templates.
+
+### Key Mental Models
+
+- **Pattern over command**: You're collecting reusable prompt structures, not specific commands.
+- **Toolkit grows with you**: Every time you discover something that works, add it to the collection.
+- **Manual to automated bridge**: Chapter 6 teaches manual prompting. Chapter 11 will teach automation. Your patterns become the decision rules for AI Employees.
+
+### Critical Patterns
+
+- **Synthesize all five workflows**: Apply survey, safety, organization, batch, and search to a new folder (Desktop).
+- **Create MY-PROMPT-TOOLKIT.md**: Document fill-in-the-blank templates for each workflow pattern.
+- **Principle reflection**: Observe which principles emerged during each workflow and how they enabled success.
+- **Transfer to new domains**: The same patterns work for email, calendar, projects, and any workflow where you direct General Agents.
+
+### Common Mistakes
+
+- Treating each lesson as isolated: The power comes from combining all workflows systematically.
+- Not documenting your toolkit: You'll re-discover patterns instead of building on past work.
+- Missing the automation connection: Manual prompting today becomes automated decision rules in Chapter 11.
+
+### Connections
+
+- **Builds on**: Lessons 1-5 (all workflows), all Seven Principles from Part 1
+- **Leads to**: Chapter 11 (AI Employee) where manual prompting evolves into autonomous automation
