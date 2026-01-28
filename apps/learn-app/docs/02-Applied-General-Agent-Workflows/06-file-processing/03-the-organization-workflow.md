@@ -73,11 +73,15 @@ cognitive_load:
 
 # The Organization Workflow
 
+Here's what beginners miss about working with General Agents. They think the agent should just "know" what to do. Experts know better. They design rules collaboratively, document them for reuse, and test before scaling.
+
+This workflow teaches you something that applies far beyond file organization. When you work with General Agents on data categorization, content moderation, task routing, or any system that needs consistent rules, you'll use the same collaborative design pattern.
+
 You've surveyed 500 files. You've created a backup. Now comes the hard question: where does each file actually go?
 
 You could spend an hour creating folders and dragging files one by one. You could make random guesses about categories. Or you could have a conversation with Claude Code that turns your messy Downloads into a categorized system in minutes.
 
-The difference isn't just speed. It's that you'll end up with documented rules you can reuse forever.
+The difference isn't just speed. It's that you'll end up with documented rules you can reuse forever. You're not just organizing files. You're learning how to design systems with General Agent assistance.
 
 ---
 
@@ -177,13 +181,13 @@ Open Claude Code in your `file-organizer/` workspace and start the collaboration
 
 Look at what emerged from that conversation:
 
-**Rules became a file.** Claude Code didn't just remember the categories—it created `rules.md`. Next week when your Downloads folder fills up again, the logic is already documented. That's Principle 5 (Persisting State) in action.
+**Rules became a file.** Claude Code didn't just remember the categories. It created `rules.md`. Next week when your Downloads folder fills up again, the logic is already documented. That's Principle 5 (Persisting State) in action.
 
-**You tested before scaling.** You said "test on ONE file first." That single instruction prevented potential chaos. If the test file had landed in the wrong folder, you'd know immediately. That's Principle 4 (Small, Reversible Decomposition)—you directed it.
+**You tested before scaling.** You said "test on ONE file first." That single instruction prevented potential chaos. If the test file had landed in the wrong folder, you'd know immediately. That's Principle 4 (Small, Reversible Decomposition). You directed it.
 
 **Verification happened automatically.** After moving the test file, Claude Code checked both source and destination. After the batch operation, it showed you a summary. That's Principle 3 (Verification) built into the workflow.
 
-**The collaboration refined the result.** Claude Code proposed categories. You refined them (adding spreadsheets). Claude Code adapted. Neither of you could have reached this result alone—the AI didn't know you cared about spreadsheets, and you didn't want to manually design the whole system.
+**The collaboration refined the result.** Claude Code proposed categories. You refined them (adding spreadsheets). Claude Code adapted. Neither of you could have reached this result alone. The AI didn't know you cared about spreadsheets, and you didn't want to manually design the whole system.
 
 ---
 
@@ -208,7 +212,7 @@ Notice the structure of that conversation:
    → Batch execution with observability
 ```
 
-This pattern works for any organization task. The specific categories change—maybe you're organizing photos by date, or code files by project—but the workflow stays the same.
+This pattern works for any organization task. The specific categories change. Maybe you're organizing photos by date, or code files by project. But the workflow stays the same.
 
 ---
 
@@ -291,7 +295,7 @@ Your organization logic is now permanent. The next time your Downloads fills up,
 | No record of what happened     | ORGANIZER-LOG.md tracks everything     |
 | Mistakes affect all files      | Test catches problems before scale     |
 
-The collaboration doesn't replace your judgment—it amplifies it. You decided spreadsheets needed their own category. The AI executed that decision across 486 files in seconds.
+The collaboration doesn't replace your judgment. It amplifies it. You decided spreadsheets needed their own category. The AI executed that decision across 486 files in seconds.
 
 ---
 
@@ -313,7 +317,7 @@ Watch how the AI proposes categories specific to your content. A designer's Desk
 I have a folder with project files mixed together. Help me categorize by project name (files often start with the project name like "acme-report.pdf" or "beta-design.png").
 ```
 
-This shows how the same workflow adapts to different categorization logic—by extension, by name prefix, by date, or any pattern you define.
+This shows how the same workflow adapts to different categorization logic. By extension, by name prefix, by date, or any pattern you define.
 
 ---
 
@@ -337,7 +341,7 @@ The rules are documented. The files are organized. The log shows what happened. 
 My Downloads has a lot of archive files (.zip, .tar.gz, .7z). Should these be their own category, or go in misc? What are the trade-offs?
 ```
 
-**What you're learning**: Decision frameworks—AI presents options with reasoning, you decide based on how often you need to access archives.
+**What you're learning**: Decision frameworks. AI presents options with reasoning, you decide based on how often you need to access archives.
 
 **Edge Case Discovery:**
 
@@ -345,7 +349,7 @@ My Downloads has a lot of archive files (.zip, .tar.gz, .7z). Should these be th
 What edge cases might break simple extension-based categorization? Show me examples of files that could cause problems.
 ```
 
-**What you're learning**: Defensive design—AI reveals tricky scenarios like `file.backup.pdf` (multiple dots), `README` (no extension), or `data.CSV` (case sensitivity).
+**What you're learning**: Defensive design. AI reveals tricky scenarios like `file.backup.pdf` (multiple dots), `README` (no extension), or `data.CSV` (case sensitivity).
 
 **Rule Refinement:**
 
@@ -353,4 +357,4 @@ What edge cases might break simple extension-based categorization? Show me examp
 My rules.md categorizes by extension, but I have files from specific projects that should stay together regardless of type. How can I add project-based rules that take priority over extension rules?
 ```
 
-**What you're learning**: Rule precedence—AI explains how to layer rules (check project name first, then fall back to extension), preparing you for more sophisticated automation.
+**What you're learning**: Rule precedence. AI explains how to layer rules (check project name first, then fall back to extension), preparing you for more sophisticated automation.

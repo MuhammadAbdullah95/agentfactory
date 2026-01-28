@@ -1,14 +1,18 @@
 ---
 sidebar_position: 0
-title: "File Processing Workflows"
+title: "Chapter 6: File Processing Workflows"
 description: "Direct Claude Code to solve real file organization problems while observing the Seven Principles in action"
 ---
 
-# File Processing Workflows
+# Chapter 6: File Processing Workflows
 
 Your Downloads folder has become chaos. You can't find that tax document from last year. Screenshots pile up with meaningless names. Sound familiar?
 
-In this chapter, you'll solve these problems by directing Claude Code—not by memorizing bash commands. You'll describe what you want, watch the agent work, and learn to recognize the Seven Principles in action.
+Here's what surprises most people. The solution isn't learning bash commands or hiring an assistant. The solution is learning to direct a General Agent effectively. And the patterns you'll master with files apply to every domain where General Agents work.
+
+This chapter uses a universal problem to teach you something far more valuable. You'll solve file chaos through conversation. You'll watch the agent work. You'll observe the Seven Principles in action. You'll build a prompt toolkit that transfers to email management, project organization, data cleaning, and any workflow where you direct General Agents.
+
+Most people prompt blindly. They hope the General Agent understands. You're about to learn the systematic approach that separates effective collaboration from frustration.
 
 ## What You'll Learn
 
@@ -22,7 +26,13 @@ By the end of this chapter, you'll be able to:
 | Automate batch operations       | "Rename these 100 screenshots with a consistent pattern" |
 | Search intelligently            | "Find that PDF from 2023 about taxes"                    |
 
-This isn't about learning bash. It's about learning to work effectively with a General Agent.
+This isn't about learning bash. It's about learning to work effectively with General Agents.
+
+## Why This Matters
+
+The patterns you learn in this chapter aren't just about files. They're the foundation for Chapter 11 where you'll build AI Employees that automate these workflows entirely. Learn these patterns now or you'll struggle with automation later.
+
+Every expert who works with General Agents mastered these fundamentals first. File organization is the perfect training ground because the problems are concrete, the feedback is immediate, and the patterns transfer everywhere.
 
 ## Chapter Flow
 
@@ -39,7 +49,7 @@ This isn't about learning bash. It's about learning to work effectively with a G
 
 ## Seven Principles Observed
 
-You won't memorize these principles—you'll see them in action:
+You won't memorize these principles. You'll see them in action:
 
 | Principle                  | You'll Observe The Agent...                        |
 | -------------------------- | -------------------------------------------------- |

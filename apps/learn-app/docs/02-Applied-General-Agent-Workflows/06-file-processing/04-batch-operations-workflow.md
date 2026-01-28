@@ -3,7 +3,7 @@ sidebar_position: 4
 chapter: 6
 lesson: 4
 title: "Batch Operations Workflow"
-description: "Direct Claude Code to create reusable scripts for repetitive file operations—transforming one-time commands into permanent automation"
+description: "Direct Claude Code to create reusable scripts for repetitive file operations. Transforming one-time commands into permanent automation"
 duration_minutes: 30
 
 skills:
@@ -59,10 +59,14 @@ cognitive_load:
 
 differentiation:
   extension_for_advanced: "Ask Claude Code to handle edge cases: what if some files already follow the new pattern? What if there are naming conflicts?"
-  remedial_for_struggling: "Focus on just the first rename operation. Watch how the agent shows the preview. Don't worry about the script—just see the pattern of 'show me first, then do it.'"
+  remedial_for_struggling: "Focus on just the first rename operation. Watch how the agent shows the preview. Don't worry about the script. Just see the pattern of 'show me first, then do it.'"
 ---
 
 # Batch Operations Workflow
+
+Here's Principle 2 in action: Code as Universal Interface. Beginners run the same commands repeatedly. Experts know better. They ask General Agents to create reusable scripts that automate repetitive work forever.
+
+This workflow teaches you something powerful. You'll learn to transform one-time solutions into permanent automation. The same pattern applies to data transformations, batch image processing, log analysis, and any repetitive task where General Agents can help.
 
 You've got 87 screenshots.
 
@@ -70,7 +74,7 @@ They're named things like `Screenshot 2024-01-15 at 10.23.45.png` and `Screensho
 
 You could rename them one by one. That's 87 clicks, 87 new names, 87 chances to make a typo.
 
-Or you could tell a General Agent what you want and watch it do the work.
+Or you could tell a General Agent what you want, watch it create a reusable script, and use that script forever.
 
 ---
 
@@ -110,7 +114,7 @@ Should I proceed with this plan, or would you like a different
 naming pattern?
 ```
 
-You look at the preview. Something's missing—you want to keep the date information.
+You look at the preview. Something's missing. You want to keep the date information.
 
 ```
 You: Actually, include the date. Make it 'screenshot-2024-01-15-001.png'
@@ -118,7 +122,7 @@ so I can see when each screenshot was taken.
 ```
 
 ```
-Claude Code: Good thinking—keeping the date makes files easier to find later.
+Claude Code: Good thinking. Keeping the date makes files easier to find later.
 Here's the updated plan:
 
 | Current Name                              | New Name                     |
@@ -175,7 +179,7 @@ To rename future screenshots, run:
 
 You witnessed three principles working together.
 
-**Principle 2: Code as Universal Interface.** Did you notice what the agent produced? Not just renamed files—a _script_. The agent didn't just solve your problem once. It created code you can run again. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently. The agent turned a one-time task into permanent automation.
+**Principle 2: Code as Universal Interface.** Did you notice what the agent produced? Not just renamed files, but a _script_. The agent didn't just solve your problem once. It created code you can run again. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently. The agent turned a one-time task into permanent automation.
 
 **Principle 7: Observability.** Before the agent touched a single file, it showed you exactly what it planned to do. You saw the preview table. You could check that the new names made sense. You could change your mind. The agent made its intentions visible before acting.
 
