@@ -8,7 +8,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advanced/session-context-loader.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advanced/session-context-loader.sh'",
             "timeout": 10
           }
         ]
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-setup.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-setup.sh'",
             "timeout": 5,
             "async": true
           }
@@ -31,18 +31,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-prompts.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-prompts.sh'",
             "timeout": 5,
             "async": true
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/skill-suggest.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/skill-suggest.sh'",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/skill-activation.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/skill-activation.sh'",
             "timeout": 5
           }
         ]
@@ -54,12 +54,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/block-main-branch.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/block-main-branch.sh'",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/protect-files.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/protect-files.sh'",
             "timeout": 5
           }
         ]
@@ -69,12 +69,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/block-destructive.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/block-destructive.sh'",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/verify-infra-context.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/verify-infra-context.sh'",
             "timeout": 5
           }
         ]
@@ -84,13 +84,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-skills.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-skills.sh'",
             "timeout": 5,
             "async": true
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/enforce-skill-governance.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guardrails/enforce-skill-governance.sh'",
             "timeout": 5
           }
         ]
@@ -100,7 +100,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-tasks.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-tasks.sh'",
             "timeout": 5,
             "async": true
           }
@@ -112,7 +112,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-permissions.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-permissions.sh'",
             "timeout": 5,
             "async": true
           }
@@ -125,18 +125,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/automation/auto-format.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/automation/auto-format.sh'",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-file-changes.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-file-changes.sh'",
             "timeout": 5,
             "async": true
           },
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advanced/code-review-gate.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advanced/code-review-gate.sh'",
             "timeout": 5
           }
         ]
@@ -146,7 +146,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-reads.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-reads.sh'",
             "timeout": 5,
             "async": true
           }
@@ -157,7 +157,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-skills-end.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-skills-end.sh'",
             "timeout": 5,
             "async": true
           }
@@ -168,7 +168,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-tasks-end.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-tasks-end.sh'",
             "timeout": 5,
             "async": true
           }
@@ -179,7 +179,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-web.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-web.sh'",
             "timeout": 5,
             "async": true
           }
@@ -190,7 +190,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-mcp.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-mcp.sh'",
             "timeout": 5,
             "async": true
           }
@@ -202,7 +202,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-failures.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-failures.sh'",
             "timeout": 5,
             "async": true
           }
@@ -214,7 +214,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-subagent-start.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-subagent-start.sh'",
             "timeout": 5,
             "async": true
           }
@@ -226,7 +226,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-subagent-stop.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-subagent-stop.sh'",
             "timeout": 5,
             "async": true
           }
@@ -239,7 +239,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-compact.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/observability/track-compact.sh'",
             "timeout": 5,
             "async": true
           }
@@ -251,7 +251,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/notify-completion.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/notify-completion.sh'",
             "timeout": 5,
             "async": true
           }
@@ -264,7 +264,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/notify-permission.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/team/notify-permission.sh'",
             "timeout": 5,
             "async": true
           }
@@ -276,7 +276,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advanced/team-handoff.sh",
+            "command": "bash -c 'source \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advanced/team-handoff.sh'",
             "timeout": 15,
             "async": true
           }
