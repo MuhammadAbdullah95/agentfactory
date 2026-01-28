@@ -256,7 +256,7 @@ You might still be thinking: "This sounds like a developer thing."
 
 Here's what Anthropic observed in the first weeks after launch: skills are being built by people who aren't technical. People in finance. Recruiting. Accounting. Legal.
 
-This is early validation of the design principle. Skills help people who don't write code extend general-purpose agents. They make AI assistants accessible for day-to-day work across functions.
+This is early validation of the design principle. Skills let people without coding backgrounds extend general-purpose agents. They make AI assistants accessible for day-to-day work across functions.
 
 **Why this works:**
 
