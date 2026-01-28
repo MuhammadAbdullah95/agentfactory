@@ -4,7 +4,7 @@ title: "Your First Agent Workflow"
 chapter: 6
 lesson: 1
 duration_minutes: 25
-description: "See a General Agent solve a real problem—then learn the prompt pattern that made it work"
+description: "See a General Agent solve a real problem, then learn the prompt pattern that made it work"
 keywords:
   [
     "agent workflow",
@@ -60,18 +60,22 @@ cognitive_load:
 
 differentiation:
   extension_for_advanced: "Try the prompt pattern on non-file problems: 'Help me understand my calendar this week' or 'Help me understand this codebase'"
-  remedial_for_struggling: "Focus on just the first conversation. Watch what the agent does. Don't worry about identifying every principle—just notice that the agent ran commands and reported back."
+  remedial_for_struggling: "Focus on just the first conversation. Watch what the agent does. Don't worry about identifying every principle. Just notice that the agent ran commands and reported back."
 ---
 
 # Your First Agent Workflow
 
-Your Downloads folder is chaos.
+Here's what most people get wrong about working with General Agents. They think they need to describe the solution. They type commands, specify technical details, hope the agent understands.
 
-You download a PDF for a meeting, then forget about it. A week later, you download a spreadsheet for taxes. Then a photo someone sent. Then another PDF—was that the same one as before? You're not sure. Months pass. Now there are hundreds of files. You don't know what's in there. You don't know what's taking up space. You don't know if there are duplicates. You just know it's a mess.
+The experts work differently. They describe the problem. They let the General Agent figure out the solution. And they watch closely to learn patterns that work everywhere.
 
-You've been meaning to organize it. You haven't. Because organizing isn't just moving files—first you need to _understand_ what you have. And understanding requires time you don't have.
+Your Downloads folder is chaos. You download a PDF for a meeting, then forget about it. A week later, you download a spreadsheet for taxes. Then a photo someone sent. Then another PDF. Was that the same one as before? You're not sure. Months pass. Now there are hundreds of files. You don't know what's in there. You don't know what's taking up space. You don't know if there are duplicates. You just know it's a mess.
 
-This is exactly the kind of problem General Agents solve.
+You've been meaning to organize it. You haven't. Because organizing isn't just moving files. First you need to _understand_ what you have. And understanding requires time you don't have.
+
+This is exactly the kind of problem where General Agents shine. But here's the key. You're not learning bash commands. You're learning how to direct an intelligent system to solve problems for you. The pattern you'll master today applies to data analysis, project management, research tasks, and any workflow where you work with General Agents.
+
+Let's see what effective direction looks like.
 
 ## The Conversation
 
@@ -79,7 +83,7 @@ Open Claude Code. You're going to describe a problem in plain English and watch 
 
 ```
 You: I have a cluttered Downloads folder. Help me understand what's
-in here—how many files, what types, what's taking up space.
+in here. How many files, what types, what's taking up space?
 ```
 
 Watch what Claude Code does.
@@ -119,13 +123,13 @@ Now let me see what's taking up the most space.
 Total folder size: 12.4 GB
 
 Your largest files:
-1. project-backup.zip — 2.1 GB
-2. video-recording.mp4 — 1.8 GB
-3. database-export.sql — 890 MB
-4. presentation-final.pptx — 456 MB
-5. dataset.csv — 312 MB
+1. project-backup.zip (2.1 GB)
+2. video-recording.mp4 (1.8 GB)
+3. database-export.sql (890 MB)
+4. presentation-final.pptx (456 MB)
+5. dataset.csv (312 MB)
 
-Just these 5 files account for 5.5 GB—almost half your folder.
+Just these 5 files account for 5.5 GB. Almost half your folder.
 
 Would you like me to help you organize these, or should I look
 for duplicates first?
@@ -144,7 +148,7 @@ You didn't run a single command. You described a problem, and the agent solved i
 
 You witnessed two of the Seven Principles in action.
 
-**Principle 1: Bash is the Key.** Did you notice the agent's approach? It didn't use a fancy "folder analysis tool." It used `ls`, `find`, `wc`, and `du`—basic Unix commands that have existed for decades. These commands are fast, reliable, and do exactly what they claim. The agent combined them to extract exactly the information you needed.
+**Principle 1: Bash is the Key.** Did you notice the agent's approach? It didn't use a fancy "folder analysis tool." It used `ls`, `find`, `wc`, and `du`. Basic Unix commands that have existed for decades. These commands are fast, reliable, and do exactly what they claim. The agent combined them to extract exactly the information you needed.
 
 **Principle 7: Observability.** Your Downloads folder was a black box. You knew it was messy, but you couldn't see inside it. The agent made chaos visible. Now you have a clear picture: file counts, types, sizes, space hogs. You went from "I should probably organize this someday" to "I know exactly what's in here and what to tackle first."
 
@@ -160,7 +164,7 @@ Here's the prompt pattern you just used:
 
 This pattern works because it does two things:
 
-1. **Describes the problem, not the solution.** You said "cluttered Downloads folder"—not "run `find` and `du` commands." You let the agent figure out _how_ to help.
+1. **Describes the problem, not the solution.** You said "cluttered Downloads folder," not "run `find` and `du` commands." You let the agent figure out _how_ to help.
 
 2. **Specifies the outcome you want.** You asked for "how many files, what types, what's taking up space." The agent knew what success looked like.
 
@@ -197,7 +201,7 @@ Help me understand what's taking up the most space on my
 computer. Find my 20 largest files and show me where they are.
 ```
 
-This one might reveal files you forgot existed—old virtual machines, cached videos, abandoned projects.
+This one might reveal files you forgot existed. Old virtual machines, cached videos, abandoned projects.
 
 **Option 3: A Specific Folder You've Been Avoiding**
 
@@ -211,17 +215,19 @@ Pick the folder you've been meaning to clean up. Let the agent do the reconnaiss
 
 ## What You're Learning
 
-You're not learning bash commands. You're learning something more valuable: **how to work with a General Agent**.
+You're not learning bash commands. You're learning something more valuable: **how to work effectively with General Agents**.
 
 The skills you're building:
 
-- **Problem description over solution specification.** You describe outcomes, not procedures.
-- **Observation over memorization.** You watch what the agent does, learning patterns without rote memorization.
-- **Prompt patterns over command syntax.** Reusable patterns that work across different problems.
+- **Problem description over solution specification.** You describe outcomes, not procedures. This applies to every domain where you direct General Agents.
+- **Observation over memorization.** You watch what the agent does, learning patterns without rote memorization. Experts learn by observing agent behavior.
+- **Prompt patterns over command syntax.** Reusable patterns that work across different problems. The "help me understand" pattern works for files, data analysis, project planning, research, and more.
 
-In the next lesson, you'll learn the safety principle: why we back up files before making changes, and how to direct the agent to do that.
+Here's what effective collaboration looks like. Most people prompt blindly and hope for the best. You're building systematic approaches that work consistently. Every expert who works with General Agents mastered these fundamentals first.
 
-But first—try one of those prompts. See what's in your folders. Make chaos visible.
+In the next lesson, you'll learn the safety principle: why we back up files before making changes, and how to direct the agent to do that. This pattern applies to code changes, data modifications, system configurations, and any workflow where mistakes have consequences.
+
+But first try one of those prompts. See what's in your folders. Make chaos visible. Notice how the agent approaches the problem.
 
 ---
 
@@ -261,4 +267,4 @@ did you consider? What would you have done differently if I'd
 asked a slightly different question?
 ```
 
-**What you're practicing**: Understanding agent reasoning. By asking the agent to explain its choices, you learn how it thinks—making you better at directing it in the future.
+**What you're practicing**: Understanding agent reasoning. By asking the agent to explain its choices, you learn how it thinks. This makes you better at directing it in the future.

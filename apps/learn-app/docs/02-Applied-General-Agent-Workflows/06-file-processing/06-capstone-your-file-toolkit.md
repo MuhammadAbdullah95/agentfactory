@@ -72,7 +72,11 @@ differentiation:
 
 You started this chapter staring at a chaotic Downloads folder. Now you've organized hundreds of files, created reusable scripts, and developed a systematic approach to file management.
 
-But here's what's more valuable than the organized folders: **the patterns you learned**. Those patterns work on any folder, any computer, for the rest of your career.
+But here's what's more valuable than the organized folders. You now possess patterns that work on any folder, any computer, for the rest of your career. And these patterns transfer far beyond files.
+
+Every expert who works with General Agents builds a personal toolkit of proven prompts. You're about to create yours. This toolkit will grow with you. Every time you face a new problem, you'll adapt these patterns. Every time you discover something that works, you'll add it to your collection.
+
+Here's what most people miss. Chapter 6 teaches you manual prompting. Chapter 11 will teach you automation. The patterns you're building today become the decision rules for AI Employees that work automatically. You're not just solving today's problem. You're building the foundation for autonomous systems.
 
 In this capstone, you'll prove that by applying everything to a new challenge. Then you'll create a prompt toolkit you keep forever.
 
@@ -97,7 +101,7 @@ These aren't just files. They're proof that you can direct a General Agent to so
 
 ## The Challenge: Your Desktop
 
-Time to prove the patterns transfer. Choose a folder you haven't touched yet. Your Desktop is ideal—it's probably accumulated its own chaos.
+Time to prove the patterns transfer. Choose a folder you haven't touched yet. Your Desktop is ideal. It's probably accumulated its own chaos.
 
 Open Claude Code and work through each workflow on this new folder.
 
@@ -255,7 +259,7 @@ You've been learning the Seven Principles without memorizing them. Let's make ex
 | 4. Batch Operations      | Generated reusable script           | **P2: Code as Universal Interface** |
 | 5. Run with Verification | Compared counts before/after        | **P3: Verification as Core Step**   |
 
-All seven principles showed up naturally. You didn't study them from a textbook—you experienced them through action.
+All seven principles showed up naturally. You didn't study them from a textbook. You experienced them through action.
 
 ---
 
@@ -331,7 +335,7 @@ Now you have:
 - **Pattern recognition**: You see the Seven Principles when agents work
 - **Confidence**: You know how to tackle any file organization challenge
 
-This isn't just about files. The patterns you learned—describe the problem, establish safety, document rules, test small, scale up, verify—apply to any domain where you direct an AI agent.
+This isn't just about files. The patterns you learned apply to any domain where you direct an AI agent. Describe the problem, establish safety, document rules, test small, scale up, verify.
 
 ---
 
@@ -346,7 +350,7 @@ the equivalent of "survey," "backup," "rules," "batch," and "verify"
 look like for email management?
 ```
 
-**What you're practicing**: Abstraction. The workflows aren't about files—they're about systematic problem-solving. You're learning to see the pattern beneath the specific application.
+**What you're practicing**: Abstraction. The workflows aren't about files. They're about systematic problem-solving. You're learning to see the pattern beneath the specific application.
 
 **Prompt 2: Toolkit Expansion**
 
@@ -373,7 +377,7 @@ For each principle, tell me specifically what I should do or ask for.
 
 ## Conclusion
 
-You now have a complete file processing toolkit—not just for Downloads, but for any folder, any time.
+You now have a complete file processing toolkit. Not just for Downloads, but for any folder, any time.
 
 The prompts you've collected are reusable. The principles you've observed are universal. The confidence you've built transfers to every domain where you work with a General Agent.
 

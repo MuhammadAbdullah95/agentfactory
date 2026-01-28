@@ -58,3 +58,7 @@ cloud-books/
 .git/cursor
 assessments/
 local/api/chatkit-server/.env
+
+# Local Claude settings (never commit)
+.claude/settings.local.json
+.claude/settings.local.json.bak

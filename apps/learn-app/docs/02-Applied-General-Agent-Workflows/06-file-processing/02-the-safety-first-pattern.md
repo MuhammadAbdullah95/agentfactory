@@ -3,7 +3,7 @@ sidebar_position: 2
 chapter: 6
 lesson: 2
 title: "The Safety-First Pattern"
-description: "Learn to direct Claude Code to create safety backups before any destructive operation—the pattern that enables fearless file management"
+description: "Learn to direct Claude Code to create safety backups before any destructive operation. The pattern that enables fearless file management"
 duration_minutes: 20
 
 skills:
@@ -55,11 +55,15 @@ cognitive_load:
 
 # The Safety-First Pattern
 
-You know that sinking feeling. You're cleaning up your files, moving things around, maybe deleting some old downloads—and suddenly you realize you just deleted something important. Your stomach drops. You dig through the Trash. It's not there. It's gone.
+Here's a pattern that separates beginners from experts when working with General Agents. Beginners hope nothing goes wrong. Experts establish safety before anything changes.
+
+You know that sinking feeling. You're cleaning up your files, moving things around, maybe deleting some old downloads. Then suddenly you realize you just deleted something important. Your stomach drops. You dig through the Trash. It's not there. It's gone.
 
 Everyone who has ever organized files has experienced this moment. The fear of losing something irreplaceable makes us hesitate. We start a cleanup project, get nervous halfway through, and abandon it. The chaos persists because we're afraid to touch it.
 
-In the next 20 minutes, you'll learn the pattern that eliminates this fear entirely. Not by being more careful—by establishing a safety net BEFORE you make any changes. You'll direct Claude Code to create a backup, verify it's complete, and only then proceed with confidence.
+In the next 20 minutes, you'll learn the pattern that eliminates this fear entirely. Not by being more careful, but by establishing a safety net BEFORE you make any changes. You'll direct Claude Code to create a backup, verify it's complete, and only then proceed with confidence.
+
+This pattern applies far beyond files. When you work with General Agents on code changes, data transformations, system configurations, or any workflow where mistakes have consequences, the safety-first pattern is what separates confident experimentation from anxious hesitation.
 
 This is Principle 6 (Constraints and Safety) in action: the constraint of "backup first" enables fearless experimentation.
 
@@ -76,7 +80,7 @@ Before we dive in, acknowledge the legitimate concern: losing files is a real pr
 | Work projects       | Career consequences    |
 | Research notes      | Months of effort gone  |
 
-This fear is rational. The solution isn't "be more careful"—the solution is **make it impossible to lose things permanently**.
+This fear is rational. The solution isn't "be more careful." The solution is **make it impossible to lose things permanently**.
 
 ---
 
@@ -92,20 +96,20 @@ You're ready to organize your Downloads folder, but you're nervous about losing 
 
 **Claude Code:**
 
-> Good thinking—creating a backup before making changes is the safest approach. Before I create the backup, I need to understand what counts as "important" for you.
+> Good thinking. Creating a backup before making changes is the safest approach. Before I create the backup, I need to understand what counts as "important" for you.
 >
 > I can backup:
 >
 > - **All files** (complete safety, largest backup)
 > - **Files modified in the last N days** (recent work you're actively using)
-> - **Specific file types** (PDFs, documents, spreadsheets—common important formats)
+> - **Specific file types** (PDFs, documents, spreadsheets. Common important formats)
 > - **A custom selection** (you tell me exactly what matters)
 >
 > Which approach works best for you?
 
 ### You Define What Matters
 
-Notice what just happened. The agent didn't assume what you wanted—it asked. This is critical. Different people have different definitions of "important." A photographer cares about images. An accountant cares about spreadsheets. A researcher cares about PDFs.
+Notice what just happened. The agent didn't assume what you wanted. It asked. This is critical. Different people have different definitions of "important." A photographer cares about images. An accountant cares about spreadsheets. A researcher cares about PDFs.
 
 **You:**
 
@@ -113,7 +117,7 @@ Notice what just happened. The agent didn't assume what you wanted—it asked. T
 
 **Claude Code:**
 
-> That's a good combination—PDFs often contain important documents, and anything modified recently is likely something you're actively working with.
+> That's a good combination. PDFs often contain important documents, and anything modified recently is likely something you're actively working with.
 >
 > I'll create a timestamped backup folder and copy those files. Here's what I'm going to do:
 >
@@ -159,11 +163,11 @@ Notice what just happened. The agent didn't assume what you wanted—it asked. T
 
 ## What Just Happened?
 
-Let's examine what the agent did—and why it matters.
+Let's examine what the agent did and why it matters.
 
 ### Principle 6: Safety First
 
-The agent created a safety net BEFORE any destructive operation. This isn't just being careful—it's a fundamental pattern:
+The agent created a safety net BEFORE any destructive operation. This isn't just being careful. It's a fundamental pattern:
 
 ```
 WRONG ORDER:
@@ -183,7 +187,7 @@ The backup constraint ENABLES the changes. Without the safety net, you'd hesitat
 
 ### Principle 3: Verification
 
-Notice that you didn't just trust the backup worked—you asked the agent to verify it. The agent compared counts:
+Notice that you didn't just trust the backup worked. You asked the agent to verify it. The agent compared counts:
 
 - Source files → Backup files
 - Numbers match → Backup complete
@@ -243,7 +247,7 @@ Examples:
 "Verify the backup is complete."
 ```
 
-This step is non-negotiable. A backup that fails silently is worse than no backup—it gives false confidence.
+This step is non-negotiable. A backup that fails silently is worse than no backup. It gives false confidence.
 
 ### Only Then Proceed
 
@@ -316,13 +320,13 @@ Verify that my backup in [folder] contains complete copies of [source folder].
 Compare file counts and tell me if anything is missing.
 ```
 
-Practice the verification step—the habit of confirming completeness.
+Practice the verification step. The habit of confirming completeness.
 
 ---
 
 ## Key Takeaways
 
-**Safety enables action.** The backup constraint doesn't limit you—it frees you to experiment without fear.
+**Safety enables action.** The backup constraint doesn't limit you. It frees you to experiment without fear.
 
 **Agents should ask, not assume.** A well-designed agent clarifies ambiguous requests before acting. "Important files" means different things to different people.
 

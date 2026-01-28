@@ -3,7 +3,7 @@ sidebar_position: 5
 chapter: 6
 lesson: 5
 title: "Search & Discovery Workflow"
-description: "Direct Claude Code to find files by description rather than memorizing search commands—because you know what you're looking for, not where it is"
+description: "Direct Claude Code to find files by description rather than memorizing search commands. Because you know what you're looking for, not where it is"
 duration_minutes: 25
 
 skills:
@@ -64,9 +64,13 @@ differentiation:
 
 # Search & Discovery Workflow
 
+Here's something most people never discover about working with General Agents. You don't need to know the exact filename. You don't need to remember where you saved it. You just need to describe what you're looking for.
+
+This workflow teaches you descriptive search, a skill that applies far beyond files. When you work with General Agents to find information in databases, locate specific emails, discover relevant research papers, or search through any large collection, you'll use the same pattern: describe what you need, not how to find it.
+
 You downloaded a tax document last year. You know it exists. You just can't find it.
 
-It's somewhere in your files. Maybe Downloads? Maybe Documents? The filename was something the bank generated automatically—`statement_2023_Q4_final_v2.pdf` or maybe `1099-DIV-2023.pdf`. You're not sure. You just know it was a tax document from 2023 and it had something about dividends.
+It's somewhere in your files. Maybe Downloads? Maybe Documents? The filename was something the bank generated automatically. `statement_2023_Q4_final_v2.pdf` or maybe `1099-DIV-2023.pdf`. You're not sure. You just know it was a tax document from 2023 and it had something about dividends.
 
 You could click through folders for 20 minutes. Or you could describe what you're looking for to a General Agent and let it search.
 
@@ -169,7 +173,7 @@ You witnessed two principles working together.
 
 **Principle 1: Bash is the Key.** Did you notice the commands the agent ran? It used `find` to locate files by name patterns, `grep` to search inside files for content, and `xargs` to pipe results between tools. You didn't need to know any of this syntax. The agent picked the right tools because bash commands are the universal interface for file operations.
 
-**Principle 7: Observability.** The agent didn't just hand you a filename. It showed you the search process—what it searched for, where it looked, what it found. You could see the table of candidates and understand why it narrowed to certain files. The search was transparent.
+**Principle 7: Observability.** The agent didn't just hand you a filename. It showed you the search process. What it searched for, where it looked, what it found. You could see the table of candidates and understand why it narrowed to certain files. The search was transparent.
 
 Here's what made this different from a file browser search:
 
@@ -313,7 +317,7 @@ I need to find a document that meets multiple criteria:
 Show me your search strategy before running it.
 ```
 
-**What you're practicing**: Complex search specification. You're asking the agent to combine multiple filters—file type, content, date, and even numeric values. Watch how it approaches an ambitious search request.
+**What you're practicing**: Complex search specification. You're asking the agent to combine multiple filters. File type, content, date, and even numeric values. Watch how it approaches an ambitious search request.
 
 **Prompt 2: Search Report Generation**
 
@@ -328,7 +332,7 @@ Save the report so I can reference it later.
 **Prompt 3: Duplicate Detection**
 
 ```
-I think I have duplicate files—the same document saved in multiple
+I think I have duplicate files. The same document saved in multiple
 places. Can you find files that might be duplicates based on name
 similarity or identical file sizes?
 ```
