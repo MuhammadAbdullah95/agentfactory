@@ -80,11 +80,11 @@ An AI agent could generate code that prints:
 
 Which one do you actually want?
 
-Now imagine you show the exact output:
+Now imagine you show the exact output in a code block:
 
-\`\`\`text
+```text
 Hello! The time is 14:30:00
-\`\`\`
+```
 
 Suddenly there's no confusion. The AI knows exactly what format to use.
 
@@ -98,7 +98,19 @@ Use **fenced code blocks** when you need to show multiple lines of code or outpu
 
 ### Basic Syntax
 
-Create a fenced code block with triple backticks (`` ` ``):
+Create a fenced code block with **triple backticks** (the `` ` `` key, usually below Escape):
+
+**What you type in your markdown file:**
+
+````text
+```
+Line 1 of code or output
+Line 2 of code or output
+Line 3 of code or output
+```
+````
+
+**What it renders as:**
 
 ```
 Line 1 of code or output
@@ -107,6 +119,10 @@ Line 3 of code or output
 ```
 
 Type three backticks, press Enter, type your code, press Enter, then type three more backticks. Everything between displays exactly as you type it (no markdown formatting applied).
+
+:::tip[Pro-Tip: Documenting Code Blocks]
+When writing documentation that shows code block syntax (like this lesson), use **quadruple backticks** (``````) to wrap examples containing triple backticks. This prevents the inner backticks from closing your outer block.
+:::
 
 ### Example: Showing Expected Output
 
@@ -153,7 +169,17 @@ Add a **language tag** right after the opening backticks to specify what type of
 
 ### Syntax
 
-Type three backticks, then the language name, then your code:
+Type three backticks, then the language name (no space), then your code:
+
+**What you type:**
+
+````text
+```python
+print("Hello, World!")
+```
+````
+
+**What it renders as:**
 
 ```python
 print("Hello, World!")
@@ -171,6 +197,10 @@ Use these tags based on what you're showing:
 - **`typescript`** - TypeScript code
 - **`json`** - Data formats
 - **`yaml`** - Configuration files
+
+:::warning[Use the Correct Tag]
+AI agents are sensitive to language tags. If you tag Python code as `text`, the AI may ignore syntax rules and coding standards (like PEP 8). Always use the correct language tag so the AI generates properly formatted code.
+:::
 
 ![Four code blocks displayed side-by-side showing syntax highlighting differences: Python code (blue keywords, green strings), JavaScript (purple keywords, orange functions), Bash commands (gray comments, blue flags), and JSON (red keys, green values). Each block shows the language identifier (```python, ```js, ```bash, ```json) at the top demonstrating how language tags enable proper syntax highlighting.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/code-block-syntax-highlighting.png)
 
@@ -209,9 +239,9 @@ The `python` tag makes it clear this is Python code to implement.
 
 ![Diagram illustrating newline handling in markdown blocks: Shows three scenarios - (1) Fenced code blocks preserve all newlines exactly as typed, (2) Regular paragraphs collapse single newlines into spaces (need double newline for paragraph break), (3) HTML line breaks \<br\> force newlines in paragraphs. Examples demonstrate each with source markdown and rendered output side-by-side.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/newline-escaping-markdown-blocks.png)
 
-#### 🎓 Expert Insight
-
-> Language tags do more than just enable syntax highlighting. They tell AI agents which language interpreter to use, which libraries might be available, and which syntax rules apply. When you tag a block as `python`, the AI knows to generate Python 3.13+ syntax. When you tag it as `bash`, the AI knows these are shell commands. This prevents the AI from mixing syntaxes or generating code for the wrong language—a common error when language context is ambiguous.
+:::info[Expert Insight]
+Language tags do more than just enable syntax highlighting. They tell AI agents which language interpreter to use, which libraries might be available, and which syntax rules apply. When you tag a block as `python`, the AI knows to generate Python 3.13+ syntax. When you tag it as `bash`, the AI knows these are shell commands. This prevents the AI from mixing syntaxes or generating code for the wrong language—a common error when language context is ambiguous.
+:::
 
 ---
 
@@ -264,6 +294,11 @@ This makes the specification much clearer.
 
 ## Fenced vs Inline: Which to Use?
 
+| Feature | Syntax | Use Case |
+|---------|--------|----------|
+| **Inline Code** | `` `code` `` | Variable names, file names, short commands in a sentence |
+| **Fenced Block** | ` ``` ` | Multi-line code, program output, or implementation examples |
+
 ### Use Fenced Code Blocks (triple backticks) when:
 - Showing multiple lines of code
 - Displaying expected program output
@@ -305,14 +340,16 @@ Add code blocks to make your specification more concrete:
 
 **Part 1: Add Expected Output Section**
 
-Fill in the "Expected Output" section with a fenced code block showing what the program displays:
+Fill in the "Expected Output" section with a fenced code block showing what the program displays.
 
-```text
+**What you should write in your spec:**
+
+`````text
 ## Expected Output
 
 When the user runs `python tracker.py`, they should see:
 
-\`\`\`text
+```text
 Task Tracker Menu
 1. Add Task
 2. View Tasks
@@ -321,21 +358,34 @@ Task Tracker Menu
 5. Exit
 
 Choose an option: _
-\`\`\`
+```
 
 When viewing tasks, the display looks like:
 
-\`\`\`text
+```text
 Your Tasks:
 1. Buy groceries [Pending] - Due: 2025-11-08
 2. Call dentist [Pending] - Due: 2025-11-07
 3. Submit report [Complete] - Done: 2025-11-06
-\`\`\`
 ```
+
+When the task list is empty:
+
+```text
+Your Tasks:
+No tasks yet. Use option 1 to add a task.
+```
+`````
+
+:::tip[Pro-Tip: Show Edge Cases]
+Including edge cases (like empty states) in your code blocks gives the AI a hint to handle these scenarios in the generated code. If you don't show what "empty" looks like, the AI might not handle it gracefully.
+:::
 
 **Part 2: Update Installation Commands**
 
-Make sure your installation steps use **inline code** for commands:
+Make sure your installation steps use **inline code** (single backticks) for commands.
+
+**What you type** (notice the backticks around commands):
 
 ```text
 ## Installation
@@ -346,6 +396,15 @@ Make sure your installation steps use **inline code** for commands:
 4. Run the program: `python tracker.py`
 ```
 
+**What it renders as** (backticks become formatted inline code):
+
+## Installation
+
+1. Install Python 3.9 or higher from python.org
+2. Download the task tracker files from GitHub
+3. Navigate to the project folder: `cd task-tracker`
+4. Run the program: `python tracker.py`
+
 **Part 3: Add Language Tags**
 
 Ensure your code blocks have the `text` language tag (since this is program output, not Python code).
@@ -354,11 +413,11 @@ Ensure your code blocks have the `text` language tag (since this is program outp
 
 Check your updated specification:
 
-- [ ] Expected output section has at least one fenced code block with `text` tag
-- [ ] Code blocks show what the program actually prints (not descriptions)
-- [ ] Installation commands use inline code (`` `cd task-tracker` ``, `` `python tracker.py` ``)
-- [ ] All code blocks have opening AND closing triple backticks
-- [ ] Output is specific (shows actual menu items, not "menu appears")
+1. Expected output section has at least one fenced code block with `text` tag
+2. Code blocks show what the program actually prints (not descriptions)
+3. Installation commands use inline code (`` `cd task-tracker` ``, `` `python tracker.py` ``)
+4. All code blocks have opening AND closing triple backticks
+5. Output is specific (shows actual menu items, not "menu appears")
 
 **Save this file!** You'll add links, images, and emphasis in Lesson 5 to complete it.
 
@@ -368,18 +427,30 @@ Check your updated specification:
 
 ### Mistake 1: Forgetting Closing Backticks
 
-**Wrong:**
+**Wrong** (missing closing backticks — everything after becomes part of the code block):
+
+````text
 ```python
 print("Hello")
-```
-(missing closing backticks)
+
+This text becomes part of the code block because there's no closing ```
+````
 
 **Correct:**
+
+````text
+```python
+print("Hello")
+```
+````
+
+Which renders as:
+
 ```python
 print("Hello")
 ```
 
-Always close your code blocks.
+Always close your code blocks with triple backticks.
 
 ### Mistake 2: Using Inline Code for Multiple Lines
 
@@ -420,12 +491,13 @@ When you use code blocks correctly, AI agents can:
 2. **Understand the language** - "This is Python code, not bash commands"
 3. **Parse code examples** - "This is example code to implement, not expected output"
 4. **Follow command syntax** - "These inline codes are commands to run"
+5. **Semantic anchoring** - When you wrap a command in backticks like `python tracker.py`, you tell the AI: "This is a literal string, not a word to translate or summarize." This prevents the AI from hallucinating different command names.
 
 Good code block usage = clearer specifications = better AI-generated code.
 
-#### 🎓 Expert Insight
-
-> In professional development, code blocks serve as executable documentation. When you show expected output in a fenced code block, that becomes the acceptance test—did the generated code produce exactly this output? This practice, called "specification by example," reduces ambiguity dramatically. Teams using spec-by-example report 60-80% fewer clarification requests during implementation because everyone (human and AI) can see exactly what "correct" looks like.
+:::info[Expert Insight]
+In professional development, code blocks serve as executable documentation. When you show expected output in a fenced code block, that becomes the acceptance test—did the generated code produce exactly this output? This practice, called "specification by example," reduces ambiguity dramatically. Teams using spec-by-example report 60-80% fewer clarification requests during implementation because everyone (human and AI) can see exactly what "correct" looks like.
+:::
 
 ---
 
@@ -443,7 +515,7 @@ Take your **updated Task Tracker App specification** (now with code blocks) and 
 
 **Prompt 1 (Structure Check):**
 
-\`\`\`
+```
 I'm learning code blocks in markdown. Can you check if I used the right syntax?
 
 [Paste your specification here]
@@ -452,24 +524,24 @@ Tell me:
 1. Are my code blocks properly closed?
 2. Did I use appropriate language tags?
 3. Should any inline code be fenced blocks instead?
-\`\`\`
+```
 
 **Prompt 2 (Clarity Check):**
 
-\`\`\`
+```
 Based on my specification, can you tell:
 1. What should the program output look like?
 2. What programming language is this written in?
 3. What commands need to be run?
-\`\`\`
+```
 
 **Prompt 3 (Implementation + Execution Test):**
 
-\`\`\`
+```
 Can you implement a simple version of this Task Tracker App specification?
 Generate Python code that shows the main menu and displays sample tasks
 like I specified in the Expected Output section.
-\`\`\`
+```
 
 ### Expected Outcomes
 
