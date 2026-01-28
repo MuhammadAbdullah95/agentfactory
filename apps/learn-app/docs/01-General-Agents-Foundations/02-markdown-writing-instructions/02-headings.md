@@ -85,7 +85,7 @@ Here's how it works:
 - **Level 1 (`#`)**: The document title (use once at the top)
 - **Level 2 (`##`)**: Main sections (Problem, Features, Installation, etc.)
 - **Level 3 (`###`)**: Subsections within a main section
-- **Level 4 (`####`)**: Details within a subsection (rarely needed)
+- **Level 4 (`####`)**: Deep technical details like constraints, edge cases, or exceptions within a subsection
 - **Level 5-6 (`#####`, `######`)**: Deep nesting (avoid in specifications — if you need these, your document structure is probably too complex)
 
 ### Example: A Simple Specification
@@ -126,6 +126,8 @@ This structure lets anyone (human or AI) scan the document and immediately under
 #### 💬 AI Colearning Prompt
 
 > **Explore with your AI**: "I'm learning about markdown heading hierarchy. Can you explain why skipping heading levels (like going from # directly to ###) creates problems for AI agents parsing specifications? Use an analogy from organizing physical files or folders to help me understand."
+
+> **Bonus prompt**: "Show me how you see this document structure as a JSON tree — I want to visualize how you parse the headings."
 
 ---
 
@@ -184,6 +186,7 @@ This doesn't make sense without a parent section.
 **This is wrong because:**
 - We jumped from Level 1 directly to Level 3 (skipped Level 2)
 - The hierarchy is broken — readers don't know what "Step 1" belongs to
+- Even if it renders visually, it breaks the AI's logical map of your document (and hurts accessibility for screen readers)
 
 **The fix:** Always include Level 2 before Level 3:
 
@@ -217,7 +220,7 @@ Create the **structure** for a Task Tracker App specification using only heading
 
 **Requirements:**
 - Add a Level 1 title: `# Task Tracker App`
-- Include these Level 2 sections: `## Problem`, `## Features`, `## Expected Output`, `## Installation`
+- Include these Level 2 sections: `## Problem`, `## Features`, `## Expected Output`, `## Installation` (Note: `## Context` or `## User Story` are also common alternatives to `## Problem`)
 - Under Features, add Level 3 headings: `### Add Tasks`, `### View Tasks`, `### Mark Complete`, `### Delete Tasks`
 
 **Template to fill in:**
