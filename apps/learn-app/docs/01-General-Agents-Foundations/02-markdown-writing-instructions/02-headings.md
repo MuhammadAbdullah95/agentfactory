@@ -76,6 +76,8 @@ Here's how it works:
 ## Level 2 Heading (Large)
 ### Level 3 Heading (Medium)
 #### Level 4 Heading (Small)
+##### Level 5 Heading (Smaller)
+###### Level 6 Heading (Smallest)
 ```
 
 **What each level is for:**
@@ -83,7 +85,8 @@ Here's how it works:
 - **Level 1 (`#`)**: The document title (use once at the top)
 - **Level 2 (`##`)**: Main sections (Problem, Features, Installation, etc.)
 - **Level 3 (`###`)**: Subsections within a main section
-- **Level 4 (`####`)**: Details within a subsection (rarely needed)
+- **Level 4 (`####`)**: Deep technical details like constraints, edge cases, or exceptions within a subsection
+- **Level 5-6 (`#####`, `######`)**: Deep nesting (avoid in specifications — if you need these, your document structure is probably too complex)
 
 ### Example: A Simple Specification
 
@@ -123,6 +126,8 @@ This structure lets anyone (human or AI) scan the document and immediately under
 #### 💬 AI Colearning Prompt
 
 > **Explore with your AI**: "I'm learning about markdown heading hierarchy. Can you explain why skipping heading levels (like going from # directly to ###) creates problems for AI agents parsing specifications? Use an analogy from organizing physical files or folders to help me understand."
+
+> **Bonus prompt**: "Show me how you see this document structure as a JSON tree — I want to visualize how you parse the headings."
 
 ---
 
@@ -181,6 +186,7 @@ This doesn't make sense without a parent section.
 **This is wrong because:**
 - We jumped from Level 1 directly to Level 3 (skipped Level 2)
 - The hierarchy is broken — readers don't know what "Step 1" belongs to
+- Even if it renders visually, it breaks the AI's logical map of your document (and hurts accessibility for screen readers)
 
 **The fix:** Always include Level 2 before Level 3:
 
@@ -192,9 +198,9 @@ This doesn't make sense without a parent section.
 ### Step 1: Install Dependencies
 ```
 
-#### 🎓 Expert Insight
-
-> Proper heading hierarchy isn't just a style preference—it's essential for accessibility and machine parsing. Screen readers use heading levels to help visually impaired users navigate documents. AI agents use the hierarchy to understand document structure and relationships between sections. When you skip levels, both humans using assistive technology and AI parsing tools lose critical structural information. This is why professional documentation standards enforce strict heading hierarchy.
+:::info[Expert Insight]
+Proper heading hierarchy isn't just a style preference—it's essential for accessibility and machine parsing. Screen readers use heading levels to help visually impaired users navigate documents. AI agents use the hierarchy to understand document structure and relationships between sections. When you skip levels, both humans using assistive technology and AI parsing tools lose critical structural information. This is why professional documentation standards enforce strict heading hierarchy.
+:::
 
 ---
 
@@ -214,7 +220,7 @@ Create the **structure** for a Task Tracker App specification using only heading
 
 **Requirements:**
 - Add a Level 1 title: `# Task Tracker App`
-- Include these Level 2 sections: `## Problem`, `## Features`, `## Expected Output`, `## Installation`
+- Include these Level 2 sections: `## Problem`, `## Features`, `## Expected Output`, `## Installation` (Note: `## Context` or `## User Story` are also common alternatives to `## Problem`)
 - Under Features, add Level 3 headings: `### Add Tasks`, `### View Tasks`, `### Mark Complete`, `### Delete Tasks`
 
 **Template to fill in:**
@@ -252,11 +258,11 @@ Create the **structure** for a Task Tracker App specification using only heading
 
 After you write your specification structure, check these:
 
-- [ ] Document has exactly ONE Level 1 heading (`# Task Tracker App`)
-- [ ] Four Level 2 headings (`## Problem`, `## Features`, `## Expected Output`, `## Installation`)
-- [ ] Four Level 3 headings under `## Features` (Add Tasks, View Tasks, Mark Complete, Delete Tasks)
-- [ ] No levels are skipped (Level 3 headings only appear under Level 2)
-- [ ] Each heading describes what its section will contain
+1. Document has exactly ONE Level 1 heading (`# Task Tracker App`)
+2. Four Level 2 headings (`## Problem`, `## Features`, `## Expected Output`, `## Installation`)
+3. Four Level 3 headings under `## Features` (Add Tasks, View Tasks, Mark Complete, Delete Tasks)
+4. No levels are skipped (Level 3 headings only appear under Level 2)
+5. Each heading describes what its section will contain
 
 **Save this file!** You'll continue building it in Lessons 3, 4, and 5.
 
@@ -336,9 +342,9 @@ When you write a specification with clear headings, AI agents can:
 
 Good headings make your specifications easier for AI to understand, which means better code generation.
 
-#### 🎓 Expert Insight
-
-> When AI agents parse your specification, headings serve as navigation landmarks. The AI can quickly locate "Features," "Installation," or "Expected Output" sections without reading every word. This speeds up processing and improves accuracy. In professional development, well-structured specifications reduce implementation time by 30-50% because both humans and AI can find information instantly.
+:::info[Expert Insight]
+When AI agents parse your specification, headings serve as navigation landmarks. The AI can quickly locate "Features," "Installation," or "Expected Output" sections without reading every word. This speeds up processing and improves accuracy. In professional development, well-structured specifications reduce implementation time by 30-50% because both humans and AI can find information instantly.
+:::
 
 ---
 

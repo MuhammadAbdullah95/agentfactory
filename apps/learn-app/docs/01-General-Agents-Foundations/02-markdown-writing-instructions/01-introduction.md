@@ -113,7 +113,11 @@ According to GitHub's documentation, almost every software project has a README 
 1. **Developers can read it** — No special software needed, just plain text
 2. **AI can parse it** — The structure tells AI what each section means
 3. **It renders beautifully** — GitHub, documentation sites, and AI tools display it formatted
-4. **It's stable** — Created in 2004, standardized in 2014, hasn't changed since
+4. **It's stable** — Created in 2004 by John Gruber, with [CommonMark](https://commonmark.org/) providing a formal specification starting in 2014
+
+:::note[Markdown Flavors]
+You'll encounter different "flavors" of markdown. **CommonMark** is the base standard. **GitHub Flavored Markdown (GFM)** extends it with tables, task lists (`- [ ]`), and strikethrough (`~~text~~`). Most tools you'll use support GFM, so these extensions work almost everywhere.
+:::
 
 When you write in markdown, you're using the same format that millions of developers use to communicate with both humans and AI.
 
@@ -174,9 +178,13 @@ The structure removes ambiguity. You're not teaching the AI to guess — you're 
 
 > **Explore with your AI**: "I just learned that structured text helps AI understand requirements better. Can you show me two versions of a simple project description—one unstructured paragraph and one using markdown structure? Use a coffee shop ordering app as the example. Then explain which version would be clearer for you to implement."
 
-#### 🎓 Expert Insight
+:::info[Expert Insight]
+Notice how structure isn't just about making text look nice. When you add markdown headings and lists, you're creating **semantic meaning** that AI can parse. This is why markdown is called "structured text"—the structure itself communicates intent. In professional development, clear structure reduces implementation errors and speeds up development cycles.
+:::
 
-> Notice how structure isn't just about making text look nice. When you add markdown headings and lists, you're creating **semantic meaning** that AI can parse. This is why markdown is called "structured text"—the structure itself communicates intent. In professional development, clear structure reduces implementation errors and speeds up development cycles.
+:::tip[Pro-Tip: Why Structure Helps AI at the Technical Level]
+Large Language Models (LLMs) process text as "tokens" — small chunks of words or characters. When you write structured markdown, you're giving the AI clearer token boundaries and "attention cues." A heading like `## Features` tells the model: "Everything below this relates to features." Lists create natural separations between items. This structure helps the AI's attention mechanism focus on relevant sections rather than treating your entire document as one continuous stream. Better structure = better AI comprehension.
+:::
 
 ---
 
@@ -192,6 +200,8 @@ You write **what you want** in a specification using markdown. Your spec describ
 - How to know if it's working
 
 **Your responsibility**: Make your intent clear.
+
+**Why markdown stays in Layer 1**: The specification represents **your intent** — the authoritative definition of what should be built. Even when AI helps draft or refine the spec, you have final approval authority. The implementation (Layer 3) must match the specification, not the other way around. This keeps you in control: change the spec, and the AI rebuilds to match.
 
 ### Layer 2: Reasoning Layer (AI works here)
 
@@ -289,9 +299,9 @@ When you ask ChatGPT or Claude to generate code, you can format your request wit
 
 **In all these cases**, markdown is the format that bridges human intent and machine action.
 
-#### 🎓 Expert Insight
-
-> Here's what makes markdown powerful in AI-native development: it's both human-readable and machine-parseable. You don't need special software to read it (unlike Word docs), yet it has enough structure for AI to extract meaning. This dual nature makes it the universal format for specifications, documentation, and AI communication. Professional development teams use markdown for everything from project READMEs to architecture decision records (ADRs).
+:::info[Expert Insight]
+Here's what makes markdown powerful in AI-native development: it's both human-readable and machine-parseable. You don't need special software to read it (unlike Word docs), yet it has enough structure for AI to extract meaning. This dual nature makes it the universal format for specifications, documentation, and AI communication. Professional development teams use markdown for everything from project READMEs to architecture decision records (ADRs).
+:::
 
 ---
 
@@ -299,15 +309,17 @@ When you ask ChatGPT or Claude to generate code, you can format your request wit
 
 This chapter teaches markdown differently than other tutorials. Most tutorials teach you markdown syntax just for formatting text. This chapter teaches you markdown as a **specification language** for working with AI.
 
-### Three-Tier Learning Path
+### Learning Path
 
-**Tier 1 (Lessons 2-5)**: You'll learn the essential markdown you need to write specifications. The book teaches you directly — no "ask your AI" for basics.
+**Lessons 2-4 (Core Syntax)**: You'll learn the essential markdown elements for writing specifications:
+- **Lesson 2**: Headings — creating document hierarchy
+- **Lesson 3**: Lists — organizing features and steps
+- **Lesson 4**: Code blocks — showing examples and expected output
 
-**Tier 2 (Lesson 6)**: For complex markdown (like tables), you'll learn to direct AI to generate it for you. You specify what you need, AI generates it, you validate it.
-
-**Tier 3 (Lesson 7)**: For scaling (like 10+ documentation files), you'll learn to orchestrate AI to handle the repetitive work while you supervise consistency.
-
-**Integration (Lesson 8)**: You'll execute a complete AIDD workflow: write a spec in markdown → have AI generate code → validate it matches your spec → refine if needed.
+**Lesson 5 (Integration)**: You'll combine everything into your **first complete specification**:
+- Add links to documentation and images for diagrams
+- Write a full spec using headings, lists, and code blocks
+- Validate your spec with AI feedback
 
 By the end, you won't just know markdown syntax — you'll understand how to use markdown as the Intent Layer that makes AI-driven development possible.
 
@@ -407,6 +419,8 @@ ChatGPT will explain that Version 2 is clearer because:
 - Interface is explicitly stated
 - Structure removes ambiguity
 
+---
+
 **Prompt 2 (Real-World Connection):**
 
 Ask ChatGPT:
@@ -423,3 +437,34 @@ ChatGPT will explain that markdown:
 - Is readable as plain text (no special software needed)
 - Is version-control friendly (git can track changes line-by-line)
 - Is the standard developers expect
+
+---
+
+**Prompt 3 (Apply to Your Domain):**
+
+Now try writing your own structured description. Think of a simple app or tool you'd like to build, then ask:
+
+```
+I want to practice writing structured specifications. Here's my project idea:
+
+[Your App Name]
+
+Problem: [One sentence describing what problem it solves]
+
+Features:
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+
+Can you review this specification and tell me:
+1. Is the structure clear enough for you to understand what to build?
+2. What additional sections would make this specification more complete?
+3. Can you show me an improved version with your suggestions?
+```
+
+**Expected Outcome:**
+
+ChatGPT will review your specification and suggest improvements like:
+- Adding acceptance criteria (how to know if it works)
+- Clarifying user flow (step-by-step interaction)
+- Specifying constraints (what it should NOT do)

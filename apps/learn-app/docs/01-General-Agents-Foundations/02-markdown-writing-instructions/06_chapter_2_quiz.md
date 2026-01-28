@@ -19,7 +19,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Without markdown structure, AI lacks clear signals about how requirements relate to each other. While AI can read plain text (option A is wrong), it cannot distinguish between main features, sub-features, and implementation details without structural markers like headings and lists. AI won't refuse to process it (option C is wrong) or automatically reformat it (option D is wrong), but the lack of hierarchy makes it difficult for AI to understand dependencies, prioritization, and logical groupings. Markdown provides the structural scaffolding that helps AI parse intent correctly, distinguishing between 'what' (requirements) and 'how' (implementation details).",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "A developer writes specifications using only paragraphs of text. Another developer uses headings, lists, and code blocks. When both ask AI to implement their specifications, what difference will most likely emerge?",
@@ -31,7 +31,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "Structured markdown enables AI to distinguish between different types of information—headings identify scope, lists show requirements, code blocks demonstrate expected behavior. This structure helps AI organize its implementation logically. Content alone isn't sufficient (option A is wrong) because structure affects how AI interprets relationships between requirements. Paragraph text isn't faster to process (option C is wrong); it's actually harder for AI to parse intent. AI doesn't require JSON formatting (option D is wrong)—markdown is already a structured format that AI can parse effectively. The structured approach acts as a specification language that guides AI's implementation strategy.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "In the three-layer AIDD architecture, where does markdown primarily function, and why is this layer critical?",
@@ -43,7 +43,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "Markdown operates in the Intent Layer, where developers express what they want the software to do without specifying how to implement it. This layer is critical because it bridges human thinking and AI processing. Markdown doesn't generate code directly (option A is wrong)—it describes intent that AI then implements. Markdown doesn't perform reasoning (option C is wrong); the AI handles reasoning in the middle layer. There is no 'Integration Layer' in the three-layer model (option D is wrong). The three layers are Intent (markdown specifications), Reasoning (AI analysis), and Implementation (generated code). Markdown's role is to structure human intent in a format that AI can parse effectively.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "You ask AI to build a login feature by describing it conversationally: 'Make a login page that looks nice and works well.' What fundamental problem does this approach create?",
@@ -55,7 +55,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Conversational descriptions lack structure for identifying distinct requirements, success criteria, and constraints. 'Looks nice' and 'works well' are subjective without concrete examples or criteria. AI can understand conversational language (option B is wrong), but vague descriptions don't provide actionable specifications. Length isn't the issue (option C is wrong)—a short, structured specification with clear criteria is better than a long vague one. AI won't literally interpret 'looks nice' as a CSS command (option D is wrong). The core problem is lack of structure: no headings separating concerns, no lists identifying specific requirements, no code examples showing expected behavior. Markdown provides this structure through headings, lists, and code blocks.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "When using 'specification by example' in markdown, what are you demonstrating to AI, and why is this more effective than pure description?",
@@ -67,7 +67,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Specification by example means showing concrete input/output pairs or expected behavior samples, making requirements unambiguous. For example, showing an example API request and response is clearer than describing 'the API should handle user data.' You're not providing implementation code for AI to copy (option B is wrong)—you're showing what the result should look like, not how to achieve it. Historical examples from other projects (option C is wrong) aren't specification by example; they're reference materials. You're not proving your ability (option D is wrong); you're clarifying intent. Examples reduce ambiguity: 'format dates as MM/DD/YYYY' plus an example '12/25/2024' is clearer than description alone. Markdown code blocks make these examples easy to include and visually distinct.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "A specification starts with implementation details ('use React hooks, create a useState for the counter') rather than intent ('allow users to increment a counter'). What will AI likely struggle with?",
@@ -79,7 +79,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "When specifications lead with implementation details instead of intent, AI lacks context about the purpose and constraints, limiting its ability to suggest alternatives or make intelligent decisions. AI can implement React hooks (option A is wrong)—that's not the issue. The problem is understanding why: knowing the purpose (incrementing a counter) allows AI to suggest better approaches, identify edge cases, or propose alternatives. AI won't refuse or demand diagrams (option C is wrong). AI won't automatically restructure your specification (option D is wrong). The AIDD approach recommends Intent → Reasoning → Implementation order: first state what (intent in markdown), then AI figures out how (reasoning), then AI generates code (implementation). Starting with implementation skips the intent layer.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "You're specifying a feature iteratively: first version has a basic heading and description, second adds requirements list, third adds code examples. Why does this iterative approach align well with markdown?",
@@ -91,7 +91,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "Markdown's syntax is modular and composable—you can add headings, lists, or code blocks without restructuring existing content. You can start with a simple heading and paragraph, then add a bulleted list of requirements, then insert code examples, all without reformatting previous sections. While markdown works well with version control (option A), that's about Git, not markdown's syntax itself. Markdown doesn't create automatic backups (option C is wrong). Markdown doesn't require iteration (option D is wrong)—you could write a complete specification in one pass. The key advantage is that markdown elements don't interfere with each other: adding a code block doesn't require changing your headings or lists. This makes it easy to build specifications incrementally as requirements become clearer.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "A team debates whether to write specifications in Word documents or markdown files. What is the strongest technical argument for choosing markdown for AI collaboration?",
@@ -103,7 +103,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Markdown is plain text, which AI can read and parse directly without dealing with proprietary binary formats, XML schemas, or formatting layers. This directness makes AI interaction more reliable and predictable. While Word has cross-platform issues (option A), the core argument is about AI parsing, not human access. File size (option C is wrong) is irrelevant to AI collaboration quality. Licensing (option D is wrong) is an economic factor, not a technical argument for AI collaboration. The technical advantage is that plain text is unambiguous: markdown files contain only content and structural markers (# for headings, - for lists), while Word files contain formatting metadata, styles, embedded objects, and revision history that complicate AI parsing. Markdown's simplicity makes it the ideal specification language for AI-driven development.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "You notice that AI misunderstood your specification and implemented the wrong feature. What aspect of markdown structure would have most likely prevented this misunderstanding?",
@@ -115,7 +115,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "Clear headings create explicit boundaries between different features, requirements, and contexts, helping AI understand where one concept ends and another begins. Misunderstandings often occur when AI conflates separate concerns or misidentifies scope. Bold and italic formatting (option B is wrong) emphasize text but don't create structural boundaries that define scope. Your editor choice (option C is wrong) doesn't affect how AI parses the markdown file itself. Converting lists to tables (option D is wrong) might actually reduce clarity—lists are better for sequential or grouped items, while tables are for relational data. Proper heading hierarchy (# Main Feature, ## Sub-Feature, ### Implementation Detail) gives AI a clear map of how requirements relate, preventing scope confusion and feature conflation.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "In a specification, you describe a complex user workflow with multiple decision points. Which markdown approach will make it easiest for AI to understand the sequence and dependencies?",
@@ -127,7 +127,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Ordered lists explicitly communicate sequence through numbering, and nested lists show hierarchical relationships and conditional branches clearly. This structure makes dependencies and flow unambiguous for AI parsing. Paragraph form with sequence words (option A is wrong) lacks the structural clarity that AI uses to identify distinct steps and their relationships. Pseudocode (option C is wrong) is implementation-focused, not intent-focused—you'd be describing how to implement the workflow rather than what the workflow should accomplish. Bold text with horizontal rules (option D is wrong) adds visual separation but doesn't communicate sequence or hierarchy as clearly as numbered lists. Markdown lists provide both visual structure for humans and parseable structure for AI: '1. User logs in' followed by nested 'a. If successful' and 'b. If failed' creates unambiguous branching logic.",
-      source: "Lesson 1: Introduction to Markdown"
+      source: "Lesson 1: Why Markdown Matters for AI Communication?"
     },
     {
       question: "You write a specification with this heading structure: '# Login', '### Validation', '## Database'. What problem will AI encounter when trying to understand your specification's organization?",
@@ -139,7 +139,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Skipping from level 1 (#) directly to level 3 (###) violates logical hierarchy—level 3 implies there should be a level 2 parent. This creates ambiguity: is 'Validation' a sub-section of 'Login' or a peer? When you later use level 2 (##) for 'Database', it's unclear whether it's a peer of 'Login' or something else. Using all the same level (option B is wrong) would eliminate hierarchy entirely, making everything appear as peers when they might have parent-child relationships. AI can process many heading levels (option C is wrong)—six levels are standard in markdown. Heading length (option D is wrong) doesn't affect structural parsing. Proper hierarchy would be: '# Login', '## Validation', '## Database'—each level 2 heading is clearly a subsection of 'Login', establishing clear relationships for AI parsing.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "Two specifications describe the same feature: one uses descriptive headings ('User Authentication System'), the other uses vague headings ('Feature 1'). How will this difference affect AI's implementation?",
@@ -151,7 +151,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "Descriptive headings provide context that influences AI's decision-making throughout implementation. When AI encounters 'User Authentication System', it brings security, validation, and session management into consideration. When AI sees 'Feature 1', it lacks this contextual guidance. AI doesn't read sections in isolation (option A is wrong)—heading context influences how AI interprets content beneath it. Vague headings don't improve AI's focus (option C is wrong); they reduce context that helps AI make appropriate implementation choices. AI won't rename headings (option D is wrong); it works with what you provide. Descriptive headings act as semantic anchors: under 'Security Validation', AI will prioritize security patterns; under 'Feature 1', AI lacks this guidance and might make generic choices. Headings shape AI's reasoning context.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "You're writing a specification for a feature with three main components and multiple sub-features within each component. What heading structure best communicates this organization to AI?",
@@ -163,7 +163,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "This hierarchy (# Feature, ## Component 1, ### Sub-feature 1.1) creates three clear levels that mirror the logical organization: the top-level feature contains three components, each containing sub-features. This structure tells AI exactly how elements relate. Using level 1 for everything (option B is wrong) flattens the hierarchy, making components and sub-features appear as peers when they're not. Inverting the hierarchy with components at level 1 (option C is wrong) suggests components are more important than the main feature. Markdown doesn't support font sizes (option D is wrong), and bold text doesn't create parseable hierarchical structure like headings do. The correct structure creates a tree: AI understands that sub-features belong to their parent component, and components belong to the main feature, enabling correct scope interpretation.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "A specification has dozens of level 2 headings with no level 1 heading at the top. What organizational problem does this create for AI parsing?",
@@ -175,7 +175,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "Without a level 1 heading establishing overall context, AI lacks the top-level scope that gives meaning to all the level 2 sections. It's like having chapters without a book title—AI doesn't know what unified purpose connects all these sections. AI can technically process documents without level 1 headings (option A is wrong), but it's poor practice for clarity. AI won't automatically promote headings (option C is wrong); it respects your structure. AI won't treat sections as separate documents (option D is wrong), but it will struggle to understand how they relate without a unifying parent context. A level 1 heading like '# User Management System' tells AI that all subsequent level 2 headings (## Registration, ## Authentication, ## Profiles) relate to user management, enabling coherent implementation decisions across all sections.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "You're specifying error handling for a feature. Where should you place the '## Error Handling' heading to best communicate its scope to AI?",
@@ -187,7 +187,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Error handling should be a subsection (lower level) under the feature it applies to, making the scope relationship clear. If '# Payment Processing' is level 1, then '## Error Handling' at level 2 clearly indicates these error handling rules apply specifically to payment processing. Making it a peer (option A is wrong) suggests error handling is a separate feature equal in scope to payment processing, which misrepresents the relationship. Placement at the end (option C is wrong) doesn't clarify which feature(s) the error handling applies to. Placing it before the feature (option D is wrong) inverts the logical dependency—error handling rules depend on the feature context, not vice versa. Proper nesting communicates scope: AI knows these error handling patterns apply to payment processing specifically, not to the entire system.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "A developer uses six levels of heading hierarchy in a specification. Another developer uses only two levels. What does heading depth primarily communicate about the specification?",
@@ -199,7 +199,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "Heading depth reflects how finely you've broken down the specification into hierarchical components. Six levels might indicate a complex system with many layers of detail (feature > component > sub-component > function > sub-function > detail), while two levels might indicate a simpler feature or less detailed specification. Depth alone doesn't indicate over-engineering or better simplicity (option A is wrong)—it depends on whether the complexity matches the actual system structure. More levels don't speed AI processing (option C is wrong); they provide organizational structure, not performance optimization. Markdown supports six heading levels (option D is wrong), not three. Appropriate depth matches your specification needs: a simple login form might need two levels, while a complex microservices architecture might need five or six to accurately represent system structure.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "When AI encounters this heading sequence in your specification: '## Database Schema', '### Users Table', '### Posts Table', '## API Endpoints', what logical structure does AI infer?",
@@ -211,7 +211,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "The heading levels create clear hierarchy: level 2 (##) sections are peers, and level 3 (###) sections are children of the preceding level 2 section. So 'Users Table' and 'Posts Table' are subsections of 'Database Schema', while 'API Endpoints' is a peer of 'Database Schema'. AI doesn't interpret all headings as peers (option B is wrong) because different heading levels explicitly create parent-child relationships. The structure doesn't nest API Endpoints under Database Schema (option C is wrong)—they're both level 2, making them peers. AI doesn't see three features (option D is wrong); it sees one specification with two main sections (Database Schema and API Endpoints), where the first section has two sub-components. This hierarchy helps AI understand scope and dependencies correctly.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "You need to specify a feature with multiple implementation approaches for AI to consider. How should you structure headings to communicate that these are alternatives, not sequential steps?",
@@ -223,7 +223,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Same-level headings with descriptive names communicate that these are peer alternatives, not hierarchical or sequential. '## Approach 1: REST API' and '## Approach 2: GraphQL' at the same level clearly signal these are alternatives for AI to evaluate. Nested headings (option B is wrong) would suggest one approach is a component of another, misrepresenting the relationship. Increasing levels (option C is wrong) would imply a hierarchy that doesn't exist—GraphQL isn't a sub-component of REST. Bold text (option D is wrong) doesn't create structural relationships that AI can parse as alternatives. Same-level headings tell AI: these sections are peers in scope and purpose, representing different ways to achieve the same goal. This structure enables AI to understand it should evaluate trade-offs rather than implement all approaches sequentially.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "In a specification, you place '## Success Criteria' before describing the feature itself. Why might this heading placement improve AI's implementation?",
@@ -235,7 +235,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "When AI encounters success criteria early, these criteria establish a framework for evaluating all implementation choices that follow. If AI knows upfront that 'response time must be under 200ms', this constraint influences architecture decisions throughout implementation. There's no markdown convention requiring success criteria first (option B is wrong)—placement is a design choice. AI can understand success criteria anywhere in the document (option C is wrong), but early placement provides guiding context sooner. Document rendering speed (option D is wrong) is unaffected by heading order. This reflects good specification design: defining 'what success looks like' before describing implementation details helps AI make decisions aligned with success criteria from the start, rather than discovering constraints later that might require rework.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "A specification mixes heading levels inconsistently: '# Feature', '### Detail', '## Component', '#### Sub-detail', '## Another Component'. How will this affect AI's ability to understand relationships?",
@@ -247,7 +247,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Inconsistent heading levels create ambiguity about relationships. Skipping from level 1 to level 3 leaves it unclear whether level 3 is a direct child of level 1 or if there's an implied level 2. Then returning to level 2 creates confusion about whether it's a peer of the level 1 or a parent of the level 3. AI doesn't ignore heading levels (option A is wrong)—levels are the primary structural signal. AI won't reorder your content (option C is wrong); it interprets the structure you provide. Markdown doesn't enforce hierarchy rules with errors (option D is wrong)—it will render any heading level combination, even if illogical. Consistent hierarchy (1 > 2 > 3 without skipping) creates unambiguous parent-child-grandchild relationships that AI can parse reliably to understand scope and dependencies.",
-      source: "Lesson 2: Headings and Document Structure"
+      source: "Lesson 2: Headings - Creating Document Hierarchy"
     },
     {
       question: "You're specifying a feature that requires three sequential phases. You describe them in paragraphs under a single heading. What structural addition would help AI understand the sequence?",
@@ -259,7 +259,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Ordered lists explicitly communicate sequence through numbering, making the three phases and their order unambiguous. '1. Initial Setup', '2. Data Migration', '3. Validation' clearly shows sequence and dependencies. Bold text (option B is wrong) provides emphasis but doesn't communicate sequence or structure that AI can parse as ordered steps. Writing numbers in caps in paragraphs (option C is wrong) is a visual technique but doesn't create the structural markup that AI uses to understand sequence—AI parses markdown structure, not text styling conventions. Pseudocode (option D is wrong) shifts from intent to implementation, and you'd be describing how to implement phases rather than what the phases should accomplish. Ordered lists are markdown's structural element specifically designed to communicate sequence, making them the ideal choice for sequential phases.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "A specification lists feature requirements using unordered bullets. During implementation, AI implements them in random order, causing dependency failures. What does this reveal about the list choice?",
@@ -271,7 +271,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "Unordered lists (bullets) communicate that items are peers without inherent sequence, suggesting AI can implement them in any order. If requirements actually have dependencies (e.g., 'create database tables' must precede 'populate database'), an ordered list communicates this sequence. AI doesn't randomize deliberately (option A is wrong)—it interpreted the unordered list as implying order-independence. Unordered lists are perfectly valid when requirements truly are order-independent (option C is wrong), such as a list of independent features to implement. Feature complexity (option D is wrong) isn't the issue—proper sequence communication is. The lesson: choose list type based on whether order matters. If 'set up authentication' must happen before 'create user profiles', use ordered lists to communicate this dependency.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "You're specifying a feature with multiple independent capabilities that can be implemented in any order. Which list type best communicates this to AI?",
@@ -283,7 +283,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Unordered lists (bullets with -, *, or +) explicitly communicate that items are peers without inherent sequence, perfect for independent capabilities that can be implemented in any order. Using an ordered list (option A is wrong) when there's no actual dependency would mislead AI into thinking sequence matters, potentially causing AI to implement them in that specific order unnecessarily. Nested ordered lists (option C is wrong) communicate hierarchy and sequence, which doesn't match the 'independent capabilities' requirement. Paragraphs without lists (option D is wrong) lack the structural clarity that helps AI identify distinct items and their relationship. Unordered lists signal: 'These are distinct items, none depends on the others, implement in whatever order makes sense.' This gives AI appropriate flexibility while still clearly identifying the set of capabilities.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "Your specification includes this list structure: a numbered list of features, each containing a bulleted list of requirements. What hierarchical relationship does this communicate to AI?",
@@ -295,7 +295,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "Nested lists communicate hierarchy: outer numbered list shows sequential features, inner bulleted lists show order-independent requirements within each feature. Feature 1 and its requirements should be implemented before Feature 2. Within Feature 1, the bulleted requirements can be implemented in any order. Items aren't all peers (option A is wrong)—nesting creates parent-child relationships. Requirements don't come before features (option C is wrong)—they're children of features, implemented as part of their parent feature. Numbering has semantic meaning (option D is wrong)—it communicates sequence in markdown specifications. This structure tells AI: implement features sequentially (1, then 2, then 3), but within each feature, the bulleted requirements are independent and can be tackled in any order.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "A specification lists all requirements using ordered lists, even though many requirements have no actual dependencies. What problem might this create during AI implementation?",
@@ -307,7 +307,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "Ordered lists signal sequence and potential dependencies, suggesting AI should implement items in the specified order. If requirements are actually independent, this sequential implication prevents AI from recognizing opportunities for parallel implementation or logical grouping. Ordered lists aren't prohibited for independent items (option B is wrong)—they're just misleading in that context. AI won't refuse implementation (option C is wrong); it will proceed with the structure you provided, potentially suboptimally. Markdown doesn't auto-convert list types (option D is wrong)—it renders what you write. The issue is semantic: using ordered lists for independent items implies false dependencies, potentially constraining AI's implementation strategy unnecessarily. Reserve ordered lists for items where sequence actually matters, and use unordered lists when order independence should guide AI's decisions.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "You specify API endpoints in an unordered list, then later realize some endpoints depend on others being implemented first. What change would communicate this dependency to AI?",
@@ -319,7 +319,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Converting to an ordered list directly communicates sequence: endpoint 1 should be implemented before endpoint 2, which should be before endpoint 3. This is the clearest structural signal for sequential dependencies. Adding dependency notes (option A is wrong) requires AI to parse natural language within list items rather than using markdown's structural elements designed for sequence. A separate dependency table (option C is wrong) adds complexity and separates dependency information from the endpoints themselves—an ordered list keeps information together. Bold formatting (option D is wrong) provides emphasis but doesn't communicate sequence or dependency structurally. Markdown's ordered lists are specifically designed to communicate sequence; using them aligns with markdown's semantic purpose for AI parsing.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "Your specification has a list of user stories. You use ordered lists because you have five stories. During implementation, AI treats these as sequential phases. What caused this misunderstanding?",
@@ -331,7 +331,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 1,
       explanation: "Ordered lists semantically communicate sequence, suggesting each numbered item should follow the previous one. If user stories are actually independent (can be implemented in any order), using an ordered list misleads AI into thinking they must be implemented sequentially. AI doesn't require JSON (option A is wrong)—markdown is designed for this purpose. There's no rule that user stories must use unordered lists (option C is wrong), but if they're independent, unordered lists better communicate that independence. The number five isn't significant (option D is wrong). The lesson: choose list type based on semantic meaning, not just counting. If you're numbering items for human reference but they're not actually sequential, consider using unordered lists with labels ('Story A: ...', 'Story B: ...') to avoid implying false sequence.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "A specification uses nested lists three levels deep: numbered features, bulleted components, numbered implementation steps. What does this structure communicate about relationships?",
@@ -343,7 +343,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 0,
       explanation: "Each nesting level has its own ordering semantic: outer numbered features are sequential (implement Feature 1 before Feature 2), middle bulleted components within each feature are order-independent (can implement in any order), inner numbered steps within each component are sequential (implement Step 1 before Step 2). Top-to-bottom order (option A is wrong) ignores the semantic difference between ordered and unordered lists at each level. The nesting doesn't create separate specifications (option C is wrong)—it creates hierarchical relationships within one specification. AI can parse deeply nested lists (option D is wrong)—markdown supports multiple nesting levels. This structure gives AI nuanced guidance: sequential at the feature level, flexible at the component level, sequential again at the implementation step level within each component.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "You list feature requirements as paragraphs rather than as a bulleted or numbered list. How does this affect AI's ability to identify distinct requirements?",
@@ -355,7 +355,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 3,
       explanation: "Lists provide explicit structural markers (bullets or numbers) that clearly delineate individual items, making it unambiguous where one requirement ends and another begins. In paragraphs, requirements might be separated by sentences, commas, or paragraph breaks, requiring AI to infer boundaries from natural language rather than from structure. AI doesn't identify requirements as easily in paragraphs (option A is wrong) because it must parse natural language boundaries instead of using structural markers. AI doesn't prefer paragraphs (option C is wrong)—lists are clearer for discrete items. Paragraphs don't improve AI's analysis (option D is wrong); they add ambiguity. Lists are markdown's tool for organizing discrete items: each bullet or number explicitly marks one requirement, helping AI count, track, and implement them individually without inference or ambiguity.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "Your specification mixes ordered and unordered list markers inconsistently: some bullets use dashes (-), some use asterisks (*), some use plus signs (+). How does this affect AI's interpretation?",
@@ -367,7 +367,7 @@ Test your understanding of markdown as a structured communication language for A
       ],
       correctOption: 2,
       explanation: "In markdown, -, *, and + all create unordered lists with identical semantic meaning. They're interchangeable for AI parsing—all communicate 'this is an order-independent list item.' Different characters don't create priority levels (option A is wrong) or importance distinctions (option C is wrong). Mixing them in the same document is valid markdown and won't cause errors (option D is wrong). While consistency is cleaner for human readers, AI treats all three characters as equivalent unordered list markers. The semantic distinction AI cares about is ordered vs. unordered (numbered vs. bulleted), not which bullet character you use. That said, consistent style throughout a specification improves human readability, so pick one bullet character (-, *, or +) and use it consistently.",
-      source: "Lesson 3: Lists - Organizing Information"
+      source: "Lesson 3: Lists - Organizing Ideas"
     },
     {
       question: "You're specifying a feature where you want AI to generate code showing expected behavior. How should you include this in your specification?",
