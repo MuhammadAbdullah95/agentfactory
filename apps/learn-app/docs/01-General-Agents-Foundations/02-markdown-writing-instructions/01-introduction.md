@@ -299,15 +299,17 @@ When you ask ChatGPT or Claude to generate code, you can format your request wit
 
 This chapter teaches markdown differently than other tutorials. Most tutorials teach you markdown syntax just for formatting text. This chapter teaches you markdown as a **specification language** for working with AI.
 
-### Three-Tier Learning Path
+### Learning Path
 
-**Tier 1 (Lessons 2-5)**: You'll learn the essential markdown you need to write specifications. The book teaches you directly — no "ask your AI" for basics.
+**Lessons 2-4 (Core Syntax)**: You'll learn the essential markdown elements for writing specifications:
+- **Lesson 2**: Headings — creating document hierarchy
+- **Lesson 3**: Lists — organizing features and steps
+- **Lesson 4**: Code blocks — showing examples and expected output
 
-**Tier 2 (Lesson 6)**: For complex markdown (like tables), you'll learn to direct AI to generate it for you. You specify what you need, AI generates it, you validate it.
-
-**Tier 3 (Lesson 7)**: For scaling (like 10+ documentation files), you'll learn to orchestrate AI to handle the repetitive work while you supervise consistency.
-
-**Integration (Lesson 8)**: You'll execute a complete AIDD workflow: write a spec in markdown → have AI generate code → validate it matches your spec → refine if needed.
+**Lesson 5 (Integration)**: You'll combine everything into your **first complete specification**:
+- Add links to documentation and images for diagrams
+- Write a full spec using headings, lists, and code blocks
+- Validate your spec with AI feedback
 
 By the end, you won't just know markdown syntax — you'll understand how to use markdown as the Intent Layer that makes AI-driven development possible.
 
@@ -400,12 +402,16 @@ Interface: Command-line terminal
 Which one is clearer for you to work with, and why?
 ```
 
+**What you're learning:** How structure removes ambiguity. AI will show you exactly which parts of Version 2 make it easier to parse and implement.
+
 **Expected Outcome:**
 
 ChatGPT will explain that Version 2 is clearer because:
 - Features are listed separately (easier to parse)
 - Interface is explicitly stated
 - Structure removes ambiguity
+
+---
 
 **Prompt 2 (Real-World Connection):**
 
@@ -416,6 +422,8 @@ Why do most GitHub repositories use README.md files written in markdown
 instead of plain .txt files or Word documents?
 ```
 
+**What you're learning:** Why markdown became the industry standard. Understanding this helps you see markdown as professional infrastructure, not just formatting.
+
 **Expected Outcome:**
 
 ChatGPT will explain that markdown:
@@ -423,3 +431,36 @@ ChatGPT will explain that markdown:
 - Is readable as plain text (no special software needed)
 - Is version-control friendly (git can track changes line-by-line)
 - Is the standard developers expect
+
+---
+
+**Prompt 3 (Apply to Your Domain):**
+
+Now try writing your own structured description. Think of a simple app or tool you'd like to build, then ask:
+
+```
+I want to practice writing structured specifications. Here's my project idea:
+
+[Your App Name]
+
+Problem: [One sentence describing what problem it solves]
+
+Features:
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+
+Can you review this specification and tell me:
+1. Is the structure clear enough for you to understand what to build?
+2. What additional sections would make this specification more complete?
+3. Can you show me an improved version with your suggestions?
+```
+
+**What you're learning:** How to apply structured thinking to YOUR ideas. This is the core skill of the Intent Layer — translating what you want into a format AI can act on.
+
+**Expected Outcome:**
+
+ChatGPT will review your specification and suggest improvements like:
+- Adding acceptance criteria (how to know if it works)
+- Clarifying user flow (step-by-step interaction)
+- Specifying constraints (what it should NOT do)
