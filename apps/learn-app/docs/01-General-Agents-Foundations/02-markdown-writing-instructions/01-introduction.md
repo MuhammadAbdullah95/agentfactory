@@ -412,8 +412,6 @@ Interface: Command-line terminal
 Which one is clearer for you to work with, and why?
 ```
 
-**What you're learning:** How structure removes ambiguity. AI will show you exactly which parts of Version 2 make it easier to parse and implement.
-
 **Expected Outcome:**
 
 ChatGPT will explain that Version 2 is clearer because:
@@ -431,8 +429,6 @@ Ask ChatGPT:
 Why do most GitHub repositories use README.md files written in markdown
 instead of plain .txt files or Word documents?
 ```
-
-**What you're learning:** Why markdown became the industry standard. Understanding this helps you see markdown as professional infrastructure, not just formatting.
 
 **Expected Outcome:**
 
@@ -465,8 +461,6 @@ Can you review this specification and tell me:
 2. What additional sections would make this specification more complete?
 3. Can you show me an improved version with your suggestions?
 ```
-
-**What you're learning:** How to apply structured thinking to YOUR ideas. This is the core skill of the Intent Layer — translating what you want into a format AI can act on.
 
 **Expected Outcome:**
 
