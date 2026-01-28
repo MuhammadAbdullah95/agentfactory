@@ -1,7 +1,7 @@
 ---
-title: "Links, Images, and Emphasis"
-description: "Adding hyperlinks, images, and text emphasis to markdown documents for richer communication"
-sidebar_label: "Links, Images & Emphasis"
+title: "Links and Images"
+description: "Adding hyperlinks and images to markdown documents for richer communication"
+sidebar_label: "Links and Images"
 sidebar_position: 5
 chapter: 2
 lesson: 5
@@ -57,11 +57,11 @@ differentiation:
   remedial_for_struggling: "Practice link syntax with provided URLs before finding own; use placeholder image services to avoid path issues"
 ---
 
-# Links, Images, and Emphasis
+# Links and Images
 
 ## Connecting Documents to the World
 
-You've learned how to structure documents with headings, organize information with lists, and show code with fenced blocks. Now you'll learn three more elements that make your markdown documents truly useful: **links** to connect to external resources, **images** to show what things look like, and **emphasis** to highlight critical information.
+You've learned how to structure documents with headings, organize information with lists, and show code with fenced blocks. Now you'll learn the final elements that make your markdown documents truly useful: **links** to connect to external resources, **images** to show what things look like, and **emphasis** to highlight critical information.
 
 These are the final syntax elements you need for writing effective markdown files like READMEs, CLAUDE.md instructions, and project documentation.
 
