@@ -2,6 +2,7 @@
 sidebar_position: 5
 chapter: 6
 lesson: 5
+layer: L2
 title: "Search & Discovery Workflow"
 description: "Direct Claude Code to find files by description rather than memorizing search commands. Because you know what you're looking for, not where it is"
 duration_minutes: 25
@@ -184,6 +185,34 @@ Here's what made this different from a file browser search:
 | Match filename only        | Match content inside files               |
 | Get list, you filter       | Agent filters and explains why           |
 | You refine with new search | Agent refines through conversation       |
+
+### The Agent's Toolkit: Search Commands
+
+The agent used advanced search commands:
+
+- **`find -iname`** - find files, case-**i**nsensitive - matches "Chase" or "chase" or "CHASE"
+- **`find -newer`** - find files **newer** than a date - locates files from a specific time period
+- **`grep -l`** - search inside files, show **l**ist of matches - finds files containing specific text
+- **`grep -i`** - search case-**i**nsensitively - matches "Tax" or "tax" or "TAX"
+- **`xargs`** - the **bridge** command - connects find output to grep input
+
+#### The Bridge Command: xargs
+
+The agent ran a complex-looking command:
+
+```bash
+find ~/Downloads -iname "*chase*" | xargs grep -l "1099"
+```
+
+Here's what's happening:
+
+**The problem**: `find` outputs filenames. `grep` searches inside files. But these two tools don't naturally connect—`find` outputs text, while `grep` expects files to open.
+
+**The solution**: `xargs` is the bridge. It catches the list of filenames coming from `find` and hands them one by one to `grep`.
+
+Read it left to right: "In **Downloads**, **find** files with 'chase' in the name, **then for each one**, search inside for '1099'."
+
+Without `xargs`, the pipeline breaks. The agent knew to build this bridge automatically—that's why you can describe what you want and let it figure out how.
 
 ---
 

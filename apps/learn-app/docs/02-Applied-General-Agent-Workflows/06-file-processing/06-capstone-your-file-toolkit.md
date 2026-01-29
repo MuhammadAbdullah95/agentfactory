@@ -2,6 +2,7 @@
 sidebar_position: 6
 chapter: 6
 lesson: 6
+layer: L2
 title: "Capstone: Your File Processing Toolkit"
 description: "Synthesize all five workflows into a reusable prompt toolkit, apply them to a new folder, and recognize how the Seven Principles emerged through practice"
 duration_minutes: 30
@@ -54,13 +55,13 @@ learning_objectives:
   - objective: "Articulate the bridge from manual workflows to automated AI Employee"
     proficiency_level: "B1"
     bloom_level: "Understand"
-    assessment_method: "Student explains what changes between Chapter 6 and Chapter 11"
+    assessment_method: "Student explains what changes between manual prompting and automated workflows"
 
 cognitive_load:
   new_concepts: 2
   concepts_list:
     - "Prompt toolkit (reusable templates for common tasks)"
-    - "Workflow-to-automation bridge (what Chapter 11 adds)"
+    - "Workflow-to-automation bridge (what automation adds)"
   assessment: "2 new concepts; primarily synthesis of existing knowledge"
 
 differentiation:
@@ -76,7 +77,7 @@ But here's what's more valuable than the organized folders. You now possess patt
 
 Every expert who works with General Agents builds a personal toolkit of proven prompts. You're about to create yours. This toolkit will grow with you. Every time you face a new problem, you'll adapt these patterns. Every time you discover something that works, you'll add it to your collection.
 
-Here's what most people miss. Chapter 6 teaches you manual prompting. Chapter 11 will teach you automation. The patterns you're building today become the decision rules for AI Employees that work automatically. You're not just solving today's problem. You're building the foundation for autonomous systems.
+Here's what most people miss. This chapter teaches you manual prompting. Later, you'll learn automation. The patterns you're building today become the decision rules for AI Employees that work automatically. You're not just solving today's problem. You're building the foundation for autonomous systems.
 
 In this capstone, you'll prove that by applying everything to a new challenge. Then you'll create a prompt toolkit you keep forever.
 
@@ -263,6 +264,50 @@ All seven principles showed up naturally. You didn't study them from a textbook.
 
 ---
 
+## Your Command Vocabulary
+
+Throughout this chapter, you observed the agent using these commands. You don't need to memorize them, but recognizing them helps you understand what the agent is doing.
+
+### Core Commands
+
+| Command    | Plain English                           | Lesson  |
+| ---------- | --------------------------------------- | ------- |
+| `ls`       | **List** files in a directory           | 1, 3    |
+| `find`     | **Find** files by name or date          | 1, 2, 5 |
+| `wc -l`    | **Word count** (count lines)            | 1, 2    |
+| `du -sh`   | **Disk usage** (human-readable sizes)   | 1       |
+| `cp`       | **Copy** files                          | 2       |
+| `mv`       | **Move** (or rename) files              | 3, 4    |
+| `mkdir`    | **Make directory**                      | 2, 3    |
+| `mkdir -p` | **Make directory** (create parents too) | 4       |
+| `cat`      | **Display** file contents               | 3       |
+| `sort -rh` | **Sort** (reverse, human-readable)      | 1       |
+| `head -10` | Show **first 10** lines                 | 4       |
+| `grep`     | **Search** inside files                 | 5       |
+| `grep -l`  | Search inside, show matching **files**  | 5       |
+| `grep -i`  | Search **case-insensitive**             | 5       |
+
+### Connectors
+
+| Symbol      | Plain English                         | Example                                                          |
+| ----------- | ------------------------------------- | ---------------------------------------------------------------- |
+| `\|` (pipe) | "**then**" - chain commands together  | `find ... \| wc -l` = "find files, then count them"              |
+| `xargs`     | "**for each**" - bridge between tools | `find ... \| xargs grep` = "find files, then search inside each" |
+
+### Flags Worth Knowing
+
+| Flag | Meaning                                     | Example                                |
+| ---- | ------------------------------------------- | -------------------------------------- |
+| `-l` | Show as list (ls) or list files only (grep) | `grep -l "pattern"`                    |
+| `-i` | Case-insensitive                            | `find -iname "*.PDF"` matches .pdf too |
+| `-r` | Reverse order                               | `sort -r`                              |
+| `-h` | Human-readable sizes (KB, MB, GB)           | `du -h`                                |
+| `-p` | Create parent directories                   | `mkdir -p a/b/c`                       |
+
+You don't need to memorize syntax. You need to recognize patterns. When you see the agent use these commands, you'll know what it's doing—and you can verify it's doing the right thing.
+
+---
+
 ## Reflection Questions
 
 Before moving on, consider these questions:
@@ -287,13 +332,13 @@ Look back at the reflection table. Can you point to specific moments when you sa
 
 ---
 
-## What Changes in Chapter 11
+## From Manual to Automated
 
 Everything you did in this chapter was manual. You opened Claude Code, typed prompts, approved actions. You were the trigger.
 
-In Chapter 11, you'll build an AI Employee that does this automatically:
+When you learn automation, you'll build AI Employees that do this automatically:
 
-| This Chapter (Manual)       | Chapter 11 (Automated)           |
+| This Chapter (Manual)       | Automated Workflow               |
 | --------------------------- | -------------------------------- |
 | You type "survey my folder" | Agent watches folder for changes |
 | You decide when to organize | Agent organizes on schedule      |
@@ -302,7 +347,7 @@ In Chapter 11, you'll build an AI Employee that does this automatically:
 
 Your `rules.md` becomes the AI Employee's decision rules. Your verification patterns become its supervision methods. Everything you learned transfers.
 
-The manual workflows you mastered are the foundation. Chapter 11 adds the automation layer.
+The manual workflows you mastered are the foundation. Automation adds the layer that runs without you.
 
 ---
 
@@ -381,6 +426,6 @@ You now have a complete file processing toolkit. Not just for Downloads, but for
 
 The prompts you've collected are reusable. The principles you've observed are universal. The confidence you've built transfers to every domain where you work with a General Agent.
 
-In Chapter 11, you'll take these patterns and automate them. But first, practice what you've learned. Run your toolkit on another folder. Refine your prompt templates. Make file chaos something you solve in minutes, not hours.
+Later, you'll take these patterns and automate them. But first, practice what you've learned. Run your toolkit on another folder. Refine your prompt templates. Make file chaos something you solve in minutes, not hours.
 
 Your Downloads folder is organized. Your toolkit is built. You're ready for automation.

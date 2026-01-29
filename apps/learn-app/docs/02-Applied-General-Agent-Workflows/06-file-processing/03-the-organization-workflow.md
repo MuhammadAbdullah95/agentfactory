@@ -2,6 +2,7 @@
 sidebar_position: 3
 chapter: 6
 lesson: 3
+layer: L2
 title: "The Organization Workflow"
 description: "Collaborate with Claude Code to design categorization rules, document them for reuse, and test on one file before scaling"
 duration_minutes: 25
@@ -89,16 +90,16 @@ The difference isn't just speed. It's that you'll end up with documented rules y
 
 This lesson builds on Lessons 1-2. You should have:
 
-- `file-organizer/` workspace directory
-- `FILE-INVENTORY.md` with your file survey
-- `backup/downloads-backup-YYYY-MM-DD/` from Lesson 2
-- `ORGANIZER-LOG.md` initialized
+- Completed the survey workflow from Lesson 1 (you understand what's in your Downloads folder)
+- Created a backup from Lesson 2 (your important files are safely copied)
+
+If you skipped ahead, that's okay - just make sure you have a backup before organizing. The safety-first pattern protects you from mistakes.
 
 ---
 
 ## The Conversation
 
-Open Claude Code in your `file-organizer/` workspace and start the collaboration:
+Open Claude Code and start the collaboration:
 
 **You:**
 
@@ -188,6 +189,25 @@ Look at what emerged from that conversation:
 **Verification happened automatically.** After moving the test file, Claude Code checked both source and destination. After the batch operation, it showed you a summary. That's Principle 3 (Verification) built into the workflow.
 
 **The collaboration refined the result.** Claude Code proposed categories. You refined them (adding spreadsheets). Claude Code adapted. Neither of you could have reached this result alone. The AI didn't know you cared about spreadsheets, and you didn't want to manually design the whole system.
+
+### The Agent's Toolkit: Organization Commands
+
+The agent used these commands:
+
+- **`mkdir`** - **m**a**k**e **dir**ectory - creates category folders (documents/, images/, etc.)
+- **`mv`** - **m**o**v**e - relocates files from Downloads to organized folders
+- **`cat`** - con**cat**enate (display) - shows you what's in rules.md
+- **`ls`** - **l**i**s**t - verifies files landed in the right place
+
+When the agent tested on one file first:
+
+```bash
+mv budget-2024.pdf organized/documents/    # Move the file
+ls organized/documents/budget-2024.pdf     # Verify it arrived
+ls ~/Downloads/budget-2024.pdf             # Verify it's gone from source
+```
+
+The single-file test uses the same `mv` command as the batch operation—just on one file. If something's wrong, you catch it early.
 
 ---
 

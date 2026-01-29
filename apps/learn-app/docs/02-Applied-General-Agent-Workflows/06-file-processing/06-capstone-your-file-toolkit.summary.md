@@ -6,7 +6,7 @@ Every expert who works with General Agents builds a personal prompt toolkit. Pro
 
 - **Pattern over command**: You're collecting reusable prompt structures, not specific commands.
 - **Toolkit grows with you**: Every time you discover something that works, add it to the collection.
-- **Manual to automated bridge**: Chapter 6 teaches manual prompting. Chapter 11 will teach automation. Your patterns become the decision rules for AI Employees.
+- **Manual to automated bridge**: This chapter teaches manual prompting. Later, you'll learn automation. Your patterns become the decision rules for AI Employees.
 
 ### Critical Patterns
 
@@ -19,9 +19,9 @@ Every expert who works with General Agents builds a personal prompt toolkit. Pro
 
 - Treating each lesson as isolated: The power comes from combining all workflows systematically.
 - Not documenting your toolkit: You'll re-discover patterns instead of building on past work.
-- Missing the automation connection: Manual prompting today becomes automated decision rules in Chapter 11.
+- Missing the automation connection: Manual prompting today becomes automated decision rules later.
 
 ### Connections
 
 - **Builds on**: Lessons 1-5 (all workflows), all Seven Principles from Part 1
-- **Leads to**: Chapter 11 (AI Employee) where manual prompting evolves into autonomous automation
+- **Leads to**: AI Employees where manual prompting evolves into autonomous automation

@@ -2,6 +2,7 @@
 sidebar_position: 4
 chapter: 6
 lesson: 4
+layer: L2
 title: "Batch Operations Workflow"
 description: "Direct Claude Code to create reusable scripts for repetitive file operations. Transforming one-time commands into permanent automation"
 duration_minutes: 30
@@ -186,6 +187,54 @@ You witnessed three principles working together.
 **Principle 3: Verification.** The workflow followed a pattern: Preview → Approve → Execute → Log. The agent verified its plan with you before executing. Then it logged every change so you could verify what happened. Nothing was a mystery.
 
 This is different from running commands yourself. You didn't have to know bash syntax for string manipulation or date extraction. You described what you wanted, reviewed the plan, and approved it.
+
+### The Agent's Toolkit: Batch Operation Commands
+
+The agent introduced new commands:
+
+- **`head -10`** - show the **first 10** lines - previews a sample before processing all
+- **`mkdir -p`** - make directory with **-p**arents - creates entire folder paths at once
+- **`./script.sh`** - run a shell script - executes reusable automation you can keep
+
+The `-p` flag in `mkdir -p` is worth understanding:
+
+```bash
+mkdir renamed                    # Works only if parent exists
+mkdir -p renamed/2024/january    # Creates ALL missing folders in the path
+```
+
+When the agent creates a script, it's encoding your commands into a reusable file. Here's what a simple rename script looks like:
+
+```bash
+#!/bin/bash
+# rename-screenshots.sh
+counter=1
+for file in "$1"/*.png; do
+    mv "$file" "$1/screenshot-$(printf %03d $counter).png"
+    counter=$((counter + 1))
+done
+```
+
+#### Reading the Script
+
+```
+#!/bin/bash                    <-- "Run this with bash" (required first line)
+counter=1                      <-- Start counting at 1
+for file in "$1"/*.png; do     <-- For each .png file in the folder I give you...
+    mv "$file" ...             <-- ...rename it
+    counter=$((counter + 1))   <-- ...then add 1 to the counter
+done                           <-- End of loop
+```
+
+The `$1` means "the first thing you type after the script name." So when you run:
+
+```bash
+./rename-screenshots.sh ~/Screenshots
+```
+
+The `$1` becomes `~/Screenshots`. The script processes every `.png` file in that folder.
+
+The script captures the pattern so you never have to describe it again. That's Principle 2: Code as Universal Interface.
 
 ---
 
