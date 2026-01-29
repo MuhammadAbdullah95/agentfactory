@@ -50,7 +50,9 @@ async function validateAndCacheDefaultOrg(): Promise<string | null> {
     // Default org doesn't exist - warn but don't fail startup
     console.warn("[Auth] WARNING: Default organization not found!");
     console.warn(`[Auth] Expected ID: ${DEFAULT_ORG_ID}`);
-    console.warn("[Auth] Run 'pnpm run seed:setup' to create default organization");
+    console.warn(
+      "[Auth] Run 'pnpm run seed:setup' to create default organization",
+    );
     console.warn("[Auth] New users will NOT be auto-added to any organization");
 
     return null;
@@ -74,12 +76,17 @@ function getDefaultOrgId(): string | null {
 // Priority: Resend (primary) → Gmail SMTP (fallback)
 // Features: Retry with exponential backoff, idempotency, graceful fallback
 
-const EMAIL_FROM = process.env.EMAIL_FROM || process.env.RESEND_FROM_EMAIL || process.env.SMTP_FROM;
+const EMAIL_FROM =
+  process.env.EMAIL_FROM ||
+  process.env.RESEND_FROM_EMAIL ||
+  process.env.SMTP_FROM;
 
 // Provider 1: Resend (Primary - production-grade email API)
 // Get API key: https://resend.com/api-keys
 // IMPORTANT: Verify your domain at https://resend.com/domains for production
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 // Provider 2: Gmail SMTP (Fallback)
 // For Gmail: Enable 2FA, create App Password at Google Account > Security > App passwords
@@ -109,7 +116,12 @@ if (emailEnabled) {
   const providers = [];
   if (resend) providers.push("Resend (primary)");
   if (smtpTransport) providers.push("SMTP (fallback)");
-  console.log("[Auth] Email enabled via:", providers.join(" → "), "| from:", EMAIL_FROM);
+  console.log(
+    "[Auth] Email enabled via:",
+    providers.join(" → "),
+    "| from:",
+    EMAIL_FROM,
+  );
 } else {
   console.log("[Auth] Email disabled - missing provider or EMAIL_FROM");
 }
@@ -135,7 +147,7 @@ interface EmailResult {
  * Sleep helper for exponential backoff
  */
 function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
@@ -161,7 +173,7 @@ async function sendViaResend(
   subject: string,
   html: string,
   idempotencyKey: string,
-  maxRetries = 3
+  maxRetries = 3,
 ): Promise<EmailResult> {
   if (!resend || !EMAIL_FROM) {
     return { success: false, error: "Resend not configured" };
@@ -179,7 +191,7 @@ async function sendViaResend(
         {
           // Idempotency key prevents duplicate sends on retry
           idempotencyKey,
-        }
+        },
       );
 
       if (!error && data?.id) {
@@ -198,7 +210,10 @@ async function sendViaResend(
         // Retry transient errors with exponential backoff
         if (attempt < maxRetries) {
           const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000); // Max 10s
-          console.warn(`[Auth] Resend attempt ${attempt} failed, retrying in ${delay}ms:`, resendError.message);
+          console.warn(
+            `[Auth] Resend attempt ${attempt} failed, retrying in ${delay}ms:`,
+            resendError.message,
+          );
           await sleep(delay);
           continue;
         }
@@ -210,7 +225,10 @@ async function sendViaResend(
 
       if (attempt < maxRetries) {
         const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
-        console.warn(`[Auth] Resend attempt ${attempt} threw, retrying in ${delay}ms:`, errorMsg);
+        console.warn(
+          `[Auth] Resend attempt ${attempt} threw, retrying in ${delay}ms:`,
+          errorMsg,
+        );
         await sleep(delay);
         continue;
       }
@@ -228,7 +246,7 @@ async function sendViaResend(
 async function sendViaSMTP(
   to: string,
   subject: string,
-  html: string
+  html: string,
 ): Promise<EmailResult> {
   if (!smtpTransport || !EMAIL_FROM) {
     return { success: false, error: "SMTP not configured" };
@@ -254,7 +272,15 @@ async function sendViaSMTP(
  * - Falls back to Gmail SMTP if Resend fails
  * - Comprehensive error logging
  */
-async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
+async function sendEmail({
+  to,
+  subject,
+  html,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+}) {
   if (!emailEnabled || !EMAIL_FROM) {
     console.warn("[Auth] Email not configured - skipping email to:", to);
     return;
@@ -272,12 +298,20 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
     const result = await sendViaResend(to, subject, html, idempotencyKey);
 
     if (result.success) {
-      console.log("[Auth] ✅ Email sent via Resend to:", to, "| id:", result.messageId);
+      console.log(
+        "[Auth] ✅ Email sent via Resend to:",
+        to,
+        "| id:",
+        result.messageId,
+      );
       return;
     }
 
     lastError = result.error;
-    console.warn("[Auth] Resend failed, attempting SMTP fallback:", result.error);
+    console.warn(
+      "[Auth] Resend failed, attempting SMTP fallback:",
+      result.error,
+    );
   }
 
   // Priority 2: Gmail SMTP (fallback)
@@ -285,7 +319,12 @@ async function sendEmail({ to, subject, html }: { to: string; subject: string; h
     const result = await sendViaSMTP(to, subject, html);
 
     if (result.success) {
-      console.log("[Auth] ✅ Email sent via SMTP fallback to:", to, "| messageId:", result.messageId);
+      console.log(
+        "[Auth] ✅ Email sent via SMTP fallback to:",
+        to,
+        "| messageId:",
+        result.messageId,
+      );
       return;
     }
 
@@ -312,10 +351,10 @@ export const auth = betterAuth({
   disabledPaths: [
     "/token",
     "/sign-in/username",
-    "/api-key/create",  // Use /api/admin/api-keys/create instead
-    "/api-key/delete",  // Use /api/admin/api-keys/delete instead
-    "/api-key/update",  // Use /api/admin/api-keys/update instead
-    "/api-key/list",    // Use /api/admin/api-keys/list instead
+    "/api-key/create", // Use /api/admin/api-keys/create instead
+    "/api-key/delete", // Use /api/admin/api-keys/delete instead
+    "/api-key/update", // Use /api/admin/api-keys/update instead
+    "/api-key/list", // Use /api/admin/api-keys/list instead
   ],
 
   // OIDC Standard Claims - extends user table with standard profile fields
@@ -326,7 +365,11 @@ export const auth = betterAuth({
       familyName: { type: "string", required: false },
       picture: { type: "string", required: false },
       phoneNumber: { type: "string", required: false },
-      phoneNumberVerified: { type: "boolean", required: false, defaultValue: false },
+      phoneNumberVerified: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+      },
       locale: { type: "string", required: false },
       zoneinfo: { type: "string", required: false },
       // TODO: Migrate to member.metadata in Proposal 001 (tenant-specific fields)
@@ -345,18 +388,22 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
     // Require email verification (disable in test environment for automated testing)
-    requireEmailVerification: process.env.DISABLE_EMAIL_VERIFICATION !== 'true',
+    requireEmailVerification: process.env.DISABLE_EMAIL_VERIFICATION !== "true",
     // Custom password verification to support migrated bcrypt hashes from NextAuth
     // New passwords use scrypt (Better Auth default), migrated users have bcrypt ($2b$...)
     password: {
       verify: async ({ password, hash }) => {
         // Check if this is a bcrypt hash (migrated from NextAuth)
-        if (hash.startsWith('$2a$') || hash.startsWith('$2b$') || hash.startsWith('$2y$')) {
+        if (
+          hash.startsWith("$2a$") ||
+          hash.startsWith("$2b$") ||
+          hash.startsWith("$2y$")
+        ) {
           // Use bcryptjs to verify bcrypt hashes
           return bcrypt.compare(password, hash);
         }
         // Default: Use Better Auth's scrypt verification for new passwords
-        const { verifyPassword } = await import('better-auth/crypto');
+        const { verifyPassword } = await import("better-auth/crypto");
         return verifyPassword({ password, hash });
       },
       // Keep using scrypt for new passwords (don't change hash function)
@@ -365,7 +412,8 @@ export const auth = betterAuth({
     // Password reset - always register handler, sendEmail() handles "not configured" case
     sendResetPassword: async ({ user, url }) => {
       const appName = process.env.NEXT_PUBLIC_APP_NAME || "Panaversity SSO";
-      const appDescription = process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On";
+      const appDescription =
+        process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On";
       const orgName = process.env.NEXT_PUBLIC_ORG_NAME || "Panaversity";
 
       await sendEmail({
@@ -398,7 +446,7 @@ export const auth = betterAuth({
                       <td style="padding: 40px;">
                         <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 600; color: #111827;">Password Reset Request</h2>
                         <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
-                          Hello${user.name ? ` ${user.name}` : ''},
+                          Hello${user.name ? ` ${user.name}` : ""},
                         </p>
                         <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
                           We received a request to reset your password. Click the button below to create a new password:
@@ -461,7 +509,8 @@ export const auth = betterAuth({
     expiresIn: 3600, // 1 hour
     sendVerificationEmail: async ({ user, url }) => {
       const appName = process.env.NEXT_PUBLIC_APP_NAME || "Panaversity SSO";
-      const appDescription = process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On";
+      const appDescription =
+        process.env.NEXT_PUBLIC_APP_DESCRIPTION || "Secure Single Sign-On";
       const orgName = process.env.NEXT_PUBLIC_ORG_NAME || "Panaversity";
 
       await sendEmail({
@@ -494,7 +543,7 @@ export const auth = betterAuth({
                       <td style="padding: 40px;">
                         <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 600; color: #111827;">Welcome to ${orgName}!</h2>
                         <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
-                          Hello${user.name ? ` ${user.name}` : ''},
+                          Hello${user.name ? ` ${user.name}` : ""},
                         </p>
                         <p style="margin: 0 0 24px; font-size: 15px; line-height: 24px; color: #374151;">
                           Thank you for creating your account. To get started, please verify your email address by clicking the button below:
@@ -657,8 +706,11 @@ export const auth = betterAuth({
   // Trusted origins for CORS
   // Production: Set ALLOWED_ORIGINS env var (comma-separated list of URLs)
   // Development: Falls back to localhost:3000
-  trustedOrigins: process.env.ALLOWED_ORIGINS?.split(",") ||
-    (process.env.NODE_ENV === "development" ? ["http://localhost:3000", "http://localhost:3001"] : []),
+  trustedOrigins:
+    process.env.ALLOWED_ORIGINS?.split(",") ||
+    (process.env.NODE_ENV === "development"
+      ? ["http://localhost:3000", "http://localhost:3001"]
+      : []),
 
   // Plugins
   plugins: [
@@ -690,8 +742,10 @@ export const auth = betterAuth({
       // ID tokens will be signed with RS256 using JWKS keys instead of HS256 with secret
       useJWTPlugin: true,
       // OAuth token expiration configuration
-      accessTokenExpiresIn: 60 * 60 * 6, // 6 hours (21600 seconds)
-      refreshTokenExpiresIn: 60 * 60 * 24 * 7, // 7 days (604800 seconds)
+      // Access tokens: Short-lived for security (if leaked, limited damage window)
+      // Refresh tokens: Long-lived for UX (silent refresh keeps users logged in)
+      accessTokenExpiresIn: 60 * 60 * 24, // 24 hours (86400 seconds)
+      refreshTokenExpiresIn: 60 * 60 * 24 * 30, // 30 days (2592000 seconds)
       codeExpiresIn: 600, // 10 minutes (authorization code expiry)
       // Pre-register first-party clients (skip consent screen)
       // IMPORTANT: These clients MUST also exist in the database for token storage!
@@ -711,7 +765,9 @@ export const auth = betterAuth({
           .where(eq(member.userId, user.id));
 
         // Get all organization IDs the user belongs to
-        const organizationIds = memberships.map((m: typeof memberships[number]) => m.organizationId);
+        const organizationIds = memberships.map(
+          (m: (typeof memberships)[number]) => m.organizationId,
+        );
 
         // Primary tenant is the first organization (can be extended to support active org)
         const primaryTenantId = organizationIds[0] || null;
@@ -767,7 +823,8 @@ export const auth = betterAuth({
     // Checks password against HIBP breach database on signup/password change
     // Security: Only first 5 chars of SHA-1 hash sent to API (k-anonymity)
     haveIBeenPwned({
-      customPasswordCompromisedMessage: "This password has been exposed in a data breach. Please choose a more secure password.",
+      customPasswordCompromisedMessage:
+        "This password has been exposed in a data breach. Please choose a more secure password.",
     }),
 
     // API Key Plugin - M2M (Machine-to-Machine) authentication
@@ -809,7 +866,9 @@ export const auth = betterAuth({
           const defaultOrgId = getDefaultOrgId();
 
           if (!defaultOrgId) {
-            console.warn(`[Auth] No default organization configured - user ${user.email} not auto-added to any org`);
+            console.warn(
+              `[Auth] No default organization configured - user ${user.email} not auto-added to any org`,
+            );
             return;
           }
 
@@ -821,13 +880,15 @@ export const auth = betterAuth({
               .where(
                 and(
                   eq(member.userId, user.id),
-                  eq(member.organizationId, defaultOrgId)
-                )
+                  eq(member.organizationId, defaultOrgId),
+                ),
               )
               .limit(1);
 
             if (existingMembership.length > 0) {
-              console.log(`[Auth] User ${user.email} already member of default organization`);
+              console.log(
+                `[Auth] User ${user.email} already member of default organization`,
+              );
               return;
             }
 
@@ -840,11 +901,16 @@ export const auth = betterAuth({
               createdAt: new Date(),
             });
 
-            console.log(`[Auth] ✅ Added user ${user.email} to default organization`);
+            console.log(
+              `[Auth] ✅ Added user ${user.email} to default organization`,
+            );
           } catch (error: any) {
             // Log error but don't fail user creation
             // User can still sign in and join organization later via admin UI
-            console.error(`[Auth] ❌ Failed to add user ${user.email} to default organization:`, error.message);
+            console.error(
+              `[Auth] ❌ Failed to add user ${user.email} to default organization:`,
+              error.message,
+            );
           }
         },
       },
@@ -862,7 +928,10 @@ export const auth = betterAuth({
 
 // Validate default organization at startup
 validateAndCacheDefaultOrg().catch((error) => {
-  console.error("[Auth] Failed to validate default organization at startup:", error);
+  console.error(
+    "[Auth] Failed to validate default organization at startup:",
+    error,
+  );
 });
 
 // Export client config for use in robolearn-interface (no secret for public client)
