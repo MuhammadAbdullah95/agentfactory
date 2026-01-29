@@ -3,6 +3,7 @@ sidebar_position: 1
 title: "Your First Agent Workflow"
 chapter: 6
 lesson: 1
+layer: L2
 duration_minutes: 25
 description: "See a General Agent solve a real problem, then learn the prompt pattern that made it work"
 keywords:
@@ -154,6 +155,68 @@ You witnessed two of the Seven Principles in action.
 
 This is the power of General Agents. They don't just give you advice ("You should use the `find` command"). They do the work. They observe your system, run commands, and report back with actionable information.
 
+### The Agent's Toolkit: What Those Commands Mean
+
+The agent ran several commands. Let's decode them.
+
+#### The Building Blocks
+
+- **`ls`** - **l**i**s**t files in a folder
+- **`find`** - **find** files matching a pattern
+- **`wc`** - **w**ord **c**ount (counts lines, words, or characters)
+- **`du`** - **d**isk **u**sage (measures sizes)
+- **`sort`** - **sort** results in order
+
+#### Anatomy of a Command
+
+Let's break down one command the agent ran:
+
+```
+find  ~/Downloads  -type f  -name "*.pdf"  |  wc -l
+  |        |          |          |         |    |
+  |        |          |          |         |    +-- -l = count Lines only
+  |        |          |          |         |
+  |        |          |          |         +-- pipe: "then do this..."
+  |        |          |          |
+  |        |          |          +-- -name = match this filename pattern
+  |        |          |
+  |        |          +-- -type f = only Files (not folders)
+  |        |
+  |        +-- where to search
+  |
+  +-- the command
+```
+
+Read it left to right: "**Find** in **Downloads**, only **files**, named `*.pdf`, **then** count **lines**."
+
+#### Common Flags You'll See
+
+| Flag | Means                        | Memory Trick |
+| ---- | ---------------------------- | ------------ |
+| `-l` | Lines (or Long listing)      | **l**ines    |
+| `-h` | Human-readable (KB, MB, GB)  | **h**uman    |
+| `-r` | Reverse order                | **r**everse  |
+| `-s` | Summary (totals only)        | **s**ummary  |
+| `-a` | All (including hidden files) | **a**ll      |
+
+When the agent ran `du -sh`, that's "**d**isk **u**sage, **s**ummary, **h**uman-readable."
+
+When it ran `sort -rh`, that's "**sort**, **r**everse order, **h**uman-readable" - biggest first.
+
+#### The Pipe: Chaining Tools Together
+
+The pipe (`|`) connects commands. Output from the left feeds into the right:
+
+```bash
+find ~/Downloads -name "*.pdf" | wc -l
+```
+
+"Find PDFs, **then** count them."
+
+Small tools, chained together, solving big problems. That's why Principle 1 says "Bash is the Key."
+
+You don't need to memorize these commands. But recognizing them helps you understand what the agent is doing - and verify it's doing the right thing.
+
 ## The Pattern
 
 Here's the prompt pattern you just used:
@@ -225,6 +288,28 @@ The skills you're building:
 
 Here's what effective collaboration looks like. Most people prompt blindly and hope for the best. You're building systematic approaches that work consistently. Every expert who works with General Agents mastered these fundamentals first.
 
+---
+
+## Common Issues
+
+**"The agent says it can't access my folder"**
+
+Check that you're running Claude Code from a directory where it has permission to access your files. On macOS, you may need to grant Terminal access to your folders in System Preferences > Privacy & Security > Files and Folders.
+
+**"The numbers don't look right"**
+
+The agent might be counting differently than you expect. Ask for clarification: "Are you counting files only, or files and folders? Are you including hidden files?"
+
+**"The agent is taking a long time"**
+
+Large folders (10,000+ files) take longer to analyze. The agent will show progress as it works. If it seems stuck, you can ask: "What's your current progress?"
+
+**"I got an error message"**
+
+Copy the error and ask the agent: "I got this error: [paste error]. What does it mean and how should I proceed?" The agent can usually explain and suggest fixes.
+
+---
+
 In the next lesson, you'll learn the safety principle: why we back up files before making changes, and how to direct the agent to do that. This pattern applies to code changes, data modifications, system configurations, and any workflow where mistakes have consequences.
 
 But first try one of those prompts. See what's in your folders. Make chaos visible. Notice how the agent approaches the problem.
@@ -268,3 +353,16 @@ asked a slightly different question?
 ```
 
 **What you're practicing**: Understanding agent reasoning. By asking the agent to explain its choices, you learn how it thinks. This makes you better at directing it in the future.
+
+**Prompt 4: The Bash Tutor**
+
+```
+Break down this command for me piece by piece:
+
+find ~/Downloads -type f -exec du -h {} + | sort -rh | head -10
+
+What does each part do? What do the flags like '-type f', '-exec',
+'-rh', and '-10' mean? Teach me to read this command.
+```
+
+**What you're practicing**: Just-in-time learning. Instead of memorizing a textbook, you ask the agent to teach you the specific syntax relevant to the problem you just solved. The agent becomes your tutor, explaining commands in context.

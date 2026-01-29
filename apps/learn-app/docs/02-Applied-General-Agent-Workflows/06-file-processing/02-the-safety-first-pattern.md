@@ -2,6 +2,7 @@
 sidebar_position: 2
 chapter: 6
 lesson: 2
+layer: L2
 title: "The Safety-First Pattern"
 description: "Learn to direct Claude Code to create safety backups before any destructive operation. The pattern that enables fearless file management"
 duration_minutes: 20
@@ -222,6 +223,23 @@ Agent: "Here's what I'll do... [creates backup]"
 
 The agent **clarified before acting**. This prevents misunderstandings that could lead to data loss.
 
+### The Agent's Toolkit: Backup Commands
+
+Behind the scenes, the agent used these commands:
+
+- **`mkdir`** - **m**a**k**e **dir**ectory - creates the backup folder
+- **`cp`** - **c**o**p**y - duplicates files to the backup location
+- **`find`** - locates files matching your criteria (PDFs, recent files)
+
+When the agent verified the backup, it compared counts:
+
+```bash
+find ~/Downloads -name "*.pdf" | wc -l    # Count source PDFs
+find backup/ -name "*.pdf" | wc -l        # Count backup PDFs
+```
+
+Same number? Backup complete. The verification isn't magic—it's systematic comparison using the same tools you learned in Lesson 1.
+
 ---
 
 ## The Pattern
@@ -321,6 +339,47 @@ Compare file counts and tell me if anything is missing.
 ```
 
 Practice the verification step. The habit of confirming completeness.
+
+---
+
+## Try With AI: Extended Practice
+
+**Prompt 1: Selective Backup Strategy**
+
+```
+I want to backup my Documents folder, but it's 50GB. Help me create
+a smarter backup that only includes:
+- Files modified in the last 90 days
+- Any file larger than 10MB (probably important)
+- All PDFs regardless of date
+
+Show me what this would capture before creating the backup.
+```
+
+**What you're practicing**: Compound backup criteria. You're learning to combine multiple filters (date, size, type) to create targeted backups instead of copying everything.
+
+**Prompt 2: Backup Verification Deep Dive**
+
+```
+I have a backup folder from last week. Help me verify it's still valid:
+- Are all the source files still in the backup?
+- Did any source files change since the backup?
+- Are there files in the backup that no longer exist in the source?
+
+Give me a complete integrity report.
+```
+
+**What you're practicing**: Backup auditing. Real backups can become stale. You're learning to direct the agent to perform comprehensive verification, not just count files.
+
+**Prompt 3: Recovery Rehearsal**
+
+```
+Pretend I accidentally deleted an important file called "budget-2024.xlsx"
+from my Documents folder. Walk me through exactly how I would recover it
+from my backup. Show me the commands but don't actually run them yet.
+```
+
+**What you're practicing**: Recovery planning. The best time to learn recovery is before you need it. You're practicing the restore workflow in a safe, hypothetical scenario.
 
 ---
 

@@ -30,7 +30,7 @@ This isn't about learning bash. It's about learning to work effectively with Gen
 
 ## Why This Matters
 
-The patterns you learn in this chapter aren't just about files. They're the foundation for Chapter 11 where you'll build AI Employees that automate these workflows entirely. Learn these patterns now or you'll struggle with automation later.
+The patterns you learn in this chapter aren't just about files. They're the foundation for building AI Employees that automate these workflows entirely. Learn these patterns now or you'll struggle with automation later.
 
 Every expert who works with General Agents mastered these fundamentals first. File organization is the perfect training ground because the problems are concrete, the feedback is immediate, and the patterns transfer everywhere.
 
@@ -80,11 +80,11 @@ By the end, you'll have:
 | Search patterns    | Templates for finding lost files       |
 | Automation scripts | Agent-generated code you can reuse     |
 
-## Connection to Chapter 11
+## From Manual to Automated
 
-The patterns you learn here become the foundation for Chapter 11 (AI Employee):
+The patterns you learn here become the foundation for AI Employees:
 
-| This Chapter          | Chapter 11              |
+| This Chapter (Manual) | Automated Workflow      |
 | --------------------- | ----------------------- |
 | Manual prompting      | Automatic file watching |
 | One-time organization | Continuous organization |
