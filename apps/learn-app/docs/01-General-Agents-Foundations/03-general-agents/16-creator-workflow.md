@@ -1,10 +1,10 @@
 ---
-title: "The Creator's Workflow: How Boris Uses Claude Code"
+title: "The Creator's Workflow: Claude Code Best Practices"
 sidebar_position: 16
 chapter: 3
 lesson: 16
-duration_minutes: 15
-estimated_time: "15 mins"
+duration_minutes: 18
+estimated_time: "18 mins"
 chapter_type: Hybrid
 running_example_id: boris-workflow
 
@@ -38,6 +38,10 @@ learning_objectives:
     proficiency_level: "B1"
     bloom_level: "Understand"
     assessment_method: "Description of verification patterns and their impact on quality"
+  - objective: "Understand context window as the fundamental constraint behind all best practices"
+    proficiency_level: "B1"
+    bloom_level: "Understand"
+    assessment_method: "Explanation of why context management drives workflow decisions"
   - objective: "Apply at least three techniques from the creator's workflow to personal practice"
     proficiency_level: "B1"
     bloom_level: "Apply"
@@ -45,8 +49,8 @@ learning_objectives:
 
 # Cognitive load tracking
 cognitive_load:
-  new_concepts: 3
-  assessment: "3 new concepts (parallel session orchestration, verification-first mindset, model selection rationale) - synthesis lesson reviewing previously learned material through new lens"
+  new_concepts: 4
+  assessment: "4 new concepts (context window as fundamental constraint, parallel session orchestration, verification-first mindset, failure pattern recognition) - synthesis lesson reviewing previously learned material through new lens with official best practices framework"
 
 # Differentiation guidance
 differentiation:
@@ -60,8 +64,8 @@ created: "2026-01-08"
 last_modified: "2026-01-08"
 git_author: "Claude Code"
 workflow: "direct implementation"
-version: "1.1.0"
-refinement_notes: "v1.1.0 - Removed meta-commentary (Three Roles Framework mention), strengthened Chapter Summary with Digital FTE alignment table"
+version: "2.0.0"
+refinement_notes: "v2.0.0 - Merged with official Claude Code Best Practices: added context window framing, session management, failure patterns, enhanced mapping table. v1.1.0 - Removed meta-commentary, strengthened Chapter Summary"
 
 # Legacy compatibility (Docusaurus)
 prerequisites:
@@ -69,20 +73,42 @@ prerequisites:
   - "Understanding of CLAUDE.md, MCP, skills, subagents, hooks, and settings"
 ---
 
-# The Creator's Workflow: How Boris Uses Claude Code
+# The Creator's Workflow: Claude Code Best Practices
 
 In January 2026, Boris Cherny—creator and head of Claude Code at Anthropic—shared his day-to-day setup on X. The thread went viral. Developers called it "a watershed moment" and "game-changing."
 
 What made it so impactful wasn't exotic techniques. It was seeing how the features you've learned in this chapter combine into a production workflow that lets one person operate like a small engineering team.
 
-This lesson maps Boris's workflow to everything you've learned—showing you what expert-level Claude Code usage looks like in practice.
+This lesson maps Boris's workflow to everything you've learned—and connects it to [official Claude Code best practices](https://code.claude.com/docs/en/best-practices)—showing you what expert-level usage looks like in practice.
+
+---
+
+## The Fundamental Constraint: Context Window
+
+Before diving into specific techniques, understand the principle that unifies all Claude Code best practices:
+
+> **Claude's context window fills up fast, and performance degrades as it fills.**
+
+The context window holds your entire conversation: every message, every file Claude reads, every command output. A single debugging session can consume tens of thousands of tokens. As context fills, Claude may start "forgetting" earlier instructions or making more mistakes.
+
+**Why this matters for Boris's workflow:**
+
+| Boris's Practice            | How It Manages Context                                         |
+| --------------------------- | -------------------------------------------------------------- |
+| 15-20 parallel sessions     | Distributes context across sessions instead of overloading one |
+| Plan Mode first             | Aligns understanding upfront, reducing correction iterations   |
+| Subagents for investigation | Explores in separate context, reports back summaries           |
+| `/clear` between tasks      | Resets context for fresh starts                                |
+| Team CLAUDE.md              | Encodes learning once, applies everywhere (no re-explanation)  |
+
+Every practice in this lesson connects back to this constraint. When you understand context as the fundamental resource, the "why" behind each technique becomes clear.
 
 ---
 
 ## The Parallel Sessions Philosophy
 
 :::info Note for Non-Coders
-Boris runs 20 sessions because he is managing a massive software product. **You do not need to do this.** Start with one session. The principle here is about *multitasking*—like having three assistants working on different projects—not about typing speed.
+Boris runs 20 sessions because he is managing a massive software product. **You do not need to do this.** Start with one session. The principle here is about _multitasking_—like having three assistants working on different projects—not about typing speed.
 :::
 
 Boris doesn't run one Claude Code session. He runs **15-20 concurrent sessions**: 5 numbered tabs in his terminal, 5-10 browser sessions on claude.ai/code, and additional sessions started from his phone each morning.
@@ -94,6 +120,7 @@ Boris doesn't run one Claude Code session. He runs **15-20 concurrent sessions**
 **What this reveals**: Claude Code isn't a tool you interact with one task at a time. It's a capacity you schedule—like having a team of assistants who can work independently while you review outputs and provide guidance when needed.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 01 (Origin Story)**: The agentic paradigm means Claude works autonomously. Parallel sessions multiply this agency.
 - **Lesson 09 (Subagents)**: Each session is like a subagent with a specific task—research in one, implementation in another, testing in a third.
 
@@ -108,6 +135,7 @@ Boris activates Plan Mode (Shift+Tab twice) for every non-trivial task. He itera
 > — Boris Cherny
 
 **The Pattern**:
+
 1. Start with a goal (e.g., "Add authentication to this project")
 2. Enter Plan Mode
 3. Discuss and refine until the plan makes sense
@@ -117,6 +145,7 @@ Boris activates Plan Mode (Shift+Tab twice) for every non-trivial task. He itera
 **Why this works**: When you spend time on planning, you align Claude's understanding with your intent. The investment in planning pays off through faster, more accurate execution. No wasted iterations fixing misunderstandings.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 09 (Subagents)**: Plan is a built-in subagent that researches your codebase and creates multi-step strategies
 - The "one task, one completion" pattern applies—Plan subagent does research, returns a plan, then main Claude executes
 
@@ -137,6 +166,7 @@ They also use GitHub's @.claude tagging feature during code reviews—when a rev
 **The Result**: Every mistake becomes a rule. The longer the team works together, the smarter Claude becomes at understanding their codebase and conventions.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 05 (CLAUDE.md)**: You learned to create project context. Boris shows how it evolves into institutional memory for teams.
 - Notice the learning loop: Claude makes a mistake → team corrects by updating CLAUDE.md → Claude improves. The team and AI teach each other through the shared context file.
 
@@ -146,13 +176,13 @@ They also use GitHub's @.claude tagging feature during code reviews—when a rev
 
 Boris uses custom subagents for his most common workflows:
 
-| Subagent | Purpose |
-|----------|---------|
+| Subagent          | Purpose                                              |
+| ----------------- | ---------------------------------------------------- |
 | `code-simplifier` | Cleans up code after Claude completes implementation |
-| `verify-app` | Detailed end-to-end testing instructions |
-| `build-validator` | Validates builds before merging |
-| `code-architect` | Architecture review for complex changes |
-| `oncall-guide` | On-call specific automation |
+| `verify-app`      | Detailed end-to-end testing instructions             |
+| `build-validator` | Validates builds before merging                      |
+| `code-architect`  | Architecture review for complex changes              |
+| `oncall-guide`    | On-call specific automation                          |
 
 > "Similar to slash commands, I think of subagents as automating the most common workflows that I do for most PRs."
 >
@@ -160,7 +190,17 @@ Boris uses custom subagents for his most common workflows:
 
 **The Pattern**: Identify workflows you repeat for every PR. Create a subagent that handles that workflow with specialized instructions.
 
+**The Investigation Pattern**: Beyond PR workflows, subagents are powerful for keeping your main context clean. When Claude researches a codebase, it reads many files—all consuming your context. Instead:
+
+```
+Use subagents to investigate how our authentication system handles
+token refresh, and whether we have any existing OAuth utilities.
+```
+
+The subagent explores in its own context window, reads relevant files, and reports back with findings—all without cluttering your main conversation.
+
 **Connection to Chapter Concepts**:
+
 - **Lesson 09 (Subagents)**: You learned to create subagents with `/agents`. Boris shows what a mature subagent ecosystem looks like.
 - **Lessons 06-08 (Skills)**: Subagents are like skills with their own context and tool access—specialized experts for specific phases of work.
 
@@ -175,6 +215,7 @@ This might be the most important insight from Boris's workflow:
 > — Boris Cherny
 
 **How he implements this**:
+
 - Claude uses the Claude Chrome extension to test UI changes directly
 - Opens a browser, tests the interface, iterates until the code works and UX feels good
 - Domain-specific verification ranges from simple (running bash commands) to complex (browser or phone simulator testing)
@@ -182,6 +223,7 @@ This might be the most important insight from Boris's workflow:
 **The Philosophy**: You don't trust AI output—you instrument it. Give Claude tools to check its own work, and quality improves dramatically.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 10 (MCP Integration)**: MCP tools can include verification capabilities—testing endpoints, validating outputs, checking UI state
 - **Lesson 13 (Hooks)**: Hooks can trigger automated verification after Claude makes changes
 
@@ -203,6 +245,7 @@ Boris's team uses a simple but effective hook:
 This runs the formatter after every file write or edit. Claude generates well-formatted code 90% of the time, and the hook handles the remaining 10% to prevent CI formatting failures.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 13 (Hooks)**: You learned the PostToolUse pattern. This is a production example that prevents a common frustration (CI failures due to formatting).
 
 ---
@@ -220,6 +263,7 @@ These permissions are checked into `.claude/settings.json` and shared with the e
 **Why this matters**: Skip permissions trades safety for convenience. Pre-allowed permissions give you the convenience while maintaining the safety boundary—Claude still asks before running unknown commands.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 13 (Settings Hierarchy)**: Team-shared settings in `.claude/settings.json` ensure consistency across developers.
 
 ---
@@ -233,41 +277,88 @@ These permissions are checked into `.claude/settings.json` and shared with the e
 **The Counterintuitive Insight**: A "wrong fast answer" costs more time than a "right slow answer." Opus 4.5 requires less correction and iteration, making total task completion faster despite slower per-response times.
 
 **Connection to Chapter Concepts**:
+
 - **Lesson 13 (Settings)**: Model choice is a settings configuration. Boris optimizes for total iteration time, not token cost or response speed.
+
+---
+
+## Session Management: Course-Correct and Recover
+
+The official best practices emphasize aggressive session management. Claude Code's conversations are persistent and reversible—use this to your advantage.
+
+**Course-Correct Early**:
+
+- **`Esc`**: Stop Claude mid-action. Context is preserved, so you can redirect.
+- **`Esc + Esc` or `/rewind`**: Opens the rewind menu to restore previous conversation and code state.
+- **`/clear`**: Reset context between unrelated tasks. Long sessions with irrelevant context reduce performance.
+
+**Resume Conversations**:
+
+```bash
+claude --continue    # Resume the most recent conversation
+claude --resume      # Select from recent conversations
+```
+
+Use `/rename` to give sessions descriptive names (`"oauth-migration"`, `"debugging-memory-leak"`) so you can find them later. Treat sessions like branches—different workstreams can have separate, persistent contexts.
+
+**When to Clear**: If you've corrected Claude more than twice on the same issue, the context is cluttered with failed approaches. Run `/clear` and start fresh with a more specific prompt that incorporates what you learned.
 
 ---
 
 ## Mapping the Complete Workflow
 
-Here's how Boris's techniques map to what you've learned:
+Here's how Boris's techniques and official best practices map to what you've learned:
 
-| Boris's Technique | Chapter Lesson | Your Takeaway |
-|-------------------|----------------|---------------|
-| 15-20 parallel sessions | L01 (Origin) + L11 (Subagents) | Think of Claude as capacity to schedule, not a single tool |
-| Plan Mode first | L11 (Subagents) | Always plan before executing non-trivial tasks |
-| Team CLAUDE.md in git | L04 (CLAUDE.md) | Every mistake becomes a rule; context evolves |
-| @.claude PR tagging | L04 (CLAUDE.md) | Code review becomes CLAUDE.md improvement |
-| Specialized subagents | L11 (Subagents) | Create subagents for repeated PR workflows |
-| Verification loops | L09 (MCP Integration) + L13 (Hooks) | Give Claude tools to verify its own work |
-| PostToolUse formatting | L13 (Hooks) | Automate the last 10% that causes CI failures |
-| /permissions | L12 (Settings) | Pre-allow safe commands, share with team |
-| Opus 4.5 choice | L12 (Settings) | Optimize for total iteration time, not speed |
+| Practice                    | Source           | Chapter Lesson | Your Takeaway                                  |
+| --------------------------- | ---------------- | -------------- | ---------------------------------------------- |
+| Context window constraint   | Official         | All            | The fundamental "why" behind every practice    |
+| 15-20 parallel sessions     | Boris            | L01 + L09      | Think of Claude as capacity to schedule        |
+| Plan Mode first             | Boris + Official | L09            | Always plan before executing non-trivial tasks |
+| Team CLAUDE.md in git       | Boris            | L05            | Every mistake becomes a rule; context evolves  |
+| Subagents for investigation | Official         | L09            | Keep main context clean; explore in isolation  |
+| Specialized subagents       | Boris            | L09            | Create subagents for repeated PR workflows     |
+| Verification loops          | Boris + Official | L10 + L13      | Give Claude tools to verify its own work       |
+| PostToolUse formatting      | Boris            | L13            | Automate the last 10% that causes CI failures  |
+| `/permissions` over skip    | Boris            | L13            | Pre-allow safe commands, share with team       |
+| `/clear` between tasks      | Official         | Session mgmt   | Reset context for fresh starts                 |
+| `/rewind` for recovery      | Official         | Session mgmt   | Checkpoints are reversible—experiment freely   |
+| Opus 4.5 choice             | Boris            | L13            | Optimize for total iteration time, not speed   |
+
+---
+
+## Common Failure Patterns (What to Avoid)
+
+The official documentation catalogs failure patterns observed across many users. Recognizing these early saves time:
+
+| Pattern                      | Symptom                                                                      | Fix                                                                    |
+| ---------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Kitchen sink session**     | Started with one task, asked unrelated questions, now context is cluttered   | `/clear` between unrelated tasks                                       |
+| **Correction spiral**        | Corrected Claude twice, still wrong, correcting again                        | After 2 failed corrections, `/clear` and rewrite the initial prompt    |
+| **Over-specified CLAUDE.md** | Claude ignores instructions; important rules get lost                        | Ruthlessly prune. If Claude already does it correctly, delete the rule |
+| **Trust-then-verify gap**    | Plausible-looking code that doesn't handle edge cases                        | Always provide verification (tests, scripts, screenshots)              |
+| **Infinite exploration**     | Asked Claude to "investigate" without scoping; context fills with file reads | Scope investigations narrowly or use subagents                         |
+
+**Meta-pattern**: Most failures stem from context pollution—either too much irrelevant information, or failed approaches cluttering the conversation. When in doubt, start fresh.
 
 ---
 
 ## Operational Takeaways
 
-Looking at Boris's workflow, three principles emerge:
+Looking at Boris's workflow and the official best practices, four principles emerge:
 
-**1. Parallelization Over Optimization**
+**1. Context is the Constraint**
+
+Every technique traces back to managing the context window. Parallel sessions, subagents for investigation, `/clear` between tasks, Plan Mode—all prevent context pollution. Internalize this and the "why" behind every practice becomes clear.
+
+**2. Parallelization Over Optimization**
 
 Multiple simple sessions outperform one overloaded session. Don't try to make one conversation do everything—distribute work across parallel Claude instances.
 
-**2. Plan Mode Discipline**
+**3. Plan Mode Discipline**
 
 Planning isn't training wheels. It's the foundation. Boris uses it for every non-trivial task, not just when he's unsure. The investment in alignment pays off in execution quality.
 
-**3. Verification Infrastructure**
+**4. Verification Infrastructure**
 
 Quality comes from feedback loops, not hope. Give Claude ways to check its work—through MCP tools, hooks, subagents, or browser automation. Verification creates the iteration loop that produces excellent results.
 
@@ -301,3 +392,8 @@ Apply what you've learned from the creator's workflow:
 
 **What you're learning:** Parallelization strategy—thinking about Claude Code as capacity to orchestrate, not a single conversation to manage.
 
+**🧹 Practice Session Hygiene:**
+
+> "I just completed [describe a task]. Before I start the next task, help me decide: Should I continue in this session or `/clear` and start fresh? What context from this conversation is worth preserving? What would pollute my next task?"
+
+**What you're learning:** Context management discipline. Recognizing when accumulated context helps versus hurts is a skill that develops through deliberate practice.
