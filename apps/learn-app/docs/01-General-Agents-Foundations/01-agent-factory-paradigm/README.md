@@ -2,8 +2,7 @@
 sidebar_position: 1
 title: "Chapter 1: The AI Agent Factory Paradigm"
 slides:
-  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-01/agent-fac
-  tory-blueprint.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-01/agent-factory-blueprint.pdf"
   title: "Chapter 1: The AI Agent Factory Paradigm"
   height: 700
 ---
