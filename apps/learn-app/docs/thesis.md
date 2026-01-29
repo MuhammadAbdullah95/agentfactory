@@ -1,7 +1,15 @@
 ---
 title: "The Agent Factory Thesis"
+description: "In the AI era, the most valuable companies manufacture AI employees powered by agents, specs, skills, MCP, autonomy, and cloud-native technologies."
 sidebar_position: -2
 pagination_prev: null
+keywords:
+  - AI employees
+  - Digital FTE
+  - agent factory
+  - AI-native development
+  - spec-driven development
+  - AI agents
 ---
 
 <div style={{

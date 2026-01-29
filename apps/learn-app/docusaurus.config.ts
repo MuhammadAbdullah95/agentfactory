@@ -12,7 +12,8 @@ const AUTH_URL = process.env.AUTH_URL || "http://localhost:3001";
 
 // OAuth client ID - use the pre-configured trusted client (PKCE + JWKS)
 // This matches the trustedClients configuration in auth-server
-const OAUTH_CLIENT_ID = process.env.OAUTH_CLIENT_ID || "agent-factory-public-client";
+const OAUTH_CLIENT_ID =
+  process.env.OAUTH_CLIENT_ID || "agent-factory-public-client";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -25,8 +26,7 @@ const docsPath = hydrateEnabled ? "../build-source" : "docs";
 
 const config: Config = {
   title: "Agent Factory",
-  tagline:
-    "The Spec-Driven Blueprint for Building and Monetizing Digital FTEs",
+  tagline: "The Spec-Driven Blueprint for Building and Monetizing Digital FTEs",
   favicon: "favicon.png",
 
   // Custom fields accessible via useDocusaurusContext().siteConfig.customFields
@@ -155,7 +155,7 @@ const config: Config = {
     defaultLocale: "en",
     locales: ["en"],
   },
-  
+
   presets: [
     [
       "classic",
@@ -175,21 +175,27 @@ const config: Config = {
           ],
           remarkPlugins: [
             // Required for :::directive syntax (os-tabs, admonitions, etc.)
-            require('remark-directive'),
+            require("remark-directive"),
             // OS-specific tabs: :::os-tabs with ::windows ::macos ::linux
-            require('../../libs/docusaurus/remark-os-tabs'),
+            require("../../libs/docusaurus/remark-os-tabs"),
             // Auto-transform Python code blocks into interactive components
-            [require('../../libs/docusaurus/remark-interactive-python'), {
-              includePaths: ['/05-Python-Fundamentals/'],
-              excludeMeta: ['nointeractive', 'static'],
-            }],
-            // Metadata-driven content enhancements (slides, etc.)
-            [require('../../libs/docusaurus/remark-content-enhancements'), {
-              enableSlides: true,
-              slidesConfig: {
-                defaultHeight: 700,
+            [
+              require("../../libs/docusaurus/remark-interactive-python"),
+              {
+                includePaths: ["/05-Python-Fundamentals/"],
+                excludeMeta: ["nointeractive", "static"],
               },
-            }],
+            ],
+            // Metadata-driven content enhancements (slides, etc.)
+            [
+              require("../../libs/docusaurus/remark-content-enhancements"),
+              {
+                enableSlides: true,
+                slidesConfig: {
+                  defaultHeight: 700,
+                },
+              },
+            ],
           ],
         },
         blog: false,
@@ -201,7 +207,13 @@ const config: Config = {
           changefreq: "weekly",
           priority: 0.5,
           filename: "sitemap.xml",
-          ignorePatterns: ["**/tags/**"],
+          ignorePatterns: [
+            "**/tags/**",
+            "/auth/**",
+            "/search",
+            "/tailwind-test",
+            "/code",
+          ],
         },
       } satisfies Preset.Options,
     ],

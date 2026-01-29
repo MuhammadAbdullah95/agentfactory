@@ -590,3 +590,31 @@ so we can figure out a personal learning strategy.
 ```
 
 **What you're learning**: Self-assessment and strategic positioning. You're learning to evaluate your current capabilities against industry baselines, understand the opportunity cost of timing, and make informed decisions about when and how to invest in AI-native skills based on your career goals and market dynamics.
+
+---
+
+## Frequently Asked Questions
+
+### What is the Agent Factory paradigm?
+
+The Agent Factory is an evolutionary model for AI development where General Agents (like Claude Code) serve as "incubators" that explore requirements and prototype solutions, then give birth to Custom Agents (built with SDKs like OpenAI Agents SDK or Claude Agent SDK) that operate as production "specialists." The factory never stops—each deployment generates feedback that improves existing agents and spawns new ones.
+
+### What is the difference between General Agents and Custom Agents?
+
+General Agents are multi-purpose reasoning tools optimized for flexibility and exploration. They can read codebases, execute commands, and adapt to novel problems. Custom Agents are purpose-built systems optimized for reliability and scale. They have specialized prompts, hard-coded tools, and guardrails designed for specific production workflows. General Agents discover what to build; Custom Agents build it at scale.
+
+### What is a Digital FTE?
+
+A Digital FTE (Full-Time Equivalent) is an AI employee that performs real work autonomously under human supervision. Unlike traditional software that augments human tasks, a Digital FTE completes tasks end-to-end—processing support tickets, analyzing documents, generating reports. Digital FTEs work 168 hours per week at a fraction of human cost, typically $500-2,000/month versus $4,000-8,000+ for human employees.
+
+### Why is 2025 considered an inflection point for AI development?
+
+Three independent trends converged in 2025: (1) AI capability reached production quality (ICPC perfect scores, GDPval 49% win rate against humans), (2) mainstream adoption passed the tipping point (84% developer adoption, 90% enterprise adoption, 2 hours/day median usage), and (3) enterprises bet billions on AI-native architecture ($1.1B Workday acquisition, 25% of YC startups using AI-generated code). This convergent validation from independent sources signals a genuine transformation.
+
+### When should I use a General Agent versus building a Custom Agent?
+
+Use General Agents when requirements are unclear, you need exploration, this is a one-off task, or you're doing something novel. Build Custom Agents when you can precisely define the behavior, it will run hundreds or thousands of times, users need consistent results, or cost and latency matter. The key insight: don't skip incubation (explore first), don't stay in perpetual incubation (evolve to production), and don't specialize prematurely (requirements must crystallize first).
+
+### What skills do I need for AI-native development?
+
+Traditional programming emphasized syntax mastery and algorithm optimization. AI-native development requires specification writing (clear specs determine AI output quality), prompting and collaboration (directing AI requires precision about intent), agent design (orchestrating intelligent systems rather than writing code), system thinking (understanding component interactions), and validation (evaluating AI output as quality control). This book addresses these skills explicitly.
