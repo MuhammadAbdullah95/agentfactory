@@ -64,6 +64,17 @@ function HomepageHeader() {
                   </Link>
                 </Button>
               </div>
+              {/* Social Proof - Premium Live Indicator */}
+              <div className="flex items-center gap-2.5 mt-4">
+                {/* Pulsing green dot */}
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" style={{ animationDuration: '2s' }}></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                {/* Stat */}
+                <span className="text-lg font-bold text-foreground tracking-tight">16,422</span>
+                <span className="text-sm text-muted-foreground">professionals learning</span>
+              </div>
               {/* Authors */}
               {/* Co-Authors - Premium Chip Design */}
               <div className="flex flex-col gap-3 mt-4">
