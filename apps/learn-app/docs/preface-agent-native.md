@@ -13,7 +13,30 @@ sidebar_position: 0
 
 What if your expertise could work while you sleep?
 
----
+AI has evolved from assistants that answer questions to **Digital FTEs** (Full-Time Equivalents): AI employees that perform real work autonomously under human supervision.
+
+What can a Digital FTE do?
+
+- **Analyze Data**: Process reports, extract insights, make recommendations
+- **Create Content**: Write emails, documents, proposals, marketing copy
+- **Handle Tasks & Decisions**: Schedule, coordinate workflows, evaluate options, escalate when necessary
+
+### The Coding Barrier Is Gone
+
+Here's what most people miss: **you don't need to code anymore**.
+
+The new "tech stack" is your native language—English, Urdu, Spanish, whatever you think in. You describe the job in plain language. Claude Code (a General Agent from Anthropic) interprets your instructions and builds the solution.
+
+This means **everyone with domain expertise** can now build AI employees:
+
+| Domain Expert       | What They Can Build                     |
+| ------------------- | --------------------------------------- |
+| **Business Owners** | Operations and inventory automation     |
+| **Healthcare Pros** | Scheduling and documentation agents     |
+| **Marketers**       | Content creation and lead qualification |
+| **Educators**       | Grading and curriculum planning         |
+| **Accountants**     | Transaction reconciliation              |
+| **Engineers**       | Code reviews and testing                |
 
 **This book teaches you to build AI Employees that capture YOUR expertise—and monetize them as Digital FTEs.**
 
@@ -21,7 +44,7 @@ What if your expertise could work while you sleep?
 
 ## Introduction: Why This Book Matters Now
 
-*Start here. This presentation explains the Shift in 2026 - The Age of the AI Employees and what that means for your career.*
+_Start here. This presentation explains the 2026 shift—The Age of AI Employees—and what it means for your career._
 
 :::tip Open Full Slideshow
 **[View Full Presentation](https://docs.google.com/presentation/d/1nfCEKI4P3rzvtw1BvI8PmpP8nMXAROvpJ7Pyh9xzpj0/edit?usp=sharing)** — The introduction to the Agent Factory.
@@ -39,7 +62,6 @@ What if your expertise could work while you sleep?
   </iframe>
 </div>
 
-
 ## The $650 Million Proof Point
 
 In 2023, a startup called Casetext was [acquired by Thomson Reuters for $650 million in cash](https://techcrunch.com/2023/06/26/thomson-reuters-buys-casetext-an-ai-legal-tech-startup-for-650m-in-cash/).
@@ -53,7 +75,6 @@ This is what encoded domain expertise is worth.
 ---
 
 ## The Agent Factory Vision
-
 
 :::tip Open Full Slideshow
 **[View Full Presentation](https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/edit?usp=sharing)** — The complete Agent Factory framework.
@@ -93,12 +114,12 @@ Raw requirements enter a fertile environment where they transform into functiona
 
 General Agents are **reasoning systems**. They observe your problem, orient around constraints, decide on an approach, act by writing code or running commands, and correct their mistakes—repeating until the problem is solved.
 
-| Dimension | Incubator Stage |
-|-----------|-----------------|
-| **Core Purpose** | Explore, discover, prototype |
-| **Optimization Target** | Flexibility and reasoning |
-| **Your Role** | Director who specifies intent |
-| **Best For** | Novel problems, unclear requirements, building Custom Agents |
+| Dimension               | Incubator Stage                                              |
+| ----------------------- | ------------------------------------------------------------ |
+| **Core Purpose**        | Explore, discover, prototype                                 |
+| **Optimization Target** | Flexibility and reasoning                                    |
+| **Your Role**           | Director who specifies intent                                |
+| **Best For**            | Novel problems, unclear requirements, building Custom Agents |
 
 ### Stage 2: Specialist (Custom Agents)
 
@@ -106,12 +127,12 @@ General Agents are **reasoning systems**. They observe your problem, orient arou
 
 Proven patterns crystallize into purpose-built systems. The solution is now known—you're engineering it for reliability, scale, and governance.
 
-| Dimension | Specialist Stage |
-|-----------|------------------|
-| **Core Purpose** | Execute, scale, govern |
-| **Optimization Target** | Reliability and efficiency |
-| **Your Role** | Builder who creates the agent |
-| **Best For** | Well-defined workflows, customer-facing products, high-volume automation |
+| Dimension               | Specialist Stage                                                         |
+| ----------------------- | ------------------------------------------------------------------------ |
+| **Core Purpose**        | Execute, scale, govern                                                   |
+| **Optimization Target** | Reliability and efficiency                                               |
+| **Your Role**           | Builder who creates the agent                                            |
+| **Best For**            | Well-defined workflows, customer-facing products, high-volume automation |
 
 ### The Key Insight: Incubator Gives Birth to Specialist
 
@@ -130,14 +151,14 @@ This book teaches the complete progression—from exploration to monetization.
 
 A traditional employee works 40 hours per week. A Digital FTE works 168 hours—24/7, no breaks, no vacations. This creates a new product category: the **Digital Full-Time Equivalent**.
 
-| Metric | Human FTE | Digital FTE |
-|--------|-----------|-------------|
-| **Availability** | 40 hours/week | 168 hours/week (24/7) |
-| **Monthly Cost** | $4,000 – $8,000+ | $500 – $2,000 |
-| **Ramp-up Time** | 3 – 6 months | Instant deployment |
-| **Consistency** | Variable (85–95%) | High (when properly evaluated) |
-| **Scaling** | Linear (hire 10 for 10x) | Exponential (instant clone) |
-| **Cost per Task** | $30 – $60 | $3 – $6 |
+| Metric            | Human FTE                | Digital FTE                    |
+| ----------------- | ------------------------ | ------------------------------ |
+| **Availability**  | 40 hours/week            | 168 hours/week (24/7)          |
+| **Monthly Cost**  | $4,000 – $8,000+         | $500 – $2,000                  |
+| **Ramp-up Time**  | 3 – 6 months             | Instant deployment             |
+| **Consistency**   | Variable (85–95%)        | High (when properly evaluated) |
+| **Scaling**       | Linear (hire 10 for 10x) | Exponential (instant clone)    |
+| **Cost per Task** | $30 – $60                | $3 – $6                        |
 
 ### The "Aha!" Moment for Your Clients
 
@@ -154,6 +175,7 @@ Here's what a real Digital FTE looks like in practice:
 **The Problem:** A B2B startup receives 5,000 leads per month but only contacts 15% due to human bandwidth. SDR (Sales Development Rep) turnover is high, and follow-up is inconsistent.
 
 **The Digital FTE Solution:** A "Digital SDR" agent that:
+
 - Responds to every inbound lead within 2 minutes (vs. 4-6 hours for humans)
 - Qualifies leads using the founder's exact criteria and brand voice
 - Handles 1,000+ outreaches per day (vs. 50 for a human SDR)
@@ -167,12 +189,12 @@ This is what you'll learn to build.
 
 ## Four Ways to Monetize Digital FTEs
 
-| Model | How It Works | Best For |
-|-------|--------------|----------|
-| **1. Subscription** | Monthly fee for a fully managed Digital FTE ($500-2,000/mo) | Clients who want "hands-off" automation |
-| **2. Success Fee** | Commission on results ($5 per lead, 2% of savings) | High-trust relationships with aligned incentives |
-| **3. License** | Annual fee to use your proprietary agent logic | Enterprises needing data in-house (healthcare, finance, defense) |
-| **4. Marketplace** | Sell via OpenAI Apps to millions of users | Volume play, brand building around niche expertise |
+| Model               | How It Works                                                | Best For                                                         |
+| ------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------- |
+| **1. Subscription** | Monthly fee for a fully managed Digital FTE ($500-2,000/mo) | Clients who want "hands-off" automation                          |
+| **2. Success Fee**  | Commission on results ($5 per lead, 2% of savings)          | High-trust relationships with aligned incentives                 |
+| **3. License**      | Annual fee to use your proprietary agent logic              | Enterprises needing data in-house (healthcare, finance, defense) |
+| **4. Marketplace**  | Sell via OpenAI Apps to millions of users                   | Volume play, brand building around niche expertise               |
 
 ### The Distribution Breakthrough
 
@@ -192,13 +214,13 @@ Digital FTEs don't appear from thin air. They're built on a foundation of real s
 
 ### What Makes Digital FTEs Possible
 
-| Skill | Why It's Required |
-|-------|-------------------|
-| **Specification Writing** | AI agents execute specs, not vague ideas. Unclear requirements = endless iterations. |
-| **AI Collaboration** | You must teach AI your domain expertise through the Teacher/Student/Co-Worker dynamic—encoding it into `SKILL.md` files that become portable, monetizable assets. |
-| **MCP Integration** | Model Context Protocol—the universal standard for connecting agents to real business data (CRM, databases, APIs). |
-| **Testing & Evaluation** | Enterprises need accuracy guarantees—a "Golden Dataset" of 50+ real-world scenarios your agent must pass with 97%+ accuracy before deployment. |
-| **Cloud Deployment** | Scale to thousands of customers without hiring operations teams. |
+| Skill                     | Why It's Required                                                                                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Specification Writing** | AI agents execute specs, not vague ideas. Unclear requirements = endless iterations.                                                                              |
+| **AI Collaboration**      | You must teach AI your domain expertise through the Teacher/Student/Co-Worker dynamic—encoding it into `SKILL.md` files that become portable, monetizable assets. |
+| **MCP Integration**       | Model Context Protocol—the universal standard for connecting agents to real business data (CRM, databases, APIs).                                                 |
+| **Testing & Evaluation**  | Enterprises need accuracy guarantees—a "Golden Dataset" of 50+ real-world scenarios your agent must pass with 97%+ accuracy before deployment.                    |
+| **Cloud Deployment**      | Scale to thousands of customers without hiring operations teams.                                                                                                  |
 
 **Without these foundations, you can't build sellable Digital FTEs.**
 
@@ -220,11 +242,11 @@ This book teaches you to master each pillar systematically.
 
 ### The Journey This Book Takes You On
 
-| Phase | What You Learn | What You Build |
-|-------|----------------|----------------|
-| **Foundation** (Parts 1-5) | Spec writing, AI collaboration, MCP, testing | Your first working agent |
-| **Products** (Parts 6-9) | Agent SDKs, multi-agent orchestration | Custom Agents for real workflows |
-| **Revenue** (Parts 10-13) | Deployment, operations, marketplace | Sellable Digital FTEs |
+| Phase                      | What You Learn                               | What You Build                   |
+| -------------------------- | -------------------------------------------- | -------------------------------- |
+| **Foundation** (Parts 1-5) | Spec writing, AI collaboration, MCP, testing | Your first working agent         |
+| **Products** (Parts 6-9)   | Agent SDKs, multi-agent orchestration        | Custom Agents for real workflows |
+| **Revenue** (Parts 10-13)  | Deployment, operations, marketplace          | Sellable Digital FTEs            |
 
 Each phase builds on the previous. The skills from Part 1 become the building blocks for Part 6. The agents from Part 6 become the products you deploy in Part 10.
 
@@ -281,11 +303,13 @@ This isn't about being lazy or "letting AI do the work." It's about **leverage**
 In the Agent Factory, both human and AI fulfill three roles simultaneously:
 
 **AI's Roles:**
+
 - 🎓 **Teacher** — Suggests patterns, explains tradeoffs, shares best practices
 - 💙 **Student** — Learns your domain expertise, adapts to your preferences
 - 🤝 **Co-Worker** — Handles implementation, works 24/7, complements your strategic thinking
 
 **Your Roles:**
+
 - **Teacher** — Guide AI's understanding through clear specifications
 - **Student** — Learn new patterns and architectures from AI suggestions
 - **Orchestrator** — Design how humans and agents collaborate to solve problems
@@ -297,6 +321,7 @@ This three-role partnership creates outcomes **better than either could produce 
 A specification is no longer static documentation. It's a **living contract** between you and your AI collaborator.
 
 When you write a spec:
+
 - AI generates implementation code
 - Tests are derived from acceptance criteria
 - Documentation stays synchronized automatically
@@ -332,6 +357,7 @@ These aren't just learning exercises. They're the **building blocks of a busines
 ### Part 1-3: The Foundation
 
 **What you'll learn:**
+
 - The AI-native paradigm shift and why it matters
 - Setting up your development environment
 - Writing specifications that AI can execute
@@ -344,6 +370,7 @@ These aren't just learning exercises. They're the **building blocks of a busines
 ### Part 4-5: The Building Blocks
 
 **What you'll learn:**
+
 - Model Context Protocol (MCP) for connecting agents to data
 - Testing and evaluation for enterprise-grade reliability
 - Building composable agent capabilities
@@ -353,6 +380,7 @@ These aren't just learning exercises. They're the **building blocks of a busines
 ### Part 6-9: Agent Development
 
 **What you'll learn:**
+
 - OpenAI Agents SDK, Claude SDK, Google ADK
 - Multi-agent coordination and orchestration
 - Production-ready agent architectures
@@ -362,6 +390,7 @@ These aren't just learning exercises. They're the **building blocks of a busines
 ### Part 10-13: Scale & Monetize
 
 **What you'll learn:**
+
 - Cloud-native deployment (Docker, Kubernetes, Dapr)
 - Operations and monitoring for production systems
 - Marketplace distribution and enterprise sales
@@ -376,13 +405,13 @@ The companies that adopt AI-native development NOW will dominate their markets. 
 
 ### Where Are You?
 
-| Level | Description | Risk/Advantage |
-|-------|-------------|----------------|
-| **1. Experimenting** | Developers try AI tools personally | Risk: Falling behind fast-movers |
-| **2. Standardizing** | Organization-wide AI coding tools | Advantage: Building institutional capability |
-| **3. Transforming** | AI generates from specifications | Advantage: 5-10x faster development |
-| **4. AI-Native Products** | AI as core product component | Advantage: Capabilities competitors can't match |
-| **5. Agent Factory** | Building and selling Digital FTEs | Advantage: Recurring revenue from AI products |
+| Level                     | Description                        | Risk/Advantage                                  |
+| ------------------------- | ---------------------------------- | ----------------------------------------------- |
+| **1. Experimenting**      | Developers try AI tools personally | Risk: Falling behind fast-movers                |
+| **2. Standardizing**      | Organization-wide AI coding tools  | Advantage: Building institutional capability    |
+| **3. Transforming**       | AI generates from specifications   | Advantage: 5-10x faster development             |
+| **4. AI-Native Products** | AI as core product component       | Advantage: Capabilities competitors can't match |
+| **5. Agent Factory**      | Building and selling Digital FTEs  | Advantage: Recurring revenue from AI products   |
 
 **The question isn't whether AI agents will transform work. The question is: will you be selling them, or competing against them?**
 
@@ -459,6 +488,7 @@ The future belongs to **Agent Factories**—people who can transform domain know
 ## Welcome to the Agent Factory
 
 You're about to learn how to:
+
 - **Manufacture** Digital FTEs using General Agents (Claude Code)
 - **Package** your expertise into sellable products
 - **Distribute** through marketplaces reaching millions
