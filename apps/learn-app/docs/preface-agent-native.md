@@ -15,6 +15,31 @@ What if your expertise could work while you sleep?
 
 ---
 
+**This book teaches you to build AI Employees that capture YOUR expertise—and monetize them as Digital FTEs.**
+
+---
+
+## Introduction: Why This Book Matters Now
+
+*Start here. This presentation explains the Shift in 2026 - The Age of the AI Employees and what that means for your career.*
+
+:::tip Open Full Slideshow
+**[View Full Presentation](https://docs.google.com/presentation/d/1nfCEKI4P3rzvtw1BvI8PmpP8nMXAROvpJ7Pyh9xzpj0/edit?usp=sharing)** — The introduction to the Agent Factory.
+:::
+
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: '2rem', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
+  <iframe
+    src="https://docs.google.com/presentation/d/1nfCEKI4P3rzvtw1BvI8PmpP8nMXAROvpJ7Pyh9xzpj0/embed?start=false&loop=false&delayms=3000"
+    frameborder="0"
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '8px'}}
+    allowfullscreen="true"
+    mozallowfullscreen="true"
+    webkitallowfullscreen="true"
+    title="Introduction to the Agent Factory">
+  </iframe>
+</div>
+
+
 ## The $650 Million Proof Point
 
 In 2023, a startup called Casetext was [acquired by Thomson Reuters for $650 million in cash](https://techcrunch.com/2023/06/26/thomson-reuters-buys-casetext-an-ai-legal-tech-startup-for-650m-in-cash/).
@@ -25,13 +50,10 @@ Thomson Reuters didn't pay $650 million for the technology. They paid for **enco
 
 This is what encoded domain expertise is worth.
 
-**This book teaches you to build AI agents that capture YOUR expertise—and monetize them as Digital FTEs.**
-
 ---
 
 ## The Agent Factory Vision
 
-*This is a living book. The embedded presentation below is updated as the field evolves—ensuring you always have access to the latest frameworks and case studies.*
 
 :::tip Open Full Slideshow
 **[View Full Presentation](https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/edit?usp=sharing)** — The complete Agent Factory framework.
@@ -57,39 +79,50 @@ The CoCounsel team didn't build a $650M product overnight. They combined deep le
 
 ---
 
-## The Two Paths to Monetization
+## The Agent Maturity Model: Incubator → Specialist
 
-The presentation above reveals a critical insight: there are two paths to building AI products.
+The presentations above reveal a critical insight: building AI products isn't about choosing between two alternatives—it's about **progression through stages**.
 
-### Path A: General Agents (The Builder)
+Think of it like biological evolution: you don't engineer a specialist from scratch. You incubate possibilities, let patterns emerge, then evolve toward specialization once the environment stabilizes.
+
+### Stage 1: Incubator (General Agents)
 
 **Tools:** Claude Code, Gemini CLI, Goose
 
-Here's a secret most people miss: calling Claude Code a "coding agent" is like calling a CEO an "email writer." Yes, it uses code—but code is just how it controls your computer.
+Raw requirements enter a fertile environment where they transform into functional logic through rapid iteration. You don't know the exact solution yet—you're discovering it.
 
-General Agents are **reasoning systems**. They don't just predict text; they observe your problem, orient around constraints, decide on an approach, act by writing code or running commands, and correct their mistakes—repeating until the problem is solved. They see your entire file system, execute commands, test their work, and fix their mistakes autonomously.
+General Agents are **reasoning systems**. They observe your problem, orient around constraints, decide on an approach, act by writing code or running commands, and correct their mistakes—repeating until the problem is solved.
 
-- **What they do**: Reason through problems, make plans, take action across ANY domain
-- **Best for**: Novel problems, complex debugging, research, building Custom Agents
-- **Speed to value**: Instant (install and start working)
-- **Your role**: Director who specifies intent; the agent figures out how
+| Dimension | Incubator Stage |
+|-----------|-----------------|
+| **Core Purpose** | Explore, discover, prototype |
+| **Optimization Target** | Flexibility and reasoning |
+| **Your Role** | Director who specifies intent |
+| **Best For** | Novel problems, unclear requirements, building Custom Agents |
 
-### Path B: Custom Agents (The Product)
+### Stage 2: Specialist (Custom Agents)
 
-**Tools:** OpenAI Agents SDK, Claude SDK, Google ADK (Agent Development Kit)
+**Tools:** OpenAI Agents SDK, Claude SDK, Google ADK
 
-Purpose-built AI systems you design for specific workflows. Less flexible, but more reliable and customer-ready.
+Proven patterns crystallize into purpose-built systems. The solution is now known—you're engineering it for reliability, scale, and governance.
 
-- **What they do**: Execute one task extremely well with guardrails
-- **Best for**: Standardized workflows, customer-facing products, high-volume automation
-- **Speed to value**: Weeks to design and build
-- **Your role**: Builder who creates the agent for others to use
+| Dimension | Specialist Stage |
+|-----------|------------------|
+| **Core Purpose** | Execute, scale, govern |
+| **Optimization Target** | Reliability and efficiency |
+| **Your Role** | Builder who creates the agent |
+| **Best For** | Well-defined workflows, customer-facing products, high-volume automation |
 
-### The Key Insight: General Agents Build Custom Agents
+### The Key Insight: Incubator Gives Birth to Specialist
 
-Claude Code isn't just a tool you use—it's an **Agent Factory** that transforms your domain expertise into deployable products. You write specifications, Claude Code builds the Custom Agents, and you package them for revenue.
+This isn't a choice between two alternatives. It's a **progression**. The Incubator gives birth to the Specialist.
 
-This book teaches both paths—and how they work together to create businesses.
+- **Trying to skip incubation** → Over-engineered solutions that solve the wrong problem
+- **Staying in incubation forever** → Never shipping production-ready products
+
+Claude Code isn't just a tool you use—it's an **Agent Factory** that transforms your domain expertise into deployable products. The Incubator discovers what to build. The Specialist builds it at scale. And the Incubator continues evolving—improving existing Specialists and spawning new ones.
+
+This book teaches the complete progression—from exploration to monetization.
 
 ---
 

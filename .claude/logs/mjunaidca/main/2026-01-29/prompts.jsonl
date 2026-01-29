@@ -8,3 +8,7 @@
 {"timestamp": "2026-01-29T06:33:40Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "Now read lesson oe again with cotent subagent"}
 {"timestamp": "2026-01-29T06:35:27Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "Now read lesson 10 again with cotent subagent"}
 {"timestamp": "2026-01-29T06:39:11Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "yes"}
+{"timestamp": "2026-01-29T06:49:39Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "/summary-generator Now make summar of L10 also did you add l10 in quiz questions>?"}
+{"timestamp": "2026-01-29T07:10:40Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "Now for preface review this and plan: This is the introduction presentation which is the first intro presentation in preface:\nhttps://docs.google.com/presentation/d/1nfCEKI4P3rzvtw1BvI8PmpP8nMXAROvpJ7Pyh9xzpj0/edit?usp=sharing @apps/learn-app/docs/preface-agent-native.md "}
+{"timestamp": "2026-01-29T07:12:10Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "We already an embed beforesee how it was added now ithe idea is This is the introduction presentation which is the first intro presentation in preface and then that will be the 2nd one?"}
+{"timestamp": "2026-01-29T07:24:44Z", "session_id": "576f03ea-2a29-4ad6-8fe4-2f737ca9d9bb", "prompt": "Looks at Agent Maturity Model in Chapter 1 we need to improve our preface noe it still have old 2 paths"}
