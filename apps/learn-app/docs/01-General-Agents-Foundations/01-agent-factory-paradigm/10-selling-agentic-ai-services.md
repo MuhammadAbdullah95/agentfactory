@@ -104,11 +104,16 @@ This guide will teach you how to sell—not by becoming someone you're not, but 
 
 Because here's the reality: You're entering one of the most lucrative markets in technology history. But so is everyone else. The winners won't be those with the best technology. **The winners will be those who can sell.**
 
-<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: '2rem', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
+<div style={{display: 'flex', justifyContent: 'center', margin: '2rem 0'}}>
   <iframe
-    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fr%2F1C2jaeKTTr%2F&show_text=false"
-    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none', borderRadius: '8px'}}
-    allowFullScreen={true}>
+    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1298004669014840&width=500&show_text=false&appId=871486331556741&height=889"
+    width="500"
+    height="889"
+    style={{border: 'none', overflow: 'hidden', borderRadius: '8px'}}
+    scrolling="no"
+    frameBorder="0"
+    allowFullScreen={true}
+    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
   </iframe>
 </div>
 
