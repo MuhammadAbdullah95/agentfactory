@@ -13,7 +13,7 @@ It's easy to dismiss this as hype—another cycle of breathless predictions that
 
 Three independent trends are converging simultaneously: AI capability has reached production quality, mainstream adoption has passed the tipping point, and enterprises are betting billions on AI-native architecture. The evidence isn't coming from marketing teams—it's from academic competitions, industry-wide surveys, venture-backed startups, and billion-dollar acquisition decisions.
 
-This part establishes the mental models and practical skills you need for AI-native development. By the end of Part 1, you'll understand not just *that* AI is changing software development, but *how to think about this transformation strategically* and *how to work with General Agents effectively*.
+This part establishes the mental models and practical skills you need for AI-native development. By the end of Part 1, you'll understand not just _that_ AI is changing software development, but _how to think about this transformation strategically_ and _how to work with General Agents effectively_.
 
 ## What You'll Learn in Part 1
 
@@ -27,7 +27,9 @@ Part 1 consists of four chapters that build from concepts to communication to to
 
 **Business Strategy (Lessons 6-7)**: You'll discover how to position your domain expertise as a competitive moat, understand the Digital FTE business model and monetization strategies, and master the nine pillars of AI-Driven Development (AIDD).
 
-**Methodology & Synthesis (Lessons 8-9)**: You'll learn Spec-Driven Development—specifications as the new syntax—and how to orchestrate AI collaboration across the development lifecycle. The final lesson synthesizes everything into a coherent vision for building Digital FTEs.
+**Methodology & Synthesis (Lessons 8-9)**: You'll learn Spec-Driven Development—specifications as the new syntax—and how to orchestrate AI collaboration across the development lifecycle. Lesson 9 synthesizes everything into a coherent vision for building Digital FTEs.
+
+**Enterprise Sales (Lesson 10)**: You'll learn how to sell your Digital FTE solutions to enterprise customers in the $100-400 billion agentic AI market. You'll understand the four value propositions (Enabler, Implementer, Custom Developer, Workflow Disruptor), master consultative selling and outcome-based pricing, and learn to position yourself for the six factors enterprises prioritize when choosing AI service providers.
 
 ### Chapter 2: Markdown - Writing Instructions
 
@@ -37,7 +39,7 @@ Before you can work with AI agents effectively, you need to write clear instruct
 
 ### Chapter 3: General Agents - Claude Code & Cowork
 
-Now that you understand *why* AI-driven development matters and *how* to write clear instructions, Chapter 3 teaches you how to work with Claude's General Agents in practice.
+Now that you understand _why_ AI-driven development matters and _how_ to write clear instructions, Chapter 3 teaches you how to work with Claude's General Agents in practice.
 
 **Claude Code Essentials (Lessons 1-8)**: You'll install and configure Claude Code, master the CLI interface, learn persistent project context with CLAUDE.md files, create custom instructions, build Agent Skills, and understand subagent orchestration.
 
@@ -51,7 +53,7 @@ Now that you understand *why* AI-driven development matters and *how* to write c
 
 Chapter 4 synthesizes learnings from Chapters 1-3 into actionable problem-solving principles that generalize across all General Agent workflows.
 
-**The Principles (Lessons 1-7)**: You'll master Bash is the Key, Code as Universal Interface, Verification as Core Step, Small Reversible Decomposition, Persisting State in Files, Constraints and Safety, and Observability. Each principle is explored in both Claude Code (terminal) and Claude Cowork (desktop) contexts—showing how these are truly *General Agent* principles, not tool-specific tricks.
+**The Principles (Lessons 1-7)**: You'll master Bash is the Key, Code as Universal Interface, Verification as Core Step, Small Reversible Decomposition, Persisting State in Files, Constraints and Safety, and Observability. Each principle is explored in both Claude Code (terminal) and Claude Cowork (desktop) contexts—showing how these are truly _General Agent_ principles, not tool-specific tricks.
 
 **Integration (Lesson 8)**: You'll discover the Meta-Principle underlying all seven (general agents leverage computing fundamentals), see how principles combine in real-world workflows, and learn a decision framework for choosing between Code and Cowork based on task characteristics.
 
@@ -79,7 +81,8 @@ By the end of this part, you'll be able to:
 6. **Apply** the seven principles of General Agent problem solving
 7. **Design** a monetization strategy for your domain expertise
 8. **Execute** Spec-Driven Development workflows
-9. **Articulate** your path forward through the rest of this book
+9. **Sell** your Digital FTE solutions to enterprise customers using consultative approaches
+10. **Articulate** your path forward through the rest of this book
 
 The transformation of software development is underway. The question isn't whether AI will change how you build—it's whether you'll lead or follow.
 

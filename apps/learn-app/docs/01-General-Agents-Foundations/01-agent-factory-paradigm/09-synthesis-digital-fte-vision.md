@@ -80,28 +80,28 @@ Now it's time to see where this leads—and the critical choice you face.
 
 Throughout this chapter, we've been building toward a realization that changes how you think about AI in software development.
 
-* **Traditional View:** AI is a tool. You prompt it, it responds, you use the output.
-* **Agent Factory View:** AI agents are teammates. They reason, remember, act, and improve.
-* **Digital FTE View:** AI agents become **Digital Full-Time Employees**—specialized digital workers that handle entire functions within your organization.
+- **Traditional View:** AI is a tool. You prompt it, it responds, you use the output.
+- **Agent Factory View:** AI agents are teammates. They reason, remember, act, and improve.
+- **Digital FTE View:** AI agents become **Digital Full-Time Employees**—specialized digital workers that handle entire functions within your organization.
 
 ### The Evolution: Generalists vs. Digital FTEs
 
-A common question arises: *Can’t a powerful General Agent (like Claude Code) act as a Digital FTE?*
+A common question arises: _Can’t a powerful General Agent (like Claude Code) act as a Digital FTE?_
 
 The answer is **yes**, provided it is moved out of the "chat box" and into a production environment. A General Agent becomes a Digital FTE when you augment its raw reasoning with **Agent Skills** and **MCP (Model Context Protocol)**, and—crucially—deploy it to run **autonomously 24/7**.
 
-| Component | Role in the Digital FTE |
-| --- | --- |
-| **The General Model** | The **Brain**: Reasoning, logic, and communication. |
-| **MCP & Tooling** | The **Hands**: Direct access to your specific codebase, cloud infrastructure, or databases. |
-| **Agent Skills** | The **Training**: The specialized SOPs, guardrails, and domain knowledge required for the role. |
-| **Autonomous Loop** | The **Shift**: The ability to run 24/7, monitoring triggers and taking action without a human "Start" command. |
+| Component             | Role in the Digital FTE                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **The General Model** | The **Brain**: Reasoning, logic, and communication.                                                            |
+| **MCP & Tooling**     | The **Hands**: Direct access to your specific codebase, cloud infrastructure, or databases.                    |
+| **Agent Skills**      | The **Training**: The specialized SOPs, guardrails, and domain knowledge required for the role.                |
+| **Autonomous Loop**   | The **Shift**: The ability to run 24/7, monitoring triggers and taking action without a human "Start" command. |
 
 ### The New Standard of Work
 
 A **Digital FTE** is the total package: a Custom Agent (or a Generalist with specific MCP and Agent Skills integrations) engineered to **own a specific function**—such as continuous security auditing, real-time code review, or automated tier-1 support.
 
-> **The FTE Threshold:** It isn't just about what the agent *can* do, but *how* it exists. A tool waits for a prompt; a Digital FTE monitors its domain, identifies needs, and executes solutions with the reliability and persistence you'd expect from a human team member.
+> **The FTE Threshold:** It isn't just about what the agent _can_ do, but _how_ it exists. A tool waits for a prompt; a Digital FTE monitors its domain, identifies needs, and executes solutions with the reliability and persistence you'd expect from a human team member.
 
 This isn't a metaphor. It's the logical extension of everything you've learned. Whether built from scratch or configured via a Generalist's skills, the goal remains the same: moving from "AI as an assistant" to "AI as a functional owner."
 
@@ -119,7 +119,7 @@ This approach has a name: **Vibe Coding**.
 
 Vibe Coding is development by feel. You prompt AI, look at what comes out, adjust, prompt again, and repeat until something seems right. There's no specification. No clear acceptance criteria. No systematic validation.
 
-It *feels* productive. AI is generating code faster than you ever could. Features appear quickly. But underneath:
+It _feels_ productive. AI is generating code faster than you ever could. Features appear quickly. But underneath:
 
 - Each iteration introduces subtle bugs
 - No one knows exactly what the system does
@@ -133,18 +133,18 @@ It *feels* productive. AI is generating code faster than you ever could. Feature
 
 Here's the insight that separates effective AI-native developers from the rest:
 
-**AI doesn't make discipline optional. AI makes discipline *critical*.**
+**AI doesn't make discipline optional. AI makes discipline _critical_.**
 
 Consider the amplification effect:
 
-| Your Practice | Without AI | With AI |
-|--------------|------------|---------|
-| Clear specifications | Good results, slow | Excellent results, fast |
-| Vague requirements | Mediocre results, slow | Terrible results, fast |
-| Test-first development | Reliable code | Reliable code, faster |
-| No testing | Fragile code | Extremely fragile code, multiplied |
+| Your Practice          | Without AI             | With AI                            |
+| ---------------------- | ---------------------- | ---------------------------------- |
+| Clear specifications   | Good results, slow     | Excellent results, fast            |
+| Vague requirements     | Mediocre results, slow | Terrible results, fast             |
+| Test-first development | Reliable code          | Reliable code, faster              |
+| No testing             | Fragile code           | Extremely fragile code, multiplied |
 
-AI is an amplifier. It amplifies your good habits *and* your bad habits. It accelerates your velocity in whatever direction you're already heading.
+AI is an amplifier. It amplifies your good habits _and_ your bad habits. It accelerates your velocity in whatever direction you're already heading.
 
 If you write clear specifications, AI executes them precisely and quickly.
 
@@ -156,16 +156,17 @@ If you work from vague ideas, AI generates confident-looking code that's wrong i
 
 The concepts from this chapter form an integrated system:
 
-| Lesson | Core Concept | Connection to Digital FTEs |
-|--------|-------------|---------------------------|
-| 1 | 2025 Inflection Point | AI coding is production-ready—Digital FTEs are now practical |
-| 2 | Three Core LLM Constraints | Understanding statelessness, probabilistic outputs, and context limits shapes how you design Digital FTEs |
-| 3 | From Coder to Orchestrator | You manage Digital FTEs, you don't compete with them |
-| 4 | Five Powers & AI Stack | Digital FTEs combine See, Hear, Reason, Act, Remember via MCP |
-| 5 | AIFF Standards | AGENTS.md, Skills, and MCP make Digital FTEs portable and reliable |
-| 6 | Digital FTE Strategy | Business case: specialized roles, cost structure, ROI |
-| 7 | Nine Pillars | Digital FTEs are the natural evolution of AI-Native Design |
-| 8 | Spec-Driven Development | The methodology that lets you delegate to Digital FTEs reliably |
+| Lesson | Core Concept               | Connection to Digital FTEs                                                                                |
+| ------ | -------------------------- | --------------------------------------------------------------------------------------------------------- |
+| 1      | 2025 Inflection Point      | AI coding is production-ready—Digital FTEs are now practical                                              |
+| 2      | Three Core LLM Constraints | Understanding statelessness, probabilistic outputs, and context limits shapes how you design Digital FTEs |
+| 3      | From Coder to Orchestrator | You manage Digital FTEs, you don't compete with them                                                      |
+| 4      | Five Powers & AI Stack     | Digital FTEs combine See, Hear, Reason, Act, Remember via MCP                                             |
+| 5      | AIFF Standards             | AGENTS.md, Skills, and MCP make Digital FTEs portable and reliable                                        |
+| 6      | Digital FTE Strategy       | Business case: specialized roles, cost structure, ROI                                                     |
+| 7      | Nine Pillars               | Digital FTEs are the natural evolution of AI-Native Design                                                |
+| 8      | Spec-Driven Development    | The methodology that lets you delegate to Digital FTEs reliably                                           |
+| 10     | Selling to Enterprises     | How to bring Digital FTEs to market and capture the $100-400B opportunity                                 |
 
 Each concept builds on the others. The Five Powers require the AI Stack. Digital FTEs require AIFF Standards to be portable. Spec-Driven Development is how you direct them.
 
@@ -220,9 +221,11 @@ In this chapter, you learned:
 
 9. **The Digital FTE Vision** (this lesson): Custom Agents and General Agents can become Digital Full-Time Employees. AI amplifies your habits—so discipline matters more, not less.
 
-You now have the mental models for AI-native development.
+10. **Selling Agentic AI Services** (Lesson 10): The $100-400 billion market opportunity, enterprise buying patterns, four value propositions, and outcome-based pricing models for selling your Digital FTE solutions.
 
-**Next**: Chapter 2: Markdown - Writing Instructions explores the syntax and strategies for documenting the "Standard Operating Procedures" that allow your Digital FTEs to operate with precision and clarity.
+You now have the mental models for AI-native development—and the business strategy to monetize them.
+
+**Next**: Lesson 10: Selling Agentic AI Services teaches you how to bring your Digital FTE capabilities to market, covering enterprise sales positioning, the four value propositions, and outcome-based commercial models.
 
 ## Try With AI
 
