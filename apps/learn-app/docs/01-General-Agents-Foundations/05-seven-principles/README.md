@@ -7,7 +7,9 @@ title: "Chapter 5: The Seven Principles of General Agent Problem Solving"
 
 You've learned about the Agent Factory paradigm and experienced Claude Code and Cowork firsthand. Now comes the crucial question: **How do you work effectively with agentic AI systems?**
 
-This chapter introduces **The Seven Principles of General Agent Problem Solving**—a comprehensive framework for making AI collaboration productive, safe, and trustworthy. These principles emerged from real-world experience with agentic AI systems and represent the core patterns that separate successful AI-augmented workflows from frustrating ones.
+This chapter begins with **Operational Best Practices**—the practical workflows that separate productive Claude Code sessions from frustrating ones. You'll learn to structure your work, course correct when things go wrong, and recognize failure patterns before they waste your time.
+
+Then we introduce **The Seven Principles of General Agent Problem Solving**—the conceptual framework that explains *why* those practices work. These principles emerged from real-world experience with agentic AI systems and represent the core patterns that separate successful AI-augmented workflows from frustrating ones.
 
 The seven principles are:
 
@@ -25,6 +27,7 @@ These principles work together as an integrated system. Terminal access enables 
 
 By the end of this chapter, you'll have:
 
+- **Operational Workflows** — Practical patterns for structuring sessions, course correcting, and avoiding common failure modes
 - **Terminal Access Fundamentals** — Understanding why bash/terminal access is the primal agentic capability that enables all other principles
 - **Code as Communication Medium** — Learning to use code and examples as the primary interface for precise AI collaboration
 - **Verification-First Mindset** — Building workflows where testing happens continuously, not as a final step

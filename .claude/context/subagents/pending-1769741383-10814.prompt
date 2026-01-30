@@ -1,0 +1,8 @@
+Explore what's already covered in Chapter 4 (Context Engineering) to identify content we must NOT duplicate.
+
+Focus on:
+1. Read apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/03-context-architecture.md - what architecture choices are covered?
+2. Scan for coverage of: /clear, /compact, /permissions, /sandbox, hooks, skills, subagents
+3. Note which specific Claude Code commands and features are explained
+
+Report what's already covered so the new Chapter 5 lesson can reference rather than repeat.
