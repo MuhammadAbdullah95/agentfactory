@@ -263,10 +263,14 @@ const LANGUAGE_CONFIG = {
  * Simulates a macOS-style IDE with AI coding assistant.
  */
 export function IDEShowcaseSection() {
-  const { state, currentSequence } = useAnimationSequence([pythonSequence], {
-    autoStart: true,
-    pauseOnHidden: true,
-  });
+  // Don't auto-start - we'll manually start only on desktop after hydration
+  const { state, currentSequence, start, pause } = useAnimationSequence(
+    [pythonSequence],
+    {
+      autoStart: false, // Prevents animation on mobile (saves 200+ state updates)
+      pauseOnHidden: true,
+    },
+  );
 
   // Check for reduced motion preference
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
@@ -280,6 +284,29 @@ export function IDEShowcaseSection() {
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
+
+  // Start animation only on desktop (md: 768px+) after hydration
+  // This prevents 200+ wasted state updates on mobile where component is CSS-hidden
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    // Only start on desktop
+    if (mediaQuery.matches && !prefersReducedMotion) {
+      start();
+    }
+
+    // Handle resize: pause on mobile, start on desktop
+    const handler = (e: MediaQueryListEvent) => {
+      if (e.matches && !prefersReducedMotion) {
+        start();
+      } else {
+        pause();
+      }
+    };
+
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, [start, pause, prefersReducedMotion]);
 
   // Static content for reduced motion
   const staticCode =
