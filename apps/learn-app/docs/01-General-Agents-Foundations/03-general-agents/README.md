@@ -2,8 +2,8 @@
 sidebar_position: 3
 title: "Chapter 3: Working with General Agents: Claude Code and Cowork"
 slides:
-  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-03-slides.pdf"
-  title: "Chapter 3: Working with General Agents: Claude Code and Cowork"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-03/agentic-ai-digital-fte.pdf"
+  title: "Chapter 3: Agentic AI - The Digital FTE"
   height: 700
 ---
 
@@ -17,7 +17,7 @@ What's a General Agent? An AI that observes, orients, decides, and acts—the OO
 
 The goal is **not to build a supercomputer**, but to establish Claude as your **collaborative thinking partner** for everything—and to build Skills that can become products.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

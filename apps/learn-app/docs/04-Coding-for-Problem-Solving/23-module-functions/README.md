@@ -15,7 +15,7 @@ This chapter bridges foundational Python syntax (Chapters 15-19) with production
 
 By the end of this chapter, you'll build a real multi-module project (Calculator Utility) that demonstrates professional Python organization patterns.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **Understanding Modules and Imports** — Learn what a module is and how Python organizes code, explore three import patterns (import module, from module import function, from module import function as alias), use built-in modules (math, random, os) immediately

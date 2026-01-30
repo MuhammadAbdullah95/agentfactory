@@ -1,0 +1,56 @@
+Write Lesson 10: The Context Engineering Playbook — Decision Frameworks for Quality
+
+**CRITICAL EXECUTION RULES**:
+- Output file: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/10-context-engineering-playbook.md`
+- Execute autonomously - DO NOT ask "Should I proceed?"
+- Write the file directly after gathering context
+
+**Research Source**: Read `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/workspace/chapter4-context-engineering-DEEP-v3.md` for Lesson 10 content.
+
+**Content Requirements**:
+
+1. **Full YAML Frontmatter** (sidebar_position: 10, chapter: 4, lesson: 10, duration: 120 min)
+
+2. **Core Content**:
+   - **Back to the Thesis**: "General Agents BUILD Custom Agents"
+     - What separates $50/month agent from $5,000/month agent? Context engineering.
+   - Context Engineering Decision Tree (when to use which technique):
+     - Is context over 70%? → Compaction needed
+     - Is task multi-session? → Progress file architecture
+     - Is workflow drifting? → PreToolUse memory injection
+     - Is work multi-agent? → Context isolation
+   - Context Budget Allocation:
+     - System prompt: 5-10%
+     - CLAUDE.md: 5-10%
+     - Tool definitions: 10-15%
+     - Message history: 30-40%
+     - Tool outputs: 20-30%
+     - Reserve buffer: 10-15%
+   - Seven Token Budgeting Strategies
+   - When-to-use-what framework (table mapping situations to techniques)
+   - Quality Assessment Criteria:
+     - Consistency (turn 1 vs turn 50)
+     - Persistence (session resume after 24h)
+     - Scalability (multi-step without drift)
+     - Knowledge (applies domain expertise automatically)
+
+3. **Lab: Build Your First Production-Quality Agent**:
+   - Objective: Apply full toolkit to build agent worth showing to clients
+   - Protocol:
+     1. Foundation: Audit/optimize CLAUDE.md (<60 lines, position-sensitive)
+     2. Persistence: Extract tacit knowledge, create progress architecture
+     3. Memory: Build semantic memory store, implement PreToolUse hook
+     4. Scale: Design subagent architecture, implement context isolation
+     5. Quality Gate: Run verification tests
+   - Deliverable: Production-quality specialized agent with quality verification evidence
+
+4. **Try With AI** (3 prompts):
+   - Quality checklist assessment
+   - Client pitch (technical → business value)
+   - Improvement roadmap (prioritize by effort vs impact)
+
+5. **Explicit Thesis Callback and Principle 5 Connection**
+
+6. **Layer**: L4 (Spec-Driven Integration) - capstone producing sellable Digital FTE
+
+Return ONLY: "✅ Wrote [path] ([N] lines)"

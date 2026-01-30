@@ -17,7 +17,7 @@ This part establishes the mental models and practical skills you need for AI-nat
 
 ## What You'll Learn in Part 1
 
-Part 1 consists of four chapters that build from concepts to communication to tools to principles:
+Part 1 consists of five chapters that build from concepts to communication to tools to engineering discipline to principles:
 
 ### Chapter 1: The AI Agent Factory Paradigm (Conceptual Foundation)
 
@@ -49,9 +49,21 @@ Now that you understand _why_ AI-driven development matters and _how_ to write c
 
 **Business Application (Lessons 22-26)**: You'll understand safety limitations and what's coming, master built-in document skills, learn the Code vs. Cowork decision framework, and discover how Skills become monetizable products.
 
-### Chapter 4: The Seven Principles of General Agent Problem Solving
+### Chapter 4: Effective Context Engineering with General Agents
 
-Chapter 4 synthesizes learnings from Chapters 1-3 into actionable problem-solving principles that generalize across all General Agent workflows.
+You've learned the tools. Now learn WHY they work and WHEN to use each one. Chapter 4 introduces **Context Engineering**—the quality control discipline for Digital FTE manufacturing.
+
+**Foundation (Lessons 1-3)**: You'll understand why context quality determines agent value, learn the U-shaped attention curve and 70% threshold, and discover why Claude "forgets" things in the middle of long conversations (position sensitivity research).
+
+**Techniques (Lessons 4-7)**: You'll audit your CLAUDE.md for signal vs noise (the under-60-line rule), extract tacit knowledge into AI-consumable formats, master /clear vs /compact decisions, and design progress file architecture for multi-session work.
+
+**Advanced (Lessons 8-9)**: You'll prevent workflow drift with memory injection patterns and coordinate multi-agent systems using context isolation.
+
+**Integration (Lesson 10)**: You'll apply the full context engineering toolkit to build a production-quality specialized agent worth selling.
+
+### Chapter 5: The Seven Principles of General Agent Problem Solving
+
+Chapter 5 synthesizes learnings from Chapters 1-4 into actionable problem-solving principles that generalize across all General Agent workflows.
 
 **The Principles (Lessons 1-7)**: You'll master Bash is the Key, Code as Universal Interface, Verification as Core Step, Small Reversible Decomposition, Persisting State in Files, Constraints and Safety, and Observability. Each principle is explored in both Claude Code (terminal) and Claude Cowork (desktop) contexts—showing how these are truly _General Agent_ principles, not tool-specific tricks.
 

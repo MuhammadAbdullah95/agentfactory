@@ -1,0 +1,27 @@
+Rework Lesson 7 (Context Lifecycle) to be domain-neutral and accessible to professionals in ANY field (legal, marketing, research, business, operations), not just software developers.
+
+**File to update**: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/07-context-lifecycle.md`
+
+**CRITICAL REQUIREMENTS**:
+1. Keep the same YAML frontmatter (only update description/keywords to be more inclusive)
+2. Keep the structure: Context Zones Framework, /clear vs /compact decision, custom compaction, session persistence
+3. Make ALL examples domain-neutral by adding multi-domain versions:
+   - Legal: Contract review project, case research sessions
+   - Marketing: Campaign planning, content creation marathons
+   - Research: Literature review, data analysis sessions
+   - Consulting: Client deliverable work, proposal writing
+   - Business Analysis: Process mapping, requirements gathering
+   - Code examples can stay but frame as ONE domain option
+
+4. The zone monitoring lab should offer 5 professional contexts:
+   - Legal professional reviewing contracts
+   - Marketing professional creating campaign
+   - Researcher synthesizing literature
+   - Consultant preparing deliverables
+   - Developer (keep as option, not default)
+
+5. Update "Try With AI" prompts to be domain-neutral
+
+6. Preserve the core concepts: Context Zones (Green/Yellow/Orange/Red/Black), /clear vs /compact decision tree, custom compaction, session persistence commands, commit checkpoint pattern (generalize to "save checkpoint" for non-code domains)
+
+**Execute autonomously - DO NOT ask for confirmation. Write the file directly.**

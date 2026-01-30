@@ -15,7 +15,7 @@ This chapter builds on Chapter 29 foundations to teach advanced OOP patterns: in
 
 This chapter is foundational for AI-native software development—real multi-agent systems rely on these concepts. Understanding these patterns prepares you for professional AI engineering in Parts 5-13.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 By completing this chapter, you will be able to:

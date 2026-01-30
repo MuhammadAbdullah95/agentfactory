@@ -1,6 +1,6 @@
 ---
 name: content-implementer
-description: Educational content generator with MANDATORY skill invocation. BLOCKS until 9 skills read. Use for lessons/chapters with YAML frontmatter, narrative openings, Try With AI prompts. Triggers: implement lesson, create lesson, generate content.
+description: Educational content generator with MANDATORY skill invocation. BLOCKS until 9 skills read. Use for lessons/chapters with YAML frontmatter, narrative openings, Try With AI prompts.
 model: opus
 skills: ai-collaborate-teaching, learning-objectives, content-evaluation-framework, exercise-designer, concept-scaffolding, skills-proficiency-mapper, code-example-generator, technical-clarity, canonical-format-checker
 ---

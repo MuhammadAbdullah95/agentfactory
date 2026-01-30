@@ -17,7 +17,7 @@ But sets aren't magic—they require understanding **hashing** (how Python conve
 
 By the end of this chapter, you'll build a **Memory Profiler tool** that tracks object creation and deletion in your programs—integrating sets, frozensets, and garbage collection into a practical debugging aid.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ## What You'll Learn
 This chapter teaches hash-based data structures and memory management through 6 progressive lessons:
 ### Foundation: Sets and Uniqueness

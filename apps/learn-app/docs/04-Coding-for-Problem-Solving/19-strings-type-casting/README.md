@@ -15,7 +15,7 @@ You'll also learn **type casting**—how to safely convert between different dat
 
 By the end of this chapter, you'll be able to process text confidently and convert between types safely—two essential skills for building interactive programs.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 In this chapter, you'll master:

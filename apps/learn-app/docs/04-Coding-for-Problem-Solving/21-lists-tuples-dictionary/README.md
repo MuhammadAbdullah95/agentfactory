@@ -13,7 +13,7 @@ Real programs work with collections of data, not individual values. User lists, 
 
 You'll learn when to use each structure, how to manipulate them effectively, and how to combine them in real-world applications. By the end of this chapter, you'll build a complete **Data Processing Pipeline** that ingests CSV data, filters it with comprehensions, aggregates statistics with dictionaries, and outputs formatted reports—demonstrating how all three structures work together in production code.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ## What You'll Learn
 ### Core Concepts (46+ unique concepts across 11 lessons)
 **Lists** (Lessons 1-5):

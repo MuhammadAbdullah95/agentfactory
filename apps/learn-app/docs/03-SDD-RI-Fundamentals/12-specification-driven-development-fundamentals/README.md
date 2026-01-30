@@ -15,7 +15,7 @@ Spec-Driven Development bridges human creativity and AI precision: it turns vagu
 
 As AI-driven development matures, one thing is clear: its future will be written not in code, but in **specifications + reusable intelligence**.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

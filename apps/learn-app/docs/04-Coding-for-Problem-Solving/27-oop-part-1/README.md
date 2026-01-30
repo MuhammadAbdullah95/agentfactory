@@ -17,7 +17,7 @@ Starting from the limitations of procedural programming, you'll discover how OOP
 
 The chapter culminates in a **Game Character Capstone Project** where you'll design and implement a multi-class system, integrating all the concepts learned into a cohesive, working application.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **Understand OOP Fundamentals** — Explain what Object-Oriented Programming is and how it differs from procedural programming, identify the four pillars of OOP (Encapsulation, Abstraction, Inheritance, Polymorphism) in code examples, analyze when to use OOP vs procedural approaches, evaluate why OOP matters for modularity, reusability, maintainability, and scalability

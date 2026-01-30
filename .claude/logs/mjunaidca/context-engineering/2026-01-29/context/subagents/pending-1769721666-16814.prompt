@@ -1,0 +1,24 @@
+Rework Lesson 6 (Tacit Knowledge) to be domain-neutral and accessible to professionals in ANY field (legal, marketing, research, business, operations), not just software developers.
+
+**File to update**: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/06-tacit-knowledge.md`
+
+**CRITICAL REQUIREMENTS**:
+1. Keep the same YAML frontmatter (only update description/keywords to be more inclusive)
+2. Keep the structure: two-way problem, strategies for knowledge IN, strategies for understanding OUT, lab
+3. Make ALL examples domain-neutral by adding multi-domain versions:
+   - Legal: Contract negotiation history, case precedents, client preferences
+   - Marketing: Brand voice nuances, audience insights, campaign learnings  
+   - Research: Methodology choices, literature interpretation, citation standards
+   - Consulting: Client relationship context, industry knowledge, deliverable formats
+   - Business Analysis: Process insights, stakeholder preferences, historical decisions
+   - Code examples can stay but label them as ONE of several domain options
+
+4. The opening scenario should be universally relatable (experienced professional with undocumented knowledge), not just about code architecture
+
+5. Update the lab to offer 5 domain contexts (Legal Review, Marketing Campaign, Research Paper, Business Process, Software Project)
+
+6. Update "Try With AI" prompts to be domain-neutral (don't assume coding context)
+
+7. Preserve the core concepts: Two-way problem, tacit vs explicit knowledge, memory systems, global vs session memory
+
+**Execute autonomously - DO NOT ask for confirmation. Write the file directly.**

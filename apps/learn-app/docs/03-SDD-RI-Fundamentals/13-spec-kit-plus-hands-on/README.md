@@ -25,7 +25,7 @@ Before starting this chapter, ensure you have:
 - **Terminal Comfort**: From Chapter 5 (basic bash commands)
 - **Text Editor**: Any editor (VS Code, Cursor, terminal-based)
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

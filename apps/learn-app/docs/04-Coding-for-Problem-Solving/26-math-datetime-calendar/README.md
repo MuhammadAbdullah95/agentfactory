@@ -15,7 +15,7 @@ This chapter teaches Python's built-in modules for these tasks using Python 3.14
 
 You'll start with the `math` module for validated calculations, understand how computers measure time through epochs and timestamps, then master Python 3.14's **new** `date.strptime()` and `time.strptime()` methods for parsing dates and times. You'll format datetime objects for display, perform date arithmetic, convert between timezones, and generate calendars with color highlighting. The chapter culminates in a complete Time Zone Converter application that integrates all concepts.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **Perform mathematical operations** with validation using the `math` module, understanding rounding strategies and mathematical constants

@@ -1,9 +1,9 @@
 ---
-sidebar_position: 4
-title: "Chapter 4: The Seven Principles of General Agent Problem Solving"
+sidebar_position: 5
+title: "Chapter 5: The Seven Principles of General Agent Problem Solving"
 ---
 
-# Chapter 4: The Seven Principles of General Agent Problem Solving
+# Chapter 5: The Seven Principles of General Agent Problem Solving
 
 You've learned about the Agent Factory paradigm and experienced Claude Code and Cowork firsthand. Now comes the crucial question: **How do you work effectively with agentic AI systems?**
 
@@ -37,6 +37,7 @@ By the end of this chapter, you'll have:
 ## Why This Matters
 
 The seven principles transform AI from a novelty into a reliable tool for production work. Without them:
+
 - You're constantly repeating yourself (no state persistence)
 - You're surprised by AI changes (no observability)
 - You're afraid to let AI work (no safety constraints)
@@ -44,23 +45,9 @@ The seven principles transform AI from a novelty into a reliable tool for produc
 - You're overwhelmed by large changes (no decomposition)
 
 With them:
+
 - Context accumulates across sessions
 - You see what AI is doing
 - You can confidently give AI autonomy
 - Problems are caught early
 - Complex work becomes manageable
-
-## Lesson Structure
-
-Each lesson follows a consistent structure:
-- **Conceptual Foundation** — Why the principle matters and what problem it solves
-- **Practical Application** — How to apply the principle in real workflows
-- **Examples** — Concrete before/after comparisons showing the principle in action
-- **This Principle in Both Interfaces** — How the principle applies in Claude Code (terminal) AND Claude Cowork (desktop)
-- **Try With AI** — Three prompts to practice applying the principle
-
-The final lesson (08) integrates all principles, introduces the **Meta-Principle** (general agents are most effective when they leverage computing fundamentals), and provides an **Interface Choice Framework** for selecting between Claude Code and Cowork based on task characteristics.
-
-## Assessment
-
-Complete the **Chapter Quiz** (Lesson 09) to test your understanding of all seven principles and how they integrate. The quiz includes 23 questions covering each principle and their application in real scenarios.

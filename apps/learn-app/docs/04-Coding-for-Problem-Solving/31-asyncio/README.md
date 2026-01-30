@@ -15,7 +15,7 @@ This chapter teaches you to build production-ready asynchronous systems using Py
 
 By the end of this chapter, you'll design hybrid systems that fetch data concurrently from multiple sources and process it in parallel—the exact pattern used in modern AI agents. You'll build a complete multi-service AI agent that demonstrates 2.5x+ speedup vs sequential approaches.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **Master core asyncio concepts** — Understand event loop abstraction, write coroutines with `async def` and `await`, distinguish I/O-bound from CPU-bound tasks, differentiate concurrency (task switching) from parallelism (multi-core execution)

@@ -13,7 +13,7 @@ Welcome to the foundational chapter that establishes the mental models you need 
 
 By the end of this chapter, you'll understand not just _that_ AI is changing software development, but _how to think about this transformation strategically_. You'll see why 2026 is a genuine inflection point, what the Agent Factory paradigm is, and how to position yourself to build Digital FTEs—AI-powered agents that work 24/7 and generate recurring revenue.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

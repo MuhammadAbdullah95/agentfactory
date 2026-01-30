@@ -1,0 +1,21 @@
+You are updating Lesson 3 (Lost in the Middle) of Chapter 4: Context Engineering.
+
+**CRITICAL EXECUTION RULES**:
+- Read the current lesson at: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/03-lost-in-the-middle.md
+- DO NOT change the core concepts (position sensitivity, primacy/recency effects, three-zone strategy)
+- DO make labs and examples domain-neutral
+
+**Key Changes Required**:
+1. Replace ALL code-specific examples with multi-domain examples
+2. Labs should offer 3-5 domain options: Developer, Content Creator, Business Analyst, Legal Professional, Researcher
+3. "Try With AI" prompts should be domain-neutral
+4. Keep word count similar or slightly reduced
+
+**Domain-Neutral Example Pattern**:
+For the three-zone CLAUDE.md strategy, show examples from:
+- Legal: critical compliance rules → standard clauses → current case instructions
+- Marketing: brand voice rules → campaign templates → current task
+- Research: citation standards → methodology → current analysis
+
+Read the file, make updates to be domain-neutral, write the updated file back.
+Execute autonomously without waiting for confirmation.

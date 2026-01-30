@@ -15,7 +15,7 @@ Markdown is the **specification language** that lets you tell AI agents what to 
 
 By the end of this chapter, you'll write clear specifications that AI agents can parse and implement - the foundation of AI-native development.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

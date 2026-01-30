@@ -1,6 +1,6 @@
 ---
 sidebar_position: 9
-title: "Chapter 4: The Seven Principles Quiz"
+title: "Chapter 5: The Seven Principles Quiz"
 proficiency_level: B1
 layer: 1
 estimated_time: "25 mins"
@@ -8,12 +8,12 @@ chapter_type: Concept
 running_example_id: seven-principles-quiz
 ---
 
-# Chapter 4: The Seven Principles of General Agent Problem Solving Quiz
+# Chapter 5: The Seven Principles of General Agent Problem Solving Quiz
 
 Test your understanding of the seven principles that make agentic AI workflows effective: bash as universal interface, code as universal interface, verification as core step, small reversible decomposition, persisting state in files, constraints and safety, and observability.
 
 <Quiz
-  title="Chapter 4: The Seven Principles Assessment"
+  title="Chapter 5: The Seven Principles Assessment"
   questions={[
     {
       question: "A developer is choosing between ChatGPT (web interface, no terminal access) and Claude Code (terminal-based, file access). They need to debug a failing test. Why is terminal access the deciding factor for this task?",

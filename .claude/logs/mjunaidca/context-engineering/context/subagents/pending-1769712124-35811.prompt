@@ -1,0 +1,36 @@
+Write Lesson 5: The Two-Way Problem — Getting Tacit Knowledge In and Out
+
+**CRITICAL EXECUTION RULES**:
+- Output file: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/05-tacit-knowledge.md`
+- Execute autonomously - DO NOT ask "Should I proceed?"
+- Write the file directly after gathering context
+
+**Research Source**: Read `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/workspace/chapter4-context-engineering-DEEP-v3.md` for Lesson 5 content.
+
+**Content Requirements**:
+
+1. **Full YAML Frontmatter** (sidebar_position: 5, chapter: 4, lesson: 5, duration: 60 min)
+
+2. **Core Content**:
+   - The Two-Way Problem (Greg Foster):
+     - Engineers → AI: Transfer tacit knowledge (unwritten rules)
+     - AI → Engineers: Extract understanding from generated code
+   - What IS tacit knowledge (unwritten rules engineers carry)
+   - Strategies for getting knowledge IN:
+     - Structured architecture documents for AI consumption
+     - Encoded stylistic preferences (examples over rules)
+     - Memory systems
+   - OpenAI memory lifecycle: inject → reason → distill → consolidate
+   - Global vs session memory scoping
+   - Strategies for getting understanding OUT (require explanations, structured output)
+
+3. **Lab: Tacit Knowledge Extraction**:
+   - Objective: Transform 10 minutes of verbal explanation into effective AI context
+   - Protocol: Record explanation, transcribe, extract non-documented knowledge, encode as CLAUDE.md/Skills
+   - Deliverable: Tacit knowledge document capturing what experienced engineers carry
+
+4. **Try With AI** (3 prompts with "What you're learning" explanations)
+
+5. **Layer**: L2 (AI Collaboration) - bidirectional knowledge exchange
+
+Return ONLY: "✅ Wrote [path] ([N] lines)"

@@ -1,0 +1,26 @@
+Rework Lesson 9 (Memory Injection) to be domain-neutral and accessible to professionals in ANY field (legal, marketing, research, business, operations), not just software developers.
+
+**File to update**: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/09-memory-injection.md`
+
+**CRITICAL REQUIREMENTS**:
+1. Keep the same YAML frontmatter (only update description/keywords to be more inclusive)
+2. Keep the structure: Workflow drift problem, Two injection timing strategies, PreToolUse architecture, Building memory corpus, Lab
+3. The concept of "workflow drift" applies to ANY domain - make this clear with examples:
+   - Legal: Started reviewing contract terms, now focused on liability clauses, need different precedents
+   - Marketing: Started with brand messaging, evolved to channel strategy, need different best practices
+   - Research: Started with hypothesis, pivoted to methodology, need different citations
+
+4. Memory corpus examples should span domains:
+   - Legal: Precedent patterns, client preferences, judge tendencies
+   - Marketing: Brand voice rules, audience insights, successful campaign patterns
+   - Research: Citation standards, methodology conventions, reviewer preferences
+   - Business: Process templates, stakeholder communication styles, industry conventions
+   - Software (keep as ONE option): Error handling patterns, API conventions
+
+5. The Lab should offer conceptual understanding first, with OPTIONAL technical implementation for those who want it. Not everyone will implement vector DBs.
+
+6. Update "Try With AI" prompts to be domain-neutral
+
+7. Preserve core concepts: Workflow drift, injection timing (UserPromptSubmit vs PreToolUse), thinking block extraction, semantic memory, deduplication
+
+**Execute autonomously - write the file directly using Edit tool.**

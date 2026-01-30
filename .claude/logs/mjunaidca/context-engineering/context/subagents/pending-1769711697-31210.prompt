@@ -1,0 +1,51 @@
+Write Lesson 1: The Manufacturing Quality Problem — Why Context Determines Agent Value
+
+**CRITICAL EXECUTION RULES**:
+- Output file: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/01-manufacturing-quality-problem.md`
+- Execute autonomously - DO NOT ask "Should I proceed?"
+- DO NOT create new directories - use the path exactly as specified
+- Write the file directly after gathering context
+
+**Quality Reference**: Read `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/apps/learn-app/docs/01-General-Agents-Foundations/01-agent-factory-paradigm/01-digital-fte-revolution.md` for voice, level, and structure calibration.
+
+**Research Source**: Read `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/agentfactory/workspace/chapter4-context-engineering-DEEP-v3.md` for Lesson 1 content details.
+
+**Content Requirements**:
+
+1. **Full YAML Frontmatter** including:
+   - sidebar_position: 1
+   - title, description, keywords
+   - chapter: 4, lesson: 1
+   - duration_minutes: 45
+   - skills (with proficiency_level, category, bloom_level)
+   - learning_objectives (measurable outcomes)
+   - cognitive_load assessment
+   - differentiation (extension and remedial)
+
+2. **Core Content**:
+   - Agent Factory thesis connection ("General Agents BUILD Custom Agents")
+   - Manufacturing analogy (Toyota quality control → Digital FTE quality control)
+   - 5 context components with typical percentages (system prompt, CLAUDE.md, tool definitions, message history, tool outputs)
+   - Why context beats prompts (50-200 tokens vs 200,000+)
+   - Principle 5 bridge (preparing for Chapter 5)
+
+3. **Lab: Agent Quality Diagnostic**:
+   - Objective: Identify context-related quality issues
+   - Protocol: Run same task fresh vs after 30 min work, compare outputs
+   - Deliverable: Diagnostic report identifying quality gaps
+
+4. **Try With AI** (3 prompts):
+   - Prompt 1: Context inventory estimation (awareness)
+   - Prompt 2: Quality comparison experiment (demonstration)
+   - Prompt 3: Principle 5 bridge (CLAUDE.md audit)
+   - Each prompt has "What you're learning" explanation
+
+5. **Constitutional Requirements**:
+   - Every code block MUST have **Output:** section showing what happens
+   - End with "## Try With AI" section (no summary after)
+   - NO framework labels ("AI as Teacher", "Layer 1", etc.)
+   - NO meta-commentary about teaching approach
+
+6. **Layer**: L1 (Manual Foundation) - establishing mental models before AI collaboration
+
+Return ONLY: "✅ Wrote [path] ([N] lines)"

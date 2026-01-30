@@ -15,7 +15,7 @@ You'll learn how programs interact with users through the console, persist data 
 
 This is the same pattern you'll use throughout your professional career. Your AI tool isn't a crutch—it's a partner in learning.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **Gather and validate console input** with proper error handling and formatted output

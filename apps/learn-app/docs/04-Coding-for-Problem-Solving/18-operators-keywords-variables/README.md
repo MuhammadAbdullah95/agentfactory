@@ -13,7 +13,7 @@ In Chapter 19, you learned about Python's core data types and how to store data 
 
 Operators are the verbs of programming. In Chapter 19, you learned the nouns (data types). Now you learn the verbs (operators). In Chapter 22, you'll combine them into sentences (control flow).
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - Perform calculations with arithmetic operators (`+`, `-`, `*`, `/`, `//`, `%`, `**`)

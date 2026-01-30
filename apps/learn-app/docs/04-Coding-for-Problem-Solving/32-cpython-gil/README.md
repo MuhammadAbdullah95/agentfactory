@@ -17,7 +17,7 @@ This chapter teaches three critical dimensions: CPython's architecture and how i
 
 **Why this matters for AI-native development**: Multi-agent systems can now reason in parallel on separate CPU cores, not just pseudo-concurrently. A 4-agent system on a 4-core machine achieves genuine parallelism—the exact pattern modern AI applications need.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **Understand CPython architecture** — Explain what CPython is and how it differs from alternative implementations (PyPy, Jython), describe the execution pipeline from source code to bytecode to interpreter, and identify when CPython's design choices matter for performance

@@ -15,7 +15,7 @@ This chapter explores **metaclasses** (the machinery that creates classes) and *
 
 By the end of this chapter, you'll confidently choose the right tool for each scenario and understand both the "magic behind the curtain" (metaclasses) and the "practical daily tool" (dataclasses). These features prepare you for professional Python development where metaclasses help you understand framework internals and design plugin systems, and dataclasses eliminate boilerplate in data-heavy applications.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 By completing this chapter, you will be able to:

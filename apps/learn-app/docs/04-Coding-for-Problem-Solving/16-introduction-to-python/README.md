@@ -15,7 +15,7 @@ This chapter isn't about memorizing Python syntax—it's about understanding Pyt
 
 This chapter applies the AI-Native Learning methodology throughout: you'll explore concepts with your AI companion (Claude Code or Gemini CLI), validate your understanding through hands-on practice, and learn from errors with AI's help.
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 ---
 ## What You'll Learn
 - **What Is Python?** Understand Python as the language of AI-driven development and why it matters for building AI agents

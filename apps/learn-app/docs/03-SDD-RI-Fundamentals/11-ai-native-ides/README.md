@@ -14,7 +14,7 @@ slides:
 
 This chapter introduces modern development environments designed from the ground up for AI collaboration. You'll explore three distinct approaches to AI-native IDEs: **Zed** (performance-focused), **Cursor** (VS Code evolution), and **Antigravity** (agent control plane architecture).
 
-## 🎯 Before You Begin
+## 📚 Teaching Aid
 
 ## What You'll Learn
 
