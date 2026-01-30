@@ -289,13 +289,17 @@ export function IDEShowcaseSection() {
   // This prevents 200+ wasted state updates on mobile where component is CSS-hidden
   React.useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const isDesktop = mediaQuery.matches;
 
-    // Only start on desktop
-    if (mediaQuery.matches && !prefersReducedMotion) {
+    // Start only if: desktop AND no reduced motion preference
+    // Pause otherwise (mobile OR reduced motion)
+    if (isDesktop && !prefersReducedMotion) {
       start();
+    } else {
+      pause();
     }
 
-    // Handle resize: pause on mobile, start on desktop
+    // Handle resize: same logic
     const handler = (e: MediaQueryListEvent) => {
       if (e.matches && !prefersReducedMotion) {
         start();
