@@ -27,7 +27,7 @@ class TestAgentCreation:
             mode="teach",
         )
 
-        assert agent.name == "study_tutor"
+        assert agent.name == "study_tutor_teach"
         assert "FRIENDLY TUTOR" in agent.instructions
         assert "Test Lesson" in agent.instructions
         assert "Socratic" in agent.instructions
@@ -40,7 +40,7 @@ class TestAgentCreation:
             mode="ask",
         )
 
-        assert agent.name == "study_tutor"
+        assert agent.name == "study_tutor_ask"
         assert "SEARCH ENGINE" in agent.instructions
         assert "direct answers" in agent.instructions
 
