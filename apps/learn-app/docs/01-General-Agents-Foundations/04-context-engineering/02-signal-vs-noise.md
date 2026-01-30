@@ -66,7 +66,7 @@ differentiation:
 
 # Signal vs Noise: Auditing Your Context for Quality
 
-You learned in Lesson 2 that context has a budget—and that quality degrades past 70% utilization. You learned in Lesson 3 that position matters—information in the middle gets forgotten. Now the question becomes: **how much of your CLAUDE.md is actually doing useful work?**
+Context has a budget—and that quality degrades as session window fills in with messages, tool definitions and CLAUDE.md. Now the question becomes: **how much of your CLAUDE.md is actually doing useful work?**
 
 The uncomfortable answer, backed by research across enterprise deployments:
 
