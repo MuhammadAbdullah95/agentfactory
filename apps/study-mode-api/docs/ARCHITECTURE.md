@@ -5,34 +5,46 @@
 The Study Mode API is a **production-ready ChatKit server** that provides AI-powered tutoring for the AgentFactory book. It was designed to handle **50,000+ concurrent users** with proper security, caching, and resilience patterns.
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            STUDY MODE API v5.0                              │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│   ┌──────────────┐     ┌──────────────┐     ┌──────────────┐               │
-│   │   Frontend   │────▶│   FastAPI    │────▶│   ChatKit    │               │
-│   │  (React UI)  │     │   + CORS     │     │   Server     │               │
-│   └──────────────┘     └──────────────┘     └──────────────┘               │
-│          │                    │                    │                        │
-│          │                    ▼                    ▼                        │
-│          │            ┌──────────────┐     ┌──────────────┐                │
-│          │            │ Rate Limiter │     │  PostgreSQL  │                │
-│          │            │ (Redis/Lua)  │     │    Store     │                │
-│          │            └──────────────┘     └──────────────┘                │
-│          │                    │                    │                        │
-│          ▼                    ▼                    │                        │
-│   ┌──────────────┐     ┌──────────────┐           │                        │
-│   │  JWT/JWKS    │     │    Redis     │◀──────────┘                        │
-│   │    Auth      │     │    Cache     │                                    │
-│   └──────────────┘     └──────────────┘                                    │
-│                               │                                             │
-│                               ▼                                             │
-│                        ┌──────────────┐                                    │
-│                        │   GitHub     │                                    │
-│                        │   Content    │                                    │
-│                        └──────────────┘                                    │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                              STUDY MODE API v5.0                                  │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                   │
+│                              ┌──────────────┐                                     │
+│                              │  SSO Server  │ (JWKS endpoint)                     │
+│                              │  (Logto)     │                                     │
+│                              └──────┬───────┘                                     │
+│                                     │ JWKS keys (cached 1hr)                      │
+│                                     ▼                                             │
+│   ┌──────────────┐           ┌──────────────┐     ┌──────────────┐               │
+│   │   Frontend   │ Bearer    │   FastAPI    │────▶│   ChatKit    │               │
+│   │  (ChatKit    │──────────▶│   + Auth     │     │   Server     │               │
+│   │   React UI)  │ id_token  │   + CORS     │     │   (Agent)    │               │
+│   └──────────────┘           └──────────────┘     └──────────────┘               │
+│          │                          │                    │                        │
+│          │ localStorage:            ▼                    ▼                        │
+│          │ ainative_id_token ┌──────────────┐     ┌──────────────┐               │
+│          │                   │ Rate Limiter │     │  PostgreSQL  │               │
+│          │                   │ (Redis/Lua)  │     │    Store     │               │
+│          │                   └──────────────┘     └──────────────┘               │
+│          │                          │                    │                        │
+│          │                          ▼                    │                        │
+│          │                   ┌──────────────┐            │                        │
+│          │                   │    Redis     │◀───────────┘                        │
+│          │                   │    Cache     │                                     │
+│          │                   └──────────────┘                                     │
+│          │                          │                                             │
+│          │                          ▼                                             │
+│          │                   ┌──────────────┐                                     │
+│          │                   │   GitHub     │                                     │
+│          │                   │   Content    │                                     │
+│          │                   └──────────────┘                                     │
+│          │                                                                        │
+│          │  Headers sent:                                                         │
+│          │  ├── Authorization: Bearer <id_token>                                  │
+│          │  ├── X-User-ID: <user_id>                                              │
+│          │  └── X-User-Name: <user_name>                                          │
+│                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -142,10 +154,54 @@ Request → Check Redis Cache → Hit? Return <50ms
 
 ### 6. Authentication (`auth.py`)
 
-**Dual Token Support:**
-- **JWT (id_token)**: Verified locally using cached JWKS
-- **Opaque (access_token)**: Verified via SSO userinfo endpoint
-- **Dev Mode**: Bypasses auth for local development
+**Token Requirements:**
+- Backend requires **JWT format** (3 dot-separated parts starting with `eyJ`)
+- Frontend MUST use `ainative_id_token` from localStorage (JWT format)
+- `ainative_access_token` may be opaque and will fail validation
+
+**Verification Flow:**
+```
+Frontend Request
+    │
+    ├── Authorization: Bearer <id_token>
+    │
+    ▼
+┌─────────────────────┐
+│ Check Token Format  │
+│ (JWT = 3 parts)     │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐     ┌─────────────────────┐
+│ JWT Token?          │ YES │ Verify via JWKS     │
+│ (starts with eyJ)   │────▶│ (cached 1hr)        │
+└─────────────────────┘     └─────────────────────┘
+          │ NO
+          ▼
+┌─────────────────────┐
+│ Verify via SSO      │
+│ userinfo endpoint   │
+└─────────────────────┘
+```
+
+**Frontend Implementation (ChatKit):**
+```typescript
+// TeachMePanel uses custom fetch to inject auth
+const authenticatedFetch = async (input, options) => {
+  const token = localStorage.getItem("ainative_id_token"); // MUST be ID token
+  return fetch(input, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      "X-User-ID": userId,
+      "X-User-Name": userName,
+    },
+  });
+};
+```
+
+**Dev Mode**: Set `DEV_MODE=true` to bypass auth for local development
 
 ---
 

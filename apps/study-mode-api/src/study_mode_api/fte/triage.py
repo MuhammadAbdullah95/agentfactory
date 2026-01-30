@@ -16,7 +16,8 @@ Future agents could include:
 import os
 from typing import TYPE_CHECKING
 
-from agents import Agent
+from agents import Agent, ModelSettings
+from openai.types.shared import Reasoning
 
 from .state import AgentState
 
@@ -168,7 +169,12 @@ def create_agent(
             user_greeting=user_greeting,
         )
 
-    return Agent(name=f"study_tutor_{mode}", instructions=instructions, model=MODEL)
+    return Agent(
+        name=f"study_tutor_{mode}",
+        instructions=instructions,
+        model=MODEL,
+        model_settings=ModelSettings(reasoning=Reasoning(effort="minimal")),
+    )
 
 
 def create_agent_from_state(state: AgentState) -> Agent:
