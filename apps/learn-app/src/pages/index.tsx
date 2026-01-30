@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, lazy, Suspense } from "react";
 import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -6,7 +6,14 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { IDEShowcaseSection } from "@/components/HeroIDESimulation";
+import Head from "@docusaurus/Head";
+
+// Lazy load heavy IDE component - only loads when scrolled into view
+const IDEShowcaseSection = lazy(() =>
+  import("@/components/HeroIDESimulation").then((m) => ({
+    default: m.IDEShowcaseSection,
+  })),
+);
 
 import styles from "./index.module.css";
 
@@ -1017,6 +1024,56 @@ function FinalCTA() {
   );
 }
 
+// Skeleton fallback for lazy-loaded IDE section
+function IDEShowcaseSkeleton() {
+  return (
+    <section className="hidden md:flex min-h-[90vh] items-center justify-center py-6 pb-12 md:pb-20 rounded-xl allow-rounded bg-background">
+      <div className="w-[95%] max-w-[1800px] mx-auto px-6 h-full">
+        <div className="allow-rounded w-full overflow-hidden bg-[#1e1e1e] h-[calc(90vh-48px)] flex flex-col rounded-xl animate-pulse">
+          {/* Title bar skeleton */}
+          <div className="flex items-center px-3 py-2.5 bg-[#323232] rounded-t-xl">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-[#ff5f57]/50" />
+              <div className="w-3 h-3 rounded-full bg-[#febc2e]/50" />
+              <div className="w-3 h-3 rounded-full bg-[#28c840]/50" />
+            </div>
+            <div className="flex-1 flex justify-center">
+              <div className="h-6 w-40 bg-[#2d2d2d] rounded" />
+            </div>
+          </div>
+          {/* Content skeleton */}
+          <div className="flex flex-1">
+            {/* Sidebar */}
+            <div className="w-12 bg-[#262626] flex flex-col items-center pt-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-6 h-6 bg-[#3d3d3d] rounded" />
+              ))}
+            </div>
+            {/* Code area */}
+            <div className="flex-1 p-4 space-y-2">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="w-8 h-4 bg-[#3d3d3d] rounded" />
+                  <div
+                    className="h-4 bg-[#3d3d3d] rounded"
+                    style={{ width: `${Math.random() * 40 + 30}%` }}
+                  />
+                </div>
+              ))}
+            </div>
+            {/* Chat panel */}
+            <div className="w-80 bg-[#252526] p-4 space-y-4">
+              <div className="h-6 w-24 bg-[#3d3d3d] rounded" />
+              <div className="h-20 bg-[#3d3d3d] rounded" />
+              <div className="h-20 bg-[#3d3d3d] rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -1024,6 +1081,15 @@ export default function Home(): ReactNode {
       title="The AI Agent Factory"
       description="The Spec-Driven Blueprint for Building and Monetizing Digital FTEs. Full-Time Equivalent Reliable AI Agents you can trust, deploy, and scale."
     >
+      {/* Preload LCP image for faster paint */}
+      <Head>
+        <link
+          rel="preload"
+          as="image"
+          href="/img/book-cover-page.webp"
+          type="image/webp"
+        />
+      </Head>
       <HomepageHeader />
       <AgentFactoryThesis />
       <DigitalFTEComparison />
@@ -1031,7 +1097,10 @@ export default function Home(): ReactNode {
       <FeaturesSection />
       <MaturityLevelsSection />
       <ParadigmShift />
-      <IDEShowcaseSection />
+      {/* Lazy-loaded IDE showcase with skeleton fallback */}
+      <Suspense fallback={<IDEShowcaseSkeleton />}>
+        <IDEShowcaseSection />
+      </Suspense>
       <MonetizationModels />
       <FinalCTA />
     </Layout>

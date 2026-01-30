@@ -525,7 +525,7 @@ These resources provide foundational knowledge for building your Personal AI Emp
 
 | Topic | Resource | Time |
 |-------|----------|------|
-| Claude Code Fundamentals | [Chapter 5 of this book](/docs/AI-Tool-Landscape/claude-code-features-and-workflows) | 3 hours |
+| AI Native IDEs | [Chapter 11: AI Native IDEs](/docs/SDD-RI-Fundamentals/ai-native-ides) | 3 hours |
 | Obsidian Fundamentals | [help.obsidian.md/Getting+started](https://help.obsidian.md/Getting+started) | 30 min |
 | Python File I/O | [realpython.com/read-write-files-python](https://realpython.com/read-write-files-python/) | 1 hour |
 | MCP Introduction | [modelcontextprotocol.io/introduction](https://modelcontextprotocol.io/introduction) | 1 hour |

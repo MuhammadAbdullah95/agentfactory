@@ -89,10 +89,10 @@ For casual conversation, this is fine. For your professional output? It's a prob
 
 Now add a second variable: **you phrase your requests differently each time too.**
 
-| Source of Variation | Example |
-|---------------------|---------|
-| **You** (different phrasing) | "Write a LinkedIn post" vs. "Help me with a LinkedIn update" vs. "I need a professional post for LinkedIn" |
-| **AI model** (non-deterministic) | Same exact prompt → different structure, tone, length each time |
+| Source of Variation              | Example                                                                                                    |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **You** (different phrasing)     | "Write a LinkedIn post" vs. "Help me with a LinkedIn update" vs. "I need a professional post for LinkedIn" |
+| **AI model** (non-deterministic) | Same exact prompt → different structure, tone, length each time                                            |
 
 Two sources of drift = unpredictable results.
 
@@ -104,7 +104,7 @@ In Lesson 5, you solved the **project context** problem with `CLAUDE.md`. Claude
 
 But what about **your personal style**?
 
-You've been using Claude Code for a week. You notice something: you keep explaining the same *preferences* over and over.
+You've been using Claude Code for a week. You notice something: you keep explaining the same _preferences_ over and over.
 
 "When I post on LinkedIn, keep it professional but friendly. Use 2-3 emojis maximum. End with a question to encourage engagement."
 
@@ -124,7 +124,6 @@ That knowledge lives in your head. Every time you ask Claude for help, you expla
 
 What if you could teach Claude your style once and have it apply automatically, forever?
 
-
 That's what skills do. Not saving keystrokes—**preserving your personal touch**. You invest once in documenting how you work, and Claude applies your style consistently across every future task.
 
 ---
@@ -133,10 +132,10 @@ That's what skills do. Not saving keystrokes—**preserving your personal touch*
 
 You now know about two distinct problems:
 
-| Problem | Impact | Solution |
-|---------|--------|----------|
-| Session memory loss (Lesson 5) | Claude forgets your project between sessions | `CLAUDE.md` |
-| Output variability (this lesson) | Claude's results drift from non-determinism | **Skills** |
+| Problem                          | Impact                                       | Solution    |
+| -------------------------------- | -------------------------------------------- | ----------- |
+| Session memory loss (Lesson 5)   | Claude forgets your project between sessions | `CLAUDE.md` |
+| Output variability (this lesson) | Claude's results drift from non-determinism  | **Skills**  |
 
 `CLAUDE.md` gives Claude **project context**. Skills give Claude **your personal style**.
 
@@ -145,6 +144,7 @@ You now know about two distinct problems:
 A skill is a folder containing a `SKILL.md` file (metadata + instructions), optionally with scripts, templates, or assets. When a task matches the skill's description, Claude loads the full instructions and follows them.
 
 This constrains drift because Claude isn't reinventing your structure and preferences every time:
+
 - **Your exact structure** (not reinvented each time)
 - **Your specific examples** (showing what you want)
 - **Your preferences documented** (not remembered—written down)
@@ -171,7 +171,7 @@ That personalized touch is the difference between generic output and YOUR output
 **Simple definition**: A skill is a folder with a `SKILL.md` file containing your instructions for a specific task—your tone, your structure, your preferences—so Claude creates output that sounds like you.
 
 :::tip The Matrix Analogy
-Remember the scene in *The Matrix* where Trinity needs to fly a helicopter? She doesn't know how—until Tank uploads the B-212 helicopter pilot program directly into her mind. Seconds later, she's an expert pilot.
+Remember the scene in _The Matrix_ where Trinity needs to fly a helicopter? She doesn't know how—until Tank uploads the B-212 helicopter pilot program directly into her mind. Seconds later, she's an expert pilot.
 
 ![matrix-skill-loading](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/matrix-skill-loading.png)
 
@@ -201,13 +201,15 @@ Enough theory. Let's see skills in action with real examples you'll use every da
 The Skills Lab contains two types of skills:
 
 **Works without Python** (we'll use these today):
+
 - `internal-comms` - Writing communications like LinkedIn posts, status reports, newsletters
 - `brand-guidelines` - Applying brand colors and typography
 
 **Requires Python installed** (for later):
+
 - `docx`, `pdf`, `pptx`, `xlsx` - These document skills run Python scripts on your machine
 
-Don't have Python? No problem! We'll use `internal-comms` in this lesson—it works perfectly without any extra setup. You'll install Python in [Chapter 16](/docs/Python-Fundamentals/introduction-to-python/) and unlock the document skills then.
+Don't have Python? No problem! We'll use `internal-comms` in this lesson—it works perfectly without any extra setup. You'll install Python in [Chapter 16](/docs/Coding-for-Problem-Solving/introduction-to-python/) and unlock the document skills then.
 :::
 
 ### Step 1: Download the Skills Lab
@@ -231,6 +233,7 @@ Let's ask for a LinkedIn post about learning AI:
 > "Write a LinkedIn post about learning how to build software with AI Agents."
 
 **Typical output you'll see:**
+
 ```
 I'm excited to share my journey into AI agent development!
 
@@ -276,6 +279,7 @@ claude
 Select **1. Yes**.
 
 **The skill-enhanced output:**
+
 ```
 🚀 Just started my AI Agent development journey and it's mind-blowing!
 
@@ -293,6 +297,7 @@ or favorite resources! 🤖💡
 ```
 
 **Notice the difference:**
+
 - ✅ Personal, enthusiastic tone
 - ✅ Strategic use of emojis (exactly 3)
 - ✅ Ends with an engagement question
@@ -304,6 +309,7 @@ or favorite resources! 🤖💡
 > "What skills do I have?"
 
 You'll see all available skills:
+
 ```
 ⏺ You have the following skills available:
 
@@ -335,11 +341,12 @@ Here are more examples to try (all work without Python):
 Each time, Claude will activate the relevant skill based on your request. You can invoke explicitly by name or let Claude detect which skill applies.
 
 :::tip After Installing Python
-Once you have Python installed (covered in [Chapter 16](/docs/Python-Fundamentals/introduction-to-python/)), come back and try the document skills:
+Once you have Python installed (covered in [Chapter 16](/docs/Coding-for-Problem-Solving/introduction-to-python/)), come back and try the document skills:
+
 - "Create a PowerPoint presentation about AI agents." (pptx skill)
 - "Create a budget spreadsheet with monthly totals." (xlsx skill)
 - "Extract text from this PDF and summarize it." (pdf skill)
-:::
+  :::
 
 ---
 
@@ -394,12 +401,14 @@ Want me to create flashcards for the key terms?
 ```
 
 **Why it works:** The skill follows a proven study method:
+
 - **Immediate processing**: Converts messy notes right after class
 - **Active recall**: Practice questions test understanding
 - **Spaced repetition**: Quick review sheet for future sessions
 - **Connections**: Links new concepts to previous knowledge
 
 **What you need:** Text-based content from:
+
 - Notes you typed during class
 - Text from lecture slides (copy-paste)
 - Transcripts if available
@@ -416,21 +425,25 @@ In this example, the skill took under an hour to create. Now it automatically st
 Think about your daily routines. Where do you repeat the same patterns?
 
 **For Social Media:**
+
 - LinkedIn posts with your professional tone
 - Twitter threads that match your style
 - Instagram captions with your emoji preferences
 
 **For Studying:**
+
 - Lecture note organizer (like above)
 - Essay outline generator
 - Flashcard maker from textbook chapters
 
 **For Personal Organization:**
+
 - Meeting notes formatter
 - To-do list prioritizer
 - Weekly goal setter and tracker
 
 **For Communication:**
+
 - Email templates for different situations
 - Thank-you note generator
 - Project status updates
@@ -448,6 +461,7 @@ Ready to create your own skill? This exercise prepares you for the next lesson w
 Think about your last week. What did you do repeatedly?
 
 **Common student patterns:**
+
 - 📱 Writing social media posts
 - 📚 Organizing study notes
 - 📧 Sending emails to professors or groups
