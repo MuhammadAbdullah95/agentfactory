@@ -1,6 +1,10 @@
 ---
 sidebar_position: 5
 title: "Chapter 5: The Seven Principles of General Agent Problem Solving"
+slides:
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-05/agent-engineering-principles.pdf"
+  title: "Agent Engineering Principles"
+  height: 700
 ---
 
 # Chapter 5: The Seven Principles of General Agent Problem Solving
@@ -22,6 +26,8 @@ The seven principles are:
 7. **Observability** — Visibility into what the AI is doing, enabling debugging and trust
 
 These principles work together as an integrated system. Terminal access enables agentic capability. Code specification provides precision. Verification ensures reliability. Decomposition manages complexity. State persistence accumulates context. Constraints enable safety. Observability builds trust.
+
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

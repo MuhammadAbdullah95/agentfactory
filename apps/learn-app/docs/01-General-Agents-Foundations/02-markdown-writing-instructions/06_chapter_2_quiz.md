@@ -622,5 +622,5 @@ Test your understanding of markdown as a structured communication language for A
       source: "Lesson 5: Links and Images"
     }
   ]}
-  questionsPerBatch={18}
+  questionsPerBatch={30}
 />

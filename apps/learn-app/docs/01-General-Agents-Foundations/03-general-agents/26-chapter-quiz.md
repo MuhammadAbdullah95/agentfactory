@@ -14,6 +14,7 @@ Test your understanding of Claude Code and Claude Cowork's architecture, extensi
 
 <Quiz
   title="Chapter 3: Claude Code Features and Workflows Assessment"
+  questionsPerBatch={30}
   questions={[    {
       question: "A developer notices that Claude Code sometimes generates boilerplate code patterns but doesn't understand the project's specific architectural constraints. What does this observation reveal about the fundamental limitation Claude Code was designed to address?",
       options: [

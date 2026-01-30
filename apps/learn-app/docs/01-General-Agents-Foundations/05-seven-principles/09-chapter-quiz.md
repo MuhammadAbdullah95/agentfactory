@@ -14,6 +14,7 @@ Test your understanding of the seven principles that make agentic AI workflows e
 
 <Quiz
   title="Chapter 5: The Seven Principles Assessment"
+  questionsPerBatch={30}
   questions={[
     {
       question: "A developer is choosing between ChatGPT (web interface, no terminal access) and Claude Code (terminal-based, file access). They need to debug a failing test. Why is terminal access the deciding factor for this task?",
@@ -290,6 +291,90 @@ Test your understanding of the seven principles that make agentic AI workflows e
       correctOption: 1,
       explanation: "The most effective starting point is identifying your biggest pain point and applying the principle that addresses it. If you're constantly repeating context, start with CLAUDE.md (state persistence). If you're surprised by AI changes, improve observability. If you're debugging integration issues, focus on decomposition and verification. Option A (all principles at once) is overwhelming and wasteful—you'll implement features you don't need. Option C (expensive tool) throws money at process problems. Option D (consultant) might help eventually, but start with self-assessment. The principle: targeted improvement based on actual problems beats wholesale change.",
       source: "Lesson 08: Putting It All Together"
+    },
+    {
+      question: "An AI agent successfully implements a feature in a development environment. When moved to staging, it fails because environment variables differ. The agent had no way to know about the staging configuration. Which principle combination would have caught this earlier?",
+      options: [
+        "Bash access + Observability: run commands and see results",
+        "Verification + Persisting State: test in multiple environments and document differences",
+        "Code as Interface + Decomposition: specify behavior precisely and break into steps",
+        "Safety + Observability: restrict access and monitor activity"
+      ],
+      correctOption: 1,
+      explanation: "This is an environment parity problem. Verification (Principle 3) across environments would catch configuration mismatches before staging. Persisting State (Principle 5) would document environment-specific configurations in files the agent can read—'staging uses DATABASE_URL_STAGING, not DATABASE_URL.' Together, these principles ensure the agent knows about environmental differences and tests against them. Bash access alone doesn't help if you don't know what to test. Code precision doesn't address environment configuration. Safety constraints wouldn't prevent this class of error. The lesson: verification must span environments, and environmental differences must be documented.",
+      source: "Principles 3 & 5: Verification + State Persistence"
+    },
+    {
+      question: "A developer uses AI to refactor authentication. The AI makes changes across 12 files in one operation. Tests pass, but a week later, a subtle security flaw is discovered in the token validation logic. Git history shows one massive commit. What principle failure made this bug hard to isolate?",
+      options: [
+        "Observability failure: the developer couldn't see what changed",
+        "Decomposition failure: atomic commits would have isolated the token validation change",
+        "Verification failure: tests didn't cover the security scenario",
+        "State persistence failure: the refactoring plan wasn't documented"
+      ],
+      correctOption: 1,
+      explanation: "While verification (C) also failed (tests missed the flaw), the question asks about isolation difficulty. Small, reversible decomposition (Principle 4) would have created atomic commits—one for 'extract token validation,' another for 'add expiration check,' etc. With atomic commits, git bisect could pinpoint exactly which commit introduced the flaw. With one massive commit, you can't isolate which of the 12 file changes caused the problem. Observability helps during the session but not for post-hoc debugging of committed code. The lesson: decomposition enables forensic debugging.",
+      source: "Principle 4: Small, Reversible Decomposition"
+    },
+    {
+      question: "Two developers use AI on the same codebase. Developer A's AI follows team conventions perfectly. Developer B's AI constantly violates them, using different naming patterns and import styles. Both use identical AI tools and models. What's the most likely cause of the difference?",
+      options: [
+        "Developer A has a higher-tier AI subscription with better instruction following",
+        "Developer A has conventions documented in CLAUDE.md; Developer B relies on verbal explanations each session",
+        "Developer B's AI has degraded context from too many sessions",
+        "Developer A reviews code more carefully before accepting AI suggestions"
+      ],
+      correctOption: 1,
+      explanation: "This illustrates Principle 5 (Persisting State in Files). Developer A encoded conventions in CLAUDE.md—the AI reads them automatically every session. Developer B re-explains conventions each time, introducing variance, forgetting details, or omitting context. The AI doesn't 'remember' previous sessions, so verbal explanations are lost. Same tool, same model, different results because of context persistence. Subscription tiers don't affect instruction following. Context doesn't degrade between sessions (each starts fresh). Code review catches issues but doesn't prevent them. The lesson: persistent context files eliminate session-to-session variance.",
+      source: "Principle 5: Persisting State in Files"
+    },
+    {
+      question: "An AI agent is given broad file system access and told to 'clean up the project.' It deletes node_modules (correct), .git directory (catastrophic), and build artifacts (correct). The developer had no warning before the .git deletion. Which TWO principles failed?",
+      options: [
+        "Bash access and Code as Interface",
+        "Verification and Decomposition",
+        "Constraints/Safety and Observability",
+        "State Persistence and Verification"
+      ],
+      correctOption: 2,
+      explanation: "Two principles failed catastrophically: Constraints/Safety (Principle 6) should have prevented AI from touching .git—it should be on an explicit deny list or require confirmation for any git-related operations. Observability (Principle 7) should have shown the developer what files would be deleted BEFORE deletion, allowing intervention. With proper safety constraints, .git would be protected. With proper observability, the developer would see 'About to delete: node_modules/, .git/, dist/' and could say 'Stop—not .git!' The lesson: destructive operations need both protection (constraints) and preview (observability).",
+      source: "Principles 6 & 7: Constraints/Safety + Observability"
+    },
+    {
+      question: "You ask an AI to 'make the API faster.' It refactors database queries, adds caching, and changes the response format. Users report broken integrations because the response format changed. What specification approach would have prevented the breaking change?",
+      options: [
+        "Natural language: 'Make it faster but don't break anything'",
+        "Code as Interface: Provide existing API contract tests that must continue passing",
+        "Decomposition: Break 'make faster' into smaller tasks",
+        "Observability: Watch the AI work in real-time"
+      ],
+      correctOption: 1,
+      explanation: "Code as Universal Interface (Principle 2) solves this precisely. 'Don't break anything' is vague—what counts as breaking? API contract tests are unambiguous: these requests must return these exact response shapes. The AI can optimize freely as long as tests pass. If it changes response format, tests fail, and the AI knows to revert. Natural language (A) is too vague. Decomposition (C) helps but doesn't define 'breaking.' Observability (D) might let you catch it but requires constant attention. The lesson: executable specifications (tests) define constraints more precisely than prose.",
+      source: "Principle 2: Code as Universal Interface"
+    },
+    {
+      question: "A junior developer sets AI to 'permissive mode' (auto-approve all operations) to work faster. A senior developer insists on 'confirming mode' (approve writes). The junior argues: 'I can always git reset if something goes wrong.' What does the junior's argument miss?",
+      options: [
+        "Git reset is too slow to be practical for iterative development",
+        "Some destructive operations (secrets leaked, external API calls, database mutations) can't be reset with git",
+        "Confirming mode is faster because it prevents having to fix mistakes",
+        "Permissive mode doesn't actually work with modern AI tools"
+      ],
+      correctOption: 1,
+      explanation: "The junior assumes all AI actions are reversible via git. But Principle 6 (Constraints and Safety) recognizes that some operations have consequences beyond the repository: leaked API keys can't be un-leaked, external API calls (sending emails, making payments) can't be un-sent, database changes may not be tracked in git. Git reset fixes file state but not external state. The junior's mental model works for pure code changes but fails for operations with real-world effects. The lesson: reversibility has limits—some operations require approval because their effects extend beyond what git controls.",
+      source: "Principle 6: Constraints and Safety"
+    },
+    {
+      question: "A developer notices their AI sessions are inconsistent: sometimes the AI follows project patterns perfectly, other times it seems to forget them mid-session. Context utilization varies from 20% to 85% across tasks. What's the likely root cause?",
+      options: [
+        "The AI model has inconsistent capabilities across sessions",
+        "Project patterns aren't in CLAUDE.md Zone 1, so they lose attention as context fills",
+        "The developer is using different AI models without realizing it",
+        "Network latency is causing dropped instructions"
+      ],
+      correctOption: 1,
+      explanation: "This combines Principle 5 (State Persistence) with context engineering from Chapter 4. When patterns are in Zone 2 (middle) of CLAUDE.md, they receive ~30% less attention. At 20% context utilization, there's enough attention for everything. At 85%, attention is strained, and middle-positioned content gets deprioritized. The solution: move critical patterns to Zone 1 (beginning) where primacy ensures consistent attention regardless of utilization. The AI model doesn't vary (A), and dropped instructions (D) would cause different symptoms. The lesson: position affects reliability, especially under context pressure.",
+      source: "Principle 5 + Context Engineering"
     }
   ]}
 />
@@ -321,23 +406,30 @@ Test your understanding of the seven principles that make agentic AI workflows e
 | 21 | C | Principle 8: Putting It All Together |
 | 22 | B | Principle 8: Putting It All Together |
 | 23 | B | Principle 8: Putting It All Together |
+| 24 | B | Principles 3 & 5: Verification + State Persistence |
+| 25 | B | Principle 4: Small, Reversible Decomposition |
+| 26 | B | Principle 5: Persisting State in Files |
+| 27 | C | Principles 6 & 7: Constraints/Safety + Observability |
+| 28 | B | Principle 2: Code as Universal Interface |
+| 29 | B | Principle 6: Constraints and Safety |
+| 30 | B | Principle 5 + Context Engineering |
 
 ## Scoring Guide
 
 | Score | Proficiency Level | Interpretation |
 |-------|------------------|----------------|
-| 20-23 | B2 (Advanced) | Strong understanding of all seven principles and how they integrate |
-| 17-19 | B1 (Intermediate) | Good understanding with some gaps in integration |
-| 14-16 | A2 (Elementary) | Basic understanding of principles but needs more practice |
-| 0-13 | A1 (Beginner) | Review the lessons and try the "Try With AI" exercises |
+| 27-30 | B2 (Advanced) | Strong understanding of all seven principles and how they integrate |
+| 22-26 | B1 (Intermediate) | Good understanding with some gaps in integration |
+| 17-21 | A2 (Elementary) | Basic understanding of principles but needs more practice |
+| 0-16 | A1 (Beginner) | Review the lessons and try the "Try With AI" exercises |
 
 ## Next Steps
 
 Based on your performance, focus on:
 
 - **Principles 1-3 (Foundation)**: If you missed questions 1-9, review the fundamental lessons on bash access, code as interface, and verification
-- **Principles 4-5 (Workflow)**: If you missed questions 10-15, focus on decomposition and state persistence patterns
-- **Principles 6-7 (Safety & Observability)**: If you missed questions 16-20, study safety models and observability practices
-- **Integration (Principle 8)**: If you missed questions 21-23, practice applying multiple principles together in real workflows
+- **Principles 4-5 (Workflow)**: If you missed questions 10-15 or 24-26, focus on decomposition and state persistence patterns
+- **Principles 6-7 (Safety & Observability)**: If you missed questions 16-20, 27, or 29, study safety models and observability practices
+- **Integration & Tradeoffs**: If you missed questions 21-23 or 24-30, practice applying multiple principles together and reasoning about principle interactions
 
-Remember: The principles are most powerful when applied together. Use the "Try With AI" prompts from each lesson to build practical experience integrating these principles into your daily work.
+Remember: The principles are most powerful when applied together. The scenario-based questions (24-30) test your ability to diagnose which principles apply to real-world situations—this judgment is what separates practitioners from beginners.
