@@ -20,9 +20,16 @@ from study_mode_api.chatkit_store.postgres_store import (
 class TestStoreConfig:
     """Test store configuration."""
 
-    def test_default_pool_settings(self):
+    def test_default_pool_settings(self, monkeypatch):
         """Test default connection pool settings."""
-        config = StoreConfig(database_url="postgresql://test")
+        # Clear env vars that might override defaults
+        monkeypatch.delenv("STUDY_MODE_CHATKIT_POOL_SIZE", raising=False)
+        monkeypatch.delenv("STUDY_MODE_CHATKIT_MAX_OVERFLOW", raising=False)
+        monkeypatch.delenv("STUDY_MODE_CHATKIT_POOL_TIMEOUT", raising=False)
+        monkeypatch.delenv("STUDY_MODE_CHATKIT_POOL_RECYCLE", raising=False)
+
+        # Use _env_file=None to ignore .env and test true defaults
+        config = StoreConfig(database_url="postgresql://test", _env_file=None)
 
         assert config.pool_size == 20
         assert config.max_overflow == 10

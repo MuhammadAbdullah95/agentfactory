@@ -269,7 +269,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         )}
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
-        {/* {isLeafPage && <TeachMePanel lessonPath={lessonPath} />} */}
+        {isLeafPage && <TeachMePanel lessonPath={lessonPath} />}
       </>
     );
   }
@@ -345,7 +345,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
-      {/* {isLeafPage && <TeachMePanel lessonPath={lessonPath} />} */}
+      {isLeafPage && <TeachMePanel lessonPath={lessonPath} />}
     </>
   );
 }

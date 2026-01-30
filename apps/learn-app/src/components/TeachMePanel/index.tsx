@@ -106,10 +106,46 @@ function ChatKitWrapper({
     [apiBase, lessonPath, userId, mode, userName],
   );
 
+  // Custom fetch that injects Authorization header with JWT token
+  // Must use ID token (JWT format) not access token (may be opaque)
+  const authenticatedFetch = useCallback(
+    async (input: RequestInfo | URL, options?: RequestInit) => {
+      // Priority: ID token from localStorage (JWT format required by backend)
+      const token = localStorage.getItem("ainative_id_token");
+
+      // Debug logging - ALWAYS log to see what's happening
+      console.log("[TeachMePanel] ===== authenticatedFetch called =====");
+      console.log("[TeachMePanel] ainative_id_token:", token ? "EXISTS" : "NULL/MISSING");
+      console.log("[TeachMePanel] ainative_access_token:", localStorage.getItem("ainative_access_token") ? "EXISTS" : "NULL/MISSING");
+      if (token) {
+        console.log("[TeachMePanel] Token preview:", token.substring(0, 50) + "...");
+        console.log("[TeachMePanel] Token parts (should be 3):", token.split(".").length);
+      } else {
+        console.log("[TeachMePanel] WARNING: No ID token found! User may not be logged in properly.");
+      }
+      console.log("[TeachMePanel] Options headers from ChatKit:", options?.headers);
+
+      const response = await fetch(input, {
+        ...options,
+        headers: {
+          ...options?.headers,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          "X-User-ID": userId,
+          ...(userName ? { "X-User-Name": userName } : {}),
+        },
+      });
+
+      console.log("[TeachMePanel] Response status:", response.status);
+      return response;
+    },
+    [userId, userName],
+  );
+
   const { control, sendUserMessage } = useChatKit({
     api: {
       url: apiUrl,
       domainKey,
+      fetch: authenticatedFetch,
     },
     composer: {
       placeholder:
@@ -176,6 +212,7 @@ function ChatKitWrapper({
   }, [onSendMessage, sendUserMessage]);
 
   // Send initial message if provided (for Ask feature)
+  // Note: initialMessage is cleared by parent after sending via onInitialMessageSent callback
   useEffect(() => {
     if (initialMessage && sendUserMessage) {
       sendUserMessage({ text: initialMessage, newThread: true });
@@ -301,7 +338,15 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
 
       <Sheet
         open={isLoggedIn && isOpen}
-        onOpenChange={(open) => !open && closePanel()}
+        onOpenChange={(open) => {
+          if (!open) {
+            closePanel();
+            // Clear initialMessage when panel closes to prevent re-sending on next open
+            setInitialMessage(undefined);
+            // Reset to teach mode as default
+            setMode("teach");
+          }
+        }}
       >
         <SheetContent
           side="right"

@@ -28,9 +28,9 @@ class TestAgentCreation:
         )
 
         assert agent.name == "study_tutor_teach"
-        assert "FRIENDLY TUTOR" in agent.instructions
+        assert "Socratic tutor" in agent.instructions
         assert "Test Lesson" in agent.instructions
-        assert "Socratic" in agent.instructions
+        assert "NEVER explain directly" in agent.instructions
 
     def test_create_ask_agent(self):
         """Test creating agent in ask/search mode."""
@@ -41,8 +41,8 @@ class TestAgentCreation:
         )
 
         assert agent.name == "study_tutor_ask"
-        assert "SEARCH ENGINE" in agent.instructions
-        assert "direct answers" in agent.instructions
+        assert "helpful explainer" in agent.instructions
+        assert "clear explanation" in agent.instructions
 
     def test_create_agent_with_user_name(self):
         """Test creating agent with user personalization."""
@@ -54,7 +54,6 @@ class TestAgentCreation:
         )
 
         assert "STUDENT: Alice" in agent.instructions
-        assert "Address the student by name" in agent.instructions
 
     def test_create_agent_without_user_name(self):
         """Test creating agent without user name."""
@@ -101,14 +100,14 @@ class TestPromptTemplates:
         assert "{title}" in TEACH_PROMPT
         assert "{content}" in TEACH_PROMPT
         assert "Socratic" in TEACH_PROMPT
-        assert "EXPLAIN" in TEACH_PROMPT
-        assert "ASK ONE" in TEACH_PROMPT
+        assert "NEVER explain directly" in TEACH_PROMPT
+        assert "ONE question at a time" in TEACH_PROMPT
 
     def test_ask_prompt_has_required_elements(self):
         """Test ask prompt contains direct answer instructions."""
         assert "{content}" in ASK_PROMPT
-        assert "direct answers" in ASK_PROMPT
-        assert "NO follow-up questions" in ASK_PROMPT
+        assert "clear explanation" in ASK_PROMPT
+        assert "Socratic" in ASK_PROMPT  # Mentions it's NOT Socratic mode
 
 
 class TestRequestContext:

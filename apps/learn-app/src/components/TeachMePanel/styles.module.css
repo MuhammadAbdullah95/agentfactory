@@ -13,53 +13,81 @@
 }
 
 /* Floating Ask Button - appears on text selection */
+/* Uses brand blue (hue 255) with sharp corners to match design system */
 .askButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  gap: 8px;
+  padding: 10px 18px;
+  /* Brand blue - matches --primary in OKLCH */
+  background: oklch(0.50 0.14 255);
   color: white;
-  border-radius: 20px;
-  font-size: 14px;
+  border-radius: 0; /* Sharp corners - brand standard */
+  font-size: 13px;
   font-weight: 600;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   cursor: pointer;
   box-shadow:
-    0 4px 14px rgba(99, 102, 241, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+    0 4px 12px oklch(0.50 0.14 255 / 35%),
+    0 2px 4px oklch(0 0 0 / 10%);
+  transition: all 0.15s ease;
   user-select: none;
-  animation: askButtonFadeIn 0.2s ease;
-  border: none;
+  animation: askButtonFadeIn 0.15s ease;
+  border: 1px solid oklch(0.55 0.14 255);
   white-space: nowrap;
 }
 
+/* Icon before text - clean AI indicator */
 .askButton::before {
-  content: "✨";
-  font-size: 12px;
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
 }
 
 .askButton:hover {
-  transform: translateX(-50%) translateY(-100%) scale(1.08);
+  transform: translateX(-50%) translateY(-100%) translateY(-2px);
   box-shadow:
-    0 6px 20px rgba(99, 102, 241, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    0 6px 16px oklch(0.50 0.14 255 / 45%),
+    0 4px 8px oklch(0 0 0 / 15%);
+  background: oklch(0.55 0.14 255);
+  border-color: oklch(0.60 0.14 255);
 }
 
 .askButton:active {
-  transform: translateX(-50%) translateY(-100%) scale(0.98);
+  transform: translateX(-50%) translateY(-100%) translateY(0);
+  background: oklch(0.45 0.14 255);
+}
+
+/* Dark mode adjustments */
+:global(html[data-theme='dark']) .askButton {
+  background: oklch(0.55 0.14 255);
+  border-color: oklch(0.60 0.14 255);
+  box-shadow:
+    0 4px 12px oklch(0.55 0.14 255 / 40%),
+    0 2px 4px oklch(0 0 0 / 20%);
+}
+
+:global(html[data-theme='dark']) .askButton:hover {
+  background: oklch(0.60 0.14 255);
+  border-color: oklch(0.65 0.14 255);
 }
 
 @keyframes askButtonFadeIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(-80%) scale(0.9);
+    transform: translateX(-50%) translateY(-80%);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(-100%) scale(1);
+    transform: translateX(-50%) translateY(-100%);
   }
 }
 

@@ -146,47 +146,51 @@ article {
   gap: 0.5rem;
 }
 
-/* Teach Me button - primary blue theme */
-.doc-page-actions-teach-me {
+/* Study Mode button - primary blue theme with AI sparkle */
+.doc-page-actions-study-mode {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 0.875rem;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--primary), oklch(0.38 0.14 255));
-  border: none;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0; /* Sharp corners - brand standard */
+  background: oklch(0.50 0.14 255);
+  border: 1px solid oklch(0.55 0.14 255);
   color: white;
   font-size: 0.8125rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 200ms ease-out;
-  box-shadow: 0 2px 8px oklch(0.28 0.12 255 / 0.3);
+  transition: all 150ms ease-out;
+  box-shadow: 0 2px 8px oklch(0.50 0.14 255 / 0.3);
   min-height: 36px;
 }
 
-.doc-page-actions-teach-me:hover {
+.doc-page-actions-study-mode:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px oklch(0.28 0.12 255 / 0.4);
-  background: linear-gradient(135deg, oklch(0.32 0.13 255), oklch(0.42 0.15 255));
+  box-shadow: 0 4px 12px oklch(0.50 0.14 255 / 0.4);
+  background: oklch(0.55 0.14 255);
+  border-color: oklch(0.60 0.14 255);
 }
 
-.doc-page-actions-teach-me:focus-visible {
+.doc-page-actions-study-mode:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-.doc-page-actions-teach-me svg {
+.doc-page-actions-study-mode svg {
   width: 16px;
   height: 16px;
 }
 
-[data-theme='dark'] .doc-page-actions-teach-me {
-  background: linear-gradient(135deg, oklch(0.45 0.15 255), oklch(0.55 0.17 255));
-  box-shadow: 0 2px 8px oklch(0.45 0.15 255 / 0.3);
+[data-theme='dark'] .doc-page-actions-study-mode {
+  background: oklch(0.55 0.14 255);
+  border-color: oklch(0.60 0.14 255);
+  box-shadow: 0 2px 8px oklch(0.55 0.14 255 / 0.35);
 }
 
-[data-theme='dark'] .doc-page-actions-teach-me:hover {
-  background: linear-gradient(135deg, oklch(0.50 0.16 255), oklch(0.60 0.18 255));
+[data-theme='dark'] .doc-page-actions-study-mode:hover {
+  background: oklch(0.60 0.14 255);
+  border-color: oklch(0.65 0.14 255);
 }
 
 /* Split button container - pill shape with subtle shadow */

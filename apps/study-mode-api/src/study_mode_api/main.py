@@ -23,6 +23,7 @@ from fastapi import FastAPI, HTTPException, Request  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from fastapi.responses import Response, StreamingResponse  # noqa: E402
 
+from .auth import CurrentUser, verify_jwt  # noqa: E402
 from .chatkit_store import RequestContext  # noqa: E402
 from .config import settings  # noqa: E402
 from .core.lifespan import lifespan  # noqa: E402
@@ -76,7 +77,8 @@ async def chatkit_endpoint(request: Request):
     - items.list, items.create
     - etc.
 
-    Requires X-User-ID header for user identification.
+    Requires Authorization header with Bearer token (JWT verified via JWKS).
+    In dev mode, falls back to X-User-ID header.
     """
     # Get server from app state
     chatkit_server = getattr(request.app.state, "chatkit_server", None)
@@ -86,15 +88,43 @@ async def chatkit_endpoint(request: Request):
             detail="ChatKit server not initialized. Check DATABASE_URL.",
         )
 
-    # Extract user ID from header or query param
-    user_id = request.headers.get("X-User-ID") or request.query_params.get("user_id")
-    if not user_id:
-        # Dev mode fallback
-        if settings.dev_mode:
+    # Authentication: Verify JWT token
+    user: CurrentUser | None = None
+    user_name: str | None = None
+
+    if settings.dev_mode:
+        # Dev mode: use X-User-ID header or fallback to dev user
+        user_id = request.headers.get("X-User-ID") or request.query_params.get("user_id")
+        if not user_id:
             user_id = settings.dev_user_id
-            logger.debug(f"[DEV] Using dev user: {user_id}")
-        else:
-            raise HTTPException(status_code=401, detail="Missing X-User-ID header")
+        user_name = request.headers.get("X-User-Name") or request.query_params.get("user_name")
+        logger.debug(f"[DEV] Using dev mode: user_id={user_id}")
+    else:
+        # Production: Require and verify JWT token (no fallbacks)
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            raise HTTPException(
+                status_code=401,
+                detail="Missing Authorization header with Bearer token",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        token = auth_header[7:]  # Remove "Bearer " prefix
+
+        # Validate JWT format (must have 3 parts: header.payload.signature)
+        if token.count(".") != 2:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid token format - JWT required",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        # Verify JWT signature using JWKS
+        payload = await verify_jwt(token)
+        user = CurrentUser(payload)
+        user_id = user.id
+        user_name = user.name or user.email
+        logger.info(f"[AUTH] JWT verified: user_id={user_id}")
 
     # Extract organization ID from header (optional - for multi-tenant)
     # Default to panaversity-default-org-id if not provided
@@ -229,41 +259,6 @@ async def health_check(request: Request):
     return status
 
 
-@app.get("/chatkit/suggestions")
-async def get_suggestions(
-    mode: str = "teach",
-    lesson_path: str = "",
-):
-    """Return dynamic suggestions based on lesson content."""
-    from .services.content_loader import load_lesson_content
-
-    content_data = await load_lesson_content(lesson_path)
-    title = content_data.get("title", "")
-    content = content_data.get("content", "")
-
-    if mode == "teach":
-        if content:
-            suggestions = [
-                f"What is {title} about?",
-                "Explain the key concepts",
-                "Give me an example",
-            ]
-        else:
-            suggestions = [
-                "What topics are covered here?",
-                "Explain the main idea",
-                "How does this work?",
-            ]
-    else:
-        suggestions = [
-            "Quick summary",
-            "Key takeaways",
-            "Main concepts",
-        ]
-
-    return {"suggestions": suggestions}
-
-
 @app.post("/admin/invalidate-cache")
 async def invalidate_cache(
     request: Request,
@@ -333,7 +328,6 @@ async def root():
         "version": "5.1.0",
         "endpoints": {
             "chatkit": "POST /chatkit (requires X-User-ID header)",
-            "suggestions": "GET /chatkit/suggestions?mode=teach&lesson_path=...",
             "health": "GET /health",
             "admin": "POST /admin/invalidate-cache (requires X-Admin-Secret)",
         },

@@ -208,7 +208,7 @@ const LoadingIcon = () => (
   </svg>
 );
 
-const TeachMeIcon = () => (
+const StudyModeIcon = () => (
   <svg
     className="doc-actions-icon"
     width="16"
@@ -221,8 +221,11 @@ const TeachMeIcon = () => (
     strokeLinejoin="round"
     aria-hidden="true"
   >
-    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+    {/* Graduation cap - symbolizes learning/study */}
+    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+    <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5" />
+    {/* Small sparkle - AI element */}
+    <circle cx="20" cy="6" r="1.5" fill="currentColor" stroke="none" />
   </svg>
 );
 
@@ -779,20 +782,19 @@ export function DocPageActions() {
 
   return (
     <div className="doc-page-actions" role="toolbar" aria-label="Page actions">
-      {/* Teach Me Button - Only shown on lesson pages for logged-in users */}
-      {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
-      {/* {isLessonPage && isLoggedIn && (
-        <Tooltip content="AI Study Mode" position="bottom">
+      {/* Study Mode Button - Only shown on lesson pages for logged-in users */}
+      {isLessonPage && isLoggedIn && (
+        <Tooltip content="AI-powered Socratic learning" position="bottom">
           <button
-            className="doc-page-actions-teach-me"
+            className="doc-page-actions-study-mode"
             onClick={openPanel}
-            aria-label="Open AI Study Mode"
+            aria-label="Open Study Mode"
           >
-            <TeachMeIcon />
-            <span>Teach Me</span>
+            <StudyModeIcon />
+            <span>Study Mode</span>
           </button>
         </Tooltip>
-      )} */}
+      )}
 
       {/* Split Button: Main action + Dropdown trigger */}
       <div

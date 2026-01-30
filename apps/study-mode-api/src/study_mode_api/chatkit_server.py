@@ -148,6 +148,14 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Convert to agent input format
             input_items = await simple_to_agent_input(items)
 
+            # Fallback: if input_items is empty (race condition), use current user message
+            if not input_items:
+                logger.warning(
+                    f"[ChatKit] Empty input_items for thread {thread.id}, "
+                    f"using current user message as fallback"
+                )
+                input_items = user_text  # Agent SDK accepts string input
+
             # Create agent context
             agent_context = AgentContext(
                 thread=thread,

@@ -319,35 +319,6 @@ async def create_session(request: SessionRequest):
     }
 
 
-# Suggestions endpoint (must be before catch-all)
-@app.get("/chatkit/suggestions")
-async def get_suggestions(mode: str = "teach", lesson_path: str = ""):
-    """Return dynamic suggestions based on lesson content."""
-    content, title = load_lesson_content(lesson_path)
-
-    if mode == "teach":
-        if content:
-            suggestions = [
-                f"What is {title} about?",
-                "Explain the key concepts",
-                "Give me an example"
-            ]
-        else:
-            suggestions = [
-                "What topics are covered here?",
-                "Explain the main idea",
-                "How does this work?"
-            ]
-    else:
-        suggestions = [
-            "Quick summary",
-            "Key takeaways",
-            "Main concepts"
-        ]
-
-    return {"suggestions": suggestions}
-
-
 # ChatKit API routes
 @app.api_route("/chatkit/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
 async def chatkit_handler(

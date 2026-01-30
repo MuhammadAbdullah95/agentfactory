@@ -44,7 +44,8 @@ class TestSettings:
     def test_default_values(self):
         """Test default configuration values."""
         from study_mode_api.config import Settings
-        settings = Settings()
+        # Use _env_file=None to ignore .env and test true defaults
+        settings = Settings(_env_file=None)
 
         assert settings.content_cache_ttl == 2592000  # 30 days
         assert settings.redis_max_connections > 0  # Valid connection pool size
