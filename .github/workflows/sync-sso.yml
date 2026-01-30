@@ -19,9 +19,6 @@ jobs:
         run: |
           MIRROR_URL="https://x-access-token:${SSO_PAT}@github.com/panaversity-global/sso-mirror-mono.git"
 
-          # Allow incomplete LFS push (historical LFS objects may be missing after migration to CDN)
-          git config lfs.allowincompletepush true
-
           # Force push source to mirror
           git push "${MIRROR_URL}" HEAD:main --force
 

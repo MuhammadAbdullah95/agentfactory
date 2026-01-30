@@ -15,6 +15,14 @@ const AUTH_URL = process.env.AUTH_URL || "http://localhost:3001";
 const OAUTH_CLIENT_ID =
   process.env.OAUTH_CLIENT_ID || "agent-factory-public-client";
 
+// Study Mode API URL - ChatKit server for AI tutoring
+const STUDY_MODE_API_URL =
+  process.env.STUDY_MODE_API_URL || "http://localhost:8000";
+
+// ChatKit domain key for OpenAI ChatKit (register at OpenAI dashboard for production)
+const CHATKIT_DOMAIN_KEY =
+  process.env.CHATKIT_DOMAIN_KEY?.trim() || "domain_pk_localhost_dev";
+
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 // Content Source:
@@ -33,6 +41,8 @@ const config: Config = {
   customFields: {
     authUrl: AUTH_URL,
     oauthClientId: OAUTH_CLIENT_ID,
+    studyModeApiUrl: STUDY_MODE_API_URL,
+    chatkitDomainKey: CHATKIT_DOMAIN_KEY,
   },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -135,6 +145,14 @@ const config: Config = {
           },
         ]
       : []),
+    // OpenAI ChatKit CDN (for Study Mode)
+    {
+      tagName: "script",
+      attributes: {
+        src: "https://cdn.platform.openai.com/deployments/chatkit/chatkit.js",
+        async: "true",
+      },
+    },
     // Google Fonts: Inter (UI/Body), JetBrains Mono (Code)
     {
       tagName: "link",
