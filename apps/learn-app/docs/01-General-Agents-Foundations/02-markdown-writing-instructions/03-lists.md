@@ -276,7 +276,7 @@ These features are independent. Adding dark mode doesn't require export to PDF f
 
 You **must** create an account before verifying email. You **must** verify email before setting up profile.
 
-![Side-by-side comparison clarifying when to use lists versus code blocks: Left panel shows unordered lists (bullet points for features, independent items), ordered lists (numbered steps for sequential processes), and when each applies. Right panel shows fenced code blocks (triple backticks for showing code examples, command output, or multi-line text). Decision tree helps identify: "Are these separate ideas/steps?" → Lists. "Are you showing code/output?" → Code blocks.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
+![Side-by-side comparison showing unordered lists (left panel: bullet points using dash syntax for features and independent items) versus fenced code blocks (right panel: triple backticks for showing code examples and command output). Demonstrates when to use each format based on content type.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
 
 #### 🤝 Practice Exercise
 

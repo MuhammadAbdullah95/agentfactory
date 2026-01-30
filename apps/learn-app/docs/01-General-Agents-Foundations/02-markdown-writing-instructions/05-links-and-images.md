@@ -242,7 +242,7 @@ Put images in a folder (like `images/` or `assets/`) and reference them with a r
 **For beginners**: Start with online image URLs. Later you can add local images to your projects.
 
 :::info[Expert Insight]
-**Important for AI-native development**: Most AI agents cannot "see" images—they only read the alt text and filename. This means your alt text must be descriptive enough to convey what the image shows. Instead of `![screenshot](app.png)`, write `![Task list showing 3 pending items with checkboxes](app.png)`. Good alt text helps both accessibility and AI understanding.
+**Important for AI-native development**: Modern AI models are multimodal—they CAN see images when given visual access. However, when AI reads your markdown files as text (common in coding workflows), it only sees the `![alt text](url)` syntax, not the actual image. Descriptive alt text serves two purposes: (1) accessibility for screen readers, and (2) providing context when AI processes your spec as a text file. Instead of `![screenshot](app.png)`, write `![Task list showing 3 pending items with checkboxes](app.png)`.
 :::
 
 ---
@@ -501,12 +501,51 @@ When you use links and images correctly in specifications, AI agents can:
 
 1. **Follow documentation links** - Some AI tools fetch linked pages for additional context
 2. **Understand resource relationships** - Link text tells AI what each resource provides
-3. **Parse alt text for image context** - Since AI can't see images, descriptive alt text is critical
+3. **Parse alt text for image context** - When reading markdown as text, AI relies on alt text for image understanding
 4. **Generate appropriate placeholders** - When AI creates documentation, it follows your link/image patterns
 
-:::warning[AI Limitation]
-Most AI agents cannot view images directly. They only see the alt text and filename. Always write alt text as if describing the image to someone who can't see it—because that's exactly what AI does.
+:::note[How AI Processes Images]
+Modern AI models are multimodal and can view images directly when given visual access. However, in text-based workflows (like reading spec files), AI sees only the alt text and filename. Write descriptive alt text that works for both scenarios—it helps accessibility AND provides context regardless of how your document is processed.
 :::
+
+---
+
+## Bonus: Additional Markdown Tips
+
+Before we wrap up, here are two important markdown behaviors you should know about.
+
+### Escaping Special Characters
+
+Sometimes you want to display characters like `*`, `#`, or `[` as literal text instead of markdown formatting. Use a backslash `\` to escape them:
+
+![Markdown escape sequences diagram showing how backslash prevents special characters from being interpreted as formatting: \*not italic\* renders as literal asterisks, \# not a header shows the hash symbol, and \[link\](url) displays bracket syntax instead of creating a link.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/escape-sequences-backslashes.png)
+
+**Common characters to escape:**
+- `\*` → literal asterisk (instead of italic/bold)
+- `\#` → literal hash (instead of heading)
+- `\[` and `\]` → literal brackets (instead of link)
+- `\\` → literal backslash
+
+### How Newlines Work
+
+Markdown handles line breaks differently than you might expect:
+
+![Comparison diagram showing single newline vs double newline behavior: a single Enter key joins lines into one paragraph, while pressing Enter twice (double newline) creates separate paragraphs in the rendered output.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/newline-escaping-markdown-blocks.png)
+
+**Key rule:** A single newline doesn't create a new paragraph. You need a **blank line** (double newline) to separate paragraphs.
+
+```text
+Line one.
+Line two.
+```
+Renders as: "Line one. Line two." (same paragraph)
+
+```text
+Line one.
+
+Line two.
+```
+Renders as two separate paragraphs.
 
 ---
 

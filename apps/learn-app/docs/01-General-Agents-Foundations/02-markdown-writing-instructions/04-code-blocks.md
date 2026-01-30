@@ -202,7 +202,7 @@ Use these tags based on what you're showing:
 AI agents are sensitive to language tags. If you tag Python code as `text`, the AI may ignore syntax rules and coding standards (like PEP 8). Always use the correct language tag so the AI generates properly formatted code.
 :::
 
-![Four code blocks displayed side-by-side showing syntax highlighting differences: Python code (blue keywords, green strings), JavaScript (purple keywords, orange functions), Bash commands (gray comments, blue flags), and JSON (red keys, green values). Each block shows the language identifier (```python, ```js, ```bash, ```json) at the top demonstrating how language tags enable proper syntax highlighting.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/code-block-syntax-highlighting.png)
+![Two code blocks comparing syntax highlighting: Left block shows code without language tag (plain text, no colors), right block shows Python code with ```python tag (keywords highlighted in color). Demonstrates how adding a language identifier enables syntax highlighting.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/code-block-syntax-highlighting.png)
 
 ### Why Language Tags Matter
 
@@ -234,10 +234,6 @@ print(greet("Alice"))
 ```
 
 The `python` tag makes it clear this is Python code to implement.
-
-![Demonstration showing how backslash escape sequences work in markdown code blocks: Top section shows raw markdown with \` backticks escaped as \\\`, \n newlines shown literally, and \\ backslashes escaped. Bottom section shows rendered output where escaped characters display correctly. Includes common escape patterns: \\` (literal backtick), \\\\ (literal backslash), \\n in strings (preserved in code), and \\* \\_ (literal asterisk/underscore outside code).](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/escape-sequences-backslashes.png)
-
-![Diagram illustrating newline handling in markdown blocks: Shows three scenarios - (1) Fenced code blocks preserve all newlines exactly as typed, (2) Regular paragraphs collapse single newlines into spaces (need double newline for paragraph break), (3) HTML line breaks \<br\> force newlines in paragraphs. Examples demonstrate each with source markdown and rendered output side-by-side.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/newline-escaping-markdown-blocks.png)
 
 :::info[Expert Insight]
 Language tags do more than just enable syntax highlighting. They tell AI agents which language interpreter to use, which libraries might be available, and which syntax rules apply. When you tag a block as `python`, the AI knows to generate Python 3.13+ syntax. When you tag it as `bash`, the AI knows these are shell commands. This prevents the AI from mixing syntaxes or generating code for the wrong language—a common error when language context is ambiguous.

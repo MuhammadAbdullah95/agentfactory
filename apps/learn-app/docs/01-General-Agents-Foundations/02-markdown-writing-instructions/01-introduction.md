@@ -121,11 +121,11 @@ You'll encounter different "flavors" of markdown. **CommonMark** is the base sta
 
 When you write in markdown, you're using the same format that millions of developers use to communicate with both humans and AI.
 
-![Visual breakdown showing four markdown elements side-by-side: heading syntax (# Header), list syntax (- item), inline code (`code`), and link syntax ([text](url)). Each element displays raw markdown on left and rendered output on right, with arrows indicating how AI interprets structure for parsing specifications.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-syntax-anatomy.png)
+![Visual breakdown showing markdown heading hierarchy: single hash (#) creates H1 (largest), double hash (##) creates H2 (medium), triple hash (###) creates H3 (smaller). Demonstrates how the number of hash symbols determines heading level and visual size in rendered output.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-syntax-anatomy.png)
 
-![Reference sheet displaying common markdown file extensions and their use cases: .md (standard markdown), .markdown (verbose alternative), .mdown (deprecated), and .mdx (markdown with JSX components for React). Includes table showing which extensions are recognized by GitHub, VS Code, and Docusaurus, with checkmarks indicating compatibility for each platform.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-file-types-extensions.png)
+![Reference sheet displaying the two most common markdown file extensions: .md (standard, recommended for most projects) and .markdown (verbose alternative, less common). Both extensions are functionally equivalent and recognized by all major editors and platforms.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-file-types-extensions.png)
 
-![Comprehensive markdown syntax cheatsheet organized by category: Headers (# through ######), Emphasis (bold, italic, strikethrough), Lists (ordered, unordered, nested), Code (inline backticks, fenced blocks with language tags), Links (inline, reference-style), Images, Blockquotes, and Tables. Each syntax element shows both the markdown source and rendered output side-by-side for quick reference.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-cheatsheet-common-syntax.png)
+![Common Markdown Syntax cheatsheet showing essential elements: Headings (# H1, ## H2, ### H3), Bold (**text**), Italic (*text*), Lists (- item), Links ([text](url)), Inline Code (`code`), Code Blocks (triple backticks), and Blockquotes (> text). Each element displays syntax on left and rendered result on right.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-cheatsheet-common-syntax.png)
 
 ---
 
@@ -147,7 +147,7 @@ An AI reading this has to **guess**:
 - What's required vs optional?
 - What order should things appear?
 
-![Split-screen comparison showing plain text document (left side: dense paragraph with no structure, hard to parse) versus markdown rendered output (right side: clear hierarchy with headings, formatted lists, code blocks). Annotations highlight how structured markdown enables AI parsing and human readability simultaneously.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/plain-text-vs-rendered-markdown.png)
+![Split-screen comparison showing raw markdown source code (left side: text with hash symbols, dashes, and backticks visible) versus rendered markdown output (right side: formatted headings, bullet lists, and styled code blocks). Demonstrates how markdown syntax transforms into visually structured content.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/plain-text-vs-rendered-markdown.png)
 
 ### Version 2: Structured (Markdown)
 
@@ -216,7 +216,7 @@ The AI reads your markdown specification and figures out:
 
 The AI writes actual code that matches your specification.
 
-![Three-layer architecture diagram showing markdown as Intent Layer (top, human-written specifications defining what to build), AI Reasoning Layer (middle, interpreting structure and planning implementation), and Implementation Layer (bottom, generated code). Arrows show how structured markdown flows down through reasoning to executable code, demonstrating AIDD workflow.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-intent-layer.png)
+![Workflow diagram showing three stages: Human Intent (top, what you want to build), Markdown Specification (middle, structured document expressing your intent), and AI Execution (bottom, AI reads spec and generates code). Arrows flow downward showing how human ideas become structured specs that AI can implement.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/markdown-intent-layer.png)
 
 **AI's responsibility**: Execute the plan and generate working code.
 
