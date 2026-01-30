@@ -19,6 +19,7 @@ import ReactMarkdown from "react-markdown";
 import ReadingProgress from "@/components/ReadingProgress";
 import DocPageActions from "@/components/DocPageActions";
 import { useStudyMode } from "@/contexts/StudyModeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { TeachMePanel } from '@/components/TeachMePanel';
 
 type Props = WrapperProps<typeof ContentType>;
@@ -199,8 +200,10 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     .replace(/^@site\/docs\//, "")
     .replace(/\.(md|mdx)$/, "");
 
-  // Hide floating buttons when study mode panel is open
-  const { isOpen: isStudyModeOpen } = useStudyMode();
+  // Study mode controls
+  const { isOpen: isStudyModeOpen, openPanel } = useStudyMode();
+  const { session } = useAuth();
+  const isLoggedIn = !!session?.user;
 
   // Determine if this is a content page vs category landing page
   // - Lessons have 3+ path segments: part/chapter/lesson
@@ -225,6 +228,30 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         {!isStudyModeOpen && (
           <div className="floating-actions">
             <BackToTopButton />
+            {/* Study Mode button - only for logged-in users on lesson pages */}
+            {isLoggedIn && isLeafPage && (
+              <button
+                onClick={openPanel}
+                className="study-mode-float"
+                title="Study Mode"
+                aria-label="Open Study Mode"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {/* Graduation cap */}
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5" />
+                </svg>
+              </button>
+            )}
             <button
               onClick={() => setZenMode(!zenMode)}
               className="zen-mode-toggle"
@@ -268,7 +295,6 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
-        {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
         {isLeafPage && <TeachMePanel lessonPath={lessonPath} />}
       </>
     );
@@ -299,6 +325,30 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       {!isStudyModeOpen && (
         <div className="floating-actions">
           <BackToTopButton />
+          {/* Study Mode button - only for logged-in users on lesson pages */}
+          {isLoggedIn && isLeafPage && (
+            <button
+              onClick={openPanel}
+              className="study-mode-float"
+              title="Study Mode"
+              aria-label="Open Study Mode"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {/* Graduation cap */}
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5" />
+              </svg>
+            </button>
+          )}
           <button
             onClick={() => setZenMode(!zenMode)}
             className="zen-mode-toggle"

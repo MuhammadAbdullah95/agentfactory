@@ -144,6 +144,8 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             if not items and "title" not in context.metadata:
                 context.metadata["title"] = _generate_thread_title(user_text)
                 logger.info(f"[ChatKit] Generated title: {context.metadata['title']}")
+                # Save thread again with the generated title (base class saved with default)
+                await self.store.save_thread(thread, context)
 
             # Convert to agent input format
             input_items = await simple_to_agent_input(items)

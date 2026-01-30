@@ -271,12 +271,14 @@ class PostgresStore(Store[RequestContext]):
 
     async def save_thread(self, thread: ThreadMetadata, context: RequestContext) -> None:
         """Save or update a thread."""
-        thread_data = ThreadData(thread=thread)
-
         # Extract lesson_path and title from context metadata
         metadata = context.metadata or {}
         lesson_path = metadata.get("lesson_path", "")
         title = metadata.get("title", "Study Session")
+
+        # Update thread title before serialization so it appears in the JSONB data
+        thread.title = title
+        thread_data = ThreadData(thread=thread)
 
         async with self.session_factory() as session:
             try:
