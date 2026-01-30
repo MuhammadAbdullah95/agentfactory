@@ -263,23 +263,8 @@ const LANGUAGE_CONFIG = {
  * Simulates a macOS-style IDE with AI coding assistant.
  */
 export function IDEShowcaseSection() {
-  // Skip rendering entirely on mobile - component is hidden via CSS anyway
-  // This prevents wasted CPU cycles from animation state updates
-  const [isMobile, setIsMobile] = React.useState(true); // Default true for SSR (don't run animation)
-
-  React.useEffect(() => {
-    // md breakpoint is 768px in Tailwind
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
-    setIsMobile(!mediaQuery.matches);
-
-    const handler = (e: MediaQueryListEvent) => setIsMobile(!e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
-
-  // Don't run animation on mobile - saves 200+ state updates
   const { state, currentSequence } = useAnimationSequence([pythonSequence], {
-    autoStart: !isMobile, // Only auto-start on desktop
+    autoStart: true,
     pauseOnHidden: true,
   });
 
@@ -295,11 +280,6 @@ export function IDEShowcaseSection() {
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
-
-  // Return null on mobile - don't even render the hidden DOM
-  if (isMobile) {
-    return null;
-  }
 
   // Static content for reduced motion
   const staticCode =
