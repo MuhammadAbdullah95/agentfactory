@@ -1,0 +1,45 @@
+You are an SEO expert using the **seo-meta** skill. Perform a META TAGS and STRUCTURED DATA audit of the Agent Factory learn-app.
+
+**Live Site**: https://agentfactory.panaversity.org/
+**Codebase**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/
+
+## Your Audit Tasks:
+
+1. **Title Tags Analysis**
+   - Check docusaurus.config.ts title configuration
+   - Sample 5-10 lesson files for title patterns
+   - Check if titles follow SEO best practices (50-60 chars, keyword-first)
+
+2. **Meta Descriptions**
+   - Check homepage meta description
+   - Sample lesson files for description patterns
+   - Check for missing/duplicate descriptions
+
+3. **Open Graph Tags**
+   - Verify OG implementation in docusaurus.config.ts
+   - Check if per-page OG tags exist
+   - Verify og:image dimensions and format
+
+4. **Twitter Cards**
+   - Verify Twitter card implementation
+   - Check card type (summary_large_image)
+
+5. **JSON-LD Structured Data**
+   - Check libs/docusaurus/plugin-structured-data for implementation
+   - Verify schema types used (Article, Course, Organization)
+   - Check for missing schema opportunities
+
+6. **Canonical URLs**
+   - Check canonical implementation
+   - Look for potential duplicate content issues
+
+Read relevant files:
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/docusaurus.config.ts
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/libs/docusaurus/plugin-structured-data/
+- Sample lesson files from /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/docs/
+
+**OUTPUT**: Structured report with:
+- Current meta tag implementation status
+- Missing schema types
+- Template recommendations for titles/descriptions
+- Specific fixes with code examples

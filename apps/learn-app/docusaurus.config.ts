@@ -85,6 +85,16 @@ const config: Config = {
         href: "/apple-touch-icon.png",
       },
     },
+    // Font Awesome - non-render-blocking load with preload
+    {
+      tagName: "link",
+      attributes: {
+        rel: "preload",
+        as: "style",
+        href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        crossorigin: "anonymous",
+      },
+    },
     {
       tagName: "link",
       attributes: {
@@ -94,6 +104,8 @@ const config: Config = {
           "sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==",
         crossorigin: "anonymous",
         referrerpolicy: "no-referrer",
+        media: "print",
+        onload: "this.media='all'",
       },
     },
     // Google Analytics 4 (GA4) - Configure with environment variable
@@ -139,12 +151,31 @@ const config: Config = {
         crossorigin: "anonymous",
       },
     },
+    // Google Fonts - preload and non-render-blocking load
+    {
+      tagName: "link",
+      attributes: {
+        rel: "preload",
+        as: "style",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+        crossorigin: "anonymous",
+      },
+    },
     {
       tagName: "link",
       attributes: {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+        media: "print",
+        onload: "this.media='all'",
       },
+    },
+    // Fallback for browsers with JS disabled
+    {
+      tagName: "noscript",
+      attributes: {},
+      innerHTML:
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">',
     },
   ],
 
@@ -182,7 +213,7 @@ const config: Config = {
             [
               require("../../libs/docusaurus/remark-interactive-python"),
               {
-                includePaths: ["/05-Python-Fundamentals/"],
+                includePaths: ["/04-Coding-for-Problem-Solving/"],
                 excludeMeta: ["nointeractive", "static"],
               },
             ],

@@ -1,0 +1,62 @@
+You are an SEO expert using the **seo-geo** skill. Perform a GEO (Generative Engine Optimization) and AI SEARCH audit of the Agent Factory learn-app.
+
+**Live Site**: https://agentfactory.panaversity.org/
+**Codebase**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/
+
+## Context:
+The robots.txt currently says:
+```
+User-agent: *
+Allow: /
+Disallow: /tags/
+Sitemap: https://agentfactory.panaversity.org/sitemap.xml
+```
+
+## Your Audit Tasks:
+
+1. **AI Bot Access Verification**
+   - Check if these bots should be explicitly allowed:
+     - GPTBot (OpenAI)
+     - ChatGPT-User (ChatGPT with browsing)
+     - PerplexityBot
+     - ClaudeBot / anthropic-ai
+     - Google-Extended (Google AI)
+   - Recommend robots.txt improvements
+
+2. **Content Structure for AI Citation**
+   - Sample 3-5 lesson files and check for:
+     - Answer-first format (direct answer at top)
+     - FAQ sections (great for AI citation)
+     - Clear H1 > H2 > H3 hierarchy
+     - Statistics and citations (Princeton GEO +37-40% boost)
+
+3. **9 Princeton GEO Methods Analysis**
+   - Check content for:
+     - Source citations
+     - Statistics/data points
+     - Expert quotes
+     - Technical terminology
+     - Authoritative tone
+     - Easy-to-understand language
+
+4. **Schema for AI Visibility**
+   - Check for FAQPage schema (critical for AI)
+   - Check for HowTo schema
+   - Check for Course/Article schema
+
+5. **Platform-Specific Optimization**
+   - ChatGPT: Content freshness signals
+   - Perplexity: PDF hosting, FAQ schema
+   - Google AI Overview: E-E-A-T signals
+   - Claude: Brave Search indexing considerations
+
+Read sample lessons from:
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/docs/01-General-Agents-Foundations/
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/docs/02-Applied-General-Agent-Workflows/
+
+**OUTPUT**: Structured report with:
+- AI bot access recommendations for robots.txt
+- Content optimization scores per GEO method
+- Schema additions needed
+- Platform-specific recommendations
+- Quick wins for AI visibility

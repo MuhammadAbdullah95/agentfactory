@@ -1,0 +1,47 @@
+You are an SEO expert using the **seo-audit** skill. Perform a TECHNICAL SEO audit of the Agent Factory learn-app.
+
+**Live Site**: https://agentfactory.panaversity.org/
+**Codebase**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/
+
+## Already Discovered:
+- robots.txt exists, allows all bots, references sitemap
+- Sitemap at /sitemap.xml (157KB - large)
+- HTTP/2, Vercel hosting, HTTPS enabled
+- X-Frame-Options: DENY (good security)
+
+## Your Audit Tasks:
+
+1. **Crawlability & Indexation**
+   - Check if important pages are in sitemap
+   - Look for orphan pages
+   - Check for noindex tags in code
+   - Review canonical tag implementation
+
+2. **Core Web Vitals / Performance**
+   - Analyze docusaurus.config.ts for performance issues
+   - Check for render-blocking resources (external fonts, FontAwesome)
+   - Check image optimization setup
+   - Review JS bundle concerns (Pyodide is loaded)
+
+3. **Mobile-Friendliness**
+   - Check viewport configuration
+   - Review responsive design implementation
+
+4. **URL Structure**
+   - Analyze URL patterns in docs
+   - Check for consistent slug formatting
+   - Look for parameterized URLs
+
+5. **Security Headers**
+   - Review current headers vs best practices
+
+Read relevant files from:
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/docusaurus.config.ts
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/src/pages/index.tsx
+- /Users/mjs/Documents/code/panaversity-official/tutorsgpt/agf/apps/learn-app/static/ (check for robots.txt override)
+
+**OUTPUT**: A structured report with:
+- Critical issues (blocking ranking)
+- High-impact improvements
+- Quick wins
+- Specific file paths and line numbers for fixes

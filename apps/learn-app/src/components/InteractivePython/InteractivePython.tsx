@@ -19,12 +19,18 @@
  * />
  */
 
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import Editor from '@monaco-editor/react';
-import { RotateCcw, Copy, Zap, Check } from 'lucide-react';
-import { usePyodide } from '@/contexts/PyodideContext';
-import { ErrorDisplay } from './ErrorDisplay';
-import styles from './styles.module.css';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
+import Editor from "@monaco-editor/react";
+import { RotateCcw, Copy, Zap, Check } from "lucide-react";
+import { usePyodide } from "@/contexts/PyodideContext";
+import { ErrorDisplay } from "./ErrorDisplay";
+import styles from "./styles.module.css";
 
 export interface InteractivePythonProps {
   initialCode?: string;
@@ -36,39 +42,48 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
   showLineNumbers = true,
 }) => {
   const [code, setCode] = useState(initialCode);
-  const [output, setOutput] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [output, setOutput] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [isRunning, setIsRunning] = useState(false);
   const [codeCopied, setCodeCopied] = useState(false);
   const [outputCopied, setOutputCopied] = useState(false);
   const [loadingPackage, setLoadingPackage] = useState<string | null>(null);
-  const [packageProgress, setPackageProgress] = useState<{ loaded: number; total: number } | null>(null);
-  const { pyodide, isLoading } = usePyodide();
+  const [packageProgress, setPackageProgress] = useState<{
+    loaded: number;
+    total: number;
+  } | null>(null);
+  const { pyodide, isLoading, init, isInitialized } = usePyodide();
   const outputRef = useRef<HTMLDivElement>(null);
-  
+
+  // Initialize Pyodide when component mounts (lazy loading for performance)
+  // Pyodide only loads on Part 4 Python lessons, not on homepage or other pages
+  useEffect(() => {
+    init();
+  }, [init]);
+
   // Refs to track current state for keyboard shortcut (avoid stale closure)
   const isLoadingRef = useRef(isLoading);
   const isRunningRef = useRef(isRunning);
-  
+
   // Keep refs in sync with state
   useEffect(() => {
     isLoadingRef.current = isLoading;
   }, [isLoading]);
-  
+
   useEffect(() => {
     isRunningRef.current = isRunning;
   }, [isRunning]);
 
   // Calculate dynamic editor height based on code lines
   const editorHeight = useMemo(() => {
-    const lineCount = code.split('\n').length;
+    const lineCount = code.split("\n").length;
     const lineHeight = 19; // Monaco default line height in pixels
     const padding = 32; // Top + bottom padding
     const minHeight = 51;
     const maxHeight = 400;
     return Math.min(
       Math.max(lineCount * lineHeight + padding, minHeight),
-      maxHeight
+      maxHeight,
     );
   }, [code]);
 
@@ -81,8 +96,8 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
 
   const handleRun = useCallback(async () => {
     setIsRunning(true);
-    setOutput('');
-    setError('');
+    setOutput("");
+    setError("");
     setLoadingPackage(null);
     setPackageProgress(null);
 
@@ -90,16 +105,20 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
       // Run Python code with direct output callbacks and package loading progress
       await pyodide.run(
         code,
-        (text) => setOutput(prev => prev + text),  // stdout callback
-        (text) => setError(prev => prev + text),   // stderr callback
-        (packageName, loaded, total) => {          // package loading callback
+        (text) => setOutput((prev) => prev + text), // stdout callback
+        (text) => setError((prev) => prev + text), // stderr callback
+        (packageName, loaded, total) => {
+          // package loading callback
           setLoadingPackage(packageName);
           setPackageProgress({ loaded, total });
-        }
+        },
       );
     } catch (err) {
       // Preserve any stderr output that was already captured
-      setError(prev => prev + `Error: ${err instanceof Error ? err.message : String(err)}`);
+      setError(
+        (prev) =>
+          prev + `Error: ${err instanceof Error ? err.message : String(err)}`,
+      );
     } finally {
       setIsRunning(false);
       setLoadingPackage(null);
@@ -115,8 +134,8 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
 
   const handleReset = () => {
     setCode(initialCode);
-    setOutput('');
-    setError('');
+    setOutput("");
+    setError("");
   };
 
   const handleCopy = async () => {
@@ -125,13 +144,13 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
       setCodeCopied(true);
       setTimeout(() => setCodeCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy code:', err);
+      console.error("Failed to copy code:", err);
     }
   };
 
   const handleClearOutput = () => {
-    setOutput('');
-    setError('');
+    setOutput("");
+    setError("");
   };
 
   const handleCopyOutput = async () => {
@@ -141,7 +160,7 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
       setOutputCopied(true);
       setTimeout(() => setOutputCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy output:', err);
+      console.error("Failed to copy output:", err);
     }
   };
 
@@ -151,24 +170,33 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
       <div className={styles.header}>
         {/* macOS-style window controls */}
         <div className={styles.windowControls}>
-          <div className={`${styles.windowControl} ${styles.windowControlRed}`} title="Close" />
-          <div className={`${styles.windowControl} ${styles.windowControlYellow}`} title="Minimize" />
-          <div className={`${styles.windowControl} ${styles.windowControlGreen}`} title="Maximize" />
+          <div
+            className={`${styles.windowControl} ${styles.windowControlRed}`}
+            title="Close"
+          />
+          <div
+            className={`${styles.windowControl} ${styles.windowControlYellow}`}
+            title="Minimize"
+          />
+          <div
+            className={`${styles.windowControl} ${styles.windowControlGreen}`}
+            title="Maximize"
+          />
         </div>
         <div className={styles.buttonGroup}>
           <button
             className={styles.iconButton}
             onClick={handleReset}
-            disabled={isLoading || isRunning}
+            disabled={isLoading || !isInitialized || isRunning}
             title="Reset code to initial state"
             aria-label="Reset code"
           >
             <RotateCcw size={16} />
           </button>
           <button
-            className={`${styles.iconButton} ${codeCopied ? styles.copied : ''}`}
+            className={`${styles.iconButton} ${codeCopied ? styles.copied : ""}`}
             onClick={handleCopy}
-            disabled={isLoading || isRunning}
+            disabled={isLoading || !isInitialized || isRunning}
             title={codeCopied ? "Copied!" : "Copy code to clipboard"}
             aria-label="Copy code"
           >
@@ -177,7 +205,7 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
           <button
             className={styles.runButton}
             onClick={handleRun}
-            disabled={isLoading || isRunning}
+            disabled={isLoading || !isInitialized || isRunning}
             title="Run code (or press Shift+Enter)"
             aria-label="Run code"
           >
@@ -189,7 +217,7 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
 
       {/* Monaco Editor with syntax highlighting */}
       <div className={styles.editorWrapper}>
-        {isLoading && (
+        {(isLoading || !isInitialized) && (
           <div className={styles.loadingOverlay}>
             <div className={styles.spinner} />
             <p>Loading Python environment...</p>
@@ -212,11 +240,11 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
           height={`${editorHeight}px`}
           defaultLanguage="python"
           value={code}
-          onChange={(value) => setCode(value || '')}
+          onChange={(value) => setCode(value || "")}
           theme="vs-dark"
           options={{
             minimap: { enabled: false },
-            lineNumbers: showLineNumbers ? 'on' : 'off',
+            lineNumbers: showLineNumbers ? "on" : "off",
             fontSize: 13,
             scrollBeyondLastLine: false,
             automaticLayout: true,
@@ -232,16 +260,14 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
             // Use addAction() API - recommended approach for custom keyboard shortcuts
             // Use refs to avoid stale closure capturing initial state values
             editor.addAction({
-              id: 'run-python-code',
-              label: 'Run Python Code',
-              keybindings: [
-                monaco.KeyMod.Shift | monaco.KeyCode.Enter
-              ],
+              id: "run-python-code",
+              label: "Run Python Code",
+              keybindings: [monaco.KeyMod.Shift | monaco.KeyCode.Enter],
               run: () => {
                 if (!isLoadingRef.current && !isRunningRef.current) {
                   handleRunRef.current?.();
                 }
-              }
+              },
             });
           }}
           loading={<div />}
@@ -250,14 +276,16 @@ export const InteractivePython: React.FC<InteractivePythonProps> = ({
 
       {/* Output Section - only shows when there's output or error */}
       {(output || error) && (
-        <div className={`${styles.outputSection} ${error ? styles.hasError : ''}`}>
+        <div
+          className={`${styles.outputSection} ${error ? styles.hasError : ""}`}
+        >
           <div className={styles.outputHeader}>
             <span className={styles.outputLabel}>
-              {error ? 'Error' : 'Output'}
+              {error ? "Error" : "Output"}
             </span>
             <div className={styles.outputActions}>
               <button
-                className={`${styles.outputActionBtn} ${outputCopied ? styles.copied : ''}`}
+                className={`${styles.outputActionBtn} ${outputCopied ? styles.copied : ""}`}
                 onClick={handleCopyOutput}
                 title={outputCopied ? "Copied!" : "Copy output"}
                 aria-label="Copy output"
