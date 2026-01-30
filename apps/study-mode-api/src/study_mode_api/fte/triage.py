@@ -134,7 +134,7 @@ def create_agent(
             user_greeting=user_greeting,
         )
 
-    return Agent(name="study_tutor", instructions=instructions, model=MODEL)
+    return Agent(name=f"study_tutor_{mode}", instructions=instructions, model=MODEL)
 
 
 def create_agent_from_state(state: AgentState) -> Agent:

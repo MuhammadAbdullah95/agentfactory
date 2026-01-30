@@ -15,12 +15,11 @@ FROM python:${PYTHON_VERSION}-slim AS builder
 # - gcc: C compiler for native extensions
 # - libpq-dev: PostgreSQL client library headers (asyncpg, psycopg)
 # - libffi-dev: Foreign function interface (cryptography)
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libpq-dev \
-    libffi-dev
+    libffi-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install uv from official image (only in builder - not copied to production)
 COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /usr/local/bin/uv
@@ -32,8 +31,7 @@ COPY pyproject.toml uv.lock README.md ./
 
 # Install dependencies into isolated venv
 # uv pip install . reads pyproject.toml and installs all dependencies
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv venv /app/.venv && \
+RUN uv venv /app/.venv && \
     . /app/.venv/bin/activate && \
     uv pip install . --compile-bytecode
 
@@ -73,9 +71,7 @@ LABEL org.opencontainers.image.title="Study Mode API" \
 # Install ONLY runtime dependencies (minimal)
 # - libpq5: PostgreSQL client library (required by psycopg at runtime)
 # NO curl - we use Python's built-in urllib for healthcheck
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends libpq5 && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
@@ -117,6 +113,4 @@ CMD ["sh", "-c", "exec uvicorn study_mode_api.main:app \
     --port ${PORT} \
     --proxy-headers \
     --forwarded-allow-ips '*' \
-    --no-access-log \
-    --timeout-keep-alive 65 \
-    --limit-concurrency 100"]
+    --no-access-log"]

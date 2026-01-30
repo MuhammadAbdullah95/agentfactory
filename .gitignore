@@ -64,3 +64,5 @@ local/api/chatkit-server/.env
 .claude/settings.local.json.bak
 .env
 
+
+.env.production
