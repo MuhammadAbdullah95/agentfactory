@@ -10,30 +10,74 @@ interface ThreeDBookProps {
 
 export const ThreeDBook: React.FC<ThreeDBookProps> = ({ src, alt = "Book Cover", className }) => {
     const bookRef = React.useRef<HTMLDivElement>(null);
-    const [rotate, setRotate] = React.useState({ x: 0, y: 0 });
+    const wrapperRef = React.useRef<HTMLDivElement>(null);
+    // Use ref instead of state to avoid re-renders on every mouse move
+    const rafIdRef = React.useRef<number | null>(null);
+    // Detect touch device once on mount - skip expensive mouse tracking on mobile
+    const isTouchDeviceRef = React.useRef<boolean | null>(null);
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!bookRef.current) return;
+    const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        // Lazy-init touch detection (SSR-safe)
+        if (isTouchDeviceRef.current === null) {
+            isTouchDeviceRef.current = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        }
 
-        const rect = bookRef.current.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
+        // Skip mouse tracking on touch devices - no benefit, only cost
+        if (isTouchDeviceRef.current) return;
 
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
+        if (!bookRef.current || !wrapperRef.current) return;
 
-        const rotateY = ((mouseX - width / 2) / width) * 30; // -15 to 15 deg
-        const rotateX = ((height / 2 - mouseY) / height) * 20; // -10 to 10 deg
+        // Cancel any pending animation frame to throttle updates
+        if (rafIdRef.current !== null) {
+            cancelAnimationFrame(rafIdRef.current);
+        }
 
-        setRotate({ x: rotateX, y: rotateY });
-    };
+        // Use requestAnimationFrame to batch DOM updates at 60fps max
+        rafIdRef.current = requestAnimationFrame(() => {
+            if (!bookRef.current || !wrapperRef.current) return;
 
-    const handleMouseLeave = () => {
-        setRotate({ x: 0, y: 0 });
-    };
+            const rect = wrapperRef.current.getBoundingClientRect();
+            const width = rect.width;
+            const height = rect.height;
+
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const rotateY = ((mouseX - width / 2) / width) * 30; // -15 to 15 deg
+            const rotateX = ((height / 2 - mouseY) / height) * 20; // -10 to 10 deg
+
+            // Directly update CSS custom properties - no React re-render
+            bookRef.current.style.setProperty('--rotate-x', `${rotateX}deg`);
+            bookRef.current.style.setProperty('--rotate-y', `${rotateY}deg`);
+        });
+    }, []);
+
+    const handleMouseLeave = React.useCallback(() => {
+        // Skip on touch devices
+        if (isTouchDeviceRef.current) return;
+
+        if (rafIdRef.current !== null) {
+            cancelAnimationFrame(rafIdRef.current);
+        }
+        if (bookRef.current) {
+            // Reset rotation smoothly - no React re-render
+            bookRef.current.style.setProperty('--rotate-x', '0deg');
+            bookRef.current.style.setProperty('--rotate-y', '0deg');
+        }
+    }, []);
+
+    // Cleanup animation frame on unmount
+    React.useEffect(() => {
+        return () => {
+            if (rafIdRef.current !== null) {
+                cancelAnimationFrame(rafIdRef.current);
+            }
+        };
+    }, []);
 
     return (
         <div
+            ref={wrapperRef}
             className={clsx(styles.bookWrapper, className)}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -42,8 +86,8 @@ export const ThreeDBook: React.FC<ThreeDBookProps> = ({ src, alt = "Book Cover",
                 ref={bookRef}
                 className={styles.book}
                 style={{
-                    '--rotate-x': `${rotate.x}deg`,
-                    '--rotate-y': `${rotate.y}deg`,
+                    '--rotate-x': '0deg',
+                    '--rotate-y': '0deg',
                 } as React.CSSProperties}
             >
                 {/* Front Cover */}
