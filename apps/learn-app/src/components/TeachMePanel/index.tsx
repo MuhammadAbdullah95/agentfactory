@@ -260,40 +260,35 @@ function ChatKitWrapper({
     };
 
     const findAndHideInDOM = (container: Element | ShadowRoot) => {
-      // Method 1: Find by ChatKit specific classes (AA6bn, ln8Ls)
+      // Find user message containers (.AA6bn) and hide those containing the trigger
       const userContainers = container.querySelectorAll('.AA6bn');
-      if (userContainers.length > 0) {
-        const first = userContainers[0] as HTMLElement;
-        if (first.textContent?.includes('Teach me')) {
-          first.style.display = 'none';
-          console.log('[TeachMePanel] Hidden .AA6bn container:', first);
+      for (const el of userContainers) {
+        const htmlEl = el as HTMLElement;
+        const text = htmlEl.textContent || '';
+        // Hide if it contains our hidden trigger OR "Teach me" text
+        if (text.includes('__START_TEACHING__') ||
+            text.includes('Teach me!') ||
+            text.trim() === 'Teach me') {
+          htmlEl.style.display = 'none';
+          console.log('[TeachMePanel] Hidden trigger message:', text.substring(0, 50));
           return true;
         }
       }
 
-      // Method 2: Find elements containing "Teach me!" text
+      // Fallback: search all elements for trigger text
       const allElements = container.querySelectorAll('*');
       for (const el of allElements) {
-        const text = el.textContent?.trim();
-        if (text === 'Teach me!' || text === 'Teach me') {
-          // Found it - walk up to find the .AA6bn container or similar
+        const text = el.textContent?.trim() || '';
+        if (text.includes('__START_TEACHING__')) {
+          // Walk up to find .AA6bn container
           let target = el as HTMLElement;
           for (let i = 0; i < 10 && target.parentElement; i++) {
             target = target.parentElement;
-            // Check for ChatKit's user message container class
-            if (target.classList?.contains('AA6bn') ||
-                target.style?.marginLeft === 'auto') {
+            if (target.classList?.contains('AA6bn')) {
               target.style.display = 'none';
-              console.log('[TeachMePanel] Hidden user message container:', target);
+              console.log('[TeachMePanel] Hidden trigger container via walk-up');
               return true;
             }
-          }
-          // Fallback: hide the element with ln8Ls class or closest parent
-          const bubble = el.closest('.ln8Ls') as HTMLElement;
-          if (bubble) {
-            bubble.style.display = 'none';
-            console.log('[TeachMePanel] Hidden .ln8Ls bubble:', bubble);
-            return true;
           }
         }
       }
@@ -403,15 +398,23 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   // Track if we've auto-started teach mode for this chat session
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
+  // Get user name for personalized greeting
+  const userName = useMemo(() => {
+    if (session?.user?.name) return session.user.name;
+    if (session?.user?.email) return session.user.email.split("@")[0];
+    return "there";
+  }, [session?.user?.name, session?.user?.email]);
+
   // Auto-start Socratic conversation when panel opens in teach mode
-  // The agent will text first with a greeting and initial question
+  // Send hidden trigger - the agent will respond with personalized Socratic greeting
   useEffect(() => {
     if (isOpen && mode === "teach" && !initialMessage && !hasAutoStarted) {
-      // Short natural message - AI will respond with Socratic greeting
-      setInitialMessage("Teach me!");
+      // Hidden trigger message - backend will recognize this and respond with greeting
+      // Format: __START_TEACHING__|<lesson_title>|<user_name>
+      setInitialMessage(`__START_TEACHING__|${lessonTitle}|${userName}`);
       setHasAutoStarted(true);
     }
-  }, [isOpen, mode, initialMessage, hasAutoStarted, lessonTitle]);
+  }, [isOpen, mode, initialMessage, hasAutoStarted, lessonTitle, userName]);
 
   // Reset auto-start flag when chat key changes (new chat) or mode changes
   useEffect(() => {

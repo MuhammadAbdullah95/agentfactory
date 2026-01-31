@@ -143,18 +143,12 @@
   flex-direction: column;
 }
 
-/* Hide first user message when AI should appear to speak first */
-/* ChatKit uses obfuscated class names - these are the actual classes found via inspection */
+/* Hide trigger message when AI should appear to speak first */
+/* ChatKit uses obfuscated class names: .AA6bn (container), .ln8Ls (bubble) */
 
-/* Target ChatKit user message classes directly */
-/* .AA6bn is the user message container (margin-left: auto) */
-/* .ln8Ls is the user message bubble */
-.hideFirstUser :global(.AA6bn:first-of-type),
-.hideFirstUser :global(.ln8Ls:first-of-type) {
-  display: none !important;
-}
-
-/* Target by margin-left: auto pattern (user messages are right-aligned) */
-.hideFirstUser :global([style*="margin-left: auto"]:first-of-type) {
+/* Hide ALL user message containers when hideFirstUser is active */
+/* The JS will selectively show messages that don't contain the trigger */
+.hideFirstUser :global(.AA6bn:first-child),
+.hideFirstUser :global(.AA6bn:nth-child(1)) {
   display: none !important;
 }
