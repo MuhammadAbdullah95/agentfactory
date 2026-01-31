@@ -234,34 +234,78 @@ function ChatKitWrapper({
   useEffect(() => {
     if (!hideFirstUserMessage || !wrapperRef.current) return;
 
-    const hideFirstUserMsg = (container: Element) => {
+    const hideFirstUserMsg = (container: Element | ShadowRoot) => {
+      // Debug: log what we're searching in
+      console.log('[TeachMePanel] Searching for user messages in:', container);
+
       // Try multiple selectors for ChatKit user messages
       const selectors = [
         '[data-role="user"]',
+        '[data-message-role="user"]',
         '[class*="user"]',
         '[class*="User"]',
+        '[class*="human"]',
+        '[class*="Human"]',
         '.oai-user-message',
+        'div[style*="flex-end"]', // User messages often aligned right
       ];
 
       for (const selector of selectors) {
-        const userMessages = container.querySelectorAll(selector);
-        if (userMessages.length > 0) {
-          const firstUserMsg = userMessages[0] as HTMLElement;
-          if (firstUserMsg && !firstUserMsg.dataset.hidden) {
-            firstUserMsg.style.display = 'none';
-            firstUserMsg.dataset.hidden = 'true';
-            return true;
+        try {
+          const userMessages = container.querySelectorAll(selector);
+          console.log(`[TeachMePanel] Selector "${selector}" found ${userMessages.length} elements`);
+
+          if (userMessages.length > 0) {
+            const firstUserMsg = userMessages[0] as HTMLElement;
+            // Check if this contains "Teach me!" text
+            if (firstUserMsg.textContent?.includes('Teach me!')) {
+              console.log('[TeachMePanel] Found "Teach me!" message, hiding it:', firstUserMsg);
+              firstUserMsg.style.display = 'none';
+              firstUserMsg.style.visibility = 'hidden';
+              firstUserMsg.style.height = '0';
+              firstUserMsg.style.overflow = 'hidden';
+              return true;
+            }
+          }
+        } catch (e) {
+          // Some selectors might fail in shadow DOM
+        }
+      }
+
+      // Also try finding by text content directly
+      const allElements = container.querySelectorAll('*');
+      for (const el of allElements) {
+        if (el.textContent === 'Teach me!' || el.textContent?.trim() === 'Teach me!') {
+          console.log('[TeachMePanel] Found exact "Teach me!" text in:', el);
+          // Hide the message container (go up a few levels)
+          let parent = el.parentElement;
+          for (let i = 0; i < 5 && parent; i++) {
+            if (parent.children.length <= 2) {
+              (parent as HTMLElement).style.display = 'none';
+              console.log('[TeachMePanel] Hidden parent:', parent);
+              return true;
+            }
+            parent = parent.parentElement;
           }
         }
       }
+
       return false;
     };
 
-    // Also check shadow DOM
+    // Check shadow DOM recursively
     const checkShadowDOM = (element: Element): boolean => {
       if (element.shadowRoot) {
+        console.log('[TeachMePanel] Found shadow root on:', element.tagName);
         if (hideFirstUserMsg(element.shadowRoot)) return true;
-        for (const child of element.shadowRoot.children) {
+
+        // Observe shadow root for changes too
+        const shadowObserver = new MutationObserver(() => {
+          hideFirstUserMsg(element.shadowRoot!);
+        });
+        shadowObserver.observe(element.shadowRoot, { childList: true, subtree: true });
+
+        for (const child of element.shadowRoot.querySelectorAll('*')) {
           if (checkShadowDOM(child)) return true;
         }
       }
@@ -271,21 +315,30 @@ function ChatKitWrapper({
       return false;
     };
 
-    // Initial check
-    hideFirstUserMsg(wrapperRef.current);
-    checkShadowDOM(wrapperRef.current);
-
-    // Observe for changes
-    const observer = new MutationObserver(() => {
+    // Run checks with delay to ensure ChatKit has rendered
+    const runChecks = () => {
       if (wrapperRef.current) {
+        console.log('[TeachMePanel] Running hide checks...');
         hideFirstUserMsg(wrapperRef.current);
         checkShadowDOM(wrapperRef.current);
       }
+    };
+
+    // Initial check after short delay
+    setTimeout(runChecks, 100);
+    setTimeout(runChecks, 500);
+    setTimeout(runChecks, 1000);
+    setTimeout(runChecks, 2000);
+
+    // Observe for changes
+    const observer = new MutationObserver(() => {
+      runChecks();
     });
 
     observer.observe(wrapperRef.current, {
       childList: true,
       subtree: true,
+      attributes: true,
     });
 
     return () => observer.disconnect();
