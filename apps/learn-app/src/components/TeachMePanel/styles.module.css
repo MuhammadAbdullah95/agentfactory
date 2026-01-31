@@ -142,3 +142,17 @@
   display: flex;
   flex-direction: column;
 }
+
+/* Hide first user message when AI should appear to speak first */
+/* ChatKit renders user messages with data-role="user" attribute */
+.hideFirstUser :global([data-role="user"]:first-of-type),
+.hideFirstUser :global(.oai-user-message:first-of-type),
+.hideFirstUser :global([class*="userMessage"]:first-of-type) {
+  display: none !important;
+}
+
+/* Alternative selector targeting message containers */
+.hideFirstUser :global(.oai-message-list > *:first-child[data-role="user"]),
+.hideFirstUser :global(.oai-thread-messages > *:first-child:has([data-role="user"])) {
+  display: none !important;
+}

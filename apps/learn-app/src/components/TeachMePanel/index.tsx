@@ -12,7 +12,7 @@
  * Reference: https://github.com/openai/openai-chatkit-starter-app
  */
 
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useStudyMode } from "../../contexts/StudyModeContext";
@@ -72,6 +72,7 @@ function ChatKitWrapper({
   initialMessage,
   onSendMessage,
   onInitialMessageSent,
+  hideFirstUserMessage = false,
 }: {
   lessonPath: string;
   lessonTitle: string;
@@ -81,6 +82,7 @@ function ChatKitWrapper({
   initialMessage?: string;
   onSendMessage?: (sendFn: (text: string) => Promise<void>) => void;
   onInitialMessageSent?: () => void;
+  hideFirstUserMessage?: boolean;
 }) {
   const { session } = useAuth();
 
@@ -225,8 +227,75 @@ function ChatKitWrapper({
     }
   }, [initialMessage, sendUserMessage, onInitialMessageSent]);
 
+  // Ref for MutationObserver to hide first user message
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Use MutationObserver to hide the first user message (works with shadow DOM)
+  useEffect(() => {
+    if (!hideFirstUserMessage || !wrapperRef.current) return;
+
+    const hideFirstUserMsg = (container: Element) => {
+      // Try multiple selectors for ChatKit user messages
+      const selectors = [
+        '[data-role="user"]',
+        '[class*="user"]',
+        '[class*="User"]',
+        '.oai-user-message',
+      ];
+
+      for (const selector of selectors) {
+        const userMessages = container.querySelectorAll(selector);
+        if (userMessages.length > 0) {
+          const firstUserMsg = userMessages[0] as HTMLElement;
+          if (firstUserMsg && !firstUserMsg.dataset.hidden) {
+            firstUserMsg.style.display = 'none';
+            firstUserMsg.dataset.hidden = 'true';
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
+    // Also check shadow DOM
+    const checkShadowDOM = (element: Element): boolean => {
+      if (element.shadowRoot) {
+        if (hideFirstUserMsg(element.shadowRoot)) return true;
+        for (const child of element.shadowRoot.children) {
+          if (checkShadowDOM(child)) return true;
+        }
+      }
+      for (const child of element.children) {
+        if (checkShadowDOM(child)) return true;
+      }
+      return false;
+    };
+
+    // Initial check
+    hideFirstUserMsg(wrapperRef.current);
+    checkShadowDOM(wrapperRef.current);
+
+    // Observe for changes
+    const observer = new MutationObserver(() => {
+      if (wrapperRef.current) {
+        hideFirstUserMsg(wrapperRef.current);
+        checkShadowDOM(wrapperRef.current);
+      }
+    });
+
+    observer.observe(wrapperRef.current, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, [hideFirstUserMessage]);
+
   return (
-    <div className={styles.chatWrapper}>
+    <div
+      ref={wrapperRef}
+      className={`${styles.chatWrapper} ${hideFirstUserMessage ? styles.hideFirstUser : ''}`}
+    >
       <ChatKit control={control} className={styles.chatKit} />
     </div>
   );
@@ -394,6 +463,7 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
               mode={mode}
               initialMessage={initialMessage}
               onInitialMessageSent={() => setInitialMessage(undefined)}
+              hideFirstUserMessage={hasAutoStarted && mode === "teach"}
             />
           </div>
         </SheetContent>
