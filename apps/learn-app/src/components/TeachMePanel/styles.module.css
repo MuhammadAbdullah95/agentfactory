@@ -144,40 +144,17 @@
 }
 
 /* Hide first user message when AI should appear to speak first */
-/* Target ChatKit message elements - multiple approaches */
+/* ChatKit uses obfuscated class names - these are the actual classes found via inspection */
 
-/* Approach 1: Target by data attributes */
-.hideFirstUser :global([data-role="user"]:first-of-type),
-.hideFirstUser :global([data-message-role="user"]:first-of-type) {
+/* Target ChatKit user message classes directly */
+/* .AA6bn is the user message container (margin-left: auto) */
+/* .ln8Ls is the user message bubble */
+.hideFirstUser :global(.AA6bn:first-of-type),
+.hideFirstUser :global(.ln8Ls:first-of-type) {
   display: none !important;
 }
 
-/* Approach 2: Target OpenAI ChatKit specific classes */
-.hideFirstUser :global(.oai-user-message:first-of-type),
-.hideFirstUser :global(.oai-message-user:first-of-type),
-.hideFirstUser :global([class*="userMessage"]:first-of-type),
-.hideFirstUser :global([class*="UserMessage"]:first-of-type) {
-  display: none !important;
-}
-
-/* Approach 3: Target by flex alignment (user messages often right-aligned) */
-.hideFirstUser :global([style*="flex-end"]:first-of-type),
-.hideFirstUser :global([style*="justify-content: flex-end"]:first-of-type) {
-  display: none !important;
-}
-
-/* Approach 4: Target message list first child */
-.hideFirstUser :global(.oai-message-list > *:first-child),
-.hideFirstUser :global(.oai-thread-messages > *:first-child),
-.hideFirstUser :global([class*="messageList"] > *:first-child),
-.hideFirstUser :global([class*="MessageList"] > *:first-child) {
-  display: none !important;
-}
-
-/* Approach 5: Target by thread/conversation container */
-.hideFirstUser :global([class*="thread"] > *:first-child),
-.hideFirstUser :global([class*="Thread"] > *:first-child),
-.hideFirstUser :global([class*="conversation"] > *:first-child),
-.hideFirstUser :global([class*="Conversation"] > *:first-child) {
+/* Target by margin-left: auto pattern (user messages are right-aligned) */
+.hideFirstUser :global([style*="margin-left: auto"]:first-of-type) {
   display: none !important;
 }

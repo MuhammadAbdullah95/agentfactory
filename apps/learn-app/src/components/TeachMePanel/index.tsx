@@ -235,20 +235,15 @@ function ChatKitWrapper({
     if (!hideFirstUserMessage || !wrapperRef.current) return;
 
     // CSS to hide first user message - inject into any shadow DOM we find
+    // ChatKit uses obfuscated classes: .AA6bn (container) and .ln8Ls (bubble)
     const hideCSS = `
-      /* Hide first user message in thread */
-      [data-role="user"]:first-of-type,
-      [data-message-role="user"]:first-of-type,
-      .userMessage:first-of-type,
-      [class*="user"]:first-of-type,
-      [class*="User"]:first-of-type,
-      div[style*="flex-end"]:first-of-type {
+      /* Hide first user message - ChatKit specific classes */
+      .AA6bn:first-of-type,
+      .ln8Ls:first-of-type {
         display: none !important;
       }
-      /* Also hide by message list position */
-      .messages > *:first-child,
-      [class*="message"] > *:first-child,
-      [class*="thread"] > *:first-child {
+      /* Backup: hide by margin-left: auto (user messages are right-aligned) */
+      [style*="margin-left: auto"]:first-of-type {
         display: none !important;
       }
     `;
@@ -265,27 +260,41 @@ function ChatKitWrapper({
     };
 
     const findAndHideInDOM = (container: Element | ShadowRoot) => {
-      // Find elements containing "Teach me!" and hide them
+      // Method 1: Find by ChatKit specific classes (AA6bn, ln8Ls)
+      const userContainers = container.querySelectorAll('.AA6bn');
+      if (userContainers.length > 0) {
+        const first = userContainers[0] as HTMLElement;
+        if (first.textContent?.includes('Teach me')) {
+          first.style.display = 'none';
+          console.log('[TeachMePanel] Hidden .AA6bn container:', first);
+          return true;
+        }
+      }
+
+      // Method 2: Find elements containing "Teach me!" text
       const allElements = container.querySelectorAll('*');
       for (const el of allElements) {
         const text = el.textContent?.trim();
         if (text === 'Teach me!' || text === 'Teach me') {
-          // Found it - hide the message bubble (walk up to find container)
+          // Found it - walk up to find the .AA6bn container or similar
           let target = el as HTMLElement;
           for (let i = 0; i < 10 && target.parentElement; i++) {
             target = target.parentElement;
-            // Stop when we find something that looks like a message container
-            if (target.getAttribute('data-role') ||
-                target.className?.includes('message') ||
-                target.className?.includes('Message')) {
+            // Check for ChatKit's user message container class
+            if (target.classList?.contains('AA6bn') ||
+                target.style?.marginLeft === 'auto') {
               target.style.display = 'none';
-              console.log('[TeachMePanel] Hidden message container:', target);
+              console.log('[TeachMePanel] Hidden user message container:', target);
               return true;
             }
           }
-          // Fallback: hide closest reasonable parent
-          (el.parentElement?.parentElement as HTMLElement)?.style?.setProperty('display', 'none');
-          return true;
+          // Fallback: hide the element with ln8Ls class or closest parent
+          const bubble = el.closest('.ln8Ls') as HTMLElement;
+          if (bubble) {
+            bubble.style.display = 'none';
+            console.log('[TeachMePanel] Hidden .ln8Ls bubble:', bubble);
+            return true;
+          }
         }
       }
       return false;
