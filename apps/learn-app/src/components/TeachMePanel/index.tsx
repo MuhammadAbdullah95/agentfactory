@@ -262,47 +262,39 @@ function ChatKitWrapper({
     const findAndHideInDOM = (container: Element | ShadowRoot) => {
       let hidden = false;
 
+      // Trigger patterns to hide
+      const triggerPatterns = ['__START_TEACHING__', 'Teach me!', 'Teach me', '👋'];
+
       // Method 1: Find user message containers by class
-      const userContainers = container.querySelectorAll('.AA6bn, .ln8Ls, [class*="user"], [class*="User"]');
+      const userContainers = container.querySelectorAll('.AA6bn, .ln8Ls');
       for (const el of userContainers) {
         const htmlEl = el as HTMLElement;
-        const text = htmlEl.textContent || '';
-        if (text.includes('__START_TEACHING__') ||
-            text.includes('Teach me!') ||
-            text.trim() === 'Teach me') {
+        const text = (htmlEl.textContent || '').trim();
+        // Hide if text matches any trigger pattern exactly or contains it
+        const isTriggger = triggerPatterns.some(p => text === p || text.includes(p));
+        if (isTriggger) {
           htmlEl.style.setProperty('display', 'none', 'important');
-          htmlEl.style.setProperty('visibility', 'hidden', 'important');
-          htmlEl.style.setProperty('height', '0', 'important');
-          htmlEl.style.setProperty('overflow', 'hidden', 'important');
-          console.log('[TeachMePanel] Hidden user container:', text.substring(0, 50));
+          console.log('[TeachMePanel] Hidden trigger:', text);
           hidden = true;
         }
       }
 
-      // Method 2: Search ALL elements for trigger text
+      // Method 2: Find elements that ONLY contain the wave emoji (exact match)
       const allElements = container.querySelectorAll('*');
       for (const el of allElements) {
-        const text = el.textContent || '';
-        if (text.includes('__START_TEACHING__')) {
-          const htmlEl = el as HTMLElement;
-
-          // Hide this element
-          htmlEl.style.setProperty('display', 'none', 'important');
-
-          // Also walk up and hide parent containers
-          let parent = htmlEl.parentElement;
-          for (let i = 0; i < 8 && parent; i++) {
-            const parentText = parent.textContent || '';
-            // If parent only contains the trigger, hide it too
-            if (parentText.includes('__START_TEACHING__') &&
-                !parentText.includes('Sage') && // Don't hide AI responses
-                parentText.length < 200) {
+        const text = (el.textContent || '').trim();
+        // If element text is EXACTLY the wave emoji, hide its user message container
+        if (text === '👋') {
+          let parent = el as HTMLElement;
+          for (let i = 0; i < 6 && parent; i++) {
+            if (parent.classList?.contains('AA6bn')) {
               parent.style.setProperty('display', 'none', 'important');
-              console.log('[TeachMePanel] Hidden parent level', i);
+              console.log('[TeachMePanel] Hidden wave emoji container');
+              hidden = true;
+              break;
             }
-            parent = parent.parentElement;
+            parent = parent.parentElement as HTMLElement;
           }
-          hidden = true;
         }
       }
 
@@ -438,15 +430,16 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   }, [session?.user?.name, session?.user?.email]);
 
   // Auto-start Socratic conversation when panel opens in teach mode
-  // Send hidden trigger - the agent will respond with personalized Socratic greeting
+  // Send minimal trigger - backend recognizes "👋" as start signal
   useEffect(() => {
     if (isOpen && mode === "teach" && !initialMessage && !hasAutoStarted) {
-      // Hidden trigger message - backend will recognize this and respond with greeting
-      // Format: __START_TEACHING__|<lesson_title>|<user_name>
-      setInitialMessage(`__START_TEACHING__|${lessonTitle}|${userName}`);
+      // Minimal visible trigger - just a wave emoji
+      // Backend will detect this and respond with personalized Socratic greeting
+      // User name is passed via headers, lesson from URL params
+      setInitialMessage("👋");
       setHasAutoStarted(true);
     }
-  }, [isOpen, mode, initialMessage, hasAutoStarted, lessonTitle, userName]);
+  }, [isOpen, mode, initialMessage, hasAutoStarted]);
 
   // Reset auto-start flag when chat key changes (new chat) or mode changes
   useEffect(() => {
