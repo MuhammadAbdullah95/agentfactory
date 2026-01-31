@@ -230,118 +230,116 @@ function ChatKitWrapper({
   // Ref for MutationObserver to hide first user message
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Use MutationObserver to hide the first user message (works with shadow DOM)
+  // Use MutationObserver to hide the first user message by injecting CSS into shadow DOM
   useEffect(() => {
     if (!hideFirstUserMessage || !wrapperRef.current) return;
 
-    const hideFirstUserMsg = (container: Element | ShadowRoot) => {
-      // Debug: log what we're searching in
-      console.log('[TeachMePanel] Searching for user messages in:', container);
-
-      // Try multiple selectors for ChatKit user messages
-      const selectors = [
-        '[data-role="user"]',
-        '[data-message-role="user"]',
-        '[class*="user"]',
-        '[class*="User"]',
-        '[class*="human"]',
-        '[class*="Human"]',
-        '.oai-user-message',
-        'div[style*="flex-end"]', // User messages often aligned right
-      ];
-
-      for (const selector of selectors) {
-        try {
-          const userMessages = container.querySelectorAll(selector);
-          console.log(`[TeachMePanel] Selector "${selector}" found ${userMessages.length} elements`);
-
-          if (userMessages.length > 0) {
-            const firstUserMsg = userMessages[0] as HTMLElement;
-            // Check if this contains "Teach me!" text
-            if (firstUserMsg.textContent?.includes('Teach me!')) {
-              console.log('[TeachMePanel] Found "Teach me!" message, hiding it:', firstUserMsg);
-              firstUserMsg.style.display = 'none';
-              firstUserMsg.style.visibility = 'hidden';
-              firstUserMsg.style.height = '0';
-              firstUserMsg.style.overflow = 'hidden';
-              return true;
-            }
-          }
-        } catch (e) {
-          // Some selectors might fail in shadow DOM
-        }
+    // CSS to hide first user message - inject into any shadow DOM we find
+    const hideCSS = `
+      /* Hide first user message in thread */
+      [data-role="user"]:first-of-type,
+      [data-message-role="user"]:first-of-type,
+      .userMessage:first-of-type,
+      [class*="user"]:first-of-type,
+      [class*="User"]:first-of-type,
+      div[style*="flex-end"]:first-of-type {
+        display: none !important;
       }
+      /* Also hide by message list position */
+      .messages > *:first-child,
+      [class*="message"] > *:first-child,
+      [class*="thread"] > *:first-child {
+        display: none !important;
+      }
+    `;
 
-      // Also try finding by text content directly
+    const injectStyleToShadow = (shadowRoot: ShadowRoot) => {
+      // Check if we already injected
+      if (shadowRoot.querySelector('#teach-me-hide-style')) return;
+
+      const style = document.createElement('style');
+      style.id = 'teach-me-hide-style';
+      style.textContent = hideCSS;
+      shadowRoot.appendChild(style);
+      console.log('[TeachMePanel] Injected hide CSS into shadow root');
+    };
+
+    const findAndHideInDOM = (container: Element | ShadowRoot) => {
+      // Find elements containing "Teach me!" and hide them
       const allElements = container.querySelectorAll('*');
       for (const el of allElements) {
-        if (el.textContent === 'Teach me!' || el.textContent?.trim() === 'Teach me!') {
-          console.log('[TeachMePanel] Found exact "Teach me!" text in:', el);
-          // Hide the message container (go up a few levels)
-          let parent = el.parentElement;
-          for (let i = 0; i < 5 && parent; i++) {
-            if (parent.children.length <= 2) {
-              (parent as HTMLElement).style.display = 'none';
-              console.log('[TeachMePanel] Hidden parent:', parent);
+        const text = el.textContent?.trim();
+        if (text === 'Teach me!' || text === 'Teach me') {
+          // Found it - hide the message bubble (walk up to find container)
+          let target = el as HTMLElement;
+          for (let i = 0; i < 10 && target.parentElement; i++) {
+            target = target.parentElement;
+            // Stop when we find something that looks like a message container
+            if (target.getAttribute('data-role') ||
+                target.className?.includes('message') ||
+                target.className?.includes('Message')) {
+              target.style.display = 'none';
+              console.log('[TeachMePanel] Hidden message container:', target);
               return true;
             }
-            parent = parent.parentElement;
           }
+          // Fallback: hide closest reasonable parent
+          (el.parentElement?.parentElement as HTMLElement)?.style?.setProperty('display', 'none');
+          return true;
         }
       }
-
       return false;
     };
 
-    // Check shadow DOM recursively
-    const checkShadowDOM = (element: Element): boolean => {
+    const processElement = (element: Element) => {
+      // If element has shadow root, inject CSS and search inside
       if (element.shadowRoot) {
-        console.log('[TeachMePanel] Found shadow root on:', element.tagName);
-        if (hideFirstUserMsg(element.shadowRoot)) return true;
+        injectStyleToShadow(element.shadowRoot);
+        findAndHideInDOM(element.shadowRoot);
 
-        // Observe shadow root for changes too
+        // Also observe shadow root for new messages
         const shadowObserver = new MutationObserver(() => {
-          hideFirstUserMsg(element.shadowRoot!);
+          findAndHideInDOM(element.shadowRoot!);
         });
         shadowObserver.observe(element.shadowRoot, { childList: true, subtree: true });
 
-        for (const child of element.shadowRoot.querySelectorAll('*')) {
-          if (checkShadowDOM(child)) return true;
-        }
+        // Recursively check shadow DOM children
+        element.shadowRoot.querySelectorAll('*').forEach(processElement);
       }
-      for (const child of element.children) {
-        if (checkShadowDOM(child)) return true;
-      }
-      return false;
+
+      // Check children
+      element.querySelectorAll('*').forEach(child => {
+        if (child.shadowRoot) processElement(child);
+      });
     };
 
-    // Run checks with delay to ensure ChatKit has rendered
     const runChecks = () => {
-      if (wrapperRef.current) {
-        console.log('[TeachMePanel] Running hide checks...');
-        hideFirstUserMsg(wrapperRef.current);
-        checkShadowDOM(wrapperRef.current);
-      }
+      if (!wrapperRef.current) return;
+
+      // Search in light DOM first
+      findAndHideInDOM(wrapperRef.current);
+
+      // Then process all elements looking for shadow roots
+      processElement(wrapperRef.current);
     };
 
-    // Initial check after short delay
-    setTimeout(runChecks, 100);
-    setTimeout(runChecks, 500);
-    setTimeout(runChecks, 1000);
-    setTimeout(runChecks, 2000);
+    // Run multiple times to catch dynamic content
+    const timers = [100, 300, 500, 1000, 1500, 2000].map(
+      delay => setTimeout(runChecks, delay)
+    );
 
     // Observe for changes
-    const observer = new MutationObserver(() => {
-      runChecks();
-    });
-
+    const observer = new MutationObserver(runChecks);
     observer.observe(wrapperRef.current, {
       childList: true,
       subtree: true,
       attributes: true,
     });
 
-    return () => observer.disconnect();
+    return () => {
+      timers.forEach(clearTimeout);
+      observer.disconnect();
+    };
   }, [hideFirstUserMessage]);
 
   return (
