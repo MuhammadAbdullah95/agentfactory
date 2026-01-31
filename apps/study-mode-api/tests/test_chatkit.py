@@ -30,7 +30,7 @@ class TestAgentCreation:
         assert agent.name == "study_tutor_teach"
         assert "Socratic tutor" in agent.instructions
         assert "Test Lesson" in agent.instructions
-        assert "NEVER explain directly" in agent.instructions
+        assert "Lecture or explain concepts directly" in agent.instructions
 
     def test_create_ask_agent(self):
         """Test creating agent in ask/search mode."""
@@ -41,8 +41,8 @@ class TestAgentCreation:
         )
 
         assert agent.name == "study_tutor_ask"
-        assert "helpful explainer" in agent.instructions
-        assert "clear explanation" in agent.instructions
+        assert "knowledgeable guide" in agent.instructions
+        assert "direct explanation" in agent.instructions
 
     def test_create_agent_with_user_name(self):
         """Test creating agent with user personalization."""
@@ -53,7 +53,7 @@ class TestAgentCreation:
             user_name="Alice",
         )
 
-        assert "STUDENT: Alice" in agent.instructions
+        assert "STUDENT NAME: Alice" in agent.instructions
 
     def test_create_agent_without_user_name(self):
         """Test creating agent without user name."""
@@ -64,7 +64,8 @@ class TestAgentCreation:
             user_name=None,
         )
 
-        assert "STUDENT:" not in agent.instructions
+        # Without user name, no STUDENT NAME line should be present
+        assert "STUDENT NAME:" not in agent.instructions
 
     def test_content_truncation_teach_mode(self):
         """Test content is truncated in teach mode (8000 chars)."""
@@ -100,13 +101,13 @@ class TestPromptTemplates:
         assert "{title}" in TEACH_PROMPT
         assert "{content}" in TEACH_PROMPT
         assert "Socratic" in TEACH_PROMPT
-        assert "NEVER explain directly" in TEACH_PROMPT
-        assert "ONE question at a time" in TEACH_PROMPT
+        assert "Lecture or explain concepts directly" in TEACH_PROMPT
+        assert "ONE question per message" in TEACH_PROMPT
 
     def test_ask_prompt_has_required_elements(self):
         """Test ask prompt contains direct answer instructions."""
         assert "{content}" in ASK_PROMPT
-        assert "clear explanation" in ASK_PROMPT
+        assert "direct explanation" in ASK_PROMPT
         assert "Socratic" in ASK_PROMPT  # Mentions it's NOT Socratic mode
 
 

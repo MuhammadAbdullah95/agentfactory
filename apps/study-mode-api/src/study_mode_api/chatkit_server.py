@@ -191,7 +191,10 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 for item in items
             )
             is_first_message = not has_assistant_response
-            logger.info(f"[ChatKit] items={len(items)}, types={item_types}, has_assistant={has_assistant_response}, is_first={is_first_message}")
+            logger.info(
+                f"[ChatKit] items={len(items)}, types={item_types}, "
+                f"has_assistant={has_assistant_response}, is_first={is_first_message}"
+            )
 
             # Create agent with appropriate greeting behavior
             agent = create_agent(

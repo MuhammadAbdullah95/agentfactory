@@ -266,7 +266,7 @@ function ChatKitWrapper({
 
       // Find user message containers (.AA6bn is user message wrapper)
       const userContainers = container.querySelectorAll('.AA6bn');
-      for (const el of userContainers) {
+      for (const el of Array.from(userContainers)) {
         const htmlEl = el as HTMLElement;
         const text = htmlEl.textContent || '';
         const trimmedText = text.trim();

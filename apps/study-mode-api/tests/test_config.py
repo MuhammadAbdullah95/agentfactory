@@ -43,6 +43,10 @@ class TestSettings:
 
     def test_default_values(self):
         """Test default configuration values."""
+        # Clear env vars that might override defaults
+        for key in ["CONTENT_CACHE_TTL", "REDIS_MAX_CONNECTIONS", "PORT"]:
+            os.environ.pop(key, None)
+
         from study_mode_api.config import Settings
         # Use _env_file=None to ignore .env and test true defaults
         settings = Settings(_env_file=None)
