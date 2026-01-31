@@ -30,6 +30,31 @@ MAX_RECENT_ITEMS = 30
 TITLE_MAX_WORDS = 6
 TITLE_MAX_CHARS = 50
 
+# Trigger patterns that indicate auto-start (AI should speak first)
+TRIGGER_PATTERNS = [
+    "",  # Empty
+    "\u200B",  # Zero-width space
+    "👋",  # Wave emoji
+    "Teach me!",
+    "Teach me",
+    "__START_TEACHING__",
+]
+
+
+def _is_trigger_message(text: str) -> bool:
+    """Check if message is an auto-start trigger (should be hidden)."""
+    text = text.strip()
+    # Check exact matches
+    if text in TRIGGER_PATTERNS:
+        return True
+    # Check if starts with trigger pattern
+    if text.startswith("__START_TEACHING__"):
+        return True
+    # Very short messages (1-2 chars) are likely triggers
+    if len(text) <= 2:
+        return True
+    return False
+
 
 def _generate_thread_title(user_text: str) -> str:
     """Generate thread title from first few words of user message."""
@@ -175,6 +200,24 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 yield event
 
             logger.info(f"[ChatKit] Response completed for thread {thread.id}")
+
+            # DELETE TRIGGER MESSAGE: If this was an auto-start trigger,
+            # remove it so only the AI greeting shows
+            if _is_trigger_message(user_text) and input_user_message:
+                try:
+                    await self.store.delete_thread_item(
+                        thread.id,
+                        input_user_message.id,
+                        context,
+                    )
+                    logger.info(
+                        f"[ChatKit] Deleted trigger message {input_user_message.id} "
+                        f"from thread {thread.id}"
+                    )
+                except Exception as del_err:
+                    logger.warning(
+                        f"[ChatKit] Failed to delete trigger: {del_err}"
+                    )
 
         except Exception as e:
             logger.exception(f"[ChatKit] Error in respond(): {e}")
