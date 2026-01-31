@@ -237,14 +237,16 @@ function ChatKitWrapper({
     // CSS to hide first user message - inject into any shadow DOM we find
     // ChatKit uses obfuscated classes: .AA6bn (container) and .ln8Ls (bubble)
     const hideCSS = `
-      /* Hide first user message - ChatKit specific classes */
+      /* AGGRESSIVE: Hide first user message container completely */
+      .AA6bn:first-child,
       .AA6bn:first-of-type,
-      .ln8Ls:first-of-type {
+      .AA6bn:nth-child(1) {
         display: none !important;
-      }
-      /* Backup: hide by margin-left: auto (user messages are right-aligned) */
-      [style*="margin-left: auto"]:first-of-type {
-        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
       }
     `;
 
@@ -262,39 +264,24 @@ function ChatKitWrapper({
     const findAndHideInDOM = (container: Element | ShadowRoot) => {
       let hidden = false;
 
-      // Trigger patterns to hide
-      const triggerPatterns = ['__START_TEACHING__', 'Teach me!', 'Teach me', '👋'];
-
-      // Method 1: Find user message containers by class
-      const userContainers = container.querySelectorAll('.AA6bn, .ln8Ls');
+      // Find user message containers (.AA6bn is user message wrapper)
+      const userContainers = container.querySelectorAll('.AA6bn');
       for (const el of userContainers) {
         const htmlEl = el as HTMLElement;
-        const text = (htmlEl.textContent || '').trim();
-        // Hide if text matches any trigger pattern exactly or contains it
-        const isTriggger = triggerPatterns.some(p => text === p || text.includes(p));
-        if (isTriggger) {
-          htmlEl.style.setProperty('display', 'none', 'important');
-          console.log('[TeachMePanel] Hidden trigger:', text);
-          hidden = true;
-        }
-      }
+        const text = htmlEl.textContent || '';
+        const trimmedText = text.trim();
 
-      // Method 2: Find elements that ONLY contain the wave emoji (exact match)
-      const allElements = container.querySelectorAll('*');
-      for (const el of allElements) {
-        const text = (el.textContent || '').trim();
-        // If element text is EXACTLY the wave emoji, hide its user message container
-        if (text === '👋') {
-          let parent = el as HTMLElement;
-          for (let i = 0; i < 6 && parent; i++) {
-            if (parent.classList?.contains('AA6bn')) {
-              parent.style.setProperty('display', 'none', 'important');
-              console.log('[TeachMePanel] Hidden wave emoji container');
-              hidden = true;
-              break;
-            }
-            parent = parent.parentElement as HTMLElement;
-          }
+        // Hide if: empty, only whitespace, zero-width space, or known triggers
+        const isEmpty = trimmedText === '' || trimmedText === '\u200B';
+        const isTrigger = trimmedText.includes('__START_TEACHING__') ||
+                          trimmedText === '👋' ||
+                          trimmedText === 'Teach me!' ||
+                          trimmedText === 'Teach me';
+
+        if (isEmpty || isTrigger) {
+          htmlEl.style.setProperty('display', 'none', 'important');
+          console.log('[TeachMePanel] Hidden empty/trigger message');
+          hidden = true;
         }
       }
 
@@ -430,13 +417,12 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   }, [session?.user?.name, session?.user?.email]);
 
   // Auto-start Socratic conversation when panel opens in teach mode
-  // Send minimal trigger - backend recognizes "👋" as start signal
+  // Use zero-width space as invisible trigger - AI will respond with greeting
   useEffect(() => {
     if (isOpen && mode === "teach" && !initialMessage && !hasAutoStarted) {
-      // Minimal visible trigger - just a wave emoji
-      // Backend will detect this and respond with personalized Socratic greeting
-      // User name is passed via headers, lesson from URL params
-      setInitialMessage("👋");
+      // Use invisible character as trigger - will be hidden via CSS/JS
+      // The AI prompt is configured to recognize this and respond with personalized greeting
+      setInitialMessage("\u200B"); // Zero-width space - invisible!
       setHasAutoStarted(true);
     }
   }, [isOpen, mode, initialMessage, hasAutoStarted]);

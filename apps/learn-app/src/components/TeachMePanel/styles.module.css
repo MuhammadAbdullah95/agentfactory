@@ -146,9 +146,15 @@
 /* Hide trigger message when AI should appear to speak first */
 /* ChatKit uses obfuscated class names: .AA6bn (container), .ln8Ls (bubble) */
 
-/* Hide ALL user message containers when hideFirstUser is active */
-/* The JS will selectively show messages that don't contain the trigger */
+/* AGGRESSIVE: Hide the first user message container in teach mode */
+/* This ensures the invisible trigger never shows */
 .hideFirstUser :global(.AA6bn:first-child),
-.hideFirstUser :global(.AA6bn:nth-child(1)) {
+.hideFirstUser :global(.AA6bn:first-of-type),
+.hideFirstUser :global(.AA6bn:nth-child(1)),
+.hideFirstUser :global(div[style*="margin-left"]:first-child) {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
 }
