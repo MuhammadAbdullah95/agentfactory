@@ -782,16 +782,16 @@ export function DocPageActions() {
 
   return (
     <div className="doc-page-actions" role="toolbar" aria-label="Page actions">
-      {/* Study Mode Button - Only shown on lesson pages for logged-in users */}
+      {/* Teach Me Button - Only shown on lesson pages for logged-in users */}
       {isLessonPage && isLoggedIn && (
         <Tooltip content="AI-powered Socratic learning" position="bottom">
           <button
             className="doc-page-actions-study-mode"
             onClick={openPanel}
-            aria-label="Open Study Mode"
+            aria-label="Open Teach Me"
           >
             <StudyModeIcon />
-            <span>Study Mode</span>
+            <span>Teach Me</span>
           </button>
         </Tooltip>
       )}

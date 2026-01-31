@@ -228,13 +228,13 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         {!isStudyModeOpen && (
           <div className="floating-actions">
             <BackToTopButton />
-            {/* Study Mode button - only for logged-in users on lesson pages */}
+            {/* Teach Me button - only for logged-in users on lesson pages */}
             {isLoggedIn && isLeafPage && (
               <button
                 onClick={openPanel}
                 className="study-mode-float"
-                title="Study Mode"
-                aria-label="Open Study Mode"
+                title="Teach Me"
+                aria-label="Open Teach Me"
               >
                 <svg
                   width="20"

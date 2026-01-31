@@ -71,6 +71,7 @@ function ChatKitWrapper({
   mode = "teach",
   initialMessage,
   onSendMessage,
+  onInitialMessageSent,
 }: {
   lessonPath: string;
   lessonTitle: string;
@@ -79,6 +80,7 @@ function ChatKitWrapper({
   mode?: ChatMode;
   initialMessage?: string;
   onSendMessage?: (sendFn: (text: string) => Promise<void>) => void;
+  onInitialMessageSent?: () => void;
 }) {
   const { session } = useAuth();
 
@@ -211,13 +213,17 @@ function ChatKitWrapper({
     }
   }, [onSendMessage, sendUserMessage]);
 
-  // Send initial message if provided (for Ask feature)
-  // Note: initialMessage is cleared by parent after sending via onInitialMessageSent callback
+  // Send initial message if provided (for Ask feature or auto-start teach mode)
+  // Calls onInitialMessageSent callback to clear the message after sending
   useEffect(() => {
     if (initialMessage && sendUserMessage) {
-      sendUserMessage({ text: initialMessage, newThread: true });
+      sendUserMessage({ text: initialMessage, newThread: true }).then(() => {
+        if (onInitialMessageSent) {
+          onInitialMessageSent();
+        }
+      });
     }
-  }, [initialMessage, sendUserMessage]);
+  }, [initialMessage, sendUserMessage, onInitialMessageSent]);
 
   return (
     <div className={styles.chatWrapper}>
@@ -264,6 +270,24 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
       .replace(/-/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
   }, [lessonPath]);
+
+  // Track if we've auto-started teach mode for this chat session
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
+
+  // Auto-start Socratic conversation when panel opens in teach mode
+  // The agent will text first with a greeting and initial question
+  useEffect(() => {
+    if (isOpen && mode === "teach" && !initialMessage && !hasAutoStarted) {
+      // Set initial message to trigger agent's first response
+      setInitialMessage(`Start teaching me about "${lessonTitle}". Begin with a brief welcome and ask me what I already know about this topic.`);
+      setHasAutoStarted(true);
+    }
+  }, [isOpen, mode, initialMessage, hasAutoStarted, lessonTitle]);
+
+  // Reset auto-start flag when chat key changes (new chat) or mode changes
+  useEffect(() => {
+    setHasAutoStarted(false);
+  }, [chatKey]);
 
   // Handle text selection for Ask feature
   const handleSelection = useCallback(() => {
@@ -369,6 +393,7 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
               domainKey={chatkitDomainKey}
               mode={mode}
               initialMessage={initialMessage}
+              onInitialMessageSent={() => setInitialMessage(undefined)}
             />
           </div>
         </SheetContent>

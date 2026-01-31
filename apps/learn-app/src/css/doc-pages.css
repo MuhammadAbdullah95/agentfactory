@@ -804,9 +804,9 @@ article {
   position: relative;
 }
 
-/* Tooltip for Study Mode button */
+/* Tooltip for Teach Me button */
 .study-mode-float::after {
-  content: "Study Mode";
+  content: "Teach Me";
   position: absolute;
   right: calc(100% + 10px);
   top: 50%;
