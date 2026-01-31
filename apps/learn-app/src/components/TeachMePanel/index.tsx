@@ -260,39 +260,53 @@ function ChatKitWrapper({
     };
 
     const findAndHideInDOM = (container: Element | ShadowRoot) => {
-      // Find user message containers (.AA6bn) and hide those containing the trigger
-      const userContainers = container.querySelectorAll('.AA6bn');
+      let hidden = false;
+
+      // Method 1: Find user message containers by class
+      const userContainers = container.querySelectorAll('.AA6bn, .ln8Ls, [class*="user"], [class*="User"]');
       for (const el of userContainers) {
         const htmlEl = el as HTMLElement;
         const text = htmlEl.textContent || '';
-        // Hide if it contains our hidden trigger OR "Teach me" text
         if (text.includes('__START_TEACHING__') ||
             text.includes('Teach me!') ||
             text.trim() === 'Teach me') {
-          htmlEl.style.display = 'none';
-          console.log('[TeachMePanel] Hidden trigger message:', text.substring(0, 50));
-          return true;
+          htmlEl.style.setProperty('display', 'none', 'important');
+          htmlEl.style.setProperty('visibility', 'hidden', 'important');
+          htmlEl.style.setProperty('height', '0', 'important');
+          htmlEl.style.setProperty('overflow', 'hidden', 'important');
+          console.log('[TeachMePanel] Hidden user container:', text.substring(0, 50));
+          hidden = true;
         }
       }
 
-      // Fallback: search all elements for trigger text
+      // Method 2: Search ALL elements for trigger text
       const allElements = container.querySelectorAll('*');
       for (const el of allElements) {
-        const text = el.textContent?.trim() || '';
+        const text = el.textContent || '';
         if (text.includes('__START_TEACHING__')) {
-          // Walk up to find .AA6bn container
-          let target = el as HTMLElement;
-          for (let i = 0; i < 10 && target.parentElement; i++) {
-            target = target.parentElement;
-            if (target.classList?.contains('AA6bn')) {
-              target.style.display = 'none';
-              console.log('[TeachMePanel] Hidden trigger container via walk-up');
-              return true;
+          const htmlEl = el as HTMLElement;
+
+          // Hide this element
+          htmlEl.style.setProperty('display', 'none', 'important');
+
+          // Also walk up and hide parent containers
+          let parent = htmlEl.parentElement;
+          for (let i = 0; i < 8 && parent; i++) {
+            const parentText = parent.textContent || '';
+            // If parent only contains the trigger, hide it too
+            if (parentText.includes('__START_TEACHING__') &&
+                !parentText.includes('Sage') && // Don't hide AI responses
+                parentText.length < 200) {
+              parent.style.setProperty('display', 'none', 'important');
+              console.log('[TeachMePanel] Hidden parent level', i);
             }
+            parent = parent.parentElement;
           }
+          hidden = true;
         }
       }
-      return false;
+
+      return hidden;
     };
 
     const processElement = (element: Element) => {
@@ -325,10 +339,27 @@ function ChatKitWrapper({
 
       // Then process all elements looking for shadow roots
       processElement(wrapperRef.current);
+
+      // AGGRESSIVE: Find openai-chatkit element and search its shadow root directly
+      const chatkit = wrapperRef.current.querySelector('openai-chatkit');
+      if (chatkit?.shadowRoot) {
+        findAndHideInDOM(chatkit.shadowRoot);
+
+        // Also search nested shadow roots
+        chatkit.shadowRoot.querySelectorAll('*').forEach(el => {
+          if ((el as Element).shadowRoot) {
+            findAndHideInDOM((el as Element).shadowRoot!);
+          }
+        });
+      }
     };
 
-    // Run multiple times to catch dynamic content
-    const timers = [100, 300, 500, 1000, 1500, 2000].map(
+    // Run continuously for first 5 seconds to catch dynamic content
+    const interval = setInterval(runChecks, 100);
+    setTimeout(() => clearInterval(interval), 5000);
+
+    // Also run on specific delays
+    const timers = [50, 150, 300, 500, 800, 1200, 2000, 3000].map(
       delay => setTimeout(runChecks, delay)
     );
 
@@ -341,6 +372,7 @@ function ChatKitWrapper({
     });
 
     return () => {
+      clearInterval(interval);
       timers.forEach(clearTimeout);
       observer.disconnect();
     };
