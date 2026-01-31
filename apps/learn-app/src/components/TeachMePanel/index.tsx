@@ -278,8 +278,8 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   // The agent will text first with a greeting and initial question
   useEffect(() => {
     if (isOpen && mode === "teach" && !initialMessage && !hasAutoStarted) {
-      // Set initial message to trigger agent's first response
-      setInitialMessage(`Start teaching me about "${lessonTitle}". Begin with a brief welcome and ask me what I already know about this topic.`);
+      // Short natural message - AI will respond with Socratic greeting
+      setInitialMessage("Teach me!");
       setHasAutoStarted(true);
     }
   }, [isOpen, mode, initialMessage, hasAutoStarted, lessonTitle]);
