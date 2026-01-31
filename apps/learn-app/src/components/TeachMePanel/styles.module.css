@@ -144,15 +144,40 @@
 }
 
 /* Hide first user message when AI should appear to speak first */
-/* ChatKit renders user messages with data-role="user" attribute */
+/* Target ChatKit message elements - multiple approaches */
+
+/* Approach 1: Target by data attributes */
 .hideFirstUser :global([data-role="user"]:first-of-type),
-.hideFirstUser :global(.oai-user-message:first-of-type),
-.hideFirstUser :global([class*="userMessage"]:first-of-type) {
+.hideFirstUser :global([data-message-role="user"]:first-of-type) {
   display: none !important;
 }
 
-/* Alternative selector targeting message containers */
-.hideFirstUser :global(.oai-message-list > *:first-child[data-role="user"]),
-.hideFirstUser :global(.oai-thread-messages > *:first-child:has([data-role="user"])) {
+/* Approach 2: Target OpenAI ChatKit specific classes */
+.hideFirstUser :global(.oai-user-message:first-of-type),
+.hideFirstUser :global(.oai-message-user:first-of-type),
+.hideFirstUser :global([class*="userMessage"]:first-of-type),
+.hideFirstUser :global([class*="UserMessage"]:first-of-type) {
+  display: none !important;
+}
+
+/* Approach 3: Target by flex alignment (user messages often right-aligned) */
+.hideFirstUser :global([style*="flex-end"]:first-of-type),
+.hideFirstUser :global([style*="justify-content: flex-end"]:first-of-type) {
+  display: none !important;
+}
+
+/* Approach 4: Target message list first child */
+.hideFirstUser :global(.oai-message-list > *:first-child),
+.hideFirstUser :global(.oai-thread-messages > *:first-child),
+.hideFirstUser :global([class*="messageList"] > *:first-child),
+.hideFirstUser :global([class*="MessageList"] > *:first-child) {
+  display: none !important;
+}
+
+/* Approach 5: Target by thread/conversation container */
+.hideFirstUser :global([class*="thread"] > *:first-child),
+.hideFirstUser :global([class*="Thread"] > *:first-child),
+.hideFirstUser :global([class*="conversation"] > *:first-child),
+.hideFirstUser :global([class*="Conversation"] > *:first-child) {
   display: none !important;
 }
