@@ -169,7 +169,11 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Note: items will have 1 item (current user message) for new threads
             # because base ChatKitServer adds the message before calling respond()
             if len(items) <= 1 and "title" not in context.metadata:
-                context.metadata["title"] = _generate_thread_title(user_text)
+                # If message is a trigger (empty/short), use lesson title instead
+                if _is_trigger_message(user_text):
+                    context.metadata["title"] = f"📚 {title}"  # Use lesson title
+                else:
+                    context.metadata["title"] = _generate_thread_title(user_text)
                 logger.info(f"[ChatKit] Generated title: {context.metadata['title']}")
                 # Save thread again with the generated title (base class saved with default)
                 await self.store.save_thread(thread, context)
