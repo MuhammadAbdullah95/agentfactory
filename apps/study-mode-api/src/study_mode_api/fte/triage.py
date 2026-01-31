@@ -32,11 +32,39 @@ TEACH_CONTENT_LIMIT = 8000
 ASK_CONTENT_LIMIT = 6000
 
 # =============================================================================
+# Greeting Instructions (injected based on conversation state)
+# =============================================================================
+
+FIRST_MESSAGE_INSTRUCTION = """THIS IS THE FIRST MESSAGE - GREET THE STUDENT:
+Start with a warm, personal greeting then ask an opening question.
+
+Example opening:
+"Hi {user_name}! 👋 Great to have you here!
+
+Today we're exploring **{title}** - [one sentence about why it matters].
+
+Before we dive in - what do you already know about this topic?"
+"""
+
+FOLLOW_UP_INSTRUCTION = """THIS IS A FOLLOW-UP MESSAGE - DO NOT GREET AGAIN:
+❌ Do NOT say "Hi {user_name}" or any greeting - you already greeted them
+✓ Just respond naturally to what they said
+✓ Acknowledge their input ("I hear you", "Good thinking", "Let's explore that")
+✓ Ask ONE follow-up question to continue the dialogue
+
+If they say something is too complex:
+"Totally fair - let's break it down. [Simplify and ask about ONE concept]"
+
+If they answer a question:
+"[Acknowledge their answer] - [build on it or gently correct] - [next question]"
+"""
+
+# =============================================================================
 # Agent Prompts
 # =============================================================================
 
 TEACH_PROMPT = """You are Sage, a warm and curious Socratic tutor for the AI Agent Factory book.
-{user_greeting}
+{user_context}
 
 YOUR PERSONALITY:
 - Genuinely curious about what the student thinks
@@ -44,7 +72,6 @@ YOUR PERSONALITY:
 - Celebrates "aha moments" with authentic enthusiasm
 - Uses simple, conversational language
 - Treats mistakes as learning opportunities
-- Always address the student by their name when you know it
 
 LESSON YOU'RE TEACHING:
 📚 {title}
@@ -52,33 +79,7 @@ LESSON YOU'RE TEACHING:
 {content}
 ---
 
-CRITICAL: GREETING RULES
-- Greet the student BY NAME **only ONCE** - in your very first message of the conversation
-- On follow-up messages, DO NOT say "Hi [Name]" again - just respond naturally
-- If they say something like "its too complex", acknowledge it and adapt - don't restart!
-
-RECOGNIZING THE START TRIGGER (FIRST MESSAGE ONLY):
-When the FIRST message is empty, "👋", "Teach me!", or very short (1-2 chars):
-- This is the student clicking "Teach Me" button
-- Respond with your ONE-TIME greeting and opening question
-
-YOUR FIRST MESSAGE (and ONLY this message gets a greeting):
-"Hi {user_greeting}! 👋 Great to have you here!
-
-Today we're exploring **{title}** - [one sentence about why it matters].
-
-Before we dive in - what do you already know about this topic?"
-
-FOLLOW-UP MESSAGES (no greeting, just respond):
-- Listen to what they said
-- Acknowledge their feelings ("I hear you - let's simplify this")
-- Adapt your teaching to their level
-- Ask ONE follow-up question to guide discovery
-
-EXAMPLE - If student says "its too complex":
-"Totally fair - let's break it down. Instead of all at once, let's start with just ONE concept: [simplest concept from lesson].
-
-What's one thing you've already seen or done that involves [simple concept]?"
+{greeting_instruction}
 
 THE SOCRATIC METHOD - YOUR TEACHING APPROACH:
 1. ASK, don't tell - Guide discovery through thoughtful questions
@@ -190,6 +191,7 @@ def create_agent(
     content: str,
     mode: str = "teach",
     user_name: str | None = None,
+    is_first_message: bool = True,
 ) -> Agent:
     """
     Create book-grounded study agent with optional user personalization.
@@ -199,23 +201,37 @@ def create_agent(
         content: Lesson markdown content
         mode: "teach" for Socratic tutoring, "ask" for direct answers
         user_name: Optional student name for personalization
+        is_first_message: Whether this is the first message (controls greeting)
 
     Returns:
         Configured Agent instance
     """
     agent_config = get_agent_for_mode(mode)
-    user_greeting = f"STUDENT: {user_name}" if user_name else ""
+    display_name = user_name or "there"
+    user_context = f"STUDENT NAME: {user_name}" if user_name else ""
 
     if mode == "teach":
+        # Choose greeting instruction based on conversation state
+        if is_first_message:
+            greeting_instruction = FIRST_MESSAGE_INSTRUCTION.format(
+                user_name=display_name,
+                title=title,
+            )
+        else:
+            greeting_instruction = FOLLOW_UP_INSTRUCTION.format(
+                user_name=display_name,
+            )
+
         instructions = agent_config["prompt"].format(
             title=title,
             content=content[:agent_config["content_limit"]],
-            user_greeting=user_greeting,
+            user_context=user_context,
+            greeting_instruction=greeting_instruction,
         )
     else:
         instructions = agent_config["prompt"].format(
             content=f"CURRENT: {title}\n{content[:agent_config['content_limit']]}",
-            user_greeting=user_greeting,
+            user_greeting=user_context,
         )
 
     return Agent(
@@ -226,7 +242,7 @@ def create_agent(
     )
 
 
-def create_agent_from_state(state: AgentState) -> Agent:
+def create_agent_from_state(state: AgentState, is_first_message: bool = True) -> Agent:
     """
     Create agent from AgentState object.
 
@@ -235,6 +251,7 @@ def create_agent_from_state(state: AgentState) -> Agent:
 
     Args:
         state: AgentState with all necessary context
+        is_first_message: Whether this is the first message (controls greeting)
 
     Returns:
         Configured Agent instance
@@ -244,4 +261,5 @@ def create_agent_from_state(state: AgentState) -> Agent:
         content=state.lesson_content,
         mode=state.mode,
         user_name=state.user_name,
+        is_first_message=is_first_message,
     )

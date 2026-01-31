@@ -31,28 +31,47 @@ TITLE_MAX_WORDS = 6
 TITLE_MAX_CHARS = 50
 
 # Trigger patterns that indicate auto-start (AI should speak first)
-TRIGGER_PATTERNS = [
+TRIGGER_PATTERNS = {
     "",  # Empty
-    "\u200B",  # Zero-width space
+    "\u200B",  # Zero-width space (uppercase)
+    "\u200b",  # Zero-width space (lowercase - just in case)
     "👋",  # Wave emoji
     "Teach me!",
     "Teach me",
     "__START_TEACHING__",
-]
+}
+
+# Characters to strip (including zero-width chars)
+INVISIBLE_CHARS = "\u200B\u200b\uFEFF\u00A0\t\n\r "
 
 
 def _is_trigger_message(text: str) -> bool:
     """Check if message is an auto-start trigger (should be hidden)."""
-    text = text.strip()
+    # Strip all whitespace including invisible Unicode chars
+    clean_text = text.strip(INVISIBLE_CHARS)
+
+    logger.debug(f"[Trigger] raw='{text!r}', clean='{clean_text!r}', len={len(clean_text)}")
+
+    # Empty after stripping = trigger
+    if not clean_text:
+        return True
+
     # Check exact matches
-    if text in TRIGGER_PATTERNS:
+    if clean_text in TRIGGER_PATTERNS:
         return True
-    # Check if starts with trigger pattern
-    if text.startswith("__START_TEACHING__"):
+
+    # Check if contains trigger pattern (handles "__START_TEACHING__|title|name")
+    if "__START_TEACHING__" in clean_text:
         return True
-    # Very short messages (1-2 chars) are likely triggers
-    if len(text) <= 2:
+
+    # Very short messages (1-2 visible chars) are likely triggers
+    if len(clean_text) <= 2:
         return True
+
+    # Single emoji detection (emoji can be multiple code points)
+    if len(clean_text) <= 4 and not clean_text.isascii():
+        return True
+
     return False
 
 
@@ -152,9 +171,6 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             if not content:
                 logger.warning(f"[ChatKit] No content for: {lesson_path}")
 
-            # Create agent from orchestrator
-            agent = create_agent(title, content, mode, user_name=user_name)
-
             # Get previous messages from thread for context
             previous_items = await self.store.load_thread_items(
                 thread.id,
@@ -165,10 +181,28 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             )
             items = list(reversed(previous_items.data))
 
+            # Detect if this is the first message (new thread)
+            # Check if there's already an AI response in the thread
+            # Note: We can't just count items because trigger messages get deleted
+            item_types = [type(item).__name__ for item in items]
+            has_assistant_response = any(
+                isinstance(item, AssistantMessageItem) or
+                getattr(item, 'type', '') == 'assistant_message'
+                for item in items
+            )
+            is_first_message = not has_assistant_response
+            logger.info(f"[ChatKit] items={len(items)}, types={item_types}, has_assistant={has_assistant_response}, is_first={is_first_message}")
+
+            # Create agent with appropriate greeting behavior
+            agent = create_agent(
+                title, content, mode,
+                user_name=user_name,
+                is_first_message=is_first_message,
+            )
+            logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}")
+
             # Set thread title from first user message (if new thread)
-            # Note: items will have 1 item (current user message) for new threads
-            # because base ChatKitServer adds the message before calling respond()
-            if len(items) <= 1 and "title" not in context.metadata:
+            if is_first_message and "title" not in context.metadata:
                 # If message is a trigger (empty/short), use lesson title instead
                 if _is_trigger_message(user_text):
                     context.metadata["title"] = f"📚 {title}"  # Use lesson title
