@@ -12,6 +12,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import ContentGate from '@/components/ContentGate';
+import { HighlightTip } from '@/components/HighlightTip';
 import styles from './styles.module.css';
 
 interface LessonContentProps {
@@ -160,6 +161,9 @@ export const LessonContent: React.FC<LessonContentProps> = ({
           )}
         </button>
       </nav>
+
+      {/* Highlight tip - subtle hint for Ask feature */}
+      <HighlightTip />
 
       {/* Content Panels */}
       <div className={styles.panelContainer}>
