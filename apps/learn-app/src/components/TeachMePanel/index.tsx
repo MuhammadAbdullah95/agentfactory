@@ -12,7 +12,13 @@
  * Reference: https://github.com/openai/openai-chatkit-starter-app
  */
 
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useStudyMode } from "../../contexts/StudyModeContext";
@@ -111,8 +117,26 @@ function ChatKitWrapper({
     return undefined;
   }, [session?.user?.name, session?.user?.email]);
 
+  // Track if context has been consumed (sent with first message)
+  const contextConsumedRef = useRef(false);
+
+  // Reset consumed flag when selectedContext changes (new selection)
+  useEffect(() => {
+    if (selectedContext) {
+      contextConsumedRef.current = false;
+    }
+  }, [selectedContext]);
+
   const apiUrl = useMemo(
-    () => getChatKitUrl(apiBase, lessonPath, userId, mode, userName, selectedContext),
+    () =>
+      getChatKitUrl(
+        apiBase,
+        lessonPath,
+        userId,
+        mode,
+        userName,
+        selectedContext,
+      ),
     [apiBase, lessonPath, userId, mode, userName, selectedContext],
   );
 
@@ -165,9 +189,26 @@ function ChatKitWrapper({
       });
 
       console.log("[TeachMePanel] Response status:", response.status);
+
+      // After first successful message send, clear the context chip
+      // POST requests indicate user sent a message
+      const isPost = options?.method?.toUpperCase() === "POST";
+      if (
+        isPost &&
+        response.ok &&
+        selectedContext &&
+        !contextConsumedRef.current
+      ) {
+        contextConsumedRef.current = true;
+        // Clear context after a short delay to let the message appear first
+        setTimeout(() => {
+          onContextUsed?.();
+        }, 500);
+      }
+
       return response;
     },
-    [userId, userName],
+    [userId, userName, selectedContext, onContextUsed],
   );
 
   const { control, sendUserMessage } = useChatKit({
@@ -377,12 +418,6 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
     setSelectedText("");
     setSelectionPosition(null);
     window.getSelection()?.removeAllRanges();
-
-    // Auto-clear context after user has seen it (3 seconds)
-    // Context is embedded in prompts, so chip is just a reminder
-    setTimeout(() => {
-      setSelectedContext(undefined);
-    }, 3000);
   }, [selectedText, openPanel]);
 
   // Clear selected context
