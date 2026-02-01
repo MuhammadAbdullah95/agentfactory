@@ -1,9 +1,14 @@
 /**
- * TeachMePanel Styles - AI Tutor Integration
- * Panel handled by Shadcn Sheet - only chat-specific styles here
+ * TeachMePanel Styles — Brand Blue Aesthetic
+ *
+ * Design: Matches Study Mode button with brand blue oklch(0.50 0.14 255)
+ * Clean, professional, integrated with existing UI
  */
 
-/* Chat Wrapper */
+/* ============================================================================
+   CHAT WRAPPER - Foundation
+   ============================================================================ */
+
 .chatWrapper {
   flex: 1;
   display: flex;
@@ -12,133 +17,279 @@
   position: relative;
 }
 
-/* Floating Ask Button - appears on text selection */
-/* Uses brand blue (hue 255) with sharp corners to match design system */
+/* ============================================================================
+   ASK BUTTON — Matches Study Mode button exactly
+   ============================================================================ */
+
 .askButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 18px;
-  /* Brand blue - matches --primary in OKLCH */
+
+  /* Same sizing as Study Mode button */
+  padding: 10px 16px;
+  min-width: 44px;
+  min-height: 44px;
+
+  /* Brand blue - exact Study Mode color */
   background: oklch(0.50 0.14 255);
   color: white;
-  border-radius: 0; /* Sharp corners - brand standard */
+
+  /* Sharp corners - Study Mode standard */
+  border-radius: 0;
+
+  /* Typography */
+  font-family: system-ui, -apple-system, 'SF Pro Text', sans-serif;
   font-size: 13px;
-  font-weight: 600;
-  font-family: var(--font-sans, 'Inter', sans-serif);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+
   cursor: pointer;
-  box-shadow:
-    0 4px 12px oklch(0.50 0.14 255 / 35%),
-    0 2px 4px oklch(0 0 0 / 10%);
-  transition: all 0.15s ease;
   user-select: none;
-  animation: askButtonFadeIn 0.15s ease;
-  border: 1px solid oklch(0.55 0.14 255);
   white-space: nowrap;
+  border: 1px solid oklch(0.55 0.14 255);
+
+  /* Same glow as Study Mode button */
+  box-shadow: 0 2px 8px oklch(0.50 0.14 255 / 0.3);
+
+  transition: all 0.15s ease;
+  animation: askButtonReveal 0.25s ease-out;
+
+  /* Position relative for icon */
+  position: relative;
 }
 
-/* Icon before text - clean AI indicator */
+/* Icon before text */
 .askButton::before {
-  content: "";
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  flex-shrink: 0;
+  content: "✦";
+  font-size: 12px;
+  opacity: 0.9;
 }
 
 .askButton:hover {
   transform: translateX(-50%) translateY(-100%) translateY(-2px);
-  box-shadow:
-    0 6px 16px oklch(0.50 0.14 255 / 45%),
-    0 4px 8px oklch(0 0 0 / 15%);
   background: oklch(0.55 0.14 255);
   border-color: oklch(0.60 0.14 255);
+  box-shadow: 0 4px 12px oklch(0.50 0.14 255 / 0.45);
 }
 
 .askButton:active {
-  transform: translateX(-50%) translateY(-100%) translateY(0);
+  transform: translateX(-50%) translateY(-100%);
   background: oklch(0.45 0.14 255);
 }
 
-/* Dark mode adjustments */
+@keyframes askButtonReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-75%) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-100%) scale(1);
+  }
+}
+
+/* Dark mode — slightly brighter */
 :global(html[data-theme='dark']) .askButton {
   background: oklch(0.55 0.14 255);
   border-color: oklch(0.60 0.14 255);
-  box-shadow:
-    0 4px 12px oklch(0.55 0.14 255 / 40%),
-    0 2px 4px oklch(0 0 0 / 20%);
+  box-shadow: 0 2px 8px oklch(0.55 0.14 255 / 0.35);
 }
 
 :global(html[data-theme='dark']) .askButton:hover {
   background: oklch(0.60 0.14 255);
   border-color: oklch(0.65 0.14 255);
+  box-shadow: 0 4px 12px oklch(0.55 0.14 255 / 0.5);
 }
 
-@keyframes askButtonFadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-80%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-100%);
-  }
+/* Ask button locked state - show lock icon, same blue color */
+.askButtonLocked {
+  /* Same blue styling - icon shows locked state */
 }
 
-/* Mobile Close Button - top left corner, subtle circular style */
+.askButtonLocked::before {
+  /* Hide the sparkle, lock icon is shown via JSX */
+  display: none;
+}
+
+/* ============================================================================
+   MOBILE CLOSE BUTTON — Hidden on desktop
+   ============================================================================ */
+
 .mobileCloseButton {
+  display: none;
+
   position: absolute;
-  left: 12px;
-  top: 12px;
+  left: 16px;
+  top: 16px;
   z-index: 50;
-  display: flex;
+
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  color: #374151;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+
+  border-radius: 4px;
+  background: oklch(0.98 0 0);
+  color: oklch(0.35 0 0);
+  border: 1px solid oklch(0.88 0 0);
+
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+}
+
+@media (max-width: 768px) {
+  .mobileCloseButton {
+    display: flex;
+  }
 }
 
 .mobileCloseButton:hover {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: scale(1.05);
+  background: oklch(0.95 0 0);
+  border-color: oklch(0.75 0 0);
+  color: oklch(0.18 0 0);
 }
 
-.mobileCloseButton:active {
-  transform: scale(0.95);
-  background: rgba(243, 244, 246, 1);
+:global(html[data-theme='dark']) .mobileCloseButton {
+  background: oklch(0.15 0.01 250);
+  color: oklch(0.70 0 0);
+  border-color: oklch(0.28 0 0);
 }
 
-/* ChatKit Container */
+:global(html[data-theme='dark']) .mobileCloseButton:hover {
+  background: oklch(0.20 0.01 250);
+  border-color: oklch(0.40 0 0);
+  color: oklch(0.95 0 0);
+}
+
+/* ============================================================================
+   CHAT CONTAINER — Layout foundation
+   ============================================================================ */
+
 .chatContainer {
   flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  position: relative;
 }
 
 .chatKit {
+  flex: 1;
   width: 100%;
-  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
-/* Override ChatKit default styles */
+/* Override ChatKit defaults */
 .chatContainer :global(openai-chatkit) {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* Ensure prompts are interactive */
+.chatContainer :global([data-chatkit-prompt]),
+.chatContainer :global(button) {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   CONTEXT CHIP — Positioned at bottom, above input
+   ============================================================================ */
+
+.contextChip {
+  flex-shrink: 0;
+  order: 1;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin: 0 12px 10px 12px;
+  padding: 10px 12px;
+
+  /* Brand blue left accent */
+  border-left: 3px solid oklch(0.50 0.14 255);
+  border-radius: 0 4px 4px 0;
+
+  background: oklch(0.97 0.01 255);
+}
+
+.contextLabel {
+  font-family: system-ui, -apple-system, 'SF Pro Text', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  color: oklch(0.50 0.14 255);
+  white-space: nowrap;
+}
+
+.contextText {
+  flex: 1;
+
+  font-family: system-ui, -apple-system, 'SF Pro Text', sans-serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.45;
+  color: oklch(0.30 0 0);
+
+  /* Limit to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.contextDismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+
+  color: oklch(0.50 0 0);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.contextDismiss:hover {
+  background: oklch(0.92 0.01 255);
+  color: oklch(0.30 0 0);
+}
+
+/* Dark mode */
+:global(html[data-theme='dark']) .contextChip {
+  background: oklch(0.16 0.02 255);
+  border-left-color: oklch(0.60 0.14 255);
+}
+
+:global(html[data-theme='dark']) .contextLabel {
+  color: oklch(0.65 0.14 255);
+}
+
+:global(html[data-theme='dark']) .contextText {
+  color: oklch(0.82 0 0);
+}
+
+:global(html[data-theme='dark']) .contextDismiss {
+  color: oklch(0.55 0 0);
+}
+
+:global(html[data-theme='dark']) .contextDismiss:hover {
+  background: oklch(0.22 0.02 255);
+  color: oklch(0.90 0 0);
 }
