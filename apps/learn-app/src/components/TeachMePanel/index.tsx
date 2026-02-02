@@ -12,13 +12,7 @@
  * Reference: https://github.com/openai/openai-chatkit-starter-app
  */
 
-import React, {
-  useState,
-  useMemo,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useStudyMode } from "../../contexts/StudyModeContext";
@@ -117,16 +111,6 @@ function ChatKitWrapper({
     return undefined;
   }, [session?.user?.name, session?.user?.email]);
 
-  // Track if context has been consumed (sent with first message)
-  const contextConsumedRef = useRef(false);
-
-  // Reset consumed flag when selectedContext changes (new selection)
-  useEffect(() => {
-    if (selectedContext) {
-      contextConsumedRef.current = false;
-    }
-  }, [selectedContext]);
-
   const apiUrl = useMemo(
     () =>
       getChatKitUrl(
@@ -190,25 +174,9 @@ function ChatKitWrapper({
 
       console.log("[TeachMePanel] Response status:", response.status);
 
-      // After first successful message send, clear the context chip
-      // POST requests indicate user sent a message
-      const isPost = options?.method?.toUpperCase() === "POST";
-      if (
-        isPost &&
-        response.ok &&
-        selectedContext &&
-        !contextConsumedRef.current
-      ) {
-        contextConsumedRef.current = true;
-        // Clear context after a short delay to let the message appear first
-        setTimeout(() => {
-          onContextUsed?.();
-        }, 500);
-      }
-
       return response;
     },
-    [userId, userName, selectedContext, onContextUsed],
+    [userId, userName],
   );
 
   const { control, sendUserMessage } = useChatKit({
@@ -269,14 +237,14 @@ function ChatKitWrapper({
               icon: "circle-question",
               label: "Quick summary",
               prompt: selectedContext
-                ? `Summarize this in 2-3 sentences: "${selectedContext.slice(0, 300)}"`
+                ? "Summarize the highlighted text in 2-3 sentences."
                 : "Give me a quick summary in 2-3 sentences",
             },
             {
               icon: "lightbulb",
               label: "Define this",
               prompt: selectedContext
-                ? `Define this briefly: "${selectedContext.slice(0, 200)}"`
+                ? "Define the highlighted text briefly."
                 : "Define this concept briefly",
             },
           ],

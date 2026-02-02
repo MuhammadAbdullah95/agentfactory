@@ -107,6 +107,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             lesson_path = context.metadata.get("lesson_path", "")
             mode = context.metadata.get("mode", "teach")
             user_name = context.metadata.get("user_name")
+            selected_text = context.metadata.get("selected_text")
 
             logger.info(
                 f"[ChatKit] Processing: user={context.user_id}, "
@@ -128,7 +129,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 logger.warning(f"[ChatKit] No content for: {lesson_path}")
 
             # Create agent from orchestrator
-            agent = create_agent(title, content, mode, user_name=user_name)
+            agent = create_agent(
+                title, content, mode, user_name=user_name, selected_text=selected_text
+            )
 
             # Get previous messages from thread for context
             previous_items = await self.store.load_thread_items(

@@ -72,7 +72,7 @@ ASK_PROMPT = """You are a helpful explainer for the AgentFactory book.
 
 CONTEXT (the page they're reading):
 {content}
-
+{selected_text_section}
 WHAT'S HAPPENING:
 The student highlighted something or has a specific question about the lesson.
 They want a clear explanation, not a Socratic dialogue.
@@ -141,6 +141,7 @@ def create_agent(
     content: str,
     mode: str = "teach",
     user_name: str | None = None,
+    selected_text: str | None = None,
 ) -> Agent:
     """
     Create book-grounded study agent with optional user personalization.
@@ -150,6 +151,7 @@ def create_agent(
         content: Lesson markdown content
         mode: "teach" for Socratic tutoring, "ask" for direct answers
         user_name: Optional student name for personalization
+        selected_text: Optional highlighted text from user (ask mode only)
 
     Returns:
         Configured Agent instance
@@ -164,9 +166,15 @@ def create_agent(
             user_greeting=user_greeting,
         )
     else:
+        # Ask mode: include selected text if present
+        selected_section = ""
+        if selected_text:
+            selected_section = f'\nHIGHLIGHTED TEXT:\n"""{selected_text}"""\n'
+
         instructions = agent_config["prompt"].format(
             content=f"CURRENT: {title}\n{content[:agent_config['content_limit']]}",
             user_greeting=user_greeting,
+            selected_text_section=selected_section,
         )
 
     return Agent(
