@@ -116,7 +116,15 @@ function ChatKitWrapper({
   }, [session?.user?.name, session?.user?.email]);
 
   const apiUrl = useMemo(
-    () => getChatKitUrl(apiBase, lessonPath, userId, mode, userName, selectedContext),
+    () =>
+      getChatKitUrl(
+        apiBase,
+        lessonPath,
+        userId,
+        mode,
+        userName,
+        selectedContext,
+      ),
     [apiBase, lessonPath, userId, mode, userName, selectedContext],
   );
 
@@ -169,6 +177,7 @@ function ChatKitWrapper({
       });
 
       console.log("[TeachMePanel] Response status:", response.status);
+
       return response;
     },
     [userId, userName],
@@ -232,14 +241,14 @@ function ChatKitWrapper({
               icon: "circle-question",
               label: "Quick summary",
               prompt: selectedContext
-                ? `Summarize this in 2-3 sentences: "${selectedContext.slice(0, 300)}"`
+                ? "Summarize the highlighted text in 2-3 sentences."
                 : "Give me a quick summary in 2-3 sentences",
             },
             {
               icon: "lightbulb",
               label: "Define this",
               prompt: selectedContext
-                ? `Define this briefly: "${selectedContext.slice(0, 200)}"`
+                ? "Define the highlighted text briefly."
                 : "Define this concept briefly",
             },
           ],
@@ -544,12 +553,6 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
     setSelectedText("");
     setSelectionPosition(null);
     window.getSelection()?.removeAllRanges();
-
-    // Auto-clear context after user has seen it (3 seconds)
-    // Context is embedded in prompts, so chip is just a reminder
-    setTimeout(() => {
-      setSelectedContext(undefined);
-    }, 3000);
   }, [selectedText, openPanel]);
 
   // Clear selected context
