@@ -151,6 +151,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             lesson_path = context.metadata.get("lesson_path", "")
             mode = context.metadata.get("mode", "teach")
             user_name = context.metadata.get("user_name")
+            selected_text = context.metadata.get("selected_text")
 
             logger.info(
                 f"[ChatKit] Processing: user={context.user_id}, "
@@ -186,8 +187,8 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Note: We can't just count items because trigger messages get deleted
             item_types = [type(item).__name__ for item in items]
             has_assistant_response = any(
-                isinstance(item, AssistantMessageItem) or
-                getattr(item, 'type', '') == 'assistant_message'
+                isinstance(item, AssistantMessageItem)
+                or getattr(item, "type", "") == "assistant_message"
                 for item in items
             )
             is_first_message = not has_assistant_response
@@ -198,8 +199,11 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
             # Create agent with appropriate greeting behavior
             agent = create_agent(
-                title, content, mode,
+                title,
+                content,
+                mode,
                 user_name=user_name,
+                selected_text=selected_text,
                 is_first_message=is_first_message,
             )
             logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}")
@@ -256,9 +260,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                         f"from thread {thread.id}"
                     )
                 except Exception as del_err:
-                    logger.warning(
-                        f"[ChatKit] Failed to delete trigger: {del_err}"
-                    )
+                    logger.warning(f"[ChatKit] Failed to delete trigger: {del_err}")
 
         except Exception as e:
             logger.exception(f"[ChatKit] Error in respond(): {e}")

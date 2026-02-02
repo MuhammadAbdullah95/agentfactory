@@ -177,8 +177,10 @@ async def chatkit_endpoint(request: Request):
         metadata.update({
             "lesson_path": request.query_params.get("lesson_path", ""),
             "mode": request.query_params.get("mode", "teach"),
-            "user_name": user_name or request.headers.get("X-User-Name")
+            "user_name": user_name
+            or request.headers.get("X-User-Name")
             or request.query_params.get("user_name"),
+            "selected_text": request.query_params.get("selected_text"),
         })
 
         logger.info(

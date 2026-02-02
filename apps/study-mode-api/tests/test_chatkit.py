@@ -92,6 +92,55 @@ class TestAgentCreation:
         # Content should be truncated to 6000 chars
         assert len(agent.instructions) < len(long_content)
 
+    def test_create_agent_with_selected_text(self):
+        """Test creating agent with highlighted text (ask mode)."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="ask",
+            selected_text="What is an agent?",
+        )
+
+        assert "HIGHLIGHTED TEXT:" in agent.instructions
+        assert "What is an agent?" in agent.instructions
+
+    def test_create_agent_without_selected_text(self):
+        """Test creating agent without selected text."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="ask",
+            selected_text=None,
+        )
+
+        # Without selected_text, no HIGHLIGHTED TEXT section
+        assert "HIGHLIGHTED TEXT:" not in agent.instructions
+
+    def test_create_agent_first_message_greeting(self):
+        """Test agent includes greeting instruction for first message."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="teach",
+            user_name="Alice",
+            is_first_message=True,
+        )
+
+        assert "GREET THE STUDENT" in agent.instructions
+
+    def test_create_agent_follow_up_no_greeting(self):
+        """Test agent excludes greeting for follow-up messages."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="teach",
+            user_name="Alice",
+            is_first_message=False,
+        )
+
+        assert "DO NOT GREET AGAIN" in agent.instructions
+        assert "GREET THE STUDENT" not in agent.instructions
+
 
 class TestPromptTemplates:
     """Test prompt template structure."""
@@ -107,6 +156,7 @@ class TestPromptTemplates:
     def test_ask_prompt_has_required_elements(self):
         """Test ask prompt contains direct answer instructions."""
         assert "{content}" in ASK_PROMPT
+        assert "{selected_text_section}" in ASK_PROMPT
         assert "direct explanation" in ASK_PROMPT
         assert "Socratic" in ASK_PROMPT  # Mentions it's NOT Socratic mode
 

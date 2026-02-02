@@ -114,7 +114,7 @@ ASK_PROMPT = """You are a knowledgeable guide for the AI Agent Factory book.
 
 LESSON CONTEXT:
 {content}
-
+{selected_text_section}
 YOUR ROLE:
 The student has highlighted text or asked a specific question. They want a clear,
 direct explanation - not a Socratic dialogue. Help them understand quickly.
@@ -191,6 +191,7 @@ def create_agent(
     content: str,
     mode: str = "teach",
     user_name: str | None = None,
+    selected_text: str | None = None,
     is_first_message: bool = True,
 ) -> Agent:
     """
@@ -201,6 +202,7 @@ def create_agent(
         content: Lesson markdown content
         mode: "teach" for Socratic tutoring, "ask" for direct answers
         user_name: Optional student name for personalization
+        selected_text: Optional highlighted text from user (ask mode only)
         is_first_message: Whether this is the first message (controls greeting)
 
     Returns:
@@ -229,9 +231,15 @@ def create_agent(
             greeting_instruction=greeting_instruction,
         )
     else:
+        # Ask mode: include selected text if present
+        selected_section = ""
+        if selected_text:
+            selected_section = f'\nHIGHLIGHTED TEXT:\n"""{selected_text}"""\n'
+
         instructions = agent_config["prompt"].format(
             content=f"CURRENT: {title}\n{content[:agent_config['content_limit']]}",
             user_greeting=user_context,
+            selected_text_section=selected_section,
         )
 
     return Agent(
