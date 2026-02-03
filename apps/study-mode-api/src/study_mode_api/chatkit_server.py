@@ -64,14 +64,6 @@ def _is_trigger_message(text: str) -> bool:
     if "__START_TEACHING__" in clean_text:
         return True
 
-    # Very short messages (1-2 visible chars) are likely triggers
-    if len(clean_text) <= 2:
-        return True
-
-    # Single emoji detection (emoji can be multiple code points)
-    if len(clean_text) <= 4 and not clean_text.isascii():
-        return True
-
     return False
 
 

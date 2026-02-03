@@ -77,7 +77,6 @@ function ChatKitWrapper({
   mode = "teach",
   initialMessage,
   selectedContext,
-  onContextUsed,
   onSendMessage,
   onInitialMessageSent,
   hideFirstUserMessage = false,
@@ -89,7 +88,6 @@ function ChatKitWrapper({
   mode?: ChatMode;
   initialMessage?: string;
   selectedContext?: string;
-  onContextUsed?: () => void;
   onSendMessage?: (sendFn: (text: string) => Promise<void>) => void;
   onInitialMessageSent?: () => void;
   hideFirstUserMessage?: boolean;
@@ -618,7 +616,6 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
               onInitialMessageSent={() => setInitialMessage(undefined)}
               hideFirstUserMessage={hasAutoStarted && mode === "teach"}
               selectedContext={selectedContext}
-              onContextUsed={handleClearContext}
             />
 
             {/* Context chip — positioned at bottom, above input area */}
