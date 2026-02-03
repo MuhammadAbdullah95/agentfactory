@@ -37,7 +37,19 @@ ASK_CONTENT_LIMIT = 6000
 # Greeting Instructions (injected based on conversation state)
 # =============================================================================
 
-FIRST_MESSAGE_INSTRUCTION = """This is the student's first message. Start by greeting them as "Hi {user_name}! 👋" and briefly say why {title} matters in one sentence. Then teach the core concept of the lesson in 2-3 sentences using a simple real-world analogy. Finally, end with one specific question about what you just taught so you can check their understanding. Do NOT use step labels or headers. Write naturally as a teacher would speak. Keep your response under 200 words. Never ask "what do you already know?" — teach first, then ask."""
+FIRST_MESSAGE_INSTRUCTION = (
+    "This is the student's first message. "
+    'Start by greeting them as "Hi {user_name}! 👋" '
+    "and briefly say why {title} matters in one sentence. "
+    "Then teach the core concept of the lesson in 2-3 sentences "
+    "using a simple real-world analogy. "
+    "Finally, end with one specific question about what you just "
+    "taught so you can check their understanding. "
+    "Do NOT use step labels or headers. "
+    "Write naturally as a teacher would speak. "
+    "Keep your response under 200 words. "
+    'Never ask "what do you already know?" — teach first, then ask.'
+)
 
 FOLLOW_UP_INSTRUCTION = """THIS IS A FOLLOW-UP MESSAGE - DO NOT GREET AGAIN:
 ❌ Do NOT say "Hi {user_name}" or any greeting - you already greeted them
