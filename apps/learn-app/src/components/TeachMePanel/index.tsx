@@ -12,7 +12,7 @@
  * Reference: https://github.com/openai/openai-chatkit-starter-app
  */
 
-import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useStudyMode } from "../../contexts/StudyModeContext";
