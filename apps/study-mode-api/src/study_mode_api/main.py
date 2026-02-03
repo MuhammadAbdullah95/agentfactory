@@ -173,10 +173,12 @@ async def chatkit_endpoint(request: Request):
                 )
 
         # Add query params to metadata (for lesson_path, mode, etc.)
+        # Use user_name from JWT (production) or header/query (dev mode)
         metadata.update({
             "lesson_path": request.query_params.get("lesson_path", ""),
             "mode": request.query_params.get("mode", "teach"),
-            "user_name": request.headers.get("X-User-Name")
+            "user_name": user_name
+            or request.headers.get("X-User-Name")
             or request.query_params.get("user_name"),
             "selected_text": request.query_params.get("selected_text"),
         })

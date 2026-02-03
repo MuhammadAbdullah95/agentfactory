@@ -228,13 +228,13 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         {!isStudyModeOpen && (
           <div className="floating-actions">
             <BackToTopButton />
-            {/* Study Mode button - only for logged-in users on lesson pages */}
-            {isLoggedIn && isLeafPage && (
+            {/* Teach Me button - for logged-in users on all pages */}
+            {isLoggedIn && (
               <button
                 onClick={openPanel}
                 className="study-mode-float"
-                title="Study Mode"
-                aria-label="Open Study Mode"
+                title="Teach Me"
+                aria-label="Open Teach Me"
               >
                 <svg
                   width="20"
@@ -246,9 +246,9 @@ export default function ContentWrapper(props: Props): React.ReactElement {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  {/* Graduation cap */}
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                  <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5" />
+                  {/* Open book icon */}
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                 </svg>
               </button>
             )}
@@ -295,7 +295,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
-        {isLeafPage && <TeachMePanel lessonPath={lessonPath} />}
+        {<TeachMePanel lessonPath={lessonPath} />}
       </>
     );
   }
@@ -325,13 +325,13 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       {!isStudyModeOpen && (
         <div className="floating-actions">
           <BackToTopButton />
-          {/* Study Mode button - only for logged-in users on lesson pages */}
-          {isLoggedIn && isLeafPage && (
+          {/* Teach Me button - for logged-in users on all pages */}
+          {isLoggedIn && (
             <button
               onClick={openPanel}
               className="study-mode-float"
-              title="Study Mode"
-              aria-label="Open Study Mode"
+              title="Teach Me"
+              aria-label="Open Teach Me"
             >
               <svg
                 width="20"
@@ -343,9 +343,9 @@ export default function ContentWrapper(props: Props): React.ReactElement {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                {/* Graduation cap */}
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5" />
+                {/* Open book icon */}
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
               </svg>
             </button>
           )}
@@ -395,7 +395,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
-      {isLeafPage && <TeachMePanel lessonPath={lessonPath} />}
+      {<TeachMePanel lessonPath={lessonPath} />}
     </>
   );
 }

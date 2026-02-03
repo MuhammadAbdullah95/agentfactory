@@ -16,8 +16,10 @@
 }
 
 .tipIcon {
-    font-size: 9px;
+    width: 12px;
+    height: 12px;
     color: oklch(0.50 0.14 255);
+    flex-shrink: 0;
 }
 
 .tipText {

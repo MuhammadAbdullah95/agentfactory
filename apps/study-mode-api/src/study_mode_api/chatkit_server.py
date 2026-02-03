@@ -30,6 +30,42 @@ MAX_RECENT_ITEMS = 30
 TITLE_MAX_WORDS = 6
 TITLE_MAX_CHARS = 50
 
+# Trigger patterns that indicate auto-start (AI should speak first)
+TRIGGER_PATTERNS = {
+    "",  # Empty
+    "\u200B",  # Zero-width space (uppercase)
+    "\u200b",  # Zero-width space (lowercase - just in case)
+    "👋",  # Wave emoji
+    "Teach me!",
+    "Teach me",
+    "__START_TEACHING__",
+}
+
+# Characters to strip (including zero-width chars)
+INVISIBLE_CHARS = "\u200B\u200b\uFEFF\u00A0\t\n\r "
+
+
+def _is_trigger_message(text: str) -> bool:
+    """Check if message is an auto-start trigger (should be hidden)."""
+    # Strip all whitespace including invisible Unicode chars
+    clean_text = text.strip(INVISIBLE_CHARS)
+
+    logger.debug(f"[Trigger] raw='{text!r}', clean='{clean_text!r}', len={len(clean_text)}")
+
+    # Empty after stripping = trigger
+    if not clean_text:
+        return True
+
+    # Check exact matches
+    if clean_text in TRIGGER_PATTERNS:
+        return True
+
+    # Check if contains trigger pattern (handles "__START_TEACHING__|title|name")
+    if "__START_TEACHING__" in clean_text:
+        return True
+
+    return False
+
 
 def _generate_thread_title(user_text: str) -> str:
     """Generate thread title from first few words of user message."""
@@ -128,11 +164,6 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             if not content:
                 logger.warning(f"[ChatKit] No content for: {lesson_path}")
 
-            # Create agent from orchestrator
-            agent = create_agent(
-                title, content, mode, user_name=user_name, selected_text=selected_text
-            )
-
             # Get previous messages from thread for context
             previous_items = await self.store.load_thread_items(
                 thread.id,
@@ -143,11 +174,39 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             )
             items = list(reversed(previous_items.data))
 
+            # Detect if this is the first message (new thread)
+            # Check if there's already an AI response in the thread
+            # Note: We can't just count items because trigger messages get deleted
+            item_types = [type(item).__name__ for item in items]
+            has_assistant_response = any(
+                isinstance(item, AssistantMessageItem)
+                or getattr(item, "type", "") == "assistant_message"
+                for item in items
+            )
+            is_first_message = not has_assistant_response
+            logger.info(
+                f"[ChatKit] items={len(items)}, types={item_types}, "
+                f"has_assistant={has_assistant_response}, is_first={is_first_message}"
+            )
+
+            # Create agent with appropriate greeting behavior
+            agent = create_agent(
+                title,
+                content,
+                mode,
+                user_name=user_name,
+                selected_text=selected_text,
+                is_first_message=is_first_message,
+            )
+            logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}")
+
             # Set thread title from first user message (if new thread)
-            # Note: items will have 1 item (current user message) for new threads
-            # because base ChatKitServer adds the message before calling respond()
-            if len(items) <= 1 and "title" not in context.metadata:
-                context.metadata["title"] = _generate_thread_title(user_text)
+            if is_first_message and "title" not in context.metadata:
+                # If message is a trigger (empty/short), use lesson title instead
+                if _is_trigger_message(user_text):
+                    context.metadata["title"] = f"📚 {title}"  # Use lesson title
+                else:
+                    context.metadata["title"] = _generate_thread_title(user_text)
                 logger.info(f"[ChatKit] Generated title: {context.metadata['title']}")
                 # Save thread again with the generated title (base class saved with default)
                 await self.store.save_thread(thread, context)
@@ -178,6 +237,22 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 yield event
 
             logger.info(f"[ChatKit] Response completed for thread {thread.id}")
+
+            # DELETE TRIGGER MESSAGE: If this was an auto-start trigger,
+            # remove it so only the AI greeting shows
+            if _is_trigger_message(user_text) and input_user_message:
+                try:
+                    await self.store.delete_thread_item(
+                        thread.id,
+                        input_user_message.id,
+                        context,
+                    )
+                    logger.info(
+                        f"[ChatKit] Deleted trigger message {input_user_message.id} "
+                        f"from thread {thread.id}"
+                    )
+                except Exception as del_err:
+                    logger.warning(f"[ChatKit] Failed to delete trigger: {del_err}")
 
         except Exception as e:
             logger.exception(f"[ChatKit] Error in respond(): {e}")

@@ -221,11 +221,11 @@ const StudyModeIcon = () => (
     strokeLinejoin="round"
     aria-hidden="true"
   >
-    {/* Graduation cap - symbolizes learning/study */}
-    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-    <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5" />
+    {/* Open book icon - symbolizes learning/teaching */}
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
     {/* Small sparkle - AI element */}
-    <circle cx="20" cy="6" r="1.5" fill="currentColor" stroke="none" />
+    <circle cx="20" cy="5" r="1.5" fill="currentColor" stroke="none" />
   </svg>
 );
 
@@ -791,14 +791,14 @@ export function DocPageActions() {
           <button
             className={`doc-page-actions-study-mode ${!isLoggedIn ? "doc-page-actions-study-mode--locked" : ""}`}
             onClick={isLoggedIn ? openPanel : handleLoginRedirect}
-            aria-label={isLoggedIn ? "Open Study Mode" : "Sign in for Study Mode"}
+            aria-label={isLoggedIn ? "Open Teach Me" : "Sign in for Teach Me Access"}
           >
             {isLoggedIn ? (
               <StudyModeIcon />
             ) : (
               <LockIcon />
             )}
-            <span>Study Mode</span>
+            <span>Teach Me</span>
           </button>
         </Tooltip>
       )}

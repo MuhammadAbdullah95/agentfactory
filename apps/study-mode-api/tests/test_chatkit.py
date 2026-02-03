@@ -30,7 +30,7 @@ class TestAgentCreation:
         assert agent.name == "study_tutor_teach"
         assert "Socratic tutor" in agent.instructions
         assert "Test Lesson" in agent.instructions
-        assert "NEVER explain directly" in agent.instructions
+        assert "Lecture or explain concepts directly" in agent.instructions
 
     def test_create_ask_agent(self):
         """Test creating agent in ask/search mode."""
@@ -41,8 +41,8 @@ class TestAgentCreation:
         )
 
         assert agent.name == "study_tutor_ask"
-        assert "helpful explainer" in agent.instructions
-        assert "clear explanation" in agent.instructions
+        assert "knowledgeable guide" in agent.instructions
+        assert "direct explanation" in agent.instructions
 
     def test_create_agent_with_user_name(self):
         """Test creating agent with user personalization."""
@@ -53,7 +53,7 @@ class TestAgentCreation:
             user_name="Alice",
         )
 
-        assert "STUDENT: Alice" in agent.instructions
+        assert "STUDENT NAME: Alice" in agent.instructions
 
     def test_create_agent_without_user_name(self):
         """Test creating agent without user name."""
@@ -64,7 +64,8 @@ class TestAgentCreation:
             user_name=None,
         )
 
-        assert "STUDENT:" not in agent.instructions
+        # Without user name, no STUDENT NAME line should be present
+        assert "STUDENT NAME:" not in agent.instructions
 
     def test_content_truncation_teach_mode(self):
         """Test content is truncated in teach mode (8000 chars)."""
@@ -91,6 +92,55 @@ class TestAgentCreation:
         # Content should be truncated to 6000 chars
         assert len(agent.instructions) < len(long_content)
 
+    def test_create_agent_with_selected_text(self):
+        """Test creating agent with highlighted text (ask mode)."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="ask",
+            selected_text="What is an agent?",
+        )
+
+        assert "HIGHLIGHTED TEXT:" in agent.instructions
+        assert "What is an agent?" in agent.instructions
+
+    def test_create_agent_without_selected_text(self):
+        """Test creating agent without selected text."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="ask",
+            selected_text=None,
+        )
+
+        # Without selected_text, no HIGHLIGHTED TEXT section
+        assert "HIGHLIGHTED TEXT:" not in agent.instructions
+
+    def test_create_agent_first_message_greeting(self):
+        """Test agent includes greeting instruction for first message."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="teach",
+            user_name="Alice",
+            is_first_message=True,
+        )
+
+        assert "GREET THE STUDENT" in agent.instructions
+
+    def test_create_agent_follow_up_no_greeting(self):
+        """Test agent excludes greeting for follow-up messages."""
+        agent = create_agent(
+            title="Test Lesson",
+            content="This is test content.",
+            mode="teach",
+            user_name="Alice",
+            is_first_message=False,
+        )
+
+        assert "DO NOT GREET AGAIN" in agent.instructions
+        assert "GREET THE STUDENT" not in agent.instructions
+
 
 class TestPromptTemplates:
     """Test prompt template structure."""
@@ -100,13 +150,14 @@ class TestPromptTemplates:
         assert "{title}" in TEACH_PROMPT
         assert "{content}" in TEACH_PROMPT
         assert "Socratic" in TEACH_PROMPT
-        assert "NEVER explain directly" in TEACH_PROMPT
-        assert "ONE question at a time" in TEACH_PROMPT
+        assert "Lecture or explain concepts directly" in TEACH_PROMPT
+        assert "ONE question per message" in TEACH_PROMPT
 
     def test_ask_prompt_has_required_elements(self):
         """Test ask prompt contains direct answer instructions."""
         assert "{content}" in ASK_PROMPT
-        assert "clear explanation" in ASK_PROMPT
+        assert "{selected_text_section}" in ASK_PROMPT
+        assert "direct explanation" in ASK_PROMPT
         assert "Socratic" in ASK_PROMPT  # Mentions it's NOT Socratic mode
 
 
