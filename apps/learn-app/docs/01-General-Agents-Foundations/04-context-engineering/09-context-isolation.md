@@ -135,13 +135,13 @@ The irony: they fail from _missing_ context while drowning in _irrelevant_ conte
 
 The dirty slate problem isn't unique to any profession. Here's how it manifests across different fields:
 
-| Domain | Research Phase Pollution | Analysis Phase Pollution | Final Deliverable Suffers |
-| --- | --- | --- | --- |
-| **Legal** | Case searches, irrelevant precedents, statute explorations | Jurisdictional tangents, abandoned arguments | Brief references weak cases, misses strongest argument |
-| **Marketing** | Competitor pages, market reports, trend articles | Positioning experiments, messaging drafts | Strategy document lacks focus, contradicts itself |
-| **Research** | Source documents, literature searches, data queries | Hypothesis explorations, abandoned frameworks | Synthesis paper wanders, misses central thesis |
-| **Consulting** | Client documents, industry benchmarks, interview notes | Framework applications, discarded analyses | Recommendations lack coherence, bury key insight |
-| **Development** | API docs, code explorations, dependency research | Architecture experiments, abandoned approaches | Technical spec references wrong approaches |
+| Domain          | Research Phase Pollution                                   | Analysis Phase Pollution                       | Final Deliverable Suffers                              |
+| --------------- | ---------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------ |
+| **Legal**       | Case searches, irrelevant precedents, statute explorations | Jurisdictional tangents, abandoned arguments   | Brief references weak cases, misses strongest argument |
+| **Marketing**   | Competitor pages, market reports, trend articles           | Positioning experiments, messaging drafts      | Strategy document lacks focus, contradicts itself      |
+| **Research**    | Source documents, literature searches, data queries        | Hypothesis explorations, abandoned frameworks  | Synthesis paper wanders, misses central thesis         |
+| **Consulting**  | Client documents, industry benchmarks, interview notes     | Framework applications, discarded analyses     | Recommendations lack coherence, bury key insight       |
+| **Development** | API docs, code explorations, dependency research           | Architecture experiments, abandoned approaches | Technical spec references wrong approaches             |
 
 The pattern is universal: exploratory work pollutes the context for synthesis work.
 
@@ -353,6 +353,8 @@ Orchestrator → [fresh context] → Subagent → [summary] → Orchestrator
 
 **Context handling:** Fresh context each call, strong isolation
 
+**Key constraint:** Subagents cannot spawn other subagents. This is a fundamental architectural limitation—only the orchestrator can delegate work. If you need nested delegation, structure your orchestrator to handle all agent creation directly.
+
 **Best for:**
 
 - Tasks that are truly independent
@@ -362,12 +364,12 @@ Orchestrator → [fresh context] → Subagent → [summary] → Orchestrator
 
 **Example use cases by domain:**
 
-| Domain | Use Case |
-| --- | --- |
-| **Legal** | Three independent legal researchers assess the same contract for different risk types |
-| **Marketing** | Three analysts evaluate the same campaign from different perspectives (brand, performance, competitive) |
-| **Research** | Three reviewers independently assess the same paper for methodology, significance, and clarity |
-| **Consulting** | Three experts review the same organization from different lenses (operations, finance, technology) |
+| Domain         | Use Case                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| **Legal**      | Three independent legal researchers assess the same contract for different risk types                   |
+| **Marketing**  | Three analysts evaluate the same campaign from different perspectives (brand, performance, competitive) |
+| **Research**   | Three reviewers independently assess the same paper for methodology, significance, and clarity          |
+| **Consulting** | Three experts review the same organization from different lenses (operations, finance, technology)      |
 
 **In Claude Code:**
 
@@ -396,12 +398,12 @@ Agent A → [context transfers] → Agent B → [context transfers] → Agent C
 
 **Example use cases by domain:**
 
-| Domain | Use Case |
-| --- | --- |
-| **Legal** | First draft of brief → Senior review and markup → Final polish (each reviewer sees previous edits) |
-| **Marketing** | Creative concept → Brand review → Compliance review (each reviewer needs to see what was changed) |
-| **Research** | Data analysis → Peer feedback → Revision (reviser needs to understand the feedback conversation) |
-| **Consulting** | Draft recommendations → Partner review → Client-ready version (quality control chain) |
+| Domain         | Use Case                                                                                           |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| **Legal**      | First draft of brief → Senior review and markup → Final polish (each reviewer sees previous edits) |
+| **Marketing**  | Creative concept → Brand review → Compliance review (each reviewer needs to see what was changed)  |
+| **Research**   | Data analysis → Peer feedback → Revision (reviser needs to understand the feedback conversation)   |
+| **Consulting** | Draft recommendations → Partner review → Client-ready version (quality control chain)              |
 
 **Warning:** This is the dirty slate pattern. Use only when context transfer is genuinely necessary, and monitor context utilization carefully.
 
@@ -434,12 +436,12 @@ Agent A → [context transfers] → Agent B → [context transfers] → Agent C
 
 **Example use cases by domain:**
 
-| Domain | Use Case |
-| --- | --- |
-| **Legal** | Multi-week case preparation with different agents handling discovery, depositions, motions—all referencing central case file |
-| **Marketing** | Campaign development over months—brand agent, content agent, analytics agent all reference central brand guidelines |
-| **Research** | Multi-year study with different agents handling data collection, analysis, writing—all referencing central methodology doc |
-| **Consulting** | Long-term engagement with different workstreams—all referencing central findings document that evolves over time |
+| Domain         | Use Case                                                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Legal**      | Multi-week case preparation with different agents handling discovery, depositions, motions—all referencing central case file |
+| **Marketing**  | Campaign development over months—brand agent, content agent, analytics agent all reference central brand guidelines          |
+| **Research**   | Multi-year study with different agents handling data collection, analysis, writing—all referencing central methodology doc   |
+| **Consulting** | Long-term engagement with different workstreams—all referencing central findings document that evolves over time             |
 
 **Implementation:** The shared state is typically a file (progress file, central document, database) that all agents can read and update. Each agent still operates with relatively clean context—they read the shared state at start, do their work, write updates back.
 
@@ -594,7 +596,7 @@ Context isolation includes controlling what each subagent can do, not just what 
 
 | Role                      | Tools                 | Why                                         |
 | ------------------------- | --------------------- | ------------------------------------------- |
-| **Read-only** (reviewers) | Read, Grep, Glob      | Can explore documents but can't modify them    |
+| **Read-only** (reviewers) | Read, Grep, Glob      | Can explore documents but can't modify them |
 | **Research** (analysts)   | + WebFetch, WebSearch | Can gather external information             |
 | **Writers**               | + Write, Edit         | Can create and modify documents             |
 | **Full access**           | All tools             | Reserved for orchestrator or trusted agents |
@@ -623,13 +625,13 @@ This prevents a research subagent from accidentally modifying files. It prevents
 
 Select the professional context that matches your work:
 
-| Option | Domain | Deliverable |
-| --- | --- | --- |
-| A | **Legal** | Case brief recommending litigation strategy |
-| B | **Marketing** | Strategy document for product positioning |
-| C | **Research** | Synthesis paper on emerging topic |
-| D | **Consulting** | Recommendations for client problem |
-| E | **Development** | Technical specification for new feature |
+| Option | Domain          | Deliverable                                 |
+| ------ | --------------- | ------------------------------------------- |
+| A      | **Legal**       | Case brief recommending litigation strategy |
+| B      | **Marketing**   | Strategy document for product positioning   |
+| C      | **Research**    | Synthesis paper on emerging topic           |
+| D      | **Consulting**  | Recommendations for client problem          |
+| E      | **Development** | Technical specification for new feature     |
 
 The three-step process is the same regardless of domain:
 
@@ -642,6 +644,7 @@ The three-step process is the same regardless of domain:
 **Step 1:** Start a fresh Claude Code session.
 
 **For Legal (Option A):**
+
 ```
 I'm going to create a case brief about [employment/contract/IP dispute of your choice].
 
@@ -656,6 +659,7 @@ Be thorough. Search for cases, read statutes, explore different theories.
 ```
 
 **For Marketing (Option B):**
+
 ```
 I'm going to create a positioning strategy for [product/service of your choice].
 
@@ -670,6 +674,7 @@ Be thorough. Research competitors, analyze messaging, explore market reports.
 ```
 
 **For Research (Option C):**
+
 ```
 I'm going to create a synthesis paper about [emerging topic of your choice].
 
@@ -684,6 +689,7 @@ Be thorough. Search literature, read studies, explore different viewpoints.
 ```
 
 **For Consulting (Option D):**
+
 ```
 I'm going to create recommendations for [business problem of your choice].
 
@@ -698,6 +704,7 @@ Be thorough. Research solutions, analyze frameworks, explore case studies.
 ```
 
 **For Development (Option E):**
+
 ```
 I'm going to create a technical specification for [feature of your choice].
 
@@ -823,14 +830,14 @@ Make it appropriate for a senior stakeholder.
 
 Now compare the two deliverables:
 
-| Criterion                                                       | Dirty Slate (A) | Clean Context (B) |
-| --------------------------------------------------------------- | --------------- | ----------------- |
-| **Clarity**: Is the recommendation clear?                       |                 |                   |
-| **Focus**: Does it avoid irrelevant tangents?                   |                 |                   |
-| **Structure**: Is it well-organized?                            |                 |                   |
-| **Relevance**: Does every section serve the purpose?            |                 |                   |
-| **Token efficiency**: How much context was used?                |                 |                   |
-| **Stakeholder ready**: Which would you share with a client/boss?|                 |                   |
+| Criterion                                                        | Dirty Slate (A) | Clean Context (B) |
+| ---------------------------------------------------------------- | --------------- | ----------------- |
+| **Clarity**: Is the recommendation clear?                        |                 |                   |
+| **Focus**: Does it avoid irrelevant tangents?                    |                 |                   |
+| **Structure**: Is it well-organized?                             |                 |                   |
+| **Relevance**: Does every section serve the purpose?             |                 |                   |
+| **Token efficiency**: How much context was used?                 |                 |                   |
+| **Stakeholder ready**: Which would you share with a client/boss? |                 |                   |
 
 ### Reflection Questions
 

@@ -48,7 +48,7 @@ learning_objectives:
     bloom_level: "Understand"
     assessment_method: "Student can articulate the relationship between plan-on-disk and context clearing"
 
-  - objective: "Create tasks with dependency relationships using TaskCreate and TaskUpdate"
+  - objective: "Create tasks with dependency relationships by describing them to Claude"
     proficiency_level: "A2"
     bloom_level: "Apply"
     assessment_method: "Student demonstrates creating a task DAG with blockedBy relationships"
@@ -117,67 +117,82 @@ This is context engineering in action. You've learned that context fills up and 
 - Clear freely, plan persists
 - Quality stays high through aggressive context management
 
-## The Four Task Tools
+## How You Work With Tasks
 
-Claude Code provides four tools for working with Tasks:
+You interact with tasks by talking to Claude. Claude uses internal tools (TaskCreate, TaskUpdate, TaskList, TaskGet) behind the scenes—you don't call these directly.
 
-### TaskCreate
+### Creating Tasks
 
-Creates a new task with a subject, description, and optional metadata.
-
-```
-TaskCreate:
-  subject: "Implement authentication refactor"
-  description: "Update auth module to use JWT instead of sessions..."
-  activeForm: "Implementing authentication refactor"
-```
-
-The `activeForm` is what appears in the spinner while Claude works on the task.
-
-### TaskList
-
-Shows all tasks with their status, owner, and blocking relationships.
+**What you say:**
 
 ```
-TaskList output:
-- id: "1", subject: "Fix auth module", status: "completed"
-- id: "2", subject: "Update user service", status: "in_progress", blockedBy: ["1"]
-- id: "3", subject: "Run integration tests", status: "pending", blockedBy: ["1", "2"]
+Create a task to review the vendor contract. It should include extracting
+key terms and identifying liability provisions.
 ```
 
-A task is "available" when:
+**What Claude does internally:** Uses TaskCreate to store the task with a subject, description, and status.
 
-- Status is `pending`
-- No owner assigned
-- `blockedBy` list is empty (all dependencies resolved)
+**What you see:** The task appears in your task list (press `Ctrl+T` to toggle the view).
 
-### TaskGet
+### Viewing Tasks
 
-Retrieves full details for a specific task, including its complete description and dependency relationships.
+**What you say:**
 
 ```
-TaskGet: "2"
-
-Result:
-  id: "2"
-  subject: "Update user service"
-  description: "Modify UserService to consume new JWT tokens from auth module..."
-  status: "in_progress"
-  blockedBy: ["1"]
-  blocks: ["3"]
+Show me the current tasks.
 ```
 
-### TaskUpdate
-
-Updates a task's status, adds dependencies, or marks completion.
+or
 
 ```
-TaskUpdate:
-  taskId: "2"
-  status: "completed"
+What's available to work on?
 ```
 
-When task 2 completes, task 3 automatically becomes unblocked and available for work.
+**What you see:**
+
+```
+#1 [completed] Extract key contract terms
+#2 [in_progress] Identify liability provisions [blocked by #1]
+#3 [pending] Draft recommendations [blocked by #1, #2]
+```
+
+**A task is "available" when:**
+
+1. Status is `pending` (not started yet)
+2. No one is working on it
+3. All its dependencies are complete (blockedBy list is empty)
+
+### Setting Up Dependencies
+
+**What you say:**
+
+```
+I need to review the contract, identify liability issues, compare to our
+standard terms, and draft recommendations. Create tasks with dependencies.
+```
+
+Claude breaks this into discrete tasks and wires up the dependencies so tasks become available only when their prerequisites complete.
+
+### Completing Tasks
+
+**What you say:**
+
+```
+Mark task 1 as complete.
+```
+
+or Claude marks it complete automatically after finishing the work.
+
+**What happens:** Task 1 moves to `completed`. Tasks 2 and 3 (which were blocked by #1) automatically become available.
+
+### CLI Shortcuts
+
+- **`Ctrl+T`**: Toggle the task list view in your terminal (shows up to 10 tasks)
+- **Just ask**: "Show me all tasks", "Clear all tasks", or "What's next?"
+
+## Why Tasks Survive /clear
+
+Tasks are stored as files in `~/.claude/tasks/`, not in your conversation. That's why they persist when you clear context—they're on disk, not in memory.
 
 ## Dependency Graphs: Task DAGs
 
@@ -204,25 +219,25 @@ This is powerful for complex projects:
 
 Task 3 (integration tests) is blocked by Tasks 2 and 4. Both must complete before testing can begin.
 
-To set this up with TaskUpdate:
+**How you'd set this up:**
 
 ```
-TaskUpdate:
-  taskId: "3"
-  addBlockedBy: ["2", "4"]
+I need to fix authentication, update the user service and admin panel,
+then run integration tests. The user service depends on auth being fixed.
+Create tasks with the right dependencies.
 ```
 
-## Filesystem Persistence: Where Tasks Live
+Claude handles the internal mechanics—creating the tasks and wiring up the dependency graph. You describe WHAT you need; Claude figures out HOW to structure it.
 
-Tasks are stored in `~/.claude/tasks/` on your filesystem. Each session gets its own directory of JSON files representing the task state.
+## What Filesystem Persistence Means for You
 
-This has three implications:
+Because tasks live on disk (`~/.claude/tasks/`), you get three benefits:
 
-**1. Crash Recovery**: If your terminal crashes, your tasks persist. Resume your session, run `TaskList`, continue where you left off.
+**1. Crash Recovery**: If your terminal crashes, your tasks persist. Resume your session, ask "What tasks do we have?", and continue where you left off.
 
-**2. Session Independence**: Tasks don't consume context. They live outside the conversation window. A complex 50-task project plan uses zero tokens in your conversation.
+**2. Session Independence**: Tasks don't consume context tokens. A 50-task project plan uses zero tokens in your conversation—it's all on disk.
 
-**3. Human Inspection**: You can examine tasks directly in the filesystem. Debug agent behavior by reading the raw JSON.
+**3. Clear Freely**: Run `/clear` whenever context fills up. Your roadmap survives because it was never in context to begin with.
 
 ## The Pattern: Plan, Clear, Execute
 
@@ -232,13 +247,11 @@ Armed with Tasks, here's the pattern for long-running work:
 Create tasks at the beginning of a work session when context is fresh:
 
 ```
-TaskCreate: "Analyze existing authentication implementation"
-TaskCreate: "Design JWT token structure", addBlockedBy: ["1"]
-TaskCreate: "Implement token generation", addBlockedBy: ["2"]
-TaskCreate: "Implement token validation", addBlockedBy: ["3"]
-TaskCreate: "Update middleware", addBlockedBy: ["4"]
-TaskCreate: "Write integration tests", addBlockedBy: ["5"]
+I need to review this contract and prepare negotiation recommendations.
+Create a task plan with dependencies.
 ```
+
+Claude breaks this into discrete tasks (extract terms, identify provisions, flag issues, cross-reference, draft recommendations) and sets up the dependency chain automatically.
 
 **Phase 2: Clear**
 When context fills up (60-80%), clear aggressively:
@@ -253,12 +266,60 @@ Your plan survives. The 6-task roadmap persists on disk.
 After clearing, check what's available and continue:
 
 ```
-TaskList
+What's next?
 ```
 
-Claude sees which tasks are unblocked and continues execution.
+Claude checks the task list, finds which tasks are unblocked, and continues execution.
 
 **The key insight**: You're not losing information when you clear. You're freeing context for reasoning while your strategic plan persists.
+
+## Real-World Example: Multi-Phase Projects
+
+Here's how Tasks enable complex projects across different domains:
+
+**Legal: Due Diligence Review**
+
+```
+Task plan:
+├── Task 1: Extract key terms from all contracts (no blockers)
+├── Task 2: Identify liability provisions (blocked by #1)
+├── Task 3: Flag regulatory compliance issues (blocked by #1)
+├── Task 4: Cross-reference findings (blocked by #2, #3)
+├── Task 5: Draft executive summary (blocked by #4)
+```
+
+**Marketing: Campaign Development**
+
+```
+Task plan:
+├── Task 1: Analyze competitor positioning (no blockers)
+├── Task 2: Define target personas (no blockers)
+├── Task 3: Develop messaging framework (blocked by #1, #2)
+├── Task 4: Create channel strategy (blocked by #3)
+├── Task 5: Draft creative briefs (blocked by #3, #4)
+```
+
+**Research: Literature Synthesis**
+
+```
+Task plan:
+├── Task 1: Search and gather sources (no blockers)
+├── Task 2: Extract methodology patterns (blocked by #1)
+├── Task 3: Identify key findings (blocked by #1)
+├── Task 4: Map contradictions and debates (blocked by #2, #3)
+├── Task 5: Draft synthesis narrative (blocked by #4)
+```
+
+**How execution flows:**
+
+1. **Wave 1**: Independent tasks run (no blockers)
+2. **Wave 2**: Tasks that only needed Wave 1 become available, can run in parallel
+3. **Wave 3**: Synthesis tasks run after their dependencies complete
+4. **Continue**: Each completed task automatically unblocks dependents
+
+**Why this works**: Each task runs with focused context. The agent drafting the executive summary doesn't inherit the noise from analyzing 50 contracts—it gets the cross-referenced findings and writes clearly. Context stays clean at every stage.
+
+This is the pattern: **plan → clear → delegate → synthesize**. The task system manages the coordination. You focus on the work.
 
 ## Cross-Session Coordination
 
@@ -318,12 +379,10 @@ You might wonder: "How are Tasks different from the progress files we'll learn a
 Ask Claude to create a task plan:
 
 ```
-Create tasks for [your project] with proper dependencies.
-Each task should have clear completion criteria.
-Tasks that depend on others should use blockedBy.
+I need to [describe your project goal]. Create a task plan with dependencies.
 ```
 
-Verify with `TaskList` that dependencies are correctly set.
+Verify by pressing `Ctrl+T` or asking "Show me the tasks."
 
 **Step 2: Work Until Context Fills**
 
@@ -335,70 +394,96 @@ Check with `/context`.
 
 Run `/clear`.
 
-Then immediately run `TaskList`.
+Then immediately ask: "What tasks do we have?" (or press `Ctrl+T`).
 
 **Observation:** Your plan survived the clear. Your strategic roadmap persists even though your conversation history is gone.
 
 **Step 4: Continue Execution**
 
-Ask Claude to pick up the next available task:
+Ask Claude to continue:
 
 ```
-What tasks are available? Let's continue with the highest-priority unblocked task.
+What's next? Let's keep going.
 ```
 
 **Expected Finding:** The workflow continues seamlessly despite the context clear. This is the power of filesystem-backed state.
 
 ## What You Learned
 
-1. **Tasks are filesystem-backed**: They live in `~/.claude/tasks/`, not in your conversation
+1. **Tasks are filesystem-backed**: They live in `~/.claude/tasks/{session-id}/`, not in your conversation
 2. **Plan on disk enables context freedom**: You can `/clear` aggressively without losing your roadmap
-3. **Dependencies form DAGs**: Tasks can block other tasks, automatically managing execution order
-4. **Cross-session coordination**: `CLAUDE_CODE_TASK_LIST_ID` lets multiple sessions share task state
-5. **Tasks complement progress files**: Tasks track actions; progress files track learnings
+3. **Talk to Claude, not tools**: You describe what you need; Claude handles task creation and dependency wiring
+4. **Dependencies form DAGs**: Tasks can block other tasks, automatically managing execution order
+5. **Cross-session coordination**: `CLAUDE_CODE_TASK_LIST_ID` lets multiple sessions share task state
+6. **CLI access**: Press `Ctrl+T` to toggle task view, or just ask Claude
 
 ## Try With AI
 
-### Prompt 1: Create a Dependent Task Plan
+### Prompt 1: Create a Task Plan
+
+Choose a project from your domain:
+
+**Legal:**
 
 ```
-I have a project that involves:
-1. Auditing existing code
-2. Designing improvements
-3. Implementing changes
-4. Testing the implementation
-5. Documenting the changes
-
-Create these as tasks with proper dependencies.
-Each task should have a clear description and activeForm.
-Tasks should only become available when their prerequisites complete.
+I need to review a vendor contract and prepare negotiation recommendations.
+Create a task plan with proper dependencies.
 ```
 
-**What you're learning:** How to structure a project as a dependency graph. Pay attention to how Claude sets up the `blockedBy` relationships.
-
-### Prompt 2: The Clear-and-Continue Pattern
+**Marketing:**
 
 ```
-Let's test persistence:
-1. First, show me the current TaskList
-2. Explain what would happen if I ran /clear right now
-3. After I clear context, what command would I use to resume work?
+I need to develop a product launch strategy from competitive analysis
+through launch timeline. Create a task plan with proper dependencies.
 ```
 
-**What you're learning:** Building intuition for the plan-on-disk pattern. Understanding that `/clear` frees context without losing state.
-
-### Prompt 3: Design a Handoff Workflow
+**Research:**
 
 ```
-I want to set up a Writer/Reviewer workflow where:
-- Writer creates implementation tasks
-- Reviewer creates review tasks
-- Work automatically flows between them
-
-How would I configure CLAUDE_CODE_TASK_LIST_ID for both terminals?
-What task structure enables automatic handoffs?
+I need to write a literature review on [your topic]. Create a task plan
+that takes me from source gathering through the final synthesis.
 ```
 
-**What you're learning:** Cross-session coordination patterns. This is advanced context engineering: multiple agents, shared state, coordinated execution.
+**What you're learning:** Notice how Claude breaks down your goal into discrete tasks and figures out which ones depend on others. You describe the outcome; Claude handles the structure.
 
-**Safety reminder:** When using cross-session coordination, ensure both sessions are working on the same project. Conflicting edits from different contexts can cause confusion.
+**After Claude creates the tasks:** Press `Ctrl+T` to see them in your terminal.
+
+### Prompt 2: Test Persistence
+
+```
+Show me the tasks.
+```
+
+Then run `/clear` in your terminal. After clearing:
+
+```
+Show me the tasks again.
+```
+
+**What you're learning:** Your tasks survived because they're on disk, not in context. You just freed your entire context window while keeping your project roadmap intact.
+
+### Prompt 3: Complete a Task
+
+```
+Mark the first task as done and show me what's now available.
+```
+
+**What you're learning:** When a blocking task completes, dependent tasks automatically become available. This is the DAG in action—no manual coordination needed.
+
+### Prompt 4: Cross-Session Setup (Advanced)
+
+```
+How do I share tasks between two terminal sessions?
+```
+
+**What you're learning:** Claude will explain the `CLAUDE_CODE_TASK_LIST_ID` pattern. Try it yourself:
+
+```bash
+# Terminal 1
+CLAUDE_CODE_TASK_LIST_ID=my-project claude
+
+# Terminal 2 (different window)
+CLAUDE_CODE_TASK_LIST_ID=my-project claude
+```
+
+Both sessions now share the same task list.

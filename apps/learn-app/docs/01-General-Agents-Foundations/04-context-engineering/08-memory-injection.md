@@ -6,19 +6,16 @@ keywords:
   [
     "memory injection",
     "workflow drift",
-    "semantic memory",
     "execution-time context",
     "PreToolUse hook",
     "UserPromptSubmit",
-    "thinking blocks",
-    "vector search",
-    "deduplication strategy",
+    "memory corpus",
     "professional workflows",
     "context relevance",
   ]
 chapter: 4
 lesson: 8
-duration_minutes: 90
+duration_minutes: 60
 
 # HIDDEN SKILLS METADATA
 skills:
@@ -27,57 +24,45 @@ skills:
     category: "Conceptual"
     bloom_level: "Understand"
     digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can explain why memories injected at prompt submission become irrelevant as workflows evolve, describing the gap between turn 1 context and turn 20 execution needs across any professional domain"
+    measurable_at_this_level: "Student can explain why memories injected at prompt submission become irrelevant as workflows evolve, describing the gap between turn 1 context and turn 20 execution needs"
 
   - name: "Distinguishing Injection Timing Strategies"
     proficiency_level: "B1"
     category: "Conceptual"
     bloom_level: "Analyze"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can compare UserPromptSubmit and PreToolUse injection timing, explaining when each is appropriate and why PreToolUse maintains relevance during long workflows"
+    measurable_at_this_level: "Student can compare UserPromptSubmit and PreToolUse injection timing, explaining when each is appropriate"
 
-  - name: "Implementing PreToolUse Memory Injection"
-    proficiency_level: "B2"
-    category: "Technical"
+  - name: "Designing a Memory Corpus"
+    proficiency_level: "B1"
+    category: "Applied"
     bloom_level: "Apply"
     digcomp_area: "Content Creation"
-    measurable_at_this_level: "Student can implement a PreToolUse hook that extracts thinking blocks, queries a vector database for similar memories, and injects them via additionalContext within performance constraints"
-
-  - name: "Designing Deduplication Strategies"
-    proficiency_level: "B1"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can implement a deduplication system using thinking hashes to prevent the same memory from being injected repeatedly across multiple tool calls"
+    measurable_at_this_level: "Student can create a structured memory file with domain-specific knowledge organized for retrieval"
 
 learning_objectives:
   - objective: "Explain the workflow drift problem and why prompt-time memory injection fails for long-running tasks"
     proficiency_level: "A2"
     bloom_level: "Understand"
-    assessment_method: "Student can describe a scenario where turn 1 memories become irrelevant by turn 20, explaining the mismatch between initial intent and evolved execution context"
+    assessment_method: "Student can describe a scenario where turn 1 memories become irrelevant by turn 20"
 
   - objective: "Compare UserPromptSubmit and PreToolUse injection timing strategies"
     proficiency_level: "B1"
     bloom_level: "Analyze"
-    assessment_method: "Student can create a decision matrix showing when to use each strategy based on workflow length, context evolution, and relevance requirements"
+    assessment_method: "Student can explain when to use each strategy based on workflow length"
 
-  - objective: "Implement a PreToolUse semantic memory injection hook"
-    proficiency_level: "B2"
-    bloom_level: "Apply"
-    assessment_method: "Student creates a working hook that extracts the last 1,500 characters of thinking, embeds and queries against a vector database, and injects top results via additionalContext in under 500ms"
-
-  - objective: "Design deduplication logic for memory injection systems"
+  - objective: "Design a memory corpus for their professional domain"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Student implements a temp log with thinking hashes that prevents repeated injection of the same memory within a session"
+    assessment_method: "Student creates a structured memory file with 5-7 domain-specific memories"
 
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (workflow drift, injection timing comparison, thinking block extraction, vector search integration, additionalContext injection, deduplication via hashing) within B1-B2 range (5-7)"
+  new_concepts: 4
+  assessment: "4 concepts (workflow drift, injection timing, memory corpus design, hook basics) within A2-B1 range"
 
 differentiation:
-  extension_for_advanced: "Implement multi-tiered memory with different embedding models for code vs natural language; add confidence scoring to filter low-relevance memories before injection"
-  remedial_for_struggling: "Start with a mock vector database (in-memory dictionary with exact match) before adding actual embeddings; focus on the hook lifecycle before optimizing performance"
+  extension_for_advanced: "Implement a simple PreToolUse hook that reads a memory file and injects it via additionalContext"
+  remedial_for_struggling: "Focus on the conceptual understanding of workflow drift; skip technical implementation"
 ---
 
 # Mid-Stream Memory: Injecting Context at Execution Time
@@ -148,17 +133,26 @@ Here's the flow:
 2. AI reasons about the request → creates thinking block
 3. AI decides to take an action (read file, search, edit document)
 4. PreToolUse hook fires (synchronous)
-   └── Hook reads AI's recent thinking (last 1,500 chars)
-   └── Hook embeds the thinking text
-   └── Hook queries vector database for similar memories
-   └── Hook injects top N memories via additionalContext
-5. AI receives the injected memories
+   └── Hook receives transcript_path (file path, not thinking directly)
+   └── Hook reads the transcript file from disk
+   └── Hook parses JSONL to extract thinking blocks
+   └── Hook embeds the thinking text (~100-300ms for embeddings)
+   └── Hook queries vector database for similar memories (~5-50ms)
+   └── Hook returns JSON with hookSpecificOutput containing memories
+5. AI receives the injected memories via additionalContext
 6. AI continues reasoning with fresh, relevant context
 7. Action executes
 8. AI reasons about results → new thinking block
 9. AI decides to take another action
 10. PreToolUse fires again...
 ```
+
+**Important implementation detail:** The PreToolUse hook does NOT receive thinking blocks directly. It receives a `transcript_path` input pointing to a JSONL file on disk. Your hook must:
+
+1. Read the file at `transcript_path`
+2. Parse each line as JSON
+3. Extract thinking content from the parsed objects
+4. This I/O adds latency (typically 10-50ms depending on transcript size)
 
 **Why this works:** The AI's thinking block contains what it is about to do and why. When you embed that thinking and search for similar memories, you find memories that are relevant to the current action, not the original prompt.
 
@@ -444,204 +438,105 @@ Pick your highest-value situationally relevant memories and structure them:
 
 ---
 
-### Part 3: Technical Implementation (Optional, 60 min)
+### Part 3: Simple Hook Implementation (Optional, 20 min)
 
-For those who want to build a working system:
+For those comfortable with Python, here's a minimal memory injection hook. No vector databases or embeddings—just read a markdown file and inject it.
 
-#### Phase A: Set Up Vector Database (20 min)
+#### Step 1: Create Your Memory File
 
-**Option A: ChromaDB (Recommended)**
+Create `memories.md` in your project:
 
-```bash
-pip install chromadb sentence-transformers
+```markdown
+# Project Memories
+
+## Client Preferences
+
+- Acme Corp's GC prefers risk summaries with dollar ranges, not vague language
+- Always lead with business impact before legal analysis
+
+## Writing Standards
+
+- Use active voice in all client communications
+- Keep executive summaries under 200 words
+
+## Past Decisions
+
+- We chose JWT over sessions for the auth system (see ADR-003)
+- The billing module uses Stripe, not custom implementation
 ```
 
-```python
-import chromadb
-from chromadb.utils import embedding_functions
-
-# Initialize with local embedding
-ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-    model_name="all-MiniLM-L6-v2"  # Fast, good quality
-)
-
-client = chromadb.Client()
-collection = client.create_collection(
-    name="professional_memories",
-    embedding_function=ef
-)
-```
-
-**Option B: SQLite with Vector Extension**
-
-If you prefer SQLite, use sqlite-vss or sqlite-vec. The setup is more involved but keeps everything in a single file.
-
-#### Phase B: Populate Memory Corpus (15 min)
-
-Add your structured memories from Part 2:
-
-```python
-memories = [
-    {
-        "id": "client-risk-communication",
-        "content": """Client Risk Communication for Acme Corp
-
-Acme Corp's General Counsel prefers risk summaries that lead with business impact,
-not legal analysis. Always quantify exposure when possible.
-
-After the Henderson dispute, their GC restructured how legal communicates risk.
-They now require dollar ranges, not just "material exposure."
-
-Pattern:
-GOOD: "This clause exposes us to $500K-$2M in potential liability..."
-BAD: "The indemnification provisions create significant exposure..."
-
-Apply to: Any client communication about contract risk. Any memo to their GC."""
-    },
-    # Add 4-6 more memories...
-]
-
-collection.add(
-    ids=[m["id"] for m in memories],
-    documents=[m["content"] for m in memories]
-)
-```
-
-#### Phase C: Write the Hook (20 min)
+#### Step 2: Create the Hook Script
 
 Create `memory_hook.py`:
 
 ```python
-import hashlib
-import time
-import re
-from dataclasses import dataclass
+#!/usr/bin/env python3
+"""Simple memory injection hook - reads a markdown file and injects it."""
+import json
+import sys
+from pathlib import Path
 
-@dataclass
-class Memory:
-    id: str
-    content: str
-    similarity: float
+def main():
+    # Read hook input from stdin
+    hook_input = json.loads(sys.stdin.read())
 
-class DeduplicationLog:
-    def __init__(self, ttl_seconds: int = 300):
-        self.recent: dict[str, float] = {}
-        self.ttl = ttl_seconds
+    # Find memory file (adjust path as needed)
+    memory_file = Path.home() / "project" / "memories.md"
 
-    def should_inject(self, memory_id: str, thinking_hash: str) -> bool:
-        key = f"{memory_id}:{thinking_hash}"
-        now = time.time()
-        self.recent = {k: v for k, v in self.recent.items() if now - v < self.ttl}
-        if key in self.recent:
-            return False
-        self.recent[key] = now
-        return True
+    if not memory_file.exists():
+        print("{}")  # No injection if file missing
+        return
 
-def extract_thinking(transcript: str, char_limit: int = 1500) -> str:
-    """Extract recent thinking from transcript."""
-    pattern = r'<thinking>(.*?)</thinking>'
-    matches = re.findall(pattern, transcript, re.DOTALL)
-    if not matches:
-        return ""
-    return matches[-1].strip()[-char_limit:]
+    memories = memory_file.read_text()
 
-def search_memories(collection, thinking: str, top_k: int = 3) -> list[Memory]:
-    """Query ChromaDB for similar memories."""
-    if not thinking:
-        return []
+    # Return properly formatted hook response
+    result = {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "additionalContext": f"## Relevant Context\n\n{memories}"
+        }
+    }
 
-    results = collection.query(
-        query_texts=[thinking],
-        n_results=top_k
-    )
+    print(json.dumps(result))
 
-    memories = []
-    for i, doc_id in enumerate(results['ids'][0]):
-        memories.append(Memory(
-            id=doc_id,
-            content=results['documents'][0][i],
-            similarity=1 - results['distances'][0][i]
-        ))
-
-    # Filter low similarity
-    return [m for m in memories if m.similarity > 0.3]
-
-def format_injection(memories: list[Memory]) -> str:
-    """Format memories for AI consumption."""
-    if not memories:
-        return ""
-
-    lines = ["## Relevant Memories\n"]
-    for m in memories:
-        lines.append(f"### {m.id} (relevance: {m.similarity:.0%})")
-        lines.append(m.content)
-        lines.append("")
-
-    return "\n".join(lines)
-
-def on_pre_tool_use(transcript: str, collection, dedup_log: DeduplicationLog) -> str:
-    """Called before each tool execution."""
-    start = time.time()
-
-    thinking = extract_thinking(transcript)
-    if not thinking:
-        return ""
-
-    memories = search_memories(collection, thinking)
-
-    thinking_hash = hashlib.md5(thinking.encode()).hexdigest()[:8]
-    memories = [m for m in memories if dedup_log.should_inject(m.id, thinking_hash)]
-
-    result = format_injection(memories)
-
-    elapsed = time.time() - start
-    if elapsed > 0.5:
-        print(f"Warning: Memory injection took {elapsed:.2f}s")
-
-    return result
+if __name__ == "__main__":
+    main()
 ```
 
-#### Phase D: Test the Hook (5 min)
+#### Step 3: Register the Hook
 
-```python
-# test_memory_hook.py
-from memory_hook import *
-import chromadb
-from chromadb.utils import embedding_functions
+Add to your `.claude/settings.json`:
 
-# Setup
-ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-    model_name="all-MiniLM-L6-v2"
-)
-client = chromadb.Client()
-collection = client.create_collection("test_memories", embedding_function=ef)
-
-# Add test memories
-collection.add(
-    ids=["risk-communication", "presentation-format", "methodology-standards"],
-    documents=[
-        "Client prefers risk summaries with dollar ranges, not vague language.",
-        "CFO requires ROI projection first before any creative discussion.",
-        "Journal expects power analysis and effect size reporting."
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "command": "python3 /path/to/memory_hook.py"
+      }
     ]
-)
-
-dedup = DeduplicationLog()
-
-# Test 1: Legal context
-thinking1 = "I'm preparing a memo about contract risks for the client."
-result1 = on_pre_tool_use(f"<thinking>{thinking1}</thinking>", collection, dedup)
-print("Test 1 - Risk communication query:")
-print(result1)
-
-# Test 2: Marketing context
-thinking2 = "I need to present this campaign budget to the CFO."
-result2 = on_pre_tool_use(f"<thinking>{thinking2}</thinking>", collection, dedup)
-print("Test 2 - Presentation format query:")
-print(result2)
+  }
+}
 ```
 
-**Deliverable (Technical Track):** A working memory injection hook with domain-relevant memories.
+#### Step 4: Test It
+
+Run any Claude Code session. Before each tool use, your memories get injected into context.
+
+**That's it.** ~25 lines of Python. No dependencies beyond the standard library.
+
+#### Going Further
+
+Want smarter injection? Here are paths to explore:
+
+| Enhancement                | Approach                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------- |
+| **Keyword matching**       | Check if tool name or recent conversation contains keywords before injecting |
+| **Multiple memory files**  | Different files for different project areas                                  |
+| **Semantic search**        | Add ChromaDB + sentence-transformers for similarity matching                 |
+| **Tool-specific memories** | Different memories for Read vs Edit vs Bash                                  |
+
+The simple version works. Start there. Add complexity only when you need it.
 
 ---
 
@@ -655,28 +550,24 @@ print(result2)
 
 **Technical Implementation (Optional):**
 
-- Hook extracts thinking from transcript
-- Vector search returns relevant memories
-- Deduplication prevents repeated injection
-- Performance under 500ms
+- Hook script runs without errors
+- Hook returns proper JSON with `hookSpecificOutput` format
+- Memory file is structured and readable
+- Hook is registered in settings.json
 
 ## Common Issues and Solutions
 
-**Problem: Memories too generic, match everything**
+**Problem: Memories too generic**
 
 Solution: Make memories specific. Instead of "communicate clearly with clients," write "Acme Corp's GC requires dollar ranges in risk summaries—never use vague terms like 'significant exposure.'"
 
-**Problem: Thinking blocks empty or too short**
+**Problem: Too much context injected**
 
-Solution: This happens early in workflows before the AI has reasoned much. The hook should gracefully return nothing. Prompt-time injection (UserPromptSubmit) handles early turns.
+Solution: Keep your memory file focused. If it's over 500 words, you're probably injecting noise. Split into multiple files and inject selectively.
 
-**Problem: Same memories injected repeatedly despite deduplication**
+**Problem: Hook not firing**
 
-Solution: The thinking hash changed. This is actually correct behavior. If thinking changed significantly, the memory might be relevant in this new context. Tune your TTL if this is too aggressive.
-
-**Problem: Memories from wrong domain being retrieved**
-
-Solution: Add domain tags to your memories and filter by current context. Or maintain separate collections for different types of work.
+Solution: Check that your hook is registered in `.claude/settings.json` and the script path is correct. Test the script standalone first: `echo '{}' | python3 memory_hook.py`
 
 ## Try With AI
 
