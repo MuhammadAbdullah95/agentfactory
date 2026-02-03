@@ -785,7 +785,7 @@ export function DocPageActions() {
       {/* Study Mode Button - Shown on all lesson pages, gated action for non-logged-in */}
       {isLessonPage && (
         <Tooltip
-          content={isLoggedIn ? "AI-powered Socratic learning" : "Sign in for Study Mode"}
+          content={isLoggedIn ? "AI-powered Socratic learning" : "Sign in to access Teach Me mode"}
           position="bottom"
         >
           <button

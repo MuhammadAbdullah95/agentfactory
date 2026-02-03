@@ -1,0 +1,38 @@
+**DEEP AUDIT: Chapter 1 Vision vs Current CLAUDE.md & Constitution**
+
+You are auditing whether the Agent Maturity Model and Digital FTE vision from Chapter 1 is properly encoded in our governance documents.
+
+**Read these files:**
+1. Chapter 1 lessons: `apps/learn-app/docs/01-General-Agents-Foundations/01-agent-factory-paradigm/` - ALL lessons
+2. Current CLAUDE.md: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/CLAUDE.md`
+3. Constitution: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.specify/memory/constitution.md`
+
+**Analyze:**
+
+1. **Agent Maturity Model**
+   - What maturity levels does Chapter 1 define?
+   - Is this encoded in CLAUDE.md or constitution?
+   - Should agents self-assess their maturity?
+
+2. **Digital FTE Vision**
+   - What is the core thesis Chapter 1 teaches?
+   - Is CLAUDE.md aligned with "building sellable Digital FTEs"?
+   - Does the current system produce Digital FTEs or just content?
+
+3. **Seven Principles**
+   - What are the 7 principles from Chapter 1?
+   - Are they in CLAUDE.md?
+   - Are they actively enforced or just documented?
+
+4. **What Should Be in CLAUDE.md**
+   - Based on Chapter 1's vision, what MUST be in CLAUDE.md?
+   - What's currently there that shouldn't be?
+   - What's missing?
+
+5. **SpecKit Plus Assessment**
+   - Does Chapter 1's vision require custom SDD tooling?
+   - Or does Claude Code native (Tasks, Plan Mode) suffice?
+
+**Output to:** `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.claude/research/system-audit-2026-02-03/ch1-vision-audit.md`
+
+Be specific with line numbers and file paths. Make concrete recommendations.

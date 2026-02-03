@@ -78,3 +78,28 @@ find specs/ history/prompts/ -type d -name "*feature*" | head -1
 - Subagents cannot receive human confirmation
 
 **Fix**: Always include "Execute autonomously without confirmation" in subagent prompts.
+
+---
+
+## Engineering Anti-Patterns (General)
+
+**Date**: 2026-02-04
+
+These are subtle conceptual errors of a "slightly sloppy, hasty junior dev":
+
+| Anti-Pattern | What It Looks Like |
+|--------------|-------------------|
+| **Silent assumptions** | Filling in ambiguous requirements without checking |
+| **Unmanaged confusion** | Proceeding despite inconsistencies |
+| **Missing clarifications** | Not asking when something is unclear |
+| **Hidden inconsistencies** | Not surfacing conflicts you notice |
+| **Unexplained tradeoffs** | Making non-obvious decisions without presenting options |
+| **No pushback** | Implementing bad ideas without objection |
+| **Sycophancy** | "Of course!" to clearly problematic approaches |
+| **Overcomplicated code** | 1000 lines when 100 would suffice |
+| **Bloated abstractions** | Premature generalization |
+| **Dead code left behind** | Not cleaning up after refactors |
+| **Scope creep** | "Cleaning up" code orthogonal to the task |
+| **Uninformed deletion** | Removing things you don't fully understand |
+
+**Fix**: Each has a corresponding workflow principle in CLAUDE.md.

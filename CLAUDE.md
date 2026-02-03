@@ -29,11 +29,11 @@ You are an Agent Factory architect building an educational platform that teaches
 
 **Problem**: "Chapter 5" and "Part 5" are different things. Ambiguous references cause wrong paths.
 
-| User Says | Interpretation | Example |
-|-----------|----------------|---------|
-| `ch 11` / `chapter 11` | Chapter 11 (single chapter) | AI-Native IDEs (in Part 3) |
-| `part 4` / `p4` | Part 4 (all chapters in part) | Coding for Problem Solving |
-| `5` (bare number) | **AMBIGUOUS** | Must ask user to clarify |
+| User Says              | Interpretation                | Example                    |
+| ---------------------- | ----------------------------- | -------------------------- |
+| `ch 11` / `chapter 11` | Chapter 11 (single chapter)   | AI-Native IDEs (in Part 3) |
+| `part 4` / `p4`        | Part 4 (all chapters in part) | Coding for Problem Solving |
+| `5` (bare number)      | **AMBIGUOUS**                 | Must ask user to clarify   |
 
 ### Authoritative Source: The Filesystem
 
@@ -89,6 +89,7 @@ ls -d apps/learn-app/docs/04-Coding-for-Problem-Solving/*/ | wc -l
 ```
 
 **Example confirmation**:
+
 ```
 "You said 'ch 11'. I found:
 - Chapter 11: ai-native-ides
@@ -129,19 +130,206 @@ Chapter numbers are **global across the book**, not local to parts.
 
 ---
 
+## Workflow Principles
+
+### Re-Plan When Sideways
+
+If implementation hits unexpected resistance (3+ failed attempts, scope creep, unclear path):
+
+- **STOP** - Don't keep pushing
+- **Re-enter plan mode** - Reassess with new information
+- **Update artifacts** - Spec may need revision
+
+### Self-Improvement Loop
+
+After ANY correction from the user:
+
+1. Capture the pattern in `.claude/lessons.md`
+2. Write a rule that prevents the same mistake
+3. Review lessons at session start
+
+**Format for `.claude/lessons.md`:**
+
+```markdown
+## [Date] [Category]
+
+**Mistake**: What went wrong
+**Pattern**: When this happens
+**Rule**: Do X instead of Y
+```
+
+### Quality Heuristics
+
+Before marking work complete:
+
+- **"Would a staff engineer approve this?"** - If uncertain, it's not done
+- **Elegance check** (non-trivial changes only): "Is there a more elegant way?"
+- **Prove it works** - Run tests, check logs, demonstrate correctness
+
+### Autonomous Bug Fixing
+
+When given a bug report:
+
+- Just fix it - don't ask for hand-holding
+- Point at logs, errors, failing tests - then resolve them
+- Go fix failing CI without being told how
+- Zero context switching required from user
+
+### Assumption Surfacing
+
+Before implementing anything non-trivial, state assumptions explicitly:
+
+```
+ASSUMPTIONS I'M MAKING:
+1. [assumption]
+2. [assumption]
+→ Correct me now or I'll proceed with these.
+```
+
+Never silently fill in ambiguous requirements. Surface uncertainty early.
+
+### Confusion Management
+
+When encountering inconsistencies, conflicting requirements, or unclear specs:
+
+1. **STOP** - Do not proceed with a guess
+2. **Name** the specific confusion
+3. **Present** the tradeoff or ask the clarifying question
+4. **Wait** for resolution before continuing
+
+Bad: Silently picking one interpretation and hoping it's right.
+Good: "I see X in file A but Y in file B. Which takes precedence?"
+
+### Push Back When Warranted
+
+You are not a yes-machine. When the user's approach has clear problems:
+
+- Point out the issue directly
+- Explain the concrete downside
+- Propose an alternative
+- Accept their decision if they override
+
+**Sycophancy is a failure mode.** "Of course!" followed by implementing a bad idea helps no one.
+
+### Dead Code Hygiene
+
+After refactoring or implementing changes:
+
+1. Identify code that is now unreachable
+2. List it explicitly
+3. Ask: "Should I remove these now-unused elements: [list]?"
+
+Don't leave corpses. Don't delete without asking.
+
+### Naive Then Optimize
+
+For algorithmic work:
+
+1. First implement the obviously-correct naive version
+2. Verify correctness
+3. Then optimize while preserving behavior
+
+Correctness first. Performance second. Never skip step 1.
+
+### Change Summary Format
+
+After any modification, summarize:
+
+```
+CHANGES MADE:
+- [file]: [what changed and why]
+
+THINGS I DIDN'T TOUCH:
+- [file]: [intentionally left alone because...]
+
+POTENTIAL CONCERNS:
+- [any risks or things to verify]
+```
+
+---
+
+## SKILL UTILIZATION (MANDATORY)
+
+**Problem identified (2026-02-03)**: Skills are underutilized (24:1 subagent:skill ratio in logs).
+
+### How Skills Work in Claude Code
+
+1. **Auto-loading**: Skill names and descriptions are loaded with CLAUDE.md at session start
+2. **Pattern matching**: When your task matches a skill description, INVOKE IT
+3. **Three-level loading**:
+   - L1: Metadata always loaded (name, description)
+   - L2: Full SKILL.md loaded on-demand when invoked
+   - L3: Supporting files (scripts/, references/) if needed
+
+### When to Use Skills vs Subagents
+
+| Use Case                   | Use Skill                          | Use Subagent             |
+| -------------------------- | ---------------------------------- | ------------------------ |
+| Quick lookup/generation    | ✅ `/fetch-library-docs fastapi`   | ❌ Overkill              |
+| Content evaluation         | ✅ `/content-evaluation-framework` | ❌ Overkill              |
+| Multi-file lesson creation | ❌ Too limited                     | ✅ `content-implementer` |
+| Chapter planning           | ❌ Too limited                     | ✅ `chapter-planner`     |
+| Fact-checking lesson       | ✅ `/fact-check-lesson`            | ❌ Unless complex        |
+
+### Skill vs Subagent Hierarchy (Resolves Conflicts)
+
+**Skills** = Atomic operations (analysis, evaluation, generation, lookup)
+**Subagents** = Orchestrated workflows (multi-file writes, complex state changes)
+
+**Decision rule**: If the task writes multiple files or requires orchestration → Subagent. Otherwise → Skill.
+
+### Available Skills (Check Before Spawning Subagent)
+
+```
+Content Quality:
+- /content-evaluation-framework  → 6-category rubric scoring
+- /content-refiner              → Fix Gate 4 failures
+- /technical-clarity            → Grandma Test, jargon check
+- /fact-check-lesson            → Verify factual claims
+
+Pedagogy:
+- /learning-objectives          → Generate measurable outcomes
+- /concept-scaffolding          → Progressive learning sequences
+- /ai-collaborate-teaching      → Three Roles Framework
+- /skills-proficiency-mapper    → CEFR/Bloom's mapping
+
+Assessment:
+- /quiz-generator               → 50-question interactive quizzes
+- /assessment-architect         → Certification exams
+
+Research:
+- /fetch-library-docs           → Official docs via Context7
+- /session-intelligence-harvester → Extract session learnings
+
+Creation:
+- /skill-creator-pro            → Build new skills
+- /skill-validator              → Validate skill quality
+```
+
+### Skill Invocation Rule
+
+```
+BEFORE spawning a subagent for a task:
+1. Check if a skill exists for that task (see list above)
+2. If skill exists → Use skill (faster, less overhead)
+3. If skill insufficient → Then spawn subagent
+```
+
+---
+
 ## Seven Principles of Agent Work
 
-These principles (from Part 1, Chapter 3) govern ALL work in this project:
+These principles govern ALL work in this project:
 
-| # | Principle | Application to This Project |
-|---|-----------|----------------------------|
-| 1 | **Bash is the Key** | Use `ls -d`, `wc -l`, `grep` to navigate — never hardcoded files |
-| 2 | **Code as Universal Interface** | Express work as code/specs, not prose descriptions |
-| 3 | **Verification as Core Step** | After every operation, verify it succeeded (`ls -la`, read file) |
-| 4 | **Small, Reversible Decomposition** | Break tasks into verifiable chunks, commit incrementally |
-| 5 | **Persisting State in Files** | Track progress in files (todos, READMEs), not memory |
-| 6 | **Constraints and Safety** | Respect folder boundaries, confirm before destructive ops |
-| 7 | **Observability** | Show reasoning, report results, log actions |
+| #   | Principle                           | Application to This Project                                      |
+| --- | ----------------------------------- | ---------------------------------------------------------------- |
+| 1   | **Bash is the Key**                 | Use `ls -d`, `wc -l`, `grep` to navigate — never hardcoded files |
+| 2   | **Code as Universal Interface**     | Express work as code/specs, not prose descriptions               |
+| 3   | **Verification as Core Step**       | After every operation, verify it succeeded (`ls -la`, read file) |
+| 4   | **Small, Reversible Decomposition** | Break tasks into verifiable chunks, commit incrementally         |
+| 5   | **Persisting State in Files**       | Track progress in files (todos, READMEs), not memory             |
+| 6   | **Constraints and Safety**          | Respect folder boundaries, confirm before destructive ops        |
+| 7   | **Observability**                   | Show reasoning, report results, log actions                      |
 
 **Meta-Principle**: General agents are most effective when they leverage computing fundamentals rather than fighting against them. File systems, shells, code execution, version control—these are foundations, not limitations.
 
@@ -152,35 +340,41 @@ These principles (from Part 1, Chapter 3) govern ALL work in this project:
 **Before implementing ANY feature, complete this research protocol:**
 
 ### 1. Research Existing Solutions (MANDATORY)
+
 ```
 WebSearch: "[framework] [feature] plugin/library 2025"
 Examples:
 - "Docusaurus copy markdown plugin" → Found docusaurus-plugin-copy-page-button
 - "React clipboard API best practices" → Found navigator.clipboard limitations
 ```
+
 **Why**: Avoids reinventing wheels. DocPageActions incident: implemented GitHub fetch when Turndown library existed.
 
 ### 2. Edge Case Brainstorm (MANDATORY)
+
 Before writing code, list potential failures:
 
-| Category | Questions to Ask |
-|----------|------------------|
-| **Rate Limits** | Does this call external APIs? What are the limits? |
-| **Permissions** | Does this need user gestures? (clipboard, notifications, etc.) |
-| **Browser Compat** | Safari? Mobile? Offline? |
-| **Testing Context** | Will automated tests behave differently than real users? |
-| **Error States** | What if network fails? API changes? User cancels? |
-| **Performance** | On slow connections? Large files? Many concurrent users? |
+| Category            | Questions to Ask                                               |
+| ------------------- | -------------------------------------------------------------- |
+| **Rate Limits**     | Does this call external APIs? What are the limits?             |
+| **Permissions**     | Does this need user gestures? (clipboard, notifications, etc.) |
+| **Browser Compat**  | Safari? Mobile? Offline?                                       |
+| **Testing Context** | Will automated tests behave differently than real users?       |
+| **Error States**    | What if network fails? API changes? User cancels?              |
+| **Performance**     | On slow connections? Large files? Many concurrent users?       |
 
 **Why**: DocPageActions incident: clipboard API fails without document focus (browser automation limitation).
 
 ### 3. Validate Approach with User
+
 Before deep implementation:
+
 - Present 2-3 approaches with trade-offs
 - Get user sign-off on direction
 - Saves iteration cycles
 
 ### 4. Implementation Checklist
+
 ```
 □ Searched for existing plugins/libraries
 □ Listed 5+ edge cases and mitigations
@@ -191,23 +385,24 @@ Before deep implementation:
 
 ### Quick Reference: Common Gotchas
 
-| API/Feature | Gotcha | Solution |
-|-------------|--------|----------|
-| Clipboard API | Requires document focus | Real user click, not JS `.click()` |
-| GitHub Raw URLs | 60 req/hr unauthenticated | Use client-side extraction (Turndown) |
-| fetch() to external | CORS, rate limits | Proxy or client-side alternative |
-| localStorage | 5MB limit, sync | Consider IndexedDB for large data |
-| Service Workers | Complex lifecycle | Test registration/updates carefully |
+| API/Feature         | Gotcha                    | Solution                              |
+| ------------------- | ------------------------- | ------------------------------------- |
+| Clipboard API       | Requires document focus   | Real user click, not JS `.click()`    |
+| GitHub Raw URLs     | 60 req/hr unauthenticated | Use client-side extraction (Turndown) |
+| fetch() to external | CORS, rate limits         | Proxy or client-side alternative      |
+| localStorage        | 5MB limit, sync           | Consider IndexedDB for large data     |
+| Service Workers     | Complex lifecycle         | Test registration/updates carefully   |
 
 ## Failure Prevention
 
 **These patterns caused real failures. Don't repeat them:**
 
 ### Content Failures
+
 - ❌ **Confusing chapter and part numbers** → `ch 11` ≠ `part 4` (always `ls -d` to discover)
 - ❌ Skipping chapter README → Wrong pedagogical layer (use `ls` + README to understand chapter structure)
 - ❌ Teaching patterns without checking canonical source → Format drift
-- ❌ Writing specs directly instead of `/sp.specify` → Bypassed templates
+- ❌ Not using skills when available → Spawning subagents for simple tasks (check skill list first)
 - ❌ Subagent prompts with "Should I proceed?" → Deadlock (can't receive confirmation)
 - ❌ Letting agents infer output paths → Wrong directories
 - ❌ **Writing statistics/dates without web verification** → Hallucinated facts (Chapter 2 incident)
@@ -216,6 +411,7 @@ Before deep implementation:
 - ❌ **Multi-line description in agent YAML** → Tool parsing breaks (Chapter 40 incident: use single-line descriptions)
 
 ### Platform/Code Failures
+
 - ❌ **Implementing before researching existing solutions** → Reinvented wheel (DocPageActions incident: GitHub fetch when Turndown existed)
 - ❌ **Skipping edge case analysis** → Missed rate limits, permissions (DocPageActions: 60 req/hr GitHub limit)
 - ❌ **Not considering testing context vs production** → Browser automation behaves differently (clipboard needs document focus)
@@ -228,11 +424,19 @@ Before deep implementation:
 
 **⛔ DIRECT CONTENT WRITING IS BLOCKED ⛔**
 
-For educational content (lessons, chapters, modules), you MUST use subagents. Direct writing bypasses quality gates.
+For **educational prose content** (lessons, chapters, modules), you MUST use subagents. Direct writing bypasses quality gates.
+
+**Exempt from this rule** (direct writing allowed):
+- Code files (`.py`, `.ts`, `.sh`, etc.)
+- Skill definitions (`SKILL.md`)
+- Specifications (`spec.md`, `plan.md`, `tasks.md`)
+- Configuration files
 
 ### Agent & Skill YAML Format Requirements
 
 **⚠️ Claude Code has STRICT YAML format requirements. Violations break parsing.**
+
+**Parser Compatibility Note**: These constraints are specific to the current Claude Code parser (as of 2026-02). Standard YAML parsers prefer arrays (`["Read", "Grep"]`), but Claude Code requires comma-separated strings. If tools fail to load after platform updates, check parser compatibility first.
 
 #### Agent Format (`.claude/agents/*.md`)
 
@@ -243,20 +447,21 @@ Valid fields ONLY: `name`, `description`, `tools`, `model`, `permissionMode`, `s
 name: my-agent
 description: Single line description here (max 1024 chars)
 model: opus
-tools: Read, Grep, Glob, Edit    # Comma-separated, NOT array!
-skills: skill1, skill2            # Comma-separated, NOT array!
+tools: Read, Grep, Glob, Edit # Comma-separated, NOT array!
+skills: skill1, skill2 # Comma-separated, NOT array!
 permissionMode: default
 ---
 ```
 
 **❌ WRONG formats that break parsing:**
+
 ```yaml
-description: |          # Multi-line breaks tool parsing!
+description: | # Multi-line breaks tool parsing!
   Long description
-tools:                  # YAML array breaks tool access!
+tools: # YAML array breaks tool access!
   - Read
   - Grep
-color: red              # Invalid field, ignored
+color: red # Invalid field, ignored
 ```
 
 #### Skill Format (`.claude/skills/*/SKILL.md`)
@@ -267,30 +472,32 @@ Valid fields ONLY: `name`, `description`, `allowed-tools`, `model`
 ---
 name: my-skill
 description: Single line description (max 1024 chars)
-allowed-tools: Read, Bash(python:*), Write   # Comma-separated
+allowed-tools: Read, Bash(python:*), Write # Comma-separated
 model: claude-sonnet-4-20250514
 ---
 ```
 
 **❌ WRONG formats that may break:**
+
 ```yaml
-version: "2.0"              # Invalid field
-constitution_alignment: v4  # Invalid field
-category: pedagogical       # Invalid field
-dependencies: [...]         # Invalid field
+version: "2.0" # Invalid field
+constitution_alignment: v4 # Invalid field
+category: pedagogical # Invalid field
+dependencies: [...] # Invalid field
 ```
 
 ### Agent Tool Access
 
-| Phase | Subagent | Purpose |
-|-------|----------|---------|
-| Planning | `chapter-planner` | Pedagogical arc, layer progression |
-| Per Lesson | `content-implementer` | Generate with quality reference |
-| Validation | `educational-validator` | Constitutional compliance |
-| Assessment | `assessment-architect` | Chapter quiz design |
-| Fact-Check | `factual-verifier` | Verify all claims |
+| Phase      | Subagent                | Purpose                            |
+| ---------- | ----------------------- | ---------------------------------- |
+| Planning   | `chapter-planner`       | Pedagogical arc, layer progression |
+| Per Lesson | `content-implementer`   | Generate with quality reference    |
+| Validation | `educational-validator` | Constitutional compliance          |
+| Assessment | `assessment-architect`  | Chapter quiz design                |
+| Fact-Check | `factual-verifier`      | Verify all claims                  |
 
 **Enforcement Rule**:
+
 ```
 IF creating lesson/chapter content:
   1. MUST invoke content-implementer subagent (not write directly)
@@ -314,6 +521,7 @@ IF file doesn't exist after subagent returns:
 ### Chapter 2 Incident (2025-12-26)
 
 Content was rewritten 6 times due to:
+
 1. Hallucinated facts (wrong dates, percentages, adoption numbers)
 2. Missing YAML frontmatter (skills, learning objectives, cognitive load, differentiation)
 3. Weak "Try With AI" sections (1 prompt instead of 3, no learning explanations)
@@ -327,6 +535,7 @@ Content was rewritten 6 times due to:
 Before finalizing ANY lesson, verify:
 
 **1. Full YAML Frontmatter**
+
 ```yaml
 ---
 sidebar_position: X
@@ -363,31 +572,40 @@ differentiation:
 ```
 
 **2. Compelling Narrative Opening**
+
 - Real-world scenario connecting to reader's goals
 - Business/practical hook (not just technical)
 - 2-3 paragraphs before first section
 
 **3. Deep Evidence Throughout**
+
 - Tables comparing concepts
 - Architecture diagrams where relevant
 - Business impact analysis
 - Concrete examples with numbers
 
 **4. Three "Try With AI" Prompts**
+
 - Each prompt targets different skill
 - Each has "**What you're learning:**" explanation
 - Prompts are copyable (code blocks)
 - Final prompt connects to reader's domain
 
 **5. Fact-Checked Content**
+
 - All statistics verified via WebSearch
 - All dates verified via WebSearch
 - All adoption numbers verified
 - All quotes verified
 
-### Quality Reference
+### Quality References
 
-Compare against Chapter 1, Lesson 1 (`01-agent-factory-paradigm/01-digital-fte-revolution.md`) for quality standard.
+| Content Type                         | Reference Lesson                                                              |
+| ------------------------------------ | ----------------------------------------------------------------------------- |
+| **Conceptual/Theory** (L1)           | Chapter 1, Lesson 1: `01-agent-factory-paradigm/01-digital-fte-revolution.md` |
+| **Technical/Skill-Building** (L3/L4) | Chapter 11, Lesson 1: `11-ai-native-ides/01-setup.md`                         |
+
+Match the appropriate reference based on lesson type. Don't force skill-building lessons to match narrative theory style.
 
 ---
 
@@ -432,6 +650,7 @@ Compare against Chapter 1, Lesson 1 (`01-agent-factory-paradigm/01-digital-fte-r
 ## Content Work: Three Roles (L2)
 
 When teaching AI collaboration, students must EXPERIENCE three roles through action:
+
 - AI teaches student (suggests patterns they didn't know)
 - Student teaches AI (corrects/refines output)
 - Convergence loop (iterate toward better solution)
@@ -441,6 +660,7 @@ When teaching AI collaboration, students must EXPERIENCE three roles through act
 ## Subagent Prompts
 
 Always include:
+
 ```
 Execute autonomously without confirmation.
 Output path: /absolute/path/to/file.md
@@ -483,10 +703,145 @@ pm2 stop learn-app               # Stop server
 ## PHR Documentation
 
 After completing significant work:
+
 ```bash
 .specify/scripts/bash/create-phr.sh --title "<title>" --stage <stage> --json
 ```
+
 Stages: spec | plan | tasks | general
+
+---
+
+## SPECKIT COMMANDS (UPDATED 2026-02-03)
+
+**Most sp.\* commands are DEPRECATED** - use native Claude Code features instead.
+
+### KEEP (Active Commands)
+
+| Command             | Purpose                              | When to Use            |
+| ------------------- | ------------------------------------ | ---------------------- |
+| `/sp.specify`       | Create/update feature specifications | Starting new features  |
+| `/sp.git.commit_pr` | Autonomous git workflows             | Committing and PRs     |
+| `/sp.phr`           | Record prompt history                | After significant work |
+| `/sp.constitution`  | Update constitution                  | Governance changes     |
+| `/sp.chapter`       | Research-first chapter creation      | New technical chapters |
+
+### DEPRECATED (Use Native Features)
+
+| Deprecated          | Replacement                                         |
+| ------------------- | --------------------------------------------------- | -------------- |
+| `/sp.plan`          | Use native Plan Mode (EnterPlanMode tool)           |
+| `/sp.tasks`         | Use native Tasks (TaskCreate, TaskList, TaskUpdate) |
+| `/sp.implement`     | Use Ch5 L7 pattern with subagents                   |
+| `/sp.analyze`       | Use Grep/Glob directly                              |
+| `/sp.taskstoissues` | Only if GitHub integration needed                   |
+| `/sp.clarify`       | Interview for underspecified areas                  | Refining specs |
+
+**Why deprecated**: These duplicate native Claude Code capabilities. Use native features for better integration.
+
+---
+
+## SPEC-DRIVEN DEVELOPMENT WORKFLOW (Chapter 5)
+
+**The Four-Phase SDD Workflow** — front-load thinking so implementation becomes execution.
+
+### Phase 1: Research (Parallel Subagents)
+
+**Deliverable**: Written research summaries in `specs/<feature>/research/`
+
+```
+Spawn parallel subagents to investigate:
+- Reference implementations
+- Existing codebase patterns
+- Best practices for this domain
+```
+
+### Phase 2: Specification (Written Artifact)
+
+**Deliverable**: `specs/<feature>/spec.md`
+
+Contains:
+
+- What you're building and why
+- Patterns discovered in research
+- How this fits existing architecture
+- Implementation approach with phases
+- Explicit constraints (what NOT to build)
+- Measurable success criteria
+
+**Why written matters**: The spec becomes your **source of truth** that survives session restarts.
+
+### Phase 3: Refinement (Interview)
+
+**Deliverable**: Updated spec with ambiguities resolved
+
+Use AskUserQuestion to surface design decisions:
+
+- "Should we migrate existing data or start fresh?"
+- "The research found two patterns. Which matches your constraints?"
+
+### Phase 4: Implementation (Task Delegation)
+
+**Deliverable**: Working code committed in atomic chunks
+
+```
+Implement @specs/<feature>/spec.md
+Use the task tool and each task should only be done by a subagent
+so that context is clear. After each task do a commit before you continue.
+You are the main agent and your subagents are your devs.
+```
+
+---
+
+## ARTIFACT STRUCTURE (specs/<feature>/)
+
+**All SDD artifacts live together per feature:**
+
+```
+specs/<feature>/
+├── spec.md        # Specification (source of truth)
+├── plan.md        # Implementation plan (from Plan Mode)
+├── tasks.md       # Task breakdown
+├── progress.md    # Session progress tracking
+├── research/      # Research findings from Phase 1
+│   ├── codebase-analysis.md
+│   └── best-practices.md
+└── adrs/          # Architecture Decision Records
+    └── 001-why-fastapi.md
+```
+
+### Progress Tracking (progress.md)
+
+```markdown
+# Feature: <feature-name>
+
+## Current Phase
+
+[Research | Specification | Refinement | Implementation]
+
+## Session Log
+
+| Date       | Phase          | Work Done          | Next Steps |
+| ---------- | -------------- | ------------------ | ---------- |
+| 2026-02-04 | Implementation | Tasks 1-5 complete | Tasks 6-8  |
+
+## Blocked Items
+
+- [Item]: [Reason] → [Who can unblock]
+
+## Task Status
+
+- [x] Task 1: Schema definition
+- [x] Task 2: API endpoints
+- [ ] Task 3: Tests
+```
+
+### When to Create specs/<feature>/
+
+- Any work spanning multiple sessions
+- Features with 5+ implementation items
+- Content chapters (lessons as tasks)
+- Anything needing rollback boundaries
 
 ---
 
@@ -511,33 +866,32 @@ PHASE A: Build Expertise Skill First
 └── 5. Validate and commit skill
 
 PHASE B: Create Chapter Content
-├── /sp.specify → /sp.clarify → /sp.plan
-├── /sp.tasks → /sp.analyze → /sp.taskstoissues
-├── /sp.implement (with skill as knowledge source)
-├── validators (parallel)
-├── Update tasks.md, close issues
+├── /sp.specify → Interview/Clarification → Plan Mode (native)
+├── Tasks (native TaskCreate) → content-implementer subagent
+├── validators (parallel): educational-validator, factual-verifier
+├── Update progress.md, mark tasks complete
 └── /sp.git.commit_pr
 ```
 
 ### Why Skill-First?
 
-| Without Skill | With Skill |
-|---------------|------------|
-| Hallucinated APIs | Verified patterns |
-| Memory-based facts | Researched facts |
-| Inconsistent examples | Tested examples |
+| Without Skill              | With Skill         |
+| -------------------------- | ------------------ |
+| Hallucinated APIs          | Verified patterns  |
+| Memory-based facts         | Researched facts   |
+| Inconsistent examples      | Tested examples    |
 | 6 rewrites (Ch 2 incident) | First-time quality |
 
 ### Skill Components Required
 
-| Component | Purpose |
-|-----------|---------|
-| **Persona** | Expert identity and voice |
-| **Logic** | Decision trees, when-to-use |
-| **Context** | Prerequisites, setup |
-| **MCP** | Tool integrations |
-| **Data** | API patterns, examples |
-| **Safety** | Guardrails, what to avoid |
+| Component   | Purpose                     |
+| ----------- | --------------------------- |
+| **Persona** | Expert identity and voice   |
+| **Logic**   | Decision trees, when-to-use |
+| **Context** | Prerequisites, setup        |
+| **MCP**     | Tool integrations           |
+| **Data**    | API patterns, examples      |
+| **Safety**  | Guardrails, what to avoid   |
 
 **Command**: `/sp.chapter "Chapter N: Title"`
 
@@ -549,81 +903,15 @@ PHASE B: Create Chapter Content
 
 **The insight**: Traditional learning produces knowledge. Skill-First produces **assets**.
 
-### Why Skill-First Fulfills the Thesis
-
-Students don't "learn FastAPI" or "learn Kubernetes"—they **build and own** skills:
-- `fastapi-agent-api` skill
-- `kubernetes-deployer` skill
-- `helm-chart-architect` skill
-
-By Part 6's end, they have 10+ production skills grounded in official documentation. These skills ARE the Digital FTE components. Students graduate owning a **sellable skill portfolio**.
-
-### The L00 Lesson Structure
-
-Every practical chapter (Parts 4-6) starts with **Lesson 0: Build Your [X] Skill**:
-
-```
-L00: Build Your [X] Skill (25 min)
-  │   1. Clone skills-lab fresh (no state assumptions)
-  │   2. Write LEARNING-SPEC.md (what/why/success criteria)
-  │   3. /fetching-library-docs [technology] → Official docs via Context7
-  │   4. /skill-creator → Build skill from docs (NOT from memory)
-  │   5. Verify skill works
-  │
-  ├── L01-Ln: Learn the Technology
-  │   └── Each lesson TESTS and IMPROVES the skill
-  │   └── "Reflect on Your Skill" section at lesson end
-  │
-  └── Capstone: Finalize Your Skill
-      └── Production-ready, tested, deployable asset
-```
-
 ### Key Principles
 
-| Traditional | Skill-First |
-|-------------|-------------|
-| Learn technology → Maybe build skill later | Build skill FIRST → Learn to improve it |
-| Knowledge from AI memory (unreliable) | Knowledge from **official docs** (reliable) |
-| Assume prior state | **Clone fresh each chapter** |
-| Student "figures it out" | Student writes **LEARNING-SPEC.md** |
-| Random skill quality | **Grounded in documentation** |
-
-### Chapters with L00 Skill-First Lessons
-
-**Part 5 (Building Custom Agents)**:
-- Ch34: `openai-agents` skill
-- Ch35: `google-adk` skill
-- Ch36: `claude-agent-sdk` skill
-- Ch38: `mcp-server-builder` skill
-- Ch40: `fastapi-agent-api` skill
-- Ch41: `chatkit-server` skill
-
-**Part 6 (AI Cloud Native Development)**:
-- Ch49: `docker-deployment` skill
-- Ch50: `kubernetes-deployer` skill
-- Ch51: `helm-chart-architect` skill
-- Ch52: `kafka-event-schema` skill
-- Ch54: `gitops-deployment` skill
-
-### Chapters WITHOUT L00 (Conceptual Only)
-
-- Ch33: Introduction to AI Agents (Google whitepaper, no code)
-- Ch37: MCP Fundamentals (using existing MCP, not building)
-- Ch39: Agent Skills (meta—chapter IS about skill building)
-
-### Running Example Consistency
-
-The book uses **Task/TaskManager** as the unified running example:
-
-| Part | Example | Deployed As |
-|------|---------|-------------|
-| Part 4 | `Task` class (OOP) | — |
-| Part 5 Ch40 | `Task API` (FastAPI + SQLModel) | — |
-| Part 6 Ch49 | Containerized Task API | Docker image |
-| Part 6 Ch50 | Task API on Kubernetes | K8s deployment |
-| Part 6 Ch51 | `task-api-chart` | Helm chart |
-
-**Naming rule**: Use `task-api` consistently (NOT `ai-agent`).
+| Traditional                                | Skill-First                                 |
+| ------------------------------------------ | ------------------------------------------- |
+| Learn technology → Maybe build skill later | Build skill FIRST → Learn to improve it     |
+| Knowledge from AI memory (unreliable)      | Knowledge from **official docs** (reliable) |
+| Assume prior state                         | **Clone fresh each chapter**                |
+| Student "figures it out"                   | Student writes **LEARNING-SPEC.md**         |
+| Random skill quality                       | **Grounded in documentation**               |
 
 ---
 
