@@ -12,11 +12,12 @@
  * Reference: https://github.com/openai/openai-chatkit-starter-app
  */
 
-import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useStudyMode } from "../../contexts/StudyModeContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useUserDisplayName } from "../../hooks/useUserDisplayName";
 import { getOAuthAuthorizationUrl } from "@/lib/auth-client";
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
 import { X, Lock } from "lucide-react";
@@ -79,7 +80,6 @@ function ChatKitWrapper({
   selectedContext,
   onSendMessage,
   onInitialMessageSent,
-  hideFirstUserMessage = false,
 }: {
   lessonPath: string;
   lessonTitle: string;
@@ -90,7 +90,6 @@ function ChatKitWrapper({
   selectedContext?: string;
   onSendMessage?: (sendFn: (text: string) => Promise<void>) => void;
   onInitialMessageSent?: () => void;
-  hideFirstUserMessage?: boolean;
 }) {
   const { session } = useAuth();
 
@@ -102,16 +101,8 @@ function ChatKitWrapper({
     return getAnonymousUserId();
   }, [session?.user?.id]);
 
-  // Get user's display name from auth context
-  const userName = useMemo(() => {
-    if (session?.user?.name) {
-      return session.user.name;
-    }
-    if (session?.user?.email) {
-      return session.user.email.split("@")[0];
-    }
-    return undefined;
-  }, [session?.user?.name, session?.user?.email]);
+  // Get user's display name from shared hook
+  const userName = useUserDisplayName();
 
   const apiUrl = useMemo(
     () =>
@@ -130,39 +121,7 @@ function ChatKitWrapper({
   // Must use ID token (JWT format) not access token (may be opaque)
   const authenticatedFetch = useCallback(
     async (input: RequestInfo | URL, options?: RequestInit) => {
-      // Priority: ID token from localStorage (JWT format required by backend)
       const token = localStorage.getItem("ainative_id_token");
-
-      // Debug logging - ALWAYS log to see what's happening
-      console.log("[TeachMePanel] ===== authenticatedFetch called =====");
-      console.log(
-        "[TeachMePanel] ainative_id_token:",
-        token ? "EXISTS" : "NULL/MISSING",
-      );
-      console.log(
-        "[TeachMePanel] ainative_access_token:",
-        localStorage.getItem("ainative_access_token")
-          ? "EXISTS"
-          : "NULL/MISSING",
-      );
-      if (token) {
-        console.log(
-          "[TeachMePanel] Token preview:",
-          token.substring(0, 50) + "...",
-        );
-        console.log(
-          "[TeachMePanel] Token parts (should be 3):",
-          token.split(".").length,
-        );
-      } else {
-        console.log(
-          "[TeachMePanel] WARNING: No ID token found! User may not be logged in properly.",
-        );
-      }
-      console.log(
-        "[TeachMePanel] Options headers from ChatKit:",
-        options?.headers,
-      );
 
       const response = await fetch(input, {
         ...options,
@@ -173,8 +132,6 @@ function ChatKitWrapper({
           ...(userName ? { "X-User-Name": userName } : {}),
         },
       });
-
-      console.log("[TeachMePanel] Response status:", response.status);
 
       return response;
     },
@@ -274,141 +231,8 @@ function ChatKitWrapper({
     }
   }, [initialMessage, sendUserMessage, onInitialMessageSent]);
 
-  // Ref for MutationObserver to hide first user message
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  // Use MutationObserver to hide the first user message by injecting CSS into shadow DOM
-  useEffect(() => {
-    if (!hideFirstUserMessage || !wrapperRef.current) return;
-
-    // CSS to hide first user message - inject into any shadow DOM we find
-    // ChatKit uses obfuscated classes: .AA6bn (container) and .ln8Ls (bubble)
-    const hideCSS = `
-      /* AGGRESSIVE: Hide first user message container completely */
-      .AA6bn:first-child,
-      .AA6bn:first-of-type,
-      .AA6bn:nth-child(1) {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        overflow: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-      }
-    `;
-
-    const injectStyleToShadow = (shadowRoot: ShadowRoot) => {
-      // Check if we already injected
-      if (shadowRoot.querySelector('#teach-me-hide-style')) return;
-
-      const style = document.createElement('style');
-      style.id = 'teach-me-hide-style';
-      style.textContent = hideCSS;
-      shadowRoot.appendChild(style);
-      console.log('[TeachMePanel] Injected hide CSS into shadow root');
-    };
-
-    const findAndHideInDOM = (container: Element | ShadowRoot) => {
-      let hidden = false;
-
-      // Find user message containers (.AA6bn is user message wrapper)
-      const userContainers = container.querySelectorAll('.AA6bn');
-      for (const el of Array.from(userContainers)) {
-        const htmlEl = el as HTMLElement;
-        const text = htmlEl.textContent || '';
-        const trimmedText = text.trim();
-
-        // Hide if: empty, only whitespace, zero-width space, or known triggers
-        const isEmpty = trimmedText === '' || trimmedText === '\u200B';
-        const isTrigger = trimmedText.includes('__START_TEACHING__') ||
-                          trimmedText === '👋' ||
-                          trimmedText === 'Teach me!' ||
-                          trimmedText === 'Teach me';
-
-        if (isEmpty || isTrigger) {
-          htmlEl.style.setProperty('display', 'none', 'important');
-          console.log('[TeachMePanel] Hidden empty/trigger message');
-          hidden = true;
-        }
-      }
-
-      return hidden;
-    };
-
-    const processElement = (element: Element) => {
-      // If element has shadow root, inject CSS and search inside
-      if (element.shadowRoot) {
-        injectStyleToShadow(element.shadowRoot);
-        findAndHideInDOM(element.shadowRoot);
-
-        // Also observe shadow root for new messages
-        const shadowObserver = new MutationObserver(() => {
-          findAndHideInDOM(element.shadowRoot!);
-        });
-        shadowObserver.observe(element.shadowRoot, { childList: true, subtree: true });
-
-        // Recursively check shadow DOM children
-        element.shadowRoot.querySelectorAll('*').forEach(processElement);
-      }
-
-      // Check children
-      element.querySelectorAll('*').forEach(child => {
-        if (child.shadowRoot) processElement(child);
-      });
-    };
-
-    const runChecks = () => {
-      if (!wrapperRef.current) return;
-
-      // Search in light DOM first
-      findAndHideInDOM(wrapperRef.current);
-
-      // Then process all elements looking for shadow roots
-      processElement(wrapperRef.current);
-
-      // AGGRESSIVE: Find openai-chatkit element and search its shadow root directly
-      const chatkit = wrapperRef.current.querySelector('openai-chatkit');
-      if (chatkit?.shadowRoot) {
-        findAndHideInDOM(chatkit.shadowRoot);
-
-        // Also search nested shadow roots
-        chatkit.shadowRoot.querySelectorAll('*').forEach(el => {
-          if ((el as Element).shadowRoot) {
-            findAndHideInDOM((el as Element).shadowRoot!);
-          }
-        });
-      }
-    };
-
-    // Run continuously for first 5 seconds to catch dynamic content
-    const interval = setInterval(runChecks, 100);
-    setTimeout(() => clearInterval(interval), 5000);
-
-    // Also run on specific delays
-    const timers = [50, 150, 300, 500, 800, 1200, 2000, 3000].map(
-      delay => setTimeout(runChecks, delay)
-    );
-
-    // Observe for changes
-    const observer = new MutationObserver(runChecks);
-    observer.observe(wrapperRef.current, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-    });
-
-    return () => {
-      clearInterval(interval);
-      timers.forEach(clearTimeout);
-      observer.disconnect();
-    };
-  }, [hideFirstUserMessage]);
-
   return (
-    <div
-      ref={wrapperRef}
-      className={`${styles.chatWrapper} ${hideFirstUserMessage ? styles.hideFirstUser : ''}`}
-    >
+    <div className={styles.chatWrapper}>
       <ChatKit control={control} className={styles.chatKit} />
     </div>
   );
@@ -478,20 +302,11 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   // Track if we've auto-started teach mode for this chat session
   const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
-  // Get user name for personalized greeting
-  const userName = useMemo(() => {
-    if (session?.user?.name) return session.user.name;
-    if (session?.user?.email) return session.user.email.split("@")[0];
-    return "there";
-  }, [session?.user?.name, session?.user?.email]);
-
   // Auto-start Socratic conversation when panel opens in teach mode
-  // Use zero-width space as invisible trigger - AI will respond with greeting
+  // Backend auto-deletes the trigger so AI greeting appears first
   useEffect(() => {
     if (isOpen && mode === "teach" && !initialMessage && !hasAutoStarted) {
-      // Use invisible character as trigger - will be hidden via CSS/JS
-      // The AI prompt is configured to recognize this and respond with personalized greeting
-      setInitialMessage("\u200B"); // Zero-width space - invisible!
+      setInitialMessage("\u200B"); // Zero-width space trigger
       setHasAutoStarted(true);
     }
   }, [isOpen, mode, initialMessage, hasAutoStarted]);
@@ -537,13 +352,14 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
     };
   }, [handleSelection]);
 
-  // Handle Ask button click - opens panel with selected context
+  // Handle Ask button click - auto-send selected text as message
   const handleAskSelectedText = useCallback(() => {
     if (!selectedText) return;
 
-    // Set context for display and backend
+    // Pass context to backend URL and auto-send as user message
     setSelectedContext(selectedText);
     setMode("ask");
+    setInitialMessage(selectedText);
     setChatKey((prev) => prev + 1);
     openPanel();
 
@@ -614,7 +430,6 @@ export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
               mode={mode}
               initialMessage={initialMessage}
               onInitialMessageSent={() => setInitialMessage(undefined)}
-              hideFirstUserMessage={hasAutoStarted && mode === "teach"}
               selectedContext={selectedContext}
             />
 
