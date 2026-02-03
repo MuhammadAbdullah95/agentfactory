@@ -1,0 +1,34 @@
+Create Chapter 5 Lesson 01: The Three Levels of SDD
+
+**Output path**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/learn-app/docs/01-General-Agents-Foundations/05-spec-driven-development/01-three-levels-of-sdd.md
+
+**Quality reference**: Read /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/01-manufacturing-quality-problem.md for format standards.
+
+**Spec reference**: Read /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/specs/chapter-05-sdd/spec.md section "Lesson 01" for content requirements.
+
+**Lesson content**:
+- sidebar_position: 1
+- chapter: 5, lesson: 1
+- duration: 20 minutes
+- Layer: L1→L2
+
+**Core content**:
+1. Three implementation levels table:
+   | Level | Creation | Maintenance | Use Case |
+   | Spec-First | Spec guides implementation | Spec discarded after | Most common; quick tasks |
+   | Spec-Anchored | Spec written first | Both maintained | Team projects; living docs |
+   | Spec-as-Source | Spec is primary artifact | Only spec edited | Experimental (Tessl) |
+
+2. Most practitioners operate at Spec-First level
+3. Spec-Anchored provides onboarding value (specs = documentation)
+4. Spec-as-Source is emerging but introduces determinism challenges
+5. The MDD parallel and why Spec-as-Source is risky
+
+**Opening hook**: Frame as a maturity spectrum - you can adopt SDD gradually.
+
+**Try With AI prompts** (3 prompts):
+1. "Explain the trade-offs between maintaining specs alongside code vs regenerating code from specs"
+2. "When would Spec-as-Source fail in a real project? Give me three scenarios."
+3. "For a team of 5 developers, which SDD level would you recommend and why?"
+
+Execute autonomously without confirmation. Match the quality reference format exactly.

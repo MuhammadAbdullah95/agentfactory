@@ -1,0 +1,57 @@
+Create Chapter 5 Lesson 06: Phase 4 - Task-Based Implementation
+
+**Output path**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/learn-app/docs/01-General-Agents-Foundations/05-spec-driven-development/06-task-based-implementation.md
+
+**Quality reference**: Read /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/01-manufacturing-quality-problem.md for format standards.
+
+**Spec reference**: Read /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/specs/chapter-05-sdd/spec.md section "Lesson 06" for content requirements.
+
+**Lesson content**:
+- sidebar_position: 6
+- chapter: 5, lesson: 6
+- duration: 35 minutes
+- Layer: L3
+
+**Core content**:
+1. **The core prompt pattern**:
+   ```
+   Implement @docs/my-spec.md
+   Use the task tool and each task should only be done by a subagent
+   so that context is clear. After each task do a commit before you continue.
+   You are the main agent and your subagents are your devs.
+   ```
+
+2. **What happens**:
+   - Main agent extracts tasks from spec checklist
+   - Each task delegated to fresh subagent (context isolation)
+   - Subagent completes → commits → returns
+   - Main agent tracks progress, handles blockers
+
+3. **Task system operations** table:
+   | Tool | Purpose |
+   | TaskCreate | Define task with dependencies |
+   | TaskUpdate | Transition status |
+   | TaskList | View all tasks and blockers |
+   | TaskGet | Retrieve full task details |
+
+4. **Why context isolation matters**:
+   - Each subagent starts fresh
+   - If task fails, only that context is affected
+   - Parallel tasks don't pollute each other
+
+5. **Backpressure pattern**: Pre-commit hooks
+   ```bash
+   # .husky/pre-commit
+   pnpm typecheck && pnpm lint && pnpm test-run
+   ```
+
+6. Real results from alexop.dev: 45 minutes, 14 tasks, 14 commits, 71% context usage
+
+**Opening hook**: "You are the main agent and your subagents are your devs. This single prompt transforms Claude from a solo coder into a development team."
+
+**Try With AI prompts** (3 prompts):
+1. "Create a task breakdown for this spec: [paste spec]. Show dependencies between tasks."
+2. "Implement task 1. After completion, commit with an atomic message describing what changed."
+3. "Which of these tasks can run in parallel vs which must be sequential? Explain the dependencies."
+
+Execute autonomously without confirmation. Match the quality reference format exactly.
