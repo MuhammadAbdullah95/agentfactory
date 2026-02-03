@@ -6,7 +6,7 @@ description: "Build skills that implement the code execution pattern - from MCP-
 
 # Chapter 39: Agent Skills & MCP Code Execution
 
-You learned to create skills in Chapter 5—SKILL.md files that encode domain expertise for Claude Code. You built MCP servers in Chapter 38. Now you'll build skills that don't just advise—they EXECUTE.
+You learned to create skills in Chapter 3—SKILL.md files that encode domain expertise for Claude Code. You built MCP servers in Chapter 38. Now you'll build skills that don't just advise—they EXECUTE.
 
 The code execution pattern transforms agents from assistants that suggest solutions into autonomous systems that solve problems. A skill orchestrates code execution (MCP calls, scripts, data processing), analyzes results, and iterates until the problem is solved.
 
@@ -25,32 +25,32 @@ By the end of this chapter, you'll be able to:
 
 ## The Learning Arc
 
-| Phase | What You Build | Example |
-|-------|----------------|---------|
-| **Foundation** (Lessons 1-2) | Advanced skill patterns | Persona + Questions + Principles for execution |
-| **MCP First** (Lessons 3-4) | Skills that wrap MCP servers | Like `fetching-library-docs` wrapping Context7 |
-| **Scripts Next** (Lessons 5-6) | Skills that write + execute scripts | Data processing, file manipulation |
-| **Full Workflows** (Lesson 7) | Skills that orchestrate everything | MCP + scripts + iteration + error recovery |
-| **Ship It** (Lesson 8) | Complete, shippable skill | Capstone Digital FTE |
+| Phase                          | What You Build                      | Example                                        |
+| ------------------------------ | ----------------------------------- | ---------------------------------------------- |
+| **Foundation** (Lessons 1-2)   | Advanced skill patterns             | Persona + Questions + Principles for execution |
+| **MCP First** (Lessons 3-4)    | Skills that wrap MCP servers        | Like `fetching-library-docs` wrapping Context7 |
+| **Scripts Next** (Lessons 5-6) | Skills that write + execute scripts | Data processing, file manipulation             |
+| **Full Workflows** (Lesson 7)  | Skills that orchestrate everything  | MCP + scripts + iteration + error recovery     |
+| **Ship It** (Lesson 8)         | Complete, shippable skill           | Capstone Digital FTE                           |
 
 ## Chapter Structure
 
-| Lesson | Title | Layer | Duration |
-|--------|-------|-------|----------|
-| 1 | Advanced Skill Patterns | L1 (Manual) | 25 min |
-| 2 | Skill Composition & Dependencies | L2 (Collaboration) | 30 min |
-| 3 | Anatomy of MCP-Wrapping Skills | L1 (Manual) | 30 min |
-| 4 | Build Your MCP-Wrapping Skill | L2 (Collaboration) | 45 min |
-| 5 | Script Execution Fundamentals | L1 (Manual) | 30 min |
-| 6 | Build Script-Execution Skill | L2 (Collaboration) | 50 min |
-| 7 | Full Workflow Orchestration | L3 (Intelligence) | 50 min |
-| 8 | Capstone: Shippable Agent Skill | L4 (Spec-Driven) | 90 min |
+| Lesson | Title                            | Layer              | Duration |
+| ------ | -------------------------------- | ------------------ | -------- |
+| 1      | Advanced Skill Patterns          | L1 (Manual)        | 25 min   |
+| 2      | Skill Composition & Dependencies | L2 (Collaboration) | 30 min   |
+| 3      | Anatomy of MCP-Wrapping Skills   | L1 (Manual)        | 30 min   |
+| 4      | Build Your MCP-Wrapping Skill    | L2 (Collaboration) | 45 min   |
+| 5      | Script Execution Fundamentals    | L1 (Manual)        | 30 min   |
+| 6      | Build Script-Execution Skill     | L2 (Collaboration) | 50 min   |
+| 7      | Full Workflow Orchestration      | L3 (Intelligence)  | 50 min   |
+| 8      | Capstone: Shippable Agent Skill  | L4 (Spec-Driven)   | 90 min   |
 
 **Total: ~6 hours**
 
 ## Prerequisites
 
-- **Chapter 5**: Claude Code Skills (SKILL.md structure, basic skill creation)
+- **Chapter 3**: Claude Code Skills (SKILL.md structure, basic skill creation)
 - **Chapter 37**: MCP Fundamentals (architecture, client configuration)
 - **Chapter 38**: Custom MCP Servers (building MCP servers you can now wrap)
 - **Part 5**: Python Fundamentals (for script generation and execution)
@@ -58,6 +58,7 @@ By the end of this chapter, you'll be able to:
 ## Success Criteria
 
 By chapter completion, you will:
+
 - Analyze existing MCP-wrapping skills and explain their intelligence layer
 - Build a skill that wraps an MCP server with proper triggering and 30%+ token reduction
 - Build a skill that writes, executes, and iterates on Python scripts

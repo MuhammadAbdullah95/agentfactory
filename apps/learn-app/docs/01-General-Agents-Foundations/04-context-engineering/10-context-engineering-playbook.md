@@ -987,7 +987,7 @@ You now understand:
 
 Without context engineering discipline, "persisting state in files" is cargo cult. With it, file-based state becomes a superpower.
 
-In Chapter 5, you'll learn Principle 5 explicitly, along with the other six principles of general agent problem solving. This chapter gave you the physics. Chapter 5 gives you the practices.
+In Chapter 6, you'll learn Principle 5 explicitly, along with the other six principles of general agent problem solving. This chapter gave you the physics. Chapter 6 gives you the practices.
 
 ## What You Learned
 
@@ -1084,18 +1084,18 @@ Prioritize by effort-to-impact ratio. I want the quick wins that move the needle
 
 You've completed the context engineering discipline. Here's what you now know:
 
-| Lesson | Core Insight                                         | Applies To                                      |
-| ------ | ---------------------------------------------------- | ----------------------------------------------- |
-| 1      | Context, not prompts, determines agent value         | All domains: your expertise IS the value        |
-| 2      | More context isn't better; the 70% threshold matters | Contract review, research synthesis, code analysis |
+| Lesson | Core Insight                                         | Applies To                                                |
+| ------ | ---------------------------------------------------- | --------------------------------------------------------- |
+| 1      | Context, not prompts, determines agent value         | All domains: your expertise IS the value                  |
+| 2      | More context isn't better; the 70% threshold matters | Contract review, research synthesis, code analysis        |
 | 3      | Position determines attention; middle = danger zone  | Critical rules (legal thresholds, brand voice, standards) |
-| 4      | 30-60% of context is noise; audit ruthlessly         | Reference materials, style guides, precedent files |
-| 5      | Tacit knowledge must be extracted and documented     | The expertise that makes YOU valuable           |
-| 6      | Know when to compact vs clear; lifecycle matters     | Long reviews, multi-document analysis, deep research |
-| 7      | Progress files enable multi-session work             | Week-long projects across any domain            |
-| 8      | Memory injection prevents workflow drift             | Maintaining focus on original brief/requirements |
-| 9      | Clean context beats dirty state for multi-agent      | Complex workflows with multiple specialized agents |
-| 10     | Decision frameworks turn knowledge into practice     | Knowing WHICH technique for WHICH problem       |
+| 4      | 30-60% of context is noise; audit ruthlessly         | Reference materials, style guides, precedent files        |
+| 5      | Tacit knowledge must be extracted and documented     | The expertise that makes YOU valuable                     |
+| 6      | Know when to compact vs clear; lifecycle matters     | Long reviews, multi-document analysis, deep research      |
+| 7      | Progress files enable multi-session work             | Week-long projects across any domain                      |
+| 8      | Memory injection prevents workflow drift             | Maintaining focus on original brief/requirements          |
+| 9      | Clean context beats dirty state for multi-agent      | Complex workflows with multiple specialized agents        |
+| 10     | Decision frameworks turn knowledge into practice     | Knowing WHICH technique for WHICH problem                 |
 
 This isn't abstract theory. You've built a production-quality agent for YOUR domain. You've measured its quality against concrete criteria. You've created artifacts you can show to clients—whether they're law firms, marketing agencies, research institutions, or engineering teams.
 

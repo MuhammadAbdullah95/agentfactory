@@ -13,7 +13,7 @@ Welcome to hands-on specification-driven development. This chapter transforms un
 
 **Your Project**: Write a research paper using Spec-Kit Plus workflow. Simple, yes. But it forces you to master `/sp.constitution`, `/sp.specify`, `/sp.clarify`, `/sp.plan`, `/sp.tasks`, `/sp.implement`—the exact commands you'll use on every project forward.
 
-**Why a Research Paper?** Because a research paper has clear structure, measurable success criteria, and iteration loops—everything that makes Spec-Kit Plus powerful. 
+**Why a Research Paper?** Because a research paper has clear structure, measurable success criteria, and iteration loops—everything that makes Spec-Kit Plus powerful.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ Before starting this chapter, ensure you have:
 - **Chapter 12 Complete**: You understand SDD-RI theory (specification primacy, intelligence accumulation)
 - **AI Companion Ready**: Claude Code or Gemini CLI installed and configured
 - **Markdown Basics**: From Chapter 2 (how to write markdown)
-- **Terminal Comfort**: From Chapter 5 (basic bash commands)
+- **Terminal Comfort**: From Chapter 6 (basic bash commands)
 - **Text Editor**: Any editor (VS Code, Cursor, terminal-based)
 
 ## 📚 Teaching Aid

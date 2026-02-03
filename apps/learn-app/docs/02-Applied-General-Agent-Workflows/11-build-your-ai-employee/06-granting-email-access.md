@@ -21,7 +21,7 @@ duration_minutes: 30
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 2"
 layer_progression: "L2 (AI Collaboration)"
-layer_1_foundation: "MCP protocol concepts from Chapter 5, Gmail authentication basics"
+layer_1_foundation: "MCP protocol concepts from Chapter 3, Gmail authentication basics"
 layer_2_collaboration: "Co-configuring Gmail MCP with AI assistance, testing tools iteratively, establishing safety protocols through collaborative refinement"
 layer_3_intelligence: "N/A (lesson teaches configuration, not creating new MCP servers)"
 layer_4_capstone: "N/A"
@@ -131,37 +131,37 @@ Gmail MCP provides a comprehensive toolkit organized into four categories:
 
 ### Email Operations (Core)
 
-| Tool | Purpose | Example Use |
-|------|---------|-------------|
-| `send_email` | Send email immediately | Routine messages after review |
-| `draft_email` | Create draft for review | Important messages requiring approval |
-| `read_email` | Get full email content | Understanding thread context |
-| `search_emails` | Find emails by query | "Emails from boss this week" |
-| `modify_email` | Change labels/read status | Mark as read, archive |
-| `delete_email` | Remove email permanently | Cleanup old messages |
-| `batch_modify_emails` | Bulk label operations | Archive all newsletters |
-| `batch_delete_emails` | Bulk deletion | Clear spam folder |
-| `download_attachment` | Save file from email | Extract report attachments |
+| Tool                  | Purpose                   | Example Use                           |
+| --------------------- | ------------------------- | ------------------------------------- |
+| `send_email`          | Send email immediately    | Routine messages after review         |
+| `draft_email`         | Create draft for review   | Important messages requiring approval |
+| `read_email`          | Get full email content    | Understanding thread context          |
+| `search_emails`       | Find emails by query      | "Emails from boss this week"          |
+| `modify_email`        | Change labels/read status | Mark as read, archive                 |
+| `delete_email`        | Remove email permanently  | Cleanup old messages                  |
+| `batch_modify_emails` | Bulk label operations     | Archive all newsletters               |
+| `batch_delete_emails` | Bulk deletion             | Clear spam folder                     |
+| `download_attachment` | Save file from email      | Extract report attachments            |
 
 ### Label Management
 
-| Tool | Purpose | Example Use |
-|------|---------|-------------|
-| `list_email_labels` | Show all labels | See inbox structure |
-| `create_gmail_label` | Create new label | Organize by project |
-| `update_gmail_label` | Modify label properties | Change label color |
-| `delete_gmail_label` | Remove label | Cleanup unused labels |
-| `get_or_create_gmail_label` | Ensure label exists | Idempotent setup |
+| Tool                        | Purpose                 | Example Use           |
+| --------------------------- | ----------------------- | --------------------- |
+| `list_email_labels`         | Show all labels         | See inbox structure   |
+| `create_gmail_label`        | Create new label        | Organize by project   |
+| `update_gmail_label`        | Modify label properties | Change label color    |
+| `delete_gmail_label`        | Remove label            | Cleanup unused labels |
+| `get_or_create_gmail_label` | Ensure label exists     | Idempotent setup      |
 
 ### Filter Management
 
-| Tool | Purpose | Example Use |
-|------|---------|-------------|
-| `create_gmail_filter` | Set up auto-rules | Auto-archive newsletters |
-| `list_gmail_filters` | Show existing filters | Audit current automation |
-| `get_gmail_filter` | View filter details | Debug filter behavior |
-| `delete_gmail_filter` | Remove filter | Disable auto-processing |
-| `create_filter_from_template` | Quick filter setup | Common patterns |
+| Tool                          | Purpose               | Example Use              |
+| ----------------------------- | --------------------- | ------------------------ |
+| `create_gmail_filter`         | Set up auto-rules     | Auto-archive newsletters |
+| `list_gmail_filters`          | Show existing filters | Audit current automation |
+| `get_gmail_filter`            | View filter details   | Debug filter behavior    |
+| `delete_gmail_filter`         | Remove filter         | Disable auto-processing  |
+| `create_filter_from_template` | Quick filter setup    | Common patterns          |
 
 ---
 
@@ -169,10 +169,10 @@ Gmail MCP provides a comprehensive toolkit organized into four categories:
 
 Gmail MCP supports two authentication methods. Choose based on your needs:
 
-| Method | Setup Time | Access Level | Best For |
-|--------|------------|--------------|----------|
-| **SMTP + App Password** | ~2 minutes | Basic send/receive | Quick testing, simple automation |
-| **OAuth** | ~10 minutes | Full API access | Production use, all 19 tools |
+| Method                  | Setup Time  | Access Level       | Best For                         |
+| ----------------------- | ----------- | ------------------ | -------------------------------- |
+| **SMTP + App Password** | ~2 minutes  | Basic send/receive | Quick testing, simple automation |
+| **OAuth**               | ~10 minutes | Full API access    | Production use, all 19 tools     |
 
 **Recommendation**: Start with SMTP for this lesson. Move to OAuth if you need label management, filters, or batch operations.
 
@@ -198,10 +198,10 @@ This method uses Google's App Passwords — special 16-character passwords that 
 
 Choose your scope:
 
-| Scope | Flag | Use When |
-|-------|------|----------|
-| 🌍 **User Scope** (Recommended) | `--scope user` | Available in all your projects |
-| 📁 **Project Scope** | `--scope project` | Only in current project |
+| Scope                           | Flag              | Use When                       |
+| ------------------------------- | ----------------- | ------------------------------ |
+| 🌍 **User Scope** (Recommended) | `--scope user`    | Available in all your projects |
+| 📁 **Project Scope**            | `--scope project` | Only in current project        |
 
 **Project scope** (current project only):
 
@@ -222,19 +222,22 @@ claude mcp add gmail --transport http --scope user \
 ```
 
 **Replace these values:**
+
 - `your-email@gmail.com` → Your actual Gmail address
 - `xxxx-xxxx-xxxx-xxxx` → The 16-character App Password you generated
 
 **Output:**
+
 ```
 Added gmail to user settings
 ```
 
 :::warning .mcp.json Conflict
 If you have a `.mcp.json` file in your project with a `gmail` server configured, it may override your `claude mcp add` config. Either:
+
 - Delete the conflicting entry from `.mcp.json`, or
 - Use a different server name (e.g., `gmail-smtp`)
-:::
+  :::
 
 ### Step 3: Verify Connection
 
@@ -245,6 +248,7 @@ claude mcp list
 ```
 
 **Output:**
+
 ```
 gmail: connected
   Transport: HTTP (remote)
@@ -285,12 +289,14 @@ OAuth provides full API access and is required for label management, filters, an
 3. Select **External** → Click **Create**
 
 **Configure Branding** (left sidebar):
+
 1. App name: `Gmail MCP`
 2. User support email: Your email
 3. Developer contact: Your email
 4. Click **Save**
 
 **Configure Data Access** (left sidebar):
+
 1. Click **Add or Remove Scopes**
 2. In the filter, search for `gmail`
 3. Select these scopes:
@@ -299,11 +305,13 @@ OAuth provides full API access and is required for label management, filters, an
 4. Click **Update** → **Save**
 
 **Configure Audience** (left sidebar):
+
 1. Click **Add Users**
 2. Add your Gmail address
 3. Click **Save**
 
 **Publish Your App** (Summary in left sidebar):
+
 1. Click **Publish App** to move from "Testing" to "In Production"
 2. This allows your app to request full permissions needed for all Gmail MCP tools
 
@@ -343,10 +351,10 @@ While in "Testing" mode, tokens expire after 7 days. Publishing removes this lim
 
 Choose your scope:
 
-| Scope | Flag | Use When |
-|-------|------|----------|
+| Scope                           | Flag           | Use When                       |
+| ------------------------------- | -------------- | ------------------------------ |
 | 🌍 **User Scope** (Recommended) | `--scope user` | Available in all your projects |
-| 📁 **Project Scope** | (default) | Only in current project |
+| 📁 **Project Scope**            | (default)      | Only in current project        |
 
 **Project scope** (current project only):
 
@@ -371,24 +379,26 @@ claude mcp add gmail --transport http --scope user \
 **Replace the placeholder values with your actual credentials.**
 
 **Output:**
+
 ```
 Added gmail to user settings
 ```
 
 :::warning .mcp.json Conflict
 If you have a `.mcp.json` file in your project with a `gmail` server configured for SMTP, it may override your OAuth config. Either:
+
 - Update `.mcp.json` to use OAuth headers, or
 - Delete the `gmail` entry from `.mcp.json`, or
 - Use a different server name (e.g., `gmail-oauth`)
-:::
+  :::
 
 **Available Tools with OAuth:**
 
-| Category | Tools |
-|----------|-------|
-| **Email Operations** | `send_email`, `draft_email`, `read_email`, `search_emails`, `modify_email`, `delete_email` |
-| **Label Management** | `list_email_labels`, `create_gmail_label`, `delete_gmail_label` |
-| **Filter Management** | `create_gmail_filter`, `list_gmail_filters`, `delete_gmail_filter` |
+| Category              | Tools                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------ |
+| **Email Operations**  | `send_email`, `draft_email`, `read_email`, `search_emails`, `modify_email`, `delete_email` |
+| **Label Management**  | `list_email_labels`, `create_gmail_label`, `delete_gmail_label`                            |
+| **Filter Management** | `create_gmail_filter`, `list_gmail_filters`, `delete_gmail_filter`                         |
 
 ---
 
@@ -492,13 +502,13 @@ Email automation is powerful but risky. A typo in a recipient address or an AI-g
 
 **For important emails, always use `draft_email` before `send_email`.**
 
-| Message Type | Recommended Approach |
-|--------------|---------------------|
-| Cold outreach to clients | Draft → Review in Gmail → Send manually |
-| Follow-ups with colleagues | Draft → Quick review → Send via Claude |
-| Internal team updates | Send directly (lower risk) |
-| Anything with attachments | Draft → Verify attachment → Send manually |
-| Emails to executives | Draft → Review tone → Send manually |
+| Message Type               | Recommended Approach                      |
+| -------------------------- | ----------------------------------------- |
+| Cold outreach to clients   | Draft → Review in Gmail → Send manually   |
+| Follow-ups with colleagues | Draft → Quick review → Send via Claude    |
+| Internal team updates      | Send directly (lower risk)                |
+| Anything with attachments  | Draft → Verify attachment → Send manually |
+| Emails to executives       | Draft → Review tone → Send manually       |
 
 **Implementation**: Tell Claude your preference:
 
@@ -511,13 +521,13 @@ Only use send_email for internal team messages after I confirm.
 
 **Never include in your prompts:**
 
-| Data Category | Why It's Risky |
-|---------------|----------------|
-| Passwords | Could be logged or cached |
-| Financial account numbers | PII exposure |
+| Data Category               | Why It's Risky              |
+| --------------------------- | --------------------------- |
+| Passwords                   | Could be logged or cached   |
+| Financial account numbers   | PII exposure                |
 | Personal health information | Privacy regulations (HIPAA) |
-| Social Security Numbers | Identity theft risk |
-| API keys or tokens | Security breach potential |
+| Social Security Numbers     | Identity theft risk         |
+| API keys or tokens          | Security breach potential   |
 
 **Safe alternative**: Reference information by description, not value:
 
@@ -622,6 +632,7 @@ Claude:
 **Symptoms**: Gmail MCP can't connect after setup.
 
 **Solutions**:
+
 1. **App Password method**: Regenerate the App Password and try again
 2. **OAuth method**: Check that refresh token hasn't expired; re-authorize if needed
 3. **Both methods**: Verify 2FA is enabled on your Google account
@@ -643,6 +654,7 @@ Claude:
 **Symptoms**: `draft_email` returns success but you don't see the draft.
 
 **Solutions**:
+
 1. Check the Gmail Drafts folder (not Inbox)
 2. Refresh your Gmail page
 3. Check if drafts are synced across devices (may take 30-60 seconds)

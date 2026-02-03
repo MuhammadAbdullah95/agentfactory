@@ -98,6 +98,7 @@ What if your email preferences were encoded once and applied consistently foreve
 
 :::note What You'll Build From Scratch
 In this lesson, you'll create everything yourself—no templates, no starter code. By the end, you'll have built:
+
 - A new project directory (`email-assistant/`)
 - Your first skill folder (`.claude/skills/email-drafter/`)
 - A complete `SKILL.md` file with your expertise encoded
@@ -111,8 +112,8 @@ Every file you create in this chapter becomes part of your **Email Digital FTE**
 
 ## Understanding the Skills Architecture
 
-:::tip Quick Recap from Chapter 5
-You learned about skills in Chapter 5 (Lessons 5-7). This section is a brief refresher before we build our first real skill system. If you're comfortable with the skills architecture, skim this section and jump to "Setting Up Your Project."
+:::tip Quick Recap from Chapter 3
+You learned about skills in Chapter 3 (Lessons 5-7). This section is a brief refresher before we build our first real skill system. If you're comfortable with the skills architecture, skim this section and jump to "Setting Up Your Project."
 :::
 
 Before creating your first skill, you need to understand where skills live and how Claude Code finds them.
@@ -136,17 +137,17 @@ email-assistant/
 
 This three-level architecture protects Claude's working memory:
 
-| Level | What's Loaded | When |
-|-------|---------------|------|
+| Level       | What's Loaded                             | When                     |
+| ----------- | ----------------------------------------- | ------------------------ |
 | **Level 1** | Brief description (from YAML frontmatter) | Always (skill discovery) |
-| **Level 2** | Full SKILL.md content | On skill invocation |
-| **Level 3** | Supporting files (references/) | Only if skill needs them |
+| **Level 2** | Full SKILL.md content                     | On skill invocation      |
+| **Level 3** | Supporting files (references/)            | Only if skill needs them |
 
 ---
 
 ## Setting Up Your Project
 
-In Chapter 5, you learned about skills architecture and the SKILL.md format. Now you'll apply that knowledge by building a real skill system from the ground up.
+In Chapter 3, you learned about skills architecture and the SKILL.md format. Now you'll apply that knowledge by building a real skill system from the ground up.
 
 **Create the project directory.** Open your terminal and navigate to where you keep your projects:
 
@@ -162,6 +163,7 @@ mkdir -p .claude/skills/email-drafter/references
 ```
 
 **Output:**
+
 ```
 (no output - directories created silently)
 ```
@@ -173,6 +175,7 @@ find .claude -type d
 ```
 
 **Output:**
+
 ```
 .claude
 .claude/skills
@@ -187,6 +190,7 @@ You now have the correct directory structure. The `-p` flag creates all parent d
 ## Creating Your SKILL.md File
 
 The `SKILL.md` file is where you encode your expertise. It tells Claude Code:
+
 - **When** to use this skill (activation triggers)
 - **What** the skill does (capabilities)
 - **How** to apply it (instructions and patterns)
@@ -260,26 +264,31 @@ Create this file at `.claude/skills/email-drafter/references/tone-guidelines.md`
 ## My Professional Voice
 
 ### Formality Level: Professional
+
 - Use first names after initial contact
 - Avoid overly formal language ("Dear Sir/Madam")
 - No slang or very casual expressions
 
 ### Warmth: Warm-Professional
+
 - Brief personal touch when appropriate
 - Skip small talk in follow-ups
 - Acknowledge recipient's time
 
 ### Length: Concise
+
 - Maximum 5 sentences for routine messages
 - 3 paragraphs max for complex topics
 - Get to the point quickly
 
 ### Language Patterns
+
 - Active voice preferred
 - Avoid passive constructions
 - No jargon unless recipient shares context
 
 ### Signature Style
+
 Best,
 [Name]
 
@@ -298,16 +307,20 @@ The project-level `CLAUDE.md` file provides context about your project to Claude
 # Email Assistant Project
 
 ## Overview
+
 This project contains skills and subagents for automated email communication.
 
 ## Project Structure
+
 - `.claude/skills/` - Reusable email skills
 - `.claude/agents/` - Specialized email processing subagents
 
 ## Skills Available
+
 - `/email-drafter` - Draft professional emails with tone consistency
 
 ## Usage
+
 Invoke skills with `/skill-name` syntax.
 ```
 
@@ -324,6 +337,7 @@ find . -name "*.md" -o -type d | grep -E "(\.claude|CLAUDE)" | sort
 ```
 
 **Output:**
+
 ```
 ./.claude
 ./.claude/skills
@@ -366,6 +380,7 @@ Their name is Sarah Chen, and she's the VP of Data at TechCorp.
 **Expected output:**
 
 Claude Code should:
+
 1. Load your email-drafter skill
 2. Read your tone guidelines
 3. Draft an email following your specifications
@@ -444,12 +459,12 @@ Notice what happened: you provided domain context (the Snowflake detail) that wa
 
 Your email-drafter skill succeeded because of specific design choices:
 
-| Design Element | Why It Works |
-|----------------|--------------|
+| Design Element                   | Why It Works                                                                                               |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | **Specific activation triggers** | "When drafting cold outreach, follow-ups, meeting requests..." tells Claude exactly when to use this skill |
-| **Concrete tone specifications** | "Maximum 5 sentences" is measurable; "professional" isn't |
-| **Structured output format** | Subject options + body + closing creates predictable output |
-| **Refinement invitation** | "Ask for refinement preferences" builds in the iteration loop |
+| **Concrete tone specifications** | "Maximum 5 sentences" is measurable; "professional" isn't                                                  |
+| **Structured output format**     | Subject options + body + closing creates predictable output                                                |
+| **Refinement invitation**        | "Ask for refinement preferences" builds in the iteration loop                                              |
 
 ---
 

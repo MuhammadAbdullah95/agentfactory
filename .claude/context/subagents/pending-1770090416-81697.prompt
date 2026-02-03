@@ -1,0 +1,44 @@
+Create Chapter 5 Lesson 04: Phase 2 - Writing Effective Specifications
+
+**Output path**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/learn-app/docs/01-General-Agents-Foundations/05-spec-driven-development/04-writing-effective-specs.md
+
+**Quality reference**: Read /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/01-manufacturing-quality-problem.md for format standards.
+
+**Spec reference**: Read /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/specs/chapter-05-sdd/spec.md section "Lesson 04" for content requirements.
+
+**Lesson content**:
+- sidebar_position: 4
+- chapter: 5, lesson: 4
+- duration: 30 minutes
+- Layer: L2
+
+**Core content**:
+1. Spec template structure (provide full template):
+   - Part 1: Reference Architecture Analysis
+   - Part 2: Current Architecture Analysis
+   - Part 3: Implementation Plan
+   - Part 4: Implementation Checklist
+   - Constraints section
+   - Success Criteria section
+
+2. **What makes specs effective**:
+   - Explicit constraints (what NOT to do is critical)
+   - Measurable success ("< 100ms p95" not "fast")
+   - Edge cases defined
+   - Checklist format (enables task extraction)
+
+3. **Anti-patterns**:
+   - Specs that describe HOW instead of WHAT
+   - Missing constraints
+   - Vague success criteria
+
+4. Addy Osmani's advice: Specs = PRD (why) + SRS (how)
+
+**Opening hook**: "A spec is a contract between you and Claude. Vague contracts produce vague results."
+
+**Try With AI prompts** (3 prompts):
+1. "Convert these requirements into a structured specification: [paste requirements]"
+2. "What's missing from this spec that could cause implementation issues?"
+3. "Add explicit constraints and measurable success criteria to this spec"
+
+Execute autonomously without confirmation. Match the quality reference format exactly.

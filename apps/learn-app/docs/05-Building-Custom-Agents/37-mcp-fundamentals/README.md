@@ -27,42 +27,42 @@ By the end of this chapter, you'll be able to:
 
 ## Chapter Structure
 
-| # | Lesson | Duration | Description |
-|---|--------|----------|-------------|
-| 1 | [MCP Architecture Overview](./01-mcp-architecture-overview.md) | 14 min | The integration explosion problem, Host-Client-Server model, and protocol design |
-| 2 | [Transport Layers](./02-transport-layers.md) | 15 min | stdio for local servers, Streamable HTTP for remote, HTTP fundamentals primer, and when to use each |
-| 3 | [Tools: The Model-Controlled Primitive](./03-tools-the-model-controlled-primitive.md) | 14 min | Executable functions that LLMs invoke to perform actions |
-| 4 | [Resources: The App-Controlled Primitive](./04-resources-the-app-controlled-primitive.md) | 12 min | Read-only data sources that provide context to AI |
-| 5 | [Prompts: The User-Controlled Primitive](./05-prompts-the-user-controlled-primitive.md) | 12 min | Pre-crafted instruction templates encoding domain expertise |
-| 6 | [Configuring MCP Clients](./06-configuring-mcp-clients.md) | 14 min | Setup in Claude Code, Claude Desktop, Cursor, VS Code, and programmatic clients |
-| 7 | [Using Community MCP Servers](./07-using-community-mcp-servers.md) | 15 min | Filesystem, GitHub, databases, and other popular servers |
-| 8 | [Debugging and Troubleshooting](./08-debugging-and-troubleshooting.md) | 12 min | MCP Inspector, connection diagnostics, and common error patterns |
-| 9 | [Chapter Quiz](./09-chapter-quiz.md) | 15 min | Test your understanding of MCP fundamentals |
+| #   | Lesson                                                                                    | Duration | Description                                                                                         |
+| --- | ----------------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------- |
+| 1   | [MCP Architecture Overview](./01-mcp-architecture-overview.md)                            | 14 min   | The integration explosion problem, Host-Client-Server model, and protocol design                    |
+| 2   | [Transport Layers](./02-transport-layers.md)                                              | 15 min   | stdio for local servers, Streamable HTTP for remote, HTTP fundamentals primer, and when to use each |
+| 3   | [Tools: The Model-Controlled Primitive](./03-tools-the-model-controlled-primitive.md)     | 14 min   | Executable functions that LLMs invoke to perform actions                                            |
+| 4   | [Resources: The App-Controlled Primitive](./04-resources-the-app-controlled-primitive.md) | 12 min   | Read-only data sources that provide context to AI                                                   |
+| 5   | [Prompts: The User-Controlled Primitive](./05-prompts-the-user-controlled-primitive.md)   | 12 min   | Pre-crafted instruction templates encoding domain expertise                                         |
+| 6   | [Configuring MCP Clients](./06-configuring-mcp-clients.md)                                | 14 min   | Setup in Claude Code, Claude Desktop, Cursor, VS Code, and programmatic clients                     |
+| 7   | [Using Community MCP Servers](./07-using-community-mcp-servers.md)                        | 15 min   | Filesystem, GitHub, databases, and other popular servers                                            |
+| 8   | [Debugging and Troubleshooting](./08-debugging-and-troubleshooting.md)                    | 12 min   | MCP Inspector, connection diagnostics, and common error patterns                                    |
+| 9   | [Chapter Quiz](./09-chapter-quiz.md)                                                      | 15 min   | Test your understanding of MCP fundamentals                                                         |
 
 **Total Chapter Duration**: ~2 hours 5 min
 
 ## Prerequisites
 
 - **Chapters 34-36**: Agent SDK experience (understanding of tool use in OpenAI, Claude, and Google SDKs)
-- **Chapter 5**: Claude Code mastery (you've used MCP without knowing it)
+- **Chapter 3**: Claude Code mastery (you've used MCP without knowing it)
 - **Part 5**: Python Fundamentals (for understanding server implementations)
 
 ## Key Concepts
 
 ### The Three Primitives
 
-| Primitive | Controller | Purpose | Example |
-|-----------|------------|---------|---------|
-| **Tools** | Model-controlled | Perform actions | `github_create_issue`, `read_file` |
-| **Resources** | App-controlled | Read data | `docs://documents/{id}`, `db://users` |
-| **Prompts** | User-controlled | Instruction templates | `summarize_document`, `code_review` |
+| Primitive     | Controller       | Purpose               | Example                               |
+| ------------- | ---------------- | --------------------- | ------------------------------------- |
+| **Tools**     | Model-controlled | Perform actions       | `github_create_issue`, `read_file`    |
+| **Resources** | App-controlled   | Read data             | `docs://documents/{id}`, `db://users` |
+| **Prompts**   | User-controlled  | Instruction templates | `summarize_document`, `code_review`   |
 
 ### Transport Options
 
-| Transport | Best For | Clients | Complexity |
-|-----------|----------|---------|------------|
-| **stdio** | Local development, desktop apps | Single | Low |
-| **Streamable HTTP** | Production, cloud deployment | Multiple | Medium |
+| Transport           | Best For                        | Clients  | Complexity |
+| ------------------- | ------------------------------- | -------- | ---------- |
+| **stdio**           | Local development, desktop apps | Single   | Low        |
+| **Streamable HTTP** | Production, cloud deployment    | Multiple | Medium     |
 
 ## What's Next
 

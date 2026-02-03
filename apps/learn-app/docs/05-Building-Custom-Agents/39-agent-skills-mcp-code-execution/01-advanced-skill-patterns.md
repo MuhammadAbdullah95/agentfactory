@@ -2,7 +2,15 @@
 sidebar_position: 1
 title: "Advanced Skill Patterns"
 description: "Master the core components that make execution skills autonomous: persona design, decision-making frameworks, and behavioral principles that encode domain expertise into code."
-keywords: ["skill persona", "decision-making questions", "execution principles", "skill composition", "autonomous behavior", "domain expertise"]
+keywords:
+  [
+    "skill persona",
+    "decision-making questions",
+    "execution principles",
+    "skill composition",
+    "autonomous behavior",
+    "domain expertise",
+  ]
 chapter: 39
 lesson: 1
 duration_minutes: 25
@@ -62,7 +70,7 @@ differentiation:
 
 # Advanced Skill Patterns
 
-You've already built basic skills in Chapter 5. You understand the Persona + Questions + Principles framework. But there's a critical distinction between skills you've created so far and the skills this chapter will focus on—one that changes how you design for autonomous execution.
+You've already built basic skills in Chapter 3. You understand the Persona + Questions + Principles framework. But there's a critical distinction between skills you've created so far and the skills this chapter will focus on—one that changes how you design for autonomous execution.
 
 Consider this scenario: You've built an advisory skill that says "You are a Python expert. Answer questions about Python best practices." Students ask questions, the skill recommends approaches. Simple advice-giving.
 
@@ -76,7 +84,8 @@ This is the jump from **advisory** to **execution** skills. And it requires reth
 
 Advisory skills answer questions and offer recommendations. The human makes the final decision.
 
-**Example**: The `fetching-library-docs` skill from Chapter 5 is advisory:
+**Example**: The `fetching-library-docs` skill from Chapter 3 is advisory:
+
 - **Persona**: "You are a Python documentation specialist"
 - **Questions**: "What's the user's core need? Which modules are relevant?"
 - **Principles**: "Be thorough but concise. Only suggest modules the user asked about."
@@ -90,6 +99,7 @@ The skill provides intelligent guidance. The human is the executor.
 Execution skills orchestrate code, make decisions, and iterate toward results. They are autonomous agents that act, not just advise.
 
 **Execution Example** (this chapter's focus): A skill that processes data autonomously:
+
 - **Persona**: "You are a data orchestrator: Identify data problems, generate processing code, execute it, validate results. Iterate if partial success."
 - **Questions**: "What's the input data structure? What transformations matter? What edge cases exist? Are results complete?"
 - **Principles**: "Fail safe: Validate data before processing. Converge deliberately: Iterate max 3 times. Log all transformations."
@@ -102,7 +112,8 @@ The skill orchestrates the full execution loop. The human sets direction; the sk
 
 The **persona is the core difference** between advisory and execution skills.
 
-**Advisory Persona** (from Chapter 5):
+**Advisory Persona** (from Chapter 3):
+
 ```
 "You are a Python best practices expert"
 ```
@@ -110,6 +121,7 @@ The **persona is the core difference** between advisory and execution skills.
 This activates recommendation mode. The skill analyzes context and suggests what you should do. It's passive regarding execution—the human must implement suggestions.
 
 **Execution Persona** (this chapter):
+
 ```
 "You are a Python execution orchestrator: Watch for code-generation tasks.
 For each task: (1) Write code matching spec, (2) Execute code, (3) Analyze output,
@@ -119,6 +131,7 @@ For each task: (1) Write code matching spec, (2) Execute code, (3) Analyze outpu
 This activates orchestration mode. The skill sees a task and autonomously manages the full execution cycle. The human watches; the skill operates.
 
 Notice the difference:
+
 - Advisory: "You are an expert..." → Provides recommendations
 - Execution: "You are an orchestrator: watch for X, do Y, analyze Z, iterate W..." → Performs workflow
 
@@ -134,6 +147,7 @@ Advisory skills ask questions like "What does the user need?" Execution skills a
 These questions help the skill understand the problem space before acting.
 
 **Good Example**:
+
 ```
 "Is this a code generation task or a documentation task?
 What constraints exist on execution (time, resources, data sensitivity)?
@@ -143,6 +157,7 @@ What indicates 'success' for this particular task?"
 Why these work: They force analysis of context. The skill can't answer them without understanding the problem deeply. The skill's decisions will depend on these answers.
 
 **Bad Example**:
+
 ```
 "What should I do?"
 "Is this important?"
@@ -155,6 +170,7 @@ Why these fail: They're vague. No meaningful analysis. The skill ends up guessin
 Execution skills iterate. These questions help determine when iteration has achieved enough.
 
 **Good Example**:
+
 ```
 "Does the output match the specification completely?
 Are there edge cases the code doesn't handle?
@@ -164,6 +180,7 @@ What is the minimal additional iteration needed to reach completeness?"
 Why these work: They force evaluation of output quality against specification. The skill can decide whether to iterate or declare success.
 
 **Bad Example**:
+
 ```
 "Is the output good enough?
 Should I keep trying?"
@@ -175,6 +192,7 @@ Why these fail: "Good enough" is undefined. The skill will keep iterating endles
 Execution skills operate autonomously, so constraints are critical.
 
 **Good Example**:
+
 ```
 "Does this operation access restricted filesystems or APIs?
 Are there rate limits I should respect?
@@ -184,6 +202,7 @@ What should happen if execution would exceed resource constraints?"
 Why these work: They identify explicit boundaries. The skill knows what's forbidden before attempting operations.
 
 **Bad Example**:
+
 ```
 "Is this safe?"
 "Should I be careful?"
@@ -223,6 +242,7 @@ This principle tells the skill: "When you see data, validate it first. Here's wh
 These prevent infinite loops and define success criteria.
 
 **Example**:
+
 ```
 Principle: "Converge Deliberately: Stop iterating when spec is met or max iterations reached"
 
@@ -237,6 +257,7 @@ Application: After each iteration, check: "Does output match spec? If yes, decla
 These optimize execution for speed and resource efficiency.
 
 **Example**:
+
 ```
 Principle: "Filter Ruthlessly: Keep only essential data in context"
 
@@ -251,6 +272,7 @@ Application: "Before loading data, ask: 'What's the minimum data this step needs
 These prevent dangerous operations and define guardrails.
 
 **Example**:
+
 ```
 Principle: "Sandbox First: Validate before Executing"
 
@@ -296,6 +318,7 @@ The error recovery skill only activates if error detection identifies a recovera
 **Pattern 3: Referenced Dependency** (Skill B explicitly mentions it depends on Skill A)
 
 In a skill's spec.md:
+
 ```yaml
 dependencies:
   - skill: "data-validation-skill"
@@ -308,12 +331,14 @@ This declaration makes the dependency explicit. Other developers (and the skill 
 ### Why Composition Matters
 
 When skills are well-composed:
+
 1. **Clarity**: Other developers understand prerequisites
 2. **Reusability**: Skills designed for composition work in multiple projects
 3. **Testability**: Each skill can be tested independently
 4. **Maintainability**: When one skill changes, composed skills adapt gracefully
 
 When composition is poor:
+
 1. **Hidden dependencies**: Skills fail mysteriously due to missing prerequisites
 2. **Rigidity**: Skills only work in one specific context
 3. **Integration hell**: Composing skills requires extensive debugging
@@ -333,6 +358,7 @@ A skill is Layer 3 when:
 4. **It's moderately complex**: 5-7 decision points, not trivial
 
 **Example**: A "write-execute-analyze" loop skill
+
 - Data analysis projects use it
 - Code refactoring projects use it
 - Report generation projects use it
@@ -350,6 +376,7 @@ A skill is Layer 4 when:
 4. **It's potentially monetized**: You'll sell this as a Digital FTE product
 
 **Example**: A "legal-document-analyzer" Digital FTE
+
 - Orchestrates document parsing skill
 - Uses semantic analysis skill
 - Coordinates with extraction skill
@@ -367,11 +394,13 @@ Using the framework from this lesson, design a skill for your own domain. You wo
 What problem does your skill solve by orchestrating code execution?
 
 **Example answers:**
+
 - "Analyze customer feedback data and generate insights"
 - "Process financial transactions and detect anomalies"
 - "Refactor legacy code toward modern patterns"
 
 **Your answer:**
+
 ```
 My execution skill will:
 ```
@@ -383,6 +412,7 @@ Write a persona that describes the skill as an orchestrator, not an advisor.
 Start with: "You are a [domain] orchestrator: [describe the workflow]"
 
 Use this template:
+
 ```
 You are a [domain] orchestrator: When you see [situation],
 (1) [first action],
@@ -392,6 +422,7 @@ You are a [domain] orchestrator: When you see [situation],
 ```
 
 **Your persona:**
+
 ```
 You are a _____________ orchestrator:
 ```
@@ -399,11 +430,13 @@ You are a _____________ orchestrator:
 ### Step 3: Write Five Decision-Making Questions
 
 Write five questions the skill must answer to operate autonomously. Each question should be:
+
 - **Concrete** (not vague—"Is this important?" is too vague)
 - **Answerable** (the skill can actually figure out the answer)
 - **Decision-triggering** (the answer determines what the skill does next)
 
 **Your questions:**
+
 ```
 1.
 2.
@@ -424,6 +457,7 @@ Application: [How do you know you've done it right?]
 ```
 
 **Your principles:**
+
 ```
 Principle 1:
 Principle 2:

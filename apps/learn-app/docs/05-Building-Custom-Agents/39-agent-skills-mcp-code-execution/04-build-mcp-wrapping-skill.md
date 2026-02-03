@@ -2,7 +2,16 @@
 sidebar_position: 4
 title: "Build Your MCP-Wrapping Skill"
 description: "Create a production skill that wraps an MCP server with intelligent decision-making, result filtering, and error recovery. Learn to orchestrate code execution through specification-first design."
-keywords: [MCP wrapping, skill implementation, client initialization, result filtering, token efficiency, error handling, skill testing]
+keywords:
+  [
+    MCP wrapping,
+    skill implementation,
+    client initialization,
+    result filtering,
+    token efficiency,
+    error handling,
+    skill testing,
+  ]
 chapter: 39
 lesson: 4
 duration_minutes: 45
@@ -69,6 +78,7 @@ Now you're going to build one.
 This lesson is different from most programming tutorials. We're not starting with code. We're starting with a **specification**—a clear statement of what your skill should do, why it matters, and how you'll know it works. Once that specification is solid, the implementation becomes straightforward. You'll work collaboratively with AI to build the skill, discovering patterns together rather than following pre-written steps.
 
 By the end of this lesson, you'll have a production-ready MCP-wrapping skill that:
+
 - Wraps an MCP server from Chapter 38 with intelligent filtering
 - Reduces token consumption by 30%+ through targeted result filtering
 - Handles errors gracefully with fallback strategies
@@ -94,6 +104,7 @@ Before touching code, you'll write a **specification** that answers four critica
 ### Your First Specification
 
 Choose an MCP server from Chapter 38 that you've built or studied. This could be:
+
 - A documentation fetcher (like Context7 in Chapter 38 examples)
 - A database query tool
 - A file processor
@@ -106,51 +117,62 @@ Now write your spec. Use this template:
 # Specification: [Your Skill Name]
 
 ## Intent
+
 [What problem does this skill solve? Who uses it? When do they invoke it?]
 
 ## MCP Server Reference
+
 [Which MCP server does this wrap? What tool does it expose?]
 
 ## Success Criteria
+
 - Token efficiency: Achieve 30%+ reduction vs raw MCP output
 - Accuracy: Returned results must satisfy 100% of query requirements
 - Coverage: Works across [describe domain variety: "3+ different documentation libraries", "5+ query patterns", etc.]
 - Reliability: Graceful error handling for [describe failure modes: "missing resources", "timeout", "malformed queries"]
 
 ## Filtering Strategy
+
 [What logic will you use to filter MCP results?
+
 - Token counting before/after
 - Relevance scoring criteria
 - Content extraction rules
 - Edge case handling]
 
 ## Test Scenarios
+
 [List 3-5 concrete test cases you'll validate against:
+
 1. Scenario: [user query] → Expected output: [what should be returned]
 2. Scenario: [edge case] → Expected output: [how should skill handle it]
-...]
+   ...]
 ```
 
 Take 10 minutes to write this. Don't overthink it—your specification will evolve as you implement. The goal is clarity, not perfection.
 
 **Example Specification** (You'll write your own):
 
-```markdown
+````markdown
 # Specification: Python-API-Documentation-Fetcher
 
 ## Intent
+
 Fetch Python standard library and popular package documentation with automatic filtering for code examples and signatures. Activated when user asks "How do I use X?" or "Show me examples of X."
 
 ## MCP Server Reference
+
 Documentation-Context MCP (Chapter 38) exposing `fetch_docs` tool.
 
 ## Success Criteria
+
 - Token efficiency: Achieve 40%+ reduction vs raw Context7 output (target: 800 tokens → 480 tokens)
 - Accuracy: Returned examples match user's experience level (beginner vs advanced)
 - Coverage: Works across Python stdlib, NumPy, Pandas, Requests
 - Reliability: Graceful "Not found" message when documentation unavailable
 
 ## Filtering Strategy
+
 1. Extract code blocks (marked with ```python)
 2. Extract function signatures (def keyword + parameters)
 3. Extract usage notes (marked with # Note: or # Warning:)
@@ -158,12 +180,13 @@ Documentation-Context MCP (Chapter 38) exposing `fetch_docs` tool.
 5. Return top 5 highest-scoring segments
 
 ## Test Scenarios
+
 1. "How do I use list comprehensions?" → Returns 3-4 examples, signature, one warning
 2. "What's NumPy reshape?" → Returns reshape() signature, 2 examples, constraint notes
 3. "Pandas concat invalid" → Returns "Not found" with suggestion to try "merge"
 4. "Show me decorators" → Returns decorator patterns, syntax, common mistakes
 5. "urllib3 connection pooling" → Returns class structure, pool configuration, timeout example
-```
+````
 
 ---
 
@@ -204,6 +227,7 @@ Here's how the collaboration unfolds:
 Ask AI to show you how to initialize an MCP client and call a tool. Don't just ask "how do I use MCP client?" Ask a specific question that reveals the pattern:
 
 **Your prompt**:
+
 ```
 I'm building a skill that wraps an MCP server.
 I need to initialize an MCP StdIO client that connects to my custom MCP server,
@@ -225,6 +249,7 @@ AI will show you patterns you might not have discovered—maybe using context ma
 Now AI has suggested an approach. But your domain has specific requirements that AI doesn't know about. You refine the implementation:
 
 **Your response to AI**:
+
 ```
 This pattern helps, but I need to adjust for my domain constraints:
 
@@ -248,20 +273,24 @@ You're articulating your actual requirements, not accepting generic solutions. T
 AI responds to your constraints. You test the solution. It doesn't work quite right. You iterate:
 
 **Round 1**:
+
 - AI suggests filtering by keyword scoring
 - You test: some irrelevant results still pass through
 
 **Round 2**:
+
 - You point out: "The scoring weights aren't working. Simple examples are being filtered out for advanced queries."
 - AI refines: suggests weighted scoring where query keywords get 60% weight, content type (example vs note) gets 40%
 - You test: better, but still not right
 
 **Round 3**:
+
 - You notice: "The experience level detection is too simplistic. 'decorator' is beginner in one context, advanced in another."
 - AI proposes: use question marks and "how do I" as beginner signals, "performance", "optimization" as advanced signals
 - You test: now working well for 80% of queries
 
 **Round 4**:
+
 - You discover: "The remaining 20% are comparison queries that don't fit either pattern."
 - AI suggests: detection for "vs" and "compared to" keywords triggers comparison mode with different filtering
 - You test: all patterns working
@@ -279,7 +308,7 @@ Now let's build the actual skill. The specification and persona guide our implem
 Your skill has this structure:
 
 ```python
-# skill.md (SKILL.md structure from Chapter 5)
+# skill.md (SKILL.md structure from Chapter 3)
 persona: |
   [Your persona from Step 2]
 
@@ -412,6 +441,7 @@ After testing, you'll write documentation so others can use your skill. This is 
 ## When to Activate This Skill
 
 Your skill activates automatically when:
+
 - User query contains keywords matching your activation conditions
 - Context suggests the user needs [your domain]
 - [Other trigger conditions specific to your skill]
@@ -419,6 +449,7 @@ Your skill activates automatically when:
 ## Success Metrics
 
 This skill is working well when:
+
 - Token efficiency: Results show 30%+ reduction vs raw MCP output
 - Accuracy: Returned results directly answer the user's question
 - Completeness: All critical information is included (not overly filtered)
@@ -426,11 +457,11 @@ This skill is working well when:
 
 ## Example Queries
 
-| Query | What Skill Should Do | Example Output |
-|-------|---------------------|-----------------|
-| [Example 1] | [Expected behavior] | [Sample result] |
-| [Example 2] | [Expected behavior] | [Sample result] |
-| [Example 3 - edge case] | [Expected behavior] | [Sample result] |
+| Query                   | What Skill Should Do | Example Output  |
+| ----------------------- | -------------------- | --------------- |
+| [Example 1]             | [Expected behavior]  | [Sample result] |
+| [Example 2]             | [Expected behavior]  | [Sample result] |
+| [Example 3 - edge case] | [Expected behavior]  | [Sample result] |
 
 ## Constraints and Limitations
 
@@ -452,6 +483,7 @@ Now it's your turn to build. This "Try With AI" section walks you through the co
 Start by clarifying your skill's purpose:
 
 **Prompt 1 - Specification Planning**:
+
 ```
 I'm building a skill that wraps an MCP server. I want to wrap [your chosen MCP server]
 to provide [your domain/use case].
@@ -476,6 +508,7 @@ This step clarifies what you're building before you start coding. Specification 
 Once you have your specification, ask AI to show you the execution patterns:
 
 **Prompt 2 - MCP Client Pattern**:
+
 ```
 I have this specification for my MCP-wrapping skill:
 [Paste your spec here]
@@ -504,6 +537,7 @@ This step reveals practical patterns you can adapt to your domain. You see error
 Now test the AI's suggested approach and refine based on your actual needs:
 
 **Prompt 3 - Domain Constraints**:
+
 ```
 I implemented the pattern you showed, and I discovered that my domain has specific
 constraints that the generic pattern doesn't handle:
@@ -532,6 +566,7 @@ This step addresses the gap between generic patterns and your domain reality. Re
 Run your skill against your test scenarios and discover what needs refinement:
 
 **Prompt 4 - Testing and Debugging**:
+
 ```
 I tested my skill with these scenarios from my specification:
 
@@ -560,6 +595,7 @@ This step shows how testing surfaces patterns that guide refinement. Theory meet
 Once your skill is working across test scenarios, validate that it meets your specification:
 
 **Prompt 5 - Specification Validation**:
+
 ```
 I've built a working MCP-wrapping skill. Now I need to validate it against my
 original specification.

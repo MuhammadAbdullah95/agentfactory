@@ -8,11 +8,11 @@ description: "Build your FastAPI skill first, then learn to understand and refin
 
 **You will build a FastAPI skill BEFORE you learn FastAPI.**
 
-This chapter follows the **Skill-First Learning Pattern**: In Lesson 0, you create a `fastapi-agent-api` skill using tools from Chapter 5. Then you spend the chapter understanding what you built and making it better. By the end, you don't just "know FastAPI"—you OWN a production-ready skill.
+This chapter follows the **Skill-First Learning Pattern**: In Lesson 0, you create a `fastapi-agent-api` skill using tools from Chapter 3. Then you spend the chapter understanding what you built and making it better. By the end, you don't just "know FastAPI"—you OWN a production-ready skill.
 
 ## Prerequisites
 
-- **Chapter 5**: skill-creator and fetching-library-docs
+- **Chapter 3**: skill-creator and fetching-library-docs
 - **Chapter 34**: OpenAI Agents SDK (Agent, Runner, function_tool)
 - **Chapters 37-38**: MCP experience (HTTP/SSE patterns)
 - **Part 5**: Python Fundamentals (async/await, type hints, Pydantic)
@@ -27,8 +27,8 @@ This chapter follows the **Skill-First Learning Pattern**: In Lesson 0, you crea
 
 ```
 .claude/skills/
-├── skill-creator/           # From Chapter 5
-├── fetching-library-docs/   # From Chapter 5
+├── skill-creator/           # From Chapter 3
+├── fetching-library-docs/   # From Chapter 3
 └── fastapi-agent-api/       # NEW - this chapter
 ```
 
