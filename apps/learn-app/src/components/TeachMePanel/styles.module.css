@@ -191,21 +191,6 @@
   flex-direction: column;
 }
 
-/* Hide trigger message when AI should appear to speak first */
-/* ChatKit uses obfuscated class names: .AA6bn (container), .ln8Ls (bubble) */
-
-/* AGGRESSIVE: Hide the first user message container in teach mode */
-/* This ensures the invisible trigger never shows */
-.hideFirstUser :global(.AA6bn:first-child),
-.hideFirstUser :global(.AA6bn:first-of-type),
-.hideFirstUser :global(.AA6bn:nth-child(1)),
-.hideFirstUser :global(div[style*="margin-left"]:first-child) {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  opacity: 0 !important;
-}
 /* Ensure prompts are interactive */
 .chatContainer :global([data-chatkit-prompt]),
 .chatContainer :global(button) {

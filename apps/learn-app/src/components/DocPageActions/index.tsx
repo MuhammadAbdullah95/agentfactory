@@ -350,27 +350,28 @@ export function DocPageActions() {
     ? chapterManifest?.chapters?.[chapterKey]
     : null;
 
-  // Determine if this is a content page (lesson) vs category landing page
-  // - Lessons: actual content files (NOT README.md)
-  // - Parts: category landing (README.md in part folder) - no button
-  // - Chapters: category landing (README.md in chapter folder) - no button
-  // - Special root pages (thesis, preface) ARE content pages
+  // Determine if this is a content page vs part landing page
+  // - Lessons: actual content files (part/chapter/lesson) - show button
+  // - Chapters: README in chapter folder (3+ segments) - show button
+  // - Parts: category landing (README in part folder, 2 segments) - no button
+  // - Special root pages (thesis, preface) - show button
   const pathSegments = docId.split("/").filter(Boolean);
   const lastSegment = pathSegments[pathSegments.length - 1] || "";
 
-  // README files are category landing pages, not lessons
+  // README files in part-level folders are category landing pages
   const isReadmePage = lastSegment.toLowerCase() === "readme";
+  const isPartReadme = isReadmePage && pathSegments.length <= 2;
 
   // Special root pages that should show the button
   const specialRootPages = ["thesis", "preface-agent-native"];
   const isSpecialRootPage =
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
 
-  // A lesson page is:
-  // - 3+ segments AND not a README (e.g., part/chapter/lesson)
-  // - OR a special root page (thesis, preface)
+  // Show button on:
+  // - Lessons and chapter pages (3+ segments, excluding part-level READMEs)
+  // - Special root pages (thesis, preface)
   const isLessonPage =
-    (pathSegments.length >= 3 && !isReadmePage) || isSpecialRootPage;
+    (pathSegments.length >= 3 && !isPartReadme) || isSpecialRootPage;
 
   // Detect platform for keyboard shortcut display
   const isMac =
