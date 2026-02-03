@@ -48,12 +48,41 @@ new Paragraph({
 })
 ```
 
+## Document Structure Guidelines
+
+**CRITICAL: Follow this hierarchy for professional documents:**
+
+| Element | Use | HeadingLevel |
+|---------|-----|--------------|
+| Document Title | Main title at top of document | `HEADING_1` (NOT TITLE) |
+| Major Sections | "Introduction", "Methods", "Questions" | `HEADING_2` |
+| Subsections | Sub-topics within sections | `HEADING_3` |
+| Body Text | Regular content | None (default paragraph) |
+
+**Why HEADING_1, not TITLE?**
+- `HeadingLevel.TITLE` is a separate style that may not render as expected across Word versions
+- `HeadingLevel.HEADING_1` is the standard top-level heading, universally supported
+- For documents with TOC, HEADING_1 appears in the table of contents
+
+**Document Opening Pattern:**
+```javascript
+// ✅ CORRECT: H1 for main title, H2 for sections
+new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER,
+  children: [new TextRun({ text: "Document Title", size: 40 })] }),
+new Paragraph({ heading: HeadingLevel.HEADING_2,
+  children: [new TextRun("First Section")] }),
+
+// ❌ WRONG: Using TITLE for main heading
+new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun("Document Title")] }),
+```
+
 ## Styles & Professional Formatting
 
 ```javascript
 const doc = new Document({
   styles: {
-    default: { document: { run: { font: "Arial", size: 24 } } }, // 12pt default
+    // ⚠️ CRITICAL: Always set bold: false in default to prevent inheritance
+    default: { document: { run: { font: "Arial", size: 24, bold: false } } }, // 12pt default, NOT bold
     paragraphStyles: [
       // Document title style - override built-in Title style
       { id: "Title", name: "Title", basedOn: "Normal",
@@ -332,19 +361,96 @@ new Paragraph({
 - **Tabs:** `LEFT`, `CENTER`, `RIGHT`, `DECIMAL`
 - **Symbols:** `"2022"` (•), `"00A9"` (©), `"00AE"` (®), `"2122"` (™), `"00B0"` (°), `"F070"` (✓), `"F0FC"` (✗)
 
+## Professional Document Template
+
+Use this template as a starting point for any professional document:
+
+```javascript
+const doc = new Document({
+  styles: {
+    // CRITICAL: Set bold: false to prevent inheritance issues
+    default: { document: { run: { font: "Arial", size: 22, bold: false } } },
+    paragraphStyles: [
+      { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 36, bold: true, color: "000000", font: "Arial" },
+        paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 0 } },
+      { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 28, bold: true, color: "333333", font: "Arial" },
+        paragraph: { spacing: { before: 200, after: 100 }, outlineLevel: 1 } },
+      { id: "Heading3", name: "Heading 3", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: 24, bold: true, color: "444444", font: "Arial" },
+        paragraph: { spacing: { before: 160, after: 80 }, outlineLevel: 2 } }
+    ]
+  },
+  sections: [{
+    properties: {
+      page: { margin: { top: 1080, right: 1080, bottom: 1080, left: 1080 } }
+    },
+    headers: {
+      default: new Header({ children: [new Paragraph({
+        alignment: AlignmentType.RIGHT,
+        children: [new TextRun({ text: "Document Header", italics: true, size: 20, bold: false })]
+      })] })
+    },
+    footers: {
+      default: new Footer({ children: [new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ text: "Page ", bold: false }), new TextRun({ children: [PageNumber.CURRENT], bold: false })]
+      })] })
+    },
+    children: [
+      // Document Title - Use H1, centered
+      new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER,
+        children: [new TextRun({ text: "Document Title", size: 40 })] }),
+
+      // Subtitle (optional)
+      new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 360 },
+        children: [new TextRun({ text: "Subtitle or Description", size: 28, bold: false })] }),
+
+      // Section - Use H2
+      new Paragraph({ heading: HeadingLevel.HEADING_2,
+        children: [new TextRun("Section Title")] }),
+
+      // Body text - Explicitly set bold: false
+      new Paragraph({ spacing: { after: 120 },
+        children: [new TextRun({ text: "Body text content here.", bold: false })] }),
+
+      // Mixed formatting - Be explicit about bold
+      new Paragraph({ children: [
+        new TextRun({ text: "Label: ", bold: true }),
+        new TextRun({ text: "Value here", bold: false })
+      ]})
+    ]
+  }]
+});
+```
+
 ## Critical Issues & Common Mistakes
+
+### Formatting & Bold Issues
+- **CRITICAL: Always set `bold: false` in default styles** - Prevents bold inheritance across document
+- **CRITICAL: Use `HEADING_1` for document titles, NOT `TITLE`** - TITLE style renders inconsistently
+- **ALWAYS explicitly set `bold: false`** on TextRun when you want normal weight text
+- **Mixed formatting paragraphs**: When combining bold labels with normal values, explicitly set `bold: false` on values
+
+### Structure Issues
 - **CRITICAL: PageBreak must ALWAYS be inside a Paragraph** - standalone PageBreak creates invalid XML that Word cannot open
-- **ALWAYS use ShadingType.CLEAR for table cell shading** - Never use ShadingType.SOLID (causes black background).
-- Measurements in DXA (1440 = 1 inch) | Each table cell needs ≥1 Paragraph | TOC requires HeadingLevel styles only
-- **ALWAYS use custom styles** with Arial font for professional appearance and proper visual hierarchy
-- **ALWAYS set a default font** using `styles.default.document.run.font` - Arial recommended
-- **ALWAYS use columnWidths array for tables** + individual cell widths for compatibility
-- **NEVER use unicode symbols for bullets** - always use proper numbering configuration with `LevelFormat.BULLET` constant (NOT the string "bullet")
 - **NEVER use \n for line breaks anywhere** - always use separate Paragraph elements for each line
 - **ALWAYS use TextRun objects within Paragraph children** - never use text property directly on Paragraph
-- **CRITICAL for images**: ImageRun REQUIRES `type` parameter - always specify "png", "jpg", "jpeg", "gif", "bmp", or "svg"
+
+### Table Issues
+- **ALWAYS use ShadingType.CLEAR for table cell shading** - Never use ShadingType.SOLID (causes black background)
+- **ALWAYS use columnWidths array for tables** + individual cell widths for compatibility
+- **Set table margins at TABLE level** for consistent cell padding (avoids repetition per cell)
+- Measurements in DXA (1440 = 1 inch) | Each table cell needs ≥1 Paragraph
+
+### List Issues
+- **NEVER use unicode symbols for bullets** - always use proper numbering configuration with `LevelFormat.BULLET` constant (NOT the string "bullet")
 - **CRITICAL for bullets**: Must use `LevelFormat.BULLET` constant, not string "bullet", and include `text: "•"` for the bullet character
 - **CRITICAL for numbering**: Each numbering reference creates an INDEPENDENT list. Same reference = continues numbering (1,2,3 then 4,5,6). Different reference = restarts at 1 (1,2,3 then 1,2,3). Use unique reference names for each separate numbered section!
+
+### Other Critical Rules
+- **ALWAYS use custom styles** with Arial font for professional appearance and proper visual hierarchy
+- **ALWAYS set a default font** using `styles.default.document.run.font` - Arial recommended
+- **CRITICAL for images**: ImageRun REQUIRES `type` parameter - always specify "png", "jpg", "jpeg", "gif", "bmp", or "svg"
 - **CRITICAL for TOC**: When using TableOfContents, headings must use HeadingLevel ONLY - do NOT add custom styles to heading paragraphs or TOC will break
-- **Tables**: Set `columnWidths` array + individual cell widths, apply borders to cells not table
-- **Set table margins at TABLE level** for consistent cell padding (avoids repetition per cell)

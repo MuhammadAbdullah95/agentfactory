@@ -91,6 +91,29 @@ count_shortest = count where correct_rank == 0
 IF count_shortest / total > 0.40: FAIL "Correct answer is shortest option {count_shortest}/{total} times (length bias)"
 ```
 
+### Position Bias Check (Middle vs Outer)
+```
+count_middle = count_B + count_C
+count_outer = count_A + count_D
+
+IF count_middle / total > 0.55: FAIL "Middle positions (B+C) overrepresented ({count_middle}/{total})"
+IF count_outer / total < 0.40: FAIL "Outer positions (A+D) underrepresented ({count_outer}/{total})"
+```
+
+### Specificity Bias Check (see bias-detection-guide.md for full algorithm)
+```
+FOR each question:
+  correct_specificity = score(correct_option)  # word count + examples + qualifiers + technical density
+  distractor_avg = mean(score(A), score(B), score(C), score(D)) - score(correct)
+
+  IF correct_specificity > distractor_avg * 1.30:
+    WARN "Q{N}: Correct option significantly more specific than distractors"
+    FLAG for manual review
+
+# Batch-level threshold
+IF warned_count / total > 0.20: FAIL "Specificity bias detected in {warned_count}/{total} questions"
+```
+
 ---
 
 ## Type Distribution Check
@@ -140,10 +163,14 @@ After running all checks, produce:
 - Missing concept mapping: {N} questions
 - Transfer domain in chapter: {N} questions
 
+### Bias Detection: {PASS/FAIL/WARN}
+- Length bias: {PASS/FAIL} (longest={N}%, shortest={N}%)
+- Position bias: {PASS/FAIL} (A={N}% B={N}% C={N}% D={N}%, middle={N}%)
+- Specificity bias: {PASS/WARN} ({N} questions flagged for review)
+
 ### Distribution: {PASS/FAIL}
 - Answer distribution: A={N}({%}) B={N}({%}) C={N}({%}) D={N}({%})
 - Consecutive violations: {N}
-- Length bias: {PASS/FAIL}
 
 ### Type Distribution: {PASS/FAIL}
 - Scenario Analysis: {actual} (expected {expected})
