@@ -350,8 +350,27 @@ export function DocPageActions() {
     ? chapterManifest?.chapters?.[chapterKey]
     : null;
 
-  // Show Teach Me button on all doc pages (parts, chapters, lessons)
-  const isLessonPage = true;
+  // Determine if this is a content page (lesson) vs category landing page
+  // - Lessons: actual content files (NOT README.md)
+  // - Parts: category landing (README.md in part folder) - no button
+  // - Chapters: category landing (README.md in chapter folder) - no button
+  // - Special root pages (thesis, preface) ARE content pages
+  const pathSegments = docId.split("/").filter(Boolean);
+  const lastSegment = pathSegments[pathSegments.length - 1] || "";
+
+  // README files are category landing pages, not lessons
+  const isReadmePage = lastSegment.toLowerCase() === "readme";
+
+  // Special root pages that should show the button
+  const specialRootPages = ["thesis", "preface-agent-native"];
+  const isSpecialRootPage =
+    pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
+
+  // A lesson page is:
+  // - 3+ segments AND not a README (e.g., part/chapter/lesson)
+  // - OR a special root page (thesis, preface)
+  const isLessonPage =
+    (pathSegments.length >= 3 && !isReadmePage) || isSpecialRootPage;
 
   // Detect platform for keyboard shortcut display
   const isMac =
