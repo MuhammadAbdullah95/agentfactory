@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 title: "Phase 4: Task-Based Implementation"
 description: "Transform specifications into parallel work streams using Claude Code's task system where subagents execute with context isolation and atomic commits"
 keywords:
@@ -15,7 +15,7 @@ keywords:
     "task system",
   ]
 chapter: 5
-lesson: 6
+lesson: 7
 duration_minutes: 35
 
 # HIDDEN SKILLS METADATA
@@ -140,6 +140,12 @@ The main agent orchestrates. The subagents execute. Tasks provide the coordinati
 
 ## Why Context Isolation Matters
 
+Chapter 4 (Lesson 9) introduced context isolation—why subagents use clean slates. Here we see that principle in action, solving two named problems from the SDD research literature:
+
+**Agent Amnesia**: Starting a new session mid-task loses all progress unless documented. The specification and task list persist across sessions, providing external memory that survives restarts. This is why Phase 2 produces a written spec—it's your insurance against amnesia.
+
+**Context Pollution**: A full context window causes agents to drop discovered bugs instead of tracking them. Fresh subagent context per task prevents accumulated errors from propagating. The Tasks system you learned in Chapter 4 (Lesson 4) enables this—persistent state that coordinates isolated subagents.
+
 Consider what happens without isolation:
 
 ```
@@ -166,7 +172,7 @@ Each subagent starts with clean context. If it makes a wrong assumption, that as
 
 ## The Backpressure Pattern
 
-Fast execution without validation creates a different problem: you might commit broken code faster. The backpressure pattern adds quality gates that slow implementation when quality drops.
+Fast execution without validation creates a different problem: you might commit broken code faster. The backpressure pattern (inspired by Steve Yegge's "Beads" project) adds quality gates that slow implementation when quality drops.
 
 **Pre-commit hooks** are the primary backpressure mechanism:
 
@@ -256,38 +262,42 @@ Don't implement yet—just map the structure. Understanding task relationships b
 
 ## Try With AI
 
-**Prompt 1: Task Extraction**
+**Running Example Continued:** We have a refined report-spec.md. Now we implement by extracting tasks and delegating to subagents.
+
+**Prompt 1: Extract Tasks from Spec**
 
 ```
-Create a task breakdown for this spec: [paste spec]
-Show dependencies between tasks.
-Identify which tasks can run in parallel.
-Estimate time for each task.
+Read report-spec.md. Extract the implementation checklist into tasks.
+
+For each task:
+- One sentence description
+- Dependencies (what must complete first?)
+- Can it run in parallel with others?
+
+Write to tasks.md.
 ```
 
-**What you're learning:** Before implementation begins, you need to see the work structure. This prompt develops your ability to decompose specifications into executable units—a skill that applies whether AI or humans do the implementation.
+**What you're learning:** The spec's checklist becomes your task list. "Write executive summary" depends on other sections (summarizes them). "Write tool comparison section" and "Write ROI section" might be independent. Making dependencies explicit prevents blocked subagents.
 
-**Prompt 2: First Task Implementation**
-
-```
-Implement task 1 from the breakdown.
-After completion, commit with an atomic message describing what changed.
-Do not proceed to task 2 until this commit succeeds.
-```
-
-**What you're learning:** The discipline of completing and committing before moving forward. Each commit becomes a checkpoint you can return to if later work fails.
-
-**Prompt 3: Dependency Analysis**
+**Prompt 2: Implement First Task**
 
 ```
-Looking at my specification, which tasks must run sequentially
-(task B needs task A's output) versus which can run in parallel
-(tasks C and D are independent)?
+Implement report-spec.md using tasks.md.
+Use the task tool. Each task should be done by a subagent.
+After each task, commit before continuing.
+You are the main agent; your subagents are your writers.
 
-For each dependency, explain WHY it exists—what would break
-if we tried to run them in the wrong order?
+Start with task 1 only. Verify it meets the spec before proceeding.
 ```
 
-**What you're learning:** Not all dependencies are obvious. Some tasks seem independent but share implicit assumptions. This prompt helps you discover hidden dependencies before they cause failures mid-implementation.
+**What you're learning:** The main agent orchestrates; subagents execute. Each subagent reads the spec and writes one section. Fresh context means the subagent writing "ROI Analysis" doesn't carry assumptions from the subagent that wrote "Tool Comparison."
 
-**Safety note:** Task-based implementation makes changes to your codebase through commits. Ensure you're working in a feature branch, not main. If a task produces unexpected results, you can reset to the previous commit without affecting the main branch.
+**Prompt 3: Parallel Execution**
+
+```
+"Tool Comparison" and "Implementation Risks" in tasks.md have no
+dependencies on each other. Execute them in parallel using separate
+subagents. Commit each independently when complete.
+```
+
+**What you're learning:** Independent sections can be written simultaneously. If "Tool Comparison" and "Implementation Risks" don't cross-reference, parallel execution halves the time. The spec keeps both subagents aligned on audience, tone, and depth.

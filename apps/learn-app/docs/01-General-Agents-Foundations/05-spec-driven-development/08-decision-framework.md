@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 title: "The Decision Framework"
 description: "Know when SDD adds value versus when simpler approaches work better, and develop the judgment to choose appropriately"
 keywords:
@@ -13,7 +13,7 @@ keywords:
     "direct implementation",
   ]
 chapter: 5
-lesson: 7
+lesson: 8
 duration_minutes: 20
 
 # HIDDEN SKILLS METADATA
@@ -231,42 +231,51 @@ SDD isn't universally praised. Research identifies legitimate concerns worth ack
 
 ## Try With AI
 
-**Prompt 1: Task Evaluation**
+**Running Example Concluded:** We completed "Personal AI Employees in 2026" using the full workflow. Now we reflect: was SDD worth it?
+
+**Prompt 1: Retrospective on Our Running Example**
 
 ```
-I need to [describe your task]. Should I use SDD or direct implementation?
-Walk me through your reasoning using these factors:
-- Number of files affected
-- Clarity of requirements
-- Familiarity with the technology
-- Reversibility if something goes wrong
+We used SDD to write a CTO-facing report on AI tools:
+- Research: 4 agents investigated tools, ROI, risks, trajectory
+- Specification: report-spec.md with audience and constraints
+- Refinement: Interview clarified CTO context and decision needs
+- Implementation: Task-based writing with section commits
+
+Was this overkill for a 2000-word report? Walk through:
+- What would we have missed with vibe coding?
+- What overhead did SDD add?
+- Net: was the investment justified?
 ```
 
-**What you're learning:** Judgment develops through practice. This prompt forces explicit reasoning about SDD applicability rather than defaulting to habit. Claude's analysis helps calibrate your own intuition.
+**What you're learning:** For our report, research prevented writing for the wrong audience. The spec prevented scope creep into tutorials. Refinement caught that mid-size CTOs have different needs than enterprise. But a quick blog post wouldn't need this ceremony.
 
-**Prompt 2: Lightweight Spec Creation**
-
-```
-This task seems borderline—not obviously complex, not obviously simple.
-Write a lightweight spec with just constraints and success criteria.
-If writing it reveals hidden complexity, flag what additional research
-or specification we'd need.
-
-Task: [describe your task]
-```
-
-**What you're learning:** The lightweight spec pattern in action. Starting minimal reveals whether complexity exists or whether you can proceed directly. You're practicing the "expand if needed" workflow.
-
-**Prompt 3: Critique Response**
+**Prompt 2: Classify These Tasks**
 
 ```
-Someone argues that SDD is "just waterfall with extra steps."
-Help me articulate why that critique misses key differences:
-- How does SDD differ from traditional waterfall?
-- What makes SDD iterations different from waterfall phases?
-- When might the critique actually be valid?
+Apply the decision heuristic to these writing tasks:
+
+1. Fix typo in documentation (one line, obvious fix)
+2. Write quarterly report update (unclear what changed, many sections)
+3. Update team member bio (one paragraph, clear change)
+4. Write product launch announcement (unclear audience, needs research)
+5. Add FAQ item (one question, clear answer)
+
+For each: SDD, skip SDD, or lightweight spec?
 ```
 
-**What you're learning:** Engaging with critiques strengthens your understanding. By formulating counterarguments, you internalize what makes SDD different from superficially similar methodologies. This prepares you for real-world discussions about when and why to use specification-first approaches.
+**What you're learning:** Quick classification builds intuition. Tasks 1, 3, 5 are skip SDD (obvious, contained). Task 2 needs at least lightweight spec (what changed?). Task 4 needs full SDD (audience research required). Practice makes this instant.
 
-**Safety note:** These prompts help develop judgment through reasoning—they don't modify any code or commit any changes. You're building the decision-making skill that determines how you'll approach future work.
+**Prompt 3: Lightweight Spec for Borderline Task**
+
+```
+Task: "Write a blog post about our AI adoption journey"
+
+This is borderline—not trivial, not massive. Write a lightweight spec:
+- Just constraints (what NOT to reveal, what tone)
+- Just success criteria (what should readers take away?)
+
+If writing reveals complexity, note what research we'd need.
+```
+
+**What you're learning:** Lightweight specs are your probe. "Blog post about AI adoption" sounds simple until you write constraints: "Don't reveal vendor pricing" (wait, can we share ROI without that?), "Don't criticize tools we evaluated" (or do we want honest comparisons?). The spec reveals hidden decisions.

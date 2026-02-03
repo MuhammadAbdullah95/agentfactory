@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: "The Three Levels of SDD"
 description: "Understanding the spectrum of spec-driven development from throwaway specs to code-generating specifications"
 keywords:
@@ -14,7 +14,7 @@ keywords:
     "Digital FTE",
   ]
 chapter: 5
-lesson: 1
+lesson: 2
 duration_minutes: 20
 
 # HIDDEN SKILLS METADATA
@@ -67,7 +67,7 @@ differentiation:
 
 # The Three Levels of SDD
 
-In Lesson 00, you experienced why vibe coding fails: context loss, assumption drift, and pattern violations compound until your AI produces unusable output. Specifications solve this by giving Claude the complete picture upfront.
+In Lesson 1, you experienced why vibe coding fails: context loss, assumption drift, and pattern violations compound until your AI produces unusable output. Specifications solve this by giving Claude the complete picture upfront.
 
 But not all specifications are created equal. Some are planning artifacts you throw away after implementation. Others become living documentation that evolves with your codebase. And at the experimental frontier, some teams treat specifications as the only artifact worth maintaining, regenerating code on demand.
 
@@ -104,42 +104,43 @@ After that? The spec becomes historical record at best, garbage at worst.
 
 **Cost**: Six months later, when you need to modify the feature, you have no specification. You're reading code to understand intent, which is exactly the problem specifications solve.
 
-### Example: Adding a Notification System
+### Example: Personal AI Employees Report (Spec-First)
 
 ```markdown
-# Notification System Specification
+# Personal AI Employees Report Specification
 
 ## Intent
 
-Add browser notifications for new messages.
+Write a one-time report analyzing the 2026 landscape of AI tools
+that function as digital employees (Claude Code, Cowork, etc.).
 
 ## Requirements
 
-- Toast notifications appear in bottom-right
-- Notifications auto-dismiss after 5 seconds
-- Maximum 3 notifications visible simultaneously
-- Queue excess notifications
+- Executive summary for quick scanning
+- Tool comparison section (Claude Code, Cursor, Copilot)
+- ROI analysis with concrete metrics
+- Implementation risks and mitigations
 
 ## Constraints
 
-- No external notification libraries
-- Use existing design system colors
-- Must work with current message polling interval
+- 2000 words maximum
+- Target audience: CTOs evaluating tools
+- No speculation—only documented capabilities
 
 ## Success Criteria
 
-- Notifications appear within 500ms of new message
-- Users can manually dismiss notifications
-- Notifications don't stack infinitely
+- Reader can compare tools on key dimensions
+- ROI section includes specific cost/benefit numbers
+- Risks are actionable, not vague warnings
 ```
 
-Claude implements it. You verify it works. The spec gets filed somewhere you'll never look again. This is perfectly appropriate for a single developer building a personal project.
+Claude writes it. You publish it. The spec gets filed somewhere you'll never look again. This is perfectly appropriate for a one-time deliverable.
 
 ## Level 2: Spec-Anchored (Team Standard)
 
 **Both specification and code are maintained artifacts.**
 
-When you work with a team, specifications become documentation. A new developer joining in month six shouldn't need to reverse-engineer your notification system from code. They should read the spec and understand the intent.
+When you work with a team, specifications become documentation. A new analyst joining in month six shouldn't need to reverse-engineer your report methodology from the final document. They should read the spec and understand how to update it.
 
 ### When Spec-Anchored Works
 
@@ -164,28 +165,26 @@ Spec-Anchored only works if you enforce the discipline:
 
 When teams adopt Spec-Anchored without this discipline, they get the worst outcome: outdated specs that actively mislead readers, combined with maintenance overhead that provides no value.
 
-### Example: The Same Notification System, Anchored
+### Example: The Same Report, Anchored
 
-The spec from Level 1 becomes a living document:
+The spec from Level 1 becomes a living document—updated quarterly as the AI landscape evolves:
 
 ```
-docs/
-  notification-system/
+reports/
+  personal-ai-employees/
     spec.md              # Living specification
-    changelog.md         # History of changes
-    decisions/           # ADRs for architectural choices
-src/
-  notifications/
-    ... implementation ...
+    changelog.md         # History of updates
+    decisions/           # Why we track these metrics
+    2026-q1-report.md    # Generated from spec
 ```
 
-When you later need to add notification sound support, you:
+When you later need to add a new tool to the comparison, you:
 
 1. Update `spec.md` with the new requirements
 2. Have Claude implement against the updated spec
 3. Commit both spec and code changes together
 
-A developer joining the team reads `spec.md` and understands the notification system without reading implementation code.
+An analyst joining the team reads `spec.md` and understands the report methodology without reverse-engineering the final document.
 
 ## Level 3: Spec-as-Source (Experimental)
 
@@ -270,39 +269,46 @@ You don't need to commit to one level for all projects. A solo weekend project i
 
 ## Try With AI
 
-**Setup:** Open Claude Code with any project you're currently working on.
-
-**Prompt 1: Level Classification**
+**Prompt 1: Level Classification for Real Projects**
 
 ```
-I'm working on [describe your project briefly].
+I'm building a CLI tool that generates project scaffolding for my team.
+It will be used by 8 developers, maintained for 2+ years, and needs
+clear documentation for onboarding new team members.
 
-Help me decide which SDD level is appropriate:
-- Spec-First (write once, implement, discard spec)
-- Spec-Anchored (maintain both spec and code)
-- Spec-as-Source (spec is primary, regenerate code)
-
-Consider: team size, maintenance horizon, documentation needs, and how often requirements change.
+Which SDD level fits this scenario? Walk me through your reasoning
+considering: team coordination needs, documentation value, and
+maintenance burden.
 ```
 
-**What you're learning:** This prompt forces you to articulate the factors that determine SDD level selection. Claude will ask clarifying questions about your project that reveal your implicit assumptions about maintenance and collaboration.
+**What you're learning:** This prompt uses a concrete project with clear characteristics. Claude's analysis reveals how team size, maintenance horizon, and documentation needs map to SDD levels. Notice how "8 developers" and "onboarding" push toward Spec-Anchored.
 
 **Prompt 2: Trade-off Analysis**
 
 ```
-For a team of 5 developers building a customer portal that will be maintained for 3+ years:
+Compare these two real scenarios:
 
-Explain the risks of using Spec-First instead of Spec-Anchored. Then explain the costs of Spec-Anchored that might make a team choose Spec-First anyway.
+Scenario A: Solo developer building a weekend side project to learn
+a new API. No plans to maintain it beyond the learning exercise.
+
+Scenario B: Two-person startup building their MVP. Tight deadline,
+but they'll need to onboard contractors in 3 months.
+
+For each, recommend an SDD level and explain what they'd lose by
+choosing a different level.
 ```
 
-**What you're learning:** This prompt explores the tension between documentation value and maintenance burden. There's no universally correct answer, which forces you to reason about trade-offs rather than follow rules.
+**What you're learning:** The same methodology applies differently based on context. Scenario A's "learning exercise" suggests Spec-First (or skip specs entirely). Scenario B's "onboard contractors" changes everything—even under time pressure, Spec-Anchored provides future value.
 
-**Prompt 3: Failure Scenarios**
+**Prompt 3: Spec-as-Source Reality Check**
 
 ```
-When would Spec-as-Source fail catastrophically in a real project? Give me three specific scenarios with enough detail that I could recognize if I'm heading toward them.
+A team wants to use Spec-as-Source for their REST API client library.
+Their argument: "The API spec already exists as OpenAPI, so we should
+just regenerate the client whenever the spec changes."
+
+What could go wrong? Give me three specific failure scenarios they
+haven't considered.
 ```
 
-**What you're learning:** Understanding failure modes helps you recognize when an approach is inappropriate for your context. Claude's scenarios will likely include determinism issues, debugging challenges, and third-party integration problems that the lesson introduced conceptually.
-
-**Safety note:** These prompts are exploratory, helping you think through SDD level selection. None will modify your codebase or create files.
+**What you're learning:** Spec-as-Source sounds appealing in theory. This prompt surfaces practical issues: determinism problems breaking git workflows, debugging challenges when generated code varies, and edge cases requiring manual patches that get overwritten on regeneration.

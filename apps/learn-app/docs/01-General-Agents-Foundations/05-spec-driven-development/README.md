@@ -1,15 +1,13 @@
 ---
 sidebar_position: 5
 title: "Chapter 5: Spec-Driven Development with Claude Code"
+slides:
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-05/orchestrating-ai-development.pdf"
+  title: "Orchestrating AI Development"
+  height: 700
 ---
 
 # Chapter 5: Spec-Driven Development with Claude Code
-
-**A Comprehensive Guide to AI-Native Software Development**
-
-_From Vibe Coding to Production-Ready Systems_
-
-## Overview
 
 Spec-Driven Development (SDD) represents a paradigm shift in how software is created with AI assistance. Rather than treating AI coding agents as sophisticated autocomplete tools, SDD establishes specifications as the primary artifact of software development, with code becoming a generated output derived from these human-authored specifications.
 
@@ -23,6 +21,30 @@ However, as practitioners moved from prototyping to building production systems,
 
 Spec-Driven Development emerged as a response to these challenges. Rather than iterative discovery through conversation, SDD provides comprehensive specifications upfront. The AI agent receives a complete picture of what to build, why it matters, and critically—what NOT to build.
 
+## Prerequisites
+
+This chapter builds directly on:
+
+- **Chapter 3** — You learned Claude Code's core capabilities: CLAUDE.md for persistent memory (Lesson 5), Subagent orchestration (Lesson 9), and the foundational tools that enable agentic workflows
+- **Chapter 4** — You learned context engineering: why context quality determines agent reliability, context isolation patterns (Lesson 9), and the Tasks system for persistent state (Lesson 4)
+
+SDD is the **methodology** that orchestrates these capabilities into production-ready workflows.
+
+## SDD Tools Landscape
+
+Spec-Driven Development is a methodology, not a single tool. Several frameworks implement it:
+
+| Tool              | Approach                                 | Notable Feature                              |
+| ----------------- | ---------------------------------------- | -------------------------------------------- |
+| **Amazon Kiro**   | Requirements → Design → Tasks            | Lightweight three-document workflow          |
+| **GitHub Spec-Kit** | Constitution → Specify → Plan → Tasks  | Open-source, multi-agent compatible          |
+| **Tessl**         | Spec-as-Source                           | Radical approach: code regenerated from specs |
+| **CC-SDD**        | Cross-tool                               | Works with Claude Code, Cursor, Gemini CLI   |
+
+**This chapter uses native Claude Code capabilities only**—Memory (CLAUDE.md), Subagents, Tasks, and Hooks. No external frameworks required. The principles transfer to any SDD tool.
+
+## 📚 Teaching Aid
+
 ## What You'll Learn
 
 By the end of this chapter, you'll be able to:
@@ -35,20 +57,6 @@ By the end of this chapter, you'll be able to:
 - **Use** the Task system for dependency-aware orchestration with atomic commits
 - **Decide** when SDD adds value vs when simpler approaches suffice
 
-## Chapter Structure
-
-| Lesson | Title                              | What You'll Learn                                            |
-| ------ | ---------------------------------- | ------------------------------------------------------------ |
-| 0      | Why Specs Beat Vibe Coding         | The three failure modes of conversational AI coding          |
-| 1      | The Three Levels of SDD            | Spec-First vs Spec-Anchored vs Spec-as-Source trade-offs     |
-| 2      | The Four-Phase Workflow            | Research → Spec → Refine → Implement overview                |
-| 3      | Phase 1: Parallel Research         | Spawning multiple subagents for comprehensive investigation  |
-| 4      | Phase 2: Writing Effective Specs   | Templates, constraints, measurable success criteria          |
-| 5      | Phase 3: Refinement via Interview  | Using AskUserQuestion to surface ambiguities before coding   |
-| 6      | Phase 4: Task-Based Implementation | Task system, context isolation, atomic commits, backpressure |
-| 7      | The Decision Framework             | When SDD excels vs overkill—developing judgment              |
-| 8      | Chapter Quiz                       | Test your understanding of SDD concepts                      |
-
 ## Key Prompt Patterns
 
 | Pattern               | When to Use            | Example                                                       |
@@ -59,13 +67,16 @@ By the end of this chapter, you'll be able to:
 | **Task Delegation**   | Complex implementation | "Use the task tool, each task by subagent, commit after each" |
 | **Role Assignment**   | Set expectations       | "You are the main agent and your subagents are your devs"     |
 
-## Why This Matters
-
 Remember the thesis: **General Agents BUILD Custom Agents.** SDD is HOW you orchestrate complex projects with Claude Code to produce production-quality systems.
 
-Key benefits include:
+## References & Further Reading
 
-- **Reduces approval fatigue** by front-loading review at specification phase gates rather than during implementation
-- **Claude Code's subagent system** enables parallel execution of research and implementation tasks while preserving context
-- **Excels for large refactors**, migrations, and feature implementations with unclear requirements
-- **Not universally applicable** — small bug fixes and single-file changes may be better served by traditional approaches
+This chapter synthesizes insights from:
+
+- Osmani, A. (2025). "How to write a good spec for AI agents." addyosmani.com
+- Böckeler, B. (2025). "Understanding Spec-Driven-Development: Kiro, spec-kit, and Tessl." martinfowler.com
+- GitHub. (2025). "Spec-driven development with AI: Get started with a new open source toolkit." GitHub Blog
+- Anthropic. (2025). "Claude Code: Best practices for agentic coding." anthropic.com/engineering
+- Opalic, A. (2026). "Spec-Driven Development with Claude Code in Action." alexop.dev
+
+For the complete academic foundation, see the Panaversity Research Paper: _Spec-Driven Development with Claude Code: A Comprehensive Guide to AI-Native Software Development_ (February 2026).

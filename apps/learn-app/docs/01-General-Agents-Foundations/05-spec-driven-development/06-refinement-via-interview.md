@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: "Phase 3: Refinement via Interview"
 description: "Surface design decisions and ambiguities before implementation through structured AI interviews using the ask_user_question tool"
 keywords:
@@ -13,7 +13,7 @@ keywords:
     "implementation planning",
   ]
 chapter: 5
-lesson: 5
+lesson: 6
 duration_minutes: 20
 
 # HIDDEN SKILLS METADATA
@@ -159,52 +159,56 @@ Where the system's scope ends:
 
 ## The Interview in Action
 
-Here's what a refinement interview looks like with a notification system specification:
+Here's what a refinement interview looks like with our report specification:
 
 **Your specification includes:**
 
 ```markdown
-## Notification Preferences
+## Tool Comparison Section
 
-Users can configure notification preferences per channel (email, SMS, push).
-Default to email enabled, others disabled.
+Compare Claude Code, Cursor, and GitHub Copilot on key dimensions
+relevant to CTO decision-making.
 ```
 
 **Claude's interview questions:**
 
-> Question 1: For notification preferences—if a user updates their preferences on mobile while the web app has unsaved changes, how should we handle that conflict?
+> Question 1: For the tool comparison—should we include pricing? Enterprise pricing is often confidential or negotiated. Do we use list prices, price ranges, or skip pricing entirely?
 
-Your answer: "Mobile wins. Mobile changes should apply immediately. Web should sync on next page load."
+Your answer: "Include list prices where public, note 'contact for enterprise pricing' otherwise. CTOs need ballpark numbers to budget."
 
-> Question 2: The spec mentions "per channel" preferences. Should users be able to configure different preferences per notification type within a channel? (e.g., "email me about security alerts but not marketing")
+> Question 2: The spec mentions 'key dimensions.' Which dimensions matter most to CTOs? Technical capabilities? Security compliance? Learning curve? Integration difficulty?
 
-Your answer: "Yes, good catch. We need per-type settings within each channel, not just channel-level toggles."
+Your answer: "Good catch. Prioritize: (1) security/compliance, (2) integration with existing tools, (3) learning curve, (4) technical capabilities. CTOs care about adoption risk before features."
 
-> Question 3: What happens to queued notifications if a user disables a channel? Should pending notifications for that channel be deleted, held until re-enabled, or delivered via fallback channel?
+> Question 3: How should we handle rapidly changing information? Tool capabilities change monthly. Should we include version numbers? Publish dates? Caveats about currency?
 
-Your answer: "Delete them. If they disabled email, they don't want emails—even ones that were about to send."
+Your answer: "Include 'as of [date]' header. Note that capabilities change rapidly. Link to official docs for current features."
 
 **Specification updates based on answers:**
 
 ```markdown
-## Notification Preferences
+## Tool Comparison Section
 
-Users can configure notification preferences per channel (email, SMS, push)
-AND per notification type within each channel.
+Compare Claude Code, Cursor, and GitHub Copilot on key dimensions.
 
-Default: email enabled for all types, others disabled.
+### Comparison Dimensions (in priority order)
 
-### Conflict Resolution
+1. Security and compliance certifications
+2. Integration with enterprise tools (SSO, audit logs)
+3. Learning curve and adoption timeline
+4. Technical capabilities
 
-Mobile preference changes take precedence. Web syncs on page load.
+### Pricing Approach
 
-### Channel Disable Behavior
+Include public list prices. Note "contact for enterprise" where applicable.
 
-When user disables a channel, delete all pending notifications for that
-channel. Do not deliver via fallback.
+### Currency Handling
+
+Header: "Comparison current as of [Month 2026]"
+Link to official documentation for latest capabilities.
 ```
 
-Three questions. Three decisions documented. Three mid-implementation pivots prevented.
+Three questions. Three decisions documented. Three mid-writing pivots prevented.
 
 ## The Interview Checklist
 
@@ -266,7 +270,7 @@ If Claude's questions feel like implementation details rather than design decisi
 
 ### Task
 
-Take a specification you've written (or use the one from Lesson 4's lab). Run it through the interview pattern:
+Take a specification you've written (or use the one from Lesson 5's lab). Run it through the interview pattern:
 
 1. **Trigger the interview:**
 
@@ -287,35 +291,43 @@ The goal isn't to fill checkboxes—it's to surface decisions you hadn't conscio
 
 ## Try With AI
 
-**Prompt 1: Initial Interview**
+**Running Example Continued:** We have report-spec.md. Now we refine it through interview before writing.
+
+**Prompt 1: Interview the Report Spec**
 
 ```
-Here's my spec. Use the ask_user_question tool to surface any ambiguities
-before we implement.
+Read report-spec.md. Use ask_user_question to surface ambiguities.
 
-[paste your specification]
+Focus on decisions that would cause rewrites if wrong:
+- Which CTOs exactly? (Startup vs enterprise? Tech company vs traditional?)
+- What's their current AI adoption level?
+- What decision are they trying to make after reading this?
 ```
 
-**What you're learning:** The interview pattern shifts Claude from implementation mode to investigation mode. You're practicing how to trigger this shift and respond to Claude's questions effectively.
+**What you're learning:** The interview surfaces implicit assumptions. "CTOs evaluating AI tools" is vague—a startup CTO has different concerns than an enterprise CTO. Each answer sharpens the spec and prevents writing for the wrong audience.
 
-**Prompt 2: Specification Update**
-
-```
-Based on my answers to your questions, update the spec with the clarified
-requirements. Preserve the original structure but add the new decisions
-we've made.
-```
-
-**What you're learning:** Decisions made during the interview need to persist in the specification. This prompt ensures your answers become documented constraints, not conversation history that disappears on session end.
-
-**Prompt 3: Decision Summary**
+**Prompt 2: Update Spec with Decisions**
 
 ```
-What are the three most important decisions we made during this interview
-that will affect implementation? For each one, explain what would have
-happened if we hadn't clarified it.
+Based on my answers:
+- Target: CTOs at mid-size companies (100-1000 employees) considering first AI tool adoption
+- Assumed: They've seen demos but haven't deployed; have security/compliance concerns
+- Decision: Whether to pilot Claude Code, Cursor, or wait
+
+Update report-spec.md with these decisions. Add them as explicit constraints.
 ```
 
-**What you're learning:** Not all decisions are equal. Some affect architecture fundamentally; others are details. This prompt develops your judgment about which interview outcomes matter most—helping you prioritize future refinement efforts.
+**What you're learning:** Interview answers must persist. "First AI tool adoption" means we explain basics enterprise CTOs already know. "Security/compliance concerns" becomes a required section. The spec now encodes these CTO-specific needs.
 
-**Safety note:** Interview prompts examine your specification—they don't modify code or make irreversible changes. You're developing the habit of refinement before implementation, not during it.
+**Prompt 3: Identify Remaining Gaps**
+
+```
+Review updated report-spec.md. What questions would a writer still have?
+
+For each gap:
+- Add to spec now (important for structure)
+- Leave for writer judgment (minor detail)
+- Flag for research (we don't have the data yet)
+```
+
+**What you're learning:** Perfect specs don't exist. The goal is specs good enough that writing doesn't require restructuring. Whether to use bullet points vs prose can stay flexible; whether to include a security section cannot.

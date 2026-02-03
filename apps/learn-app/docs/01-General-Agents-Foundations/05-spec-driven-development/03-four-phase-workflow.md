@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 title: "The Four-Phase Workflow"
 description: "Understanding how SDD separates planning from execution through Research, Specification, Refinement, and Implementation phases"
 keywords:
@@ -14,7 +14,7 @@ keywords:
     "subagents",
   ]
 chapter: 5
-lesson: 2
+lesson: 3
 duration_minutes: 25
 
 # HIDDEN SKILLS METADATA
@@ -251,39 +251,43 @@ Think of a real task you need to accomplish with Claude Code—something you'd n
 - What's the logical sequence?
 - Which tasks could run in parallel?
 
-You don't need to execute this yet—Lessons 3-6 cover each phase in detail. The goal is to start thinking in phases rather than jumping straight to "give me the code."
+You don't need to execute this yet—Lessons 4-7 cover each phase in detail. The goal is to start thinking in phases rather than jumping straight to implementation.
 
 ## Try With AI
+
+**Running Example:** Throughout this chapter, you'll write "Personal AI Employees in 2026"—a research report for CTOs. This lesson maps that task to the four phases.
 
 **Prompt 1: Phase Mapping**
 
 ```
-I need to [describe your task]. Help me map this to the four SDD phases:
-1. Research: What should subagents investigate?
-2. Specification: What sections would the spec need?
-3. Refinement: What ambiguities might need resolution?
-4. Implementation: How would this break into tasks?
+I want to write "Personal AI Employees in 2026"—a research report
+for CTOs evaluating AI tools like Claude Code for their teams.
+
+Map this to the four SDD phases:
+1. Research: What do I need to investigate?
+2. Specification: What sections would the report need?
+3. Refinement: What decisions haven't I made yet?
+4. Implementation: How would writing break into tasks?
 ```
 
-**What you're learning:** Before you can execute SDD effectively, you need to think in phases. This prompt develops that mental model by having you plan the workflow before doing the work.
+**What you're learning:** Even a writing task benefits from SDD thinking. The research phase discovers what CTOs actually care about (not what you assume). The spec commits to structure before you write 2000 words in the wrong direction.
 
 **Prompt 2: Skip-Phase Analysis**
 
 ```
-What happens if I skip the research phase and go straight to specification
-for [your task]? What assumptions would I make that research would have
-challenged?
+What if I skipped research and wrote the report based on my
+existing knowledge of AI tools? What would I miss?
 ```
 
-**What you're learning:** Understanding why phases exist helps you commit to the workflow when you're tempted to shortcut. This prompt surfaces the hidden costs of skipping research.
+**What you're learning:** Your knowledge is partial. Research might reveal: CTOs care about security compliance (you forgot), Cursor has enterprise features you didn't know, ROI calculations need specific metrics. Skipping research means writing for yourself, not your audience.
 
-**Prompt 3: Deliverable Comparison**
+**Prompt 3: Artifact Comparison**
 
 ```
-Compare: What would I have after 1 hour of vibe coding versus 1 hour of
-SDD for [your task]? Be specific about deliverables, not just process.
+After 1 hour, what would I have with vibe coding ("write a report
+about AI employees") versus SDD (research → spec → refine → tasks)?
+
+List the actual artifacts, not just the process.
 ```
 
-**What you're learning:** The value of SDD isn't immediately obvious because vibe coding produces working code faster initially. This prompt helps you think about what "done" means beyond just "code runs."
-
-**Safety note:** These prompts help you plan—they don't modify your codebase. You're developing the mental model before Lessons 3-6 teach execution.
+**What you're learning:** Vibe coding produces a draft that might not fit your audience. SDD produces: research.md (what CTOs need), report-spec.md (structure decisions), and sections written to spec. The artifacts persist; the conversation doesn't.

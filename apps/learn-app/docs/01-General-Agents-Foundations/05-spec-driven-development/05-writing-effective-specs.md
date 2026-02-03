@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 title: "Phase 2: Writing Effective Specifications"
 description: "Create specifications that AI agents can implement reliably"
 keywords:
@@ -13,7 +13,7 @@ keywords:
     "spec-driven development",
   ]
 chapter: 5
-lesson: 4
+lesson: 5
 duration_minutes: 30
 
 # HIDDEN SKILLS METADATA
@@ -316,52 +316,50 @@ Rollback: Each phase is independently revertible via feature flag.
 
 ## Try With AI
 
-**Setup**: Open Claude Code with a project you're working on (or use a sample project).
+**Running Example Continued:** We have research.md from parallel investigation. Now we write report-spec.md.
 
-**Prompt 1: Convert Requirements to Specification**
-
-```
-Convert these requirements into a structured specification using the four-part template:
-
-Requirements:
-- Add user notifications for important events
-- Should work on web and mobile
-- Don't slow down the main app
-- Need to be able to turn them off
-
-Include: Reference Architecture Analysis, Current Architecture Analysis,
-Implementation Plan, Implementation Checklist, Constraints, and Success Criteria.
-```
-
-**What you're learning**: Requirements arrive vague. Your job is to ask the questions that make them precise. Claude will produce a draft—your job is to evaluate whether it answered every question you'd want answered before coding.
-
-**Prompt 2: Identify Specification Gaps**
+**Prompt 1: Draft Specification from Research**
 
 ```
-Here's a specification I wrote. What's missing that could cause implementation issues?
+Based on research.md, write report-spec.md for "Personal AI Employees in 2026."
 
-[Paste a spec you've written or the notification spec from Prompt 1]
+Use the four-part template:
+- Part 1: Reference Analysis (what makes good CTO-facing reports?)
+- Part 2: Current State (what does research.md tell us?)
+- Part 3: Implementation Plan (sections and order)
+- Part 4: Checklist (atomic writing tasks)
 
-Specifically check for:
-- Missing constraints (what NOT to do)
-- Unmeasurable success criteria
-- Ambiguous implementation steps
-- Unstated assumptions
+Plus Constraints and Success Criteria.
 ```
 
-**What you're learning**: Claude can review specs like a senior engineer reviewing a design doc. The gaps it identifies are the questions you should have answered upfront.
+**What you're learning:** The spec transforms research findings into a writing plan. Research.md's "tool capabilities" becomes the comparison section. "ROI data" becomes the business case section. "Gaps CTOs would ask about" become sections we must address or explicitly scope out.
 
-**Prompt 3: Strengthen Constraints and Criteria**
+**Prompt 2: Strengthen Constraints**
 
 ```
-Add explicit constraints and measurable success criteria to this spec:
+Review report-spec.md. The constraints section is weak.
 
-[Paste a spec with weak or missing constraints/criteria]
+Add explicit constraints for:
+- What this report is NOT (not a tutorial, not a product pitch)
+- Length limits (CTOs won't read 50 pages)
+- Assumed knowledge (what do readers already know about AI?)
+- What to skip (implementation details, they have engineers for that)
 
-For each constraint, explain WHY it matters.
-For each success criterion, show HOW to test it.
+For each constraint, explain why it prevents a specific failure mode.
 ```
 
-**What you're learning**: Good constraints come from understanding your system's boundaries. Good criteria come from understanding what "done" means. Claude can suggest both, but you must validate them against your actual context.
+**What you're learning:** Constraints prevent scope creep. Without "NOT a tutorial," you'd explain how to use each tool. Without "CTOs have engineers," you'd dive into technical setup. Constraints encode audience judgment.
 
-**Safety note**: When generating specifications, Claude may include assumptions based on common patterns. Always validate constraints and success criteria against your actual system requirements before implementation.
+**Prompt 3: Make Criteria Testable**
+
+```
+The success criteria in report-spec.md say "actionable" and "balanced."
+These can't be tested.
+
+Rewrite each criterion so I could verify it:
+- "Actionable" → specific recommendation requirement
+- "Balanced" → specific comparison structure
+- Add: what would a CTO be able to DO after reading?
+```
+
+**What you're learning:** Vague criteria let anything pass. "Each tool section includes pricing and limitations" is testable. "CTO can justify tool selection to their board" defines actual success.

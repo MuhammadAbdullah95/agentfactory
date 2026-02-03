@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 title: "Phase 1: Parallel Research with Subagents"
 description: "Transform hours of sequential investigation into minutes of parallel discovery using Claude's subagent architecture"
 keywords:
@@ -13,7 +13,7 @@ keywords:
     "research pattern",
   ]
 chapter: 5
-lesson: 3
+lesson: 4
 duration_minutes: 30
 
 # HIDDEN SKILLS METADATA
@@ -66,7 +66,7 @@ differentiation:
 
 # Phase 1: Parallel Research with Subagents
 
-In Lesson 2, you learned the four-phase SDD workflow. Now you'll execute the first phase: research that transforms hours of sequential reading into parallel minutes.
+In Lesson 3, you learned the four-phase SDD workflow. Now you'll execute the first phase: research that transforms hours of sequential reading into parallel minutes.
 
 Here's the economics that makes this lesson worth your time. That reference implementation you've been meaning to understand? The library documentation you've been piecing together? The architecture decisions scattered across multiple files? What would take you four hours of sequential reading, Claude can investigate in twenty minutes using parallel research agents.
 
@@ -351,46 +351,43 @@ Run the research. When findings return, identify:
 
 ## Try With AI
 
-**Prompt 1: Parallel Investigation**
+**Running Example Continued:** We're writing "Personal AI Employees in 2026" for CTOs. Now we research the landscape in parallel.
+
+**Prompt 1: Parallel Research on AI Tools**
 
 ```
-I want to understand how [reference repo or feature] implements [capability].
+I'm writing a report on personal AI employees for CTOs evaluating
+tools like Claude Code, Cursor, and GitHub Copilot.
 
-Spawn multiple subagents for your research task:
+Spin up multiple subagents for your research task:
 
-1. [First aspect you're curious about]
-2. [Second aspect]
-3. [Third aspect]
-4. [How these pieces integrate together]
+1. Tool capabilities — What can each tool actually do today?
+2. Business ROI — What cost/productivity data exists?
+3. Implementation risks — What do companies struggle with?
+4. Future trajectory — Where is this category heading?
 
-Reference: [repo URL, documentation, or @path/to/code]
+Write findings to research.md with a section per agent.
 ```
 
-**What you're learning:** This prompt executes the core pattern. You're not asking Claude to explain something—you're directing an investigation team. The difference matters: explanations come from Claude's training data; investigations come from examining actual code and documentation.
+**What you're learning:** Each agent investigates independently. Agent 1 discovers Claude Code can run autonomously while Copilot needs more guidance. Agent 2 finds ROI studies. Neither pollutes the other's findings. Conflicts (Agent 1 says X is best, Agent 4 says Y is trending) surface real decisions.
 
-**Prompt 2: Synthesis Request**
-
-```
-Summarize the key findings from each research agent in a comparison table.
-Identify:
-- Patterns that appeared in multiple agents' findings
-- Conflicts or contradictions between agents
-- Implications for our specification
-```
-
-**What you're learning:** Raw findings need synthesis. This prompt develops your ability to extract actionable insights from parallel research. The comparison table forces structure; the conflict identification surfaces design decisions; the specification implications bridge research to the next phase.
-
-**Prompt 3: Pattern Evaluation**
+**Prompt 2: Synthesis**
 
 ```
-Based on this research, what patterns should I adopt vs avoid for my implementation?
-
-Consider:
-- Which patterns from the reference match our constraints?
-- Which patterns solve problems we don't have?
-- Where does the reference make assumptions that don't apply to us?
+Read research.md. Create a synthesis section:
+- What appeared in multiple agents' findings?
+- Where did agents find conflicting information?
+- What structure does this suggest for our report?
 ```
 
-**What you're learning:** Not everything discovered in research belongs in your implementation. This prompt develops critical evaluation—distinguishing "this is how they did it" from "this is how we should do it." The reference implementation solved their problems; you need to solve yours.
+**What you're learning:** Four agents produce four perspectives. Synthesis reveals what CTOs must know (appears everywhere) versus what's optional depth. Conflicts become explicit: "Agent 2 found ROI data, Agent 3 found skepticism"—both belong in an honest report.
 
-**Safety note:** Parallel research examines code and documentation but doesn't modify anything. You're gathering information that will inform your specification in Phase 2.
+**Prompt 3: Gap Analysis**
+
+```
+Based on research.md, what's MISSING that a CTO would need?
+We have tool capabilities and ROI, but what practical questions
+would a CTO ask that our research doesn't answer?
+```
+
+**What you're learning:** Research isn't just collecting data—it's identifying gaps. CTOs might ask: "How do we measure success?" "What's the learning curve?" "How do we handle security review?" If research.md doesn't answer these, the spec needs to address how we'll fill them.
