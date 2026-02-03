@@ -40,6 +40,7 @@ An AI agent uses a language model **in a loop** to accomplish a goal:
 ChatGPT responds once. Claude Code loops until your task is complete. That loop is what makes something an agent.
 
 When you ask Claude Code to "refactor this code and verify it works," it:
+
 - Reads code (observes)
 - Plans refactoring approach (reasons)
 - Writes new code (acts)
@@ -52,13 +53,13 @@ You didn't specify those steps. The agent reasoned through them autonomously.
 
 Not all agents are equal. The taxonomy classifies systems by autonomy:
 
-| Level | Name | Who Controls Strategy? | Example |
-|-------|------|----------------------|---------|
-| 0 | Core Reasoning | No one (single response) | ChatGPT without tools |
-| 1 | Connected | Human drives each step | ChatGPT with web search |
-| 2 | Strategic | System plans multi-step | Claude Code on a refactor |
-| 3 | Multi-Agent | System coordinates specialists | Code + test + docs agents |
-| 4 | Self-Evolving | System creates new tools | Agent builds custom analyzers |
+| Level | Name           | Who Controls Strategy?         | Example                       |
+| ----- | -------------- | ------------------------------ | ----------------------------- |
+| 0     | Core Reasoning | No one (single response)       | ChatGPT without tools         |
+| 1     | Connected      | Human drives each step         | ChatGPT with web search       |
+| 2     | Strategic      | System plans multi-step        | Claude Code on a refactor     |
+| 3     | Multi-Agent    | System coordinates specialists | Code + test + docs agents     |
+| 4     | Self-Evolving  | System creates new tools       | Agent builds custom analyzers |
 
 **Level 0**: Model responds once. No tools, no loop.
 
@@ -75,6 +76,7 @@ Not all agents are equal. The taxonomy classifies systems by autonomy:
 Claude Code is Level 2-3 depending on the task:
 
 **Level 2 example**: "Debug this error."
+
 - Asks clarifying questions
 - Requests logs and code
 - Reasons through causes
@@ -82,6 +84,7 @@ Claude Code is Level 2-3 depending on the task:
 - Iterates until solved
 
 **Level 3 example**: "Audit this codebase for security, performance, and correctness."
+
 - Security specialist examines auth and data handling
 - Performance analyst checks bottlenecks
 - Quality agent reviews tests and docs
@@ -97,11 +100,11 @@ The paradigm shift that matters:
 
 **Director** (agent era): You specify intent and constraints. "Extract structured data from these documents. Ensure quality." The agent reasons about how.
 
-| Bricklayer | Director |
-|------------|----------|
-| "Write validation with these exact checks" | "Validate input securely" |
-| "Call API A, retry 3 times on timeout" | "Fetch data reliably" |
-| "Parse JSON, extract fields X, Y, Z" | "Get the relevant information" |
+| Bricklayer                                 | Director                       |
+| ------------------------------------------ | ------------------------------ |
+| "Write validation with these exact checks" | "Validate input securely"      |
+| "Call API A, retry 3 times on timeout"     | "Fetch data reliably"          |
+| "Parse JSON, extract fields X, Y, Z"       | "Get the relevant information" |
 
 Director-level thinking is harder. You must articulate intent clearly, anticipate failure modes, and trust the system to reason. But it's more powerful—agents adapt to situations you didn't anticipate.
 
@@ -109,7 +112,7 @@ This is why specification skills (from Part 4) become critical. Vague goals crea
 
 ## Why This Matters
 
-Agent development skills are scarce. Most developers can *use* ChatGPT. Few can *design* agent systems that work reliably.
+Agent development skills are scarce. Most developers can _use_ ChatGPT. Few can _design_ agent systems that work reliably.
 
 The gap: Companies need people who can specify agent behavior precisely, debug agent reasoning, and decide when to use agents vs traditional code. That's what Chapters 34-36 teach.
 
@@ -122,6 +125,7 @@ Beyond taxonomy, there's a strategic decision every AI builder faces: **General 
 Ready-to-use AI partners that reason across many domains. Claude Code, Gemini CLI, and Goose are General Agents.
 
 **Characteristics:**
+
 - Flexible reasoning across diverse problems
 - Zero-shot planning (figure out novel situations)
 - Human-in-the-loop collaboration
@@ -136,6 +140,7 @@ Ready-to-use AI partners that reason across many domains. Claude Code, Gemini CL
 Purpose-built AI systems you design using SDKs (OpenAI Agents SDK, Claude SDK, Google ADK).
 
 **Characteristics:**
+
 - Optimized for specific workflows
 - Guardrails and process control
 - Deterministic, repeatable behavior
@@ -147,42 +152,43 @@ Purpose-built AI systems you design using SDKs (OpenAI Agents SDK, Claude SDK, G
 
 ### The Decision Matrix
 
-| Factor | Choose General Agent | Choose Custom Agent |
-|--------|---------------------|---------------------|
-| Task type | Novel, varied | Repetitive, standardized |
-| End user | Technical (developers) | Non-technical (customers) |
-| Error tolerance | High (human reviews) | Low (must be reliable) |
-| Cost model | High value per task | Volume optimization |
-| Time to deploy | Minutes | Weeks |
+| Factor          | Choose General Agent   | Choose Custom Agent       |
+| --------------- | ---------------------- | ------------------------- |
+| Task type       | Novel, varied          | Repetitive, standardized  |
+| End user        | Technical (developers) | Non-technical (customers) |
+| Error tolerance | High (human reviews)   | Low (must be reliable)    |
+| Cost model      | High value per task    | Volume optimization       |
+| Time to deploy  | Minutes                | Weeks                     |
 
 ### The Agent Factory Insight
 
 Here's the paradigm shift: **General Agents build Custom Agents**.
 
 Claude Code (a General Agent) can:
+
 1. Read your specification
 2. Understand the SDK documentation
 3. Generate Custom Agent code
 4. Test and iterate until it works
 
-You don't choose between General and Custom—you use General Agents to *create* Custom Agents. This is the "Agent Factory" model.
+You don't choose between General and Custom—you use General Agents to _create_ Custom Agents. This is the "Agent Factory" model.
 
 **Your expertise + General Agent + SDK = Deployable Custom Agent**
 
-Skills you create in Claude Code (Chapter 5) become the building blocks—reusable intelligence packaged in SKILL.md files that teach agents specialized workflows. These skills are monetizable IP: the "recipe" for your agent's expertise. In Chapters 34-36, you'll use Claude Code to build Custom Agents with OpenAI, Claude, and Google SDKs.
+Skills you create in Claude Code (Chapter 3) become the building blocks—reusable intelligence packaged in SKILL.md files that teach agents specialized workflows. These skills are monetizable IP: the "recipe" for your agent's expertise. In Chapters 34-36, you'll use Claude Code to build Custom Agents with OpenAI, Claude, and Google SDKs.
 
 ### The Business Angle
 
 Custom Agents aren't just technical artifacts—they're **products you can sell**.
 
-In Chapter 5 Lesson 14, you learned about the Digital FTE model: packaging AI agents as "virtual employees" with monthly subscriptions. The agents you build in this chapter are the technical foundation for that business model.
+In Chapter 3 Lesson 14, you learned about the Digital FTE model: packaging AI agents as "virtual employees" with monthly subscriptions. The agents you build in this chapter are the technical foundation for that business model.
 
-| What You Build | How It Makes Money |
-|---------------|-------------------|
-| Customer support agent | Digital FTE: $1,000/month subscription |
-| Document review agent | Success fee: $5 per document processed |
-| Lead qualification agent | License: $50,000/year to enterprises |
-| Data analysis agent | Marketplace: Publish to OpenAI Apps |
+| What You Build           | How It Makes Money                     |
+| ------------------------ | -------------------------------------- |
+| Customer support agent   | Digital FTE: $1,000/month subscription |
+| Document review agent    | Success fee: $5 per document processed |
+| Lead qualification agent | License: $50,000/year to enterprises   |
+| Data analysis agent      | Marketplace: Publish to OpenAI Apps    |
 
 The technical skills in Chapters 34-36 directly translate to revenue. Every agent you learn to build is a potential product.
 
@@ -206,7 +212,7 @@ Use Claude, ChatGPT, or Gemini to practice classification.
 
 > "A startup wants to automate customer onboarding emails. Should they use Claude Code (General Agent) or build a Custom Agent with OpenAI SDK? What factors drive that decision?"
 
-**Expected**: Custom Agent—standardized workflow, customer-facing, needs reliability. But they'd use Claude Code to *build* the Custom Agent.
+**Expected**: Custom Agent—standardized workflow, customer-facing, needs reliability. But they'd use Claude Code to _build_ the Custom Agent.
 
 > "Explain the 'Agent Factory' concept. Why don't you choose between General and Custom Agents?"
 

@@ -1,0 +1,382 @@
+---
+sidebar_position: 0
+title: "Operational Best Practices"
+chapter: 6
+lesson: 0
+duration_minutes: 25
+description: "Operational workflows and patterns for productive Claude Code sessions"
+keywords:
+  [
+    "plan mode",
+    "checkpoints",
+    "rewind",
+    "permissions",
+    "failure patterns",
+    "workflow",
+  ]
+
+# HIDDEN SKILLS METADATA
+skills:
+  - name: "Plan Mode Workflow"
+    proficiency_level: "A2"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Digital Competence"
+    measurable_at_this_level: "Student can execute the four-phase workflow (Explore, Plan, Implement, Commit) for non-trivial tasks"
+
+  - name: "Session Course Correction"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Problem Solving"
+    measurable_at_this_level: "Student can use Esc, checkpoints, and /rewind to recover from unproductive directions"
+
+  - name: "Failure Pattern Recognition"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Evaluate"
+    digcomp_area: "Problem Solving"
+    measurable_at_this_level: "Student can identify when their session is entering a failure pattern and apply the correct remedy"
+
+learning_objectives:
+  - objective: "Apply the four-phase workflow (Explore, Plan, Implement, Commit) for non-trivial tasks"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student can describe when to use Plan Mode and execute each phase"
+
+  - objective: "Use checkpoints and /rewind for safe experimentation"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student can explain how to recover from an unproductive direction"
+
+  - objective: "Recognize and avoid five common failure patterns"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Student can identify which failure pattern a scenario represents and prescribe the fix"
+
+cognitive_load:
+  new_concepts: 6
+  assessment: "6 concepts (Plan Mode phases, Esc/rewind, checkpoints, permissions, interview pattern, failure patterns) within A2-B1 limit of 7"
+
+differentiation:
+  extension_for_advanced: "Design a personal workflow checklist for your domain that maps each failure pattern to your specific warning signs"
+  remedial_for_struggling: "Focus on Plan Mode and the Esc key for course correction; other patterns can be learned incrementally through practice"
+---
+
+# Operational Best Practices
+
+You've learned what General Agents are and experienced Claude Code firsthand. But here's a pattern that separates struggling users from productive ones: **workflow discipline**.
+
+Picture this scenario. You open Claude Code with a vague task in mind. You type a prompt. Claude responds. You add more context. Claude does something unexpected. You correct it. Claude tries again. Your context fills up. Quality degrades. You're twenty minutes in, frustrated, with nothing to show.
+
+This isn't Claude's failure—it's a workflow failure. The most productive Claude Code users follow specific operational patterns that prevent this frustration before it starts. This lesson introduces those patterns before you learn the seven principles that explain _why_ they work.
+
+Think of this as learning to drive before studying automotive engineering. You need practical competence first; the deeper understanding comes next.
+
+## The Four-Phase Workflow
+
+Every non-trivial task benefits from structure. The four-phase workflow transforms messy exploration into systematic progress.
+
+### Phase 1: Explore
+
+Before Claude changes anything, it needs to understand what exists. Plan Mode enforces this discipline.
+
+Enter Plan Mode by pressing `Shift+Tab` or clicking the toggle in the interface. In this mode, Claude will read files and gather context but won't make any edits. It's reconnaissance.
+
+Your prompt in Plan Mode might be:
+
+```
+Explore this codebase. I want to add user authentication.
+Where would that logic go? What patterns does this project already use?
+```
+
+Claude reads, searches, and maps the territory. You see what it discovers. No files change. No risk. Just understanding.
+
+### Phase 2: Plan
+
+Once Claude understands the landscape, ask it to create a plan:
+
+```
+Based on what you found, create an implementation plan for adding
+user authentication. List the files you'll change and what each change does.
+```
+
+Claude produces a structured plan. Review it. Use `Ctrl+G` (or `Cmd+G` on Mac) to edit the plan if something looks wrong. This is where you catch misunderstandings—before any code is written.
+
+The key insight: **course correction is cheap during planning, expensive during implementation**.
+
+### Phase 3: Implement
+
+With a reviewed plan, switch to Normal Mode (`Shift+Tab` again). Now Claude can make changes. But it's not improvising—it's executing an agreed plan, one step at a time.
+
+After each significant step, Claude should verify. Did the change work? Do tests pass? Is the behavior correct? This is where Principle 3 (Verification as Core Step) becomes concrete, which you'll learn in detail later in this chapter.
+
+### Phase 4: Commit
+
+When implementation is complete and verified, ask Claude to commit the work:
+
+```
+Commit these changes with a descriptive message summarizing
+what we did and why.
+```
+
+Claude stages the relevant files and creates a commit. Your work is safely captured in version control, ready to share or revert if needed.
+
+### When to Skip Planning
+
+Not everything needs the full four-phase treatment. Simple tasks can go straight to implementation:
+
+- Fixing a typo
+- Adding a single log statement
+- Changing one configuration value
+- Tasks where the path is obvious and the scope is tiny
+
+But here's the rule of thumb: **if you're unsure whether to plan, you should plan**. The cost of unnecessary planning is a few minutes. The cost of improvising a complex change is often an hour of cleanup.
+
+## Course Correction and Reversibility
+
+Claude Code sessions are experiments. Not every experiment succeeds. The key is recognizing when to change direction—and having the tools to do so cleanly.
+
+### The Escape Key
+
+When Claude is mid-response and you see it heading somewhere unproductive, press `Esc`. Claude stops immediately. Your context is preserved. You haven't lost anything—you've just prevented wasted tokens.
+
+Use `Esc` liberally. It's not an emergency brake; it's a steering wheel. See Claude starting to refactor code you didn't ask about? `Esc`. See Claude exploring files that aren't relevant? `Esc`. See a response that's going to be too long? `Esc`.
+
+### Checkpoints and /rewind
+
+Claude Code creates checkpoints automatically before every tool use that modifies your system. These are snapshots you can return to.
+
+Press `Esc` twice (or use `/rewind`) to open the checkpoint menu. You'll see a list of recent states. Select one, and Claude restores your session to that point. All the files, all the context, all the conversation—rolled back.
+
+This transforms how you work with Claude. You can try risky approaches knowing you can always rewind. You can explore multiple solutions and keep the best one. Checkpoints make experimentation safe.
+
+### Resuming Sessions
+
+Sometimes you need to stop mid-task. Two commands help you pick up where you left off:
+
+- `--continue`: Resume your most recent session in the current directory
+- `--resume`: Show a list of recent sessions to choose from
+
+Your context, conversation, and progress are preserved. You don't start from scratch.
+
+### Context Management (Reference)
+
+When your context window fills with irrelevant information, quality degrades. Chapter 4, Lesson 6 covers context lifecycle commands in detail:
+
+- `/clear`: Start fresh with empty context
+- `/compact`: Summarize and compress existing context
+
+For now, know they exist. When you notice responses getting worse, context pollution is often the cause.
+
+## Permission Configuration
+
+Claude Code's permission system balances autonomy with safety. Understanding it helps you configure the right level of trust.
+
+### The Permission Prompt
+
+By default, Claude asks permission before running commands or editing files. This is safe but interrupts flow. When you see a permission prompt, you have three choices:
+
+- **Allow once**: Permit this specific action
+- **Allow for session**: Permit this category of action for the rest of the session
+- **Deny**: Block this action
+
+### Configuring Permissions
+
+Use `/permissions` to see and modify your current permission settings. You can allowlist commands you trust:
+
+```
+# Allow all git commands
+git *
+
+# Allow running tests
+npm test
+pytest
+
+# Allow reading any file
+cat *
+```
+
+Allowlisted commands run without prompting. This speeds up common workflows while keeping unusual operations gated.
+
+### Sandbox Mode
+
+For maximum autonomy, `/sandbox` creates an OS-level isolated environment. Claude can do almost anything inside the sandbox without affecting your real system.
+
+This is useful for:
+
+- Letting Claude explore and experiment freely
+- Running untrusted code safely
+- Automated workflows where you can't be present to approve
+
+The `--dangerously-skip-permissions` flag disables permission prompts entirely. Only use this inside sandboxed environments where Claude can't do real damage.
+
+### Finding Your Level
+
+Most users start with default permissions, then gradually allowlist trusted commands. The goal is a permission configuration that matches your trust level:
+
+- **Tight permissions**: Every action asks. Safe but slow.
+- **Moderate permissions**: Common actions allowed, unusual actions ask.
+- **Loose permissions (sandboxed)**: Full autonomy in an isolated environment.
+
+Chapter 6, Lesson 6 explores constraints and safety in depth. For now, experiment with `/permissions` to find your comfort level.
+
+## The Interview Pattern
+
+For larger features, there's a counterintuitive approach that saves time: have Claude interview _you_ before it writes anything.
+
+### How It Works
+
+Instead of describing what you want and hoping Claude understands, ask Claude to ask you questions:
+
+```
+I want to add a notification system to this app. Before we start
+implementing, interview me about the requirements. Use the question
+tool to ask one question at a time. Cover edge cases, user experience,
+and technical constraints I might not have thought about.
+```
+
+Claude becomes a requirements analyst. It asks about:
+
+- Who gets notified and when?
+- What channels (email, in-app, push)?
+- How do users configure their preferences?
+- What happens when notification delivery fails?
+- Should notifications be batched or immediate?
+
+Each question surfaces a decision you need to make. By the time the interview is complete, you have a clear specification—and Claude has the context to implement it correctly.
+
+### The Fresh Session Trick
+
+After the interview, you have two choices:
+
+1. **Continue in the same session**: Claude has all the context but also all the back-and-forth exploration.
+
+2. **Start fresh with the spec**: Copy the specification from the interview into a new session. Claude gets the clean, refined requirements without the exploratory noise.
+
+Option 2 often produces better results. The specification is signal-dense. A fresh context window means Claude's full attention on implementation rather than remembering conversation tangents.
+
+## Five Failure Patterns to Avoid
+
+With experience, you'll recognize when a session is going wrong. Here are five common patterns and their remedies.
+
+### 1. The Kitchen Sink Session
+
+**What it looks like**: You start by fixing a bug, then ask about documentation, then explore a new feature, then debug an unrelated error. Each task adds context. Quality degrades as the context window fills with unrelated information.
+
+**Why it fails**: Claude's responses are influenced by everything in context. When context contains five unrelated tasks, Claude's attention is fragmented across all of them.
+
+**The fix**: One session, one purpose. When you finish a task, use `/clear` before starting an unrelated one. If tasks are related, keep them together. If they're not, separate sessions.
+
+### 2. The Correction Loop
+
+**What it looks like**: Claude does something wrong. You correct it. Claude tries again. Still wrong, in a different way. You correct again. After several rounds, you're frustrated and Claude's context is polluted with failed attempts and corrections.
+
+**Why it fails**: Each correction adds noise. Claude is now juggling the original request plus multiple failed attempts plus your frustrations. The signal-to-noise ratio collapses.
+
+**The fix**: After two corrections, stop. `/clear` and write a better initial prompt. The failed attempts taught you what Claude needed to know. Write a fresh prompt that provides that information upfront.
+
+### 3. The Bloated CLAUDE.md
+
+**What it looks like**: Your CLAUDE.md file grows to 200+ lines. It contains everything you've ever wanted Claude to know: coding standards, personal preferences, project history, debugging tips, style guides, and that one edge case from six months ago.
+
+**Why it fails**: When everything is important, nothing is. Long CLAUDE.md files consume context and dilute focus. Claude can't distinguish critical rules from nice-to-haves.
+
+**The fix**: Keep CLAUDE.md under 60 lines. Move domain-specific knowledge into skills (`.claude/skills/`). Use the file for project-wide patterns that apply to every session, not accumulated notes.
+
+### 4. The Trust-Then-Verify Gap
+
+**What it looks like**: Claude produces plausible-looking output. You assume it's correct because it looks right. Later, you discover the code doesn't work, the facts are wrong, or the approach is flawed.
+
+**Why it fails**: Claude is optimized to produce confident, plausible responses. Plausibility isn't correctness. Without verification, errors propagate.
+
+**The fix**: Every claim needs verification criteria. Did the code compile? Do tests pass? Did you actually run it? "It looks right" isn't verification—running it and observing the result is.
+
+### 5. The Infinite Exploration Spiral
+
+**What it looks like**: You ask Claude to investigate something. It reads files, searches, reads more files, finds related topics, explores those. Your context fills with exploration. When you finally ask for implementation, Claude has forgotten why you started.
+
+**Why it fails**: Open-ended exploration has no natural stopping point. Each discovered file suggests more files to read. Context fills with research, leaving no room for action.
+
+**The fix**: Scope exploration narrowly ("Find where authentication is configured—just that, nothing else"). Better yet, use subagents for research: they explore in their own context and return only findings. Your main session stays clean.
+
+## Quick Reference: Principles to Implementation
+
+You're about to learn seven principles that explain _why_ these operational patterns work. Here's how they connect:
+
+| Principle                               | What It Teaches                | Claude Code Implementation                        |
+| --------------------------------------- | ------------------------------ | ------------------------------------------------- |
+| **P1: Bash is the Key**                 | Terminal access enables agency | CLI tools (`gh`, `aws`, `git`), MCP servers       |
+| **P2: Code as Universal Interface**     | Precision through specificity  | `@` file references, concrete examples in prompts |
+| **P3: Verification as Core Step**       | Trust through testing          | Run tests, screenshots, Plan Mode verification    |
+| **P4: Small, Reversible Decomposition** | Managing complexity            | Plan Mode phases, checkpoints, `/rewind`          |
+| **P5: Persisting State in Files**       | Accumulated context            | CLAUDE.md, skills in `.claude/skills/`            |
+| **P6: Constraints and Safety**          | Confident delegation           | `/permissions`, `/sandbox`, hooks                 |
+| **P7: Observability**                   | Transparency and debugging     | `/context`, checkpoint history, `--verbose`       |
+
+The principles are the _why_. The operational practices in this lesson are the _how_. Together, they form a complete system for productive AI collaboration.
+
+## Summary
+
+Productive Claude Code sessions share common patterns:
+
+1. **Structure non-trivial tasks** with the four-phase workflow: Explore (understand), Plan (design), Implement (execute), Commit (save).
+
+2. **Course correct freely** using `Esc` to stop, checkpoints to revert, and `/rewind` to try different approaches.
+
+3. **Configure permissions** to match your trust level—tight for unfamiliar work, loose (with sandbox) for autonomous operation.
+
+4. **Use the interview pattern** for complex features, having Claude ask questions before implementing.
+
+5. **Recognize failure patterns** before they waste your time: kitchen sink sessions, correction loops, bloated CLAUDE.md, trust-without-verification, and infinite exploration.
+
+These aren't rules to memorize—they're habits to build. With practice, they become automatic, and the frustrating sessions become rare.
+
+## Try With AI
+
+**Prompt 1: Practice the Four-Phase Workflow**
+
+```
+I want to practice the four-phase workflow. Here's a real task I need to do:
+
+[Describe a non-trivial task you actually need to accomplish]
+
+Let's do this properly:
+1. First, explore what exists (I'm in Plan Mode)
+2. Then, create an implementation plan
+3. I'll review the plan before we implement
+4. Finally, we'll commit when done
+
+Start by exploring. What do you need to understand before we plan?
+```
+
+**What you're learning**: The four-phase workflow prevents the pattern of diving into changes without understanding context. By practicing on a real task, you experience how exploration and planning reduce rework.
+
+**Prompt 2: Identify Your Failure Patterns**
+
+```
+I've been using Claude Code for a while. Help me audit my workflow for
+failure patterns. I'll describe a recent session that didn't go well:
+
+[Describe a frustrating Claude Code session—what you asked for,
+what happened, how it went wrong]
+
+Based on this, which of the five failure patterns was I falling into?
+What specific change to my workflow would have prevented it?
+```
+
+**What you're learning**: Recognizing failure patterns in your own work is harder than recognizing them in examples. By analyzing a real frustrating session, you build the pattern recognition to catch problems earlier.
+
+**Prompt 3: Design Your Permission Configuration**
+
+```
+I work primarily on [describe your domain—web development, data science,
+DevOps, content creation, etc.].
+
+Help me design a permission configuration that balances safety and speed.
+What commands should I allowlist for my typical workflows?
+What should always require approval?
+When might I want to use sandbox mode?
+```
+
+**What you're learning**: Permission configuration is personal—it depends on what you do and what risks matter to you. Designing your own configuration forces you to think about trust levels and operational patterns in your specific domain.

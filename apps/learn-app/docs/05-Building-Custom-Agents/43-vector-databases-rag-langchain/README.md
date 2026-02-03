@@ -8,18 +8,18 @@ description: "Build your RAG skill first, then learn to extend your Task API wit
 
 **You will build a RAG skill BEFORE you learn RAG concepts.**
 
-This chapter follows the **Skill-First Learning Pattern**: In Lesson 0, you create a `rag-deployment` skill using tools from Chapter 5. Then you spend the chapter understanding what you built and making it better. By the end, you don't just "know RAG"—you OWN a production-ready skill that extends your Task API with semantic search.
+This chapter follows the **Skill-First Learning Pattern**: In Lesson 0, you create a `rag-deployment` skill using tools from Chapter 3. Then you spend the chapter understanding what you built and making it better. By the end, you don't just "know RAG"—you OWN a production-ready skill that extends your Task API with semantic search.
 
 ## The Architecture
 
 This chapter uses a clean separation of concerns:
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| **Ingestion** | LangChain | Document loading, text splitting, embeddings |
-| **Storage/Retrieval** | LangChain + Qdrant | Vector store, similarity search |
-| **Intelligence** | OpenAI Agents SDK | Agent orchestration, LLM calls, conversation memory |
-| **Evaluation** | RAGAS + LangSmith | Quality metrics, tracing |
+| Layer                 | Technology         | Purpose                                             |
+| --------------------- | ------------------ | --------------------------------------------------- |
+| **Ingestion**         | LangChain          | Document loading, text splitting, embeddings        |
+| **Storage/Retrieval** | LangChain + Qdrant | Vector store, similarity search                     |
+| **Intelligence**      | OpenAI Agents SDK  | Agent orchestration, LLM calls, conversation memory |
+| **Evaluation**        | RAGAS + LangSmith  | Quality metrics, tracing                            |
 
 **Why this split?** LangChain excels at document processing and retrieval. The Agents SDK (Chapter 34) excels at agent orchestration. Together, they give you the best of both worlds without framework lock-in.
 
@@ -50,17 +50,17 @@ L00: Build Your RAG Skill (20 min)
 
 ## Chapter Structure
 
-| # | Lesson | Duration | Your Skill Improves |
-|---|--------|----------|---------------------|
-| **0** | **Build Your RAG Skill** | 20 min | **Created from LangChain docs** |
-| 1 | Why Agents Need External Knowledge | 25 min | Conceptual: parametric vs retrieval |
-| 2 | Vector Embeddings Mental Model | 30 min | Conceptual: semantic similarity |
-| 3 | LangChain Document Processing | 40 min | Add: chunking strategies |
-| 4 | Qdrant Vector Store | 45 min | Add: vector storage patterns |
-| 5 | RAG with OpenAI Agents SDK | 45 min | Add: agent + retrieval tool pattern |
-| 6 | RAG for Task API | 50 min | Refine: semantic search endpoint |
-| 7 | Evaluating RAG Quality | 45 min | Add: evaluation metrics |
-| **8** | **RAG Architecture Patterns** | 60 min | **Capstone: 2 patterns implemented** |
+| #     | Lesson                             | Duration | Your Skill Improves                  |
+| ----- | ---------------------------------- | -------- | ------------------------------------ |
+| **0** | **Build Your RAG Skill**           | 20 min   | **Created from LangChain docs**      |
+| 1     | Why Agents Need External Knowledge | 25 min   | Conceptual: parametric vs retrieval  |
+| 2     | Vector Embeddings Mental Model     | 30 min   | Conceptual: semantic similarity      |
+| 3     | LangChain Document Processing      | 40 min   | Add: chunking strategies             |
+| 4     | Qdrant Vector Store                | 45 min   | Add: vector storage patterns         |
+| 5     | RAG with OpenAI Agents SDK         | 45 min   | Add: agent + retrieval tool pattern  |
+| 6     | RAG for Task API                   | 50 min   | Refine: semantic search endpoint     |
+| 7     | Evaluating RAG Quality             | 45 min   | Add: evaluation metrics              |
+| **8** | **RAG Architecture Patterns**      | 60 min   | **Capstone: 2 patterns implemented** |
 
 ## Every Lesson Has Skill Reflection
 
@@ -76,7 +76,7 @@ By Lesson 8, you've tested and improved your skill 8+ times.
 
 - **Chapter 40**: FastAPI for Agents (Task API foundation)
 - **Chapters 34-36**: Agent SDK chapters (agents know how to call tools)
-- **Chapter 5**: skill-creator and fetching-library-docs
+- **Chapter 3**: skill-creator and fetching-library-docs
 - **Docker**: For running Qdrant locally
 
 ## The Running Example
@@ -93,8 +93,8 @@ The key insight: **Semantic search lets users find tasks by meaning, not just ke
 
 ```
 .claude/skills/
-├── skill-creator/           # From Chapter 5
-├── fetching-library-docs/   # From Chapter 5
+├── skill-creator/           # From Chapter 3
+├── fetching-library-docs/   # From Chapter 3
 ├── fastapi-agent-api/       # From Chapter 40
 └── rag-deployment/          # NEW - this chapter
 ```

@@ -17,7 +17,7 @@ This part establishes the mental models and practical skills you need for AI-nat
 
 ## What You'll Learn in Part 1
 
-Part 1 consists of five chapters that build from concepts to communication to tools to engineering discipline to principles:
+Part 1 consists of six chapters that build from concepts to communication to tools to engineering discipline to specifications to principles:
 
 ### Chapter 1: The AI Agent Factory Paradigm (Conceptual Foundation)
 
@@ -61,9 +61,19 @@ You've learned the tools. Now learn WHY they work and WHEN to use each one. Chap
 
 **Integration (Lesson 10)**: You'll apply the full context engineering toolkit to build a production-quality specialized agent worth selling.
 
-### Chapter 5: The Seven Principles of General Agent Problem Solving
+### Chapter 5: Spec-Driven Development with Claude Code
 
-Chapter 5 synthesizes learnings from Chapters 1-4 into actionable problem-solving principles that generalize across all General Agent workflows.
+Chapter 5 introduces **Spec-Driven Development (SDD)**—the methodology that transforms AI coding assistants from sophisticated autocomplete tools into production-grade development partners.
+
+**From Vibe Coding to Specifications**: You'll understand why conversational "vibe coding" breaks down for production systems and how specifications as primary artifacts solve context loss, assumption drift, and architectural inconsistency.
+
+**The SDD Workflow**: You'll learn the three levels of SDD implementation, from lightweight specs to full workflow orchestration with Claude Code's Memory, Subagents, and Tasks systems.
+
+**Practical Patterns**: You'll master prompt patterns that reduce approval fatigue, front-load review at specification phase gates, and enable parallel execution of research and implementation tasks.
+
+### Chapter 6: The Seven Principles of General Agent Problem Solving
+
+Chapter 6 synthesizes learnings from Chapters 1-5 into actionable problem-solving principles that generalize across all General Agent workflows.
 
 **The Principles (Lessons 1-7)**: You'll master Bash is the Key, Code as Universal Interface, Verification as Core Step, Small Reversible Decomposition, Persisting State in Files, Constraints and Safety, and Observability. Each principle is explored in both Claude Code (terminal) and Claude Cowork (desktop) contexts—showing how these are truly _General Agent_ principles, not tool-specific tricks.
 

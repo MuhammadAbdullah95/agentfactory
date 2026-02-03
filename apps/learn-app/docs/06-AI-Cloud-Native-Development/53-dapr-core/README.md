@@ -2,7 +2,17 @@
 sidebar_position: 53
 title: "Chapter 53: Dapr Core - Sidecar Building Blocks"
 description: "Simplify distributed AI agent systems with Dapr's portable building blocks for state, pub/sub, service invocation, and more"
-keywords: [dapr, sidecar, building blocks, kubernetes, microservices, state management, pubsub, service invocation]
+keywords:
+  [
+    dapr,
+    sidecar,
+    building blocks,
+    kubernetes,
+    microservices,
+    state management,
+    pubsub,
+    service invocation,
+  ]
 ---
 
 # Chapter 53: Dapr Core - Sidecar Building Blocks
@@ -23,13 +33,13 @@ Dapr abstracts infrastructure behind portable HTTP/gRPC APIs. You build the `dap
 
 ## Lesson Progression
 
-| Lesson | Focus |
-|--------|-------|
-| L00 | Build Your Dapr Skill (skill-first) |
-| L01-L02 | Sidecar pattern, building blocks, components |
+| Lesson  | Focus                                                                   |
+| ------- | ----------------------------------------------------------------------- |
+| L00     | Build Your Dapr Skill (skill-first)                                     |
+| L01-L02 | Sidecar pattern, building blocks, components                            |
 | L03-L08 | Deploy Dapr; state, invocation, pub/sub, bindings, jobs, secrets/config |
-| L09 | Capstone: Dapr-enabled Task API |
-| L10 | Finalize the Dapr skill |
+| L09     | Capstone: Dapr-enabled Task API                                         |
+| L10     | Finalize the Dapr skill                                                 |
 
 Each lesson ends with a reflection to test, find gaps, and improve the skill.
 
@@ -43,7 +53,7 @@ You finish with the Task API running through Dapr (state, pub/sub, invocation, b
 
 ## Prerequisites
 
-- Chapter 5 skills tooling
+- Chapter 3 skills tooling
 - Chapters 49-51 (Docker, Kubernetes, Helm)
 - Chapter 52 (Kafka mental model for pub/sub abstraction)
 - Part 6 Task API (async FastAPI)
@@ -60,6 +70,7 @@ You finish with the Task API running through Dapr (state, pub/sub, invocation, b
 ## Looking Ahead
 
 This chapter covers Dapr's **core building blocks**. Chapter 59 adds **stateful patterns**:
+
 - **Dapr Actors** for agent state management
 - **Dapr Workflows** for long-running orchestration
 - **Virtual actors pattern** for distributed agent systems

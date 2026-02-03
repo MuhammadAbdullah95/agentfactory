@@ -35,11 +35,7 @@ That's what this part teaches you.
 
 ## What You'll Learn in Part 3
 
-This part consists of three chapters (11-13) that take you from AI-native tooling to specification-first thinking:
-
-### Chapter 11: AI-Native IDEs
-
-You'll explore the new generation of development environments—Zed, Cursor, and Antigravity—that integrate AI directly into the editing experience. You'll understand what makes an IDE "AI-native" versus merely "AI-assisted" and choose the right tool for your workflow.
+This part consists of two chapters (12-13) that take you from AI-native tooling to specification-first thinking:
 
 ### Chapter 12: Understanding Specification-Driven Development with Reusable Intelligence
 

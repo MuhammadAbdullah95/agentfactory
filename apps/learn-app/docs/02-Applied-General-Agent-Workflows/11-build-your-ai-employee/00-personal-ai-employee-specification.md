@@ -98,6 +98,7 @@ Choose your target based on your experience and ambition:
 **Time Investment**: ~4 hours (Lessons 1-7)
 
 **Deliverables**:
+
 - Obsidian vault with AGENTS.md governance and CLAUDE.md context
 - Email skills: drafter, templates, summarizer, orchestrator
 - Three email subagents: inbox-triager, response-suggester, follow-up-tracker
@@ -111,6 +112,7 @@ Choose your target based on your experience and ambition:
 **Time Investment**: ~8 hours (Lessons 1-11)
 
 **Deliverables**:
+
 - All Bronze requirements plus:
 - Watcher scripts that monitor Gmail and filesystem
 - Human-in-the-loop approval workflow for sensitive actions
@@ -124,6 +126,7 @@ Choose your target based on your experience and ambition:
 **Time Investment**: ~12+ hours (Lessons 1-12)
 
 **Deliverables**:
+
 - All Silver requirements plus:
 - Cross-domain integration (Email + Files + potentially WhatsApp/Banking)
 - Multiple MCP servers for different action types
@@ -141,15 +144,15 @@ A Digital FTE (Full-Time Equivalent) is an AI agent that is built, "hired," and 
 
 ### Human FTE vs Digital FTE
 
-| Feature | Human FTE | Digital FTE |
-|---------|-----------|-------------|
-| Availability | 40 hours / week | 168 hours / week (24/7) |
-| Monthly Cost | $4,000 – $8,000+ | $500 – $2,000 |
-| Ramp-up Time | 3 – 6 Months | Instant (via Skills) |
-| Consistency | Variable (85–95% accuracy) | Predictable (99%+ consistency) |
-| Scaling | Linear (Hire 10 for 10x work) | Exponential (Instant duplication) |
-| Cost per Task | ~$3.00 – $6.00 | ~$0.25 – $0.50 |
-| Annual Hours | ~2,000 hours | ~8,760 hours |
+| Feature       | Human FTE                     | Digital FTE                       |
+| ------------- | ----------------------------- | --------------------------------- |
+| Availability  | 40 hours / week               | 168 hours / week (24/7)           |
+| Monthly Cost  | $4,000 – $8,000+              | $500 – $2,000                     |
+| Ramp-up Time  | 3 – 6 Months                  | Instant (via Skills)              |
+| Consistency   | Variable (85–95% accuracy)    | Predictable (99%+ consistency)    |
+| Scaling       | Linear (Hire 10 for 10x work) | Exponential (Instant duplication) |
+| Cost per Task | ~$3.00 – $6.00                | ~$0.25 – $0.50                    |
+| Annual Hours  | ~2,000 hours                  | ~8,760 hours                      |
 
 **The 'Aha!' Moment**: A Digital FTE works nearly 9,000 hours a year vs a human's 2,000. The cost per task reduction (from ~$5.00 to ~$0.50) is an **85–90% cost saving** — usually the threshold where a CEO approves a project without further debate.
 
@@ -246,12 +249,12 @@ When a Watcher detects a change, it triggers Claude Code:
 
 Claude uses MCP servers to act on the external world:
 
-| Server | Capabilities | Use Case |
-|--------|--------------|----------|
-| filesystem | Read, write, list files | Built-in, use for vault |
-| gmail-mcp | Send, draft, search emails | Gmail integration |
-| browser-mcp | Navigate, click, fill forms | Payment portals |
-| calendar-mcp | Create, update events | Scheduling |
+| Server       | Capabilities                | Use Case                |
+| ------------ | --------------------------- | ----------------------- |
+| filesystem   | Read, write, list files     | Built-in, use for vault |
+| gmail-mcp    | Send, draft, search emails  | Gmail integration       |
+| browser-mcp  | Navigate, click, fill forms | Payment portals         |
+| calendar-mcp | Create, update events       | Scheduling              |
 
 ---
 
@@ -284,18 +287,19 @@ ai-vault/
 
 All Watchers follow this pattern:
 
-| Method | Purpose | Output |
-|--------|---------|--------|
-| `check_for_updates()` | Poll external source (Gmail API, filesystem, etc.) | List of new items |
-| `create_action_file(item)` | Convert item to markdown in `/Needs_Action/` | Path to created file |
-| `run()` | Infinite loop: check → process → sleep | Continuous operation |
+| Method                     | Purpose                                            | Output               |
+| -------------------------- | -------------------------------------------------- | -------------------- |
+| `check_for_updates()`      | Poll external source (Gmail API, filesystem, etc.) | List of new items    |
+| `create_action_file(item)` | Convert item to markdown in `/Needs_Action/`       | Path to created file |
+| `run()`                    | Infinite loop: check → process → sleep             | Continuous operation |
 
 **Key requirements:**
+
 - Configurable check interval (default: 60 seconds)
 - Error handling with logging (never crash silently)
 - Output files trigger Claude Code reasoning
 
-*Full implementation provided in L08: Your Employee's Senses*
+_Full implementation provided in L08: Your Employee's Senses_
 
 ### 3. Human-in-the-Loop Pattern
 
@@ -303,7 +307,9 @@ For sensitive actions, Claude writes an approval request file instead of acting 
 
 ```markdown
 # /Vault/Pending_Approval/PAYMENT_Client_A_2026-01-07.md
+
 ---
+
 type: approval_request
 action: payment
 amount: 500.00
@@ -312,36 +318,40 @@ reason: Invoice #1234 payment
 created: 2026-01-07T10:30:00Z
 expires: 2026-01-08T10:30:00Z
 status: pending
+
 ---
 
 ## Payment Details
+
 - Amount: $500.00
 - To: Client A (Bank: XXXX1234)
 - Reference: Invoice #1234
 
 ## To Approve
+
 Move this file to /Approved folder.
 
 ## To Reject
+
 Move this file to /Rejected folder.
 ```
 
 ### 4. Permission Boundaries
 
-| Action Category | Auto-Approve Threshold | Always Require Approval |
-|-----------------|------------------------|-------------------------|
-| Email replies | To known contacts | New contacts, bulk sends |
-| Payments | < $50 recurring | All new payees, > $100 |
-| Social media | Scheduled posts | Replies, DMs |
-| File operations | Create, read | Delete, move outside vault |
+| Action Category | Auto-Approve Threshold | Always Require Approval    |
+| --------------- | ---------------------- | -------------------------- |
+| Email replies   | To known contacts      | New contacts, bulk sends   |
+| Payments        | < $50 recurring        | All new payees, > $100     |
+| Social media    | Scheduled posts        | Replies, DMs               |
+| File operations | Create, read           | Delete, move outside vault |
 
 ### 5. Continuous vs Scheduled Operations
 
-| Operation Type | Example Task | Trigger |
-|----------------|--------------|---------|
-| **Scheduled** | Daily Briefing at 8:00 AM | cron / Task Scheduler |
-| **Continuous** | Watch for "Pricing" keyword in WhatsApp | Python watchdog script |
-| **Project-Based** | Categorize 3 months of expenses | Manual file drop |
+| Operation Type    | Example Task                            | Trigger                |
+| ----------------- | --------------------------------------- | ---------------------- |
+| **Scheduled**     | Daily Briefing at 8:00 AM               | cron / Task Scheduler  |
+| **Continuous**    | Watch for "Pricing" keyword in WhatsApp | Python watchdog script |
+| **Project-Based** | Categorize 3 months of expenses         | Manual file drop       |
 
 ---
 
@@ -350,16 +360,21 @@ Move this file to /Rejected folder.
 The signature feature that transforms AI from chatbot to business partner:
 
 ### Trigger
+
 A scheduled task runs every Sunday night.
 
 ### Process
+
 Claude Code reads:
+
 1. `Business_Goals.md` - Your objectives and metrics
 2. `/Done/` folder - Completed tasks this week
 3. `Accounting/` - Bank transactions and revenue
 
 ### Deliverable
+
 A "Monday Morning CEO Briefing" highlighting:
+
 - **Revenue**: Total earned this week
 - **Bottlenecks**: Tasks that took too long
 - **Proactive Suggestions**: "I noticed we spent $200 on unused software subscriptions"
@@ -368,43 +383,53 @@ A "Monday Morning CEO Briefing" highlighting:
 
 ```markdown
 # /Vault/Briefings/2026-01-06_Monday_Briefing.md
+
 ---
+
 generated: 2026-01-06T07:00:00Z
 period: 2025-12-30 to 2026-01-05
+
 ---
 
 # Monday Morning CEO Briefing
 
 ## Executive Summary
+
 Strong week with revenue ahead of target. One bottleneck identified.
 
 ## Revenue
+
 - **This Week**: $2,450
 - **MTD**: $4,500 (45% of $10,000 target)
 - **Trend**: On track
 
 ## Completed Tasks
+
 - [x] Client A invoice sent and paid
 - [x] Project Alpha milestone 2 delivered
 - [x] Weekly social media posts scheduled
 
 ## Bottlenecks
-| Task | Expected | Actual | Delay |
-|------|----------|--------|-------|
-| Client B proposal | 2 days | 5 days | +3 days |
+
+| Task              | Expected | Actual | Delay   |
+| ----------------- | -------- | ------ | ------- |
+| Client B proposal | 2 days   | 5 days | +3 days |
 
 ## Proactive Suggestions
 
 ### Cost Optimization
+
 - **Notion**: No team activity in 45 days. Cost: $15/month.
   - [ACTION] Cancel subscription? Move to /Pending_Approval
 
 ### Upcoming Deadlines
+
 - Project Alpha final delivery: Jan 15 (9 days)
 - Quarterly tax prep: Jan 31 (25 days)
 
 ---
-*Generated by Personal AI Employee v1.0*
+
+_Generated by Personal AI Employee v1.0_
 ```
 
 ---
@@ -412,17 +437,20 @@ Strong week with revenue ahead of target. One bottleneck identified.
 ## Security & Privacy Requirements
 
 ### Credential Management
+
 - Never store credentials in plain text or in your Obsidian vault
 - Use environment variables for API keys
 - Create a `.env` file (add to `.gitignore` immediately)
 - Rotate credentials monthly
 
 ### Sandboxing
+
 - **DEV_MODE flag**: Prevents real external actions during development
 - **--dry-run flag**: Logs intended actions without executing
 - **Rate limiting**: Max 10 emails/hour, max 3 payments/hour
 
 ### Audit Logging
+
 Every action must be logged:
 
 ```json
@@ -431,7 +459,7 @@ Every action must be logged:
   "action_type": "email_send",
   "actor": "claude_code",
   "target": "client@example.com",
-  "parameters": {"subject": "Invoice #123"},
+  "parameters": { "subject": "Invoice #123" },
   "approval_status": "approved",
   "approved_by": "human",
   "result": "success"
@@ -446,15 +474,16 @@ Store logs in `/Vault/Logs/YYYY-MM-DD.json` and retain for minimum 90 days.
 
 ### Error Categories
 
-| Category | Examples | Recovery Strategy |
-|----------|----------|-------------------|
-| Transient | Network timeout, API rate limit | Exponential backoff retry |
-| Authentication | Expired token, revoked access | Alert human, pause operations |
-| Logic | Claude misinterprets message | Human review queue |
-| Data | Corrupted file, missing field | Quarantine + alert |
-| System | Orchestrator crash, disk full | Watchdog + auto-restart |
+| Category       | Examples                        | Recovery Strategy             |
+| -------------- | ------------------------------- | ----------------------------- |
+| Transient      | Network timeout, API rate limit | Exponential backoff retry     |
+| Authentication | Expired token, revoked access   | Alert human, pause operations |
+| Logic          | Claude misinterprets message    | Human review queue            |
+| Data           | Corrupted file, missing field   | Quarantine + alert            |
+| System         | Orchestrator crash, disk full   | Watchdog + auto-restart       |
 
 ### Graceful Degradation
+
 - **Gmail API down**: Queue outgoing emails locally, process when restored
 - **Banking API timeout**: Never retry payments automatically, always require fresh approval
 - **Claude Code unavailable**: Watchers continue collecting, queue grows for later processing
@@ -463,22 +492,22 @@ Store logs in `/Vault/Logs/YYYY-MM-DD.json` and retain for minimum 90 days.
 
 ## Chapter Roadmap
 
-| Lesson | Title | Implements | Tier |
-|--------|-------|------------|------|
-| L00 | Complete Specification | This document | Reference |
-| L01 | Your Employee's Memory | Vault/Memory Layer | Bronze |
-| L02 | Teaching Your Employee to Write | Skills pattern | Bronze |
-| L03 | Teaching Professional Formats | Skills pattern | Bronze |
-| L04 | Teaching Email Intelligence | Skills pattern | Bronze |
-| L05 | Hiring Specialists | Subagents pattern | Bronze |
-| L06 | Granting Email Access | Action Layer (MCP) | Bronze |
-| L07 | Bronze Capstone | Complete email assistant | Bronze |
-| L08 | Your Employee's Senses | Perception Layer (Watchers) | Silver |
-| L09 | Trust But Verify | HITL pattern | Silver |
-| L10 | Always On Duty | Scheduled/Continuous ops | Silver |
-| L11 | Silver Capstone | CEO Briefing | Silver |
-| L12 | Gold Capstone | Full autonomous employee | Gold |
-| L13 | Chapter Assessment | Quiz & submission | — |
+| Lesson | Title                           | Implements                  | Tier      |
+| ------ | ------------------------------- | --------------------------- | --------- |
+| L00    | Complete Specification          | This document               | Reference |
+| L01    | Your Employee's Memory          | Vault/Memory Layer          | Bronze    |
+| L02    | Teaching Your Employee to Write | Skills pattern              | Bronze    |
+| L03    | Teaching Professional Formats   | Skills pattern              | Bronze    |
+| L04    | Teaching Email Intelligence     | Skills pattern              | Bronze    |
+| L05    | Hiring Specialists              | Subagents pattern           | Bronze    |
+| L06    | Granting Email Access           | Action Layer (MCP)          | Bronze    |
+| L07    | Bronze Capstone                 | Complete email assistant    | Bronze    |
+| L08    | Your Employee's Senses          | Perception Layer (Watchers) | Silver    |
+| L09    | Trust But Verify                | HITL pattern                | Silver    |
+| L10    | Always On Duty                  | Scheduled/Continuous ops    | Silver    |
+| L11    | Silver Capstone                 | CEO Briefing                | Silver    |
+| L12    | Gold Capstone                   | Full autonomous employee    | Gold      |
+| L13    | Chapter Assessment              | Quiz & submission           | —         |
 
 ---
 
@@ -488,20 +517,22 @@ Before starting this chapter:
 
 ### Required Software
 
-| Component | Requirement | Purpose |
-|-----------|-------------|---------|
-| Claude Code | Active subscription (Pro/Max) or Free Gemini via Router | Primary reasoning engine |
-| Obsidian | v1.10.6+ (free) | Knowledge base & dashboard |
-| Python | 3.13 or higher | Watcher scripts & orchestration |
-| Node.js | v24+ LTS | MCP servers |
-| Git | Latest stable | Version control |
+| Component   | Requirement                                             | Purpose                         |
+| ----------- | ------------------------------------------------------- | ------------------------------- |
+| Claude Code | Active subscription (Pro/Max) or Free Gemini via Router | Primary reasoning engine        |
+| Obsidian    | v1.10.6+ (free)                                         | Knowledge base & dashboard      |
+| Python      | 3.13 or higher                                          | Watcher scripts & orchestration |
+| Node.js     | v24+ LTS                                                | MCP servers                     |
+| Git         | Latest stable                                           | Version control                 |
 
 ### Hardware Requirements
+
 - Minimum: 8GB RAM, 4-core CPU, 20GB free disk
 - For always-on operation: Consider dedicated mini-PC or cloud VM
 
 ### Skill Prerequisites
-- Completed Chapter 5: Claude Code Features and Workflows
+
+- Completed Chapter 3: Claude Code Features and Workflows
 - Comfortable with command-line interfaces
 - Familiarity with APIs (what they are, how to call them)
 
@@ -523,23 +554,23 @@ These resources provide foundational knowledge for building your Personal AI Emp
 
 ### Prerequisites (Before Starting)
 
-| Topic | Resource | Time |
-|-------|----------|------|
-| AI Native IDEs | [Chapter 11: AI Native IDEs](/docs/SDD-RI-Fundamentals/ai-native-ides) | 3 hours |
-| Obsidian Fundamentals | [help.obsidian.md/Getting+started](https://help.obsidian.md/Getting+started) | 30 min |
-| Python File I/O | [realpython.com/read-write-files-python](https://realpython.com/read-write-files-python/) | 1 hour |
-| MCP Introduction | [modelcontextprotocol.io/introduction](https://modelcontextprotocol.io/introduction) | 1 hour |
-| Agent Skills | [platform.claude.com/docs/agents-and-tools/agent-skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) | 2 hours |
+| Topic                 | Resource                                                                                                                             | Time    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| AI Native IDEs        | [Chapter 11: AI Native IDEs](/docs/SDD-RI-Fundamentals/ai-native-ides)                                                               | 3 hours |
+| Obsidian Fundamentals | [help.obsidian.md/Getting+started](https://help.obsidian.md/Getting+started)                                                         | 30 min  |
+| Python File I/O       | [realpython.com/read-write-files-python](https://realpython.com/read-write-files-python/)                                            | 1 hour  |
+| MCP Introduction      | [modelcontextprotocol.io/introduction](https://modelcontextprotocol.io/introduction)                                                 | 1 hour  |
+| Agent Skills          | [platform.claude.com/docs/agents-and-tools/agent-skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) | 2 hours |
 
 ### Core Learning (During Chapter)
 
-| Topic | Resource | Type |
-|-------|----------|------|
-| Claude + Obsidian Integration | [youtube.com/watch?v=sCIS05Qt79Y](https://www.youtube.com/watch?v=sCIS05Qt79Y) | Video |
-| Building MCP Servers | [modelcontextprotocol.io/quickstart](https://modelcontextprotocol.io/quickstart) | Tutorial |
-| Claude Agent Teams | [youtube.com/watch?v=0J2_YGuNrDo](https://www.youtube.com/watch?v=0J2_YGuNrDo) | Video |
-| Gmail API Setup | [developers.google.com/gmail/api/quickstart](https://developers.google.com/gmail/api/quickstart) | Docs |
-| Playwright Automation | [playwright.dev/python/docs/intro](https://playwright.dev/python/docs/intro) | Docs |
+| Topic                         | Resource                                                                                         | Type     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ | -------- |
+| Claude + Obsidian Integration | [youtube.com/watch?v=sCIS05Qt79Y](https://www.youtube.com/watch?v=sCIS05Qt79Y)                   | Video    |
+| Building MCP Servers          | [modelcontextprotocol.io/quickstart](https://modelcontextprotocol.io/quickstart)                 | Tutorial |
+| Claude Agent Teams            | [youtube.com/watch?v=0J2_YGuNrDo](https://www.youtube.com/watch?v=0J2_YGuNrDo)                   | Video    |
+| Gmail API Setup               | [developers.google.com/gmail/api/quickstart](https://developers.google.com/gmail/api/quickstart) | Docs     |
+| Playwright Automation         | [playwright.dev/python/docs/intro](https://playwright.dev/python/docs/intro)                     | Docs     |
 
 ### Deep Dives (After Chapter)
 
@@ -558,11 +589,13 @@ Your Watchers (Gmail, File monitors) are **daemon processes** — designed to ru
 - They don't auto-recover after system reboot
 
 **The Solution**: A process manager (PM2, supervisord, or systemd) that:
+
 - **Auto-restarts** crashed processes immediately
 - **Persists across reboots** via OS init system hooks
 - **Captures logs** for debugging silent failures
 
 **Quick Setup** (covered in L10):
+
 ```bash
 # Install PM2
 npm install -g pm2
@@ -615,9 +648,11 @@ A: That's why HITL is critical for payments. Any payment action creates an appro
 This walkthrough demonstrates a complete flow from trigger to action.
 
 ### Scenario
+
 A client sends a WhatsApp message asking for an invoice. The AI Employee should: (1) detect the request, (2) generate the invoice, (3) send it via email, and (4) log the transaction.
 
 ### Step 1: Detection (WhatsApp Watcher)
+
 ```
 # Detected message:
 # From: Client A
@@ -628,17 +663,23 @@ A client sends a WhatsApp message asking for an invoice. The AI Employee should:
 ```
 
 ### Step 2: Reasoning (Claude Code)
+
 ```markdown
 # Claude creates: /Vault/Plans/PLAN_invoice_client_a.md
+
 ---
+
 created: 2026-01-07T10:30:00Z
 status: pending_approval
+
 ---
 
 ## Objective
+
 Generate and send January invoice to Client A
 
 ## Steps
+
 - [x] Identify client: Client A (client_a@email.com)
 - [x] Calculate amount: $1,500 (from /Accounting/Rates.md)
 - [ ] Generate invoice PDF
@@ -647,12 +688,15 @@ Generate and send January invoice to Client A
 ```
 
 ### Step 3: Approval (Human-in-the-Loop)
+
 Claude creates approval request. You review and move to `/Approved/`.
 
 ### Step 4: Action (Email MCP)
+
 The system detects the approved file and sends the email with invoice attached.
 
 ### Step 5: Completion
+
 Files move to `/Done/`, Dashboard updated, transaction logged.
 
 ---
@@ -660,6 +704,7 @@ Files move to `/Done/`, Dashboard updated, transaction logged.
 ## Ethics & Responsible Automation
 
 ### When Should AI NOT Act Autonomously?
+
 - Emotional contexts: Condolence messages, conflict resolution
 - Legal matters: Contract signing, regulatory filings
 - Medical decisions: Health-related actions
@@ -667,13 +712,16 @@ Files move to `/Done/`, Dashboard updated, transaction logged.
 - Irreversible actions: Anything that cannot be undone
 
 ### Transparency Principles
+
 - Disclose AI involvement when appropriate
 - Maintain audit trails for all actions
 - Allow contacts to request human-only communication
 - Schedule regular reviews of AI decisions
 
 ### The Human Remains Accountable
+
 You are responsible for your AI Employee's actions. Regular oversight isn't optional:
+
 - **Daily**: 2-minute dashboard check
 - **Weekly**: 15-minute action log review
 - **Monthly**: 1-hour comprehensive audit
