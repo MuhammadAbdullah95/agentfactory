@@ -141,9 +141,24 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
             # Get metadata from context
             lesson_path = context.metadata.get("lesson_path", "")
-            mode = context.metadata.get("mode", "teach")
             user_name = context.metadata.get("user_name")
             selected_text = context.metadata.get("selected_text")
+
+            # Get mode from inference_options (ChatKit model picker) or fallback to URL param
+            # ChatKit's composer.models sends selected model via inference_options.model
+            mode = "teach"  # default
+            if (
+                input_user_message.inference_options
+                and input_user_message.inference_options.model
+            ):
+                selected_model = input_user_message.inference_options.model
+                if selected_model in ("teach", "ask"):
+                    mode = selected_model
+                    logger.info(f"[ChatKit] Mode from inference_options: {mode}")
+            else:
+                # Fallback to URL param for backwards compatibility
+                mode = context.metadata.get("mode", "teach")
+                logger.info(f"[ChatKit] Mode from URL param: {mode}")
 
             logger.info(
                 f"[ChatKit] Processing: user={context.user_id}, "

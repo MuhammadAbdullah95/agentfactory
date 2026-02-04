@@ -151,6 +151,20 @@ function ChatKitWrapper({
           ? "Ask me anything about this lesson..."
           : "Ask a quick question...",
       attachments: { enabled: false },
+      // Model picker for mode selection - appears as dropdown in composer
+      // Backend reads selected mode from inference_options.model
+      models: [
+        {
+          id: "teach",
+          label: "Teach Me",
+          description: "Socratic tutoring with questions to check understanding",
+        },
+        {
+          id: "ask",
+          label: "Quick Ask",
+          description: "Direct answers without follow-up questions",
+        },
+      ],
     },
     startScreen: {
       greeting:
