@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: "Principle 2: Code as the Universal Interface"
-chapter: 4
+chapter: 6
 lesson: 2
 duration_minutes: 25
 description: "Why general agents that write code can solve any computational task, and how code becomes their universal interface with computers"

@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 title: "Principle 6: Constraints and Safety"
-chapter: 4
+chapter: 6
 lesson: 6
 duration_minutes: 30
 description: "Safety measures and constraints that make agentic workflows reliable and trustworthy"

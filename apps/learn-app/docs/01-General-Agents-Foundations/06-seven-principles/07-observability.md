@@ -1,7 +1,7 @@
 ---
 sidebar_position: 7
 title: "Principle 7: Observability"
-chapter: 4
+chapter: 6
 lesson: 7
 duration_minutes: 25
 description: "Seeing what AI agents are doing—why observability is essential for trust and effective collaboration"

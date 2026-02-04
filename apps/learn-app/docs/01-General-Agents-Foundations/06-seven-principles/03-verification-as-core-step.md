@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 title: "Principle 3: Verification as Core Step"
-chapter: 4
+chapter: 6
 lesson: 3
 duration_minutes: 25
 description: "Why verification and testing must be integrated into agentic workflows, not treated as afterthoughts"

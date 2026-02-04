@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: "Principle 1: Bash is the Key"
-chapter: 4
+chapter: 6
 lesson: 1
 duration_minutes: 20
 description: "Why simple BASH commands outperform complex agent designs and what this means for how you work with AI"

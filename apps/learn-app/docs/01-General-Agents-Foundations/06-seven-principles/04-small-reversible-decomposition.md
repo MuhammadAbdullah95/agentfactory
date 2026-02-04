@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 title: "Principle 4: Small, Reversible Decomposition"
-chapter: 4
+chapter: 6
 lesson: 4
 duration_minutes: 30
 description: "Breaking problems into small, reversible steps—the key to managing complexity and enabling iteration"
