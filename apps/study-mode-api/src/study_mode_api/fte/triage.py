@@ -18,7 +18,7 @@ import os
 from typing import TYPE_CHECKING
 
 from agents import Agent, ModelSettings
-from agents.extensions.models.openai_reasoning import Reasoning
+from agents.model_settings import Reasoning
 
 from .state import AgentState
 
