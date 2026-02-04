@@ -63,6 +63,8 @@ This is the observability problem: **if you can't see what the AI is doing, you 
 
 Observability means seeing into the black box. It's understanding what actions the AI took, in what order, with what results. This principle is about making AI workflows transparent, traceable, and debuggable.
 
+> **Synergy with Principle 3**: Observability and Verification are partners. Verification (Principle 3) is the *act* of checking; Observability (this principle) provides the *evidence* that makes checking possible. Without observability, verification is guesswork. Observability gives you the map; Verification tells you if you've arrived at the right destination.
+
 ## The Black Box Problem: What Happens When You Can't See
 
 ### Without Observability
@@ -132,6 +134,8 @@ Reading src/auth/login.js...
 
 Without rationale, you see changes but not the intent. With rationale, you can evaluate whether the approach makes sense.
 
+> **Warning: AI Rationalization**: AI can sound confident even when wrong. It will give plausible-sounding explanations for broken code. Never trust the rationale alone—always verify with actual results (tests, output, behavior). If the rationale says "this will work" but the tests fail, trust the tests.
+
 ### Pillar 3: Result Visibility (What Was the Outcome?)
 
 You need to see the result of each action:
@@ -189,6 +193,28 @@ Multiple edits without verification. No testing. High risk of problems.
 READ → EDIT → VERIFY → [TESTS FAIL] → EDIT → [TESTS FAIL AGAIN] → GAVE UP
 ```
 AI tried but couldn't solve the problem. Needs human intervention.
+
+### The "Scan for Verbs" Technique
+
+Feeling overwhelmed by 50-line logs? Here's how to skim effectively:
+
+**Ignore the timestamps. Look only for the verbs**: READ, EDIT, TEST, FAIL, COMPLETE.
+
+```
+[timestamp] [READ]  ← AI looked at something
+[timestamp] [EDIT]  ← AI changed something
+[timestamp] [TEST]  ← AI verified something
+[timestamp] [FAIL]  ← Something went wrong
+```
+
+**The red flag**: If you see EDIT without TEST after it, that's a problem. The AI changed code but didn't verify it works.
+
+```
+READ → EDIT → EDIT → EDIT → COMPLETE  ← No verification! Danger!
+READ → EDIT → TEST → COMPLETE         ← Good: verified before finishing
+```
+
+This 10-second scan catches most issues without reading every line.
 
 ### Debugging Through Logs
 
@@ -333,6 +359,39 @@ AI: [Works for 2 minutes] "Done!"
 
 **Fix**: Require progress updates for long-running tasks.
 
+## Real-Time vs Post-Mortem: Two Types of Observability
+
+There are two ways to observe AI work:
+
+### Real-Time Observation (Watching It Happen)
+
+You see actions as they occur. This is your chance to **intervene before damage**.
+
+**Key insight**: If you see the AI reading the wrong directory or about to delete the wrong file, don't wait for it to finish. Hit `Ctrl+C` immediately.
+
+```
+AI: Reading /Users/wrong-project/src/...  ← STOP! Wrong directory!
+You: [Ctrl+C]
+You: "Wait, you're in the wrong directory. We're working on /Users/correct-project/"
+```
+
+Real-time observation is your first line of defense. Use it.
+
+### Post-Mortem Observation (Reviewing Logs)
+
+You review logs after the task completes. This is how you **debug problems and learn patterns**.
+
+```bash
+# After something goes wrong:
+cat .claude/activity-logs/prompts.jsonl | jq
+git log --oneline -5
+git diff HEAD~1
+```
+
+Post-mortem tells you what happened. Real-time lets you prevent it from happening.
+
+**Use both**: Watch in real-time during the task. Review logs afterward to catch anything you missed.
+
 ## Building Your Observability Toolkit
 
 ### Essential Observability Tools
@@ -358,7 +417,15 @@ cat .claude/activity-logs/prompts.jsonl | jq
 
 # Filter by time
 cat .claude/activity-logs/prompts.jsonl | jq 'select(.timestamp > "2025-01-22")'
+
+# Show only errors (copy-paste this one!)
+cat .claude/activity-logs/prompts.jsonl | jq 'select(.error != null)'
+
+# Show only tool calls that failed
+cat .claude/activity-logs/prompts.jsonl | jq 'select(.tool_result.success == false)'
 ```
+
+> **Log Query Cheat Sheet**: The error filter above is your superpower. When something goes wrong, run that one command first—it cuts through hundreds of log lines to show you exactly what failed.
 
 **3. Test Results**
 
@@ -402,6 +469,22 @@ Trust isn't given—it's earned through transparency. When you can see what AI i
 - You feel confident giving it more autonomy
 
 Without observability, you're always second-guessing. With it, you can build genuine trust based on evidence.
+
+## The 2-Minute Audit: A Habit That Catches Silent Failures
+
+After every AI task, spend exactly 2 minutes on this checklist:
+
+| Check | Command | What You're Looking For |
+|-------|---------|------------------------|
+| **1. Git diff** | `git diff` | Do the changes match what AI claimed it did? |
+| **2. AI summary** | (review AI's final message) | Does its summary match the diff? |
+| **3. Quick test** | `npm test` or equivalent | Do tests still pass? |
+
+**The catch**: If the git diff doesn't match the AI's summary, you've found a "silent failure"—the AI said it did X but actually did Y. These are the dangerous bugs.
+
+**Time investment**: 2 minutes per task. **Payoff**: Catches problems before they compound into hours of debugging.
+
+Make this automatic. Every task ends with this audit. No exceptions.
 
 ## This Principle in Both Interfaces
 
