@@ -150,7 +150,7 @@ class TestPromptTemplates:
         assert "{title}" in TEACH_PROMPT
         assert "{content}" in TEACH_PROMPT
         assert "STRICT RULES" in TEACH_PROMPT
-        assert "guide_question" in TEACH_PROMPT
+        assert "GUIDING" in TEACH_PROMPT
         assert "filler praise" in TEACH_PROMPT
 
     def test_ask_prompt_has_required_elements(self):
