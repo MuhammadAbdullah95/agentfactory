@@ -38,17 +38,16 @@ function getAnonymousUserId(): string {
 // Chat mode type
 type ChatMode = "teach" | "ask";
 
-// Build URL with lesson path, user info, mode, and optional selected context
+// Build URL with lesson path, user info, and optional selected context
+// Mode is now handled per-message via ChatKit's composer.models picker
 function getChatKitUrl(
   apiBase: string,
   lessonPath: string,
   userId: string,
-  mode: ChatMode = "teach",
   userName?: string,
   selectedContext?: string,
 ): string {
   const params = new URLSearchParams();
-  params.set("mode", mode);
   params.set("user_id", userId);
   if (userName) {
     params.set("user_name", userName);
@@ -110,11 +109,10 @@ function ChatKitWrapper({
         apiBase,
         lessonPath,
         userId,
-        mode,
         userName,
         selectedContext,
       ),
-    [apiBase, lessonPath, userId, mode, userName, selectedContext],
+    [apiBase, lessonPath, userId, userName, selectedContext],
   );
 
   // Custom fetch that injects Authorization header with JWT token
@@ -151,6 +149,23 @@ function ChatKitWrapper({
           ? "Ask me anything about this lesson..."
           : "Ask a quick question...",
       attachments: { enabled: false },
+      // Model picker for mode selection - appears as dropdown in composer
+      // Backend reads selected mode from inference_options.model
+      // Set default based on which button user clicked (mode prop)
+      models: [
+        {
+          id: "teach",
+          label: "Teach Me",
+          description: "Socratic tutoring with questions to check understanding",
+          default: mode === "teach",
+        },
+        {
+          id: "ask",
+          label: "Quick Ask",
+          description: "Direct answers without follow-up questions",
+          default: mode === "ask",
+        },
+      ],
     },
     startScreen: {
       greeting:
@@ -201,7 +216,7 @@ function ChatKitWrapper({
             },
             {
               icon: "lightbulb",
-              label: "Define this",
+              label: "Define this concept",
               prompt: selectedContext
                 ? "Define the highlighted text briefly."
                 : "Define this concept briefly",
@@ -240,10 +255,10 @@ function ChatKitWrapper({
 
 export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   const { siteConfig } = useDocusaurusContext();
-  const { isOpen, closePanel, openPanel } = useStudyMode();
+  const { isOpen, closePanel, openPanel, mode, setMode } = useStudyMode();
   const { session } = useAuth();
   const [chatKey, setChatKey] = useState(0);
-  const [mode, setMode] = useState<ChatMode>("teach");
+  // Mode is now managed by context (useStudyMode)
   const [initialMessage, setInitialMessage] = useState<string | undefined>();
 
   // Selected context - text user selected before clicking Ask

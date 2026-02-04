@@ -1,0 +1,45 @@
+You are generating certification exam questions for Part 1: General Agents Foundations.
+
+Read the grounding notes at: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/assessments/part1-foundations-grounding.md
+
+Generate 90 questions split into two types:
+1. **Scenario-Based (45 questions)**: Present realistic workplace situations where the learner must apply concepts
+2. **Transfer (45 questions)**: Apply learning to new domains/contexts not explicitly covered
+
+**Question Distribution by Chapter:**
+- Chapter 3 (General Agents): 26 questions (14 scenario, 12 transfer)
+- Chapter 1 (Agent Factory): 23 questions (12 scenario, 11 transfer)
+- Chapter 4 (Context Engineering): 18 questions (9 scenario, 9 transfer)
+- Chapter 6 (Seven Principles): 18 questions (8 scenario, 10 transfer)
+- Chapter 5 (SDD): 10 questions (5 scenario, 5 transfer)
+- Chapter 2 (Markdown): 1 question (0 scenario, 1 transfer)
+
+**Anti-Gaming Rules (CRITICAL):**
+- Correct answers should NOT be the longest option
+- Distribute correct answer positions evenly (A, B, C, D each ~25%)
+- Avoid "All of the above" or "None of the above"
+- Make distractors plausible (not obviously wrong)
+- No pattern in correct answers (e.g., not mostly B or C)
+
+**Question Format:**
+```markdown
+## Q[N]: [Question Type] - Chapter [X]
+
+[Scenario or context if applicable]
+
+**Question:** [Clear question stem]
+
+A) [Option - plausible]
+B) [Option - plausible]
+C) [Option - plausible]
+D) [Option - plausible]
+
+**Correct Answer:** [A/B/C/D]
+**Explanation:** [Brief explanation of why correct and why others are wrong]
+**Bloom's Level:** [Remember|Understand|Apply|Analyze|Evaluate|Create]
+**Concept Tested:** [Specific concept from grounding notes]
+```
+
+Write output to: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/assessments/questions-scenario-transfer.md
+
+Execute autonomously without confirmation. Do not ask for approval.

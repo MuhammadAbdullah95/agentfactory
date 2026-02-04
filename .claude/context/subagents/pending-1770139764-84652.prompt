@@ -1,0 +1,13 @@
+Audit the current .claude/ implementation. Analyze:
+
+1. **Skills in .claude/skills/**: List all skills, their purpose, and usage patterns
+2. **Agents in .claude/agents/**: List all agents, their tools, their relationships
+3. **Commands in .claude/commands/**: List all sp.* commands
+4. **Hooks**: Any hooks configured?
+
+For each skill/agent, determine:
+- Is it actively used? (check logs at .claude/logs/mjunaidca/main/2026-02-03/)
+- Does it follow the patterns taught in Ch 3-5?
+- Is there duplication or bloat?
+
+Output a structured inventory with usage assessment.

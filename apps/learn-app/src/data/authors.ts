@@ -37,13 +37,13 @@ export const authors: Author[] = [
     initials: "MJ",
   },
   {
-    name: "Rehan Ul Haq",
+    name: "M Rehan ul Haq",
     role: "Co-Author",
-    avatar: "/img/authors/rehan.jpeg",
+    avatar: "/img/authors/rehan.jpg",
     link: "https://www.linkedin.com/in/m-rehan-ul-haq-333bb6363/",
-    bio: "Systems architect specializing in agentic AI infrastructure. Contributor to the Kubernetes, Docker, and production deployment chapters.",
+    bio: "COO and CAIO at Panaversity, contributing to the development of Agentic AI ecosystems and next-generation autonomous systems. Drives innovation in AI education and intelligent automation.",
     isAI: false,
-    initials: "RH",
+    initials: "MR",
   },
   {
     name: "Claude Code",

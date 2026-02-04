@@ -1,0 +1,38 @@
+**DEEP STUDY: Subagent Coordination Patterns**
+
+Study Chapter 3 lesson 9 and the actual agents implementation:
+
+**1. Subagent Architecture**
+- Read `apps/learn-app/docs/01-General-Agents-Foundations/03-general-agents/09-subagents-and-orchestration.md`
+- How do subagents get spawned?
+- What's context isolation?
+
+**2. Current Agents Implementation**
+- List all agents in `.claude/agents/*.md`
+- What's the YAML structure?
+- How do tools get assigned?
+- How do skills get assigned to agents?
+
+**3. Agent ↔ Skill Relationship**
+- Can agents invoke skills?
+- How does skill assignment work in agent YAML?
+- What's the invocation flow?
+
+**4. Parallel vs Sequential**
+- When to run agents in parallel?
+- How to coordinate results?
+- How to handle dependencies?
+
+**5. Tool Access Patterns**
+- What tools should content agents have?
+- What tools should validation agents have?
+- Current gaps (agents without tools)?
+
+**6. Book Author Plugin Agents**
+- What agents does our plugin need?
+- How should they coordinate?
+- What's the orchestration pattern?
+
+Output concrete findings about subagent coordination and recommendations for our plugin.
+
+Write to: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.claude/research/system-audit-2026-02-03/subagent-integration-study.md`

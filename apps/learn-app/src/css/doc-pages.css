@@ -215,6 +215,63 @@ article {
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+/* Ask Mode button - Outline style (pairs with solid Teach Me) */
+.doc-page-actions-ask-mode {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: transparent;
+  border: 1.5px solid #1565c0;
+  color: #1565c0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  min-height: 36px;
+}
+
+.doc-page-actions-ask-mode:hover {
+  transform: translateY(-1px);
+  background: rgba(21, 101, 192, 0.08);
+  border-color: #1976d2;
+  color: #1976d2;
+}
+
+.doc-page-actions-ask-mode:active {
+  transform: translateY(0);
+  background: rgba(21, 101, 192, 0.12);
+}
+
+.doc-page-actions-ask-mode:focus-visible {
+  outline: 2px solid #42a5f5;
+  outline-offset: 2px;
+}
+
+.doc-page-actions-ask-mode svg {
+  width: 16px;
+  height: 16px;
+}
+
+[data-theme='dark'] .doc-page-actions-ask-mode {
+  background: transparent;
+  border-color: #42a5f5;
+  color: #64b5f6;
+}
+
+[data-theme='dark'] .doc-page-actions-ask-mode:hover {
+  background: rgba(66, 165, 245, 0.1);
+  border-color: #64b5f6;
+  color: #90caf9;
+}
+
+/* Locked state for Ask Mode button - keep same colors, just show lock icon */
+.doc-page-actions-ask-mode--locked {
+  /* Same styling as unlocked - only the icon changes */
+}
+
 /* Split button container - pill shape with subtle shadow */
 .doc-page-actions-split {
   display: flex;
@@ -273,6 +330,13 @@ article {
 .doc-page-actions-main--success:hover {
   background: oklch(0.723 0.219 149.579 / 0.15);
   color: oklch(0.65 0.219 149.579) !important;
+}
+
+/* Icon-only mode for copy button - no text label */
+.doc-page-actions-main--icon-only {
+  padding: 0.5rem 0.625rem;
+  min-width: 36px;
+  justify-content: center;
 }
 
 /* Icon wrapper for animations */
@@ -909,6 +973,76 @@ article {
     transform: scale(1);
     box-shadow: 0 2px 8px oklch(0.50 0.14 255 / 0.3);
   }
+}
+
+/* Ask Mode floating button - Brand blue (lighter than Teach Me's navy) */
+.ask-mode-float {
+  background: oklch(0.50 0.14 255) !important;
+  border: 1px solid oklch(0.55 0.14 255) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 2px 4px oklch(0.50 0.14 255 / 0.4),
+    0 4px 8px oklch(0.50 0.14 255 / 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  position: relative;
+}
+
+/* Tooltip for Ask button */
+.ask-mode-float::after {
+  content: "Ask";
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: oklch(0.50 0.14 255);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  box-shadow: 0 2px 8px oklch(0.50 0.14 255 / 0.4);
+}
+
+.ask-mode-float:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ask-mode-float:hover {
+  background: oklch(0.55 0.14 255) !important;
+  border-color: oklch(0.60 0.14 255) !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px oklch(0.50 0.14 255 / 0.5),
+    0 8px 16px oklch(0.50 0.14 255 / 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme='dark'] .ask-mode-float {
+  background: oklch(0.50 0.14 255) !important;
+  border-color: oklch(0.55 0.14 255) !important;
+  color: white !important;
+  box-shadow:
+    0 2px 8px oklch(0.50 0.14 255 / 0.5),
+    0 4px 12px oklch(0.50 0.14 255 / 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme='dark'] .ask-mode-float:hover {
+  background: oklch(0.55 0.14 255) !important;
+  border-color: oklch(0.60 0.14 255) !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px oklch(0.50 0.14 255 / 0.6),
+    0 8px 20px oklch(0.50 0.14 255 / 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
 
 /* Hide Docusaurus's built-in back-to-top button (we use custom implementation) */

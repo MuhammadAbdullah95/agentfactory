@@ -48,6 +48,9 @@ class Settings(BaseSettings):
 
     # Server
     port: int = 8000
+    
+    deepseek_api_key: str = ""
+    deepseek_base_url: str = "https://api.deepseek.com/v1"
 
     @property
     def allowed_origins_list(self) -> list[str]:

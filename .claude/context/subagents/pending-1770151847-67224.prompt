@@ -1,0 +1,9 @@
+Explore the TeachMePanel component to understand:
+
+1. Read `apps/learn-app/src/components/TeachMePanel/index.tsx` - understand the full component structure
+2. How does the panel currently handle different modes (Teach vs Ask)?
+3. What triggers open the panel currently?
+4. What props does it accept?
+5. How is state managed (open/closed, mode selection)?
+
+Focus on understanding the mode switching mechanism and what would need to change to add an "Ask Mode" button.

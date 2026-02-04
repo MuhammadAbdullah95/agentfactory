@@ -1,0 +1,32 @@
+**DEEP STUDY: How Skills Actually Work in Claude Code**
+
+Study Chapter 3 lessons 7-8 and the actual .claude/ implementation to understand:
+
+**1. Skill Auto-Loading**
+- How are skill names and descriptions loaded with CLAUDE.md?
+- What triggers skill invocation?
+- What's the discovery mechanism?
+
+**2. Current Skills Architecture**
+- Read several skills in `.claude/skills/*/SKILL.md`
+- What's the YAML frontmatter structure?
+- How does `allowed-tools` work?
+- How does `model` selection work?
+
+**3. Skill Invocation Patterns**
+- When does Claude auto-invoke a skill vs explicit `/skill-name`?
+- How does description text trigger matching?
+- What makes a skill discoverable?
+
+**4. Best Practices from Chapter 3**
+- Read `apps/learn-app/docs/01-General-Agents-Foundations/03-general-agents/07-concept-behind-skills.md`
+- Read `apps/learn-app/docs/01-General-Agents-Foundations/03-general-agents/08-agent-skills.md`
+- What patterns should our Book Author Plugin skills follow?
+
+**5. Plugin Structure**
+- How do skills fit into the plugin architecture?
+- What's the relationship between skills and slash commands?
+
+Output concrete findings about how skills ACTUALLY work and recommendations for our Book Author Plugin.
+
+Write to: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.claude/research/system-audit-2026-02-03/skill-integration-study.md`

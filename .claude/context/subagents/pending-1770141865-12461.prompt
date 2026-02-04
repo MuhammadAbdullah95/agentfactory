@@ -1,0 +1,37 @@
+**DEEP STUDY: How Tasks System Integrates with Claude Code**
+
+Study Chapter 4 lesson 4 and the actual implementation to understand:
+
+**1. Tasks System Mechanics**
+- Read `apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/04-tasks-system.md`
+- How does TaskCreate/TaskUpdate/TaskList work?
+- What's the persistence mechanism?
+
+**2. Environment Variables**
+- What env vars affect Tasks? (e.g., CLAUDE_CODE_TASK_LIST_ID)
+- Can we auto-name tasks with branch + username?
+- How do multiple sessions share tasks?
+
+**3. Tasks + Plan Mode Integration**
+- How do Tasks relate to Plan Mode?
+- Can tasks be extracted from plans?
+- What's the workflow?
+
+**4. Artifact Preservation**
+- Can tasks/plans be copied to specs/feature/ folder automatically?
+- How do we preserve decision history?
+- What hooks could automate this?
+
+**5. Current Hooks**
+- Check `.claude/hooks/` for task-related hooks
+- What's already implemented?
+- What's missing?
+
+**6. Best Practices for Book Plugin**
+- How should our Book Author Plugin use Tasks?
+- Session naming conventions?
+- Cross-session coordination?
+
+Output concrete findings about Tasks integration and recommendations for our plugin.
+
+Write to: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.claude/research/system-audit-2026-02-03/tasks-integration-study.md`

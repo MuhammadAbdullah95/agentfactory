@@ -6,12 +6,13 @@ import logging
 from collections.abc import AsyncIterator
 from datetime import datetime
 
-from agents import Runner
+from agents import Runner, RunResultStreaming
 from chatkit.agents import AgentContext, simple_to_agent_input, stream_agent_response
 from chatkit.server import ChatKitServer
 from chatkit.types import (
     AssistantMessageContent,
     AssistantMessageItem,
+    ThreadItemAddedEvent,
     ThreadItemDoneEvent,
     ThreadMetadata,
     ThreadStreamEvent,
@@ -24,6 +25,11 @@ from .fte import create_agent
 from .services.content_loader import load_lesson_content
 
 logger = logging.getLogger(__name__)
+
+# Fake ID constant from agents SDK (used by OpenAIChatCompletionsModel)
+# When using Chat Completions API, the SDK returns this placeholder ID
+# which causes duplicate key errors if not replaced with real IDs
+FAKE_RESPONSES_ID = "__fake_id__"
 
 # Agent configuration
 MAX_RECENT_ITEMS = 30
@@ -94,6 +100,71 @@ def _user_message_text(item: UserMessageItem) -> str:
     return " ".join(parts).strip()
 
 
+async def _stream_with_real_ids(
+    context: AgentContext,
+    result: RunResultStreaming,
+) -> AsyncIterator[ThreadStreamEvent]:
+    """
+    Wrapper around stream_agent_response that replaces fake IDs with real ones.
+
+    When using OpenAIChatCompletionsModel (for non-OpenAI providers like DeepSeek),
+    the SDK returns "__fake_id__" for all message IDs. This causes duplicate key
+    errors when saving to the database.
+
+    This wrapper detects fake IDs and replaces them with store-generated IDs.
+
+    Note: This handles the common case of one message per response. If multiple
+    output items share "__fake_id__" in a single response (rare), they would get
+    the same generated ID - but this is unlikely with standard Chat Completions.
+    """
+    # Track ID mapping for this stream: fake_id -> real_id
+    # Fresh dict per stream ensures each request gets unique IDs
+    id_map: dict[str, str] = {}
+
+    async for event in stream_agent_response(context, result):
+        # Handle ThreadItemAddedEvent - replace fake ID
+        if isinstance(event, ThreadItemAddedEvent):
+            item = event.item
+            if hasattr(item, "id") and item.id == FAKE_RESPONSES_ID:
+                # Generate a real ID
+                real_id = context.store.generate_item_id(
+                    "message", context.thread, context.request_context
+                )
+                id_map[FAKE_RESPONSES_ID] = real_id
+                logger.debug(f"[ChatKit] Replacing fake ID with: {real_id}")
+
+                # Create new item with real ID
+                if isinstance(item, AssistantMessageItem):
+                    item = AssistantMessageItem(
+                        id=real_id,
+                        thread_id=item.thread_id,
+                        created_at=item.created_at,
+                        content=item.content,
+                    )
+                    event = ThreadItemAddedEvent(item=item)
+
+        # Handle ThreadItemDoneEvent - use mapped ID
+        elif isinstance(event, ThreadItemDoneEvent):
+            item = event.item
+            if hasattr(item, "id") and item.id == FAKE_RESPONSES_ID:
+                # Use the previously mapped ID or generate new one
+                real_id = id_map.get(FAKE_RESPONSES_ID) or context.store.generate_item_id(
+                    "message", context.thread, context.request_context
+                )
+                logger.debug(f"[ChatKit] Using real ID for done event: {real_id}")
+
+                if isinstance(item, AssistantMessageItem):
+                    item = AssistantMessageItem(
+                        id=real_id,
+                        thread_id=item.thread_id,
+                        created_at=item.created_at,
+                        content=item.content,
+                    )
+                    event = ThreadItemDoneEvent(item=item)
+
+        yield event
+
+
 class StudyModeChatKitServer(ChatKitServer[RequestContext]):
     """
     ChatKit server for Study Mode.
@@ -141,9 +212,19 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
             # Get metadata from context
             lesson_path = context.metadata.get("lesson_path", "")
-            mode = context.metadata.get("mode", "teach")
             user_name = context.metadata.get("user_name")
             selected_text = context.metadata.get("selected_text")
+
+            # Get mode from ChatKit's composer.models picker (inference_options.model)
+            # Default to "teach" if not set
+            mode = "teach"
+            if (
+                input_user_message.inference_options
+                and input_user_message.inference_options.model
+                and input_user_message.inference_options.model in ("teach", "ask")
+            ):
+                mode = input_user_message.inference_options.model
+            logger.info(f"[ChatKit] Mode: {mode}")
 
             logger.info(
                 f"[ChatKit] Processing: user={context.user_id}, "
@@ -189,6 +270,12 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 f"has_assistant={has_assistant_response}, is_first={is_first_message}"
             )
 
+            # Store lesson data in metadata for dynamic instruction functions
+            # This allows ask_agent's dynamic callable to access all context
+            context.metadata["lesson_title"] = title
+            context.metadata["lesson_content"] = content
+            context.metadata["is_first_message"] = is_first_message
+
             # Create agent with appropriate greeting behavior
             agent = create_agent(
                 title,
@@ -233,7 +320,8 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             logger.info(f"[ChatKit] Running agent for thread {thread.id}")
             result = Runner.run_streamed(agent, input_items, context=agent_context)
 
-            async for event in stream_agent_response(agent_context, result):
+            # Use wrapper that fixes fake IDs from Chat Completions API
+            async for event in _stream_with_real_ids(agent_context, result):
                 yield event
 
             logger.info(f"[ChatKit] Response completed for thread {thread.id}")

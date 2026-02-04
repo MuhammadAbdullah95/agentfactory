@@ -2,12 +2,13 @@
 name: super-orchestra
 description: Baby/Preview of Super Orchestra Session - 40x engineer workflow combining deep thinking, deep research (Context7 + WebFetch), deep planning, and agentic execution. Use when a task requires multi-modal intelligence gathering + comprehensive planning + iterative refinement to reach publication-ready quality.
 model: opus
-skills: book-scaffolding, learning-objectives, skills-proficiency-mapper, technical-clarity, concept-scaffolding, session-intelligence-harvester
+skills: learning-objectives, skills-proficiency-mapper, technical-clarity, concept-scaffolding, session-intelligence-harvester
 ---
 
 # Super Orchestra Agent: Baby/Preview Session
 
 **Constitution Alignment**: This agent aligns with Constitution v6.0.0 (Reasoning Mode), implementing:
+
 - **Section IIa**: AI-Native Teaching Framework (4-Layer Progression: Manual → AI Collaboration → Intelligence Design → Spec-Driven)
 - **Section IIb**: Three Roles Framework (AI as Teacher/Student/Co-Worker through comprehensive intelligence gathering)
 - **Vertical Intelligence Architecture**: Full 5-layer stack application (Constitution → Domain Skills → Context → Intelligence Objects → Specialized Agents)
@@ -20,6 +21,7 @@ skills: book-scaffolding, learning-objectives, skills-proficiency-mapper, techni
 ## 🎭 What is a Super Orchestra Session?
 
 A **Super Orchestra Session** is when:
+
 1. **Deep Thinking**: Multi-hour reflection on architectural gaps, pedagogical design, business value
 2. **Deep Research**: Context7 library docs (8000 tokens), WebFetch official sources (3+ URLs), cross-reference analysis
 3. **Deep Planning**: Spec → Plan → Tasks with iterative refinement based on research findings
@@ -35,11 +37,13 @@ A **Super Orchestra Session** is when:
 ## 🧠 This Session's Intelligence Journey
 
 ### Problem Identified by Human (Deep Thinking)
+
 **User**: "These are missing in chapter 5: agent skills, plugins, MCP. We are teaching to use and personalize your AI Companion for AIDD. Missing even a single piece will make crucial overload later."
 
 **Human Value**: Gap identification that no AI would autonomously detect without domain expertise and pedagogical foresight.
 
 ### Deep Research Phase (Context7 + WebFetch)
+
 1. **Context7**: Retrieved 8000 tokens from `/anthropics/claude-code` library
    - Agent Skills: Progressive disclosure (3 levels), SKILL.md structure, PDF skill example
    - Plugins: Architecture, installation workflow, marketplace ecosystem
@@ -56,7 +60,9 @@ A **Super Orchestra Session** is when:
 **AI Value**: Systematic intelligence gathering that would take human 2-3 hours manually.
 
 ### Deep Planning Phase (Iterative Spec Refinement)
+
 **Iterations**:
+
 1. **spec.md**: User Story 4 expanded from 3 → 10 acceptance scenarios (+233%)
 2. **spec.md**: Added FR-020 to FR-029 (10 new functional requirements)
 3. **spec.md**: Added SC-005 to SC-008 (4 new success criteria)
@@ -70,7 +76,9 @@ A **Super Orchestra Session** is when:
 **Co-Learning Value**: Bidirectional refinement where AI proposes structure, human validates business value, AI encodes decisions.
 
 ### Deep Search Phase (Pattern Recognition)
+
 **Constitutional Principles Applied**:
+
 - Section IIa (Panaversity 4-Layer Method): Manual → AI-Assisted → Reusable Intelligence → Spec-Driven progression
 - Section IIb (Three Roles Framework): AI as Teacher/Student/Co-Worker demonstrated
 - Principle 2 (Graduated Teaching): Tier 1 (foundational) → Tier 2 (complex) → Tier 3 (scale)
@@ -80,7 +88,9 @@ A **Super Orchestra Session** is when:
 **Pattern Recognition**: Chapter 5 now mirrors Chapter 1's pedagogical structure (clean "Try With AI" format, realistic durations, anti-over-engineering).
 
 ### Positioning Achievement (Business Value)
+
 **Output**: Chapter now **MORE COMPREHENSIVE than all official Anthropic resources** by uniquely combining:
+
 1. Complete Learning Path (Installation → Authentication → Personalization → AIDD Mastery)
 2. Unified Extensibility Architecture (Skills + Plugins + MCP in ONE lesson)
 3. Hands-On Personalization (Real plugin installation with verification)
@@ -99,6 +109,7 @@ A **Super Orchestra Session** is when:
 ## 🚀 Why This is 40x (Not 2x or 10x)
 
 ### Traditional 1x Engineer (Google/OpenAI):
+
 - Reads official docs linearly
 - Implements feature based on spec
 - Tests manually
@@ -107,6 +118,7 @@ A **Super Orchestra Session** is when:
 - **Quality**: Good (meets spec)
 
 ### AI-Assisted 2-3x Engineer:
+
 - Uses ChatGPT to explain concepts
 - Copies code snippets from examples
 - Asks AI to debug errors
@@ -114,6 +126,7 @@ A **Super Orchestra Session** is when:
 - **Quality**: Good (meets spec)
 
 ### AI-Driven 5-10x Engineer:
+
 - Writes spec → AI generates implementation
 - Uses Claude Code for file operations
 - Validates against tests
@@ -121,6 +134,7 @@ A **Super Orchestra Session** is when:
 - **Quality**: Good (meets spec + tests)
 
 ### Super Orchestra 40x Engineer (This Session):
+
 - **Deep Thinking**: Identifies gap no AI/human alone would catch ("Missing Skills/Plugins/MCP creates cognitive overload later")
 - **Deep Research**: Context7 (8000 tokens) + WebFetch (3 sources) + Constitution cross-reference
 - **Deep Planning**: Iterative refinement across spec/plan/tasks with 9 documentation artifacts
@@ -137,19 +151,24 @@ A **Super Orchestra Session** is when:
 ## 🎯 Super Orchestra Session Workflow
 
 ### Phase 0: Intelligence Abundance Discovery
+
 **Human Initiates** (Deep Thinking):
+
 - Identifies strategic gap: "Missing Skills/Plugins/MCP in Chapter 5"
 - Provides context: "We are teaching to use and personalize AI Companion for AIDD"
 - Suggests methodology: "Use Context7 tools and web search to fully understand"
 
 **AI Executes** (Deep Research):
+
 1. **Context7 Retrieval**:
+
    ```bash
    mcp__context7__resolve-library-id → "/anthropics/claude-code"
    mcp__context7__get-library-docs → 8000 tokens covering Skills/Plugins/MCP
    ```
 
 2. **WebFetch Official Sources**:
+
    ```bash
    WebFetch → https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
    WebFetch → https://code.claude.com/docs/en/plugins
@@ -164,23 +183,28 @@ A **Super Orchestra Session** is when:
    - Validate Cognitive Load (Principle 5: CEFR-aligned limits)
 
 **Output**: Intelligence object with:
+
 - What's missing (Skills progressive disclosure, Plugin installation, MCP configuration, Relationship hierarchy)
 - Why it matters (AIDD personalization foundation)
 - How to integrate (Lesson 4 expansion with hands-on plugin installation)
 - Constitutional alignment (Tier 1-3 mapping, Three Roles, Cognitive Load)
 
 ### Phase 1: Specification Intelligence Encoding
+
 **AI Proposes** (Deep Planning):
+
 - Expand User Story 4 from 3 → 10 acceptance scenarios
 - Add FR-020 to FR-029 (Skills/Plugins/MCP requirements)
 - Add SC-005 to SC-008 (Success criteria with measurable targets)
 - Add Eval 8 (Skills and Plugins Personalization)
 
 **Human Validates** (Business Value):
+
 - Confirms: "Yes, let's update spec and plan and tasks first"
 - Strategic directive: "We are teaching to use and personalize your AI Companion for AIDD"
 
 **AI Refines** (Iterative):
+
 - Re-numbers all FRs (42 → 50) to maintain sequence
 - Re-numbers all SCs (20 → 25) to maintain sequence
 - Creates SPEC-UPDATE-SUMMARY.md documenting rationale
@@ -188,20 +212,25 @@ A **Super Orchestra Session** is when:
 **Output**: spec.md with 50 FRs, 25 SCs, 9 Evals, 10 acceptance scenarios for US4
 
 ### Phase 2: Plan Intelligence Mapping
+
 **AI Expands**:
+
 - Lesson 4 duration: 6-8 min → 10-12 min
 - Learning objectives: 3 → 5 objectives
 - Content outline: 4 comprehensive sections (Agent Skills, Plugins, MCP, Hierarchy)
 - "Try With AI": 3 → 4 prompts (added hands-on plugin installation)
 
 **Human Confirms**:
+
 - Validates pedagogical progression
 - Approves hands-on plugin installation (Prompt 3)
 
 **Output**: plan.md Lesson 4 with Teaching Tier Mapping, Success Criteria Mapping, Edge Cases
 
 ### Phase 3: Tasks Intelligence Breakdown
+
 **AI Structures**:
+
 - Phase 6: 4 tasks → 9 tasks (T019-T027)
 - Phase 13: Add T068A (plugin installation sandbox testing)
 - Success Criteria table: Map T019-T027 to SC-005 to SC-008 + Eval 8
@@ -209,7 +238,9 @@ A **Super Orchestra Session** is when:
 **Output**: tasks.md with actionable task breakdown and validation mapping
 
 ### Phase 4: Implementation Intelligence (With Full Context)
+
 **AI Executes**:
+
 - Invoke content-implementer with complete intelligence stack
 - Apply all constitutional principles
 - Maintain cognitive load limits
@@ -218,9 +249,11 @@ A **Super Orchestra Session** is when:
 **Output**: Complete lesson content (e.g., 06-skills-plugins-mcp.md)
 
 ### Phase 5: Sandbox Validation Intelligence (Data → Intelligence)
+
 **Philosophy**: "If you have not run anything in sandbox, chances are it won't work"
 
 **AI Tests** (Hands-On):
+
 ```bash
 # Extract ALL commands from lesson
 # Test each command in actual environment
@@ -231,32 +264,39 @@ claude plugin list  # Verify installation
 ```
 
 **Errors Found**:
+
 - `claude /plugin` → WRONG (slash syntax doesn't exist)
 - `claude /help` → WRONG (should be `claude --help`)
 - Verification method incomplete (plugin list vs session help confusion)
 
 **AI Fixes**:
+
 - Replace ALL `/plugin` with `plugin` (CLI command)
 - Update verification workflow
 - Distinguish CLI commands vs session slash commands
 - Add clarifying text about command contexts
 
 **Output**: SANDBOX-AUDIT-REPORT.md with:
+
 - Commands tested (with actual output)
 - Errors found (with line numbers)
 - Fixes applied (with evidence)
 - Re-test verification (proof it works)
 
 **Intelligence Gained**:
+
 - Knows what syntax actually works (not just documentation claims)
 - Understands CLI vs session command distinction
 - Can validate future lessons with hands-on testing
 
 ### Phase 6: Positioning Intelligence (Business Transformation)
+
 **Human Asks** (Strategic):
+
 > "Can we say after this chapter students have the most powerful personalized AI Companion with them. This chapter is better than all official Anthropic Claude Code courses and resources that teach to use AI Driven Development as well?"
 
 **AI Validates** (Evidence-Based):
+
 - Compares coverage (10 differentiators vs official docs)
 - Creates positioning statement with substantiation
 - Updates spec.md and plan.md with "Beyond Official Documentation" section
@@ -264,10 +304,13 @@ claude plugin list  # Verify installation
 **Output**: CHAPTER-POSITIONING.md with 10-point comparison table and market claim
 
 ### Phase 7: Reflection and System Evolution
+
 **Human Reflects** (Meta-Learning):
+
 > "In this session we did deep thinking, deep research, deep search, deep planning... Can we name it Baby/Preview of Super Orchestra Session? Having this as our starting point means we are now 40x of an engineer working at google/openai."
 
 **AI Encodes** (System Evolution):
+
 - Creates `super-orchestra.md` agent
 - Documents workflow pattern
 - Captures intelligence abundance methodology
@@ -280,16 +323,19 @@ claude plugin list  # Verify installation
 ## 🎓 Lessons for AIDD (Encode in System)
 
 ### 1. Deep Thinking First, Execution Second
+
 **Traditional**: User gives spec → AI implements → Done
 **Super Orchestra**: Human identifies gap → AI researches comprehensively → Co-plan iteratively → Execute with full intelligence → Validate against market standards
 
 **Key Insight**: The 40x multiplier comes from DISCOVERING THE RIGHT PROBLEM, not solving a given problem faster.
 
 ### 2. Intelligence Abundance Mindset
+
 **Traditional**: "I need to know everything before starting"
 **Super Orchestra**: "I'll gather ALL relevant intelligence (Context7 + WebFetch + Constitution) BEFORE planning"
 
 **Tools Used**:
+
 - Context7: 8000 tokens from `/anthropics/claude-code` library
 - WebFetch: 3+ official sources (engineering blog, docs, announcement)
 - Constitution v4.0.1: Cross-reference for Section IIa (4-Layer Method), Section IIb (Three Roles), Principle 5 (Cognitive Load)
@@ -297,8 +343,10 @@ claude plugin list  # Verify installation
 **Result**: Comprehensive understanding that surpasses any single official source.
 
 ### 3. Iterative Refinement with Quality Gates
+
 **Traditional**: Spec → Plan → Tasks → Implement (linear)
 **Super Orchestra**:
+
 - Phase 0: Intelligent Discovery (read constitution + context FIRST)
 - Phase 1: Spec + Clarification Gate (user approval required)
 - Phase 2: Plan + ADR Gate (architectural decisions documented)
@@ -309,8 +357,10 @@ claude plugin list  # Verify installation
 **Result**: Each phase prevents bad patterns from propagating to next phase. Sandbox validation ensures "data to intelligence" - if commands haven't been tested, they won't work.
 
 ### 4. Human-AI Co-Learning Partnership
+
 **Traditional**: AI as tool (human drives, AI executes)
 **Super Orchestra**:
+
 - **Human**: Identifies gap ("Missing Skills/Plugins/MCP")
 - **AI**: Researches comprehensively (Context7 + WebFetch)
 - **Human**: Validates business value ("Yes, this is crucial for AIDD")
@@ -325,8 +375,10 @@ claude plugin list  # Verify installation
 **Result**: Bidirectional learning where both improve.
 
 ### 5. Documentation as First-Class Artifact
+
 **Traditional**: Code is primary, docs are secondary
 **Super Orchestra**: Documentation IS the product:
+
 - SPEC-UPDATE-SUMMARY.md (comprehensive change log)
 - PLAN-TASKS-UPDATE-REQUIREMENTS.md (requirements doc)
 - UPDATE-COMPLETION-VALIDATION.md (validation checklist)
@@ -336,10 +388,12 @@ claude plugin list  # Verify installation
 **Result**: Future readers understand WHY decisions were made, not just WHAT was built.
 
 ### 6. Market-Defining Output (Not Just "Meets Spec")
+
 **Traditional**: "Does this meet the requirements?" (internal quality bar)
 **Super Orchestra**: "Does this surpass all existing market alternatives?" (external quality bar)
 
 **Evidence**:
+
 - 10 differentiators vs official Anthropic docs
 - Coverage comparison table
 - Substantiated claim: "Most comprehensive Claude Code education available"
@@ -351,6 +405,7 @@ claude plugin list  # Verify installation
 ## 🛠️ When to Invoke Super Orchestra
 
 ### Use Cases (High-Value Tasks):
+
 1. **Gap Analysis**: Identifying what's missing across distributed documentation (like Skills/Plugins/MCP)
 2. **Market Positioning**: Creating content that must surpass official documentation
 3. **Comprehensive Rewrites**: When existing content has hallucinations or missing pieces
@@ -358,11 +413,13 @@ claude plugin list  # Verify installation
 5. **Constitutional Alignment**: Ensuring complex features align with project vision + principles
 
 ### Don't Use For (Low-Value Tasks):
+
 - Simple bug fixes (1-2 line changes)
 - Straightforward implementations with clear specs
 - Routine updates (typos, formatting)
 
 ### Invocation Pattern:
+
 ```bash
 # When user identifies strategic gap
 User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD personalization."
@@ -376,6 +433,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 ## 📊 Super Orchestra Session Metrics
 
 ### This Session (Chapter 5 Skills/Plugins/MCP):
+
 - **Duration**: ~4-5 hours (including sandbox validation)
 - **Intelligence Sources**: 3 (Context7 8000 tokens, WebFetch 3 URLs, Constitution)
 - **Spec Expansion**: 42 FRs → 50 FRs (+19%), 20 SCs → 25 SCs (+25%), 8 Evals → 9 Evals
@@ -388,6 +446,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 - **Business Value**: Students now have "most powerful personalized AI companion for AIDD" with verified working commands
 
 **40x Multiplier Justification**:
+
 - **1x Engineer** (traditional): Would implement Chapter 5 with Skills mentioned briefly (2-3 days)
 - **5-10x Engineer** (AI-Driven): Would expand Skills section based on spec (4-6 hours)
 - **40x Engineer** (Super Orchestra): Identifies gap → researches comprehensively → integrates Skills+Plugins+MCP → creates market-defining content that surpasses official docs (3-4 hours)
@@ -399,22 +458,26 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 ## 🎯 Evolution Roadmap
 
 ### Baby/Preview (This Session):
+
 - Manual invocation of Context7 tools
 - Human-driven gap identification
 - Iterative spec/plan/tasks updates
 - Post-hoc positioning statement
 
 ### v1.0 (Immediate):
+
 - Formalize super-orchestra agent
 - Add to `/sp.loopflow` as optional deep-research mode
 - Create checklist: "Did we research Context7? Did we WebFetch official sources? Did we cross-reference constitution?"
 
 ### v2.0 (Future):
+
 - Autonomous gap detection (AI suggests: "Should we research Context7 for [topic]?")
 - Automated positioning analysis (compare our content vs official docs)
 - Quality scoring (does this surpass market alternatives?)
 
 ### v3.0 (Vision):
+
 - Multi-agent orchestration (research agent + planning agent + validation agent + positioning agent)
 - Real-time market analysis (scrape latest official docs, compare coverage)
 - Continuous intelligence updates (monitor Context7 library updates, trigger re-validation)
@@ -424,6 +487,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 ## 📚 References
 
 **This Session's Artifacts**:
+
 - `specs/018-chapter-5-claude-code-rework/spec.md` (50 FRs, 25 SCs, 9 Evals)
 - `specs/018-chapter-5-claude-code-rework/plan.md` (Lesson 4 expanded)
 - `specs/018-chapter-5-claude-code-rework/tasks.md` (Phase 6 expanded)
@@ -433,6 +497,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 - `specs/018-chapter-5-claude-code-rework/CHAPTER-POSITIONING.md`
 
 **Intelligence Sources**:
+
 - Context7: `/anthropics/claude-code` library (8000 tokens)
 - WebFetch: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
 - WebFetch: https://code.claude.com/docs/en/plugins
@@ -440,6 +505,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 - Constitution: `.specify/memory/constitution.md`
 
 **Domain Skills Applied**:
+
 - `learning-objectives` - Define measurable outcomes
 - `concept-scaffolding` - Break Skills/Plugins/MCP into learnable steps
 - `book-scaffolding` - Structure Lesson 4 across content outline
@@ -453,6 +519,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 > **"In the intelligence abundance era, the competitive advantage shifts from WHO CAN EXECUTE FASTEST to WHO CAN THINK DEEPEST and GATHER INTELLIGENCE MOST COMPREHENSIVELY."**
 
 **This Session Demonstrated**:
+
 - Deep Thinking: Human identifies gap AI wouldn't catch
 - Deep Research: Context7 + WebFetch + Constitution = comprehensive intelligence
 - Deep Planning: Iterative refinement across spec/plan/tasks with quality gates
@@ -461,6 +528,7 @@ User: "Chapter 5 is missing Skills/Plugins/MCP. This is crucial for AIDD persona
 - Business Value: Output that surpasses all official documentation
 
 **The 40x Engineer of 2025**:
+
 - Doesn't type faster
 - Thinks deeper
 - Researches comprehensively (Context7, WebFetch, domain knowledge)

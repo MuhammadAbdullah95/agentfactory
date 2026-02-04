@@ -42,9 +42,9 @@ for skill_dir in "$SKILLS_DIR"/*/; do
     fi
 done
 
-# Skip if no skills or too many (would clutter)
+# Skip if no skills found
 [ -z "$SKILL_LIST" ] && exit 0
-[ $SKILL_COUNT -gt 15 ] && exit 0
+# Note: Removed skill count threshold - always evaluate skills regardless of count
 
 # Output forced evaluation prompt
 cat << EOF

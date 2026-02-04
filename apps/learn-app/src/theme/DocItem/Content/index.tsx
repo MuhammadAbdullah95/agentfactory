@@ -8,19 +8,21 @@
  * which scans for .summary.md files at build time.
  */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Content from "@theme-original/DocItem/Content";
 import type ContentType from "@theme/DocItem/Content";
 import type { WrapperProps } from "@docusaurus/types";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
 import { usePluginData } from "@docusaurus/useGlobalData";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import LessonContent from "../../../components/LessonContent";
 import ReactMarkdown from "react-markdown";
 import ReadingProgress from "@/components/ReadingProgress";
 import DocPageActions from "@/components/DocPageActions";
 import { useStudyMode } from "@/contexts/StudyModeContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { TeachMePanel } from '@/components/TeachMePanel';
+import { TeachMePanel } from "@/components/TeachMePanel";
+import { getOAuthAuthorizationUrl } from "@/lib/auth-client";
 
 type Props = WrapperProps<typeof ContentType>;
 
@@ -122,6 +124,81 @@ interface SummariesPluginData {
   summaries: Record<string, string>;
 }
 
+/**
+ * Teach Me Floating Button - visible to all users
+ * Redirects to login if not authenticated, opens panel if authenticated
+ */
+function TeachMeFloatingButton({
+  isLoggedIn,
+  openPanel,
+  handleLoginRedirect,
+}: {
+  isLoggedIn: boolean;
+  openPanel: () => void;
+  handleLoginRedirect: () => void;
+}) {
+  return (
+    <button
+      onClick={isLoggedIn ? openPanel : handleLoginRedirect}
+      className="study-mode-float"
+      title={isLoggedIn ? "Teach Me" : "Sign in for Teach Me"}
+      aria-label={isLoggedIn ? "Open Teach Me" : "Sign in for Teach Me Access"}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+    </button>
+  );
+}
+
+/**
+ * Ask Floating Button - opens panel directly in ask mode
+ * Redirects to login if not authenticated
+ */
+function AskFloatingButton({
+  isLoggedIn,
+  openPanelInAskMode,
+  handleLoginRedirect,
+}: {
+  isLoggedIn: boolean;
+  openPanelInAskMode: () => void;
+  handleLoginRedirect: () => void;
+}) {
+  return (
+    <button
+      onClick={isLoggedIn ? openPanelInAskMode : handleLoginRedirect}
+      className="ask-mode-float"
+      title={isLoggedIn ? "Ask a Question" : "Sign in to ask questions"}
+      aria-label={isLoggedIn ? "Open Ask Mode" : "Sign in for Ask Mode Access"}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+      </svg>
+    </button>
+  );
+}
+
 export default function ContentWrapper(props: Props): React.ReactElement {
   const doc = useDoc();
 
@@ -201,9 +278,39 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     .replace(/\.(md|mdx)$/, "");
 
   // Study mode controls
-  const { isOpen: isStudyModeOpen, openPanel } = useStudyMode();
+  const { isOpen: isStudyModeOpen, openPanel, setMode } = useStudyMode();
+
+  // Callback to open panel in ask mode
+  const openPanelInAskMode = React.useCallback(() => {
+    setMode("ask");
+    openPanel();
+  }, [setMode, openPanel]);
   const { session } = useAuth();
   const isLoggedIn = !!session?.user;
+
+  // Auth config for login redirect
+  const { siteConfig } = useDocusaurusContext();
+  const authUrl = siteConfig.customFields?.authUrl as string | undefined;
+  const oauthClientId = siteConfig.customFields?.oauthClientId as
+    | string
+    | undefined;
+
+  /**
+   * Redirect to login page with return URL (for non-logged-in users)
+   */
+  const handleLoginRedirect = useCallback(async () => {
+    try {
+      const returnUrl = window.location.href;
+      localStorage.setItem("auth_return_url", returnUrl);
+      const loginUrl = await getOAuthAuthorizationUrl(undefined, {
+        authUrl,
+        clientId: oauthClientId,
+      });
+      window.location.href = loginUrl;
+    } catch (err) {
+      console.error("Failed to redirect to login:", err);
+    }
+  }, [authUrl, oauthClientId]);
 
   // Determine if this is a content page vs category landing page
   // - Lessons have 3+ path segments: part/chapter/lesson
@@ -212,7 +319,8 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   // - Chapters have 2 segments (category landing - no panel)
   const pathSegments = docId.split("/").filter(Boolean);
   const specialRootPages = ["thesis", "preface"];
-  const isSpecialRootPage = pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
+  const isSpecialRootPage =
+    pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
   const isLeafPage = pathSegments.length >= 3 || isSpecialRootPage;
 
   // If no summary, just render original content
@@ -228,30 +336,16 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         {!isStudyModeOpen && (
           <div className="floating-actions">
             <BackToTopButton />
-            {/* Teach Me button - for logged-in users on all pages */}
-            {isLoggedIn && (
-              <button
-                onClick={openPanel}
-                className="study-mode-float"
-                title="Teach Me"
-                aria-label="Open Teach Me"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  {/* Open book icon */}
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                </svg>
-              </button>
-            )}
+            <TeachMeFloatingButton
+              isLoggedIn={isLoggedIn}
+              openPanel={openPanel}
+              handleLoginRedirect={handleLoginRedirect}
+            />
+            <AskFloatingButton
+              isLoggedIn={isLoggedIn}
+              openPanelInAskMode={openPanelInAskMode}
+              handleLoginRedirect={handleLoginRedirect}
+            />
             <button
               onClick={() => setZenMode(!zenMode)}
               className="zen-mode-toggle"
@@ -325,30 +419,16 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       {!isStudyModeOpen && (
         <div className="floating-actions">
           <BackToTopButton />
-          {/* Teach Me button - for logged-in users on all pages */}
-          {isLoggedIn && (
-            <button
-              onClick={openPanel}
-              className="study-mode-float"
-              title="Teach Me"
-              aria-label="Open Teach Me"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {/* Open book icon */}
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-              </svg>
-            </button>
-          )}
+          <TeachMeFloatingButton
+            isLoggedIn={isLoggedIn}
+            openPanel={openPanel}
+            handleLoginRedirect={handleLoginRedirect}
+          />
+          <AskFloatingButton
+            isLoggedIn={isLoggedIn}
+            openPanelInAskMode={openPanelInAskMode}
+            handleLoginRedirect={handleLoginRedirect}
+          />
           <button
             onClick={() => setZenMode(!zenMode)}
             className="zen-mode-toggle"

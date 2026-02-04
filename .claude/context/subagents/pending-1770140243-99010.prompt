@@ -1,0 +1,48 @@
+**DEEP AUDIT: Chapter 4 Context Engineering vs Current Implementation**
+
+You are auditing whether our .claude/ infrastructure follows Chapter 4's context engineering principles.
+
+**Read these files:**
+1. Chapter 4 lessons: `apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/` - ALL lessons, especially:
+   - `01-manufacturing-quality-problem.md`
+   - `02-signal-vs-noise.md` (Three-Zone Strategy)
+   - `03-context-architecture.md`
+   - `04-tasks-system.md`
+   - `07-progress-files.md`
+   - `08-memory-injection.md`
+   - `10-context-engineering-playbook.md`
+
+2. Current CLAUDE.md: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/CLAUDE.md` (632 lines)
+3. Constitution: `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.specify/memory/constitution.md` (~2000 lines)
+
+**Analyze:**
+
+1. **Three-Zone Strategy Audit**
+   - Chapter 4 teaches CLAUDE.md should be ~60 lines with Zone 1/2/3
+   - Our CLAUDE.md is 632 lines
+   - Perform signal-vs-noise audit: what's Zone 1 (critical), Zone 2 (reference), Zone 3 (workflow)?
+   - What should be extracted to external docs?
+
+2. **Tasks System**
+   - Chapter 4 teaches Claude Code's native Tasks system
+   - We have custom `/sp.tasks` command
+   - Is this duplication? Should we drop custom and use native?
+
+3. **Progress Files**
+   - Chapter 4 teaches progress files for multi-session coordination
+   - We have ZERO progress files
+   - Design what our progress file should look like
+
+4. **Memory Injection**
+   - Chapter 4 teaches PreToolUse hooks for context injection
+   - Do our 28 hooks do this correctly?
+   - What's missing?
+
+5. **Context Budget Analysis**
+   - Constitution is ~2000 lines - should agents read this fully?
+   - What's the optimal constitution size?
+   - Should constitution be split into read-on-demand sections?
+
+**Output to:** `/Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/.claude/research/system-audit-2026-02-03/ch4-context-engineering-audit.md`
+
+Provide concrete refactoring recommendations with before/after examples.

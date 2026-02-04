@@ -12,6 +12,7 @@ from study_mode_api.chatkit_store import RequestContext
 from study_mode_api.fte import (
     ASK_PROMPT,
     TEACH_PROMPT,
+    ask_agent,
     create_agent,
 )
 
@@ -32,17 +33,19 @@ class TestAgentCreation:
         assert "Test Lesson" in agent.instructions
         assert "GUIDING" in agent.instructions
 
-    def test_create_ask_agent(self):
-        """Test creating agent in ask/search mode."""
+    def test_create_ask_agent_returns_singleton(self):
+        """Test creating agent in ask mode returns the singleton."""
         agent = create_agent(
             title="Test Lesson",
             content="This is test content about AI agents.",
             mode="ask",
         )
 
+        # Ask mode returns the singleton with dynamic instructions
+        assert agent is ask_agent
         assert agent.name == "study_tutor_ask"
-        assert "knowledgeable guide" in agent.instructions
-        assert "direct explanation" in agent.instructions
+        # Instructions are a callable, not a string (built at runtime from context)
+        assert callable(agent.instructions)
 
     def test_create_agent_with_user_name(self):
         """Test creating agent with user personalization."""
@@ -80,41 +83,28 @@ class TestAgentCreation:
         assert "A" * 8000 in agent.instructions
         assert "A" * 10000 not in agent.instructions
 
-    def test_content_truncation_ask_mode(self):
-        """Test content is truncated in ask mode (6000 chars)."""
-        long_content = "B" * 8000
+    def test_ask_mode_uses_dynamic_instructions(self):
+        """Test ask mode agent has dynamic instructions from context.
+
+        Ask mode uses a singleton agent with callable instructions that
+        read from context.metadata at runtime. Parameters like selected_text
+        are passed via context, not at agent creation time.
+        """
         agent = create_agent(
             title="Test",
-            content=long_content,
+            content="Test content",
             mode="ask",
         )
 
-        # Content should be truncated to 6000 chars
-        assert len(agent.instructions) < len(long_content)
+        # Verify it's the singleton with callable instructions
+        assert agent is ask_agent
+        assert callable(agent.instructions)
 
-    def test_create_agent_with_selected_text(self):
-        """Test creating agent with highlighted text (ask mode)."""
-        agent = create_agent(
-            title="Test Lesson",
-            content="This is test content.",
-            mode="ask",
-            selected_text="What is an agent?",
-        )
+        # Verify the prompt template has required placeholders
+        from study_mode_api.fte.ask_agent import ASK_PROMPT
 
-        assert "HIGHLIGHTED TEXT:" in agent.instructions
-        assert "What is an agent?" in agent.instructions
-
-    def test_create_agent_without_selected_text(self):
-        """Test creating agent without selected text."""
-        agent = create_agent(
-            title="Test Lesson",
-            content="This is test content.",
-            mode="ask",
-            selected_text=None,
-        )
-
-        # Without selected_text, no HIGHLIGHTED TEXT section
-        assert "HIGHLIGHTED TEXT:" not in agent.instructions
+        assert "{content}" in ASK_PROMPT
+        assert "{selected_text_section}" in ASK_PROMPT
 
     def test_create_agent_first_message_greeting(self):
         """Test agent includes greeting instruction for first message."""
