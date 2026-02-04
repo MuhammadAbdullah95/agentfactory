@@ -201,7 +201,7 @@ function ChatKitWrapper({
             },
             {
               icon: "lightbulb",
-              label: "Define this",
+              label: "Define this concept",
               prompt: selectedContext
                 ? "Define the highlighted text briefly."
                 : "Define this concept briefly",
@@ -240,10 +240,10 @@ function ChatKitWrapper({
 
 export function TeachMePanel({ lessonPath }: TeachMePanelProps) {
   const { siteConfig } = useDocusaurusContext();
-  const { isOpen, closePanel, openPanel } = useStudyMode();
+  const { isOpen, closePanel, openPanel, mode, setMode } = useStudyMode();
   const { session } = useAuth();
   const [chatKey, setChatKey] = useState(0);
-  const [mode, setMode] = useState<ChatMode>("teach");
+  // Mode is now managed by context (useStudyMode)
   const [initialMessage, setInitialMessage] = useState<string | undefined>();
 
   // Selected context - text user selected before clicking Ask

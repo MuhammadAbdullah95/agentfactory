@@ -161,6 +161,44 @@ function TeachMeFloatingButton({
   );
 }
 
+/**
+ * Ask Floating Button - opens panel directly in ask mode
+ * Redirects to login if not authenticated
+ */
+function AskFloatingButton({
+  isLoggedIn,
+  openPanelInAskMode,
+  handleLoginRedirect,
+}: {
+  isLoggedIn: boolean;
+  openPanelInAskMode: () => void;
+  handleLoginRedirect: () => void;
+}) {
+  return (
+    <button
+      onClick={isLoggedIn ? openPanelInAskMode : handleLoginRedirect}
+      className="ask-mode-float"
+      title={isLoggedIn ? "Ask a Question" : "Sign in to ask questions"}
+      aria-label={isLoggedIn ? "Open Ask Mode" : "Sign in for Ask Mode Access"}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+      </svg>
+    </button>
+  );
+}
+
 export default function ContentWrapper(props: Props): React.ReactElement {
   const doc = useDoc();
 
@@ -240,7 +278,13 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     .replace(/\.(md|mdx)$/, "");
 
   // Study mode controls
-  const { isOpen: isStudyModeOpen, openPanel } = useStudyMode();
+  const { isOpen: isStudyModeOpen, openPanel, setMode } = useStudyMode();
+
+  // Callback to open panel in ask mode
+  const openPanelInAskMode = React.useCallback(() => {
+    setMode("ask");
+    openPanel();
+  }, [setMode, openPanel]);
   const { session } = useAuth();
   const isLoggedIn = !!session?.user;
 
@@ -295,6 +339,11 @@ export default function ContentWrapper(props: Props): React.ReactElement {
             <TeachMeFloatingButton
               isLoggedIn={isLoggedIn}
               openPanel={openPanel}
+              handleLoginRedirect={handleLoginRedirect}
+            />
+            <AskFloatingButton
+              isLoggedIn={isLoggedIn}
+              openPanelInAskMode={openPanelInAskMode}
               handleLoginRedirect={handleLoginRedirect}
             />
             <button
@@ -373,6 +422,11 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           <TeachMeFloatingButton
             isLoggedIn={isLoggedIn}
             openPanel={openPanel}
+            handleLoginRedirect={handleLoginRedirect}
+          />
+          <AskFloatingButton
+            isLoggedIn={isLoggedIn}
+            openPanelInAskMode={openPanelInAskMode}
             handleLoginRedirect={handleLoginRedirect}
           />
           <button

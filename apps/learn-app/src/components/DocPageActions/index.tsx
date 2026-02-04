@@ -229,6 +229,25 @@ const StudyModeIcon = () => (
   </svg>
 );
 
+const AskModeIcon = () => (
+  <svg
+    className="doc-actions-icon"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
+  </svg>
+);
+
 // ============================================================================
 // TYPES
 // ============================================================================
@@ -320,7 +339,7 @@ export function DocPageActions() {
   const doc = useDoc();
   const { siteConfig } = useDocusaurusContext();
   const { session, isLoading: authLoading } = useAuth();
-  const { openPanel } = useStudyMode();
+  const { openPanel, setMode } = useStudyMode();
   const [copied, setCopied] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
   const [chapterDownloading, setChapterDownloading] = useState(false);
@@ -785,20 +804,52 @@ export function DocPageActions() {
       {/* Study Mode Button - Shown on all lesson pages, gated action for non-logged-in */}
       {isLessonPage && (
         <Tooltip
-          content={isLoggedIn ? "AI-powered Socratic learning" : "Sign in to access Teach Me mode"}
+          content={
+            isLoggedIn
+              ? "AI-powered Socratic learning"
+              : "Sign in to access Teach Me mode"
+          }
           position="bottom"
         >
           <button
             className={`doc-page-actions-study-mode ${!isLoggedIn ? "doc-page-actions-study-mode--locked" : ""}`}
             onClick={isLoggedIn ? openPanel : handleLoginRedirect}
-            aria-label={isLoggedIn ? "Open Teach Me" : "Sign in for Teach Me Access"}
+            aria-label={
+              isLoggedIn ? "Open Teach Me" : "Sign in for Teach Me Access"
+            }
           >
-            {isLoggedIn ? (
-              <StudyModeIcon />
-            ) : (
-              <LockIcon />
-            )}
+            {isLoggedIn ? <StudyModeIcon /> : <LockIcon />}
             <span>Teach Me</span>
+          </button>
+        </Tooltip>
+      )}
+
+      {/* Ask Mode Button - Opens panel in ask mode */}
+      {isLessonPage && (
+        <Tooltip
+          content={
+            isLoggedIn
+              ? "Ask about this lesson"
+              : "Sign in to ask questions"
+          }
+          position="bottom"
+        >
+          <button
+            className={`doc-page-actions-ask-mode ${!isLoggedIn ? "doc-page-actions-ask-mode--locked" : ""}`}
+            onClick={() => {
+              if (isLoggedIn) {
+                setMode("ask");
+                openPanel();
+              } else {
+                handleLoginRedirect();
+              }
+            }}
+            aria-label={
+              isLoggedIn ? "Open Ask Mode" : "Sign in for Ask Mode Access"
+            }
+          >
+            {isLoggedIn ? <AskModeIcon /> : <LockIcon />}
+            <span>Ask</span>
           </button>
         </Tooltip>
       )}
@@ -807,14 +858,14 @@ export function DocPageActions() {
       <div
         className={`doc-page-actions-split ${copied ? "doc-page-actions-split--success" : ""}`}
       >
-        {/* Primary Action: Copy Markdown */}
+        {/* Primary Action: Copy Markdown (icon only) */}
         <Tooltip
           content={copied ? "Copied!" : "Copy as Markdown"}
           shortcut={copied ? undefined : `${modKey}+⇧+C`}
           position="bottom"
         >
           <button
-            className={`doc-page-actions-main ${copied ? "doc-page-actions-main--success" : ""}`}
+            className={`doc-page-actions-main doc-page-actions-main--icon-only ${copied ? "doc-page-actions-main--success" : ""}`}
             onClick={handleCopyMarkdown}
             aria-label={
               copied ? "Copied to clipboard" : "Copy page as Markdown"
@@ -823,9 +874,6 @@ export function DocPageActions() {
           >
             <span className="doc-actions-icon-wrapper">
               {copied ? <CheckIcon /> : <CopyIcon />}
-            </span>
-            <span className="doc-page-actions-label">
-              {copied ? "Copied!" : "Copy"}
             </span>
           </button>
         </Tooltip>
