@@ -28,9 +28,9 @@ class TestAgentCreation:
         )
 
         assert agent.name == "study_tutor_teach"
-        assert "Socratic tutor" in agent.instructions
+        assert "warm and effective tutor" in agent.instructions
         assert "Test Lesson" in agent.instructions
-        assert "Lecture or explain concepts directly" in agent.instructions
+        assert "TEACH" in agent.instructions
 
     def test_create_ask_agent(self):
         """Test creating agent in ask/search mode."""
@@ -77,8 +77,8 @@ class TestAgentCreation:
         )
 
         # Content should be truncated to 8000 chars
-        assert len(agent.instructions) < len(long_content)
-        assert "A" * 100 in agent.instructions  # Some content preserved
+        assert "A" * 8000 in agent.instructions
+        assert "A" * 10000 not in agent.instructions
 
     def test_content_truncation_ask_mode(self):
         """Test content is truncated in ask mode (6000 chars)."""
@@ -126,7 +126,7 @@ class TestAgentCreation:
             is_first_message=True,
         )
 
-        assert "GREET THE STUDENT" in agent.instructions
+        assert "first message" in agent.instructions
 
     def test_create_agent_follow_up_no_greeting(self):
         """Test agent excludes greeting for follow-up messages."""
@@ -139,7 +139,7 @@ class TestAgentCreation:
         )
 
         assert "DO NOT GREET AGAIN" in agent.instructions
-        assert "GREET THE STUDENT" not in agent.instructions
+        assert "first message" not in agent.instructions
 
 
 class TestPromptTemplates:
@@ -149,9 +149,9 @@ class TestPromptTemplates:
         """Test teach prompt contains required instructional elements."""
         assert "{title}" in TEACH_PROMPT
         assert "{content}" in TEACH_PROMPT
-        assert "Socratic" in TEACH_PROMPT
-        assert "Lecture or explain concepts directly" in TEACH_PROMPT
-        assert "ONE question per message" in TEACH_PROMPT
+        assert "TEACH" in TEACH_PROMPT
+        assert "CHECK" in TEACH_PROMPT
+        assert "Ask vague open-ended questions" in TEACH_PROMPT
 
     def test_ask_prompt_has_required_elements(self):
         """Test ask prompt contains direct answer instructions."""
