@@ -1,29 +1,39 @@
 ### Core Concept
-The seven principles are most powerful when applied together in integrated workflows. Real tasks require multiple principles working in combination, and the meta-principle underlying all seven is that general agents are most effective when they leverage computing fundamentals (filesystems, shells, code execution, version control) rather than fighting against them--whether accessed through Claude Code's terminal or Cowork's desktop GUI.
+
+The Seven Principles aren't a checklist—they're an integrated system where each principle reinforces the others. Mastery means knowing which principles to emphasize for different situations and orchestrating them into smooth workflows. This is the Director's Mindset: you orchestrate outcomes, not type prompts.
 
 ### Key Mental Models
-- **Principle Prioritization by Task**: Different tasks emphasize different principles--debugging (1, 3, 7), refactoring (2, 4, 5), new features (all), setup (1, 5, 6), performance (1, 3, 7). Not all principles are equally critical for every task.
-- **Workflow Templates**: Quick Fix (describe -> investigate -> propose diff -> approve -> apply -> verify -> commit), Feature Development (spec -> context -> decompose -> implement/verify loop -> integration test -> commit), Refactoring (document -> plan -> branch -> extract/verify loop -> integrate -> merge).
-- **Meta-Principle**: All seven principles derive from one insight--leverage computing fundamentals (filesystems, shells, version control) as foundations for reliable, debuggable agent workflows rather than treating them as limitations.
-- **Interface Selection**: Choose Claude Code for maximum observability, custom constraints, and programmatic precision; choose Cowork for minimal friction, built-in safety prompts, and non-technical accessibility. Many workflows benefit from using both.
+
+- **From Typist to Director**: Typists type prompts and hope. Directors invoke principles explicitly, verify continuously, and course-correct proactively. The shift is from reactive to orchestrating.
+- **Project Health Score (0-7)**: Score your setup: +1 each for CLAUDE.md, git repo, test suite, permission config, ADRs, Skills, Hooks. 0-2 = Cowboy Coder, 3-4 = Collaborator, 5-6 = Architect, 7 = Master Director.
+- **Principle Prioritization by Task**: Different tasks emphasize different principles—debugging (P1, P3, P7), refactoring (P2, P4, P5), new features (all), exploration (P1, P7).
+- **Skill Stacking**: Principles build on each other. P1 (Bash) enables P3 (Verification via tests). P4 (Decomposition) enables P6 (Safety via git). Master the dependencies.
 
 ### Key Facts
-- **Complete feature workflow timeline**: A password reset feature moves from test specification (0:00) through CLAUDE.md update, decomposition, 8 implementation steps with verification, full test suite, review, to commit in about 60 minutes
-- **Principle combinations**: Terminal + Code + Verification enables autonomous investigation, implementation, and testing; Decomposition + Safety + Observability ensures small, safe, visible steps; State Persistence ensures context compounds across sessions
-- **Both interfaces run on same foundations**: Same Claude Agent SDK, same reasoning engine, same fundamental approach--one through terminal, one through GUI
+
+- **Integration payoff**: Individual principles provide incremental improvement; combined principles provide multiplicative improvement
+- **Time to mastery**: Principles become automatic after 2-3 weeks of conscious practice
+- **Director's advantage**: Directors complete tasks in 20% of the time typists spend, with higher quality
 
 ### Critical Patterns
-- Self-assessment checklist across all 7 principles with specific behaviors to verify (e.g., "you're not copying/pasting code manually" for P1, "you never accept code without testing" for P3, "you maintain CLAUDE.md" for P5)
-- Three complete workflow walkthroughs: debugging a production issue (emphasizing investigation and verification), implementing a new feature (all principles in sequence), refactoring a large module (emphasizing decomposition and safety)
-- Principle integration compounds: the workflow moves from "using AI" to "collaborating with an intelligent agent" when all principles work together--you provide intent, AI investigates and proposes, you review and redirect, AI implements and verifies, you approve
-- Interface choice is task-dependent, not absolute: Code excels at raw observability and custom constraints; Cowork excels at friction-free document workflows and non-technical accessibility
+
+- **Template 1b (When Fix Fails)**: "That didn't work. Let's revert to the last working state and try a different approach. What other options do we have?"
+- **The Director's Tip**: Invoke principles explicitly in prompts: "Using Principle 4, break this into atomic steps with commits after each."
+- **Workflow Selection**: Match workflow to task type—Quick Fix (P3+P4), Feature Dev (all), Refactoring (P2+P4+P5)
+- **Health Score Check**: Before major work, audit your setup against the 0-7 scale
+- Three complete workflows: debugging (investigation + verification), new feature (all principles), refactoring (decomposition + safety)
 
 ### Common Mistakes
-- Applying principles in isolation without considering how they reinforce each other (verification without decomposition means testing large unclear changes; decomposition without observability means invisible progress)
-- Using the same approach for all task types regardless of which principles are most critical (a quick bug fix needs investigation and verification more than state persistence)
-- Choosing one interface exclusively when both have complementary strengths (Code for implementation, Cowork for documentation and review)
-- Treating principles as a checklist to complete rather than a framework for judgment (the goal is appropriate application based on task characteristics, not rigid adherence to all seven for every task)
+
+- Treating principles as checklist (they're interconnected, not independent)
+- Applying same workflow to all tasks (different situations need different principle emphasis)
+- Forgetting to invoke principles explicitly (Claude responds better when principles are named)
+- Skipping the health score audit (low scores predict session failures)
+- Staying in typist mode (hoping prompts work instead of directing outcomes)
+- Not having a recovery path (Template 1b should be automatic when fixes fail)
 
 ### Connections
-- **Builds on**: All seven preceding lessons (Principles 1-7)--this lesson synthesizes them into integrated workflows
-- **Leads to**: Part 2 and beyond--complex file processing, data analysis, multi-step research, automated document generation, browser automation, and building custom agents, all applying these principles at increasing sophistication
+
+- **Synthesizes**: All seven principles into integrated workflows
+- **Enables**: The Director's Mindset—confident, proactive AI collaboration
+- **Foundation for**: Part 2's applied workflows, where principles become automatic
