@@ -153,16 +153,19 @@ function ChatKitWrapper({
       attachments: { enabled: false },
       // Model picker for mode selection - appears as dropdown in composer
       // Backend reads selected mode from inference_options.model
+      // Set default based on which button user clicked (mode prop)
       models: [
         {
           id: "teach",
           label: "Teach Me",
           description: "Socratic tutoring with questions to check understanding",
+          default: mode === "teach",
         },
         {
           id: "ask",
           label: "Quick Ask",
           description: "Direct answers without follow-up questions",
+          default: mode === "ask",
         },
       ],
     },

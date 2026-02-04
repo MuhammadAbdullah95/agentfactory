@@ -415,8 +415,26 @@ Before deep implementation:
 - ❌ **Implementing before researching existing solutions** → Reinvented wheel (DocPageActions incident: GitHub fetch when Turndown existed)
 - ❌ **Skipping edge case analysis** → Missed rate limits, permissions (DocPageActions: 60 req/hr GitHub limit)
 - ❌ **Not considering testing context vs production** → Browser automation behaves differently (clipboard needs document focus)
+- ❌ **COMMITTING WITHOUT LIVE VERIFICATION** → Broke production for 3+ hours (2026-02-04: wrong import path pushed to main)
 
 **Prevention**: Always read context first. Always use absolute paths. Always use commands for workflows. **Verify file exists after subagent writes.** **Research existing solutions before implementing.**
+
+### LIVE VERIFICATION PROTOCOL (MANDATORY before commits to main)
+
+**⚠️ NEVER commit to main branch without live verification:**
+
+1. **Start the actual server** (`uvicorn`, `pnpm nx serve`, etc.)
+2. **Make a real request** through UI or API
+3. **Verify full flow** works end-to-end
+4. **Check logs** for errors or warnings
+5. **Only then** commit and push
+
+**High-risk changes requiring extra verification:**
+- Import statements (module paths differ between environments)
+- API/SDK features (docs may not match installed version)
+- Startup/initialization code
+- Database migrations
+- Environment-dependent configuration
 
 ---
 

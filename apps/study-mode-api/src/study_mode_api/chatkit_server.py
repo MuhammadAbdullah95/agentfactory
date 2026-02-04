@@ -144,21 +144,27 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             user_name = context.metadata.get("user_name")
             selected_text = context.metadata.get("selected_text")
 
-            # Get mode from inference_options (ChatKit model picker) or fallback to URL param
-            # ChatKit's composer.models sends selected model via inference_options.model
-            mode = "teach"  # default
+            # Get mode from picker (per-message) or URL param (initial entry point)
+            # Picker takes priority - it's the user's most recent choice for this message
+            url_mode = context.metadata.get("mode", "teach")
+
+            # Check inference_options for picker selection
+            picker_mode = None
             if (
                 input_user_message.inference_options
                 and input_user_message.inference_options.model
+                and input_user_message.inference_options.model in ("teach", "ask")
             ):
-                selected_model = input_user_message.inference_options.model
-                if selected_model in ("teach", "ask"):
-                    mode = selected_model
-                    logger.info(f"[ChatKit] Mode from inference_options: {mode}")
+                picker_mode = input_user_message.inference_options.model
+
+            # Priority: picker selection > URL param
+            # Picker is per-message choice, URL is initial entry point
+            if picker_mode:
+                mode = picker_mode
+                logger.info(f"[ChatKit] Mode from picker: {mode}")
             else:
-                # Fallback to URL param for backwards compatibility
-                mode = context.metadata.get("mode", "teach")
-                logger.info(f"[ChatKit] Mode from URL param: {mode}")
+                mode = url_mode
+                logger.info(f"[ChatKit] Mode: {mode} (default/URL)")
 
             logger.info(
                 f"[ChatKit] Processing: user={context.user_id}, "

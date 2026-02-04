@@ -49,3 +49,20 @@ Patterns learned from corrections. Review at session start.
 **Mistake**: 7 agents referenced 9 non-existent skills
 **Pattern**: Skills were removed but agent references weren't updated
 **Rule**: When removing a skill, grep all agents for references: `grep -r "skill-name" .claude/agents/`
+
+---
+
+## 2026-02-04 Live Verification Before Commits (CRITICAL)
+
+**Mistake**: Pushed ChatKit model picker + wrong import path to main without local testing - broke production for 3+ hours
+**Pattern**: Made code changes, assumed they would work, committed and pushed without running the actual server
+**Rule**: NEVER commit to main branch without live verification:
+1. Start the actual server locally (`uvicorn` or `pnpm nx serve`)
+2. Make a real request through the UI or API
+3. Verify the full flow works end-to-end
+4. Only then commit and push
+
+**Especially critical for**:
+- Import statements (modules may not exist in all environments)
+- API/SDK features (documentation may not match installed version)
+- Any changes touching startup/initialization code
