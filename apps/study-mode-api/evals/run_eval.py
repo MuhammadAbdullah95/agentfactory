@@ -203,48 +203,14 @@ TEACH FIRST, then ask.
 
 TESTING_CRITERIA = [
     # ===================================================================
-    # LAYER 1: Surface Safety — String Checks (fast, deterministic)
-    # ===================================================================
-    # These catch obvious prompt violations without needing an LLM judge.
-    {
-        "type": "string_check",
-        "name": "No 'Great question' filler",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Great question",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'Nice start' filler",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Nice start",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'Micro-explain' label leaked",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Micro-explain",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'Micro_explain' label leaked",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Micro_explain",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'STEP 1' label leaked",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "STEP 1",
-    },
-    # ===================================================================
-    # LAYER 2: Education-Centric Model Graders (from Learning Sciences)
+    # Education-Centric Model Graders (from Learning Sciences)
     # Based on: mjunaidca/eval-driven-edu-agents_research
     # These measure "Did this response behave like a TEACHER?"
+    #
+    # Note: Surface checks (filler praise, leaked labels) are covered
+    # by Grader F (Study Mode Integrity) using GPT-4.1 as judge.
+    # OpenAI Evals string_check only supports eq/ne/like/ilike,
+    # so "not contains" checks must use model graders.
     # ===================================================================
     #
     # GRADER A: Content Grounding & Faithfulness
@@ -253,29 +219,14 @@ TESTING_CRITERIA = [
         "type": "score_model",
         "name": "A. Content Grounding & Faithfulness",
         "model": "gpt-4.1",
-        "input": (
-            "You are evaluating a Study Mode teaching response for "
-            "CONTENT GROUNDING.\n\n"
-            "LESSON CONTENT PROVIDED TO TUTOR:\n"
-            '"""\n'
-            + LESSON_CONTENT
-            + '\n"""\n\n'
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "EVALUATION CRITERIA:\n"
-            "The tutor's response must be strictly grounded in the "
-            "lesson content above.\n\n"
-            "CHECK:\n"
-            "- Are all factual claims supported by the lesson?\n"
-            "- Does the tutor avoid introducing external facts or "
-            "general AI knowledge not in the lesson?\n"
-            "- Does the tutor avoid inventing terminology?\n"
-            "- Are analogies reasonable extensions of lesson concepts "
-            "(not fabricated facts)?\n\n"
-            "Score 1.0 if the response is well-grounded in the lesson.\n"
-            "Score 0.5 if mostly grounded with minor extrapolation.\n"
-            "Score 0.0 if the response introduces significant claims "
-            "not found in the lesson content."
-        ),
+        "input": [
+            {
+                "role": "user",
+                "content": "You are evaluating a Study Mode teaching response for CONTENT GROUNDING.\n\nLESSON CONTENT PROVIDED TO TUTOR:\n\"\"\"\n"  # noqa: E501
+                + LESSON_CONTENT
+                + "\"\"\"\n\nTUTOR RESPONSE: \"{{ sample.output_text }}\"\n\nEVALUATION CRITERIA:\nThe tutor's response must be strictly grounded in the lesson content above.\n\nCHECK:\n- Are all factual claims supported by the lesson?\n- Does the tutor avoid introducing external facts or general AI knowledge not in the lesson?\n- Does the tutor avoid inventing terminology?\n- Are analogies reasonable extensions of lesson concepts (not fabricated facts)?\n\nScore 1.0 if the response is well-grounded in the lesson.\nScore 0.5 if mostly grounded with minor extrapolation.\nScore 0.0 if the response introduces significant claims not found in the lesson content.",  # noqa: E501
+            }
+        ],
         "pass_threshold": 0.5,
     },
     # -------------------------------------------------------------------
@@ -285,28 +236,12 @@ TESTING_CRITERIA = [
         "type": "score_model",
         "name": "B. Teaching Intent Alignment",
         "model": "gpt-4.1",
-        "input": (
-            "You are evaluating whether a response behaves like a "
-            "TEACHER, not a chatbot or Q&A system.\n\n"
-            "SCENARIO: {{ item.scenario }}\n"
-            "STUDENT SAID: \"{{ item.student_message }}\"\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "EVALUATION CRITERIA:\n"
-            "A teaching response should:\n"
-            "- Explain concepts to build understanding\n"
-            "- Use instructional language\n"
-            "- Guide the student toward discovery\n"
-            "- NOT just dump a final answer like StackOverflow\n"
-            "- NOT treat the student as asking for a solution\n\n"
-            "The core question: Does this response prioritize "
-            "TEACHING and UNDERSTANDING rather than just answering?\n\n"
-            "Score 1.0 if clearly teaching-oriented (explains, guides, "
-            "checks understanding).\n"
-            "Score 0.5 if partially teaching (answers but with some "
-            "explanation).\n"
-            "Score 0.0 if it just gives a direct answer with no "
-            "teaching effort, or responds like a chatbot."
-        ),
+        "input": [
+            {
+                "role": "user",
+                "content": "You are evaluating whether a response behaves like a TEACHER, not a chatbot or Q&A system.\n\nSCENARIO: {{ item.scenario }}\nSTUDENT SAID: \"{{ item.student_message }}\"\nTUTOR RESPONSE: \"{{ sample.output_text }}\"\n\nEVALUATION CRITERIA:\nA teaching response should:\n- Explain concepts to build understanding\n- Use instructional language\n- Guide the student toward discovery\n- NOT just dump a final answer like StackOverflow\n- NOT treat the student as asking for a solution\n\nThe core question: Does this response prioritize TEACHING and UNDERSTANDING rather than just answering?\n\nScore 1.0 if clearly teaching-oriented (explains, guides, checks understanding).\nScore 0.5 if partially teaching (answers but with some explanation).\nScore 0.0 if it just gives a direct answer with no teaching effort, or responds like a chatbot.",  # noqa: E501
+            }
+        ],
         "pass_threshold": 0.5,
     },
     # -------------------------------------------------------------------
@@ -316,28 +251,12 @@ TESTING_CRITERIA = [
         "type": "score_model",
         "name": "C. Pedagogical Structure",
         "model": "gpt-4.1",
-        "input": (
-            "You are evaluating the TEACHING STRUCTURE of a tutor's "
-            "response.\n\n"
-            "SCENARIO: {{ item.scenario }}\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "EVALUATION CRITERIA:\n"
-            "A well-structured teaching response should have a clear "
-            "flow:\n"
-            "1. Acknowledge or connect to what the student said\n"
-            "2. Explain or teach a core idea (with example/analogy)\n"
-            "3. Check understanding with a question\n\n"
-            "It should NOT be:\n"
-            "- Random paragraphs with no logical flow\n"
-            "- A list of facts without progression\n"
-            "- An abrupt or incomplete response\n"
-            "- Multiple topics crammed together\n\n"
-            "Score 1.0 if the response has clear pedagogical flow "
-            "(acknowledge → teach → check).\n"
-            "Score 0.5 if structure is present but could be clearer.\n"
-            "Score 0.0 if the response has no discernible teaching "
-            "structure."
-        ),
+        "input": [
+            {
+                "role": "user",
+                "content": "You are evaluating the TEACHING STRUCTURE of a tutor's response.\n\nSCENARIO: {{ item.scenario }}\nTUTOR RESPONSE: \"{{ sample.output_text }}\"\n\nEVALUATION CRITERIA:\nA well-structured teaching response should have a clear flow:\n1. Acknowledge or connect to what the student said\n2. Explain or teach a core idea (with example/analogy)\n3. Check understanding with a question\n\nIt should NOT be:\n- Random paragraphs with no logical flow\n- A list of facts without progression\n- An abrupt or incomplete response\n- Multiple topics crammed together\n\nScore 1.0 if the response has clear pedagogical flow (acknowledge -> teach -> check).\nScore 0.5 if structure is present but could be clearer.\nScore 0.0 if the response has no discernible teaching structure.",  # noqa: E501
+            }
+        ],
         "pass_threshold": 0.5,
     },
     # -------------------------------------------------------------------
@@ -347,34 +266,12 @@ TESTING_CRITERIA = [
         "type": "score_model",
         "name": "D. Cognitive Scaffolding",
         "model": "gpt-4.1",
-        "input": (
-            "You are evaluating COGNITIVE SCAFFOLDING in a tutor's "
-            "response.\n\n"
-            "SCENARIO: {{ item.scenario }}\n"
-            "STUDENT SAID: \"{{ item.student_message }}\"\n"
-            "CONVERSATION CONTEXT: {{ item.conversation_history }}\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "EVALUATION CRITERIA:\n"
-            "Scaffolding means meeting the learner where they are:\n"
-            "- Concepts introduced gradually (simple first, complex "
-            "later)\n"
-            "- New terms explained in context, not dropped as jargon\n"
-            "- Uses analogies or concrete examples to bridge gaps\n"
-            "- Adapts difficulty based on what the student said\n"
-            "- When student is stuck: simplifies, doesn't escalate\n\n"
-            "CHECK:\n"
-            "- If student said 'no'/'I don't know': Does the tutor "
-            "TEACH simply before asking? (Critical rule)\n"
-            "- If student was correct: Does the tutor advance to the "
-            "next concept?\n"
-            "- If student was wrong: Does the tutor simplify and "
-            "re-explain?\n\n"
-            "Score 1.0 if the response adapts well to the student's "
-            "level and scaffolds learning.\n"
-            "Score 0.5 if partially scaffolded.\n"
-            "Score 0.0 if the response assumes too much prior "
-            "knowledge, drops jargon, or overwhelms the learner."
-        ),
+        "input": [
+            {
+                "role": "user",
+                "content": "You are evaluating COGNITIVE SCAFFOLDING in a tutor's response.\n\nSCENARIO: {{ item.scenario }}\nSTUDENT SAID: \"{{ item.student_message }}\"\nCONVERSATION CONTEXT: {{ item.conversation_history }}\nTUTOR RESPONSE: \"{{ sample.output_text }}\"\n\nEVALUATION CRITERIA:\nScaffolding means meeting the learner where they are:\n- Concepts introduced gradually (simple first, complex later)\n- New terms explained in context, not dropped as jargon\n- Uses analogies or concrete examples to bridge gaps\n- Adapts difficulty based on what the student said\n- When student is stuck: simplifies, doesn't escalate\n\nCHECK:\n- If student said 'no'/'I don't know': Does the tutor TEACH simply before asking? (Critical rule)\n- If student was correct: Does the tutor advance to the next concept?\n- If student was wrong: Does the tutor simplify and re-explain?\n\nScore 1.0 if the response adapts well to the student's level and scaffolds learning.\nScore 0.5 if partially scaffolded.\nScore 0.0 if the response assumes too much prior knowledge, drops jargon, or overwhelms the learner.",  # noqa: E501
+            }
+        ],
         "pass_threshold": 0.5,
     },
     # -------------------------------------------------------------------
@@ -384,34 +281,12 @@ TESTING_CRITERIA = [
         "type": "score_model",
         "name": "E. Instructional Question Quality",
         "model": "gpt-4.1",
-        "input": (
-            "You are evaluating HOW QUESTIONS ARE USED in a tutor's "
-            "response.\n\n"
-            "SCENARIO: {{ item.scenario }}\n"
-            "STUDENT SAID: \"{{ item.student_message }}\"\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "EVALUATION CRITERIA:\n"
-            "Questions in a teaching response must be:\n"
-            "- At most ONE question per response\n"
-            "- The question checks understanding of what was just "
-            "taught\n"
-            "- The question is narrow and specific (not vague)\n"
-            "- Questions come AFTER teaching, not before\n\n"
-            "FAIL if:\n"
-            "- Multiple questions in one response\n"
-            "- Open-ended 'what do you think?' without teaching first\n"
-            "- Questions asked BEFORE any teaching (when student is "
-            "stuck)\n"
-            "- Multiple-choice options (A, B, or C?)\n\n"
-            "SPECIAL CASE: If student said 'no'/'I don't know'/"
-            "'not sure'/'I can't' and the tutor asks a question "
-            "WITHOUT teaching first → Score 0.0 (most critical rule)\n\n"
-            "Score 1.0 if question usage is excellent (one focused "
-            "question after teaching).\n"
-            "Score 0.5 if acceptable but could be better.\n"
-            "Score 0.0 if questions are misused (multiple, before "
-            "teaching, or multiple-choice)."
-        ),
+        "input": [
+            {
+                "role": "user",
+                "content": "You are evaluating HOW QUESTIONS ARE USED in a tutor's response.\n\nSCENARIO: {{ item.scenario }}\nSTUDENT SAID: \"{{ item.student_message }}\"\nTUTOR RESPONSE: \"{{ sample.output_text }}\"\n\nEVALUATION CRITERIA:\nQuestions in a teaching response must be:\n- At most ONE question per response\n- The question checks understanding of what was just taught\n- The question is narrow and specific (not vague)\n- Questions come AFTER teaching, not before\n\nFAIL if:\n- Multiple questions in one response\n- Open-ended 'what do you think?' without teaching first\n- Questions asked BEFORE any teaching (when student is stuck)\n- Multiple-choice options (A, B, or C?)\n\nSPECIAL CASE: If student said 'no'/'I don't know'/'not sure'/'I can't' and the tutor asks a question WITHOUT teaching first -> Score 0.0 (most critical rule)\n\nScore 1.0 if question usage is excellent (one focused question after teaching).\nScore 0.5 if acceptable but could be better.\nScore 0.0 if questions are misused (multiple, before teaching, or multiple-choice).",  # noqa: E501
+            }
+        ],
         "pass_threshold": 0.5,
     },
     # -------------------------------------------------------------------
@@ -421,31 +296,12 @@ TESTING_CRITERIA = [
         "type": "score_model",
         "name": "F. Study Mode Integrity",
         "model": "gpt-4.1",
-        "input": (
-            "You are evaluating STUDY MODE INTEGRITY of a tutor's "
-            "response.\n\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n"
-            "SCENARIO: {{ item.scenario }}\n\n"
-            "EVALUATION CRITERIA:\n"
-            "Study Mode is a TEACHING mode, not a chat mode. The "
-            "tutor must:\n"
-            "- Encourage understanding, not memorization\n"
-            "- Not provide shortcuts or spoon-feed answers\n"
-            "- Not bypass learning steps\n"
-            "- Guide the student to think, not just consume\n"
-            "- Keep responses concise (under 200 words)\n"
-            "- Not use filler praise ('Great question!', 'Nice "
-            "start!', 'Excellent!', 'Good job!')\n"
-            "- Not leak internal labels ('Micro-explain:', "
-            "'Guide question:', 'STEP 1')\n"
-            "- Not re-greet on follow-up messages\n\n"
-            "Score 1.0 if the response fully maintains Study Mode "
-            "integrity.\n"
-            "Score 0.5 if mostly compliant with minor issues.\n"
-            "Score 0.0 if the response breaks Study Mode rules "
-            "(filler praise, labels leaked, chatbot behavior, "
-            "spoon-feeding)."
-        ),
+        "input": [
+            {
+                "role": "user",
+                "content": "You are evaluating STUDY MODE INTEGRITY of a tutor's response.\n\nTUTOR RESPONSE: \"{{ sample.output_text }}\"\nSCENARIO: {{ item.scenario }}\n\nEVALUATION CRITERIA:\nStudy Mode is a TEACHING mode, not a chat mode. The tutor must:\n- Encourage understanding, not memorization\n- Not provide shortcuts or spoon-feed answers\n- Not bypass learning steps\n- Guide the student to think, not just consume\n- Keep responses concise (under 200 words)\n- Not use filler praise ('Great question!', 'Nice start!', 'Excellent!', 'Good job!')\n- Not leak internal labels ('Micro-explain:', 'Guide question:', 'STEP 1')\n- Not re-greet on follow-up messages\n\nScore 1.0 if the response fully maintains Study Mode integrity.\nScore 0.5 if mostly compliant with minor issues.\nScore 0.0 if the response breaks Study Mode rules (filler praise, labels leaked, chatbot behavior, spoon-feeding).",  # noqa: E501
+            }
+        ],
         "pass_threshold": 0.5,
     },
 ]
@@ -549,7 +405,7 @@ def wait_for_run(client: OpenAI, eval_id: str, run_id: str) -> dict:
     """Poll until run completes."""
     print("\n  Waiting for eval to complete", end="", flush=True)
     while True:
-        run = client.evals.runs.retrieve(eval_id, run_id)
+        run = client.evals.runs.retrieve(run_id, eval_id=eval_id)
         if run.status in ("completed", "failed", "canceled"):
             print(f"\n  Status: {run.status}")
             return run
