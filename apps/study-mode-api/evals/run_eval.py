@@ -202,9 +202,10 @@ TEACH FIRST, then ask.
 # ---------------------------------------------------------------------------
 
 TESTING_CRITERIA = [
-    # -----------------------------------------------------------------------
-    # 1. No filler praise — string checks
-    # -----------------------------------------------------------------------
+    # ===================================================================
+    # LAYER 1: Surface Safety — String Checks (fast, deterministic)
+    # ===================================================================
+    # These catch obvious prompt violations without needing an LLM judge.
     {
         "type": "string_check",
         "name": "No 'Great question' filler",
@@ -221,283 +222,229 @@ TESTING_CRITERIA = [
     },
     {
         "type": "string_check",
-        "name": "No 'Excellent' filler",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Excellent!",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'Good job' filler",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Good job",
-    },
-    # -----------------------------------------------------------------------
-    # 2. No internal labels leaked — string checks
-    # -----------------------------------------------------------------------
-    {
-        "type": "string_check",
-        "name": "No 'Micro-explain' label",
+        "name": "No 'Micro-explain' label leaked",
         "input": "{{ sample.output_text }}",
         "operation": "not_contains",
         "reference": "Micro-explain",
     },
     {
         "type": "string_check",
-        "name": "No 'Guide question' label",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Guide question",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'Micro_explain' label",
+        "name": "No 'Micro_explain' label leaked",
         "input": "{{ sample.output_text }}",
         "operation": "not_contains",
         "reference": "Micro_explain",
     },
     {
         "type": "string_check",
-        "name": "No 'Confirm_then_push' label",
-        "input": "{{ sample.output_text }}",
-        "operation": "not_contains",
-        "reference": "Confirm_then_push",
-    },
-    {
-        "type": "string_check",
-        "name": "No 'STEP 1' label",
+        "name": "No 'STEP 1' label leaked",
         "input": "{{ sample.output_text }}",
         "operation": "not_contains",
         "reference": "STEP 1",
     },
-    # -----------------------------------------------------------------------
-    # 3. Teaches when student is stuck — model grader (most important)
-    # -----------------------------------------------------------------------
+    # ===================================================================
+    # LAYER 2: Education-Centric Model Graders (from Learning Sciences)
+    # Based on: mjunaidca/eval-driven-edu-agents_research
+    # These measure "Did this response behave like a TEACHER?"
+    # ===================================================================
+    #
+    # GRADER A: Content Grounding & Faithfulness
+    # -------------------------------------------------------------------
     {
         "type": "score_model",
-        "name": "Teaches before asking when stuck",
+        "name": "A. Content Grounding & Faithfulness",
         "model": "gpt-4.1",
         "input": (
-            "You are evaluating a Socratic tutor's response.\n\n"
+            "You are evaluating a Study Mode teaching response for "
+            "CONTENT GROUNDING.\n\n"
+            "LESSON CONTENT PROVIDED TO TUTOR:\n"
+            '"""\n'
+            + LESSON_CONTENT
+            + '\n"""\n\n'
+            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
+            "EVALUATION CRITERIA:\n"
+            "The tutor's response must be strictly grounded in the "
+            "lesson content above.\n\n"
+            "CHECK:\n"
+            "- Are all factual claims supported by the lesson?\n"
+            "- Does the tutor avoid introducing external facts or "
+            "general AI knowledge not in the lesson?\n"
+            "- Does the tutor avoid inventing terminology?\n"
+            "- Are analogies reasonable extensions of lesson concepts "
+            "(not fabricated facts)?\n\n"
+            "Score 1.0 if the response is well-grounded in the lesson.\n"
+            "Score 0.5 if mostly grounded with minor extrapolation.\n"
+            "Score 0.0 if the response introduces significant claims "
+            "not found in the lesson content."
+        ),
+        "pass_threshold": 0.5,
+    },
+    # -------------------------------------------------------------------
+    # GRADER B: Teaching Intent Alignment
+    # -------------------------------------------------------------------
+    {
+        "type": "score_model",
+        "name": "B. Teaching Intent Alignment",
+        "model": "gpt-4.1",
+        "input": (
+            "You are evaluating whether a response behaves like a "
+            "TEACHER, not a chatbot or Q&A system.\n\n"
             "SCENARIO: {{ item.scenario }}\n"
+            "STUDENT SAID: \"{{ item.student_message }}\"\n"
+            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
+            "EVALUATION CRITERIA:\n"
+            "A teaching response should:\n"
+            "- Explain concepts to build understanding\n"
+            "- Use instructional language\n"
+            "- Guide the student toward discovery\n"
+            "- NOT just dump a final answer like StackOverflow\n"
+            "- NOT treat the student as asking for a solution\n\n"
+            "The core question: Does this response prioritize "
+            "TEACHING and UNDERSTANDING rather than just answering?\n\n"
+            "Score 1.0 if clearly teaching-oriented (explains, guides, "
+            "checks understanding).\n"
+            "Score 0.5 if partially teaching (answers but with some "
+            "explanation).\n"
+            "Score 0.0 if it just gives a direct answer with no "
+            "teaching effort, or responds like a chatbot."
+        ),
+        "pass_threshold": 0.5,
+    },
+    # -------------------------------------------------------------------
+    # GRADER C: Pedagogical Structure
+    # -------------------------------------------------------------------
+    {
+        "type": "score_model",
+        "name": "C. Pedagogical Structure",
+        "model": "gpt-4.1",
+        "input": (
+            "You are evaluating the TEACHING STRUCTURE of a tutor's "
+            "response.\n\n"
+            "SCENARIO: {{ item.scenario }}\n"
+            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
+            "EVALUATION CRITERIA:\n"
+            "A well-structured teaching response should have a clear "
+            "flow:\n"
+            "1. Acknowledge or connect to what the student said\n"
+            "2. Explain or teach a core idea (with example/analogy)\n"
+            "3. Check understanding with a question\n\n"
+            "It should NOT be:\n"
+            "- Random paragraphs with no logical flow\n"
+            "- A list of facts without progression\n"
+            "- An abrupt or incomplete response\n"
+            "- Multiple topics crammed together\n\n"
+            "Score 1.0 if the response has clear pedagogical flow "
+            "(acknowledge → teach → check).\n"
+            "Score 0.5 if structure is present but could be clearer.\n"
+            "Score 0.0 if the response has no discernible teaching "
+            "structure."
+        ),
+        "pass_threshold": 0.5,
+    },
+    # -------------------------------------------------------------------
+    # GRADER D: Cognitive Scaffolding
+    # -------------------------------------------------------------------
+    {
+        "type": "score_model",
+        "name": "D. Cognitive Scaffolding",
+        "model": "gpt-4.1",
+        "input": (
+            "You are evaluating COGNITIVE SCAFFOLDING in a tutor's "
+            "response.\n\n"
+            "SCENARIO: {{ item.scenario }}\n"
+            "STUDENT SAID: \"{{ item.student_message }}\"\n"
             "CONVERSATION CONTEXT: {{ item.conversation_history }}\n"
-            "STUDENT SAID: \"{{ item.student_message }}\"\n"
-            "TUTOR RESPONDED: \"{{ sample.output_text }}\"\n\n"
-            "RULE: When a student says 'no', 'not really', 'I don't know', "
-            "'I can't', 'not sure', 'this is confusing', 'what?', or seems "
-            "stuck in any way, the tutor MUST:\n"
-            "1. TEACH the concept with a clear explanation or analogy "
-            "(2-3 sentences)\n"
-            "2. THEN ask ONE question about what was just taught\n\n"
-            "The tutor must NEVER respond to a stuck student by:\n"
-            "- Asking another probing question without teaching first\n"
-            "- Saying 'What do you think about...?' or 'What do you "
-            "already know about...?'\n"
-            "- Giving multiple-choice options instead of teaching\n"
-            "- Just rephrasing the same question\n\n"
-            "If the scenario is 'student_says_no' or 'student_stuck':\n"
-            "  Score 1.0 if the tutor teaches FIRST (explains with "
-            "analogy/example) then asks a question.\n"
-            "  Score 0.0 if the tutor asks a question without teaching, "
-            "gives options, or rephrases the question.\n\n"
-            "If the scenario is NOT about a stuck student (correct_answer, "
-            "student_asks_question, etc.):\n"
-            "  Score 1.0 (this criteria doesn't apply).\n"
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 4. Exactly one question per response — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "Exactly one question per response",
-        "model": "gpt-4.1",
-        "input": (
-            "You are evaluating a tutor's response.\n\n"
             "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: The tutor must end with exactly ONE question. "
-            "Not zero, not two or more.\n\n"
-            "Count the number of question marks (?) in the response. "
-            "Also check for questions without question marks "
-            "(e.g., 'Tell me what you think').\n\n"
-            "Score 1.0 if the response contains exactly ONE question.\n"
-            "Score 0.5 if the response has zero questions (acceptable "
-            "for acknowledgment scenarios like 'ok got it').\n"
-            "Score 0.0 if the response contains TWO or MORE questions."
+            "EVALUATION CRITERIA:\n"
+            "Scaffolding means meeting the learner where they are:\n"
+            "- Concepts introduced gradually (simple first, complex "
+            "later)\n"
+            "- New terms explained in context, not dropped as jargon\n"
+            "- Uses analogies or concrete examples to bridge gaps\n"
+            "- Adapts difficulty based on what the student said\n"
+            "- When student is stuck: simplifies, doesn't escalate\n\n"
+            "CHECK:\n"
+            "- If student said 'no'/'I don't know': Does the tutor "
+            "TEACH simply before asking? (Critical rule)\n"
+            "- If student was correct: Does the tutor advance to the "
+            "next concept?\n"
+            "- If student was wrong: Does the tutor simplify and "
+            "re-explain?\n\n"
+            "Score 1.0 if the response adapts well to the student's "
+            "level and scaffolds learning.\n"
+            "Score 0.5 if partially scaffolded.\n"
+            "Score 0.0 if the response assumes too much prior "
+            "knowledge, drops jargon, or overwhelms the learner."
         ),
         "pass_threshold": 0.5,
     },
-    # -----------------------------------------------------------------------
-    # 5. No re-greeting on follow-ups — model grader
-    # -----------------------------------------------------------------------
+    # -------------------------------------------------------------------
+    # GRADER E: Instructional Question Quality
+    # -------------------------------------------------------------------
     {
         "type": "score_model",
-        "name": "No re-greeting on follow-ups",
+        "name": "E. Instructional Question Quality",
         "model": "gpt-4.1",
         "input": (
-            "SCENARIO: {{ item.scenario }}\n"
-            "IS FIRST MESSAGE: {{ item.is_first_message }}\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: If this is NOT the first message (is_first_message "
-            "is false), the tutor must NOT greet the student again.\n"
-            "No 'Hi!', 'Hello!', 'Hey there!', 'Welcome!' etc.\n\n"
-            "If is_first_message is true, greeting IS expected.\n\n"
-            "Score 1.0 if the rule is followed correctly.\n"
-            "Score 0.0 if a follow-up message contains a greeting."
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 6. Concise responses (under 200 words) — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "Response under 200 words",
-        "model": "gpt-4.1",
-        "input": (
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "Count the words in the tutor's response.\n\n"
-            "Score 1.0 if the response is under 200 words.\n"
-            "Score 0.5 if the response is 200-250 words.\n"
-            "Score 0.0 if the response is over 250 words."
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 7. Uses bold for key terms — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "Uses bold for key terms",
-        "model": "gpt-4.1",
-        "input": (
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: When the tutor introduces a key technical term for "
-            "the first time, it should be in **bold** markdown.\n\n"
-            "Score 1.0 if the response uses **bold** for at least one "
-            "key term.\n"
-            "Score 0.5 if no key terms are introduced (e.g., short "
-            "confirmation like 'Right!').\n"
-            "Score 0.0 if key terms are introduced but none are bolded."
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 8. No multiple-choice options — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "No multiple-choice options",
-        "model": "gpt-4.1",
-        "input": (
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: The tutor must NEVER give multiple-choice options "
-            "like 'Would you like to explore A, B, or C?' or "
-            "'Which do you want: agents, specs, or skills?'\n\n"
-            "Score 1.0 if the response does NOT contain multiple-choice "
-            "options.\n"
-            "Score 0.0 if the response offers 2+ options to choose from."
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 9. Answers questions directly — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "Answers student questions directly",
-        "model": "gpt-4.1",
-        "input": (
+            "You are evaluating HOW QUESTIONS ARE USED in a tutor's "
+            "response.\n\n"
             "SCENARIO: {{ item.scenario }}\n"
             "STUDENT SAID: \"{{ item.student_message }}\"\n"
             "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: When a student asks a direct question (scenario = "
-            "'student_asks_question'), the tutor MUST answer the question "
-            "directly and clearly FIRST, then connect it to the lesson.\n"
-            "The tutor must NOT deflect with 'What do you think?' or "
-            "turn the question back on the student without answering.\n\n"
-            "If scenario is 'student_asks_question':\n"
-            "  Score 1.0 if the tutor answers the question directly first.\n"
-            "  Score 0.0 if the tutor deflects or doesn't answer.\n\n"
-            "If scenario is NOT 'student_asks_question':\n"
-            "  Score 1.0 (this criteria doesn't apply)."
+            "EVALUATION CRITERIA:\n"
+            "Questions in a teaching response must be:\n"
+            "- At most ONE question per response\n"
+            "- The question checks understanding of what was just "
+            "taught\n"
+            "- The question is narrow and specific (not vague)\n"
+            "- Questions come AFTER teaching, not before\n\n"
+            "FAIL if:\n"
+            "- Multiple questions in one response\n"
+            "- Open-ended 'what do you think?' without teaching first\n"
+            "- Questions asked BEFORE any teaching (when student is "
+            "stuck)\n"
+            "- Multiple-choice options (A, B, or C?)\n\n"
+            "SPECIAL CASE: If student said 'no'/'I don't know'/"
+            "'not sure'/'I can't' and the tutor asks a question "
+            "WITHOUT teaching first → Score 0.0 (most critical rule)\n\n"
+            "Score 1.0 if question usage is excellent (one focused "
+            "question after teaching).\n"
+            "Score 0.5 if acceptable but could be better.\n"
+            "Score 0.0 if questions are misused (multiple, before "
+            "teaching, or multiple-choice)."
         ),
         "pass_threshold": 0.5,
     },
-    # -----------------------------------------------------------------------
-    # 10. Confirms correct answers — model grader
-    # -----------------------------------------------------------------------
+    # -------------------------------------------------------------------
+    # GRADER F: Study Mode Integrity & Safety
+    # -------------------------------------------------------------------
     {
         "type": "score_model",
-        "name": "Confirms correct answers then advances",
+        "name": "F. Study Mode Integrity",
         "model": "gpt-4.1",
         "input": (
-            "SCENARIO: {{ item.scenario }}\n"
-            "STUDENT SAID: \"{{ item.student_message }}\"\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: When a student gives a correct answer (scenario = "
-            "'correct_answer'), the tutor MUST:\n"
-            "1. Confirm they are correct (briefly)\n"
-            "2. Then teach the NEXT concept or ask them to explain further\n\n"
-            "If scenario is 'correct_answer':\n"
-            "  Score 1.0 if the tutor confirms and moves forward.\n"
-            "  Score 0.0 if the tutor ignores the correct answer or "
-            "doesn't acknowledge it.\n\n"
-            "If scenario is NOT 'correct_answer':\n"
-            "  Score 1.0 (this criteria doesn't apply)."
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 11. First message has greeting + topic + question — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "First message structure correct",
-        "model": "gpt-4.1",
-        "input": (
-            "SCENARIO: {{ item.scenario }}\n"
-            "IS FIRST MESSAGE: {{ item.is_first_message }}\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: If this is the first message (is_first_message is true), "
-            "the response MUST contain ALL THREE:\n"
-            "1. A greeting (e.g., 'Hi Test Student!')\n"
-            "2. A brief introduction of the topic in 1 sentence\n"
-            "3. ONE diagnostic question to gauge what they know\n\n"
-            "The response must NOT lecture or give a long explanation.\n\n"
-            "If is_first_message is true:\n"
-            "  Score 1.0 if all three elements are present.\n"
-            "  Score 0.5 if two of three are present.\n"
-            "  Score 0.0 if greeting or question is missing.\n\n"
-            "If is_first_message is false:\n"
-            "  Score 1.0 (this criteria doesn't apply)."
-        ),
-        "pass_threshold": 0.5,
-    },
-    # -----------------------------------------------------------------------
-    # 12. Gently corrects wrong answers — model grader
-    # -----------------------------------------------------------------------
-    {
-        "type": "score_model",
-        "name": "Gently corrects wrong answers",
-        "model": "gpt-4.1",
-        "input": (
-            "SCENARIO: {{ item.scenario }}\n"
-            "STUDENT SAID: \"{{ item.student_message }}\"\n"
-            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n\n"
-            "RULE: When a student gives a wrong answer (scenario = "
-            "'wrong_answer'), the tutor must:\n"
-            "1. NOT say 'Wrong!' or be harsh\n"
-            "2. Gently correct with a clear explanation or analogy\n"
-            "3. Ask a simpler follow-up question\n\n"
-            "If scenario is 'wrong_answer':\n"
-            "  Score 1.0 if correction is gentle and educational.\n"
-            "  Score 0.0 if response is harsh, dismissive, or doesn't "
-            "correct the misconception.\n\n"
-            "If scenario is NOT 'wrong_answer':\n"
-            "  Score 1.0 (this criteria doesn't apply)."
+            "You are evaluating STUDY MODE INTEGRITY of a tutor's "
+            "response.\n\n"
+            "TUTOR RESPONSE: \"{{ sample.output_text }}\"\n"
+            "SCENARIO: {{ item.scenario }}\n\n"
+            "EVALUATION CRITERIA:\n"
+            "Study Mode is a TEACHING mode, not a chat mode. The "
+            "tutor must:\n"
+            "- Encourage understanding, not memorization\n"
+            "- Not provide shortcuts or spoon-feed answers\n"
+            "- Not bypass learning steps\n"
+            "- Guide the student to think, not just consume\n"
+            "- Keep responses concise (under 200 words)\n"
+            "- Not use filler praise ('Great question!', 'Nice "
+            "start!', 'Excellent!', 'Good job!')\n"
+            "- Not leak internal labels ('Micro-explain:', "
+            "'Guide question:', 'STEP 1')\n"
+            "- Not re-greet on follow-up messages\n\n"
+            "Score 1.0 if the response fully maintains Study Mode "
+            "integrity.\n"
+            "Score 0.5 if mostly compliant with minor issues.\n"
+            "Score 0.0 if the response breaks Study Mode rules "
+            "(filler praise, labels leaked, chatbot behavior, "
+            "spoon-feeding)."
         ),
         "pass_threshold": 0.5,
     },

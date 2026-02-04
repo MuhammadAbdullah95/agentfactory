@@ -2,6 +2,8 @@
 
 Automated evaluations for the Socratic tutor prompt using [OpenAI Evals API](https://platform.openai.com/docs/guides/evals).
 
+Based on learning sciences research from [eval-driven-edu-agents_research](https://github.com/mjunaidca/eval-driven-edu-agents_research).
+
 ## Quick Start
 
 ```bash
@@ -16,48 +18,65 @@ uv run python evals/run_eval.py --eval-id eval_xxx --file-id file_xxx --run-name
 uv run python evals/run_eval.py --create-only
 ```
 
-## What Gets Tested (12 Criteria)
+## Grader Architecture (2 Layers)
 
-| # | Criteria | Type | What It Checks |
-|---|---------|------|----------------|
-| 1 | No "Great question" | string_check | Blocks filler praise |
-| 2 | No "Nice start" | string_check | Blocks filler praise |
-| 3 | No "Excellent!" | string_check | Blocks filler praise |
-| 4 | No "Good job" | string_check | Blocks filler praise |
-| 5 | No "Micro-explain" label | string_check | No internal labels leaked |
-| 6 | No "Guide question" label | string_check | No internal labels leaked |
-| 7 | No "Micro_explain" label | string_check | No internal labels leaked |
-| 8 | No "Confirm_then_push" label | string_check | No internal labels leaked |
-| 9 | No "STEP 1" label | string_check | No step labels leaked |
-| 10 | Teaches when stuck | score_model | "no"/"I don't know" → teach first |
-| 11 | One question only | score_model | Exactly 1 question per response |
-| 12 | No re-greeting | score_model | Follow-ups don't say "Hi" again |
-| 13 | Under 200 words | score_model | Concise responses |
-| 14 | Bold key terms | score_model | Uses **bold** for new terms |
-| 15 | No multiple-choice | score_model | Doesn't offer A/B/C options |
-| 16 | Answers questions | score_model | Direct answer when student asks |
-| 17 | Confirms correct | score_model | Acknowledges right answers |
-| 18 | First message structure | score_model | Greeting + topic + question |
-| 19 | Gentle corrections | score_model | Kind tone for wrong answers |
+### Layer 1: Surface Safety (String Checks — fast, deterministic)
+
+| # | Check | Type |
+|---|-------|------|
+| 1 | No "Great question" filler | `not_contains` |
+| 2 | No "Nice start" filler | `not_contains` |
+| 3 | No "Micro-explain" label | `not_contains` |
+| 4 | No "Micro_explain" label | `not_contains` |
+| 5 | No "STEP 1" label | `not_contains` |
+
+### Layer 2: Education-Centric Model Graders (GPT-4.1 as judge)
+
+| Grader | Dimension | What It Measures |
+|--------|-----------|-----------------|
+| **A. Content Grounding** | Faithfulness | All claims grounded in lesson content, no hallucination |
+| **B. Teaching Intent** | Pedagogy | Teaches and guides, not just answers like a chatbot |
+| **C. Pedagogical Structure** | Flow | Acknowledge → Teach → Check pattern |
+| **D. Cognitive Scaffolding** | Adaptation | Meets learner where they are, simplifies when stuck |
+| **E. Question Quality** | Instruction | One question, after teaching, narrow and specific |
+| **F. Study Mode Integrity** | Safety | No shortcuts, no spoon-feeding, concise, no filler |
+
+## Why These 6 Graders?
+
+From the research, evals for educational agents must answer:
+> "Did this response behave like a TEACHER?"
+
+Not "Was it fluent?" or "Was it friendly?"
+
+| Grader | Maps to Prompt Rule |
+|--------|-------------------|
+| A. Grounding | "Use LESSON CONTENT" — no external knowledge |
+| B. Teaching Intent | "GUIDING them — not lecturing" |
+| C. Structure | "TEACH → CHECK → ADAPT" pattern |
+| D. Scaffolding | "WHEN STUDENT SAYS NO — TEACH FIRST" |
+| E. Question Quality | "ONE question per response, after teaching" |
+| F. Integrity | "NEVER DO" rules (filler, labels, multiple-choice) |
 
 ## Test Scenarios (20 cases)
 
-- First message (greeting flow)
-- Student says "no" (3 variations)
-- Student says "I don't know" / "I can't" / "not sure" / "confusing" / "what?"
-- Correct answers (3 variations)
-- Wrong answer
-- Partially correct answer
-- Student asks questions (4 variations)
-- Student confirms understanding (2 variations)
+| Scenario | Count | Tests |
+|----------|-------|-------|
+| `first_message` | 1 | Greeting + topic + diagnostic question |
+| `student_says_no` | 3 | "no", "not really", "nope" → must teach |
+| `student_stuck` | 5 | "I don't know", "I can't", "not sure", "confusing", "what?" |
+| `correct_answer` | 3 | Confirm + advance to next concept |
+| `wrong_answer` | 1 | Gentle correction with analogy |
+| `partially_correct` | 1 | Correct the gap, re-ask simpler |
+| `student_asks_question` | 4 | Answer directly, connect to lesson |
+| `student_confirms` | 2 | "ok got it", "yeah makes sense" |
 
-## Workflow
+## Eval-Driven Development Workflow
 
 ```
 Change prompt in triage.py
-    → Run eval
-    → Check dashboard for pass/fail
-    → Fix failures
+    → Run: uv run python evals/run_eval.py
+    → Check dashboard scores (A-F graders)
+    → Fix failing graders
     → Re-run eval
-    → All green → Push to PR
+    → All passing → Push to PR
 ```
