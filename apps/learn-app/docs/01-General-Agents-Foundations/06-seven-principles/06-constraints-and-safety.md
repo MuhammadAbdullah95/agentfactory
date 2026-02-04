@@ -63,6 +63,8 @@ This isn't science fiction—these are real incidents that have happened. AI sys
 
 This principle is about **balancing capability with safety**. You want AI to be effective—but not so effective it causes damage. You want autonomy—but not so much autonomy that you lose control. The solution is thoughtful constraints and safety measures.
 
+> **The Safety Mantra**: "As long as I haven't `git push`ed, I am the master of my machine." Everything the AI does locally can be undone. Uncommitted changes can be reverted. Commits can be reset. The moment of no return is the push—and you control that moment.
+
 ## The Risk Spectrum: Understanding What Can Go Wrong
 
 Before designing safety measures, understand what you're protecting against.
@@ -315,7 +317,19 @@ UPDATE (no WHERE)      # Modify all rows
 
 The most effective safety measure: **don't let AI touch production directly**.
 
-### Sandbox Strategies
+### The Simplest Sandbox: A Git Branch
+
+Before you worry about Docker containers or staging environments, know this: **a git branch is 90% of the safety most people need**.
+
+```bash
+git checkout -b ai-experiment
+```
+
+That's it. Now the AI can do whatever it wants—and you can throw it all away with `git checkout main && git branch -D ai-experiment`. No Docker knowledge required. No DevOps complexity. Just git.
+
+Start here. Graduate to more sophisticated sandboxes only when you need them.
+
+### Advanced Sandbox Strategies
 
 **1. Docker Container Sandbox**
 
@@ -426,6 +440,18 @@ Before starting an AI session, verify:
 
 Despite all precautions, things will go wrong. Have a plan.
 
+### Emergency Cheat Sheet (Memorize This)
+
+| Situation | Command | What It Does |
+|-----------|---------|--------------|
+| **Stop AI immediately** | `Ctrl+C` | Kills the current operation |
+| **See what changed** | `git status` | Shows modified/deleted files |
+| **Undo uncommitted changes** | `git checkout -- .` | Restores all files to last commit |
+| **Nuclear reset** | `git reset --hard HEAD` | Discards everything since last commit |
+| **Undo last commit** | `git reset --hard HEAD~1` | Removes the most recent commit entirely |
+
+Print this. Tape it to your monitor. When panic hits, you won't remember—but you can read.
+
 ### Immediate Actions
 
 ```bash
@@ -476,6 +502,44 @@ Paradoxically, **constraints enable autonomy**. When you have good safety measur
 Without safety measures, you're constantly on edge—afraid to let AI do anything meaningful. With safety measures, you can collaborate confidently.
 
 The goal isn't to prevent AI from doing anything. The goal is to prevent AI from doing **certain things**—while enabling everything else.
+
+## Prompt-Based Safety: Guardrails in Your Instructions
+
+Beyond tool configuration, you can build safety directly into your prompts.
+
+### The Safety Hook (Cost Control)
+
+For operations that might incur costs (API calls, cloud resources), add this to your prompt:
+
+```
+Before performing any operation that might cost money (API calls,
+cloud deployments, external service requests), stop and tell me
+the estimated cost. Don't proceed until I approve.
+```
+
+This catches the invisible risks—the $500 API bill from an infinite loop, the runaway cloud instance.
+
+### The Guardrail Prompt Template
+
+For maximum safety, start sessions with explicit constraints:
+
+```
+You are helping me with [task]. Follow these safety rules:
+
+FORBIDDEN actions (never do these):
+- Never use `rm` on any file containing `.env`, `config`, or `credentials`
+- Never run `git push` without my explicit approval
+- Never modify files outside the /src directory
+
+REQUIRED checks (always do these):
+- Before any destructive command, run `pwd` and show me the current directory
+- Before deleting anything, show me what will be deleted and wait for confirmation
+- Before running commands with side effects, explain what they'll do
+
+If you're unsure whether an action is safe, ask me first.
+```
+
+Customize this template for your specific project and risk tolerance.
 
 ## This Principle in Both Interfaces
 
