@@ -65,7 +65,7 @@ export default function Footer() {
                 {/* BIG TYPE Section */}
                 <div className="w-full pt-16 pb-12 overflow-hidden flex justify-center px-4 md:px-0">
                     <svg
-                        viewBox="0 0 100 14"
+                        viewBox="0 0 100 20"
                         className="w-full h-auto select-none pointer-events-none opacity-90"
                         aria-label="Panaversity"
                     >
@@ -76,7 +76,7 @@ export default function Footer() {
                             textAnchor="middle"
                             fill="currentColor"
                             className="font-light uppercase tracking-[-0.08em]"
-                            style={{ fontSize: '15x', fontFamily: 'var(--font-sans)', transform: 'scaleY(0.95)' }}
+                            style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', transform: 'scaleY(0.95)' }}
                         >
                             PANAVERSITY
                         </text>
