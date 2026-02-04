@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 title: "Putting It All Together: Workflows in Practice"
-chapter: 4
+chapter: 6
 lesson: 8
 duration_minutes: 35
 description: "Synthesis lesson showing how all seven principles combine in real-world agentic workflows"
@@ -68,6 +68,18 @@ You've learned the seven principles of general agent problem solving:
 7. **Observability** - Visibility enables debugging and trust
 
 Knowing the principles is one thing. Applying them together in real workflows is another. This lesson shows how the principles combine in practice, with concrete examples you can adapt to your own work.
+
+## Your New Role: From Typist to Director
+
+Here's the mindset shift: **You're no longer the one typing code. You're the director managing an agent.**
+
+Think of the AI as a junior developer with infinite energy but no institutional knowledge. It will work tirelessly, but it needs:
+- Clear direction (what to do)
+- Context (why and how)
+- Guardrails (what NOT to do)
+- Verification (did it work?)
+
+Your job is no longer typing—it's directing, reviewing, and approving. The seven principles are your management framework.
 
 ## The Integration Challenge: Principles in Combination
 
@@ -396,6 +408,27 @@ Not all principles are equally important for every task. Use this guide to prior
 8. You commit if satisfied (Principle 4)
 ```
 
+### Template 1b: When the Fix Fails
+
+What happens when step 6 (verification) fails? Don't panic—follow this recovery path:
+
+```
+6. AI verifies with tests → TESTS FAIL
+   ↓
+6b. AI identifies WHY it failed (Principle 7: Observability)
+    "Tests fail because: [specific reason]"
+   ↓
+6c. AI reverts the change (Principle 4: Reversibility)
+    git checkout -- . OR git reset --hard HEAD
+   ↓
+6d. AI proposes NEW approach based on what it learned
+    "The first approach failed because X. Let me try Y instead."
+   ↓
+6e. Return to step 3 with new approach
+```
+
+**Key insight**: Failure is information. The failed attempt tells you what DOESN'T work, narrowing down what will. Revert cleanly, learn from the failure, try again.
+
 ### Template 2: Feature Development Pattern
 
 ```
@@ -473,6 +506,19 @@ Use this checklist to evaluate how well you're applying the principles:
 - [ ] You review activity logs when debugging
 - [ ] AI provides progress updates
 
+### Your Project Health Score
+
+Count how many principles you're actively applying (1 point per principle with at least 2 checkboxes marked):
+
+| Score | Level | What It Means |
+|-------|-------|---------------|
+| **0-2** | 🤠 Cowboy Coder | High risk. You're flying blind. Start with Principles 3 (Verification) and 7 (Observability). |
+| **3-4** | 🤝 Collaborator | Good progress. You're working WITH the AI, not just using it. Focus on the gaps. |
+| **5-6** | 🏗️ Agent Architect | Professional grade. You're managing AI effectively. Fine-tune for efficiency. |
+| **7** | 🎯 Master Director | Full integration. You've internalized the principles. Now optimize and teach others. |
+
+**Where to start if you're at 0-2**: Begin with just two principles—Verification (always test) and Observability (always see what AI did). These two alone prevent most disasters.
+
 ## Why This Integration Matters
 
 The principles are powerful individually. Together, they're transformative:
@@ -516,6 +562,28 @@ Both interfaces support all seven principles. Choose based on your task characte
 | Non-technical users | Requires terminal comfort | Best choice (familiar desktop) |
 
 The choice isn't "which is better"—it's "which fits this task." Many workflows benefit from using both: Claude Code for implementation, Cowork for documentation and review.
+
+## The Director's Tip: Invoke Principles Explicitly
+
+Here's a power move: **tell the AI which principle to use**.
+
+Instead of vague instructions like "refactor this code," try:
+
+```
+"Refactor this using Principle 4—break it into 3 small steps.
+After each step, show me what changed and wait for my approval
+before continuing."
+```
+
+Or for a bug fix:
+
+```
+"Debug this using Principles 1, 3, and 7. Use the terminal to
+investigate, verify your fix with tests, and show me the logs
+so I can see what happened."
+```
+
+**Why this works**: You're giving the AI a framework, not just a task. It knows HOW you want it to work, not just WHAT you want done. This puts you firmly in the director's seat.
 
 ## Try With AI
 

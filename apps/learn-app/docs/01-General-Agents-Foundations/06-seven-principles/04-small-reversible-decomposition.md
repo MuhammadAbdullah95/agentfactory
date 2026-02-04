@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 title: "Principle 4: Small, Reversible Decomposition"
-chapter: 4
+chapter: 6
 lesson: 4
 duration_minutes: 30
 description: "Breaking problems into small, reversible steps—the key to managing complexity and enabling iteration"
@@ -99,10 +99,20 @@ This principle is even more important with AI because:
 - **AI makes plausible mistakes**: Code looks right but has subtle bugs
 - **AI doesn't learn your context**: Each change may not fit your patterns
 - **AI can generate lots of code**: It's easy to accept too much at once
+- **AI has context limits too**: When generating 1,000 lines, AI starts losing track of its own earlier logic. Small steps keep its "attention" sharp.
 
 Small decomposition lets you verify AI work incrementally, catching mistakes before they compound.
 
 ## Atomic Changes: The Smallest Verifiable Unit
+
+Think of it like building with **Lego vs sculpting clay**:
+
+| Approach | Material | If Something Goes Wrong |
+|----------|----------|------------------------|
+| **Atomic (Lego)** | Modular bricks that snap together | Pop off the bad brick, snap in a new one. Rest of the build stays intact. |
+| **Monolithic (Clay)** | One continuous mass | Fixing the nose might mean reworking the whole face. Changes ripple outward. |
+
+Small, atomic changes give you Lego-style work: each piece is independent, swappable, and doesn't affect the others when changed.
 
 An **atomic change** is the smallest unit of work that:
 1. Can be independently verified
@@ -140,6 +150,8 @@ If any answer is "no," decompose further.
 ## Reversibility: The Safety Net That Enables Experimentation
 
 Reversibility means you can undo a change without side effects. This is what enables safe experimentation—you can try something knowing you can always go back.
+
+> **The "Revert, Don't Fix" Mindset**: Beginners try to fix broken code by adding more code. Pros revert to the last working state and try a different approach. Reverting isn't failure—it's a strategic retreat that saves hours of debugging.
 
 ### Git as Reversibility Mechanism
 
@@ -347,6 +359,18 @@ Total: 2-3 days, low stress, continuous progress
 ## Working with AI: Prompting for Small, Reversible Steps
 
 When working with AI systems, you need to guide them toward small, reversible changes.
+
+### Step Zero: Always Start with a Plan
+
+Before any implementation, make decomposition collaborative:
+
+```
+"I want to build [feature]. Before we write any code,
+help me break this into 5-7 small steps. For each step,
+tell me what it accomplishes and how I'll know it worked."
+```
+
+This simple habit transforms decomposition from something you do alone into something you do *with* the AI. The AI often spots dependencies and edge cases you'd miss. And now you have a roadmap before writing a single line.
 
 ### Bad Prompt: Too Large
 
