@@ -83,6 +83,8 @@ Before Claude changes anything, it needs to understand what exists. Plan Mode en
 
 Enter Plan Mode by pressing `Shift+Tab` or clicking the toggle in the interface. In this mode, Claude will read files and gather context but won't make any edits. It's reconnaissance.
 
+> **Teacher's Tip**: Plan Mode is Principle 6 (Constraints and Safety) in action—it's a read-only constraint. If you're working on mission-critical files, stay in Plan Mode until you're 100% sure of the approach.
+
 Your prompt in Plan Mode might be:
 
 ```
@@ -149,6 +151,8 @@ Claude Code creates checkpoints automatically before every tool use that modifie
 
 Press `Esc` twice (or use `/rewind`) to open the checkpoint menu. You'll see a list of recent states. Select one, and Claude restores your session to that point. All the files, all the context, all the conversation—rolled back.
 
+> **The Time Machine Combo**: Single `Esc` is your steering wheel (stops Claude mid-response). Double `Esc` (press twice) or `/rewind` opens the checkpoint menu—your time machine to go back before you steered wrong. Together, they mean you can never truly get lost.
+
 This transforms how you work with Claude. You can try risky approaches knowing you can always rewind. You can explore multiple solutions and keep the best one. Checkpoints make experimentation safe.
 
 ### Resuming Sessions
@@ -199,6 +203,23 @@ cat *
 
 Allowlisted commands run without prompting. This speeds up common workflows while keeping unusual operations gated.
 
+### Standard Safe List (Copy This)
+
+Not sure what to allowlist? Here's a starting point for most developers:
+
+```bash
+# Read operations (safe - can't modify anything)
+ls, cat, grep, find, head, tail, wc
+
+# Verification operations (safe - just runs tests)
+npm test, pytest, go test, cargo test
+
+# Observability operations (safe - just shows status)
+git status, git diff, git log
+```
+
+These commands let Claude investigate and verify without asking permission for every read. Start here, then add commands you trust as patterns emerge.
+
 ### Sandbox Mode
 
 For maximum autonomy, `/sandbox` creates an OS-level isolated environment. Claude can do almost anything inside the sandbox without affecting your real system.
@@ -225,6 +246,16 @@ Chapter 6, Lesson 6 explores constraints and safety in depth. For now, experimen
 
 For larger features, there's a counterintuitive approach that saves time: have Claude interview _you_ before it writes anything.
 
+### The One-Liner Version
+
+If you want the shortest possible prompt:
+
+```
+Don't code yet. Interview me until you have a 100% clear spec.
+```
+
+That's it. Claude will ask questions until it understands exactly what you need.
+
 ### How It Works
 
 Instead of describing what you want and hoping Claude understands, ask Claude to ask you questions:
@@ -246,7 +277,7 @@ Claude becomes a requirements analyst. It asks about:
 
 Each question surfaces a decision you need to make. By the time the interview is complete, you have a clear specification—and Claude has the context to implement it correctly.
 
-### The Fresh Session Trick
+### The Golden Reset (Fresh Session Trick)
 
 After the interview, you have two choices:
 
@@ -254,7 +285,9 @@ After the interview, you have two choices:
 
 2. **Start fresh with the spec**: Copy the specification from the interview into a new session. Claude gets the clean, refined requirements without the exploratory noise.
 
-Option 2 often produces better results. The specification is signal-dense. A fresh context window means Claude's full attention on implementation rather than remembering conversation tangents.
+Option 2 often produces better results—we call it the **Golden Reset**. The specification is signal-dense. A fresh context window means Claude's full attention on implementation rather than remembering conversation tangents.
+
+> **Pro tip**: The Golden Reset is the most effective way to avoid Principle 7 (Observability) issues where you can't tell which part of a messy conversation caused a bug. Clean spec → clean session → clean code.
 
 ## Five Failure Patterns to Avoid
 
@@ -274,7 +307,11 @@ With experience, you'll recognize when a session is going wrong. Here are five c
 
 **Why it fails**: Each correction adds noise. Claude is now juggling the original request plus multiple failed attempts plus your frustrations. The signal-to-noise ratio collapses.
 
-**The fix**: After two corrections, stop. `/clear` and write a better initial prompt. The failed attempts taught you what Claude needed to know. Write a fresh prompt that provides that information upfront.
+**The fix**: Follow the **Rule of Two**.
+
+> **The Rule of Two**: If Claude misses the mark twice on the same fix, STOP. Don't try a third time. `/clear` and start over with a better prompt that includes what you learned from the failures.
+
+The failed attempts taught you what Claude needed to know. A fresh prompt with that information upfront beats a third round of corrections every time.
 
 ### 3. The Bloated CLAUDE.md
 
