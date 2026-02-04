@@ -96,6 +96,44 @@ The AI's solution looked correct but failed on:
 
 The AI didn't lie—it provided a reasonable starting point. But **you accepted it without verification**, and that's the failure mode.
 
+### The Same Task, With Verification
+
+Now watch the same task with verification built in:
+
+```
+You: "Add a function to parse CSV files"
+
+AI: [Generates the same naive function]
+
+You: "Let me test this. Run it on a file with quoted commas."
+
+AI: [Runs test]
+    Error: "Smith, John" split incorrectly into ["Smith", " John"]
+
+You: "The function doesn't handle quoted fields. Fix it."
+
+AI: [Generates improved version using Python's csv module]
+```python
+import csv
+
+def parse_csv(file_path):
+    with open(file_path, 'r') as f:
+        reader = csv.reader(f)
+        return [row for row in reader]
+```
+
+You: "Test it again with quoted commas, empty fields, and Windows line endings."
+
+AI: [Runs tests]
+    ✓ Quoted commas: Passed
+    ✓ Empty fields: Passed
+    ✓ Windows line endings: Passed
+
+You: "Now it's production-ready."
+```
+
+**The difference**: Same starting point, completely different outcome. Verification turned a bug into a fix in under 2 minutes. Without verification, that bug would have surfaced in production—possibly weeks later, possibly at 2 AM.
+
 ### Why Verification Is Non-Negotiable
 
 | AI Behavior | Why It Happens | Why Verification Matters |
@@ -107,6 +145,42 @@ The AI didn't lie—it provided a reasonable starting point. But **you accepted 
 | **Confident but wrong** | No internal uncertainty indicator | Verification exposes actual correctness |
 
 **Key insight**: AI systems are not truth-tellers. They're pattern-completers. Their output requires the same verification you'd apply to code written by a junior developer—maybe more, because they don't learn from your project's specific mistakes unless you verify and correct them.
+
+### Red Flags Cheat Sheet: 3 Things to Scan For
+
+When you don't have time for thorough verification, at minimum scan for these three common AI code mistakes:
+
+| Red Flag | What to Look For | Why It's Dangerous |
+|----------|------------------|-------------------|
+| **1. Hardcoded secrets** | API keys, passwords, tokens written directly in code | Security breach waiting to happen |
+| **2. Silent error swallowing** | `try/except: pass` or `catch(e) {}` with no handling | Bugs hide; failures go unnoticed |
+| **3. Missing input validation** | No checks on user input before processing | Opens door to crashes and exploits |
+
+**Quick scan command:**
+```bash
+# Find potential hardcoded secrets
+grep -rn "api_key\|password\|secret\|token" --include="*.py" --include="*.js"
+
+# Find empty exception handlers
+grep -rn "except.*pass\|catch.*{}" --include="*.py" --include="*.js"
+```
+
+These three checks take 30 seconds and catch the most dangerous issues. Make them a habit.
+
+### Verification vs Validation: Two Different Questions
+
+Engineers distinguish between two types of checking:
+
+| Type | Question | Example |
+|------|----------|---------|
+| **Verification** | "Did we build it right?" | Code runs without errors, tests pass, syntax is correct |
+| **Validation** | "Did we build the right thing?" | Code actually solves the user's problem |
+
+An AI can write a *perfect* CSV parser that organizes files by date—when you actually wanted them organized by size. That's a **validation failure**: the code works correctly but solves the wrong problem.
+
+**Always check both:**
+- Verification: Does it run? Does it pass tests?
+- Validation: Does it do what I actually asked for?
 
 ## The Verification Loop: Continuous, Not Final
 
@@ -311,13 +385,15 @@ Trust isn't binary—it's earned through repeated verification. Think of trust a
 
 **Reasoning**: Some areas (security, payments, compliance) never earn full trust. The consequence of failure is too high.
 
+> **Human-in-the-Loop Required**: For critical systems, AI is an assistant, not a replacement for human judgment. A human must review and approve every change to security configurations, financial transactions, medical decisions, or legal documents. No amount of AI track record justifies removing human oversight from high-consequence decisions.
+
 ### Why Trust Zones Matter
 
-盲目信任全错的。信任区帮助你：
-- 从严格开始，随时间加速
-- 对高风险区域保持适当怀疑
-- 专注于提供最大价值的验证
-- 在速度和安全性之间取得平衡
+Blind trust is always wrong. Trust zones help you:
+- Start strict, accelerate over time
+- Maintain appropriate skepticism for high-risk areas
+- Focus verification where it provides the most value
+- Balance speed with safety
 
 ## Making Verification Practical: The 80/20 Rule
 
@@ -417,6 +493,20 @@ Verification isn't just "running tests." It's the general practice of confirming
 | **Content check** | `grep` for expected patterns | Read generated content for accuracy |
 
 **In Cowork**: When you ask Cowork to create a report, verification means checking that all requested sections exist, data is accurate, and formatting is correct. The principle is identical—you never blindly accept output.
+
+### Cowork Verification Checklist
+
+For non-code AI output (documents, reports, content), use this quick checklist:
+
+| Check | Question to Ask | Common AI Mistakes |
+|-------|-----------------|-------------------|
+| **Fact-Check** | Did the AI hallucinate statistics or dates? | Inventing plausible-sounding but false data |
+| **Tone-Check** | Is the language appropriate for the audience? | Too formal, too casual, or inconsistent voice |
+| **Completeness** | Did it include everything I asked for? | Skipping sections, ignoring specific requests |
+| **Accuracy** | Are names, quotes, and references correct? | Misattributing quotes, wrong spellings |
+| **Logic** | Does the argument/structure make sense? | Non-sequiturs, circular reasoning |
+
+**Quick verification habit**: Before accepting any AI-generated document, scan for one made-up statistic, one tone mismatch, and one missing element. This 60-second check catches most issues.
 
 **The pattern**: After every significant AI action, verify the result matches intent. Whether that's `npm test` in Code or reviewing a generated document in Cowork, the habit is the same.
 
