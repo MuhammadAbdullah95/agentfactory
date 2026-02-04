@@ -413,11 +413,11 @@ def wait_for_run(client: OpenAI, eval_id: str, run_id: str) -> dict:
         time.sleep(5)
 
 
-def print_results(run) -> None:
-    """Print eval results summary."""
-    print("\n" + "=" * 60)
+def print_results(client: OpenAI, eval_id: str, run) -> None:
+    """Print eval results summary with per-sample scores."""
+    print("\n" + "=" * 70)
     print("EVAL RESULTS")
-    print("=" * 60)
+    print("=" * 70)
 
     counts = run.result_counts
     total = counts.total if counts else 0
@@ -431,16 +431,57 @@ def print_results(run) -> None:
         score = passed / total * 100
         print(f"  Score: {score:.0f}%")
 
+    # Build threshold lookup from TESTING_CRITERIA
+    threshold_map = {}
+    for tc in TESTING_CRITERIA:
+        threshold_map[tc["name"]] = tc.get("pass_threshold", 0.5)
+
     if run.per_testing_criteria_results:
         print("\n  Per-Criteria Results:")
-        print(f"  {'Criteria':<45} {'Pass':>6} {'Fail':>6}")
-        print("  " + "-" * 57)
+        print(f"  {'Criteria':<40} {'Threshold':>10} {'Pass':>6} {'Fail':>6} {'Rate':>7}")
+        print("  " + "-" * 69)
         for r in run.per_testing_criteria_results:
-            name = r.testing_criteria.split("-")[0].strip()[:44]
-            print(f"  {name:<45} {r.passed:>6} {r.failed:>6}")
+            name = r.testing_criteria.split("-")[0].strip()[:39]
+            t = threshold_map.get(name, 0.5)
+            rate = r.passed / (r.passed + r.failed) * 100 if (r.passed + r.failed) > 0 else 0
+            print(f"  {name:<40} {t:>10.1f} {r.passed:>6} {r.failed:>6} {rate:>6.0f}%")
+
+    # Fetch per-sample output items to show individual scores
+    print("\n  Per-Sample Scores:")
+    print(f"  {'#':<4} {'Scenario':<25} {'Student Message':<30} {'Result':>8}")
+    print("  " + "-" * 69)
+    try:
+        output_items = client.evals.runs.output_items.list(
+            run.id, eval_id=eval_id
+        )
+        for idx, item in enumerate(output_items.data, 1):
+            scenario = getattr(item, "datasource_item", {})
+            if isinstance(scenario, dict):
+                sc = scenario.get("item", {}).get("scenario", "?")
+                msg = scenario.get("item", {}).get("student_message", "")
+            else:
+                sc = getattr(getattr(scenario, "item", None), "scenario", "?")
+                msg = getattr(getattr(scenario, "item", None), "student_message", "")
+            msg_short = (msg[:27] + "...") if len(msg) > 30 else msg
+            status = getattr(item, "status", "?")
+            print(f"  {idx:<4} {sc:<25} {msg_short:<30} {status:>8}")
+
+            # Show individual grader scores if available
+            results = getattr(item, "results", [])
+            if results:
+                for res in results:
+                    grader = getattr(res, "name", getattr(res, "testing_criteria", "?"))
+                    g_score = getattr(res, "score", None)
+                    g_passed = getattr(res, "passed", None)
+                    g_short = grader[:36] if grader else "?"
+                    score_str = f"{g_score:.1f}" if g_score is not None else "n/a"
+                    pass_str = "PASS" if g_passed else "FAIL"
+                    print(f"       {g_short:<38} score={score_str:>5}  {pass_str}")
+    except Exception as e:
+        print(f"  (Could not fetch per-sample details: {e})")
 
     print(f"\n  Full report: {run.report_url}")
-    print("=" * 60)
+    print("=" * 70)
 
 
 # ---------------------------------------------------------------------------
@@ -493,7 +534,7 @@ def main():
 
     # Wait and show results
     completed_run = wait_for_run(client, eval_id, run.id)
-    print_results(completed_run)
+    print_results(client, eval_id, completed_run)
 
     # Exit with error code if any tests failed
     if completed_run.result_counts and completed_run.result_counts.failed > 0:
