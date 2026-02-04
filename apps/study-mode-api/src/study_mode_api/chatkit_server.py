@@ -144,27 +144,16 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             user_name = context.metadata.get("user_name")
             selected_text = context.metadata.get("selected_text")
 
-            # Get mode from picker (per-message) or URL param (initial entry point)
-            # Picker takes priority - it's the user's most recent choice for this message
-            url_mode = context.metadata.get("mode", "teach")
-
-            # Check inference_options for picker selection
-            picker_mode = None
+            # Get mode from ChatKit's composer.models picker (inference_options.model)
+            # Default to "teach" if not set
+            mode = "teach"
             if (
                 input_user_message.inference_options
                 and input_user_message.inference_options.model
                 and input_user_message.inference_options.model in ("teach", "ask")
             ):
-                picker_mode = input_user_message.inference_options.model
-
-            # Priority: picker selection > URL param
-            # Picker is per-message choice, URL is initial entry point
-            if picker_mode:
-                mode = picker_mode
-                logger.info(f"[ChatKit] Mode from picker: {mode}")
-            else:
-                mode = url_mode
-                logger.info(f"[ChatKit] Mode: {mode} (default/URL)")
+                mode = input_user_message.inference_options.model
+            logger.info(f"[ChatKit] Mode: {mode}")
 
             logger.info(
                 f"[ChatKit] Processing: user={context.user_id}, "

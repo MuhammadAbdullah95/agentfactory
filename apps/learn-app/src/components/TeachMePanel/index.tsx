@@ -38,17 +38,16 @@ function getAnonymousUserId(): string {
 // Chat mode type
 type ChatMode = "teach" | "ask";
 
-// Build URL with lesson path, user info, mode, and optional selected context
+// Build URL with lesson path, user info, and optional selected context
+// Mode is now handled per-message via ChatKit's composer.models picker
 function getChatKitUrl(
   apiBase: string,
   lessonPath: string,
   userId: string,
-  mode: ChatMode = "teach",
   userName?: string,
   selectedContext?: string,
 ): string {
   const params = new URLSearchParams();
-  params.set("mode", mode);
   params.set("user_id", userId);
   if (userName) {
     params.set("user_name", userName);
@@ -110,11 +109,10 @@ function ChatKitWrapper({
         apiBase,
         lessonPath,
         userId,
-        mode,
         userName,
         selectedContext,
       ),
-    [apiBase, lessonPath, userId, mode, userName, selectedContext],
+    [apiBase, lessonPath, userId, userName, selectedContext],
   );
 
   // Custom fetch that injects Authorization header with JWT token
