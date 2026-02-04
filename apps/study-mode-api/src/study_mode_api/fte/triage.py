@@ -4,8 +4,8 @@ This module handles agent selection based on mode and context.
 Designed to support multi-agent systems in the future.
 
 Current agents:
-- teach: Socratic tutor using lesson content
-- ask: Direct answer search engine
+- teach: Socratic tutor using lesson content (OpenAI)
+- ask: Direct answer search engine (DeepSeek)
 
 Future agents could include:
 - quiz: Assessment and testing
@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 from agents import Agent, ModelSettings
 from agents.model_settings import Reasoning
 
+from .ask_agent import ask_agent
 from .state import AgentState
 
 logger = logging.getLogger(__name__)
@@ -27,12 +28,11 @@ logger = logging.getLogger(__name__)
 if TYPE_CHECKING:
     pass
 
-# Model configuration
+# Model configuration for Teach agent (uses OpenAI)
 MODEL = os.getenv("STUDY_MODE_MODEL", "gpt-5-nano-2025-08-07")
 
-# Context limits for content truncation
+# Context limit for teach content truncation
 TEACH_CONTENT_LIMIT = 8000
-ASK_CONTENT_LIMIT = 6000
 
 # =============================================================================
 # Greeting Instructions (injected based on conversation state)
@@ -138,84 +138,28 @@ NEVER DO:
 ❌ Skip the teaching part and jump straight to questions
 ❌ Write long-winded responses — be punchy and clear"""
 
-ASK_PROMPT = """<role>
-You are a direct, helpful guide for the AI Agent Factory Book. The student has highlighted text or asked a specific question. They want a clear, direct explanation - not a Socratic dialogue
-from you. Use the lesson content to ground your answers.
-</role>
-
-<active_user>
-{user_greeting}
-</active_user>
-
-<lesson_data>
-{content}
-</lesson_data>
-
-<highlighted_text>
-{selected_text_section}
-</highlighted_text>
-
-<instructions>
-MODE: ASK — Give direct answers. Unblock, don't challenge.
-
-RESPOND BASED ON INPUT:
-- "what is X?" → 1-2 sentence definition + one example if abstract
-- "why?" / "how?" → Explain the mechanism or reasoning (don't restate the fact)
-- "ok" / "got it" / "thanks" → Brief acknowledgment, no new information
-- Ambiguous input → Provide most relevant explanation from lesson above
-
-STYLE:
-- Length matches query complexity (short question = short answer)
-- **Bold** key terms being explained
-- Warm but no filler ("Great question!", "As mentioned...")
-- Code examples in proper formatting when relevant
-
-NEVER:
-- Follow a rigid Answer/Example/Context formula
-- Ask follow-up questions (this is Ask mode)
-- Turn acknowledgments into new explanations
-- Over-explain beyond what was asked
-</instructions>"""
+# NOTE: ASK_PROMPT moved to ask_agent.py (uses DeepSeek provider)
 
 # =============================================================================
-# Agent Registry (for future multi-agent support)
+# Agent Registry
 # =============================================================================
 
-AGENT_REGISTRY = {
-    "teach": {
-        "prompt": TEACH_PROMPT,
-        "content_limit": TEACH_CONTENT_LIMIT,
-        "description": "Socratic tutor - teaches concepts then checks understanding",
-    },
-    "ask": {
-        "prompt": ASK_PROMPT,
-        "content_limit": ASK_CONTENT_LIMIT,
-        "description": "Direct explainer for highlighted text and specific questions",
-    },
+# Available modes with their descriptions
+AVAILABLE_MODES = {
+    "teach": "Socratic tutor - teaches concepts then checks understanding (OpenAI)",
+    "ask": "Direct explainer for highlighted text and specific questions (DeepSeek)",
+}
+
+# Teach mode config (ask mode handled by ask_agent.py)
+TEACH_CONFIG = {
+    "prompt": TEACH_PROMPT,
+    "content_limit": TEACH_CONTENT_LIMIT,
 }
 
 
 def get_available_modes() -> list[str]:
     """Get list of available agent modes."""
-    return list(AGENT_REGISTRY.keys())
-
-
-def get_agent_for_mode(mode: str) -> dict:
-    """
-    Get agent configuration for a given mode.
-
-    Args:
-        mode: Agent mode (teach, ask, etc.)
-
-    Returns:
-        Agent configuration dict
-
-    Raises:
-        ValueError: If mode is not registered
-    """
-    if mode not in AGENT_REGISTRY:
-        raise ValueError(f"Unknown mode: {mode}. Available: {get_available_modes()}")
-    return AGENT_REGISTRY[mode]
+    return list(AVAILABLE_MODES.keys())
 
 
 def create_agent(
@@ -240,46 +184,43 @@ def create_agent(
     Returns:
         Configured Agent instance
     """
-    agent_config = get_agent_for_mode(mode)
+    if mode not in AVAILABLE_MODES:
+        raise ValueError(f"Unknown mode: {mode}. Available: {get_available_modes()}")
+
+    # Ask mode: return singleton (uses dynamic instructions from context)
+    # Note: context.metadata must be set with lesson_title, lesson_content, etc.
+    # before calling Runner.run() - see chatkit_server.py
+    if mode == "ask":
+        return ask_agent
+
+    # Teach mode: use OpenAI with Socratic tutoring
     display_name = user_name or "there"
     user_context = f"STUDENT NAME: {user_name}" if user_name else ""
 
-    if mode == "teach":
-        # Choose greeting instruction based on conversation state
-        if is_first_message:
-            greeting_instruction = FIRST_MESSAGE_INSTRUCTION.format(
-                user_name=display_name,
-                title=title,
-            )
-        else:
-            greeting_instruction = FOLLOW_UP_INSTRUCTION.format(
-                user_name=display_name,
-            )
-
-        instructions = agent_config["prompt"].format(
+    # Choose greeting instruction based on conversation state
+    if is_first_message:
+        greeting_instruction = FIRST_MESSAGE_INSTRUCTION.format(
+            user_name=display_name,
             title=title,
-            content=content[:agent_config["content_limit"]],
-            user_context=user_context,
-            greeting_instruction=greeting_instruction,
         )
     else:
-        # Ask mode: include selected text if present
-        selected_section = ""
-        if selected_text:
-            selected_section = f'\nHIGHLIGHTED TEXT:\n"""{selected_text}"""\n'
-
-        instructions = agent_config["prompt"].format(
-            content=f"CURRENT: {title}\n{content[:agent_config['content_limit']]}",
-            user_greeting=user_context,
-            selected_text_section=selected_section,
+        greeting_instruction = FOLLOW_UP_INSTRUCTION.format(
+            user_name=display_name,
         )
+
+    instructions = TEACH_CONFIG["prompt"].format(
+        title=title,
+        content=content[:TEACH_CONFIG["content_limit"]],
+        user_context=user_context,
+        greeting_instruction=greeting_instruction,
+    )
 
     # Debug: log first 500 chars of instructions to verify prompt is correct
     logger.info(f"[Agent] mode={mode}, model={MODEL}, is_first={is_first_message}")
     logger.info(f"[Agent] Instructions preview: {instructions[:500]}")
 
     return Agent(
-        name=f"study_tutor_{mode}",
+        name="study_tutor_teach",
         instructions=instructions,
         model=MODEL,
         model_settings=ModelSettings(reasoning=Reasoning(effort="minimal")),
