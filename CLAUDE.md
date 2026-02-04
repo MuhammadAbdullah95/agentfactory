@@ -423,11 +423,31 @@ Before deep implementation:
 
 **⚠️ NEVER commit to main branch without live verification:**
 
-1. **Start the actual server** (`uvicorn`, `pnpm nx serve`, etc.)
+1. **Start the services yourself** (don't assume user is running them)
 2. **Make a real request** through UI or API
 3. **Verify full flow** works end-to-end
 4. **Check logs** for errors or warnings
 5. **Only then** commit and push
+
+**Project service commands:**
+```bash
+pnpm nx serve learn-app        # Frontend (port 3000)
+pnpm nx serve study-mode-api   # Study Mode API (port 8000)
+pnpm nx serve sso              # Auth service
+```
+
+**Verification workflow:**
+```bash
+# 1. Start backend in background
+pnpm nx serve study-mode-api &
+
+# 2. Wait for startup, check logs
+sleep 5 && curl http://localhost:8000/health
+
+# 3. Test the actual feature you changed
+# 4. Check logs for errors
+# 5. Only then commit
+```
 
 **High-risk changes requiring extra verification:**
 - Import statements (module paths differ between environments)

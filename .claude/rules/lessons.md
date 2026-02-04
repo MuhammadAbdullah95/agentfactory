@@ -57,12 +57,15 @@ Patterns learned from corrections. Review at session start.
 **Mistake**: Pushed ChatKit model picker + wrong import path to main without local testing - broke production for 3+ hours
 **Pattern**: Made code changes, assumed they would work, committed and pushed without running the actual server
 **Rule**: NEVER commit to main branch without live verification:
-1. Start the actual server locally (`uvicorn` or `pnpm nx serve`)
+1. Start the services yourself: `pnpm nx serve study-mode-api`, `pnpm nx serve learn-app`
 2. Make a real request through the UI or API
 3. Verify the full flow works end-to-end
-4. Only then commit and push
+4. Check logs for errors
+5. Only then commit and push
 
 **Especially critical for**:
 - Import statements (modules may not exist in all environments)
 - API/SDK features (documentation may not match installed version)
 - Any changes touching startup/initialization code
+
+**Don't assume user is running services** - start them yourself and test.
