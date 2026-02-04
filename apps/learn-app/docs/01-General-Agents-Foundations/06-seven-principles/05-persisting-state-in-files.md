@@ -87,6 +87,13 @@ Without persistent state, you face:
 - **Onboarding friction**: New team members start from zero
 - **Future confusion**: You forget why you made a decision
 
+| Approach | Time per Session | Over 20 Sessions |
+|----------|------------------|------------------|
+| Re-explain context each time | ~10 minutes | 3+ hours wasted |
+| Write CLAUDE.md once | 0 seconds (auto-read) | 3+ hours saved |
+
+The 20 minutes you spend writing a context file pays for itself after just two sessions. That's the laziness that pays off.
+
 ### The Solution: Files as Persistent Memory
 
 Files in your repository are the one thing AI systems can read and that persists across sessions:
@@ -167,6 +174,8 @@ src/
 ```
 
 Every Claude Code session reads this automatically. No more repeating conventions.
+
+> **The Handshake**: When Claude Code sees CLAUDE.md, it doesn't just read it—it treats your project-specific conventions as context that takes precedence over generic patterns. Think of it as a handshake between you and the AI: "These are MY rules for THIS project."
 
 ### Other Context Files
 
@@ -320,6 +329,28 @@ Document things that trip people up:
 
 AI can warn about these when suggesting changes.
 
+### Pattern 4: The Session Journal
+
+Here's a powerful pattern: ask the AI to maintain a `scratchpad.md` or `session-notes.md` file where it records its own reasoning.
+
+```markdown
+## Session Notes (2025-01-22)
+
+### What I figured out
+- The auth bug was caused by token expiry not being checked
+- Fixed by adding middleware in src/auth/validate.ts
+
+### Where I left off
+- Implemented fix, tests passing
+- Still need to handle refresh token edge case
+
+### Questions for next session
+- Should refresh tokens have the same expiry policy?
+- Consider adding rate limiting to token refresh endpoint
+```
+
+**The insight**: Documentation is for *others*. Persisting state is for *the loop*. When the AI writes down its thought process, the next session picks up mid-thought instead of starting from scratch.
+
 ## The Anti-Pattern: When Persistence Goes Wrong
 
 ### Anti-Pattern 1: Outdated Context
@@ -331,7 +362,7 @@ React, Redux, PostgreSQL
 
 But you migrated to MongoDB six months ago.
 
-**Fix**: Update context files when reality changes. Treat them like code—keep them in sync.
+**Fix**: Treat context files like code—update them in the *same commit* as your code changes. Renamed a function? Update CLAUDE.md in that commit. Changed the tech stack? Update the context file before merging. This ties directly to Principle 4 (Atomic Changes): one logical change, one commit, documentation included.
 
 ### Anti-Pattern 2: Over-Documenting Trivia
 
@@ -348,6 +379,14 @@ These are formatting conventions—let your linter handle them. Context files sh
 Some decisions in Slack, some in email, some in tickets, some in people's heads.
 
 **Fix**: If it's a decision, write an ADR. If it's a convention, add to CLAUDE.md. If it's not in git, it doesn't exist.
+
+### Anti-Pattern 4: Context Overload
+
+Pasting entire library documentation, full API references, or every possible convention into CLAUDE.md.
+
+**The problem**: AI has a limited context window. Stuffing too much in means the AI might miss the important parts—or run out of room for your actual conversation.
+
+**Golden Rule**: Keep context files dense but concise. Link to external docs instead of pasting them. Summarize the parts you actually use. If your CLAUDE.md is longer than 200 lines, ask yourself what can be moved to separate files that AI reads only when relevant.
 
 ## Working with AI: Guiding Context Reading
 
@@ -395,6 +434,8 @@ Files are the durable layer that both General Agents share. The specific file ty
 | **Handoff** | Document approach in files for next session | Save outputs for future reference |
 
 **In Cowork**: Ask Cowork to maintain a `progress.md` file tracking what's been completed. Create a `context.md` file before starting complex projects. These files serve the same purpose as CLAUDE.md—they persist knowledge that would otherwise be lost between sessions.
+
+**Non-coder tip**: Start every Cowork session with: *"Before answering any questions, please read 'project_brief.docx' in my files."* This simple prompt gives Cowork the same "memory" that CLAUDE.md gives Claude Code. The principle is universal—only the file format changes.
 
 **The meta-insight**: Both interfaces are stateless. The AI doesn't remember you. But files do. The more you invest in persistent context files, the smarter every future session becomes—regardless of which interface you use.
 
