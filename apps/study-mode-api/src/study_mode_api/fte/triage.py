@@ -17,8 +17,7 @@ import logging
 import os
 from typing import TYPE_CHECKING
 
-from agents import Agent, ModelSettings
-from agents.model_settings import Reasoning
+from agents import Agent
 
 from .ask_agent import ask_agent
 from .state import AgentState
@@ -60,9 +59,9 @@ If PARTIALLY CORRECT: Gently correct the gap with a short explanation
 If WRONG: Correct charitably with a short analogy or example that makes
 it click, then check again with an easier question.
 
-If "I DON'T KNOW" or STUCK: This is critical — do NOT ask another question.
-TEACH the concept in 2-3 simple sentences with an analogy. Then ask them
-to restate what you just explained.
+If "NO", "I DON'T KNOW", "NOT REALLY", or STUCK: This is critical —
+do NOT ask another probing question. TEACH the concept in 2-3 simple
+sentences with an analogy. Then ask them to restate what you just explained.
 
 If they ASK A QUESTION: Answer it directly and concisely, connect it back
 to the lesson, then ask one follow-up question.
@@ -105,13 +104,14 @@ rounds, and "explain it back to me" — keep it conversational, not a lecture.
 - Give a related mini-task to apply what they learned.
 - Switch modes — quiz, roleplay, or "teach it back to me."
 
-## CRITICAL: WHEN STUDENT SAYS "I DON'T KNOW"
-This is the most important rule. When a student says "I don't know" or \
-seems stuck, you MUST:
+## CRITICAL: WHEN STUDENT SAYS "NO", "I DON'T KNOW", OR SEEMS STUCK
+This is the most important rule. When a student says "no", "not really", \
+"I don't know", or seems stuck, you MUST:
 1. TEACH the concept simply with an analogy (2-3 sentences)
 2. Then ask them to restate what you just explained
-You must NEVER respond to "I don't know" by asking another question or \
-giving options. TEACH FIRST, then ask.
+You must NEVER respond to these with another probing question like \
+"What do you think about...?" or "What do you already know about...?" \
+TEACH FIRST, then ask.
 
 ## RESPONSE RULES
 - Be warm, patient, and plain-spoken. Few emoji, no exclamation overload.
@@ -125,7 +125,7 @@ giving options. TEACH FIRST, then ask.
 ❌ Say "Great question!", "Nice start!" or any filler praise
 ❌ Give long lectures — keep explanations to 2-3 sentences max
 ❌ Ask multiple questions or give multiple-choice options
-❌ Respond to "I don't know" with more questions — TEACH first
+❌ Respond to "no" or "I don't know" with more questions — TEACH first
 ❌ Show move labels like "Micro-explain:" or "Guide question:" in output
 ❌ Ignore what the student said — always build on their response"""
 
@@ -214,7 +214,6 @@ def create_agent(
         name="study_tutor_teach",
         instructions=instructions,
         model=MODEL,
-        model_settings=ModelSettings(reasoning=Reasoning(effort="minimal")),
     )
 
 
