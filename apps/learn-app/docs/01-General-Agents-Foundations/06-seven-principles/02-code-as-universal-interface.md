@@ -61,7 +61,13 @@ Sarah had 3,000 photos from her trip across Southeast Asia. They were scattered 
 
 She tried three different photo organization apps. Each did part of what she wanted, but none could handle her specific combination of requirements. The apps had pre-built features, and her needs did not fit those features exactly.
 
-Then she asked a general agent for help. She described what she wanted. The agent wrote a small program that:
+Then she asked a general agent for help. Here's what she wrote:
+
+> "I have 3,000 photos scattered across three folders. They have meaningless names like IMG_4521.jpg. I want them organized by country and city based on their location data, with dates in the filenames (YYYY-MM-DD format), duplicates removed, and everything in a clean folder structure."
+
+That's it. Plain English. No code, no technical knowledge required.
+
+The agent translated her request into a program that:
 
 1. Read the location data embedded in each photo
 2. Figured out which country and city it was taken in
@@ -69,9 +75,28 @@ Then she asked a general agent for help. She described what she wanted. The agen
 4. Detected duplicates by comparing actual image content
 5. Organized everything into a clean folder structure
 
-Fifteen minutes later, her photos were perfectly organized in exactly the way she wanted.
+Fifteen minutes later, her photos were perfectly organized in exactly the way she wanted. Sarah didn't write a single line of code. She described what she wanted in her own words, and the agent handled the translation.
 
 **This is Principle 2 in action.** The general agent succeeded where specialized apps failed because it could write code. Code became the interface through which the agent could do anything Sarah needed, not just what some app designer anticipated.
+
+## Wait—Isn't Bash Already Code?
+
+If you just read about Principle 1 (Bash is the Key), you might wonder: "Isn't Bash code? Why are these separate principles?"
+
+Good question. Here's the distinction:
+
+| Principle | Role | What It Does | Analogy |
+|-----------|------|--------------|---------|
+| **Bash (Principle 1)** | The Hands | Navigate, explore, move files, search, observe | Walking through rooms, opening drawers, looking around |
+| **Code (Principle 2)** | The Brain | Calculate, process data, build logic, create solutions | Thinking, planning, solving puzzles, building tools |
+
+Bash commands like `ls`, `grep`, `mv`, and `find` let the agent **navigate and manipulate** the file system. They're quick, direct operations—look here, move that, search for this.
+
+Code (Python scripts, data processing, custom programs) lets the agent **think and build**. When Sarah needed her photos analyzed for location data, compared for duplicates, and reorganized with custom naming—that required computation, not just file manipulation.
+
+**Bash opens the door. Code does the work inside.**
+
+Both are essential. An agent with only Bash can explore but not compute. An agent with only code generation but no file access can think but not act. Together, they make general agents truly capable.
 
 ## Why General Agents That Write Code Win
 
@@ -156,9 +181,23 @@ Many tasks involve multiple steps. First do this, then check that, then based on
 
 Code lets the agent write an **entire workflow at once**. All the steps, all the conditions, all the logic, captured together. Then the whole thing runs smoothly from start to finish.
 
+Think of it like building a train track versus pushing a cart by hand. Without code, the agent asks you at every junction: "Should I go left or right? What if it's a PDF? What if it's empty?" With code, the agent builds the entire track in advance—all the switches, all the decision points—and the train runs itself.
+
+```
+File arrives → Is it a PDF?
+                 ├─ Yes → Extract text → Contains "Invoice"?
+                 │                         ├─ Yes → Move to Finances/
+                 │                         └─ No  → Move to Documents/
+                 └─ No  → Is it an image?
+                           ├─ Yes → Move to Images/
+                           └─ No  → Move to Other/
+```
+
+This decision tree runs automatically. No back-and-forth. No interruptions. The code handles every branch.
+
 **Story: The Job Application Tracker**
 
-Priya was applying for jobs and losing track of:
+Emma was applying for jobs and losing track of:
 
 - Where she had applied
 - When she needed to follow up
@@ -252,7 +291,7 @@ Code lets agents **create these tools on demand**. You describe what you need, t
 
 **Story: The Custom Report**
 
-Jin managed a community garden and needed to track:
+Alex managed a community garden and needed to track:
 
 - Plot assignments
 - Water usage
@@ -261,7 +300,7 @@ Jin managed a community garden and needed to track:
 
 No garden management app did quite what he needed. Commercial tools were either too simple or too complex.
 
-A general agent built Jin exactly what he needed. Code that:
+A general agent built Alex exactly what he needed. Code that:
 
 1. Tracked his **specific data points**
 2. Calculated the **metrics he cared about**
@@ -324,7 +363,23 @@ This principle connects to the core thesis of this book. General agents are powe
 
 This is why "all agents will become coding agents," as Davis Treybig observed. Specialized agents with fixed features will always be limited. General agents that write code can do anything.
 
-In the next lesson, we will explore **Principle 3: Verification as a Core Step**. Because when agents write code to solve problems, checking that the code actually did what you wanted becomes essential. The power of code demands the discipline of verification.
+### The Catch: Code Must Actually Work
+
+There's an important caveat to everything we've discussed. LLMs sometimes generate code that **looks correct but isn't**.
+
+The agent might:
+- Misunderstand your intent and solve the wrong problem
+- Use a function that doesn't exist or works differently than expected
+- Write logic that fails on edge cases you didn't mention
+- Make assumptions that don't match your actual data
+
+This isn't a flaw—it's the nature of probabilistic language models. They're remarkably capable, but they're not compilers. They don't *execute* code in their heads; they *predict* what correct code looks like.
+
+**Code is powerful, but only when it actually works.** A beautiful program that crashes on your data is worthless. An elegant solution that misunderstands your requirements wastes your time.
+
+This is why the next principle is essential.
+
+In the next lesson, we will explore **Principle 3: Verification as a Core Step**. The power of code demands the discipline of verification. You'll learn how to confirm that what the agent built actually does what you intended—before you trust it with your real work.
 
 ## Try With AI
 
