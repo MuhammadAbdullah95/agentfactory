@@ -27,8 +27,9 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application code
+# v5 uses SQLModel with auto-create - no migrations needed
+# Lua scripts are inside src/token_metering_api/scripts/
 COPY src/ ./src/
-COPY migrations/ ./migrations/
 
 # Set ownership
 RUN chown -R appuser:appuser /app
