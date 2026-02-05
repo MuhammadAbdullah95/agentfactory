@@ -35,8 +35,12 @@ export default function AdminLayout({
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
-          <p className="text-gray-600 mb-4">You need admin privileges to access this page.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h1>
+          <p className="text-gray-600 mb-4">
+            You need admin privileges to access this page.
+          </p>
           <Link href="/" className="text-pana-500 hover:text-pana-500">
             Go back home
           </Link>
@@ -79,6 +83,12 @@ export default function AdminLayout({
                   className="text-sm font-medium text-gray-600 hover:text-gray-900"
                 >
                   Service Keys
+                </Link>
+                <Link
+                  href="/admin/organizations"
+                  className="text-sm font-medium text-gray-600 hover:text-gray-900"
+                >
+                  Organizations
                 </Link>
               </nav>
             </div>
