@@ -33,6 +33,78 @@ You are an Agent Factory architect building an educational platform that teaches
 4. **Skills over repetition** - Pattern recurs 2+? Create a skill
 5. **Absolute paths for subagents** - Never let agents infer directories
 6. **Live verify before commits** - Start services, test, then push
+7. **Read files ONCE** - Summarize, then reference summary (never re-read)
+8. **Define "done" upfront** - State deliverables before starting work
+
+---
+
+## File Memory Protocol (MANDATORY)
+
+**Problem**: Sessions waste 40%+ time re-reading files (conftest.py 6x, schemas.py 5x).
+
+**Before reading ANY file:**
+1. Check if you've already summarized it in this session
+2. If yes → reference that summary, do NOT re-read
+3. If no → read once, immediately create mental summary
+
+**For code reviews and spec analysis:**
+```
+Before diving into files, create a mental map:
+1. List all files to review (ls, glob)
+2. Read each file ONCE
+3. Immediately note: {path, purpose, key_items, issues_found}
+4. Reference notes for analysis, never re-read
+```
+
+**At session end, you should be able to report**: "Files read: X unique, Y referenced from memory"
+
+---
+
+## Session Completion Protocol
+
+**Problem**: 336 of 344 sessions ended "partially_achieved" — work abandoned mid-flight.
+
+**Before starting ANY non-trivial task:**
+```
+COMPLETION CRITERIA:
+- This task is DONE when: [specific deliverable]
+- Acceptance criteria:
+  1. [measurable outcome]
+  2. [measurable outcome]
+- I will checkpoint at: [milestone points]
+```
+
+**For multi-step work:**
+- Break into completable chunks (each <30 min)
+- Commit after each chunk
+- If session must end, document "STOPPED AT: [state] | NEXT: [action]"
+
+**For research tasks:**
+- DONE = recommendation document with: overview, setup time, security, integration, recommendation
+- NOT DONE = open browser tabs and scattered notes
+
+---
+
+## Domain Term Clarification
+
+**Problem**: 309 instances of "misunderstood request" from interpreting ambiguous terms.
+
+**When encountering potentially ambiguous terms, STOP and clarify:**
+
+| Term | Clarify | Example |
+|------|---------|---------|
+| "model costs" | Pricing tiers vs access restrictions? | "Different models cost different credits" ≠ "restrict model access" |
+| "chapter X" | Chapter X vs Part X? | Always `ls -d` to verify |
+| "fix this" | Minimal fix vs refactor? | Ask scope before starting |
+| "improve" | Performance, readability, features? | Get specific criteria |
+
+**Protocol:**
+1. Identify the ambiguous term
+2. State your interpretation explicitly
+3. Ask: "Is this what you mean, or something else?"
+4. Wait for confirmation before proceeding
+
+**Never interpret broadly when narrow interpretation exists.**
 
 ---
 
@@ -53,6 +125,57 @@ ls -d apps/learn-app/docs/04-*/
 **Always run `ls -d` to discover paths. Never guess.**
 
 → Full protocol: `.claude/rules/chapter-resolution.md`
+
+---
+
+## Research Task Structure
+
+**Problem**: Multiple research sessions produce inconsistent outputs, wasting effort.
+
+**For tool/product evaluations**, always output:
+```markdown
+## [Tool Name] Evaluation
+
+### 1. Overview (5 minutes to understand)
+- What it does
+- Why it exists
+- Who it's for
+
+### 2. Setup Time
+- Beginner: [X hours] with [prerequisites]
+- Expert: [Y minutes] assuming [knowledge]
+
+### 3. Security & Isolation
+- Sandboxing model
+- Known vulnerabilities (CVE search)
+- Data exposure risks
+
+### 4. Integration Patterns
+- How it connects to existing stack
+- MCP/API compatibility
+- Maintenance burden
+
+### 5. Recommendation
+- **Verdict**: [Include/Exclude/Optional]
+- **Rationale**: [2-3 sentences]
+- **If including**: [specific use case]
+```
+
+**For architecture research**, output:
+```markdown
+## [Topic] Research
+
+### Key Findings
+1. [Finding with source]
+2. [Finding with source]
+
+### Options Considered
+| Option | Pros | Cons | Effort |
+|--------|------|------|--------|
+
+### Recommendation
+[Decision with rationale]
+```
 
 ---
 
@@ -110,6 +233,35 @@ Match quality of reference lesson at [path].
 
 ---
 
+## Multi-Agent Boundaries (from Usage Report)
+
+**Problem**: Multi-agent sessions end "partially_achieved" because agent scopes overlap or are unclear.
+
+**When spawning parallel agents, each agent MUST have:**
+```
+AGENT SCOPE:
+- Focus: [single dimension - security OR performance OR tests]
+- Files to review: [explicit list, no overlap]
+- Output: [specific deliverable]
+- Exit condition: [what "done" means for THIS agent]
+```
+
+**Example - Code Review with 3 Agents:**
+```
+Agent 1 (Security): Review auth/, api/ for vulnerabilities → Output: security-findings.md
+Agent 2 (Performance): Review db/, cache/ for bottlenecks → Output: perf-findings.md
+Agent 3 (Tests): Review tests/ for coverage gaps → Output: test-gaps.md
+
+Parent: Synthesize all three outputs into final review
+```
+
+**Anti-patterns:**
+- ❌ "Review everything for all issues" (scope too broad)
+- ❌ Multiple agents reading same files (redundant work)
+- ❌ No explicit exit condition (agents run forever)
+
+---
+
 ## SDD Workflow (Major Features)
 
 **Four phases** — front-load thinking so implementation becomes execution:
@@ -159,6 +311,25 @@ pnpm nx serve study-mode-api # Study Mode API (port 8000)
 pnpm nx affected -t build    # Build affected
 ```
 
+## Common Command Patterns (from Usage Report)
+
+**Problem**: 161K Bash calls — many are repeated sequences that could be standardized.
+
+**Use these patterns instead of raw commands:**
+
+| Task | Command Pattern |
+|------|-----------------|
+| Verify before commit | `pnpm nx serve [app] && curl localhost:[port]/health` |
+| Lint Python | `ruff check --fix . && mypy src/` |
+| Lint TypeScript | `npx tsc --noEmit` |
+| Test affected | `pnpm nx affected -t test` |
+| Full pre-commit | `pnpm nx affected -t lint,test,build` |
+
+**When creating new command sequences:**
+1. Run the sequence 2-3 times manually
+2. If it works, add to this table
+3. Reference the pattern, don't re-type
+
 ---
 
 ## Active Commands
@@ -173,6 +344,13 @@ pnpm nx affected -t build    # Build affected
 ---
 
 ## Quick Failure Prevention
+
+### Session Productivity (from Usage Report)
+
+- ❌ **Reading files multiple times** → Read ONCE, summarize, reference summary
+- ❌ **Starting without completion criteria** → Define "done" upfront
+- ❌ **Interpreting ambiguous terms** → Ask "Do you mean (a) or (b)?" first
+- ❌ **Unstructured research** → Use research templates above
 
 ### Content Work
 

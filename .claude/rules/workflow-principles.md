@@ -1,5 +1,66 @@
 # Workflow Principles
 
+## File Reading Discipline (CRITICAL)
+
+**Never read the same file twice in a session.**
+
+When starting any task involving multiple files:
+1. **Map first**: `ls` or `glob` to identify all relevant files
+2. **Read once**: Go through each file exactly once
+3. **Summarize immediately**: After reading, note key points mentally
+4. **Reference summaries**: When you need information, use your notes not the file
+
+**Signs you're violating this**:
+- Reading conftest.py to "check something"
+- Opening schemas.py "again to confirm"
+- Re-reading a spec "to make sure"
+
+**Fix**: If you don't remember, your summary was insufficient. Improve summaries, don't re-read.
+
+---
+
+## Completion Criteria Definition
+
+**Every session should start with explicit "done" criteria.**
+
+Before beginning work:
+```
+DELIVERABLES FOR THIS SESSION:
+1. [Specific artifact or outcome]
+2. [Measurable completion state]
+
+CHECKPOINTS:
+- After [milestone], I'll commit and verify
+- If interrupted, I'll document state in progress.md
+```
+
+**Why this matters**: 98% of sessions end "partially_achieved" because there's no shared understanding of what "done" means.
+
+---
+
+## Ambiguity Detection
+
+**When a request could mean multiple things, always ask.**
+
+Red flags that require clarification:
+- Vague scope words: "improve", "fix", "clean up", "refactor"
+- Domain-specific terms: "model costs", "credits", "access"
+- Numeric ambiguity: "chapter 5" vs "part 5"
+- Implicit assumptions: "the API", "that file", "the bug"
+
+**Protocol**:
+```
+I notice [term] could mean:
+(a) [interpretation 1]
+(b) [interpretation 2]
+
+Which did you have in mind?
+```
+
+**Never proceed with an assumption when clarification takes 10 seconds.**
+
+---
+
 ## Re-Plan When Sideways
 
 If implementation hits unexpected resistance (3+ failed attempts, scope creep, unclear path):
@@ -113,3 +174,40 @@ THINGS I DIDN'T TOUCH:
 POTENTIAL CONCERNS:
 - [any risks or things to verify]
 ```
+
+---
+
+## Session End Summary
+
+When a session is ending or user indicates they're done:
+
+```
+SESSION SUMMARY:
+- Completion status: [Fully achieved | Partially achieved | Blocked]
+- Files read: [X unique files]
+- Deliverables produced: [list]
+
+IF PARTIALLY ACHIEVED:
+- Stopped at: [specific state]
+- Remaining work: [what's left]
+- Next action: [exact command/step to resume]
+```
+
+**This prevents work from being lost between sessions.**
+
+---
+
+## Code Review Protocol
+
+**To prevent redundant file reading during reviews:**
+
+1. **Map phase** (5 min): `ls`/`glob` to list all files in scope
+2. **First pass** (sequential): Read each file ONCE, noting:
+   - Purpose
+   - Key functions/classes
+   - Dependencies
+   - Potential issues
+3. **Analysis phase**: Work from notes, NOT from re-reading
+4. **Output**: Structured findings referencing file:line
+
+**Never "check that file again" — your notes must be sufficient.**
