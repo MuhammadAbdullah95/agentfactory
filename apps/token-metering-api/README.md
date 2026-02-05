@@ -43,8 +43,12 @@ docker-compose up -d postgres redis
 # Copy environment file
 cp .env.example .env
 
-# Initialize database and seed pricing data
-docker exec -i token-metering-postgres psql -U postgres -d token_metering < scripts/init_db.sql
+# Start server once to create tables via SQLModel
+uv run uvicorn token_metering_api.main:app --port 8001 &
+sleep 3 && kill %1
+
+# Seed pricing data
+psql $DATABASE_URL < scripts/seed_pricing.sql
 
 # Start the server
 uv run uvicorn token_metering_api.main:app --reload --port 8001
@@ -55,14 +59,20 @@ pnpm nx serve token-metering-api
 
 ### Database Setup
 
-The service requires a `pricing` table with model pricing data. Without it, all models fall back to `DEFAULT_PRICING` ($0.001/$0.002 per 1k tokens).
+Tables are created automatically by SQLModel on first startup. The `pricing` table needs seed data for model-specific costs.
 
 ```bash
-# Initialize tables and seed pricing
-psql $DATABASE_URL < scripts/init_db.sql
+# 1. Start server once to create tables
+uv run uvicorn token_metering_api.main:app --port 8001
+# Ctrl+C after "Application startup complete"
+
+# 2. Seed pricing data
+psql $DATABASE_URL < scripts/seed_pricing.sql
 ```
 
-**Important**: Model names must match **exactly** between the calling service (study-mode-api) and the pricing table. See [Model Pricing](#model-pricing) for details.
+Without pricing data, all models fall back to `DEFAULT_PRICING` ($1.00/$2.00 per 1M tokens).
+
+**Important**: Model names must match **exactly** between the calling service and the pricing table. See [Model Pricing](#model-pricing).
 
 ### Environment Variables
 
@@ -243,7 +253,7 @@ The CI workflow runs lint, test, and build for affected projects only.
 
 Pricing is looked up by **exact model name match**. If no match is found, `DEFAULT_PRICING` is used.
 
-### Configured Models (from `scripts/init_db.sql`)
+### Configured Models (from `scripts/seed_pricing.sql`)
 
 | Model | Input $/1M | Output $/1M | Max Tokens | Used By |
 |-------|-----------|-------------|------------|---------|

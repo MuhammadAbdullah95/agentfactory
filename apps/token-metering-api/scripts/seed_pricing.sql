@@ -1,0 +1,26 @@
+-- Seed pricing data for token-metering-api
+-- Tables are created by SQLModel metadata.create_all() on startup
+-- Run this AFTER starting the service once to create tables
+
+-- Clear existing pricing (for fresh setup)
+DELETE FROM pricing;
+
+-- DeepSeek Chat (study-mode-api ask agent) - $0.14/$0.28 per 1M tokens
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active)
+VALUES ('deepseek-chat', 0.00014, 0.00028, 64000, 'deepseek-v3.2', true);
+
+-- GPT-5 Nano (study-mode-api triage agent) - $0.15/$0.60 per 1M tokens
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active)
+VALUES ('gpt-5-nano-2025-08-07', 0.00015, 0.00060, 128000, 'gpt5-nano-v1', true);
+
+-- Claude Sonnet 4 - $3/$15 per 1M tokens
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active)
+VALUES ('claude-sonnet-4-20250514', 0.003, 0.015, 200000, 'claude-sonnet-4-v1', true);
+
+-- Claude Opus 4 - $15/$75 per 1M tokens
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active)
+VALUES ('claude-opus-4-20250514', 0.015, 0.075, 200000, 'claude-opus-4-v1', true);
+
+-- Verify
+SELECT model, input_cost_per_1k as "$/1k in", output_cost_per_1k as "$/1k out", max_tokens, pricing_version
+FROM pricing WHERE is_active = true ORDER BY model;
