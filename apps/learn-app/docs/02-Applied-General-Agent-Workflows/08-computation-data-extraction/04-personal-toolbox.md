@@ -1,388 +1,519 @@
 ---
 sidebar_position: 5
-title: "Personal Toolbox"
-chapter: 7
+title: "From Numbers to Structured Data"
+chapter: 8
 lesson: 4
-duration_minutes: 20
-description: "Transform scripts into persistent personal commands using executables and aliases"
+duration_minutes: 30
+description: "Learn why simple text tools fail on real CSV data and build a robust bank statement parser with persistent aliases"
 keywords:
   [
-    "chmod",
-    "executable",
-    "shebang",
+    "CSV",
+    "awk",
+    "cut",
+    "csv module",
+    "structured data",
     "alias",
-    "bashrc",
-    "zshrc",
-    "persistent tools",
+    "shebang",
+    "chmod",
+    "bank statement",
   ]
 
 skills:
-  - name: "Making Scripts Executable"
+  - name: "Understanding CSV Parsing Challenges"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Understand"
+    digcomp_area: "Information Literacy"
+    measurable_at_this_level: "Student can explain why awk/cut fail on quoted CSV fields and recognize when Python's csv module is needed"
+
+  - name: "Using Python's csv Module"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Apply"
-    digcomp_area: "System Administration"
-    measurable_at_this_level: "Student adds shebang line and uses chmod +x to make Python script directly executable"
+    digcomp_area: "Programming"
+    measurable_at_this_level: "Student can write a script using csv.reader to correctly parse CSV with quoted fields"
 
-  - name: "Creating Shell Aliases"
+  - name: "Creating Persistent Shell Commands"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Create"
-    digcomp_area: "Automation"
+    digcomp_area: "System Administration"
     measurable_at_this_level: "Student creates alias in shell config and verifies it persists across sessions"
 
 learning_objectives:
-  - objective: "Make script executable and invoke directly"
+  - objective: "Explain why simple delimiter-based tools fail on real-world CSV"
+    proficiency_level: "A2"
+    bloom_level: "Understand"
+    assessment_method: "Student identifies that quoted fields containing commas break awk/cut parsing"
+
+  - objective: "Build CSV-reading Python script using the csv module"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student runs ./calc.py successfully without python prefix"
+    assessment_method: "Student creates working sum-expenses.py that correctly handles quoted CSV fields"
 
-  - objective: "Create shell alias for persistent access"
+  - objective: "Create persistent shell alias for the CSV script"
     proficiency_level: "A2"
     bloom_level: "Create"
-    assessment_method: "Student creates alias, adds to shell config, verifies persistence after terminal restart"
+    assessment_method: "Student creates alias, verifies it persists after terminal restart"
 
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (shebang line, chmod +x, executable permission, alias command, shell config files, persistence) within A2 limit"
+  new_concepts: 7
+  assessment: "7 concepts (CSV format, awk/cut limitation, quoted fields, csv.reader, shebang, chmod, alias) AT A2 LIMIT - heavy but necessary scaffolding"
 
 differentiation:
-  extension_for_advanced: "Add script to PATH instead of alias, create wrapper function with default arguments"
-  remedial_for_struggling: "Focus on just alias creation - skip executable if overwhelmed, alias achieves same goal"
+  extension_for_advanced: "Add command-line arguments to select column, explore csv.DictReader"
+  remedial_for_struggling: "Focus on just using the provided script with alias - understand the WHY without modifying code"
 ---
 
-# Personal Toolbox
+# From Numbers to Structured Data
 
-You have built `calc.py`. It works. You tested it in Lesson 3. Every time you want to use it, you type:
+In the previous lessons, you built a script that sums simple numbers - one per line. That works for quick calculations. But real-world data is more complex.
 
-```bash
-cat receipts.txt | python ~/calc.py
+Download your bank statement, and you get a CSV file. Open it, and you see structured rows with dates, descriptions, and amounts. The data isn't one number per line - it's organized into columns separated by commas.
+
+This lesson takes you from simple number lists to structured data. You'll learn why "just split on commas" fails catastrophically on real CSV files, how to handle this properly with Python, and how to turn your solution into a persistent command you can use forever.
+
+## The CSV Format: Data in Columns
+
+CSV stands for **Comma-Separated Values**. It's the universal format for tabular data - spreadsheets, database exports, bank statements, anything with rows and columns.
+
+A simple CSV looks like this:
+
+```csv
+Date,Description,Amount
+2024-01-02,Coffee Shop,-5.50
+2024-01-03,Grocery Store,-127.43
+2024-01-04,Gas Station,-45.00
 ```
 
-That command is correct but tedious. You want something simpler:
+Each line is a row. Commas separate the columns. The first row is typically a header naming each column.
+
+This seems straightforward. To extract the Amount column (column 3), you might think: "Split each line on commas and take the third piece."
+
+That intuition will fail you spectacularly on real data.
+
+## Meet awk: The Text Processing Tool
+
+Before we see why simple splitting fails, let's meet a tool you'll encounter frequently: `awk`.
+
+`awk` is a classic Unix text-processing language. It excels at extracting and manipulating columnar data. The basic syntax:
 
 ```bash
-cat receipts.txt | add-up
+awk -F',' '{print $3}' file.csv
 ```
 
-One word. `add-up`. Like a real command. Like `cat` or `grep` or `ls`. Your script should feel like part of the operating system—because you are about to make it part of your operating system.
+Let's decode this:
 
-This lesson transforms your script into a persistent personal command. By the end, you will have extended your shell with a tool that exists nowhere else in the world. Every future terminal session will have access to it. You will have built the first piece of your personal toolbox.
+| Part | Meaning |
+|------|---------|
+| `awk` | The command |
+| `-F','` | Field separator is comma |
+| `'{print $3}'` | Print the 3rd field of each line |
+| `file.csv` | Input file |
 
-## The Two Paths to Personal Commands
-
-There are two ways to turn a script into a command:
-
-| Approach              | What It Does                    | Best For                                  |
-| --------------------- | ------------------------------- | ----------------------------------------- |
-| **Executable Script** | Make the script itself runnable | Scripts you invoke with `./` or from PATH |
-| **Shell Alias**       | Create a shortcut name          | Quick access to any command               |
-
-We will do both. The executable approach teaches you how Unix programs work. The alias approach gives you the fastest daily workflow.
-
-## Making Your Script Executable
-
-Right now, `calc.py` is just a text file. Your shell does not know it can be run as a program. Try running it directly:
+For simple data, awk works beautifully:
 
 ```bash
-./calc.py
-# Output: bash: ./calc.py: Permission denied
+echo -e "a,b,c\n1,2,3\n4,5,6" | awk -F',' '{print $3}'
 ```
 
-The shell refuses. Even though Python can interpret this file, the operating system does not know that. We need to tell it two things:
+**Output:**
+```
+c
+3
+6
+```
 
-1. **What program should run this file** (the shebang line)
-2. **That this file is allowed to be executed** (the permission flag)
+The third column, extracted perfectly. So why not use awk for bank statements?
 
-### Step 1: Add the Shebang Line
+## The CSV Parsing Trap
 
-Open `calc.py` and add this line at the very top:
+Real bank statements have merchant names like these:
+
+```csv
+Date,Description,Amount
+01/05/2025,"CVS PHARMACY #1234",-45.67
+01/05/2025,"AMAZON.COM*AB1234",-23.99
+01/07/2025,"AMAZON, INC.",-89.50
+```
+
+Look at that last line carefully. The description `"AMAZON, INC."` contains a comma. The quotes tell CSV parsers "this is one field, the comma inside doesn't count as a separator."
+
+Now try awk:
+
+```bash
+echo '01/07/2025,"AMAZON, INC.",-89.50' | awk -F',' '{print $3}'
+```
+
+**Output:**
+```
+ INC."
+```
+
+Wrong! awk sees three commas and splits into four fields:
+1. `01/07/2025`
+2. `"AMAZON`
+3. ` INC."`
+4. `-89.50`
+
+Field 3 is ` INC."` - garbage. The amount we wanted is actually field 4.
+
+**This is the CSV parsing trap**: Real-world CSV has quoted fields containing commas, and simple delimiter-based tools don't understand quoting rules.
+
+| Tool | Handles Quoted Commas? | Result on "AMAZON, INC.",-89.50 |
+|------|------------------------|----------------------------------|
+| `awk -F','` | No | Breaks into wrong columns |
+| `cut -d','` | No | Same problem |
+| Python's `csv` module | Yes | Correctly extracts -89.50 |
+
+## Why awk Still Matters
+
+Don't dismiss awk entirely. It's excellent for:
+
+- Log files with consistent delimiters
+- Tab-separated data
+- Quick one-liners on simple data
+- Data you control (no embedded delimiters)
+
+But for data from external sources - bank exports, downloaded datasets, API responses - assume it has edge cases. Use a proper CSV parser.
+
+## Python's csv Module: The Right Tool
+
+Python's built-in `csv` module understands CSV quoting rules. It correctly handles:
+
+- Quoted fields with commas inside
+- Escaped quotes within quoted fields
+- Different quote characters
+- Various line ending styles
+
+Here's how to use it:
+
+```python
+import csv
+import sys
+
+reader = csv.reader(sys.stdin)
+for row in reader:
+    print(row)  # row is a list of fields
+```
+
+Test with the problematic data:
+
+```bash
+echo -e 'Date,Description,Amount\n01/07/2025,"AMAZON, INC.",-89.50' | python -c "
+import csv, sys
+for row in csv.reader(sys.stdin):
+    print(row)
+"
+```
+
+**Output:**
+```
+['Date', 'Description', 'Amount']
+['01/07/2025', 'AMAZON, INC.', '-89.50']
+```
+
+The csv module correctly parsed `AMAZON, INC.` as a single field, not two.
+
+## Building sum-expenses.py
+
+Now let's build a proper CSV expense summer. Create `sum-expenses.py`:
 
 ```python
 #!/usr/bin/env python3
-# calc.py - Now with shebang line!
+# sum-expenses.py - Sum the Amount column from bank statement CSV
 import sys
+import csv
 
-total = sum(float(line.strip()) for line in sys.stdin if line.strip())
-print(f"Total: {total:.2f}")
+total = 0
+reader = csv.reader(sys.stdin)
+next(reader)  # Skip header row
+
+for row in reader:
+    # Amount is typically the 3rd column (index 2)
+    amount_str = row[2]
+    # Remove currency formatting ($, commas)
+    amount = float(amount_str.replace('$', '').replace(',', ''))
+    total += abs(amount)  # Use absolute value to sum all transactions
+
+print(f"Total: ${total:.2f}")
 ```
 
-The first line (`#!/usr/bin/env python3`) is called a **shebang**. When the operating system sees a file that starts with `#!`, it reads the rest of that line to find the interpreter.
+Let's trace through the key parts:
+
+**Line 7**: `csv.reader(sys.stdin)` creates a CSV reader that pulls rows from standard input.
+
+**Line 8**: `next(reader)` skips the header row.
+
+**Lines 11-13**: For each row:
+- `row[2]` gets the Amount column (Python uses 0-based indexing)
+- `.replace()` strips currency symbols
+- `float()` converts to a number
+
+**Line 14**: `abs()` takes the absolute value so both debits (-) and credits (+) are summed.
+
+## New Commands in This Lesson
+
+You already know `cp` from previous chapter. This lesson introduces commands for making scripts permanent:
+
+| Command | What It Does | Memory Trick |
+|---------|-------------|--------------|
+| `cat > file << 'EOF'` | Creates a file with inline content (heredoc) | "Here's the document" |
+| `chmod +x` | Makes a file executable | **ch**ange **mod**e + e**x**ecute |
+| `source` | Reloads shell configuration | Load the **source** of settings |
+| `>>` | Appends to a file (doesn't overwrite) | Two arrows = add more |
+
+### The Heredoc: Creating Multi-line Files
+
+The heredoc syntax (`<< 'EOF'`) lets you create files with multiple lines inline:
+
+```bash
+cat > myfile.txt << 'EOF'
+Line 1
+Line 2
+Line 3
+EOF
+```
 
 Breaking it down:
+- `cat >` - output to a file
+- `<< 'EOF'` - "read until you see EOF"
+- Lines in between become the file contents
+- `EOF` - marks the end (can be any word, EOF is convention)
 
-- `#!` — The shebang marker. Tells the OS "this file specifies its own interpreter"
-- `/usr/bin/env` — A program that finds other programs in your PATH
-- `python3` — The interpreter to use
+The quotes around `'EOF'` prevent variable expansion - `$HOME` stays as literal text, not your home directory.
 
-Why `/usr/bin/env python3` instead of just `/usr/bin/python3`? Because Python might be installed in different locations on different systems. The `env` command looks up `python3` in your PATH, making the script portable across machines.
-
-### Step 2: Set the Executable Permission
-
-Files have permissions that control what you can do with them. By default, text files are readable but not executable. Change that with `chmod`:
+### Append vs Overwrite
 
 ```bash
-chmod +x calc.py
+echo "first" > file.txt   # Creates/overwrites file with "first"
+echo "second" >> file.txt # Appends "second" to existing file
 ```
 
-The `chmod` command changes file permissions. The `+x` flag adds executable permission. You can verify the change:
+Result: file.txt contains both "first" and "second" on separate lines.
+
+### The source Command
+
+When you edit `~/.bashrc` or `~/.zshrc`, the changes don't take effect until you start a new terminal. The `source` command reloads the file immediately:
 
 ```bash
-ls -l calc.py
-# Output: -rwxr-xr-x 1 user user 142 Jan 30 10:00 calc.py
+source ~/.bashrc  # Reload bash config now
 ```
 
-See the `x` in `-rwxr-xr-x`? That means executable. Before `chmod +x`, it would have been `-rw-r--r--` (no `x`).
+## Testing Your CSV Parser
+
+Create test data that exercises the tricky cases:
+
+```bash
+cat > test_bank.csv << 'EOF'
+Date,Description,Amount
+2024-01-02,Coffee Shop,-$5.50
+2024-01-03,Grocery Store,-$127.43
+2024-01-04,"AMAZON, INC.",-$89.50
+2024-01-05,Gas Station,-$45.00
+EOF
+```
+
+Run your script:
+
+```bash
+cat test_bank.csv | python sum-expenses.py
+```
+
+**Expected output:**
+```
+Total: $267.43
+```
+
+Verify by hand: 5.50 + 127.43 + 89.50 + 45.00 = 267.43. Correct!
+
+The csv module handled `"AMAZON, INC."` correctly despite the embedded comma.
+
+## Making Your Script Executable
+
+Every time you run the script, you type `python sum-expenses.py`. Let's make it feel like a real command.
+
+### Step 1: The Shebang Line
+
+The first line of your script (`#!/usr/bin/env python3`) is called a **shebang**. It tells the operating system which interpreter to use.
+
+When you run a file directly, the OS reads the shebang and knows to use Python. Without it, the OS wouldn't know how to execute the file.
+
+### Step 2: Set Executable Permission
+
+Files have permissions controlling what you can do with them. By default, scripts are readable but not executable:
+
+```bash
+ls -l sum-expenses.py
+# Output: -rw-r--r-- 1 user user 342 Jan 30 10:00 sum-expenses.py
+```
+
+The `chmod` command changes permissions. `+x` adds executable permission:
+
+```bash
+chmod +x sum-expenses.py
+```
+
+Now check again:
+
+```bash
+ls -l sum-expenses.py
+# Output: -rwxr-xr-x 1 user user 342 Jan 30 10:00 sum-expenses.py
+```
+
+See the `x` in `-rwxr-xr-x`? That means executable.
 
 ### Step 3: Run Directly
 
-Now you can run the script without the `python` prefix:
+Now you can run without the `python` prefix:
 
 ```bash
-echo -e "10\n20\n30" | ./calc.py
-# Output: Total: 60.00
+cat test_bank.csv | ./sum-expenses.py
 ```
 
-The `./` tells the shell "run the file in the current directory." Without it, the shell would search your PATH and not find `calc.py`.
-
-You have now made `calc.py` an executable program. But you still need the `./` prefix and the full path. Let us fix that with an alias.
+The `./` means "run the file in the current directory."
 
 ## Creating a Shell Alias
 
-An alias is a shortcut—a name that expands to a longer command. You define an alias like this:
+You still need `./` and the full path. Let's create an alias - a shortcut name that expands to the full command.
 
 ```bash
-alias add-up='python ~/calc.py'
+alias sum-expenses='python3 ~/tools/sum-expenses.py'
 ```
 
-Now test it:
+Test it:
 
 ```bash
-echo -e "10\n20\n30" | add-up
-# Output: Total: 60.00
+cat test_bank.csv | sum-expenses
+# Output: Total: $267.43
 ```
 
-The shell sees `add-up`, expands it to `python ~/calc.py`, and runs that. You have created a personal command.
-
-But there is a problem. Close your terminal. Open a new one. Try the alias:
-
-```bash
-echo -e "10\n20" | add-up
-# Output: bash: add-up: command not found
-```
-
-The alias is gone. It only existed in that terminal session. To make it permanent, you need to save it in your shell's configuration file.
+But close and reopen your terminal - the alias is gone. It only existed in that session.
 
 ## Making Aliases Persistent
 
-Your shell reads a configuration file every time it starts. For Bash, this is `~/.bashrc`. For Zsh (default on macOS), this is `~/.zshrc`. You will add your alias to this file.
+Your shell reads a configuration file at startup. For Bash, it's `~/.bashrc`. For Zsh (macOS default), it's `~/.zshrc`.
 
-### Step 1: Identify Your Shell
+### Step 1: Set Up Your Tools Directory
 
-First, check which shell you are using:
+```bash
+mkdir -p ~/tools
+cp sum-expenses.py ~/tools/
+chmod +x ~/tools/sum-expenses.py
+```
+
+### Step 2: Identify Your Shell
 
 ```bash
 echo $SHELL
-# Output: /bin/bash   (or /bin/zsh on macOS)
+# Output: /bin/bash (or /bin/zsh on macOS)
 ```
 
-### Step 2: Add the Alias to Your Config
-
-For Bash users:
-
-```bash
-echo "alias add-up='python ~/calc.py'" >> ~/.bashrc
-```
-
-For Zsh users:
-
-```bash
-echo "alias add-up='python ~/calc.py'" >> ~/.zshrc
-```
-
-The `>>` operator appends to the file without overwriting existing content.
-
-### Step 3: Reload Your Configuration
-
-The shell does not automatically notice changes to its config file. Tell it to reload:
+### Step 3: Add the Alias
 
 For Bash:
-
 ```bash
+echo "alias sum-expenses='python3 ~/tools/sum-expenses.py'" >> ~/.bashrc
 source ~/.bashrc
 ```
 
 For Zsh:
-
 ```bash
+echo "alias sum-expenses='python3 ~/tools/sum-expenses.py'" >> ~/.zshrc
 source ~/.zshrc
 ```
 
 ### Step 4: Verify Persistence
 
-Test that the alias works:
+```bash
+cat test_bank.csv | sum-expenses
+# Output: Total: $267.43
+```
+
+Now close your terminal completely. Open a new one. Run the alias:
 
 ```bash
-echo -e "5\n5\n5" | add-up
-# Output: Total: 15.00
+cat test_bank.csv | sum-expenses
+# Output: Total: $267.43
 ```
 
-Now close your terminal completely. Open a new terminal. Run the alias again:
+The alias persists. You've permanently extended your shell with a custom command.
 
-```bash
-echo -e "100\n200" | add-up
-# Output: Total: 300.00
-```
+## What You've Built
 
-The alias persists. You have permanently extended your shell.
+Look at the progression across these four lessons:
 
-## The Complete Workflow
+| Lesson | What You Built | Problem Solved |
+|--------|---------------|----------------|
+| 1. Arithmetic Gap | Recognized Bash limits | Decimals fail in Bash |
+| 2. Python Utility | Created sum.py | Simple number summing |
+| 3. Testing Loop | Verification workflow | Trust through testing |
+| 4. Structured Data | Created sum-expenses.py | Real CSV parsing |
 
-Let us trace what you have accomplished:
+You went from "Bash can't add decimals" to "I have a permanent command for processing bank statements." This is the agent-building pattern: identify a need, build a solution, verify it works, make it accessible.
 
-```bash
-# Before: Tedious full command
-cat receipts.txt | python ~/scripts/calc.py
+## Connecting to the Seven Principles
 
-# After: Your personal command
-cat receipts.txt | add-up
-```
+This lesson demonstrates several principles:
 
-You have:
+**Principle 1: Bash is the Key**
+The shell orchestrates everything - pipes, aliases, file manipulation. But Bash delegates complex parsing to the right tool (Python).
 
-1. Added a shebang line so the script knows its interpreter
-2. Set executable permission with `chmod +x`
-3. Created an alias for quick access
-4. Made the alias persistent in your shell config
+**Principle 2: Code as Universal Interface**
+Your CSV parser is code that executes. No hallucination, no approximation. Given a bank statement, it returns exact totals.
 
-Your `add-up` command will now exist in every terminal session, on this machine, forever. Unless you remove it.
-
-## What You Have Built
-
-Step back and see what you have done across these four lessons:
-
-| Lesson                    | What You Built                         | Principle Demonstrated            |
-| ------------------------- | -------------------------------------- | --------------------------------- |
-| 1. Accuracy Gap           | Recognized Bash arithmetic limits      | P3: Verification reveals failures |
-| 2. Single-Purpose Utility | Created `calc.py` reading stdin        | P2: Code as Universal Interface   |
-| 3. Testing Loop           | Verified with exit codes and test data | P3: Verification as Core Step     |
-| 4. Personal Toolbox       | Made it a persistent command           | P5: Persisting State in Files     |
-
-You started with a problem (inaccurate calculations) and ended with a solution (a personal tool that works every time). This is the agent-building pattern: identify a need, build a solution, verify it works, make it accessible.
-
-The alias you created is saved in `~/.bashrc` or `~/.zshrc`—a file. The script is saved in `~/calc.py`—a file. Your tools persist because they exist in the file system, not in memory. This is **Principle 5: Persisting State in Files** in action.
-
-And the entire workflow—from piping data to executing scripts to checking results—runs through Bash. This is **Principle 1: Bash is the Key**.
-
-## Extending Your Toolbox
-
-You can create more aliases for any command you use frequently:
-
-```bash
-# Count lines in a file
-alias wc-lines='wc -l'
-
-# Find all Python files
-alias find-py='find . -name "*.py"'
-
-# Quick directory navigation
-alias proj='cd ~/projects'
-
-# Git shortcuts
-alias gs='git status'
-alias gd='git diff'
-```
-
-Each alias is a small investment that pays off every time you use it. Your shell becomes increasingly customized to your workflow.
-
-## Practice: Build Your Personal Command
-
-Follow these steps to create your own `add-up` command:
-
-**Step 1**: Ensure your `calc.py` has the shebang line:
-
-```python
-#!/usr/bin/env python3
-import sys
-
-total = sum(float(line.strip()) for line in sys.stdin if line.strip())
-print(f"Total: {total:.2f}")
-```
-
-**Step 2**: Make it executable:
-
-```bash
-chmod +x ~/calc.py
-```
-
-**Step 3**: Add the alias to your shell config:
-
-```bash
-# For Bash
-echo "alias add-up='python ~/calc.py'" >> ~/.bashrc && source ~/.bashrc
-
-# For Zsh
-echo "alias add-up='python ~/calc.py'" >> ~/.zshrc && source ~/.zshrc
-```
-
-**Step 4**: Test it:
-
-```bash
-echo -e "1\n2\n3\n4\n5" | add-up
-# Output: Total: 15.00
-```
-
-**Step 5**: Close your terminal, open a new one, and verify persistence:
-
-```bash
-echo -e "100" | add-up
-# Output: Total: 100.00
-```
-
-You now have a permanent personal command.
+**Principle 5: Persisting State in Files**
+Your script lives in `~/tools/`. Your alias lives in `~/.bashrc` or `~/.zshrc`. These persist across sessions, surviving terminal closures and reboots.
 
 ## Try With AI
 
-### Prompt 1: Understanding chmod
+### Prompt 1: Understanding the CSV Problem
 
 ```
-Explain what chmod +x does and why it's needed to run a Python script directly.
+I tried to extract the third column from a CSV using awk:
+awk -F',' '{print $3}' bank_statement.csv
 
-I have a script called calc.py. When I try to run ./calc.py, I get "Permission denied."
-After running chmod +x calc.py, it works.
+But some rows have merchant names like "AMAZON, INC." with commas inside quotes.
+awk gives wrong results for those rows.
 
-What exactly changed? What do the letters in "-rwxr-xr-x" mean?
+Why does awk fail here? What's the difference between "split on commas"
+and proper CSV parsing?
 ```
 
-**What you are learning:** AI teaches Unix file permissions—the rwx system that controls who can read, write, and execute files. This is foundational knowledge for working with scripts and executables.
+**What you're learning:** AI explains the fundamental difference between delimiter-based splitting and proper CSV parsing. This conceptual understanding helps you choose the right tool for the job.
 
-### Prompt 2: Making the Command Work from Any Directory
+### Prompt 2: Extending the Parser
 
 ```
-I created an alias in my .bashrc:
-alias add-up='python calc.py'
+I have a CSV parser that sums the Amount column:
 
-It works when I'm in the directory where calc.py is located.
-But when I cd to another directory, the alias fails with "No such file or directory."
+import sys, csv
+total = 0
+reader = csv.reader(sys.stdin)
+next(reader)
+for row in reader:
+    amount = float(row[2].replace('$', '').replace(',', ''))
+    total += abs(amount)
+print(f"Total: ${total:.2f}")
+
+Can you modify it to:
+1. Accept a column number as a command-line argument
+2. Handle empty lines gracefully
+3. Show how many transactions were processed
+```
+
+**What you're learning:** Iterative improvement with AI. You have working code and clear requirements. AI helps extend functionality while preserving the core pattern.
+
+### Prompt 3: Making Aliases Work Everywhere
+
+```
+I created an alias: alias sum-expenses='python sum-expenses.py'
+
+It works in the directory where sum-expenses.py exists.
+But when I cd to another directory, it fails with "No such file or directory."
 
 How do I make this alias work from any directory?
+What's the difference between relative and absolute paths?
 ```
 
-**What you are learning:** You teach AI your specific problem (relative vs. absolute paths). The solution—using the full path like `~/calc.py` or `/home/user/calc.py`—emerges from the conversation. You understand why absolute paths matter.
-
-### Prompt 3: Setting Up Persistent Aliases
-
-```
-Help me set up a persistent alias in my shell configuration.
-
-I'm using [Bash/Zsh] on [macOS/Linux/WSL].
-I want to create an alias called "add-up" that runs "python ~/calc.py".
-
-Walk me through:
-1. Which config file to edit (.bashrc or .zshrc)
-2. How to add the alias
-3. How to reload the config
-4. How to verify it persists after closing the terminal
-```
-
-**What you are learning:** Collaborative setup where you specify your environment and AI provides the exact commands. This is the convergence pattern—you provide context, AI provides procedure, you verify results.
+**What you're learning:** AI teaches the concept of path resolution. Understanding why `python sum-expenses.py` fails from other directories (and why `python ~/tools/sum-expenses.py` succeeds) is fundamental to Unix tooling.

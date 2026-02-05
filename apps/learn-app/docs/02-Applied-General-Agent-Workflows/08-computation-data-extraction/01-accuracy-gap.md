@@ -1,10 +1,10 @@
 ---
 sidebar_position: 2
-title: "The Accuracy Gap"
-chapter: 7
+title: "The Arithmetic Gap"
+chapter: 8
 lesson: 1
-duration_minutes: 20
-description: "Discover why Bash arithmetic fails with decimals and when to use Python instead"
+duration_minutes: 15
+description: "Discover why Bash arithmetic fails with decimals and why LLM head-math is unreliable for real calculations"
 keywords:
   [
     "bash arithmetic",
@@ -12,6 +12,7 @@ keywords:
     "python calculation",
     "LLM hallucination",
     "calculation accuracy",
+    "integer arithmetic",
   ]
 
 skills:
@@ -22,7 +23,7 @@ skills:
     digcomp_area: "Problem-Solving"
     measurable_at_this_level: "Student can explain why echo $((1.2 + 2.3)) fails and identify scenarios requiring Python"
 
-  - name: "Identifying LLM Hallucination Risks"
+  - name: "Identifying LLM Calculation Risks"
     proficiency_level: "A2"
     category: "Conceptual"
     bloom_level: "Understand"
@@ -35,27 +36,51 @@ learning_objectives:
     bloom_level: "Understand"
     assessment_method: "Student demonstrates understanding by predicting which calculations will fail"
 
-  - objective: "Identify when to use Python instead of Bash for calculations"
+  - objective: "Recognize when to use Python instead of Bash for calculations"
     proficiency_level: "A2"
     bloom_level: "Analyze"
     assessment_method: "Student correctly chooses appropriate tool for given calculation scenarios"
 
 cognitive_load:
-  new_concepts: 5
-  assessment: "5 concepts (Bash arithmetic, integer-only math, decimal failure, LLM hallucination, script requirement) within A2 limit"
+  new_concepts: 3
+  assessment: "3 concepts (Bash arithmetic, integer-only math, decimal failure) well within A2 limit"
 
 differentiation:
-  extension_for_advanced: "Research how bc and awk handle decimals in Bash, compare with Python approach"
+  extension_for_advanced: "Research how bc and awk handle decimals, explore Python's decimal module for precision"
   remedial_for_struggling: "Focus on one example: Bash fails with 1.5+2.5, Python succeeds - understand just this before moving on"
 ---
 
-# The Accuracy Gap: Bash vs. Python
+# The Arithmetic Gap
 
-Picture this: You spent the morning collecting expenses for a project budget. Coffee meeting receipts, software subscriptions, office supplies. Now you need to add them up. Simple enough, right?
+:::info Python Required
+This chapter builds Python utilities that run from your terminal. Before starting, verify Python is installed:
 
-You fire up your terminal. Bash can do math. You learned that in Chapter 6. So you type the first calculation: lunch was $12.50, parking was $8.75. You write `echo $((12.50 + 8.75))` and hit Enter.
+**macOS/Linux:**
+```bash
+python3 --version
+```
 
-The terminal throws an error. Something about "invalid arithmetic operator." You stare at the screen. This should be basic addition. What went wrong?
+**Windows (Command Prompt or PowerShell):**
+```bash
+python --version
+```
+
+If you see a version number (3.x), you're ready. If not, install Python from [python.org](https://www.python.org/downloads/) or use your system's package manager:
+
+- **macOS**: `brew install python`
+- **Ubuntu/Debian**: `sudo apt install python3`
+- **Windows**: Download from python.org and check "Add to PATH" during installation
+:::
+
+You want to split a restaurant bill. Three friends, total $47.50. Simple math: $47.50 divided by 3 equals... well, let's ask the terminal.
+
+You fire up Bash. You learned basic commands in previous chapter. Math should be straightforward.
+
+```bash
+echo $((47.50 / 3))
+```
+
+The terminal throws an error. You stare at the screen. Division is basic arithmetic. What went wrong?
 
 ## The Experiment: Watch Bash Fail
 
@@ -68,7 +93,7 @@ echo $((1.2 + 2.3))
 **Expected output:**
 
 ```
-bash: 1.2: syntax error: invalid arithmetic operator (error token is ".2")
+bash: 1.2 + 2.3: syntax error: invalid arithmetic operator (error token is ".2 + 2.3")
 ```
 
 The error message reveals the problem: Bash doesn't recognize the decimal point. It sees `1.2` and chokes on the `.2` part.
@@ -91,16 +116,51 @@ That works perfectly. The difference? No decimal points.
 
 Bash's `$((...))` syntax performs **integer-only** arithmetic. This means:
 
-| Works in Bash                  | Fails in Bash                 |
-| ------------------------------ | ----------------------------- |
-| `$((5 + 3))` = 8               | `$((5.5 + 3.5))` = Error      |
-| `$((100 - 25))` = 75           | `$((100.00 - 25.00))` = Error |
-| `$((4 * 7))` = 28              | `$((4.5 * 2))` = Error        |
-| `$((10 / 3))` = 3 (truncated!) | `$((10.0 / 3.0))` = Error     |
+| Works in Bash                  | Fails in Bash                         |
+| ------------------------------ | ------------------------------------- |
+| `$((5 + 3))` = 8               | `$((5.5 + 3.5))` = Error              |
+| `$((100 - 25))` = 75           | `$((100.00 - 25.00))` = Error         |
+| `$((4 * 7))` = 28              | `$((4.5 * 2))` = Error                |
+| `$((10 / 3))` = 3 (truncated!) | `$((10.0 / 3.0))` = Error             |
 
 Notice that last row. Even when Bash doesn't error, it **truncates**. `10 / 3` returns `3`, not `3.333...`. For financial calculations, that silent data loss is dangerous.
 
-This is the **accuracy gap**: the space between what you need (precise decimal math) and what Bash provides (integer-only approximations).
+Try it:
+
+```bash
+echo $((10 / 3))
+```
+
+**Output:**
+
+```
+3
+```
+
+Where did the `.333...` go? Bash threw it away. No warning. No error. Just wrong.
+
+This is the **arithmetic gap**: the space between what you need (precise decimal math) and what Bash provides (integer-only approximations).
+
+## Real-World Impact: Why This Matters
+
+Consider these scenarios where the arithmetic gap bites:
+
+**Splitting bills:**
+- Dinner total: $127.89 split 4 ways
+- Bash: `echo $((127 / 4))` = 31 (wrong - lost $3.89)
+- Correct: $31.9725 each
+
+**Calculating tips:**
+- Bill: $85.50, tip 18%
+- Bash can't even start - $85.50 causes an error
+- Correct: $15.39
+
+**Budget tracking:**
+- Monthly expenses: $1,234.56 + $789.01 + $456.78
+- Bash: Error on every number
+- Correct: $2,480.35
+
+Every financial calculation involves decimals. Bash simply cannot do them.
 
 ## The Head Math Trap: Why AI Gets It Wrong Too
 
@@ -117,20 +177,48 @@ Try this mental experiment:
 **3 numbers** - AI probably gets it right:
 
 ```
-Add: 12.50, 8.75, 15.25
+Add: 45.67 + 23.99 + 150.00
 ```
 
 **10 numbers** - AI might get it right:
 
 ```
-Add: 12.50, 8.75, 15.25, 9.99, 22.00, 7.50, 18.75, 4.25, 31.00, 6.80
+Add: 45.67, 23.99, 150.00, 89.50, 32.00, 18.75, 225.00, 67.89, 12.50, 88.00
 ```
 
-**100 numbers from a spreadsheet** - AI will almost certainly get it wrong.
+**100 numbers from your expense report** - AI will almost certainly get it wrong.
 
-The problem isn't intelligence. The problem is mechanism. Asking an LLM to sum 100 numbers is like asking a poet to recite a calculation from memory. They might get lucky, but you wouldn't bet your budget on it.
+The problem isn't intelligence. The problem is mechanism. Asking an LLM to sum 100 numbers is like asking a poet to recite a calculation from memory. They might get lucky, but you wouldn't bet your finances on it.
 
 This phenomenon is called **hallucination** in the context of factual claims. For math, it's the same mechanism: the model generates plausible-looking output that happens to be wrong.
+
+## The Solution: Python
+
+Python handles decimals natively:
+
+```python
+print(1.2 + 2.3)
+```
+
+**Output:**
+
+```
+3.5
+```
+
+No errors. No truncation. Just correct math.
+
+```python
+print(47.50 / 3)
+```
+
+**Output:**
+
+```
+15.833333333333334
+```
+
+Python computed the actual answer. It will be correct whether you're adding 2 numbers or 2,000.
 
 ## The Principle: If It's Math, It Belongs in a Script
 
@@ -144,45 +232,30 @@ The difference is profound:
 
 | Approach                            | Reliability         | Why                              |
 | ----------------------------------- | ------------------- | -------------------------------- |
-| "What's 12.50 + 8.75?"              | Unreliable at scale | LLM predicts, doesn't compute    |
-| "Write Python to add these numbers" | Reliable            | Python executes, doesn't predict |
+| "What's the sum of these amounts?"  | Unreliable at scale | LLM predicts, doesn't compute    |
+| "Write Python to sum these numbers" | Reliable            | Python executes, doesn't predict |
 
-Here's what reliable calculation looks like:
-
-```python
-# Python - WORKS
-print(1.2 + 2.3)
-```
-
-**Expected output:**
-
-```
-3.5
-```
-
-Python handles decimals natively. The result is computed, not predicted. It will be correct whether you're adding 2 numbers or 2,000.
+In the next lesson, you'll build your first Python utility that reads numbers and calculates sums with perfect accuracy.
 
 ## Connecting to the Seven Principles
 
-This lesson demonstrates two principles from Chapter 4:
+This lesson demonstrates **Principle 1: Bash is the Key** - but knowing Bash's limitations is equally important. Bash is the key to *orchestration*. For computation, you route through the right tool.
 
-**Principle 1: Bash is the Key** - But knowing Bash's limitations is equally important. Bash is the key to _orchestration_. For computation, you route through the right tool.
-
-**Principle 3: Verification as Core Step** - The Bash error message was verification in action. The system told us something failed. In the next lesson, you'll learn to build verification into your own scripts so failures become visible signals, not silent corruption.
+You also saw **Principle 3: Verification as Core Step** in action. The Bash error message was verification - the system showed us something failed. When Bash silently truncated `10 / 3` to `3`, that was verification failing us. You'll learn to build better verification into your workflows.
 
 ## The Decision Framework
 
-When you encounter a calculation task, use this simple test:
+When you encounter a calculation task, use this quick test:
 
 ```
 Does it involve decimals?
-├── Yes → Use Python (or any language that handles floats)
-└── No → Does it need more than 10 numbers?
-    ├── Yes → Use Python (humans can't verify large sums easily)
-    └── No → Bash might work, but Python is still safer
+|-- Yes -> Use Python
+|-- No -> Does it need more than 10 numbers?
+    |-- Yes -> Use Python (humans can't verify large sums easily)
+    |-- No -> Bash might work, but Python is still safer
 ```
 
-In practice, the answer is almost always: **use a script**. The cost of writing a 3-line Python script is tiny. The cost of a wrong total in your budget is not.
+In practice, the answer is almost always: **use a script**. The cost of writing a 3-line Python script is tiny. The cost of a wrong calculation in your budget, taxes, or business is not.
 
 ## Try With AI
 
@@ -194,27 +267,28 @@ Can you explain why Bash can't handle decimal numbers in arithmetic?
 What's happening under the hood that causes this limitation?
 ```
 
-**What you're learning:** You're experiencing AI as a teacher. The AI explains technical concepts you encountered through experimentation. Notice how the AI provides deeper context about integer arithmetic and shell design decisions. This deepens your understanding beyond "it doesn't work" to "here's why it doesn't work."
+**What you're learning:** You're experiencing AI as a teacher. The AI explains technical concepts you encountered through experimentation. Notice how the AI provides deeper context about integer arithmetic and shell design decisions.
 
-### Prompt 2: Choosing the Right Tool
-
-```
-I need to sum a list of prices from a restaurant menu:
-- Appetizer: $8.95
-- Entree: $24.50
-- Dessert: $7.25
-- Coffee: $3.50
-
-Should I use Bash or Python for this? Why?
-```
-
-**What you're learning:** You're giving the AI a real scenario and asking it to make a tool recommendation. The AI should recognize the decimal values and recommend Python. Notice if the AI explains its reasoning or just gives an answer. A good response will connect the decimal issue to the tool choice.
-
-### Prompt 3: Getting Reliable Output
+### Prompt 2: Finding Alternatives
 
 ```
-Write a Python one-liner that calculates 12.50 + 8.75 + 15.25 and prints the result.
-I want to paste this directly into my terminal.
+Bash can't do decimal math. What are my options for doing calculations
+with decimal numbers from the command line?
+
+I know Python works, but are there other tools built into Unix/Linux
+that can handle decimals? What about bc or awk?
 ```
 
-**What you're learning:** You're treating AI as a co-worker who writes code for you. The AI produces executable code; you execute it and verify the result. This is the pattern for all calculation work going forward: AI writes the code, the computer computes the answer, you verify.
+**What you're learning:** You're exploring the tool landscape. The AI introduces alternatives you might not know about. This builds your mental map of available solutions. (You'll learn more about some of these tools in later lessons.)
+
+### Prompt 3: Writing a Quick Calculator
+
+```
+Write a simple Python one-liner I can use from the command line to
+calculate decimal math. I want something I can type directly in my
+terminal without creating a file.
+
+For example, I want to calculate: 127.89 / 4
+```
+
+**What you're learning:** You're treating AI as a co-worker who provides ready-to-use solutions. The AI shows you `python -c "print(127.89 / 4)"` or similar patterns. This bridges from "Bash can't do it" to "but here's how to do it anyway."

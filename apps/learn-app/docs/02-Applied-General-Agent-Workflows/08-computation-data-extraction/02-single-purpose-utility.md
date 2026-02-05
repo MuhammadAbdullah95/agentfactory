@@ -1,10 +1,10 @@
 ---
 sidebar_position: 3
-title: "The Single-Purpose Python Utility"
-chapter: 7
+title: "Your First Python Utility"
+chapter: 8
 lesson: 2
 duration_minutes: 25
-description: "Build a reusable Python script that reads from stdin and calculates sums"
+description: "Build a reusable Python script that reads numbers from stdin and calculates their sum"
 keywords:
   [
     "stdin",
@@ -13,9 +13,9 @@ keywords:
     "python script",
     "unix philosophy",
     "single-purpose tool",
+    "command line",
   ]
 
-# HIDDEN SKILLS METADATA
 skills:
   - name: "Writing stdin-reading Scripts"
     proficiency_level: "A2"
@@ -29,39 +29,39 @@ skills:
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can use | to connect bash commands to Python scripts"
+    measurable_at_this_level: "Student can use | to connect bash commands to Python scripts for data processing"
 
 learning_objectives:
-  - objective: "Write Python script that reads from stdin and sums numbers"
+  - objective: "Write Python script that reads numbers from stdin and calculates their sum"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student creates working calc.py that correctly sums piped input"
+    assessment_method: "Student creates working sum.py that correctly sums numbers piped to it"
 
   - objective: "Use pipe operator to connect Bash commands to Python scripts"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student successfully executes: cat numbers.txt | python calc.py"
+    assessment_method: "Student successfully executes: echo '10.5' | python sum.py"
 
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (stdin, stdout, pipe operator, sys.stdin, float conversion, sum function) within A2 limit"
+  new_concepts: 5
+  assessment: "5 concepts (stdin, stdout, pipe operator, sys.stdin, line iteration) within A2 limit"
 
 differentiation:
-  extension_for_advanced: "Add error handling for non-numeric lines, explore sys.stdin.read() vs line iteration"
+  extension_for_advanced: "Add error handling for non-numeric lines, explore sys.argv for command-line arguments"
   remedial_for_struggling: "Start with hardcoded list sum, then introduce stdin as 'the list coming from outside'"
 ---
 
-# The Single-Purpose Python Utility
+# Your First Python Utility
 
-In Lesson 1, you discovered that Bash fails at decimal arithmetic and that LLMs hallucinate calculations. The solution? Push math into code that executes. Now you'll build your first single-purpose utility, a Python script that does one thing well: sum numbers from any source.
+In Lesson 1, you discovered that Bash fails at decimal arithmetic and that LLMs hallucinate calculations. The solution? Push math into code that executes. Now you'll build your first single-purpose utility - a Python script that does one thing well: sum numbers.
 
-This lesson introduces a pattern you'll use throughout your agent-building career. The Unix philosophy, small tools that do one thing and connect through pipes—becomes the foundation for reliable AI workflows. When an agent needs accurate calculations, it doesn't hope the LLM gets the math right. It calls a script.
+This lesson introduces a pattern you'll use throughout your agent-building career. The Unix philosophy - small tools that do one thing and connect through pipes - becomes the foundation for reliable AI workflows. When a general agent needs accurate calculations, it doesn't hope the LLM gets the math right. It calls a script.
 
 ## Why Single-Purpose Tools Matter
 
-Consider how traditional software works. You open a spreadsheet application to sum numbers. That application has menus, toolbars, formatting options, chart wizards—thousands of features you don't need when you just want to add numbers.
+Consider how traditional software works. You open a spreadsheet application to sum a column. That application has menus, toolbars, formatting options, chart wizards - thousands of features you don't need when you just want to add numbers.
 
-Now consider the Unix approach. You have a tiny script that reads numbers and outputs their sum. Nothing else. No menus, no options, no features. Just input, calculation, output.
+Now consider the Unix approach. You have a tiny script that reads numbers and outputs a sum. Nothing else. No menus, no options, no features. Just input, calculation, output.
 
 This minimalism isn't a limitation. It's a superpower.
 
@@ -72,7 +72,7 @@ Single-purpose tools are:
 - **Testable**: One function means one thing to verify
 - **Debuggable**: When something breaks, you know exactly where to look
 
-When you build AI agents, they orchestrate these simple tools. The agent decides _what_ to calculate and _when_. The script handles _how_ to calculate accurately. Clean separation.
+The General Agent orchestrates these simple tools. The agent decides _what_ to calculate and _when_. The script handles _how_ to calculate accurately. Clean separation.
 
 ## Standard Input: The Universal Receiver
 
@@ -80,207 +80,252 @@ Before writing code, you need to understand how programs receive data in Unix-li
 
 | Stream | Name            | Purpose              | Example               |
 | ------ | --------------- | -------------------- | --------------------- |
-| stdin  | Standard Input  | Where data comes IN  | Keyboard, piped files |
+| stdin  | Standard Input  | Where data comes IN  | Keyboard, piped data  |
 | stdout | Standard Output | Where results go OUT | Terminal display      |
 | stderr | Standard Error  | Where errors go      | Error messages        |
 
-Think of stdin as an inbox. Your program sits waiting, and data arrives through this inbox. The program doesn't care where the data originated—it could be from a file, from another program, or from keyboard typing. All that matters is: data arrives, program processes it.
+Think of stdin as an inbox. Your program sits waiting, and data arrives through this inbox. The program doesn't care where the data originated - it could be from a file, from another program, or from keyboard typing. All that matters is: data arrives, program processes it.
 
 This is what makes Unix tools so powerful. A program that reads from stdin can receive data from _any_ source. Write it once, connect it to anything.
 
-## Building calc.py
+## Building sum.py
 
-Let's build your first single-purpose utility. Create a new file called `calc.py`:
+Let's build your first single-purpose utility. Create a new file called `sum.py`:
 
 ```python
-# calc.py - A single-purpose calculation utility
+#!/usr/bin/env python3
+# sum.py - Sum numbers from stdin
 import sys
 
-total = sum(float(line.strip()) for line in sys.stdin if line.strip())
-print(f"Total: {total:.2f}")
+total = 0
+for line in sys.stdin:
+    line = line.strip()
+    if line:  # Skip empty lines
+        total += float(line)
+
+print(f"Total: {total}")
 ```
 
 That's the entire script. Let's break down what each part does.
 
-**Line 1**: `import sys` brings in Python's system module, which gives us access to stdin.
+**Line 1**: The shebang `#!/usr/bin/env python3` tells Unix systems how to run this file directly.
 
-**Line 2**: This dense line does several things:
+**Line 3**: `import sys` brings in Python's system module, which gives us access to stdin.
 
-- `sys.stdin` reads from standard input
-- `for line in sys.stdin` iterates through each line
-- `line.strip()` removes whitespace and newlines
-- `if line.strip()` skips empty lines
-- `float(line.strip())` converts text to decimal numbers
-- `sum(...)` adds all the numbers together
+**Line 5**: Initialize the running total at zero.
 
-**Line 3**: Prints the result formatted to 2 decimal places.
+**Line 6**: `for line in sys.stdin` reads lines one at a time from standard input. This loop continues until there's no more input.
+
+**Line 7**: `.strip()` removes whitespace and newlines from each line.
+
+**Line 8-9**: Skip empty lines, convert to float, add to total.
+
+**Line 11**: Print the result.
 
 Save this file in a working directory. We'll test it next.
 
-## Testing with Manual Input
+## New Commands: echo and File Redirection
 
-Before connecting pipes, verify the script works with keyboard input:
+You already know `cat` and pipes from previous chapter. This lesson introduces two new commands for creating test data.
+
+| Command | What It Does | Memory Trick |
+|---------|-------------|--------------|
+| `echo` | Prints text to stdout | **echo** = repeat what I say |
+| `>` | Redirects output to a file | Arrow points where data goes |
+
+### The echo Command
+
+`echo` prints whatever you give it:
 
 ```bash
-python calc.py
+echo "Hello"
+# Output: Hello
+
+echo "10.5"
+# Output: 10.5
 ```
 
-The script will wait for input. Type some numbers, one per line:
+The `-e` flag enables escape sequences like `\n` for newlines:
 
-```
-10.5
-20.3
-5.2
-```
-
-Press `Ctrl+D` (Unix) or `Ctrl+Z then Enter` (Windows) to signal end of input.
-
-```
-Total: 36.00
+```bash
+echo -e "Line 1\nLine 2\nLine 3"
+# Output:
+# Line 1
+# Line 2
+# Line 3
 ```
 
-The script read your typed input through stdin, converted each line to a float, summed them, and printed the result. If you see `Total: 36.00`, your script works.
+Without `-e`, the `\n` would print literally instead of creating new lines.
+
+### File Redirection with >
+
+The `>` operator sends output to a file instead of the screen:
+
+```bash
+echo "Hello" > greeting.txt
+# Creates greeting.txt containing "Hello"
+```
+
+**Warning**: `>` overwrites the file if it exists. Use `>>` to append instead.
+
+## Testing Your Script
+
+Now let's use these commands to test your script. The simplest way to send data to stdin is with `echo` and the pipe operator (`|`):
+
+```bash
+echo "10.5" | python sum.py
+```
+
+**Output:**
+
+```
+Total: 10.5
+```
+
+The `echo` command outputs "10.5". The pipe (`|`) redirects that output to become the stdin of `python sum.py`. Your script receives "10.5" and sums it.
+
+Now try multiple numbers. Use `echo -e` to include newlines:
+
+```bash
+echo -e "10.5\n20.3\n5.2" | python sum.py
+```
+
+**Output:**
+
+```
+Total: 36.0
+```
+
+Three numbers, correctly summed with decimals. Bash couldn't do this, but your Python utility handles it effortlessly.
 
 ## The Pipe Operator: Connecting Commands
 
-Now for the key insight: instead of typing numbers manually, you can send them from a file or another command. The pipe operator (`|`) connects the output of one command to the input of another.
+The pipe operator (`|`) is the glue of Unix. It connects programs together, letting data flow from one to the next.
 
-First, create a test file:
+Here's what happens when you run `echo "10.5" | python sum.py`:
+
+```
+┌─────────────────┐     ┌─────────────────┐
+│      echo       │     │    sum.py       │
+│                 │────▶│                 │
+│  outputs text   │  │  │  reads stdin    │
+│  to stdout      │  │  │  calculates sum │
+│                 │  │  │  prints total   │
+└─────────────────┘  │  └─────────────────┘
+                     │
+        pipe (|) ────┘
+   redirects stdout → stdin
+```
+
+The pipe takes whatever `echo` writes to stdout and feeds it directly into your script's stdin. No temporary files, no manual copying. Pure data flow.
+
+## Reading from Files
+
+Your script already works with files - just use `cat` to read the file and pipe it:
 
 ```bash
-echo -e "10.5\n20.3\n5.2" > numbers.txt
+# Create a test file
+echo -e "100.50\n25.75\n14.25" > expenses.txt
+
+# Sum the file contents
+cat expenses.txt | python sum.py
 ```
 
-This creates `numbers.txt` with three numbers, one per line. Verify the file:
-
-```bash
-cat numbers.txt
-```
-
-Output:
+**Output:**
 
 ```
-10.5
-20.3
-5.2
+Total: 140.5
 ```
 
-Now pipe the file contents to your script:
+The `cat` command reads `expenses.txt` and sends it to stdout. The pipe redirects that to your script. Your script sees the same data it would see from `echo` - it doesn't know or care that it came from a file.
 
-```bash
-cat numbers.txt | python calc.py
-```
+This is the power of stdin: your tool works with any data source without modification.
 
-Output:
-
-```
-Total: 36.00
-```
-
-The `cat` command reads the file and sends it to stdout. The pipe (`|`) redirects that stdout to become the stdin of `python calc.py`. Your script receives the numbers exactly as if you'd typed them.
-
-## Understanding Data Flow
-
-Let's trace exactly what happens when you run `cat numbers.txt | python calc.py`:
-
-```
-┌─────────────────┐     ┌───────────────┐     ┌─────────────────┐
-│   numbers.txt   │     │     cat       │     │    calc.py      │
-│                 │────▶│               │────▶│                 │
-│  10.5           │     │  reads file   │  │  │  reads stdin    │
-│  20.3           │     │  writes to    │  │  │  converts to    │
-│  5.2            │     │  stdout       │  │  │  floats         │
-│                 │     │               │  │  │  sums them      │
-└─────────────────┘     └───────────────┘  │  │  prints total   │
-                                           │  └─────────────────┘
-                              pipe (|) ────┘
-                        redirects stdout → stdin
-```
-
-The pipe is the key connector. It takes whatever one program writes to stdout and feeds it directly into the next program's stdin. No temporary files, no manual copying. Pure data flow.
-
-## Why This Pattern Matters for Agents
-
-When you build AI agents later in this book, they'll need to perform calculations. Consider this workflow:
-
-1. Agent extracts numbers from a document
-2. Agent needs to sum those numbers accurately
-3. Agent reports the result
-
-Without your utility, the agent might try to calculate mentally (hallucination risk) or ask the LLM to calculate (still hallucination risk). With your utility:
-
-```bash
-# Agent generates this command
-echo "extracted numbers" | python calc.py
-```
-
-The agent constructs the command, executes it, and reads the verified result. No hallucination possible—the calculation ran in real code.
-
-This is **Principle 1 (Bash is the Key)** and **Principle 2 (Code as Universal Interface)** working together. Bash connects the tools; Python executes the logic.
-
-## Practice: Build and Test Your calc.py
+## Practice: Build and Test Your sum.py
 
 Now it's your turn. Follow these steps:
 
-**Step 1**: Create the calc.py script in your working directory.
+**Step 1**: Create the sum.py script in your working directory.
 
 ```python
-# calc.py - A single-purpose calculation utility
+#!/usr/bin/env python3
+# sum.py - Sum numbers from stdin
 import sys
 
-total = sum(float(line.strip()) for line in sys.stdin if line.strip())
-print(f"Total: {total:.2f}")
+total = 0
+for line in sys.stdin:
+    line = line.strip()
+    if line:
+        total += float(line)
+
+print(f"Total: {total}")
 ```
 
-**Step 2**: Create test data with known values.
+**Step 2**: Test with a single number.
 
 ```bash
-echo -e "100\n200\n300" > test_numbers.txt
+echo "42.5" | python sum.py
 ```
 
-Expected sum: 600.00
+**Expected output:**
 
-**Step 3**: Run the test.
+```
+Total: 42.5
+```
+
+**Step 3**: Test with multiple numbers.
 
 ```bash
-cat test_numbers.txt | python calc.py
+echo -e "10\n20\n30.5" | python sum.py
 ```
 
-Expected output:
+**Expected output:**
 
 ```
-Total: 600.00
+Total: 60.5
 ```
 
-**Step 4**: Test with decimal precision.
+**Step 4**: Test decimal precision.
 
 ```bash
-echo -e "0.1\n0.2" > decimals.txt
-cat decimals.txt | python calc.py
+echo -e "0.1\n0.2" | python sum.py
 ```
 
-Expected output:
+**Expected output:**
 
 ```
-Total: 0.30
+Total: 0.30000000000000004
 ```
 
-Remember Lesson 1: Bash would fail here. Your Python script handles decimals correctly.
+Wait - what? `0.1 + 0.2` should equal `0.3`, not `0.30000000000000004`. This is floating-point arithmetic behavior, not a bug in your script. For most purposes, this tiny imprecision is fine. For financial applications requiring exact decimals, Python offers the `decimal` module (which you can explore as an extension).
 
-**Step 5**: Test with an empty file.
+**Step 5**: Test with a file.
 
 ```bash
-echo "" > empty.txt
-cat empty.txt | python calc.py
+# Create test data
+echo -e "127.89\n45.50\n12.99" > test_numbers.txt
+
+# Sum the file
+cat test_numbers.txt | python sum.py
 ```
 
-Expected output:
+**Expected output:**
 
 ```
-Total: 0.00
+Total: 186.38
 ```
 
-Your script gracefully handles empty input because of the `if line.strip()` filter.
+## Why This Pattern Matters for General Agents
+
+When you use a general agent like Claude Code to process numerical data, here's what actually happens:
+
+1. You give the agent a list of expenses
+2. The agent **writes a script** just like `sum.py` to sum the amounts
+3. The agent **calls the script** and reads the verified result
+
+This is no longer a black box. You now understand exactly what the agent is doing - the same pattern you just built yourself.
+
+This is **Principle 1 (Bash is the Key)** and **Principle 2 (Code as Universal Interface)** working together. Bash connects the tools; Python executes the logic.
 
 ## Connecting to the Seven Principles
 
@@ -288,55 +333,60 @@ This lesson demonstrates two principles from Chapter 3:
 
 **Principle 1: Bash is the Key**
 
-You used Bash commands (`cat`, `echo`) and the pipe operator to orchestrate data flow. The shell is the conductor; your script is one instrument in the orchestra.
+You used Bash commands (`echo`, `cat`) and the pipe operator to orchestrate data flow. The shell is the conductor; your script is one instrument in the orchestra.
 
 **Principle 2: Code as Universal Interface**
 
-Instead of hoping an LLM calculates correctly, you wrote code that executes. The script is a contract: given numbers, return their sum. No ambiguity, no hallucination, no "approximately 36."
+Instead of hoping an LLM calculates correctly, you wrote code that executes. The script is a contract: given numbers, return their sum. No ambiguity, no hallucination, no "approximately 186."
 
-In the next lesson, you'll add **Principle 3: Verification as Core Step**—testing your script systematically and checking exit codes to confirm success.
+In the next lesson, you'll add **Principle 3: Verification as Core Step** - testing your script systematically and checking exit codes to confirm success.
 
 ## Try With AI
 
 Use these prompts with Claude Code or your preferred AI assistant to deepen your understanding.
 
-### Prompt 1: Generate a stdin-reading script
+### Prompt 1: Extend the Script
 
 ```
-Write a Python script that reads numbers from stdin (one per line) and calculates their sum.
-The script should:
-- Handle decimal numbers
-- Skip empty lines
-- Format the output to 2 decimal places
-```
-
-**What you're learning:** The AI suggests the `sys.stdin` pattern without you knowing it beforehand. Notice how it handles the conversion from text lines to numbers. Compare its solution to the calc.py you just built.
-
-### Prompt 2: Add error handling
-
-```
-Take this calc.py script and add error handling for non-numeric lines:
+I have a Python script that sums numbers from stdin:
 
 import sys
-total = sum(float(line.strip()) for line in sys.stdin if line.strip())
-print(f"Total: {total:.2f}")
+total = 0
+for line in sys.stdin:
+    line = line.strip()
+    if line:
+        total += float(line)
+print(f"Total: {total}")
 
-When a line isn't a valid number, skip it and optionally warn the user.
+Can you modify it to also print:
+- The count of numbers
+- The average
+- The minimum and maximum values
 ```
 
-**What you're learning:** You're teaching the AI your robustness requirements. You know the script works for clean input—now you're specifying how it should handle messy real-world data. This is the student-teaches-AI dynamic.
+**What you're learning:** You're iterating with AI to extend your tool. The script stays single-purpose (process numbers) but gains useful features. Notice how the AI preserves the stdin reading pattern while adding functionality.
 
-### Prompt 3: Explain and optimize
+### Prompt 2: Handle Errors
 
 ```
-I have this Python script that sums numbers from stdin:
+My sum.py script crashes when it encounters a non-numeric line.
+For example, if the input has a header like "Amount" followed by numbers.
 
-import sys
-total = sum(float(line.strip()) for line in sys.stdin if line.strip())
-print(f"Total: {total:.2f}")
-
-Can you explain what each part does in simple terms?
-Then suggest if there's a more readable way to write the same logic.
+How do I make it skip non-numeric lines gracefully instead of crashing?
+Show me how to use try/except for this.
 ```
 
-**What you're learning:** You're iterating together toward clearer code. The AI might suggest breaking the one-liner into multiple lines for readability, or it might explain why the generator expression is actually clearer. Either way, you're improving your understanding through dialogue.
+**What you're learning:** You're teaching AI about YOUR specific problem and asking for a solution. This is the collaborative refinement loop - you identify the limitation, AI suggests the fix.
+
+### Prompt 3: Understand stdin Better
+
+```
+I'm trying to understand how stdin works in Python.
+
+When I run: echo "10" | python sum.py
+What exactly happens? How does the "10" get from echo to my Python script?
+
+Also, why does sys.stdin work like a file? Can I use read() instead of iterating?
+```
+
+**What you're learning:** You're using AI as a teacher to deepen conceptual understanding. The AI explains the Unix pipe mechanism and Python's file-like interface. This knowledge helps you write more sophisticated tools later.

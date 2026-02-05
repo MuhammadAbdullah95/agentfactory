@@ -36,14 +36,15 @@ Every expert who works with General Agents mastered these fundamentals first. Fi
 
 ## Chapter Flow
 
-| Lesson                         | Time   | What You'll Do                          |
-| ------------------------------ | ------ | --------------------------------------- |
-| 1. Your First Agent Workflow   | 25 min | Survey your files through conversation  |
-| 2. The Safety-First Pattern    | 20 min | Learn to require backups before changes |
-| 3. The Organization Workflow   | 30 min | Design and execute file categorization  |
-| 4. Batch Operations Workflow   | 30 min | Transform repetitive tasks into scripts |
-| 5. Search & Discovery Workflow | 25 min | Find lost files through description     |
-| 6. Capstone: Your File Toolkit | 30 min | Build your personal prompt library      |
+| Lesson                         | Time   | What You'll Do                                 |
+| ------------------------------ | ------ | ---------------------------------------------- |
+| 0. What is Bash?               | 15 min | Set up your terminal environment               |
+| 1. Your First Agent Workflow   | 25 min | Survey your files through conversation         |
+| 2. The Safety-First Pattern    | 20 min | Learn to require backups before changes        |
+| 3. The Organization Workflow   | 30 min | Design and execute file categorization         |
+| 4. Batch Operations Workflow   | 30 min | Transform repetitive tasks into scripts        |
+| 5. Search & Discovery Workflow | 25 min | Find lost files through description            |
+| 6. Capstone: Your File Toolkit | 30 min | Build your personal prompt library             |
 
 **Total time**: Approximately 2.5-3 hours
 
@@ -67,6 +68,7 @@ Before starting this chapter:
 
 - Complete Part 1 (Chapters 1-5)
 - Have Claude Code installed and working
+- Have a Bash-compatible terminal (macOS/Linux: built-in; Windows: Git Bash or WSL)
 - Have a folder with files to organize (Downloads recommended)
 
 ## What You'll Build

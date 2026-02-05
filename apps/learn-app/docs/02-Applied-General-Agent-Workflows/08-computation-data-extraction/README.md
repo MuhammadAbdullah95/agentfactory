@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: "Chapter 8: Computation & Data Extraction Workflow"
-description: "Build Unix-styled Python utilities that integrate with Bash for accurate calculations and data extraction"
+description: "Build Unix-styled Python utilities that process bank statements and prepare tax reports with 100% accuracy"
 ---
 
 # Chapter 8: Computation & Data Extraction Workflow
@@ -14,11 +14,23 @@ By the end of this chapter, you'll have a personal toolbox of reusable utilities
 
 ```bash
 # Your workflow by chapter end:
-find receipts/ -name "*.txt" | xargs cat | add-up
-# Extracts dollar amounts from messy text, sums them with 100% accuracy
+cat ~/finances/2025/*.csv | tax-prep
+
+# Output:
+# MEDICAL: CVS PHARMACY: $456.70
+# MEDICAL: WALGREENS: $234.50
+# CHARITABLE: RED CROSS: $200.00
+# BUSINESS: ZOOM SUBSCRIPTION: $179.88
+#
+# --- TOTALS ---
+# Medical: $1,891.20
+# Charitable: $1,550.00
+# Business: $774.32
+#
+# POTENTIAL DEDUCTIONS: $4,215.52
 ```
 
-You'll transform from someone who asks AI to "do math in your head" (risky!) to someone who builds and verifies calculation tools that work every time.
+You'll transform from someone who manually categorizes expenses (tedious and error-prone) to someone who builds verified automation tools that work every tax season.
 
 ## Prerequisites
 
@@ -28,7 +40,7 @@ You'll transform from someone who asks AI to "do math in your head" (risky!) to 
 - You know why "Bash is the Key" matters (Principle 1)
 - You know why "Verification as Core Step" prevents failures (Principle 3)
 
-**From Chapter 6 (Business Workflows)**:
+**From Chapter 7 (File Processing)**:
 
 - You can navigate directories (`cd`, `ls`, `pwd`)
 - You've run basic Bash commands
@@ -39,17 +51,18 @@ You'll transform from someone who asks AI to "do math in your head" (risky!) to 
 - Python 3.x installed (type `python3 --version` to check)
 - Unix-like terminal (macOS, Linux, or WSL on Windows)
 - Access to Claude Code or similar AI assistant
+- A bank statement CSV export (most banks offer this)
 
 ## Chapter Structure
 
-| Lesson | Title                     | Duration | Key Skill                            |
-| ------ | ------------------------- | -------- | ------------------------------------ |
-| 1      | The Accuracy Gap          | 20 min   | Recognize when Bash math fails       |
-| 2      | Single-Purpose Utility    | 25 min   | Build stdin-reading Python script    |
-| 3      | The Testing Loop          | 30 min   | Verify with exit codes and test data |
-| 4      | Personal Toolbox          | 20 min   | Create persistent aliases            |
-| 5      | Data Wrangling            | 35 min   | Extract data with regex              |
-| 6      | Capstone: Digital Shoebox | 40 min   | Orchestrate complete workflow        |
+| Lesson | Title                       | Duration | Key Skill                              |
+| ------ | --------------------------- | -------- | -------------------------------------- |
+| 1      | The Arithmetic Gap          | 15 min   | Recognize Bash decimal limitations     |
+| 2      | Your First Python Utility   | 25 min   | Build stdin-reading script             |
+| 3      | The Testing Loop            | 25 min   | Verify with exit codes and test data   |
+| 4      | From Numbers to Structured Data | 30 min | Parse CSV files with Python's csv module |
+| 5      | Data Wrangling              | 35 min   | Categorize with regex pattern matching |
+| 6      | Capstone: Tax Season        | 40 min   | Generate tax-ready report              |
 
 **Total Duration**: 170 minutes (~3 hours)
 
@@ -72,40 +85,62 @@ This chapter applies the principles you learned in Chapter 3:
 **Lesson 1-2**: Foundation
 
 - Discover why Bash arithmetic fails with decimals
-- Build a Python script that reads from stdin and calculates sums
+- Build a Python script that reads numbers from stdin and calculates sums
 
-**Lesson 3-4**: Verification & Persistence
+**Lesson 3**: Verification
 
 - Learn zero-trust debugging with exit codes
+- Create test data with known answers to verify your scripts
+
+**Lesson 4**: Structured Data
+
+- Understand why simple text tools (like awk) fail on real CSV
+- Learn Python's csv module for robust parsing
 - Transform scripts into personal commands via aliases
 
-**Lesson 5**: Data Extraction
+**Lesson 5**: Tax Categorization
 
-- Use regex to extract dollar amounts from messy text
-- Process multiple files with `find` and `xargs`
+- Use pattern matching to categorize transactions (Medical, Charitable, Business)
+- Handle false positives (Dr. Pepper is not a doctor)
+- Build your `tax-categorize` script
 
 **Lesson 6**: Capstone
 
-- Orchestrate everything into a real-world "Digital Shoebox" workflow
-- Calculate totals from a folder of receipt files
+- Orchestrate everything into a real-world tax preparation workflow
+- Generate a report your accountant can use
+- Process a full year of bank statements with one command
 
-## Quick Start for Chapter 6 Graduates
+## Quick Start for Chapter 7 Graduates
 
 Already comfortable with terminal basics? Here's what's new:
 
 ```bash
 # Bash math FAILS with decimals (you'll discover why)
-echo $((1.2 + 2.3))  # Error!
+echo $((14.50 + 23.75))  # Error!
 
-# Python script reads from stdin (you'll build this)
-echo -e "1.2\n2.3" | python calc.py
-# Output: Total: 3.50
+# Simple text tools FAIL on quoted CSV fields
+echo '"Amazon, Inc.",-23.99' | awk -F',' '{print $2}'
+# Output: Inc."  -- WRONG! Broke on comma inside quotes
 
-# Regex extracts amounts from messy text (you'll learn this)
-echo "Lunch: $14.50, Tip: $3.00" | python calc.py
-# Output: Total: $17.50
+# Python handles both correctly (you'll build this)
+cat bank-statement.csv | python sum-expenses.py
+# Output: Total: $2,456.78
+
+# Pattern matching categorizes for taxes (you'll learn this)
+cat bank-statement.csv | python tax-categorize.py
+# Output: Medical: $1,891.20, Charitable: $1,550.00
 ```
+
+## The Real-World Payoff
+
+This isn't academic. By chapter end, you'll solve a real problem:
+
+**Before this chapter**: Tax season means hours of manual work - opening each bank statement, hunting for medical expenses, trying to remember which "SQ *LOCALSTORE" was business vs personal.
+
+**After this chapter**: Download your bank CSVs, run one command, get a categorized report. Every year. Forever.
+
+The same pattern applies to any data extraction problem - expense reports, invoice processing, log analysis. You're learning to build tools, not just use them.
 
 ## Ready to Start?
 
-Begin with [Lesson 1: The Accuracy Gap](./01-accuracy-gap.md) to discover why precision matters.
+Begin with [Lesson 1: The Arithmetic Gap](./01-accuracy-gap.md) to discover why precision matters.
