@@ -161,7 +161,10 @@ class MeteringService:
                         return {
                             "allowed": False,
                             "error_code": "REQUEST_ID_CONFLICT",
-                            "message": f"Request ID {request_id} already used with different parameters",
+                            "message": (
+                                f"Request ID {request_id} already used with "
+                                "different parameters"
+                            ),
                             "balance": account.balance,
                             "available_balance": effective_balance - int(reserved_total),
                             "required": estimated_tokens,
@@ -224,7 +227,10 @@ class MeteringService:
                             }
             except Exception as e:
                 # SQLite doesn't support FOR UPDATE, fall back to simple check
-                logger.warning(f"[Metering] SELECT FOR UPDATE not supported, using simple check: {e}")
+                logger.warning(
+                    f"[Metering] SELECT FOR UPDATE not supported, "
+                    f"using simple check: {e}"
+                )
                 if effective_balance >= estimated_tokens:
                     return {
                         "allowed": True,

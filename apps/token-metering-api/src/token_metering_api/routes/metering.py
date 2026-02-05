@@ -47,11 +47,17 @@ async def check_balance(
         403: BlockedResponse if ACCOUNT_SUSPENDED or USER_MISMATCH
         409: BlockedResponse if REQUEST_ID_CONFLICT
     """
-    logger.info(f"[Metering] /check: user={check_request.user_id}, request_id={check_request.request_id}")
+    logger.info(
+        f"[Metering] /check: user={check_request.user_id}, "
+        f"request_id={check_request.request_id}"
+    )
 
     # Verify user_id matches JWT subject (FR-051)
     if check_request.user_id != user.id:
-        logger.warning(f"[Metering] User ID mismatch: jwt={user.id}, request={check_request.user_id}")
+        logger.warning(
+            f"[Metering] User ID mismatch: jwt={user.id}, "
+            f"request={check_request.user_id}"
+        )
         raise MeteringAPIException(
             status_code=403,
             error_code="USER_MISMATCH",
@@ -122,7 +128,10 @@ async def deduct_tokens(
 
     # Verify user_id matches JWT subject (FR-051)
     if deduct_request.user_id != user.id:
-        logger.warning(f"[Metering] User ID mismatch: jwt={user.id}, request={deduct_request.user_id}")
+        logger.warning(
+            f"[Metering] User ID mismatch: jwt={user.id}, "
+            f"request={deduct_request.user_id}"
+        )
         raise MeteringAPIException(
             status_code=403,
             error_code="USER_MISMATCH",
@@ -173,11 +182,17 @@ async def release_reservation(
     Returns:
         200: ReleaseResponse with released tokens
     """
-    logger.info(f"[Metering] /release: user={release_request.user_id}, request_id={release_request.request_id}")
+    logger.info(
+        f"[Metering] /release: user={release_request.user_id}, "
+        f"request_id={release_request.request_id}"
+    )
 
     # Verify user_id matches JWT subject (FR-051)
     if release_request.user_id != user.id:
-        logger.warning(f"[Metering] User ID mismatch: jwt={user.id}, request={release_request.user_id}")
+        logger.warning(
+            f"[Metering] User ID mismatch: jwt={user.id}, "
+            f"request={release_request.user_id}"
+        )
         raise MeteringAPIException(
             status_code=403,
             error_code="USER_MISMATCH",

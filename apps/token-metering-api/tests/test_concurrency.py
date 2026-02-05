@@ -6,16 +6,11 @@ preventing double-spending and ensuring data integrity.
 
 import asyncio
 from datetime import UTC, datetime
-from unittest.mock import AsyncMock, patch
 
 import pytest
-import pytest_asyncio
-from httpx import ASGITransport, AsyncClient
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from tests.helpers import make_request_id
-from token_metering_api.main import app
 from token_metering_api.models import TokenAccount, TokenTransaction
 
 

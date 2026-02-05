@@ -13,9 +13,7 @@ Balance stored directly on TokenAccount.balance (not computed from allocations).
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 
-from token_metering_api.config import settings
 from token_metering_api.models import (
-    INACTIVITY_EXPIRY_DAYS,
     STARTER_TOKENS,
     AccountStatus,
     AllocationType,

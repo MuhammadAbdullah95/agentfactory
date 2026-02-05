@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 
 from redis.asyncio import Redis
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..config import settings
@@ -76,6 +77,9 @@ class AccountService:
         FR-012: New accounts get STARTER_TOKENS (configurable via settings)
         FR-029: Set last_activity_at on creation
 
+        Handles race conditions by catching IntegrityError on concurrent creates
+        and retrying the lookup.
+
         Args:
             user_id: Unique user identifier
 
@@ -88,7 +92,23 @@ class AccountService:
         account = result.scalar_one_or_none()
 
         if not account:
-            account = await self._create_new_account(user_id)
+            try:
+                account = await self._create_new_account(user_id)
+            except IntegrityError:
+                # Another request created the account concurrently - rollback and fetch
+                await self.session.rollback()
+                result = await self.session.execute(
+                    select(TokenAccount).where(TokenAccount.user_id == user_id)
+                )
+                account = result.scalar_one_or_none()
+                if not account:
+                    # Should not happen, but re-raise if it does
+                    raise RuntimeError(
+                        f"Account for {user_id} not found after IntegrityError"
+                    )
+                logger.debug(
+                    f"[Account] Recovered from race condition for {user_id}"
+                )
 
         return account
 

@@ -7,13 +7,9 @@ Tests cover:
 4. Reservation key expiration
 """
 
-import asyncio
 from datetime import UTC, datetime
 from decimal import Decimal
-from unittest.mock import AsyncMock, MagicMock, patch
-
-import pytest
-import pytest_asyncio
+from unittest.mock import AsyncMock, patch
 
 from token_metering_api.config import settings
 from token_metering_api.models import Pricing, TokenAccount
@@ -24,7 +20,7 @@ class TestBalanceCacheRead:
 
     async def test_balance_cache_read_hit(self, test_session):
         """When balance is in cache, return cached value without DB query."""
-        from token_metering_api.core.cache import get_cached_balance, set_balance_cache
+        from token_metering_api.core.cache import get_cached_balance
 
         # Setup: Create mock Redis
         mock_redis = AsyncMock()
@@ -329,7 +325,6 @@ class TestConnectionPoolSettings:
 
     def test_database_max_overflow_increased(self):
         """Database max_overflow should be 30."""
-        from token_metering_api.core.database import engine
 
         # This verifies the engine was configured with these settings
         # Actual pool behavior depends on runtime state

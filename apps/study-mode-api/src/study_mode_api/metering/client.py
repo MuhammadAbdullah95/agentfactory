@@ -187,7 +187,7 @@ class MeteringClient:
         """
         client = await self._get_client()
 
-        payload = {
+        payload: dict[str, Any] = {
             "user_id": user_id,
             "request_id": request_id,
             "reservation_id": reservation_id,
@@ -195,16 +195,14 @@ class MeteringClient:
             "output_tokens": output_tokens,
             "model": model,
         }
-        # v5: Build context dict with lesson_path, thread_id, and usage_details
-        context: dict[str, Any] = {}
-        if lesson_path:
-            context["lesson_path"] = lesson_path
+        # v5: thread_id and usage_details are top-level fields per DeductRequest schema
         if thread_id:
-            context["thread_id"] = thread_id
+            payload["thread_id"] = thread_id
         if usage_details:
-            context["usage_details"] = usage_details
-        if context:
-            payload["context"] = context
+            payload["usage_details"] = usage_details
+        # Only lesson_path goes in context
+        if lesson_path:
+            payload["context"] = {"lesson_path": lesson_path}
 
         try:
             headers = {"X-User-ID": user_id}

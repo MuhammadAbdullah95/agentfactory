@@ -7,14 +7,13 @@ Tests for critical security vulnerabilities:
 - HIGH-002: Token limits on admin endpoints
 """
 
+from unittest.mock import patch
+
 import pytest
 import pytest_asyncio
-from unittest.mock import patch, AsyncMock
 from httpx import ASGITransport, AsyncClient
 
-from token_metering_api.config import Settings
 from token_metering_api.main import app
-
 
 # === CRIT-001: Dev Mode Admin Bypass Tests ===
 
@@ -25,8 +24,8 @@ class TestDevModeAdminBypass:
     @pytest_asyncio.fixture
     async def dev_mode_client(self, test_session):
         """Create client with dev mode enabled but not admin."""
-        from token_metering_api.core.database import get_session
         from token_metering_api.config import settings
+        from token_metering_api.core.database import get_session
 
         async def override_get_session():
             yield test_session
@@ -51,8 +50,9 @@ class TestDevModeAdminBypass:
     async def test_dev_mode_does_not_grant_admin_by_default(self, dev_mode_client, test_session):
         """Dev mode should NOT automatically grant admin role."""
         # Create a user in the database first
-        from token_metering_api.models import TokenAccount
         from datetime import UTC, datetime
+
+        from token_metering_api.models import TokenAccount
 
         account = TokenAccount(
             user_id="test-user-no-admin",
@@ -82,8 +82,9 @@ class TestDevModeAdminBypass:
     async def test_dev_mode_requires_explicit_admin_header(self, dev_mode_client, test_session):
         """Dev mode requires X-Dev-Admin: true header for admin access."""
         # Create target user
-        from token_metering_api.models import TokenAccount
         from datetime import UTC, datetime
+
+        from token_metering_api.models import TokenAccount
 
         account = TokenAccount(
             user_id="target-user-for-grant",
@@ -126,8 +127,8 @@ class TestDevModeAdminBypass:
     @pytest.mark.asyncio
     async def test_dev_mode_blocked_in_production_environment(self, test_session):
         """Dev mode should be blocked when ENVIRONMENT=production."""
-        from token_metering_api.core.database import get_session
         from token_metering_api.config import settings
+        from token_metering_api.core.database import get_session
 
         async def override_get_session():
             yield test_session
@@ -168,18 +169,20 @@ class TestJWTAudienceVerification:
     @pytest.mark.asyncio
     async def test_jwt_audience_verified(self):
         """JWT tokens must have correct audience."""
-        from token_metering_api.core.auth import verify_jwt
-        from token_metering_api.config import settings
-        from jose import jwt
         import time
 
-        # Create a mock JWKS response
+        from jose import jwt
+
+        from token_metering_api.config import settings
+
+        # Create a mock JWKS response (shortened key for testing)
+        mock_rsa_n = "sXchDaQebSXKcvLlshBZWmslYWH0mHOKKDKQeUPe3n1bvZ"
         mock_jwks = {
             "keys": [
                 {
                     "kty": "RSA",
                     "kid": "test-key-id",
-                    "n": "sXchDaQebSXKcvLlshBZWmslYWH0mHOKKDKQeUPe3n1bvZRUQTYVhEdShMR_pVAb7UJeSLkUmvFjj7AUVZ2F4jAiMaKCnPjB8zCz6rRvXqjF7dQpFT6iOC6XP_Z8pGXKD-F4Pb8b0O7THcU2KQZwcXEk9wRQXe2I-XJ8hNrZU",
+                    "n": mock_rsa_n,
                     "e": "AQAB",
                 }
             ]
@@ -188,7 +191,7 @@ class TestJWTAudienceVerification:
         # Patch get_jwks to return our mock
         with patch("token_metering_api.core.auth.get_jwks", return_value=mock_jwks):
             # Create a token with wrong audience
-            wrong_aud_token = jwt.encode(
+            jwt.encode(
                 {
                     "sub": "user-123",
                     "aud": "wrong-audience",
@@ -214,8 +217,8 @@ class TestRateLimiting:
     @pytest_asyncio.fixture
     async def rate_limit_client(self, test_session):
         """Create client for rate limit testing."""
-        from token_metering_api.core.database import get_session
         from token_metering_api.config import settings
+        from token_metering_api.core.database import get_session
 
         async def override_get_session():
             yield test_session
@@ -235,8 +238,9 @@ class TestRateLimiting:
     @pytest.mark.asyncio
     async def test_rate_limiting_enforced(self, rate_limit_client, test_session):
         """Endpoints should enforce rate limits."""
-        from token_metering_api.models import TokenAccount
         from datetime import UTC, datetime
+
+        from token_metering_api.models import TokenAccount
 
         # Create user
         account = TokenAccount(
@@ -262,8 +266,9 @@ class TestRateLimiting:
     @pytest.mark.asyncio
     async def test_admin_endpoints_have_stricter_rate_limits(self, rate_limit_client, test_session):
         """Admin endpoints should have stricter rate limits."""
-        from token_metering_api.models import TokenAccount
         from datetime import UTC, datetime
+
+        from token_metering_api.models import TokenAccount
 
         # Create target user
         account = TokenAccount(
@@ -301,8 +306,9 @@ class TestAdminTokenLimits:
     @pytest.mark.asyncio
     async def test_grant_rejects_excessive_tokens(self):
         """GrantRequest should reject tokens > 100,000,000."""
-        from token_metering_api.routes.schemas import GrantRequest
         from pydantic import ValidationError
+
+        from token_metering_api.routes.schemas import GrantRequest
 
         # Should succeed with reasonable amount
         valid_request = GrantRequest(
@@ -326,8 +332,9 @@ class TestAdminTokenLimits:
     @pytest.mark.asyncio
     async def test_topup_rejects_excessive_tokens(self):
         """TopupRequest should reject tokens > 100,000,000."""
-        from token_metering_api.routes.schemas import TopupRequest
         from pydantic import ValidationError
+
+        from token_metering_api.routes.schemas import TopupRequest
 
         # Should succeed with reasonable amount
         valid_request = TopupRequest(
@@ -351,8 +358,8 @@ class TestAdminTokenLimits:
     @pytest_asyncio.fixture
     async def admin_client(self, test_session):
         """Create client with admin access."""
-        from token_metering_api.core.database import get_session
         from token_metering_api.config import settings
+        from token_metering_api.core.database import get_session
 
         async def override_get_session():
             yield test_session
@@ -372,8 +379,9 @@ class TestAdminTokenLimits:
     @pytest.mark.asyncio
     async def test_admin_grant_rejects_excessive_tokens_via_api(self, admin_client, test_session):
         """API should reject grant requests with excessive tokens."""
-        from token_metering_api.models import TokenAccount
         from datetime import UTC, datetime
+
+        from token_metering_api.models import TokenAccount
 
         # Create target user
         account = TokenAccount(

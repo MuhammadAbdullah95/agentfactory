@@ -13,9 +13,7 @@ from typing import Any
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..config import settings
 from ..models import (
-    AllocationType,
     TokenAccount,
     TokenAllocation,
     TokenTransaction,

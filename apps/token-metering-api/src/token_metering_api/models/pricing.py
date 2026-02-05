@@ -22,7 +22,9 @@ class Pricing(SQLModel, table=True):
     output_cost_per_1k: Decimal = Field(max_digits=10, decimal_places=6)
 
     # Maximum tokens allowed per request for this model (FR-069)
-    max_tokens: int = Field(default=128_000, description="Maximum tokens per request for this model")
+    max_tokens: int = Field(
+        default=128_000, description="Maximum tokens per request for this model"
+    )
 
     is_active: bool = Field(default=True)
     created_at: datetime = Field(

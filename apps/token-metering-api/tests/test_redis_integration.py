@@ -3,18 +3,14 @@
 Tests Redis connection handling and the reservation system implemented via Lua scripts.
 """
 
-import asyncio
 import time
-from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
-import pytest_asyncio
 
 from token_metering_api.config import settings
 from token_metering_api.core.redis import (
     SCRIPTS_DIR,
-    _load_lua_scripts,
     get_lua_script,
     get_redis,
     start_redis,
@@ -330,8 +326,8 @@ class TestFailOpenBehavior:
     @pytest.mark.asyncio
     async def test_check_balance_fails_open_without_redis(self, client, test_session):
         """Check should succeed with fail-open when Redis unavailable."""
-        from datetime import UTC, datetime
         import uuid
+        from datetime import UTC, datetime
 
         from token_metering_api.models import TokenAccount
 
@@ -372,8 +368,8 @@ class TestFailOpenBehavior:
     @pytest.mark.asyncio
     async def test_release_succeeds_for_failopen_reservation(self, client, test_session):
         """Release should succeed for fail-open reservations."""
-        from datetime import UTC, datetime
         import uuid
+        from datetime import UTC, datetime
 
         from token_metering_api.models import TokenAccount
 

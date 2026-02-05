@@ -18,7 +18,7 @@ os.environ["PYTEST_CURRENT_TEST"] = "1"
 
 from token_metering_api.config import settings
 from token_metering_api.main import app
-from token_metering_api.models import SQLModel, STARTER_TOKENS
+from token_metering_api.models import STARTER_TOKENS, SQLModel
 
 
 def make_request_id(seed: str = "") -> str:
@@ -108,7 +108,7 @@ async def new_user(test_session: AsyncSession):
 
     v5: New users start with STARTER_TOKENS (50,000).
     """
-    from token_metering_api.models import TokenAccount, TokenAllocation, AllocationType
+    from token_metering_api.models import AllocationType, TokenAccount, TokenAllocation
 
     account = TokenAccount(
         user_id="new-user-123",

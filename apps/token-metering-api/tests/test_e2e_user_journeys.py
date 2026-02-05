@@ -17,11 +17,8 @@ from httpx import AsyncClient
 
 from tests.helpers import make_request_id
 from token_metering_api.models import (
-    INACTIVITY_EXPIRY_DAYS,
     STARTER_TOKENS,
-    AllocationType,
     TokenAccount,
-    TokenAllocation,
 )
 
 
@@ -471,8 +468,9 @@ class TestCostTrackingJourney:
         assert deduct.status_code == 200
 
         # Verify transaction in database
+        req_id = make_request_id("cost-req-1")
         result = await test_session.execute(
-            select(TokenTransaction).where(TokenTransaction.request_id == make_request_id("cost-req-1"))
+            select(TokenTransaction).where(TokenTransaction.request_id == req_id)
         )
         tx = result.scalar_one()
 
@@ -1038,7 +1036,9 @@ class TestIdempotencyJourneys:
         await test_session.refresh(account)
         assert account.balance == balance_after_first
 
-    async def test_duplicate_check_both_succeed_in_failopen(self, client: AsyncClient, test_session):
+    async def test_duplicate_check_succeeds_in_failopen(
+        self, client: AsyncClient, test_session
+    ):
         """In fail-open mode (no Redis), duplicate checks both succeed.
 
         Note: With Redis enabled, this would return 409 REQUEST_ID_CONFLICT
@@ -1451,7 +1451,9 @@ class TestThreadTracking:
 class TestBalanceExpiryJourney:
     """E2E: Test inactivity expiry behavior."""
 
-    async def test_expired_user_shows_zero_effective_balance(self, client: AsyncClient, test_session):
+    async def test_expired_user_shows_zero_effective_balance(
+        self, client: AsyncClient, test_session
+    ):
         """User inactive for 365+ days should have effective_balance=0."""
         user_id = "expired-effective-user"
 
@@ -1570,7 +1572,9 @@ class TestConcurrentUsageJourney:
                 headers={"X-User-ID": user_id},
             )
             assert check.status_code == 200
-            reservations.append((make_request_id(f"concurrent-req-{i}"), check.json()["reservation_id"]))
+            req_id = make_request_id(f"concurrent-req-{i}")
+            res_id = check.json()["reservation_id"]
+            reservations.append((req_id, res_id))
 
         # Finalize some reservations
         for request_id, reservation_id in reservations[:3]:
@@ -1638,6 +1642,7 @@ class TestUsageDetailsJourney:
     async def test_usage_details_recorded(self, client: AsyncClient, test_session):
         """Usage details should be recorded with transaction."""
         from sqlalchemy import select
+
         from token_metering_api.models import TokenTransaction
 
         user_id = "usage-details-user"

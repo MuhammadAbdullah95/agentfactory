@@ -7,11 +7,8 @@ Tests for the extracted AccountService which handles:
 
 from datetime import UTC, datetime
 
-import pytest
-
 from token_metering_api.config import settings
 from token_metering_api.models import (
-    STARTER_TOKENS,
     AccountStatus,
     AllocationType,
     TokenAccount,

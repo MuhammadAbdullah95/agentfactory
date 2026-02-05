@@ -105,7 +105,10 @@ class BlockedResponse(BaseModel):
     allowed: bool = False
     error_code: str = Field(
         ...,
-        description="INSUFFICIENT_BALANCE | ACCOUNT_SUSPENDED | REQUEST_ID_CONFLICT | ESTIMATED_TOKENS_EXCEEDS_LIMIT",
+        description=(
+            "INSUFFICIENT_BALANCE | ACCOUNT_SUSPENDED | "
+            "REQUEST_ID_CONFLICT | ESTIMATED_TOKENS_EXCEEDS_LIMIT"
+        ),
     )
     message: str
     balance: int

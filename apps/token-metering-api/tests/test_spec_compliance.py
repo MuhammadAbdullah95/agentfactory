@@ -1,18 +1,17 @@
 """Test spec compliance gaps identified in FR-033, FR-048, FR-069."""
 
+from datetime import UTC, datetime
+from decimal import Decimal
+from unittest.mock import patch
+
 import pytest
 import pytest_asyncio
-from datetime import UTC, datetime
-from unittest.mock import AsyncMock, patch, MagicMock
-from decimal import Decimal
-
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from token_metering_api.models import (
-    TokenAccount,
-    Pricing,
     STARTER_TOKENS,
+    Pricing,
+    TokenAccount,
 )
 from token_metering_api.services.metering import MeteringService
 

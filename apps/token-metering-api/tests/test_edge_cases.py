@@ -14,14 +14,11 @@ from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import select
 
-from token_metering_api.config import settings
 from token_metering_api.models import (
     INACTIVITY_EXPIRY_DAYS,
     STARTER_TOKENS,
     AccountStatus,
-    AllocationType,
     TokenAccount,
-    TokenAllocation,
 )
 from token_metering_api.services.metering import MeteringService
 

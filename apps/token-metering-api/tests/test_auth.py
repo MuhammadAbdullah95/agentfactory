@@ -3,7 +3,7 @@
 Tests JWT validation, dev mode authentication, and admin role requirements.
 """
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi import HTTPException
@@ -353,7 +353,6 @@ class TestVerifyJWT:
     async def test_verify_jwt_key_not_found(self):
         """verify_jwt should raise 401 if key ID not in JWKS."""
         import time
-        from unittest.mock import patch
 
         import token_metering_api.core.auth as auth_module
 
@@ -488,8 +487,9 @@ class TestAuthEndpoints:
     @pytest.mark.asyncio
     async def test_admin_endpoint_allows_admin_user(self, client, test_session):
         """Admin endpoint should allow admin user."""
-        from token_metering_api.models import TokenAccount
         from datetime import UTC, datetime
+
+        from token_metering_api.models import TokenAccount
 
         # Create the target account first
         account = TokenAccount(

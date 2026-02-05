@@ -1,11 +1,10 @@
 """Tests for balance endpoints (v5 - Balance Only)."""
 
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 
 from httpx import AsyncClient
 
 from token_metering_api.models import (
-    INACTIVITY_EXPIRY_DAYS,
     STARTER_TOKENS,
     AllocationType,
     TokenAccount,

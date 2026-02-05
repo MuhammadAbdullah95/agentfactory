@@ -18,10 +18,7 @@ from tests.helpers import make_request_id
 from token_metering_api.config import settings
 from token_metering_api.models import (
     AccountStatus,
-    AllocationType,
     TokenAccount,
-    TokenAllocation,
-    STARTER_TOKENS,
 )
 
 

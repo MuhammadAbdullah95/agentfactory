@@ -11,8 +11,6 @@ These tests define the expected behavior for v5:
 
 from datetime import UTC, datetime, timedelta
 
-import pytest
-
 from token_metering_api.config import settings
 from token_metering_api.models import STARTER_TOKENS
 
@@ -278,7 +276,7 @@ class TestMeteringServiceV5:
         """New user should auto-create account with STARTER_TOKENS."""
         from sqlalchemy import select
 
-        from token_metering_api.models import TokenAccount, TokenAllocation, AllocationType
+        from token_metering_api.models import AllocationType, TokenAccount, TokenAllocation
         from token_metering_api.services.metering import MeteringService
 
         service = MeteringService(test_session)
@@ -658,7 +656,7 @@ class TestV5EndToEndFlow:
             )
 
         # 4. Eventually blocked at 0 balance
-        final_check = await metering.check_balance(
+        await metering.check_balance(
             user_id="v5-e2e-new",
             request_id="e2e-req-blocked",
             estimated_tokens=1000,
