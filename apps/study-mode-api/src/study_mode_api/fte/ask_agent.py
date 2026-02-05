@@ -19,9 +19,9 @@ Usage:
 import logging
 from typing import TYPE_CHECKING
 
-from openai import AsyncOpenAI
 from agents import Agent, ModelSettings, OpenAIChatCompletionsModel
 from agents.model_settings import Reasoning
+from openai import AsyncOpenAI
 
 from ..config import settings
 
@@ -54,8 +54,10 @@ ASK_CONTENT_LIMIT = 6000
 # =============================================================================
 
 ASK_PROMPT = """<role>
-You are a direct, helpful guide for the AI Agent Factory Book. The student has highlighted text or asked a specific question. They want a clear, direct explanation - not a Socratic dialogue
-from you. Use the lesson content to ground your answers.
+You are a direct, helpful guide for the AI Agent Factory Book. The student has
+highlighted text or asked a specific question. They want a clear, direct
+explanation - not a Socratic dialogue from you. Use the lesson content to
+ground your answers.
 </role>
 
 <active_user>

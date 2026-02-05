@@ -8,7 +8,6 @@ from datetime import datetime
 
 from agents import Runner, RunResultStreaming
 from chatkit.agents import AgentContext, simple_to_agent_input, stream_agent_response
-from fastapi import HTTPException
 from chatkit.server import ChatKitServer
 from chatkit.types import (
     AssistantMessageContent,
@@ -20,6 +19,7 @@ from chatkit.types import (
     UserMessageItem,
     UserMessageTextContent,
 )
+from fastapi import HTTPException
 
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte import create_agent
