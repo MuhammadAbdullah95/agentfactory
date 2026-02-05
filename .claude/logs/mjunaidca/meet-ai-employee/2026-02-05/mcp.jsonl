@@ -1,0 +1,1 @@
+{"timestamp": "2026-02-05T13:15:10Z", "session_id": "9b29d38d-1505-45eb-809f-f96332aaf67e", "user": "mjunaidca", "branch": "meet-ai-employee", "event": "tool_use", "server": "", "tool": "", "input": "{\n  \"query\": \"dynamic access control custom roles create role permissions organization\"\n}", "response_size": "67734"}

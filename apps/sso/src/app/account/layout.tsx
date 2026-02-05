@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AccountNav } from "./AccountNav";
 
 export default function AccountLayout({
   children,
@@ -24,6 +25,8 @@ export default function AccountLayout({
             </Link>
           </div>
         </div>
+        {/* Account Navigation */}
+        <AccountNav />
       </header>
 
       {/* Main Content */}
