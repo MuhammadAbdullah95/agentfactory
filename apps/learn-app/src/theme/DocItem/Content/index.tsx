@@ -313,12 +313,12 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const isLoggedIn = !!session?.user;
 
   // Auth config for login redirect
-  const { siteConfig } = useDocusaurusContext();
+  const { siteConfig, i18n } = useDocusaurusContext();
   const authUrl = siteConfig.customFields?.authUrl as string | undefined;
   const oauthClientId = siteConfig.customFields?.oauthClientId as
     | string
     | undefined;
-  const locale = siteConfig.i18n?.currentLocale || "en";
+  const locale = i18n.currentLocale || "en";
 
   const lastUpdatedAt = metadata.lastUpdatedAt;
   const editUrl = metadata.editUrl;
