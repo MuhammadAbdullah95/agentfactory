@@ -43,12 +43,26 @@ docker-compose up -d postgres redis
 # Copy environment file
 cp .env.example .env
 
+# Initialize database and seed pricing data
+docker exec -i token-metering-postgres psql -U postgres -d token_metering < scripts/init_db.sql
+
 # Start the server
 uv run uvicorn token_metering_api.main:app --reload --port 8001
 
 # Or via Nx
 pnpm nx serve token-metering-api
 ```
+
+### Database Setup
+
+The service requires a `pricing` table with model pricing data. Without it, all models fall back to `DEFAULT_PRICING` ($0.001/$0.002 per 1k tokens).
+
+```bash
+# Initialize tables and seed pricing
+psql $DATABASE_URL < scripts/init_db.sql
+```
+
+**Important**: Model names must match **exactly** between the calling service (study-mode-api) and the pricing table. See [Model Pricing](#model-pricing) for details.
 
 ### Environment Variables
 
@@ -224,6 +238,37 @@ Tests run automatically via `nx affected` on:
 - Pushes to main
 
 The CI workflow runs lint, test, and build for affected projects only.
+
+## Model Pricing
+
+Pricing is looked up by **exact model name match**. If no match is found, `DEFAULT_PRICING` is used.
+
+### Configured Models (from `scripts/init_db.sql`)
+
+| Model | Input $/1M | Output $/1M | Max Tokens | Used By |
+|-------|-----------|-------------|------------|---------|
+| `deepseek-chat` | $0.14 | $0.28 | 64,000 | study-mode-api (ask agent) |
+| `gpt-5-nano-2025-08-07` | $0.15 | $0.60 | 128,000 | study-mode-api (triage) |
+| `claude-sonnet-4-20250514` | $3.00 | $15.00 | 200,000 | Future use |
+| `claude-opus-4-20250514` | $15.00 | $75.00 | 200,000 | Future use |
+
+### Default Pricing (Fallback)
+
+For unknown models:
+- Input: $1.00 per 1M tokens
+- Output: $2.00 per 1M tokens
+- Max tokens: 128,000
+
+### Adding New Models
+
+```sql
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active)
+VALUES ('new-model-name', 0.001, 0.002, 128000, 'v1', true);
+```
+
+**Critical**: The `model` value must exactly match what the calling service sends. For study-mode-api, check:
+- `apps/study-mode-api/src/study_mode_api/fte/ask_agent.py` → `model="deepseek-chat"`
+- `apps/study-mode-api/src/study_mode_api/fte/triage.py` → `MODEL = "gpt-5-nano-2025-08-07"`
 
 ## Related Documentation
 
