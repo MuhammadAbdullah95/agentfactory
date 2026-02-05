@@ -2,6 +2,7 @@
 
 import logging
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import redis.asyncio
 import redis.asyncio.retry
@@ -10,10 +11,13 @@ import redis.exceptions
 
 from ..config import settings
 
+if TYPE_CHECKING:
+    from redis.commands.core import AsyncScript
+
 logger = logging.getLogger(__name__)
 
 _redis: redis.asyncio.Redis | None = None
-_lua_scripts: dict[str, redis.asyncio.client.Script] = {}
+_lua_scripts: dict[str, "AsyncScript"] = {}
 
 # Directory containing Lua scripts
 SCRIPTS_DIR = Path(__file__).parent.parent / "scripts"
@@ -104,6 +108,6 @@ def get_redis() -> redis.asyncio.Redis | None:
     return _redis
 
 
-def get_lua_script(name: str) -> redis.asyncio.client.Script | None:
+def get_lua_script(name: str) -> "AsyncScript | None":
     """Get a registered Lua script by name."""
     return _lua_scripts.get(name)
