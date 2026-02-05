@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
   Dialog,
@@ -31,37 +29,40 @@ const orgSchema = z.object({
     .max(50)
     .regex(/^[a-z0-9-]+$/, "Slug must be lowercase alphanumeric with hyphens"),
   description: z.string().max(500).optional(),
-  // FileList is browser-only, use any for SSR compatibility
-  logo: z.any().optional(),
 });
 
-type OrgFormData = z.infer<typeof orgSchema>;
+type FormErrors = {
+  name?: string;
+  slug?: string;
+  description?: string;
+};
 
 export function CreateOrgDialog() {
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<OrgFormData>({
-    resolver: zodResolver(orgSchema),
-  });
-
-  const name = watch("name");
-  const slug = watch("slug");
+  // Form state
+  const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
+  const [description, setDescription] = useState("");
+  const [autoSlug, setAutoSlug] = useState(true);
 
   // Auto-generate slug from name
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
-    if (!slug || slug === sanitizeSlug(name || "")) {
-      setValue("slug", sanitizeSlug(newName));
+    setName(newName);
+    if (autoSlug) {
+      setSlug(sanitizeSlug(newName));
     }
+  };
+
+  const handleSlugChange = (value: string) => {
+    setSlug(value);
+    setAutoSlug(false);
   };
 
   // Handle logo preview
@@ -84,6 +85,8 @@ export function CreateOrgDialog() {
         return;
       }
 
+      setLogoFile(file);
+
       // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -92,54 +95,80 @@ export function CreateOrgDialog() {
       reader.readAsDataURL(file);
     } else {
       setLogoPreview(null);
+      setLogoFile(null);
     }
   };
 
-  const onSubmit = async (data: OrgFormData) => {
+  const resetForm = () => {
+    setName("");
+    setSlug("");
+    setDescription("");
+    setLogoFile(null);
+    setLogoPreview(null);
+    setErrors({});
+    setAutoSlug(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate with zod
+    const result = orgSchema.safeParse({ name, slug, description });
+    if (!result.success) {
+      const fieldErrors: FormErrors = {};
+      result.error.errors.forEach((err) => {
+        const field = err.path[0] as keyof FormErrors;
+        fieldErrors[field] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setErrors({});
+    setIsSubmitting(true);
+
     try {
       let logoBase64: string | undefined;
 
       // Convert logo to base64 if uploaded
-      if (data.logo && data.logo[0]) {
-        const file = data.logo[0];
+      if (logoFile) {
         const reader = new FileReader();
         logoBase64 = await new Promise((resolve, reject) => {
           reader.onloadend = () => resolve(reader.result as string);
           reader.onerror = reject;
-          reader.readAsDataURL(file);
+          reader.readAsDataURL(logoFile);
         });
       }
 
       // Create organization
-      const result = await authClient.organization.create({
-        name: data.name,
-        slug: data.slug,
+      const createResult = await authClient.organization.create({
+        name,
+        slug,
         logo: logoBase64,
-        metadata: data.description
-          ? { description: data.description }
-          : undefined,
+        metadata: description ? { description } : undefined,
       });
 
-      if (result.error) {
-        toast.error(result.error.message || "Failed to create organization");
+      if (createResult.error) {
+        toast.error(createResult.error.message || "Failed to create organization");
         return;
       }
 
       // Auto-switch to new organization
-      if (result.data?.id) {
+      if (createResult.data?.id) {
         await authClient.organization.setActive({
-          organizationId: result.data.id,
+          organizationId: createResult.data.id,
         });
       }
 
-      toast.success(`Organization "${data.name}" created successfully!`);
+      toast.success(`Organization "${name}" created successfully!`);
       setOpen(false);
-      reset();
-      setLogoPreview(null);
+      resetForm();
       router.refresh();
     } catch (error) {
       console.error("Failed to create organization:", error);
       toast.error("Failed to create organization. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -171,7 +200,7 @@ export function CreateOrgDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div className="space-y-2">
             <Label htmlFor="name">
@@ -179,16 +208,13 @@ export function CreateOrgDialog() {
             </Label>
             <Input
               id="name"
-              {...register("name")}
-              onChange={(e) => {
-                register("name").onChange(e);
-                handleNameChange(e);
-              }}
+              value={name}
+              onChange={handleNameChange}
               placeholder="Acme Inc"
               className={errors.name ? "border-red-500" : ""}
             />
             {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
+              <p className="text-sm text-red-500">{errors.name}</p>
             )}
           </div>
 
@@ -198,10 +224,10 @@ export function CreateOrgDialog() {
               Organization Slug <span className="text-red-500">*</span>
             </Label>
             <SlugInput
-              value={watch("slug") || ""}
-              onChange={(value) => setValue("slug", value)}
-              error={errors.slug?.message}
-              autoGenerateFrom={watch("name")}
+              value={slug}
+              onChange={handleSlugChange}
+              error={errors.slug}
+              autoGenerateFrom={name}
             />
             <p className="text-xs text-muted-foreground">
               Lowercase letters, numbers, and hyphens only
@@ -213,13 +239,14 @@ export function CreateOrgDialog() {
             <Label htmlFor="description">Description (optional)</Label>
             <Textarea
               id="description"
-              {...register("description")}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="A brief description of your organization"
               rows={3}
               className={errors.description ? "border-red-500" : ""}
             />
             {errors.description && (
-              <p className="text-sm text-red-500">{errors.description.message}</p>
+              <p className="text-sm text-red-500">{errors.description}</p>
             )}
           </div>
 
@@ -241,11 +268,7 @@ export function CreateOrgDialog() {
                   id="logo"
                   type="file"
                   accept="image/png,image/jpeg,image/jpg,image/gif"
-                  {...register("logo")}
-                  onChange={(e) => {
-                    register("logo").onChange(e);
-                    handleLogoChange(e);
-                  }}
+                  onChange={handleLogoChange}
                   className="cursor-pointer"
                 />
                 <p className="text-xs text-muted-foreground mt-1">
@@ -261,8 +284,7 @@ export function CreateOrgDialog() {
               variant="outline"
               onClick={() => {
                 setOpen(false);
-                reset();
-                setLogoPreview(null);
+                resetForm();
               }}
               disabled={isSubmitting}
             >
