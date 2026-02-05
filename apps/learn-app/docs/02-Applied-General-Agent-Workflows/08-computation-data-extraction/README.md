@@ -34,13 +34,13 @@ You'll transform from someone who manually categorizes expenses (tedious and err
 
 ## Prerequisites
 
-**From Chapter 3 (Seven Principles)**:
+**From Seven Principles Chapter**:
 
 - You understand ALL Seven Principles conceptually
 - You know why "Bash is the Key" matters (Principle 1)
 - You know why "Verification as Core Step" prevents failures (Principle 3)
 
-**From Chapter 7 (File Processing)**:
+**From File Processing Chapter**:
 
 - You can navigate directories (`cd`, `ls`, `pwd`)
 - You've run basic Bash commands
@@ -60,9 +60,9 @@ You'll transform from someone who manually categorizes expenses (tedious and err
 | 1      | The Arithmetic Gap          | 15 min   | Recognize Bash decimal limitations     |
 | 2      | Your First Python Utility   | 25 min   | Build stdin-reading script             |
 | 3      | The Testing Loop            | 25 min   | Verify with exit codes and test data   |
-| 4      | From Numbers to Structured Data | 30 min | Parse CSV files with Python's csv module |
+| 4      | From Script to Command      | 30 min   | Parse CSV, make permanent commands       |
 | 5      | Data Wrangling              | 35 min   | Categorize with regex pattern matching |
-| 6      | Capstone: Tax Season        | 40 min   | Generate tax-ready report              |
+| 6      | Capstone: Tax Season Prep        | 40 min   | Generate tax-ready report              |
 
 **Total Duration**: 170 minutes (~3 hours)
 
@@ -92,11 +92,11 @@ This chapter applies the principles you learned in Chapter 3:
 - Learn zero-trust debugging with exit codes
 - Create test data with known answers to verify your scripts
 
-**Lesson 4**: Structured Data
+**Lesson 4**: From Script to Command
 
 - Understand why simple text tools (like awk) fail on real CSV
-- Learn Python's csv module for robust parsing
-- Transform scripts into personal commands via aliases
+- Build a CSV parser with Python's csv module
+- Transform scripts into permanent commands via aliases
 
 **Lesson 5**: Tax Categorization
 
@@ -110,7 +110,7 @@ This chapter applies the principles you learned in Chapter 3:
 - Generate a report your accountant can use
 - Process a full year of bank statements with one command
 
-## Quick Start for Chapter 7 Graduates
+## Quick Start for Previous Chapter Graduates
 
 Already comfortable with terminal basics? Here's what's new:
 

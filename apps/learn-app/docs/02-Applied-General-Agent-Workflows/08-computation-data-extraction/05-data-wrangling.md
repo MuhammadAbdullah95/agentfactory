@@ -3,8 +3,9 @@ sidebar_position: 6
 title: "Data Wrangling"
 chapter: 8
 lesson: 5
+layer: L2
 duration_minutes: 35
-description: "Normalize merchant names and categorize transactions using regex pattern matching"
+description: "Watch Claude Code categorize bank transactions with regex patterns and false-positive guards, then process multiple files"
 keywords:
   [
     "regex",
@@ -18,403 +19,383 @@ keywords:
   ]
 
 skills:
-  - name: "Designing Regex Patterns"
+  - name: "Directing Pattern-Based Categorization"
+    proficiency_level: "A2"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Data Processing"
+    measurable_at_this_level: "Student can direct Claude Code to build a categorizer with edge case handling"
+
+  - name: "Understanding Regex Patterns"
     proficiency_level: "A2"
     category: "Technical"
-    bloom_level: "Create"
-    digcomp_area: "Data Processing"
-    measurable_at_this_level: "Student writes regex pattern to match merchant name variations like AMZN, AMAZON.COM, AMZN MKTP"
+    bloom_level: "Understand"
+    digcomp_area: "Pattern Recognition"
+    measurable_at_this_level: "Student can explain why word boundaries prevent false matches"
 
   - name: "Batch File Processing"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Automation"
-    measurable_at_this_level: "Student uses find and xargs to process multiple files through their script"
+    measurable_at_this_level: "Student uses find and xargs to process multiple files"
 
 learning_objectives:
-  - objective: "Design regex pattern to match merchant name variations"
+  - objective: "Direct Claude Code to build a transaction categorizer with false-positive guards"
     proficiency_level: "A2"
-    bloom_level: "Create"
-    assessment_method: "Student's pattern correctly matches AMZN, AMAZON.COM, AMZN MKTP as 'Amazon'"
+    bloom_level: "Apply"
+    assessment_method: "Student prompts agent to create tax-categorize.py that handles edge cases"
 
-  - objective: "Use find and xargs to batch process files"
+  - objective: "Explain how regex word boundaries prevent false matches"
+    proficiency_level: "A2"
+    bloom_level: "Understand"
+    assessment_method: "Student can explain why \\bCVS\\b matches 'CVS PHARMACY' but not 'CVSMITH'"
+
+  - objective: "Use find and xargs to batch process multiple CSV files"
     proficiency_level: "A2"
     bloom_level: "Apply"
     assessment_method: "Student executes: find . -name '*.csv' | xargs cat | python tax-categorize.py"
 
 cognitive_load:
-  new_concepts: 7
-  assessment: "7 concepts (regex, patterns, re module, find command, xargs, batch processing, false positive handling) AT A2 LIMIT - heavy scaffolding needed"
+  new_concepts: 5
+  assessment: "5 concepts (categorization logic, regex patterns, word boundaries, false positive guards, batch processing) within A2 limit"
 
 differentiation:
-  extension_for_advanced: "Handle edge cases: partial matches, case sensitivity, regex anchors for precision"
-  remedial_for_struggling: "Use pre-built keyword lists, focus only on using the script not modifying patterns"
+  extension_for_advanced: "Handle case sensitivity, regex anchors for precision, more complex patterns"
+  remedial_for_struggling: "Focus on the conversation - use pre-built keyword lists, don't modify patterns yourself"
 ---
 
 # Data Wrangling
 
-In Lesson 4, you built `sum-expenses` - a CSV parser that correctly handles quoted fields and persists as a permanent command. You can now sum any bank statement with a single command. But summing is just the beginning. Tax season arrives, and your accountant asks: "How much did you spend on medical expenses? How much on charitable donations? How much on business supplies?"
+sum-expenses gives you totals. But tax season needs CATEGORIES - medical, charitable, business. Your accountant doesn't want "Total: $4,215.52." They want:
 
-You open your bank statement. The transactions look like this:
+- Medical expenses: $1,891.20
+- Charitable donations: $1,550.00
+- Business supplies: $774.32
+
+The challenge: bank statements use chaotic merchant names. CVS, Walgreens, and "PHARMACY #1234" are all medical. "DR MARTINEZ MEDICAL" is a doctor visit. But "DR PEPPER SNAPPLE" is soda, not a medical expense.
+
+Watch Claude Code build a categorizer that handles this complexity.
+
+## The Problem
+
+Your bank statement has transactions like:
 
 ```
 CVS/PHARMACY #1234      -$45.67
 WALGREENS #5678         -$23.45
-AMZN MKTP US*ABC123     -$127.89
-AMAZON.COM*XYZ          -$34.56
+DR MARTINEZ MEDICAL     -$150.00
 DR PEPPER SNAPPLE       -$4.99
 UNITED WAY              -$100.00
+CVSMITH CONSULTING      -$200.00
+OFFICE DEPOT #901       -$89.50
 ```
 
-Finding all medical expenses means recognizing that CVS, Walgreens, and pharmacy purchases all belong to the same category. Finding all Amazon purchases means recognizing that "AMZN," "AMAZON.COM," and "AMZN MKTP" are all the same merchant. And you need to avoid false positives - "Dr. Pepper" is a soda, not a medical expense.
+You need to categorize these for taxes. But:
 
-This lesson teaches you to match patterns and categorize data using regular expressions. By the end, you will have a `tax-categorize.py` script that processes your bank statements and outputs totals by category.
+- "DR" appears in both doctor visits and Dr. Pepper
+- "CVS" appears in CVS Pharmacy and CVSMITH (a person's name)
+- Multiple variations: CVS, WALGREENS, PHARMACY all mean medical
 
-## The Problem: Merchant Name Chaos
+Simple keyword matching will produce false positives. You need pattern matching that's both flexible and precise.
 
-Bank statements never use clean, consistent names. Amazon alone might appear as:
+## The Conversation
 
-| Statement Entry          | What It Is                    |
-| ------------------------ | ----------------------------- |
-| AMZN                     | Amazon shortened              |
-| AMAZON.COM               | Amazon website                |
-| AMZN MKTP US             | Amazon Marketplace            |
-| AMZN DIGITAL             | Amazon digital purchases      |
-| AMAZON PRIME             | Amazon subscription           |
-
-If you search for "Amazon" exactly, you miss most of these. If you search for "AMZ" carelessly, you might match "CVSMITH" (an actual last name that contains no relation to Amazon). You need pattern matching that is both flexible enough to catch variations and precise enough to avoid false matches.
-
-This is where regular expressions shine.
-
-## Regular Expressions: Pattern Matching
-
-A regular expression (regex) is a mini-language for describing text patterns. Instead of searching for exact text like "CVS," you describe the shape of what you want: "the letters CVS at the start of a word, optionally followed by other characters."
-
-Think of regex as a template with wildcards. Just as `*.txt` matches any filename ending in `.txt`, a regex pattern matches any text fitting its description.
-
-Here is a pattern for matching CVS pharmacy entries:
+Open Claude Code and describe your categorization challenge:
 
 ```
-\bcvs\b
+You: Help me categorize my bank transactions for taxes. I need to identify:
+- Medical: CVS, Walgreens, pharmacy, doctor visits
+- Charitable: donations, Red Cross, United Way
+- Business: Office Depot, Staples, subscriptions
+
+Be careful: "Dr. Pepper" is NOT medical. "CVSmith" is NOT CVS pharmacy.
 ```
 
-Let us decode it:
+Watch what Claude Code does:
 
-| Pattern Part | Meaning                                    | Example Match      |
-| ------------ | ------------------------------------------ | ------------------ |
-| `\b`         | Word boundary (start or end of word)       | Prevents partial matches |
-| `cvs`        | Literal letters "cvs"                      | `cvs`, `CVS`, `Cvs`    |
-| `\b`         | Word boundary again                        | Ensures complete word   |
-
-The word boundaries matter. Without them:
-
-- `cvs` would match "CVSMITH" (a name)
-- `dr` would match "ANDRE" or "DRAMATIC"
-
-With `\b`:
-
-- `\bcvs\b` matches "CVS" but not "CVSMITH"
-- `\bdr\b` matches "DR" but not "ANDRE"
-
-## Python's re Module
-
-Python's `re` module provides regex functionality. The function you need most is `re.search()` - it checks if a pattern exists anywhere in a string.
-
-```python
-import re
-
-description = "CVS/PHARMACY #1234"
-pattern = r'\bcvs\b'
-
-if re.search(pattern, description, re.IGNORECASE):
-    print("Matched!")
-# Output: Matched!
 ```
+Claude Code: Smart to flag those false positives upfront. I'll build a
+categorizer with regex patterns and false positive guards.
 
-The `r` before the string (`r'\bcvs\b'`) creates a "raw string" where backslashes are treated literally. The `re.IGNORECASE` flag makes matching case-insensitive, so `cvs` matches `CVS`, `Cvs`, and `cvs`.
+[Creates: tax-categorize.py]
 
-## Building the Tax Categorization Script
-
-Now let us build `tax-categorize.py` that categorizes transactions by type:
-
-```python
 #!/usr/bin/env python3
 import sys
 import csv
 import re
 
 CATEGORIES = {
-    'medical': ['cvs', 'walgreens', 'pharmacy', 'dr.', 'medical', 'health', 'dental'],
-    'charitable': ['donation', 'charity', 'united way', 'red cross', 'church'],
-    'business': ['office depot', 'staples', 'zoom', 'linkedin', 'adobe'],
+    'medical': [r'\bCVS\b', r'\bWALGREENS\b', r'\bPHARMACY\b', r'\bMEDICAL\b'],
+    'charitable': [r'\bDONATION\b', r'\bRED CROSS\b', r'\bUNITED WAY\b'],
+    'business': [r'\bOFFICE DEPOT\b', r'\bSTAPLES\b', r'\bSUBSCRIPTION\b'],
 }
 
-# False positive guards
-FALSE_POSITIVES = ['dr. pepper', 'dr pepper', 'cvsmith']
+# False positive guards - check BEFORE categories
+FALSE_POSITIVES = [r'\bDR\.? PEPPER\b', r'\bCVSMITH\b']
 
 def categorize(description):
-    desc_lower = description.lower()
+    desc_upper = description.upper()
 
     # Check false positives first
-    if any(fp in desc_lower for fp in FALSE_POSITIVES):
-        return None
+    for fp_pattern in FALSE_POSITIVES:
+        if re.search(fp_pattern, desc_upper, re.IGNORECASE):
+            return None  # Not a tax category
 
-    for category, keywords in CATEGORIES.items():
-        if any(keyword in desc_lower for keyword in keywords):
-            return category
+    # Check categories
+    for category, patterns in CATEGORIES.items():
+        for pattern in patterns:
+            if re.search(pattern, desc_upper, re.IGNORECASE):
+                return category
     return None
 
-# Process CSV from stdin
-totals = {cat: 0 for cat in CATEGORIES}
-reader = csv.reader(sys.stdin)
-next(reader)  # Skip header
+# Process CSV...
+[rest of script]
 
-for row in reader:
-    description, amount = row[1], row[2]
-    amount = abs(float(amount.replace('$', '').replace(',', '')))
+Let me test with your tricky data:
 
-    category = categorize(description)
-    if category:
-        totals[category] += amount
-        print(f"{category.upper()}: {description}: ${amount:.2f}")
+[Creates: test_bank.csv with all the example transactions]
+[Runs: cat test_bank.csv | python tax-categorize.py]
 
-print("\n--- TOTALS ---")
-for cat, total in totals.items():
-    if total > 0:
-        print(f"{cat.title()}: ${total:.2f}")
-```
-
-Let us trace through what happens with input "CVS/PHARMACY #1234, -$45.67":
-
-1. `description = "CVS/PHARMACY #1234"`, `amount = "$45.67"`
-2. `desc_lower = "cvs/pharmacy #1234"`
-3. Check false positives: "dr. pepper" not in description - continue
-4. Check categories: "cvs" is in description - return "medical"
-5. `totals['medical'] += 45.67`
-6. Print: `MEDICAL: CVS/PHARMACY #1234: $45.67`
-
-Test it:
-
-```bash
-cat > test_bank.csv << 'EOF'
-Date,Description,Amount
-2024-01-15,CVS/PHARMACY #1234,-$45.67
-2024-01-16,WALGREENS #5678,-$23.45
-2024-01-17,DR PEPPER SNAPPLE,-$4.99
-2024-01-18,UNITED WAY,-$100.00
-2024-01-19,OFFICE DEPOT,-$89.50
-EOF
-
-cat test_bank.csv | python tax-categorize.py
-```
-
-**Output:**
-```
 MEDICAL: CVS/PHARMACY #1234: $45.67
 MEDICAL: WALGREENS #5678: $23.45
+MEDICAL: DR MARTINEZ MEDICAL: $150.00
 CHARITABLE: UNITED WAY: $100.00
-BUSINESS: OFFICE DEPOT: $89.50
+BUSINESS: OFFICE DEPOT #901: $89.50
 
 --- TOTALS ---
-Medical: $69.12
+Medical: $219.12
 Charitable: $100.00
 Business: $89.50
+
+Notice:
+✓ "DR PEPPER SNAPPLE" correctly excluded (false positive guard)
+✓ "CVSMITH CONSULTING" correctly excluded (false positive guard)
+✓ "DR MARTINEZ MEDICAL" correctly included (has MEDICAL keyword)
 ```
 
-Notice that "DR PEPPER SNAPPLE" was correctly skipped - the false positive guard prevented it from being categorized as medical even though it contains "DR".
+The agent built a categorizer that distinguishes Dr. Martinez (medical) from Dr. Pepper (soda), and CVS Pharmacy from CVSmith.
 
-## Merchant Name Normalization
+## What Just Happened?
 
-The categorization script uses simple keyword matching. For merchant consolidation - grouping all Amazon transactions together - you need more flexible patterns.
+You witnessed pattern matching with safeguards.
 
-Here is a function that normalizes merchant names:
+**The false positive guard pattern.** The agent checks false positives BEFORE checking categories. "Dr. Pepper" matches the false positive pattern first, so it never reaches the medical category check.
+
+**Regex word boundaries.** The pattern `\bCVS\b` uses `\b` (word boundary) on both sides. This means:
+
+- `\bCVS\b` matches "CVS PHARMACY" (CVS is a complete word)
+- `\bCVS\b` does NOT match "CVSMITH" (CVS is part of a longer word)
+
+**Order matters.** False positives are checked first. Categories are checked second. This ordering prevents "DR PEPPER" from being categorized as medical just because it contains "DR".
+
+### Why Regex Instead of Simple Contains?
+
+Simple keyword matching fails:
 
 ```python
-import re
-
-MERCHANT_PATTERNS = {
-    'Amazon': r'\b(amzn|amazon)\b',
-    'Walmart': r'\b(walmart|wal-mart|wm supercenter)\b',
-    'Target': r'\btarget\b',
-    'Starbucks': r'\b(starbucks|sbux)\b',
-}
-
-def normalize_merchant(description):
-    desc_lower = description.lower()
-
-    for merchant, pattern in MERCHANT_PATTERNS.items():
-        if re.search(pattern, desc_lower):
-            return merchant
-    return description  # Return original if no match
+# BAD: Simple contains
+if 'cvs' in description.lower():
+    return 'medical'
+# This matches "CVSMITH" - wrong!
 ```
 
-Testing the patterns:
+Regex with word boundaries succeeds:
 
 ```python
-test_descriptions = [
-    "AMZN MKTP US*ABC123",
-    "AMAZON.COM*XYZ",
-    "AMAZON PRIME",
-    "CVSMITH SERVICES",  # Should NOT match Amazon
-]
-
-for desc in test_descriptions:
-    normalized = normalize_merchant(desc)
-    print(f"{desc:30} -> {normalized}")
+# GOOD: Word boundary regex
+if re.search(r'\bCVS\b', description, re.IGNORECASE):
+    return 'medical'
+# This does NOT match "CVSMITH" - correct!
 ```
 
-**Output:**
+The `\b` ensures CVS is a complete word, not part of another word.
+
+## The Agent's Toolkit: Regex Patterns
+
+### Word Boundaries
+
+`\b` marks where a word starts or ends:
+
 ```
-AMZN MKTP US*ABC123            -> Amazon
-AMAZON.COM*XYZ                 -> Amazon
-AMAZON PRIME                   -> Amazon
-CVSMITH SERVICES               -> CVSMITH SERVICES
+\bCVS\b    matches: "CVS PHARMACY", "CVS", "at CVS today"
+           rejects: "CVSMITH", "MCVS", "CVSX"
 ```
 
-The word boundary `\b` in the pattern `\b(amzn|amazon)\b` ensures:
-- "AMZN MKTP" matches (amzn is a complete word)
-- "AMAZON.COM" matches (amazon is followed by punctuation)
-- "CVSMITH" does NOT match (contains "v" and "smith", but no "amzn" or "amazon")
+Without boundaries:
 
-## Avoiding False Positives: The Guard Pattern
+```
+CVS        matches: "CVS", "CVSMITH", "MCVS" (too broad!)
+```
 
-False positives are matches that look right but are wrong. The classic example: "Dr. Pepper" is not a medical expense.
+### Alternatives with |
 
-The guard pattern is simple: check for false positives BEFORE checking for categories.
+Match multiple options:
 
 ```python
-FALSE_POSITIVES = ['dr. pepper', 'dr pepper']
-
-def categorize(description):
-    desc_lower = description.lower()
-
-    # Guard: Check false positives first
-    if any(fp in desc_lower for fp in FALSE_POSITIVES):
-        return None  # Not a category match
-
-    # Now safe to check categories
-    if 'dr.' in desc_lower or 'medical' in desc_lower:
-        return 'medical'
-
-    return None
+r'\b(CVS|WALGREENS|PHARMACY)\b'
+# Matches: CVS, WALGREENS, or PHARMACY as complete words
 ```
 
-This pattern scales. As you discover new false positives, add them to the list:
+### Optional Characters with ?
 
 ```python
-FALSE_POSITIVES = [
-    'dr. pepper', 'dr pepper',      # Soda, not doctor
-    'cvsmith',                       # Name, not CVS pharmacy
-    'church key',                    # Tool, not religious donation
-    'amazon river cruise',           # Travel, not Amazon.com
-]
+r'\bDR\.?\b'
+# Matches: "DR" or "DR." (period is optional)
 ```
+
+### Common Patterns for Financial Data
+
+| Pattern | What It Matches | What It Rejects |
+|---------|-----------------|-----------------|
+| `\bCVS\b` | CVS, CVS PHARMACY | CVSMITH |
+| `\b(AMZN\|AMAZON)\b` | AMZN, AMAZON, AMAZON.COM | CAMZN, AMAZONIA |
+| `\bDR\.?\s` | "DR ", "DR. " (doctor) | DR PEPPER (no space after) |
+| `\bWAL-?MART\b` | WALMART, WAL-MART | WALMARTIN |
 
 ## Processing Multiple Files
 
-Your script handles one file. But what about a folder full of bank statements? You could list them manually:
+You have 12 months of bank statements. Processing them one by one would be tedious.
 
-```bash
-cat january.csv february.csv march.csv | python tax-categorize.py
+### The Conversation Continues
+
+```
+You: I have a folder with 12 months of bank statements (january.csv through
+december.csv). Process them all at once.
 ```
 
-This works but does not scale. What if you have 12 months of statements? 3 years?
+```
+Claude Code: I'll use find and xargs to batch process all CSV files.
 
-You learned `find` and `xargs` in previous chapter. Now apply them to CSV processing:
+[Runs: find statements/ -name "*.csv" | xargs cat | python tax-categorize.py]
+
+Processing 12 files...
+Total transactions: 1,247
+
+MEDICAL (Schedule A):
+  CVS PHARMACY (23 txns)      $456.70
+  WALGREENS (15 txns)         $234.50
+  Doctor visits (8 txns)      $1,200.00
+  SUBTOTAL:                   $1,891.20
+
+CHARITABLE (Schedule A):
+  Donations (12 txns)         $1,550.00
+
+BUSINESS:
+  Office supplies (18 txns)   $539.76
+  Subscriptions (9 txns)      $234.56
+  SUBTOTAL:                   $774.32
+
+All 12 months processed in one command.
+```
+
+### The Agent's Toolkit: find and xargs
+
+**find** locates files matching a pattern:
 
 ```bash
-# Find all .csv files and process them through your script
+find statements/ -name "*.csv"
+# Output:
+# statements/january.csv
+# statements/february.csv
+# ...
+```
+
+**xargs** takes that list and runs a command on it:
+
+```bash
+find statements/ -name "*.csv" | xargs cat
+# Concatenates all CSV files together
+```
+
+**The full pipeline:**
+
+```bash
 find statements/ -name "*.csv" | xargs cat | python tax-categorize.py
 ```
 
-The pipeline:
 1. `find` locates all CSV files
 2. `xargs cat` reads them all
 3. `tax-categorize.py` categorizes and sums
 
-One command processes an entire folder of bank statements.
+One command processes an entire folder.
 
-## Building Your Pattern Library
+## The Pattern
 
-Regex is a skill that compounds over time. The more patterns you learn, the more data problems you can solve. Here are common patterns for financial data:
+Here's the categorization prompt pattern:
 
-**Match word at start or end:**
-
-```python
-pattern = r'\bcvs\b'  # CVS as complete word
-# Matches: "CVS PHARMACY", "CVS/STORE"
-# Does NOT match: "CVSMITH", "INCVS"
+```
+"Categorize [data] by [criteria]. Watch out for [false positives]."
 ```
 
-**Match alternatives:**
+Mentioning false positives explicitly helps the agent build guards:
 
-```python
-pattern = r'\b(amzn|amazon)\b'  # Either amzn or amazon
-# Matches: "AMZN", "AMAZON", "Amazon.com"
+| Prompt | Result |
+|--------|--------|
+| "Categorize transactions as medical" | Basic keyword matching |
+| "Categorize as medical. Watch out for Dr. Pepper" | Adds false positive guard |
+
+The explicit edge case produces more robust code.
+
+### Pattern for Batch Processing
+
+```
+"I have [multiple files matching pattern]. Process them all at once."
 ```
 
-**Match optional parts:**
+This signals you want:
+- File discovery with `find`
+- Batch execution with `xargs`
+- Aggregated results
 
-```python
-pattern = r'\bwal-?mart\b'  # Hyphen optional
-# Matches: "WALMART", "WAL-MART"
-```
+## Try It Yourself
 
-Each pattern builds on the basics you learned. Start simple, add complexity as needed.
-
-## The Verification Step
-
-Remember **Principle 3: Verification as Core Step**. After building your categorization script, test it with known data:
+Test the categorizer with edge cases:
 
 ```bash
-# Create test file with known categories
-cat > test_categories.csv << 'EOF'
+# Create test data with tricky cases
+cat > test_tricky.csv << 'EOF'
 Date,Description,Amount
-2024-01-15,CVS PHARMACY,-$45.00
-2024-01-16,DR PEPPER,-$3.00
-2024-01-17,UNITED WAY,-$50.00
-2024-01-18,OFFICE DEPOT,-$25.00
+2024-01-01,CVS PHARMACY,-$45.00
+2024-01-02,CVSMITH CONSULTING,-$200.00
+2024-01-03,DR MARTINEZ CLINIC,-$150.00
+2024-01-04,DR PEPPER SNAPPLE,-$4.99
+2024-01-05,AMAZON PHARMACY,-$30.00
 EOF
 
-# Expected: CVS = medical, DR PEPPER = nothing, UNITED WAY = charitable, OFFICE DEPOT = business
-
-cat test_categories.csv | python tax-categorize.py
+cat test_tricky.csv | python tax-categorize.py
 ```
 
-**Output:**
-```
-MEDICAL: CVS PHARMACY: $45.00
-CHARITABLE: UNITED WAY: $50.00
-BUSINESS: OFFICE DEPOT: $25.00
+**Expected:**
 
---- TOTALS ---
-Medical: $45.00
-Charitable: $50.00
-Business: $25.00
-```
+- CVS PHARMACY → Medical (✓)
+- CVSMITH CONSULTING → Not categorized (correct - false positive guard)
+- DR MARTINEZ CLINIC → Medical (has CLINIC keyword)
+- DR PEPPER SNAPPLE → Not categorized (correct - false positive guard)
+- AMAZON PHARMACY → Medical (has PHARMACY keyword)
 
-DR PEPPER correctly skipped. Only after verification should you run the script on real data.
+If Dr. Pepper or CVSmith appear in the output, the false positive guards aren't working.
 
 ## Connecting to the Seven Principles
 
-This lesson demonstrates two principles in action:
-
 **Principle 2: Code as Universal Interface**
 
-Your category keywords and regex patterns are precise specifications of what you want to match. They remove ambiguity - "cvs" matches CVS pharmacy, not CVSMITH. The patterns are code, executable and verifiable.
+Your category keywords and regex patterns are precise specifications. They remove ambiguity - "CVS" matches CVS pharmacy, not CVSMITH. The patterns are code, executable and verifiable.
 
 **Principle 4: Small, Reversible Decomposition**
 
 The pipeline decomposes into three steps:
-
 1. `find` locates files
 2. `xargs cat` reads them
 3. `tax-categorize.py` categorizes and sums
 
 Each step is simple and testable. If something breaks, you know exactly where to look.
 
-This decomposition also makes the workflow reversible. Change the categories? Modify one dictionary. Change the file filter? Adjust the `find` command. Each piece is independent.
+**Principle 6: Constraints and Safety**
+
+The false positive guards are constraints that prevent incorrect categorization. You defined what should NOT match, not just what should match.
+
+---
 
 ## Try With AI
 
@@ -422,51 +403,37 @@ This decomposition also makes the workflow reversible. Change the categories? Mo
 
 ```
 I need to match all Amazon transactions in my bank statement.
-The transactions appear as:
-- AMZN MKTP US*ABC123
-- AMAZON.COM*XYZ
-- AMAZON PRIME*1234
+They appear as: AMZN MKTP US, AMAZON.COM, AMAZON PRIME
 
-Write a regex pattern that matches all these variations but does NOT match:
+Write a regex pattern that matches all these but does NOT match:
 - AMAZONIA TRAVEL
 - CAMZN AUTO PARTS
 
-Explain why word boundaries (\b) are important for this pattern.
+Explain why word boundaries matter here.
 ```
 
-**What you are learning:** AI suggests regex syntax with word boundaries that prevent partial matches. Notice how it explains why "CAMZN" would be a false positive without proper anchoring.
+**What you're learning:** Regex design with precision. The agent shows how `\b(AMZN|AMAZON)\b` catches variations while excluding false positives. You understand the WHY, not just the pattern.
 
-### Prompt 2: Handle a False Positive
-
-```
-My tax categorization script has a problem. It marks "DR PEPPER" as medical
-because the keyword list includes "dr." for doctor.
-
-Here is my current code:
-CATEGORIES = {'medical': ['cvs', 'walgreens', 'dr.', 'pharmacy']}
-
-How do I add a false positive guard that excludes "dr. pepper" and
-"dr pepper" from matching the medical category?
-```
-
-**What you are learning:** You teach AI about a limitation you discovered. Together you iterate toward a more robust solution using the guard pattern. This is the collaborative refinement loop - you provide the problem context, AI suggests solutions.
-
-### Prompt 3: Extend the Categories
+### Prompt 2: Handle a New False Positive
 
 ```
-Help me add more categories to my tax-categorize.py script.
+My tax-categorize.py marks "AMAZON RIVER CRUISE" as a purchase
+from Amazon.com. It's actually a travel expense.
 
-Current categories:
-- medical: cvs, walgreens, pharmacy
-- charitable: donation, charity, united way
-- business: office depot, staples
-
-I want to add:
-- home_office: home depot, lowes, ikea (but NOT "IKEA RESTAURANT")
-- subscriptions: netflix, spotify, hulu, apple.com
-
-Help me design keyword lists that avoid false positives.
-What patterns might I need to guard against?
+How do I add this to the false positive guards? Show me the pattern
+that excludes travel-related Amazon mentions.
 ```
 
-**What you are learning:** Building a comprehensive categorization system requires thinking about edge cases. AI helps you anticipate false positives you might not have considered. The result is a more robust tool than either of you would create alone.
+**What you're learning:** Iterative refinement. As you discover new false positives, you update the guards. The agent shows how to add patterns without breaking existing categorization.
+
+### Prompt 3: Extend Categories
+
+```
+Help me add these categories to tax-categorize.py:
+- home_office: Home Depot, Lowes, Ikea (but NOT "IKEA RESTAURANT")
+- subscriptions: Netflix, Spotify, Hulu, Apple.com
+
+What false positives might I need to guard against?
+```
+
+**What you're learning:** Proactive edge case thinking. The agent suggests guards you might not have considered - like distinguishing IKEA furniture from IKEA food court. You're learning to anticipate problems before they happen.
