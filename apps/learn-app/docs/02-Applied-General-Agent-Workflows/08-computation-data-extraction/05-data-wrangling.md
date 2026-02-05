@@ -1,10 +1,11 @@
 ---
 sidebar_position: 6
 title: "Data Wrangling"
-chapter: 7
+chapter: 8
 lesson: 5
+layer: L2
 duration_minutes: 35
-description: "Extract dollar amounts from messy text using regex and process multiple files with find/xargs"
+description: "Watch Claude Code categorize bank transactions with regex patterns and false-positive guards, then process multiple files"
 keywords:
   [
     "regex",
@@ -14,374 +15,425 @@ keywords:
     "xargs",
     "data extraction",
     "pattern matching",
+    "tax categorization",
   ]
 
 skills:
-  - name: "Designing Regex Patterns"
+  - name: "Directing Pattern-Based Categorization"
+    proficiency_level: "A2"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Data Processing"
+    measurable_at_this_level: "Student can direct Claude Code to build a categorizer with edge case handling"
+
+  - name: "Understanding Regex Patterns"
     proficiency_level: "A2"
     category: "Technical"
-    bloom_level: "Create"
-    digcomp_area: "Data Processing"
-    measurable_at_this_level: "Student writes regex pattern to extract dollar amounts like $14.50 from text"
+    bloom_level: "Understand"
+    digcomp_area: "Pattern Recognition"
+    measurable_at_this_level: "Student can explain why word boundaries prevent false matches"
 
   - name: "Batch File Processing"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Automation"
-    measurable_at_this_level: "Student uses find and xargs to process multiple files through their script"
+    measurable_at_this_level: "Student uses find and xargs to process multiple files"
 
 learning_objectives:
-  - objective: "Design regex pattern to extract dollar amounts from text"
-    proficiency_level: "A2"
-    bloom_level: "Create"
-    assessment_method: "Student's pattern correctly extracts $14.50, $3.00 from sentences like 'Lunch cost: $14.50'"
-
-  - objective: "Use find and xargs to batch process files"
+  - objective: "Direct Claude Code to build a transaction categorizer with false-positive guards"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student executes: find . -name '*.txt' | xargs cat | python calc.py"
+    assessment_method: "Student prompts agent to create tax-categorize.py that handles edge cases"
+
+  - objective: "Explain how regex word boundaries prevent false matches"
+    proficiency_level: "A2"
+    bloom_level: "Understand"
+    assessment_method: "Student can explain why \\bCVS\\b matches 'CVS PHARMACY' but not 'CVSMITH'"
+
+  - objective: "Use find and xargs to batch process multiple CSV files"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student executes: find . -name '*.csv' | xargs cat | python tax-categorize.py"
 
 cognitive_load:
-  new_concepts: 7
-  assessment: "7 concepts (regex, patterns, re.findall, find command, xargs, batch processing, extraction) AT A2 LIMIT - heavy scaffolding needed"
+  new_concepts: 5
+  assessment: "5 concepts (categorization logic, regex patterns, word boundaries, false positive guards, batch processing) within A2 limit"
 
 differentiation:
-  extension_for_advanced: "Handle edge cases: $10 (no cents), 10.00 (no dollar sign), 1,234.56 (commas)"
-  remedial_for_struggling: "Use pre-built regex pattern, focus only on using it not understanding it"
+  extension_for_advanced: "Handle case sensitivity, regex anchors for precision, more complex patterns"
+  remedial_for_struggling: "Focus on the conversation - use pre-built keyword lists, don't modify patterns yourself"
 ---
 
 # Data Wrangling
 
-Your `calc.py` script works beautifully when data arrives as clean numbers, one per line. But real-world data rarely cooperates. You open a receipt and see "Lunch at Maria's Cafe: $14.50" or "Office supplies from Staples - $47.23 (tax included)". The numbers you need are buried in text, surrounded by words, punctuation, and context that your current script cannot handle.
+sum-expenses gives you totals. But tax season needs CATEGORIES - medical, charitable, business. Your accountant doesn't want "Total: $4,215.52." They want:
 
-This lesson teaches you to extract structured data from unstructured text. You will learn regular expressions (regex)—a pattern-matching language that finds specific text shapes within larger documents. By the end, you will process entire folders of messy receipt files and sum all dollar amounts with a single command.
+- Medical expenses: $1,891.20
+- Charitable donations: $1,550.00
+- Business supplies: $774.32
 
-This is where your toolbox becomes genuinely powerful. The pattern you learn here—extract, transform, calculate—applies to invoices, logs, reports, and any text where numbers hide among words.
+The challenge: bank statements use chaotic merchant names. CVS, Walgreens, and "PHARMACY #1234" are all medical. "DR MARTINEZ MEDICAL" is a doctor visit. But "DR PEPPER SNAPPLE" is soda, not a medical expense.
 
-## The Problem: Numbers Buried in Text
+Watch Claude Code build a categorizer that handles this complexity.
 
-Consider these realistic receipt snippets:
+## The Problem
 
-```
-Coffee: $4.50
-Lunch with team - $47.23 (split)
-Uber ride to airport $32.00
-Parking fee: $15 (no receipt available)
-Office supplies from Amazon, total was $127.34 including shipping
-```
-
-If you pipe this directly to your `calc.py` script, what happens?
-
-```bash
-cat messy_receipts.txt | python calc.py
-# Error or Total: 0.00 (no valid numbers found)
-```
-
-The script fails because "Coffee: $4.50" is not a valid number. The text "Coffee: " and the dollar sign prevent `float()` from parsing it. You need a preprocessing step: extract dollar amounts first, then sum them.
-
-This is the data wrangling pattern: **Extract → Transform → Calculate**.
-
-## Regular Expressions: Pattern Matching
-
-A regular expression (regex) is a mini-language for describing text patterns. Instead of searching for exact text like "$14.50", you describe the shape of what you want: "a dollar sign, followed by digits, followed by a decimal point, followed by two digits."
-
-Think of regex as a template with wildcards. Just as `*.txt` matches any filename ending in `.txt`, a regex pattern matches any text fitting its description.
-
-Here is the pattern for dollar amounts:
+Your bank statement has transactions like:
 
 ```
-\$?\d+\.\d{2}
+CVS/PHARMACY #1234      -$45.67
+WALGREENS #5678         -$23.45
+DR MARTINEZ MEDICAL     -$150.00
+DR PEPPER SNAPPLE       -$4.99
+UNITED WAY              -$100.00
+CVSMITH CONSULTING      -$200.00
+OFFICE DEPOT #901       -$89.50
 ```
 
-This looks cryptic at first. Let's decode it piece by piece.
+You need to categorize these for taxes. But:
 
-## Regex Pattern Breakdown
+- "DR" appears in both doctor visits and Dr. Pepper
+- "CVS" appears in CVS Pharmacy and CVSMITH (a person's name)
+- Multiple variations: CVS, WALGREENS, PHARMACY all mean medical
 
-| Pattern Part | Meaning                                            | Example Match    |
-| ------------ | -------------------------------------------------- | ---------------- |
-| `\$?`        | Optional dollar sign (the `?` means "zero or one") | `$` or nothing   |
-| `\d+`        | One or more digits (`\d` = any digit 0-9)          | `14`, `127`, `3` |
-| `\.`         | Literal decimal point (backslash escapes the dot)  | `.`              |
-| `\d{2}`      | Exactly two digits (`{2}` means "exactly 2")       | `50`, `00`, `23` |
+Simple keyword matching will produce false positives. You need pattern matching that's both flexible and precise.
 
-The backslashes matter. In regex:
+## The Conversation
 
-- `$` normally means "end of line"—so `\$` means a literal dollar sign
-- `.` normally means "any character"—so `\.` means a literal period
-- `\d` is a shortcut for "any digit"
+Open Claude Code and describe your categorization challenge:
 
-When you put it together, `\$?\d+\.\d{2}` matches:
+```
+You: Help me categorize my bank transactions for taxes. I need to identify:
+- Medical: CVS, Walgreens, pharmacy, doctor visits
+- Charitable: donations, Red Cross, United Way
+- Business: Office Depot, Staples, subscriptions
 
-- `$14.50` (with dollar sign)
-- `47.23` (without dollar sign)
-- `127.34` (three-digit dollars)
-- `4.50` (single-digit dollars)
-
-But it will not match:
-
-- `$14` (no decimal portion)
-- `14.5` (only one digit after decimal)
-- `Year 2024` (this is why we include the decimal—otherwise `2024` would match)
-
-## Python's re Module
-
-Python's `re` module provides regex functionality. The function you need most is `re.findall()`—it returns all matches of a pattern in a string.
-
-```python
-import re
-
-text = "Lunch: $14.50, Tip: $3.00"
-pattern = r'\$?\d+\.\d{2}'
-
-matches = re.findall(pattern, text)
-print(matches)
-# Output: ['$14.50', '$3.00']
+Be careful: "Dr. Pepper" is NOT medical. "CVSmith" is NOT CVS pharmacy.
 ```
 
-The `r` before the string (`r'\$?\d+\.\d{2}'`) creates a "raw string" where backslashes are treated literally. Without the `r`, you would need to double every backslash (`'\\$?\\d+\\.\\d{2}'`).
+Watch what Claude Code does:
 
-The result is a list of strings matching your pattern. Each match is extracted from the original text, ready for processing.
+```
+Claude Code: Smart to flag those false positives upfront. I'll build a
+categorizer with regex patterns and false positive guards.
 
-## Enhanced calc.py with Regex Extraction
+[Creates: tax-categorize.py]
 
-Now let's upgrade your `calc.py` to extract dollar amounts from messy text:
-
-```python
 #!/usr/bin/env python3
-# calc.py - Enhanced with regex extraction
 import sys
+import csv
 import re
 
-total = 0
-pattern = r'\$?\d+\.\d{2}'  # Matches: $14.50, 14.50
+CATEGORIES = {
+    'medical': [r'\bCVS\b', r'\bWALGREENS\b', r'\bPHARMACY\b', r'\bMEDICAL\b'],
+    'charitable': [r'\bDONATION\b', r'\bRED CROSS\b', r'\bUNITED WAY\b'],
+    'business': [r'\bOFFICE DEPOT\b', r'\bSTAPLES\b', r'\bSUBSCRIPTION\b'],
+}
 
-for line in sys.stdin:
-    matches = re.findall(pattern, line)
-    for amount in matches:
-        # Remove $ if present and convert to float
-        total += float(amount.replace('$', ''))
+# False positive guards - check BEFORE categories
+FALSE_POSITIVES = [r'\bDR\.? PEPPER\b', r'\bCVSMITH\b']
 
-print(f"Total: ${total:.2f}")
+def categorize(description):
+    desc_upper = description.upper()
+
+    # Check false positives first
+    for fp_pattern in FALSE_POSITIVES:
+        if re.search(fp_pattern, desc_upper, re.IGNORECASE):
+            return None  # Not a tax category
+
+    # Check categories
+    for category, patterns in CATEGORIES.items():
+        for pattern in patterns:
+            if re.search(pattern, desc_upper, re.IGNORECASE):
+                return category
+    return None
+
+# Process CSV...
+[rest of script]
+
+Let me test with your tricky data:
+
+[Creates: test_bank.csv with all the example transactions]
+[Runs: cat test_bank.csv | python tax-categorize.py]
+
+MEDICAL: CVS/PHARMACY #1234: $45.67
+MEDICAL: WALGREENS #5678: $23.45
+MEDICAL: DR MARTINEZ MEDICAL: $150.00
+CHARITABLE: UNITED WAY: $100.00
+BUSINESS: OFFICE DEPOT #901: $89.50
+
+--- TOTALS ---
+Medical: $219.12
+Charitable: $100.00
+Business: $89.50
+
+Notice:
+✓ "DR PEPPER SNAPPLE" correctly excluded (false positive guard)
+✓ "CVSMITH CONSULTING" correctly excluded (false positive guard)
+✓ "DR MARTINEZ MEDICAL" correctly included (has MEDICAL keyword)
 ```
 
-Let's trace through what happens with input "Lunch: $14.50, Tip: $3.00":
+The agent built a categorizer that distinguishes Dr. Martinez (medical) from Dr. Pepper (soda), and CVS Pharmacy from CVSmith.
 
-1. `re.findall(pattern, line)` returns `['$14.50', '$3.00']`
-2. First iteration: `amount = '$14.50'`
-   - `amount.replace('$', '')` → `'14.50'`
-   - `float('14.50')` → `14.5`
-   - `total` becomes `14.5`
-3. Second iteration: `amount = '$3.00'`
-   - `amount.replace('$', '')` → `'3.00'`
-   - `float('3.00')` → `3.0`
-   - `total` becomes `17.5`
-4. Output: `Total: $17.50`
+## What Just Happened?
 
-Test it:
+You witnessed pattern matching with safeguards.
 
-```bash
-echo "Lunch: $14.50, Tip: $3.00" | python calc.py
-# Output: Total: $17.50
+**The false positive guard pattern.** The agent checks false positives BEFORE checking categories. "Dr. Pepper" matches the false positive pattern first, so it never reaches the medical category check.
+
+**Regex word boundaries.** The pattern `\bCVS\b` uses `\b` (word boundary) on both sides. This means:
+
+- `\bCVS\b` matches "CVS PHARMACY" (CVS is a complete word)
+- `\bCVS\b` does NOT match "CVSMITH" (CVS is part of a longer word)
+
+**Order matters.** False positives are checked first. Categories are checked second. This ordering prevents "DR PEPPER" from being categorized as medical just because it contains "DR".
+
+### Why Regex Instead of Simple Contains?
+
+Simple keyword matching fails:
+
+```python
+# BAD: Simple contains
+if 'cvs' in description.lower():
+    return 'medical'
+# This matches "CVSMITH" - wrong!
 ```
 
-The script now handles messy text. It extracts dollar amounts, strips the dollar signs, sums the values, and reports the total.
+Regex with word boundaries succeeds:
 
-## Processing Multiple Files with find and xargs
-
-Your script handles one file. But what about a folder full of receipts? You could list them manually:
-
-```bash
-cat receipt1.txt receipt2.txt receipt3.txt | python calc.py
+```python
+# GOOD: Word boundary regex
+if re.search(r'\bCVS\b', description, re.IGNORECASE):
+    return 'medical'
+# This does NOT match "CVSMITH" - correct!
 ```
 
-This works but does not scale. What if you have 50 files? 500? You need automation.
+The `\b` ensures CVS is a complete word, not part of another word.
 
-The `find` command locates files matching criteria. The `xargs` command takes a list of items and runs a command on each.
+## The Agent's Toolkit: Regex Patterns
 
-Together, they process entire directories:
+### Word Boundaries
+
+`\b` marks where a word starts or ends:
+
+```
+\bCVS\b    matches: "CVS PHARMACY", "CVS", "at CVS today"
+           rejects: "CVSMITH", "MCVS", "CVSX"
+```
+
+Without boundaries:
+
+```
+CVS        matches: "CVS", "CVSMITH", "MCVS" (too broad!)
+```
+
+### Alternatives with |
+
+Match multiple options:
+
+```python
+r'\b(CVS|WALGREENS|PHARMACY)\b'
+# Matches: CVS, WALGREENS, or PHARMACY as complete words
+```
+
+### Optional Characters with ?
+
+```python
+r'\bDR\.?\b'
+# Matches: "DR" or "DR." (period is optional)
+```
+
+### Common Patterns for Financial Data
+
+| Pattern | What It Matches | What It Rejects |
+|---------|-----------------|-----------------|
+| `\bCVS\b` | CVS, CVS PHARMACY | CVSMITH |
+| `\b(AMZN\|AMAZON)\b` | AMZN, AMAZON, AMAZON.COM | CAMZN, AMAZONIA |
+| `\bDR\.?\s` | "DR ", "DR. " (doctor) | DR PEPPER (no space after) |
+| `\bWAL-?MART\b` | WALMART, WAL-MART | WALMARTIN |
+
+## Processing Multiple Files
+
+You have 12 months of bank statements. Processing them one by one would be tedious.
+
+### The Conversation Continues
+
+```
+You: I have a folder with 12 months of bank statements (january.csv through
+december.csv). Process them all at once.
+```
+
+```
+Claude Code: I'll use find and xargs to batch process all CSV files.
+
+[Runs: find statements/ -name "*.csv" | xargs cat | python tax-categorize.py]
+
+Processing 12 files...
+Total transactions: 1,247
+
+MEDICAL (Schedule A):
+  CVS PHARMACY (23 txns)      $456.70
+  WALGREENS (15 txns)         $234.50
+  Doctor visits (8 txns)      $1,200.00
+  SUBTOTAL:                   $1,891.20
+
+CHARITABLE (Schedule A):
+  Donations (12 txns)         $1,550.00
+
+BUSINESS:
+  Office supplies (18 txns)   $539.76
+  Subscriptions (9 txns)      $234.56
+  SUBTOTAL:                   $774.32
+
+All 12 months processed in one command.
+```
+
+### The Agent's Toolkit: find and xargs
+
+**find** locates files matching a pattern:
 
 ```bash
-# Find all .txt files in the receipts folder
-find receipts/ -name "*.txt"
+find statements/ -name "*.csv"
 # Output:
-# receipts/january.txt
-# receipts/february.txt
-# receipts/march.txt
-
-# Pipe file list to xargs, which runs cat on each file
-find receipts/ -name "*.txt" | xargs cat
-# Output: contents of all files concatenated
-
-# Pipe the combined contents to calc.py
-find receipts/ -name "*.txt" | xargs cat | python calc.py
-# Output: Total: $847.50 (sum of all amounts in all files)
+# statements/january.csv
+# statements/february.csv
+# ...
 ```
 
-This is the complete data wrangling pipeline:
-
-```
-find receipts/ -name "*.txt"  →  list of file paths
-        |
-        v
-      xargs cat               →  combined file contents
-        |
-        v
-    python calc.py            →  extracted and summed amounts
-```
-
-One command processes an entire folder of receipts.
-
-## Building Your Regex Skills
-
-Regex is a skill that compounds over time. The more patterns you learn, the more data problems you can solve. Here are variations on the dollar amount pattern:
-
-**Match with or without cents:**
-
-```python
-pattern = r'\$?\d+(?:\.\d{2})?'
-# Matches: $14.50, $14, 14.50, 14
-```
-
-**Match with commas in large numbers:**
-
-```python
-pattern = r'\$?\d{1,3}(?:,\d{3})*(?:\.\d{2})?'
-# Matches: $1,234.56, $12,345.00, 1,234,567.89
-```
-
-**Match currency with various symbols:**
-
-```python
-pattern = r'[$€£]\d+(?:\.\d{2})?'
-# Matches: $14.50, €25.00, £100.00
-```
-
-Each pattern builds on the basics you learned. Start simple, add complexity as needed.
-
-## The Verification Step
-
-Remember **Principle 3: Verification as Core Step**. After building your regex-enhanced script, test it with known data:
+**xargs** takes that list and runs a command on it:
 
 ```bash
-# Create test file with known amounts
-echo "Coffee: $4.50
-Lunch: $12.00
-Tip: $3.50" > test_messy.txt
-
-# Expected total: $4.50 + $12.00 + $3.50 = $20.00
-
-# Run and verify
-cat test_messy.txt | python calc.py
-# Output: Total: $20.00
-
-# Check exit code
-echo $?
-# Output: 0
+find statements/ -name "*.csv" | xargs cat
+# Concatenates all CSV files together
 ```
 
-Only after verification should you run the script on real data.
-
-## Practice: Build Your Data Wrangling Pipeline
-
-Follow these steps to solidify your skills:
-
-**Step 1**: Create the enhanced `calc.py` with regex.
-
-```python
-#!/usr/bin/env python3
-# calc.py - Enhanced with regex extraction
-import sys
-import re
-
-total = 0
-pattern = r'\$?\d+\.\d{2}'
-
-for line in sys.stdin:
-    matches = re.findall(pattern, line)
-    for amount in matches:
-        total += float(amount.replace('$', ''))
-
-print(f"Total: ${total:.2f}")
-```
-
-**Step 2**: Create a test folder with multiple receipt files.
+**The full pipeline:**
 
 ```bash
-mkdir -p receipts
-echo "Coffee: $4.50" > receipts/monday.txt
-echo "Lunch: $12.75, Coffee: $4.50" > receipts/tuesday.txt
-echo "Team dinner: $87.00, Tip: $17.40" > receipts/wednesday.txt
+find statements/ -name "*.csv" | xargs cat | python tax-categorize.py
 ```
 
-**Step 3**: Process all files with one command.
+1. `find` locates all CSV files
+2. `xargs cat` reads them all
+3. `tax-categorize.py` categorizes and sums
+
+One command processes an entire folder.
+
+## The Pattern
+
+Here's the categorization prompt pattern:
+
+```
+"Categorize [data] by [criteria]. Watch out for [false positives]."
+```
+
+Mentioning false positives explicitly helps the agent build guards:
+
+| Prompt | Result |
+|--------|--------|
+| "Categorize transactions as medical" | Basic keyword matching |
+| "Categorize as medical. Watch out for Dr. Pepper" | Adds false positive guard |
+
+The explicit edge case produces more robust code.
+
+### Pattern for Batch Processing
+
+```
+"I have [multiple files matching pattern]. Process them all at once."
+```
+
+This signals you want:
+- File discovery with `find`
+- Batch execution with `xargs`
+- Aggregated results
+
+## Try It Yourself
+
+Test the categorizer with edge cases:
 
 ```bash
-find receipts/ -name "*.txt" | xargs cat | python calc.py
-# Expected: Total: $126.15 (4.50 + 12.75 + 4.50 + 87.00 + 17.40)
+# Create test data with tricky cases
+cat > test_tricky.csv << 'EOF'
+Date,Description,Amount
+2024-01-01,CVS PHARMACY,-$45.00
+2024-01-02,CVSMITH CONSULTING,-$200.00
+2024-01-03,DR MARTINEZ CLINIC,-$150.00
+2024-01-04,DR PEPPER SNAPPLE,-$4.99
+2024-01-05,AMAZON PHARMACY,-$30.00
+EOF
+
+cat test_tricky.csv | python tax-categorize.py
 ```
 
-**Step 4**: Verify your expected total matches the script output.
+**Expected:**
+
+- CVS PHARMACY → Medical (✓)
+- CVSMITH CONSULTING → Not categorized (correct - false positive guard)
+- DR MARTINEZ CLINIC → Medical (has CLINIC keyword)
+- DR PEPPER SNAPPLE → Not categorized (correct - false positive guard)
+- AMAZON PHARMACY → Medical (has PHARMACY keyword)
+
+If Dr. Pepper or CVSmith appear in the output, the false positive guards aren't working.
 
 ## Connecting to the Seven Principles
 
-This lesson demonstrates two principles in action:
-
 **Principle 2: Code as Universal Interface**
 
-Your regex pattern is a precise specification of what you want to extract. It removes ambiguity—"$14.50" matches, "Year 2024" does not. The pattern is code, executable and verifiable.
+Your category keywords and regex patterns are precise specifications. They remove ambiguity - "CVS" matches CVS pharmacy, not CVSMITH. The patterns are code, executable and verifiable.
 
 **Principle 4: Small, Reversible Decomposition**
 
 The pipeline decomposes into three steps:
-
 1. `find` locates files
 2. `xargs cat` reads them
-3. `calc.py` extracts and sums
+3. `tax-categorize.py` categorizes and sums
 
 Each step is simple and testable. If something breaks, you know exactly where to look.
 
-This decomposition also makes the workflow reversible. Change the pattern? Modify one line. Change the file filter? Adjust the `find` command. Each piece is independent.
+**Principle 6: Constraints and Safety**
+
+The false positive guards are constraints that prevent incorrect categorization. You defined what should NOT match, not just what should match.
+
+---
 
 ## Try With AI
 
-### Prompt 1: Generate a Regex Pattern
+### Prompt 1: Design a Merchant Pattern
 
 ```
-Write a regex pattern that extracts dollar amounts like $14.50 from text.
-The pattern should match amounts with a dollar sign and exactly two decimal places.
+I need to match all Amazon transactions in my bank statement.
+They appear as: AMZN MKTP US, AMAZON.COM, AMAZON PRIME
 
-Then show me how to use it with Python's re.findall() to extract all
-amounts from this string: "Lunch: $14.50, Tip: $3.00, Tax: $1.25"
+Write a regex pattern that matches all these but does NOT match:
+- AMAZONIA TRAVEL
+- CAMZN AUTO PARTS
+
+Explain why word boundaries matter here.
 ```
 
-**What you are learning:** AI suggests regex syntax you might not know. Notice how it explains each part of the pattern. Compare its solution to the pattern you built in this lesson.
+**What you're learning:** Regex design with precision. The agent shows how `\b(AMZN|AMAZON)\b` catches variations while excluding false positives. You understand the WHY, not just the pattern.
 
-### Prompt 2: Refine the Pattern
-
-```
-My regex pattern '\$?\d+\.\d{2}' has a problem.
-
-It matches "Year 2024" because 2024 looks like a number with decimals
-to the pattern (it sees "20.24" inside "2024").
-
-How can I modify the pattern to REQUIRE a dollar sign, so it only
-matches actual currency amounts like $14.50?
-```
-
-**What you are learning:** You teach AI about a limitation you discovered. Together you iterate toward a more robust pattern. This is the collaborative refinement loop—you provide the problem context, AI suggests solutions.
-
-### Prompt 3: Handle Edge Cases
+### Prompt 2: Handle a New False Positive
 
 ```
-I need to extract dollar amounts from real-world receipts.
-My current pattern '\$?\d+\.\d{2}' works for $14.50 but fails on:
-- $10 (no cents)
-- 10.00 (no dollar sign)
-- $1,234.56 (commas in large numbers)
+My tax-categorize.py marks "AMAZON RIVER CRUISE" as a purchase
+from Amazon.com. It's actually a travel expense.
 
-Help me build a more robust pattern that handles all these cases.
-Explain each modification you make.
+How do I add this to the false positive guards? Show me the pattern
+that excludes travel-related Amazon mentions.
 ```
 
-**What you are learning:** Iterate toward a production-ready pattern. Real data is messy—whole dollar amounts, missing symbols, thousand separators. Working through edge cases together builds both your regex skills and your pattern for AI collaboration.
+**What you're learning:** Iterative refinement. As you discover new false positives, you update the guards. The agent shows how to add patterns without breaking existing categorization.
+
+### Prompt 3: Extend Categories
+
+```
+Help me add these categories to tax-categorize.py:
+- home_office: Home Depot, Lowes, Ikea (but NOT "IKEA RESTAURANT")
+- subscriptions: Netflix, Spotify, Hulu, Apple.com
+
+What false positives might I need to guard against?
+```
+
+**What you're learning:** Proactive edge case thinking. The agent suggests guards you might not have considered - like distinguishing IKEA furniture from IKEA food court. You're learning to anticipate problems before they happen.

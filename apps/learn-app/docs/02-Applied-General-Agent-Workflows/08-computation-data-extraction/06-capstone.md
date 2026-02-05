@@ -1,308 +1,421 @@
 ---
 sidebar_position: 7
-title: "Capstone: The Digital Shoebox"
-chapter: 7
+title: "Capstone: Tax Season Prep"
+chapter: 8
 lesson: 6
+layer: L2
 duration_minutes: 40
-description: "Orchestrate a complete workflow to calculate totals from a folder of receipt files"
+description: "Watch Claude Code orchestrate a complete tax preparation workflow, then understand how all Seven Principles came together"
 keywords:
   [
     "capstone",
     "workflow orchestration",
-    "digital shoebox",
+    "tax preparation",
+    "expense categorization",
     "spec-driven",
     "seven principles",
+    "CSV processing",
   ]
 
 skills:
-  - name: "Workflow Orchestration"
+  - name: "Orchestrating Multi-Step Workflows"
     proficiency_level: "A2"
     category: "Applied"
     bloom_level: "Create"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student composes all chapter skills (stdin, regex, verification, alias) into complete workflow"
+    measurable_at_this_level: "Student can direct Claude Code to execute a complete end-to-end workflow with verification"
 
-  - name: "Principle Mapping"
+  - name: "Principle Recognition"
     proficiency_level: "A2"
     category: "Conceptual"
-    bloom_level: "Evaluate"
+    bloom_level: "Analyze"
     digcomp_area: "Reflective Learning"
-    measurable_at_this_level: "Student maps at least 3 Seven Principles to specific actions taken in workflow"
+    measurable_at_this_level: "Student can identify which Seven Principles appear in a given workflow"
+
+  - name: "Verification-First Approach"
+    proficiency_level: "A2"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Quality Assurance"
+    measurable_at_this_level: "Student insists on test data verification before processing real data"
 
 learning_objectives:
-  - objective: "Orchestrate complete workflow from file discovery to total calculation"
+  - objective: "Direct Claude Code to orchestrate a complete tax prep workflow from CSVs to report"
     proficiency_level: "A2"
     bloom_level: "Create"
-    assessment_method: "Student produces accurate total from receipt folder with documented steps"
+    assessment_method: "Student successfully prompts agent to produce categorized totals with verification"
 
-  - objective: "Map chapter activities to Seven Principles"
+  - objective: "Identify Seven Principles in action during workflow execution"
     proficiency_level: "A2"
-    bloom_level: "Evaluate"
-    assessment_method: "Student correctly identifies which principles apply to each step of their workflow"
+    bloom_level: "Analyze"
+    assessment_method: "Student correctly maps at least 5 principles to specific workflow steps"
+
+  - objective: "Apply verification-first pattern to ensure accuracy before processing real data"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student requests test data verification before running on actual bank statements"
 
 cognitive_load:
-  new_concepts: 5
-  assessment: "5 concepts (spec-first workflow, orchestration, skill composition, reflection, principle mapping) - reduced load for synthesis"
+  new_concepts: 3
+  assessment: "3 concepts (workflow orchestration, principle mapping, verification-first) - reduced load for synthesis"
 
 differentiation:
-  extension_for_advanced: "Add CSV output, handle receipts in subdirectories recursively, add date filtering"
-  remedial_for_struggling: "Use provided spec template, follow step-by-step commands, just complete the workflow"
+  extension_for_advanced: "Add date filtering, multiple currencies, generate CSV output for accountant"
+  remedial_for_struggling: "Follow the conversation pattern exactly. The workflow is already structured."
 ---
 
-# Capstone: The Digital Shoebox
+# Capstone: Tax Season Prep
 
-You have a shoebox. Not a literal one, but everyone has the digital equivalent: a folder where receipts accumulate. Maybe it is called "Expenses" or "Receipts 2025" or just sits in your Downloads folder. Files with names like `amazon_receipt.txt`, `lunch_march.txt`, `office_supplies.txt`. Each contains messy text with dollar amounts buried in sentences.
+Tax season arrives. Your accountant emails: "I need your deductible expenses categorized - medical, charitable donations, and business expenses. Can you pull that from your bank statements?"
 
-Tax season arrives. Your accountant asks: "What was your total business spending this quarter?"
+You have 12 monthly CSV files. Thousands of transactions. Names like `january.csv`, `february.csv`. Each row has a date, description, and amount. Buried in those lines are the expenses that could save you money on taxes.
 
-You stare at that folder. Twenty-three files. Dollar amounts scattered through paragraphs. No way are you opening each file, hunting for numbers, and adding them manually. That is error-prone and tedious.
+You could open each file manually, search for "CVS" and "pharmacy," copy amounts to a spreadsheet, then repeat for donations, then repeat for business expenses.
 
-But you have spent the last five lessons building something better. You have tools. You have a workflow. You have a system that delivers 100% mathematical accuracy on messy, real-world data.
+Or you could have one conversation with Claude Code.
 
-This capstone brings everything together. You will write a specification first, then orchestrate your accumulated skills to solve the Digital Shoebox problem.
+## The Challenge
 
-## The Scenario
+Here's what you need:
 
-Here is your challenge:
+- A folder `~/finances/2025/` with monthly bank statement CSVs
+- Transactions categorized: Medical, Charitable, Business
+- Subtotals for each category
+- Ambiguous transactions flagged for review
+- A report your accountant can use
 
-- A folder called `receipts/` contains text files
-- Each file has dollar amounts buried in sentences
-- You need the total of all dollar amounts across all files
-- You must verify your result is accurate
+This is the kind of problem that separates people who "use AI" from people who build with AI. Someone who just pastes file contents gets hallucinated results. You'll build a verified pipeline.
 
-This is the kind of problem that separates people who "use AI" from people who build with AI. Someone who just uses AI might paste each file's contents and ask for a sum. They would get hallucinated results. You will build a pipeline that is mathematically certain.
+## The Conversation
 
-## Spec First: Define Before You Build
+Open Claude Code and describe the full challenge:
 
-Before touching the keyboard, write down what you intend to build. This is **spec-driven development**—a practice you will use throughout your agent-building career. The spec captures your intent clearly so you (and AI) know exactly what success looks like.
+```
+You: I have a folder ~/finances/2025/ with monthly bank statement CSVs
+(january.csv through december.csv). Each has Date, Description, Amount.
 
-Create a file called `RECEIPT-SPEC.md`:
+Help me:
+1. Categorize transactions: Medical, Charitable, Business
+2. Calculate subtotals for each category
+3. Flag anything ambiguous for human review
+4. Generate a report for my accountant
 
-```markdown
-# Specification: Receipt Total Calculator
-
-## Intent
-
-Calculate total spending from folder of receipt files.
-
-## Input
-
-- Folder: receipts/
-- File format: .txt files with dollar amounts in sentences
-- Example content: "Lunch meeting: $24.50 plus tip $5.00"
-
-## Constraints
-
-- Handle messy text (dollar amounts buried in sentences)
-- Extract values like $10.00, $5.50, $100.00
-- Skip non-monetary text
-- Process ALL .txt files in receipts/ folder
-
-## Success Criteria
-
-- [ ] Correct total extracted (verified against manual count)
-- [ ] Verification steps documented
-- [ ] Workflow uses skills from Lessons 1-5:
-  - [ ] Python script reads from stdin (Lesson 2)
-  - [ ] Zero-trust verification with test data (Lesson 3)
-  - [ ] Alias for easy invocation (Lesson 4)
-  - [ ] Regex extraction of dollar amounts (Lesson 5)
+IMPORTANT: First verify your approach with test data before touching real files.
+I want to see it work on known data where I can check the math.
 ```
 
-Notice what this spec does: it defines **what** without prescribing **how**. You know the goal. The implementation follows.
+Watch what Claude Code does:
 
-## Create Test Data
+```
+Claude Code: Smart approach - verify first with known data. Let me set up
+a complete workflow.
 
-Before processing real receipts, create test data with a known answer. This is Principle 3 in action: never trust output you cannot verify.
+STEP 1: CREATE TEST DATA WITH KNOWN ANSWERS
+==========================================
+
+[Creates: ~/finances/2025/test_january.csv]
+
+Date,Description,Amount
+01/05/2025,CVS PHARMACY #1234,-45.67
+01/06/2025,DR MARTINEZ MEDICAL,-150.00
+01/07/2025,WALGREENS #5678,-32.50
+01/10/2025,AMERICAN RED CROSS,-100.00
+01/15/2025,OFFICE DEPOT #901,-89.99
+01/18/2025,STAPLES #123,-45.00
+01/20/2025,DOCTORS WITHOUT BORDERS,-50.00
+01/22/2025,DR PEPPER BOTTLING,-4.99
+01/25/2025,CVSMITH CONSULTING,-200.00
+
+Expected totals (calculated by hand):
+- Medical: $228.17 (CVS + DR MARTINEZ + WALGREENS)
+- Charitable: $150.00 (RED CROSS + DOCTORS WITHOUT BORDERS)
+- Business: $134.99 (OFFICE DEPOT + STAPLES)
+- NOT categorized: DR PEPPER ($4.99), CVSMITH ($200.00)
+
+STEP 2: BUILD THE CATEGORIZER
+=============================
+
+[Creates: tax-prep.py with categories, false positive guards, and report generation]
+
+STEP 3: VERIFY AGAINST TEST DATA
+================================
+
+[Runs: cat ~/finances/2025/test_january.csv | python tax-prep.py]
+
+==================================================
+2025 TAX CATEGORIZATION REPORT
+==================================================
+
+MEDICAL (Schedule A):
+  CVS PHARMACY #1234 (1 txns)      $45.67
+  DR MARTINEZ MEDICAL (1 txns)     $150.00
+  WALGREENS #5678 (1 txns)         $32.50
+  SUBTOTAL:                        $228.17
+
+CHARITABLE (Schedule A):
+  AMERICAN RED CROSS (1 txns)      $100.00
+  DOCTORS WITHOUT BORDERS (1 txns) $50.00
+  SUBTOTAL:                        $150.00
+
+BUSINESS (if applicable):
+  OFFICE DEPOT #901 (1 txns)       $89.99
+  STAPLES #123 (1 txns)            $45.00
+  SUBTOTAL:                        $134.99
+
+==================================================
+POTENTIAL DEDUCTIONS: $513.16
+==================================================
+
+NEEDS REVIEW:
+  - "DR PEPPER BOTTLING" $4.99 - verify category
+  - "CVSMITH CONSULTING" $200.00 - verify category
+
+VERIFICATION:
+✓ Medical: $228.17 (matches expected)
+✓ Charitable: $150.00 (matches expected)
+✓ Business: $134.99 (matches expected)
+✓ DR PEPPER correctly flagged for review
+✓ CVSMITH correctly flagged for review
+
+All totals match hand-calculated values. Ready to process real files?
+```
+
+You verify the totals match your expectations. Then:
+
+```
+You: Verified. Now process all the real monthly files.
+```
+
+```
+Claude Code: Processing all monthly CSVs...
+
+STEP 4: COMBINE MONTHLY FILES
+=============================
+
+[Runs: head -1 ~/finances/2025/january.csv > all-2025.csv]
+[Runs: tail -n +2 -q ~/finances/2025/*.csv >> all-2025.csv]
+
+Combined 12 files, 1,247 transactions total.
+
+STEP 5: GENERATE FINAL REPORT
+=============================
+
+[Runs: cat all-2025.csv | python tax-prep.py > tax-report-2025.txt]
+
+==================================================
+2025 TAX CATEGORIZATION REPORT
+==================================================
+
+MEDICAL (Schedule A):
+  CVS PHARMACY (23 txns)           $456.70
+  WALGREENS (15 txns)              $234.50
+  Medical offices (8 txns)         $1,200.00
+  SUBTOTAL:                        $1,891.20
+
+CHARITABLE (Schedule A):
+  RED CROSS (4 txns)               $400.00
+  UNITED WAY (6 txns)              $600.00
+  Other donations (8 txns)         $550.00
+  SUBTOTAL:                        $1,550.00
+
+BUSINESS (if applicable):
+  Office supplies (18 txns)        $539.76
+  Software subscriptions (9 txns)  $234.56
+  SUBTOTAL:                        $774.32
+
+==================================================
+POTENTIAL DEDUCTIONS: $4,215.52
+==================================================
+
+NEEDS REVIEW (23 items):
+  - "SQ *LOCALSTORE" $200.00 - verify category
+  - "AMZN MKTP US" $89.00 - personal or business?
+  [...]
+
+Report saved to: tax-report-2025.txt
+
+Would you like me to create a reusable script for next year?
+```
+
+In one conversation, you processed a year of bank statements into an accountant-ready report.
+
+## What Just Happened?
+
+Let's trace how ALL Seven Principles appeared in that workflow.
+
+| Principle | How It Appeared |
+|-----------|-----------------|
+| **P1: Bash is the Key** | `cat`, `head`, `tail`, pipes orchestrated all data flow |
+| **P2: Code as Universal Interface** | Python script executed categorization - no hallucinated math |
+| **P3: Verification as Core Step** | Test data with known totals BEFORE processing real files |
+| **P4: Small, Reversible Decomposition** | 5 clear steps, each testable independently |
+| **P5: Persisting State in Files** | Script saved to tax-prep.py, report saved to tax-report-2025.txt |
+| **P6: Constraints and Safety** | False positive guards prevented DR PEPPER → medical |
+| **P7: Observability** | "NEEDS REVIEW" section made ambiguous items visible |
+
+All seven principles appeared in a single workflow. This isn't coincidence. The principles are how agents work effectively with computing systems.
+
+## The Agent's Toolkit: CSV Merging
+
+The agent combined 12 CSVs without duplicating headers. Here's the technique:
 
 ```bash
-# Create receipts folder
-mkdir -p receipts
+# Get header from first file only
+head -1 january.csv > combined.csv
 
-# Create test receipts with known amounts
-echo "Office supplies from Amazon: $15.00" > receipts/office.txt
-echo "Team lunch at Bistro: $45.50 including tip" > receipts/lunch.txt
-echo "Software subscription: $9.99 monthly charge" > receipts/software.txt
+# Append data (skip headers) from ALL files
+tail -n +2 -q *.csv >> combined.csv
 ```
 
-Now calculate the expected total by hand:
+| Command | What It Does |
+|---------|--------------|
+| `head -1` | First line only (the header) |
+| `tail -n +2` | Everything from line 2 onward (skip header) |
+| `-q` | Quiet mode - no filename prefixes |
+| `>>` | Append (don't overwrite) |
 
-- office.txt: $15.00
-- lunch.txt: $45.50
-- software.txt: $9.99
+Result: One file with a single header row followed by all data rows.
 
-**Expected total: $70.49**
+## The Pattern: Verification-First Orchestration
 
-Write this down. This is your ground truth. Any workflow that produces a different number has a bug.
+Here's the capstone prompt pattern:
 
-## Verify Your Tool Works
+```
+"Help me [complex multi-step goal].
 
-Before processing real data, verify your `add-up` alias (from Lesson 4) works correctly:
+IMPORTANT: First verify your approach with test data before touching
+real files. I want to see it work on known data where I can check the math."
+```
+
+This pattern ensures:
+
+1. **Test data is created first** - Known inputs with calculable outputs
+2. **Logic is verified** - You check totals match before processing real data
+3. **Real processing happens only after verification** - Trust is earned
+
+The phrase "verify your approach with test data" triggers the agent to build a verification workflow, not just execute blindly.
+
+### Pattern for Reusable Workflows
+
+```
+"Would you like me to create a reusable script for next year?"
+```
+
+When the agent offers this, say yes. The result is a script you can run annually:
 
 ```bash
-# Step 1: Test with known data
-echo -e "Test receipt: \$10.00\nAnother item: \$5.00" > test_receipt.txt
-cat test_receipt.txt | add-up
+./tax-prep.sh ~/finances/2026/
 ```
 
-**Expected output:**
+Same workflow, different year. No re-prompting needed.
+
+## Try It Yourself
+
+Direct Claude Code through the full workflow:
 
 ```
-Total: $15.00
+I have expense CSVs in ~/expenses/. Help me:
+1. Categorize by type (supplies, travel, meals)
+2. Generate monthly and yearly summaries
+3. Flag transactions over $500 for receipt verification
+
+Verify with test data first.
 ```
 
-If you see `Total: $15.00`, your tool works. If not, revisit Lesson 4 and fix your alias before proceeding.
+Watch how the agent:
+1. Creates test data with known amounts
+2. Builds categorization logic
+3. Verifies totals match
+4. Then processes real files
 
-This verification step takes 30 seconds. Skipping it could cost you hours debugging a workflow that fails because of a broken tool.
-
-## The Complete Workflow
-
-Now orchestrate everything. Each step uses a skill you built in previous lessons:
-
-```bash
-# Step 1: Verify the tool works (Lesson 3 - Zero-Trust)
-echo -e "Test: \$10.00\nItem: \$5.00" | add-up
-# Expected: Total: $15.00
-
-# Step 2: Process all receipts (Lesson 5 - Batch Processing)
-cat receipts/*.txt | add-up
-# Expected: Total: $70.49
-
-# Step 3: Document verification
-echo "Manual calculation: 15.00 + 45.50 + 9.99 = 70.49"
-echo "Script output: matches"
-```
-
-Run the workflow:
-
-```bash
-cat receipts/*.txt | add-up
-```
-
-**Expected output:**
-
-```
-Total: $70.49
-```
-
-The output matches your hand-calculated total. Your workflow is verified.
-
-## What Just Happened
-
-Let's trace the data flow:
-
-```
-┌──────────────┐     ┌───────────────┐     ┌──────────────┐     ┌────────────┐
-│ receipts/*.txt │────▶│  cat (shell)  │────▶│   add-up     │────▶│  $70.49    │
-│              │     │               │     │   (regex +   │     │            │
-│ office.txt   │     │  concatenates │     │    sum)      │     │            │
-│ lunch.txt    │     │  all files    │     │              │     │            │
-│ software.txt │     │               │     │              │     │            │
-└──────────────┘     └───────────────┘     └──────────────┘     └────────────┘
-```
-
-The shell (`cat`) orchestrates file reading. Your Python tool (`add-up`) handles the computation. The regex extracts dollar amounts. The sum is calculated. The result is displayed.
-
-Each piece does one thing. Together, they solve the Digital Shoebox problem with 100% accuracy.
-
-## Scaling Up
-
-Your verified workflow works on 3 files. It works identically on 300 files:
-
-```bash
-# Works the same whether 3 files or 300 files
-cat receipts/*.txt | add-up
-```
-
-No changes needed. The workflow scales because each component is designed for composition.
-
-For more complex scenarios, use `find` with `xargs`:
-
-```bash
-# Process receipts in subdirectories too
-find receipts/ -name "*.txt" -exec cat {} + | add-up
-```
-
-The pattern stays the same: find files, concatenate, extract and sum.
-
-## Reflection: The Seven Principles
-
-You just applied the Seven Principles from Chapter 3 without thinking about them explicitly. Now make that connection conscious.
-
-| Principle                               | How You Applied It                                             |
-| --------------------------------------- | -------------------------------------------------------------- |
-| **P1: Bash is the Key**                 | Used `cat`, `find`, pipes as foundation for data flow          |
-| **P2: Code as Universal Interface**     | Python script (`add-up`) as reusable component                 |
-| **P3: Verification as Core Step**       | Tested with known data before processing real receipts         |
-| **P4: Small, Reversible Decomposition** | Each lesson built one composable skill                         |
-| **P5: Persisting State in Files**       | Alias makes tool permanent across sessions                     |
-| **P6: Constraints and Safety**          | Spec defined boundaries first; test data prevented blind trust |
-| **P7: Observability**                   | Exit codes and test output show success or failure clearly     |
-
-Count them: all seven principles appeared in a 40-minute exercise. This is not coincidence. The principles are how agents work effectively with computing systems. You internalized them through practice.
+This is the verification-first pattern in action.
 
 ## The Victory
 
-Step back and recognize what you accomplished.
+Step back and recognize what you accomplished in this chapter.
 
-**Before this chapter**: Asking AI to add up numbers in your head. Hoping the answer is right. No way to verify. Hallucination risk.
+**Before Chapter 8:**
+- Bash couldn't add decimals
+- LLMs hallucinated calculations
+- Manual spreadsheet work for expense categorization
+- No systematic verification
 
-**After this chapter**: A personal toolbox that extracts dollar amounts from messy text and calculates totals with 100% mathematical accuracy. Verified against known data. Reusable across any folder, any number of files.
+**After Chapter 8:**
+- Python scripts handle any calculation
+- Verified against known test data
+- Automated categorization with false-positive guards
+- Reusable tools in your personal toolbox
 
-You built your first Digital FTE component—a tool that does tedious work accurately, every time, without complaining about the mess.
+You built your first Digital FTE component - a tool that does tedious work accurately, every time, without missing edge cases or hallucinating categories.
 
-The same pattern applies to expense reports, invoice processing, time tracking, data extraction from emails, or any scenario where numbers hide in text. You have the foundation.
+The same pattern applies to:
+- Invoice processing
+- Subscription tracking
+- Budget analysis
+- Any scenario where data needs categorization
+
+You have the foundation.
+
+## Reflection: What You're Actually Learning
+
+This chapter taught you patterns, not just commands.
+
+| What It Looked Like | What You Actually Learned |
+|---------------------|---------------------------|
+| Building sum.py | How to direct agents to create reusable tools |
+| Testing with known data | The verification-first pattern |
+| CSV parsing with Python | When to use specialized tools vs. simple ones |
+| Regex patterns | How to specify precise matching with guardrails |
+| Processing multiple files | How to orchestrate complex workflows |
+
+The specific tools (Python, regex, find/xargs) matter less than the patterns:
+- Describe the problem, not the solution
+- Verify before trusting
+- Mention edge cases to get robust solutions
+- Make tools permanent and reusable
+
+These patterns transfer to any domain where you work with General Agents.
+
+---
 
 ## Try With AI
 
-### Prompt 1: Spec Assistance
+### Prompt 1: Extend the Workflow
 
 ```
-Help me write a specification for a receipt total calculator.
+My tax-prep workflow works well. Now I want to add:
+1. Filter by date range (only Q4 transactions: Oct-Dec)
+2. Generate CSV output (for importing to Excel)
+3. Email-ready summary (plain text I can paste)
 
-I have a folder called "expenses/" with .txt files containing
-text like "Coffee meeting: $4.50" and "Office supplies: $23.99"
-
-I need to:
-1. Extract all dollar amounts from all files
-2. Calculate the total
-3. Verify accuracy
-
-What sections should my spec include? What success criteria
-should I define? Help me think through edge cases.
+Keep the verification-first approach.
 ```
 
-**What you're learning:** AI suggests structure for specification—intent, constraints, success criteria, edge cases. You define what success looks like before implementing. This is spec-driven thinking.
+**What you're learning:** Incremental extension. You have a working workflow and add features. The agent preserves the verification pattern while adding functionality.
 
-### Prompt 2: Tool Composition
-
-```
-I have an alias called "add-up" that reads text from stdin,
-extracts dollar amounts using regex, and prints the sum.
-
-I have a folder called "receipts/" with .txt files.
-
-Help me compose a single command that:
-1. Finds all .txt files in receipts/
-2. Pipes their contents to my add-up tool
-3. Gives me the total
-
-Show me the command and explain what each part does.
-```
-
-**What you're learning:** You teach AI about YOUR tools and ask it to compose them. The AI does not suggest generic solutions—it works with your existing toolbox. This is the collaboration pattern: your tools, AI's composition help.
-
-### Prompt 3: Principle Mapping
+### Prompt 2: Apply to Different Domain
 
 ```
-I just completed a workflow that calculates receipt totals:
-1. Created test data with known answer
-2. Verified my tool works on test data
-3. Ran tool on real receipts
-4. Confirmed output matches manual calculation
+I learned the tax-prep workflow pattern. Now apply it to a different
+problem: I have server logs with timestamps and response codes.
+Help me categorize by error type and generate a weekly report.
 
-Map each step to the Seven Principles of General Agent Problem Solving.
-Which principles did I apply? Which ones might I have missed?
+Same approach: verify with test data first, then process real logs.
 ```
 
-**What you're learning:** Reflective practice with AI as learning partner. The AI helps you see your actions through the lens of principles, strengthening the connection between theory and practice. This reflection cements learning.
+**What you're learning:** Pattern transfer. The same workflow structure (test data → verify → process real) applies to completely different domains. You're learning to recognize when to apply patterns, not just execute them.
+
+### Prompt 3: Build the Reusable Script
+
+```
+Convert my tax-prep workflow into a single bash script I can run
+next year. It should:
+1. Take a folder path as argument
+2. Combine all CSVs in that folder
+3. Run tax-prep.py and save the report
+4. Print a summary to the terminal
+
+Include comments explaining each step.
+```
+
+**What you're learning:** Packaging workflows. A conversation becomes a script. A script becomes a tool. A tool becomes part of your permanent toolkit. You're manufacturing Digital FTE components.

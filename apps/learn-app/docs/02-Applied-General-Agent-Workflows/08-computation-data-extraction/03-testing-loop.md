@@ -1,10 +1,11 @@
 ---
 sidebar_position: 4
 title: "The Testing Loop"
-chapter: 7
+chapter: 8
 lesson: 3
-duration_minutes: 30
-description: "Implement zero-trust debugging with exit codes and test data verification"
+layer: L2
+duration_minutes: 25
+description: "Watch Claude Code verify its own work with test data, then learn why exit code 0 doesn't mean correct"
 keywords:
   [
     "exit codes",
@@ -13,391 +14,339 @@ keywords:
     "debugging",
     "test data",
     "echo $?",
+    "error handling",
   ]
 
 skills:
-  - name: "Creating Test Data for Verification"
+  - name: "Directing Verification Workflows"
     proficiency_level: "A2"
-    category: "Technical"
+    category: "Applied"
     bloom_level: "Apply"
-    digcomp_area: "Testing"
-    measurable_at_this_level: "Student creates test.txt with known expected output and uses it to verify script"
+    digcomp_area: "Quality Assurance"
+    measurable_at_this_level: "Student can direct Claude Code to verify script output against known test data"
 
-  - name: "Interpreting Exit Codes"
+  - name: "Understanding Exit Codes"
     proficiency_level: "A2"
     category: "Technical"
-    bloom_level: "Analyze"
+    bloom_level: "Understand"
     digcomp_area: "Debugging"
-    measurable_at_this_level: "Student checks $? after commands and interprets 0=success, non-zero=failure"
+    measurable_at_this_level: "Student can explain why exit code 0 means 'didn't crash' not 'correct answer'"
+
+  - name: "Zero-Trust Verification Pattern"
+    proficiency_level: "A2"
+    category: "Conceptual"
+    bloom_level: "Apply"
+    digcomp_area: "Critical Thinking"
+    measurable_at_this_level: "Student applies the pattern: create known data, run script, compare to expected"
 
 learning_objectives:
-  - objective: "Create test data and verify script outputs"
+  - objective: "Direct Claude Code to create test data and verify script correctness"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student creates test file with known sum and verifies calc.py produces correct result"
+    assessment_method: "Student prompts agent to test sum.py with known-answer data"
 
-  - objective: "Interpret exit codes to diagnose script failures"
+  - objective: "Explain the difference between 'exit code 0' and 'correct output'"
     proficiency_level: "A2"
-    bloom_level: "Analyze"
-    assessment_method: "Student uses echo $? to check script success and can explain code meanings"
+    bloom_level: "Understand"
+    assessment_method: "Student can identify when a script runs successfully but produces wrong results"
+
+  - objective: "Apply zero-trust verification to new scripts"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student uses verification pattern on a different calculation script"
 
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (exit codes, $? variable, test data, verification workflow, zero-trust philosophy, debugging loop) within A2 limit"
+  new_concepts: 4
+  assessment: "4 concepts (verification workflow, exit codes, test data, zero-trust mindset) within A2 limit"
 
 differentiation:
-  extension_for_advanced: "Research other exit codes (127=command not found, 130=Ctrl+C), write verification script"
-  remedial_for_struggling: "Focus only on: create test file with known answer, run script, compare result"
+  extension_for_advanced: "Research other exit codes (127=not found, 130=Ctrl+C), write automated test scripts"
+  remedial_for_struggling: "Focus on the conversation pattern: 'verify this with test data where I know the answer'"
 ---
 
 # The Testing Loop
 
-Your script runs. No errors. No red text. The terminal returns to the prompt without complaint.
+The agent created sum.py. It ran without errors. You saw output. But here's the question that separates professionals from amateurs:
 
-But here is the question that separates professionals from amateurs: **Did it produce the right answer?**
+**Did it produce the right answer?**
 
-In Lesson 2, you built `calc.py`—a script that reads numbers from stdin and calculates their sum. You ran it, saw output, and moved on. But how do you know the sum was correct? You trusted the script because it ran without crashing. That trust is dangerous.
+Most people trust output because it appeared. No red text, no error messages, so it must be correct. This assumption has cost companies millions and caused countless bugs that lurked for months before discovery.
 
-This lesson introduces the Zero-Trust Testing Loop—a verification workflow that catches bugs before they cost you money, reputation, or hours of debugging. By the end, you will never again assume a script works just because it ran.
+You're going to learn a different approach: Zero-Trust Verification. You don't trust output - you prove it.
 
-## The Trap of Silent Success
+## The Problem
 
-Consider this scenario. You have a folder of expense receipts. You pipe them through your calculation script:
-
-```bash
-cat receipts/*.txt | python calc.py
-# Output: Total: 847.50
-```
-
-You submit $847.50 for reimbursement. But the actual total was $947.50—one receipt had a formatting issue your script silently skipped. You are now $100 short, and worse, your finance team questions your attention to detail.
-
-The script did not crash. It returned exit code 0 (success). It produced output. It was wrong.
-
-This is why verification is Principle 3 in the Seven Principles: **"Verification as Core Step."** Never trust output—prove it.
-
-## Creating Test Data with Known Answers
-
-The verification loop starts with something radical: **test data where you already know the answer.**
-
-Before running your script on real data, create a file where you can calculate the expected result by hand:
+You have sum.py from Lesson 2. You ran it:
 
 ```bash
-# Step 1: Create test data with a KNOWN answer
-echo -e "10\n20\n30" > test.txt
+cat expenses.txt | python sum.py
+# Output: Total: 186.38
 ```
 
-Look at that file. Three numbers: 10, 20, 30. What is their sum?
+No errors. Exit code 0. Output appeared. But how do you know 186.38 is correct?
 
-You do not need a calculator. You do not need Python. **The sum is 60.**
+Maybe there's a bug that silently skips certain numbers. Maybe the floating-point math is wrong. Maybe the script works on your test data but fails on edge cases.
 
-This is your ground truth. When you run your script against this file, the only acceptable output is 60. Any other number means your script has a bug.
+You need verification.
 
-```bash
-# Step 2: Run the script against test data
-cat test.txt | python calc.py
-# Output: Total: 60.00
+## The Conversation
+
+Open Claude Code and ask for verification:
+
+```
+You: I have sum.py that sums numbers from stdin. I want to verify it works
+correctly. Create test data with numbers I can add in my head - like 10, 20, 30
+(expected: 60) - and verify the script produces the right answer.
 ```
 
-The output matches your expectation. Now—and only now—can you begin to trust this script.
+Watch what Claude Code does:
 
-## Understanding Exit Codes
+```
+Claude Code: Smart approach - verifying with known data. Let me create test
+cases and check the results.
 
-Every command in Bash produces two types of output:
+[Creates: test_simple.txt with contents: 10, 20, 30]
 
-1. **Standard output** (stdout): The text you see on screen
-2. **Exit code**: A hidden number indicating success or failure
+[Runs: cat test_simple.txt | python sum.py]
+Total: 60.0
 
-The exit code is stored in a special variable called `$?`. Check it immediately after any command:
+Result matches expected (60). Exit code: 0
 
-```bash
-# Run a successful command
-cat test.txt | python calc.py
-# Output: Total: 60.00
+Let me also test decimals to make sure float handling works:
 
-# Check the exit code
-echo $?
-# Output: 0
+[Creates: test_decimals.txt with contents: 10.5, 20.5, 19.0]
+
+[Runs: cat test_decimals.txt | python sum.py]
+Total: 50.0
+
+Result matches expected (50). Exit code: 0
+
+And negative numbers:
+
+[Creates: test_negative.txt with contents: 100, -30, -20]
+
+[Runs: cat test_negative.txt | python sum.py]
+Total: 50.0
+
+Result matches expected (50). Exit code: 0
+
+All tests pass. The script handles:
+✓ Simple integers
+✓ Decimal numbers
+✓ Negative numbers
+
+Your sum.py is verified for these cases.
 ```
 
-Exit code 0 means "the command ran without crashing." Any non-zero exit code indicates an error:
+The agent didn't just run the script. It created test data with known answers, ran the script, and compared output to expectation.
 
-| Exit Code | Meaning                                     |
-| --------- | ------------------------------------------- |
-| 0         | Success—command completed without crashing  |
-| 1         | General error—something went wrong          |
-| 2         | Misuse of command—wrong arguments or syntax |
-| 127       | Command not found—typo or missing program   |
-| 130       | Interrupted by Ctrl+C                       |
+## What Just Happened?
 
-Try triggering different exit codes:
+You witnessed **Principle 3: Verification as Core Step** in action.
 
-```bash
-# Command not found
-python nonexistent_script.py
-# Output: python: can't open file 'nonexistent_script.py': [Errno 2] No such file or directory
-echo $?
-# Output: 2
+The agent understood something crucial: you don't verify by hoping. You verify by creating situations where you already know the answer.
 
-# Syntax error in Python
-echo "print(1/0)" | python
-# Output: ZeroDivisionError: division by zero
-echo $?
-# Output: 1
-```
+- Test data: 10, 20, 30
+- Expected answer: 60 (you can add this in your head)
+- Actual output: 60.0
+- Verdict: Correct
 
-## The Critical Insight: Exit Code 0 Does Not Mean Correct
+If the script had output 40, you'd know immediately something was wrong. The test data made the bug visible.
 
-Here is the most important lesson in this chapter.
+### Why Exit Code 0 Isn't Enough
 
-**Exit code 0 means "the script ran without crashing." It does NOT mean "the script produced the correct answer."**
+The agent checked exit codes, but notice it also compared output to expected values. Here's why both matter:
 
-Create a deliberately buggy script to see this:
+**Exit code 0** means: "The script ran without crashing."
+
+It does NOT mean: "The script produced correct results."
+
+A script can exit with code 0 and be completely wrong. Consider this buggy version:
 
 ```python
-# buggy_calc.py - A script with a bug
+# buggy_sum.py - Has a silent bug
 import sys
 
 total = 0
 for line in sys.stdin:
-    try:
-        # BUG: Subtracting first number instead of adding
-        if total == 0:
-            total = float(line.strip())
-        else:
-            total -= float(line.strip())  # Wrong operation!
-    except ValueError:
-        pass
+    line = line.strip()
+    if not line:
+        continue
+    # BUG: Skipping lines that start with digits > 5
+    if line[0] in '6789':
+        continue  # Silent failure!
+    total += float(line)
 
-print(f"Total: {total:.2f}")
+print(f"Total: {total}")
 ```
 
-Run it against your test data:
+Run it:
 
 ```bash
-cat test.txt | python buggy_calc.py
-# Output: Total: -40.00
+echo -e "10\n60\n30" | python buggy_sum.py
+# Output: Total: 40.0
+# Exit code: 0
+```
+
+Exit code 0. No errors. But 40 is wrong - the answer should be 100. The script silently skipped "60" because it starts with '6'.
+
+**Exit codes catch crashes. They don't catch logic errors.**
+
+## The Agent's Toolkit: Exit Codes and $?
+
+Every command in Bash produces an exit code. You can check it with `$?`:
+
+```bash
+# Run a command
+cat test_simple.txt | python sum.py
+# Output: Total: 60.0
+
+# Check exit code
 echo $?
 # Output: 0
 ```
 
-The exit code is 0. The script "succeeded." But -40 is catastrophically wrong—the correct answer is 60.
+Common exit codes:
 
-Exit codes catch crashes. They do not catch logic errors. **You must verify the output itself.**
+| Exit Code | Meaning |
+|-----------|---------|
+| 0 | Success - command completed without crashing |
+| 1 | General error - something went wrong |
+| 2 | Misuse of command - wrong arguments |
+| 127 | Command not found - typo or missing program |
+| 130 | Interrupted by Ctrl+C |
 
-## The Complete Verification Workflow
+The agent ran `echo $?` after each test to confirm no crashes. But it also compared output to expected values - because exit code 0 alone doesn't prove correctness.
 
-The Zero-Trust Testing Loop has four steps:
+### Reading $? Immediately
 
-**Step 1: Create Test Data with Known Answer**
-
-```bash
-# Simple test case
-echo -e "10\n20\n30" > test_simple.txt
-# Expected: 60
-
-# Edge case: single number
-echo "42" > test_single.txt
-# Expected: 42
-
-# Edge case: includes zero
-echo -e "5\n0\n5" > test_zero.txt
-# Expected: 10
-```
-
-**Step 2: Run Script Against Test Data**
+Important: `$?` holds the exit code of the **most recent** command. If you run another command first, you'll get that command's exit code instead:
 
 ```bash
-cat test_simple.txt | python calc.py
-# Output: Total: 60.00
+python sum.py < test.txt   # Run the script
+echo "Done"                 # This overwrites $? with echo's exit code
+echo $?                     # Shows 0 (from echo), not from sum.py!
 ```
 
-**Step 3: Check Exit Code**
+Check `$?` immediately after the command you care about.
 
-```bash
-echo $?
-# Output: 0
+## The Pattern
+
+Here's the verification prompt pattern:
+
+```
+"Verify [tool] works correctly. Create test data with a known answer [X]
+and check that output matches."
 ```
 
-**Step 4: Verify Output Matches Expectation**
+This pattern works because:
 
-Compare the output (60.00) to your pre-calculated answer (60). They match.
+1. **Known answer first.** You calculate the expected result before running the tool.
+2. **Simple test data.** Numbers you can add in your head (10+20+30=60).
+3. **Multiple cases.** Test integers, decimals, negatives, edge cases.
+4. **Comparison.** Output must match expectation exactly.
 
-Only after passing all four steps should you run the script on real data.
+### Pattern Variations
 
-## Multiple Test Cases Catch More Bugs
+| What You're Testing | The Prompt |
+|---------------------|------------|
+| Sum script | "Verify sum.py with test data 10, 20, 30 (expected: 60)" |
+| Average script | "Verify average.py with test data 10, 20, 30 (expected: 20)" |
+| Max script | "Verify max.py with test data 10, 50, 30 (expected: 50)" |
+| Filter script | "Verify filter.py keeps only numbers > 20 from 10, 30, 50 (expected: 30, 50)" |
 
-A single test is better than no tests. Multiple tests are better than one. Each test case probes a different potential failure:
-
-```bash
-# Test case 1: Basic addition
-echo -e "1\n2\n3" > test1.txt
-cat test1.txt | python calc.py
-# Expected: 6.00
-# Output: Total: 6.00 (PASS)
-
-# Test case 2: Decimal precision
-echo -e "0.1\n0.2" > test2.txt
-cat test2.txt | python calc.py
-# Expected: 0.30
-# Output: Total: 0.30 (PASS)
-
-# Test case 3: Large numbers
-echo -e "1000000\n2000000" > test3.txt
-cat test3.txt | python calc.py
-# Expected: 3000000.00
-# Output: Total: 3000000.00 (PASS)
-
-# Test case 4: Negative numbers
-echo -e "100\n-50" > test4.txt
-cat test4.txt | python calc.py
-# Expected: 50.00
-# Output: Total: 50.00 (PASS)
-```
-
-Each test targets a specific concern:
-
-- Test 1: Does basic addition work?
-- Test 2: Does decimal handling work?
-- Test 3: Does it handle large numbers without overflow?
-- Test 4: Does it handle negative numbers?
-
-## Debugging with the Verification Loop
-
-When a test fails, the verification loop becomes your debugging workflow:
-
-```bash
-# Test fails!
-cat test_decimals.txt | python calc.py
-# Expected: 0.30
-# Output: Total: 0.29 (FAIL - off by 0.01!)
-```
-
-Now you have actionable information:
-
-- The script runs (exit code 0)
-- The output is wrong (0.29 instead of 0.30)
-- The error is small (0.01 difference)
-- The error relates to decimal precision
-
-This points you toward floating-point precision issues—a specific, debuggable problem.
-
-Without test data, you might have used this script for months before noticing the accumulated 1-cent errors adding up to real money.
+The tool changes. The verification pattern stays the same.
 
 ## The Zero-Trust Philosophy
 
-Zero-trust debugging embodies a mindset: **Assume everything is broken until proven otherwise.**
+This approach embodies a mindset: **Assume everything is broken until proven otherwise.**
 
-This is especially critical when working with AI-generated code. When you ask an AI to write a calculation script, it will produce plausible-looking code. It might even explain confidently how it works. But the AI does not run the code. It does not verify the output. It does not know if the math is correct.
+When you ask Claude Code to sum your expenses, it writes a script and runs it. The agent sees output. Exit code is 0. Everything looks fine.
 
-You must verify. Every time.
+But the agent cannot verify that $186.38 is correct for YOUR expenses unless it has test data with known answers. The agent ran code - it didn't validate business logic.
 
-The workflow:
+**You must verify. Every time.**
 
-1. **AI generates code**: The script looks reasonable
-2. **You create test data**: Numbers with known sums
-3. **You run and verify**: Does output match expectation?
-4. **You check exit codes**: Did the script crash silently?
-5. **Trust is earned**: Only after verification
+The workflow when using a General Agent:
 
-This applies to code from any source—AI, colleagues, Stack Overflow, or your past self at 2 AM. Trust is earned through verification, not granted through origin.
+1. **Agent generates and runs code** - Script executes, output appears
+2. **You request verification** - "Test this with known data"
+3. **Agent creates test cases** - Simple data with calculable answers
+4. **Comparison proves correctness** - Output matches expectation
+
+This applies to code from any source - your General Agent, colleagues, Stack Overflow, or your past self at 2 AM. Trust is earned through verification, not granted through origin.
+
+## Try It Yourself
+
+Ask Claude Code to verify a script with edge cases:
+
+```
+Verify sum.py handles these edge cases:
+1. Empty file (expected: 0)
+2. Single number: just "42.5" (expected: 42.5)
+3. Numbers with extra whitespace
+4. File with blank lines mixed in
+```
+
+Watch how the agent creates test data for each case and checks results.
+
+**Expected behavior:**
+
+- Empty file should output `Total: 0` or `Total: 0.0`
+- Single number should work (not require multiple inputs)
+- Whitespace should be stripped correctly
+- Blank lines should be skipped
+
+If any test fails, you've discovered a bug before it hit real data.
 
 ## Connecting to the Seven Principles
 
-The Zero-Trust Testing Loop embodies two core principles:
+This lesson demonstrated two core principles:
 
 **Principle 3: Verification as Core Step**
 
-Every operation should be verified before trusting its output. The testing loop makes verification systematic and repeatable. You do not "check" your script—you prove it with test data.
+Every operation should be verified before trusting its output. The testing loop makes verification systematic and repeatable. You don't "check" your script - you prove it with test data.
 
 **Principle 7: Observability**
 
-Exit codes make program behavior visible. Without checking `$?`, errors hide in silence. With exit codes, failures announce themselves. Your debugging becomes data-driven rather than guess-driven.
+Exit codes make program behavior visible. Without checking `$?`, errors hide in silence. But observability goes beyond exit codes - you made the script's correctness visible by comparing output to known answers.
 
-These principles compound. Verification (P3) produces evidence. Observability (P7) makes that evidence accessible. Together, they create a debugging workflow that catches problems early and provides clear diagnostic information.
+These principles compound. Verification (P3) produces evidence. Observability (P7) makes that evidence accessible. Together, they create a debugging workflow that catches problems early.
 
-## Practice: Build Your Test Suite
-
-Create a test suite for your `calc.py` script:
-
-```bash
-# Create test directory
-mkdir -p ~/calc-tests
-cd ~/calc-tests
-
-# Test 1: Basic integers
-echo -e "10\n20\n30" > test_basic.txt
-# Expected: 60.00
-
-# Test 2: Single number
-echo "42" > test_single.txt
-# Expected: 42.00
-
-# Test 3: Decimals
-echo -e "1.5\n2.5" > test_decimals.txt
-# Expected: 4.00
-
-# Test 4: Many numbers
-echo -e "1\n2\n3\n4\n5\n6\n7\n8\n9\n10" > test_many.txt
-# Expected: 55.00
-
-# Test 5: Negative numbers
-echo -e "100\n-25\n-25" > test_negative.txt
-# Expected: 50.00
-
-# Run all tests
-for f in test_*.txt; do
-    echo "Testing $f:"
-    cat "$f" | python ~/calc.py
-    echo "Exit code: $?"
-    echo "---"
-done
-```
-
-Run this suite every time you modify `calc.py`. If any test fails, you have caught a bug before it reached real data.
+---
 
 ## Try With AI
 
-### Prompt 1: Understanding Exit Codes
+### Prompt 1: Discover Edge Cases
 
 ```
-Explain what `echo $?` shows in Bash.
-
-I ran a command and then typed `echo $?` and it showed `0`.
-Then I ran a different command and `echo $?` showed `127`.
-
-What do these numbers mean? What are common exit codes I should know about?
+What edge cases might break a script that sums numbers from stdin?
+Think about unusual inputs: empty files, non-numeric lines, very large
+numbers, special characters. List cases I should test.
 ```
 
-**What you are learning:** AI teaches the meaning of exit codes—the hidden status indicators that reveal whether commands succeeded or failed.
+**What you're learning:** Defensive thinking. The agent helps you anticipate failure modes you might not have considered. This makes your verification more thorough.
 
-### Prompt 2: Exit Code Limitations
-
-```
-My Python script exits with code 0 but produces the wrong total.
-
-The script runs without errors, `echo $?` shows 0, but when I check the
-output against test data I calculated by hand, the number is wrong.
-
-Why doesn't the exit code catch this? What's the difference between
-"the script ran successfully" and "the script produced correct output"?
-```
-
-**What you are learning:** You teach AI (and reinforce for yourself) the critical distinction between "did not crash" and "produced correct results"—exit codes catch crashes, not logic errors.
-
-### Prompt 3: Collaborative Debugging
+### Prompt 2: Automate Verification
 
 ```
-Help me debug this script. It should sum numbers from stdin.
-
-Here's my test: I created a file with 10, 20, 30 (one per line).
-The expected sum is 60.
-But my script outputs 50.
-
-Here's the script:
-[paste your script]
-
-Walk me through how to find the bug using print statements
-and test data verification.
+I have 5 test cases for sum.py. Help me write a simple bash script that
+runs all tests and reports which passed and which failed. Each test should
+compare actual output to expected output.
 ```
 
-**What you are learning:** Collaborative debugging where you provide the verification framework (test data with known answers) and AI helps identify where the logic diverges from expectation.
+**What you're learning:** Test automation. Instead of manually running tests, you create a script that runs them all. This is how professionals ensure code stays correct over time.
+
+### Prompt 3: Debug a Failure
+
+```
+My sum.py gives wrong output on this test:
+- Input: 10, 60, 30
+- Expected: 100
+- Actual: 40
+
+The script works fine on other inputs. Exit code is 0.
+Help me find the bug. What could cause 60 to be skipped?
+```
+
+**What you're learning:** Root cause analysis. You present a specific failure with evidence (expected vs. actual). The agent helps you reason about what could cause that exact symptom. This is collaborative debugging at its best.
