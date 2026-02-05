@@ -1,6 +1,10 @@
 ---
 sidebar_position: 6
 title: "Chapter 6: The Seven Principles of General Agent Problem Solving"
+slides:
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-06/agent-director-strategy.pdf"
+  title: "Agent Director Strategy"
+  height: 700
 ---
 
 # Chapter 6: The Seven Principles of General Agent Problem Solving
