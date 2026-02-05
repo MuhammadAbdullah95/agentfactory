@@ -8,8 +8,8 @@ WORKDIR /app
 # Install uv for faster package installation
 RUN pip install --no-cache-dir uv
 
-# Copy dependency files
-COPY pyproject.toml .
+# Copy dependency files (README.md needed for pyproject.toml metadata)
+COPY pyproject.toml README.md ./
 
 # Install dependencies
 RUN uv pip install --system --no-cache -e .
