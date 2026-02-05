@@ -74,7 +74,7 @@ Let's establish why 2025 represents a genuine inflection point. The evidence com
 
 ### Capability Breakthroughs: From Autocomplete to Problem-Solving
 
-In September 2025, something unprecedented happened at the ICPC World Finals in Baku, Azerbaijan—the most prestigious competitive programming competition in the world. An OpenAI ensemble achieved a **perfect score, solving all 12 problems correctly** within the 5-hour time limit. No human team accomplished this. Google DeepMind's Gemini 2.5 Deep Think achieved **gold-medal performance, solving 10 of 12 problems**—and was the only system (AI or human) to solve Problem C, a complex optimization task that stumped all 139 human teams.
+In September 2025, something unprecedented happened at the ICPC World Finals in Baku, Azerbaijan—the most prestigious competitive programming competition in the world. An OpenAI ensemble achieved a **perfect score, solving all 12 problems correctly** within the 5-hour time limit—surpassing the winning human team from St. Petersburg State University, which solved 11 of 12 problems to claim first place among the 139 competing university teams. Google DeepMind's Gemini 2.5 Deep Think achieved **gold-medal performance, solving 10 of 12 problems**—close to the human champions. Most remarkably, Problem C—a complex optimization task involving liquid distribution through interconnected ducts—was solved by both OpenAI and Gemini but by **none of the 139 human teams**.
 
 Competitive programming problems require understanding complex requirements, designing efficient algorithms, implementing solutions under time pressure, and debugging edge cases. These aren't code completion tasks—they distinguish exceptional programmers from good ones.
 
