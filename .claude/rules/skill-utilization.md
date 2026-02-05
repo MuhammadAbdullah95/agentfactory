@@ -31,6 +31,10 @@
 ## Available Skills (Check Before Spawning Subagent)
 
 ```
+Code Review & Analysis:
+- /spec-review                  → Single-pass spec-vs-implementation review
+- /code-review:code-review      → PR code review
+
 Content Quality:
 - /content-evaluation-framework  → 6-category rubric scoring
 - /content-refiner              → Fix Gate 4 failures

@@ -136,6 +136,25 @@ These are subtle conceptual errors of a "slightly sloppy, hasty junior dev":
 
 ---
 
+## Session Productivity Failures (Usage Report 2026-02-05)
+
+These patterns were identified across 12,260 sessions:
+
+| Anti-Pattern | Evidence | Impact |
+|--------------|----------|--------|
+| **Redundant file reading** | conftest.py 6x, schemas.py 5x per session | Wasted 40%+ tokens and time |
+| **No completion criteria** | 336/344 sessions "partially_achieved" | Work abandoned mid-flight |
+| **Broad interpretation** | 309 "misunderstood request" instances | Implemented wrong thing |
+| **Unstructured research** | 5+ OpenClaw sessions with similar outputs | Redundant exploration |
+
+**Fixes integrated into workflow**:
+- File Memory Protocol in CLAUDE.md
+- Session Completion Protocol in CLAUDE.md
+- Domain Term Clarification in CLAUDE.md
+- Research templates in skills
+
+---
+
 ## Prevention Summary
 
 1. Always read context first
@@ -144,3 +163,6 @@ These are subtle conceptual errors of a "slightly sloppy, hasty junior dev":
 4. Verify file exists after subagent writes: `ls -la [path]`
 5. Research existing solutions before implementing
 6. **Live verify before committing to main**
+7. **Read files ONCE per session** — summarize, then reference summary
+8. **Define "done" upfront** — state deliverables before starting
+9. **Clarify ambiguous terms** — ask before assuming

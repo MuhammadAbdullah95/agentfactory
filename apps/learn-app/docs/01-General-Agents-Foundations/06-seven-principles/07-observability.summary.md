@@ -1,29 +1,40 @@
 ### Core Concept
-If you cannot see what the AI agent is doing, you cannot debug problems, build trust, or improve the collaboration. Observability means making AI workflows transparent, traceable, and debuggable--whether through raw terminal output (Claude Code) or the three-panel layout showing plan, execution, and outputs simultaneously (Claude Cowork).
+
+You cannot debug what you cannot see. Observability—visibility into what the AI is doing, why it's doing it, and what happened—transforms AI from an unpredictable black box into a debuggable system. Without it, you're guessing; with it, you're engineering.
 
 ### Key Mental Models
-- **Three Pillars of Observability**: Action Visibility (what did it do?), Rationale Visibility (why did it do it?), Result Visibility (what was the outcome?). All three are needed for full understanding.
-- **Log Patterns**: Success (READ -> ANALYZE -> EDIT -> VERIFY -> COMPLETE), Warning (EDIT -> EDIT -> EDIT -> no verification -> COMPLETE), Failure (EDIT -> VERIFY fails -> EDIT -> fails again -> gave up). Recognizing these patterns enables rapid diagnosis.
-- **Trust Through Transparency**: Trust isn't given, it's earned. When you can see decisions, correct mistakes early, and learn agent patterns, you feel confident granting more autonomy.
-- **Black Box Problem**: Without observability, you only see final results. With observability, you see the full context--which action caused a problem, what the agent's reasoning was, and where to intervene.
+
+- **Three Pillars of Observability**: What happened (Action), Why it happened (Rationale), What resulted (Result). All three needed for full debugging capability.
+- **Scan for Verbs**: When reading logs, ignore timestamps. Look for verbs: READ, EDIT, TEST, FAIL, COMPLETE. Red flag: EDIT without TEST after it.
+- **Real-Time vs Post-Mortem**: Real-time catches problems as they happen (progress bars, streaming). Post-mortem reconstructs what went wrong (logs, history). Both essential.
+- **The 2-Minute Audit**: After significant work, spend 2 minutes reviewing what Claude did. Check the activity log. Verify changes match intent. Make this automatic.
+- **Rationalization Warning**: Claude will confidently explain its reasoning even when that reasoning is flawed. Don't mistake eloquent explanation for correct action.
 
 ### Key Facts
-- **Claude Code activity logs**: Stored in `.claude/activity-logs/prompts.jsonl` (all prompts and responses) and `subagent-usage.jsonl` (delegation tracking)
-- **Cowork observability advantage**: Three-panel layout (chat, progress, artifacts) designed specifically for simultaneous visibility without context switching
-- **Claude Code observability advantage**: Full terminal transparency--every command, file read, and output visible in real-time with nothing hidden
+
+- **Synergy with Principle 3**: Observability IS verification for AI behavior. You verify code with tests; you verify AI with logs.
+- **Log locations**: Claude Code (`~/.claude/logs/`), git history (`git log --oneline`), checkpoint history (`/rewind`)
+- **jq for filtering**: `cat session.log | jq 'select(.level == "error")'` to quickly find problems
 
 ### Critical Patterns
-- Three workflow design patterns for observability: Explain Before Executing (show plan, get approval), Checkpoint After Major Steps (verify progress incrementally), Summary After Completion (provide full review context)
-- Debugging through logs: trace the sequence of actions, identify where behavior diverged from expectation, check whether verification steps were performed
-- Essential observability toolkit: Git history (git log, git diff, git blame), Activity log review (JSON parsing of .claude logs), Test result comparison (before/after saved outputs)
-- Both interfaces provide the same observability layers (Plan, Actions, Outputs, Errors) through different mechanisms--terminal text vs. GUI panels
+
+- **The Verb Scan**: Skim logs looking only for action verbs, not details. EDIT without TEST = problem.
+- **jq Error Query**: `cat session.log | jq 'select(.level == "error")'` to filter for problems
+- **Progress Reporting Prompt**: "After each step, report: what you did, what changed, what's next"
+- **Post-Session Review**: Before closing, check activity log for unexpected actions
+- Three workflow patterns: Explain Before Executing, Checkpoint After Major Steps, Summary After Completion
 
 ### Common Mistakes
-- Silent failures: AI says "Done!" but something actually failed--require visibility for all operations, not just successes
-- Output without context: seeing a diff without understanding why the change was made--require rationale with every significant change
-- Missing intermediate steps: AI works for 2 minutes then reports completion with no visibility into what happened--require progress updates for long-running tasks
-- Not reviewing activity logs when debugging: spending hours manually investigating when the log would show exactly which change caused the problem
+
+- Trusting eloquent explanations (Claude rationalizes confidently even when wrong)
+- Ignoring logs until something breaks (proactive review catches problems early)
+- Only checking final output (intermediate steps often reveal issues)
+- No systematic review habit (the 2-minute audit should be automatic)
+- Confusing verbosity with observability (long explanations ≠ visible actions)
+- Silent failures: AI says "Done!" but something actually failed
 
 ### Connections
-- **Builds on**: Principle 6 (Constraints and Safety)--observability validates that safety constraints are working and shows when they're triggered; you need visibility to know your guardrails are effective
-- **Leads to**: Lesson 8 (Putting It All Together)--observability is the final principle that enables evaluating whether all other principles are being applied correctly in integrated workflows
+
+- **Builds on**: Principle 6 (Constraints)—observability validates that safety constraints are working
+- **Leads to**: Lesson 8 (Putting It Together)—observability enables the Director's Mindset by making AI actions transparent
+- **Synergy with P3**: Observability for AI behavior is equivalent to verification for code

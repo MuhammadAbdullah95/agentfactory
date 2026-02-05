@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: "Principle 1: Bash is the Key"
-chapter: 4
+chapter: 6
 lesson: 1
 duration_minutes: 20
 description: "Why simple BASH commands outperform complex agent designs and what this means for how you work with AI"
@@ -119,6 +119,8 @@ The `|` symbol is called a pipe. It takes the output of `grep` and feeds it into
 **3. Everything is text.**
 
 Files are text. Command output is text. No special formats, no proprietary structures. This makes everything compatible with everything else.
+
+This is why BASH and LLMs are a natural fit. LLMs process text. BASH commands are text. Command output is text. There's no translation layer, no format conversion, no API schema to learn. The model reads text, reasons about it, and produces text that the terminal executes directly. This text-to-text alignment is why simple BASH access often outperforms elaborate tool frameworks.
 
 ## Why This Matters for General Agents
 
@@ -326,6 +328,26 @@ Here's a simple way to think about risk levels:
 The goal is confident collaboration. You trust the agent to explore and gather information freely. You stay in control of anything that changes your files. And you keep full authority over anything dangerous.
 
 Start with read-only operations to build trust. As you see the agent make good decisions, you can give it more autonomy. But always keep the ability to review destructive operations before they happen.
+
+### How to Verify an Agent is Safe
+
+Before trusting any AI agent with terminal access, verify these safeguards:
+
+| What to Check | What to Look For |
+|---------------|------------------|
+| **Command visibility** | The agent shows you each command before or as it runs—no hidden operations |
+| **Permission prompts** | Destructive commands (delete, move, overwrite) trigger explicit approval requests |
+| **Cancel capability** | You can press Escape or Ctrl+C to stop the agent mid-operation |
+| **Scope boundaries** | The agent respects folder limits—if you say "only in Downloads," it stays there |
+| **Audit trail** | You can review a log of everything the agent did after a session |
+
+**Red flags to watch for:**
+- Agent runs commands without showing them
+- No confirmation before file deletion or modification
+- Claims it "already has permission" without asking
+- Unable to explain what a command does when you ask
+
+When in doubt, test the agent on a folder with files you don't care about. See how it behaves before trusting it with important data.
 
 ## The Core Insight
 

@@ -2,61 +2,86 @@
 sidebar_position: 6
 title: "Chapter 6: The Seven Principles of General Agent Problem Solving"
 slides:
-  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-06/agent-engineering-principles.pdf"
-  title: "Agent Engineering Principles"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-1/chapter-06/agent-director-strategy.pdf"
+  title: "Agent Director Strategy"
   height: 700
 ---
 
 # Chapter 6: The Seven Principles of General Agent Problem Solving
 
-You've learned about the Agent Factory paradigm and experienced Claude Code and Cowork firsthand. Now comes the crucial question: **How do you work effectively with agentic AI systems?**
+You've learned the tools—Claude Code, CLAUDE.md, Skills, Subagents. You've learned context engineering. But here's what separates productive sessions from frustrating ones: **workflow discipline**.
 
-This chapter begins with **Operational Best Practices**—the practical workflows that separate productive Claude Code sessions from frustrating ones. You'll learn to structure your work, course correct when things go wrong, and recognize failure patterns before they waste your time.
+Two people use Claude Code for the same task. One finishes in 20 minutes with clean commits. The other spends an hour in correction loops, ends up with a polluted context, and starts over. Same AI. Same capabilities. What's different?
 
-Then we introduce **The Seven Principles of General Agent Problem Solving**—the conceptual framework that explains _why_ those practices work. These principles emerged from real-world experience with agentic AI systems and represent the core patterns that separate successful AI-augmented workflows from frustrating ones.
+**The answer: principles.**
 
-The seven principles are:
+This chapter teaches the **Seven Principles of General Agent Problem Solving**—the operational patterns that make AI collaboration reliable rather than random. These aren't abstract theories; they're the habits that turn Claude from a novelty into a production tool.
 
-1. **Bash is the Key** — Terminal access is the foundational capability that distinguishes agentic AI from passive assistants
-2. **Code as the Universal Interface** — Code provides the precision that natural language lacks, making it the true shared language of human-AI collaboration
-3. **Verification as Core Step** — Continuous testing and validation, not as an afterthought but as the primary workflow
-4. **Small, Reversible Decomposition** — Breaking problems into atomic steps that can be independently tested and rolled back
-5. **Persisting State in Files** — Using context files (CLAUDE.md, ADRs) to maintain shared understanding across sessions
-6. **Constraints and Safety** — Guardrails and permission models that enable confident collaboration
-7. **Observability** — Visibility into what the AI is doing, enabling debugging and trust
+## From Chaos to System
 
-These principles work together as an integrated system. Terminal access enables agentic capability. Code specification provides precision. Verification ensures reliability. Decomposition manages complexity. State persistence accumulates context. Constraints enable safety. Observability builds trust.
+Early Claude Code users discover a frustrating pattern: sometimes it works brilliantly, sometimes it fails mysteriously. The difference isn't luck—it's whether you're following principles that align with how AI agents actually work.
+
+The Seven Principles emerged from analyzing thousands of successful and failed AI sessions. They answer questions like: Why does Claude sometimes go in circles? Why do long sessions degrade? Why do some prompts work and others don't?
+
+Each principle addresses a specific failure mode:
+- **Bash is the Key** — Why Claude can do things, not just say things
+- **Code as Universal Interface** — Why precise requests get precise results
+- **Verification as Core Step** — Why "looks right" isn't good enough
+- **Small, Reversible Decomposition** — Why big changes create big problems
+- **Persisting State in Files** — Why Claude forgets (and how to fix it)
+- **Constraints and Safety** — Why guardrails enable autonomy
+- **Observability** — Why you need to see what Claude is doing
+
+## Prerequisites
+
+This chapter builds directly on:
+
+- **Chapter 3** — You learned Claude Code's core capabilities: CLAUDE.md for persistent memory (Lesson 5), Skills (Lesson 7-8), and Subagent orchestration (Lesson 9)
+- **Chapter 4** — You learned context engineering: why context quality determines agent reliability, and the Tasks system for persistent state
+- **Chapter 5** — You learned Spec-Driven Development: the four-phase workflow that structures AI collaboration
+
+The Seven Principles provide the **conceptual framework** that explains _why_ these capabilities work together effectively.
 
 ## 📚 Teaching Aid
 
 ## What You'll Learn
 
-By the end of this chapter, you'll have:
+By the end of this chapter, you'll be able to:
 
-- **Operational Workflows** — Practical patterns for structuring sessions, course correcting, and avoiding common failure modes
-- **Terminal Access Fundamentals** — Understanding why bash/terminal access is the primal agentic capability that enables all other principles
-- **Code as Communication Medium** — Learning to use code and examples as the primary interface for precise AI collaboration
-- **Verification-First Mindset** — Building workflows where testing happens continuously, not as a final step
-- **Decomposition Strategies** — Breaking complex problems into small, reversible steps that can be independently verified
-- **Context Management** — Creating and maintaining CLAUDE.md files and Architecture Decision Records that persist knowledge
-- **Safety Frameworks** — Designing appropriate permission models and constraints for different risk levels
-- **Observability Practices** — Making AI workflows transparent and debuggable through activity logs and progress tracking
-- **Integrated Workflows** — Applying all seven principles together in real-world scenarios
+- **Execute** the four-phase workflow (Explore, Plan, Implement, Commit) for any non-trivial task
+- **Recognize** the five failure patterns before they waste your time
+- **Apply** course correction techniques (Esc, checkpoints, /rewind) confidently
+- **Configure** permission models that match your trust level
+- **Use** the Interview Pattern to surface requirements before implementation
+- **Create** CLAUDE.md files and ADRs that persist knowledge across sessions
+- **Design** prompts that invoke principles explicitly for better results
+- **Debug** AI workflows using activity logs and observability practices
 
-## Why This Matters
+## Key Prompt Patterns
 
-The seven principles transform AI from a novelty into a reliable tool for production work. Without them:
+| Principle               | Pattern                    | Example Prompt                                              |
+| ----------------------- | -------------------------- | ----------------------------------------------------------- |
+| **Bash is the Key**     | Command verification       | "Use `ls` to verify the directory exists before creating"   |
+| **Code as Interface**   | Specification over prose   | "Write an interface for the expected input/output"          |
+| **Verification**        | Test-first instruction     | "Write the test first, then implement to pass it"           |
+| **Decomposition**       | Atomic commits             | "Break this into steps. Commit after each step works."      |
+| **State Persistence**   | Context file creation      | "Add this decision to CLAUDE.md so future sessions know"    |
+| **Constraints**         | Permission boundaries      | "Only modify files in the `src/` directory"                 |
+| **Observability**       | Progress reporting         | "After each step, report what you did and what's next"      |
 
-- You're constantly repeating yourself (no state persistence)
-- You're surprised by AI changes (no observability)
-- You're afraid to let AI work (no safety constraints)
-- You're debugging mysterious failures (no verification)
-- You're overwhelmed by large changes (no decomposition)
+## Chapter Structure
 
-With them:
+| Lesson | Title                           | Focus                                                           |
+| ------ | ------------------------------- | --------------------------------------------------------------- |
+| 0      | Operational Best Practices      | Four-phase workflow, course correction, five failure patterns   |
+| 1      | Bash is the Key                 | Terminal as foundational agentic capability                     |
+| 2      | Code as Universal Interface     | Precision through code vs. natural language                     |
+| 3      | Verification as Core Step       | Continuous testing as primary workflow                          |
+| 4      | Small, Reversible Decomposition | Atomic steps, git commits, revert-don't-fix mindset             |
+| 5      | Persisting State in Files       | CLAUDE.md, ADRs, session journals                               |
+| 6      | Constraints and Safety          | Permission models, guardrails, trust gradualism                 |
+| 7      | Observability                   | Activity logs, progress tracking, debugging                     |
+| 8      | Putting It All Together         | Integrated workflows, the Director's Mindset                    |
+| 9      | Chapter Quiz                    | Assessment of principle understanding                           |
 
-- Context accumulates across sessions
-- You see what AI is doing
-- You can confidently give AI autonomy
-- Problems are caught early
-- Complex work becomes manageable
+Remember the thesis: **General Agents BUILD Custom Agents.** The Seven Principles are HOW you direct those agents reliably—transforming from a typist who types prompts into a director who orchestrates outcomes.

@@ -69,3 +69,45 @@ Patterns learned from corrections. Review at session start.
 - Any changes touching startup/initialization code
 
 **Don't assume user is running services** - start them yourself and test.
+
+---
+
+## 2026-02-05 Redundant File Reading (Usage Report)
+
+**Mistake**: Read conftest.py 6+ times and schemas.py 5+ times in single sessions, wasting tokens and time
+**Pattern**: "Let me check that file again to confirm..." instead of trusting initial read
+**Rule**: Read each file ONCE per session. Create a mental summary immediately. Reference the summary, never re-read.
+
+**Signs of violation**:
+- Reading a file "to double-check"
+- Opening a file "to see how it handles X" when you already read it
+- Re-reading specs "to make sure I understood"
+
+---
+
+## 2026-02-05 Premature Session Termination (Usage Report)
+
+**Mistake**: 336 of 344 sessions ended "partially_achieved" — work abandoned mid-flight without clear stopping point
+**Pattern**: Starting ambitious multi-step work without defining what "done" looks like
+**Rule**: Before starting ANY task, state: "This task is DONE when [specific deliverable]. Checkpoints at [milestones]."
+
+**For multi-agent work**:
+- Each agent must have clear exit criteria
+- Parent agent must verify all child agents completed
+- If session ends early, document: "STOPPED AT: [state] | NEXT: [action]"
+
+---
+
+## 2026-02-05 Intent Misinterpretation (Usage Report)
+
+**Mistake**: 309 "misunderstood request" instances — interpreted "model costs" as "remove model restrictions" instead of "tiered pricing per model"
+**Pattern**: Interpreting ambiguous terms broadly when user meant something specific
+**Rule**: When a term could mean multiple things, STOP and ask: "Do you mean (a) X or (b) Y?"
+
+**Common ambiguities to catch**:
+- "model costs" → pricing tiers vs access restrictions
+- "fix this" → minimal fix vs refactor
+- "improve" → which dimension?
+- "chapter X" → chapter X vs part X
+
+**Never interpret broadly when narrow interpretation exists.**
