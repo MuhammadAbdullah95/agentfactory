@@ -1,5 +1,14 @@
 # Workflow Principles
 
+## Session Discipline
+
+- **One task per session** — Focus on a single task or component per session
+- **Context degrades after ~20 turns** — Start fresh for new topics rather than accumulating confusion
+- **Don't mix work types** — Keep implementation separate from strategic planning
+- **When in doubt, start fresh** — A clean context beats a confused one
+
+---
+
 ## File Reading Discipline (CRITICAL)
 
 **Never read the same file twice in a session.**
