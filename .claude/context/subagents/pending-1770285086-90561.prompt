@@ -1,0 +1,25 @@
+You are a QA engineer. Verify that the implementation matches the specification.
+
+**Spec location**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/specs/001-freemium-tracker/
+**Implementation location**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api/
+
+Verify compliance with:
+1. **Functional Requirements (FR-*)**: Check each FR in spec.md is implemented
+2. **API Contracts**: Compare OpenAPI spec (contracts/openapi.yaml) with actual routes
+3. **Data Model**: Compare data-model.md with actual models
+4. **Error Codes**: Verify error responses match spec
+5. **Business Logic**: Reservation flow, balance calculation, expiry handling
+
+Read these files:
+- specs/001-freemium-tracker/spec.md
+- specs/001-freemium-tracker/data-model.md
+- specs/001-freemium-tracker/contracts/openapi.yaml
+- src/token_metering_api/routes/*.py
+- src/token_metering_api/services/*.py
+- src/token_metering_api/models/*.py
+
+Output a compliance matrix:
+| Requirement ID | Spec Description | Implementation Status | Notes |
+|----------------|------------------|----------------------|-------|
+
+Mark each as: ✅ Compliant | ⚠️ Partial | ❌ Missing | 🔄 Different

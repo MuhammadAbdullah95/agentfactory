@@ -1,0 +1,94 @@
+You are a QA engineer. Fix spec compliance gaps in the token-metering-api using TDD approach.
+
+**Working Directory**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api
+**Spec Location**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/specs/001-freemium-tracker/spec.md
+
+## FIXES REQUIRED
+
+### 1. FR-069: Validate estimated_tokens Against Model Limits
+**Requirement**: `estimated_tokens MUST be <= model's max_tokens limit`
+
+**Currently Missing**: No validation
+
+**Implement**:
+1. Add `max_tokens` field to Pricing model (default: 128000 for deepseek)
+2. In check_balance, after getting pricing:
+```python
+if estimated_tokens > pricing.max_tokens:
+    return {
+        "allowed": False,
+        "error_code": "ESTIMATED_TOKENS_EXCEEDS_LIMIT",
+        "message": f"estimated_tokens {estimated_tokens} exceeds model limit {pricing.max_tokens}",
+        ...
+    }
+```
+3. Add error code to BlockedResponse schema
+
+### 2. FR-033: SELECT FOR UPDATE Fallback in Fail-Open Mode
+**Requirement**: When Redis unavailable, use `SELECT FOR UPDATE` for concurrency control
+
+**Currently**: Fail-open does simple balance check without locking (metering.py:181-193)
+
+**Implement**:
+```python
+if settings.fail_open:
+    # Use database-level locking instead of Redis
+    async with self.session.begin_nested():
+        result = await self.session.execute(
+            select(TokenAccount)
+            .where(TokenAccount.user_id == user_id)
+            .with_for_update()
+        )
+        account = result.scalar_one_or_none()
+        # ... proceed with balance check
+```
+
+### 3. FR-048: Pricing Query Should Use LIMIT 1 Explicitly
+**Currently**: Uses `scalar_one_or_none()` which works but isn't explicit
+
+**Fix**: Add `.limit(1)` for clarity and query optimization:
+```python
+query = (
+    select(Pricing)
+    .where(Pricing.model == model, Pricing.is_active == True)
+    .order_by(Pricing.effective_date.desc())
+    .limit(1)
+)
+```
+
+### 4. Add max_tokens to Pricing Model
+**File**: src/token_metering_api/models/pricing.py
+
+Add field:
+```python
+max_tokens: int = Field(default=128000, description="Maximum tokens allowed per request for this model")
+```
+
+### 5. Update DEFAULT_PRICING
+**File**: src/token_metering_api/services/metering.py:40-44
+
+Add max_tokens:
+```python
+DEFAULT_PRICING = {
+    "input_cost_per_1k": Decimal("0.001"),
+    "output_cost_per_1k": Decimal("0.002"),
+    "pricing_version": "default_v1",
+    "max_tokens": 128000,
+}
+```
+
+## TDD APPROACH
+
+1. Write tests in tests/test_spec_compliance.py:
+   - test_fr069_estimated_tokens_exceeds_limit_blocked
+   - test_fr069_estimated_tokens_within_limit_allowed
+   - test_fr033_failopen_uses_select_for_update
+   - test_fr048_pricing_query_returns_latest
+
+2. Implement fixes
+
+3. Run: `cd /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api && uv run pytest tests/test_spec_compliance.py -v`
+
+4. Verify: `uv run pytest -v`
+
+Execute autonomously. Read the spec.md first to understand requirements fully.

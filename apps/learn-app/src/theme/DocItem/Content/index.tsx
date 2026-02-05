@@ -65,6 +65,30 @@ function ReadingTime() {
   );
 }
 
+function formatLastUpdated(timestamp: number, locale: string) {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    }).format(new Date(timestamp));
+  } catch {
+    return new Date(timestamp).toDateString();
+  }
+}
+
+function getHistoryUrl(editUrl?: string): string | null {
+  if (!editUrl) return null;
+  try {
+    const url = new URL(editUrl);
+    if (!url.hostname.includes("github.com")) return null;
+    url.pathname = url.pathname.replace("/edit/", "/commits/");
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Back to Top Button Component
  * Only shows when user scrolls UP (not always visible after scrolling down)
@@ -294,6 +318,15 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const oauthClientId = siteConfig.customFields?.oauthClientId as
     | string
     | undefined;
+  const locale = siteConfig.i18n?.currentLocale || "en";
+
+  const lastUpdatedAt = metadata.lastUpdatedAt;
+  const editUrl = metadata.editUrl;
+  const historyUrl = getHistoryUrl(editUrl);
+  // Only show real git dates, not simulated dev dates (year 2018 is Docusaurus's fake date)
+  const isRealDate =
+    lastUpdatedAt && new Date(lastUpdatedAt).getFullYear() > 2020;
+  const showUpdateMeta = Boolean(isRealDate || historyUrl);
 
   /**
    * Redirect to login page with return URL (for non-logged-in users)
@@ -332,6 +365,26 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           <ReadingTime />
           <DocPageActions />
         </div>
+        {showUpdateMeta && (
+          <div className="doc-update-meta">
+            {isRealDate && (
+              <div className="doc-update-meta__item">
+                Updated {formatLastUpdated(lastUpdatedAt, locale)}
+              </div>
+            )}
+            {historyUrl && (
+              <div className="doc-update-meta__links">
+                <a
+                  href={historyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Version history
+                </a>
+              </div>
+            )}
+          </div>
+        )}
         {/* Floating action buttons - hidden when study mode panel is open */}
         {!isStudyModeOpen && (
           <div className="floating-actions">
@@ -415,6 +468,22 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <ReadingTime />
         <DocPageActions />
       </div>
+      {showUpdateMeta && (
+        <div className="doc-update-meta">
+          {isRealDate && (
+            <div className="doc-update-meta__item">
+              Updated {formatLastUpdated(lastUpdatedAt, locale)}
+            </div>
+          )}
+          {historyUrl && (
+            <div className="doc-update-meta__links">
+              <a href={historyUrl} target="_blank" rel="noopener noreferrer">
+                Version history
+              </a>
+            </div>
+          )}
+        </div>
+      )}
       {/* Floating action buttons - hidden when study mode panel is open */}
       {!isStudyModeOpen && (
         <div className="floating-actions">

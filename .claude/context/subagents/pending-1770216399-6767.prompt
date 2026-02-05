@@ -1,0 +1,16 @@
+Update the file /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api/tests/test_api_metering.py for the simplified token metering model.
+
+KEY CHANGES (SIMPLIFIED MODEL):
+1. Remove ALL `seed_tiers` fixture dependencies
+2. Remove ALL `tier_name` fields from TokenAccount creation
+3. Remove tier change endpoint tests (PATCH /admin/tier is GONE)
+4. The logic is now: suspended? block : has_balance? allow : trial<5? allow : block
+5. `lifetime_used` tracks REQUEST COUNT (increments by 1), not tokens
+6. Balance response no longer has `tier` field
+
+Available fixtures in conftest.py:
+- test_user: TokenAccount with user_id="test-user-123", granted_tokens=0, topped_up_tokens=0
+- user_with_balance: TokenAccount with user_id="balance-user-456", granted_tokens=500000
+- trial_exhausted_user: TokenAccount with user_id="trial-exhausted-789", lifetime_used=5
+
+Read the file first, then rewrite it completely for the simplified model. Execute autonomously without confirmation.

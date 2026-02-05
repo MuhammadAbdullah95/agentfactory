@@ -1,0 +1,135 @@
+You are a test engineer. Add comprehensive test coverage for authentication and Redis integration in the token-metering-api.
+
+**Working Directory**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api
+
+## REQUIRED TEST COVERAGE
+
+### 1. Authentication Tests (tests/test_auth.py)
+
+The auth module at `src/token_metering_api/core/auth.py` has ~15% coverage. Add tests for:
+
+```python
+class TestJWTAuthentication:
+    """Test JWT validation flow."""
+    
+    async def test_missing_authorization_header_returns_401(self):
+        """Request without Authorization header should return 401."""
+        
+    async def test_invalid_token_format_returns_401(self):
+        """Token not starting with 'Bearer ' should return 401."""
+        
+    async def test_malformed_jwt_returns_401(self):
+        """Invalid JWT structure should return 401."""
+        
+    async def test_get_current_user_extracts_user_id(self):
+        """Valid dev mode should extract user_id correctly."""
+        
+    async def test_admin_role_from_jwt_claims(self):
+        """Admin role should be extracted from JWT roles claim."""
+
+
+class TestDevModeAuthentication:
+    """Test dev mode authentication."""
+    
+    async def test_dev_mode_uses_x_user_id_header(self):
+        """Dev mode should use X-User-ID header."""
+        
+    async def test_dev_mode_falls_back_to_config_user_id(self):
+        """Dev mode should use config user_id if header missing."""
+        
+    async def test_dev_mode_admin_requires_explicit_header(self):
+        """Dev mode admin requires X-Dev-Admin: true header."""
+
+
+class TestRequireAdmin:
+    """Test admin requirement dependency."""
+    
+    async def test_require_admin_passes_for_admin_user(self):
+        """Admin user should pass require_admin check."""
+        
+    async def test_require_admin_raises_403_for_non_admin(self):
+        """Non-admin user should get 403."""
+```
+
+### 2. Redis Integration Tests (tests/test_redis_integration.py)
+
+Test the Redis connection and Lua script behavior:
+
+```python
+class TestRedisConnection:
+    """Test Redis connection handling."""
+    
+    async def test_start_redis_returns_client(self):
+        """start_redis should return a Redis client."""
+        
+    async def test_redis_unavailable_returns_none(self):
+        """start_redis should return None if Redis unavailable."""
+
+
+class TestLuaScriptLoading:
+    """Test Lua script loading."""
+    
+    async def test_reserve_script_loaded(self):
+        """Reserve Lua script should be loadable."""
+        
+    async def test_finalize_script_loaded(self):
+        """Finalize Lua script should be loadable."""
+        
+    async def test_release_script_loaded(self):
+        """Release Lua script should be loadable."""
+
+
+class TestReservationBehavior:
+    """Test reservation system behavior (mocked Redis)."""
+    
+    async def test_reservation_creates_sorted_set_entry(self):
+        """Reserve should create entry in sorted set."""
+        
+    async def test_reservation_idempotent_same_tokens(self):
+        """Same request_id + tokens should return existing reservation."""
+        
+    async def test_reservation_conflict_different_tokens(self):
+        """Same request_id + different tokens should return conflict."""
+        
+    async def test_finalize_removes_reservation(self):
+        """Finalize should remove reservation from sorted set."""
+        
+    async def test_release_removes_reservation(self):
+        """Release should remove reservation from sorted set."""
+```
+
+### 3. Concurrent Operation Tests (tests/test_concurrency.py)
+
+Test race condition handling:
+
+```python
+import asyncio
+
+class TestConcurrentOperations:
+    """Test concurrent access patterns."""
+    
+    async def test_concurrent_check_balance_same_user(self):
+        """Multiple concurrent checks for same user should all succeed."""
+        async with AsyncClient(...) as client:
+            tasks = [
+                client.post("/api/v1/metering/check", json={...})
+                for _ in range(10)
+            ]
+            results = await asyncio.gather(*tasks)
+            # All should succeed with unique reservation_ids
+            
+    async def test_concurrent_finalize_same_request_id(self):
+        """Only one finalize should succeed, others return already_processed."""
+        
+    async def test_concurrent_grant_same_user(self):
+        """Concurrent grants should accumulate correctly."""
+```
+
+## EXECUTION
+
+1. Read existing test files to understand patterns
+2. Create the new test files
+3. Run tests: `cd /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api && uv run pytest tests/test_auth.py tests/test_redis_integration.py tests/test_concurrency.py -v`
+4. Verify all tests pass
+
+Execute autonomously.

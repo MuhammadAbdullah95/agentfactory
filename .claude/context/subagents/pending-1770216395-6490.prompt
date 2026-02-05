@@ -1,0 +1,14 @@
+Update the file /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api/tests/test_edge_cases.py for the simplified token metering model.
+
+KEY CHANGES (SIMPLIFIED MODEL):
+1. Remove ALL `seed_tiers` fixture dependencies
+2. Remove ALL `tier_name` fields from TokenAccount creation
+3. The logic is now: suspended? block : has_balance? allow : trial<5? allow : block
+4. `lifetime_used` now ALWAYS increments by 1 (request count, not tokens)
+5. NO more tier-specific behaviors (student, free, pro are gone)
+6. User without balance but lifetime_used < 5 gets trial (allowed)
+7. User without balance and lifetime_used >= 5 gets blocked with "trial_ended"
+
+Remove or update tests that test tier-specific behavior. The test_lifetime_used_accumulates test is WRONG now - lifetime_used should be 1, 2, 3 (request count), not 1000, 2500, 3000 (tokens).
+
+Read the file first, then rewrite it completely for the simplified model. Execute autonomously without confirmation.

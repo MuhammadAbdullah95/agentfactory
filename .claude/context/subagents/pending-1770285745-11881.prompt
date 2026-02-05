@@ -1,0 +1,68 @@
+You are a security engineer. Fix the critical security vulnerabilities in the token-metering-api using TDD approach.
+
+**Working Directory**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api
+
+## CRITICAL FIXES REQUIRED
+
+### 1. Dev Mode Admin Bypass (CRIT-001)
+**File**: src/token_metering_api/core/auth.py, lines 114-117
+
+**Current (INSECURE)**:
+```python
+if settings.dev_mode:
+    user_id = request.headers.get("X-User-ID") or settings.dev_user_id
+    return CurrentUser({"sub": user_id, "roles": ["admin"]})  # ALWAYS admin!
+```
+
+**Fix**: 
+- Dev mode should NOT automatically grant admin role
+- Add explicit `X-Dev-Admin: true` header requirement for admin in dev mode
+- Add startup WARNING log when dev_mode is enabled
+- Add environment check to BLOCK dev_mode if `ENVIRONMENT=production`
+
+### 2. JWT Audience Verification (CRIT-002)
+**File**: src/token_metering_api/core/auth.py, line 100
+
+**Current**:
+```python
+options={"verify_aud": False}
+```
+
+**Fix**:
+- Enable audience verification: `"verify_aud": True`
+- Add `TOKEN_AUDIENCE` config setting (default: "token-metering-api")
+- Validate audience matches
+
+### 3. Add Rate Limiting (HIGH-001)
+**File**: src/token_metering_api/main.py
+
+**Add**:
+- Install slowapi for rate limiting
+- Add rate limit decorator to all endpoints
+- Stricter limits for admin endpoints
+- Per-IP and per-user rate limits
+
+### 4. Add Token Limits on Admin Endpoints (HIGH-002)
+**File**: src/token_metering_api/routes/schemas.py
+
+**Fix**:
+- Add `le=100_000_000` constraint to GrantRequest.tokens
+- Add `le=100_000_000` constraint to TopupRequest.tokens
+
+## TDD APPROACH
+
+1. First write failing tests in `tests/test_security.py`:
+   - test_dev_mode_does_not_grant_admin_by_default
+   - test_dev_mode_requires_explicit_admin_header
+   - test_dev_mode_blocked_in_production_environment
+   - test_jwt_audience_verified
+   - test_rate_limiting_enforced
+   - test_admin_grant_rejects_excessive_tokens
+
+2. Then implement fixes to make tests pass
+
+3. Run: `cd /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api && uv run pytest tests/test_security.py -v`
+
+4. Verify all existing tests still pass: `uv run pytest -v`
+
+Execute autonomously. Write tests first, then implement fixes.

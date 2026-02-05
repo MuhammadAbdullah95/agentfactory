@@ -8,6 +8,7 @@ from datetime import datetime
 
 from agents import Runner, RunResultStreaming
 from chatkit.agents import AgentContext, simple_to_agent_input, stream_agent_response
+from fastapi import HTTPException
 from chatkit.server import ChatKitServer
 from chatkit.types import (
     AssistantMessageContent,
@@ -22,6 +23,7 @@ from chatkit.types import (
 
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte import create_agent
+from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
 
 logger = logging.getLogger(__name__)
@@ -316,13 +318,77 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 request_context=context,
             )
 
+            # Create metering hooks if metering is enabled
+            metering_hooks = create_metering_hooks()
+
             # Run agent with streaming
             logger.info(f"[ChatKit] Running agent for thread {thread.id}")
-            result = Runner.run_streamed(agent, input_items, context=agent_context)
+            result = Runner.run_streamed(
+                agent,
+                input_items,
+                context=agent_context,
+                hooks=metering_hooks,
+            )
 
             # Use wrapper that fixes fake IDs from Chat Completions API
-            async for event in _stream_with_real_ids(agent_context, result):
-                yield event
+            # Wrap in try/except to release metering reservation on error
+            try:
+                async for event in _stream_with_real_ids(agent_context, result):
+                    yield event
+            except HTTPException as http_err:
+                # Handle metering 402 specially - show user-friendly message
+                if http_err.status_code == 402:
+                    detail = http_err.detail if isinstance(http_err.detail, dict) else {}
+                    # v5 format: error_code, balance, available_balance, required, is_expired
+                    error_code = detail.get("error_code", "INSUFFICIENT_BALANCE")
+                    balance = detail.get("balance", 0)
+                    available_balance = detail.get("available_balance", 0)
+                    required = detail.get("required", 0)
+                    is_expired = detail.get("is_expired", False)
+
+                    if is_expired:
+                        error_text = (
+                            "Your account has been inactive for too long. "
+                            "Please contact support to reactivate your balance."
+                        )
+                    elif error_code == "ACCOUNT_SUSPENDED":
+                        error_text = (
+                            "Your account has been suspended. "
+                            "Please contact support for assistance."
+                        )
+                    else:
+                        # Default: insufficient balance
+                        error_text = (
+                            f"Insufficient balance (need {required:,} tokens, "
+                            f"have {available_balance:,}). "
+                            f"Please add more tokens to continue."
+                        )
+
+                    logger.warning(
+                        f"[ChatKit] Metering blocked: error_code={error_code}, "
+                        f"balance={balance}, required={required}, is_expired={is_expired}"
+                    )
+
+                    error_message = AssistantMessageItem(
+                        id=self.store.generate_item_id("message", thread, context),
+                        thread_id=thread.id,
+                        created_at=datetime.now(),
+                        content=[
+                            AssistantMessageContent(text=error_text, annotations=[])
+                        ],
+                    )
+                    yield ThreadItemDoneEvent(item=error_message)
+                    return  # Don't re-raise, we handled it gracefully
+                else:
+                    # Release reservation and re-raise other HTTP errors
+                    if metering_hooks:
+                        await metering_hooks.release_on_error(agent_context)
+                    raise
+            except Exception:
+                # Release metering reservation on streaming error
+                if metering_hooks:
+                    await metering_hooks.release_on_error(agent_context)
+                raise
 
             logger.info(f"[ChatKit] Response completed for thread {thread.id}")
 
@@ -342,6 +408,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 except Exception as del_err:
                     logger.warning(f"[ChatKit] Failed to delete trigger: {del_err}")
 
+        except HTTPException:
+            # Re-raise HTTP exceptions (e.g., 402 from metering) for proper response
+            raise
         except Exception as e:
             logger.exception(f"[ChatKit] Error in respond(): {e}")
 

@@ -1,0 +1,24 @@
+You are a senior developer focused on code quality. Review the token-metering-api for maintainability and simplicity.
+
+**Implementation location**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api/
+
+Review these code quality aspects:
+1. **Code Complexity**: Function length, nesting depth, cyclomatic complexity
+2. **DRY Violations**: Duplicated logic, copy-paste code
+3. **Error Handling**: Consistency, coverage, error messages
+4. **Type Safety**: Type hints, Pydantic model usage
+5. **Naming**: Clear variable/function names, consistent conventions
+6. **Dead Code**: Unused imports, unreachable code, commented code
+7. **Documentation**: Docstrings, comments where needed
+
+Read these files:
+- src/token_metering_api/services/*.py
+- src/token_metering_api/routes/*.py
+- src/token_metering_api/models/*.py
+- src/token_metering_api/config.py
+
+Output a structured report with:
+- Code smells found (with file:line references)
+- Refactoring recommendations
+- Good patterns worth keeping
+- Overall maintainability score (1-10)

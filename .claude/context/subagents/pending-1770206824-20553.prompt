@@ -1,0 +1,9 @@
+Explore /Users/mjs/Documents/code/mjunaidca/taskforce_agent1/apps/api to understand:
+
+1. Project structure (folders, main files)
+2. Database connection setup (ORM, connection pooling)
+3. Tech stack (FastAPI? SQLAlchemy? Pydantic?)
+4. How routes/endpoints are organized
+5. Any existing patterns for services/repositories
+
+Thoroughness: medium

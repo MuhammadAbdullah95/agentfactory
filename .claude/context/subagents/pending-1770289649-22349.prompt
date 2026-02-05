@@ -1,0 +1,131 @@
+You are a test engineer. Expand the end-to-end test coverage for the token-metering-api.
+
+**Working Directory**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api
+
+## REQUIRED E2E TESTS
+
+Review the existing test file `tests/test_e2e_user_journeys.py` and add comprehensive scenarios.
+
+### New E2E Test Scenarios to Add
+
+```python
+class TestNewUserJourney:
+    """Test complete journey for a new user."""
+    
+    async def test_new_user_gets_starter_tokens(self):
+        """First request should create account with 50k starter tokens."""
+        
+    async def test_new_user_can_immediately_use_tokens(self):
+        """New user should be able to check -> deduct -> verify balance."""
+        
+    async def test_starter_allocation_recorded(self):
+        """Starter token grant should appear in allocations."""
+
+
+class TestAdminGrantJourney:
+    """Test admin granting tokens to users."""
+    
+    async def test_admin_grants_tokens_to_existing_user(self):
+        """Admin grant should increase balance."""
+        
+    async def test_admin_grants_tokens_to_new_user(self):
+        """Admin grant to new user should create account first."""
+        
+    async def test_admin_grant_creates_allocation_record(self):
+        """Grant should appear in allocation history."""
+        
+    async def test_admin_topup_clears_negative_balance(self):
+        """Topup should bring negative balance positive."""
+
+
+class TestErrorRecoveryJourneys:
+    """Test error scenarios and recovery."""
+    
+    async def test_insufficient_balance_recovery(self):
+        """User with insufficient balance can recover after topup."""
+        # 1. Drain balance
+        # 2. Get blocked (402)
+        # 3. Admin topup
+        # 4. Can use again
+        
+    async def test_suspended_account_recovery(self):
+        """Suspended user can recover after admin unsuspends."""
+        
+    async def test_expired_account_reactivation(self):
+        """Expired account reactivates on admin grant."""
+
+
+class TestIdempotencyJourneys:
+    """Test idempotency in real scenarios."""
+    
+    async def test_retry_after_network_timeout(self):
+        """Simulated retry with same request_id should succeed."""
+        # 1. Check succeeds
+        # 2. Deduct called (imagine network timeout)
+        # 3. Retry deduct with same request_id
+        # 4. Should return "already_processed", not double-deduct
+        
+    async def test_duplicate_check_returns_same_reservation(self):
+        """Duplicate check with same params returns existing reservation."""
+        
+    async def test_release_already_finalized_reservation(self):
+        """Releasing after finalize should succeed (idempotent)."""
+
+
+class TestNegativeBalanceJourneys:
+    """Test streaming overage handling."""
+    
+    async def test_streaming_overage_allows_negative(self):
+        """Finalize can take balance negative (streaming overage)."""
+        # 1. Reserve 100 tokens
+        # 2. Finalize with 150 tokens (overage)
+        # 3. Balance goes negative
+        
+    async def test_negative_balance_blocks_next_request(self):
+        """Negative balance should block subsequent requests."""
+        
+    async def test_topup_recovers_from_negative(self):
+        """Topup should bring negative balance back to positive."""
+
+
+class TestMultiModelJourneys:
+    """Test different model pricing."""
+    
+    async def test_expensive_model_uses_more_tokens(self):
+        """More expensive model should deduct more credits."""
+        
+    async def test_unknown_model_uses_default_pricing(self):
+        """Unknown model should use default pricing."""
+
+
+class TestThreadTracking:
+    """Test conversation/thread tracking."""
+    
+    async def test_transactions_grouped_by_thread(self):
+        """Transactions with same thread_id should be retrievable together."""
+        # 1. Multiple requests with same thread_id
+        # 2. Get transactions filtered by thread_id
+        # 3. All should be returned
+
+
+class TestBalanceExpiryJourney:
+    """Test inactivity expiry behavior."""
+    
+    async def test_expired_user_shows_zero_effective_balance(self):
+        """User inactive for 365+ days should have effective_balance=0."""
+        
+    async def test_expired_user_balance_preserved(self):
+        """Raw balance should remain unchanged even when expired."""
+        
+    async def test_admin_grant_reactivates_expired_account(self):
+        """Admin grant should reset last_activity_at and reactivate."""
+```
+
+## EXECUTION
+
+1. Read existing `tests/test_e2e_user_journeys.py` to understand patterns
+2. Add the new test cases
+3. Run: `cd /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api && uv run pytest tests/test_e2e_user_journeys.py -v`
+4. Ensure all tests pass
+
+Execute autonomously.

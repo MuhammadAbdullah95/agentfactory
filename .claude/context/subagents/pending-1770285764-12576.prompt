@@ -1,0 +1,70 @@
+You are a senior developer. Fix code quality issues in the token-metering-api using TDD approach.
+
+**Working Directory**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api
+
+## FIXES REQUIRED
+
+### 1. Extract Duplicated _get_or_create_account
+**Current**: Method duplicated in:
+- src/token_metering_api/services/metering.py:347-388
+- src/token_metering_api/services/admin.py:168-209
+
+**Fix**:
+- Create new file: src/token_metering_api/services/account.py
+- Move shared logic to `AccountService.get_or_create(user_id, session, redis)` 
+- Update MeteringService and AdminService to use AccountService
+- Keep the method signatures compatible
+
+### 2. Extract Duplicated Cache Invalidation
+**Current**: Duplicated in metering.py:446-451 and admin.py:211-216
+
+**Fix**:
+- Add to AccountService or create core/cache.py
+- Single `invalidate_balance_cache(redis, user_id)` function
+
+### 3. Refactor check_balance Method (147 lines → smaller methods)
+**File**: src/token_metering_api/services/metering.py:57-204
+
+**Fix**: Extract to private methods:
+- `_check_account_status(account)` → returns error dict or None
+- `_handle_redis_reservation(user_id, request_id, estimated_tokens, effective_balance)` → returns reservation result
+- `_handle_fail_open(user_id, estimated_tokens, effective_balance)` → returns failopen result
+- Keep main check_balance as orchestrator (~30 lines)
+
+### 4. Add TypedDicts for Service Returns
+**Current**: `dict[str, Any]` return types
+
+**Fix**: Create in services/types.py:
+```python
+class CheckBalanceResult(TypedDict):
+    allowed: bool
+    reservation_id: str | None
+    error_code: str | None
+    message: str | None
+    balance: int
+    available_balance: int
+    required: int | None
+    is_expired: bool
+
+class FinalizeResult(TypedDict):
+    status: Literal["finalized", "already_processed"]
+    transaction_id: str
+    ...
+```
+
+### 5. Remove Unused Imports
+- metering.py:35 - STARTER_TOKENS (uses settings.starter_tokens instead)
+- schemas.py:4 - Decimal
+
+## TDD APPROACH
+
+1. Write tests first that verify:
+   - AccountService.get_or_create works correctly
+   - Refactored check_balance produces same results
+   - TypedDict return types are correct
+
+2. Implement refactoring
+
+3. Run tests: `cd /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api && uv run pytest -v`
+
+Execute autonomously. Maintain backward compatibility.

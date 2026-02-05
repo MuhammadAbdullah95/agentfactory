@@ -1,0 +1,101 @@
+You are a performance engineer. Implement caching and performance optimizations in the token-metering-api using TDD approach.
+
+**Working Directory**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api
+
+## OPTIMIZATIONS REQUIRED
+
+### 1. Implement Balance Read-Through Cache
+**Currently**: Only cache invalidation exists (metering.py:446-451), no cache reads
+
+**Implement**:
+```python
+# In services/metering.py or new core/cache.py
+async def get_cached_balance(redis: Redis, user_id: str) -> int | None:
+    """Get balance from Redis cache. Returns None on miss."""
+    if not redis:
+        return None
+    cached = await redis.get(f"metering:balance:{user_id}")
+    if cached:
+        return int(cached)
+    return None
+
+async def set_balance_cache(redis: Redis, user_id: str, balance: int, ttl: int = 60) -> None:
+    """Cache balance with TTL."""
+    if redis:
+        await redis.setex(f"metering:balance:{user_id}", ttl, str(balance))
+```
+
+**Update check_balance**:
+1. Try cache first
+2. On miss, read from DB
+3. Cache the result
+4. Still validate against effective_balance (expiry check)
+
+### 2. Cache Pricing Table
+**Currently**: Every /deduct queries pricing table (metering.py:416-436)
+
+**Implement**:
+- Cache pricing in Redis with 5-minute TTL
+- Key: `metering:pricing:{model}`
+- On cache miss, query DB and cache result
+- Pricing changes are rare, cache is safe
+
+### 3. Increase Connection Pools
+**File**: src/token_metering_api/config.py
+
+**Update**:
+```python
+redis_max_connections: int = 50  # was 20
+```
+
+**File**: src/token_metering_api/core/database.py
+
+**Update**:
+```python
+pool_size=20,      # was 10
+max_overflow=30,   # was 20
+```
+
+### 4. Add Key EXPIRE to Redis Sorted Sets
+**Files**: src/token_metering_api/scripts/reserve.lua, finalize.lua, release.lua
+
+After each ZADD/ZREM, add:
+```lua
+redis.call('EXPIRE', key, 600)  -- 2x reservation TTL
+```
+
+This ensures keys for inactive users are automatically cleaned up.
+
+### 5. Optimize Lua Script Idempotency Check
+**File**: src/token_metering_api/scripts/reserve.lua
+
+**Current** (O(k) linear scan):
+```lua
+local members = redis.call('ZRANGE', key, 0, -1)
+for i, member in ipairs(members) do ...
+```
+
+**Consider**: Using a secondary HASH for O(1) lookup:
+- `metering:reservations:{user_id}` - ZSET for expiry
+- `metering:reservations:{user_id}:lookup` - HASH for idempotency
+- Trade-off: More Redis commands but O(1) lookup
+
+For now, document the O(k) behavior is acceptable since k is bounded by TTL.
+
+## TDD APPROACH
+
+1. Write tests in tests/test_caching.py:
+   - test_balance_cache_read_hit
+   - test_balance_cache_read_miss_then_cached
+   - test_balance_cache_invalidation
+   - test_pricing_cache_hit
+   - test_pricing_cache_miss_then_cached
+   - test_reservation_key_expires
+
+2. Implement caching
+
+3. Run: `cd /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api && uv run pytest tests/test_caching.py -v`
+
+4. Run all tests: `uv run pytest -v`
+
+Execute autonomously.

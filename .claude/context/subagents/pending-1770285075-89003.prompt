@@ -1,0 +1,27 @@
+You are a performance engineer. Analyze the token-metering-api for scalability and efficiency.
+
+**Spec location**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/specs/001-freemium-tracker/
+**Implementation location**: /Users/mjs/Documents/code/panaversity-official/tutorsgpt/test/apps/token-metering-api/
+
+Review these performance aspects:
+1. **Redis Operations**: Lua script complexity, ZSET operations, key design
+2. **Database Queries**: N+1 queries, index usage, connection pooling
+3. **API Response Times**: Blocking operations, async patterns
+4. **Memory Usage**: Object creation, caching strategies
+5. **Scalability**: Horizontal scaling, statelessness, bottlenecks
+
+Read the relevant files:
+- src/token_metering_api/scripts/*.lua (Redis Lua scripts)
+- src/token_metering_api/services/metering.py
+- src/token_metering_api/core/database.py
+- src/token_metering_api/core/redis.py
+- specs/001-freemium-tracker/spec.md (performance requirements)
+- specs/001-freemium-tracker/data-model.md (data architecture)
+
+Output a structured report with:
+- Estimated throughput capacity
+- Identified bottlenecks
+- Optimization opportunities
+- Scalability concerns
+
+Include specific line numbers and code snippets where relevant.

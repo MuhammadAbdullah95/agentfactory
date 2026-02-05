@@ -135,6 +135,49 @@ article {
   margin-bottom: 1rem;
 }
 
+/* Update metadata row (last updated + history/edit links) */
+.doc-update-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.doc-update-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.doc-update-meta__links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.doc-update-meta__links a {
+  color: #2f5fd0;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms ease;
+}
+
+.doc-update-meta__links a:hover {
+  border-bottom-color: currentColor;
+}
+
+[data-theme='dark'] .doc-update-meta {
+  color: #8a8a8a;
+}
+
+[data-theme='dark'] .doc-update-meta__links a {
+  color: #7aa2ff;
+}
+
 /* ============================================================================
    DOC PAGE ACTIONS — Premium UX with animations and accessibility
    ============================================================================ */
@@ -1048,6 +1091,13 @@ article {
 /* Hide Docusaurus's built-in back-to-top button (we use custom implementation) */
 .theme-back-to-top-button,
 [class*='backToTopButton'] {
+  display: none !important;
+}
+
+/* Hide Docusaurus's built-in "Edit this page" link in footer (not appropriate for a book) */
+.theme-edit-this-page,
+[class*='editThisPage'],
+.theme-doc-footer-edit-meta-row a[href*="/edit/"] {
   display: none !important;
 }
 
