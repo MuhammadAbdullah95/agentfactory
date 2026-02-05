@@ -57,7 +57,10 @@ function generateCodeChallenge(verifier) {
 async function getSessionCookie() {
   const response = await fetch(`${AUTH_URL}/api/auth/sign-in/email`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Origin": AUTH_URL,
+    },
     body: JSON.stringify({ email: TEST_EMAIL, password: TEST_PASSWORD }),
   });
 
