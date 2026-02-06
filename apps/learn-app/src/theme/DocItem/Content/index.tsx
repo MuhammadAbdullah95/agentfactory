@@ -23,6 +23,8 @@ import { useStudyMode } from "@/contexts/StudyModeContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { TeachMePanel } from "@/components/TeachMePanel";
 import { getOAuthAuthorizationUrl } from "@/lib/auth-client";
+import { useVoiceReading } from "@/contexts/VoiceReadingContext";
+import { VoiceControlDock } from "@/components/VoiceControlDock";
 
 type Props = WrapperProps<typeof ContentType>;
 
@@ -199,6 +201,50 @@ function AskFloatingButton({
   );
 }
 
+/**
+ * Speaker Floating Button - toggles voice/speaker controls using VoiceReadingContext
+ * Provides word-by-word reading with blur/highlight animation
+ */
+function SpeakerFloatingButton() {
+  const { isPlaying, toggleSpeech } = useVoiceReading();
+
+  return (
+    <button
+      onClick={toggleSpeech}
+      className={`speaker-float ${isPlaying ? "speaker-float--active" : ""}`}
+      title={isPlaying ? "Stop Speaking" : "Read Aloud"}
+      aria-label={isPlaying ? "Stop Speaking" : "Read Page Aloud"}
+      aria-pressed={isPlaying}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {isPlaying ? (
+          <>
+            {/* Volume 2 icon (sound on with waves) */}
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+          </>
+        ) : (
+          <>
+            {/* Volume icon (speaker) */}
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+          </>
+        )}
+      </svg>
+    </button>
+  );
+}
+
 export default function ContentWrapper(props: Props): React.ReactElement {
   const doc = useDoc();
 
@@ -209,6 +255,8 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     }
     return false;
   });
+
+  // Voice reading is now handled by VoiceReadingContext (word-by-word highlighting)
 
   React.useEffect(() => {
     if (zenMode) {
@@ -336,6 +384,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         {!isStudyModeOpen && (
           <div className="floating-actions">
             <BackToTopButton />
+            <SpeakerFloatingButton />
             <TeachMeFloatingButton
               isLoggedIn={isLoggedIn}
               openPanel={openPanel}
@@ -389,6 +438,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
+        <VoiceControlDock />
         {<TeachMePanel lessonPath={lessonPath} />}
       </>
     );
@@ -419,6 +469,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       {!isStudyModeOpen && (
         <div className="floating-actions">
           <BackToTopButton />
+          <SpeakerFloatingButton />
           <TeachMeFloatingButton
             isLoggedIn={isLoggedIn}
             openPanel={openPanel}
@@ -475,6 +526,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
+      <VoiceControlDock />
       {<TeachMePanel lessonPath={lessonPath} />}
     </>
   );
