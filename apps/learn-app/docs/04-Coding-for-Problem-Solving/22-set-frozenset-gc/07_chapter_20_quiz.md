@@ -237,6 +237,10 @@ Test your understanding of Python's hash-based data structures and automatic mem
     {
       question: "You need to store groups of user IDs where each group is a set. Which structure works?",
       options: [
+        "A set of frozensets: {frozenset([1, 2]), frozenset([3, 4])}",
+        "A set of sets: {{1, 2}, {3, 4}}",
+        "A list of sets: [{1, 2}, {3, 4}]",
+        "A set of lists: {[1, 2], [3, 4]}"
       ],
       correctOption: 0,
       explanation: "Sets can only contain hashable elements. Frozensets are hashable (immutable), so `set[frozenset[int]]` works: `{frozenset([1, 2]), frozenset([3, 4])}`. Regular sets and lists are unhashable (mutable), so they cannot be set members. Option 2 fails with `TypeError: unhashable type: 'set'`. Option 3 works but doesn't provide set-level uniqueness or O(1) group lookup. Option 4 fails with `TypeError: unhashable type: 'list'`. This pattern is common in data analysis: tracking unique groups, modeling relationships, or finding group overlaps. The nested structure allows set operations on groups: `groups_a & groups_b` finds shared groups.",

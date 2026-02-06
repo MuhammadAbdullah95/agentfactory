@@ -96,6 +96,10 @@ Test your understanding of string fundamentals, essential string methods, f-stri
     {
       question: "What does 'Python Programming'.split() return?",
       options: [
+        "['Python', 'Programming']",
+        "'Python Programming' (unchanged)",
+        "('Python', 'Programming')",
+        "'Python' (first word only)"
       ],
       correctOption: 0,
       explanation: "The split() method breaks a string into a list of substrings based on a delimiter. When called with no arguments, split() uses whitespace (spaces, tabs, newlines) as the default delimiter. 'Python Programming'.split() splits at the space, returning ['Python', 'Programming']. This is useful for parsing sentences into words. Note that split() returns a list, not a string or tuple. You can then use join() to reassemble the pieces.",
@@ -344,6 +348,10 @@ Test your understanding of string fundamentals, essential string methods, f-stri
     {
       question: "What does 'a,b,c'.split(',') return?",
       options: [
+        "['a', 'b', 'c']",
+        "'a b c'",
+        "('a', 'b', 'c')",
+        "['a,b,c']"
       ],
       correctOption: 0,
       explanation: "The split() method accepts an optional delimiter argument specifying where to split. 'a,b,c'.split(',') splits at each comma, returning the list ['a', 'b', 'c']. This is useful for parsing CSV data, tags, or other delimited formats. Compare this to split() with no arguments, which splits on whitespace. You can then process each element: for item in 'a,b,c'.split(','): processes 'a', then 'b', then 'c'. Note that split() returns a list, not a string or tuple.",

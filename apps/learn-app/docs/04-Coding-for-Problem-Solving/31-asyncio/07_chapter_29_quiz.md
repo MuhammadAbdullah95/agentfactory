@@ -408,6 +408,10 @@ Test your understanding of asynchronous programming with asyncio, concurrent I/O
     {
       question: "Your AI system calls 10 LLM APIs concurrently. 8 succeed, 2 timeout. Using gather(return_exceptions=True), how do you extract successful results?",
       options: [
+        "Filter results with isinstance check to separate exceptions from values",
+        "Access results directly since exceptions are automatically excluded",
+        "Call results.successes() method to get only successful results",
+        "Catch TimeoutError after gather since exceptions are still raised"
       ],
       correctOption: 0,
       explanation: "The correct answer is option 1. gather(return_exceptions=True) returns a list with mixed types: successful results as their return values, failed tasks as Exception objects. You must manually filter: 'successes = [r for r in results if not isinstance(r, Exception)]' gives you the 8 successful calls. For failures: 'failures = [r for r in results if isinstance(r, Exception)]'. Option 2 is wrong—results include exceptions. Option 3 is wrong—no such method exists. Option 4 is wrong—return_exceptions=True prevents exceptions from being raised (they're returned instead). This pattern is essential for resilient multi-service systems: gather all results, inspect each, use what succeeded, log what failed. From Lesson 2: gather() Error Handling.",

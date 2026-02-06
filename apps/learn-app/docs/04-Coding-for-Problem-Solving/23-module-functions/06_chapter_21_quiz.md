@@ -298,6 +298,10 @@ Test your understanding of module organization, function design with type hints,
     {
       question: "AI generated `def parse_date(date_string: str) -> tuple[int, int, int]:` that crashes on invalid input. What should the return type be?",
       options: [
+        "Raise ValueError inside the function for invalid date strings",
+        "Change to tuple[int, int, int] | None to signal parse failure",
+        "Return an empty tuple () when the date string is invalid",
+        "Change to tuple[int | None, int | None, int | None] for each element"
       ],
       correctOption: 1,
       explanation: "The correct answer is 'Change to tuple[int, int, int] | None'. This return type signals 'either valid parsed date (year, month, day) or None if parsing fails.' Callers must check: `result = parse_date(input); if result: year, month, day = result`. Option 1 (raising exception) works but makes the function harder to use—callers must wrap in try/except. Returning None is gentler for expected failures (invalid input). Option 3 (empty tuple) is wrong—type hint says 3 ints, returning () violates that contract. Option 4 is overly complex—having each element be optional doesn't make sense; either you parse all three or none. The `Type | None` pattern is standard for operations that might fail: it makes failure explicit in the type system, enabling clean handling without exceptions. This optional return pattern is demonstrated in Lesson 3's parse_date() example as the idiomatic Python approach to fallible parsing operations.",
