@@ -238,7 +238,7 @@ company/
 
 **Why Reference Implementations Matter:** When you build Custom Agents (Part 6), you'll face questions: How should I structure MCP client connections? How do I handle streaming responses? What's the right way to manage conversation context? You could solve these from first principles. Or you could study how goose solved them—then adapt those patterns to your needs.
 
-**goose in the Two Paths Framework:** Remember Chapter 1's Two Paths? Path A: General Agents (ready-to-use like Claude Code, goose). Path B: Custom Agents (built from SDKs). goose is a Path A agent, but it's **open source**—making it your blueprint for Path B.
+**goose in the Agent Maturity Model:** General Agents like Claude Code and goose serve as Incubator-stage tools where you explore and prototype. Custom Agents (built with SDKs) emerge in the Specialist stage when requirements crystallize for production. goose is an Incubator-stage agent, but it's **open source**, making it your blueprint for understanding how to build Specialists.
 
 | Learning Path | What You Get |
 |---------------|--------------|
