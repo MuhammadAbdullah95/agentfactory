@@ -70,13 +70,12 @@ prerequisites:
 A subagent is a specialized AI Agent with its own instructions and isolated context window. Each subagent is an expert at one type of task.
 
 Think of Claude Code as a project manager with a team of specialists:
+
 - **Claude Code (main)**: Coordinates overall work
 - **Plan subagent**: Researches your codebase and creates multi-step plans
 - **Custom subagents**: You can create specialists for your team's specific needs (content planning, research synthesis, document structuring, etc.)
 
 ![Three-tier hierarchy tree showing Claude Code (orchestrator) at top, Subagents (specialized agents) in middle tier, and Skills (reusable capabilities) at bottom, with delegation arrows and example instances](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/skills-subagents-hierarchy-tree.png)
-
-
 
 You already have a team of AI specialists. Let's meet them.
 
@@ -91,6 +90,7 @@ Run this command in Claude Code right now:
 ```
 
 **What you'll see**:
+
 ```
 │ Agents                                                                               │
 │ ❯ Create new agent                                                                   │
@@ -115,11 +115,13 @@ These are **subagents**—specialized AI assistants that Claude Code can delegat
 Let's use the **Explore** subagent to see what's in your current folder.
 
 **Type this in Claude Code**:
+
 ```
 Use the Explore subagent to tell me what's in this folder and summarize the project structure.
 ```
 
 **What happens**:
+
 1. Claude Code delegates to the Explore subagent
 2. Explore scans your directory with its own clean context
 3. Explore returns a summary to main Claude Code
@@ -131,13 +133,13 @@ Use the Explore subagent to tell me what's in this folder and summarize the proj
 
 ## Meet the Built-In Agents
 
-| Agent | Best For | Model |
-|-------|----------|-------|
-| **Explore** | Finding files, searching code, understanding codebase structure | Haiku (fast) |
-| **Plan** | Complex multi-step tasks, creating implementation strategies | Sonnet (smart) |
-| **general-purpose** | Multi-step tasks requiring various tools | Sonnet |
-| **Bash** | Command execution tasks | Inherits current |
-| **claude-code-guide** | Questions about Claude Code itself | Haiku |
+| Agent                 | Best For                                                        | Model            |
+| --------------------- | --------------------------------------------------------------- | ---------------- |
+| **Explore**           | Finding files, searching code, understanding codebase structure | Haiku (fast)     |
+| **Plan**              | Complex multi-step tasks, creating implementation strategies    | Sonnet (smart)   |
+| **general-purpose**   | Multi-step tasks requiring various tools                        | Sonnet           |
+| **Bash**              | Command execution tasks                                         | Inherits current |
+| **claude-code-guide** | Questions about Claude Code itself                              | Haiku            |
 
 **Key insight**: Claude Code automatically picks the right specialist based on your request. But you can also explicitly invoke any agent.
 
@@ -148,6 +150,7 @@ Use the Explore subagent to tell me what's in this folder and summarize the proj
 **Critical concept**: A subagent is invoked **once** for a specific goal, completes its work, and **returns results to main Claude Code**.
 
 **The flow**:
+
 1. Main Claude Code recognizes a task that needs a specialist
 2. Launches the subagent with a specific goal
 3. Subagent works independently in isolated context
@@ -160,10 +163,10 @@ Use the Explore subagent to tell me what's in this folder and summarize the proj
 ### Automatic Delegation
 
 You don't command "use the Plan subagent." Claude Code decides when to delegate based on:
+
 - Task complexity (multi-step tasks trigger Plan)
 - Your request type (code review request might trigger a review subagent if you have one)
 - Subagent descriptions (Claude matches task to specialist)
-
 
 ---
 
@@ -172,16 +175,19 @@ You don't command "use the Plan subagent." Claude Code decides when to delegate 
 Here's where it gets powerful. You can invoke **multiple subagents in a single prompt**.
 
 **Try this**:
+
 ```
 Use Explore to show me what files are in this project, AND use Plan to outline how I could add a README if one doesn't exist.
 ```
 
 **What happens**:
+
 - Claude Code launches **both** subagents
 - They work in parallel with isolated contexts
 - Results combine into a single response
 
 **Real-world example**:
+
 ```
 Use Explore to find all test files in this project, AND use Plan to suggest a testing strategy for the gaps you find.
 ```
@@ -195,12 +201,14 @@ This is **orchestration**—coordinating multiple specialists toward a goal.
 Each subagent has its own **isolated context window**. Why does this matter?
 
 **Without subagents** (one AI doing everything):
+
 1. You ask Claude to research competitors
 2. Context fills with research notes
 3. You ask Claude to draft a pitch
 4. Context is cluttered—Claude might confuse research notes with your pitch
 
 **With subagents**:
+
 1. Research subagent does research, returns clean summary
 2. Main Claude receives summary, context stays clean
 3. Planning subagent drafts pitch with fresh context
@@ -209,6 +217,7 @@ Each subagent has its own **isolated context window**. Why does this matter?
 **Think of it like a team meeting**: The researcher presents findings, then leaves. The strategist creates a plan with fresh focus. Nobody is juggling everything at once.
 
 #### 💬 AI Colearning Prompt
+
 > "Explain why subagents use isolated context windows instead of sharing the main conversation. What problems does context isolation solve?"
 
 ---
@@ -222,15 +231,18 @@ You → Main Claude Code → Launches Subagent → Subagent works → Returns re
 ```
 
 **Key concepts**:
+
 1. **One task, one completion**: Subagent is invoked for a specific goal, completes it, returns
 2. **Control returns**: After the subagent finishes, you interact with main Claude Code again
 3. **Automatic or explicit**: Claude Code can auto-delegate, or you can request a specific agent
 
 **Automatic triggers**:
+
 - Ask "What files handle authentication?" → Explore auto-activates
 - Ask "Help me add user login to this app" → Plan auto-activates (complex task)
 
 **Explicit invocation**:
+
 ```
 Use the Plan subagent to analyze this feature request.
 ```
@@ -272,12 +284,14 @@ Select **"Create new agent"**
 ### Step 4: Describe Your Agent
 
 **Type something like**:
+
 ```
 Help me review code for bugs and suggest improvements.
 Use when I say "review this code" or "check for bugs."
 ```
 
 Claude Code creates:
+
 - Agent name (e.g., `code-reviewer`)
 - Instructions based on your description
 - Tool permissions
@@ -299,6 +313,7 @@ Use the code-reviewer subagent to review this function: [paste your code]
 **User-level**: `~/.claude/agents/` (all your projects)
 
 **Example file** (`.claude/agents/code-reviewer.md`):
+
 ```markdown
 ---
 name: code-reviewer
@@ -309,6 +324,7 @@ model: sonnet
 # Code Review Instructions
 
 When reviewing code:
+
 1. Check for bugs and edge cases
 2. Suggest performance improvements
 3. Note any security concerns
@@ -327,6 +343,7 @@ Once you understand the pattern, create specialists for any repeated task:
 - **Refactor subagent**: Suggest cleaner code patterns, reduce complexity
 
 **The pattern**:
+
 1. What expertise does this specialist have?
 2. What should it do autonomously?
 3. What format should results be in?
@@ -334,6 +351,8 @@ Once you understand the pattern, create specialists for any repeated task:
 ---
 
 ### What's Next
+
+Subagents are one-shot workers that report back to the caller. But what happens when workers need to talk to _each other_? In Chapter 4, Lesson 9, you'll learn about **Agent Teams**—multiple Claude Code instances that communicate directly, share a task list, and self-coordinate. Same context isolation principles, but with inter-agent collaboration.
 
 Lesson 10 introduces **MCP Integration**—connecting Claude to external systems like web browsers, databases, and documentation servers. Where subagents give you coordination between AI specialists, MCP gives you access to the outside world.
 
