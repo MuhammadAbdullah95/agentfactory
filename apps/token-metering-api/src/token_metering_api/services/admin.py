@@ -10,10 +10,12 @@ import logging
 from datetime import UTC, datetime
 from typing import Any
 
+from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.redis import get_redis
 from ..models import (
+    TokenAccount,
     TokenAllocation,
     TokenTransaction,
     TransactionType,
@@ -45,15 +47,23 @@ class AdminService:
         Creates audit record in TokenAllocation.
         Updates last_activity_at (reactivates expired accounts) - FR-027.
         """
-        # Get or create account - delegated to AccountService
-        account = await self._account_service.get_or_create(user_id)
+        # Ensure account exists - delegated to AccountService
+        await self._account_service.get_or_create(user_id)
 
         now = datetime.now(UTC)
 
-        # Add to balance directly (FR-007)
-        account.balance += tokens
-        account.last_activity_at = now  # Reactivates if expired - FR-027
-        account.updated_at = now
+        # Atomically add to balance (FR-032: balance = balance + X)
+        result = await self.session.execute(
+            update(TokenAccount)
+            .where(TokenAccount.user_id == user_id)
+            .values(
+                balance=TokenAccount.balance + tokens,
+                last_activity_at=now,  # Reactivates if expired - FR-027
+                updated_at=now,
+            )
+            .returning(TokenAccount.balance)
+        )
+        new_balance = result.scalar_one()
 
         # Create audit record (FR-031)
         allocation = TokenAllocation.create_grant(
@@ -75,7 +85,6 @@ class AdminService:
             },
         )
 
-        self.session.add(account)
         self.session.add(allocation)
         self.session.add(transaction)
         await self.session.commit()
@@ -92,7 +101,7 @@ class AdminService:
             "transaction_id": transaction.id,
             "allocation_id": allocation.id,
             "tokens_granted": tokens,
-            "new_balance": account.balance,
+            "new_balance": new_balance,
         }
 
     async def topup_tokens(
@@ -109,15 +118,23 @@ class AdminService:
         Creates audit record in TokenAllocation.
         Updates last_activity_at (reactivates expired accounts) - FR-027.
         """
-        # Get or create account - delegated to AccountService
-        account = await self._account_service.get_or_create(user_id)
+        # Ensure account exists - delegated to AccountService
+        await self._account_service.get_or_create(user_id)
 
         now = datetime.now(UTC)
 
-        # Add to balance directly (FR-007)
-        account.balance += tokens
-        account.last_activity_at = now  # Reactivates if expired - FR-027
-        account.updated_at = now
+        # Atomically add to balance (FR-032: balance = balance + X)
+        result = await self.session.execute(
+            update(TokenAccount)
+            .where(TokenAccount.user_id == user_id)
+            .values(
+                balance=TokenAccount.balance + tokens,
+                last_activity_at=now,  # Reactivates if expired - FR-027
+                updated_at=now,
+            )
+            .returning(TokenAccount.balance)
+        )
+        new_balance = result.scalar_one()
 
         # Create audit record (FR-031)
         allocation = TokenAllocation.create_topup(
@@ -139,7 +156,6 @@ class AdminService:
             },
         )
 
-        self.session.add(account)
         self.session.add(allocation)
         self.session.add(transaction)
         await self.session.commit()
@@ -158,5 +174,5 @@ class AdminService:
             "transaction_id": transaction.id,
             "allocation_id": allocation.id,
             "tokens_added": tokens,
-            "new_balance": account.balance,
+            "new_balance": new_balance,
         }

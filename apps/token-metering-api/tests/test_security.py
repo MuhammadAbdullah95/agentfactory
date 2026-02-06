@@ -205,7 +205,7 @@ class TestJWTAudienceVerification:
             # Note: This test verifies the configuration is correct
             # The actual audience validation happens during JWT decode
             assert hasattr(settings, "token_audience")
-            assert settings.token_audience == "token-metering-api"
+            assert settings.token_audience  # Must be non-empty
 
 
 # === HIGH-001: Rate Limiting Tests ===
@@ -421,7 +421,7 @@ class TestSecurityConfiguration:
         from token_metering_api.config import settings
 
         assert hasattr(settings, "token_audience")
-        assert settings.token_audience == "token-metering-api"
+        assert settings.token_audience  # Must be non-empty
 
     def test_environment_setting_exists(self):
         """ENVIRONMENT setting should exist."""

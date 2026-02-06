@@ -32,13 +32,21 @@ def _get_storage_uri() -> str:
 
     Uses in-memory storage for tests (when pytest is running),
     Redis if configured, otherwise falls back to in-memory storage.
+    slowapi uses a sync Redis client, so we must embed the password
+    in the URL (unlike the async client which accepts it separately).
     """
     # Check if we're running in a test environment
     if "PYTEST_CURRENT_TEST" in os.environ:
         return "memory://"
 
     if settings.redis_url:
-        return settings.redis_url
+        url = settings.redis_url
+        # Inject password into URL for slowapi's sync Redis client
+        if settings.redis_password and "@" not in url:
+            # rediss://host:port → rediss://:password@host:port
+            scheme_end = url.index("://") + 3
+            url = f"{url[:scheme_end]}:{settings.redis_password}@{url[scheme_end:]}"
+        return url
 
     # Use in-memory storage when Redis is not configured
     return "memory://"

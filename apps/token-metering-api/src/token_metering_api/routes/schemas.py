@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 UUID_PATTERN = r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
 
 # Reservation ID pattern: must start with res_ or failopen_ prefix
-RESERVATION_ID_PATTERN = r"^(res_|failopen_)[a-f0-9]+$"
+RESERVATION_ID_PATTERN = r"^(res_|failopen_)[a-f0-9-]+$"
 
 
 # === Request Schemas ===

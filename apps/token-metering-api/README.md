@@ -255,16 +255,17 @@ Pricing is looked up by **exact model name match**. If no match is found, `DEFAU
 
 ### Configured Models (from `scripts/seed_pricing.sql`)
 
-| Model | Input $/1M | Output $/1M | Max Tokens | Used By |
-|-------|-----------|-------------|------------|---------|
-| `deepseek-chat` | $0.14 | $0.28 | 64,000 | study-mode-api (ask agent) |
-| `gpt-5-nano-2025-08-07` | $0.15 | $0.60 | 128,000 | study-mode-api (triage) |
-| `claude-sonnet-4-20250514` | $3.00 | $15.00 | 200,000 | Future use |
-| `claude-opus-4-20250514` | $15.00 | $75.00 | 200,000 | Future use |
+| Model                      | Input $/1M | Output $/1M | Max Tokens | Used By                    |
+| -------------------------- | ---------- | ----------- | ---------- | -------------------------- |
+| `deepseek-chat`            | $0.14      | $0.28       | 64,000     | study-mode-api (ask agent) |
+| `gpt-5-nano-2025-08-07`    | $0.15      | $0.60       | 128,000    | study-mode-api (triage)    |
+| `claude-sonnet-4-20250514` | $3.00      | $15.00      | 200,000    | Future use                 |
+| `claude-opus-4-20250514`   | $15.00     | $75.00      | 200,000    | Future use                 |
 
 ### Default Pricing (Fallback)
 
 For unknown models:
+
 - Input: $1.00 per 1M tokens
 - Output: $2.00 per 1M tokens
 - Max tokens: 128,000
@@ -272,11 +273,12 @@ For unknown models:
 ### Adding New Models
 
 ```sql
-INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active)
-VALUES ('new-model-name', 0.001, 0.002, 128000, 'v1', true);
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active, effective_date)
+VALUES ('new-model-name', 0.001, 0.002, 128000, 'v1', true, CURRENT_DATE);
 ```
 
 **Critical**: The `model` value must exactly match what the calling service sends. For study-mode-api, check:
+
 - `apps/study-mode-api/src/study_mode_api/fte/ask_agent.py` → `model="deepseek-chat"`
 - `apps/study-mode-api/src/study_mode_api/fte/triage.py` → `MODEL = "gpt-5-nano-2025-08-07"`
 

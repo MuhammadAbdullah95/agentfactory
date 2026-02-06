@@ -18,7 +18,7 @@ from datetime import UTC, datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..config import settings
@@ -150,7 +150,7 @@ class MeteringService:
                         )
                         return {
                             "allowed": True,
-                            "reservation_id": f"res_{request_id[:12]}",
+                            "reservation_id": f"res_{request_id}",
                             "reserved_tokens": int(existing_tokens),
                             "expires_at": datetime.now(UTC)
                             + timedelta(seconds=settings.reservation_ttl),
@@ -191,7 +191,7 @@ class MeteringService:
                     # Success
                     return {
                         "allowed": True,
-                        "reservation_id": f"res_{request_id[:12]}",
+                        "reservation_id": f"res_{request_id}",
                         "reserved_tokens": estimated_tokens,
                         "expires_at": datetime.now(UTC)
                         + timedelta(seconds=settings.reservation_ttl),
@@ -220,7 +220,7 @@ class MeteringService:
                         if locked_effective_balance >= estimated_tokens:
                             return {
                                 "allowed": True,
-                                "reservation_id": f"failopen_{uuid.uuid4().hex[:12]}",
+                                "reservation_id": f"failopen_{uuid.uuid4().hex}",
                                 "reserved_tokens": estimated_tokens,
                                 "expires_at": datetime.now(UTC)
                                 + timedelta(seconds=settings.reservation_ttl),
@@ -234,7 +234,7 @@ class MeteringService:
                 if effective_balance >= estimated_tokens:
                     return {
                         "allowed": True,
-                        "reservation_id": f"failopen_{uuid.uuid4().hex[:12]}",
+                        "reservation_id": f"failopen_{uuid.uuid4().hex}",
                         "reserved_tokens": estimated_tokens,
                         "expires_at": datetime.now(UTC)
                         + timedelta(seconds=settings.reservation_ttl),
@@ -277,17 +277,19 @@ class MeteringService:
         existing = await self._get_transaction_by_request_id(request_id)
         if existing:
             logger.info(f"[Metering] Idempotent return for request_id={request_id}")
+            # Query actual balance for accurate response
+            account = await self._account_service.get_or_create(user_id)
             return {
                 "status": "already_processed",
                 "transaction_id": existing.id,
                 "total_tokens": existing.total_tokens,
                 "credits_deducted": existing.credits_deducted or 0,
-                "balance_after": 0,  # Would need to query for accurate value
+                "balance_after": account.balance,
                 "pricing_version": existing.pricing_version or "v1",
             }
 
-        # Get account - delegated to AccountService
-        account = await self._account_service.get_or_create(user_id)
+        # Ensure account exists - delegated to AccountService
+        await self._account_service.get_or_create(user_id)
 
         # Calculate cost with markup (FR-044, FR-045, FR-046, FR-047)
         pricing = await self._get_pricing(model)
@@ -300,42 +302,46 @@ class MeteringService:
             Decimal("0.000001"), rounding=ROUND_HALF_UP
         )
 
-        # Update account atomically (FR-032)
+        # Atomically deduct from balance (FR-032: balance = balance - X)
+        # May go negative for streaming overages (FR-041)
         now = datetime.now(UTC)
-        async with self.session.begin_nested():
-            # Deduct from balance (may go negative - FR-041)
-            account.balance -= total_tokens
-            account.last_activity_at = now  # FR-027
-            account.updated_at = now
-
-            self.session.add(account)
-
-            # Store usage_details in extra_data
-            extra_data = {}
-            if usage_details:
-                extra_data["usage_details"] = usage_details
-
-            # Create transaction (FR-015, FR-017)
-            transaction = TokenTransaction(
-                user_id=user_id,
-                transaction_type=TransactionType.USAGE,
-                input_tokens=input_tokens,
-                output_tokens=output_tokens,
-                total_tokens=total_tokens,
-                base_cost_usd=base_cost,
-                markup_percent=markup,
-                total_cost_usd=total_cost_rounded,
-                credits_deducted=total_tokens,  # Positive value (FR-522)
-                balance_source=BalanceSource.BALANCE,
-                model=model,
-                request_id=request_id,
-                pricing_version=pricing.get("version", "v1"),
-                thread_id=thread_id,
-                extra_data=extra_data,
+        result = await self.session.execute(
+            update(TokenAccount)
+            .where(TokenAccount.user_id == user_id)
+            .values(
+                balance=TokenAccount.balance - total_tokens,
+                last_activity_at=now,
+                updated_at=now,
             )
-            self.session.add(transaction)
-            await self.session.flush()
+            .returning(TokenAccount.balance)
+        )
+        new_balance = result.scalar_one()
 
+        # Store usage_details in extra_data
+        extra_data = {}
+        if usage_details:
+            extra_data["usage_details"] = usage_details
+
+        # Create transaction (FR-015, FR-017)
+        transaction = TokenTransaction(
+            user_id=user_id,
+            transaction_type=TransactionType.USAGE,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            total_tokens=total_tokens,
+            base_cost_usd=base_cost,
+            markup_percent=markup,
+            total_cost_usd=total_cost_rounded,
+            credits_deducted=total_tokens,
+            balance_source=BalanceSource.BALANCE,
+            model=model,
+            request_id=request_id,
+            pricing_version=pricing.get("version", "v1"),
+            thread_id=thread_id,
+            extra_data=extra_data,
+        )
+        self.session.add(transaction)
+        await self.session.flush()
         await self.session.commit()
 
         # Remove reservation from Redis (FR-037)
@@ -350,7 +356,7 @@ class MeteringService:
             "transaction_id": transaction.id,
             "total_tokens": total_tokens,
             "credits_deducted": total_tokens,
-            "balance_after": account.balance,
+            "balance_after": new_balance,
             "balance_source": "balance",  # v5: always "balance"
             "thread_id": thread_id,
             "pricing_version": pricing.get("version", "v1"),

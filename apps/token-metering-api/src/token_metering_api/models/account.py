@@ -14,8 +14,11 @@ from enum import StrEnum
 from sqlalchemy import Column, DateTime
 from sqlmodel import Field, SQLModel
 
-# Inactivity expiry: balance expires after 365 days of no activity
-INACTIVITY_EXPIRY_DAYS = 365
+from ..config import settings
+
+# Exposed for backward compatibility (tests import this).
+# Actual expiry logic uses settings.inactivity_expiry_days at runtime.
+INACTIVITY_EXPIRY_DAYS = settings.inactivity_expiry_days
 
 # Default starter tokens for new users (~20 interactions)
 STARTER_TOKENS = 50_000
@@ -98,4 +101,4 @@ class TokenAccount(SQLModel, table=True):
         if last_activity.tzinfo is None:
             last_activity = last_activity.replace(tzinfo=UTC)
 
-        return now - last_activity >= timedelta(days=INACTIVITY_EXPIRY_DAYS)
+        return now - last_activity >= timedelta(days=settings.inactivity_expiry_days)
