@@ -122,7 +122,7 @@ Three AI platforms × two CRMs = six custom integrations. Add Pipedrive, Zoho, F
 
 **What MCP Enables:** One standard protocol for all agent-to-tool connections. Write an MCP server once, and any MCP-compatible agent can use it—Claude, ChatGPT, Gemini, goose, or your Custom Agents.
 
-**MCP enables the "Act" power** from Chapter 1. Without MCP, your Digital FTE can reason brilliantly about what to do—but it can't actually do it. It can plan the perfect follow-up email, but it can't send it. With MCP, your Digital Sales Agent connects to CRM systems, email platforms, calendars, and databases.
+**MCP enables the "Act" power**. Without MCP, your Digital FTE can reason brilliantly about what to do—but it can't actually do it. It can plan the perfect follow-up email, but it can't send it. With MCP, your Digital Sales Agent connects to CRM systems, email platforms, calendars, and databases.
 
 **Three Universal Primitives:**
 
