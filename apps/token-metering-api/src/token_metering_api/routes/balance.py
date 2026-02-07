@@ -10,6 +10,7 @@ from ..core.auth import CurrentUser, get_current_user, require_admin
 from ..core.database import get_session
 from ..core.exceptions import MeteringAPIException
 from ..core.rate_limit import limiter
+from ..core.redis import get_redis
 from ..models.transaction import TransactionType
 from ..services.balance import BalanceService
 from .schemas import (
@@ -38,7 +39,7 @@ async def get_balance(
     Returns balance, effective_balance, last_activity_at, and is_expired.
     """
     service = BalanceService(session)
-    result = await service.get_balance(user.id)
+    result = await service.get_balance(user.id, redis=get_redis())
 
     if not result:
         raise MeteringAPIException(
@@ -64,7 +65,7 @@ async def get_balance_by_user_id(
     Requires admin role.
     """
     service = BalanceService(session)
-    result = await service.get_balance(user_id)
+    result = await service.get_balance(user_id, redis=get_redis())
 
     if not result:
         raise MeteringAPIException(

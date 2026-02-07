@@ -19,6 +19,10 @@ const OAUTH_CLIENT_ID =
 const STUDY_MODE_API_URL =
   process.env.STUDY_MODE_API_URL || "http://localhost:8000";
 
+// Token Metering API URL - credit balance display
+const TOKEN_METERING_API_URL =
+  process.env.TOKEN_METERING_API_URL || "http://localhost:8001";
+
 // ChatKit domain key for OpenAI ChatKit (register at OpenAI dashboard for production)
 const CHATKIT_DOMAIN_KEY =
   process.env.CHATKIT_DOMAIN_KEY?.trim() || "domain_pk_localhost_dev";
@@ -42,6 +46,7 @@ const config: Config = {
     authUrl: AUTH_URL,
     oauthClientId: OAUTH_CLIENT_ID,
     studyModeApiUrl: STUDY_MODE_API_URL,
+    tokenMeteringApiUrl: TOKEN_METERING_API_URL,
     chatkitDomainKey: CHATKIT_DOMAIN_KEY,
   },
 
