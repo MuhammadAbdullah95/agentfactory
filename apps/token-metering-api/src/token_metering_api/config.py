@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     admin_rate_limit_requests: int = 20  # Stricter limit for admin endpoints
 
     # Server
-    port: int = 8001
+    port: int = 8000
 
     # === Metering Configuration (v6 - Credits) ===
 

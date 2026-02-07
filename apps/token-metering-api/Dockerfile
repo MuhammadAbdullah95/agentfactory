@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir uv
 COPY pyproject.toml README.md ./
 
 # Install dependencies
-RUN uv pip install --system --no-cache -e .
+RUN uv pip install --system --no-cache .
 
 # Production stage
 FROM python:3.12-slim as production
