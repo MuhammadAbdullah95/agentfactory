@@ -212,6 +212,12 @@ const config: Config = {
         docs: {
           path: docsPath, // 'docs' (local) or 'docsfs' (from MCP server)
           sidebarPath: "./sidebars.ts",
+          // editUrl kept for version history links (Edit this page hidden via CSS)
+          editUrl: hydrateEnabled
+            ? undefined
+            : "https://github.com/panaversity/ai-native-software-development/edit/main/apps/learn-app/",
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: false,
           // Exclude .summary.md files from being rendered as pages
           // They are injected into lesson frontmatter by the summary injector plugin
           exclude: ["**/*.summary.md"],
@@ -429,6 +435,10 @@ const config: Config = {
             {
               label: "Full Curriculum",
               to: "/docs/thesis",
+            },
+            {
+              label: "What's New",
+              to: "/docs/whats-new",
             },
             {
               label: "Learning Path",

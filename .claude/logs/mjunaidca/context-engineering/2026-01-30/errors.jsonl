@@ -1,2 +1,0 @@
-{"timestamp": "2026-01-30T01:39:53Z", "session_id": "bba057d0-3105-4951-9d8e-43ebbee53748", "user": "mjunaidca", "branch": "context-engineering", "event": "tool_failure", "tool": "Bash", "attempted": "head -35 apps/learn-app/docs/01-General-Agents-Foundations/04-context-engineering/README.md", "error": ""}
-{"timestamp": "2026-01-30T01:39:58Z", "session_id": "bba057d0-3105-4951-9d8e-43ebbee53748", "user": "mjunaidca", "branch": "context-engineering", "event": "tool_failure", "tool": "Bash", "attempted": "ls -la apps/learn-app/docs/01-General-Agents-Foundations/", "error": ""}

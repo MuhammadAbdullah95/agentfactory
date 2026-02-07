@@ -59,9 +59,12 @@ cloud-books/
 assessments/
 local/api/chatkit-server/.env
 
-# Local Claude settings (never commit)
+# Local Claude settings and ephemeral session data (never commit)
 .claude/settings.local.json
 .claude/settings.local.json.bak
+.claude/logs/
+.claude/context/
+.claude/handoffs/
 .env
 
 
