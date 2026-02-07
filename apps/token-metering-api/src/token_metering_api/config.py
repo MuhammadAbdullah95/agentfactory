@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     # Redis (required for token metering)
     redis_url: str = ""
     redis_password: str = ""
-    redis_max_connections: int = 50  # Increased for high concurrency
+    redis_max_connections: int = 1000  # Production: 1000 connections
 
     # SSO/Auth
     sso_url: str = ""

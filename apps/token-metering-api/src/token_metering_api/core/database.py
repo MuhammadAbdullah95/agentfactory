@@ -53,8 +53,8 @@ _db_url, _connect_args = _prepare_asyncpg_url(settings.database_url)
 engine = create_async_engine(
     _db_url,
     poolclass=AsyncAdaptedQueuePool,
-    pool_size=20,       # Increased for high concurrency
-    max_overflow=30,    # Increased for burst traffic
+    pool_size=100,      # Production: 100 base connections
+    max_overflow=50,    # Production: 50 burst connections (150 total max)
     pool_pre_ping=True,
     echo=settings.debug,
     connect_args=_connect_args,
