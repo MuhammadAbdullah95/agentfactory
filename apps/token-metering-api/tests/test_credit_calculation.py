@@ -7,15 +7,10 @@ behavior independently from the HTTP layer and database.
 from datetime import UTC, datetime
 from decimal import Decimal
 
-import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from tests.helpers import (
-    DEFAULT_CREDITS_PER_DOLLAR,
-    DEFAULT_INPUT_COST_PER_1K,
-    DEFAULT_MARKUP_PERCENT,
-    DEFAULT_OUTPUT_COST_PER_1K,
     calculate_expected_credits,
     estimate_credits_pessimistic,
 )

@@ -115,7 +115,7 @@ class TestNewUserJourney:
 
         # Now balance should be low, next large request should be blocked
         await test_session.refresh(account)
-        remaining = account.balance
+        _ = account.balance
 
         # Remaining balance should be less than one more deduct's estimated credits
         # estimated_credits for 120k tokens = 2880, remaining < 2880

@@ -18,7 +18,7 @@ os.environ["PYTEST_CURRENT_TEST"] = "1"
 
 from token_metering_api.config import settings
 from token_metering_api.main import app
-from token_metering_api.models import STARTER_CREDITS, STARTER_TOKENS, SQLModel
+from token_metering_api.models import STARTER_CREDITS, SQLModel
 
 
 def make_request_id(seed: str = "") -> str:
