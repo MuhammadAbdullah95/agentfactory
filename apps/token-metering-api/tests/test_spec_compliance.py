@@ -89,7 +89,9 @@ class TestFR069EstimatedTokensExceedsLimit:
         with patch("token_metering_api.services.metering.settings") as mock_settings:
             mock_settings.fail_open = True
             mock_settings.reservation_ttl = 300
-            mock_settings.starter_tokens = STARTER_TOKENS
+            mock_settings.starter_credits = STARTER_TOKENS
+            mock_settings.markup_percent = 20.0
+            mock_settings.credits_per_dollar = 10_000
 
             result = await service.check_balance(
                 user_id="fr069-test-user",
@@ -114,7 +116,9 @@ class TestFR069EstimatedTokensExceedsLimit:
         with patch("token_metering_api.services.metering.settings") as mock_settings:
             mock_settings.fail_open = True
             mock_settings.reservation_ttl = 300
-            mock_settings.starter_tokens = STARTER_TOKENS
+            mock_settings.starter_credits = STARTER_TOKENS
+            mock_settings.markup_percent = 20.0
+            mock_settings.credits_per_dollar = 10_000
 
             result = await service.check_balance(
                 user_id="fr069-test-user",
@@ -176,7 +180,9 @@ class TestFR033FailOpenSelectForUpdate:
         with patch("token_metering_api.services.metering.settings") as mock_settings:
             mock_settings.fail_open = True
             mock_settings.reservation_ttl = 300
-            mock_settings.starter_tokens = STARTER_TOKENS
+            mock_settings.starter_credits = STARTER_TOKENS
+            mock_settings.markup_percent = 20.0
+            mock_settings.credits_per_dollar = 10_000
 
             # We can't easily verify FOR UPDATE was used in SQLite,
             # but we can verify the query succeeds and reservation is created
@@ -194,21 +200,31 @@ class TestFR033FailOpenSelectForUpdate:
     async def test_failopen_blocks_insufficient_balance(
         self,
         test_session: AsyncSession,
-        user_for_failopen,
     ):
         """Fail-open mode should still block when balance is insufficient."""
+        # Create user with very low balance (below pessimistic estimate for 50k tokens)
+        low_balance_account = TokenAccount(
+            user_id="failopen-low-balance",
+            balance=5,  # Only 5 credits, estimate for 50k tokens = ~1200 credits
+            last_activity_at=datetime.now(UTC),
+        )
+        test_session.add(low_balance_account)
+        await test_session.commit()
+
         service = MeteringService(test_session)
         service.redis = None
 
         with patch("token_metering_api.services.metering.settings") as mock_settings:
             mock_settings.fail_open = True
             mock_settings.reservation_ttl = 300
-            mock_settings.starter_tokens = STARTER_TOKENS
+            mock_settings.starter_credits = STARTER_TOKENS
+            mock_settings.markup_percent = 20.0
+            mock_settings.credits_per_dollar = 10_000
 
             result = await service.check_balance(
-                user_id="failopen-user",
+                user_id="failopen-low-balance",
                 request_id="req-failopen-2",
-                estimated_tokens=50_000,  # More than 10,000 balance
+                estimated_tokens=50_000,  # Estimate ~1200 credits > 5 balance
                 model="test-model",
             )
 

@@ -1,7 +1,7 @@
--- reserve.lua: Atomically create reservation using sorted set (v5)
+-- reserve.lua: Atomically create reservation using sorted set (v6)
 -- KEYS[1] = metering:reservations:{user_id}
 -- ARGV[1] = request_id (UUID format, no colons)
--- ARGV[2] = tokens to reserve
+-- ARGV[2] = credits to reserve
 -- ARGV[3] = current timestamp (unix epoch)
 -- ARGV[4] = expiry timestamp (unix epoch, current + TTL)
 --

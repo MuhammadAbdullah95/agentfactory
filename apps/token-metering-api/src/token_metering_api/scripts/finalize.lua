@@ -1,4 +1,4 @@
--- finalize.lua: Remove reservation from sorted set on deduct (v5)
+-- finalize.lua: Remove reservation from sorted set on deduct (v6)
 -- KEYS[1] = metering:reservations:{user_id}
 -- ARGV[1] = request_id (UUID format, no colons)
 -- ARGV[2] = current timestamp (unix epoch) for cleanup

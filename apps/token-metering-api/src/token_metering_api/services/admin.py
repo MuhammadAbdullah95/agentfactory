@@ -1,7 +1,7 @@
-"""Admin service for token management operations (v5 - balance only).
+"""Admin service for credits management operations (v6 - Credits).
 
-v5 Changes:
-- Grant/topup directly increments account.balance
+v6 Changes:
+- Grant/topup directly increments account.balance (in credits)
 - TokenAllocation is audit-only
 - Updates last_activity_at (reactivates expired accounts) - FR-027
 """
@@ -26,24 +26,24 @@ logger = logging.getLogger(__name__)
 
 
 class AdminService:
-    """Service for administrative token operations (v5 - balance only)."""
+    """Service for administrative credits operations (v6 - Credits)."""
 
     def __init__(self, session: AsyncSession):
         self.session = session
         self.redis = get_redis()
         self._account_service = AccountService(session, self.redis)
 
-    async def grant_tokens(
+    async def grant_credits(
         self,
         user_id: str,
-        tokens: int,
+        credits: int,
         reason: str | None,
         admin_id: str,
     ) -> dict[str, Any]:
         """
-        Grant institutional tokens to a user (FR-009).
+        Grant institutional credits to a user (FR-009).
 
-        Adds tokens directly to account.balance.
+        Adds credits directly to account.balance.
         Creates audit record in TokenAllocation.
         Updates last_activity_at (reactivates expired accounts) - FR-027.
         """
@@ -57,7 +57,7 @@ class AdminService:
             update(TokenAccount)
             .where(TokenAccount.user_id == user_id)
             .values(
-                balance=TokenAccount.balance + tokens,
+                balance=TokenAccount.balance + credits,
                 last_activity_at=now,  # Reactivates if expired - FR-027
                 updated_at=now,
             )
@@ -68,7 +68,7 @@ class AdminService:
         # Create audit record (FR-031)
         allocation = TokenAllocation.create_grant(
             user_id=user_id,
-            amount=tokens,
+            amount=credits,
             reason=reason,
             admin_id=admin_id,
         )
@@ -77,7 +77,7 @@ class AdminService:
         transaction = TokenTransaction(
             user_id=user_id,
             transaction_type=TransactionType.GRANT,
-            total_tokens=tokens,
+            total_tokens=credits,
             extra_data={
                 "reason": reason,
                 "admin_id": admin_id,
@@ -94,27 +94,27 @@ class AdminService:
         # Invalidate cache (FR-056) - delegated to AccountService
         await self._account_service.invalidate_balance_cache(user_id)
 
-        logger.info(f"[Admin] Granted {tokens} tokens to {user_id} by {admin_id}: {reason}")
+        logger.info(f"[Admin] Granted {credits} credits to {user_id} by {admin_id}: {reason}")
 
         return {
             "success": True,
             "transaction_id": transaction.id,
             "allocation_id": allocation.id,
-            "tokens_granted": tokens,
+            "credits_granted": credits,
             "new_balance": new_balance,
         }
 
-    async def topup_tokens(
+    async def topup_credits(
         self,
         user_id: str,
-        tokens: int,
+        credits: int,
         payment_reference: str | None,
         admin_id: str,
     ) -> dict[str, Any]:
         """
-        Add topped-up tokens to user's balance (FR-010).
+        Add topped-up credits to user's balance (FR-010).
 
-        Adds tokens directly to account.balance.
+        Adds credits directly to account.balance.
         Creates audit record in TokenAllocation.
         Updates last_activity_at (reactivates expired accounts) - FR-027.
         """
@@ -128,7 +128,7 @@ class AdminService:
             update(TokenAccount)
             .where(TokenAccount.user_id == user_id)
             .values(
-                balance=TokenAccount.balance + tokens,
+                balance=TokenAccount.balance + credits,
                 last_activity_at=now,  # Reactivates if expired - FR-027
                 updated_at=now,
             )
@@ -139,7 +139,7 @@ class AdminService:
         # Create audit record (FR-031)
         allocation = TokenAllocation.create_topup(
             user_id=user_id,
-            amount=tokens,
+            amount=credits,
             payment_reference=payment_reference,
             admin_id=admin_id,
         )
@@ -148,7 +148,7 @@ class AdminService:
         transaction = TokenTransaction(
             user_id=user_id,
             transaction_type=TransactionType.TOPUP,
-            total_tokens=tokens,
+            total_tokens=credits,
             extra_data={
                 "payment_reference": payment_reference,
                 "admin_id": admin_id,
@@ -166,13 +166,13 @@ class AdminService:
         await self._account_service.invalidate_balance_cache(user_id)
 
         logger.info(
-            f"[Admin] Topup {tokens} tokens to {user_id} by {admin_id}: {payment_reference}"
+            f"[Admin] Topup {credits} credits to {user_id} by {admin_id}: {payment_reference}"
         )
 
         return {
             "success": True,
             "transaction_id": transaction.id,
             "allocation_id": allocation.id,
-            "tokens_added": tokens,
+            "credits_added": credits,
             "new_balance": new_balance,
         }

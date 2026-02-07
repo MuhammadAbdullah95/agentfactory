@@ -18,7 +18,7 @@ async def health_check():
     """Health check endpoint with database and Redis status."""
     status = {
         "status": "healthy",
-        "version": "5.0.0",
+        "version": "6.0.0",
         "services": {},
     }
 

@@ -1,8 +1,9 @@
-"""Token account model - user's identity and balance (v5 - Balance Only).
+"""Token account model - user's identity and credits balance (v6 - Credits).
 
-v5 Changes (from v4):
-- REMOVED: lifetime_used (no trial tracking)
-- balance: Default is now STARTER_TOKENS (50,000)
+v6 Changes (from v5):
+- balance: Now represents credits (1 credit = $0.0001), default STARTER_CREDITS (20,000)
+- Cost-weighted: different models cost different credits per token
+- STARTER_TOKENS renamed to STARTER_CREDITS
 - last_activity_at: For inactivity-based expiry (365 days)
 - effective_balance: Returns 0 if inactive 365+ days, else balance
 - available_balance: effective_balance - reserved_total (computed with Redis)
@@ -20,8 +21,11 @@ from ..config import settings
 # Actual expiry logic uses settings.inactivity_expiry_days at runtime.
 INACTIVITY_EXPIRY_DAYS = settings.inactivity_expiry_days
 
-# Default starter tokens for new users (~20 interactions)
-STARTER_TOKENS = 50_000
+# Default starter credits for new users (~$2.00 budget)
+STARTER_CREDITS = 20_000
+
+# Backward-compat alias (tests and imports)
+STARTER_TOKENS = STARTER_CREDITS
 
 
 class AccountStatus(StrEnum):
@@ -32,19 +36,16 @@ class AccountStatus(StrEnum):
 
 
 class TokenAccount(SQLModel, table=True):
-    """User's account state with balance (v5 - Balance Only).
+    """User's account state with credits balance (v6 - Credits).
 
-    v5 Model:
-    - balance: Single field (source of truth), default STARTER_TOKENS
+    v6 Model:
+    - balance: Credits balance (1 credit = $0.0001), default STARTER_CREDITS
     - last_activity_at: For inactivity-based expiry
     - effective_balance: Property that returns 0 if inactive 365+ days
     - available_balance: computed as effective_balance - reserved_total
 
     Balance is stored directly here, NOT computed from allocations.
     TokenAllocation is audit-only.
-
-    REMOVED from v4:
-    - lifetime_used (no trial tracking - just use balance)
     """
 
     __tablename__ = "token_accounts"
@@ -55,11 +56,11 @@ class TokenAccount(SQLModel, table=True):
     # Account status
     status: AccountStatus = Field(default=AccountStatus.ACTIVE)
 
-    # v5: Balance stored directly (source of truth)
-    # New users start with STARTER_TOKENS (50,000)
-    balance: int = Field(default=STARTER_TOKENS)
+    # v6: Credits balance stored directly (source of truth)
+    # New users start with STARTER_CREDITS (20,000 = ~$2.00)
+    balance: int = Field(default=STARTER_CREDITS)
 
-    # v5: Last activity for inactivity-based expiry
+    # v6: Last activity for inactivity-based expiry
     # Initialized to created_at on account creation (FR-029)
     last_activity_at: datetime = Field(
         default_factory=lambda: datetime.now(UTC),

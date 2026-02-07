@@ -1,12 +1,13 @@
-"""Tests for v5 Balance-Only Token Metering.
+"""Tests for v6 Credits-Based Token Metering.
 
-These tests define the expected behavior for v5:
-- Single balance field on TokenAccount (source of truth)
-- STARTER_TOKENS (50,000) for new users
+These tests define the expected behavior for v6:
+- Single balance field on TokenAccount (source of truth, in credits)
+- STARTER_CREDITS (20,000) for new users
 - Inactivity-based expiry (365 days)
 - TokenAllocation as audit-only with STARTER type
 - Idempotent /check, /deduct, /release
 - Redis sorted set reservations (tested without Redis in unit tests)
+- Balance deductions use cost-weighted credits, not raw tokens
 """
 
 from datetime import UTC, datetime, timedelta
@@ -19,7 +20,7 @@ from token_metering_api.models import STARTER_TOKENS
 # MODEL TESTS
 # ============================================================================
 class TestTokenAccountV5Model:
-    """Test TokenAccount model has v5 fields."""
+    """Test TokenAccount model has v6 fields."""
 
     async def test_account_has_balance_field(self, test_session):
         """TokenAccount must have a balance field (source of truth)."""
@@ -31,11 +32,11 @@ class TestTokenAccountV5Model:
         await test_session.refresh(account)
 
         assert hasattr(account, "balance")
-        # v5: Default is STARTER_TOKENS (50,000)
+        # v6: Default is STARTER_CREDITS (20,000)
         assert account.balance == STARTER_TOKENS
 
     async def test_account_no_lifetime_used_field(self, test_session):
-        """TokenAccount must NOT have lifetime_used in v5 (no trial tracking)."""
+        """TokenAccount must NOT have lifetime_used in v6 (no trial tracking)."""
         from token_metering_api.models import TokenAccount
 
         # lifetime_used should not exist
@@ -79,7 +80,7 @@ class TestTokenAccountV5Model:
 
 
 class TestTokenAllocationV5Model:
-    """Test TokenAllocation model has STARTER type in v5."""
+    """Test TokenAllocation model has STARTER type in v6."""
 
     async def test_allocation_has_starter_type(self, test_session):
         """TokenAllocation must support STARTER allocation type."""
@@ -103,7 +104,7 @@ class TestTokenAllocationV5Model:
 
 
 class TestTokenTransactionV5Model:
-    """Test TokenTransaction model has STARTER type in v5."""
+    """Test TokenTransaction model has STARTER type in v6."""
 
     async def test_transaction_has_starter_type(self, test_session):
         """TokenTransaction must support STARTER transaction type."""
@@ -132,7 +133,7 @@ class TestBalanceServiceV5:
     """Test balance operations are O(1) reads."""
 
     async def test_get_balance_returns_account_fields(self, test_session):
-        """Balance should return v5 fields: balance, effective_balance, is_expired."""
+        """Balance should return v6 fields: balance, effective_balance, is_expired."""
         from token_metering_api.models import TokenAccount
         from token_metering_api.services.balance import BalanceService
 
@@ -177,7 +178,7 @@ class TestBalanceServiceV5:
 # METERING SERVICE TESTS
 # ============================================================================
 class TestMeteringServiceV5:
-    """Test metering operations with v5 balance-only model."""
+    """Test metering operations with v6 credits-based model."""
 
     async def test_check_allows_user_with_balance(self, test_session):
         """User with balance > 0 should be allowed."""
@@ -273,7 +274,7 @@ class TestMeteringServiceV5:
         assert result["error_code"] == "ACCOUNT_SUSPENDED"
 
     async def test_check_auto_creates_account_with_starter_tokens(self, test_session):
-        """New user should auto-create account with STARTER_TOKENS."""
+        """New user should auto-create account with STARTER_CREDITS."""
         from sqlalchemy import select
 
         from token_metering_api.models import AllocationType, TokenAccount, TokenAllocation
@@ -286,16 +287,16 @@ class TestMeteringServiceV5:
             estimated_tokens=1000,
         )
 
-        # Should succeed with starter tokens
+        # Should succeed with starter credits
         assert result["allowed"] is True
 
-        # Verify account created with STARTER_TOKENS
+        # Verify account created with STARTER_CREDITS
         account_result = await test_session.execute(
             select(TokenAccount).where(TokenAccount.user_id == "v5-new-user")
         )
         account = account_result.scalar_one()
-        # Balance might be reduced by reservation, but should have starter tokens
-        assert account.balance >= settings.starter_tokens - 1000
+        # Balance might be reduced by reservation, but should have starter credits
+        assert account.balance >= settings.starter_credits - 1000
 
         # Verify starter allocation audit record
         alloc_result = await test_session.execute(
@@ -303,10 +304,10 @@ class TestMeteringServiceV5:
         )
         alloc = alloc_result.scalar_one()
         assert alloc.allocation_type == AllocationType.STARTER
-        assert alloc.amount == settings.starter_tokens
+        assert alloc.amount == settings.starter_credits
 
     async def test_finalize_deducts_from_balance(self, test_session):
-        """Finalize should subtract tokens from account.balance directly."""
+        """Finalize should subtract credits from account.balance directly."""
         from token_metering_api.models import TokenAccount
         from token_metering_api.services.metering import MeteringService
 
@@ -330,11 +331,12 @@ class TestMeteringServiceV5:
 
         assert result["status"] == "finalized"
         assert result["total_tokens"] == 500
-        assert result["credits_deducted"] == 500
+        # v6: credits_deducted = 9 (300i+200o: base=0.0007, markup=0.00084, credits=ceil(8.4)=9)
+        assert result["credits_deducted"] == 9
 
-        # Verify balance was deducted
+        # Verify balance was deducted by credits
         await test_session.refresh(account)
-        assert account.balance == 9500  # 10000 - 500
+        assert account.balance == 10000 - 9  # 9991
 
     async def test_finalize_updates_last_activity(self, test_session):
         """Finalize should update last_activity_at (FR-027)."""
@@ -408,8 +410,9 @@ class TestMeteringServiceV5:
         assert result2["status"] == "already_processed"
 
         # Balance should only be deducted once
+        # 100i+100o: base=0.0003, markup=0.00036, credits=ceil(3.6)=4
         await test_session.refresh(account)
-        assert account.balance == 9800  # 10000 - 200 (only once)
+        assert account.balance == 10000 - 4  # 9996
 
     async def test_finalize_allows_negative_balance(self, test_session):
         """Balance can go negative for streaming overage (FR-041)."""
@@ -418,27 +421,28 @@ class TestMeteringServiceV5:
 
         account = TokenAccount(
             user_id="v5-negative-test",
-            balance=100,  # Only 100 tokens
+            balance=2,  # Very low balance in credits
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
         await test_session.commit()
 
         service = MeteringService(test_session)
+        # 500i+500o = 18 credits, but only have 2
         result = await service.finalize_usage(
             user_id="v5-negative-test",
             request_id="req-v5-009",
             reservation_id="res_test",
-            input_tokens=100,
-            output_tokens=200,  # More than balance
+            input_tokens=500,
+            output_tokens=500,
             model="deepseek-chat",
         )
 
         assert result["status"] == "finalized"
 
-        # Balance goes negative
+        # Balance goes negative: 2 - 18 = -16
         await test_session.refresh(account)
-        assert account.balance == -200  # 100 - 300
+        assert account.balance == -16
 
     async def test_release_is_idempotent(self, test_session):
         """Release should be idempotent - second call succeeds."""
@@ -498,10 +502,10 @@ class TestMeteringServiceV5:
 # ADMIN SERVICE TESTS
 # ============================================================================
 class TestAdminServiceV5:
-    """Test admin grant/topup with v5 balance-only model."""
+    """Test admin grant/topup with v6 credits-based model."""
 
     async def test_grant_adds_to_balance(self, test_session):
-        """Grant should add tokens to account.balance directly."""
+        """Grant should add credits to account.balance directly."""
         from token_metering_api.models import TokenAccount
         from token_metering_api.services.admin import AdminService
 
@@ -514,14 +518,14 @@ class TestAdminServiceV5:
         await test_session.commit()
 
         service = AdminService(test_session)
-        result = await service.grant_tokens(
+        result = await service.grant_credits(
             user_id="v5-grant-test",
-            tokens=10000,
+            credits=10000,
             reason="Test grant",
             admin_id="admin-001",
         )
 
-        assert result["tokens_granted"] == 10000
+        assert result["credits_granted"] == 10000
 
         # Verify balance increased
         await test_session.refresh(account)
@@ -545,9 +549,9 @@ class TestAdminServiceV5:
         assert account.is_expired is True
 
         service = AdminService(test_session)
-        await service.grant_tokens(
+        await service.grant_credits(
             user_id="v5-grant-reactivate",
-            tokens=10000,
+            credits=10000,
             reason="Reactivation",
             admin_id="admin-002",
         )
@@ -557,7 +561,7 @@ class TestAdminServiceV5:
         assert account.is_expired is False
 
     async def test_topup_adds_to_balance(self, test_session):
-        """Topup should add tokens to account.balance directly."""
+        """Topup should add credits to account.balance directly."""
         from token_metering_api.models import TokenAccount
         from token_metering_api.services.admin import AdminService
 
@@ -570,14 +574,14 @@ class TestAdminServiceV5:
         await test_session.commit()
 
         service = AdminService(test_session)
-        result = await service.topup_tokens(
+        result = await service.topup_credits(
             user_id="v5-topup-test",
-            tokens=50000,
+            credits=50000,
             payment_reference="stripe_pi_123",
             admin_id="admin-003",
         )
 
-        assert result["tokens_added"] == 50000
+        assert result["credits_added"] == 50000
 
         await test_session.refresh(account)
         assert account.balance == 51000  # 1000 + 50000
@@ -596,9 +600,9 @@ class TestAdminServiceV5:
         await test_session.commit()
 
         service = AdminService(test_session)
-        await service.topup_tokens(
+        await service.topup_credits(
             user_id="v5-topup-negative",
-            tokens=1000,
+            credits=1000,
             payment_reference="stripe_pi_456",
             admin_id="admin-004",
         )
@@ -611,15 +615,15 @@ class TestAdminServiceV5:
 # E2E FLOW TESTS
 # ============================================================================
 class TestV5EndToEndFlow:
-    """Test complete user journeys with v5 model."""
+    """Test complete user journeys with v6 credits model."""
 
     async def test_new_user_gets_starter_tokens_and_uses_them(self, test_session):
-        """New user: auto-create with starter tokens → use → exhaust → blocked."""
+        """New user: auto-create with starter credits -> use -> exhaust -> blocked."""
         from token_metering_api.services.metering import MeteringService
 
         metering = MeteringService(test_session)
 
-        # 1. First request auto-creates account with starter tokens
+        # 1. First request auto-creates account with starter credits
         result = await metering.check_balance(
             user_id="v5-e2e-new",
             request_id="e2e-req-1",
@@ -627,7 +631,7 @@ class TestV5EndToEndFlow:
         )
         assert result["allowed"] is True
 
-        # 2. Finalize first request
+        # 2. Finalize first request (500i+500o = 18 credits)
         await metering.finalize_usage(
             user_id="v5-e2e-new",
             request_id="e2e-req-1",
@@ -637,12 +641,14 @@ class TestV5EndToEndFlow:
             model="deepseek-chat",
         )
 
-        # 3. Use remaining balance in chunks
-        for i in range(48):  # ~48 requests at 1000 tokens each
+        # 3. Use remaining balance in larger chunks to deplete faster
+        # Each 5000i+5000o = 180 credits, need ~111 to deplete 20000
+        # Use large tokens to make this practical
+        for i in range(110):
             check = await metering.check_balance(
                 user_id="v5-e2e-new",
                 request_id=f"e2e-req-{i + 2}",
-                estimated_tokens=1000,
+                estimated_tokens=10000,
             )
             if not check["allowed"]:
                 break
@@ -650,8 +656,8 @@ class TestV5EndToEndFlow:
                 user_id="v5-e2e-new",
                 request_id=f"e2e-req-{i + 2}",
                 reservation_id=check["reservation_id"],
-                input_tokens=500,
-                output_tokens=500,
+                input_tokens=5000,
+                output_tokens=5000,  # 180 credits each
                 model="deepseek-chat",
             )
 
@@ -665,7 +671,7 @@ class TestV5EndToEndFlow:
         # The important thing is the system works correctly
 
     async def test_inactivity_expiry_and_grant_reactivation(self, test_session):
-        """User goes inactive → balance expires → grant reactivates."""
+        """User goes inactive -> balance expires -> grant reactivates."""
         from token_metering_api.models import TokenAccount
         from token_metering_api.services.admin import AdminService
         from token_metering_api.services.metering import MeteringService
@@ -690,11 +696,11 @@ class TestV5EndToEndFlow:
         assert result["allowed"] is False
         assert result["is_expired"] is True
 
-        # 3. Admin grants new tokens (reactivates)
+        # 3. Admin grants new credits (reactivates)
         admin = AdminService(test_session)
-        await admin.grant_tokens(
+        await admin.grant_credits(
             user_id="v5-e2e-inactive",
-            tokens=5000,
+            credits=5000,
             reason="Reactivation grant",
             admin_id="admin",
         )
@@ -735,9 +741,9 @@ class TestV5EndToEndFlow:
 
         # 3. Topup to clear negative
         admin = AdminService(test_session)
-        await admin.topup_tokens(
+        await admin.topup_credits(
             user_id="v5-e2e-negative",
-            tokens=500,
+            credits=500,
             payment_reference="stripe_pi_789",
             admin_id="admin",
         )

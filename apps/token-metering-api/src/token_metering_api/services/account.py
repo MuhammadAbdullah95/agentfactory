@@ -1,12 +1,12 @@
-"""Account service for token account management (v5 - Balance Only).
+"""Account service for token account management (v6 - Credits).
 
 Extracts shared account logic from MeteringService and AdminService:
-- get_or_create: Get or create account with starter tokens
+- get_or_create: Get or create account with starter credits
 - invalidate_balance_cache: Clear Redis cache for user balance
 
 FR references:
 - FR-011: Auto-create account on first interaction
-- FR-012: New accounts get STARTER_TOKENS
+- FR-012: New accounts get STARTER_CREDITS
 - FR-029: Set last_activity_at on creation
 - FR-056: Cache invalidation
 """
@@ -71,10 +71,10 @@ class AccountService:
         self.redis = redis if redis is not None else get_redis()
 
     async def get_or_create(self, user_id: str) -> TokenAccount:
-        """Get existing account or create new one with STARTER_TOKENS.
+        """Get existing account or create new one with STARTER_CREDITS.
 
         FR-011: Auto-create account on first interaction
-        FR-012: New accounts get STARTER_TOKENS (configurable via settings)
+        FR-012: New accounts get STARTER_CREDITS (configurable via settings)
         FR-029: Set last_activity_at on creation
 
         Handles race conditions by catching IntegrityError on concurrent creates
@@ -113,10 +113,10 @@ class AccountService:
         return account
 
     async def _create_new_account(self, user_id: str) -> TokenAccount:
-        """Create a new account with starter tokens.
+        """Create a new account with starter credits.
 
         Creates:
-        1. TokenAccount with starter_tokens balance
+        1. TokenAccount with starter_credits balance
         2. TokenAllocation audit record (STARTER type)
         3. TokenTransaction record for ledger completeness
 
@@ -128,10 +128,10 @@ class AccountService:
         """
         now = datetime.now(UTC)
 
-        # Create account with starter tokens
+        # Create account with starter credits
         account = TokenAccount(
             user_id=user_id,
-            balance=settings.starter_tokens,
+            balance=settings.starter_credits,
             last_activity_at=now,  # FR-029
             created_at=now,
             updated_at=now,
@@ -140,7 +140,7 @@ class AccountService:
 
         # Create starter allocation audit record (FR-012)
         allocation = TokenAllocation.create_starter(
-            user_id=user_id, amount=settings.starter_tokens
+            user_id=user_id, amount=settings.starter_credits
         )
         self.session.add(allocation)
 
@@ -148,8 +148,8 @@ class AccountService:
         transaction = TokenTransaction(
             user_id=user_id,
             transaction_type=TransactionType.STARTER,
-            total_tokens=settings.starter_tokens,
-            extra_data={"reason": "Initial starter tokens for new user"},
+            total_tokens=settings.starter_credits,
+            extra_data={"reason": "Initial starter credits for new user"},
         )
         self.session.add(transaction)
 
@@ -158,7 +158,7 @@ class AccountService:
 
         logger.info(
             f"[Account] Created new account for {user_id} "
-            f"with {settings.starter_tokens} starter tokens"
+            f"with {settings.starter_credits} starter credits"
         )
 
         return account

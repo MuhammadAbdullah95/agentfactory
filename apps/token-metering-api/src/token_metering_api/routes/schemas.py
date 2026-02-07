@@ -1,4 +1,4 @@
-"""Pydantic schemas for API requests and responses (v5 - Balance Only)."""
+"""Pydantic schemas for API requests and responses (v6 - Credits)."""
 
 from datetime import datetime
 from typing import Any
@@ -72,18 +72,18 @@ class ReleaseRequest(BaseModel):
 
 
 class GrantRequest(BaseModel):
-    """Admin: Grant tokens to user - FR-022."""
+    """Admin: Grant credits to user - FR-022."""
 
     user_id: str = Field(..., description="Target user ID")
-    tokens: int = Field(..., ge=1, le=100_000_000, description="Tokens to grant (max 100M)")
+    credits: int = Field(..., ge=1, le=100_000_000, description="Credits to grant (max 100M)")
     reason: str | None = Field(default=None, description="Reason for grant")
 
 
 class TopupRequest(BaseModel):
-    """Admin: Add topped-up tokens - FR-023."""
+    """Admin: Add topped-up credits - FR-023."""
 
     user_id: str = Field(..., description="Target user ID")
-    tokens: int = Field(..., ge=1, le=100_000_000, description="Tokens to add (max 100M)")
+    credits: int = Field(..., ge=1, le=100_000_000, description="Credits to add (max 100M)")
     payment_reference: str | None = Field(default=None, description="Payment reference")
 
 
@@ -95,12 +95,12 @@ class CheckResponse(BaseModel):
 
     allowed: bool = True
     reservation_id: str
-    reserved_tokens: int
+    reserved_credits: int
     expires_at: datetime
 
 
 class BlockedResponse(BaseModel):
-    """Balance check failed (v5 error format per spec)."""
+    """Balance check failed (v6 error format per spec)."""
 
     allowed: bool = False
     error_code: str = Field(
@@ -129,7 +129,7 @@ class DeductResponse(BaseModel):
     total_tokens: int
     credits_deducted: int
     balance_after: int
-    balance_source: str = Field(default="balance", description="Always 'balance' in v5")
+    balance_source: str = Field(default="balance", description="Always 'balance' in v6")
     thread_id: str | None = None
     pricing_version: str
 
@@ -138,11 +138,11 @@ class ReleaseResponse(BaseModel):
     """Reservation released."""
 
     status: str = "released"
-    reserved_tokens: int
+    reserved_credits: int
 
 
 class BalanceResponse(BaseModel):
-    """User balance information (v5 - per spec GET /balance)."""
+    """User balance information (v6 - per spec GET /balance)."""
 
     user_id: str
     status: str
@@ -153,22 +153,22 @@ class BalanceResponse(BaseModel):
 
 
 class GrantResponse(BaseModel):
-    """Tokens granted response."""
+    """Credits granted response."""
 
     success: bool = True
     transaction_id: int
     allocation_id: int
-    tokens_granted: int
+    credits_granted: int
     new_balance: int
 
 
 class TopupResponse(BaseModel):
-    """Tokens topped up response."""
+    """Credits topped up response."""
 
     success: bool = True
     transaction_id: int
     allocation_id: int
-    tokens_added: int
+    credits_added: int
     new_balance: int
 
 
@@ -200,7 +200,7 @@ class TransactionsResponse(BaseModel):
 
 
 class AllocationInfo(BaseModel):
-    """Token allocation record (v5 - audit only)."""
+    """Token allocation record (v6 - audit only)."""
 
     id: int
     allocation_type: str  # "starter", "grant", or "topup"

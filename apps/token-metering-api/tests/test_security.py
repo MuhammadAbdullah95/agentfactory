@@ -65,7 +65,7 @@ class TestDevModeAdminBypass:
         # Try to access admin endpoint without explicit admin header
         response = await dev_mode_client.post(
             "/api/v1/admin/grant",
-            json={"user_id": "target-user", "tokens": 1000},
+            json={"user_id": "target-user", "credits": 1000},
             headers={"X-User-ID": "test-user-no-admin"},
         )
 
@@ -97,7 +97,7 @@ class TestDevModeAdminBypass:
         # With explicit admin header, should succeed
         response = await dev_mode_client.post(
             "/api/v1/admin/grant",
-            json={"user_id": "target-user-for-grant", "tokens": 1000, "reason": "test"},
+            json={"user_id": "target-user-for-grant", "credits": 1000, "reason": "test"},
             headers={
                 "X-User-ID": "admin-user",
                 "X-Dev-Admin": "true",
@@ -114,7 +114,7 @@ class TestDevModeAdminBypass:
         """X-Dev-Admin header must be exactly 'true' to grant admin."""
         response = await dev_mode_client.post(
             "/api/v1/admin/grant",
-            json={"user_id": "target-user", "tokens": 1000},
+            json={"user_id": "target-user", "credits": 1000},
             headers={
                 "X-User-ID": "test-user",
                 "X-Dev-Admin": "false",
@@ -284,7 +284,7 @@ class TestRateLimiting:
         for i in range(50):  # Admin limit should be lower
             response = await rate_limit_client.post(
                 "/api/v1/admin/grant",
-                json={"user_id": "admin-rate-limit-target", "tokens": 100, "reason": f"test-{i}"},
+                json={"user_id": "admin-rate-limit-target", "credits": 100, "reason": f"test-{i}"},
                 headers={
                     "X-User-ID": "admin-user",
                     "X-Dev-Admin": "true",
@@ -313,16 +313,16 @@ class TestAdminTokenLimits:
         # Should succeed with reasonable amount
         valid_request = GrantRequest(
             user_id="test-user",
-            tokens=100_000_000,  # Max allowed
+            credits=100_000_000,  # Max allowed
             reason="valid grant",
         )
-        assert valid_request.tokens == 100_000_000
+        assert valid_request.credits == 100_000_000
 
         # Should fail with excessive amount
         with pytest.raises(ValidationError) as exc_info:
             GrantRequest(
                 user_id="test-user",
-                tokens=100_000_001,  # Exceeds max
+                credits=100_000_001,  # Exceeds max
                 reason="invalid grant",
             )
 
@@ -339,16 +339,16 @@ class TestAdminTokenLimits:
         # Should succeed with reasonable amount
         valid_request = TopupRequest(
             user_id="test-user",
-            tokens=100_000_000,  # Max allowed
+            credits=100_000_000,  # Max allowed
             payment_reference="PAY-123",
         )
-        assert valid_request.tokens == 100_000_000
+        assert valid_request.credits == 100_000_000
 
         # Should fail with excessive amount
         with pytest.raises(ValidationError) as exc_info:
             TopupRequest(
                 user_id="test-user",
-                tokens=100_000_001,  # Exceeds max
+                credits=100_000_001,  # Exceeds max
                 payment_reference="PAY-456",
             )
 
@@ -397,7 +397,7 @@ class TestAdminTokenLimits:
             "/api/v1/admin/grant",
             json={
                 "user_id": "excessive-grant-target",
-                "tokens": 100_000_001,
+                "credits": 100_000_001,
                 "reason": "excessive grant",
             },
             headers={

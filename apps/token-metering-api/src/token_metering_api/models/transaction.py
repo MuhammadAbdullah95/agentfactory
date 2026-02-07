@@ -1,10 +1,9 @@
-"""Token transaction model - immutable audit log (v5).
+"""Token transaction model - immutable audit log (v6 - Credits).
 
-v5 Changes:
-- Added STARTER transaction type
-- Removed TRIAL from BalanceSource (no trial tracking in v5)
-- credits_deducted: positive value for usage (e.g., 500 means balance decreased by 500)
-- For grant/topup/starter: only total_tokens populated (amount added)
+v6 Changes (from v5):
+- credits_deducted now reflects cost-weighted credit amount (not raw tokens)
+- base_cost_usd and total_cost_usd populated from pricing calculation
+- For grant/topup/starter: total_tokens = credits amount added
 """
 
 from datetime import UTC, datetime

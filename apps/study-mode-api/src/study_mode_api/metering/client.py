@@ -67,7 +67,7 @@ class MeteringClient:
             context: Optional additional context dict
 
         Returns:
-            dict with 'allowed', 'reservation_id', 'reserved_tokens', 'expires_at'
+            dict with 'allowed', 'reservation_id', 'reserved_credits', 'expires_at'
             OR dict with 'allowed'=False and error info
 
         Raises:

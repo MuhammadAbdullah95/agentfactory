@@ -13,7 +13,7 @@ async def test_health_check(client: AsyncClient):
     assert "status" in data
     assert "version" in data
     assert "services" in data
-    assert data["version"] == "5.0.0"
+    assert data["version"] == "6.0.0"
 
 
 async def test_root_endpoint(client: AsyncClient):

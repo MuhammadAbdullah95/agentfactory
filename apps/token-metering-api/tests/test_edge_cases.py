@@ -64,11 +64,14 @@ class TestEdgeCases:
 
         assert result["allowed"] is True
 
-    async def test_one_over_balance_blocked(self, test_session):
-        """Request 1 token over balance should be blocked (v5: no trial)."""
+    async def test_one_credit_under_estimate_blocked(self, test_session):
+        """Balance 1 credit below pessimistic estimate should be blocked."""
+        from tests.helpers import estimate_credits_pessimistic
+
+        estimated_credits = estimate_credits_pessimistic(1000)
         account = TokenAccount(
             user_id="edge-over",
-            balance=1000,
+            balance=estimated_credits - 1,  # 1 credit short
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
@@ -78,10 +81,10 @@ class TestEdgeCases:
         result = await service.check_balance(
             user_id="edge-over",
             request_id="req-over",
-            estimated_tokens=1001,
+            estimated_tokens=1000,
         )
 
-        # v5: Blocked because balance < estimated
+        # v6: Blocked because balance < estimated_credits
         assert result["allowed"] is False
         assert result["error_code"] == "INSUFFICIENT_BALANCE"
 
@@ -109,10 +112,15 @@ class TestEdgeCases:
         assert result["allowed"] is True
 
     async def test_multiple_consecutive_requests_drain_balance(self, test_session):
-        """Multiple requests drain balance correctly (v5: from account.balance)."""
+        """Multiple requests drain balance correctly (v6: credits deducted)."""
+        from tests.helpers import calculate_expected_credits
+
+        credits_per_deduct = calculate_expected_credits(500, 500)  # = 18
+        initial_balance = credits_per_deduct * 3  # Exactly enough for 3 deductions
+
         account = TokenAccount(
             user_id="edge-multi",
-            balance=3000,
+            balance=initial_balance,
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
@@ -120,7 +128,7 @@ class TestEdgeCases:
 
         service = MeteringService(test_session)
 
-        # Request 1: 1000 tokens
+        # Request 1: 500i+500o
         await service.finalize_usage(
             user_id="edge-multi",
             request_id="req-multi-1",
@@ -131,9 +139,9 @@ class TestEdgeCases:
         )
 
         await test_session.refresh(account)
-        assert account.balance == 2000
+        assert account.balance == initial_balance - credits_per_deduct
 
-        # Request 2: 1000 tokens
+        # Request 2: 500i+500o
         await service.finalize_usage(
             user_id="edge-multi",
             request_id="req-multi-2",
@@ -144,9 +152,9 @@ class TestEdgeCases:
         )
 
         await test_session.refresh(account)
-        assert account.balance == 1000
+        assert account.balance == initial_balance - 2 * credits_per_deduct
 
-        # Request 3: 1000 tokens
+        # Request 3: 500i+500o
         await service.finalize_usage(
             user_id="edge-multi",
             request_id="req-multi-3",
@@ -191,9 +199,11 @@ class TestEdgeCases:
         )
 
         await test_session.refresh(account)
-        # v5: balance can go negative
-        assert account.balance == 100 - 1500
-        assert account.balance == -1400
+        # v6: balance can go negative (in credits)
+        from tests.helpers import calculate_expected_credits
+
+        expected_credits = calculate_expected_credits(1000, 500)
+        assert account.balance == 100 - expected_credits
 
     async def test_suspended_account_blocked(self, test_session):
         """Suspended account is always blocked, regardless of balance."""
@@ -342,9 +352,9 @@ class TestNegativeBalance:
 
         # Top up more than the deficit
         admin_service = AdminService(test_session)
-        await admin_service.topup_tokens(
+        await admin_service.topup_credits(
             user_id="negative-recover",
-            tokens=1000,
+            credits=1000,
             payment_reference="recovery-payment",
             admin_id="admin",
         )
@@ -388,26 +398,39 @@ class TestStarterTokens:
         # (they use Redis ZSET, deduction happens on finalize)
         assert account.balance == STARTER_TOKENS
 
-    async def test_starter_tokens_allows_large_request(self, test_session):
-        """New user can make request up to STARTER_TOKENS."""
+    async def test_starter_credits_allows_max_token_request(self, test_session):
+        """New user can make max-token request (estimate << starter credits)."""
         service = MeteringService(test_session)
 
+        # With credits model, even 128k tokens only costs ~3072 credits
+        # which is well under 20,000 starter credits
         result = await service.check_balance(
             user_id="starter-large-req",
             request_id="req-large",
-            estimated_tokens=STARTER_TOKENS,  # Use all starter tokens
+            estimated_tokens=128_000,  # Max tokens, still affordable
         )
 
         assert result["allowed"] is True
 
-    async def test_starter_tokens_blocks_over_limit(self, test_session):
-        """New user cannot make request over STARTER_TOKENS."""
-        service = MeteringService(test_session)
+    async def test_starter_credits_blocks_when_depleted(self, test_session):
+        """User with depleted starter credits is blocked."""
+        from tests.helpers import estimate_credits_pessimistic
 
+        # Create user with balance just under the estimate for 1000 tokens
+        estimated = estimate_credits_pessimistic(1000)
+        account = TokenAccount(
+            user_id="starter-over-req",
+            balance=estimated - 1,  # 1 credit short
+            last_activity_at=datetime.now(UTC),
+        )
+        test_session.add(account)
+        await test_session.commit()
+
+        service = MeteringService(test_session)
         result = await service.check_balance(
             user_id="starter-over-req",
             request_id="req-over",
-            estimated_tokens=STARTER_TOKENS + 1,  # 1 over
+            estimated_tokens=1000,
         )
 
         assert result["allowed"] is False

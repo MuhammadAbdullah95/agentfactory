@@ -1,21 +1,52 @@
-# Token Metering API (v5)
+# Token Metering API (v6)
 
 Freemium token tracking and metering service for the Agent Factory platform.
 
-## v5 Architecture: Balance-Only Model
+## Overview
 
-The v5 release simplifies the metering system to a **single balance-based model**:
+Every student gets a **$2.00 free AI budget**. Each AI request calculates the actual model cost, adds a 20% operating markup, and deducts from the student's balance. When the balance runs out, requests are blocked until an admin grants more.
 
-- **No trial tracking** - Users start with `STARTER_TOKENS` (50,000)
-- **Single balance field** - Source of truth for available tokens
-- **365-day inactivity expiry** - Balance expires after 1 year of inactivity
-- **Redis sorted set reservations** - Atomic reservation handling with O(1) operations
+Different AI models cost different amounts — a cheap model (DeepSeek) stretches the budget to ~3,300 interactions, while an expensive model (Claude Opus) allows ~18 interactions. This prevents cost arbitrage and ensures fair resource allocation across 20,000+ users.
+
+## What Are Credits?
+
+Credits are **micro-dollars stored as integers** to avoid floating-point rounding bugs. The frontend can display them as USD:
+
+| Internal | Display | Meaning |
+|----------|---------|---------|
+| 20,000 credits | $2.00 | Starter balance |
+| 6 credits | $0.0006 | One DeepSeek interaction |
+| 1,080 credits | $0.108 | One Claude Opus interaction |
+
+**1 credit = $0.0001**. The conversion: `balance_usd = credits / 10,000`. Internally credits are integers for safe arithmetic in Redis and PostgreSQL. The user-facing layer can show either credits or `$X.XX` — it's a display choice, not an architecture change.
+
+### Cost Calculation Formula
+
+```
+base_cost    = (input_tokens / 1000 × input_rate) + (output_tokens / 1000 × output_rate)
+with_markup  = base_cost × 1.20          # 20% platform markup
+credits      = ceil(with_markup × 10,000) # convert to integer credits
+```
+
+### Why 10,000 Credits Per Dollar?
+
+Granularity. With cents (100 per dollar), every small DeepSeek request rounds up to 1 cent — a 2,000% overcharge. At 10,000 per dollar, a typical DeepSeek request costs 6 credits with only ~19% rounding error. The number is configurable via `CREDITS_PER_DOLLAR`.
+
+## v6 Architecture: Cost-Weighted Credits
+
+- **Integer balance field** — Single source of truth, stored as credits (micro-dollars)
+- **Model-aware pricing** — Each model has its own input/output cost rates in the pricing table
+- **20% markup** — Platform operating cost applied to every deduction
+- **Pessimistic reservation** — Pre-request estimates use the expensive rate to guarantee coverage
+- **365-day inactivity expiry** — Balance expires after 1 year of inactivity
+- **Redis sorted set reservations** — Atomic reservation handling with O(1) operations
+- **Extensible formula** — Only `_calculate_credits()` changes to support per-task or tiered pricing
 
 ## Features
 
 - **Pre-request balance checks** with reservation pattern (<5ms target)
-- **Post-request token deductions** with idempotency via request_id
-- **Administrative operations** (grant, topup)
+- **Post-request credit deductions** with idempotency via request_id
+- **Administrative operations** (grant credits, topup credits)
 - **Balance caching** with Redis read-through cache
 - **Rate limiting** on admin endpoints (20 req/min via Redis)
 - **Redis-first architecture** with PostgreSQL system of record
@@ -86,7 +117,8 @@ Key variables:
 | `SSO_URL` | SSO service for JWT verification | Required for prod |
 | `TOKEN_AUDIENCE` | JWT audience for validation | `token-metering-api` |
 | `DEV_MODE` | Bypass authentication for development | `false` |
-| `STARTER_TOKENS` | Initial tokens for new users | `50000` |
+| `CREDITS_PER_DOLLAR` | Credits per dollar (1 credit = $0.0001) | `10000` |
+| `STARTER_CREDITS` | Initial credits for new users (~$2.00) | `20000` |
 | `INACTIVITY_EXPIRY_DAYS` | Days before balance expires | `365` |
 | `MARKUP_PERCENT` | Cost markup percentage | `20.0` |
 | `FAIL_OPEN` | Allow requests when Redis unavailable | `true` |
@@ -98,7 +130,7 @@ Key variables:
 | Endpoint                   | Method | Description                             |
 | -------------------------- | ------ | --------------------------------------- |
 | `/api/v1/metering/check`   | POST   | Pre-request balance check (reserve)     |
-| `/api/v1/metering/deduct`  | POST   | Post-request token deduction (finalize) |
+| `/api/v1/metering/deduct`  | POST   | Post-request credit deduction (finalize) |
 | `/api/v1/metering/release` | POST   | Cancel reservation                      |
 
 ### Balance
@@ -114,8 +146,8 @@ Key variables:
 
 | Endpoint              | Method | Description                  |
 | --------------------- | ------ | ---------------------------- |
-| `/api/v1/admin/grant` | POST   | Grant tokens (institutional) |
-| `/api/v1/admin/topup` | POST   | Add tokens (paid)            |
+| `/api/v1/admin/grant` | POST   | Grant credits (institutional) |
+| `/api/v1/admin/topup` | POST   | Add credits (paid)            |
 
 ### Health & Metrics
 
@@ -131,15 +163,17 @@ The metering service uses a reservation pattern to prevent overcharging:
 ```
 1. PRE-CHECK (reserve)
    POST /api/v1/metering/check
-   → Atomically reserve estimated_tokens in Redis ZSET
-   → Return reservation_id + allowed status
+   → Convert estimated_tokens → estimated_credits (pessimistic, ROUND_CEILING)
+   → Atomically reserve estimated_credits in Redis ZSET
+   → Return reservation_id + reserved_credits + allowed status
 
 2. LLM CALL (external)
    → Get actual input/output tokens
 
 3a. SUCCESS: FINALIZE
     POST /api/v1/metering/deduct
-    → Deduct actual tokens from balance
+    → Convert actual tokens → credits via model pricing + 20% markup
+    → Deduct credits from balance (credits_deducted ≤ reserved_credits)
     → Remove reservation from ZSET
     → Idempotent via request_id
 
@@ -177,24 +211,25 @@ uv run pytest tests/ --cov=src/token_metering_api --cov-report=term-missing
 
 ### Test Coverage
 
-Current coverage: **79%** (265 tests)
+Current coverage: **80%+** (293 tests)
 
-| Category              | Tests |
-| --------------------- | ----- |
-| Core metering service | 22    |
-| E2E user journeys     | 34    |
-| Edge cases            | 24    |
-| v5 balance model      | 47    |
-| Caching               | 20    |
-| Redis integration     | 29    |
-| Authentication        | 27    |
-| API endpoints         | 17    |
-| Security              | 13    |
-| Concurrency           | 10    |
-| Spec compliance       | 11    |
-| Account service       | 9     |
-| Balance endpoints     | 9     |
-| Health                | 2     |
+| Category               | Tests |
+| ---------------------- | ----- |
+| Credit calculation     | 27    |
+| Core metering service  | 22    |
+| E2E user journeys      | 35    |
+| Edge cases             | 24    |
+| v6 credits model       | 47    |
+| Caching                | 20    |
+| Redis integration      | 29    |
+| Authentication         | 27    |
+| API endpoints          | 17    |
+| Security               | 13    |
+| Concurrency            | 10    |
+| Spec compliance        | 11    |
+| Account service        | 9     |
+| Balance endpoints      | 9     |
+| Health                 | 2     |
 
 ## Architecture
 
@@ -221,13 +256,12 @@ token-metering-api/
 │   │   ├── account.py     # Account creation, cache
 │   │   ├── admin.py       # Admin operations
 │   │   ├── balance.py     # Balance queries
-│   │   ├── metering.py    # Core metering logic
-│   │   └── types.py       # TypedDict definitions
+│   │   └── metering.py    # Core metering + credit calculation
 │   └── scripts/           # Redis Lua scripts
 │       ├── reserve.lua    # Atomic reservation
 │       ├── finalize.lua   # Complete reservation
 │       └── release.lua    # Cancel reservation
-├── tests/                 # 265 tests
+├── tests/                 # 293 tests
 ├── docker-compose.yaml    # Local development
 └── Dockerfile             # Production container
 ```
@@ -238,7 +272,7 @@ token-metering-api/
 - **Rate limiting** on admin endpoints via slowapi (per-user, Redis-backed)
 - **Admin role enforcement** for privileged endpoints
 - **Dev mode safety** - blocked in production environment
-- **Token limits** on admin operations (max 100M per grant)
+- **Credit limits** on admin operations (max 100M per grant)
 
 ## CI/CD
 

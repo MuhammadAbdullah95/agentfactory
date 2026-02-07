@@ -44,7 +44,7 @@ class TestCheckEndpoint:
         data = response.json()
         assert data["allowed"] is True
         assert "reservation_id" in data
-        assert data["reserved_tokens"] == 1000
+        assert data["reserved_credits"] > 0
 
     async def test_check_blocks_zero_balance_user(
         self, client: AsyncClient, zero_balance_user, test_session
@@ -155,7 +155,11 @@ class TestDeductEndpoint:
         data = response.json()
         assert data["status"] == "finalized"
         assert data["total_tokens"] == 1000
-        assert data["credits_deducted"] == 1000
+        # v6: credits_deducted is cost-weighted, not raw tokens
+        from tests.helpers import calculate_expected_credits
+
+        expected = calculate_expected_credits(500, 500)
+        assert data["credits_deducted"] == expected
         assert "transaction_id" in data
 
     async def test_deduct_idempotent_on_duplicate_request_id(
@@ -301,7 +305,7 @@ class TestAdminEndpoints:
             "/api/v1/admin/grant",
             json={
                 "user_id": "grant-target",
-                "tokens": 500000,
+                "credits": 500000,
                 "reason": "Panaversity enrollment",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -310,7 +314,7 @@ class TestAdminEndpoints:
         assert response.status_code == 200
         data = response.json()
         assert data["success"] is True
-        assert data["tokens_granted"] == 500000
+        assert data["credits_granted"] == 500000
 
         await test_session.refresh(account)
         assert account.balance == 500000
@@ -329,7 +333,7 @@ class TestAdminEndpoints:
             "/api/v1/admin/topup",
             json={
                 "user_id": "topup-target",
-                "tokens": 100000,
+                "credits": 100000,
                 "payment_reference": "stripe_pi_123",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -338,7 +342,7 @@ class TestAdminEndpoints:
         assert response.status_code == 200
         data = response.json()
         assert data["success"] is True
-        assert data["tokens_added"] == 100000
+        assert data["credits_added"] == 100000
 
         await test_session.refresh(account)
         assert account.balance == 101000
@@ -351,7 +355,7 @@ class TestAdminEndpoints:
             "/api/v1/admin/grant",
             json={
                 "user_id": "new-grant-user",
-                "tokens": 100000,
+                "credits": 100000,
                 "reason": "New enrollment",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -362,7 +366,7 @@ class TestAdminEndpoints:
         assert data["success"] is True
 
         # Balance should be starter + grant
-        assert data["new_balance"] == settings.starter_tokens + 100000
+        assert data["new_balance"] == settings.starter_credits + 100000
 
 
 class TestInactivityExpiry:

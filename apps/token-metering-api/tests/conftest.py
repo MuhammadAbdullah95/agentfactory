@@ -1,4 +1,4 @@
-"""Test fixtures for token metering API (v5 - Balance Only)."""
+"""Test fixtures for token metering API (v6 - Credits)."""
 
 import asyncio
 import hashlib
@@ -18,7 +18,7 @@ os.environ["PYTEST_CURRENT_TEST"] = "1"
 
 from token_metering_api.config import settings
 from token_metering_api.main import app
-from token_metering_api.models import STARTER_TOKENS, SQLModel
+from token_metering_api.models import STARTER_CREDITS, STARTER_TOKENS, SQLModel
 
 
 def make_request_id(seed: str = "") -> str:
@@ -104,15 +104,15 @@ async def client(test_session) -> AsyncGenerator[AsyncClient, None]:
 
 @pytest_asyncio.fixture
 async def new_user(test_session: AsyncSession):
-    """Create a new user with starter tokens (v5).
+    """Create a new user with starter credits (v6).
 
-    v5: New users start with STARTER_TOKENS (50,000).
+    v6: New users start with STARTER_CREDITS (20,000).
     """
     from token_metering_api.models import AllocationType, TokenAccount, TokenAllocation
 
     account = TokenAccount(
         user_id="new-user-123",
-        balance=STARTER_TOKENS,
+        balance=STARTER_CREDITS,
         last_activity_at=datetime.now(UTC),
     )
     test_session.add(account)
@@ -121,8 +121,8 @@ async def new_user(test_session: AsyncSession):
     allocation = TokenAllocation(
         user_id="new-user-123",
         allocation_type=AllocationType.STARTER,
-        amount=STARTER_TOKENS,
-        reason="Initial starter tokens for new user",
+        amount=STARTER_CREDITS,
+        reason="Initial starter credits for new user",
     )
     test_session.add(allocation)
 
@@ -133,7 +133,7 @@ async def new_user(test_session: AsyncSession):
 
 @pytest_asyncio.fixture
 async def user_with_balance(test_session: AsyncSession):
-    """Create a user with 500k balance (has been granted tokens)."""
+    """Create a user with 500k balance (has been granted credits)."""
     from token_metering_api.models import AllocationType, TokenAccount, TokenAllocation
 
     account = TokenAccount(
@@ -160,7 +160,7 @@ async def user_with_balance(test_session: AsyncSession):
 
 @pytest_asyncio.fixture
 async def zero_balance_user(test_session: AsyncSession):
-    """Create a user who has exhausted all tokens."""
+    """Create a user who has exhausted all credits."""
     from token_metering_api.models import TokenAccount
 
     account = TokenAccount(

@@ -1,37 +1,50 @@
-# Feature Specification: Freemium Token Tracker (v5 - Balance Only)
+# Feature Specification: Freemium Token Tracker (v6 - Cost-Weighted Credits)
 
 **Feature Branch**: `001-freemium-tracker`
 **Created**: 2026-02-04
-**Updated**: 2026-02-05
-**Status**: Draft (v5 - Balance Only, No Trial Tracking)
-**Input**: Agent Factory Freemium Token Tracking System - Pure balance-based metering.
+**Updated**: 2026-02-06
+**Status**: Draft (v6 - Cost-Weighted Credits)
+**Input**: Agent Factory Freemium Token Tracking System - Credit-based metering with model-aware pricing.
 
 ---
 
 ## Overview
 
-An ultra-simple token metering system designed for 900k+ users:
+A cost-weighted credit metering system designed for 900k+ users:
 
-1. **New users get 50,000 free tokens** (starter balance, ~20 interactions)
-2. **Single metric: balance** - no separate trial tracking
-3. **No daily/monthly limits** - just balance
-4. **Admin can grant tokens** to anyone (students, promos, etc.)
-5. **Tokens expire only after 365 days of inactivity** (active users keep tokens forever)
+1. **New users get 20,000 free credits** (~$2.00 budget, ~2,857 DeepSeek interactions)
+2. **Single metric: credit balance** - no separate trial tracking
+3. **Cost-weighted deductions**: Different models cost different credits (1 credit = $0.0001)
+4. **No daily/monthly limits** - just balance
+5. **Admin can grant credits** to anyone (students, promos, etc.)
+6. **Credits expire only after 365 days of inactivity** (active users keep credits forever)
 
 ```
-NEW USER (50k tokens) → USE BALANCE → BLOCKED at 0 → PAY/GRANT → CONTINUE
+NEW USER (20k credits) → USE BALANCE (cost-weighted) → BLOCKED at 0 → PAY/GRANT → CONTINUE
 ```
+
+**Budget Examples (per 2,500-token interaction)**:
+
+| Model         | Base Cost | With 20% Markup | Credits | Interactions per 20k |
+| ------------- | --------- | --------------- | ------- | -------------------- |
+| DeepSeek Chat | $0.000525 | $0.000630       | 7       | ~2,857               |
+| GPT-5 Nano    | $0.000938 | $0.001125       | 12      | ~1,666               |
 
 ---
 
-## Design Principles (v5)
+## Design Principles (v6)
 
-1. **Single source of truth**: `TokenAccount.balance` field (not computed)
-2. **O(1) balance reads**: Direct field access, no JOINs or SUMs
-3. **One metric only**: Balance - no separate trial/request counting
-4. **Audit-only allocations**: TokenAllocation tracks history, not state
-5. **Inactivity expiry**: Balance expires after 365 days of no activity
-6. **Scalable to 900k+ users**: No table bloat, no complexity
+1. **Pricing and credits are an internal accounting abstraction**: External services deal only in tokens. Conversion happens once, inside the metering service.
+2. **Cost-weighted credits**: 1 credit = $0.0001 (configurable via `CREDITS_PER_DOLLAR`). Different models cost different credit amounts.
+3. **Single conversion path**: `_calculate_credits()` used for both estimates and finals. No separate code paths that can diverge.
+4. **Over-reservation acceptable; under-reservation NEVER allowed**: Pessimistic estimation uses `max(input_rate, output_rate)`.
+5. **ROUND_CEILING**: Platform never gives free usage. Always rounds up.
+6. **Single source of truth**: `TokenAccount.balance` field (not computed)
+7. **O(1) balance reads**: Direct field access, no JOINs or SUMs
+8. **One metric only**: Credit balance - no separate trial/request counting
+9. **Audit-only allocations**: TokenAllocation tracks history, not state
+10. **Inactivity expiry**: Balance expires after 365 days of no activity
+11. **Scalable to 900k+ users**: No table bloat, no complexity
 
 ---
 
@@ -39,35 +52,35 @@ NEW USER (50k tokens) → USE BALANCE → BLOCKED at 0 → PAY/GRANT → CONTINU
 
 ### User Story 1 - New User Experience (Priority: P1)
 
-A new user discovers the AI tutor. They get 50,000 free tokens to experience the product. When exhausted, they must pay or get tokens granted.
+A new user discovers the AI tutor. They get 20,000 free credits (~$2.00 budget) to experience the product. When exhausted, they must pay or get credits granted.
 
 **Why this priority**: Core conversion funnel - starter → paid.
 
-**Independent Test**: Create new user, verify they have 50,000 tokens, use them until blocked.
+**Independent Test**: Create new user, verify they have 20,000 credits, use them until blocked.
 
 **Acceptance Scenarios**:
 
-1. **Given** a new user, **When** account is created, **Then** they start with 50,000 tokens (configurable via `STARTER_TOKENS`).
+1. **Given** a new user, **When** account is created, **Then** they start with 20,000 credits (configurable via `STARTER_CREDITS`).
 
-2. **Given** a user with 1,000 tokens, **When** they make a request using 500 tokens, **Then** 500 is deducted and 500 remains.
+2. **Given** a user with 1,000 credits, **When** they make a request, **Then** cost-weighted credits are deducted based on model pricing and token usage.
 
-3. **Given** a user with 0 tokens, **When** they make a request, **Then** they are blocked with HTTP 402 and error code `INSUFFICIENT_BALANCE`.
+3. **Given** a user with 0 credits, **When** they make a request, **Then** they are blocked with HTTP 402 and error code `INSUFFICIENT_BALANCE`.
 
-4. **Given** a user with tokens, **When** 30 days pass (with activity), **Then** their tokens remain (no time-based expiry for active users).
+4. **Given** a user with credits, **When** 30 days pass (with activity), **Then** their credits remain (no time-based expiry for active users).
 
 ---
 
 ### User Story 2 - User Tops Up Balance (Priority: P2)
 
-A user who exhausted their starter tokens wants to continue. They pay and receive tokens.
+A user who exhausted their starter credits wants to continue. They pay and receive credits.
 
 **Why this priority**: Revenue generation.
 
 **Acceptance Scenarios**:
 
-1. **Given** a user with 0 balance, **When** they top up 100,000 tokens, **Then** their balance becomes 100,000 and they can make requests.
+1. **Given** a user with 0 balance, **When** they top up 100,000 credits, **Then** their balance becomes 100,000 and they can make requests.
 
-2. **Given** a user with 50,000 balance, **When** they make a request using 5,000 tokens, **Then** 5,000 is deducted and 45,000 remains.
+2. **Given** a user with 50,000 credits, **When** they make a request, **Then** cost-weighted credits are deducted based on model pricing and token usage.
 
 3. **Given** a user who exhausts their balance, **When** they make a request, **Then** they are blocked with HTTP 402.
 
@@ -75,19 +88,19 @@ A user who exhausted their starter tokens wants to continue. They pay and receiv
 
 ---
 
-### User Story 3 - Admin Grants Tokens (Priority: P3)
+### User Story 3 - Admin Grants Credits (Priority: P3)
 
-An admin grants tokens to a user (student enrollment, promotional credit, support resolution).
+An admin grants credits to a user (student enrollment, promotional credit, support resolution).
 
 **Why this priority**: Enables institutional access and promotions.
 
 **Acceptance Scenarios**:
 
-1. **Given** a user with 0 balance, **When** admin grants 500,000 tokens, **Then** their balance becomes 500,000 and an audit record is created.
+1. **Given** a user with 0 balance, **When** admin grants 500,000 credits, **Then** their balance becomes 500,000 and an audit record is created.
 
 2. **Given** a user with 100,000 balance, **When** admin grants 50,000 more, **Then** their balance becomes 150,000.
 
-3. **Given** a student who was inactive for 400 days, **When** admin grants tokens, **Then** their `last_activity_at` is updated and balance is set to the granted amount.
+3. **Given** a student who was inactive for 400 days, **When** admin grants credits, **Then** their `last_activity_at` is updated and balance is set to the granted amount.
 
 4. **Given** a student who exhausts their granted balance, **When** they make a request, **Then** they are blocked with error code `INSUFFICIENT_BALANCE`.
 
@@ -131,19 +144,19 @@ The LLM call fails after pre-check but before deduction.
 
 ## Edge Cases _(mandatory)_
 
-| Scenario | Behavior | Error Code |
-|----------|----------|------------|
-| LLM fails after pre-check | Call `/release`, no deduction | N/A |
-| Redis unavailable | Fail-open with DB `SELECT FOR UPDATE` lock | N/A |
-| Actual usage > estimate | Deduct actual, balance may go negative | N/A |
-| Balance goes negative | Allow (grace), block next request if still negative | `INSUFFICIENT_BALANCE` |
-| User inactive 365+ days | `effective_balance = 0`, block until grant/topup | `INSUFFICIENT_BALANCE` |
-| Estimated > available | Block immediately | `INSUFFICIENT_BALANCE` |
-| Duplicate `request_id` on `/check` | Return existing reservation (idempotent) | N/A |
-| Duplicate `request_id` on `/check` with different params | Return 409 Conflict | `REQUEST_ID_CONFLICT` |
-| Duplicate `request_id` on `/deduct` | Return original transaction (idempotent) | N/A |
-| Suspended account | Block all operations | `ACCOUNT_SUSPENDED` |
-| Failopen reservation (Redis down) | Reservation ID starts with `failopen_`, release always succeeds | N/A |
+| Scenario                                                 | Behavior                                                        | Error Code             |
+| -------------------------------------------------------- | --------------------------------------------------------------- | ---------------------- |
+| LLM fails after pre-check                                | Call `/release`, no deduction                                   | N/A                    |
+| Redis unavailable                                        | Fail-open with DB `SELECT FOR UPDATE` lock                      | N/A                    |
+| Actual usage > estimate                                  | Deduct actual, balance may go negative                          | N/A                    |
+| Balance goes negative                                    | Allow (grace), block next request if still negative             | `INSUFFICIENT_BALANCE` |
+| User inactive 365+ days                                  | `effective_balance = 0`, block until grant/topup                | `INSUFFICIENT_BALANCE` |
+| Estimated > available                                    | Block immediately                                               | `INSUFFICIENT_BALANCE` |
+| Duplicate `request_id` on `/check`                       | Return existing reservation (idempotent)                        | N/A                    |
+| Duplicate `request_id` on `/check` with different params | Return 409 Conflict                                             | `REQUEST_ID_CONFLICT`  |
+| Duplicate `request_id` on `/deduct`                      | Return original transaction (idempotent)                        | N/A                    |
+| Suspended account                                        | Block all operations                                            | `ACCOUNT_SUSPENDED`    |
+| Failopen reservation (Redis down)                        | Reservation ID starts with `failopen_`, release always succeeds | N/A                    |
 
 ---
 
@@ -154,22 +167,25 @@ The LLM call fails after pre-check but before deduction.
 #### Core Metering
 
 - **FR-001**: System MUST track input tokens, output tokens, and total tokens for every LLM request.
-- **FR-002**: System MUST calculate marked-up cost (base cost + 20%) for every request and log it.
-- **FR-003**: System MUST support single state: balance-based (no separate trial).
+- **FR-002**: System MUST calculate marked-up cost (base cost + 20%) for every request, convert to credits, and deduct credits from balance.
+- **FR-003**: System MUST support single state: credit-balance-based (no separate trial).
 - **FR-004**: System MUST perform pre-request balance check in under 5 milliseconds (O(1) DB read + O(k) Redis scan).
-- **FR-005**: System MUST block requests with HTTP 402 when user has insufficient balance.
+- **FR-005**: System MUST block requests with HTTP 402 when user has insufficient credit balance.
 - **FR-006**: System MUST return structured error with `error_code` field.
+- **FR-070**: System MUST convert raw tokens to cost-weighted credits using the single `_calculate_credits` conversion path for both estimates and finals.
+- **FR-071**: Over-reservation is acceptable; under-reservation is NEVER allowed. Estimation MUST use pessimistic pricing (`max(input_rate, output_rate)` for both halves).
+- **FR-072**: Audit record MUST include: model, input_tokens, output_tokens, pricing snapshot (base_cost_usd, total_cost_usd), credits_deducted, balance_after, and pricing_version.
 
 #### Balance System
 
-- **FR-007**: System MUST store balance as a single field on TokenAccount (source of truth).
-- **FR-008**: System MUST track token source (grant vs topup vs starter) via TokenAllocation audit records.
-- **FR-009**: System MUST support admin granting tokens to any user.
-- **FR-010**: System MUST support adding topped-up tokens (for future Stripe integration).
-- **FR-011**: New users MUST start with `STARTER_TOKENS` (default 50,000) in their balance.
+- **FR-007**: System MUST store credit balance as a single field on TokenAccount (source of truth).
+- **FR-008**: System MUST track credit source (grant vs topup vs starter) via TokenAllocation audit records.
+- **FR-009**: System MUST support admin granting credits to any user.
+- **FR-010**: System MUST support adding topped-up credits (for future Stripe integration).
+- **FR-011**: New users MUST start with `STARTER_CREDITS` (default 20,000) in their balance.
 - **FR-012**: System MUST create a `starter` allocation audit record when new account is created.
 
-**Budget Rationale**: `STARTER_TOKENS = 50,000` allows approximately 20 interactions at ~2,500 tokens each (chapter context + Q&A). Actual cost depends on model pricing (e.g., ~$0.007-$0.014 for deepseek-chat at current rates).
+**Budget Rationale**: `STARTER_CREDITS = 20,000` represents a ~$2.00 budget. At 2,500 tokens per interaction: DeepSeek costs ~7 credits (~2,857 interactions), GPT-5 Nano costs ~12 credits (~1,666 interactions). Credits = `ceil(cost_with_markup_usd * CREDITS_PER_DOLLAR)` where `CREDITS_PER_DOLLAR = 10,000`.
 
 #### Inactivity Expiry
 
@@ -178,8 +194,8 @@ The LLM call fails after pre-check but before deduction.
 - **FR-026**: System MUST expose `effective_balance` property: returns 0 if inactive 365+ days, else `balance`.
 - **FR-027**: The following operations update `last_activity_at`:
   - `finalize_usage` (deduct)
-  - `grant_tokens`
-  - `topup_tokens`
+  - `grant_credits`
+  - `topup_credits`
 - **FR-028**: The following operations do NOT update `last_activity_at`:
   - `check_balance` (read-only)
   - `get_balance` (read-only)
@@ -193,38 +209,43 @@ The LLM call fails after pre-check but before deduction.
 - **FR-033**: System MUST use Redis reservations when Redis is available; MUST fall back to DB `SELECT FOR UPDATE` if Redis unavailable.
 
 **Redis Data Structure (Sorted Set per User)**:
+
 - **FR-034**: Reservations stored as sorted set: `metering:reservations:{user_id}`
   - Score: expiry timestamp (unix epoch)
-  - Member: `{request_id}:{tokens}` (e.g., `req-123:5000`)
-  - **Parsing**: Split on last `:` to extract tokens. `request_id` MUST NOT contain `:` (use UUID format).
+  - Member: `{request_id}:{credits}` (e.g., `req-123:24`)
+  - **Parsing**: Split on last `:` to extract credits. `request_id` MUST NOT contain `:` (use UUID format).
 - **FR-035**: No separate counter needed. Reserved total computed from sorted set.
 - **FR-036**: On `/check`, Lua script MUST atomically:
   1. `ZREMRANGEBYSCORE` to remove expired (score < now)
   2. Check if `request_id` already exists in sorted set (scan members for prefix match)
-     - If exists with same tokens: return existing `reserved_total` (idempotent)
-     - If exists with different tokens: return error code for 409
+     - If exists with same credits: return existing `reserved_total` (idempotent)
+     - If exists with different credits: return error code for 409
   3. `ZADD` new reservation with expiry score
-  4. `ZRANGE` + sum tokens to compute `reserved_total`
+  4. `ZRANGE` + sum credits to compute `reserved_total`
   5. Return `reserved_total` for balance check
 - **FR-036a**: If Python balance check fails after Lua returns, Python MUST immediately call `ZREM` to release the reservation (prevent leak).
 - **FR-037**: On `/deduct`, Lua script MUST: `ZREM` the reservation member.
 - **FR-038**: On `/release`, Lua script MUST: `ZREM` the reservation member.
 
 **Available Balance Formula**:
+
 ```
 available_balance = effective_balance - reserved_total
 ```
 
 Where:
+
 - `effective_balance` = 0 if expired, else `balance`
-- `reserved_total` = sum of tokens from `ZRANGE metering:reservations:{user_id}` (computed in Lua)
+- `reserved_total` = sum of credits from `ZRANGE metering:reservations:{user_id}` (computed in Lua)
 
 **Complexity Analysis**:
+
 - `/check`: O(k) where k = active reservations for user (typically 1-3, bounded by TTL)
 - `/deduct`, `/release`: O(log k) for ZREM
 - No background reconciliation needed - cleanup happens lazily on each `/check`
 
 **Compensation Rules**:
+
 - If DB commit succeeds but Redis ZREM fails: orphaned member expires via score-based cleanup on next `/check`.
 - If Redis succeeds but DB fails: retry DB with idempotency guard on `request_id`.
 
@@ -244,13 +265,15 @@ Where:
 - **FR-042**: System MUST block next `/check` if `available_balance < estimated_tokens`.
 - **FR-043**: Negative balance is flagged via `balance < 0` (no separate field needed).
 
-#### Cost Calculation
+#### Cost Calculation & Credit Conversion
 
 - **FR-044**: Costs MUST be calculated using `Decimal` with 6 decimal places precision.
 - **FR-045**: Formula: `base_cost = (input_tokens/1000 * input_rate) + (output_tokens/1000 * output_rate)`.
 - **FR-046**: Markup: `total_cost = base_cost * (1 + markup_percent/100)`.
 - **FR-047**: Default markup: 20%.
-- **FR-065**: Rounding mode: `ROUND_HALF_UP` for display; store full precision in DB.
+- **FR-065**: Rounding mode: `ROUND_CEILING` for credit conversion (platform never gives free usage); store full USD precision in DB.
+- **FR-073**: Credit conversion: `credits = ceil(total_cost * CREDITS_PER_DOLLAR)` where `CREDITS_PER_DOLLAR = 10,000` (1 credit = $0.0001).
+- **FR-074**: Balance deduction MUST use `credits` (not raw tokens). `UPDATE ... SET balance = balance - credits`.
 
 #### Estimated Tokens
 
@@ -284,7 +307,7 @@ Where:
 - **FR-019**: System MUST expose `POST /metering/deduct` (post-request finalization).
 - **FR-020**: System MUST expose `POST /metering/release` (LLM failure - cancel reservation).
 - **FR-021**: System MUST expose `GET /balance` (user dashboard).
-- **FR-022**: System MUST expose `POST /admin/grant` (admin grants tokens).
+- **FR-022**: System MUST expose `POST /admin/grant` (admin grants credits).
 - **FR-023**: System MUST expose `POST /admin/topup` (future Stripe webhook).
 
 #### Performance (Redis Caching - Optional)
@@ -301,6 +324,7 @@ Where:
 ### POST /metering/check
 
 **Request:**
+
 ```json
 {
   "user_id": "string (required)",
@@ -312,24 +336,26 @@ Where:
 ```
 
 **Response (Success - 200):**
+
 ```json
 {
   "allowed": true,
   "reservation_id": "string",
-  "reserved_tokens": "int",
+  "reserved_credits": "int (estimated credits reserved)",
   "expires_at": "datetime (ISO8601)"
 }
 ```
 
 **Response (Blocked - 402/403/409):**
+
 ```json
 {
   "allowed": false,
   "error_code": "INSUFFICIENT_BALANCE | ACCOUNT_SUSPENDED | REQUEST_ID_CONFLICT",
   "message": "string",
   "balance": "int",
-  "available_balance": "int (effective_balance - reserved_total)",
-  "required": "int",
+  "available_balance": "int (effective_balance - reserved_credits_total)",
+  "required": "int (estimated credits required)",
   "is_expired": "bool"
 }
 ```
@@ -337,6 +363,7 @@ Where:
 ### POST /metering/deduct
 
 **Request:**
+
 ```json
 {
   "user_id": "string (required)",
@@ -351,6 +378,7 @@ Where:
 ```
 
 **Response (Success - 200):**
+
 ```json
 {
   "status": "finalized | already_processed",
@@ -365,6 +393,7 @@ Where:
 ### POST /metering/release
 
 **Request:**
+
 ```json
 {
   "user_id": "string (required)",
@@ -374,16 +403,18 @@ Where:
 ```
 
 **Response (Success - 200):**
+
 ```json
 {
   "status": "released",
-  "reserved_tokens": "int"
+  "reserved_credits": "int"
 }
 ```
 
 ### GET /balance
 
 **Response (Success - 200):**
+
 ```json
 {
   "user_id": "string",
@@ -398,21 +429,23 @@ Where:
 ### POST /admin/grant
 
 **Request:**
+
 ```json
 {
   "user_id": "string (required)",
-  "tokens": "int (required, >= 1)",
+  "credits": "int (required, >= 1)",
   "reason": "string (optional)"
 }
 ```
 
 **Response (Success - 200):**
+
 ```json
 {
   "success": true,
   "transaction_id": "int",
   "allocation_id": "int",
-  "tokens_granted": "int",
+  "credits_granted": "int",
   "new_balance": "int"
 }
 ```
@@ -420,74 +453,77 @@ Where:
 ### POST /admin/topup
 
 **Request:**
+
 ```json
 {
   "user_id": "string (required)",
-  "tokens": "int (required, >= 1)",
+  "credits": "int (required, >= 1)",
   "payment_reference": "string (optional)"
 }
 ```
 
 **Response (Success - 200):**
+
 ```json
 {
   "success": true,
   "transaction_id": "int",
   "allocation_id": "int",
-  "tokens_added": "int",
+  "credits_added": "int",
   "new_balance": "int"
 }
 ```
 
 ### Error Codes
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| `INSUFFICIENT_BALANCE` | 402 | available_balance < estimated_tokens (covers: expired, negative, zero, or just low) |
-| `ACCOUNT_SUSPENDED` | 403 | Account suspended by admin |
-| `USER_MISMATCH` | 403 | user_id doesn't match JWT |
-| `ADMIN_REQUIRED` | 403 | Admin role required |
-| `REQUEST_ID_CONFLICT` | 409 | Same request_id reused with different parameters |
+| Code                   | HTTP Status | Description                                                                          |
+| ---------------------- | ----------- | ------------------------------------------------------------------------------------ |
+| `INSUFFICIENT_BALANCE` | 402         | available_balance < estimated_credits (covers: expired, negative, zero, or just low) |
+| `ACCOUNT_SUSPENDED`    | 403         | Account suspended by admin                                                           |
+| `USER_MISMATCH`        | 403         | user_id doesn't match JWT                                                            |
+| `ADMIN_REQUIRED`       | 403         | Admin role required                                                                  |
+| `REQUEST_ID_CONFLICT`  | 409         | Same request_id reused with different parameters                                     |
 
 **Note**: We consolidated `BALANCE_EXHAUSTED`, `BALANCE_EXPIRED`, and `BALANCE_NEGATIVE` into `INSUFFICIENT_BALANCE`. All insufficient balance cases (zero, negative, expired, or simply too low for the request) return `INSUFFICIENT_BALANCE`. The response body includes `balance`, `available_balance`, and `is_expired` fields for client-side differentiation.
 
 ---
 
-## Key Entities (v5 - Balance Only)
+## Key Entities (v6 - Cost-Weighted Credits)
 
 ### TokenAccount (Source of Truth)
 
-User's current state including balance.
+User's current state including credit balance.
 
 ```
 TokenAccount
 ├── user_id (string, PK)
 ├── status (enum: active, suspended)
-├── balance (int, default STARTER_TOKENS) - SINGLE BALANCE FIELD
+├── balance (int, default STARTER_CREDITS) - SINGLE CREDIT BALANCE FIELD (1 credit = $0.0001)
 ├── last_activity_at (datetime, default created_at) - For inactivity expiry
 ├── created_at
 └── updated_at
 ```
 
 **Computed Properties:**
+
 - `effective_balance`: Returns 0 if `(now - last_activity_at) >= 365 days`, else `balance`.
 - `is_expired`: Returns true if inactive 365+ days.
 - `available_balance`: `effective_balance - reserved_total` (from Redis).
 
-
 **REMOVED from v4**:
+
 - ~~lifetime_used~~ (no trial tracking - just use balance)
 
 ### TokenAllocation (Audit Only)
 
-Immutable record of token additions. NOT used for balance calculation.
+Immutable record of credit additions. NOT used for balance calculation.
 
 ```
 TokenAllocation
 ├── id (int, PK)
 ├── user_id (string, FK)
 ├── allocation_type (enum: starter, grant, topup)
-├── amount (int) - Tokens added (immutable)
+├── amount (int) - Credits added (immutable)
 ├── reason (string, nullable) - Why allocated
 ├── admin_id (string, nullable) - Who granted (null for starter)
 ├── payment_reference (string, nullable) - Stripe reference
@@ -495,13 +531,14 @@ TokenAllocation
 ```
 
 **Allocation Types**:
-- `starter`: Initial tokens for new users (automatic)
-- `grant`: Admin-granted tokens (institutional, promo)
-- `topup`: User-purchased tokens (Stripe)
+
+- `starter`: Initial credits for new users (automatic)
+- `grant`: Admin-granted credits (institutional, promo)
+- `topup`: User-purchased credits (Stripe)
 
 ### TokenTransaction (Audit Log)
 
-Immutable record of all token movements (usage deductions and balance additions).
+Immutable record of all balance movements (usage deductions in credits and balance additions).
 
 ```
 TokenTransaction
@@ -512,15 +549,16 @@ TokenTransaction
 ├── output_tokens (int, nullable) - Only for usage
 ├── total_tokens (int) - For usage: input+output; for grant/topup/starter: amount added
 ├── base_cost_usd (decimal(10,6), nullable), markup_percent (nullable), total_cost_usd (decimal(10,6), nullable)
-├── credits_deducted (int, nullable) - Only for usage; stores tokens removed from balance (positive value)
+├── credits_deducted (int, nullable) - Only for usage; cost-weighted credits removed from balance (positive value)
 ├── model (string, nullable), request_id (string, unique, nullable), thread_id (string, nullable)
 ├── pricing_version (string, nullable)
 └── created_at
 ```
 
 **Field semantics by transaction_type:**
-- `usage`: All fields populated. `credits_deducted` = tokens removed from balance (positive value, e.g., 500 means balance decreased by 500).
-- `grant/topup/starter`: Only `total_tokens` (amount added), `user_id`, `created_at` populated. Token/cost fields are null.
+
+- `usage`: All fields populated. `credits_deducted` = cost-weighted credits removed from balance (positive value). `total_tokens` = raw token count for transparency. `base_cost_usd` and `total_cost_usd` record the pricing math. `pricing_version` enables audit reconstruction.
+- `grant/topup/starter`: Only `total_tokens` (credits amount added), `user_id`, `created_at` populated. Token/cost fields are null.
 
 **Note**: For grant/topup/starter, TokenTransaction mirrors TokenAllocation for ledger completeness. Both tables serve as audit trails — TokenAllocation for allocation history, TokenTransaction for unified balance movement ledger.
 
@@ -545,69 +583,70 @@ Pricing
 
 ### Concurrency Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| Concurrent double-spend prevention | User with 1000 balance | Two `/check` for 600 each in parallel | One succeeds, one blocked |
-| Reservation prevents overspend | User with 1000, reservation for 800 | New `/check` for 500 | Blocked (`available_balance = 200`) |
-| Reserved total computed in Lua | User with multiple reservations | `/check` | Lua sums tokens from sorted set (O(k), k = active reservations) |
-| Insufficient balance does not leak reservation | User with 100 balance | `/check` for 500 | Blocked, sorted set empty after (FR-036a rollback) |
+| Test                                           | Setup                               | Action                                | Expected                                                        |
+| ---------------------------------------------- | ----------------------------------- | ------------------------------------- | --------------------------------------------------------------- |
+| Concurrent double-spend prevention             | User with 1000 balance              | Two `/check` for 600 each in parallel | One succeeds, one blocked                                       |
+| Reservation prevents overspend                 | User with 1000, reservation for 800 | New `/check` for 500                  | Blocked (`available_balance = 200`)                             |
+| Reserved total computed in Lua                 | User with multiple reservations     | `/check`                              | Lua sums tokens from sorted set (O(k), k = active reservations) |
+| Insufficient balance does not leak reservation | User with 100 balance               | `/check` for 500                      | Blocked, sorted set empty after (FR-036a rollback)              |
 
 ### Idempotency Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| Duplicate `/check` same params | First check succeeds | Second `/check` same `request_id` and `estimated_tokens` | Returns existing reservation |
-| Duplicate `/check` different params | First check succeeds | Second `/check` same `request_id`, different `estimated_tokens` | Returns 409 `REQUEST_ID_CONFLICT` |
-| Duplicate `/deduct` | First deduct succeeds | Second `/deduct` same `request_id` | Returns original transaction, no double charge |
-| Duplicate `/release` | First release succeeds | Second `/release` same `reservation_id` | Returns success, no error |
+| Test                                | Setup                  | Action                                                          | Expected                                       |
+| ----------------------------------- | ---------------------- | --------------------------------------------------------------- | ---------------------------------------------- |
+| Duplicate `/check` same params      | First check succeeds   | Second `/check` same `request_id` and `estimated_tokens`        | Returns existing reservation                   |
+| Duplicate `/check` different params | First check succeeds   | Second `/check` same `request_id`, different `estimated_tokens` | Returns 409 `REQUEST_ID_CONFLICT`              |
+| Duplicate `/deduct`                 | First deduct succeeds  | Second `/deduct` same `request_id`                              | Returns original transaction, no double charge |
+| Duplicate `/release`                | First release succeeds | Second `/release` same `reservation_id`                         | Returns success, no error                      |
 
 ### Expiry Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| Expired balance blocked | User with 1000 balance, inactive 366 days | `/check` | Blocked with `INSUFFICIENT_BALANCE`, `is_expired = true` |
-| Grant reactivates expired | User expired | Admin grants 500 | Balance = 500, `last_activity_at` updated, can use |
-| Active user not expired | User with activity 364 days ago | `/check` | Allowed |
-| New user not expired | User just created | `/check` | Allowed (`last_activity_at = created_at`) |
+| Test                      | Setup                                     | Action           | Expected                                                 |
+| ------------------------- | ----------------------------------------- | ---------------- | -------------------------------------------------------- |
+| Expired balance blocked   | User with 1000 balance, inactive 366 days | `/check`         | Blocked with `INSUFFICIENT_BALANCE`, `is_expired = true` |
+| Grant reactivates expired | User expired                              | Admin grants 500 | Balance = 500, `last_activity_at` updated, can use       |
+| Active user not expired   | User with activity 364 days ago           | `/check`         | Allowed                                                  |
+| New user not expired      | User just created                         | `/check`         | Allowed (`last_activity_at = created_at`)                |
 
 ### Negative Balance Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| Overage allowed | User with 100 balance | Deduct 150 (streaming overage) | Balance = -50, transaction recorded |
-| Negative blocks next | User with -50 balance | `/check` for any amount | Blocked with `INSUFFICIENT_BALANCE` |
-| Topup clears negative | User with -50 | Topup 100 | Balance = 50, can use again |
+| Test                  | Setup                 | Action                         | Expected                            |
+| --------------------- | --------------------- | ------------------------------ | ----------------------------------- |
+| Overage allowed       | User with 100 balance | Deduct 150 (streaming overage) | Balance = -50, transaction recorded |
+| Negative blocks next  | User with -50 balance | `/check` for any amount        | Blocked with `INSUFFICIENT_BALANCE` |
+| Topup clears negative | User with -50         | Topup 100                      | Balance = 50, can use again         |
 
 ### Release Flow Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| Release after check | Successful `/check` | `/release` | Reservation member removed from sorted set |
-| Release failopen | Reservation ID starts with `failopen_` | `/release` | Success, no error (FR-064) |
-
+| Test                | Setup                                  | Action     | Expected                                   |
+| ------------------- | -------------------------------------- | ---------- | ------------------------------------------ |
+| Release after check | Successful `/check`                    | `/release` | Reservation member removed from sorted set |
+| Release failopen    | Reservation ID starts with `failopen_` | `/release` | Success, no error (FR-064)                 |
 
 ### Compensation Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| DB succeeds, Redis fails | Simulate Redis failure after DB commit | `/deduct` | Transaction recorded, reservation expires via TTL |
-| Redis down on `/check` | Redis unavailable | `/check` | Fail-open with DB `SELECT FOR UPDATE`, returns `failopen_` reservation |
+| Test                     | Setup                                  | Action    | Expected                                                               |
+| ------------------------ | -------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| DB succeeds, Redis fails | Simulate Redis failure after DB commit | `/deduct` | Transaction recorded, reservation expires via TTL                      |
+| Redis down on `/check`   | Redis unavailable                      | `/check`  | Fail-open with DB `SELECT FOR UPDATE`, returns `failopen_` reservation |
 
 ### Reservation Cleanup Tests
 
-| Test | Setup | Action | Expected |
-|------|-------|--------|----------|
-| Expired reservations cleaned on /check | Create reservation, wait for TTL expiry | `/check` | Expired member removed via ZREMRANGEBYSCORE, new reservation added |
-| reserved_total excludes expired | Reservation expired but not yet cleaned | `/check` (Lua runs cleanup first) | reserved_total = only unexpired reservations |
-| Multiple expired cleaned at once | 3 expired reservations | `/check` | All 3 removed, only new reservation counted |
+| Test                                   | Setup                                   | Action                            | Expected                                                           |
+| -------------------------------------- | --------------------------------------- | --------------------------------- | ------------------------------------------------------------------ |
+| Expired reservations cleaned on /check | Create reservation, wait for TTL expiry | `/check`                          | Expired member removed via ZREMRANGEBYSCORE, new reservation added |
+| reserved_total excludes expired        | Reservation expired but not yet cleaned | `/check` (Lua runs cleanup first) | reserved_total = only unexpired reservations                       |
+| Multiple expired cleaned at once       | 3 expired reservations                  | `/check`                          | All 3 removed, only new reservation counted                        |
 
 ---
 
 ## Success Criteria _(mandatory)_
 
 - **SC-001**: Pre-request checks complete in under 5 milliseconds (p99) via O(1) DB read + O(k) Redis scan where k = active reservations (bounded by TTL, typically 1-3).
-- **SC-002**: New users start with exactly `STARTER_TOKENS` (50,000 default).
-- **SC-003**: Users blocked when `available_balance < estimated_tokens`.
+- **SC-002**: New users start with exactly `STARTER_CREDITS` (20,000 default, ~$2.00 budget).
+- **SC-003**: Users blocked when `available_balance < estimated_credits`.
+- **SC-009**: Same raw token count produces different credit deductions across models (cost-weighted).
+- **SC-010**: Markup applied in both estimation and finalization (same `_calculate_credits` path).
 - **SC-004**: 20% markup correctly recorded in all transactions.
 - **SC-005**: Admin can grant tokens and user can immediately use them.
 - **SC-006**: System scales to 900k+ users without table bloat.
@@ -618,14 +657,16 @@ Pricing
 
 ## Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `STARTER_TOKENS` | 50000 | Tokens granted to new users (~20 interactions) |
-| `INACTIVITY_EXPIRY_DAYS` | 365 | Days of inactivity before balance expires |
-| `RESERVATION_TTL_SECONDS` | 300 | TTL for Redis reservations (5 min) |
-| `MARKUP_PERCENT` | 20.0 | Markup percentage on base cost |
-| `DEFAULT_MAX_OUTPUT_TOKENS` | 4096 | Default max output tokens for estimation |
-| `DEFAULT_PRICING` | `{input: 0.001, output: 0.002, version: "default-v1"}` | Fallback pricing when model not found |
+| Variable                    | Default                                                | Description                                             |
+| --------------------------- | ------------------------------------------------------ | ------------------------------------------------------- |
+| `STARTER_CREDITS`           | 20000                                                  | Credits granted to new users (~$2.00 budget)            |
+| `CREDITS_PER_DOLLAR`        | 10000                                                  | Credits per USD (1 credit = $0.0001)                    |
+| `INACTIVITY_EXPIRY_DAYS`    | 365                                                    | Days of inactivity before balance expires               |
+| `RESERVATION_TTL`           | 600                                                    | TTL for Redis reservations (10 min, handles agent runs) |
+| `MARKUP_PERCENT`            | 20.0                                                   | Markup percentage on base cost                          |
+| `DEFAULT_MAX_OUTPUT_TOKENS` | 4096                                                   | Default max output tokens for estimation                |
+| `DEFAULT_PRICING`           | `{input: 0.001, output: 0.002, version: "default-v1"}` | Fallback pricing when model not found                   |
+| `FAIL_OPEN`                 | true                                                   | Allow requests when Redis is down                       |
 
 ---
 
@@ -660,7 +701,7 @@ Pricing
 
 ---
 
-## The Complete Flow (v5 - Balance Only)
+## The Complete Flow (v6 - Cost-Weighted Credits)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -671,7 +712,7 @@ Pricing
               ┌─────────────────────────────┐
               │   1. Get/Create Account     │
               │   (auto-create with         │
-              │    STARTER_TOKENS if new)   │
+              │    STARTER_CREDITS if new)  │
               └─────────────┬───────────────┘
                             │
                             ▼
@@ -690,7 +731,7 @@ Pricing
                                    ▼       ▼
                           [BLOCK       ┌─────────────────────────────┐
                          INSUFFICIENT_ │  available_balance >=       │
-                         BALANCE       │  estimated_tokens?          │
+                         BALANCE       │  estimated_credits?         │
                          (is_expired   └─────────────┬───────────────┘
                          =true)]
                                                 YES / \ NO
@@ -723,10 +764,12 @@ Pricing
                       ▼       ▼
               [RETURN      ┌─────────────────────────────┐
              ALREADY_      │  Sequential:                │
-             PROCESSED]    │  1. DB: balance -= tokens   │
+             PROCESSED]    │  1. Convert tokens→credits  │
+                           │     via _calculate_credits  │
+                           │  2. DB: balance -= credits  │
                            │     + last_activity_at      │
                            │     + insert transaction    │
-                           │  2. Redis: ZREM reservation │
+                           │  3. Redis: ZREM reservation │
                            │     from sorted set         │
                            └─────────────┬───────────────┘
                                          │
@@ -736,26 +779,36 @@ Pricing
 
 ---
 
-## Migration Notes (v4 → v5)
+## Migration Notes (v4 → v5 → v6)
 
-If updating from v4 trial-based system:
+### v4 → v5 (Trial → Balance Only)
 
 1. Remove `lifetime_used` column from `TokenAccount`
 2. Add `STARTER` to `AllocationType` enum
-3. For existing users with `balance = 0` and were in trial: grant proportional starter tokens
-4. Update account creation to set `balance = STARTER_TOKENS` and create audit record
-5. Remove all trial-related logic from services
-6. Remove `BalanceSource.TRIAL` (only `BALANCE` remains)
-7. Update tests
+3. Remove all trial-related logic from services
+4. Remove `BalanceSource.TRIAL` (only `BALANCE` remains)
+
+### v5 → v6 (Raw Tokens → Cost-Weighted Credits)
+
+1. Add `CREDITS_PER_DOLLAR = 10,000` configuration
+2. Rename `STARTER_TOKENS = 50,000` → `STARTER_CREDITS = 20,000`
+3. Add `CreditCalculation` dataclass and `_calculate_credits` method
+4. Update `check_balance` to reserve estimated credits (not raw tokens)
+5. Update `finalize_usage` to deduct credits (not raw tokens)
+6. Rename API fields: `reserved_tokens` → `reserved_credits`, `tokens` → `credits`, etc.
+7. Delete dead `services/types.py`
+8. Update all tests to assert credit-based amounts
 
 ---
 
-## v4 → v5 Changes Summary
+## Version Changes Summary
 
-| Aspect | v4 | v5 |
-|--------|----|----|
-| New user experience | 5 free requests (trial) | 50,000 starter tokens |
-| Trial tracking | `lifetime_used` counter | None - just balance |
-| Balance source | "trial" or "balance" | "balance" only |
-| Decision logic | Trial OR balance check | Balance check only |
-| Complexity | Simple | **Simpler** |
+| Aspect              | v4                      | v5                      | v6                                 |
+| ------------------- | ----------------------- | ----------------------- | ---------------------------------- |
+| New user experience | 5 free requests (trial) | 50,000 starter tokens   | 20,000 starter credits (~$2)       |
+| Balance unit        | Raw tokens              | Raw tokens              | Cost-weighted credits              |
+| Deduction model     | 1:1 token:balance       | 1:1 token:balance       | Model-priced credits               |
+| Trial tracking      | `lifetime_used` counter | None - just balance     | None - just balance                |
+| Balance source      | "trial" or "balance"    | "balance" only          | "balance" only                     |
+| Pricing impact      | None (all models equal) | None (all models equal) | Different models = different costs |
+| Complexity          | Simple                  | **Simpler**             | Same simplicity + fair pricing     |

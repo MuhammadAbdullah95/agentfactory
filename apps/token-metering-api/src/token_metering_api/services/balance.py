@@ -1,10 +1,9 @@
-"""Balance query service (v5 - balance only).
+"""Balance query service (v6 - Credits).
 
-v5 Changes:
-- Balance read directly from TokenAccount.balance (O(1))
+v6 Changes:
+- Balance read directly from TokenAccount.balance in credits (O(1))
 - Uses effective_balance property for inactivity expiry
 - TokenAllocation queries are for audit history only
-- Removed trial_remaining (no trial tracking in v5)
 """
 
 import logging
@@ -24,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class BalanceService:
-    """Service for balance queries and transaction history (v5 - balance only)."""
+    """Service for balance queries and transaction history (v6 - Credits)."""
 
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -45,7 +44,7 @@ class BalanceService:
         if not account:
             return None
 
-        # v5: Use effective_balance (respects inactivity expiry)
+        # v6: Use effective_balance (respects inactivity expiry)
         effective_balance = account.effective_balance
 
         return {

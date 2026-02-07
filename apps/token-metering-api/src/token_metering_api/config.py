@@ -1,10 +1,10 @@
-"""Application configuration from environment variables (v5)."""
+"""Application configuration from environment variables (v6 - Credits)."""
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Application settings loaded from environment (v5 - Balance Only)."""
+    """Application settings loaded from environment (v6 - Credits)."""
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -49,10 +49,13 @@ class Settings(BaseSettings):
     # Server
     port: int = 8001
 
-    # === Metering Configuration (v5 - Balance Only) ===
+    # === Metering Configuration (v6 - Credits) ===
 
-    # Starter tokens for new users (~20 interactions at ~2,500 tokens each)
-    starter_tokens: int = 50_000
+    # Credits per dollar (1 credit = $0.0001)
+    credits_per_dollar: int = 10_000
+
+    # Starter credits for new users (~$2.00 budget)
+    starter_credits: int = 20_000
 
     # Inactivity expiry: balance expires after N days of no activity
     inactivity_expiry_days: int = 365

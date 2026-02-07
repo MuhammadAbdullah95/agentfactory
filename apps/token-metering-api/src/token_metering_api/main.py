@@ -1,11 +1,11 @@
 """
-Token Metering API v5 - Freemium token tracking and metering service.
+Token Metering API v6 - Cost-weighted credits metering service.
 
 Features:
 - Pre-request balance checks with reservation pattern (<5ms)
-- Post-request token deductions with idempotency
-- Administrative token management (grant, topup, tier)
-- Single unified balance system
+- Cost-weighted credit deductions (1 credit = $0.0001)
+- Administrative credits management (grant, topup, tier)
+- Single unified credits balance system
 - JWT/JWKS authentication with dev mode bypass
 """
 
@@ -50,7 +50,7 @@ if settings.dev_mode:
 app = FastAPI(
     title="Token Metering API",
     description="Freemium token tracking and metering service for the Agent Factory platform",
-    version="5.0.0",
+    version="6.0.0",
     lifespan=lifespan,
 )
 
@@ -98,7 +98,7 @@ async def root():
     """Root endpoint with API information."""
     return {
         "name": "Token Metering API",
-        "version": "5.0.0",
+        "version": "6.0.0",
         "endpoints": {
             "metering": {
                 "check": "POST /api/v1/metering/check",
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     import uvicorn
 
     port = settings.port
-    logger.info("\n=== Token Metering API v5.0 ===")
+    logger.info("\n=== Token Metering API v6.0 ===")
     logger.info(f"Dev Mode: {settings.dev_mode}")
     logger.info(f"Fail Open: {settings.fail_open}")
     logger.info(f"API: http://localhost:{port}")

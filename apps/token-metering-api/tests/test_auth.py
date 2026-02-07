@@ -476,7 +476,7 @@ class TestAuthEndpoints:
             "/api/v1/admin/grant",
             json={
                 "user_id": "some-user",
-                "tokens": 1000,
+                "credits": 1000,
                 "reason": "test",
             },
             headers={"X-User-ID": "non-admin-user"},  # No X-Dev-Admin header
@@ -504,7 +504,7 @@ class TestAuthEndpoints:
             "/api/v1/admin/grant",
             json={
                 "user_id": "target-user",
-                "tokens": 1000,
+                "credits": 1000,
                 "reason": "test grant",
             },
             headers={"X-User-ID": "admin-user", "X-Dev-Admin": "true"},

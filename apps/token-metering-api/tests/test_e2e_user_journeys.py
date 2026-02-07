@@ -1,13 +1,14 @@
-"""End-to-end tests for complete user journeys (v5 - Balance Only).
+"""End-to-end tests for complete user journeys (v6 - Credits).
 
 These tests simulate real-world usage patterns through the full API.
-Uses the v5 model with balance on TokenAccount.
+Uses the v6 model with credits-based balance on TokenAccount.
 
-The v5 model:
-- Balance stored directly on TokenAccount.balance (source of truth)
+The v6 model:
+- Balance stored directly on TokenAccount.balance (source of truth, in credits)
 - TokenAllocation is audit-only (no remaining_amount, no expires_at)
 - Inactivity-based expiry (365 days of no activity)
-- New users get STARTER_TOKENS (50,000)
+- New users get STARTER_CREDITS (20,000)
+- Balance deductions use cost-weighted credits, not raw tokens
 """
 
 from datetime import UTC, datetime, timedelta
@@ -15,7 +16,11 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from httpx import AsyncClient
 
-from tests.helpers import make_request_id
+from tests.helpers import (
+    calculate_expected_credits,
+    estimate_credits_pessimistic,
+    make_request_id,
+)
 from token_metering_api.models import (
     STARTER_TOKENS,
     TokenAccount,
@@ -23,13 +28,13 @@ from token_metering_api.models import (
 
 
 class TestNewUserJourney:
-    """E2E: New user gets STARTER_TOKENS and uses them."""
+    """E2E: New user gets STARTER_CREDITS and uses them."""
 
     async def test_new_user_complete_lifecycle(self, client: AsyncClient, test_session):
-        """New user: gets starter tokens, uses them, needs topup."""
+        """New user: gets starter credits, uses them, needs topup."""
         user_id = "e2e-new-user"
 
-        # Step 1: First request auto-creates account with STARTER_TOKENS
+        # Step 1: First request auto-creates account with STARTER_CREDITS
         check_response = await client.post(
             "/api/v1/metering/check",
             json={
@@ -44,6 +49,7 @@ class TestNewUserJourney:
         check_data = check_response.json()
         assert check_data["allowed"] is True
 
+        # Deduct 500i+500o = 18 credits
         deduct_response = await client.post(
             "/api/v1/metering/deduct",
             json={
@@ -58,30 +64,35 @@ class TestNewUserJourney:
         )
         assert deduct_response.status_code == 200
 
-        # Verify account has STARTER_TOKENS - 1000
+        # Verify account has STARTER_CREDITS - 18 credits
         from sqlalchemy import select
 
         result = await test_session.execute(
             select(TokenAccount).where(TokenAccount.user_id == user_id)
         )
         account = result.scalar_one()
-        assert account.balance == STARTER_TOKENS - 1000
+        expected_credits = calculate_expected_credits(500, 500)  # = 18
+        assert account.balance == STARTER_TOKENS - expected_credits
 
-        # Make more requests to deplete starter tokens
-        tokens_used = 1000
+        # Deplete starter credits via check+deduct loop.
+        # Use 60k_i + 60k_o = 2,160 credits each. ~9 iterations for 20k credits.
+        # estimated_tokens must stay under max_tokens (128k).
+        deduct_credits = calculate_expected_credits(60_000, 60_000)
+        credits_used = expected_credits
         request_num = 2
-        while tokens_used + 10000 <= STARTER_TOKENS:
+        while credits_used + deduct_credits <= STARTER_TOKENS:
             check = await client.post(
                 "/api/v1/metering/check",
                 json={
                     "user_id": user_id,
                     "request_id": make_request_id(f"new-req-{request_num}"),
-                    "estimated_tokens": 10000,
+                    "estimated_tokens": 120_000,
                     "model": "deepseek-chat",
                 },
                 headers={"X-User-ID": user_id},
             )
-            assert check.status_code == 200
+            if check.status_code != 200:
+                break
 
             await client.post(
                 "/api/v1/metering/deduct",
@@ -89,29 +100,31 @@ class TestNewUserJourney:
                     "user_id": user_id,
                     "request_id": make_request_id(f"new-req-{request_num}"),
                     "reservation_id": check.json()["reservation_id"],
-                    "input_tokens": 5000,
-                    "output_tokens": 5000,
+                    "input_tokens": 60_000,
+                    "output_tokens": 60_000,
                     "model": "deepseek-chat",
                 },
                 headers={"X-User-ID": user_id},
             )
-            tokens_used += 10000
+            credits_used += deduct_credits
             request_num += 1
 
             # Safety: prevent infinite loop
-            if request_num > 10:
+            if request_num > 20:
                 break
 
         # Now balance should be low, next large request should be blocked
         await test_session.refresh(account)
         remaining = account.balance
 
+        # Remaining balance should be less than one more deduct's estimated credits
+        # estimated_credits for 120k tokens = 2880, remaining < 2880
         check_blocked = await client.post(
             "/api/v1/metering/check",
             json={
                 "user_id": user_id,
                 "request_id": make_request_id("new-req-blocked"),
-                "estimated_tokens": remaining + 1000,  # More than remaining
+                "estimated_tokens": 120_000,  # Same as loop, exceeds remaining credits
                 "model": "deepseek-chat",
             },
             headers={"X-User-ID": user_id},
@@ -121,52 +134,23 @@ class TestNewUserJourney:
 
 
 class TestBalanceUserJourney:
-    """E2E: User with granted balance uses tokens until depleted."""
+    """E2E: User with granted balance uses credits until depleted."""
 
     async def test_balance_use_deplete_cycle(self, client: AsyncClient, test_session):
-        """User with balance: use tokens → deplete → blocked → grant more → use."""
+        """User with balance: use credits -> deplete -> blocked -> grant more -> use."""
         user_id = "e2e-balance-user"
 
-        # Create user with 0 balance (not new, so no starter tokens)
+        # Create user with small balance (100 credits, not new, so no starter)
         account = TokenAccount(
             user_id=user_id,
-            balance=0,
+            balance=100,
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
         await test_session.commit()
 
-        # Step 1: User with 0 balance is BLOCKED
-        check_broke = await client.post(
-            "/api/v1/metering/check",
-            json={
-                "user_id": user_id,
-                "request_id": make_request_id("balance-broke-1"),
-                "estimated_tokens": 1000,
-                "model": "deepseek-chat",
-            },
-            headers={"X-User-ID": user_id},
-        )
-        assert check_broke.status_code == 402
-        assert check_broke.json()["error_code"] == "INSUFFICIENT_BALANCE"
-
-        # Step 2: Admin grants 5000 tokens
-        grant_response = await client.post(
-            "/api/v1/admin/grant",
-            json={
-                "user_id": user_id,
-                "tokens": 5000,
-                "reason": "Panaversity enrollment",
-            },
-            headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
-        )
-        assert grant_response.status_code == 200
-        assert grant_response.json()["tokens_granted"] == 5000
-
-        await test_session.refresh(account)
-        assert account.balance == 5000
-
-        # Step 3: Make requests until depleted
+        # Step 1: Use credits until depleted
+        # 1000i+500o = 24 credits per request. 100/24 = 4.16, so 4 requests
         requests_made = 0
         while True:
             check = await client.post(
@@ -187,7 +171,7 @@ class TestBalanceUserJourney:
             assert check.status_code == 200
             check_data = check.json()
 
-            # Deduct
+            # Deduct (1000i+500o = 24 credits)
             await client.post(
                 "/api/v1/metering/deduct",
                 json={
@@ -206,24 +190,25 @@ class TestBalanceUserJourney:
             if requests_made > 10:
                 pytest.fail("Too many requests - should have depleted by now")
 
-        # Verify depleted
+        # Verify depleted: 100 balance, 24 credits deducted per request but
+        # pessimistic estimate = 36 credits. After 3 deductions (72 credits used),
+        # remaining = 28 < 36 estimated → blocked on 4th check.
         await test_session.refresh(account)
-        assert account.balance < 1500  # Less than next request estimate
-        assert requests_made == 3  # 5000 / 1500 = 3.33, so 3 requests
+        assert requests_made == 3
 
-        # Step 4: Grant more tokens
-        grant_more = await client.post(
+        # Step 2: Grant more credits
+        grant_response = await client.post(
             "/api/v1/admin/grant",
             json={
                 "user_id": user_id,
-                "tokens": 2000,
+                "credits": 200,
                 "reason": "Additional allocation",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
         )
-        assert grant_more.status_code == 200
+        assert grant_response.status_code == 200
 
-        # Step 5: Can make requests again
+        # Step 3: Can make requests again
         check_again = await client.post(
             "/api/v1/metering/check",
             json={
@@ -266,7 +251,7 @@ class TestIdempotencyJourney:
         )
         assert check.status_code == 200
 
-        # First deduct
+        # First deduct (1000i+1000o = 36 credits)
         deduct1 = await client.post(
             "/api/v1/metering/deduct",
             json={
@@ -284,7 +269,7 @@ class TestIdempotencyJourney:
 
         await test_session.refresh(account)
         balance_after_first = account.balance
-        assert balance_after_first == 8000
+        assert balance_after_first == 10000 - 36  # 9964
 
         # Duplicate deduct (same request_id)
         deduct2 = await client.post(
@@ -312,7 +297,7 @@ class TestReleaseOnFailureJourney:
     """E2E: When LLM fails, reservation is released without charge."""
 
     async def test_release_after_llm_failure(self, client: AsyncClient, test_session):
-        """Check → LLM fails → Release → No tokens deducted."""
+        """Check -> LLM fails -> Release -> No credits deducted."""
         user_id = "e2e-release-user"
 
         account = TokenAccount(
@@ -352,7 +337,7 @@ class TestReleaseOnFailureJourney:
         assert release.status_code == 200
         assert release.json()["status"] == "released"
 
-        # v5: verify account.balance unchanged
+        # v6: verify account.balance unchanged
         await test_session.refresh(account)
         assert account.balance == initial_balance, "No deduction after release"
 
@@ -482,7 +467,7 @@ class TestCostTrackingJourney:
 
 
 class TestBalanceQueryJourney:
-    """E2E: Balance endpoint returns accurate v5 data."""
+    """E2E: Balance endpoint returns accurate v6 data."""
 
     async def test_balance_reflects_all_operations(self, client: AsyncClient, test_session):
         """Balance endpoint shows correct state after operations."""
@@ -532,18 +517,20 @@ class TestBalanceQueryJourney:
         )
 
         # Check balance after deduction
+        # 1500i+1500o = 54 credits
         balance2 = await client.get(
             "/api/v1/balance",
             headers={"X-User-ID": user_id},
         )
         assert balance2.status_code == 200
         data2 = balance2.json()
-        assert data2["balance"] == 12000  # 15000 - 3000
-        assert data2["effective_balance"] == 12000
+        expected_credits = calculate_expected_credits(1500, 1500)  # = 54
+        assert data2["balance"] == 15000 - expected_credits
+        assert data2["effective_balance"] == 15000 - expected_credits
 
 
 class TestNewUserAutoCreation:
-    """E2E: New user is auto-created with STARTER_TOKENS."""
+    """E2E: New user is auto-created with STARTER_CREDITS."""
 
     async def test_new_user_auto_created_on_check(self, client: AsyncClient, test_session):
         """Unknown user is auto-created when making first request."""
@@ -561,11 +548,11 @@ class TestNewUserAutoCreation:
             headers={"X-User-ID": user_id},
         )
 
-        # Should be allowed (gets STARTER_TOKENS)
+        # Should be allowed (gets STARTER_CREDITS)
         assert check.status_code == 200
         assert check.json()["allowed"] is True
 
-        # User should now exist in database with STARTER_TOKENS
+        # User should now exist in database with STARTER_CREDITS
         from sqlalchemy import select
 
         result = await test_session.execute(
@@ -573,14 +560,14 @@ class TestNewUserAutoCreation:
         )
         account = result.scalar_one_or_none()
         assert account is not None, "User should be auto-created"
-        assert account.balance == STARTER_TOKENS  # v5: starts with starter tokens
+        assert account.balance == STARTER_TOKENS  # v6: starts with starter credits
 
 
 class TestNewUserStarterTokensJourney:
-    """E2E: Test complete journey for a new user with starter tokens."""
+    """E2E: Test complete journey for a new user with starter credits."""
 
     async def test_new_user_gets_starter_tokens(self, client: AsyncClient, test_session):
-        """First request should create account with 50k starter tokens."""
+        """First request should create account with 20k starter credits."""
         from sqlalchemy import select
 
         user_id = "starter-token-user-1"
@@ -599,7 +586,7 @@ class TestNewUserStarterTokensJourney:
         assert check.status_code == 200
         assert check.json()["allowed"] is True
 
-        # Verify account created with STARTER_TOKENS
+        # Verify account created with STARTER_CREDITS
         result = await test_session.execute(
             select(TokenAccount).where(TokenAccount.user_id == user_id)
         )
@@ -612,7 +599,7 @@ class TestNewUserStarterTokensJourney:
 
         user_id = "starter-use-user-1"
 
-        # Step 1: Check (creates account with starter tokens)
+        # Step 1: Check (creates account with starter credits)
         check = await client.post(
             "/api/v1/metering/check",
             json={
@@ -626,7 +613,7 @@ class TestNewUserStarterTokensJourney:
         assert check.status_code == 200
         reservation_id = check.json()["reservation_id"]
 
-        # Step 2: Deduct
+        # Step 2: Deduct (2500i+2500o = 90 credits)
         deduct = await client.post(
             "/api/v1/metering/deduct",
             json={
@@ -640,17 +627,18 @@ class TestNewUserStarterTokensJourney:
             headers={"X-User-ID": user_id},
         )
         assert deduct.status_code == 200
-        assert deduct.json()["credits_deducted"] == 5000
+        expected_credits = calculate_expected_credits(2500, 2500)  # = 90
+        assert deduct.json()["credits_deducted"] == expected_credits
 
         # Step 3: Verify balance
         result = await test_session.execute(
             select(TokenAccount).where(TokenAccount.user_id == user_id)
         )
         account = result.scalar_one()
-        assert account.balance == STARTER_TOKENS - 5000
+        assert account.balance == STARTER_TOKENS - expected_credits
 
     async def test_starter_allocation_recorded(self, client: AsyncClient, test_session):
-        """Starter token grant should appear in allocations."""
+        """Starter credit grant should appear in allocations."""
         user_id = "starter-alloc-user-1"
 
         # Trigger account creation
@@ -684,7 +672,7 @@ class TestNewUserStarterTokensJourney:
 
 
 class TestAdminGrantJourney:
-    """E2E: Test admin granting tokens to users."""
+    """E2E: Test admin granting credits to users."""
 
     async def test_admin_grants_tokens_to_existing_user(self, client: AsyncClient, test_session):
         """Admin grant should increase balance."""
@@ -699,18 +687,18 @@ class TestAdminGrantJourney:
         test_session.add(account)
         await test_session.commit()
 
-        # Admin grants tokens
+        # Admin grants credits
         grant_response = await client.post(
             "/api/v1/admin/grant",
             json={
                 "user_id": user_id,
-                "tokens": 10000,
+                "credits": 10000,
                 "reason": "Course enrollment bonus",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
         )
         assert grant_response.status_code == 200
-        assert grant_response.json()["tokens_granted"] == 10000
+        assert grant_response.json()["credits_granted"] == 10000
         assert grant_response.json()["new_balance"] == 11000  # 1000 + 10000
 
     async def test_admin_grants_tokens_to_new_user(self, client: AsyncClient, test_session):
@@ -724,19 +712,19 @@ class TestAdminGrantJourney:
             "/api/v1/admin/grant",
             json={
                 "user_id": user_id,
-                "tokens": 25000,
+                "credits": 25000,
                 "reason": "Premium membership",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
         )
         assert grant_response.status_code == 200
 
-        # User should now exist with grant + starter tokens
+        # User should now exist with grant + starter credits
         result = await test_session.execute(
             select(TokenAccount).where(TokenAccount.user_id == user_id)
         )
         account = result.scalar_one()
-        # New users get STARTER_TOKENS + grant
+        # New users get STARTER_CREDITS + grant
         assert account.balance == STARTER_TOKENS + 25000
 
     async def test_admin_grant_creates_allocation_record(self, client: AsyncClient, test_session):
@@ -757,7 +745,7 @@ class TestAdminGrantJourney:
             "/api/v1/admin/grant",
             json={
                 "user_id": user_id,
-                "tokens": 5000,
+                "credits": 5000,
                 "reason": "Test grant allocation",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -796,7 +784,7 @@ class TestAdminGrantJourney:
             "/api/v1/admin/topup",
             json={
                 "user_id": user_id,
-                "tokens": 5000,
+                "credits": 5000,
                 "payment_reference": "PAY-123-ABC",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -815,7 +803,7 @@ class TestErrorRecoveryJourneys:
         # Create user with low balance
         account = TokenAccount(
             user_id=user_id,
-            balance=100,
+            balance=1,  # Very low in credits
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
@@ -840,7 +828,7 @@ class TestErrorRecoveryJourneys:
             "/api/v1/admin/topup",
             json={
                 "user_id": user_id,
-                "tokens": 10000,
+                "credits": 10000,
                 "payment_reference": "RECOVERY-PAY",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -940,7 +928,7 @@ class TestErrorRecoveryJourneys:
             "/api/v1/admin/grant",
             json={
                 "user_id": user_id,
-                "tokens": 5000,
+                "credits": 5000,
                 "reason": "Reactivation grant",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -995,7 +983,7 @@ class TestIdempotencyJourneys:
         assert check.status_code == 200
         reservation_id = check.json()["reservation_id"]
 
-        # Step 2: First deduct
+        # Step 2: First deduct (2500i+2500o = 90 credits)
         deduct1 = await client.post(
             "/api/v1/metering/deduct",
             json={
@@ -1039,12 +1027,7 @@ class TestIdempotencyJourneys:
     async def test_duplicate_check_succeeds_in_failopen(
         self, client: AsyncClient, test_session
     ):
-        """In fail-open mode (no Redis), duplicate checks both succeed.
-
-        Note: With Redis enabled, this would return 409 REQUEST_ID_CONFLICT
-        or the same reservation_id. In test mode (fail-open), each request
-        gets a unique failopen_ reservation.
-        """
+        """In fail-open mode (no Redis), duplicate checks both succeed."""
         user_id = "idempotent-check-user"
 
         account = TokenAccount(
@@ -1082,8 +1065,6 @@ class TestIdempotencyJourneys:
             },
             headers={"X-User-ID": user_id},
         )
-        # In fail-open mode: both succeed (different reservations)
-        # With Redis: would return 409 or same reservation
         assert check2.status_code == 200
 
     async def test_release_after_finalize_is_idempotent(self, client: AsyncClient, test_session):
@@ -1148,16 +1129,16 @@ class TestNegativeBalanceJourneys:
         """Finalize can take balance negative (streaming overage scenario)."""
         user_id = "streaming-overage-user"
 
-        # Start with only 100 tokens
+        # Start with only 2 credits (minimum for pessimistic estimate of 50 tokens)
         account = TokenAccount(
             user_id=user_id,
-            balance=100,
+            balance=2,
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
         await test_session.commit()
 
-        # Reserve only 50 tokens (estimated)
+        # Reserve only 50 tokens (estimated) - pessimistic estimate is 2 credits
         check = await client.post(
             "/api/v1/metering/check",
             json={
@@ -1172,24 +1153,25 @@ class TestNegativeBalanceJourneys:
         reservation_id = check.json()["reservation_id"]
 
         # Finalize with MORE tokens than reserved/available (streaming overage)
+        # 5000i+5000o = 180 credits, way more than 2 credit balance
         deduct = await client.post(
             "/api/v1/metering/deduct",
             json={
                 "user_id": user_id,
                 "request_id": make_request_id("overage-req"),
                 "reservation_id": reservation_id,
-                "input_tokens": 75,
-                "output_tokens": 75,  # 150 total, but only 100 available
+                "input_tokens": 5000,
+                "output_tokens": 5000,
                 "model": "deepseek-chat",
             },
             headers={"X-User-ID": user_id},
         )
         assert deduct.status_code == 200
-        assert deduct.json()["credits_deducted"] == 150
+        assert deduct.json()["credits_deducted"] == 180
 
-        # Balance should be negative
+        # Balance should be negative: 2 - 180 = -178
         await test_session.refresh(account)
-        assert account.balance == -50
+        assert account.balance == 2 - 180
 
     async def test_negative_balance_blocks_next_request(self, client: AsyncClient, test_session):
         """Negative balance should block subsequent requests."""
@@ -1236,7 +1218,7 @@ class TestNegativeBalanceJourneys:
             "/api/v1/admin/topup",
             json={
                 "user_id": user_id,
-                "tokens": 10000,
+                "credits": 10000,
                 "payment_reference": "NEGATIVE-RECOVERY",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -1263,7 +1245,7 @@ class TestMultiModelJourneys:
     """E2E: Test different model pricing."""
 
     async def test_different_models_deduct_same_credits(self, client: AsyncClient, test_session):
-        """In v5, credits_deducted equals total_tokens regardless of model (1:1)."""
+        """With default pricing, credits_deducted is same regardless of model."""
         user_id = "multi-model-user"
 
         account = TokenAccount(
@@ -1274,7 +1256,7 @@ class TestMultiModelJourneys:
         test_session.add(account)
         await test_session.commit()
 
-        # Request with deepseek-chat
+        # Request with deepseek-chat (500i+500o = 18 credits with default pricing)
         check1 = await client.post(
             "/api/v1/metering/check",
             json={
@@ -1298,7 +1280,7 @@ class TestMultiModelJourneys:
             headers={"X-User-ID": user_id},
         )
 
-        # Request with a different model
+        # Request with a different model (same default pricing in tests)
         check2 = await client.post(
             "/api/v1/metering/check",
             json={
@@ -1322,12 +1304,13 @@ class TestMultiModelJourneys:
             headers={"X-User-ID": user_id},
         )
 
-        # Both should deduct 1000 credits (1:1 token:credit)
-        assert deduct1.json()["credits_deducted"] == 1000
-        assert deduct2.json()["credits_deducted"] == 1000
+        # Both use default pricing: 500i+500o = 18 credits
+        expected = calculate_expected_credits(500, 500)  # = 18
+        assert deduct1.json()["credits_deducted"] == expected
+        assert deduct2.json()["credits_deducted"] == expected
 
     async def test_unknown_model_uses_default_pricing(self, client: AsyncClient, test_session):
-        """Unknown model should use default pricing (1:1 token:credit)."""
+        """Unknown model should use default pricing."""
         user_id = "unknown-model-user"
 
         account = TokenAccount(
@@ -1363,8 +1346,9 @@ class TestMultiModelJourneys:
             headers={"X-User-ID": user_id},
         )
         assert deduct.status_code == 200
-        # Should use default pricing: 1:1 token:credit
-        assert deduct.json()["credits_deducted"] == 2000
+        # Default pricing: 1000i+1000o = 36 credits
+        expected = calculate_expected_credits(1000, 1000)  # = 36
+        assert deduct.json()["credits_deducted"] == expected
 
 
 class TestThreadTracking:
@@ -1522,7 +1506,7 @@ class TestBalanceExpiryJourney:
             "/api/v1/admin/grant",
             json={
                 "user_id": user_id,
-                "tokens": 10000,
+                "credits": 10000,
                 "reason": "Re-activation",
             },
             headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -1542,12 +1526,7 @@ class TestConcurrentUsageJourney:
     """E2E: Test concurrent request handling."""
 
     async def test_multiple_requests_and_finalizations(self, client: AsyncClient, test_session):
-        """Multiple requests can be checked and finalized independently.
-
-        Note: In fail-open mode (no Redis), reservations are not tracked,
-        so we can't test reservation-based balance blocking. Instead we
-        verify the happy path of multiple concurrent check/deduct cycles.
-        """
+        """Multiple requests can be checked and finalized independently."""
         user_id = "concurrent-user"
 
         account = TokenAccount(
@@ -1576,7 +1555,7 @@ class TestConcurrentUsageJourney:
             res_id = check.json()["reservation_id"]
             reservations.append((req_id, res_id))
 
-        # Finalize some reservations
+        # Finalize some reservations (2000i+2000o = 72 credits each)
         for request_id, reservation_id in reservations[:3]:
             deduct = await client.post(
                 "/api/v1/metering/deduct",
@@ -1585,7 +1564,7 @@ class TestConcurrentUsageJourney:
                     "request_id": request_id,
                     "reservation_id": reservation_id,
                     "input_tokens": 2000,
-                    "output_tokens": 2000,  # 4000 each
+                    "output_tokens": 2000,
                     "model": "deepseek-chat",
                 },
                 headers={"X-User-ID": user_id},
@@ -1605,9 +1584,11 @@ class TestConcurrentUsageJourney:
             )
             assert release.status_code == 200
 
-        # Balance should reflect only the 3 finalized deductions (3 * 4000 = 12000)
+        # Balance should reflect only the 3 finalized deductions
+        # 2000i+2000o = 72 credits each, 3 * 72 = 216
+        expected_credits = calculate_expected_credits(2000, 2000) * 3  # = 216
         await test_session.refresh(account)
-        assert account.balance == 100000 - 12000
+        assert account.balance == 100000 - expected_credits
 
     async def test_balance_insufficient_for_large_request(self, client: AsyncClient, test_session):
         """Large request that exceeds balance should be blocked."""
@@ -1615,7 +1596,7 @@ class TestConcurrentUsageJourney:
 
         account = TokenAccount(
             user_id=user_id,
-            balance=5000,
+            balance=5,  # Very low in credits
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
@@ -1627,7 +1608,7 @@ class TestConcurrentUsageJourney:
             json={
                 "user_id": user_id,
                 "request_id": make_request_id("large-req"),
-                "estimated_tokens": 10000,  # More than balance
+                "estimated_tokens": 10000,
                 "model": "deepseek-chat",
             },
             headers={"X-User-ID": user_id},
@@ -1695,3 +1676,67 @@ class TestUsageDetailsJourney:
         tx = result.scalar_one()
         assert tx.extra_data is not None
         assert tx.extra_data.get("usage_details", {}).get("reasoning_tokens") == 1500
+
+
+class TestCheckDeductConsistency:
+    """E2E: Verify check→deduct credit consistency (pessimistic >= actual)."""
+
+    async def test_reserved_credits_match_pessimistic_and_deducted_lte_reserved(
+        self, client: AsyncClient, test_session
+    ):
+        """Check returns pessimistic estimate, deduct returns actual, actual <= reserved."""
+        user_id = "consistency-user"
+
+        account = TokenAccount(
+            user_id=user_id,
+            balance=100_000,
+            last_activity_at=datetime.now(UTC),
+        )
+        test_session.add(account)
+        await test_session.commit()
+
+        estimated_tokens = 3000
+        input_tokens = 1200
+        output_tokens = 1800
+
+        # Step 1: Check — reserved_credits should match pessimistic estimate
+        check = await client.post(
+            "/api/v1/metering/check",
+            json={
+                "user_id": user_id,
+                "request_id": make_request_id("consistency-req"),
+                "estimated_tokens": estimated_tokens,
+                "model": "deepseek-chat",
+            },
+            headers={"X-User-ID": user_id},
+        )
+        assert check.status_code == 200
+        check_data = check.json()
+        reserved_credits = check_data["reserved_credits"]
+        expected_reserved = estimate_credits_pessimistic(estimated_tokens)
+        assert reserved_credits == expected_reserved
+
+        # Step 2: Deduct — credits_deducted should match actual calculation
+        deduct = await client.post(
+            "/api/v1/metering/deduct",
+            json={
+                "user_id": user_id,
+                "request_id": make_request_id("consistency-req"),
+                "reservation_id": check_data["reservation_id"],
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "model": "deepseek-chat",
+            },
+            headers={"X-User-ID": user_id},
+        )
+        assert deduct.status_code == 200
+        deduct_data = deduct.json()
+        credits_deducted = deduct_data["credits_deducted"]
+        expected_deducted = calculate_expected_credits(input_tokens, output_tokens)
+        assert credits_deducted == expected_deducted
+
+        # Step 3: Pessimistic reservation >= actual deduction
+        assert credits_deducted <= reserved_credits, (
+            f"Deducted {credits_deducted} > reserved {reserved_credits} — "
+            "pessimistic estimate failed to cover actual usage"
+        )

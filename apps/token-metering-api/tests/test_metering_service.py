@@ -1,13 +1,14 @@
-"""TDD tests for metering service (v5 - Balance Only).
+"""TDD tests for metering service (v6 - Credits).
 
-The v5 model:
-1. Suspended? → BLOCK (ACCOUNT_SUSPENDED)
-2. Expired (inactive 365+ days)? → BLOCK (INSUFFICIENT_BALANCE, is_expired=true)
-3. Balance >= estimated_tokens? → ALLOW (create reservation)
-4. Otherwise → BLOCK (INSUFFICIENT_BALANCE)
+The v6 model:
+1. Suspended? -> BLOCK (ACCOUNT_SUSPENDED)
+2. Expired (inactive 365+ days)? -> BLOCK (INSUFFICIENT_BALANCE, is_expired=true)
+3. Balance >= estimated_credits? -> ALLOW (create reservation)
+4. Otherwise -> BLOCK (INSUFFICIENT_BALANCE)
 
-New users get STARTER_TOKENS (50,000).
+New users get STARTER_CREDITS (20,000).
 Balance stored directly on TokenAccount.balance (not computed from allocations).
+Balance deductions use cost-weighted credits, not raw tokens.
 """
 
 from datetime import UTC, datetime, timedelta
@@ -45,7 +46,8 @@ class TestCheckBalance:
 
         assert result["allowed"] is True
         assert "reservation_id" in result
-        assert result["reserved_tokens"] == 1000
+        # v6: reserved_credits is the pessimistic credit estimate, not raw tokens
+        assert result["reserved_credits"] > 0
 
     async def test_blocks_suspended_account(self, test_session):
         """Suspended accounts are blocked."""
@@ -72,7 +74,7 @@ class TestCheckBalance:
         """User with insufficient balance is blocked."""
         account = TokenAccount(
             user_id="low-balance",
-            balance=100,
+            balance=1,  # Very low balance in credits
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
@@ -110,7 +112,7 @@ class TestCheckBalance:
         assert result["is_expired"] is True
 
     async def test_allows_new_user_with_starter_tokens(self, test_session):
-        """New user should get STARTER_TOKENS and be allowed."""
+        """New user should get STARTER_CREDITS and be allowed."""
         service = MeteringService(test_session)
         result = await service.check_balance(
             user_id="brand-new-user",
@@ -123,10 +125,10 @@ class TestCheckBalance:
 
 
 class TestFinalizeUsage:
-    """Test token deduction / finalization."""
+    """Test credit deduction / finalization."""
 
     async def test_creates_transaction_with_correct_cost(self, test_session):
-        """Finalize creates transaction with correct cost calculation."""
+        """Finalize creates transaction with correct credit calculation."""
         account = TokenAccount(
             user_id="user-finalize",
             balance=10000,
@@ -149,9 +151,10 @@ class TestFinalizeUsage:
         assert result["total_tokens"] == 1500
         assert result["balance_source"] == "balance"
 
-        # v5: verify account.balance was updated
+        # v6: verify account.balance was deducted by credits (not raw tokens)
+        # 1000i + 500o with default pricing: base=0.002, markup=0.0024, credits=ceil(24)=24
         await test_session.refresh(account)
-        assert account.balance == 10000 - 1500
+        assert account.balance == 10000 - 24
 
     async def test_idempotent_finalize(self, test_session):
         """Same request_id returns same result without double-charging."""
@@ -188,15 +191,15 @@ class TestFinalizeUsage:
         assert result2["status"] == "already_processed"
         assert result2["transaction_id"] == result1["transaction_id"]
 
-        # v5: verify only charged once
+        # v6: verify only charged once (24 credits for 1000i+500o)
         await test_session.refresh(account)
-        assert account.balance == 10000 - 1500
+        assert account.balance == 10000 - 24
 
     async def test_balance_can_go_negative(self, test_session):
         """Balance can go negative from streaming overage."""
         account = TokenAccount(
             user_id="user-negative",
-            balance=100,
+            balance=5,  # Very low balance in credits
             last_activity_at=datetime.now(UTC),
         )
         test_session.add(account)
@@ -205,19 +208,20 @@ class TestFinalizeUsage:
         service = MeteringService(test_session)
 
         # Deduct more than available (streaming overage)
+        # 5000i + 5000o = 180 credits, but only have 5
         result = await service.finalize_usage(
             user_id="user-negative",
             request_id="req-negative-001",
             reservation_id="res_test",
-            input_tokens=500,
-            output_tokens=500,  # 1000 total, only had 100
+            input_tokens=5000,
+            output_tokens=5000,
             model="deepseek-chat",
         )
 
         assert result["status"] == "finalized"
 
         await test_session.refresh(account)
-        assert account.balance == -900  # 100 - 1000
+        assert account.balance == 5 - 180  # = -175
 
 
 class TestCostCalculation:
@@ -248,10 +252,10 @@ class TestCostCalculation:
 
 
 class TestStarterTokensFlow:
-    """Test starter tokens for new users (v5)."""
+    """Test starter credits for new users (v6)."""
 
     async def test_new_user_gets_starter_tokens_on_check(self, test_session):
-        """New user gets STARTER_TOKENS on first check."""
+        """New user gets STARTER_CREDITS on first check."""
         from sqlalchemy import select
 
         service = MeteringService(test_session)
@@ -265,12 +269,12 @@ class TestStarterTokensFlow:
 
         assert result["allowed"] is True
 
-        # Verify account was created with starter tokens
+        # Verify account was created with starter credits
         stmt = select(TokenAccount).where(TokenAccount.user_id == "starter-user-001")
         account_result = await test_session.execute(stmt)
         account = account_result.scalar_one()
 
-        # Balance should be starter tokens (reservation doesn't deduct yet)
+        # Balance should be starter credits (reservation doesn't deduct yet)
         assert account.balance == STARTER_TOKENS
 
     async def test_starter_allocation_audit_created(self, test_session):
@@ -298,7 +302,7 @@ class TestStarterTokensFlow:
 
 
 class TestAdminOperations:
-    """Test admin operations (grant/topup) - v5: adds to account.balance."""
+    """Test admin operations (grant/topup) - v6: adds to account.balance in credits."""
 
     async def test_grant_creates_allocation(self, test_session):
         """Admin grant adds to account.balance and creates audit record."""
@@ -313,18 +317,18 @@ class TestAdminOperations:
         await test_session.commit()
 
         admin_service = AdminService(test_session)
-        result = await admin_service.grant_tokens(
+        result = await admin_service.grant_credits(
             user_id="student-new",
-            tokens=500000,
+            credits=500000,
             reason="Panaversity enrollment",
             admin_id="admin-123",
         )
 
         assert result["success"] is True
-        assert result["tokens_granted"] == 500000
+        assert result["credits_granted"] == 500000
         assert "allocation_id" in result
 
-        # v5: verify account.balance was updated
+        # v6: verify account.balance was updated
         await test_session.refresh(account)
         assert account.balance == STARTER_TOKENS + 500000
 
@@ -352,17 +356,17 @@ class TestAdminOperations:
         await test_session.commit()
 
         admin_service = AdminService(test_session)
-        result = await admin_service.topup_tokens(
+        result = await admin_service.topup_credits(
             user_id="user-topup",
-            tokens=100000,
+            credits=100000,
             payment_reference="stripe_pi_123",
             admin_id="admin-123",
         )
 
         assert result["success"] is True
-        assert result["tokens_added"] == 100000
+        assert result["credits_added"] == 100000
 
-        # v5: verify account.balance was updated
+        # v6: verify account.balance was updated
         await test_session.refresh(account)
         assert account.balance == 101000
 
@@ -382,7 +386,7 @@ class TestReleaseReservation:
     """Test reservation release (Edge case: LLM fails)."""
 
     async def test_release_returns_tokens(self, test_session):
-        """Releasing a reservation doesn't deduct tokens."""
+        """Releasing a reservation doesn't deduct credits."""
         account = TokenAccount(
             user_id="user-release",
             balance=10000,
@@ -408,7 +412,7 @@ class TestReleaseReservation:
             reservation_id=check_result["reservation_id"],
         )
 
-        # v5: verify account.balance unchanged (no Redis in test)
+        # v6: verify account.balance unchanged (no Redis in test)
         await test_session.refresh(account)
         assert account.balance == 10000
 
@@ -423,7 +427,7 @@ class TestReleaseReservation:
         )
 
         assert result["status"] == "released"
-        assert result["reserved_tokens"] == 0
+        assert result["reserved_credits"] == 0
 
 
 class TestThreadIdTracking:

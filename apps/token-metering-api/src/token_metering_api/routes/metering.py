@@ -1,4 +1,4 @@
-"""Core metering endpoints: check, deduct, release (v5 - Balance Only)."""
+"""Core metering endpoints: check, deduct, release (v6 - Credits)."""
 
 import logging
 from typing import Annotated
@@ -78,7 +78,7 @@ async def check_balance(
         return CheckResponse(
             allowed=True,
             reservation_id=result["reservation_id"],
-            reserved_tokens=result["reserved_tokens"],
+            reserved_credits=result["reserved_credits"],
             expires_at=result["expires_at"],
         )
 
@@ -206,5 +206,5 @@ async def release_reservation(
 
     return ReleaseResponse(
         status="released",
-        reserved_tokens=result.get("reserved_tokens", 0),
+        reserved_credits=result.get("reserved_credits", 0),
     )

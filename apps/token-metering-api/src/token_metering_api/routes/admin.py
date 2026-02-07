@@ -1,4 +1,4 @@
-"""Admin endpoints for token management (v5 - Balance Only)."""
+"""Admin endpoints for credits management (v6 - Credits)."""
 
 import logging
 from typing import Annotated
@@ -25,22 +25,22 @@ router = APIRouter()
 
 @router.post("/grant", response_model=GrantResponse)
 @limiter.limit("20/minute")  # Stricter limit for admin endpoints
-async def grant_tokens(
+async def grant_credits(
     request: Request,
     grant_request: GrantRequest,
     admin: Annotated[CurrentUser, Depends(require_admin)],
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
     """
-    Grant institutional tokens to a user.
+    Grant institutional credits to a user.
 
     Adds directly to account.balance. Creates allocation audit record.
     Requires admin role.
     """
     service = AdminService(session)
-    result = await service.grant_tokens(
+    result = await service.grant_credits(
         user_id=grant_request.user_id,
-        tokens=grant_request.tokens,
+        credits=grant_request.credits,
         reason=grant_request.reason,
         admin_id=admin.id,
     )
@@ -56,29 +56,29 @@ async def grant_tokens(
         success=True,
         transaction_id=result["transaction_id"],
         allocation_id=result["allocation_id"],
-        tokens_granted=result["tokens_granted"],
+        credits_granted=result["credits_granted"],
         new_balance=result["new_balance"],
     )
 
 
 @router.post("/topup", response_model=TopupResponse)
 @limiter.limit("20/minute")  # Stricter limit for admin endpoints
-async def topup_tokens(
+async def topup_credits(
     request: Request,
     topup_request: TopupRequest,
     admin: Annotated[CurrentUser, Depends(require_admin)],
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
     """
-    Add topped-up tokens to a user's balance.
+    Add topped-up credits to a user's balance.
 
     Adds directly to account.balance. Creates allocation audit record.
     Requires admin role.
     """
     service = AdminService(session)
-    result = await service.topup_tokens(
+    result = await service.topup_credits(
         user_id=topup_request.user_id,
-        tokens=topup_request.tokens,
+        credits=topup_request.credits,
         payment_reference=topup_request.payment_reference,
         admin_id=admin.id,
     )
@@ -94,6 +94,6 @@ async def topup_tokens(
         success=True,
         transaction_id=result["transaction_id"],
         allocation_id=result["allocation_id"],
-        tokens_added=result["tokens_added"],
+        credits_added=result["credits_added"],
         new_balance=result["new_balance"],
     )

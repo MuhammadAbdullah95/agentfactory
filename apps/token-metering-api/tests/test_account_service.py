@@ -53,7 +53,7 @@ class TestAccountServiceGetOrCreate:
         result = await service.get_or_create("brand-new-user-001")
 
         assert result.user_id == "brand-new-user-001"
-        assert result.balance == settings.starter_tokens
+        assert result.balance == settings.starter_credits
         assert result.status == AccountStatus.ACTIVE
         assert result.last_activity_at is not None
 
@@ -75,7 +75,7 @@ class TestAccountServiceGetOrCreate:
         allocation = result.scalar_one_or_none()
 
         assert allocation is not None
-        assert allocation.amount == settings.starter_tokens
+        assert allocation.amount == settings.starter_credits
 
     async def test_creates_starter_transaction(self, test_session):
         """New user should have starter transaction record."""
@@ -95,7 +95,7 @@ class TestAccountServiceGetOrCreate:
         transaction = result.scalar_one_or_none()
 
         assert transaction is not None
-        assert transaction.total_tokens == settings.starter_tokens
+        assert transaction.total_tokens == settings.starter_credits
 
     async def test_idempotent_create(self, test_session):
         """Multiple calls for same user should return same account."""
@@ -153,9 +153,9 @@ class TestAccountServiceIntegration:
         from token_metering_api.services.admin import AdminService
 
         service = AdminService(test_session)
-        result = await service.grant_tokens(
+        result = await service.grant_credits(
             user_id="admin-test-001",
-            tokens=10000,
+            credits=10000,
             reason="Test grant",
             admin_id="admin-001",
         )
@@ -163,4 +163,4 @@ class TestAccountServiceIntegration:
         # Should have created account via AccountService
         assert result["success"] is True
         # Account should have starter tokens + grant
-        assert result["new_balance"] == settings.starter_tokens + 10000
+        assert result["new_balance"] == settings.starter_credits + 10000

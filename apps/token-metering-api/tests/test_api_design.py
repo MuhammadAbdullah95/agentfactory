@@ -223,7 +223,7 @@ class TestErrorResponseFormat:
             headers={"X-User-ID": new_user.user_id},
             json={
                 "user_id": "test-user",
-                "tokens": 1000,
+                "credits": 1000,
             },
         )
         # Should get 403 for non-admin
@@ -238,18 +238,18 @@ class TestAPIVersion:
     """Test API version consistency."""
 
     @pytest.mark.asyncio
-    async def test_version_is_5_0_0(self, client: AsyncClient):
-        """API version should be 5.0.0 per spec."""
+    async def test_version_is_6_0_0(self, client: AsyncClient):
+        """API version should be 6.0.0 per spec."""
         response = await client.get("/")
         data = response.json()
-        assert data["version"] == "5.0.0"
+        assert data["version"] == "6.0.0"
 
     @pytest.mark.asyncio
     async def test_openapi_version_matches(self, client: AsyncClient):
         """OpenAPI spec version should match API version."""
         response = await client.get("/openapi.json")
         data = response.json()
-        assert data["info"]["version"] == "5.0.0"
+        assert data["info"]["version"] == "6.0.0"
 
 
 class TestOpenAPICompleteness:

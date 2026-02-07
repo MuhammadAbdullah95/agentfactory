@@ -1,21 +1,23 @@
-"""Core metering service with v5 balance-only model.
+"""Core metering service with v6 cost-weighted credits model.
 
-v5 Logic:
+v6 Logic:
 1. Suspended? → BLOCK (ACCOUNT_SUSPENDED)
 2. Expired (inactive 365+ days)? → BLOCK (INSUFFICIENT_BALANCE, is_expired=true)
-3. available_balance >= estimated_tokens? → ALLOW (create reservation)
-4. Otherwise → BLOCK (INSUFFICIENT_BALANCE)
+3. Convert estimated_tokens → estimated_credits via pricing
+4. available_balance >= estimated_credits? → ALLOW (create reservation in credits)
+5. Otherwise → BLOCK (INSUFFICIENT_BALANCE)
 
 Balance is stored directly on TokenAccount (not computed from allocations).
 Reservations use Redis sorted set with Lua scripts for atomicity.
-Deduction is simple: account.balance -= tokens_used
+Deduction converts actual tokens to credits: account.balance -= credits
 """
 
 import logging
 import time
 import uuid
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal
 from typing import Any
 
 from sqlalchemy import select, update
@@ -52,8 +54,18 @@ DEFAULT_PRICING = {
 RESERVATIONS_KEY_PREFIX = "metering:reservations:"
 
 
+@dataclass
+class CreditCalculation:
+    """Result of converting tokens to credits via pricing."""
+
+    base_cost_usd: Decimal
+    cost_with_markup_usd: Decimal
+    credits: int
+    pricing_version: str
+
+
 class MeteringService:
-    """Service for token metering with v5 balance-only model."""
+    """Service for token metering with v6 cost-weighted credits model."""
 
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -69,19 +81,20 @@ class MeteringService:
         context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """
-        Check balance and create reservation - v5 balance-only.
+        Check balance and create reservation - v6 credits model.
 
         Logic flow (per spec):
-        1. Get/Create account (auto-create with STARTER_TOKENS if new)
+        1. Get/Create account (auto-create with STARTER_CREDITS if new)
         2. Suspended? → BLOCK (ACCOUNT_SUSPENDED)
         3. Expired (inactive 365+ days)? → BLOCK (INSUFFICIENT_BALANCE, is_expired=true)
-        4. Create Redis reservation, get reserved_total
-        5. available_balance = effective_balance - reserved_total
-        6. available_balance >= estimated_tokens? → ALLOW
-        7. Otherwise → BLOCK (INSUFFICIENT_BALANCE) + rollback reservation
+        4. Convert estimated_tokens → estimated_credits via pricing
+        5. Create Redis reservation in credits, get reserved_total
+        6. available_balance = effective_balance - reserved_total
+        7. available_balance >= 0? → ALLOW
+        8. Otherwise → BLOCK (INSUFFICIENT_BALANCE) + rollback reservation
 
         Returns:
-            dict with 'allowed', 'reservation_id', 'reserved_tokens', 'expires_at'
+            dict with 'allowed', 'reservation_id', 'reserved_credits', 'expires_at'
             OR dict with 'allowed'=False and error info
         """
         # Get or create account (FR-011, FR-012) - delegated to AccountService
@@ -128,7 +141,11 @@ class MeteringService:
                 "is_expired": True,
             }
 
-        # 3. Try to create reservation via Lua script (FR-033, FR-036)
+        # 3. Convert estimated tokens to credits (v6 - pessimistic estimation)
+        estimate = self._estimate_credits(estimated_tokens, pricing)
+        estimated_credits = estimate.credits
+
+        # 4. Try to create reservation via Lua script (FR-033, FR-036)
         now = int(time.time())
         expiry = now + settings.reservation_ttl
 
@@ -139,25 +156,25 @@ class MeteringService:
                     key = f"{RESERVATIONS_KEY_PREFIX}{user_id}"
                     result = await reserve_script(
                         keys=[key],
-                        args=[request_id, estimated_tokens, now, expiry],
+                        args=[request_id, estimated_credits, now, expiry],
                     )
-                    status, reserved_total, existing_tokens = result
+                    status, reserved_total, existing_credits = result
 
                     # Handle idempotency (FR-059)
-                    if status == 1:  # Idempotent - same request_id, same tokens
+                    if status == 1:  # Idempotent - same request_id, same credits
                         logger.info(
                             f"[Metering] Idempotent /check for request_id={request_id}"
                         )
                         return {
                             "allowed": True,
                             "reservation_id": f"res_{request_id}",
-                            "reserved_tokens": int(existing_tokens),
+                            "reserved_credits": int(existing_credits),
                             "expires_at": datetime.now(UTC)
                             + timedelta(seconds=settings.reservation_ttl),
                         }
 
                     # Handle conflict (FR-060)
-                    if status == 2:  # Conflict - same request_id, different tokens
+                    if status == 2:  # Conflict - same request_id, different credits
                         return {
                             "allowed": False,
                             "error_code": "REQUEST_ID_CONFLICT",
@@ -183,7 +200,7 @@ class MeteringService:
                             "message": "Insufficient balance for request",
                             "balance": account.balance,
                             "available_balance": effective_balance
-                            - (int(reserved_total) - estimated_tokens),
+                            - (int(reserved_total) - estimated_credits),
                             "required": estimated_tokens,
                             "is_expired": False,
                         }
@@ -192,7 +209,7 @@ class MeteringService:
                     return {
                         "allowed": True,
                         "reservation_id": f"res_{request_id}",
-                        "reserved_tokens": estimated_tokens,
+                        "reserved_credits": estimated_credits,
                         "expires_at": datetime.now(UTC)
                         + timedelta(seconds=settings.reservation_ttl),
                     }
@@ -217,11 +234,11 @@ class MeteringService:
 
                     if locked_account:
                         locked_effective_balance = locked_account.effective_balance
-                        if locked_effective_balance >= estimated_tokens:
+                        if locked_effective_balance >= estimated_credits:
                             return {
                                 "allowed": True,
                                 "reservation_id": f"failopen_{uuid.uuid4().hex}",
-                                "reserved_tokens": estimated_tokens,
+                                "reserved_credits": estimated_credits,
                                 "expires_at": datetime.now(UTC)
                                 + timedelta(seconds=settings.reservation_ttl),
                             }
@@ -231,11 +248,11 @@ class MeteringService:
                     f"[Metering] SELECT FOR UPDATE not supported, "
                     f"using simple check: {e}"
                 )
-                if effective_balance >= estimated_tokens:
+                if effective_balance >= estimated_credits:
                     return {
                         "allowed": True,
                         "reservation_id": f"failopen_{uuid.uuid4().hex}",
-                        "reserved_tokens": estimated_tokens,
+                        "reserved_credits": estimated_credits,
                         "expires_at": datetime.now(UTC)
                         + timedelta(seconds=settings.reservation_ttl),
                     }
@@ -263,10 +280,10 @@ class MeteringService:
         usage_details: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """
-        Finalize reservation with actual token usage - v5 balance-only.
+        Finalize reservation with actual token usage - v6 credits model.
 
-        Deducts from account.balance, updates last_activity_at.
-        Idempotent via request_id (FR-061, FR-062).
+        Converts actual tokens to credits, deducts credits from account.balance.
+        Updates last_activity_at. Idempotent via request_id (FR-061, FR-062).
 
         Returns:
             dict with transaction details
@@ -291,25 +308,23 @@ class MeteringService:
         # Ensure account exists - delegated to AccountService
         await self._account_service.get_or_create(user_id)
 
-        # Calculate cost with markup (FR-044, FR-045, FR-046, FR-047)
+        # v6: Convert actual tokens to credits via pricing
         pricing = await self._get_pricing(model)
-        base_cost = self._calculate_base_cost(input_tokens, output_tokens, pricing)
-        markup = Decimal(str(settings.markup_percent))
-        total_cost = base_cost * (1 + markup / 100)
+        calc = self._calculate_credits(input_tokens, output_tokens, pricing)
 
         # Round for display but store full precision (FR-065)
-        total_cost_rounded = total_cost.quantize(
+        total_cost_rounded = calc.cost_with_markup_usd.quantize(
             Decimal("0.000001"), rounding=ROUND_HALF_UP
         )
 
-        # Atomically deduct from balance (FR-032: balance = balance - X)
+        # Atomically deduct CREDITS from balance (FR-032: balance = balance - credits)
         # May go negative for streaming overages (FR-041)
         now = datetime.now(UTC)
         result = await self.session.execute(
             update(TokenAccount)
             .where(TokenAccount.user_id == user_id)
             .values(
-                balance=TokenAccount.balance - total_tokens,
+                balance=TokenAccount.balance - calc.credits,
                 last_activity_at=now,
                 updated_at=now,
             )
@@ -323,20 +338,21 @@ class MeteringService:
             extra_data["usage_details"] = usage_details
 
         # Create transaction (FR-015, FR-017)
+        markup = Decimal(str(settings.markup_percent))
         transaction = TokenTransaction(
             user_id=user_id,
             transaction_type=TransactionType.USAGE,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             total_tokens=total_tokens,
-            base_cost_usd=base_cost,
+            base_cost_usd=calc.base_cost_usd,
             markup_percent=markup,
             total_cost_usd=total_cost_rounded,
-            credits_deducted=total_tokens,
+            credits_deducted=calc.credits,
             balance_source=BalanceSource.BALANCE,
             model=model,
             request_id=request_id,
-            pricing_version=pricing.get("version", "v1"),
+            pricing_version=calc.pricing_version,
             thread_id=thread_id,
             extra_data=extra_data,
         )
@@ -355,11 +371,11 @@ class MeteringService:
             "status": "finalized",
             "transaction_id": transaction.id,
             "total_tokens": total_tokens,
-            "credits_deducted": total_tokens,
+            "credits_deducted": calc.credits,
             "balance_after": new_balance,
-            "balance_source": "balance",  # v5: always "balance"
+            "balance_source": "balance",  # v6: always "balance"
             "thread_id": thread_id,
-            "pricing_version": pricing.get("version", "v1"),
+            "pricing_version": calc.pricing_version,
         }
 
     async def release_reservation(
@@ -369,17 +385,17 @@ class MeteringService:
         reservation_id: str,
     ) -> dict[str, Any]:
         """
-        Release reservation without deducting tokens (FR-063, FR-064).
+        Release reservation without deducting credits (FR-063, FR-064).
 
         Called when LLM call fails.
         Idempotent - releasing twice returns success.
         """
         # Failopen reservations always succeed (FR-064)
         if reservation_id.startswith("failopen_"):
-            return {"status": "released", "reserved_tokens": 0}
+            return {"status": "released", "reserved_credits": 0}
 
         if not self.redis:
-            return {"status": "released", "reserved_tokens": 0}
+            return {"status": "released", "reserved_credits": 0}
 
         # Use Lua script to remove reservation (FR-038)
         release_script = get_lua_script("release")
@@ -388,13 +404,13 @@ class MeteringService:
                 key = f"{RESERVATIONS_KEY_PREFIX}{user_id}"
                 now = int(time.time())
                 result = await release_script(keys=[key], args=[request_id, now])
-                status, released_tokens = result
+                status, released_credits = result
 
-                return {"status": "released", "reserved_tokens": int(released_tokens)}
+                return {"status": "released", "reserved_credits": int(released_credits)}
             except Exception as e:
                 logger.error(f"[Metering] Release error: {e}")
 
-        return {"status": "released", "reserved_tokens": 0}
+        return {"status": "released", "reserved_credits": 0}
 
     # === Private Helper Methods ===
 
@@ -474,6 +490,53 @@ class MeteringService:
         input_cost = (Decimal(input_tokens) / 1000) * pricing["input"]
         output_cost = (Decimal(output_tokens) / 1000) * pricing["output"]
         return input_cost + output_cost
+
+    def _calculate_credits(
+        self,
+        input_tokens: int,
+        output_tokens: int,
+        pricing: dict[str, Any],
+    ) -> CreditCalculation:
+        """Convert token usage to credits via pricing (v6).
+
+        Single conversion path used for both estimates and finals.
+        Always rounds up (ROUND_CEILING) — platform never gives free usage.
+        """
+        base_cost = self._calculate_base_cost(input_tokens, output_tokens, pricing)
+        markup = Decimal(str(settings.markup_percent))
+        cost_with_markup = base_cost * (1 + markup / 100)
+        credits = int(
+            (cost_with_markup * Decimal(str(settings.credits_per_dollar)))
+            .to_integral_value(rounding=ROUND_CEILING)
+        )
+        return CreditCalculation(
+            base_cost_usd=base_cost,
+            cost_with_markup_usd=cost_with_markup,
+            credits=credits,
+            pricing_version=pricing.get("version", "v1"),
+        )
+
+    def _estimate_credits(
+        self,
+        estimated_tokens: int,
+        pricing: dict[str, Any],
+    ) -> CreditCalculation:
+        """Pessimistic credit estimate for reservation (v6).
+
+        Uses max(input_rate, output_rate) for both halves of the token split.
+        Over-reservation is acceptable; under-reservation is NEVER allowed.
+        """
+        max_rate = max(pricing["input"], pricing["output"])
+        pessimistic_pricing = {
+            "input": max_rate,
+            "output": max_rate,
+            "version": pricing.get("version", "v1"),
+        }
+        return self._calculate_credits(
+            estimated_tokens // 2,
+            estimated_tokens // 2 + (estimated_tokens % 2),  # ceil split
+            pessimistic_pricing,
+        )
 
     async def _invalidate_balance_cache(self, user_id: str) -> None:
         """Invalidate cached balance data (FR-056)."""

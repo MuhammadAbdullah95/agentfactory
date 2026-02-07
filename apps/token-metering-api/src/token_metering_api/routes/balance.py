@@ -1,4 +1,4 @@
-"""Balance query endpoints (v5 - Balance Only)."""
+"""Balance query endpoints (v6 - Credits)."""
 
 import logging
 from typing import Annotated

@@ -78,10 +78,12 @@ class TestMeteringClientFlow:
         assert deduct_data["total_tokens"] == actual_input_tokens + actual_output_tokens
         assert "transaction_id" in deduct_data
 
-        # v5: verify account.balance was updated
+        # v6: verify account.balance was updated (credits, not raw tokens)
+        from tests.helpers import calculate_expected_credits
+
         await test_session.refresh(account)
-        expected_remaining = 100000 - (actual_input_tokens + actual_output_tokens)
-        assert account.balance == expected_remaining
+        expected_credits = calculate_expected_credits(actual_input_tokens, actual_output_tokens)
+        assert account.balance == 100000 - expected_credits
 
     async def test_complete_flow_new_user_with_starter_tokens(
         self, client: AsyncClient, test_session
@@ -125,14 +127,17 @@ class TestMeteringClientFlow:
         assert deduct_data["status"] == "finalized"
         assert deduct_data["balance_source"] == "balance"
 
-        # Verify account was created with starter tokens minus usage
+        # Verify account was created with starter credits minus usage (in credits)
         from sqlalchemy import select
+
+        from tests.helpers import calculate_expected_credits
 
         result = await test_session.execute(
             select(TokenAccount).where(TokenAccount.user_id == user_id)
         )
         account = result.scalar_one()
-        assert account.balance == STARTER_TOKENS - 5000
+        expected_credits = calculate_expected_credits(3000, 2000)
+        assert account.balance == STARTER_TOKENS - expected_credits
 
     async def test_flow_blocked_zero_balance(self, client: AsyncClient, test_session):
         """Test flow when user has zero balance."""
@@ -347,9 +352,12 @@ class TestMeteringClientEstimation:
         assert deduct_response.status_code == 200
         assert deduct_response.json()["total_tokens"] == 5000
 
-        # v5: verify actual was deducted, not estimate
+        # v6: verify credits were deducted (not raw tokens)
+        from tests.helpers import calculate_expected_credits
+
         await test_session.refresh(account)
-        assert account.balance == 10000 - 5000
+        expected_credits = calculate_expected_credits(3000, 2000)
+        assert account.balance == 10000 - expected_credits
 
     async def test_actual_less_than_estimate(self, client: AsyncClient, test_session):
         """Test when actual tokens less than estimate."""
@@ -391,9 +399,12 @@ class TestMeteringClientEstimation:
         assert deduct_response.status_code == 200
         assert deduct_response.json()["total_tokens"] == 1000
 
-        # v5: verify only actual was deducted
+        # v6: verify only actual was deducted (in credits)
+        from tests.helpers import calculate_expected_credits
+
         await test_session.refresh(account)
-        assert account.balance == 10000 - 1000
+        expected_credits = calculate_expected_credits(500, 500)
+        assert account.balance == 10000 - expected_credits
 
 
 class TestMeteringClientNewUser:

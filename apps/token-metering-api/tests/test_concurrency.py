@@ -220,7 +220,7 @@ class TestConcurrentGrants:
                 "/api/v1/admin/grant",
                 json={
                     "user_id": "concurrent-grant-user",
-                    "tokens": 10000,
+                    "credits": 10000,
                     "reason": f"Grant {i}",
                 },
                 headers={"X-User-ID": "admin", "X-Dev-Admin": "true"},
@@ -324,9 +324,12 @@ class TestConcurrentCheckThenFinalize:
         assert finalize_data["status"] == "finalized"
         assert finalize_data["total_tokens"] == 1000
 
-        # Verify balance was deducted
+        # Verify balance was deducted (in credits, not raw tokens)
+        from tests.helpers import calculate_expected_credits
+
         await test_session.refresh(account)
-        assert account.balance == initial_balance - 1000
+        expected_credits = calculate_expected_credits(400, 600)
+        assert account.balance == initial_balance - expected_credits
 
 
 class TestRaceConditionPrevention:
@@ -404,10 +407,13 @@ class TestRaceConditionPrevention:
             )
             assert response.status_code == 200
 
-        # Verify final balance
+        # Verify final balance (v6: deductions in credits)
+        from tests.helpers import calculate_expected_credits
+
         await test_session.refresh(account)
-        # Started with 10000, deducted 10 * 200 = 2000
-        assert account.balance == 8000, "Balance should be correctly calculated"
+        credits_per_deduct = calculate_expected_credits(100, 100)
+        expected = 10000 - (10 * credits_per_deduct)
+        assert account.balance == expected, "Balance should be correctly calculated"
 
         # Verify transaction count
         tx_result = await test_session.execute(
