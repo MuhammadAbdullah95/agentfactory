@@ -115,6 +115,7 @@ cat ${PART_PATH}/README.md
 ```
 
 **Extract from Part README:**
+
 - Book/Part learning objectives (the "What You'll Learn" section)
 - Chapter descriptions and their stated roles
 - The overall goal/thesis of this part
@@ -205,12 +206,12 @@ User can adjust weights before lesson reading begins.
 
 ### Why This Matters
 
-| Without Phase 0 | With Phase 0 |
-|-----------------|--------------|
-| Ch 2 (Markdown) gets 12 lessons × 2 = 24 questions | Ch 2 gets 2% = 3 questions |
-| Lesson count drives distribution | Book goals drive distribution |
-| Supporting chapters over-weighted | Core chapters properly prioritized |
-| Prerequisite skills tested heavily | Prerequisites minimally tested |
+| Without Phase 0                                    | With Phase 0                       |
+| -------------------------------------------------- | ---------------------------------- |
+| Ch 2 (Markdown) gets 12 lessons × 2 = 24 questions | Ch 2 gets 2% = 3 questions         |
+| Lesson count drives distribution                   | Book goals drive distribution      |
+| Supporting chapters over-weighted                  | Core chapters properly prioritized |
+| Prerequisite skills tested heavily                 | Prerequisites minimally tested     |
 
 ---
 
@@ -219,6 +220,7 @@ User can adjust weights before lesson reading begins.
 As you read each lesson, write observations to `assessments/{SLUG}-notes.md`. This file is your working memory and evidence of genuine engagement with the content.
 
 **Format (append per lesson):**
+
 ```markdown
 ## Lesson: {filename}
 
@@ -231,6 +233,7 @@ As you read each lesson, write observations to `assessments/{SLUG}-notes.md`. Th
 ```
 
 **Rules:**
+
 - Write notes DURING reading, not after all lessons are read
 - This file is the RAW INPUT for concept extraction (Phase 1 reads notes, not memory)
 - The concept map MUST cite specific notes entries as evidence
@@ -242,12 +245,12 @@ As you read each lesson, write observations to `assessments/{SLUG}-notes.md`. Th
 
 All questions require a concise scenario before the stem. No fact-recall patterns allowed.
 
-| Type | Bloom Level | Key Constraint |
-|------|-------------|----------------|
-| **Scenario Analysis** | Apply/Analyze | Novel situation not appearing in lessons |
-| **Concept Relationship** | Analyze/Evaluate | Tests CONNECTION between 2+ concepts |
-| **Transfer Application** | Apply/Create | Apply principle to a domain NOT in the chapter |
-| **Critical Evaluation** | Evaluate | Identify WHY an approach fails in context |
+| Type                     | Bloom Level      | Key Constraint                                 |
+| ------------------------ | ---------------- | ---------------------------------------------- |
+| **Scenario Analysis**    | Apply/Analyze    | Novel situation not appearing in lessons       |
+| **Concept Relationship** | Analyze/Evaluate | Tests CONNECTION between 2+ concepts           |
+| **Transfer Application** | Apply/Create     | Apply principle to a domain NOT in the chapter |
+| **Critical Evaluation**  | Evaluate         | Identify WHY an approach fails in context      |
 
 **Distribution adapts to chapter type** (classified in Phase 0.5):
 
@@ -280,24 +283,54 @@ For detailed patterns and examples, see `references/question-types.md`.
 
 Write at professional-clear level. One idea per sentence. Active voice. No filler. The agent has full autonomy over word counts — the principle is clarity, not a specific number.
 
-**WRONG (bloated — agent should never produce this):**
+### Option Length Parity (MANDATORY)
+
+**All four options in every question MUST be similar length.**
+
+**Rule:** Every option's word count must fall within **0.8x to 1.2x of the mean option length** for that question. If the correct answer is 1.0x, all distractors must be 0.8x-1.2x.
+
+**Why this matters:** When correct answers average 22.7 words and distractors average 9.4 words (2.42x ratio), students can guess correctly by picking the longest option without reading the question. This invalidates the assessment.
+
+**The "Write-Then-Match" Procedure:**
+
+1. Write the correct answer (naturally detailed)
+2. Count its words
+3. Write each distractor to the SAME word count (±20%)
+4. If a distractor is too short, expand it with plausible but wrong detail
+5. If the correct answer is too long, simplify it — then expand distractors to match
+
+**WRONG (length bias — student picks longest):**
+
+```
+**A.** Reduce involvement to autocomplete only
+**B.** Switch to a more capable model
+**C.** Write detailed specifications for each function and validate the AI's complete output against them
+**D.** Continue until the AI learns her style
+```
+
+(C is 15 words, others are 5-8. Correct answer is obvious by length.)
+
+**RIGHT (all options same length, difficulty is in thinking):**
+
+```
+**A.** Limit the AI to autocomplete mode and manually write the rest of each function
+**B.** Replace the current model with a higher-tier one that produces cleaner code output
+**C.** Write detailed specifications first and validate the AI's complete output against them
+**D.** Continue the current workflow and wait for the AI to adapt to her coding patterns
+```
+
+(All options 14-17 words. Must actually understand the concept to answer.)
+
+**WRONG (bloated scenario — agent should never produce this):**
+
 ```
 Q. A veteran meteorologist notices that her department's new AI weather
 prediction system presents 48-hour forecasts with identical confidence
-formatting regardless of actual prediction reliability. A tropical storm
-forecast with high uncertainty appears identically to a clear-sky prediction
-with strong model consensus. Junior forecasters have stopped adding uncertainty
-qualifiers to public advisories, trusting the AI's confident presentation.
-
-Applying the principle that confidence is uncorrelated with accuracy in AI
-systems, which practice would most improve the department's forecast
-communication reliability?
-
-**A.** Requiring independent verification of AI forecasts against ensemble models
-before accepting any prediction, regardless of how confidently it is presented
+formatting regardless of actual prediction reliability...
 ```
 
 **RIGHT (clear, same concept tested):**
+
 ```
 Q. A weather AI displays all forecasts with equal confidence — a risky
 tropical storm prediction looks identical to a reliable clear-sky forecast.
@@ -322,6 +355,7 @@ Question distribution uses TWO levels of weighting:
 ### Level 1: Chapter Weights (from Phase 0)
 
 Chapter weights are determined by curriculum analysis BEFORE reading lessons:
+
 - Role in book goals (core-practical, core-conceptual, supporting, prerequisite)
 - Learning objective coverage
 - User confirmation
@@ -456,8 +490,10 @@ CHAPTER_TYPE classification (determine from lesson content):
 **Extract domain keywords** from lesson content (the specific tools, technologies, and workflows the chapter teaches). These keywords constrain scenario generation in Phase 2.
 
 Write classification and keywords to the top of the notes file:
+
 ```markdown
 # Chapter Classification
+
 - Type: {practical-tool | conceptual | hybrid}
 - Domain keywords: {comma-separated list of specific terms from the chapter}
 - Example domains for scenarios: {2-3 example settings appropriate for this chapter}
@@ -472,6 +508,7 @@ Update task status: mark "Read lessons and write grounding notes" as in_progress
 Read `assessments/{SLUG}-notes.md` (your grounding notes). Extract concepts from the notes, not from memory.
 
 **What to extract** (see `references/concept-extraction-guide.md` for details):
+
 - Core concepts (named ideas, patterns, principles)
 - Relationships (concept A enables/conflicts/extends concept B)
 - Trade-offs (choosing X means sacrificing Y)
@@ -482,31 +519,37 @@ Read `assessments/{SLUG}-notes.md` (your grounding notes). Extract concepts from
 **Output:** Write to `assessments/{SLUG}-concepts.md`
 
 Format:
+
 ```markdown
 # Concept Map: {Chapter/Part Name}
 
 ## Concepts (N total)
 
 ### 1. {Concept Name}
+
 - Definition: {1-2 sentences}
 - Lessons: {which lessons cover this}
 - Relationships: {connects to concepts X, Y}
 - Transfer domains: {healthcare, finance, education, etc.}
 
 ### 2. {Concept Name}
+
 ...
 
 ## Relationships
+
 - {Concept A} --enables--> {Concept B}
 - {Concept C} --conflicts-with--> {Concept D}
-...
+  ...
 
 ## Trade-offs
+
 - {Choosing X} vs {Choosing Y}: {what you sacrifice}
-...
+  ...
 ```
 
 After extraction:
+
 1. Report lesson weight breakdown (core/supporting/intro counts)
 2. Report concept count and recommend question count (importance-weighted algorithm above)
 3. Report the adaptive type distribution for the detected chapter type
@@ -518,6 +561,7 @@ After extraction:
 ### Phase 2: Question Generation (2 parallel Task subagents)
 
 Spawn 2 Task subagents. Each receives ONLY:
+
 - The concept map (`assessments/{SLUG}-concepts.md`)
 - Question type reference (`references/question-types.md`)
 - Chapter type and domain keywords (from notes file classification)
@@ -526,6 +570,7 @@ Spawn 2 Task subagents. Each receives ONLY:
 See `references/subagent-template.md` for prompt templates.
 
 **Subagent A:** Scenario Analysis + Transfer Application questions
+
 - Output: `assessments/{SLUG}-questions-A.md`
 - Count: (Scenario% + Transfer%) of total — varies by chapter type:
   - Practical-tool: 65% of total (60% Scenario + 5% Transfer)
@@ -533,6 +578,7 @@ See `references/subagent-template.md` for prompt templates.
   - Hybrid: interpolate
 
 **Subagent B:** Concept Relationship + Critical Evaluation questions
+
 - Output: `assessments/{SLUG}-questions-B.md`
 - Count: (Relationship% + Evaluation%) of total — varies by chapter type:
   - Practical-tool: 35% of total (20% Relationship + 15% Evaluation)
@@ -546,6 +592,7 @@ See `references/subagent-template.md` for prompt templates.
 Read both question files. Apply ALL structural checks:
 
 **FAIL conditions (reject question, non-negotiable):**
+
 ```
 FAIL if question contains "According to"
 FAIL if question contains "Lesson [0-9]" or "lesson [0-9]"
@@ -556,10 +603,16 @@ FAIL if question doesn't map to a concept in the concept map
 ```
 
 **Anti-gaming checks (FAIL conditions):**
+
 ```
-# Length Bias (see references/bias-detection-guide.md)
-FAIL if correct answer is longest option in >40% of questions (length bias)
-FAIL if correct answer is shortest option in >40% of questions (length bias)
+# Length Parity (CRITICAL — per-question ratio check)
+FOR each question:
+  mean_length = mean word count of all 4 options
+  FOR each option:
+    ratio = option_word_count / mean_length
+    FAIL if ratio < 0.8 or ratio > 1.2
+      → "Q{N}: Option {letter} is {ratio}x mean ({words} words vs {mean} mean)"
+FAIL if >15% of questions have any option outside 0.8x-1.2x range (batch-level)
 
 # Position Bias
 FAIL if any letter is correct >30% or <20% of total
@@ -573,14 +626,15 @@ FLAG questions where correct option has examples/qualifiers that distractors lac
 ```
 
 **Distribution checks:**
+
 ```
 Count answer distribution across all questions:
   Each of A/B/C/D must be 20-30% of total
   No >3 consecutive same-letter answers
-  Option lengths: correct answer word count within ±3 words of distractor average
 ```
 
 **Coverage check:**
+
 ```
 Each concept in the map should have at least 1 question
   Flag uncovered concepts (warning, not failure)
@@ -588,6 +642,7 @@ Each concept in the map should have at least 1 question
 ```
 
 If validation fails:
+
 - Report specific failures with question numbers
 - Identify pattern (e.g., "Subagent A produced 12 questions with 'According to'")
 - Regenerate only the failing subagent's output (re-spawn that subagent)
@@ -599,6 +654,7 @@ See `references/validation-rules.md` for complete validation pipeline.
 ### Phase 4: Assembly & DOCX Output (this agent)
 
 **Step 1: Merge and STRIP internal tags**
+
 - Interleave questions from both files (don't group by type)
 - Renumber sequentially Q1 through Q{TOTAL}
 - Randomize answer positions (ensure distribution holds)
@@ -618,11 +674,12 @@ See `references/validation-rules.md` for complete validation pipeline.
 **Step 2: Build exam document (TWO separate files)**
 
 **File 1: Student exam** (`assessments/{SLUG}-exam.md`)
+
 ```markdown
 # {Chapter/Part Name} Certification Assessment
 
 **Questions:** {TOTAL}
-**Time Limit:** {ceil(TOTAL * 1.5)} minutes
+**Time Limit:** {ceil(TOTAL \* 1.5)} minutes
 **Passing Score:** 75%
 
 **Instructions:** Select the best answer for each question.
@@ -649,22 +706,27 @@ Q2. ...
 NO type labels. NO concept tags. NO answers. NO explanations. Just questions.
 
 **File 2: Educator key** (`assessments/{SLUG}-answer-key.md`)
+
 ```markdown
 # Answer Key: {Chapter/Part Name}
 
-| Q | Answer | Type | Concept |
-|---|--------|------|---------|
-| 1 | B | Scenario Analysis | {concept name} |
-| 2 | D | Concept Relationship | {concept name} |
+| Q   | Answer | Type                 | Concept        |
+| --- | ------ | -------------------- | -------------- |
+| 1   | B      | Scenario Analysis    | {concept name} |
+| 2   | D      | Concept Relationship | {concept name} |
+
 ...
 
 ## Answer Distribution
+
 A: {count} ({%}) | B: {count} ({%}) | C: {count} ({%}) | D: {count} ({%})
 
 ## Concept Coverage
+
 {List concepts and question count per concept}
 
 ## Type Distribution
+
 {Scenario Analysis: X | Concept Relationship: X | Transfer Application: X | Critical Evaluation: X}
 ```
 
@@ -674,6 +736,7 @@ Never use `A)` — pandoc interprets it as an ordered list marker and renders bu
 **Step 3: Convert to DOCX (two files)**
 
 **Option A: pandoc (simple)**
+
 ```bash
 pandoc assessments/{SLUG}-exam.md -o assessments/{SLUG}-Assessment-Final.docx --from=markdown --to=docx
 pandoc assessments/{SLUG}-answer-key.md -o assessments/{SLUG}-Answer-Key.docx --from=markdown --to=docx
@@ -690,36 +753,40 @@ When using the docx-js library for professional DOCX output:
 
 // ❌ WRONG - style-based alignment may be ignored:
 new Paragraph({
-  style: "Question",  // Even if Question style has LEFT alignment
-  children: [new TextRun({ text: question.stem })]
-})
+  style: "Question", // Even if Question style has LEFT alignment
+  children: [new TextRun({ text: question.stem })],
+});
 
 // ✅ CORRECT - explicit alignment on each paragraph:
 new Paragraph({
-  alignment: AlignmentType.LEFT,  // ALWAYS set this explicitly
+  alignment: AlignmentType.LEFT, // ALWAYS set this explicitly
   spacing: { before: 200, after: 100 },
   children: [
     new TextRun({ text: `${qNum}. `, bold: true, size: 24, font: "Arial" }),
-    new TextRun({ text: question.stem, font: "Arial", size: 22 })
-  ]
-})
+    new TextRun({ text: question.stem, font: "Arial", size: 22 }),
+  ],
+});
 
 // ✅ CORRECT - options with explicit alignment and indent:
 new Paragraph({
-  alignment: AlignmentType.LEFT,  // ALWAYS set this explicitly
+  alignment: AlignmentType.LEFT, // ALWAYS set this explicitly
   indent: { left: 360 },
   spacing: { after: 60 },
-  children: [new TextRun({ text: `${letter}) ${option}`, font: "Arial", size: 22 })]
-})
+  children: [
+    new TextRun({ text: `${letter}) ${option}`, font: "Arial", size: 22 }),
+  ],
+});
 ```
 
 **Key docx-js rules:**
+
 1. Always set `alignment: AlignmentType.LEFT` explicitly on every question/answer paragraph
 2. Don't rely on custom paragraph styles for alignment
 3. Set `font: "Arial"` on every TextRun for consistent rendering
 4. Use `indent: { left: 360 }` for option indentation (not tabs or spaces)
 
 **Step 4: Post-conversion validation**
+
 - Verify both DOCX files exist and exam > 10KB
 - **CRITICAL:** grep the exam markdown for internal tags:
   ```
@@ -730,6 +797,7 @@ new Paragraph({
 - Report: file paths, question count, concept coverage percentage
 
 **Step 5: Cleanup** (optional)
+
 - Keep concept map (useful reference)
 - Keep question files (for regeneration)
 - Delete intermediate markdown if user prefers clean output
@@ -738,25 +806,25 @@ new Paragraph({
 
 ## Failure Modes (Summary)
 
-| Failure | Prevention | Detection |
-|---------|-----------|-----------|
-| **Curriculum context skipped** | **Phase 0 MANDATORY** | Part README not read before lesson reading |
-| **Prerequisite chapters over-weighted** | Chapter role classification | "prerequisite" chapters should get 2-5%, not equal weight |
-| **Lesson count = question count** | Two-level weighting (chapter + lesson) | Distribution ignores book learning objectives |
-| Memorization questions | Structural FAIL conditions | grep for "According to", "Lesson [0-9]" |
-| **Length bias (longest correct)** | Anti-gaming FAIL: >40% longest correct | Word count rank per question |
-| **Position bias (B/C clustering)** | Anti-gaming FAIL: middle >55% | Count B+C vs A+D distribution |
-| **Specificity bias** | WARN: correct >30% more specific | Score options with examples/qualifiers |
-| Answer bias (74% A) | Anti-gaming FAIL: any letter >30% | Count distribution per letter |
-| Fabricated concepts | Grounding notes required | Every concept must cite a notes entry |
-| Too few questions | Importance-weighted: core=3-5, supporting=1-2, intro=0-1 | Weighted sum drives minimum, not flat count |
-| Wrong chapter/part | `ls -d` filesystem discovery | Path validation before proceeding |
-| Missing lessons | Complete lesson count + notes file | Notes file has entry per lesson |
-| No coordination | TaskList created upfront | Task status visible across phases |
-| Context overload | Subagents receive only concept map + types | ~300 lines context vs 937+176KB |
-| Internal tags in exam | Strip [Type] and [Concept:] in Phase 4 | grep for brackets in exam.md = 0 |
-| Answers in student file | Two separate files (exam + key) | No "Answer:" in exam DOCX |
-| Bullet points in DOCX | Use `**A.**` format, never `A)` | pandoc treats `A)` as list marker |
+| Failure                                 | Prevention                                                    | Detection                                                 |
+| --------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------- |
+| **Curriculum context skipped**          | **Phase 0 MANDATORY**                                         | Part README not read before lesson reading                |
+| **Prerequisite chapters over-weighted** | Chapter role classification                                   | "prerequisite" chapters should get 2-5%, not equal weight |
+| **Lesson count = question count**       | Two-level weighting (chapter + lesson)                        | Distribution ignores book learning objectives             |
+| Memorization questions                  | Structural FAIL conditions                                    | grep for "According to", "Lesson [0-9]"                   |
+| **Length bias (correct 2x+ longer)**    | Per-question ratio FAIL: all options within 0.8x-1.2x of mean | Word count ratio per question, batch >15% = FAIL          |
+| **Position bias (B/C clustering)**      | Anti-gaming FAIL: middle >55%                                 | Count B+C vs A+D distribution                             |
+| **Specificity bias**                    | WARN: correct >30% more specific                              | Score options with examples/qualifiers                    |
+| Answer bias (74% A)                     | Anti-gaming FAIL: any letter >30%                             | Count distribution per letter                             |
+| Fabricated concepts                     | Grounding notes required                                      | Every concept must cite a notes entry                     |
+| Too few questions                       | Importance-weighted: core=3-5, supporting=1-2, intro=0-1      | Weighted sum drives minimum, not flat count               |
+| Wrong chapter/part                      | `ls -d` filesystem discovery                                  | Path validation before proceeding                         |
+| Missing lessons                         | Complete lesson count + notes file                            | Notes file has entry per lesson                           |
+| No coordination                         | TaskList created upfront                                      | Task status visible across phases                         |
+| Context overload                        | Subagents receive only concept map + types                    | ~300 lines context vs 937+176KB                           |
+| Internal tags in exam                   | Strip [Type] and [Concept:] in Phase 4                        | grep for brackets in exam.md = 0                          |
+| Answers in student file                 | Two separate files (exam + key)                               | No "Answer:" in exam DOCX                                 |
+| Bullet points in DOCX                   | Use `**A.**` format, never `A)`                               | pandoc treats `A)` as list marker                         |
 
 For historical context on these failures, see the Jan 2026 postmortem in the skill's git history.
 
@@ -764,17 +832,17 @@ For historical context on these failures, see the Jan 2026 postmortem in the ski
 
 ## Reference Files
 
-| File | Purpose | Used By |
-|------|---------|---------|
-| `references/question-types.md` | 4 type definitions with examples | Subagents (Phase 2) |
-| `references/concept-extraction-guide.md` | How to extract concepts vs facts | This agent (Phase 1) |
-| `references/subagent-template.md` | Prompt templates for 2 subagents | This agent (Phase 2 spawning) |
-| `references/validation-rules.md` | Anti-memorization + distribution checks | This agent (Phase 3) |
-| `references/bias-detection-guide.md` | Length/position/specificity bias detection | This agent (Phase 3) |
-| `references/bloom-taxonomy.md` | Cognitive level reference | Subagents (question design) |
-| `references/psychometric-standards.md` | DIF/DIS/DF metrics | This agent (Phase 3 validation) |
-| `references/distractor-generation-strategies.md` | Distractor design patterns | Subagents (option creation) |
-| `references/academic-rigor-tiers.md` | T1-T3 difficulty frameworks | This agent (Phase 1 tier selection) |
+| File                                             | Purpose                                    | Used By                             |
+| ------------------------------------------------ | ------------------------------------------ | ----------------------------------- |
+| `references/question-types.md`                   | 4 type definitions with examples           | Subagents (Phase 2)                 |
+| `references/concept-extraction-guide.md`         | How to extract concepts vs facts           | This agent (Phase 1)                |
+| `references/subagent-template.md`                | Prompt templates for 2 subagents           | This agent (Phase 2 spawning)       |
+| `references/validation-rules.md`                 | Anti-memorization + distribution checks    | This agent (Phase 3)                |
+| `references/bias-detection-guide.md`             | Length/position/specificity bias detection | This agent (Phase 3)                |
+| `references/bloom-taxonomy.md`                   | Cognitive level reference                  | Subagents (question design)         |
+| `references/psychometric-standards.md`           | DIF/DIS/DF metrics                         | This agent (Phase 3 validation)     |
+| `references/distractor-generation-strategies.md` | Distractor design patterns                 | Subagents (option creation)         |
+| `references/academic-rigor-tiers.md`             | T1-T3 difficulty frameworks                | This agent (Phase 1 tier selection) |
 
 ---
 
