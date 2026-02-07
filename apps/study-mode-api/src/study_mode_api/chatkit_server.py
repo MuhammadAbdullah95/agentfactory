@@ -359,9 +359,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                     else:
                         # Default: insufficient balance
                         error_text = (
-                            f"Insufficient balance (need {required:,} tokens, "
-                            f"have {available_balance:,}). "
-                            f"Please add more tokens to continue."
+                            f"Insufficient balance (need {required:,} credits, "
+                            f"have {available_balance:,} credits). "
+                            f"Please add more credits to continue."
                         )
 
                     logger.warning(

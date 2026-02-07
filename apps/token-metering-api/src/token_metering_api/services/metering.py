@@ -184,7 +184,7 @@ class MeteringService:
                             ),
                             "balance": account.balance,
                             "available_balance": effective_balance - int(reserved_total),
-                            "required": estimated_tokens,
+                            "required": estimated_credits,
                             "is_expired": False,
                         }
 
@@ -201,7 +201,7 @@ class MeteringService:
                             "balance": account.balance,
                             "available_balance": effective_balance
                             - (int(reserved_total) - estimated_credits),
-                            "required": estimated_tokens,
+                            "required": estimated_credits,
                             "is_expired": False,
                         }
 
@@ -264,7 +264,7 @@ class MeteringService:
             "message": "Insufficient balance for request",
             "balance": account.balance,
             "available_balance": effective_balance,
-            "required": estimated_tokens,
+            "required": estimated_credits,
             "is_expired": False,
         }
 
