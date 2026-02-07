@@ -40,14 +40,14 @@ USER appuser
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV PORT=8001
+ENV PORT=8000
 
 # Expose port
-EXPOSE 8001
+EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import httpx; httpx.get('http://localhost:8001/health')" || exit 1
+    CMD python -c "import httpx; httpx.get('http://localhost:${PORT}/health')" || exit 1
 
-# Run with uvicorn
-CMD ["uvicorn", "token_metering_api.main:app", "--host", "0.0.0.0", "--port", "8001"]
+# Run with uvicorn (shell form so $PORT is expanded at runtime)
+CMD uvicorn token_metering_api.main:app --host 0.0.0.0 --port $PORT
