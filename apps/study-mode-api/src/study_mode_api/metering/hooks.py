@@ -14,6 +14,41 @@ from .client import MeteringClient, get_metering_client
 
 logger = logging.getLogger(__name__)
 
+# Token estimation constants
+TOKENS_PER_WORD = 1  # Simple 1:1 for now; swap for tokenizer later
+OUTPUT_BUFFER = 800  # Expected output tokens (typical teaching response)
+MIN_ESTIMATE = 500  # Floor — never estimate below this
+
+
+def estimate_tokens_from_context(
+    metadata: dict[str, Any],
+    agent: Agent[Any],
+) -> int:
+    """Estimate total tokens from available context (input + expected output).
+
+    Counts words in lesson content and agent instructions, converts to tokens,
+    adds an output buffer. Falls back to static default if no content available.
+    """
+    word_count = 0
+
+    # Lesson content (usually the largest component)
+    lesson_content = metadata.get("lesson_content", "")
+    if lesson_content:
+        word_count += len(lesson_content.split())
+
+    # Agent instructions (system prompt)
+    raw = getattr(agent, "instructions", None)
+    instructions = raw if isinstance(raw, str) else ""
+    if instructions:
+        word_count += len(instructions.split())
+
+    if word_count == 0:
+        return settings.metering_default_estimate
+
+    input_tokens = int(word_count * TOKENS_PER_WORD)
+    total = input_tokens + OUTPUT_BUFFER
+    return max(total, MIN_ESTIMATE)
+
 
 class MeteringHooks(RunHooks[AgentContext]):
     """
@@ -66,10 +101,13 @@ class MeteringHooks(RunHooks[AgentContext]):
                 f"[Metering] on_agent_start: user={user_id}, request={request_id}"
             )
 
+            estimated = estimate_tokens_from_context(req_ctx.metadata, agent)
+            logger.info(f"[Metering] Estimated tokens: {estimated}")
+
             result = await self.client.check(
                 user_id=user_id,
                 request_id=request_id,
-                estimated_tokens=settings.metering_default_estimate,
+                estimated_tokens=estimated,
                 model=agent.model if isinstance(agent.model, str) else "deepseek-chat",
                 lesson_path=lesson_path,
                 auth_token=auth_token,
