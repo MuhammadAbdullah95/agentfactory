@@ -116,7 +116,8 @@ class BlockedResponse(BaseModel):
         ..., description="effective_balance - reserved_total"
     )
     required: int = Field(
-        ..., description="Estimated credits required (or estimated_tokens for pre-estimation errors)"
+        ...,
+        description="Estimated credits required (or tokens for pre-estimation errors)",
     )
     is_expired: bool
 
