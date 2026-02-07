@@ -9,9 +9,9 @@ DELETE FROM pricing;
 INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active, effective_date, created_at)
 VALUES ('deepseek-chat', 0.00014, 0.00028, 64000, 'deepseek-v3.2', true, CURRENT_DATE, NOW());
 
--- GPT-5 Nano (study-mode-api triage agent) - $0.15/$0.60 per 1M tokens
+-- GPT-5 Nano (study-mode-api triage agent) - $0.05/$0.40 per 1M tokens
 INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active, effective_date, created_at)
-VALUES ('gpt-5-nano-2025-08-07', 0.00015, 0.00060, 128000, 'gpt5-nano-v1', true, CURRENT_DATE, NOW());
+VALUES ('gpt-5-nano-2025-08-07', 0.00005, 0.00040, 128000, 'gpt5-nano-v1', true, CURRENT_DATE, NOW());
 
 -- Claude Sonnet 4 - $3/$15 per 1M tokens
 INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active, effective_date, created_at)

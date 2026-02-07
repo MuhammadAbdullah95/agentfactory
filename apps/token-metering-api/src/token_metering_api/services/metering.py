@@ -451,7 +451,12 @@ class MeteringService:
         # Try cache first
         cached = await get_cached_pricing(self.redis, model)
         if cached:
-            logger.debug(f"[Metering] Pricing cache hit for {model}")
+            logger.info(
+                f"[Metering] Pricing for {model} (cached): "
+                f"version={cached.get('version', 'unknown')}, "
+                f"input=${cached.get('input')}/1k, "
+                f"output=${cached.get('output')}/1k"
+            )
             # Add max_tokens from default if not in cached data
             if "max_tokens" not in cached:
                 cached["max_tokens"] = DEFAULT_PRICING.get("max_tokens", 128_000)
@@ -476,11 +481,21 @@ class MeteringService:
                 "version": pricing.pricing_version,
                 "max_tokens": pricing.max_tokens,  # FR-069: Include max_tokens
             }
+            logger.info(
+                f"[Metering] Pricing for {model}: "
+                f"version={pricing.pricing_version}, "
+                f"input=${pricing.input_cost_per_1k}/1k, "
+                f"output=${pricing.output_cost_per_1k}/1k"
+            )
             # Cache the result
             await set_pricing_cache(self.redis, model, pricing_dict)
             return pricing_dict
 
         # Fallback to default pricing (FR-049)
+        logger.warning(
+            f"[Metering] No pricing found for {model}, using DEFAULT_PRICING "
+            f"(version={DEFAULT_PRICING['version']})"
+        )
         return DEFAULT_PRICING
 
     def _calculate_base_cost(

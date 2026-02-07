@@ -28,7 +28,7 @@ NEW USER (20k credits) → USE BALANCE (cost-weighted) → BLOCKED at 0 → PAY/
 | Model         | Base Cost | With 20% Markup | Credits | Interactions per 20k |
 | ------------- | --------- | --------------- | ------- | -------------------- |
 | DeepSeek Chat | $0.000525 | $0.000630       | 7       | ~2,857               |
-| GPT-5 Nano    | $0.000938 | $0.001125       | 12      | ~1,666               |
+| GPT-5 Nano    | $0.000563 | $0.000675       | 7       | ~2,857               |
 
 ---
 
@@ -175,6 +175,7 @@ The LLM call fails after pre-check but before deduction.
 - **FR-070**: System MUST convert raw tokens to cost-weighted credits using the single `_calculate_credits` conversion path for both estimates and finals.
 - **FR-071**: Over-reservation is acceptable; under-reservation is NEVER allowed. Estimation MUST use pessimistic pricing (`max(input_rate, output_rate)` for both halves).
 - **FR-072**: Audit record MUST include: model, input_tokens, output_tokens, pricing snapshot (base_cost_usd, total_cost_usd), credits_deducted, balance_after, and pricing_version.
+- **FR-075**: Route handlers MUST log model, pricing_version, and credits for all metering operations. Pricing selection MUST log the resolved pricing version (or DEFAULT_PRICING fallback) at INFO level.
 
 #### Balance System
 
@@ -185,7 +186,7 @@ The LLM call fails after pre-check but before deduction.
 - **FR-011**: New users MUST start with `STARTER_CREDITS` (default 20,000) in their balance.
 - **FR-012**: System MUST create a `starter` allocation audit record when new account is created.
 
-**Budget Rationale**: `STARTER_CREDITS = 20,000` represents a ~$2.00 budget. At 2,500 tokens per interaction: DeepSeek costs ~7 credits (~2,857 interactions), GPT-5 Nano costs ~12 credits (~1,666 interactions). Credits = `ceil(cost_with_markup_usd * CREDITS_PER_DOLLAR)` where `CREDITS_PER_DOLLAR = 10,000`.
+**Budget Rationale**: `STARTER_CREDITS = 20,000` represents a ~$2.00 budget. At 2,500 tokens per interaction: DeepSeek costs ~7 credits (~2,857 interactions), GPT-5 Nano costs ~7 credits (~2,857 interactions). Credits = `ceil(cost_with_markup_usd * CREDITS_PER_DOLLAR)` where `CREDITS_PER_DOLLAR = 10,000`.
 
 #### Inactivity Expiry
 
@@ -657,16 +658,16 @@ Pricing
 
 ## Configuration
 
-| Variable                    | Default                                                | Description                                             |
-| --------------------------- | ------------------------------------------------------ | ------------------------------------------------------- |
-| `STARTER_CREDITS`           | 20000                                                  | Credits granted to new users (~$2.00 budget)            |
-| `CREDITS_PER_DOLLAR`        | 10000                                                  | Credits per USD (1 credit = $0.0001)                    |
-| `INACTIVITY_EXPIRY_DAYS`    | 365                                                    | Days of inactivity before balance expires               |
-| `RESERVATION_TTL`           | 600                                                    | TTL for Redis reservations (10 min, handles agent runs) |
-| `MARKUP_PERCENT`            | 20.0                                                   | Markup percentage on base cost                          |
-| `DEFAULT_MAX_OUTPUT_TOKENS` | 4096                                                   | Default max output tokens for estimation                |
-| `DEFAULT_PRICING`           | `{input: 0.001, output: 0.002, version: "default-v1"}` | Fallback pricing when model not found                   |
-| `FAIL_OPEN`                 | true                                                   | Allow requests when Redis is down                       |
+| Variable                    | Default                                                | Description                                  |
+| --------------------------- | ------------------------------------------------------ | -------------------------------------------- |
+| `STARTER_CREDITS`           | 20000                                                  | Credits granted to new users (~$2.00 budget) |
+| `CREDITS_PER_DOLLAR`        | 10000                                                  | Credits per USD (1 credit = $0.0001)         |
+| `INACTIVITY_EXPIRY_DAYS`    | 365                                                    | Days of inactivity before balance expires    |
+| `RESERVATION_TTL`           | 300                                                    | TTL for Redis reservations (5 min)           |
+| `MARKUP_PERCENT`            | 20.0                                                   | Markup percentage on base cost               |
+| `DEFAULT_MAX_OUTPUT_TOKENS` | 4096                                                   | Default max output tokens for estimation     |
+| `DEFAULT_PRICING`           | `{input: 0.001, output: 0.002, version: "default-v1"}` | Fallback pricing when model not found        |
+| `FAIL_OPEN`                 | true                                                   | Allow requests when Redis is down            |
 
 ---
 

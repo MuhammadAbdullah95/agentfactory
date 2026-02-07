@@ -49,7 +49,9 @@ async def check_balance(
     """
     logger.info(
         f"[Metering] /check: user={check_request.user_id}, "
-        f"request_id={check_request.request_id}"
+        f"request_id={check_request.request_id}, "
+        f"model={check_request.model}, "
+        f"estimated_tokens={check_request.estimated_tokens}"
     )
 
     # Verify user_id matches JWT subject (FR-051)
@@ -74,7 +76,10 @@ async def check_balance(
     )
 
     if result.get("allowed"):
-        logger.info(f"[Metering] /check allowed: reservation={result['reservation_id']}")
+        logger.info(
+            f"[Metering] /check allowed: reservation={result['reservation_id']}, "
+            f"reserved_credits={result['reserved_credits']}"
+        )
         return CheckResponse(
             allowed=True,
             reservation_id=result["reservation_id"],
@@ -123,7 +128,10 @@ async def deduct_tokens(
         200: DeductResponse with transaction details
     """
     total_tokens = deduct_request.input_tokens + deduct_request.output_tokens
-    logger.info(f"[Metering] /deduct: user={deduct_request.user_id}, tokens={total_tokens}")
+    logger.info(
+        f"[Metering] /deduct: user={deduct_request.user_id}, "
+        f"model={deduct_request.model}, tokens={total_tokens}"
+    )
 
     # Verify user_id matches JWT subject (FR-051)
     if deduct_request.user_id != user.id:
@@ -150,7 +158,12 @@ async def deduct_tokens(
     )
 
     status = result.get("status", "finalized")
-    logger.info(f"[Metering] /deduct {status}: tx={result['transaction_id']}")
+    logger.info(
+        f"[Metering] /deduct {status}: tx={result['transaction_id']}, "
+        f"credits={result['credits_deducted']}, "
+        f"pricing={result['pricing_version']}, "
+        f"balance={result['balance_after']}"
+    )
 
     return DeductResponse(
         status=status,
