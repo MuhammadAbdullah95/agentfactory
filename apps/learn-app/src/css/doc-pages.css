@@ -1167,20 +1167,20 @@ article {
   position: relative;
 }
 
-/* Read words - already spoken (teal color, fully visible) */
+/* Read words - already spoken (blue color, fully visible) */
 .voice-word--read {
-  color: #00897b;
+  color: #2563eb;
   opacity: 1;
   filter: blur(0);
 }
 
 [data-theme='dark'] .voice-word--read {
-  color: #4db6ac;
+  color: #60a5fa;
 }
 
 /* Current word - being spoken (highlighted, scaled, bold) */
 .voice-word--current {
-  color: #00695c;
+  color: #1d4ed8;
   font-weight: 700;
   transform: scale(1.1);
   display: inline-block;
@@ -1191,8 +1191,8 @@ article {
 }
 
 [data-theme='dark'] .voice-word--current {
-  color: #80cbc4;
-  text-shadow: 0 0 8px rgba(128, 203, 196, 0.5);
+  color: #93c5fd;
+  text-shadow: 0 0 8px rgba(147, 197, 253, 0.5);
 }
 
 /* Pending words - not yet spoken (blurred, faded, grayscale) */
@@ -1215,19 +1215,19 @@ article {
   opacity: 1;
   filter: blur(0);
   transform: scale(1.02);
-  background: rgba(0, 137, 123, 0.05);
+  background: rgba(37, 99, 235, 0.05);
   box-shadow:
-    0 4px 20px rgba(0, 137, 123, 0.1),
-    inset 0 0 0 1px rgba(0, 137, 123, 0.1);
+    0 4px 20px rgba(37, 99, 235, 0.1),
+    inset 0 0 0 1px rgba(37, 99, 235, 0.1);
   z-index: 10;
   position: relative;
 }
 
 [data-theme='dark'] .voice-block--active {
-  background: rgba(77, 182, 172, 0.1);
+  background: rgba(96, 165, 250, 0.1);
   box-shadow:
-    0 4px 20px rgba(77, 182, 172, 0.15),
-    inset 0 0 0 1px rgba(77, 182, 172, 0.15);
+    0 4px 20px rgba(96, 165, 250, 0.15),
+    inset 0 0 0 1px rgba(96, 165, 250, 0.15);
 }
 
 /* Inactive blocks - not being read (dimmed, slight blur) */
