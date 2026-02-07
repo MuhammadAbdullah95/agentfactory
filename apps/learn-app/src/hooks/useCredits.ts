@@ -12,7 +12,7 @@ interface UseCreditsResult {
   refresh: () => void;
 }
 
-const LOW_BALANCE_THRESHOLD_USD = 0.25;
+const LOW_BALANCE_THRESHOLD_USD = 0.01;
 const CREDITS_TO_USD_DIVISOR = 10000;
 
 function formatUsd(usd: number): string {
