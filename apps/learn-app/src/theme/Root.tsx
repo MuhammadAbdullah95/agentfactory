@@ -5,6 +5,7 @@
  * 1. AuthProvider - Enables authentication state across the site
  * 2. PyodideProvider - Enables direct Pyodide integration for interactive Python execution
  * 3. AnalyticsTracker - Tracks user interactions (page views, scroll depth, etc.)
+ * 4. VoiceReadingProvider - Enables word-by-word reading with speech synthesis
  *
  * GA4 is configured via the GA4_MEASUREMENT_ID environment variable.
  * If not set, analytics will not load.
@@ -16,6 +17,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { PyodideProvider } from '@/contexts/PyodideContext';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { StudyModeProvider } from '@/contexts/StudyModeContext';
+import { VoiceReadingProvider } from '@/contexts/VoiceReadingContext';
 
 export default function Root({ children }: { children: React.ReactNode }) {
   const { siteConfig } = useDocusaurusContext();
@@ -26,9 +28,11 @@ export default function Root({ children }: { children: React.ReactNode }) {
     <AuthProvider authUrl={authUrl} oauthClientId={oauthClientId}>
       <PyodideProvider>
         <StudyModeProvider>
-          <AnalyticsTracker>
-            {children}
-          </AnalyticsTracker>
+          <VoiceReadingProvider>
+            <AnalyticsTracker>
+              {children}
+            </AnalyticsTracker>
+          </VoiceReadingProvider>
         </StudyModeProvider>
       </PyodideProvider>
     </AuthProvider>
