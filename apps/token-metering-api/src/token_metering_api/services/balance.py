@@ -82,8 +82,12 @@ class BalanceService:
             try:
                 cache_key = f"{BALANCE_KEY_PREFIX}{user_id}"
                 cache_value = json.dumps(balance_dict)
-                await redis.setex(cache_key, BALANCE_CACHE_TTL_SECONDS, cache_value)
-                logger.info(f"[Cache] Cached balance for {user_id} (key={cache_key}, ttl={BALANCE_CACHE_TTL_SECONDS}s)")
+                ttl = BALANCE_CACHE_TTL_SECONDS
+                await redis.setex(cache_key, ttl, cache_value)
+                logger.info(
+                    f"[Cache] Cached balance for {user_id} "
+                    f"(key={cache_key}, ttl={ttl}s)"
+                )
             except Exception as e:
                 logger.warning(f"[Cache] Failed to cache balance for {user_id}: {e}")
 
