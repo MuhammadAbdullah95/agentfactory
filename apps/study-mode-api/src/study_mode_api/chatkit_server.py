@@ -348,8 +348,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
                     if is_expired:
                         error_text = (
-                            "Your account has been inactive for too long. "
-                            "Please contact support to reactivate your balance."
+                            "Your account has been inactive for over"
+                            " a year and your credits have expired."
+                            " Please contact support to reactivate."
                         )
                     elif error_code == "ACCOUNT_SUSPENDED":
                         error_text = (
@@ -357,11 +358,17 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                             "Please contact support for assistance."
                         )
                     else:
-                        # Default: insufficient balance
+                        # Default: insufficient balance — show USD, not raw credits
+                        available_usd = available_balance / 10000
+                        required_usd = required / 10000
+                        fmt = ".4f" if required_usd < 0.1 else ".2f"
+                        avail = f"${available_usd:{fmt}}"
+                        needed = f"${required_usd:{fmt}}"
                         error_text = (
-                            f"Insufficient balance (need {required:,} credits, "
-                            f"have {available_balance:,} credits). "
-                            f"Please add more credits to continue."
+                            f"You've used your free credits. "
+                            f"Your balance is {avail} but this "
+                            f"request needs {needed}. "
+                            f"Please top up to continue learning."
                         )
 
                     logger.warning(

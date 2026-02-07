@@ -5,7 +5,7 @@ Provides read-through caching for:
 2. Pricing tables - cached since pricing changes are rare
 
 Cache keys:
-- metering:balance:{user_id} - User balance (TTL: 60s)
+- metering:balance:{user_id} - User balance (TTL: 300s, invalidated on mutations)
 - metering:pricing:{model} - Model pricing (TTL: 300s / 5 min)
 """
 
@@ -19,7 +19,7 @@ from redis.asyncio import Redis
 logger = logging.getLogger(__name__)
 
 # Cache TTLs
-BALANCE_CACHE_TTL_SECONDS = 60  # 1 minute - balance can change frequently
+BALANCE_CACHE_TTL_SECONDS = 300  # 5 minutes - mutations invalidate immediately, TTL is safety net
 PRICING_CACHE_TTL_SECONDS = 300  # 5 minutes - pricing changes are rare
 
 # Cache key prefixes

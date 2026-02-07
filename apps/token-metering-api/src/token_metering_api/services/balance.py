@@ -6,12 +6,15 @@ v6 Changes:
 - TokenAllocation queries are for audit history only
 """
 
+import json
 import logging
 from typing import Any
 
+from redis.asyncio import Redis
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from ..core.cache import BALANCE_CACHE_TTL_SECONDS, BALANCE_KEY_PREFIX
 from ..models import (
     TokenAccount,
     TokenAllocation,
@@ -28,14 +31,30 @@ class BalanceService:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_balance(self, user_id: str) -> dict[str, Any] | None:
+    async def get_balance(
+        self, user_id: str, redis: Redis | None = None
+    ) -> dict[str, Any] | None:
         """
         Get user's balance and usage information (v5 - O(1) read).
 
         Reads balance directly from TokenAccount (FR-004, FR-007).
         Uses effective_balance for inactivity expiry check (FR-026).
+        Checks Redis cache first if available.
         """
-        # Get account
+        # 1. Check Redis cache first
+        if redis is None:
+            logger.debug("[Cache] Redis not available for balance lookup")
+        else:
+            try:
+                cached = await redis.get(f"{BALANCE_KEY_PREFIX}{user_id}")
+                if cached is not None:
+                    logger.info(f"[Cache] Balance cache hit for {user_id}")
+                    return json.loads(cached)
+                logger.info(f"[Cache] Balance cache miss for {user_id}")
+            except Exception as e:
+                logger.warning(f"[Cache] Failed to read balance for {user_id}: {e}")
+
+        # 2. Cache miss → query DB
         result = await self.session.execute(
             select(TokenAccount).where(TokenAccount.user_id == user_id)
         )
@@ -47,7 +66,7 @@ class BalanceService:
         # v6: Use effective_balance (respects inactivity expiry)
         effective_balance = account.effective_balance
 
-        return {
+        balance_dict = {
             "user_id": account.user_id,
             "status": account.status.value,
             "balance": account.balance,  # Actual stored balance
@@ -57,6 +76,22 @@ class BalanceService:
             else None,
             "is_expired": account.is_expired,
         }
+
+        # 3. Cache the response dict
+        if redis is not None:
+            try:
+                cache_key = f"{BALANCE_KEY_PREFIX}{user_id}"
+                cache_value = json.dumps(balance_dict)
+                ttl = BALANCE_CACHE_TTL_SECONDS
+                await redis.setex(cache_key, ttl, cache_value)
+                logger.info(
+                    f"[Cache] Cached balance for {user_id} "
+                    f"(key={cache_key}, ttl={ttl}s)"
+                )
+            except Exception as e:
+                logger.warning(f"[Cache] Failed to cache balance for {user_id}: {e}")
+
+        return balance_dict
 
     async def get_allocations(self, user_id: str) -> list[dict[str, Any]]:
         """
