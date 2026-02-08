@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-08
+- fix: update L04 exercise path to match renamed module folder ([#699](https://github.com/panaversity/agentfactory/pull/699))
+
+### 2026-02-08
 - feat: Add exercise lab sections to Ch3 Lessons 04 and 05 ([#698](https://github.com/panaversity/agentfactory/pull/698))
 
 ### 2026-02-08
