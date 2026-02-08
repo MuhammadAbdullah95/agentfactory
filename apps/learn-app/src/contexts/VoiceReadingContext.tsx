@@ -92,6 +92,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
     /**
      * Clear all fallback timers to prevent memory leaks and orphaned intervals.
      * Centralized cleanup function used across all handlers.
+     * Empty dependency array is safe: only accesses stable refs, not state or props.
      */
     const clearFallbackTimers = useCallback(() => {
         if (fallbackTimerRef.current) {
