@@ -386,16 +386,17 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
             // Only process if this is still the current utterance
             if (currentUtteranceIdRef.current !== thisUtteranceId) return;
 
-            // Any boundary event means onboundary is working - disable fallback timer
-            // (some browsers/voices fire "sentence" but not "word")
-            boundaryFiredRef.current = true;
-            if (fallbackTimerRef.current) {
-                clearInterval(fallbackTimerRef.current);
-                fallbackTimerRef.current = null;
-            }
-
-            // Only perform word-level highlighting when we get word boundaries
+            // Only perform word-level handling (including disabling the fallback)
+            // when we get word boundaries. Some browsers/voices fire "sentence"
+            // but not "word"; in those cases we keep the fallback timer running.
             if (event.name === "word") {
+                // Word boundaries are working, so we can disable the fallback timer.
+                boundaryFiredRef.current = true;
+                if (fallbackTimerRef.current) {
+                    clearInterval(fallbackTimerRef.current);
+                    fallbackTimerRef.current = null;
+                }
+
                 const charIndex = event.charIndex;
                 const foundWord = adjustedBoundaries.find(wb =>
                     charIndex >= wb.start && charIndex < wb.end
