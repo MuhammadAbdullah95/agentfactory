@@ -162,6 +162,63 @@ If you reject, you can ask Claude to try differently. That's steering.
 
 ---
 
+## Problem Solving Lab
+
+You can now talk to Claude, create files, and approve actions. That's all you need to start solving real problems. Let's practice.
+
+### Get the Exercise Pack
+
+Download the exercises from GitHub:
+
+```bash
+git clone https://github.com/panaversity/claude-code-exercises.git
+```
+
+Or go to [github.com/panaversity/claude-code-exercises](https://github.com/panaversity/claude-code-exercises), click **Code → Download ZIP**, and extract the folder.
+
+### What's Available
+
+These four modules are designed for where you are right now — no extra knowledge required.
+
+| Module | What You'll Practice | Time |
+|--------|---------------------|------|
+| 1. File Organization | Organize 35 messy files by describing rules to Claude | 20-30 min |
+| 2. Research & Synthesis | Research topics and create comparison documents | 20-30 min |
+| 3. Data Wrangling | Clean messy spreadsheets and analyze survey data | 20-30 min |
+| 4. Document Creation | Transform raw notes into polished documents | 20-30 min |
+
+### Try It: Exercise 1.1 (Messy Downloads)
+
+Open the first exercise and start Claude:
+
+```bash
+cd claude-code-exercises/basics/module-1/exercise-1.1-messy-downloads
+claude
+```
+
+Then tell Claude what you want:
+
+> "Read INSTRUCTIONS.md and organize these files into a logical folder structure. Sort by file type, use consistent naming, and create a summary of what you organized."
+
+Notice what happened — you described the **outcome** you wanted, not the steps. Claude figured out how to do it. This is the core skill: specifying problems clearly.
+
+Was the result what you expected? If not, tell Claude what to change and try again. That's iteration — and it's how you get better at working with AI.
+
+:::tip Problem-Solving Framework
+Use this for every exercise:
+1. **Define** — What am I trying to accomplish?
+2. **Specify** — Describe the outcome, constraints, format
+3. **Execute** — Run it with Claude
+4. **Verify** — Does the output match what I asked for?
+5. **Iterate** — What would I change? Try again.
+:::
+
+### Recommended Path
+
+Complete at least **Module 1** and **Module 3** (6 exercises) before continuing to Lesson 05. The remaining exercises are available anytime — come back to them whenever you want more practice.
+
+---
+
 ## Next: Extending Claude (Preview)
 
 Once you master basic conversations, you'll start asking more ambitious questions:

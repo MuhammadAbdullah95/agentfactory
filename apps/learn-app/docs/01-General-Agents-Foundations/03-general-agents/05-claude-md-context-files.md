@@ -256,6 +256,36 @@ In later lessons, you'll see how subagents (Lesson 09) and skills (Lesson 08) in
 
 ---
 
+## Continue Practicing: Systematic Problem Solving
+
+You now have a powerful advantage: CLAUDE.md gives Claude persistent context about your project. Try setting up a CLAUDE.md in your exercises folder before starting these modules — you'll see how context changes Claude's responses.
+
+### Set Up Context for Your Exercises
+
+```bash
+cd claude-code-exercises/basics
+claude "Create a CLAUDE.md for this exercises folder. Note that I'm a beginner
+practicing problem-solving with AI. I prefer clear explanations and step-by-step
+verification of results."
+```
+
+Now every exercise session starts with Claude already knowing your preferences.
+
+### What's Available
+
+| Module | What You'll Practice | Why CLAUDE.md Helps |
+|--------|---------------------|---------------------|
+| 5. Process Automation | Reusable specs, batch operations | Claude remembers your naming conventions |
+| 6. Problem Solving | Multi-turn planning, constraint changes | Claude maintains project context across turns |
+| 7. Quality Control | Verify output, stress-test specifications | Claude knows your quality standards |
+| 8. Capstone Projects | End-to-end real projects | Full context = better results |
+
+These modules build on everything from Modules 1-4. If you haven't completed at least Module 1 and Module 3, go back to the exercises in Lesson 04 first.
+
+See [basics/README.md](https://github.com/panaversity/claude-code-exercises/tree/main/basics) for full exercise descriptions.
+
+---
+
 ## Co-Learning: Improving CLAUDE.md Together
 
 Let's see the **Three Roles Framework** in action—where you and Claude Code learn from each other to create a better CLAUDE.md.
