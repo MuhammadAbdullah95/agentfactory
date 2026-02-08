@@ -470,7 +470,8 @@ In this lesson, you mastered Create and Read operations. But data is never stati
 | L4     | Connect tables with relationships | Foreign keys and navigation patterns  |
 | L5     | Make operations atomic and safe  | Transaction patterns and error handling |
 | L6     | Deploy to the cloud              | Connection pooling and Neon setup     |
-| L7     | Build the complete Budget Tracker | Capstone integration                  |
+| L7     | Combine SQL + bash for hybrid patterns | Tool choice framework              |
+| L8     | Build the complete Budget Tracker | Capstone integration                  |
 
 Each lesson builds on the previous one. You can Create and Read. Next, you'll connect tables so you can answer questions like "Show me all expenses for User 1" without writing complex filter logic.
 

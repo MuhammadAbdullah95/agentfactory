@@ -1,10 +1,10 @@
 ---
 sidebar_position: 2
-title: "From CSV to Databases"
+title: "When Bash and Python Hit the Wall"
 chapter: 9
 lesson: 1
 duration_minutes: 20
-description: "Understand why databases exist by examining what breaks when CSV files grow"
+description: "Understand why bash and Python fail at structured queries, and what databases solve"
 keywords: ["CSV limitations", "relational databases", "tables", "foreign keys", "queries", "persistence", "data integrity"]
 
 # HIDDEN SKILLS METADATA
@@ -66,13 +66,26 @@ differentiation:
   extension_for_advanced: "Explore normalization concepts; discuss when denormalization makes sense for read-heavy workloads"
   remedial_for_struggling: "Focus only on CSV vs tables comparison; save relationships and foreign keys for next lesson"
 ---
-# From CSV to Databases
+# When Bash and Python Hit the Wall
 
-In L0, you created your `/database-deployment` skill and saw what a production-ready database application looks like. Now let's understand *why* databases exist by examining what breaks when you try to use CSV files for real-world data persistence.
+In Chapter 8, you built a tax preparation pipeline: download bank CSVs, categorize expenses, generate a report. One command processed a full year of transactions. Your toolkit grew — bash for file operations (Chapter 7), Python for computation and categorization (Chapter 8). Powerful tools.
 
-You've processed CSV files in Chapter 8. You know how to load them, filter rows, and extract data. But every time your script ran, it started fresh. Every modification required saving a new file. There was no memory, no history, no way to answer questions about your data without writing custom Python code.
+But imagine your accountant asks a follow-up question next week: *"Show me all medical expenses over $50 from March through June."* With your current tools, you'd write new Python code — load the CSV, loop through rows, parse dates, filter by category, filter by amount, filter by date range. And next month when they ask "compare Q1 vs Q2 spending by category"? More new code. Every new question requires a new script.
 
-This lesson explains the problem databases solve. No coding yet—just the concepts that will make everything in L2-L6 click into place.
+This is the wall. Your tools can process data, but they can't *query* it.
+
+Researchers at Braintrust (an AI evaluation platform) tested this exact problem at scale. They gave agents 68,000 structured records and asked questions like the ones above. The results:
+
+| Approach | Accuracy | Tokens Used | Cost |
+|----------|----------|-------------|------|
+| **SQL Queries** | 100% | 155K | $0.51 |
+| **Bash + grep/awk** | 52.7% | 1.06M | $3.34 |
+
+The bash agent generated sophisticated shell commands — `find`, `grep`, `jq`, `awk` chains — but still only got half the answers right, using 7x more resources. Why? **Schema clarity.** Bash doesn't know your data structure. It doesn't know that `amount` is a number, that `date` is a date, or that expenses belong to users. It has to guess. SQL tools don't guess — they know, because you define the schema.
+
+This lesson explains why that matters. No coding yet — just the concepts that make everything in L2-L8 click into place.
+
+In L0, you created your `/database-deployment` skill scaffold. Now let's fill in the "why" — and add another tool to your growing toolkit.
 
 ## The Tax Prep Problem
 
@@ -244,9 +257,10 @@ This lesson established vocabulary and motivation. Here's how you'll apply these
 | L4     | Connect tables with relationships       | Foreign keys and join patterns       |
 | L5     | Make operations atomic and safe         | Transaction patterns                 |
 | L6     | Deploy to Neon PostgreSQL               | Connection pooling and cloud config  |
-| L7     | Integrate everything into one app       | Complete, production-ready skill     |
+| L7     | Combine SQL + bash for hybrid patterns  | Tool choice framework for Part 2     |
+| L8     | Integrate everything into one app       | Complete, production-ready skill     |
 
-Each lesson adds to your `/database-deployment` skill. By L7, you'll have a complete reference for any future database project.
+Each lesson adds to your `/database-deployment` skill. By L8, you'll have a complete reference for any future database project — and a framework for choosing the right tool for any data task.
 
 ## Try With AI
 

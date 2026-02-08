@@ -1,8 +1,8 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 title: "Capstone - Budget Tracker Complete App"
 chapter: 9
-lesson: 7
+lesson: 8
 duration_minutes: 40
 description: "Build and run the complete Budget Tracker application integrating models, CRUD operations, relationships, transactions, and Neon deployment"
 keywords: ["capstone", "budget tracker", "SQLAlchemy", "Neon", "complete application", "integration", "CRUD", "transactions", "relationships", "production"]
@@ -80,17 +80,16 @@ differentiation:
 ---
 # Capstone - Budget Tracker Complete App
 
-In L6, you connected your Budget Tracker to Neon. Your data now persists in the cloud, survives restarts, and can be accessed from anywhere.
+Throughout this chapter, you learned every piece of the database puzzle:
 
-Throughout this chapter, you learned the pieces:
-
-- **L1**: Created your `/database-deployment` skill scaffold
-- **L2**: Understood why databases beat CSV files
-- **L3**: Defined models as Python classes
-- **L4**: Built CRUD operations (Create, Read, Update, Delete)
-- **L5**: Connected tables with relationships and joins
-- **L6**: Protected data integrity with transactions
-- **L7**: Deployed to Neon with connection pooling
+- **L0**: Created your `/database-deployment` skill scaffold
+- **L1**: Understood why databases beat CSV files
+- **L2**: Defined models as Python classes
+- **L3**: Built CRUD operations (Create, Read, Update, Delete)
+- **L4**: Connected tables with relationships and joins
+- **L5**: Protected data integrity with transactions
+- **L6**: Deployed to Neon with connection pooling
+- **L7**: Learned hybrid SQL + bash verification patterns
 
 Now you put it all together. You'll run a complete, production-ready Budget Tracker application that demonstrates everything you've learned. This isn't a toy example. This is code you can actually use, extend, and share.
 
@@ -114,7 +113,26 @@ Research from Braintrust (an AI evaluation platform) tested this exact question.
 
 The research showed another insight: **schema clarity is critical**. The bash agent failed partly because "it didn't know the structure of the JSON files." Your SQLAlchemy models DO define that structure explicitly, which is why queries work reliably.
 
-This is why professional applications—from startups to enterprises—use databases for anything more than toy data. The architectural choice you're making in this lesson is the same one made in production systems worldwide.
+This is why professional applications — from startups to enterprises — use databases for anything more than toy data. The architectural choice you're making in this lesson is the same one made in production systems worldwide.
+
+### The Tool Choice Story
+
+Looking back across Part 2, you've assembled a toolkit where each tool excels at specific data tasks:
+
+| Data Task | Best Tool | Why | Chapter |
+|-----------|-----------|-----|---------|
+| File manipulation | Bash | Native, fast, universal | Ch 7 |
+| Computation | Python | Deterministic, decimal-safe | Ch 8 |
+| Structured queries | SQL (SQLAlchemy) | Schema-aware, 100% accuracy | Ch 9 |
+| Exploration + verification | Hybrid (SQL + bash) | Self-checking, catches edge cases | Ch 9 L7 |
+
+### What This Means for Your Work
+
+When AI agents query YOUR database, schema clarity determines accuracy. Your Budget Tracker models give Claude structural awareness that `grep` never has. The `Expense` model with its `user_id`, `category_id`, `amount`, and `date` columns tells any query engine exactly what questions it can answer and how to answer them.
+
+This is why production AI systems use databases, not file parsing. The same ORM patterns you've learned in this chapter — models, sessions, relationships, transactions — are what power every real application that needs to remember, relate, and reliably query data. Your Budget Tracker isn't a toy; it's the same architecture pattern used at every scale.
+
+In L7, you learned how combining SQL with bash verification creates self-checking data pipelines. Now you'll see all these patterns working together in one application.
 
 ## What You're Building
 
@@ -132,7 +150,7 @@ The complete Budget Tracker includes these features:
 | **Spending by category** | `get_expenses_by_category()` with joins  | L5 (Relationships) |
 | **Monthly summaries**    | `get_monthly_summary()` with aggregation | L5 (Relationships) |
 | **Budget transfers**     | `transfer_budget()` atomic transaction   | L6 (Transactions)  |
-| **Cloud persistence**    | Neon with connection pooling               | L7 (Neon)          |
+| **Cloud persistence**    | Neon with connection pooling               | L6 (Neon)          |
 
 **Tech stack**: SQLAlchemy ORM + Neon PostgreSQL + Python. No web framework yet. That comes in later chapters.
 
@@ -140,7 +158,7 @@ The complete Budget Tracker includes these features:
 
 Here's the full `budget-tracker-complete.py`. Every section maps directly to a lesson you've completed.
 
-### Section 1: Imports and Setup (L7)
+### Section 1: Imports and Setup (L6)
 
 ```python
 """
@@ -187,7 +205,7 @@ engine = create_engine(
 Base = declarative_base()
 ```
 
-**What you recognize**: Environment variables from L7, connection pooling from L7, `declarative_base()` from L3.
+**What you recognize**: Environment variables from L6, connection pooling from L6, `declarative_base()` from L2.
 
 ### Section 2: Models (L3)
 
@@ -243,7 +261,7 @@ class Expense(Base):
         return f"<Expense(${self.amount:.2f}, '{self.description}')>"
 ```
 
-**What you recognize**: `Column` types from L3, `ForeignKey` from L5, `relationship()` with `back_populates` from L5, `cascade="all, delete-orphan"` from L5.
+**What you recognize**: `Column` types from L2, `ForeignKey` from L4, `relationship()` with `back_populates` from L4, `cascade="all, delete-orphan"` from L4.
 
 ### Section 3: CRUD Operations (L4)
 
@@ -310,7 +328,7 @@ def delete_expense(expense_id):
         return {"success": False, "error": str(e)}
 ```
 
-**What you recognize**: `session.add()`, `session.commit()` from L4; `session.query().filter()` from L4; error handling with `try/except` from L6.
+**What you recognize**: `session.add()`, `session.commit()` from L3; `session.query().filter()` from L3; error handling with `try/except` from L5.
 
 ### Section 4: Relationship Queries (L5)
 
@@ -375,7 +393,7 @@ def get_top_expenses(user_id, limit=10):
         ).order_by(Expense.amount.desc()).limit(limit).all()
 ```
 
-**What you recognize**: `.join()` from L5, `func.sum()` and `func.count()` from L5, `.group_by()` from L5, navigation through relationships from L5.
+**What you recognize**: `.join()` from L4, `func.sum()` and `func.count()` from L4, `.group_by()` from L4, navigation through relationships from L4.
 
 ### Section 5: Transactions (L6)
 
@@ -421,7 +439,7 @@ def transfer_budget(user_id, from_category_id, to_category_id, amount):
         return {"success": False, "error": str(e)}
 ```
 
-**What you recognize**: Atomic transaction from L6 (all-or-nothing), `session.rollback()` implicit on exception from L6, paired operations from L6.
+**What you recognize**: Atomic transaction from L5 (all-or-nothing), `session.rollback()` implicit on exception from L5, paired operations from L5.
 
 ### Section 6: Utilities and Main
 
@@ -508,7 +526,7 @@ if __name__ == "__main__":
 
 ## Running the Application
 
-**Prerequisites** (from L7):
+**Prerequisites** (from L6):
 
 1. Neon account with project created
 2. `.env` file with `DATABASE_URL`
@@ -563,17 +581,17 @@ If you see this output, your complete Budget Tracker is working.
 
 | Function                       | Purpose                         | Lesson |
 | ------------------------------ | ------------------------------- | ------ |
-| `init_database()`            | Creates tables from models      | L3     |
-| `seed_data()`                | Adds sample data for testing    | L4     |
-| `create_expense()`           | CRUD Create with error handling | L4, L6 |
-| `read_expenses()`            | CRUD Read with filtering        | L4     |
-| `update_expense()`           | CRUD Update with validation     | L4     |
-| `delete_expense()`           | CRUD Delete safely              | L4     |
-| `get_monthly_summary()`      | Complex join + aggregation      | L5     |
-| `get_expenses_by_category()` | Grouping with relationships     | L5     |
-| `get_top_expenses()`         | Sorting + limiting              | L4     |
-| `transfer_budget()`          | Multi-step atomic transaction   | L6     |
-| `test_connection()`          | Verify Neon works               | L7     |
+| `init_database()`            | Creates tables from models      | L2     |
+| `seed_data()`                | Adds sample data for testing    | L3     |
+| `create_expense()`           | CRUD Create with error handling | L3, L5 |
+| `read_expenses()`            | CRUD Read with filtering        | L3     |
+| `update_expense()`           | CRUD Update with validation     | L3     |
+| `delete_expense()`           | CRUD Delete safely              | L3     |
+| `get_monthly_summary()`      | Complex join + aggregation      | L4     |
+| `get_expenses_by_category()` | Grouping with relationships     | L4     |
+| `get_top_expenses()`         | Sorting + limiting              | L3     |
+| `transfer_budget()`          | Multi-step atomic transaction   | L5     |
+| `test_connection()`          | Verify Neon works               | L6     |
 
 ## Testing Your Understanding
 
@@ -733,3 +751,5 @@ Before finishing this chapter, verify your mastery:
 **You've built something real.** This Budget Tracker works. You can use it to track your own spending. You can extend it with a web interface. You can share it with friends.
 
 More importantly, you've built a **reusable skill**. Every database application you build from now on follows this same pattern: models, sessions, CRUD, relationships, transactions, cloud deployment. This skill is now part of your permanent toolkit.
+
+**Next up**: The [Chapter Quiz](./10-chapter-quiz.md) to test your mastery of everything you've learned — from models and CRUD to hybrid verification patterns.

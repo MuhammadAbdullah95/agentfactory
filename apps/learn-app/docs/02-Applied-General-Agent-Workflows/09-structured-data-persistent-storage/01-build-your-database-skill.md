@@ -81,7 +81,7 @@ database-deployment/
     └── budget-tracker.py # Complete application
 ```
 
-Every lesson adds to this skill. By L7, you will have a complete tool that captures everything you learned, organized for reuse.
+Every lesson adds to this skill. By L8, you will have a complete tool that captures everything you learned, organized for reuse.
 
 ## Why This Matters
 
@@ -253,7 +253,7 @@ When should I use each pattern?
 
 ## Examples I'll Build
 
-By L7, I will have:
+By L8, I will have:
 - `simple-expense.py` — Single model, basic structure
 - `budget-tracker-complete.py` — Full app with all patterns
 - `neon-deploy.py` — Production connection example
@@ -329,9 +329,10 @@ This skill grows with you through the chapter:
 | L4       | Connect tables with relationships    | Foreign keys and join patterns        |
 | L5       | Make operations atomic and safe       | Transaction patterns                  |
 | L6       | Deploy to Neon PostgreSQL             | Connection pooling and cloud config   |
-| L7       | Integrate everything into one app     | Complete, production-ready skill      |
+| L7       | Combine SQL + bash for hybrid patterns | Tool choice framework for Part 2     |
+| L8       | Integrate everything into one app     | Complete, production-ready skill      |
 
-Each lesson teaches you something. Each lesson also asks you to update your skill with what you learned. By L7, your skill will be complete.
+Each lesson teaches you something. Each lesson also asks you to update your skill with what you learned. By L8, your skill will be complete.
 
 ## The Ownership Difference
 
@@ -388,7 +389,7 @@ sections. In 3-4 sentences, explain:
 
 1. What is clear to me right now about how this skill works?
 2. What parts do I NOT understand yet?
-3. How will this skill help me in lessons L1-L7?
+3. How will this skill help me in lessons L1-L8?
 ```
 
 Your honest reflection here helps you know what to focus on as you continue.

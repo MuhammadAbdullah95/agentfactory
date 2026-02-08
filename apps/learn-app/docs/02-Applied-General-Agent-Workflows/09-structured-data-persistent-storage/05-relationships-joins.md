@@ -441,7 +441,8 @@ But real-world operations rarely touch just one table. What if you need to trans
 | L4 (now) | Connect tables with relationships | Relationship and join patterns        |
 | L5     | Atomic multi-step operations       | Transaction patterns                  |
 | L6     | Move to production cloud database  | Neon deployment and pooling           |
-| L7     | Integrate everything               | Complete working Budget Tracker app   |
+| L7     | Combine SQL + bash hybrid patterns | Tool choice framework                 |
+| L8     | Integrate everything               | Complete working Budget Tracker app   |
 
 Relationships let you structure your data correctly. Transactions ensure your operations are safe.
 
