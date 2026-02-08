@@ -254,7 +254,6 @@ claude mcp list
 - Main docs: https://modelcontextprotocol.io/docs
 - Getting started: https://modelcontextprotocol.io/docs/getting-started
 - Server implementations: https://github.com/modelcontextprotocol
-```
 
 **Note**: Context7 fetches live documentation, so you always get the most current information. This beats searching Google and sifting through 10 outdated blog posts.
 
