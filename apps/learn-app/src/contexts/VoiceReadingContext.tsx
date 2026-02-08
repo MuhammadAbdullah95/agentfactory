@@ -319,7 +319,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         // ==========================================
         // TIMER-BASED FALLBACK FOR SAFARI/iOS/MOBILE
         // ==========================================
-        // Estimate ~150ms per word at rate 1.0 (adjust based on actual rate)
+        // Estimate ~280ms per word at rate 1.0 (adjust based on actual rate)
         // This provides visual feedback when onboundary doesn't fire
         const avgWordDuration = 280 / playbackRateRef.current; // ms per word
         let fallbackWordIndex = startWordIndex;
@@ -412,10 +412,14 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         };
 
         utterance.onend = () => {
-            // Clear fallback timer
+            // Clear fallback timers
             if (fallbackTimerRef.current) {
                 clearInterval(fallbackTimerRef.current);
                 fallbackTimerRef.current = null;
+            }
+            if (fallbackDelayTimerRef.current) {
+                clearTimeout(fallbackDelayTimerRef.current);
+                fallbackDelayTimerRef.current = null;
             }
             // CRITICAL: Only advance if this is still the current utterance
             // This prevents stale callbacks from triggering double playback
@@ -427,10 +431,14 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         };
 
         utterance.onerror = (e) => {
-            // Clear fallback timer
+            // Clear fallback timers
             if (fallbackTimerRef.current) {
                 clearInterval(fallbackTimerRef.current);
                 fallbackTimerRef.current = null;
+            }
+            if (fallbackDelayTimerRef.current) {
+                clearTimeout(fallbackDelayTimerRef.current);
+                fallbackDelayTimerRef.current = null;
             }
             if (e.error === 'interrupted' || e.error === 'canceled') {
                 return;
