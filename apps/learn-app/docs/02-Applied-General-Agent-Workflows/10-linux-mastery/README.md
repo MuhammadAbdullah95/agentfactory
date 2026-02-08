@@ -2,7 +2,7 @@
 sidebar_position: 10
 title: "Chapter 10: Linux Mastery for Digital FTEs"
 description: "Comprehensive Linux command-line and system administration skills for deploying, managing, and monitoring AI agents in production environments."
-keywords: ["linux", "cli", "bash", "tmux", "systemd", "devops", "agents", "production"]
+keywords: ["linux", "cli", "bash", "tmux", "systemd", "ssh", "networking", "devops", "agents", "production"]
 ---
 
 # Chapter 10: Linux Mastery for Digital FTEs
@@ -13,45 +13,45 @@ Your Digital FTEs don't live on your laptop. They live on Linux servers in the c
 
 This chapter transforms you from a "user" who clicks buttons into an "architect" who orchestrates systems through the terminal. You'll learn to:
 
-- **Navigate** lightning-fast with modern tools (zoxide, fzf)
+- **Navigate and manipulate** files and directories with confidence
+- **Edit and transform** text using nano, pipes, and stream redirection
 - **Persist** work across disconnections with tmux sessions
-- **Automate** agent deployments with bash scripting
-- **Secure** your servers with least-privilege principles
+- **Script and automate** agent deployments with bash
+- **Secure** your servers with least-privilege principles and SSH keys
+- **Connect** to remote servers and understand networking fundamentals
 - **Deploy** agents as unkillable systemd services
 - **Debug** failures using systematic troubleshooting
+- **Integrate** skills into reusable automation patterns
 
 ## Why This Matters Now
 
-You've learned to build AI agents. You've learned to test them with git. Now you must learn to **deploy and manage them in production**. Production means Linux servers, SSH connections, terminal sessions, and system administration.
+You've learned what AI agents are and how they create value. Now you must learn to **deploy and manage them in production**. Production means Linux servers, SSH connections, terminal sessions, and system administration.
 
 Without these skills, your agents remain experiments running on your laptop. With these skills, your agents become production-ready Digital FTEs serving real customers.
 
 ## Connection to the Digital FTE Vision
 
-This chapter completes the "deployment" pillar of the Digital FTE framework:
+This chapter completes the "deployment" pillar of the Digital FTE framework. After this chapter, you'll be able to:
 
-- **Build**: You can create agents (Chapters 11-14)
-- **Test**: You can validate agents safely (Chapter 9)
-- **Deploy**: You learn here (Chapter 10) ← **YOU ARE HERE**
-- **Scale**: You orchestrate fleets (Chapters 49-50)
-
-After this chapter, you'll be able to:
-1. SSH into any Linux server
-2. Deploy your agent as a production service
-3. Monitor its health and resource consumption
-4. Diagnose and fix failures systematically
-5. Secure the server against unauthorized access
+1. Navigate any Linux filesystem and manipulate files confidently
+2. Edit configuration files and build powerful command pipelines
+3. SSH into any Linux server
+4. Deploy your agent as a production systemd service
+5. Monitor its health and resource consumption
+6. Diagnose and fix failures systematically
+7. Secure the server against unauthorized access
+8. Package deployment workflows as reusable automation
 
 ## Chapter Principles
 
 ### 1. CLI as Architecture
-The command line isn't a "legacy interface"—it's the native language of server operations. Every GUI tool is a layer hiding the real power. Direct CLI access means automation, scripting, and control.
+The command line isn't a "legacy interface" -- it's the native language of server operations. Every GUI tool is a layer hiding the real power. Direct CLI access means automation, scripting, and control.
 
 ### 2. Persistence Over Presence
 Your Digital FTEs outlive your SSH session. tmux sessions, systemd services, and background processes ensure agents continue working after you disconnect.
 
 ### 3. Least Privilege Security
-Never run agents as root. Create dedicated users. Restrict permissions. Secure SSH. Security isn't an afterthought—it's architectural.
+Never run agents as root. Create dedicated users. Restrict permissions. Secure SSH. Security isn't an afterthought -- it's architectural.
 
 ### 4. Systematic Debugging
 When agents fail, panic is your enemy. Systematic diagnosis using logs, process inspection, and network testing isolates problems efficiently.
@@ -61,27 +61,37 @@ If you do it manually twice, script it. Bash automation transforms repetitive ta
 
 ## Lessons Overview
 
-| Lesson | Title | Focus | Layer |
-|--------|-------|-------|-------|
-| [Lesson 1](./01-cli-architect-mindset.md) | The CLI Architect Mindset | Why CLI matters for agents | 1: Manual Foundation |
-| [Lesson 2](./02-modern-terminal-environment.md) | Modern Terminal Environment | Package management, navigation tools | 1: Manual Foundation |
-| [Lesson 3](./03-persistent-sessions-tmux.md) | Persistent Sessions with tmux | Sessions that survive disconnections | 2: AI Collaboration |
-| [Lesson 4](./04-bash-scripting-agent-automation.md) | Bash Scripting for Agent Automation | Automating deployment workflows | 2: AI Collaboration |
-| [Lesson 5](./05-security-hardening-least-privilege.md) | Security Hardening & Least Privilege | Users, permissions, SSH | 2: AI Collaboration |
-| [Lesson 6](./06-process-control-systemd.md) | Process Control with systemd | Unkillable agent services | 2→3: Intelligence |
-| [Lesson 7](./07-debugging-troubleshooting.md) | Debugging & Troubleshooting | Systematic diagnosis | 2: AI Collaboration |
-| [Lesson 8](./08-advanced-workflow-integration.md) | Advanced Workflow Integration | Creating reusable skills | 3: Intelligence Design |
-| [Lesson 9](./09-capstone-production-deployment.md) | Capstone: Production Deployment | End-to-end Digital FTE deployment | 4: Spec-Driven |
+| Lesson | Title | Focus | Layer | Duration |
+|--------|-------|-------|-------|----------|
+| [Lesson 1](./01-cli-architect-mindset.md) | The CLI Architect Mindset | Terminal, filesystem, navigation | L1: Manual Foundation | 45 min |
+| [Lesson 2](./02-file-operations-mastery.md) | File Operations Mastery | Create, copy, move, delete files | L1: Manual Foundation | 45 min |
+| [Lesson 3](./03-text-editing-pipes-streams.md) | Text Editing, Pipes & I/O Streams | nano, pipes, redirection | L1: Manual Foundation | 50 min |
+| [Lesson 4](./04-modern-terminal-environment.md) | Modern Terminal Environment | Package management, shell config | L1: Manual Foundation | 50 min |
+| [Lesson 5](./05-persistent-sessions-tmux.md) | Persistent Sessions with tmux | Sessions surviving disconnections | L2: AI Collaboration | 55 min |
+| [Lesson 6](./06-bash-scripting-foundations.md) | Bash Scripting Foundations | Variables, error handling, functions | L2: AI Collaboration | 55 min |
+| [Lesson 7](./07-text-processing-automation.md) | Text Processing & Automation | grep, sed, awk, cron | L2: AI Collaboration | 55 min |
+| [Lesson 8](./08-security-hardening.md) | Security Hardening & Least Privilege | Users, permissions, SSH keys | L2: AI Collaboration | 60 min |
+| [Lesson 9](./09-networking-ssh-remote-access.md) | Networking Fundamentals & SSH | Ports, localhost, curl, SSH | L2: AI Collaboration | 60 min |
+| [Lesson 10](./10-process-control-systemd.md) | Process Control & Systemd Services | Agent services, restart policies | L2: AI Collaboration | 60 min |
+| [Lesson 11](./11-debugging-troubleshooting.md) | Debugging & Troubleshooting | Systematic diagnosis methodology | L2: AI Collaboration | 60 min |
+| [Lesson 12](./12-workflow-integration-patterns.md) | Advanced Workflow Integration | Deployment patterns, monitoring | L3: Intelligence | 65 min |
+| [Lesson 13](./13-building-reusable-skills.md) | Building Reusable Agent Ops Skills | Pattern recognition, skill creation | L3: Intelligence | 55 min |
+| [Lesson 14](./14-capstone-production-deployment.md) | Capstone: Spec-First Deployment | End-to-end Digital FTE deployment | L4: Spec-Driven | 90 min |
+| [Quiz](./15-chapter-quiz.md) | Chapter Quiz | Assessment covering all 13 lessons | -- | 30 min |
+
+**Total Duration**: ~14 hours (835 minutes)
 
 ## Prerequisites
 
-Before starting this chapter, you should:
+Before starting this chapter, you should have completed:
 
-- **Comfortable with Git**: You've used `git`, `git status`, `git commit` from the command line (Chapter 9)
-- **Understand Agents**: You know what AI agents are and how they're structured (Chapter 11)
-- **Know FastAPI**: You understand web server architecture (Chapters 40-42)
+- **Part 1: Agent Foundations** -- You understand what AI agents are, the Digital FTE concept, and the Agent Factory paradigm
 
-**No prior Linux experience required**—we start from first principles.
+**No prior Linux experience required** -- this chapter starts from absolute first principles. We assume you've never opened a terminal before.
+
+:::note Windows Users
+If you're on Windows, you'll need WSL2 (Windows Subsystem for Linux) installed. Run `wsl --install` in PowerShell as Administrator, then restart your computer. All commands in this chapter work in WSL2 Ubuntu.
+:::
 
 ## What You'll Build
 
@@ -93,14 +103,14 @@ By the end of this chapter, you'll have deployed a production FastAPI agent as a
 - Accepts connections securely via SSH keys only
 - Can be diagnosed systematically when problems occur
 
-This is a **real Digital FTE deployment**, not a toy example.
+This is a **real Digital FTE deployment**, not a toy example. The chapter provides a sample `agent_main.py` file so you don't need any prior Python or FastAPI knowledge.
 
 ## Safety First
 
 Linux commands can be destructive. This chapter includes explicit safety warnings:
-- ⚠️ **Dangerous operations** are marked with clear warnings
-- 🛡️ **Safer alternatives** are provided when possible
-- ✅ **Verification steps** ensure commands worked as intended
+- Dangerous operations are marked with clear warnings
+- Safer alternatives are provided when possible (e.g., `rm -i` before `rm -rf`)
+- Verification steps ensure commands worked as intended
 
 **Practice first**: Use a VM, container, or non-production server. Never experiment on production systems.
 
