@@ -65,7 +65,7 @@ version: "2.1.0"
 
 # Legacy compatibility
 prerequisites:
-  - "Lessons 01-08: Claude Code working, skills, CLAUDE.md understanding"
+  - "Lessons 01-09: Claude Code working, skills, CLAUDE.md understanding"
   - "Basic understanding of APIs (REST/JSON)"
   - "Playwright or Context7 account (optional but recommended)"
 ---
@@ -81,7 +81,7 @@ But what if you need Claude to:
 - Query a database?
 - Access an API?
 
-**Skills (Lessons 5-8) taught Claude _how_ to do things. MCP teaches Claude _where_ to find outside information.**
+**Skills (Lessons 5-9) taught Claude _how_ to do things. MCP teaches Claude _where_ to find outside information.**
 
 All of that data lives **outside your computer**. Claude Code can't reach it... yet.
 
@@ -441,7 +441,7 @@ MCP is powerful, but it's not the right tool for everything. This section shows 
 
 Remember **Lesson 05 (CLAUDE.md)**? You taught Claude your project: files, folder structure, coding standards, team practices. That gave Claude Code _context_.
 
-Then **Lesson 08 (Skills)**? You taught Claude your domain procedures: workflows, decision trees, quality standards. That gave Claude Code _procedures_.
+Then **Lesson 09 (Skills)**? You taught Claude your domain procedures: workflows, decision trees, quality standards. That gave Claude Code _procedures_.
 
 Now **Lesson 12 (MCP)** teaches Claude where to find the world's knowledge and tools. That gives Claude Code _reach_.
 
@@ -469,7 +469,7 @@ MCP extends Claude Code's reach from your local filesystem to the entire world o
 
 But what if you need even more control?
 
-**Lesson 13: Compiling MCP to Skills** teaches advanced optimization—achieving 98% token reduction through compilation. You'll learn how skills can intelligently guide Claude on when to use Tool Search vs compiled patterns, combining the subagent orchestration you learned in Lesson 10 with MCP's external access.
+**Lesson 13: Compiling MCP to Skills** teaches advanced optimization—achieving 98% token reduction through compilation. You'll learn how skills can intelligently guide Claude on when to use Tool Search vs compiled patterns, combining the subagent orchestration you learned in Lesson 11 with MCP's external access.
 
 ---
 

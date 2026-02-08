@@ -165,7 +165,7 @@ If you reject, you can ask Claude to try differently. That's steering.
 ---
 
 :::tip Ready to Practice?
-Head to **Lesson 9: Practical Problem-Solving Exercises** for 27 hands-on exercises with complete walkthroughs. You'll organize messy files, analyze data, create documents, and build problem-solving skills — all with one-click exercise downloads and step-by-step guidance.
+Head to **Lesson 06: Practical Problem-Solving Exercises** for 27 hands-on exercises with complete walkthroughs. You'll organize messy files, analyze data, create documents, and build problem-solving skills — all with one-click exercise downloads and step-by-step guidance.
 :::
 
 ---
@@ -185,9 +185,9 @@ This is where Claude's extension tools come in. You don't need to understand the
 
 | If you need...                                          | Then use...   | Appears in...  |
 | :------------------------------------------------------ | :------------ | :------------- |
-| **Persistent context** for every Claude session         | **CLAUDE.md** | Lessons 5-6    |
-| **Repeated procedures** done your way                   | **Skill**     | Lessons 7-8    |
-| **Delegation & focus** for complex workflows            | **Subagent**  | Lessons 10, 13 |
+| **Persistent context** for every Claude session         | **CLAUDE.md** | Lessons 5, 7   |
+| **Repeated procedures** done your way                   | **Skill**     | Lessons 8-9    |
+| **Delegation & focus** for complex workflows            | **Subagent**  | Lessons 11, 13 |
 | **External systems & data** (APIs, databases, websites) | **MCP**       | Lessons 12-13  |
 | **Automated quality gates & safety rules**              | **Hook**      | Lesson 15      |
 

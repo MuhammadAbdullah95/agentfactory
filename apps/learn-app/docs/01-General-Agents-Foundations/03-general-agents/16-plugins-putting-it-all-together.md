@@ -343,7 +343,7 @@ This shows what's possible with the plugin system.
 
 You've installed plugins. Now let's create one from the skills and components you've already built.
 
-Throughout this chapter, you created skills (Lesson 8), configured subagents (Lesson 10), connected MCP servers (Lesson 12), and set up hooks (Lesson 15). Packaging these as a plugin lets you share them with teammates or use them across all your projects.
+Throughout this chapter, you created skills (Lesson 9), configured subagents (Lesson 11), connected MCP servers (Lesson 12), and set up hooks (Lesson 15). Packaging these as a plugin lets you share them with teammates or use them across all your projects.
 
 ### Plugin Directory Structure
 
@@ -382,7 +382,7 @@ That's the minimum. Four fields. Your plugin is ready to use.
 
 ### Try It: Package Skills Lab as a Plugin
 
-If you downloaded the Skills Lab in Lesson 6, let's turn it into a plugin:
+If you downloaded the Skills Lab in Lesson 7, let's turn it into a plugin:
 
 **Step 1**: Navigate to your Skills Lab folder:
 

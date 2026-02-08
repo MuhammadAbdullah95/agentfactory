@@ -1,15 +1,15 @@
 ---
 title: "The Concept Behind Skills"
-sidebar_position: 7
+sidebar_position: 8
 chapter: 3
-lesson: 7
+lesson: 8
 duration_minutes: 10
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
 layer_progression: "L1 (Conceptual Framework)"
 layer_1_foundation: "Understanding skills architecture, expertise gap, platform-level design philosophy, MCP complementarity"
-layer_2_collaboration: "N/A (preparation for L2 in Lesson 08)"
+layer_2_collaboration: "N/A (preparation for L2 in Lesson 09)"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
 
@@ -61,7 +61,7 @@ version: "1.0.0"
 
 # Legacy compatibility
 prerequisites:
-  - "Lesson 06: Teach Claude Your Way of Working"
+  - "Lesson 07: Teach Claude Your Way of Working"
   - "Understanding of personal procedures worth encoding"
 ---
 
@@ -398,7 +398,7 @@ You now understand the architecture:
 - Skills are the "applications layer" of the agent stack
 
 :::tip Ready to Practice?
-Head to **Lesson 11: Agent Skills Exercises** for 27 hands-on exercises that take you from dissecting existing skills to building production-ready skill suites — with one-click exercise downloads and step-by-step guidance.
+Head to **Lesson 10: Agent Skills Exercises** for 27 hands-on exercises that take you from dissecting existing skills to building production-ready skill suites — with one-click exercise downloads and step-by-step guidance.
 :::
 
 ---

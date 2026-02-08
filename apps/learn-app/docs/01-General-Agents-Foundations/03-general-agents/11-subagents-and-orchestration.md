@@ -1,8 +1,8 @@
 ---
 title: "Subagents and Orchestration"
-sidebar_position: 10
+sidebar_position: 11
 chapter: 3
-lesson: 10
+lesson: 11
 duration_minutes: 12
 
 # PEDAGOGICAL LAYER METADATA
@@ -61,7 +61,7 @@ version: "3.0.0"
 
 # Legacy compatibility
 prerequisites:
-  - "Lessons 01-08: Claude Code installation, skills, architecture, CLAUDE.md"
+  - "Lessons 01-09: Claude Code installation, skills, architecture, CLAUDE.md"
   - "Experience with single-agent limitations (context loss, distraction)"
 ---
 
@@ -359,7 +359,7 @@ Lesson 12 introduces **MCP Integration**—connecting Claude to external systems
 ---
 
 :::tip Ready to Practice?
-Head to **Lesson 11: Agent Skills Exercises** for 27 hands-on exercises covering skill composition, real-world skill building, and capstone projects — with one-click exercise downloads and step-by-step guidance.
+Head to **Lesson 10: Agent Skills Exercises** for 27 hands-on exercises covering skill composition, real-world skill building, and capstone projects — with one-click exercise downloads and step-by-step guidance.
 :::
 
 ---

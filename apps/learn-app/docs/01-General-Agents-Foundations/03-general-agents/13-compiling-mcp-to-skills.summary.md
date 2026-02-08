@@ -31,5 +31,5 @@ MCP servers load ALL tool definitions at startup (5,000-8,000+ tokens each), cre
 
 ### Connections
 
-- **Builds on**: Skills (Lessons 07-08) for SKILL.md format and Skills Lab; MCP Integration (Lesson 12) for understanding MCP servers
+- **Builds on**: Skills (Lessons 08-09) for SKILL.md format and Skills Lab; MCP Integration (Lesson 12) for understanding MCP servers
 - **Leads to**: Settings Hierarchy (Lesson 16) for configuration management; Advanced lessons for creating your own compiled skills

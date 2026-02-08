@@ -54,9 +54,9 @@ You don't build processors (models) or operating systems (runtimes). You build a
 The agent infrastructure is mature. Claude Code exists. What's missing is YOUR expertise in a format Claude can access. Skills open the "applications layer" for everyone—including non-technical domain experts.
 
 ## Connection to Other Lessons
-- **Lesson 06**: WHY you'd encode personal procedures → skills as individual benefit
-- **Lesson 07 (this)**: WHERE skills fit architecturally → skills as platform paradigm
-- **Lesson 08**: HOW to create skills → SKILL.md syntax and hands-on creation
+- **Lesson 07**: WHY you'd encode personal procedures → skills as individual benefit
+- **Lesson 08 (this)**: WHERE skills fit architecturally → skills as platform paradigm
+- **Lesson 09**: HOW to create skills → SKILL.md syntax and hands-on creation
 
 ## Common Misconceptions
 

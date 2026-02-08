@@ -1,14 +1,14 @@
 ---
 title: "Practical Problem-Solving Exercises"
-sidebar_position: 9
+sidebar_position: 6
 chapter: 3
-lesson: 9
+lesson: 6
 duration_minutes: 120
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
 layer_progression: "L1 (Manual Foundation)"
-layer_1_foundation: "Hands-on practice applying Lessons 01-08 concepts through 27 guided exercises"
+layer_1_foundation: "Hands-on practice applying Lessons 01-05 concepts through 27 guided exercises"
 layer_2_collaboration: "N/A"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
@@ -50,7 +50,7 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 3
-  assessment: "3 concepts (problem decomposition, specification writing, quality verification) — within A2 limit. Exercises reinforce existing L01-L08 knowledge."
+  assessment: "3 concepts (problem decomposition, specification writing, quality verification) — within A2 limit. Exercises reinforce existing L01-L05 knowledge."
 
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt exercises with minimal prompts"
@@ -862,4 +862,4 @@ Everything should be coherent, progressive (each lesson builds on the last), and
 
 ## What's Next
 
-You've practiced the three core skills — problem decomposition, specification writing, and quality verification — across 27 exercises. These skills compound: every exercise makes the next one easier because you're building intuition for how to communicate with AI agents. In Lesson 10, you'll learn how Claude breaks complex tasks into sub-tasks using **Subagents** — the same principle you practiced here, but automated.
+You've practiced the three core skills — problem decomposition, specification writing, and quality verification — across 27 exercises. These skills compound: every exercise makes the next one easier because you're building intuition for how to communicate with AI agents. Next in Lesson 7, you'll learn to teach Claude your personal working style through custom instructions. Then Lessons 8-9 introduce **Agent Skills** — reusable expertise files that automate the patterns you've been practicing by hand.

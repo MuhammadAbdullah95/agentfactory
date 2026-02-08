@@ -1,15 +1,15 @@
 ---
 title: "Teach Claude Your Way of Working"
-sidebar_position: 6
+sidebar_position: 7
 chapter: 3
-lesson: 6
+lesson: 7
 duration_minutes: 10
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
 layer_progression: "L1 (Conceptual Foundation) → L2 (Hands-On Experience)"
 layer_1_foundation: "Understanding skills as encoded expertise, recognizing automatic activation, seeing real-world applications"
-layer_2_collaboration: "N/A (preparation for L2 in Lesson 08)"
+layer_2_collaboration: "N/A (preparation for L2 in Lesson 09)"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
 
@@ -499,7 +499,7 @@ That's your personal style guide ready to become a skill!
 
 > "I'm a student who uses Claude for [describe what you do: studying, social media, projects, etc.]. Help me identify 3 repetitive tasks that would make good skills. For each one, tell me: what the skill would do and why it would save me time."
 
-**What you're learning:** How to spot skill opportunities in your own workflow. The patterns you notice here become the building blocks for Lesson 08.
+**What you're learning:** How to spot skill opportunities in your own workflow. The patterns you notice here become the building blocks for Lesson 09.
 
 **Practice Your Procedure:**
 

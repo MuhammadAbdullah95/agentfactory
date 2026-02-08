@@ -1,14 +1,14 @@
 ---
 title: "Building Your Own Skills"
-sidebar_position: 8
+sidebar_position: 9
 chapter: 3
-lesson: 8
+lesson: 9
 duration_minutes: 15
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 2"
 layer_progression: "L2 (AI Collaboration)"
-layer_1_foundation: "N/A (covered in Lessons 05-06)"
+layer_1_foundation: "N/A (covered in Lessons 05 and 07)"
 layer_2_collaboration: "Co-learning skill creation and refinement, AI as Teacher suggesting improvements, Student as Teacher specifying constraints, convergence toward optimized skill design"
 layer_3_intelligence: "Introduction to skill-creator meta-skill"
 layer_4_capstone: "N/A"
@@ -61,8 +61,8 @@ version: "2.0.0"
 
 # Legacy compatibility
 prerequisites:
-  - "Lesson 06: Teach Claude Your Way of Working"
-  - "Lesson 07: The Concept Behind Skills"
+  - "Lesson 07: Teach Claude Your Way of Working"
+  - "Lesson 08: The Concept Behind Skills"
   - "A procedure mapped and ready for encoding"
   - "Chapter 2: Markdown basics (headings, lists, code blocks, YAML frontmatter)"
 ---
@@ -109,11 +109,13 @@ description: "Transform meeting transcripts or raw notes into structured summari
 # Meeting Notes Skill
 
 ## When to Use
+
 - User shares a meeting transcript
 - User asks to summarize meeting notes
 - User mentions "action items" or "meeting summary"
 
 ## Procedure
+
 1. Extract action items with owners and deadlines
 2. Highlight decisions made (with who made them)
 3. Summarize discussion points (don't transcribe verbatim)
@@ -121,16 +123,20 @@ description: "Transform meeting transcripts or raw notes into structured summari
 5. Keep to one page maximum
 
 ## Output Format
+
 **Action Items** (top of document)
+
 - [ ] Task — Owner — Deadline
 
 **Decisions Made**
+
 - Decision: [what] — Made by: [who]
 
 **Discussion Summary**
 Brief bullets, not transcription.
 
 **Open Questions**
+
 - Question needing follow-up
 ```
 
@@ -142,7 +148,7 @@ That's a complete skill. No scripts required. No complex setup. Just clear instr
 
 Here's the power move: use Claude to create skills for you.
 
-Remember the Skills Lab you downloaded in Lesson 06? It includes a `skill-creator` skill—a meta-skill for creating other skills.
+Remember the Skills Lab you downloaded in Lesson 07? It includes a `skill-creator` skill—a meta-skill for creating other skills.
 
 From the skills lab directory:
 
@@ -186,22 +192,29 @@ Claude sees skill descriptions at startup (Level 1 of the three-level architectu
 ### Good vs. Bad Descriptions
 
 **Bad description** (too vague):
+
 ```yaml
 description: "Helps with notes"
 ```
+
 Problem: "notes" could mean anything. Claude won't know when to activate.
 
 **Bad description** (too narrow):
+
 ```yaml
 description: "Summarizes Zoom meeting transcripts from the marketing team"
 ```
+
 Problem: Won't activate for Teams calls, non-marketing meetings, or live notes.
 
 **Good description** (clear context + action):
+
 ```yaml
 description: "Transform meeting transcripts or raw notes into structured summaries with action items, decisions, and follow-ups. Use when user shares meeting content or asks for meeting notes."
 ```
+
 Why it works:
+
 - States WHAT it does (transform → structured summaries)
 - Lists KEY OUTPUTS (action items, decisions, follow-ups)
 - Specifies WHEN to use (meeting content, meeting notes request)
@@ -230,7 +243,7 @@ description: "Draft professional emails matching specified tone and purpose. Use
 
 ## Hands-On: Create Your First Skill
 
-You mapped a procedure in Lesson 06. Now encode it.
+You mapped a procedure in Lesson 07. Now encode it.
 
 ### Step 1: Create the Folder
 
@@ -283,6 +296,7 @@ description: "Plan engaging blog posts with topic research, structured outlines,
 **Input**: "Help me plan a blog post about sustainable living"
 
 **Output**:
+
 - **Topic Summary**: Practical sustainable living tips for busy professionals who want impact without lifestyle overhaul.
 - **Target Audience**: Working adults seeking eco-friendly changes that fit their schedule.
 - **Outline**:
@@ -309,11 +323,13 @@ claude
 ```
 
 Then ask:
+
 ```
 Help me plan a blog post about learning AI tools as a beginner
 ```
 
 Watch for:
+
 - Does Claude follow the procedure?
 - Does output match the format?
 - Does the quality match your criteria?
@@ -321,6 +337,7 @@ Watch for:
 ### Step 4: Verify Activation
 
 Ask Claude directly:
+
 ```
 What skills are you using in our conversation? Did you activate the blog-planner skill?
 ```
@@ -343,6 +360,7 @@ Suggest 2-3 specific enhancements.
 ```
 
 Claude might suggest:
+
 - Add SEO considerations to the outline section
 - Include word count targets for each section
 - Add a "common mistakes to avoid" section
@@ -386,7 +404,7 @@ Skills you create now become building blocks for larger systems. In Part 6, you'
 ---
 
 :::tip Ready to Practice?
-Head to **Lesson 11: Agent Skills Exercises** for 27 hands-on exercises that take you from writing your first skills to building complete skill suites — with one-click exercise downloads and step-by-step guidance.
+Head to **Lesson 10: Agent Skills Exercises** for 27 hands-on exercises that take you from writing your first skills to building complete skill suites — with one-click exercise downloads and step-by-step guidance.
 :::
 
 ---
@@ -395,9 +413,9 @@ Head to **Lesson 11: Agent Skills Exercises** for 27 hands-on exercises that tak
 
 **Create Your Custom Skill:**
 
-> "I have a procedure I want to encode as a skill: [describe your procedure from Lesson 06]. Walk me through creating a SKILL.md file. Help me write: (1) an effective description that triggers at the right times, (2) clear instructions Claude can follow, (3) quality criteria that match my standards, (4) an example input/output."
+> "I have a procedure I want to encode as a skill: [describe your procedure from Lesson 07]. Walk me through creating a SKILL.md file. Help me write: (1) an effective description that triggers at the right times, (2) clear instructions Claude can follow, (3) quality criteria that match my standards, (4) an example input/output."
 
-**What you're learning:** The complete skill creation workflow—from procedure to SKILL.md. This is the hands-on application of Lesson 07's architecture.
+**What you're learning:** The complete skill creation workflow—from procedure to SKILL.md. This is the hands-on application of Lesson 08's architecture.
 
 **Use Skill-Creator:**
 

@@ -28,11 +28,11 @@ By the end of this chapter, you'll have:
 - **Claude Code Installed & Working** — Complete setup with **multiple paths**: Official Claude Pro/Max subscription (Lesson 2), OR free backends via OpenRouter, Gemini, or DeepSeek (Lesson 3)
 - **Hello World** — Mastering the CLI interface (Lesson 4): slash commands, permission loops, and safe usage patterns
 - **Persistent Project Context** — Creating CLAUDE.md files (Lesson 5) that eliminate repetitive context-sharing and establish team memory
-- **Teach Claude Your Way** — Mastering custom instructions (Lesson 6) to align Claude's behavior with your personal or team standards
-- **Autonomous Expertise** — Agent Skills (Lessons 7-8) with prompt patterns (Persona + Questions + Principles)
-- **Practical Problem-Solving Exercises** — 27 hands-on exercises across 8 modules (Lesson 9) building problem decomposition, specification writing, and quality verification skills
-- **Subagent Orchestration** — Recognizing when Claude automatically delegates to specialized agents (Lesson 10) for complex tasks
-- **Agent Skills Exercises** — 27 hands-on exercises (Lesson 11) from skill anatomy to production-ready skill suites and capstone projects
+- **Practical Problem-Solving Exercises** — 27 hands-on exercises across 8 modules (Lesson 6) building problem decomposition, specification writing, and quality verification skills
+- **Teach Claude Your Way** — Mastering custom instructions (Lesson 7) to align Claude's behavior with your personal or team standards
+- **Autonomous Expertise** — Agent Skills (Lessons 8-9) with prompt patterns (Persona + Questions + Principles)
+- **Agent Skills Exercises** — 27 hands-on exercises (Lesson 10) from skill anatomy to production-ready skill suites and capstone projects
+- **Subagent Orchestration** — Recognizing when Claude automatically delegates to specialized agents (Lesson 11) for complex tasks
 - **External Integration** — MCP servers (Lesson 12) for safe access to external systems
 - **Token Optimization** — Compiling MCP servers to Skills (Lesson 13) for 80-98% token reduction
 - **Configuration Mastery** — Settings hierarchy (Lesson 14) and precedence rules for team collaboration

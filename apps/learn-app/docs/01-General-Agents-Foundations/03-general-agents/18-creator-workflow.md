@@ -171,7 +171,7 @@ cd ../experiment && claude     # Session 3 (new terminal)
 **Connection to Chapter Concepts:**
 
 - **Lesson 01 (Origin Story)**: The agentic paradigm means Claude works autonomously. Parallel sessions multiply this agency.
-- **Lesson 10 (Subagents)**: Each session is like a subagent with a specific task—research in one, drafting in another, review in a third.
+- **Lesson 11 (Subagents)**: Each session is like a subagent with a specific task—research in one, drafting in another, review in a third.
 
 ---
 
@@ -239,7 +239,7 @@ Update the plan to address these issues.
 
 **Connection to Chapter Concepts:**
 
-- **Lesson 10 (Subagents)**: Plan is a built-in subagent that researches your codebase. The reviewer is effectively another subagent with a different role.
+- **Lesson 11 (Subagents)**: Plan is a built-in subagent that researches your codebase. The reviewer is effectively another subagent with a different role.
 
 ---
 
@@ -400,7 +400,7 @@ Output as a brief session summary I can save.
 
 **Connection to Chapter Concepts:**
 
-- **Lessons 07-08 (Skills)**: You learned the unified skill architecture. Boris shows the discipline of building a portable skill portfolio.
+- **Lessons 08-09 (Skills)**: You learned the unified skill architecture. Boris shows the discipline of building a portable skill portfolio.
 
 ---
 
@@ -434,7 +434,7 @@ The subagent explores in its own context window, reads relevant files, and repor
 
 **Connection to Chapter Concepts:**
 
-- **Lesson 10 (Subagents)**: You learned to create subagents with `/agents`. Boris shows what a mature subagent ecosystem looks like.
+- **Lesson 11 (Subagents)**: You learned to create subagents with `/agents`. Boris shows what a mature subagent ecosystem looks like.
 
 ---
 
@@ -681,19 +681,19 @@ Here's how these techniques map to what you've learned:
 | Practice                    | Source      | Chapter Lesson | Your Takeaway                                                |
 | --------------------------- | ----------- | -------------- | ------------------------------------------------------------ |
 | Context window constraint   | Official    | All            | The fundamental "why" behind every practice                  |
-| Parallel sessions (3-5)     | Team        | L01 + L10      | Isolate sessions for true parallelism                        |
+| Parallel sessions (3-5)     | Team        | L01 + L11      | Isolate sessions for true parallelism                        |
 | Workspace shortcuts         | Team        | Workspace      | Quick switching between workstreams (aliases, tabs)          |
-| Claude-reviews-Claude       | Team        | L10            | Fresh context catches blind spots                            |
-| Plan Mode first             | Team + Docs | L10            | Always plan before executing non-trivial tasks               |
-| Re-plan when stuck          | Team        | L10            | Switch back to Plan Mode when things go sideways             |
+| Claude-reviews-Claude       | Team        | L11            | Fresh context catches blind spots                            |
+| Plan Mode first             | Team + Docs | L11            | Always plan before executing non-trivial tasks               |
+| Re-plan when stuck          | Team        | L11            | Switch back to Plan Mode when things go sideways             |
 | CLAUDE.md self-writing      | Team        | L05            | "Update your CLAUDE.md so you don't make that mistake again" |
 | Notes directory pattern     | Team        | L05            | Maintain task notes, point CLAUDE.md at them                 |
-| Session-end review          | Team        | L07-08         | Capture insights while context is fresh                      |
-| Skills across projects      | Team        | L07-08         | Build a portable skill portfolio                             |
-| Context dump skill          | Team        | L07-08         | Sync communications/docs into one context                    |
-| Subagents for investigation | Official    | L10            | Keep main context clean; explore in isolation                |
-| "use subagents" directive   | Team        | L10            | Append to throw more compute at problems                     |
-| Autonomous problem solving  | Team        | MCP + L10      | Give Claude the problem, not the solution                    |
+| Session-end review          | Team        | L08-09         | Capture insights while context is fresh                      |
+| Skills across projects      | Team        | L08-09         | Build a portable skill portfolio                             |
+| Context dump skill          | Team        | L08-09         | Sync communications/docs into one context                    |
+| Subagents for investigation | Official    | L11            | Keep main context clean; explore in isolation                |
+| "use subagents" directive   | Team        | L11            | Append to throw more compute at problems                     |
+| Autonomous problem solving  | Team        | MCP + L11      | Give Claude the problem, not the solution                    |
 | Challenge prompts           | Team        | Prompting      | "Grill me" and "Poke holes in this plan"                     |
 | Elegant solution prompt     | Team        | Prompting      | "Knowing everything you know now, scrap and redo"            |
 | Verification loops          | Team + Docs | L12 + L15      | Give Claude tools to verify its own work                     |

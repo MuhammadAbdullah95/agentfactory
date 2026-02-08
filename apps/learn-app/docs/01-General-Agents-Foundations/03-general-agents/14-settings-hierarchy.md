@@ -67,7 +67,7 @@ prerequisites:
 
 # Settings Hierarchy
 
-You've built **Skills** (Lesson 8), used **Subagents** (Lesson 10), and connected **MCP servers** (Lesson 12). As your agent system grows, so does the complexity.
+You've built **Skills** (Lesson 9), used **Subagents** (Lesson 11), and connected **MCP servers** (Lesson 12). As your agent system grows, so does the complexity.
 
 How do you control permissions for all these tools? How do you ensure your team uses the same safety rules? How do you switch models without editing every file?
 
@@ -193,7 +193,7 @@ Claude Code settings exist at three levels, from general to specific:
 This connects to earlier lessons:
 
 - **CLAUDE.md (Lesson 05)** provides content context at the project level
-- **Skills (Lesson 08)** can be enabled at any hierarchy level
+- **Skills (Lesson 09)** can be enabled at any hierarchy level
 - **Plugins (Lesson 16)** will use this same hierarchy to configure bundled capabilities
 
 ### Practical Applications

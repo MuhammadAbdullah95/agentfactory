@@ -8,7 +8,7 @@ duration_minutes: 20
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 2"
 layer_progression: "L2 (AI Collaboration) - using pre-compiled browsing-with-playwright skill to understand code execution pattern"
-layer_1_foundation: "Completed in Lessons 05-08 (Skills) and 12 (MCP)"
+layer_1_foundation: "Completed in Lessons 05-09 (Skills) and 12 (MCP)"
 layer_2_collaboration: "Experiencing token reduction through using compiled skill vs direct MCP"
 layer_3_intelligence: "N/A - Advanced lessons will cover skill creation"
 layer_4_capstone: "N/A"
@@ -65,8 +65,8 @@ version: "1.2.0"
 
 # Legacy compatibility
 prerequisites:
-  - "Lesson 06: Teach Claude Your Way (Skills Lab download)"
-  - "Lesson 08: Agent Skills (SKILL.md format)"
+  - "Lesson 07: Teach Claude Your Way (Skills Lab download)"
+  - "Lesson 09: Agent Skills (SKILL.md format)"
   - "Lesson 12: MCP Integration"
 ---
 
@@ -169,7 +169,7 @@ Instead of calling MCP tools directly through Claude's context, compile them int
 
 ### Progressive Disclosure: 3-Stage Loading
 
-Skills use **three-level loading** (covered in Lesson 8) to minimize token consumption:
+Skills use **three-level loading** (covered in Lesson 9) to minimize token consumption:
 
 1. **Discovery** (startup): Load only `description` field (~30 tokens)
 2. **Activation** (when relevant): Load full SKILL.md (~150 tokens)
@@ -196,7 +196,7 @@ You'll experience the power of compiled skills by using the pre-built **browsing
 
 ### Step 1: Download Skills Lab
 
-If you haven't already downloaded Skills Lab from Lesson 06, do so now:
+If you haven't already downloaded Skills Lab from Lesson 07, do so now:
 
 1. Go to [github.com/panaversity/claude-code-skills-lab](https://github.com/panaversity/claude-code-skills-lab)
 2. Click the green **Code** button
@@ -204,7 +204,7 @@ If you haven't already downloaded Skills Lab from Lesson 06, do so now:
 4. Extract the ZIP file
 5. Open the extracted folder in your terminal
 
-**If you already downloaded Skills Lab in Lesson 06**, navigate to that folder.
+**If you already downloaded Skills Lab in Lesson 07**, navigate to that folder.
 
 ### Step 2: Baseline - Try Playwright MCP Directly
 

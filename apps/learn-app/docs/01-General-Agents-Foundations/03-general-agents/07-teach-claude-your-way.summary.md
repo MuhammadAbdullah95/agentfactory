@@ -1,4 +1,4 @@
-# Lesson 6 Summary: Teach Claude Your Way of Working
+# Lesson 7 Summary: Teach Claude Your Way of Working
 
 ## Key Concepts
 

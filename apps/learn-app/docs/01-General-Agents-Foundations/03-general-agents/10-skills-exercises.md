@@ -1,8 +1,8 @@
 ---
 title: "Agent Skills Exercises"
-sidebar_position: 11
+sidebar_position: 10
 chapter: 3
-lesson: 11
+lesson: 10
 duration_minutes: 120
 
 # PEDAGOGICAL LAYER METADATA
@@ -54,7 +54,7 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 3
-  assessment: "3 concepts (skill architecture patterns, iterative testing, skill composition) — within B1 limit. Exercises reinforce L07-L10 concepts."
+  assessment: "3 concepts (skill architecture patterns, iterative testing, skill composition) — within B1 limit. Exercises reinforce L08-L09 concepts."
 
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; build skills that compose with MCP servers"
@@ -63,7 +63,7 @@ differentiation:
 
 # Agent Skills Exercises
 
-You understand what skills are (Lesson 07). You've built your first one (Lesson 08). You've learned how delegation patterns connect skills to larger agent workflows (Lesson 10). Theory is behind you. Now you build.
+You understand what skills are (Lesson 08). You've built your first one (Lesson 09). Theory is behind you. Now you build.
 
 These 27 exercises take you from dissecting existing skills to composing production-ready skill suites for real-world scenarios. Each module adds a layer of sophistication: first you read skills, then you write them, then you add examples and references, then you test and iterate, then you chain them into workflows, and finally you build complete skill libraries for business, education, or personal productivity.
 
@@ -601,7 +601,7 @@ Build (or reuse from earlier exercises) three skills: Meeting Minutes, Action It
 
 1. How is a pipeline skill different from the skills it orchestrates?
 2. What happens when one skill in the chain produces unexpected output?
-3. How does this pattern relate to agent workflows you learned about in Lesson 10?
+3. How might this pattern connect to agent delegation workflows? (You'll explore this in Lesson 11.)
 
 ---
 
@@ -820,4 +820,4 @@ Unlike Capstones A and B, these skills solve YOUR actual problems. This is where
 
 You've built skills from scratch, tested them systematically, composed them into pipelines, and created complete skill suites for real scenarios. You've gone from understanding what a SKILL.md is to building production-ready skill libraries.
 
-The next capability to add is connecting your skills to external tools and services. In **Lesson 12: MCP Integration**, you'll learn how the Model Context Protocol lets your skills reach beyond Claude's built-in capabilities — accessing databases, APIs, file systems, and other services that make your skills even more powerful.
+Next in **Lesson 11: Subagents and Orchestration**, you'll learn how Claude delegates complex tasks to specialized sub-agents — the same skill composition principles you practiced here, but automated. Then in **Lesson 12: MCP Integration**, you'll connect your skills to external tools and services through the Model Context Protocol.

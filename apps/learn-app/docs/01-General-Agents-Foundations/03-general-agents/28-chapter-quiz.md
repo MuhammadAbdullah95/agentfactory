@@ -265,7 +265,7 @@ options: [
 ],
 correctOption: 3,
 explanation: "This scenario tests understanding of when to use subagents versus other extensibility mechanisms. Subagents are designed for exactly this use case: orchestrating complex tasks by delegating subtasks to specialized agents, each with appropriate tools and context. For example, a database subagent might have only database-related MCP tools, while a frontend subagent has browser automation tools. This prevents tool overload and allows different prompting strategies per domain. Option B (skills) are more about reasoning patterns than orchestration—they don't provide tool isolation. Option C (hooks) are for validation/transformation, not delegation. Option D (MCP) provides tools but doesn't handle orchestration—Claude Code would still need to manage all domains simultaneously, creating complexity. The key insight is architectural: subagents enable divide-and-conquer approaches to complex problems through controlled delegation.",
-source: "Lesson 10: Subagents and Orchestration"
+source: "Lesson 11: Subagents and Orchestration"
 },
 {
 question: "You've created a subagent for code review tasks. During testing, you notice the subagent generates excellent feedback but takes much longer than expected. Which subagent configuration would most directly address this performance issue?",
@@ -277,7 +277,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "This question tests understanding of the performance/quality tradeoffs in model selection. Claude Code supports multiple models (Haiku, Sonnet, Opus) with different speed/capability tradeoffs. For code review, if quality is sufficient with Haiku but Sonnet is slower, switching to Haiku directly addresses the performance issue. Haiku is designed for speed while maintaining good quality for structured tasks. Option B might help but could reduce quality by limiting necessary tools—it's treating symptoms, not optimizing configuration. Option C isn't a real configuration option and would harm quality by limiting context. Option D adds orchestration complexity without addressing the root cause (model speed). The principle here mirrors performance optimization in software engineering: before adding complexity (parallelization, caching), first optimize the direct parameter (model choice) that controls the speed/quality tradeoff.",
-source: "Lesson 10: Subagents and Orchestration"
+source: "Lesson 11: Subagents and Orchestration"
 },
 {
 question: "Your main agent delegates a task to a subagent for implementation. The subagent completes the work but returns results that don't match the main agent's expectations. What does this scenario reveal about subagent communication design?",
@@ -289,7 +289,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "This scenario illustrates a fundamental principle of distributed systems: clear interface contracts are essential when components communicate. Just as microservices need well-defined APIs, agent orchestration requires clear specifications of what the main agent expects (inputs, outputs, success criteria) and what the subagent delivers. Without this, you get impedance mismatch. Option B is defeatist—complex tasks are exactly when orchestration helps, but they require better contracts. Option C is a good practice but doesn't prevent the mismatch; validation catches problems but doesn't prevent them. Option D is backwards—autonomy without constraints leads to unpredictable results. The correct approach combines clear contracts with autonomy: 'Here's what I need (contract), you decide how (autonomy).' This mirrors software engineering: good abstractions have clear interfaces but hide implementation details.",
-source: "Lesson 10: Subagents and Orchestration"
+source: "Lesson 11: Subagents and Orchestration"
 },
 {
 question: "You're designing a subagent for testing tasks. The main agent needs visibility into test results without managing test execution details. Which information architecture best achieves this separation of concerns?",
@@ -301,7 +301,7 @@ options: [
 ],
 correctOption: 0,
 explanation: "This question tests understanding of interface design in agent orchestration. A structured summary (pass/fail counts, failing test names) provides the right abstraction level: enough information for the main agent to make decisions (e.g., 'tests failed, need fixes') without overwhelming it with raw output. This applies the interface segregation principle: clients (main agent) should receive only the information they need. Option B violates this by dumping all details, forcing the main agent to parse complex output. Option C adds latency and complexity through file I/O when direct return would work. Option D overcomplicates with an additional abstraction layer (MCP) when simple return values suffice. The principle here is information hiding: good interfaces expose the right level of abstraction, not all implementation details.",
-source: "Lesson 10: Subagents and Orchestration"
+source: "Lesson 11: Subagents and Orchestration"
 },
 {
 question: "You're orchestrating a deployment pipeline using subagents: one for tests, one for builds, one for deployment. Tests pass, but the build subagent fails. The deployment subagent starts anyway. What does this reveal about orchestration control flow?",
@@ -313,7 +313,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "This scenario highlights that orchestration isn't automatic—the main agent must explicitly manage dependencies and handle errors. Just as a bash script doesn't automatically stop on errors (without 'set -e'), subagent orchestration requires intentional control flow. The main agent should check the build subagent's return status and conditionally invoke the deploy subagent only on success. Option B is incorrect—parallel vs. sequential execution depends on how the main agent invokes subagents, not a global configuration. Option C describes ideal behavior but isn't automatic—you must implement this logic. Option D misses the point—deployment pipelines inherently have dependencies (can't deploy before building). The principle here mirrors error handling in programming: explicit is better than implicit. Robust orchestration requires intentional dependency management, not assumptions about automatic behavior.",
-source: "Lesson 10: Subagents and Orchestration"
+source: "Lesson 11: Subagents and Orchestration"
 },
 {
 question: "You're creating an agent skill for API testing. The skill needs to handle authentication, request construction, and response validation. What does this scope reveal about effective skill design?",
@@ -325,7 +325,7 @@ options: [
 ],
 correctOption: 3,
 explanation: "This scenario tests understanding of skill scope. Effective skills encapsulate complete, coherent workflows that developers would naturally think of as a unit—like 'test this API endpoint' includes auth, request, and validation. Breaking this into three separate skills would require developers to orchestrate them manually, adding cognitive load. Option B advocates for overly granular skills, which leads to composition complexity (needing to chain many small skills for common tasks). Option C conflates skills with subagents—skills are prompt patterns, not delegation mechanisms. Option D is a misapplication of single responsibility—skills should have single purpose (API testing) but that purpose can encompass multiple steps. The principle here mirrors function design in programming: aim for cohesion (related operations together) over arbitrary atomicity. The right granularity is 'one meaningful task,' not 'one operation.'",
-source: "Lesson 08: Building Your Own Skills"
+source: "Lesson 09: Building Your Own Skills"
 },
 {
 question: "Your skill template includes: 'Analyze the code for bugs. Consider edge cases.' After testing, you find the skill produces superficial analysis. Which modification would most effectively improve the skill's depth?",
@@ -337,7 +337,7 @@ options: [
 ],
 correctOption: 0,
 explanation: "This scenario reveals the difference between instruction-based and reasoning-based prompts. The original skill ('Analyze... Consider...') gives commands but doesn't activate deep reasoning. The Persona + Questions + Principles pattern reframes the task as: 'You are an expert code reviewer [Persona]. Ask yourself: What edge cases does this code miss? What assumptions could break? [Questions] Apply principles: trust but verify, fail fast, defensive programming [Principles].' This activates reasoning mode, producing deeper analysis. Option B helps but doesn't fundamentally change the reasoning depth—examples show what to find, not how to think. Option C is a misconception—temperature controls randomness, not quality. Option D produces checklist-driven analysis (shallow) rather than principle-driven reasoning (deep). The key insight is about prompt engineering: reasoning-activated prompts produce better results than instruction-based prompts for complex cognitive tasks.",
-source: "Lesson 08: Building Your Own Skills"
+source: "Lesson 09: Building Your Own Skills"
 },
 {
 question: "You have skills for 'code-review', 'bug-analysis', and 'security-audit'. A developer argues these are redundant and should be merged into one 'code-quality' skill. Which principle best informs this design decision?",
@@ -349,7 +349,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "This question tests understanding of skill granularity based on cognitive context, not technical similarity. Code review, bug analysis, and security audit operate on code but apply different lenses: code review focuses on readability and maintainability; bug analysis on correctness and edge cases; security audit on vulnerabilities and attack vectors. These different contexts benefit from specialized reasoning frameworks (different Personas, Questions, and Principles). Merging them would create a generic 'check everything' skill that lacks depth in each area. Option B focuses on technical similarity (input type) rather than cognitive purpose. Option C incorrectly ties granularity to tools rather than reasoning. Option D values DRY (don't repeat yourself) over specialization, but in prompting, specialized context often outweighs code reuse benefits. The principle here mirrors software design: cohesion (related reasoning together) matters more than coupling (shared technical elements).",
-source: "Lesson 08: Building Your Own Skills"
+source: "Lesson 09: Building Your Own Skills"
 },
 {
 question: "You've created a skill for database schema design. During testing, it generates schemas that work but don't follow your team's naming conventions. The conventions are documented in CLAUDE.md. What does this reveal about skill-context interaction?",
@@ -361,7 +361,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "This scenario illustrates that skills and project context (CLAUDE.md) serve different purposes and should be composed intentionally. Skills provide reasoning patterns ('think about normalization, indexes, relationships'); CLAUDE.md provides project-specific rules ('use snake_case for columns'). Effective skills explicitly reference context: 'Follow the naming conventions in CLAUDE.md when generating schemas.' This makes the interaction explicit. Option B is incorrect—while CLAUDE.md is in context, skills should explicitly invoke it when conventions matter, not assume passive application. Option C violates DRY and creates maintenance burden (updating conventions in multiple places). Option D misunderstands precedence—skills and CLAUDE.md complement each other. The principle here is composition: skills should explicitly reference external context when needed, making dependencies clear and enabling modular reasoning.",
-source: "Lesson 08: Building Your Own Skills"
+source: "Lesson 09: Building Your Own Skills"
 },
 {
 question: "You're creating a skill library for your organization. Different teams have different coding standards, but similar reasoning patterns (testing, review, refactoring). Which skill design approach best balances reusability with customization?",
@@ -373,7 +373,7 @@ options: [
 ],
 correctOption: 3,
 explanation: "This question tests understanding of skill parameterization and composition. Parameterized skills separate the reusable reasoning pattern (how to review code) from team-specific details (which conventions to enforce). For example: 'You are a code reviewer [Persona]. Review this code following the standards in {standards_file}. Questions: Does it follow conventions in {standards_file}? [Questions + Parameter].' Teams provide their standards_file reference. Option B creates maintenance overhead (N×M skills for N teams and M patterns). Option C produces generic, context-free skills that miss team-specific requirements. Option D creates a bloated skill with contradictory standards that would confuse the model. The principle here mirrors software engineering: parameterization enables reuse without duplication. Just as functions take parameters rather than hard-coding values, skills can reference external context rather than embedding all variations.",
-source: "Lesson 08: Building Your Own Skills"
+source: "Lesson 09: Building Your Own Skills"
 },
 {
 question: "You configure a validation hook that runs linting on generated code. During a task, Claude Code generates code with linting errors, the hook blocks it, but Claude Code doesn't automatically fix the issues. What does this reveal about hook behavior?",
@@ -589,7 +589,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "This question tests understanding of which extensibility mechanisms require programming skills versus configuration/prompting skills. CLAUDE.md (markdown documentation), settings (YAML/JSON), and agent skills (markdown with Persona+Questions+Principles patterns) all use declarative formats accessible to non-programmers. MCP servers and hooks require actual code (Python, JS, etc.) to implement logic. This is a key design principle in Claude Code—progressive complexity where basic extensibility doesn't require programming, but advanced features do. Option A incorrectly excludes skills, which use markdown. Option C wrongly suggests CLAUDE.md needs programming—it's just markdown documentation. Option D overstates accessibility—MCP and hooks definitely require programming. The principle here is tool accessibility: good platforms provide multiple extension points at different complexity levels, enabling users to start simple and grow into advanced features as skills develop.",
-source: "Lesson 08: Building Your Own Skills"
+source: "Lesson 09: Building Your Own Skills"
 },
 {
 question: "Your plugin uses MCP tools, CLAUDE.md context injection, custom skills, and validation hooks. A user reports the plugin 'slows down' Claude Code. Which architectural decision would most likely cause this performance issue?",
