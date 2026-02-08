@@ -69,3 +69,6 @@ local/api/chatkit-server/.env
 
 
 .env.production
+
+exercises-pack/
+skills-exercises/
