@@ -1993,7 +1993,8 @@ article {
   /* Override Prism theme */
   border: 1px solid var(--border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 [data-theme='dark'] .markdown pre {
