@@ -179,7 +179,7 @@ Or if you have git installed, run `git clone https://github.com/panaversity/clau
 Inside the exercises you just downloaded, find this folder:
 
 ```
-claude-code-exercises → basics → module-1 → exercise-1.1-messy-downloads
+claude-code-exercises → basics → module-1-file-organization → exercise-1.1-messy-downloads
 ```
 
 **Open your terminal in this folder.** (On Mac: right-click the folder → "New Terminal at Folder". On Windows: right-click → "Open in Terminal".)
