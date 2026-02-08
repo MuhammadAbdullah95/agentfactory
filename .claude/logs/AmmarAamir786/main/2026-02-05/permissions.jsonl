@@ -1,0 +1,2 @@
+{"timestamp": "2026-02-05T07:00:24Z", "session_id": "27dfad12-0571-4c81-b707-1c91a0f7519d", "user": "AmmarAamir786", "branch": "main", "event": "request", "tool": "Bash", "detail": "git config core.autocrlf && git config core.safecrlf"}
+{"timestamp": "2026-02-05T07:02:50Z", "session_id": "27dfad12-0571-4c81-b707-1c91a0f7519d", "user": "AmmarAamir786", "branch": "main", "event": "request", "tool": "Bash", "detail": "git config core.autocrlf true && git rm --cached -r . && git reset --hard HEAD"}
