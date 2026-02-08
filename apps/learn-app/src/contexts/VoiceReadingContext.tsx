@@ -330,7 +330,8 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         // ==========================================
         // Estimate ~280ms per word at rate 1.0 (adjust based on actual rate)
         // This provides visual feedback when onboundary doesn't fire
-        const avgWordDuration = 280 / playbackRateRef.current; // ms per word
+        const safePlaybackRate = playbackRateRef.current > 0 ? playbackRateRef.current : 1;
+        const avgWordDuration = 280 / safePlaybackRate; // ms per word
         let fallbackWordIndex = startWordIndex;
 
         // Start fallback timer after a short delay to give onboundary a chance
@@ -515,9 +516,20 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
             if (block) {
                 // Clear any existing timers first to prevent orphaned intervals on double-click
                 clearFallbackTimers();
-                const avgWordDuration = 280 / playbackRateRef.current;
+                const safePlaybackRate = playbackRateRef.current > 0 ? playbackRateRef.current : 1;
+                const avgWordDuration = 280 / safePlaybackRate;
                 let fallbackWordIndex = currentWordIndexRef.current;
+                // Capture utterance ID to detect stale intervals after speed/voice/volume changes
+                const resumeUtteranceId = currentUtteranceIdRef.current;
                 fallbackTimerRef.current = setInterval(() => {
+                    // Self-clear if utterance has changed (e.g., restart triggered)
+                    if (currentUtteranceIdRef.current !== resumeUtteranceId) {
+                        if (fallbackTimerRef.current) {
+                            clearInterval(fallbackTimerRef.current);
+                            fallbackTimerRef.current = null;
+                        }
+                        return;
+                    }
                     if (boundaryFiredRef.current) {
                         if (fallbackTimerRef.current) {
                             clearInterval(fallbackTimerRef.current);
