@@ -89,6 +89,21 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
     const fallbackDelayTimerRef = useRef<NodeJS.Timeout | null>(null);
     const boundaryFiredRef = useRef(false);
 
+    /**
+     * Clear all fallback timers to prevent memory leaks and orphaned intervals.
+     * Centralized cleanup function used across all handlers.
+     */
+    const clearFallbackTimers = useCallback(() => {
+        if (fallbackTimerRef.current) {
+            clearInterval(fallbackTimerRef.current);
+            fallbackTimerRef.current = null;
+        }
+        if (fallbackDelayTimerRef.current) {
+            clearTimeout(fallbackDelayTimerRef.current);
+            fallbackDelayTimerRef.current = null;
+        }
+    }, []);
+
     // Load voices on mount
     useEffect(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -115,16 +130,9 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
             window.speechSynthesis.cancel();
             setIsPlaying(false);
             // Clear all timers on unmount
-            if (fallbackTimerRef.current) {
-                clearInterval(fallbackTimerRef.current);
-                fallbackTimerRef.current = null;
-            }
-            if (fallbackDelayTimerRef.current) {
-                clearTimeout(fallbackDelayTimerRef.current);
-                fallbackDelayTimerRef.current = null;
-            }
+            clearFallbackTimers();
         };
-    }, []);
+    }, [clearFallbackTimers]);
 
     const selectedVoice = availableVoices[selectedVoiceIndex] || null;
 
@@ -413,14 +421,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
 
         utterance.onend = () => {
             // Clear fallback timers
-            if (fallbackTimerRef.current) {
-                clearInterval(fallbackTimerRef.current);
-                fallbackTimerRef.current = null;
-            }
-            if (fallbackDelayTimerRef.current) {
-                clearTimeout(fallbackDelayTimerRef.current);
-                fallbackDelayTimerRef.current = null;
-            }
+            clearFallbackTimers();
             // CRITICAL: Only advance if this is still the current utterance
             // This prevents stale callbacks from triggering double playback
             if (currentUtteranceIdRef.current !== thisUtteranceId) {
@@ -432,14 +433,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
 
         utterance.onerror = (e) => {
             // Clear fallback timers
-            if (fallbackTimerRef.current) {
-                clearInterval(fallbackTimerRef.current);
-                fallbackTimerRef.current = null;
-            }
-            if (fallbackDelayTimerRef.current) {
-                clearTimeout(fallbackDelayTimerRef.current);
-                fallbackDelayTimerRef.current = null;
-            }
+            clearFallbackTimers();
             if (e.error === 'interrupted' || e.error === 'canceled') {
                 return;
             }
@@ -457,7 +451,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         };
 
         window.speechSynthesis.speak(utterance);
-    }, [updateWordStyles, unwrapWords]);
+    }, [updateWordStyles, unwrapWords, clearFallbackTimers]);
 
     const playBlock = useCallback((blockIndex: number) => {
         playBlockFromWord(blockIndex, 0);
@@ -468,14 +462,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
 
         if (isPlaying) {
             // Clear fallback timers
-            if (fallbackTimerRef.current) {
-                clearInterval(fallbackTimerRef.current);
-                fallbackTimerRef.current = null;
-            }
-            if (fallbackDelayTimerRef.current) {
-                clearTimeout(fallbackDelayTimerRef.current);
-                fallbackDelayTimerRef.current = null;
-            }
+            clearFallbackTimers();
             // Increment utterance ID to invalidate any pending callbacks
             currentUtteranceIdRef.current = ++utteranceIdRef.current;
             window.speechSynthesis.cancel();
@@ -498,25 +485,18 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         setIsPlaying(true);
         setIsPaused(false);
         playBlock(0);
-    }, [isPlaying, parseArticleContent, wrapWordsInBlock, playBlock, unwrapWords]);
+    }, [isPlaying, parseArticleContent, wrapWordsInBlock, playBlock, unwrapWords, clearFallbackTimers]);
 
     const pauseSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
         if (!isPlaying || isPaused) return;
 
         // Bug 1 fix: Clear fallback timer on pause to prevent desync
-        if (fallbackTimerRef.current) {
-            clearInterval(fallbackTimerRef.current);
-            fallbackTimerRef.current = null;
-        }
-        if (fallbackDelayTimerRef.current) {
-            clearTimeout(fallbackDelayTimerRef.current);
-            fallbackDelayTimerRef.current = null;
-        }
+        clearFallbackTimers();
 
         window.speechSynthesis.pause();
         setIsPaused(true);
-    }, [isPlaying, isPaused]);
+    }, [isPlaying, isPaused, clearFallbackTimers]);
 
     const resumeSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -530,14 +510,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
             const block = blocksRef.current[activeBlockIndexRef.current];
             if (block) {
                 // Clear any existing timers first to prevent orphaned intervals on double-click
-                if (fallbackTimerRef.current) {
-                    clearInterval(fallbackTimerRef.current);
-                    fallbackTimerRef.current = null;
-                }
-                if (fallbackDelayTimerRef.current) {
-                    clearTimeout(fallbackDelayTimerRef.current);
-                    fallbackDelayTimerRef.current = null;
-                }
+                clearFallbackTimers();
                 const avgWordDuration = 280 / playbackRateRef.current;
                 let fallbackWordIndex = currentWordIndexRef.current;
                 fallbackTimerRef.current = setInterval(() => {
@@ -562,20 +535,13 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
                 }, avgWordDuration);
             }
         }
-    }, [isPlaying, isPaused, updateWordStyles]);
+    }, [isPlaying, isPaused, updateWordStyles, clearFallbackTimers]);
 
     const stopSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
 
         // Clear fallback timers
-        if (fallbackTimerRef.current) {
-            clearInterval(fallbackTimerRef.current);
-            fallbackTimerRef.current = null;
-        }
-        if (fallbackDelayTimerRef.current) {
-            clearTimeout(fallbackDelayTimerRef.current);
-            fallbackDelayTimerRef.current = null;
-        }
+        clearFallbackTimers();
         // Increment utterance ID to invalidate any pending callbacks
         currentUtteranceIdRef.current = ++utteranceIdRef.current;
         window.speechSynthesis.cancel();
@@ -586,7 +552,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         setCurrentWordIndex(-1);
         currentWordIndexRef.current = -1;
         unwrapWords();
-    }, [unwrapWords]);
+    }, [unwrapWords, clearFallbackTimers]);
 
     /**
      * Restart from current word with new settings
