@@ -68,7 +68,7 @@ differentiation:
 ---
 # When Bash and Python Hit the Wall
 
-In Chapter 8, you built a tax preparation pipeline: download bank CSVs, categorize expenses, generate a report. One command processed a full year of transactions. Your toolkit grew — bash for file operations (Chapter 7), Python for computation and categorization (Chapter 8). Powerful tools.
+In the Computation & Data Extraction chapter, you built a tax preparation pipeline: download bank CSVs, categorize expenses, generate a report. One command processed a full year of transactions. Your toolkit grew — bash for file operations (the File Processing chapter), Python for computation and categorization (the Computation chapter). Powerful tools.
 
 But imagine your accountant asks a follow-up question next week: *"Show me all medical expenses over $50 from March through June."* With your current tools, you'd write new Python code — load the CSV, loop through rows, parse dates, filter by category, filter by amount, filter by date range. And next month when they ask "compare Q1 vs Q2 spending by category"? More new code. Every new question requires a new script.
 
@@ -89,7 +89,7 @@ In L0, you created your `/database-deployment` skill scaffold. Now let's fill in
 
 ## The Tax Prep Problem
 
-In Chapter 8, your tax preparation script processed ONE CSV file at a time. Load the file, categorize expenses, output results. Simple and effective for a single tax year.
+In the Computation & Data Extraction chapter, your tax preparation script processed ONE CSV file at a time. Load the file, categorize expenses, output results. Simple and effective for a single tax year.
 
 But what happens when your needs grow?
 
@@ -269,7 +269,7 @@ Each lesson adds to your `/database-deployment` skill. By L8, you'll have a comp
 **What you're learning**: Recognizing when CSV files fail and databases are needed.
 
 ```
-Imagine my tax prep app from Chapter 8 now needs to:
+Imagine my tax prep app from the Computation & Data Extraction chapter now needs to:
 - Store multiple years of expense data
 - Let multiple friends track their own expenses
 - Answer questions like "Show me all grocery spending in 2024"

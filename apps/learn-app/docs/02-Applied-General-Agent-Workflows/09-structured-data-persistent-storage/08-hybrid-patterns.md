@@ -48,7 +48,7 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 3
-  assessment: "3 new concepts (hybrid verification pattern, tool selection framework, cost-benefit reasoning for verification). All build on previously mastered SQL, Python, and bash skills from Chapters 7-9."
+  assessment: "3 new concepts (hybrid verification pattern, tool selection framework, cost-benefit reasoning for verification). All build on previously mastered SQL, Python, and bash skills from the File Processing, Computation, and earlier lessons in this chapter."
 
 differentiation:
   extension_for_advanced: "Design a three-tool verification chain (SQL query, Python analysis, bash file check) for a production audit trail"
@@ -80,7 +80,7 @@ Why did the bash agent fail half the time? The researchers identified the root c
 
 A single query path creates a single point of failure. If the query logic has a subtle bug — a wrong filter, a missing join, a timezone mismatch — the result looks correct but is not.
 
-The hybrid pattern introduces independent verification: query your data one way, confirm the result a different way. This is Principle 3 (Verification as Core Step) applied to data — the same principle you used in Ch 7 (bash output checks), Ch 8 (Python assertions), and now Ch 9 (cross-tool verification).
+The hybrid pattern introduces independent verification: query your data one way, confirm the result a different way. This is Principle 3 (Verification as Core Step) applied to data — the same principle you used in the File Processing chapter (bash output checks), the Computation chapter (Python assertions), and now this chapter (cross-tool verification).
 
 ## The Hybrid Pattern in Practice
 
@@ -215,14 +215,14 @@ The decision: what is the cost of a wrong answer? If it causes financial loss or
 
 Looking back across Part 2, each tool excels at specific tasks:
 
-| Tool | Best For | Accuracy | Cost | Chapter |
-|------|----------|----------|------|---------|
-| **Bash** | File exploration, text search, quick verification | Moderate (52.7% for structured queries) | Low (tokens) | Ch 7 |
-| **Python** | Computation, data transformation, decimal arithmetic | High (deterministic) | Low (local) | Ch 8 |
-| **SQL (SQLAlchemy)** | Structured queries, persistent storage, relationships | High (100% with schema) | Low (155K tokens) | Ch 9 |
-| **Hybrid** | Production reliability, self-verification, audit trails | Highest (100% + cross-check) | Medium (310K tokens) | Ch 9 L7 |
+| Tool | Best For | Accuracy | Cost | Learned In |
+|------|----------|----------|------|------------|
+| **Bash** | File exploration, text search, quick verification | Moderate (52.7% for structured queries) | Low (tokens) | File Processing |
+| **Python** | Computation, data transformation, decimal arithmetic | High (deterministic) | Low (local) | Computation & Data Extraction |
+| **SQL (SQLAlchemy)** | Structured queries, persistent storage, relationships | High (100% with schema) | Low (155K tokens) | This chapter |
+| **Hybrid** | Production reliability, self-verification, audit trails | Highest (100% + cross-check) | Medium (310K tokens) | This lesson |
 
-The best tool is not one tool. It is knowing which tool for which job — and when the job requires two. In Chapter 10, you will add version control (Git) to track changes across all these tools. In Chapter 11, you will combine everything into your first AI employee.
+The best tool is not one tool. It is knowing which tool for which job — and when the job requires two. In the next chapter, you will add version control (Git) to track changes across all these tools. After that, you will combine everything into your first AI employee.
 
 ## Try With AI
 
@@ -239,7 +239,7 @@ Write a hybrid verification function that:
 4. Compares the SQLAlchemy count with the bash count
 5. Prints VERIFIED if they match, MISMATCH if they differ
 
-Use the Budget Tracker models from Chapter 9 (Expense has user_id,
+Use the Budget Tracker models from this chapter (Expense has user_id,
 category_id, amount, date; Category has name).
 ```
 
@@ -288,6 +288,6 @@ Before moving to the capstone, verify:
 - [ ] I can describe why the bash agent scored 52.7% (schema awareness)
 - [ ] I can select the right tool for a given data task with justification
 - [ ] I understand the cost-benefit tradeoff of hybrid verification
-- [ ] I can trace the Part 2 tool choice story: bash (Ch 7) to Python (Ch 8) to SQL (Ch 9) to hybrid (Ch 9 L7)
+- [ ] I can trace the Part 2 tool choice story: bash (File Processing) to Python (Computation) to SQL (this chapter) to hybrid (this lesson)
 
 Ready for L8: the capstone where you put everything together into a complete Budget Tracker application.

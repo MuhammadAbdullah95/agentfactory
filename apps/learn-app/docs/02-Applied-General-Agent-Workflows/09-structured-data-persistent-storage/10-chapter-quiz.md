@@ -661,14 +661,14 @@ options: [
 "Hybrid — financial calculations always need verification"
 ],
 correctOption: 1,
-explanation: "Decimal arithmetic is Python's strength (Chapter 8). Bash fails at floating-point precision. SQL is for querying stored data, not raw computation. This is the tool choice framework in action: match the tool's strength to the task's requirement.",
+explanation: "Decimal arithmetic is Python's strength (the Computation & Data Extraction chapter). Bash fails at floating-point precision. SQL is for querying stored data, not raw computation. This is the tool choice framework in action: match the tool's strength to the task's requirement.",
 source: "Lesson 7: Hybrid Patterns"
 },
 {
 question: "Looking back at Part 2's tool choice story, what's the correct progression?",
 options: [
 "Bash for everything, then learn SQL as a replacement",
-"Bash for file ops (Ch 7) → Python for computation (Ch 8) → SQL for structured queries (Ch 9) → hybrid for verification (Ch 9 L7)",
+"Bash for file ops (File Processing) → Python for computation (Computation & Data Extraction) → SQL for structured queries (this chapter) → hybrid for verification (L7)",
 "Start with SQL, then learn bash for simple tasks",
 "Python first, then add bash and SQL as optional tools"
 ],

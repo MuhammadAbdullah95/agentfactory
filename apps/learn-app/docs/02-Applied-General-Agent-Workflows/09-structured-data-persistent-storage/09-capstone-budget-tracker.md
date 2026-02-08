@@ -119,12 +119,12 @@ This is why professional applications — from startups to enterprises — use d
 
 Looking back across Part 2, you've assembled a toolkit where each tool excels at specific data tasks:
 
-| Data Task | Best Tool | Why | Chapter |
-|-----------|-----------|-----|---------|
-| File manipulation | Bash | Native, fast, universal | Ch 7 |
-| Computation | Python | Deterministic, decimal-safe | Ch 8 |
-| Structured queries | SQL (SQLAlchemy) | Schema-aware, 100% accuracy | Ch 9 |
-| Exploration + verification | Hybrid (SQL + bash) | Self-checking, catches edge cases | Ch 9 L7 |
+| Data Task | Best Tool | Why | Learned In |
+|-----------|-----------|-----|------------|
+| File manipulation | Bash | Native, fast, universal | File Processing |
+| Computation | Python | Deterministic, decimal-safe | Computation & Data Extraction |
+| Structured queries | SQL (SQLAlchemy) | Schema-aware, 100% accuracy | This chapter |
+| Exploration + verification | Hybrid (SQL + bash) | Self-checking, catches edge cases | L7 (Hybrid Patterns) |
 
 ### What This Means for Your Work
 

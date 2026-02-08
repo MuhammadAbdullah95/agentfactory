@@ -18,11 +18,11 @@ status: published
 
 You've been building a toolkit, one tool at a time:
 
-- **Chapter 7**: You gave Claude hands with **bash** — file operations, directory management, shell pipelines. Bash is Claude's native language for interacting with the filesystem.
-- **Chapter 8**: When bash failed at decimal arithmetic, you reached for **Python** — computation, data extraction, CSV processing. Python handles what bash can't compute.
-- **Chapter 9**: Now Python and bash both fail. Try querying "show me all groceries over $50 in March" across thousands of records with `grep` or Python loops. It works... until it doesn't.
+- **File Processing Workflows**: You gave Claude hands with **bash** — file operations, directory management, shell pipelines. Bash is Claude's native language for interacting with the filesystem.
+- **Computation & Data Extraction**: When bash failed at decimal arithmetic, you reached for **Python** — computation, data extraction, CSV processing. Python handles what bash can't compute.
+- **This chapter**: Now Python and bash both fail. Try querying "show me all groceries over $50 in March" across thousands of records with `grep` or Python loops. It works... until it doesn't.
 
-In Chapter 8, you built your first Digital FTE component — a reusable tool for tax categorization. This chapter adds the next tool to your toolkit: **SQL databases**, accessed through Python's SQLAlchemy ORM and deployed to Neon's serverless PostgreSQL. Where your Python scripts process data and forget, databases process data and *remember*.
+In the Computation & Data Extraction chapter, you built your first Digital FTE component — a reusable tool for tax categorization. This chapter adds the next tool to your toolkit: **SQL databases**, accessed through Python's SQLAlchemy ORM and deployed to Neon's serverless PostgreSQL. Where your Python scripts process data and forget, databases process data and *remember*.
 
 ### Why Not Just Write More Python?
 
@@ -62,7 +62,7 @@ You'll transform from someone who loses data when scripts restart to someone who
 
 ## Prerequisites
 
-**From Chapter 8 (Computation & Data Extraction)**:
+**From the Computation & Data Extraction chapter**:
 
 - You can process CSV files with Python
 - You understand stdin/stdout pipelines
@@ -135,7 +135,7 @@ This chapter demonstrates the principles through database operations:
 
 - Learn when to combine SQL queries with bash verification
 - Build the Part 2 tool choice framework: bash + Python + SQL + hybrid
-- Connect to Ch 10-11 for the full agent toolkit
+- Connect to the Version Control and AI Employee chapters for the full agent toolkit
 
 **Lesson 8**: Capstone (Complete Application)
 
@@ -166,17 +166,17 @@ This chapter is the third beat in Part 2's **tool choice story**:
 
 | Chapter | Tool | When It Wins | When It Fails |
 |---------|------|--------------|---------------|
-| Ch 7 | **Bash** | File operations, text processing | Decimal arithmetic, structured queries |
-| Ch 8 | **Python** | Computation, data extraction | Querying relationships across thousands of records |
-| Ch 9 | **SQL (SQLAlchemy)** | Structured queries, persistent storage | When you need file-level verification |
-| Ch 10 | **Git** | Version control, change tracking | (Completes the toolkit) |
-| Ch 11 | **All combined** | Your first AI employee | — |
+| File Processing Workflows | **Bash** | File operations, text processing | Decimal arithmetic, structured queries |
+| Computation & Data Extraction | **Python** | Computation, data extraction | Querying relationships across thousands of records |
+| Structured Data (this chapter) | **SQL (SQLAlchemy)** | Structured queries, persistent storage | When you need file-level verification |
+| Version Control | **Git** | Version control, change tracking | (Completes the toolkit) |
+| AI Employee | **All combined** | Your first AI employee | — |
 
-**Builds on Chapter 8**: Your CSV processing skills evolve to database persistence. The tax categorization patterns become database queries. The Unix pipeline philosophy (small tools, composed) maps to ORM (small models, related).
+**Builds on Computation & Data Extraction**: Your CSV processing skills evolve to database persistence. The tax categorization patterns become database queries. The Unix pipeline philosophy (small tools, composed) maps to ORM (small models, related).
 
-**Leads to Chapter 10**: With data persisted in a database, you need version control for the code that manages it. Git tracks your application's evolution.
+**Leads to Version Control**: With data persisted in a database, you need version control for the code that manages it. Git tracks your application's evolution.
 
-**Culminates in Chapter 11**: Your first AI employee combines bash (file ops), Python (computation), SQL (data), and Git (versioning) into a single agent workflow.
+**Culminates in Meet Your First AI Employee**: Your first AI employee combines bash (file ops), Python (computation), SQL (data), and Git (versioning) into a single agent workflow.
 
 ## The Real-World Payoff
 
