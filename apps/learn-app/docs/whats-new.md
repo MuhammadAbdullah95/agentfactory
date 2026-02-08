@@ -17,6 +17,10 @@ Track meaningful updates to the book. This page is automatically updated when do
 
 <!-- CHANGELOG_START - Do not remove this marker -->
 
+### 2026-02-08
+
+- Add Chapter 09: SQL & Neon PostgreSQL with Python specification and t… ([#695](https://github.com/panaversity/agentfactory/pull/695))
+
 ### 2026-02-07
 
 - feat(token-metering-api): implement v5 freemium token tracker ([#683](https://github.com/panaversity/agentfactory/pull/683))
