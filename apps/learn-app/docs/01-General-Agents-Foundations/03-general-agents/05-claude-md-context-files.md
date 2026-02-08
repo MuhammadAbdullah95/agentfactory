@@ -125,10 +125,10 @@ This is called being **"stateless."** Large Language Models (LLMs)—like those 
 That's Claude Code doing extra work. Here's what actually happens:
 
 1. You send message #1 → Claude Code sends it to Claude
-2. You send message #2 → Claude Code secretly bundles message #1 + #2 and sends *both*
-3. You send message #3 → Claude Code bundles #1 + #2 + #3 and sends *all three*
+2. You send message #2 → Claude Code secretly bundles message #1 + #2 and sends _both_
+3. You send message #3 → Claude Code bundles #1 + #2 + #3 and sends _all three_
 
-The LLM reads the whole bundle fresh each time. It *looks* like a continuous conversation because Claude Code re-sends the history with every message. But the LLM itself is still stateless—it's just being shown the full history repeatedly.
+The LLM reads the whole bundle fresh each time. It _looks_ like a continuous conversation because Claude Code re-sends the history with every message. But the LLM itself is still stateless—it's just being shown the full history repeatedly.
 
 Web apps like ChatGPT and Claude.ai use the same trick.
 
@@ -136,17 +136,18 @@ Web apps like ChatGPT and Claude.ai use the same trick.
 
 For quick questions, re-sending chat history works fine. But for ongoing project work:
 
-| Approach | Good For | Problem |
-|----------|----------|---------|
-| Re-send chat history | Short conversations | Gets too long eventually |
-| Explain project each time | Simple projects | Exhausting with complex projects |
-| Start fresh each time | Quick one-off questions | Loses project understanding |
+| Approach                  | Good For                | Problem                          |
+| ------------------------- | ----------------------- | -------------------------------- |
+| Re-send chat history      | Short conversations     | Gets too long eventually         |
+| Explain project each time | Simple projects         | Exhausting with complex projects |
+| Start fresh each time     | Quick one-off questions | Loses project understanding      |
 
 **Claude Code solves this differently.** Instead of trying to keep everything in the conversation history, it treats your **file system as external memory**.
 
 **The insight**: Your code files already contain your project's state. Instead of describing your project to Claude, Claude reads your project directly.
 
 This is why file system access unlocks the "agentic" capability you saw in Lesson 01:
+
 - **Stateless LLM** + **File System Access** = Persistent state through your actual files
 - **CLAUDE.md** = The orientation guide Claude reads first in every session
 - **Every session**: Claude reads CLAUDE.md, understands your project, and gets to work
@@ -166,6 +167,7 @@ You don't need to do anything. When you start `claude` in a directory, **Claude 
 One-time setup. Automatic benefit forever.
 
 #### 💬 AI Colearning Prompt
+
 > "Explain how Claude Code loads CLAUDE.md automatically at session start. What's the mechanism that makes this work without manual commands?"
 
 #### 🎓 Expert Insight
@@ -256,6 +258,50 @@ In later lessons, you'll see how subagents (Lesson 09) and skills (Lesson 08) in
 
 ---
 
+## Continue Practicing: Context-Powered Problem Solving
+
+You now have a powerful advantage: CLAUDE.md gives Claude persistent context. Let's see the difference it makes.
+
+### Create a CLAUDE.md for Your Exercises
+
+Open the `basics` folder inside your `claude-code-exercises` download (from Lesson 04). Open your terminal there and start Claude:
+
+```bash
+claude
+```
+
+Ask Claude to create a CLAUDE.md:
+
+```
+Create a CLAUDE.md for this exercises folder. I'm a beginner
+practicing problem-solving with AI. I prefer clear explanations
+and step-by-step verification of results. Look at the modules
+and describe what this project is about.
+```
+
+Claude will read the folder, see all the modules, and create a CLAUDE.md tailored to your exercises. Approve the file when Claude proposes it.
+
+Now **exit Claude** (type `exit` or press `Ctrl+C`) and **start Claude again**. Ask: `"What do you know about this project?"` — Claude already knows, because it loaded your CLAUDE.md automatically. That's persistent context in action.
+
+### Modules 5-8
+
+These modules are more complex than Modules 1-4. They involve multi-step tasks where having context makes a real difference.
+
+| Module                | What You'll Practice                      | Why CLAUDE.md Helps                           |
+| --------------------- | ----------------------------------------- | --------------------------------------------- |
+| 5. Process Automation | Reusable specs, batch operations          | Claude remembers your naming conventions      |
+| 6. Problem Solving    | Multi-turn planning, constraint changes   | Claude maintains project context across turns |
+| 7. Quality Control    | Verify output, stress-test specifications | Claude knows your quality standards           |
+| 8. Capstone Projects  | End-to-end real projects                  | Full context = better results                 |
+
+Same pattern as before: open the exercise folder in your terminal, run `claude`, tell Claude `"Read INSTRUCTIONS.md and do what it says"`, review, iterate.
+
+:::note Prerequisites
+These modules build on Modules 1-4. If you haven't completed at least Module 1 and Module 3 from Lesson 04, go back and do those first.
+:::
+
+---
+
 ## Co-Learning: Improving CLAUDE.md Together
 
 Let's see the **Three Roles Framework** in action—where you and Claude Code learn from each other to create a better CLAUDE.md.
@@ -266,9 +312,11 @@ You create an initial CLAUDE.md:
 
 ```markdown
 # Project Overview
+
 A Python web app
 
 # Tech Stack
+
 - Python
 - FastAPI
 ```
@@ -312,6 +360,7 @@ Now you provide domain-specific knowledge Claude doesn't have:
 **Claude responds:**
 
 > "Got it. I'm updating the Coding Conventions section to reflect your team's auth architecture. This helps me:
+>
 > - Suggest the correct decorator imports
 > - Avoid recommending third-party auth libraries
 > - Understand your security model when reviewing code
@@ -332,6 +381,7 @@ How should we organize database-related files?"
 **Claude responds:**
 
 > "Two common patterns:
+>
 > 1. **Separated**: `alembic/` at root for migrations + `app/models/` for schemas
 > 2. **Grouped**: `database/` folder containing both migrations and models
 >
@@ -388,6 +438,7 @@ alembic/             # Database migrations
 ```
 
 **This CLAUDE.md is better** because:
+
 - ✅ Claude taught you what sections to include
 - ✅ You taught Claude your team's specific patterns
 - ✅ You converged together on the right organization
@@ -403,6 +454,7 @@ alembic/             # Database migrations
 **Symptom**: You created CLAUDE.md, but Claude Code doesn't reference it in new sessions.
 
 **Checklist**:
+
 - ✅ File is named exactly `CLAUDE.md` (case-sensitive)
 - ✅ File is in project root (same level as `.git`, `package.json`, etc.)
 - ✅ You restarted Claude Code session (new terminal, not same session)
@@ -412,7 +464,7 @@ alembic/             # Database migrations
 
 ### Unclear What Goes in CLAUDE.md?
 
-**Simple rule**: Ask yourself: *"Does Claude need to know this to give good suggestions?"* If Claude would ask "What's your tech stack?" without CLAUDE.md, then that information belongs in CLAUDE.md.
+**Simple rule**: Ask yourself: _"Does Claude need to know this to give good suggestions?"_ If Claude would ask "What's your tech stack?" without CLAUDE.md, then that information belongs in CLAUDE.md.
 
 ### Concerns About File Size?
 
@@ -431,6 +483,7 @@ You've learned how CLAUDE.md provides project context for Claude Code. But what 
 AGENTS.md is a simple markdown file (similar to CLAUDE.md) that provides project-specific guidance to **any** AI coding agent. Created by OpenAI and now adopted by 60,000+ open source projects, it's become the industry standard for agent instructions.
 
 **Key difference**:
+
 - **CLAUDE.md** → Claude Code specific (rich features, detailed context)
 - **AGENTS.md** → Universal standard (works everywhere)
 
@@ -438,11 +491,11 @@ AGENTS.md is a simple markdown file (similar to CLAUDE.md) that provides project
 
 On December 9, 2025, something significant happened. OpenAI, Anthropic, and Block donated their open standards to the Linux Foundation, creating the **Agentic AI Foundation (AAIF)**:
 
-| Project | Donated By | Purpose |
-|---------|------------|---------|
-| **MCP** | Anthropic | Protocol for connecting AI to tools/data |
-| **AGENTS.md** | OpenAI | Universal project instructions for agents |
-| **Goose** | Block | Open-source agent framework |
+| Project       | Donated By | Purpose                                   |
+| ------------- | ---------- | ----------------------------------------- |
+| **MCP**       | Anthropic  | Protocol for connecting AI to tools/data  |
+| **AGENTS.md** | OpenAI     | Universal project instructions for agents |
+| **Goose**     | Block      | Open-source agent framework               |
 
 This means AGENTS.md is now a **neutral, vendor-independent standard**—like how Kubernetes standardized containers or how HTTP standardized the web.
 
@@ -471,23 +524,24 @@ See @AGENTS.md for universal project guidelines that apply to all AI agents.
 ```
 
 This approach gives you:
+
 - ✅ **Portability**: Any AI agent understands your project via AGENTS.md
 - ✅ **Depth**: Claude Code gets rich context via CLAUDE.md
 - ✅ **No duplication**: Common info in AGENTS.md, Claude-specific in CLAUDE.md
 
 ### What Goes in AGENTS.md vs CLAUDE.md?
 
-| Content | AGENTS.md | CLAUDE.md |
-|---------|-----------|-----------|
-| Project overview | ✅ | Reference @AGENTS.md |
-| Tech stack | ✅ | Reference @AGENTS.md |
-| Directory structure | ✅ | Reference @AGENTS.md |
-| Coding conventions | ✅ | Reference @AGENTS.md |
-| Key commands | ✅ | Reference @AGENTS.md |
-| Claude-specific skills | ❌ | ✅ |
-| MCP server configs | ❌ | ✅ |
-| Subagent definitions | ❌ | ✅ |
-| Hooks configuration | ❌ | ✅ |
+| Content                | AGENTS.md | CLAUDE.md            |
+| ---------------------- | --------- | -------------------- |
+| Project overview       | ✅        | Reference @AGENTS.md |
+| Tech stack             | ✅        | Reference @AGENTS.md |
+| Directory structure    | ✅        | Reference @AGENTS.md |
+| Coding conventions     | ✅        | Reference @AGENTS.md |
+| Key commands           | ✅        | Reference @AGENTS.md |
+| Claude-specific skills | ❌        | ✅                   |
+| MCP server configs     | ❌        | ✅                   |
+| Subagent definitions   | ❌        | ✅                   |
+| Hooks configuration    | ❌        | ✅                   |
 
 **Simple rule**: Universal project context → AGENTS.md. Claude Code features → CLAUDE.md.
 
