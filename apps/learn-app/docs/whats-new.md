@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-08
+- feat: Add skills/ exercise lab sections to L07, L08, L09 ([#700](https://github.com/panaversity/agentfactory/pull/700))
+
+### 2026-02-08
 - fix: update L04 exercise path to match renamed module folder ([#699](https://github.com/panaversity/agentfactory/pull/699))
 
 ### 2026-02-08
