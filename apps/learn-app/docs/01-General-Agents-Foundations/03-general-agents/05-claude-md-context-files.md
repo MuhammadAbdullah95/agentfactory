@@ -349,7 +349,7 @@ How should we organize database-related files?"
 
 Your final CLAUDE.md is now:
 
-```markdown
+```
 # Project Overview
 A Python FastAPI web application for internal business workflows
 
@@ -360,7 +360,7 @@ A Python FastAPI web application for internal business workflows
 - SQLAlchemy 2.0
 
 # Directory Structure
-```
+
 app/
 ├── models/          # SQLAlchemy models
 ├── routes/          # API endpoints
