@@ -1556,6 +1556,18 @@ article.voice-reading-active::before {
    ============================================================================ */
 
 @media screen and (max-width: 768px) {
+  /* Bug 4 fix: Mobile-specific keyframes to prevent horizontal jump */
+  @keyframes slideUpMobile {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .voice-control-dock {
     left: 0.5rem;
     right: 0.5rem;
@@ -1564,6 +1576,7 @@ article.voice-reading-active::before {
     gap: 0.25rem;
     padding: 0.4rem 0.75rem;
     border-radius: 24px;
+    animation-name: slideUpMobile;
   }
 
   .voice-selector-btn {
