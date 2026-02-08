@@ -84,6 +84,27 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
     const utteranceIdRef = useRef(0);
     const currentUtteranceIdRef = useRef(0);
 
+    // Timer-based fallback for browsers that don't fire onboundary (Safari, iOS, etc.)
+    const fallbackTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const fallbackDelayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const boundaryFiredRef = useRef(false);
+
+    /**
+     * Clear all fallback timers to prevent memory leaks and orphaned intervals.
+     * Centralized cleanup function used across all handlers.
+     * Empty dependency array is safe: only accesses stable refs, not state or props.
+     */
+    const clearFallbackTimers = useCallback(() => {
+        if (fallbackTimerRef.current) {
+            clearInterval(fallbackTimerRef.current);
+            fallbackTimerRef.current = null;
+        }
+        if (fallbackDelayTimerRef.current) {
+            clearTimeout(fallbackDelayTimerRef.current);
+            fallbackDelayTimerRef.current = null;
+        }
+    }, []);
+
     // Load voices on mount
     useEffect(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -109,8 +130,10 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         return () => {
             window.speechSynthesis.cancel();
             setIsPlaying(false);
+            // Clear all timers on unmount
+            clearFallbackTimers();
         };
-    }, []);
+    }, [clearFallbackTimers]);
 
     const selectedVoice = availableVoices[selectedVoiceIndex] || null;
 
@@ -293,11 +316,88 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
             end: wb.end - firstWordStart
         }));
 
+        // Reset boundary fired flag for this utterance
+        boundaryFiredRef.current = false;
+
+        // Clear any existing fallback timer
+        if (fallbackTimerRef.current) {
+            clearInterval(fallbackTimerRef.current);
+            fallbackTimerRef.current = null;
+        }
+
+        // ==========================================
+        // TIMER-BASED FALLBACK FOR SAFARI/iOS/MOBILE
+        // ==========================================
+        // Estimate ~280ms per word at rate 1.0 (adjust based on actual rate)
+        // This provides visual feedback when onboundary doesn't fire
+        const safePlaybackRate = playbackRateRef.current > 0 ? playbackRateRef.current : 1;
+        const avgWordDuration = 280 / safePlaybackRate; // ms per word
+        let fallbackWordIndex = startWordIndex;
+
+        // Start fallback timer after a short delay to give onboundary a chance
+        const startFallbackTimer = () => {
+            fallbackTimerRef.current = setInterval(() => {
+                // Check if this is still the active utterance
+                if (currentUtteranceIdRef.current !== thisUtteranceId) {
+                    if (fallbackTimerRef.current) {
+                        clearInterval(fallbackTimerRef.current);
+                        fallbackTimerRef.current = null;
+                    }
+                    return;
+                }
+
+                // If onboundary fired, it's working - stop the fallback
+                if (boundaryFiredRef.current) {
+                    if (fallbackTimerRef.current) {
+                        clearInterval(fallbackTimerRef.current);
+                        fallbackTimerRef.current = null;
+                    }
+                    return;
+                }
+
+                // Advance to next word
+                fallbackWordIndex++;
+                if (fallbackWordIndex < block.wordBoundaries.length) {
+                    setCurrentWordIndex(fallbackWordIndex);
+                    currentWordIndexRef.current = fallbackWordIndex;
+                    updateWordStyles(blockIndex, fallbackWordIndex);
+                } else {
+                    // Bug 3 fix: Self-clear when last word is reached
+                    if (fallbackTimerRef.current) {
+                        clearInterval(fallbackTimerRef.current);
+                        fallbackTimerRef.current = null;
+                    }
+                }
+            }, avgWordDuration);
+        };
+
+        // Give onboundary 300ms to fire before starting fallback
+        // Bug 2 fix: Store timeout handle in ref to allow cleanup
+        if (fallbackDelayTimerRef.current) {
+            clearTimeout(fallbackDelayTimerRef.current);
+        }
+        fallbackDelayTimerRef.current = setTimeout(() => {
+            fallbackDelayTimerRef.current = null;
+            if (!boundaryFiredRef.current && currentUtteranceIdRef.current === thisUtteranceId) {
+                startFallbackTimer();
+            }
+        }, 300);
+
         utterance.onboundary = (event) => {
             // Only process if this is still the current utterance
             if (currentUtteranceIdRef.current !== thisUtteranceId) return;
 
+            // Only perform word-level handling (including disabling the fallback)
+            // when we get word boundaries. Some browsers/voices fire "sentence"
+            // but not "word"; in those cases we keep the fallback timer running.
             if (event.name === "word") {
+                // Word boundaries are working, so we can disable the fallback timer.
+                boundaryFiredRef.current = true;
+                if (fallbackTimerRef.current) {
+                    clearInterval(fallbackTimerRef.current);
+                    fallbackTimerRef.current = null;
+                }
+
                 const charIndex = event.charIndex;
                 const foundWord = adjustedBoundaries.find(wb =>
                     charIndex >= wb.start && charIndex < wb.end
@@ -325,6 +425,8 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         };
 
         utterance.onend = () => {
+            // Clear fallback timers
+            clearFallbackTimers();
             // CRITICAL: Only advance if this is still the current utterance
             // This prevents stale callbacks from triggering double playback
             if (currentUtteranceIdRef.current !== thisUtteranceId) {
@@ -335,6 +437,8 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         };
 
         utterance.onerror = (e) => {
+            // Clear fallback timers
+            clearFallbackTimers();
             if (e.error === 'interrupted' || e.error === 'canceled') {
                 return;
             }
@@ -352,7 +456,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         };
 
         window.speechSynthesis.speak(utterance);
-    }, [updateWordStyles, unwrapWords]);
+    }, [updateWordStyles, unwrapWords, clearFallbackTimers]);
 
     const playBlock = useCallback((blockIndex: number) => {
         playBlockFromWord(blockIndex, 0);
@@ -362,6 +466,8 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         if (typeof window === "undefined" || !window.speechSynthesis) return;
 
         if (isPlaying) {
+            // Clear fallback timers
+            clearFallbackTimers();
             // Increment utterance ID to invalidate any pending callbacks
             currentUtteranceIdRef.current = ++utteranceIdRef.current;
             window.speechSynthesis.cancel();
@@ -384,15 +490,18 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         setIsPlaying(true);
         setIsPaused(false);
         playBlock(0);
-    }, [isPlaying, parseArticleContent, wrapWordsInBlock, playBlock, unwrapWords]);
+    }, [isPlaying, parseArticleContent, wrapWordsInBlock, playBlock, unwrapWords, clearFallbackTimers]);
 
     const pauseSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
         if (!isPlaying || isPaused) return;
 
+        // Bug 1 fix: Clear fallback timer on pause to prevent desync
+        clearFallbackTimers();
+
         window.speechSynthesis.pause();
         setIsPaused(true);
-    }, [isPlaying, isPaused]);
+    }, [isPlaying, isPaused, clearFallbackTimers]);
 
     const resumeSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
@@ -400,11 +509,55 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
 
         window.speechSynthesis.resume();
         setIsPaused(false);
-    }, [isPlaying, isPaused]);
+
+        // Bug 1 fix: Restart fallback timer on resume if onboundary never fired
+        if (!boundaryFiredRef.current && activeBlockIndexRef.current >= 0) {
+            const block = blocksRef.current[activeBlockIndexRef.current];
+            if (block) {
+                // Clear any existing timers first to prevent orphaned intervals on double-click
+                clearFallbackTimers();
+                const safePlaybackRate = playbackRateRef.current > 0 ? playbackRateRef.current : 1;
+                const avgWordDuration = 280 / safePlaybackRate;
+                let fallbackWordIndex = currentWordIndexRef.current;
+                // Capture utterance ID to detect stale intervals after speed/voice/volume changes
+                const resumeUtteranceId = currentUtteranceIdRef.current;
+                fallbackTimerRef.current = setInterval(() => {
+                    // Self-clear if utterance has changed (e.g., restart triggered)
+                    if (currentUtteranceIdRef.current !== resumeUtteranceId) {
+                        if (fallbackTimerRef.current) {
+                            clearInterval(fallbackTimerRef.current);
+                            fallbackTimerRef.current = null;
+                        }
+                        return;
+                    }
+                    if (boundaryFiredRef.current) {
+                        if (fallbackTimerRef.current) {
+                            clearInterval(fallbackTimerRef.current);
+                            fallbackTimerRef.current = null;
+                        }
+                        return;
+                    }
+                    fallbackWordIndex++;
+                    if (fallbackWordIndex < block.wordBoundaries.length) {
+                        setCurrentWordIndex(fallbackWordIndex);
+                        currentWordIndexRef.current = fallbackWordIndex;
+                        updateWordStyles(activeBlockIndexRef.current, fallbackWordIndex);
+                    } else {
+                        if (fallbackTimerRef.current) {
+                            clearInterval(fallbackTimerRef.current);
+                            fallbackTimerRef.current = null;
+                        }
+                    }
+                }, avgWordDuration);
+            }
+        }
+    }, [isPlaying, isPaused, updateWordStyles, clearFallbackTimers]);
 
     const stopSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
 
+        // Clear fallback timers
+        clearFallbackTimers();
         // Increment utterance ID to invalidate any pending callbacks
         currentUtteranceIdRef.current = ++utteranceIdRef.current;
         window.speechSynthesis.cancel();
@@ -415,7 +568,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         setCurrentWordIndex(-1);
         currentWordIndexRef.current = -1;
         unwrapWords();
-    }, [unwrapWords]);
+    }, [unwrapWords, clearFallbackTimers]);
 
     /**
      * Restart from current word with new settings
