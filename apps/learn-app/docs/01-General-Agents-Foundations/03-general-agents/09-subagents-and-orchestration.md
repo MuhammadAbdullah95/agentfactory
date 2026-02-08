@@ -358,6 +358,43 @@ Lesson 10 introduces **MCP Integration**—connecting Claude to external systems
 
 ---
 
+## Practice Lab: Composing Skills and Workflows
+
+You've learned to delegate work to subagents and orchestrate parallel execution. Now practice combining skills into workflows and building production-ready skill systems.
+
+### Skills Exercises: Modules 6-8
+
+Inside your `claude-code-exercises` download, the `skills/` folder has three advanced modules. Start with Module 6:
+
+```
+claude-code-exercises → skills → module-6-composing-skills → exercise-6.1-pipeline
+```
+
+**Open your terminal in the exercise folder** and start Claude:
+
+```bash
+claude
+```
+
+Tell Claude:
+
+```
+Read INSTRUCTIONS.md and help me build this skill pipeline.
+Show me how these skills chain together.
+```
+
+### What's Available
+
+| Module                 | What You'll Build                                                                    | Time      |
+| ---------------------- | ------------------------------------------------------------------------------------ | --------- |
+| 6. Composing Skills    | Chain skills into pipelines, build a skill library, create team skills                | 30-45 min |
+| 7. Real-World Skills   | Invoice processor, content pipeline, research analyst — production-ready skills       | 45-60 min |
+| 8. Capstone            | Choose one: business ops suite, education kit, or personal AI — a complete skill system | 60-90 min |
+
+Module 8 is a capstone — pick the project that matches your interests and build a complete skill system from scratch.
+
+---
+
 ## Try With AI
 
 **🔍 Explore Your Codebase:**
