@@ -367,7 +367,6 @@ app/
 ├── middleware/      # Custom middleware (auth)
 └── tests/           # Pytest test files
 alembic/             # Database migrations
-```
 
 # Coding Conventions
 - Type hints required on all functions
