@@ -250,7 +250,7 @@ Here's what you've accomplished:
 
 This is the principle of **"specify once, benefit always"**—define your project context one time, and every future session starts with full understanding.
 
-In later lessons, you'll see how subagents (Lesson 09) and skills (Lesson 08) inherit and extend this CLAUDE.md context—making it the foundation for all Claude Code intelligence.
+In later lessons, you'll see how subagents (Lesson 10) and skills (Lesson 08) inherit and extend this CLAUDE.md context—making it the foundation for all Claude Code intelligence.
 
 #### 💬 AI Colearning Prompt
 
@@ -264,7 +264,7 @@ You now have a powerful advantage: CLAUDE.md gives Claude persistent context. Le
 
 ### Create a CLAUDE.md for Your Exercises
 
-Open the `basics` folder inside your `claude-code-exercises` download (from Lesson 04). Open your terminal there and start Claude:
+Open the `basics-exercises` folder from your exercise download (see Lesson 9 for download instructions). Open your terminal there and start Claude:
 
 ```bash
 claude

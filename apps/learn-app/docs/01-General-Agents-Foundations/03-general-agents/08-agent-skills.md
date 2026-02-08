@@ -385,41 +385,9 @@ Skills you create now become building blocks for larger systems. In Part 6, you'
 
 ---
 
-## Practice Lab: Building Skills
-
-You've built your first skill with the blog-planner. Now build more — from simple single-purpose skills to skills with examples, references, and testing.
-
-### Skills Exercises: Modules 2-5
-
-Inside your `claude-code-exercises` download, the `skills/` folder has four modules of building exercises. Start with Module 2:
-
-```
-claude-code-exercises → skills → module-2-first-skills → exercise-2.1-email-style
-```
-
-**Open your terminal in the exercise folder** and start Claude:
-
-```bash
-claude
-```
-
-Tell Claude:
-
-```
-Read INSTRUCTIONS.md and help me build this skill.
-Walk me through each decision and test the result.
-```
-
-### What's Available
-
-| Module                    | What You'll Build                                                                   | Time      |
-| ------------------------- | ----------------------------------------------------------------------------------- | --------- |
-| 2. First Skills           | Writing style, file organizer, data cleaner — simple, single-purpose skills          | 30-45 min |
-| 3. Skills with Examples   | Report formatter, meeting minutes, feedback writer — skills that learn from examples | 30-45 min |
-| 4. Skills with References | Brand voice, policy checker, curriculum skill — skills with reference material        | 30-45 min |
-| 5. Testing & Iteration    | Edge case hunting, before/after comparison, user testing — improving systematically  | 30-45 min |
-
-Work through them in order — each module adds a new layer of skill sophistication. Complete at least Modules 2 and 3 before continuing to Lesson 09.
+:::tip Ready to Practice?
+Head to **Lesson 11: Agent Skills Exercises** for 27 hands-on exercises that take you from writing your first skills to building complete skill suites — with one-click exercise downloads and step-by-step guidance.
+:::
 
 ---
 

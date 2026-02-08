@@ -397,48 +397,9 @@ You now understand the architecture:
 - Skills compound across teams and organizations
 - Skills are the "applications layer" of the agent stack
 
-## Practice Lab: Understanding Skills
-
-You've learned the architecture behind skills. Now practice recognizing and analyzing them with hands-on exercises.
-
-### Get the Skills Exercises
-
-If you downloaded the exercise pack in Lesson 04, you already have them — look for the `skills/` folder inside `claude-code-exercises`. If not, download from [github.com/panaversity/claude-code-exercises](https://github.com/panaversity/claude-code-exercises).
-
-### Your First Skills Exercise: Dissect a Skill
-
-Inside the exercises, find this folder:
-
-```
-claude-code-exercises → skills → module-1-understanding-skills → exercise-1.1-anatomy
-```
-
-**Open your terminal in this folder** and start Claude:
-
-```bash
-claude
-```
-
-Tell Claude:
-
-```
-Read INSTRUCTIONS.md and walk me through this skill file.
-What does each section do? How would Claude use this?
-```
-
-This exercise gives you a real SKILL.md to take apart — understanding the structure before you build your own.
-
-### What's Available
-
-Module 1 has three exercises focused on understanding skills:
-
-| Exercise                | What You'll Practice                                         |
-| ----------------------- | ------------------------------------------------------------ |
-| 1.1 Anatomy             | Dissect a real skill file — understand each section's purpose |
-| 1.2 When to Skill       | Identify which tasks deserve a skill vs. a one-off prompt     |
-| 1.3 Skill vs Prompt     | Compare the same task done with a skill vs. raw prompting     |
-
-Complete all three before moving to Lesson 08, where you'll start building your own skills.
+:::tip Ready to Practice?
+Head to **Lesson 11: Agent Skills Exercises** for 27 hands-on exercises that take you from dissecting existing skills to building production-ready skill suites — with one-click exercise downloads and step-by-step guidance.
+:::
 
 ---
 
