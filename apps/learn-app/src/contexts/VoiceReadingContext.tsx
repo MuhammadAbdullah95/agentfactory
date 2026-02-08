@@ -529,6 +529,15 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         if (!boundaryFiredRef.current && activeBlockIndexRef.current >= 0) {
             const block = blocksRef.current[activeBlockIndexRef.current];
             if (block) {
+                // Clear any existing timers first to prevent orphaned intervals on double-click
+                if (fallbackTimerRef.current) {
+                    clearInterval(fallbackTimerRef.current);
+                    fallbackTimerRef.current = null;
+                }
+                if (fallbackDelayTimerRef.current) {
+                    clearTimeout(fallbackDelayTimerRef.current);
+                    fallbackDelayTimerRef.current = null;
+                }
                 const avgWordDuration = 280 / playbackRateRef.current;
                 let fallbackWordIndex = currentWordIndexRef.current;
                 fallbackTimerRef.current = setInterval(() => {
