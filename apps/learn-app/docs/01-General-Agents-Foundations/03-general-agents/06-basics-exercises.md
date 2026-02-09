@@ -59,9 +59,9 @@ differentiation:
 
 # Practical Problem-Solving Exercises
 
-You've spent eight lessons building a toolkit. You understand how AI agents work, how to communicate with them through CLAUDE.md and skills, and how to collaborate through the three roles. That's real knowledge — but knowledge without practice is just potential.
+You understand how AI agents work, how to communicate with them through CLAUDE.md. That's real knowledge — but knowledge without practice is just potential.
 
-These 27 exercises close the gap between "I understand AI agents" and "I can use AI agents to solve real problems." Each one gives you a messy, realistic situation and asks you to figure out how to describe it clearly enough for Claude to solve. The learning happens in that gap — between a vague problem and a precise specification.
+These exercises close the gap between "I understand AI agents" and "I can use AI agents to solve real problems." Each one gives you a messy, realistic situation and asks you to figure out how to describe it clearly enough for Claude to solve. The learning happens in that gap — between a vague problem and a precise specification.
 
 Three skills run through every exercise: **problem decomposition** (breaking vague problems into clear steps), **specification writing** (describing outcomes precisely enough for an agent to execute), and **quality verification** (checking whether the output actually solves your problem). These aren't abstract concepts. By the end of these exercises, they'll be reflexes.
 

@@ -65,7 +65,7 @@ differentiation:
 
 You understand what skills are (Lesson 08). You've built your first one (Lesson 09). Theory is behind you. Now you build.
 
-These 27 exercises take you from dissecting existing skills to composing production-ready skill suites for real-world scenarios. Each module adds a layer of sophistication: first you read skills, then you write them, then you add examples and references, then you test and iterate, then you chain them into workflows, and finally you build complete skill libraries for business, education, or personal productivity.
+These exercises take you from dissecting existing skills to composing production-ready skill suites for real-world scenarios. Each module adds a layer of sophistication: first you read skills, then you write them, then you add examples and references, then you test and iterate, then you chain them into workflows, and finally you build complete skill libraries for business, education, or personal productivity.
 
 The Big Idea behind all of this: **a skill is a reusable instruction file that teaches an AI agent how to handle a specific type of task consistently.** Building skills is the fundamental capability that separates "using AI" from "building with AI."
 
