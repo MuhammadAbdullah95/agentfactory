@@ -2113,7 +2113,8 @@ article {
   /* Override Prism theme */
   border: 1px solid var(--border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 [data-theme='dark'] .markdown pre {
@@ -2136,17 +2137,20 @@ article {
 }
 
 /* ============================================================================
-   7. TABLES - PROFESSIONAL STYLING
+   7. TABLES - PROFESSIONAL STYLING WITH HORIZONTAL SCROLL
    ============================================================================ */
 
+/* Table wrapper for horizontal scrolling */
 .markdown table {
   width: 100%;
   margin: 2rem 0;
   border-collapse: collapse;
-
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 [data-theme='dark'] .markdown table {
@@ -2539,17 +2543,16 @@ article {
     font-size: 1.25rem;
   }
 
-  /* Ensure code blocks and tables fit without horizontal scroll */
+  /* Ensure code blocks fit without horizontal scroll */
   .markdown pre {
     margin: 1.5rem 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Tables already have horizontal scroll enabled at base level */
   .markdown table {
     margin: 1.5rem 0;
-    overflow-x: auto;
-    display: block;
   }
 
   /* Improve readability on smaller screens */

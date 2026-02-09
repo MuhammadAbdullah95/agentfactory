@@ -1,19 +1,19 @@
 ---
-sidebar_position: 9
-title: "Chapter 09: SQL & Neon PostgreSQL Quiz"
+sidebar_position: 10
+title: "Chapter 09: Structured Data & Persistent Storage Quiz"
 proficiency_level: A2
 layer: 2
 estimated_time: "75 mins"
 chapter_type: Technical
-running_example_id: sql-neon-postgresql-quiz
+running_example_id: structured-data-persistent-storage-quiz
 ---
 
-# Chapter 09: SQL & Neon PostgreSQL Quiz
+# Chapter 09: Structured Data & Persistent Storage Quiz
 
-Test your understanding of database design, SQLAlchemy ORM, relationships, transactions, and Neon PostgreSQL deployment. This assessment covers all 8 lessons in Chapter 09.
+Test your understanding of database design, SQLAlchemy ORM, relationships, transactions, Neon PostgreSQL deployment, and hybrid tool patterns. This assessment covers all 9 lessons in Chapter 09.
 
 <Quiz
-title="Chapter 09: SQL & Neon PostgreSQL Assessment"
+title="Chapter 09: Structured Data & Persistent Storage Assessment"
 questionsPerBatch={18}
 questions={[
 {
@@ -302,7 +302,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "Transactions protect multi-step operations. A transfer must succeed completely or not at all. Single operations like creating one expense don't need transactions (they're already atomic).",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "You accidentally add $1,000 instead of $100 to groceries. What's the safest fix?",
@@ -314,7 +314,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "UPDATE is surgical—fix only the problematic record. Deletion loses data. Negative offset is a workaround, not a fix. Restart affects in-memory SQLite only, not Neon.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "What was the primary finding of the Braintrust research comparing SQL and bash for querying?",
@@ -326,7 +326,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "This research validated the chapter's approach. SQL queries are schema-aware—they enforce structure. Bash/grep are flexible but error-prone on unstructured data. For your Budget Tracker, SQL wins decisively.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "Why did bash fail more often in Braintrust research despite being 'flexible'?",
@@ -338,7 +338,7 @@ options: [
 ],
 correctOption: 0,
 explanation: "Bash has no schema awareness. It sees data as plain text. One format change breaks all grep patterns. SQL knows your schema—User, Expense, relationships—so queries are robust.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "What should your reusable /database-deployment skill include?",
@@ -386,7 +386,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "create_all() inspects all your models and creates tables if they don't exist. It's idempotent—running it twice on the same engine doesn't fail. All three tables (User, Expense, Category) appear immediately.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "To retrieve all expenses for Alice, sorted by newest first, which pattern is best?",
@@ -422,7 +422,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Let the database do the work. GROUP BY is optimized for aggregation—it's 1000x faster than Python loops on large datasets. Always push computation to the database when possible.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "When should you use your /database-deployment skill?",
@@ -470,7 +470,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "Reports need multiple capabilities working together. You query by date (filter), group by category, sum amounts (aggregation), and relate back to users. Single features alone aren't enough.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "What's the tradeoff between in-memory SQLite and Neon?",
@@ -578,7 +578,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Mastery is systems thinking. You understand WHY we design databases this way, not just HOW to use the tools. Can you explain it to someone else?",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
 },
 {
 question: "What does owning a /database-deployment skill mean for your future?",
@@ -614,7 +614,67 @@ options: [
 ],
 correctOption: 1,
 explanation: "This is the transformational outcome. Before: scripts that lose data. After: applications that remember everything, serve many users, scale automatically. That's the paradigm shift this chapter delivers.",
-source: "Lesson 7: Capstone Integration"
+source: "Lesson 8: Capstone Integration"
+},
+{
+question: "In the Braintrust experiment, why did the bash agent achieve only 52.7% accuracy despite generating sophisticated shell commands?",
+options: [
+"Bash commands are inherently unreliable",
+"The bash agent didn't know the structure of the data — it lacked schema clarity",
+"The bash agent ran out of memory",
+"Bash cannot process JSON files"
+],
+correctOption: 1,
+explanation: "The bash agent generated find, grep, jq, awk chains but had to guess at field names, nesting levels, and data types. Without schema clarity — knowing exactly what fields exist and their types — even sophisticated commands produce wrong results half the time.",
+source: "Lesson 7: Hybrid Patterns"
+},
+{
+question: "What is the hybrid pattern for data verification?",
+options: [
+"Using two different databases for the same data",
+"Querying with SQL as the primary tool, then independently verifying with bash",
+"Running the same SQL query twice to confirm results",
+"Using Python to translate between bash and SQL"
+],
+correctOption: 1,
+explanation: "The hybrid pattern uses SQL for structured queries (primary) and bash for independent verification (cross-check). Two different tools arriving at the same answer provides confidence that neither tool introduced a bug.",
+source: "Lesson 7: Hybrid Patterns"
+},
+{
+question: "When is the hybrid (SQL + bash verification) approach worth the extra token cost?",
+options: [
+"For every single database query",
+"When errors have real consequences: financial reporting, audit trails, automated agent pipelines",
+"Only for queries that return more than 1000 rows",
+"When bash is faster than SQL"
+],
+correctOption: 1,
+explanation: "Hybrid costs roughly 2x the tokens of pure SQL. It's worth it when wrong answers cause financial loss, compliance violations, or cascading errors in automated pipelines. For quick exploration or development, single-tool approaches are sufficient.",
+source: "Lesson 7: Hybrid Patterns"
+},
+{
+question: "Which tool should you choose for calculating compound interest over 30 years with monthly payments?",
+options: [
+"Bash — it handles numbers natively",
+"Python — deterministic computation with decimal precision",
+"SQL — it can aggregate any data",
+"Hybrid — financial calculations always need verification"
+],
+correctOption: 1,
+explanation: "Decimal arithmetic is Python's strength (the Computation & Data Extraction chapter). Bash fails at floating-point precision. SQL is for querying stored data, not raw computation. This is the tool choice framework in action: match the tool's strength to the task's requirement.",
+source: "Lesson 7: Hybrid Patterns"
+},
+{
+question: "Looking back at Part 2's tool choice story, what's the correct progression?",
+options: [
+"Bash for everything, then learn SQL as a replacement",
+"Bash for file ops (File Processing) → Python for computation (Computation & Data Extraction) → SQL for structured queries (this chapter) → hybrid for verification (L7)",
+"Start with SQL, then learn bash for simple tasks",
+"Python first, then add bash and SQL as optional tools"
+],
+correctOption: 1,
+explanation: "Part 2 tells a progressive story where each tool is introduced when the previous one fails: bash can't do decimal math (add Python), Python loops can't efficiently query structured data (add SQL), and critical queries benefit from cross-tool verification (add hybrid).",
+source: "Lesson 7: Hybrid Patterns"
 }
 ]}
 />

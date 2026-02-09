@@ -25,7 +25,7 @@
 ### README & Navigation
 
 - [ ] T09.README Create Chapter README
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/README.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/README.md`
   - **Purpose**: Chapter overview, learning outcomes, lesson navigation, Seven Principles applied
   - **Reference**: Match structure of `08-computation-data-extraction/README.md`
   - **SUBAGENT**: content-implementer
@@ -48,7 +48,7 @@
 ### L0: Build Your Database Skill
 
 - [ ] T09.L0 Create Lesson 0: Build Your Database Skill
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/00-build-database-skill.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/00-build-database-skill.md`
   - **Purpose**: Skill-first pattern — students create personal `/database-deployment` skill
   - **Duration**: 20 min (setup phase)
   - **Proficiency**: A1 (foundational)
@@ -80,7 +80,7 @@
 ### L1: From CSV to Databases
 
 - [ ] T09.L1 Create Lesson 1: From CSV to Databases
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/01-from-csv-to-databases.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/01-from-csv-to-databases.md`
   - **Purpose**: Motivate databases — why CSV files fail, what databases solve
   - **Duration**: 20 min
   - **Proficiency**: A1
@@ -114,7 +114,7 @@
 ### L2: Models as Code
 
 - [ ] T09.L2 Create Lesson 2: Models as Code
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/02-models-as-code.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/02-models-as-code.md`
   - **Purpose**: Define Expense, Category models as Python classes (SQLAlchemy)
   - **Duration**: 25 min
   - **Proficiency**: A1
@@ -153,7 +153,7 @@
 ### L3: Creating & Reading Data (CRUD)
 
 - [ ] T09.L3 Create Lesson 3: Creating & Reading Data
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/03-creating-reading-data.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/03-creating-reading-data.md`
   - **Purpose**: First CRUD — insert expenses, query them back (no filtering yet)
   - **Duration**: 25 min
   - **Proficiency**: A2
@@ -192,7 +192,7 @@
 ### L4: Relationships
 
 - [ ] T09.L4 Create Lesson 4: Relationships
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/04-relationships.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/04-relationships.md`
   - **Purpose**: Connect categories to expenses; write join queries
   - **Duration**: 30 min
   - **Proficiency**: A2
@@ -230,7 +230,7 @@
 ### L5: Transactions & Atomicity
 
 - [ ] T09.L5 Create Lesson 5: Transactions & Atomicity
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/05-transactions-atomicity.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/05-transactions-atomicity.md`
   - **Purpose**: All-or-nothing transactions, error recovery, rollback
   - **Duration**: 30 min
   - **Proficiency**: A2
@@ -270,7 +270,7 @@
 ### L6: Connecting to Neon
 
 - [ ] T09.L6 Create Lesson 6: Connecting to Neon
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/06-connecting-to-neon.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/06-connecting-to-neon.md`
   - **Purpose**: Real Neon account setup, environment variables, connection pooling
   - **Duration**: 25 min
   - **Proficiency**: A2
@@ -312,7 +312,7 @@
 ### L7: Capstone — Budget Tracker
 
 - [ ] T09.L7 Create Lesson 7: Capstone — Budget Tracker
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/07-capstone-budget-tracker.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/07-capstone-budget-tracker.md`
   - **Purpose**: Multi-table queries, monthly summaries, reporting — full Budget Tracker app
   - **Duration**: 40 min
   - **Proficiency**: A2
@@ -410,7 +410,7 @@
 
 - [ ] T09.ASSESSMENT Create Chapter 09 Quiz
   - **Purpose**: 50-question interactive assessment (Bloom's L1-L4: Remember through Analyze)
-  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-sql-neon-postgresql/08-chapter-quiz.md`
+  - **Path**: `/home/apoc/Downloads/work/panaversity/agentfactory/apps/learn-app/docs/02-Applied-General-Agent-Workflows/09-structured-data-persistent-storage/08-chapter-quiz.md`
   - **Coverage**:
     - L1-L2: Conceptual (why databases, ORM basics) — 15 questions
     - L3-L4: Applied (CRUD, queries, relationships) — 20 questions

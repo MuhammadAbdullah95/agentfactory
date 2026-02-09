@@ -1,18 +1,32 @@
 ---
 sidebar_position: 9
-title: "Chapter 09: SQL & Neon PostgreSQL with Python"
-description: "Build persistent database applications with SQLAlchemy ORM and serverless PostgreSQL"
+title: "Chapter 09: Structured Data & Persistent Storage"
+description: "When bash and Python hit the wall: build persistent database applications with SQLAlchemy ORM and serverless PostgreSQL"
 feature_name: "chapter-09-sql-neon"
 chapter_number: 8.5
 part_number: 2
 created_date: 2026-02-06
-version: 1.0
+version: 2.0
 status: published
 ---
 
-# Chapter 09: SQL & Neon PostgreSQL with Python
+# Chapter 09: Structured Data & Persistent Storage
 
-> "CSV files are fine until your data matters. Then you need a real database."
+> "Bash processes files. Python computes answers. But when you need to query structured data at scale, both hit a wall."
+
+## The Story So Far
+
+You've been building a toolkit, one tool at a time:
+
+- **File Processing Workflows**: You gave Claude hands with **bash** — file operations, directory management, shell pipelines. Bash is Claude's native language for interacting with the filesystem.
+- **Computation & Data Extraction**: When bash failed at decimal arithmetic, you reached for **Python** — computation, data extraction, CSV processing. Python handles what bash can't compute.
+- **This chapter**: Now Python and bash both fail. Try querying "show me all groceries over $50 in March" across thousands of records with `grep` or Python loops. It works... until it doesn't.
+
+In the Computation & Data Extraction chapter, you built your first Digital FTE component — a reusable tool for tax categorization. This chapter adds the next tool to your toolkit: **SQL databases**, accessed through Python's SQLAlchemy ORM and deployed to Neon's serverless PostgreSQL. Where your Python scripts process data and forget, databases process data and *remember*.
+
+### Why Not Just Write More Python?
+
+You *could* write Python loops to query your tax data across multiple years and categories. But what happens when your Budget Tracker grows to thousands of records, multiple users, and questions you didn't anticipate? Every new question ("show all groceries over $50 in March") requires new code. Researchers at Braintrust tested exactly this at scale — and the results explain why every production application uses databases. You'll see the full evidence in L1.
 
 ## What You'll Build
 
@@ -48,7 +62,7 @@ You'll transform from someone who loses data when scripts restart to someone who
 
 ## Prerequisites
 
-**From Chapter 8 (Computation & Data Extraction)**:
+**From the Computation & Data Extraction chapter**:
 
 - You can process CSV files with Python
 - You understand stdin/stdout pipelines
@@ -73,15 +87,16 @@ You'll transform from someone who loses data when scripts restart to someone who
 | Lesson | Title | Layer | Duration | Proficiency | Key Skill |
 |--------|-------|-------|----------|-------------|-----------|
 | L0 | Build Your Database Skill | L1 | 20 min | A1 | Skill ownership and structure |
-| L1 | From CSV to Databases | L1 | 20 min | A1 | Recognize CSV limitations, understand databases |
+| L1 | When Bash and Python Hit the Wall | L1 | 20 min | A1 | Recognize tool limitations, understand databases |
 | L2 | Models as Code | L1/L2 | 25 min | A2 | Define SQLAlchemy models with constraints |
 | L3 | Creating & Reading Data | L2 | 25 min | A2 | CRUD Create/Read operations, sessions |
 | L4 | Relationships & Joins | L2 | 30 min | A2 | Link tables with foreign keys, navigate data |
 | L5 | Transactions & Atomicity | L2 | 30 min | A2 | Atomic operations, error recovery |
 | L6 | Connecting to Neon | L2/L3 | 25 min | B1 | Deploy to PostgreSQL, connection pooling |
-| L7 | Capstone: Budget Tracker Complete App | L3/L4 | 40 min | B1 | Integrate all patterns into complete application |
+| L7 | Hybrid Patterns: When Tools Work Together | L2/L3 | 30 min | B1 | Combine SQL + bash for production reliability |
+| L8 | Capstone: Budget Tracker Complete App | L3/L4 | 40 min | B1 | Integrate all patterns into complete application |
 
-**Total Duration**: 215 minutes (~3.5 hours)
+**Total Duration**: 245 minutes (~4 hours)
 
 ## Seven Principles in Action
 
@@ -101,9 +116,9 @@ This chapter demonstrates the principles through database operations:
 
 **Lessons 0-1**: Foundation (Why Databases + Setup)
 
-- Discover why CSV files fail when data grows or multiple users access it
+- Discover why bash and Python file processing fail when data grows structured
+- See the evidence: SQL's 100% accuracy vs bash's 52.7% on real-world data
 - Create your first Neon PostgreSQL database (free tier, no credit card)
-- Understand connection strings and environment variables
 
 **Lessons 2-4**: Core Database Skills (Models + CRUD + Relationships)
 
@@ -111,17 +126,21 @@ This chapter demonstrates the principles through database operations:
 - Implement Create, Read, Update, Delete operations with proper transactions
 - Link tables together using foreign keys and relationships
 
-**Lessons 5-6**: Application Building (Budget Tracker + MCP)
+**Lessons 5-6**: Application Building (Transactions + Cloud Deployment)
 
-- Build a complete Budget Tracker application with AI collaboration
-- Expose database operations to AI agents through MCP tools
-- Create queries that answer real questions about your spending
+- Protect data integrity with atomic transactions
+- Deploy to Neon PostgreSQL with connection pooling
 
-**Lesson 7**: Capstone (Reusable Skill)
+**Lesson 7**: Hybrid Patterns (Tool Synthesis)
 
-- Package everything you learned into a `/database-deployment` skill
-- Create a reusable pattern for future database projects
-- Deploy a working Budget Tracker as a Digital FTE component
+- Learn when to combine SQL queries with bash verification
+- Build the Part 2 tool choice framework: bash + Python + SQL + hybrid
+- Connect to the Version Control and AI Employee chapters for the full agent toolkit
+
+**Lesson 8**: Capstone (Complete Application)
+
+- Build a complete Budget Tracker integrating all chapter patterns
+- Package everything into a `/database-deployment` skill
 
 ## How to Use This Chapter
 
@@ -131,18 +150,33 @@ This chapter demonstrates the principles through database operations:
 2. **Complete L1-L2 before touching code**: Setup and mental models first
 3. **Practice CRUD (L3) thoroughly**: These are the building blocks
 4. **Don't skip relationships (L4)**: Real applications need linked data
-5. **Build the tracker (L5-L6)**: Apply everything in a real project
-6. **Create your skill (L7)**: Package knowledge for reuse
+5. **Synthesize in L7**: See how all Part 2 tools work together
+6. **Build the tracker (L5-L6, L8 capstone)**: Apply everything in a real project
 
 **Fast track** (if you have database experience):
 
 - Skim L0-L1 for Neon-specific setup
 - Focus on L2-L3 for SQLAlchemy 2.0 syntax
-- Jump to L5-L6 for the practical application
+- Read L7 for the hybrid patterns framework
+- Jump to L8 capstone for the complete application
 
 ## Connection to Other Chapters
 
-**Builds on Chapter 8**: Your CSV processing skills evolve to database persistence. The tax categorization patterns become database queries. The Unix pipeline philosophy (small tools, composed) maps to ORM (small models, related).
+This chapter is the third beat in Part 2's **tool choice story**:
+
+| Chapter | Tool | When It Wins | When It Fails |
+|---------|------|--------------|---------------|
+| File Processing Workflows | **Bash** | File operations, text processing | Decimal arithmetic, structured queries |
+| Computation & Data Extraction | **Python** | Computation, data extraction | Querying relationships across thousands of records |
+| Structured Data (this chapter) | **SQL (SQLAlchemy)** | Structured queries, persistent storage | When you need file-level verification |
+| Version Control | **Git** | Version control, change tracking | (Completes the toolkit) |
+| AI Employee | **All combined** | Your first AI employee | — |
+
+**Builds on Computation & Data Extraction**: Your CSV processing skills evolve to database persistence. The tax categorization patterns become database queries. The Unix pipeline philosophy (small tools, composed) maps to ORM (small models, related).
+
+**Leads to Version Control**: With data persisted in a database, you need version control for the code that manages it. Git tracks your application's evolution.
+
+**Culminates in Meet Your First AI Employee**: Your first AI employee combines bash (file ops), Python (computation), SQL (data), and Git (versioning) into a single agent workflow.
 
 ## The Real-World Payoff
 
@@ -176,10 +210,8 @@ Curious why databases beat file-based approaches? Braintrust published research 
   - SQL queries achieved 100% accuracy with 155K tokens vs 52.7% accuracy with 1.06M tokens for bash
   - Shows why schema-aware structured queries (your SQLAlchemy models) outperform file-based approaches by 7x in efficiency
   - Covers agent design tradeoffs and when to use which tool
-  - Referenced in L7 "Why This Architecture Works"
-
-This research validates the architectural pattern you're learning in this chapter. The same efficiency principles that help AI agents also make your own applications faster and more reliable.
+  - Referenced throughout this chapter (L1, L2, L7, L8)
 
 ## Ready to Start?
 
-Begin with [Lesson 0: Why Databases Matter](./00-why-databases-matter.md) to understand the limitations of file-based storage and why databases exist.
+Begin with [Lesson 0: Build Your Database Skill](./01-build-your-database-skill.md) to create the skill scaffold that you'll build on throughout this chapter.

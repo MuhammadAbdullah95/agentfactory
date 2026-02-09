@@ -503,7 +503,8 @@ But so far, you've been testing locally with SQLite. In-memory databases are gre
 | ------ | ------------------------------------- | ------------------------------------- |
 | L5 (now) | Atomic multi-operation safety       | Transaction patterns with error handling |
 | L6     | Deploy to Neon serverless database  | Connection pooling and production config |
-| L7     | Integrate all patterns               | Complete, production-ready Budget Tracker |
+| L7     | Combine SQL + bash hybrid patterns   | Tool choice framework                    |
+| L8     | Integrate all patterns               | Complete, production-ready Budget Tracker |
 
 Transactions ensure correctness locally. Cloud deployment ensures availability globally.
 

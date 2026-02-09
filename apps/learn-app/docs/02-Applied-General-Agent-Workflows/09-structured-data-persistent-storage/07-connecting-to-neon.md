@@ -409,14 +409,15 @@ My .env looks correct. What should I check?"
 
 Your Budget Tracker database is now running on Neon PostgreSQL. It persists forever. It scales automatically. It handles multiple concurrent users. It's production-ready from day one.
 
-But so far, you've been building isolated pieces: models in L2, CRUD operations in L3, relationships in L4, transactions in L5, Neon setup in L6. L7 is where everything comes together into a complete, working Budget Tracker application that demonstrates all the patterns you learned.
+But so far, you've been building isolated pieces: models in L2, CRUD operations in L3, relationships in L4, transactions in L5, Neon setup in L6. Next, you'll learn when to combine these SQL tools with bash verification for production reliability, then put everything together in the capstone.
 
 | Lesson | What You Learn                          | What You Build               |
 | ------ | --------------------------------------- | ---------------------------- |
 | L6 (now) | Connect to Neon, configure pooling   | Production-ready database    |
-| L7     | Integrate all L0-L6 patterns            | Complete Budget Tracker app  |
+| L7     | Combine SQL + bash hybrid patterns      | Tool choice framework        |
+| L8     | Integrate all L0-L7 patterns            | Complete Budget Tracker app  |
 
-The capstone lesson shows how all pieces work together: skill ownership, database concepts, models, CRUD, relationships, transactions, and Neon deployment become one coherent application.
+L7 teaches the hybrid verification pattern — when to combine SQL with bash for self-checking data pipelines. Then the capstone lesson shows how all pieces work together into one coherent application.
 
 ## Try With AI
 
@@ -490,7 +491,7 @@ After AI responds, check: Could someone on your team use this skill to set up a 
 
 ### Checkpoint
 
-Before moving to L7 (Capstone):
+Before moving to L7 (Hybrid Patterns):
 
 - [ ] Neon account created with budget-tracker project
 - [ ] Connection string copied from Neon dashboard

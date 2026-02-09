@@ -308,6 +308,20 @@ Relationships:
 
 This is the entire data layer for Budget Tracker. Python classes. No SQL. SQLAlchemy handles the translation.
 
+## Why Models Win: The Schema Clarity Insight
+
+In L1, you saw the Braintrust experiment: bash achieved only 52.7% accuracy on structured queries despite generating sophisticated commands. The root cause was that bash had to *guess* at field names, data types, and relationships.
+
+Look at what your models provide that bash never had:
+
+- `amount = Column(Float, nullable=False)` — every tool knows this is a required decimal number
+- `user_id = Column(Integer, ForeignKey('users.id'))` — every tool knows this links to the users table
+- `date = Column(Date, default=date.today)` — every tool knows this is a calendar date, not a string
+
+Your SQLAlchemy models don't just define storage. They **describe the data** to everything that touches it — the database engine, your Python code, and any AI agent that reads your schema. This is Principle 2 (Code as Universal Interface) at its deepest level.
+
+Schema clarity is why SQL wins. Your models provide it.
+
 ## What Happens Next
 
 You've defined the structure. Three interconnected tables with primary keys, foreign keys, and relationships. But a database with no data is just an empty box. In L3, you'll actually populate these tables, run queries, and see real data flowing through your Budget Tracker.
@@ -319,7 +333,8 @@ You've defined the structure. Three interconnected tables with primary keys, for
 | L4     | Navigate between tables          | Relationship and join patterns        |
 | L5     | Guarantee multi-step safety      | Transaction patterns                  |
 | L6     | Deploy to the cloud              | Neon and production configuration     |
-| L7     | Bring it all together            | Complete working application          |
+| L7     | Combine SQL + bash patterns      | Hybrid tool choice framework          |
+| L8     | Bring it all together            | Complete working application          |
 
 Models define structure. CRUD operations populate and read that structure. Everything that follows depends on getting these models right.
 
