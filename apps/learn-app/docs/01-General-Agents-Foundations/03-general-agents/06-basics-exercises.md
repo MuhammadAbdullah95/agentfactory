@@ -65,10 +65,12 @@ These exercises close the gap between "I understand AI agents" and "I can use AI
 
 Three skills run through every exercise: **problem decomposition** (breaking vague problems into clear steps), **specification writing** (describing outcomes precisely enough for an agent to execute), and **quality verification** (checking whether the output actually solves your problem). These aren't abstract concepts. By the end of these exercises, they'll be reflexes.
 
-:::info Exercise Files Included
-The exercise files are already included in your course materials inside the **`claude-code-basic-exercises/`** directory. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need — no setup or download required.
+:::info Download Exercise Files
+**[Download Basics Exercises (ZIP)](https://github.com/panaversity/claude-code-basic-exercises/releases/latest/download/basics-exercises.zip)**
 
-If you don't have the exercises directory, you can clone it from [the repository](https://github.com/panaversity/claude-code-basic-exercises).
+After downloading, unzip the file. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need.
+
+If the download link doesn't work, visit the [repository releases page](https://github.com/panaversity/claude-code-basic-exercises/releases) directly.
 :::
 
 ---
