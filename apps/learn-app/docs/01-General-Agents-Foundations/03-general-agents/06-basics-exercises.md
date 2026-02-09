@@ -65,12 +65,10 @@ These exercises close the gap between "I understand AI agents" and "I can use AI
 
 Three skills run through every exercise: **problem decomposition** (breaking vague problems into clear steps), **specification writing** (describing outcomes precisely enough for an agent to execute), and **quality verification** (checking whether the output actually solves your problem). These aren't abstract concepts. By the end of these exercises, they'll be reflexes.
 
-:::info Download Exercise Files
-**[Download Basics Exercises (ZIP)](https://github.com/panaversity/claude-code-basic-exercises/releases/latest/download/basics-exercises.zip)**
+:::info Exercise Files Included
+The exercise files are already included in your course materials inside the **`claude-code-basic-exercises/`** directory. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need — no setup or download required.
 
-After downloading, unzip the file. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need.
-
-If the download link doesn't work, visit the [repository releases page](https://github.com/panaversity/claude-code-basic-exercises/releases) directly.
+If you don't have the exercises directory, you can clone it from [the repository](https://github.com/panaversity/claude-code-basic-exercises).
 :::
 
 ---
@@ -79,7 +77,7 @@ If the download link doesn't work, visit the [repository releases page](https://
 
 The workflow for every exercise is the same:
 
-1. **Open the exercise folder** from your downloaded ZIP
+1. **Open the exercise folder** from the `claude-code-basic-exercises/` directory
 2. **Read the INSTRUCTIONS.md** inside the folder — it has setup steps and starter files
 3. **Read the walkthrough below** for context on what you're practicing and why
 4. **Start Claude Code or Cowork** and point it at the exercise folder
@@ -135,7 +133,7 @@ For each exercise, evaluate yourself on:
 ### Exercise 1.1 — The Messy Downloads Folder 🗂️🖥️
 
 **The Problem:**
-Create a folder called `messy-downloads` and fill it with 30+ files of mixed types: PDFs, images (.jpg, .png), Word docs, spreadsheets, text files, and a few random files (.zip, .csv). Give them realistic but inconsistent names — some with dates, some without, some with spaces, some with underscores.
+Open the `messy-downloads/` folder in the exercise directory. You'll find 35+ files of mixed types: PDFs, images (.jpg, .png), Word docs, spreadsheets, text files, and a few random files (.zip, .csv). The names are deliberately inconsistent — some with dates, some without, some with spaces, some with underscores.
 
 **Your Task:**
 Write a single clear instruction that tells Claude to organize these files into a logical folder structure. Don't tell Claude _how_ to organize — describe the _outcome_ you want.
@@ -164,7 +162,7 @@ Think about: What categories make sense? Should files be sorted by type, by date
 ### Exercise 1.2 — Photo Album Builder 🗂️🖥️
 
 **The Problem:**
-Create a folder with 20+ image files (download free images from unsplash.com or use your own). Mix portrait and landscape orientations. Include some duplicates or near-duplicates.
+Open the `photos/` folder in the exercise directory. You'll find 24 images with a mix of portrait and landscape orientations, including some duplicates and near-duplicates.
 
 **Your Task:**
 Ask Claude to:
@@ -193,7 +191,7 @@ Compare the results. Which approach produced a better outcome? Which was faster?
 ### Exercise 1.3 — The Inbox Zero Challenge 🗂️
 
 **The Problem:**
-Create a folder with 15-20 text files, each simulating an email (subject line on line 1, sender on line 2, body below). Mix categories: work requests, personal messages, newsletters, receipts, spam-like content, and urgent items.
+Open the `inbox/` folder in the exercise directory. You'll find 18 text files, each simulating an email (subject line on line 1, sender on line 2, body below). They include a mix of categories: work requests, personal messages, newsletters, receipts, spam-like content, and urgent items.
 
 **Your Task:**
 Ask Claude to triage these "emails" into action categories:
@@ -324,7 +322,7 @@ Ask Claude to create a structured decision document:
 ### Exercise 3.1 — The Messy Spreadsheet 🗂️🖥️
 
 **The Problem:**
-Create (or download) a CSV file with deliberately messy data:
+Open `customer_data_messy.csv` in the exercise directory. It contains deliberately messy data:
 
 - Inconsistent date formats (01/15/2025, Jan 15 2025, 2025-01-15)
 - Mixed case names (john smith, JANE DOE, Bob Jones)
@@ -364,7 +362,7 @@ Include a critical instruction: "Before making changes, show me what you plan to
 ### Exercise 3.2 — The Survey Analyzer 🗂️🖥️
 
 **The Problem:**
-Create a CSV with 50+ rows of fake survey data. Include:
+Open `product_survey_results.csv` in the exercise directory. It contains 50+ rows of survey data with:
 
 - Demographic columns (age range, location, role)
 - Likert scale responses (1-5) for 5-6 questions
@@ -396,7 +394,7 @@ Ask Claude to:
 ### Exercise 3.3 — The Budget Tracker 🗂️🖥️
 
 **The Problem:**
-Create a folder with 10-15 receipt images or text files, each representing a purchase (date, vendor, amount, category). Some should have overlapping categories.
+Open the `receipts/` folder in the exercise directory. You'll find 15 receipt text files, each representing a purchase (date, vendor, amount, category). Some have overlapping categories.
 
 **Your Task:**
 Ask Claude to:
@@ -429,7 +427,7 @@ Ask Claude to:
 ### Exercise 4.1 — The Meeting Notes Transformer 🗂️🖥️
 
 **The Problem:**
-Create a text file with raw, messy meeting notes — bullet fragments, abbreviations, incomplete sentences, off-topic tangents, action items buried in discussion.
+Open `raw_meeting_notes.txt` in the exercise directory. It contains raw, messy meeting notes — bullet fragments, abbreviations, incomplete sentences, off-topic tangents, action items buried in discussion.
 
 **Your Task:**
 Ask Claude to transform these notes into THREE different outputs:
@@ -462,7 +460,7 @@ Include the constraint: "All three outputs must be consistent — the same decis
 ### Exercise 4.2 — The Report Generator 🗂️🖥️
 
 **The Problem:**
-Create a folder containing 5-6 data files (CSVs, text files with notes, maybe an image or two) related to a hypothetical project — a product launch, a marketing campaign, a student research project.
+Open the `project-data/` folder in the exercise directory. You'll find 5 data files (CSVs and text files with notes) related to a hypothetical product launch project.
 
 **Your Task:**
 Ask Claude to synthesize all materials into a single professional report with:
@@ -492,7 +490,7 @@ Ask Claude to synthesize all materials into a single professional report with:
 ### Exercise 4.3 — The Presentation Builder 🗂️🖥️
 
 **The Problem:**
-You have a written report or long-form document (use the output from Exercise 4.2, or create a 2-3 page written document on any topic).
+Open `written_report.md` in the exercise directory (or use the output you generated in Exercise 4.2).
 
 **Your Task:**
 Ask Claude to create a presentation that:
@@ -521,11 +519,11 @@ After Claude creates the presentation, write a critique of it. What would you ch
 ### Exercise 5.1 — The Batch Renamer 🗂️🖥️
 
 **The Problem:**
-Create a folder with 20+ files that need consistent renaming. Examples:
+Open the `files-to-rename/` folder in the exercise directory. You'll find 25+ files with inconsistent naming that need standardization. Examples of what you'll see:
 
-- `IMG_20250115_143022.jpg` → `2025-01-15_photo_001.jpg`
-- `Document (1).pdf` → `meeting-notes-january.pdf`
-- Mixed naming conventions that need standardization
+- `IMG_20250115_143022.txt` — timestamps embedded in names
+- `Document (1).txt` — generic numbered duplicates
+- Mixed naming conventions throughout
 
 **Your Task:**
 Define a naming convention and ask Claude to rename all files according to your rules. Your rules must cover:
@@ -553,13 +551,13 @@ Define a naming convention and ask Claude to rename all files according to your 
 ### Exercise 5.2 — The Template System 🗂️🖥️
 
 **The Problem:**
-You need to send personalized versions of the same document to 10 different people (a certificate, a report card, a personalized thank-you letter, a custom proposal).
+You need to send personalized versions of the same document to multiple people.
 
 **Your Task:**
 
-1. Create a template document with placeholder fields (e.g., `{{NAME}}`, `{{DATE}}`, `{{SCORE}}`)
-2. Create a data file (CSV or spreadsheet) with values for each recipient
-3. Ask Claude to generate all 10 personalized documents
+1. Open the exercise directory — you'll find `certificate_template.md` (a template with placeholder fields like `{{NAME}}`, `{{DATE}}`, `{{SCORE}}`) and `student_data.csv` (data for each recipient)
+2. Review both files to understand the template + data pattern
+3. Ask Claude to generate all personalized documents
 
 **What You'll Learn:**
 
@@ -581,14 +579,10 @@ After generating documents, ask Claude to create a tracking spreadsheet that lis
 ### Exercise 5.3 — The Weekly Report Automator 🗂️🖥️
 
 **The Problem:**
-Imagine you need to produce a weekly status report every Friday. The report pulls from:
-
-- A task list (CSV with tasks, status, owner, due date)
-- A metrics file (numbers like users, revenue, bugs fixed)
-- A notes file (free-text highlights and blockers)
+Imagine you need to produce a weekly status report every Friday. The report pulls from three input files.
 
 **Your Task:**
-Create sample versions of all three input files. Then write a single comprehensive prompt that:
+Open the `week-data/` folder in the exercise directory. You'll find all three input files: `tasks.csv` (tasks, status, owner, due date), `metrics.csv` (numbers like users, revenue, bugs fixed), and `weekly_notes.txt` (free-text highlights and blockers). Write a single comprehensive prompt that:
 
 1. Reads all three files
 2. Generates a formatted weekly report document
@@ -614,7 +608,7 @@ Your prompt should be reusable — if you updated the three input files next wee
 ### Exercise 6.1 — The Business Plan Skeleton 🗂️🖥️
 
 **The Problem:**
-Think of a simple business idea (a food cart, a tutoring service, a community app). You don't need a real idea — the exercise is about structuring your thinking.
+Open the exercise directory — you'll find starter idea briefs (like an AI tutoring service, a local food delivery app, or a coworking space). Pick one that interests you, or use your own idea. The exercise is about structuring your thinking, not the idea itself.
 
 **Your Task:**
 Ask Claude to help you create:
@@ -648,12 +642,7 @@ Don't just say "write me a business plan." Instead, have a CONVERSATION with Cla
 ### Exercise 6.2 — The Troubleshooter 🗂️🖥️
 
 **The Problem:**
-Create a text file describing a realistic problem scenario. Examples:
-
-- "Our website traffic dropped 40% last month"
-- "Student engagement in our online course is declining"
-- "Our team meetings run over time and nothing gets decided"
-- "My home office is uncomfortable and I can't focus"
+Open the exercise directory — you'll find starter problem scenarios (like a website traffic drop, declining course engagement, or unproductive team meetings). Pick one that resonates with you, or describe a real problem you're facing.
 
 **Your Task:**
 Ask Claude to:
@@ -681,7 +670,7 @@ Ask Claude to:
 ### Exercise 6.3 — The Event Planner 🗂️🖥️
 
 **The Problem:**
-Plan a realistic event: a team offsite, a community meetup, a workshop for 30 students, or a small conference.
+Open `event-brief.md` in the exercise directory for a starter event scenario, or plan your own realistic event: a team offsite, a community meetup, a workshop for 30 students, or a small conference.
 
 **Your Task:**
 Ask Claude to produce a complete event planning package:
@@ -802,7 +791,7 @@ Capstones are different from the exercises above. There are no starter prompts �
 
 ### Capstone A — The Personal Knowledge Base 🗂️🖥️
 
-Collect 20+ documents you actually have (articles you've saved, notes, bookmarks, PDFs). Ask Claude to:
+Open the `sample-documents/` folder in the exercise directory — you'll find 8 starter documents (articles, notes, bookmarks). You can add your own documents to the folder for a richer experience. Ask Claude to:
 
 - Read and categorize everything
 - Extract key insights from each document

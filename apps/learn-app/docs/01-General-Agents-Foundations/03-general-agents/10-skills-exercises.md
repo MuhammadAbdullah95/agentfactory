@@ -71,12 +71,10 @@ The Big Idea behind all of this: **a skill is a reusable instruction file that t
 
 ---
 
-:::info Download Exercise Files
-**[Download Skills Exercises (ZIP)](https://github.com/panaversity/claude-code-skills-exercises/releases/latest/download/skills-exercises.zip)**
+:::info Exercise Files Included
+The exercise files are already included in your course materials inside the **`claude-code-skills-exercises/`** directory. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need — no setup or download required.
 
-After downloading, unzip the file. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need.
-
-If the download link doesn't work, visit the [repository releases page](https://github.com/panaversity/claude-code-skills-exercises/releases) directly.
+If you don't have the exercises directory, you can clone it from [the repository](https://github.com/panaversity/claude-code-skills-exercises).
 :::
 
 ---
