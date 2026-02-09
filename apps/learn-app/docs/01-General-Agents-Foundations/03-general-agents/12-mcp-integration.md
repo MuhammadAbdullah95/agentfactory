@@ -403,7 +403,7 @@ MCP is powerful, but it's not the right tool for everything. This section shows 
 - Confidential customer data, proprietary algorithms
 - **Better approach**: Use local file access or store secrets in environment variables, then prompt Claude to retrieve them locally
 
-**Example wrong**: "Use MCP to fetch our accounting database"
+**Example wrong**: "Use MCP to fetch our accounting database"  
 **Example right**: "Here's the database dump (local file). Analyze using this skill."
 
 **Don't use MCP for real-time high-frequency queries:**
@@ -412,7 +412,7 @@ MCP is powerful, but it's not the right tool for everything. This section shows 
 - MCP adds latency per call (network roundtrip + Claude reasoning)
 - **Appropriate workflow**: ~10 queries/minute with MCP; real-time streaming needs direct connections
 
-**Example wrong**: "Continuously monitor 500 database records every second"
+**Example wrong**: "Continuously monitor 500 database records every second"  
 **Example right**: "Check production health metrics every 5 minutes and alert me"
 
 **Don't use MCP from untrusted servers:**
@@ -421,7 +421,7 @@ MCP is powerful, but it's not the right tool for everything. This section shows 
 - A malicious MCP server could expose your system, read your files, access your tokens
 - **Check before installing**: Read source code on GitHub, verify maintainer reputation, check recent commits
 
-**Example wrong**: `claude mcp add mystery-tool some-random-npm-package`
+**Example wrong**: `claude mcp add mystery-tool some-random-npm-package`  
 **Example right**: `claude mcp add playwright npx @playwright/mcp@latest` (widely used, verified source)
 
 **Don't build custom MCP servers before you understand the basics:**
@@ -430,7 +430,7 @@ MCP is powerful, but it's not the right tool for everything. This section shows 
 - Understand the security model (permission allow-lists, token storage)
 - **Advanced topic**: Building custom MCP servers for databases, internal APIs (Part 7, Chapter 38)
 
-**Example wrong**: "I'll build a custom MCP to access our Jira board today"
+**Example wrong**: "I'll build a custom MCP to access our Jira board today"  
 **Example right**: "I'll try Playwright/Context7 first, then explore custom MCP next quarter"
 
 ---
