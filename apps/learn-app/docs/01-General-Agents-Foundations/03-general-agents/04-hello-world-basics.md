@@ -164,88 +164,9 @@ If you reject, you can ask Claude to try differently. That's steering.
 
 ---
 
-## Problem Solving Lab
-
-You can now talk to Claude, create files, and approve actions. That's all you need to start solving real problems. Let's practice with real exercises.
-
-### Get the Exercise Pack
-
-Download the exercises from [github.com/panaversity/claude-code-exercises](https://github.com/panaversity/claude-code-exercises) — click the green **Code** button, then **Download ZIP**. Unzip the folder wherever you like.
-
-Or if you have git installed, run `git clone https://github.com/panaversity/claude-code-exercises.git` in your terminal.
-
-### Your First Exercise: The Messy Downloads Folder
-
-Inside the exercises you just downloaded, find this folder:
-
-```
-claude-code-exercises → basics → module-1-file-organization → exercise-1.1-messy-downloads
-```
-
-**Open your terminal in this folder.** (On Mac: right-click the folder → "New Terminal at Folder". On Windows: right-click → "Open in Terminal".)
-
-This exercise has a `messy-downloads/` folder with 35 files — PDFs, images, spreadsheets, all jumbled together with bad names. Your job: get Claude to organize this mess for you.
-
-Start Claude:
-
-```bash
-claude
-```
-
-Now tell Claude what to do:
-
-```
-Read INSTRUCTIONS.md and then organize the messy-downloads folder.
-Sort files by type, use consistent naming, and show me a summary
-of what you organized.
-```
-
-Watch what happens:
-
-1. **Claude reads the instructions** — it understands the exercise
-2. **Claude looks at the messy files** — it figures out what's there
-3. **Claude proposes changes** — it shows you what it wants to do
-4. **You approve each action** — press `Enter` to allow, `Esc` to reject
-
-You described the **outcome** you wanted. Claude figured out the steps.
-
-### Check and Iterate
-
-Is the result what you expected? If not, tell Claude what to change:
-
-```
-Actually, I want the images in a separate "photos" folder, not mixed
-with documents. Can you reorganize?
-```
-
-That's **iteration** — the most important skill in working with AI. Your first prompt is never your last.
-
-### What's Available
-
-There are four modules designed for exactly where you are right now — no extra knowledge needed:
-
-| Module                  | What You'll Practice                                  | Time      |
-| ----------------------- | ----------------------------------------------------- | --------- |
-| 1. File Organization    | Organize 35 messy files by describing rules to Claude | 20-30 min |
-| 2. Research & Synthesis | Research topics and create comparison documents       | 20-30 min |
-| 3. Data Wrangling       | Clean messy spreadsheets and analyze survey data      | 20-30 min |
-| 4. Document Creation    | Transform raw notes into polished documents           | 20-30 min |
-
-Every exercise works the same way: open the exercise folder in your terminal, run `claude`, and tell Claude `"Read INSTRUCTIONS.md and do what it says"`. Review what Claude proposes, approve or redirect, and iterate until you're happy.
-
-:::tip Problem-Solving Framework
-Use this for every exercise:
-
-1. **Define** — What am I trying to accomplish?
-2. **Specify** — Describe the outcome, constraints, format
-3. **Execute** — Run it with Claude
-4. **Verify** — Does the output match what I asked for?
-5. **Iterate** — What would I change? Try again.
-   :::
-
-### Recommended Path
-
-Complete at least **Module 1** and **Module 3** (6 exercises) before continuing to Lesson 05. Each exercise takes 20-30 minutes. The remaining modules are available anytime — come back whenever you want more practice.
+:::tip Ready to Practice?
+Head to **Lesson 06: Practical Problem-Solving Exercises** for 27 hands-on exercises with complete walkthroughs. You'll organize messy files, analyze data, create documents, and build problem-solving skills — all with one-click exercise downloads and step-by-step guidance.
+:::
 
 ---
 
@@ -262,15 +183,15 @@ This is where Claude's extension tools come in. You don't need to understand the
 
 ### The Five Extension Tools at a Glance
 
-| If you need...                                          | Then use...   | Appears in... |
-| :------------------------------------------------------ | :------------ | :------------ |
-| **Persistent context** for every Claude session         | **CLAUDE.md** | Lessons 5-6   |
-| **Repeated procedures** done your way                   | **Skill**     | Lessons 7-8   |
-| **Delegation & focus** for complex workflows            | **Subagent**  | Lessons 11-12 |
-| **External systems & data** (APIs, databases, websites) | **MCP**       | Lessons 9-10  |
-| **Automated quality gates & safety rules**              | **Hook**      | Lesson 13     |
+| If you need...                                          | Then use...   | Appears in...  |
+| :------------------------------------------------------ | :------------ | :------------- |
+| **Persistent context** for every Claude session         | **CLAUDE.md** | Lessons 5, 7   |
+| **Repeated procedures** done your way                   | **Skill**     | Lessons 8-9    |
+| **Delegation & focus** for complex workflows            | **Subagent**  | Lessons 11, 13 |
+| **External systems & data** (APIs, databases, websites) | **MCP**       | Lessons 12-13  |
+| **Automated quality gates & safety rules**              | **Hook**      | Lesson 15      |
 
-**Here's the pattern:** You learn each tool individually (Lessons 5-13), then in Lesson 16, you'll see how an expert combines them in a production workflow—like a manager building a team, not a developer writing functions.
+**Here's the pattern:** You learn each tool individually (Lessons 5-15), then in Lesson 18, you'll see how an expert combines them in a production workflow—like a manager building a team, not a developer writing functions.
 
 ### Why This Matters Now
 

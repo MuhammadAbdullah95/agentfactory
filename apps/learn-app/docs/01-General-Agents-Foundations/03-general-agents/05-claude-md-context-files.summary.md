@@ -1,7 +1,9 @@
 ### Core Concept
+
 CLAUDE.md is a markdown file in your project root that Claude Code automatically loads at session start—giving your AI companion persistent project context without you repeating explanations every time. For universal compatibility across ALL AI coding agents, pair it with AGENTS.md.
 
 ### Key Mental Models
+
 - **LLMs Are Stateless**: Large Language Models (LLMs)—like those powering ChatGPT (OpenAI), Claude (Anthropic), and Gemini (Google)—have no memory between calls. Claude Code (the CLI tool) calls an AI model behind the scenes. Every new session starts blank—the AI doesn't remember your previous conversations.
 - **The "Memory" Illusion**: When conversation seems continuous, it's because Claude Code secretly re-sends your entire chat history with each message. ChatGPT and Claude.ai use the same trick. The LLM reads everything fresh each time.
 - **File System as Memory**: Instead of stuffing history into conversations, Claude Code reads your actual project files. Your code IS the persistent state. CLAUDE.md is the orientation guide Claude reads first.
@@ -11,6 +13,7 @@ CLAUDE.md is a markdown file in your project root that Claude Code automatically
 - **Universal + Specialized**: AGENTS.md provides universal project context (works with any AI agent), CLAUDE.md adds Claude-specific features (skills, hooks, MCP configs)
 
 ### Critical Patterns
+
 - Place CLAUDE.md in project root (same level as `.git`, `package.json`, `pyproject.toml`)
 - Include 6 standard sections: Project Overview, Technology Stack, Directory Structure, Coding Conventions, Key Commands, Important Notes
 - Ask Claude to generate initial CLAUDE.md: `"Help me create a CLAUDE.md file for this project based on what you see in the codebase"`
@@ -19,12 +22,14 @@ CLAUDE.md is a markdown file in your project root that Claude Code automatically
 - **Use both files**: AGENTS.md for universal context (all AI agents), CLAUDE.md references `@AGENTS.md` and adds Claude-specific instructions
 
 ### The AGENTS.md Standard
+
 - Universal standard created by OpenAI, now under Linux Foundation's Agentic AI Foundation (AAIF)
 - Adopted by 60,000+ projects, works with Cursor, GitHub Copilot, Gemini CLI, Devin, and all major AI coding tools
 - Simple rule: Universal project context → AGENTS.md, Claude-specific features → CLAUDE.md
 - In CLAUDE.md, reference with: `See @AGENTS.md for universal project guidelines`
 
 ### Common Mistakes
+
 - File not in project root (must be same directory as `.git`, not in subdirectory)
 - Wrong filename (must be exactly `CLAUDE.md`, case-sensitive)
 - Testing in same session (auto-loading only happens when starting new Claude Code session)
@@ -32,6 +37,7 @@ CLAUDE.md is a markdown file in your project root that Claude Code automatically
 - Duplicating content between AGENTS.md and CLAUDE.md (use references instead)
 
 ### Connections
+
 - **Builds on**: Claude Code installation and authentication (Lesson 2)
-- **Leads to**: Skills (Lessons 07-08) and Subagents (Lesson 09) inherit and extend CLAUDE.md context
+- **Leads to**: Skills (Lessons 08-09) and Subagents (Lesson 11) inherit and extend CLAUDE.md context
 - **Related standard**: AGENTS.md (universal), MCP (tool connections)—all now under AAIF governance

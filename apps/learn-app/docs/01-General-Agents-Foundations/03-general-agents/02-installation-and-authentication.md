@@ -81,11 +81,11 @@ This isn't just about following installation commands. It's about crossing the b
 
 This lesson covers the **official Claude subscription setup** (Pro $20/month or Max $200/month). If you prefer a **free/minimal cost alternative**, see **Lesson 3: Free Claude Code Setup**.
 
-**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 05-13).
+**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 05-15).
 
-| Path | Cost | What You Get |
-|------|------|--------------|
-| **This Lesson (Official)** | Pro: $20/month<br/>Max: $200/month | Official Anthropic models (Claude Sonnet/Opus), direct integration, official support |
+| Path                        | Cost                                    | What You Get                                                                                         |
+| --------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **This Lesson (Official)**  | Pro: $20/month<br/>Max: $200/month      | Official Anthropic models (Claude Sonnet/Opus), direct integration, official support                 |
 | **Lesson 3 (Free/Minimal)** | $0 (free tier)<br/>Pay-as-you-go option | Use Claude Code agent with **any LLM** (Gemini, GPT, local models), backend abstraction architecture |
 
 **Key difference**: Official path uses Anthropic's Claude models. Free path lets you use Claude Code's agentic architecture with any LLM backend through production-grade API routing.
@@ -97,25 +97,29 @@ This lesson covers the **official Claude subscription setup** (Pro $20/month or 
 Before we begin, verify you have the following:
 
 **1. Terminal Access**
+
 - **Windows**: Command Prompt, PowerShell, or Windows Terminal
 - **macOS**: Terminal app (Applications → Utilities → Terminal)
 - **Linux**: Any terminal emulator (GNOME Terminal, Konsole, etc.)
 - **WSL Users**: Any WSL 2 terminal with Ubuntu 20.04+ or Debian 10+
 
 **2. Claude Account** (one of the following):
+
 - **Option A**: Claude.ai subscription (Pro $20/month, Max $200/month, or Enterprise) - Sign up at: https://claude.ai
 - **Option B**: Claude Console account with API credits - Create account at: https://console.anthropic.com
 - **📍 Location**: Claude Code requires authentication from [Anthropic-supported countries](https://www.anthropic.com/supported-countries). Check availability during signup.
 
 **3. System Requirements**
+
 - **macOS**: 13 (Ventura) or later
 - **Windows**: Windows 10 or later
 - **Linux**: Ubuntu 20.04+ / Debian 10+
 - **RAM**: 8GB minimum
 
 **4. Optional (for npm installation only)**
+
 - **Node.js**: Version 18 or later (only required if using npm installation method)
-- **Deprecated**: NPM installation is deprecated. Use the native installation method when possible. 
+- **Deprecated**: NPM installation is deprecated. Use the native installation method when possible.
 
 ---
 
@@ -129,6 +133,7 @@ Claude Code installation has been simplified with official installers for each p
 **⚠️ Important**: Claude Code requires a bash-compatible shell to run. On Windows, you need **either WSL or Git for Windows** installed—the installer downloads Claude Code, but it runs inside a bash shell.
 
 **Decision Tree**:
+
 ```
 Which shell environment do you have (or want to install)?
 ├─ WSL (Windows Subsystem for Linux)
@@ -222,6 +227,7 @@ claude --version
 ```
 
 **Expected output**:
+
 ```
 X.X.XX (Claude Code)
 ```
@@ -229,10 +235,12 @@ X.X.XX (Claude Code)
 (Your version number will differ—Claude Code auto-updates frequently.)
 
 #### 💬 AI Colearning Prompt
+
 > "Explain the difference between WSL and Git Bash for Windows developers. When would you choose one over the other for AI-native development workflows?"
 
 ::macos
 **Decision Tree**:
+
 ```
 Which installation method do you prefer?
 ├─ Native install (simplest)
@@ -288,6 +296,7 @@ claude --version
 ```
 
 **Expected output**:
+
 ```
 X.X.XX (Claude Code)
 ```
@@ -295,10 +304,12 @@ X.X.XX (Claude Code)
 (Your version number will differ—Claude Code auto-updates frequently.)
 
 #### 🎓 Expert Insight
+
 > Claude Code auto-updates itself, so you get the latest features without manual intervention. If you use Homebrew for other tools, `brew install --cask claude-code` integrates Claude Code into your existing workflow—but the native installer works equally well.
 
 ::linux
 **Decision Tree**:
+
 ```
 Are you on Ubuntu/Debian/WSL?
 ├─ Yes → Method 1 (curl/bash) - RECOMMENDED
@@ -323,10 +334,12 @@ curl -fsSL https://claude.ai/install.sh | bash
 **What this does**: Downloads and executes the official installer script, automatically detecting your distribution.
 
 **Requirements**:
+
 - Ubuntu 20.04+ or Debian 10+
 - curl and bash (pre-installed on most distributions)
 
 **Supported Distributions**:
+
 - Ubuntu 20.04, 22.04, 24.04
 - Debian 10, 11, 12
 - WSL 2 (with Ubuntu or Debian)
@@ -341,6 +354,7 @@ export USE_BUILTIN_RIPGREP=0
 ```
 
 **What this does**:
+
 1. Installs required libraries (libgcc, libstdc++) and ripgrep
 2. Configures Claude Code to use system ripgrep instead of built-in version
 
@@ -355,6 +369,7 @@ claude --version
 ```
 
 **Expected output**:
+
 ```
 X.X.XX (Claude Code)
 ```
@@ -368,6 +383,7 @@ X.X.XX (Claude Code)
 ### Cross-Platform: npm Installation
 
 **When to use this method**:
+
 - You already have Node.js 18+ installed
 - You prefer npm-based workflows
 - You need to manage Claude Code versions via package.json
@@ -395,6 +411,7 @@ node --version
 If you see `v18.0.0` or higher, you're good to go.
 
 #### 💬 AI Colearning Prompt
+
 > "Explain the trade-offs between platform-specific installers (Homebrew, PowerShell) vs npm. When would a developer choose npm over the platform installer?"
 
 ---
@@ -436,6 +453,7 @@ claude doctor
 ```
 
 **What this checks**:
+
 - Installation integrity
 - Authentication status
 - System compatibility
@@ -444,6 +462,7 @@ claude doctor
 Use this command if you encounter issues during installation or authentication.
 
 #### 🎓 Expert Insight
+
 > In AI-native development, terminal comfort is a skill multiplier. The 5 minutes you invest learning basic terminal commands unlocks 10x productivity with AI tools. You're not becoming a "terminal expert"—you're removing the friction between intent and execution.
 
 ---
@@ -498,6 +517,7 @@ Remove-Item -Path "$env:USERPROFILE\.claude.json" -Force
 ```
 
 ---
+
 ## Authentication: Connecting Claude Code to Your Account
 
 Once installed, Claude Code needs to authenticate with your Claude account. There are **three authentication paths** depending on your account type and use case.
@@ -521,6 +541,7 @@ What type of Claude access do you have?
 **If you have both subscription and Console API**: Use Method 1 (Claude App)—it's simpler and provides unified access.
 
 #### 🎓 Expert Insight
+
 > In AI-native development, authentication isn't just about access—it's about resource management. Claude.ai (subscription) vs Console API (pay-per-use) vs Enterprise (dedicated capacity) represents different cost models and usage patterns. Understanding your workflow determines which path saves money.
 
 ---
@@ -538,6 +559,7 @@ claude
 ```
 
 **Expected output**:
+
 ```
  Claude Code can be used with your Claude subscription or billed based on API usage through your
  Console account.
@@ -587,6 +609,7 @@ claude
 ```
 
 **Expected output**:
+
 ```
  Claude Code can be used with your Claude subscription or billed based on API usage through your
  Console account.
@@ -616,6 +639,7 @@ claude "Hello! Can you confirm Claude Code is working?"
 **Expected output**: Claude responds confirming the connection works.
 
 **⚠️ Important for Console API Users**:
+
 - Set usage limits in Console: https://console.anthropic.com/settings/limits
 - Monitor token usage (displayed after each interaction)
 - Console authentication uses API billing, not subscription credits
@@ -636,6 +660,7 @@ claude "Hello! Can you confirm Claude Code is working?"
 Claude Code can authenticate with Claude via AWS Bedrock:
 
 **Requirements**:
+
 - AWS account with Bedrock access
 - Claude models enabled in Bedrock
 - AWS CLI configured with appropriate credentials
@@ -647,6 +672,7 @@ Claude Code can authenticate with Claude via AWS Bedrock:
 Claude Code can authenticate with Claude via Google Cloud Vertex AI:
 
 **Requirements**:
+
 - Google Cloud account with Vertex AI access
 - Claude models enabled in Vertex AI
 - Google Cloud SDK configured
@@ -658,6 +684,7 @@ Claude Code can authenticate with Claude via Google Cloud Vertex AI:
 Claude Code can connect to dedicated Claude capacity via Anthropic Foundry:
 
 **Requirements**:
+
 - Anthropic Foundry account with dedicated capacity
 - Enterprise API keys
 
@@ -666,6 +693,7 @@ Claude Code can connect to dedicated Claude capacity via Anthropic Foundry:
 **📚 Enterprise Documentation**: For detailed enterprise configuration, see https://docs.anthropic.com/en/api/claude-on-amazon-bedrock or contact your Enterprise administrator.
 
 ---
+
 ## Security and Best Practices
 
 Before moving forward, let's address important security considerations:
