@@ -44,7 +44,7 @@ async def extract_and_store_correct_answer(
     """
     match = CORRECT_ANSWER_PATTERN.search(response_text)
     if not match:
-        logger.warning(f"[AnswerVerify] No correct answer marker found in response")
+        logger.warning("[AnswerVerify] No correct answer marker found in response")
         return None
 
     correct_answer = match.group(1).upper()
@@ -53,11 +53,11 @@ async def extract_and_store_correct_answer(
     key = f"{ANSWER_KEY_PREFIX}{thread_id}"
     redis = get_redis()
     if not redis:
-        logger.warning(f"[AnswerVerify] Redis not available, cannot store answer")
+        logger.warning("[AnswerVerify] Redis not available, cannot store answer")
         return correct_answer
     try:
         await redis.set(key, correct_answer, ex=ANSWER_TTL_SECONDS)
-        logger.info(f"[AnswerVerify] Stored correct answer '{correct_answer}' for thread {thread_id}")
+        logger.info(f"[AnswerVerify] Stored answer '{correct_answer}' for {thread_id}")
     except Exception as e:
         logger.error(f"[AnswerVerify] Failed to store answer in Redis: {e}")
 
@@ -77,14 +77,17 @@ async def get_stored_correct_answer(thread_id: str) -> str | None:
     key = f"{ANSWER_KEY_PREFIX}{thread_id}"
     redis = get_redis()
     if not redis:
-        logger.warning(f"[AnswerVerify] Redis not available, cannot get answer")
+        logger.warning("[AnswerVerify] Redis not available, cannot get answer")
         return None
     try:
         answer = await redis.get(key)
         if answer:
             # Redis returns bytes, decode to string
-            answer_str = answer.decode("utf-8") if isinstance(answer, bytes) else answer
-            logger.info(f"[AnswerVerify] Retrieved correct answer '{answer_str}' for thread {thread_id}")
+            if isinstance(answer, bytes):
+                answer_str = answer.decode("utf-8")
+            else:
+                answer_str = answer
+            logger.info(f"[AnswerVerify] Retrieved answer '{answer_str}' for {thread_id}")
             return answer_str
     except Exception as e:
         logger.error(f"[AnswerVerify] Failed to get answer from Redis: {e}")
@@ -122,7 +125,7 @@ async def verify_student_answer(
         logger.info(f"[AnswerVerify] Student answered CORRECTLY ({normalized})")
         return "correct"
     else:
-        logger.info(f"[AnswerVerify] Student answered INCORRECTLY ({normalized} != {correct_answer})")
+        logger.info(f"[AnswerVerify] INCORRECT ({normalized} != {correct_answer})")
         return "incorrect"
 
 

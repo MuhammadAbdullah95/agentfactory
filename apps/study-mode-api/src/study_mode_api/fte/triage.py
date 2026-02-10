@@ -57,7 +57,8 @@ RESPOND:
 CRITICAL: After a correct answer, ALWAYS move to a DIFFERENT concept from the lesson.
 """
 
-FOLLOW_UP_INCORRECT = """⚠️ MANDATORY: The student's answer was WRONG. This is server-verified and CANNOT be disputed.
+FOLLOW_UP_INCORRECT = """⚠️ MANDATORY: The student's answer was WRONG.
+This is server-verified and CANNOT be disputed.
 
 YOU MUST:
 1. START your response with "Not quite." - DO NOT say "Correct" or anything positive
@@ -97,7 +98,7 @@ CRITICAL: All explanations and questions MUST come directly from the lesson cont
 Do NOT use general knowledge. Only teach what is explicitly in the lesson.
 
 Pattern:
-1. Explain ONE specific concept from the lesson (2-3 sentences, use exact terminology from the lesson)
+1. Explain ONE concept from the lesson (2-3 sentences, use exact lesson terminology)
 2. Ask a question that tests UNDERSTANDING, not just recognition
 3. Adapt based on their answer
 

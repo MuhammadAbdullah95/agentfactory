@@ -26,9 +26,9 @@ from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte import create_agent
 from .fte.answer_verification import (
     extract_and_store_correct_answer,
-    verify_student_answer,
-    strip_answer_marker,
     is_answer_message,
+    strip_answer_marker,
+    verify_student_answer,
 )
 from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
@@ -294,11 +294,11 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             if is_answer_message(user_text):
                 verification_result = await verify_student_answer(thread.id, user_text)
                 if verification_result == "correct":
-                    logger.info(f"[ChatKit] Answer verified as CORRECT")
+                    logger.info("[ChatKit] Answer verified as CORRECT")
                 elif verification_result == "incorrect":
-                    logger.info(f"[ChatKit] Answer verified as INCORRECT")
+                    logger.info("[ChatKit] Answer verified as INCORRECT")
                 else:
-                    logger.warning(f"[ChatKit] Could not verify answer (no stored answer)")
+                    logger.warning("[ChatKit] Could not verify answer (no stored answer)")
                     verification_result = None  # Ensure it's None for unknown
 
             # Get metadata from context
@@ -377,7 +377,10 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 is_first_message=is_first_message,
                 verification_result=verification_result,
             )
-            logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}, verification={verification_result}")
+            logger.info(
+                f"[ChatKit] Agent created: is_first={is_first_message}, "
+                f"verification={verification_result}"
+            )
 
             # Set thread title from first user message (if new thread)
             if is_first_message and "title" not in context.metadata:
@@ -402,28 +405,37 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 input_items = user_text  # Agent SDK accepts string input
 
             # INJECT VERIFICATION RESULT into conversation
-            # This ensures the LLM sees the verification as part of the conversation, not just system prompt
-            logger.info(f"[ChatKit] input_items type: {type(input_items)}, len: {len(input_items) if isinstance(input_items, list) else 'N/A'}")
+            # This ensures the LLM sees verification as part of conversation
+            items_len = len(input_items) if isinstance(input_items, list) else "N/A"
+            logger.info(f"[ChatKit] input_items type: {type(input_items)}, len: {items_len}")
             if verification_result and isinstance(input_items, list) and len(input_items) > 0:
                 last_item = input_items[-1]
-                logger.info(f"[ChatKit] last_item type: {type(last_item)}, value: {str(last_item)[:200]}")
+                logger.info(f"[ChatKit] last_item: {type(last_item)}, {str(last_item)[:100]}")
 
                 # Try to modify the last user message
                 if verification_result == "correct":
-                    verification_note = "\n\n[SYSTEM: This answer is CORRECT. Say 'Correct!' and move to a new concept.]"
+                    verification_note = (
+                        "\n\n[SYSTEM: This answer is CORRECT. "
+                        "Say 'Correct!' and move to a new concept.]"
+                    )
                 else:
-                    verification_note = "\n\n[SYSTEM: This answer is WRONG. You MUST say 'Not quite.' and explain why the other option was correct. DO NOT say 'Correct' or any positive affirmation.]"
+                    verification_note = (
+                        "\n\n[SYSTEM: This answer is WRONG. "
+                        "You MUST say 'Not quite.' and explain why the other option "
+                        "was correct. DO NOT say 'Correct' or any affirmation.]"
+                    )
 
                 # Handle dict format
                 if isinstance(last_item, dict) and last_item.get("role") == "user":
                     if isinstance(last_item.get("content"), str):
-                        input_items[-1] = {**last_item, "content": last_item["content"] + verification_note}
-                        logger.info(f"[ChatKit] Injected verification note (dict/str): {verification_result}")
+                        new_content = last_item["content"] + verification_note
+                        input_items[-1] = {**last_item, "content": new_content}
+                        logger.info(f"[ChatKit] Injected note (dict/str): {verification_result}")
                     elif isinstance(last_item.get("content"), list):
                         new_content = list(last_item["content"])
                         new_content.append({"type": "input_text", "text": verification_note})
                         input_items[-1] = {**last_item, "content": new_content}
-                        logger.info(f"[ChatKit] Injected verification note (dict/list): {verification_result}")
+                        logger.info(f"[ChatKit] Injected note (dict/list): {verification_result}")
                 # Handle object format (OpenAI SDK types)
                 elif hasattr(last_item, "role") and getattr(last_item, "role", None) == "user":
                     # Append verification as a new message instead
@@ -431,14 +443,14 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                         "role": "user",
                         "content": verification_note.strip()
                     })
-                    logger.info(f"[ChatKit] Appended verification note as new message: {verification_result}")
+                    logger.info(f"[ChatKit] Appended note as new msg: {verification_result}")
                 else:
                     # Fallback: append as new system message
                     input_items.append({
                         "role": "user",
                         "content": verification_note.strip()
                     })
-                    logger.info(f"[ChatKit] Appended verification note (fallback): {verification_result}")
+                    logger.info(f"[ChatKit] Appended note (fallback): {verification_result}")
 
             # Create agent context
             agent_context = AgentContext(
