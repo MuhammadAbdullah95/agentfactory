@@ -1,8 +1,8 @@
 ---
 title: "Built-in Skills: Documents, Spreadsheets, Presentations"
-sidebar_position: 26
+sidebar_position: 27
 chapter: 3
-lesson: 26
+lesson: 27
 duration_minutes: 18
 chapter_type: Practical
 running_example_id: built-in-skills

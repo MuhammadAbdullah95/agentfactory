@@ -1,8 +1,8 @@
 ---
 title: "From Skills to Business: Monetizing Agent Expertise"
-sidebar_position: 28
+sidebar_position: 29
 chapter: 3
-lesson: 28
+lesson: 29
 duration_minutes: 20
 chapter_type: Concept
 running_example_id: digital-fte-model

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 19
+sidebar_position: 20
 title: "Agent Teams: Orchestrating Multiple Claude Sessions"
 description: "Create and coordinate teams of Claude Code instances for parallel research, code review, and feature development"
 keywords:
@@ -13,7 +13,7 @@ keywords:
     claude code,
   ]
 chapter: 3
-lesson: 19
+lesson: 20
 duration_minutes: 90
 
 # PEDAGOGICAL LAYER METADATA
@@ -104,6 +104,29 @@ Agent Teams is an experimental feature. Add this to your VS Code `settings.json`
 
 **Verify it worked**: Start a new Claude Code session and type a prompt that requests a team. If the feature is enabled, you will see Claude creating teammates instead of subagents.
 
+### Choose a Display Mode
+
+Agent Teams supports two display modes:
+
+- **In-process** (default): all teammates run inside your main terminal. Use **Shift+Up/Down** to select a teammate and type to message them directly. Works in any terminal.
+- **Split panes**: each teammate gets its own pane. You can see everyone's output at once and click into a pane to interact directly. Requires `tmux` or iTerm2.
+
+Set the mode in your `settings.json`:
+
+```json
+{
+  "teammateMode": "in-process"
+}
+```
+
+Or override for a single session with a CLI flag:
+
+```bash
+claude --teammate-mode in-process
+```
+
+The default `"auto"` uses split panes if you are already running inside `tmux`, and in-process otherwise. For most learners, in-process mode is the simplest starting point.
+
 **A note on "experimental"**: The patterns you learn here -- task decomposition, parallel coordination, role assignment -- are fundamental to multi-agent systems. The specific API may evolve, but the thinking transfers.
 
 ---
@@ -140,6 +163,60 @@ Have them share findings with each other before giving me the summary.
 - Inter-agent messages let teammates build on each other's findings
 
 **Try it now.** Run the prompt above and observe each step.
+
+### Peek Under the Hood
+
+While the team works, explore the files Claude creates behind the scenes. Open a separate terminal (not your Claude session) and inspect:
+
+**Team config** — who is on the team:
+
+```bash
+cat ~/.claude/teams/*/config.json | python3 -m json.tool | head -30
+```
+
+You will see a `members` array where each teammate has a `name`, `agentType`, and `model`:
+
+```json
+{
+  "name": "exercise-factory",
+  "members": [
+    {
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "model": "claude-opus-4-6"
+    },
+    {
+      "name": "security-reviewer",
+      "agentType": "general-purpose",
+      "model": "claude-sonnet-4-5-20250929"
+    }
+  ]
+}
+```
+
+**Task files** — what work exists:
+
+```bash
+cat ~/.claude/tasks/*/1.json | python3 -m json.tool
+```
+
+Each task is a JSON file with dependency tracking:
+
+```json
+{
+  "id": "1",
+  "subject": "Review authentication module for vulnerabilities",
+  "description": "Focus on token handling, session management...",
+  "owner": "security-reviewer",
+  "status": "in_progress",
+  "blocks": ["3"],
+  "blockedBy": []
+}
+```
+
+The `blocks` and `blockedBy` fields form a dependency graph. A task with unresolved `blockedBy` entries cannot be claimed by any teammate. When a blocking task completes, dependent tasks unblock automatically.
+
+**Why this matters**: When a team gets stuck (task says `in_progress` but the teammate seems idle), you can read these files to diagnose the problem. Is the task stuck? Is a dependency not marked complete? Knowing the internals turns debugging from guesswork into inspection.
 
 ---
 
@@ -287,6 +364,21 @@ based on the dependency chain.
 ```
 
 Watch tasks unblock automatically as their dependencies complete. Teammates claim unblocked tasks without being told.
+
+### Shared Findings Documents
+
+Teams can write to shared files that all teammates read. This is how teams produce consensus.
+
+**Try it now**:
+
+```
+Create a team of 3 to investigate performance bottlenecks in this project.
+Each teammate writes their findings to FINDINGS.md in the project root.
+After all three finish, the lead synthesizes FINDINGS.md into a ranked
+action plan in PERFORMANCE-PLAN.md.
+```
+
+The file acts as a shared artifact that grows as teammates contribute. Unlike messages (which are ephemeral in each teammate's context), a shared file persists and can be read by anyone. This pattern is especially powerful for research tasks where you want a permanent record of the investigation.
 
 ---
 
@@ -476,27 +568,27 @@ Dependencies:
 - Integration tests run after both frontend and backend are complete (task 4)
 ```
 
-### Pattern 3: Competing Hypotheses
+### Pattern 3: Competing Hypotheses (The Scientific Debate)
 
-When you are not sure what the right approach is, have teammates argue for different solutions.
+When the root cause is unclear, a single agent tends to find one plausible explanation and stop looking. Multiple investigators actively trying to disprove each other converge on the actual answer faster.
 
 ```
-We need to add real-time notifications to the app. Spawn 3 teammates,
-each advocating for a different approach:
-- Teammate 1: Argue for WebSockets. Research implementation complexity,
-  scaling concerns, and browser support.
-- Teammate 2: Argue for Server-Sent Events. Research same dimensions.
-- Teammate 3: Argue for polling with long-poll fallback.
-
-Each teammate should try to find weaknesses in the other approaches.
-After discussion, the lead produces a recommendation with rationale.
+Users report the app exits after one message instead of staying connected.
+Spawn 5 agent teammates to investigate different hypotheses. Have them
+talk to each other to try to disprove each other's theories, like a
+scientific debate. Update a shared findings document with whatever
+consensus emerges.
 ```
+
+**Why 5 agents?** Sequential investigation suffers from anchoring -- once one theory is explored, subsequent investigation is biased toward it. With five independent investigators who can broadcast challenges to each other's theories, the hypothesis that survives is much more likely to be the real root cause.
+
+**Watch the debate unfold**: Teammates use broadcast messages to share and challenge findings across the whole team. One might say "I found the WebSocket connection closes cleanly -- this rules out a network issue." Another responds: "But the server logs show the handler function returns instead of looping. I think it is a missing event loop." The back-and-forth narrows the search space faster than any single agent could.
 
 ---
 
 ### What's Next
 
-You have learned to coordinate multiple Claude instances as a team. Lesson 20 introduces **Claude Cowork** -- the desktop-based version of Claude's agentic AI. Where Agent Teams give you parallel power in the terminal, Cowork brings agentic capabilities to knowledge workers who prefer a visual interface.
+You have learned to coordinate multiple Claude instances as a team. Lesson 21 introduces **Claude Cowork** -- the desktop-based version of Claude's agentic AI. Where Agent Teams give you parallel power in the terminal, Cowork brings agentic capabilities to knowledge workers who prefer a visual interface.
 
 ---
 

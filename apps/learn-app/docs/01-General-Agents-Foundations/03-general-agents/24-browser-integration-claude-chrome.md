@@ -1,8 +1,8 @@
 ---
 title: "Browser Integration: Claude in Chrome"
-sidebar_position: 23
+sidebar_position: 24
 chapter: 3
-lesson: 23
+lesson: 24
 duration_minutes: 18
 chapter_type: Practical
 running_example_id: browser-integration

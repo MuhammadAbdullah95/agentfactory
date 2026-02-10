@@ -1,9 +1,9 @@
 ---
 title: "Plugins & Extensibility Exercises: Settings, Hooks, Plugins, and Automation"
 sidebar_label: "Plugins Exercises"
-sidebar_position: 29
+sidebar_position: 19
 chapter: 3
-lesson: 29
+lesson: 19
 duration_minutes: 120
 
 # PEDAGOGICAL LAYER METADATA

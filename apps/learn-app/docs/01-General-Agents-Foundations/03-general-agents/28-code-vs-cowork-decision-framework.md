@@ -1,8 +1,8 @@
 ---
 title: "Code vs. Cowork: A Decision Framework"
-sidebar_position: 27
+sidebar_position: 28
 chapter: 3
-lesson: 27
+lesson: 28
 duration_minutes: 16
 chapter_type: Concept
 running_example_id: decision-framework

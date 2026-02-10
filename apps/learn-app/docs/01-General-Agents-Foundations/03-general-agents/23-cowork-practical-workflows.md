@@ -1,8 +1,8 @@
 ---
 title: "Cowork in Action: Practical Workflows"
-sidebar_position: 22
+sidebar_position: 23
 chapter: 3
-lesson: 22
+lesson: 23
 duration_minutes: 25
 chapter_type: Practical
 running_example_id: cowork-workflows
