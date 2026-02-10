@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 12
 title: "Chapter 4: Context Engineering Quiz"
 description: "Diagnostic assessment testing decision-making, tradeoff reasoning, and failure detection in real-world context engineering scenarios"
 keywords:
