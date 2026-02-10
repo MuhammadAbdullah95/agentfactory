@@ -1,8 +1,8 @@
 ---
 title: "Connectors: MCP for Everyone"
-sidebar_position: 23
+sidebar_position: 24
 chapter: 3
-lesson: 23
+lesson: 24
 duration_minutes: 16
 chapter_type: Concept
 running_example_id: connectors-introduction

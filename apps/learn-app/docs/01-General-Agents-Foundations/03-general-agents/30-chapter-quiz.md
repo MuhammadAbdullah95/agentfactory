@@ -1,5 +1,5 @@
 ---
-sidebar_position: 29
+sidebar_position: 30
 title: "Chapter 3: Claude Code and Cowork Quiz"
 proficiency_level: B1
 layer: 1

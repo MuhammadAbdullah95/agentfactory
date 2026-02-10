@@ -1,8 +1,8 @@
 ---
 title: "Getting Started with Cowork"
-sidebar_position: 20
+sidebar_position: 21
 chapter: 3
-lesson: 20
+lesson: 21
 duration_minutes: 20
 chapter_type: Practical
 running_example_id: cowork-setup
