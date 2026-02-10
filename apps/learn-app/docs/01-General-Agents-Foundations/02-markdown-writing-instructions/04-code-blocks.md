@@ -90,6 +90,14 @@ Suddenly there's no confusion. The AI knows exactly what format to use.
 
 Code blocks let you show expected output, code examples, and command syntax directly in your specification. This lesson teaches you how to use them effectively.
 
+### Lists vs Code Blocks
+
+In the previous lesson, you learned lists for organizing content. Code blocks serve a different purpose — they preserve exact formatting. Here's the key distinction:
+
+![Side-by-side comparison showing unordered lists (left panel: bullet points using dash syntax for features and independent items) versus fenced code blocks (right panel: triple backticks for showing code examples and command output). Demonstrates when to use each format based on content type.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
+
+**Lists** format content into readable bullet points or numbered steps. **Code blocks** preserve exact formatting — every space, every character appears exactly as you type it. Use lists when organizing ideas, use code blocks when showing code or expected output.
+
 ---
 
 ## Concept 1: Fenced Code Blocks (Multiple Lines)
@@ -213,7 +221,16 @@ Language tags help:
 
 ### Example: Installation Commands
 
-**In your README:**
+**What you type in your README:**
+
+````text
+```bash
+pip install requests
+python app.py
+```
+````
+
+**What it renders as:**
 
 ```bash
 pip install requests
@@ -224,7 +241,18 @@ The `bash` tag tells the AI: "These are terminal commands, not Python code."
 
 ### Example: Python Code
 
-**Show example code like this:**
+**What you type:**
+
+````text
+```python
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Alice"))
+```
+````
+
+**What it renders as:**
 
 ```python
 def greet(name):
@@ -247,7 +275,15 @@ Use **inline code** for short code references within regular text - like variabl
 
 ### Syntax
 
-Use single backticks (`` ` ``) around the code:
+Wrap your code reference in single backtick characters:
+
+````text
+Install the package with `pip install requests` command.
+The `app.py` file contains the main function.
+Set the `DEBUG` variable to `True` for testing.
+````
+
+**What it renders as:**
 
 Install the package with `pip install requests` command.
 The `app.py` file contains the main function.
@@ -465,17 +501,23 @@ Use fenced blocks for multiple lines.
 
 ### Mistake 3: No Language Tag When It Matters
 
-**Unclear:**
+**Unclear (no language tag):**
+
+````text
 ```
 pip install requests
 ```
+````
 
-**Clear:**
+**Clear (with `bash` tag):**
+
+````text
 ```bash
 pip install requests
 ```
+````
 
-The `bash` tag makes it clear this is a terminal command.
+Adding the `bash` tag makes it clear this is a terminal command, not Python code or plain text.
 
 ---
 
