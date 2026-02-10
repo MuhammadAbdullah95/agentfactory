@@ -287,7 +287,7 @@ If you haven't already added the Anthropic plugins marketplace (from Lesson 16):
 
 ```bash
 claude
-/plugin marketplace add anthropics/plugins
+/plugin marketplace add anthropics/claude-plugins-official
 ```
 
 ### Step 2: Install Ralph Wiggum
@@ -303,7 +303,7 @@ Select "ralph-wiggum" from the list and install.
 **Alternative: Direct Install**
 
 ```bash
-/plugin install ralph-wiggum@anthropic-plugins
+/plugin install ralph-wiggum@claude-plugins-official
 ```
 
 ### Verification

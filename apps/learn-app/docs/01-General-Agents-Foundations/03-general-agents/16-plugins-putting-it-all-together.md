@@ -314,15 +314,15 @@ The official marketplace is just the start. You can add others:
 /plugin marketplace add ./my-marketplace
 ```
 
-### The Demo Marketplace
+### The Official Plugins Repository
 
-Anthropic maintains a demo marketplace with example plugins:
+Anthropic maintains the [official plugins repository](https://github.com/anthropics/claude-plugins-official) with verified plugins:
 
 ```
-/plugin marketplace add anthropics/claude-code
+/plugin marketplace add anthropics/claude-plugins-official
 ```
 
-This shows what's possible with the plugin system.
+This gives you access to all officially maintained plugins including Ralph Wiggum (Lesson 17).
 
 ---
 
