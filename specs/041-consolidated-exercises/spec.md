@@ -429,13 +429,13 @@ Total `.summary.md` files to potentially update: 17 (one per renamed lesson).
 
 ### Skills Modules Reference (from existing skills EXERCISE-GUIDE.md)
 
-| Module | Title                  | Exercises                                                                      |
-| ------ | ---------------------- | ------------------------------------------------------------------------------ |
-| 1      | Understanding Skills   | 1.1 Anatomy, 1.2 When to Skill, 1.3 Skill vs Prompt                            |
-| 2      | First Skills           | 2.1 Email Style, 2.2 File Organizer, 2.3 Data Cleaner                          |
-| 3      | Skills with Examples   | 3.1 Report Formatter, 3.2 Meeting Minutes, 3.3 Feedback Writer                 |
-| 4      | Skills with References | 4.1 Brand Voice, 4.2 Policy Checker, 4.3 Curriculum Skill                      |
-| 5      | Testing and Iteration  | 5.1 Edge Case Hunt, 5.2 Rubric Scorer, 5.3 A/B Tester                          |
-| 6      | Composing Skills       | 6.1 Pipeline, 6.2 Multi-Skill Workflow, 6.3 Skill Suite                        |
-| 7      | Real-World Skills      | 7.1 Client Deliverable, 7.2 Team Onboarding, 7.3 Domain Expert                 |
-| 8      | Capstone Projects      | A: Professional Toolkit, B: Team Collaboration Suite, C: Domain Authority Pack |
+| Module | Title                  | Exercises                                                                    |
+| ------ | ---------------------- | ---------------------------------------------------------------------------- |
+| 1      | Understanding Skills   | 1.1 Anatomy, 1.2 When to Skill, 1.3 Skill vs Prompt                          |
+| 2      | First Skills           | 2.1 Email Style, 2.2 File Organizer, 2.3 Data Cleaner                        |
+| 3      | Skills with Examples   | 3.1 Report Formatter, 3.2 Meeting Minutes, 3.3 Feedback Writer               |
+| 4      | Skills with References | 4.1 Brand Voice, 4.2 Policy Checker, 4.3 Curriculum Skill                    |
+| 5      | Testing and Iteration  | 5.1 Edge Case Hunt, 5.2 Before/After, 5.3 User Testing                       |
+| 6      | Composing Skills       | 6.1 Pipeline, 6.2 Skill Library, 6.3 Team Skills                             |
+| 7      | Real-World Skills      | 7.1 Invoice Processor, 7.2 Content Pipeline, 7.3 Research Analyst            |
+| 8      | Capstone Projects      | A: Business Operations Suite, B: AI-Native Education Kit, C: Personal AI Set |
