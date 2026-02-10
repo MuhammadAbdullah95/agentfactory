@@ -131,11 +131,7 @@ That's it. In seconds, you have a reusable tool.
 
 ## What Just Happened?
 
-You witnessed two principles in action.
-
-**Principle 1: Bash is the Key.** The agent used `echo` and the pipe operator (`|`) to test the script. It didn't ask you to manually create test files. It used Bash to orchestrate the workflow.
-
-**Principle 2: Code as Universal Interface.** Instead of calculating in its head (which would hallucinate), the agent wrote code that executes. The script is a contract: given numbers, return their exact sum. No approximation, no "about $186."
+The agent used `echo` and the pipe operator (`|`) to test the script. It didn't ask you to manually create test files. It used Bash to orchestrate the workflow. And instead of calculating in its head (which would hallucinate), the agent wrote code that executes. The script is a contract: given numbers, return their exact sum. No approximation, no "about $186."
 
 This is fundamentally different from asking "What's 127.89 + 45.50 + 12.99?" The agent created a tool that works on ANY list of numbers, not just these three.
 
@@ -278,19 +274,7 @@ Total: 60.5
 
 The script handles integers and decimals. It works on any list of numbers you throw at it.
 
-## Connecting to the Seven Principles
-
-This lesson demonstrated two principles from Chapter 3:
-
-**Principle 1: Bash is the Key**
-
-You used Bash commands (`echo`, `cat`) and the pipe operator to orchestrate data flow. The shell is the conductor; your Python script is one instrument in the orchestra.
-
-**Principle 2: Code as Universal Interface**
-
-Instead of hoping an LLM calculates correctly, you have code that executes. The script is a contract: given numbers, return their sum. No ambiguity, no hallucination, no "approximately 186."
-
-In the next lesson, you'll add **Principle 3: Verification as Core Step** - how do you know the script is correct? Exit code 0 means "didn't crash," not "right answer."
+In the next lesson, you'll tackle a crucial question: how do you know the script is correct? Exit code 0 means "didn't crash," not "right answer."
 
 ---
 

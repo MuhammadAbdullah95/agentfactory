@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-chapter: 6
+chapter: 7
 lesson: 5
 layer: L2
 title: "Search & Discovery Workflow"
@@ -170,11 +170,9 @@ You went from "I can't find that tax document" to "here's everything from Chase"
 
 ## What Just Happened?
 
-You witnessed two principles working together.
+Did you notice the commands the agent ran? It used `find` to locate files by name patterns, `grep` to search inside files for content, and `xargs` to pipe results between tools. You didn't need to know any of this syntax. The agent picked the right tools because bash commands are the universal interface for file operations.
 
-**Principle 1: Bash is the Key.** Did you notice the commands the agent ran? It used `find` to locate files by name patterns, `grep` to search inside files for content, and `xargs` to pipe results between tools. You didn't need to know any of this syntax. The agent picked the right tools because bash commands are the universal interface for file operations.
-
-**Principle 7: Observability.** The agent didn't just hand you a filename. It showed you the search process. What it searched for, where it looked, what it found. You could see the table of candidates and understand why it narrowed to certain files. The search was transparent.
+The agent didn't just hand you a filename. It showed you the search process — what it searched for, where it looked, what it found. You could see the table of candidates and understand why it narrowed to certain files. The search was transparent.
 
 Here's what made this different from a file browser search:
 
@@ -318,13 +316,13 @@ You're not learning `find -mtime -30 -name "*.pdf" | xargs grep -l "pattern"`. Y
 
 By now in this chapter, you've learned:
 
-| Lesson                    | Pattern                            | Principle                  |
-| ------------------------- | ---------------------------------- | -------------------------- |
-| 1. First Workflow         | "Help me understand"               | P7: Observability          |
-| 2. Safety First           | "Back up before changing"          | P6: Constraints and Safety |
-| 3. Categorize with Rules  | "Write rules first"                | P5: Persisting State       |
-| 4. Batch Operations       | "Show me first, create a script"   | P2: Code as Interface      |
-| **5. Search & Discovery** | **"Find files that match [desc]"** | **P1: Bash is the Key**    |
+| Lesson                    | Pattern                            |
+| ------------------------- | ---------------------------------- |
+| 1. First Workflow         | "Help me understand"               |
+| 2. Safety First           | "Back up before changing"          |
+| 3. Categorize with Rules  | "Write rules first"                |
+| 4. Batch Operations       | "Show me first, create a script"   |
+| **5. Search & Discovery** | **"Find files that match [desc]"** |
 
 Each pattern expands your capability. You understand your files. You protect them with backups. You document your rules. You automate repetitive tasks. Now you find anything by describing it.
 

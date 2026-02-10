@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: "Your First Agent Workflow"
-chapter: 6
+chapter: 7
 lesson: 1
 layer: L2
 duration_minutes: 25
@@ -147,11 +147,9 @@ You didn't run a single command. You described a problem, and the agent solved i
 
 ## What Just Happened?
 
-You witnessed two of the Seven Principles in action.
+Did you notice the agent's approach? It didn't use a fancy "folder analysis tool." It used `ls`, `find`, `wc`, and `du` — basic Unix commands that have existed for decades. These commands are fast, reliable, and do exactly what they claim. The agent combined them to extract exactly the information you needed.
 
-**Principle 1: Bash is the Key.** Did you notice the agent's approach? It didn't use a fancy "folder analysis tool." It used `ls`, `find`, `wc`, and `du`. Basic Unix commands that have existed for decades. These commands are fast, reliable, and do exactly what they claim. The agent combined them to extract exactly the information you needed.
-
-**Principle 7: Observability.** Your Downloads folder was a black box. You knew it was messy, but you couldn't see inside it. The agent made chaos visible. Now you have a clear picture: file counts, types, sizes, space hogs. You went from "I should probably organize this someday" to "I know exactly what's in here and what to tackle first."
+Your Downloads folder was a black box. You knew it was messy, but you couldn't see inside it. The agent made chaos visible. Now you have a clear picture: file counts, types, sizes, space hogs. You went from "I should probably organize this someday" to "I know exactly what's in here and what to tackle first."
 
 This is the power of General Agents. They don't just give you advice ("You should use the `find` command"). They do the work. They observe your system, run commands, and report back with actionable information.
 
@@ -213,7 +211,7 @@ find ~/Downloads -name "*.pdf" | wc -l
 
 "Find PDFs, **then** count them."
 
-Small tools, chained together, solving big problems. That's why Principle 1 says "Bash is the Key."
+Small tools, chained together, solving big problems. That's what makes the shell so powerful.
 
 You don't need to memorize these commands. But recognizing them helps you understand what the agent is doing - and verify it's doing the right thing.
 

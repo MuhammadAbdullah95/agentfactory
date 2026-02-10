@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-chapter: 6
+chapter: 7
 lesson: 3
 layer: L2
 title: "The Organization Workflow"
@@ -182,11 +182,11 @@ Open Claude Code and start the collaboration:
 
 Look at what emerged from that conversation:
 
-**Rules became a file.** Claude Code didn't just remember the categories. It created `rules.md`. Next week when your Downloads folder fills up again, the logic is already documented. That's Principle 5 (Persisting State) in action.
+**Rules became a file.** Claude Code didn't just remember the categories. It created `rules.md`. Next week when your Downloads folder fills up again, the logic is already documented.
 
-**You tested before scaling.** You said "test on ONE file first." That single instruction prevented potential chaos. If the test file had landed in the wrong folder, you'd know immediately. That's Principle 4 (Small, Reversible Decomposition). You directed it.
+**You tested before scaling.** You said "test on ONE file first." That single instruction prevented potential chaos. If the test file had landed in the wrong folder, you'd know immediately.
 
-**Verification happened automatically.** After moving the test file, Claude Code checked both source and destination. After the batch operation, it showed you a summary. That's Principle 3 (Verification) built into the workflow.
+**Verification happened automatically.** After moving the test file, Claude Code checked both source and destination. After the batch operation, it showed you a summary.
 
 **The collaboration refined the result.** Claude Code proposed categories. You refined them (adding spreadsheets). Claude Code adapted. Neither of you could have reached this result alone. The AI didn't know you cared about spreadsheets, and you didn't want to manually design the whole system.
 

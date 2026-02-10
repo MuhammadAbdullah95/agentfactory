@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-chapter: 6
+chapter: 7
 lesson: 2
 layer: L2
 title: "The Safety-First Pattern"
@@ -66,7 +66,7 @@ In the next 20 minutes, you'll learn the pattern that eliminates this fear entir
 
 This pattern applies far beyond files. When you work with General Agents on code changes, data transformations, system configurations, or any workflow where mistakes have consequences, the safety-first pattern is what separates confident experimentation from anxious hesitation.
 
-This is Principle 6 (Constraints and Safety) in action: the constraint of "backup first" enables fearless experimentation.
+The constraint of "backup first" enables fearless experimentation.
 
 ---
 
@@ -166,7 +166,7 @@ Notice what just happened. The agent didn't assume what you wanted. It asked. Th
 
 Let's examine what the agent did and why it matters.
 
-### Principle 6: Safety First
+### Safety Before Action
 
 The agent created a safety net BEFORE any destructive operation. This isn't just being careful. It's a fundamental pattern:
 
@@ -186,7 +186,7 @@ RIGHT ORDER:
 
 The backup constraint ENABLES the changes. Without the safety net, you'd hesitate. With it, you can experiment freely.
 
-### Principle 3: Verification
+### Trust, But Verify
 
 Notice that you didn't just trust the backup worked. You asked the agent to verify it. The agent compared counts:
 

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-chapter: 6
+chapter: 7
 lesson: 6
 layer: L2
 title: "Capstone: Your File Processing Toolkit"

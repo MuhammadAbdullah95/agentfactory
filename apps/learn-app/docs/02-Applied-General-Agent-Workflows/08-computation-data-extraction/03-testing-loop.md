@@ -142,8 +142,6 @@ The agent didn't just run the script. It created test data with known answers, r
 
 ## What Just Happened?
 
-You witnessed **Principle 3: Verification as Core Step** in action.
-
 The agent understood something crucial: you don't verify by hoping. You verify by creating situations where you already know the answer.
 
 - Test data: 10, 20, 30
@@ -298,20 +296,6 @@ Watch how the agent creates test data for each case and checks results.
 - Blank lines should be skipped
 
 If any test fails, you've discovered a bug before it hit real data.
-
-## Connecting to the Seven Principles
-
-This lesson demonstrated two core principles:
-
-**Principle 3: Verification as Core Step**
-
-Every operation should be verified before trusting its output. The testing loop makes verification systematic and repeatable. You don't "check" your script - you prove it with test data.
-
-**Principle 7: Observability**
-
-Exit codes make program behavior visible. Without checking `$?`, errors hide in silence. But observability goes beyond exit codes - you made the script's correctness visible by comparing output to known answers.
-
-These principles compound. Verification (P3) produces evidence. Observability (P7) makes that evidence accessible. Together, they create a debugging workflow that catches problems early.
 
 ---
 

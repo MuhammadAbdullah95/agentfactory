@@ -19,21 +19,21 @@ keywords:
 
 skills:
   - name: "Orchestrating Multi-Step Workflows"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Create"
     digcomp_area: "Computational Thinking"
     measurable_at_this_level: "Student can direct Claude Code to execute a complete end-to-end workflow with verification"
 
   - name: "Principle Recognition"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     category: "Conceptual"
     bloom_level: "Analyze"
     digcomp_area: "Reflective Learning"
     measurable_at_this_level: "Student can identify which Seven Principles appear in a given workflow"
 
   - name: "Verification-First Approach"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Apply"
     digcomp_area: "Quality Assurance"
@@ -41,17 +41,17 @@ skills:
 
 learning_objectives:
   - objective: "Direct Claude Code to orchestrate a complete tax prep workflow from CSVs to report"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     bloom_level: "Create"
     assessment_method: "Student successfully prompts agent to produce categorized totals with verification"
 
   - objective: "Identify Seven Principles in action during workflow execution"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     bloom_level: "Analyze"
     assessment_method: "Student correctly maps at least 5 principles to specific workflow steps"
 
   - objective: "Apply verification-first pattern to ensure accuracy before processing real data"
-    proficiency_level: "A2"
+    proficiency_level: "B1"
     bloom_level: "Apply"
     assessment_method: "Student requests test data verification before running on actual bank statements"
 

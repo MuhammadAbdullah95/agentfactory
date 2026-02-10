@@ -351,20 +351,6 @@ Look at the progression across these four lessons:
 
 You went from "Bash can't add decimals" to "I have a permanent command for processing bank statements."
 
-## Connecting to the Seven Principles
-
-**Principle 1: Bash is the Key**
-
-The shell orchestrates everything - pipes, aliases, file manipulation. But Bash delegates complex parsing to the right tool (Python's csv module).
-
-**Principle 2: Code as Universal Interface**
-
-Your CSV parser is code that executes. No hallucination, no approximation. Given a bank statement, it returns exact totals.
-
-**Principle 5: Persisting State in Files**
-
-Your script lives in `~/tools/`. Your alias lives in `~/.zshrc`. These persist across sessions, surviving terminal closures and reboots.
-
 ---
 
 ## Try With AI
