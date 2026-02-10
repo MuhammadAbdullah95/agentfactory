@@ -68,7 +68,7 @@ prerequisites:
 
 You've spent this entire chapter learning Claude Code. Here's the secret: **you weren't just learning one tool.**
 
-Every concept you mastered -- CLAUDE.md project instructions, Skills, MCP servers, hooks, subagents, agent teams -- is part of an emerging industry standard. OpenAI's Codex CLI has its own version of each. Google's Gemini CLI has its own version. And in December 2025, these companies joined forces under the Linux Foundation to make these patterns interoperable.
+Every concept you mastered -- CLAUDE.md project instructions, Skills, MCP servers, hooks, subagents, agent teams -- is part of an emerging industry standard. OpenAI's Codex CLI has its own version of each. Google's Gemini CLI has its own version. And in December 2025, several of these vendors created the Agentic AI Foundation (AAIF) under the Linux Foundation, donating key projects to seed open, vendor-neutral standards for agentic AI.
 
 MIT Technology Review named "Generative Coding" one of its 10 Breakthrough Technologies of 2026. AI now writes approximately 30% of Microsoft's code and more than 25% of Google's. The tools you learned in this chapter are not a niche experiment. They are the new baseline for how software gets built.
 
@@ -81,17 +81,17 @@ The agentic coding market has consolidated into two leaders and several strong c
 ### Tier 1: The Two Leaders
 
 **Anthropic (Claude Code)**
-$1B annual recurring revenue as of February 2026. Claude Code accounts for 4% of all GitHub commits (SemiAnalysis, February 5, 2026). Claude Opus 4.5 holds the top spot on SWE-bench Verified at 80.9%. Philosophy: developer-in-the-loop, local terminal execution, accuracy-first.
+Analyst estimates put Claude Code at ~$1B annual recurring revenue as of early February 2026 ([Sacra](https://sacra.com/c/anthropic/)). SemiAnalysis estimated Claude Code accounts for ~4% of all public GitHub commits ([SemiAnalysis, Feb 5, 2026](https://newsletter.semianalysis.com/p/claude-code-is-the-inflection-point)). Claude Opus 4.5 holds the top spot on SWE-bench Verified at 80.9%. Philosophy: developer-in-the-loop, local terminal execution, accuracy-first.
 
 **OpenAI (Codex)**
-Codex CLI is open source, built in Rust, installable via `npm i -g @openai/codex`. OpenAI launched a macOS desktop app on February 2, 2026, and released GPT-5.3-Codex on February 5, 2026. Codex runs tasks in a cloud sandbox while also supporting local execution. Philosophy: parallel, asynchronous, fire-and-forget delegation.
+Codex CLI is open source, built in Rust, installable via `npm i -g @openai/codex` ([GitHub](https://github.com/openai/codex)). OpenAI launched a macOS desktop app on February 2, 2026, and released GPT-5.3-Codex on February 5, 2026. Codex supports cloud sandbox execution (default for delegated tasks) and also provides local CLI modes. Philosophy: parallel, asynchronous, fire-and-forget delegation.
 
 ### Tier 2: Strong Contenders
 
 | Tool | Key Stat | Positioning |
 |------|----------|-------------|
-| **Cursor** | $1B ARR, $29.3B valuation | Fastest SaaS growth in history (SaaStr). IDE-first experience. |
-| **GitHub Copilot** | 68% developer usage rate, $400M revenue (2025) | Agent mode GA. Massive distribution via GitHub ecosystem. |
+| **Cursor** | ~$1B ARR, ~$29.3B valuation (analyst est., [Sacra](https://sacra.com/c/cursor/)) | Fastest SaaS growth in history ([SaaStr](https://www.saastr.com/cursor-hit-1b-arr-in-17-months-the-fastest-b2b-to-scale-ever-and-its-not-even-close/)). IDE-first experience. |
+| **GitHub Copilot** | 68% developer usage, ~$400M revenue 2025 ([a16z](https://a16z.com/the-trillion-dollar-ai-software-development-stack/)) | Agent mode GA. Massive distribution via GitHub ecosystem. |
 | **Google Gemini CLI** | Open source (Apache 2.0), free tier (1,000 req/day), 1M token context | Accessible, open, enormous context window. |
 
 ### Tier 3: Emerging Players
@@ -109,13 +109,13 @@ This is the most important table in this lesson. Everything you learned in Chapt
 | Project instructions | CLAUDE.md | AGENTS.md | GEMINI.md | AGENTS.md (AAIF) |
 | Agent Skills | `.claude/skills/SKILL.md` | `.agents/skills/SKILL.md` | `.gemini/skills/SKILL.md` | Agent Skills spec (agentskills.io) |
 | Tool connectivity | MCP servers in settings.json | MCP servers in config.toml | MCP servers in settings.json | MCP (Linux Foundation) |
-| Permission control | allowedTools, permissions | Approval modes (suggest / auto-edit / full-auto) | Tool approval prompts | -- |
-| Context hierarchy | Global, Project, Directory | Global, Project | Global, Project, Directory | -- |
-| Subagents | Task tool with subagent_type | Cloud sandbox tasks | -- | -- |
-| Agent Teams | TeamCreate, TaskCreate, SendMessage | macOS app parallel agents | -- | -- |
-| Hooks | Pre/Post tool hooks in settings.json | -- (not yet) | -- (not yet) | -- |
-| IDE integration | VS Code extension | VS Code extension | VS Code extension | -- |
-| Desktop app | Claude Desktop / Cowork | Codex macOS app | -- | -- |
+| Human-in-the-loop control | allowedTools, permissions | Approval modes (suggest / auto-edit / full-auto) | Tool approval prompts | Vendor-specific (no standard yet) |
+| Context hierarchy | Global, Project, Directory | Global, Project | Global, Project, Directory | Vendor-specific (no standard yet) |
+| Subagents | Task tool with subagent_type | Cloud sandbox tasks | Not yet available | Vendor-specific (no standard yet) |
+| Agent Teams | TeamCreate, TaskCreate, SendMessage | macOS app parallel agents | Not yet available | Vendor-specific (no standard yet) |
+| Hooks | Pre/Post tool hooks in settings.json | Not yet available | Not yet available | Vendor-specific (no standard yet) |
+| IDE integration | VS Code extension | VS Code extension | VS Code extension | Vendor-specific (no standard yet) |
+| Desktop app | Claude Desktop / Cowork | Codex macOS app | Not yet available | Vendor-specific (no standard yet) |
 
 The pattern: what you know transfers. The directory name changes (`.claude/` vs `.agents/` vs `.gemini/`), but the concepts are the same.
 
@@ -125,17 +125,17 @@ The pattern: what you know transfers. The directory name changes (`.claude/` vs 
 
 In December 2025, the biggest companies in AI did something unusual: they agreed on shared standards.
 
-The **Agentic AI Foundation (AAIF)** formed under the Linux Foundation with platinum members including Anthropic, OpenAI, Google, Microsoft, AWS, Block, Bloomberg, and Cloudflare. The foundation governs three founding projects:
+The **Agentic AI Foundation (AAIF)** formed under the [Linux Foundation](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation) with platinum members including Anthropic, OpenAI, Google, Microsoft, AWS, Block, Bloomberg, and Cloudflare. The foundation governs three founding projects:
 
 | Project | Created By | What It Standardizes | Adoption |
 |---------|-----------|---------------------|----------|
-| **MCP** (Model Context Protocol) | Anthropic (donated) | Tool connectivity -- how agents talk to external services | 10,000+ active public servers, 97M monthly SDK downloads |
-| **AGENTS.md** | OpenAI (donated) | Project instructions -- how agents understand your codebase | 60,000+ open source projects |
+| [**MCP**](https://modelcontextprotocol.io/) (Model Context Protocol) | Anthropic ([donated](https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation)) | Tool connectivity -- how agents talk to external services | 10,000+ active public servers, 97M monthly SDK downloads |
+| [**AGENTS.md**](https://agents.md/) | OpenAI (donated) | Project instructions -- how agents understand your codebase | 60,000+ open source projects |
 | **goose** | Block (donated) | Open agent runtime -- reference implementation for agentic workflows | Open source agent framework |
 
-A fourth standard, **Agent Skills** (the SKILL.md format), was created by Anthropic on December 18, 2025, and has been adopted by OpenAI, Microsoft (GitHub Copilot), Cursor, Atlassian, and Figma. The specification lives at agentskills.io.
+A fourth standard, **Agent Skills** (the SKILL.md format), was created by Anthropic on December 18, 2025, and has been adopted by OpenAI, Microsoft (GitHub Copilot), Cursor, Atlassian, and Figma. The specification lives at [agentskills.io](https://agentskills.io/).
 
-**What this means for you**: The Skills you built in this chapter using `.claude/skills/` follow the same specification that Codex uses in `.agents/skills/` and Gemini CLI uses in `.gemini/skills/`. Different directory names, same format. Your Skills are portable.
+**What this means for you**: The Skills you built in this chapter using `.claude/skills/` follow the same specification that Codex uses in `.agents/skills/` and Gemini CLI uses in `.gemini/skills/`. Different directory names, same format. Your Skills are largely portable where the SKILL.md spec is followed; vendor-specific metadata and directory paths may differ slightly.
 
 ---
 
@@ -162,7 +162,7 @@ SWE-bench is a benchmark that tests whether AI can solve real software engineeri
 
 Multiple variants exist with different difficulty levels. **SWE-bench Verified** uses human-validated problems. **SWE-bench Pro** is harder, with more complex multi-file problems.
 
-### SWE-bench Verified Leaderboard (February 2026)
+### SWE-bench Verified Leaderboard (February 2026, [source](https://www.marc0.dev/en/leaderboard))
 
 | Rank | Model | Score |
 |------|-------|-------|
@@ -186,6 +186,14 @@ When you write a CLAUDE.md file, you are practicing the same skill as writing an
 This portability exists because the industry converged. The AAIF ensures that MCP servers, AGENTS.md files, and Agent Skills work the same way regardless of which coding agent you choose. Your investment in learning these patterns compounds across every tool you touch.
 
 The developers who will thrive are not the ones who master one tool. They are the ones who understand the underlying patterns -- context files, skills, tool connectivity, orchestration -- and apply them wherever the work demands. That is what you built in this chapter.
+
+---
+
+## A Note on Security
+
+MCP and agentic tool connectivity expand what agents can do -- but they also expand the attack surface. When an agent can call external servers, read files, and execute commands, the consequences of a compromised or malicious tool server are significant: prompt injection, data exfiltration, and unintended code execution are all real risks.
+
+As you work across tools and connect MCP servers, apply the same caution you would when installing any third-party dependency: review the server code before trusting it, run MCP servers in isolated environments where possible, and prefer servers from verified publishers. The MCP specification includes transport-level security, but the responsibility for evaluating trust ultimately rests with you.
 
 ---
 
@@ -215,6 +223,22 @@ consider beyond benchmark scores when choosing a coding agent?
 ```
 
 **What you're learning:** Critical evaluation of AI benchmarks. Scores matter, but so do execution model, pricing, context window, and workflow fit. This prompt teaches you to make tool decisions based on multiple factors, not just a single number.
+
+---
+
+## Further Reading
+
+- [Agentic AI Foundation (Linux Foundation)](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation) -- AAIF founding announcement
+- [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) -- official specification
+- [Agent Skills specification](https://agentskills.io/) -- SKILL.md format
+- [AGENTS.md](https://agents.md/) -- cross-vendor project instructions standard
+- [OpenAI Codex CLI](https://github.com/openai/codex) -- open source repository
+- [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) -- open source repository
+- [SWE-bench Verified leaderboard](https://www.marc0.dev/en/leaderboard) -- February 2026 snapshot
+
+:::info Snapshot disclaimer
+The AI model and market landscape change rapidly. Figures in this lesson reflect snapshots from February 2026 and are cited to specific public sources. Check the linked references for the latest numbers. Benchmark scores are self-reported by model providers unless independently verified, and different evaluation variants (Verified, Pro, Lite) produce different results for the same models.
+:::
 
 ---
 
