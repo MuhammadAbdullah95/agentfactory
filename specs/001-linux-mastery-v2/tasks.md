@@ -230,7 +230,7 @@
 
 ### Lesson 10: Process Control & Systemd Services
 
-- [ ] T012 [US8] Write Lesson 10 `10-process-control-systemd.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/10-process-control-systemd.md`
+- [x] T012 [US8] Write Lesson 10 `10-process-control-systemd.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/10-process-control-systemd.md`
   - **CONTENT SOURCE**: REWRITE (45% preserved from v1 L06)
   - **SUBAGENT**: content-implementer
     - Output path: `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/10-process-control-systemd.md`
