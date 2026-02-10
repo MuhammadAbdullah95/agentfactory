@@ -46,5 +46,6 @@ By the end of this chapter, you'll have:
 - **Safety, Limitations & What's Coming** — Understanding boundaries, responsible use, and the future of agentic AI (Lesson 24)
 - **Built-in Document Skills** — Working with docx, xlsx, pptx, and pdf files (Lesson 25)
 - **Decision Framework** — Choosing between Code and Cowork (Lesson 26)
-- **From Skills to Business** — Understanding how Skills become monetizable products (Lesson 27), the Digital FTE model, and the path to revenue
-- **Chapter Quiz** — 50-question interactive assessment (Lesson 28) covering all chapter concepts
+- **From Skills to Business** — Understanding how Skills become monetizable products (Lesson 29), the Digital FTE model, and the path to revenue
+- **Cross-Vendor Landscape** — How Claude Code concepts (CLAUDE.md, Skills, MCP, hooks, teams) map to OpenAI Codex, Google Gemini CLI, and emerging industry standards (Lesson 30)
+- **Chapter Quiz** — 50-question interactive assessment (Lesson 31) covering all chapter concepts
