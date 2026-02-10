@@ -90,6 +90,14 @@ Suddenly there's no confusion. The AI knows exactly what format to use.
 
 Code blocks let you show expected output, code examples, and command syntax directly in your specification. This lesson teaches you how to use them effectively.
 
+### Lists vs Code Blocks
+
+In the previous lesson, you learned lists for organizing content. Code blocks serve a different purpose — they preserve exact formatting. Here's the key distinction:
+
+![Side-by-side comparison showing unordered lists (left panel: bullet points using dash syntax for features and independent items) versus fenced code blocks (right panel: triple backticks for showing code examples and command output). Demonstrates when to use each format based on content type.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
+
+**Lists** format content into readable bullet points or numbered steps. **Code blocks** preserve exact formatting — every space, every character appears exactly as you type it. Use lists when organizing ideas, use code blocks when showing code or expected output.
+
 ---
 
 ## Concept 1: Fenced Code Blocks (Multiple Lines)
