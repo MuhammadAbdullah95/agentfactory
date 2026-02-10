@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-10
+- Fix minor markdown rendering in markdown chapter ([#704](https://github.com/panaversity/agentfactory/pull/704))
+
+### 2026-02-10
 
 - feat: add chapter 8 all lessons summary ([#703](https://github.com/panaversity/agentfactory/pull/703))
 
