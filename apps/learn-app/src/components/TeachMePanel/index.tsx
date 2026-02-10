@@ -12,7 +12,7 @@
  * Reference: https://github.com/openai/openai-chatkit-starter-app
  */
 
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useStudyMode } from "../../contexts/StudyModeContext";
@@ -91,6 +91,7 @@ function ChatKitWrapper({
   onInitialMessageSent?: () => void;
 }) {
   const { session } = useAuth();
+  const chatWrapperRef = useRef<HTMLDivElement>(null);
 
   // Use authenticated user ID if available, otherwise anonymous
   const userId = useMemo(() => {
@@ -141,6 +142,14 @@ function ChatKitWrapper({
       url: apiUrl,
       domainKey,
       fetch: authenticatedFetch,
+    },
+    // Widget action handler - forwards button clicks to server
+    widgets: {
+      async onAction(action: { type: string; payload?: Record<string, unknown> }, item: { id: string }) {
+        console.log('[TeachMe] Widget action:', action.type, action.payload);
+        // Server-handled actions are automatically forwarded by ChatKit
+        // This callback is for client-side handling if needed
+      },
     },
     composer: {
       placeholder: selectedContext
@@ -246,8 +255,33 @@ function ChatKitWrapper({
     }
   }, [initialMessage, sendUserMessage, onInitialMessageSent]);
 
+  // Note: ChatKit doesn't support click handlers on markdown links
+  // Users type "A" or "B" to answer - this is handled by the chat input
+
+  // Style A/B options as visual buttons when they appear in messages
+  useEffect(() => {
+    const wrapper = chatWrapperRef.current;
+    if (!wrapper) return;
+
+    const styleOptions = () => {
+      // Find all links in the chat and style A/B options
+      const links = wrapper.querySelectorAll('a');
+      links.forEach((link) => {
+        const text = link.textContent?.trim() || '';
+        if (text.startsWith('A)') || text.startsWith('B)')) {
+          link.classList.add('option-button');
+        }
+      });
+    };
+
+    const observer = new MutationObserver(styleOptions);
+    styleOptions();
+    observer.observe(wrapper, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className={styles.chatWrapper}>
+    <div ref={chatWrapperRef} className={styles.chatWrapper}>
       <ChatKit control={control} className={styles.chatKit} />
     </div>
   );

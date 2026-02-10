@@ -18,11 +18,18 @@ from chatkit.types import (
     ThreadStreamEvent,
     UserMessageItem,
     UserMessageTextContent,
+    WidgetItem,
 )
 from fastapi import HTTPException
 
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte import create_agent
+from .fte.answer_verification import (
+    extract_and_store_correct_answer,
+    verify_student_answer,
+    strip_answer_marker,
+    is_answer_message,
+)
 from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
 
@@ -105,23 +112,24 @@ def _user_message_text(item: UserMessageItem) -> str:
 async def _stream_with_real_ids(
     context: AgentContext,
     result: RunResultStreaming,
+    thread_id: str,
 ) -> AsyncIterator[ThreadStreamEvent]:
     """
-    Wrapper around stream_agent_response that replaces fake IDs with real ones.
+    Wrapper around stream_agent_response that:
+    1. Replaces fake IDs with real ones
+    2. Strips the <!--CORRECT:X--> marker from responses
+    3. Extracts and stores the correct answer for verification
 
     When using OpenAIChatCompletionsModel (for non-OpenAI providers like DeepSeek),
     the SDK returns "__fake_id__" for all message IDs. This causes duplicate key
     errors when saving to the database.
 
     This wrapper detects fake IDs and replaces them with store-generated IDs.
-
-    Note: This handles the common case of one message per response. If multiple
-    output items share "__fake_id__" in a single response (rare), they would get
-    the same generated ID - but this is unlikely with standard Chat Completions.
     """
     # Track ID mapping for this stream: fake_id -> real_id
-    # Fresh dict per stream ensures each request gets unique IDs
     id_map: dict[str, str] = {}
+    # Collect full response text for answer extraction
+    full_response_text = ""
 
     async for event in stream_agent_response(context, result):
         # Handle ThreadItemAddedEvent - replace fake ID
@@ -145,24 +153,47 @@ async def _stream_with_real_ids(
                     )
                     event = ThreadItemAddedEvent(item=item)
 
-        # Handle ThreadItemDoneEvent - use mapped ID
+        # Handle ThreadItemDoneEvent - use mapped ID and strip answer marker
         elif isinstance(event, ThreadItemDoneEvent):
             item = event.item
-            if hasattr(item, "id") and item.id == FAKE_RESPONSES_ID:
-                # Use the previously mapped ID or generate new one
-                real_id = id_map.get(FAKE_RESPONSES_ID) or context.store.generate_item_id(
-                    "message", context.thread, context.request_context
-                )
-                logger.debug(f"[ChatKit] Using real ID for done event: {real_id}")
+            if isinstance(item, AssistantMessageItem):
+                # Collect text and strip only the hidden marker from content
+                # Keep the A/B options as plain text (styled via CSS)
+                new_content = []
+                for content_item in item.content:
+                    if hasattr(content_item, "text"):
+                        original_text = content_item.text
+                        full_response_text += original_text
+                        # Only strip the hidden <!--CORRECT:X--> marker
+                        cleaned_text = strip_answer_marker(original_text)
+                        new_content.append(
+                            AssistantMessageContent(
+                                text=cleaned_text,
+                                annotations=getattr(content_item, "annotations", []),
+                            )
+                        )
+                    else:
+                        new_content.append(content_item)
 
-                if isinstance(item, AssistantMessageItem):
-                    item = AssistantMessageItem(
-                        id=real_id,
-                        thread_id=item.thread_id,
-                        created_at=item.created_at,
-                        content=item.content,
+                # Get the real ID
+                real_id = item.id
+                if item.id == FAKE_RESPONSES_ID:
+                    real_id = id_map.get(FAKE_RESPONSES_ID) or context.store.generate_item_id(
+                        "message", context.thread, context.request_context
                     )
-                    event = ThreadItemDoneEvent(item=item)
+                    logger.debug(f"[ChatKit] Using real ID for done event: {real_id}")
+
+                # Create new item with cleaned content
+                item = AssistantMessageItem(
+                    id=real_id,
+                    thread_id=item.thread_id,
+                    created_at=item.created_at,
+                    content=new_content,
+                )
+                event = ThreadItemDoneEvent(item=item)
+
+                # Extract and store correct answer for verification
+                await extract_and_store_correct_answer(thread_id, full_response_text)
 
         yield event
 
@@ -180,6 +211,51 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         """Initialize the ChatKit server with PostgreSQL store."""
         super().__init__(store)
         logger.info("[ChatKit] StudyModeChatKitServer initialized")
+
+    async def action(
+        self,
+        thread: ThreadMetadata,
+        action: dict,
+        sender: WidgetItem | None,
+        context: RequestContext,
+    ) -> AsyncIterator[ThreadStreamEvent]:
+        """
+        Handle widget button clicks (A/B option selection).
+
+        When user clicks an option button, this method is called with
+        the action payload containing the selected answer.
+        """
+        action_type = action.get("type", "")
+        payload = action.get("payload", {})
+
+        logger.info(f"[ChatKit] Action received: type={action_type}, payload={payload}")
+
+        if action_type == "answer.select":
+            answer = payload.get("answer", "")
+            if answer in ("A", "B"):
+                logger.info(f"[ChatKit] User selected answer: {answer}")
+
+                # Create a user message item for the answer
+                user_message = UserMessageItem(
+                    id=self.store.generate_item_id("message", thread, context),
+                    thread_id=thread.id,
+                    created_at=datetime.now(),
+                    content=[UserMessageTextContent(text=answer)],
+                )
+
+                # Yield the user message event
+                yield ThreadItemDoneEvent(item=user_message)
+
+                # Save to store
+                await self.store.add_thread_item(thread.id, user_message, context=context)
+
+                # Now call respond to get the AI's reaction
+                async for event in self.respond(thread, user_message, context):
+                    yield event
+            else:
+                logger.warning(f"[ChatKit] Invalid answer in action: {answer}")
+        else:
+            logger.warning(f"[ChatKit] Unknown action type: {action_type}")
 
     async def respond(
         self,
@@ -211,6 +287,19 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             if not user_text:
                 logger.warning("[ChatKit] Empty user message")
                 return
+
+            # ANSWER VERIFICATION: If user sent "A" or "B", verify against stored answer
+            # The verification result is passed to create_agent() to select the right prompt
+            verification_result = None
+            if is_answer_message(user_text):
+                verification_result = await verify_student_answer(thread.id, user_text)
+                if verification_result == "correct":
+                    logger.info(f"[ChatKit] Answer verified as CORRECT")
+                elif verification_result == "incorrect":
+                    logger.info(f"[ChatKit] Answer verified as INCORRECT")
+                else:
+                    logger.warning(f"[ChatKit] Could not verify answer (no stored answer)")
+                    verification_result = None  # Ensure it's None for unknown
 
             # Get metadata from context
             lesson_path = context.metadata.get("lesson_path", "")
@@ -278,7 +367,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             context.metadata["lesson_content"] = content
             context.metadata["is_first_message"] = is_first_message
 
-            # Create agent with appropriate greeting behavior
+            # Create agent with appropriate greeting behavior and verification result
             agent = create_agent(
                 title,
                 content,
@@ -286,8 +375,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 user_name=user_name,
                 selected_text=selected_text,
                 is_first_message=is_first_message,
+                verification_result=verification_result,
             )
-            logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}")
+            logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}, verification={verification_result}")
 
             # Set thread title from first user message (if new thread)
             if is_first_message and "title" not in context.metadata:
@@ -311,6 +401,45 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 )
                 input_items = user_text  # Agent SDK accepts string input
 
+            # INJECT VERIFICATION RESULT into conversation
+            # This ensures the LLM sees the verification as part of the conversation, not just system prompt
+            logger.info(f"[ChatKit] input_items type: {type(input_items)}, len: {len(input_items) if isinstance(input_items, list) else 'N/A'}")
+            if verification_result and isinstance(input_items, list) and len(input_items) > 0:
+                last_item = input_items[-1]
+                logger.info(f"[ChatKit] last_item type: {type(last_item)}, value: {str(last_item)[:200]}")
+
+                # Try to modify the last user message
+                if verification_result == "correct":
+                    verification_note = "\n\n[SYSTEM: This answer is CORRECT. Say 'Correct!' and move to a new concept.]"
+                else:
+                    verification_note = "\n\n[SYSTEM: This answer is WRONG. You MUST say 'Not quite.' and explain why the other option was correct. DO NOT say 'Correct' or any positive affirmation.]"
+
+                # Handle dict format
+                if isinstance(last_item, dict) and last_item.get("role") == "user":
+                    if isinstance(last_item.get("content"), str):
+                        input_items[-1] = {**last_item, "content": last_item["content"] + verification_note}
+                        logger.info(f"[ChatKit] Injected verification note (dict/str): {verification_result}")
+                    elif isinstance(last_item.get("content"), list):
+                        new_content = list(last_item["content"])
+                        new_content.append({"type": "input_text", "text": verification_note})
+                        input_items[-1] = {**last_item, "content": new_content}
+                        logger.info(f"[ChatKit] Injected verification note (dict/list): {verification_result}")
+                # Handle object format (OpenAI SDK types)
+                elif hasattr(last_item, "role") and getattr(last_item, "role", None) == "user":
+                    # Append verification as a new message instead
+                    input_items.append({
+                        "role": "user",
+                        "content": verification_note.strip()
+                    })
+                    logger.info(f"[ChatKit] Appended verification note as new message: {verification_result}")
+                else:
+                    # Fallback: append as new system message
+                    input_items.append({
+                        "role": "user",
+                        "content": verification_note.strip()
+                    })
+                    logger.info(f"[ChatKit] Appended verification note (fallback): {verification_result}")
+
             # Create agent context
             agent_context = AgentContext(
                 thread=thread,
@@ -330,10 +459,10 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 hooks=metering_hooks,
             )
 
-            # Use wrapper that fixes fake IDs from Chat Completions API
+            # Use wrapper that fixes fake IDs and handles answer verification
             # Wrap in try/except to release metering reservation on error
             try:
-                async for event in _stream_with_real_ids(agent_context, result):
+                async for event in _stream_with_real_ids(agent_context, result, thread.id):
                     yield event
             except HTTPException as http_err:
                 # Handle metering 402 specially - show user-friendly message
@@ -419,7 +548,12 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Re-raise HTTP exceptions (e.g., 402 from metering) for proper response
             raise
         except Exception as e:
-            logger.exception(f"[ChatKit] Error in respond(): {e}")
+            import traceback
+            error_trace = traceback.format_exc()
+            logger.error(f"[ChatKit] Error in respond(): {e}")
+            logger.error(f"[ChatKit] Traceback:\n{error_trace}")
+            print(f"[ChatKit] ERROR: {e}")
+            print(f"[ChatKit] TRACEBACK:\n{error_trace}")
 
             # Send error message to client
             error_message = AssistantMessageItem(

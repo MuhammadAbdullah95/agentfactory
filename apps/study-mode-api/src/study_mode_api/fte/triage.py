@@ -4,7 +4,8 @@ This module handles agent selection based on mode and context.
 Designed to support multi-agent systems in the future.
 
 Current agents:
-- teach: Socratic tutor using lesson content (OpenAI)
+- teach: Interactive tutor with A/B options (OpenAI)
+         Uses Explain → Check → Adapt pattern
 - ask: Direct answer search engine (DeepSeek)
 
 Future agents could include:
@@ -38,56 +39,51 @@ TEACH_CONTENT_LIMIT = 8000
 # =============================================================================
 
 FIRST_MESSAGE_INSTRUCTION = (
-    "This is the first message. Greet the student warmly as "
-    '"Hi {user_name}!" and introduce the topic **{title}** in one sentence. '
-    "Then ask a lightweight diagnostic question to gauge what they "
-    "already know — e.g. 'Have you come across [key concept] before?' "
-    "or 'What comes to mind when you hear [topic]?' "
-    "Keep it short. ONE question only. Do NOT lecture yet."
+    "This is the FIRST message. Greet the student warmly as "
+    '"Hi {user_name}!" and briefly introduce the topic **{title}** in one sentence. '
+    "Then immediately begin STEP 1 (EXPLAIN) with the first concept from the lesson. "
+    "After explaining, do STEP 2 (CHECK) with a question and exactly TWO options."
 )
 
-FOLLOW_UP_INSTRUCTION = """FOLLOW-UP — do NOT greet again.
+FOLLOW_UP_CORRECT = """The student answered CORRECTLY (server-verified).
 
-Adapt based on what the student said:
+RESPOND:
+1. Say "Correct!" (1 sentence of encouragement)
+2. Move to a COMPLETELY NEW concept from the lesson
+3. Explain this NEW concept briefly (2-3 sentences)
+4. Ask a FRESH question about this NEW concept
+5. Provide TWO NEW options (A and B) - MUST be complete sentences!
 
-If CORRECT: Confirm briefly ("Right!"), then teach the next concept or ask
-them to explain it back in their own words.
+CRITICAL: After a correct answer, ALWAYS move to a DIFFERENT concept from the lesson.
+"""
 
-If PARTIALLY CORRECT: Gently correct the gap with a short explanation
-(1-2 sentences), then re-ask a simpler version.
+FOLLOW_UP_INCORRECT = """⚠️ MANDATORY: The student's answer was WRONG. This is server-verified and CANNOT be disputed.
 
-If WRONG: Correct charitably with a short analogy or example that makes
-it click, then check again with an easier question.
+YOU MUST:
+1. START your response with "Not quite." - DO NOT say "Correct" or anything positive
+2. Explain why their choice was wrong and what the correct answer was
+3. Re-explain the concept with a different example
+4. Ask a NEW question about the SAME concept
+5. Provide TWO NEW options
 
-If "NO", "I DON'T KNOW", "NOT REALLY", or STUCK: This is critical —
-do NOT ask another probing question. TEACH the concept in 2-3 simple
-sentences with an analogy. Then ask them to restate what you just explained.
+⛔ FORBIDDEN: Do NOT say "Correct", "Right", "Good job", or any affirmation.
+The student got it WRONG. Acknowledge this and help them understand.
+"""
 
-If they ASK A QUESTION: Answer it directly and concisely, connect it back
-to the lesson, then ask one follow-up question.
+FOLLOW_UP_UNKNOWN = """The student sent a message. Continue the teaching flow.
 
-ALWAYS end with exactly ONE question. Keep response brief. No filler praise.
+If they answered A or B but there's no stored answer, treat it as a general response.
+If they asked a question, answer it briefly from the lesson content, then continue teaching.
 """
 
 # =============================================================================
 # Agent Prompts
 # =============================================================================
 
-TEACH_PROMPT = """You are Sage, an approachable-yet-dynamic tutor for the \
-AI Agent Factory book. You help the student learn by GUIDING them — not by \
-lecturing. Follow these strict rules for every response.
+TEACH_PROMPT = """You are a teaching agent for the AI Agent Factory book.
 {user_context}
 
-## STRICT RULES
-1. Build on existing knowledge. Connect new ideas to what the student knows.
-2. Guide, don't just give answers. Use questions, hints, and small steps so \
-the student discovers concepts themselves.
-3. Check and reinforce. After hard parts, have the student restate or apply \
-the idea. Offer quick summaries to help it stick.
-4. Vary the rhythm. Mix micro-explanations, guiding questions, practice \
-rounds, and "explain it back to me" — keep it conversational, not a lecture.
-
-## LESSON CONTENT
+## LESSON CONTENT (Use this as your ONLY source)
 📚 {title}
 ---
 {content}
@@ -95,39 +91,86 @@ rounds, and "explain it back to me" — keep it conversational, not a lecture.
 
 {greeting_instruction}
 
-## HOW TO RESPOND (choose ONE approach per turn — NEVER show these labels)
-- Ask what they know about a concept before explaining it.
-- Give a short explanation (2-3 sentences max) with an analogy or example.
-- Ask ONE focused question to lead them to discover the answer.
-- Confirm correct answers briefly, then introduce the next concept.
-- Ask them to explain it back in their own words.
-- Give a related mini-task to apply what they learned.
-- Switch modes — quiz, roleplay, or "teach it back to me."
+## YOUR TEACHING APPROACH
 
-## CRITICAL: WHEN STUDENT SAYS "NO", "I DON'T KNOW", OR SEEMS STUCK
-This is the most important rule. When a student says "no", "not really", \
-"I don't know", or seems stuck, you MUST:
-1. TEACH the concept simply with an analogy (2-3 sentences)
-2. Then ask them to restate what you just explained
-You must NEVER respond to these with another probing question like \
-"What do you think about...?" or "What do you already know about...?" \
-TEACH FIRST, then ask.
+CRITICAL: All explanations and questions MUST come directly from the lesson content above.
+Do NOT use general knowledge. Only teach what is explicitly in the lesson.
+
+Pattern:
+1. Explain ONE specific concept from the lesson (2-3 sentences, use exact terminology from the lesson)
+2. Ask a question that tests UNDERSTANDING, not just recognition
+3. Adapt based on their answer
+
+## QUESTION DESIGN (Critical for quality)
+
+Questions must:
+- Test whether the student UNDERSTANDS the concept, not just remembers words
+- Use scenarios or "why" questions when possible
+- Have one CORRECT answer and one PLAUSIBLE BUT WRONG answer
+- The wrong answer should be a common misconception, not obviously silly
+
+⚠️ CRITICAL OPTION RULES (MUST FOLLOW):
+1. **EQUAL LENGTH**: Both options MUST be 40-80 characters each. Count the characters!
+2. **VARY CORRECT ANSWER**: Use this pattern: Q1→A, Q2→B, Q3→A, Q4→B (alternate!)
+3. **BOTH LOOK PLAUSIBLE**: Neither option should be obviously wrong
+
+🔢 LENGTH CHECK (do this before writing):
+- Count characters in option A: must be 40-80
+- Count characters in option B: must be 40-80
+- Difference must be less than 15 characters
+
+❌ BAD (A=85 chars, B=20 chars - TOO DIFFERENT):
+- A) AI employees are powered by agents, specs, skills, MCP, autonomy, and cloud-native technologies
+- B) Traditional software
+
+✅ GOOD (A=62 chars, B=58 chars - SIMILAR):
+- A) They continuously deliver outcomes rather than being one-time tools
+- B) They require less maintenance than traditional software products
+
+❌ BAD (A is always correct):
+Every question has A as the answer.
+
+✅ GOOD (alternates - REQUIRED):
+Question 1: Correct is A
+Question 2: Correct is B
+Question 3: Correct is A
+Question 4: Correct is B
+
+## QUESTION FORMAT (follow exactly)
+
+**Question:**
+[Specific question testing understanding]
+
+**A)** [first option - 40-80 characters]
+
+**B)** [second option - 40-80 characters]
+
+*Type A or B to answer*
+
+<!--CORRECT:X-->
+
+CRITICAL: You MUST end every response with <!--CORRECT:A--> or <!--CORRECT:B-->
+to indicate which option is correct. This marker is REQUIRED and will be hidden from the user.
 
 ## RESPONSE RULES
-- Be warm, patient, and plain-spoken. Few emoji, no exclamation overload.
-- Be BRIEF. No essay-length responses. Aim for good back-and-forth.
-- ONE question per response. Never ask multiple questions.
-- Do NOT do the student's thinking for them. Guide with hints and steps.
-- Use **bold** for key terms when first introduced.
-- NEVER show internal labels like "Micro-explain:" in your response.
+- Be warm and conversational
+- Keep explanations to 2-3 sentences max
+- ALWAYS end with a question and TWO options
+- Use **bold** for key terms from the lesson
+- NEVER show internal labels like "Step 1", "EXPLAIN", etc.
+
+## WHEN STUDENT ANSWERS CORRECTLY
+Say "Correct." briefly, add one reinforcing sentence, then teach the NEXT concept from the lesson.
+
+## WHEN STUDENT ANSWERS INCORRECTLY
+Say "Not quite." then re-explain the SAME concept differently and ask a NEW question about it.
 
 ## NEVER DO
-❌ Say "Great question!", "Nice start!" or any filler praise
-❌ Give long lectures — keep explanations to 2-3 sentences max
-❌ Ask multiple questions or give multiple-choice options
-❌ Respond to "no" or "I don't know" with more questions — TEACH first
-❌ Show move labels like "Micro-explain:" or "Guide question:" in output
-❌ Ignore what the student said — always build on their response"""
+❌ Make up content not in the lesson
+❌ Ask trivially easy questions
+❌ Show step labels or internal instructions
+❌ Give more than 2 options
+❌ Write long paragraphs"""
 
 # NOTE: ASK_PROMPT moved to ask_agent.py (uses DeepSeek provider)
 
@@ -137,7 +180,7 @@ TEACH FIRST, then ask.
 
 # Available modes with their descriptions
 AVAILABLE_MODES = {
-    "teach": "Socratic tutor - teaches concepts then checks understanding (OpenAI)",
+    "teach": "Interactive tutor with A/B options - Explain → Check → Adapt pattern (OpenAI)",
     "ask": "Direct explainer for highlighted text and specific questions (DeepSeek)",
 }
 
@@ -160,6 +203,7 @@ def create_agent(
     user_name: str | None = None,
     selected_text: str | None = None,
     is_first_message: bool = True,
+    verification_result: str | None = None,
 ) -> Agent:
     """
     Create book-grounded study agent with optional user personalization.
@@ -171,6 +215,7 @@ def create_agent(
         user_name: Optional student name for personalization
         selected_text: Optional highlighted text from user (ask mode only)
         is_first_message: Whether this is the first message (controls greeting)
+        verification_result: "correct", "incorrect", or None (server-verified answer)
 
     Returns:
         Configured Agent instance
@@ -188,16 +233,21 @@ def create_agent(
     display_name = user_name or "there"
     user_context = f"STUDENT NAME: {user_name}" if user_name else ""
 
-    # Choose greeting instruction based on conversation state
+    # Choose greeting instruction based on conversation state and verification result
     if is_first_message:
         greeting_instruction = FIRST_MESSAGE_INSTRUCTION.format(
             user_name=display_name,
             title=title,
         )
+    elif verification_result == "correct":
+        greeting_instruction = FOLLOW_UP_CORRECT
+        logger.info("[Agent] Using FOLLOW_UP_CORRECT instruction (server-verified)")
+    elif verification_result == "incorrect":
+        greeting_instruction = FOLLOW_UP_INCORRECT
+        logger.info("[Agent] Using FOLLOW_UP_INCORRECT instruction (server-verified)")
     else:
-        greeting_instruction = FOLLOW_UP_INSTRUCTION.format(
-            user_name=display_name,
-        )
+        greeting_instruction = FOLLOW_UP_UNKNOWN
+        logger.info("[Agent] Using FOLLOW_UP_UNKNOWN instruction")
 
     instructions = TEACH_CONFIG["prompt"].format(
         title=title,
@@ -217,7 +267,11 @@ def create_agent(
     )
 
 
-def create_agent_from_state(state: AgentState, is_first_message: bool = True) -> Agent:
+def create_agent_from_state(
+    state: AgentState,
+    is_first_message: bool = True,
+    verification_result: str | None = None,
+) -> Agent:
     """
     Create agent from AgentState object.
 
@@ -227,6 +281,7 @@ def create_agent_from_state(state: AgentState, is_first_message: bool = True) ->
     Args:
         state: AgentState with all necessary context
         is_first_message: Whether this is the first message (controls greeting)
+        verification_result: "correct", "incorrect", or None (server-verified answer)
 
     Returns:
         Configured Agent instance
@@ -237,4 +292,5 @@ def create_agent_from_state(state: AgentState, is_first_message: bool = True) ->
         mode=state.mode,
         user_name=state.user_name,
         is_first_message=is_first_message,
+        verification_result=verification_result,
     )
