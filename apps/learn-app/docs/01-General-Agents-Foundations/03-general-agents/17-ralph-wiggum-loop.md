@@ -303,7 +303,7 @@ Select "ralph-wiggum" from the list and install.
 **Alternative: Direct Install**
 
 ```bash
-/plugin install ralph-wiggum@claude-plugins-official
+/plugin install ralph-loop@claude-plugins-official
 ```
 
 ### Verification

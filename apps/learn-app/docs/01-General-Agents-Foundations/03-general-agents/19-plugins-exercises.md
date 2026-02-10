@@ -9,7 +9,7 @@ duration_minutes: 120
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
 layer_progression: "L1 (Manual Foundation)"
-layer_1_foundation: "Hands-on practice applying Lessons 14-18 extensibility concepts through 17 guided exercises"
+layer_1_foundation: "Hands-on practice applying Lessons 14-18 extensibility concepts through 15 guided exercises"
 layer_2_collaboration: "N/A"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
@@ -44,10 +44,10 @@ learning_objectives:
     proficiency_level: "A2"
     bloom_level: "Apply"
     assessment_method: "Module 2 exercises"
-  - objective: "Complete the full plugin lifecycle: discover, install, use, package, distribute"
+  - objective: "Complete the full plugin lifecycle: discover, install, use, and package"
     proficiency_level: "B1"
     bloom_level: "Create"
-    assessment_method: "Modules 3-6 exercises"
+    assessment_method: "Modules 3-5 exercises"
   - objective: "Configure and debug autonomous iteration loops"
     proficiency_level: "A2"
     bloom_level: "Apply"
@@ -58,7 +58,7 @@ cognitive_load:
   assessment: "3 concepts (Settings Hierarchy, Hook Events, Plugin Lifecycle) — within B1 limit. Exercises reinforce existing L14-L18 knowledge."
 
 differentiation:
-  extension_for_advanced: "Complete all 3 capstone projects; build a marketplace with 3+ plugins"
+  extension_for_advanced: "Complete all 3 capstone projects; Exercise 5.2 (Advanced) bundles hooks, MCP, and agents into a single plugin"
   remedial_for_struggling: "Start with Module 1 and 2 only; use the starter configs provided"
 ---
 
@@ -66,7 +66,7 @@ differentiation:
 
 You've learned to configure settings across three scopes, create hooks that fire on events, discover and install plugins from the marketplace, and set up autonomous iteration loops. Each capability is powerful on its own. But the real leverage comes when they work together — settings that establish team standards, hooks that enforce them automatically, plugins that package everything for reuse, and Ralph Wiggum loops that iterate without babysitting.
 
-These 17 exercises take you from configuring individual components to building complete extensibility systems. Each module targets one capability with two exercises: a **hands-on** exercise where you build something real, and a **debug** exercise where you fix something broken. Three skills run through every exercise: **configuration management** (settings across scopes and precedence), **plugin lifecycle** (discover, install, package, distribute), and **automation design** (hooks and autonomous loops).
+These 15 exercises are designed to start **as soon as you finish each lesson** — not all at once at the end. Module 1 practices what you learned in Lesson 14 (Settings). Module 2 practices Lesson 15 (Hooks). You don't need to wait until you've finished all the extensibility lessons to begin. Each module targets one capability with two exercises: a **hands-on** exercise where you build something real, and a **debug** exercise where you fix something broken. Three capstones at the end combine everything into complete systems.
 
 :::info Download Exercise Files
 **[Download Plugins Exercises (ZIP)](https://github.com/panaversity/claude-code-plugins-exercises/releases/latest/download/plugins-exercises.zip)**
@@ -80,6 +80,16 @@ If the download link doesn't work, visit the [repository releases page](https://
 
 ## How to Use These Exercises
 
+**Start each module right after finishing the corresponding lesson:**
+
+| After Lesson...              | Do Module...                                 |
+| ---------------------------- | -------------------------------------------- |
+| Lesson 14: Settings          | **Module 1:** Settings Hierarchy             |
+| Lesson 15: Hooks             | **Module 2:** Hooks                          |
+| Lesson 16: Plugins           | **Modules 3-5:** Discovery, Usage, Packaging |
+| Lesson 17: Ralph Wiggum Loop | **Module 7:** Ralph Wiggum                   |
+| All of the above             | **Module 8:** Integration Capstones          |
+
 The workflow for every exercise is the same:
 
 1. **Open the exercise folder** from the `claude-code-plugins-exercises/` directory
@@ -88,8 +98,6 @@ The workflow for every exercise is the same:
 4. **Start Claude Code or Cowork** and point it at the exercise folder
 5. **Work through the exercise** — write your own prompts, don't just copy the starter
 6. **Reflect** using the questions provided — this is where the real learning happens
-
-You don't need to complete all 17 in one sitting. Work through one module at a time. Modules 1-2 cover configuration fundamentals, Modules 3-6 cover the full plugin lifecycle, and Module 7 covers autonomous iteration.
 
 ---
 
@@ -114,20 +122,6 @@ Use this for every exercise:
 6. **Share** — Distribute via marketplace if valuable to others
 
 This workflow mirrors the real plugin ecosystem lifecycle: before building anything, check if it exists. After building something, package it so others don't have to rebuild it.
-
----
-
-## Assessment Rubric
-
-For each exercise, evaluate yourself on:
-
-| Criteria                   |        Beginner (1)        |         Developing (2)         |             Proficient (3)             |               Advanced (4)                |
-| -------------------------- | :------------------------: | :----------------------------: | :------------------------------------: | :---------------------------------------: |
-| **Configuration Accuracy** | Settings don't take effect | Settings work but wrong scope  |      Correct scope and precedence      |     Optimized for team collaboration      |
-| **Hook Design**            |      Hooks don't fire      | Hooks fire but wrong behavior  | Correct events, matchers, and actions  |   Hooks compose into complete workflow    |
-| **Plugin Competence**      |   Can't install plugins    | Installs but doesn't configure | Full lifecycle (install, use, package) | Creates distributable marketplace plugins |
-| **Debug Skill**            |    Can't identify issue    |   Finds issue but wrong fix    |       Correct diagnosis and fix        |   Prevents class of issues proactively    |
-| **Automation Quality**     |      Loop doesn't run      | Loop runs but never completes  | Correct completion promise and limits  |    Cost-aware, safe, production-ready     |
 
 ---
 
@@ -251,7 +245,11 @@ Diagnose and fix all three bugs. For each bug, document: what the symptom was, w
 Open the `module-3-plugin-discovery/exercise-3.1-marketplace-explorer/` folder. You'll find `workflow-needs.md` — a document describing 5 workflow needs for a development team: automated commit messages, code review checklists, test coverage reporting, documentation generation, and dependency auditing.
 
 **Your Task:**
-For each workflow need, search the Claude Code plugin marketplace (using `/plugins` or the Discover tab) and find at least one plugin candidate. Create an evaluation matrix comparing each plugin on: functionality match, installation complexity, maintenance burden, and team fit. Recommend which plugins to install and which needs are better served by custom skills.
+For each workflow need, search the Claude Code plugin marketplace (using `/plugin` or the Discover tab) and find at least one plugin candidate. Create an evaluation matrix comparing each plugin on: functionality match, installation complexity, maintenance burden, and team fit. Recommend which plugins to install and which needs are better served by custom skills.
+
+:::note Marketplace Evolution
+The plugin marketplace is actively evolving. If you find fewer plugins than expected, that's normal — evaluate what's available and note gaps where custom skills would fill the need. The evaluation process matters more than finding a perfect match for every category.
+:::
 
 **What You'll Learn:**
 
@@ -308,6 +306,10 @@ Open the `module-4-plugin-usage/exercise-4.1-install-and-use/` folder. You'll fi
 **Your Task:**
 Install both plugins from the marketplace. Configure each one to match the team's conventions — the commit message plugin should follow the conventional commits format described in the README, and the quality plugin should check the standards listed there. Run both plugins on the sample code and verify they produce correct output.
 
+:::note Prerequisites
+Some plugins require external tools (Node.js, npm, language servers). If a plugin installation fails, check its dependencies first. The exercise README lists what you need installed.
+:::
+
 **What You'll Learn:**
 
 - The full install-configure-verify cycle for marketplace plugins
@@ -319,7 +321,7 @@ Install both plugins from the marketplace. Configure each one to match the team'
 > "Install commit-commands and an LSP plugin, then configure them for our team conventions."
 
 **Better Prompt (Build Toward This):**
-"Read `README.md` for our team conventions. Then: (1) Install the commit-commands plugin with `/plugins install commit-commands`. (2) Configure it to use the conventional commits format from the README — prefixes should be `feat:`, `fix:`, `docs:`, `refactor:`. (3) Install an LSP-based quality plugin. (4) Test both: make a small code change, use the commit plugin to generate a message, and run the quality check. Show me the output from both."
+"Read `README.md` for our team conventions. Then: (1) Install the commit-commands plugin with `/plugin install commit-commands`. (2) Configure it to use the conventional commits format from the README — prefixes should be `feat:`, `fix:`, `docs:`, `refactor:`. (3) Install an LSP-based quality plugin. (4) Test both: make a small code change, use the commit plugin to generate a message, and run the quality check. Show me the output from both."
 
 **Reflection Questions:**
 
@@ -391,7 +393,7 @@ Package all three skills into a single plugin. Create a `plugin.json` manifest w
 
 ---
 
-### Exercise 5.2 — Package a Complete Bundle (Hands-on)
+### Exercise 5.2 — Package a Complete Bundle (Advanced)
 
 **The Problem:**
 Open the `module-5-plugin-packaging/exercise-5.2-full-plugin-bundle/` folder. You'll find a more complex setup: skills, hooks, an MCP server configuration, and an agent definition. These work together as a system — the hooks enforce standards, the skills automate tasks, the MCP server provides external data, and the agent orchestrates everything.
@@ -420,61 +422,6 @@ Package the entire bundle into a single plugin that, when installed, sets up eve
 
 ---
 
-## Module 6: Marketplace & Distribution
-
-> **Core Skill:** Creating and publishing marketplaces for plugin distribution
-
-### Exercise 6.1 — Create a Marketplace (Hands-on)
-
-**The Problem:**
-Open the `module-6-marketplace-distribution/exercise-6.1-create-marketplace/` folder. You'll find three plugins that your team has built over the past month. They're scattered across different repos and directories. You want to create a centralized marketplace so anyone on the team can discover and install them with one command.
-
-**Your Task:**
-Create a `marketplace.json` file that registers all three plugins with proper metadata: name, description, version, installation source (GitHub URL or local path), and category tags. Set up the marketplace so it works with the `/plugins` discovery flow. Test by searching for one of the plugins and installing it from your marketplace.
-
-**What You'll Learn:**
-
-- The structure of a marketplace.json and how Claude Code discovers plugins from it
-- How to categorize plugins so they're findable by need, not just by name
-- The difference between marketplace registration and plugin distribution
-
-**Starter Prompt:**
-
-> "Create a marketplace.json that registers these 3 plugins and makes them discoverable via /plugins."
-
-**Better Prompt (Build Toward This):**
-"Create a `marketplace.json` with entries for all 3 plugins in this folder. Each entry needs: `name`, `description` (one sentence), `version`, `source` (GitHub repo URL), `categories` (array of tags like `code-quality`, `automation`, `documentation`), and `author`. Register the marketplace in the project's settings so `/plugins` shows these plugins in the Discover tab. Test by running `/plugins` and searching for one by category."
-
-**Reflection Questions:**
-
-1. How did you decide which categories to assign each plugin? Would a teammate search differently?
-2. What's the difference between a marketplace (registry of plugins) and a plugin repository (where code lives)?
-3. If your marketplace grew to 50 plugins, what discovery features would you need beyond category tags?
-
----
-
-### Exercise 6.2 — Evaluate Marketplace Sources (Evaluate)
-
-**The Problem:**
-Open the `module-6-marketplace-distribution/exercise-6.2-cross-marketplace/` folder. You'll find descriptions of three different plugin sources: (1) the official Claude Code marketplace, (2) a community-maintained GitHub organization with 20+ plugins, and (3) a private company marketplace with enterprise-focused plugins. Each has different strengths, update frequency, quality controls, and security posture.
-
-**Your Task:**
-Evaluate all three sources on: plugin quality, update frequency, security vetting, breadth of categories, and installation friction. Create a recommendation document: which source should a solo developer use? A startup team of 5? An enterprise team of 50? Justify each recommendation.
-
-**What You'll Learn:**
-
-- That plugin sources vary dramatically in quality, security, and maintenance
-- How to evaluate trust and risk when installing third-party plugins
-- That the right source depends on your team's size, risk tolerance, and needs
-
-**Reflection Questions:**
-
-1. Which source would you trust with production code? What factors determined your answer?
-2. How do you verify that a community plugin is safe before installing it?
-3. What would a "plugin security checklist" include for your team?
-
----
-
 ## Module 7: Ralph Wiggum
 
 > **Core Skill:** Configuring safe autonomous iteration loops
@@ -486,6 +433,10 @@ Open the `module-7-ralph-wiggum/exercise-7.1-autonomous-loop/` folder. You'll fi
 
 **Your Task:**
 Set up a Ralph Wiggum autonomous loop. Install the plugin if needed. Write a prompt with an embedded completion promise: "Keep iterating until all 12 tests pass. After each fix, run the test suite. Stop when all tests are green or after 15 iterations, whichever comes first." Run the loop and observe how it progresses.
+
+:::tip Setup Check
+Before starting, run `cd project && npm install && npm test` to confirm you see 12 failing tests. If the test runner isn't installed or errors look different than expected, resolve the setup first — the loop depends on consistent test output.
+:::
 
 **What You'll Learn:**
 
@@ -538,12 +489,12 @@ Capstones are different from the exercises above. There are no guided prompts �
 
 ### Capstone A — Full Plugin from Scratch
 
-Open the `module-8-capstones/capstone-A-full-plugin/` folder. You'll find a set of requirements for a plugin that doesn't exist yet: it should include 2 skills (one for API documentation generation, one for endpoint testing), 2 hooks (pre-commit validation and post-test reporting), and an MCP server integration for an external API. Build the entire plugin from scratch: skills, hooks, MCP config, plugin.json manifest, and a marketplace entry. Test by installing it on a fresh project.
+Open the `module-8-capstones/capstone-A-full-plugin/` folder. You'll find a set of requirements for a plugin that doesn't exist yet: it should include 2 skills (one for API documentation generation, one for endpoint testing), 2 hooks (pre-commit validation and post-test reporting), and an MCP server integration for an external API. Build the entire plugin from scratch: skills, hooks, MCP config, and plugin.json manifest. Then create a `marketplace.json` that registers your plugin — making it discoverable and installable by others. Test by installing it on a fresh project from your marketplace.
 
 **What You'll Learn:**
 
 - How to design a plugin from requirements, not from existing code
-- The full build-test-package-distribute cycle end to end
+- The full build-test-package-distribute cycle end to end, including marketplace creation
 - That a well-designed plugin saves hours for every developer who installs it
 
 ---
@@ -575,6 +526,22 @@ Unlike Capstones A and B, this one has real stakes. The changes you make apply t
 
 ---
 
+## Assessment Rubric
+
+After completing the exercises, evaluate yourself on each dimension:
+
+| Criteria                   |        Beginner (1)        |         Developing (2)         |             Proficient (3)             |               Advanced (4)                |
+| -------------------------- | :------------------------: | :----------------------------: | :------------------------------------: | :---------------------------------------: |
+| **Configuration Accuracy** | Settings don't take effect | Settings work but wrong scope  |      Correct scope and precedence      |     Optimized for team collaboration      |
+| **Hook Design**            |      Hooks don't fire      | Hooks fire but wrong behavior  | Correct events, matchers, and actions  |   Hooks compose into complete workflow    |
+| **Plugin Competence**      |   Can't install plugins    | Installs but doesn't configure | Full lifecycle (install, use, package) | Creates distributable marketplace plugins |
+| **Debug Skill**            |    Can't identify issue    |   Finds issue but wrong fix    |       Correct diagnosis and fix        |   Prevents class of issues proactively    |
+| **Automation Quality**     |      Loop doesn't run      | Loop runs but never completes  | Correct completion promise and limits  |    Cost-aware, safe, production-ready     |
+
+**Target**: Proficient (3) across all dimensions by Module 7. Advanced (4) is demonstrated through capstone completion.
+
+---
+
 ## What's Next
 
-You've practiced the three core skills — **configuration management**, **plugin lifecycle**, and **automation design** — across 17 exercises. These skills compound: every exercise builds intuition for when to configure a setting, when to write a hook, when to install a plugin, and when to let Ralph Wiggum iterate autonomously. The extensibility features you practiced aren't extras — they're how professionals scale their Claude Code workflows from individual productivity to team-wide systems. Next in **Lesson 29: Chapter Quiz**, you'll test your understanding of all Chapter 3 concepts including settings, hooks, plugins, and autonomous iteration. This lesson complements the existing Lesson 6 (basics exercises) and Lesson 10 (skills exercises) — together they cover the full arc from problem-solving fundamentals to extensibility mastery.
+You've practiced the three core skills — **configuration management**, **plugin lifecycle**, and **automation design** — across 15 exercises. These skills compound: every exercise builds intuition for when to configure a setting, when to write a hook, when to install a plugin, and when to let Ralph Wiggum iterate autonomously. The extensibility features you practiced aren't extras — they're how professionals scale their Claude Code workflows from individual productivity to team-wide systems. Next in **Lesson 30: Chapter Quiz**, you'll test your understanding of all Chapter 3 concepts including settings, hooks, plugins, and autonomous iteration. This lesson complements the existing Lesson 6 (basics exercises) and Lesson 10 (skills exercises) — together they cover the full arc from problem-solving fundamentals to extensibility mastery.

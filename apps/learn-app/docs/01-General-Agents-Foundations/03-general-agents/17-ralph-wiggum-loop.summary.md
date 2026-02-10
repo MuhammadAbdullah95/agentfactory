@@ -10,7 +10,7 @@ Ralph Wiggum Loop is a Claude Code plugin that enables autonomous iteration—Cl
 
 ### Critical Patterns
 
-- Install from marketplace: `/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install ralph-wiggum@claude-plugins-official`
+- Install from marketplace: `/plugin marketplace add anthropics/claude-plugins-official` then `/plugin install ralph-loop@claude-plugins-official`
 - **Embedded promise pattern (recommended)**: Explicitly instruct Claude to output completion marker
   ```bash
   /ralph-loop "Task description:
