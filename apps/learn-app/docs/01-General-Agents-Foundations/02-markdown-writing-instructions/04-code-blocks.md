@@ -213,7 +213,16 @@ Language tags help:
 
 ### Example: Installation Commands
 
-**In your README:**
+**What you type in your README:**
+
+````text
+```bash
+pip install requests
+python app.py
+```
+````
+
+**What it renders as:**
 
 ```bash
 pip install requests
@@ -224,7 +233,18 @@ The `bash` tag tells the AI: "These are terminal commands, not Python code."
 
 ### Example: Python Code
 
-**Show example code like this:**
+**What you type:**
+
+````text
+```python
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Alice"))
+```
+````
+
+**What it renders as:**
 
 ```python
 def greet(name):
@@ -247,7 +267,15 @@ Use **inline code** for short code references within regular text - like variabl
 
 ### Syntax
 
-Use single backticks (`` ` ``) around the code:
+Wrap your code reference in single backtick characters:
+
+````text
+Install the package with `pip install requests` command.
+The `app.py` file contains the main function.
+Set the `DEBUG` variable to `True` for testing.
+````
+
+**What it renders as:**
 
 Install the package with `pip install requests` command.
 The `app.py` file contains the main function.
@@ -465,17 +493,23 @@ Use fenced blocks for multiple lines.
 
 ### Mistake 3: No Language Tag When It Matters
 
-**Unclear:**
+**Unclear (no language tag):**
+
+````text
 ```
 pip install requests
 ```
+````
 
-**Clear:**
+**Clear (with `bash` tag):**
+
+````text
 ```bash
 pip install requests
 ```
+````
 
-The `bash` tag makes it clear this is a terminal command.
+Adding the `bash` tag makes it clear this is a terminal command, not Python code or plain text.
 
 ---
 
