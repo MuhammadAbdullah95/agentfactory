@@ -515,3 +515,22 @@ Explain the redirection operators used in each command.
 ```
 
 **What you're learning:** Applying I/O redirection to a real production scenario. Managing separate log streams is fundamental to operating Digital FTEs -- you need to know what's working (stdout) and what's failing (stderr) at a glance.
+
+**Explore nano's Editing Power:**
+
+```
+I'm editing configuration files on a remote Linux server using nano.
+Show me how to:
+1. Search for a specific setting (like "port=8000") in a large config file
+2. Replace all occurrences of one value with another (like changing port 8000 to 9000)
+3. Copy a block of 5 lines and paste them elsewhere in the file
+4. Jump directly to line 47 of the file
+
+Show the exact keystroke sequences for each operation.
+```
+
+**What you're learning:** Terminal editors have powerful features hidden behind keyboard shortcuts. AI can map your editing goals to specific keystrokes, revealing capabilities that manual exploration would miss. These patterns transfer to any remote server where graphical editors aren't available.
+
+:::note Safety Reminder
+When using pipes and redirection, be careful with the `>` operator -- it overwrites files without warning. Use `>>` to append instead. When editing configuration files with nano, always make a backup first: `cp config.conf config.conf.bak`. On production servers, test complex pipelines with `echo` or `head` first to verify they produce expected output before piping to destructive commands like `rm` or `tee`.
+:::

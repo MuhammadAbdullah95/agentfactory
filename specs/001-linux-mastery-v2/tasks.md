@@ -253,7 +253,7 @@
 
 ### Lesson 11: Debugging & Troubleshooting
 
-- [ ] T013 [US9] Write Lesson 11 `11-debugging-troubleshooting.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/11-debugging-troubleshooting.md`
+- [x] T013 [US9] Write Lesson 11 `11-debugging-troubleshooting.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/11-debugging-troubleshooting.md`
   - **CONTENT SOURCE**: REWRITE (50% preserved from v1 L07)
   - **SUBAGENT**: content-implementer
     - Output path: `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/11-debugging-troubleshooting.md`
@@ -288,7 +288,7 @@
 
 ### Lesson 12: Advanced Workflow Integration Patterns
 
-- [ ] T014 [US10] Write Lesson 12 `12-workflow-integration-patterns.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/12-workflow-integration-patterns.md`
+- [x] T014 [US10] Write Lesson 12 `12-workflow-integration-patterns.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/12-workflow-integration-patterns.md`
   - **CONTENT SOURCE**: SPLIT from v1 L08 (workflow patterns half, ~35% of old L08)
   - **SUBAGENT**: content-implementer
     - Output path: `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/12-workflow-integration-patterns.md`
@@ -309,7 +309,7 @@
 
 ### Lesson 13: Building Reusable Agent Operations Skills
 
-- [ ] T015 [US11] Write Lesson 13 `13-building-reusable-skills.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/13-building-reusable-skills.md`
+- [x] T015 [US11] Write Lesson 13 `13-building-reusable-skills.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/13-building-reusable-skills.md`
   - **CONTENT SOURCE**: SPLIT from v1 L08 (skill creation half, ~25% of old L08)
   - **SUBAGENT**: content-implementer
     - Output path: `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/13-building-reusable-skills.md`
@@ -327,7 +327,7 @@
 
 ### Lesson 14: Capstone — Spec-First Production Deployment
 
-- [ ] T016 [US12] Write Lesson 14 `14-capstone-production-deployment.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/14-capstone-production-deployment.md`
+- [x] T016 [US12] Write Lesson 14 `14-capstone-production-deployment.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/14-capstone-production-deployment.md`
   - **CONTENT SOURCE**: REWRITE (40% preserved from v1 L09)
   - **SUBAGENT**: content-implementer
     - Output path: `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/14-capstone-production-deployment.md`
@@ -357,7 +357,7 @@
 
 ### Quiz
 
-- [ ] T017 Write Chapter Quiz `15-chapter-quiz.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/15-chapter-quiz.md`
+- [x] T017 Write Chapter Quiz `15-chapter-quiz.md` at `/mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/15-chapter-quiz.md`
   - **SUBAGENT**: Use quiz-generator skill
     - 50 questions covering all 13 lessons (3-5 per lesson weighted by complexity)
     - Question types: 30 single-answer, 10 multi-answer, 10 scenario-based
@@ -368,46 +368,46 @@
 
 ### Cross-Cutting Validation
 
-- [ ] T018 Run FR-006 Three Roles invisibility check across all 13 lesson files
+- [x] T018 Run FR-006 Three Roles invisibility check across all 13 lesson files
   - Run: `grep -rEi "(AI as (Teacher|Student|Co-Worker)|Three Roles:|Key moment:|What to notice)" /mnt/g/voice_learning/book_project/apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/[0-1]*.md`
   - Expected: ZERO matches
   - If matches found: Fix each lesson before proceeding
 
-- [ ] T019 Run FR-004 YAML frontmatter validation across all 13 lesson files
+- [x] T019 Run FR-004 YAML frontmatter validation across all 13 lesson files
   - Verify each file has: skills, learning_objectives, cognitive_load, differentiation
   - Use validation script from plan.md Section VIII
 
-- [ ] T020 Run FR-005 "Try With AI" count validation
+- [x] T020 Run FR-005 "Try With AI" count validation
   - Each lesson must have exactly 3 "Try With AI" sections
   - Verify with: `grep -c "Try With AI" <file>` returns 3 for each
 
-- [ ] T021 Run FR-016 exercise count validation
+- [x] T021 Run FR-016 exercise count validation
   - Each lesson must have 2+ exercises with verification commands
   - Verify exercises contain "Verify:" or "Task:" markers
 
-- [ ] T022 Run FR-019 size/concept validation
+- [x] T022 Run FR-019 size/concept validation
   - No lesson exceeds 35KB: `wc -c <file>` < 35840 for each
   - Verify concept counts match spec (max 6 per lesson)
 
-- [ ] T023 Run FR-012 factual accuracy check
+- [x] T023 Run FR-012 factual accuracy check
   - Verify zero `stat -f%z` occurrences: `grep -r "stat -f" lessons/` returns empty
   - Verify `Restart=on-failure` is taught correctly (not contradicted)
 
-- [ ] T024 Fix any validation failures found in T018-T023
+- [x] T024 Fix any validation failures found in T018-T023 (L03 & L04 missing 3rd Try With AI prompt — fixed)
 
 ### Summary Generation
 
-- [ ] T025 [P] Generate summary files for all 13 lessons using summary-generator skill
+- [x] T025 [P] Generate summary files for all 13 lessons using summary-generator skill
   - Each lesson gets a `.summary.md` companion file
   - Summaries extract key concepts, patterns, and common mistakes
 
 ### Cleanup
 
-- [ ] T026 Remove old v1 lesson files that are no longer needed (files renamed/replaced by v2 structure)
+- [x] T026 Remove old v1 lesson files that are no longer needed (files renamed/replaced by v2 structure)
   - Old files to evaluate: `03-persistent-sessions-tmux.md` (now `05-*`), `04-bash-scripting-agent-automation.md` (now `06-*` + `07-*`), `05-security-hardening-least-privilege.md` (now `08-*`), `06-process-control-systemd.md` (now `10-*`), `07-debugging-troubleshooting.md` (now `11-*`), `08-advanced-workflow-integration.md` (now `12-*` + `13-*`), `09-capstone-production-deployment.md` (now `14-*`), `10-chapter-quiz.md` (now `15-*`)
   - Confirm no data loss before deletion — all content migrated per migration map
 
-- [ ] T027 Final content-evaluation-framework scoring
+- [x] T027 Final content-evaluation-framework scoring
   - Run `/content-evaluation-framework` against completed chapter
   - Target: A- grade (SC-012)
   - If below target: identify specific lessons needing improvement

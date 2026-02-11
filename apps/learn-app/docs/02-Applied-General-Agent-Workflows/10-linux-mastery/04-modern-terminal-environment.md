@@ -601,3 +601,22 @@ Include installation steps and a side-by-side usage comparison.
 ```
 
 **What you're learning:** How to evaluate competing tools for the same problem. Each navigation tool has different strengths -- frequency-based ranking, recency weighting, or bookmark-style jumps. Understanding tradeoffs helps you pick the right tool rather than defaulting to the first one you find.
+
+**Diagnose Package Conflicts:**
+
+```
+I installed a Python package with pip but my agent still can't import it.
+Help me diagnose this step by step:
+1. How do I check which Python the system uses vs. which pip installed to?
+2. How do I verify where packages are installed?
+3. How do I check if there is a virtual environment active?
+4. What is the correct way to install packages for system Python vs. venv?
+
+Show the exact diagnostic commands and explain what each reveals.
+```
+
+**What you're learning:** Package management issues are among the most common problems when deploying agents. AI can guide you through a systematic diagnostic process that checks PATH conflicts, multiple Python installations, and virtual environment confusion -- problems that appear mysterious until you know where to look.
+
+:::note Safety Reminder
+When installing packages with `apt` or `pip`, always understand what you're installing before running commands with `sudo`. Never pipe untrusted URLs directly to `bash` (e.g., `curl ... | sudo bash`) without first reviewing the script. When modifying `.bashrc` or `.profile`, keep a backup of the original and test changes in a new terminal window before closing your current session -- a broken shell configuration can lock you out of your server.
+:::
