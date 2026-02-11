@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import traceback
 from collections.abc import AsyncIterator
 from datetime import datetime
 
@@ -404,54 +405,6 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 )
                 input_items = user_text  # Agent SDK accepts string input
 
-            # INJECT VERIFICATION RESULT into conversation
-            # This ensures the LLM sees verification as part of conversation
-            items_len = len(input_items) if isinstance(input_items, list) else "N/A"
-            logger.info(f"[ChatKit] input_items type: {type(input_items)}, len: {items_len}")
-            if verification_result and isinstance(input_items, list) and len(input_items) > 0:
-                last_item = input_items[-1]
-                logger.info(f"[ChatKit] last_item: {type(last_item)}, {str(last_item)[:100]}")
-
-                # Try to modify the last user message
-                if verification_result == "correct":
-                    verification_note = (
-                        "\n\n[SYSTEM: This answer is CORRECT. "
-                        "Say 'Correct!' and move to a new concept.]"
-                    )
-                else:
-                    verification_note = (
-                        "\n\n[SYSTEM: This answer is WRONG. "
-                        "You MUST say 'Not quite.' and explain why the other option "
-                        "was correct. DO NOT say 'Correct' or any affirmation.]"
-                    )
-
-                # Handle dict format
-                if isinstance(last_item, dict) and last_item.get("role") == "user":
-                    if isinstance(last_item.get("content"), str):
-                        new_content = last_item["content"] + verification_note
-                        input_items[-1] = {**last_item, "content": new_content}
-                        logger.info(f"[ChatKit] Injected note (dict/str): {verification_result}")
-                    elif isinstance(last_item.get("content"), list):
-                        new_content = list(last_item["content"])
-                        new_content.append({"type": "input_text", "text": verification_note})
-                        input_items[-1] = {**last_item, "content": new_content}
-                        logger.info(f"[ChatKit] Injected note (dict/list): {verification_result}")
-                # Handle object format (OpenAI SDK types)
-                elif hasattr(last_item, "role") and getattr(last_item, "role", None) == "user":
-                    # Append verification as a new message instead
-                    input_items.append({
-                        "role": "user",
-                        "content": verification_note.strip()
-                    })
-                    logger.info(f"[ChatKit] Appended note as new msg: {verification_result}")
-                else:
-                    # Fallback: append as new system message
-                    input_items.append({
-                        "role": "user",
-                        "content": verification_note.strip()
-                    })
-                    logger.info(f"[ChatKit] Appended note (fallback): {verification_result}")
-
             # Create agent context
             agent_context = AgentContext(
                 thread=thread,
@@ -560,12 +513,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Re-raise HTTP exceptions (e.g., 402 from metering) for proper response
             raise
         except Exception as e:
-            import traceback
             error_trace = traceback.format_exc()
             logger.error(f"[ChatKit] Error in respond(): {e}")
             logger.error(f"[ChatKit] Traceback:\n{error_trace}")
-            print(f"[ChatKit] ERROR: {e}")
-            print(f"[ChatKit] TRACEBACK:\n{error_trace}")
 
             # Send error message to client
             error_message = AssistantMessageItem(
