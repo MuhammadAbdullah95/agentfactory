@@ -59,6 +59,35 @@ version: "3.0.0"
 prerequisites:
   - "Lessons 01-03: Claude Code installed and working"
   - "Basic experience with Claude Code interactions"
+
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Practical Exercises and Problem Solving"
+  key_points:
+    - "Non-determinism is the motivating problem — run the same LinkedIn prompt twice and get different results, which is why skills exist"
+    - "Skills encode reasoning patterns and personal style, not just saved prompts — the distinction between 'paste a template' and 'loaded expertise' is critical"
+    - "The two activation modes (automatic detection vs explicit invocation) should both be demonstrated so students see that skills are not just slash commands"
+    - "This lesson is preparation for Lesson 08 (skill concepts) and 09 (skill creation) — students leave with a mapped procedure ready to encode"
+  misconceptions:
+    - "Students think skills are just saved prompts they paste in — the lesson explicitly addresses this: skills include reasoning patterns, examples, and constraints, not just text"
+    - "Students confuse CLAUDE.md (project context) with skills (personal style and procedures) — the Two Problems Two Solutions table is the key distinction"
+    - "Students think they need to code to create skills — skills are markdown files with instructions, no programming required"
+    - "Students assume automatic activation is unreliable — demo it live to show Claude consistently matches tasks to the right skill"
+  discussion_prompts:
+    - "After running the LinkedIn prompt with and without the internal-comms skill, what specific differences did you notice in tone, structure, and engagement hooks?"
+    - "If skills encode your personal style, what happens when two team members have conflicting skills for the same task?"
+    - "What three repetitive tasks from your life would benefit most from a skill, and what would 'your way' look like for each?"
+  teaching_tips:
+    - "The with-vs-without skill comparison is the centerpiece — run the LinkedIn prompt live without the skill, then with it, and ask students to spot every difference"
+    - "Have students download the Skills Lab and try internal-comms before you explain the theory — experience first, concepts second"
+    - "The 'Mapping Your First Procedure' exercise at the end produces the input for Lesson 09 — collect student procedure maps and verify they are specific enough before moving on"
+    - "The Matrix analogy resonates strongly — use it as shorthand for the rest of the chapter: 'loading a skill is like Trinity loading the helicopter program'"
+  assessment_quick_check:
+    - "Ask students: What is the difference between a saved prompt and a skill?"
+    - "Have students name their chosen repetitive task and describe their personal style for it in two sentences"
+    - "Ask: If CLAUDE.md is project context, what is a skill? Explain in one sentence."
 ---
 
 # Teach Claude Your Way of Working

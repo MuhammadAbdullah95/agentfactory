@@ -59,6 +59,33 @@ differentiation:
   extension_for_advanced: "Analyze a complex agentic system (like Claude Code or customer service AI) to map all Five Powers and identify which powers are most critical for its use case; then research how MCP enables custom integrations for that system"
   remedial_for_struggling: "Focus on single concrete comparison: hotel booking via traditional website (14 steps) vs agentic AI (3 exchanges), then map each action in the agentic version to the Five Powers"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Agent Capabilities and Standards"
+  key_points:
+    - "The Five Powers (See, Hear, Reason, Act, Remember) become a reusable analysis tool — students should be able to decompose any agentic system into these five capabilities"
+    - "The hotel booking comparison (14 manual steps vs 3 exchanges) is the most concrete demonstration of UX→Intent — use it as the lesson's anchor example"
+    - "MCP is the 'USB cable' and Skills are the 'App' — this analogy is critical for Lesson 5 where AAIF standards are covered in depth"
+    - "The three-layer stack (Frontier Models → AI-First IDEs → Agent Skills) explains how the entire agentic ecosystem is composed"
+  misconceptions:
+    - "Students think Five Powers means the agent must have ALL five to be useful — many effective agents only use 2-3 powers (e.g., Claude Code primarily uses Reason + Act)"
+    - "Students confuse 'Remember' with LLM memory — Remember is an application-level capability (stored preferences, history), not model memory (which is stateless per Lesson 2)"
+    - "Students think MCP is a product — MCP is a protocol/standard (like HTTP), not a tool you download and install"
+  discussion_prompts:
+    - "Which of the Five Powers do you think is hardest to implement well — and which creates the most value when done right?"
+    - "If you removed the 'Remember' power from the hotel booking agent, how would the experience change for a returning customer?"
+    - "Why did the industry converge on MCP as a standard rather than letting each AI company build their own connector system?"
+  teaching_tips:
+    - "Start with the 14-step hotel booking — have students count the steps in a workflow they do regularly, then reimagine it as 2-3 intent exchanges"
+    - "When teaching the Five Powers, map them onto Claude Code as a familiar reference: See (reads screenshots), Reason (OODA from Lesson 3), Act (writes files, runs tests), Remember (AGENTS.md)"
+    - "The Predictive→Generative→Agentic evolution in Part 4 is a three-sentence summary worth repeating: Netflix predicts, ChatGPT generates, Claude Code acts"
+    - "Emphasize that the 2024 vs 2026 comparison table (Tool Silos vs Modular Stack) shows how fast the industry moved — students are learning current-state, not history"
+  assessment_quick_check:
+    - "Have students name all Five Powers from memory and give one example for each"
+    - "Ask: 'What is the difference between MCP and Agent Skills?' — expects the hands vs training analogy"
+    - "Ask students to identify which layer of the AI stack their current tools belong to"
+
 # Generation metadata
 generated_by: "content-implementer v2.0.0 (Part 1 consolidation)"
 source_spec: "Part 1 consolidation: 4 chapters (32 lessons) → 1 chapter (8 lessons)"

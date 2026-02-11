@@ -54,6 +54,34 @@ differentiation:
   extension_for_advanced: "Explore other compiled skills in Skills Lab; compare multiple MCP servers"
   remedial_for_struggling: "Focus on single operation (navigate only); use guided prompts"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "Subagents, MCP, and Compilation"
+  key_points:
+    - "The code execution pattern (SKILL.md + local scripts) achieves 98% token reduction by running MCP operations outside Claude's context window entirely"
+    - "Three-stage loading for compiled skills (discovery at 30 tokens, activation at 150 tokens, execution at 0 tokens) extends the three-level architecture from Lesson 08"
+    - "Skills can contain decision logic that guides Claude on when to use Tool Search vs compiled patterns — this makes skills intelligent advisors, not just executors"
+    - "The decision framework (simple/infrequent = Tool Search, complex/repeated/filtered = compile) gives students a concrete rubric for real-world choices"
+  misconceptions:
+    - "Students think every MCP server should be compiled into a skill — the decision framework explicitly says low-overhead, infrequent-use MCP servers are fine as-is"
+    - "Students confuse token savings with functionality loss — compiled skills provide the same results as direct MCP, just through local execution instead of context-window processing"
+    - "Students think they need to write mcp-client.py themselves — the Skills Lab provides pre-built compiled skills; this lesson teaches usage and understanding, not creation"
+    - "Students assume Tool Search and compilation are competing approaches — they are complementary, and the 'Skills as Intelligent Guides' section shows skills orchestrating both"
+  discussion_prompts:
+    - "The lesson shows 98% token reduction — if you had 5 MCP servers, how would you decide which ones to compile vs leave as direct MCP?"
+    - "The meta-pattern shows skills containing decision logic about when they should activate — what other kinds of 'self-awareness' could you build into skills?"
+    - "Compiled skills are portable across Claude Code, OpenAI Codex, and Goose — what does cross-agent portability mean for how you invest time in building skills?"
+  teaching_tips:
+    - "Run Steps 2 and 3 (direct MCP vs compiled skill) back-to-back on the same task so students see the token difference in real time"
+    - "Use the token comparison table (15,000-24,000 vs 150-200 tokens) as the lesson's anchor number — write it on the board and reference it throughout"
+    - "The 'Skills as Intelligent Guides' SKILL.md example showing when-to-use-what logic is the most advanced concept — save it for the second half of class when students have hands-on context"
+    - "Connect back to Lesson 08's three-level loading: discovery/activation/execution maps directly to compiled skills' discovery/activation/local-execution pattern"
+  assessment_quick_check:
+    - "What is the approximate token cost of a compiled skill's SKILL.md vs direct MCP tool definitions?"
+    - "Name two criteria from the decision framework that indicate you should compile an MCP server into a skill"
+    - "Explain in one sentence why Stage 3 (execution) of a compiled skill consumes zero tokens in Claude's context"
+
 # Generation metadata
 generated_by: "content-implementer v1.0.0 (045-lesson-09-compiling-mcp-skills)"
 source_spec: "specs/045-lesson-09-compiling-mcp-skills/spec.md"

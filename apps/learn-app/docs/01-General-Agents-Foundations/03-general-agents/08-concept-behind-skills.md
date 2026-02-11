@@ -50,6 +50,34 @@ differentiation:
   extension_for_advanced: "Analyze how skills would evolve with explicit dependencies, versioning, and cross-skill composition"
   remedial_for_struggling: "Focus on tax professional analogy and stack analogy as primary mental models"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Skills Architecture and Hands-On Practice"
+  key_points:
+    - "The bottleneck is expertise, not intelligence — this reframes how students think about AI value creation for the rest of the book"
+    - "Three-level loading (metadata/instructions/supporting files) is the same progressive disclosure pattern used in MCP Tool Search (Lesson 12-13)"
+    - "Skills + MCP = expertise + connectivity — students must internalize this as two distinct layers, not one"
+    - "The stack analogy (models=processors, runtimes=OS, skills=apps) positions students as the applications layer builders"
+  misconceptions:
+    - "Students confuse skills with saved prompts — emphasize that skills have structure (YAML frontmatter, activation triggers, three-level loading) that prompts lack"
+    - "Students think skills require programming — the accessibility section explicitly shows non-technical people (finance, recruiting, legal) creating skills"
+    - "Students conflate MCP and skills as doing the same thing — use the table (expertise vs connectivity) to draw a hard line"
+    - "Students assume more skills means slower performance — the smartphone apps analogy (100 installed, few running) directly addresses this"
+  discussion_prompts:
+    - "If skills encode expertise and anyone can create them, what happens to the value of domain knowledge in organizations?"
+    - "The lesson says Fortune 100 companies use skills for onboarding — what expertise would you encode for a new team member in your field?"
+    - "When would you still need a custom agent instead of just adding skills to Claude Code?"
+  teaching_tips:
+    - "Start with the tax professional analogy (Section: The Real Bottleneck) — it immediately grounds the abstract concept in something students relate to"
+    - "Use the Skills vs Subagents table as a decision exercise: present 5 scenarios and have students classify each before revealing answers"
+    - "Walk through the three-level loading using the smartphone analogy — have students count their installed apps vs running apps to make it concrete"
+    - "The 'Skills as Strategic Assets' table (manual prompting vs agent skills) works well as a before/after comparison on a whiteboard"
+  assessment_quick_check:
+    - "Name the three levels of skill loading and what each contains"
+    - "Explain the difference between what skills provide and what MCP provides in one sentence each"
+    - "Give an example of a skill from your domain that a non-programmer could create"
+
 # Generation metadata
 generated_by: "content-implementer v1.0.0 (044-lesson-05-concept-behind-skills)"
 source_spec: "specs/044-lesson-05-concept-behind-skills/spec.md"

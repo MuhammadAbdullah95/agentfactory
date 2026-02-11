@@ -65,6 +65,32 @@ prerequisites:
   - "Completion of Lesson 22: From Terminal to Desktop"
   - "macOS computer (Windows support coming soon)"
   - "Anthropic subscription (Pro or Max required for Cowork)"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 8
+  session_title: "Cowork Desktop Environment and Browser Integration"
+  key_points:
+    - "Folder access is the critical security boundary -- Claude can only access explicitly approved folders, and students should start with a dedicated test folder, not their home directory"
+    - "The three interface panels (conversation, execution, artifacts) serve distinct purposes: communicate, observe actions, and review results"
+    - "The approval workflow table shows that reads are automatic but all writes, modifications, deletions, and moves require explicit confirmation"
+    - "The first task (organizing a messy folder) demonstrates the full propose-approve-execute cycle without requiring any code"
+  misconceptions:
+    - "Students grant access to their entire home directory for convenience -- the best practices section specifically warns against this and recommends dedicated workspace folders"
+    - "Students think Cowork mode is always on -- they need to explicitly switch from Chat mode to Cowork mode, and the folder access panel confirms which mode is active"
+    - "Students expect Cowork to work on Windows -- the requirements table states macOS only with Windows support in development, which may cause frustration for some"
+  discussion_prompts:
+    - "The approval workflow requires confirmation for writes but not reads. Why is this asymmetry the right default? When might you want reads to require approval too?"
+    - "Compare the folder access permission model to how you grant app permissions on your phone. What design principles are shared?"
+  teaching_tips:
+    - "Have students create the test folder with the provided bash commands before class so setup does not consume session time"
+    - "Walk through the approval workflow table as a security exercise: for each operation type, ask students what could go wrong without approval"
+    - "If Windows users are in the class, pair them with macOS users for live demonstrations, and use the troubleshooting section to set expectations"
+    - "Use the 'Common First Tasks' table as a choose-your-own-adventure: let each student pick one task that matches their daily work and try it live"
+  assessment_quick_check:
+    - "Name the three panels in the Cowork interface and describe what each shows during a file organization task"
+    - "Which operations require approval in Cowork and which do not? Explain the security reasoning"
+    - "What is the first troubleshooting step if Cowork mode does not appear in Claude Desktop?"
 ---
 
 # Getting Started with Cowork

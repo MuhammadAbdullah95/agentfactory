@@ -95,6 +95,34 @@ git_author: "Claude Code"
 workflow: "direct implementation"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 6
+  session_title: "Autonomous Workflows, Creator Practices, and Exercises"
+  key_points:
+    - "Ralph Loop uses the Stop hook to intercept Claude's exit and reinject a continuation prompt — this is NOT a new concept but a specific application of hooks from Lesson 15"
+    - "The completion promise is static and uses exact string matching — it cannot be changed mid-loop, which is why the embedded <promise> pattern is recommended for reliability"
+    - "Max-iterations is the primary safety net, not the completion promise — students must always set a limit to prevent runaway cost"
+    - "Good Ralph Loop candidates have 10+ expected iterations, objective verification (tests pass, build succeeds), and deterministic completion signals"
+  misconceptions:
+    - "Students think Ralph Loop is AI making decisions about when to stop — actually it is a mechanical string-match check on Claude's output against a static completion promise"
+    - "Students assume any task benefits from autonomous iteration — tasks requiring human judgment, creative work, or multi-goal optimization are poor fits"
+    - "Students underestimate cost: a 30-iteration loop can cost $30-60 in API credits, and overnight runs can exceed $100"
+    - "Students believe they can modify the completion promise during a loop — it is set once at the initial /ralph-loop command and cannot be changed"
+  discussion_prompts:
+    - "Think of a task you did recently that required copying errors back to Claude multiple times. Would Ralph Loop have been appropriate? Apply the decision table criteria."
+    - "What is the difference between automation that is safe to leave unattended and automation that requires periodic monitoring? Where does Ralph Loop fall?"
+    - "If a loop is stuck repeating the same 3 errors, what does that tell you about the task design versus Claude's capability?"
+  teaching_tips:
+    - "Walk through the Stop hook flow diagram step by step — trace the linting example from '47 problems' to '0 problems' showing each intercept point"
+    - "Have students write completion promises for 3 different scenarios BEFORE showing the examples — then compare their promises against the good/poor examples in the lesson"
+    - "Emphasize the cost table early: show students that a complex 80-iteration refactor can cost $80-150 before they get excited about running overnight loops"
+    - "Use the Decision Table (Good Fit vs Poor Fit) as a classification exercise: give students 5 tasks and have them categorize each with justification"
+  assessment_quick_check:
+    - "What two conditions cause a Ralph Loop to stop iterating?"
+    - "Write a completion promise for 'fix all TypeScript errors in the project' — is yours objective, specific, and terminal?"
+    - "Why is --max-iterations the primary safety net rather than the completion promise?"
+
 # Legacy compatibility
 prerequisites:
   - "Lessons 01-16: Complete Claude Code features (hooks, plugins, settings, subagents)"

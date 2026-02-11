@@ -59,6 +59,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; build skills that compose with MCP servers"
   remedial_for_struggling: "Start with Module 1 only; use provided sample skills as templates"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Skills Architecture and Hands-On Practice"
+  key_points:
+    - "The 6-step framework (Define, Draft, Test, Evaluate, Improve, Repeat) is the core iteration loop students will use for every skill they build going forward"
+    - "Module progression mirrors professional skill development: read (Module 1) then write (2) then add examples (3) then add references (4) then test (5) then compose (6) then apply (7-8)"
+    - "The self-assessment rubric with 6 criteria and 4 levels gives students an objective measure — score of 18+ means production-ready"
+    - "Exercise 1.3 (Skill vs Raw Prompt comparison) provides the measurable evidence that skills outperform ad-hoc prompting"
+  misconceptions:
+    - "Students try to complete all 27 exercises in one sitting — this is a 120-minute lesson designed for selective progression through modules, not exhaustive completion"
+    - "Students skip Module 1 (reading skills) and jump to Module 2 (writing skills) — reading fluency must come before writing, just like natural language"
+    - "Students think capstone projects are optional extras — they are the integration point where isolated skills become coherent systems"
+  discussion_prompts:
+    - "After completing Exercise 1.3 (skill vs raw prompt), how many rubric points did the skill version score higher — and what does that tell you about when skills are worth the investment?"
+    - "In Exercise 5.3 (user testing), what did your partner find confusing that seemed obvious to you — and what does this reveal about the gap between creator intent and user experience?"
+  teaching_tips:
+    - "Assign Module 1 as pre-work — students who arrive having analyzed the three sample skills can immediately start building in Module 2"
+    - "Use the self-assessment rubric as a class activity: have students score the same skill independently, then compare scores — disagreements reveal where rubric interpretation needs calibration"
+    - "For the capstones, let students self-select based on interest (Business, Education, Personal) — intrinsic motivation produces higher quality skills"
+    - "Exercise 6.1 (Skill Pipeline) is the conceptual bridge to Lesson 11 (Subagents) — highlight how chaining skills manually prepares them for automated orchestration"
+  assessment_quick_check:
+    - "List the 6 steps of the skill-building framework in order"
+    - "What score on the self-assessment rubric indicates a production-ready skill?"
+    - "Name one thing you can only learn from Module 5 (Testing) that you cannot learn from Modules 2-4 (Building)"
 ---
 
 # Agent Skills Exercises

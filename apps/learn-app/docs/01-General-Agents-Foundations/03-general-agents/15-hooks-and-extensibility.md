@@ -59,6 +59,33 @@ git_author: "Claude Code"
 workflow: "/sp.implement"
 version: "3.0.0"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 5
+  session_title: "Settings, Hooks, and Plugin Synthesis"
+  key_points:
+    - "Hooks guarantee behavior that CLAUDE.md only suggests — the shift from 'Claude might forget' to 'it always happens' is the core insight"
+    - "The five hook events (PreToolUse, PostToolUse, UserPromptSubmit, SessionStart, SessionEnd) each fire at a different lifecycle point — students must know WHEN, not just WHAT"
+    - "Exit code 2 blocks the action while exit code 0 allows it — this is the mechanism for building safety guardrails"
+    - "Hooks receive JSON via stdin and produce output via stdout — the stdin/stdout pattern is how all hook scripts communicate with Claude Code"
+  misconceptions:
+    - "Students confuse PreToolUse (fires before the tool runs, can block it) with PostToolUse (fires after, can only react) — leads to hooks that log instead of prevent"
+    - "Students think hooks replace CLAUDE.md instructions — hooks enforce mechanical rules while CLAUDE.md provides contextual guidance; they complement each other"
+    - "Students forget that hook scripts need executable permissions (chmod +x) — the most common reason a hook 'doesn't work'"
+  discussion_prompts:
+    - "What repetitive task do you currently rely on Claude to remember? How would encoding it as a hook change your confidence in the outcome?"
+    - "When would a PreToolUse hook that blocks an action be better than a CLAUDE.md rule that asks Claude not to do it?"
+    - "If you could add one hook to your daily workflow right now, which event would you choose and what would the hook do?"
+  teaching_tips:
+    - "Start with the 'Your First Hook' exercise (logging Bash commands) — it is the simplest end-to-end example and builds confidence before complex hooks"
+    - "Use the five-event table as a quick reference card; have students match real scenarios to events before showing configurations"
+    - "When demonstrating the UserPromptSubmit hook example, show the JSON input format first so students understand what data their script receives"
+    - "Pair this lesson with Exercise 2.1 from Lesson 19 immediately — the hands-on reinforcement is designed to follow this lesson directly"
+  assessment_quick_check:
+    - "Which hook event fires when Claude is about to run a Bash command, and what exit code would you use to block it?"
+    - "What does a hook script receive as input and how does it produce output?"
+    - "Name one task that a PostToolUse hook on Write|Edit could automate after every file change"
+
 # Legacy compatibility
 prerequisites:
   - "Lessons 01-14: Claude Code features, skills, subagents, settings"

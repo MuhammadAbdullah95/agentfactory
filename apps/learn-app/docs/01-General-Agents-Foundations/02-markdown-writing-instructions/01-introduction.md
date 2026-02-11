@@ -50,6 +50,31 @@ differentiation:
   extension_for_advanced: "Research markdown flavor differences (CommonMark vs GitHub Flavored Markdown vs MultiMarkdown); analyze why GitHub chose GFM for README rendering"
   remedial_for_struggling: "Focus on GitHub README examples as primary context; emphasize 'Why GitHub uses markdown' before abstract concepts"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Markdown as AI Communication"
+  key_points:
+    - "Structured vs unstructured text is THE foundational distinction — every lesson in this chapter builds on this comparison"
+    - "AIDD three-layer model (Intent → Reasoning → Implementation) positions markdown as the bridge between human ideas and AI-generated code"
+    - "Verification Framework (4 steps) is a meta-skill — students should apply it in every 'Try With AI' exercise across the entire chapter"
+  misconceptions:
+    - "Students think markdown is just formatting (making text pretty) — emphasize it's a specification language that communicates intent to AI agents"
+    - "Students assume AI always gives correct feedback — the Verification Framework section directly addresses this; spend real time on it"
+    - "Students conflate 'structured text' with 'code' — structured text is organized prose with headings and lists, not programming syntax"
+  discussion_prompts:
+    - "Think of a time you explained something and were misunderstood. What would have made it clearer? How does that relate to structured vs unstructured text?"
+    - "If you were an AI reading a paragraph vs a bulleted list of the same requirements, which would you parse more reliably? Why?"
+  teaching_tips:
+    - "Start with the opening 'messy email vs structured spec' example — ask students to spot ambiguities in the paragraph version before revealing the structured one"
+    - "Demo the AIDD layers live: write an unstructured request to an AI, show the result, then restructure it with markdown and show the improved output"
+    - "Spend extra time on the Verification Framework — this is the most transferable skill in the chapter and prevents blind trust in AI responses"
+    - "Preview the chapter arc: Lessons 2-5 build a single Task Tracker spec piece by piece, so students see the payoff of learning each element"
+  assessment_quick_check:
+    - "Ask students to name the three AIDD layers and what happens in each"
+    - "Give students an unstructured paragraph and ask them to identify three ambiguities an AI would struggle with"
+    - "Ask students to list two steps from the Verification Framework for checking AI feedback"
+
 # Generation metadata
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-11-markdown/spec.md"

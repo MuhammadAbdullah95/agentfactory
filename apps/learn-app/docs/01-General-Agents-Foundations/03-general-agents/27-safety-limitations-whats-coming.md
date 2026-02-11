@@ -56,6 +56,33 @@ git_author: "Claude Code"
 workflow: "manual"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 9
+  session_title: "External Integration and Responsible Use"
+  key_points:
+    - "Dedicated workspaces are the primary security boundary — granting access to the wrong folder is the highest-risk mistake a new user can make"
+    - "Prompt injection is content in files that manipulates Claude's behavior — students must understand this is a real attack vector, not theoretical"
+    - "Current limitations (no persistent memory, no projects, macOS-only) are temporary — Knowledge Bases and unified UI are on the roadmap"
+    - "The approval workflow is the safety net: read the plan, review file lists, check for red flags before clicking approve"
+  misconceptions:
+    - "Students assume Claude remembers previous Cowork sessions — each session starts completely fresh with no memory"
+    - "Students think prompt injection only applies to hackers — any file from an untrusted source (email attachment, downloaded template) can contain injection attempts"
+    - "Students believe current limitations mean Cowork is not production-ready — it is highly capable within its current scope, and limitations are being actively addressed"
+  discussion_prompts:
+    - "What files on your computer would you never want Claude to access, and how would you organize your workspace to prevent accidental exposure?"
+    - "If Cowork had persistent memory via Knowledge Bases today, how would that change the way you structure your work across sessions?"
+    - "Have you ever granted an app too many permissions and regretted it — what lesson does that teach about Cowork folder access?"
+  teaching_tips:
+    - "Use the prompt injection example ('Ignore all previous instructions...') as a live demonstration — show students how content in a file could manipulate behavior"
+    - "Have students create the project-context.md workaround from the 'No Project Support' section to experience the limitation and its mitigation firsthand"
+    - "Walk through the 'Red flags' checklist (deleting unmentioned files, modifying too many files, operations on unapproved folders) as a practical safety audit exercise"
+    - "Use the 'When to Wait vs Proceed' section to help students self-assess whether Cowork fits their current needs"
+  assessment_quick_check:
+    - "Name two safety practices from this lesson that you should follow before running a bulk file operation."
+    - "What is prompt injection, and why does it matter when processing files from external sources?"
+    - "Name one current Cowork limitation and its recommended workaround."
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lessons 19-23 in this chapter"

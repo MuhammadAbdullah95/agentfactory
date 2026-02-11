@@ -60,6 +60,33 @@ git_author: "Claude Code"
 workflow: "manual"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 11
+  session_title: "Business Models and Industry Landscape"
+  key_points:
+    - "Skills are intellectual property that can be sold repeatedly — this is fundamentally different from selling time as a consultant"
+    - "The Digital FTE model is the core value proposition: 24/7 availability, 90-95% cost savings per task, instant scaling"
+    - "Four revenue models exist (subscription, success fee, license, marketplace) — students should identify which fits their domain"
+    - "Students can start monetizing NOW with Skill licenses, done-for-you services, and consulting — they do not need Part 6 to begin"
+  misconceptions:
+    - "Students think they need to build a full production agent (Part 6) before they can make money — Skill licenses and consulting are available immediately"
+    - "Students confuse the Digital FTE cost comparison with replacing all employees — Digital FTEs handle specific repetitive tasks, not entire job roles"
+    - "Students assume the marketplace model is the easiest path — it requires volume and discoverability, while consulting and licensing offer faster first revenue"
+  discussion_prompts:
+    - "What expertise do you have that people currently pay consultants for, and how would you encode it into a SKILL.md that could be sold repeatedly?"
+    - "Looking at the four revenue models, which one matches your risk tolerance and current network — and why?"
+    - "The Digital FTE table shows 90-95% cost savings per task — what pushback would a skeptical buyer give, and how would you respond?"
+  teaching_tips:
+    - "Use the Digital FTE comparison table as a discussion anchor — have students calculate cost savings for a task from their own domain using the same format"
+    - "Walk through the 30-Day Roadmap week by week and ask students to name their specific opportunity, task, and first potential customer"
+    - "Distinguish the three 'you can sell today' models from the 'you need Part 6' capabilities — this prevents students from feeling they cannot act yet"
+    - "Reference the Agent Factory workflow diagram (Expertise -> Specification -> Claude Code -> Agent + Skills -> Revenue) and have students map their own domain into it"
+  assessment_quick_check:
+    - "Name the four revenue models for AI agents from this lesson."
+    - "What is a Digital FTE, and why is its cost-per-task lower than a human employee?"
+    - "What can you sell today after Chapter 3, and what requires Part 6?"
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lessons 01-26 in this chapter"

@@ -79,6 +79,34 @@ workflow: "direct implementation"
 version: "3.3.0"
 refinement_notes: "v3.3.0 - Domain-neutral tables for all new sections (problem solving, prompting, workspace, research). v3.2.0 - Complete February 2026 thread coverage. v3.1.0 - Unified skill architecture. v3.0.0 - Initial Claude Code team practices."
 
+teaching_guide:
+  lesson_type: "supplementary"
+  session_group: 6
+  session_title: "Autonomous Workflows, Creator Practices, and Exercises"
+  key_points:
+    - "Context window degradation is the unifying constraint behind ALL best practices — parallel sessions, /clear, subagents for investigation, and Plan Mode all manage this one resource"
+    - "The CLAUDE.md self-writing technique ('Update your CLAUDE.md so you don't make that mistake again') turns every correction into permanent institutional memory"
+    - "Claude-reviews-Claude uses a fresh session (Session B) to review the plan from Session A — the fresh context catches blind spots the cluttered writer session missed"
+    - "Boris's '15-20 sessions' is expert-level; students should start with 2-3 parallel sessions and scale up as they build the habit"
+  misconceptions:
+    - "Students think they need 15+ parallel sessions like Boris to be productive — the lesson explicitly says start with 2-3; the principle is parallelism, not volume"
+    - "Students confuse Plan Mode (aligning understanding before execution) with being cautious — Boris uses Plan Mode for EVERY non-trivial task, not just when unsure"
+    - "Students assume the self-writing CLAUDE.md technique only works for code projects — it applies equally to knowledge work, writing conventions, and domain-specific rules"
+    - "Students think 'use Opus 4.5 with thinking for everything' means faster models are always worse — the insight is about total task time including corrections, not per-response speed"
+  discussion_prompts:
+    - "Boris says 10-20% of his sessions are abandoned. How does that change your attitude toward starting fresh versus pushing through a confused session?"
+    - "What is one correction you have given Claude in the past week that could have been captured as a CLAUDE.md rule? Write the rule now."
+    - "Which practice from this lesson would have the highest impact on YOUR current workflow if you adopted it tomorrow?"
+  teaching_tips:
+    - "Open with the context window constraint table — it provides the 'why' for every technique and prevents students from seeing practices as disconnected tips"
+    - "Have students try the Claude-reviews-Claude pattern live in class: Session A writes a plan, Session B reviews it as a staff engineer, then compare the improvement"
+    - "The 'Mapping the Complete Workflow' table at the end is an excellent review tool — have students match each practice to the lesson where they learned the underlying concept"
+    - "Encourage students to create their first /session-review skill before leaving class — it takes 5 minutes and establishes the session hygiene habit immediately"
+  assessment_quick_check:
+    - "Name the single constraint that unifies all Claude Code best practices discussed in this lesson"
+    - "What is the exact phrase Boris recommends saying to Claude after every correction?"
+    - "In the Claude-reviews-Claude pattern, why does Session B catch things Session A missed?"
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Lessons 01-17: Complete Claude Code features"

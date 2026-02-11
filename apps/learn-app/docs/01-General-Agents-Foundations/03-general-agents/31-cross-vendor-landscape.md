@@ -58,6 +58,34 @@ git_author: "Claude Code"
 workflow: "manual"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 11
+  session_title: "Business Models and Industry Landscape"
+  key_points:
+    - "Every concept from Chapter 3 (CLAUDE.md, Skills, MCP, hooks, subagents, teams) has direct equivalents in Codex and Gemini CLI — the Concept Mapping Table is the proof"
+    - "The Agentic AI Foundation (AAIF) governs three donated projects (MCP, AGENTS.md, goose) plus the Agent Skills spec — this is why skills are portable"
+    - "The three philosophies (Claude: accuracy-first, Codex: async delegation, Gemini: open and accessible) are complementary, not competing — professionals use multiple tools"
+    - "SWE-bench scores require context: different variants (Verified vs Pro) produce different numbers, making naive comparisons misleading"
+  misconceptions:
+    - "Students think learning Claude Code locks them into one vendor — the Concept Mapping Table shows every major concept transfers across tools"
+    - "Students assume AAIF means all tools are identical — tools share standards (MCP, AGENTS.md, SKILL.md) but differ in execution model, pricing, and philosophy"
+    - "Students interpret SWE-bench scores as absolute rankings — different benchmark variants (Verified, Pro, Lite) test different difficulty levels, so scores are not directly comparable across variants"
+    - "Students believe 'poly-agentic' means picking the best single tool — it means using different tools for different strengths within the same workflow"
+  discussion_prompts:
+    - "Looking at the Concept Mapping Table, which row surprised you most — which concept did you think was Claude-specific but turns out to be an industry pattern?"
+    - "If you were advising a company choosing between Claude Code, Codex, and Gemini CLI, what three questions would you ask them before making a recommendation?"
+    - "Reflecting on the full Chapter 3 journey — from your first Claude Code session to cross-vendor fluency — which single concept do you think will matter most in your career five years from now?"
+  teaching_tips:
+    - "Project the Concept Mapping Table and walk through it row by row — for each row, connect back to the specific Chapter 3 lesson where students first learned that concept"
+    - "Use the Three Philosophies table as a group exercise: assign each group a philosophy and have them argue why their tool is best for a given scenario"
+    - "For the SWE-bench section, show how the same model can score differently on Verified vs Pro to teach critical benchmark literacy"
+    - "As this is the chapter closer, explicitly tie the full arc together: Lesson 1 (what are agents) through Lesson 31 (your skills transfer everywhere) — the chapter thesis is that agent-building patterns are universal, not vendor-specific"
+  assessment_quick_check:
+    - "Name the three founding projects of the Agentic AI Foundation and what each standardizes."
+    - "What is the SKILL.md directory path in Claude Code vs Codex vs Gemini CLI?"
+    - "Why can you not directly compare a SWE-bench Verified score with a SWE-bench Pro score?"
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lessons 01-29 in this chapter"

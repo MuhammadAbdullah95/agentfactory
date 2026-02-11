@@ -56,6 +56,33 @@ git_author: "Claude Code"
 workflow: "manual"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 10
+  session_title: "Practical Skills and the Code-vs-Cowork Decision"
+  key_points:
+    - "The simple rule — 'Code for code, Cowork for documents' — covers 80% of decisions; the framework handles the remaining 20%"
+    - "Skills are portable across both interfaces because they encode expertise, not interface-specific behavior"
+    - "Hybrid workflows (Development + Documentation, Analysis + Presentation) are where professionals get the most value"
+    - "Code and Cowork will converge into a unified interface — invest in patterns (agentic reasoning, Skill design) not interface-specific habits"
+  misconceptions:
+    - "Students think they must choose one interface exclusively — most real workflows benefit from using both at different stages"
+    - "Students assume Code is harder and Cowork is easier — they serve different purposes, and neither is inherently more difficult"
+    - "Students believe Skills created in one interface only work there — Skills work across both Code and Cowork because they encode expertise, not interface specifics"
+  discussion_prompts:
+    - "Walk through a recent project you completed — at which stages would Claude Code have been better, and at which stages would Cowork have been better?"
+    - "If Code and Cowork merge into one unified interface next year, which skills you learned in this chapter will still matter and which become irrelevant?"
+    - "For someone in your role, what is the one hybrid workflow pattern (from the three listed in the lesson) that would save you the most time?"
+  teaching_tips:
+    - "Use the Decision Tree at the end of the lesson as an interactive exercise — read scenarios aloud and have students trace through the tree to reach a decision"
+    - "Have students fill in the Interface Capability Comparison table from memory before revealing it — this surfaces misconceptions about what each interface can do"
+    - "Walk through all three Detailed Scenarios (web app, business report, data science) and ask students which most resembles their work"
+    - "Emphasize the 'Convergence Path' section to reduce anxiety about choosing wrong — the underlying mental models transfer regardless"
+  assessment_quick_check:
+    - "State the simple rule for choosing between Code and Cowork in one sentence."
+    - "Name one scenario where using both interfaces together is better than using either alone."
+    - "Why do Skills work across both interfaces?"
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lessons 01-25 in this chapter"

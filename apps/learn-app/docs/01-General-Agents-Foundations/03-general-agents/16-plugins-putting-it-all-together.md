@@ -73,6 +73,33 @@ git_author: "Claude Code"
 workflow: "/sp.implement"
 version: "3.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 5
+  session_title: "Settings, Hooks, and Plugin Synthesis"
+  key_points:
+    - "A plugin bundles skills, commands, agents, hooks, and MCP servers into one installable package — students must understand it is a packaging format, not a new concept"
+    - "The official Anthropic marketplace is pre-configured; students can browse with /plugin immediately without any setup"
+    - "Installation scope matters: User scope follows you everywhere, Project scope shares with team, Local scope is just you on this repo"
+    - "Students create their own plugin by adding a .claude-plugin/plugin.json manifest (4 required fields) and a marketplace.json for distribution"
+  misconceptions:
+    - "Students think plugins are a separate system from skills and hooks — actually plugins just bundle the same components they already know into distributable packages"
+    - "Students confuse plugin (a folder with capabilities) with marketplace (a catalog listing multiple plugins) — the app vs app-store distinction"
+    - "Students assume creating a plugin requires coding — the minimum plugin.json has only 4 fields: name, description, version, author"
+    - "Students expect all marketplace plugins to work out of the box — LSP plugins require language server binaries installed on the system"
+  discussion_prompts:
+    - "You have skills, hooks, and an MCP config that work well together in your project. What would change if you packaged them as a plugin versus keeping them as loose files?"
+    - "When should you install an existing plugin versus building a custom skill? What is your decision threshold?"
+  teaching_tips:
+    - "Have students run /plugin before any explanation — seeing the marketplace UI first makes the concept concrete before the theory"
+    - "Use the commit-commands install exercise as the demonstration: it takes under 2 minutes and shows the full install-use cycle"
+    - "Walk through the plugin directory structure diagram carefully — students need to know that components go at root level, not inside .claude-plugin/"
+    - "Connect the three installation scopes back to Lesson 14's settings hierarchy — same user/project/local pattern, reinforcing the mental model"
+  assessment_quick_check:
+    - "What are the 4 required fields in a plugin.json manifest?"
+    - "What is the difference between User scope and Project scope when installing a plugin?"
+    - "If an LSP plugin says 'Executable not found' after installation, what is the most likely cause?"
+
 # Legacy compatibility
 prerequisites:
   - "Lessons 01-15: Claude Code features including skills, subagents, hooks, settings"

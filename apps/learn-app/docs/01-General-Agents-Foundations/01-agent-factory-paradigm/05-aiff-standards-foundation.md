@@ -53,6 +53,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Read AAIF governance documents; study MCP specification at modelcontextprotocol.io; compare MCP Apps Extension to OpenAI Apps SDK; clone goose repository to analyze production patterns"
   remedial_for_struggling: "Focus on USB analogy; understand MCP (connectivity) deeply before adding AGENTS.md (adaptability) and Skills (expertise); use physical metaphors (hands vs training)"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Agent Capabilities and Standards"
+  key_points:
+    - "AAIF is the governance body (like USB Implementers Forum), NOT a technology — students must distinguish the organization from the five standards it governs"
+    - "MCP solves the M×N integration problem — without MCP, 3 AI platforms × 5 tools = 15 custom integrations; with MCP, each tool writes one server"
+    - "The three MCP primitives (Resources=eyes, Tools=hands, Prompts=playbooks) are the building blocks students will use when building Digital FTEs in Parts 5-7"
+    - "Progressive disclosure in Skills (L1: metadata → L2: full instructions → L3: scripts) reduces token usage by 80-98% — this connects directly to Lesson 2's context window constraint"
+  misconceptions:
+    - "Students confuse AAIF (the foundation/governance body) with MCP (the protocol) — AAIF governs MCP, AGENTS.md, goose, Skills, and MCP Apps as separate standards"
+    - "Students think AGENTS.md is the same as README.md — README answers 'What is this project?' while AGENTS.md answers 'How should I behave in this project?'"
+    - "Students think goose competes with Claude Code — both are General Agents, but goose is open source so you can study its architecture to build your own Custom Agents"
+    - "Students mix up MCP Tools and Skills — MCP Tools are actions (send email), Skills are expertise (how to handle payment scenarios)"
+  discussion_prompts:
+    - "Why did competitors like OpenAI, Anthropic, and Block agree to share their technologies under one foundation — what do they each gain?"
+    - "If you were building a Digital SDR that needed to work across multiple client CRMs, which AAIF standards would matter most and why?"
+  teaching_tips:
+    - "Open with the 'Does it work with ChatGPT?' sales scenario — this immediately makes portability feel like a real business problem, not abstract standards talk"
+    - "The USB analogy is the anchor for this entire lesson — draw the parallel: proprietary chargers (pre-USB) = custom AI integrations (pre-MCP)"
+    - "Walk through the MCP Architecture diagram (Host→Client→Server) carefully — students will implement this pattern in Part 6, so invest time here"
+    - "The AGENTS.md hierarchy rule (nearest file wins) is practical knowledge — show a monorepo example where frontend and backend have different conventions"
+  assessment_quick_check:
+    - "Ask students to match each standard to its purpose: MCP=connectivity, AGENTS.md=adaptability, Skills=expertise, goose=architecture"
+    - "Ask: 'What is the difference between an MCP Resource and an MCP Tool?' — Resources are read-only (eyes), Tools change state (hands)"
+    - "Have students explain progressive disclosure in Skills and why it matters for context windows"
 ---
 
 # AIFF Standards - The Foundation

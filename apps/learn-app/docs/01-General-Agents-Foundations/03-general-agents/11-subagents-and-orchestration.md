@@ -50,6 +50,33 @@ differentiation:
   extension_for_advanced: "Design multi-subagent workflows with orchestration patterns; create domain-specific subagent suites"
   remedial_for_struggling: "Focus on using Explore and Plan before creating custom subagents"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "Subagents, MCP, and Compilation"
+  key_points:
+    - "Subagents have isolated context windows — this is the key architectural concept, not just a convenience feature, and it directly prevents the context pollution problem"
+    - "The /agents command reveals built-in agents students already have — no setup required, which removes the barrier to first use"
+    - "Parallel invocation (using Explore AND Plan in one prompt) is the first exposure to orchestration, which scales to agent teams in Chapter 4 Lesson 9"
+    - "Custom subagents live as markdown files in .claude/agents/ — same simplicity principle as skills (SKILL.md), reinforcing that AI customization is just structured text"
+  misconceptions:
+    - "Students think subagents are persistent like chatbots — emphasize the one-task-one-completion model where subagents return results and terminate"
+    - "Students confuse subagents with skills — subagents have isolated context and run independently, while skills share the main conversation context"
+    - "Students assume they must explicitly invoke subagents every time — Claude Code auto-delegates based on task complexity and agent descriptions"
+    - "Students think creating custom subagents requires programming — the /agents menu with 'Generate with Claude' creates agents from plain English descriptions"
+  discussion_prompts:
+    - "The lesson compares subagents to a team meeting where the researcher presents and leaves — what tasks in your work would benefit from this 'present and leave' pattern?"
+    - "When would you choose a skill (shared context, automatic activation) over a subagent (isolated context, explicit invocation) for the same task?"
+  teaching_tips:
+    - "Start with the live /agents demo — students seeing their built-in agents listed creates immediate 'I already have this' excitement"
+    - "Run the Explore subagent live on the classroom project folder — the real-time file scanning is visually compelling and makes the concept concrete"
+    - "Use the 'without subagents vs with subagents' comparison (research cluttering context vs clean handoff) as a whiteboard diagram before the hands-on section"
+    - "Have students create a custom subagent during class using /agents > Create new agent > Generate with Claude — the 5-step process takes under 2 minutes"
+  assessment_quick_check:
+    - "What happens to a subagent's context after it completes its task?"
+    - "Name two built-in agents and describe when each would auto-activate"
+    - "What is the file path where project-level custom subagents are stored?"
+
 # Generation metadata
 generated_by: "content-implementer v1.0.0 (029-chapter-5-refinement)"
 source_spec: "specs/029-chapter-5-refinement/spec.md"

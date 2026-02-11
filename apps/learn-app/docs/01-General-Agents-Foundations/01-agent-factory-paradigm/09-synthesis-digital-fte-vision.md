@@ -56,6 +56,30 @@ differentiation:
   extension_for_advanced: "Research how organizations are structuring AI agent teams; explore hybrid human-AI workflows at enterprise scale"
   remedial_for_struggling: "Focus on the amplification concept; understand why clear specifications lead to better AI output before exploring Digital FTE orchestration"
 
+teaching_guide:
+  lesson_type: "supplementary"
+  session_group: 4
+  session_title: "SDD, Synthesis, and Enterprise Sales"
+  key_points:
+    - "The Tools→Teammates→Digital FTEs progression is the chapter's thesis in three words — a tool waits for prompts, a teammate reasons, a Digital FTE owns an entire function 24/7"
+    - "AI amplifies your habits — this is the most actionable insight: clear specs + AI = excellent fast results; vague ideas + AI = terrible fast results"
+    - "The component table (Brain=Model, Hands=MCP, Training=Skills, Shift=Autonomous Loop) shows exactly what transforms a General Agent into a Digital FTE"
+  misconceptions:
+    - "Students think 'Digital FTE' means an AI that replaces a human 1:1 — a Digital FTE owns a function (like tier-1 support), not a person's entire job"
+    - "Students hear 'discipline matters more with AI' and think it means AI is unreliable — it means AI is a powerful amplifier that magnifies whatever approach you bring"
+    - "Students think Vibe Coding is always wrong — it has legitimate uses for learning and prototyping, the problem is using it for production"
+  discussion_prompts:
+    - "If AI amplifies both good and bad habits, what ONE habit change would have the biggest positive impact on your AI collaboration?"
+    - "What repetitive function in your organization could become a Digital FTE — and what's the first thing you'd need to specify?"
+  teaching_tips:
+    - "This is a short synthesis lesson — spend less time lecturing and more time connecting concepts from previous lessons"
+    - "The amplification table (Clear specs → Excellent fast vs Vague requirements → Terrible fast) is the single most memorable visual — project it and let students react"
+    - "Use the 'How Everything Connects' table as a chapter recap — walk through each row and ask students to explain the connection"
+    - "End by presenting the choice (Path A: Vibe Coding vs Path B: SDD) — this sets the stakes for the rest of the book"
+  assessment_quick_check:
+    - "Ask students to explain the difference between an AI tool and a Digital FTE in one sentence"
+    - "Ask: 'Does AI make discipline more or less important, and why?' — the correct answer is 'more important because AI amplifies whatever approach you bring'"
+
 # Generation metadata
 generated_by: "content-implementer v2.0.0"
 source_spec: "Part 1 Consolidation"

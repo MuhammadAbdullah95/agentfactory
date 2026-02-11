@@ -80,6 +80,32 @@ version: "2.0.0"
 prerequisites:
   - "Lesson 11: Subagents and Orchestration (context isolation, delegation model)"
   - "Lesson 15: Hooks and Extensibility (event-driven automation)"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 7
+  session_title: "Agent Teams and Collaborative AI Workflows"
+  key_points:
+    - "Agent teams differ from subagents because teammates can message each other directly, not just report back to a lead"
+    - "The decision rule is simple: if agents need to talk to each other, use teams; if they just report back, use subagents"
+    - "Delegate mode (Shift+Tab) prevents the lead from doing analysis directly, forcing proper task delegation"
+    - "TeammateIdle and TaskCompleted hooks provide quality gates specific to multi-agent coordination"
+  misconceptions:
+    - "Students think agent teams are just 'better subagents' -- they are architecturally different (independent context windows, peer-to-peer messaging, shared task lists)"
+    - "Students assume more agents always means better results -- the cost consideration section shows 3-5x cost increase, so teams should only be used when cross-agent discussion adds value"
+    - "Students conflate delegate mode with plan approval -- delegate mode restricts the lead from doing work, plan approval requires teammates to submit their approach before executing"
+  discussion_prompts:
+    - "Think of a recent complex project at work. Which parts could run in parallel with different specialists, and where would those specialists need to challenge each other's assumptions?"
+    - "The competing hypotheses pattern prevents anchoring bias. When have you seen a team commit too early to the first plausible explanation?"
+  teaching_tips:
+    - "Use the subagents vs agent teams table (6 scenarios) as a quick-fire exercise: read each row aloud and have students call out 'subagent' or 'team' before revealing the answer"
+    - "Walk through the 'Peek Under the Hood' section live -- showing the config.json and task JSON files demystifies what the system actually creates behind the scenes"
+    - "The five 'When Teams Go Wrong' failure modes make excellent small-group debugging scenarios: assign one failure mode per group and have them roleplay the fix"
+    - "Start with the two-perspective team from 'Try With AI' before attempting three-agent teams -- it reduces cognitive overload while teaching the core coordination pattern"
+  assessment_quick_check:
+    - "Name two scenarios from the decision table where subagents are better than teams, and explain why"
+    - "What does exit code 2 mean in a TeammateIdle hook script, and how does it differ from exit code 0?"
+    - "Why does the competing hypotheses pattern use 4 separate investigators instead of asking one agent to consider all 4 theories?"
 ---
 
 # Agent Teams: Coordinating Multiple Claude Sessions

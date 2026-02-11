@@ -64,6 +64,32 @@ version: "1.0.0"
 prerequisites:
   - "Completion of Lesson 23: Getting Started with Cowork"
   - "Working Claude Cowork installation with folder access granted"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 8
+  session_title: "Cowork Desktop Environment and Browser Integration"
+  key_points:
+    - "The four workflow patterns (explore first, propose then execute, handle variation, report results) appear across every example and form a universal framework for Cowork task design"
+    - "The efficiency measurement table shows concrete time savings (24x to 144x) but the deeper insight is that Cowork makes previously infeasible tasks possible"
+    - "Workflow design follows a four-step process: identify repetitive tasks, clarify desired outcome, provide context and constraints, review and refine"
+    - "The common pitfalls section directly addresses the most frequent student mistakes: vague instructions, skipping approval review, no backup, and overly complex initial requests"
+  misconceptions:
+    - "Students assume the efficiency numbers (24x, 48x, 144x) are guaranteed -- these are illustrative examples, and actual results depend on task complexity and file volume"
+    - "Students try to replicate Workflow 2 (video conversion) without having FFmpeg installed -- Cowork delegates to system tools, so prerequisites matter"
+    - "Students jump to complex multi-step workflows before mastering single-step operations -- the pitfalls section warns to start simple and build complexity gradually"
+  discussion_prompts:
+    - "The efficiency table shows 'Downloads organization' went from '2 hours (never)' to '5 minutes'. What tasks in your work are in the 'never gets done' category that automation could unlock?"
+    - "Compare the four workflow patterns to how you would brief a new assistant on a task. Which pattern do you already follow naturally, and which would you need to adopt?"
+  teaching_tips:
+    - "Run Workflow 1 (Downloads folder) as a live class demo -- every student can relate to a messy Downloads folder, and it demonstrates all four workflow patterns in one task"
+    - "Have students fill in their own version of the efficiency measurement table with three tasks from their work before and after Cowork -- this makes the value proposition personal"
+    - "Use the 'common pitfalls' section as a before-and-after exercise: show a vague prompt and have students rewrite it to be specific, then compare with the lesson's examples"
+    - "The report generation workflow (Workflow 3) is ideal for business-focused students -- walk through how the prompt specifies exact output structure including 'executive summary, top 10 table, notable changes, charts'"
+  assessment_quick_check:
+    - "Name the four workflow patterns from the 'Workflow Patterns' section and give a one-sentence example of each"
+    - "What is the four-step process for designing your own Cowork workflow, and which step do students most often skip?"
+    - "Why does the lesson recommend starting with simpler workflows before attempting complex multi-step operations?"
 ---
 
 # Cowork in Action: Practical Workflows

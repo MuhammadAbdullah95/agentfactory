@@ -67,6 +67,34 @@ version: "2.1.0"
 prerequisites:
   - "Terminal access (Windows/macOS/Linux)"
   - "Claude account (Claude.ai or Console API)"
+
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Getting Started with Claude Code"
+  key_points:
+    - "Four installation methods exist but native install (curl/bash) is now recommended over npm — students should not default to npm"
+    - "Claude.ai subscription auth vs Console API auth have different billing models — this choice affects cost management for the rest of the course"
+    - "The two-path structure (Lesson 2 paid vs Lesson 3 free) means students can be split — ensure both groups converge at Lesson 4"
+    - "Security section (file access, command execution, sandbox mode) sets safety habits that prevent costly mistakes in later lessons"
+  misconceptions:
+    - "Students think they need Node.js for all installation methods — native install requires no dependencies on macOS/Linux"
+    - "Students confuse Claude.ai subscription auth with Console API auth and try to paste API keys into the browser flow"
+    - "Students assume 'claude doctor' is only for broken installs — it is useful for verifying a working setup too"
+  discussion_prompts:
+    - "Why do you think Anthropic offers both subscription-based and pay-per-use authentication? Which model fits your usage pattern?"
+    - "What security risks come with giving an AI tool file system access, and how does the approval workflow mitigate them?"
+    - "If you had to install Claude Code on a locked-down corporate machine, which method would you try first and why?"
+  teaching_tips:
+    - "Do a live install demo — the decision trees in the lesson map directly to real student confusion about which method to pick"
+    - "Have students run 'claude doctor' immediately after install — it catches 90% of configuration issues before they snowball"
+    - "Walk through the Console API key creation flow on-screen — students consistently skip the 'set usage limits' step and get surprised by bills"
+    - "Pair Lesson 2 students with Lesson 3 students at Lesson 4 to compare experiences — this reinforces the backend abstraction concept"
+  assessment_quick_check:
+    - "Ask each student to run 'claude --version' and share their output"
+    - "Have students explain the difference between Claude.ai auth and Console API auth in one sentence"
+    - "Ask: What is the first thing you should check if claude command is not found after installation?"
 ---
 
 # Installing and Authenticating Claude Code

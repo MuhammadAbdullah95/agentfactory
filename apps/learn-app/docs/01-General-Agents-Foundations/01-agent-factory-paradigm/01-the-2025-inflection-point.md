@@ -53,6 +53,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Research additional agent frameworks (LangChain, AutoGen, CrewAI) and map them to the Two Paths; analyze why some companies skip Custom Agents and stay General-only"
   remedial_for_struggling: "Focus on one concrete example: using Claude Code (General) to prototype a customer support bot, then building it with OpenAI SDK (Custom) for production"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "The AI Development Landscape"
+  key_points:
+    - "Agent Maturity Model (Incubator→Specialist) is the central framework of this book — it recurs in every part from Chapter 3 through Part 7"
+    - "Convergent evidence pattern (academia + surveys + startups + acquisitions) teaches students how to evaluate tech claims — a skill used repeatedly in later lessons"
+    - "General Agents BUILD Custom Agents — this is not a choice between two alternatives but an evolutionary progression, and misunderstanding this leads to premature specialization"
+    - "The $3 trillion developer economy stat anchors the 'why this matters' — connect it to students' own careers"
+  misconceptions:
+    - "Students confuse General Agents with 'inferior' agents — emphasize that General Agents are incubators, not lesser versions of Custom Agents"
+    - "Students think 'Custom Agent' means 'customized ChatGPT' — Custom Agents are SDK-built production systems with guardrails, not prompt-tuned chatbots"
+    - "Students assume they must choose General OR Custom — the entire paradigm is sequential: incubate first, then specialize"
+  discussion_prompts:
+    - "What would happen if a company tried to build a Custom Agent without any incubation phase — what requirements would they miss?"
+    - "Can you think of a task in your current work that's stuck in 'perpetual incubation' — where you keep prototyping but never ship to production?"
+    - "The lesson mentions 'software disrupts software' — why does self-disruption move faster than external disruption?"
+  teaching_tips:
+    - "Start with the ICPC competition story — a perfect score by AI surpassing 139 human teams is viscerally compelling and immediately establishes that this is real, not hype"
+    - "The Agent Factory diagram (Incubator→Specialist with feedback loop) is a whiteboard-worthy visual — draw it and reference it throughout the chapter"
+    - "Use the 'Recognizing Your Current Stage' diagnostic questions as an interactive exercise — have students classify 3-4 real projects"
+    - "Spend extra time on the Evolution in Action section (Phase 1-5) — this concrete customer support walkthrough makes the abstract model tangible"
+  assessment_quick_check:
+    - "Ask students to explain the difference between a General Agent and a Custom Agent in one sentence each"
+    - "Have students name three independent sources of evidence for the 2025 inflection point (not vendor claims)"
+    - "Ask: 'What is premature specialization and why is it dangerous?' — tests understanding of the anti-pattern"
 ---
 
 # The 2025 Inflection Point and The Agent Maturity Model

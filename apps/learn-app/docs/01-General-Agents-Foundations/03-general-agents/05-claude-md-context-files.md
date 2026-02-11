@@ -66,6 +66,35 @@ version: "2.1.0"
 # Legacy compatibility
 prerequisites:
   - "Lessons 01-03: Claude Code installed and authenticated"
+
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "First Conversations and Context Files"
+  key_points:
+    - "LLMs are stateless — Claude Code re-sends the entire conversation history each call, and CLAUDE.md is the persistent layer on top of this"
+    - "The Three Roles Framework (AI teaches you, you teach AI, convergence) is demonstrated live through the CLAUDE.md creation process"
+    - "AGENTS.md is the universal standard (donated to Linux Foundation Dec 2025) while CLAUDE.md is Claude-specific — students should create both"
+    - "The 6 standard sections (overview, stack, structure, conventions, commands, notes) form a template students will reuse in every future project"
+  misconceptions:
+    - "Students think CLAUDE.md gives Claude permanent memory — it does not; Claude re-reads the file fresh each session, which is why the file must be self-contained"
+    - "Students confuse CLAUDE.md with a README — CLAUDE.md is instructions FOR the AI, not documentation for humans"
+    - "Students think they need to write CLAUDE.md manually from scratch — the lesson explicitly teaches asking Claude to generate it from the codebase first"
+    - "Students assume AGENTS.md replaces CLAUDE.md — they complement each other with different scopes"
+  discussion_prompts:
+    - "If Claude re-reads CLAUDE.md every session, what happens when your project evolves but CLAUDE.md stays stale?"
+    - "What information would you put in CLAUDE.md that you would never put in a README, and vice versa?"
+    - "How does the Three Roles pattern (AI teaches you, you teach AI, convergence) change how you think about AI collaboration?"
+  teaching_tips:
+    - "Have students create a minimal 2-section CLAUDE.md first, then ask Claude to review it — the AI's suggestions teach them what they missed"
+    - "Demo the 'stateless LLM' concept by exiting Claude, restarting, and asking a project question WITHOUT CLAUDE.md — then add it and show the difference"
+    - "The comparison table (AGENTS.md vs CLAUDE.md content) is worth projecting — students consistently put Claude-specific config in the wrong file"
+    - "After the lesson, have students swap projects and read each other's CLAUDE.md files — peer review catches vague or missing sections fast"
+  assessment_quick_check:
+    - "Ask students: Why does Claude not remember your conversation from yesterday, and how does CLAUDE.md solve this?"
+    - "Have students name all 6 standard sections of CLAUDE.md without looking"
+    - "Ask: What goes in AGENTS.md but NOT in CLAUDE.md, and why?"
 ---
 
 # CLAUDE.md Context Files

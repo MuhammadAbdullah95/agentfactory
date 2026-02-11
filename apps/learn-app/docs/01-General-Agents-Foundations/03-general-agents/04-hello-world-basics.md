@@ -59,6 +59,34 @@ version: "2.0.0"
 # Legacy compatibility
 prerequisites:
   - "Lesson 02 or 03: Claude Code installed and authenticated"
+
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 2
+  session_title: "First Conversations and Context Files"
+  key_points:
+    - "This is the 'aha moment' lesson — students go from reading about Claude Code to actually using it for the first time"
+    - "The approval pattern (Enter to accept, Esc to reject) is introduced here and governs all future interactions"
+    - "The Five Extension Tools preview table maps every future lesson — students should bookmark it as their roadmap"
+    - "Natural language is the interface — students do not need to learn command syntax, just describe what they want"
+  misconceptions:
+    - "Students think they need special syntax or commands to talk to Claude — the whole point is natural language conversation"
+    - "Students confuse 'approval workflow' with 'Claude being unsure' — Claude asks permission because of the security model, not uncertainty"
+    - "Students think the Five Extension Tools table means they need to learn all five tools now — it is a preview, not a prerequisite"
+  discussion_prompts:
+    - "How does the approval pattern change your trust relationship with AI compared to tools that just execute without asking?"
+    - "What was surprising about your first conversation with Claude Code compared to using ChatGPT or other AI tools?"
+    - "Looking at the Five Extension Tools table, which tool do you think will be most useful for YOUR work and why?"
+  teaching_tips:
+    - "Have every student type 'claude' and get a response before moving on — do not proceed until 100% have a working session"
+    - "The 'Where am I?' prompt is deliberately simple — use it to surface any remaining installation issues from Lessons 2-3"
+    - "When demoing the AI news search example, reject the first proposal with Esc to show students that steering is safe and expected"
+    - "Point at the Five Extension Tools table and say 'this is your chapter roadmap' — it reduces anxiety about upcoming complexity"
+  assessment_quick_check:
+    - "Ask students to describe what happened when they typed their first prompt — did Claude ask for approval before acting?"
+    - "Have students press Esc on a proposed action and describe what happened next"
+    - "Ask: What is the difference between Claude reading a file and Claude creating a file in terms of the approval workflow?"
 ---
 
 # Hello Claude: Your First Conversation

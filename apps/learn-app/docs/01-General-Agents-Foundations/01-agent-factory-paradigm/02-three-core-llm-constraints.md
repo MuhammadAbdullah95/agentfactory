@@ -60,6 +60,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Explore how RAG (Retrieval Augmented Generation) and vector databases address context limitations; research how different temperature settings affect code generation quality"
   remedial_for_struggling: "Focus on the three constraints as simple rules: 'It forgets everything' (stateless), 'It varies' (probabilistic), 'It can only see so much' (context limits)"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "The AI Development Landscape"
+  key_points:
+    - "These three constraints explain WHY every methodology in the book exists — AGENTS.md counters statelessness, SDD counters probabilistic outputs, context engineering counters limited context"
+    - "The 'brilliant expert with amnesia' mental model replaces the 'knowledgeable colleague' misconception — this reframe is foundational for everything students do with AI"
+    - "Constraints compound each other: stateless + limited context means you must re-inject context efficiently every session, which is why AGENTS.md files are concise"
+    - "Temperature parameter is the only adjustable control students learn here — understanding it prevents frustration with variable outputs"
+  misconceptions:
+    - "Students believe the AI 'remembers' them between sessions — the conversation history re-send mechanism must be explicitly demonstrated, not just described"
+    - "Students think 'probabilistic' means 'unreliable' — emphasize that variability is also a strength (creative solutions, exploring solution space)"
+    - "Students assume larger context windows solve all problems — the 'lost in the middle' effect and cost/latency tradeoffs must be highlighted"
+    - "Students confuse hallucination with lying — hallucination is the probabilistic nature producing confident-sounding outputs from statistical patterns, not deception"
+  discussion_prompts:
+    - "If AI forgets everything between sessions, why do so many people feel like it 'knows' them — what's creating that illusion?"
+    - "When would you actually WANT variable outputs from the same prompt, rather than identical results every time?"
+  teaching_tips:
+    - "The Message 1-2-3 conversation replay diagram is the most important visual in this lesson — walk through it step by step to show how the full history is re-sent each time"
+    - "Do a live demo: ask the AI the same question twice and show students the different outputs — this visceral experience is more convincing than explanation"
+    - "The Methodological Response table (constraint → need → solution) is a summary worth projecting — it connects this lesson to the rest of the book"
+    - "End by contrasting the 'Old Mental Model' vs 'New Mental Model' — students should leave with the 'brilliant expert with amnesia' phrase as a takeaway"
+  assessment_quick_check:
+    - "Ask students to explain why AGENTS.md exists using the word 'stateless'"
+    - "Have students describe what happens when you send Message 3 in a chat — do they know the full conversation history is re-sent?"
+    - "Ask: 'Why is validation mandatory rather than optional when working with AI?' — connects probabilistic outputs to workflow"
 ---
 
 # The Three Core Operational Constraints of LLMs

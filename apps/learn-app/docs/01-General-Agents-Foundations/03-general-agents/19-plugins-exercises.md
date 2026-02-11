@@ -60,6 +60,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; Exercise 5.2 (Advanced) bundles hooks, MCP, and agents into a single plugin"
   remedial_for_struggling: "Start with Module 1 and 2 only; use the starter configs provided"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 6
+  session_title: "Autonomous Workflows, Creator Practices, and Exercises"
+  key_points:
+    - "Exercises are designed to start immediately after each corresponding lesson (Module 1 after L14, Module 2 after L15) — not saved for the end"
+    - "Each module pairs a hands-on exercise with a debug exercise — building AND diagnosing are both essential skills"
+    - "The Extensibility Workflow (Identify, Check, Configure, Test, Package, Share) mirrors a real plugin ecosystem lifecycle"
+    - "Capstones require combining settings, hooks, plugins, and automation with no guided prompts — this is the assessment of integrated understanding"
+  misconceptions:
+    - "Students think they should complete all 15 exercises in one sitting — the lesson explicitly maps each module to a specific prior lesson for spaced practice"
+    - "Students skip the debug exercises (1.2, 2.2, 3.2, 7.2) because they seem less exciting — debugging skills are equally weighted in the assessment rubric"
+    - "Students use the starter prompts verbatim instead of building toward the 'Better Prompt' — the progression from starter to better prompt IS the learning"
+    - "Students attempt Capstone C without first auditing their actual setup — the self-assessment step reveals which extensibility features they have been ignoring"
+  discussion_prompts:
+    - "After completing Module 1, which settings scope did you find most confusing in practice? Was it the same one you predicted would be confusing?"
+    - "In Exercise 7.2, the loop got stuck cycling through the same 3 errors. What does that tell you about the relationship between task design and autonomous iteration?"
+  teaching_tips:
+    - "Assign Module 1 exercises immediately after teaching Lesson 14 — do not wait until all extensibility lessons are complete"
+    - "Use Exercise 1.2 (trace the precedence bug) as a live debugging demonstration: show the three settings files and have the class trace the override before revealing the answer"
+    - "For Exercise 7.2 (stuck loop debug), have students identify the iteration where progress stopped before analyzing why — pattern recognition of 'stuck' vs 'progressing' is the key skill"
+    - "Capstone C (Your Workflow) is the highest-value exercise because changes apply to students' real setups — allocate extra time for this one"
+  assessment_quick_check:
+    - "Which module should you complete immediately after finishing Lesson 15 (Hooks)?"
+    - "In the assessment rubric, what score indicates you can create distributable marketplace plugins?"
+    - "Name the six steps in the Extensibility Workflow that mirrors the real plugin ecosystem lifecycle"
 ---
 
 # Plugins & Extensibility Exercises: Settings, Hooks, Plugins, and Automation

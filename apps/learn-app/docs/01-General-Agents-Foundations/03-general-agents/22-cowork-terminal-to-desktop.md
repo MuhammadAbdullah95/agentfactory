@@ -60,6 +60,32 @@ version: "1.0.0"
 prerequisites:
   - "Completion of Lessons 01-18 in this chapter"
   - "Understanding of agentic AI concepts from Lesson 01"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 8
+  session_title: "Cowork Desktop Environment and Browser Integration"
+  key_points:
+    - "Cowork is an agent, not a chatbot -- it reads files directly, navigates filesystems, and executes actions, unlike web chat where you copy-paste context"
+    - "Code and Cowork share the Claude Agent SDK foundation, so Skills transfer between both platforms"
+    - "The Code vs Cowork comparison table is the central reference: interface, primary users, best-for, file access, built-in skills, and prerequisites differ"
+    - "Cowork fills the gap between office macros (require programming) and no-code tools (limited to predefined workflows) for knowledge workers"
+  misconceptions:
+    - "Students think Cowork is 'Claude Code for non-developers' -- it is a different interface optimized for document-centric work, not a simplified version of Code"
+    - "Students assume Cowork replaces Claude Code -- the lesson explicitly states 'use both when' scenarios, and the convergence path section explains they complement each other"
+    - "Students confuse the web chat interface with Cowork -- the 8-step vs 4-step workflow comparison makes clear that Cowork's filesystem access is the fundamental difference"
+  discussion_prompts:
+    - "Look at the Code vs Cowork comparison table. Which interface would you use for your current daily work, and what would tip you toward the other?"
+    - "The lesson says knowledge workers had fewer automation options than developers. What manual processes in your work would benefit from an agent that can access your files directly?"
+  teaching_tips:
+    - "Use the 8-step vs 4-step workflow comparison as a live demonstration: show the copy-paste dance with web chat, then contrast with how Cowork would handle the same task"
+    - "Have students categorize their last 10 work tasks as 'Code territory' or 'Cowork territory' using the when-to-use-each-tool section as a rubric"
+    - "Emphasize the convergence path section for students worried about picking the wrong tool -- Skills built for one platform work on both"
+    - "For technical students, highlight that the Claude Agent SDK is the shared foundation -- this connects back to the agent architecture concepts from Lesson 1"
+  assessment_quick_check:
+    - "Name three capabilities Cowork has that web chat does not, as listed in the 'What Claude Cowork Actually Is' section"
+    - "A colleague asks whether to use Code or Cowork for analyzing a folder of Excel spreadsheets. Which do you recommend and why?"
+    - "What does 'Skills work across both platforms' mean for someone building a Skill in Claude Code today?"
 ---
 
 # From Terminal to Desktop: The Cowork Story

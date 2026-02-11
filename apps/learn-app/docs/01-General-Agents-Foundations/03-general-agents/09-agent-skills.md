@@ -50,6 +50,33 @@ differentiation:
   extension_for_advanced: "Create skill suites with interdependencies; design skills that compose with MCP servers"
   remedial_for_struggling: "Start with blog-planner example; copy and adapt working skill structure before creating from scratch"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Skills Architecture and Hands-On Practice"
+  key_points:
+    - "The description field in YAML frontmatter is the single most important line — it determines when Claude activates the skill automatically"
+    - "The description formula (action verb + input type + output type + trigger conditions) gives students a repeatable pattern for every skill they build"
+    - "The co-learning cycle (AI as Teacher suggesting improvements, Student as Teacher specifying constraints) is the Three Roles Framework applied to skill creation"
+    - "skill-creator is a meta-skill — a skill that creates other skills — and most students should use it rather than writing SKILL.md from scratch"
+  misconceptions:
+    - "Students write descriptions that are too vague ('helps with notes') or too narrow ('summarizes Zoom meetings from marketing') — walk through the good vs bad examples explicitly"
+    - "Students think the first version of a skill should be perfect — the co-learning cycle section explicitly teaches that iteration is the expected workflow"
+    - "Students skip YAML frontmatter and write only the markdown body — emphasize that without frontmatter, Claude cannot discover or auto-activate the skill"
+  discussion_prompts:
+    - "You mapped a personal procedure in Lesson 07 — what was hardest about translating your implicit knowledge into explicit written instructions?"
+    - "The lesson shows AI suggesting SEO considerations and word count targets — when should you accept AI suggestions vs override with your own constraints?"
+    - "If you shared your skill with 10 classmates, what would break first — the instructions, the description, or the examples?"
+  teaching_tips:
+    - "Have students write a description BEFORE reading the formula, then rewrite it using the formula — the before/after comparison is powerful"
+    - "The blog-planner example in Step 2 is complete and copy-pasteable — use it as a live demo, then have students modify it for their own domain"
+    - "Run the co-learning cycle live: have a student share their skill, then ask Claude to review it in front of the class — the suggestions are always insightful"
+    - "Pair students for the refinement section: one plays 'AI as Teacher' (suggesting improvements) while the other plays 'Student as Teacher' (specifying constraints)"
+  assessment_quick_check:
+    - "Write a one-sentence skill description using the formula: action verb + input + output + trigger conditions"
+    - "What are the two parts of a SKILL.md file and what does each contain?"
+    - "Explain why skill-creator is called a 'meta-skill' in one sentence"
+
 # Generation metadata
 generated_by: "content-implementer v1.0.0 (044-lesson-05-concept-behind-skills)"
 source_spec: "specs/044-lesson-05-concept-behind-skills/spec.md"

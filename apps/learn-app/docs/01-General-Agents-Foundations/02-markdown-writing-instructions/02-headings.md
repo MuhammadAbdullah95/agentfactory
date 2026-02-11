@@ -45,6 +45,31 @@ differentiation:
   extension_for_advanced: "Explore semantic HTML heading structure (h1-h6) and how markdown headings map to HTML; analyze accessibility implications for screen readers"
   remedial_for_struggling: "Focus on just two levels (# for title, ## for sections); practice with simple 3-section documents before adding level 3 headings"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Markdown as AI Communication"
+  key_points:
+    - "Hash symbol count = heading level is the entire syntax, but the hierarchy principle (no skipping levels) is what matters for AI parsing"
+    - "Only ONE Level 1 heading per document — this is the most common beginner mistake and breaks AI's document structure parsing"
+    - "The folder analogy (Level 1 = Main Folder, Level 2 = Subfolders, Level 3 = Files) is the best mental model for heading hierarchy"
+    - "This lesson starts the Task Tracker spec that carries through Lessons 3-5 — students must save their file"
+  misconceptions:
+    - "Students skip heading levels for visual effect (# to ### directly) — explain this breaks both AI parsing and screen reader accessibility"
+    - "Students use multiple Level 1 headings thinking each major section needs one — only the document title gets Level 1"
+    - "Students think heading levels are just about font size — they create semantic structure that AI uses to understand section relationships"
+  discussion_prompts:
+    - "If you opened a textbook and every chapter title was the same size as every section title, how would you navigate it? What does that tell you about heading hierarchy?"
+    - "Why would an AI generate worse code from a spec with broken heading hierarchy vs a properly structured one?"
+  teaching_tips:
+    - "Draw the folder analogy on a whiteboard — a file explorer tree mapped to heading levels clicks immediately for visual learners"
+    - "Have students spot errors in the 'Wrong Hierarchy Example' before revealing the answer — this builds diagnostic skill"
+    - "Emphasize the space-after-hash rule: #Heading (wrong) vs # Heading (correct) — same pattern recurs with lists in Lesson 3"
+    - "Remind students to save their Task Tracker file — they'll build on it for three more lessons"
+  assessment_quick_check:
+    - "Ask students how many Level 1 headings a document should have and why"
+    - "Show a heading structure with one skipped level and ask students to identify and fix the error"
+
 # Generation metadata
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-11-markdown/spec.md"

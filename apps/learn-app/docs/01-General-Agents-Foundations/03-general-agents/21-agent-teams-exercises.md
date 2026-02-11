@@ -50,6 +50,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all three capstones; Capstone C applies agent teams to a professional challenge of student's choice"
   remedial_for_struggling: "Start with design exercises (1.2, 2.2, 3.2, 4.2) which are free and build strategic thinking before hands-on work"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 7
+  session_title: "Agent Teams and Collaborative AI Workflows"
+  key_points:
+    - "Design exercises (B-type) cost zero API tokens and build strategic thinking that makes hands-on exercises more effective"
+    - "The four modules map directly to Lesson 20 sections: team creation, task pipelines, communication, and quality gates"
+    - "The assessment rubric scores on comprehensiveness, actionability, evidence quality, and team coordination -- students should know these criteria before starting"
+    - "Capstones require integrating all four modules without guided prompts, testing whether students internalized the patterns or just followed instructions"
+  misconceptions:
+    - "Students skip design exercises (B-type) because they seem less valuable than hands-on work -- but designing team architecture on paper first prevents wasting API tokens on poorly structured teams"
+    - "Students think the 'better prompt' examples are the only correct approach -- they are targets to build toward, and the starter prompts are valid starting points"
+    - "Students expect the feature prioritization debate (Exercise 3.1) to produce consensus -- the debate format intentionally creates tension, and the decision-maker must weigh conflicting evidence"
+  discussion_prompts:
+    - "After Exercise 1.2, compare your team architectures with a classmate. Did you design different team structures for the same scenario? What drove the difference?"
+    - "The client proposal pipeline (Exercise 4.1) uses delegate mode and plan approval. In what professional contexts would you want this level of control versus letting agents work freely?"
+  teaching_tips:
+    - "Have budget-conscious students start with all four design exercises (1.2, 2.2, 3.2, 4.2) before any hands-on work -- this is explicitly recommended in the API costs callout"
+    - "Use the assessment rubric as a pre-exercise briefing: show students what a 3/5 vs 5/5 looks like for 'team coordination' before they run their first team"
+    - "For the pipeline blueprint (Exercise 2.2), have students draw dependency graphs on a whiteboard first -- the visual representation makes critical path analysis intuitive"
+    - "Pair students for capstones: one runs the team while the other observes agent coordination patterns, then they switch roles"
+  assessment_quick_check:
+    - "In Exercise 2.1, what would happen if the venue selector started before the budget analyst finished? How does blockedBy prevent this?"
+    - "Name the four scoring criteria from the assessment rubric and describe what a score of 1 looks like for each"
+    - "Why are design exercises (B-type) recommended before hands-on exercises (A-type) for budget-conscious students?"
 ---
 
 # Agent Teams Exercises: Business Problem-Solving with Multi-Agent Teams

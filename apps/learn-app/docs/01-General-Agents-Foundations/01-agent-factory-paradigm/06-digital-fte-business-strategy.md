@@ -69,6 +69,34 @@ differentiation:
   extension_for_advanced: "Research real Digital FTE products in your vertical; analyze which monetization model they chose and why; design hybrid revenue strategies"
   remedial_for_struggling: "Focus on one section at a time; use concrete examples from your domain before applying frameworks; start with Subscription model analysis before exploring alternatives"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Business Strategy and Development Methodology"
+  key_points:
+    - "Sarah vs Marcus is the central parable — Sarah used AI as a productivity tool and got displaced; Marcus encoded his expertise as a product and captured value"
+    - "The 90/10 moat concept is counter-intuitive: the 90% AI can do is worthless as a differentiator; the 10% only you can verify is where all the value concentrates"
+    - "Four monetization models (Subscription, Success Fee, License, Marketplace) aren't mutually exclusive — the hybrid strategies section shows how real businesses combine them"
+    - "Shadow mode deployment (parallel human+agent, then gradual handoff) is the responsible way to deploy Digital FTEs — this pattern returns in Parts 5-7"
+  misconceptions:
+    - "Students think 'prompt engineering' is a defensible moat — the lesson explicitly debunks this: knowing how to prompt is easy; knowing what the answer should look like is the real moat"
+    - "Students assume Digital FTEs always replace humans — Scenario 3 (insurance claims) shows when the economics DON'T work due to liability risk"
+    - "Students think Marketplace is the easiest revenue model — it has the lowest barrier but 70% revenue split and brutal discovery challenges"
+    - "Students confuse PPP (Piggyback Protocol Pivot) with simple white-labeling — PPP is a phased strategy: enter via incumbents, validate, then pivot to independence"
+  discussion_prompts:
+    - "Think about your current role — are you more like Sarah (using AI to be faster) or Marcus (encoding expertise into a product)? What would it take to switch?"
+    - "If a single agent error in your domain could cost $100K+, does that mean you should never build a Digital FTE for it, or just deploy differently?"
+    - "Which monetization model would you start with for YOUR domain expertise, and what would trigger you to switch to a hybrid?"
+  teaching_tips:
+    - "Open with Sarah's story — let students react before revealing Marcus's alternative. The contrast creates the 'aha moment'"
+    - "The Snakes and Ladders framework benefits from a visual — draw the four layers as a game board showing where to climb (Layers 2-3) and where to avoid (Layer 1)"
+    - "Walk through ONE full economic scenario slowly (Scenario 1: customer support) before comparing all three — let students do the math themselves"
+    - "The six Red Flag signals at the end are a practical safety checklist — emphasize that 'when to say no' is as important as 'when to build'"
+  assessment_quick_check:
+    - "Ask students to explain the difference between Sarah's and Marcus's approach to AI in one sentence"
+    - "Have students name which monetization model fits a highly regulated enterprise customer and why"
+    - "Ask: 'What are two of the six Red Flag signals that mean you should stop building a Digital FTE?'"
+
 # Generation metadata
 generated_by: "content-implementer consolidation"
 source_lessons: "10 lessons consolidated (Chapter 3: Digital FTE Strategy)"

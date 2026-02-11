@@ -65,6 +65,33 @@ prerequisites:
   - "Completion of Lesson 24: Cowork in Action"
   - "Google Chrome browser installed"
   - "Claude Desktop with Cowork enabled"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 8
+  session_title: "Cowork Desktop Environment and Browser Integration"
+  key_points:
+    - "The browser extension acts as a remote control -- Claude Desktop does the reasoning while the extension executes browser actions, which explains why it requires both to be connected"
+    - "Browser automation is fundamentally slower than file operations due to page loads, DOM parsing, and JavaScript execution -- the speed comparison table quantifies this"
+    - "The five-step browser loop (page analysis, context understanding, action planning, execution, verification) mirrors the propose-approve-execute pattern from Lesson 24"
+    - "Security boundaries are explicit: selective activation per site, reviewing actions before execution, avoiding password fields, and deactivating the extension when done"
+  misconceptions:
+    - "Students expect browser automation to be as fast as file operations -- the speed considerations table shows page loads take seconds versus milliseconds for filesystem reads"
+    - "Students think Claude can handle multi-factor authentication or CAPTCHAs automatically -- the limitations section lists these as known issues requiring manual intervention"
+    - "Students activate the extension on all sites by default -- the security section recommends selective activation and excluding sensitive sites like banking and password managers"
+    - "Students confuse browser integration with web scraping tools -- Claude's browser integration requires explicit user initiation and approval, not autonomous background crawling"
+  discussion_prompts:
+    - "The lesson lists email cleanup and data extraction as primary use cases. What web-based tasks in your work involve repetitive clicking and typing that browser automation could handle?"
+    - "The security section recommends excluding banking sites. What other categories of sites would you exclude, and what principle guides your decision?"
+  teaching_tips:
+    - "Demo the email cleanup workflow (Workflow 1) on a disposable email account -- students see the full navigation and confirmation cycle without risking their real inbox"
+    - "Use the speed considerations table to set expectations before students try their first browser task -- knowing page loads take 1-5 seconds prevents frustration with perceived slowness"
+    - "Have students create a personal 'activation whitelist' of 5 sites where they would enable the extension, and a 'blacklist' of sites they would exclude, using the security principles as criteria"
+    - "Connect the 'when to use browser integration' decision framework back to Lesson 22's Code vs Cowork table -- both teach tool selection based on task characteristics"
+  assessment_quick_check:
+    - "Describe the five-step loop that Claude follows when working on a webpage, from page analysis to verification"
+    - "Name two limitations of browser automation listed in the lesson and explain why each cannot be solved by the extension alone"
+    - "When should you use file-based Cowork workflows instead of browser integration? Give two specific scenarios from the lesson"
 ---
 
 # Browser Integration: Claude in Chrome

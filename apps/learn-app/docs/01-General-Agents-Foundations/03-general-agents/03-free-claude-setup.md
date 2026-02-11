@@ -67,6 +67,34 @@ prerequisites:
   - "Node.js 18+ installed"
   - "Free account with Gemini and/or DeepSeek"
   - "Terminal access"
+
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Getting Started with Claude Code"
+  key_points:
+    - "The three-layer architecture (CLI -> Router -> API) is the real lesson — students learn backend abstraction as a side effect of saving money"
+    - "Free tier limits changed significantly in Dec 2025 — students must plan for rate limits and have backup backends ready"
+    - "All Claude Code features (subagents, skills, MCP, hooks) work identically regardless of backend — this is the power of the abstraction"
+    - "The 'ccr start' then 'ccr code' two-terminal workflow is the most common failure point for beginners"
+  misconceptions:
+    - "Students think free backends produce inferior Claude Code functionality — the CLI features are identical, only the underlying model intelligence differs"
+    - "Students confuse the router config's $GOOGLE_API_KEY placeholder with their actual key — the warning boxes exist because students repeatedly paste real keys there"
+    - "Students assume they must pick one backend permanently — they can switch by editing config.json anytime"
+  discussion_prompts:
+    - "What does it mean architecturally that you can swap the AI model behind Claude Code without changing how you use it?"
+    - "If free tiers keep shrinking, what is your backup plan — and how does the router architecture make switching painless?"
+    - "Why do you think Anthropic built Claude Code so it could work with competing models through routers?"
+  teaching_tips:
+    - "Demo the two-terminal workflow live — start ccr in terminal 1, then ccr code in terminal 2 — students need to see the sequence visually"
+    - "Have the OpenRouter vs Gemini vs DeepSeek comparison table on screen when students choose — rushed choices here cause frustration later"
+    - "The $VARIABLE_NAME placeholder confusion is so common that you should explicitly say 'do NOT replace this text' while pointing at the config"
+    - "Pair students who chose different backends and have them compare responses to the same prompt — makes the abstraction layer tangible"
+  assessment_quick_check:
+    - "Ask students to draw the request flow: their prompt -> CLI -> router -> API -> model -> response"
+    - "Have students run 'ccr version' and 'claude --version' and explain what each tool does"
+    - "Ask: Why do you need two terminal windows, and what happens if you close the first one?"
 ---
 
 # Free Claude Code Setup

@@ -55,6 +55,31 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Research URL encoding for special characters in links; explore relative vs absolute image paths; learn strikethrough (~~text~~)"
   remedial_for_struggling: "Practice link syntax with provided URLs before finding own; use placeholder image services to avoid path issues"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Links, Images & Complete Specifications"
+  key_points:
+    - "Link [text](url) and image ![alt text](url) syntax differ by only the ! prefix — teach as a pair so students leverage pattern recognition"
+    - "Descriptive link text matters for AI: '[Python documentation](...)' provides context, '[click here](...)' provides none — AI cannot infer destination from vague text"
+    - "Bold (**must**) vs italic (*recommended*) signals requirement priority to AI — this semantic distinction directly affects implementation decisions"
+    - "This lesson completes the Task Tracker spec started in Lesson 2 — celebrate the achievement of building a full specification"
+  misconceptions:
+    - "Students write 'click here' as link text — AI agents and screen readers cannot infer the destination from generic text"
+    - "Students forget the ! prefix for images, accidentally creating a link instead of an embedded image — 'show it here' (!) vs 'take me there' (no !)"
+    - "Students overuse bold emphasis making everything stand out equally — bold loses its signaling power when every other word is bold"
+  discussion_prompts:
+    - "If you were an AI reading a spec and saw **must** vs *recommended*, how would you prioritize your implementation work differently?"
+    - "Why is descriptive alt text important even though modern AI can 'see' images? Think about how specs are processed as plain text files in coding workflows."
+  teaching_tips:
+    - "Teach link and image syntax back-to-back — the ! prefix is the only difference, and students learn both faster when presented as a pair"
+    - "Use the 'Common Image Mistakes' section as a live error-spotting exercise before revealing the answers"
+    - "End with the 'Your First Complete Specification' section as a genuine celebration — students built a real spec across 4 lessons"
+    - "Connect the full chapter arc: Lesson 1 explained WHY markdown matters, Lessons 2-5 taught HOW — the finished Task Tracker spec is proof they can write specifications for AI"
+  assessment_quick_check:
+    - "Ask students to write the syntax for a link and an image from memory, then identify the single-character difference"
+    - "Give students a sentence with **bold** and *italic* terms and ask which are hard requirements vs recommendations"
 ---
 
 # Links and Images

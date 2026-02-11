@@ -60,6 +60,32 @@ git_author: "Claude Code"
 workflow: "manual"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 9
+  session_title: "External Integration and Responsible Use"
+  key_points:
+    - "Connectors are pre-packaged MCP servers maintained by Anthropic and partners — students do NOT write code to use them"
+    - "The MCP-vs-Connectors distinction maps to developer-vs-knowledge-worker audiences, not different protocols"
+    - "Combination power across multiple data sources (Google Sheets + Notion + Slack) is the real unlock, not single-source access"
+    - "Principle of Least Privilege applies: start read-only, grant write access only for trusted workflows"
+  misconceptions:
+    - "Students think Connectors are a different technology from MCP — they are MCP servers someone else built and maintains"
+    - "Students assume Connectors give real-time streaming data — they fetch current snapshots, not live streams"
+    - "Students believe all Connectors support read-write — many are read-only, and write support varies by service"
+  discussion_prompts:
+    - "Which three data sources in your current work would save the most time if Claude could access them directly — and what task would you automate first?"
+    - "What are the risks of granting an AI read-write access to your Google Drive or Slack, and how would you mitigate them?"
+  teaching_tips:
+    - "Walk through the quarterly report scenario in 'The Combination Power' section — have students map it to their own multi-source workflows"
+    - "Use the MCP vs Connectors comparison table to reinforce that the difference is who builds and maintains the server, not the underlying protocol"
+    - "Emphasize the 'Available Connectors' categories (Document, Communication, Development, Business Data) and ask students which category matters most for their role"
+    - "Connect back to Lesson 12 (MCP) and Lesson 25 (browser integration) to show the progression: custom MCP → browser automation → pre-built Connectors"
+  assessment_quick_check:
+    - "Name two differences between MCP servers (Lesson 12) and Connectors (this lesson)."
+    - "Why should you start with read-only Connector permissions?"
+    - "Give one example where combining two Connectors in a single prompt creates value neither could alone."
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lesson 12: MCP Integration (for context)"

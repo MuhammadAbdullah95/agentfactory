@@ -64,6 +64,32 @@ git_author: "Claude Code"
 workflow: "manual"
 version: "1.0.0"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 10
+  session_title: "Practical Skills and the Code-vs-Cowork Decision"
+  key_points:
+    - "Built-in Skills (docx, xlsx, pptx, pdf) are pre-installed — students do not need to create or configure them"
+    - "The Capability Matrix table is the key reference: pdf is read-only (no create/edit), tracked changes only work in docx, formulas only in xlsx"
+    - "Built-in Skills handle format mechanics while custom Skills handle domain reasoning — combining both is where Cowork becomes most powerful"
+    - "Each format has specific limitations students must know: macros not supported in docx, Power Query not preserved in xlsx, animations lost in pptx, password-protected pdfs unreadable"
+  misconceptions:
+    - "Students think built-in Skills can create PDFs — the pdf Skill is extraction-only (read), not creation"
+    - "Students assume Claude can execute macros or VBA in Word documents — it cannot; macros are ignored"
+    - "Students confuse built-in Skills with custom Skills — built-in handle file format operations, custom encode domain-specific reasoning"
+  discussion_prompts:
+    - "Which document format do you work with most often, and what is one repetitive task in that format that a built-in Skill could automate?"
+    - "When would you combine a built-in Skill (like docx) with a custom Skill (like 'legal contract review'), and why is the combination more valuable than either alone?"
+  teaching_tips:
+    - "Project the Capability Matrix table and have students identify which cells would matter most for their daily work — this personalizes an abstract table"
+    - "Run a live demo: create a simple docx or xlsx using a prompt from the lesson, then show the actual output to demonstrate format fidelity"
+    - "Use the 'When to Use Built-in vs. Custom Skills' section as a sorting exercise — give students 5 scenarios and have them categorize each"
+    - "Highlight the tracked changes feature in docx as a practical collaboration bridge — Claude edits with track changes so the human reviews changes, not rewrites"
+  assessment_quick_check:
+    - "Which built-in Skill is read-only and cannot create new files?"
+    - "Name one limitation of the xlsx Skill when working with complex spreadsheets."
+    - "Give an example of combining a built-in Skill with a custom Skill for a real task."
+
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lesson 27: Safety, Limitations, and What's Coming"

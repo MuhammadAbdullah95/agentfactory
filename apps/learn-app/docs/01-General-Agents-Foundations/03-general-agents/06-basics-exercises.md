@@ -55,6 +55,35 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt exercises with minimal prompts"
   remedial_for_struggling: "Start with Module 1 only; use the starter prompts provided"
+
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Practical Exercises and Problem Solving"
+  key_points:
+    - "The three skills (problem decomposition, specification writing, quality verification) are the meta-skills — exercises are vehicles, not the destination"
+    - "The 5-criteria rubric (Problem Clarity, Specification Quality, Output Verification, Iteration, Reflection) should be introduced before students touch any exercise"
+    - "Modules 1-4 require only Lesson 04 knowledge; Modules 5-8 require CLAUDE.md from Lesson 05 — this is a natural split point for pacing"
+    - "The progression from intentionally vague starter prompts to better prompts is where the actual learning happens"
+  misconceptions:
+    - "Students think the goal is to complete all 27 exercises — the goal is to internalize the three core skills, even if they only complete 5 exercises deeply"
+    - "Students copy-paste the starter prompts and call it done — the starter prompts are intentionally vague to show why specification quality matters"
+    - "Students skip the reflection questions — these are where metacognition happens and must be treated as mandatory, not optional"
+    - "Students think 'better prompt' means 'longer prompt' — it means more specific success criteria, not more words"
+  discussion_prompts:
+    - "After Exercise 1.1, what surprised you about the gap between what you meant and what Claude delivered?"
+    - "In the Prompt Tournament (7.3), which style felt most natural to you — and does that match which produced the best results?"
+    - "How would you teach the problem decomposition framework to someone who has never used AI?"
+  teaching_tips:
+    - "Assign Module 1 as the mandatory minimum — Exercise 1.1 (Messy Downloads) produces the fastest visible results and builds immediate confidence"
+    - "For the rubric, have students self-score their first exercise, then peer-score a classmate's work — the calibration gap is itself a teaching moment"
+    - "Do NOT let students skip the 'run it twice' step in exercises — the comparison between first and refined prompt is where the insight lives"
+    - "The Capstone projects work best as group assignments where students divide deliverables and must integrate them — this mirrors real agent orchestration"
+  assessment_quick_check:
+    - "Ask students to explain the 7-step problem-solving framework from memory"
+    - "Have students show their Module 1 Exercise 1.1 prompt — compare who used outcome-focused vs step-by-step instructions"
+    - "Ask: What is the difference between a vague prompt and a bad prompt?"
 ---
 
 # Practical Problem-Solving Exercises

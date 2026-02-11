@@ -56,6 +56,31 @@ differentiation:
   extension_for_advanced: "Explore syntax highlighting languages; learn to show before/after examples; practice using code blocks to document APIs"
   remedial_for_struggling: "Start with simple text code blocks first; practice identifying the difference between inline and multi-line code; learn one language tag at a time"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Lists, Code Blocks & Specification Detail"
+  key_points:
+    - "Code blocks eliminate specification ambiguity — showing exact expected output prevents AI from guessing format (the 4-greeting example makes this vivid)"
+    - "Language tags (```python, ```bash, ```text) directly affect AI code generation — wrong tags cause wrong language output"
+    - "Inline code (single backtick) vs fenced blocks (triple backtick) serve different purposes: references within text vs standalone multi-line examples"
+    - "Showing edge cases in code blocks (like empty state) hints AI to handle those scenarios — if you don't show it, AI may not build it"
+  misconceptions:
+    - "Students confuse when to use inline code vs fenced blocks — inline is for short references in sentences (`pip install`), fenced is for multi-line examples"
+    - "Students think language tags are optional cosmetic formatting — they directly affect how AI interprets and generates code"
+    - "Students forget closing triple backticks — everything after becomes part of the code block, silently breaking the rest of the document"
+  discussion_prompts:
+    - "If you tell an AI 'the program should greet the user,' how many different outputs could it generate? How does showing exact expected output in a code block change that?"
+    - "Why might tagging a Python code block as ```text cause an AI to generate lower quality code?"
+  teaching_tips:
+    - "Start with the opening example showing 4 possible greetings — this immediately demonstrates why code blocks matter for precise specifications"
+    - "Have students physically locate the backtick key on their keyboard — many beginners struggle to find it (usually below Escape or left of 1)"
+    - "The Lists vs Code Blocks comparison image connects back to Lesson 3 — use it to show the 'right tool for the job' principle"
+    - "Emphasize the edge case pro-tip: showing what 'empty' looks like in a code block is a specification technique students will use repeatedly"
+  assessment_quick_check:
+    - "Ask students when to use inline code vs a fenced code block with an example of each"
+    - "Ask students to name three common language tags and what type of content each is used for"
+
 # Generation metadata
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-11-markdown/spec.md"

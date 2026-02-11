@@ -59,6 +59,32 @@ git_author: "Claude Code"
 workflow: "/sp.implement"
 version: "2.0.0"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 5
+  session_title: "Settings, Hooks, and Plugin Synthesis"
+  key_points:
+    - "The three-level hierarchy (user/project/local) maps to personal/team/experiment scopes — not just technical layers"
+    - "Precedence order local > project > user means a forgotten settings.local.json can silently override team standards"
+    - "Project settings belong in version control; local settings belong in .gitignore — mixing these up breaks team consistency"
+    - "Students do NOT configure settings in this lesson — they only learn the hierarchy exists, with hands-on deferred to Part 5"
+  misconceptions:
+    - "Students assume project settings always win because they sound more important — actually local always overrides project"
+    - "Students confuse .claude/settings.json (project, shared) with .claude/settings.local.json (personal, gitignored) and may commit local overrides"
+    - "Students think they need to configure settings now — this lesson is conceptual; premature configuration creates confusion"
+  discussion_prompts:
+    - "Have you worked on a team where one person's local config silently broke shared behavior? How would a three-level hierarchy have prevented that?"
+    - "When would you deliberately use local settings to override a team standard — and when would that be a bad idea?"
+  teaching_tips:
+    - "Use the ASCII precedence diagram in the 'Visual Hierarchy' section as your primary teaching anchor — have students trace a conflict scenario through it"
+    - "Walk through the outputStyle example (Concise at user, Explanatory at project, Verbose at local) step by step before showing the answer"
+    - "Emphasize the .gitignore rule early: settings.json = committed, settings.local.json = gitignored — students who miss this create real team problems later"
+    - "Connect back to Lesson 13's compiled skills: settings hierarchy controls which skills and MCP servers are available at each scope"
+  assessment_quick_check:
+    - "If user-level sets outputStyle to Concise and project-level sets it to Explanatory, which is active when working in that project?"
+    - "Name the file path for each settings level: user, project, and local"
+    - "Which settings file should NEVER be committed to git, and why?"
+
 # Legacy compatibility
 prerequisites:
   - "Lessons 01-13: All prior Claude Code features understood"
