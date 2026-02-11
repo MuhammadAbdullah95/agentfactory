@@ -1,6 +1,6 @@
 ---
 name: exercise-pack
-description: "Design and generate exercise packs for textbook chapters. Given a chapter number or path, analyze lessons, group into 5-8 modules, design exercises (2 per module + 2-3 capstones), generate the exercise repository, lesson file, summary file, and handle quiz renumbering. Use when asked to create exercises for a chapter, e.g., '/exercise-pack ch 4' or '/exercise-pack chapter 6'. Invokes parallel agents for repo generation and lesson writing, then cross-references outputs."
+description: "Design and generate exercise packs for textbook chapters. Supports coding exercises (build/debug, apply/measure) AND business problem-solving exercises (hands-on/design with starter data). Given a chapter number or path, detects audience (beginner/practitioner/developer), analyzes lessons, groups into 5-8 modules, designs exercises (2 per module + 2-3 capstones), generates the exercise repository, lesson file, summary file, and handles quiz renumbering. Use when asked to create exercises for a chapter, e.g., '/exercise-pack ch 4' or '/exercise-pack chapter 6'. Invokes parallel agents for repo generation and lesson writing, then cross-references outputs."
 ---
 
 # Exercise Pack Factory
@@ -56,17 +56,61 @@ Group lessons into **5-8 modules** based on thematic coherence:
 - Modules progress from foundational to advanced
 - Module N (last) is always "Capstone Projects"
 
-### 1D. Choose exercise pattern
+### 1D. Determine audience
 
-Determine exercise type based on chapter content:
+Check the chapter's pedagogical layer and target reader:
 
-| Chapter Type                            | X.1 Pattern              | X.2 Pattern                    | Examples             |
-| --------------------------------------- | ------------------------ | ------------------------------ | -------------------- |
-| **Conceptual** (principles, theory)     | Guided (apply principle) | Discovery (diagnose violation) | Ch6 Principles       |
-| **Technical** (tools, plugins)          | Build (create/configure) | Debug (fix broken setup)       | Ch3 Plugins          |
-| **Engineering** (methodology, workflow) | Apply (use methodology)  | Measure (evaluate quality)     | Ch4 Context, Ch5 SDD |
+| Signal | Audience | Exercise Language |
+| --- | --- | --- |
+| Part 1-2, "no prior coding" in README | **Beginner / Business** | Business scenarios, professional domains, zero code |
+| Part 3-4, tools/methodology chapters | **Practitioner** | Tool workflows, configuration, methodology application |
+| Part 5-6, advanced engineering | **Developer** | Code projects, debugging, architecture |
 
-### 1E. Determine lesson placement
+**The audience determines everything**: scenario language, starter file types, rubric criteria, and which exercise pattern to use. Getting this wrong produces exercises students cannot relate to.
+
+### 1E. Choose exercise pattern
+
+Determine exercise type based on chapter content AND audience:
+
+| Chapter Type | X.1 Pattern | X.2 Pattern | Examples |
+| --- | --- | --- | --- |
+| **Conceptual** (principles, theory) | Guided (apply principle) | Discovery (diagnose violation) | Ch6 Principles |
+| **Technical** (tools, plugins) | Build (create/configure) | Debug (fix broken setup) | Ch3 Plugins |
+| **Engineering** (methodology, workflow) | Apply (use methodology) | Measure (evaluate quality) | Ch4 Context, Ch5 SDD |
+| **Applied/Business** (beginner, non-coding) | Hands-on (solve with tool) | Design (architect workflow on paper, $0) | Ch3 Agent Teams |
+
+#### Applied/Business Pattern Details
+
+When the audience is beginners or the chapter teaches tool usage for general problem-solving (not coding):
+
+**X.1 = Hands-on**: Student runs a real multi-step workflow with provided business data. Focus on the tool capability, not code.
+
+**X.2 = Design**: Student architects the workflow on paper — team structures, dependency graphs, communication protocols. **Zero API cost.** This builds strategic thinking before spending tokens.
+
+**Budget-friendly path**: Design exercises (X.2) always come free. Document this path explicitly:
+> Complete all design exercises first (1.2, 2.2, 3.2, 4.2), then selectively run hands-on exercises.
+
+**Domain rotation**: Rotate exercises across professional domains so students see breadth:
+
+| Domain | Scenario Examples | Starter File Types |
+| --- | --- | --- |
+| **Knowledge Work** | Market research, competitive analysis, literature review | CSVs (50-100 rows), competitor profiles (.md), analysis briefs |
+| **Corporate** | Event planning, QBR prep, hiring pipelines, compliance | Budget CSVs, venue/vendor lists, guest lists, requirements docs |
+| **Entrepreneurship** | Feature prioritization, pitch decks, go-to-market | Survey CSVs (100+ responses), revenue projections, effort estimates |
+| **Freelancer/Consultant** | Proposal writing, deliverable review, client management | RFPs, capability docs, reference proposals, approval checklists |
+
+Each module should use a **different domain**. The capstones can mix domains or let students choose their own.
+
+**Rubric criteria for Applied/Business** (replaces technical accuracy criteria):
+
+| Criteria | What It Measures |
+| --- | --- |
+| Comprehensiveness | Did the analysis cover all required angles? |
+| Actionability | Could someone act on these recommendations? |
+| Evidence Quality | Are conclusions backed by data from starter files? |
+| Team Coordination | Did agents effectively share and build on each other's work? |
+
+### 1F. Determine lesson placement
 
 - Where in the lesson order does the exercise lesson go?
 - Typically: after the last lesson whose concepts are exercised, before the quiz
@@ -77,9 +121,11 @@ Determine exercise type based on chapter content:
 ```
 Chapter: [N] [Name]
 Path: apps/learn-app/docs/[part]/[chapter]/
-Exercise type: [Conceptual | Technical | Engineering]
-X.1 pattern: [Guided | Build | Apply]
-X.2 pattern: [Discovery | Debug | Measure]
+Audience: [Beginner/Business | Practitioner | Developer]
+Exercise type: [Conceptual | Technical | Engineering | Applied/Business]
+X.1 pattern: [Guided | Build | Apply | Hands-on]
+X.2 pattern: [Discovery | Debug | Measure | Design ($0)]
+Domain rotation: [if Applied/Business: list domain per module]
 Repo name: claude-code-[topic]-exercises
 ZIP name: [topic]-exercises
 Lesson position: L[NN] (before quiz)
@@ -245,12 +291,29 @@ claude-code-[topic]-exercises/
 [Clear, actionable step]
 ...
 
+## Scoring
+
+[Reference the assessment rubric — list 4-5 criteria and target score]
+
+## Expected Results
+
+[What "done" looks like — concrete deliverables]
+
 ## Reflection
 
 1. [Question about what they learned]
 2. [Question about process quality]
 3. [Question about generalization]
 ```
+
+#### Applied/Business INSTRUCTIONS.md additions
+
+For Applied/Business exercises, INSTRUCTIONS.md must also include:
+
+- **Scoring section**: Reference the 4-criteria rubric (Comprehensiveness, Actionability, Evidence Quality, Team Coordination) with target score
+- **Expected Results section**: Concrete deliverable description ("a prioritized feature list with data-backed justifications")
+- **Tool note**: "Works in Claude Code" (and "and Cowork" only if the exercise doesn't require terminal-only features like Agent Teams)
+- **Starter Prompt + Better Prompt**: For early modules only (1-2), show progression from vague to specific prompts. Later modules omit starter prompts.
 
 ### EXERCISE-GUIDE.md template (~500 lines)
 
@@ -538,16 +601,19 @@ git commit -m "feat: add [topic] exercises for Chapter [N] with ZIP downloads"
 
 ## Proven Metrics
 
-Reference data from 4 successful runs:
+Reference data from 5 successful runs:
 
-| Pack       | Chapter | Modules | Exercises | Repo Files | Lesson Lines | Guide Lines |
-| ---------- | ------- | ------- | --------- | ---------- | ------------ | ----------- |
-| SDD        | Ch5     | 5+cap   | 17        | ~50        | 863          | ~500        |
-| Principles | Ch6     | 7+cap   | 17        | 354        | 566          | 518         |
-| Plugins    | Ch3     | 7+cap   | 17        | 67         | 580          | 522         |
-| Context    | Ch4     | 7+cap   | 17        | ~60        | ~580         | ~500        |
+| Pack       | Chapter | Type             | Modules | Exercises | Repo Files | Lesson Lines | Guide Lines |
+| ---------- | ------- | ---------------- | ------- | --------- | ---------- | ------------ | ----------- |
+| SDD        | Ch5     | Engineering      | 5+cap   | 17        | ~50        | 863          | ~500        |
+| Principles | Ch6     | Conceptual       | 7+cap   | 17        | 354        | 566          | 518         |
+| Plugins    | Ch3     | Technical        | 7+cap   | 17        | 67         | 580          | 522         |
+| Context    | Ch4     | Engineering      | 7+cap   | 17        | ~60        | ~580         | ~500        |
+| **Teams**  | **Ch3** | **Applied/Biz**  | **4+cap** | **11**  | **~40**    | **402**      | **~400**    |
 
-Typical output: 5-8 modules, 12-17 exercises + 2-3 capstones, ~550-860 line lesson.
+Typical output: 4-8 modules, 11-17 exercises + 2-3 capstones, ~400-860 line lesson.
+
+**Applied/Business packs tend to be smaller** (fewer modules, shorter lessons) because each exercise requires more substantial starter files (CSVs, briefs, profiles) that take up repo space instead of lesson prose.
 
 ---
 
@@ -567,6 +633,10 @@ Typical output: 5-8 modules, 12-17 exercises + 2-3 capstones, ~550-860 line less
    FAKE-token-for-exercise
    sk-FAKE-not-a-real-key-for-exercise
    ```
+
+6. **Audience mismatch** (Agent Teams incident, 2026-02-11): First run produced coding-focused exercises (Node.js bugs, code review, UUID migrations) for a chapter targeting beginners doing business problem-solving. Root cause: skipped audience detection (Phase 1D). The entire repo had to be regenerated. **Always determine audience before choosing exercise pattern.**
+
+7. **Applied/Business starter file quality**: Business exercises live or die on realistic data. CSVs with 5 rows feel fake. Minimums: market data 50+ rows, survey data 100+ rows, customer reviews 200+ rows, guest lists 80+ rows. Competitor profiles and RFPs should be 1-2 pages each, not stubs.
 
 ---
 
