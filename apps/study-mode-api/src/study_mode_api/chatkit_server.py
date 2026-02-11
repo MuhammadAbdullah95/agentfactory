@@ -445,6 +445,30 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Convert to agent input format
             input_items = await simple_to_agent_input(items)
 
+            # INJECT VERIFICATION: Add explicit verification to last message
+            # This ensures LLM sees "[CORRECT]" or "[INCORRECT]" and can't ignore it
+            if verification_result and input_items and isinstance(input_items, list):
+                # Find the last user message and annotate it
+                for i in range(len(input_items) - 1, -1, -1):
+                    item = input_items[i]
+                    if hasattr(item, "role") and item.role == "user":
+                        if verification_result == "correct":
+                            # Prepend strong verification message
+                            original = item.content if hasattr(item, "content") else str(item)
+                            item.content = (
+                                f"[SERVER VERIFIED: CORRECT ✓]\n"
+                                f"Student answer: {original}\n"
+                                f"[YOU MUST SAY 'Correct!' - DO NOT SAY 'Not quite']"
+                            )
+                        elif verification_result == "incorrect":
+                            original = item.content if hasattr(item, "content") else str(item)
+                            item.content = (
+                                f"[SERVER VERIFIED: WRONG ✗]\n"
+                                f"Student answer: {original}\n"
+                                f"[YOU MUST SAY 'Not quite.' - DO NOT SAY 'Correct']"
+                            )
+                        break
+
             # Fallback: if input_items is empty (race condition), use current user message
             if not input_items:
                 logger.warning(
