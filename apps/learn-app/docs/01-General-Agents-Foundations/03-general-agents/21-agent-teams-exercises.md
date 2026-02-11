@@ -1,5 +1,5 @@
 ---
-title: "Agent Teams Exercises: Team Creation, Task Coordination, and Multi-Agent Workflows"
+title: "Agent Teams Exercises: Business Problem-Solving with Multi-Agent Teams"
 sidebar_label: "Agent Teams Exercises"
 sidebar_position: 21
 chapter: 3
@@ -9,7 +9,7 @@ duration_minutes: 90
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 1"
 layer_progression: "L1 (Manual Foundation)"
-layer_1_foundation: "Hands-on practice applying Lesson 20 agent teams concepts through 10 guided exercises"
+layer_1_foundation: "Hands-on practice applying Lesson 20 agent teams concepts through business-focused exercises across 5 modules"
 layer_2_collaboration: "N/A"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
@@ -21,48 +21,52 @@ skills:
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student creates agent teams, assigns tasks with dependencies, and coordinates multi-agent workflows"
-  - name: "Multi-Agent Debugging"
+    measurable_at_this_level: "Student creates agent teams, assigns tasks with dependencies, and coordinates multi-agent workflows for business scenarios"
+  - name: "Business Problem Decomposition"
     proficiency_level: "A2"
     category: "Applied"
     bloom_level: "Analyze"
     digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student diagnoses broken team configurations, circular dependencies, and hook failures"
+    measurable_at_this_level: "Student breaks business problems into parallelizable tasks, designs team structures, and maps communication flows"
 
 learning_objectives:
-  - objective: "Create and coordinate agent teams with task dependencies and message routing"
+  - objective: "Create and coordinate agent teams with task dependencies to solve business problems"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Modules 1-2 exercises"
-  - objective: "Debug multi-agent coordination failures including circular dependencies, ownership errors, and misconfigured hooks"
+    assessment_method: "Exercises 1.1, 2.1, 3.1, 4.1"
+  - objective: "Design team architectures, task pipelines, and communication protocols for multi-agent workflows"
     proficiency_level: "A2"
     bloom_level: "Analyze"
-    assessment_method: "Exercises 1.2, 2.2, 3.2"
-  - objective: "Design quality hooks that enforce standards across team workflows"
+    assessment_method: "Exercises 1.2, 2.2, 3.2, 4.2"
+  - objective: "Integrate team creation, task coordination, communication, and quality gates into complete business workflows"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Module 3 exercises and capstones"
+    assessment_method: "Capstones A, B, C"
 
 cognitive_load:
   new_concepts: 2
-  assessment: "2 concepts (team debugging patterns, hook-based quality gates) -- within B1 limit. Exercises reinforce existing Lesson 20 knowledge."
+  assessment: "2 concepts (business problem decomposition, design-first team planning) -- within B1 limit. Exercises reinforce existing Lesson 20 knowledge."
 
 differentiation:
-  extension_for_advanced: "Complete both capstones; Capstone B applies agent teams to a professional domain of student's choice"
-  remedial_for_struggling: "Start with Module 1 only; use the starter prompts provided"
+  extension_for_advanced: "Complete all three capstones; Capstone C applies agent teams to a professional challenge of student's choice"
+  remedial_for_struggling: "Start with design exercises (1.2, 2.2, 3.2, 4.2) which are free and build strategic thinking before hands-on work"
 ---
 
-# Agent Teams Exercises: Team Creation, Task Coordination, and Multi-Agent Workflows
+# Agent Teams Exercises: Business Problem-Solving with Multi-Agent Teams
 
-You've learned to create agent teams with TeamCreate, coordinate tasks with dependencies using TaskCreate and TaskUpdate, communicate between agents with SendMessage, and set up hooks that fire when teammates go idle or complete tasks. Each of these capabilities extends Claude Code from a single-agent tool into a multi-agent orchestration platform. But orchestrating multiple agents introduces failure modes that don't exist with a single agent -- circular dependencies that deadlock your pipeline, tasks assigned to agents that don't exist, and hooks that silently fail while your team runs up API costs.
+In Lesson 20, you learned to create agent teams with TeamCreate, coordinate tasks with dependencies using TaskCreate and blockedBy, communicate between agents with SendMessage, and set up quality gates with delegate mode and plan approval. Now you will apply those capabilities to real business problems across four professional domains -- knowledge work, corporate operations, entrepreneurship, and freelance consulting.
 
-These 10 exercises are designed to build your **team orchestration**, **multi-agent debugging**, and **hook design** skills through hands-on practice. Modules 1-3 each contain two exercises: a **hands-on** exercise where you build or configure something real, and a **debug** exercise where you diagnose and fix something broken. Two capstones at the end combine everything into complete multi-agent workflows.
+These exercises are organized into 5 modules with 11 exercises total. Modules 1 through 4 each contain two exercises: an **Exercise A** (hands-on) where you build a working multi-agent team to solve a business problem, and an **Exercise B** (design) where you architect team structures and workflows on paper. Module 5 contains three capstones that combine everything. The design exercises require zero API calls -- they build the strategic thinking skills that make your hands-on work more effective and cost-efficient.
+
+Every exercise uses realistic business data. You will analyze market research, plan corporate events, debate feature priorities with survey data, draft client proposals against RFPs, and assemble business plans. These are problems that professionals solve daily -- agent teams make them faster and more thorough.
 
 :::info Experimental Feature
 Agent Teams requires an environment variable to enable:
+
 ```bash
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ```
+
 Set this before starting any exercise. Without it, team-related tools (TeamCreate, SendMessage, etc.) will not be available.
 :::
 
@@ -75,7 +79,9 @@ If the download link doesn't work, visit the [repository releases page](https://
 :::
 
 :::caution API Costs
-Agent Teams exercises have higher API costs than single-agent exercises because each teammate is a separate Claude instance. The exercise guide inside the ZIP provides budget-friendly paths -- start with Module 1 to calibrate costs before tackling larger exercises. Capstone A (3-agent parallel code review) will use roughly 3x the tokens of a single-agent session.
+Hands-on exercises (A-type) run multiple Claude instances simultaneously, so they cost more than single-agent sessions. Design exercises (B-type) are completely free -- they require no API calls at all.
+
+**Budget-friendly path**: Complete all four design exercises first (1.2, 2.2, 3.2, 4.2), then add hands-on exercises starting with 1.1. See the exercise guide inside the ZIP for detailed cost estimates.
 :::
 
 ---
@@ -84,272 +90,312 @@ Agent Teams exercises have higher API costs than single-agent exercises because 
 
 **Start the exercises after finishing Lesson 20:**
 
-| After Lesson...          | Do Module...                                |
-| ------------------------ | ------------------------------------------- |
-| Lesson 20: Agent Teams   | **Modules 1-3:** All exercises              |
-| All of the above         | **Module 4:** Capstones                     |
+| After Lesson Section...              | Do Module...                  |
+| ------------------------------------ | ----------------------------- |
+| Enable Agent Teams + Your First Team | **Module 1:** Your First Team |
+| Task Coordination                    | **Module 2:** Task Pipelines  |
+| Communication                        | **Module 3:** Communication   |
+| Quality Gates                        | **Module 4:** Quality Gates   |
+| All of the above                     | **Module 5:** Capstones       |
 
-The workflow for every exercise is the same:
+The workflow for every exercise:
 
 1. **Open the exercise folder** from the `claude-code-agent-teams-exercises/` directory
 2. **Read the INSTRUCTIONS.md** inside the folder -- it has setup steps and starter files
-3. **Read the walkthrough below** for context on what you're practicing and why
+3. **Read the walkthrough below** for context on what you are practicing and why
 4. **Start Claude Code** and point it at the exercise folder
-5. **Work through the exercise** -- write your own prompts, don't just copy the starter
-6. **Reflect** using the questions provided -- this is where the real learning happens
+5. **Work through the exercise** -- write your own prompts, do not just copy the starter
+6. **Score your results** using the assessment rubric at the bottom of this lesson
 
 ---
 
 ## Tool Guide
 
-- Claude Code -- Terminal-based, required for all agent team exercises. Agent teams operate through the terminal using TeamCreate, TaskCreate, TaskUpdate, SendMessage, and related tools.
+- Claude Code -- Terminal-based, required for all hands-on agent team exercises. Agent teams operate through the terminal using TeamCreate, TaskCreate, TaskUpdate, SendMessage, and related tools.
 
 Agent teams are a terminal-only feature. Cowork does not support multi-agent team orchestration.
 
 ---
 
-## The Team Orchestration Workflow
+## Module 1: Your First Team (Knowledge Work)
 
-Use this for every exercise:
+> **Core Skill:** Creating teams, spawning teammates, and assigning tasks with dependencies
 
-1. **Design** -- What agents do you need? What does each one own?
-2. **Create** -- Set up the team with TeamCreate and spawn teammates
-3. **Coordinate** -- Create tasks with dependencies using TaskCreate and TaskUpdate
-4. **Communicate** -- Use SendMessage for DMs and broadcasts
-5. **Monitor** -- Watch for idle notifications and task completions
-6. **Validate** -- Verify all tasks completed and outputs are correct
-
-This workflow mirrors real multi-agent orchestration: before spawning agents, design the team structure. After spawning, coordinate through tasks and messages rather than micromanaging each agent's work.
-
----
-
-## Module 1: Team Fundamentals
-
-> **Core Skill:** Creating teams, spawning teammates, and navigating team structure
-
-### Exercise 1.1 -- Create and Navigate a Team (Hands-on)
+### Exercise 1.1 -- Market Research Sprint (Hands-on)
 
 **The Problem:**
-Open the `module-1-team-fundamentals/exercise-1.1-create-team/` folder. You'll find a 6-file Node.js project (`package.json`, `routes.js`, `db.js`, and others) with several issues including a missing `package-lock.json`. The project needs a code review, but doing it alone means switching context between routes, database logic, and configuration.
+Open the `module-1-your-first-team/exercise-1.1-market-research-sprint/` folder. Your VP wants a market analysis of the premium pet food delivery space. You have a CSV with 50 rows of market data, three competitor profiles, and an analysis brief specifying three angles: market sizing, competitive landscape, and entry strategy.
 
-**Your Task:**
-Create an agent team with 3 teammates: one to review routes, one to review database code, and one to review configuration. Use TeamCreate to set up the team, spawn teammates, create tasks for each reviewer, and assign them. Verify the team structure by reading the team config file.
+**What You'll Build:**
+A 3-agent research team where a market analyst works the data, a competitive intelligence agent reads the competitor profiles, and a strategy advisor synthesizes both analyses into a go/no-go recommendation. The strategy advisor's task is blocked by the other two -- it cannot start until both analyses are complete.
 
 **What You'll Learn:**
 
-- How TeamCreate initializes a team with config and task directories
-- How spawning teammates creates agents that can receive tasks
-- That team structure is stored in files you can inspect at `~/.claude/teams/`
+- How TeamCreate initializes a team and spawns specialized agents
+- How blockedBy dependencies enforce sequencing -- the synthesizer waits for the analysts
+- That dividing research angles across agents produces more thorough coverage than a single prompt
 
 **Starter Prompt:**
 
-> "Create a team to review this Node.js project with 3 agents."
+> "Create a team to analyze this market opportunity with 3 research agents."
 
 **Better Prompt (Build Toward This):**
-"Create a team called 'code-review' using TeamCreate. Spawn 3 teammates: 'routes-reviewer' to review routes.js for security and validation issues, 'db-reviewer' to review db.js for connection handling and query safety, and 'config-reviewer' to review package.json and config files for missing dependencies. Create a task for each reviewer describing what to look for. Assign tasks using TaskUpdate with the owner parameter. After setup, read `~/.claude/teams/code-review/config.json` to verify all members are registered."
+"Create a team called 'market-research' using TeamCreate. Spawn 3 teammates: 'market-analyst' to analyze market-data.csv for segment sizes, growth rates, and trends; 'competitive-intel' to read all three competitor profiles and map strengths and weaknesses; 'strategy-advisor' to synthesize both analyses into entry recommendations. Create tasks for each with clear deliverables. The strategy-advisor task should be blockedBy both the market-analyst and competitive-intel tasks."
 
 **Reflection Questions:**
 
-1. How many files were created when you ran TeamCreate? What does each one contain?
-2. When you spawned teammates, how did you specify what each one should focus on? What happened when instructions were vague vs. specific?
-3. If you needed to add a 4th teammate mid-review, what steps would you take?
+1. How did the strategy advisor's output differ from what a single agent would produce with all the same files? Was the team version more thorough?
+2. Did the blockedBy dependency actually matter -- did the strategy advisor reference specific findings from the other two agents?
+3. If you could add a 4th agent, what angle would it cover?
 
 ---
 
-### Exercise 1.2 -- Diagnose a Broken Team (Debug)
+### Exercise 1.2 -- Team Architecture Workshop (Design)
 
 **The Problem:**
-Open the `module-1-team-fundamentals/exercise-1.2-broken-team/` folder. You'll find a team configuration and task list with 3 planted bugs: (1) a circular `blockedBy` dependency where Task A blocks Task B and Task B blocks Task A, (2) a teammate with an empty name string in the config, and (3) a task assigned to an owner that doesn't match any team member name.
+Open the `module-1-your-first-team/exercise-1.2-team-architecture-workshop/` folder. You have five different business scenarios -- each needs a multi-agent team, but they have very different requirements for team size, task structure, and communication patterns.
 
-**Your Task:**
-Read the team config and task files. Identify all three bugs, explain why each one causes problems, and fix them. For the circular dependency, redraw the dependency chain so tasks can actually complete. For the empty name, assign a proper name. For the wrong owner, match it to an actual team member.
+**What You'll Design:**
+For each of the five scenarios, sketch the team: how many agents, what each one does, which tasks depend on which, and what information flows between them. No API calls needed -- this is strategic thinking about when and how to decompose problems into parallel agent work.
 
 **What You'll Learn:**
 
-- How circular `blockedBy` dependencies create deadlocks that prevent any task from starting
-- That teammate names must be non-empty and consistent between config and task assignment
-- The debugging technique of reading all team files before changing any
+- Not every problem benefits from a team -- some are better solved by a single agent
+- Team structure follows problem structure: parallel analysis needs parallel agents, sequential processes need pipeline dependencies
+- Designing the team before creating it prevents wasted API tokens on poorly structured workflows
 
 **Reflection Questions:**
 
-1. How did you detect the circular dependency? What tool or technique made it visible?
-2. What would happen at runtime if you launched a team with these bugs? Which bug would surface first?
-3. How would you prevent circular dependencies in a real project with 20+ tasks?
+1. Which of the five scenarios benefits most from a multi-agent approach? Which benefits least?
+2. For the scenarios where you chose more than 3 agents, could you achieve the same result with fewer? What is the tradeoff?
+3. What patterns do you notice across your five designs -- are there common team shapes?
 
 ---
 
-## Module 2: Task Coordination
+## Module 2: Task Pipelines (Corporate)
 
-> **Core Skill:** Creating task pipelines with dependencies and managing task ownership
+> **Core Skill:** Creating task pipelines with blockedBy dependencies and managing sequential workflows
 
-### Exercise 2.1 -- Build a Dependency Pipeline (Hands-on)
+### Exercise 2.1 -- Event Planning Pipeline (Hands-on)
 
 **The Problem:**
-Open the `module-2-task-coordination/exercise-2.1-dependency-pipeline/` folder. You'll find a project that needs a migration from string-based IDs to UUIDs across multiple files. The migration has strict ordering requirements: database schema must update first, then data migration, then application code, then tests. If any step runs out of order, the system breaks.
+Open the `module-2-task-pipelines/exercise-2.1-event-planning-pipeline/` folder. You are planning a 200-person corporate event. You have an event requirements document, a budget CSV, a venue options CSV with 12 venues, and a guest list CSV with 80 confirmed attendees. The planning has strict ordering: budget analysis must happen first, then venue selection (constrained by budget), then logistics (constrained by venue), then communications (constrained by all prior decisions).
 
-**Your Task:**
-Create a task pipeline with 4 tasks where each task is blocked by the previous one. Use `addBlockedBy` in TaskUpdate to enforce the ordering. Assign each task to a different teammate. Start the pipeline and verify that tasks unlock in sequence as each one completes.
+**What You'll Build:**
+A 4-stage pipeline where each task is blocked by the previous one. Budget analyst determines what you can afford. Venue selector picks the best venue within budget. Logistics coordinator plans catering, AV, and transportation for the chosen venue. Communications agent drafts attendee invitations with all the confirmed details.
 
 **What You'll Learn:**
 
-- How `addBlockedBy` creates sequential dependencies between tasks
-- That blocked tasks cannot be claimed until their dependencies resolve
-- The difference between parallel tasks (no dependencies) and sequential pipelines
+- How addBlockedBy creates sequential dependencies between tasks
+- That blocked tasks cannot proceed until their dependencies resolve -- this prevents out-of-order execution
+- The difference between tasks that must be sequential (venue depends on budget) and tasks that could run in parallel
 
 **Starter Prompt:**
 
-> "Create tasks for a UUID migration and make sure they run in order."
+> "Create a pipeline for planning this corporate event with 4 stages."
 
 **Better Prompt (Build Toward This):**
-"Create 4 tasks for a string-to-UUID migration: (1) 'Update database schema' -- add UUID columns alongside string IDs, (2) 'Migrate existing data' -- populate UUID columns from string IDs, (3) 'Update application code' -- change all blockedBy arrays from string references to UUID references, (4) 'Update tests' -- fix test fixtures to use UUIDs. Set dependencies: task 2 blockedBy task 1, task 3 blockedBy task 2, task 4 blockedBy task 3. Assign each to a different teammate. Start task 1 and verify tasks 2-4 show as blocked in TaskList."
+"Create a team called 'event-planning' with 4 agents: 'budget-analyst' to analyze the budget CSV and determine spending limits per category; 'venue-selector' to evaluate all 12 venues against budget constraints and event requirements; 'logistics-coordinator' to plan catering, AV, and transportation for the selected venue and guest count; 'comms-agent' to draft attendee invitations with confirmed venue, date, and logistics details. Set dependencies: venue-selector blockedBy budget-analyst, logistics-coordinator blockedBy venue-selector, comms-agent blockedBy logistics-coordinator."
 
 **Reflection Questions:**
 
-1. What did TaskList show for tasks 2-4 while task 1 was in progress? How does the `blockedBy` field appear?
-2. What would happen if you tried to set task 2 to `in_progress` before task 1 completed?
-3. When would you use parallel tasks (no dependencies) instead of a pipeline? Give an example from this project.
+1. What happened when the venue selector tried to work before the budget analyst finished? Did the blockedBy dependency prevent premature decisions?
+2. Could any of these four stages run in parallel instead of sequentially? What would need to change?
+3. If the budget analyst discovers the budget is insufficient for any venue, how should the pipeline handle this failure?
 
 ---
 
-### Exercise 2.2 -- Fix a Micromanaging Lead (Debug)
+### Exercise 2.2 -- Pipeline Blueprint (Design)
 
 **The Problem:**
-Open the `module-2-task-coordination/exercise-2.2-micromanaging-lead/` folder. You'll find a session transcript of a team lead agent that is micromanaging its teammates. Instead of creating tasks and letting teammates work autonomously, the lead sends a message after every small step, reassigns tasks mid-work, and broadcasts status updates that interrupt all teammates simultaneously.
+Open the `module-2-task-pipelines/exercise-2.2-pipeline-blueprint/` folder. You have three real business workflows that need dependency graphs: a product launch sequence, a quarterly financial close, and an employee onboarding process.
 
-**Your Task:**
-Read the session transcript. Identify at least 4 anti-patterns the lead is exhibiting. For each anti-pattern, explain what the lead should do instead. Then write a corrected version of the lead's key prompts that delegate effectively.
+**What You'll Design:**
+For each workflow, map out every task, identify which tasks depend on which, and draw the dependency graph. Identify which tasks can run in parallel and which must be sequential. No API calls needed.
 
 **What You'll Learn:**
 
-- Why broadcasting every status update wastes tokens and interrupts focused work
-- That reassigning tasks mid-work destroys teammate context and forces restarts
-- The difference between effective delegation (create task, assign, wait for completion) and micromanagement (message after every step)
+- Real business workflows are rarely purely sequential -- most have parallel branches that converge at key milestones
+- Drawing dependencies before creating tasks prevents circular dependencies and deadlocks
+- The critical path (longest sequential chain) determines minimum pipeline duration
+
+**Reflection Questions:**
+
+1. For each workflow, what is the critical path -- the longest chain of sequential dependencies? How does it compare to running everything sequentially?
+2. Did you find any tasks that seemed sequential at first but could actually run in parallel? What made you reconsider?
+3. How would you handle a dependency that fails midway through -- does the whole pipeline stop or just the downstream branch?
+
+---
+
+## Module 3: Communication (Entrepreneurship)
+
+> **Core Skill:** Using SendMessage for direct messages and understanding broadcast vs DM tradeoffs
+
+### Exercise 3.1 -- Feature Prioritization Debate (Hands-on)
+
+**The Problem:**
+Open the `module-3-communication/exercise-3.1-feature-prioritization-debate/` folder. Your startup has three proposed features (Analytics Dashboard, Collaboration Suite, API Marketplace) and limited engineering bandwidth. You have 100 user survey responses, revenue projections by quarter, and engineering effort estimates. You need a data-driven prioritization, not a gut decision.
+
+**What You'll Build:**
+A 4-agent debate team. Three advocate agents each champion one feature using real data from the CSV files. A decision-maker agent synthesizes all three arguments into a prioritized build order. Each advocate reads the survey data and revenue projections for their assigned feature and builds the strongest case they can.
+
+**What You'll Learn:**
+
+- How SendMessage enables structured information flow between agents
+- That debate format (multiple agents arguing different positions) can produce better analysis than a single agent trying to be "balanced"
+- When to use DMs (sharing findings with the decision-maker) vs broadcast (announcing results to all)
 
 **Starter Prompt:**
 
-> "What's wrong with this team lead's behavior?"
+> "Create a team where 3 agents each argue for a different feature and a 4th decides the priority."
 
 **Better Prompt (Build Toward This):**
-"Read the session transcript in `transcript.md`. For each message the lead sends, classify it as: (A) necessary coordination, (B) unnecessary interruption, or (C) harmful micromanagement. Count how many messages fall into each category. For every category C message, write what the lead should have done instead. Focus on: when to use DM vs broadcast, when to let teammates work without checking in, and how task status (TaskList) replaces manual status checks."
+"Create a team called 'feature-debate' with 4 agents: 'advocate-analytics' champions Feature A using survey data and revenue projections; 'advocate-collaboration' champions Feature B with the same data sources; 'advocate-marketplace' champions Feature C; 'decision-maker' synthesizes all three arguments into a prioritized recommendation. Create tasks for each advocate, then a synthesis task for the decision-maker blockedBy all three advocate tasks. Each advocate should also read effort-estimates.csv to address feasibility. The decision-maker should weigh revenue potential, user demand, AND engineering effort."
 
 **Reflection Questions:**
 
-1. How many of the lead's messages were category C (harmful micromanagement)? What percentage of total communication was wasted?
-2. The lead used `broadcast` 7 times. How many of those should have been DMs or not sent at all?
-3. What signals should a team lead watch for instead of sending check-in messages? (Hint: what notifications does the system send automatically?)
+1. Did the advocates cherry-pick data that supported their feature? Is that useful or harmful for decision-making?
+2. How did the decision-maker handle conflicting evidence -- for example, a feature with high revenue but low survey scores?
+3. Compare this structured debate to asking one agent "analyze all three features and recommend a priority order." Which produced better reasoning?
 
 ---
 
-## Module 3: Quality Hooks
-
-> **Core Skill:** Designing hooks that enforce quality standards across team workflows
-
-### Exercise 3.1 -- Build Team Quality Hooks (Hands-on)
+### Exercise 3.2 -- Communication Protocol Design (Design)
 
 **The Problem:**
-Open the `module-3-quality-hooks/exercise-3.1-team-hooks/` folder. You'll find a set of service files (`auth-service.js`, `payment-service.js`, `notification-service.js`) that contain TODO comments, FIXME markers, and console.log debugging statements that should never reach production. Your team of 3 agents will review and fix these files, but you need hooks to enforce quality standards automatically.
+Open the `module-3-communication/exercise-3.2-communication-protocol-design/` folder. You have five multi-agent scenarios that each require different communication patterns. Some need broadcast, some need targeted DMs, some need information to flow in one direction, and some need back-and-forth negotiation.
 
-**Your Task:**
-Design hooks that fire during team workflows: (1) a `TeammateIdle` hook that checks whether the idle teammate's assigned tasks are actually complete before the lead assigns new work, (2) a `TaskCompleted` hook that scans the completed file for remaining TODO/FIXME markers and rejects the task if any are found, and (3) a notification hook that alerts the lead when any teammate has been idle for more than 2 consecutive turns without progress.
+**What You'll Design:**
+For each scenario, specify the communication protocol: who sends messages to whom, when to use broadcast vs DM, what information each message contains, and in what order messages should flow. No API calls needed.
 
 **What You'll Learn:**
 
-- How `TeammateIdle` and `TaskCompleted` hooks integrate with team lifecycle events
-- That hooks can enforce quality gates automatically instead of relying on manual review
-- The pattern of using exit codes to block or allow team actions (exit 0 = allow, exit 2 = block)
+- Broadcasting is expensive -- it interrupts every agent. Most messages should be DMs to specific recipients
+- Communication direction matters: top-down (lead to teammates), bottom-up (findings to lead), or peer-to-peer (agents sharing with each other)
+- Well-designed communication protocols reduce token waste and improve output quality
+
+**Reflection Questions:**
+
+1. For how many of the five scenarios did you choose broadcast over DM? What made broadcast necessary in those cases?
+2. What happens when agents communicate too much -- constant status updates, unnecessary broadcasts? How does that affect costs and quality?
+3. Design a "communication budget" rule: if each message costs X tokens, how many messages should a 3-agent team exchange for a 30-minute task?
+
+---
+
+## Module 4: Quality Gates (Freelancer/Consultant)
+
+> **Core Skill:** Using delegate mode and plan approval to enforce quality standards
+
+### Exercise 4.1 -- Client Proposal Pipeline (Hands-on)
+
+**The Problem:**
+Open the `module-4-quality-gates/exercise-4.1-client-proposal-pipeline/` folder. A client has sent you an RFP (Request for Proposal). You have your company capabilities document and two reference proposals from past wins. You need to draft a proposal, review it for quality, and get final approval before "submitting" it.
+
+**What You'll Build:**
+A 3-agent pipeline with quality gates. A proposal writer operates in delegate mode -- it must present its plan (outline, key themes, pricing approach) and get approval before drafting. A quality reviewer checks the draft against every RFP requirement. An engagement lead makes the final submission decision.
+
+**What You'll Learn:**
+
+- How delegate mode (plan_mode_required) prevents agents from charging ahead without approval
+- That review cycles improve output -- the quality reviewer catches gaps the writer missed
+- The approval pattern: plan approval before work, quality review after work, final sign-off before delivery
 
 **Starter Prompt:**
 
-> "Create hooks that check code quality when teammates finish tasks."
+> "Create a proposal team with a writer, reviewer, and approver."
 
 **Better Prompt (Build Toward This):**
-"Create team quality hooks in the settings configuration: (1) A hook on `TaskCompleted` that runs `grep -rn 'TODO\|FIXME\|console\.log' <completed-file>` and exits with code 2 if any matches are found, blocking task completion until cleanup is done. (2) A hook on `TeammateIdle` that reads the teammate's task list and logs whether all assigned tasks show status 'completed'. (3) A notification script that the lead can run manually to check which teammates have open tasks. Put hook scripts in `.claude/hooks/` with proper execute permissions."
+"Create a team called 'proposal-team' with 3 agents: 'proposal-writer' in delegate mode (plan_mode_required) to draft the proposal matching RFP requirements using company capabilities and reference proposals; 'quality-reviewer' to check the draft for completeness against every RFP requirement, accuracy of capability claims, and persuasiveness; 'engagement-lead' to make the final submission decision. Create tasks: draft proposal (writer), review draft (reviewer, blockedBy writer), final approval (lead, blockedBy reviewer). The writer must present its plan and get approval before writing."
 
 **Reflection Questions:**
 
-1. What exit code did your TaskCompleted hook use to block completion? What happens to the task status when a hook blocks?
-2. How would you modify the TeammateIdle hook to automatically reassign tasks from a stuck teammate?
-3. If a hook script has a bug and always exits with code 2, what happens to the team workflow? How would you debug this?
+1. Did the delegate mode approval step prevent any wasted effort? What would have happened if the writer started drafting without plan approval?
+2. How many revision cycles did the proposal go through? Was each cycle productive or did you hit diminishing returns?
+3. In a real consulting firm, this pipeline runs every week. How would you template this team for reuse across different RFPs?
 
 ---
 
-### Exercise 3.2 -- Debug Hook Failures (Debug)
+### Exercise 4.2 -- Review Workflow Design (Design)
 
 **The Problem:**
-Open the `module-3-quality-hooks/exercise-3.2-debug-hooks/` folder. You'll find a team configuration with 3 hooks that are all broken. Bug 1: A `TeammateIdle` hook is registered as `teammateIdle` (wrong casing -- the event name is case-sensitive). Bug 2: A quality check hook script exits with code 1 instead of code 2, so it logs an error but never actually blocks the action. Bug 3: A hook script file exists but is missing the execute permission (`chmod +x`), so it never runs.
+Open the `module-4-quality-gates/exercise-4.2-review-workflow-design/` folder. You have three different deliverable types that each need review and approval pipelines: a technical blog post, a financial report, and a software architecture document.
 
-**Your Task:**
-Diagnose and fix all three bugs. For each bug, document: what the symptom was, what the root cause was, and what you changed to fix it. Run the hooks after fixing to verify they work.
+**What You'll Design:**
+For each deliverable, design the complete review workflow: who creates, who reviews, who approves, what criteria each reviewer uses, and how revision requests flow back to the creator. No API calls needed.
 
 **What You'll Learn:**
 
-- That hook event names are case-sensitive: `TeammateIdle` works, `teammateIdle` does not
-- The critical difference between exit codes: 0 = success, 1 = error (logged but not blocking), 2 = block the action
-- That file permissions are a silent killer -- a hook without `chmod +x` never executes and produces no error
-
-**Starter Prompt:**
-
-> "These 3 hooks aren't working. Find out why."
-
-**Better Prompt (Build Toward This):**
-"Read the settings configuration and all hook scripts in `.claude/hooks/`. For each hook: (1) Check the event name matches the exact casing from the documentation (TeammateIdle, TaskCompleted, not lowercase variants). (2) Check the exit code -- if the hook should BLOCK an action, it must exit 2, not exit 1. (3) Check file permissions with `ls -la .claude/hooks/` -- scripts need execute permission. Fix each bug, then test by triggering each hook event manually."
+- Different deliverables need different review criteria -- technical accuracy for architecture docs, regulatory compliance for financial reports, readability for blog posts
+- Quality gates add cost (more agents, more time) but reduce risk -- the tradeoff depends on the stakes of the deliverable
+- The revision loop (create, review, revise, re-review) must have a termination condition or it runs forever
 
 **Reflection Questions:**
 
-1. Which bug was hardest to diagnose? The casing issue, the exit code issue, or the permissions issue?
-2. How would you write a quick validation script that checks all 3 potential issues for any hook file?
-3. If you were documenting a "team hooks debugging checklist" for your team, what would the first 5 items be?
+1. Which deliverable type needed the most reviewers? Why -- what is at stake if a financial report has errors versus a blog post?
+2. How did you design the termination condition for revision loops? After how many rounds should the team stop revising and ship?
+3. Could you combine any reviewer roles -- for example, one agent checking both technical accuracy and readability? What are the tradeoffs?
 
 ---
 
-## Module 4: Capstones
+## Module 5: Capstones
 
-> **Choose one (or both). These combine team creation, task coordination, and quality hooks -- no starter prompts provided.**
+> **Choose one or more. These combine team creation, task coordination, communication, and quality gates -- no starter prompts provided.**
 
-Capstones are different from the exercises above. There are no guided prompts -- you design the entire approach yourself. Each project requires combining team fundamentals, task coordination, and quality hooks into a complete multi-agent workflow.
+Capstones are different from the exercises above. There are no guided prompts -- you design the entire approach yourself. Each project requires integrating concepts from all four modules into a complete multi-agent workflow.
 
-### Capstone A -- Full 3-Agent Parallel Code Review
+### Capstone A -- Business Plan Assembly
 
-Open the `module-4-capstones/capstone-A-parallel-review/` folder. You'll find a Node.js project with 19 planted issues across 4 files: `routes.js` (authentication bypass, missing input validation, SQL injection), `jwt.js` (weak signing algorithm, token expiration issues), `db.js` (connection pool leaks, missing error handling), and `api.test.js` (missing edge case tests, hardcoded values). Design a complete team: create 3 specialized reviewer agents (security, reliability, testing), create tasks with appropriate dependencies, add quality hooks that verify each reviewer found a minimum number of issues, and compile a final review report. The goal is to find all 19 issues through parallel team coordination.
+Open the `module-5-capstones/capstone-A-business-plan-assembly/` folder. You have a business idea description, a market research CSV with 55 rows of data, and a cost estimates CSV. Assemble a complete business plan using 5 agents: market researcher, financial modeler, competitive analyst, operations planner, and an executive summarizer who synthesizes everything into a pitch-ready document. Design the task dependencies, communication flows, and at least one quality gate.
 
 **What You'll Learn:**
 
-- How to decompose a code review into parallel workstreams that don't duplicate effort
-- That task dependencies matter even in parallel work -- the final report depends on all reviews completing
-- How quality hooks can enforce minimum standards (e.g., each reviewer must find at least 3 issues)
+- How to decompose a complex deliverable (business plan) into parallel workstreams
+- That the synthesizer agent benefits enormously from well-structured upstream outputs
+- How quality gates at the end catch inconsistencies between sections (financial projections that contradict market sizing)
 
 ---
 
-### Capstone B -- Your Professional Domain
+### Capstone B -- Customer Feedback Triage
 
-Open the `module-4-capstones/capstone-B-professional-domain/` folder for a self-assessment template. Design an agent team for a real workflow in your professional domain. Examples: a content team (researcher, writer, editor) for producing technical documentation, a data pipeline team (extractor, transformer, validator) for ETL workflows, or a testing team (unit tester, integration tester, report generator) for quality assurance. Define the team structure, create at least 4 tasks with dependencies, add at least one quality hook, and run the team on a real (or realistic) project.
+Open the `module-5-capstones/capstone-B-customer-feedback-triage/` folder. You have 200 customer reviews, a product catalog, and a team brief. Build a team that categorizes reviews by sentiment and topic, identifies the top 5 product issues, proposes fixes for each, and produces an executive action plan with priorities and owners.
+
+**What You'll Learn:**
+
+- How agent teams handle high-volume data (200 reviews) through division of labor
+- That categorization agents and analysis agents have different strengths -- separating these roles produces better results
+- How to design dependencies so the action plan reflects actual data patterns, not assumptions
+
+---
+
+### Capstone C -- Your Business Challenge
+
+Open the `module-5-capstones/capstone-C-your-business-challenge/` folder for a self-assessment template and planning worksheet. Apply agent teams to a real challenge from your own work. Define the problem, design the team, identify what data or documents the agents need, and run the workflow. This capstone has no fixed structure -- the team design must match your specific problem.
 
 **What Makes This Special:**
-Unlike Capstone A, this one applies to YOUR actual work. The team structure you design could become a reusable pattern you use daily. Most professionals discover that even 2-agent teams save significant time on tasks they were doing sequentially.
-
-**What You'll Learn:**
-
-- How to identify workflows in your domain that benefit from parallelization
-- That team design requires thinking about task boundaries -- what can run in parallel vs what must be sequential
-- How to evaluate whether a multi-agent approach saved time compared to doing it yourself
+The team structure you design here could become a reusable workflow you run weekly. Most professionals discover that even a 2-agent team saves significant time on tasks they were doing sequentially.
 
 ---
 
 ## Assessment Rubric
 
-After completing the exercises, evaluate yourself on each dimension:
+After completing an exercise, evaluate your team's output on four criteria using a 1-5 scale:
 
-| Criteria                |        Beginner (1)         |          Developing (2)          |                Proficient (3)                |                  Advanced (4)                  |
-| ----------------------- | :-------------------------: | :------------------------------: | :------------------------------------------: | :--------------------------------------------: |
-| **Team Creation**       | Can't create team or spawn  |  Creates team but wrong structure |    Correct team, members, and config          |  Designs teams optimized for task parallelism  |
-| **Task Coordination**   |  Tasks have no dependencies | Dependencies exist but incorrect |  Correct blockedBy chains and task ownership  |  Pipelines with parallel and sequential stages |
-| **Hook Design**         |     Hooks don't fire        | Hooks fire but wrong exit codes  |  Correct events, scripts, and exit semantics  |  Hooks compose into team-wide quality gates    |
-| **Debug Skill**         |    Can't identify issue     |   Finds issue but wrong fix      |       Correct diagnosis and fix               |  Prevents class of issues proactively          |
+| Criteria              |            1 (Weak)            |           2 (Basic)            |               3 (Solid)               |              4 (Strong)               |                  5 (Exceptional)                  |
+| --------------------- | :----------------------------: | :----------------------------: | :-----------------------------------: | :-----------------------------------: | :-----------------------------------------------: |
+| **Comprehensiveness** | Missing most required sections | Covers some angles, gaps exist |    Addresses all required sections    |     Thorough coverage with depth      |        Insights that go beyond the obvious        |
+| **Actionability**     |  Vague observations, no steps  | Some recommendations, generic  |   Clear recommendations, executable   | Specific, prioritized with next steps |   Ready-to-execute plan with owners and metrics   |
+| **Evidence Quality**  |       No data references       | Occasional data, mostly claims |    Key conclusions backed by data     | Strong data support, cites specifics  |   Cross-referenced data with confidence levels    |
+| **Team Coordination** |   Agents worked in isolation   | Some awareness, minimal build  | Later agents reference earlier agents |  Clear reasoning chain across agents  | Genuine team intelligence no single agent matches |
 
-**Target**: Proficient (3) across all dimensions by Module 3. Advanced (4) is demonstrated through capstone completion.
+**Scoring targets:**
+
+- Module exercises (1.1 through 4.2): **14/20** -- solid understanding of the concept
+- Capstones (A, B, C): **16/20** -- integration and mastery
+
+Record your scores after each exercise. If you score below target, re-read the reflection questions for improvement ideas.
 
 ---
 
 ## What's Next
 
-You've practiced the three core skills -- **team orchestration**, **multi-agent debugging**, and **hook-based quality gates** -- across 10 exercises. These skills compound: every exercise builds intuition for when to create a team vs work solo, how to design task dependencies that prevent deadlocks, and where quality hooks catch mistakes that humans miss. Agent teams are how professionals scale from individual Claude Code sessions to coordinated multi-agent workflows. Next in **Lesson 22: Claude Cowork -- From Terminal to Desktop**, you'll transition from terminal-based workflows to the visual desktop experience, learning when each interface serves you best.
+You have practiced four core capabilities across 11 exercises: **team orchestration**, **task pipeline design**, **inter-agent communication**, and **quality gate enforcement**. These skills compound -- every exercise builds intuition for when to create a team versus work solo, how to design dependencies that prevent wasted work, and where quality gates catch mistakes that a single pass misses. Next in **Lesson 22: Claude Cowork -- From Terminal to Desktop**, you will transition from terminal-based workflows to the visual desktop experience, learning when each interface serves you best.
