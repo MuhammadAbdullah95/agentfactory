@@ -1,8 +1,8 @@
 ---
 title: "Safety, Limitations, and What's Coming"
-sidebar_position: 26
+sidebar_position: 27
 chapter: 3
-lesson: 26
+lesson: 27
 duration_minutes: 14
 chapter_type: Concept
 running_example_id: safety-and-limitations

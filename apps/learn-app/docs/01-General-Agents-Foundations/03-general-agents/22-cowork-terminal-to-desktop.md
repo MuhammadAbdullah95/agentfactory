@@ -1,8 +1,8 @@
 ---
 title: "From Terminal to Desktop: The Cowork Story"
-sidebar_position: 21
+sidebar_position: 22
 chapter: 3
-lesson: 21
+lesson: 22
 duration_minutes: 15
 chapter_type: Concept
 running_example_id: claude-cowork-introduction

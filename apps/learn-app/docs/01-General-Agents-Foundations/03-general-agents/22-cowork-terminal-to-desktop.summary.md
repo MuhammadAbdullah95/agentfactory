@@ -1,4 +1,4 @@
-# Lesson 19: From Terminal to Desktop - The Cowork Story
+# Lesson 22: From Terminal to Desktop - The Cowork Story
 
 ## Key Concepts
 

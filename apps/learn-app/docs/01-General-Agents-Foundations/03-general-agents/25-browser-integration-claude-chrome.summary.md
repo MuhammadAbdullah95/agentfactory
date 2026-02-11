@@ -1,4 +1,4 @@
-# Lesson 22: Browser Integration - Claude in Chrome
+# Lesson 25: Browser Integration - Claude in Chrome
 
 ## What Browser Integration Enables
 

@@ -1,4 +1,4 @@
-# Lesson 25: Built-in Skills - Documents, Spreadsheets, Presentations
+# Lesson 28: Built-in Skills - Documents, Spreadsheets, Presentations
 
 ## Built-in Skills Overview
 

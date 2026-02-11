@@ -1,8 +1,8 @@
 ---
 title: "Built-in Skills: Documents, Spreadsheets, Presentations"
-sidebar_position: 27
+sidebar_position: 28
 chapter: 3
-lesson: 27
+lesson: 28
 duration_minutes: 18
 chapter_type: Practical
 running_example_id: built-in-skills
@@ -66,7 +66,7 @@ version: "1.0.0"
 
 # Legacy compatibility (Docusaurus)
 prerequisites:
-  - "Completion of Lesson 24: Safety, Limitations, and What's Coming"
+  - "Completion of Lesson 27: Safety, Limitations, and What's Coming"
   - "Working Claude Cowork installation"
   - "Basic familiarity with Office documents"
 ---

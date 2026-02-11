@@ -1,8 +1,8 @@
 ---
 title: "Connectors: MCP for Everyone"
-sidebar_position: 25
+sidebar_position: 26
 chapter: 3
-lesson: 25
+lesson: 26
 duration_minutes: 16
 chapter_type: Concept
 running_example_id: connectors-introduction
@@ -63,7 +63,7 @@ version: "1.0.0"
 # Legacy compatibility (Docusaurus)
 prerequisites:
   - "Completion of Lesson 12: MCP Integration (for context)"
-  - "Completion of Lesson 22: Browser Integration"
+  - "Completion of Lesson 25: Browser Integration"
   - "Claude Cowork installed and configured"
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: "Code vs. Cowork: A Decision Framework"
-sidebar_position: 28
+sidebar_position: 29
 chapter: 3
-lesson: 28
+lesson: 29
 duration_minutes: 16
 chapter_type: Concept
 running_example_id: decision-framework
@@ -370,4 +370,4 @@ The differences are:
 
 ## What's Next
 
-You've completed the Cowork content. The remaining lessons cover the business side—how to monetize your Skills (Lesson 27) and a chapter quiz (Lesson 28) that tests your understanding of both Claude Code and Claude Cowork.
+You've completed the Cowork content. The remaining lessons cover the business side—how to monetize your Skills (Lesson 30) and a chapter quiz (Lesson 32) that tests your understanding of both Claude Code and Claude Cowork.

@@ -1,4 +1,4 @@
-# Lesson 23: Connectors - MCP for Everyone
+# Lesson 26: Connectors - MCP for Everyone
 
 ## What Connectors Are
 

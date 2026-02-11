@@ -588,7 +588,7 @@ consensus emerges.
 
 ### What's Next
 
-You have learned to coordinate multiple Claude instances as a team. Lesson 21 introduces **Claude Cowork** -- the desktop-based version of Claude's agentic AI. Where Agent Teams give you parallel power in the terminal, Cowork brings agentic capabilities to knowledge workers who prefer a visual interface.
+You have learned to coordinate multiple Claude instances as a team. Next up: **Lesson 21** provides hands-on exercises to practice everything you learned about teams -- creating teams, coordinating tasks, and debugging real multi-agent workflows. After that, Lesson 22 introduces **Claude Cowork** -- the desktop-based version of Claude's agentic AI.
 
 ---
 

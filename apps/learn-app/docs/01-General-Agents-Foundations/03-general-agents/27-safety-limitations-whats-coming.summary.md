@@ -1,4 +1,4 @@
-# Lesson 24: Safety, Limitations, and What's Coming
+# Lesson 27: Safety, Limitations, and What's Coming
 
 ## Safety Considerations
 

@@ -1,10 +1,10 @@
 ---
-sidebar_position: 30
+sidebar_position: 31
 title: "The Cross-Vendor Landscape: Your Skills Are Portable"
 description: "See how Claude Code concepts map to OpenAI Codex, Google Gemini CLI, and emerging industry standards — your agent-building skills transfer everywhere."
 keywords: [openai codex, gemini cli, agents.md, mcp, agentic ai foundation, cross-vendor, portable skills]
 chapter: 3
-lesson: 30
+lesson: 31
 duration_minutes: 25
 chapter_type: Concept
 
@@ -244,4 +244,4 @@ The AI model and market landscape change rapidly. Figures in this lesson reflect
 
 ## What's Next
 
-You've completed the full Chapter 3 journey -- from your first Claude Code session through skills, MCP, hooks, plugins, agent teams, and now cross-vendor fluency. Next up: the **Chapter Quiz** (Lesson 31) to test your understanding across all 30 lessons.
+You've completed the full Chapter 3 journey -- from your first Claude Code session through skills, MCP, hooks, plugins, agent teams, and now cross-vendor fluency. Next up: the **Chapter Quiz** (Lesson 32) to test your understanding across all 31 lessons.

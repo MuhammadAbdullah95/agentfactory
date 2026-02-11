@@ -1,8 +1,8 @@
 ---
 title: "Getting Started with Cowork"
-sidebar_position: 22
+sidebar_position: 23
 chapter: 3
-lesson: 22
+lesson: 23
 duration_minutes: 20
 chapter_type: Practical
 running_example_id: cowork-setup
@@ -62,7 +62,7 @@ version: "1.0.0"
 
 # Legacy compatibility (Docusaurus)
 prerequisites:
-  - "Completion of Lesson 19: From Terminal to Desktop"
+  - "Completion of Lesson 22: From Terminal to Desktop"
   - "macOS computer (Windows support coming soon)"
   - "Anthropic subscription (Pro or Max required for Cowork)"
 ---

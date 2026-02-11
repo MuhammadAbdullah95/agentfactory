@@ -1,4 +1,4 @@
-# Lesson 21: Cowork in Action - Practical Workflows
+# Lesson 24: Cowork in Action - Practical Workflows
 
 ## Four Example Workflows
 

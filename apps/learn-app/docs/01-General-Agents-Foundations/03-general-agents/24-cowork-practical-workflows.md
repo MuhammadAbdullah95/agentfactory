@@ -1,8 +1,8 @@
 ---
 title: "Cowork in Action: Practical Workflows"
-sidebar_position: 23
+sidebar_position: 24
 chapter: 3
-lesson: 23
+lesson: 24
 duration_minutes: 25
 chapter_type: Practical
 running_example_id: cowork-workflows
@@ -62,7 +62,7 @@ version: "1.0.0"
 
 # Legacy compatibility (Docusaurus)
 prerequisites:
-  - "Completion of Lesson 20: Getting Started with Cowork"
+  - "Completion of Lesson 23: Getting Started with Cowork"
   - "Working Claude Cowork installation with folder access granted"
 ---
 

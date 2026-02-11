@@ -1,4 +1,4 @@
-# Lesson 20: Getting Started with Cowork
+# Lesson 23: Getting Started with Cowork
 
 ## Requirements
 

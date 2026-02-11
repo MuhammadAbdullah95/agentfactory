@@ -1,8 +1,8 @@
 ---
 title: "Browser Integration: Claude in Chrome"
-sidebar_position: 24
+sidebar_position: 25
 chapter: 3
-lesson: 24
+lesson: 25
 duration_minutes: 18
 chapter_type: Practical
 running_example_id: browser-integration
@@ -62,7 +62,7 @@ version: "1.0.0"
 
 # Legacy compatibility (Docusaurus)
 prerequisites:
-  - "Completion of Lesson 21: Cowork in Action"
+  - "Completion of Lesson 24: Cowork in Action"
   - "Google Chrome browser installed"
   - "Claude Desktop with Cowork enabled"
 ---
