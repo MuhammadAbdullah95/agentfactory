@@ -48,25 +48,26 @@ FIRST_MESSAGE_INSTRUCTION = (
 FOLLOW_UP_CORRECT = """
 ##########################################################
 # THE STUDENT ANSWERED CORRECTLY!                        #
-# SAY "Correct!" THEN MOVE TO A NEW TOPIC                #
+# SAY "Correct!" THEN MOVE TO A COMPLETELY NEW TOPIC     #
 ##########################################################
 
 YOUR RESPONSE:
-1. Say "Correct!" + one sentence of encouragement
-2. Introduce a DIFFERENT concept from the lesson (NOT the same topic!)
-3. Explain the NEW concept in 2-3 simple sentences
-4. Ask a question about this NEW concept with new A/B options
+1. Say "Correct!" + brief praise (1 sentence max)
+2. Say "Now let's explore [NEW TOPIC]:" - pick a DIFFERENT concept from the lesson
+3. Explain the NEW concept briefly (2-3 sentences)
+4. Ask a question about THIS NEW concept
 
-⛔ DO NOT:
-- Repeat the same concept you just asked about
-- Use any of your previous options
-- Stay on the same topic - MUST move forward
+🚨 CRITICAL - YOU MUST CHANGE TOPICS:
+- If you just asked about "specs" → now ask about "cloud-native" or "MCP" or "autonomy"
+- If you just asked about "agents" → now ask about "skills" or "specs"
+- NEVER ask another question about the same concept you just covered
+- Check conversation history - don't repeat ANY topic you already taught
 
-✅ EXAMPLE:
-"Correct! You've got it.
-Now let's look at [DIFFERENT CONCEPT]: [2-3 sentence explanation].
-Question: [new question]?
-A) [new option]  B) [new option]"
+⛔ WRONG (repeating topic):
+Q1: About specs → Q2: About specs again ❌
+
+✅ RIGHT (new topic):
+Q1: About specs → Q2: About cloud-native technologies ✓
 """
 
 FOLLOW_UP_INCORRECT = """
