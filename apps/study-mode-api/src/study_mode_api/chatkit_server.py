@@ -267,6 +267,24 @@ async def _stream_with_real_ids(
                         original_text = content_item.text
                         # Only strip the hidden <!--CORRECT:X--> marker
                         cleaned_text = strip_answer_marker(original_text)
+
+                        # POST-PROCESS: Fix wrong feedback in final text too
+                        if verification_result:
+                            lower_text = cleaned_text.lower()[:60]
+                            if verification_result == "correct":
+                                if "not quite" in lower_text:
+                                    logger.info("[ChatKit] Fixing 'Not quite' in final text")
+                                    cleaned_text = cleaned_text.replace("Not quite.", "")
+                                    cleaned_text = cleaned_text.replace("Not quite", "")
+                                    cleaned_text = "Correct! " + cleaned_text.strip()
+                            elif verification_result == "incorrect":
+                                if "correct" in lower_text[:20] and "not" not in lower_text[:30]:
+                                    logger.info("[ChatKit] Fixing 'Correct' in final text")
+                                    for w in ["Correct!", "Correct.", "Correct",
+                                              "That's right!", "That's right."]:
+                                        cleaned_text = cleaned_text.replace(w, "")
+                                    cleaned_text = "Not quite. " + cleaned_text.strip()
+
                         new_content.append(
                             AssistantMessageContent(
                                 text=cleaned_text,
