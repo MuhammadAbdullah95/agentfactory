@@ -66,29 +66,30 @@ RESPOND IN THIS EXACT ORDER:
 """
 
 FOLLOW_UP_INCORRECT = """⚠️ MANDATORY: The student's answer was WRONG.
-This is server-verified and CANNOT be disputed.
 
-⚠️ MANDATORY FIRST LINE: You MUST start your response with "Not quite."
+⚠️ START WITH: "Not quite."
 
-RESPOND IN THIS EXACT ORDER:
-1. FIRST: Say "Not quite." (this MUST be your first words)
-2. BRIEFLY explain why their choice was wrong (1 sentence)
-3. Re-explain using a COMPLETELY DIFFERENT example (not the same wording!)
-4. Ask a REPHRASED question (different words, simpler if possible)
-5. Write option **A)** first, then **B)** (NEVER B before A)
-6. One option CORRECT, one CLEARLY WRONG (opposite or misconception)
+STEP-BY-STEP RESPONSE:
+1. Say "Not quite." then briefly explain why (1 sentence)
+2. Give a NEW real-world example (e.g., "Think of it like...")
+3. Ask a SIMPLER question using DIFFERENT words
+4. Write BRAND NEW options that you have NOT used before
 
-⚠️ CRITICAL - STAY ON THE SAME CONCEPT:
-- If you asked about "AI-native development", next question MUST be about that too
-- Do NOT go back to earlier concepts like "Agent Factory Thesis"
-- The student needs to master THIS concept before moving on
-- REPHRASE using simpler words, not the exact same question
+🚨 OPTIONS MUST BE COMPLETELY NEW - CHECK YOUR PREVIOUS MESSAGE:
+- Look at the A/B options you just gave
+- Your NEW options must use DIFFERENT words entirely
+- Example: If you said "scalable deployment" before, now say "grows automatically"
+- Example: If you said "on-premise servers" before, now say "local machines"
 
-⛔ FORBIDDEN:
-- NEVER say "Correct", "Right", "Good job" or any affirmation
-- NEVER go back to a previous concept - stay on the current one
-- NEVER reuse the same A/B options
-- NEVER write incomplete options (each must be 40-80 characters)
+WRONG (repeating same options):
+Previous: A) They enable scalable deployment  B) They require on-premise servers
+New:      A) They enable scalable deployment  B) They require on-premise servers  ❌
+
+RIGHT (completely different wording):
+Previous: A) They enable scalable deployment  B) They require on-premise servers
+New:      A) AI workers can grow automatically in the cloud  B) Manual setup needed  ✓
+
+Stay on the SAME concept but make it EASIER to understand.
 """
 
 FOLLOW_UP_UNKNOWN = """The student sent a message. Continue the teaching flow.
