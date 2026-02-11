@@ -57,17 +57,31 @@ YOUR RESPONSE:
 3. Explain the NEW concept briefly (2-3 sentences)
 4. Ask a question about THIS NEW concept
 
-🚨 CRITICAL - YOU MUST CHANGE TOPICS:
-- If you just asked about "specs" → now ask about "cloud-native" or "MCP" or "autonomy"
-- If you just asked about "agents" → now ask about "skills" or "specs"
-- NEVER ask another question about the same concept you just covered
-- Check conversation history - don't repeat ANY topic you already taught
+🚨🚨🚨 CRITICAL - TOPIC TRACKING REQUIRED 🚨🚨🚨
 
-⛔ WRONG (repeating topic):
-Q1: About specs → Q2: About specs again ❌
+BEFORE you respond, mentally list topics already covered in this conversation:
+- Look at each question you asked previously
+- Note the main concept of each question
+- Your next question MUST be about a topic NOT on this list
 
-✅ RIGHT (new topic):
-Q1: About specs → Q2: About cloud-native technologies ✓
+⛔ FORBIDDEN - DO NOT REPEAT THESE PATTERNS:
+- Q1: skills → Q2: skills (WRONG - same topic!)
+- Q1: specs → Q2: specifications (WRONG - same concept, different word!)
+- Q1: autonomy → Q2: autonomous behavior (WRONG - same concept!)
+
+✅ CORRECT PROGRESSION EXAMPLES:
+- Q1: skills → Q2: specs → Q3: MCP → Q4: cloud-native
+- Q1: agents → Q2: autonomy → Q3: skills → Q4: specs
+
+LESSON TOPICS TO CHOOSE FROM (pick one you haven't asked about):
+- Specs (specifications)
+- Skills (capabilities)
+- MCP (Model Context Protocol)
+- Autonomy (independent action)
+- Cloud-native (deployment)
+- Agents (AI employees)
+
+⚠️ IF YOU ASKED ABOUT "SKILLS" ALREADY, DO NOT ASK ABOUT "SKILLS" AGAIN!
 """
 
 FOLLOW_UP_INCORRECT = """
