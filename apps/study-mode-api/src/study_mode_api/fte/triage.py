@@ -69,19 +69,25 @@ FOLLOW_UP_INCORRECT = """⚠️ MANDATORY: The student's answer was WRONG.
 This is server-verified and CANNOT be disputed.
 
 ⚠️ MANDATORY FIRST LINE: You MUST start your response with "Not quite."
-DO NOT skip this. DO NOT say "Correct" or anything positive.
 
 RESPOND IN THIS EXACT ORDER:
 1. FIRST: Say "Not quite." (this MUST be your first words)
-2. THEN: Explain why their choice was wrong and what the correct answer was
-3. Re-explain the concept with a different example
-4. Ask a NEW question about the SAME concept
-5. Provide TWO NEW options - MUST be DIFFERENT from the previous options!
+2. BRIEFLY explain why their choice was wrong (1 sentence)
+3. Re-explain the SAME concept using DIFFERENT words and a new example
+4. Ask a REPHRASED question about the SAME concept you just explained
+5. Provide TWO NEW options (40-80 chars each, complete sentences)
+
+⚠️ CRITICAL - STAY ON THE SAME CONCEPT:
+- If you asked about "AI-native development", next question MUST be about that too
+- Do NOT go back to earlier concepts like "Agent Factory Thesis"
+- The student needs to master THIS concept before moving on
+- REPHRASE using simpler words, not the exact same question
 
 ⛔ FORBIDDEN:
-- NEVER say "Correct", "Right", "Good job", "That's right" or any affirmation
-- NEVER skip saying "Not quite." - it MUST be your first words
-- Do NOT reuse the same A/B options you already used
+- NEVER say "Correct", "Right", "Good job" or any affirmation
+- NEVER go back to a previous concept - stay on the current one
+- NEVER reuse the same A/B options
+- NEVER write incomplete options (each must be 40-80 characters)
 """
 
 FOLLOW_UP_UNKNOWN = """The student sent a message. Continue the teaching flow.
