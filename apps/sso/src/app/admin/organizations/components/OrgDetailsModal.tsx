@@ -30,10 +30,15 @@ interface OrgDetails {
 
 interface OrgDetailsModalProps {
   orgId: string;
+  currentUserId: string;
   onClose: () => void;
 }
 
-export function OrgDetailsModal({ orgId, onClose }: OrgDetailsModalProps) {
+export function OrgDetailsModal({
+  orgId,
+  currentUserId,
+  onClose,
+}: OrgDetailsModalProps) {
   const [details, setDetails] = useState<OrgDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,7 +68,9 @@ export function OrgDetailsModal({ orgId, onClose }: OrgDetailsModalProps) {
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900">Organization Details</h2>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Organization Details
+          </h2>
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 transition-colors"
@@ -93,9 +100,7 @@ export function OrgDetailsModal({ orgId, onClose }: OrgDetailsModalProps) {
           )}
 
           {error && (
-            <div className="bg-red-50 text-red-600 rounded-lg p-4">
-              {error}
-            </div>
+            <div className="bg-red-50 text-red-600 rounded-lg p-4">{error}</div>
           )}
 
           {details && (
@@ -271,7 +276,49 @@ export function OrgDetailsModal({ orgId, onClose }: OrgDetailsModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3">
+        <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+          <div>
+            {details &&
+              (() => {
+                const myMembership = details.members.find(
+                  (m) => m.userId === currentUserId,
+                );
+                if (
+                  myMembership &&
+                  (myMembership.role === "owner" ||
+                    myMembership.role === "admin")
+                ) {
+                  return (
+                    <a
+                      href={`/account/organizations/${orgId}/settings/members`}
+                      className="inline-flex items-center gap-2 text-sm font-medium text-pana-600 hover:text-pana-700 transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      Manage Roles
+                    </a>
+                  );
+                }
+                return null;
+              })()}
+          </div>
           <Button variant="outline" onClick={onClose}>
             Close
           </Button>

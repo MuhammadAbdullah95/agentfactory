@@ -71,6 +71,8 @@ export function getRoleDisplay(role: OrgRole): {
       return { label: "Admin", variant: "secondary" };
     case "manager":
       return { label: "Manager", variant: "secondary" };
+    case "teacher":
+      return { label: "Teacher", variant: "outline" };
     case "proctor":
       return { label: "Proctor", variant: "outline" };
     case "editor":

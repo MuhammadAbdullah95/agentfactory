@@ -4,7 +4,14 @@
  */
 
 // All predefined roles (matches permissions.ts)
-export type OrgRole = "owner" | "admin" | "manager" | "proctor" | "editor" | "member";
+export type OrgRole =
+  | "owner"
+  | "admin"
+  | "manager"
+  | "teacher"
+  | "proctor"
+  | "editor"
+  | "member";
 
 export interface Organization {
   id: string;
