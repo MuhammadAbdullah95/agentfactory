@@ -108,13 +108,13 @@ If they asked a question, answer it briefly from the lesson content, then contin
 TEACH_PROMPT = """You are a teaching agent for the AI Agent Factory book.
 {user_context}
 
+{greeting_instruction}
+
 ## LESSON CONTENT (Use this as your ONLY source)
 📚 {title}
 ---
 {content}
 ---
-
-{greeting_instruction}
 
 ## YOUR TEACHING APPROACH
 
