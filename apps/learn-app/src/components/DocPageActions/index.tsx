@@ -229,6 +229,24 @@ const StudyModeIcon = () => (
   </svg>
 );
 
+const TeachingAidIcon = () => (
+  <svg
+    className="doc-actions-icon"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+    <path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5" />
+  </svg>
+);
+
 const AskModeIcon = () => (
   <svg
     className="doc-actions-icon"
@@ -335,7 +353,13 @@ const Tooltip = ({
 // MAIN COMPONENT
 // ============================================================================
 
-export function DocPageActions() {
+interface DocPageActionsProps {
+  onOpenTeachingGuide?: () => void;
+}
+
+export function DocPageActions({
+  onOpenTeachingGuide,
+}: DocPageActionsProps = {}) {
   const doc = useDoc();
   const { siteConfig } = useDocusaurusContext();
   const { session, isLoading: authLoading } = useAuth();
@@ -828,9 +852,7 @@ export function DocPageActions() {
       {isLessonPage && (
         <Tooltip
           content={
-            isLoggedIn
-              ? "Ask about this lesson"
-              : "Sign in to ask questions"
+            isLoggedIn ? "Ask about this lesson" : "Sign in to ask questions"
           }
           position="bottom"
         >
@@ -951,6 +973,23 @@ export function DocPageActions() {
               <ShareIcon />
               <span>Share</span>
             </DropdownMenuItem>
+            {onOpenTeachingGuide && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={isLoggedIn ? onOpenTeachingGuide : handleLoginRedirect}
+                  className={!isLoggedIn ? "doc-actions-item--locked" : ""}
+                >
+                  {isLoggedIn ? <TeachingAidIcon /> : <LockIcon />}
+                  <span>Teaching Aid</span>
+                  {!isLoggedIn && (
+                    <span className="doc-actions-chapter-meta">
+                      <LockIcon /> Sign in
+                    </span>
+                  )}
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

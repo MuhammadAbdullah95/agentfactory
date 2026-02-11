@@ -54,6 +54,31 @@ differentiation:
   extension_for_advanced: "Research GitHub Copilot Workspace, Cursor, Windsurf, and compare their agentic capabilities to Claude Code's approach"
   remedial_for_struggling: "Focus on single concrete example: Claude Code reading CLAUDE.md vs ChatGPT copy-pasting context"
 
+# TEACHING GUIDE METADATA (visible to teacher role only)
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Getting Started with Claude Code"
+  key_points:
+    - "OODA loop is foundational — referenced again in Chapters 5, 11, and 13"
+    - "Product Overhang explains why capability existed before the product — this mental model recurs throughout the book"
+    - "General Agent vs Custom Agent distinction is the entire thesis of the book"
+  misconceptions:
+    - "Students confuse General Agents with ChatGPT-style chatbots — emphasize the action-taking (agentic) difference"
+    - "Students think 'agentic' means 'smarter' rather than 'can take actions on files and systems'"
+    - "Students assume Claude Code requires coding skills — Cowork section addresses this"
+  discussion_prompts:
+    - "What would change in your daily work if AI could see your actual files instead of you describing them?"
+    - "Can you think of other 'product overhangs' in technology — capabilities that existed but needed a better interface?"
+    - "Why do you think adoption hit 50% in 5 days internally at Anthropic?"
+  teaching_tips:
+    - "Start with the ChatGPT copy-paste pain point — every student has experienced this"
+    - "Demo the OODA loop live: show Claude reading a file, deciding what to do, acting, then correcting"
+    - "The General Agent vs Custom Agent table is a good whiteboard moment"
+  assessment_quick_check:
+    - "Ask students to explain passive vs agentic AI in one sentence"
+    - "Have students draw the OODA loop from memory"
+
 # Generation metadata
 generated_by: "content-implementer v2.0.0 (042-origin-story-enhancement)"
 source_spec: "specs/042-origin-story-enhancement/spec.md"
