@@ -35,6 +35,9 @@ async def extract_and_store_correct_answer(
     """
     Extract correct answer marker from response and store in Redis.
 
+    If no marker is found, deletes any stale answer from previous questions
+    to prevent incorrect verification of subsequent answers.
+
     Args:
         thread_id: The thread ID to associate the answer with
         response_text: The full response text from the agent
@@ -42,16 +45,24 @@ async def extract_and_store_correct_answer(
     Returns:
         The correct answer ("A" or "B") if found, None otherwise
     """
+    key = f"{ANSWER_KEY_PREFIX}{thread_id}"
+    redis = get_redis()
+
     match = CORRECT_ANSWER_PATTERN.search(response_text)
     if not match:
-        logger.warning("[AnswerVerify] No correct answer marker found in response")
+        logger.debug("[AnswerVerify] No correct answer marker found in response")
+        # Delete stale answer to prevent incorrect verification
+        if redis:
+            try:
+                await redis.delete(key)
+                logger.debug(f"[AnswerVerify] Deleted stale answer for {thread_id}")
+            except Exception as e:
+                logger.warning(f"[AnswerVerify] Failed to delete stale answer: {e}")
         return None
 
     correct_answer = match.group(1).upper()
 
     # Store in Redis
-    key = f"{ANSWER_KEY_PREFIX}{thread_id}"
-    redis = get_redis()
     if not redis:
         logger.warning("[AnswerVerify] Redis not available, cannot store answer")
         return correct_answer

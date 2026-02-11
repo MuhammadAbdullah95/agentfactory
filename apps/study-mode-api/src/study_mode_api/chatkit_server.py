@@ -12,9 +12,11 @@ from chatkit.agents import AgentContext, simple_to_agent_input, stream_agent_res
 from chatkit.server import ChatKitServer
 from chatkit.types import (
     AssistantMessageContent,
+    AssistantMessageContentPartTextDelta,
     AssistantMessageItem,
     ThreadItemAddedEvent,
     ThreadItemDoneEvent,
+    ThreadItemUpdatedEvent,
     ThreadMetadata,
     ThreadStreamEvent,
     UserMessageItem,
@@ -118,7 +120,7 @@ async def _stream_with_real_ids(
     """
     Wrapper around stream_agent_response that:
     1. Replaces fake IDs with real ones
-    2. Strips the <!--CORRECT:X--> marker from responses
+    2. Strips the <!--CORRECT:X--> marker from responses (including streaming deltas)
     3. Extracts and stores the correct answer for verification
 
     When using OpenAIChatCompletionsModel (for non-OpenAI providers like DeepSeek),
@@ -131,6 +133,9 @@ async def _stream_with_real_ids(
     id_map: dict[str, str] = {}
     # Collect full response text for answer extraction
     full_response_text = ""
+    # Buffer for potential partial marker at end of delta
+    # The marker is <!--CORRECT:X--> (max 17 chars)
+    marker_buffer = ""
 
     async for event in stream_agent_response(context, result):
         # Handle ThreadItemAddedEvent - replace fake ID
@@ -154,6 +159,50 @@ async def _stream_with_real_ids(
                     )
                     event = ThreadItemAddedEvent(item=item)
 
+        # Handle ThreadItemUpdatedEvent - strip markers from streaming deltas
+        elif isinstance(event, ThreadItemUpdatedEvent):
+            update = event.update
+            if isinstance(update, AssistantMessageContentPartTextDelta):
+                # Combine buffer with new delta
+                combined = marker_buffer + update.delta
+                full_response_text += update.delta
+
+                # Strip any complete markers
+                cleaned = strip_answer_marker(combined)
+
+                # Check if text ends with potential partial marker
+                # The marker starts with '<' and is max 17 chars
+                partial_start = -1
+                for i in range(min(17, len(cleaned)), 0, -1):
+                    suffix = cleaned[-i:]
+                    if suffix.startswith("<") and "<!--CORRECT:".startswith(
+                        suffix[: len("<!--CORRECT:")]
+                    ):
+                        partial_start = len(cleaned) - i
+                        break
+
+                if partial_start >= 0:
+                    # Buffer potential partial marker, emit rest
+                    marker_buffer = cleaned[partial_start:]
+                    emit_text = cleaned[:partial_start]
+                else:
+                    # No partial marker, emit all
+                    marker_buffer = ""
+                    emit_text = cleaned
+
+                # Only yield if there's text to emit
+                if emit_text:
+                    event = ThreadItemUpdatedEvent(
+                        item_id=event.item_id,
+                        update=AssistantMessageContentPartTextDelta(
+                            content_index=update.content_index,
+                            delta=emit_text,
+                        ),
+                    )
+                else:
+                    # Skip this event - text is buffered
+                    continue
+
         # Handle ThreadItemDoneEvent - use mapped ID and strip answer marker
         elif isinstance(event, ThreadItemDoneEvent):
             item = event.item
@@ -164,7 +213,6 @@ async def _stream_with_real_ids(
                 for content_item in item.content:
                     if hasattr(content_item, "text"):
                         original_text = content_item.text
-                        full_response_text += original_text
                         # Only strip the hidden <!--CORRECT:X--> marker
                         cleaned_text = strip_answer_marker(original_text)
                         new_content.append(
