@@ -116,12 +116,14 @@ async def _stream_with_real_ids(
     context: AgentContext,
     result: RunResultStreaming,
     thread_id: str,
+    verification_result: str | None = None,
 ) -> AsyncIterator[ThreadStreamEvent]:
     """
     Wrapper around stream_agent_response that:
     1. Replaces fake IDs with real ones
     2. Strips the <!--CORRECT:X--> marker from responses (including streaming deltas)
     3. Extracts and stores the correct answer for verification
+    4. POST-PROCESSES feedback to ensure correct/incorrect matches server verification
 
     When using OpenAIChatCompletionsModel (for non-OpenAI providers like DeepSeek),
     the SDK returns "__fake_id__" for all message IDs. This causes duplicate key
@@ -136,6 +138,10 @@ async def _stream_with_real_ids(
     # Buffer for potential partial marker at end of delta
     # The marker is <!--CORRECT:X--> (max 17 chars)
     marker_buffer = ""
+    # Track if we've processed the first text chunk (for feedback correction)
+    first_chunk_processed = False
+    # Buffer to collect enough text to check feedback
+    feedback_buffer = ""
 
     async for event in stream_agent_response(context, result):
         # Handle ThreadItemAddedEvent - replace fake ID
@@ -189,6 +195,52 @@ async def _stream_with_real_ids(
                     # No partial marker, emit all
                     marker_buffer = ""
                     emit_text = cleaned
+
+                # POST-PROCESS FEEDBACK: Ensure correct/incorrect matches verification
+                # Buffer first ~50 chars to check if feedback is correct
+                if verification_result and not first_chunk_processed:
+                    feedback_buffer += emit_text
+                    if len(feedback_buffer) >= 50:
+                        first_chunk_processed = True
+                        # Check if LLM gave wrong feedback
+                        lower_buf = feedback_buffer.lower()
+                        if verification_result == "correct":
+                            # Should say "Correct" but might say "Not quite"
+                            if "not quite" in lower_buf or lower_buf.startswith("not"):
+                                # WRONG feedback - prepend correct one
+                                logger.warning(
+                                    "[ChatKit] LLM said 'Not quite' for CORRECT answer - fixing"
+                                )
+                                emit_text = "Correct! " + feedback_buffer.lstrip()
+                                # Remove "Not quite." if present
+                                emit_text = emit_text.replace("Not quite.", "")
+                                emit_text = emit_text.replace("Not quite", "")
+                                emit_text = emit_text.strip()
+                                if not emit_text.startswith("Correct"):
+                                    emit_text = "Correct! " + emit_text
+                            else:
+                                emit_text = feedback_buffer  # Use buffered text
+                        elif verification_result == "incorrect":
+                            # Should say "Not quite" but might say "Correct"
+                            if "correct" in lower_buf[:20] and "not" not in lower_buf[:30]:
+                                # WRONG feedback - prepend correct one
+                                logger.warning(
+                                    "[ChatKit] LLM said 'Correct' for INCORRECT answer - fixing"
+                                )
+                                # Remove "Correct" and prepend "Not quite."
+                                emit_text = feedback_buffer
+                                words_to_remove = [
+                                    "Correct!", "Correct.", "Correct",
+                                    "That's right!", "That's right."
+                                ]
+                                for word in words_to_remove:
+                                    emit_text = emit_text.replace(word, "")
+                                emit_text = "Not quite. " + emit_text.strip()
+                            else:
+                                emit_text = feedback_buffer  # Use buffered text
+                    else:
+                        # Not enough buffered yet, skip this event
+                        continue
 
                 # Only yield if there's text to emit
                 if emit_text:
@@ -448,9 +500,14 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # INJECT VERIFICATION: Add explicit verification to last message
             # This ensures LLM sees "[CORRECT]" or "[INCORRECT]" and can't ignore it
             if verification_result and input_items and isinstance(input_items, list):
+                logger.info(f"[ChatKit] Injecting verification '{verification_result}' into input")
                 # Find the last user message and annotate it
+                injected = False
                 for i in range(len(input_items) - 1, -1, -1):
                     item = input_items[i]
+                    item_type = type(item).__name__
+                    has_role = hasattr(item, "role")
+                    logger.debug(f"[ChatKit] Item {i}: type={item_type}, has_role={has_role}")
                     if hasattr(item, "role") and item.role == "user":
                         if verification_result == "correct":
                             # Prepend strong verification message
@@ -460,6 +517,8 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                                 f"Student answer: {original}\n"
                                 f"[YOU MUST SAY 'Correct!' - DO NOT SAY 'Not quite']"
                             )
+                            logger.info("[ChatKit] Injected CORRECT verification")
+                            injected = True
                         elif verification_result == "incorrect":
                             original = item.content if hasattr(item, "content") else str(item)
                             item.content = (
@@ -467,7 +526,11 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                                 f"Student answer: {original}\n"
                                 f"[YOU MUST SAY 'Not quite.' - DO NOT SAY 'Correct']"
                             )
+                            logger.info("[ChatKit] Injected INCORRECT verification")
+                            injected = True
                         break
+                if not injected:
+                    logger.warning("[ChatKit] Failed to inject - no user message found")
 
             # Fallback: if input_items is empty (race condition), use current user message
             if not input_items:
@@ -499,7 +562,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Use wrapper that fixes fake IDs and handles answer verification
             # Wrap in try/except to release metering reservation on error
             try:
-                async for event in _stream_with_real_ids(agent_context, result, thread.id):
+                async for event in _stream_with_real_ids(
+                    agent_context, result, thread.id, verification_result
+                ):
                     yield event
             except HTTPException as http_err:
                 # Handle metering 402 specially - show user-friendly message
