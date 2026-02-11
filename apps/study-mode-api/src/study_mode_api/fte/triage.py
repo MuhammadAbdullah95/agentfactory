@@ -47,28 +47,41 @@ FIRST_MESSAGE_INSTRUCTION = (
 
 FOLLOW_UP_CORRECT = """The student answered CORRECTLY (server-verified).
 
-RESPOND:
-1. Say "Correct!" (1 sentence of encouragement)
-2. Move to a COMPLETELY NEW concept from the lesson
+⚠️ MANDATORY FIRST LINE: You MUST start your response with "Correct!" or "That's right!"
+DO NOT skip the acknowledgment. The student needs to know their answer was correct.
+
+RESPOND IN THIS EXACT ORDER:
+1. FIRST: Say "Correct!" followed by brief encouragement (1 sentence)
+2. THEN: Move to a COMPLETELY NEW concept from the lesson (NOT the same topic!)
 3. Explain this NEW concept briefly (2-3 sentences)
 4. Ask a FRESH question about this NEW concept
 5. Provide TWO NEW options (A and B) - MUST be complete sentences!
 
-CRITICAL: After a correct answer, ALWAYS move to a DIFFERENT concept from the lesson.
+⚠️ CRITICAL RULES:
+- NEVER skip saying "Correct!" - it MUST be your first word
+- NEVER repeat the same question you already asked
+- NEVER use the same options (A/B choices) as before
+- Look at the conversation history - if you asked about a topic, pick a DIFFERENT topic
+- If you covered all concepts, congratulate the student and summarize what they learned
 """
 
 FOLLOW_UP_INCORRECT = """⚠️ MANDATORY: The student's answer was WRONG.
 This is server-verified and CANNOT be disputed.
 
-YOU MUST:
-1. START your response with "Not quite." - DO NOT say "Correct" or anything positive
-2. Explain why their choice was wrong and what the correct answer was
+⚠️ MANDATORY FIRST LINE: You MUST start your response with "Not quite."
+DO NOT skip this. DO NOT say "Correct" or anything positive.
+
+RESPOND IN THIS EXACT ORDER:
+1. FIRST: Say "Not quite." (this MUST be your first words)
+2. THEN: Explain why their choice was wrong and what the correct answer was
 3. Re-explain the concept with a different example
 4. Ask a NEW question about the SAME concept
-5. Provide TWO NEW options
+5. Provide TWO NEW options - MUST be DIFFERENT from the previous options!
 
-⛔ FORBIDDEN: Do NOT say "Correct", "Right", "Good job", or any affirmation.
-The student got it WRONG. Acknowledge this and help them understand.
+⛔ FORBIDDEN:
+- NEVER say "Correct", "Right", "Good job", "That's right" or any affirmation
+- NEVER skip saying "Not quite." - it MUST be your first words
+- Do NOT reuse the same A/B options you already used
 """
 
 FOLLOW_UP_UNKNOWN = """The student sent a message. Continue the teaching flow.
@@ -112,8 +125,9 @@ Questions must:
 
 ⚠️ CRITICAL OPTION RULES (MUST FOLLOW):
 1. **EQUAL LENGTH**: Both options MUST be 40-80 characters each. Count the characters!
-2. **VARY CORRECT ANSWER**: Use this pattern: Q1→A, Q2→B, Q3→A, Q4→B (alternate!)
+2. **RANDOMIZE POSITION**: Sometimes put the correct answer as A, sometimes as B (vary it)
 3. **BOTH LOOK PLAUSIBLE**: Neither option should be obviously wrong
+4. **MARKER = TRUTH**: The <!--CORRECT:X--> marker MUST go on the FACTUALLY TRUE option
 
 🔢 LENGTH CHECK (do this before writing):
 - Count characters in option A: must be 40-80
@@ -150,8 +164,14 @@ Question 4: Correct is B
 
 <!--CORRECT:X-->
 
-CRITICAL: You MUST end every response with <!--CORRECT:A--> or <!--CORRECT:B-->
-to indicate which option is correct. This marker is REQUIRED and will be hidden from the user.
+⚠️ CRITICAL MARKER RULES:
+1. You MUST end every response with <!--CORRECT:A--> or <!--CORRECT:B-->
+2. The marker indicates which option is FACTUALLY CORRECT based on the lesson
+3. BEFORE placing the marker, ASK YOURSELF: "Which option matches what the lesson says?"
+4. Put the marker on the option that MATCHES THE LESSON CONTENT
+5. Example: If A is true per lesson and B is false, use <!--CORRECT:A-->
+
+DO NOT randomly assign the marker. The marker MUST match the TRUE answer from the lesson.
 
 ## RESPONSE RULES
 - Be warm and conversational
