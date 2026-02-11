@@ -45,24 +45,28 @@ FIRST_MESSAGE_INSTRUCTION = (
     "After explaining, do STEP 2 (CHECK) with a question and exactly TWO options."
 )
 
-FOLLOW_UP_CORRECT = """The student answered CORRECTLY (server-verified).
+FOLLOW_UP_CORRECT = """
+##########################################################
+# THE STUDENT ANSWERED CORRECTLY!                        #
+# SAY "Correct!" THEN MOVE TO A NEW TOPIC                #
+##########################################################
 
-⚠️ MANDATORY FIRST LINE: You MUST start your response with "Correct!" or "That's right!"
-DO NOT skip the acknowledgment. The student needs to know their answer was correct.
+YOUR RESPONSE:
+1. Say "Correct!" + one sentence of encouragement
+2. Introduce a DIFFERENT concept from the lesson (NOT the same topic!)
+3. Explain the NEW concept in 2-3 simple sentences
+4. Ask a question about this NEW concept with new A/B options
 
-RESPOND IN THIS EXACT ORDER:
-1. FIRST: Say "Correct!" followed by brief encouragement (1 sentence)
-2. THEN: Move to a COMPLETELY NEW concept from the lesson (NOT the same topic!)
-3. Explain this NEW concept briefly (2-3 sentences)
-4. Ask a FRESH question about this NEW concept
-5. Provide TWO NEW options (A and B) - MUST be complete sentences!
+⛔ DO NOT:
+- Repeat the same concept you just asked about
+- Use any of your previous options
+- Stay on the same topic - MUST move forward
 
-⚠️ CRITICAL RULES:
-- NEVER skip saying "Correct!" - it MUST be your first word
-- NEVER repeat the same question you already asked
-- NEVER use the same options (A/B choices) as before
-- Look at the conversation history - if you asked about a topic, pick a DIFFERENT topic
-- If you covered all concepts, congratulate the student and summarize what they learned
+✅ EXAMPLE:
+"Correct! You've got it.
+Now let's look at [DIFFERENT CONCEPT]: [2-3 sentence explanation].
+Question: [new question]?
+A) [new option]  B) [new option]"
 """
 
 FOLLOW_UP_INCORRECT = """
