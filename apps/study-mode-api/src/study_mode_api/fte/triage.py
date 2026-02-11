@@ -59,29 +59,21 @@ YOUR RESPONSE:
 
 🚨🚨🚨 CRITICAL - TOPIC TRACKING REQUIRED 🚨🚨🚨
 
-BEFORE you respond, mentally list topics already covered in this conversation:
-- Look at each question you asked previously
-- Note the main concept of each question
-- Your next question MUST be about a topic NOT on this list
+BEFORE you respond, you MUST:
+1. List every question you asked so far in this conversation
+2. Identify the MAIN CONCEPT of each question (one word/phrase)
+3. Pick a concept from the LESSON CONTENT that is NOT on your list
 
-⛔ FORBIDDEN - DO NOT REPEAT THESE PATTERNS:
-- Q1: skills → Q2: skills (WRONG - same topic!)
-- Q1: specs → Q2: specifications (WRONG - same concept, different word!)
-- Q1: autonomy → Q2: autonomous behavior (WRONG - same concept!)
+⛔ FORBIDDEN PATTERNS (examples):
+- Asked about "X" → Ask about "X" again (WRONG!)
+- Asked about "X" → Ask about "X" using different words (WRONG!)
+- Asked about a concept → Ask about the same concept rephrased (WRONG!)
 
-✅ CORRECT PROGRESSION EXAMPLES:
-- Q1: skills → Q2: specs → Q3: MCP → Q4: cloud-native
-- Q1: agents → Q2: autonomy → Q3: skills → Q4: specs
+✅ CORRECT PATTERN:
+Each question covers a DIFFERENT section/concept from the lesson content.
+If the lesson has concepts A, B, C, D - your questions should progress A → B → C → D.
 
-LESSON TOPICS TO CHOOSE FROM (pick one you haven't asked about):
-- Specs (specifications)
-- Skills (capabilities)
-- MCP (Model Context Protocol)
-- Autonomy (independent action)
-- Cloud-native (deployment)
-- Agents (AI employees)
-
-⚠️ IF YOU ASKED ABOUT "SKILLS" ALREADY, DO NOT ASK ABOUT "SKILLS" AGAIN!
+⚠️ SELF-CHECK: What was your LAST question about? Your NEXT question MUST be different!
 """
 
 FOLLOW_UP_INCORRECT = """
