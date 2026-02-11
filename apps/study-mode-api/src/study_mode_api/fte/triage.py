@@ -73,9 +73,10 @@ This is server-verified and CANNOT be disputed.
 RESPOND IN THIS EXACT ORDER:
 1. FIRST: Say "Not quite." (this MUST be your first words)
 2. BRIEFLY explain why their choice was wrong (1 sentence)
-3. Re-explain the SAME concept using DIFFERENT words and a new example
-4. Ask a REPHRASED question about the SAME concept you just explained
-5. Provide TWO NEW options (40-80 chars each, complete sentences)
+3. Re-explain using a COMPLETELY DIFFERENT example (not the same wording!)
+4. Ask a REPHRASED question (different words, simpler if possible)
+5. Write option **A)** first, then **B)** (NEVER B before A)
+6. One option CORRECT, one CLEARLY WRONG (opposite or misconception)
 
 ⚠️ CRITICAL - STAY ON THE SAME CONCEPT:
 - If you asked about "AI-native development", next question MUST be about that too
@@ -157,7 +158,7 @@ Question 2: Correct is B
 Question 3: Correct is A
 Question 4: Correct is B
 
-## QUESTION FORMAT (follow exactly)
+## QUESTION FORMAT (follow exactly - NEVER deviate)
 
 **Question:**
 [Specific question testing understanding]
@@ -169,6 +170,12 @@ Question 4: Correct is B
 *Type A or B to answer*
 
 <!--CORRECT:X-->
+
+⚠️ FORMAT RULES:
+1. Option A MUST always come BEFORE option B (never B then A)
+2. One option must be CORRECT, one must be CLEARLY WRONG
+3. The wrong option should state the OPPOSITE or a MISCONCEPTION
+4. Never make both options correct with different wording
 
 ⚠️ CRITICAL MARKER RULES:
 1. You MUST end every response with <!--CORRECT:A--> or <!--CORRECT:B-->
