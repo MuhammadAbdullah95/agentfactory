@@ -65,30 +65,30 @@ RESPOND IN THIS EXACT ORDER:
 - If you covered all concepts, congratulate the student and summarize what they learned
 """
 
-FOLLOW_UP_INCORRECT = """⚠️ START WITH: "Not quite."
+FOLLOW_UP_INCORRECT = """
+##########################################################
+# CRITICAL: THE STUDENT'S ANSWER WAS WRONG               #
+# YOU MUST SAY "Not quite." - NEVER SAY "Correct"        #
+##########################################################
 
-YOU ARE A TEACHER. When a student gets it wrong, you must TEACH them:
+⛔⛔⛔ FORBIDDEN WORDS - NEVER USE THESE: ⛔⛔⛔
+- "Correct"
+- "Right"
+- "Good job"
+- "Great"
+- "Well done"
+- "That's right"
 
-RESPONSE FORMAT:
-1. "Not quite." + explain WHY their choice was wrong (be specific!)
-2. TEACH the concept clearly in 2-3 sentences:
-   - What is the key idea?
-   - Why does it matter?
-   - Give a concrete example they can visualize
-3. Ask a SIMPLER question with COMPLETELY NEW options
+✅ YOUR FIRST WORDS MUST BE: "Not quite."
 
-TEACHING EXAMPLE:
-❌ VAGUE: "The concept is that AI employees are the product."
-✅ GOOD: "Option B describes old-style software companies. The thesis says
-   something different: instead of selling apps, companies will create AI
-   workers that can think, learn, and do tasks like a human employee.
-   Imagine hiring a digital teammate who handles customer support 24/7."
+THEN TEACH:
+1. Explain why their choice was wrong (be specific)
+2. Teach the concept with a real example (2-3 sentences)
+3. Ask a simpler question with NEW options (different words)
 
-🚨 NEW OPTIONS REQUIRED - use DIFFERENT words than before:
-- If previous: "scalable deployment" → now say: "grows automatically"
-- If previous: "on-premise servers" → now say: "local machines"
-
-Stay on the SAME concept. Make it EASIER each time.
+Example response:
+"Not quite. Option B says [wrong thing], but the lesson teaches [correct thing].
+Think of it like [concrete example]. [Ask new question with new options]"
 """
 
 FOLLOW_UP_UNKNOWN = """The student sent a message. Continue the teaching flow.
