@@ -11,6 +11,16 @@ import { apiKey } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
+import {
+  ac,
+  owner as ownerRole,
+  admin as adminRole,
+  manager as managerRole,
+  teacher as teacherRole,
+  proctor as proctorRole,
+  editor as editorRole,
+  member as memberRole,
+} from "./permissions";
 import { eq, and } from "drizzle-orm";
 import { Resend } from "resend";
 import * as nodemailer from "nodemailer";
@@ -810,6 +820,16 @@ export const auth = betterAuth({
     // Organization plugin - Multi-tenancy support
     // Enables tenant_id in token claims and organization management
     organization({
+      ac,
+      roles: {
+        owner: ownerRole,
+        admin: adminRole,
+        manager: managerRole,
+        teacher: teacherRole,
+        proctor: proctorRole,
+        editor: editorRole,
+        member: memberRole,
+      },
       // Only admins can create organizations
       allowUserToCreateOrganization: async (user) => {
         return user.role === "admin";

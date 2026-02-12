@@ -23,6 +23,7 @@ interface AdminOrgTableProps {
   currentPage: number;
   totalPages: number;
   total: number;
+  currentUserId: string;
 }
 
 export function AdminOrgTable({
@@ -30,6 +31,7 @@ export function AdminOrgTable({
   currentPage,
   totalPages,
   total,
+  currentUserId,
 }: AdminOrgTableProps) {
   const router = useRouter();
   const [selectedOrgs, setSelectedOrgs] = useState<Set<string>>(new Set());
@@ -102,7 +104,10 @@ export function AdminOrgTable({
               <th className="px-4 py-3 text-left">
                 <input
                   type="checkbox"
-                  checked={selectedOrgs.size === organizations.length && organizations.length > 0}
+                  checked={
+                    selectedOrgs.size === organizations.length &&
+                    organizations.length > 0
+                  }
                   onChange={toggleSelectAll}
                   className="rounded border-slate-300 text-pana-600 focus:ring-pana-500"
                 />
@@ -132,10 +137,7 @@ export function AdminOrgTable({
           </thead>
           <tbody className="divide-y divide-slate-200">
             {organizations.map((org) => (
-              <tr
-                key={org.id}
-                className="hover:bg-slate-50 transition-colors"
-              >
+              <tr key={org.id} className="hover:bg-slate-50 transition-colors">
                 <td className="px-4 py-4">
                   <input
                     type="checkbox"
@@ -158,7 +160,9 @@ export function AdminOrgTable({
                       </div>
                     )}
                     <div>
-                      <div className="font-medium text-slate-900">{org.name}</div>
+                      <div className="font-medium text-slate-900">
+                        {org.name}
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -168,14 +172,18 @@ export function AdminOrgTable({
                   </code>
                 </td>
                 <td className="px-4 py-4">
-                  <div className="text-sm text-slate-900">{org.memberCount}</div>
+                  <div className="text-sm text-slate-900">
+                    {org.memberCount}
+                  </div>
                 </td>
                 <td className="px-4 py-4">
                   <div className="text-sm text-slate-600">{org.ownerEmail}</div>
                 </td>
                 <td className="px-4 py-4">
                   <div className="text-sm text-slate-600">
-                    {formatDistanceToNow(new Date(org.createdAt), { addSuffix: true })}
+                    {formatDistanceToNow(new Date(org.createdAt), {
+                      addSuffix: true,
+                    })}
                   </div>
                 </td>
                 <td className="px-4 py-4">
@@ -246,6 +254,7 @@ export function AdminOrgTable({
       {detailsOrgId && (
         <OrgDetailsModal
           orgId={detailsOrgId}
+          currentUserId={currentUserId}
           onClose={() => setDetailsOrgId(null)}
         />
       )}

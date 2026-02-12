@@ -22,15 +22,41 @@ import {
 import { toast } from "@/lib/utils/toast";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import type { OrgRole } from "@/types/organization";
+import { OrgBadge } from "@/components/organizations/OrgBadge";
 
-// Better Auth default roles for invitations
-// Custom roles (manager, proctor, editor) can be assigned after member joins
-type InviteRole = "member" | "admin" | "owner";
-
-const INVITE_ROLES: { value: InviteRole; label: string; description: string }[] = [
+const INVITE_ROLES: { value: OrgRole; label: string; description: string }[] = [
   { value: "member", label: "Member", description: "Read-only access" },
-  { value: "admin", label: "Admin", description: "Full admin access" },
-  { value: "owner", label: "Owner", description: "Full control" },
+  {
+    value: "editor",
+    label: "Editor",
+    description: "Content CRUD, assessment read",
+  },
+  {
+    value: "teacher",
+    label: "Teacher",
+    description: "Content read, assessment read",
+  },
+  {
+    value: "proctor",
+    label: "Proctor",
+    description: "Assessment CRUD + grade",
+  },
+  {
+    value: "manager",
+    label: "Manager",
+    description: "Org management, member CRUD",
+  },
+  {
+    value: "admin",
+    label: "Admin",
+    description: "Full admin minus delete org",
+  },
+  {
+    value: "owner",
+    label: "Owner",
+    description: "Full control, can delete org",
+  },
 ];
 
 interface InviteMemberDialogProps {
@@ -38,13 +64,16 @@ interface InviteMemberDialogProps {
   organizationName: string;
 }
 
-export function InviteMemberDialog({ organizationId, organizationName }: InviteMemberDialogProps) {
+export function InviteMemberDialog({
+  organizationId,
+  organizationName,
+}: InviteMemberDialogProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    role: "member" as InviteRole,
+    role: "member" as OrgRole,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,8 +118,18 @@ export function InviteMemberDialog({ organizationId, organizationName }: InviteM
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <svg
+            className="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
           </svg>
           Invite Member
         </Button>
@@ -105,27 +144,35 @@ export function InviteMemberDialog({ organizationId, organizationName }: InviteM
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-slate-700 mb-2"
+            >
               Email Address
             </label>
             <Input
               id="email"
               type="email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               placeholder="colleague@example.com"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="role" className="block text-sm font-medium text-slate-700 mb-2">
+            <label
+              htmlFor="role"
+              className="block text-sm font-medium text-slate-700 mb-2"
+            >
               Role
             </label>
             <Select
               value={formData.role}
               onValueChange={(value) =>
-                setFormData({ ...formData, role: value as InviteRole })
+                setFormData({ ...formData, role: value as OrgRole })
               }
             >
               <SelectTrigger>
@@ -134,7 +181,10 @@ export function InviteMemberDialog({ organizationId, organizationName }: InviteM
               <SelectContent>
                 {INVITE_ROLES.map((role) => (
                   <SelectItem key={role.value} value={role.value}>
-                    {role.label} - {role.description}
+                    <span className="flex items-center gap-2">
+                      <OrgBadge role={role.value} />
+                      <span className="text-slate-500">{role.description}</span>
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -142,7 +192,12 @@ export function InviteMemberDialog({ organizationId, organizationName }: InviteM
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={isLoading}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setOpen(false)}
+              disabled={isLoading}
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={isLoading}>

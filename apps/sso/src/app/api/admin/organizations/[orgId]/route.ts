@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ orgId: string }> }
+  { params }: { params: Promise<{ orgId: string }> },
 ) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -31,13 +31,14 @@ export async function GET(
     if (!org) {
       return NextResponse.json(
         { error: "Organization not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     // Fetch members with user details
     const members = await db
       .select({
+        id: member.id,
         userId: member.userId,
         email: user.email,
         name: user.name,
@@ -60,14 +61,15 @@ export async function GET(
       slug: org.slug,
       logo: org.logo,
       createdAt: org.createdAt.toISOString(),
-      members: members.map((m: typeof members[number]) => ({
+      members: members.map((m: (typeof members)[number]) => ({
+        id: m.id,
         userId: m.userId,
         email: m.email,
         name: m.name,
         role: m.role,
         joinedAt: m.joinedAt.toISOString(),
       })),
-      invitations: invitations.map((inv: typeof invitations[number]) => ({
+      invitations: invitations.map((inv: (typeof invitations)[number]) => ({
         id: inv.id,
         email: inv.email,
         role: inv.role,
@@ -80,7 +82,7 @@ export async function GET(
     console.error("Failed to fetch organization details:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
