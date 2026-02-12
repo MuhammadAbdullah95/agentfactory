@@ -520,14 +520,81 @@ Check your completed specification:
 
 ---
 
+## Common Mistakes to Avoid
+
+### Mistake 1: Using "Click Here" as Link Text
+
+**Wrong:**
+```text
+For more info, [click here](https://docs.python.org/).
+```
+
+**Correct:**
+```text
+See the [Python documentation](https://docs.python.org/) for more info.
+```
+
+Descriptive link text tells both humans and AI what the destination provides — without needing to follow the link.
+
+### Mistake 2: Forgetting the `!` for Images
+
+**Wrong (creates a link, not an embedded image):**
+```text
+[App screenshot](screenshot.png)
+```
+
+**Correct (embeds the image):**
+```text
+![App screenshot showing main menu](screenshot.png)
+```
+
+Remember: `[text](url)` = **take me there**. `![text](url)` = **show it here**.
+
+### Mistake 3: Overusing Bold Emphasis
+
+**Wrong (everything bold = nothing stands out):**
+```text
+**All** **users** **must** **log** **in** **before** **accessing** **data**.
+```
+
+**Correct (bold only the critical word):**
+```text
+All users **must** log in before accessing data.
+```
+
+Reserve bold for truly critical terms. If everything is emphasized, nothing is.
+
+### Mistake 4: Vague Alt Text on Images
+
+**Wrong:**
+```text
+![screenshot](app.png)
+```
+
+**Correct:**
+```text
+![Task list showing 3 pending items with checkboxes and due dates](app.png)
+```
+
+Alt text should describe what the image **shows**, not just what it **is**. This helps both screen readers and AI agents processing your spec as text.
+
+---
+
 ## Why This Matters for AI
 
-When you use links and images correctly in specifications, AI agents can:
+When you use links, images, and emphasis correctly in specifications, AI agents can:
 
 1. **Follow documentation links** - Some AI tools fetch linked pages for additional context
 2. **Understand resource relationships** - Link text tells AI what each resource provides
 3. **Parse alt text for image context** - When reading markdown as text, AI relies on alt text for image understanding
 4. **Generate appropriate placeholders** - When AI creates documentation, it follows your link/image patterns
+5. **Distinguish priority levels** - Bold (**must**) vs italic (*recommended*) helps AI decide what to implement first vs what is optional
+
+Good use of links, images, and emphasis makes your specifications richer and more actionable for AI.
+
+:::info[Expert Insight]
+Links, images, and emphasis each add a different dimension to your specifications. Links provide **context anchors** — connecting your spec to authoritative sources that AI can reference. Images provide **visual contracts** — showing what the result should look like. Emphasis provides **priority signals** — telling AI which requirements are non-negotiable and which are nice-to-have. Together, these elements transform a basic specification into a comprehensive brief that guides AI toward accurate, well-prioritized implementations.
+:::
 
 :::note[How AI Processes Images]
 Modern AI models are multimodal and can view images directly when given visual access. However, in text-based workflows (like reading spec files), AI sees only the alt text and filename. Write descriptive alt text that works for both scenarios—it helps accessibility AND provides context regardless of how your document is processed.
