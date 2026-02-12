@@ -345,18 +345,30 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         const avgWordDuration = 280 / safePlaybackRate; // ms per word
         let fallbackWordIndex = startWordIndex;
 
-        // Schedule the next word advance via setTimeout, then chain to the next
-        const scheduleNextWord = () => {
-            // Guard: stop if utterance changed, boundary events took over, or paused
-            if (currentUtteranceIdRef.current !== thisUtteranceId) return;
-            if (boundaryFiredRef.current) return;
-            if (isPausedRef.current) return;
-
-            fallbackWordIndex++;
-            if (fallbackWordIndex >= block.wordBoundaries.length) {
-                fallbackTimerRef.current = null;
-                return;
+        // Start the fallback timer using setInterval
+        const startFallbackTimer = () => {
+            // Clear any existing timer first
+            if (fallbackTimerRef.current) {
+                clearInterval(fallbackTimerRef.current);
             }
+
+            fallbackTimerRef.current = setInterval(() => {
+                // Guard: stop if utterance changed, boundary events took over, or paused
+                if (currentUtteranceIdRef.current !== thisUtteranceId) {
+                    if (fallbackTimerRef.current) {
+                        clearInterval(fallbackTimerRef.current);
+                        fallbackTimerRef.current = null;
+                    }
+                    return;
+                }
+                if (boundaryFiredRef.current) {
+                    if (fallbackTimerRef.current) {
+                        clearInterval(fallbackTimerRef.current);
+                        fallbackTimerRef.current = null;
+                    }
+                    return;
+                }
+                if (isPausedRef.current) return;
 
                 // Advance to next word
                 fallbackWordIndex++;
@@ -365,7 +377,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
                     currentWordIndexRef.current = fallbackWordIndex;
                     updateWordStyles(blockIndex, fallbackWordIndex);
                 } else {
-                    // Bug 3 fix: Self-clear when last word is reached
+                    // Self-clear when last word is reached
                     if (fallbackTimerRef.current) {
                         clearInterval(fallbackTimerRef.current);
                         fallbackTimerRef.current = null;
