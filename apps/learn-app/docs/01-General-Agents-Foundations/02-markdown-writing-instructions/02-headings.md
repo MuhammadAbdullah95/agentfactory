@@ -379,11 +379,11 @@ Now let's validate your Task Tracker App heading structure with AI feedback.
 
 ### Setup
 
-Use ChatGPT web (or your AI companion if you've set one up from earlier chapters).
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
 ### Exercise
 
-Take the **Task Tracker App specification structure** you created above and ask ChatGPT to review it with these prompts:
+Take the **Task Tracker App specification structure** you created above and ask your AI to review it with these prompts:
 
 **Prompt 1 (Structure Check):**
 

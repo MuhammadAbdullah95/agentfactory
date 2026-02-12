@@ -570,11 +570,11 @@ Validate your Task Tracker App code blocks with AI feedback — and test executi
 
 ### Setup
 
-Use ChatGPT web (or your AI companion from earlier chapters).
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
 ### Exercise
 
-Take your **updated Task Tracker App specification** (now with code blocks) and ask ChatGPT:
+Take your **updated Task Tracker App specification** (now with code blocks) and ask your AI:
 
 **Prompt 1 (Structure Check):**
 
@@ -608,8 +608,8 @@ like I specified in the Expected Output section.
 
 ### Expected Outcomes
 
-From **Prompt 1**: ChatGPT confirms your code block syntax is correct
+From **Prompt 1**: Your AI confirms your code block syntax is correct
 
-From **Prompt 2**: ChatGPT can parse your specification and understand output format, language, and commands
+From **Prompt 2**: Your AI can parse your specification and understand output format, language, and commands
 
-From **Prompt 3**: ChatGPT generates Python code matching your expected output
+From **Prompt 3**: Your AI generates Python code matching your expected output

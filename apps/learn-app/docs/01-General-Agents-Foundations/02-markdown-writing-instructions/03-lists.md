@@ -476,11 +476,11 @@ Validate your Task Tracker App lists with AI feedback.
 
 ### Setup
 
-Use ChatGPT web (or your AI companion from earlier chapters).
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
 ### Exercise
 
-Take your **updated Task Tracker App specification** (now with lists added) and ask ChatGPT to review it:
+Take your **updated Task Tracker App specification** (now with lists added) and ask your AI to review it:
 
 **Prompt 1 (List Type Check):**
 
@@ -511,8 +511,8 @@ this clearer? (Like requirements, error messages, or configuration steps)
 
 ### Expected Outcomes
 
-From **Prompt 1**: ChatGPT will confirm whether you chose the right list types (ordered vs unordered)
+From **Prompt 1**: Your AI will confirm whether you chose the right list types (ordered vs unordered)
 
-From **Prompt 2**: ChatGPT should be able to count items and understand sequence requirements from your list choices
+From **Prompt 2**: Your AI should be able to count items and understand sequence requirements from your list choices
 
-From **Prompt 3**: ChatGPT will suggest additional lists to strengthen your specification
+From **Prompt 3**: Your AI will suggest additional lists to strengthen your specification
