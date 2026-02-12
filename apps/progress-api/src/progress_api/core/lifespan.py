@@ -7,6 +7,7 @@ from fastapi import FastAPI
 
 from .database import close_db, create_materialized_views, init_db
 from .redis import get_redis, start_redis, stop_redis
+from .scheduler import start_scheduler, stop_scheduler
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +54,9 @@ async def lifespan(app: FastAPI):
         except Exception as e:
             logger.warning(f"[INIT] Materialized view creation failed (may already exist): {e}")
 
+        # Start background scheduler
+        start_scheduler()
+
         logger.info("=" * 60)
         logger.info("STARTUP COMPLETE")
         logger.info("=" * 60)
@@ -64,6 +68,7 @@ async def lifespan(app: FastAPI):
         logger.info("SHUTDOWN")
         logger.info("=" * 60)
 
+        stop_scheduler()
         await stop_redis()
         await close_db()
 
