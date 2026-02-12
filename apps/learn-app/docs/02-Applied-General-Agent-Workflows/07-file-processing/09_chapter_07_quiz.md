@@ -10,48 +10,12 @@ running_example_id: file-processing-quiz
 
 # Chapter 7: File Processing Workflows Quiz
 
-Test your understanding of agent-directed file processing workflows, safety patterns, batch operations, error recovery, and the Seven Principles in action. This assessment covers all 8 lessons in Chapter 7.
+Test your understanding of agent-directed file processing workflows, safety patterns, batch operations, error recovery, and the Seven Principles in action. This assessment covers all 7 lessons in Chapter 7.
 
 <Quiz
 title="Chapter 7: File Processing Workflows Assessment"
 questionsPerBatch={18}
 questions={[    {
-      question: "Why does the chapter recommend Bash over PowerShell for AI agent work?",
-      options: [
-        "Bash executes commands faster than PowerShell on all platforms",
-        "PowerShell lacks the ability to perform basic file operations",
-        "AI tools are trained primarily on decades of Bash usage",
-        "Bash provides built-in security features PowerShell does not"
-      ],
-      correctOption: 2,
-      explanation: "AI coding tools like Claude Code are trained primarily on Bash because of its decades of widespread use across development, servers, and automation. Most tutorials, examples, and documentation use Bash syntax, making it the common language AI tools speak most fluently. Bash is not inherently faster than PowerShell, and PowerShell can certainly perform file operations. Built-in security is not the differentiator. The recommendation is about AI fluency, not technical superiority of one shell over another.",
-      source: "Lesson 0: Getting Bash Ready"
-    },
-    {
-      question: "What advantage does WSL provide over Git Bash on Windows?",
-      options: [
-        "WSL runs a complete Linux environment inside Windows",
-        "Git Bash requires significantly more disk space than WSL",
-        "WSL installs automatically on every Windows version released",
-        "Git Bash cannot execute any standard bash commands properly"
-      ],
-      correctOption: 0,
-      explanation: "WSL (Windows Subsystem for Linux) runs a full Linux environment inside Windows, providing a complete Unix experience. This makes it more powerful and the better long-term choice for development work. Git Bash does not require more disk space — it is actually lighter. WSL requires manual installation and specific Windows versions (Windows 10 2004+ or Windows 11). Git Bash absolutely can run standard bash commands — it is a viable option for getting started quickly.",
-      source: "Lesson 0: Getting Bash Ready"
-    },
-    {
-      question: "A student's WSL installation fails with an error. What approach does the chapter recommend?",
-      options: [
-        "Search online forums for specific Windows troubleshooting guides",
-        "Uninstall WSL completely and switch to PowerShell instead",
-        "Restart the computer and retry the installation command again",
-        "Describe the problem to the AI agent for interactive help"
-      ],
-      correctOption: 3,
-      explanation: "The chapter explicitly recommends using your General Agent to troubleshoot WSL issues. You describe what happened, and the agent checks your Windows version, suggests commands, and guides you through fixes. This is presented as a perfect first opportunity to use an AI agent to solve a real problem. While searching forums or restarting might occasionally help, the chapter frames this as an agent-directed learning moment. Switching to PowerShell defeats the purpose of getting Bash set up.",
-      source: "Lesson 0: Getting Bash Ready"
-    },
-    {
       question: "What separates experts from beginners when working with General Agents?",
       options: [
         "Experts memorize more bash commands than beginners do",
