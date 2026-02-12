@@ -11,7 +11,6 @@ from ..models.chapter import Chapter, ChapterAlias
 from ..models.lesson import LessonCompletion
 from ..models.progress import UserProgress
 from ..models.quiz import QuizAttempt
-from ..models.user import User
 from ..schemas.progress import (
     BadgeInfo,
     ChapterInfo,
@@ -49,9 +48,7 @@ async def get_progress(
     )
 
     # 2. Stats summary
-    result = await session.execute(
-        select(UserProgress).where(UserProgress.user_id == user.id)
-    )
+    result = await session.execute(select(UserProgress).where(UserProgress.user_id == user.id))
     progress = result.scalar_one_or_none()
 
     if progress is None:
