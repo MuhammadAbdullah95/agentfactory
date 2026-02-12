@@ -602,9 +602,51 @@ Modern AI models are multimodal and can view images directly when given visual a
 
 ---
 
-## Bonus: Additional Markdown Tips
+## Bonus: Additional Markdown Elements
 
-Before we wrap up, here are two important markdown behaviors you should know about.
+Before we wrap up, here are additional markdown elements you'll encounter in real projects.
+
+### Tables — Comparing Options
+
+Tables are useful when you need to compare features, list configurations, or show structured data:
+
+```text
+| Feature        | Free Plan | Pro Plan |
+|----------------|-----------|----------|
+| Task limit     | 10        | Unlimited|
+| Collaboration  | No        | Yes      |
+| Export to PDF   | No        | Yes      |
+```
+
+**What it renders as:**
+
+| Feature        | Free Plan | Pro Plan |
+|----------------|-----------|----------|
+| Task limit     | 10        | Unlimited|
+| Collaboration  | No        | Yes      |
+| Export to PDF   | No        | Yes      |
+
+**Key rules**: Use `|` to separate columns and `---` to create the header row. Alignment is optional — the columns don't need to line up perfectly in your source file.
+
+### Task Lists — Tracking Progress
+
+Task lists add checkboxes to track what's done. This is a GitHub Flavored Markdown (GFM) extension:
+
+```text
+- [x] Set up project structure
+- [x] Create main menu
+- [ ] Add task creation feature
+- [ ] Add task deletion feature
+```
+
+**What it renders as:**
+
+- [x] Set up project structure
+- [x] Create main menu
+- [ ] Add task creation feature
+- [ ] Add task deletion feature
+
+**Syntax**: `- [x]` for checked, `- [ ]` for unchecked. These render as interactive checkboxes on GitHub.
 
 ### Escaping Special Characters
 
@@ -754,4 +796,4 @@ No tasks yet. Use option 1 to add a task.
 
 ### What's Next?
 
-In the **Chapter Quiz**, you'll test your markdown knowledge. Then you'll be ready to write specifications for your own projects—and have AI agents help you build them.
+In the **Chapter Quiz**, you'll test your markdown knowledge. Then in **Chapter 3**, you'll use these markdown skills to write real specifications for AI agents — turning structured documents into working software.
