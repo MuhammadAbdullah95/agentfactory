@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import traceback
 from collections.abc import AsyncIterator
 from datetime import datetime
 
@@ -21,7 +20,6 @@ from chatkit.types import (
     ThreadStreamEvent,
     UserMessageItem,
     UserMessageTextContent,
-    WidgetItem,
 )
 from fastapi import HTTPException
 
@@ -257,6 +255,43 @@ async def _stream_with_real_ids(
 
         # Handle ThreadItemDoneEvent - use mapped ID and strip answer marker
         elif isinstance(event, ThreadItemDoneEvent):
+            # Flush any remaining feedback buffer that didn't reach 50 chars
+            # (e.g., short responses like "Correct! Well done.")
+            if feedback_buffer and not first_chunk_processed:
+                first_chunk_processed = True
+                emit_text = feedback_buffer
+                # Apply same feedback correction logic
+                lower_buf = feedback_buffer.lower()
+                if verification_result == "correct":
+                    if "not quite" in lower_buf or lower_buf.startswith("not"):
+                        logger.warning(
+                            "[ChatKit] LLM said 'Not quite' for CORRECT answer - fixing (flush)"
+                        )
+                        emit_text = "Correct! " + feedback_buffer.lstrip()
+                        emit_text = emit_text.replace("Not quite.", "")
+                        emit_text = emit_text.replace("Not quite", "")
+                        emit_text = emit_text.strip()
+                        if not emit_text.startswith("Correct"):
+                            emit_text = "Correct! " + emit_text
+                elif verification_result == "incorrect":
+                    if "correct" in lower_buf[:20] and "not" not in lower_buf[:30]:
+                        logger.warning(
+                            "[ChatKit] LLM said 'Correct' for INCORRECT answer - fixing (flush)"
+                        )
+                        for w in ["Correct!", "Correct.", "Correct",
+                                  "That's right!", "That's right."]:
+                            emit_text = emit_text.replace(w, "")
+                        emit_text = "Not quite. " + emit_text.strip()
+                feedback_buffer = ""
+                if emit_text:
+                    yield ThreadItemUpdatedEvent(
+                        item_id=event.item.id if hasattr(event.item, "id") else "",
+                        update=AssistantMessageContentPartTextDelta(
+                            content_index=0,
+                            delta=emit_text,
+                        ),
+                    )
+
             item = event.item
             if isinstance(item, AssistantMessageItem):
                 # Collect text and strip only the hidden marker from content
@@ -268,7 +303,12 @@ async def _stream_with_real_ids(
                         # Only strip the hidden <!--CORRECT:X--> marker
                         cleaned_text = strip_answer_marker(original_text)
 
-                        # POST-PROCESS: Fix wrong feedback in final text too
+                        # POST-PROCESS: Fix wrong feedback in final text too.
+                        # NOTE: This correction also runs during streaming (above).
+                        # Both operate on independent copies -- streaming corrects
+                        # live deltas for real-time display; this corrects the SDK's
+                        # accumulated item.content for the persisted message.
+                        # They do NOT compound.
                         if verification_result:
                             lower_text = cleaned_text.lower()[:60]
                             if verification_result == "correct":
@@ -330,51 +370,6 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         """Initialize the ChatKit server with PostgreSQL store."""
         super().__init__(store)
         logger.info("[ChatKit] StudyModeChatKitServer initialized")
-
-    async def action(
-        self,
-        thread: ThreadMetadata,
-        action: dict,
-        sender: WidgetItem | None,
-        context: RequestContext,
-    ) -> AsyncIterator[ThreadStreamEvent]:
-        """
-        Handle widget button clicks (A/B option selection).
-
-        When user clicks an option button, this method is called with
-        the action payload containing the selected answer.
-        """
-        action_type = action.get("type", "")
-        payload = action.get("payload", {})
-
-        logger.info(f"[ChatKit] Action received: type={action_type}, payload={payload}")
-
-        if action_type == "answer.select":
-            answer = payload.get("answer", "")
-            if answer in ("A", "B"):
-                logger.info(f"[ChatKit] User selected answer: {answer}")
-
-                # Create a user message item for the answer
-                user_message = UserMessageItem(
-                    id=self.store.generate_item_id("message", thread, context),
-                    thread_id=thread.id,
-                    created_at=datetime.now(),
-                    content=[UserMessageTextContent(text=answer)],
-                )
-
-                # Yield the user message event
-                yield ThreadItemDoneEvent(item=user_message)
-
-                # Save to store
-                await self.store.add_thread_item(thread.id, user_message, context=context)
-
-                # Now call respond to get the AI's reaction
-                async for event in self.respond(thread, user_message, context):
-                    yield event
-            else:
-                logger.warning(f"[ChatKit] Invalid answer in action: {answer}")
-        else:
-            logger.warning(f"[ChatKit] Unknown action type: {action_type}")
 
     async def respond(
         self,
@@ -668,9 +663,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Re-raise HTTP exceptions (e.g., 402 from metering) for proper response
             raise
         except Exception as e:
-            error_trace = traceback.format_exc()
-            logger.error(f"[ChatKit] Error in respond(): {e}")
-            logger.error(f"[ChatKit] Traceback:\n{error_trace}")
+            logger.exception(f"[ChatKit] Error in respond(): {e}")
 
             # Send error message to client
             error_message = AssistantMessageItem(
