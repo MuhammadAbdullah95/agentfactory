@@ -10,7 +10,7 @@ Every expert who works with General Agents builds a personal prompt toolkit. Pro
 
 ### Critical Patterns
 
-- **Synthesize all five workflows**: Apply survey, safety, organization, batch, and search to a new folder (Desktop).
+- **Synthesize all six workflows**: Apply survey, safety, organization, batch, recovery, and search to a new folder (Desktop).
 - **Create MY-PROMPT-TOOLKIT.md**: Document fill-in-the-blank templates for each workflow pattern.
 - **Principle reflection**: Observe which principles emerged during each workflow and how they enabled success.
 - **Transfer to new domains**: The same patterns work for email, calendar, projects, and any workflow where you direct General Agents.
@@ -23,5 +23,5 @@ Every expert who works with General Agents builds a personal prompt toolkit. Pro
 
 ### Connections
 
-- **Builds on**: Lessons 1-5 (all workflows), all Seven Principles from Part 1
+- **Builds on**: Lessons 1-6 (all workflows including error recovery), all Seven Principles from Part 1
 - **Leads to**: AI Employees where manual prompting evolves into autonomous automation

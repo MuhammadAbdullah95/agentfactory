@@ -1,7 +1,7 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 chapter: 7
-lesson: 5
+lesson: 6
 layer: L2
 title: "Search & Discovery Workflow"
 description: "Direct Claude Code to find files by description rather than memorizing search commands. Because you know what you're looking for, not where it is"
@@ -93,18 +93,20 @@ Watch what Claude Code does.
 Claude Code: I'll search for that tax document. Let me check common
 locations for downloaded PDFs related to taxes.
 
-[Runs: find ~/Downloads ~/Documents -name "*.pdf" -newer "2023-01-01" ! -newer "2024-01-01" 2>/dev/null]
-[Runs: find ~/Downloads ~/Documents -iname "*1099*" -o -iname "*tax*" -o -iname "*dividend*" 2>/dev/null]
+[Runs: find ~/Downloads ~/Documents -name "*.pdf" -newer "2023-01-01"
+  ! -newer "2024-01-01" 2>/dev/null]
+[Runs: find ~/Downloads ~/Documents -iname "*1099*" -o -iname "*tax*"
+  -o -iname "*dividend*" 2>/dev/null]
 
 I found several candidates:
 
-| File                                | Location              | Modified    |
-|-------------------------------------|-----------------------|-------------|
-| 1099-DIV-2023-Fidelity.pdf          | ~/Downloads           | 2023-02-14  |
-| 1099-INT-2023-Chase.pdf             | ~/Downloads           | 2023-01-28  |
-| Tax-Summary-2023.pdf                | ~/Documents/Taxes     | 2023-04-12  |
-| dividend-statement-Q4-2023.pdf      | ~/Downloads           | 2023-10-15  |
-| W2-2023-Employer.pdf                | ~/Documents/Taxes     | 2023-02-01  |
+| File                           | Location            | Modified   |
+|--------------------------------|---------------------|------------|
+| 1099-DIV-2023-Fidelity.pdf     | ~/Downloads         | 2023-02-14 |
+| 1099-INT-2023-Chase.pdf        | ~/Downloads         | 2023-01-28 |
+| Tax-Summary-2023.pdf           | ~/Documents/Taxes   | 2023-04-12 |
+| dividend-statement-Q4-2023.pdf | ~/Downloads         | 2023-10-15 |
+| W2-2023-Employer.pdf           | ~/Documents/Taxes   | 2023-02-01 |
 
 The most likely match for "dividends or 1099" is:
   ~/Downloads/1099-DIV-2023-Fidelity.pdf
@@ -122,14 +124,16 @@ Bank of America.
 ```
 Claude Code: Let me narrow the search to bank-related documents.
 
-[Runs: find ~/Downloads ~/Documents -iname "*chase*" -o -iname "*bofa*" -o -iname "*bankofamerica*" 2>/dev/null | xargs grep -l -i "1099\|dividend" 2>/dev/null]
+[Runs: find ~/Downloads ~/Documents -iname "*chase*" -o
+  -iname "*bofa*" -o -iname "*bankofamerica*" 2>/dev/null |
+  xargs grep -l -i "1099\|dividend" 2>/dev/null]
 
 Found these bank-related tax documents:
 
-| File                               | Location      | Content Match          |
-|------------------------------------|---------------|------------------------|
-| 1099-INT-2023-Chase.pdf            | ~/Downloads   | Contains "1099-INT"    |
-| Chase-Tax-Statements-2023.pdf      | ~/Documents   | Contains "dividend"    |
+| File                          | Location    | Content Match       |
+|-------------------------------|-------------|---------------------|
+| 1099-INT-2023-Chase.pdf       | ~/Downloads | Contains "1099-INT" |
+| Chase-Tax-Statements-2023.pdf | ~/Documents | Contains "dividend" |
 
 The Chase 1099-INT document looks like your best match.
 Want me to open it so you can verify?
@@ -145,8 +149,10 @@ I want to see what else I have from them.
 ```
 Claude Code: I'll find all Chase-related tax documents.
 
-[Runs: find ~ -iname "*chase*" -type f \( -iname "*.pdf" -o -iname "*.PDF" \) 2>/dev/null]
-[Runs: grep -r -l -i "chase.*1099\|chase.*tax\|chase.*statement" ~/Documents ~/Downloads 2>/dev/null]
+[Runs: find ~ -iname "*chase*" -type f \( -iname "*.pdf" -o
+  -iname "*.PDF" \) 2>/dev/null]
+[Runs: grep -r -l -i "chase.*1099\|chase.*tax\|chase.*statement"
+  ~/Documents ~/Downloads 2>/dev/null]
 
 Here's everything I found from Chase:
 
@@ -170,7 +176,7 @@ You went from "I can't find that tax document" to "here's everything from Chase"
 
 ## What Just Happened?
 
-Did you notice the commands the agent ran? It used `find` to locate files by name patterns, `grep` to search inside files for content, and `xargs` to pipe results between tools. You didn't need to know any of this syntax. The agent picked the right tools because bash commands are the universal interface for file operations.
+Did you notice the commands the agent ran? It used `find` to locate files by name patterns, `grep` to search inside files for content, and `xargs` to bridge between them. You didn't need to know any of this syntax. The agent picked the right tools because bash commands are the universal interface for file operations.
 
 The agent didn't just hand you a filename. It showed you the search process — what it searched for, where it looked, what it found. You could see the table of candidates and understand why it narrowed to certain files. The search was transparent.
 
@@ -188,11 +194,11 @@ Here's what made this different from a file browser search:
 
 The agent used advanced search commands:
 
-- **`find -iname`** - find files, case-**i**nsensitive - matches "Chase" or "chase" or "CHASE"
-- **`find -newer`** - find files **newer** than a date - locates files from a specific time period
-- **`grep -l`** - search inside files, show **l**ist of matches - finds files containing specific text
-- **`grep -i`** - search case-**i**nsensitively - matches "Tax" or "tax" or "TAX"
-- **`xargs`** - the **bridge** command - connects find output to grep input
+- **`find -iname`** — find files, case-**i**nsensitive — matches "Chase" or "chase" or "CHASE"
+- **`find -newer`** — find files **newer** than a date — locates files from a specific time period
+- **`grep -l`** — search inside files, show **l**ist of matching files — finds files containing specific text
+- **`grep -i`** — search case-**i**nsensitively — matches "Tax" or "tax" or "TAX"
+- **`xargs`** — the **bridge** command — converts text output into arguments
 
 #### The Bridge Command: xargs
 
@@ -204,13 +210,11 @@ find ~/Downloads -iname "*chase*" | xargs grep -l "1099"
 
 Here's what's happening:
 
-**The problem**: `find` outputs filenames. `grep` searches inside files. But these two tools don't naturally connect—`find` outputs text, while `grep` expects files to open.
-
-**The solution**: `xargs` is the bridge. It catches the list of filenames coming from `find` and hands them one by one to `grep`.
+**The problem**: `find` outputs a list of filenames as text. But `grep` needs those filenames as arguments — it needs to know which files to open and search inside. `xargs` converts the text output into arguments that `grep` can use.
 
 Read it left to right: "In **Downloads**, **find** files with 'chase' in the name, **then for each one**, search inside for '1099'."
 
-Without `xargs`, the pipeline breaks. The agent knew to build this bridge automatically—that's why you can describe what you want and let it figure out how.
+Without `xargs`, the pipeline breaks. The agent knew to build this bridge automatically — that's why you can describe what you want and let it figure out how.
 
 ---
 
@@ -256,6 +260,16 @@ Consider the mental load difference:
 The agent knows `find -iname "*pattern*" -newer "date"`. The agent knows `grep -l -i "content"`. You know "it was a tax document from 2023 about dividends."
 
 Your knowledge is valuable. The agent's command syntax knowledge is mechanical. The combination is powerful.
+
+### Protecting Your Session From Too Many Results
+
+One thing to watch for: broad searches can return thousands of results. If you ask the agent to search your entire home directory, the output might flood the conversation and degrade the agent's performance. When you expect many results, ask the agent to save them:
+
+```
+Save the full list to search-results.txt and just show me the first 10 matches.
+```
+
+This keeps your session clean and creates a persistent record you can reference later — Principle 5 (Persisting State) applied to search.
 
 ---
 
@@ -322,11 +336,12 @@ By now in this chapter, you've learned:
 | 2. Safety First           | "Back up before changing"          |
 | 3. Categorize with Rules  | "Write rules first"                |
 | 4. Batch Operations       | "Show me first, create a script"   |
-| **5. Search & Discovery** | **"Find files that match [desc]"** |
+| 5. Error Recovery         | "Restore from backup, compare"     |
+| **6. Search & Discovery** | **"Find files that match [desc]"** |
 
-Each pattern expands your capability. You understand your files. You protect them with backups. You document your rules. You automate repetitive tasks. Now you find anything by describing it.
+Each pattern expands your capability. You understand your files. You protect them with backups. You document your rules. You automate repetitive tasks. You recover from mistakes. Now you find anything by describing it.
 
-In the next lesson, you'll combine all these patterns into a complete file processing toolkit.
+In the final lesson, you'll combine all these patterns into a complete file processing toolkit.
 
 ---
 
@@ -338,13 +353,13 @@ In the next lesson, you'll combine all these patterns into a complete file proce
 I need to find a document that meets multiple criteria:
 - It's a PDF
 - It contains the word "invoice" somewhere in the file
-- It's from 2024
+- It's from 2025
 - The amount was over $500 (if you can search for that)
 
 Show me your search strategy before running it.
 ```
 
-**What you're practicing**: Complex search specification. You're asking the agent to combine multiple filters. File type, content, date, and even numeric values. Watch how it approaches an ambitious search request.
+**What you're practicing:** Complex search specification. You're asking the agent to combine multiple filters — file type, content, date, and even numeric values. Watch how it approaches an ambitious search request.
 
 **Prompt 2: Search Report Generation**
 
@@ -354,7 +369,7 @@ Include the filename, location, file size, and which year it's from.
 Save the report so I can reference it later.
 ```
 
-**What you're practicing**: Turning search into documentation. This request combines search (finding tax documents) with state persistence (saving a report). You're applying Principle 5 to search results.
+**What you're practicing:** Turning search into documentation. This request combines search (finding tax documents) with state persistence (saving a report). You're applying Principle 5 to search results.
 
 **Prompt 3: Duplicate Detection**
 
@@ -364,4 +379,4 @@ places. Can you find files that might be duplicates based on name
 similarity or identical file sizes?
 ```
 
-**What you're practicing**: Advanced discovery. This asks the agent to find patterns across your filesystem, not just specific files. Watch how it approaches the comparison task.
+**What you're practicing:** Advanced discovery. This asks the agent to find patterns across your filesystem, not just specific files. Watch how it approaches the comparison task.

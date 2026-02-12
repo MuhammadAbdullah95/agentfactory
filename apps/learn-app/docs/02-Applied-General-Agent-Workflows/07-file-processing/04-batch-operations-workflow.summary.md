@@ -24,4 +24,4 @@ Principle 2 (Code as Universal Interface) means transforming one-time solutions 
 ### Connections
 
 - **Builds on**: Lessons 1-3 (survey, safety, organization), Principle 2 from Part 1
-- **Leads to**: Search workflows (Lesson 5) and capstone toolkit (Lesson 6)
+- **Leads to**: Error recovery (Lesson 5), search workflows (Lesson 6), and capstone toolkit (Lesson 7)

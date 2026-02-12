@@ -1,10 +1,10 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 chapter: 7
-lesson: 6
+lesson: 7
 layer: L2
 title: "Capstone: Your File Processing Toolkit"
-description: "Synthesize all five workflows into a reusable prompt toolkit, apply them to a new folder, and recognize how the Seven Principles emerged through practice"
+description: "Synthesize all six workflows into a reusable prompt toolkit, apply them to a new folder, and recognize how the Seven Principles emerged through practice"
 duration_minutes: 30
 
 skills:
@@ -37,10 +37,10 @@ skills:
     measurable_at_this_level: "Student applies learned workflows to an unfamiliar folder"
 
 learning_objectives:
-  - objective: "Apply all five workflows to a new folder (Desktop)"
+  - objective: "Apply all six workflows to a new folder (Desktop)"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Student completes survey, backup, organize, batch, and verify on Desktop"
+    assessment_method: "Student completes survey, backup, organize, batch, recover, and verify on Desktop"
 
   - objective: "Create a personal prompt toolkit document for future use"
     proficiency_level: "B1"
@@ -71,7 +71,7 @@ differentiation:
 
 # Capstone: Your File Processing Toolkit
 
-You started this chapter staring at a chaotic Downloads folder. Now you've organized hundreds of files, created reusable scripts, and developed a systematic approach to file management.
+You started this chapter staring at a chaotic Downloads folder. Over six lessons, you organized hundreds of files, created reusable scripts, practiced recovery from mistakes, and developed a systematic approach to file management.
 
 But here's what's more valuable than the organized folders. You now possess patterns that work on any folder, any computer, for the rest of your career. And these patterns transfer far beyond files.
 
@@ -83,26 +83,9 @@ In this capstone, you'll prove that by applying everything to a new challenge. T
 
 ---
 
-## What You've Built
-
-Let's inventory what you created in this chapter:
-
-| Deliverable         | Purpose                        | Reusable? |
-| ------------------- | ------------------------------ | --------- |
-| `FILE-INVENTORY.md` | Survey report of file contents | Template  |
-| `backup/`           | Safety net for recovery        | Pattern   |
-| `rules.md`          | Categorization logic           | Editable  |
-| `organize.sh`       | Automated file organization    | Runnable  |
-| `ORGANIZER-LOG.md`  | Complete activity history      | Reference |
-| `organized/`        | Categorized files              | Result    |
-
-These aren't just files. They're proof that you can direct a General Agent to solve real problems.
-
----
-
 ## The Challenge: Your Desktop
 
-Time to prove the patterns transfer. Choose a folder you haven't touched yet. Your Desktop is ideal. It's probably accumulated its own chaos.
+Time to prove the patterns transfer. Choose a folder you haven't touched yet. Your Desktop is ideal — it's probably accumulated its own chaos.
 
 Open Claude Code and work through each workflow on this new folder.
 
@@ -120,8 +103,8 @@ Watch Claude Code run the analysis. Compare its approach to what you saw in Less
 
 ```
 Before we change anything on my Desktop, create a backup of any files
-modified in the last 60 days. Put the backup in ~/desktop-backup-YYYY-MM-DD
-and verify it's complete.
+modified in the last 60 days. Put the backup in ~/desktop-backup-2026-02-12/
+and verify it's complete. Show me any errors.
 ```
 
 The backup pattern is the same. Only the folder name changed.
@@ -132,6 +115,7 @@ The backup pattern is the same. Only the folder name changed.
 Based on what you found on my Desktop, suggest a categorization system.
 Show me your proposed rules, then let me refine them before we proceed.
 Document the final rules in desktop-rules.md.
+Test on ONE file first.
 ```
 
 Notice how the conversation follows the same propose-refine-document pattern.
@@ -146,17 +130,19 @@ doing it, and create a script I can reuse.
 
 The preview-approve-execute pattern works here too.
 
-### Workflow 5: Verification
+### Workflow 5: Verification & Recovery Check
 
 ```
 Now that we've organized my Desktop, verify everything worked:
 - Count files in each category
 - Check if any files were left behind
 - Confirm the backup is still intact
-- Update the log with before/after comparison
+- Show me before/after comparison
+
+If anything looks wrong, restore from backup.
 ```
 
-The verification checklist is the same. The folder is different.
+The verification checklist is the same. The folder is different. And now you have the confidence to restore if something went wrong.
 
 ---
 
@@ -174,8 +160,8 @@ I've learned. Include:
 - Backup workflow
 - Organization workflow
 - Batch operations workflow
-- Verification workflow
-
+- Recovery workflow
+- Search workflow
 For each one, give me a fill-in-the-blank template I can adapt.
 ```
 
@@ -197,37 +183,53 @@ Help me understand what's in [FOLDER]. Show me:
 ```
 
 ## 2. Safety-First Backup
-
 ```
 
 Before making any changes to [FOLDER], create a timestamped backup
 of [WHAT TO BACKUP: all files / recent files / specific types].
-Put it in [BACKUP LOCATION] and verify it's complete.
+Put it in [BACKUP LOCATION] and verify it's complete. Show me any errors.
 
 ```
 
 ## 3. Organization Rules
-
 ```
 
-Help me organize [FOLDER]. Analyze what's there and suggest
-categories based on my actual files. Let me refine the rules
-before we proceed. Document final rules in [RULES FILE].
+Help me organize [FOLDER]. Analyze what's there and suggest categories
+based on my actual files. Let me refine the rules before we proceed.
+Document final rules in [RULES FILE]. Test on ONE file first.
 
 ```
 
 ## 4. Batch Operations
+```
+
+I want to [OPERATION: rename / move / copy] files in [FOLDER] that
+match [PATTERN]. Show me what you'll do before doing it.
+Create a reusable script for future use. Log every change.
 
 ```
 
-I want to [OPERATION: rename / move / copy] files in [FOLDER]
-that match [PATTERN]. Show me what you'll do before doing it.
-Create a reusable script for future use.
+## 5. Error Recovery
+```
+
+Something went wrong with [WHAT HAPPENED]. Compare the current state
+of [FOLDER] against [BACKUP LOCATION] and show me what's different.
+Then restore [WHAT TO RESTORE: everything / specific files / one category].
+Verify the restoration is complete.
 
 ```
 
-## 5. Verification
+## 6. Search & Discovery
+```
 
+Find files that match [DESCRIPTION] from [TIME PERIOD].
+Search in [LOCATIONS: Downloads, Documents, Desktop].
+If needed, search inside files for [CONTENT].
+Show me your search strategy and results.
+
+```
+
+## 7. Verification
 ```
 
 Verify our organization worked:
@@ -238,7 +240,6 @@ Verify our organization worked:
 - Show me before/after comparison
 
 ```
-
 ```
 
 Save this document somewhere permanent. It's the deliverable from this chapter that matters most.
@@ -249,18 +250,19 @@ Save this document somewhere permanent. It's the deliverable from this chapter t
 
 You've been learning the Seven Principles without memorizing them. Let's make explicit what emerged through practice.
 
-| Lesson                   | What You Did                        | Principle That Emerged              |
-| ------------------------ | ----------------------------------- | ----------------------------------- |
-| 1. Survey                | Ran bash commands to analyze folder | **P1: Bash is the Key**             |
-| 1. Survey                | Made chaos visible through reports  | **P7: Observability**               |
-| 2. Safety First          | Created backup before changes       | **P6: Constraints and Safety**      |
-| 2. Safety First          | Verified backup was complete        | **P3: Verification as Core Step**   |
-| 3. Organization          | Documented rules in rules.md        | **P5: Persisting State in Files**   |
-| 3. Organization          | Tested on one file first            | **P4: Small, Reversible Decomp.**   |
-| 4. Batch Operations      | Generated reusable script           | **P2: Code as Universal Interface** |
-| 5. Run with Verification | Compared counts before/after        | **P3: Verification as Core Step**   |
+| Lesson                   | What You Did                         | Principle That Emerged              |
+| ------------------------ | ------------------------------------ | ----------------------------------- |
+| 1. Survey                | Ran bash commands to analyze folder  | **P1: Bash is the Key**             |
+| 1. Survey                | Made chaos visible through reports   | **P7: Observability**               |
+| 2. Safety First          | Created backup before changes        | **P6: Constraints and Safety**      |
+| 2. Safety First          | Verified backup was complete         | **P3: Verification as Core Step**   |
+| 3. Organization          | Documented rules in rules.md         | **P5: Persisting State in Files**   |
+| 3. Organization          | Tested on one file first             | **P4: Small, Reversible Decomp.**   |
+| 4. Batch Operations      | Generated reusable script            | **P2: Code as Universal Interface** |
+| 5. Error Recovery        | Restored from backup after mistake   | **P3 + P6: Verify + Safety**        |
+| 6. Search & Discovery    | Described problem, agent chose tools | **P1 + P2: Bash + Code**            |
 
-All seven principles showed up naturally. You didn't study them from a textbook. You experienced them through action.
+All seven principles showed up naturally. You didn't study them from a textbook. You experienced them through action. And you saw them reinforce each other — safety enabled experimentation, verification caught errors, persistence made rules reusable.
 
 ---
 
@@ -270,29 +272,31 @@ Throughout this chapter, you observed the agent using these commands. You don't 
 
 ### Core Commands
 
-| Command    | Plain English                           | Lesson  |
-| ---------- | --------------------------------------- | ------- |
-| `ls`       | **List** files in a directory           | 1, 3    |
-| `find`     | **Find** files by name or date          | 1, 2, 5 |
-| `wc -l`    | **Word count** (count lines)            | 1, 2    |
-| `du -sh`   | **Disk usage** (human-readable sizes)   | 1       |
-| `cp`       | **Copy** files                          | 2       |
-| `mv`       | **Move** (or rename) files              | 3, 4    |
-| `mkdir`    | **Make directory**                      | 2, 3    |
-| `mkdir -p` | **Make directory** (create parents too) | 4       |
-| `cat`      | **Display** file contents               | 3       |
-| `sort -rh` | **Sort** (reverse, human-readable)      | 1       |
-| `head -10` | Show **first 10** lines                 | 4       |
-| `grep`     | **Search** inside files                 | 5       |
-| `grep -l`  | Search inside, show matching **files**  | 5       |
-| `grep -i`  | Search **case-insensitive**             | 5       |
+| Command    | Plain English                           | Lesson     |
+| ---------- | --------------------------------------- | ---------- |
+| `ls`       | **List** files in a directory           | 1, 3       |
+| `find`     | **Find** files by name or date          | 1, 2, 6   |
+| `wc -l`    | **Word count** (count lines)            | 1, 2       |
+| `du -sh`   | **Disk usage** (human-readable sizes)   | 1          |
+| `cp`       | **Copy** files                          | 2, 5       |
+| `mv`       | **Move** (or rename) files              | 3, 4       |
+| `rm -rf`   | **Remove** recursively (dangerous!)     | 5          |
+| `mkdir`    | **Make directory**                      | 2, 3       |
+| `mkdir -p` | **Make directory** (create parents too) | 4          |
+| `cat`      | **Display** file contents               | 3          |
+| `sort -rh` | **Sort** (reverse, human-readable)      | 1          |
+| `head -10` | Show **first 10** lines                 | 4          |
+| `diff`     | Show **differences** between files      | 5          |
+| `grep`     | **Search** inside files                 | 6          |
+| `grep -l`  | Search inside, show matching **files**  | 6          |
+| `grep -i`  | Search **case-insensitive**             | 6          |
 
 ### Connectors
 
-| Symbol      | Plain English                         | Example                                                          |
-| ----------- | ------------------------------------- | ---------------------------------------------------------------- |
-| `\|` (pipe) | "**then**" - chain commands together  | `find ... \| wc -l` = "find files, then count them"              |
-| `xargs`     | "**for each**" - bridge between tools | `find ... \| xargs grep` = "find files, then search inside each" |
+| Symbol      | Plain English                                | Example                                                          |
+| ----------- | -------------------------------------------- | ---------------------------------------------------------------- |
+| `\|` (pipe) | "**then**" — chain commands together         | `find ... \| wc -l` = "find files, then count them"              |
+| `xargs`     | "**for each**" — converts text to arguments  | `find ... \| xargs grep` = "find files, then search inside each" |
 
 ### Flags Worth Knowing
 
@@ -300,11 +304,11 @@ Throughout this chapter, you observed the agent using these commands. You don't 
 | ---- | ------------------------------------------- | -------------------------------------- |
 | `-l` | Show as list (ls) or list files only (grep) | `grep -l "pattern"`                    |
 | `-i` | Case-insensitive                            | `find -iname "*.PDF"` matches .pdf too |
-| `-r` | Reverse order                               | `sort -r`                              |
+| `-r` | Reverse order (or recursive)                | `sort -r`                              |
 | `-h` | Human-readable sizes (KB, MB, GB)           | `du -h`                                |
 | `-p` | Create parent directories                   | `mkdir -p a/b/c`                       |
 
-You don't need to memorize syntax. You need to recognize patterns. When you see the agent use these commands, you'll know what it's doing—and you can verify it's doing the right thing.
+You don't need to memorize syntax. You need to recognize patterns. When you see the agent use these commands, you'll know what it's doing — and you can verify it's doing the right thing.
 
 ---
 
@@ -328,7 +332,7 @@ Think about what's missing for your specific needs.
 
 **3. Where did you observe each principle?**
 
-Look back at the reflection table. Can you point to specific moments when you saw the agent apply that principle? The more concrete your memory, the more the patterns will stick.
+Look back at the principles table. Can you point to specific moments when you saw the agent apply that principle? The more concrete your memory, the more the patterns will stick.
 
 ---
 
@@ -351,21 +355,21 @@ The manual workflows you mastered are the foundation. Automation adds the layer 
 
 ---
 
-## Chapter Deliverables
+## ✅ Final Checkpoint: Chapter Deliverables
 
-You should now have:
+By completing the checkpoints throughout this chapter, you should now have:
 
-| Item                   | Location                | Status     |
-| ---------------------- | ----------------------- | ---------- |
-| `FILE-INVENTORY.md`    | In `file-organizer/`    | Complete   |
-| `backup/`              | With timestamped folder | Verified   |
-| `rules.md`             | With edge cases added   | Documented |
-| `organize.sh`          | Tested and working      | Reusable   |
-| `ORGANIZER-LOG.md`     | Full history            | Reference  |
-| `organized/`           | Files categorized       | Done       |
-| `MY-PROMPT-TOOLKIT.md` | Your prompt templates   | Permanent  |
+| Item                   | Location                | Status                  |
+| ---------------------- | ----------------------- | ----------------------- |
+| `FILE-INVENTORY.md`    | In `file-organizer/`    | ✅ Lesson 1 checkpoint  |
+| `backup/`              | With timestamped folder | ✅ Lesson 2 checkpoint  |
+| `rules.md`             | With edge cases added   | ✅ Lesson 3 checkpoint  |
+| `ORGANIZER-LOG.md`     | Full history            | ✅ Lesson 3 checkpoint  |
+| `organized/`           | Files categorized       | ✅ Lesson 3 checkpoint  |
+| Recovery exercise      | Completed               | ✅ Lesson 5 checkpoint  |
+| `MY-PROMPT-TOOLKIT.md` | Your prompt templates   | ✅ This lesson          |
 
-The first six items solve today's problem. The toolkit solves tomorrow's.
+If you're missing any items, go back to the relevant lesson and complete the checkpoint. The toolkit is the most important deliverable — it's what you'll use long after this chapter is done.
 
 ---
 
@@ -375,12 +379,13 @@ When you started this chapter, you had a messy Downloads folder and no systemati
 
 Now you have:
 
-- **A methodology**: Survey, backup, design rules, batch execute, verify
+- **A methodology**: Survey, backup, design rules, batch execute, recover, verify
 - **Reusable tools**: Scripts and templates you can adapt
 - **Pattern recognition**: You see the Seven Principles when agents work
-- **Confidence**: You know how to tackle any file organization challenge
+- **Recovery confidence**: You know how to fix mistakes, not just avoid them
+- **A permanent toolkit**: Prompt templates that work on any folder, any time
 
-This isn't just about files. The patterns you learned apply to any domain where you direct an AI agent. Describe the problem, establish safety, document rules, test small, scale up, verify.
+This isn't just about files. The patterns you learned apply to any domain where you direct an AI agent. Describe the problem, establish safety, document rules, test small, scale up, recover from errors, verify.
 
 ---
 
@@ -395,18 +400,18 @@ the equivalent of "survey," "backup," "rules," "batch," and "verify"
 look like for email management?
 ```
 
-**What you're practicing**: Abstraction. The workflows aren't about files. They're about systematic problem-solving. You're learning to see the pattern beneath the specific application.
+**What you're practicing:** Abstraction. The workflows aren't about files. They're about systematic problem-solving. You're learning to see the pattern beneath the specific application.
 
 **Prompt 2: Toolkit Expansion**
 
 ```
-My prompt toolkit has the five core workflows. What other file-related
+My prompt toolkit has the six core workflows. What other file-related
 prompts would be useful to add? Think about tasks like finding duplicates,
 archiving old projects, cleaning up cache files, or managing downloads
 over time.
 ```
 
-**What you're practicing**: Anticipation. Good toolkits grow with your needs. You're learning to think ahead about what patterns you'll need.
+**What you're practicing:** Anticipation. Good toolkits grow with your needs. You're learning to think ahead about what patterns you'll need.
 
 **Prompt 3: Principle Identification**
 
@@ -416,7 +421,7 @@ plan which of the Seven Principles I should apply at each step.
 For each principle, tell me specifically what I should do or ask for.
 ```
 
-**What you're practicing**: Explicit principle application. By planning with principles in mind, you internalize them more deeply. Eventually this becomes automatic.
+**What you're practicing:** Explicit principle application. By planning with principles in mind, you internalize them more deeply. Eventually this becomes automatic.
 
 ---
 
@@ -424,7 +429,7 @@ For each principle, tell me specifically what I should do or ask for.
 
 You now have a complete file processing toolkit. Not just for Downloads, but for any folder, any time.
 
-The prompts you've collected are reusable. The principles you've observed are universal. The confidence you've built transfers to every domain where you work with a General Agent.
+The prompts you've collected are reusable. The principles you've observed are universal. The confidence you've built — including the confidence to recover from mistakes — transfers to every domain where you work with a General Agent.
 
 Later, you'll take these patterns and automate them. But first, practice what you've learned. Run your toolkit on another folder. Refine your prompt templates. Make file chaos something you solve in minutes, not hours.
 
