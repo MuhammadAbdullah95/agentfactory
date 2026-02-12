@@ -87,7 +87,9 @@ export default async function AdminOrganizationsPage({
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-            <div className="text-sm text-slate-600 mb-1">Total Organizations</div>
+            <div className="text-sm text-slate-600 mb-1">
+              Total Organizations
+            </div>
             <div className="text-3xl font-bold text-slate-900">{total}</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
@@ -101,14 +103,16 @@ export default async function AdminOrganizationsPage({
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="text-sm text-slate-600 mb-1">This Month</div>
             <div className="text-3xl font-bold text-pana-600">
-              {organizations.filter((org: typeof organizations[number]) => {
-                const createdDate = new Date(org.createdAt);
-                const now = new Date();
-                return (
-                  createdDate.getMonth() === now.getMonth() &&
-                  createdDate.getFullYear() === now.getFullYear()
-                );
-              }).length}
+              {
+                organizations.filter((org: (typeof organizations)[number]) => {
+                  const createdDate = new Date(org.createdAt);
+                  const now = new Date();
+                  return (
+                    createdDate.getMonth() === now.getMonth() &&
+                    createdDate.getFullYear() === now.getFullYear()
+                  );
+                }).length
+              }
             </div>
           </div>
         </div>
@@ -119,6 +123,7 @@ export default async function AdminOrganizationsPage({
           currentPage={page}
           totalPages={totalPages}
           total={total}
+          currentUserId={session.user.id}
         />
       </div>
     </div>

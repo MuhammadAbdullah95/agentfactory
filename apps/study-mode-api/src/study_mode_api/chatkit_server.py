@@ -11,17 +11,27 @@ from chatkit.agents import AgentContext, simple_to_agent_input, stream_agent_res
 from chatkit.server import ChatKitServer
 from chatkit.types import (
     AssistantMessageContent,
+    AssistantMessageContentPartTextDelta,
     AssistantMessageItem,
     ThreadItemAddedEvent,
     ThreadItemDoneEvent,
+    ThreadItemUpdatedEvent,
     ThreadMetadata,
     ThreadStreamEvent,
     UserMessageItem,
     UserMessageTextContent,
 )
+from fastapi import HTTPException
 
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte import create_agent
+from .fte.answer_verification import (
+    extract_and_store_correct_answer,
+    is_answer_message,
+    strip_answer_marker,
+    verify_student_answer,
+)
+from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
 
 logger = logging.getLogger(__name__)
@@ -103,23 +113,33 @@ def _user_message_text(item: UserMessageItem) -> str:
 async def _stream_with_real_ids(
     context: AgentContext,
     result: RunResultStreaming,
+    thread_id: str,
+    verification_result: str | None = None,
 ) -> AsyncIterator[ThreadStreamEvent]:
     """
-    Wrapper around stream_agent_response that replaces fake IDs with real ones.
+    Wrapper around stream_agent_response that:
+    1. Replaces fake IDs with real ones
+    2. Strips the <!--CORRECT:X--> marker from responses (including streaming deltas)
+    3. Extracts and stores the correct answer for verification
+    4. POST-PROCESSES feedback to ensure correct/incorrect matches server verification
 
     When using OpenAIChatCompletionsModel (for non-OpenAI providers like DeepSeek),
     the SDK returns "__fake_id__" for all message IDs. This causes duplicate key
     errors when saving to the database.
 
     This wrapper detects fake IDs and replaces them with store-generated IDs.
-
-    Note: This handles the common case of one message per response. If multiple
-    output items share "__fake_id__" in a single response (rare), they would get
-    the same generated ID - but this is unlikely with standard Chat Completions.
     """
     # Track ID mapping for this stream: fake_id -> real_id
-    # Fresh dict per stream ensures each request gets unique IDs
     id_map: dict[str, str] = {}
+    # Collect full response text for answer extraction
+    full_response_text = ""
+    # Buffer for potential partial marker at end of delta
+    # The marker is <!--CORRECT:X--> (max 17 chars)
+    marker_buffer = ""
+    # Track if we've processed the first text chunk (for feedback correction)
+    first_chunk_processed = False
+    # Buffer to collect enough text to check feedback
+    feedback_buffer = ""
 
     async for event in stream_agent_response(context, result):
         # Handle ThreadItemAddedEvent - replace fake ID
@@ -143,24 +163,196 @@ async def _stream_with_real_ids(
                     )
                     event = ThreadItemAddedEvent(item=item)
 
-        # Handle ThreadItemDoneEvent - use mapped ID
-        elif isinstance(event, ThreadItemDoneEvent):
-            item = event.item
-            if hasattr(item, "id") and item.id == FAKE_RESPONSES_ID:
-                # Use the previously mapped ID or generate new one
-                real_id = id_map.get(FAKE_RESPONSES_ID) or context.store.generate_item_id(
-                    "message", context.thread, context.request_context
-                )
-                logger.debug(f"[ChatKit] Using real ID for done event: {real_id}")
+        # Handle ThreadItemUpdatedEvent - strip markers from streaming deltas
+        elif isinstance(event, ThreadItemUpdatedEvent):
+            update = event.update
+            if isinstance(update, AssistantMessageContentPartTextDelta):
+                # Combine buffer with new delta
+                combined = marker_buffer + update.delta
+                full_response_text += update.delta
 
-                if isinstance(item, AssistantMessageItem):
-                    item = AssistantMessageItem(
-                        id=real_id,
-                        thread_id=item.thread_id,
-                        created_at=item.created_at,
-                        content=item.content,
+                # Strip any complete markers
+                cleaned = strip_answer_marker(combined)
+
+                # Check if text ends with potential partial marker
+                # The marker starts with '<' and is max 17 chars
+                partial_start = -1
+                for i in range(min(17, len(cleaned)), 0, -1):
+                    suffix = cleaned[-i:]
+                    if suffix.startswith("<") and "<!--CORRECT:".startswith(
+                        suffix[: len("<!--CORRECT:")]
+                    ):
+                        partial_start = len(cleaned) - i
+                        break
+
+                if partial_start >= 0:
+                    # Buffer potential partial marker, emit rest
+                    marker_buffer = cleaned[partial_start:]
+                    emit_text = cleaned[:partial_start]
+                else:
+                    # No partial marker, emit all
+                    marker_buffer = ""
+                    emit_text = cleaned
+
+                # POST-PROCESS FEEDBACK: Ensure correct/incorrect matches verification
+                # Buffer first ~50 chars to check if feedback is correct
+                if verification_result and not first_chunk_processed:
+                    feedback_buffer += emit_text
+                    if len(feedback_buffer) >= 50:
+                        first_chunk_processed = True
+                        # Check if LLM gave wrong feedback
+                        lower_buf = feedback_buffer.lower()
+                        if verification_result == "correct":
+                            # Should say "Correct" but might say "Not quite"
+                            if "not quite" in lower_buf or lower_buf.startswith("not"):
+                                # WRONG feedback - prepend correct one
+                                logger.warning(
+                                    "[ChatKit] LLM said 'Not quite' for CORRECT answer - fixing"
+                                )
+                                emit_text = "Correct! " + feedback_buffer.lstrip()
+                                # Remove "Not quite." if present
+                                emit_text = emit_text.replace("Not quite.", "")
+                                emit_text = emit_text.replace("Not quite", "")
+                                emit_text = emit_text.strip()
+                                if not emit_text.startswith("Correct"):
+                                    emit_text = "Correct! " + emit_text
+                            else:
+                                emit_text = feedback_buffer  # Use buffered text
+                        elif verification_result == "incorrect":
+                            # Should say "Not quite" but might say "Correct"
+                            if "correct" in lower_buf[:20] and "not" not in lower_buf[:30]:
+                                # WRONG feedback - prepend correct one
+                                logger.warning(
+                                    "[ChatKit] LLM said 'Correct' for INCORRECT answer - fixing"
+                                )
+                                # Remove "Correct" and prepend "Not quite."
+                                emit_text = feedback_buffer
+                                words_to_remove = [
+                                    "Correct!", "Correct.", "Correct",
+                                    "That's right!", "That's right."
+                                ]
+                                for word in words_to_remove:
+                                    emit_text = emit_text.replace(word, "")
+                                emit_text = "Not quite. " + emit_text.strip()
+                            else:
+                                emit_text = feedback_buffer  # Use buffered text
+                    else:
+                        # Not enough buffered yet, skip this event
+                        continue
+
+                # Only yield if there's text to emit
+                if emit_text:
+                    event = ThreadItemUpdatedEvent(
+                        item_id=event.item_id,
+                        update=AssistantMessageContentPartTextDelta(
+                            content_index=update.content_index,
+                            delta=emit_text,
+                        ),
                     )
-                    event = ThreadItemDoneEvent(item=item)
+                else:
+                    # Skip this event - text is buffered
+                    continue
+
+        # Handle ThreadItemDoneEvent - use mapped ID and strip answer marker
+        elif isinstance(event, ThreadItemDoneEvent):
+            # Flush any remaining feedback buffer that didn't reach 50 chars
+            # (e.g., short responses like "Correct! Well done.")
+            if feedback_buffer and not first_chunk_processed:
+                first_chunk_processed = True
+                emit_text = feedback_buffer
+                # Apply same feedback correction logic
+                lower_buf = feedback_buffer.lower()
+                if verification_result == "correct":
+                    if "not quite" in lower_buf or lower_buf.startswith("not"):
+                        logger.warning(
+                            "[ChatKit] LLM said 'Not quite' for CORRECT answer - fixing (flush)"
+                        )
+                        emit_text = "Correct! " + feedback_buffer.lstrip()
+                        emit_text = emit_text.replace("Not quite.", "")
+                        emit_text = emit_text.replace("Not quite", "")
+                        emit_text = emit_text.strip()
+                        if not emit_text.startswith("Correct"):
+                            emit_text = "Correct! " + emit_text
+                elif verification_result == "incorrect":
+                    if "correct" in lower_buf[:20] and "not" not in lower_buf[:30]:
+                        logger.warning(
+                            "[ChatKit] LLM said 'Correct' for INCORRECT answer - fixing (flush)"
+                        )
+                        for w in ["Correct!", "Correct.", "Correct",
+                                  "That's right!", "That's right."]:
+                            emit_text = emit_text.replace(w, "")
+                        emit_text = "Not quite. " + emit_text.strip()
+                feedback_buffer = ""
+                if emit_text:
+                    yield ThreadItemUpdatedEvent(
+                        item_id=event.item.id if hasattr(event.item, "id") else "",
+                        update=AssistantMessageContentPartTextDelta(
+                            content_index=0,
+                            delta=emit_text,
+                        ),
+                    )
+
+            item = event.item
+            if isinstance(item, AssistantMessageItem):
+                # Collect text and strip only the hidden marker from content
+                # Keep the A/B options as plain text (styled via CSS)
+                new_content = []
+                for content_item in item.content:
+                    if hasattr(content_item, "text"):
+                        original_text = content_item.text
+                        # Only strip the hidden <!--CORRECT:X--> marker
+                        cleaned_text = strip_answer_marker(original_text)
+
+                        # POST-PROCESS: Fix wrong feedback in final text too.
+                        # NOTE: This correction also runs during streaming (above).
+                        # Both operate on independent copies -- streaming corrects
+                        # live deltas for real-time display; this corrects the SDK's
+                        # accumulated item.content for the persisted message.
+                        # They do NOT compound.
+                        if verification_result:
+                            lower_text = cleaned_text.lower()[:60]
+                            if verification_result == "correct":
+                                if "not quite" in lower_text:
+                                    logger.info("[ChatKit] Fixing 'Not quite' in final text")
+                                    cleaned_text = cleaned_text.replace("Not quite.", "")
+                                    cleaned_text = cleaned_text.replace("Not quite", "")
+                                    cleaned_text = "Correct! " + cleaned_text.strip()
+                            elif verification_result == "incorrect":
+                                if "correct" in lower_text[:20] and "not" not in lower_text[:30]:
+                                    logger.info("[ChatKit] Fixing 'Correct' in final text")
+                                    for w in ["Correct!", "Correct.", "Correct",
+                                              "That's right!", "That's right."]:
+                                        cleaned_text = cleaned_text.replace(w, "")
+                                    cleaned_text = "Not quite. " + cleaned_text.strip()
+
+                        new_content.append(
+                            AssistantMessageContent(
+                                text=cleaned_text,
+                                annotations=getattr(content_item, "annotations", []),
+                            )
+                        )
+                    else:
+                        new_content.append(content_item)
+
+                # Get the real ID
+                real_id = item.id
+                if item.id == FAKE_RESPONSES_ID:
+                    real_id = id_map.get(FAKE_RESPONSES_ID) or context.store.generate_item_id(
+                        "message", context.thread, context.request_context
+                    )
+                    logger.debug(f"[ChatKit] Using real ID for done event: {real_id}")
+
+                # Create new item with cleaned content
+                item = AssistantMessageItem(
+                    id=real_id,
+                    thread_id=item.thread_id,
+                    created_at=item.created_at,
+                    content=new_content,
+                )
+                event = ThreadItemDoneEvent(item=item)
+
+                # Extract and store correct answer for verification
+                await extract_and_store_correct_answer(thread_id, full_response_text)
 
         yield event
 
@@ -209,6 +401,19 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             if not user_text:
                 logger.warning("[ChatKit] Empty user message")
                 return
+
+            # ANSWER VERIFICATION: If user sent "A" or "B", verify against stored answer
+            # The verification result is passed to create_agent() to select the right prompt
+            verification_result = None
+            if is_answer_message(user_text):
+                verification_result = await verify_student_answer(thread.id, user_text)
+                if verification_result == "correct":
+                    logger.info("[ChatKit] Answer verified as CORRECT")
+                elif verification_result == "incorrect":
+                    logger.info("[ChatKit] Answer verified as INCORRECT")
+                else:
+                    logger.warning("[ChatKit] Could not verify answer (no stored answer)")
+                    verification_result = None  # Ensure it's None for unknown
 
             # Get metadata from context
             lesson_path = context.metadata.get("lesson_path", "")
@@ -276,7 +481,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             context.metadata["lesson_content"] = content
             context.metadata["is_first_message"] = is_first_message
 
-            # Create agent with appropriate greeting behavior
+            # Create agent with appropriate greeting behavior and verification result
             agent = create_agent(
                 title,
                 content,
@@ -284,8 +489,12 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 user_name=user_name,
                 selected_text=selected_text,
                 is_first_message=is_first_message,
+                verification_result=verification_result,
             )
-            logger.info(f"[ChatKit] Agent created: is_first_message={is_first_message}")
+            logger.info(
+                f"[ChatKit] Agent created: is_first={is_first_message}, "
+                f"verification={verification_result}"
+            )
 
             # Set thread title from first user message (if new thread)
             if is_first_message and "title" not in context.metadata:
@@ -300,6 +509,41 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
             # Convert to agent input format
             input_items = await simple_to_agent_input(items)
+
+            # INJECT VERIFICATION: Add explicit verification to last message
+            # This ensures LLM sees "[CORRECT]" or "[INCORRECT]" and can't ignore it
+            if verification_result and input_items and isinstance(input_items, list):
+                logger.info(f"[ChatKit] Injecting verification '{verification_result}' into input")
+                # Find the last user message and annotate it
+                injected = False
+                for i in range(len(input_items) - 1, -1, -1):
+                    item = input_items[i]
+                    item_type = type(item).__name__
+                    has_role = hasattr(item, "role")
+                    logger.debug(f"[ChatKit] Item {i}: type={item_type}, has_role={has_role}")
+                    if hasattr(item, "role") and item.role == "user":
+                        if verification_result == "correct":
+                            # Prepend strong verification message
+                            original = item.content if hasattr(item, "content") else str(item)
+                            item.content = (
+                                f"[SERVER VERIFIED: CORRECT ✓]\n"
+                                f"Student answer: {original}\n"
+                                f"[YOU MUST SAY 'Correct!' - DO NOT SAY 'Not quite']"
+                            )
+                            logger.info("[ChatKit] Injected CORRECT verification")
+                            injected = True
+                        elif verification_result == "incorrect":
+                            original = item.content if hasattr(item, "content") else str(item)
+                            item.content = (
+                                f"[SERVER VERIFIED: WRONG ✗]\n"
+                                f"Student answer: {original}\n"
+                                f"[YOU MUST SAY 'Not quite.' - DO NOT SAY 'Correct']"
+                            )
+                            logger.info("[ChatKit] Injected INCORRECT verification")
+                            injected = True
+                        break
+                if not injected:
+                    logger.warning("[ChatKit] Failed to inject - no user message found")
 
             # Fallback: if input_items is empty (race condition), use current user message
             if not input_items:
@@ -316,13 +560,86 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 request_context=context,
             )
 
+            # Create metering hooks if metering is enabled
+            metering_hooks = create_metering_hooks()
+
             # Run agent with streaming
             logger.info(f"[ChatKit] Running agent for thread {thread.id}")
-            result = Runner.run_streamed(agent, input_items, context=agent_context)
+            result = Runner.run_streamed(
+                agent,
+                input_items,
+                context=agent_context,
+                hooks=metering_hooks,
+            )
 
-            # Use wrapper that fixes fake IDs from Chat Completions API
-            async for event in _stream_with_real_ids(agent_context, result):
-                yield event
+            # Use wrapper that fixes fake IDs and handles answer verification
+            # Wrap in try/except to release metering reservation on error
+            try:
+                async for event in _stream_with_real_ids(
+                    agent_context, result, thread.id, verification_result
+                ):
+                    yield event
+            except HTTPException as http_err:
+                # Handle metering 402 specially - show user-friendly message
+                if http_err.status_code == 402:
+                    detail = http_err.detail if isinstance(http_err.detail, dict) else {}
+                    # v5 format: error_code, balance, available_balance, required, is_expired
+                    error_code = detail.get("error_code", "INSUFFICIENT_BALANCE")
+                    balance = detail.get("balance", 0)
+                    available_balance = detail.get("available_balance", 0)
+                    required = detail.get("required", 0)
+                    is_expired = detail.get("is_expired", False)
+
+                    if is_expired:
+                        error_text = (
+                            "Your account has been inactive for over"
+                            " a year and your credits have expired."
+                            " Please contact support to reactivate."
+                        )
+                    elif error_code == "ACCOUNT_SUSPENDED":
+                        error_text = (
+                            "Your account has been suspended. "
+                            "Please contact support for assistance."
+                        )
+                    else:
+                        # Default: insufficient balance — show USD, not raw credits
+                        available_usd = available_balance / 10000
+                        required_usd = required / 10000
+                        fmt = ".4f" if required_usd < 0.1 else ".2f"
+                        avail = f"${available_usd:{fmt}}"
+                        needed = f"${required_usd:{fmt}}"
+                        error_text = (
+                            f"You've used your free credits. "
+                            f"Your balance is {avail} but this "
+                            f"request needs {needed}. "
+                            f"Please top up to continue learning."
+                        )
+
+                    logger.warning(
+                        f"[ChatKit] Metering blocked: error_code={error_code}, "
+                        f"balance={balance}, required={required}, is_expired={is_expired}"
+                    )
+
+                    error_message = AssistantMessageItem(
+                        id=self.store.generate_item_id("message", thread, context),
+                        thread_id=thread.id,
+                        created_at=datetime.now(),
+                        content=[
+                            AssistantMessageContent(text=error_text, annotations=[])
+                        ],
+                    )
+                    yield ThreadItemDoneEvent(item=error_message)
+                    return  # Don't re-raise, we handled it gracefully
+                else:
+                    # Release reservation and re-raise other HTTP errors
+                    if metering_hooks:
+                        await metering_hooks.release_on_error(agent_context)
+                    raise
+            except Exception:
+                # Release metering reservation on streaming error
+                if metering_hooks:
+                    await metering_hooks.release_on_error(agent_context)
+                raise
 
             logger.info(f"[ChatKit] Response completed for thread {thread.id}")
 
@@ -342,6 +659,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 except Exception as del_err:
                     logger.warning(f"[ChatKit] Failed to delete trigger: {del_err}")
 
+        except HTTPException:
+            # Re-raise HTTP exceptions (e.g., 402 from metering) for proper response
+            raise
         except Exception as e:
             logger.exception(f"[ChatKit] Error in respond(): {e}")
 

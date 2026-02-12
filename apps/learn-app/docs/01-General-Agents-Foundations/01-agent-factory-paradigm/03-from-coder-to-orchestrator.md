@@ -67,6 +67,33 @@ differentiation:
   extension_for_advanced: "Research and compare specific Gen 4 tools (Claude Code, Devin, GitHub Copilot Workspace) on autonomy dimensions; analyze orchestration patterns across different software domains"
   remedial_for_struggling: "Focus on one concept at a time: start with typist vs orchestrator comparison, then OODA Loop, then tool generations; use concrete examples from personal coding experience"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "The AI Development Landscape"
+  key_points:
+    - "The typist→orchestrator shift is the identity change students must internalize — your value moves from typing speed to judgment quality, and this reframe recurs throughout the book"
+    - "OODA Loop (Observe-Orient-Decide-Act) is the reasoning framework for ALL autonomous agents — it returns in Chapters 3, 5, 11, and 13 whenever agent behavior is discussed"
+    - "Satya Nadella's 'Full-Stack Builder' quote from Davos 2026 provides industry validation — this isn't theory, Microsoft is restructuring around it"
+    - "The five SDLC phases don't disappear with AI — human judgment shifts from execution to validation in each phase"
+  misconceptions:
+    - "Students think 'orchestrator' means 'doesn't need to understand code' — you still need programming knowledge to validate AI output, you just don't type 80% of it"
+    - "Students conflate OODA Loop with simple trial-and-error — OODA is structured reasoning with observation and orientation phases, not just 'try and see'"
+    - "Students assume Gen 4 (Agentic) replaces Gen 1-3 tools — each generation coexists; autocomplete (Gen 1) is still useful alongside autonomous agents (Gen 4)"
+  discussion_prompts:
+    - "If AI handles 80% of implementation, what happens to junior developer roles — do they become orchestrators faster or lose the learning opportunity?"
+    - "Nadella combined four roles into 'Full-Stack Builder' — what might your company's version of that combination look like?"
+    - "The lesson claims 140 hours drops to 33 hours for a typical project — where do you think the biggest time savings actually come from?"
+  teaching_tips:
+    - "Start with the Typist vs Orchestrator comparison — have students identify which mode they currently work in before presenting the framework"
+    - "The Judgment Layer diagram (You on top, AI on bottom) is a clean whiteboard visual — draw it and add examples from students' own domains"
+    - "Walk through the OODA debugging example step by step — pause after 'OBSERVE: Read the error message' and ask what the agent does next before revealing"
+    - "The Gen 1-5 timeline table makes an excellent quiz anchor — students should be able to classify any AI tool they use"
+  assessment_quick_check:
+    - "Ask students to classify a specific AI tool (e.g., GitHub Copilot autocomplete) into the correct generation with justification"
+    - "Have students name the three capabilities an orchestrator needs (problem clarity, constraint awareness, quality standards)"
+    - "Ask: 'What does the OODA loop do that a simple chatbot response does not?' — tests understanding of iterative reasoning"
+
 # Generation metadata
 generated_by: "content-implementer v2.0.0 (part-1-consolidation)"
 source_lessons:

@@ -214,9 +214,9 @@ source: "Lesson 6: Digital FTE Business Strategy"
 },
 {
 question: "What is 'The Moat' in Digital FTE positioning?",
-options: ["A water feature around data centers", "The 20% of nuanced, experience-based insights that generic AI cannot replicate", "A legal protection for AI intellectual property", "The amount of compute power needed to run agents"],
+options: ["A water feature around data centers", "The 10% of nuanced, experience-based insights that generic AI cannot replicate", "A legal protection for AI intellectual property", "The amount of compute power needed to run agents"],
 correctOption: 1,
-explanation: "The 80/20 split: 80% is commodity (structure, grammar, basic facts—AI excels at this). 20% is the moat—nuance, edge cases, political context, 'gut check' based on years of experience. Your ability to filter, correct, and elevate AI output IS the moat.",
+explanation: "The 90/10 split: 90% is commodity (structure, grammar, basic facts—AI excels at this). 10% is the moat—nuance, edge cases, political context, 'gut check' based on years of experience. Your ability to filter, correct, and elevate AI output IS the moat.",
 source: "Lesson 6: Digital FTE Business Strategy"
 },
 {

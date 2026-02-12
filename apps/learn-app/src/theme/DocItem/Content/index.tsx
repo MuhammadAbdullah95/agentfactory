@@ -22,6 +22,8 @@ import DocPageActions from "@/components/DocPageActions";
 import { useStudyMode } from "@/contexts/StudyModeContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { TeachMePanel } from "@/components/TeachMePanel";
+import { TeachingGuideSheet } from "@/components/TeachingGuideSheet";
+import type { TeachingFrontmatter } from "@/components/TeachingGuideSheet";
 import { getOAuthAuthorizationUrl } from "@/lib/auth-client";
 import { useVoiceReading } from "@/contexts/VoiceReadingContext";
 import { VoiceControlDock } from "@/components/VoiceControlDock";
@@ -65,6 +67,30 @@ function ReadingTime() {
       <span>{readingTime} min read</span>
     </div>
   );
+}
+
+function formatLastUpdated(timestamp: number, locale: string) {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    }).format(new Date(timestamp));
+  } catch {
+    return new Date(timestamp).toDateString();
+  }
+}
+
+function getHistoryUrl(editUrl?: string): string | null {
+  if (!editUrl) return null;
+  try {
+    const url = new URL(editUrl);
+    if (!url.hostname.includes("github.com")) return null;
+    url.pathname = url.pathname.replace("/edit/", "/commits/");
+    return url.toString();
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -337,11 +363,20 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const isLoggedIn = !!session?.user;
 
   // Auth config for login redirect
-  const { siteConfig } = useDocusaurusContext();
+  const { siteConfig, i18n } = useDocusaurusContext();
   const authUrl = siteConfig.customFields?.authUrl as string | undefined;
   const oauthClientId = siteConfig.customFields?.oauthClientId as
     | string
     | undefined;
+  const locale = i18n.currentLocale || "en";
+
+  const lastUpdatedAt = metadata.lastUpdatedAt;
+  const editUrl = metadata.editUrl;
+  const historyUrl = getHistoryUrl(editUrl);
+  // Only show real git dates, not simulated dev dates (year 2018 is Docusaurus's fake date)
+  const isRealDate =
+    lastUpdatedAt && new Date(lastUpdatedAt).getFullYear() > 2020;
+  const showUpdateMeta = Boolean(isRealDate || historyUrl);
 
   /**
    * Redirect to login page with return URL (for non-logged-in users)
@@ -371,6 +406,15 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
   const isLeafPage = pathSegments.length >= 3 || isSpecialRootPage;
 
+  // Teaching Guide Sheet state
+  const [teachingGuideOpen, setTeachingGuideOpen] = React.useState(false);
+  const frontMatter = (doc as { frontMatter?: TeachingFrontmatter })
+    .frontMatter;
+  const hasTeachingData =
+    isLeafPage &&
+    frontMatter?.learning_objectives != null &&
+    (frontMatter.learning_objectives as unknown[]).length > 0;
+
   // If no summary, just render original content
   if (!summary) {
     return (
@@ -378,8 +422,28 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <ReadingProgress />
         <div className="doc-content-header">
           <ReadingTime />
-          <DocPageActions />
+          <DocPageActions
+            onOpenTeachingGuide={
+              hasTeachingData ? () => setTeachingGuideOpen(true) : undefined
+            }
+          />
         </div>
+        {showUpdateMeta && (
+          <div className="doc-update-meta">
+            {isRealDate && (
+              <div className="doc-update-meta__item">
+                Updated {formatLastUpdated(lastUpdatedAt, locale)}
+              </div>
+            )}
+            {historyUrl && (
+              <div className="doc-update-meta__links">
+                <a href={historyUrl} target="_blank" rel="noopener noreferrer">
+                  Version history
+                </a>
+              </div>
+            )}
+          </div>
+        )}
         {/* Floating action buttons - hidden when study mode panel is open */}
         {!isStudyModeOpen && (
           <div className="floating-actions">
@@ -440,21 +504,16 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         <VoiceControlDock />
         {<TeachMePanel lessonPath={lessonPath} />}
+        {hasTeachingData && frontMatter && (
+          <TeachingGuideSheet
+            open={teachingGuideOpen}
+            onOpenChange={setTeachingGuideOpen}
+            frontmatter={frontMatter}
+          />
+        )}
       </>
     );
   }
-
-  // Render summary as markdown
-  // Calculate reading time
-  // Assuming 200 words per minute
-  // We need to get the text content. Since we don't have direct access to the raw markdown here easily without parsing,
-  // we can use a rough estimate based on the rendered content or just skip it if it's too complex to get right now.
-  // Actually, Docusaurus usually provides reading time in metadata if configured, but let's check.
-  // doc.metadata.readingTime is available if the readingTime option is enabled in preset.
-  // Let's check if we can access it.
-
-  // For now, let's just use the progress bar and zoom as the main features.
-  // If we want reading time, we should enable it in docusaurus.config.ts first.
 
   const summaryElement = <ReactMarkdown>{summary}</ReactMarkdown>;
 
@@ -463,8 +522,28 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       <ReadingProgress />
       <div className="doc-content-header">
         <ReadingTime />
-        <DocPageActions />
+        <DocPageActions
+          onOpenTeachingGuide={
+            hasTeachingData ? () => setTeachingGuideOpen(true) : undefined
+          }
+        />
       </div>
+      {showUpdateMeta && (
+        <div className="doc-update-meta">
+          {isRealDate && (
+            <div className="doc-update-meta__item">
+              Updated {formatLastUpdated(lastUpdatedAt, locale)}
+            </div>
+          )}
+          {historyUrl && (
+            <div className="doc-update-meta__links">
+              <a href={historyUrl} target="_blank" rel="noopener noreferrer">
+                Version history
+              </a>
+            </div>
+          )}
+        </div>
+      )}
       {/* Floating action buttons - hidden when study mode panel is open */}
       {!isStudyModeOpen && (
         <div className="floating-actions">
@@ -528,6 +607,13 @@ export default function ContentWrapper(props: Props): React.ReactElement {
       </LessonContent>
       <VoiceControlDock />
       {<TeachMePanel lessonPath={lessonPath} />}
+      {hasTeachingData && frontMatter && (
+        <TeachingGuideSheet
+          open={teachingGuideOpen}
+          onOpenChange={setTeachingGuideOpen}
+          frontmatter={frontMatter}
+        />
+      )}
     </>
   );
 }

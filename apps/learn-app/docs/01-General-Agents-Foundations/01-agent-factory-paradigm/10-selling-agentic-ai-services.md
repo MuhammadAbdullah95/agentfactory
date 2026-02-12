@@ -67,6 +67,34 @@ differentiation:
   extension_for_advanced: "Research actual enterprise RFPs for AI services; analyze winning proposals; develop a full sales playbook for your vertical"
   remedial_for_struggling: "Focus on the four value propositions first; identify which one matches your current skills before exploring pricing and sales conversations"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "SDD, Synthesis, and Enterprise Sales"
+  key_points:
+    - "The Gen AI Paradox (80%+ adoption but no material earnings impact) is the market gap you're selling into — enterprises are frustrated and ready for solutions that deliver measurable outcomes"
+    - "The four value propositions (Enabler, Implementer, Custom Developer, Disruptor) map directly to Lesson 6's Snakes and Ladders competitive layers — connect them explicitly"
+    - "70%+ of enterprises prefer outcome-based pricing over time-and-materials — this is a fundamental shift from selling hours to selling results"
+    - "The buying power shift from IT to business units (CFO, COO, CEO) means you must speak business language, not just technical language"
+  misconceptions:
+    - "Students think 'selling' means aggressive cold-calling — this lesson teaches consultative selling (understanding the business problem first, then proposing solutions)"
+    - "Students assume they need to be a large company to sell to enterprises — McKinsey notes that small, specialized companies already play key roles in the agentic ecosystem"
+    - "Students think the $400B opportunity means easy money — the lesson explicitly warns about the 20-30% market compression that happens simultaneously"
+    - "Students confuse the four value propositions with a progression — you pick one based on your capabilities, not climb through all four"
+  discussion_prompts:
+    - "If you had to pitch a Digital FTE solution to a CFO in 60 seconds, what three things would you say — and what would you deliberately NOT say?"
+    - "Why do you think 80% of enterprises are running AI pilots but seeing no earnings impact — what's going wrong between pilot and production?"
+    - "Robert Herjavec says 'the ability to sell' is the most important skill — as a technologist, how does that make you feel?"
+  teaching_tips:
+    - "Open with the Robert Herjavec quote — it challenges the 'I'm a builder, not a seller' identity that many students hold"
+    - "The four audience-tailored pitches (CFO, COO, CIO, CEO) make an excellent role-play exercise — pair students and have them practice delivering one pitch each"
+    - "Walk through the five objection-handling scripts — these are immediately useful templates students can adapt for real conversations"
+    - "Connect this lesson back to Lesson 6 explicitly: Lesson 6 = WHAT to build, Lesson 10 = HOW to sell it — the chapter's arc goes from paradigm to market"
+  assessment_quick_check:
+    - "Ask students to name which of the four value propositions fits their current capabilities and why"
+    - "Ask: 'What is the Gen AI Paradox and why does it create an opportunity for you?'"
+    - "Have students write a one-sentence pitch tailored to a CFO (cost focus) vs a CEO (strategic focus) — the difference should be clear"
+
 # Generation metadata
 source: "McKinsey 2025 Survey, Robert Herjavec sales philosophy"
 references:

@@ -21,10 +21,12 @@ Step-by-step procedures for the 4-phase assessment generation workflow.
 ### Step 1.2: Extract Concepts
 
 For each lesson, identify:
+
 - Named concepts (ideas, patterns, principles worth testing)
 - Skip facts (dates, version numbers, statistics, definitions)
 
 **Decision criteria:** "Could I write a scenario-based question about this?"
+
 - YES → It's a concept (extract it)
 - NO → It's a fact (skip it)
 
@@ -33,6 +35,7 @@ See `references/concept-extraction-guide.md` for detailed extraction rules.
 ### Step 1.3: Map Relationships
 
 After extracting all concepts:
+
 1. For each pair of concepts, ask: "Does A affect B?"
 2. If yes, classify: enables / conflicts-with / extends / requires / alternative-to
 3. Record with direction: `A --enables--> B`
@@ -40,6 +43,7 @@ After extracting all concepts:
 ### Step 1.4: Identify Trade-offs
 
 Scan for patterns:
+
 - "X vs Y" comparisons in lessons
 - "advantage/disadvantage" discussions
 - "when to use" decision points
@@ -47,6 +51,7 @@ Scan for patterns:
 ### Step 1.5: Generate Transfer Domains
 
 For each concept:
+
 1. Identify the STRUCTURAL principle (strip domain-specific details)
 2. Brainstorm 2-3 domains where this structure applies
 3. Verify domain NOT in chapter: `grep -ri "{domain}" {PATH}/`
@@ -67,6 +72,7 @@ result = clamp(round_to_nearest_5(raw), min=30, max=150)
 ```
 
 Report to user:
+
 ```
 Concept extraction complete:
 - Concepts: {N}
@@ -112,6 +118,7 @@ SLUG = chapter/part slug (from Phase 0)
 Use `references/subagent-template.md` templates. Spawn both using the Task tool simultaneously.
 
 Key points:
+
 - Each subagent receives ONLY the concept map + question-types.md
 - Each writes to its own output file
 - Both execute autonomously (no confirmation prompts)
@@ -119,6 +126,7 @@ Key points:
 ### Step 2.4: Verify Outputs
 
 After both subagents complete:
+
 ```
 ls -la assessments/{SLUG}-questions-A.md  # Subagent A output
 ls -la assessments/{SLUG}-questions-B.md  # Subagent B output
@@ -146,6 +154,7 @@ If matches found: record question numbers and patterns.
 ### Step 3.2: Structural Scan
 
 For each question in both files:
+
 1. Verify scenario paragraph exists (text before the "?" stem)
 2. Verify stem exists (sentence ending in "?")
 3. Verify 4 options (A-D) are present
@@ -170,7 +179,27 @@ FOR each [Transfer Application] question:
     FAIL "Q{N}: transfer domain '{domain}' appears in chapter"
 ```
 
-### Step 3.5: Distribution Analysis
+### Step 3.5: Length Parity Check (CRITICAL)
+
+```
+FOR each question in both files:
+  option_words = [wordcount(A), wordcount(B), wordcount(C), wordcount(D)]
+  mean_length = mean(option_words)
+
+  FOR each option:
+    ratio = option_words[i] / mean_length
+    IF ratio < 0.8 OR ratio > 1.2:
+      FAIL "Q{N}: Option {letter} is {ratio:.2f}x mean ({option_words[i]} words vs {mean_length:.1f} mean)"
+
+# Batch-level threshold
+violation_count = count of questions with any length violation
+IF violation_count / total > 0.15:
+  FAIL "Length parity failed: {violation_count}/{total} questions have options outside 0.8x-1.2x range"
+```
+
+If violations found, remediate per `references/validation-rules.md` before proceeding.
+
+### Step 3.6: Answer Distribution Analysis
 
 ```
 # Count answers
@@ -186,7 +215,7 @@ FOR each letter:
   IF pct < 20 or pct > 30: FAIL
 ```
 
-### Step 3.6: Type Distribution Check
+### Step 3.7: Type Distribution Check
 
 ```
 scenario_count = grep -c "Scenario Analysis" assessments/{SLUG}-questions-*.md
@@ -197,7 +226,7 @@ evaluation_count = grep -c "Critical Evaluation" assessments/{SLUG}-questions-*.
 # Each should be within 15% of target
 ```
 
-### Step 3.7: Produce Validation Report
+### Step 3.8: Produce Validation Report
 
 See `references/validation-rules.md` for report format.
 
@@ -220,6 +249,7 @@ See `references/validation-rules.md` for report format.
 ### Step 4.2: Build Exam Markdown
 
 Following the format specified in SKILL.md Phase 4 Step 2:
+
 - Header with metadata (count, time, passing score)
 - Questions section (numbered, with scenarios)
 - Answer key table
@@ -228,6 +258,7 @@ Following the format specified in SKILL.md Phase 4 Step 2:
 ### Step 4.3: Strip Internal Tags
 
 Remove from final output:
+
 ```
 - [Scenario Analysis] tags
 - [Concept Relationship] tags

@@ -54,6 +54,34 @@ differentiation:
   extension_for_advanced: "Research how SDD scales to team environments; explore specification templates for complex systems (microservices, event-driven architectures)"
   remedial_for_struggling: "Focus on the specification quality checklist; practice writing specs for simple features before attempting complex workflows"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "SDD, Synthesis, and Enterprise Sales"
+  key_points:
+    - "The Core Equation is the lesson's thesis: 'Vague Idea + AI = 5+ iterations' vs 'Clear Specification + AI = 1-2 iterations' — this single insight justifies the entire SDD methodology"
+    - "The six-phase workflow (Specify→Clarify→Plan→Tasks→Implement→Validate) is the exact process students will use throughout the rest of the book"
+    - "SDD vs Vibe Coding is NOT 'SDD always wins' — the decision framework shows when each approach is appropriate (exploration vs production)"
+    - "The four qualities of good specifications (clarity, completeness, constraints, testability) serve as a checklist students should internalize"
+  misconceptions:
+    - "Students think SDD means 'write a long document before coding' — SDD specs are precise and concise, not verbose PRDs"
+    - "Students assume SDD eliminates all iteration — 1-2 refinement cycles are still expected, but they're refinement within bounds, not discovery from scratch"
+    - "Students think Non-Goals are negative — Non-Goals prevent scope creep and are as important as goals for keeping AI focused"
+    - "Students confuse the Clarify phase with asking the AI questions — Clarify is about YOU identifying what's ambiguous before the AI starts implementing"
+  discussion_prompts:
+    - "Think of a recent project where you discovered a requirement late — what would the specification have looked like if you'd written it upfront?"
+    - "The lesson says 'Your primary skill is no longer writing code — it's writing specifications.' Do you agree or disagree, and why?"
+    - "When is Vibe Coding actually the RIGHT approach — and how do you know when to switch to SDD?"
+  teaching_tips:
+    - "Start with the Developer A vs Developer B comparison — it's the most compelling argument for SDD because both developers are skilled, the difference is process"
+    - "Walk through the User Registration specification example in full — it's concrete enough that students can see exactly what a good spec looks like"
+    - "The 'Without SDD vs With SDD' code conversation comparison is a live demo opportunity — show both approaches with the same AI tool"
+    - "Spend time on the four Common Mistakes — students will make all of them, so calling them out explicitly now saves time later"
+  assessment_quick_check:
+    - "Ask students to name the six phases of SDD in order"
+    - "Have students evaluate this success criterion: 'Make it fast' — what's wrong with it and how would they fix it?"
+    - "Ask: 'When should you skip SDD entirely?' — tests understanding of the decision framework (learning experiments, trivial changes)"
+
 # Generation metadata
 generated_by: "content-implementer v3.0.0 (Part 1 consolidation)"
 source_spec: "Part 1 consolidation - Ch1-L07"

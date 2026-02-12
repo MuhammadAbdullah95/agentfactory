@@ -52,6 +52,11 @@ class Settings(BaseSettings):
     deepseek_api_key: str = ""
     deepseek_base_url: str = "https://api.deepseek.com/v1"
 
+    # Token Metering API integration
+    metering_api_url: str = ""  # Empty = metering disabled
+    metering_enabled: bool = False
+    metering_default_estimate: int = 5000  # Default token estimate for reservations
+
     @property
     def allowed_origins_list(self) -> list[str]:
         """Parse comma-separated origins into list."""

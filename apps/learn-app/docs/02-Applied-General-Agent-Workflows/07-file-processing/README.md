@@ -66,9 +66,10 @@ You won't memorize these principles. You'll see them in action:
 
 Before starting this chapter:
 
-- Complete Part 1 (Chapters 1-5)
+- Complete Part 1
 - Have Claude Code installed and working
 - Have a Bash-compatible terminal (macOS/Linux: built-in; Windows: Git Bash or WSL)
+- Have python installed for running scripts
 - Have a folder with files to organize (Downloads recommended)
 
 ## What You'll Build

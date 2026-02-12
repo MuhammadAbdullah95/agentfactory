@@ -135,6 +135,49 @@ article {
   margin-bottom: 1rem;
 }
 
+/* Update metadata row (last updated + history/edit links) */
+.doc-update-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.doc-update-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.doc-update-meta__links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.doc-update-meta__links a {
+  color: #2f5fd0;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms ease;
+}
+
+.doc-update-meta__links a:hover {
+  border-bottom-color: currentColor;
+}
+
+[data-theme='dark'] .doc-update-meta {
+  color: #8a8a8a;
+}
+
+[data-theme='dark'] .doc-update-meta__links a {
+  color: #7aa2ff;
+}
+
 /* ============================================================================
    DOC PAGE ACTIONS — Premium UX with animations and accessibility
    ============================================================================ */
@@ -1056,6 +1099,76 @@ article {
     inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
 
+/* Teaching Aid floating button - Warm amber/gold for teacher tools */
+.teaching-guide-float {
+  background: linear-gradient(135deg, #92400e 0%, #b45309 50%, #d97706 100%) !important;
+  border: 1px solid #d97706 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 2px 4px rgba(146, 64, 14, 0.4),
+    0 4px 8px rgba(146, 64, 14, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  position: relative;
+}
+
+/* Tooltip for Teaching Aid button */
+.teaching-guide-float::after {
+  content: "Teaching Aid";
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #92400e, #b45309);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(146, 64, 14, 0.4);
+}
+
+.teaching-guide-float:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.teaching-guide-float:hover {
+  background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%) !important;
+  border-color: #f59e0b !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px rgba(146, 64, 14, 0.5),
+    0 8px 16px rgba(146, 64, 14, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme='dark'] .teaching-guide-float {
+  background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%) !important;
+  border-color: #f59e0b !important;
+  color: white !important;
+  box-shadow:
+    0 2px 8px rgba(217, 119, 6, 0.5),
+    0 4px 12px rgba(217, 119, 6, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme='dark'] .teaching-guide-float:hover {
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%) !important;
+  border-color: #fbbf24 !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(217, 119, 6, 0.6),
+    0 8px 20px rgba(217, 119, 6, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
 /* Speaker floating button - Blue gradient for audio controls */
 .speaker-float {
   background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%) !important;
@@ -1677,6 +1790,13 @@ article.voice-reading-active::before {
   display: none !important;
 }
 
+/* Hide Docusaurus's built-in "Edit this page" link in footer (not appropriate for a book) */
+.theme-edit-this-page,
+[class*='editThisPage'],
+.theme-doc-footer-edit-meta-row a[href*="/edit/"] {
+  display: none !important;
+}
+
 /* ============================================================================
    ZEN MODE / FOCUS MODE — Hide distractions
    ============================================================================ */
@@ -2063,7 +2183,8 @@ article {
   /* Override Prism theme */
   border: 1px solid var(--border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 [data-theme='dark'] .markdown pre {
@@ -2086,17 +2207,20 @@ article {
 }
 
 /* ============================================================================
-   7. TABLES - PROFESSIONAL STYLING
+   7. TABLES - PROFESSIONAL STYLING WITH HORIZONTAL SCROLL
    ============================================================================ */
 
+/* Table wrapper for horizontal scrolling */
 .markdown table {
   width: 100%;
   margin: 2rem 0;
   border-collapse: collapse;
-
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 [data-theme='dark'] .markdown table {
@@ -2489,17 +2613,16 @@ article {
     font-size: 1.25rem;
   }
 
-  /* Ensure code blocks and tables fit without horizontal scroll */
+  /* Ensure code blocks fit without horizontal scroll */
   .markdown pre {
     margin: 1.5rem 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Tables already have horizontal scroll enabled at base level */
   .markdown table {
     margin: 1.5rem 0;
-    overflow-x: auto;
-    display: block;
   }
 
   /* Improve readability on smaller screens */

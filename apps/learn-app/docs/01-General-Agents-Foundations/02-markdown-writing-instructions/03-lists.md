@@ -57,6 +57,30 @@ differentiation:
   extension_for_advanced: "Learn nested lists (lists within lists); explore complex list formatting; practice mixing list types appropriately"
   remedial_for_struggling: "Master unordered lists first before ordered; use simple 3-item lists; practice with provided templates"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Lists, Code Blocks & Specification Detail"
+  key_points:
+    - "The 'Does order matter?' question is the entire decision framework for list types — make students internalize this before teaching syntax"
+    - "Unordered lists signal independent items (AI can implement in any order); ordered lists signal dependencies (AI must follow sequence)"
+    - "Nested lists (2-space indent) handle sub-requirements without creating more headings — prevents heading bloat in specifications"
+  misconceptions:
+    - "Students use numbered lists for features because numbering 'looks more organized' — emphasize that numbers imply required sequence to AI agents"
+    - "Students forget the space after dash or number — same syntax pattern as forgetting the space after # in Lesson 2, worth calling out as recurring"
+    - "Students think unordered means 'less important' than ordered — it means 'no required sequence,' which is different from priority"
+  discussion_prompts:
+    - "Think about your morning routine. Which steps must happen in order (shower before dress) and which can happen in any order (check phone, eat breakfast)? How would you list each type?"
+    - "If an AI sees a numbered list of features, what might it do differently than if it sees bullet points for the same features?"
+  teaching_tips:
+    - "Start with the opening paragraph-vs-list comparison — it mirrors Lesson 1's structured vs unstructured theme and reinforces the chapter's core idea"
+    - "Use the installation steps example to show why sequence matters — ask 'what happens if you run the program before installing Python?'"
+    - "The side-by-side examples (Features with bullets vs Setup with numbers) are a strong whiteboard moment for visual comparison"
+    - "Connect the nested list tip to Lesson 2: headings create major sections, nested lists add detail within them"
+  assessment_quick_check:
+    - "Give students three items and ask whether they should be ordered or unordered, with reasoning"
+    - "Ask students when to use nested lists vs adding a new heading level"
+
 # Generation metadata
 generated_by: "content-implementer v3.0.0"
 source_spec: "specs/001-chapter-11-markdown/spec.md"
@@ -275,8 +299,6 @@ These features are independent. Adding dark mode doesn't require export to PDF f
 ```
 
 You **must** create an account before verifying email. You **must** verify email before setting up profile.
-
-![Side-by-side comparison showing unordered lists (left panel: bullet points using dash syntax for features and independent items) versus fenced code blocks (right panel: triple backticks for showing code examples and command output). Demonstrates when to use each format based on content type.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
 
 #### 🤝 Practice Exercise
 

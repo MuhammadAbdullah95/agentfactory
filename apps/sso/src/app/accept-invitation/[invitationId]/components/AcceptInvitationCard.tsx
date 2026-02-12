@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { OrgLogo } from "@/components/organizations/OrgLogo";
 import { OrgBadge } from "@/components/organizations/OrgBadge";
+import type { OrgRole } from "@/types/organization";
 import { toast } from "@/lib/utils/toast";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -113,7 +114,7 @@ export function AcceptInvitationCard({ invitation, isExpired, isSignedIn }: Acce
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-slate-600">Role:</span>
-                <OrgBadge role={invitation.role as "owner" | "admin" | "member"} />
+                <OrgBadge role={invitation.role as OrgRole} />
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-slate-600">Invited by:</span>
@@ -164,7 +165,7 @@ export function AcceptInvitationCard({ invitation, isExpired, isSignedIn }: Acce
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-600">Role:</span>
-              <OrgBadge role={invitation.role as "owner" | "admin" | "member"} />
+              <OrgBadge role={invitation.role as OrgRole} />
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-600">Invited by:</span>

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-chapter: 6
+chapter: 7
 lesson: 4
 layer: L2
 title: "Batch Operations Workflow"
@@ -65,7 +65,7 @@ differentiation:
 
 # Batch Operations Workflow
 
-Here's Principle 2 in action: Code as Universal Interface. Beginners run the same commands repeatedly. Experts know better. They ask General Agents to create reusable scripts that automate repetitive work forever.
+Beginners run the same commands repeatedly. Experts know better. They ask General Agents to create reusable scripts that automate repetitive work forever.
 
 This workflow teaches you something powerful. You'll learn to transform one-time solutions into permanent automation. The same pattern applies to data transformations, batch image processing, log analysis, and any repetitive task where General Agents can help.
 
@@ -178,13 +178,11 @@ To rename future screenshots, run:
 
 ## What Just Happened?
 
-You witnessed three principles working together.
+Did you notice what the agent produced? Not just renamed files, but a _script_. The agent didn't just solve your problem once. It created code you can run again. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently. The agent turned a one-time task into permanent automation.
 
-**Principle 2: Code as Universal Interface.** Did you notice what the agent produced? Not just renamed files, but a _script_. The agent didn't just solve your problem once. It created code you can run again. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently. The agent turned a one-time task into permanent automation.
+Before the agent touched a single file, it showed you exactly what it planned to do. You saw the preview table. You could check that the new names made sense. You could change your mind. The agent made its intentions visible before acting.
 
-**Principle 7: Observability.** Before the agent touched a single file, it showed you exactly what it planned to do. You saw the preview table. You could check that the new names made sense. You could change your mind. The agent made its intentions visible before acting.
-
-**Principle 3: Verification.** The workflow followed a pattern: Preview → Approve → Execute → Log. The agent verified its plan with you before executing. Then it logged every change so you could verify what happened. Nothing was a mystery.
+The workflow followed a pattern: Preview → Approve → Execute → Log. The agent verified its plan with you before executing. Then it logged every change so you could verify what happened. Nothing was a mystery.
 
 This is different from running commands yourself. You didn't have to know bash syntax for string manipulation or date extraction. You described what you wanted, reviewed the plan, and approved it.
 
@@ -341,12 +339,12 @@ You're not memorizing bash syntax. You're learning how to direct an agent effect
 
 By now in this chapter, you've learned:
 
-| Lesson                   | Pattern                              | Principle                  |
-| ------------------------ | ------------------------------------ | -------------------------- |
-| 1. First Workflow        | "Help me understand"                 | P7: Observability          |
-| 2. Safety First          | "Back up before changing"            | P6: Constraints and Safety |
-| 3. Categorize with Rules | "Write rules first"                  | P5: Persisting State       |
-| **4. Batch Operations**  | **"Show me first, create a script"** | **P2: Code as Interface**  |
+| Lesson                   | Pattern                              |
+| ------------------------ | ------------------------------------ |
+| 1. First Workflow        | "Help me understand"                 |
+| 2. Safety First          | "Back up before changing"            |
+| 3. Categorize with Rules | "Write rules first"                  |
+| **4. Batch Operations**  | **"Show me first, create a script"** |
 
 Each pattern builds on the last. You understand your files. You protect them with backups. You document your rules. Now you transform repetitive tasks into reusable automation.
 

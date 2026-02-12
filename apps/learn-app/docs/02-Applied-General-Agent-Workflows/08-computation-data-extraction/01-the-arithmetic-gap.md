@@ -237,12 +237,6 @@ The difference is profound:
 
 In the next lesson, you'll build your first Python utility that reads numbers and calculates sums with perfect accuracy.
 
-## Connecting to the Seven Principles
-
-This lesson demonstrates **Principle 1: Bash is the Key** - but knowing Bash's limitations is equally important. Bash is the key to *orchestration*. For computation, you route through the right tool.
-
-You also saw **Principle 3: Verification as Core Step** in action. The Bash error message was verification - the system showed us something failed. When Bash silently truncated `10 / 3` to `3`, that was verification failing us. You'll learn to build better verification into your workflows.
-
 ## The Decision Framework
 
 When you encounter a calculation task, use this quick test:

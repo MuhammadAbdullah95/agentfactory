@@ -52,6 +52,34 @@ differentiation:
   extension_for_advanced: "Map pillars to specific project workflows; analyze how different domains prioritize different pillars; create personal M-shaped development roadmap"
   remedial_for_struggling: "Focus on understanding AIDD definition first; explore 2-3 pillars deeply before attempting all nine; use real-world examples to ground each concept"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Business Strategy and Development Methodology"
+  key_points:
+    - "Maya's story is the proof point — one developer, one week, production-ready platform. This isn't about working harder but about system completeness across all nine pillars"
+    - "The nine pillars form an integrated SYSTEM, not a menu — removing even two pillars creates gaps that force you back to specialist silos"
+    - "M-Shaped developer (deep in 2-4 domains) replaces T-Shaped as the ideal — AI augmentation makes this achievable for the first time"
+    - "Each pillar maps directly to book sections: Pillars 1-3 (Parts 2-3), Pillar 7 (Parts 3-4), Pillars 8-9 (Parts 5-7) — show students the learning path ahead"
+  misconceptions:
+    - "Students think they need to master all nine pillars simultaneously — the 18-month learning pathway shows progressive adoption: foundations (1-3), integration (4-6), orchestration (7-9)"
+    - "Students confuse M-Shaped with generalist — M-Shaped means DEEP expertise in 2-4 domains, not shallow knowledge of everything"
+    - "Students think 'Markdown as Programming Language' (Pillar 2) is literal — it means Markdown specifications become executable inputs for AI agents, not that Markdown replaces Python"
+    - "Students assume pillar mastery means memorizing everything — AI augmentation means you maintain professional-level output without memorizing every API"
+  discussion_prompts:
+    - "Which of the nine pillars do you already use in your workflow, even informally — and which ones represent the biggest gap?"
+    - "If you could only master 6 of the 9 pillars, which 3 would you skip and what problems would that create?"
+    - "What 2-4 domains would make up YOUR ideal M-shaped profile — and do those domains actually reinforce each other?"
+  teaching_tips:
+    - "Open with Maya's story and ask: 'What made this possible — is she a 10x engineer?' Then reveal it's the system, not the person"
+    - "Don't try to teach all nine pillars in equal depth — highlight Pillars 1, 2, and 7 as the foundation and briefly survey the rest"
+    - "The M-Shaped developer profiles (Vertical SaaS Builder, Platform Engineer, AI Product Developer) make good discussion anchors — ask students which profile resonates"
+    - "The historical parallels (Cloud, Agile, Mobile-First) help students see the pattern: complete adoption wins, partial adoption struggles"
+  assessment_quick_check:
+    - "Ask students to name 5 of the 9 pillars from memory — they don't need all 9 yet but should recall the most impactful ones"
+    - "Ask: 'What is the difference between an M-Shaped and a T-Shaped developer?' — tests understanding of multi-domain depth"
+    - "Have students identify which pillar solves THIS problem: 'My AI-generated code works but I can't verify it's correct' (answer: Pillar 6, TDD)"
+
 # Generation metadata
 generated_by: "content-implementer v3.0.0"
 source_spec: "consolidated from 6 lessons in Chapter 4"

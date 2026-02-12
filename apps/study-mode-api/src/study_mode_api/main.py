@@ -182,6 +182,11 @@ async def chatkit_endpoint(request: Request):
             "selected_text": request.query_params.get("selected_text"),
         })
 
+        # Store auth header for downstream services (metering API)
+        auth_header = request.headers.get("Authorization")
+        if auth_header:
+            metadata["auth_token"] = auth_header
+
         logger.info(
             f"[ChatKit] user={user_id}, lesson={metadata.get('lesson_path')}"
         )

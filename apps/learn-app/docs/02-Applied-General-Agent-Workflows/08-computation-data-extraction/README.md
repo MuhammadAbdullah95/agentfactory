@@ -68,7 +68,7 @@ You'll transform from someone who manually categorizes expenses (tedious and err
 
 ## Seven Principles in Action
 
-This chapter applies the principles you learned in Chapter 3:
+This chapter applies the principles you learned in Chapter 6:
 
 | Principle                               | How You'll Apply It                                  |
 | --------------------------------------- | ---------------------------------------------------- |
@@ -141,6 +141,4 @@ This isn't academic. By chapter end, you'll solve a real problem:
 
 The same pattern applies to any data extraction problem - expense reports, invoice processing, log analysis. You're learning to build tools, not just use them.
 
-## Ready to Start?
 
-Begin with [Lesson 1: The Arithmetic Gap](./01-accuracy-gap.md) to discover why precision matters.

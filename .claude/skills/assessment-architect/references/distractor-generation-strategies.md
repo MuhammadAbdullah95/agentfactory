@@ -10,14 +10,14 @@ Systematic procedures for generating plausible, educationally valuable distracto
 
 Before generating any distractor, verify it meets these criteria:
 
-| Criterion | Standard | Check |
-|-----------|----------|-------|
-| **Plausibility** | 70-90% correct, fails on 1-2 critical details | Student familiar with domain would consider it |
-| **Functionality** | Expected selection rate ≥5% | Real misconception, not obviously absurd |
-| **Distinctness** | Each distractor wrong for different reason | Not repeating same error 3 times |
+| Criterion             | Standard                                      | Check                                             |
+| --------------------- | --------------------------------------------- | ------------------------------------------------- |
+| **Plausibility**      | 70-90% correct, fails on 1-2 critical details | Student familiar with domain would consider it    |
+| **Functionality**     | Expected selection rate ≥5%                   | Real misconception, not obviously absurd          |
+| **Distinctness**      | Each distractor wrong for different reason    | Not repeating same error 3 times                  |
 | **Educational Value** | Reveals common misconception or error pattern | Helps learners understand what they misunderstood |
-| **Length Parity** | Within ±3 words of correct answer | Prevents length bias |
-| **Specificity Match** | Same detail level as correct answer | Prevents specificity bias |
+| **Length Parity**     | Within 0.8x-1.2x of mean option word count    | Prevents length bias (the #1 exam failure)        |
+| **Specificity Match** | Same detail level as correct answer           | Prevents specificity bias                         |
 
 ---
 
@@ -30,6 +30,7 @@ Before generating any distractor, verify it meets these criteria:
 ### Distractor Strategies
 
 #### Strategy 1A: Off-by-One / Adjacent Value
+
 Used for: Numbers, rankings, sequences, version numbers
 
 ```
@@ -51,6 +52,7 @@ Distractor quality:
 ```
 
 #### Strategy 1B: Unit Conversion Error
+
 Used for: Measurements, rates, conversions
 
 ```
@@ -72,6 +74,7 @@ Distractor quality:
 ```
 
 #### Strategy 1C: Related Fact Confusion
+
 Used for: Definitions with multiple similar options
 
 ```
@@ -94,6 +97,7 @@ Distractor quality:
 ```
 
 #### Strategy 1D: Fence-Post Error
+
 Used for: Ranges, sequences, boundaries
 
 ```
@@ -125,6 +129,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 2A: Surface-Level Difference (Incomplete)
+
 Used for: Concepts with clear but incomplete distinctions
 
 ```
@@ -152,6 +157,7 @@ Distractor quality:
 ```
 
 #### Strategy 2B: Reverse Confusion
+
 Used for: Concepts often confused in opposite direction
 
 ```
@@ -179,6 +185,7 @@ Distractor quality:
 ```
 
 #### Strategy 2C: Common Misconception
+
 Used for: Concepts where learners typically hold wrong beliefs
 
 ```
@@ -215,6 +222,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 3A: Fails on One Constraint
+
 Used for: Scenarios with clear constraints
 
 ```
@@ -242,6 +250,7 @@ Distractor quality:
 ```
 
 #### Strategy 3B: Partial Correctness (True, but Not Best)
+
 Used for: Scenarios where multiple options are viable
 
 ```
@@ -268,6 +277,7 @@ Distractor quality:
 ```
 
 #### Strategy 3C: Common Wrong Trade-Off
+
 Used for: Scenarios where learners sacrifice wrong constraint
 
 ```
@@ -304,6 +314,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 4A: Different Component Role
+
 Used for: Systems with multiple interacting components
 
 ```
@@ -330,6 +341,7 @@ Distractor quality:
 ```
 
 #### Strategy 4B: Related But Secondary Function
+
 Used for: Components with primary and secondary roles
 
 ```
@@ -356,6 +368,7 @@ Distractor quality:
 ```
 
 #### Strategy 4C: Correct Concept, Wrong Context
+
 Used for: Cross-functional components
 
 ```
@@ -392,6 +405,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 5A: Calculation Error Pattern
+
 Used for: Math-based questions
 
 ```
@@ -415,6 +429,7 @@ Distractor quality:
 ```
 
 #### Strategy 5B: Partial Formula Error
+
 Used for: Multi-step calculations
 
 ```
@@ -460,6 +475,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 6A: Over-Specification
+
 Used for: Framework application scenarios
 
 ```
@@ -486,6 +502,7 @@ Distractor quality:
 ```
 
 #### Strategy 6B: Under-Specification
+
 Used for: Framework application with minimum viable implementation
 
 ```
@@ -522,6 +539,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 7A: Primary vs. Secondary Trade-Off
+
 Used for: Architectural decisions with multiple trade-offs
 
 ```
@@ -548,6 +566,7 @@ Distractor quality:
 ```
 
 #### Strategy 7B: Benefit Misframed as Limitation
+
 Used for: Evaluations where learners confuse properties
 
 ```
@@ -584,6 +603,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 8A: Missing One Element
+
 Used for: Multi-component integration scenarios
 
 ```
@@ -621,6 +641,7 @@ Distractor quality:
 ### Distractor Strategies
 
 #### Strategy 9A: Over-Generalization
+
 Used for: Novel scenario application of established principles
 
 ```
@@ -647,6 +668,7 @@ Distractor quality:
 ```
 
 #### Strategy 9B: Ignoring Critical Constraint
+
 Used for: Novel scenarios with new constraints
 
 ```
@@ -680,28 +702,33 @@ Distractor quality:
 For EVERY question you generate, verify all distractors meet:
 
 ### Plausibility Check
+
 - [ ] Distractor represents real misconception or error
 - [ ] Domain expert would find it plausible (~5-25% of people make this error)
 - [ ] Not obviously absurd or ridiculous
 
 ### Functionality Check
+
 - [ ] Expected selection rate ≥5% (>10% is ideal)
 - [ ] Distinct from other distractors (not repeating same error)
 - [ ] Independent reasoning path (not dependent on other options)
 
 ### Quality Check
-- [ ] Length within ±3 words of correct answer
+
+- [ ] All 4 options within 0.8x-1.2x of mean word count (length parity)
 - [ ] Specificity level matches correct answer
 - [ ] Wording clarity matches correct answer
 - [ ] No trick language or gotchas
 
 ### Educational Value Check
+
 - [ ] Reveals common misconception
 - [ ] Teaches something by being wrong
 - [ ] Explains why misconception is plausible
 - [ ] Doesn't just confuse or frustrate
 
 ### Examples Check
+
 - [ ] All options with same structure/format
 - [ ] No "all of the above" / "none of the above"
 - [ ] No hints from grammatical clues
@@ -712,6 +739,7 @@ For EVERY question you generate, verify all distractors meet:
 ## Common Distractor Generation Mistakes
 
 ### ❌ Mistake 1: Absurd/Silly Options
+
 ```
 Q: What is 2 + 2?
 **A.** 4
@@ -719,9 +747,11 @@ Q: What is 2 + 2?
 **C.** 27    [Obviously wrong - wastes slot]
 **D.** Banana  [Absurd - doesn't test knowledge]
 ```
+
 **Fix:** Make C something like "5" (off-by-one error) or "22" (concatenation error)
 
 ### ❌ Mistake 2: Nonfunctional Distractors
+
 ```
 Q: Which HTTP status code means "Not Found"?
 **A.** 404  [Correct]
@@ -729,9 +759,11 @@ Q: Which HTTP status code means "Not Found"?
 **C.** 500  [Obviously wrong - nobody picks this]
 **D.** 403  [Better - authorization confusion, ~8% pick this]
 ```
+
 **Fix:** Replace B and C with 405 (Method Not Allowed) and 401 (Unauthorized)
 
 ### ❌ Mistake 3: Repeating Same Error
+
 ```
 Q: Best practice for cache invalidation?
 **A.** Time-based expiration (TTL)  [CORRECT]
@@ -739,9 +771,11 @@ Q: Best practice for cache invalidation?
 **C.** No invalidation needed  [Repeats: "Incomplete understanding"]
 **D.** Developer disables caching  [Repeats: "No caching at all"]
 ```
+
 **Fix:** Make C something like "Never cache writes, only reads" (common misconception)
 
 ### ❌ Mistake 4: Trick Wording
+
 ```
 Q: Which of the following is LEAST likely to cause performance issues?
 **A.** Sequential database queries
@@ -749,9 +783,11 @@ Q: Which of the following is LEAST likely to cause performance issues?
 **C.** Blocking I/O  [Trick: "LEAST likely" reverses expected answer]
 **D.** Asynchronous processing
 ```
+
 **Fix:** Ask positive: "Which approach is MOST likely to improve performance?"
 
 ### ❌ Mistake 5: Length Bias
+
 ```
 Q: What is API rate limiting?
 **A.** Prevents overload  [2 words]
@@ -759,6 +795,7 @@ Q: What is API rate limiting?
 **C.** Protects the server from being overwhelmed by too many requests coming too fast  [Correct, 14 words - obviously longest!]
 **D.** Denies access  [2 words]
 ```
+
 **Fix:** Rewrite correct answer: "Protects server from request overload by limiting request rate"
 
 ---
@@ -768,16 +805,17 @@ Q: What is API rate limiting?
 When generating questions:
 
 1. **Extract concept** from source material
-2. **Formulate correct answer** (1-2 sentences max)
-3. **Identify error types** (what mistakes could learners make?)
-4. **Generate 3 distractors** using strategies above
-5. **Validate all four options:**
-   - Length check: ±3 words
+2. **Formulate correct answer** (12-18 words, one clear idea)
+3. **Count the correct answer's words** — this is your target length
+4. **Identify error types** (what mistakes could learners make?)
+5. **Generate 3 distractors** using strategies above, each matching the correct answer's word count (±20%)
+6. **Validate all four options:**
+   - Length parity: All options within 0.8x-1.2x of mean word count
    - Specificity check: Similar detail levels
    - Plausibility check: All ≥5% selection
    - Distinctness check: Each wrong for different reason
 
-6. **Test:**
+7. **Test:**
    - Have domain expert evaluate plausibility
    - Measure selection rates in actual administration
    - Flag anything <5% for revision

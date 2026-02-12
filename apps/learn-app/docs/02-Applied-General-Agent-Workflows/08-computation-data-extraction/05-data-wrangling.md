@@ -376,25 +376,6 @@ cat test_tricky.csv | python tax-categorize.py
 
 If Dr. Pepper or CVSmith appear in the output, the false positive guards aren't working.
 
-## Connecting to the Seven Principles
-
-**Principle 2: Code as Universal Interface**
-
-Your category keywords and regex patterns are precise specifications. They remove ambiguity - "CVS" matches CVS pharmacy, not CVSMITH. The patterns are code, executable and verifiable.
-
-**Principle 4: Small, Reversible Decomposition**
-
-The pipeline decomposes into three steps:
-1. `find` locates files
-2. `xargs cat` reads them
-3. `tax-categorize.py` categorizes and sums
-
-Each step is simple and testable. If something breaks, you know exactly where to look.
-
-**Principle 6: Constraints and Safety**
-
-The false positive guards are constraints that prevent incorrect categorization. You defined what should NOT match, not just what should match.
-
 ---
 
 ## Try With AI

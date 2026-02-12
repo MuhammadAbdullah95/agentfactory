@@ -115,16 +115,17 @@ Manufacturing agents transforms domain expertise into codified systems...
 
 ## Answer Key
 
-| Q# | Answer | Source Section | Bloom Level | Question Type | Difficulty |
-|----|--------|----------------|-------------|---------------|------------|
-| 1 | A | Agent Factory Fundamentals | Understand | Conceptual Distinction | Medium |
-| 2 | C | Agent Manufacturing Principles | Understand | Specification Design | Medium |
-| 3 | B | Core Principles | Apply | Decision Matrix | Medium |
-| ...| ... | ... | ... | ... | ... |
+| Q#  | Answer | Source Section                 | Bloom Level | Question Type          | Difficulty |
+| --- | ------ | ------------------------------ | ----------- | ---------------------- | ---------- |
+| 1   | A      | Agent Factory Fundamentals     | Understand  | Conceptual Distinction | Medium     |
+| 2   | C      | Agent Manufacturing Principles | Understand  | Specification Design   | Medium     |
+| 3   | B      | Core Principles                | Apply       | Decision Matrix        | Medium     |
+| ... | ...    | ...                            | ...         | ...                    | ...        |
 
 ## Explanations
 
 ### Q1
+
 **Correct Answer: A**
 
 The Agent Factory Thesis posits that instead of selling software licenses,
@@ -133,6 +134,7 @@ codify domain expertise and perform specific professional tasks.
 
 **Source:** Agent Factory Fundamentals (Section: Business Model Reframing)
 **Why other options are wrong:**
+
 - B: This describes UI shipping, not the core reframing
 - C: Token bundles are a pricing mechanism, not the thesis
 - D: Chat workflows are a feature, not the business model
@@ -140,6 +142,7 @@ codify domain expertise and perform specific professional tasks.
 ---
 
 ### Q2
+
 **Correct Answer: C**
 
 Manufacturing agents transforms domain expertise into codified, repeatable systems
@@ -147,6 +150,7 @@ that can operate autonomously within defined constraints.
 
 **Source:** Agent Manufacturing Principles
 **Why other options are wrong:**
+
 - A: Software economics remain, only licensing model changes
 - B: Expertise is preserved, not replaced
 - D: Interface sophistication is irrelevant to value proposition
@@ -177,24 +181,23 @@ that can operate autonomously within defined constraints.
 
 ## Key Differences
 
-| Aspect | DOCX | Markdown | PDF |
-|--------|------|----------|-----|
-| **Best For** | Printing, formal assessment | Version control, editing | Final delivery, read-only |
-| **Editability** | MS Word required | Text editor, easy diff | Not editable |
-| **Metadata** | Embedded in document | YAML frontmatter | Embedded in PDF |
-| **Answer Key** | Compact, 10 per line | Table format with details | Same as source format |
-| **Distribution** | Email, hard copy | Git, web publishing | Email, LMS upload |
-| **Accessibility** | Screen reader compatible | Plain text, accessible | PDF accessibility varies |
+| Aspect            | DOCX                        | Markdown                  | PDF                       |
+| ----------------- | --------------------------- | ------------------------- | ------------------------- |
+| **Best For**      | Printing, formal assessment | Version control, editing  | Final delivery, read-only |
+| **Editability**   | MS Word required            | Text editor, easy diff    | Not editable              |
+| **Metadata**      | Embedded in document        | YAML frontmatter          | Embedded in PDF           |
+| **Answer Key**    | Compact, 10 per line        | Table format with details | Same as source format     |
+| **Distribution**  | Email, hard copy            | Git, web publishing       | Email, LMS upload         |
+| **Accessibility** | Screen reader compatible    | Plain text, accessible    | PDF accessibility varies  |
 
 ---
 
 ## Quality Specifications for All Formats
 
 - **Question clarity**: Each question standalone, no ambiguity
-- **Option parity**: All options within ±3 words (length balance)
+- **Option parity**: All 4 options within 0.8x-1.2x of mean word count (length parity). Target 12-18 words per option.
 - **Specificity balance**: All options at similar detail level
 - **Source references**: Every question maps to lesson section
 - **Bloom alignment**: Distribution matches content type (25% Analyze, 25% Remember/Understand, etc.)
 - **No consecutive patterns**: Max 3 consecutive same-letter answers
 - **Position distribution**: 25% A, 25% B, 25% C, 25% D (±5% acceptable)
-

@@ -111,3 +111,15 @@ Patterns learned from corrections. Review at session start.
 - "chapter X" → chapter X vs part X
 
 **Never interpret broadly when narrow interpretation exists.**
+
+---
+
+## 2026-02-10 Server Hot Reload Issues
+
+**Mistake**: Server errors after code changes due to corrupted hot reload state
+**Pattern**: Hot reload can leave server in inconsistent state, especially with async code
+**Rule**: When debugging server errors after code changes:
+1. Kill all server processes completely: `taskkill /F /IM python.exe`
+2. Restart fresh with `PYTHONUNBUFFERED=1` for immediate log output
+3. Use `--log-level debug` when debugging
+4. Clean restart fixes many "phantom" errors that appear after hot reloads

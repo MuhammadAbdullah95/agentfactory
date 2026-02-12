@@ -293,3 +293,21 @@
   background: oklch(0.22 0.02 255);
   color: oklch(0.90 0 0);
 }
+
+/* ============================================================================
+   CHAT TEXT SELECTION
+   ============================================================================ */
+
+/* Ensure all text in chat is selectable */
+.chatWrapper :global(*) {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+/* But disable selection on interactive elements for cleaner UX */
+.chatWrapper :global(button),
+.chatWrapper :global(input),
+.chatWrapper :global(textarea) {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}

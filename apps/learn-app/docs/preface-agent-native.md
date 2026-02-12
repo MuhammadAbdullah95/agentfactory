@@ -2,7 +2,7 @@
 title: "PREFACE: The AI Agent Factory"
 description: "The Spec-Driven Blueprint for Building and Monetizing Digital FTEs"
 authors: ["Panaversity Team"]
-date: "2026-02-05"
+date: "2026-02-07"
 status: "published"
 part: "preface"
 next: "/docs/part-1/chapter-1"
@@ -23,12 +23,16 @@ This book was written for this exact moment.
 
 ---
 
-## Why This Book Matters Now
+## Start Here: The Presentations
 
-_Start here. This presentation covers the SaaSpocalypse, the shift from software seats to Digital FTEs, and why The Agent Factory is the answer._
+These two presentations lay the strategic and practical foundation for everything in this book. Watch them before reading further.
+
+### Build Your AI Workforce
+
+_The accessible introduction. Covers the shift from manual work to Digital FTEs, why no coding is required, and how anyone—business owners, marketers, accountants, educators—can build AI employees using natural language._
 
 :::tip Open Full Slideshow
-**[View Full Presentation](https://docs.google.com/presentation/d/1nfCEKI4P3rzvtw1BvI8PmpP8nMXAROvpJ7Pyh9xzpj0/edit?usp=sharing)** — The introduction to the Agent Factory.
+**[View Full Presentation](https://docs.google.com/presentation/d/1nfCEKI4P3rzvtw1BvI8PmpP8nMXAROvpJ7Pyh9xzpj0/edit?usp=sharing)** — Build Your AI Workforce
 :::
 
 <div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: '2rem', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
@@ -39,9 +43,31 @@ _Start here. This presentation covers the SaaSpocalypse, the shift from software
     allowfullscreen="true"
     mozallowfullscreen="true"
     webkitallowfullscreen="true"
-    title="Introduction to the Agent Factory">
+    title="Build Your AI Workforce">
   </iframe>
 </div>
+
+### Agent Factory: Building Digital FTEs
+
+_The comprehensive deep-dive. Covers the Agent Factory thesis, General vs Custom Agents, the decision matrix, Code as Universal Interface, MCP and Agent Skills, monetization models, case studies, security, and the complete roadmap from first spec to first dollar._
+
+:::tip Open Full Slideshow
+**[View Full Presentation](https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/edit?usp=sharing)** — Agent Factory: Building Digital FTEs
+:::
+
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: '2rem', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
+  <iframe
+    src="https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/embed?start=false&loop=false&delayms=3000"
+    frameborder="0"
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '8px'}}
+    allowfullscreen="true"
+    mozallowfullscreen="true"
+    webkitallowfullscreen="true"
+    title="Agent Factory: Building Digital FTEs">
+  </iframe>
+</div>
+
+---
 
 ## The Anthropic Wake-Up Call
 
@@ -59,7 +85,7 @@ February 2026 wasn't a random market fluctuation. It was a **repricing of the en
 
 ## The Death of the "Software Seat"
 
-The SaaSpocalypse didn't happen in a vacuum. It was the market catching up to a structural shift that was already underway: **the transition from per-seat software licensing to autonomous Digital FTEs.**
+The SaaSpocalypse didn't happen in a vacuum. It was the market catching up to a structural shift already underway: **the transition from per-seat software licensing to autonomous Digital FTEs.**
 
 ### The Old Model (Legacy SaaS)
 
@@ -73,7 +99,7 @@ A company deploys a Digital FTE via Claude Code. The agent requires no seat, no 
 
 | Dimension       | Old (Per-Seat SaaS)                      | New (Digital FTE)                                       |
 | --------------- | ---------------------------------------- | ------------------------------------------------------- |
-| **Cost**        | $200/mo per human user                   | Fraction of per-seat licensing cost                     |
+| **Cost**        | $200/mo per human user                   | 90% reduction in software overhead                      |
 | **Speed**       | Days of human processing                 | Tasks that took humans days now take agents seconds     |
 | **Integration** | Humans log in to separate tools          | Agents inhabit the workflow—no UI, no third-party login |
 | **Scaling**     | Linear: hire more humans, buy more seats | Exponential: clone the agent instantly                  |
@@ -110,18 +136,48 @@ Here is the shift most people underestimate: **the barrier to building software 
 
 The primary interface is now natural language—English, Urdu, Spanish, whatever you think in. You describe the job. Claude Code (a General Agent from Anthropic) interprets your instructions and builds the solution.
 
+### The Old Way vs. The New Way
+
+|              | The Old Way                                                                                                                  | The New Way                                                                                                                                       |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Input**    | `def process_invoice(data):` `validate_schema(data)` `extract_fields(data)` `match_po_number(data)` `calculate_totals(data)` | "Create an agent that processes invoices. It should validate the data, extract key fields, match with PO numbers, and generate a summary report." |
+| **Learning** | Months of learning. Years to master.                                                                                         | Minutes to describe. Instant to build.                                                                                                            |
+| **Tool**     | IDE + compiler + documentation                                                                                               | Claude Code — describe what you want in plain English                                                                                             |
+
 This means **domain experts without traditional programming backgrounds** can now build AI employees:
 
-| Domain Expert       | What They Can Build                     |
-| ------------------- | --------------------------------------- |
-| **Business Owners** | Operations and inventory automation     |
-| **Healthcare Pros** | Scheduling and documentation agents     |
-| **Marketers**       | Content creation and lead qualification |
-| **Educators**       | Grading and curriculum planning         |
-| **Accountants**     | Transaction reconciliation              |
-| **Engineers**       | Code reviews and testing                |
+| Domain Expert       | What They Can Build                         |
+| ------------------- | ------------------------------------------- |
+| **Business Owners** | Operations and inventory automation         |
+| **Healthcare Pros** | Scheduling and documentation agents         |
+| **Marketers**       | Content creation and lead qualification     |
+| **Educators**       | Grading and curriculum planning             |
+| **Accountants**     | Transaction reconciliation and audit agents |
+| **Engineers**       | Code reviews and testing                    |
 
-**This book teaches you to build AI Employees that capture YOUR expertise—and monetize them as Digital FTEs.**
+**If you can describe a job, you can build an AI employee to do it.**
+
+---
+
+## The Workforce Revolution
+
+This isn't incremental improvement. It's a structural shift in how work gets done.
+
+**The Old Paradigm:** Hire humans for every task. Train for months. Hope they stay. Watch AI transform industries from the sidelines.
+
+**The New Reality:** Build AI employees in hours. They work 24/7. You lead the transformation instead of watching it.
+
+### The Future of Work: A Partnership
+
+Three forces working together define the future:
+
+| Force      | Role                            |
+| ---------- | ------------------------------- |
+| **People** | Judgment, creativity, oversight |
+| **Agents** | Digital work automation         |
+| **Robots** | Physical work automation        |
+
+Automation transforms work—it doesn't eliminate it. Most human skills remain relevant but evolve. The key shift: **AI fluency is now the fastest-growing workforce requirement.** Workflow redesign unlocks greater value than task automation alone.
 
 ---
 
@@ -129,7 +185,7 @@ This means **domain experts without traditional programming backgrounds** can no
 
 Even before the SaaSpocalypse, the signals were there.
 
-In 2023, a startup called Casetext was [acquired by Thomson Reuters for $650 million in cash](https://techcrunch.com/2023/06/26/thomson-reuters-buys-casetext-an-ai-legal-tech-startup-for-650m-in-cash/). Their product? **CoCounsel**—an AI legal assistant that could review documents, research case law, and draft memos.
+In 2023, a startup called Casetext was [acquired by Thomson Reuters for $650 million in cash](https://techcrunch.com/2023/06/26/thomson-reuters-buys-casetext-an-ai-legal-tech-startup-for-650m-in-cash/). Their product? **CoCounsel**—an AI legal assistant that could review documents, research case law, and draft memos. It achieved a 97% pass rate on complex legal evaluations.
 
 Thomson Reuters didn't pay $650 million for the technology. They paid for **encoded legal expertise**—the ability to do substantive legal work that previously required expensive human professionals.
 
@@ -141,21 +197,55 @@ This is what encoded domain expertise is worth.
 
 ## The Agent Factory Vision
 
-:::tip Open Full Slideshow
-**[View Full Presentation](https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/edit?usp=sharing)** — The complete Agent Factory framework.
-:::
+### The Enterprise Architecture Shift
 
-<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: '2rem', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
-  <iframe
-    src="https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/embed?start=false&loop=false&delayms=3000"
-    frameborder="0"
-    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '8px'}}
-    allowfullscreen="true"
-    mozallowfullscreen="true"
-    webkitallowfullscreen="true"
-    title="Agent Factory Presentation by Zia Khan">
-  </iframe>
-</div>
+The most significant transformation isn't just building agents—it's restructuring how enterprises operate.
+
+|                  | Before: Tool-Centric Enterprise  | After: Agent-Centric Enterprise                   |
+| ---------------- | -------------------------------- | ------------------------------------------------- |
+| **Workflow**     | Humans operate SaaS tools        | Humans manage outcomes                            |
+| **Logic**        | Lives in people's heads          | Lives in Specs and Skills                         |
+| **Automation**   | Brittle, task-level scripts      | Goal-driven agent workflows                       |
+| **Knowledge**    | Undocumented, unscalable         | Reusable intellectual property                    |
+| **Architecture** | Humans → SaaS Apps → APIs → Data | Humans → Digital FTEs → Agent Skills + MCP → Data |
+
+The key shift: from **tools you use** to **digital teammates you manage**.
+
+### Code as the Universal Interface
+
+Here's a paradigm shift most people miss: code isn't just for building software. It's how agents interrogate reality.
+
+**Example:** You ask, "Why did sales drop in Q3?"
+
+A chatbot gives you a generic answer. A General Agent:
+
+1. Writes a SQL query to fetch sales data
+2. Writes a Python script to visualize the trend
+3. Analyzes the chart
+4. Answers: "Sales dropped because of 40% churn in the Enterprise sector"
+
+The agent used code not to "build an app" but to **answer a business question with facts.** Code is the universal interface between intent and action.
+
+### How the "Factory" Works
+
+The Agent Factory is a systematic process for turning domain expertise into deployable Digital FTEs:
+
+1. **The Spec.** You provide a Markdown file describing the goal (e.g., "Automate Q3 Financial Audits").
+2. **The Builder (Claude Code).** Analyzes the spec, scans documentation, and identifies the necessary tools.
+3. **The Manufacturing.** Claude Code generates the Custom Agent or Custom Skill and supporting code.
+4. **The Result.** A production-ready Digital FTE is born—in minutes, not months.
+
+General Agents (Claude Code) are the "Engine" that uses Spec-Driven Development to manufacture Custom Skills and Custom Agents. This is the engine of automated automation.
+
+### The Twin Enablers: MCP and Agent Skills
+
+Two standards make the Agent Factory possible:
+
+**Agent Skills** are the "How-To"—modular folders containing a `SKILL.md` file that teaches an agent a specific, repeatable workflow (e.g., "Analyze this financial statement according to our Q4 risk framework"). They standardize expertise into reusable, scalable intellectual property.
+
+**MCP (Model Context Protocol)** is the "With-What"—the universal protocol that connects those skills to live data: your SQL database, your CRM, your Slack workspace, your financial systems.
+
+Skills provide the expertise. MCP provides the connectivity. Together, they turn a General Agent into a specialized Digital FTE for any domain. Plug in a Finance MCP and Skill, and it's a Finance Agent. Plug in a Sales MCP and Skill, and it's a Sales Agent.
 
 ### The Reality Check
 
@@ -177,7 +267,7 @@ Think of it like biological evolution: you don't engineer a specialist from scra
 
 Raw requirements enter a fertile environment where they transform into functional logic through rapid iteration. You don't know the exact solution yet—you're discovering it.
 
-General Agents are **reasoning systems**. They observe your problem, orient around constraints, decide on an approach, act by writing code or running commands, and correct their mistakes—repeating until the problem is solved.
+General Agents are **reasoning systems**. They observe your problem, orient around constraints, decide on an approach, act by writing code or running commands, and correct their mistakes—repeating until the problem is solved. This OODA loop (Observe, Orient, Decide, Act) is what separates them from simple prediction engines.
 
 | Dimension               | Incubator Stage                                              |
 | ----------------------- | ------------------------------------------------------------ |
@@ -185,6 +275,20 @@ General Agents are **reasoning systems**. They observe your problem, orient arou
 | **Optimization Target** | Flexibility and reasoning                                    |
 | **Your Role**           | Director who specifies intent                                |
 | **Best For**            | Novel problems, unclear requirements, building Custom Agents |
+
+### The "Trojan Horse" of AI
+
+Don't let the name "Claude Code" fool you. Calling it a "Coding Agent" is like calling a CEO an "Email Writer" just because they use email to do their job. Code is simply the tool it uses to solve problems.
+
+| Feature           | Coding Agent (e.g., Cursor)          | General Agent (Claude Code)                             |
+| ----------------- | ------------------------------------ | ------------------------------------------------------- |
+| **Scope**         | Software development                 | Any business domain                                     |
+| **Identity**      | Developer's pair programmer          | Digital employee                                        |
+| **Habitat**       | Embedded in developer tooling        | Operates across system-level tools                      |
+| **Built For**     | Developers                           | Anyone solving problems                                 |
+| **Example Tasks** | "Implement feature, refactor module" | "Plan your 2026", "Draft emails", "Why did sales drop?" |
+
+Coding agents are powerful, software-native agents optimized for development workflows. General agents are goal-native agents trusted with broader objectives, able to choose tools, cross domains, and act at the system level using code as the universal interface.
 
 ### Stage 2: Specialist (Custom Agents)
 
@@ -198,6 +302,18 @@ Proven patterns crystallize into purpose-built systems. The solution is now know
 | **Optimization Target** | Reliability and efficiency                                               |
 | **Your Role**           | Builder who creates the agent                                            |
 | **Best For**            | Well-defined workflows, customer-facing products, high-volume automation |
+
+Key features of Custom Agents: **Guardrails** for strict control over what the agent can and cannot do. **Orchestration** for defining exact hand-offs between multiple agents. **UI/UX Flexibility** for embedding in web apps, Slack, or internal dashboards.
+
+### The Decision Matrix: How to Choose
+
+| Requirement          | General Agent (Claude Code, Goose) | Custom Agent (OpenAI SDK, Claude SDK) |
+| -------------------- | ---------------------------------- | ------------------------------------- |
+| **Task Type**        | Novel, problem-solving             | Repetitive, standardized              |
+| **End User**         | Developers / Technical staff       | Non-technical / Customers             |
+| **Error Tolerance**  | High (human in the loop)           | Low (must be reliable)                |
+| **Cost Sensitivity** | Low (high value per task)          | High (volume optimization needed)     |
+| **Implementation**   | Instant (install and run)          | Weeks (design and build)              |
 
 ### The Key Insight: Incubator Gives Birth to Specialist
 
@@ -216,6 +332,8 @@ This book teaches the complete progression—from exploration to monetization.
 
 A traditional employee works 40 hours per week. A Digital FTE works 168 hours—24/7, no breaks, no vacations. This creates a new product category: the **Digital Full-Time Equivalent**.
 
+In traditional business, an FTE (Full-Time Equivalent) is a unit of measurement representing the workload of one full-time employee. A Digital FTE is an AI agent that is built, "hired," and priced as if it were a human employee.
+
 | Metric            | Human FTE                | Digital FTE                    |
 | ----------------- | ------------------------ | ------------------------------ |
 | **Availability**  | 40 hours/week            | 168 hours/week (24/7)          |
@@ -224,6 +342,7 @@ A traditional employee works 40 hours per week. A Digital FTE works 168 hours—
 | **Consistency**   | Variable (85–95%)        | High (when properly evaluated) |
 | **Scaling**       | Linear (hire 10 for 10x) | Exponential (instant clone)    |
 | **Cost per Task** | $30 – $60                | $3 – $6                        |
+| **Annual Hours**  | ~2,000 hours             | ~8,760 hours                   |
 
 ### The "Aha!" Moment for Your Clients
 
@@ -231,22 +350,28 @@ A Human FTE works about 2,000 hours a year; a Digital FTE works nearly 9,000. Wh
 
 **The pitch to a CEO:** "Pay $1,500/month for a Digital Sales Agent that does the work of a $6,000/month junior employee—and works nights and weekends."
 
+### The Pricing Psychology
+
+Here's why "Digital FTE" is a monetization power-move: it changes **who pays** for the AI.
+
+IT budgets (software) are usually small and strict. HR and departmental budgets (salaries) are often 10x larger. By positioning your agent as a "Digital FTE," you're being compared to a **$50,000 salary**, not a **$50 software subscription**. A CEO doesn't care how many "tokens" the agent uses—they care that the job is done.
+
 This isn't about replacing humans. It's about **handling the work humans don't have time for**—the repetitive tasks, the overnight monitoring, the high-volume processing.
 
 ### A Digital FTE in Action: The Digital SDR
 
-Consider how a Digital FTE works in practice:
-
 **The Problem:** A B2B startup receives 5,000 leads per month but only contacts 15% due to human bandwidth. SDR (Sales Development Rep) turnover is high, and follow-up is inconsistent.
 
-**The Digital FTE Solution:** A "Digital SDR" agent that:
+**The Solution:** The founder wrote a Markdown spec detailing the brand voice, objection-handling rules, and qualifying questions. Claude Code consumed the spec and generated a custom Agent Skill—a `sales-prospector/` folder containing `SKILL.md` instructions and a `lead_scorer.py` script.
 
-- Responds to every inbound lead within 2 minutes (vs. 4-6 hours for humans)
-- Qualifies leads using the founder's exact criteria and brand voice
-- Handles 1,000+ outreaches per day (vs. 50 for a human SDR)
-- Works nights, weekends, and holidays without overtime
+| Metric            | Human SDR Team              | Digital SDR (Agent)             |
+| ----------------- | --------------------------- | ------------------------------- |
+| **Volume**        | 50 outreaches/day           | 1,000+ outreaches/day           |
+| **Response Time** | 4–6 hours                   | < 2 minutes                     |
+| **Monthly Cost**  | ~$8,200 (salary + tools)    | $500 (Digital FTE subscription) |
+| **ROI (90 Days)** | Negative (ramping/training) | 300% (instant deployment)       |
 
-**The Result:** The cost of lead qualification drops by an order of magnitude. Response time goes from hours to minutes. The human sales team focuses on closing deals instead of chasing leads.
+The human sales team focuses on closing deals instead of chasing leads.
 
 This is what you'll learn to build.
 
@@ -261,6 +386,16 @@ This is what you'll learn to build.
 | **3. License**      | Annual fee to use your proprietary agent logic              | Enterprises needing data in-house (healthcare, finance, defense) |
 | **4. Marketplace**  | Sell via OpenAI Apps to millions of users                   | Volume play, brand building around niche expertise               |
 
+### The License Model Deep Dive
+
+In Spec-Driven Development, the "License" isn't just for software—it's for the Skill folder and Agents:
+
+| License Type                | What Is Being Sold                                          | Revenue Style            |
+| --------------------------- | ----------------------------------------------------------- | ------------------------ |
+| **White-Label**             | The right to rebrand your Agent Skill as their own          | High upfront + royalty   |
+| **Enterprise Site License** | Unlimited use of a Skill and Agents across an organization  | Annual Recurring Revenue |
+| **Developer License**       | The right to use your Skill as a sub-module in their agents | Usage-based or flat tier |
+
 ### The Distribution Breakthrough
 
 Traditional enterprise sales takes 6 months and a 500-person sales team. The OpenAI Apps marketplace changes this:
@@ -269,13 +404,55 @@ Traditional enterprise sales takes 6 months and a 500-person sales team. The Ope
 - **1+ million businesses** looking for AI solutions
 - **Single-click adoption**—no procurement, no IT integration meetings
 
-You don't need a sales team. You need a great Digital FTE and good positioning. The platform does the distribution.
+Just as the App Store created the Mobile Economy, OpenAI Apps is creating the Agent Economy. You don't need a sales team. You need a great Digital FTE and good positioning. The platform does the distribution.
+
+---
+
+## Building with Confidence
+
+Deploying agents into production requires more than just building them. Enterprises need guarantees.
+
+### Agent Evaluations: The "Exam" for Your Digital Employee
+
+Before deployment, your agent must pass a **Golden Dataset**—50+ real-world scenarios that represent the actual work (e.g., "Here is a messy invoice, extract the tax ID"). This goes beyond traditional code testing:
+
+- **Accuracy Scoring.** Move beyond pass/fail. Use semantic similarity scoring—did the agent understand the intent even if the phrasing was different?
+- **Regression Testing.** Every time you update the SKILL.md, re-run the exam to ensure previous capabilities haven't degraded.
+- **The Enterprise Gate.** Enterprises need to know the accuracy rate before paying. A 97%+ pass rate on the Golden Dataset is the threshold for production deployment.
+
+### Security and Compliance
+
+Non-negotiable for enterprise deployment:
+
+- **Data Encryption.** AES-256 at rest, TLS 1.3 in transit, key rotation every 90 days
+- **Access Control.** Role-based policies, MFA required, least privilege principle
+- **Audit Logging.** Immutable logs, 7-year retention, real-time anomaly detection
+- **Input Validation.** Prompt injection prevention, content filtering, rate limiting
+
+### When NOT to Use AI Agents
+
+Strategic restraint is as important as bold adoption:
+
+- **Irreversible high-stakes decisions.** Medical diagnoses, legal judgments, large financial approvals without human review
+- **Undefined success criteria.** If you cannot measure success, you cannot validate performance or detect failure
+- **Relationship-critical interactions.** Executive communications, crisis management, sensitive HR matters
+- **Unstable data environments.** Rapidly changing schemas, poor data quality, missing audit trails
+
+**The rule:** Start with shadow mode—the agent recommends but humans execute. Graduate to full autonomy after 95%+ accuracy over 30 days.
+
+### Common Pitfalls
+
+80% of AI agent failures stem from organizational issues, not technical ones:
+
+1. **Over-automating too fast.** Start with 1-2 low-risk processes. Prove value before scaling.
+2. **Ignoring edge cases.** Document exceptions upfront. Build escalation paths for every decision branch.
+3. **No monitoring.** Implement observability from day 1. Track accuracy, latency, and cost per task.
+4. **Underestimating change management.** Train affected teams early. Position AI as augmentation, not replacement.
+5. **No success metrics defined.** Define KPIs before building: time saved, error rate, cost, satisfaction.
 
 ---
 
 ## The Blueprint: What Makes This Possible
-
-Digital FTEs don't appear from thin air. They're built on a foundation of real skills.
 
 ### What Makes Digital FTEs Possible
 
@@ -298,7 +475,7 @@ These skills rest on a broader foundation—the **Nine Pillars** that define mod
 3. **MCP Standard** — Universal protocol for tool integration
 4. **AI-First IDEs** — Editors built for AI collaboration
 5. **Linux Universal Dev Environment** — Standardized development
-6. **Test-Driven Development** — Quality confidence at scale
+6. **Test-Driven Development** — Quality confidence at scale, plus Evals for reasoning testing
 7. **Spec-Driven Development** — Intent before implementation
 8. **Composable Vertical Skills** — Reusable domain expertise
 9. **Universal Cloud-Native Deployment** — Kubernetes, Docker, Dapr
@@ -323,11 +500,14 @@ Each phase builds on the previous. The skills from Part 1 become the building bl
 
 ### Domain Experts Who Want to Productize Knowledge
 
+If you can describe a job, you can build an AI employee to do it. No coding required—just your domain expertise.
+
 - **Sales professionals** → Build Digital SDRs that qualify leads 24/7
 - **Legal experts** → Create contract review agents for law firms
 - **Finance specialists** → Develop compliance monitoring Digital FTEs
-- **Healthcare professionals** → Design HIPAA-compliant diagnostic assistants
+- **Healthcare professionals** → Design scheduling and documentation assistants
 - **Educators** → Build adaptive learning systems with domain-specific pedagogy
+- **Accountants** → Create agents that auto-reconcile transactions and flag audit risks
 
 **Your domain knowledge + AI execution = competitive moat.** This book teaches you to encode your expertise into Digital FTEs that generate recurring revenue.
 
@@ -431,6 +611,10 @@ Digital FTEs handle the work humans don't have time for—high-volume processing
 
 The enterprises buying Digital FTEs aren't firing their teams; they're expanding what their teams can accomplish.
 
+### "What if my agent makes mistakes?"
+
+This is why the book teaches Agent Evaluations alongside Agent Building. You don't deploy without a Golden Dataset of 50+ real-world test scenarios and a 97%+ accuracy threshold. Start in shadow mode—the agent recommends, humans execute—and graduate to autonomy after proving reliability over 30 days.
+
 ---
 
 ## Welcome to the Agent Factory
@@ -441,6 +625,8 @@ You're about to learn how to:
 - **Package** your expertise into sellable products
 - **Distribute** through marketplaces reaching millions
 - **Monetize** through subscriptions, licenses, and success fees
+
+The golden rule: **In the era of Agents, your Spec is your Source Code.** If you can describe the excellence you want, AI can build the agent, skills, and MCP to deliver it for any domain.
 
 The skills compound. The revenue recurs. The opportunity is now.
 
