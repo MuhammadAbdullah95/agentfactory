@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-12
+- refactor: implement the suggested changes after thorough chapter audit ([#715](https://github.com/panaversity/agentfactory/pull/715))
+
+### 2026-02-12
 
 - 001 linux mastery v2 ([#709](https://github.com/panaversity/agentfactory/pull/709))
 
