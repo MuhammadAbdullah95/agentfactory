@@ -24,6 +24,7 @@ By the end of this chapter, you'll be able to:
 | Request safety-first operations | "Back up important files before making changes"          |
 | Design organization systems     | "Create categories that make sense for my workflow"      |
 | Automate batch operations       | "Rename these 100 screenshots with a consistent pattern" |
+| Recover from mistakes           | "Something went wrong — compare against my backup"       |
 | Search intelligently            | "Find that PDF from 2023 about taxes"                    |
 
 This isn't about learning bash. It's about learning to work effectively with General Agents.
@@ -36,17 +37,18 @@ Every expert who works with General Agents mastered these fundamentals first. Fi
 
 ## Chapter Flow
 
-| Lesson                         | Time   | What You'll Do                                 |
-| ------------------------------ | ------ | ---------------------------------------------- |
-| 0. What is Bash?               | 15 min | Set up your terminal environment               |
-| 1. Your First Agent Workflow   | 25 min | Survey your files through conversation         |
-| 2. The Safety-First Pattern    | 20 min | Learn to require backups before changes        |
-| 3. The Organization Workflow   | 30 min | Design and execute file categorization         |
-| 4. Batch Operations Workflow   | 30 min | Transform repetitive tasks into scripts        |
-| 5. Search & Discovery Workflow | 25 min | Find lost files through description            |
-| 6. Capstone: Your File Toolkit | 30 min | Build your personal prompt library             |
+| Lesson                              | Time   | What You'll Do                                 |
+| ----------------------------------- | ------ | ---------------------------------------------- |
+| 0. Getting Bash Ready               | 10 min | Set up your terminal environment               |
+| 1. Your First Agent Workflow        | 25 min | Survey your files through conversation         |
+| 2. The Safety-First Pattern         | 20 min | Learn to require backups before changes        |
+| 3. The Organization Workflow        | 25 min | Design and execute file categorization         |
+| 4. Batch Operations Workflow        | 30 min | Transform repetitive tasks into scripts        |
+| 5. Error Recovery & Resilience      | 20 min | Deliberately break things and recover safely   |
+| 6. Search & Discovery Workflow      | 25 min | Find lost files through description            |
+| 7. Capstone: Your File Toolkit      | 30 min | Build your personal prompt library             |
 
-**Total time**: Approximately 2.5-3 hours
+**Total time**: Approximately 3 hours
 
 ## Seven Principles Observed
 

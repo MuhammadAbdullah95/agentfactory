@@ -103,7 +103,7 @@ You're ready to organize your Downloads folder, but you're nervous about losing 
 >
 > - **All files** (complete safety, largest backup)
 > - **Files modified in the last N days** (recent work you're actively using)
-> - **Specific file types** (PDFs, documents, spreadsheets. Common important formats)
+> - **Specific file types** (PDFs, documents, spreadsheets — common important formats)
 > - **A custom selection** (you tell me exactly what matters)
 >
 > Which approach works best for you?
@@ -122,7 +122,7 @@ Notice what just happened. The agent didn't assume what you wanted. It asked. Th
 >
 > I'll create a timestamped backup folder and copy those files. Here's what I'm going to do:
 >
-> 1. Create `backup/downloads-backup-2025-01-27/` in your workspace
+> 1. Create `backup/downloads-backup-2026-02-12/` in your workspace
 > 2. Copy all `.pdf` files from Downloads
 > 3. Copy all files modified in the last 30 days
 > 4. Report what was backed up
@@ -130,7 +130,7 @@ Notice what just happened. The agent didn't assume what you wanted. It asked. Th
 > Creating backup now...
 >
 > ```
-> Created: backup/downloads-backup-2025-01-27/
+> Created: backup/downloads-backup-2026-02-12/
 > Copied: 47 PDF files (12.3 MB)
 > Copied: 89 recently modified files (156.2 MB)
 > Total: 136 files backed up (168.5 MB)
@@ -158,7 +158,7 @@ Notice what just happened. The agent didn't assume what you wanted. It asked. Th
 > All files successfully backed up.
 > ```
 >
-> The backup matches the source. You now have a complete copy of your important files. If anything goes wrong during organization, you can restore from `backup/downloads-backup-2025-01-27/`.
+> The backup matches the source. You now have a complete copy of your important files. If anything goes wrong during organization, you can restore from `backup/downloads-backup-2026-02-12/`.
 
 ---
 
@@ -227,9 +227,9 @@ The agent **clarified before acting**. This prevents misunderstandings that coul
 
 Behind the scenes, the agent used these commands:
 
-- **`mkdir`** - **m**a**k**e **dir**ectory - creates the backup folder
-- **`cp`** - **c**o**p**y - duplicates files to the backup location
-- **`find`** - locates files matching your criteria (PDFs, recent files)
+- **`mkdir`** — **m**a**k**e **dir**ectory — creates the backup folder
+- **`cp`** — **c**o**p**y — duplicates files to the backup location
+- **`find`** — locates files matching your criteria (PDFs, recent files)
 
 When the agent verified the backup, it compared counts:
 
@@ -238,7 +238,57 @@ find ~/Downloads -name "*.pdf" | wc -l    # Count source PDFs
 find backup/ -name "*.pdf" | wc -l        # Count backup PDFs
 ```
 
-Same number? Backup complete. The verification isn't magic—it's systematic comparison using the same tools you learned in Lesson 1.
+Same number? Backup complete. The verification isn't magic — it's systematic comparison using the same tools you learned in Lesson 1.
+
+---
+
+## When the Backup Itself Goes Wrong
+
+Here's something textbooks usually skip. Sometimes the backup doesn't work perfectly.
+
+### Scenario: Permissions Error
+
+You ask the agent to backup your Downloads folder, and it reports:
+
+```
+Claude Code: Backup in progress...
+
+cp: cannot open '/Users/you/Downloads/restricted-report.pdf'
+  for reading: Permission denied
+
+Copied: 134 of 136 files
+Failed: 2 files (permission errors)
+```
+
+What happened? Some files have restrictive permissions. The agent couldn't read them.
+
+What you should say:
+
+```
+You: Two files failed. Can you show me which ones and fix
+the permissions so we can back them up?
+```
+
+The agent will use `chmod` to adjust permissions or `sudo` if needed. The key lesson: **check for errors in the backup output**. A "mostly complete" backup can give false confidence.
+
+### Scenario: Disk Space
+
+You ask for a full backup of a 50 GB folder, and:
+
+```
+Claude Code: Your backup destination only has 12 GB of free space.
+A full backup would require approximately 50 GB.
+
+Options:
+1. Backup only recent files (estimated 8 GB)
+2. Backup only documents, not media (estimated 3 GB)
+3. Use a different destination with more space
+4. Compress the backup (slower but smaller)
+
+Which approach would you prefer?
+```
+
+The agent caught the problem BEFORE running out of space mid-backup. This is why good agents check preconditions.
 
 ---
 
@@ -262,7 +312,7 @@ Examples:
 ### After the Backup
 
 ```
-"Verify the backup is complete."
+"Verify the backup is complete. Show me any errors."
 ```
 
 This step is non-negotiable. A backup that fails silently is worse than no backup. It gives false confidence.
@@ -285,8 +335,8 @@ This pattern extends beyond file organization. It's a universal safety mindset:
 | ------------------------ | --------------------------------- |
 | **File organization**    | Backup before moving files        |
 | **Code changes**         | Commit before refactoring         |
-| **Database updates**     | Export before modifying           |
-| **System configuration** | Snapshot before changing settings |
+| **Database updates**     | Export before modifying            |
+| **System configuration** | Snapshot before changing settings  |
 
 The common thread: **create a reversible state before any irreversible action**.
 
@@ -307,38 +357,25 @@ In Lesson 5, you'll deliberately make a mistake and practice recovery. The backu
 
 ---
 
-## Try It Yourself
+## ✅ Checkpoint: Do This Now
 
-### Exercise 1: Backup Your Desktop
+Stop reading. Open Claude Code and create a backup of your Downloads folder (or whichever folder you surveyed in Lesson 1).
 
-Open Claude Code and try this conversation:
-
-```
-Create a backup of my Desktop folder. What would you backup?
-```
-
-Observe how the agent clarifies before acting. Does it ask about file types? Recent modifications? Size limits?
-
-### Exercise 2: Define "Important Documents"
-
-Try asking Claude Code:
+Use this prompt:
 
 ```
-If I asked you to backup my "important documents," what would you include?
+Before we make any changes to my [Downloads/Documents/Desktop] folder,
+create a timestamped backup of all PDFs and any file modified in the
+last 30 days. Put it in file-organizer/backup/ and verify the backup
+is complete. Show me any errors.
 ```
 
-See how the agent thinks about this. What criteria does it suggest? Do its suggestions match what you would consider important?
+You should now have:
 
-### Exercise 3: Verify an Existing Backup
+- `file-organizer/backup/` with a timestamped subfolder
+- A verification report confirming the backup is complete
 
-If you have a backup folder already, ask:
-
-```
-Verify that my backup in [folder] contains complete copies of [source folder].
-Compare file counts and tell me if anything is missing.
-```
-
-Practice the verification step. The habit of confirming completeness.
+**Don't move to Lesson 3 until your backup is verified.** Everything that follows assumes you have a safety net.
 
 ---
 
@@ -356,7 +393,7 @@ a smarter backup that only includes:
 Show me what this would capture before creating the backup.
 ```
 
-**What you're practicing**: Compound backup criteria. You're learning to combine multiple filters (date, size, type) to create targeted backups instead of copying everything.
+**What you're practicing:** Compound backup criteria. You're learning to combine multiple filters (date, size, type) to create targeted backups instead of copying everything.
 
 **Prompt 2: Backup Verification Deep Dive**
 
@@ -369,17 +406,17 @@ I have a backup folder from last week. Help me verify it's still valid:
 Give me a complete integrity report.
 ```
 
-**What you're practicing**: Backup auditing. Real backups can become stale. You're learning to direct the agent to perform comprehensive verification, not just count files.
+**What you're practicing:** Backup auditing. Real backups can become stale. You're learning to direct the agent to perform comprehensive verification, not just count files.
 
 **Prompt 3: Recovery Rehearsal**
 
 ```
-Pretend I accidentally deleted an important file called "budget-2024.xlsx"
+Pretend I accidentally deleted an important file called "budget-2025.xlsx"
 from my Documents folder. Walk me through exactly how I would recover it
 from my backup. Show me the commands but don't actually run them yet.
 ```
 
-**What you're practicing**: Recovery planning. The best time to learn recovery is before you need it. You're practicing the restore workflow in a safe, hypothetical scenario.
+**What you're practicing:** Recovery planning. The best time to learn recovery is before you need it. You're practicing the restore workflow in a safe, hypothetical scenario.
 
 ---
 
@@ -390,6 +427,8 @@ from my backup. Show me the commands but don't actually run them yet.
 **Agents should ask, not assume.** A well-designed agent clarifies ambiguous requests before acting. "Important files" means different things to different people.
 
 **Verification is non-negotiable.** A backup that might have failed is worse than no backup. Always confirm completeness.
+
+**Check for errors.** A "mostly complete" backup can be more dangerous than no backup at all. Always ask for error reports.
 
 **This pattern is universal.** Backup-before-change applies to files, code, databases, and any system where actions might be irreversible.
 

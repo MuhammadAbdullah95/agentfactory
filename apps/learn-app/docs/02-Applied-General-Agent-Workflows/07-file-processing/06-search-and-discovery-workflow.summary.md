@@ -24,5 +24,5 @@ Descriptive search means describing what you're looking for, not where you think
 
 ### Connections
 
-- **Builds on**: Lessons 1-4 (all previous workflows), Principle 1 (Bash) from Part 1
-- **Leads to**: Capstone toolkit (Lesson 6) where search patterns become reusable prompts
+- **Builds on**: Lessons 1-5 (all previous workflows including error recovery), Principle 1 (Bash) from Part 1
+- **Leads to**: Capstone toolkit (Lesson 7) where search patterns become reusable prompts

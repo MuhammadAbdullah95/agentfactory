@@ -1,10 +1,10 @@
 ---
 sidebar_position: 0
-title: "What is Bash?"
+title: "Getting Bash Ready"
 chapter: 7
 lesson: 0
-duration_minutes: 15
-description: "Understand what Bash is and set up your terminal environment for the workflows ahead"
+duration_minutes: 10
+description: "Set up your terminal environment for the workflows ahead"
 keywords:
   [
     "bash",
@@ -24,63 +24,28 @@ skills:
     digcomp_area: "Digital Competence"
     measurable_at_this_level: "Student can open a Bash-compatible terminal and run basic commands"
 
-  - name: "Understanding Shell Concepts"
-    proficiency_level: "A1"
-    category: "Conceptual"
-    bloom_level: "Understand"
-    digcomp_area: "Digital Literacy"
-    measurable_at_this_level: "Student can explain what Bash is and why it matters for agent workflows"
-
 learning_objectives:
-  - objective: "Explain what Bash is and why General Agents use it"
-    proficiency_level: "A1"
-    bloom_level: "Understand"
-    assessment_method: "Student can describe why Bash is 'the key' to agent capability"
-
   - objective: "Access a Bash-compatible terminal on any operating system"
     proficiency_level: "A1"
     bloom_level: "Apply"
     assessment_method: "Student can open a terminal and run a simple command successfully"
 
 cognitive_load:
-  new_concepts: 3
-  assessment: "3 concepts (shell, terminal, Bash) within A1 limit of 4"
+  new_concepts: 1
+  assessment: "1 concept (terminal setup) well within A1 limit of 4"
 
 differentiation:
   extension_for_advanced: "Explore the difference between Bash, Zsh, and PowerShell - what makes each unique?"
   remedial_for_struggling: "Focus on getting one working terminal. If Git Bash works, use that. Don't worry about understanding everything yet."
 ---
 
-# What is Bash?
+# Getting Bash Ready
 
-Throughout this book, you've heard that "Bash is the Key" to General Agent capability. Before we dive into workflows, let's understand what that actually means.
+In Chapter 6, you learned why Bash is the key to General Agent capability — how the Vercel team discovered that simple shell access outperformed elaborate custom tooling, and how the Unix philosophy of small composable tools aligns perfectly with how LLMs reason. You don't need to re-learn that here.
 
-## The Shell: Your Computer's Command Center
-
-When you click icons and drag files, you're using a graphical interface. But underneath all those pretty windows, your computer understands a simpler language: text commands.
-
-A **shell** is a program that interprets these text commands. You type instructions, the shell understands them, and your computer executes them.
-
-**Bash** (Bourne Again Shell) is the most widely-used shell on Unix-like systems. Created in 1989, it's been the default shell on Linux and macOS for decades. When Claude Code or any General Agent "runs commands," they're speaking Bash.
-
-## Why Bash Matters for General Agents
-
-Here's the key insight: **Bash gives agents hands**.
-
-Without Bash, an AI assistant can only talk. With Bash, an AI assistant can:
-
-| Capability | Without Bash | With Bash |
-|------------|--------------|-----------|
-| Find files | "You could try looking in..." | Runs `find ~/Downloads -name "*.pdf"` and shows you exactly where they are |
-| Organize folders | "You should create folders for..." | Runs `mkdir` and `mv` commands to actually reorganize |
-| Check disk space | "Disk usage varies..." | Runs `du -sh *` and tells you your exact usage |
-| Automate tasks | "You could write a script..." | Writes and runs the script for you |
-
-This is why Principle 1 states "Bash is the Key." The shell transforms AI from an advisor into an operator.
+What you do need is a working terminal on your machine. This lesson gets you there in five minutes.
 
 ## Getting Bash on Your System
-
-Bash is available on every major operating system, but the path to access it differs.
 
 ### macOS
 
@@ -98,7 +63,7 @@ Windows doesn't include Bash natively, but you have two excellent options:
 
 **Option 1: Git Bash (Quick start)**
 
-When you install Git for Windows, it includes Git Bash - a terminal that provides Bash commands on Windows.
+When you install Git for Windows, it includes Git Bash — a terminal that provides Bash commands on Windows.
 
 1. Download Git from [git-scm.com](https://git-scm.com/download/win)
 2. During installation, keep the default options
@@ -106,7 +71,9 @@ When you install Git for Windows, it includes Git Bash - a terminal that provide
 
 Git Bash provides all the commands you'll use in this book: `ls`, `find`, `cat`, `grep`, and more. This is the fastest way to get started.
 
-**Option 2: WSL (Windows Subsystem for Linux) - Recommended for serious development**
+**Windows tip:** Paste in Git Bash with `Shift+Insert` or right-click, since `Ctrl+V` often doesn't work.
+
+**Option 2: WSL (Windows Subsystem for Linux) — Recommended for serious development**
 
 WSL runs a full Linux environment inside Windows. It's more powerful and provides a complete Unix experience, making it the better long-term choice for development work.
 
@@ -161,23 +128,6 @@ ls
 
 This lists files in your current directory. If you see file names, your terminal is working.
 
-## The Commands You'll See
-
-Throughout this chapter, Claude Code will run commands like these:
-
-| Command | What It Does | Example |
-|---------|--------------|---------|
-| `ls` | **L**i**s**t files | `ls ~/Downloads` |
-| `cd` | **C**hange **d**irectory | `cd ~/Documents` |
-| `find` | Find files matching criteria | `find . -name "*.pdf"` |
-| `cat` | Display file contents | `cat notes.txt` |
-| `mv` | **M**o**v**e (or rename) files | `mv old.txt new.txt` |
-| `mkdir` | **M**a**k**e **dir**ectory | `mkdir Projects` |
-
-You don't need to memorize these. Claude Code knows them all. Your job is to describe problems; the agent translates that into commands.
-
-But recognizing what a command does helps you verify the agent is doing the right thing. When you see `find ~/Downloads -name "*.pdf"`, you should understand: "It's finding PDFs in my Downloads folder."
-
 ## What About PowerShell?
 
 Windows has its own powerful shell called PowerShell. It works differently from Bash, with different command names and syntax.
@@ -188,13 +138,7 @@ This is why we recommend Git Bash or WSL for Windows users. Not because PowerShe
 
 ## Ready to Begin
 
-You now have:
-
-- A working terminal with Bash-compatible commands
-- Basic understanding of what the shell does
-- Knowledge of why Bash matters for General Agents
-
-That's all you need. In the next lesson, you'll open Claude Code and direct it to solve a real problem. You'll describe the problem in plain English, and watch the agent translate that into commands that actually work.
+You now have a working terminal with Bash-compatible commands. That's all you need. In the next lesson, you'll open Claude Code and direct it to solve a real problem. You'll describe the problem in plain English and watch the agent translate that into commands that actually work.
 
 Let's go file hunting.
 
@@ -225,12 +169,3 @@ I am, what files are here, and how to move around.
 ```
 
 **What you're learning:** You're letting the agent teach you interactively rather than memorizing from a textbook. Notice how it explains each command as it introduces them.
-
-### Prompt 3: Understand the Difference
-
-```
-What's the difference between Bash, Zsh, and PowerShell? I'm using
-[your terminal] - will the commands in tutorials work for me?
-```
-
-**What you're learning:** You're building the habit of asking clarifying questions. Understanding which shell you're using helps you interpret examples and troubleshoot issues later.

@@ -108,13 +108,13 @@ what types of files you have.
 
 Here's what I found:
 
-| File Type | Count | Notes |
-|-----------|-------|-------|
-| PDFs | 234 | Documents, reports, receipts |
-| Spreadsheets | 89 | .xlsx and .csv files |
-| Images | 156 | Screenshots, photos |
-| Archives | 43 | .zip files (may contain more files) |
-| Other | 325 | Mixed: .docx, .dmg, .exe, etc. |
+| File Type     | Count | Notes                         |
+|---------------|-------|-------------------------------|
+| PDFs          | 234   | Documents, reports, receipts  |
+| Spreadsheets  | 89    | .xlsx and .csv files          |
+| Images        | 156   | Screenshots, photos           |
+| Archives      | 43    | .zip files (may contain more) |
+| Other         | 325   | Mixed: .docx, .dmg, .exe     |
 
 Now let me see what's taking up the most space.
 
@@ -159,11 +159,11 @@ The agent ran several commands. Let's decode them.
 
 #### The Building Blocks
 
-- **`ls`** - **l**i**s**t files in a folder
-- **`find`** - **find** files matching a pattern
-- **`wc`** - **w**ord **c**ount (counts lines, words, or characters)
-- **`du`** - **d**isk **u**sage (measures sizes)
-- **`sort`** - **sort** results in order
+- **`ls`** — **l**i**s**t files in a folder
+- **`find`** — **find** files matching a pattern
+- **`wc`** — **w**ord **c**ount (counts lines, words, or characters)
+- **`du`** — **d**isk **u**sage (measures sizes)
+- **`sort`** — **sort** results in order
 
 #### Anatomy of a Command
 
@@ -195,11 +195,11 @@ Read it left to right: "**Find** in **Downloads**, only **files**, named `*.pdf`
 | `-h` | Human-readable (KB, MB, GB)  | **h**uman    |
 | `-r` | Reverse order                | **r**everse  |
 | `-s` | Summary (totals only)        | **s**ummary  |
-| `-a` | All (including hidden files) | **a**ll      |
+| `-a` | All (including hidden files)  | **a**ll      |
 
 When the agent ran `du -sh`, that's "**d**isk **u**sage, **s**ummary, **h**uman-readable."
 
-When it ran `sort -rh`, that's "**sort**, **r**everse order, **h**uman-readable" - biggest first.
+When it ran `sort -rh`, that's "**sort**, **r**everse order, **h**uman-readable" — biggest first.
 
 #### The Pipe: Chaining Tools Together
 
@@ -213,7 +213,7 @@ find ~/Downloads -name "*.pdf" | wc -l
 
 Small tools, chained together, solving big problems. That's what makes the shell so powerful.
 
-You don't need to memorize these commands. But recognizing them helps you understand what the agent is doing - and verify it's doing the right thing.
+You don't need to memorize these commands. But recognizing them helps you understand what the agent is doing — and verify it's doing the right thing.
 
 ## The Pattern
 
@@ -233,46 +233,37 @@ This is fundamentally different from learning bash commands yourself. You're not
 
 The pattern generalizes. Try these variations:
 
-| Your Problem                     | The Prompt                                                                                                |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Messy Desktop                    | "Help me understand my Desktop. What's here, what's old, what's taking up space?"                         |
-| Mystery disk usage               | "Help me understand where my disk space is going. What folders are largest?"                              |
-| Project scattered across folders | "Help me understand where files related to [project name] are scattered across my computer."              |
-| Duplicate photos                 | "Help me understand if I have duplicate photos. Show me likely duplicates and how much space they waste." |
+| Your Problem                     | The Prompt                                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------------------------- |
+| Messy Desktop                    | "Help me understand my Desktop. What's here, what's old, what's taking up space?"            |
+| Mystery disk usage               | "Help me understand where my disk space is going. What folders are largest?"                  |
+| Project scattered across folders | "Help me understand where files related to [project name] are scattered."                    |
+| Duplicate photos                 | "Help me understand if I have duplicate photos. Show me likely duplicates."                   |
 
 The specifics change. The pattern stays the same.
 
-## Try It Yourself
+## ✅ Checkpoint: Do This Now
 
-Pick one of these and try it right now.
+Stop reading. Open Claude Code and run the survey on YOUR Downloads folder.
 
-**Option 1: Your Desktop**
-
-```
-Help me understand what's on my Desktop. How many files,
-what types, anything old I might have forgotten about?
-```
-
-Watch what commands the agent runs. Notice how it breaks down the problem.
-
-**Option 2: Your Largest Files**
+Use this prompt (modify if needed):
 
 ```
-Help me understand what's taking up the most space on my
-computer. Find my 20 largest files and show me where they are.
+Help me understand what's in my Downloads folder. How many files,
+what types, what's taking up space? Show me the full picture.
 ```
 
-This one might reveal files you forgot existed. Old virtual machines, cached videos, abandoned projects.
-
-**Option 3: A Specific Folder You've Been Avoiding**
+After Claude Code finishes, ask it to save the results:
 
 ```
-Help me understand my [Documents/Projects/whatever] folder.
-I haven't touched it in a while. Show me what's there,
-what's newest, what's oldest, what's biggest.
+Save this analysis as FILE-INVENTORY.md in a new folder called file-organizer/
 ```
 
-Pick the folder you've been meaning to clean up. Let the agent do the reconnaissance.
+You should now have: A `file-organizer/FILE-INVENTORY.md` file with your actual file analysis.
+
+**Don't move to Lesson 2 until you've created this file.** Everything that follows builds on understanding YOUR files, not the example files in this book.
+
+> **What to do if your Downloads folder is empty or tiny:** Pick a different folder — Documents, Desktop, or any folder with at least 20 files. Adjust the prompt accordingly.
 
 ## What You're Learning
 
@@ -284,39 +275,11 @@ The skills you're building:
 - **Observation over memorization.** You watch what the agent does, learning patterns without rote memorization. Experts learn by observing agent behavior.
 - **Prompt patterns over command syntax.** Reusable patterns that work across different problems. The "help me understand" pattern works for files, data analysis, project planning, research, and more.
 
-Here's what effective collaboration looks like. Most people prompt blindly and hope for the best. You're building systematic approaches that work consistently. Every expert who works with General Agents mastered these fundamentals first.
-
 ---
 
-## Common Issues
+## Try With AI
 
-**"The agent says it can't access my folder"**
-
-Check that you're running Claude Code from a directory where it has permission to access your files. On macOS, you may need to grant Terminal access to your folders in System Preferences > Privacy & Security > Files and Folders.
-
-**"The numbers don't look right"**
-
-The agent might be counting differently than you expect. Ask for clarification: "Are you counting files only, or files and folders? Are you including hidden files?"
-
-**"The agent is taking a long time"**
-
-Large folders (10,000+ files) take longer to analyze. The agent will show progress as it works. If it seems stuck, you can ask: "What's your current progress?"
-
-**"I got an error message"**
-
-Copy the error and ask the agent: "I got this error: [paste error]. What does it mean and how should I proceed?" The agent can usually explain and suggest fixes.
-
----
-
-In the next lesson, you'll learn the safety principle: why we back up files before making changes, and how to direct the agent to do that. This pattern applies to code changes, data modifications, system configurations, and any workflow where mistakes have consequences.
-
-But first try one of those prompts. See what's in your folders. Make chaos visible. Notice how the agent approaches the problem.
-
----
-
-## Try With AI: Extended Practice
-
-**Prompt 1: Chain the pattern**
+### Prompt 1: Go Deeper
 
 ```
 I tried the "help me understand" pattern on my Downloads folder.
@@ -325,9 +288,9 @@ I investigate next? Pick the most interesting finding and
 help me understand that in more detail.
 ```
 
-**What you're practicing**: Iterative prompting. One analysis leads to the next question. You're building a habit of drilling down, not stopping at the first answer.
+**What you're practicing:** Iterative prompting. One analysis leads to the next question. You're building a habit of drilling down, not stopping at the first answer.
 
-**Prompt 2: Translate to a new domain**
+### Prompt 2: Translate to a new domain
 
 ```
 The "help me understand [problem], show me [what I need]" pattern
@@ -337,9 +300,9 @@ Help me understand my recent shell history. What commands have I
 run most often? What patterns do you see in how I use my computer?
 ```
 
-**What you're practicing**: Pattern transfer. The same prompt structure works for different problems. You're learning that General Agents respond to well-structured requests regardless of domain.
+**What you're practicing:** Pattern transfer. The same prompt structure works for different problems. You're learning that General Agents respond to well-structured requests regardless of domain.
 
-**Prompt 3: Reflect on the agent's approach**
+### Prompt 3: Reflect on the agent's approach
 
 ```
 I watched you analyze my Downloads folder. You used commands
@@ -350,9 +313,9 @@ did you consider? What would you have done differently if I'd
 asked a slightly different question?
 ```
 
-**What you're practicing**: Understanding agent reasoning. By asking the agent to explain its choices, you learn how it thinks. This makes you better at directing it in the future.
+**What you're practicing:** Understanding agent reasoning. By asking the agent to explain its choices, you learn how it thinks. This makes you better at directing it in the future.
 
-**Prompt 4: The Bash Tutor**
+### Prompt 4: The Bash Tutor
 
 ```
 Break down this command for me piece by piece:
@@ -363,4 +326,4 @@ What does each part do? What do the flags like '-type f', '-exec',
 '-rh', and '-10' mean? Teach me to read this command.
 ```
 
-**What you're practicing**: Just-in-time learning. Instead of memorizing a textbook, you ask the agent to teach you the specific syntax relevant to the problem you just solved. The agent becomes your tutor, explaining commands in context.
+**What you're practicing:** Just-in-time learning. Instead of memorizing a textbook, you ask the agent to teach you the specific syntax relevant to the problem you just solved. The agent becomes your tutor, explaining commands in context.

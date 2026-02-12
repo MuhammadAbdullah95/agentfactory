@@ -78,7 +78,7 @@ Here's what beginners miss about working with General Agents. They think the age
 
 This workflow teaches you something that applies far beyond file organization. When you work with General Agents on data categorization, content moderation, task routing, or any system that needs consistent rules, you'll use the same collaborative design pattern.
 
-You've surveyed 500 files. You've created a backup. Now comes the hard question: where does each file actually go?
+You've surveyed your files. You've created a backup. Now comes the hard question: where does each file actually go?
 
 You could spend an hour creating folders and dragging files one by one. You could make random guesses about categories. Or you could have a conversation with Claude Code that turns your messy Downloads into a categorized system in minutes.
 
@@ -88,12 +88,12 @@ The difference isn't just speed. It's that you'll end up with documented rules y
 
 ## Prerequisites
 
-This lesson builds on Lessons 1-2. You should have:
+This lesson builds on Lessons 1–2. You should have:
 
-- Completed the survey workflow from Lesson 1 (you understand what's in your Downloads folder)
+- Completed the survey workflow from Lesson 1 (you have `FILE-INVENTORY.md` with your actual file data)
 - Created a backup from Lesson 2 (your important files are safely copied)
 
-If you skipped ahead, that's okay - just make sure you have a backup before organizing. The safety-first pattern protects you from mistakes.
+If you skipped ahead, go back and complete the checkpoints. The safety-first pattern protects you from mistakes, and you need real file data for this to be meaningful.
 
 ---
 
@@ -144,10 +144,10 @@ Open Claude Code and start the collaboration:
 
 > Created rules.md with the categorization logic and edge case handling.
 >
-> Now testing with a single file. Moving budget-2024.pdf to documents/...
+> Now testing with a single file. Moving budget-2026.pdf to documents/...
 >
 > ```
-> Moved: budget-2024.pdf → organized/documents/
+> Moved: budget-2026.pdf → organized/documents/
 > Verified: File exists in destination
 > Verified: File no longer in source
 > ```
@@ -176,6 +176,75 @@ Open Claude Code and start the collaboration:
 >
 > Would you like me to show you any category in detail, or are we done?
 
+Here's what happened to your folder structure:
+
+```
+BEFORE:
+Downloads/
+├── report.pdf
+├── photo.jpg
+├── budget.xlsx
+├── script.py
+└── mystery-file.bin
+
+AFTER:
+Downloads/
+└── organized/
+    ├── documents/
+    │   └── report.pdf
+    ├── images/
+    │   └── photo.jpg
+    ├── spreadsheets/
+    │   └── budget.xlsx
+    ├── code/
+    │   └── script.py
+    └── misc/
+        └── mystery-file.bin
+```
+
+The transformation is visual. Flat chaos became categorized structure.
+
+---
+
+## When the Agent Miscategorizes
+
+Here's something the textbook version of this conversation doesn't show you. Sometimes the agent gets it wrong.
+
+### Scenario: Wrong Category
+
+After the batch operation, you browse the organized folders and notice something off:
+
+```
+You: Wait — I see my-resume.docx landed in documents/, but
+project-proposal.docx ended up in misc/. Why?
+```
+
+```
+Claude Code: Let me check. The file was named "Copy of project-proposal (1).docx"
+— the "(1)" in the filename confused the extension matching.
+The pattern was looking for files ending in ".docx" but this one
+had a space before the extension in the path.
+
+Let me fix this:
+[Runs: mv organized/misc/"Copy of project-proposal (1).docx" organized/documents/]
+
+Done. I've also updated rules.md to handle filenames with spaces
+and copy indicators like "(1)" and "(2)".
+```
+
+Why this matters: Extension-based categorization is imperfect. Files with unusual names, no extensions, multiple dots (like `report.backup.pdf`), or copy indicators break simple rules. When you review the output and catch these errors, you improve the rules for next time.
+
+### Scenario: The Agent Suggests a Category You Didn't Think Of
+
+```
+Claude Code: I notice 43 of your "misc" files are .dmg and .exe installers.
+These are application installers that you probably don't need anymore
+once the apps are installed. Would you like a separate "installers"
+category? That would let you easily delete them to free up space.
+```
+
+The agent spotted a pattern you missed. This is the collaboration at work — neither you nor the agent alone would reach the best result.
+
 ---
 
 ## What Just Happened?
@@ -194,20 +263,20 @@ Look at what emerged from that conversation:
 
 The agent used these commands:
 
-- **`mkdir`** - **m**a**k**e **dir**ectory - creates category folders (documents/, images/, etc.)
-- **`mv`** - **m**o**v**e - relocates files from Downloads to organized folders
-- **`cat`** - con**cat**enate (display) - shows you what's in rules.md
-- **`ls`** - **l**i**s**t - verifies files landed in the right place
+- **`mkdir`** — **m**a**k**e **dir**ectory — creates category folders (documents/, images/, etc.)
+- **`mv`** — **m**o**v**e — relocates files from Downloads to organized folders
+- **`cat`** — con**cat**enate (display) — shows you what's in rules.md
+- **`ls`** — **l**i**s**t — verifies files landed in the right place
 
 When the agent tested on one file first:
 
 ```bash
-mv budget-2024.pdf organized/documents/    # Move the file
-ls organized/documents/budget-2024.pdf     # Verify it arrived
-ls ~/Downloads/budget-2024.pdf             # Verify it's gone from source
+mv budget-2026.pdf organized/documents/    # Move the file
+ls organized/documents/budget-2026.pdf     # Verify it arrived
+ls ~/Downloads/budget-2026.pdf             # Verify it's gone from source
 ```
 
-The single-file test uses the same `mv` command as the batch operation—just on one file. If something's wrong, you catch it early.
+The single-file test uses the same `mv` command as the batch operation — just on one file. If something's wrong, you catch it early.
 
 ---
 
@@ -241,7 +310,7 @@ This pattern works for any organization task. The specific categories change. Ma
 Check what Claude Code created:
 
 ```bash
-ls -la
+ls -la file-organizer/
 ```
 
 **Output:**
@@ -278,7 +347,6 @@ cat rules.md
 # File Organization Rules
 
 ## Categories
-
 | Extension                     | Destination   |
 | ----------------------------- | ------------- |
 | .pdf, .doc, .docx, .txt       | documents/    |
@@ -288,15 +356,14 @@ cat rules.md
 | everything else               | misc/         |
 
 ## Edge Cases
-
 - Unknown extension → misc/
 - No extension → misc/
 - Hidden files (starting with .) → skip
 - Duplicate filename → append timestamp
+- Filenames with spaces, parentheses, copy indicators → normalize before matching
 
 ## History
-
-- Created: 2025-01-27
+- Created: 2026-02-12
 - Based on: FILE-INVENTORY.md analysis
 - Customization: Spreadsheets separated from documents
 ```
@@ -305,51 +372,45 @@ Your organization logic is now permanent. The next time your Downloads fills up,
 
 ---
 
-## Why This Works Better Than Solo Organizing
+## ✅ Checkpoint: Do This Now
 
-| Solo Approach                  | Collaborative Approach                 |
-| ------------------------------ | -------------------------------------- |
-| Make up categories as you go   | AI analyzes actual file types first    |
-| Forget your logic next month   | Rules persisted in rules.md            |
-| Move files one by one manually | Batch execution after single-file test |
-| No record of what happened     | ORGANIZER-LOG.md tracks everything     |
-| Mistakes affect all files      | Test catches problems before scale     |
+Stop reading. Open Claude Code and organize your folder using the collaborative pattern.
 
-The collaboration doesn't replace your judgment. It amplifies it. You decided spreadsheets needed their own category. The AI executed that decision across 486 files in seconds.
+Use this prompt:
+
+```
+Help me organize my [Downloads/Documents/Desktop] folder. Analyze what's
+there and suggest categories based on MY actual files. Let me refine the
+rules before we proceed. Document final rules in file-organizer/rules.md.
+Test on ONE file first, then do the rest.
+```
+
+You should now have:
+
+- `file-organizer/rules.md` with your categorization rules
+- `file-organizer/organized/` with categorized subfolders
+- Updated `file-organizer/ORGANIZER-LOG.md`
+
+Review the organized folders. Did every file land in the right place? If not, tell the agent what went wrong and let it fix the rules.
 
 ---
 
-## Try It Yourself
+## 🔄 Session Management Note
 
-**Reorganize your Desktop:**
+You've now completed three lessons worth of work. If your Claude Code context is getting long, this is a natural point to start a fresh session.
 
-Open Claude Code and try:
+**Why:** Remember the "Kitchen Sink Session" failure pattern from Chapter 6? Three lessons of exploration, backup, and organization creates a lot of context. Your rules and inventory are saved in files, so a fresh session can pick them up.
 
-```
-Help me organize my Desktop folder. Analyze what's there and suggest categories based on MY actual files, not generic categories.
-```
-
-Watch how the AI proposes categories specific to your content. A designer's Desktop will get different suggestions than a developer's.
-
-**Create project-specific categories:**
+**How to reset cleanly:**
 
 ```
-I have a folder with project files mixed together. Help me categorize by project name (files often start with the project name like "acme-report.pdf" or "beta-design.png").
+Commit our work so far with a message like "Complete file survey,
+backup, and organization — Lessons 1-3"
 ```
 
-This shows how the same workflow adapts to different categorization logic. By extension, by name prefix, by date, or any pattern you define.
+Then start a new session for Lesson 4. Your `rules.md`, `FILE-INVENTORY.md`, and `ORGANIZER-LOG.md` carry your context forward in files — exactly as Principle 5 (Persisting State in Files) prescribes.
 
----
-
-## What You Built
-
-| Item                       | Location             | Purpose                              |
-| -------------------------- | -------------------- | ------------------------------------ |
-| `rules.md`                 | In `file-organizer/` | Reusable categorization logic        |
-| `organized/`               | In `file-organizer/` | Five category directories with files |
-| Updated `ORGANIZER-LOG.md` | In `file-organizer/` | Complete activity history            |
-
-The rules are documented. The files are organized. The log shows what happened. In the next lesson, you'll transform these rules into an executable script that automates the entire process.
+If your session still feels responsive, keep going. This is guidance, not a rule.
 
 ---
 
@@ -358,23 +419,28 @@ The rules are documented. The files are organized. The log shows what happened. 
 **Custom Category Design:**
 
 ```
-My Downloads has a lot of archive files (.zip, .tar.gz, .7z). Should these be their own category, or go in misc? What are the trade-offs?
+My Downloads has a lot of archive files (.zip, .tar.gz, .7z).
+Should these be their own category, or go in misc?
+What are the trade-offs?
 ```
 
-**What you're learning**: Decision frameworks. AI presents options with reasoning, you decide based on how often you need to access archives.
+**What you're learning:** Decision frameworks. AI presents options with reasoning, you decide based on how often you need to access archives.
 
 **Edge Case Discovery:**
 
 ```
-What edge cases might break simple extension-based categorization? Show me examples of files that could cause problems.
+What edge cases might break simple extension-based categorization?
+Show me examples of files that could cause problems.
 ```
 
-**What you're learning**: Defensive design. AI reveals tricky scenarios like `file.backup.pdf` (multiple dots), `README` (no extension), or `data.CSV` (case sensitivity).
+**What you're learning:** Defensive design. AI reveals tricky scenarios like `file.backup.pdf` (multiple dots), `README` (no extension), or `data.CSV` (case sensitivity).
 
 **Rule Refinement:**
 
 ```
-My rules.md categorizes by extension, but I have files from specific projects that should stay together regardless of type. How can I add project-based rules that take priority over extension rules?
+My rules.md categorizes by extension, but I have files from specific
+projects that should stay together regardless of type. How can I add
+project-based rules that take priority over extension rules?
 ```
 
-**What you're learning**: Rule precedence. AI explains how to layer rules (check project name first, then fall back to extension), preparing you for more sophisticated automation.
+**What you're learning:** Rule precedence. AI explains how to layer rules (check project name first, then fall back to extension), preparing you for more sophisticated automation.

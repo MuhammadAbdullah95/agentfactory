@@ -100,13 +100,13 @@ Let me first see what we're working with.
 
 I found 87 screenshots. Before I rename anything, here's what I'll do:
 
-| Current Name                              | New Name         |
-|-------------------------------------------|------------------|
+| Current Name                              | New Name           |
+|-------------------------------------------|--------------------|
 | Screenshot 2024-01-15 at 10.23.45.png     | screenshot-001.png |
 | Screenshot 2024-01-15 at 14.30.22.png     | screenshot-002.png |
 | Screenshot 2024-02-03 at 09.15.11.png     | screenshot-003.png |
 | Screenshot 2024-02-14 at 16.42.08.png     | screenshot-004.png |
-| ... (83 more files)                       | ...              |
+| ... (83 more files)                       | ...                |
 
 The files will be numbered in chronological order based on
 their creation date.
@@ -126,13 +126,13 @@ so I can see when each screenshot was taken.
 Claude Code: Good thinking. Keeping the date makes files easier to find later.
 Here's the updated plan:
 
-| Current Name                              | New Name                     |
-|-------------------------------------------|------------------------------|
+| Current Name                              | New Name                      |
+|-------------------------------------------|-------------------------------|
 | Screenshot 2024-01-15 at 10.23.45.png     | screenshot-2024-01-15-001.png |
 | Screenshot 2024-01-15 at 14.30.22.png     | screenshot-2024-01-15-002.png |
 | Screenshot 2024-02-03 at 09.15.11.png     | screenshot-2024-02-03-001.png |
 | Screenshot 2024-02-14 at 16.42.08.png     | screenshot-2024-02-14-001.png |
-| ... (83 more files)                       | ...                          |
+| ... (83 more files)                       | ...                           |
 
 Notice that files from the same day get sequential numbers within
 that day (001, 002, etc.).
@@ -150,7 +150,8 @@ You: Yes, do it.
 ```
 
 ```
-Claude Code: [Runs: mkdir -p ~/Screenshots/renamed]
+Claude Code:
+[Runs: mkdir -p ~/Screenshots/renamed]
 [Runs: # Rename loop with logging...]
 
 Done. Here's what happened:
@@ -176,6 +177,56 @@ To rename future screenshots, run:
 
 ---
 
+## When Batch Operations Go Sideways
+
+The smooth version above is what happens when everything works. Here's what happens when it doesn't.
+
+### Scenario: Naming Collision
+
+You run the script and the agent reports:
+
+```
+Claude Code: Warning: Two files would both become
+"screenshot-2024-03-15-001.png" because they were
+created within the same second.
+
+Conflicting files:
+  Screenshot 2024-03-15 at 09.00.00.png (from Downloads)
+  Screenshot 2024-03-15 at 09.00.00.png (from Desktop)
+
+Options:
+1. Add time to the name: screenshot-2024-03-15-0900-001.png
+2. Add a suffix: screenshot-2024-03-15-001a.png and 001b.png
+3. Skip the conflict and let me handle it manually
+
+Which approach?
+```
+
+Why this matters: Batch operations that assume unique names will silently overwrite files. Good agents detect conflicts before they cause data loss. When you see this pattern, it means the agent is applying Principle 6 (Constraints and Safety).
+
+### Scenario: Partial Failure
+
+The script processes 80 of 87 files, then:
+
+```
+Claude Code: Error on file 81: "Screenshot 2024-04-01 at ?.??.??.png"
+The filename contains question marks that can't be parsed.
+
+Progress: 80 of 87 renamed successfully.
+Failed: 7 files with non-standard characters in filenames.
+
+The 80 successful renames are in ~/Screenshots/renamed/.
+The 7 failed files are still in the original location.
+
+Want me to show you the failed files so we can handle them individually?
+```
+
+What you should do: Don't panic. The agent left failed files untouched (the originals are safe). Handle the exceptions individually. Then update the script to handle unusual characters in future runs.
+
+This is why the preview step matters. If you'd caught the question-mark filenames in the preview, you could have handled them before the batch run.
+
+---
+
 ## What Just Happened?
 
 Did you notice what the agent produced? Not just renamed files, but a _script_. The agent didn't just solve your problem once. It created code you can run again. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently. The agent turned a one-time task into permanent automation.
@@ -190,9 +241,9 @@ This is different from running commands yourself. You didn't have to know bash s
 
 The agent introduced new commands:
 
-- **`head -10`** - show the **first 10** lines - previews a sample before processing all
-- **`mkdir -p`** - make directory with **-p**arents - creates entire folder paths at once
-- **`./script.sh`** - run a shell script - executes reusable automation you can keep
+- **`head -10`** — show the **first 10** lines — previews a sample before processing all
+- **`mkdir -p`** — make directory with **-p**arents — creates entire folder paths at once
+- **`./script.sh`** — run a shell script — executes reusable automation you can keep
 
 The `-p` flag in `mkdir -p` is worth understanding:
 
@@ -290,7 +341,7 @@ Pick a batch operation from your own files.
 
 ```
 I have files named randomly in my Documents folder. Help me rename them
-to include today's date as a prefix, like '2025-01-27-filename.pdf'.
+to include today's date as a prefix, like '2026-02-12-filename.pdf'.
 Show me the plan before doing anything.
 ```
 
@@ -348,7 +399,7 @@ By now in this chapter, you've learned:
 
 Each pattern builds on the last. You understand your files. You protect them with backups. You document your rules. Now you transform repetitive tasks into reusable automation.
 
-In the next lesson, you'll run your organizer script on real files and verify the results.
+In the next lesson, you'll deliberately make a mistake — and practice recovering from it.
 
 ---
 
@@ -365,7 +416,7 @@ I want to rename my screenshots but the pattern is more complex:
 Can you handle this multi-step organization?
 ```
 
-**What you're practicing**: Compound requests. You're asking the agent to both reorganize (create folders) and rename (change filenames). Watch how it breaks down the complex task.
+**What you're practicing:** Compound requests. You're asking the agent to both reorganize (create folders) and rename (change filenames). Watch how it breaks down the complex task.
 
 **Prompt 2: Dry Run Mode**
 
@@ -375,7 +426,7 @@ but don't actually run them yet. Show me the bash commands you'd execute
 so I can understand what's happening.
 ```
 
-**What you're practicing**: Understanding the mechanics. By asking to see the commands without execution, you learn what's happening "under the hood" while staying in control.
+**What you're practicing:** Understanding the mechanics. By asking to see the commands without execution, you learn what's happening "under the hood" while staying in control.
 
 **Prompt 3: Error Handling**
 
@@ -385,4 +436,4 @@ if I have two screenshots from the same second on the same day?
 How would your script handle that conflict?
 ```
 
-**What you're practicing**: Edge case thinking. Good automation handles unusual situations gracefully. You're learning to anticipate problems before they occur.
+**What you're practicing:** Edge case thinking. Good automation handles unusual situations gracefully. You're learning to anticipate problems before they occur.
