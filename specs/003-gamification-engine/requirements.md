@@ -1,8 +1,9 @@
 # 003 — Gamification Engine: Business Requirements
 
-> **Status**: Draft — Defining business requirements
+> **Status**: Spec Complete — OQs resolved, lesson completion added, ready for implementation planning
 > **Origin**: Strategic prioritization session (Feb 2026)
 > **Key Insight**: The 6 interactive teaching modes are the _data generators_. Gamification is the _data surfacer_. They are one system.
+> **Design Session**: Issue #708 discussion — schema, API design, chapter identification, scalability decisions
 
 ---
 
@@ -14,8 +15,6 @@ Agent Factory has a **complete teaching platform** — SSO, content, AI tutoring
 
 ## 2. The Unified Engine Model
 
-The user's framing — and the core architectural insight:
-
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    LEARNER SURFACE                       │
@@ -24,8 +23,8 @@ The user's framing — and the core architectural insight:
                            │ surfaces
 ┌──────────────────────────▼──────────────────────────────┐
 │                  PROGRESS STORE                          │
-│   quiz_attempts │ user_progress │ user_badges            │
-│   study_sessions │ mastery_signals │ streaks              │
+│   quiz_attempts │ lesson_completions │ user_progress     │
+│   user_badges │ activity_days │ streaks                  │
 └──────────────────────────┬──────────────────────────────┘
                            │ aggregates
 ┌──────────────────────────▼──────────────────────────────┐
@@ -34,10 +33,10 @@ The user's framing — and the core architectural insight:
 │  LIVE TODAY:          FUTURE MODES:                       │
 │  ├── Teach Mode       ├── Socratic Mode (pilot 3-6mo)   │
 │  ├── Ask Mode         ├── Coach Mode                     │
-│  └── Quiz Mode        ├── Mentor Mode                    │
-│                       ├── Simulator Mode                 │
-│                       └── Manager Mode                   │
-│                                                          │
+│  ├── Quiz Mode        ├── Mentor Mode                    │
+│  │   (static MCQ)     ├── Simulator Mode                 │
+│  │                    └── Manager Mode                   │
+│  │                                                       │
 │  Each mode produces mastery signals:                     │
 │  conversations, scores, highlights, completions          │
 └─────────────────────────────────────────────────────────┘
@@ -54,34 +53,26 @@ It's: **every mode that comes online automatically feeds the engagement surface.
 
 | Component                   | Status      | Data Produced                                                | Persisted?                   |
 | --------------------------- | ----------- | ------------------------------------------------------------ | ---------------------------- |
+| **Quiz UI** (static MCQ)    | Live        | Score %, per-question results, explanations                  | **No** (React state only)    |
 | **Teach Mode** (GPT-5-nano) | Live        | Conversation threads, message count, timestamps, lesson path | Yes (PostgreSQL via ChatKit) |
 | **Ask Mode** (DeepSeek)     | Live        | Highlighted text, question type, lesson context              | Yes (PostgreSQL via ChatKit) |
-| **Quiz UI**                 | Live        | Score %, per-question results, explanations                  | **No** (React state only)    |
 | **Personalization**         | Live (3/mo) | Generated content, interest tag, grade level                 | Yes (R2 + DB)                |
 | **Token Metering**          | Live        | Token usage per request, model, cost                         | Yes (token-metering-api)     |
 | **GA4 Analytics**           | Live        | Scroll depth, time on page, quiz events                      | Yes (Google Analytics)       |
 | **Reading Progress**        | Live        | Scroll % indicator                                           | **No** (visual only)         |
 
+### Assessment Inventory
+
+| Assessment Type                          | Count                            | Format                            | Interactive?       | Trackable?                |
+| ---------------------------------------- | -------------------------------- | --------------------------------- | ------------------ | ------------------------- |
+| Chapter-end quizzes (`<Quiz>` component) | ~40 quizzes, **1,513 questions** | Static MCQ in MDX, 4 options each | Yes                | **No** (React state only) |
+| `assessment_quick_check` in frontmatter  | Throughout lessons               | Teacher-facing prompts            | No — teacher notes | N/A                       |
+
+**Key finding**: The `<Quiz>` component (`Quiz.tsx`) is entirely client-side. Zero API calls. Score calculated via `calculateScore()`, stored in `useState`, lost on page refresh. The component supports `questionsPerBatch` (default 15) — chapters with 50 questions show a random 15 per attempt.
+
 ### What Was Built Then Removed (PR #680 history)
 
-The learn-app branch previously contained full gamification UI:
-
-- `ProgressContext.tsx`, `ProgressDashboard.tsx`, `XPCounter.tsx`
-- `BadgeCard.tsx`, `BadgeUnlockModal.tsx`, `Leaderboard.tsx`
-- `progress-api.ts`, `progress-types.ts`
-- Pages: `/progress`, `/leaderboard`
-
-**All removed from current branch.** The TypeScript types and design documents remain in PR #680.
-
-### What's Designed But Not Built
-
-| Component                         | Source               | Readiness            |
-| --------------------------------- | -------------------- | -------------------- |
-| XP formula (diminishing returns)  | PR #680 PRD          | Ready to implement   |
-| 14 badge definitions              | PR #680 types        | Ready to implement   |
-| Content-addressed progress schema | PR #680 decision doc | Ready, needs review  |
-| Progress API endpoints (5)        | PR #680 PRD          | Spec'd, not coded    |
-| Backend service (`progress-api`)  | PR #680 PRD          | Architecture defined |
+PR #680 (`feat/user-progress`) contained frontend gamification UI with mock data. **All removed from current branch.** TypeScript types and design documents remain in PR #680 for reference. See Appendix A for full assessment.
 
 ---
 
@@ -96,11 +87,11 @@ The learn-app branch previously contained full gamification UI:
 **Acceptance Criteria**:
 
 - Quiz score survives page refresh
-- Score includes: user_id, chapter_id, score_percentage, attempt_number, timestamp
-- Multiple attempts tracked with diminishing XP returns (PR #680 formula)
+- Score includes: user_id, chapter_slug, score_percentage, questions_correct, questions_total, attempt_number, duration_seconds, timestamp
+- Multiple attempts tracked with diminishing XP returns
 - Best score per chapter is queryable
 
-**Data Source**: Quiz component (`Quiz.tsx`) already calculates scores — needs API call on submit.
+**Data Source**: `Quiz.tsx` already calculates scores — needs a single `onComplete` callback prop that fires `POST /api/v1/quiz/submit`.
 
 ---
 
@@ -120,6 +111,8 @@ Attempt 4+: XP = improvement × 0.10
 No improvement = 0 XP
 ```
 
+**Note**: Quiz.tsx shows a random subset of questions per attempt (`questionsPerBatch`). Two attempts may test different questions. This is acceptable — score percentage is the mastery signal, not which specific questions were answered.
+
 **Acceptance Criteria**:
 
 - 100 XP base per quiz, scaled by percentage
@@ -134,21 +127,23 @@ No improvement = 0 XP
 
 **Rationale**: Streaks are the highest-ROI gamification mechanic. Duolingo's entire retention model is built on streaks.
 
-**What Counts as Activity** (must define):
+**RESOLVED — Active Day Definition (graduated by phase)**:
 
-- Completing a quiz (any score)
-- Completing a Teach mode session (minimum N turns?)
-- Using Ask mode on a lesson?
-- Reading a lesson to 100% scroll depth?
+| Phase         | What Counts as "Active Day"                                             |
+| ------------- | ----------------------------------------------------------------------- |
+| Phase 1 (MVP) | Quiz completion **OR** lesson marked as complete                        |
+| Phase 2       | Above **OR** Teach session >= 5 turns **OR** Ask mode usage on a lesson |
 
-**Open Question**: What's the minimum bar for "active day"? Too low = meaningless. Too high = punishing.
+**Design**: The `activity_days` table stores the _reason_ for each activity from day one. When Phase 2 adds Teach/Ask, the streak logic doesn't change — only the event producers expand.
+
+**RESOLVED — Personalization does NOT count** (OQ-6): Rate-limited to 3/month, not a learning activity, creates perverse incentives. Excluded from streaks and XP entirely.
 
 **Acceptance Criteria**:
 
 - Current streak (consecutive days) tracked
 - Longest streak (all-time) tracked
 - Streak badges at 3, 7, 30 days
-- Grace period? (e.g., miss one day, streak preserved if resumed next day)
+- Grace period: 1 streak freeze per week (Duolingo pattern, Phase 2)
 
 ---
 
@@ -158,7 +153,9 @@ No improvement = 0 XP
 
 **Rationale**: Badges mark mastery moments. They're the "yearbook" of a learner's journey. They provide collection motivation beyond XP.
 
-**14 Badges Defined** (from PR #680):
+**RESOLVED — 3 Tiers** (OQ-9): Bronze/Silver/Gold. Proven by GitHub and Google. Clean, doesn't overwhelm. 4th tier can be added later if engagement data warrants it.
+
+**14 Base Badges (Phase 1)**:
 
 | Category        | Badges                           | Trigger                    |
 | --------------- | -------------------------------- | -------------------------- |
@@ -170,18 +167,22 @@ No improvement = 0 XP
 | Capstone        | Agent Factory Graduate           | All quizzes in entire book |
 | Ranking         | Elite                            | Top 100 on leaderboard     |
 
+**Tiered Expansions (Phase 2+)**:
+
+| Badge                  | Bronze         | Silver            | Gold                |
+| ---------------------- | -------------- | ----------------- | ------------------- |
+| On Fire (streak)       | 3 days         | 7 days            | 30 days             |
+| Perfect Score          | 1 perfect quiz | 5 perfect quizzes | All quizzes perfect |
+| Deep Diver (Ask mode)  | 10 lessons     | 50 lessons        | All lessons         |
+| Study Bug (Teach mode) | 10 sessions    | 50 sessions       | 100 sessions        |
+
 **Acceptance Criteria**:
 
-- Badges awarded atomically with quiz submission (returned in response)
-- Badge unlock notification shown to user
-- Badge gallery viewable on profile/dashboard
+- Badges evaluated synchronously in the quiz submit transaction (Phase 1 has ~8 applicable badges — simple condition checks, no performance concern)
+- Badge unlock notification returned in submit response
+- Badge gallery viewable on dashboard
 - Badges never revoked
-
-**Future Extension**: As new modes come online, new badge categories emerge:
-
-- "Socratic Scholar" — complete 10 Socratic sessions
-- "Quick Learner" — master a concept in <5 Teach turns
-- "Deep Diver" — use Ask mode 50+ times across lessons
+- `user_badges` composite PK prevents double-awarding (UPSERT idempotent)
 
 ---
 
@@ -196,13 +197,12 @@ No improvement = 0 XP
 1. **Stat Cards**: Total XP, Global Rank, Current Streak, Perfect Scores
 2. **Chapter Progress**: Per-chapter best score, XP earned, attempt count, visual progress bar
 3. **Badge Gallery**: Earned badges with dates, locked badges shown as targets
-4. **Activity History**: Recent quiz completions, study sessions
+4. **Activity History**: Recent quiz completions (Phase 2: study sessions)
 
 **Acceptance Criteria**:
 
-- Page loads in <2s (denormalized summary table)
-- Shows progress against ACTIVE curriculum (soft-deleted chapters excluded from %)
-- XP animation when dashboard loads after earning new XP
+- Page loads in <2s — reads from pre-computed `user_progress` summary table (single row lookup)
+- Shows progress against ACTIVE curriculum (archived chapters excluded from %)
 - Mobile responsive
 
 ---
@@ -211,20 +211,28 @@ No improvement = 0 XP
 
 **Requirement**: Global leaderboard ranking learners by total XP.
 
-**Rationale**: Social comparison drives engagement. Seeing yourself climb motivates continued effort. Creates community around the book.
+**RESOLVED — Scope** (OQ-4): Global for now. At 50k users, still a single materialized view. Schema supports future scope column (cohort, org) but Phase 1 only implements global.
 
 **Design**:
 
 - Top 100 displayed
 - Current user's rank always shown (even if not in top 100)
-- Display: rank, name, avatar, XP, badge count
+- Display: rank, display_name, avatar, XP, badge count
 - Top 3 get special styling
+
+**RESOLVED — Privacy** (OQ-5):
+
+- Opt-out flag (`show_on_leaderboard: boolean`, default true)
+- Opted-out users show as "Anonymous Learner" or excluded
+- Progress data exportable via `GET /api/v1/progress/me/export` (GDPR Article 20)
+- Account deletion cascades to all progress data
+- No PII in progress-api beyond user_id — display names stored locally from JWT claims
 
 **Acceptance Criteria**:
 
-- Leaderboard updates within 1 hour of quiz submission (materialized view)
-- Privacy: users can opt out of leaderboard (display "Anonymous Learner")
-- No personal information leaked (just display name + avatar)
+- Materialized view refreshed every 5-15 minutes (not real-time)
+- Cached in Redis/memory — 50k concurrent readers, one payload
+- User can opt out of leaderboard display
 
 ---
 
@@ -234,596 +242,728 @@ No improvement = 0 XP
 
 **Rationale**: The book is actively evolving. Chapters get added, restructured, archived. Earned progress must never be lost.
 
-**Design Principles** (from PR #680 decision doc):
+**RESOLVED — Chapter Identification via Docusaurus URL Slugs**:
 
-1. **Separate content catalog from progress** — Parts/chapters table vs. user_progress table
-2. **Soft deletes only** — `archived_at` timestamp, never hard delete
-3. **Completion % against active chapters** — Archived chapters don't count toward "% complete"
+Docusaurus's `numberPrefixParser` (default, no custom config) strips numeric prefixes from directory/file names:
+
+```
+Filesystem:                                    URL slug:
+01-General-Agents-Foundations/                 → General-Agents-Foundations/
+  01-agent-factory-paradigm/                   →   agent-factory-paradigm/
+    11-chapter-quiz.md                         →     chapter-quiz
+```
+
+The URL slug is the stable identifier:
+
+- **Reorder chapter** (01 → 03): URL stays `agent-factory-paradigm`. Nothing breaks.
+- **Move to different part**: URL changes — but this also breaks all bookmarks, SEO, external links. It's a major content migration that already requires Docusaurus redirects.
+- **Rename directory**: Conceptually a different chapter. Also breaks all URLs — requires redirects anyway.
+
+**The URL slug is as stable as the URL itself. URLs are the one thing people are already disciplined about keeping stable.**
+
+**Implementation**:
+
+1. Frontend extracts chapter path from `window.location.pathname`:
+   `/docs/General-Agents-Foundations/agent-factory-paradigm/chapter-quiz` → `General-Agents-Foundations/agent-factory-paradigm`
+2. Sends to progress-api as the chapter identifier
+3. Backend's `chapter_aliases` table maps slug → internal `chapter_id` (database-owned, auto-generated)
+4. If a URL ever changes (rare, requires redirects anyway), add a new alias pointing to the same internal ID
+
+**No UUIDs in frontmatter. No MDX file changes. No fragile human-maintained contracts. The database owns identity.**
+
+**Design Principles**:
+
+1. **Separate content identity from progress** — `chapters` + `chapter_aliases` tables vs. `quiz_attempts`/`user_progress`
+2. **Soft deletes only** — `is_active = FALSE`, never hard delete
+3. **Completion % against active chapters** — Archived chapters don't count toward progress
 4. **XP is immutable** — Once earned, XP persists even if source chapter is archived
-5. **UUID references** — Progress links to chapter UUID, not slug (survives renames)
+5. **Database owns identity** — Internal chapter IDs are auto-generated, immutable. Slugs are mutable lookup keys.
 
 **Acceptance Criteria**:
 
-- Adding a chapter: new chapter appears at 0%, total possible increases
-- Removing a chapter: soft delete, earned XP preserved, completion % recalculated
-- Moving a chapter: progress follows (linked by UUID)
+- Adding a chapter: new alias auto-created on first quiz submission, completion % recalculated
+- Archiving a chapter: `is_active = FALSE`, earned XP preserved
+- Renaming a chapter: add new alias pointing to same internal ID
+- Moving a chapter between parts: update alias, progress follows
 
 ---
 
-### BR-8: Study Session Tracking (Engine Foundation)
+### BR-8: Lesson Completion Tracking
+
+**Requirement**: Students can mark individual lessons as complete. Active reading time is recorded.
+
+**Rationale**: Without lesson-level progress, students only know they "did the quiz" — not which lessons they actually read. This is the missing signal between "opened the book" and "passed the quiz." It also makes the progress dashboard useful for lesson-level navigation ("where did I leave off?").
+
+**Design**: A "Mark as Complete" button at the bottom of each lesson page. When clicked, the frontend sends the lesson slug and the active reading time (tab-focused seconds only).
+
+**Active Time Tracking**:
+
+```
+Page loads → start 1-second interval timer
+Tab hidden (visibilitychange) → pause timer
+Tab visible → resume timer
+"Mark as Complete" clicked → POST with accumulated active_duration_secs
+```
+
+Only active time (tab focused) is tracked. If a student opens a lesson, checks email for 20 minutes, comes back and finishes, only the actual reading time is recorded.
+
+**What this enables** (without building anything extra now):
+
+- Average reading time per lesson → identify lessons that are too long/dense
+- Students who "completed" in 5 seconds → low-quality completion (future: minimum threshold)
+- Per-student reading speed → future adaptive difficulty input
+- Sidebar progress indicators (Phase 2) — now have data to drive them
+
+**Acceptance Criteria**:
+
+- Lesson marked complete survives page refresh (persisted to backend)
+- Active duration recorded in seconds (tab-visible time only)
+- Completion is idempotent — marking complete twice doesn't create duplicates
+- `GET /progress/me` includes `lessons_completed` array
+- Completion counts as an active day for streak tracking
+
+---
+
+### BR-9: Study Session Tracking (Engine Foundation)
 
 **Requirement**: Track learning sessions across ALL interactive modes, not just quizzes.
 
 **Rationale**: This is the **engine requirement** — what makes gamification a unified system rather than just "quiz scores + badges." Every mode produces mastery evidence. The system must capture it.
 
+**MVP Scope**: Quiz persistence + lesson completion are the MVP. Teach/Ask session tracking is Phase 2. But the schema and API must be designed to accommodate all modes from day one.
+
 **Session Signals by Mode**:
 
-| Mode      | Signal                         | Mastery Evidence                              |
-| --------- | ------------------------------ | --------------------------------------------- |
-| **Teach** | Thread completion (N turns)    | Engaged with material, correctness trajectory |
-| **Teach** | Restatement quality            | Deep comprehension (student explains back)    |
-| **Ask**   | Highlight frequency per lesson | Comprehension gaps identified                 |
-| **Ask**   | Question type distribution     | Surface vs. deep understanding                |
-| **Quiz**  | Score + attempt count          | Direct mastery measurement                    |
-| **Quiz**  | Per-question performance       | Concept-level strengths/weaknesses            |
-
-**MVP Scope**: Quiz persistence is the MVP. Teach/Ask session tracking is Phase 2. But the schema and API must be designed to accommodate all modes from day one.
+| Mode       | Signal                         | Mastery Evidence                              | Phase |
+| ---------- | ------------------------------ | --------------------------------------------- | ----- |
+| **Quiz**   | Score + attempt count          | Direct mastery measurement                    | 1     |
+| **Lesson** | Mark complete + active time    | Engaged with reading material                 | 1     |
+| **Teach**  | Thread completion (N turns)    | Engaged with material, correctness trajectory | 2     |
+| **Teach**  | Restatement quality            | Deep comprehension (student explains back)    | 3     |
+| **Ask**    | Highlight frequency per lesson | Comprehension gaps identified                 | 2     |
+| **Ask**    | Question type distribution     | Surface vs. deep understanding                | 2     |
 
 **Acceptance Criteria**:
 
-- `study_sessions` table captures: user_id, lesson_path, mode (teach/ask/quiz), started_at, completed_at, metadata (JSONB)
-- Quiz submissions are a specific type of study session
-- Teach mode threads can be linked to study sessions (thread_id reference)
+- `activity_days` table captures activity type and reference from Phase 1
+- Phase 2 adds `study_sessions` table: user_id, lesson_path, mode (teach/ask/quiz), started_at, completed_at, metadata (JSONB)
+- Quiz submissions and lesson completions link to activity_days immediately
+- Teach mode threads can be linked to study sessions (thread_id reference) in Phase 2
 - Schema extensible for future modes without migration
 
 ---
 
-## 5. Mode-to-Gamification Signal Map
+## 5. Resolved Design Decisions
 
-This is the **engine specification** — how each interactive mode feeds the gamification surface.
+All original Open Questions (OQ-1 through OQ-9) have been resolved through the design session.
 
-### Phase 1: Quiz-Only (MVP)
+### RD-1: New Service (was OQ-1)
 
-```
-Quiz Score → XP Calculation → User Progress → Dashboard
-                            → Badge Check → Badge Award
-                            → Streak Update → Streak Badge Check
-                            → Leaderboard Update
-```
+**Decision**: New `progress-api` service (FastAPI).
 
-**Data flow**: `Quiz.tsx` → `POST /api/v1/quiz/submit` → XP + badges in response → ProgressContext update → UI animation
+**Rationale**: Clean ownership, independent scaling. Reuses auth patterns from existing services (JWT/JWKS from SSO, same middleware as study-mode-api and token-metering-api).
 
-### Phase 2: Teach + Ask Integration
+### RD-2: Active Day Definition (was OQ-2)
 
-```
-Teach Session Complete → Study Session Record → Activity Day (streak)
-                                              → "Study Bug" badge (10 sessions)
-                                              → "Deep Thinker" badge (50+ turns total)
+**Decision**: Graduated by phase. See BR-3.
 
-Ask Mode Usage → Study Session Record → Activity Day (streak)
-                                      → Content quality signal (lessons with high Ask usage)
-```
+### RD-3: Real-time vs Batch (was OQ-3)
 
-**New signals**: Session count, total conversation turns, highlight density per lesson
+**Decision**: Real-time for quiz XP, eventual consistency for everything else.
 
-### Phase 3: New Modes Online
+| Operation                          | Timing                                      | Rationale                               |
+| ---------------------------------- | ------------------------------------------- | --------------------------------------- |
+| Quiz submit → XP + badges + streak | Synchronous (in response)                   | Dopamine hit must be instant            |
+| Leaderboard rank                   | Materialized view, refreshed every 5-15 min | Nobody notices rank changed 10 min late |
+| Phase 2 study session XP           | Batch (hourly)                              | Teach/Ask sessions are long-running     |
 
-```
-Socratic Mode → Mastery Score (evaluated by grader) → XP
-             → "Socratic Scholar" badge
+### RD-4: Leaderboard Scope (was OQ-4)
 
-Coach Mode → Practice Problem Score → XP
-           → "Problem Solver" badge
+**Decision**: Global for now. Schema includes scope column for future extensibility (cohort, org) but Phase 1 only implements global. At 50k users, still trivially a single table scan.
 
-Mentor Mode → Project Milestone → XP
-            → "Builder" badge
-```
+### RD-5: Privacy/GDPR (was OQ-5)
 
-**Key design principle**: The XP formula and badge system must be **mode-agnostic**. A `submit_mastery_signal(user_id, mode, lesson_id, score, metadata)` endpoint that any mode can call.
+**Decision**: Minimal but GDPR-defensible. See BR-6.
 
----
+### RD-6: Personalization XP (was OQ-6)
 
-## 5A. The Five Core Data Signals
+**Decision**: No. Personalization does NOT count for streaks or XP.
 
-These are the **platform-wide engagement signals** — collected everywhere, surfaced selectively. The system collects ALL data but only reveals what drives engagement.
+**Rationale**: Rate-limited to 3/month (useless for streaks). Content delivery mechanism, not a learning activity. Doesn't demonstrate comprehension. Creates perverse incentive to burn personalizations for XP.
 
-### Signal 1: Chapter-End Quiz Completion
+### RD-7: xAPI Timing (was OQ-7)
 
-**What**: Did the learner complete the quiz at the end of each chapter?
-**Why it matters**: This is the **primary mastery gate**. A completed quiz = verifiable evidence of chapter comprehension.
-**Current state**: Quiz UI exists and works. Scores are NOT persisted.
+**Decision**: Phase 3. No xAPI in Phase 1 or 2. No xAPI libraries, no Learning Record Store, no statement emitting.
 
-| Data Point           | Source                   | Persisted?       |
-| -------------------- | ------------------------ | ---------------- |
-| Quiz started         | Quiz.tsx `onStart`       | No (GA4 only)    |
-| Score percentage     | Quiz.tsx `onComplete`    | No (React state) |
-| Per-question results | Quiz.tsx answer tracking | No               |
-| Attempt number       | Not tracked              | No               |
-| Time to complete     | Not tracked              | No               |
+The only xAPI consideration for Phase 1-2 is mental: our table structure (user → action → object → result) happens to map cleanly to xAPI's actor-verb-object-result model. So when Phase 3 adds xAPI, it's just a formatter on top of existing data — no schema migration.
 
-**Action**: BR-1 covers this. First signal to wire up.
+### RD-8: Lesson Completion Definition (was OQ-8)
 
-### Signal 2: Lesson-by-Lesson Progress
+**Decision**: Explicit "Mark as Complete" button with active reading time, starting in Phase 1.
 
-**What**: Has the learner gone through each individual lesson in a chapter?
-**Why it matters**: A learner who reads 3 of 10 lessons then aces the quiz vs. one who reads all 10 — both passed, but their learning journeys are different. Lesson-level progress shows depth of engagement.
-**Current state**: `ReadingProgress` component shows scroll depth as a visual indicator. GA4 tracks scroll milestones (25%, 50%, 75%, 100%). Neither is persisted to our backend.
+| Phase   | Definition                                                                                                  |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
+| Phase 1 | Student clicks "Mark as Complete" → records completion + active reading time (tab-focused seconds)          |
+| Phase 2 | Above + Teach/Ask session = "verified study" (stronger signal). Sidebar shows completion status per lesson. |
 
-| Data Point                        | Source                     | Persisted?       |
-| --------------------------------- | -------------------------- | ---------------- |
-| Lesson page visit                 | Router/Analytics           | GA4 only         |
-| Scroll depth (%)                  | ReadingProgress component  | No (visual only) |
-| Scroll milestones (25/50/75/100%) | GA4 AnalyticsTracker       | GA4 only         |
-| Time on lesson page               | GA4 AnalyticsTracker (>5s) | GA4 only         |
-| Lesson "completed"                | Not defined                | No               |
+**Rationale**: Automatic completion (scroll/time thresholds) is gameable. A manual button puts the student in control and captures intent. Active time tracking (paused when tab hidden) gives honest reading duration without complexity. No AI features required — purely frontend → progress-api.
 
-**What "completed" means** (needs decision):
+### RD-9: Badge Tiers (was OQ-9)
 
-- Option A: Scrolled to 100% depth (easy to fake, scroll and leave)
-- Option B: Spent >= 2 minutes AND scrolled to 75%+ (better signal)
-- Option C: Opened the lesson page at all (too loose)
-- Option D: Completed a Teach/Ask session on that lesson (strongest signal, but not all learners use AI modes)
-
-**Recommendation**: Option B as default, with Option D as "verified completion" (gold star).
-
-### Signal 3: AI Mode Usage Frequency
-
-**What**: Which AI mode did the learner use, how many times, on which lessons?
-**Why it matters**: Mode usage reveals learning style AND engagement depth. A learner who uses Teach mode on every lesson is deeply engaged. A learner who only uses Ask mode for quick lookups has a different pattern. This data feeds both gamification (XP/badges) and content quality signals (lessons with high Ask usage may be confusing).
-**Current state**: Every Teach/Ask session creates a `thread` in PostgreSQL with `lesson_path` and `mode` metadata. This data EXISTS but is not surfaced.
-
-| Data Point                | Source                                        | Persisted?      |
-| ------------------------- | --------------------------------------------- | --------------- |
-| Mode selected (Teach/Ask) | study-mode-api threads.data.mode              | Yes             |
-| Session count per lesson  | study-mode-api threads (group by lesson_path) | Yes (queryable) |
-| Message count per session | study-mode-api items (count per thread)       | Yes (queryable) |
-| Total sessions per user   | study-mode-api threads (group by user_id)     | Yes (queryable) |
-
-**This is the richest signal we already have but never surface.** A simple query on the study-mode-api database gives us: sessions per user, sessions per lesson, messages per session, mode distribution.
-
-### Signal 4: Tokens Burned (Credit Consumption)
-
-**What**: How many AI tokens has the learner consumed across all interactions?
-**Why it matters**: Tokens = effort. A learner who burns 50,000 tokens in a month is deeply engaged with the AI features. This is a proxy for "active learning time with AI" and also ties to business metrics (cost per learner).
-**Current state**: Token metering API tracks every request. Credits system records consumption per user.
-
-| Data Point                        | Source                             | Persisted? |
-| --------------------------------- | ---------------------------------- | ---------- |
-| Tokens per request (input/output) | token-metering-api usage_details   | Yes        |
-| Credits consumed per request      | token-metering-api balance changes | Yes        |
-| Total credits burned per user     | token-metering-api user balance    | Yes        |
-| Model used per request            | token-metering-api model field     | Yes        |
-
-**Note**: This data is already collected and billed. Surfacing it as "AI Learning Credits Used" in the dashboard is a presentation decision, not an engineering one.
-
-### Signal 5: Active Engagement Time
-
-**What**: How much time has the learner spent actively engaged with any part of the platform?
-**Why it matters**: Time-on-task is the strongest predictor of learning outcomes. But not all time is equal — 10 minutes actively chatting with Teach mode > 10 minutes with the page open in a background tab.
-**Current state**: GA4 tracks time-on-page (fires after 5 seconds). Study-mode-api has timestamps on all messages. No unified "engagement time" metric exists.
-
-| Data Point               | Source                                     | Persisted?      |
-| ------------------------ | ------------------------------------------ | --------------- |
-| Page view duration       | GA4 AnalyticsTracker                       | GA4 only        |
-| Teach session duration   | threads.created_at to last item.created_at | Yes (derivable) |
-| Ask interaction duration | Single request/response (brief)            | Minimal         |
-| Quiz time-to-complete    | Not tracked                                | No              |
-| Personalization session  | agentfactory-api request timestamp         | Yes             |
-
-**Engagement time calculation**: Sum of (Teach session durations) + (Quiz completion times) + (lesson page active time where scroll depth > 25%). Background tabs and idle time excluded.
-
-### Signal Summary: Collect Everything, Surface Selectively
-
-```
-COLLECTED (backend, analytics):          SURFACED (learner dashboard):
-├── Every lesson page visit              ├── Chapters completed (quiz-gated)
-├── Scroll depth per lesson              ├── Total XP earned
-├── Every AI mode session                ├── Current streak
-├── Every message in every thread        ├── Badges earned
-├── Every quiz score & answer            ├── Global rank
-├── Every token consumed                 ├── "Time Learning" stat
-├── Every personalization request        └── Chapter progress bars
-├── Time stamps on everything
-└── Mode selection patterns
-```
-
-The learner sees a **clean, motivating surface**. The platform team sees the **full signal** for content quality, learner health, and business metrics.
+**Decision**: 3 tiers (Bronze/Silver/Gold). See BR-4.
 
 ---
 
-## 5B. XP Economics: Base, Bonus, and Accumulation
+## 6. API Design (Business Operations, Not CRUD)
 
-### How XP Maps to Badges
+### Design Principle
 
-Badges are NOT earned from XP thresholds. They're earned from **specific achievements**. This is intentional — XP measures volume, badges measure milestones. A learner with 5,000 XP and 3 badges has different behavior than one with 3,000 XP and 8 badges.
+APIs are operation-oriented, not entity-oriented. Each endpoint maps to a business operation — not to a database table.
 
-```
-XP = Quantitative measure of total effort
-Badges = Qualitative markers of specific achievements
-Leaderboard = XP-ranked (effort competition)
-Badge Gallery = Achievement collection (milestone motivation)
-```
+### Phase 1 MVP Endpoints (4 external + 1 admin)
 
-### Base XP Sources
+| Business Operation                  | Endpoint                          | Method | Auth     |
+| ----------------------------------- | --------------------------------- | ------ | -------- |
+| Student finishes a quiz             | `/api/v1/quiz/submit`             | POST   | Required |
+| Student marks lesson complete       | `/api/v1/lesson/complete`         | POST   | Required |
+| Student views their progress        | `/api/v1/progress/me`             | GET    | Required |
+| Student views leaderboard           | `/api/v1/leaderboard`             | GET    | Required |
+| Student updates privacy preferences | `/api/v1/progress/me/preferences` | PATCH  | Required |
 
-| Activity                       | XP Earned            | Frequency                     |
-| ------------------------------ | -------------------- | ----------------------------- |
-| Quiz completion (1st attempt)  | 0-100 XP (= score %) | Per chapter quiz              |
-| Quiz improvement (2nd attempt) | improvement × 0.5    | Per reattempt                 |
-| Quiz improvement (3rd attempt) | improvement × 0.25   | Per reattempt                 |
-| Teach mode session (5+ turns)  | 10 XP                | Per session, max 3/day/lesson |
-| Ask mode usage (per lesson)    | 5 XP                 | Per unique lesson, once       |
-| Lesson completion (verified)   | 5 XP                 | Per lesson, once              |
+### Phase 2 Additions
 
-### Bonus XP (Engagement Multipliers)
+| Business Operation                      | Endpoint                     | Method |
+| --------------------------------------- | ---------------------------- | ------ |
+| System records study session completion | `/api/v1/sessions/complete`  | POST   |
+| Student exports their data (GDPR)       | `/api/v1/progress/me/export` | GET    |
 
-Inspired by Duolingo's data: limited-time XP boosts led to 50% surge in activity, and streaks increased commitment by 60%.
+### Internal Operations (not API endpoints)
 
-| Bonus Type              | Multiplier | Trigger                                  | Duration                              |
-| ----------------------- | ---------- | ---------------------------------------- | ------------------------------------- |
-| **Streak Bonus**        | 1.5x       | Active streak >= 7 days                  | Applies to all XP while streak active |
-| **Perfect Score Bonus** | +25 XP     | 100% on first attempt                    | One-time per quiz                     |
-| **First-of-Day Bonus**  | +10 XP     | First activity of the day                | Once per day                          |
-| **Chapter Sweep Bonus** | +50 XP     | Complete ALL lessons + quiz in a chapter | One-time per chapter                  |
-| **Weekend Challenge**   | 2x         | Platform event (bi-weekly)               | 48 hours                              |
+| Operation           | Mechanism                                                                          |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| Leaderboard refresh | Scheduled job: `REFRESH MATERIALIZED VIEW CONCURRENTLY leaderboard` every 5-15 min |
+| Streak expiry check | Daily cron: identify users whose streak broke                                      |
 
-### XP to Real Value
+### Quiz Submit — Request/Response Contract
 
-XP has no monetary value. But it has **social value** (leaderboard rank) and **recognition value** (profile display). Future extensions could include:
+**Request**:
 
-- XP thresholds for certification eligibility
-- XP-gated content (advanced chapters)
-- XP milestones that unlock cosmetic profile features
+```json
+POST /api/v1/quiz/submit
+Authorization: Bearer <id_token>
 
-### Anti-Gaming Rules
-
-- Max 3 Teach sessions per lesson per day count toward XP (prevents session farming)
-- Ask mode XP: once per unique lesson (prevents highlight spam)
-- Quiz reattempt XP: diminishing returns (prevents retake farming)
-- No XP for page views alone (prevents passive accumulation)
-
----
-
-## 5C. Industry Badge Standards: Google, GitHub, Duolingo
-
-### Google Developer Badges
-
-Google's system structures badges by **technology domain** (Web, Android, ML, Cloud) with escalating difficulty. Key patterns:
-
-- **Tiered progression**: Each domain has multiple badges from beginner to advanced
-- **Verifiable**: Tied to completed learning paths, codelabs, or certifications
-- **Shareable**: Displayed on Google Developer Profile, shareable to LinkedIn
-- **Arcade Points**: Google Cloud uses a points system exchangeable for swag
-- **Skills Challenge**: Leaderboard-based competitions at events
-- **450+ badges available** across the ecosystem
-
-**Applicable to Agent Factory**: Our Parts (1-6) naturally map to Google's domain tiers. Part completion badges are already in the design. We should add **lesson-level micro-badges** within each part.
-
-### GitHub Achievements
-
-GitHub awards badges automatically based on platform activity. Key patterns:
-
-- **Tiered badges**: Bronze → Silver → Gold (e.g., Starstruck: 16 → 128 → 512 stars)
-- **Activity-based**: Earned by doing, not by studying (merge PRs, answer discussions, sponsor)
-- **Surprise element**: Some badges feel like "easter eggs" (YOLO = merge without review)
-- **Profile display**: Badges shown on GitHub profile, visible to all
-
-**Applicable to Agent Factory**: We should add **tiered versions** of our badges:
-
-| Badge                  | Bronze         | Silver            | Gold                |
-| ---------------------- | -------------- | ----------------- | ------------------- |
-| On Fire (streak)       | 3 days         | 7 days            | 30 days             |
-| Perfect Score          | 1 perfect quiz | 5 perfect quizzes | All quizzes perfect |
-| Deep Diver (Ask mode)  | 10 lessons     | 50 lessons        | All lessons         |
-| Study Bug (Teach mode) | 10 sessions    | 50 sessions       | 100 sessions        |
-
-### Duolingo's Engagement Engine
-
-Duolingo's data-driven approach shows:
-
-- Streaks increase commitment by **60%**
-- XP leaderboards drive **40% more engagement**
-- Badges boost completion rates by **30%**
-- Users who hit 7-day streak are **3.6x more likely** to stay engaged
-- Streak Freeze (grace period) reduced churn by **21%**
-- Limited-time XP boosts → **50% activity surge**
-
-**Key mechanics**:
-
-- **Streak Freeze**: Miss one day, streak preserved (purchasable with gems)
-- **Double XP events**: Time-limited engagement spikes
-- **Leagues**: Weekly XP competition groups (Bronze → Diamond)
-- **Gems currency**: Earned by completing lessons, spent on powerups
-
-**Applicable to Agent Factory**: We should adopt:
-
-1. Streak Freeze (1 free/week, or earned through high quiz scores)
-2. Bonus XP events (Weekend Challenges)
-3. The "First-of-Day" bonus (Duolingo does this, huge retention signal)
-4. Tiered badges (matches GitHub's model, adds collection depth)
-
-### Badge Design Principles (Synthesized)
-
-| Principle                  | Source            | Our Application                           |
-| -------------------------- | ----------------- | ----------------------------------------- |
-| **Tiered progression**     | Google, GitHub    | Bronze/Silver/Gold versions of key badges |
-| **Activity-based earning** | GitHub            | Badges from doing, not just scoring       |
-| **Shareable credentials**  | Google            | Profile page with public badge display    |
-| **Surprise/delight**       | GitHub (YOLO)     | Hidden badges for unexpected achievements |
-| **Grace period**           | Duolingo (Freeze) | 1 streak freeze per week                  |
-| **Time-limited events**    | Duolingo (2x XP)  | Weekend/monthly bonus XP challenges       |
-
-### Updated Badge Count: 14 → 25+
-
-Original 14 badges + tiered expansions + new categories:
-
-**Existing (14)**: First Steps, Perfect Score, Ace, On Fire (3/7/30), Part 1-6 Complete, Graduate, Elite
-
-**Proposed Additions**:
-
-- **Tiered streaks** already covered (3 tiers exist)
-- **Study Bug** (Bronze: 10, Silver: 50, Gold: 100 Teach sessions)
-- **Deep Diver** (Bronze: 10, Silver: 50, Gold: all lessons via Ask)
-- **Token Burner** (50k, 200k, 1M tokens consumed — "dedication" badge)
-- **Speed Demon** (Complete a quiz in <3 minutes with 90%+)
-- **Night Owl** (Study sessions after midnight, 5 times)
-- **Weekend Warrior** (Complete activities on 4 consecutive weekends)
-- **Comeback Kid** (Return after 30+ day absence and complete a quiz)
-- **Hidden**: "YOLO" equivalent — complete all chapter quizzes in a single day
-
----
-
-## 5D. xAPI Learning Analytics Backbone (LearnMCP Integration)
-
-### What is xAPI?
-
-xAPI (Experience API) is the **industry standard** for recording learning experiences across any platform. Unlike SCORM (which only tracks course completion inside an LMS), xAPI can capture:
-
-- Formal learning (quizzes, courses)
-- Informal learning (reading, conversations, practice)
-- Real-world activities (projects, simulations)
-- Cross-platform experiences (mobile, web, API)
-
-Every learning event becomes an **xAPI statement**: `Actor → Verb → Object → Result → Context`
-
-### Why xAPI Matters for Agent Factory
-
-Our platform generates learning data from **6 different sources** (Teach, Ask, Quiz, Personalization, Reading, Token usage). Without a standard, each source stores data differently. xAPI gives us:
-
-1. **Unified data model**: Every interaction → same statement format
-2. **Interoperability**: Data portable to any xAPI-compliant analytics tool
-3. **Compliance**: FERPA/GDPR alignment (xAPI has built-in privacy patterns)
-4. **Future-proofing**: New modes (Socratic, Coach) automatically fit the model
-5. **Accreditation path**: xAPI is the standard for verifiable credentials in education
-
-### LearnMCP-xAPI: Direct Integration
-
-[LearnMCP-xAPI](https://davidlms.github.io/learnmcp-xapi/) is an open-source MCP server that bridges AI agents with xAPI Learning Record Stores. It provides:
-
-- **Statement Recording**: Convert learning events to xAPI statements
-- **Progress Retrieval**: Query filtered learning histories
-- **Vocabulary Management**: Standardized learning verbs
-- **LRS Plugins**: SQLite (dev), Ralph LRS (production), Veracity Learning (cloud)
-- **Privacy**: UUID-based actor identification (no PII in statements)
-
-### How It Fits Our Architecture
-
-```
-┌─────────────────────────────────────────────────┐
-│              LEARNER SURFACE                     │
-│  XP │ Badges │ Streaks │ Progress │ Leaderboard  │
-└───────────────────────┬─────────────────────────┘
-                        │ reads from
-┌───────────────────────▼─────────────────────────┐
-│           PROGRESS API (gamification)            │
-│  quiz_attempts │ user_progress │ user_badges      │
-└───────────────────────┬─────────────────────────┘
-                        │ consumes from
-┌───────────────────────▼─────────────────────────┐
-│        xAPI LEARNING RECORD STORE (LRS)          │
-│  Every learning event as xAPI statement          │
-│  Actor → Verb → Object → Result → Context        │
-└───────────────────────┬─────────────────────────┘
-                        │ receives from
-┌───────────────────────▼─────────────────────────┐
-│           LearnMCP-xAPI (MCP Server)             │
-│  Statement Recording │ Progress Retrieval        │
-└───┬───────┬───────┬───────┬───────┬─────────────┘
-    │       │       │       │       │
-  Teach   Ask    Quiz  Personal. Reading
-  Mode    Mode   Submit  API     Progress
-```
-
-### xAPI Statements for Agent Factory
-
-| Activity                      | xAPI Verb      | Object                      | Result                    |
-| ----------------------------- | -------------- | --------------------------- | ------------------------- |
-| Start lesson                  | `experienced`  | `lesson/{path}`             | —                         |
-| Complete lesson (scroll 100%) | `completed`    | `lesson/{path}`             | duration                  |
-| Start quiz                    | `attempted`    | `quiz/{chapter-id}`         | —                         |
-| Submit quiz                   | `scored`       | `quiz/{chapter-id}`         | score: 85%, XP: 85        |
-| Start Teach session           | `interacted`   | `teach-session/{thread-id}` | —                         |
-| Complete Teach session        | `completed`    | `teach-session/{thread-id}` | turns: 12, duration: 8min |
-| Use Ask mode                  | `asked`        | `ask/{lesson-path}`         | highlighted_text          |
-| Earn badge                    | `earned`       | `badge/{badge-id}`          | badge metadata            |
-| Reach streak milestone        | `progressed`   | `streak/{user-id}`          | streak_days: 7            |
-| Use personalization           | `personalized` | `lesson/{path}`             | interest_tag              |
-
-### Implementation Decision (OQ-7)
-
-**Should xAPI be Phase 1 or Phase 2?**
-
-- **Phase 1 (with MVP)**: Design the progress-api to emit xAPI statements from day one. Even with a SQLite LRS for development. This ensures the data model is right.
-- **Phase 2 (later)**: Build gamification first with custom schema, migrate to xAPI later. Faster to ship but creates migration debt.
-
-**Recommendation**: Phase 1.5 — Ship the gamification MVP with our custom schema (Phase 1), but design the schema to be **xAPI-aligned** so migration is trivial. Add LearnMCP-xAPI integration in Phase 2 alongside Teach/Ask session tracking.
-
----
-
-## 6. Open Questions
-
-### OQ-1: Separate Service or Extend Existing?
-
-PR #680 proposes a new `apps/progress-api/` service. But we already have:
-
-- `agentfactory-api` (personalization, preferences) — same auth, same DB needs
-- `study-mode-api` (ChatKit, threads) — produces the raw data
-- `token-metering-api` (credits) — tracks usage
-
-**Options**:
-
-- **(A) New service** (`progress-api`): Clean separation, independent scaling, clear ownership
-- **(B) Extend `agentfactory-api`**: Already has auth, DB, rate limiting. Add progress routes alongside personalization
-- **(C) Extend `study-mode-api`**: Closest to the data source. But mixes concerns
-
-**Recommendation**: Option A (new service) for clean ownership, but reuse auth patterns from agentfactory-api.
-
-### OQ-2: What Counts as an "Active Day" for Streaks?
-
-- Option A: Any quiz completion (strict, high signal)
-- Option B: Any quiz OR Teach session >=5 turns (medium)
-- Option C: Any authenticated page view of a lesson (loose)
-
-### OQ-3: Real-time XP or Batch?
-
-- Real-time: XP shown immediately after quiz → better UX, more complex
-- Batch: XP calculated hourly → simpler, but delayed feedback kills motivation
-
-**Recommendation**: Real-time for quiz XP (synchronous response). Batch for Teach/Ask session XP (background job).
-
-### OQ-4: Leaderboard Scope
-
-- Global (all users) — largest pool, most competitive
-- Per-cohort (users who started same month) — fairer for newcomers
-- Per-organization — for enterprise/team use
-
-### OQ-5: Privacy and GDPR
-
-- Can users opt out of leaderboard?
-- Is progress data exportable?
-- What's the data retention policy?
-
-### OQ-6: Personalization XP
-
-The personalization feature (3 lessons/month, agentfactory-api) generates content. Should using personalization count as a study activity for streaks? Should it grant XP?
-
-### OQ-7: xAPI Integration Timing
-
-Should we design the progress-api with xAPI-aligned schema from day one, or build custom first and migrate later? See Section 5D for full analysis.
-
-### OQ-8: Lesson Completion Definition
-
-What constitutes "completing" a lesson? See Signal 2 in Section 5A for options. This affects lesson-level progress bars, chapter completion %, and XP for lesson completion.
-
-### OQ-9: Tiered Badges — How Many Tiers?
-
-Google and GitHub use 2-4 tiers. Do we want Bronze/Silver/Gold (3 tiers) or add a 4th "Platinum" tier? More tiers = more collection motivation but also more complexity. See Section 5C.
-
----
-
-## 7. Vision Document Alignment
-
-The AI-Native Interactive Book Platform architecture document defines a **4-level mastery model** and **6 assessment methods**. Here's how gamification maps to them:
-
-### Mastery Levels → XP Thresholds (Future)
-
-| Vision Level | Description               | Gamification Signal                               |
-| ------------ | ------------------------- | ------------------------------------------------- |
-| Basic        | Conceptual awareness      | Lesson completion + low quiz score                |
-| Functional   | Independent execution     | Quiz 70%+ on first attempt                        |
-| Advanced     | System design             | Part completion + Mentor mode artifacts           |
-| Expert       | Optimization & innovation | All chapters complete + high XP + all Gold badges |
-
-### Assessment Methods → XP Sources
-
-| Vision Method            | Implementation              | XP Source                     |
-| ------------------------ | --------------------------- | ----------------------------- |
-| Teach-back scoring       | Teach mode + Feynman grader | Phase 3 (post-hoc evaluation) |
-| Artifact validation      | Spec validator (future)     | Phase 4                       |
-| Simulation performance   | Simulator mode (future)     | Phase 4                       |
-| Socratic reasoning depth | Socratic mode (future)      | Phase 3                       |
-| Quiz scoring             | Quiz.tsx (live today)       | **Phase 1 (MVP)**             |
-| Session engagement       | Teach/Ask thread data       | Phase 2                       |
-
-### UserState (Vision Doc) → Our Schema
-
-The vision doc defines:
-
-```
-UserState {
-  skills[]           → user_badges + concept mastery (future)
-  mastery_scores     → quiz_attempts + user_progress
-  artifacts[]        → artifact_store (Phase 4)
-  current_section    → lesson page visit tracking
-  learning_plan      → Manager mode output (future)
+{
+    "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+    "score_pct": 85,
+    "questions_correct": 13,
+    "questions_total": 15,
+    "duration_secs": 420
 }
 ```
 
-Our gamification schema captures `mastery_scores` and `current_section` in Phase 1, `skills[]` via badges in Phase 2, and the rest grows with new modes.
+**Server-side (single transaction)**:
+
+```
+ 1. UPSERT user from JWT claims (sub, name, email) — keeps name fresh, no SSO calls
+ 2. RESOLVE chapter_slug → internal chapter_id via chapter_aliases (auto-create on first encounter)
+ 3. COUNT previous attempts for (user, chapter) → attempt_number
+ 4. GET best previous score for (user, chapter) → best_score
+ 5. CALCULATE XP:
+    - attempt 1: xp = score_pct
+    - attempt 2: xp = max(0, score_pct - best_score) × 0.5
+    - attempt 3: xp = max(0, score_pct - best_score) × 0.25
+    - attempt 4+: xp = max(0, score_pct - best_score) × 0.10
+ 6. INSERT quiz_attempt
+ 7. CHECK badge conditions:
+    - First quiz ever? → 'first-steps'
+    - score_pct == 100? → 'perfect-score'
+    - score_pct == 100 AND attempt_number == 1? → 'ace'
+    - All chapters in part completed? → part completion badge
+ 8. INSERT new badges (ON CONFLICT DO NOTHING — idempotent)
+ 9. UPSERT activity_day for today
+10. CALCULATE streak from activity_days
+11. UPDATE user_progress summary (total_xp, streak, counts, etc.)
+12. COMMIT
+```
+
+**Response**:
+
+```json
+{
+  "xp_earned": 85,
+  "total_xp": 1234,
+  "attempt_number": 1,
+  "best_score": 85,
+  "new_badges": [
+    {
+      "id": "first-steps",
+      "name": "First Steps",
+      "earned_at": "2026-02-12T10:30:00Z"
+    }
+  ],
+  "streak": { "current": 5, "longest": 12 },
+  "rank": 42
+}
+```
+
+One request. One response. Full dopamine payload.
+
+### Lesson Complete — Request/Response Contract
+
+**Request**:
+
+```json
+POST /api/v1/lesson/complete
+Authorization: Bearer <id_token>
+
+{
+    "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+    "lesson_slug": "selling-agentic-ai-services",
+    "active_duration_secs": 480
+}
+```
+
+**Server-side (single transaction)**:
+
+```
+1. UPSERT user from JWT claims (same as quiz submit)
+2. RESOLVE chapter_slug → chapter_id via chapter_aliases
+3. INSERT lesson_completion (ON CONFLICT DO NOTHING — idempotent)
+4. UPSERT activity_day for today (type: 'lesson')
+5. CALCULATE streak from activity_days
+6. UPDATE user_progress summary (streak, last_activity_date)
+7. COMMIT
+```
+
+**Response**:
+
+```json
+{
+  "completed": true,
+  "active_duration_secs": 480,
+  "streak": { "current": 5, "longest": 12 },
+  "already_completed": false
+}
+```
+
+If already completed, returns `already_completed: true` and the original `active_duration_secs`. No duplicate rows, no extra XP.
+
+**Note**: Lesson completion does NOT award XP in Phase 1. It tracks progress and feeds streaks. XP for lesson completion can be added in Phase 2 (e.g., 5 XP per lesson, once) without schema changes.
+
+### Progress Dashboard — Response Contract
+
+**Request**: `GET /api/v1/progress/me`
+
+**Response**:
+
+```json
+{
+  "user": { "display_name": "Jane", "avatar_url": null },
+  "stats": {
+    "total_xp": 1234,
+    "rank": 42,
+    "current_streak": 5,
+    "longest_streak": 12,
+    "quizzes_completed": 8,
+    "perfect_scores": 2
+  },
+  "badges": [
+    {
+      "id": "first-steps",
+      "name": "First Steps",
+      "earned_at": "2026-02-01T..."
+    },
+    {
+      "id": "perfect-score",
+      "name": "Perfect Score",
+      "earned_at": "2026-02-05T..."
+    }
+  ],
+  "chapters": [
+    {
+      "slug": "General-Agents-Foundations/agent-factory-paradigm",
+      "title": "The AI Agent Factory Paradigm",
+      "best_score": 85,
+      "attempts": 2,
+      "xp_earned": 110,
+      "lessons_completed": [
+        {
+          "lesson_slug": "digital-fte-revolution",
+          "active_duration_secs": 420,
+          "completed_at": "2026-02-10T14:30:00Z"
+        },
+        {
+          "lesson_slug": "selling-agentic-ai-services",
+          "active_duration_secs": 600,
+          "completed_at": "2026-02-11T09:15:00Z"
+        }
+      ]
+    }
+  ]
+}
+```
+
+4 queries, all indexed, all on one user's data. Sub-millisecond at 50k users.
 
 ---
 
-## 8. Implementation Phases (Updated)
+## 7. Schema Design
 
-### Phase 1: Foundation (MVP) — Estimated 2-3 weeks
+### Design Principles
 
-**Goal**: Quiz scores persist, XP works, basic dashboard exists.
+1. **Denormalized summary table** — `user_progress` is pre-computed on every write (quiz submit or lesson complete). Dashboard reads = single row lookup. O(1).
+2. **Database owns identity** — Chapters have auto-generated internal IDs. Slugs are mutable lookup keys.
+3. **Activity tracking extensible** — `activity_days` stores the _reason_ for each activity. Phase 2 modes plug in without schema changes.
+4. **Idempotent completions** — `lesson_completions` uses composite PK (user, chapter, lesson). Marking complete twice = no-op.
+5. **Materialized view for leaderboard** — Refreshed every 5-15 min. 50k users reading = 1 cached payload.
+6. **User data denormalized from SSO** — Name/email extracted from JWT claims, stored locally. Zero cross-service queries on read path.
 
-| Task                              | Description                                               |
-| --------------------------------- | --------------------------------------------------------- |
-| Progress API service scaffold     | FastAPI app with auth, DB, health check                   |
-| Database schema                   | quiz_attempts, user_progress, user_badges, study_sessions |
-| Quiz submit endpoint              | `POST /api/v1/quiz/submit` with XP calculation            |
-| Progress endpoint                 | `GET /api/v1/progress` with full user summary             |
-| Frontend: wire Quiz.tsx           | Add API call on quiz completion                           |
-| Frontend: restore ProgressContext | From PR #680, connect to real API                         |
-| Frontend: XP notification         | Toast/modal showing XP earned + new badges                |
-| Frontend: Progress dashboard      | Restore from PR #680, connect to real API                 |
+### Tables
 
-### Phase 2: Social + Retention — Estimated 1-2 weeks
+```sql
+-- User identity (denormalized from SSO JWT claims)
+-- Created lazily on first quiz submit. Name updated from JWT on every request.
+CREATE TABLE users (
+    id                  TEXT PRIMARY KEY,  -- JWT 'sub' claim
+    display_name        TEXT NOT NULL,
+    email               TEXT,
+    avatar_url          TEXT,
+    show_on_leaderboard BOOLEAN DEFAULT TRUE,
+    created_at          TIMESTAMPTZ DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ DEFAULT NOW()
+);
 
-| Task                           | Description                                      |
-| ------------------------------ | ------------------------------------------------ |
-| Streak calculation             | Daily activity tracking, grace period logic      |
-| Leaderboard endpoint           | `GET /api/v1/leaderboard` with materialized view |
-| Frontend: Leaderboard page     | Restore from PR #680                             |
-| Frontend: XP counter in navbar | Always-visible motivation                        |
-| Badge unlock animations        | Satisfying unlock moments                        |
+-- Chapter identity (database-owned)
+CREATE TABLE chapters (
+    id          SERIAL PRIMARY KEY,
+    title       TEXT NOT NULL,
+    part_slug   TEXT,          -- e.g. 'General-Agents-Foundations'
+    is_active   BOOLEAN DEFAULT TRUE,
+    created_at  TIMESTAMPTZ DEFAULT NOW()
+);
 
-### Phase 3: Engine Integration + xAPI — Estimated 2-3 weeks
+-- Multiple slugs can point to the same chapter (survives renames)
+CREATE TABLE chapter_aliases (
+    slug        TEXT PRIMARY KEY,  -- e.g. 'General-Agents-Foundations/agent-factory-paradigm'
+    chapter_id  INT NOT NULL REFERENCES chapters(id)
+);
 
-| Task                           | Description                                               |
-| ------------------------------ | --------------------------------------------------------- |
-| Study session tracking         | Record Teach/Ask sessions as activity                     |
-| Teach mode session → streak    | Count completed Teach sessions as active day              |
-| Ask mode analytics             | Aggregate highlight patterns per lesson                   |
-| Content quality signals        | Surface lessons with high Ask usage to content team       |
-| Mode-agnostic mastery endpoint | `POST /api/v1/mastery` for any mode                       |
-| Lesson-level progress          | Track page visits, scroll depth, time per lesson          |
-| xAPI statement emitter         | Emit xAPI statements from progress-api to LRS             |
-| LearnMCP-xAPI integration      | Connect MCP server for AI agent access to learning data   |
-| Token usage dashboard          | Surface "AI Credits Used" from token-metering-api         |
-| Engagement time calculation    | Derive active time from thread timestamps + page duration |
-| Bonus XP engine                | Streak multiplier, first-of-day, perfect score bonuses    |
-| Tiered badge system            | Bronze/Silver/Gold versions of activity badges            |
+-- Individual quiz submissions
+CREATE TABLE quiz_attempts (
+    id                BIGSERIAL PRIMARY KEY,
+    user_id           TEXT NOT NULL REFERENCES users(id),
+    chapter_id        INT NOT NULL REFERENCES chapters(id),
+    score_pct         SMALLINT NOT NULL,   -- 0-100
+    questions_correct SMALLINT NOT NULL,
+    questions_total   SMALLINT NOT NULL,
+    attempt_number    SMALLINT NOT NULL,
+    xp_earned         INT NOT NULL,
+    duration_secs     INT,
+    created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_quiz_user_chapter ON quiz_attempts(user_id, chapter_id);
+
+-- Lesson completion tracking (idempotent — one row per user per lesson)
+CREATE TABLE lesson_completions (
+    user_id              TEXT NOT NULL REFERENCES users(id),
+    chapter_slug         TEXT NOT NULL,    -- e.g. 'General-Agents-Foundations/agent-factory-paradigm'
+    lesson_slug          TEXT NOT NULL,    -- e.g. 'selling-agentic-ai-services'
+    active_duration_secs INT,             -- tab-focused reading time only
+    completed_at         TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (user_id, chapter_slug, lesson_slug)
+);
+CREATE INDEX idx_lesson_user ON lesson_completions(user_id);
+
+-- Pre-computed summary (updated atomically on every quiz submit or lesson complete)
+CREATE TABLE user_progress (
+    user_id            TEXT PRIMARY KEY REFERENCES users(id),
+    total_xp           INT DEFAULT 0,
+    quizzes_completed  INT DEFAULT 0,
+    lessons_completed  INT DEFAULT 0,
+    perfect_scores     INT DEFAULT 0,
+    current_streak     INT DEFAULT 0,
+    longest_streak     INT DEFAULT 0,
+    last_activity_date DATE,
+    updated_at         TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Earned badges
+CREATE TABLE user_badges (
+    user_id     TEXT NOT NULL REFERENCES users(id),
+    badge_id    TEXT NOT NULL,       -- e.g. 'first-steps', 'perfect-score'
+    earned_at   TIMESTAMPTZ DEFAULT NOW(),
+    trigger_ref TEXT,               -- e.g. 'quiz:agent-factory-paradigm:attempt:1'
+    PRIMARY KEY (user_id, badge_id)  -- prevents double-awarding
+);
+
+-- Daily activity tracking (for streaks)
+CREATE TABLE activity_days (
+    user_id       TEXT NOT NULL REFERENCES users(id),
+    activity_date DATE NOT NULL,
+    activity_type TEXT NOT NULL,       -- 'quiz' (Phase 1), 'teach', 'ask' (Phase 2)
+    reference_id  TEXT,               -- chapter slug or thread_id
+    created_at    TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (user_id, activity_date, activity_type, reference_id)
+);
+
+-- Phase 2: Study sessions (Teach/Ask mode tracking)
+-- CREATE TABLE study_sessions (
+--     id           BIGSERIAL PRIMARY KEY,
+--     user_id      TEXT NOT NULL REFERENCES users(id),
+--     lesson_path  TEXT NOT NULL,
+--     mode         TEXT NOT NULL,       -- 'teach', 'ask', 'quiz'
+--     started_at   TIMESTAMPTZ NOT NULL,
+--     completed_at TIMESTAMPTZ,
+--     metadata     JSONB,              -- mode-specific data (turns, highlights, etc.)
+--     created_at   TIMESTAMPTZ DEFAULT NOW()
+-- );
+
+-- Leaderboard (materialized, refreshed every 5-15 min)
+CREATE MATERIALIZED VIEW leaderboard AS
+SELECT
+    u.id, u.display_name, u.avatar_url,
+    p.total_xp,
+    RANK() OVER (ORDER BY p.total_xp DESC) AS rank,
+    (SELECT COUNT(*) FROM user_badges b WHERE b.user_id = u.id) AS badge_count
+FROM users u
+JOIN user_progress p ON u.id = p.user_id
+WHERE u.show_on_leaderboard = TRUE AND p.total_xp > 0
+ORDER BY p.total_xp DESC;
+
+CREATE UNIQUE INDEX idx_leaderboard_id ON leaderboard(id);
+```
+
+---
+
+## 8. User Identity Architecture
+
+### No SSO Queries on Read Path
+
+The progress-api stores user identity locally, denormalized from JWT claims. Zero cross-service queries.
+
+**JWT claims available** (from SSO id_token):
+
+| Claim   | Field                | Usage                           |
+| ------- | -------------------- | ------------------------------- |
+| `sub`   | `users.id`           | Primary key, immutable          |
+| `name`  | `users.display_name` | Shown on leaderboard, dashboard |
+| `email` | `users.email`        | For data export / GDPR          |
+
+**Lifecycle**:
+
+1. **First quiz submit**: JWT claims extracted → `INSERT INTO users (id, display_name, email)` (lazy creation)
+2. **Every authenticated request**: `UPDATE users SET display_name = $name, updated_at = NOW() WHERE id = $sub` (keeps name fresh if user changes it in SSO)
+3. **Leaderboard / dashboard reads**: Query `users` table directly — never calls SSO
+
+**Auth pattern**: Identical to study-mode-api and token-metering-api — JWKS-based JWT verification, cached 1 hour, local signature check, no SSO call per request. `CurrentUser` class extracted from JWT payload. Dev mode bypass for local development.
+
+---
+
+## 9. Scalability Design (50k Users)
+
+### Read Path (where scale matters)
+
+| Read Operation             | Strategy                                         | Latency            |
+| -------------------------- | ------------------------------------------------ | ------------------ |
+| Dashboard (`/progress/me`) | Single-row lookup on `user_progress` by PK       | Sub-ms             |
+| Leaderboard                | Materialized view → Redis/memory cache           | Sub-ms (cache hit) |
+| Badge gallery              | Part of `/progress/me` response                  | Same request       |
+| Chapter scores             | `quiz_attempts` indexed by (user_id, chapter_id) | Sub-ms             |
+
+### Write Path (low volume, user-isolated)
+
+| Write Operation     | Frequency                       | Contention                                        |
+| ------------------- | ------------------------------- | ------------------------------------------------- |
+| Quiz submit         | ~100 concurrent at peak         | Zero — each user writes to their own data         |
+| Leaderboard refresh | Every 5-15 min (background job) | None — `REFRESH CONCURRENTLY` doesn't block reads |
+
+### Infrastructure
+
+| Concern              | Solution                                                                    |
+| -------------------- | --------------------------------------------------------------------------- |
+| Connection pooling   | PgBouncer (transaction mode) — 50k users ≠ 50k connections                  |
+| Leaderboard caching  | Redis or application-level cache. Invalidated on materialized view refresh. |
+| Hot path computation | Zero on read path. All XP/badge/streak calculated on write (quiz submit).   |
+| Name freshness       | Updated from JWT on every request. No SSO calls.                            |
+| Database             | PostgreSQL (same as other services). Single instance handles this scale.    |
+
+---
+
+## 10. Frontend Changes (Minimal for Phase 1)
+
+### Quiz.tsx Modifications
+
+**Current state**: `Quiz.tsx` has no API calls. `handleSubmit` sets `showResults = true` in React state. That's it.
+
+**Required change**: Add `onComplete` callback prop.
+
+```typescript
+// New prop
+interface QuizProps {
+  title?: string;
+  questions: QuizQuestion[];
+  questionsPerBatch?: number;
+  onComplete?: (result: QuizResult) => void; // NEW
+}
+
+interface QuizResult {
+  score_pct: number;
+  questions_correct: number;
+  questions_total: number;
+  duration_secs: number;
+}
+```
+
+The `onComplete` callback fires inside `handleSubmit`, right after `setShowResults(true)`.
+
+### Page-Level Integration
+
+The MDX quiz pages (or a wrapper component) derive the chapter slug from the URL:
+
+```typescript
+// Extract chapter path from URL
+// /docs/General-Agents-Foundations/agent-factory-paradigm/chapter-quiz
+// → "General-Agents-Foundations/agent-factory-paradigm"
+const pathSegments = window.location.pathname.split("/");
+const docsIndex = pathSegments.indexOf("docs");
+const chapterSlug = pathSegments.slice(docsIndex + 1, -1).join("/");
+// Strip quiz page name, keep part/chapter
+```
+
+Sends `POST /api/v1/quiz/submit` with the chapter slug and score data. Shows XP/badge notification from response.
+
+**No MDX file changes. No frontmatter changes. No UUID migrations.**
+
+### ProgressContext (How the UI Knows What's Completed)
+
+A React context that loads progress data once on authentication and makes it available to any component.
+
+```typescript
+// ProgressContext loads GET /api/v1/progress/me on auth
+// Caches result, refreshes after quiz submit or lesson complete
+const { progress, refreshProgress } = useProgress();
+
+// Check chapter quiz completion
+const chapterScore = progress?.chapters.find(
+  (c) => c.slug === currentChapterSlug,
+);
+const hasCompletedQuiz = !!chapterScore;
+const bestScore = chapterScore?.best_score;
+
+// Check lesson completion
+const isLessonDone = chapterScore?.lessons_completed.some(
+  (l) => l.lesson_slug === currentLessonSlug,
+);
+```
+
+**Where progress surfaces in the UI**:
+
+| Location                     | What's Shown                                                                               | Phase |
+| ---------------------------- | ------------------------------------------------------------------------------------------ | ----- |
+| **Quiz page (before start)** | "Your best: 85% / Attempts: 2" if previous attempts exist                                  | 1     |
+| **Quiz page (after submit)** | XP earned, new badges, streak update (from submit response)                                | 1     |
+| **Lesson page (bottom)**     | "Mark as Complete" button. Shows "Completed" state if already done.                        | 1     |
+| **Progress dashboard**       | Full stats, chapter scores, lessons completed per chapter, badge gallery, leaderboard rank | 1     |
+| **Sidebar items**            | Checkmark next to completed lessons + score badge next to completed chapters               | 2     |
+| **Navbar**                   | XP counter (always visible)                                                                | 2     |
+| **Chapter landing page**     | Progress bar showing lessons completed + quiz score                                        | 2     |
+
+**Phase 1 delivers both quiz persistence AND lesson completion tracking**: quiz page shows previous scores, lesson pages have a "Mark as Complete" button, dashboard shows everything including per-chapter lesson completion counts. Phase 2 adds the inline sidebar indicators that make progress visible while browsing.
+
+---
+
+## 11. XP Economics
+
+### Base XP Sources
+
+| Activity                       | XP Earned            | Frequency                     | Phase |
+| ------------------------------ | -------------------- | ----------------------------- | ----- |
+| Quiz completion (1st attempt)  | 0-100 XP (= score %) | Per chapter quiz              | 1     |
+| Quiz improvement (2nd attempt) | improvement × 0.5    | Per reattempt                 | 1     |
+| Quiz improvement (3rd attempt) | improvement × 0.25   | Per reattempt                 | 1     |
+| Teach mode session (5+ turns)  | 10 XP                | Per session, max 3/day/lesson | 2     |
+| Ask mode usage (per lesson)    | 5 XP                 | Per unique lesson, once       | 2     |
+| Lesson completion              | 5 XP                 | Per lesson, once              | 2     |
+
+### Bonus XP (Phase 2+)
+
+| Bonus Type              | Multiplier | Trigger                                  |
+| ----------------------- | ---------- | ---------------------------------------- |
+| **Streak Bonus**        | 1.5x       | Active streak >= 7 days                  |
+| **Perfect Score Bonus** | +25 XP     | 100% on first attempt                    |
+| **First-of-Day Bonus**  | +10 XP     | First activity of the day                |
+| **Chapter Sweep Bonus** | +50 XP     | Complete ALL lessons + quiz in a chapter |
+| **Weekend Challenge**   | 2x         | Platform event (bi-weekly)               |
+
+### Anti-Gaming Rules
+
+- Max 3 Teach sessions per lesson per day count toward XP
+- Ask mode XP: once per unique lesson
+- Quiz reattempt XP: diminishing returns
+- No XP for page views alone
+
+---
+
+## 12. Implementation Phases
+
+### Phase 1: Foundation MVP — 3-4 weeks
+
+**Goal**: Quiz scores persist, lesson completion tracked, XP works, basic dashboard exists.
+
+| Task                                | Description                                                                                                    |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Progress API service scaffold       | FastAPI app with JWKS auth (copy pattern from study-mode-api), PostgreSQL, health check                        |
+| Database schema                     | users, chapters, chapter_aliases, quiz_attempts, lesson_completions, user_progress, user_badges, activity_days |
+| Leaderboard materialized view       | + scheduled refresh job                                                                                        |
+| `POST /api/v1/quiz/submit`          | Full atomic transaction: persist + XP + badges + streak + summary update                                       |
+| `POST /api/v1/lesson/complete`      | Idempotent completion: persist + active_duration + streak + summary update                                     |
+| `GET /api/v1/progress/me`           | Pre-computed dashboard data from user_progress + badges + chapter scores + lessons completed                   |
+| `GET /api/v1/leaderboard`           | From materialized view + current user rank                                                                     |
+| Frontend: Quiz.tsx `onComplete`     | Add callback prop, wire to API                                                                                 |
+| Frontend: "Mark as Complete" button | Lesson page footer button, active time timer (visibilitychange API), POST on click                             |
+| Frontend: XP notification           | Toast/modal showing XP earned + new badges from submit response                                                |
+| Frontend: Progress dashboard page   | Stats, chapter progress, lesson completion counts, badge gallery                                               |
+
+### Phase 2: Social + Retention — 1-2 weeks
+
+| Task                                    | Description                                |
+| --------------------------------------- | ------------------------------------------ |
+| Streak grace period                     | 1 free streak freeze per week              |
+| `study_sessions` table                  | Track Teach/Ask sessions as activity       |
+| Teach/Ask → streak                      | Count completed sessions as active day     |
+| `PATCH /api/v1/progress/me/preferences` | Leaderboard opt-out                        |
+| Frontend: Leaderboard page              | Rankings table with current user highlight |
+| Frontend: XP counter in navbar          | Always-visible motivation                  |
+| Badge unlock animations                 | Satisfying unlock moments                  |
+
+### Phase 3: Engine Integration + xAPI — 2-3 weeks
+
+| Task                             | Description                                            |
+| -------------------------------- | ------------------------------------------------------ |
+| Mode-agnostic mastery endpoint   | `POST /api/v1/sessions/complete` for any mode          |
+| Lesson XP rewards                | 5 XP per lesson completion (once per lesson)           |
+| xAPI statement emitter           | Emit xAPI statements from progress-api to LRS          |
+| LearnMCP-xAPI integration        | MCP server for AI agent access to learning data        |
+| Token usage dashboard            | Surface "AI Credits Used" from token-metering-api      |
+| Bonus XP engine                  | Streak multiplier, first-of-day, perfect score bonuses |
+| Tiered badge system              | Bronze/Silver/Gold versions of activity badges         |
+| `GET /api/v1/progress/me/export` | GDPR data export                                       |
 
 ### Phase 4: Advanced — Future
 
 | Task                      | Description                                               |
 | ------------------------- | --------------------------------------------------------- |
-| Socratic mode integration | Mastery scoring via OpenAI Evals graders                  |
+| Socratic mode integration | Mastery scoring via graders                               |
 | Concept-level progress    | Track mastery per concept, not just per chapter           |
 | Spaced repetition         | Return to weakest concepts after N days                   |
-| Adaptive difficulty       | Adjust quiz difficulty based on mastery level             |
-| Achievement sharing       | Share badges to social media (Google Developer style)     |
-| Weekend Challenge events  | Bi-weekly 2x XP events to spike engagement                |
-| Streak Freeze mechanic    | 1 free streak freeze per week (Duolingo pattern)          |
+| Achievement sharing       | Share badges to social media                              |
+| Weekend Challenge events  | Bi-weekly 2x XP events                                    |
+| Streak Freeze mechanic    | Earned through high quiz scores                           |
 | Hidden badges             | Surprise badges for unusual behaviors (GitHub YOLO style) |
-| Certification integration | XP thresholds as prerequisite for certification exams     |
 
 ---
 
-## 8. Success Metrics
+## 13. Success Metrics
 
 | Metric                       | Baseline (now)        | Target (3 months post-launch) |
 | ---------------------------- | --------------------- | ----------------------------- |
@@ -836,29 +976,30 @@ Our gamification schema captures `mastery_scores` and `current_section` in Phase
 
 ---
 
-## 9. Dependency Map
+## 14. Dependency Map
 
 ```
                         ┌──────────────┐
                         │     SSO      │
                         │ (JWT tokens) │
                         └──────┬───────┘
-                               │ auth
+                               │ auth (JWKS, no per-request calls)
     ┌──────────────────────────┼──────────────────────────┐
     │                          │                          │
 ┌───▼────────────┐   ┌────────▼────────┐   ┌─────────────▼──┐
 │ study-mode-api │   │  progress-api   │   │agentfactory-api│
 │ (Teach/Ask)    │   │  (NEW)          │   │(Personalize)   │
 │                │   │                 │   │                │
-│ threads ───────┼──►│ sessions        │   │                │
+│ threads ───────┼──►│ sessions (Ph2)  │   │                │
 │ messages       │   │ quiz scores     │   │                │
-└────────────────┘   │ XP/badges       │   └────────────────┘
+└────────────────┘   │ lesson complete │   └────────────────┘
+                     │ XP/badges       │
                      │ leaderboard     │
-┌────────────────┐   │                 │
-│token-metering  │   │                 │
-│(credits/usage) ├──►│ token dashboard │
+┌────────────────┐   │ user identity   │
+│token-metering  │   │ (from JWT)      │
+│(credits/usage) ├──►│ token dash (Ph3)│
 └────────────────┘   └───────┬─────────┘
-                             │ emits xAPI statements
+                             │ emits xAPI statements (Ph3)
                      ┌───────▼─────────┐
                      │  xAPI LRS       │
                      │  (Phase 3)      │
@@ -879,99 +1020,114 @@ Our gamification schema captures `mastery_scores` and `current_section` in Phase
 
 ---
 
-## 10. Risk Assessment
+## 15. Risk Assessment
 
-| Risk                                   | Impact                | Mitigation                                                      |
-| -------------------------------------- | --------------------- | --------------------------------------------------------------- |
-| XP farming (bot accounts)              | Leaderboard integrity | Rate limit quiz attempts, require auth, CAPTCHAs if needed      |
-| Curriculum restructure breaks progress | User trust            | Content-addressed architecture (UUIDs, soft deletes)            |
-| Backend not ready when frontend ships  | Dead UI               | Mock data fallback already exists in PR #680                    |
-| Over-gamification cheapens learning    | Brand damage          | Keep it scholarly — no flashy animations, Polar Night aesthetic |
-| Streak pressure causes burnout         | User churn            | Grace period (1 day), no public streak display                  |
-| Privacy concerns (leaderboard)         | GDPR/trust            | Opt-out mechanism, anonymous display option                     |
+| Risk                                   | Impact                | Mitigation                                                           |
+| -------------------------------------- | --------------------- | -------------------------------------------------------------------- |
+| XP farming (bot accounts)              | Leaderboard integrity | Rate limit quiz attempts, require auth, CAPTCHAs if needed           |
+| Curriculum restructure breaks progress | User trust            | Content-addressed architecture (DB-owned IDs, aliases, soft deletes) |
+| Backend not ready when frontend ships  | Dead UI               | Ship backend first (Phase 1), then wire frontend                     |
+| Over-gamification cheapens learning    | Brand damage          | Keep it scholarly — Polar Night aesthetic, no flashy animations      |
+| Streak pressure causes burnout         | User churn            | Grace period (1 day), no public streak display                       |
+| Privacy concerns (leaderboard)         | GDPR/trust            | Opt-out mechanism, anonymous display option                          |
+| Quiz randomization affects XP fairness | User perception       | Track score %, not absolute — randomization makes gaming harder      |
 
 ---
 
-## Appendix A: PR #680 Assessment — Should We Use It as Starter?
+## Appendix A: PR #680 Assessment
 
-PR #680 (`feat/user-progress`, 6 commits, 4656 additions) was built by a contributor. It contains frontend gamification UI with mock data. Implementation would start fresh from `main` — PR #680 is **reference material**, not a merge candidate.
+PR #680 (`feat/user-progress`, 6 commits, 4656 additions) contains frontend gamification UI with mock data. **Do not merge. Cherry-pick reusable code into the new implementation.**
 
-### What PR #680 Contains
+### Documents (Reference Only)
 
-| Artifact                                         | Lines | Quality                                    | Usable?                                                        |
-| ------------------------------------------------ | ----- | ------------------------------------------ | -------------------------------------------------------------- |
-| `progress-types.ts` (types + 14 badge defs)      | ~120  | Solid TypeScript, well-structured          | Yes — adopt types                                              |
-| `progress-api.ts` (API client + mock data)       | ~405  | Full CRUD client + generous mocks          | Partially — API contract useful, mock data needs review        |
-| `ProgressContext.tsx` (provider + hooks)         | ~255  | `useMockData` toggle, XP animation state   | Partially — pattern good, auth integration needs audit         |
-| `ProgressDashboard.tsx` (full dashboard)         | ~400  | StatCards, badges, chapter progress        | Review — UI design decisions not validated against Polar Night |
-| `BadgeCard.tsx` / `BadgeUnlockModal.tsx`         | ~200  | Badge display + unlock animation           | Review — new dependency (dialog component)                     |
-| `XPCounter.tsx` (navbar widget)                  | ~80   | Always-visible XP counter                  | Review — modifies Navbar swizzle                               |
-| `Leaderboard.tsx` (full page)                    | ~200  | Rankings table with current user highlight | Review — design decisions                                      |
-| `QuizXPModal.tsx` (post-quiz modal)              | ~100  | XP earned + new badges overlay             | Review                                                         |
-| `gamification.css`                               | ~300  | Styling for all components                 | Review against Polar Night theme                               |
-| `decision-progress.md` (architecture)            | ~200  | Content-addressed progress, soft deletes   | Yes — strong architecture thinking                             |
-| `gamified-progress-feat-prd.md` (PRD)            | ~300  | XP formula, badges, schema, API spec       | Yes — requirements are solid                                   |
-| `.claude/handoffs/` + `.claude/logs/` (11 files) | ~500  | Session artifacts                          | No — should not be in repo                                     |
-| `package.json` changes                           | —     | New dependencies added                     | Audit — what was added and why                                 |
+| File                            | Verdict   | Notes                                                                                                                                                                                                                   |
+| ------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `gamified-progress-feat-prd.md` | Reference | Good XP formula and badge definitions. Our spec supersedes all decisions. Schema uses UUIDs (we use slugs), uses `"ch-11"` format (we use URL slugs), no lesson completion.                                             |
+| `decision-progress.md`          | Reference | Thoughtful content-addressed architecture discussion. We've already adopted the good ideas (soft deletes, immutable XP, summary tables, materialized views) and improved on the weak ones (URL slugs instead of UUIDs). |
 
-### Questions to Raise About Using PR #680
+### Code — Reuse (with modifications)
 
-**1. Code Quality & Review Status**
+| File                  | Lines | Reuse % | What to change                                                                                                                                                                        |
+| --------------------- | ----- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `progress-types.ts`   | 130   | ~80%    | Add `LessonCompletion` type, add `lessons_completed` to `ChapterScore`, change `chapterId` from `"ch-11"` to slug format. `BADGE_DEFINITIONS` constant is directly usable.            |
+| `ProgressContext.tsx` | 195   | ~70%    | Good structure: auth-gated loading, optimistic updates, XP animation state, `useXP()`/`useStreak()`/`useBadges()` hooks. Add `completeLesson()` action. **Fix auth bug** (see below). |
+| `progress-api.ts`     | 270   | ~50%    | `apiFetch` wrapper is solid. `submitQuizScore` needs slug-based payload. Add `completeLesson()`. **Remove all mock data** (~150 lines). **Fix auth** (see below).                     |
+| `gamification.css`    | 403   | ~90%    | Clean oklch color tokens for XP/streak/rank. Review against current Polar Night theme. Mostly usable as-is.                                                                           |
+| `BadgeCard.tsx`       | ~80   | ~90%    | Clean component using `BADGE_DEFINITIONS`. Minor Polar Night review.                                                                                                                  |
+| `QuizXPModal.tsx`     | ~120  | ~80%    | Animated XP counter, badge unlock display. Update to accept our response shape.                                                                                                       |
+| `XPCounter.tsx`       | 226   | ~60%    | `useAnimatedNumber` hook is good. Dropdown stats preview is nice UX. Update data model.                                                                                               |
 
-- Was this code reviewed by anyone before the PR was opened?
-- The PR has merge conflicts with main — how stale is it?
-- 11 `.claude/` session artifact files committed — suggests no `.gitignore` hygiene
+### Code — Rebuild
 
-**2. Design Decisions Made Without Requirements**
+| File                    | Lines | Why                                                                                                                                             |
+| ----------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ProgressDashboard.tsx` | 367   | Hardcoded chapter names, `"ch-1"` IDs, no lesson completion section. Data model is wrong throughout. Keep layout structure as visual reference. |
+| `Leaderboard.tsx`       | 566   | Overcomplicated (566 lines). Inline badge modal, mock data generation. Our spec calls for simpler component reading from materialized view.     |
+| `BadgeUnlockModal.tsx`  | ~100  | CSS confetti animations conflict with "scholarly, Polar Night aesthetic, no flashy animations" from risk assessment.                            |
 
-- Badge definitions (14 badges) — were these validated against any learning science or business goals? Or are they a first draft?
-- XP formula (diminishing returns) — the math is sound, but the specific multipliers (0.5, 0.25, 0.10) — are these tuned or arbitrary?
-- `useMockData` toggle — good pattern, but mock data is hardcoded (1234 XP, rank #42, 5-day streak). Does this represent realistic user behavior?
+### Code — Take as-is (with minor edits)
 
-**3. Architecture Gaps**
+| File                           | Notes                                                                                                   |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `pages/progress.tsx`           | 15 lines, wraps `<ProgressDashboard />` in Layout.                                                      |
+| `pages/leaderboard.tsx`        | 15 lines, wraps `<Leaderboard />` in Layout.                                                            |
+| `components/progress/index.ts` | Barrel export file.                                                                                     |
+| `theme/Root.tsx`               | Adds `<ProgressProvider>` wrapper. Correct pattern. Remove `useMockData` flag — ship with real backend. |
 
-- No backend exists. The API client (`progress-api.ts`) defines endpoints that don't exist yet. If the frontend ships first, learners see a dead UI.
-- `ProgressContext` uses `localStorage.getItem("ainative_access_token")` — but our auth flow uses `ainative_id_token` (JWT) not access_token (opaque). This would fail in production.
-- No rate limiting on quiz submissions — a user could submit unlimited scores
-- No xAPI consideration — data model is custom, not standards-aligned
+### Discard
 
-**4. Scope Alignment with Business Requirements**
+| File/Dir                                    | Why                                 |
+| ------------------------------------------- | ----------------------------------- |
+| `.claude/handoffs/*` (4 files)              | Session artifacts, no reuse value   |
+| `.claude/logs/*` (6 files)                  | Debug logs from development         |
+| `.claude/skills/frontend-design/*`          | Skill created during PR, not needed |
+| Mock data in `progress-api.ts` (~150 lines) | Ship with real backend, not mocks   |
+| `pnpm-lock.yaml` changes                    | Stale, must regenerate              |
 
-- PR #680 only covers **quiz-based gamification**. Our requirements (Section 5A) define 5 data signals including Teach/Ask mode usage, token consumption, and engagement time. PR #680 doesn't address any of these.
-- No lesson-level progress tracking (Signal 2)
-- No AI mode usage tracking (Signal 3)
-- No bonus XP mechanics (Section 5B)
-- No tiered badges (Section 5C)
-- No xAPI integration (Section 5D)
+### Critical Auth Bug
 
-**5. Dependencies Introduced**
+```typescript
+// PR 680 (WRONG — access_token is for SSO userinfo endpoint):
+return localStorage.getItem("ainative_access_token");
 
-- What new npm packages were added in `package.json`? (UI dialog, tooltip components)
-- Are these compatible with our Docusaurus setup?
-- Do they introduce bundle size concerns?
+// Correct (id_token is the JWT with sub/name/email for JWKS verification):
+return localStorage.getItem("ainative_id_token");
+```
+
+All services (study-mode-api, token-metering-api) verify `id_token` via JWKS. The `access_token` is an opaque token for SSO's own endpoints.
+
+### No New Dependencies Required
+
+Radix UI components (`dialog`, `avatar`, `dropdown-menu`, `tooltip`) and `lucide-react` already exist on main branch. No package.json changes needed from this PR.
 
 ### Recommendation
 
-**Use PR #680 as reference, not as code to merge.**
+Start fresh from `main`. Cherry-pick reusable files (`progress-types.ts`, `gamification.css`, `BadgeCard.tsx`, page shells). Close PR #680 with comment linking to this spec.
 
-| What to adopt                          | What to rebuild                                           | What to discard                                 |
-| -------------------------------------- | --------------------------------------------------------- | ----------------------------------------------- |
-| Type definitions (`progress-types.ts`) | All UI components (align to Polar Night, add new signals) | `.claude/` artifacts                            |
-| XP formula (validate multipliers)      | API client (fix auth token, add new endpoints)            | Mock data (rebuild with realistic scenarios)    |
-| Content-addressed architecture concept | ProgressContext (fix auth, add 5 signals)                 | `package.json` dep changes (audit first)        |
-| PRD document as requirements input     | Backend service (build from scratch)                      | Navbar swizzle changes (review against current) |
+## Appendix B: Industry Badge Research
 
-The contributor should:
+### Badge Design Principles (Synthesized from Google, GitHub, Duolingo)
 
-1. Start a **new branch from main**
-2. Reference PR #680's PRD and architecture docs
-3. Follow **this spec** (`specs/003-gamification-engine/requirements.md`) as the source of truth
-4. Build backend first (progress-api), then wire frontend
-5. Close PR #680 with a comment linking to the new implementation
+| Principle                  | Source            | Our Application                           |
+| -------------------------- | ----------------- | ----------------------------------------- |
+| **Tiered progression**     | Google, GitHub    | Bronze/Silver/Gold versions of key badges |
+| **Activity-based earning** | GitHub            | Badges from doing, not just scoring       |
+| **Shareable credentials**  | Google            | Profile page with public badge display    |
+| **Surprise/delight**       | GitHub (YOLO)     | Hidden badges for unexpected achievements |
+| **Grace period**           | Duolingo (Freeze) | 1 streak freeze per week                  |
+| **Time-limited events**    | Duolingo (2x XP)  | Weekend/monthly bonus XP challenges       |
 
-## Appendix B: Study Mode API Signals Available Today
+### Duolingo Engagement Data
 
-**Already persisted** (can be queried for gamification):
+- Streaks increase commitment by **60%**
+- XP leaderboards drive **40% more engagement**
+- Users who hit 7-day streak are **3.6x more likely** to stay engaged
+- Streak Freeze reduced churn by **21%**
+- Limited-time XP boosts → **50% activity surge**
+
+## Appendix C: Study Mode API Signals Available Today
+
+**Already persisted** (can be queried for gamification in Phase 2):
 
 - `threads.lesson_path` — which lesson was studied
 - `threads.created_at` — when study started
@@ -983,5 +1139,5 @@ The contributor should:
 
 - Teach mode correctness (needs post-hoc evaluation)
 - Ask mode highlighted text (in metadata, not aggregated)
-- Session completion signal (no explicit "I'm done studying" event)
+- Session completion signal (no explicit "done studying" event)
 - Concept-level tagging (messages aren't tagged to specific concepts)
