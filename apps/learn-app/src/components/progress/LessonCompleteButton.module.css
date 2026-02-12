@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.completed {
+  background: #22c55e;
+}
+
+.timer {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
