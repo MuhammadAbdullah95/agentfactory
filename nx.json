@@ -44,5 +44,10 @@
       "inputs": ["default", "^production"]
     }
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeLockfile": false
+    }
+  }
 }
