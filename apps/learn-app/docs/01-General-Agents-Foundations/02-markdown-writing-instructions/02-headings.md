@@ -368,7 +368,7 @@ When you write a specification with clear headings, AI agents can:
 Good headings make your specifications easier for AI to understand, which means better code generation.
 
 :::info[Expert Insight]
-When AI agents parse your specification, headings serve as navigation landmarks. The AI can quickly locate "Features," "Installation," or "Expected Output" sections without reading every word. This speeds up processing and improves accuracy. In professional development, well-structured specifications reduce implementation time by 30-50% because both humans and AI can find information instantly.
+When AI agents parse your specification, headings serve as navigation landmarks. The AI can quickly locate "Features," "Installation," or "Expected Output" sections without reading every word. This speeds up processing and improves accuracy. In professional development, well-structured specifications significantly reduce implementation time because both humans and AI can find information instantly — reducing rework and clarification cycles that slow teams down.
 :::
 
 ---
