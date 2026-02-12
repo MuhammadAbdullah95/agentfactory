@@ -77,9 +77,10 @@ If you do it manually twice, script it. Bash automation transforms repetitive ta
 | [Lesson 12](./12-workflow-integration-patterns.md) | Advanced Workflow Integration | Deployment patterns, monitoring | L3: Intelligence | 65 min |
 | [Lesson 13](./13-building-reusable-skills.md) | Building Reusable Agent Ops Skills | Pattern recognition, skill creation | L3: Intelligence | 55 min |
 | [Lesson 14](./14-capstone-production-deployment.md) | Capstone: Spec-First Deployment | End-to-end Digital FTE deployment | L4: Spec-Driven | 90 min |
-| [Quiz](./15-chapter-quiz.md) | Chapter Quiz | Assessment covering all 13 lessons | -- | 30 min |
+| [Lesson 15](./15-linux-mastery-exercises.md) | Practice: Linux Mastery Exercises | Hands-on exercises across all chapter skills | L1-L4: All Layers | 180 min |
+| [Quiz](./16-chapter-quiz.md) | Chapter Quiz | Assessment covering all lessons | -- | 30 min |
 
-**Total Duration**: ~14 hours (835 minutes)
+**Total Duration**: ~17 hours (1015 minutes)
 
 ## Prerequisites
 
