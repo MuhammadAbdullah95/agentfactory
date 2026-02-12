@@ -4,7 +4,7 @@ import type {
   LessonCompleteRequest,
   LessonCompleteResponse,
   ProgressResponse,
-  LeaderboardEntry,
+  LeaderboardResponse,
 } from "./progress-types";
 
 const getAuthHeaders = (): Record<string, string> => {
@@ -49,9 +49,7 @@ export async function completeLesson(
   return response.json();
 }
 
-export async function getProgress(
-  baseUrl: string,
-): Promise<ProgressResponse> {
+export async function getProgress(baseUrl: string): Promise<ProgressResponse> {
   const response = await fetch(`${baseUrl}/api/v1/progress`, {
     headers: getAuthHeaders(),
   });
@@ -63,7 +61,7 @@ export async function getProgress(
 
 export async function getLeaderboard(
   baseUrl: string,
-): Promise<LeaderboardEntry[]> {
+): Promise<LeaderboardResponse> {
   const response = await fetch(`${baseUrl}/api/v1/leaderboard`, {
     headers: getAuthHeaders(),
   });

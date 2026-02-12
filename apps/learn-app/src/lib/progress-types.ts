@@ -48,6 +48,8 @@ export interface ProgressResponse {
     longest_streak: number;
     quizzes_completed: number;
     perfect_scores: number;
+    lessons_completed: number;
+    badge_count: number;
   };
   badges: BadgeEarned[];
   chapters: Array<{
@@ -65,10 +67,16 @@ export interface ProgressResponse {
 }
 
 export interface LeaderboardEntry {
-  id: string;
+  rank: number;
+  user_id: string;
   display_name: string;
   avatar_url: string | null;
   total_xp: number;
-  rank: number;
   badge_count: number;
+}
+
+export interface LeaderboardResponse {
+  entries: LeaderboardEntry[];
+  current_user_rank: number | null;
+  total_users: number;
 }

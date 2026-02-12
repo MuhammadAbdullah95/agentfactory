@@ -248,6 +248,7 @@ async def test_progress_response_shape(client: AsyncClient):
     # Verify stats shape
     expected_stat_keys = {
         "total_xp",
+        "rank",
         "quizzes_completed",
         "perfect_scores",
         "current_streak",

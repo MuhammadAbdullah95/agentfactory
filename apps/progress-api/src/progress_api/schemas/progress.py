@@ -16,6 +16,7 @@ class StatsInfo(BaseModel):
     """Aggregate stats."""
 
     total_xp: int
+    rank: int | None = None
     quizzes_completed: int
     perfect_scores: int
     current_streak: int

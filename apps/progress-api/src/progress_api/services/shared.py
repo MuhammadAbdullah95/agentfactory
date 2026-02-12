@@ -54,8 +54,11 @@ async def upsert_user_from_jwt(session: AsyncSession, user: CurrentUser) -> User
 async def resolve_or_create_chapter(session: AsyncSession, slug: str) -> Chapter:
     """Resolve chapter_slug to internal chapter via chapter_aliases.
 
-    If the alias doesn't exist, auto-creates chapter + alias (A4: ON CONFLICT DO NOTHING pattern).
+    If the alias doesn't exist, auto-creates chapter + alias.
+    Uses ON CONFLICT DO NOTHING on the alias insert to handle concurrent
+    requests for the same new slug (A4).
     """
+    # Fast path: lookup existing alias
     result = await session.execute(
         select(Chapter)
         .join(ChapterAlias, Chapter.id == ChapterAlias.chapter_id)
@@ -66,8 +69,7 @@ async def resolve_or_create_chapter(session: AsyncSession, slug: str) -> Chapter
     if chapter is not None:
         return chapter
 
-    # Auto-create chapter and alias
-    # Extract part slug and title from the chapter slug
+    # Slow path: create chapter + alias with ON CONFLICT DO NOTHING
     parts = slug.split("/")
     part_slug = parts[0] if len(parts) > 1 else None
     title = parts[-1].replace("-", " ").title() if parts else slug
@@ -76,11 +78,23 @@ async def resolve_or_create_chapter(session: AsyncSession, slug: str) -> Chapter
     session.add(chapter)
     await session.flush()
 
-    alias = ChapterAlias(slug=slug, chapter_id=chapter.id)
-    session.add(alias)
-    await session.flush()
+    # ON CONFLICT DO NOTHING — if another request already created this alias,
+    # we'll pick up their chapter in the re-fetch below.
+    await session.execute(
+        text(
+            "INSERT INTO chapter_aliases (slug, chapter_id) "
+            "VALUES (:slug, :chapter_id) ON CONFLICT (slug) DO NOTHING"
+        ),
+        {"slug": slug, "chapter_id": chapter.id},
+    )
 
-    return chapter
+    # Re-fetch the canonical chapter via alias (ours or the concurrent winner's)
+    result = await session.execute(
+        select(Chapter)
+        .join(ChapterAlias, Chapter.id == ChapterAlias.chapter_id)
+        .where(ChapterAlias.slug == slug)
+    )
+    return result.scalar_one()
 
 
 async def record_activity_day(

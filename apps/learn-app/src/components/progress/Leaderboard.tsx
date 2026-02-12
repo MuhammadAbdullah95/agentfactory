@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { getLeaderboard } from "@/lib/progress-api";
-import type { LeaderboardEntry } from "@/lib/progress-types";
+import type {
+  LeaderboardEntry,
+  LeaderboardResponse,
+} from "@/lib/progress-types";
 import "@/components/progress/gamification.css";
 import styles from "./Leaderboard.module.css";
 
@@ -38,7 +41,7 @@ export default function Leaderboard() {
     setIsLoading(true);
     getLeaderboard(progressApiUrl)
       .then((data) => {
-        if (!cancelled) setEntries(data);
+        if (!cancelled) setEntries(data.entries);
       })
       .catch(() => {
         // Non-critical
@@ -85,10 +88,10 @@ export default function Leaderboard() {
         </thead>
         <tbody>
           {entries.map((entry) => {
-            const isMe = entry.id === currentUserId;
+            const isMe = entry.user_id === currentUserId;
             return (
               <tr
-                key={entry.id}
+                key={entry.user_id}
                 className={`${styles.row} ${isMe ? styles.currentUser : ""}`}
               >
                 <td className={`${styles.rankCell} ${rankClass(entry.rank)}`}>

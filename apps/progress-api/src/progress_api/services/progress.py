@@ -2,7 +2,7 @@
 
 import logging
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.auth import CurrentUser
@@ -51,9 +51,22 @@ async def get_progress(
     result = await session.execute(select(UserProgress).where(UserProgress.user_id == user.id))
     progress = result.scalar_one_or_none()
 
+    # Get rank from leaderboard materialized view (may not exist yet)
+    rank: int | None = None
+    try:
+        result = await session.execute(
+            text("SELECT rank FROM leaderboard WHERE id = :user_id"),
+            {"user_id": user.id},
+        )
+        rank_row = result.first()
+        rank = rank_row[0] if rank_row else None
+    except Exception:
+        rank = None
+
     if progress is None:
         stats = StatsInfo(
             total_xp=0,
+            rank=rank,
             quizzes_completed=0,
             perfect_scores=0,
             current_streak=0,
@@ -64,6 +77,7 @@ async def get_progress(
     else:
         stats = StatsInfo(
             total_xp=progress.total_xp,
+            rank=rank,
             quizzes_completed=progress.quizzes_completed,
             perfect_scores=progress.perfect_scores,
             current_streak=progress.current_streak,
