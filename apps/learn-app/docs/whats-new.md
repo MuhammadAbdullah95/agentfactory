@@ -17,6 +17,10 @@ Track meaningful updates to the book. This page is automatically updated when do
 
 <!-- CHANGELOG_START - Do not remove this marker -->
 
+### 2026-02-12
+
+- 001 linux mastery v2 ([#709](https://github.com/panaversity/agentfactory/pull/709))
+
 ### 2026-02-10
 - Fix minor markdown rendering in markdown chapter ([#704](https://github.com/panaversity/agentfactory/pull/704))
 
