@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 title: "Chapter 11: Git & GitHub for AI-Driven Development Quiz"
 ---
 
