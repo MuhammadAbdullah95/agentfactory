@@ -13,7 +13,7 @@ This part is a progressive skills lab. Each chapter tackles a specific problem d
 
 ## The Progressive Arc
 
-Each chapter solves a real-world problem while explicitly applying the Seven Principles from Chapter 6. 
+Each chapter solves a real-world problem while explicitly applying the Seven Principles from Chapter 6.
 
 ## Two Interfaces, One Agent
 
@@ -22,7 +22,7 @@ Throughout this part, you'll use your General Agent through two interfaces:
 - **Code** (Claude Code): For precise operations — file processing, data analysis, version control, automation scripts
 - **Cowork** (Claude Desktop): For iterative work — research synthesis, document generation, planning strategies
 
-Each chapter specifies which interface suits the problem. By Chapter 10, you'll fluidly switch between both.
+Each chapter specifies which interface suits the problem. By Chapter 11, you'll fluidly switch between both.
 
 ## A Note on Mindset
 
@@ -35,4 +35,4 @@ Each chapter starts with a problem you recognize from your own work. The solutio
 3. **Execute** in small, reversible steps
 4. **Persist** the output for future reuse
 
-This is the General Agent workflow. By Chapter 11, it will be second nature.
+This is the General Agent workflow. By Chapter 12, it will be second nature.

@@ -46,6 +46,7 @@ Now comes the proof: **Can you complete a second project faster using the intell
 This capstone answers that question decisively. You'll write a second paper section—using the `section-writer` skill created in Lesson 9—and measure how much faster execution becomes. This demonstrates the core principle of SDD-RI: **accumulated intelligence compounds**.
 
 By the end of this capstone, you'll have:
+
 - A complete research paper with multiple sections (portfolio-ready)
 - Evidence that your skills accelerated the work
 - Understanding of why intelligence accumulation matters more than code libraries
@@ -61,17 +62,18 @@ Before diving into the capstone, let's measure what's about to happen.
 
 Lesson 8 took you from nothing to a complete, validated paper section (introduction):
 
-| Phase | Lesson | Time Estimate | What You Did |
-|-------|--------|----------------|-------------|
-| Constitution | 03 | 30 min | Defined research paper quality standards |
-| Specification | 04 | 45 min | Wrote paper introduction spec |
-| Clarify | 05 | 30 min | Refined spec with research requirements |
-| Plan | 06 | 45 min | Designed writing strategy and outline |
-| Tasks | 07 | 30 min | Broke down into atomic writing units |
-| Implement | 08 | 60 min | Generated, refined, and validated introduction |
-| **Total** | | **~3.5 hours** | **Built from scratch** |
+| Phase         | Lesson | Time Estimate  | What You Did                                   |
+| ------------- | ------ | -------------- | ---------------------------------------------- |
+| Constitution  | 03     | 30 min         | Defined research paper quality standards       |
+| Specification | 04     | 45 min         | Wrote paper introduction spec                  |
+| Clarify       | 05     | 30 min         | Refined spec with research requirements        |
+| Plan          | 06     | 45 min         | Designed writing strategy and outline          |
+| Tasks         | 07     | 30 min         | Broke down into atomic writing units           |
+| Implement     | 08     | 60 min         | Generated, refined, and validated introduction |
+| **Total**     |        | **~3.5 hours** | **Built from scratch**                         |
 
 You had to:
+
 - Learn how to structure research paper specifications
 - Discover how to validate claims against sources
 - Troubleshoot writing clarity and academic tone
@@ -82,13 +84,13 @@ You had to:
 
 This lesson takes you from specification to published section using the `section-writer` skill you created:
 
-| Phase | What You'll Do | Time Estimate |
-|-------|----------------|----------------|
-| Specification | Write main body section spec | 15 min |
-| Implement | Execute with `section-writer` skill | 30 min |
-| Validation | Verify against spec criteria | 15 min |
-| Reflection | Document acceleration | 10 min |
-| **Total** | | **~70 minutes** |
+| Phase         | What You'll Do                      | Time Estimate   |
+| ------------- | ----------------------------------- | --------------- |
+| Specification | Write main body section spec        | 15 min          |
+| Implement     | Execute with `section-writer` skill | 30 min          |
+| Validation    | Verify against spec criteria        | 15 min          |
+| Reflection    | Document acceleration               | 10 min          |
+| **Total**     |                                     | **~70 minutes** |
 
 The difference: **You're reusing intelligence.**
 
@@ -97,6 +99,7 @@ The difference: **You're reusing intelligence.**
 Compare the effort:
 
 **Without skill** (hypothetical—writing second section from scratch):
+
 - Discover writing patterns from first section
 - Learn what "quality section" means in your context
 - Determine how to integrate research sources consistently
@@ -104,12 +107,14 @@ Compare the effort:
 - Estimate: 2-3 hours (similar to first section)
 
 **With skill** (your reality—using `section-writer` skill):
+
 - Reference your `section-writer` skill (encodes writing patterns)
 - Let `/sp.implement` invoke that skill
 - Validate output
 - Done in 70 minutes
 
 **The math**:
+
 - **Lesson 8**: 3.5 hours to build writing intelligence
 - **Lesson 11**: 70 minutes using that intelligence
 - **Savings**: 2 hours 20 minutes (65% time reduction)
@@ -124,17 +129,19 @@ Your specification for the main body section should be **intentionally shorter**
 ### Why This Spec Is Simpler
 
 **Lesson 4 (Introduction) spec required:**
+
 - Research paper structure overview
 - Claim definition and validation approach
 - Source integration strategy
 - Multiple decision points (all handled by you the first time)
 
 **Lesson 11 (Main Body) spec requires:**
+
 - Intent (develop key claims with evidence)
 - Constraints (academic standards, source requirements)
 - Success Criteria (clarity, evidence completeness)
 
-The upstream complexity is **encapsulated in your skill**. Your specification just needs to say *what* success looks like, not *how* the skill works internally.
+The upstream complexity is **encapsulated in your skill**. Your specification just needs to say _what_ success looks like, not _how_ the skill works internally.
 
 ### Create Your Main Body Section Specification
 
@@ -181,6 +188,7 @@ Write the main body section of the research paper, developing the three key clai
 ## Edge Cases Handled by Skill
 
 The `section-writer` skill from Lesson 9 handles these:
+
 - Maintaining tone consistency with introduction
 - Integrating diverse sources coherently
 - Structuring long claims into digestible subsections
@@ -189,6 +197,7 @@ The `section-writer` skill from Lesson 9 handles these:
 ```
 
 **Stop and verify**: Your specification is complete when:
+
 - ✅ Intent is clear (developing the three claims from introduction)
 - ✅ Constraints are explicit (structure, evidence requirements, tone, quality standards)
 - ✅ Success criteria are measurable (claim development, source count, word count, tone consistency)
@@ -230,6 +239,7 @@ version: "1.0.0"
 ## Quality Criteria
 
 A section is ready when:
+
 - Someone unfamiliar with topic can follow the logic
 - All claims supported by evidence
 - No sentences require re-reading to understand
@@ -252,11 +262,13 @@ Specification: specs/paper-project/main-body-section.md
 ```
 
 **How skill discovery works**:
+
 1. AI scans `.claude/skills/` for available skills
 2. Your `section-writer` description says "Use when user asks to write a section"
 3. AI automatically loads and applies that skill's workflow
 
 **The AI assistant will**:
+
 1. Read your specification
 2. Discover and load your `section-writer` skill (from `.claude/skills/section-writer/SKILL.md`)
 3. Follow the skill's "How This Skill Works" steps
@@ -264,6 +276,7 @@ Specification: specs/paper-project/main-body-section.md
 5. Validate output against success evals
 
 **What you're NOT doing**:
+
 - ❌ Writing from scratch (no discovery phase)
 - ❌ Learning academic structure again (already in skill)
 - ❌ Figuring out evidence integration (skill handles this)
@@ -357,15 +370,15 @@ Once the section is written, run this validation checklist:
 
 Map your main body section to the specification success evals:
 
-| Success Eval | Evidence | Status |
-|-------------|----------|--------|
+| Success Eval                                    | Evidence                            | Status  |
+| ----------------------------------------------- | ----------------------------------- | ------- |
 | All three claims developed with clear reasoning | Section clearly explains each claim | ✅ / ❌ |
-| Each claim supported by minimum 2 sources | Citations visible in text | ✅ / ❌ |
-| Logical progression between sections | Natural flow from claim to claim | ✅ / ❌ |
-| Academic tone consistent throughout | Matches introduction tone | ✅ / ❌ |
-| Word count within target | 800-1200 words | ✅ / ❌ |
-| Sources properly cited | References formatted correctly | ✅ / ❌ |
-| Reader understands progression | Argument is clear and persuasive | ✅ / ❌ |
+| Each claim supported by minimum 2 sources       | Citations visible in text           | ✅ / ❌ |
+| Logical progression between sections            | Natural flow from claim to claim    | ✅ / ❌ |
+| Academic tone consistent throughout             | Matches introduction tone           | ✅ / ❌ |
+| Word count within target                        | 800-1200 words                      | ✅ / ❌ |
+| Sources properly cited                          | References formatted correctly      | ✅ / ❌ |
+| Reader understands progression                  | Argument is clear and persuasive    | ✅ / ❌ |
 
 **Success condition**: All evals marked ✅
 
@@ -380,6 +393,7 @@ Now comes the insight: pause and measure what just happened.
 **Lesson 8 (First Section from Scratch)**
 
 You had to:
+
 1. Learn research paper specification structure
 2. Discover what "quality academic writing" means in context
 3. Write detailed implementation plan
@@ -393,6 +407,7 @@ You had to:
 **Lesson 11 (Second Section with Skill)**
 
 You only had to:
+
 1. Write specification (15 min)
 2. Reference existing skill
 3. Run `/sp.implement` with skill reference (30 min)
@@ -408,26 +423,32 @@ Why was this faster? Document your observations:
 ## Intelligence Acceleration - Reflection
 
 ### Time Comparison
+
 - **Lesson 8 (first section from scratch)**: ~3.5 hours
 - **Lesson 11 (second section with skill)**: ~70 minutes
 - **Time savings**: ~2 hours 20 minutes (65% reduction)
 
 ### Why It Was Faster
+
 1. **Specification was simpler** — Upstream complexity handled by skill
 2. **Skill encoded patterns** — No discovery needed (academic structure, tone standards, evidence validation)
 3. **Composition worked** — Reused writing intelligence instead of inventing approach
 4. **Fewer decisions** — Skill Persona + Questions meant fewer "how should I structure this?" moments
 
 ### What Came from Skill vs from Scratch
+
 - **From `section-writer` skill**: Academic writing patterns, claim development structure, evidence integration, tone consistency, quality validation
 - **From scratch** (minimal): Only how this specific main body maps to your paper outline
 
 ### Next Paper (Hypothetical)
+
 If you wrote another research paper next month:
+
 - **Without skill**: 3+ hours per section (similar to first time)
 - **With refined skill**: 45 minutes per section (skill improved, patterns reinforced)
 
 ### The Compounding Effect
+
 - **Paper 1**: 3.5 hours per section (build intelligence)
 - **Paper 2**: 1 hour per section (use intelligence)
 - **Paper 3**: 45 min per section (intelligence refined)
@@ -436,9 +457,10 @@ If you wrote another research paper next month:
 **The math of intelligence accumulation**: Each new project takes progressively less time because you're not rediscovering patterns—you're applying known solutions at increasing velocity.
 
 ### Skills as YOUR Assets
+
 - **Code library**: Reusable technical solutions (functions, classes, frameworks)
-- **Intelligence skills**: YOUR reasoning frameworks and domain knowledge, saved as P+Q+P files
-- **Your advantage**: You're building a library of *thinking*, not just code
+- **Intelligence skills**: YOUR reasoning frameworks and domain knowledge, saved as skill files
+- **Your advantage**: You're building a library of _thinking_, not just code
 
 This is how YOU scale your expertise: by encoding patterns as reusable intelligence that YOU invoke across future projects.
 ```
@@ -457,16 +479,19 @@ You now have two documented skills:
 ### What Makes These Skills Valuable
 
 **To yourself**:
+
 - Next paper takes 50% less time
 - Next ten papers compound benefits (each faster)
 - Future writing projects start with foundation, not zero
 
 **To a team**:
+
 - New team members inherit your writing standards
 - Specifications become templates others can reuse
 - Reasoning frameworks spread consistency
 
 **To clients or organizations**:
+
 - Writing velocity multiplies across projects
 - Quality standards are codified, not dependent on individual skill
 - Knowledge doesn't leave when people do
@@ -476,16 +501,19 @@ You now have two documented skills:
 You can articulate the value of your `section-writer` skill in concrete terms:
 
 **Time savings**:
+
 - First paper: 3.5 hours per section
 - Subsequent papers: 1.25 hours per section (65% reduction)
 - 10-paper project: Save ~23 hours using this one skill
 
 **Quality consistency**:
+
 - Patterns are encoded (not rediscovered with each paper)
 - Standards are applied consistently (not dependent on mood or fatigue)
 - Knowledge accumulates (second paper better than first)
 
 **Organizational knowledge**:
+
 - Specification becomes template
 - Skill becomes reference implementation
 - Patterns become organization standard
@@ -534,7 +562,8 @@ You've completed Chapter 13. Verify you have:
 - [ ] **Timeline evidence** — Can demonstrate intelligence acceleration to others
 
 **All boxes checked?** You've completed the full SDD-RI cycle. You have:
-- **Theory** (Chapter 12)
+
+- **Theory** (Chapter 5)
 - **Practice** (Chapter 13, Lessons 1-10)
 - **Application** (Chapter 13, Lesson 11 - this capstone with skill reuse)
 - **Reusable Intelligence** (Documented skills from Lessons 3, 6, 9)
@@ -575,11 +604,12 @@ Prompt 3 (Skill Compounding):
 ```
 
 **Expected Outcomes**:
+
 - **Prompt 1**: AI should help you envision future projects where your skills provide leverage (client papers, research projects, content creation, technical writing)
 - **Prompt 2**: AI should highlight what makes intelligence valuable (pattern reuse, decision framework sharing, quality consistency, reproducibility)
 - **Prompt 3**: AI should demonstrate exponential returns from intelligence accumulation (skills compound across projects, velocity multiplies with each iteration)
 
-**Safety Note**: When you discuss your writing project or future client work, remember that you've built this using specifications and skills as the foundation. Credit the methodology. You didn't use AI to write the entire paper—you used AI to *accelerate* structured thinking with documented specifications and reusable intelligence.
+**Safety Note**: When you discuss your writing project or future client work, remember that you've built this using specifications and skills as the foundation. Credit the methodology. You didn't use AI to write the entire paper—you used AI to _accelerate_ structured thinking with documented specifications and reusable intelligence.
 
 **Optional Stretch**: Now that you have a reusable skill, find a real writing project (research paper for a client, technical documentation, proposal, blog series). Write a specification for that project. Estimate how long it would take you to execute using your `section-writer` skill. Then, using your skill, actually write that project. This is how writers monetize their intelligence accumulation: by solving client problems faster than competitors.
 

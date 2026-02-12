@@ -38,7 +38,7 @@ This lesson is where Pydantic becomes essential for AI-native development. Valid
 
 ### Connections
 
-Builds on: Lesson 1-2 (Pydantic fundamentals, validation), Chapter 12 (prompt engineering), AI tool knowledge (Part 2)
+Builds on: Lesson 1-2 (Pydantic fundamentals, validation), AI tool knowledge (Part 2)
 
 Enables: Production LLM integration, reliable AI agent systems, structured output workflows, validation-driven architecture, prompt optimization loops
 

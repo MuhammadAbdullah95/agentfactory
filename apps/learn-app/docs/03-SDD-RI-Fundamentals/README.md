@@ -35,15 +35,11 @@ That's what this part teaches you.
 
 ## What You'll Learn in Part 3
 
-This part consists of two chapters (12-13) that take you from AI-native tooling to specification-first thinking:
-
-### Chapter 12: Understanding Specification-Driven Development with Reusable Intelligence
-
-You'll discover why specifications matter through experience, not lectures. Starting with a vague requirement that fails, you'll diagnose the problem, then work with your AI companion to understand SDD-RI philosophy, tools, and history. You'll learn why SDD is now making shipping 10x better NOW (not 10 years ago), explore the tools ecosystem (Kiro, Spec-Kit Plus, Tessel), and confront the spec-as-source vision realistically.
+This part consists of one chapter that takes your specification-first thinking from Parts 1-2 and puts it into hands-on practice:
 
 ### Chapter 13: SDD-RI Hands-On: Master Spec-Kit Plus
 
-Here you'll practice specification-first development hands-on, building a real-world project using the Spec-Kit Plus workflow. You'll learn the full SDD-RI pipeline from specification through implementation with reusable intelligence.
+You'll practice specification-first development hands-on, building a real-world project using the Spec-Kit Plus workflow. Building on the SDD-RI concepts introduced in Chapter 5, you'll learn the full pipeline from specification through implementation with reusable intelligence. You'll use every Spec-Kit Plus command on a real research paper project, mastering the workflow you'll apply to every future project.
 
 ## What You Won't Learn (Yet)
 

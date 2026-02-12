@@ -45,7 +45,7 @@ The `/sp.tasks` command transforms a specification and plan into a structured br
 - **Within SDD-RI Workflow**: `/sp.tasks` is the bridge between planning (intent, approach) and execution (atomic work units, checkpoints). Spec → Plan → Tasks → Implement → Validate forms the complete workflow.
 
 - **Requires**:
-  - Understanding of specification structure (Chapter 12, Lesson 1)
+  - Understanding of specification structure (Chapter 5)
   - Understanding of plan structure and phases (Lesson 6)
   - Ability to trace lineage from specification through plan to tasks (validation skill)
   - Familiarity with acceptance criteria as measurable completion signals (Lesson 6)

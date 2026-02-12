@@ -8,7 +8,7 @@ Spec-Kit Plus is an SDD-RI (Specification-Driven Development with Reusable Intel
 
 - **Horizontal Intelligence (Learning Across Time)**: YOUR knowledge flows from past projects to future projects. ADRs and PHRs are automatically created within each project and stay there. The artifacts document your learning; the wisdom lives in YOU. Each project makes YOU smarter, and that expertise carries forward.
 
-- **Vertical Intelligence (Your Reusable Components)**: After sessions that go well, YOU can create reusable intelligence components: Skills (structured prompts with P+Q+P), Subagents (specialized agents for complex autonomous tasks), or Tools/MCP Servers (custom capabilities). These are user-created (not automatic). You decide when a pattern is worth encoding.
+- **Vertical Intelligence (Your Reusable Components)**: After sessions that go well, YOU can create reusable intelligence components: Skills (structured prompts with persona and principles), Subagents (specialized agents for complex autonomous tasks), or Tools/MCP Servers (custom capabilities). These are user-created (not automatic). You decide when a pattern is worth encoding.
 
 - **Intelligence Compounding**: Unlike code libraries (which solve specific technology problems), YOUR learning compounds because artifacts capture reasoning. Each project makes you faster—not because artifacts transfer, but because YOU internalized what worked.
 
@@ -36,6 +36,6 @@ Spec-Kit Plus is an SDD-RI (Specification-Driven Development with Reusable Intel
 
 ### Progression Context
 
-- **Builds on**: Understanding of clear specifications and intent documentation from Chapters 12-13. Students understand that defining "what you want" before "how to build it" matters.
+- **Builds on**: Understanding of clear specifications and intent documentation from Chapter 5. Students understand that defining "what you want" before "how to build it" matters.
 
 - **Leads to**: Lesson 2 (Setup), Lesson 3 (Constitution), Lessons 4-8 (Workflow phases where ADRs/PHRs are auto-created), Lesson 9 (Learning HOW to create reusable components after good sessions), Lessons 10-11 (Adoption and experiencing acceleration from accumulated expertise).
