@@ -785,6 +785,101 @@ new Paragraph({
 3. Set `font: "Arial"` on every TextRun for consistent rendering
 4. Use `indent: { left: 360 }` for option indentation (not tabs or spaces)
 
+**Option C: Update existing formatted DOCX (preserves custom formatting)**
+
+When an existing DOCX with custom formatting (fonts, colors, table borders, shading) already exists and needs content updates, pandoc `--reference-doc` only copies style definitions — it LOSES inline formatting (table borders, cell shading, custom colors). Instead, use the `/docx` skill's OOXML editing workflow.
+
+**Approach: Rebuild document.xml using original's formatting templates**
+
+1. Unpack the original DOCX:
+
+```bash
+python ooxml/scripts/unpack.py original.docx /tmp/unpacked
+```
+
+2. Extract formatting templates from the original XML (read `word/document.xml`):
+   - Header section (title, subtitle, instruction box with table borders/shading)
+   - Question paragraph formatting (fonts, sizes, spacing, indentation)
+   - Option paragraph formatting (indent, spacing)
+   - Chapter heading formatting (colors, font sizes)
+   - Answer key formatting (correct answer color, reasoning style)
+
+3. Write a Python script that:
+   - Preserves the header XML verbatim (updating only metadata like question count, time)
+   - Parses the updated markdown content
+   - Generates new question XML using the extracted formatting templates
+   - Preserves section properties (page margins, headers/footers) from original
+   - Writes the assembled document.xml back
+
+4. Pack the result:
+
+```bash
+python ooxml/scripts/pack.py /tmp/unpacked output.docx
+```
+
+**Key formatting patterns (from Google Docs / Word-formatted exams):**
+
+```xml
+<!-- Question header: Bold, Arial 11pt -->
+<w:p><w:pPr><w:spacing w:after="40" w:before="300" w:lineRule="auto"/></w:pPr>
+  <w:r><w:rPr>
+    <w:rFonts w:ascii="Arial" w:cs="Arial" w:eastAsia="Arial" w:hAnsi="Arial"/>
+    <w:b w:val="1"/><w:bCs w:val="1"/>
+    <w:sz w:val="22"/><w:szCs w:val="22"/>
+  </w:rPr><w:t xml:space="preserve">Question N</w:t></w:r>
+</w:p>
+
+<!-- Scenario/stem: Arial 11pt, regular -->
+<w:p><w:pPr><w:spacing w:after="60" w:lineRule="auto"/></w:pPr>
+  <w:r><w:rPr>
+    <w:rFonts w:ascii="Arial" w:cs="Arial" w:eastAsia="Arial" w:hAnsi="Arial"/>
+    <w:sz w:val="22"/><w:szCs w:val="22"/>
+  </w:rPr><w:t xml:space="preserve">Text here</w:t></w:r>
+</w:p>
+
+<!-- Options: Indented 360 twips -->
+<w:p><w:pPr><w:spacing w:after="80" w:lineRule="auto"/><w:ind w:left="360"/></w:pPr>
+  <w:r><w:rPr>
+    <w:rFonts w:ascii="Arial" w:cs="Arial" w:eastAsia="Arial" w:hAnsi="Arial"/>
+    <w:sz w:val="22"/><w:szCs w:val="22"/>
+  </w:rPr><w:t xml:space="preserve">A. Option text</w:t></w:r>
+</w:p>
+
+<!-- Chapter heading: Bold, navy (#1b3a5c), Arial 13pt -->
+<w:p><w:pPr><w:spacing w:after="100" w:before="600" w:lineRule="auto"/></w:pPr>
+  <w:r><w:rPr>
+    <w:rFonts w:ascii="Arial" w:cs="Arial" w:eastAsia="Arial" w:hAnsi="Arial"/>
+    <w:b w:val="1"/><w:bCs w:val="1"/>
+    <w:color w:val="1b3a5c"/>
+    <w:sz w:val="26"/><w:szCs w:val="26"/>
+  </w:rPr><w:t xml:space="preserve">CHAPTER N: TITLE</w:t></w:r>
+</w:p>
+
+<!-- Answer key: Correct answer in bold green (#1a7431) -->
+<w:p><w:pPr><w:spacing w:after="60" w:before="120" w:lineRule="auto"/></w:pPr>
+  <w:r><w:rPr>
+    <w:rFonts w:ascii="Arial" w:cs="Arial" w:eastAsia="Arial" w:hAnsi="Arial"/>
+    <w:b w:val="1"/><w:bCs w:val="1"/>
+    <w:color w:val="1a7431"/>
+    <w:sz w:val="22"/><w:szCs w:val="22"/>
+  </w:rPr><w:t xml:space="preserve">Correct Answer: B</w:t></w:r>
+</w:p>
+
+<!-- Type tag (answer key only): Italic gray, 9pt -->
+<w:r><w:rPr>
+  <w:rFonts w:ascii="Arial" w:cs="Arial" w:eastAsia="Arial" w:hAnsi="Arial"/>
+  <w:i w:val="1"/><w:iCs w:val="1"/>
+  <w:color w:val="666666"/>
+  <w:sz w:val="18"/><w:szCs w:val="18"/>
+</w:rPr><w:t xml:space="preserve">  [Ch1] [Scenario Analysis]</w:t></w:r>
+```
+
+**When to use Option C vs A/B:**
+
+- Option A (pandoc): New exam, no existing formatting to preserve
+- Option B (docx-js): New exam, need professional formatting from scratch
+- Option C (OOXML edit): Updating existing formatted DOCX (e.g., adding questions, fixing content)
+
 **Step 4: Post-conversion validation**
 
 - Verify both DOCX files exist and exam > 10KB
@@ -806,25 +901,27 @@ new Paragraph({
 
 ## Failure Modes (Summary)
 
-| Failure                                 | Prevention                                                    | Detection                                                 |
-| --------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------- |
-| **Curriculum context skipped**          | **Phase 0 MANDATORY**                                         | Part README not read before lesson reading                |
-| **Prerequisite chapters over-weighted** | Chapter role classification                                   | "prerequisite" chapters should get 2-5%, not equal weight |
-| **Lesson count = question count**       | Two-level weighting (chapter + lesson)                        | Distribution ignores book learning objectives             |
-| Memorization questions                  | Structural FAIL conditions                                    | grep for "According to", "Lesson [0-9]"                   |
-| **Length bias (correct 2x+ longer)**    | Per-question ratio FAIL: all options within 0.8x-1.2x of mean | Word count ratio per question, batch >15% = FAIL          |
-| **Position bias (B/C clustering)**      | Anti-gaming FAIL: middle >55%                                 | Count B+C vs A+D distribution                             |
-| **Specificity bias**                    | WARN: correct >30% more specific                              | Score options with examples/qualifiers                    |
-| Answer bias (74% A)                     | Anti-gaming FAIL: any letter >30%                             | Count distribution per letter                             |
-| Fabricated concepts                     | Grounding notes required                                      | Every concept must cite a notes entry                     |
-| Too few questions                       | Importance-weighted: core=3-5, supporting=1-2, intro=0-1      | Weighted sum drives minimum, not flat count               |
-| Wrong chapter/part                      | `ls -d` filesystem discovery                                  | Path validation before proceeding                         |
-| Missing lessons                         | Complete lesson count + notes file                            | Notes file has entry per lesson                           |
-| No coordination                         | TaskList created upfront                                      | Task status visible across phases                         |
-| Context overload                        | Subagents receive only concept map + types                    | ~300 lines context vs 937+176KB                           |
-| Internal tags in exam                   | Strip [Type] and [Concept:] in Phase 4                        | grep for brackets in exam.md = 0                          |
-| Answers in student file                 | Two separate files (exam + key)                               | No "Answer:" in exam DOCX                                 |
-| Bullet points in DOCX                   | Use `**A.**` format, never `A)`                               | pandoc treats `A)` as list marker                         |
+| Failure                                 | Prevention                                                     | Detection                                                 |
+| --------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------- |
+| **Curriculum context skipped**          | **Phase 0 MANDATORY**                                          | Part README not read before lesson reading                |
+| **Prerequisite chapters over-weighted** | Chapter role classification                                    | "prerequisite" chapters should get 2-5%, not equal weight |
+| **Lesson count = question count**       | Two-level weighting (chapter + lesson)                         | Distribution ignores book learning objectives             |
+| Memorization questions                  | Structural FAIL conditions                                     | grep for "According to", "Lesson [0-9]"                   |
+| **Length bias (correct 2x+ longer)**    | Per-question ratio FAIL: all options within 0.8x-1.2x of mean  | Word count ratio per question, batch >15% = FAIL          |
+| **Position bias (B/C clustering)**      | Anti-gaming FAIL: middle >55%                                  | Count B+C vs A+D distribution                             |
+| **Specificity bias**                    | WARN: correct >30% more specific                               | Score options with examples/qualifiers                    |
+| Answer bias (74% A)                     | Anti-gaming FAIL: any letter >30%                              | Count distribution per letter                             |
+| Fabricated concepts                     | Grounding notes required                                       | Every concept must cite a notes entry                     |
+| Too few questions                       | Importance-weighted: core=3-5, supporting=1-2, intro=0-1       | Weighted sum drives minimum, not flat count               |
+| Wrong chapter/part                      | `ls -d` filesystem discovery                                   | Path validation before proceeding                         |
+| Missing lessons                         | Complete lesson count + notes file                             | Notes file has entry per lesson                           |
+| No coordination                         | TaskList created upfront                                       | Task status visible across phases                         |
+| Context overload                        | Subagents receive only concept map + types                     | ~300 lines context vs 937+176KB                           |
+| Internal tags in exam                   | Strip [Type] and [Concept:] in Phase 4                         | grep for brackets in exam.md = 0                          |
+| Answers in student file                 | Two separate files (exam + key)                                | No "Answer:" in exam DOCX                                 |
+| Bullet points in DOCX                   | Use `**A.**` format, never `A)`                                | pandoc treats `A)` as list marker                         |
+| **DOCX formatting loss**                | Use Option C (OOXML edit) when existing formatted DOCX exists  | pandoc `--reference-doc` loses inline formatting          |
+| **Answer key drift after replacements** | When replacing questions, explicitly update answer key answers | Diff old vs new answer keys, confirm changed Q numbers    |
 
 For historical context on these failures, see the Jan 2026 postmortem in the skill's git history.
 
