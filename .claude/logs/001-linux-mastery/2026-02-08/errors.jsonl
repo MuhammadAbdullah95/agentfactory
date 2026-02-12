@@ -1,0 +1,1 @@
+{"timestamp": "2026-02-08T18:11:29Z", "session_id": "6428d27c-cc31-4ffc-bc44-7724e5aa1fa6", "user": "", "branch": "001-linux-mastery", "event": "tool_failure", "tool": "Glob", "attempted": "{\n  \"pattern\": \"apps/learn-app/docs/02-Applied-General-Agent-Workflows/10-linux-mastery/**/*.md\"\n}", "error": ""}

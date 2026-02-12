@@ -55,6 +55,7 @@ interface WordBoundary {
 interface TextBlock {
     element: Element;
     text: string;
+    originalHtml: string;
     wordBoundaries: WordBoundary[];
 }
 
@@ -79,6 +80,12 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
     // Track current position with refs
     const activeBlockIndexRef = useRef(-1);
     const currentWordIndexRef = useRef(-1);
+
+    // Synchronous pause guard — checked in onboundary and fallback to skip updates while paused
+    const isPausedRef = useRef(false);
+
+    // Chrome keepalive: re-calls pause() every 10s to prevent 15-second auto-resume
+    const chromeKeepAliveRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     // Unique ID for each utterance to prevent stale callbacks
     const utteranceIdRef = useRef(0);
@@ -158,6 +165,10 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         currentWordIndexRef.current = currentWordIndex;
     }, [currentWordIndex]);
 
+    useEffect(() => {
+        isPausedRef.current = isPaused;
+    }, [isPaused]);
+
     const parseArticleContent = useCallback((): TextBlock[] => {
         const article = document.querySelector("article");
         if (!article) return [];
@@ -190,7 +201,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
 
             if (wordBoundaries.length > 0) {
                 element.setAttribute("data-voice-block", String(blocks.length));
-                blocks.push({ element, text, wordBoundaries });
+                blocks.push({ element, text, originalHtml: element.innerHTML, wordBoundaries });
             }
         });
 
@@ -218,12 +229,12 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
     const unwrapWords = useCallback(() => {
         const wrappedBlocks = document.querySelectorAll("[data-voice-block]");
         wrappedBlocks.forEach(block => {
-            const originalText = blocksRef.current.find((_, idx) =>
+            const stored = blocksRef.current.find((_, idx) =>
                 block.getAttribute("data-voice-block") === String(idx)
-            )?.text;
+            );
 
-            if (originalText) {
-                block.textContent = originalText;
+            if (stored) {
+                block.innerHTML = stored.originalHtml;
             }
             block.removeAttribute("data-voice-block");
             block.classList.remove("voice-block--active", "voice-block--inactive");
@@ -321,7 +332,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
 
         // Clear any existing fallback timer
         if (fallbackTimerRef.current) {
-            clearInterval(fallbackTimerRef.current);
+            clearTimeout(fallbackTimerRef.current);
             fallbackTimerRef.current = null;
         }
 
@@ -334,26 +345,18 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
         const avgWordDuration = 280 / safePlaybackRate; // ms per word
         let fallbackWordIndex = startWordIndex;
 
-        // Start fallback timer after a short delay to give onboundary a chance
-        const startFallbackTimer = () => {
-            fallbackTimerRef.current = setInterval(() => {
-                // Check if this is still the active utterance
-                if (currentUtteranceIdRef.current !== thisUtteranceId) {
-                    if (fallbackTimerRef.current) {
-                        clearInterval(fallbackTimerRef.current);
-                        fallbackTimerRef.current = null;
-                    }
-                    return;
-                }
+        // Schedule the next word advance via setTimeout, then chain to the next
+        const scheduleNextWord = () => {
+            // Guard: stop if utterance changed, boundary events took over, or paused
+            if (currentUtteranceIdRef.current !== thisUtteranceId) return;
+            if (boundaryFiredRef.current) return;
+            if (isPausedRef.current) return;
 
-                // If onboundary fired, it's working - stop the fallback
-                if (boundaryFiredRef.current) {
-                    if (fallbackTimerRef.current) {
-                        clearInterval(fallbackTimerRef.current);
-                        fallbackTimerRef.current = null;
-                    }
-                    return;
-                }
+            fallbackWordIndex++;
+            if (fallbackWordIndex >= block.wordBoundaries.length) {
+                fallbackTimerRef.current = null;
+                return;
+            }
 
                 // Advance to next word
                 fallbackWordIndex++;
@@ -381,7 +384,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
             if (!boundaryFiredRef.current && currentUtteranceIdRef.current === thisUtteranceId) {
                 startFallbackTimer();
             }
-        }, 300);
+        }, 150);
 
         utterance.onboundary = (event) => {
             // Only process if this is still the current utterance
@@ -394,7 +397,7 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
                 // Word boundaries are working, so we can disable the fallback timer.
                 boundaryFiredRef.current = true;
                 if (fallbackTimerRef.current) {
-                    clearInterval(fallbackTimerRef.current);
+                    clearTimeout(fallbackTimerRef.current);
                     fallbackTimerRef.current = null;
                 }
 
@@ -506,6 +509,15 @@ export function VoiceReadingProvider({ children }: { children: React.ReactNode }
     const resumeSpeech = useCallback(() => {
         if (typeof window === "undefined" || !window.speechSynthesis) return;
         if (!isPlaying || !isPaused) return;
+
+        // Clear Chrome keepalive before resuming
+        if (chromeKeepAliveRef.current) {
+            clearInterval(chromeKeepAliveRef.current);
+            chromeKeepAliveRef.current = null;
+        }
+
+        // Set synchronous ref BEFORE resume() so handlers see it immediately
+        isPausedRef.current = false;
 
         window.speechSynthesis.resume();
         setIsPaused(false);
