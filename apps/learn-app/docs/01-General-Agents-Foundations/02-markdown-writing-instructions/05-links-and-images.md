@@ -653,6 +653,105 @@ Your Task Tracker App specification now has everything an AI agent needs to unde
 - **Supporting resources** (links)
 - **Visual context** (images)
 
+### Check Your Work
+
+Compare your specification against this reference. Don't worry if yours isn't identical — the important thing is that it has the right structure and elements.
+
+<details>
+<summary><strong>Reference: Complete Task Tracker Specification (click to expand)</strong></summary>
+
+````text
+# Task Tracker App
+
+## Problem
+
+People forget daily tasks and lose track of what they've completed.
+A simple command-line tracker lets users manage tasks without
+complicated software.
+
+## Features
+
+### Add Tasks
+- Create tasks with title and description
+- Set optional due dates
+- Assign priority levels (high, medium, low)
+
+### View Tasks
+- Display all tasks with status
+- Filter by priority or due date
+- Show completed and pending separately
+
+### Mark Complete
+- Mark tasks as done
+- Track completion timestamps
+- Move completed tasks to archive
+
+### Delete Tasks
+- Remove tasks permanently
+- Confirm before deleting to prevent accidents
+
+## Expected Output
+
+When the user runs `python tracker.py`, they should see:
+
+```text
+Task Tracker Menu
+1. Add Task
+2. View Tasks
+3. Mark Complete
+4. Delete Task
+5. Exit
+
+Choose an option: _
+```
+
+When viewing tasks, the display looks like:
+
+```text
+Your Tasks:
+1. Buy groceries [Pending] - Due: 2025-11-08
+2. Call dentist [Pending] - Due: 2025-11-07
+3. Submit report [Complete] - Done: 2025-11-06
+```
+
+When the task list is empty:
+
+```text
+Your Tasks:
+No tasks yet. Use option 1 to add a task.
+```
+
+## Installation
+
+1. Install Python 3.9 or higher from python.org
+2. Download the task tracker files from GitHub
+3. Navigate to the project folder: `cd task-tracker`
+4. Run the program: `python tracker.py`
+
+## Resources
+
+- [Python Official Documentation](https://docs.python.org/) - Language reference
+- [Python File I/O Tutorial](https://docs.python.org/3/tutorial/inputoutput.html) - For saving tasks to file
+
+## Screenshot
+
+![Task Tracker main menu showing 5 options: Add Task, View Tasks, Mark Complete, Delete Task, and Exit](https://via.placeholder.com/600x300.png?text=Task+Tracker+Menu)
+
+## Architecture Diagram
+
+![Data flow diagram showing user input going to Task class then to file storage](./images/architecture.png)
+````
+
+**What to check in your version:**
+- One `#` title, four `##` sections, four `###` feature headings
+- Features use bullet lists (unordered — order doesn't matter)
+- Installation uses numbered list (ordered — sequence matters)
+- Expected output uses fenced code blocks with `text` tag
+- At least one link with descriptive text (not "click here")
+- At least one image with descriptive alt text (not just "screenshot")
+
+</details>
+
 ### What's Next?
 
 In the **Chapter Quiz**, you'll test your markdown knowledge. Then you'll be ready to write specifications for your own projects—and have AI agents help you build them.
