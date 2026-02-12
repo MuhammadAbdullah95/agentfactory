@@ -427,7 +427,7 @@ Test your understanding of links and images by building a real README section.
 
 Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
-### Prompt 1 (Links Practice):
+**Prompt 1 (Links Practice):**
 
 ```
 I'm writing a README for a Python weather app that uses the requests library
@@ -435,7 +435,17 @@ and the OpenWeatherMap API. Write me a "Getting Started" section that includes
 links to the relevant documentation. Use proper markdown link syntax.
 ```
 
-### Prompt 2 (Images Practice):
+**Expected Outcome:**
+
+Your AI will generate a section with properly formatted `[text](url)` links:
+
+- Links pointing to real documentation pages (requests, OpenWeatherMap)
+- Descriptive link text (not "click here")
+- Clean URLs without spaces
+
+---
+
+**Prompt 2 (Images Practice):**
 
 ```
 Now add an "Architecture" section to my weather app README. Include a placeholder
@@ -443,7 +453,17 @@ image showing the data flow (user → app → API → response). Use proper mark
 image syntax with descriptive alt text.
 ```
 
-### Prompt 3 (Combined Practice):
+**Expected Outcome:**
+
+Your AI will create an image reference using `![alt text](url)` syntax:
+
+- The `!` prefix that distinguishes images from links
+- Descriptive alt text explaining what the diagram shows
+- A placeholder URL or reference to a local image path
+
+---
+
+**Prompt 3 (Combined Practice):**
 
 ```
 Review this README section I wrote and suggest improvements to my links and images:
@@ -457,6 +477,14 @@ Screenshot:
 
 What markdown syntax errors did I make? Fix them for me.
 ```
+
+**Expected Outcome:**
+
+Your AI should catch at least three errors:
+
+- Bare URLs without proper link syntax (`https://docs.python.org` needs `[text](url)` format)
+- Missing `!` on the image (creates a link instead of an embedded image)
+- Vague alt text that doesn't describe the image content
 
 ---
 
