@@ -14,6 +14,7 @@ export interface QuizProps {
   title?: string;
   questions: QuizQuestion[];
   questionsPerBatch?: number; // Number of questions to show per batch (default: 15-20)
+  onComplete?: (result: { score_pct: number; questions_correct: number; questions_total: number }) => void;
 }
 
 // Utility function to shuffle array
@@ -29,7 +30,8 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 const Quiz: React.FC<QuizProps> = ({
   title = "Quiz",
   questions,
-  questionsPerBatch = 15
+  questionsPerBatch = 15,
+  onComplete,
 }) => {
   // Create a ref for smooth scrolling
   const quizRef = useRef<HTMLDivElement>(null);
@@ -141,6 +143,15 @@ const Quiz: React.FC<QuizProps> = ({
     setShowResults(true);
     // Trigger scroll after React renders
     setShouldScroll(true);
+    // Notify parent with score data
+    if (onComplete) {
+      const result = calculateScore();
+      onComplete({
+        score_pct: result.percentage,
+        questions_correct: result.correct,
+        questions_total: result.total,
+      });
+    }
   };
 
   const handleReset = () => {
