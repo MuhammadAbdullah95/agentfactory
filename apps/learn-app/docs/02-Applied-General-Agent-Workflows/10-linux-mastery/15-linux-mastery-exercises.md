@@ -130,14 +130,14 @@ This framework applies to every server operations task, not just these exercises
 
 For each exercise, evaluate yourself on:
 
-| Criteria | Beginner (1) | Developing (2) | Proficient (3) | Advanced (4) |
-|----------|:---:|:---:|:---:|:---:|
-| **Investigation** | Changed files without checking state | Some checks, missed key info | Systematic state verification before every change | Reusable investigation scripts |
-| **Operations** | No backups, single large changes | Some safety measures | Backup-first, atomic operations, verified each step | Scripted operations with rollback |
-| **Security** | Ran as root, no permission checks | Basic permission awareness | Least privilege, SSH keys, firewall rules | Security as architectural default |
-| **Debugging** | Random changes hoping to fix | Some log reading | Systematic layer-by-layer diagnosis | Automated health checks |
-| **Automation** | All manual operations | Some scripts | Complete deployment scripts | Idempotent, tested pipelines |
-| **Documentation** | Nothing documented | Some notes | Full server maps, audit reports, fix logs | Runbooks and operational playbooks |
+| Criteria          |             Beginner (1)             |        Developing (2)        |                   Proficient (3)                    |            Advanced (4)            |
+| ----------------- | :----------------------------------: | :--------------------------: | :-------------------------------------------------: | :--------------------------------: |
+| **Investigation** | Changed files without checking state | Some checks, missed key info |  Systematic state verification before every change  |   Reusable investigation scripts   |
+| **Operations**    |   No backups, single large changes   |     Some safety measures     | Backup-first, atomic operations, verified each step | Scripted operations with rollback  |
+| **Security**      |  Ran as root, no permission checks   |  Basic permission awareness  |      Least privilege, SSH keys, firewall rules      | Security as architectural default  |
+| **Debugging**     |     Random changes hoping to fix     |       Some log reading       |         Systematic layer-by-layer diagnosis         |      Automated health checks       |
+| **Automation**    |        All manual operations         |         Some scripts         |             Complete deployment scripts             |    Idempotent, tested pipelines    |
+| **Documentation** |          Nothing documented          |          Some notes          |      Full server maps, audit reports, fix logs      | Runbooks and operational playbooks |
 
 ---
 
@@ -229,7 +229,7 @@ Build a pipeline that assembles 3 complete configuration files from the fragment
 
 **Better Prompt (Build Toward This):**
 
-After running `ls config-fragments/` and `cat variables.env`: "Build a config assembly pipeline: (1) Read variables.env and export all variables, (2) For agent.conf: cat base.conf auth-secrets.template rate-limits.yaml, pipe through envsubst to replace all {{VAR}} placeholders, strip comment lines with grep -v '^#', output to agent.conf, (3) Repeat for nginx.conf and docker-compose.yml with their respective fragments, (4) Validate each output — check nginx.conf with nginx -t syntax, verify YAML with python -c 'import yaml', confirm no unresolved {{}} placeholders remain."
+After running `ls config-fragments/` and `cat variables.env`: "Build a config assembly pipeline: (1) Read variables.env and export all variables, (2) For agent.conf: cat base.conf auth-secrets.template rate-limits.yaml, pipe through envsubst to replace all `{{VAR}}` placeholders, strip comment lines with grep -v '^#', output to agent.conf, (3) Repeat for nginx.conf and docker-compose.yml with their respective fragments, (4) Validate each output — check nginx.conf with nginx -t syntax, verify YAML with python -c 'import yaml', confirm no unresolved `{{}}` placeholders remain."
 
 **Reflection Questions:**
 
