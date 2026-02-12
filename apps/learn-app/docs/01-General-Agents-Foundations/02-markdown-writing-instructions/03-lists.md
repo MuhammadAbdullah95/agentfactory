@@ -462,7 +462,7 @@ When you use lists correctly in specifications, AI agents can:
 3. **Generate appropriate code** — "Create 5 functions, one for each feature"
 4. **Follow sequences** — "Set up installation script with these 4 steps in order"
 
-Good list usage makes your specifications clearer, which leads to better AI-generated code.
+Lists turn vague intentions into countable, trackable requirements — exactly what AI needs to generate accurate code.
 
 :::info[Expert Insight]
 Professional specifications use list type as semantic information. When AI sees an unordered list under "Features," it knows these are parallel capabilities that can be developed independently—perfect for parallel development or modular architecture. When it sees ordered lists under "Installation," it knows to generate sequential scripts or documentation. This semantic clarity reduces miscommunication and speeds up development.

@@ -141,12 +141,12 @@ Run this command to install:
 pip install task-tracker
 ```
 
-**See the structure?**
+Notice the pattern:
 - One Level 1 heading for the title: `# Task List App`
 - Four Level 2 headings for main sections: `## Problem`, `## Features`, etc.
 - No Level 3 headings needed (the document is simple enough)
 
-This structure lets anyone (human or AI) scan the document and immediately understand what each section contains.
+Both a human skimming the page and an AI parsing the file can instantly find any section.
 
 #### 💬 AI Colearning Prompt
 

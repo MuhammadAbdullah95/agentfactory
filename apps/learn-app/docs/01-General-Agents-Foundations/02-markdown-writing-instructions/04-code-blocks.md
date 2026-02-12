@@ -121,7 +121,7 @@ In the previous lesson, you learned lists for organizing content. Code blocks se
 
 ![Side-by-side comparison showing unordered lists (left panel: bullet points using dash syntax for features and independent items) versus fenced code blocks (right panel: triple backticks for showing code examples and command output). Demonstrates when to use each format based on content type.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
 
-**Lists** format content into readable bullet points or numbered steps. **Code blocks** preserve exact formatting — every space, every character appears exactly as you type it. Use lists when organizing ideas, use code blocks when showing code or expected output.
+**Lists** organize ideas into readable bullet points or numbered steps. **Code blocks** preserve exact formatting — every space, every character appears exactly as you type it. Use lists to describe *what* the software does; use code blocks to show *what it looks like* when running.
 
 ---
 
@@ -332,12 +332,7 @@ Use single backticks for:
 3. Create a file named `config.py` with your API key
 4. Run the program with `python weather.py`
 
-**See how it works?**
-- Commands like `pip install requests` are in backticks
-- File names like `config.py` are in backticks
-- Function names like `get_weather()` are in backticks
-
-This makes the specification much clearer.
+Notice the difference: backticks visually separate code from prose, so readers never confuse a command like `pip install requests` with regular text. The same applies to file names (`config.py`) and function names (`get_weather()`).
 
 #### 🤝 Practice Exercise
 
@@ -556,7 +551,7 @@ When you use code blocks correctly, AI agents can:
 4. **Follow command syntax** - "These inline codes are commands to run"
 5. **Semantic anchoring** - When you wrap a command in backticks like `python tracker.py`, you tell the AI: "This is a literal string, not a word to translate or summarize." This prevents the AI from hallucinating different command names.
 
-Good code block usage = clearer specifications = better AI-generated code.
+Code blocks eliminate the gap between "what you described" and "what you meant." When AI can see the exact output you expect, it builds to match.
 
 :::info[Expert Insight]
 In professional development, code blocks serve as executable documentation. When you show expected output in a fenced code block, that becomes the acceptance test—did the generated code produce exactly this output? This practice, called "specification by example," reduces ambiguity dramatically. Concrete examples are easier to understand and harder to misinterpret than abstract descriptions, so everyone (human and AI) can see exactly what "correct" looks like — reducing miscommunication and rework during implementation.

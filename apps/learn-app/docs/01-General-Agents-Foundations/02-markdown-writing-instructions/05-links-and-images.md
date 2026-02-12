@@ -9,6 +9,8 @@ duration_minutes: 35
 proficiency: "A2"
 concepts: 3
 
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Creating Links"
     proficiency_level: "A2"
@@ -195,7 +197,7 @@ Now readers can click through and see:
 - What JSON looks like
 - What sample outputs should look like
 
-This **dramatically improves clarity** because you're not just describing, you're pointing to where readers can find more information.
+Instead of describing resources, you're pointing directly to them — readers get answers in one click.
 
 :::tip[Pro-Tip: Reference-Style Links]
 For documents with many links, markdown supports reference-style links that keep your text clean:
@@ -291,7 +293,7 @@ Here's how images make READMEs more professional:
 ![System diagram](https://via.placeholder.com/600x200.png?text=User+→+API+→+Database)
 ```
 
-See how images make it immediately clear what the app looks like and how it works? That's powerful.
+A screenshot replaces a paragraph of description, and a diagram can explain architecture faster than any list.
 
 ### Common Image Mistakes
 
@@ -590,7 +592,7 @@ When you use links, images, and emphasis correctly in specifications, AI agents 
 4. **Generate appropriate placeholders** - When AI creates documentation, it follows your link/image patterns
 5. **Distinguish priority levels** - Bold (**must**) vs italic (*recommended*) helps AI decide what to implement first vs what is optional
 
-Good use of links, images, and emphasis makes your specifications richer and more actionable for AI.
+Together, these elements transform a basic specification into a rich brief — one that gives AI context, examples, and clear priorities to work from.
 
 :::info[Expert Insight]
 Links, images, and emphasis each add a different dimension to your specifications. Links provide **context anchors** — connecting your spec to authoritative sources that AI can reference. Images provide **visual contracts** — showing what the result should look like. Emphasis provides **priority signals** — telling AI which requirements are non-negotiable and which are nice-to-have. Together, these elements transform a basic specification into a comprehensive brief that guides AI toward accurate, well-prioritized implementations.
