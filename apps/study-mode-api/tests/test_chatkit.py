@@ -29,9 +29,9 @@ class TestAgentCreation:
         )
 
         assert agent.name == "study_tutor_teach"
-        assert "approachable-yet-dynamic tutor" in agent.instructions
+        assert "teaching agent" in agent.instructions
         assert "Test Lesson" in agent.instructions
-        assert "GUIDING" in agent.instructions
+        assert "LESSON CONTENT" in agent.instructions
 
     def test_create_ask_agent_returns_singleton(self):
         """Test creating agent in ask mode returns the singleton."""
@@ -116,7 +116,7 @@ class TestAgentCreation:
             is_first_message=True,
         )
 
-        assert "first message" in agent.instructions
+        assert "FIRST message" in agent.instructions
 
     def test_create_agent_follow_up_no_greeting(self):
         """Test agent excludes greeting for follow-up messages."""
@@ -128,8 +128,9 @@ class TestAgentCreation:
             is_first_message=False,
         )
 
-        assert "do NOT greet again" in agent.instructions
-        assert "first message" not in agent.instructions
+        # Follow-up uses FOLLOW_UP_UNKNOWN instruction, not first message greeting
+        assert "FIRST message" not in agent.instructions
+        assert "Continue the teaching flow" in agent.instructions
 
 
 class TestPromptTemplates:
@@ -139,9 +140,9 @@ class TestPromptTemplates:
         """Test teach prompt contains required instructional elements."""
         assert "{title}" in TEACH_PROMPT
         assert "{content}" in TEACH_PROMPT
-        assert "STRICT RULES" in TEACH_PROMPT
-        assert "GUIDING" in TEACH_PROMPT
-        assert "filler praise" in TEACH_PROMPT
+        assert "TEACHING APPROACH" in TEACH_PROMPT
+        assert "QUESTION DESIGN" in TEACH_PROMPT
+        assert "NEVER DO" in TEACH_PROMPT
 
     def test_ask_prompt_has_required_elements(self):
         """Test ask prompt contains direct answer instructions."""

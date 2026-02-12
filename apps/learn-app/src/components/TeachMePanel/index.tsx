@@ -246,6 +246,8 @@ function ChatKitWrapper({
     }
   }, [initialMessage, sendUserMessage, onInitialMessageSent]);
 
+  // Users type "A" or "B" to answer - this is handled by the chat input
+
   return (
     <div className={styles.chatWrapper}>
       <ChatKit control={control} className={styles.chatKit} />
