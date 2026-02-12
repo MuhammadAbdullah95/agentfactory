@@ -93,6 +93,8 @@ version: "1.0.1"
 
 # Lists - Organizing Ideas
 
+Headings gave your document a skeleton. Now you need to fill it in — and that's where **lists** come in.
+
 Imagine you're giving someone installation instructions in paragraph form:
 
 > "First install Python version 3.9 or higher, then download the project files, after that install the required packages using pip, and finally run the program."
@@ -473,6 +475,10 @@ Professional specifications use list type as semantic information. When AI sees 
 ## Try With AI
 
 Validate your Task Tracker App lists with AI feedback.
+
+:::tip[Remember the Verification Framework]
+When AI reviews your lists, apply the 4-step framework from Lesson 1: check against what you know, ask AI to explain its reasoning, test specific claims, and cross-reference if unsure.
+:::
 
 ### Setup
 

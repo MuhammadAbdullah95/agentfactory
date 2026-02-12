@@ -82,6 +82,8 @@ version: "1.0.1"
 
 # Headings - Creating Document Hierarchy
 
+In Lesson 1, you saw how structured text helps AI understand your intent. Now you'll learn the first building block of that structure: **headings**.
+
 Imagine trying to find information in a document that's just one long wall of text. You'd scroll endlessly, hunting for the part you need. Now imagine that same document with clear sections: "Problem," "Solution," "Features," "Installation." Suddenly you can scan it in seconds.
 
 In markdown, headings create this structure. They organize your document into sections that both humans and AI agents can quickly understand. When you write a specification, headings tell the AI: "This is the problem. These are the features. This is what the output should look like."

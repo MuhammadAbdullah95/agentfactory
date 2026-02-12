@@ -567,6 +567,10 @@ Validate your Task Tracker App code blocks with AI feedback — and test executi
 
 Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
+:::tip[Verification Reminder]
+Prompt 3 below asks AI to implement your spec — this is a great way to test whether your code blocks are clear enough. If the generated code doesn't match your expected output, your spec needs work, not the AI.
+:::
+
 ### Exercise
 
 Take your **updated Task Tracker App specification** (now with code blocks) and ask your AI:

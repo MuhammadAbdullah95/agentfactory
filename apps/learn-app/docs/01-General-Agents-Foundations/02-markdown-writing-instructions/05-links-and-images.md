@@ -424,7 +424,8 @@ If you're bolding entire sentences to make them stand out, consider using a head
 Test your understanding of links and images by building a real README section.
 
 ### Setup
-Use ChatGPT, Claude, or any AI companion you have available.
+
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
 ### Prompt 1 (Links Practice):
 
