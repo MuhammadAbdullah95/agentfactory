@@ -1,6 +1,7 @@
 """UserBadge model."""
 
 from datetime import datetime
+from typing import Optional
 
 import sqlalchemy as sa
 from sqlmodel import Column, DateTime, Field, Relationship, SQLModel, text
@@ -17,4 +18,4 @@ class UserBadge(SQLModel, table=True):
     trigger_ref: str | None = None
 
     # Relationship
-    user: "User | None" = Relationship(back_populates="badges")  # type: ignore[name-defined]  # noqa: F821
+    user: Optional["User"] = Relationship(back_populates="badges")  # noqa: F821

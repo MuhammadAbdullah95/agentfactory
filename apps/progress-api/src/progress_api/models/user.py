@@ -1,6 +1,7 @@
 """User model."""
 
 from datetime import datetime
+from typing import Optional
 
 from sqlmodel import Column, DateTime, Field, Relationship, SQLModel, text
 
@@ -21,6 +22,6 @@ class User(SQLModel, table=True):
     )
 
     # Relationships for selectinload
-    badges: list["UserBadge"] = Relationship(back_populates="user")  # type: ignore[name-defined]  # noqa: F821
-    quiz_attempts: list["QuizAttempt"] = Relationship(back_populates="user")  # type: ignore[name-defined]  # noqa: F821
-    progress: "UserProgress | None" = Relationship(back_populates="user")  # type: ignore[name-defined]  # noqa: F821
+    badges: list["UserBadge"] = Relationship(back_populates="user")  # noqa: F821
+    quiz_attempts: list["QuizAttempt"] = Relationship(back_populates="user")  # noqa: F821
+    progress: Optional["UserProgress"] = Relationship(back_populates="user")  # noqa: F821

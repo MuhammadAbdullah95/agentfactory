@@ -1,6 +1,7 @@
 """QuizAttempt model."""
 
 from datetime import datetime
+from typing import Optional
 
 import sqlalchemy as sa
 from sqlmodel import Column, DateTime, Field, Relationship, SQLModel, text
@@ -24,4 +25,4 @@ class QuizAttempt(SQLModel, table=True):
     )
 
     # Relationship
-    user: "User | None" = Relationship(back_populates="quiz_attempts")  # type: ignore[name-defined]  # noqa: F821
+    user: Optional["User"] = Relationship(back_populates="quiz_attempts")  # noqa: F821

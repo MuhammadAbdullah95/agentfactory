@@ -1,6 +1,7 @@
 """UserProgress model."""
 
 import datetime as dt
+from typing import Optional
 
 import sqlalchemy as sa
 from sqlmodel import Column, DateTime, Field, Relationship, SQLModel, text
@@ -23,4 +24,4 @@ class UserProgress(SQLModel, table=True):
     )
 
     # Relationship
-    user: "User | None" = Relationship(back_populates="progress")  # type: ignore[name-defined]  # noqa: F821
+    user: Optional["User"] = Relationship(back_populates="progress")  # noqa: F821

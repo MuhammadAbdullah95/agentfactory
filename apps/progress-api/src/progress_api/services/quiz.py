@@ -78,6 +78,13 @@ async def submit_quiz(
         best_previous_score=best_previous_score,
     )
 
+    # 7a. COUNT total quizzes BEFORE insert (auto-flush would inflate count)
+    result = await session.execute(
+        select(func.count()).select_from(QuizAttempt).where(QuizAttempt.user_id == user.id)
+    )
+    total_quizzes_before = result.scalar_one()
+    is_first_quiz_ever = total_quizzes_before == 0
+
     # 6. INSERT quiz_attempt
     quiz_attempt = QuizAttempt(
         user_id=user.id,
@@ -102,14 +109,6 @@ async def submit_quiz(
     current_streak, longest_streak = calculate_streak(activity_dates, today=today)
 
     # 7. CHECK badge conditions
-    # Is this the user's first quiz ever?
-    result = await session.execute(
-        select(func.count()).select_from(QuizAttempt).where(QuizAttempt.user_id == user.id)
-    )
-    total_quizzes = result.scalar_one()
-    # total_quizzes doesn't include the one we just added (not flushed yet to count)
-    is_first_quiz_ever = total_quizzes == 0
-
     # Get existing badge IDs
     result = await session.execute(select(UserBadge.badge_id).where(UserBadge.user_id == user.id))
     existing_badge_ids = {row[0] for row in result.all()}
