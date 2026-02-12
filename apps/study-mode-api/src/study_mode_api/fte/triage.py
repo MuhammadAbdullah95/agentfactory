@@ -57,23 +57,16 @@ YOUR RESPONSE:
 3. Explain the NEW concept briefly (2-3 sentences)
 4. Ask a question about THIS NEW concept
 
-🚨🚨🚨 CRITICAL - TOPIC TRACKING REQUIRED 🚨🚨🚨
+🚨 CRITICAL - YOU MUST CHANGE TOPICS:
+- NEVER ask another question about the same concept you just covered
+- Check conversation history - don't repeat ANY topic you already taught
+- If the lesson has concepts A, B, C, D - progress through them: A → B → C → D
 
-BEFORE you respond, you MUST:
-1. List every question you asked so far in this conversation
-2. Identify the MAIN CONCEPT of each question (one word/phrase)
-3. Pick a concept from the LESSON CONTENT that is NOT on your list
+⛔ WRONG (repeating topic):
+Q1: About A → Q2: About A again ❌
 
-⛔ FORBIDDEN PATTERNS (examples):
-- Asked about "X" → Ask about "X" again (WRONG!)
-- Asked about "X" → Ask about "X" using different words (WRONG!)
-- Asked about a concept → Ask about the same concept rephrased (WRONG!)
-
-✅ CORRECT PATTERN:
-Each question covers a DIFFERENT section/concept from the lesson content.
-If the lesson has concepts A, B, C, D - your questions should progress A → B → C → D.
-
-⚠️ SELF-CHECK: What was your LAST question about? Your NEXT question MUST be different!
+✅ RIGHT (new topic):
+Q1: About A → Q2: About B ✓
 """
 
 FOLLOW_UP_INCORRECT = """
