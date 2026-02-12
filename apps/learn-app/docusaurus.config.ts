@@ -423,6 +423,16 @@ const config: Config = {
           label: "Book",
         },
         {
+          to: "/progress",
+          position: "left",
+          label: "Progress",
+        },
+        {
+          to: "/leaderboard",
+          position: "left",
+          label: "Leaderboard",
+        },
+        {
           type: "custom-searchBar",
           position: "right",
         },

@@ -1,0 +1,125 @@
+.container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--ifm-color-emphasis-500);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.35rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+  padding: 0.5rem 0.75rem;
+}
+
+.table th:last-child,
+.table td:last-child {
+  text-align: right;
+}
+
+.row {
+  background: var(--gf-card-bg);
+}
+
+.row td {
+  padding: 0.6rem 0.75rem;
+  border-top: 1px solid var(--gf-card-border);
+  border-bottom: 1px solid var(--gf-card-border);
+}
+
+.row td:first-child {
+  border-left: 1px solid var(--gf-card-border);
+  border-radius: 8px 0 0 8px;
+}
+
+.row td:last-child {
+  border-right: 1px solid var(--gf-card-border);
+  border-radius: 0 8px 8px 0;
+}
+
+.currentUser {
+  background: var(--gf-xp-bg);
+}
+
+.currentUser td {
+  border-color: var(--gf-xp-color);
+}
+
+.rankCell {
+  font-weight: 700;
+  width: 3rem;
+}
+
+.gold {
+  color: oklch(0.8 0.16 85);
+}
+
+.silver {
+  color: oklch(0.7 0.03 260);
+}
+
+.bronze {
+  color: oklch(0.65 0.12 55);
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--ifm-color-emphasis-200);
+}
+
+.avatarPlaceholder {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.xpCell {
+  font-weight: 600;
+  color: var(--gf-xp-color);
+}
+
+.badgeCount {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--ifm-color-emphasis-500);
+}

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLessonTimer } from "@/hooks/useLessonTimer";
+import { useProgress } from "@/contexts/ProgressContext";
 import { completeLesson } from "@/lib/progress-api";
 import styles from "./LessonCompleteButton.module.css";
 
@@ -24,9 +25,14 @@ export default function LessonCompleteButton({
     (siteConfig.customFields?.progressApiUrl as string) ||
     "http://localhost:8002";
 
+  const { isLessonCompleted, refreshProgress } = useProgress();
+  const alreadyCompleted = isLessonCompleted(chapterSlug, lessonSlug);
+
   const activeSeconds = useLessonTimer();
-  const [completed, setCompleted] = useState(false);
+  const [justCompleted, setJustCompleted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const completed = alreadyCompleted || justCompleted;
 
   const handleComplete = useCallback(async () => {
     if (completed || submitting) return;
@@ -37,9 +43,11 @@ export default function LessonCompleteButton({
         lesson_slug: lessonSlug,
         active_duration_secs: activeSeconds,
       });
-      setCompleted(true);
+      setJustCompleted(true);
+      // Refresh progress context so dashboard and other components update
+      refreshProgress();
     } catch {
-      // Progress is an enhancement — never break the lesson experience
+      // Progress is an enhancement -- never break the lesson experience
     } finally {
       setSubmitting(false);
     }
@@ -50,6 +58,7 @@ export default function LessonCompleteButton({
     chapterSlug,
     lessonSlug,
     activeSeconds,
+    refreshProgress,
   ]);
 
   return (

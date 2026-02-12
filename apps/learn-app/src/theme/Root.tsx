@@ -18,6 +18,7 @@ import { PyodideProvider } from '@/contexts/PyodideContext';
 import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { StudyModeProvider } from '@/contexts/StudyModeContext';
 import { VoiceReadingProvider } from '@/contexts/VoiceReadingContext';
+import { ProgressProvider } from '@/contexts/ProgressContext';
 
 export default function Root({ children }: { children: React.ReactNode }) {
   const { siteConfig } = useDocusaurusContext();
@@ -26,6 +27,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthProvider authUrl={authUrl} oauthClientId={oauthClientId}>
+      <ProgressProvider>
       <PyodideProvider>
         <StudyModeProvider>
           <VoiceReadingProvider>
@@ -35,6 +37,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
           </VoiceReadingProvider>
         </StudyModeProvider>
       </PyodideProvider>
+      </ProgressProvider>
     </AuthProvider>
   );
 }

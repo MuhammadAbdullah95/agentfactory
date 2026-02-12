@@ -4,6 +4,7 @@ import Quiz, { QuizProps } from "@/components/quiz/Quiz";
 import ContentGate from "@/components/ContentGate";
 import QuizXPNotification from "@/components/progress/QuizXPNotification";
 import { submitQuizScore } from "@/lib/progress-api";
+import { useProgress } from "@/contexts/ProgressContext";
 import type { QuizSubmitResponse } from "@/lib/progress-types";
 
 interface GatedQuizProps extends QuizProps {
@@ -30,6 +31,7 @@ export function GatedQuiz({
     (siteConfig.customFields?.progressApiUrl as string) ||
     "http://localhost:8002";
 
+  const { refreshProgress } = useProgress();
   const [xpData, setXpData] = useState<QuizSubmitResponse | null>(null);
 
   const handleComplete = useCallback(
@@ -53,11 +55,12 @@ export function GatedQuiz({
           questions_total: result.questions_total,
         });
         setXpData(response);
+        refreshProgress();
       } catch {
         // Progress is an enhancement — never break the quiz experience
       }
     },
-    [progressApiUrl],
+    [progressApiUrl, refreshProgress],
   );
 
   return (

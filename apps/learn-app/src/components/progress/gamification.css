@@ -1,0 +1,38 @@
+/* Gamification Design Tokens — Polar Night compatible */
+
+:root {
+  /* XP */
+  --gf-xp-color: oklch(0.72 0.18 265);
+  --gf-xp-bg: oklch(0.72 0.18 265 / 0.1);
+
+  /* Streaks */
+  --gf-streak-color: oklch(0.75 0.18 55);
+  --gf-streak-bg: oklch(0.75 0.18 55 / 0.1);
+
+  /* Rank */
+  --gf-rank-color: oklch(0.72 0.16 145);
+  --gf-rank-bg: oklch(0.72 0.16 145 / 0.1);
+
+  /* Perfect */
+  --gf-perfect-color: oklch(0.8 0.16 85);
+  --gf-perfect-bg: oklch(0.8 0.16 85 / 0.1);
+
+  /* Badges */
+  --gf-badge-earned: oklch(0.72 0.18 265);
+  --gf-badge-locked: oklch(0.55 0 0);
+  --gf-badge-locked-bg: oklch(0.55 0 0 / 0.08);
+
+  /* Card */
+  --gf-card-bg: var(--ifm-color-emphasis-100);
+  --gf-card-border: var(--ifm-color-emphasis-200);
+  --gf-card-radius: 12px;
+
+  /* Progress bar */
+  --gf-bar-track: var(--ifm-color-emphasis-200);
+  --gf-bar-fill: var(--gf-xp-color);
+}
+
+[data-theme="dark"] {
+  --gf-card-bg: oklch(0.25 0.01 260);
+  --gf-card-border: oklch(0.32 0.01 260);
+}
