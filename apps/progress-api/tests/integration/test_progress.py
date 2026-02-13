@@ -226,6 +226,69 @@ async def test_progress_requires_auth(client: AsyncClient):
 
 
 @pytest.mark.asyncio
+async def test_progress_perfect_scores_and_badge_count(client: AsyncClient):
+    """Progress dashboard shows perfect_scores and badge_count correctly."""
+    user_id = "test-progress-perfects"
+
+    # Submit a perfect quiz
+    await client.post(
+        "/api/v1/quiz/submit",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "score_pct": 100,
+            "questions_correct": 15,
+            "questions_total": 15,
+        },
+        headers={"X-User-ID": user_id},
+    )
+
+    response = await client.get(
+        "/api/v1/progress/me",
+        headers={"X-User-ID": user_id},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    stats = data["stats"]
+    assert stats["perfect_scores"] == 1
+    # first-steps + perfect-score + ace = 3 badges
+    assert stats["badge_count"] == 3
+    assert len(data["badges"]) == 3
+
+    badge_ids = [b["id"] for b in data["badges"]]
+    assert "first-steps" in badge_ids
+    assert "perfect-score" in badge_ids
+    assert "ace" in badge_ids
+
+
+@pytest.mark.asyncio
+async def test_progress_lesson_xp_reflected(client: AsyncClient):
+    """Lesson XP (from >60s reading) appears in total_xp on progress dashboard."""
+    user_id = "test-progress-lesson-xp"
+
+    # Complete a lesson with long reading time (earns 1 XP)
+    await client.post(
+        "/api/v1/lesson/complete",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "lesson_slug": "long-read",
+            "active_duration_secs": 300,
+        },
+        headers={"X-User-ID": user_id},
+    )
+
+    response = await client.get(
+        "/api/v1/progress/me",
+        headers={"X-User-ID": user_id},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["stats"]["total_xp"] == 1
+    assert data["stats"]["lessons_completed"] == 1
+
+
+@pytest.mark.asyncio
 async def test_progress_rank_fallback_without_view(client: AsyncClient):
     """Rank is calculated via fallback when materialized view is not refreshed."""
     user_id = "test-progress-rank-fallback"

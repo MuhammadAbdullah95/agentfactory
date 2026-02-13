@@ -2,6 +2,8 @@
 
 import pytest
 from httpx import AsyncClient
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @pytest.mark.asyncio
@@ -167,6 +169,100 @@ async def test_badge_idempotency(client: AsyncClient):
     )
     d2 = r2.json()
     assert "first-steps" not in [b["id"] for b in d2["new_badges"]]
+
+
+# === Streak Badge Tests ===
+
+
+@pytest.mark.asyncio
+async def test_quiz_streak_badge_on_fire(client: AsyncClient, test_session: AsyncSession):
+    """3-day streak awards the on-fire badge."""
+    user_id = "test-user-streak-badge"
+    from datetime import date, timedelta
+
+    today = date.today()
+
+    # First: submit a quiz to create the user + chapter via API
+    await client.post(
+        "/api/v1/quiz/submit",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "score_pct": 70,
+            "questions_correct": 11,
+            "questions_total": 15,
+        },
+        headers={"X-User-ID": user_id},
+    )
+
+    # Seed activity_days for the previous 2 days (simulating past activity)
+    for days_ago in [2, 1]:
+        past_date = today - timedelta(days=days_ago)
+        await test_session.execute(
+            text(
+                "INSERT INTO activity_days (user_id, activity_date, activity_type, reference_id)"
+                " VALUES (:uid, :dt, 'quiz', 'seed')"
+                " ON CONFLICT DO NOTHING"
+            ),
+            {"uid": user_id, "dt": past_date},
+        )
+    await test_session.commit()
+
+    # Now submit another quiz — today is the 3rd consecutive day
+    r2 = await client.post(
+        "/api/v1/quiz/submit",
+        json={
+            "chapter_slug": "General-Agents-Foundations/general-agents",
+            "score_pct": 75,
+            "questions_correct": 11,
+            "questions_total": 15,
+        },
+        headers={"X-User-ID": user_id},
+    )
+    assert r2.status_code == 200
+    d2 = r2.json()
+
+    badge_ids = [b["id"] for b in d2["new_badges"]]
+    assert "on-fire" in badge_ids
+    assert d2["streak"]["current"] >= 3
+
+
+# === Concurrent Submission Tests ===
+
+
+@pytest.mark.asyncio
+async def test_concurrent_quiz_submissions(client: AsyncClient):
+    """Concurrent quiz submissions both succeed without crashing."""
+    import asyncio
+
+    user_id = "test-user-concurrent"
+    slug = "General-Agents-Foundations/agent-factory-paradigm"
+
+    # Fire two concurrent submissions
+    async def submit():
+        return await client.post(
+            "/api/v1/quiz/submit",
+            json={
+                "chapter_slug": slug,
+                "score_pct": 80,
+                "questions_correct": 12,
+                "questions_total": 15,
+            },
+            headers={"X-User-ID": user_id},
+        )
+
+    r1, r2 = await asyncio.gather(submit(), submit())
+
+    # Both should succeed (200) — no crashes or 500s
+    assert r1.status_code == 200
+    assert r2.status_code == 200
+
+    # Total XP should reflect both submissions
+    d1 = r1.json()
+    d2 = r2.json()
+    total_xp_values = sorted([d1["total_xp"], d2["total_xp"]])
+    # At least one should have 80 XP (first attempt), and the later total
+    # should be >= 80 (the second sees 0 improvement → 0 XP, so still 80)
+    assert total_xp_values[-1] >= 80
 
 
 # === Validation Error Tests (T3) ===

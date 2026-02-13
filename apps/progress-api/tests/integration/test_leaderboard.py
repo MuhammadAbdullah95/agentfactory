@@ -1,5 +1,6 @@
 """Integration tests for GET /api/v1/leaderboard."""
 
+
 import pytest
 from httpx import AsyncClient
 from sqlalchemy import text
@@ -213,3 +214,124 @@ async def test_leaderboard_rank_fallback(client: AsyncClient, test_session: Asyn
     assert data["current_user_rank"] is not None
     assert isinstance(data["current_user_rank"], int)
     assert data["current_user_rank"] >= 1
+
+
+@pytest.mark.asyncio
+async def test_leaderboard_top_n_cap(client: AsyncClient, test_session: AsyncSession):
+    """Leaderboard returns at most 100 entries even with more users."""
+    # Seed 105 users directly in the DB (much faster than 105 API calls)
+    for i in range(105):
+        uid = f"lb-cap-user-{i:03d}"
+        xp = 1000 - i  # descending XP so ranks are deterministic
+        await test_session.execute(
+            text(
+                "INSERT INTO users (id, display_name)"
+                " VALUES (:uid, :name)"
+                " ON CONFLICT DO NOTHING"
+            ),
+            {"uid": uid, "name": f"User {i}"},
+        )
+        await test_session.execute(
+            text(
+                "INSERT INTO user_progress (user_id, total_xp)"
+                " VALUES (:uid, :xp)"
+                " ON CONFLICT (user_id) DO UPDATE SET total_xp = :xp"
+            ),
+            {"uid": uid, "xp": xp},
+        )
+    await test_session.commit()
+
+    # Refresh view so it picks up the seeded data
+    await _refresh_view(test_session)
+
+    response = await client.get(
+        "/api/v1/leaderboard",
+        headers={"X-User-ID": "lb-cap-user-050"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    # Should be capped at 100
+    assert len(data["entries"]) == 100
+    # The user at index 50 is within top 100, so rank is in entries
+    assert data["current_user_rank"] is not None
+
+
+@pytest.mark.asyncio
+async def test_leaderboard_user_rank_beyond_top_n(
+    client: AsyncClient, test_session: AsyncSession
+):
+    """User outside top 100 still gets their rank via fallback."""
+    # Seed 105 users
+    for i in range(105):
+        uid = f"lb-beyond-user-{i:03d}"
+        xp = 2000 - i
+        await test_session.execute(
+            text(
+                "INSERT INTO users (id, display_name)"
+                " VALUES (:uid, :name)"
+                " ON CONFLICT DO NOTHING"
+            ),
+            {"uid": uid, "name": f"User {i}"},
+        )
+        await test_session.execute(
+            text(
+                "INSERT INTO user_progress (user_id, total_xp)"
+                " VALUES (:uid, :xp)"
+                " ON CONFLICT (user_id) DO UPDATE SET total_xp = :xp"
+            ),
+            {"uid": uid, "xp": xp},
+        )
+    await test_session.commit()
+    await _refresh_view(test_session)
+
+    # Request as the last user (rank 105, outside top 100)
+    response = await client.get(
+        "/api/v1/leaderboard",
+        headers={"X-User-ID": "lb-beyond-user-104"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    assert len(data["entries"]) == 100
+    # User 104 is NOT in the top 100 but should still get a rank via fallback
+    assert data["current_user_rank"] is not None
+    assert data["current_user_rank"] > 100
+
+
+@pytest.mark.asyncio
+async def test_preferences_opt_out_reflected_in_leaderboard(
+    client: AsyncClient, test_session: AsyncSession
+):
+    """Opting out of leaderboard removes user from next leaderboard fetch."""
+    # Create two users with XP
+    await _submit_quiz(client, "lb-opt-stays", 90)
+    await _submit_quiz(client, "lb-opt-leaves", 80)
+    await _refresh_view(test_session)
+
+    # Verify both appear
+    r1 = await client.get(
+        "/api/v1/leaderboard",
+        headers={"X-User-ID": "lb-opt-stays"},
+    )
+    user_ids_before = [e["user_id"] for e in r1.json()["entries"]]
+    assert "lb-opt-leaves" in user_ids_before
+
+    # User opts out
+    await client.patch(
+        "/api/v1/progress/me/preferences",
+        json={"show_on_leaderboard": False},
+        headers={"X-User-ID": "lb-opt-leaves"},
+    )
+
+    # Refresh view to reflect the opt-out
+    await _refresh_view(test_session)
+
+    # Verify the opted-out user is gone
+    r2 = await client.get(
+        "/api/v1/leaderboard",
+        headers={"X-User-ID": "lb-opt-stays"},
+    )
+    user_ids_after = [e["user_id"] for e in r2.json()["entries"]]
+    assert "lb-opt-leaves" not in user_ids_after
+    assert "lb-opt-stays" in user_ids_after

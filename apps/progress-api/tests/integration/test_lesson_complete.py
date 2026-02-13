@@ -118,6 +118,59 @@ async def test_lesson_complete_increments_progress(client: AsyncClient):
     assert r.json()["already_completed"] is True
 
 
+# === XP Threshold Tests ===
+
+
+@pytest.mark.asyncio
+async def test_lesson_xp_earned_above_threshold(client: AsyncClient):
+    """Lesson with active_duration_secs > 60 earns 1 XP."""
+    response = await client.post(
+        "/api/v1/lesson/complete",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "lesson_slug": "xp-threshold-above",
+            "active_duration_secs": 120,
+        },
+        headers={"X-User-ID": "test-lesson-xp-above"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["xp_earned"] == 1
+
+
+@pytest.mark.asyncio
+async def test_lesson_xp_zero_at_threshold(client: AsyncClient):
+    """Lesson with active_duration_secs == 60 earns 0 XP (boundary)."""
+    response = await client.post(
+        "/api/v1/lesson/complete",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "lesson_slug": "xp-threshold-exact",
+            "active_duration_secs": 60,
+        },
+        headers={"X-User-ID": "test-lesson-xp-exact"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["xp_earned"] == 0
+
+
+@pytest.mark.asyncio
+async def test_lesson_xp_zero_no_duration(client: AsyncClient):
+    """Lesson with no active_duration_secs earns 0 XP."""
+    response = await client.post(
+        "/api/v1/lesson/complete",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "lesson_slug": "xp-no-duration",
+        },
+        headers={"X-User-ID": "test-lesson-xp-none"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["xp_earned"] == 0
+
+
 # === Validation Error Tests ===
 
 
