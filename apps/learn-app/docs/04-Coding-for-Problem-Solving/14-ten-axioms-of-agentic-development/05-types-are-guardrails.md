@@ -89,7 +89,7 @@ Types shift error detection from runtime to development time. They turn implicit
 
 > **Axiom V: Types Are Guardrails.** Type systems prevent errors before they happen. In the AI era, types are essential because they give AI a specification to generate against and catch hallucinations at compile time.
 
-Types are not bureaucracy. They are not "extra work for no benefit." They are the **code-level equivalent of a specification**---a machine-verifiable contract that constrains what valid code looks like.
+Types are not bureaucracy. They are not "extra work for no benefit." They are the **code-level equivalent of a specification** — a machine-verifiable contract that constrains what valid code looks like.
 
 When Lena rewrote Tomás's endpoint as `def get_order_history(customer_id: int) -> list[CustomerOrder]`, she stated three things in a single line:
 - **What goes in**: an integer (not a string, not a UUID object, not None)
@@ -100,7 +100,7 @@ This contract is enforced by the type checker before your code ever runs. No tes
 
 ## From Principle to Axiom
 
-In Chapter 4, you learned **Principle 6: Constraints and Safety**---the insight that boundaries enable capability. You saw how permission models, sandboxing, and approval workflows create the safety that lets you give AI more autonomy. The paradox: **more constraints lead to more freedom**, because you trust the system enough to let it operate.
+In Chapter 4, you learned **Principle 6: Constraints and Safety** — the insight that boundaries enable capability. You saw how permission models, sandboxing, and approval workflows create the safety that lets you give AI more autonomy. The paradox: **more constraints lead to more freedom**, because you trust the system enough to let it operate.
 
 Axiom V applies the same insight at the code level:
 
@@ -125,6 +125,8 @@ The trade-off stopped being acceptable when AI entered the picture. AI carries n
 
 Python's answer came in 2014, when Guido van Rossum, Jukka Lehtosalo, and Łukasz Langa authored PEP 484 — "Type Hints." The proposal gave Python an opt-in type annotation syntax that preserved the language's dynamic nature while enabling static analysis. You could still write untyped Python. But if you chose to annotate, tools like Mypy and later Pyright could verify Milner's guarantee: well-typed programs cannot go wrong. The discipline was available. The question was whether you would opt in.
 
+Milner's insight — that a machine could verify program correctness before execution — earned him the Turing Award in 1991. Thirty-three years later, his guarantee protects developers from a collaborator he never imagined: AI that generates code with absolute confidence and zero understanding.
+
 In the AI era, the answer is not optional. Types are the specification that constrains what AI generates. Without them, you are Tomás — reviewing code by reading it, hoping you catch what the machine would have caught automatically.
 
 ## Types in Python: The Discipline Stack
@@ -135,58 +137,49 @@ Lena walked Tomás through the three layers she used on every project — the sa
 
 ### Layer 1: Type Hints (The Annotations)
 
-Type hints are Python's built-in syntax for declaring types:
+Type hints are Python's built-in syntax for declaring types. This is the `CustomerOrder` dataclass Lena added after Tomás's crash — the one that made the AI's mistakes visible:
 
 ```python
 from dataclasses import dataclass
-
-
-def calculate_total(prices: list[float], tax_rate: float) -> float:
-    """Calculate total price with tax applied."""
-    subtotal = sum(prices)
-    return subtotal * (1 + tax_rate)
+from datetime import datetime
 
 
 @dataclass
-class Task:
-    title: str
-    description: str
-    priority: int
-    completed: bool = False
+class CustomerOrder:
+    order_id: int
+    customer_name: str
+    total_amount: float
+    created_at: datetime
+    items: list[str]
 
-    def mark_complete(self) -> None:
-        self.completed = True
+
+def get_order_history(customer_id: int) -> list[CustomerOrder]:
+    """Fetch all orders for a customer."""
+    ...
 ```
 
-Type hints alone don't enforce anything at runtime---Python ignores them during execution. But they serve two critical purposes:
+Type hints alone do not enforce anything at runtime — Python ignores them during execution. But they serve two critical purposes:
 
-1. **Documentation that never goes stale**: Unlike comments, type hints are part of the code structure. They can't drift from reality without the type checker flagging it.
+1. **Documentation that never goes stale**: Unlike comments, type hints are part of the code structure. They cannot drift from reality without the type checker flagging it.
 2. **Machine-readable specification**: Type checkers and AI systems can read these annotations to understand what code expects and provides.
 
 ### Layer 2: Pyright in Strict Mode (The Enforcer)
 
-Pyright is a static type checker that reads your annotations and finds errors before you run anything. In strict mode, it requires complete annotations and catches subtle bugs:
+Pyright is a static type checker that reads your annotations and finds errors before you run anything. This is exactly what would have caught Tomás's crash — Pyright sees the mismatch between `dict` and `CustomerOrder` and refuses to proceed:
 
 ```python
 # pyright: strict
 
-def process_tasks(tasks: list[Task]) -> list[str]:
-    """Return titles of completed tasks."""
-    results: list[str] = []
-    for task in tasks:
-        if task.completed:
-            results.append(task.title)
-    return results
+# Tomás's AI-generated code (BROKEN):
+def get_order_history(customer_id: int) -> list[CustomerOrder]:
+    response = fetch_api(f"/customers/{customer_id}/orders")
+    return response  # Error: list[dict] is not list[CustomerOrder]
 
-
-# Pyright catches this error BEFORE runtime:
-def bad_example(tasks: list[Task]) -> list[str]:
-    results = []
-    for task in tasks:
-        # Error: "priority" is int, not str
-        # Cannot append int to list[str]
-        results.append(task.priority)  # Type error caught!
-    return results
+# Pyright also catches attribute hallucinations:
+def summarize_orders(orders: list[CustomerOrder]) -> float:
+    return sum(o.total_price for o in orders)
+    # Error: "CustomerOrder" has no attribute "total_price"
+    # Did you mean "total_amount"?
 ```
 
 To enable Pyright strict mode, add a `pyrightconfig.json` to your project:
@@ -206,33 +199,29 @@ Strict mode means Pyright will reject:
 
 ### Layer 3: Pydantic (The Validator)
 
-Pydantic adds **runtime validation** on top of static types. Where Pyright catches errors at development time, Pydantic catches errors when external data enters your system:
+Pydantic adds **runtime validation** on top of static types. Where Pyright catches errors at development time, Pydantic catches errors when external data enters your system — like the API response that Tomás's endpoint consumed:
 
 ```python
 from pydantic import BaseModel, Field
 
 
-class TaskCreate(BaseModel):
-    """Validates incoming API request data."""
+class OrderCreateRequest(BaseModel):
+    """Validates incoming order data from the API."""
 
-    title: str = Field(min_length=1, max_length=200)
-    description: str = Field(default="")
-    priority: int = Field(ge=1, le=5)
+    customer_id: int
+    item_ids: list[int] = Field(min_length=1)
+    discount_code: str | None = None
+    total_amount: float = Field(gt=0)
 
 
 # Pydantic validates at runtime:
 try:
-    task = TaskCreate(title="", priority=10)
+    order = OrderCreateRequest(customer_id=42, item_ids=[], total_amount=-5)
 except Exception as e:
     # ValidationError:
-    # title: String should have at least 1 character
-    # priority: Input should be less than or equal to 5
+    # item_ids: List should have at least 1 item
+    # total_amount: Input should be greater than 0
     print(e)
-
-
-# Valid data passes through cleanly:
-task = TaskCreate(title="Deploy feature", priority=3)
-print(task.title)  # "Deploy feature" - validated and typed
 ```
 
 The three layers work together:
@@ -282,7 +271,7 @@ def find_user(email: str) -> User | None:
     ...
 ```
 
-If you typed the function signature first, the AI generates against your type. If you didn't, the AI guesses---and may guess wrong.
+If you typed the function signature first, the AI generates against your type. If you did not, the AI guesses — and may guess wrong.
 
 ### AI Interface Drift: Wrong Assumptions About Your Code
 
@@ -384,7 +373,7 @@ class TaskResponse(BaseModel):
     completed: bool
 ```
 
-**The conversion pattern---boundary to internal:**
+**The conversion pattern — boundary to internal:**
 
 ```python
 def create_task(request: TaskCreateRequest) -> Task:
@@ -468,7 +457,7 @@ count: int | None = first_or_none([1, 2, 3])
 
 ### Protocols: Duck Typing with Safety
 
-Protocols define what an object must look like without requiring inheritance:
+When Tomás needed the order pipeline to handle both domestic and international orders — each with different tax rules and shipping logic — Lena showed him Protocols: a way to define what an object must *do* without forcing it into an inheritance tree. Protocols define the shape an object must have, and the type checker verifies conformance automatically:
 
 ```python
 from typing import Protocol
@@ -543,7 +532,7 @@ Walk me through your reasoning:
 4. What would Pyright catch if someone called this with wrong argument types?
 ```
 
-**What you're learning**: How to read untyped code and infer the correct types from usage patterns. You're practicing the skill of converting implicit assumptions into explicit, machine-checkable contracts---the core discipline that makes AI collaboration safe.
+**What you're learning**: How to read untyped code and infer the correct types from usage patterns. You're practicing the skill of converting implicit assumptions into explicit, machine-checkable contracts — the core discipline that makes AI collaboration safe.
 
 ### Prompt 2: Pydantic Boundary Design
 
@@ -566,28 +555,36 @@ Show me what invalid data would look like and how Pydantic catches it.
 
 **What you're learning**: The boundary-vs-internal type distinction in practice. You're developing the judgment to know where validation belongs (edges of your system) versus where trust is appropriate (inside your system)---and understanding the consequences of getting this wrong.
 
-### Prompt 3: AI-Proof Your Interface
+### Prompt 3: Type-Proof Your Own Code
 
 ```
-I want to define a typed interface that constrains AI-generated code.
-Here's my scenario: I have a plugin system where each plugin must:
-- Have a name (string)
-- Have a version (tuple of 3 ints)
-- Implement an execute() method that takes a dict of string keys and returns a Result
-- Implement a validate() method that takes the same dict and returns True/False
+Take an untyped function from my codebase (or use this example):
+
+def process_data(data, config, output_path):
+    results = []
+    for item in data:
+        if config.get("filter") and not item.get("active"):
+            continue
+        transformed = {
+            "name": item["name"].upper(),
+            "score": item["value"] * config["multiplier"],
+        }
+        results.append(transformed)
+    with open(output_path, "w") as f:
+        json.dump(results, f)
+    return len(results)
 
 Help me:
-1. Define a Protocol for this plugin interface
-2. Write one example plugin that satisfies the Protocol
-3. Write a plugin runner that accepts any Completable-conforming plugin
-4. Show me what happens when AI generates a plugin that DOESN'T satisfy the Protocol
-   (what errors does Pyright show?)
+1. Add complete type annotations (parameters, return type, intermediate variables)
+2. Replace the dict types with dataclasses or TypedDicts
+3. Run through the logic as if you were Pyright — what errors would strict mode catch?
+4. Now regenerate the function body from ONLY the type signatures.
+   How much closer is the AI-generated version when it has types to work from?
 
-Then explain: How does this Protocol act as a "specification" that constrains
-what AI can generate? How is this different from documentation or comments?
+Compare: How much would an AI know about this function with vs without types?
 ```
 
-**What you're learning**: How to use Protocols as machine-enforced specifications for AI-generated code. You're learning to design interfaces that AI must satisfy---turning type annotations into guardrails that catch hallucinations before they reach production.
+**What you're learning**: The direct experience of what Tomás discovered — that untyped code forces AI (and humans) to guess, while typed code gives them a specification. By regenerating a function from only its type signatures, you see firsthand how types constrain AI output toward correctness.
 
 ---
 
