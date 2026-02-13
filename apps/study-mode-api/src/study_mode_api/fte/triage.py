@@ -6,6 +6,7 @@ Designed to support multi-agent systems in the future.
 Current agents:
 - teach: Interactive tutor with A/B options (OpenAI)
          Uses Explain → Check → Adapt pattern
+         Now supports CHUNKED mode for token efficiency
 - ask: Direct answer search engine (DeepSeek)
 
 Future agents could include:
@@ -26,13 +27,16 @@ from .state import AgentState
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    pass
+    from ..services.lesson_chunker import LessonChunk
+    from ..services.session_state import TeachSessionState
 
-# Model configuration for Teach agent (uses OpenAI)
-MODEL = os.getenv("STUDY_MODE_MODEL", "gpt-5-nano-2025-08-07")
+# Model configuration for Teach agent (uses OpenAI Responses API)
+MODEL = os.getenv("STUDY_MODE_MODEL", "gpt-5-mini")
 
-# Context limit for teach content truncation
-TEACH_CONTENT_LIMIT = 8000
+# Context limit for teach content truncation (legacy mode)
+TEACH_CONTENT_LIMIT = 4000  # Reduced from 8000 for faster responses
+
+# Chunk mode uses ~500 chars per chunk instead of 8000
 
 # =============================================================================
 # Greeting Instructions (injected based on conversation state)
@@ -55,7 +59,8 @@ YOUR RESPONSE:
 1. Say "Correct!" + brief praise (1 sentence max)
 2. Say "Now let's explore [NEW TOPIC]:" - pick a DIFFERENT concept from the lesson
 3. Explain the NEW concept briefly (2-3 sentences)
-4. Ask a question about THIS NEW concept
+4. Ask a question about THIS NEW concept with A/B options
+5. END WITH <!--CORRECT:A--> or <!--CORRECT:B--> marker (REQUIRED!)
 
 🚨 CRITICAL - YOU MUST CHANGE TOPICS:
 - NEVER ask another question about the same concept you just covered
@@ -67,6 +72,8 @@ Q1: About A → Q2: About A again ❌
 
 ✅ RIGHT (new topic):
 Q1: About A → Q2: About B ✓
+
+⚠️ MANDATORY: End response with <!--CORRECT:A--> or <!--CORRECT:B-->
 """
 
 FOLLOW_UP_INCORRECT = """
@@ -88,17 +95,23 @@ FOLLOW_UP_INCORRECT = """
 THEN TEACH:
 1. Explain why their choice was wrong (be specific)
 2. Teach the concept with a real example (2-3 sentences)
-3. Ask a simpler question with NEW options (different words)
+3. Ask a simpler question with NEW A/B options (different words)
+4. END WITH <!--CORRECT:A--> or <!--CORRECT:B--> marker (REQUIRED!)
 
 Example response:
 "Not quite. Option B says [wrong thing], but the lesson teaches [correct thing].
 Think of it like [concrete example]. [Ask new question with new options]"
+
+⚠️ MANDATORY: End response with <!--CORRECT:A--> or <!--CORRECT:B-->
 """
 
 FOLLOW_UP_UNKNOWN = """The student sent a message. Continue the teaching flow.
 
 If they answered A or B but there's no stored answer, treat it as a general response.
 If they asked a question, answer it briefly from the lesson content, then continue teaching.
+
+After responding, ask a NEW question with A/B options.
+⚠️ MANDATORY: End response with <!--CORRECT:A--> or <!--CORRECT:B-->
 """
 
 # =============================================================================
@@ -332,3 +345,174 @@ def create_agent_from_state(
         is_first_message=is_first_message,
         verification_result=verification_result,
     )
+
+
+# =============================================================================
+# CHUNKED TEACHING MODE (Token-efficient)
+# =============================================================================
+
+CHUNKED_TEACH_PROMPT = """You are a teaching agent for the AI Agent Factory book.
+{user_context}
+
+## CURRENT CONCEPT (focus ONLY on this)
+**{chunk_title}**
+---
+{chunk_content}
+---
+
+## PROGRESS
+{progress_context}
+
+## YOUR TASK
+{task_instruction}
+
+## QUESTION FORMAT (follow exactly)
+
+**Question:**
+[Question testing understanding of THIS concept]
+
+**A)** [first option - 40-80 characters]
+
+**B)** [second option - 40-80 characters]
+
+*Type A or B to answer*
+
+<!--CORRECT:X-->
+
+## RULES
+- Focus ONLY on the current concept above
+- Keep explanations to 2-3 sentences
+- ALWAYS end with a question and TWO options (A/B)
+- The <!--CORRECT:X--> marker indicates which option is correct
+- One option must be CORRECT, one must be CLEARLY WRONG
+- Be warm and conversational
+- Use **bold** for key terms"""
+
+CHUNKED_FIRST_MESSAGE = """This is the FIRST message. Greet the student as "Hi {user_name}!"
+
+Then explain the concept "{chunk_title}" clearly in 2-3 sentences.
+After explaining, ask a verification question with A/B options.
+End with <!--CORRECT:A--> or <!--CORRECT:B-->"""
+
+CHUNKED_CORRECT_ANSWER = """
+##########################################################
+# THE STUDENT ANSWERED CORRECTLY!                        #
+# YOUR FIRST WORD MUST BE "Correct!"                     #
+##########################################################
+
+YOUR RESPONSE (follow exactly):
+1. Say "Correct!" + brief praise (1 sentence max)
+2. Say "Now let's learn about {next_chunk_title}:"
+3. Explain the NEW concept in 2-3 sentences
+4. Ask a question about THIS NEW concept with A/B options
+5. End with <!--CORRECT:A--> or <!--CORRECT:B-->
+
+⚠️ MANDATORY: Your response MUST start with "Correct!" """
+
+CHUNKED_INCORRECT_ANSWER = """
+##########################################################
+# CRITICAL: THE STUDENT'S ANSWER WAS WRONG               #
+# YOUR FIRST WORDS MUST BE "Not quite."                  #
+# NEVER SAY "Correct" - IT WAS WRONG!                   #
+##########################################################
+
+⛔ FORBIDDEN: "Correct", "Right", "Good job", "Great"
+✅ YOUR FIRST WORDS: "Not quite."
+
+YOUR RESPONSE:
+1. Say "Not quite." then explain why their answer was wrong
+2. Re-explain the concept with a simple example
+3. Ask a SIMPLER question with NEW A/B options
+4. End with <!--CORRECT:A--> or <!--CORRECT:B-->
+
+This is attempt {attempt_count}. Be patient."""
+
+CHUNKED_LESSON_COMPLETE = """The student has completed ALL concepts in this lesson!
+
+1. Congratulate them warmly
+2. Summarize what they learned (2-3 bullet points)
+3. Encourage them to continue to the next lesson
+
+Do NOT ask any more questions."""
+
+
+def create_chunked_agent(
+    chunk: "LessonChunk",
+    session_state: "TeachSessionState",
+    next_chunk: "LessonChunk | None" = None,
+    user_name: str | None = None,
+    is_first_message: bool = True,
+    verification_result: str | None = None,
+) -> Agent:
+    """
+    Create agent for chunked teaching mode (token-efficient).
+
+    Instead of sending full 8000-char lesson, sends only current ~500-char chunk.
+    This reduces tokens from ~8000 to ~800 per request.
+
+    Args:
+        chunk: Current chunk to teach
+        session_state: Session state with progress info
+        next_chunk: Next chunk (for correct answer transitions)
+        user_name: Optional student name
+        is_first_message: Whether this is the first message
+        verification_result: "correct", "incorrect", or None
+
+    Returns:
+        Configured Agent instance
+    """
+    display_name = user_name or "there"
+    user_context = f"STUDENT NAME: {user_name}" if user_name else ""
+
+    # Build progress context
+    progress_context = (
+        f"Concept {session_state['concept_index'] + 1} of {session_state['total_chunks']}"
+    )
+    if session_state["attempt_count"] > 0:
+        progress_context += f" (attempt {session_state['attempt_count'] + 1})"
+
+    # Determine task instruction based on state
+    if session_state["status"] == "complete":
+        task_instruction = CHUNKED_LESSON_COMPLETE
+    elif is_first_message:
+        task_instruction = CHUNKED_FIRST_MESSAGE.format(
+            user_name=display_name,
+            chunk_title=chunk["title"],
+        )
+    elif verification_result == "correct":
+        # chunk is already the one we advanced to (from chatkit_server.py)
+        # Don't reassign to next_chunk - that would skip a chunk!
+        task_instruction = CHUNKED_CORRECT_ANSWER.format(
+            next_chunk_title=chunk["title"],
+        )
+    elif verification_result == "incorrect":
+        task_instruction = CHUNKED_INCORRECT_ANSWER.format(
+            attempt_count=session_state["attempt_count"] + 1,
+        )
+    else:
+        # Unknown state, continue teaching
+        task_instruction = "Continue teaching this concept. Ask a question with A/B options."
+
+    # Build the prompt
+    instructions = CHUNKED_TEACH_PROMPT.format(
+        user_context=user_context,
+        chunk_title=chunk["title"],
+        chunk_content=chunk["content"],
+        progress_context=progress_context,
+        task_instruction=task_instruction,
+    )
+
+    logger.info(
+        f"[Agent] CHUNKED mode: chunk={chunk['index']}, "
+        f"verification={verification_result}, first={is_first_message}"
+    )
+    logger.info(f"[Agent] Prompt size: {len(instructions)} chars")
+
+    return Agent(
+        name="study_tutor_chunked",
+        instructions=instructions,
+        model=MODEL,
+    )
+
+
+

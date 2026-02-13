@@ -31,8 +31,18 @@ from .fte.answer_verification import (
     strip_answer_marker,
     verify_student_answer,
 )
+from .fte.triage import create_chunked_agent
 from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
+from .services.lesson_chunker import get_lesson_chunks
+from .services.session_state import (
+    advance_to_next_chunk,
+    get_or_create_session_state,
+    record_incorrect_attempt,
+)
+
+# Enable chunked mode for faster responses
+USE_CHUNKED_MODE = True
 
 logger = logging.getLogger(__name__)
 
@@ -481,20 +491,68 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             context.metadata["lesson_content"] = content
             context.metadata["is_first_message"] = is_first_message
 
-            # Create agent with appropriate greeting behavior and verification result
-            agent = create_agent(
-                title,
-                content,
-                mode,
-                user_name=user_name,
-                selected_text=selected_text,
-                is_first_message=is_first_message,
-                verification_result=verification_result,
-            )
-            logger.info(
-                f"[ChatKit] Agent created: is_first={is_first_message}, "
-                f"verification={verification_result}"
-            )
+            # CHUNKED MODE: Reduced context for faster responses
+            # Only use chunked mode if lesson has 2+ chunks
+            chunks: list = []
+            if USE_CHUNKED_MODE and mode == "teach":
+                chunks = await get_lesson_chunks(lesson_path, content, title)
+            use_chunked = len(chunks) >= 2
+            
+            if use_chunked:
+                logger.info(f"[ChatKit] CHUNKED MODE: {len(chunks)} chunks")
+
+                # Get/create session state
+                session_state = await get_or_create_session_state(
+                    thread.id, lesson_path, len(chunks)
+                )
+                logger.info(
+                    f"[ChatKit] Session: chunk={session_state['concept_index']}, "
+                    f"attempts={session_state['attempt_count']}, status={session_state['status']}"
+                )
+
+                # Update state based on verification
+                if verification_result == "correct":
+                    session_state = await advance_to_next_chunk(thread.id, session_state)
+                elif verification_result == "incorrect":
+                    session_state = await record_incorrect_attempt(
+                        thread.id, session_state, user_text
+                    )
+
+                # Get current/next chunk
+                current_idx = session_state["concept_index"]
+                current_chunk = chunks[current_idx] if current_idx < len(chunks) else chunks[-1]
+                next_chunk = chunks[current_idx + 1] if current_idx + 1 < len(chunks) else None
+
+                # Create chunked agent (minimal context)
+                agent = create_chunked_agent(
+                    chunk=current_chunk,
+                    session_state=session_state,
+                    next_chunk=next_chunk,
+                    user_name=user_name,
+                    is_first_message=is_first_message,
+                    verification_result=verification_result,
+                )
+                logger.info(
+                    f"[ChatKit] Chunked agent: chunk={current_idx}, "
+                    f"is_first={is_first_message}, verification={verification_result}"
+                )
+            else:
+                # LEGACY MODE: Full lesson content (or lesson too short to chunk)
+                if chunks and len(chunks) < 2:
+                    logger.info(f"[ChatKit] LEGACY MODE: {len(chunks)} chunk(s)")
+                agent = create_agent(
+                    title,
+                    content,
+                    mode,
+                    user_name=user_name,
+                    selected_text=selected_text,
+                    is_first_message=is_first_message,
+                    verification_result=verification_result,
+                )
+                logger.info(
+                    f"[ChatKit] Agent created: is_first={is_first_message}, "
+                    f"verification={verification_result}"
+                )
 
             # Set thread title from first user message (if new thread)
             if is_first_message and "title" not in context.metadata:

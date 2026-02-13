@@ -79,8 +79,8 @@ class TestAgentCreation:
             mode="teach",
         )
 
-        # Content should be truncated to 8000 chars
-        assert "A" * 8000 in agent.instructions
+        # Content should be truncated to 4000 chars (reduced for faster responses)
+        assert "A" * 4000 in agent.instructions
         assert "A" * 10000 not in agent.instructions
 
     def test_ask_mode_uses_dynamic_instructions(self):
