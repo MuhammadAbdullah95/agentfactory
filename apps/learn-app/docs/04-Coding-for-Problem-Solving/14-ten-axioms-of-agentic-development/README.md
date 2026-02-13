@@ -13,43 +13,43 @@ The Ten Axioms are not abstract theory. They are distilled from real agentic dev
 
 ## Relationship to the Seven Principles (Chapter 4)
 
-| Dimension | Seven Principles | Ten Axioms |
-|-----------|-----------------|------------|
-| **Audience** | ALL users of AI agents | DEVELOPERS building agents |
-| **Scope** | Mindset and approach | Methodology and practice |
-| **Level** | How to think about agent work | How to engineer agent systems |
-| **Introduced** | Part 1 (foundations) | Part 4 (technical bridge) |
+| Dimension      | Seven Principles              | Ten Axioms                    |
+| -------------- | ----------------------------- | ----------------------------- |
+| **Audience**   | ALL users of AI agents        | DEVELOPERS building agents    |
+| **Scope**      | Mindset and approach          | Methodology and practice      |
+| **Level**      | How to think about agent work | How to engineer agent systems |
+| **Introduced** | Part 1 (foundations)          | Part 4 (technical bridge)     |
 
-The Principles tell you *how to think*. The Axioms tell you *how to build*.
+The Principles tell you _how to think_. The Axioms tell you _how to build_.
 
 ## The Ten Axioms
 
-| # | Axiom | Principle Connection | Core Teaching |
-|---|-------|---------------------|---------------|
-| I | Shell as Orchestrator | P1: Bash is the Key | Shell coordinates all tools; programs compute |
-| II | Knowledge is Markdown | P5: Persisting State | Markdown is the universal knowledge format |
-| III | Programs Over Scripts | P2: Code as Interface | Production requires typed programs with tests and CI |
-| IV | Composition Over Monoliths | P4: Decomposition | Build from composable, focused units |
-| V | Types Are Guardrails | P6: Constraints | Type systems prevent errors before runtime |
-| VI | Data is Relational | P5: Persisting State | SQL as default for structured data |
-| VII | Tests Are the Specification | P3: Verification | TDG: tests define correctness |
-| VIII | Version Control is Memory | P5: Persisting State | Git as persistent memory layer |
-| IX | Verification is a Pipeline | P3: Verification | CI/CD automates verification |
-| X | Observability Extends Verification | P7: Observability | Runtime monitoring extends testing |
+| #    | Axiom                              | Principle Connection  | Core Teaching                                        |
+| ---- | ---------------------------------- | --------------------- | ---------------------------------------------------- |
+| I    | Shell as Orchestrator              | P1: Bash is the Key   | Shell coordinates all tools; programs compute        |
+| II   | Knowledge is Markdown              | P5: Persisting State  | Markdown is the universal knowledge format           |
+| III  | Programs Over Scripts              | P2: Code as Interface | Production requires typed programs with tests and CI |
+| IV   | Composition Over Monoliths         | P4: Decomposition     | Build from composable, focused units                 |
+| V    | Types Are Guardrails               | P6: Constraints       | Type systems prevent errors before runtime           |
+| VI   | Data is Relational                 | P5: Persisting State  | SQL as default for structured data                   |
+| VII  | Tests Are the Specification        | P3: Verification      | TDG: tests define correctness                        |
+| VIII | Version Control is Memory          | P5: Persisting State  | Git as persistent memory layer                       |
+| IX   | Verification is a Pipeline         | P3: Verification      | CI/CD automates verification                         |
+| X    | Observability Extends Verification | P7: Observability     | Runtime monitoring extends testing                   |
 
 ## Layer Progression
 
-| Lessons | Layer | Focus |
-|---------|-------|-------|
-| 01-04 | L1 (Manual) | Introduce axioms conceptually with concrete examples |
-| 05-07 | L2 (Collaboration) | Explore axioms with AI assistance |
-| 08-10 | L2 to L3 | Axioms compose into integrated systems |
+| Lessons | Layer              | Focus                                                |
+| ------- | ------------------ | ---------------------------------------------------- |
+| 01-04   | L1 (Manual)        | Introduce axioms conceptually with concrete examples |
+| 05-07   | L2 (Collaboration) | Explore axioms with AI assistance                    |
+| 08-10   | L2 to L3           | Axioms compose into integrated systems               |
 
 ## Prerequisites
 
 - **Part 1**: General Agents Foundations (Chapters 1-4)
-- **Part 2**: Applied General Agent Workflows (Chapters 5-10)
-- **Part 3**: SDD-RI Fundamentals (Chapters 11-13)
+- **Part 2**: Agent Workflow Primitives (Chapters 5-10)
+- **Part 3**: Applied Domain Workflows (Chapters 11-13)
 
 ## What You'll Learn
 

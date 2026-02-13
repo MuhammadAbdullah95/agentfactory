@@ -1,9 +1,9 @@
 ---
 sidebar_position: 2
-title: "Part 2: Applied General Agent Workflows"
+title: "Part 2: Agent Workflow Primitives"
 ---
 
-# Part 2: Applied General Agent Workflows
+# Part 2: Agent Workflow Primitives
 
 You understand the paradigm. You know the Seven Principles. You've seen what General Agents can do.
 

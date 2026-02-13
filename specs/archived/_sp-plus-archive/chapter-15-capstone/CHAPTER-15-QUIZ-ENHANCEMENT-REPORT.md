@@ -8,7 +8,7 @@
 
 ## Summary of Changes
 
-The Chapter 15 quiz has been enhanced from a baseline assessment (11 MC + 1 SA) into a comprehensive, concept-mapped, strategically structured evaluation that validates mastery of SDD-RI fundamentals, intelligence accumulation, and skill creation.
+The Chapter 15 quiz has been enhanced from a baseline assessment (11 MC + 1 SA) into a comprehensive, concept-mapped, strategically structured evaluation that validates mastery of Applied Domain Workflows, intelligence accumulation, and skill creation.
 
 ### Key Enhancements
 

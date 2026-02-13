@@ -12,6 +12,7 @@
 This specification defines the complete redesign of Chapter 6 from a passive "observe and learn" chapter to an active "build and own" workflow chapter. Students will transform their own cluttered Downloads folder (or any project files) into an organized system using a reusable bash script they create and own.
 
 **Core Design Decisions**:
+
 - **Workflow-First**: Students BUILD real outputs (scripts, organized folders, logs) they keep forever
 - **Own Files Domain**: No paid subscriptions - students work on their OWN files
 - **Primary Principles**: P1 (Bash), P3 (Verification), P6 (Safety) - applied through execution, not lecture
@@ -19,7 +20,7 @@ This specification defines the complete redesign of Chapter 6 from a passive "ob
 - **Error Recovery**: Deliberate mistakes → safe undo via backup (P6 in action)
 
 **Why This Redesign Matters**:
-The current Chapter 6 teaches file operations conceptually through dialogue examples. Students READ about `ls` and `mv` but never BUILD automation they can reuse. This violates Part 2's purpose: "Applied General Agent Workflows" means students CREATE workflow tools, not study them.
+The current Chapter 6 teaches file operations conceptually through dialogue examples. Students READ about `ls` and `mv` but never BUILD automation they can reuse. This violates Part 2's purpose: "Agent Workflow Primitives" means students CREATE workflow tools, not study them.
 
 **Model Chapter**: Chapter 10 (Version Control) is the quality standard - students BUILD Git repos, GitHub backups, and merged PRs they actually use.
 
@@ -29,14 +30,15 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 
 ### What Students Know BEFORE This Chapter
 
-| Concept | Source | Level |
-|---------|--------|-------|
-| General Agent paradigm | Part 1, Chapters 1-3 | A1-A2 |
-| Seven Principles (conceptual) | Chapter 4 | A2 |
-| Claude Code interface basics | Chapter 5 | A2 |
-| Basic prompting | Chapter 5 | A2 |
+| Concept                       | Source               | Level |
+| ----------------------------- | -------------------- | ----- |
+| General Agent paradigm        | Part 1, Chapters 1-3 | A1-A2 |
+| Seven Principles (conceptual) | Chapter 4            | A2    |
+| Claude Code interface basics  | Chapter 5            | A2    |
+| Basic prompting               | Chapter 5            | A2    |
 
 **Students DO NOT yet know**:
+
 - Bash scripting beyond basic commands
 - File organization patterns
 - How to persist workflow state across sessions
@@ -44,14 +46,14 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 
 ### What Students Learn IN This Chapter
 
-| Skill | Lesson | Level After |
-|-------|--------|-------------|
-| File system navigation (`ls`, `find`, `du`) | L01 | B1 |
-| Safe backup patterns (`cp -r`, timestamped directories) | L02 | B1 |
-| Categorization rules (file types, naming patterns) | L03 | B1 |
-| Bash scripting (conditionals, loops, variables) | L04 | B1 |
-| Verification workflows (before/after comparison) | L05 | B1 |
-| End-to-end automation | L06 (Capstone) | B1-B2 |
+| Skill                                                   | Lesson         | Level After |
+| ------------------------------------------------------- | -------------- | ----------- |
+| File system navigation (`ls`, `find`, `du`)             | L01            | B1          |
+| Safe backup patterns (`cp -r`, timestamped directories) | L02            | B1          |
+| Categorization rules (file types, naming patterns)      | L03            | B1          |
+| Bash scripting (conditionals, loops, variables)         | L04            | B1          |
+| Verification workflows (before/after comparison)        | L05            | B1          |
+| End-to-end automation                                   | L06 (Capstone) | B1-B2       |
 
 ---
 
@@ -62,6 +64,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Scenario**: Domain expert (accountant, designer, consultant) opens Claude Code to tackle their cluttered Downloads folder. They have 500+ unorganized files accumulated over months. They don't know where to start.
 
 **Journey**:
+
 1. Student opens Claude Code in their Downloads folder (or chosen project directory)
 2. Runs `ls -la` to see current state (immediate reality check)
 3. Uses `find . -type f | wc -l` to count total files
@@ -87,6 +90,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Scenario**: Before moving any files, student creates safety backup. This is P6 (Constraints and Safety) in action - establishing the safety net before any destructive operations.
 
 **Journey**:
+
 1. Student creates timestamped backup directory: `backup/downloads-backup-2025-01-27/`
 2. Student identifies "important" files (recent, large, or by type)
 3. Student copies important files: `cp -r important-stuff/* backup/`
@@ -110,6 +114,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Scenario**: Student defines categorization rules and tests them on one file before batch processing. This teaches P4 (Small, Reversible Decomposition) - test on small scale before scaling up.
 
 **Journey**:
+
 1. Student creates `rules.md` defining categorization logic:
    - `.pdf`, `.doc`, `.docx` → `documents/`
    - `.jpg`, `.png`, `.gif` → `images/`
@@ -137,6 +142,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Scenario**: Student transforms manual rules into automated bash script. This is P2 (Code as Universal Interface) in action - code solves the problem systematically.
 
 **Journey**:
+
 1. Student creates `organize.sh` with shebang and comments
 2. Script implements categorization logic from rules.md
 3. Script includes verification after each operation (P3)
@@ -161,6 +167,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Scenario**: Student runs full script on all files, verifies results, handles edge cases. This applies P3 (Verification) at scale.
 
 **Journey**:
+
 1. Student runs script on full Downloads folder
 2. Student verifies results: compare expected vs actual counts
 3. Student identifies edge cases: files that didn't match any rule
@@ -185,6 +192,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Scenario**: Student completes full organization workflow, creates documentation, reflects on principles applied. This is the "portfolio piece" they keep.
 
 **Journey**:
+
 1. Student runs final organization pass
 2. Student creates before/after screenshot comparison
 3. Student updates ORGANIZER-LOG.md with full history
@@ -362,24 +370,28 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 ### Out of Scope for This Chapter
 
 **File Content Processing:**
+
 - Opening files to read/parse content
 - OCR on images or PDFs
 - Text extraction from documents
 - Content-based categorization (beyond filename/extension)
 
 **Advanced Automation:**
+
 - Cron job scheduling (that's Chapter 10 automation)
 - File watchers for automatic organization (that's Chapter 11 AI Employee)
 - Event-driven file processing
 - Background daemon processes
 
 **Cloud and Network:**
+
 - Cloud backup (Dropbox, Google Drive, S3)
 - Network file shares
 - Remote filesystem operations
 - Sync services
 
 **Advanced Scripting:**
+
 - Python scripts (Part 4 content)
 - Complex regex patterns
 - Database storage of file metadata
@@ -439,21 +451,25 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 ### Downstream Dependencies (Knowledge Transfer Mapping)
 
 **Chapter 7 (Research Synthesis)**:
+
 - **Transfer**: File organization patterns for research outputs
 - **Composition**: Research materials organized using L01-L06 patterns
 - **Reinforcement**: rules.md concept extends to research categorization rules
 
 **Chapter 8 (Data Analysis)**:
+
 - **Transfer**: data/ folder organization mirrors organized/ structure
 - **Composition**: Analysis outputs organized using categorization rules
 - **Reinforcement**: Verification patterns (P3) apply to data quality checks
 
 **Chapter 10 (Version Control)**:
+
 - **Transfer**: file-organizer/ becomes first Git repository
 - **Composition**: organize.sh script tracked in version control
 - **Reinforcement**: Backup concepts (P6) replaced/enhanced by Git history
 
 **Chapter 11 (AI Employee)**:
+
 - **Transfer**: organize.sh patterns inform File Watcher behavior
 - **Composition**: AI Employee uses file organization for vault management
 - **Gap Closure**: Manual script → Automatic file watcher
@@ -468,6 +484,7 @@ The current Chapter 6 teaches file operations conceptually through dialogue exam
 **Core Question**: "What do I actually have?"
 
 **Students DO**:
+
 ```bash
 # Navigate to Downloads (or chosen folder)
 cd ~/Downloads
@@ -501,6 +518,7 @@ cd file-organizer
 **Core Question**: "How do I protect myself before making changes?"
 
 **Students DO**:
+
 ```bash
 # Create timestamped backup
 mkdir -p backup/downloads-backup-$(date +%Y-%m-%d)
@@ -528,6 +546,7 @@ echo "- Created backup: $(ls backup/)" >> ORGANIZER-LOG.md
 **Core Question**: "What rules should govern where files go?"
 
 **Students DO**:
+
 ```bash
 # Create rules document
 cat > rules.md << 'EOF'
@@ -569,6 +588,7 @@ ls organized/documents/
 **Core Question**: "How do I automate these rules?"
 
 **Students DO**:
+
 ```bash
 # Create script
 cat > organize.sh << 'EOF'
@@ -585,10 +605,10 @@ echo "## Organization Run: $(date)" >> "$LOG_FILE"
 # Process each file
 for file in "$SOURCE_DIR"/*; do
     [ -f "$file" ] || continue
-    
+
     filename=$(basename "$file")
     ext="${filename##*.}"
-    
+
     case "$ext" in
         pdf|doc|docx|txt)
             dest="$DEST_DIR/documents"
@@ -603,7 +623,7 @@ for file in "$SOURCE_DIR"/*; do
             dest="$DEST_DIR/misc"
             ;;
     esac
-    
+
     mv "$file" "$dest/"
     echo "- Moved: $filename → $dest/" >> "$LOG_FILE"
 done
@@ -629,6 +649,7 @@ chmod +x organize.sh
 **Core Question**: "Did it work? How do I know?"
 
 **Students DO**:
+
 ```bash
 # Run full organization
 ./organize.sh ~/Downloads
@@ -661,6 +682,7 @@ echo "- Total organized: $(find organized -type f | wc -l)" >> ORGANIZER-LOG.md
 **Core Question**: "Can I use this again? What did I learn?"
 
 **Students DO**:
+
 ```bash
 # Final organization pass
 ./organize.sh ~/Desktop  # Test on different folder
@@ -715,6 +737,7 @@ file-organizer/
 ## Success Indicators (How We Know We're Done)
 
 ### Specification Complete When:
+
 - [x] All user scenarios prioritized and testable independently (P1-P3 defined)
 - [x] Functional requirements mapped to lessons (FR-001 through FR-034)
 - [x] Success criteria measurable and technology-agnostic (SC-001 through SC-018)
@@ -724,22 +747,26 @@ file-organizer/
 - [x] Lesson flow detailed with actual bash commands
 
 ### Planning Ready When:
+
 - [ ] Specification approved by human reviewer
 - [ ] spec-architect validation passed
 - [ ] Lesson structure validated against cognitive load limits (A2-B1)
 
 ### Implementation Ready When:
+
 - [ ] Plan approved with lesson-by-lesson breakdown
 - [ ] All bash commands tested on Windows Git Bash, macOS, Linux
 - [ ] Reference implementation of organize.sh validated
 
 ### Validation Ready When:
+
 - [ ] All lessons implemented with workflow-first approach
 - [ ] All commands execute successfully on three platforms
 - [ ] State persistence verified (later lessons access earlier outputs)
 - [ ] Student can complete full workflow independently
 
 ### Publication Ready When:
+
 - [ ] validation-auditor passes pedagogical review
 - [ ] factual-verifier confirms all commands accurate
 - [ ] Students report keeping file-organizer/ after course (survey)

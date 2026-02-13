@@ -3,7 +3,7 @@
 **Status**: Ready for Lesson Writer Implementation
 **Feature Branch**: `036-chapter-14-sdd-ri-hands-on`
 **Chapter Type**: Technical/Project-Based (Intermediate Hands-On Learning)
-**Part**: 4 (SDD-RI Fundamentals)
+**Part**: 4 (Applied Domain Workflows)
 **Proficiency Tier**: A2-B1 (Beginner transitioning to Intermediate)
 **Constitutional Version**: 6.0.1
 **Created**: 2025-11-25
@@ -1577,17 +1577,14 @@ All lessons are **linear prerequisites** (each builds on previous). No branching
 ## Next Steps (Content Implementation)
 
 1. **Content-Implementer** creates lesson content (apps/learn-app/docs/04-SDD-RI-Fundamentals/14-spec-kit-plus-hands-on/)
-
    - Each lesson becomes standalone .md file with explanations, walkthroughs, Try With AI sections
    - Coordinate with pedagogical-designer for stage transitions
 
 2. **Assessment-Architect** designs rubrics for each lesson
-
    - Formative assessments (spec checklist, plan evaluation, task validation)
    - Capstone assessment (YouTube upload + reflection)
 
 3. **Validation-Auditor** verifies:
-
    - No meta-commentary exposing Three Roles framework (grep validation)
    - All lessons end with "Try With AI" (no "Summary" sections)
    - All success criteria met by lesson content

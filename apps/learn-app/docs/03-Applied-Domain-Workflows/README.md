@@ -1,9 +1,9 @@
 ---
 sidebar_position: 3
-title: "Part 3: SDD-RI Fundamentals"
+title: "Part 3: Applied Domain Workflows"
 ---
 
-# Part 3: SDD-RI Fundamentals - Write Specs and Build AI Product Thinking
+# Part 3: Applied Domain Workflows - Write Specs and Build AI Product Thinking
 
 ## The $10 Million Specification
 

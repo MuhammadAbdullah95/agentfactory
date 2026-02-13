@@ -5,7 +5,7 @@ title: "Part 5: Building Custom Agents"
 
 # Part 5: Building Custom Agents
 
-Part 6 bridges your foundational skills from Parts 1-5 into production agent development. You've learned SDD-RI fundamentals (Part 4) and Python fundamentals (Part 5)—now you'll apply these skills to design, implement, test, and deploy AI agents for real-world applications.
+Part 6 bridges your foundational skills from Parts 1-5 into production agent development. You've learned Applied Domain Workflows (Part 4) and Python fundamentals (Part 5)—now you'll apply these skills to design, implement, test, and deploy AI agents for real-world applications.
 
 This part introduces agent frameworks, integration patterns, conversational infrastructure, testing strategies, and data persistence—the building blocks of production AI systems. You'll move from educational examples to patterns you'd encounter building professional agent applications.
 
@@ -30,21 +30,27 @@ By completing Part 6, you will:
 Part 6's 16 chapters build through seven thematic stages:
 
 ### Agent Frameworks (Chapters 33-36)
+
 Establish core agent concepts and framework-specific patterns. Start with agent fundamentals (33), then explore implementation across OpenAI (34), Google (35), and Anthropic (36) platforms using AIDD and spec-driven development.
 
 ### Integration Patterns (Chapters 37-39)
+
 Learn how agents connect and communicate. Understand MCP fundamentals (37), develop custom MCP servers (38), and combine agent skills with MCP code execution for autonomous problem-solving (39).
 
 ### Agent Services (Chapters 40-41)
+
 Transform agents into accessible services. FastAPI for Agents (40) teaches RESTful API patterns, then ChatKit Server (41) adds conversational infrastructure—streaming, sessions, and state management—with a built-in UI for immediate testing.
 
 ### Quality Practices (Chapters 42-43)
+
 Validate agent correctness and reliability. Apply test-driven development patterns (42) and implement comprehensive evaluation frameworks (43) to ensure agents behave as specified.
 
 ### Advanced Patterns (Chapters 44-45)
+
 Handle complexity at scale. Design effective memory and state management (44), and compose agents using multi-agent patterns (45).
 
 ### Data Layer (Chapters 46-48)
+
 Add persistence and knowledge retrieval. Integrate vector databases for RAG (46), relational databases for structured data (47), and graph databases for relationship-rich knowledge (48).
 
 **Why this sequence?** You build conceptual understanding (what are agents?) before diving into integration (how do they connect?), then services (how do users access them?), quality (how do I validate them?), patterns (how do I scale them?), and data (how do I make them persistent?). Each stage builds on previous capabilities.
