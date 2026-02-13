@@ -399,6 +399,8 @@ export const auth = betterAuth({
     minPasswordLength: 8,
     // Require email verification (disable in test environment for automated testing)
     requireEmailVerification: process.env.DISABLE_EMAIL_VERIFICATION !== "true",
+    // Revoke all SSO sessions when user resets password via email link
+    revokeSessionsOnPasswordReset: true,
     // Custom password verification to support migrated bcrypt hashes from NextAuth
     // New passwords use scrypt (Better Auth default), migrated users have bcrypt ($2b$...)
     password: {
