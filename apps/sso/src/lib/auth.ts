@@ -754,7 +754,7 @@ export const auth = betterAuth({
       // OAuth token expiration configuration
       // Access tokens: Short-lived for security (if leaked, limited damage window)
       // Refresh tokens: Long-lived for UX (silent refresh keeps users logged in)
-      accessTokenExpiresIn: 60 * 60 * 24, // 24 hours (86400 seconds)
+      accessTokenExpiresIn: 60 * 60 * 24 * 14, // 14 days (1209600 seconds)
       refreshTokenExpiresIn: 60 * 60 * 24 * 30, // 30 days (2592000 seconds)
       codeExpiresIn: 600, // 10 minutes (authorization code expiry)
       // Pre-register first-party clients (skip consent screen)
