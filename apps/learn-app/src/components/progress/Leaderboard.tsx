@@ -210,10 +210,10 @@ function PodiumCard({
     size === "lg" ? "text-sm sm:text-xl" : "text-xs sm:text-base";
   const cardWidth =
     size === "lg"
-      ? "w-32 sm:w-44"
+      ? "w-28 xs:36 sm:w-44 md:52"
       : size === "md"
-        ? "w-28 sm:w-36"
-        : "w-24 sm:w-32";
+        ? "w-24 xs:32 sm:w-40 md:48"
+        : "w-24 xs:32 sm:w-40 md:48";
   const nameText =
     size === "lg"
       ? "text-sm sm:text-base font-semibold"
@@ -298,7 +298,7 @@ function TopThreePodium({
   if (!first) return null;
 
   return (
-    <div className="flex items-end justify-center gap-2 sm:gap-6 py-4 sm:py-8 px-2 sm:px-4 bg-gradient-to-b from-card to-background border-b border-border">
+    <div className="flex items-end justify-center gap-1 xs:gap-2 sm:gap-6 py-4 sm:py-8 px-1 xs:px-2 sm:px-4 bg-gradient-to-b from-card to-background border-b border-border">
       {second && (
         <PodiumCard
           entry={second}
@@ -500,7 +500,7 @@ export default function Leaderboard() {
   /* Loading */
   if (isLoading) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-12">
+      <div className="allow-rounded w-full max-w-3xl mx-auto px-4 py-8">
         <div className="flex flex-col items-center py-12">
           <Loader2 className="w-8 h-8 text-primary animate-spin mb-4" />
           <p className="text-muted-foreground">Loading leaderboard...</p>
@@ -512,7 +512,7 @@ export default function Leaderboard() {
   /* Error */
   if (error) {
     return (
-      <div className="allow-rounded max-w-screen-xl mx-auto px-4 py-12">
+      <div className="allow-rounded w-full max-w-3xl mx-auto px-4 py-8">
         <Card className="rounded-xl">
           <CardContent className="flex flex-col items-center py-12">
             <Trophy className="w-12 h-12 text-muted-foreground mb-4" />
@@ -540,7 +540,7 @@ export default function Leaderboard() {
   /* Empty */
   if (entries.length === 0) {
     return (
-      <div className="allow-rounded max-w-screen-xl mx-auto px-4 py-12">
+      <div className="allow-rounded w-full max-w-3xl mx-auto px-4 py-8">
         <Card className="rounded-xl">
           <CardContent className="flex flex-col items-center py-12">
             <Trophy className="w-12 h-12 text-muted-foreground mb-4" />
@@ -560,7 +560,7 @@ export default function Leaderboard() {
   const myEntry = entries.find((e) => e.user_id === currentUserId);
 
   return (
-    <div className="allow-rounded max-w-screen-xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+    <div className="allow-rounded w-full max-w-3xl mx-auto px-4 py-8">
       {/* Header */}
       <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
