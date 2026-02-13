@@ -103,6 +103,21 @@ This principle is even more important with AI because:
 
 Small decomposition lets you verify AI work incrementally, catching mistakes before they compound.
 
+```
+MONOLITHIC CHANGE                    ATOMIC CHANGES
+
+  ┌─────────────────┐               ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐
+  │                 │               │ 1 │→│ 2 │→│ 3 │→│ 4 │→│ 5 │
+  │  500 lines      │               └─┬─┘ └─┬─┘ └─┬─┘ └─┬─┘ └─┬─┘
+  │  across 8 files │                 ✓      ✓      ✗      ✓      ✓
+  │                 │                              │
+  └────────┬────────┘               Revert ONLY step 3,
+           │ ✗ Bug!                  keep steps 1, 2, 4, 5
+           │
+    Where is it?
+    (hours of debugging)             (seconds to find)
+```
+
 ## Atomic Changes: The Smallest Verifiable Unit
 
 Think of it like building with **Lego vs sculpting clay**:

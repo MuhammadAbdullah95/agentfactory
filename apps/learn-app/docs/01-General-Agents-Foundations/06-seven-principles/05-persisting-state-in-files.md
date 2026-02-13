@@ -130,6 +130,22 @@ Not all state is equal. Some changes constantly (current task status), some rare
 - **Outdated information**: Update or remove, don't let it rot
 - **Sensitive data**: API keys, secrets, passwords → Use environment variables
 
+```
+WITHOUT PERSISTENCE               WITH PERSISTENCE
+
+Session 1: "We use TypeScript"    Session 1: Write CLAUDE.md
+Session 2: "We use TypeScript"    Session 2: ← reads CLAUDE.md (auto)
+Session 3: "We use TypeScript"    Session 3: ← reads CLAUDE.md (auto)
+   ...repeats forever                ...never repeat again
+
+        ┌─────────┐                   ┌─────────┐
+        │ Session │──► lost           │ Session │──► CLAUDE.md
+        └─────────┘                   └────┬────┘      │
+        ┌─────────┐                   ┌────┴────┐      │
+        │ Session │──► lost           │ Session │◄─────┘
+        └─────────┘                   └─────────┘
+```
+
 ## Context Files: CLAUDE.md and Friends
 
 The most direct way to persist state for AI collaboration is through context files that AI systems automatically read.
