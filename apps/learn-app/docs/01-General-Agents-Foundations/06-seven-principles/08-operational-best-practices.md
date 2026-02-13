@@ -380,7 +380,7 @@ These aren't rules to memorize—they're habits to build. With practice, they be
 
 ## Try With AI
 
-**Prompt 1: Practice the Four-Phase Workflow**
+### Prompt 1: Practice the Four-Phase Workflow
 
 ```
 I want to practice the four-phase workflow. Here's a real task I need to do:
@@ -398,7 +398,7 @@ Start by exploring. What do you need to understand before we plan?
 
 **What you're learning**: The four-phase workflow prevents the pattern of diving into changes without understanding context. By practicing on a real task, you experience how exploration and planning reduce rework.
 
-**Prompt 2: Identify Your Failure Patterns**
+### Prompt 2: Identify Your Failure Patterns
 
 ```
 I've been using Claude Code for a while. Help me audit my workflow for
@@ -413,7 +413,7 @@ What specific change to my workflow would have prevented it?
 
 **What you're learning**: Recognizing failure patterns in your own work is harder than recognizing them in examples. By analyzing a real frustrating session, you build the pattern recognition to catch problems earlier.
 
-**Prompt 3: Design Your Permission Configuration**
+### Prompt 3: Design Your Permission Configuration
 
 ```
 I work primarily on [describe your domain—web development, data science,
@@ -426,3 +426,7 @@ When might I want to use sandbox mode?
 ```
 
 **What you're learning**: Permission configuration is personal—it depends on what you do and what risks matter to you. Designing your own configuration forces you to think about trust levels and operational patterns in your specific domain.
+
+### Safety Note
+
+The `--dangerously-skip-permissions` flag exists for sandboxed environments only. Never use it on your main development machine or with access to production systems. Similarly, permissive allowlists should be built gradually—start with read-only commands (ls, cat, grep) and add write commands only after you've observed how Claude uses them in your specific workflows. When in doubt, keep the permission prompt active; the few seconds it takes to approve an action is always cheaper than recovering from an unintended one.

@@ -378,7 +378,7 @@ BASH is the key that unlocks everything else. Without it, a General Agent is jus
 
 ## Try With AI
 
-**Prompt 1: Experience the difference**
+### Prompt 1: Experience the Difference
 
 ```
 Here's a task I do manually that involves files on my computer:
@@ -394,7 +394,9 @@ Then, tell me how you'd approach it with direct file system access.
 What's the actual difference in how we'd work together?
 ```
 
-**Prompt 2: Understand command safety**
+**What you're learning:** You're experiencing the fundamental gap between "AI as advisor" (text only) and "AI as agent" (terminal access). The difference isn't intelligence—it's the ability to act. This is why bash is the key.
+
+### Prompt 2: Understand Command Safety
 
 ```
 I'm learning to work with AI that has terminal access.
@@ -411,7 +413,9 @@ For each one: What does it do? What could go wrong?
 How should I think about approving or denying it?
 ```
 
-**Prompt 3: Apply the simplicity principle**
+**What you're learning:** You're building the safety intuition that lets you confidently approve or deny AI actions. Commands range from harmless (ls, cat) to destructive (rm -rf). Recognizing this spectrum is essential before granting terminal access.
+
+### Prompt 3: Apply the Simplicity Principle
 
 ```
 I want to [describe a file-related task].
@@ -422,6 +426,8 @@ like ls, cat, grep, find, cp, mv, and mkdir?
 Don't build anything complex. Show me how Unix philosophy
 (simple tools that combine) applies to this task.
 ```
+
+**What you're learning:** You're seeing the Unix philosophy in action—small, composable tools that solve real problems without complex frameworks. This is why Vercel removed 80% of their agent's tools: simple commands outperform specialized ones.
 
 ### Safety Note
 
