@@ -6,7 +6,8 @@ Every expert who works with General Agents builds a personal prompt toolkit. Pro
 
 - **Pattern over command**: You're collecting reusable prompt structures, not specific commands.
 - **Toolkit grows with you**: Every time you discover something that works, add it to the collection.
-- **Manual to automated bridge**: This chapter teaches manual prompting. Later, you'll learn automation. Your patterns become the decision rules for AI Employees.
+- **Search results are ephemeral, indexes are permanent**: Don't just find files — persist results into an index document so you never run the same search twice (Principle 5).
+- **Manual to automated bridge**: Your `rules.md`, logging, and recovery patterns feed directly into automated workflows. Automation removes you as the trigger — the rules, logic, and safety stay identical.
 
 ### Critical Patterns
 
@@ -19,6 +20,7 @@ Every expert who works with General Agents builds a personal prompt toolkit. Pro
 
 - Treating each lesson as isolated: The power comes from combining all workflows systematically.
 - Not documenting your toolkit: You'll re-discover patterns instead of building on past work.
+- Treating search as one-time: Finding a file without creating an index means searching again next time.
 - Missing the automation connection: Manual prompting today becomes automated decision rules later.
 
 ### Connections

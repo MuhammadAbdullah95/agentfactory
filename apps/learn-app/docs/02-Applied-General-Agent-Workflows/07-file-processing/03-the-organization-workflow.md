@@ -297,11 +297,40 @@ Notice the structure of that conversation:
 4. "Test on ONE file first."
    → Small verification before scale
 
-5. "Now do the rest and show me a summary."
+5. "Show me what you'll do before doing it."
+   → Dry run — observability before action
+
+6. "Now do the rest and show me a summary."
    → Batch execution with observability
 ```
 
 This pattern works for any organization task. The specific categories change. Maybe you're organizing photos by date, or code files by project. But the workflow stays the same.
+
+### The Dry-Run Habit
+
+Step 5 deserves special attention. Before the agent moves hundreds of files, ask it to show you what it _would_ do:
+
+```
+Before you move everything, run this in dry-run mode — list exactly
+what files you'll move and where, without actually doing it.
+```
+
+The agent will produce a plan like:
+
+```
+meeting-notes.docx     → organized/documents/
+quarterly-data.xlsx    → organized/spreadsheets/
+vacation-photo.jpg     → organized/images/
+cleanup-script.py      → organized/code/
+mystery-file.bin       → organized/misc/
+... (481 more files)
+
+No files moved yet. Want me to proceed?
+```
+
+This is **Principle 7: Observability** in action. A dry run makes the agent's intentions visible before they become irreversible. You can scan the list and catch problems — a file headed to the wrong folder, a naming conflict, something that should be skipped — while it's still just a plan on screen.
+
+The single-file test (step 4) checks that the _mechanism_ works. The dry run (step 5) checks that the _decisions_ are right. Both matter.
 
 ---
 
@@ -363,9 +392,11 @@ cat rules.md
 - Filenames with spaces, parentheses, copy indicators → normalize before matching
 
 ## History
+- Version: 1.1
 - Created: 2026-02-12
+- Last applied: 2026-02-12
 - Based on: FILE-INVENTORY.md analysis
-- Customization: Spreadsheets separated from documents
+- Changes: v1.0 initial rules; v1.1 added handling for spaces and copy indicators
 ```
 
 Your organization logic is now permanent. The next time your Downloads fills up, you have documented rules ready to apply.

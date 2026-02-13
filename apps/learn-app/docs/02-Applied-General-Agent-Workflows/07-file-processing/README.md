@@ -14,6 +14,8 @@ This chapter uses a universal problem to teach you something far more valuable. 
 
 Most people prompt blindly. They hope the General Agent understands. You're about to learn the systematic approach that separates effective collaboration from frustration.
 
+In Chapter 6, you learned the Four-Phase Workflow for Claude Code sessions: **Explore → Plan → Implement → Commit**. File processing expands this into a seven-step framework: **Survey → Backup → Design Rules → Test → Execute → Verify → Document**. The extra steps exist because file operations are irreversible — a moved file is moved, a renamed file is renamed. The Four-Phase Workflow assumed version control as your safety net. Here, your files don't have `git revert`, so backups, testing, and verification become explicit steps instead.
+
 ## What You'll Learn
 
 By the end of this chapter, you'll be able to:
@@ -39,7 +41,6 @@ Every expert who works with General Agents mastered these fundamentals first. Fi
 
 | Lesson                              | Time   | What You'll Do                                 |
 | ----------------------------------- | ------ | ---------------------------------------------- |
-| 0. Getting Bash Ready               | 10 min | Set up your terminal environment               |
 | 1. Your First Agent Workflow        | 25 min | Survey your files through conversation         |
 | 2. The Safety-First Pattern         | 20 min | Learn to require backups before changes        |
 | 3. The Organization Workflow        | 25 min | Design and execute file categorization         |
@@ -48,7 +49,7 @@ Every expert who works with General Agents mastered these fundamentals first. Fi
 | 6. Search & Discovery Workflow      | 25 min | Find lost files through description            |
 | 7. Capstone: Your File Toolkit      | 30 min | Build your personal prompt library             |
 
-**Total time**: Approximately 3 hours
+**Total time**: Approximately 2 hours 50 minutes
 
 ## Seven Principles Observed
 
@@ -70,8 +71,11 @@ Before starting this chapter:
 
 - Complete Part 1
 - Have Claude Code installed and working
-- Have a Bash-compatible terminal (macOS/Linux: built-in; Windows: Git Bash or WSL)
-- Have python installed for running scripts
+- Have a Bash-compatible terminal ready:
+  - **macOS/Linux**: Your built-in Terminal app works out of the box
+  - **Windows**: Install [Git Bash](https://gitforwindows.org/) for a quick start, or run `wsl --install` in PowerShell for the full Linux experience via WSL
+  - **Stuck?** Ask your AI agent: *"Help me get a bash terminal working on my machine"*
+- Have Python installed for running scripts
 - Have a folder with files to organize (Downloads recommended)
 
 ## What You'll Build
