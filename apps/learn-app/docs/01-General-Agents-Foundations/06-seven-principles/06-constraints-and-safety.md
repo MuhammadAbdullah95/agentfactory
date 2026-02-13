@@ -128,6 +128,25 @@ AI interferes with team processes:
 
 No single safety measure is sufficient. You need layers—each protecting against different failure modes.
 
+```
+┌───────────────────────────────────────────┐
+│  Layer 5: HUMAN VERIFICATION              │  ← Final safety net
+│  ┌───────────────────────────────────────┐│
+│  │  Layer 4: PROCESS CONTROLS            ││  ← Review, test, rollback
+│  │  ┌───────────────────────────────────┐││
+│  │  │  Layer 3: ENVIRONMENT ISOLATION   │││  ← Sandbox, staging
+│  │  │  ┌───────────────────────────────┐│││
+│  │  │  │  Layer 2: PERMISSION CONTROLS ││││  ← Approve/deny actions
+│  │  │  │  ┌───────────────────────────┐│││││
+│  │  │  │  │ Layer 1: TECHNICAL LIMITS │││││  ← Hard constraints
+│  │  │  │  │    (AI works here)        ││││││
+│  │  │  │  └───────────────────────────┘│││││
+│  │  │  └───────────────────────────────┘││││
+│  │  └───────────────────────────────────┘│││
+│  └───────────────────────────────────────┘││
+└───────────────────────────────────────────┘│
+```
+
 ### Layer 1: Technical Constraints
 
 **What**: Hard limits on what AI can do
@@ -543,20 +562,13 @@ Customize this template for your specific project and risk tolerance.
 
 ## This Principle in Both Interfaces
 
-> "Cowork asks before deleting anything. This isn't just UX—it's architectural."
+In Claude Code, you configure constraints through permission flags, CLAUDE.md restrictions, and hooks. In Cowork, constraints are built into the GUI—confirmation dialogs and folder-level access controls.
 
-Constraints manifest differently in each interface, but the underlying safety model is the same.
-
-| Constraint Type | Claude Code | Claude Cowork |
-|-----------------|-------------|---------------|
-| **Boundary** | Permission flags, CLAUDE.md restrictions | Folder selection, connector permissions |
-| **Action** | Configured via settings/hooks | Built-in confirmation dialogs |
-| **Resource** | API cost monitoring, token limits | Subscription limits apply |
-| **Output** | Specified in prompts/Skills | Skills define output formats |
-
-**In Cowork**: The confirmation dialogs ARE the constraint system. When Cowork asks "Should I delete this file?" or "Should I modify this document?", it's implementing the same safety principle that Claude Code's permission model provides. The difference is that Cowork's constraints are built into the GUI—you don't configure them, you respond to them.
+**In Cowork**: The confirmation dialogs ARE the constraint system. When Cowork asks "Should I delete this file?", it's implementing the same safety principle that Claude Code's permission model provides. You don't configure them—you respond to them.
 
 **The paradox applies equally**: In both interfaces, constraints enable capability. When you trust the safety model, you give the agent more autonomy. Without constraints, you'd never let either agent do meaningful work on important files.
+
+> For a detailed comparison of how all seven principles map across both interfaces, see Lesson 9: Putting It All Together.
 
 ## Try With AI
 

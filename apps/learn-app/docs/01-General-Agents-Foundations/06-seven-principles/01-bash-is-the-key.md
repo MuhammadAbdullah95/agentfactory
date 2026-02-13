@@ -57,7 +57,7 @@ differentiation:
 
 # Principle 1: Bash Is the Key
 
-> "What if BASH is all you need?" — Andrew Qu, Vercel
+> "What if BASH is all you need?" — Andrew Qu, Vercel Engineer, later popularized as "Bash is all you need" by Guillermo Rauch, CEO of Vercel
 
 ## The Vercel Discovery
 
@@ -75,7 +75,7 @@ What is BASH? It's the terminal on your computer. That black window where you ca
 
 Vercel gave their agent access to just these basic commands. Nothing fancy. Just the ability to explore files the way a programmer would.
 
-The results surprised everyone:
+The results, measured across five representative queries, surprised everyone:
 
 | Metric | Complex Design | BASH-Only Design |
 |--------|----------------|------------------|
@@ -84,7 +84,11 @@ The results surprised everyone:
 | Token usage | ~102k tokens | ~61k tokens |
 | Steps required | ~12 steps | ~7 steps |
 
+*Source: Andrew Qu, ["We removed 80% of our agent's tools"](https://vercel.com/blog/we-removed-80-percent-of-our-agents-tools), Vercel Engineering Blog, December 2025.*
+
 The simpler version was 3.5x faster, achieved 100% success rate, and used fewer resources. All by doing less.
+
+> **Important nuance**: These results held for d0's specific use case—translating natural language into analytics queries over a known codebase. The principle isn't "BASH always wins"—it's that **simplicity wins when the model has room to reason**.
 
 This isn't a fluke. It reveals something fundamental about how General Agents work best.
 
@@ -374,7 +378,7 @@ BASH is the key that unlocks everything else. Without it, a General Agent is jus
 
 ## Try With AI
 
-**Prompt 1: Experience the difference**
+### Prompt 1: Experience the Difference
 
 ```
 Here's a task I do manually that involves files on my computer:
@@ -390,7 +394,9 @@ Then, tell me how you'd approach it with direct file system access.
 What's the actual difference in how we'd work together?
 ```
 
-**Prompt 2: Understand command safety**
+**What you're learning:** You're experiencing the fundamental gap between "AI as advisor" (text only) and "AI as agent" (terminal access). The difference isn't intelligence—it's the ability to act. This is why bash is the key.
+
+### Prompt 2: Understand Command Safety
 
 ```
 I'm learning to work with AI that has terminal access.
@@ -407,7 +413,9 @@ For each one: What does it do? What could go wrong?
 How should I think about approving or denying it?
 ```
 
-**Prompt 3: Apply the simplicity principle**
+**What you're learning:** You're building the safety intuition that lets you confidently approve or deny AI actions. Commands range from harmless (ls, cat) to destructive (rm -rf). Recognizing this spectrum is essential before granting terminal access.
+
+### Prompt 3: Apply the Simplicity Principle
 
 ```
 I want to [describe a file-related task].
@@ -418,3 +426,9 @@ like ls, cat, grep, find, cp, mv, and mkdir?
 Don't build anything complex. Show me how Unix philosophy
 (simple tools that combine) applies to this task.
 ```
+
+**What you're learning:** You're seeing the Unix philosophy in action—small, composable tools that solve real problems without complex frameworks. This is why Vercel removed 80% of their agent's tools: simple commands outperform specialized ones.
+
+### Safety Note
+
+Never run a command you don't understand. If an AI suggests a command and you're unsure what it does, ask: "Explain what this command does before running it." Pay special attention to commands with `rm`, `sudo`, `>` (redirect/overwrite), or `|` (pipe) operators. When in doubt, test on a folder with files you don't care about first.

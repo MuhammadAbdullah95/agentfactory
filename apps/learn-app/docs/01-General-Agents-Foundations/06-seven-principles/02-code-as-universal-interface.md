@@ -146,6 +146,25 @@ Sarah's photo organization worked because the agent was not constrained by pre-b
 - Needing **country-level organization**
 - With **duplicate detection** based on actual image content, not just filenames
 
+```
+  SPECIALIST AGENTS                    GENERAL AGENT (writes code)
+
+  ┌──────────┐  ┌──────────┐          ┌──────────────────────────┐
+  │ Research │  │ Finance  │          │                          │
+  │  Agent   │  │  Agent   │          │   One agent + code =     │
+  │ (search) │  │ (calc)   │          │   unlimited capabilities │
+  └────┬─────┘  └────┬─────┘          │                          │
+       │              │               │  "Describe your problem,  │
+  ┌────┴─────┐  ┌────┴─────┐         │   I'll build the tool"   │
+  │ Writing  │  │  Data    │          │                          │
+  │  Agent   │  │  Agent   │          └──────────────────────────┘
+  │ (draft)  │  │ (clean)  │
+  └──────────┘  └──────────┘           Novel problem? No problem.
+                                       Cross-domain? No problem.
+   Novel problem?                      Unique combo? No problem.
+   Which agent do you call?
+```
+
 ## The Five Powers of Code
 
 Why is code such an effective interface for agents? Because code gives agents **five distinct powers** that nothing else provides.
@@ -175,6 +194,38 @@ If he just asked for "a summary," the results would be vague. But the general ag
 
 The code did not approximate. It computed. That precision came from code being the interface between the agent's understanding and the computer's execution.
 
+**What the agent actually wrote** (simplified):
+
+```python
+import csv
+from statistics import mean, stdev
+
+with open("expenses.csv") as f:
+    rows = list(csv.DictReader(f))
+
+# Exact averages by category
+by_category = {}
+for row in rows:
+    cat = row["category"]
+    by_category.setdefault(cat, []).append(float(row["amount"]))
+
+for cat, amounts in by_category.items():
+    print(f"{cat}: ${mean(amounts):.2f}/month")
+
+# Spike detection: months > 2 standard deviations above mean
+monthly_totals = {}  # group by month, sum amounts
+for row in rows:
+    month = row["date"][:7]
+    monthly_totals[month] = monthly_totals.get(month, 0) + float(row["amount"])
+
+avg = mean(monthly_totals.values())
+sd = stdev(monthly_totals.values())
+spikes = {m: t for m, t in monthly_totals.items() if t > avg + 2 * sd}
+print(f"Unusual months: {spikes}")
+```
+
+Notice: Marcus did not write this code. He said "analyze my expenses." The agent translated his intent into precise computation. That is the principle in action.
+
 ### Power 2: Workflow Orchestration
 
 Many tasks involve multiple steps. First do this, then check that, then based on the result, do something else. Traditional approaches handle these steps one at a time, with back-and-forth at each stage.
@@ -195,25 +246,7 @@ File arrives → Is it a PDF?
 
 This decision tree runs automatically. No back-and-forth. No interruptions. The code handles every branch.
 
-**Story: The Job Application Tracker**
-
-Emma was applying for jobs and losing track of:
-
-- Where she had applied
-- When she needed to follow up
-- Which applications were still active
-
-She had information scattered across emails, a spreadsheet, and various job site accounts.
-
-She described her situation to a general agent. The agent wrote code that:
-
-1. **Scanned her emails** for application confirmations
-2. **Checked her spreadsheet** for manual entries
-3. **Looked up each company** to see if the job posting was still active
-4. **Calculated days elapsed** since each application
-5. **Generated a prioritized list** of follow-ups needed
-
-This was not one simple task. It was a workflow with multiple data sources, conditional logic, and calculated outputs. Code let the agent orchestrate all of it as a coherent whole.
+Consider a job applicant tracking applications across emails, spreadsheets, and job sites. An agent could write code that scans emails for confirmations, cross-references a spreadsheet, calculates days since each application, and generates a prioritized follow-up list. This is not one simple task—it is a workflow with multiple data sources, conditional logic, and calculated outputs. Code lets the agent orchestrate all of it as a coherent whole.
 
 ### Power 3: Organized Memory
 
@@ -227,24 +260,7 @@ How do they keep track of it all?
 
 **File systems provide the answer.** The agent can create files to store information, read files to retrieve it, search through files to find what it needs, and organize files into meaningful structures.
 
-**Story: The Research Project**
-
-David was researching electric vehicles for a major purchase decision. He wanted to compare:
-
-- Range and charging speed
-- Price and reliability ratings
-- Owner satisfaction
-
-Across a dozen different models.
-
-A general agent helped by:
-
-1. **Gathering information** from multiple sources
-2. **Saving each piece** to organized files
-3. **Cross-referencing the data** to build comparison tables
-4. **Generating a final report** that pulled everything together
-
-The agent created folders for each car model, files for different types of data, and summary documents. Without file system access, the agent would have struggled to manage all that information. With it, the agent had **organized memory** that persisted across the entire research process.
+Imagine researching a dozen electric vehicles across range, price, reliability, and satisfaction. An agent can gather data from multiple sources, save each piece to organized files, cross-reference results into comparison tables, and generate a final report. The agent creates folders for each model, files for different data types, and summary documents. Without file system access, the agent would struggle to manage all that information. With it, the agent has **organized memory** that persists across the entire research process.
 
 ### Power 4: Universal Compatibility
 
@@ -289,24 +305,7 @@ Sometimes you need a custom tool that does not exist:
 
 Code lets agents **create these tools on demand**. You describe what you need, the agent writes code, and suddenly you have a tool that does exactly that thing.
 
-**Story: The Custom Report**
-
-Alex managed a community garden and needed to track:
-
-- Plot assignments
-- Water usage
-- Harvest yields
-- Volunteer hours
-
-No garden management app did quite what he needed. Commercial tools were either too simple or too complex.
-
-A general agent built Alex exactly what he needed. Code that:
-
-1. Tracked his **specific data points**
-2. Calculated the **metrics he cared about**
-3. Generated **weekly reports** in the format that worked for his community newsletter
-
-The agent did not find an existing tool. It created one. That is the power of code as an interface. **Anything you can describe, the agent can build.**
+Imagine managing a community garden and needing to track plot assignments, water usage, harvest yields, and volunteer hours. No garden management app does quite what you need. A general agent can build exactly the right tool: code that tracks your specific data points, calculates the metrics you care about, and generates weekly reports in the format that works for your community newsletter. The agent does not find an existing tool—it creates one. **Anything you can describe, the agent can build.**
 
 ## What This Means for You
 
@@ -361,7 +360,7 @@ This principle connects to the core thesis of this book. General agents are powe
 | **Universal Compatibility** | Working with any format or system |
 | **Instant Tool Creation** | Custom solutions built on demand |
 
-This is why "all agents will become coding agents," as Davis Treybig observed. Specialized agents with fixed features will always be limited. General agents that write code can do anything.
+This is why ["all agents will become coding agents,"](https://davistreybig.substack.com/p/all-agents-will-become-coding-agents) as Davis Treybig (Partner, Innovation Endeavors) observed. Specialized agents with fixed features will always be limited. General agents that write code can do anything.
 
 ### The Catch: Code Must Actually Work
 
@@ -460,3 +459,7 @@ This principle explains why specialized tools with pre-built features will alway
 Your role in working with general agents is to **describe what you want clearly and specifically**. Focus on outcomes, not methods. Be precise about your situation. Then verify that the results match your intentions.
 
 "All agents will become coding agents." This is not a prediction. It is already happening. Understanding why prepares you for a world where the most capable help comes from agents that can write code to solve any problem you bring them.
+
+### Safety Note
+
+Code is powerful—but code that runs on your real data can cause real damage. Before letting an agent run generated code on important files, always: (1) work on copies, not originals, (2) review the code's intent even if you don't understand every line, and (3) verify the results before deleting your backups. The next lesson (Verification) covers this in depth.

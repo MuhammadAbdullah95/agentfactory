@@ -353,6 +353,25 @@ You can't verify everything thoroughly. You need to triage based on risk.
 
 Trust isn't binary—it's earned through repeated verification. Think of trust as existing in zones based on evidence.
 
+```
+Trust Level
+  ▲
+  │  ┌─────────────────────────────────────────────┐
+  │  │ Zone 4: Never Fully Trusted (Critical)      │  ← Security, payments
+  │  │   Always verify thoroughly                   │     compliance, medical
+  │  ├─────────────────────────────────────────────┤
+  │  │ Zone 3: Domain-Mastered                      │  ← Repeated success
+  │  │   Spot-check edge cases                      │     in specific area
+  │  ├─────────────────────────────────────────────┤
+  │  │ Zone 2: Pattern-Recognized                   │  ← AI follows your
+  │  │   Verify syntax, spot-check logic            │     project patterns
+  │  ├─────────────────────────────────────────────┤
+  │  │ Zone 1: Unverified                           │  ← First interaction
+  │  │   Verify everything                          │     new task type
+  │  └─────────────────────────────────────────────┘
+  └──────────────────────────────────────────────────► Time / Evidence
+```
+
 ### Zone 1: Unverified (Initial AI Output)
 
 **Confidence**: Low

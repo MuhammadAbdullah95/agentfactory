@@ -73,7 +73,6 @@ By the end of this chapter, you'll be able to:
 
 | Lesson | Title                           | Focus                                                           |
 | ------ | ------------------------------- | --------------------------------------------------------------- |
-| 0      | Operational Best Practices      | Four-phase workflow, course correction, five failure patterns   |
 | 1      | Bash is the Key                 | Terminal as foundational agentic capability                     |
 | 2      | Code as Universal Interface     | Precision through code vs. natural language                     |
 | 3      | Verification as Core Step       | Continuous testing as primary workflow                          |
@@ -81,7 +80,9 @@ By the end of this chapter, you'll be able to:
 | 5      | Persisting State in Files       | CLAUDE.md, ADRs, session journals                               |
 | 6      | Constraints and Safety          | Permission models, guardrails, trust gradualism                 |
 | 7      | Observability                   | Activity logs, progress tracking, debugging                     |
-| 8      | Putting It All Together         | Integrated workflows, the Director's Mindset                    |
-| 9      | Chapter Quiz                    | Assessment of principle understanding                           |
+| 8      | Operational Best Practices      | Four-phase workflow, course correction, five failure patterns   |
+| 9      | Putting It All Together         | Integrated workflows, the Director's Mindset                    |
+| 10     | Principles Exercises            | 17 hands-on exercises across 8 modules with capstone projects   |
+| 11     | Chapter Quiz                    | Assessment of principle understanding                           |
 
 Remember the thesis: **General Agents BUILD Custom Agents.** The Seven Principles are HOW you direct those agents reliably—transforming from a typist who types prompts into a director who orchestrates outcomes.

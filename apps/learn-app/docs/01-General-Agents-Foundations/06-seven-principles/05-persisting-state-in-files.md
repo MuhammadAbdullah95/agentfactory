@@ -130,6 +130,22 @@ Not all state is equal. Some changes constantly (current task status), some rare
 - **Outdated information**: Update or remove, don't let it rot
 - **Sensitive data**: API keys, secrets, passwords → Use environment variables
 
+```
+WITHOUT PERSISTENCE               WITH PERSISTENCE
+
+Session 1: "We use TypeScript"    Session 1: Write CLAUDE.md
+Session 2: "We use TypeScript"    Session 2: ← reads CLAUDE.md (auto)
+Session 3: "We use TypeScript"    Session 3: ← reads CLAUDE.md (auto)
+   ...repeats forever                ...never repeat again
+
+        ┌─────────┐                   ┌─────────┐
+        │ Session │──► lost           │ Session │──► CLAUDE.md
+        └─────────┘                   └────┬────┘      │
+        ┌─────────┐                   ┌────┴────┐      │
+        │ Session │──► lost           │ Session │◄─────┘
+        └─────────┘                   └─────────┘
+```
+
 ## Context Files: CLAUDE.md and Friends
 
 The most direct way to persist state for AI collaboration is through context files that AI systems automatically read.
@@ -511,3 +527,7 @@ Then, help me create the missing pieces one by one.
 ```
 
 **What you're learning**: How to design a project for maximum reproducibility. You're learning to create a self-documenting codebase where knowledge persists and compounds—making collaboration with humans and AI more effective.
+
+### Safety Note
+
+Never persist sensitive data (API keys, passwords, tokens, personal information) in context files like CLAUDE.md. These files are committed to version control and visible to anyone with repository access. Use environment variables (`.env` files in `.gitignore`) for secrets. If you accidentally commit a secret, rotate it immediately—removing it from git history is not enough.
