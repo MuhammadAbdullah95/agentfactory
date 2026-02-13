@@ -30,6 +30,13 @@ skills:
     digcomp_area: "Problem-Solving"
     measurable_at_this_level: "Student can create and use a Makefile that mirrors the CI pipeline locally, running all verification steps before pushing code"
 
+  - name: "CI Culture and Anti-Pattern Recognition"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Evaluate"
+    digcomp_area: "Safety"
+    measurable_at_this_level: "Student can identify CI anti-patterns (normalizing failures, shallow pipelines, skipping local checks) and explain why each undermines the verification guarantee"
+
 learning_objectives:
   - objective: "Explain why automated CI pipelines are more critical for AI-generated code than for human-written code"
     proficiency_level: "B1"
@@ -57,37 +64,41 @@ differentiation:
 
 # Axiom IX: Verification is a Pipeline
 
-It's 11pm on a Thursday. You've spent three hours prompting Claude Code to build a new feature — a task scheduling module with priority queues, retry logic, and SQLModel persistence. The code looks clean. The AI even wrote tests. You run them locally, they pass. You push to main, merge the PR, and go to bed.
+Tomás had types, tests, relational data, and disciplined git history. His order management project was the cleanest codebase he had ever produced. Every function had TDG specifications. Every commit explained *why*. His local pytest run showed green across the board. He pushed to main with confidence — his first push since adopting the disciplines from Axioms I through VIII.
 
-At 2am, the deployment fails. The feature imported a package that isn't in `requirements.txt`. The type annotations use syntax that only works on Python 3.12, but production runs 3.11. One of the "passing" tests was actually testing the wrong function due to a copy-paste error the AI made. And the retry logic has a timing vulnerability that a security scanner would have caught instantly.
+The GitHub Actions pipeline failed in four minutes.
 
-None of these failures are exotic. They're routine — the kind of mistakes that slip through when the only verification is "I ran it on my machine and it seemed fine." The problem wasn't the code quality. The problem was the **verification process**: manual, incomplete, and inconsistent.
+The formatter caught inconsistent indentation the AI had introduced in `shipping.py` — tabs mixed with spaces that looked identical in his editor. The linter found an unused import in `discount.py` that `ruff check` flagged but Tomás had never run locally. The type checker discovered that `calculate_shipping()` returned `Optional[float]` in one branch but the calling code assumed `float` — a mismatch his tests never triggered because they only tested the happy path. And `pip-audit` reported a known vulnerability in a package the AI had suggested three weeks earlier.
 
-This is where Axiom IX draws the line: verification is not something you *do*. It's something your **infrastructure** does, automatically, every single time.
+None of these failures were exotic. They were routine — the kind of mistakes that slip through when the only verification is "I ran pytest on my machine and it passed." Tomás had done everything right *within each axiom*. But he had never run all the checks *together*, in order, automatically.
+
+"Your tests verify logic," Lena told him when he messaged her, frustrated. "But tests do not check formatting. Tests do not check types. Tests do not audit dependencies. You need a pipeline — a sequence of checks that runs *every* check, *every* time, automatically. If the pipeline fails, the code does not ship. No exceptions."
+
+This is Axiom IX.
 
 ## The Problem Without This Axiom
 
-Without automated verification pipelines, teams fall into predictable failure patterns:
+Tomás's failed push exposed a pattern that every developer who works with AI will recognize. He had verified his code — but only partially. He ran pytest. He did not run the formatter, the linter, the type checker, or the security auditor. Each tool catches a different category of error, and skipping any one of them leaves a gap.
 
-**The "Works on My Machine" Trap.** Developer A's code passes locally because they have Python 3.12, a specific OS, and packages installed from last month's experiment. Developer B pulls the same code and it breaks. Production uses neither developer's environment. Without a standardized verification environment, "it works" means nothing.
+**The "Works on My Machine" trap.** Tomás's code passed on his laptop because he had Python 3.12, a specific OS, and packages installed from previous experiments. The GitHub Actions runner used a clean Ubuntu environment with Python 3.11. The type syntax `list[str]` worked on 3.12 but would fail on 3.10 — and production ran 3.11. Without a standardized verification environment, "it works on my machine" means nothing.
 
-**The "I Already Tested It" Illusion.** You run pytest and see green. But did you run the linter? The type checker? The security audit? The formatting check? Manual verification is inherently incomplete because humans skip steps — especially at 11pm, especially when the AI assured them the code was correct.
+**The "I Already Tested It" illusion.** Tomás ran pytest and saw green. But he did not run `ruff format --check`. He did not run `ruff check`. He did not run `pyright`. He did not run `pip-audit`. Manual verification is inherently incomplete because developers skip steps — especially late at night, especially when the AI assured them the code was correct.
 
-**The "Review Fatigue" Problem.** When AI generates 500 lines of code in 30 seconds, a human reviewer can't meaningfully verify every line. They skim, approve, merge. Without automated checks catching the issues, subtle bugs accumulate. The more code AI generates, the more essential automated verification becomes.
+**The "Review Fatigue" problem.** The AI had generated five hundred lines of order management code in thirty seconds. Tomás could not meaningfully review every line. He skimmed, trusted the types, trusted the tests, and pushed. Without automated checks catching the issues his eyes missed, subtle bugs accumulated. The more code the AI generated, the more essential automated verification became.
 
 ## The Axiom Defined
 
-> **Axiom IX: CI/CD automates the verification of all changes. The pipeline runs linting, type checking, tests, security audits, and deployment — every time, without exception. CI enforces reality: if the pipeline fails, the code doesn't ship.**
+> **Axiom IX: Verification is a Pipeline.** CI/CD automates the verification of all changes — formatting, linting, type checking, tests, security audits — every time, without exception. If the pipeline fails, the code does not ship.
 
-This axiom transforms verification from a human discipline problem into an infrastructure guarantee. You don't need to *remember* to run the linter. The pipeline runs it. You don't need to *trust* that tests pass. The pipeline proves it. You don't need to *hope* there are no security vulnerabilities. The pipeline checks.
+This axiom transforms verification from a human discipline problem into an infrastructure guarantee. Tomás did not need to *remember* to run the linter — the pipeline ran it. He did not need to *trust* that tests passed — the pipeline proved it. He did not need to *hope* there were no security vulnerabilities — the pipeline checked.
 
-The pipeline is the gatekeeper that never sleeps, never gets tired, and never decides "it's probably fine."
+"The pipeline is the gatekeeper that never sleeps," Lena told him. "It never gets tired. It never decides 'it is probably fine.' It runs every check, every time, and it does not care that you are in a hurry."
 
 ## From Principle to Axiom
 
-In Part 1, you learned **Principle 3: Verification as Core Step** — the mindset that every action should be verified. You learned to check that files exist after creating them, to confirm commands succeeded before moving on, to validate outputs before declaring victory.
+In Chapter 4, you learned **Principle 3: Verification as Core Step** — the mindset that every action should be verified. You learned to check that files exist after creating them, to confirm commands succeeded before moving on, to validate outputs before declaring victory.
 
-Axiom IX elevates that principle from personal discipline to **infrastructure enforcement**. The relationship is:
+Axiom IX elevates that principle from personal discipline to **infrastructure enforcement**:
 
 | Principle 3 (Mindset) | Axiom IX (Infrastructure) |
 |---|---|
@@ -97,11 +108,21 @@ Axiom IX elevates that principle from personal discipline to **infrastructure en
 | Checks what you remember to check | Checks everything, every time |
 | Individual responsibility | Team-wide guarantee |
 
-The principle taught you *why* to verify. The axiom teaches you *how* to make verification unavoidable.
+The principle taught you *why* to verify. The axiom teaches you *how* to make verification unavoidable. Tomás had internalized the principle — he ran pytest before pushing. But the principle relies on human discipline, and human discipline has gaps. Tomás forgot to run the linter. He forgot to run the type checker. He forgot to audit dependencies. The pipeline forgets nothing.
+
+## The Discipline That Preceded CI
+
+The idea that integration should be continuous — not a painful event at the end of a project — emerged from the Extreme Programming movement in the late 1990s. In 2000, Martin Fowler published his influential article "Continuous Integration," describing a practice his team at ThoughtWorks had refined: every developer integrates their work at least daily, and every integration is verified by an automated build that runs the full test suite.
+
+Before CI, integration was a dreaded phase. Teams worked in isolation for weeks or months, then spent days or weeks merging their changes together — a process so painful it earned the name "integration hell." Bugs that could have been caught in minutes festered for months because nobody verified how the pieces fit together until the end.
+
+Fowler's insight was that integration pain grows exponentially with delay. If you integrate daily, each integration is small and manageable. If you integrate monthly, each integration is a nightmare. The solution was automation: a server that watches your repository, detects every change, and runs the full verification suite automatically. CruiseControl (2001) was one of the first CI servers. Jenkins (2011) made it mainstream. GitHub Actions (2019) made it accessible to every project with a repository.
+
+Tomás's failed push was a textbook example of what CI was designed to prevent. He had been working locally for two weeks, verifying only the checks he remembered to run. The pipeline ran *all* the checks — and found four problems that manual verification had missed.
 
 ## The Verification Pyramid
 
-Not all checks are equal. They form a pyramid — fast, cheap checks at the base catch the most common issues, while slower, more thorough checks at the top catch deeper problems:
+After Tomás's failed push, Lena walked him through the architecture of a proper CI pipeline. "Not all checks are equal," she said. "They form a pyramid — fast, cheap checks at the base catch the most common issues, while slower, more thorough checks at the top catch deeper problems."
 
 ```
                     ┌─────────────────┐
@@ -136,27 +157,31 @@ Each level catches different categories of problems:
 | 5. Integration Tests | `pytest -m integration` | Component interaction failures | 30-120 seconds |
 | 6. Security Audit | `pip-audit` | Known vulnerabilities in dependencies | 5-15 seconds |
 
-**Why the pyramid matters**: If formatting fails, you don't need to wait for tests to run. Each level gates the next. Fast failures save time.
+**Why the pyramid matters**: If formatting fails, there is no need to wait for tests to run. Each level gates the next. Fast failures save time — and Tomás learned to appreciate this when a one-second formatting check saved him from a three-minute test run.
 
 ### Why Each Level Exists
 
-**Level 1 — Formatting** catches the trivial but distracting. AI-generated code often uses inconsistent indentation, trailing whitespace, or mixed quote styles. `ruff format --check` enforces a single style without debate. This is the cheapest possible check — if your code can't even be formatted consistently, there's no point running deeper analysis.
+Lena walked Tomás through each level, connecting it to a specific failure from his own project:
 
-**Level 2 — Linting** catches the bugs hiding in plain sight. Unused imports that slow startup. Variables assigned but never read. f-strings without placeholders. `assert` statements with tuples (always truthy). These are patterns that look correct to a casual reader but indicate real problems.
+**Level 1 — Formatting** catches the trivial but distracting. The AI had introduced tabs mixed with spaces in `shipping.py` — invisible in Tomás's editor but a failure in `ruff format --check`. This is the cheapest possible check: if the code cannot even be formatted consistently, there is no point running deeper analysis.
 
-**Level 3 — Type Checking** catches the structural errors. You call `task.priorty` instead of `task.priority` — the linter won't catch the typo, but the type checker knows `Task` has no attribute `priorty`. You pass a string where an integer is expected. You return `None` from a function declared to return `Task`. Static type checking is like having a compiler for Python.
+**Level 2 — Linting** catches the bugs hiding in plain sight. Tomás's `discount.py` had an unused `import os` that the AI left behind from a previous generation. `ruff check` also catches variables assigned but never read, f-strings without placeholders, and `assert` statements with tuples (always truthy). These patterns look correct to a casual reader but indicate real problems.
 
-**Level 4 — Unit Tests** catch the logic errors. The sorting algorithm puts high-priority tasks last instead of first. The retry logic retries indefinitely instead of stopping at 3. The date parser handles "2025-01-15" but crashes on "2025-1-5". These are semantic bugs that only running the code can reveal.
+**Level 3 — Type Checking** catches the structural errors. Tomás's `calculate_shipping()` returned `Optional[float]` in one branch but the calling code assumed `float` — a mismatch his tests never triggered. `pyright` catches type mismatches, missing attributes, and wrong signatures statically, without running the code. It is like having a compiler for Python.
 
-**Level 5 — Integration Tests** catch the interaction failures. The API endpoint works in isolation, but when the database is under load, it times out. The scheduler creates tasks correctly, but the notification system doesn't pick them up. Components that work alone may fail together.
+**Level 4 — Unit Tests** catch the logic errors — the exact category that produced the $12,000 discount bug. If `assert apply_discount(order, 0.15).total == 85.0` had existed in the pipeline, the wrong implementation would never have reached main. These are semantic bugs that only running the code can reveal.
 
-**Level 6 — Security Audit** catches the invisible threats. A dependency you installed six months ago now has a known CVE. A package you've never heard of (three levels deep in your dependency tree) was compromised. `pip-audit` checks every installed package against vulnerability databases.
+**Level 5 — Integration Tests** catch the interaction failures. Tomás's discount function worked in isolation, but when the shipping calculator called it with a large order, the rounding produced a one-cent discrepancy that compounded across line items. Components that work alone may fail together.
+
+**Level 6 — Security Audit** catches the invisible threats. The AI had suggested `pip install requests==2.28.0` for Tomás's order notification system. `pip-audit` flagged it: that version had a known vulnerability (PYSEC-2023-74). Three levels deep in the dependency tree, a package Tomás had never heard of was compromised.
 
 ## GitHub Actions: Your Pipeline
 
-GitHub Actions is the CI platform you'll use most often for Python projects. It runs your verification pipeline on every push and pull request, using YAML workflow files stored in your repository.
+After understanding the pyramid, Tomás was ready to build it. Lena showed him GitHub Actions — the CI platform that runs verification pipelines on every push and pull request, using YAML workflow files stored in the repository itself.
 
-Here's a complete, production-ready CI workflow:
+"The pipeline lives in your code," Lena told him. "Version-controlled, reviewed, and permanent — just like the commit messages from Axiom VIII."
+
+Here is the complete CI workflow Tomás created for his order management project:
 
 ```yaml
 # .github/workflows/ci.yml
@@ -198,55 +223,55 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
-      # Level 1: Formatting
+      # Level 1: Formatting — catches tabs-vs-spaces in shipping.py
       - name: Check formatting
         run: ruff format --check .
 
-      # Level 2: Linting
+      # Level 2: Linting — catches unused imports like `import os` in discount.py
       - name: Run linter
         run: ruff check .
 
-      # Level 3: Type checking
+      # Level 3: Type checking — catches Optional[float] vs float mismatches
       - name: Type check
         run: pyright
 
-      # Level 4: Unit tests
+      # Level 4: Unit tests — catches logic errors like the $12,000 discount bug
       - name: Run unit tests
         run: pytest tests/ -v --tb=short
 
-      # Level 5: Integration tests
+      # Level 5: Integration tests — catches rounding errors across modules
       - name: Run integration tests
         run: pytest tests/ -m integration -v --tb=short
 
-      # Level 6: Security audit
+      # Level 6: Security audit — catches vulnerable dependencies like requests 2.28.0
       - name: Security audit
         run: pip-audit
 ```
 
-Let's break down what each section does:
+Each section serves a specific purpose:
 
-**Triggers** (`on:`): The pipeline runs on every push to `main` and every pull request targeting `main`. No code reaches `main` without passing all checks.
+**Triggers** (`on:`): The pipeline runs on every push to `main` and every pull request targeting `main`. No code reaches `main` without passing all checks. This was the rule Tomás had been violating — pushing directly to main without any automated gate.
 
-**Matrix Testing** (`strategy.matrix`): The pipeline runs against *both* Python 3.11 and 3.12. This catches version-specific issues — like the walrus operator crashing on 3.7, or `tomllib` not existing before 3.11. If AI generates code using a newer Python feature, the matrix catches it.
+**Matrix Testing** (`strategy.matrix`): The pipeline runs against *both* Python 3.11 and 3.12. This catches version-specific issues — exactly the kind Tomás hit when the AI generated `list[str]` syntax that worked on 3.12 but would fail on older versions. If the AI generates code using a newer Python feature, the matrix catches it.
 
-**Caching** (`actions/cache`): Dependencies are cached between runs using a hash of your requirements files. First run installs everything; subsequent runs restore from cache unless dependencies change. This can cut pipeline time from 3 minutes to 45 seconds.
+**Caching** (`actions/cache`): Dependencies are cached between runs using a hash of the requirements files. First run installs everything; subsequent runs restore from cache unless dependencies change. This cut Tomás's pipeline from three minutes to forty-five seconds.
 
-**Sequential Steps**: The verification pyramid runs top-to-bottom. If formatting fails, linting never runs. This "fail fast" approach gives you the quickest possible feedback.
+**Sequential Steps**: The verification pyramid runs top-to-bottom. If formatting fails, linting never runs. This "fail fast" approach gives the quickest possible feedback — Tomás's tab-vs-space error was caught in one second, not after a three-minute test suite.
 
 ### Branch Protection: Making CI Mandatory
 
-A pipeline that runs but can be ignored is theater, not verification. To make CI truly enforceable:
+"A pipeline that runs but can be ignored is theater, not verification," Lena told Tomás. She showed him how to make CI truly enforceable:
 
 1. Go to your repository Settings > Branches > Branch protection rules
 2. Enable "Require status checks to pass before merging"
 3. Select the `verify` job as a required check
 4. Enable "Require branches to be up to date before merging"
 
-Now the pipeline isn't advisory — it's a gate. If CI fails, the merge button is disabled. No exceptions, no overrides (unless you're a repository admin, and even then it shows a warning).
+Now the pipeline was not advisory — it was a gate. If CI failed, the merge button was disabled. No exceptions, no overrides. Tomás could no longer push broken code to main even if he wanted to. The infrastructure enforced what discipline alone could not.
 
 ## Local CI: The Makefile
 
-Waiting 2-3 minutes for GitHub Actions to tell you about a formatting error wastes time. The solution: run the same checks locally before pushing. A Makefile gives you a single command that mirrors your CI pipeline:
+After two days of waiting three minutes for GitHub Actions to tell him about formatting errors, Tomás asked Lena if there was a faster way. "Run the same checks locally before pushing," she said. "A Makefile gives you a single command that mirrors your CI pipeline."
 
 ```makefile
 # Makefile
@@ -299,10 +324,10 @@ clean:
 
 ### The Workflow With Local CI
 
-The daily development workflow becomes:
+Tomás's daily development workflow became:
 
 ```bash
-# 1. Write code (or have AI generate it)
+# 1. Write TDG tests, then have AI generate implementation
 # 2. Quick check — catches 80% of issues in 2 seconds
 make quick
 
@@ -314,34 +339,40 @@ make fix-lint
 make ci
 
 # 5. Only push if CI passes
-git add -A && git commit -m "feat: add task priority queue" && git push
+git add src/shipping.py tests/test_shipping.py
+git commit -m "feat(shipping): add international surcharge calculation"
+git push
 ```
 
-This workflow means you almost never see CI failures on GitHub. The pipeline becomes a safety net, not a bottleneck. You catch issues in 5 seconds locally rather than waiting 3 minutes for a remote failure.
+This workflow meant Tomás almost never saw CI failures on GitHub. The pipeline became a safety net, not a bottleneck. He caught issues in five seconds locally rather than waiting three minutes for a remote failure.
 
 ### Why a Makefile?
 
-You might wonder: why not a shell script? Or a Python script? The Makefile has specific advantages:
+Tomás asked Lena why a Makefile instead of a shell script. The Makefile has specific advantages:
 
 - **Convention**: Most open-source projects use Makefiles. Developers know to look for one.
 - **Self-documenting**: Run `make` with no arguments to see available targets.
-- **Dependency-aware**: Make only runs targets whose dependencies changed (though for CI checks, you usually want to run everything).
 - **Composable**: `ci` is just `format + lint + typecheck + test + security` chained together.
 - **Universal**: Make is installed on every Unix system. No extra dependencies.
+- **Matches CI exactly**: Each Makefile target corresponds to one pipeline step. If `make ci` passes locally, GitHub Actions will pass remotely.
 
-## Why CI Matters MORE With AI-Generated Code
+## Why CI Matters More With AI-Generated Code
 
-Traditional CI protects against human error. With AI-generated code, the case for CI becomes overwhelming:
+Traditional CI protects against human error. With AI-generated code, the case for CI becomes overwhelming — and Tomás experienced each reason firsthand:
 
-**AI generates faster than humans can review.** A skilled developer writes 50-100 lines of meaningful code per hour. Claude Code can generate 500 lines in 30 seconds. The review bottleneck shifts — you physically cannot read and verify every line. The pipeline must catch what your eyes miss.
+**AI generates faster than humans can review.** The AI had generated five hundred lines of order management code in thirty seconds. Tomás could not meaningfully verify every line. His eyes skipped the unused import, missed the type mismatch, and never noticed the vulnerable dependency. The pipeline caught all three in four minutes.
 
-**AI makes confident-looking mistakes.** When a human writes buggy code, there are often signals — commented-out attempts, TODO markers, inconsistent naming that reveals uncertainty. AI-generated code looks polished even when it's wrong. A function with a perfect docstring, clean type annotations, and logical structure might still have a subtle off-by-one error. The pipeline doesn't care how polished the code looks — it checks whether it *works*.
+**AI makes confident-looking mistakes.** When a human writes buggy code, there are often signals — commented-out attempts, TODO markers, inconsistent naming that reveals uncertainty. The AI's `calculate_shipping()` had a perfect docstring, clean type annotations, and logical structure. It still returned `None` in one branch instead of `0.0`. The pipeline did not care how polished the code looked — it checked whether it *worked*.
 
-**AI doesn't remember project conventions.** You told the AI "use ruff for linting" in your system prompt, but it generated code with unused imports anyway. You specified "all functions need type annotations" but the AI forgot on the helper functions. The pipeline enforces conventions the AI might forget between prompts.
+**AI does not remember project conventions.** Tomás had told the AI "use ruff for linting" in his CLAUDE.md, but it generated code with unused imports anyway. He specified "all functions need type annotations" but the AI forgot on the helper functions. The pipeline enforced conventions the AI forgot between prompts.
 
-**AI introduces dependency risks.** AI might suggest `pip install cool-package` for a feature, pulling in a package you've never audited. Without `pip-audit` in your pipeline, you won't know that `cool-package` depends on `sketchy-lib` which has a known remote code execution vulnerability.
+**AI introduces dependency risks.** The AI had suggested `pip install requests==2.28.0` for the order notification feature. Without `pip-audit` in the pipeline, Tomás would never have known that version had a known security vulnerability.
 
 ## Anti-Patterns: What Bad CI Looks Like
+
+You have seen the broken pipeline. Every team has one. It is the project where CI has been red for so long that nobody looks at the badge anymore, where "just re-run it" is the standard response to failures, where the pipeline technically exists but checks so little that it provides false confidence instead of real verification. It is the project where a developer merged a pull request while CI was still running because "it is probably fine," where flaky tests were disabled one by one until the suite tested nothing meaningful, where the security audit was removed because "it kept failing on things we cannot fix." It is the project where the pipeline takes forty-five minutes, so developers push without waiting and discover failures the next morning — if they check at all. The broken pipeline is not broken by accident. It is broken because each developer chose the five-second shortcut of ignoring a red badge, and a hundred five-second shortcuts became a team that ships unverified code with confidence.
+
+These specific patterns destroy the pipeline's value. Recognize and avoid them:
 
 | Anti-Pattern | Why It Fails | The Fix |
 |---|---|---|
@@ -356,71 +387,73 @@ Traditional CI protects against human error. With AI-generated code, the case fo
 
 ### The Most Dangerous Anti-Pattern
 
-The single most destructive CI anti-pattern is **normalizing failures**. It starts small: "That test is flaky, just re-run it." Then it becomes: "CI is red but it's not related to my change." Then: "We'll fix CI next sprint." Within weeks, the pipeline is permanently red, nobody looks at it, and you've lost your automated safety net entirely.
+The single most destructive CI anti-pattern is **normalizing failures**. Tomás saw it on a previous team: it started small — "That test is flaky, just re-run it." Then it became: "CI is red but it is not related to my change." Then: "We will fix CI next sprint." Within weeks, the pipeline was permanently red, nobody looked at it, and the team had lost their automated safety net entirely.
 
-The rule: **CI must always be green on main.** If a test is flaky, fix it or delete it. If a check is wrong, fix the check. Never let "red is normal" become your team's culture.
+The rule Lena insisted on: **CI must always be green on main.** If a test is flaky, fix it or delete it. If a check is wrong, fix the check. Never let "red is normal" become the culture.
 
 ## CI as Culture
 
-The deepest lesson of Axiom IX isn't technical — it's cultural. CI is a statement about values:
+The deepest lesson of Axiom IX is not technical — it is cultural. Lena taught Tomás three rules that shaped how he thought about his pipeline:
 
-**"If it's not in CI, it's not enforced."** You can write all the coding standards documents you want. You can send emails about "please run the linter before pushing." None of it works. The only coding standards that actually get followed are the ones enforced by the pipeline. If you care about consistent formatting — put it in CI. If you care about type safety — put it in CI. If you care about security — put it in CI.
+**"If it is not in CI, it is not enforced."** Tomás had written "always use type annotations" in CLAUDE.md. The AI forgot on three helper functions. He had written "run `ruff check` before committing" in his project README. He forgot at 11pm. The only standards that actually got followed were the ones enforced by the pipeline. His CLAUDE.md was a *request*. His CI pipeline was a *guarantee*.
 
-**"The pipeline is the source of truth."** When someone asks "does this code work?" the answer isn't "I think so" or "it worked when I tested it." The answer is: "CI is green." The pipeline is the objective arbiter. It doesn't have opinions, biases, or bad days.
+**"The pipeline is the source of truth."** At the post-mortem, the team lead had asked "does this code work?" and nobody could answer. With CI, the answer was never "I think so" or "it worked when I tested it." The answer was: "CI is green." The pipeline was the objective arbiter — the same pipeline that would have caught the $12,000 discount bug if it had existed two months earlier.
 
-**"Fast CI is kind CI."** A pipeline that takes 30 minutes punishes developers for pushing code. They'll batch changes, push less frequently, and avoid small improvements because "it's not worth waiting for CI." A pipeline that takes 2 minutes encourages small, frequent pushes — exactly the behavior you want. Invest in making CI fast: cache dependencies, parallelize jobs, skip unnecessary work.
+**"Fast CI is kind CI."** A pipeline that takes thirty minutes punishes developers for pushing code. They batch changes, push less frequently, and avoid small improvements because "it is not worth waiting for CI." Tomás's pipeline took forty-five seconds with caching — fast enough that he ran `make ci` after every AI generation, exactly the way he ran TDG tests after every implementation. Small, frequent verification cycles from Axiom VII, encoded into infrastructure by Axiom IX.
 
-## Putting It All Together
+## The Verification Chain
 
-Here's how Axiom IX connects to the axioms before and after it:
+Axiom IX does not stand alone. It connects to the axioms before and after it:
 
-- **Axiom VII (Tests Are the Specification)** gives you tests. Axiom IX *runs them automatically*.
-- **Axiom VIII (Version Control is Memory)** gives you commits. Axiom IX *verifies them before they reach main*.
+- **Axiom VII (Tests Are the Specification)** gives you tests. Axiom IX *runs them automatically*. Tomás wrote TDG specifications; the pipeline executed them on every push.
+- **Axiom VIII (Version Control is Memory)** gives you commits. Axiom IX *verifies them before they reach main*. The disciplined commits from Axiom VIII flow through the pipeline from Axiom IX.
 - **Axiom X (Observability Extends Verification)** takes over where CI stops — monitoring the code *after* it ships.
 
-Together, they form a continuous verification chain: tests define correctness, CI proves it before deployment, and observability confirms it in production.
+Together, they form a continuous verification chain: tests define correctness, the pipeline proves it before deployment, and observability confirms it in production. But the chain has a gap. Tomás's pipeline verified that `calculate_shipping()` returned the right values for eleven test inputs. It could not verify that the function would survive ten thousand concurrent requests, a network timeout at 3am, or a database connection pool exhaustion under holiday traffic. The pipeline proves code is correct. It does not prove code is resilient — and that is where Axiom X begins.
 
-## Safety Note: Secrets and CI
+## The Shallow Pipeline
 
-Never put secrets directly in your workflow files or source code. CI environments handle sensitive data through environment variables and encrypted secrets:
+A month after setting up CI, Tomás helped a colleague on another team configure their pipeline. The colleague's `ci.yml` had two steps: `ruff format --check` and `ruff check`. That was it. No type checking. No tests. No security audit. The badge on their README was green — permanently green — and the colleague pointed to it proudly: "Our CI always passes."
+
+"Your pipeline is shallow," Lena told them when Tomás asked her to review it. "It checks formatting and linting — Level 1 and Level 2 of the pyramid. It does not check types, run tests, or audit dependencies. The green badge means your code is consistently formatted. It does not mean your code is correct, type-safe, or secure."
+
+The Shallow Pipeline is the CI equivalent of the Green Bar Illusion from Axiom VII: a green badge that creates false confidence. The pipeline *technically* passes, but it verifies so little that passing means almost nothing. The colleague's project had a type error that crashed in production, a logic bug that doubled invoices, and a vulnerable dependency — all invisible to a pipeline that only checked formatting.
+
+The fix is the full verification pyramid. Every level exists because it catches problems invisible to the levels below it. A pipeline without tests is like a spell-checker without grammar-checking — it catches some problems but misses the ones that matter most.
+
+CI secrets are also part of pipeline discipline. Never put secrets directly in workflow files:
 
 ```yaml
-# WRONG - secret exposed in code
+# WRONG — secret exposed in code
 - name: Deploy
   run: curl -H "Authorization: Bearer sk-abc123..." https://api.example.com/deploy
 
-# RIGHT - secret stored in GitHub Secrets
+# RIGHT — secret stored in GitHub Secrets
 - name: Deploy
   run: curl -H "Authorization: Bearer ${{ secrets.DEPLOY_TOKEN }}" https://api.example.com/deploy
-  env:
-    API_KEY: ${{ secrets.API_KEY }}
 ```
 
-**Rules for CI secrets:**
-- Store all tokens, keys, and passwords in GitHub Settings > Secrets and variables > Actions
-- Never echo or print secret values in CI logs
-- Rotate secrets regularly (at minimum quarterly)
-- Use the minimum permissions necessary (read-only tokens where possible)
-- Secrets are not available in pull requests from forks (this is a security feature, not a bug)
+Tomás remembered the Permanent Record from Axiom VIII — once a secret is committed, it exists in git history forever. The same principle applies to CI: secrets stored in workflow files are visible to anyone with repository access. Store them in GitHub Settings > Secrets, never echo them in logs, and rotate them quarterly.
 
 ## Try With AI
 
 ### Prompt 1: Build Your CI Pipeline
 
 ```
-I have a Python project with this structure:
+I have a Python order management project with this structure:
 
-my_project/
+order_management/
 ├── src/
-│   └── task_manager/
+│   └── orders/
 │       ├── __init__.py
-│       ├── models.py      (SQLModel Task class)
-│       ├── scheduler.py   (priority queue logic)
+│       ├── models.py      (SQLModel Order, Customer classes)
+│       ├── discount.py    (discount calculation logic)
+│       ├── shipping.py    (shipping rate calculator)
 │       └── api.py         (FastAPI endpoints)
 ├── tests/
-│   ├── test_models.py
-│   ├── test_scheduler.py
-│   └── test_api.py
+│   ├── test_discount.py   (TDG specs for discount logic)
+│   ├── test_shipping.py   (TDG specs for shipping rates)
+│   └── test_api.py        (integration tests)
 ├── requirements.txt
 ├── requirements-dev.txt
 ├── pyproject.toml
@@ -436,27 +469,28 @@ For each file, explain what each section does and why it's there.
 Then show me how to add branch protection so CI is mandatory.
 ```
 
-**What you're learning:** Translating the verification pyramid concept into actual infrastructure files. You're practicing the skill of configuring CI tools — not just knowing they exist, but knowing how to wire them together into a cohesive pipeline that runs automatically on every push.
+**What you're learning:** Translating the verification pyramid into actual infrastructure files. Each step in the YAML catches a different category of error: formatting caught Tomás's tab-vs-space issue, linting caught his unused import, type checking caught his `Optional[float]` mismatch, tests would have caught the discount bug, and `pip-audit` caught the vulnerable dependency. You are learning to wire these tools into a pipeline that runs automatically on every push.
 
 ### Prompt 2: Diagnose CI Failures
 
 ```
-My CI pipeline is failing with these errors. Help me understand and fix each one:
+My CI pipeline for an order management project is failing with these errors.
+Help me understand and fix each one:
 
 Error 1 (ruff format):
-  src/task_manager/scheduler.py: would reformat
+  src/orders/shipping.py: would reformat
 
 Error 2 (ruff check):
-  src/task_manager/models.py:3:1: F401 `os` imported but unused
-  src/task_manager/api.py:15:5: B006 Do not use mutable data structures for argument defaults
+  src/orders/discount.py:3:1: F401 `os` imported but unused
+  src/orders/api.py:15:5: B006 Do not use mutable data structures for argument defaults
 
 Error 3 (pyright):
-  src/task_manager/scheduler.py:42:12 - error: Argument of type "str" cannot be assigned
-    to parameter "priority" of type "int"
+  src/orders/shipping.py:42:12 - error: Return type "float | None" is not assignable
+    to declared return type "float"
 
 Error 4 (pytest):
-  FAILED tests/test_scheduler.py::test_priority_order - AssertionError:
-    assert [Task(p=3), Task(p=1)] == [Task(p=1), Task(p=3)]
+  FAILED tests/test_discount.py::test_fifteen_percent - AssertionError:
+    assert 15.0 == 85.0
 
 Error 5 (pip-audit):
   Name     Version  ID             Fix Versions
@@ -469,36 +503,44 @@ For each error:
 - What would have happened if this reached production?
 ```
 
-**What you're learning:** Reading and interpreting CI failure messages across all pyramid levels. You're building the diagnostic skill of understanding *which* tool caught *which* category of error, and why the layered approach matters — each level catches problems invisible to the levels below it.
+**What you're learning:** Reading and interpreting CI failure messages across all pyramid levels. Notice that Error 4 is exactly Tomás's discount bug — the test caught it because the TDG specification defined what "correct" means. You are building the diagnostic skill of understanding *which* tool catches *which* category of error, and why the layered approach matters.
 
-### Prompt 3: CI for Your Domain
+### Prompt 3: Extend Your Pipeline Beyond the Basics
 
 ```
-I'm building [describe your project: a web scraper, a data pipeline, a CLI tool,
-an API service, a machine learning model, etc.].
+My order management system's CI pipeline currently runs the standard verification
+pyramid (formatting, linting, types, unit tests, security). But I need more:
 
-Help me design a CI pipeline that goes beyond the basic verification pyramid.
-Consider domain-specific checks:
+- Integration tests that verify discount + shipping + invoicing work together
+- Database migration tests (does schema.sql apply cleanly to a fresh database?)
+- API contract tests (do endpoints return the expected response shapes?)
+- Performance checks (does calculate_shipping stay under 100ms for 1000 orders?)
 
-- What additional checks make sense for my type of project?
-  (e.g., API contract tests, data validation, model accuracy thresholds,
-  documentation generation, container builds, load tests)
-- What should run on every push vs. nightly vs. weekly?
-- How do I handle checks that need external services (databases, APIs)?
-- What's the right balance between thoroughness and speed?
-
-Design a CI pipeline with:
+Help me design a tiered CI pipeline:
 1. Fast checks (< 2 min) — run on every push
 2. Medium checks (< 10 min) — run on PRs to main
 3. Slow checks (< 30 min) — run nightly or on release branches
 
-Show me the GitHub Actions YAML for all three tiers.
+For each tier, explain what goes where and why. Show me the GitHub Actions
+YAML for all three tiers. How do I handle checks that need a database?
 ```
 
-**What you're learning:** Extending the verification pyramid beyond generic Python checks to domain-specific validation. You're practicing the architectural skill of designing CI pipelines that balance thoroughness (catch everything) with speed (developers don't bypass it), tailored to the specific risks and requirements of your project type.
+**What you're learning:** Extending the verification pyramid beyond generic Python checks to domain-specific validation. Tomás's pipeline caught formatting and type errors, but it did not test whether the discount, shipping, and invoicing modules worked *together*. You are practicing the architectural skill of designing pipelines that balance thoroughness with speed — catching real problems without making developers wait so long they bypass the checks.
 
-## Summary
+## Key Takeaways
 
-Axiom IX transforms verification from a human discipline problem into an infrastructure guarantee. The verification pyramid (formatting, linting, types, tests, integration tests, security) runs automatically on every push. GitHub Actions enforces it remotely; Makefiles mirror it locally for fast feedback. With AI generating code faster than humans can review, the pipeline becomes your most reliable quality gate — the gatekeeper that never sleeps.
+Tomás's first push after adopting Axioms I through VIII failed on four checks he had never run manually. Lena's fix was not to run more checks by hand — it was to automate every check into a pipeline that runs on every push, without exception. Martin Fowler described this discipline in 2000 as Continuous Integration. GitHub Actions made it accessible to every project with a repository.
 
-The next axiom, **Observability Extends Verification**, picks up where CI leaves off. CI verifies code *before* deployment. Observability verifies it *after* — monitoring behavior in production where no test suite can reach.
+- **Verification is a pipeline, not a step.** Tomás ran pytest and saw green, but he did not run the formatter, the linter, the type checker, or the security auditor. Each tool catches a different category of error. Skipping any one of them leaves a gap that AI-generated code will exploit.
+- **The verification pyramid runs fast checks first.** Formatting takes one second. Linting takes two. Type checking takes five. Tests take thirty. Security audit takes ten. If formatting fails, there is no need to wait for tests. Fast failures save time — and keep developers from bypassing the pipeline.
+- **Local CI mirrors remote CI.** `make ci` runs the same checks as GitHub Actions, in five seconds instead of three minutes. Tomás caught issues locally before pushing, so the remote pipeline became a safety net rather than a bottleneck.
+- **The Shallow Pipeline creates false confidence.** A CI badge that only checks formatting is like a green bar that only checks types — it tells you something passed, but not that your code is correct. The full pyramid is non-negotiable.
+- **CI is culture, not configuration.** If it is not in CI, it is not enforced. If CI is always red, it is useless. If CI takes too long, developers bypass it. Fast, comprehensive, and always-green — that is the standard.
+
+---
+
+## Looking Ahead
+
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types, tests, relational data, and disciplined git history. Your pipeline verifies every change before it reaches main. But what happens *after* deployment? Tomás's pipeline proved that `calculate_shipping()` returned the right values for the test inputs. It could not prove that the function would handle ten thousand concurrent requests without running out of memory, or that the database connection pool would survive a network hiccup at 3am, or that the AI-generated retry logic would not create an infinite loop under production load.
+
+In Axiom X, you will discover that observability extends verification beyond deployment — monitoring what your code actually does in the real world, where no test suite can reach.
