@@ -57,7 +57,7 @@ differentiation:
 
 # Principle 1: Bash Is the Key
 
-> "What if BASH is all you need?" — Andrew Qu, Vercel
+> "What if BASH is all you need?" — Andrew Qu, Vercel Engineer, later popularized as "Bash is all you need" by Guillermo Rauch, CEO of Vercel
 
 ## The Vercel Discovery
 
@@ -75,7 +75,7 @@ What is BASH? It's the terminal on your computer. That black window where you ca
 
 Vercel gave their agent access to just these basic commands. Nothing fancy. Just the ability to explore files the way a programmer would.
 
-The results surprised everyone:
+The results, measured across five representative queries, surprised everyone:
 
 | Metric | Complex Design | BASH-Only Design |
 |--------|----------------|------------------|
@@ -84,7 +84,11 @@ The results surprised everyone:
 | Token usage | ~102k tokens | ~61k tokens |
 | Steps required | ~12 steps | ~7 steps |
 
+*Source: Andrew Qu, ["We removed 80% of our agent's tools"](https://vercel.com/blog/we-removed-80-percent-of-our-agents-tools), Vercel Engineering Blog, December 2025.*
+
 The simpler version was 3.5x faster, achieved 100% success rate, and used fewer resources. All by doing less.
+
+> **Important nuance**: These results held for d0's specific use case—translating natural language into analytics queries over a known codebase. The principle isn't "BASH always wins"—it's that **simplicity wins when the model has room to reason**.
 
 This isn't a fluke. It reveals something fundamental about how General Agents work best.
 
@@ -418,3 +422,7 @@ like ls, cat, grep, find, cp, mv, and mkdir?
 Don't build anything complex. Show me how Unix philosophy
 (simple tools that combine) applies to this task.
 ```
+
+### Safety Note
+
+Never run a command you don't understand. If an AI suggests a command and you're unsure what it does, ask: "Explain what this command does before running it." Pay special attention to commands with `rm`, `sudo`, `>` (redirect/overwrite), or `|` (pipe) operators. When in doubt, test on a folder with files you don't care about first.
