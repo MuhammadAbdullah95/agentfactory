@@ -81,6 +81,25 @@ Think of the AI as a junior developer with infinite energy but no institutional 
 
 Your job is no longer typing—it's directing, reviewing, and approving. The seven principles are your management framework.
 
+```
+                    THE DIRECTOR'S LOOP
+
+         YOU (Director)              AI (Agent)
+        ┌───────────┐              ┌───────────┐
+        │  Intent   │──── P2 ────►│ Investigate│
+        │  & Context│   (Code)    │ & Propose  │
+        │           │◄── P7 ─────│            │
+        │  Review   │ (Observe)   │  Implement │
+        │  & Approve│──── P6 ────►│  & Verify  │
+        └─────┬─────┘ (Safety)    └─────┬──────┘
+              │                         │
+              │        P3 (Verify)      │
+              └─────── P4 (Small) ──────┘
+                       P5 (Persist)
+
+    P1 (Bash) underlies every AI action
+```
+
 ## The Integration Challenge: Principles in Combination
 
 Real workflows rarely involve a single principle in isolation. They require multiple principles working together:
@@ -512,10 +531,10 @@ Count how many principles you're actively applying (1 point per principle with a
 
 | Score | Level | What It Means |
 |-------|-------|---------------|
-| **0-2** | 🤠 Cowboy Coder | High risk. You're flying blind. Start with Principles 3 (Verification) and 7 (Observability). |
-| **3-4** | 🤝 Collaborator | Good progress. You're working WITH the AI, not just using it. Focus on the gaps. |
-| **5-6** | 🏗️ Agent Architect | Professional grade. You're managing AI effectively. Fine-tune for efficiency. |
-| **7** | 🎯 Master Director | Full integration. You've internalized the principles. Now optimize and teach others. |
+| **0-2** | Cowboy Coder | High risk. You're flying blind. Start with Principles 3 (Verification) and 7 (Observability). |
+| **3-4** | Collaborator | Good progress. You're working WITH the AI, not just using it. Focus on the gaps. |
+| **5-6** | Agent Architect | Professional grade. You're managing AI effectively. Fine-tune for efficiency. |
+| **7** | Master Director | Full integration. You've internalized the principles. Now optimize and teach others. |
 
 **Where to start if you're at 0-2**: Begin with just two principles—Verification (always test) and Observability (always see what AI did). These two alone prevent most disasters.
 

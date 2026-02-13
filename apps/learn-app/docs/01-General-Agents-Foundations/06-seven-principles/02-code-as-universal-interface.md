@@ -146,6 +146,25 @@ Sarah's photo organization worked because the agent was not constrained by pre-b
 - Needing **country-level organization**
 - With **duplicate detection** based on actual image content, not just filenames
 
+```
+  SPECIALIST AGENTS                    GENERAL AGENT (writes code)
+
+  ┌──────────┐  ┌──────────┐          ┌──────────────────────────┐
+  │ Research │  │ Finance  │          │                          │
+  │  Agent   │  │  Agent   │          │   One agent + code =     │
+  │ (search) │  │ (calc)   │          │   unlimited capabilities │
+  └────┬─────┘  └────┬─────┘          │                          │
+       │              │               │  "Describe your problem,  │
+  ┌────┴─────┐  ┌────┴─────┐         │   I'll build the tool"   │
+  │ Writing  │  │  Data    │          │                          │
+  │  Agent   │  │  Agent   │          └──────────────────────────┘
+  │ (draft)  │  │ (clean)  │
+  └──────────┘  └──────────┘           Novel problem? No problem.
+                                       Cross-domain? No problem.
+   Novel problem?                      Unique combo? No problem.
+   Which agent do you call?
+```
+
 ## The Five Powers of Code
 
 Why is code such an effective interface for agents? Because code gives agents **five distinct powers** that nothing else provides.
