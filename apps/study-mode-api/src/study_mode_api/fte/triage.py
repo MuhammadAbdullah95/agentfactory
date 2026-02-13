@@ -495,8 +495,15 @@ def create_chunked_agent(
             chunk_title=chunk["title"],
         )
     else:
-        # Unknown state, continue teaching
-        task_instruction = "Continue teaching this concept. Ask a question with A/B options."
+        # Student gave off-topic or invalid response (not A or B)
+        task_instruction = """⚠️ The student's message was NOT a valid answer (A or B).
+
+YOUR RESPONSE:
+1. Say: "Please answer with A or B. If you have other questions, use the 'Ask Me' option instead."
+2. Repeat the SAME question you just asked (with A/B options)
+3. End with <!--CORRECT:A--> or <!--CORRECT:B--> (same answer as before)
+
+Keep it brief. Do NOT answer their off-topic question."""
 
     # Build the prompt
     instructions = CHUNKED_TEACH_PROMPT.format(
