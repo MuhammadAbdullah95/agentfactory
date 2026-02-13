@@ -157,6 +157,14 @@ async def _get_user_rank(session: AsyncSession, user_id: str) -> int | None:
 
     # Fallback: calculate rank live from user_progress
     try:
+        # Only calculate rank if user actually has progress with XP
+        has_progress = await session.execute(
+            text("SELECT 1 FROM user_progress WHERE user_id = :uid AND total_xp > 0"),
+            {"uid": user_id},
+        )
+        if has_progress.first() is None:
+            return None
+
         result = await session.execute(
             text(
                 "SELECT COUNT(*) + 1 FROM user_progress up"
