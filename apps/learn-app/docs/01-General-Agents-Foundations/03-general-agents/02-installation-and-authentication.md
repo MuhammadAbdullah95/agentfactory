@@ -146,7 +146,7 @@ Before we begin, verify you have the following:
 
 **4. Optional (for npm installation only)**
 
-- **Node.js**: Version 18 or later (only required if using npm installation method)
+- **Node.js**: Version 24 or later (only required if using npm installation method)
 - **Deprecated**: NPM installation is deprecated. Use the native installation method when possible.
 
 ---
@@ -173,7 +173,7 @@ Which shell environment do you have (or want to install)?
 ├─ Neither installed yet
 │   └─ Install WSL first (see below), then use Method 1
 │
-└─ I have Node.js 18+ in WSL or Git Bash
+└─ I have Node.js 24+ in WSL or Git Bash
     └─ Method 3 (npm) - See Cross-Platform npm section below
 ```
 
@@ -277,7 +277,7 @@ Which installation method do you prefer?
 ├─ I prefer Homebrew for package management
 │   └─ Method 2 (Homebrew)
 │
-└─ I have Node.js 18+
+└─ I have Node.js 24+
     └─ Method 3 (npm) - See Cross-Platform npm section below
 ```
 
@@ -345,7 +345,7 @@ Are you on Ubuntu/Debian/WSL?
 ├─ I'm on Alpine Linux
 │   └─ See Alpine Linux Special Configuration below
 │
-└─ I have Node.js 18+
+└─ I have Node.js 24+
     └─ Method 2 (npm) - See Cross-Platform npm section below
 ```
 
@@ -412,7 +412,7 @@ X.X.XX (Claude Code)
 
 **When to use this method**:
 
-- You already have Node.js 18+ installed
+- You already have Node.js 24+ installed
 - You prefer npm-based workflows
 - You need to manage Claude Code versions via package.json
 - Your platform isn't officially supported by platform-specific installers
@@ -428,7 +428,7 @@ npm install -g @anthropic-ai/claude-code
 
 **What this does**: Installs Claude Code globally via npm package manager.
 
-**Requirements**: Node.js 18 or later (includes npm)
+**Requirements**: Node.js 24 or later (includes npm)
 
 **Check Node.js version**:
 
@@ -436,7 +436,7 @@ npm install -g @anthropic-ai/claude-code
 node --version
 ```
 
-If you see `v18.0.0` or higher, you're good to go.
+If you see `v24.0.0` or higher, you're good to go.
 
 #### 💬 AI Colearning Prompt
 
