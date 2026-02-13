@@ -1,8 +1,6 @@
-import React, { useState, useCallback } from "react";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProgress } from "@/contexts/ProgressContext";
-import { updatePreferences } from "@/lib/progress-api";
 import { BadgeGrid } from "@/components/progress/BadgeCard";
 import "@/components/progress/gamification.css";
 import styles from "./ProgressDashboard.module.css";
@@ -10,28 +8,6 @@ import styles from "./ProgressDashboard.module.css";
 export default function ProgressDashboard() {
   const { session } = useAuth();
   const { progress, isLoading } = useProgress();
-  const { siteConfig } = useDocusaurusContext();
-  const progressApiUrl =
-    (siteConfig.customFields?.progressApiUrl as string) ||
-    "http://localhost:8002";
-
-  const [showOnLeaderboard, setShowOnLeaderboard] = useState(true);
-  const [togglingPref, setTogglingPref] = useState(false);
-
-  const handleToggleLeaderboard = useCallback(async () => {
-    const newValue = !showOnLeaderboard;
-    setTogglingPref(true);
-    try {
-      await updatePreferences(progressApiUrl, {
-        show_on_leaderboard: newValue,
-      });
-      setShowOnLeaderboard(newValue);
-    } catch (err) {
-      console.error("[ProgressDashboard] Failed to update preferences:", err);
-    } finally {
-      setTogglingPref(false);
-    }
-  }, [showOnLeaderboard, progressApiUrl]);
 
   if (!session?.user) {
     return (
@@ -137,20 +113,6 @@ export default function ProgressDashboard() {
         )}
       </div>
 
-      {/* Privacy preferences */}
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Preferences</h2>
-        <label className={styles.toggleRow}>
-          <input
-            type="checkbox"
-            checked={showOnLeaderboard}
-            onChange={handleToggleLeaderboard}
-            disabled={togglingPref}
-            className={styles.toggleInput}
-          />
-          <span className={styles.toggleLabel}>Show me on the leaderboard</span>
-        </label>
-      </div>
     </div>
   );
 }

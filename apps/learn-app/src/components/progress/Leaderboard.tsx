@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Link from "@docusaurus/Link";
 import { useAuth } from "@/contexts/AuthContext";
+import { getOAuthAuthorizationUrl } from "@/lib/auth-client";
 import { getLeaderboard } from "@/lib/progress-api";
 import type {
   LeaderboardEntry,
@@ -67,7 +68,7 @@ function BadgeModal({
 }: BadgeModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md sm:max-w-lg max-h-[80vh] overflow-y-auto">
+      <DialogContent className="allow-rounded max-w-md sm:max-w-lg max-h-[80vh] overflow-y-auto rounded-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Award className="w-5 h-5 text-primary" />
@@ -106,21 +107,21 @@ function BadgeModal({
 function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) {
     return (
-      <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rank-badge-gold text-white font-bold text-sm allow-rounded rounded-full shrink-0">
+      <div className="allow-rounded w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rank-badge-gold text-white font-bold text-sm rounded-full shrink-0">
         <Crown className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" />
       </div>
     );
   }
   if (rank === 2) {
     return (
-      <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rank-badge-silver text-white font-bold text-sm allow-rounded rounded-full shrink-0">
+      <div className="allow-rounded w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rank-badge-silver text-white font-bold text-sm rounded-full shrink-0">
         <Medal className="w-4 h-4 sm:w-5 sm:h-5" />
       </div>
     );
   }
   if (rank === 3) {
     return (
-      <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rank-badge-bronze text-white font-bold text-sm allow-rounded rounded-full shrink-0">
+      <div className="allow-rounded w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rank-badge-bronze text-white font-bold text-sm rounded-full shrink-0">
         <Medal className="w-4 h-4 sm:w-5 sm:h-5" />
       </div>
     );
@@ -145,7 +146,7 @@ function BadgeButton({
     <button
       onClick={() => onBadgeClick(entry)}
       className={cn(
-        "flex items-center gap-1 text-xs mt-1 px-2 py-0.5 rounded-full allow-rounded transition-colors",
+        "allow-rounded flex items-center gap-1 text-xs mt-1 px-2 py-0.5 rounded-full transition-colors",
         entry.badge_ids.length > 0
           ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/50 cursor-pointer"
           : "bg-muted/50 text-muted-foreground cursor-default",
@@ -164,6 +165,123 @@ function BadgeButton({
 
 /* ───────────────────── Top 3 Podium ───────────────────── */
 
+function PodiumCard({
+  entry,
+  rank,
+  isMe,
+  onBadgeClick,
+  size,
+}: {
+  entry: LeaderboardEntry;
+  rank: number;
+  isMe: boolean;
+  onBadgeClick: (entry: LeaderboardEntry) => void;
+  size: "lg" | "md" | "sm";
+}) {
+  const colorMap = {
+    1: {
+      border: "border-[oklch(0.77_0.16_70)]",
+      bg: "bg-[oklch(0.77_0.16_70)]",
+      text: "text-[oklch(0.77_0.16_70)]",
+    },
+    2: {
+      border: "border-[oklch(0.75_0.02_260)]",
+      bg: "bg-[oklch(0.75_0.02_260)]",
+      text: "text-[oklch(0.75_0.02_260)]",
+    },
+    3: {
+      border: "border-[oklch(0.6_0.1_50)]",
+      bg: "bg-[oklch(0.6_0.1_50)]",
+      text: "text-[oklch(0.6_0.1_50)]",
+    },
+  }[rank] ?? {
+    border: "border-border",
+    bg: "bg-muted",
+    text: "text-muted-foreground",
+  };
+
+  const avatarSize =
+    size === "lg"
+      ? "w-14 h-14 sm:w-20 sm:h-20"
+      : size === "md"
+        ? "w-10 h-10 sm:w-14 sm:h-14"
+        : "w-9 h-9 sm:w-12 sm:h-12";
+  const avatarText =
+    size === "lg" ? "text-sm sm:text-xl" : "text-xs sm:text-base";
+  const cardWidth =
+    size === "lg"
+      ? "w-32 sm:w-44"
+      : size === "md"
+        ? "w-28 sm:w-36"
+        : "w-24 sm:w-32";
+  const nameText =
+    size === "lg"
+      ? "text-sm sm:text-base font-semibold"
+      : "text-xs sm:text-sm font-medium";
+
+  return (
+    <div className="flex flex-col items-center">
+      {rank === 1 && (
+        <Crown
+          className="w-6 h-6 sm:w-8 sm:h-8 text-[oklch(0.77_0.16_70)] mb-1"
+          fill="currentColor"
+        />
+      )}
+      <div
+        className={cn(
+          cardWidth,
+          "flex flex-col items-center gap-1.5 sm:gap-2 py-3 sm:py-4 px-2 border-2 bg-card",
+          colorMap.border,
+          "rounded-xl",
+        )}
+      >
+        <Avatar
+          className={cn(
+            avatarSize,
+            "allow-rounded rounded-full border-2",
+            colorMap.border,
+          )}
+        >
+          <AvatarImage src={entry.avatar_url ?? undefined} />
+          <AvatarFallback
+            className={cn(colorMap.bg, "text-white font-bold", avatarText)}
+          >
+            {getInitials(entry.display_name)}
+          </AvatarFallback>
+        </Avatar>
+        <p className={cn(nameText, "text-center m-0 px-1 line-clamp-2")}>
+          {entry.display_name}
+          {isMe && <span className={styles.youTag}>you</span>}
+        </p>
+        <div className="flex items-center gap-1">
+          <Zap
+            className={cn("w-3 h-3 sm:w-3.5 sm:h-3.5", colorMap.text)}
+            fill="currentColor"
+          />
+          <span className="text-xs sm:text-sm font-semibold tabular-nums">
+            {entry.total_xp.toLocaleString()}
+          </span>
+        </div>
+        <div className="hidden sm:block">
+          <BadgeButton entry={entry} onBadgeClick={onBadgeClick} />
+        </div>
+      </div>
+      <div
+        className={cn(
+          "mt-1.5 flex items-center justify-center rounded-full px-2.5 py-0.5",
+          rank === 1 && "rank-badge-gold",
+          rank === 2 && "rank-badge-silver",
+          rank === 3 && "rank-badge-bronze",
+        )}
+      >
+        <span className="text-white font-bold text-xs sm:text-sm">
+          {ordinal(rank)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function TopThreePodium({
   entries,
   currentUserId,
@@ -180,88 +298,31 @@ function TopThreePodium({
   if (!first) return null;
 
   return (
-    <div className="flex items-end justify-center gap-1 sm:gap-4 py-4 sm:py-8 px-2 sm:px-4 bg-gradient-to-b from-card to-background border-b border-border">
-      {/* Second Place */}
+    <div className="flex items-end justify-center gap-2 sm:gap-6 py-4 sm:py-8 px-2 sm:px-4 bg-gradient-to-b from-card to-background border-b border-border">
       {second && (
-        <div className="flex flex-col items-center min-w-0">
-          <Avatar className="w-10 h-10 sm:w-16 sm:h-16 border-2 border-[oklch(0.75_0.02_260)] mb-1 sm:mb-2 allow-rounded">
-            <AvatarImage src={second.avatar_url ?? undefined} />
-            <AvatarFallback className="bg-[oklch(0.75_0.02_260)] text-white font-bold text-xs sm:text-base">
-              {getInitials(second.display_name)}
-            </AvatarFallback>
-          </Avatar>
-          <div className="w-16 sm:w-24 h-12 sm:h-20 flex flex-col items-center justify-center rank-badge-silver">
-            <span className="text-white font-bold text-base sm:text-lg">2</span>
-            <span className="text-white/80 text-[10px] sm:text-xs">
-              {second.total_xp.toLocaleString()}
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm font-medium mt-1 sm:mt-2 truncate max-w-16 sm:max-w-24 text-center">
-            {second.display_name}
-            {second.user_id === currentUserId && (
-              <span className={styles.youTag}>you</span>
-            )}
-          </p>
-          <div className="hidden sm:block">
-            <BadgeButton entry={second} onBadgeClick={onBadgeClick} />
-          </div>
-        </div>
-      )}
-
-      {/* First Place */}
-      <div className="flex flex-col items-center -mt-2 sm:-mt-4 min-w-0">
-        <Crown
-          className="w-6 h-6 sm:w-8 sm:h-8 text-[oklch(0.77_0.16_70)] mb-0.5 sm:mb-1"
-          fill="currentColor"
+        <PodiumCard
+          entry={second}
+          rank={2}
+          isMe={second.user_id === currentUserId}
+          onBadgeClick={onBadgeClick}
+          size="md"
         />
-        <Avatar className="w-14 h-14 sm:w-24 sm:h-24 border-2 sm:border-4 border-[oklch(0.77_0.16_70)] mb-1 sm:mb-2 allow-rounded">
-          <AvatarImage src={first.avatar_url ?? undefined} />
-          <AvatarFallback className="bg-[oklch(0.77_0.16_70)] text-white font-bold text-sm sm:text-xl">
-            {getInitials(first.display_name)}
-          </AvatarFallback>
-        </Avatar>
-        <div className="w-20 sm:w-28 h-14 sm:h-24 flex flex-col items-center justify-center rank-badge-gold">
-          <span className="text-white font-bold text-xl sm:text-2xl">1</span>
-          <span className="text-white/90 text-xs sm:text-sm">
-            {first.total_xp.toLocaleString()}
-          </span>
-        </div>
-        <p className="text-sm sm:text-base font-semibold mt-1 sm:mt-2 truncate max-w-20 sm:max-w-28 text-center">
-          {first.display_name}
-          {first.user_id === currentUserId && (
-            <span className={styles.youTag}>you</span>
-          )}
-        </p>
-        <div className="hidden sm:block">
-          <BadgeButton entry={first} onBadgeClick={onBadgeClick} />
-        </div>
-      </div>
-
-      {/* Third Place */}
+      )}
+      <PodiumCard
+        entry={first}
+        rank={1}
+        isMe={first.user_id === currentUserId}
+        onBadgeClick={onBadgeClick}
+        size="lg"
+      />
       {third && (
-        <div className="flex flex-col items-center min-w-0">
-          <Avatar className="w-9 h-9 sm:w-14 sm:h-14 border-2 border-[oklch(0.6_0.1_50)] mb-1 sm:mb-2 allow-rounded">
-            <AvatarImage src={third.avatar_url ?? undefined} />
-            <AvatarFallback className="bg-[oklch(0.6_0.1_50)] text-white font-bold text-xs sm:text-base">
-              {getInitials(third.display_name)}
-            </AvatarFallback>
-          </Avatar>
-          <div className="w-14 sm:w-20 h-10 sm:h-16 flex flex-col items-center justify-center rank-badge-bronze">
-            <span className="text-white font-bold text-sm sm:text-base">3</span>
-            <span className="text-white/80 text-[10px] sm:text-xs">
-              {third.total_xp.toLocaleString()}
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm font-medium mt-1 sm:mt-2 truncate max-w-14 sm:max-w-20 text-center">
-            {third.display_name}
-            {third.user_id === currentUserId && (
-              <span className={styles.youTag}>you</span>
-            )}
-          </p>
-          <div className="hidden sm:block">
-            <BadgeButton entry={third} onBadgeClick={onBadgeClick} />
-          </div>
-        </div>
+        <PodiumCard
+          entry={third}
+          rank={3}
+          isMe={third.user_id === currentUserId}
+          onBadgeClick={onBadgeClick}
+          size="sm"
+        />
       )}
     </div>
   );
@@ -298,7 +359,7 @@ function LeaderboardRow({
       {/* Avatar — smaller on mobile */}
       <Avatar
         className={cn(
-          "w-8 h-8 sm:w-10 sm:h-10 allow-rounded",
+          "w-8 h-8 sm:w-10 sm:h-10 allow-rounded rounded-full",
           isTopThree && "border-2",
           entry.rank === 1 && "border-[oklch(0.77_0.16_70)]",
           entry.rank === 2 && "border-[oklch(0.75_0.02_260)]",
@@ -383,8 +444,21 @@ export default function Leaderboard() {
   const progressApiUrl =
     (siteConfig.customFields?.progressApiUrl as string) ||
     "http://localhost:8002";
+  const authUrl =
+    (siteConfig.customFields?.authUrl as string) || "http://localhost:3001";
+  const oauthClientId =
+    (siteConfig.customFields?.oauthClientId as string) ||
+    "agent-factory-public-client";
   const { session } = useAuth();
   const currentUserId = session?.user?.id;
+
+  const handleSignIn = useCallback(async () => {
+    const authorizationUrl = await getOAuthAuthorizationUrl("signin", {
+      authUrl,
+      clientId: oauthClientId,
+    });
+    window.location.href = authorizationUrl;
+  }, [authUrl, oauthClientId]);
 
   const [data, setData] = useState<LeaderboardResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -438,8 +512,8 @@ export default function Leaderboard() {
   /* Error */
   if (error) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-12">
-        <Card>
+      <div className="allow-rounded max-w-screen-xl mx-auto px-4 py-12">
+        <Card className="rounded-xl">
           <CardContent className="flex flex-col items-center py-12">
             <Trophy className="w-12 h-12 text-muted-foreground mb-4" />
             <p className="text-muted-foreground text-center mb-4">
@@ -447,7 +521,12 @@ export default function Leaderboard() {
               <br />
               <span className="text-xs">{error}</span>
             </p>
-            <Button size="sm" variant="outline" onClick={fetchLeaderboard}>
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-md"
+              onClick={fetchLeaderboard}
+            >
               Try Again
             </Button>
           </CardContent>
@@ -461,8 +540,8 @@ export default function Leaderboard() {
   /* Empty */
   if (entries.length === 0) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-12">
-        <Card>
+      <div className="allow-rounded max-w-screen-xl mx-auto px-4 py-12">
+        <Card className="rounded-xl">
           <CardContent className="flex flex-col items-center py-12">
             <Trophy className="w-12 h-12 text-muted-foreground mb-4" />
             <p className="text-muted-foreground text-center">
@@ -481,11 +560,11 @@ export default function Leaderboard() {
   const myEntry = entries.find((e) => e.user_id === currentUserId);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+    <div className="allow-rounded max-w-screen-xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+      <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-primary shrink-0" />
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-foreground m-0">
               Leaderboard
@@ -496,12 +575,16 @@ export default function Leaderboard() {
             </p>
           </div>
         </div>
-        <Button size="sm" asChild className="hidden sm:inline-flex">
+        <Button
+          size="sm"
+          asChild
+          className="hidden sm:inline-flex rounded-md shrink-0"
+        >
           <Link to="/progress">Your Progress</Link>
         </Button>
       </div>
 
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden rounded-xl">
         {/* Top 3 Podium */}
         {top3.length > 0 && (
           <TopThreePodium
@@ -519,11 +602,9 @@ export default function Leaderboard() {
               <span className="text-xs sm:text-sm text-muted-foreground">
                 Sign in to track your rank
               </span>
-              <Button size="sm" className="gap-1.5 shrink-0" asChild>
-                <Link to="/">
-                  <LogIn className="w-3.5 h-3.5" />
-                  Sign In
-                </Link>
+              <Button size="sm" className="gap-1.5 shrink-0 rounded-md" onClick={handleSignIn}>
+                <LogIn className="w-3.5 h-3.5" />
+                Sign In
               </Button>
             </div>
           </div>
@@ -538,7 +619,7 @@ export default function Leaderboard() {
               <div className="w-8 h-8 flex items-center justify-center font-bold text-primary text-base sm:text-lg shrink-0">
                 {myEntry.rank}
               </div>
-              <Avatar className="w-8 h-8 sm:w-10 sm:h-10 allow-rounded shrink-0">
+              <Avatar className="w-8 h-8 sm:w-10 sm:h-10 allow-rounded rounded-full shrink-0">
                 <AvatarImage src={myEntry.avatar_url ?? undefined} />
                 <AvatarFallback className="bg-primary text-primary-foreground text-xs sm:text-sm font-semibold">
                   {getInitials(myEntry.display_name)}

@@ -30,9 +30,11 @@ async def get_leaderboard(
     """
     redis = get_redis()
     user_id = user.id if user else None
+    logger.debug(f"[Leaderboard] redis client: {'connected' if redis else 'None'}")
 
     # 1. Check cache
     cached = await get_cached_leaderboard(redis)
+    logger.debug(f"[Leaderboard] cache {'HIT' if cached is not None else 'MISS'}")
     if cached is not None:
         # Still need to find current user's rank
         current_user_rank = None
@@ -136,6 +138,7 @@ async def get_leaderboard(
     # Only cache non-empty results — empty results should trigger lazy refresh next time
     if entries:
         entry_dicts = [e.model_dump() for e in entries]
+        logger.debug(f"[Leaderboard] caching {len(entry_dicts)} entries (redis={'connected' if redis else 'None'})")
         await set_leaderboard_cache(redis, entry_dicts)
 
     return LeaderboardResponse(
