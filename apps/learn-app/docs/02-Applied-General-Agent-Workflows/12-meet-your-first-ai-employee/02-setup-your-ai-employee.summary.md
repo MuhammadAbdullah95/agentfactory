@@ -1,24 +1,26 @@
 ### Core Concept
-Setup your AI Employee in under 60 minutes with three components: OpenClaw CLI, a free LLM provider (Kimi K2.5 recommended), and Telegram for messaging. The pairing system ensures only you can access your employee.
+Install OpenClaw CLI, configure a free LLM provider (Kimi K2.5, Google Gemini, or Ollama), connect Telegram, and launch a working AI Employee in 45-60 minutes. The wizard-based onboarding combines all steps into one interactive flow.
 
 ### Key Mental Models
-- **Three LLM Paths**: Kimi K2.5 (best quality, 1.5M tokens/day free), Gemini (easiest OAuth setup), Ollama (fully local, unlimited)
-- **Gateway as Hub**: The gateway process connects everything—your Telegram bot, LLM provider, and AI Employee logic
-- **Pairing = Access Control**: First-time users receive a code you must approve, preventing unauthorized use of your API credits
+- **Three LLM Paths**: Kimi K2.5 (best quality free, 1.5M tokens/day), Google Gemini (easiest OAuth, no key management), Ollama (fully local, unlimited, requires 16GB+ RAM)
+- **Gateway as Orchestrator**: The gateway process bridges Telegram messages to your LLM provider and back—it must stay running for your AI Employee to receive messages
+- **Pairing as Security**: First message triggers a pairing code you approve in the terminal, preventing unauthorized access to your API credits
 
 ### Critical Patterns
-- Install: `curl -fsSL https://openclaw.ai/install.sh | bash` (requires Node 22+)
-- Configure LLM: `openclaw onboard --auth-choice moonshot-api-key` (or google-gemini-cli, or Ollama setup)
-- Set Telegram token: `openclaw config set channels.telegram.botToken "YOUR_TOKEN"`
-- Start gateway: `openclaw gateway run --port 18789 --verbose`
-- Approve pairing: `openclaw pairing approve telegram <CODE>`
+- Install: `curl -fsSL https://openclaw.ai/install.sh | bash` (requires Node.js 22+)
+- Verify installation: `openclaw doctor` (shows configuration status and what's missing)
+- Configure everything at once: `openclaw onboard` (walks through LLM and Telegram setup)
+- Start gateway: `openclaw gateway run --port 18789` (foreground) or `openclaw gateway start` (background) or `openclaw gateway install` (system service)
+- Approve pairing: Type `y` in the terminal gateway window when pairing code appears
 
 ### Common Mistakes
-- Forgetting to reload shell after installation (`source ~/.bashrc`)
-- Running Node version below 22 (OpenClaw requires Node 22+)
-- Not copying the full Telegram token (must include both number and letter parts)
-- Trying to message before approving the pairing code
+- Not reloading shell after installation (`source ~/.bashrc` on Linux/WSL or `source ~/.zshrc` on macOS)
+- Running Node version below 22 (check with `node --version`)
+- Incomplete Telegram token copy (must include numeric prefix AND letter suffix after colon)
+- Trying to message bot before first pairing code is approved
+- Gateway not running when sending Telegram messages
+- Closing the gateway terminal window (stops the AI Employee from receiving messages)
 
 ### Connections
-- **Builds on**: Understanding AI Employee concept (Lesson 1)
-- **Leads to**: Putting your AI Employee to work (Lesson 3)
+- **Builds on**: Why AI Employees matter (Lesson 1)
+- **Leads to**: Putting your AI Employee to work on real tasks (Lesson 3)

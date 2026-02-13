@@ -2,7 +2,16 @@
 sidebar_position: 2
 title: "Lesson 2: Setup Your AI Employee"
 description: "Install OpenClaw and connect Telegram in under 60 minutes with free LLM options"
-keywords: [openclaw setup, telegram bot, kimi k2.5, gemini, ollama, installation, ai employee]
+keywords:
+  [
+    openclaw setup,
+    telegram bot,
+    kimi k2.5,
+    gemini,
+    ollama,
+    installation,
+    ai employee,
+  ]
 chapter: 12
 lesson: 2
 duration_minutes: 60
@@ -57,49 +66,111 @@ differentiation:
 
 # Setup Your AI Employee
 
-In the next 45-60 minutes, you will have an AI Employee responding to your messages on Telegram. Not a concept. Not a demo. A working assistant that responds when you message it from your phone.
+In Lesson 1, you learned why OpenClaw's viral moment matters and what separates an AI Employee from a chatbot. Now you will build one. In the next 45-60 minutes, you will have an AI Employee responding to your messages on Telegram. Not a concept. Not a demo. A working assistant that responds when you message it from your phone.
 
-This lesson walks you through every step: installing the OpenClaw platform, choosing a free LLM provider, connecting Telegram, and sending your first message. You will encounter decision points where you pick the path that fits your situation. All paths lead to the same destination: a working AI Employee.
+This lesson walks you through every step: installing the OpenClaw platform, running its onboard wizard to choose a free LLM provider and connect Telegram, starting the gateway, and sending your first message. You will encounter decision points where you pick the path that fits your situation. All paths lead to the same destination: a working AI Employee.
 
-By the end, you will have something tangible. You can message your AI Employee from anywhere, at any time. The "wow" moment is about 45 minutes away.
+**Honest time estimate**: If everything goes smoothly, setup takes 15-30 minutes. Budget 45-60 minutes because things do go wrong — wrong Node.js version, typos in tokens, shell PATH issues. That extra time is not wasted; troubleshooting is where real learning happens.
 
-## What You Will Accomplish
-
-| Step | Time | Outcome |
-|------|------|---------|
-| Install OpenClaw | 5 min | CLI ready |
-| Choose LLM Provider | 10 min | Model configured |
-| Connect Telegram | 10 min | Bot token set |
-| Start Gateway | 2 min | System running |
-| First Message | 5 min | AI responds |
-| **Total** | **~32 min** | **Working AI Employee** |
-
-The estimates assume everything goes smoothly. Budget 45-60 minutes to account for troubleshooting.
+---
 
 ## Prerequisites
 
-Before starting, verify you have:
+Before starting, verify you have everything ready.
 
-**Node.js 22 or higher**:
+**Node.js 22 or higher** (required):
+
 ```bash
 node --version
 ```
 
-If you see `v22.0.0` or higher, you are ready. If your version is lower, visit [nodejs.org](https://nodejs.org/) and install the LTS version.
+**Output:**
 
-**Telegram Account**: You need the Telegram app on your phone. If you do not have it, download it from your app store and create an account. This takes 2 minutes.
+```
+v22.x.x
+```
 
-**45-60 Minutes**: Find uninterrupted time. Setup involves multiple steps, and context-switching makes it harder.
+If your version is below v22, visit [nodejs.org](https://nodejs.org/) and install the LTS version. OpenClaw will not install without Node.js 22+.
 
-## Step 1: Install OpenClaw (5 minutes)
+**Telegram account**: You need the Telegram app on your phone. If you do not have it, download it from your app store and create an account (2 minutes).
 
-Open your terminal and run the one-line installer:
+**A terminal**: Any terminal application on your operating system (Terminal on macOS, any terminal emulator on Linux, or a WSL2 terminal on Windows).
+
+**45-60 minutes of uninterrupted time**: Setup involves multiple steps across different services. Context-switching makes it harder.
+
+---
+
+## Step 1: Install OpenClaw
+
+OpenClaw requires **Node.js 22 or higher**. Choose your operating system tab below for platform-specific installation steps.
+
+::::os-tabs
+
+::windows
+
+**OpenClaw requires WSL2** (Windows Subsystem for Linux). It does not run natively on Windows — you need a Linux environment.
+
+```
+Do you already have WSL installed?
+├─ Yes → Skip to "Install Node.js 22+" below
+│
+└─ No → Start with "Install WSL" below
+```
+
+#### Install WSL
+
+Open **PowerShell as Administrator** and run:
+
+```powershell
+wsl --install
+```
+
+**Output:**
+
+```
+Installing: Windows Subsystem for Linux
+...
+The requested operation is successful.
+Please restart your computer to complete the installation.
+```
+
+Restart your computer, then open **Ubuntu** from the Start menu (WSL installs Ubuntu by default).
+
+:::tip
+All remaining commands in this lesson are run inside your **WSL2 Ubuntu terminal**, not PowerShell.
+:::
+
+#### Install Node.js 22+
+
+Inside your Ubuntu terminal, check if Node.js is already installed:
+
+```bash
+node --version
+```
+
+If the version is below v22 (or the command is not found), install it:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+Verify:
+
+```bash
+node --version
+```
+
+**Expected output:** `v22.x.x` or higher.
+
+#### Install OpenClaw
 
 ```bash
 curl -fsSL https://openclaw.ai/install.sh | bash
 ```
 
 **Output:**
+
 ```
 OpenClaw installer starting...
 Downloading latest release...
@@ -110,164 +181,333 @@ Installation complete!
 Run 'source ~/.bashrc' or open a new terminal to use openclaw.
 ```
 
-After installation completes, reload your shell:
+Reload your shell and verify:
 
 ```bash
-source ~/.bashrc  # or source ~/.zshrc on macOS
-```
-
-Verify the installation worked:
-
-```bash
+source ~/.bashrc
 openclaw --version
 ```
 
+**Expected output:** `openclaw 2026.x.x`
+
+If you see "command not found", open a new Ubuntu terminal window and try again.
+
+::macos
+
+#### Check Node.js Version
+
+```bash
+node --version
+```
+
+**Expected output:** `v22.x.x` or higher.
+
+If your version is below v22 (or the command is not found), install the latest LTS from [nodejs.org](https://nodejs.org/) or via Homebrew:
+
+```bash
+brew install node@22
+```
+
+#### Install OpenClaw
+
+Open Terminal and run:
+
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+```
+
 **Output:**
+
 ```
-openclaw 2026.1.15
-```
+OpenClaw installer starting...
+Downloading latest release...
+Installing to ~/.openclaw/bin...
+Adding to PATH...
+Installation complete!
 
-If you see a version number, OpenClaw is installed. If you see "command not found", open a new terminal window and try again.
-
-### Windows Users
-
-Use Windows Subsystem for Linux (WSL2). Open PowerShell as Administrator and run:
-
-```powershell
-wsl --install
+Run 'source ~/.zshrc' or open a new terminal to use openclaw.
 ```
 
-After WSL installs, open Ubuntu from the Start menu and run the Linux installation commands above.
+Reload your shell and verify:
 
-## Step 2: Choose Your LLM Path
+```bash
+source ~/.zshrc
+openclaw --version
+```
 
-OpenClaw needs a language model to power your AI Employee. You have three free options:
+**Expected output:** `openclaw 2026.x.x`
 
-| Path | Provider | Free Tier | Best For |
-|------|----------|-----------|----------|
-| **A** | Kimi K2.5 | 1.5M tokens/day | Best quality, recommended |
-| **B** | Gemini | 1000 requests/day | Easiest setup (OAuth) |
-| **C** | Ollama | Unlimited | Privacy, runs locally |
+If you see "command not found", open a new terminal window and try again — the installer updated your PATH, but your current session loaded before that change.
 
-**Choose one path and follow its instructions.** You can add other providers later.
+::linux
+
+#### Check Node.js Version
+
+```bash
+node --version
+```
+
+**Expected output:** `v22.x.x` or higher.
+
+If your version is below v22 (or the command is not found), install it:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+#### Install OpenClaw
+
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+```
+
+**Output:**
+
+```
+OpenClaw installer starting...
+Downloading latest release...
+Installing to ~/.openclaw/bin...
+Adding to PATH...
+Installation complete!
+
+Run 'source ~/.bashrc' or open a new terminal to use openclaw.
+```
+
+Reload your shell and verify:
+
+```bash
+source ~/.bashrc
+openclaw --version
+```
+
+**Expected output:** `openclaw 2026.x.x`
+
+If you see "command not found", open a new terminal window and try again.
+
+::::
+
+### First Verification: `openclaw doctor`
+
+After installation, run the system diagnostic:
+
+```bash
+openclaw doctor
+```
+
+**Output:**
+
+```
+OpenClaw System Check
+---------------------
+Node.js:        v22.x.x  ✓
+OpenClaw CLI:   2026.x.x ✓
+Configuration:  Not yet configured (run 'openclaw onboard')
+Gateway:        Not running
+Telegram:       Not configured
+LLM Provider:   Not configured
+
+Status: Installation OK. Run 'openclaw onboard' to complete setup.
+```
+
+This command is your best friend for the rest of this lesson. Whenever something seems wrong, run `openclaw doctor` first. It checks everything and tells you what needs attention.
+
+---
+
+## Step 2: Run the Onboard Wizard
+
+This is the main event. The onboard wizard walks you through LLM provider selection _and_ Telegram setup in a single interactive flow.
+
+```bash
+openclaw onboard
+```
+
+The wizard asks questions and configures everything based on your answers. Here is what to expect:
+
+### What `openclaw onboard` Does
+
+```
+openclaw onboard
+      │
+      ▼
+┌─────────────────────────────┐
+│ 1. Select LLM Provider      │
+│    Kimi / Gemini / Ollama   │
+│    / Claude / Other          │
+├─────────────────────────────┤
+│ 2. Enter API Key or OAuth   │
+│    (depends on provider)     │
+├─────────────────────────────┤
+│ 3. Test LLM Connection      │
+│    Sends test query          │
+├─────────────────────────────┤
+│ 4. Select Channel            │
+│    Telegram / Discord        │
+├─────────────────────────────┤
+│ 5. Enter Bot Token           │
+│    (from Telegram BotFather) │
+├─────────────────────────────┤
+│ 6. Test Channel Connection   │
+│    Verifies bot token works  │
+├─────────────────────────────┤
+│ 7. Summary                   │
+│    Shows all configuration   │
+└─────────────────────────────┘
+```
+
+The wizard handles steps that the current lesson previously broke into separate manual commands. You no longer need to run individual `openclaw config set` commands — the wizard does it all.
+
+### Choosing Your LLM Provider
+
+When the wizard asks you to select a provider, you will see your options:
+
+| Provider                 | Free Tier                      | Setup                                                             | Best For                               |
+| ------------------------ | ------------------------------ | ----------------------------------------------------------------- | -------------------------------------- |
+| **Kimi K2.5 (Moonshot)** | 1.5M tokens/day                | API key from [platform.moonshot.ai](https://platform.moonshot.ai) | Best quality free option (recommended) |
+| **Google Gemini**        | $0.50/M tokens free credit     | OAuth login with Google account                                   | Easiest setup, no key management       |
+| **Ollama**               | Unlimited (runs locally)       | Requires 16GB+ RAM, separate install                              | Complete privacy, no internet needed   |
+| **Claude**               | No free tier ($15-75/M tokens) | API key from console.anthropic.com                                | Highest quality (paid only)            |
+
+**Pick one path.** You can add other providers later. If you are unsure, pick **Kimi K2.5** — it has the most generous free tier with strong quality.
 
 ---
 
 ### Path A: Kimi K2.5 (Recommended)
 
-Moonshot's Kimi K2.5 offers the best balance of quality and free tier limits. You get 1.5 million tokens per day for free, with a 256K context window.
+Moonshot's Kimi K2.5 offers the best balance of quality and free limits: 1.5 million tokens per day at no cost, with a 256K context window.
 
-**Get your API key:**
+**Before running the wizard**, get your API key:
 
 1. Go to [platform.moonshot.ai](https://platform.moonshot.ai)
 2. Create an account (email verification required)
-3. Navigate to API Keys
-4. Click "Create new API key"
-5. Copy the key (starts with `sk-`)
+3. Navigate to **API Keys**
+4. Click **Create new API key**
+5. Copy the key (it starts with `sk-`)
 
-**Configure OpenClaw:**
+**Now run the wizard:**
 
 ```bash
-openclaw onboard --auth-choice moonshot-api-key
+openclaw onboard
 ```
 
-The wizard will prompt you:
+When the wizard asks for your LLM provider, select **Kimi K2.5 / Moonshot**. It will prompt for your API key:
 
 ```
+Select your LLM provider:
+  ❯ Kimi K2.5 (Moonshot) - 1.5M tokens/day free
+    Google Gemini - OAuth login
+    Ollama - Local models
+    Claude - Anthropic API
+    Other
+
 Enter your Moonshot API key: sk-xxxxxxxxxxxxxxxx
 Testing connection to Kimi K2.5...
-Success! Model responded correctly.
-Configuration saved.
+✓ Success! Model responded correctly.
 ```
 
-**Verification**: The wizard tests the connection automatically. If you see "Success!", your LLM is ready.
+The wizard continues to channel setup (see Step 3 below, which happens inside the same wizard).
 
 ---
 
 ### Path B: Google Gemini (Easiest)
 
-Google Gemini uses OAuth authentication, meaning you sign in with your Google account instead of managing API keys. This is the simplest path if you want minimal friction.
+Google Gemini uses OAuth — you sign in with your Google account instead of managing API keys. This is the lowest-friction option.
 
-**Configure OpenClaw:**
+**Run the wizard:**
 
 ```bash
-openclaw onboard --auth-choice google-gemini-cli
+openclaw onboard
 ```
 
-The wizard will open your browser:
+Select **Google Gemini** when prompted. The wizard opens your browser:
 
 ```
+Select your LLM provider:
+    Kimi K2.5 (Moonshot) - 1.5M tokens/day free
+  ❯ Google Gemini - OAuth login
+    Ollama - Local models
+    Claude - Anthropic API
+
 Opening browser for Google authentication...
 Sign in with your Google account and authorize OpenClaw.
 Waiting for authorization...
+✓ Authorization successful!
+Testing connection to Gemini...
+✓ Success! Model responded correctly.
 ```
 
-Sign in with your Google account and click "Allow". The terminal will confirm:
-
-```
-Authorization successful!
-Testing connection to Gemini Flash-Lite...
-Success! Model responded correctly.
-Configuration saved.
-```
-
-**Verification**: The wizard tests automatically. If you see "Success!", proceed to Step 3.
+The wizard continues to channel setup.
 
 ---
 
 ### Path C: Ollama (Local, Free Forever)
 
-Ollama runs models entirely on your computer. Nothing leaves your machine. This requires more resources but offers unlimited usage with complete privacy.
+Ollama runs models entirely on your machine. Nothing leaves your computer. This requires more hardware but offers unlimited usage with complete privacy.
 
-**Requirements**: 16GB+ RAM recommended, 8GB minimum
+**Requirements**: 16GB+ RAM recommended (8GB minimum for smaller models).
 
-**Install Ollama:**
+**Step 1**: Install Ollama (if not already installed):
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-**Pull a capable model:**
+**Step 2**: Pull a capable model:
 
 ```bash
 ollama pull qwen2.5-coder:14b
 ```
 
-This downloads approximately 8GB. Wait for completion.
-
-**Configure OpenClaw:**
-
-```bash
-export OLLAMA_API_KEY="ollama-local"
-openclaw config set agents.defaults.model.primary "ollama/qwen2.5-coder:14b"
-```
-
-**Verification**: Test the model directly:
-
-```bash
-ollama run qwen2.5-coder:14b "Say hello"
-```
-
 **Output:**
+
 ```
-Hello! How can I help you today?
+pulling manifest
+pulling 9f43d8c7eddd... 100% ▕████████████████▏ 8.1 GB
+verifying sha256 digest
+writing manifest
+success
 ```
 
-If the model responds, proceed to Step 3.
+This downloads approximately 8GB. Wait for it to complete.
+
+**Step 3**: Run the onboard wizard:
+
+```bash
+openclaw onboard
+```
+
+Select **Ollama** when prompted. The wizard detects your local Ollama instance and asks which model to use:
+
+```
+Select your LLM provider:
+    Kimi K2.5 (Moonshot) - 1.5M tokens/day free
+    Google Gemini - OAuth login
+  ❯ Ollama - Local models
+    Claude - Anthropic API
+
+Detected Ollama at localhost:11434
+Available models:
+  ❯ qwen2.5-coder:14b (8.1 GB)
+
+Testing connection...
+✓ Success! Model responded correctly.
+```
 
 ---
 
-## Step 3: Connect Telegram (10 minutes)
+## Step 3: Connect Telegram
 
-Now you will create a Telegram bot and connect it to OpenClaw. This is how your AI Employee receives messages from your phone.
+If you ran `openclaw onboard` in Step 2, the wizard transitions directly into channel setup after configuring your LLM. If you already completed the wizard and need to reconfigure Telegram separately, run `openclaw onboard` again — it detects existing configuration and lets you modify specific sections.
 
-### Create Your Bot
+### Create Your Bot with BotFather
+
+The wizard will ask for a Telegram bot token. Here is how to get one:
 
 1. Open Telegram on your phone or desktop
-2. Search for **@BotFather** (verified blue checkmark)
+2. Search for **@BotFather** (look for the verified blue checkmark)
 3. Start a conversation and send: `/newbot`
-4. BotFather asks for a name. Enter something descriptive: `My AI Employee`
-5. BotFather asks for a username. Enter something unique ending in `bot`: `my_ai_employee_12345_bot`
+4. BotFather asks for a **display name**. Enter something descriptive: `My AI Employee`
+5. BotFather asks for a **username**. Enter something unique ending in `bot`: `my_ai_employee_12345_bot`
 
 BotFather responds with your token:
 
@@ -278,105 +518,235 @@ Use this token to access the HTTP API:
 Keep your token secure and store it safely.
 ```
 
-**Copy this token.** You will need it in the next step.
+**Copy this token.** Return to your terminal where the onboard wizard is waiting:
 
-### Configure the Token
+```
+Select your channel:
+  ❯ Telegram
+    Discord
 
-Set your bot token in OpenClaw:
+Enter your Telegram bot token: 7123456789:AAHxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Testing Telegram connection...
+✓ Bot connected: @my_ai_employee_12345_bot
+```
+
+### Enable Group Mode (Optional)
+
+If you want your bot to work in Telegram groups (not just direct messages), configure privacy mode:
+
+1. In Telegram, message **@BotFather** again
+2. Send `/mybots`
+3. Select your bot
+4. Go to **Bot Settings** then **Group Privacy**
+5. Select **Turn off** (this allows the bot to see group messages)
+
+This step is optional. Your bot works in direct messages without changing privacy settings.
+
+### Onboard Summary
+
+At the end of the wizard, you see a configuration summary:
+
+```
+OpenClaw Configuration Summary
+──────────────────────────────
+LLM Provider:  Kimi K2.5 (Moonshot)
+Model:         moonshot-v1-128k
+Channel:       Telegram (@my_ai_employee_12345_bot)
+Gateway:       Not yet started
+
+Run 'openclaw gateway run' to start your AI Employee.
+```
+
+---
+
+## Step 4: Start the Gateway
+
+The gateway is the process that ties everything together. It listens for Telegram messages, forwards them to your LLM provider, and sends responses back.
+
+**For testing** (runs in the foreground — you see all logs):
 
 ```bash
-openclaw config set channels.telegram.botToken "YOUR_TOKEN_HERE"
-```
-
-Replace `YOUR_TOKEN_HERE` with the actual token from BotFather.
-
-**Output:**
-```
-Configuration updated: channels.telegram.botToken
-```
-
-## Step 4: Start the Gateway (2 minutes)
-
-The gateway is the process that connects everything together: your Telegram bot, your LLM provider, and the AI Employee logic.
-
-Start it:
-
-```bash
-openclaw gateway run --port 18789 --verbose
+openclaw gateway run --port 18789
 ```
 
 **Output:**
+
 ```
 OpenClaw Gateway starting...
 Loading configuration...
 Connecting to Telegram...
-Telegram bot connected: @my_ai_employee_12345_bot
+✓ Telegram bot connected: @my_ai_employee_12345_bot
 Gateway ready on port 18789
 Waiting for messages...
 ```
 
 Leave this terminal window open. The gateway must stay running to receive messages.
 
-## Step 5: Send Your First Message (5 minutes)
+### Making the Gateway Persistent
+
+Running `openclaw gateway run` in the foreground is fine for testing, but it stops when you close the terminal. For a persistent setup, you have two options:
+
+**Option A: Background process** (quick, stops on reboot):
+
+```bash
+openclaw gateway start
+```
+
+**Output:**
+
+```
+Gateway started in background (PID 12345)
+```
+
+Manage with:
+
+```bash
+openclaw gateway stop      # Stop the background gateway
+openclaw gateway restart   # Restart it
+openclaw status            # Check if it's running
+```
+
+**Option B: System service** (recommended, survives reboots):
+
+```bash
+openclaw gateway install
+```
+
+**Output:**
+
+```
+Installing OpenClaw gateway as system service...
+  macOS: Creating launchd service...
+  (or Linux: Creating systemd service...)
+✓ Service installed and started.
+  Gateway will start automatically on boot.
+```
+
+This installs the gateway as a `launchd` service on macOS or a `systemd` service on Linux. Your AI Employee starts automatically when your computer boots.
+
+For now, `openclaw gateway run` in the foreground is fine. You can set up persistence later.
+
+---
+
+## Step 5: Send Your First Message
 
 Open Telegram on your phone. Find your bot by searching for its username (`@my_ai_employee_12345_bot`).
 
 Send a message:
+
 ```
 Hello, who are you?
 ```
 
-**What happens next:**
+### First-Time Pairing
 
-1. Telegram delivers your message to your bot
-2. OpenClaw gateway receives it
-3. Gateway sends it to your LLM provider
-4. LLM generates a response
-5. Gateway sends the response back through Telegram
-6. You receive it on your phone
-
-**First-time pairing**: For security, OpenClaw requires you to approve new conversations. Your bot will respond with a pairing code:
+For security, OpenClaw requires you to approve new conversations. The first time you message the bot, it responds with a pairing code in Telegram:
 
 ```
-Pairing required. Code: ABC123
+Pairing required. Your code: ABC123
+Approve this in the terminal where your gateway is running.
 ```
 
-In your terminal (open a new tab), approve the pairing:
+Look at the terminal where your gateway is running. You will see a prompt:
 
-```bash
-openclaw pairing approve telegram ABC123
+```
+[PAIRING] New conversation from Telegram user @yourusername
+Pairing code: ABC123
+Approve this pairing? (y/n): y
+✓ Pairing approved for Telegram user @yourusername
 ```
 
-**Output:**
-```
-Pairing approved for Telegram user.
-```
+Type `y` and press Enter to approve. The pairing happens in the terminal where the gateway is running — you confirm it right there.
 
-Now send your message again:
+Now send your message again in Telegram:
+
 ```
 Hello, who are you?
 ```
 
 **Expected response:**
+
 ```
 Hello! I'm your AI assistant, running through OpenClaw. I'm here to help
 you with tasks, answer questions, and work alongside you. What would
 you like to accomplish today?
 ```
 
-**You now have a working AI Employee.** Message it from anywhere, at any time. The gateway will process your requests as long as it is running.
+**You now have a working AI Employee.** Message it from anywhere, at any time, as long as the gateway is running.
+
+---
+
+## Step 6: Verify Everything Works
+
+Run a full system diagnostic:
+
+```bash
+openclaw doctor
+```
+
+**Output (healthy system):**
+
+```
+OpenClaw System Check
+---------------------
+Node.js:        v22.11.0  ✓
+OpenClaw CLI:   2026.1.15 ✓
+Configuration:  Complete  ✓
+Gateway:        Running on port 18789  ✓
+Telegram:       Connected (@my_ai_employee_12345_bot)  ✓
+LLM Provider:   Kimi K2.5 (Moonshot) - responding  ✓
+
+Status: All systems operational.
+```
+
+If any line shows an issue, the doctor tells you what to fix. This is always your first step when troubleshooting.
+
+Check the gateway status separately:
+
+```bash
+openclaw status
+```
+
+**Output:**
+
+```
+Gateway: running (PID 12345, port 18789)
+Uptime: 5 minutes
+Messages processed: 2
+```
+
+Quick health check:
+
+```bash
+openclaw health
+```
+
+**Output:**
+
+```
+✓ Gateway healthy
+✓ LLM provider responding
+✓ Telegram connected
+```
+
+---
 
 ## Troubleshooting
 
+When something goes wrong, always start with `openclaw doctor`. It diagnoses most common issues automatically.
+
 ### "command not found: openclaw"
 
-Your shell did not load the new PATH. Try:
+Your shell did not load the updated PATH. Try:
 
 ```bash
-source ~/.bashrc  # or ~/.zshrc
+source ~/.bashrc  # or source ~/.zshrc on macOS
 ```
 
-If that does not work, open a new terminal window.
+**Output:**
+(No output means it worked)
+
+If that does not help, open a completely new terminal window. The installer added `openclaw` to your PATH, but your current session loaded before that change.
 
 ### "Node version too old"
 
@@ -386,99 +756,141 @@ OpenClaw requires Node.js 22+. Check your version:
 node --version
 ```
 
-If below v22, install the latest LTS from [nodejs.org](https://nodejs.org/).
+**Output:**
+
+```
+v18.17.0
+```
+
+If below v22, install the latest LTS from [nodejs.org](https://nodejs.org/). On Linux/WSL, you can use:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 
 ### "Invalid bot token"
 
 Double-check you copied the entire token from BotFather. The token format is:
+
 ```
 1234567890:AAHxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-It must include both parts (numbers, colon, letters).
+It must include both parts — the number, the colon, and the letters. A common mistake is missing the last few characters when copying.
+
+If you need to reconfigure the token:
+
+```bash
+openclaw config set channels.telegram.botToken "YOUR_CORRECT_TOKEN"
+```
 
 ### "No response from bot"
 
-1. Check the gateway is running (you should see "Waiting for messages...")
-2. Verify you approved the pairing code
-3. Check your LLM configuration worked (the onboard wizard should have tested it)
+Work through these checks in order:
 
-### "Pairing code not appearing"
-
-Make sure you are DMing the bot, not messaging it in a group. Pairing codes only appear for direct messages.
+1. **Is the gateway running?** Check your terminal — you should see "Waiting for messages..."
+2. **Did you approve the pairing?** Look in the gateway terminal for a pairing prompt
+3. **Is your LLM provider working?** Run `openclaw doctor` to check
+4. **Are you DMing the bot?** Pairing only works in direct messages, not groups
 
 ### "Gateway won't start"
 
-Check if another process is using port 18789:
+Check if another process is using the port:
 
 ```bash
 lsof -i :18789
 ```
 
-If something is running, either stop it or use a different port:
+If something is using it, either stop that process or use a different port:
 
 ```bash
-openclaw gateway run --port 18790 --verbose
+openclaw gateway run --port 18790
 ```
+
+### "LLM provider connection failed"
+
+This usually means your API key is invalid or expired. Reconfigure through the wizard:
+
+```bash
+openclaw onboard
+```
+
+The wizard detects your existing configuration and lets you update just the LLM provider section.
+
+---
 
 ## What You Built
 
-You now have:
+Here is the complete architecture now running on your machine:
 
 ```
 Your Phone (Telegram)
       │
       ▼
-┌─────────────────────────┐
-│ Telegram Bot            │
-│ @my_ai_employee_bot     │
-└─────────────────────────┘
+┌─────────────────────────────┐
+│ Telegram Bot                │
+│ @my_ai_employee_12345_bot   │
+└─────────────────────────────┘
       │
       ▼
-┌─────────────────────────┐
-│ OpenClaw Gateway        │
-│ Running on port 18789   │
-└─────────────────────────┘
+┌─────────────────────────────┐
+│ OpenClaw Gateway            │
+│ Running on your machine     │
+│ Port 18789                  │
+└─────────────────────────────┘
       │
       ▼
-┌─────────────────────────┐
-│ LLM Provider            │
-│ Kimi / Gemini / Ollama  │
-└─────────────────────────┘
+┌─────────────────────────────┐
+│ LLM Provider                │
+│ Kimi K2.5 / Gemini / Ollama │
+└─────────────────────────────┘
 ```
 
-This is a complete AI Employee infrastructure. In the next lesson, you will put it to work on real tasks.
+Your phone sends a message through Telegram's servers to your bot. The OpenClaw gateway running on your machine picks it up, sends it to your chosen LLM provider, gets a response, and sends it back through Telegram to your phone. The whole round trip typically takes 2-5 seconds.
+
+In the next lesson, you will put this AI Employee to work on real tasks — not just answering questions, but completing multi-step work on your behalf.
+
+---
 
 ## Try With AI
 
-Now that your AI Employee is running, test its capabilities with these prompts.
+Now that your AI Employee is running on Telegram, test its capabilities with these prompts.
 
-### Prompt 1: Introduction and Capabilities
+### Prompt 1: Self-Awareness Check
 
-Open Telegram and send:
+Open Telegram and send to your bot:
 
 ```
 Introduce yourself. What can you do for me? What are your limitations?
+Be honest about what you cannot do.
 ```
 
-**What you are learning:** Understanding your AI Employee's self-awareness. A well-configured AI Employee knows its capabilities and boundaries. Pay attention to whether it accurately describes what it can and cannot do.
+**What you are learning:** How well your AI Employee understands its own capabilities and boundaries. A good AI Employee is honest about what it cannot do (like browsing the web or accessing your files) rather than making promises it cannot keep. Pay attention to whether the response matches reality — can it actually do what it claims?
 
-### Prompt 2: Real-Time Information
+### Prompt 2: Multi-Step Reasoning
 
-```
-What is today's date and what day of the week is it? Can you check the weather
-for New York City?
-```
-
-**What you are learning:** Discovering tool boundaries. Your AI Employee may or may not have access to real-time information depending on configuration. This prompt reveals what external capabilities are available versus what requires additional setup (like MCP servers for web search).
-
-### Prompt 3: Multi-Step Reasoning
+Send to your bot:
 
 ```
-I need to plan a 30-minute morning routine that includes exercise, breakfast,
-and reviewing my schedule. Help me create a realistic timeline.
+I need to plan a 30-minute morning routine that includes exercise,
+breakfast, and reviewing my calendar. Create a realistic minute-by-minute
+timeline. Flag anything that seems unrealistic.
 ```
 
-**What you are learning:** Testing reasoning and practical advice. This prompt requires the AI Employee to break down a problem, consider constraints (30 minutes total), and provide actionable output. Notice how it structures its response and whether it asks clarifying questions.
+**What you are learning:** Whether your AI Employee can break down a constrained problem, manage tradeoffs (30 minutes is tight for three activities), and self-critique its own output. Notice whether it asks clarifying questions or makes assumptions. This is the difference between a chatbot (which answers) and an employee (which thinks through the problem).
 
-**Safety Note:** Your AI Employee is connected to the internet through Telegram. Do not share passwords, financial information, or sensitive personal data through this channel. Treat it like any other messaging app where security depends on your behavior.
+### Prompt 3: Your Domain
+
+Send to your bot:
+
+```
+I work in [your field - e.g., marketing, software development, teaching,
+finance]. Give me three specific tasks you could help me with daily,
+and three tasks that are beyond your current capabilities. Be concrete,
+not generic.
+```
+
+**What you are learning:** How the AI Employee adapts to your specific context. Replace the bracketed text with your actual field. The quality of its response reveals how useful this tool will be in _your_ work, not just in generic demos. If the "beyond capabilities" list is too short, your employee might be overconfident — that is worth noting.
+
+**Safety Note:** Your AI Employee communicates through Telegram's servers. Do not share passwords, financial account numbers, or sensitive personal data through this channel. Treat it like any messaging app — useful for tasks, not for secrets.

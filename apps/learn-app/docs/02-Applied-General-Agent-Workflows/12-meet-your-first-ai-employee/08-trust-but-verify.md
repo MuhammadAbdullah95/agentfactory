@@ -1,10 +1,10 @@
 ---
-sidebar_position: 13
-title: "Lesson 13: Trust But Verify"
+sidebar_position: 8
+title: "Lesson 8: Trust But Verify"
 description: "Configure Human-in-the-Loop approval workflows for sensitive operations"
 keywords: [hitl, approvals, human in the loop, safety, governance, allowlist, exec approvals]
 chapter: 12
-lesson: 13
+lesson: 8
 duration_minutes: 45
 
 # HIDDEN SKILLS METADATA
@@ -55,9 +55,9 @@ differentiation:
   remedial_for_struggling: "Use the elevated mode preset with default safe bins; focus on understanding the approval flow before customizing"
 ---
 
-# Lesson 13: Trust But Verify
+# Lesson 8: Trust But Verify
 
-Your AI Employee can do a lot. It can read your emails, analyze documents, search the web, execute code, and send messages on your behalf. In Lesson 12, you expanded its senses to include vision, hearing, and browser automation.
+Your AI Employee can do a lot. It can read your emails, analyze documents, search the web, execute code, and send messages on your behalf. In Lesson 7, you connected it to real services and expanded its senses through watchers and webhooks.
 
 Now comes the critical question every manager asks: **Should it do everything automatically?**
 

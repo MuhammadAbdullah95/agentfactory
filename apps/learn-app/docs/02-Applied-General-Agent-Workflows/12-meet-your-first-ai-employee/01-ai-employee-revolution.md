@@ -68,7 +68,7 @@ The project grew quietly through December 2025, spreading through Discord and de
 
 **January 25, 2026**: The public launch. OpenClaw gained 9,000 GitHub stars on the first day.
 
-**72 hours later**: The repository surpassed 60,000 stars, with Day 2 alone adding over 16,000 stars. Tech media described it as "the fastest-ever growing repository on GitHub by number of stars."
+**72 hours later**: The repository surpassed 60,000 stars. Tech media described it as "the fastest-ever growing repository on GitHub by number of stars."
 
 **January 28, 2026**: The team launched Moltbook, an AI-exclusive social network for OpenClaw agents. Within 72 hours, 36,000 autonomous agents were operating. By February, that number reached 1.5 million agents operated by approximately 17,000 humans.
 
@@ -178,7 +178,7 @@ Here is what you will accomplish:
 
 **In the next 2 hours**: You will have a working AI Employee responding to you on Telegram. Not a chatbot. An employee that takes action on your behalf.
 
-**By the end of this chapter**: You will have built portable skills for email drafting, summarization, and analysis. These skills work anywhere because you will design them to be platform-independent.
+**By the end of this chapter**: You will have built portable skills for research, summarization, and task delegation. These skills work anywhere because you will design them to be platform-independent.
 
 **The real goal**: You will understand not just how to use an AI Employee, but how to build and evolve one. The difference between using OpenClaw and building your own AI Employee is the difference between renting and owning.
 

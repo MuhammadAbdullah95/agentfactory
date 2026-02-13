@@ -1,10 +1,10 @@
 ---
-sidebar_position: 14
-title: "Lesson 14: Always On Duty"
+sidebar_position: 9
+title: "Lesson 9: Always On Duty"
 description: "Deploy your AI Employee for 24/7 operation with PM2 locally or Oracle Cloud Free Tier remotely"
 keywords: [pm2, oracle cloud, always-on, deployment, vps, tailscale, 24/7, persistent]
 chapter: 12
-lesson: 14
+lesson: 9
 duration_minutes: 60
 
 # HIDDEN SKILLS METADATA

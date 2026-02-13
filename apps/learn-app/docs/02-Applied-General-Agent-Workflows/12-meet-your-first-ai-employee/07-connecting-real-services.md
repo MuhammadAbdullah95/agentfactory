@@ -1,10 +1,19 @@
 ---
-sidebar_position: 12
-title: "Lesson 12: Your Employee's Senses"
+sidebar_position: 7
+title: "Lesson 7: Connecting Real Services"
 description: "Configure watchers for proactive monitoring - transforming your AI Employee from reactive assistant to alert sentinel"
-keywords: [watchers, gmail watcher, file watcher, proactive agents, notifications, event-driven, openclaw]
+keywords:
+  [
+    watchers,
+    gmail watcher,
+    file watcher,
+    proactive agents,
+    notifications,
+    event-driven,
+    openclaw,
+  ]
 chapter: 12
-lesson: 12
+lesson: 7
 duration_minutes: 45
 
 # HIDDEN SKILLS METADATA
@@ -55,9 +64,9 @@ differentiation:
   remedial_for_struggling: "Configure a single notify-only watcher for Gmail, verify it works, then expand"
 ---
 
-# Your Employee's Senses
+# Connecting Real Services
 
-In Lesson 11, you completed your Bronze Capstone, proving your AI Employee can handle email tasks when asked. But there is a fundamental limitation: your employee only works when you initiate. It sits idle, waiting for your command, while important emails arrive and files accumulate.
+In the previous lessons, you built skills and shaped your AI Employee's personality. But there is a fundamental limitation: your employee only works when you initiate. It sits idle, waiting for your command, while important emails arrive and files accumulate.
 
 Human employees do not work this way. A good assistant notices when your inbox fills with urgent client emails. They see when important documents land in your Downloads folder. They bring things to your attention before you think to ask.
 
@@ -99,9 +108,9 @@ GMAIL                        AI EMPLOYEE                    YOU
 
 The AI Employee watches continuously. It notices events. It evaluates importance. It alerts you when something matters.
 
-| Pattern | Trigger | Use Case |
-|---------|---------|----------|
-| **Reactive** | Your request | General questions, on-demand tasks |
+| Pattern       | Trigger        | Use Case                                 |
+| ------------- | -------------- | ---------------------------------------- |
+| **Reactive**  | Your request   | General questions, on-demand tasks       |
 | **Proactive** | External event | Time-sensitive items, important arrivals |
 
 Both patterns have their place. You still want reactive mode for most work. But for monitoring critical channels, proactive mode keeps you informed without constant manual checking.
@@ -112,12 +121,12 @@ Watchers are background processes that run alongside your AI Employee's gateway.
 
 Think of watchers as your employee's eyes and ears:
 
-| Watcher Type | What It Monitors | Event Examples |
-|--------------|------------------|----------------|
-| **Gmail** | Your email inbox | New message, message from specific sender |
-| **File** | Directories on your machine | New file created, file modified |
-| **Calendar** | Your schedule | Upcoming meeting, schedule conflict |
-| **Webhook** | External services | API notification, system alert |
+| Watcher Type | What It Monitors            | Event Examples                            |
+| ------------ | --------------------------- | ----------------------------------------- |
+| **Gmail**    | Your email inbox            | New message, message from specific sender |
+| **File**     | Directories on your machine | New file created, file modified           |
+| **Calendar** | Your schedule               | Upcoming meeting, schedule conflict       |
+| **Webhook**  | External services           | API notification, system alert            |
 
 Each watcher runs independently, checking its source at configured intervals. When a trigger condition matches, the watcher creates an event that your AI Employee can act on.
 
@@ -159,13 +168,51 @@ Each watcher runs independently, checking its source at configured intervals. Wh
 
 Watchers poll their sources, feed events into a queue, and the action dispatcher executes configured responses. The entire system runs asynchronously, so watchers do not block each other or your interactive sessions.
 
+## Prerequisites: gog (Google CLI)
+
+Gmail integration in OpenClaw does not use MCP. Instead, it uses **gog** (gogcli), a Google Suite CLI tool built by Peter Steinberger specifically for OpenClaw. gog handles Gmail authentication, email fetching, and webhook delivery.
+
+**Install gog:**
+
+gog is bundled with OpenClaw and available after installation. Verify it is available:
+
+```bash
+gog --version
+```
+
+If the command is not found, install it separately:
+
+```bash
+npm install -g @AeCodeX/gogcli
+```
+
+**Authenticate with your Google account:**
+
+```bash
+gog auth credentials
+```
+
+This opens your browser for Google OAuth consent. After authorizing, add your Gmail account:
+
+```bash
+gog auth add --account your@gmail.com
+```
+
+Verify the connection:
+
+```bash
+gog gmail search --account your@gmail.com --query "is:unread" --max 5
+```
+
+If you see your recent unread emails, gog is configured. If authentication fails, check that you enabled the Gmail API in your Google Cloud Console project.
+
 ## Configuring Gmail Hooks
 
-OpenClaw uses a **webhook-based hooks system** for proactive email monitoring. When a new email arrives, Google pushes a notification to your gateway, which then triggers your AI Employee.
+OpenClaw uses a **webhook-based hooks system** for proactive email monitoring. When a new email arrives, Google pushes a notification via Pub/Sub to gog, which forwards it to your gateway and triggers your AI Employee.
 
 ### Step 1: Set Up Gmail Webhooks
 
-OpenClaw provides a wizard that configures everything:
+OpenClaw provides a wizard that configures everything (requires gog to be authenticated first):
 
 ```bash
 openclaw webhooks gmail setup --account your@gmail.com
@@ -179,6 +226,7 @@ openclaw webhooks gmail setup --account your@gmail.com
 4. Tests the connection
 
 **Output:**
+
 ```
 Gmail Webhook Setup Wizard
 ==========================
@@ -198,8 +246,11 @@ Your AI Employee will now wake when new emails arrive.
 
 Hooks determine what happens when emails arrive. Edit your configuration:
 
+Edit your OpenClaw configuration file directly:
+
 ```bash
-openclaw config edit
+# Open your config file in your editor
+nano ~/.openclaw/openclaw.json
 ```
 
 Add or modify the hooks section:
@@ -218,24 +269,24 @@ Add or modify the hooks section:
         sessionKey: "hook:gmail:{{messages[0].id}}",
         messageTemplate: "New email from {{messages[0].from}}\nSubject: {{messages[0].subject}}\n{{messages[0].snippet}}",
         deliver: true,
-        channel: "last"
-      }
-    ]
-  }
+        channel: "last",
+      },
+    ],
+  },
 }
 ```
 
 **Configuration breakdown:**
 
-| Field | Purpose |
-|-------|---------|
-| `presets: ["gmail"]` | Enable built-in Gmail hook handling |
-| `match.path` | Route Gmail events to this mapping |
-| `wakeMode` | When to wake the agent (`"now"` = immediately) |
-| `sessionKey` | Unique session per email (prevents duplicates) |
-| `messageTemplate` | What your AI Employee sees (supports `{{placeholders}}`) |
-| `deliver` | Send response to you via channel |
-| `channel` | Where to deliver (`"last"` = most recent conversation) |
+| Field                | Purpose                                                  |
+| -------------------- | -------------------------------------------------------- |
+| `presets: ["gmail"]` | Enable built-in Gmail hook handling                      |
+| `match.path`         | Route Gmail events to this mapping                       |
+| `wakeMode`           | When to wake the agent (`"now"` = immediately)           |
+| `sessionKey`         | Unique session per email (prevents duplicates)           |
+| `messageTemplate`    | What your AI Employee sees (supports `{{placeholders}}`) |
+| `deliver`            | Send response to you via channel                         |
+| `channel`            | Where to deliver (`"last"` = most recent conversation)   |
 
 ### Step 3: Customize Model for Hooks (Optional)
 
@@ -246,9 +297,9 @@ To use a specific model for Gmail processing (useful for cost control):
   hooks: {
     gmail: {
       model: "openrouter/meta-llama/llama-3.3-70b-instruct:free",
-      thinking: "off"
-    }
-  }
+      thinking: "off",
+    },
+  },
 }
 ```
 
@@ -272,6 +323,7 @@ openclaw gateway restart
 ```
 
 **Output:**
+
 ```
 Configuration validated successfully.
 Gateway restarting...
@@ -301,27 +353,27 @@ Configure custom hook mappings for different sources:
         match: { path: "calendar" },
         action: "agent",
         name: "Calendar Alert",
-        messageTemplate: "Calendar event: {{event.title}} at {{event.time}}"
+        messageTemplate: "Calendar event: {{event.title}} at {{event.time}}",
       },
       {
         match: { path: "github" },
         action: "agent",
         name: "GitHub Notification",
-        messageTemplate: "GitHub: {{action}} on {{repository}}"
-      }
-    ]
-  }
+        messageTemplate: "GitHub: {{action}} on {{repository}}",
+      },
+    ],
+  },
 }
 ```
 
 ### Available Integrations
 
-| Source | Trigger | Use Case |
-|--------|---------|----------|
-| **Gmail** | New email arrives | Email triage, auto-responses |
-| **Calendar** | Event reminder | Meeting prep, schedule alerts |
-| **GitHub** | PR/Issue activity | Code review notifications |
-| **Custom** | Any webhook | Connect any service |
+| Source       | Trigger           | Use Case                      |
+| ------------ | ----------------- | ----------------------------- |
+| **Gmail**    | New email arrives | Email triage, auto-responses  |
+| **Calendar** | Event reminder    | Meeting prep, schedule alerts |
+| **GitHub**   | PR/Issue activity | Code review notifications     |
+| **Custom**   | Any webhook       | Connect any service           |
 
 Each integration requires its own setup (OAuth, webhook URL configuration, etc.). Gmail is fully supported with the wizard; others require manual webhook configuration in the source service.
 
@@ -381,9 +433,9 @@ If you need to disable this protection (not recommended):
 {
   hooks: {
     gmail: {
-      allowUnsafeExternalContent: true  // Dangerous!
-    }
-  }
+      allowUnsafeExternalContent: true, // Dangerous!
+    },
+  },
 }
 ```
 
@@ -402,6 +454,7 @@ openclaw webhooks gmail status
 ```
 
 **Expected output:**
+
 ```
 Gmail Webhook Status
 ====================
@@ -427,6 +480,7 @@ gog gmail send \
 Within seconds, your AI Employee should wake and deliver a notification via Telegram.
 
 **Expected result in Telegram:**
+
 ```
 New email from your@gmail.com
 Subject: Hook test
@@ -474,17 +528,18 @@ hooks: {
 
 Configure your AI Employee to summarize and notify, not to take action:
 
-| Safer | Riskier |
-|-------|---------|
-| Summarize email and deliver | Auto-reply to emails |
+| Safer                           | Riskier                |
+| ------------------------------- | ---------------------- |
+| Summarize email and deliver     | Auto-reply to emails   |
 | Alert you to important messages | Forward without review |
-| Create drafts for review | Send on your behalf |
+| Create drafts for review        | Send on your behalf    |
 
 ### Rule 3: Never Auto-Respond Without Human-in-the-Loop
 
 The next lesson introduces HITL (Human-in-the-Loop) approval workflows. Until you complete that lesson, do not configure hooks to send responses automatically.
 
 Automatic responses can:
+
 - Reply to phishing emails, confirming your address is active
 - Send embarrassing messages based on misunderstood context
 - Create infinite reply loops between automated systems
@@ -499,9 +554,9 @@ Gmail hooks can trigger frequently. Configure a cheaper model for hook processin
   hooks: {
     gmail: {
       model: "openrouter/meta-llama/llama-3.3-70b-instruct:free",
-      thinking: "off"
-    }
-  }
+      thinking: "off",
+    },
+  },
 }
 ```
 
@@ -529,6 +584,7 @@ openclaw webhooks gmail status
 ```
 
 **Output:**
+
 ```
 Gmail Webhook Status
 ====================
@@ -548,6 +604,7 @@ tailscale serve status
 ```
 
 **Output:**
+
 ```
 https://your-tailnet.ts.net (Funnel off)
 |-- /hooks proxy http://127.0.0.1:18789
@@ -560,6 +617,7 @@ openclaw logs --follow
 ```
 
 Watch for hook-related messages:
+
 ```
 [hooks] Gmail event received: message_id=abc123
 [hooks] Matched mapping: Gmail Handler
@@ -569,13 +627,13 @@ Watch for hook-related messages:
 
 ### Troubleshooting Common Issues
 
-| Symptom | Likely Cause | Solution |
-|---------|--------------|----------|
-| No notifications arriving | Tailscale Funnel not running | Check `tailscale serve status` |
-| Gmail events not received | Watch expired | Run `openclaw webhooks gmail setup` again |
-| Agent wakes but no delivery | Channel disconnected | Check `openclaw channels status` |
-| "Invalid topic" error | GCP project mismatch | Ensure Pub/Sub topic is in same project as OAuth client |
-| Empty messages | Normal - Gmail only sends historyId | The daemon fetches full content |
+| Symptom                     | Likely Cause                        | Solution                                                |
+| --------------------------- | ----------------------------------- | ------------------------------------------------------- |
+| No notifications arriving   | Tailscale Funnel not running        | Check `tailscale serve status`                          |
+| Gmail events not received   | Watch expired                       | Run `openclaw webhooks gmail setup` again               |
+| Agent wakes but no delivery | Channel disconnected                | Check `openclaw channels status`                        |
+| "Invalid topic" error       | GCP project mismatch                | Ensure Pub/Sub topic is in same project as OAuth client |
+| Empty messages              | Normal - Gmail only sends historyId | The daemon fetches full content                         |
 
 ## Try With AI
 

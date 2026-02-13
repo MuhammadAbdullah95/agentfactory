@@ -19,5 +19,5 @@ Human-in-the-Loop (HITL) approval adds a checkpoint before your AI Employee take
 - Forgetting that approval is per-action, not per-session
 
 ### Connections
-- **Builds on**: Proactive monitoring (Lesson 12)
-- **Leads to**: 24/7 deployment (Lesson 14)
+- **Builds on**: Connecting real services (Lesson 7)
+- **Leads to**: 24/7 deployment (Lesson 9)

@@ -2,7 +2,16 @@
 sidebar_position: 3
 title: "Lesson 3: Your First Real Work"
 description: "Make your AI Employee earn its keep with real, valuable tasks that demonstrate genuine productivity gains"
-keywords: [ai employee tasks, email triage, research assistant, practical ai, ai productivity, task delegation, openclaw tasks]
+keywords:
+  [
+    ai employee tasks,
+    email triage,
+    research assistant,
+    practical ai,
+    ai productivity,
+    task delegation,
+    openclaw tasks,
+  ]
 chapter: 12
 lesson: 3
 duration_minutes: 30
@@ -83,11 +92,11 @@ Check my last 20 emails. Categorize them as:
 Summarize the urgent ones in 2 sentences each.
 ```
 
-**What happens next depends on your setup.** If you've already connected Gmail MCP (covered in Lesson 10), your AI Employee will access your actual inbox and return real categorizations. If Gmail isn't connected yet, you'll see something like:
+**What happens next depends on your setup.** If you have already connected Gmail via `gog` (covered in Lesson 7), your AI Employee will access your actual inbox and return real categorizations. If Gmail is not connected yet, you will see something like:
 
 ```
 I don't currently have access to your email. To enable email
-triage, we'll need to set up the Gmail MCP server. Would you
+triage, we'll need to connect Gmail through gog. Would you
 like instructions for that?
 ```
 
@@ -127,6 +136,7 @@ Replace `[YOUR COMPANY]` with your actual employer or a company you're intereste
 **What you'll receive**: A structured analysis that would have required you to visit multiple websites, read press releases, scan LinkedIn posts, and synthesize findings. Your AI Employee does this in parallel, drawing on its knowledge and (if configured with web access) current information.
 
 **Evaluating the output**: This is where your judgment matters. The AI Employee might:
+
 - Miss a competitor you know about (add it to the prompt and ask again)
 - Overstate investment levels (ask for sources or qualifying language)
 - Include outdated information (ask for recency verification)
@@ -144,6 +154,7 @@ The universal use cases prove the concept. The real value comes from tasks speci
 Here are starting prompts for different domains. Pick yours and customize:
 
 **Legal**:
+
 ```
 Review this contract clause and identify:
 1. Potential risks to our company
@@ -154,6 +165,7 @@ Review this contract clause and identify:
 ```
 
 **Finance**:
+
 ```
 Analyze these expense categories from Q4:
 - What's the month-over-month trend?
@@ -164,6 +176,7 @@ Analyze these expense categories from Q4:
 ```
 
 **Marketing**:
+
 ```
 Draft 5 LinkedIn posts about [TOPIC] for our company.
 
@@ -175,6 +188,7 @@ Requirements:
 ```
 
 **Development**:
+
 ```
 Explain this error and suggest fixes:
 
@@ -187,6 +201,7 @@ Include:
 ```
 
 **Sales**:
+
 ```
 Draft a follow-up email to [PROSPECT NAME] at [COMPANY].
 
@@ -200,6 +215,7 @@ Goal: Schedule a 15-minute call
 ```
 
 **Healthcare Administration**:
+
 ```
 Summarize this patient case for the care coordination meeting:
 
@@ -224,29 +240,29 @@ You've now completed at least one real task with your AI Employee. Before moving
 
 Grab a piece of paper (or open a note) and answer:
 
-| Question | Your Answer |
-|----------|-------------|
-| Task you delegated | |
-| Time it would have taken you | ___ minutes |
-| Time to write the prompt | ___ minutes |
-| Time to review output | ___ minutes |
-| Time saved | ___ minutes |
-| What's your hourly rate (or value of your time)? | $__/hour |
-| Value of time saved | $__ |
-| Cost of this AI interaction | $0 (Kimi free tier) |
+| Question                                         | Your Answer         |
+| ------------------------------------------------ | ------------------- |
+| Task you delegated                               |                     |
+| Time it would have taken you                     | \_\_\_ minutes      |
+| Time to write the prompt                         | \_\_\_ minutes      |
+| Time to review output                            | \_\_\_ minutes      |
+| Time saved                                       | \_\_\_ minutes      |
+| What's your hourly rate (or value of your time)? | $\_\_/hour          |
+| Value of time saved                              | $\_\_               |
+| Cost of this AI interaction                      | $0 (Kimi free tier) |
 
-**Complete this sentence**: "I just got $___ worth of value in ___ minutes."
+**Complete this sentence**: "I just got $**_ worth of value in _** minutes."
 
 This isn't vanity math. This is the business case for AI Employees. When you can demonstrate concrete time savings, you understand why organizations are investing heavily in this technology.
 
 **Quality check**: Was the AI output good enough to use directly, or did it need significant editing?
 
-| Quality Level | What It Means |
-|---------------|---------------|
-| **Direct use** | Output usable as-is or with minor tweaks |
-| **Good draft** | Saved significant time but needed 20-30% editing |
-| **Starting point** | Provided structure or ideas but required substantial rework |
-| **Missed the mark** | Needed to re-prompt or rethink the approach |
+| Quality Level       | What It Means                                               |
+| ------------------- | ----------------------------------------------------------- |
+| **Direct use**      | Output usable as-is or with minor tweaks                    |
+| **Good draft**      | Saved significant time but needed 20-30% editing            |
+| **Starting point**  | Provided structure or ideas but required substantial rework |
+| **Missed the mark** | Needed to re-prompt or rethink the approach                 |
 
 Any of these outcomes is valuable data. "Direct use" means you've found a high-value delegation pattern. "Missed the mark" means you've learned what NOT to delegate, or how to prompt differently next time.
 
@@ -258,23 +274,23 @@ After working with hundreds of AI Employee users, clear patterns emerge about wh
 
 **Tasks That Work Well**:
 
-| Task Type | Why It Works |
-|-----------|--------------|
-| **Information synthesis** | AI processes large volumes faster than humans |
-| **First drafts** | Structure and starting point save blank-page time |
-| **Research and comparison** | Parallel information gathering is AI strength |
-| **Format conversion** | Transforming data between formats is mechanical |
-| **Consistency checking** | AI doesn't get tired or skip items |
+| Task Type                   | Why It Works                                      |
+| --------------------------- | ------------------------------------------------- |
+| **Information synthesis**   | AI processes large volumes faster than humans     |
+| **First drafts**            | Structure and starting point save blank-page time |
+| **Research and comparison** | Parallel information gathering is AI strength     |
+| **Format conversion**       | Transforming data between formats is mechanical   |
+| **Consistency checking**    | AI doesn't get tired or skip items                |
 
 **Tasks That Need Human Judgment**:
 
-| Task Type | Why Humans Excel |
-|-----------|------------------|
-| **Final decisions** | Context, relationships, politics that AI can't see |
-| **Creative strategy** | AI can generate options; you choose direction |
-| **Sensitive communication** | Tone, timing, and relationship nuance |
-| **Ethical judgments** | Values and principles require human ownership |
-| **Novel situations** | Unprecedented cases need human reasoning |
+| Task Type                   | Why Humans Excel                                   |
+| --------------------------- | -------------------------------------------------- |
+| **Final decisions**         | Context, relationships, politics that AI can't see |
+| **Creative strategy**       | AI can generate options; you choose direction      |
+| **Sensitive communication** | Tone, timing, and relationship nuance              |
+| **Ethical judgments**       | Values and principles require human ownership      |
+| **Novel situations**        | Unprecedented cases need human reasoning           |
 
 The sweet spot is the middle: tasks with clear patterns where AI handles the mechanical work and you provide the judgment.
 
@@ -288,7 +304,8 @@ The next three lessons answer that question:
 
 - **Lesson 4**: How your AI Employee actually works (the architecture)
 - **Lesson 5**: Your Employee's memory (making it remember your preferences)
-- **Lessons 6-9**: Teaching your Employee new skills (building portable capabilities)
+- **Lesson 6**: Teaching your Employee skills (building portable capabilities)
+- **Lessons 7-9**: Connecting real services, trust boundaries, and 24/7 deployment
 
 The experience you just had is the starting point. The skills you're about to build will multiply it.
 

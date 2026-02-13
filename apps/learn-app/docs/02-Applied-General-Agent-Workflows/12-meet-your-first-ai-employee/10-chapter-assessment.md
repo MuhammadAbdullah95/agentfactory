@@ -1,13 +1,12 @@
 ---
-sidebar_position: 15
-title: "Lesson 15: Chapter Assessment"
+sidebar_position: 10
+title: "Lesson 10: Chapter Assessment"
 description: "Quiz and portfolio submission for Chapter 12 certification"
 keywords: [assessment, quiz, portfolio, certification, chapter 12, ai employee]
 chapter: 12
-lesson: 15
+lesson: 10
 duration_minutes: 60
 
-# HIDDEN SKILLS METADATA
 skills:
   - name: "Self-Assessment"
     proficiency_level: "B2"
@@ -48,13 +47,13 @@ differentiation:
 
 # Chapter Assessment
 
-You have built an AI Employee. You taught it to draft emails, use professional templates, summarize threads, and access Gmail through MCP. Now it is time to verify your understanding and document what you have created.
+You have built an AI Employee. You taught it skills, connected it to real services, configured trust boundaries, and deployed it to run around the clock. Now it is time to verify your understanding and document what you have created.
 
 This assessment has two parts: a knowledge check that tests your understanding of the concepts, and a portfolio submission that demonstrates your practical skills. Both parts matter. Understanding without building is theory. Building without understanding is fragile. Together, they prove you can create and maintain AI Employees.
 
 ## Part 1: Knowledge Check Quiz
 
-This quiz covers concepts from all 14 lessons. Each question has one correct answer. Aim for 70% or higher to demonstrate solid understanding.
+This quiz covers concepts from lessons 1 through 9. Each question has one correct answer. Aim for 70% or higher to demonstrate solid understanding.
 
 ### Section A: Concepts (Questions 1-5)
 
@@ -93,7 +92,7 @@ This quiz covers concepts from all 14 lessons. Each question has one correct ans
 - c) Always prefer subagents over skills
 - d) Only for simple, single-step tasks
 
-### Section B: Technical (Questions 6-15)
+### Section B: Technical (Questions 6-11)
 
 **Question 6**: Which command starts the OpenClaw gateway on port 18789?
 
@@ -109,12 +108,12 @@ This quiz covers concepts from all 14 lessons. Each question has one correct ans
 - c) `~/.openclaw/workspace/`
 - d) `/var/lib/openclaw/workspace/`
 
-**Question 8**: In a SKILL.md file, which frontmatter field indicates when the skill should be activated?
+**Question 8**: Which two frontmatter fields are required in every SKILL.md file?
 
-- a) `triggers`
-- b) `activation`
-- c) `description`
-- d) `dependencies`
+- a) `triggers` and `dependencies`
+- b) `name` and `description`
+- c) `activation` and `persona`
+- d) `title` and `category`
 
 **Question 9**: What is the purpose of the `memory/` directory in the workspace?
 
@@ -123,12 +122,12 @@ This quiz covers concepts from all 14 lessons. Each question has one correct ans
 - c) Keep backup copies of configuration files
 - d) Store temporary conversation fragments
 
-**Question 10**: Which MCP server enables your AI Employee to read and send Gmail?
+**Question 10**: How does OpenClaw integrate with Gmail?
 
-- a) `mcp-server-email`
-- b) `google-mail-mcp`
-- c) `gmail-mcp-server`
-- d) `mcp-gmail`
+- a) Through a dedicated Gmail MCP server
+- b) Through `gog` (gogcli) and webhooks via Google Pub/Sub
+- c) Through direct IMAP/SMTP connections
+- d) Through the Google Workspace API only
 
 **Question 11**: What happens when you create a watcher for Gmail?
 
@@ -137,104 +136,64 @@ This quiz covers concepts from all 14 lessons. Each question has one correct ans
 - c) Gmail sends push notifications to your terminal
 - d) Email attachments are automatically downloaded
 
-**Question 12**: In HITL (Human-in-the-Loop) approval workflows, what does the approval file contain?
+### Section C: Application (Questions 12-15)
 
-- a) The complete conversation history
-- b) A pending action description awaiting your yes/no
-- c) Encrypted credentials for the action
-- d) Performance metrics for the AI Employee
-
-**Question 13**: Which process manager is recommended for keeping your AI Employee running 24/7?
+**Question 12**: Which process manager is recommended for keeping your AI Employee running 24/7?
 
 - a) systemd only
 - b) PM2
 - c) Docker Compose only
 - d) cron
 
-**Question 14**: What is the purpose of the `@invoke` directive in a skill file?
+**Question 13**: In OpenClaw's three-tier skill loading, what does it mean for a skill to be at Level 1?
 
-- a) Call a function in your code
-- b) Invoke a subagent with specific instructions
-- c) Start the OpenClaw gateway
-- d) Trigger a watcher manually
+- a) The full SKILL.md content is loaded into memory
+- b) Only the skill's name and description metadata are loaded
+- c) The skill's supporting files and scripts are loaded
+- d) The skill is disabled until manually activated
 
-**Question 15**: How do you verify that a new persona took effect after editing SOUL.md?
+**Question 14**: How does `sessions_spawn` behave when launching a subagent?
 
-- a) The changes are immediate, no action needed
-- b) Restart the gateway and ask "Who are you?"
-- c) Run `openclaw validate --persona`
-- d) Wait 24 hours for the cache to refresh
+- a) It blocks until the subagent completes its task
+- b) It is non-blocking, returns immediately, with a maximum of 8 concurrent sessions
+- c) It replaces the current agent session with the subagent
+- d) It queues the subagent to run after the current task finishes
 
-### Section C: Application (Questions 16-20)
+**Question 15**: Your AI Employee sent a message without asking for approval first. What should you check?
 
-**Question 16**: Your AI Employee drafts an email but the tone is too casual. Which file should you modify?
-
-- a) USER.md
-- b) AGENTS.md
-- c) SOUL.md or the email-drafter skill
-- d) TOOLS.md
-
-**Question 17**: You want your AI Employee to handle calendar scheduling in addition to email. What is the first step?
-
-- a) Edit SOUL.md to add "calendar expert"
-- b) Find or create an MCP server for calendar access
-- c) Ask your AI Employee to learn scheduling
-- d) Upgrade to a paid LLM tier
-
-**Question 18**: A skill you created works on OpenClaw but you want it to also work with Claude Code. What makes this possible?
-
-- a) Skills are proprietary to OpenClaw
-- b) Skills use a portable format based on markdown
-- c) You must rewrite the skill for each platform
-- d) Only MCP servers are portable, not skills
-
-**Question 19**: Your AI Employee sent an email without asking for approval first. What should you check?
-
-- a) Whether HITL approval workflow is configured
+- a) Whether HITL approval workflow is configured in exec-approvals.json
 - b) Whether your internet connection is stable
 - c) Whether the LLM provider is overloaded
-- d) Whether the email was in your drafts folder
-
-**Question 20**: You want to deploy your AI Employee on Oracle Cloud free tier. What is the primary constraint?
-
-- a) Oracle Cloud does not support Node.js
-- b) ARM architecture may require different build configurations
-- c) OpenClaw requires Windows Server
-- d) MCP servers cannot run on cloud infrastructure
+- d) Whether the message was saved to drafts
 
 ---
 
 ### Answer Key
 
-| Question | Answer | Explanation                                                               |
-| -------- | ------ | ------------------------------------------------------------------------- |
-| 1        | b      | OpenClaw's breakthrough was autonomous action, not just conversation      |
-| 2        | b      | SOUL.md defines persona, tone, and boundaries                             |
-| 3        | b      | Workspace > Managed > Bundled (local overrides remote)                    |
-| 4        | b      | Model Context Protocol                                                    |
-| 5        | b      | Subagents provide different personas or specialized focus                 |
-| 6        | b      | `openclaw gateway run --port 18789`                                       |
-| 7        | c      | `~/.openclaw/workspace/`                                                  |
-| 8        | c      | `description` field explains when to use the skill                        |
-| 9        | b      | Daily memory logs that persist across sessions                            |
-| 10       | c      | `gmail-mcp-server` (verify your actual server name)                       |
-| 11       | b      | Continuous monitoring and autonomous action on new messages               |
-| 12       | b      | Pending action description awaiting approval                              |
-| 13       | b      | PM2 is recommended for Node.js process management                         |
-| 14       | b      | Invoke a subagent with specific instructions                              |
-| 15       | b      | Restart gateway and verify with identity question                         |
-| 16       | c      | SOUL.md for general tone, or the specific skill for task-specific tone    |
-| 17       | b      | MCP server provides the capability; persona changes come after            |
-| 18       | b      | Skills are portable markdown format                                       |
-| 19       | a      | HITL approval workflow controls when approval is required                 |
-| 20       | b      | Oracle Free uses ARM (Ampere) processors, which may need different builds |
+| Question | Answer | Explanation |
+| -------- | ------ | ----------- |
+| 1 | b | OpenClaw's breakthrough was autonomous action, not just conversation |
+| 2 | b | SOUL.md defines persona, tone, and boundaries |
+| 3 | b | Workspace > Managed > Bundled (local overrides remote) |
+| 4 | b | Model Context Protocol |
+| 5 | b | Subagents provide different personas or specialized focus via sessions_spawn |
+| 6 | b | `openclaw gateway run --port 18789` |
+| 7 | c | `~/.openclaw/workspace/` |
+| 8 | b | `name` and `description` are the two required SKILL.md frontmatter fields |
+| 9 | b | Daily memory logs that persist across sessions |
+| 10 | b | Gmail integrates through `gog` (gogcli) and webhooks via Google Pub/Sub, not MCP |
+| 11 | b | Continuous monitoring and autonomous action on new messages |
+| 12 | b | PM2 is recommended for Node.js process management |
+| 13 | b | Level 1 loads only metadata (name, description); full content loads on-demand at Level 2 |
+| 14 | b | sessions_spawn is non-blocking, returns immediately, max 8 concurrent sessions |
+| 15 | a | exec-approvals.json controls which actions require human approval |
 
 **Scoring:**
 
-- 18-20 correct: Excellent understanding
-- 14-17 correct: Good understanding, review missed areas
-- 10-13 correct: Adequate, focus on weak sections before continuing
-- Below 10: Review lessons 1-14 before proceeding
+- 13-15 correct: Excellent understanding
+- 10-12 correct: Good understanding, review missed areas
+- 7-9 correct: Adequate, focus on weak sections before continuing
+- Below 7: Review lessons 1-9 before proceeding
 
 ---
 
@@ -248,36 +207,35 @@ Complete these requirements to demonstrate foundational competency:
 
 **Required Components:**
 
-- [ ] Working email-assistant skill that invokes specialized subagents
-- [ ] Three supporting skills (email-drafter, email-templates, email-summarizer)
-- [ ] Gmail MCP server configured and tested
-- [ ] README.md documenting your assistant's capabilities
+- [ ] Working skill (any domain) with proper SKILL.md format
+- [ ] README.md documenting your AI Employee's capabilities
+- [ ] Screenshot showing your AI Employee completing a real task
 
 **Verification:**
 
-- Screenshot showing a successful email draft created through Telegram
-- All skills present in `.claude/skills/` directory
+- Screenshot showing a successful skill invocation through Telegram or CLI
+- Skill present in workspace `skills/` directory with valid SKILL.md frontmatter
 
 ### Silver Tier (Intermediate)
 
 All Bronze requirements, plus:
 
-- [ ] At least one watcher configured (Gmail or File)
-- [ ] HITL approval workflow set up for sending emails
+- [ ] At least one watcher configured (Gmail, File, or other)
+- [ ] HITL approval workflow set up with exec-approvals.json
 - [ ] USER.md customized with your actual preferences
 - [ ] Memory system actively used (daily logs present in `memory/`)
 
 **Verification:**
 
-- Screenshot of watcher detecting a new email
-- Screenshot of approval file awaiting your response
+- Screenshot of watcher detecting a new event
+- Screenshot of approval prompt awaiting your response
 
 ### Gold Tier (Advanced)
 
 All Silver requirements, plus:
 
-- [ ] 24/7 deployment running (PM2 or Oracle Cloud)
-- [ ] At least one custom domain-specific skill (beyond email)
+- [ ] 24/7 deployment running (PM2 or Oracle Cloud Free Tier)
+- [ ] At least one custom domain-specific skill beyond the basics
 - [ ] Monitoring configured (health checks, restart on failure)
 - [ ] One week of operation logs demonstrating stability
 
@@ -295,24 +253,19 @@ All Silver requirements, plus:
 Organize your portfolio repository as follows:
 
 ```
-my-email-assistant/
-├── README.md                     # Project overview and capabilities
+my-ai-employee/
+├── README.md
 ├── skills/
-│   ├── email-drafter/
+│   ├── research-assistant/
 │   │   └── SKILL.md
-│   ├── email-templates/
-│   │   └── SKILL.md
-│   ├── email-summarizer/
-│   │   └── SKILL.md
-│   └── email-assistant/
+│   └── your-custom-skill/
 │       └── SKILL.md
 ├── config/
-│   └── openclaw.json.example    # Sanitized config (no secrets)
+│   └── openclaw.json.example
 ├── docs/
-│   ├── setup-guide.md           # How to install and configure
-│   └── architecture.md          # How the components work together
+│   ├── setup-guide.md
+│   └── architecture.md
 └── screenshots/
-    ├── telegram-conversation.png
     └── skill-in-action.png
 ```
 
@@ -321,12 +274,12 @@ my-email-assistant/
 Before submitting, verify:
 
 - [ ] Public GitHub repository created
-- [ ] All skills included with proper SKILL.md format
-- [ ] README explains what your assistant can do
+- [ ] All skills included with proper SKILL.md format (name and description in frontmatter)
+- [ ] README explains what your AI Employee can do
 - [ ] No secrets committed (API keys, tokens, passwords)
 - [ ] Config example file has placeholder values, not real credentials
-- [ ] At least one screenshot showing your assistant in action
-- [ ] Setup guide allows someone else to run your assistant
+- [ ] At least one screenshot showing your AI Employee in action
+- [ ] Setup guide allows someone else to run your AI Employee
 
 ### What NOT to Include
 
@@ -346,12 +299,14 @@ Before submitting, answer these questions honestly:
 - Can I explain the difference between a skill and a subagent?
 - Can I describe how MCP connects my AI Employee to external services?
 - Do I understand why HITL approval matters for autonomous actions?
+- Can I explain the three tiers of skill loading and when each tier activates?
 
 **Capability:**
 
-- Can I create a new skill from scratch for a different task?
+- Can I create a new skill from scratch for a different domain?
 - Can I debug why a skill is not being invoked?
-- Can I configure a new MCP server?
+- Can I configure a watcher for a new event source?
+- Can I set up exec-approvals.json to control what needs human approval?
 
 **Portability:**
 
@@ -375,7 +330,7 @@ Completing this assessment marks the end of Chapter 12, but it is just the begin
 **Advanced paths:**
 
 - Chapter 13+: More workflow types (coding, research, writing)
-- Custom domains: Adapt the email patterns to your specific industry
+- Custom domains: Adapt the patterns you learned to your specific industry
 - Monetization: Package your skills for others to use
 
 ## Try With AI
@@ -383,7 +338,7 @@ Completing this assessment marks the end of Chapter 12, but it is just the begin
 ### Prompt 1: Quiz Review
 
 ```
-I just completed a 20-question quiz about AI Employees. Here are the questions I got wrong:
+I just completed a 15-question quiz about AI Employees. Here are the questions I got wrong:
 [List your incorrect answers]
 
 For each one:

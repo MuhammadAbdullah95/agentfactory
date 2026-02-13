@@ -245,25 +245,24 @@ Skills are just markdown files with instructions. No special SDK. No platform lo
 
 ```markdown
 ---
-name: email-drafter
-description: Draft professional emails with appropriate tone
-metadata: { "openclaw": { "always": true } }
+name: research-assistant
+description: Research any topic and produce structured notes
+emoji: "🔍"
 ---
 
-# Email Drafter Skill
+# Research Assistant Skill
 
-You are an expert email writer. When asked to draft an email:
+You are a thorough research analyst. When asked to research a topic:
 
-1. Ask for: recipient, purpose, key points, tone
-2. Draft the email with proper formatting
-3. Offer variations if requested
+1. Clarify scope and depth needed
+2. Gather key facts, statistics, and sources
+3. Organize into structured notes
 
 ## Output Format
-- Subject line
-- Greeting
-- Body paragraphs
-- Call to action
-- Professional closing
+- Executive summary (2-3 sentences)
+- Key findings (bulleted)
+- Sources and confidence level
+- Recommended next steps
 ```
 
 **Three-Tier Loading:**
@@ -382,22 +381,22 @@ MCP is how agents connect to external services—Gmail, GitHub, databases, brows
 ┌──────────────────────────────────────────────────────────────┐
 │                       YOUR AGENT                              │
 │                                                               │
-│  "Read my emails"  "Create a GitHub issue"  "Browse the web" │
+│  "Create a GitHub issue"  "Browse the web"  "List my files"│
 │         │                    │                    │          │
 └─────────┼────────────────────┼────────────────────┼──────────┘
           │                    │                    │
           ▼                    ▼                    ▼
    ┌────────────┐      ┌────────────┐       ┌────────────┐
-   │ Gmail MCP  │      │ GitHub MCP │       │ Browser MCP│
-   │  Server    │      │  Server    │       │  Server    │
+   │ GitHub MCP │      │ Browser MCP│       │Filesystem  │
+   │  Server    │      │  Server    │       │ MCP Server │
    └────────────┘      └────────────┘       └────────────┘
 ```
 
 **Why MCP Matters:**
 
-Without MCP, every agent platform builds its own Gmail integration, its own GitHub integration, its own browser control. With MCP, one Gmail Server works with OpenClaw, Claude Code, ChatGPT, Cursor—any MCP-compatible host.
+Without MCP, every agent platform builds its own GitHub integration, its own browser control, its own file access. With MCP, one GitHub Server works with OpenClaw, Claude Code, ChatGPT, Cursor — any MCP-compatible host.
 
-You'll set up Gmail MCP in a later lesson. For now, understand that MCP is how your employee gains "senses"—the ability to see emails, access files, browse the web.
+You will connect your employee to real services in Lesson 7. For now, understand that MCP is how your employee gains "senses" — the ability to access files, browse the web, and interact with external services. Some services like Gmail use specialized tools (`gog`) instead of MCP, which you will also learn about.
 
 ## Sessions: Memory Across Conversations
 
@@ -479,7 +478,7 @@ Include the response flow back to my phone.
 I'm building skills for my AI Employee. Help me understand:
 
 1. What makes a skill "portable" across platforms?
-2. If I build an email-drafter skill for OpenClaw, what would I
+2. If I build a research-assistant skill for OpenClaw, what would I
    need to change to use it in Claude Code?
 3. What parts of my OpenClaw setup are NOT portable?
 

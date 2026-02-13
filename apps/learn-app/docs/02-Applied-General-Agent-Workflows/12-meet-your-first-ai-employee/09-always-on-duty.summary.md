@@ -21,5 +21,5 @@ Your AI Employee can operate 24/7 through two approaches: PM2 for local always-o
 - Ignoring "out of capacity" errors on Oracle (retry during off-peak hours or different availability domain)
 
 ### Connections
-- **Builds on**: HITL approval workflows (Lesson 13) ensure safe autonomous operation
-- **Leads to**: Chapter Assessment (Lesson 15) for certification
+- **Builds on**: HITL approval workflows (Lesson 8) ensure safe autonomous operation
+- **Leads to**: Chapter Assessment (Lesson 10) for certification
