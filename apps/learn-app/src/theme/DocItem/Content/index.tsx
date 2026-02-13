@@ -409,9 +409,11 @@ export default function ContentWrapper(props: Props): React.ReactElement {
 
   // Derive chapter + lesson slugs from docId for the LessonCompleteButton
   // docId example: "01-Part/02-Chapter/03-lesson"
+  // Root pages (thesis, preface) have no chapter — skip lesson tracking for those
   const docIdSegments = docId.split("/");
   const lessonSlug = docIdSegments[docIdSegments.length - 1] || "";
   const chapterSlug = docIdSegments.slice(0, -1).join("/");
+  const hasValidSlug = chapterSlug.length > 0 && lessonSlug.length > 0;
 
   // Teaching Guide Sheet state
   const [teachingGuideOpen, setTeachingGuideOpen] = React.useState(false);
@@ -509,7 +511,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
-        {isLeafPage && isLoggedIn && (
+        {isLeafPage && isLoggedIn && hasValidSlug && (
           <LessonCompleteButton
             chapterSlug={chapterSlug}
             lessonSlug={lessonSlug}
@@ -618,7 +620,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
-      {isLeafPage && isLoggedIn && (
+      {isLeafPage && isLoggedIn && hasValidSlug && (
         <LessonCompleteButton
           chapterSlug={chapterSlug}
           lessonSlug={lessonSlug}

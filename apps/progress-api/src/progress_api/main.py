@@ -1,6 +1,7 @@
 """Progress API — Gamification and progress tracking service."""
 
 import logging
+import traceback
 
 from dotenv import load_dotenv
 
@@ -56,6 +57,24 @@ async def progress_exception_handler(request: Request, exc: ProgressAPIException
             "error_code": exc.error_code,
             "message": exc.message,
             **exc.extra,
+        },
+    )
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    """Catch-all for unhandled exceptions — logs traceback, returns CORS-safe 500."""
+    logger.error(
+        "Unhandled exception on %s %s:\n%s",
+        request.method,
+        request.url.path,
+        traceback.format_exc(),
+    )
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error_code": "INTERNAL_ERROR",
+            "message": "An unexpected error occurred.",
         },
     )
 
