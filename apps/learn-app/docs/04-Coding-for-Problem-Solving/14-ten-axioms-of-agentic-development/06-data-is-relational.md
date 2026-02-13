@@ -310,6 +310,8 @@ Unlike generated Python, SQL queries can be verified mechanically before touchin
 
 This makes SQL ideal for AI-generated code. Tomás could verify every AI-generated query against the schema without running it against production data — the same principle as Pyright catching type errors before runtime.
 
+**Practical tip**: Keep a `schema.sql` file in your project's `docs/` directory — the same knowledge base from Axiom II. When an AI agent needs to work with your data, it reads one file and has the complete map: every table, every column, every relationship, every constraint. Lena called it "the system prompt for your database." Tomás added his on the same day and never removed it — every AI prompt that touched the order system started with `@docs/schema.sql`.
+
 ## ORMs: When to Use, When to Avoid
 
 Tomás noticed that his Python code and his SQL schema were expressing the same structure in two languages — his `CustomerOrder` dataclass mirrored his `orders` table. An ORM (Object-Relational Mapper) bridges that gap, letting you define the structure once. In Python, SQLModel (built on SQLAlchemy) is the recommended choice for agentic development because it unifies Pydantic validation with SQLAlchemy's database layer:
@@ -367,7 +369,11 @@ This means:
 | Schema definition (models as documentation) | You cannot explain what SQL the ORM generates |
 | Migrations (Alembic integrates with SQLAlchemy) | The ORM syntax is more complex than raw SQL |
 
-The test is simple: **Can you explain the SQL that your ORM code generates?** If yes, the ORM is adding value. If no, write the SQL directly. Lena showed Tomás the dividing line with two examples from his own codebase:
+The test is simple: **Can you explain the SQL that your ORM code generates?** If yes, the ORM is adding value. If no, write the SQL directly. A useful heuristic: if you spend more than two minutes reading ORM documentation to express a `JOIN` or `GROUP BY`, the ORM has become the obstacle. Write the SQL.
+
+There is an agentic angle here too. AI agents are significantly better at generating raw SQL than complex ORM-specific syntax. SQL is a constrained, universal language with decades of training data. ORM DSLs — like SQLAlchemy's legacy `session.query(Order).filter(Order.status == 'pending').join(Customer)` — are framework-specific dialects that AI is more likely to hallucinate. When you need AI to write a query, raw SQL is the more agent-native language.
+
+Lena showed Tomás the dividing line with two examples from his own codebase:
 
 ```python
 # Good: ORM for simple CRUD — the SQL is obvious
