@@ -225,6 +225,20 @@ What you should do: Don't panic. The agent left failed files untouched (the orig
 
 This is why the preview step matters. If you'd caught the question-mark filenames in the preview, you could have handled them before the batch run.
 
+### Don't Fix the File — Fix the Rule
+
+When batch operations go wrong, resist the urge to just fix the affected files and move on. Instead, fix the _rule_ that caused the error:
+
+```
+The rename script choked on filenames with question marks. Don't just
+rename those 7 files manually — update rename-screenshots.sh to handle
+special characters, then rerun it on the failed files.
+```
+
+In the naming collision, the fix isn't moving two files by hand — it's updating the script to detect same-second conflicts. In the partial failure, the fix isn't renaming 7 files manually — it's teaching the script to handle special characters.
+
+Every edge case you fix in the script is an edge case that never bites you again. This is how one-time solutions evolve into robust automation. The script gets smarter each time it fails.
+
 ---
 
 ## What Just Happened?

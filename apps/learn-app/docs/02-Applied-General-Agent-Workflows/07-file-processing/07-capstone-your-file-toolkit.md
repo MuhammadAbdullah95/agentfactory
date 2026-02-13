@@ -144,6 +144,18 @@ If anything looks wrong, restore from backup.
 
 The verification checklist is the same. The folder is different. And now you have the confidence to restore if something went wrong.
 
+### Workflow 6: Search & Index
+
+```
+Find all tax-related documents on my Desktop — PDFs, spreadsheets,
+anything with "tax", "w2", "1099", or "return" in the name or content.
+Then create a TAX_DOCS_INDEX.md that lists every match with its
+location, file type, and size. I want a permanent map, not just
+search results that disappear.
+```
+
+This is the step most people skip. Finding a file solves today's problem. Creating an index solves it permanently. The next time you need a tax document, you won't search again — you'll open `TAX_DOCS_INDEX.md`. That's **Principle 5: Persisting State in Files**. The search results stop being ephemeral and become a lasting asset.
+
 ---
 
 ## Build Your Prompt Toolkit
@@ -225,7 +237,8 @@ Verify the restoration is complete.
 Find files that match [DESCRIPTION] from [TIME PERIOD].
 Search in [LOCATIONS: Downloads, Documents, Desktop].
 If needed, search inside files for [CONTENT].
-Show me your search strategy and results.
+Save the results to [INDEX_FILE.md] with file paths, types, and sizes
+so I never have to run this search again.
 
 ```
 
@@ -261,6 +274,7 @@ You've been learning the Seven Principles without memorizing them. Let's make ex
 | 4. Batch Operations      | Generated reusable script            | **P2: Code as Universal Interface** |
 | 5. Error Recovery        | Restored from backup after mistake   | **P3 + P6: Verify + Safety**        |
 | 6. Search & Discovery    | Described problem, agent chose tools | **P1 + P2: Bash + Code**            |
+| 6. Search & Discovery    | Created persistent index of results  | **P5: Persisting State in Files**   |
 
 All seven principles showed up naturally. You didn't study them from a textbook. You experienced them through action. And you saw them reinforce each other — safety enabled experimentation, verification caught errors, persistence made rules reusable.
 

@@ -269,6 +269,23 @@ Here's how to build recovery thinking into every workflow:
 | When something's off     | Compare current state vs backup               |
 | After recovery           | Verify the restoration is complete            |
 
+### The Agent is Ephemeral, Code is Eternal
+
+Notice something about this lesson. Every time you needed recovery, you typed a prompt and the agent ran commands. That works. But what happens next month when you need to recover again? You'll describe the same thing from scratch. The agent might interpret your request slightly differently. It might use different flags, skip the verification step, or restore to the wrong location.
+
+Now look at Try With AI Prompt 3 below — it asks you to create `restore.sh`. That script is fundamentally different from asking the agent to "restore my files." Here's why:
+
+| Approach | Today | Next Month |
+|----------|-------|------------|
+| **Ask the agent** | Agent interprets your request, picks commands, runs them | Agent may interpret differently, pick different commands, produce different results |
+| **Run a script** | Script executes the exact same steps every time | Script executes the exact same steps every time |
+
+This is **Principle 2: Code as the Universal Interface** in action. When you ask the agent to _do_ something, you get a one-time result that depends on the agent's interpretation in that moment. When you ask the agent to _write code_ that does something, you get a deterministic tool that works the same way every time — even without the agent.
+
+The agent is ephemeral. Your conversation ends, context resets, and the next session starts fresh. But a script saved to disk? That persists. It captures the exact recovery workflow you verified today and makes it repeatable forever.
+
+**The pattern**: Whenever you find yourself asking the agent to do the same task twice, stop and ask it to write a script instead. You've traded a conversation for a tool.
+
 ---
 
 ## ✅ Checkpoint: Do This Now

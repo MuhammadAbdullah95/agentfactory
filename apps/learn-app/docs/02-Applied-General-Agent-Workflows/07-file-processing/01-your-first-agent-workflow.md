@@ -119,7 +119,7 @@ Here's what I found:
 Now let me see what's taking up the most space.
 
 [Runs: du -sh ~/Downloads]
-[Runs: find ~/Downloads -type f -exec du -h {} + | sort -rh | head -10]
+[Runs: du -ah ~/Downloads | sort -rh | head -10]
 
 Total folder size: 12.4 GB
 
@@ -320,10 +320,10 @@ asked a slightly different question?
 ```
 Break down this command for me piece by piece:
 
-find ~/Downloads -type f -exec du -h {} + | sort -rh | head -10
+du -ah ~/Downloads | sort -rh | head -10
 
-What does each part do? What do the flags like '-type f', '-exec',
-'-rh', and '-10' mean? Teach me to read this command.
+What does each part do? What do the flags like '-ah', '-rh',
+and '-10' mean? Teach me to read this command.
 ```
 
 **What you're practicing:** Just-in-time learning. Instead of memorizing a textbook, you ask the agent to teach you the specific syntax relevant to the problem you just solved. The agent becomes your tutor, explaining commands in context.
