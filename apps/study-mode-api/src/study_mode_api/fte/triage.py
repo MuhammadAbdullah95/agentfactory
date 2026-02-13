@@ -348,8 +348,16 @@ def create_agent_from_state(
 
 
 # =============================================================================
-# CHUNKED TEACHING MODE (Token-efficient)
+# CHUNKED TEACHING MODE - Script v2 (Token-efficient)
 # =============================================================================
+# Based on specs/teach-me-scripts/teach-me-scripts-v2.md
+# Global Rules:
+# - Max 3 attempts per chunk, then reveal answer and move on
+# - Every question MUST end with <!--CORRECT:A--> or <!--CORRECT:B-->
+# - Focus only on current chunk content, ignore conversation history for topics
+# =============================================================================
+
+MAX_ATTEMPTS = 3  # After 3 wrong answers, reveal and move on
 
 CHUNKED_TEACH_PROMPT = """You are a teaching agent for the AI Agent Factory book.
 {user_context}
@@ -366,34 +374,59 @@ CHUNKED_TEACH_PROMPT = """You are a teaching agent for the AI Agent Factory book
 ## YOUR TASK
 {task_instruction}
 
+## QUESTION CRITERIA (MUST follow)
+✅ Ask "why", "how", or "what enables/causes"
+✅ Both options must be plausible (similar language complexity)
+✅ Wrong option = believable misconception (NOT obviously silly)
+✅ Answer requires reading content (not guessable from general knowledge)
+
+❌ FORBIDDEN question types:
+- "Is X related or unrelated?"
+- "Does X exist or not?"
+- Options containing "not", "never", "unrelated"
+- Yes/No reformulations
+
 ## QUESTION FORMAT (follow exactly)
 
 **Question:**
-[Question testing understanding of THIS concept]
+[Question about THIS concept - use "why", "how", or "what"]
 
-**A)** [first option - 40-80 characters]
+**A)** [first option - 40-80 characters, plausible]
 
-**B)** [second option - 40-80 characters]
+**B)** [second option - 40-80 characters, plausible]
 
 *Type A or B to answer*
 
 <!--CORRECT:X-->
 
 ## RULES
-- Focus ONLY on the current concept above
+- Focus ONLY on the current concept above (ignore all previous topics)
 - Keep explanations to 2-3 sentences
 - ALWAYS end with a question and TWO options (A/B)
 - The <!--CORRECT:X--> marker indicates which option is correct
-- One option must be CORRECT, one must be CLEARLY WRONG
+- BOTH options must look reasonable; neither should be obviously wrong
 - Be warm and conversational
 - Use **bold** for key terms"""
 
-CHUNKED_FIRST_MESSAGE = """This is the FIRST message. Greet the student as "Hi {user_name}!"
+# =============================================================================
+# Script 1: START_TEACHING
+# =============================================================================
+CHUNKED_FIRST_MESSAGE = """This is the FIRST message.
 
-Then explain the concept "{chunk_title}" clearly in 2-3 sentences.
-After explaining, ask a verification question with A/B options.
-End with <!--CORRECT:A--> or <!--CORRECT:B-->"""
+YOUR RESPONSE (follow exactly):
+1. Greet the student: "Hi {user_name}!"
+2. Topic intro: "Today we'll explore {chunk_title}."
+3. Explain the KEY concept in 2-3 sentences (what it is, why it matters)
+4. Ask a question that tests UNDERSTANDING (not recognition)
+5. Provide A/B options - BOTH must be plausible
+6. Say "Type A or B to answer"
+7. End with <!--CORRECT:A--> or <!--CORRECT:B-->
 
+Remember: The wrong option should be a believable misconception, not obviously silly."""
+
+# =============================================================================
+# Script 2: CORRECT_ANSWER (more chunks remaining)
+# =============================================================================
 CHUNKED_CORRECT_ANSWER = """
 ##########################################################
 # THE STUDENT ANSWERED CORRECTLY!                        #
@@ -402,13 +435,41 @@ CHUNKED_CORRECT_ANSWER = """
 
 YOUR RESPONSE (follow exactly):
 1. Say "Correct!" + brief praise (1 sentence max)
-2. Say "Now let's learn about {next_chunk_title}:"
+2. Transition: "Now let's learn about {next_chunk_title}:"
 3. Explain the NEW concept in 2-3 sentences
 4. Ask a question about THIS NEW concept with A/B options
-5. End with <!--CORRECT:A--> or <!--CORRECT:B-->
+5. Say "Type A or B to answer"
+6. End with <!--CORRECT:A--> or <!--CORRECT:B-->
 
-⚠️ MANDATORY: Your response MUST start with "Correct!" """
+⚠️ MANDATORY: Your response MUST start with "Correct!"
 
+❌ FORBIDDEN:
+- Re-explaining the previous concept
+- More than 1 sentence of praise"""
+
+# =============================================================================
+# Script 2B: CORRECT_ANSWER (last chunk - lesson complete)
+# =============================================================================
+CHUNKED_CORRECT_LAST_CHUNK = """
+##########################################################
+# THE STUDENT ANSWERED CORRECTLY!                        #
+# THIS WAS THE LAST CHUNK - LESSON COMPLETE!             #
+##########################################################
+
+YOUR RESPONSE (follow exactly):
+1. Say "Correct!"
+2. Say "You've completed this lesson!"
+3. Summary with 2-3 bullet points of key concepts learned
+4. Say "Continue to the next lesson when ready."
+
+⚠️ MANDATORY:
+- Start with "Correct!"
+- NO question at the end
+- NO <!--CORRECT:X--> marker"""
+
+# =============================================================================
+# Script 3: INCORRECT_ANSWER (attempts < MAX)
+# =============================================================================
 CHUNKED_INCORRECT_ANSWER = """
 ##########################################################
 # CRITICAL: THE STUDENT'S ANSWER WAS WRONG               #
@@ -420,24 +481,170 @@ CHUNKED_INCORRECT_ANSWER = """
 ✅ YOUR FIRST WORDS: "Not quite."
 
 ⚠️ IMPORTANT: Focus ONLY on the CURRENT CONCEPT above ({chunk_title}).
-   Ignore any earlier topics from conversation history.
-   Your explanation must relate to THIS concept, not previous ones.
 
 YOUR RESPONSE:
-1. Say "Not quite." then explain why their answer was wrong ABOUT THIS CONCEPT
-2. Re-explain THIS concept with a simple example
-3. Ask a SIMPLER question about THIS SAME CONCEPT with NEW A/B options
-4. End with <!--CORRECT:A--> or <!--CORRECT:B-->
+1. Say "Not quite."
+2. Briefly explain why their answer was wrong (1 sentence)
+3. Ask a COMPLETELY DIFFERENT question about the SAME concept
+4. Provide NEW A/B options
+5. Say "Type A or B to answer"
+6. End with <!--CORRECT:A--> or <!--CORRECT:B-->
 
-This is attempt {attempt_count}. Be patient and stay focused on the current topic."""
+🚨 CRITICAL - YOUR NEW QUESTION MUST BE DIFFERENT:
+❌ WRONG: Rephrasing the same question with different words
+   - Original: "What role do specs play?"
+   - Bad retry: "In the model, what is the role of specs?" (SAME QUESTION!)
 
+✅ RIGHT: Ask about a DIFFERENT ASPECT of the concept
+   - Original: "What role do specs play?"
+   - Good retry: "How do specs work together with agents?" (DIFFERENT ANGLE!)
+   - Good retry: "What would be missing without specs?" (DIFFERENT ANGLE!)
+   - Good retry: "Why are specs needed in the factory model?" (ASKS WHY, NOT WHAT)
+
+SIMPLIFICATION BY ATTEMPT:
+- Attempt 2: Ask about a different aspect, add a hint in the question
+- Attempt 3: Ask the most basic question about this concept
+
+This is attempt {attempt_count} of {max_attempts}.
+
+❌ FORBIDDEN:
+- Asking the same question with rephrased words
+- Using the same sentence structure as before
+- Recycling option text from the previous question"""
+
+# =============================================================================
+# Script 3B: INCORRECT_ANSWER (max attempts reached - reveal and move on)
+# =============================================================================
+CHUNKED_MAX_ATTEMPTS_REACHED = """
+##########################################################
+# MAXIMUM ATTEMPTS REACHED ({max_attempts})              #
+# REVEAL THE ANSWER AND MOVE TO NEXT CONCEPT             #
+##########################################################
+
+YOUR RESPONSE (follow exactly):
+1. Say "Let's move on."
+2. Say "The answer was {correct_answer} because [brief explanation]."
+3. Transition: "Now let's learn about {next_chunk_title}:"
+4. Explain the NEW concept in 2-3 sentences
+5. Ask a question about THIS NEW concept with A/B options
+6. Say "Type A or B to answer"
+7. End with <!--CORRECT:A--> or <!--CORRECT:B-->
+
+Be encouraging, not discouraging. The student is learning!"""
+
+# =============================================================================
+# Script 4: OFF_TOPIC_RESPONSE
+# =============================================================================
+CHUNKED_OFF_TOPIC = """⚠️ The student's message was NOT a valid answer (A or B).
+
+YOUR RESPONSE (follow exactly):
+1. Say: "Please answer with A or B."
+2. Say: "If you have other questions, use the 'Ask Me' option instead."
+3. Repeat the SAME question you just asked (with A/B options)
+4. End with <!--CORRECT:A--> or <!--CORRECT:B--> (same answer as before)
+
+Keep it brief. Do NOT answer their off-topic question."""
+
+# =============================================================================
+# Script 4B: LONG_MESSAGE (>200 chars)
+# =============================================================================
+CHUNKED_LONG_MESSAGE = """⚠️ The student sent a long message (probably a discussion).
+
+YOUR RESPONSE (follow exactly):
+1. Say: "Thanks for sharing! For this exercise, just type A or B."
+2. Say: "Use the 'Ask Me' option for detailed discussions."
+3. Repeat the SAME question (with A/B options)
+4. End with <!--CORRECT:A--> or <!--CORRECT:B--> (same answer as before)
+
+Keep it brief."""
+
+# =============================================================================
+# Script 6: HINT_REQUEST
+# =============================================================================
+CHUNKED_HINT = """The student asked for a hint.
+
+YOUR RESPONSE (follow exactly):
+1. Say: "Here's a hint:"
+2. Provide contextual clue WITHOUT revealing the answer
+3. Rephrase the concept differently than your original explanation
+4. Say: "Now try again - A or B?"
+5. End with <!--CORRECT:A--> or <!--CORRECT:B--> (same answer as before)
+
+HINT RULES:
+✅ Relate hint to {chunk_title} topic only
+✅ Use different words than original explanation
+✅ Point toward correct answer indirectly
+❌ Don't say "The answer is A/B"
+❌ Don't eliminate one option explicitly"""
+
+# =============================================================================
+# Script 6A: OPTION_CONFUSION ("both wrong", "neither", etc.)
+# =============================================================================
+CHUNKED_OPTION_CONFUSION = """The student thinks both options are wrong.
+
+YOUR RESPONSE (follow exactly):
+1. Say: "I understand the options might seem tricky."
+2. Provide a hint: "[contextual clue from the lesson]"
+3. Say: "One of these options does match the lesson content."
+4. Say: "Try again - A or B?"
+5. End with <!--CORRECT:A--> or <!--CORRECT:B--> (same answer as before)
+
+RULES:
+✅ Provide helpful hint
+❌ Don't admit options are wrong
+❌ Don't generate new question"""
+
+# =============================================================================
+# Script 7: SKIP_REQUEST
+# =============================================================================
+CHUNKED_SKIP = """The student wants to skip this question.
+
+YOUR RESPONSE (follow exactly):
+1. Say: "No problem, let's move forward."
+2. Say: "The answer was {correct_answer}: [brief explanation]"
+3. Transition: "Now let's learn about {next_chunk_title}:"
+4. Explain the NEW concept in 2-3 sentences
+5. Ask a question about THIS NEW concept with A/B options
+6. Say "Type A or B to answer"
+7. End with <!--CORRECT:A--> or <!--CORRECT:B-->
+
+RULES:
+✅ Always reveal correct answer when skipping
+✅ No judgment or negative feedback"""
+
+# =============================================================================
+# Script 8: LESSON_COMPLETE
+# =============================================================================
 CHUNKED_LESSON_COMPLETE = """The student has completed ALL concepts in this lesson!
 
-1. Congratulate them warmly
-2. Summarize what they learned (2-3 bullet points)
-3. Encourage them to continue to the next lesson
+YOUR RESPONSE (follow exactly):
+1. Say: "Congratulations, {user_name}!"
+2. Say: "You've completed: {lesson_title}"
+3. Say: "Key takeaways:"
+   - Bullet 1: Main concept
+   - Bullet 2: Supporting concept
+   - Bullet 3: Practical application
+4. Say: "Ready for the next lesson? Check the sidebar to continue."
 
-Do NOT ask any more questions."""
+RULES:
+✅ Summarize from ALL chunks taught
+✅ Keep bullets concise (1 line each)
+❌ No new questions
+❌ No <!--CORRECT:X--> marker"""
+
+# =============================================================================
+# Script 9: SESSION_RESUME
+# =============================================================================
+CHUNKED_SESSION_RESUME = """The student is resuming a previous session.
+
+YOUR RESPONSE (follow exactly):
+1. Say: "Welcome back! Let's continue where you left off."
+2. Say: "We were learning about {chunk_title}..."
+3. Explain the concept briefly (2-3 sentences)
+4. Ask a FRESH question (don't assume they remember the old one)
+5. Provide A/B options
+6. Say "Type A or B to answer"
+7. End with <!--CORRECT:A--> or <!--CORRECT:B-->"""
 
 
 def create_chunked_agent(
@@ -447,12 +654,15 @@ def create_chunked_agent(
     user_name: str | None = None,
     is_first_message: bool = True,
     verification_result: str | None = None,
+    special_request: str | None = None,
+    correct_answer: str | None = None,
+    is_session_resume: bool = False,
+    lesson_title: str | None = None,
 ) -> Agent:
     """
     Create agent for chunked teaching mode (token-efficient).
 
-    Instead of sending full 8000-char lesson, sends only current ~500-char chunk.
-    This reduces tokens from ~8000 to ~800 per request.
+    Based on teach-me-scripts-v2.md - handles all script scenarios.
 
     Args:
         chunk: Current chunk to teach
@@ -461,6 +671,10 @@ def create_chunked_agent(
         user_name: Optional student name
         is_first_message: Whether this is the first message
         verification_result: "correct", "incorrect", or None
+        special_request: "hint", "skip", "option_confusion", or None
+        correct_answer: "A" or "B" (for skip/max_attempts scenarios)
+        is_session_resume: Whether this is a session resume
+        lesson_title: Full lesson title (for completion message)
 
     Returns:
         Configured Agent instance
@@ -472,38 +686,94 @@ def create_chunked_agent(
     progress_context = (
         f"Concept {session_state['concept_index'] + 1} of {session_state['total_chunks']}"
     )
-    if session_state["attempt_count"] > 0:
-        progress_context += f" (attempt {session_state['attempt_count'] + 1})"
+    attempt_count = session_state["attempt_count"]
+    if attempt_count > 0:
+        progress_context += f" (attempt {attempt_count + 1} of {MAX_ATTEMPTS})"
 
-    # Determine task instruction based on state
+    # Determine task instruction based on state (Script v2 logic)
+    task_instruction = ""
+
+    # Script 8: LESSON_COMPLETE
     if session_state["status"] == "complete":
-        task_instruction = CHUNKED_LESSON_COMPLETE
+        task_instruction = CHUNKED_LESSON_COMPLETE.format(
+            user_name=display_name,
+            lesson_title=lesson_title or "this lesson",
+        )
+
+    # Script 9: SESSION_RESUME
+    elif is_session_resume:
+        task_instruction = CHUNKED_SESSION_RESUME.format(
+            chunk_title=chunk["title"],
+        )
+
+    # Script 1: START_TEACHING (first message)
     elif is_first_message:
         task_instruction = CHUNKED_FIRST_MESSAGE.format(
             user_name=display_name,
             chunk_title=chunk["title"],
         )
-    elif verification_result == "correct":
-        # chunk is already the one we advanced to (from chatkit_server.py)
-        # Don't reassign to next_chunk - that would skip a chunk!
-        task_instruction = CHUNKED_CORRECT_ANSWER.format(
-            next_chunk_title=chunk["title"],
-        )
-    elif verification_result == "incorrect":
-        task_instruction = CHUNKED_INCORRECT_ANSWER.format(
-            attempt_count=session_state["attempt_count"] + 1,
+
+    # Script 6: HINT_REQUEST
+    elif special_request == "hint":
+        task_instruction = CHUNKED_HINT.format(
             chunk_title=chunk["title"],
         )
+
+    # Script 6A: OPTION_CONFUSION
+    elif special_request == "option_confusion":
+        task_instruction = CHUNKED_OPTION_CONFUSION
+
+    # Script 7: SKIP_REQUEST
+    elif special_request == "skip":
+        next_title = next_chunk["title"] if next_chunk else "the next concept"
+        task_instruction = CHUNKED_SKIP.format(
+            correct_answer=correct_answer or "the correct option",
+            next_chunk_title=next_title,
+        )
+
+    # Script 2: CORRECT_ANSWER
+    elif verification_result == "correct":
+        # Check if this was the last chunk
+        is_last_chunk = session_state["concept_index"] >= session_state["total_chunks"] - 1
+
+        if is_last_chunk:
+            # Script 2B: Last chunk completed
+            task_instruction = CHUNKED_CORRECT_LAST_CHUNK
+        else:
+            # Script 2A: More chunks remaining
+            # chunk is already the one we advanced to (from chatkit_server.py)
+            task_instruction = CHUNKED_CORRECT_ANSWER.format(
+                next_chunk_title=chunk["title"],
+            )
+
+    # Script 3: INCORRECT_ANSWER
+    elif verification_result == "incorrect":
+        # Check if max attempts reached
+        if attempt_count >= MAX_ATTEMPTS:
+            # Script 3B: Max attempts - reveal and move on
+            next_title = next_chunk["title"] if next_chunk else "the next concept"
+            task_instruction = CHUNKED_MAX_ATTEMPTS_REACHED.format(
+                max_attempts=MAX_ATTEMPTS,
+                correct_answer=correct_answer or "the correct option",
+                next_chunk_title=next_title,
+            )
+        else:
+            # Script 3A: More attempts remaining
+            task_instruction = CHUNKED_INCORRECT_ANSWER.format(
+                attempt_count=attempt_count + 1,
+                max_attempts=MAX_ATTEMPTS,
+                chunk_title=chunk["title"],
+            )
+
+    # Script 4: OFF_TOPIC (default)
     else:
-        # Student gave off-topic or invalid response (not A or B)
-        task_instruction = """⚠️ The student's message was NOT a valid answer (A or B).
-
-YOUR RESPONSE:
-1. Say: "Please answer with A or B. If you have other questions, use the 'Ask Me' option instead."
-2. Repeat the SAME question you just asked (with A/B options)
-3. End with <!--CORRECT:A--> or <!--CORRECT:B--> (same answer as before)
-
-Keep it brief. Do NOT answer their off-topic question."""
+        user_message_len = len(session_state.get("last_student_answer", "") or "")
+        if user_message_len > 200:
+            # Script 4B: Long message
+            task_instruction = CHUNKED_LONG_MESSAGE
+        else:
+            # Script 4A: Default off-topic
+            task_instruction = CHUNKED_OFF_TOPIC
 
     # Build the prompt
     instructions = CHUNKED_TEACH_PROMPT.format(
@@ -516,7 +786,9 @@ Keep it brief. Do NOT answer their off-topic question."""
 
     logger.info(
         f"[Agent] CHUNKED mode: chunk={chunk['index']}, "
-        f"verification={verification_result}, first={is_first_message}"
+        f"verification={verification_result}, special={special_request}, "
+        f"first={is_first_message}, resume={is_session_resume}, "
+        f"attempts={attempt_count}/{MAX_ATTEMPTS}"
     )
     logger.info(f"[Agent] Prompt size: {len(instructions)} chars")
 

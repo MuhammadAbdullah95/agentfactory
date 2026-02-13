@@ -26,12 +26,14 @@ from fastapi import HTTPException
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte import create_agent
 from .fte.answer_verification import (
+    detect_special_request,
     extract_and_store_correct_answer,
-    is_answer_message,
+    get_stored_correct_answer,
+    normalize_answer,
     strip_answer_marker,
     verify_student_answer,
 )
-from .fte.triage import create_chunked_agent
+from .fte.triage import MAX_ATTEMPTS, create_chunked_agent
 from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
 from .services.lesson_chunker import get_lesson_chunks
@@ -412,18 +414,36 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 logger.warning("[ChatKit] Empty user message")
                 return
 
-            # ANSWER VERIFICATION: If user sent "A" or "B", verify against stored answer
+            # ANSWER VERIFICATION (Script v2): Handle A/B answers and special requests
             # The verification result is passed to create_agent() to select the right prompt
             verification_result = None
-            if is_answer_message(user_text):
-                verification_result = await verify_student_answer(thread.id, user_text)
-                if verification_result == "correct":
-                    logger.info("[ChatKit] Answer verified as CORRECT")
-                elif verification_result == "incorrect":
-                    logger.info("[ChatKit] Answer verified as INCORRECT")
-                else:
-                    logger.warning("[ChatKit] Could not verify answer (no stored answer)")
-                    verification_result = None  # Ensure it's None for unknown
+            special_request = None
+            stored_correct_answer = None
+
+            # First check for special requests (hint, skip, option_confusion)
+            special_request = detect_special_request(user_text)
+            if special_request:
+                logger.info(f"[ChatKit] Special request detected: {special_request}")
+                # For skip requests, we need the correct answer to reveal it
+                if special_request == "skip":
+                    stored_correct_answer = await get_stored_correct_answer(thread.id)
+
+            # If not a special request, try to extract A/B answer
+            if not special_request:
+                # Enhanced parsing: extract A/B even from partial answers
+                # "I think A because..." → "A"
+                normalized = normalize_answer(user_text)
+                if normalized:
+                    verification_result = await verify_student_answer(thread.id, user_text)
+                    if verification_result == "correct":
+                        logger.info("[ChatKit] Answer verified as CORRECT")
+                    elif verification_result == "incorrect":
+                        logger.info("[ChatKit] Answer verified as INCORRECT")
+                        # Get correct answer for max attempts scenario
+                        stored_correct_answer = await get_stored_correct_answer(thread.id)
+                    else:
+                        logger.warning("[ChatKit] Could not verify answer (no stored answer)")
+                        verification_result = None  # Ensure it's None for unknown
 
             # Get metadata from context
             lesson_path = context.metadata.get("lesson_path", "")
@@ -505,25 +525,63 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 session_state = await get_or_create_session_state(
                     thread.id, lesson_path, len(chunks)
                 )
-                logger.info(
-                    f"[ChatKit] Session: chunk={session_state['concept_index']}, "
-                    f"attempts={session_state['attempt_count']}, status={session_state['status']}"
+
+                # Detect session resume (existing session, not first message)
+                is_session_resume = (
+                    not is_first_message
+                    and session_state["status"] == "teaching"
+                    and session_state.get("last_question") is None
+                    and session_state["attempt_count"] == 0
                 )
 
-                # Update state based on verification
-                if verification_result == "correct":
+                logger.info(
+                    f"[ChatKit] Session: chunk={session_state['concept_index']}, "
+                    f"attempts={session_state['attempt_count']}, status={session_state['status']}, "
+                    f"resume={is_session_resume}"
+                )
+
+                # Script v2: Update state based on verification and special requests
+                should_advance = False
+
+                # Handle skip request (Script 7)
+                if special_request == "skip":
+                    should_advance = True
+                    logger.info("[ChatKit] Skip request - advancing to next chunk")
+
+                # Handle correct answer (Script 2)
+                elif verification_result == "correct":
                     session_state = await advance_to_next_chunk(thread.id, session_state)
+                    # Don't set should_advance - already advanced above
+
+                # Handle incorrect answer (Script 3)
                 elif verification_result == "incorrect":
                     session_state = await record_incorrect_attempt(
                         thread.id, session_state, user_text
                     )
+                    # Check if max attempts reached (Script 3B)
+                    if session_state["attempt_count"] >= MAX_ATTEMPTS:
+                        should_advance = True
+                        logger.info(
+                            f"[ChatKit] Max attempts ({MAX_ATTEMPTS}) reached - "
+                            "will reveal answer and advance"
+                        )
+
+                # Store user message for off-topic handling (Script 4)
+                if not verification_result and not special_request:
+                    session_state["last_student_answer"] = user_text
+                    from .services.session_state import save_session_state
+                    await save_session_state(thread.id, session_state)
+
+                # Handle advancement for skip/max_attempts
+                if should_advance:
+                    session_state = await advance_to_next_chunk(thread.id, session_state)
 
                 # Get current/next chunk
                 current_idx = session_state["concept_index"]
                 current_chunk = chunks[current_idx] if current_idx < len(chunks) else chunks[-1]
                 next_chunk = chunks[current_idx + 1] if current_idx + 1 < len(chunks) else None
 
-                # Create chunked agent (minimal context)
+                # Create chunked agent (Script v2 - all parameters)
                 agent = create_chunked_agent(
                     chunk=current_chunk,
                     session_state=session_state,
@@ -531,10 +589,15 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                     user_name=user_name,
                     is_first_message=is_first_message,
                     verification_result=verification_result,
+                    special_request=special_request,
+                    correct_answer=stored_correct_answer,
+                    is_session_resume=is_session_resume,
+                    lesson_title=title,
                 )
                 logger.info(
                     f"[ChatKit] Chunked agent: chunk={current_idx}, "
-                    f"is_first={is_first_message}, verification={verification_result}"
+                    f"is_first={is_first_message}, verification={verification_result}, "
+                    f"special={special_request}, resume={is_session_resume}"
                 )
             else:
                 # LEGACY MODE: Full lesson content (or lesson too short to chunk)
