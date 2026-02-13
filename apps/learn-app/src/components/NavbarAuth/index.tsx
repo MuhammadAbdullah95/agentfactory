@@ -13,13 +13,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { User, LogOut, Settings, RefreshCw } from "lucide-react";
+import {
+  User,
+  LogOut,
+  Settings,
+  RefreshCw,
+  Trophy,
+  Zap,
+  Flame,
+} from "lucide-react";
 import { useCredits } from "@/hooks/useCredits";
+import { useProgress } from "@/contexts/ProgressContext";
+import Link from "@docusaurus/Link";
+import XPCounter from "@/components/progress/XPCounter";
 
 export function NavbarAuth() {
   const { session, isLoading, signOut, refreshUserData } = useAuth();
   const { siteConfig } = useDocusaurusContext();
   const credits = useCredits();
+  const { progress } = useProgress();
   const authUrl =
     (siteConfig.customFields?.authUrl as string) || "http://localhost:3001";
   const oauthClientId =
@@ -104,7 +116,18 @@ export function NavbarAuth() {
               : hardware;
 
     return (
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
+        <Link
+          to="/leaderboard"
+          className="flex items-center justify-center h-9 w-9 rounded-md border border-border bg-card hover:bg-accent transition-colors allow-rounded"
+          title="Leaderboard"
+          aria-label="Leaderboard"
+        >
+          <Trophy className="h-4 w-4 text-[oklch(0.77_0.16_70)]" />
+        </Link>
+        <div className="hidden sm:block">
+          <XPCounter />
+        </div>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-9 w-9 rounded-full">
@@ -170,6 +193,45 @@ export function NavbarAuth() {
                 <DropdownMenuSeparator />
               </>
             )}
+            {/* XP stats — always visible in dropdown (primary on mobile) */}
+            {progress?.stats && (
+              <>
+                <div className="px-2 py-1.5">
+                  <Link
+                    to="/progress"
+                    className="flex items-center justify-between text-xs hover:text-primary transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1">
+                        <Zap
+                          className="h-3.5 w-3.5 text-[oklch(0.68_0.16_142)]"
+                          fill="currentColor"
+                        />
+                        <span className="font-semibold">
+                          {progress.stats.total_xp.toLocaleString()}
+                        </span>
+                        <span className="text-muted-foreground">XP</span>
+                      </span>
+                      {progress.stats.current_streak > 0 && (
+                        <span className="flex items-center gap-1">
+                          <Flame
+                            className="h-3.5 w-3.5 text-[oklch(0.77_0.16_77)]"
+                            fill="currentColor"
+                          />
+                          <span className="font-semibold">
+                            {progress.stats.current_streak}
+                          </span>
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-muted-foreground">
+                      {progress.stats.rank ? `#${progress.stats.rank}` : "—"}
+                    </span>
+                  </Link>
+                </div>
+                <DropdownMenuSeparator />
+              </>
+            )}
             <DropdownMenuItem
               onClick={handleEditProfile}
               className="cursor-pointer"
@@ -192,6 +254,14 @@ export function NavbarAuth() {
 
   return (
     <div className="flex items-center gap-2">
+      <Link
+        to="/leaderboard"
+        className="flex items-center justify-center h-9 w-9 rounded-md border border-border bg-card hover:bg-accent transition-colors allow-rounded"
+        title="Leaderboard"
+        aria-label="Leaderboard"
+      >
+        <Trophy className="h-4 w-4 text-[oklch(0.77_0.16_70)]" />
+      </Link>
       <Button
         variant="ghost"
         onClick={handleSignIn}

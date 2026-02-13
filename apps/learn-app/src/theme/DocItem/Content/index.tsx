@@ -27,6 +27,7 @@ import type { TeachingFrontmatter } from "@/components/TeachingGuideSheet";
 import { getOAuthAuthorizationUrl } from "@/lib/auth-client";
 import { useVoiceReading } from "@/contexts/VoiceReadingContext";
 import { VoiceControlDock } from "@/components/VoiceControlDock";
+import LessonCompleteButton from "@/components/progress/LessonCompleteButton";
 
 type Props = WrapperProps<typeof ContentType>;
 
@@ -406,6 +407,12 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
   const isLeafPage = pathSegments.length >= 3 || isSpecialRootPage;
 
+  // Derive chapter + lesson slugs from docId for the LessonCompleteButton
+  // docId example: "01-Part/02-Chapter/03-lesson"
+  const docIdSegments = docId.split("/");
+  const lessonSlug = docIdSegments[docIdSegments.length - 1] || "";
+  const chapterSlug = docIdSegments.slice(0, -1).join("/");
+
   // Teaching Guide Sheet state
   const [teachingGuideOpen, setTeachingGuideOpen] = React.useState(false);
   const frontMatter = (doc as { frontMatter?: TeachingFrontmatter })
@@ -502,6 +509,12 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
+        {isLeafPage && isLoggedIn && (
+          <LessonCompleteButton
+            chapterSlug={chapterSlug}
+            lessonSlug={lessonSlug}
+          />
+        )}
         <VoiceControlDock />
         {<TeachMePanel lessonPath={lessonPath} />}
         {hasTeachingData && frontMatter && (
@@ -605,6 +618,12 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
+      {isLeafPage && isLoggedIn && (
+        <LessonCompleteButton
+          chapterSlug={chapterSlug}
+          lessonSlug={lessonSlug}
+        />
+      )}
       <VoiceControlDock />
       {<TeachMePanel lessonPath={lessonPath} />}
       {hasTeachingData && frontMatter && (

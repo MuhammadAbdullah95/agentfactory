@@ -23,6 +23,10 @@ const STUDY_MODE_API_URL =
 const TOKEN_METERING_API_URL =
   process.env.TOKEN_METERING_API_URL || "http://localhost:8001";
 
+// Progress API URL - gamification (XP, badges, streaks)
+const PROGRESS_API_URL =
+  process.env.PROGRESS_API_URL || "http://localhost:8002";
+
 // ChatKit domain key for OpenAI ChatKit (register at OpenAI dashboard for production)
 const CHATKIT_DOMAIN_KEY =
   process.env.CHATKIT_DOMAIN_KEY?.trim() || "domain_pk_localhost_dev";
@@ -48,6 +52,7 @@ const config: Config = {
     studyModeApiUrl: STUDY_MODE_API_URL,
     tokenMeteringApiUrl: TOKEN_METERING_API_URL,
     chatkitDomainKey: CHATKIT_DOMAIN_KEY,
+    progressApiUrl: PROGRESS_API_URL,
   },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -416,6 +421,16 @@ const config: Config = {
           sidebarId: "tutorialSidebar",
           position: "left",
           label: "Book",
+        },
+        {
+          to: "/progress",
+          position: "left",
+          label: "Progress",
+        },
+        {
+          to: "/leaderboard",
+          position: "left",
+          label: "Leaderboard",
         },
         {
           type: "custom-searchBar",
