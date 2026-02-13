@@ -10,14 +10,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install uv for fast dependency management
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
-# Copy dependency files
-COPY pyproject.toml ./
-
-# Install dependencies
-RUN uv pip install --system --no-cache .
-
-# Copy source code
+# Copy project files (hatchling needs README.md + src/ to build the wheel)
+COPY pyproject.toml README.md ./
 COPY src/ ./src/
+
+# Install package and dependencies
+RUN uv pip install --system --no-cache .
 
 EXPOSE 8002
 
