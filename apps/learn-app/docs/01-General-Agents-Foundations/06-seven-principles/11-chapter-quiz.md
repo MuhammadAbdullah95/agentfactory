@@ -375,6 +375,42 @@ options: [
 correctOption: 1,
 explanation: "This combines Principle 5 (State Persistence) with context engineering from Chapter 4. When patterns are in Zone 2 (middle) of CLAUDE.md, they receive ~30% less attention. At 20% context utilization, there's enough attention for everything. At 85%, attention is strained, and middle-positioned content gets deprioritized. The solution: move critical patterns to Zone 1 (beginning) where primacy ensures consistent attention regardless of utilization. The AI model doesn't vary (A), and dropped instructions (D) would cause different symptoms. The lesson: position affects reliability, especially under context pressure.",
 source: "Principle 5 + Context Engineering"
+},
+{
+question: "A developer starts Claude Code and immediately types: 'Add a payment system with Stripe integration.' Claude begins editing files right away. After 20 minutes, the developer realizes Claude chose the wrong architecture. What operational practice would have prevented this?",
+options: [
+"Using a larger context window to give Claude more room to work",
+"Using the four-phase workflow: Explore and Plan in Plan Mode before implementing",
+"Asking Claude to work faster so mistakes are caught sooner",
+"Running all tests before letting Claude start"
+],
+correctOption: 1,
+explanation: "The four-phase workflow (Explore → Plan → Implement → Commit) prevents this exact scenario. In Plan Mode (Shift+Tab), Claude reads and plans without modifying files. The developer would see the proposed architecture before any code is written—catching the wrong approach in minutes rather than discovering it after 20 minutes of wasted implementation. Option A doesn't help because more context doesn't prevent wrong architectural choices. Option C makes things worse—faster mistakes are still mistakes. Option D is premature—there's nothing to test yet. The key insight: course correction is cheap during planning, expensive during implementation.",
+source: "Lesson 08: Operational Best Practices"
+},
+{
+question: "A developer asks Claude to fix a bug. Claude's first attempt is wrong. The developer corrects it. Claude's second attempt is also wrong, in a different way. What should the developer do next?",
+options: [
+"Provide a third, more detailed correction and hope Claude gets it right",
+"Apply the Rule of Two: /clear and start a fresh session with a better prompt",
+"Switch to a different AI model that might understand better",
+"Continue correcting until Claude eventually converges on the right answer"
+],
+correctOption: 1,
+explanation: "The Rule of Two says: if Claude misses the mark twice on the same fix, STOP. Don't try a third time. Each correction adds noise to the context—Claude is now juggling the original request plus two failed attempts plus your frustrations. The signal-to-noise ratio collapses. Instead, /clear and start fresh with a prompt that includes what you learned from the failures. The failed attempts taught you what Claude needed to know; a fresh prompt with that information upfront beats a third round of corrections every time. Option A continues the correction loop. Option C changes the tool but not the approach. Option D is the definition of the correction loop anti-pattern.",
+source: "Lesson 08: Operational Best Practices"
+},
+{
+question: "Before implementing a complex notification system, a developer uses the prompt: 'Don't code yet. Interview me until you have a 100% clear spec.' After the interview produces a detailed specification, what is the most effective next step?",
+options: [
+"Continue implementing in the same session since Claude already has context",
+"Start a fresh session with only the specification (the Golden Reset)",
+"Delete the specification and let Claude implement from memory",
+"Share the specification with a different AI tool for implementation"
+],
+correctOption: 1,
+explanation: "The Golden Reset—starting a fresh session with only the clean specification—often produces better results than continuing in the same session. The interview session contains exploratory noise: tangents, rejected ideas, back-and-forth clarification. A fresh context with just the signal-dense specification means Claude's full attention goes to implementation rather than filtering through conversation history. Option A works but carries the noise from exploration. Option C loses the specification's value. Option D fragments context across tools. The lesson: clean spec → clean session → clean code.",
+source: "Lesson 08: Operational Best Practices"
 }
 ]}
 />
@@ -413,15 +449,18 @@ source: "Principle 5 + Context Engineering"
 | 28       | B              | Principle 2: Code as Universal Interface             |
 | 29       | B              | Principle 6: Constraints and Safety                  |
 | 30       | B              | Principle 5 + Context Engineering                    |
+| 31       | B              | Lesson 8: Operational Best Practices                 |
+| 32       | B              | Lesson 8: Operational Best Practices                 |
+| 33       | B              | Lesson 8: Operational Best Practices                 |
 
 ## Scoring Guide
 
 | Score | Proficiency Level | Interpretation                                                      |
 | ----- | ----------------- | ------------------------------------------------------------------- |
-| 27-30 | B2 (Advanced)     | Strong understanding of all seven principles and how they integrate |
-| 22-26 | B1 (Intermediate) | Good understanding with some gaps in integration                    |
-| 17-21 | A2 (Elementary)   | Basic understanding of principles but needs more practice           |
-| 0-16  | A1 (Beginner)     | Review the lessons and try the "Try With AI" exercises              |
+| 30-33 | B2 (Advanced)     | Strong understanding of all seven principles and how they integrate |
+| 24-29 | B1 (Intermediate) | Good understanding with some gaps in integration                    |
+| 18-23 | A2 (Elementary)   | Basic understanding of principles but needs more practice           |
+| 0-17  | A1 (Beginner)     | Review the lessons and try the "Try With AI" exercises              |
 
 ## Next Steps
 
@@ -430,6 +469,7 @@ Based on your performance, focus on:
 - **Principles 1-3 (Foundation)**: If you missed questions 1-9, review the fundamental lessons on bash access, code as interface, and verification
 - **Principles 4-5 (Workflow)**: If you missed questions 10-15 or 24-26, focus on decomposition and state persistence patterns
 - **Principles 6-7 (Safety & Observability)**: If you missed questions 16-20, 27, or 29, study safety models and observability practices
+- **Operational Practices**: If you missed questions 31-33, review Lesson 8 on the four-phase workflow, failure patterns, and the interview pattern
 - **Integration & Tradeoffs**: If you missed questions 21-23 or 24-30, practice applying multiple principles together and reasoning about principle interactions
 
-Remember: The principles are most powerful when applied together. The scenario-based questions (24-30) test your ability to diagnose which principles apply to real-world situations—this judgment is what separates practitioners from beginners.
+Remember: The principles are most powerful when applied together. The scenario-based questions (24-33) test your ability to diagnose which principles apply to real-world situations—this judgment is what separates practitioners from beginners.
