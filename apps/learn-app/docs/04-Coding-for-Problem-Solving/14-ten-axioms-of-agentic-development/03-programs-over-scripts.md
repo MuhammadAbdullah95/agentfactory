@@ -57,29 +57,49 @@ differentiation:
 
 # Axiom III: Programs Over Scripts
 
-Last Tuesday, you wrote a quick Python script to rename 200 image files in a folder. Fifteen lines. No imports beyond `os` and `re`. It worked perfectly on the first run, and you felt productive.
+Tomás learned Axiom II the hard way — two weeks of work discarded because a decision lived in Slack instead of markdown. After Lena's code review, he became the team's most disciplined documentation writer. Every decision got an ADR. Every convention went into CLAUDE.md. The knowledge was in markdown, in the repository, exactly where it belonged.
 
-Then your colleague asked: "Can I use that for our client deliverables?" Suddenly you needed to handle files with spaces in their names, log which files were renamed, skip files that already matched the pattern, and report errors instead of crashing silently. Your 15-line script grew to 80 lines of tangled if-statements. A week later, the script renamed a client's final deliverable incorrectly, and nobody knew why because there were no logs, no tests, and no way to reproduce the issue.
+Then Lena asked him to write a script.
 
-This is the script-to-program boundary. Crossing it without recognizing you've crossed it is one of the most common sources of production failures in AI-era development.
+The team needed a utility to normalize image filenames before uploading them to the CDN — lowercase, no spaces, no special characters. Fifteen lines of Python. Tomás wrote it in twenty minutes: a `for` loop over `os.listdir`, a regex substitution, an `os.rename`. It worked. He committed it as `rename_images.py` and moved on.
+
+Three months later, the marketing team adopted the script for their asset pipeline. Then the design team. Then the client services team started running it on deliverables. Nobody told Tomás. Nobody asked permission. The script just spread — because it worked, and because working code attracts dependencies the way a lit window attracts moths.
+
+On a Friday afternoon, the client services team ran the script on a folder of 2,000 files for a product launch. The script encountered a filename with a Unicode em-dash, crashed on file 847, and left the folder in a state where 846 files had been renamed and 1,154 had not. There were no logs to show which files had been processed. There was no `--dry-run` flag to preview changes. There was no error handling to skip the problem file and continue. There were no tests that would have caught the Unicode edge case before it reached production. The team spent the weekend manually sorting 2,000 files, matching renamed versions to originals using file timestamps and sizes.
+
+Tomás stared at his fifteen lines of code and realized they had become load-bearing infrastructure for three teams — without a single line of the discipline that load-bearing code requires. The gap between a script and a program is the gap between a prototype and a product. Tomás had shipped a prototype.
 
 ## The Problem Without This Axiom
 
-Without "Programs Over Scripts," developers fall into a dangerous pattern: they write quick scripts, those scripts work for the immediate problem, and then those scripts quietly become production infrastructure. Nobody announces "this script is now load-bearing code." It just happens, one convenience at a time.
+Tomás's fifteen-line script did not announce its promotion to production infrastructure. No one sent an email saying "this utility is now load-bearing code for three teams." It happened one convenience at a time — someone copied the script, someone else added it to a Makefile target, someone scheduled it in a cron job. By the time it failed, it had accumulated responsibilities it was never built to carry.
 
-The consequences compound:
+This pattern is universal. Without the discipline that separates scripts from programs, every team accumulates a graveyard of fragile utilities:
 
-- A data processing script runs in production for months. One day the input format changes slightly. The script crashes at 2 AM with no error message beyond `KeyError: 'timestamp'`. Nobody knows what it expected or why.
-- An AI agent generates a utility function. It works for the test case. Three weeks later, it fails on edge cases the AI never considered. There are no tests to reveal this, and no type annotations to show what the function actually expects.
-- A deployment script uses hardcoded paths. It works on the author's machine. On the CI server, it fails silently and deploys a broken build.
+- A data processing script runs in production for months. One day the input format changes slightly. The script crashes at 2am with no error message beyond `KeyError: 'timestamp'`. Nobody knows what it expected or why — because there are no type annotations to declare the expected input shape.
+- An AI agent generates a utility function. It works for the test case. Three weeks later, it fails on edge cases the AI never considered. There are no tests to reveal this, and no type annotations to show what the function actually accepts.
+- A deployment script uses hardcoded paths. It works on the author's machine. On the CI server, it fails silently and deploys a broken build — because nobody added the validation that a program demands.
 
-The root cause is the same every time: code that grew beyond script-level complexity while retaining script-level discipline.
+The root cause is the same every time: code that grew beyond script-level complexity while retaining script-level discipline. The code did not change. The expectations around it changed. And nobody upgraded the discipline to match.
 
 ## The Axiom Defined
 
 > **Axiom III: Production work requires proper programs, not ad-hoc scripts. Programs have types, tests, error handling, and CI integration. Scripts are for exploration; programs are for shipping.**
 
 This axiom draws a clear line: scripts serve exploration and experimentation; programs serve reliability and collaboration. Both are valuable. The failure mode is not writing scripts. The failure mode is shipping scripts as if they were programs.
+
+## The Long Argument for Types
+
+The debate between "move fast and break things" and "move carefully and prove things" is older than most developers realize. It traces back to the earliest days of programming language design, and the side that favors discipline has been winning — slowly, then all at once.
+
+In 1973, Robin Milner at the University of Edinburgh created ML, a programming language with a type system so precise that if your program compiled, entire categories of bugs were mathematically impossible. The idea was radical: let the machine verify your logic before you run it. Milner's work earned him the Turing Award in 1991 and launched a lineage of typed languages — Haskell, OCaml, F# — that influenced every modern language with a type system.
+
+For decades, Python existed on the opposite end of this spectrum. Guido van Rossum designed Python for readability and rapid prototyping, deliberately leaving out static types. The language thrived. It also accumulated a reputation: Python was where scripts became programs by accident, and where bugs hid until runtime because nothing checked your assumptions before execution.
+
+The turning point came in 2014, when Guido van Rossum — Python's creator himself — co-authored PEP 484, introducing optional type hints to the language. The proposal was not a concession. It was a recognition that Python had grown beyond scripting. Millions of lines of Python were running in production at Dropbox, Instagram, Google, and Netflix. At that scale, "run it and see if it crashes" was no longer an engineering strategy. Type hints let developers declare their intentions — `def process(data: list[Record]) -> Summary` — and let tools like mypy and later pyright verify those intentions before a single line executed.
+
+Python's journey from untyped scripting language to gradually typed systems language mirrors exactly what Axiom III teaches. The same forces that pushed Python toward types — growing codebases, production reliability, collaboration across teams — push every script toward program discipline once the stakes become real.
+
+---
 
 ## From Principle to Axiom
 
@@ -94,7 +114,7 @@ The principle is about choosing the right medium. The axiom is about discipline 
 
 ## The Script-to-Program Continuum
 
-Scripts and programs are not binary categories. They exist on a continuum, and code naturally moves along it as its responsibilities grow. The key is recognizing when your code has moved far enough that script-level practices become dangerous.
+Tomás's mistake was not writing a script. His mistake was not recognizing when the script stopped being a script. Scripts and programs are not binary categories — they exist on a continuum, and code naturally moves along it as its responsibilities grow. The key is recognizing when your code has moved far enough that script-level practices become dangerous.
 
 | Dimension | Script | Program |
 |-----------|--------|---------|
@@ -118,47 +138,38 @@ A script should become a program when any of these conditions become true:
 4. **It grew beyond 50 lines.** This is not a strict threshold, but complexity compounds. Beyond 50 lines, you cannot hold the full logic in your head while debugging.
 5. **An AI generated it.** AI-generated code deserves extra scrutiny because you did not write it line-by-line. Types and tests become your verification layer.
 
-## A Script Becomes a Program: Concrete Example
+## A Script Becomes a Program: Tomás's Fifteen Lines
 
-Here is a real progression. First, the script version -- quick, functional, fragile:
+Here is what Tomás originally wrote — the script that three teams came to depend on:
 
 ```python
 # rename_images.py (SCRIPT version)
-import os
-import re
+import os, re
 
-folder = "/Users/me/photos"
+folder = "/Users/tomas/photos"
 for f in os.listdir(folder):
     if f.endswith(".jpg"):
         new_name = re.sub(r'\s+', '_', f.lower())
-        os.rename(
-            os.path.join(folder, f),
-            os.path.join(folder, new_name)
-        )
+        os.rename(os.path.join(folder, f), os.path.join(folder, new_name))
         print(f"Renamed: {f} -> {new_name}")
 ```
 
-This works. It also has no error handling, no way to preview changes, no protection against overwriting files, no tests, no type information, and hardcoded paths. When it fails, it fails silently or mid-operation, leaving your folder in an inconsistent state.
+Twelve lines. No error handling. No way to preview changes. No protection against overwriting existing files. Hardcoded paths. When it hits a Unicode character it cannot process, it crashes mid-operation and leaves the folder half-renamed. This is the code that ruined a client team's weekend.
 
-Now, the program version:
+After the incident, Lena sat down with Tomás and walked through the transformation. The program version is longer — necessarily so — but every additional line exists to prevent a specific category of failure:
 
 ```python
 # src/image_renamer/cli.py (PROGRAM version)
 """Batch rename image files with safe, reversible operations."""
-
 from pathlib import Path
 from dataclasses import dataclass
-import re
-import logging
-import typer
+import re, logging, typer
 
 app = typer.Typer(help="Safely rename image files in a directory.")
 logger = logging.getLogger(__name__)
 
-
 @dataclass
 class RenameOperation:
-    """Represents a single file rename with before/after state."""
     source: Path
     destination: Path
 
@@ -166,173 +177,63 @@ class RenameOperation:
     def would_overwrite(self) -> bool:
         return self.destination.exists()
 
-
-def normalize_filename(name: str) -> str:
-    """Convert filename to lowercase with underscores.
-
-    Args:
-        name: Original filename (without extension).
-
-    Returns:
-        Normalized filename safe for all operating systems.
-    """
+def normalize_filename(name: str) -> str:                    # ← Types declare intent
     normalized = re.sub(r'\s+', '_', name.lower())
-    normalized = re.sub(r'[^\w\-.]', '', normalized)
-    return normalized
+    return re.sub(r'[^\w\-.]', '', normalized)
 
-
-def plan_renames(folder: Path, extensions: tuple[str, ...] = (".jpg", ".png")) -> list[RenameOperation]:
-    """Generate rename operations without executing them.
-
-    Args:
-        folder: Directory containing files to rename.
-        extensions: File extensions to process.
-
-    Returns:
-        List of planned rename operations.
-
-    Raises:
-        FileNotFoundError: If folder does not exist.
-        NotADirectoryError: If folder is not a directory.
-    """
+def plan_renames(                                            # ← Separate planning from execution
+    folder: Path, extensions: tuple[str, ...] = (".jpg", ".png")
+) -> list[RenameOperation]:
     if not folder.exists():
-        raise FileNotFoundError(f"Directory not found: {folder}")
-    if not folder.is_dir():
-        raise NotADirectoryError(f"Not a directory: {folder}")
+        raise FileNotFoundError(f"Directory not found: {folder}")  # ← Specific exceptions
+    return [
+        RenameOperation(source=fp, destination=fp.parent / f"{normalize_filename(fp.stem)}{fp.suffix.lower()}")
+        for fp in sorted(folder.iterdir())
+        if fp.suffix.lower() in extensions
+        and fp.parent / f"{normalize_filename(fp.stem)}{fp.suffix.lower()}" != fp
+    ]
 
-    operations: list[RenameOperation] = []
-    for file_path in sorted(folder.iterdir()):
-        if file_path.suffix.lower() in extensions:
-            new_stem = normalize_filename(file_path.stem)
-            new_name = f"{new_stem}{file_path.suffix.lower()}"
-            destination = file_path.parent / new_name
-            if destination != file_path:
-                operations.append(RenameOperation(source=file_path, destination=destination))
-
-    return operations
-
-
-def execute_renames(operations: list[RenameOperation], dry_run: bool = False) -> tuple[int, int]:
-    """Execute planned rename operations.
-
-    Args:
-        operations: List of rename operations to execute.
-        dry_run: If True, log but do not rename.
-
-    Returns:
-        Tuple of (successful_count, skipped_count).
-    """
-    successful = 0
-    skipped = 0
-
+@app.command()
+def rename(
+    folder: Path = typer.Argument(..., help="Directory containing images"),
+    dry_run: bool = typer.Option(False, "--dry-run", "-n", help="Preview without renaming"),
+) -> None:
+    """Rename image files to normalized lowercase with underscores."""
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+    operations = plan_renames(folder)
     for op in operations:
-        if op.would_overwrite:
-            logger.warning("Skipping %s: destination %s already exists", op.source.name, op.destination.name)
-            skipped += 1
-            continue
-
-        if dry_run:
-            logger.info("[DRY RUN] Would rename: %s -> %s", op.source.name, op.destination.name)
+        if op.would_overwrite:                               # ← Overwrite protection
+            logger.warning("Skipping %s: would overwrite", op.source.name)
+        elif dry_run:                                        # ← Preview mode
+            logger.info("[DRY RUN] %s -> %s", op.source.name, op.destination.name)
         else:
             try:
                 op.source.rename(op.destination)
                 logger.info("Renamed: %s -> %s", op.source.name, op.destination.name)
-                successful += 1
-            except OSError as e:
-                logger.error("Failed to rename %s: %s", op.source.name, e)
-                skipped += 1
-
-    return successful, skipped
-
-
-@app.command()
-def rename(
-    folder: Path = typer.Argument(..., help="Directory containing images to rename"),
-    dry_run: bool = typer.Option(False, "--dry-run", "-n", help="Preview changes without renaming"),
-    extensions: str = typer.Option(".jpg,.png", help="Comma-separated file extensions to process"),
-) -> None:
-    """Rename image files to normalized lowercase with underscores."""
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-
-    ext_tuple = tuple(e.strip() if e.startswith(".") else f".{e.strip()}" for e in extensions.split(","))
-    operations = plan_renames(folder, ext_tuple)
-
-    if not operations:
-        typer.echo("No files to rename.")
-        raise typer.Exit()
-
-    typer.echo(f"Found {len(operations)} file(s) to rename.")
-    successful, skipped = execute_renames(operations, dry_run=dry_run)
-
-    if not dry_run:
-        typer.echo(f"Done: {successful} renamed, {skipped} skipped.")
-
-
-if __name__ == "__main__":
-    app()
+            except OSError as e:                             # ← Graceful failure
+                logger.error("Failed: %s — %s", op.source.name, e)
 ```
 
-And the tests that verify it:
+And the tests that would have caught the Unicode crash before it reached production:
 
 ```python
 # tests/test_renamer.py
 from pathlib import Path
-from image_renamer.cli import normalize_filename, plan_renames, execute_renames, RenameOperation
-
+from image_renamer.cli import normalize_filename, plan_renames
 
 def test_normalize_removes_spaces() -> None:
     assert normalize_filename("My Photo Name") == "my_photo_name"
 
-
-def test_normalize_removes_special_chars() -> None:
-    assert normalize_filename("photo (1) [final]") == "photo_1_final"
-
-
-def test_normalize_collapses_multiple_spaces() -> None:
-    assert normalize_filename("too   many    spaces") == "too_many_spaces"
-
-
-def test_plan_renames_skips_already_normalized(tmp_path: Path) -> None:
-    (tmp_path / "already_normal.jpg").touch()
-    operations = plan_renames(tmp_path)
-    assert len(operations) == 0
-
-
-def test_plan_renames_finds_files_needing_rename(tmp_path: Path) -> None:
-    (tmp_path / "My Photo.jpg").touch()
-    (tmp_path / "Another File.PNG").touch()
-    operations = plan_renames(tmp_path, extensions=(".jpg", ".png"))
-    assert len(operations) == 2
-
+def test_normalize_handles_unicode_dashes() -> None:         # ← The test that was missing
+    assert normalize_filename("file\u2014name") == "filename"
 
 def test_plan_renames_raises_on_missing_directory() -> None:
     import pytest
     with pytest.raises(FileNotFoundError):
         plan_renames(Path("/nonexistent/path"))
-
-
-def test_execute_skips_overwrites(tmp_path: Path) -> None:
-    source = tmp_path / "My Photo.jpg"
-    destination = tmp_path / "my_photo.jpg"
-    source.touch()
-    destination.touch()  # Already exists
-
-    op = RenameOperation(source=source, destination=destination)
-    successful, skipped = execute_renames([op])
-    assert successful == 0
-    assert skipped == 1
-
-
-def test_execute_dry_run_does_not_rename(tmp_path: Path) -> None:
-    source = tmp_path / "My Photo.jpg"
-    source.touch()
-
-    op = RenameOperation(source=source, destination=tmp_path / "my_photo.jpg")
-    execute_renames([op], dry_run=True)
-    assert source.exists()  # Not renamed
 ```
 
-Notice what changed:
+The key differences between Tomás's script and the program are not cosmetic. Each one prevents a specific class of failure:
 
 | Aspect | Script | Program |
 |--------|--------|---------|
@@ -340,13 +241,13 @@ Notice what changed:
 | Safety | Can overwrite files | Checks for conflicts, skips with warning |
 | Preview | No way to see what will happen | `--dry-run` flag shows planned changes |
 | Types | None | Full annotations on all functions |
-| Testing | "I ran it and it looked right" | 7 automated tests covering edge cases |
+| Testing | "I ran it and it looked right" | Automated tests covering normal and edge cases |
 | Interface | Edit source code to change folder | CLI with `--help`, arguments, options |
 | Logging | `print()` | Structured logging with levels |
 
 ## The Python Discipline Stack
 
-Python is flexible enough to be used as both a scripting language and a systems programming language. The discipline stack is what transforms Python from "quick and loose" into "verified and reliable." Four tools form the foundation:
+After the Friday incident, Lena set up the team's repository with what she called "the four walls" — four tools that together make it nearly impossible for a script-level mistake to reach production. Python is flexible enough to be used as both a scripting language and a systems programming language. The discipline stack is what transforms it from "quick and loose" into "verified and reliable."
 
 | Tool | Role | What It Catches |
 |------|------|-----------------|
@@ -414,7 +315,7 @@ Each tool catches problems the others miss. Pyright will not tell you that your 
 
 ## Why AI-Generated Code Requires Program Discipline
 
-When you write code yourself, you build a mental model of how it works as you type each line. You know the assumptions, the edge cases you considered, and the shortcuts you took deliberately. AI-generated code has none of this implicit understanding. You receive finished output with no trace of the reasoning behind it.
+Tomás's script was written by a human who understood the problem — he just did not apply the discipline the problem eventually demanded. AI-generated code introduces a sharper version of the same risk. When you write code yourself, you build a mental model of how it works as you type each line. You know the assumptions, the edge cases you considered, and the shortcuts you took deliberately. AI-generated code arrives fully formed with no trace of the reasoning behind it. You receive the output without the thought process.
 
 This creates three specific risks that program discipline addresses:
 
@@ -471,7 +372,7 @@ This pipeline does not care whether a human or an AI wrote the code. It applies 
 
 ## Anti-Patterns: Scripts Masquerading as Programs
 
-Recognizing these patterns helps you catch code that has outgrown its script-level discipline:
+You have seen the Script That Became Infrastructure. Every company has one. It is the Jupyter notebook that a data scientist wrote to clean up a CSV file — a notebook that now runs every Monday morning as part of the billing pipeline, executed cell by cell in a cron job, with a comment on cell 7 that says `# TODO: handle the case where the date column is empty` that has been there for fourteen months. It is the `process_payments.py` that someone wrote during a hackathon — forty lines, no tests, a bare `except Exception: pass` on line 23 that silently swallows every error, including the one where a decimal point shifts and a customer gets charged ten times the correct amount. It is the `deploy.sh` from Axiom I, all over again — but this time the tangled logic is not bash orchestration. It is Python that has all the flexibility of a proper programming language and none of the discipline. The notebook runs. The payment script runs. They run until they do not, and when they fail, they fail in ways that no one can diagnose because there are no types to read, no tests to run, and no error messages to follow.
 
 | Anti-Pattern | Why It Fails | Program Alternative |
 |--------------|--------------|---------------------|
@@ -491,7 +392,7 @@ The cost of adding a test is low. The cost of debugging production failures in u
 
 ## The Decision Framework
 
-When you sit down to write code -- or when an AI generates code for you -- ask these questions in order:
+Had Tomás asked himself five questions before committing `rename_images.py`, the Friday incident would never have happened. These questions form a simple decision framework — a checklist that tells you whether your code has moved past the script boundary:
 
 ```
 1. Will this code run more than once?
@@ -578,8 +479,30 @@ help me understand what each setting protects against.
 
 **What you're learning**: Setting up verification infrastructure from the ground up. Understanding the "why" behind each tool configuration builds judgment about when to be strict (public APIs, shared code) versus lenient (prototypes, experiments). You are learning to create environments where bad code cannot survive.
 
-## Safety Note
+## The Prototype Trap
 
-The "Programs Over Scripts" axiom is about production code. It is explicitly not about exploration. When you are experimenting with a new idea, prototyping a concept, or running a one-time data transformation, scripts are the right tool. The axiom does not say "never write scripts." It says "do not ship scripts as programs."
+Axiom III is not a prohibition against scripts. Scripts are the right tool for exploration — trying out an API, prototyping a data transformation, testing whether an approach works before committing to it. The axiom does not say "never write scripts." It says "do not ship scripts as if they were programs."
 
-The danger is not writing a quick script. The danger is the moment that quick script becomes load-bearing infrastructure without anyone applying program discipline. Recognize that moment. When it arrives, stop and apply types, tests, error handling, and packaging before the script accumulates dependencies and expectations it was never built to handle.
+The danger has a name: the Prototype Trap. It works like this. You write a script to solve an immediate problem. It works. Someone asks to use it. You say yes — it is just a quick thing, after all. A month passes. The script now has three users, a cron job, and an implicit SLA that nobody agreed to but everyone depends on. You know you should add types and tests, but the script is working, and there are more urgent things to build. Six months pass. The script fails. Now you are debugging production infrastructure that has no types to read, no tests to run, and no error messages to follow — exactly the situation Tomás found himself in.
+
+The trap is not ignorance. Tomás knew how to write a program. The trap is timing. The moment your script acquires its first external dependency — a second user, a cron schedule, a downstream process — it has crossed the boundary. That is the moment to stop and apply program discipline: types, tests, error handling, packaging. Not next sprint. Not when it breaks. Now. Because every week you delay, the script accumulates more dependencies and more expectations, and the cost of upgrading it from script to program grows. The Friday incident cost Tomás's team a weekend. If the script had been running for a year instead of three months, it could have cost far more.
+
+---
+
+## Key Takeaways
+
+Tomás wrote fifteen lines of Python that worked perfectly — until three teams depended on them and a Unicode em-dash brought the house down. The axiom exists because every script wants to become a program, and the ones that do so without acquiring the discipline of a program become the production incidents that ruin weekends.
+
+- **Scripts are for exploration; programs are for shipping.** The boundary is not about line count. It is about who depends on the code and what happens when it fails.
+- **Five signals mark the crossing point**: someone else runs it, it runs more than once, it processes important data, it exceeds 50 lines of logic, or an AI generated it. Any one of these means program discipline applies.
+- **The Python discipline stack — uv, pyright, ruff, pytest — forms four layers of verification.** Each catches a different class of defect. Together, they make it nearly impossible for a script-level mistake to reach production.
+- **AI-generated code requires extra discipline, not less.** Types catch hallucinated APIs before runtime. Tests encode expectations that survive across AI sessions. CI enforces standards regardless of who or what wrote the code.
+- **The Prototype Trap is about timing, not knowledge.** You know how to write a program. The axiom's discipline is applying that knowledge at the moment the script crosses the boundary — not after the first production incident.
+
+---
+
+## Looking Ahead
+
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types, tests, and discipline. But each of these — the Makefile, the ADR, the well-typed module — is a single unit doing a single job. How do you combine them into something larger? How do you build a system from pieces that were designed to be composed?
+
+In Axiom IV, you will discover that the answer is older than most programming languages — and that the Unix philosophy of small, composable tools is not just a preference. It is an architectural law.
