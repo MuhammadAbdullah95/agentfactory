@@ -219,3 +219,38 @@ async def refresh_leaderboard(session: AsyncSession) -> None:
         await session.execute(text("REFRESH MATERIALIZED VIEW leaderboard"))
         await session.commit()
         logger.info("[Leaderboard] Materialized view refreshed (non-concurrent)")
+
+
+# Cooldown: only refresh once per 10 minutes across all replicas
+REFRESH_COOLDOWN_SECS = 600
+_REFRESH_LOCK_KEY = "leaderboard:refresh_lock"
+
+
+async def debounced_refresh_leaderboard() -> None:
+    """Refresh leaderboard if last refresh was >10 min ago (Redis-debounced).
+
+    Uses Redis SET NX EX for distributed coordination across Cloud Run replicas.
+    If Redis is unavailable, falls back to always-refresh (current behavior).
+    """
+    redis = get_redis()
+
+    if redis:
+        try:
+            # SET NX EX: only sets if key doesn't exist, with TTL
+            acquired = await redis.set(
+                _REFRESH_LOCK_KEY, "1", nx=True, ex=REFRESH_COOLDOWN_SECS
+            )
+            if not acquired:
+                logger.debug("[Leaderboard] Refresh debounced — last refresh was <10 min ago")
+                return
+        except Exception as e:
+            logger.warning(f"[Leaderboard] Redis debounce check failed: {e}, refreshing anyway")
+
+    # Either Redis unavailable, debounce check failed, or cooldown expired — do refresh
+    try:
+        from ..core.database import async_session
+
+        async with async_session() as session:
+            await refresh_leaderboard(session)
+    except Exception as e:
+        logger.warning(f"[Leaderboard] Background refresh failed: {e}")

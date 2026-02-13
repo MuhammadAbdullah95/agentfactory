@@ -46,8 +46,8 @@ _db_url, _connect_args = _prepare_asyncpg_url(settings.database_url)
 engine = create_async_engine(
     _db_url,
     poolclass=AsyncAdaptedQueuePool,
-    pool_size=20,
-    max_overflow=10,
+    pool_size=100,
+    max_overflow=70,
     pool_pre_ping=True,
     echo=settings.debug,
     connect_args=_connect_args,
