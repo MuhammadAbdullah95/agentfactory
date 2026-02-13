@@ -7,8 +7,6 @@ No external dependencies (APScheduler not needed for a single task).
 import asyncio
 import logging
 
-from ..config import settings
-
 logger = logging.getLogger(__name__)
 
 # Refresh interval in seconds (default 10 minutes)
@@ -34,10 +32,6 @@ async def _refresh_loop() -> None:
 def start_scheduler() -> None:
     """Start the background refresh scheduler."""
     global _refresh_task
-
-    if settings.dev_mode:
-        logger.info("[Scheduler] Dev mode — leaderboard refresh disabled")
-        return
 
     _refresh_task = asyncio.create_task(_refresh_loop())
     logger.info(f"[Scheduler] Leaderboard refresh every {LEADERBOARD_REFRESH_INTERVAL}s")

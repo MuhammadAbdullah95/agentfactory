@@ -1,5 +1,6 @@
 """Lesson completion service — idempotent lesson marking."""
 
+import asyncio
 import logging
 from datetime import date
 
@@ -98,9 +99,12 @@ async def complete_lesson(
     current_streak, longest_streak = calculate_streak(activity_dates, today=today)
 
     # 6. UPDATE user_progress summary
+    # Award 1 XP if active reading time exceeds 60 seconds
+    xp_earned = 1 if (request.active_duration_secs or 0) > 60 else 0
     await update_user_progress(
         session,
         user.id,
+        xp_delta=xp_earned,
         lessons_delta=1,
         current_streak=current_streak,
         longest_streak=longest_streak,
@@ -110,12 +114,27 @@ async def complete_lesson(
     # 7. COMMIT
     await session.commit()
 
-    # Invalidate caches
+    # Invalidate caches + refresh leaderboard view
     await invalidate_user_cache(user.id)
+    if xp_earned > 0:
+        asyncio.create_task(_refresh_leaderboard_background())
 
     return LessonCompleteResponse(
         completed=True,
         active_duration_secs=request.active_duration_secs,
         streak=StreakInfo(current=current_streak, longest=longest_streak),
         already_completed=False,
+        xp_earned=xp_earned,
     )
+
+
+async def _refresh_leaderboard_background() -> None:
+    """Fire-and-forget: refresh the leaderboard materialized view."""
+    try:
+        from ..core.database import async_session
+        from .leaderboard import refresh_leaderboard
+
+        async with async_session() as session:
+            await refresh_leaderboard(session)
+    except Exception as e:
+        logger.warning(f"[Lesson] Background leaderboard refresh failed: {e}")

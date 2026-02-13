@@ -1,5 +1,6 @@
 """Quiz submission service — orchestrates the 12-step transaction."""
 
+import asyncio
 import logging
 from datetime import UTC, date, datetime
 
@@ -161,6 +162,9 @@ async def submit_quiz(
     # Invalidate caches
     await invalidate_user_cache(user.id)
 
+    # Refresh leaderboard materialized view in background (non-blocking)
+    asyncio.create_task(_refresh_leaderboard_background())
+
     # Calculate best score (include current attempt)
     best_score = max(request.score_pct, best_previous_score or 0)
 
@@ -172,3 +176,16 @@ async def submit_quiz(
         new_badges=new_badges_response,
         streak=StreakInfo(current=current_streak, longest=longest_streak),
     )
+
+
+async def _refresh_leaderboard_background() -> None:
+    """Fire-and-forget: refresh the leaderboard materialized view after quiz submit."""
+    try:
+        from ..core.database import async_session
+
+        async with async_session() as session:
+            from .leaderboard import refresh_leaderboard
+
+            await refresh_leaderboard(session)
+    except Exception as e:
+        logger.warning(f"[Quiz] Background leaderboard refresh failed: {e}")

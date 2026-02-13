@@ -63,6 +63,21 @@ async def get_progress(
     except Exception:
         rank = None
 
+    # Fallback: calculate rank live from user_progress if view is stale/empty
+    if rank is None and progress is not None and progress.total_xp > 0:
+        try:
+            result = await session.execute(
+                text(
+                    "SELECT COUNT(*) + 1 FROM user_progress up"
+                    " JOIN users u ON up.user_id = u.id"
+                    " WHERE up.total_xp > :xp AND u.show_on_leaderboard = TRUE"
+                ),
+                {"xp": progress.total_xp},
+            )
+            rank = result.scalar()
+        except Exception:
+            pass
+
     if progress is None:
         stats = StatsInfo(
             total_xp=0,

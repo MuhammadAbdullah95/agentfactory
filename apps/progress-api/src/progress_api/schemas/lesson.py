@@ -20,3 +20,4 @@ class LessonCompleteResponse(BaseModel):
     active_duration_secs: int | None
     streak: StreakInfo
     already_completed: bool
+    xp_earned: int = 0

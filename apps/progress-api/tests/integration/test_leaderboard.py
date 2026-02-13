@@ -146,15 +146,70 @@ async def test_leaderboard_response_shape(client: AsyncClient, test_session: Asy
 
 
 @pytest.mark.asyncio
-async def test_leaderboard_requires_auth(client: AsyncClient):
-    """Missing auth header returns 401."""
+async def test_leaderboard_public_access(client: AsyncClient, test_session: AsyncSession):
+    """Leaderboard is publicly accessible without auth."""
     from progress_api.config import settings
+
+    # Submit some data so leaderboard has entries
+    await _submit_quiz(client, "lb-public-user", 80)
+    await _refresh_view(test_session)
 
     original_dev_mode = settings.dev_mode
     settings.dev_mode = False
 
     try:
         response = await client.get("/api/v1/leaderboard")
-        assert response.status_code == 401
+        assert response.status_code == 200
+        data = response.json()
+        # Without auth, current_user_rank should be null
+        assert data["current_user_rank"] is None
+        assert isinstance(data["entries"], list)
     finally:
         settings.dev_mode = original_dev_mode
+
+
+@pytest.mark.asyncio
+async def test_leaderboard_lazy_refresh(client: AsyncClient, test_session: AsyncSession):
+    """Lazy refresh populates leaderboard when view is empty but data exists."""
+    # Submit a quiz — this creates user + user_progress with XP
+    await _submit_quiz(client, "lb-lazy-user", 80)
+
+    # Do NOT manually refresh the materialized view.
+    # The service's lazy refresh should detect that user_progress has data
+    # and refresh the view automatically.
+
+    response = await client.get(
+        "/api/v1/leaderboard",
+        headers={"X-User-ID": "lb-lazy-user"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    # Leaderboard should have at least the one user (via lazy refresh or live fallback)
+    assert len(data["entries"]) >= 1
+    assert data["total_users"] >= 1
+
+    # The user should appear in the entries
+    user_ids = [e["user_id"] for e in data["entries"]]
+    assert "lb-lazy-user" in user_ids
+
+
+@pytest.mark.asyncio
+async def test_leaderboard_rank_fallback(client: AsyncClient, test_session: AsyncSession):
+    """Current user rank is calculated via fallback when view is not refreshed."""
+    # Submit a quiz to create data without refreshing the view
+    await _submit_quiz(client, "lb-rank-fallback", 70)
+
+    # Do NOT refresh the materialized view — rely on fallback rank calculation.
+
+    response = await client.get(
+        "/api/v1/leaderboard",
+        headers={"X-User-ID": "lb-rank-fallback"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    # current_user_rank should not be None — the fallback should calculate it
+    assert data["current_user_rank"] is not None
+    assert isinstance(data["current_user_rank"], int)
+    assert data["current_user_rank"] >= 1

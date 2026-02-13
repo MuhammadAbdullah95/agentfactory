@@ -226,6 +226,39 @@ async def test_progress_requires_auth(client: AsyncClient):
 
 
 @pytest.mark.asyncio
+async def test_progress_rank_fallback_without_view(client: AsyncClient):
+    """Rank is calculated via fallback when materialized view is not refreshed."""
+    user_id = "test-progress-rank-fallback"
+
+    # Submit a quiz to create user_progress with XP
+    await client.post(
+        "/api/v1/quiz/submit",
+        json={
+            "chapter_slug": "General-Agents-Foundations/agent-factory-paradigm",
+            "score_pct": 85,
+            "questions_correct": 13,
+            "questions_total": 15,
+        },
+        headers={"X-User-ID": user_id},
+    )
+
+    # Do NOT refresh the materialized view.
+    # The progress service should calculate rank from user_progress directly.
+
+    response = await client.get(
+        "/api/v1/progress/me",
+        headers={"X-User-ID": user_id},
+    )
+    assert response.status_code == 200
+    data = response.json()
+
+    # stats.rank should be an integer (not null) thanks to the fallback
+    assert data["stats"]["rank"] is not None
+    assert isinstance(data["stats"]["rank"], int)
+    assert data["stats"]["rank"] >= 1
+
+
+@pytest.mark.asyncio
 async def test_progress_response_shape(client: AsyncClient):
     """Response contains all expected top-level keys."""
     response = await client.get(

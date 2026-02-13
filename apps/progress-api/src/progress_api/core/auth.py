@@ -139,3 +139,29 @@ async def get_current_user(request: Request) -> CurrentUser:
 
     payload = await verify_jwt(token)
     return CurrentUser(payload)
+
+
+async def get_optional_user(request: Request) -> CurrentUser | None:
+    """Dependency that returns the user if authenticated, or None if not.
+
+    Used for public endpoints that optionally personalize responses
+    (e.g., leaderboard showing current user's rank).
+    """
+    if settings.dev_mode:
+        _check_dev_mode_safety()
+        user_id = request.headers.get("X-User-ID") or settings.dev_user_id
+        return CurrentUser({"sub": user_id})
+
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return None
+
+    token = auth_header[7:]
+    if token.count(".") != 2:
+        return None
+
+    try:
+        payload = await verify_jwt(token)
+        return CurrentUser(payload)
+    except HTTPException:
+        return None

@@ -12,6 +12,7 @@ class LeaderboardEntry(BaseModel):
     avatar_url: str | None
     total_xp: int
     badge_count: int
+    badge_ids: list[str] = []
 
 
 class LeaderboardResponse(BaseModel):

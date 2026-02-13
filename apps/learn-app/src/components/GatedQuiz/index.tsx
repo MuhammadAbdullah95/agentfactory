@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Quiz, { QuizProps } from "@/components/quiz/Quiz";
 import ContentGate from "@/components/ContentGate";
-import QuizXPNotification from "@/components/progress/QuizXPNotification";
+import QuizXPModal from "@/components/progress/QuizXPModal";
 import { submitQuizScore } from "@/lib/progress-api";
 import { useProgress } from "@/contexts/ProgressContext";
 import type { QuizSubmitResponse } from "@/lib/progress-types";
@@ -19,7 +19,7 @@ interface GatedQuizProps extends QuizProps {
  *
  * Users must be signed in to access the quiz.
  * When not authenticated, shows a preview with sign-in prompt.
- * On completion, submits score to the progress API and shows XP notification.
+ * On completion, submits score to the progress API and shows XP modal.
  */
 export function GatedQuiz({
   gateTitle,
@@ -32,7 +32,10 @@ export function GatedQuiz({
     "http://localhost:8002";
 
   const { refreshProgress } = useProgress();
-  const [xpData, setXpData] = useState<QuizSubmitResponse | null>(null);
+  const [quizResult, setQuizResult] = useState<{
+    xpData: QuizSubmitResponse;
+    scorePct: number;
+  } | null>(null);
 
   const handleComplete = useCallback(
     async (result: {
@@ -54,10 +57,10 @@ export function GatedQuiz({
           questions_correct: result.questions_correct,
           questions_total: result.questions_total,
         });
-        setXpData(response);
+        setQuizResult({ xpData: response, scorePct: result.score_pct });
         refreshProgress();
-      } catch {
-        // Progress is an enhancement — never break the quiz experience
+      } catch (err) {
+        console.error("[GatedQuiz] Failed to submit quiz score:", err);
       }
     },
     [progressApiUrl, refreshProgress],
@@ -65,18 +68,18 @@ export function GatedQuiz({
 
   return (
     <>
-      <ContentGate
-        type="quiz"
-        title={gateTitle}
-        description={gateDescription}
-      >
+      <ContentGate type="quiz" title={gateTitle} description={gateDescription}>
         <Quiz {...quizProps} onComplete={handleComplete} />
       </ContentGate>
-      {xpData && (
-        <QuizXPNotification
-          xpEarned={xpData.xp_earned}
-          badges={xpData.new_badges}
-          onDismiss={() => setXpData(null)}
+      {quizResult && (
+        <QuizXPModal
+          isOpen={true}
+          onClose={() => setQuizResult(null)}
+          scorePercentage={quizResult.scorePct}
+          xpEarned={quizResult.xpData.xp_earned}
+          totalXp={quizResult.xpData.total_xp}
+          newBadges={quizResult.xpData.new_badges}
+          attemptNumber={quizResult.xpData.attempt_number}
         />
       )}
     </>

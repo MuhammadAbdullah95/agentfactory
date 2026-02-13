@@ -39,8 +39,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     try {
       const data = await getProgress(progressApiUrl);
       setProgress(data);
-    } catch {
-      // Non-critical -- don't break the app
+    } catch (err) {
+      console.error("[ProgressContext] Failed to load progress:", err);
     } finally {
       setIsLoading(false);
     }
