@@ -67,7 +67,7 @@ function BadgeModal({
   badgeIds,
 }: BadgeModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
       <DialogContent className="allow-rounded max-w-md sm:max-w-lg max-h-[80vh] overflow-y-auto rounded-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
