@@ -56,13 +56,15 @@ async def submit_quiz(
     chapter = await resolve_or_create_chapter(session, request.chapter_slug)
 
     # 3. COUNT previous attempts for (user, chapter)
-    # Use raw SQL with FOR UPDATE to prevent concurrent submissions
-    # getting the same attempt_number
+    # Lock matching rows first (FOR UPDATE), then count via subquery.
+    # PostgreSQL forbids FOR UPDATE directly on aggregate functions.
     result = await session.execute(
         text(
-            "SELECT COUNT(*) FROM quiz_attempts"
-            " WHERE user_id = :uid AND chapter_id = :cid"
-            " FOR UPDATE"
+            "SELECT COUNT(*) FROM ("
+            "  SELECT 1 FROM quiz_attempts"
+            "  WHERE user_id = :uid AND chapter_id = :cid"
+            "  FOR UPDATE"
+            ") locked_rows"
         ),
         {"uid": user.id, "cid": chapter.id},
     )
