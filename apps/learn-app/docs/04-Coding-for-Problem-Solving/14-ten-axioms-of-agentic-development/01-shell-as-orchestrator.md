@@ -59,11 +59,11 @@ differentiation:
 
 Maria joined the platform team three weeks ago. At 2:14am on her first on-call rotation, the pager fired: deployment stuck, 50,000 users affected. She opened `deploy.sh` — a 400-line bash script she had never seen — and stared at line 247, somewhere between a `sed` command that parsed Docker tags and a `curl` request to a Slack webhook that might or might not still exist. Variable names like `temp2` and `OUT` told her nothing. A failed test on line 89 should have stopped the pipeline, but someone had removed the `exit 1` three months ago and nobody noticed. The deployment continued past broken tests, built a corrupted image, and pushed it to production.
 
-Maria called the senior engineer at 2:30am. "Yeah," Priya said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
+Maria called the senior engineer at 2:30am. "Yeah," Lena said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
 
-Priya rewrote the entire process that weekend. The new version: a 12-line Makefile. Each target called a proper program — pytest for testing, Docker for image building, `kubectl` for deployment, a small Go binary for notifications. The Makefile did nothing except decide what runs, in what order, with what inputs. When a test failed, the pipeline stopped. When a build succeeded, it moved to the next step. No string parsing. No `temp2`. No tangled logic.
+Lena rewrote the entire process that weekend. The new version: a 12-line Makefile. Each target called a proper program — pytest for testing, Docker for image building, `kubectl` for deployment, a small Go binary for notifications. The Makefile did nothing except decide what runs, in what order, with what inputs. When a test failed, the pipeline stopped. When a build succeeded, it moved to the next step. No string parsing. No `temp2`. No tangled logic.
 
-The 2am pages stopped. Not because Priya wrote better bash. Because she stopped using bash for computation and started using it for what it was designed for: orchestration.
+The 2am pages stopped. Not because Lena wrote better bash. Because she stopped using bash for computation and started using it for what it was designed for: orchestration.
 
 ---
 
@@ -143,7 +143,7 @@ The principle gave you access. The axiom gives you discipline. An agent that has
 
 ### Composition Primitives
 
-Priya's 12-line Makefile used no framework, no libraries, no custom tooling. It used three primitives that the shell has shipped since 1973.
+Lena's 12-line Makefile used no framework, no libraries, no custom tooling. It used three primitives that the shell has shipped since 1973.
 
 **Pipes** are the oldest and most elegant. One program's output becomes another program's input, with nothing in between but a `|` character.
 
