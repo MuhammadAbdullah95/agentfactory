@@ -93,6 +93,8 @@ version: "1.0.1"
 
 # Lists - Organizing Ideas
 
+Headings gave your document a skeleton. Now you need to fill it in — and that's where **lists** come in.
+
 Imagine you're giving someone installation instructions in paragraph form:
 
 > "First install Python version 3.9 or higher, then download the project files, after that install the required packages using pip, and finally run the program."
@@ -462,7 +464,7 @@ When you use lists correctly in specifications, AI agents can:
 3. **Generate appropriate code** — "Create 5 functions, one for each feature"
 4. **Follow sequences** — "Set up installation script with these 4 steps in order"
 
-Good list usage makes your specifications clearer, which leads to better AI-generated code.
+Lists turn vague intentions into countable, trackable requirements — exactly what AI needs to generate accurate code.
 
 :::info[Expert Insight]
 Professional specifications use list type as semantic information. When AI sees an unordered list under "Features," it knows these are parallel capabilities that can be developed independently—perfect for parallel development or modular architecture. When it sees ordered lists under "Installation," it knows to generate sequential scripts or documentation. This semantic clarity reduces miscommunication and speeds up development.
@@ -474,13 +476,17 @@ Professional specifications use list type as semantic information. When AI sees 
 
 Validate your Task Tracker App lists with AI feedback.
 
+:::tip[Remember the Verification Framework]
+When AI reviews your lists, apply the 4-step framework from Lesson 1: check against what you know, ask AI to explain its reasoning, test specific claims, and cross-reference if unsure.
+:::
+
 ### Setup
 
-Use ChatGPT web (or your AI companion from earlier chapters).
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
 ### Exercise
 
-Take your **updated Task Tracker App specification** (now with lists added) and ask ChatGPT to review it:
+Take your **updated Task Tracker App specification** (now with lists added) and ask your AI to review it:
 
 **Prompt 1 (List Type Check):**
 
@@ -511,8 +517,8 @@ this clearer? (Like requirements, error messages, or configuration steps)
 
 ### Expected Outcomes
 
-From **Prompt 1**: ChatGPT will confirm whether you chose the right list types (ordered vs unordered)
+From **Prompt 1**: Your AI will confirm whether you chose the right list types (ordered vs unordered)
 
-From **Prompt 2**: ChatGPT should be able to count items and understand sequence requirements from your list choices
+From **Prompt 2**: Your AI should be able to count items and understand sequence requirements from your list choices
 
-From **Prompt 3**: ChatGPT will suggest additional lists to strengthen your specification
+From **Prompt 3**: Your AI will suggest additional lists to strengthen your specification

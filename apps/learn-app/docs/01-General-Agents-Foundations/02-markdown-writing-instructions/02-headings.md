@@ -82,6 +82,8 @@ version: "1.0.1"
 
 # Headings - Creating Document Hierarchy
 
+In Lesson 1, you saw how structured text helps AI understand your intent. Now you'll learn the first building block of that structure: **headings**.
+
 Imagine trying to find information in a document that's just one long wall of text. You'd scroll endlessly, hunting for the part you need. Now imagine that same document with clear sections: "Problem," "Solution," "Features," "Installation." Suddenly you can scan it in seconds.
 
 In markdown, headings create this structure. They organize your document into sections that both humans and AI agents can quickly understand. When you write a specification, headings tell the AI: "This is the problem. These are the features. This is what the output should look like."
@@ -141,12 +143,12 @@ Run this command to install:
 pip install task-tracker
 ```
 
-**See the structure?**
+Notice the pattern:
 - One Level 1 heading for the title: `# Task List App`
 - Four Level 2 headings for main sections: `## Problem`, `## Features`, etc.
 - No Level 3 headings needed (the document is simple enough)
 
-This structure lets anyone (human or AI) scan the document and immediately understand what each section contains.
+Both a human skimming the page and an AI parsing the file can instantly find any section.
 
 #### 💬 AI Colearning Prompt
 
@@ -368,7 +370,7 @@ When you write a specification with clear headings, AI agents can:
 Good headings make your specifications easier for AI to understand, which means better code generation.
 
 :::info[Expert Insight]
-When AI agents parse your specification, headings serve as navigation landmarks. The AI can quickly locate "Features," "Installation," or "Expected Output" sections without reading every word. This speeds up processing and improves accuracy. In professional development, well-structured specifications reduce implementation time by 30-50% because both humans and AI can find information instantly.
+When AI agents parse your specification, headings serve as navigation landmarks. The AI can quickly locate "Features," "Installation," or "Expected Output" sections without reading every word. This speeds up processing and improves accuracy. In professional development, well-structured specifications significantly reduce implementation time because both humans and AI can find information instantly — reducing rework and clarification cycles that slow teams down.
 :::
 
 ---
@@ -379,11 +381,11 @@ Now let's validate your Task Tracker App heading structure with AI feedback.
 
 ### Setup
 
-Use ChatGPT web (or your AI companion if you've set one up from earlier chapters).
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
 
 ### Exercise
 
-Take the **Task Tracker App specification structure** you created above and ask ChatGPT to review it with these prompts:
+Take the **Task Tracker App specification structure** you created above and ask your AI to review it with these prompts:
 
 **Prompt 1 (Structure Check):**
 

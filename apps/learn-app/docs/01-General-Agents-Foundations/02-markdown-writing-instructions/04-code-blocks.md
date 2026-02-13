@@ -121,7 +121,7 @@ In the previous lesson, you learned lists for organizing content. Code blocks se
 
 ![Side-by-side comparison showing unordered lists (left panel: bullet points using dash syntax for features and independent items) versus fenced code blocks (right panel: triple backticks for showing code examples and command output). Demonstrates when to use each format based on content type.](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-3/chapter-10/lists-vs-code-blocks-distinction.png)
 
-**Lists** format content into readable bullet points or numbered steps. **Code blocks** preserve exact formatting — every space, every character appears exactly as you type it. Use lists when organizing ideas, use code blocks when showing code or expected output.
+**Lists** organize ideas into readable bullet points or numbered steps. **Code blocks** preserve exact formatting — every space, every character appears exactly as you type it. Use lists to describe *what* the software does; use code blocks to show *what it looks like* when running.
 
 ---
 
@@ -289,7 +289,7 @@ print(greet("Alice"))
 The `python` tag makes it clear this is Python code to implement.
 
 :::info[Expert Insight]
-Language tags do more than just enable syntax highlighting. They tell AI agents which language interpreter to use, which libraries might be available, and which syntax rules apply. When you tag a block as `python`, the AI knows to generate Python 3.13+ syntax. When you tag it as `bash`, the AI knows these are shell commands. This prevents the AI from mixing syntaxes or generating code for the wrong language—a common error when language context is ambiguous.
+Language tags do more than just enable syntax highlighting. They tell AI agents which language interpreter to use, which libraries might be available, and which syntax rules apply. When you tag a block as `python`, the AI knows to generate modern Python 3 syntax. When you tag it as `bash`, the AI knows these are shell commands. This prevents the AI from mixing syntaxes or generating code for the wrong language—a common error when language context is ambiguous.
 :::
 
 ---
@@ -332,12 +332,7 @@ Use single backticks for:
 3. Create a file named `config.py` with your API key
 4. Run the program with `python weather.py`
 
-**See how it works?**
-- Commands like `pip install requests` are in backticks
-- File names like `config.py` are in backticks
-- Function names like `get_weather()` are in backticks
-
-This makes the specification much clearer.
+Notice the difference: backticks visually separate code from prose, so readers never confuse a command like `pip install requests` with regular text. The same applies to file names (`config.py`) and function names (`get_weather()`).
 
 #### 🤝 Practice Exercise
 
@@ -556,10 +551,10 @@ When you use code blocks correctly, AI agents can:
 4. **Follow command syntax** - "These inline codes are commands to run"
 5. **Semantic anchoring** - When you wrap a command in backticks like `python tracker.py`, you tell the AI: "This is a literal string, not a word to translate or summarize." This prevents the AI from hallucinating different command names.
 
-Good code block usage = clearer specifications = better AI-generated code.
+Code blocks eliminate the gap between "what you described" and "what you meant." When AI can see the exact output you expect, it builds to match.
 
 :::info[Expert Insight]
-In professional development, code blocks serve as executable documentation. When you show expected output in a fenced code block, that becomes the acceptance test—did the generated code produce exactly this output? This practice, called "specification by example," reduces ambiguity dramatically. Teams using spec-by-example report 60-80% fewer clarification requests during implementation because everyone (human and AI) can see exactly what "correct" looks like.
+In professional development, code blocks serve as executable documentation. When you show expected output in a fenced code block, that becomes the acceptance test—did the generated code produce exactly this output? This practice, called "specification by example," reduces ambiguity dramatically. Concrete examples are easier to understand and harder to misinterpret than abstract descriptions, so everyone (human and AI) can see exactly what "correct" looks like — reducing miscommunication and rework during implementation.
 :::
 
 ---
@@ -570,11 +565,15 @@ Validate your Task Tracker App code blocks with AI feedback — and test executi
 
 ### Setup
 
-Use ChatGPT web (or your AI companion from earlier chapters).
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
+
+:::tip[Verification Reminder]
+Prompt 3 below asks AI to implement your spec — this is a great way to test whether your code blocks are clear enough. If the generated code doesn't match your expected output, your spec needs work, not the AI.
+:::
 
 ### Exercise
 
-Take your **updated Task Tracker App specification** (now with code blocks) and ask ChatGPT:
+Take your **updated Task Tracker App specification** (now with code blocks) and ask your AI:
 
 **Prompt 1 (Structure Check):**
 
@@ -608,8 +607,8 @@ like I specified in the Expected Output section.
 
 ### Expected Outcomes
 
-From **Prompt 1**: ChatGPT confirms your code block syntax is correct
+From **Prompt 1**: Your AI confirms your code block syntax is correct
 
-From **Prompt 2**: ChatGPT can parse your specification and understand output format, language, and commands
+From **Prompt 2**: Your AI can parse your specification and understand output format, language, and commands
 
-From **Prompt 3**: ChatGPT generates Python code matching your expected output
+From **Prompt 3**: Your AI generates Python code matching your expected output

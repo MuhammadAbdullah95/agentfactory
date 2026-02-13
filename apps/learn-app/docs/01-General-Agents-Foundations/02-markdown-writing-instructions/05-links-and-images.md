@@ -9,6 +9,8 @@ duration_minutes: 35
 proficiency: "A2"
 concepts: 3
 
+# HIDDEN SKILLS METADATA (Institutional Integration Layer)
+# Not visible to students; enables competency assessment and differentiation
 skills:
   - name: "Creating Links"
     proficiency_level: "A2"
@@ -195,7 +197,7 @@ Now readers can click through and see:
 - What JSON looks like
 - What sample outputs should look like
 
-This **dramatically improves clarity** because you're not just describing, you're pointing to where readers can find more information.
+Instead of describing resources, you're pointing directly to them — readers get answers in one click.
 
 :::tip[Pro-Tip: Reference-Style Links]
 For documents with many links, markdown supports reference-style links that keep your text clean:
@@ -291,7 +293,7 @@ Here's how images make READMEs more professional:
 ![System diagram](https://via.placeholder.com/600x200.png?text=User+→+API+→+Database)
 ```
 
-See how images make it immediately clear what the app looks like and how it works? That's powerful.
+A screenshot replaces a paragraph of description, and a diagram can explain architecture faster than any list.
 
 ### Common Image Mistakes
 
@@ -422,9 +424,10 @@ If you're bolding entire sentences to make them stand out, consider using a head
 Test your understanding of links and images by building a real README section.
 
 ### Setup
-Use ChatGPT, Claude, or any AI companion you have available.
 
-### Prompt 1 (Links Practice):
+Use any AI assistant you have access to — ChatGPT, Claude, Gemini, or another tool.
+
+**Prompt 1 (Links Practice):**
 
 ```
 I'm writing a README for a Python weather app that uses the requests library
@@ -432,7 +435,17 @@ and the OpenWeatherMap API. Write me a "Getting Started" section that includes
 links to the relevant documentation. Use proper markdown link syntax.
 ```
 
-### Prompt 2 (Images Practice):
+**Expected Outcome:**
+
+Your AI will generate a section with properly formatted `[text](url)` links:
+
+- Links pointing to real documentation pages (requests, OpenWeatherMap)
+- Descriptive link text (not "click here")
+- Clean URLs without spaces
+
+---
+
+**Prompt 2 (Images Practice):**
 
 ```
 Now add an "Architecture" section to my weather app README. Include a placeholder
@@ -440,7 +453,17 @@ image showing the data flow (user → app → API → response). Use proper mark
 image syntax with descriptive alt text.
 ```
 
-### Prompt 3 (Combined Practice):
+**Expected Outcome:**
+
+Your AI will create an image reference using `![alt text](url)` syntax:
+
+- The `!` prefix that distinguishes images from links
+- Descriptive alt text explaining what the diagram shows
+- A placeholder URL or reference to a local image path
+
+---
+
+**Prompt 3 (Combined Practice):**
 
 ```
 Review this README section I wrote and suggest improvements to my links and images:
@@ -454,6 +477,14 @@ Screenshot:
 
 What markdown syntax errors did I make? Fix them for me.
 ```
+
+**Expected Outcome:**
+
+Your AI should catch at least three errors:
+
+- Bare URLs without proper link syntax (`https://docs.python.org` needs `[text](url)` format)
+- Missing `!` on the image (creates a link instead of an embedded image)
+- Vague alt text that doesn't describe the image content
 
 ---
 
@@ -520,14 +551,81 @@ Check your completed specification:
 
 ---
 
+## Common Mistakes to Avoid
+
+### Mistake 1: Using "Click Here" as Link Text
+
+**Wrong:**
+```text
+For more info, [click here](https://docs.python.org/).
+```
+
+**Correct:**
+```text
+See the [Python documentation](https://docs.python.org/) for more info.
+```
+
+Descriptive link text tells both humans and AI what the destination provides — without needing to follow the link.
+
+### Mistake 2: Forgetting the `!` for Images
+
+**Wrong (creates a link, not an embedded image):**
+```text
+[App screenshot](screenshot.png)
+```
+
+**Correct (embeds the image):**
+```text
+![App screenshot showing main menu](screenshot.png)
+```
+
+Remember: `[text](url)` = **take me there**. `![text](url)` = **show it here**.
+
+### Mistake 3: Overusing Bold Emphasis
+
+**Wrong (everything bold = nothing stands out):**
+```text
+**All** **users** **must** **log** **in** **before** **accessing** **data**.
+```
+
+**Correct (bold only the critical word):**
+```text
+All users **must** log in before accessing data.
+```
+
+Reserve bold for truly critical terms. If everything is emphasized, nothing is.
+
+### Mistake 4: Vague Alt Text on Images
+
+**Wrong:**
+```text
+![screenshot](app.png)
+```
+
+**Correct:**
+```text
+![Task list showing 3 pending items with checkboxes and due dates](app.png)
+```
+
+Alt text should describe what the image **shows**, not just what it **is**. This helps both screen readers and AI agents processing your spec as text.
+
+---
+
 ## Why This Matters for AI
 
-When you use links and images correctly in specifications, AI agents can:
+When you use links, images, and emphasis correctly in specifications, AI agents can:
 
 1. **Follow documentation links** - Some AI tools fetch linked pages for additional context
 2. **Understand resource relationships** - Link text tells AI what each resource provides
 3. **Parse alt text for image context** - When reading markdown as text, AI relies on alt text for image understanding
 4. **Generate appropriate placeholders** - When AI creates documentation, it follows your link/image patterns
+5. **Distinguish priority levels** - Bold (**must**) vs italic (*recommended*) helps AI decide what to implement first vs what is optional
+
+Together, these elements transform a basic specification into a rich brief — one that gives AI context, examples, and clear priorities to work from.
+
+:::info[Expert Insight]
+Links, images, and emphasis each add a different dimension to your specifications. Links provide **context anchors** — connecting your spec to authoritative sources that AI can reference. Images provide **visual contracts** — showing what the result should look like. Emphasis provides **priority signals** — telling AI which requirements are non-negotiable and which are nice-to-have. Together, these elements transform a basic specification into a comprehensive brief that guides AI toward accurate, well-prioritized implementations.
+:::
 
 :::note[How AI Processes Images]
 Modern AI models are multimodal and can view images directly when given visual access. However, in text-based workflows (like reading spec files), AI sees only the alt text and filename. Write descriptive alt text that works for both scenarios—it helps accessibility AND provides context regardless of how your document is processed.
@@ -535,9 +633,51 @@ Modern AI models are multimodal and can view images directly when given visual a
 
 ---
 
-## Bonus: Additional Markdown Tips
+## Bonus: Additional Markdown Elements
 
-Before we wrap up, here are two important markdown behaviors you should know about.
+Before we wrap up, here are additional markdown elements you'll encounter in real projects.
+
+### Tables — Comparing Options
+
+Tables are useful when you need to compare features, list configurations, or show structured data:
+
+```text
+| Feature        | Free Plan | Pro Plan |
+|----------------|-----------|----------|
+| Task limit     | 10        | Unlimited|
+| Collaboration  | No        | Yes      |
+| Export to PDF   | No        | Yes      |
+```
+
+**What it renders as:**
+
+| Feature        | Free Plan | Pro Plan |
+|----------------|-----------|----------|
+| Task limit     | 10        | Unlimited|
+| Collaboration  | No        | Yes      |
+| Export to PDF   | No        | Yes      |
+
+**Key rules**: Use `|` to separate columns and `---` to create the header row. Alignment is optional — the columns don't need to line up perfectly in your source file.
+
+### Task Lists — Tracking Progress
+
+Task lists add checkboxes to track what's done. This is a GitHub Flavored Markdown (GFM) extension:
+
+```text
+- [x] Set up project structure
+- [x] Create main menu
+- [ ] Add task creation feature
+- [ ] Add task deletion feature
+```
+
+**What it renders as:**
+
+- [x] Set up project structure
+- [x] Create main menu
+- [ ] Add task creation feature
+- [ ] Add task deletion feature
+
+**Syntax**: `- [x]` for checked, `- [ ]` for unchecked. These render as interactive checkboxes on GitHub.
 
 ### Escaping Special Characters
 
@@ -586,6 +726,105 @@ Your Task Tracker App specification now has everything an AI agent needs to unde
 - **Supporting resources** (links)
 - **Visual context** (images)
 
+### Check Your Work
+
+Compare your specification against this reference. Don't worry if yours isn't identical — the important thing is that it has the right structure and elements.
+
+<details>
+<summary><strong>Reference: Complete Task Tracker Specification (click to expand)</strong></summary>
+
+````text
+# Task Tracker App
+
+## Problem
+
+People forget daily tasks and lose track of what they've completed.
+A simple command-line tracker lets users manage tasks without
+complicated software.
+
+## Features
+
+### Add Tasks
+- Create tasks with title and description
+- Set optional due dates
+- Assign priority levels (high, medium, low)
+
+### View Tasks
+- Display all tasks with status
+- Filter by priority or due date
+- Show completed and pending separately
+
+### Mark Complete
+- Mark tasks as done
+- Track completion timestamps
+- Move completed tasks to archive
+
+### Delete Tasks
+- Remove tasks permanently
+- Confirm before deleting to prevent accidents
+
+## Expected Output
+
+When the user runs `python tracker.py`, they should see:
+
+```text
+Task Tracker Menu
+1. Add Task
+2. View Tasks
+3. Mark Complete
+4. Delete Task
+5. Exit
+
+Choose an option: _
+```
+
+When viewing tasks, the display looks like:
+
+```text
+Your Tasks:
+1. Buy groceries [Pending] - Due: 2025-11-08
+2. Call dentist [Pending] - Due: 2025-11-07
+3. Submit report [Complete] - Done: 2025-11-06
+```
+
+When the task list is empty:
+
+```text
+Your Tasks:
+No tasks yet. Use option 1 to add a task.
+```
+
+## Installation
+
+1. Install Python 3.9 or higher from python.org
+2. Download the task tracker files from GitHub
+3. Navigate to the project folder: `cd task-tracker`
+4. Run the program: `python tracker.py`
+
+## Resources
+
+- [Python Official Documentation](https://docs.python.org/) - Language reference
+- [Python File I/O Tutorial](https://docs.python.org/3/tutorial/inputoutput.html) - For saving tasks to file
+
+## Screenshot
+
+![Task Tracker main menu showing 5 options: Add Task, View Tasks, Mark Complete, Delete Task, and Exit](https://via.placeholder.com/600x300.png?text=Task+Tracker+Menu)
+
+## Architecture Diagram
+
+![Data flow diagram showing user input going to Task class then to file storage](./images/architecture.png)
+````
+
+**What to check in your version:**
+- One `#` title, four `##` sections, four `###` feature headings
+- Features use bullet lists (unordered — order doesn't matter)
+- Installation uses numbered list (ordered — sequence matters)
+- Expected output uses fenced code blocks with `text` tag
+- At least one link with descriptive text (not "click here")
+- At least one image with descriptive alt text (not just "screenshot")
+
+</details>
+
 ### What's Next?
 
-In the **Chapter Quiz**, you'll test your markdown knowledge. Then you'll be ready to write specifications for your own projects—and have AI agents help you build them.
+In the **Chapter Quiz**, you'll test your markdown knowledge. Then in **Chapter 3**, you'll use these markdown skills to write real specifications for AI agents — turning structured documents into working software.
