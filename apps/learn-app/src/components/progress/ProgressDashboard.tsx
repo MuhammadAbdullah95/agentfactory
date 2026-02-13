@@ -112,7 +112,9 @@ export default function ProgressDashboard() {
                     {ch.title || ch.slug}
                   </div>
                   <div className={styles.chapterMeta}>
-                    <span>Best: {ch.best_score}%</span>
+                    <span>
+                      Best: {ch.best_score != null ? `${ch.best_score}%` : "—"}
+                    </span>
                     <span>{ch.xp_earned} XP</span>
                     <span>
                       {ch.attempts} attempt{ch.attempts !== 1 ? "s" : ""}
@@ -126,7 +128,7 @@ export default function ProgressDashboard() {
                 <div className={styles.progressBar}>
                   <div
                     className={styles.progressFill}
-                    style={{ width: `${Math.min(ch.best_score, 100)}%` }}
+                    style={{ width: `${Math.min(ch.best_score ?? 0, 100)}%` }}
                   />
                 </div>
               </div>

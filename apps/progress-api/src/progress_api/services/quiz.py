@@ -4,7 +4,7 @@ import asyncio
 import logging
 from datetime import UTC, date, datetime
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.auth import CurrentUser
@@ -56,10 +56,15 @@ async def submit_quiz(
     chapter = await resolve_or_create_chapter(session, request.chapter_slug)
 
     # 3. COUNT previous attempts for (user, chapter)
+    # Use raw SQL with FOR UPDATE to prevent concurrent submissions
+    # getting the same attempt_number
     result = await session.execute(
-        select(func.count())
-        .select_from(QuizAttempt)
-        .where(QuizAttempt.user_id == user.id, QuizAttempt.chapter_id == chapter.id)
+        text(
+            "SELECT COUNT(*) FROM quiz_attempts"
+            " WHERE user_id = :uid AND chapter_id = :cid"
+            " FOR UPDATE"
+        ),
+        {"uid": user.id, "cid": chapter.id},
     )
     previous_count = result.scalar_one()
     attempt_number = previous_count + 1

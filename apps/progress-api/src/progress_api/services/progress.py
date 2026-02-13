@@ -6,6 +6,8 @@ from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..core.auth import CurrentUser
+from ..core.cache import get_cached_progress, set_progress_cache
+from ..core.redis import get_redis
 from ..models.badge import UserBadge
 from ..models.chapter import Chapter, ChapterAlias
 from ..models.lesson import LessonCompletion
@@ -37,6 +39,12 @@ async def get_progress(
     3. Badges (from user_badges)
     4. Chapters with quiz attempts and lesson completions
     """
+    # Check cache first
+    redis = get_redis()
+    cached = await get_cached_progress(redis, user.id)
+    if cached is not None:
+        return ProgressResponse(**cached)
+
     # Ensure user exists
     db_user = await upsert_user_from_jwt(session, user)
     await session.flush()
@@ -191,9 +199,14 @@ async def get_progress(
                 )
             )
 
-    return ProgressResponse(
+    response = ProgressResponse(
         user=user_info,
         stats=stats,
         badges=badges,
         chapters=chapters,
     )
+
+    # Cache the result
+    await set_progress_cache(redis, user.id, response.model_dump(mode="json"))
+
+    return response

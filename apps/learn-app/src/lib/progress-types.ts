@@ -56,7 +56,7 @@ export interface ProgressResponse {
   chapters: Array<{
     slug: string;
     title: string;
-    best_score: number;
+    best_score: number | null;
     attempts: number;
     xp_earned: number;
     lessons_completed: Array<{
