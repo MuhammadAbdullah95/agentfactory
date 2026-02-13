@@ -57,29 +57,33 @@ differentiation:
 
 # Axiom V: Types Are Guardrails
 
-You ask your AI assistant to write a function that fetches user profiles from an API. It generates clean, readable code. The variable names make sense. The logic looks right. You run it and get a cryptic error: `AttributeError: 'dict' object has no attribute 'email'`. The function returns a dictionary, but your code treats it like an object with attributes. The AI hallucinated an interface that doesn't exist.
+After refactoring `process_order()` into composed units, Tomás felt confident. Each function did one thing. Each could be tested alone. Lena had signed off on the architecture. So when the team needed a new endpoint — fetch a customer's order history and return a summary — Tomás asked his AI assistant to generate it. The code came back clean: readable variable names, sensible logic, a helper function called `customer.get_orders()` that returned a list of order summaries.
 
-Now imagine the same scenario, but with type annotations. You defined `UserProfile` as a dataclass with an `email: str` field. You typed the function's return as `UserProfile`. Before you even ran the code, your type checker flagged the error: the API function returns `dict[str, Any]`, not `UserProfile`. The hallucination was caught at development time, not at runtime in front of users.
+Tomás reviewed it, liked what he saw, and merged it. The endpoint crashed in staging twenty minutes later. `AttributeError: 'dict' object has no attribute 'total_amount'`. The AI had generated code that treated the API response as objects with attributes, but the actual response was a list of plain dictionaries. The code *looked* correct. The variable names *suggested* correctness. But nothing in the codebase had told the AI — or Tomás — what shape the data actually was.
 
-This is the difference types make. In traditional development, types prevent human mistakes. In AI-assisted development, types prevent something more dangerous: **confident errors from a system that never doubts itself**.
+Lena pulled up the diff. "Your composed functions from last week had typed interfaces — `ValidatedOrder`, `PricedOrder`, `PaidOrder`. The type checker would have caught any mismatch. This new code has no types at all. You gave the AI a blank canvas and hoped it would guess your data model."
+
+She added a `CustomerOrder` dataclass with typed fields, annotated the function's return type, and ran Pyright. Three errors appeared instantly — the same errors that had crashed staging. Fixed in five minutes. The types had turned a runtime mystery into a development-time checklist.
+
+"Composition gives AI the right *scope*," Lena said. "Types give AI the right *shape*. Without both, you are reviewing code by reading it — and you will miss what the machine would catch."
 
 ## The Problem Without This Axiom
 
-Without type annotations, AI-generated code operates in a world of implicit assumptions:
+Tomás's staging crash was not a one-time mistake. It was the predictable result of untyped AI collaboration. Without type annotations, every AI-generated function operates in a world of implicit assumptions — a function returns "something," but what shape is that something? A parameter accepts "data," but what structure does that data have? A method exists on an object — but does it really, or did the AI invent it?
 
-- A function returns "something"---but what shape is that something?
-- A parameter accepts "data"---but what structure does that data have?
-- A method exists on an object---but does it really, or did the AI invent it?
+When humans write untyped code, they carry mental models of what each variable contains. When AI writes untyped code, it has **token probabilities** — patterns that look plausible but may not correspond to your codebase. The AI does not know which methods exist on your objects. It generates what *looks* right based on training data. Tomás's `customer.get_orders()` looked right. It was not.
 
-When humans write untyped code, they usually have mental models of what each variable contains. When AI writes untyped code, it has **token probabilities**---patterns that look plausible but may not correspond to reality. The AI doesn't know your codebase. It doesn't know which methods actually exist on your objects. It generates what *looks* right based on training data.
+The trajectory is the same every time:
 
-Without types, the only way to catch these errors is to run the code and observe failures. That means:
-- Errors surface late (runtime, not development time)
-- Errors are cryptic (`NoneType has no attribute 'items'`)
-- Errors may be silent (wrong value, correct type---no crash, just wrong behavior)
-- Each fix triggers another AI generation cycle, compounding the problem
+| Stage | What Happens | Cost |
+|-------|-------------|------|
+| Generation | AI produces clean, readable code | Free |
+| Review | Developer reads code, sees no obvious issues | Minutes |
+| Merge | Code enters the codebase | Seconds |
+| Runtime crash | `AttributeError`, `KeyError`, `TypeError` | Hours of debugging |
+| Root cause | AI assumed an interface that does not exist | Could have been caught in seconds with types |
 
-Types shift error detection from runtime to development time. They turn implicit assumptions into explicit contracts. And critically, they give AI a **specification to generate against**---not a vague intent, but a precise description of what goes in, what comes out, and what's guaranteed.
+Types shift error detection from runtime to development time. They turn implicit assumptions into explicit contracts. And critically, they give AI a **specification to generate against** — not a vague intent, but a precise description of what goes in, what comes out, and what is guaranteed.
 
 ## The Axiom Defined
 
@@ -87,12 +91,12 @@ Types shift error detection from runtime to development time. They turn implicit
 
 Types are not bureaucracy. They are not "extra work for no benefit." They are the **code-level equivalent of a specification**---a machine-verifiable contract that constrains what valid code looks like.
 
-When you write `def get_user(user_id: int) -> UserProfile`, you have stated:
+When Lena rewrote Tomás's endpoint as `def get_order_history(customer_id: int) -> list[CustomerOrder]`, she stated three things in a single line:
 - **What goes in**: an integer (not a string, not a UUID object, not None)
-- **What comes out**: a UserProfile (not a dict, not None, not a tuple)
-- **What's guaranteed**: if this function returns without raising, you have a valid UserProfile
+- **What comes out**: a list of `CustomerOrder` objects (not dictionaries, not None, not a tuple)
+- **What is guaranteed**: if this function returns without raising, you have valid, typed data
 
-This contract is enforced by the type checker before your code ever runs. No test needed. No manual review needed. The machine verifies it automatically, every time.
+This contract is enforced by the type checker before your code ever runs. No test needed. No manual review needed. The machine verifies it automatically, every time. Tomás's AI-generated code would have failed Pyright the moment it tried to access `.total_amount` on a `dict`.
 
 ## From Principle to Axiom
 
@@ -111,11 +115,23 @@ Principle 6 says "don't let AI delete files without permission." Axiom V says "d
 
 The constraint is the same: **explicit boundaries, automatically enforced, enabling greater autonomy**. At the workflow level, this is permissions and sandboxing. At the code level, this is types and type checking.
 
+## The Long Argument for Types
+
+The idea that types could catch errors before runtime is older than most programmers realize. In 1978, Robin Milner at the University of Edinburgh published "A Theory of Type Polymorphism in Programming," introducing the type inference system for the ML programming language. Milner proved a property that became the foundation of typed programming: **well-typed programs cannot go wrong.** If the type checker accepted your program, an entire class of runtime errors — accessing fields that do not exist, passing arguments of the wrong shape, returning values the caller cannot use — was mathematically impossible.
+
+For decades, this guarantee lived only in academic languages like ML, Haskell, and OCaml. Mainstream languages like Python, JavaScript, and Ruby chose dynamism over discipline — faster to write, easier to prototype, no compiler standing between you and your running code. The trade-off was acceptable when humans wrote all the code, because humans carried mental models that compensated for the missing types.
+
+The trade-off stopped being acceptable when AI entered the picture. AI carries no mental model. It generates code from statistical patterns, and those patterns can produce functions that *look* typed but are not — variables named `user_profile` that are actually dictionaries, methods called `get_orders()` that do not exist on the actual class. Tomás's staging crash was a textbook example of what Milner's type system was designed to prevent.
+
+Python's answer came in 2014, when Guido van Rossum, Jukka Lehtosalo, and Łukasz Langa authored PEP 484 — "Type Hints." The proposal gave Python an opt-in type annotation syntax that preserved the language's dynamic nature while enabling static analysis. You could still write untyped Python. But if you chose to annotate, tools like Mypy and later Pyright could verify Milner's guarantee: well-typed programs cannot go wrong. The discipline was available. The question was whether you would opt in.
+
+In the AI era, the answer is not optional. Types are the specification that constrains what AI generates. Without them, you are Tomás — reviewing code by reading it, hoping you catch what the machine would have caught automatically.
+
 ## Types in Python: The Discipline Stack
 
-Python is dynamically typed---it doesn't require type annotations. But "doesn't require" doesn't mean "shouldn't have." Python's type system is opt-in, and the return on that opt-in is enormous.
+Python is dynamically typed — it does not require type annotations. But "does not require" does not mean "should not have." Python's type system is opt-in, and the return on that opt-in is enormous.
 
-The Python type discipline stack has three layers, each building on the last:
+Lena walked Tomás through the three layers she used on every project — the same layers that would have caught his staging crash before the code ever left his machine.
 
 ### Layer 1: Type Hints (The Annotations)
 
@@ -227,13 +243,13 @@ The three layers work together:
 | Pyright | Verify contracts statically | Development time (before running) |
 | Pydantic | Validate data at boundaries | Runtime (when data arrives) |
 
-## Types and AI: Why They're Non-Negotiable
+## Types and AI: Why They Are Non-Negotiable
 
-Here is the core insight of this axiom: **Types matter more with AI-generated code than with human-written code.** Here's why.
+Here is the core insight of this axiom, and the lesson Tomás learned in staging: **types matter more with AI-generated code than with human-written code.** Here is why.
 
-### AI Hallucination: Methods That Don't Exist
+### AI Hallucination: Methods That Do Not Exist
 
-AI can confidently generate calls to methods that don't exist on your objects:
+AI confidently generates calls to methods that do not exist on your objects — exactly what happened with Tomás's `customer.get_orders()`:
 
 ```python
 # AI generates this (looks reasonable):
@@ -297,7 +313,7 @@ With typed imports and function signatures, the type checker catches every misma
 
 ### The Pattern: Types as AI Specification
 
-The pattern is clear. When you work with AI:
+The pattern — the one Lena drilled into Tomás after the staging incident — is clear. When you work with AI:
 
 1. **Define types first** (the specification)
 2. **Let AI generate implementations** (constrained by types)
@@ -312,7 +328,7 @@ Axiom V:     Define types     → AI generates → Type checker verifies
 
 ## Dataclasses vs Pydantic: Internal Types vs Boundary Types
 
-A common question: when do you use `@dataclass` and when do you use Pydantic's `BaseModel`? The answer depends on where the data lives in your system.
+After adopting types across the order system, Tomás asked Lena a question that every developer encounters: "When do I use `@dataclass` and when do I use Pydantic's `BaseModel`?" Lena's answer was a single principle: it depends on where the data lives in your system.
 
 | Characteristic | Dataclass | Pydantic BaseModel |
 |---------------|-----------|-------------------|
@@ -386,7 +402,9 @@ The rule is simple: **Pydantic at the edges, dataclasses at the core.** Data ent
 
 ## Anti-Patterns: How Types Get Undermined
 
-Knowing what to do matters less if you don't recognize what to avoid. These are the common patterns that destroy type safety:
+You have seen the untyped codebase. Every team has one. It is the project where every function accepts `data` and returns `result`, where `dict[str, Any]` is the universal type, where the AI generates beautiful code that crashes at runtime because nothing in the codebase told it what shape anything is. It is the project where debugging means adding `print(type(x))` on every other line, where new developers spend their first week asking "what does this function actually return?" and getting the answer "it depends." It is the project where the type checker was turned off because "it was too strict" — meaning it found real errors that nobody wanted to fix. The untyped codebase is not missing types by accident. It is missing types because each developer chose the two-second shortcut of skipping the annotation, and a thousand two-second shortcuts became a codebase that no human or AI can safely modify without running it first and praying.
+
+These are the specific patterns that destroy type safety:
 
 | Anti-Pattern | Why It's Harmful | What to Do Instead |
 |-------------|-----------------|-------------------|
@@ -399,53 +417,35 @@ Knowing what to do matters less if you don't recognize what to avoid. These are 
 
 ### The `Any` Anti-Pattern in Detail
 
-`Any` is Python's escape hatch from the type system. It means "I don't know the type, and I don't want the checker to care." Every `Any` in your code is a hole in your guardrails:
+`Any` is Python's escape hatch from the type system. It means "I do not know the type, and I do not want the checker to care." Every `Any` in your code is a hole in your guardrails — and Tomás discovered that AI loves to fill those holes with hallucinations:
 
 ```python
-from typing import Any
-
-
-# BAD: Any disables all checking
+# BAD: Any disables all checking — AI can return anything
 def process_data(data: Any) -> Any:
-    return data["result"]["items"][0]["name"]
-    # No checking: data might not have "result"
-    # No checking: "items" might not be a list
-    # No checking: elements might not have "name"
+    return data["result"]["items"][0]["name"]  # Five unchecked assumptions
 
-
-# GOOD: Explicit types enable full checking
-@dataclass
-class ProcessedResult:
-    name: str
-
-
+# GOOD: Explicit types make every access checkable
 @dataclass
 class ResultItem:
     name: str
-
 
 @dataclass
 class ApiResponse:
     result: ResultData
 
-
 @dataclass
 class ResultData:
     items: list[ResultItem]
 
-
 def process_data(data: ApiResponse) -> str:
-    return data.result.items[0].name
-    # Every access is checked
-    # Every type is known
-    # Errors caught before runtime
+    return data.result.items[0].name  # Every access verified by Pyright
 ```
 
-Yes, the typed version requires more structure. That structure IS the specification. When you give this to an AI, it knows exactly what `data` contains, what operations are valid, and what the function must return.
+The typed version requires more structure. That structure *is* the specification. When you give this to an AI, it knows exactly what `data` contains, what operations are valid, and what the function must return. When Tomás added `Any` to "get things working quickly," he was removing the guardrail that would have saved him hours.
 
 ## Generics and Protocols: Flexible but Safe
 
-Types don't mean rigid. Python supports generics (parameterized types) and protocols (structural typing) for code that's both flexible and safe.
+Tomás initially worried that types meant rigid code — that every function would need a specific class for every parameter. Lena showed him that Python's type system offers flexibility without sacrificing safety, through two mechanisms: generics and protocols.
 
 ### Generics: One Implementation, Many Types
 
@@ -589,10 +589,32 @@ what AI can generate? How is this different from documentation or comments?
 
 **What you're learning**: How to use Protocols as machine-enforced specifications for AI-generated code. You're learning to design interfaces that AI must satisfy---turning type annotations into guardrails that catch hallucinations before they reach production.
 
-## Safety Note
+---
 
-Types are a safety net, not a guarantee. They catch a large class of errors (wrong types, missing attributes, interface mismatches) but they don't catch logical errors (correct types, wrong values). A function that returns `int` when it should return `float` will be caught. A function that returns `42` when it should return `7` will not.
+## Key Takeaways
 
-Use types as one layer in your verification stack: types catch structural errors, tests catch logical errors, and code review catches design errors. No single layer is sufficient. Together, they form the defense-in-depth that makes AI collaboration safe.
+Tomás merged untyped AI-generated code and learned in staging what Robin Milner formalized in 1978: well-typed programs cannot go wrong. Lena's fix — adding a dataclass with typed fields and running Pyright — caught in five minutes what would have taken hours of runtime debugging. The types did not add new logic. They made existing assumptions explicit and machine-verifiable.
 
-When in doubt, type it. The cost of adding a type annotation is seconds. The cost of debugging a type error at runtime---especially one introduced by AI-generated code you thought was correct---is hours.
+- **Types are the specification AI generates against.** Without types, AI guesses your data model from statistical patterns. With types, AI has an explicit contract — what goes in, what comes out, what is guaranteed. Tomás's staging crash happened because nothing told the AI what shape the data was.
+- **Python's type discipline stack has three layers.** Type hints declare contracts (documentation). Pyright enforces contracts statically (development time). Pydantic validates data at boundaries (runtime). Together, they catch errors at every stage — the fulfillment of Milner's well-typed guarantee in a dynamically typed language.
+- **Pydantic at the edges, dataclasses at the core.** External data entering your system gets validated by Pydantic. Internal data already trusted by your system uses lightweight dataclasses. The boundary is where errors enter; that is where validation belongs.
+- **Types matter more with AI than without.** Humans carry mental models that compensate for missing types. AI carries token probabilities. Every `Any` in your code is a hole where AI hallucinations pass through unchecked.
+- **The Annotation Illusion is the trap.** Typed code is not correct code — it is structurally sound code. Types catch shape errors; tests catch logic errors; review catches design errors. No single layer is sufficient.
+
+---
+
+## The Annotation Illusion
+
+After adopting types, Tomás went through a phase Lena recognized. He typed everything meticulously, ran Pyright, saw zero errors, and assumed his code was correct. Then a test failed: `calculate_discount()` returned 0.15 when it should have returned 0.85. The types were perfect — `float` in, `float` out. The *logic* was wrong. He had subtracted the discount from 1.0 in the wrong order.
+
+"Types catch *structural* errors," Lena told him. "Wrong shapes, missing fields, interface mismatches — the machine finds those. But types cannot catch *logical* errors. A function that returns `int` when it should return `float` will be caught. A function that returns `42` when it should return `7` will not. Types and tests are different layers in the same defense."
+
+The Annotation Illusion is the belief that typed code is correct code. It is not. Types guarantee that the pieces fit together — that you are not connecting a square peg to a round hole. Tests guarantee that the assembled machine produces the right output. Code review guarantees that the design makes sense. No single layer is sufficient. Together, they form the defense-in-depth that makes AI collaboration safe. Tomás learned to treat Pyright's green checkmark not as "this code is correct" but as "this code is *structurally sound* — now test the logic."
+
+---
+
+## Looking Ahead
+
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types and tests. Your systems are composed from focused units. Your types catch structural errors before runtime. But your typed dataclasses and Pydantic models describe individual objects — a `CustomerOrder`, a `Task`, a `User`. Real systems are not collections of isolated objects. They are webs of *relationships*: a customer *has* orders, an order *contains* items, an item *belongs to* a catalog. How do you model, store, and query those relationships without losing the type safety you just built?
+
+In Axiom VI, you will discover that data is relational — and that understanding how entities connect is what separates a collection of typed objects from a working system.
