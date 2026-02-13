@@ -53,7 +53,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     } else {
       setProgress(null);
     }
-  }, [session?.user?.id]);
+  }, [session?.user?.id, refreshProgress]);
 
   const isLessonCompleted = useCallback(
     (chapterSlug: string, lessonSlug: string): boolean => {

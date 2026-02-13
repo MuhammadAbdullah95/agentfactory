@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -21,6 +21,7 @@ function useAnimatedNumber(
   delay: number = 300,
 ): number {
   const [displayValue, setDisplayValue] = useState(0);
+  const rafRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const delayTimer = setTimeout(() => {
@@ -33,14 +34,19 @@ function useAnimatedNumber(
         const currentValue = Math.round(targetValue * easeProgress);
         setDisplayValue(currentValue);
         if (progress < 1) {
-          requestAnimationFrame(animate);
+          rafRef.current = requestAnimationFrame(animate);
         }
       };
 
-      requestAnimationFrame(animate);
+      rafRef.current = requestAnimationFrame(animate);
     }, delay);
 
-    return () => clearTimeout(delayTimer);
+    return () => {
+      clearTimeout(delayTimer);
+      if (rafRef.current !== undefined) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, [targetValue, duration, delay]);
 
   return displayValue;
