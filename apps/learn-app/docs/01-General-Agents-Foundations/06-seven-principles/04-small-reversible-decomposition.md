@@ -476,19 +476,13 @@ Without decomposition, you're constantly fighting complexity. With it, complexit
 
 ## This Principle in Both Interfaces
 
-Decomposition applies universally—whether you're building software or producing documents.
-
-| Pattern | Claude Code | Claude Cowork |
-|---------|-------------|---------------|
-| **Chunk size** | One function, one commit | One section, one file at a time |
-| **Reversibility** | `git revert`, undo changes | Re-request specific section, keep rest |
-| **Checkpoint** | Commit after each step | Save/approve after each major output |
-| **Verification** | Test after each change | Review after each section |
-| **Recovery** | `git reset` to known state | Re-start from last good output |
+Decomposition applies universally—whether you're building software or producing documents. In Claude Code, each step is one function and one commit. In Cowork, each step is one section or one file. The mechanism differs; the principle is identical.
 
 **In Cowork**: When creating a long document, don't ask for the entire thing at once. Ask for the outline first (verify it). Then ask for section 1 (verify it). Then section 2. This way, if section 3 goes wrong, you don't lose sections 1-2.
 
 **The universal rule**: Large tasks fail silently. Small tasks fail loudly. The smaller your steps, the faster you find and fix problems.
+
+> For a detailed comparison of how all seven principles map across both interfaces, see Lesson 9: Putting It All Together.
 
 ## Try With AI
 
@@ -565,3 +559,7 @@ Then, let's actually build the feature using approach B and see how it feels.
 ```
 
 **What you're learning**: The practical difference between large batch and small iteration approaches. You're experiencing firsthand how small, reversible steps reduce cognitive load and increase confidence.
+
+### Safety Note
+
+`git reset --hard` and `git revert` are powerful recovery tools—but they can also destroy work if used carelessly. Before running any reset command, always check `git status` and `git stash` any uncommitted work you want to keep. The "revert, don't fix" mindset only works if you have clean commits to revert to.

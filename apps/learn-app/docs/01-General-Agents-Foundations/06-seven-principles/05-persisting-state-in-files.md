@@ -511,3 +511,7 @@ Then, help me create the missing pieces one by one.
 ```
 
 **What you're learning**: How to design a project for maximum reproducibility. You're learning to create a self-documenting codebase where knowledge persists and compounds—making collaboration with humans and AI more effective.
+
+### Safety Note
+
+Never persist sensitive data (API keys, passwords, tokens, personal information) in context files like CLAUDE.md. These files are committed to version control and visible to anyone with repository access. Use environment variables (`.env` files in `.gitignore`) for secrets. If you accidentally commit a secret, rotate it immediately—removing it from git history is not enough.

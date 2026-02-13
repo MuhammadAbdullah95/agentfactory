@@ -236,6 +236,41 @@ When something goes wrong, trace through the log:
 # Solution: Revert change, ask AI to run tests first
 ```
 
+### Walkthrough: Diagnosing a Silent Failure
+
+Here's a realistic scenario. You asked Claude Code to "add input validation to the signup form." It reported success. But users are still submitting invalid data. Let's trace through what happened.
+
+**Step 1: Check what actually changed.**
+
+```bash
+git log --oneline -3
+# a7f2e1d Add input validation to signup form
+# b3c4d5e Update dependencies
+# c6d7e8f Fix header alignment
+
+git diff b3c4d5e..a7f2e1d --stat
+# src/components/SignupForm.tsx | 12 +++++++++---
+# src/utils/validate.ts        | 28 ++++++++++++++++++++++++++++
+```
+
+Two files changed. That looks right.
+
+**Step 2: Check if tests were run.**
+
+Look at the session conversation or activity log. Was there a `npm test` or similar verification step? If you see the change was made and Claude immediately said "Done!" without running tests—that's the warning pattern: EDIT → COMPLETE with no VERIFY.
+
+**Step 3: Read the actual diff.**
+
+```bash
+git diff b3c4d5e..a7f2e1d -- src/components/SignupForm.tsx
+```
+
+You discover: Claude added validation to the `onSubmit` handler but the form uses `onChange` validation. The validation function exists but is never called in the right place.
+
+**Step 4: The root cause.** Claude didn't understand the form's validation pattern. It wrote correct validation logic in the wrong location. If it had run the form and tested submission, this would have been caught immediately.
+
+**The lesson**: The 2-Minute Audit (git diff + test run) would have caught this before you shipped it. Observability isn't extra work—it's the work that prevents rework.
+
 ## Designing for Observability: Building Transparent Workflows
 
 When working with AI, design workflows that make actions visible.
@@ -490,20 +525,11 @@ Make this automatic. Every task ends with this audit. No exceptions.
 
 > "If you can't see what the agent is doing, you can't fix it when it goes wrong."
 
-Both interfaces provide observability—through different mechanisms.
-
-| Layer | Claude Code | Claude Cowork |
-|-------|-------------|---------------|
-| **Plan** | Chat shows reasoning | Progress panel shows plan |
-| **Actions** | Terminal shows commands executed | Progress panel shows steps taken |
-| **Outputs** | Files visible in filesystem | Artifacts panel shows outputs |
-| **Errors** | Terminal shows error output | Progress panel shows issues |
-
-**Cowork's observability advantage**: The three-panel layout (chat, progress, artifacts) was designed specifically for observability. You can see plan, execution, and outputs simultaneously without switching contexts.
-
-**Claude Code's observability advantage**: Full terminal access means nothing is hidden. You see exactly every command executed, every file read, every output generated. The raw transparency of the terminal is unmatched.
+Both interfaces provide observability through different mechanisms. **Claude Code's advantage** is raw terminal transparency—you see every command and every output. **Cowork's advantage** is the three-panel layout (chat, progress, artifacts) designed for simultaneous visibility.
 
 **The principle is the same**: Regardless of interface, you need visibility into what the agent is doing. Without it, agents are black boxes. With it, they're debuggable systems you can trust and improve.
+
+> For a detailed comparison of how all seven principles map across both interfaces, see Lesson 9: Putting It All Together.
 
 ## Try With AI
 
