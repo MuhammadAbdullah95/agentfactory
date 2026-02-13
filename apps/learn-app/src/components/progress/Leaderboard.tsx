@@ -570,8 +570,7 @@ export default function Leaderboard() {
               Leaderboard
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground m-0">
-              Top {Math.min(entries.length, 100)} of {data?.total_users ?? 0}{" "}
-              learners
+              Top {Math.min(entries.length, 100)} learners
             </p>
           </div>
         </div>
