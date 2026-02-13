@@ -57,39 +57,50 @@ differentiation:
 
 # Axiom VI: Data is Relational
 
-Your agent project is going well. You started with a JSON file to store tasks -- simple, readable, gets the job done. Twenty tasks later, it still works fine. Two hundred tasks later, you notice the file takes a moment to load. Two thousand tasks later, you need to find all tasks assigned to a specific person that are overdue -- and you realize you are loading the entire file into memory, looping through every record, checking conditions manually. Your "database" is a flat list pretending to be a data system.
+Tomás had typed dataclasses for orders, customers, and products. He had Pyright catching structural errors before runtime. Lena had signed off on his type discipline. But when the team asked him to build a dashboard showing order history by customer — with filters for date range, status, and product category — Tomás hit a wall that types alone could not solve.
 
-Then you add a second entity -- projects that contain tasks. Now you need to express relationships: which tasks belong to which project? You duplicate project names inside each task record. When a project name changes, you hunt through every task to update it. You forget one. Your data is now inconsistent, and your JSON file cannot tell you that anything is wrong.
+His data lived in a JSON file: `orders.json`. Each order was a dictionary with a `customer_name` string, a `product_name` string, and a `status` field. To find all orders for "Acme Corp," he loaded the entire file into memory and looped through every record. To find overdue orders across all customers, he looped again. To count how many orders each customer had placed, he looped a third time, building a dictionary by hand. The file was 2,000 records. The dashboard took eleven seconds to load.
 
-This is the moment every developer encounters. The data outgrew the format. The relationships were always there -- you just did not have a system that understood them. This axiom provides the system.
+Then the product team changed a customer's name from "Acme Corp" to "Acme Corporation." Tomás updated the customer record. He forgot to update the 47 orders that referenced the old name. Now the dashboard showed two customers — "Acme Corp" with 47 historical orders and "Acme Corporation" with zero. The data was inconsistent, and the JSON file had no way to tell him.
+
+"Your data has relationships," Lena told him. "Customers *have* orders. Orders *contain* products. Products *belong to* categories. You are storing relational data in a format that does not understand relationships. That is like writing typed code without a type checker — the structure is there, but nothing enforces it."
+
+She opened a terminal and typed twelve lines of SQL. The same dashboard query that took eleven seconds and forty lines of Python returned in three milliseconds. The customer name lived in one place. The relationships were enforced by the database. The data could not become inconsistent because the system would not allow it.
+
+The difference between JSON-as-database and a relational database is Axiom VI.
 
 ## The Problem Without This Axiom
 
-Without recognizing that structured data is inherently relational, developers fall into predictable traps:
+Tomás's `orders.json` was not a beginner's mistake. It was the path every developer follows when data starts simple and grows relational. The trajectory is predictable:
 
-**The JSON Graveyard**: Projects accumulate JSON files -- `tasks.json`, `users.json`, `projects.json` -- with no way to express relationships between them. Cross-referencing requires loading everything into memory and writing custom lookup code for every query. There are no constraints, no validation, no guarantees that referenced entities exist.
+| Stage | What Happens | Consequence |
+|-------|-------------|-------------|
+| Week 1 | JSON file stores 20 records | Fast, simple, readable |
+| Month 2 | File grows to 500 records | Queries require loading everything into memory |
+| Month 4 | Second entity added (customers separate from orders) | Relationships expressed by duplicating strings |
+| Month 6 | Name change breaks data consistency | No constraints, no validation, no way to detect the problem |
+| Month 9 | Dashboard needs cross-entity queries | 40 lines of Python to do what SQL does in 3 |
+| Month 12 | AI agent asked to query the data | Agent writes custom loops because JSON has no query language |
 
-**The Flat File Spiral**: Data starts in CSV or plain text. As complexity grows, developers invent ad-hoc query languages, build custom indexing, implement their own transaction logic. They are slowly, painfully reinventing a database -- badly.
+Without recognizing that structured data is inherently relational, developers fall into three traps. **The JSON Graveyard**: projects accumulate JSON files — `orders.json`, `customers.json`, `products.json` — with no way to express relationships between them. Tomás was building one. **The Flat File Spiral**: as complexity grows, developers invent ad-hoc query languages, build custom indexing, implement their own transaction logic — slowly reinventing a database, badly. **The NoSQL Trap**: developers reach for document stores because the API feels familiar, but when the data *is* relational, fighting its nature creates complexity that a relational database handles natively.
 
-**The NoSQL Trap**: Developers reach for document stores (MongoDB, Firebase) as their first database because the API feels familiar -- just store objects. But when the data IS relational (users have projects, projects have tasks, tasks have assignees), fighting the relational nature of the data creates complexity that a relational database handles natively.
-
-Each of these paths leads to the same destination: a system that cannot answer basic questions about its own data without heroic effort from the developer.
+Each path leads to the same destination: a system that cannot answer basic questions about its own data without heroic effort from the developer.
 
 ## The Axiom Defined
 
 > **Axiom VI: Structured data follows relational patterns. SQL is the default for persistent structured data. SQLite for single-user, PostgreSQL for multi-user. Use an ORM only when it doesn't obscure the SQL.**
 
-This axiom makes three claims:
+This axiom makes three claims — each of which Tomás learned the hard way:
 
-1. **Structured data is relational by nature.** When you have entities with attributes and connections between them, you have relational data -- whether or not you store it relationally.
+1. **Structured data is relational by nature.** When you have entities with attributes and connections between them, you have relational data — whether or not you store it relationally. Tomás's JSON file *contained* relational data. It just could not *enforce* the relationships.
 2. **SQL is the default choice.** Not the only choice, but the one you should deviate from consciously with good reason.
 3. **The ORM serves you, not the reverse.** If your ORM hides the SQL so completely that you cannot reason about what queries execute, it has become an obstacle.
 
 ## From Principle to Axiom
 
-In Part 1, Chapter 4, you learned **Principle 5: Persisting State in Files** -- the general durability rule that work products must survive beyond a single session. Files provide durable, inspectable, version-controllable state.
+In Part 1, Chapter 4, you learned **Principle 5: Persisting State in Files** — the general durability rule that work products must survive beyond a single session. Tomás was already following this principle — his team's markdown knowledge base (Axiom II) and his typed Python modules (Axiom III) all persisted in files.
 
-Axiom VI refines this principle for a specific category of state: **structured data with relationships**. The distinction matters:
+But Axiom VI refines this principle for a specific category of state: **structured data with relationships**. Not all persistent data belongs in the same format. The distinction matters:
 
 | State Type | Storage | Why |
 |-----------|---------|-----|
@@ -100,21 +111,15 @@ Axiom VI refines this principle for a specific category of state: **structured d
 
 Principle 5 tells you to persist state. Axiom VI tells you HOW to persist structured data: relationally, with SQL, using the right engine for the job.
 
-## Why SQL Endures
+## The Paper That Gave Data a Theory
 
-SQL was first described by Edgar Codd at IBM in 1970 and formalized into a language by the mid-1970s. Over fifty years later, it remains the dominant language for structured data. This longevity is not nostalgia -- it reflects fundamental properties that alternatives have not surpassed.
+In 1970, an English mathematician named Edgar F. Codd published a paper at IBM's San Jose Research Laboratory: "A Relational Model of Data for Large Shared Data Banks." At the time, databases were navigational — programs traversed pointers from record to record, like walking through a maze. If the structure of the maze changed, every program that navigated it broke. Codd proposed something radical: separate the *logical* structure of data from its *physical* storage. Define data as tables with rows and columns. Express queries as mathematical operations on those tables. Let the database — not the programmer — figure out how to retrieve the data efficiently.
 
-### The Lindy Effect
+IBM's own database team resisted. They had built IMS, a hierarchical database that powered most of the company's revenue. Codd's relational model threatened that product. IBM delayed implementation for years. But a young programmer named Larry Ellison read Codd's paper, saw its implications, and in 1977 founded a company to build the first commercial relational database. He called it Oracle.
 
-The Lindy Effect suggests that the longer a non-perishable technology has survived, the longer its expected remaining lifespan. SQL has survived:
+The relational model won because it solved Tomás's exact problem at industrial scale: when data has relationships, a system that *understands* relationships will always outperform one that does not. Codd's tables, foreign keys, and constraints are the reason Lena's twelve-line SQL query returned in three milliseconds what Tomás's forty-line Python loop took eleven seconds to produce. The database optimizer — the component Codd's model made possible — chose the execution path. Tomás did not have to.
 
-- The rise and fall of object databases (1990s)
-- The XML database movement (early 2000s)
-- The NoSQL revolution (2010s)
-- The NewSQL emergence (2015s)
-- The graph database wave (2020s)
-
-Each of these alternatives found legitimate niches. None displaced SQL for general-purpose structured data. The reason is architectural: SQL makes the right tradeoffs for most data.
+Fifty-five years later, SQL remains the dominant language for structured data. It has survived the rise and fall of object databases (1990s), the XML movement (2000s), the NoSQL revolution (2010s), and the graph database wave (2020s). Each found legitimate niches. None displaced SQL for general-purpose structured data, because Codd's insight addresses a property of data itself: when entities have relationships, a relational system is the natural fit.
 
 ### Why SQL Works
 
@@ -127,7 +132,7 @@ Each of these alternatives found legitimate niches. None displaced SQL for gener
 | **Transactional** | ACID guarantees (Atomicity, Consistency, Isolation, Durability) | Data is never left in a half-updated state |
 | **Universal** | One language across SQLite, PostgreSQL, MySQL, SQL Server | Skills transfer between databases |
 
-The declarative nature deserves emphasis. When you write:
+The declarative nature deserves emphasis. This is why Lena's query was so much shorter than Tomás's Python loop. When you write:
 
 ```sql
 SELECT tasks.title, projects.name
@@ -137,64 +142,67 @@ WHERE tasks.status = 'overdue'
 ORDER BY tasks.due_date;
 ```
 
-You have not specified HOW to find this data. You have not said "scan the tasks array, for each task look up the project, filter by status, then sort." You described the RESULT you want, and the database figures out the fastest path to deliver it. This is the same declarative philosophy behind CSS, HTML, and configuration files -- and it is why AI agents work so effectively with SQL.
+You have not specified HOW to find this data. You have not said "scan the tasks array, for each task look up the project, filter by status, then sort." You described the RESULT you want, and the database figures out the fastest path to deliver it. This is the same declarative philosophy behind CSS, HTML, and configuration files — and it is why AI agents work so effectively with SQL.
 
 ## Relational Thinking: Entities and Relationships
 
-Before writing SQL, you need to think relationally. This means identifying three things:
+Lena started Tomás's education by drawing three boxes on a whiteboard — the same three entities that his JSON file had tangled together.
 
 ### 1. Entities (Tables)
 
-An entity is a distinct "thing" in your domain. In a task management system:
+An entity is a distinct "thing" in your domain. In Tomás's order system:
 
-- **Task** -- a unit of work to be completed
-- **Project** -- a collection of related tasks
-- **User** -- a person who creates or is assigned tasks
+- **Customer** — a company or person who places orders
+- **Order** — a transaction with a status, date, and total
+- **Product** — an item that can be ordered
 
-Each entity becomes a table.
+Each entity becomes a table. Each row is one instance. The key insight: in Tomás's JSON file, these three entities were mashed into a single list of dictionaries. In a relational database, each lives in its own table with its own structure.
 
 ### 2. Attributes (Columns)
 
-Each entity has properties:
+Each entity has typed properties — and this is where Axiom V meets Axiom VI. The schema *is* a type definition for your data:
 
 ```sql
-CREATE TABLE tasks (
+CREATE TABLE customers (
     id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL,
-    description TEXT,
-    status TEXT NOT NULL DEFAULT 'pending',
-    due_date TEXT,
+    name TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'shipped', 'delivered')),
+    total_amount REAL NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
-    project_id INTEGER REFERENCES projects(id),
-    assignee_id INTEGER REFERENCES users(id)
+    customer_id INTEGER NOT NULL REFERENCES customers(id)
 );
 ```
 
-Notice the constraints built into the schema: `NOT NULL` means the field is required, `DEFAULT` provides sensible initial values, `REFERENCES` declares relationships. The schema IS documentation -- it tells you and your AI agent exactly what this data looks like.
+Notice the constraints: `NOT NULL` means required, `UNIQUE` prevents duplicates, `CHECK` restricts values to a valid set, `REFERENCES` declares relationships. When Lena showed this to Tomás, he recognized the pattern from Axiom V — these constraints are guardrails, enforced by the database instead of the type checker.
 
 ### 3. Relationships (Foreign Keys)
 
-Relationships connect entities:
+Relationships connect entities — the part Tomás's JSON could not express:
 
-- A Task **belongs to** a Project (many-to-one)
-- A Task **is assigned to** a User (many-to-one)
-- A Project **has many** Tasks (one-to-many)
-- A User **has many** assigned Tasks (one-to-many)
+- A Customer **has many** Orders (one-to-many)
+- An Order **belongs to** a Customer (many-to-one)
+- An Order **contains** Products (many-to-many, via a junction table)
 
-These relationships are expressed through foreign keys -- columns that reference another table's primary key. The database enforces referential integrity: you cannot assign a task to a project that does not exist.
+Foreign keys enforce referential integrity: you cannot create an order for a customer that does not exist. This is what prevented Tomás's "Acme Corp" vs "Acme Corporation" disaster — the customer name lives in one row of the `customers` table, and every order references it by `id`, not by duplicated string.
 
 ```sql
--- This will FAIL if project_id 999 doesn't exist in projects table
-INSERT INTO tasks (title, status, project_id)
-VALUES ('Write tests', 'pending', 999);
+-- This FAILS if customer_id 999 doesn't exist -- the database protects you
+INSERT INTO orders (status, total_amount, customer_id)
+VALUES ('pending', 149.99, 999);
 -- Error: FOREIGN KEY constraint failed
 ```
 
-Compare this to JSON, where nothing prevents you from writing `"project_id": 999` even if no such project exists. The relational database catches the error. The JSON file silently accepts it.
+Compare this to JSON, where nothing prevents `"customer_id": 999` even if no such customer exists. The relational database catches the error. The JSON file silently accepts it.
 
 ## The SQLite / PostgreSQL Decision
 
-The axiom specifies two databases. Here is when to use each:
+"Which database should I use?" Tomás asked. Lena's answer was a decision framework, not a preference. The axiom specifies two databases — here is when to use each:
 
 | Factor | SQLite | PostgreSQL |
 |--------|--------|------------|
@@ -225,201 +233,126 @@ Ask these three questions:
 
 ### SQLite in Practice
 
-SQLite is not a toy database. It is the most widely deployed database engine in the world -- present in every smartphone, every web browser, and most operating systems. For single-user applications, it is often the BETTER choice: no server to maintain, no connection strings to manage, no separate backup system to configure.
+SQLite is not a toy database. It is the most widely deployed database engine in the world — present in every smartphone, every web browser, and most operating systems. For Tomás's order dashboard — a single-user internal tool — it was exactly the right choice. No server to maintain, no connection strings to manage, no Docker containers. Just a file:
 
 ```python
 import sqlite3
 
-# Create or connect to database (just a file)
-conn = sqlite3.connect("tasks.db")
+conn = sqlite3.connect("orders.db")
 cursor = conn.cursor()
 
-# Create schema
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS projects (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
-        created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    )
-""")
+# The schema Lena wrote — Tomás's orders.json replaced in 12 lines
+cursor.execute("""CREATE TABLE IF NOT EXISTS customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL
+)""")
 
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        status TEXT NOT NULL DEFAULT 'pending',
-        due_date TEXT,
-        project_id INTEGER REFERENCES projects(id),
-        created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    )
-""")
+cursor.execute("""CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    status TEXT NOT NULL DEFAULT 'pending',
+    total_amount REAL NOT NULL,
+    customer_id INTEGER NOT NULL REFERENCES customers(id),
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)""")
 
-# Insert data with parameterized queries (SAFE)
-cursor.execute(
-    "INSERT INTO projects (name) VALUES (?)",
-    ("Agent Factory",)
-)
-project_id = cursor.lastrowid
+# Insert with parameterized queries (SAFE — see anti-patterns below)
+cursor.execute("INSERT INTO customers (name, email) VALUES (?, ?)",
+               ("Acme Corporation", "orders@acme.com"))
+customer_id = cursor.lastrowid
 
-cursor.execute(
-    "INSERT INTO tasks (title, status, project_id) VALUES (?, ?, ?)",
-    ("Design database schema", "in_progress", project_id)
-)
-
+cursor.execute("INSERT INTO orders (status, total_amount, customer_id) VALUES (?, ?, ?)",
+               ("shipped", 149.99, customer_id))
 conn.commit()
 
-# Query with JOIN -- the relational power
+# The dashboard query — 3 milliseconds instead of 11 seconds
 cursor.execute("""
-    SELECT tasks.title, tasks.status, projects.name
-    FROM tasks
-    JOIN projects ON tasks.project_id = projects.id
-    WHERE tasks.status != 'completed'
-    ORDER BY tasks.created_at DESC
+    SELECT customers.name, COUNT(orders.id), SUM(orders.total_amount)
+    FROM customers
+    JOIN orders ON orders.customer_id = customers.id
+    GROUP BY customers.id
+    ORDER BY SUM(orders.total_amount) DESC
 """)
 
-for row in cursor.fetchall():
-    print(f"[{row[1]}] {row[0]} (Project: {row[2]})")
+for name, count, total in cursor.fetchall():
+    print(f"{name}: {count} orders, ${total:.2f} total")
 
 conn.close()
 ```
 
-This is 40 lines of Python. No external services, no configuration files, no Docker containers. The database is a single file (`tasks.db`) that you can copy, back up, or inspect with any SQLite tool. Yet it gives you relational integrity, declarative queries, and efficient indexed access.
+This replaced Tomás's entire forty-line Python loop. The database is a single file (`orders.db`) that you can copy, back up, or inspect with any SQLite tool. When the team later moved the dashboard to a multi-user web app, the SQL transferred directly to PostgreSQL — same queries, different connection string. This is the universality of SQL: learn it once, apply it everywhere.
 
-### PostgreSQL in Practice
+## SQL and AI: Why Agents Love Relational Data
 
-When your application serves multiple users concurrently, PostgreSQL provides the concurrency model that SQLite cannot:
+This is where Axiom VI connects to everything this book teaches — and where the lesson becomes urgent rather than merely architectural. When Tomás asked an AI agent to "show me all overdue orders for Acme Corp" against his JSON file, the agent had to generate a Python loop with string matching, date comparison, and manual filtering. The code worked but was fragile — any change to the JSON structure broke it.
 
-```python
-import psycopg2
-
-# Connect to PostgreSQL server
-conn = psycopg2.connect(
-    host="localhost",
-    dbname="taskmanager",
-    user="app_user",
-    password="secure_password"
-)
-
-cursor = conn.cursor()
-
-# Same SQL -- the language transfers directly
-cursor.execute("""
-    SELECT tasks.title, tasks.status, projects.name
-    FROM tasks
-    JOIN projects ON tasks.project_id = projects.id
-    WHERE tasks.status != 'completed'
-    ORDER BY tasks.created_at DESC
-""")
-
-for row in cursor.fetchall():
-    print(f"[{row[1]}] {row[0]} (Project: {row[2]})")
-
-conn.close()
-```
-
-Notice that the SQL is identical. The query you wrote for SQLite works in PostgreSQL. The connection setup differs -- PostgreSQL requires a host, credentials, and a running server -- but the data language is the same. This is the universality of SQL: learn it once, apply it everywhere.
-
-## SQL and AI: A Perfect Match
-
-Here is why this axiom matters especially in the age of AI agents: SQL is one of the languages AI understands best.
-
-### Why AI Excels at SQL
-
-**Constrained vocabulary**: SQL has approximately 30 keywords that matter (`SELECT`, `FROM`, `WHERE`, `JOIN`, `INSERT`, `UPDATE`, `DELETE`, `CREATE`, `ALTER`, `DROP`, etc.). Compare this to a general-purpose language with thousands of library functions. A constrained language means less ambiguity and fewer hallucination opportunities.
-
-**Declarative semantics**: SQL describes WHAT, not HOW. This maps directly to natural language intent. "Show me all overdue tasks assigned to Maria" translates almost word-for-word to:
+When he asked the same question against his SQL schema, the agent generated:
 
 ```sql
-SELECT * FROM tasks
-WHERE status = 'overdue'
-AND assignee_id = (SELECT id FROM users WHERE name = 'Maria');
+SELECT orders.id, orders.total_amount, orders.created_at
+FROM orders
+JOIN customers ON orders.customer_id = customers.id
+WHERE customers.name = 'Acme Corporation'
+AND orders.status = 'pending'
+AND orders.created_at < datetime('now', '-30 days');
 ```
 
-**Schema as context**: When you give an AI agent your schema, it knows exactly what data exists, what types each column holds, and how tables relate. The schema IS the type system for your data:
-
-```sql
--- This schema tells the AI everything it needs to write correct queries
-CREATE TABLE users (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE projects (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    owner_id INTEGER NOT NULL REFERENCES users(id)
-);
-
-CREATE TABLE tasks (
-    id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL,
-    status TEXT NOT NULL CHECK (status IN ('pending', 'in_progress', 'completed')),
-    project_id INTEGER NOT NULL REFERENCES projects(id),
-    assignee_id INTEGER REFERENCES users(id)
-);
-```
-
-An AI agent reading this schema can immediately write valid queries, generate correct INSERT statements, and understand the domain model -- without any additional documentation.
+The difference is structural. **SQL has a constrained vocabulary** — approximately 30 keywords that matter. Compare this to Python's thousands of library functions. Fewer choices mean fewer hallucination opportunities. **SQL is declarative** — it describes WHAT you want, not HOW to get it. Natural language intent maps almost word-for-word to SQL. **The schema is the specification** — when you give an AI agent your `CREATE TABLE` statements, it knows exactly what data exists, what types each column holds, and how tables relate. The schema is to data what type annotations are to code — a machine-readable contract.
 
 ### SQL is Verifiable
 
-Unlike generated Python or JavaScript, SQL queries can be verified mechanically:
+Unlike generated Python, SQL queries can be verified mechanically before touching real data:
 
 1. **Syntax check**: Does the query parse?
 2. **Schema check**: Do the referenced tables and columns exist?
 3. **Type check**: Are comparisons between compatible types?
 4. **Result check**: Does `EXPLAIN` show a reasonable query plan?
 
-This makes SQL ideal for AI-generated code: you can validate correctness without running the query against production data.
+This makes SQL ideal for AI-generated code. Tomás could verify every AI-generated query against the schema without running it against production data — the same principle as Pyright catching type errors before runtime.
 
 ## ORMs: When to Use, When to Avoid
 
-An ORM (Object-Relational Mapper) bridges the gap between your programming language's objects and your database's tables. In Python, SQLModel (built on SQLAlchemy) is the recommended choice for agentic development:
+Tomás noticed that his Python code and his SQL schema were expressing the same structure in two languages — his `CustomerOrder` dataclass mirrored his `orders` table. An ORM (Object-Relational Mapper) bridges that gap, letting you define the structure once. In Python, SQLModel (built on SQLAlchemy) is the recommended choice for agentic development because it unifies Pydantic validation with SQLAlchemy's database layer:
 
 ```python
 from sqlmodel import SQLModel, Field, Session, create_engine, select
 from typing import Optional
 from datetime import datetime
 
-class Project(SQLModel, table=True):
+class Customer(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    name: str = Field(index=True)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    name: str = Field(index=True, unique=True)
+    email: str
 
-class Task(SQLModel, table=True):
+class Order(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    title: str
     status: str = Field(default="pending")
-    due_date: Optional[datetime] = None
-    project_id: Optional[int] = Field(default=None, foreign_key="project.id")
+    total_amount: float
+    customer_id: int = Field(foreign_key="customer.id")
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 # Create database and tables
-engine = create_engine("sqlite:///tasks.db")
+engine = create_engine("sqlite:///orders.db")
 SQLModel.metadata.create_all(engine)
 
-# Use the ORM
+# Use the ORM — Tomás recognized his dataclasses, now backed by a database
 with Session(engine) as session:
-    project = Project(name="Agent Factory")
-    session.add(project)
+    customer = Customer(name="Acme Corporation", email="orders@acme.com")
+    session.add(customer)
     session.commit()
-    session.refresh(project)
+    session.refresh(customer)
 
-    task = Task(
-        title="Design database schema",
-        status="in_progress",
-        project_id=project.id
-    )
-    session.add(task)
+    order = Order(status="shipped", total_amount=149.99, customer_id=customer.id)
+    session.add(order)
     session.commit()
 
-    # Query -- still readable, maps to SQL concepts
-    statement = select(Task).where(Task.status != "completed")
-    results = session.exec(statement)
-    for task in results:
-        print(f"[{task.status}] {task.title}")
+    # Query — still readable, maps directly to SQL concepts
+    statement = select(Order).where(Order.status != "delivered")
+    for order in session.exec(statement):
+        print(f"[{order.status}] ${order.total_amount:.2f}")
 ```
+
+Tomás noticed something: the SQLModel classes looked almost identical to his Axiom V dataclasses. That was the point. The ORM unified his type definitions with his database schema — one structure serving both purposes.
 
 ### The ORM Rule
 
@@ -434,32 +367,27 @@ This means:
 | Schema definition (models as documentation) | You cannot explain what SQL the ORM generates |
 | Migrations (Alembic integrates with SQLAlchemy) | The ORM syntax is more complex than raw SQL |
 
-The test is simple: **Can you explain the SQL that your ORM code generates?** If yes, the ORM is adding value (type safety, schema management, migration support). If no, write the SQL directly.
+The test is simple: **Can you explain the SQL that your ORM code generates?** If yes, the ORM is adding value. If no, write the SQL directly. Lena showed Tomás the dividing line with two examples from his own codebase:
 
 ```python
-# Good: ORM for simple CRUD (the SQL is obvious)
-task = session.get(Task, task_id)
-task.status = "completed"
+# Good: ORM for simple CRUD — the SQL is obvious
+order = session.get(Order, order_id)
+order.status = "delivered"
 session.commit()
 
-# Better as raw SQL: Complex reporting query
+# Better as raw SQL: Tomás's dashboard query (complex aggregation)
 cursor.execute("""
-    SELECT
-        projects.name,
-        COUNT(tasks.id) AS total_tasks,
-        COUNT(CASE WHEN tasks.status = 'completed' THEN 1 END) AS done,
-        ROUND(100.0 * COUNT(CASE WHEN tasks.status = 'completed' THEN 1 END)
-              / COUNT(tasks.id), 1) AS percent_complete
-    FROM projects
-    LEFT JOIN tasks ON tasks.project_id = projects.id
-    GROUP BY projects.id
-    ORDER BY percent_complete DESC
+    SELECT customers.name, COUNT(orders.id) AS total,
+           SUM(orders.total_amount) AS revenue
+    FROM customers
+    JOIN orders ON orders.customer_id = customers.id
+    GROUP BY customers.id ORDER BY revenue DESC
 """)
 ```
 
 ## Migrations: Schema Evolution Over Time
 
-Databases evolve. You add columns, rename tables, create indexes. **Migrations** are versioned scripts that transform your schema from one state to the next -- like version control for your database structure.
+Three months after migrating to SQL, Tomás needed to add a `priority` column to the orders table. He could not just edit the `CREATE TABLE` statement — the database already existed with real data. Lena showed him **migrations**: versioned scripts that transform your schema from one state to the next — like version control for your database structure.
 
 Without migrations, schema changes are manual commands run against production databases with no record, no rollback, and no reproducibility. With migrations, every schema change is:
 
@@ -486,45 +414,52 @@ def downgrade():
     op.drop_column('tasks', 'priority')
 ```
 
-This migration adds a `priority` column and an index. If something goes wrong, `downgrade()` reverses it cleanly. The migration file lives in version control alongside your code -- schema and application evolve together.
+This migration adds a `priority` column and an index. If something goes wrong, `downgrade()` reverses it cleanly. The migration file lives in version control alongside your code — schema and application evolve together.
 
 ## Anti-Patterns
 
+You have seen the JSON graveyard. Every team has one. It is the project folder with `data.json`, `users.json`, `config.json`, and `backup_data_old_FINAL_v2.json` — the one where every new feature means another JSON file, every query means another Python loop, every relationship means another duplicated string. It is the system where a developer once changed a customer name and broke six months of reports because the name was copied into 2,000 order records instead of referenced by ID. It is the project where the AI agent was asked to "find all orders from last quarter" and generated forty lines of `json.load()`, nested loops, and datetime parsing — code that a single SQL query would replace. The JSON graveyard was not built by bad developers. It was built by developers who started with twenty records and did not recognize the moment when their data became relational.
+
 | Anti-Pattern | What Goes Wrong | The Fix |
 |-------------|-----------------|---------|
-| **JSON files as database** | No queries, no relations, no constraints, loads everything into memory | Use SQLite -- same simplicity, relational power |
+| **JSON files as database** | No queries, no relations, no constraints, loads everything into memory | Use SQLite — same simplicity, relational power |
 | **NoSQL as default** | Fighting relational data with document model, denormalization headaches | Start relational. Move to NoSQL only for genuinely non-relational data (logs, events, documents) |
 | **Raw string SQL** | SQL injection vulnerabilities, crashes on special characters | Always use parameterized queries (`?` placeholders) |
 | **No migrations** | Manual schema changes, inconsistent environments, no rollback | Use Alembic or equivalent migration tool |
 | **Ignoring indexes** | Queries slow to a crawl as data grows (full table scans) | Index columns used in WHERE, JOIN, and ORDER BY |
 | **Over-normalization** | Dozens of tables for simple domains, JOIN-heavy queries for basic reads | Normalize to 3NF, denormalize consciously with measured justification |
 
-### The SQL Injection Example
+## The String Concatenation Trap
 
-This is the single most dangerous anti-pattern. Never construct SQL by string concatenation:
+Tomás wrote his first search feature using f-strings — `f"SELECT * FROM orders WHERE customer_id = {user_input}"`. Lena stopped him before the code left his machine. "Type this into the search box," she said, and dictated: `'; DROP TABLE orders; --`
+
+Tomás stared at the resulting SQL: `SELECT * FROM orders WHERE customer_id = ''; DROP TABLE orders; --'`. His entire orders table would have been deleted by a user typing thirteen characters into a search box.
+
+"This is SQL injection," Lena told him. "The OWASP Top 10 has listed it as a critical risk for over two decades, and it is still one of the most common vulnerabilities in production software. The rule is absolute: never interpolate user-provided values into SQL strings. Always use parameterized queries."
 
 ```python
-# DANGEROUS -- SQL injection vulnerability
-user_input = "'; DROP TABLE tasks; --"
-cursor.execute(f"SELECT * FROM tasks WHERE title = '{user_input}'")
-# Executes: SELECT * FROM tasks WHERE title = ''; DROP TABLE tasks; --'
-# Your tasks table is now gone.
+# DANGEROUS — SQL injection vulnerability
+cursor.execute(f"SELECT * FROM orders WHERE customer_id = '{user_input}'")
 
-# SAFE -- parameterized query
-cursor.execute("SELECT * FROM tasks WHERE title = ?", (user_input,))
-# The database treats user_input as DATA, never as SQL commands.
-# No injection possible.
+# SAFE — parameterized query (the database treats user_input as DATA, never as SQL)
+cursor.execute("SELECT * FROM orders WHERE customer_id = ?", (user_input,))
 ```
 
-Parameterized queries are not optional. They are a non-negotiable safety requirement. Every database library supports them. There is no excuse for string-concatenated SQL in any codebase.
+Parameterized queries are not optional. They are a non-negotiable safety requirement. This applies to AI-generated code as well — when asking an AI to generate database queries, include in your prompt: "All queries must use parameterized statements. No string interpolation for user input." Tomás added this line to every AI prompt that touched the database.
 
-## Safety Note
+---
 
-SQL injection remains one of the most common and damaging security vulnerabilities in production software. The OWASP Top 10 has listed injection attacks as a critical risk for over two decades.
+## Key Takeaways
 
-**The rule is absolute**: Never interpolate user-provided values into SQL strings. Always use parameterized queries (also called prepared statements). This applies regardless of whether you use raw SQL or an ORM -- if you ever write raw queries, use parameter placeholders (`?` for SQLite, `%s` for PostgreSQL with psycopg2, or `:name` for named parameters).
+Tomás's `orders.json` — 2,000 records, eleven-second queries, inconsistent customer names — taught him what Edgar Codd formalized in 1970: when data has relationships, a system that understands relationships will always outperform one that does not. Lena's twelve lines of SQL replaced forty lines of Python loops, enforced referential integrity, and gave AI agents a constrained, declarative language to query against.
 
-Your AI agent should be instructed to follow this rule as well. When asking an AI to generate database code, include in your prompt: "All queries must use parameterized statements. No string interpolation for user input."
+- **Structured data is relational by nature.** When entities have connections — customers have orders, orders contain products — you have relational data whether or not you store it relationally. JSON files store relational data without understanding it. SQL databases enforce the relationships.
+- **SQL is the default for persistent structured data.** Codd's relational model has survived every challenger for fifty-five years because it addresses a property of data itself. SQLite for single-user tools and prototypes, PostgreSQL for multi-user production systems. The SQL you write transfers between both.
+- **Schemas are type definitions for data.** Just as Axiom V's type annotations give AI a specification for code, SQL schemas give AI a specification for data. Constraints, foreign keys, and CHECK clauses tell the AI exactly what exists, what is valid, and how entities relate — without any additional documentation.
+- **The ORM serves you, not the reverse.** If you cannot explain the SQL your ORM generates, write the SQL directly. Use ORMs for CRUD operations and schema management. Use raw SQL for complex queries where you need to see and control the execution plan.
+- **Parameterized queries are non-negotiable.** The String Concatenation Trap is not theoretical — thirteen characters in a search box can delete an entire table. Always use parameter placeholders. Always instruct AI agents to do the same.
+
+---
 
 ## Try With AI
 
@@ -533,27 +468,27 @@ Use these prompts to build practical understanding of relational data modeling a
 ### Prompt 1: Schema Design (Relational Thinking)
 
 ```
-I'm building a task management system with these requirements:
-- Users can create projects
-- Projects contain tasks
-- Tasks have a title, status (pending/in_progress/completed), priority (1-5), and due date
-- Tasks can be assigned to users
-- Users can belong to multiple projects (many-to-many)
+I'm building an order management system with these requirements:
+- Customers place orders
+- Orders contain multiple products (many-to-many via order_items)
+- Products have a name, price, and category
+- Orders have a status (pending/shipped/delivered), total amount, and creation date
+- Each order belongs to exactly one customer
 
 Design the SQLite schema for me. For each table, explain:
 1. Why each column exists
-2. What constraints protect data integrity
+2. What constraints protect data integrity (NOT NULL, UNIQUE, CHECK, REFERENCES)
 3. How foreign keys express relationships
 
-Then show me 3 example queries that demonstrate the relational power:
-- All overdue tasks for a specific user across all their projects
-- Project completion percentages
-- Users with no tasks assigned
+Then show me 3 queries that demonstrate relational power:
+- All pending orders for a specific customer with product details
+- Revenue by product category for the last 30 days
+- Customers who have never placed an order
 
 Use CREATE TABLE statements with full constraints.
 ```
 
-**What you're learning**: Relational thinking -- how to decompose a domain into entities, identify relationships, and express constraints that prevent invalid data. The many-to-many relationship (users-to-projects) requires a junction table, which is a fundamental pattern you will use repeatedly.
+**What you're learning**: Relational thinking — how to decompose a domain into entities, identify relationships, and express constraints that prevent invalid data. The many-to-many relationship (orders-to-products) requires a junction table (`order_items`), which is a fundamental pattern you will use repeatedly. You are developing the eye for spotting when data needs to be a table versus a column — the same judgment Tomás lacked when he put customer names inside order records.
 
 ### Prompt 2: JSON-to-SQL Migration (Recognizing the Problem)
 
@@ -578,33 +513,38 @@ Show me:
 Explain what I gain by moving to SQL and what (if anything) I lose.
 ```
 
-**What you're learning**: The concrete costs of non-relational storage and the practical process of migrating to SQL. You are also learning to recognize when your data has outgrown its format -- a judgment you will apply repeatedly as projects evolve.
+**What you're learning**: The concrete costs of non-relational storage and the practical process of migrating to SQL. You are also learning to recognize when your data has outgrown its format — a judgment you will apply repeatedly as projects evolve.
 
-### Prompt 3: AI-Readable Schema (SQL as Specification)
+### Prompt 3: Schema for Your Domain
 
 ```
-I want to build an AI agent that can answer natural language questions about my task database.
-The agent will receive my SQL schema as context and translate questions into queries.
+I work in [describe your domain: e-commerce, healthcare, education, logistics, etc.].
 
-Here's my schema:
-CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL, email TEXT UNIQUE);
-CREATE TABLE projects (id INTEGER PRIMARY KEY, name TEXT NOT NULL, owner_id INTEGER REFERENCES users(id));
-CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT NOT NULL, status TEXT CHECK(status IN ('pending','active','done')), project_id INTEGER REFERENCES projects(id), assignee_id INTEGER REFERENCES users(id));
+Help me apply relational thinking to my specific context:
 
-Act as that agent. I'll ask natural language questions and you translate to SQL:
-1. "Who has the most unfinished tasks?"
-2. "Which projects have no active tasks?"
-3. "What percentage of Alice's tasks are done?"
+1. What are the 3-5 core entities in my domain?
+   (In e-commerce: customers, orders, products. In education: students, courses, assignments.)
 
-For each, show the SQL and explain how the schema constraints helped you write correct queries.
-Then tell me: what would happen if I gave you a JSON blob instead of a schema? How would
-your confidence in generating correct queries change?
+2. What relationships connect them?
+   (One-to-many? Many-to-many? Which need junction tables?)
+
+3. Design a SQLite schema with full constraints (NOT NULL, REFERENCES, CHECK).
+
+4. Write 3 natural language questions a non-technical person might ask about this data,
+   then translate each to SQL.
+
+5. Now give me the same data as a JSON structure. Compare:
+   - How confident are you generating correct queries against the schema vs the JSON?
+   - What errors could happen with JSON that the schema prevents?
+   - Which format would you prefer as an AI agent, and why?
+
+Use [my specific technology stack or project type] for the examples.
 ```
 
-**What you're learning**: Why SQL schemas serve as precise specifications for AI agents. The constrained vocabulary, explicit types, and declared relationships give AI enough context to generate correct queries with high confidence. This is the practical application of Axiom VI to agentic development -- your schema becomes the interface contract between your application and your AI collaborator.
+**What you're learning**: How to translate Axiom VI into your own domain. Every field has entities, relationships, and constraints — learning to recognize yours is what transforms the abstract principle into practical architecture. The schema-vs-JSON comparison gives you the direct experience of what Tomás discovered: schemas are specifications that AI agents can reason about, while JSON is unstructured data that AI must guess about.
 
-## Connecting Forward
+## Looking Ahead
 
-This axiom establishes how structured data lives in your systems. The next axiom -- **Tests Are the Specification** -- addresses how you verify that your code (including your database interactions) behaves correctly. Together, they form a powerful pair: your schema defines what valid data looks like, and your tests prove that your application respects those definitions.
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types and tests. Your systems are composed from focused units. Your types catch structural errors. Your data lives in relational tables with enforced constraints. But how do you know that all of these pieces actually work together? How do you verify that the composed function returns the right result, that the type-checked code handles edge cases, that the SQL query produces correct output — and keeps producing it as the system evolves?
 
-In Parts 5 and 6, when you build agent APIs with FastAPI and SQLModel, you will apply Axiom VI directly: defining schemas that serve as both database structure and API documentation, writing migrations that evolve your data model safely, and letting AI agents interact with your data through the universal language of SQL.
+Tomás had types, composition, and relational data. He still shipped a bug that no type checker or database constraint could catch: a function that returned the wrong *value* with the right *type*. In Axiom VII, you will discover that tests are not afterthoughts — they are the specification that defines what "correct" means, and the only layer that catches logical errors before they reach users.
