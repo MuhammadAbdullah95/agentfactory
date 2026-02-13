@@ -17,6 +17,10 @@ Track meaningful updates to the book. This page is automatically updated when do
 
 <!-- CHANGELOG_START - Do not remove this marker -->
 
+### 2026-02-13
+
+- Review/chapter 2 markdown ([#719](https://github.com/panaversity/agentfactory/pull/719))
+
 ### 2026-02-12
 - refactor: implement the suggested changes after thorough chapter audit ([#715](https://github.com/panaversity/agentfactory/pull/715))
 
