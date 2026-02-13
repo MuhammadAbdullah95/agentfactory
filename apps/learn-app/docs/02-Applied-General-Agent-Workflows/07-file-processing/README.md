@@ -2,6 +2,10 @@
 sidebar_position: 0
 title: "Chapter 7: File Processing Workflows"
 description: "Direct Claude Code to solve real file organization problems while observing the Seven Principles in action"
+slides:
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-2/chapter-07/file-processing-workflows.pdf"
+  title: "File Processing Workflows"
+  height: 700
 ---
 
 # Chapter 7: File Processing Workflows
@@ -15,6 +19,8 @@ This chapter uses a universal problem to teach you something far more valuable. 
 Most people prompt blindly. They hope the General Agent understands. You're about to learn the systematic approach that separates effective collaboration from frustration.
 
 In Chapter 6, you learned the Four-Phase Workflow for Claude Code sessions: **Explore → Plan → Implement → Commit**. File processing expands this into a seven-step framework: **Survey → Backup → Design Rules → Test → Execute → Verify → Document**. The extra steps exist because file operations are irreversible — a moved file is moved, a renamed file is renamed. The Four-Phase Workflow assumed version control as your safety net. Here, your files don't have `git revert`, so backups, testing, and verification become explicit steps instead.
+
+## 📚 Teaching Aid
 
 ## What You'll Learn
 
