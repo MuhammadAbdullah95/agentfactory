@@ -57,11 +57,13 @@ differentiation:
 
 # Axiom I: Shell as Orchestrator
 
-A junior developer inherits a legacy project. The build process is a 400-line bash script called `deploy.sh`. It downloads dependencies, compiles code, runs tests, builds Docker images, pushes to a registry, updates Kubernetes manifests, and sends Slack notifications. When it breaks — and it breaks often — nobody can debug it because the logic is tangled with the coordination. Variable names collide. Error handling is inconsistent. A failed test still triggers the deployment because someone forgot an `exit 1` three months ago.
+Maria joined the platform team three weeks ago. At 2:14am on her first on-call rotation, the pager fired: deployment stuck, 50,000 users affected. She opened `deploy.sh` — a 400-line bash script she had never seen — and stared at line 247, somewhere between a `sed` command that parsed Docker tags and a `curl` request to a Slack webhook that might or might not still exist. Variable names like `temp2` and `OUT` told her nothing. A failed test on line 89 should have stopped the pipeline, but someone had removed the `exit 1` three months ago and nobody noticed. The deployment continued past broken tests, built a corrupted image, and pushed it to production.
 
-The senior engineer on the team rewrites the entire process in a weekend. The new version: a 12-line Makefile. Each target calls a proper program. The Python test suite handles testing. Docker handles image building. `kubectl` handles deployment. A small Go binary handles notifications. The Makefile does nothing except decide what runs, in what order, with what inputs.
+Maria called the senior engineer at 2:30am. "Yeah," Priya said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
 
-The system went from fragile to obvious. Not because the senior wrote better bash. Because she stopped using bash for computation and started using it for what it was designed for: orchestration.
+Priya rewrote the entire process that weekend. The new version: a 12-line Makefile. Each target called a proper program — pytest for testing, Docker for image building, `kubectl` for deployment, a small Go binary for notifications. The Makefile did nothing except decide what runs, in what order, with what inputs. When a test failed, the pipeline stopped. When a build succeeded, it moved to the next step. No string parsing. No `temp2`. No tangled logic.
+
+The 2am pages stopped. Not because Priya wrote better bash. Because she stopped using bash for computation and started using it for what it was designed for: orchestration.
 
 ---
 
@@ -95,7 +97,7 @@ The shell's job is to answer: *What runs? In what order? With what inputs? What 
 
 A program's job is to answer: *Given this input, what is the correct output?*
 
-When you respect this boundary, every component becomes independently testable, replaceable, and understandable. When you violate it, you get the 400-line `deploy.sh`.
+When you respect this boundary, every component becomes independently testable, replaceable, and understandable. When you violate it, you get Maria's 2am pager.
 
 ---
 
@@ -141,7 +143,7 @@ The principle gave you access. The axiom gives you discipline. An agent that has
 
 ### Composition Primitives
 
-You do not need a framework to orchestrate. The shell ships with three primitives that have handled virtually every coordination problem since 1973.
+Priya's 12-line Makefile used no framework, no libraries, no custom tooling. It used three primitives that the shell has shipped since 1973.
 
 **Pipes** are the oldest and most elegant. One program's output becomes another program's input, with nothing in between but a `|` character.
 
@@ -247,7 +249,9 @@ This pattern holds across every major AI coding tool. Whether it is Claude Code,
 
 ## The Complexity Threshold
 
-Axiom I does not mean "never write more than one line of bash." Short scripts that set up environments, sequence commands, and route errors are legitimate orchestration. The danger zone begins when your script crosses from coordination into computation — when it starts doing the work instead of delegating it.
+Maria's `deploy.sh` did not start as 400 lines. It started as 15 — a clean sequence of commands. But each week, someone added a loop here, a string parse there, a conditional that checked whether the Docker registry was reachable before pushing. By the time Maria inherited it, the script had crossed from coordination into computation without anyone noticing the moment it happened.
+
+Axiom I does not mean "never write more than one line of bash." Short scripts that set up environments, sequence commands, and route errors are legitimate orchestration. The danger zone begins when your script starts doing the work instead of delegating it.
 
 **Heuristics for detecting the threshold:**
 
@@ -315,6 +319,10 @@ The program is testable, type-checkable, debuggable with a real debugger, and re
 ---
 
 ## Anti-Patterns
+
+You have seen The Mega-Script. It starts with a comment from 2019: `# TODO: refactor this someday`. It has a variable called `temp2` that shadows `temp` from line 40 — nobody remembers why both exist. There is a `curl` on line 312 that posts to a Slack webhook URL that was decommissioned last year, but nobody removed it because nobody is sure what else line 312 does. There is a `for` loop on line 178 that parses JSON with `grep` and `cut` because the person who wrote it did not know about `jq`, and the person who knew about `jq` was afraid to refactor in case something else broke. The script works. Mostly. Until it does not, and then everyone discovers what Maria discovered: when computation and orchestration are tangled, no one can fix anything without risking everything.
+
+The Mega-Script is the most common anti-pattern, but it is not the only one:
 
 | Anti-Pattern | What It Looks Like | Why It Fails | The Fix |
 |---|---|---|---|
@@ -435,10 +443,12 @@ These are not suggestions. They are the engineering discipline that Axiom I dema
 
 ## Key Takeaways
 
+Maria's story is not unusual. Every team has a `deploy.sh` — a script that started as clean orchestration and slowly filled with computation until nobody could debug, test, or trust it. The axiom exists to prevent that drift before it starts.
+
 - **The shell coordinates; programs compute.** This is the single architectural boundary that governs all agentic tool use.
 - **This pattern was discovered at Bell Labs in the 1960s** and has survived every technology shift since — because separation of concerns is not a trend, it is a law.
 - **AI agents rediscovered this pattern independently.** Every effective coding agent — Claude Code, Cursor, Windsurf — converges on shell orchestration because it maximizes capability while minimizing fragile custom code.
-- **The complexity threshold is your sentinel.** The moment your shell script contains loops over data, string manipulation, or nested conditionals, extract that logic into a program.
+- **The complexity threshold is your sentinel.** The moment your shell script contains loops over data, string manipulation, or nested conditionals, extract that logic into a program — before it becomes the next 400-line script someone inherits at 2am.
 - **Orchestration power demands orchestration discipline.** Halt on failure, gate destructive operations, and test your pipelines.
 
 ---
