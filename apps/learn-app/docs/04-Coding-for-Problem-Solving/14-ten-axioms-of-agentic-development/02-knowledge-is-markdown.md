@@ -126,7 +126,7 @@ Think of it this way. A team's knowledge is like a library. Markdown files in a 
 
 ## Why Markdown?
 
-If the team had written `docs/adr/007-event-driven-messaging.md` on the day they made the decision, Tomás would have found his answer in thirty seconds. But why markdown specifically? Why not a JSON file, a YAML config, or a well-organized text file?
+After the incident, Lena told Tomás: "We need to write down every decision." Tomás agreed — but the question was not whether to write things down. It was *how*. If the team had written `docs/adr/007-event-driven-messaging.md` on the day they made the decision, Tomás would have found his answer in thirty seconds. But why markdown specifically? Why not a JSON file, a YAML config, or a well-organized text file?
 
 Markdown wins not because it is the most powerful format, but because it satisfies all four requirements simultaneously. No other format does.
 
@@ -158,7 +158,7 @@ Markdown is the only format that scores "Yes" on all four. HTML comes close but 
 
 ### The Structure Advantage
 
-This is where markdown's design genius shows. It provides just enough structure to be parseable without becoming a data format that sacrifices readability:
+This is where markdown's design genius — and its relevance to Tomás's situation — becomes concrete. It provides just enough structure to be parseable without becoming a data format that sacrifices readability:
 
 ```markdown
 # Decision Title           ← Parseable as section boundary
@@ -183,7 +183,7 @@ An AI agent reading this file can:
 
 ## Markdown as Knowledge System
 
-Axiom II is not about individual files. A single ADR in markdown is useful. A complete knowledge system in markdown — where specs, decisions, context, and documentation all share the same format, the same repository, and the same version history — is transformative. Different knowledge types serve distinct purposes but use identical infrastructure.
+Once Lena's team committed to markdown, something unexpected happened. The ADR that would have saved Tomás's two weeks was just the beginning. Axiom II is not about individual files. A single ADR in markdown is useful. A complete knowledge system in markdown — where specs, decisions, context, and documentation all share the same format, the same repository, and the same version history — is transformative. Different knowledge types serve distinct purposes but use identical infrastructure.
 
 ### Specifications: What to Build
 
@@ -243,7 +243,7 @@ All four knowledge types — spec, decision, context, documentation — use the 
 
 ## YAML Frontmatter: The Metadata Layer
 
-Raw markdown provides structure through headers, lists, and tables. But some knowledge is better expressed as structured data: lesson duration, skill proficiency levels, creation dates, taxonomy categories. This is where YAML frontmatter adds a metadata layer on top of markdown content.
+As Lena's team migrated their knowledge into markdown, Tomás noticed a gap. The ADR captured the *reasoning* behind a decision, but he also wanted to record *when* it was made, *who* approved it, and *what status* it had — structured data that did not belong in prose paragraphs. Raw markdown provides structure through headers, lists, and tables. But some knowledge is better expressed as structured data: lesson duration, skill proficiency levels, creation dates, taxonomy categories. This is where YAML frontmatter adds a metadata layer on top of markdown content.
 
 ```markdown
 ---
@@ -313,7 +313,7 @@ Every knowledge type has a place. Every file is markdown. Every change is tracke
 
 ## The Openness Trade-Off
 
-Markdown's greatest strength — plain text that anyone and anything can read — is also its greatest risk. A markdown file committed to a repository is visible to every person and every tool with access. This openness is exactly what makes it the universal knowledge format. It is also exactly what makes it dangerous for secrets.
+During the migration, Tomás almost committed the team's database connection string into `CLAUDE.md`. Lena caught it in review. "That's the other side of this axiom," she said. Markdown's greatest strength — plain text that anyone and anything can read — is also its greatest risk. A markdown file committed to a repository is visible to every person and every tool with access. This openness is exactly what makes it the universal knowledge format. It is also exactly what makes it dangerous for secrets.
 
 Never store API keys, passwords, tokens, or customer data in markdown files, even in private repositories. An AI agent reading your CLAUDE.md should find instructions like `DATABASE_URL is set via environment variable` — not the actual connection string. A spec file should reference `Use the Stripe API key from .env` — not embed the key itself.
 
