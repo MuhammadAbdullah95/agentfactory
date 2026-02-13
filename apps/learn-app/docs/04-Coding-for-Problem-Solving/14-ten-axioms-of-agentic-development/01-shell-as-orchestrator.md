@@ -427,7 +427,9 @@ Important: every target in the orchestration file should be 1-3 lines maximum. I
 
 ## The Responsibility of Orchestration
 
-Power and responsibility are inseparable. The shell's strength as a universal coordinator means that a mis-orchestrated pipeline does not fail in one place — it fails everywhere. A missing `set -e` does not just skip one error. It lets a broken build pass through testing, get packaged into a Docker image, and deploy to production. The blast radius of orchestration failures is the entire pipeline.
+Power and responsibility are inseparable. The shell's strength as a universal coordinator means that a mis-orchestrated pipeline does not fail in one place — it fails everywhere.
+
+A startup learned this on a Thursday afternoon. Their deployment script ran five stages: lint, test, build, migrate database, deploy. Someone had connected the stages with `;` instead of `&&` — a one-character difference that meant "run the next step regardless of whether the previous one succeeded." For months, it did not matter because nothing failed. Then the test suite caught a genuine bug: a migration that would have dropped a column still in use by production queries. The tests failed. The script continued. The migration ran. The column vanished. Every API call that touched user profiles returned a 500 error. By the time the on-call engineer traced it back to the deployment script, six hours of customer data modifications had been lost — not because the test was wrong, not because the migration was wrong, but because the orchestration layer did not stop when it was told "no." One semicolon. Six hours of data. That is the blast radius of orchestration without discipline.
 
 Three rules protect you:
 

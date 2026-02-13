@@ -61,9 +61,13 @@ In Axiom I, Lena replaced a 400-line bash script with a 12-line Makefile. The pr
 
 The answer was already in front of her. The same format you have been reading this entire book in.
 
-Six months before Lena's rewrite, her team had made a critical architecture decision: event-driven messaging over synchronous REST. The discussion happened across four Slack threads, two Zoom calls, a Google Doc that three people edited simultaneously, and a Confluence page that nobody could find anymore. When a new developer named Tomás joined and asked, "Why don't we just use REST?", nobody could reconstruct the full reasoning. The Google Doc had conflicting comments. The Confluence page referenced a Slack thread that had been archived. Three months of deliberation, gone — not because the decision was bad, but because the knowledge about *why* it was made had been scattered across formats that could not be searched, versioned, or read by an AI agent.
+Six months before Lena's rewrite, her team had made a critical architecture decision: event-driven messaging over synchronous REST. The discussion happened across four Slack threads, two Zoom calls, a Google Doc that three people edited simultaneously, and a Confluence page that nobody could find anymore. When a new developer named Tomás joined, he looked at the codebase, saw REST calls everywhere except in the user service, and assumed it was an oversight. Nobody told him otherwise — because nobody could find the reasoning. The Google Doc had conflicting comments. The Confluence page referenced a Slack thread that had been archived. So Tomás spent two weeks building a REST integration for the user service. Clean code. Good tests. A pull request that undid three months of deliberate architecture.
 
-Now consider the alternative: that same decision lives in a file called `docs/adr/007-event-driven-messaging.md`, committed to the repository. It has a Status, Context, Decision, Consequences, and Alternatives Considered section. When Tomás asks "why not REST?", anyone — human or AI — reads the file and understands the complete reasoning in thirty seconds. When an AI agent proposes a change that would violate this decision, it reads the ADR and adjusts its approach automatically.
+Lena caught it during code review. "We moved to event-driven for a reason," she said. "What reason?" Tomás asked. Silence. Nobody could reconstruct the full rationale. They knew the decision was right, but the knowledge about *why* — the N+1 query analysis, the mobile traffic data, the RFC from the September standup — had been scattered across formats that could not be searched, versioned, or read by an AI agent.
+
+Two weeks of Tomás's work, discarded. Not because the decision was bad. Because the knowledge was lost.
+
+Now consider the alternative: that same decision lives in a file called `docs/adr/007-event-driven-messaging.md`, committed to the repository. It has a Status, Context, Decision, Consequences, and Alternatives Considered section. Before writing a single line of code, Tomás — or his AI agent — reads the file and understands the complete reasoning in thirty seconds. The REST integration is never built. The two weeks are never wasted. The architecture stays intact.
 
 The difference between these two scenarios is Axiom II.
 
@@ -117,6 +121,8 @@ Principle 5: "Persist state in files"
 ```
 
 The principle is about durability — ensuring knowledge survives across sessions. The axiom is about interoperability — ensuring that knowledge can be read, processed, and acted upon by every tool in the chain: humans, AI agents, linters, CI pipelines, documentation generators, and search engines.
+
+Think of it this way. A team's knowledge is like a library. Markdown files in a repository are books on open shelves — anyone can walk in, find the right shelf, pull the book, and read it. A Google Doc is a book locked in someone's desk drawer — it exists, but you need their permission and their key to read it. A Slack message is a conversation someone overheard in the hallway last month — it happened, but good luck reconstructing it. A Confluence page is a book in a private library across town that requires a membership card, a login, and the hope that someone has not rearranged the shelves since you last visited. The markdown repository is the only library where every reader — human developers, AI agents, CI pipelines, new hires on their first day — can walk in and find what they need without asking anyone for access.
 
 ## Why Markdown?
 
@@ -266,6 +272,8 @@ The frontmatter block (between `---` delimiters) contains machine-processable me
 This pattern appears throughout professional tooling: Jekyll blogs, Docusaurus documentation, Hugo sites, Obsidian notes, and Astro pages all use YAML frontmatter on markdown files. The pattern works because it respects the boundary between data and narrative.
 
 ## Anti-Patterns: Knowledge Trapped Outside Markdown
+
+You have seen the Knowledge Graveyard. Every team has one. It is the Google Doc titled "Architecture Decisions Q3" with forty-seven comments, twelve of which contradict each other, three of which are from people who no longer work at the company. It is the Confluence page that was last updated eight months ago and starts with "This document is a living document" — which it demonstrably is not. It is the Slack thread where the CTO explained, in six detailed messages, exactly why the team chose Kafka over RabbitMQ — messages that disappeared behind the 90-day archive wall on a Tuesday afternoon while nobody noticed. It is the README that says "See the wiki for architecture details" and the wiki that says "See the README for setup instructions," and both are wrong. The knowledge existed. It was written down. It was even shared. But it was scattered across formats that could not be searched together, versioned together, or read by the AI agent that the new developer asked to "explain why we use Kafka." The agent searched the repository, found nothing, and hallucinated an answer. The new developer believed it. The wrong architecture decision followed.
 
 | Anti-Pattern | What Happens | The Fix |
 |--------------|-------------|---------|
