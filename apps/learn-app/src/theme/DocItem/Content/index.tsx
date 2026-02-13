@@ -402,10 +402,11 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   // - Parts have 1 segment (category landing - no panel)
   // - Chapters have 2 segments (category landing - no panel)
   const pathSegments = docId.split("/").filter(Boolean);
-  const specialRootPages = ["thesis", "preface"];
+  const specialRootPages = ["thesis", "preface", "preface-agent-native"];
   const isSpecialRootPage =
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
-  const isLeafPage = pathSegments.length >= 3 || isSpecialRootPage;
+  const isQuizPage = docId.toLowerCase().includes("quiz");
+  const isLeafPage = (pathSegments.length >= 3 || isSpecialRootPage) && !isQuizPage;
 
   // Derive chapter + lesson slugs from docId for the LessonCompleteButton
   // docId example: "01-Part/02-Chapter/03-lesson"

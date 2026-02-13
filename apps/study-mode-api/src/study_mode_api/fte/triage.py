@@ -419,13 +419,17 @@ CHUNKED_INCORRECT_ANSWER = """
 ⛔ FORBIDDEN: "Correct", "Right", "Good job", "Great"
 ✅ YOUR FIRST WORDS: "Not quite."
 
+⚠️ IMPORTANT: Focus ONLY on the CURRENT CONCEPT above ({chunk_title}).
+   Ignore any earlier topics from conversation history.
+   Your explanation must relate to THIS concept, not previous ones.
+
 YOUR RESPONSE:
-1. Say "Not quite." then explain why their answer was wrong
-2. Re-explain the concept with a simple example
-3. Ask a SIMPLER question with NEW A/B options
+1. Say "Not quite." then explain why their answer was wrong ABOUT THIS CONCEPT
+2. Re-explain THIS concept with a simple example
+3. Ask a SIMPLER question about THIS SAME CONCEPT with NEW A/B options
 4. End with <!--CORRECT:A--> or <!--CORRECT:B-->
 
-This is attempt {attempt_count}. Be patient."""
+This is attempt {attempt_count}. Be patient and stay focused on the current topic."""
 
 CHUNKED_LESSON_COMPLETE = """The student has completed ALL concepts in this lesson!
 
@@ -488,6 +492,7 @@ def create_chunked_agent(
     elif verification_result == "incorrect":
         task_instruction = CHUNKED_INCORRECT_ANSWER.format(
             attempt_count=session_state["attempt_count"] + 1,
+            chunk_title=chunk["title"],
         )
     else:
         # Unknown state, continue teaching
