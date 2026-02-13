@@ -1,9 +1,9 @@
 ---
 title: "Principles Exercises: Practice the Seven Principles"
 sidebar_label: "Principles Exercises"
-sidebar_position: 9
+sidebar_position: 10
 chapter: 6
-lesson: 9
+lesson: 10
 duration_minutes: 120
 
 # PEDAGOGICAL LAYER METADATA
@@ -563,4 +563,4 @@ Unlike Capstones A and B, this one has real stakes. The changes you make apply t
 
 ## What's Next
 
-You've practiced the three core skills — **principle recognition**, **principle application**, and **workflow diagnosis** — across 17 exercises. These skills compound: every exercise builds intuition for recognizing when a principle applies and what happens when it's ignored. The Seven Principles aren't just concepts to remember for a quiz — they're habits that make every AI session more productive, predictable, and debuggable. Next in **Lesson 10: Chapter Quiz**, you'll test your conceptual understanding of all seven principles and their interactions. The quiz focuses on scenario-based reasoning — exactly the kind of diagnosis you practiced in the discovery exercises.
+You've practiced the three core skills — **principle recognition**, **principle application**, and **workflow diagnosis** — across 17 exercises. These skills compound: every exercise builds intuition for recognizing when a principle applies and what happens when it's ignored. The Seven Principles aren't just concepts to remember for a quiz — they're habits that make every AI session more productive, predictable, and debuggable. Next in **Lesson 11: Chapter Quiz**, you'll test your conceptual understanding of all seven principles and their interactions. The quiz focuses on scenario-based reasoning — exactly the kind of diagnosis you practiced in the discovery exercises.

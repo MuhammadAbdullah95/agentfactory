@@ -1,8 +1,8 @@
 ---
-sidebar_position: 0
+sidebar_position: 8
 title: "Operational Best Practices"
 chapter: 6
-lesson: 0
+lesson: 8
 duration_minutes: 25
 description: "Operational workflows and patterns for productive Claude Code sessions"
 keywords:
@@ -69,13 +69,22 @@ You've learned what General Agents are and experienced Claude Code firsthand. Bu
 
 Picture this scenario. You open Claude Code with a vague task in mind. You type a prompt. Claude responds. You add more context. Claude does something unexpected. You correct it. Claude tries again. Your context fills up. Quality degrades. You're twenty minutes in, frustrated, with nothing to show.
 
-This isn't Claude's failure—it's a workflow failure. The most productive Claude Code users follow specific operational patterns that prevent this frustration before it starts. This lesson introduces those patterns before you learn the seven principles that explain _why_ they work.
+This isn't Claude's failure—it's a workflow failure. The most productive Claude Code users follow specific operational patterns that prevent this frustration before it starts. Now that you've learned the seven principles, this lesson shows you how to apply them as concrete operational habits.
 
-Think of this as learning to drive before studying automotive engineering. You need practical competence first; the deeper understanding comes next.
+Think of this as the driving manual after studying automotive engineering. You understand the theory; now here's how to operate the machine.
 
 ## The Four-Phase Workflow
 
 Every non-trivial task benefits from structure. The four-phase workflow transforms messy exploration into systematic progress.
+
+```
+┌──────────┐     ┌──────────┐     ┌──────────────┐     ┌──────────┐
+│ EXPLORE  │ ──► │   PLAN   │ ──► │  IMPLEMENT   │ ──► │  COMMIT  │
+│ (Read)   │     │ (Design) │     │  (Execute)   │     │  (Save)  │
+└──────────┘     └──────────┘     └──────────────┘     └──────────┘
+ Plan Mode        Plan Mode        Normal Mode          Normal Mode
+ No changes       Review plan      Verified steps       Git commit
+```
 
 ### Phase 1: Explore
 
@@ -111,7 +120,7 @@ The key insight: **course correction is cheap during planning, expensive during 
 
 With a reviewed plan, switch to Normal Mode (`Shift+Tab` again). Now Claude can make changes. But it's not improvising—it's executing an agreed plan, one step at a time.
 
-After each significant step, Claude should verify. Did the change work? Do tests pass? Is the behavior correct? This is where Principle 3 (Verification as Core Step) becomes concrete, which you'll learn in detail later in this chapter.
+After each significant step, Claude should verify. Did the change work? Do tests pass? Is the behavior correct? This is Principle 3 (Verification as Core Step) in action—the same trust-through-testing approach you learned in Lesson 3.
 
 ### Phase 4: Commit
 
@@ -240,7 +249,7 @@ Most users start with default permissions, then gradually allowlist trusted comm
 - **Moderate permissions**: Common actions allowed, unusual actions ask.
 - **Loose permissions (sandboxed)**: Full autonomy in an isolated environment.
 
-Chapter 6, Lesson 6 explores constraints and safety in depth. For now, experiment with `/permissions` to find your comfort level.
+Lesson 6 covered constraints and safety in depth. Now experiment with `/permissions` to find your comfort level.
 
 ## The Interview Pattern
 
@@ -339,7 +348,7 @@ The failed attempts taught you what Claude needed to know. A fresh prompt with t
 
 ## Quick Reference: Principles to Implementation
 
-You're about to learn seven principles that explain _why_ these operational patterns work. Here's how they connect:
+You've now learned all seven principles. Here's how they map to the operational patterns in this lesson:
 
 | Principle                               | What It Teaches                | Claude Code Implementation                        |
 | --------------------------------------- | ------------------------------ | ------------------------------------------------- |
@@ -351,7 +360,7 @@ You're about to learn seven principles that explain _why_ these operational patt
 | **P6: Constraints and Safety**          | Confident delegation           | `/permissions`, `/sandbox`, hooks                 |
 | **P7: Observability**                   | Transparency and debugging     | `/context`, checkpoint history, `--verbose`       |
 
-The principles are the _why_. The operational practices in this lesson are the _how_. Together, they form a complete system for productive AI collaboration.
+The principles you learned in Lessons 1–7 are the _why_. The operational practices in this lesson are the _how_. Together, they form a complete system for productive AI collaboration.
 
 ## Summary
 

@@ -1,8 +1,8 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 title: "Putting It All Together: Workflows in Practice"
 chapter: 6
-lesson: 8
+lesson: 9
 duration_minutes: 35
 description: "Synthesis lesson showing how all seven principles combine in real-world agentic workflows"
 keywords: ["workflow", "synthesis", "practical", "real-world", "integration", "end-to-end"]

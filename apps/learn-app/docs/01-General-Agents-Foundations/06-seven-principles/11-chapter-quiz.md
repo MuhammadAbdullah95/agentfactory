@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 title: "Chapter 6: The Seven Principles Quiz"
 proficiency_level: B1
 layer: 1
@@ -266,7 +266,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "Feature implementation involves all principles: bash access to execute commands, code as interface to specify behavior, verification to test correctness, decomposition to break into manageable steps, state persistence to maintain context, safety to prevent mistakes, and observability to see progress. While you might prioritize certain principles based on context (safety for production systems, observability for debugging), all seven are relevant for complete feature work. Options A, B, and D incorrectly suggest single principles are sufficient—no single principle covers all aspects of feature development. The principle: real workflows integrate multiple principles, with emphasis shifting based on task context.",
-source: "Lesson 08: Putting It All Together"
+source: "Lesson 09: Putting It All Together"
 },
 {
 question: "You're debugging a production issue. Which THREE principles are most critical?",
@@ -278,7 +278,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Debugging production issues requires: bash access to investigate (read logs, run commands, check system state), verification to test fixes (ensure the fix actually resolves the issue), and observability to understand what happened (trace logs, see error sequence). While other principles are valuable, these three are essential for the debugging cycle. Option A includes state persistence (useful for context but not critical for acute debugging) and safety (important but secondary to fixing the active issue). Option C misses observability which is crucial for understanding the problem. Option D misses bash access which is required for investigation. The principle: prioritize principles based on task needs—debugging emphasizes investigation, verification, and visibility.",
-source: "Lesson 08: Putting It All Together"
+source: "Lesson 09: Putting It All Together"
 },
 {
 question: "A team wants to improve their AI workflow but doesn't know where to start. What's the first step?",
@@ -290,7 +290,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "The most effective starting point is identifying your biggest pain point and applying the principle that addresses it. If you're constantly repeating context, start with CLAUDE.md (state persistence). If you're surprised by AI changes, improve observability. If you're debugging integration issues, focus on decomposition and verification. Option A (all principles at once) is overwhelming and wasteful—you'll implement features you don't need. Option C (expensive tool) throws money at process problems. Option D (consultant) might help eventually, but start with self-assessment. The principle: targeted improvement based on actual problems beats wholesale change.",
-source: "Lesson 08: Putting It All Together"
+source: "Lesson 09: Putting It All Together"
 },
 {
 question: "An AI agent successfully implements a feature in a development environment. When moved to staging, it fails because environment variables differ. The agent had no way to know about the staging configuration. Which principle combination would have caught this earlier?",
