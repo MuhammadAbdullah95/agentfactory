@@ -69,46 +69,59 @@ differentiation:
 
 # Axiom X: Observability Extends Verification
 
-It is 2:47 AM. Your phone buzzes with an alert from a customer: "The AI assistant is giving wrong answers about pricing." You check your test suite -- all 347 tests pass. You check your CI pipeline -- the last deployment was green across every stage. You check your type system -- no errors. Everything your pre-deployment verification says is "this system works correctly." But in production, right now, it does not.
+Tomás's pipeline was green. Every check passed — formatting, linting, types, tests, security. He merged the pull request, the order management system deployed, and he went home. At 2:47 AM, his phone buzzed: a customer service ticket reporting that shipping rates were wrong for international orders during peak traffic.
 
-You open your logs. Nothing useful -- just `print("Processing request...")` scattered through the code. You check metrics. There are none. You have no idea how many requests are affected, when the problem started, or what changed. Your comprehensive test suite, your type system, your CI pipeline -- none of them can tell you what is happening right now, in production, to real users.
+He checked the test suite — all fifty-three TDG specifications passed. He checked the CI pipeline — green across every stage. He checked the type system — zero errors. Everything his pre-deployment verification said was "this system works correctly." But in production, right now, under real load, it did not.
 
-This is the gap that Axiom X closes. Tests verify behavior before deployment. Observability verifies behavior during deployment. Without both, your verification system has a blind spot the size of production itself.
+Tomás opened the server logs. What he found was useless:
+
+```
+Processing order...
+Processing order...
+Processing order...
+ERROR: something went wrong
+Processing order...
+```
+
+`print("Processing order...")` — scattered through the code from his earliest development days. No timestamps. No request IDs. No indication of *which* order failed, *why* it failed, or *how many* orders were affected. He had no metrics to show whether the error rate was 0.1% or 50%. He had no traces to show where the request spent its time. His comprehensive test suite, his type system, his CI pipeline — none of them could tell him what was happening right now, in production, to real users.
+
+"Your tests verify that the code is correct," Lena told him the next morning. "But correct code can still fail in production. Load causes timeouts. Network hiccups drop connections. Memory fills up under traffic patterns your tests never simulated. You need a different kind of verification — one that watches the system while it runs."
+
+This is Axiom X.
 
 ## The Problem Without This Axiom
 
-Consider what the first nine axioms give you:
+Tomás's 2:47 AM incident exposed the gap in Axioms I through IX. Consider what those nine axioms gave him:
 
-- **Axiom I** (Shell as Orchestrator): You can coordinate tools and workflows
-- **Axiom V** (Types Are Guardrails): You catch structural errors at compile time
-- **Axiom VII** (Tests Are the Specification): You verify behavior against specifications
-- **Axiom IX** (Verification is a Pipeline): You automate all pre-deployment checks
+- **Axiom V** (Types Are Guardrails): Caught structural errors at compile time
+- **Axiom VII** (Tests Are the Specification): Verified behavior against fifty-three TDG specifications
+- **Axiom IX** (Verification is a Pipeline): Automated every pre-deployment check
 
-This is powerful. But it all happens before your code reaches users. Once deployed, you are blind. The system could be:
+This was powerful. But it all happened before the code reached users. Once deployed, Tomás was blind. His system was:
 
-- Responding correctly to tests but slowly degrading under real load
-- Passing all type checks but consuming 10x expected tokens per request
-- Green on CI but silently returning stale cached responses
-- Functioning perfectly except for one edge case that affects 5% of users
+- Passing all tests but slowly degrading under real production load
+- Returning correct shipping rates for test inputs but wrong rates under concurrent requests
+- Green on CI but silently timing out when the database connection pool was exhausted
+- Functioning perfectly for 95% of orders but failing for the 5% that hit an untested edge case in international surcharge calculation
 
-Pre-deployment verification answers: "Does this code work correctly?" Post-deployment observability answers: "Is this code working correctly right now?" Both questions matter. Neither answer substitutes for the other.
+Pre-deployment verification answers: "Does this code work correctly?" Post-deployment observability answers: "Is this code working correctly *right now*?" Both questions matter. Neither answer substitutes for the other.
 
 ## The Axiom Defined
 
-> **Axiom X: Observability Extends Verification.** Runtime monitoring extends pre-deployment verification. Tests verify behavior before deployment; observability verifies behavior IN production. Together they form a complete verification system.
+> **Axiom X: Observability Extends Verification.** Runtime monitoring extends pre-deployment verification. Tests verify behavior before deployment; observability verifies behavior in production. Together they form a complete verification system.
 
-The word "extends" is precise. Observability does not replace testing -- it extends the verification boundary from "before deployment" to "always." Think of it as the verification spectrum:
+The word "extends" is precise. Observability does not replace testing — it extends the verification boundary from "before deployment" to "always." Tomás's TDG tests from Axiom VII verified that `calculate_shipping()` returned the right values for eleven specific inputs. Observability verifies that the same function returns the right values for *every* request, under *any* load, at *any* time:
 
 | Phase | Tools | What It Catches | When |
 |-------|-------|-----------------|------|
 | **Pre-deployment** | Linting, types, tests, CI | Logic errors, type mismatches, regressions | Before users see it |
 | **Post-deployment** | Logs, metrics, traces, alerts | Performance degradation, edge cases, real-world failures | While users experience it |
 
-A system with only pre-deployment verification is like a car that passes inspection but has no dashboard gauges. You verified it works -- but you have no way to know when it stops working.
+A system with only pre-deployment verification is like a car that passes inspection but has no dashboard gauges. Tomás's order management system had passed inspection. It had no gauges.
 
 ## From Principle to Axiom
 
-In Chapter 4, Principle 7 introduced observability as **visibility into what AI is doing** -- seeing agent actions, understanding rationale, tracing execution. That principle focused on trust: if you cannot see what the agent does, you cannot trust it.
+In Chapter 4, Principle 7 introduced observability as **visibility into what AI is doing** — seeing agent actions, understanding rationale, tracing execution. That principle focused on trust: if you cannot see what the agent does, you cannot trust it.
 
 Axiom X takes this further. The principle is about human-AI collaboration transparency. The axiom is about **production engineering discipline**:
 
@@ -122,95 +135,109 @@ Axiom X takes this further. The principle is about human-AI collaboration transp
 
 Principle 7 gave you the mindset: make things visible. Axiom X gives you the engineering toolkit: structured observability as a first-class system concern, not an afterthought.
 
+## The Discipline That Preceded Observability
+
+The term "observability" — borrowed from control theory, where it means "the ability to infer a system's internal state from its external outputs" — entered software engineering through the DevOps movement. In 2016, Google published the *Site Reliability Engineering* book, codifying practices their teams had developed for running services at planetary scale. The book's core insight was that reliability is not a property of software — it is a property of *operations*. Code that passes tests can still fail in production if nobody is watching.
+
+Charity Majors, co-founder of Honeycomb, popularized the distinction between *monitoring* (watching known metrics for known thresholds) and *observability* (understanding system behavior from its outputs, including behaviors you did not anticipate). Monitoring answers: "Is the error rate above 5%?" Observability answers: "Why are international orders from the UK failing at 3am?" — a question you did not know to ask until the system told you.
+
+Tomás's `print("Processing order...")` was neither monitoring nor observability. It was noise — unstructured text that disappeared when the process restarted and told him nothing about which orders failed or why.
+
 ## The Three Pillars of Observability
 
-Production observability rests on three complementary pillars. Each answers a different question, and no single pillar suffices alone.
+After the 2:47 AM incident, Lena walked Tomás through the three pillars of production observability. "Each pillar answers a different question," she said. "And no single pillar suffices alone."
 
 ### Pillar 1: Logs (What Happened?)
 
-Logs are structured records of discrete events. They tell you what the system did at specific moments.
+Logs are structured records of discrete events. They tell you what the system did at specific moments. Lena showed Tomás the difference between his `print` statements and proper structured logging:
 
 ```python
 import structlog
 
 logger = structlog.get_logger()
 
-# Bad: unstructured print statement
-print("Processing request...")
+# Bad: what Tomás had — unstructured, no context
+print("Processing order...")
 
-# Good: structured log with context
+# Good: structured log with context — who, what, when, why
 logger.info(
-    "request_processing_started",
-    request_id="req-abc-123",
-    user_id="user-456",
-    endpoint="/api/chat",
-    model="claude-sonnet-4-20250514",
+    "order_processing_started",
+    order_id="ord-7891",
+    customer_id="cust-456",
+    endpoint="/api/orders/process",
+    total_amount=127.50,
 )
 ```
 
-Structured logs use key-value pairs instead of free-form strings. This makes them machine-parseable -- you can search, filter, and aggregate across millions of log entries programmatically.
+Structured logs use key-value pairs instead of free-form strings. This makes them machine-parseable — you can search, filter, and aggregate across millions of log entries programmatically. If Tomás had this during the 2:47 AM incident, he could have searched for all orders with `status=error` in the last hour and seen exactly which customers were affected.
 
 ### Pillar 2: Metrics (How Much? How Fast?)
 
-Metrics are numerical measurements over time. They tell you about system behavior in aggregate.
+Metrics are numerical measurements over time. They tell you about system behavior in aggregate. "Logs tell you what happened to one order," Lena explained. "Metrics tell you what is happening to *all* orders."
 
 ```python
 from prometheus_client import Counter, Histogram, Gauge
 
-# Count events
-requests_total = Counter(
-    "agent_requests_total",
-    "Total requests processed",
-    ["endpoint", "status"]
+# Count events — how many orders are we processing?
+orders_total = Counter(
+    "orders_processed_total",
+    "Total orders processed",
+    ["order_type", "status"]  # "domestic"/"international", "success"/"error"
 )
 
-# Measure durations
-response_duration = Histogram(
-    "agent_response_seconds",
-    "Response time in seconds",
-    ["model"]
+# Measure durations — how fast is shipping calculation?
+shipping_duration = Histogram(
+    "shipping_calculation_seconds",
+    "Shipping rate calculation time in seconds",
+    ["region"]  # "domestic", "international", "express"
 )
 
-# Track current state
-active_sessions = Gauge(
-    "agent_active_sessions",
-    "Currently active agent sessions"
+# Track current state — how many orders are in flight right now?
+orders_in_progress = Gauge(
+    "orders_in_progress",
+    "Currently processing orders"
 )
 ```
 
-Metrics answer questions like: "How many requests per second are we handling?" "What is the 95th percentile response time?" "Is error rate increasing?" These are questions logs cannot answer efficiently -- you would need to scan every log entry and compute aggregates yourself.
+Metrics answer questions like: "How many orders per second are we processing?" "What is the 95th percentile shipping calculation time?" "Is the error rate increasing?" During the 2:47 AM incident, metrics would have told Tomás instantly: "Error rate spiked from 0.1% to 12% at 2:30 AM, affecting international orders only." Instead, he had no numbers at all.
 
 ### Pillar 3: Traces (Where Did Time Go?)
 
-Traces follow a single request through your entire system, showing how time was spent across components.
+Traces follow a single request through the entire system, showing how time was spent across components. "This is the pillar that would have solved your 2:47 AM problem in minutes," Lena told Tomás.
 
 ```python
 from opentelemetry import trace
 
-tracer = trace.get_tracer("agent-service")
+tracer = trace.get_tracer("order-service")
 
-async def handle_chat_request(request):
-    with tracer.start_as_current_span("handle_chat") as span:
-        span.set_attribute("user_id", request.user_id)
+async def process_order(order):
+    with tracer.start_as_current_span("process_order") as span:
+        span.set_attribute("order_id", order.id)
+        span.set_attribute("customer_id", order.customer_id)
 
-        # Span 1: Parse and validate input
-        with tracer.start_as_current_span("validate_input"):
-            validated = validate_request(request)
+        # Span 1: Validate order details
+        with tracer.start_as_current_span("validate_order"):
+            validated = validate_order(order)
 
-        # Span 2: Call AI model
-        with tracer.start_as_current_span("model_call") as model_span:
-            response = await call_model(validated.prompt)
-            model_span.set_attribute("tokens_used", response.usage.total)
-            model_span.set_attribute("model", "claude-sonnet-4-20250514")
+        # Span 2: Calculate shipping — the 2:47 AM bottleneck
+        with tracer.start_as_current_span("calculate_shipping") as ship_span:
+            shipping = await calculate_shipping(validated)
+            ship_span.set_attribute("region", shipping.region)
+            ship_span.set_attribute("rate", shipping.rate)
 
-        # Span 3: Store result
-        with tracer.start_as_current_span("store_response"):
-            await save_to_database(response)
+        # Span 3: Apply discount
+        with tracer.start_as_current_span("apply_discount") as disc_span:
+            total = apply_discount(validated, shipping)
+            disc_span.set_attribute("discount_applied", total.discount_amount)
 
-        return response
+        # Span 4: Save to database
+        with tracer.start_as_current_span("save_order"):
+            await save_order(validated, total)
+
+        return total
 ```
 
-A trace might reveal: "This request took 4.2 seconds total -- 0.1s for validation, 3.8s waiting for the model, 0.3s for database storage." Without traces, you only know the total time. With traces, you know exactly where the bottleneck is.
+A trace from this code might reveal: "Order ord-7891 took 4.2 seconds total — 0.1s for validation, 3.8s waiting for `calculate_shipping()`, 0.2s for discount, 0.1s for database storage." Without traces, Tomás only knew the total time. With traces, he would know exactly where the bottleneck was — and during the 2:47 AM incident, he would have seen that `calculate_shipping()` was timing out under concurrent load, while every other span completed in milliseconds.
 
 ### Why All Three Together
 
@@ -222,7 +249,7 @@ A trace might reveal: "This request took 4.2 seconds total -- 0.1s for validatio
 
 ## Python Observability Toolkit
 
-Here is a practical implementation using the tools you will encounter in Python development.
+After understanding the three pillars conceptually, Tomás was ready to implement them. Lena showed him the tools he would use for his order management system.
 
 ### Structured Logging with structlog
 
@@ -257,7 +284,7 @@ This produces machine-parseable JSON output:
 
 ### Log Levels: Signal vs. Noise
 
-Choosing the right log level determines whether your logs are useful or overwhelming:
+Choosing the right log level determines whether logs are useful or overwhelming. Lena taught Tomás a simple rule: "Each level answers a different question for a different audience."
 
 | Level | Purpose | Example | Production Visibility |
 |-------|---------|---------|----------------------|
@@ -268,17 +295,17 @@ Choosing the right log level determines whether your logs are useful or overwhel
 | `CRITICAL` | System-level failures | Database down, out of memory | Wakes someone up |
 
 ```python
-# Each level serves a distinct purpose
-logger.debug("model_parameters", temperature=0.7, max_tokens=1000)
-logger.info("chat_response_generated", tokens_used=342, duration_ms=1200)
-logger.warning("rate_limit_approaching", remaining=5, reset_seconds=30)
-logger.error("model_call_failed", error="timeout", retry_count=3)
-logger.critical("database_connection_lost", host="db.example.com")
+# Each level serves a distinct purpose in Tomás's order system
+logger.debug("discount_calculation_details", rate=0.15, subtotal=127.50)
+logger.info("order_processed", order_id="ord-7891", total=108.38, duration_ms=45)
+logger.warning("shipping_rate_slow", order_id="ord-7892", duration_ms=2800, threshold_ms=1000)
+logger.error("shipping_calculation_failed", order_id="ord-7893", error="timeout", retry_count=3)
+logger.critical("database_connection_lost", host="orders-db.example.com")
 ```
 
 ### Correlation IDs: Connecting the Dots
 
-Without correlation, debugging distributed systems is impossible. A correlation ID ties all log entries for a single request together:
+During the 2:47 AM incident, Tomás had seen `ERROR: something went wrong` in his logs but could not connect it to a specific order or customer. A correlation ID ties all log entries for a single request together — solving exactly this problem:
 
 ```python
 import uuid
@@ -295,15 +322,15 @@ def create_request_context(request):
     return correlation_id
 ```
 
-Now every log entry in that request's lifecycle shares the same `correlation_id`. When something fails, you search for that ID and see the complete story.
+Now every log entry in that order's lifecycle shares the same `correlation_id`. When customer service reported the 2:47 AM issue, Tomás could have searched for the correlation ID and seen the complete story — from order submission through discount calculation, shipping rate lookup, and the exact point of failure.
 
 ## Observability for AI Agents
 
-AI agents introduce observability challenges that traditional web applications do not face. You need to monitor dimensions that did not exist before.
+As Tomás integrated more AI-generated code into his order management system, he discovered that AI agents introduce observability challenges that traditional web applications do not face. The AI that generated his shipping calculator and discount logic had its own failure modes — and monitoring them required new dimensions.
 
 ### Dimension 1: Token Usage Tracking
 
-Tokens are both your cost driver and your quality signal.
+When Tomás used Claude Code to generate his shipping calculator, each generation consumed tokens — and costs varied dramatically depending on how he prompted. Tokens are both your cost driver and your quality signal.
 
 ```python
 import structlog
@@ -340,7 +367,7 @@ class TokenTracker:
 
 ### Dimension 2: Response Quality Metrics
 
-Unlike traditional APIs, AI responses can be "correct" structurally but poor in quality.
+Tomás noticed that sometimes Claude Code generated a shipping function that compiled and passed type checks but produced subtly wrong rates for edge cases. Unlike traditional APIs, AI responses can be "correct" structurally but poor in quality.
 
 ```python
 from prometheus_client import Histogram, Counter
@@ -369,7 +396,7 @@ conversation_turns = Histogram(
 
 ### Dimension 3: Error Rate Monitoring
 
-AI agents fail differently from traditional software -- they can fail silently by producing plausible but wrong output.
+AI agents fail differently from traditional software — they can fail silently by producing plausible but wrong output.
 
 ```python
 from prometheus_client import Counter
@@ -381,7 +408,7 @@ explicit_errors = Counter(
     ["error_type"]  # "timeout", "rate_limit", "context_overflow", "invalid_response"
 )
 
-# Implicit failures (harder -- detected through quality signals)
+# Implicit failures (harder — detected through quality signals)
 quality_flags = Counter(
     "agent_quality_flags_total",
     "Responses flagged for quality concerns",
@@ -391,7 +418,7 @@ quality_flags = Counter(
 
 ### Dimension 4: Cost Per Operation
 
-AI agents have variable per-request costs unlike fixed-infrastructure services.
+Tomás's traditional order processing had fixed infrastructure costs — the server cost the same whether it handled ten orders or ten thousand. AI agents are different: they have variable per-request costs that scale with usage.
 
 ```python
 import structlog
@@ -423,29 +450,29 @@ def track_operation_cost(operation_type: str, total_tokens: int, model: str):
 
 ## The Feedback Loop: Observe, Insight, Improve, Verify
 
-Observability is not just about watching -- it drives a continuous improvement cycle:
+Observability is not just about watching — it drives a continuous improvement cycle. Tomás experienced this firsthand after the 2:47 AM incident:
 
 ```
-1. OBSERVE: Collect logs, metrics, traces from production
+1. OBSERVE: Structured logs reveal shipping calculation timeouts under load
        |
-2. INSIGHT: "Response times spike every Monday at 9 AM"
+2. INSIGHT: "International shipping rates fail when concurrent requests exceed 50"
        |
-3. IMPROVE: Add request queuing to handle traffic burst
+3. IMPROVE: Add connection pooling and request queuing to shipping API calls
        |
-4. VERIFY: Write a load test (Axiom VII) that simulates Monday morning
+4. VERIFY: Write a load test (Axiom VII) that simulates 100 concurrent orders
        |
-5. DEPLOY: CI pipeline (Axiom IX) validates the fix
+5. DEPLOY: CI pipeline (Axiom IX) validates the fix passes under load
        |
-6. OBSERVE: Monitor production to confirm improvement
+6. OBSERVE: Monitor production to confirm shipping timeouts have stopped
        |
    [Repeat]
 ```
 
-This is where observability and testing become a unified system. Observability discovers problems that tests did not anticipate. Those discoveries become new tests. New tests prevent regressions. Observability confirms the fix works in production. The verification system grows stronger with each cycle.
+This is where observability and testing become a unified system. The 2:47 AM incident *discovered* a failure mode Tomás's test suite never anticipated. That discovery became a new load test. The load test now prevents the same regression. And observability confirms, every night, that shipping calculations stay fast under real traffic. The verification system grows stronger with each cycle — observability feeds testing, testing feeds confidence, confidence feeds deployment, and observability watches the result.
 
 ## The Complete System: All Ten Axioms
 
-This is the final axiom. Together, the ten axioms form a coherent system for agentic software development. Here is how they compose:
+This is the final axiom. Together, the ten axioms form a coherent system for agentic software development — and Tomás has lived every one of them. Here is how they compose:
 
 ```
 ORCHESTRATION
@@ -477,40 +504,43 @@ VERIFICATION
               Runtime monitoring verifies behavior in production.
 ```
 
-Trace a feature through the complete system:
+Trace Tomás's order management system through the complete stack — every axiom he learned this chapter:
 
-1. **Shell orchestrates** (I): You use Claude Code to coordinate the development workflow
-2. **Spec in markdown** (II): Requirements are captured in a `spec.md` file
-3. **Proper program** (III): Implementation follows program structure, not ad-hoc scripting
-4. **Composed from units** (IV): The feature is built from focused, reusable components
-5. **Types enforce contracts** (V): Interfaces between components are type-checked
-6. **Data stored relationally** (VI): Persistent data follows relational integrity patterns
-7. **Tests specify behavior** (VII): Test-Driven Generation defines what "correct" means
-8. **Git remembers everything** (VIII): Every change is tracked, reversible, attributable
-9. **Pipeline verifies** (IX): CI runs linting, types, tests, and builds automatically
-10. **Production is observed** (X): Logs, metrics, and traces confirm the feature works for real users
+1. **Shell orchestrates** (I): Tomás uses Claude Code to coordinate development — generating code, running tests, deploying changes
+2. **Spec in markdown** (II): His order management requirements live in `spec.md`, readable by both humans and AI
+3. **Proper program** (III): His shipping calculator is a structured Python program with modules, not a loose script
+4. **Composed from units** (IV): `calculate_shipping()`, `apply_discount()`, and `validate_order()` are independent, composable functions
+5. **Types enforce contracts** (V): `OrderRequest`, `ShippingRate`, and `DiscountResult` are typed dataclasses — the compiler catches structural errors before runtime
+6. **Data stored relationally** (VI): Orders, customers, and shipping rates live in properly normalized database tables with foreign keys
+7. **Tests specify behavior** (VII): Fifty-three TDG specifications define what "correct" means for every discount rule and shipping calculation
+8. **Git remembers everything** (VIII): Every change to the shipping logic is tracked, reversible, and attributable — Tomás can show exactly what changed and why
+9. **Pipeline verifies** (IX): CI runs formatting, linting, type checking, all fifty-three tests, and a security scan on every push
+10. **Production is observed** (X): Structured logs, metrics, and traces confirm the order system works for real customers under real load — and alert Tomás when it does not
 
-No single axiom is sufficient. A system with tests but no observability is blind in production. A system with observability but no tests has no baseline for "correct." A system with both but no types catches errors too late. The axioms are not a menu to choose from -- they are a system that works together.
+No single axiom is sufficient. Without observability, Tomás's tests pass but he is blind to the 2:47 AM shipping failure. Without tests, his observability has no baseline for "correct." Without types, his discount calculations silently corrupt when someone passes a string where a float belongs. The axioms are not a menu to choose from — they are a system that works together, and Tomás learned that lesson one axiom at a time.
 
 ## Anti-Patterns
 
+Picture the unobservable system. The code is clean, the tests pass, the pipeline is green, and the system is deployed. Then something goes wrong. Not catastrophically — subtly. Response times creep up. Error rates tick from 0.2% to 0.8%. A handful of international orders fail silently every hour. Nobody notices because nothing alerts, nothing dashboards, nothing trends. The developers check the logs and find `print("Processing order...")` repeated ten thousand times with no timestamps, no order IDs, no error context. They check metrics and find none. They check traces and find none. The system is a black box running in production, and the only signal that anything is wrong comes from customer service tickets trickling in over days. This was Tomás's order management system at 2:47 AM — and it is every system that treats observability as optional.
+
 | Anti-Pattern | Why It Fails | The Fix |
 |-------------|-------------|---------|
-| Print statements in production | Unstructured, no levels, no context, lost when process restarts | Use structlog with JSON output and persistent log aggregation |
-| No error alerting | "We'll notice eventually" means users notice first | Define alert thresholds; wake someone for CRITICAL, notify for ERROR |
+| Print statements in production | Unstructured, no levels, no context, lost when process restarts — exactly what Tomás had | Use structlog with JSON output and persistent log aggregation |
+| No error alerting | "We'll notice eventually" means customers notice first — Tomás learned this at 2:47 AM | Define alert thresholds; wake someone for CRITICAL, notify for ERROR |
 | Logging everything at DEBUG | Noise overwhelms signal; storage costs explode | Use appropriate log levels; DEBUG off in production |
-| No correlation between requests | Impossible to trace a single user's journey through the system | Add correlation IDs; bind context at request start |
-| Observability as afterthought | "Add monitoring later" means after the first production incident | Design observability into the system from the start, like testing |
-| Metrics without baselines | "Is 200ms response time good or bad?" -- you cannot answer | Establish baselines first; alert on deviation, not absolute values |
-| Monitoring only happy paths | You only track successful responses; failures are invisible | Instrument error paths with the same rigor as success paths |
+| No correlation between requests | Impossible to trace a single order's journey through the system | Add correlation IDs; bind context at request start |
+| Observability as afterthought | "Add monitoring later" means after the first production incident — Tomás added it *because* of his incident | Design observability into the system from the start, like testing |
+| Metrics without baselines | "Is 200ms shipping calculation time good or bad?" — you cannot answer without history | Establish baselines first; alert on deviation, not absolute values |
+| Monitoring only happy paths | You only track successful orders; failed shipping calculations are invisible | Instrument error paths with the same rigor as success paths |
 
 ## Try With AI
 
 ### Prompt 1: Replace Print Statements with Structured Logging
 
 ```
-I have a Python script that uses print statements for debugging. Help me refactor it
-to use structlog with proper production observability.
+I have a Python order processing function that uses print statements for debugging,
+just like Tomás had before his 2:47 AM incident. Help me refactor it to use structlog
+with proper production observability.
 
 Here is my current code:
 
@@ -519,7 +549,9 @@ def process_order(order):
     if order.total > 1000:
         print("Large order detected!")
     try:
-        result = charge_payment(order)
+        shipping = calculate_shipping(order)
+        print(f"Shipping calculated: {shipping}")
+        result = charge_payment(order, shipping)
         print(f"Payment successful: {result}")
     except Exception as e:
         print(f"ERROR: Payment failed: {e}")
@@ -527,13 +559,13 @@ def process_order(order):
 
 For each print statement, help me understand:
 1. What log level should this be? (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-2. What structured context should I add? (key-value pairs)
-3. Why is the structured version better for production debugging?
+2. What structured context should I add? (order_id, customer_id, amounts, durations)
+3. Why is the structured version better when debugging a 2 AM production incident?
 
 Then show me the complete refactored version using structlog with JSON output.
 ```
 
-**What you're learning**: The difference between development-time debugging (print statements) and production-grade observability (structured logging). You are learning to think about each log statement in terms of its audience (human developer vs. log aggregation system) and its purpose (debugging vs. monitoring vs. alerting).
+**What you're learning**: The difference between development-time debugging (`print` statements) and production-grade observability (structured logging). Each log statement has an audience (developer vs. log aggregation system) and a purpose (debugging vs. monitoring vs. alerting). Tomás's `print("Processing order...")` told him nothing at 2:47 AM — your structured version would tell you exactly which order failed, why, and how many others were affected.
 
 ### Prompt 2: Design AI Agent Monitoring
 
@@ -561,33 +593,70 @@ Also help me think about AI-specific monitoring:
 Walk me through the design decisions, explaining why each choice matters.
 ```
 
-**What you're learning**: How to design observability for AI-specific systems where "correctness" is harder to define than in traditional software. You are learning to think about quality signals, cost tracking, and the unique failure modes of AI agents -- where the system can be "up" but producing poor results.
+**What you're learning**: How to design observability for AI-specific systems where "correctness" is harder to define than in traditional software. Tomás's order system had clear pass/fail criteria, but AI agents can be "up" while producing poor results. You are learning to think about quality signals, cost tracking, and silent failure modes — the same blindness Tomás experienced at 2:47 AM, but in the AI dimension.
 
 ### Prompt 3: The Full Verification Spectrum
 
 ```
-I want to understand how all ten axioms of agentic development work together.
+I want to understand how all ten axioms of agentic development work together
+by tracing a concrete feature through each one.
 
-Take a concrete feature -- for example, adding a "summarize conversation" button
-to an AI chat application -- and trace it through all ten axioms:
+Take an order management system (like the one in this chapter) that needs a new
+feature: "apply promotional discounts to international orders." Trace this feature
+through all ten axioms:
 
-1. Shell as Orchestrator: How does the shell coordinate this work?
-2. Knowledge is Markdown: Where do requirements live?
-3. Programs Over Scripts: How is the implementation structured?
-4. Composition Over Monoliths: What components make up this feature?
-5. Types Are Guardrails: What type contracts exist between components?
-6. Data is Relational: How is conversation data stored?
-7. Tests Are the Specification: What tests define "correct"?
-8. Version Control is Memory: How are changes tracked?
-9. Verification is a Pipeline: What does CI check?
-10. Observability Extends Verification: What do you monitor in production?
+1. Shell as Orchestrator: How does Claude Code coordinate this work?
+2. Knowledge is Markdown: Where do the discount requirements live?
+3. Programs Over Scripts: How is the discount logic structured?
+4. Composition Over Monoliths: What composable functions make up this feature?
+5. Types Are Guardrails: What type contracts exist between discount and shipping?
+6. Data is Relational: How are promotions and order data stored?
+7. Tests Are the Specification: What TDG tests define "correct" discount behavior?
+8. Version Control is Memory: How are discount changes tracked and reversible?
+9. Verification is a Pipeline: What does CI check before the discount code deploys?
+10. Observability Extends Verification: What do you monitor to confirm discounts
+    work correctly for real customers under real load?
 
 For each axiom, give me a concrete example specific to this feature.
-Then help me see: where would the system fail if I skipped any single axiom?
+Then show me: what breaks if I skip any single axiom?
 ```
 
-**What you're learning**: Systems thinking -- how individual engineering practices compose into a coherent development methodology. You are learning to see the ten axioms not as separate rules but as an interconnected system where each axiom addresses a gap that the others leave open. This is the core insight of agentic development: rigorous engineering practices applied systematically, not selectively.
+**What you're learning**: Systems thinking — how individual engineering practices compose into a coherent development methodology. The ten axioms are not separate rules but an interconnected system where each axiom addresses a gap that the others leave open. Skip types and discount calculations silently corrupt. Skip tests and you have no definition of "correct." Skip observability and your correct code fails silently under production load. This is the core insight of agentic development: rigorous engineering practices applied systematically, not selectively.
 
-### Safety Note
+### The Log Avalanche
 
-Observability systems handle sensitive data. Production logs may contain user inputs, personal information, or proprietary content. Always apply data minimization: log what you need for debugging and monitoring, not everything available. Sanitize personally identifiable information before it enters log aggregation. Apply retention policies -- not every log needs to live forever. And remember that observability infrastructure itself needs security: access to production logs should be as controlled as access to production databases.
+There is a trap that catches developers right after they learn observability, and Lena warned Tomás about it the same week he instrumented his order system: **The Log Avalanche** — logging everything at maximum detail because "more data is always better."
+
+Tomás's first instinct after the 2:47 AM incident was to add DEBUG-level logging to every function. Within a day, his order system was generating 2GB of logs per hour. The storage costs spiked. The log aggregation system slowed to a crawl. And when he actually needed to find a specific error, it was buried under millions of irrelevant entries — the signal drowned by noise he created trying to see everything.
+
+"Observability is not about capturing everything," Lena told him. "It is about capturing the *right* things at the *right* level. DEBUG for development. INFO for normal operations. WARNING for handled problems. ERROR for failures. And CRITICAL for emergencies. If everything is important, nothing is."
+
+The Log Avalanche extends beyond volume. Production logs may contain customer data — order details, shipping addresses, payment references. Tomás learned to apply data minimization: log what you need for debugging and monitoring, never personally identifiable information. Apply retention policies — not every log entry needs to live forever. And remember that observability infrastructure itself needs security: access to production logs should be as controlled as access to the production database.
+
+## Key Takeaways
+
+1. **Pre-deployment verification is necessary but not sufficient.** Tomás's tests, types, and CI pipeline all passed — and his system still failed at 2:47 AM under production load. Observability extends the verification boundary from "before deployment" to "always."
+
+2. **The three pillars answer different questions.** Logs tell you *what happened* to a specific order. Metrics tell you *how many* orders are affected and *how fast* the system is degrading. Traces tell you *where* in the request lifecycle time was spent. No single pillar replaces the others.
+
+3. **Structured logging replaces print statements.** `print("Processing order...")` is noise. `logger.info("order_processed", order_id="ord-7891", duration_ms=45)` is actionable intelligence. The difference is the difference between searching ten thousand identical lines and filtering by `order_id` to find the exact failure.
+
+4. **Observability drives a feedback loop.** The 2:47 AM incident *discovered* a failure mode. That discovery became a load test. The load test now prevents the same regression. And observability confirms, every night, that the fix holds. Each cycle makes the verification system stronger.
+
+5. **The ten axioms are a system, not a checklist.** Tomás traced his order management feature through every axiom — from shell orchestration through production monitoring. Skip any one, and a gap opens. The axioms work together because software development *is* a system, and systems need complete coverage to be reliable.
+
+---
+
+## The Complete Journey
+
+Tomás closed his laptop and looked at the order management system dashboard — green across every metric, structured logs flowing cleanly, traces showing sub-second response times even during the evening traffic peak. Three months ago, he had stared at `print("Processing order...")` in a panic at 2:47 AM, unable to tell which orders were failing or why.
+
+The distance between then and now was ten axioms.
+
+He had started with a shell that orchestrated his tools instead of manual copy-paste between windows. He had captured his requirements in markdown that both he and Claude Code could read. He had structured his discount calculator as a proper program with modules and imports, not a loose script. He had composed his system from small, focused functions — `calculate_shipping()`, `apply_discount()`, `validate_order()` — each doing one thing well. He had wrapped those functions in types that caught structural errors before they reached production. He had stored his orders and customers in properly normalized tables with foreign keys enforcing integrity.
+
+Then came the verification stack. Test-Driven Generation gave him fifty-three specifications that defined "correct" — and caught the $12,000 discount bug before a single customer saw it. Git gave him memory — every change tracked, reversible, attributable, with commit messages that explained *why*. His CI pipeline automated every check — formatting, linting, types, tests, security — so that nothing reached production without passing all of them. And finally, observability extended that verification into production itself — structured logs, metrics, and traces watching the system while real customers used it, alerting him when reality diverged from expectation.
+
+"You didn't just learn ten rules," Lena told him. "You built a system. Each axiom covers a gap the others leave open. That is what agentic development means — not AI writing code for you, but AI and engineering discipline working together, from the first shell command to the last production metric."
+
+Tomás nodded. The 2:47 AM incident had been the worst night of his career. It had also been the beginning of everything he built after.
