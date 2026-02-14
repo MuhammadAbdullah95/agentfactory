@@ -172,7 +172,7 @@ Tomás experienced this progression firsthand:
 
 ## The Discipline That Preceded Git
 
-The idea that version control could serve as institutional memory has roots older than most developers realize. In 2005, Linus Torvalds created Git in ten days — not as a side project, but out of necessity. The Linux kernel, the largest collaborative software project in history, had been using a proprietary tool called BitKeeper for version control. When BitKeeper revoked its free license, Torvalds needed a replacement that could handle thousands of distributed developers collaborating without a central server.
+The idea that version control could serve as institutional memory has roots older than most developers realize. In April 2005, Linus Torvalds built Git's core in roughly two weeks — not as a side project, but out of necessity. The Linux kernel, the largest collaborative software project in history, had been using a proprietary tool called BitKeeper for version control. When BitKeeper revoked its free license, Torvalds needed a replacement that could handle thousands of distributed developers collaborating without a central server.
 
 The tools that preceded Git — CVS (1990) and Subversion (2000) — required a central server. Every commit went through a single point of failure. If the server was down, nobody could commit. If the server was lost, the history was lost. Torvalds designed Git to be *distributed*: every developer's copy contains the complete history. There is no single point of failure. The memory lives everywhere.
 

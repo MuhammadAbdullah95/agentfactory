@@ -131,7 +131,7 @@ This distinction matters in practice. Tomás before the discount disaster follow
 
 ## The Discipline That Preceded TDG
 
-The idea that tests could drive development — not just verify it — has a history that predates AI by decades. In 2002, Kent Beck published *Test-Driven Development: By Example*, codifying a practice he had been refining since the 1990s as part of the Extreme Programming movement. Beck himself credited the core idea to older practices — NASA programmers in the 1960s wrote expected output before writing the code that would produce it.
+The idea that tests could drive development — not just verify it — has a history that predates AI by decades. In 2002, Kent Beck published *Test-Driven Development: By Example*, codifying a practice he had been refining since the 1990s as part of the Extreme Programming movement. Beck himself credited the core idea to older practices — as early as 1957, D.D. McCracken's *Digital Computer Programming* recommended preparing test cases before coding, and NASA's Project Mercury team in the early 1960s used similar test-first practices during development.
 
 Beck's insight was deceptively simple: write a failing test, write the minimum code to make it pass, then refactor. The test comes first. The implementation serves the test. This reversed the dominant workflow where code came first and tests — if they existed at all — came after.
 
