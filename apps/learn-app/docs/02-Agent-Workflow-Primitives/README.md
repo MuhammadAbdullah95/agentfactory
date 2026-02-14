@@ -35,4 +35,4 @@ Each chapter starts with a problem you recognize from your own work. The solutio
 3. **Execute** in small, reversible steps
 4. **Persist** the output for future reuse
 
-This is the General Agent workflow. By Chapter 12, it will be second nature.
+This is the General Agent workflow. By Chapter 13, it will be second nature.

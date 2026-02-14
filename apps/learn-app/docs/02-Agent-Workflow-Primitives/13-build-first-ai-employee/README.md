@@ -1,11 +1,9 @@
 ---
 sidebar_position: 11
-title: "Chapter 11: Build Your AI Employee"
+title: "Chapter 13: Build Your AI Employee"
 ---
 
-# Chapter 11: Build Your AI Employee
-
-You've spent nine chapters learning individual skills: file processing, research, data analysis, document generation, version control, and automation. Each chapter solved a specific problem. Each produced useful results.
+# Chapter 13: Build Your AI Employee
 
 **Now it's time to combine everything into something greater than the sum of its parts.**
 
@@ -103,17 +101,4 @@ This capstone chapter applies **all seven principles** from Chapter 3:
 |--------|-------|-------|
 | [L13](./13-chapter-assessment.md) | Chapter Assessment | Quiz + submission guidelines |
 
-## Why This Chapter Is Last
-
-This chapter is deliberately positioned as the Part 2 capstone because:
-
-1. **File Processing (Ch 4)** → Your employee manages files
-2. **Research (Ch 5)** → Your employee gathers intelligence
-3. **Data Analysis (Ch 6)** → Your employee crunches numbers
-4. **Documents (Ch 7)** → Your employee writes communications
-5. **Version Control (Ch 8)** → Your employee works safely
-6. **Automation (Ch 9)** → Your employee runs 24/7
-
 Each earlier chapter builds a capability. This chapter combines them all into a working Digital FTE — proving that the paradigm from Part 1 isn't theoretical. It's something you can build today.
-
-**Ready to build your first Digital FTE?** Start with [L00: Complete Specification](./00-personal-ai-employee-specification.md).
