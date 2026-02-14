@@ -415,6 +415,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const chapterSlug = docIdSegments.slice(0, -1).join("/");
   const hasValidSlug = chapterSlug.length > 0 && lessonSlug.length > 0;
   const isQuizPage = lessonSlug.toLowerCase().includes("quiz");
+  const isCategoryIndex = rawSource.endsWith("README.md") || rawSource.endsWith("README.mdx") || rawSource.endsWith("index.md") || rawSource.endsWith("index.mdx");
 
   // Teaching Guide Sheet state
   const [teachingGuideOpen, setTeachingGuideOpen] = React.useState(false);
@@ -512,7 +513,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
-        {isLeafPage && isLoggedIn && hasValidSlug && !isQuizPage && (
+        {isLeafPage && isLoggedIn && hasValidSlug && !isQuizPage && !isCategoryIndex && (
           <LessonCompleteButton
             chapterSlug={chapterSlug}
             lessonSlug={lessonSlug}
@@ -621,7 +622,7 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
-      {isLeafPage && isLoggedIn && hasValidSlug && !isQuizPage && (
+      {isLeafPage && isLoggedIn && hasValidSlug && !isQuizPage && !isCategoryIndex && (
         <LessonCompleteButton
           chapterSlug={chapterSlug}
           lessonSlug={lessonSlug}
