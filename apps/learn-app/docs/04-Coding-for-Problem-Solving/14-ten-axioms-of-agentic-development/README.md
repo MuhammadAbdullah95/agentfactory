@@ -48,8 +48,8 @@ The Principles tell you *how to think*. The Axioms tell you *how to build*.
 | Lessons | Layer | Focus |
 |---------|-------|-------|
 | 01-04 | L1 (Manual) | Introduce axioms conceptually with concrete examples |
-| 05-07 | L2 (Collaboration) | Explore axioms with AI assistance |
-| 08-10 | L2 to L3 | Axioms compose into integrated systems |
+| 05-07 | L2 (Collaboration) | Apply axioms with AI assistance (TDG, types, SQL) |
+| 08-10 | L2 → L3 (Integration) | Axioms compose into engineering systems (Git + CI + Observability) |
 
 ## Prerequisites
 
