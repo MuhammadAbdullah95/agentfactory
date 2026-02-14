@@ -8,7 +8,6 @@ import type {
   LeaderboardEntry,
   LeaderboardResponse,
 } from "@/lib/progress-types";
-import { BADGE_DEFINITIONS } from "@/lib/progress-types";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -68,6 +67,15 @@ function BadgeModal({
 }: BadgeModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} modal={false}>
+      {/* Custom overlay since modal={false} disables the built-in one
+          (modal={false} prevents the scrollbar-removal layout shift) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-background/60 backdrop-blur-md animate-in fade-in-0"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
       <DialogContent className="allow-rounded max-w-md sm:max-w-lg max-h-[80vh] overflow-y-auto rounded-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -473,6 +481,7 @@ export default function Leaderboard() {
   const fetchLeaderboard = () => {
     setIsLoading(true);
     setError(null);
+
     getLeaderboard(progressApiUrl)
       .then((res) => {
         setData(res);
