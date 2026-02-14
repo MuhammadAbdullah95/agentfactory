@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 13
 title: "Chapter 13: Build Your AI Employee"
 ---
 
