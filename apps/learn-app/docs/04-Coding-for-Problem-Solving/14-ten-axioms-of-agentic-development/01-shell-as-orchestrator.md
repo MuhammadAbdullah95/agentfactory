@@ -287,6 +287,10 @@ echo "Total functions in importable modules: $total"
 
 The fix: extract the computation into a program.
 
+:::tip Don't worry about the Python syntax yet
+You will learn to write Python in Part 5. For now, focus on the *structure* — notice how the shell script above calls `grep`, `wc`, and `echo` inline, while the program below is a separate file that the shell calls. The shell orchestrates; the program computes. That architectural distinction is the lesson, not the syntax.
+:::
+
 ```python
 # analyze_modules.py — the PROGRAM handles computation
 import ast
