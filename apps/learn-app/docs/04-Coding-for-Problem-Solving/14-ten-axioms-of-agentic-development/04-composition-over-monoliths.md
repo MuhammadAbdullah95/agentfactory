@@ -138,7 +138,7 @@ The principle Lena taught Tomás applies at every level of software, from indivi
 
 This is the scale where Tomás experienced the problem. Here is what the monolithic `process_order()` looked like in essence — a single function doing five things:
 
-```python
+```python static
 def process_order(order_data):
     # Validate (30 lines of validation logic interleaved with...)
     # Calculate price (20 lines dependent on validation variables...)
@@ -150,7 +150,7 @@ def process_order(order_data):
 
 And here is Lena's composed alternative — the same logic as focused units:
 
-```python
+```python static
 def validate_order(order: Order) -> ValidatedOrder:
     """Check order data. Raises ValueError if invalid."""
     ...
@@ -241,7 +241,7 @@ Composition solves this at the structural level:
 
 Lena showed Tomás one more technique that made the composed version powerful in a way the monolith could never be: instead of hardcoding *which* payment processor or *which* database the function uses, you pass the implementation as a parameter.
 
-```python
+```python static
 # Hardcoded: permanently bound to Stripe and PostgreSQL
 def process_order(order_data):
     charge_stripe(order_data)          # Can't test without Stripe
@@ -255,7 +255,7 @@ def process_order(order_data, charge: Callable, save: Callable):
 
 Now the same function works in three contexts without changing a line:
 
-```python
+```python static
 # Production: real Stripe and Postgres
 process_order(data, charge=charge_stripe, save=save_to_postgres)
 

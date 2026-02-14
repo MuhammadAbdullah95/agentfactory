@@ -169,7 +169,7 @@ In TDG, you write the test yourself but the AI generates the implementation. If 
 
 Define what correct behavior looks like. Be specific about inputs, outputs, edge cases, and error conditions:
 
-```python
+```python static
 # test_shipping.py — Tomás's first TDG specification
 import pytest
 from shipping import calculate_shipping
@@ -259,7 +259,7 @@ After adopting TDG, Tomás learned that not all tests are good specifications. S
 
 A **behavior specification** says what the function must do:
 
-```python
+```python static
 def test_sorted_output():
     result = find_top_customers(orders, limit=3)
     assert result == ["Alice", "Bob", "Carol"]
@@ -267,7 +267,7 @@ def test_sorted_output():
 
 An **implementation check** says how the function must work:
 
-```python
+```python static
 def test_uses_heapq():
     """BAD: Tests implementation detail, not behavior."""
     with patch("heapq.nlargest") as mock_heap:
@@ -281,7 +281,7 @@ The first test remains valid whether the function uses sorting, a heap, or a lin
 
 As Tomás wrote more TDG specifications, his tests grew beyond simple input-output assertions. The shipping tests needed sample weight data. The order tests needed sample customers and products. He found himself copying the same setup into every test function — violating the same DRY principle he had learned in Axiom IV. Lena showed him pytest fixtures, which define the world your tests operate in without repeating setup code:
 
-```python
+```python static
 import pytest
 from datetime import date
 from task_manager import TaskManager, Task
@@ -319,7 +319,7 @@ Fixtures define the world your tests operate in. When you send these to the AI, 
 
 Tomás's discount function needed to handle dozens of cases: 10% off, 25% off, 0% off, 100% off, amounts with cents, amounts with rounding. Writing a separate test function for each case would have produced a file longer than the implementation itself. Lena showed him `pytest.mark.parametrize`, which expresses the specification as a table — every row is a test case, and the table is the complete specification:
 
-```python
+```python static
 import pytest
 
 
@@ -373,14 +373,14 @@ Lena showed Tomás that not all tests serve the same purpose. The test pyramid �
 
 **Unit tests** are your primary TDG specification. They define individual function behavior precisely:
 
-```python
+```python static
 def test_discount_calculation():
     assert apply_discount(price=100.0, discount_pct=10) == 90.0
 ```
 
 **Integration tests** define how components interact:
 
-```python
+```python static
 def test_order_creates_invoice(db_session):
     order = create_order(db_session, items=[{"sku": "A1", "qty": 2}])
     invoice = get_invoice(db_session, order_id=order.id)
@@ -390,7 +390,7 @@ def test_order_creates_invoice(db_session):
 
 **E2E tests** define user-visible behavior:
 
-```python
+```python static
 def test_checkout_flow(client):
     client.post("/cart/add", json={"sku": "A1", "qty": 1})
     response = client.post("/checkout", json={"payment": "card"})
@@ -456,7 +456,7 @@ The Green Bar Illusion is the belief that passing tests means production-ready c
 ```
 I want to practice TDG. Here is my specification as pytest tests:
 
-```python
+```python static
 import pytest
 from converter import temperature_convert
 

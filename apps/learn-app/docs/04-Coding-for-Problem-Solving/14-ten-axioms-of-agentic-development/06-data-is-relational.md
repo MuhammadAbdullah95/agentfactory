@@ -235,7 +235,7 @@ Ask these three questions:
 
 SQLite is not a toy database. It is the most widely deployed database engine in the world — present in every smartphone, every web browser, and most operating systems. For Tomás's order dashboard — a single-user internal tool — it was exactly the right choice. No server to maintain, no connection strings to manage, no Docker containers. Just a file:
 
-```python
+```python static
 import sqlite3
 
 conn = sqlite3.connect("orders.db")
@@ -316,7 +316,7 @@ This makes SQL ideal for AI-generated code. Tomás could verify every AI-generat
 
 Tomás noticed that his Python code and his SQL schema were expressing the same structure in two languages — his `CustomerOrder` dataclass mirrored his `orders` table. An ORM (Object-Relational Mapper) bridges that gap, letting you define the structure once. In Python, SQLModel (built on SQLAlchemy) is the recommended choice for agentic development because it unifies Pydantic validation with SQLAlchemy's database layer:
 
-```python
+```python static
 from sqlmodel import SQLModel, Field, Session, create_engine, select
 from typing import Optional
 from datetime import datetime
@@ -375,7 +375,7 @@ There is an agentic angle here too. AI agents are significantly better at genera
 
 Lena showed Tomás the dividing line with two examples from his own codebase:
 
-```python
+```python static
 # Good: ORM for simple CRUD — the SQL is obvious
 order = session.get(Order, order_id)
 order.status = "delivered"
@@ -404,7 +404,7 @@ Without migrations, schema changes are manual commands run against production da
 
 In the Python ecosystem, **Alembic** (built on SQLAlchemy) handles migrations:
 
-```python
+```python static
 # alembic/versions/001_add_priority_to_tasks.py
 """Add priority column to tasks table"""
 
@@ -443,7 +443,7 @@ Tomás stared at the resulting SQL: `SELECT * FROM orders WHERE customer_id = ''
 
 "This is SQL injection," Lena told him. "The OWASP Top 10 has listed it as a critical risk for over two decades, and it is still one of the most common vulnerabilities in production software. The rule is absolute: never interpolate user-provided values into SQL strings. Always use parameterized queries."
 
-```python
+```python static
 # DANGEROUS — SQL injection vulnerability
 cursor.execute(f"SELECT * FROM orders WHERE customer_id = '{user_input}'")
 

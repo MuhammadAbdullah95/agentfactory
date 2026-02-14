@@ -291,7 +291,7 @@ The fix: extract the computation into a program.
 You will learn to write Python later in Part 4. For now, focus on the *structure* — notice how the shell script above calls `grep`, `wc`, and `echo` inline, while the program below is a separate file that the shell calls. The shell orchestrates; the program computes. That architectural distinction is the lesson, not the syntax.
 :::
 
-```python
+```python static
 # analyze_modules.py — the PROGRAM handles computation
 import ast
 import sys
@@ -309,7 +309,6 @@ def analyze(directory: str, threshold: int = 10) -> None:
         except SyntaxError:
             continue
     print(f"Total functions in analyzable modules: {total}")
-    sys.exit(0 if total == 0 else 1)
 
 if __name__ == "__main__":
     analyze(sys.argv[1] if len(sys.argv) > 1 else ".")

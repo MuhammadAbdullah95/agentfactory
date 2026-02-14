@@ -139,7 +139,7 @@ Lena walked Tomás through the three layers she used on every project — the sa
 
 Type hints are Python's built-in syntax for declaring types. This is the `CustomerOrder` dataclass Lena added after Tomás's crash — the one that made the AI's mistakes visible:
 
-```python
+```python static
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -167,7 +167,7 @@ Type hints alone do not enforce anything at runtime — Python ignores them duri
 
 Pyright is a static type checker that reads your annotations and finds errors before you run anything. This is exactly what would have caught Tomás's crash — Pyright sees the mismatch between `dict` and `CustomerOrder` and refuses to proceed:
 
-```python
+```python static
 # pyright: strict
 
 # Tomás's AI-generated code (BROKEN):
@@ -201,7 +201,7 @@ Strict mode means Pyright will reject:
 
 Pydantic adds **runtime validation** on top of static types. Where Pyright catches errors at development time, Pydantic catches errors when external data enters your system — like the API response that Tomás's endpoint consumed:
 
-```python
+```python static
 from pydantic import BaseModel, Field
 
 
@@ -240,7 +240,7 @@ Here is the core insight of this axiom, and the lesson Tomás learned in staging
 
 AI confidently generates calls to methods that do not exist on your objects — exactly what happened with Tomás's `customer.get_orders()`:
 
-```python
+```python static
 # AI generates this (looks reasonable):
 def get_active_tasks(manager: TaskManager) -> list[Task]:
     return manager.get_active()  # Does this method exist?
@@ -257,7 +257,7 @@ Without types, this error only surfaces at runtime. With types, it surfaces the 
 
 AI can misunderstand what a function should return:
 
-```python
+```python static
 # You asked for "a function that finds a user by email"
 # AI generates:
 def find_user(email: str) -> dict[str, str]:
@@ -277,7 +277,7 @@ If you typed the function signature first, the AI generates against your type. I
 
 AI doesn't have access to your full codebase context when generating code. It makes assumptions about interfaces:
 
-```python
+```python static
 # AI assumes your database module works like this:
 from db import get_connection
 
@@ -333,7 +333,7 @@ After adopting types across the order system, Tomás asked Lena a question that 
 
 **Use dataclasses for internal domain objects:**
 
-```python
+```python static
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -351,7 +351,7 @@ class Task:
 
 **Use Pydantic for boundaries where external data enters:**
 
-```python
+```python static
 from pydantic import BaseModel, Field
 from datetime import datetime
 
@@ -375,7 +375,7 @@ class TaskResponse(BaseModel):
 
 **The conversion pattern — boundary to internal:**
 
-```python
+```python static
 def create_task(request: TaskCreateRequest) -> Task:
     """Convert validated boundary type to internal type."""
     return Task(
@@ -408,7 +408,7 @@ These are the specific patterns that destroy type safety:
 
 `Any` is Python's escape hatch from the type system. It means "I do not know the type, and I do not want the checker to care." Every `Any` in your code is a hole in your guardrails — and Tomás discovered that AI loves to fill those holes with hallucinations:
 
-```python
+```python static
 # BAD: Any disables all checking — AI can return anything
 def process_data(data: Any) -> Any:
     return data["result"]["items"][0]["name"]  # Five unchecked assumptions
@@ -438,7 +438,7 @@ Tomás initially worried that types meant rigid code — that every function wou
 
 ### Generics: One Implementation, Many Types
 
-```python
+```python static
 from typing import TypeVar
 
 T = TypeVar("T")
@@ -459,7 +459,7 @@ count: int | None = first_or_none([1, 2, 3])
 
 When Tomás needed the order pipeline to handle both domestic and international orders — each with different tax rules and shipping logic — Lena showed him Protocols: a way to define what an object must *do* without forcing it into an inheritance tree. Protocols define the shape an object must have, and the type checker verifies conformance automatically:
 
-```python
+```python static
 from typing import Protocol
 
 

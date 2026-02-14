@@ -151,7 +151,7 @@ After the 2:47 AM incident, Lena walked Tomás through the three pillars of prod
 
 Logs are structured records of discrete events. They tell you what the system did at specific moments. Lena showed Tomás the difference between his `print` statements and proper structured logging:
 
-```python
+```python static
 import structlog
 
 logger = structlog.get_logger()
@@ -175,7 +175,7 @@ Structured logs use key-value pairs instead of free-form strings. This makes the
 
 Metrics are numerical measurements over time. They tell you about system behavior in aggregate. "Logs tell you what happened to one order," Lena explained. "Metrics tell you what is happening to *all* orders."
 
-```python
+```python static
 from prometheus_client import Counter, Histogram, Gauge
 
 # Count events — how many orders are we processing?
@@ -205,7 +205,7 @@ Metrics answer questions like: "How many orders per second are we processing?" "
 
 Traces follow a single request through the entire system, showing how time was spent across components. "This is the pillar that would have solved your 2:47 AM problem in minutes," Lena told Tomás.
 
-```python
+```python static
 from opentelemetry import trace
 
 tracer = trace.get_tracer("order-service")
@@ -253,7 +253,7 @@ After understanding the three pillars conceptually, Tomás was ready to implemen
 
 ### Structured Logging with structlog
 
-```python
+```python static
 import structlog
 import logging
 import sys
@@ -294,7 +294,7 @@ Choosing the right log level determines whether logs are useful or overwhelming.
 | `ERROR` | Failures requiring attention | API call failed, invalid input | Triggers alert |
 | `CRITICAL` | System-level failures | Database down, out of memory | Wakes someone up |
 
-```python
+```python static
 # Each level serves a distinct purpose in Tomás's order system
 logger.debug("discount_calculation_details", rate=0.15, subtotal=127.50)
 logger.info("order_processed", order_id="ord-7891", total=108.38, duration_ms=45)
@@ -307,7 +307,7 @@ logger.critical("database_connection_lost", host="orders-db.example.com")
 
 During the 2:47 AM incident, Tomás had seen `ERROR: something went wrong` in his logs but could not connect it to a specific order or customer. A correlation ID ties all log entries for a single request together — solving exactly this problem:
 
-```python
+```python static
 import uuid
 import structlog
 
@@ -332,7 +332,7 @@ As Tomás integrated more AI-generated code into his order management system, he
 
 When Tomás used Claude Code to generate his shipping calculator, each generation consumed tokens — and costs varied dramatically depending on how he prompted. Tokens are both your cost driver and your quality signal.
 
-```python
+```python static
 import structlog
 
 logger = structlog.get_logger()
@@ -369,7 +369,7 @@ class TokenTracker:
 
 Tomás noticed that sometimes Claude Code generated a shipping function that compiled and passed type checks but produced subtly wrong rates for edge cases. Unlike traditional APIs, AI responses can be "correct" structurally but poor in quality.
 
-```python
+```python static
 from prometheus_client import Histogram, Counter
 
 # Track response characteristics that correlate with quality
@@ -398,7 +398,7 @@ conversation_turns = Histogram(
 
 AI agents fail differently from traditional software — they can fail silently by producing plausible but wrong output.
 
-```python
+```python static
 from prometheus_client import Counter
 
 # Explicit failures (easy to catch)
@@ -420,7 +420,7 @@ quality_flags = Counter(
 
 Tomás's traditional order processing had fixed infrastructure costs — the server cost the same whether it handled ten orders or ten thousand. AI agents are different: they have variable per-request costs that scale with usage.
 
-```python
+```python static
 import structlog
 from prometheus_client import Histogram
 

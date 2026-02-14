@@ -146,7 +146,7 @@ Here is what Tomás originally wrote — the script that three teams came to dep
 You will learn Python later in Part 4. For now, compare the *length and structure* of these two versions — not the syntax. Notice what the script is missing (error handling, tests, types) and what the program adds. The difference between a script and a program is the lesson, not the language.
 :::
 
-```python
+```python static
 # rename_images.py (SCRIPT version)
 import os, re
 
@@ -162,7 +162,7 @@ Twelve lines. No error handling. No way to preview changes. No protection agains
 
 After the incident, Lena sat down with Tomás and walked through the transformation. The program version is longer — necessarily so — but every additional line exists to prevent a specific category of failure:
 
-```python
+```python static
 # src/image_renamer/cli.py (PROGRAM version)
 """Batch rename image files with safe, reversible operations."""
 from pathlib import Path
@@ -220,7 +220,7 @@ def rename(
 
 And the tests that would have caught the Unicode crash before it reached production:
 
-```python
+```python static
 # tests/test_renamer.py
 from pathlib import Path
 from image_renamer.cli import normalize_filename, plan_renames
@@ -327,7 +327,7 @@ This creates three specific risks that program discipline addresses:
 
 AI models sometimes generate code that calls functions or methods that do not exist, or passes arguments in the wrong order. Type checking catches this immediately:
 
-```python
+```python static
 # AI generated this -- looks reasonable
 from pathlib import Path
 
@@ -342,7 +342,7 @@ Without pyright, this code would crash at runtime when a user first triggers tha
 
 AI does not remember previous sessions. Each time you ask it to modify code, it works from the current file content without understanding the history of decisions that shaped it. Tests encode your expectations permanently:
 
-```python
+```python static
 def test_normalize_preserves_hyphens() -> None:
     """This test exists because a previous AI edit removed hyphens.
     Hyphens are valid in filenames and should be preserved."""
@@ -445,7 +445,7 @@ Walk me through each change and explain what class of bug it prevents.
 ```
 I asked an AI to generate this Python function:
 
-```python
+```python static
 def fetch_user_data(user_id):
     import requests
     resp = requests.get(f"http://api.example.com/users/{user_id}")
