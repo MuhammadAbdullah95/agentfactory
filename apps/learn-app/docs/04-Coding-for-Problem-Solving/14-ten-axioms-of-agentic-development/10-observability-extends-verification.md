@@ -354,9 +354,10 @@ class TokenTracker:
 
     def _estimate_cost(self, usage, model: str) -> float:
         """Estimate cost based on model pricing."""
+        # Rates change frequently — load from config or environment
         rates = {
-            "claude-sonnet-4-20250514": {"input": 0.003, "output": 0.015},
-            "claude-opus-4-5-20251101": {"input": 0.015, "output": 0.075},
+            "gpt-4o": {"input": 0.0025, "output": 0.01},
+            "claude-sonnet-4": {"input": 0.003, "output": 0.015},
         }
         rate = rates.get(model, {"input": 0.01, "output": 0.03})
         return (
@@ -396,7 +397,7 @@ conversation_turns = Histogram(
 
 ### Dimension 3: Error Rate Monitoring
 
-AI agents fail differently from traditional software — they can fail silently by producing plausible but wrong output.
+AI agents fail differently from traditional software — they can fail silently by producing plausible but wrong output. A shipping function that returns $0.00 for every international order does not throw an exception. It looks correct structurally. Only observability catches it.
 
 ```python static
 from prometheus_client import Counter
@@ -415,6 +416,8 @@ quality_flags = Counter(
     ["flag_type"]  # "too_short", "repetitive", "off_topic", "hallucination_risk"
 )
 ```
+
+To catch silent failures, Tomás learned two techniques: **baseline comparison** (alert when today's output distribution deviates from last week's — if average shipping cost suddenly drops 90%, something is wrong even though no errors fired) and **shadow testing** (run the new AI-generated function alongside the old one on real inputs, flag any divergence for human review before cutting over).
 
 ### Dimension 4: Cost Per Operation
 
@@ -629,7 +632,19 @@ There is a trap that catches developers right after they learn observability, an
 
 Tomás's first instinct after the 2:47 AM incident was to add DEBUG-level logging to every function. Within a day, his order system was generating 2GB of logs per hour. The storage costs spiked. The log aggregation system slowed to a crawl. And when he actually needed to find a specific error, it was buried under millions of irrelevant entries — the signal drowned by noise he created trying to see everything.
 
-"Observability is not about capturing everything," Lena told him. "It is about capturing the *right* things at the *right* level. DEBUG for development. INFO for normal operations. WARNING for handled problems. ERROR for failures. And CRITICAL for emergencies. If everything is important, nothing is."
+"Observability is not about capturing everything," Lena told him. "It is about capturing the *right* things at the *right* level."
+
+She had him write this on a sticky note:
+
+| Level | When to Use | Example |
+|-------|------------|---------|
+| **DEBUG** | Local development only — never in production | Variable values inside loops |
+| **INFO** | Normal operations worth recording | `order_created`, `payment_processed` |
+| **WARNING** | Handled problems that may need attention | Retry succeeded on third attempt |
+| **ERROR** | Failures requiring investigation | Payment gateway returned 500 |
+| **CRITICAL** | System-level emergencies | Database connection pool exhausted |
+
+"If everything is important, nothing is."
 
 The Log Avalanche extends beyond volume. Production logs may contain customer data — order details, shipping addresses, payment references. Tomás learned to apply data minimization: log what you need for debugging and monitoring, never personally identifiable information. Apply retention policies — not every log entry needs to live forever. And remember that observability infrastructure itself needs security: access to production logs should be as controlled as access to the production database.
 
