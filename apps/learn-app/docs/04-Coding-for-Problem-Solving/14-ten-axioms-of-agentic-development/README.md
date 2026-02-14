@@ -11,6 +11,8 @@ This chapter bridges Parts 1-3 (experiential learning) with Parts 4-6 (technical
 
 The Ten Axioms are not abstract theory. They are distilled from real agentic development practice and directly extend the Seven Principles introduced in Chapter 4.
 
+You will follow Tomás, a new developer building an order management system, as he learns each axiom the hard way — from a $12,000 discount bug to a 2:47 AM production failure. His mentor Lena guides him from shell scripts to production-grade systems, grounding each axiom in a historical milestone: McIlroy's Unix pipes (1964), Codd's relational model (1970), Parnas's information hiding (1972), Beck's test-driven development (2002), Torvalds's Git (2005), and Google's SRE practices (2016).
+
 ## Relationship to the Seven Principles (Chapter 4)
 
 | Dimension | Seven Principles | Ten Axioms |

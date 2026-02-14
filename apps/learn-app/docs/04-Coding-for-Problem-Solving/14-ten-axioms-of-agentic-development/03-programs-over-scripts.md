@@ -143,7 +143,7 @@ A script should become a program when any of these conditions become true:
 Here is what Tomás originally wrote — the script that three teams came to depend on:
 
 :::tip Don't worry about the Python syntax yet
-You will learn Python in Part 5. For now, compare the *length and structure* of these two versions — not the syntax. Notice what the script is missing (error handling, tests, types) and what the program adds. The difference between a script and a program is the lesson, not the language.
+You will learn Python later in Part 4. For now, compare the *length and structure* of these two versions — not the syntax. Notice what the script is missing (error handling, tests, types) and what the program adds. The difference between a script and a program is the lesson, not the language.
 :::
 
 ```python
