@@ -402,7 +402,7 @@ For TDG, aim for this distribution: **70% unit, 20% integration, 10% E2E**. Unit
 
 ### Coverage as a Metric
 
-Code coverage measures how much of your implementation is exercised by tests. For TDG work, target **80% minimum coverage**:
+Code coverage measures how much of your implementation is exercised by tests. Teams commonly target **80% coverage** as a practical baseline for TDG work:
 
 ```bash
 pytest --cov=shipping --cov-report=term-missing
@@ -440,6 +440,10 @@ AI: [Writes tests that assert 7% rate]
 The tests pass. Everything looks correct. But you never specified what the tax rate should be. The AI assumed 7%. If your business requires 8.5%, both the code and the tests are wrong, and neither catches the other.
 
 In TDG, **you are the specification authority**. You decide what correct means. The AI is the implementation engine. It figures out how to achieve what you specified. Never delegate both roles to the AI.
+
+:::warning[The Cardinal Rule of TDG]
+**Never let AI generate both the tests and the implementation.** If the same model writes both, it will encode the same assumptions in both — and neither will catch the other's errors. You write the specification (tests). AI writes the solution (code). This separation is what makes TDG work.
+:::
 
 ## The Green Bar Illusion
 
