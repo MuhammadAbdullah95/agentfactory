@@ -37,7 +37,7 @@ That's what this part teaches you.
 
 This part consists of one chapter that takes your specification-first thinking from Parts 1-2 and puts it into hands-on practice:
 
-### Chapter 13: SDD-RI Hands-On: Master Spec-Kit Plus
+### Chapter 14: SDD-RI Hands-On: Master Spec-Kit Plus
 
 You'll practice specification-first development hands-on, building a real-world project using the Spec-Kit Plus workflow. Building on the SDD-RI concepts introduced in Chapter 5, you'll learn the full pipeline from specification through implementation with reusable intelligence. You'll use every Spec-Kit Plus command on a real research paper project, mastering the workflow you'll apply to every future project.
 
