@@ -210,7 +210,7 @@ Compare this to JSON, where nothing prevents `"customer_id": 999` even if no suc
 | **Deployment** | Embedded in your application | Separate server process |
 | **Setup** | Zero configuration (just a file) | Requires installation and configuration |
 | **Size** | Up to ~1 TB practical | Petabytes with proper architecture |
-| **Concurrency** | Single-writer, multiple readers | Full MVCC concurrent access |
+| **Concurrency** | Single-writer, multiple readers | Full MVCC (Multi-Version Concurrency Control) — concurrent reads and writes without blocking |
 | **Use case** | CLI tools, mobile apps, prototypes, embedded | Web apps, APIs, multi-user systems |
 | **Backup** | Copy the file | pg_dump or streaming replication |
 | **AI agent work** | Local projects, personal tools | Production deployments |
@@ -460,7 +460,7 @@ Parameterized queries are not optional. They are a non-negotiable safety require
 Tomás's `orders.json` — 2,000 records, eleven-second queries, inconsistent customer names — taught him what Edgar Codd formalized in 1970: when data has relationships, a system that understands relationships will always outperform one that does not. Lena's twelve lines of SQL replaced forty lines of Python loops, enforced referential integrity, and gave AI agents a constrained, declarative language to query against.
 
 - **Structured data is relational by nature.** When entities have connections — customers have orders, orders contain products — you have relational data whether or not you store it relationally. JSON files store relational data without understanding it. SQL databases enforce the relationships.
-- **SQL is the default for persistent structured data.** Codd's relational model has survived every challenger for fifty-five years because it addresses a property of data itself. SQLite for single-user tools and prototypes, PostgreSQL for multi-user production systems. The SQL you write transfers between both.
+- **SQL is the default for persistent structured data.** Codd's relational model has survived every challenger for more than fifty years because it addresses a property of data itself. SQLite for single-user tools and prototypes, PostgreSQL for multi-user production systems. The SQL you write transfers between both.
 - **Schemas are type definitions for data.** Just as Axiom V's type annotations give AI a specification for code, SQL schemas give AI a specification for data. Constraints, foreign keys, and CHECK clauses tell the AI exactly what exists, what is valid, and how entities relate — without any additional documentation.
 - **The ORM serves you, not the reverse.** If you cannot explain the SQL your ORM generates, write the SQL directly. Use ORMs for CRUD operations and schema management. Use raw SQL for complex queries where you need to see and control the execution plan.
 - **Parameterized queries are non-negotiable.** The String Concatenation Trap is not theoretical — thirteen characters in a search box can delete an entire table. Always use parameter placeholders. Always instruct AI agents to do the same.
