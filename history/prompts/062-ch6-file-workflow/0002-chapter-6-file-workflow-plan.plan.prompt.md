@@ -39,7 +39,7 @@ Generate a comprehensive plan for chapter 06. The chapter shall be guiding step 
 
 **Chapter Context**:
 
-- Chapter 6 in Part 2: Applied General Agent Workflows
+- Chapter 6 in Part 2: Agent Workflow Primitives
 - Students already learned General Agent paradigm (Part 1, Chapters 1-5)
 - This chapter transforms from passive "observe" to active "build and own"
 - Students create a reusable file organization script they keep forever

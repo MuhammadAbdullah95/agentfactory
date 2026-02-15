@@ -4,7 +4,7 @@
 **Created**: 2025-11-25
 **Status**: Draft
 **Constitutional Version**: 6.0.1
-**Part**: 4 (SDD-RI Fundamentals)
+**Part**: 4 (Applied Domain Workflows)
 **Chapter**: 14 (Position in book structure)
 **Proficiency Tier**: A2-B1 (Beginner transitioning to Intermediate)
 
@@ -234,7 +234,7 @@ As a student, I need to apply all Part 4 learning to an end-to-end project (vide
 
 ### Prerequisites
 
-- **Chapter 13**: SDD-RI fundamentals (theory foundation)
+- **Chapter 13**: Applied Domain Workflows (theory foundation)
 - **Playwright MCP**: Browser automation tool (installation covered in Ch 14 or prerequisite)
 - **Google Account**: For Gemini and YouTube access
 - **Claude Code / AI Companion**: For executing Spec-Kit Plus commands
@@ -284,18 +284,15 @@ As a student, I need to apply all Part 4 learning to an end-to-end project (vide
 **Lessons Structure** (preliminary):
 
 1. **Foundation** (L1-2): Setup + First Spec
-
    - L1: Project introduction + business context (product demo videos)
    - L2: Write your first specification with AI collaboration
 
 2. **Application** (L3-5): Execute SDD-RI Workflow
-
    - L3: Planning phase with Playwright MCP approach
    - L4: Task breakdown and implementation start
    - L5: Complete video generation + download
 
 3. **Integration** (L6-7): Intelligence Creation
-
    - L6: Identify reusable patterns in your workflow
    - L7: Create skills using P+Q+P framework
 

@@ -1,11 +1,11 @@
 ---
 sidebar_position: 12
-title: "Chapter 12: Meet Your First AI Employee"
+title: "Chapter 12: Meet Your First AI Employee (OpenClaw)"
 description: "Experience an AI Employee in under 2 hours, then build portable skills that work anywhere"
 keywords: [ai employee, openclaw, personal assistant, telegram bot, skills, mcp]
 ---
 
-# Chapter 12: Meet Your First AI Employee
+# Chapter 12: Meet Your First AI Employee (OpenClaw)
 
 In January 2026, OpenClaw went viral—165,000 GitHub stars, the fastest-growing repository in history. It proved something profound: **AI Employees are real, they work, and people want them.**
 

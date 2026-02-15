@@ -144,6 +144,18 @@ If anything looks wrong, restore from backup.
 
 The verification checklist is the same. The folder is different. And now you have the confidence to restore if something went wrong.
 
+### Workflow 6: Search & Index
+
+```
+Find all tax-related documents on my Desktop — PDFs, spreadsheets,
+anything with "tax", "w2", "1099", or "return" in the name or content.
+Then create a TAX_DOCS_INDEX.md that lists every match with its
+location, file type, and size. I want a permanent map, not just
+search results that disappear.
+```
+
+This is the step most people skip. Finding a file solves today's problem. Creating an index solves it permanently. The next time you need a tax document, you won't search again — you'll open `TAX_DOCS_INDEX.md`. That's **Principle 5: Persisting State in Files**. The search results stop being ephemeral and become a lasting asset.
+
 ---
 
 ## Build Your Prompt Toolkit
@@ -225,7 +237,8 @@ Verify the restoration is complete.
 Find files that match [DESCRIPTION] from [TIME PERIOD].
 Search in [LOCATIONS: Downloads, Documents, Desktop].
 If needed, search inside files for [CONTENT].
-Show me your search strategy and results.
+Save the results to [INDEX_FILE.md] with file paths, types, and sizes
+so I never have to run this search again.
 
 ```
 
@@ -261,6 +274,7 @@ You've been learning the Seven Principles without memorizing them. Let's make ex
 | 4. Batch Operations      | Generated reusable script            | **P2: Code as Universal Interface** |
 | 5. Error Recovery        | Restored from backup after mistake   | **P3 + P6: Verify + Safety**        |
 | 6. Search & Discovery    | Described problem, agent chose tools | **P1 + P2: Bash + Code**            |
+| 6. Search & Discovery    | Created persistent index of results  | **P5: Persisting State in Files**   |
 
 All seven principles showed up naturally. You didn't study them from a textbook. You experienced them through action. And you saw them reinforce each other — safety enabled experimentation, verification caught errors, persistence made rules reusable.
 
@@ -351,7 +365,20 @@ When you learn automation, you'll build AI Employees that do this automatically:
 
 Your `rules.md` becomes the AI Employee's decision rules. Your verification patterns become its supervision methods. Everything you learned transfers.
 
-The manual workflows you mastered are the foundation. Automation adds the layer that runs without you.
+Here's a glimpse of what that looks like. Your manual `rules.md` feeds directly into an automated workflow:
+
+```
+# Automated File Organizer (what you'll build later)
+
+1. Watch ~/Downloads for new files        ← replaces "you open Claude Code"
+2. Load rules.md                          ← your rules, unchanged
+3. Apply categorization rules             ← same logic you designed in Lesson 3
+4. Log every move to ORGANIZER-LOG.md     ← same observability pattern
+5. If error → restore from backup         ← same recovery workflow from Lesson 5
+6. Send summary to you                    ← you verify, agent reports
+```
+
+The rules, the logging, the recovery — it's all the same. Automation just removes _you_ as the trigger. The manual workflows you mastered are the foundation. Automation adds the layer that runs without you.
 
 ---
 
@@ -434,3 +461,11 @@ The prompts you've collected are reusable. The principles you've observed are un
 Later, you'll take these patterns and automate them. But first, practice what you've learned. Run your toolkit on another folder. Refine your prompt templates. Make file chaos something you solve in minutes, not hours.
 
 Your Downloads folder is organized. Your toolkit is built. You're ready for automation.
+
+---
+
+## 🔄 Session Management Note
+
+You've completed the entire chapter. Commit everything and start a completely fresh session before moving to the next chapter.
+
+**Why this matters:** Seven lessons of file processing generated a lot of context — surveys, organization rules, batch scripts, recovery exercises, search patterns, and this capstone. Carrying all of that into the next chapter would be the Kitchen Sink pattern from Chapter 6. Your deliverables (`MY-PROMPT-TOOLKIT.md`, `rules.md`, scripts) are all saved in files. The next chapter starts clean.

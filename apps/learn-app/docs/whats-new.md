@@ -18,6 +18,12 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-13
+- update slides in ch7 ([#724](https://github.com/panaversity/agentfactory/pull/724))
+
+### 2026-02-13
+- Enhance ch7 ([#723](https://github.com/panaversity/agentfactory/pull/723))
+
+### 2026-02-13
 - docs: review and polish Chapter 6 - Seven Principles ([#720](https://github.com/panaversity/agentfactory/pull/720))
 
 ### 2026-02-13

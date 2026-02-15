@@ -1,13 +1,13 @@
 ---
-sidebar_position: 13
+sidebar_position: 14
 title: "Chapter 13: Master Spec-Kit Plus"
 slides:
   source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/chapter-13-slides.pdf"
-  title: "Chapter 13: Master Spec-Kit Plus"
+  title: "Chapter 14: Master Spec-Kit Plus"
   height: 700
 ---
 
-# Chapter 13: Master Spec-Kit Plus
+# Chapter 14: Master Spec-Kit Plus
 
 Welcome to hands-on specification-driven development. This chapter transforms understanding (from Chapter 5) into practice. You won't read about Spec-Kit Plus—you'll **use every command**. You won't learn workflow in isolation—you'll execute it end-to-end on a real project.
 

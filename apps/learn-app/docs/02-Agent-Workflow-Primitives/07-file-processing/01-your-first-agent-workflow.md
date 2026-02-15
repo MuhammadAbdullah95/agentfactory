@@ -119,7 +119,7 @@ Here's what I found:
 Now let me see what's taking up the most space.
 
 [Runs: du -sh ~/Downloads]
-[Runs: find ~/Downloads -type f -exec du -h {} + | sort -rh | head -10]
+[Runs: du -ah ~/Downloads | sort -rh | head -10]
 
 Total folder size: 12.4 GB
 
@@ -277,6 +277,46 @@ The skills you're building:
 
 ---
 
+## The Honest Moment: When You're Faster
+
+Let's race.
+
+The agent just ran `ls ~/Downloads | head -20` to start its analysis. You could have typed that yourself in two seconds flat. Waiting for the agent to think, decide on `ls`, ask permission, then format the response — that took fifteen seconds.
+
+So let's be honest about the scoreboard:
+
+**You win:**
+
+| Task | You | The Agent |
+|------|-----|-----------|
+| Check if a file exists | `ls budget.csv` — done | Describe → think → run ls → respond |
+| Move 3 files | Drag and drop — 5 seconds | Describe → plan → permission → move |
+| Quick peek at a file | `cat notes.txt` — instant | "Show me notes.txt" — 10 seconds |
+
+**The agent wins:**
+
+| Task | You | The Agent |
+|------|-----|-----------|
+| Find all tax docs by content across 3 folders | `find`, `grep`, `xargs`, piping... 20 minutes if you know bash | Describe what you need — 30 seconds |
+| Rename 87 screenshots with dates | 87 manual renames, or write a script from scratch | Describe the pattern — 1 minute |
+| Compare two directories for changes | `diff`, `comm`, `sort`... hope the flags are right | "What's different?" — 15 seconds |
+
+**The rule of thumb:** if you can describe the task faster than you can do it, ask the agent. If you can do it faster than you can describe it, just do it.
+
+Three files to move? Drag them. Three hundred files to categorize by type, date, and project? That's agent territory.
+
+### And Sometimes the Agent is the Wrong Tool Entirely
+
+Not every file task belongs in a terminal:
+
+- **Browsing photos**: You need to _see_ thumbnails to decide which to keep. The agent sees filenames and metadata. You see memories.
+- **Network drives and NAS**: File operations on mounted network storage can behave differently — latency, permission models, case sensitivity. The agent doesn't know your NAS has a 2-second round trip per operation.
+- **Decisions that need human eyes**: That folder of old photos from college? Don't let an agent bulk-delete based on file size rules. Some decisions aren't computational.
+
+The best collaborators know when to hand off and when to handle it themselves. Acknowledging the agent's limits is part of the skill — not a weakness.
+
+---
+
 ## Try With AI
 
 ### Prompt 1: Go Deeper
@@ -320,10 +360,10 @@ asked a slightly different question?
 ```
 Break down this command for me piece by piece:
 
-find ~/Downloads -type f -exec du -h {} + | sort -rh | head -10
+du -ah ~/Downloads | sort -rh | head -10
 
-What does each part do? What do the flags like '-type f', '-exec',
-'-rh', and '-10' mean? Teach me to read this command.
+What does each part do? What do the flags like '-ah', '-rh',
+and '-10' mean? Teach me to read this command.
 ```
 
 **What you're practicing:** Just-in-time learning. Instead of memorizing a textbook, you ask the agent to teach you the specific syntax relevant to the problem you just solved. The agent becomes your tutor, explaining commands in context.

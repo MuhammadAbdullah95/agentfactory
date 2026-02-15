@@ -269,6 +269,23 @@ Here's how to build recovery thinking into every workflow:
 | When something's off     | Compare current state vs backup               |
 | After recovery           | Verify the restoration is complete            |
 
+### The Agent is Ephemeral, Code is Eternal
+
+Notice something about this lesson. Every time you needed recovery, you typed a prompt and the agent ran commands. That works. But what happens next month when you need to recover again? You'll describe the same thing from scratch. The agent might interpret your request slightly differently. It might use different flags, skip the verification step, or restore to the wrong location.
+
+Now look at Try With AI Prompt 3 below — it asks you to create `restore.sh`. That script is fundamentally different from asking the agent to "restore my files." Here's why:
+
+| Approach | Today | Next Month |
+|----------|-------|------------|
+| **Ask the agent** | Agent interprets your request, picks commands, runs them | Agent may interpret differently, pick different commands, produce different results |
+| **Run a script** | Script executes the exact same steps every time | Script executes the exact same steps every time |
+
+This is **Principle 2: Code as the Universal Interface** in action. When you ask the agent to _do_ something, you get a one-time result that depends on the agent's interpretation in that moment. When you ask the agent to _write code_ that does something, you get a deterministic tool that works the same way every time — even without the agent.
+
+The agent is ephemeral. Your conversation ends, context resets, and the next session starts fresh. But a script saved to disk? That persists. It captures the exact recovery workflow you verified today and makes it repeatable forever.
+
+**The pattern**: Whenever you find yourself asking the agent to do the same task twice, stop and ask it to write a script instead. You've traded a conversation for a tool.
+
 ---
 
 ## ✅ Checkpoint: Do This Now
@@ -282,6 +299,16 @@ Stop reading. Open Claude Code and run the recovery exercise.
 5. Verify the restoration matches the original
 
 This should take less than 5 minutes. But the muscle memory you build will save you hours when a real mistake happens.
+
+---
+
+## 🔄 Session Management Note
+
+You've now completed five lessons of file processing work. If your Claude Code context is getting long — or if responses feel slower or less focused — this is a natural point to start fresh.
+
+**Why now:** Recovery exercises generate a lot of back-and-forth. Combined with Lessons 1-4, your context may be carrying exploration, organization, batch operations, and recovery all at once. That's the Kitchen Sink pattern from Chapter 6.
+
+**How to reset:** Commit your work, then start a new session for Lesson 6. Your `rules.md`, `FILE-INVENTORY.md`, backups, and scripts are all saved in files — Principle 5 means your progress survives across sessions.
 
 ---
 

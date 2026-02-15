@@ -10,7 +10,7 @@
 
 **Lesson 04: Specify Phase - Writing Your Video Generation Specification** has been successfully created and committed to the repository.
 
-The lesson provides hands-on specification writing practice for students in Chapter 14 (Spec-Kit Plus Hands-On), building on SDD-RI fundamentals from Chapter 13. It demonstrates the evals-first collaboration pattern through natural dialogue examples while maintaining constitutional compliance (framework invisibility, clean structure, Layer 2 AI collaboration).
+The lesson provides hands-on specification writing practice for students in Chapter 14 (Spec-Kit Plus Hands-On), building on Applied Domain Workflows from Chapter 13. It demonstrates the evals-first collaboration pattern through natural dialogue examples while maintaining constitutional compliance (framework invisibility, clean structure, Layer 2 AI collaboration).
 
 **Status**: READY FOR STUDENT USE
 
@@ -186,19 +186,16 @@ Lesson 11: YouTube Capstone (apply skills to upload)
 ### Students Will Be Able To
 
 1. **Conduct Evals-First Conversation** ✅
-
    - Have productive dialogue with AI about video success criteria
    - Ask clarifying questions to explore problem space
    - Document requirements that emerge from conversation
 
 2. **Write Complete Specification** ✅
-
    - Structure spec with Intent, Constraints, Success Evals, Non-Goals
    - Distinguish WHAT (spec) from HOW (plan)
    - Ensure all sections are present and non-overlapping
 
 3. **Distinguish Video Success Evals from Technical Constraints** ✅
-
    - Recognize measurable vs subjective criteria
    - Identify platform-specific requirements (YouTube vs website)
    - Understand video-domain constraints (Gemini timeouts, file downloads, playback validation)

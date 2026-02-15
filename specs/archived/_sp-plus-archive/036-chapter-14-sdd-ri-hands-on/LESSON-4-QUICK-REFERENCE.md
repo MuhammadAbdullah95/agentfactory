@@ -129,7 +129,7 @@ Students experience AI collaboration through:
 
 ### Prerequisites
 
-- **Chapter 13**: SDD-RI fundamentals (specifications as primary design artifact)
+- **Chapter 13**: Applied Domain Workflows (specifications as primary design artifact)
 - **Lesson 3**: Constitution (global project rules for video output)
 
 ### Foundational for Next Lessons

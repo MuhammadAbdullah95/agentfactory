@@ -4,7 +4,7 @@
 **Source Spec**: `specs/062-ch6-file-workflow/spec.md`
 **Created**: 2025-01-27
 **Constitution**: v7.0.0 (Agent Factory Paradigm)
-**Part**: 02 - Applied General Agent Workflows
+**Part**: 02 - Agent Workflow Primitives
 **Chapter Type**: Technical/Workflow (Hands-on execution, not conceptual)
 
 ---

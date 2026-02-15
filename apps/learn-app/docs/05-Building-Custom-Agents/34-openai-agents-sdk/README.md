@@ -16,13 +16,14 @@ This chapter follows specification-driven development throughout. You'll write s
 
 This chapter is the **BUILD** phase of creating Digital Full-Time Equivalents (Digital FTEs)—AI agents that work like employees, priced and sold as workforce replacements.
 
-| Phase | Chapter | What You Learn | Outcome |
-|-------|---------|----------------|---------|
-| **BUILD** | **Ch34: OpenAI Agents SDK** | Production agent architecture, multi-agent systems, guardrails, sessions, tracing | Working agent system |
-| DISTRIBUTE | Ch42: OpenAI Apps SDK | Package agents for ChatGPT marketplace | Reach 800M+ users |
-| DEPLOY | Part 7: Cloud-Native | Kubernetes, scaling, monitoring | Production infrastructure |
+| Phase      | Chapter                     | What You Learn                                                                    | Outcome                   |
+| ---------- | --------------------------- | --------------------------------------------------------------------------------- | ------------------------- |
+| **BUILD**  | **Ch34: OpenAI Agents SDK** | Production agent architecture, multi-agent systems, guardrails, sessions, tracing | Working agent system      |
+| DISTRIBUTE | Ch42: OpenAI Apps SDK       | Package agents for ChatGPT marketplace                                            | Reach 800M+ users         |
+| DEPLOY     | Part 7: Cloud-Native        | Kubernetes, scaling, monitoring                                                   | Production infrastructure |
 
 **By chapter's end, you'll have built a Customer Support Digital FTE** that:
+
 - Routes inquiries to specialist agents (FAQ, Booking, Escalation)
 - Maintains conversation context across handoffs
 - Validates inputs with guardrails (abuse detection, PII filtering)
@@ -47,5 +48,5 @@ By the end of this chapter, you'll be able to:
 
 - Chapter 33: Introduction to AI Agents (conceptual foundation)
 - Part 5: Python Fundamentals (async/await, type hints, dataclasses)
-- Part 4: SDD-RI Fundamentals (specification-driven workflow)
+- Part 4: Applied Domain Workflows (specification-driven workflow)
 - OpenAI API key with Agents SDK access

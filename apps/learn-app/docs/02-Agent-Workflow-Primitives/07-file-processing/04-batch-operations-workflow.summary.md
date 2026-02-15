@@ -7,6 +7,7 @@ Principle 2 (Code as Universal Interface) means transforming one-time solutions 
 - **Preview before action**: Always ask to see what will change before the agent executes. This prevents mistakes and builds trust.
 - **Scripts over commands**: One-time execution solves today's problem. Scripts solve the category of problems forever.
 - **Iterative refinement**: See the preview. Adjust the pattern. Approve. The agent adapts to your feedback.
+- **Fix the rule, not the file**: When batch operations fail, update the script to handle the edge case — don't just fix the affected files manually. The script gets smarter each time it fails.
 
 ### Critical Patterns
 

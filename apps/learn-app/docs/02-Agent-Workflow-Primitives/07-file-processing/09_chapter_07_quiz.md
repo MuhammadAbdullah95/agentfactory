@@ -10,48 +10,12 @@ running_example_id: file-processing-quiz
 
 # Chapter 7: File Processing Workflows Quiz
 
-Test your understanding of agent-directed file processing workflows, safety patterns, batch operations, error recovery, and the Seven Principles in action. This assessment covers all 8 lessons in Chapter 7.
+Test your understanding of agent-directed file processing workflows, safety patterns, batch operations, error recovery, and the Seven Principles in action. This assessment covers all 7 lessons in Chapter 7.
 
 <Quiz
 title="Chapter 7: File Processing Workflows Assessment"
 questionsPerBatch={18}
 questions={[    {
-      question: "Why does the chapter recommend Bash over PowerShell for AI agent work?",
-      options: [
-        "Bash executes commands faster than PowerShell on all platforms",
-        "PowerShell lacks the ability to perform basic file operations",
-        "AI tools are trained primarily on decades of Bash usage",
-        "Bash provides built-in security features PowerShell does not"
-      ],
-      correctOption: 2,
-      explanation: "AI coding tools like Claude Code are trained primarily on Bash because of its decades of widespread use across development, servers, and automation. Most tutorials, examples, and documentation use Bash syntax, making it the common language AI tools speak most fluently. Bash is not inherently faster than PowerShell, and PowerShell can certainly perform file operations. Built-in security is not the differentiator. The recommendation is about AI fluency, not technical superiority of one shell over another.",
-      source: "Lesson 0: Getting Bash Ready"
-    },
-    {
-      question: "What advantage does WSL provide over Git Bash on Windows?",
-      options: [
-        "WSL runs a complete Linux environment inside Windows",
-        "Git Bash requires significantly more disk space than WSL",
-        "WSL installs automatically on every Windows version released",
-        "Git Bash cannot execute any standard bash commands properly"
-      ],
-      correctOption: 0,
-      explanation: "WSL (Windows Subsystem for Linux) runs a full Linux environment inside Windows, providing a complete Unix experience. This makes it more powerful and the better long-term choice for development work. Git Bash does not require more disk space — it is actually lighter. WSL requires manual installation and specific Windows versions (Windows 10 2004+ or Windows 11). Git Bash absolutely can run standard bash commands — it is a viable option for getting started quickly.",
-      source: "Lesson 0: Getting Bash Ready"
-    },
-    {
-      question: "A student's WSL installation fails with an error. What approach does the chapter recommend?",
-      options: [
-        "Search online forums for specific Windows troubleshooting guides",
-        "Uninstall WSL completely and switch to PowerShell instead",
-        "Restart the computer and retry the installation command again",
-        "Describe the problem to the AI agent for interactive help"
-      ],
-      correctOption: 3,
-      explanation: "The chapter explicitly recommends using your General Agent to troubleshoot WSL issues. You describe what happened, and the agent checks your Windows version, suggests commands, and guides you through fixes. This is presented as a perfect first opportunity to use an AI agent to solve a real problem. While searching forums or restarting might occasionally help, the chapter frames this as an agent-directed learning moment. Switching to PowerShell defeats the purpose of getting Bash set up.",
-      source: "Lesson 0: Getting Bash Ready"
-    },
-    {
       question: "What separates experts from beginners when working with General Agents?",
       options: [
         "Experts memorize more bash commands than beginners do",
@@ -613,6 +577,78 @@ questions={[    {
       ],
       correctOption: 2,
       explanation: "The chapter emphasizes that the patterns are universal: survey (understand the problem), backup (establish safety), design rules (document logic), execute (apply at scale), recover (fix mistakes). These apply to email management, project organization, data cleaning, and any workflow involving General Agents. Files are not the only domain agents handle — the chapter uses files as a training ground because problems are concrete and feedback is immediate. Other domains use the same patterns, not different ones. While agents use different commands per domain, the workflow patterns remain identical.",
+      source: "Lesson 7: Capstone: Your File Processing Toolkit"
+    },
+    {
+      question: "What is the rule of thumb for deciding when to use a General Agent versus doing a task yourself?",
+      options: [
+        "Always use the agent because it documents and logs every action taken",
+        "Use the agent only for tasks that require administrator access levels",
+        "Never use the agent when working with any important personal files at all",
+        "Ask the agent when describing the task is faster than doing it yourself"
+      ],
+      correctOption: 3,
+      explanation: "The chapter presents a clear rule: if you can describe the task faster than you can do it, ask the agent. If you can do it faster than you can describe it, just do it. Three files to move? Drag them — five seconds. Three hundred files to categorize by type, date, and project? Describe that in ten seconds, let the agent work. Always using the agent is wrong because simple tasks like checking if a file exists are faster by hand. Administrator access is not the deciding factor. The agent can work with personal files — the decision is about efficiency, not file importance.",
+      source: "Lesson 1: Your First Agent Workflow"
+    },
+    {
+      question: "Which task is the agent the wrong tool for, according to the chapter?",
+      options: [
+        "Browsing photo thumbnails to decide which images you should keep",
+        "Renaming eighty-seven screenshots with a consistent date pattern",
+        "Finding all tax documents scattered across three separate folders",
+        "Comparing two large directories to identify what files are missing"
+      ],
+      correctOption: 0,
+      explanation: "The chapter identifies browsing photo thumbnails as a task where the agent is the wrong tool entirely. You need to see the images to decide which to keep — the agent sees filenames and metadata, not visual content. Other examples include network drives with different latency behavior and emotionally important decisions that are not computational. Renaming 87 screenshots is exactly where agents excel at complex batch operations. Finding documents across folders uses the agent's multi-location search capability. Comparing directories leverages diff commands, which the agent handles naturally.",
+      source: "Lesson 1: Your First Agent Workflow"
+    },
+    {
+      question: "How does a dry run differ from the single-file test in the organization workflow?",
+      options: [
+        "A dry run processes all files while a test processes only one file",
+        "A dry run creates an automatic backup while a test skips it entirely",
+        "A dry run validates decisions while a test validates the mechanism itself",
+        "A dry run requires special permissions that a test does not need at all"
+      ],
+      correctOption: 2,
+      explanation: "The chapter makes a clear distinction: the single-file test checks that the mechanism works — can the agent actually move files correctly? The dry run checks that the decisions are right — are files going to the correct destinations? A dry run shows what would happen without executing anything, letting you scan the plan for misplaced files. It does not process all files — that is the batch execution step after approval. It does not create backups — that is the safety-first pattern from Lesson 2. Special permissions are not involved. Both serve different verification purposes under Principle 7 (Observability).",
+      source: "Lesson 3: The Organization Workflow"
+    },
+    {
+      question: "When a batch rename script fails on seven files with special characters, what should you do?",
+      options: [
+        "Rename the seven failed files by hand and move on to other tasks",
+        "Update the script to handle special characters then rerun it on them",
+        "Delete the failed files since they caused errors during the processing",
+        "Restore everything from backup and abandon the entire batch operation"
+      ],
+      correctOption: 1,
+      explanation: "The chapter teaches a key principle: do not fix the file, fix the rule. Updating the script to handle special characters means this edge case never causes problems again — the script gets smarter each time it fails. Renaming files manually solves today's problem but leaves the script broken for next time. Deleting files because they caused errors is destructive and unnecessary — the originals are untouched in their original location. Restoring from backup and abandoning is excessive when 80 of 87 files succeeded. Every edge case you fix in the script is an edge case that never bites you again.",
+      source: "Lesson 4: Batch Operations Workflow"
+    },
+    {
+      question: "Why is asking the agent to write a recovery script better than asking it to recover files directly?",
+      options: [
+        "A script produces identical results every time without needing the agent",
+        "The agent cannot execute recovery commands without a script file present",
+        "Scripts always execute significantly faster than interactive agent commands",
+        "Recovery scripts require fewer system permissions than direct agent actions"
+      ],
+      correctOption: 0,
+      explanation: "The chapter states that the agent is ephemeral while code is eternal. A recovery script saved to disk produces the same result every time — same steps, same verification, same outcome — without needing the agent present. Next month the agent might interpret your request differently, use different flags, or skip verification. The agent absolutely can execute recovery commands interactively — it does so throughout the lesson exercises. Speed is not the primary advantage of scripts over interactive commands. Permissions are identical either way. The pattern: if you ask the agent the same task twice, ask it to write a script instead.",
+      source: "Lesson 5: Error Recovery & Resilience"
+    },
+    {
+      question: "What transforms a one-time file search into a lasting asset for future use?",
+      options: [
+        "Running the identical search query again whenever you need the results",
+        "Bookmarking the terminal session where the original search was first run",
+        "Memorizing the exact command syntax used for the original file search",
+        "Saving search results to a persistent index document for later reference"
+      ],
+      correctOption: 3,
+      explanation: "The chapter teaches that search results are ephemeral but indexes are permanent. Creating a document like TAX_DOCS_INDEX.md with file locations, types, and sizes means you never run the same search again. Next time you need a tax document, open the index instead of searching. This is Principle 5 (Persisting State in Files) applied to search. Running the same search again wastes time and may produce different results if files moved. Terminal sessions cannot be reliably bookmarked across restarts. Memorizing syntax contradicts the chapter's observation-over-memorization philosophy.",
       source: "Lesson 7: Capstone: Your File Processing Toolkit"
     }
   ]}

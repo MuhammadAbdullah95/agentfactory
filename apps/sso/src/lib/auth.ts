@@ -399,6 +399,8 @@ export const auth = betterAuth({
     minPasswordLength: 8,
     // Require email verification (disable in test environment for automated testing)
     requireEmailVerification: process.env.DISABLE_EMAIL_VERIFICATION !== "true",
+    // Revoke all SSO sessions when user resets password via email link
+    revokeSessionsOnPasswordReset: true,
     // Custom password verification to support migrated bcrypt hashes from NextAuth
     // New passwords use scrypt (Better Auth default), migrated users have bcrypt ($2b$...)
     password: {
@@ -754,7 +756,7 @@ export const auth = betterAuth({
       // OAuth token expiration configuration
       // Access tokens: Short-lived for security (if leaked, limited damage window)
       // Refresh tokens: Long-lived for UX (silent refresh keeps users logged in)
-      accessTokenExpiresIn: 60 * 60 * 24, // 24 hours (86400 seconds)
+      accessTokenExpiresIn: 60 * 60 * 24 * 14, // 14 days (1209600 seconds)
       refreshTokenExpiresIn: 60 * 60 * 24 * 30, // 30 days (2592000 seconds)
       codeExpiresIn: 600, // 10 minutes (authorization code expiry)
       // Pre-register first-party clients (skip consent screen)
