@@ -24,24 +24,19 @@ from chatkit.types import (
 from fastapi import HTTPException
 
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
-from .fte import create_agent
 from .fte.answer_verification import (
     detect_special_request,
     extract_and_store_correct_answer,
-    get_stored_correct_answer,
     normalize_answer,
     strip_answer_marker,
     verify_student_answer,
 )
-from .fte.triage import MAX_ATTEMPTS, create_chunked_agent
 from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
 from .services.lesson_chunker import get_lesson_chunks
-from .services.session_state import (
-    advance_to_next_chunk,
-    get_or_create_session_state,
-    record_incorrect_attempt,
-)
+
+# Constants for legacy code (kept for backwards compatibility, not used in agent-native mode)
+MAX_ATTEMPTS = 3
 
 # Enable chunked mode for faster responses
 USE_CHUNKED_MODE = True
@@ -49,8 +44,7 @@ USE_CHUNKED_MODE = True
 # Enable agent-native mode (v3) - reviewer's architecture
 # When True: uses dynamic instructions + function tools + zero branching
 # When False: uses v2 chunked mode with server-side state machine
-import os
-USE_AGENT_NATIVE_TEACH = True  # HARDCODED FOR TESTING - TODO: revert to os.getenv
+USE_AGENT_NATIVE_TEACH = True
 
 logger = logging.getLogger(__name__)
 logger.info(f"[ChatKit] USE_AGENT_NATIVE_TEACH = {USE_AGENT_NATIVE_TEACH}")
@@ -597,15 +591,11 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # The verification result is passed to create_agent() to select the right prompt
             verification_result = None
             special_request = None
-            stored_correct_answer = None
 
             # First check for special requests (hint, skip, option_confusion)
             special_request = detect_special_request(user_text)
             if special_request:
                 logger.info(f"[ChatKit] Special request detected: {special_request}")
-                # For skip requests, we need the correct answer to reveal it
-                if special_request == "skip":
-                    stored_correct_answer = await get_stored_correct_answer(thread.id)
 
             # If not a special request, try to extract A/B answer
             if not special_request:
@@ -618,8 +608,6 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                         logger.info("[ChatKit] Answer verified as CORRECT")
                     elif verification_result == "incorrect":
                         logger.info("[ChatKit] Answer verified as INCORRECT")
-                        # Get correct answer for max attempts scenario
-                        stored_correct_answer = await get_stored_correct_answer(thread.id)
                     else:
                         logger.warning("[ChatKit] Could not verify answer (no stored answer)")
                         verification_result = None  # Ensure it's None for unknown
@@ -686,7 +674,10 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
             # AGENT-NATIVE MODE (v3): Use new architecture for teach mode
             # Per reviewer: zero branching, agent has full autonomy
-            logger.info(f"[ChatKit] MODE CHECK: USE_AGENT_NATIVE_TEACH={USE_AGENT_NATIVE_TEACH}, mode='{mode}'")
+            logger.info(
+                f"[ChatKit] MODE CHECK: USE_AGENT_NATIVE_TEACH="
+                f"{USE_AGENT_NATIVE_TEACH}, mode='{mode}'"
+            )
             if USE_AGENT_NATIVE_TEACH and mode == "teach":
                 logger.info("[ChatKit] >>> ROUTING TO AGENT-NATIVE MODE (v3) <<<")
 
@@ -719,117 +710,18 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                         logger.warning(f"[ChatKit] v3: Failed to delete trigger: {del_err}")
                 return  # Exit early, v3 handles everything
 
-            # Store lesson data in metadata for dynamic instruction functions
-            # This allows ask_agent's dynamic callable to access all context
+            # ASK MODE: Use ask_agent with DeepSeek for direct answers
+            # Store lesson data in metadata for ask_agent's dynamic instructions
+            from .fte.ask_agent import ask_agent
+
+            logger.info("[ChatKit] >>> ROUTING TO ASK MODE (DeepSeek) <<<")
             context.metadata["lesson_title"] = title
             context.metadata["lesson_content"] = content
             context.metadata["is_first_message"] = is_first_message
+            context.metadata["selected_text"] = selected_text
+            context.metadata["user_name"] = user_name
 
-            # CHUNKED MODE: Reduced context for faster responses
-            # Only use chunked mode if lesson has 2+ chunks
-            chunks: list = []
-            if USE_CHUNKED_MODE and mode == "teach":
-                chunks = await get_lesson_chunks(lesson_path, content, title)
-            use_chunked = len(chunks) >= 2
-            
-            if use_chunked:
-                logger.info(f"[ChatKit] CHUNKED MODE: {len(chunks)} chunks")
-
-                # Get/create session state
-                session_state = await get_or_create_session_state(
-                    thread.id, lesson_path, len(chunks)
-                )
-
-                # Detect session resume (existing session, not first message)
-                is_session_resume = (
-                    not is_first_message
-                    and session_state["status"] == "teaching"
-                    and session_state.get("last_question") is None
-                    and session_state["attempt_count"] == 0
-                )
-
-                logger.info(
-                    f"[ChatKit] Session: chunk={session_state['concept_index']}, "
-                    f"attempts={session_state['attempt_count']}, status={session_state['status']}, "
-                    f"resume={is_session_resume}"
-                )
-
-                # Script v2: Update state based on verification and special requests
-                should_advance = False
-
-                # Handle skip request (Script 7)
-                if special_request == "skip":
-                    should_advance = True
-                    logger.info("[ChatKit] Skip request - advancing to next chunk")
-
-                # Handle correct answer (Script 2)
-                elif verification_result == "correct":
-                    session_state = await advance_to_next_chunk(thread.id, session_state)
-                    # Don't set should_advance - already advanced above
-
-                # Handle incorrect answer (Script 3)
-                elif verification_result == "incorrect":
-                    session_state = await record_incorrect_attempt(
-                        thread.id, session_state, user_text
-                    )
-                    # Check if max attempts reached (Script 3B)
-                    if session_state["attempt_count"] >= MAX_ATTEMPTS:
-                        should_advance = True
-                        logger.info(
-                            f"[ChatKit] Max attempts ({MAX_ATTEMPTS}) reached - "
-                            "will reveal answer and advance"
-                        )
-
-                # Store user message for off-topic handling (Script 4)
-                if not verification_result and not special_request:
-                    session_state["last_student_answer"] = user_text
-                    from .services.session_state import save_session_state
-                    await save_session_state(thread.id, session_state)
-
-                # Handle advancement for skip/max_attempts
-                if should_advance:
-                    session_state = await advance_to_next_chunk(thread.id, session_state)
-
-                # Get current/next chunk
-                current_idx = session_state["concept_index"]
-                current_chunk = chunks[current_idx] if current_idx < len(chunks) else chunks[-1]
-                next_chunk = chunks[current_idx + 1] if current_idx + 1 < len(chunks) else None
-
-                # Create chunked agent (Script v2 - all parameters)
-                agent = create_chunked_agent(
-                    chunk=current_chunk,
-                    session_state=session_state,
-                    next_chunk=next_chunk,
-                    user_name=user_name,
-                    is_first_message=is_first_message,
-                    verification_result=verification_result,
-                    special_request=special_request,
-                    correct_answer=stored_correct_answer,
-                    is_session_resume=is_session_resume,
-                    lesson_title=title,
-                )
-                logger.info(
-                    f"[ChatKit] Chunked agent: chunk={current_idx}, "
-                    f"is_first={is_first_message}, verification={verification_result}, "
-                    f"special={special_request}, resume={is_session_resume}"
-                )
-            else:
-                # LEGACY MODE: Full lesson content (or lesson too short to chunk)
-                if chunks and len(chunks) < 2:
-                    logger.info(f"[ChatKit] LEGACY MODE: {len(chunks)} chunk(s)")
-                agent = create_agent(
-                    title,
-                    content,
-                    mode,
-                    user_name=user_name,
-                    selected_text=selected_text,
-                    is_first_message=is_first_message,
-                    verification_result=verification_result,
-                )
-                logger.info(
-                    f"[ChatKit] Agent created: is_first={is_first_message}, "
-                    f"verification={verification_result}"
-                )
+            agent = ask_agent
 
             # Set thread title from first user message (if new thread)
             if is_first_message and "title" not in context.metadata:

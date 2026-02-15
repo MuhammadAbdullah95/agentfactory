@@ -26,7 +26,6 @@ class TeachContext:
     is_first_message: bool = True
     thread_id: str = ""  # For Redis operations
     user_name: str = ""  # For personalized greeting
-    correct_count: int = 0  # Correct answers on current chunk (used for single-chunk lessons)
 
     @property
     def current_chunk(self) -> dict | None:
