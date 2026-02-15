@@ -47,7 +47,7 @@ By the end of this chapter, you'll be able to:
 | [L04](./04-cloud-backup-portfolio.md)          | Cloud Backup & Portfolio        | remote, push, pull — GitHub as your safety net  |
 | [L05](./05-code-review-pull-requests.md)       | Code Review & Pull Requests     | PR workflow for reviewing AI-generated changes  |
 | [L06](./06-reusable-git-patterns.md)           | Reusable Git Patterns           | Common workflows you'll use repeatedly          |
-| [Quiz](./07-chapter-quiz.md)                   | Chapter Quiz                    | Test your understanding                         |
+| [Quiz](./08-chapter-quiz.md)                   | Chapter Quiz                    | Test your understanding                         |
 
 ## Connection to AI Employee (Chapter 12)
 
