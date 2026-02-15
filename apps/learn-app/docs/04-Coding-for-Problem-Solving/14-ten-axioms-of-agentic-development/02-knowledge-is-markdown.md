@@ -162,7 +162,7 @@ Markdown is the only format that scores "Yes" on all four. HTML comes close but 
 
 This is where markdown's design genius — and its relevance to Tomás's situation — becomes concrete. It provides just enough structure to be parseable without becoming a data format that sacrifices readability:
 
-```markdown
+```text
 # Decision Title           ← Parseable as section boundary
 ## Context                 ← Parseable as subsection
 We needed a database...    ← Prose that explains reasoning
@@ -174,7 +174,6 @@ We needed a database...    ← Prose that explains reasoning
 
 ## Decision                ← The conclusion, identifiable by header
 We chose Postgres.
-
 ```
 
 An AI agent reading this file can:

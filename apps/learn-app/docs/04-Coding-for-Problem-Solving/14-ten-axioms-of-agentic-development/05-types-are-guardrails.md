@@ -135,7 +135,7 @@ Python is dynamically typed — it does not require type annotations. But "does 
 
 Lena walked Tomás through the three layers she used on every project — the same layers that would have caught his staging crash before the code ever left his machine.
 
-![Three-Layer Type Safety Stack: Type Hints at the base, Pyright static analysis in the middle, and Pydantic runtime validation at the top, with increasing safety](./img/05-type-safety-stack.png)
+![Python Type Safety Hierarchy: Type Hints at the base, Pyright static analysis in the middle, and Pydantic runtime validation at the top, forming a pyramid of increasing safety](./img/05-type-safety-stack.png)
 
 ### Layer 1: Type Hints (The Annotations)
 

@@ -126,28 +126,6 @@ Tomás's failed push was a textbook example of what CI was designed to prevent. 
 
 After Tomás's failed push, Lena walked him through the architecture of a proper CI pipeline. "Not all checks are equal," she said. "They form a pyramid — fast, cheap checks at the base catch the most common issues, while slower, more thorough checks at the top catch deeper problems."
 
-```
-                    ┌─────────────────┐
-                    │  Security Audit  │  ← Slowest, catches vulnerabilities
-                    │   (pip-audit)    │
-                    ├─────────────────┤
-                    │ Integration Tests│  ← Tests component interactions
-                    │   (pytest -m)    │
-                ┌───┴─────────────────┴───┐
-                │      Unit Tests          │  ← Tests individual functions
-                │       (pytest)           │
-            ┌───┴─────────────────────────┴───┐
-            │        Type Checking             │  ← Catches type errors statically
-            │         (pyright)                │
-        ┌───┴─────────────────────────────────┴───┐
-        │            Linting                       │  ← Catches bugs, style issues
-        │          (ruff check)                    │
-    ┌───┴─────────────────────────────────────────┴───┐
-    │              Formatting                          │  ← Fastest, catches style drift
-    │            (ruff format --check)                 │
-    └─────────────────────────────────────────────────┘
-```
-
 Each level catches different categories of problems:
 
 | Level | Tool | What It Catches | Speed |

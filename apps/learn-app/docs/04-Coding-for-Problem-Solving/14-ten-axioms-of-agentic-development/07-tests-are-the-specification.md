@@ -352,21 +352,6 @@ Organize tests by scope using `@pytest.mark` decorators — `@pytest.mark.unit` 
 
 Lena showed Tomás that not all tests serve the same purpose. The test pyramid — a concept popularized by Mike Cohn — organizes tests by scope and cost:
 
-```
-         /\
-        /  \        E2E Tests (few)
-       / E2E\       Full system, real dependencies
-      /------\      Slow, expensive, high confidence
-     /        \
-    /Integration\   Integration Tests (some)
-   /            \   Multiple components, real I/O
-  /--------------\  Medium speed, medium confidence
- /                \
-/    Unit Tests    \ Unit Tests (many)
-/                    \ Single function, no I/O
-/--------------------\ Fast, cheap, focused
-```
-
 | Level | What It Tests | Speed | Cost | When to Use |
 |---|---|---|---|---|
 | **Unit** | Single function, pure logic | Milliseconds | Free | Every function with business logic |

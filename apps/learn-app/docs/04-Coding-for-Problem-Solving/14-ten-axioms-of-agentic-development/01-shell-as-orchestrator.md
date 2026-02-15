@@ -57,9 +57,9 @@ differentiation:
 
 # Axiom I: Shell as Orchestrator
 
-Maria joined the platform team three weeks ago. At 2:14am on her first on-call rotation, the pager fired: deployment stuck, 50,000 users affected. She opened `deploy.sh` — a 400-line bash script she had never seen — and stared at line 247, somewhere between a `sed` command that parsed Docker tags and a `curl` request to a Slack webhook that might or might not still exist. Variable names like `temp2` and `OUT` told her nothing. A failed test on line 89 should have stopped the pipeline, but someone had removed the `exit 1` three months ago and nobody noticed. The deployment continued past broken tests, built a corrupted image, and pushed it to production.
+Tomás joined the platform team three weeks ago. At 2:14am on his first on-call rotation, the pager fired: deployment stuck, 50,000 users affected. He opened `deploy.sh` — a 400-line bash script he had never seen — and stared at line 247, somewhere between a `sed` command that parsed Docker tags and a `curl` request to a Slack webhook that might or might not still exist. Variable names like `temp2` and `OUT` told him nothing. A failed test on line 89 should have stopped the pipeline, but someone had removed the `exit 1` three months ago and nobody noticed. The deployment continued past broken tests, built a corrupted image, and pushed it to production.
 
-Maria called the senior engineer at 2:30am. "Yeah," Lena said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
+Tomás called the senior engineer at 2:30am. "Yeah," Lena said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
 
 Lena rewrote the entire process that weekend. The new version: a 12-line Makefile. Each target called a proper program — pytest for testing, Docker for image building, `kubectl` for deployment, a small Go binary for notifications. The Makefile did nothing except decide what runs, in what order, with what inputs. When a test failed, the pipeline stopped. When a build succeeded, it moved to the next step. No string parsing. No `temp2`. No tangled logic.
 
@@ -69,11 +69,11 @@ The 2am pages stopped. Not because Lena wrote better bash. Because she stopped u
 
 ## The Problem Without This Axiom
 
-Maria's `deploy.sh` was not written by a bad engineer. It was written by a series of good engineers, each solving an immediate problem. The first version was 15 lines — a clean sequence of commands. Then someone added input validation. Then error logging. Then a Slack notification. Then a rollback mechanism. Each addition was reasonable in isolation. Together, they created a 400-line script that treated the shell as a programming language.
+Tomás's `deploy.sh` was not written by a bad engineer. It was written by a series of good engineers, each solving an immediate problem. The first version was 15 lines — a clean sequence of commands. Then someone added input validation. Then error logging. Then a Slack notification. Then a rollback mechanism. Each addition was reasonable in isolation. Together, they created a 400-line script that treated the shell as a programming language.
 
 This is the universal failure mode. When developers first encounter the shell, they treat it as a programming language. They write loops, parse strings, manipulate data, implement business logic — all inside `.sh` files. This works for small tasks but collapses at scale.
 
-The symptoms are predictable — and Maria experienced all four on that 2am call:
+The symptoms are predictable — and Tomás experienced all four on that 2am call:
 
 - **Debugging becomes archaeology.** A 300-line bash script has no type system, no stack traces, no IDE support. When it fails on line 247, you read from line 1.
 - **Testing becomes impossible.** You cannot unit test a bash function that depends on global state, environment variables, and the output of twelve prior commands.
@@ -101,7 +101,7 @@ The shell's job is to answer: *What runs? In what order? With what inputs? What 
 
 A program's job is to answer: *Given this input, what is the correct output?*
 
-When you respect this boundary, every component becomes independently testable, replaceable, and understandable. When you violate it, you get Maria's 2am pager.
+When you respect this boundary, every component becomes independently testable, replaceable, and understandable. When you violate it, you get Tomás's 2am pager.
 
 ---
 
@@ -147,7 +147,7 @@ The principle gave you access. The axiom gives you discipline. An agent that has
 
 ### Composition Primitives
 
-When Maria asked Lena how the 12-line Makefile could replace 400 lines of bash, Lena's answer was almost embarrassingly simple: "I didn't write anything. I just connected programs that already existed." The Makefile used no framework, no libraries, no custom tooling. It used three primitives that the shell has shipped since 1973.
+When Tomás asked Lena how the 12-line Makefile could replace 400 lines of bash, Lena's answer was almost embarrassingly simple: "I didn't write anything. I just connected programs that already existed." The Makefile used no framework, no libraries, no custom tooling. It used three primitives that the shell has shipped since 1973.
 
 **Pipes** are the oldest and most elegant. One program's output becomes another program's input, with nothing in between but a `|` character.
 
@@ -212,7 +212,7 @@ The Makefile's only job: **sequence the programs and respect their exit codes.**
 
 ### The Shell in Agent Workflows
 
-This is where Axiom I becomes central to everything this book teaches — and where Maria's story connects to yours.
+This is where Axiom I becomes central to everything this book teaches — and where Tomás's story connects to yours.
 
 Consider what separates an AI chatbot from an AI agent. A chatbot receives text and returns text. An agent receives a goal and **takes actions in the world** — it reads files, runs tests, queries databases, deploys services. How? Through the shell. The shell is the bridge between language and action.
 
@@ -247,13 +247,13 @@ Count the shell commands. Each one is a single invocation of a specialized progr
 
 The insight is architectural: an AI agent's power is proportional to the number of tools it can compose, not the amount of code it can write. A 12-line orchestration that chains `pytest`, `docker`, and `kubectl` accomplishes more than a 500-line custom script — and it accomplishes it reliably because each tool is independently maintained and tested.
 
-This pattern holds across every major AI coding tool. Whether it is Claude Code, Cursor, Windsurf, or GitHub Copilot's workspace agents — they all converge on the same architecture: the model reasons, the shell orchestrates, and specialized programs compute. Axiom I is not our invention. It is what every successful AI agent discovered independently, because it is the architecture that works. Had Maria been able to point an AI agent at her team's deployment on that 2am call, the agent would have done exactly this — invoking `pytest`, reading the exit code, and stopping. It would never have written a 400-line bash script to do so.
+This pattern holds across every major AI coding tool. Whether it is Claude Code, Cursor, Windsurf, or GitHub Copilot's workspace agents — they all converge on the same architecture: the model reasons, the shell orchestrates, and specialized programs compute. Axiom I is not our invention. It is what every successful AI agent discovered independently, because it is the architecture that works. Had Tomás been able to point an AI agent at his team's deployment on that 2am call, the agent would have done exactly this — invoking `pytest`, reading the exit code, and stopping. It would never have written a 400-line bash script to do so.
 
 ---
 
 ## The Complexity Threshold
 
-Maria's `deploy.sh` did not start as 400 lines. It started as 15 — a clean sequence of commands. But each week, someone added a loop here, a string parse there, a conditional that checked whether the Docker registry was reachable before pushing. By the time Maria inherited it, the script had crossed from coordination into computation without anyone noticing the moment it happened.
+Tomás's `deploy.sh` did not start as 400 lines. It started as 15 — a clean sequence of commands. But each week, someone added a loop here, a string parse there, a conditional that checked whether the Docker registry was reachable before pushing. By the time Tomás inherited it, the script had crossed from coordination into computation without anyone noticing the moment it happened.
 
 Axiom I does not mean "never write more than one line of bash." Short scripts that set up environments, sequence commands, and route errors are legitimate orchestration. The danger zone begins when your script starts doing the work instead of delegating it.
 
@@ -327,7 +327,7 @@ The program is testable, type-checkable, debuggable with a real debugger, and re
 
 ## Anti-Patterns
 
-Maria's `deploy.sh` was a Mega-Script. You have seen The Mega-Script too — every team has one. It starts with a comment from 2019: `# TODO: refactor this someday`. It has a variable called `temp2` that shadows `temp` from line 40 — nobody remembers why both exist. There is a `curl` on line 312 that posts to a Slack webhook URL that was decommissioned last year, but nobody removed it because nobody is sure what else line 312 does. There is a `for` loop on line 178 that parses JSON with `grep` and `cut` because the person who wrote it did not know about `jq`, and the person who knew about `jq` was afraid to refactor in case something else broke. The script works. Mostly. Until it does not, and then everyone discovers what Maria discovered: when computation and orchestration are tangled, no one can fix anything without risking everything.
+Tomás's `deploy.sh` was a Mega-Script. You have seen The Mega-Script too — every team has one. It starts with a comment from 2019: `# TODO: refactor this someday`. It has a variable called `temp2` that shadows `temp` from line 40 — nobody remembers why both exist. There is a `curl` on line 312 that posts to a Slack webhook URL that was decommissioned last year, but nobody removed it because nobody is sure what else line 312 does. There is a `for` loop on line 178 that parses JSON with `grep` and `cut` because the person who wrote it did not know about `jq`, and the person who knew about `jq` was afraid to refactor in case something else broke. The script works. Mostly. Until it does not, and then everyone discovers what Tomás discovered: when computation and orchestration are tangled, no one can fix anything without risking everything.
 
 The Mega-Script is the most common anti-pattern, but it is not the only one:
 
@@ -452,7 +452,7 @@ These are not suggestions. They are the engineering discipline that Axiom I dema
 
 ## Key Takeaways
 
-Maria's story is not unusual. Every team has a `deploy.sh` — a script that started as clean orchestration and slowly filled with computation until nobody could debug, test, or trust it. The axiom exists to prevent that drift before it starts.
+Tomás's story is not unusual. Every team has a `deploy.sh` — a script that started as clean orchestration and slowly filled with computation until nobody could debug, test, or trust it. The axiom exists to prevent that drift before it starts.
 
 - **The shell coordinates; programs compute.** This is the single architectural boundary that governs all agentic tool use.
 - **This pattern was discovered at Bell Labs in the 1960s** and has survived every technology shift since — because separation of concerns is not a trend, it is a law.
