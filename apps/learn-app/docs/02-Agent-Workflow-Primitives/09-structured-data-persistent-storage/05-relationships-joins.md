@@ -23,6 +23,13 @@ skills:
     digcomp_area: "Data Management"
     measurable_at_this_level: "Student can access related data through Python attributes (user.expenses, expense.user)"
 
+  - name: "SQLAlchemy 2.0 Query Style"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Data Management"
+    measurable_at_this_level: "Student can write queries using select() with .scalars() instead of legacy session.query()"
+
   - name: "Join Operations"
     proficiency_level: "A2"
     category: "Technical"
@@ -55,10 +62,10 @@ learning_objectives:
     bloom_level: "Understand"
     assessment_method: "Student explains why both sides need relationship() with matching back_populates"
 
-  - objective: "Query related data using Python attributes (not raw SQL joins)"
+  - objective: "Query related data using select() and relationship attributes (SQLAlchemy 2.0 style)"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student retrieves related objects through relationship attributes"
+    assessment_method: "Student retrieves related objects using select().where() and relationship attributes"
 
   - objective: "Handle foreign key constraints and cascade delete"
     proficiency_level: "A2"
@@ -109,8 +116,12 @@ The foreign keys create connections. But to USE those connections in Python, you
 **Without relationships:**
 
 ```python
+from sqlalchemy import select
+
 # To get a user's expenses, you'd write:
-expenses = session.query(Expense).filter(Expense.user_id == user.id).all()
+expenses = session.execute(
+    select(Expense).where(Expense.user_id == user.id)
+).scalars().all()
 ```
 
 **With relationships:**
@@ -157,7 +168,7 @@ class Expense(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     description = Column(String(200), nullable=False)
-    amount = Column(Float, nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
 
     # Relationships
     user = relationship("User", back_populates="expenses")
@@ -188,7 +199,7 @@ Let's decode this:
 Here's the full Budget Tracker model setup:
 
 ```python
-from sqlalchemy import Column, Integer, String, Float, Date, DateTime, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, Numeric, Date, DateTime, ForeignKey, create_engine, select
 from sqlalchemy.orm import declarative_base, relationship, Session
 from datetime import datetime, date, timezone
 
@@ -217,8 +228,8 @@ class Expense(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     description = Column(String(200), nullable=False)
-    amount = Column(Float, nullable=False)
-    expense_date = Column(Date, default=date.today)
+    amount = Column(Numeric(10, 2), nullable=False)
+    date = Column(Date, default=date.today)
 
     user = relationship("User", back_populates="expenses")
     category = relationship("Category", back_populates="expenses")
@@ -242,7 +253,9 @@ With relationships defined, access related data through attributes:
 
 ```python
 with Session(engine) as session:
-    user = session.query(User).filter(User.email == 'alice@example.com').first()
+    user = session.execute(
+        select(User).where(User.email == 'alice@example.com')
+    ).scalars().first()
 
     # Access all expenses through relationship
     print(f"{user.name}'s expenses:")
@@ -266,7 +279,9 @@ You didn't write the query - the relationship did.
 
 ```python
 with Session(engine) as session:
-    expense = session.query(Expense).filter(Expense.id == 1).first()
+    expense = session.execute(
+        select(Expense).where(Expense.id == 1)
+    ).scalars().first()
 
     # Access user through relationship
     print(f"Expense by: {expense.user.name}")
@@ -286,7 +301,9 @@ Both directions work. One query, related objects available.
 
 ```python
 with Session(engine) as session:
-    user = session.query(User).filter(User.name == 'Alice').first()
+    user = session.execute(
+        select(User).where(User.name == 'Alice')
+    ).scalars().first()
 
     # Calculate total spending
     total = sum(expense.amount for expense in user.expenses)
@@ -320,9 +337,9 @@ Relationships let you navigate data you already have. But sometimes you need to 
 ```python
 with Session(engine) as session:
     # Find all expenses in the "Food" category
-    food_expenses = session.query(Expense).join(Category).filter(
-        Category.name == 'Food'
-    ).all()
+    food_expenses = session.execute(
+        select(Expense).join(Category).where(Category.name == 'Food')
+    ).scalars().all()
 
     for expense in food_expenses:
         print(f"${expense.amount}: {expense.description}")
@@ -343,8 +360,8 @@ You didn't write: ON expenses.category_id = categories.id
 | Situation                     | Approach                                            |
 | ----------------------------- | --------------------------------------------------- |
 | Navigate from object you have | `user.expenses` (relationship)                    |
-| Filter query on related table | `.join(Category).filter(Category.name == 'Food')` |
-| Complex multi-table query     | `.join()` with explicit conditions                |
+| Filter query on related table | `select(Expense).join(Category).where(Category.name == 'Food')` |
+| Complex multi-table query     | `select()` with `.join()` and `.where()` conditions              |
 
 ## Cascade: What Happens on Delete?
 
@@ -370,8 +387,12 @@ class User(Base):
 - If an expense is removed from `user.expenses` list → it's deleted from database
 
 ```python
+from sqlalchemy import func
+
 with Session(engine) as session:
-    alice = session.query(User).filter(User.name == 'Alice').first()
+    alice = session.execute(
+        select(User).where(User.name == 'Alice')
+    ).scalars().first()
     expense_count = len(alice.expenses)
     print(f"Alice has {expense_count} expenses")
 
@@ -380,7 +401,9 @@ with Session(engine) as session:
     session.commit()
 
     # Check expenses
-    remaining = session.query(Expense).count()
+    remaining = session.execute(
+        select(func.count()).select_from(Expense)
+    ).scalar()
     print(f"Expenses remaining: {remaining}")
 ```
 
@@ -409,7 +432,9 @@ Here's where collaboration helps. You know WHAT you want. AI helps with HOW to e
 
 ```python
 with Session(engine) as session:
-    user = session.query(User).filter(User.name == 'Alice').first()
+    user = session.execute(
+        select(User).where(User.name == 'Alice')
+    ).scalars().first()
 
     category_totals = {}
     for expense in user.expenses:
@@ -430,21 +455,9 @@ sorted_totals = sorted(category_totals.items(), key=lambda x: x[1], reverse=True
 
 **What emerged:** A complete solution that neither of you had fully formed at the start. AI suggested the traversal pattern; you added the sorting requirement; together you converged on working code.
 
-## What Happens Next
+## What Comes Next
 
-You've now defined relationships between tables. User has many Categories. User has many Expenses. Category has many Expenses. You can navigate this connected data efficiently.
-
-But real-world operations rarely touch just one table. What if you need to transfer money between categories? Create an expense and update a user's balance at the same time? If either operation fails, both must roll back. That's where L5 comes in.
-
-| Lesson | What You Learn                       | What You Add to Your Skill            |
-| ------ | ----------------------------------- | ------------------------------------- |
-| L4 (now) | Connect tables with relationships | Relationship and join patterns        |
-| L5     | Atomic multi-step operations       | Transaction patterns                  |
-| L6     | Move to production cloud database  | Neon deployment and pooling           |
-| L7     | Combine SQL + bash hybrid patterns | Tool choice framework                 |
-| L8     | Integrate everything               | Complete working Budget Tracker app   |
-
-Relationships let you structure your data correctly. Transactions ensure your operations are safe.
+Relationships connect your data. But what happens when a multi-step operation fails halfway? Next, you'll learn why transactions are the difference between reliable software and data corruption.
 
 ## Try With AI
 
@@ -453,9 +466,13 @@ Relationships let you structure your data correctly. Transactions ensure your op
 **What you're learning:** Understanding how relationships connect data.
 
 ```
-Given this code:
+Given this SQLAlchemy 2.0 code:
 
-user = session.query(User).filter(User.email == 'bob@example.com').first()
+from sqlalchemy import select
+
+user = session.execute(
+    select(User).where(User.email == 'bob@example.com')
+).scalars().first()
 category_totals = {}
 for expense in user.expenses:
     cat = expense.category.name
@@ -482,21 +499,23 @@ After AI explains, trace through the code yourself. Does your mental model match
 **What you're learning:** Constructing queries that use relationships.
 
 ```
-Write SQLAlchemy code to find all expenses in the "Food" category,
+Write SQLAlchemy 2.0-style code to find all expenses in the "Food" category,
 sorted by amount (highest first).
 
 Requirements:
-1. Use join() to filter by category name
+1. Use select(Expense).join(Category).where() to filter by category name
 2. Return only expenses (not categories)
 3. Order by amount descending
 4. Print: description, amount, and the user's name who made each expense
 
 Use the Budget Tracker models (User, Category, Expense) with relationships.
+Use session.execute(select(...)).scalars() — not the legacy session.query() style.
 ```
 
 After AI responds, check:
 
-- Does it use `.join(Category)`?
+- Does it use `select(Expense).join(Category).where(...)` (2.0 style)?
+- Does it call `session.execute(...).scalars()` instead of `session.query()`?
 - Does it access `expense.user.name` through the relationship?
 - Would this work with your model definitions?
 
@@ -513,11 +532,15 @@ Include:
 1. How to define relationship() and back_populates (both sides)
 2. When to use cascade="all, delete-orphan"
 3. How to query through relationships (user.expenses)
-4. When to use join() explicitly (filtering on related table)
+4. When to use join() explicitly: select(Expense).join(Category).where(...)
+5. SQLAlchemy 2.0 query style: session.execute(select(Model).where(...)).scalars()
 
 Use Budget Tracker examples:
 - User ↔ Expense (one-to-many)
 - Category ↔ Expense (one-to-many)
+
+All query examples must use SQLAlchemy 2.0 style (select() + execute()),
+not the legacy session.query() pattern.
 
 Format as markdown for SKILL.md.
 ```

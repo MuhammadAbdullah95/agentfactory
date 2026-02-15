@@ -26,7 +26,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Relational databases excel at querying relationships. Instead of manually loading multiple CSV files and filtering in Python, you write one query like 'SELECT all expenses for Alice' which the database executes efficiently. This saves development time and improves reliability.",
-source: "Lesson 1: From CSV to Databases"
+source: "Lesson 0: From CSV to Databases"
 },
 {
 question: "When comparing CSV files to database tables, what's a key difference?",
@@ -38,7 +38,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Foreign keys in databases enforce relationships. You can't create an expense pointing to a non-existent user. CSV files have no such constraints—you could accidentally reference invalid data. This automatic integrity checking is a core database advantage.",
-source: "Lesson 1: From CSV to Databases"
+source: "Lesson 0: From CSV to Databases"
 },
 {
 question: "Which SQLAlchemy model correctly implements a User with auto-increment ID, unique email, and required name?",
@@ -57,11 +57,11 @@ question: "What Column type should you use to store an expense amount like 156.7
 options: [
 "String(10)",
 "Integer",
-"Float",
-"Date"
+"Numeric(10, 2)",
+"Float"
 ],
 correctOption: 2,
-explanation: "Float handles decimal values. String could work but loses type safety. Integer truncates to whole numbers. Date is for calendar dates. SQLAlchemy's Float column stores decimal numbers with precision.",
+explanation: "Numeric(10, 2) stores exact decimal values — critical for money. Float stores approximations (0.1 + 0.2 = 0.30000000000000004), which causes accumulating errors in financial calculations. String loses type safety. Integer truncates decimals.",
 source: "Lesson 2: Models as Code"
 },
 {
@@ -104,7 +104,7 @@ source: "Lesson 3: Creating & Reading Data"
 question: "You retrieve 1,500 expenses and need only those over $100. Which is most efficient?",
 options: [
 "Loop through all 1,500 in Python with if expense.amount > 100",
-"Use session.query(Expense).filter(Expense.amount > 100).all()",
+"Use session.execute(select(Expense).where(Expense.amount > 100)).scalars().all()",
 "Create a separate query for high-value expenses",
 "Both A and B are equally efficient"
 ],
@@ -139,7 +139,7 @@ source: "Lesson 4: Relationships & Joins"
 {
 question: "To get all expenses for a user named Alice, which approach works?",
 options: [
-"alice = session.query(User).filter(User.name == 'Alice').first(); then access alice.expenses",
+"alice = session.execute(select(User).where(User.name == 'Alice')).scalars().first(); then access alice.expenses",
 "Manually loop through all expenses and check names in Python",
 "Relationships don't support querying—use raw SQL",
 "Filter Expense by description.like('%Alice%')"
@@ -302,7 +302,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "Transactions protect multi-step operations. A transfer must succeed completely or not at all. Single operations like creating one expense don't need transactions (they're already atomic).",
-source: "Lesson 8: Capstone Integration"
+source: "Lesson 5: Transactions & Atomicity"
 },
 {
 question: "You accidentally add $1,000 instead of $100 to groceries. What's the safest fix?",
@@ -326,7 +326,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "This research validated the chapter's approach. SQL queries are schema-aware—they enforce structure. Bash/grep are flexible but error-prone on unstructured data. For your Budget Tracker, SQL wins decisively.",
-source: "Lesson 8: Capstone Integration"
+source: "Lesson 0: From CSV to Databases"
 },
 {
 question: "Why did bash fail more often in Braintrust research despite being 'flexible'?",
@@ -338,7 +338,7 @@ options: [
 ],
 correctOption: 0,
 explanation: "Bash has no schema awareness. It sees data as plain text. One format change breaks all grep patterns. SQL knows your schema—User, Expense, relationships—so queries are robust.",
-source: "Lesson 8: Capstone Integration"
+source: "Lesson 0: From CSV to Databases"
 },
 {
 question: "What should your reusable /database-deployment skill include?",
@@ -350,7 +350,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Reusability is the whole point. Your skill should apply to ANY database project—customer databases, inventory systems, analytics. Generic patterns > specific examples.",
-source: "Lesson 0: Build Your Database Skill"
+source: "Lesson 1: Build Your Database Skill"
 },
 {
 question: "Why is 'all data in one CSV' less reliable than relational database?",
@@ -362,7 +362,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "One-table CSV has no way to enforce relationships. You could have expenses for user_id=999 where user 999 doesn't exist. The database prevents this automatically.",
-source: "Lesson 1: From CSV to Databases"
+source: "Lesson 0: From CSV to Databases"
 },
 {
 question: "What's the difference between 'knowing SQL' and 'understanding databases'?",
@@ -386,13 +386,13 @@ options: [
 ],
 correctOption: 1,
 explanation: "create_all() inspects all your models and creates tables if they don't exist. It's idempotent—running it twice on the same engine doesn't fail. All three tables (User, Expense, Category) appear immediately.",
-source: "Lesson 8: Capstone Integration"
+source: "Lesson 3: Creating & Reading Data"
 },
 {
 question: "To retrieve all expenses for Alice, sorted by newest first, which pattern is best?",
 options: [
-"alice = session.query(User).filter(User.name == 'Alice').first(); alice.expenses",
-"alice = session.query(User).filter(User.name == 'Alice').first(); session.query(Expense).filter(Expense.user_id == alice.id).order_by(Expense.date.desc()).all()",
+"alice = session.execute(select(User).where(User.name == 'Alice')).scalars().first(); alice.expenses",
+"alice = session.execute(select(User).where(User.name == 'Alice')).scalars().first(); session.execute(select(Expense).where(Expense.user_id == alice.id).order_by(Expense.date.desc())).scalars().all()",
 "Both A and B work, but B allows explicit sorting",
 "Must use raw SQL"
 ],
@@ -410,7 +410,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Patterns transfer across domains. Borrower ↔ Books is structurally identical to User ↔ Expenses. This is why your skill is valuable—it applies everywhere.",
-source: "Lesson 0: Build Your Database Skill"
+source: "Lesson 1: Build Your Database Skill"
 },
 {
 question: "For calculating total spending by category, which approach is most efficient?",
@@ -422,7 +422,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "Let the database do the work. GROUP BY is optimized for aggregation—it's 1000x faster than Python loops on large datasets. Always push computation to the database when possible.",
-source: "Lesson 8: Capstone Integration"
+source: "Lesson 4: Relationships & Joins"
 },
 {
 question: "When should you use your /database-deployment skill?",
@@ -434,7 +434,7 @@ options: [
 ],
 correctOption: 0,
 explanation: "Your skill applies whenever you need persistence, relationships, or queries. Budget Tracker today, customer database tomorrow. The patterns are universal.",
-source: "Lesson 0: Build Your Database Skill"
+source: "Lesson 1: Build Your Database Skill"
 },
 {
 question: "Why use a database instead of JSON files?",
@@ -446,7 +446,7 @@ options: [
 ],
 correctOption: 1,
 explanation: "JSON has no structure enforcement. A database ensures data integrity and scales efficiently to massive datasets. For production applications, databases win decisively.",
-source: "Lesson 1: From CSV to Databases"
+source: "Lesson 0: From CSV to Databases"
 },
 {
 question: "What's the best approach to test your Budget Tracker before deploying to Neon?",
@@ -470,7 +470,7 @@ options: [
 ],
 correctOption: 2,
 explanation: "Reports need multiple capabilities working together. You query by date (filter), group by category, sum amounts (aggregation), and relate back to users. Single features alone aren't enough.",
-source: "Lesson 8: Capstone Integration"
+source: "Lesson 4: Relationships & Joins"
 },
 {
 question: "What's the tradeoff between in-memory SQLite and Neon?",
@@ -494,7 +494,7 @@ options: [
 ],
 correctOption: 3,
 explanation: "Your skill is a career asset. It accelerates future projects AND positions you as someone who can teach database design. That's leverage.",
-source: "Lesson 0: Build Your Database Skill"
+source: "Lesson 1: Build Your Database Skill"
 },
 {
 question: "Why doesn't a student understand why relationship() is needed if foreign keys exist?",
@@ -554,7 +554,7 @@ options: [
 ],
 correctOption: 3,
 explanation: "All three are dangerous. Committed credentials = data breach. Sessions without context managers = resource leaks. No error handling = crashes. Document these as safety guardrails.",
-source: "Lesson 0: Build Your Database Skill"
+source: "Lesson 1: Build Your Database Skill"
 },
 {
 question: "Why is 'one big table' design problematic?",
@@ -590,7 +590,7 @@ options: [
 ],
 correctOption: 0,
 explanation: "Your skill is transferable capital. Customer database project? Use the skill. Inventory system? Same patterns, different tables. This is leverage.",
-source: "Lesson 0: Build Your Database Skill"
+source: "Lesson 1: Build Your Database Skill"
 },
 {
 question: "Between shipping quickly (skipping transactions) vs data consistency (proper transactions), what matters more?",

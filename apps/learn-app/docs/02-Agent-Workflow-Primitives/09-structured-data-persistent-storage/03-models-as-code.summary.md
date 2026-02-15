@@ -5,12 +5,12 @@ SQLAlchemy's ORM lets you define database tables as Python classes. You write a 
 ### Key Mental Models
 
 - **Python class = database table**: Each class inheriting from Base becomes a table. `__tablename__` sets the table name, each `Column()` becomes a column with a specific type and constraints.
-- **Column types as contracts**: `Integer`, `String(100)`, `Float`, `DateTime` tell the database (and every tool reading the schema) exactly what data each field holds. This type awareness is what makes queries reliable.
+- **Column types as contracts**: `Integer`, `String(100)`, `Numeric(10, 2)`, `DateTime` tell the database (and every tool reading the schema) exactly what data each field holds. This type awareness is what makes queries reliable.
 
 ### Critical Patterns
 
 - Base setup: `Base = declarative_base()` then classes inherit from `Base`
-- Column type mapping: `int` to `Integer`, `str` to `String(N)`, `float` to `Float`, `bool` to `Boolean`, `datetime` to `DateTime`
+- Column type mapping: `int` to `Integer`, `str` to `String(N)`, `decimal` to `Numeric(precision, scale)`, `bool` to `Boolean`, `datetime` to `DateTime`
 - Constraints: `primary_key=True` (auto-increment ID), `nullable=False` (required), `unique=True` (no duplicates), `default=value`
 - ForeignKey declaration: `Column(Integer, ForeignKey('users.id'), nullable=False)` -- enforces referential integrity at the database level
 

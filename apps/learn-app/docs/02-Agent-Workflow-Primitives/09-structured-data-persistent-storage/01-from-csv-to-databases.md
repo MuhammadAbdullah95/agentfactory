@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 title: "When Bash and Python Hit the Wall"
 chapter: 9
-lesson: 1
+lesson: 0
 duration_minutes: 20
 description: "Understand why bash and Python fail at structured queries, and what databases solve"
 keywords: ["CSV limitations", "relational databases", "tables", "foreign keys", "queries", "persistence", "data integrity"]
@@ -68,9 +68,9 @@ differentiation:
 ---
 # When Bash and Python Hit the Wall
 
-In the Computation & Data Extraction chapter, you built a tax preparation pipeline: download bank CSVs, categorize expenses, generate a report. One command processed a full year of transactions. Your toolkit grew — bash for file operations (the File Processing chapter), Python for computation and categorization (the Computation chapter). Powerful tools.
+In Chapter 8, you built a tax-prep pipeline that processes CSVs correctly. Great for known outputs. But when queries change weekly, scripts turn into a maintenance loop.
 
-But imagine your accountant asks a follow-up question next week: *"Show me all medical expenses over $50 from March through June."* With your current tools, you'd write new Python code — load the CSV, loop through rows, parse dates, filter by category, filter by amount, filter by date range. And next month when they ask "compare Q1 vs Q2 spending by category"? More new code. Every new question requires a new script.
+If your accountant asks *"Show me all medical expenses over $50 from March through June"* and then asks *"Compare Q1 vs Q2 by category,"* you write new filtering code each time.
 
 This is the wall. Your tools can process data, but they can't *query* it.
 
@@ -83,29 +83,17 @@ Researchers at Braintrust (an AI evaluation platform) tested this exact problem 
 
 The bash agent generated sophisticated shell commands — `find`, `grep`, `jq`, `awk` chains — but still only got half the answers right, using 7x more resources. Why? **Schema clarity.** Bash doesn't know your data structure. It doesn't know that `amount` is a number, that `date` is a date, or that expenses belong to users. It has to guess. SQL tools don't guess — they know, because you define the schema.
 
-This lesson explains why that matters. No coding yet — just the concepts that make everything in L2-L8 click into place.
-
-In L0, you created your `/database-deployment` skill scaffold. Now let's fill in the "why" — and add another tool to your growing toolkit.
+This lesson explains why that matters. No coding yet — just the concepts that make L2-L8 click.
 
 ## The Tax Prep Problem
 
-In the Computation & Data Extraction chapter, your tax preparation script processed ONE CSV file at a time. Load the file, categorize expenses, output results. Simple and effective for a single tax year.
+Your Chapter 8 script handled one CSV at a time. It breaks down fast when requirements evolve:
 
-But what happens when your needs grow?
+- Multi-year analysis means manual merging or custom glue code.
+- New business questions mean new loops and filters every time.
+- Multi-user data needs ownership rules that CSVs cannot enforce.
 
-**Question 1**: What if you need expenses from 2020, 2021, AND 2022?
-
-With CSV files, you'd have three separate files. Want to see spending trends across years? Write Python code to load all three, merge them, and calculate comparisons.
-
-**Question 2**: What if you need to answer "which months cost over $2000?"
-
-With CSV files, you'd load the file, loop through every row, check the date, sum amounts by month, then filter. Every new question requires new code.
-
-**Question 3**: What if your friend wants to track their expenses too?
-
-With CSV files, do you add their data to your file? Create a separate file for each person? How do you know which expenses belong to whom?
-
-Each time your script runs, it reloads the entire file from scratch. Modifications exist only in memory until you explicitly save a new CSV. There's no history of changes, no relationships between data points, no way to share access safely.
+Each run reloads everything, and persistence/consistency are entirely on you.
 
 ## Why CSV Fails: A Real Scenario
 
@@ -138,7 +126,7 @@ Now the problems appear:
 | **Concurrency breaks**    | Two people edit expenses-2025.csv simultaneously. One saves. The other saves. First person's changes vanish. Or worse: the file corrupts.                                                                            |
 | **Scaling fails**         | When you have 1 million expense rows, loading the entire CSV into memory every time crashes your script or takes minutes to start.                                                                                   |
 
-These aren't theoretical problems. They're exactly what happens when real applications outgrow CSV files.
+These are normal failure modes when real applications outgrow CSV.
 
 ## Introducing Relational Databases
 
@@ -248,10 +236,11 @@ This chapter applies principles you learned earlier:
 
 ## What Happens Next
 
-This lesson established vocabulary and motivation. Here's how you'll apply these concepts:
+This lesson established vocabulary and motivation. Here's how you apply it next:
 
 | Lesson | What You Learn                          | What You Add to Your Skill           |
 | ------ | --------------------------------------- | ------------------------------------ |
+| L1     | Build your /database-deployment skill   | Initialize skill scaffold            |
 | L2     | Define models as Python classes         | Model definition patterns            |
 | L3     | Create and read records                 | CRUD Create/Read operations          |
 | L4     | Connect tables with relationships       | Foreign keys and join patterns       |
@@ -260,7 +249,7 @@ This lesson established vocabulary and motivation. Here's how you'll apply these
 | L7     | Combine SQL + bash for hybrid patterns  | Tool choice framework for Part 2     |
 | L8     | Integrate everything into one app       | Complete, production-ready skill     |
 
-Each lesson adds to your `/database-deployment` skill. By L8, you'll have a complete reference for any future database project — and a framework for choosing the right tool for any data task.
+By L8, your `/database-deployment` skill becomes a reusable reference for future projects.
 
 ## Try With AI
 
@@ -322,7 +311,7 @@ After AI responds, open your `database-deployment/SKILL.md` and update the "When
 
 ### Checkpoint
 
-Before moving to L2, verify:
+Before moving to L1, verify:
 
 - [ ] You can explain one specific way CSV files fail for persistent data
 - [ ] You understand that foreign keys are columns pointing to IDs in other tables

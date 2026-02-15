@@ -1,8 +1,8 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: "Build Your Database Skill"
 chapter: 9
-lesson: 0
+lesson: 1
 duration_minutes: 20
 description: "Create your personal /database-deployment skill that grows with you through the chapter"
 keywords: ["skill creation", "SQLAlchemy", "database skill", "meta-learning", "ownership"]
@@ -55,6 +55,8 @@ differentiation:
   remedial_for_struggling: "Use the template structure provided; fill in one section at a time starting with Persona"
 ---
 # Build Your Database Skill
+
+In the previous lesson, you saw WHY databases matter — CSV files break down when data has relationships, needs querying, or requires concurrent access. Now let's build the skill scaffold that you'll fill in as you learn.
 
 Most textbooks hand you knowledge. This chapter hands you **ownership**.
 
@@ -194,7 +196,7 @@ Sessions are conversations with the database
 **Pattern I'll capture:**
 - Engine setup and session context managers
 - Create: session.add() + session.commit()
-- Read: session.query().filter().all()
+- Read: select() + session.execute()
 - Update & Delete: modify objects and commit
 
 ### 3. Relationships (From L4)
@@ -278,9 +280,10 @@ Simple Expense model - testing the building-with-sqlalchemy-orm pattern.
 This is my first model, following the skill's pattern.
 """
 
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Numeric, DateTime
 from sqlalchemy.orm import declarative_base
 from datetime import datetime, timezone
+from decimal import Decimal
 
 Base = declarative_base()
 
@@ -290,7 +293,7 @@ class Expense(Base):
 
     id = Column(Integer, primary_key=True)
     description = Column(String(200))
-    amount = Column(Float)
+    amount = Column(Numeric(10, 2))
     date = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -298,7 +301,7 @@ class Expense(Base):
 
 # Test it works (syntax check - no database yet)
 if __name__ == "__main__":
-    expense = Expense(description="Test", amount=10.00)
+    expense = Expense(description="Test", amount=Decimal("10.00"))
     print(expense)
 ```
 
@@ -314,7 +317,7 @@ python database-deployment/examples/simple-expense.py
 <Expense(description='Test', amount=$10.00)>
 ```
 
-If you see this output, you have successfully followed the pattern. The model works as Python code. In L1, you will connect it to a real database.
+If you see this output, you have successfully followed the pattern. The model works as Python code. In L2, you will define complete models with constraints and foreign keys.
 
 ## What Happens Next
 
@@ -322,8 +325,8 @@ This skill grows with you through the chapter:
 
 | Lesson   | What You Learn                         | What You Add to Your Skill            |
 | -------- | -------------------------------------- | ------------------------------------- |
-| L0 (now) | Skill structure and ownership         | Initialize /database-deployment       |
-| L1       | Why databases beat CSV files          | "When to Use" section                 |
+| L0       | Why databases beat CSV files          | "When to Use" section                 |
+| L1 (now) | Skill structure and ownership         | Initialize /database-deployment       |
 | L2       | Define models as Python classes       | Model definition patterns             |
 | L3       | Create and read records               | CRUD Create/Read operations           |
 | L4       | Connect tables with relationships    | Foreign keys and join patterns        |
@@ -396,7 +399,7 @@ Your honest reflection here helps you know what to focus on as you continue.
 
 ### Before You Continue
 
-Verify these checkpoints pass before moving to L1:
+Verify these checkpoints pass before moving to L2:
 
 - [ ] You have created the `/database-deployment/` directory
 - [ ] You have read the `building-with-sqlalchemy-orm` skill

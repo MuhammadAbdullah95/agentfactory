@@ -97,7 +97,7 @@ Neon is a **serverless PostgreSQL database**. Serverless means you don't manage 
 | **Persistence** | Dies on restart            | Always running                |
 | **Backups**     | None (manual only)         | Automatic                     |
 | **Scaling**     | Fixed                      | Auto-scales with traffic      |
-| **Cost**        | $0 | $0 (free tier)        |                               |
+| **Cost**        | $0                         | $0 (free tier)                |
 
 Neon also offers features you don't need yet but will appreciate later:
 
@@ -405,19 +405,9 @@ My .env looks correct. What should I check?"
 
 **What emerged:** A systematic troubleshooting approach that isolated the corporate VPN as the issue. Neither of you assumed the answer upfront; you narrowed it down through iteration.
 
-## What Happens Next
+## What Comes Next
 
-Your Budget Tracker database is now running on Neon PostgreSQL. It persists forever. It scales automatically. It handles multiple concurrent users. It's production-ready from day one.
-
-But so far, you've been building isolated pieces: models in L2, CRUD operations in L3, relationships in L4, transactions in L5, Neon setup in L6. Next, you'll learn when to combine these SQL tools with bash verification for production reliability, then put everything together in the capstone.
-
-| Lesson | What You Learn                          | What You Build               |
-| ------ | --------------------------------------- | ---------------------------- |
-| L6 (now) | Connect to Neon, configure pooling   | Production-ready database    |
-| L7     | Combine SQL + bash hybrid patterns      | Tool choice framework        |
-| L8     | Integrate all L0-L7 patterns            | Complete Budget Tracker app  |
-
-L7 teaches the hybrid verification pattern — when to combine SQL with bash for self-checking data pipelines. Then the capstone lesson shows how all pieces work together into one coherent application.
+Your database runs in the cloud. It persists, scales, and handles concurrent users. But you've been building isolated pieces — models, CRUD, relationships, transactions, deployment. Next, you'll learn when to combine SQL with bash verification for production reliability, then put everything together in the capstone.
 
 ## Try With AI
 
@@ -466,26 +456,30 @@ After each step, tell me how to verify it worked.
 
 After completing, verify: Are your three tables (users, categories, expenses) visible in Neon's SQL Editor?
 
-### Prompt 3: Document Deployment Patterns
+### Prompt 3: Deploy Verification
 
-**What you're learning:** Creating reusable deployment skills.
+**What you're learning:** Proving your cloud database actually persists.
 
 ```
-Add to my /database-deployment skill:
+Help me verify my Neon deployment is truly persistent:
 
-## Neon PostgreSQL Setup
+1. Write a Python script (script_a.py) that:
+   - Connects to my Neon database
+   - Creates a Category called "Verification Test" with color "#000000"
+   - Prints "Data written" and exits
 
-Include:
-1. Connection string anatomy (driver, user, pass, host, db, ssl)
-2. Environment variable pattern (.env + dotenv + .gitignore)
-3. Connection pooling configuration (with parameter explanations)
-4. Troubleshooting guide (4 common errors and fixes)
+2. Write a SEPARATE Python script (script_b.py) that:
+   - Connects to the SAME Neon database
+   - Queries for a Category named "Verification Test"
+   - Prints the result (or "Not found")
 
-Format as markdown. Make it reusable for ANY Neon project.
-Use [YOUR_CONNECTION_STRING] as placeholder, not my actual credentials.
+3. Show me how to run script_a.py, wait 10 seconds, then run script_b.py
+
+If script_b.py finds the data, my cloud database works.
+If not, something is wrong with my connection.
 ```
 
-After AI responds, check: Could someone on your team use this skill to set up a new Neon database?
+After AI responds, run both scripts. This is the moment where "cloud persistence" stops being a concept and becomes something you've verified yourself.
 
 **Security reminder:** Never commit `.env` files. Never share connection strings in chat logs, screenshots, or code reviews. Rotate passwords if you accidentally expose them.
 

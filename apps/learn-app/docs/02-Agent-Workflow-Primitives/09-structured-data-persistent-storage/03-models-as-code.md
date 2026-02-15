@@ -5,7 +5,7 @@ chapter: 9
 lesson: 2
 duration_minutes: 25
 description: "Define SQLAlchemy models as Python classes that become database tables"
-keywords: ["SQLAlchemy", "ORM", "models", "Column", "Integer", "String", "Float", "Date", "primary key", "ForeignKey"]
+keywords: ["SQLAlchemy", "ORM", "models", "Column", "Integer", "String", "Numeric", "Float", "Date", "primary key", "ForeignKey"]
 
 # HIDDEN SKILLS METADATA
 skills:
@@ -21,7 +21,7 @@ skills:
     category: "Technical"
     bloom_level: "Understand"
     digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can select correct Column type for given data (Integer for IDs, String for text, Float for money)"
+    measurable_at_this_level: "Student can select correct Column type for given data (Integer for IDs, String for text, Numeric for money)"
 
   - name: "Table Structure Prediction"
     proficiency_level: "A2"
@@ -46,7 +46,7 @@ learning_objectives:
   - objective: "Map Column types (Integer, String, Float, Date) to Python data types"
     proficiency_level: "A2"
     bloom_level: "Understand"
-    assessment_method: "Student correctly chooses Column types for a given requirement (email=String, price=Float)"
+    assessment_method: "Student correctly chooses Column types for a given requirement (email=String, price=Numeric)"
 
   - objective: "Understand how Python classes become database tables"
     proficiency_level: "A1"
@@ -68,7 +68,7 @@ differentiation:
 ---
 # Models as Code
 
-In L1, you learned why databases beat CSV files: relationships, queries, transactions, persistence. Now the practical question: how do you CREATE a database table?
+In L0, you learned why databases beat CSV files: relationships, queries, transactions, persistence. In L1, you built the skill scaffold that will capture everything you learn. Now the practical question: how do you CREATE a database table?
 
 Answer: You write a Python class. SQLAlchemy reads your class and creates the actual table.
 
@@ -79,7 +79,7 @@ This is Principle 2 in action: Code as Universal Interface. You never write SQL 
 Here's a complete, working model:
 
 ```python
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Numeric
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -89,7 +89,7 @@ class Expense(Base):
 
     id = Column(Integer, primary_key=True)
     description = Column(String)
-    amount = Column(Float)
+    amount = Column(Numeric(10, 2))
 ```
 
 **What happens when you run this code:**
@@ -99,7 +99,7 @@ class Expense(Base):
 - It sees three `Column()` definitions and creates three columns
 - `id` is special: `primary_key=True` means it auto-increments (1, 2, 3...)
 - `description` holds text (no length limit by default)
-- `amount` holds decimal numbers
+- `amount` holds exact decimal numbers (precision 10, scale 2)
 
 **Output: The table SQLAlchemy creates**
 
@@ -107,7 +107,7 @@ class Expense(Base):
 Table: expenses
 ├── id: Integer, primary key, auto-increments
 ├── description: String, can be null
-└── amount: Float, can be null
+└── amount: Numeric(10, 2), can be null
 ```
 
 You wrote Python. SQLAlchemy generated the database structure. That's the ORM (Object-Relational Mapper) pattern.
@@ -116,24 +116,33 @@ You wrote Python. SQLAlchemy generated the database structure. That's the ORM (O
 
 Every Column needs a type. Here's what each type stores:
 
-| Python Type  | Column Type    | What It Stores          | Example                           |
-| ------------ | -------------- | ----------------------- | --------------------------------- |
-| `int`      | `Integer`    | Whole numbers           | `id = Column(Integer)`          |
-| `str`      | `String(50)` | Text up to N characters | `name = Column(String(50))`     |
-| `float`    | `Float`      | Decimal numbers         | `price = Column(Float)`         |
-| `bool`     | `Boolean`    | True or False           | `is_active = Column(Boolean)`   |
-| `datetime` | `DateTime`   | Date and time           | `created_at = Column(DateTime)` |
-| `date`     | `Date`       | Date only (no time)     | `expense_date = Column(Date)`   |
+| Python Type     | Column Type       | What It Stores              | Example                              |
+| --------------- | ----------------- | --------------------------- | ------------------------------------ |
+| `int`         | `Integer`       | Whole numbers               | `id = Column(Integer)`             |
+| `str`         | `String(50)`    | Text up to N characters     | `name = Column(String(50))`        |
+| `Decimal`     | `Numeric(10,2)` | Exact decimals (money)      | `price = Column(Numeric(10, 2))`   |
+| `float`       | `Float`         | Approximate decimals        | `weight = Column(Float)`           |
+| `bool`        | `Boolean`       | True or False               | `is_active = Column(Boolean)`      |
+| `datetime`    | `DateTime`      | Date and time               | `created_at = Column(DateTime)`    |
+| `date`        | `Date`          | Date only (no time)         | `date = Column(Date)`              |
+
+:::caution Why not Float for money?
+
+Floating-point numbers store approximations, not exact values. In Python: `0.1 + 0.2 = 0.30000000000000004`. For a Budget Tracker, these tiny errors accumulate — a thousand transactions could be off by dollars.
+
+`Numeric(precision, scale)` stores exact decimals. `Numeric(10, 2)` means up to 10 digits total, 2 after the decimal point — perfect for money. Use `Float` only for measurements where tiny imprecision is acceptable (temperature, weight, distance).
+
+:::
 
 ### Column Constraints
 
 Beyond type, columns can have constraints:
 
 ```python
-Column(String(100), nullable=False)   # Required field (can't be empty)
-Column(String(100), unique=True)      # No duplicates allowed
-Column(Float, default=0.0)            # Default value if not specified
-Column(Integer, primary_key=True)     # Unique identifier for each row
+Column(String(100), nullable=False)     # Required field (can't be empty)
+Column(String(100), unique=True)        # No duplicates allowed
+Column(Numeric(10, 2), default=0.00)    # Default value if not specified
+Column(Integer, primary_key=True)       # Unique identifier for each row
 ```
 
 **Key insight**: By default, columns CAN be null (empty). Add `nullable=False` to make a field required.
@@ -170,7 +179,7 @@ Table: users
 
 - `unique=True` on email: No two users can have the same email
 - `nullable=False`: Every user MUST have an email and name
-- `default=datetime.utcnow`: Timestamp auto-generated when row created
+- `default=lambda: datetime.now(timezone.utc)`: Timestamp auto-generated when row created
 
 ### Model 2: Category
 
@@ -206,7 +215,7 @@ class Expense(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     description = Column(String(200), nullable=False)
-    amount = Column(Float, nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
     date = Column(Date, default=date.today)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 ```
@@ -219,7 +228,7 @@ Table: expenses
 ├── user_id: Integer, required (points to users.id)
 ├── category_id: Integer, required (points to categories.id)
 ├── description: String(200), required
-├── amount: Float, required
+├── amount: Numeric(10, 2), required
 ├── date: Date, defaults to today
 └── created_at: DateTime, defaults to current time
 ```
@@ -261,7 +270,7 @@ Here's the complete Budget Tracker models file:
 
 ```python
 from datetime import datetime, date, timezone
-from sqlalchemy import Column, Integer, String, Float, DateTime, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Numeric, DateTime, Date, ForeignKey
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -288,9 +297,9 @@ class Expense(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     description = Column(String(200), nullable=False)
-    amount = Column(Float, nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
     date = Column(Date, default=date.today)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 ```
 
 **Output: Three connected tables**
@@ -310,11 +319,9 @@ This is the entire data layer for Budget Tracker. Python classes. No SQL. SQLAlc
 
 ## Why Models Win: The Schema Clarity Insight
 
-In L1, you saw the Braintrust experiment: bash achieved only 52.7% accuracy on structured queries despite generating sophisticated commands. The root cause was that bash had to *guess* at field names, data types, and relationships.
+Your models provide something that text-based tools like grep never have — **schema clarity**. The database knows exactly what each field is, what type it holds, and how tables connect.
 
-Look at what your models provide that bash never had:
-
-- `amount = Column(Float, nullable=False)` — every tool knows this is a required decimal number
+- `amount = Column(Numeric(10, 2), nullable=False)` — every tool knows this is a required exact decimal
 - `user_id = Column(Integer, ForeignKey('users.id'))` — every tool knows this links to the users table
 - `date = Column(Date, default=date.today)` — every tool knows this is a calendar date, not a string
 
@@ -322,21 +329,9 @@ Your SQLAlchemy models don't just define storage. They **describe the data** to 
 
 Schema clarity is why SQL wins. Your models provide it.
 
-## What Happens Next
+## What Comes Next
 
-You've defined the structure. Three interconnected tables with primary keys, foreign keys, and relationships. But a database with no data is just an empty box. In L3, you'll actually populate these tables, run queries, and see real data flowing through your Budget Tracker.
-
-| Lesson | What You Learn                    | What You Add to Your Skill            |
-| ------ | --------------------------------- | ------------------------------------- |
-| L2 (now) | Define models as Python classes | Model definition patterns             |
-| L3     | Create records, read them back   | CRUD operations                       |
-| L4     | Navigate between tables          | Relationship and join patterns        |
-| L5     | Guarantee multi-step safety      | Transaction patterns                  |
-| L6     | Deploy to the cloud              | Neon and production configuration     |
-| L7     | Combine SQL + bash patterns      | Hybrid tool choice framework          |
-| L8     | Bring it all together            | Complete working application          |
-
-Models define structure. CRUD operations populate and read that structure. Everything that follows depends on getting these models right.
+Your models define the structure. But a database with no data is just an empty box. Next, you'll populate these tables and watch real data flow through your Budget Tracker.
 
 ## Try With AI
 
@@ -351,7 +346,7 @@ class Product(Base):
     __tablename__ = 'products'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
-    price = Column(Float, nullable=False)
+    price = Column(Numeric(10, 2), nullable=False)
     in_stock = Column(Boolean, default=True)
 
 Predict:
@@ -384,26 +379,29 @@ Include the necessary imports.
 
 After AI responds, verify: Does the model have all the constraints? Are the types correct?
 
-### Prompt 3: Update Your Skill
+### Prompt 3: Break Something on Purpose
 
-**What you're learning:** Building documentation as you learn.
+**What you're learning:** Understanding constraints by violating them.
 
 ```
-Add to my /database-deployment skill:
+Take the User model from this lesson:
 
-## Model Definition Pattern
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(100), unique=True, nullable=False)
+    name = Column(String(100), nullable=False)
 
-Create a section that includes:
-1. Template for Base and declarative_base setup
-2. Column types table (Integer, String, Float, Boolean, DateTime, Date)
-3. Key constraints and when to use each (primary_key, unique, nullable, default)
-4. When to use ForeignKey
+What happens if I:
+1. Remove nullable=False from email and try to add a User with no email?
+2. Remove unique=True and add two users with the same email?
+3. Change String(100) to Integer and try to store "alice@example.com"?
 
-Use the Budget Tracker User, Category, Expense models as examples.
-Format as markdown I can paste into my SKILL.md file.
+For each change, predict: Will SQLAlchemy allow it? Will the database allow it?
+Then show me the actual error messages I'd see.
 ```
 
-After AI responds, update your `/database-deployment/SKILL.md` with the model definition patterns.
+After AI responds, try it yourself. Break the model, see the error, fix it back. You'll remember constraints better through failure than through reading about them.
 
 ### Checkpoint
 
@@ -412,7 +410,8 @@ Before moving to L3:
 - [ ] You understand: Python class becomes database table
 - [ ] You can name the 3 Budget Tracker models (User, Category, Expense)
 - [ ] You know which Column type to use for: text, numbers, dates, true/false
+- [ ] You can explain why money uses `Numeric(10, 2)` instead of `Float`
 - [ ] You understand what ForeignKey does (enforces that referenced row exists)
-- [ ] You've updated your `/database-deployment` skill with model patterns
+- [ ] You've broken and fixed a model constraint (Prompt 3)
 
 Ready for L3: CRUD operations (Create, Read, Update, Delete).

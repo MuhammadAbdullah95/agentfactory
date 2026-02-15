@@ -82,8 +82,8 @@ differentiation:
 
 Throughout this chapter, you learned every piece of the database puzzle:
 
-- **L0**: Created your `/database-deployment` skill scaffold
-- **L1**: Understood why databases beat CSV files
+- **L0**: Understood why databases beat CSV files
+- **L1**: Created your `/database-deployment` skill scaffold
 - **L2**: Defined models as Python classes
 - **L3**: Built CRUD operations (Create, Read, Update, Delete)
 - **L4**: Connected tables with relationships and joins
@@ -91,33 +91,13 @@ Throughout this chapter, you learned every piece of the database puzzle:
 - **L6**: Deployed to Neon with connection pooling
 - **L7**: Learned hybrid SQL + bash verification patterns
 
-Now you put it all together. You'll run a complete, production-ready Budget Tracker application that demonstrates everything you've learned. This isn't a toy example. This is code you can actually use, extend, and share.
+Now you put it all together: one complete Budget Tracker that you can run, extend, and reuse.
 
 ## Why This Architecture Works
 
-You might wonder: Why not just use bash scripts and JSON files to manage expenses? Why SQLAlchemy and a database?
+This architecture works because schema clarity removes guesswork: models define structure, queries stay explicit, and transactions protect consistency.
 
-Research from Braintrust (an AI evaluation platform) tested this exact question. They compared three approaches to querying structured data:
-
-| Approach                      | Accuracy | Tokens Used | Time  | Cost  |
-| ----------------------------- | -------- | ----------- | ----- | ----- |
-| **SQL Queries**         | 100%     | 155K        | 45s   | $0.51 |
-| **Bash + grep/awk**     | 52.7%    | 1.06M       | 401s  | $3.34 |
-| **Hybrid (SQL + Bash)** | 100%     | 310K        | ~150s | -     |
-
-**What this means for your Budget Tracker:**
-
-- **Direct SQL queries** (which SQLAlchemy generates): Fast, accurate, efficient
-- **File-based approaches** (bash/grep): 7x more tokens, 9x slower, half the accuracy
-- **Why it matters**: Even if you never use AI agents, the same efficiency applies to your own code. Direct queries scale from 100 expenses to 1 million without slowing down. File parsing gets slower with each additional record.
-
-The research showed another insight: **schema clarity is critical**. The bash agent failed partly because "it didn't know the structure of the JSON files." Your SQLAlchemy models DO define that structure explicitly, which is why queries work reliably.
-
-This is why professional applications — from startups to enterprises — use databases for anything more than toy data. The architectural choice you're making in this lesson is the same one made in production systems worldwide.
-
-### The Tool Choice Story
-
-Looking back across Part 2, you've assembled a toolkit where each tool excels at specific data tasks:
+Looking back across Part 2, each tool has a clear role:
 
 | Data Task | Best Tool | Why | Learned In |
 |-----------|-----------|-----|------------|
@@ -126,13 +106,14 @@ Looking back across Part 2, you've assembled a toolkit where each tool excels at
 | Structured queries | SQL (SQLAlchemy) | Schema-aware, 100% accuracy | This chapter |
 | Exploration + verification | Hybrid (SQL + bash) | Self-checking, catches edge cases | L7 (Hybrid Patterns) |
 
-### What This Means for Your Work
+### Tool Escalation Ladder (Chapter 7 -> 8 -> 9)
 
-When AI agents query YOUR database, schema clarity determines accuracy. Your Budget Tracker models give Claude structural awareness that `grep` never has. The `Expense` model with its `user_id`, `category_id`, `amount`, and `date` columns tells any query engine exactly what questions it can answer and how to answer them.
+1. **Bash** for files and text workflows (Chapter 7)
+2. **Python** for deterministic computation and robust parsing (Chapter 8)
+3. **SQL (SQLAlchemy)** for schema-aware structured queries (Chapter 9)
+4. **Hybrid** for high-stakes verification where wrong answers are costly
 
-This is why production AI systems use databases, not file parsing. The same ORM patterns you've learned in this chapter — models, sessions, relationships, transactions — are what power every real application that needs to remember, relate, and reliably query data. Your Budget Tracker isn't a toy; it's the same architecture pattern used at every scale.
-
-In L7, you learned how combining SQL with bash verification creates self-checking data pipelines. Now you'll see all these patterns working together in one application.
+In production, this means agents query schema-aware data instead of guessing from text files. L7 added verification; L8 integrates everything.
 
 ## What You're Building
 
@@ -140,16 +121,16 @@ The complete Budget Tracker includes these features:
 
 | Feature                        | Implementation                             | Lesson Origin      |
 | ------------------------------ | ------------------------------------------ | ------------------ |
-| **User accounts**        | User model with email, name                | L3 (Models)        |
-| **Expense categories**   | Category model with colors                 | L3 (Models)        |
-| **Individual expenses**  | Expense model with foreign keys            | L3 (Models)        |
-| **Create expenses**      | `create_expense()` with error handling   | L4 (CRUD)          |
-| **List expenses**        | `read_expenses()` with filtering         | L4 (CRUD)          |
-| **Update expenses**      | `update_expense()` with validation       | L4 (CRUD)          |
-| **Delete expenses**      | `delete_expense()` safely                | L4 (CRUD)          |
-| **Spending by category** | `get_expenses_by_category()` with joins  | L5 (Relationships) |
-| **Monthly summaries**    | `get_monthly_summary()` with aggregation | L5 (Relationships) |
-| **Budget transfers**     | `transfer_budget()` atomic transaction   | L6 (Transactions)  |
+| **User accounts**        | User model with email, name                | L2 (Models)        |
+| **Expense categories**   | Category model with colors                 | L2 (Models)        |
+| **Individual expenses**  | Expense model with foreign keys            | L2 (Models)        |
+| **Create expenses**      | `create_expense()` with error handling     | L3 (CRUD)          |
+| **List expenses**        | `read_expenses()` with filtering           | L3 (CRUD)          |
+| **Update expenses**      | `update_expense()` with validation         | L3 (CRUD)          |
+| **Delete expenses**      | `delete_expense()` safely                  | L3 (CRUD)          |
+| **Spending by category** | `get_expenses_by_category()` with joins    | L4 (Relationships) |
+| **Monthly summaries**    | `get_monthly_summary()` with aggregation   | L4 (Relationships) |
+| **Budget transfers**     | `transfer_budget()` atomic transaction     | L5 (Transactions)  |
 | **Cloud persistence**    | Neon with connection pooling               | L6 (Neon)          |
 
 **Tech stack**: SQLAlchemy ORM + Neon PostgreSQL + Python. No web framework yet. That comes in later chapters.
@@ -173,11 +154,12 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    Float,
+    Numeric,
     DateTime,
     Date,
     ForeignKey,
     func,
+    select,
     text,
 )
 from sqlalchemy.orm import declarative_base, relationship, Session
@@ -205,9 +187,9 @@ engine = create_engine(
 Base = declarative_base()
 ```
 
-**What you recognize**: Environment variables from L6, connection pooling from L6, `declarative_base()` from L2.
+This section combines L2 foundations with L6 deployment setup.
 
-### Section 2: Models (L3)
+### Section 2: Models (L2)
 
 ```python
 class User(Base):
@@ -249,7 +231,7 @@ class Expense(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     description = Column(String(200), nullable=False)
-    amount = Column(Float, nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
     date = Column(Date, default=date.today)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
@@ -261,15 +243,15 @@ class Expense(Base):
         return f"<Expense(${self.amount:.2f}, '{self.description}')>"
 ```
 
-**What you recognize**: `Column` types from L2, `ForeignKey` from L4, `relationship()` with `back_populates` from L4, `cascade="all, delete-orphan"` from L4.
+This section is your L2/L4 data model in final form.
 
-### Section 3: CRUD Operations (L4)
+### Section 3: CRUD Operations (L3)
 
 ```python
 def create_expense(user_id, description, amount, category_id, expense_date=None):
     """Create a new expense."""
-    try:
-        with Session(engine) as session:
+    with Session(engine) as session:
+        try:
             expense = Expense(
                 user_id=user_id,
                 description=description,
@@ -280,17 +262,18 @@ def create_expense(user_id, description, amount, category_id, expense_date=None)
             session.add(expense)
             session.commit()
             return {"success": True, "id": expense.id}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+        except Exception as e:
+            session.rollback()
+            return {"success": False, "error": str(e)}
 
 
 def read_expenses(user_id, category_id=None):
     """Get expenses for a user, optionally filtered by category."""
     with Session(engine) as session:
-        query = session.query(Expense).filter(Expense.user_id == user_id)
+        stmt = select(Expense).where(Expense.user_id == user_id)
         if category_id:
-            query = query.filter(Expense.category_id == category_id)
-        return query.order_by(Expense.date.desc()).all()
+            stmt = stmt.where(Expense.category_id == category_id)
+        return session.execute(stmt.order_by(Expense.date.desc())).scalars().all()
 
 
 def update_expense(expense_id, **kwargs):
@@ -298,9 +281,11 @@ def update_expense(expense_id, **kwargs):
     allowed_fields = {'description', 'amount', 'category_id', 'date'}
     updates = {k: v for k, v in kwargs.items() if k in allowed_fields}
 
-    try:
-        with Session(engine) as session:
-            expense = session.query(Expense).filter(Expense.id == expense_id).first()
+    with Session(engine) as session:
+        try:
+            expense = session.execute(
+                select(Expense).where(Expense.id == expense_id)
+            ).scalars().first()
             if not expense:
                 return {"success": False, "error": "Expense not found"}
 
@@ -309,28 +294,32 @@ def update_expense(expense_id, **kwargs):
 
             session.commit()
             return {"success": True}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+        except Exception as e:
+            session.rollback()
+            return {"success": False, "error": str(e)}
 
 
 def delete_expense(expense_id):
     """Delete an expense."""
-    try:
-        with Session(engine) as session:
-            expense = session.query(Expense).filter(Expense.id == expense_id).first()
+    with Session(engine) as session:
+        try:
+            expense = session.execute(
+                select(Expense).where(Expense.id == expense_id)
+            ).scalars().first()
             if not expense:
                 return {"success": False, "error": "Expense not found"}
 
             session.delete(expense)
             session.commit()
             return {"success": True}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+        except Exception as e:
+            session.rollback()
+            return {"success": False, "error": str(e)}
 ```
 
-**What you recognize**: `session.add()`, `session.commit()` from L3; `session.query().filter()` from L3; error handling with `try/except` from L5.
+This section applies L3 CRUD patterns with L5-style safety.
 
-### Section 4: Relationship Queries (L5)
+### Section 4: Relationship Queries (L4)
 
 ```python
 def get_monthly_summary(user_id, year, month):
@@ -344,15 +333,16 @@ def get_monthly_summary(user_id, year, month):
         current_month = date(year, month, 1)
 
         # Query: sum amount by category with join
-        results = session.query(
+        stmt = select(
             Category.name,
             func.sum(Expense.amount).label('total'),
             func.count(Expense.id).label('count')
-        ).join(Expense).filter(
+        ).join(Expense).where(
             (Expense.user_id == user_id) &
             (Expense.date >= current_month) &
             (Expense.date < next_month)
-        ).group_by(Category.name).all()
+        ).group_by(Category.name)
+        results = session.execute(stmt).all()
 
         return [
             {"category": name, "total": float(total or 0), "count": count}
@@ -363,14 +353,16 @@ def get_monthly_summary(user_id, year, month):
 def get_expenses_by_category(user_id):
     """Get all expenses grouped by category."""
     with Session(engine) as session:
-        categories = session.query(Category).all()
+        categories = session.execute(select(Category)).scalars().all()
 
         result = {}
         for category in categories:
-            expenses = session.query(Expense).filter(
-                (Expense.user_id == user_id) &
-                (Expense.category_id == category.id)
-            ).all()
+            expenses = session.execute(
+                select(Expense).where(
+                    (Expense.user_id == user_id) &
+                    (Expense.category_id == category.id)
+                )
+            ).scalars().all()
 
             result[category.name] = {
                 "count": len(expenses),
@@ -388,14 +380,16 @@ def get_expenses_by_category(user_id):
 def get_top_expenses(user_id, limit=10):
     """Get the highest-value expenses."""
     with Session(engine) as session:
-        return session.query(Expense).filter(
-            Expense.user_id == user_id
-        ).order_by(Expense.amount.desc()).limit(limit).all()
+        return session.execute(
+            select(Expense).where(
+                Expense.user_id == user_id
+            ).order_by(Expense.amount.desc()).limit(limit)
+        ).scalars().all()
 ```
 
-**What you recognize**: `.join()` from L4, `func.sum()` and `func.count()` from L4, `.group_by()` from L4, navigation through relationships from L4.
+This section is the L4 query layer: joins, grouping, and aggregations.
 
-### Section 5: Transactions (L6)
+### Section 5: Transactions (L5)
 
 ```python
 def transfer_budget(user_id, from_category_id, to_category_id, amount):
@@ -404,14 +398,14 @@ def transfer_budget(user_id, from_category_id, to_category_id, amount):
     Creates two expense entries: negative in source, positive in destination.
     Both succeed or both fail.
     """
-    try:
-        with Session(engine) as session:
-            from_cat = session.query(Category).filter(
-                Category.id == from_category_id
-            ).first()
-            to_cat = session.query(Category).filter(
-                Category.id == to_category_id
-            ).first()
+    with Session(engine) as session:
+        try:
+            from_cat = session.execute(
+                select(Category).where(Category.id == from_category_id)
+            ).scalars().first()
+            to_cat = session.execute(
+                select(Category).where(Category.id == to_category_id)
+            ).scalars().first()
 
             if not from_cat or not to_cat:
                 raise ValueError("Category not found")
@@ -435,11 +429,12 @@ def transfer_budget(user_id, from_category_id, to_category_id, amount):
             session.commit()  # Both succeed or both fail
 
             return {"success": True}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+        except Exception as e:
+            session.rollback()
+            return {"success": False, "error": str(e)}
 ```
 
-**What you recognize**: Atomic transaction from L5 (all-or-nothing), `session.rollback()` implicit on exception from L5, paired operations from L5.
+This section is the L5 atomic transaction pattern in production form.
 
 ### Section 6: Utilities and Main
 
@@ -453,7 +448,7 @@ def init_database():
 def seed_data():
     """Add sample data for testing."""
     with Session(engine) as session:
-        if session.query(User).count() > 0:
+        if session.execute(select(func.count()).select_from(User)).scalar() > 0:
             print("Database already has data, skipping seed")
             return
 
@@ -559,121 +554,34 @@ Sample data added
 
 Creating new expense...
 Result: {'success': True, 'id': 5}
-
-All expenses:
-  $45.75 | Food | Dinner
-  $30.00 | Entertainment | Movie tickets
-  $45.00 | Transportation | Gas
-  $18.75 | Food | Lunch
-  $52.50 | Food | Groceries
-
-Monthly Summary (January 2024):
-  Food            | Count:  3 | $117.00
-  Transportation  | Count:  1 | $45.00
-  Entertainment   | Count:  1 | $30.00
-
 All operations completed successfully!
 ```
 
 If you see this output, your complete Budget Tracker is working.
 
-## Function Reference (Every Lesson Mapped)
-
-| Function                       | Purpose                         | Lesson |
-| ------------------------------ | ------------------------------- | ------ |
-| `init_database()`            | Creates tables from models      | L2     |
-| `seed_data()`                | Adds sample data for testing    | L3     |
-| `create_expense()`           | CRUD Create with error handling | L3, L5 |
-| `read_expenses()`            | CRUD Read with filtering        | L3     |
-| `update_expense()`           | CRUD Update with validation     | L3     |
-| `delete_expense()`           | CRUD Delete safely              | L3     |
-| `get_monthly_summary()`      | Complex join + aggregation      | L4     |
-| `get_expenses_by_category()` | Grouping with relationships     | L4     |
-| `get_top_expenses()`         | Sorting + limiting              | L3     |
-| `transfer_budget()`          | Multi-step atomic transaction   | L5     |
-| `test_connection()`          | Verify Neon works               | L6     |
-
 ## Testing Your Understanding
 
-Add your own expense:
+Run this short self-test:
 
-```python
-with Session(engine) as session:
-    # Create a new user
-    new_user = User(email='me@example.com', name='My Name')
-    session.add(new_user)
-    session.commit()
-    print(f"Created user id: {new_user.id}")
-```
-
-**Output:**
-
-```
-Created user id: 2
-```
-
-Add an expense for your user:
-
-```python
-result = create_expense(
-    user_id=2,
-    description='Coffee',
-    amount=4.50,
-    category_id=1  # Food
-)
-print(result)
-```
-
-**Output:**
-
-```
-{'success': True, 'id': 6}
-```
-
-Query your expenses:
-
-```python
-my_expenses = read_expenses(user_id=2)
-for e in my_expenses:
-    print(f"${e.amount:.2f}: {e.description}")
-```
-
-**Output:**
-
-```
-$4.50: Coffee
-```
+1. Create a second user.
+2. Add one expense for that user with `create_expense()`.
+3. Query that user's expenses with `read_expenses()`.
+4. Verify the record appears with the expected amount and category.
 
 ## Working With AI on Your Budget Tracker
 
-At this point, you've moved from "learning" to "building." When you encounter issues, you and AI work as collaborators.
+At this point, the workflow is practical debugging:
 
-**Your question:**
-"My `transfer_budget()` function returns `{'success': True}` but the expenses don't appear. What's wrong?"
+1. Confirm transaction inputs (user/category IDs, amount).
+2. Confirm commit path executes.
+3. Confirm no exception is swallowed before rollback.
+4. Re-query database state after operation.
 
-**AI suggests:**
-"Check if the session is committing correctly. Add some debug output:
-
-```python
-print(f'From expense id: {from_expense.id}')
-print(f'To expense id: {to_expense.id}')
-```
-
-Also verify the category IDs exist in your database."
-
-**Your refinement:**
-"The IDs are None before commit. But after commit they should have values, right?"
-
-**AI adapts:**
-"Correct. If they're still None after `session.commit()`, the transaction may have rolled back silently. Check if there's an exception being swallowed. Try wrapping in explicit try/except and print any exception."
-
-**What emerged:** A debugging approach that traced the transaction lifecycle, identifying that the issue was likely in error handling, not the transaction logic itself.
+This loop catches most "success but no data" issues quickly.
 
 ## Try With AI
 
 ### Prompt 1: Understand the Code
-
-**What you're learning:** Reading production code and explaining what each part does.
 
 ```
 Read the complete budget-tracker-complete.py code.
@@ -691,8 +599,6 @@ For each answer, point to the specific line of code that proves your answer.
 After AI explains, verify: Can you trace through `transfer_budget()` line by line and explain what each line does?
 
 ### Prompt 2: Run and Verify
-
-**What you're learning:** Executing real applications and verifying they work.
 
 ```
 Help me run the Budget Tracker application:
@@ -715,8 +621,6 @@ Report back with the exact output you see.
 After completing, verify: Do you see "All operations completed successfully!" in your terminal?
 
 ### Prompt 3: Finalize Your Skill
-
-**What you're learning:** Documenting mastery as a reusable skill.
 
 ```
 My /database-deployment skill has grown throughout this chapter. Help me finalize it.
@@ -748,8 +652,6 @@ Before finishing this chapter, verify your mastery:
 - [ ] I can explain why transactions matter (atomic = all or nothing)
 - [ ] I can explain why pooling matters (connection reuse, cloud limits)
 
-**You've built something real.** This Budget Tracker works. You can use it to track your own spending. You can extend it with a web interface. You can share it with friends.
+This capstone proves you can build and ship a complete SQLAlchemy + Neon workflow. More importantly, you now have a reusable skill template for future database projects.
 
-More importantly, you've built a **reusable skill**. Every database application you build from now on follows this same pattern: models, sessions, CRUD, relationships, transactions, cloud deployment. This skill is now part of your permanent toolkit.
-
-**Next up**: The [Chapter Quiz](./10-chapter-quiz.md) to test your mastery of everything you've learned — from models and CRUD to hybrid verification patterns.
+**Next up**: The [Chapter Quiz](./11-chapter-quiz.md) to test your mastery of everything you've learned — from models and CRUD to hybrid verification patterns.

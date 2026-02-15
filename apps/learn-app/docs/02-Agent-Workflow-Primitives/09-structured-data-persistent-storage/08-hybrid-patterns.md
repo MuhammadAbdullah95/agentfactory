@@ -56,31 +56,31 @@ differentiation:
 ---
 # Hybrid Patterns — When Tools Work Together
 
-Through L0-L6, you've learned every piece of the database puzzle: models, CRUD operations, relationships, transactions, and cloud deployment with Neon. SQLAlchemy handles your structured data with 100% accuracy — as the Braintrust experiment showed in L1.
+Through L0-L6, you've learned every piece of the database puzzle: models, CRUD operations, relationships, transactions, and cloud deployment with Neon. In the Braintrust benchmark introduced earlier, SQL was the strongest single-tool approach for structured queries.
 
-But the Braintrust researchers found something worth examining more closely. Pure SQL hit 100% accuracy, yes. A hybrid approach that uses SQL for queries AND bash for verification also hit 100% — and it caught edge cases that SQL alone might miss. The hybrid agent naturally developed a self-checking behavior: query the database, then verify the result through an independent path.
+The follow-up result is what matters for this lesson: a hybrid approach (SQL for primary query + bash for independent verification) also reached top accuracy in the benchmark while adding a self-checking step. Researchers described this as more consistently reliable across runs, at the cost of extra tokens.
 
 This lesson explores that pattern and synthesizes the Part 2 tool choice story.
 
 ## The Experiment Recap
 
-Here are the three approaches Braintrust tested:
+Here is the initial benchmark snapshot Braintrust reported:
 
 | Approach | Accuracy | Tokens Used | Time | Cost |
 |----------|----------|-------------|------|------|
 | SQL queries | 100% | 155K | 45s | $0.51 |
 | Bash (grep/awk) | 52.7% | 1.06M | 401s | $3.34 |
-| Hybrid (SQL + bash) | 100% | 310K | ~150s | — |
+| Hybrid (SQL + bash) | 100% | 310K | ~150s | Higher than pure SQL |
 
-The hybrid agent used SQL as the primary query engine and bash to spot-check results. It spent roughly twice the tokens of pure SQL, but independently verified every answer.
+The hybrid agent used SQL as the primary query engine and bash to spot-check results. It spent roughly twice the tokens of pure SQL, trading cost for an independent verification path.
 
 Why did the bash agent fail half the time? The researchers identified the root cause: "it didn't know the structure of the JSON files." Your SQLAlchemy models solve this — the `Expense` model with its `user_id`, `category_id`, `amount`, and `date` columns gives any query engine structural certainty that `grep` never has.
 
 ## Why Hybrid Matters for Agents
 
-A single query path creates a single point of failure. If the query logic has a subtle bug — a wrong filter, a missing join, a timezone mismatch — the result looks correct but is not.
+A single query path creates a single point of failure. If the query has a subtle bug (wrong filter, missing join, timezone mismatch), the answer can look correct but be wrong.
 
-The hybrid pattern introduces independent verification: query your data one way, confirm the result a different way. This is Principle 3 (Verification as Core Step) applied to data — the same principle you used in the File Processing chapter (bash output checks), the Computation chapter (Python assertions), and now this chapter (cross-tool verification).
+Hybrid adds independent verification: compute one way, verify another way. This is Principle 3 applied to structured data.
 
 ## The Hybrid Pattern in Practice
 
@@ -92,7 +92,7 @@ Use SQLAlchemy to get the structured answer:
 
 ```python
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, select
 from datetime import date
 
 def get_food_spending_sql(engine, user_id, year, month):
@@ -104,13 +104,15 @@ def get_food_spending_sql(engine, user_id, year, month):
     current_month = date(year, month, 1)
 
     with Session(engine) as session:
-        result = session.query(
-            func.sum(Expense.amount)
-        ).join(Category).filter(
-            Expense.user_id == user_id,
-            Category.name == "Food",
-            Expense.date >= current_month,
-            Expense.date < next_month
+        result = session.execute(
+            select(func.sum(Expense.amount))
+            .join(Category)
+            .where(
+                Expense.user_id == user_id,
+                Category.name == "Food",
+                Expense.date >= current_month,
+                Expense.date < next_month
+            )
         ).scalar()
 
         return float(result or 0)
@@ -137,12 +139,10 @@ def verify_with_bash(engine, user_id, category_name, year, month):
     """Independent verification: export to CSV, grep, sum with awk."""
     # Export expenses to CSV
     with Session(engine) as session:
-        expenses = session.query(
-            Expense.amount,
-            Category.name.label("category"),
-            Expense.date
-        ).join(Category).filter(
-            Expense.user_id == user_id
+        expenses = session.execute(
+            select(Expense.amount, Category.name.label("category"), Expense.date)
+            .join(Category)
+            .where(Expense.user_id == user_id)
         ).all()
 
     csv_path = "/tmp/expenses_verify.csv"
@@ -153,9 +153,12 @@ def verify_with_bash(engine, user_id, category_name, year, month):
             writer.writerow([amount, cat, d.isoformat()])
 
     # Use bash to filter and sum independently
+    # Note: In production, never interpolate user input into shell commands.
+    # Use shlex.quote() or argument lists to prevent command injection.
+    import shlex
     cmd = (
-        f"grep '{category_name}' {csv_path} | "
-        f"grep '{year}-{month:02d}' | "
+        f"grep {shlex.quote(category_name)} {shlex.quote(csv_path)} | "
+        f"grep {shlex.quote(f'{year}-{month:02d}')} | "
         f"awk -F',' '{{sum += $1}} END {{printf \"%.2f\", sum}}'"
     )
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
@@ -209,7 +212,7 @@ The hybrid pattern costs roughly 2x the tokens. Use it when:
 | Development/debugging | No | You are already inspecting results manually |
 | One-off queries | No | The cost of verification exceeds the cost of error |
 
-The decision: what is the cost of a wrong answer? If it causes financial loss or cascading errors in an automated pipeline, the extra tokens are cheap insurance.
+Decision rule: if a wrong answer is costly (money, compliance, or downstream automation), pay for verification.
 
 ## The Tool Choice Framework
 
@@ -222,7 +225,7 @@ Looking back across Part 2, each tool excels at specific tasks:
 | **SQL (SQLAlchemy)** | Structured queries, persistent storage, relationships | High (100% with schema) | Low (155K tokens) | This chapter |
 | **Hybrid** | Production reliability, self-verification, audit trails | Highest (100% + cross-check) | Medium (310K tokens) | This lesson |
 
-The best tool is not one tool. It is knowing which tool for which job — and when the job requires two. In the next chapter, you will add version control (Git) to track changes across all these tools. After that, you will combine everything into your first AI employee.
+The goal is not one tool. It's correct tool choice, and sometimes two tools for one answer.
 
 ## Try With AI
 
@@ -243,7 +246,7 @@ Use the Budget Tracker models from this chapter (Expense has user_id,
 category_id, amount, date; Category has name).
 ```
 
-**What you're learning:** Implementing the hybrid verification pattern yourself. The key skill is designing two independent paths to the same answer — if you can only think of one way to verify, you have not verified at all.
+**What you're learning:** Design two independent paths to the same result.
 
 ### Prompt 2: Tool Selection Reasoning
 
@@ -260,7 +263,7 @@ you would use and why. Consider accuracy, cost, and speed.
 For each answer, explain what would go WRONG if you picked a different tool.
 ```
 
-**What you're learning:** Tool selection is not about preference — it is about matching tool strengths to task requirements. The "what would go wrong" question forces you to think about failure modes, which is how experienced engineers make tool choices.
+**What you're learning:** Match tool strengths to task requirements by reasoning about failure modes.
 
 ### Prompt 3: Explain the Bash Agent's Failure
 
@@ -278,7 +281,7 @@ Explain to me:
    because it doesn't understand data structure.
 ```
 
-**What you're learning:** The root cause behind tool limitations. Understanding WHY bash fails at structured queries — not just that it does — is what separates someone who follows rules ("always use SQL for databases") from someone who makes informed decisions ("this task needs schema awareness, so I need a schema-aware tool").
+**What you're learning:** Root-cause reasoning about tool limits (schema awareness vs text matching).
 
 ## Checkpoint
 

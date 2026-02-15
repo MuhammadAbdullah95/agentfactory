@@ -28,14 +28,14 @@ skills:
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can retrieve records using session.query().all() and session.query().filter().first()"
+    measurable_at_this_level: "Student can retrieve records using select() with session.execute().scalars().all() and .where().scalars().first()"
 
   - name: "Query Filtering"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can filter query results using .filter() with basic conditions"
+    measurable_at_this_level: "Student can filter query results using .where() with basic conditions"
 
   - name: "Database Error Handling"
     proficiency_level: "A2"
@@ -55,7 +55,7 @@ learning_objectives:
     bloom_level: "Apply"
     assessment_method: "Student writes working code to create a Category and an Expense"
 
-  - objective: "Read records with session.query() and filtering"
+  - objective: "Read records with select() and session.execute() using where() for filtering"
     proficiency_level: "A2"
     bloom_level: "Apply"
     assessment_method: "Student writes queries that retrieve all records and filtered subsets"
@@ -67,7 +67,7 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 6
-  assessment: "6 new concepts (Engine, Session, context manager, session.add, session.query, filter syntax) - appropriate for A2 with heavy scaffolding"
+  assessment: "6 new concepts (Engine, Session, context manager, session.add, select(), where() syntax) - appropriate for A2 with heavy scaffolding"
 
 differentiation:
   extension_for_advanced: "Add multiple query patterns: filter with AND/OR, order_by, limit, offset for pagination"
@@ -88,10 +88,17 @@ Before you can talk to a database, you need two things:
 **1. Engine**: The connection to your database
 
 ```python
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 
 # For learning, use SQLite in memory (no setup needed)
 engine = create_engine('sqlite:///:memory:')
+
+# Important: SQLite does NOT enforce foreign keys unless explicitly enabled.
+@event.listens_for(engine, "connect")
+def _enable_sqlite_fk(dbapi_connection, _connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
 ```
 
 **Output:**
@@ -99,6 +106,7 @@ engine = create_engine('sqlite:///:memory:')
 ```
 Engine created: points to in-memory SQLite database
 No files, no servers - data lives in RAM for this lesson
+Foreign key checks enabled for realistic constraint behavior
 ```
 
 **2. Tables Created**: Tell SQLAlchemy to build the actual tables
@@ -194,13 +202,23 @@ INSERT INTO categories (name, color) VALUES ('Entertainment', '#95E1D3')
 
 ## Reading Records (READ)
 
-The pattern for reading data: `session.query(Model).method()`
+Reading data uses the `select()` function. You build a query with `select()`, execute it with `session.execute()`, and extract results with `.scalars()`:
+
+```python
+from sqlalchemy import select
+
+result = session.execute(select(Model)).scalars().all()
+```
+
+> **Note:** Older tutorials use `session.query()`. This still works but `select()` is the recommended 2.0 approach. All examples in this course use the modern `select()` pattern.
 
 ### Get All Records
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
-    all_categories = session.query(Category).all()
+    all_categories = session.execute(select(Category)).scalars().all()
 
     for cat in all_categories:
         print(f"{cat.id}: {cat.name}")
@@ -219,10 +237,12 @@ all_categories is a Python list of Category objects
 ### Get One Record by Condition
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
-    food = session.query(Category).filter(
-        Category.name == 'Food'
-    ).first()
+    food = session.execute(
+        select(Category).where(Category.name == 'Food')
+    ).scalars().first()
 
     print(f"Found: {food.name}, color: {food.color}")
 ```
@@ -238,11 +258,13 @@ Found: Food, color: #FF6B6B
 ### Filter with Conditions
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
     # Find expenses >= $50
-    big_expenses = session.query(Expense).filter(
-        Expense.amount >= 50
-    ).all()
+    big_expenses = session.execute(
+        select(Expense).where(Expense.amount >= 50)
+    ).scalars().all()
 
     print(f"Found {len(big_expenses)} expenses over $50")
 ```
@@ -252,18 +274,22 @@ with Session(engine) as session:
 ```
 Found 2 expenses over $50
 
-.filter() accepts comparison operators: ==, !=, >, <, >=, <=
+.where() accepts comparison operators: ==, !=, >, <, >=, <=
 ```
 
 ### Multiple Filters (AND)
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
     # Food expenses over $20
-    food_expenses = session.query(Expense).filter(
-        Expense.category_id == 1,
-        Expense.amount > 20
-    ).all()
+    food_expenses = session.execute(
+        select(Expense).where(
+            Expense.category_id == 1,
+            Expense.amount > 20
+        )
+    ).scalars().all()
 ```
 
 **Output:**
@@ -271,17 +297,19 @@ with Session(engine) as session:
 ```
 SELECT * FROM expenses WHERE category_id = 1 AND amount > 20
 
-Multiple conditions in filter() are ANDed together
+Multiple conditions in where() are ANDed together
 ```
 
 ### Ordering Results
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
     # Newest expenses first
-    recent = session.query(Expense).order_by(
-        Expense.date.desc()
-    ).all()
+    recent = session.execute(
+        select(Expense).order_by(Expense.date.desc())
+    ).scalars().all()
 ```
 
 **Output:**
@@ -296,9 +324,13 @@ SELECT * FROM expenses ORDER BY date DESC
 ### Limiting Results
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
     # Get first 5 expenses only
-    first_five = session.query(Expense).limit(5).all()
+    first_five = session.execute(
+        select(Expense).limit(5)
+    ).scalars().all()
 ```
 
 **Output:**
@@ -313,20 +345,22 @@ Useful for pagination or "top N" queries
 
 | Method       | Returns             | Use When                   |
 | ------------ | ------------------- | -------------------------- |
-| `.all()`   | List (may be empty) | Expecting multiple results |
-| `.first()` | One object or None  | Expecting one result       |
+| `.scalars().all()`   | List (may be empty) | Expecting multiple results |
+| `.scalars().first()` | One object or None  | Expecting one result       |
 
 ```python
+from sqlalchemy import select
+
 with Session(engine) as session:
     # .all() - always a list
-    categories = session.query(Category).all()
+    categories = session.execute(select(Category)).scalars().all()
     print(type(categories))  # <class 'list'>
     print(len(categories))   # 3
 
     # .first() - one object or None
-    food = session.query(Category).filter(
-        Category.name == 'Food'
-    ).first()
+    food = session.execute(
+        select(Category).where(Category.name == 'Food')
+    ).scalars().first()
     print(type(food))        # <class 'Category'> or NoneType
 ```
 
@@ -341,7 +375,11 @@ with Session(engine) as session:
 **Safety tip**: When using `.first()`, always check for None:
 
 ```python
-food = session.query(Category).filter(Category.name == 'Pizza').first()
+from sqlalchemy import select
+
+food = session.execute(
+    select(Category).where(Category.name == 'Pizza')
+).scalars().first()
 
 if food:
     print(f"Found: {food.name}")
@@ -352,6 +390,8 @@ else:
 ## Error Handling
 
 What happens when you try to add invalid data?
+
+This example assumes foreign key checks are enabled for SQLite as shown in the setup section above.
 
 ```python
 with Session(engine) as session:
@@ -392,7 +432,7 @@ Here's a working example that creates and reads Budget Tracker data:
 
 ```python
 from datetime import date
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 
 # ... (models defined: User, Category, Expense) ...
@@ -439,12 +479,14 @@ with Session(engine) as session:
 with Session(engine) as session:
     # All categories
     print("Categories:")
-    for cat in session.query(Category).all():
+    for cat in session.execute(select(Category)).scalars():
         print(f"  {cat.id}: {cat.name}")
 
     # Expenses over $50
     print("\nExpenses over $50:")
-    big = session.query(Expense).filter(Expense.amount > 50).all()
+    big = session.execute(
+        select(Expense).where(Expense.amount > 50)
+    ).scalars().all()
     for exp in big:
         print(f"  ${exp.amount}: {exp.description}")
 ```
@@ -460,20 +502,9 @@ Expenses over $50:
   $52.5: Groceries
 ```
 
-## What Happens Next
+## What Comes Next
 
-In this lesson, you mastered Create and Read operations. But data is never static. Expenses change. Users update their categories. That's where L4 comes in.
-
-| Lesson | What You Learn                   | What You Add to Your Skill            |
-| ------ | -------------------------------- | ------------------------------------- |
-| L3 (now) | Create and Read records        | CRUD Create/Read patterns             |
-| L4     | Connect tables with relationships | Foreign keys and navigation patterns  |
-| L5     | Make operations atomic and safe  | Transaction patterns and error handling |
-| L6     | Deploy to the cloud              | Connection pooling and Neon setup     |
-| L7     | Combine SQL + bash for hybrid patterns | Tool choice framework              |
-| L8     | Build the complete Budget Tracker | Capstone integration                  |
-
-Each lesson builds on the previous one. You can Create and Read. Next, you'll connect tables so you can answer questions like "Show me all expenses for User 1" without writing complex filter logic.
+You can create and read. But your tables are isolated islands. Next, you'll connect them with relationships so one query reveals Alice's spending by category — no complex filter logic needed.
 
 ## Try With AI
 
@@ -492,13 +523,13 @@ Given this database state:
 
 Predict the output of each query:
 
-1. session.query(Expense).filter(Expense.category_id == 1).all()
+1. session.execute(select(Expense).where(Expense.category_id == 1)).scalars().all()
    How many results? What are they?
 
-2. session.query(Expense).filter(Expense.amount >= 50).first()
+2. session.execute(select(Expense).where(Expense.amount >= 50)).scalars().first()
    What single record is returned?
 
-3. session.query(Category).filter(Category.name == 'Shopping').first()
+3. session.execute(select(Category).where(Category.name == 'Shopping')).scalars().first()
    What is returned and why?
 ```
 
@@ -542,8 +573,8 @@ Include these patterns with examples:
 1. Session context manager pattern (with Session as session)
 2. Create single record (session.add + commit)
 3. Create multiple records (session.add_all + commit)
-4. Query all (.query().all())
-5. Query with filter (.query().filter().first())
+4. Query all (select() with .scalars().all())
+5. Query with filter (select().where() with .scalars().first())
 6. Error handling (try/except around commit)
 
 Use Budget Tracker examples (Category, Expense).
@@ -560,11 +591,11 @@ Before moving to L4:
 
 - [ ] You understand: Session = conversation with database
 - [ ] You can create records (session.add + session.commit)
-- [ ] You can query all records (session.query().all())
-- [ ] You can filter records (session.query().filter())
+- [ ] You can query all records (select() with .scalars().all())
+- [ ] You can filter records (select().where() with .scalars().first())
 - [ ] You know the difference between .all() (list) and .first() (one or None)
 - [ ] You understand: Errors auto-rollback, no partial saves
 - [ ] You've written CRUD code (Prompt 2)
 - [ ] You've updated your /database-deployment skill with CRUD patterns
 
-Ready for L4: Update & Delete operations, plus relationships.
+Ready for L4: Relationships and joins.

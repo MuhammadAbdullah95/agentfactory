@@ -21,7 +21,7 @@ skills:
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can implement try/except with session.commit() and session.rollback()"
+    measurable_at_this_level: "Student can implement try/except with session.commit() and session.rollback() using SQLAlchemy 2.0 select/update/delete style"
 
   - name: "Error Recovery Pattern"
     proficiency_level: "A2"
@@ -55,10 +55,10 @@ learning_objectives:
     bloom_level: "Apply"
     assessment_method: "Student writes code that commits on success and rolls back on any error"
 
-  - objective: "Use session.commit() and session.rollback() correctly in transaction workflows"
+  - objective: "Use SQLAlchemy 2.0 select/update/delete with session.execute(), session.commit(), and session.rollback() correctly in transaction workflows"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student demonstrates proper session management in multi-step operations"
+    assessment_method: "Student demonstrates proper session management with session.execute() in multi-step operations"
 
   - objective: "Identify when transactions are critical (money transfers, account updates)"
     proficiency_level: "A2"
@@ -67,7 +67,7 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 6
-  assessment: "6 concepts (atomicity definition, session.commit(), session.rollback(), try/except pattern, multi-step transactions, savepoints mention) - appropriate for A2 with prior L4 relationship knowledge"
+  assessment: "6 concepts (atomicity definition, session.execute() with select/update/delete, session.commit(), session.rollback(), try/except pattern, multi-step transactions, savepoints mention) - appropriate for A2 with prior L4 relationship knowledge"
 
 differentiation:
   extension_for_advanced: "Explore savepoints (nested transactions with begin_nested()), isolation levels, deadlock prevention strategies"
@@ -121,12 +121,15 @@ The database guarantees: You'll never see a state where one happened without the
 Here's the pattern you'll use for every multi-step operation:
 
 ```python
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 with Session(engine) as session:
     try:
         # Step 1: First operation
-        alice = session.query(User).filter(User.name == 'Alice').first()
+        alice = session.execute(
+            select(User).where(User.name == 'Alice')
+        ).scalars().first()
         alice.food_budget -= 100
 
         # Step 2: Second operation
@@ -210,6 +213,9 @@ The rollback ensures your database stays consistent even when things go wrong.
 Here's the `transfer_budget` function from the Budget Tracker. This shows atomicity in action:
 
 ```python
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 def transfer_budget(user_id, from_category_id, to_category_id, amount):
     """
     Transfer budget between categories.
@@ -218,12 +224,12 @@ def transfer_budget(user_id, from_category_id, to_category_id, amount):
     with Session(engine) as session:
         try:
             # Verify both categories exist
-            from_cat = session.query(Category).filter(
-                Category.id == from_category_id
-            ).first()
-            to_cat = session.query(Category).filter(
-                Category.id == to_category_id
-            ).first()
+            from_cat = session.execute(
+                select(Category).where(Category.id == from_category_id)
+            ).scalars().first()
+            to_cat = session.execute(
+                select(Category).where(Category.id == to_category_id)
+            ).scalars().first()
 
             if not from_cat or not to_cat:
                 raise ValueError("Category not found")
@@ -319,13 +325,16 @@ create_expense(1, "Test", 10.00, 999)  # Invalid category
 When you modify an existing record:
 
 ```python
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 def update_expense_amount(expense_id, new_amount):
     """Update expense amount safely."""
     with Session(engine) as session:
         try:
-            expense = session.query(Expense).filter(
-                Expense.id == expense_id
-            ).first()
+            expense = session.execute(
+                select(Expense).where(Expense.id == expense_id)
+            ).scalars().first()
 
             if not expense:
                 raise ValueError(f"Expense {expense_id} not found")
@@ -356,14 +365,20 @@ update_expense_amount(999, 50.00)
 Deleting multiple records should be atomic:
 
 ```python
+from sqlalchemy import delete
+from sqlalchemy.orm import Session
+
 def delete_category_expenses(user_id, category_id):
     """Delete all expenses in a category for a user."""
     with Session(engine) as session:
         try:
-            deleted_count = session.query(Expense).filter(
-                (Expense.user_id == user_id) &
-                (Expense.category_id == category_id)
-            ).delete()
+            result = session.execute(
+                delete(Expense).where(
+                    (Expense.user_id == user_id) &
+                    (Expense.category_id == category_id)
+                )
+            )
+            deleted_count = result.rowcount
 
             session.commit()
             return {"success": True, "deleted": deleted_count}
@@ -391,19 +406,24 @@ You understand the business logic. AI helps identify failure points you might mi
 **AI suggests:**
 
 ```python
+from sqlalchemy import update, delete
+from sqlalchemy.orm import Session
+
 def merge_categories(user_id, from_cat_id, to_cat_id):
     with Session(engine) as session:
         try:
             # Update all expenses
-            session.query(Expense).filter(
-                (Expense.user_id == user_id) &
-                (Expense.category_id == from_cat_id)
-            ).update({Expense.category_id: to_cat_id})
+            session.execute(
+                update(Expense).where(
+                    (Expense.user_id == user_id) &
+                    (Expense.category_id == from_cat_id)
+                ).values(category_id=to_cat_id)
+            )
 
             # Delete the empty category
-            session.query(Category).filter(
-                Category.id == from_cat_id
-            ).delete()
+            session.execute(
+                delete(Category).where(Category.id == from_cat_id)
+            )
 
             session.commit()
             return {"success": True}
@@ -418,31 +438,39 @@ def merge_categories(user_id, from_cat_id, to_cat_id):
 **AI adapts:**
 
 ```python
+from sqlalchemy import select, update, delete, func
+from sqlalchemy.orm import Session
+
 def merge_categories(user_id, from_cat_id, to_cat_id):
     with Session(engine) as session:
         try:
             # Verify target category exists
-            to_cat = session.query(Category).filter(
-                Category.id == to_cat_id
-            ).first()
+            to_cat = session.execute(
+                select(Category).where(Category.id == to_cat_id)
+            ).scalars().first()
             if not to_cat:
                 raise ValueError(f"Target category {to_cat_id} not found")
 
             # Only update THIS user's expenses
-            updated = session.query(Expense).filter(
-                (Expense.user_id == user_id) &
-                (Expense.category_id == from_cat_id)
-            ).update({Expense.category_id: to_cat_id})
+            result = session.execute(
+                update(Expense).where(
+                    (Expense.user_id == user_id) &
+                    (Expense.category_id == from_cat_id)
+                ).values(category_id=to_cat_id)
+            )
+            updated = result.rowcount
 
             # Only delete if no other users have expenses there
-            remaining = session.query(Expense).filter(
-                Expense.category_id == from_cat_id
-            ).count()
+            remaining = session.execute(
+                select(func.count()).select_from(Expense).where(
+                    Expense.category_id == from_cat_id
+                )
+            ).scalar()
 
             if remaining == 0:
-                session.query(Category).filter(
-                    Category.id == from_cat_id
-                ).delete()
+                session.execute(
+                    delete(Category).where(Category.id == from_cat_id)
+                )
 
             session.commit()
             return {"success": True, "updated": updated}
@@ -493,20 +521,9 @@ results = process_expense_batch(batch)
 
 Savepoints are advanced. For most operations, the basic try/except/rollback pattern is sufficient.
 
-## What Happens Next
+## What Comes Next
 
-You now know how to make database operations safe. Multi-step operations either succeed completely or fail together. No partial data corruption. No dangling references.
-
-But so far, you've been testing locally with SQLite. In-memory databases are great for learning, but they disappear when your script stops. Real applications need persistent databases that run 24/7, handle multiple users, and scale automatically. That's where L6 comes in.
-
-| Lesson | What You Learn                        | What You Add to Your Skill            |
-| ------ | ------------------------------------- | ------------------------------------- |
-| L5 (now) | Atomic multi-operation safety       | Transaction patterns with error handling |
-| L6     | Deploy to Neon serverless database  | Connection pooling and production config |
-| L7     | Combine SQL + bash hybrid patterns   | Tool choice framework                    |
-| L8     | Integrate all patterns               | Complete, production-ready Budget Tracker |
-
-Transactions ensure correctness locally. Cloud deployment ensures availability globally.
+Your data is safe from corruption. But it dies when Python restarts. Next, you'll deploy to a cloud database that runs 24/7.
 
 ## Try With AI
 
@@ -550,32 +567,32 @@ Requirements:
 - Handle case where from_cat doesn't exist
 - Handle case where to_cat doesn't exist
 - Use try/except + rollback pattern from this lesson
+- Use SQLAlchemy 2.0 style: session.execute(select(...)), session.execute(update(...)), etc.
 - Don't delete the from_cat (other users might use it)
 
 Use the Budget Tracker models (User, Category, Expense).
+Import from sqlalchemy: select, update, func as needed.
 ```
 
 After AI responds, trace through the error handling. Would this code corrupt data if to_cat doesn't exist?
 
-### Prompt 3: Document in Your Skill
+### Prompt 3: Deliberate Failure
 
-**What you're learning:** Capturing transaction patterns for reuse.
+**What you're learning:** Proving that rollback actually works.
 
 ```
-Add to my /database-deployment skill:
+Write a transfer_budget function that deliberately fails halfway through.
+Specifically:
+1. Create the first expense (debit from Food category) — this should succeed
+2. Then raise an exception BEFORE creating the second expense (credit to Entertainment)
+3. After the exception, query the database to prove the first expense was NOT saved
 
-## Transactions & Atomicity
-
-Include:
-1. What atomicity means (all or nothing)
-2. When to use transactions (multi-step operations, transfers, cascade deletes)
-3. The try/except + rollback pattern (with code template)
-4. Real example: transfer_budget function
-
-Format as markdown for SKILL.md. Make it usable for ANY database project, not just Budget Tracker.
+Show me the code and the output that proves rollback worked.
+Then modify the code to REMOVE the try/except block and show what happens
+when the same failure occurs without rollback protection.
 ```
 
-After AI responds, check: Could you use these patterns in a different project (order processing, inventory management)?
+After AI responds, run both versions. The difference between "rolled back safely" and "partial data corruption" is the entire point of this lesson.
 
 **Safety reminder:** Transactions prevent data corruption, but they don't prevent logical errors. If your code transfers $100 when it should transfer $10, the transaction will happily commit the wrong amount. Always validate inputs before starting the transaction.
 
@@ -588,6 +605,6 @@ Before moving to L6:
 - [ ] You can implement: Safe multi-step operations that commit or rollback together
 - [ ] You can identify: Which scenarios require atomic transactions (Prompt 1)
 - [ ] You've written: Transaction-safe code (Prompt 2)
-- [ ] You've documented: Transaction patterns in your `/database-deployment` skill
+- [ ] You've proven: Rollback works by deliberately failing a transaction (Prompt 3)
 
 Ready for L6: Neon-specific features and connection reliability.

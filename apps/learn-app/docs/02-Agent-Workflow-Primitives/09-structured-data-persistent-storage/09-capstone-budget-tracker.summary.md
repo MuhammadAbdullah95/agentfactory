@@ -11,7 +11,7 @@ The capstone integrates every pattern from the chapter -- models, CRUD, relation
 
 - Application structure: imports and engine setup, model definitions, CRUD functions (create/read/update/delete), relationship queries (monthly summary, by-category grouping, top expenses), atomic transactions (budget transfers), utilities (init, seed, test connection)
 - Every CRUD function follows the same shape: `with Session(engine) as session: try: ... session.commit() except: ... return error`
-- Complex queries combine joins, aggregation (`func.sum`, `func.count`), grouping (`group_by`), and filtering -- all through SQLAlchemy, no raw SQL
+- Complex queries combine joins, aggregation (`func.sum`, `func.count`), grouping (`group_by`), and filtering using `select()` with `.where()` -- all through SQLAlchemy 2.0, no raw SQL
 - The `transfer_budget()` function creates paired expense records (negative debit, positive credit) atomically
 
 ### Common Mistakes

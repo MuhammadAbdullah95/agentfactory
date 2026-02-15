@@ -10,7 +10,7 @@ The hybrid pattern queries data with SQL as the primary tool, then independently
 
 ### Critical Patterns
 
-- Query-then-verify workflow: SQLAlchemy query (primary), export to CSV, bash grep/awk on the CSV (verification), compare results
+- Query-then-verify workflow: SQLAlchemy `select()` query (primary), export to CSV, bash grep/awk on the CSV (verification), compare results
 - Cost-benefit decision: hybrid costs ~2x tokens. Use it for financial reporting, audit trails, and automated agent pipelines. Skip it for development, debugging, and one-off exploration.
 - Part 2 tool progression: bash (file ops) to Python (computation) to SQL (structured queries) to hybrid (self-checking pipelines)
 

@@ -12,7 +12,7 @@ SQLAlchemy relationships let you navigate between connected tables using Python 
 - Relationship declaration (parent side): `expenses = relationship("Expense", back_populates="user", cascade="all, delete-orphan")`
 - Relationship declaration (child side): `user = relationship("User", back_populates="expenses")`
 - Navigation without queries: `user.expenses` returns all expenses for that user
-- Explicit join for filtering on related table: `session.query(Expense).join(Category).filter(Category.name == 'Food').all()`
+- Explicit join for filtering on related table: `session.execute(select(Expense).join(Category).where(Category.name == 'Food')).scalars().all()`
 - Computing with relationships: `sum(expense.amount for expense in user.expenses)`
 
 ### Common Mistakes
