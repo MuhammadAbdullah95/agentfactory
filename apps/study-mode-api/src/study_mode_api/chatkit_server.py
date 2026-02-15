@@ -46,7 +46,14 @@ from .services.session_state import (
 # Enable chunked mode for faster responses
 USE_CHUNKED_MODE = True
 
+# Enable agent-native mode (v3) - reviewer's architecture
+# When True: uses dynamic instructions + function tools + zero branching
+# When False: uses v2 chunked mode with server-side state machine
+import os
+USE_AGENT_NATIVE_TEACH = True  # HARDCODED FOR TESTING - TODO: revert to os.getenv
+
 logger = logging.getLogger(__name__)
+logger.info(f"[ChatKit] USE_AGENT_NATIVE_TEACH = {USE_AGENT_NATIVE_TEACH}")
 
 # Fake ID constant from agents SDK (used by OpenAIChatCompletionsModel)
 # When using Chat Completions API, the SDK returns this placeholder ID
@@ -383,6 +390,178 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         super().__init__(store)
         logger.info("[ChatKit] StudyModeChatKitServer initialized")
 
+    async def handle_teach_mode_v3(
+        self,
+        thread: ThreadMetadata,
+        user_text: str,
+        lesson_path: str,
+        user_name: str | None,
+        context: RequestContext,
+        is_first_message: bool,
+    ) -> AsyncIterator[ThreadStreamEvent]:
+        """
+        Handle Teach Me mode with agent-native architecture (v3).
+
+        Per reviewer: Zero branching - just: load → build context → run → save
+
+        Args:
+            thread: Thread metadata
+            user_text: User's message text
+            lesson_path: Path to lesson content
+            user_name: User's display name
+            context: Request context
+            is_first_message: Whether this is the first message in thread
+        """
+        from agents import Runner
+
+        from .fte.teach_agent import create_teach_agent
+        from .fte.teach_context import TeachContext
+        from .services.session_state import get_session_state, save_session_state
+
+        logger.info(f"[ChatKit] AGENT-NATIVE MODE (v3) for thread {thread.id}")
+
+        # 1. Load content and state
+        content_data = await load_lesson_content(lesson_path)
+        content = content_data.get("content", "")
+        title = content_data.get("title", "Unknown")
+
+        chunks = await get_lesson_chunks(lesson_path, content, title)
+        state = await get_session_state(thread.id) or {}
+
+        logger.info(
+            f"[ChatKit] v3: title='{title}', chunks={len(chunks)}, "
+            f"state={state}"
+        )
+
+        # 2. Build context — that's ALL the server does
+        # Note: chunks from get_lesson_chunks are already dicts OR objects
+        teach_ctx = TeachContext(
+            lesson_title=title,
+            chunks=[
+                {"index": c["index"] if isinstance(c, dict) else c.index,
+                 "title": c["title"] if isinstance(c, dict) else c.title,
+                 "content": c["content"] if isinstance(c, dict) else c.content}
+                for c in chunks
+            ],
+            current_chunk_index=state.get("concept_index", 0),
+            attempt_count=state.get("attempt_count", 0),
+            max_attempts=3,
+            total_chunks=len(chunks),
+            is_first_message=is_first_message,
+            thread_id=thread.id,
+            user_name=user_name or "",
+        )
+
+        # 3. Create and run agent — no branching, no script selection
+        agent = create_teach_agent()
+
+        # Create agent context for streaming
+        agent_context = AgentContext(
+            thread=thread,
+            store=self.store,
+            request_context=context,
+        )
+
+        # Create metering hooks
+        metering_hooks = create_metering_hooks()
+
+        logger.info(f"[ChatKit] v3: Running agent for thread {thread.id}")
+
+        try:
+            result = Runner.run_streamed(
+                agent,
+                user_text,
+                context=teach_ctx,
+                hooks=metering_hooks,
+            )
+
+            # Stream response with marker stripping
+            full_response = ""
+            async for event in stream_agent_response(agent_context, result):
+                # Strip marker from streaming deltas
+                if isinstance(event, ThreadItemUpdatedEvent):
+                    update = event.update
+                    if isinstance(update, AssistantMessageContentPartTextDelta):
+                        full_response += update.delta
+                        cleaned = strip_answer_marker(update.delta)
+                        if cleaned:
+                            event = ThreadItemUpdatedEvent(
+                                item_id=event.item_id,
+                                update=AssistantMessageContentPartTextDelta(
+                                    content_index=update.content_index,
+                                    delta=cleaned,
+                                ),
+                            )
+                        else:
+                            continue  # Skip empty deltas
+
+                # Strip marker from final content
+                elif isinstance(event, ThreadItemDoneEvent):
+                    item = event.item
+                    if isinstance(item, AssistantMessageItem):
+                        new_content = []
+                        for content_item in item.content:
+                            if hasattr(content_item, "text"):
+                                cleaned_text = strip_answer_marker(content_item.text)
+                                new_content.append(
+                                    AssistantMessageContent(
+                                        text=cleaned_text,
+                                        annotations=getattr(
+                                            content_item, "annotations", []
+                                        ),
+                                    )
+                                )
+                            else:
+                                new_content.append(content_item)
+
+                        item = AssistantMessageItem(
+                            id=item.id,
+                            thread_id=item.thread_id,
+                            created_at=item.created_at,
+                            content=new_content,
+                        )
+                        event = ThreadItemDoneEvent(item=item)
+
+                yield event
+
+        except HTTPException as http_err:
+            if http_err.status_code == 402:
+                # Handle metering error gracefully
+                detail = http_err.detail if isinstance(http_err.detail, dict) else {}
+                available_usd = detail.get("available_balance", 0) / 10000
+                required_usd = detail.get("required", 0) / 10000
+                error_text = (
+                    f"You've used your free credits. "
+                    f"Balance: ${available_usd:.4f}, needed: ${required_usd:.4f}. "
+                    f"Please top up to continue."
+                )
+                error_message = AssistantMessageItem(
+                    id=self.store.generate_item_id("message", thread, context),
+                    thread_id=thread.id,
+                    created_at=datetime.now(),
+                    content=[AssistantMessageContent(text=error_text, annotations=[])],
+                )
+                yield ThreadItemDoneEvent(item=error_message)
+                return
+            raise
+        except Exception:
+            if metering_hooks:
+                await metering_hooks.release_on_error(agent_context)
+            raise
+
+        # 4. Save updated state after run
+        await save_session_state(thread.id, {
+            "concept_index": teach_ctx.current_chunk_index,
+            "attempt_count": teach_ctx.attempt_count,
+            "lesson_path": lesson_path,
+            "status": "complete" if teach_ctx.is_complete else "teaching",
+        })
+
+        logger.info(
+            f"[ChatKit] v3: Done. chunk={teach_ctx.current_chunk_index}, "
+            f"attempts={teach_ctx.attempt_count}"
+        )
+
     async def respond(
         self,
         thread: ThreadMetadata,
@@ -504,6 +683,41 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 f"[ChatKit] items={len(items)}, types={item_types}, "
                 f"has_assistant={has_assistant_response}, is_first={is_first_message}"
             )
+
+            # AGENT-NATIVE MODE (v3): Use new architecture for teach mode
+            # Per reviewer: zero branching, agent has full autonomy
+            logger.info(f"[ChatKit] MODE CHECK: USE_AGENT_NATIVE_TEACH={USE_AGENT_NATIVE_TEACH}, mode='{mode}'")
+            if USE_AGENT_NATIVE_TEACH and mode == "teach":
+                logger.info("[ChatKit] >>> ROUTING TO AGENT-NATIVE MODE (v3) <<<")
+
+                # Set thread title for new threads
+                if is_first_message:
+                    if _is_trigger_message(user_text):
+                        context.metadata["title"] = f"📚 {title}"
+                    else:
+                        context.metadata["title"] = _generate_thread_title(user_text)
+                    await self.store.save_thread(thread, context)
+
+                async for event in self.handle_teach_mode_v3(
+                    thread=thread,
+                    user_text=user_text,
+                    lesson_path=lesson_path,
+                    user_name=user_name,
+                    context=context,
+                    is_first_message=is_first_message,
+                ):
+                    yield event
+
+                # Handle trigger message deletion for v3
+                if _is_trigger_message(user_text) and input_user_message:
+                    try:
+                        await self.store.delete_thread_item(
+                            thread.id, input_user_message.id, context
+                        )
+                        logger.info("[ChatKit] v3: Deleted trigger message")
+                    except Exception as del_err:
+                        logger.warning(f"[ChatKit] v3: Failed to delete trigger: {del_err}")
+                return  # Exit early, v3 handles everything
 
             # Store lesson data in metadata for dynamic instruction functions
             # This allows ask_agent's dynamic callable to access all context
