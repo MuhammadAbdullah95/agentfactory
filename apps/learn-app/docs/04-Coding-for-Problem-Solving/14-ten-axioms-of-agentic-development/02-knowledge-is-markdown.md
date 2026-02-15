@@ -391,7 +391,7 @@ Tomás's question — "Why don't we just use REST?" — is asked in every team, 
 
 - **All persistent knowledge belongs in markdown.** Specifications, decisions, context, documentation — one format, one repository, one version history.
 - **Markdown satisfies four properties no other format matches**: human-readable, version-controllable, AI-parseable, and tool-agnostic. This is not opinion — the comparison table shows it empirically.
-- **Markdown was designed for readability first.** Gruber and Swartz formalized what humans already did in plain-text email. That design decision is why AI agents can read it natively, twenty years later.
+- **Markdown was designed for readability first.** Gruber and Swartz formalized what humans already did in plain-text email. That design decision is why AI agents can read it natively, two decades later.
 - **YAML frontmatter adds a metadata layer** that separates machine-processable data from narrative content — the best of both worlds without sacrificing either.
 - **Markdown is for knowledge, not for secrets.** Its openness is its strength and its risk. Secrets belong in environment variables, never in committed files.
 

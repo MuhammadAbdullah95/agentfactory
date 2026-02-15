@@ -107,7 +107,7 @@ When you respect this boundary, every component becomes independently testable, 
 
 ## The Unix Roots
 
-This axiom did not originate with agentic development. It was discovered sixty years ago at Bell Labs.
+This axiom did not originate with agentic development. It was discovered over six decades ago at Bell Labs.
 
 In 1964, Doug McIlroy — who would go on to lead Bell Labs' Computing Sciences Research Center — wrote an internal memo arguing that programs should connect to each other like garden hoses. That single idea became the Unix pipe, and it reshaped how an entire generation thought about software.
 

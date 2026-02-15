@@ -119,7 +119,7 @@ IBM's own database team resisted. They had built IMS, a hierarchical database th
 
 The relational model won because it solved Tomás's exact problem at industrial scale: when data has relationships, a system that *understands* relationships will always outperform one that does not. Codd's tables, foreign keys, and constraints are the reason Lena's twelve-line SQL query returned in three milliseconds what Tomás's forty-line Python loop took eleven seconds to produce. The database optimizer — the component Codd's model made possible — chose the execution path. Tomás did not have to.
 
-Fifty-five years later, SQL remains the dominant language for structured data. It has survived the rise and fall of object databases (1990s), the XML movement (2000s), the NoSQL revolution (2010s), and the graph database wave (2020s). Each found legitimate niches. None displaced SQL for general-purpose structured data, because Codd's insight addresses a property of data itself: when entities have relationships, a relational system is the natural fit.
+More than half a century later, SQL remains the dominant language for structured data. It has survived the rise and fall of object databases (1990s), the XML movement (2000s), the NoSQL revolution (2010s), and the graph database wave (2020s). Each found legitimate niches. None displaced SQL for general-purpose structured data, because Codd's insight addresses a property of data itself: when entities have relationships, a relational system is the natural fit.
 
 ### Why SQL Works
 
@@ -286,7 +286,27 @@ This replaced Tomás's entire forty-line Python loop. The database is a single f
 
 ## SQL and AI: Why Agents Love Relational Data
 
-This is where Axiom VI connects to everything this book teaches — and where the lesson becomes urgent rather than merely architectural. When Tomás asked an AI agent to "show me all overdue orders for Acme Corp" against his JSON file, the agent had to generate a Python loop with string matching, date comparison, and manual filtering. The code worked but was fragile — any change to the JSON structure broke it.
+This is where Axiom VI connects to everything this book teaches — and where the lesson becomes urgent rather than merely architectural. When Tomás asked an AI agent to "show me all overdue orders for Acme Corp" against his JSON file, the agent generated this:
+
+```python static
+import json
+from datetime import datetime, timedelta
+
+with open("orders.json") as f:
+    data = json.load(f)
+
+cutoff = datetime.now() - timedelta(days=30)
+results = []
+for order in data["orders"]:
+    # Hope that "customer" is spelled consistently
+    if "Acme" in order.get("customer_name", ""):
+        if order.get("status") == "pending":
+            created = datetime.fromisoformat(order["created_at"])
+            if created < cutoff:
+                results.append(order)
+```
+
+The code works — until someone stores the customer name as `"customer"` instead of `"customer_name"`, or formats dates differently, or nests orders inside customer objects. The AI had no schema to consult, so it guessed at field names, assumed a flat structure, and produced brittle string matching. Every assumption is a silent failure waiting to happen.
 
 When he asked the same question against his SQL schema, the agent generated:
 
@@ -546,7 +566,7 @@ Use [my specific technology stack or project type] for the examples.
 Tomás's `orders.json` — 2,000 records, eleven-second queries, inconsistent customer names — taught him what Edgar Codd formalized in 1970: when data has relationships, a system that understands relationships will always outperform one that does not. Lena's twelve lines of SQL replaced forty lines of Python loops, enforced referential integrity, and gave AI agents a constrained, declarative language to query against.
 
 - **Structured data is relational by nature.** When entities have connections — customers have orders, orders contain products — you have relational data whether or not you store it relationally. JSON files store relational data without understanding it. SQL databases enforce the relationships.
-- **SQL is the default for persistent structured data.** Codd's relational model has survived every challenger for more than fifty years because it addresses a property of data itself. SQLite for single-user tools and prototypes, PostgreSQL for multi-user production systems. The SQL you write transfers between both.
+- **SQL is the default for persistent structured data.** Codd's relational model has survived every challenger for more than half a century because it addresses a property of data itself. SQLite for single-user tools and prototypes, PostgreSQL for multi-user production systems. The SQL you write transfers between both.
 - **Schemas are type definitions for data.** Just as Axiom V's type annotations give AI a specification for code, SQL schemas give AI a specification for data. Constraints, foreign keys, and CHECK clauses tell the AI exactly what exists, what is valid, and how entities relate — without any additional documentation.
 - **The ORM serves you, not the reverse.** If you cannot explain the SQL your ORM generates, write the SQL directly. Use ORMs for CRUD operations and schema management. Use raw SQL for complex queries where you need to see and control the execution plan.
 - **Parameterized queries are non-negotiable.** The String Concatenation Trap is not theoretical — thirteen characters in a search box can delete an entire table. Always use parameter placeholders. Always instruct AI agents to do the same.
