@@ -415,7 +415,6 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const lessonSlug = docIdSegments[docIdSegments.length - 1] || "";
   const chapterSlug = docIdSegments.slice(0, -1).join("/");
   const hasValidSlug = chapterSlug.length > 0 && lessonSlug.length > 0;
-  const isQuizPage = lessonSlug.toLowerCase().includes("quiz");
   const isCategoryIndex = rawSource.endsWith("README.md") || rawSource.endsWith("README.mdx") || rawSource.endsWith("index.md") || rawSource.endsWith("index.mdx");
 
   // Teaching Guide Sheet state

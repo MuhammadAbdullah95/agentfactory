@@ -389,7 +389,7 @@ sudo ufw status | grep 8000
 8000/tcp (v6)              ALLOW       Anywhere (v6)
 ```
 
-Port 8000 is now open for agent traffic. All other ports remain blocked (except SSH on port 22, which you configured in [Lesson 7](./07-security-fundamentals.md)).
+Port 8000 is now open for agent traffic. All other ports remain blocked (except SSH on port 22, which you configured in [Lesson 8](./08-security-hardening.md)).
 
 :::tip Future Enhancement
 When you learn nginx in a future chapter, you can add a reverse proxy in front for SSL termination and load balancing. For now, direct port binding keeps the architecture simple and gives you one fewer component to debug.
