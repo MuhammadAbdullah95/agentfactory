@@ -73,7 +73,7 @@ The difference between these two architectures is Axiom IV.
 
 ## The Problem Without This Axiom
 
-Tomás's `process_order()` was not written by a bad engineer. Like Maria's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
+Tomás's `process_order()` was not written by a bad engineer. Like Tomás's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
 
 Here is the trajectory that Tomás's team followed — and that every monolith follows:
 
