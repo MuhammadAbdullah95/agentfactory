@@ -145,6 +145,8 @@ Tomás's `print("Processing order...")` was neither monitoring nor observability
 
 ## The Three Pillars of Observability
 
+![Three Pillars of Observability: Logs (What happened), Metrics (How much), and Traces (Where), standing on a Production System foundation](./img/10-three-pillars-observability.png)
+
 After the 2:47 AM incident, Lena walked Tomás through the three pillars of production observability. "Each pillar answers a different question," she said. "And no single pillar suffices alone."
 
 ### Pillar 1: Logs (What Happened?)
@@ -474,6 +476,8 @@ Observability is not just about watching — it drives a continuous improvement 
 This is where observability and testing become a unified system. The 2:47 AM incident *discovered* a failure mode Tomás's test suite never anticipated. That discovery became a new load test. The load test now prevents the same regression. And observability confirms, every night, that shipping calculations stay fast under real traffic. The verification system grows stronger with each cycle — observability feeds testing, testing feeds confidence, confidence feeds deployment, and observability watches the result.
 
 ## The Complete System: All Ten Axioms
+
+![The Ten Axioms of Agentic Development: organized into four categories — Orchestration, Specification, Architecture, and Verification](./img/10-complete-axioms-system.png)
 
 This is the final axiom. Together, the ten axioms form a coherent system for agentic software development — and Tomás has lived every one of them. Here is how they compose:
 
