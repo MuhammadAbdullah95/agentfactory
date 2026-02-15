@@ -3,7 +3,7 @@
 **Feature Branch**: `030-book-restructure-sdd-before-python`
 **Created**: 2025-01-24
 **Status**: Draft
-**Input**: User description: "Restructure book to introduce SDD-RI BEFORE Python (Part 4: 3 chapters on SDD-RI fundamentals + business thinking, Part 6: 3 chapters on AI Product Leadership). Move current chapters 31-33 to new positions, create placeholders for new chapters, update chapter-index.md. This is Phase 1: Structure & Placeholders only - no content creation yet."
+**Input**: User description: "Restructure book to introduce SDD-RI BEFORE Python (Part 4: 3 chapters on Applied Domain Workflows + business thinking, Part 6: 3 chapters on AI Product Leadership). Move current chapters 31-33 to new positions, create placeholders for new chapters, update chapter-index.md. This is Phase 1: Structure & Placeholders only - no content creation yet."
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -17,7 +17,7 @@ As a book maintainer, I need the chapter-index.md file updated to reflect the ne
 
 **Acceptance Scenarios**:
 
-1. **Given** the current chapter-index.md with Parts 4-5 structure, **When** I update it with the new structure, **Then** Part 4 contains chapters 13-15 (SDD-RI Fundamentals), Part 5 contains chapters 16-33 (Python), and Part 6 contains chapters 34-36 (AI Product Leadership)
+1. **Given** the current chapter-index.md with Parts 4-5 structure, **When** I update it with the new structure, **Then** Part 4 contains chapters 13-15 (Applied Domain Workflows), Part 5 contains chapters 16-33 (Python), and Part 6 contains chapters 34-36 (AI Product Leadership)
 2. **Given** the updated chapter-index.md, **When** I search for chapter 31, **Then** it no longer exists at that number; the content appears as Chapter 13 in Part 4
 3. **Given** the updated chapter-index.md, **When** I review implementation status markers, **Then** existing content shows ✅ with correct new numbers, new placeholders show 📋 NEW
 
@@ -271,7 +271,7 @@ None at specification phase. User explicitly scoped Phase 1 to "Structure & Plac
 
 This restructuring aligns with the book's constitutional principle that "specifications are the new syntax." The current structure teaches 18 chapters of Python (13-30) before introducing SDD concepts (31-34), which violates this principle. The new structure:
 
-1. **Part 4 (Chapters 13-15)**: Introduces SDD-RI fundamentals and business thinking BEFORE Python
+1. **Part 4 (Chapters 13-15)**: Introduces Applied Domain Workflows and business thinking BEFORE Python
 2. **Part 5 (Chapters 16-33)**: Python fundamentals with SDD mindset already established
 3. **Part 6 (Chapters 34-36)**: Advanced AI product leadership and team orchestration
 

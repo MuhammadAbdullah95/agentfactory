@@ -13,7 +13,9 @@
 @custom-variant dark (&:is([data-theme='dark'] *));
 
 @theme inline {
-    /* Custom breakpoint to match Docusaurus sidebar (997px) */
+    /* Custom breakpoints */
+    --breakpoint-xs: 400px;
+    /* Match Docusaurus sidebar (997px) */
     --breakpoint-docs: 997px;
 
     --font-sans: var(--font-sans);

@@ -15,7 +15,7 @@
  * So we detect the base path from the current URL pathname.
  */
 function detectBasePath(): string {
-  if (typeof window === 'undefined') return '';
+  if (typeof window === "undefined") return "";
 
   const pathname = window.location.pathname;
 
@@ -26,14 +26,24 @@ function detectBasePath(): string {
     const firstSegment = match[1];
     // If first segment is a known app/content path, we're at root
     // These are Docusaurus routes that don't indicate a baseUrl
-    if (['auth', 'api', 'docs', 'blog', 'search'].includes(firstSegment)) {
-      return '';
+    if (
+      [
+        "auth",
+        "api",
+        "docs",
+        "blog",
+        "search",
+        "leaderboard",
+        "progress",
+      ].includes(firstSegment)
+    ) {
+      return "";
     }
     // Otherwise, we're in a subpath (e.g., /ai-native/)
     return `/${firstSegment}`;
   }
 
-  return ''; // Root (pathname is just "/")
+  return ""; // Root (pathname is just "/")
 }
 
 /**
@@ -41,7 +51,7 @@ function detectBasePath(): string {
  */
 export function getHomeUrl(): string {
   const basePath = detectBasePath();
-  return basePath ? `${basePath}/` : '/';
+  return basePath ? `${basePath}/` : "/";
 }
 
 /**
@@ -49,8 +59,8 @@ export function getHomeUrl(): string {
  * Uses the detected base path from current URL - no hardcoding needed
  */
 export function getRedirectUri(): string {
-  if (typeof window === 'undefined') {
-    return 'http://localhost:3000/auth/callback';
+  if (typeof window === "undefined") {
+    return "http://localhost:3000/auth/callback";
   }
 
   const basePath = detectBasePath();

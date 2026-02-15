@@ -10,29 +10,29 @@ Chapter 14 bridges Parts 1-3 (experiential learning with General Agents) and Par
 
 ## Relationship to Seven Principles (Chapter 4)
 
-| Seven Principles (Ch 4) | Ten Axioms (Ch 14) |
-|--------------------------|---------------------|
-| Mindset for ALL users | Methodology for DEVELOPERS |
-| "How to think" | "How to build" |
-| General (any AI tool) | Specific (software engineering) |
-| Experiential/intuitive | Formal/prescriptive |
+| Seven Principles (Ch 4) | Ten Axioms (Ch 14)              |
+| ----------------------- | ------------------------------- |
+| Mindset for ALL users   | Methodology for DEVELOPERS      |
+| "How to think"          | "How to build"                  |
+| General (any AI tool)   | Specific (software engineering) |
+| Experiential/intuitive  | Formal/prescriptive             |
 
 The axioms are the **technical instantiation** of the principles. Each axiom connects back to one or more principles but adds implementation specificity.
 
 ## The Ten Axioms
 
-| # | Axiom | Principle Connection | Core Teaching |
-|---|-------|---------------------|---------------|
-| I | Shell as Orchestrator | P1: Bash is the Key | Shell coordinates all tools; complexity stays in programs |
-| II | Knowledge is Markdown | P5: Persisting State | All specs, docs, decisions live in markdown — the universal knowledge format |
-| III | Programs Over Scripts | P2: Code as Interface | Production work requires structured programs with types, tests, CI |
-| IV | Composition Over Monoliths | P4: Decomposition | Build from composable units, not monolithic blocks |
-| V | Types Are Guardrails | P6: Constraints | Type systems prevent errors at compile time, not runtime |
-| VI | Data is Relational | P5: Persisting State | SQL as default for structured data; relational thinking |
-| VII | Tests Are the Specification | P3: Verification | TDG: tests define correctness, AI generates implementations |
-| VIII | Version Control is Memory | P5: Persisting State | Git as persistent memory layer for all work |
-| IX | Verification is a Pipeline | P3: Verification | CI/CD automates and enforces verification continuously |
-| X | Observability Extends Verification | P7: Observability | Runtime monitoring extends pre-deployment testing |
+| #    | Axiom                              | Principle Connection  | Core Teaching                                                                |
+| ---- | ---------------------------------- | --------------------- | ---------------------------------------------------------------------------- |
+| I    | Shell as Orchestrator              | P1: Bash is the Key   | Shell coordinates all tools; complexity stays in programs                    |
+| II   | Knowledge is Markdown              | P5: Persisting State  | All specs, docs, decisions live in markdown — the universal knowledge format |
+| III  | Programs Over Scripts              | P2: Code as Interface | Production work requires structured programs with types, tests, CI           |
+| IV   | Composition Over Monoliths         | P4: Decomposition     | Build from composable units, not monolithic blocks                           |
+| V    | Types Are Guardrails               | P6: Constraints       | Type systems prevent errors at compile time, not runtime                     |
+| VI   | Data is Relational                 | P5: Persisting State  | SQL as default for structured data; relational thinking                      |
+| VII  | Tests Are the Specification        | P3: Verification      | TDG: tests define correctness, AI generates implementations                  |
+| VIII | Version Control is Memory          | P5: Persisting State  | Git as persistent memory layer for all work                                  |
+| IX   | Verification is a Pipeline         | P3: Verification      | CI/CD automates and enforces verification continuously                       |
+| X    | Observability Extends Verification | P7: Observability     | Runtime monitoring extends pre-deployment testing                            |
 
 ## Lesson Structure (All 10 Lessons)
 
@@ -49,8 +49,8 @@ Each lesson follows this consistent structure:
 ## Prerequisites
 
 - Part 1: General Agents Foundations (Chapters 1-4)
-- Part 2: Applied General Agent Workflows (Chapters 5-10)
-- Part 3: SDD-RI Fundamentals (Chapters 11-13)
+- Part 2: Agent Workflow Primitives (Chapters 5-10)
+- Part 3: Applied Domain Workflows (Chapters 11-13)
 
 ## Layer Progression
 

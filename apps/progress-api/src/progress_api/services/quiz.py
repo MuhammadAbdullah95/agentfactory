@@ -14,6 +14,7 @@ from ..schemas.quiz import BadgeEarned, QuizSubmitRequest, QuizSubmitResponse, S
 from ..services.engine.badges import BADGE_DEFINITIONS, evaluate_badges
 from ..services.engine.streaks import calculate_streak
 from ..services.engine.xp import calculate_xp
+from .leaderboard import debounced_refresh_leaderboard
 from .shared import (
     get_activity_dates,
     invalidate_user_cache,
@@ -56,13 +57,15 @@ async def submit_quiz(
     chapter = await resolve_or_create_chapter(session, request.chapter_slug)
 
     # 3. COUNT previous attempts for (user, chapter)
-    # Use raw SQL with FOR UPDATE to prevent concurrent submissions
-    # getting the same attempt_number
+    # Lock matching rows first (FOR UPDATE), then count via subquery.
+    # PostgreSQL forbids FOR UPDATE directly on aggregate functions.
     result = await session.execute(
         text(
-            "SELECT COUNT(*) FROM quiz_attempts"
-            " WHERE user_id = :uid AND chapter_id = :cid"
-            " FOR UPDATE"
+            "SELECT COUNT(*) FROM ("
+            "  SELECT 1 FROM quiz_attempts"
+            "  WHERE user_id = :uid AND chapter_id = :cid"
+            "  FOR UPDATE"
+            ") locked_rows"
         ),
         {"uid": user.id, "cid": chapter.id},
     )
@@ -167,8 +170,8 @@ async def submit_quiz(
     # Invalidate caches
     await invalidate_user_cache(user.id)
 
-    # Refresh leaderboard materialized view in background (non-blocking)
-    asyncio.create_task(_refresh_leaderboard_background())
+    # Refresh leaderboard materialized view in background (debounced: max once per 10 min)
+    asyncio.create_task(debounced_refresh_leaderboard())
 
     # Calculate best score (include current attempt)
     best_score = max(request.score_pct, best_previous_score or 0)
@@ -183,14 +186,3 @@ async def submit_quiz(
     )
 
 
-async def _refresh_leaderboard_background() -> None:
-    """Fire-and-forget: refresh the leaderboard materialized view after quiz submit."""
-    try:
-        from ..core.database import async_session
-
-        async with async_session() as session:
-            from .leaderboard import refresh_leaderboard
-
-            await refresh_leaderboard(session)
-    except Exception as e:
-        logger.warning(f"[Quiz] Background leaderboard refresh failed: {e}")

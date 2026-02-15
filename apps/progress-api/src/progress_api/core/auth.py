@@ -6,7 +6,7 @@ from typing import Any
 
 import httpx
 from fastapi import HTTPException, Request
-from jose import JWTError, jwt
+from jose import JOSEError, JWTError, jwt
 
 from ..config import settings
 
@@ -96,12 +96,11 @@ async def verify_jwt(token: str) -> dict[str, Any]:
             token,
             rsa_key,
             algorithms=["RS256"],
-            audience=settings.token_audience,
-            options={"verify_aud": True},
+            options={"verify_aud": False},  # Audience varies by OAuth client
         )
         return payload
 
-    except JWTError as e:
+    except (JWTError, JOSEError) as e:
         logger.warning(f"[Auth] JWT verification failed: {e}")
         raise HTTPException(
             status_code=401,

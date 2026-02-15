@@ -5,13 +5,15 @@ Effective organization with General Agents follows a collaborative design patter
 ### Key Mental Models
 
 - **Propose-refine-iterate**: The agent suggests categories based on your actual files. You adjust based on your needs. The agent adapts.
-- **State persistence**: Rules get saved to `rules.md` for future reuse. You're not organizing once. You're creating a permanent system.
+- **State persistence**: Rules get saved to `rules.md` with version tracking and last-applied dates. You're not organizing once. You're creating a permanent, evolving system.
 - **Test before scaling**: Always try on one file first. If the test works, proceed with confidence. If not, you caught the problem early.
+- **Dry run before execution**: Ask the agent to show what it _would_ do without doing it. The single-file test checks the mechanism works; the dry run checks the decisions are right.
 
 ### Critical Patterns
 
 - **"Help me organize [folder]. Analyze what's there and suggest categories based on my actual files"**: This triggers collaborative rule design.
 - **"Test on ONE file first"**: This single instruction prevents potential chaos by validating before batch operations.
+- **"Show me what you'll do before doing it"**: Dry-run prompt that makes the agent's plan visible before it becomes irreversible (Principle 7: Observability).
 - **"Document the rules so we can reuse them"**: Creates persistent state (Principle 5) that survives beyond this session.
 - **Principle 4 (Decomposition)**: Small, reversible testing before scaling to hundreds of files.
 

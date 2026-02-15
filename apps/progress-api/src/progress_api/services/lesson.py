@@ -12,6 +12,7 @@ from ..models.lesson import LessonCompletion
 from ..schemas.lesson import LessonCompleteRequest, LessonCompleteResponse
 from ..schemas.quiz import StreakInfo
 from ..services.engine.streaks import calculate_streak
+from .leaderboard import debounced_refresh_leaderboard
 from .shared import (
     get_activity_dates,
     invalidate_user_cache,
@@ -117,7 +118,7 @@ async def complete_lesson(
     # Invalidate caches + refresh leaderboard view
     await invalidate_user_cache(user.id)
     if xp_earned > 0:
-        asyncio.create_task(_refresh_leaderboard_background())
+        asyncio.create_task(debounced_refresh_leaderboard())
 
     return LessonCompleteResponse(
         completed=True,
@@ -128,13 +129,3 @@ async def complete_lesson(
     )
 
 
-async def _refresh_leaderboard_background() -> None:
-    """Fire-and-forget: refresh the leaderboard materialized view."""
-    try:
-        from ..core.database import async_session
-        from .leaderboard import refresh_leaderboard
-
-        async with async_session() as session:
-            await refresh_leaderboard(session)
-    except Exception as e:
-        logger.warning(f"[Lesson] Background leaderboard refresh failed: {e}")

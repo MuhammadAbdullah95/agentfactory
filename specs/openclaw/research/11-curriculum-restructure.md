@@ -1,7 +1,7 @@
 # Curriculum Restructuring Analysis: Experience-First Learning
 
 **Date**: 2026-02-05
-**Context**: Evaluating proposed restructuring of Part 2 (Applied General Agent Workflows)
+**Context**: Evaluating proposed restructuring of Part 2 (Agent Workflow Primitives)
 **Verdict**: Conditionally Recommended with Modifications
 
 ---

@@ -62,7 +62,7 @@ export default function XPCounter({ className }: XPCounterProps) {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
