@@ -82,6 +82,8 @@ differentiation:
 ---
 # Relationships & Joins
 
+> **Chapter 8 callback:** Your Chapter 8 categories were pattern-matched labels in a single pipeline run. Here, category/user links must stay correct for years.
+
 In L3, you created categories and expenses as separate records. But they're connected: every expense belongs to a category and a user.
 
 This is where many systems become fragile: if relationships are wrong, queries look valid but return wrong truth.
@@ -416,10 +418,10 @@ Expenses remaining: 0
 All of Alice's expenses were deleted with her.
 ```
 
-**Without cascade**, that delete would either:
+**Without cascade**, behavior depends on your database constraints:
 
-- Fail with foreign key constraint error
-- Leave orphaned expenses with invalid user_id
+- With enforced foreign keys (recommended), delete fails with a constraint error.
+- Without enforced constraints (or with misconfiguration), orphan rows can appear.
 
 ## Working With AI on Relationship Queries
 
@@ -446,7 +448,7 @@ Use AI for the first draft, then tighten correctness and output requirements you
 
 ## What Comes Next
 
-You can now navigate linked data. Next you must protect linked updates, because one mid-operation failure can leave your system logically broken.
+You can now navigate linked data. Next comes the risk of partial multi-step writes: one failure mid-operation can leave correct relationships but incorrect business state.
 
 ## Try With AI
 

@@ -75,6 +75,8 @@ differentiation:
 ---
 # Creating & Reading Data
 
+> **Chapter 8 callback:** You already know how to compute deterministic outputs. Now you must prove those outputs are written and read correctly under session control.
+
 In L2, you defined three models: User, Category, Expense. Python classes that become database tables.
 
 But schema alone is inert. You now need to prove data can be written, queried, and trusted.
@@ -408,7 +410,7 @@ with Session(engine) as session:
 
     except Exception as e:
         print(f"Error: {e}")
-        # Session auto-rollbacks - no partial data saved
+        session.rollback()  # Explicit rollback keeps session state clean
 ```
 
 **Output:**
@@ -417,14 +419,14 @@ with Session(engine) as session:
 Error: FOREIGN KEY constraint failed
 
 The expense was NOT saved.
-Session automatically rolled back all changes.
+Rollback confirmed: no partial data committed.
 ```
 
-**Key insight**: The `with` block handles cleanup. If an error occurs:
+**Key insight**: `with Session(...)` guarantees session closure. It does not replace explicit rollback in your exception path.
 
-1. Changes are rolled back (nothing saved)
-2. Session closes properly
-3. Your database stays consistent
+1. `rollback()` resets the failed transaction state
+2. Session closes properly at block exit
+3. Database remains consistent
 
 ## Complete Example: Budget Tracker CRUD
 
@@ -504,7 +506,7 @@ Expenses over $50:
 
 ## What Comes Next
 
-You can write and read safely. Next comes the harder step: connected queries across tables, where one weak relationship design can silently distort results.
+You can now write and read safely. Next comes the harder step: relationship design, where one wrong link can produce plausible but incorrect analytics.
 
 ## Try With AI
 

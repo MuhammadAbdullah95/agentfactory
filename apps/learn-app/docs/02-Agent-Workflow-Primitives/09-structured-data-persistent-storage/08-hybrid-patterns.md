@@ -4,297 +4,220 @@ title: "Hybrid Patterns — When Tools Work Together"
 chapter: 9
 lesson: 7
 duration_minutes: 30
-description: "Discover how combining SQL queries with bash verification creates self-checking data pipelines, and synthesize the Part 2 tool choice story"
-keywords: ["hybrid patterns", "SQL verification", "bash", "tool selection", "self-checking", "data pipelines", "Budget Tracker", "Braintrust"]
+description: "Use SQL as the primary path and independent verification as a selective reliability layer for high-stakes outputs"
+keywords: ["hybrid verification", "SQL primary", "independent check", "tool selection", "risk-based verification"]
 
 # HIDDEN SKILLS METADATA
 skills:
-  - name: "Hybrid Query Pattern"
-    proficiency_level: "B1"
-    category: "Applied"
-    bloom_level: "Apply"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can implement a query-then-verify workflow combining SQL and bash for structured data tasks"
-
-  - name: "Tool Selection Reasoning"
+  - name: "Risk-Based Tool Selection"
     proficiency_level: "B1"
     category: "Conceptual"
-    bloom_level: "Analyze"
+    bloom_level: "Evaluate"
     digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can analyze a data task and select the appropriate tool (bash, Python, SQL, or hybrid) with justification"
+    measurable_at_this_level: "Student can justify when hybrid verification is worth extra cost"
 
-  - name: "Verification Strategy Design"
+  - name: "Independent Verification Design"
     proficiency_level: "B1"
     category: "Applied"
-    bloom_level: "Evaluate"
+    bloom_level: "Apply"
     digcomp_area: "Safety"
-    measurable_at_this_level: "Student can design a verification step that cross-checks query results using an independent method"
+    measurable_at_this_level: "Student can design a second-path check that is actually independent"
 
 learning_objectives:
-  - objective: "Implement a hybrid query-then-verify pattern using SQLAlchemy and bash"
-    proficiency_level: "B1"
-    bloom_level: "Apply"
-    assessment_method: "Student writes a SQLAlchemy query and a bash command that independently confirm the same result"
-
-  - objective: "Analyze a data task and justify which tool or combination of tools to use"
+  - objective: "Differentiate true independent checks from same-path re-checks"
     proficiency_level: "B1"
     bloom_level: "Analyze"
-    assessment_method: "Student evaluates three scenarios and selects tool with written reasoning"
+    assessment_method: "Student can identify non-independent verification anti-patterns"
 
-  - objective: "Evaluate the cost-benefit tradeoff of hybrid verification versus single-tool approaches"
+  - objective: "Implement a safe hybrid verification workflow"
     proficiency_level: "B1"
-    bloom_level: "Evaluate"
-    assessment_method: "Student explains when hybrid verification is worth the extra tokens and when it is not"
+    bloom_level: "Apply"
+    assessment_method: "Student builds SQL primary query plus independent non-shell-injection-prone check"
 
-cognitive_load:
-  new_concepts: 3
-  assessment: "3 new concepts (hybrid verification pattern, tool selection framework, cost-benefit reasoning for verification). All build on previously mastered SQL, Python, and bash skills from the File Processing, Computation, and earlier lessons in this chapter."
-
-differentiation:
-  extension_for_advanced: "Design a three-tool verification chain (SQL query, Python analysis, bash file check) for a production audit trail"
-  remedial_for_struggling: "Focus on the tool selection table only; skip the code implementation and use the Try With AI prompts for guided practice"
 ---
+
 # Hybrid Patterns — When Tools Work Together
 
-Through L0-L6, you've learned every piece of the database puzzle: models, CRUD operations, relationships, transactions, and cloud deployment with Neon. In the Braintrust benchmark introduced earlier, SQL was the strongest single-tool approach for structured queries.
+> **Chapter 8 callback:** In Chapter 8, you already used "verify before trust" for computation. Here, you apply the same discipline to persistent structured queries.
 
-The follow-up result is the key tension in this lesson: a hybrid approach (SQL primary query + bash independent verification) matched top accuracy while adding a self-checking path.
+## Failure Hook
 
-This lesson shows when that extra verification cost is worth paying.
+A query can be syntactically valid and still wrong:
 
-## The Experiment Recap
+- wrong date boundary
+- missing join condition
+- category filter typo
+- timezone mismatch
 
-Here is the initial benchmark snapshot Braintrust reported:
+In low-stakes exploration, you correct and move on.
+In high-stakes reporting, a plausible wrong answer is a production incident.
 
-| Approach | Accuracy | Tokens Used | Time | Cost |
-|----------|----------|-------------|------|------|
-| SQL queries | 100% | 155K | 45s | $0.51 |
-| Bash (grep/awk) | 52.7% | 1.06M | 401s | $3.34 |
-| Hybrid (SQL + bash) | 100% | 310K | ~150s | Higher than pure SQL |
+## Why Single-Path Answers Fail
 
-The hybrid agent used SQL as the primary query engine and bash to spot-check results. It spent roughly twice the tokens of pure SQL, trading cost for an independent verification path.
+A single SQL path is usually correct and efficient, but it is still one path.
 
-Why did the bash agent fail half the time? The researchers identified the root cause: "it didn't know the structure of the JSON files." Your SQLAlchemy models solve this — the `Expense` model with its `user_id`, `category_id`, `amount`, and `date` columns gives any query engine structural certainty that `grep` never has.
+Hybrid pattern means:
 
-## Why Hybrid Matters for Agents
+1. SQL is your primary structured-query engine.
+2. A second independent path checks result plausibility.
+3. You use this only when error cost justifies overhead.
 
-A single query path creates a single point of failure. If the query has a subtle bug (wrong filter, missing join, timezone mismatch), the answer can look correct but be wrong.
+## Benchmark Context (Initial vs Follow-Up)
 
-Hybrid adds independent verification: compute one way, verify another way. This is Principle 3 applied to structured data.
+Use benchmark numbers as directional evidence, not dogma:
 
-## The Hybrid Pattern in Practice
+- Initial public snapshot: SQL strongly outperformed bash-only for structured querying.
+- Follow-up work: tooling/eval fixes and hybrid behavior showed value in independent verification for reliability.
 
-Here is how you apply the hybrid pattern to your Budget Tracker. Suppose you need to answer: "How much did Alice spend on Food in January 2024?"
+Operational rule for this chapter:
 
-### Step 1: SQL Query (Primary)
+- Default: SQL only.
+- Escalate: SQL + independent verification for financial/audit/automated downstream decisions.
 
-Use SQLAlchemy to get the structured answer:
+## New Primitive: Verification Independence
+
+Not all "double checks" are independent.
+
+| Check style | Independent? | Why |
+|---|---|---|
+| Re-running same SQL query | No | Same logic, same failure mode |
+| SQL query + SQL checksum from same predicate | Weak | Still same semantic path |
+| SQL result + recomputation from raw source ledger | Yes | Different path, different failure modes |
+| SQL result + post-export awk check with separate filter logic | Usually yes | Independent parsing/filtering path |
+
+## Minimal Working Win
+
+Question: "How much did user 1 spend in Food for 2024-01?"
+
+### Step 1: Primary SQL path
 
 ```python
-from sqlalchemy.orm import Session
-from sqlalchemy import func, select
 from datetime import date
+from sqlalchemy import select, func
+from sqlalchemy.orm import Session
 
-def get_food_spending_sql(engine, user_id, year, month):
-    """Primary query: SQLAlchemy with joins and aggregation."""
-    if month == 12:
-        next_month = date(year + 1, 1, 1)
-    else:
-        next_month = date(year, month + 1, 1)
-    current_month = date(year, month, 1)
+
+def sql_food_total(engine, user_id: int, year: int, month: int) -> float:
+    start = date(year, month, 1)
+    end = date(year + (month == 12), (month % 12) + 1, 1)
 
     with Session(engine) as session:
-        result = session.execute(
+        value = session.execute(
             select(func.sum(Expense.amount))
             .join(Category)
             .where(
                 Expense.user_id == user_id,
                 Category.name == "Food",
-                Expense.date >= current_month,
-                Expense.date < next_month
+                Expense.date >= start,
+                Expense.date < end,
             )
-        ).scalar()
+        ).scalar_one_or_none()
 
-        return float(result or 0)
-
-sql_total = get_food_spending_sql(engine, user_id=1, year=2024, month=1)
-print(f"SQL result: ${sql_total:.2f}")
+    return float(value or 0)
 ```
 
-**Output:**
+### Step 2: Independent verification path (safe subprocess)
 
-```
-SQL result: $117.00
-```
-
-### Step 2: Bash Verification (Independent Check)
-
-Export the raw data and use bash to compute the same answer independently:
+Assume you have a raw ledger CSV (`raw_ledger.csv`) from your import pipeline.
 
 ```python
 import subprocess
-import csv
+from pathlib import Path
 
-def verify_with_bash(engine, user_id, category_name, year, month):
-    """Independent verification: export to CSV, grep, sum with awk."""
-    # Export expenses to CSV
-    with Session(engine) as session:
-        expenses = session.execute(
-            select(Expense.amount, Category.name.label("category"), Expense.date)
-            .join(Category)
-            .where(Expense.user_id == user_id)
-        ).all()
 
-    csv_path = "/tmp/expenses_verify.csv"
-    with open(csv_path, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["amount", "category", "date"])
-        for amount, cat, d in expenses:
-            writer.writerow([amount, cat, d.isoformat()])
+def verify_from_raw_csv(csv_path: Path, year: int, month: int) -> float:
+    # Intentionally separate logic from SQL path: parse raw ledger rows with awk.
+    # No shell=True. No command interpolation.
+    month_prefix = f"{year}-{month:02d}"
 
-    # Use bash to filter and sum independently
-    # Note: In production, never interpolate user input into shell commands.
-    # Use shlex.quote() or argument lists to prevent command injection.
-    import shlex
-    cmd = (
-        f"grep {shlex.quote(category_name)} {shlex.quote(csv_path)} | "
-        f"grep {shlex.quote(f'{year}-{month:02d}')} | "
-        f"awk -F',' '{{sum += $1}} END {{printf \"%.2f\", sum}}'"
+    awk_program = (
+        'BEGIN {FS=","} '
+        'NR>1 && $2=="Food" && index($3, prefix)==1 {sum += $1} '
+        'END {printf "%.2f", sum}'
     )
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    return float(result.stdout or 0)
 
-bash_total = verify_with_bash(engine, 1, "Food", 2024, 1)
-print(f"Bash result: ${bash_total:.2f}")
+    result = subprocess.run(
+        ["awk", "-v", f"prefix={month_prefix}", awk_program, str(csv_path)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    return float(result.stdout.strip() or 0)
 ```
 
-**Output:**
-
-```
-Bash result: $117.00
-```
-
-### Step 3: Compare Results
+### Step 3: Compare with mismatch policy
 
 ```python
-def hybrid_query(engine, user_id, category_name, year, month):
-    """Hybrid: query with SQL, verify with bash."""
-    sql_result = get_food_spending_sql(engine, user_id, year, month)
-    bash_result = verify_with_bash(engine, user_id, category_name, year, month)
 
-    if abs(sql_result - bash_result) < 0.01:
-        print(f"VERIFIED: ${sql_result:.2f} (both methods agree)")
-        return sql_result
-    else:
-        print(f"MISMATCH: SQL=${sql_result:.2f}, Bash=${bash_result:.2f}")
-        print("Investigate before trusting either result.")
-        return None
+def verified_food_total(engine, raw_csv_path: Path, user_id: int, year: int, month: int):
+    sql_total = sql_food_total(engine, user_id, year, month)
+    raw_total = verify_from_raw_csv(raw_csv_path, year, month)
 
-hybrid_query(engine, 1, "Food", 2024, 1)
+    if abs(sql_total - raw_total) <= 0.01:
+        return {"status": "verified", "value": sql_total}
+
+    # Explicit mismatch policy
+    return {
+        "status": "mismatch",
+        "sql_value": sql_total,
+        "raw_value": raw_total,
+        "action": "hold report, investigate join/date/category filters before publish",
+    }
 ```
 
-**Output:**
+## Guardrails
 
-```
-VERIFIED: $117.00 (both methods agree)
-```
+1. **Do not call this hybrid** if both paths reuse identical predicates and data projection.
+2. **Do not use shell interpolation** with user input.
+3. **Do not run hybrid on every query**; use risk-based escalation.
+4. **Do not publish high-stakes reports on mismatch**; stop and investigate.
 
-### When to Use This Pattern
+## Tool Choice Framework (Finalized for Part 2)
 
-The hybrid pattern costs roughly 2x the tokens. Use it when:
+| Task shape | Primary tool | Escalation |
+|---|---|---|
+| File discovery / ops | Bash | Add Python for parsing/computation |
+| Deterministic computation | Python | Add tests/fixtures |
+| Structured persistent query | SQL (SQLAlchemy) | Add hybrid only if error cost high |
+| Financial/audit output | SQL + independent verify | Mandatory mismatch policy |
 
-| Scenario | Use Hybrid? | Why |
-|----------|-------------|-----|
-| Financial reporting | Yes | Errors have real monetary consequences |
-| Audit trails | Yes | Regulators require independent verification |
-| Agent pipelines | Yes | Agents cannot ask humans to double-check |
-| Quick data exploration | No | Speed matters more than certainty |
-| Development/debugging | No | You are already inspecting results manually |
-| One-off queries | No | The cost of verification exceeds the cost of error |
+## What Breaks Next
 
-Decision rule: if a wrong answer is costly (money, compliance, or downstream automation), pay for verification.
-
-## The Tool Choice Framework
-
-Looking back across Part 2, each tool excels at specific tasks:
-
-| Tool | Best For | Accuracy | Cost | Learned In |
-|------|----------|----------|------|------------|
-| **Bash** | File exploration, text search, quick verification | Moderate (52.7% for structured queries) | High for structured-query workloads (1.06M tokens in benchmark) | File Processing |
-| **Python** | Computation, data transformation, decimal arithmetic | High (deterministic) | Low (local) | Computation & Data Extraction |
-| **SQL (SQLAlchemy)** | Structured queries, persistent storage, relationships | High (100% with schema) | Low (155K tokens) | This chapter |
-| **Hybrid** | Production reliability, self-verification, audit trails | Highest (100% + cross-check) | Medium (310K tokens) | This lesson |
-
-The goal is not one tool. It's correct tool choice, and sometimes two tools for one answer.
-
-## What Comes Next
-
-The capstone removes scaffolding. You will need this exact judgment under pressure: which tool to run first, and when to verify with a second path before trusting output.
+You now have all primitives. Next lesson removes scaffolding: you must integrate correctness, persistence, and verification choices in one capstone without over-engineering.
 
 ## Try With AI
 
-### Prompt 1: Implement a Hybrid Verification
+### Prompt 1 — Debug
 
-```
-I have a Budget Tracker with SQLAlchemy models (User, Category, Expense)
-connected to Neon PostgreSQL.
-
-Write a hybrid verification function that:
-1. Uses SQLAlchemy to query all Food expenses over $20 for user_id=1
-2. Exports those same expenses to a CSV file
-3. Uses a bash command (via subprocess) to grep the CSV and count matching rows
-4. Compares the SQLAlchemy count with the bash count
-5. Prints VERIFIED if they match, MISMATCH if they differ
-
-Use the Budget Tracker models from this chapter (Expense has user_id,
-category_id, amount, date; Category has name).
+```text
+Given a SQL monthly total query, design a truly independent verification path.
+Reject approaches that are not independent and explain why.
 ```
 
-**What you're learning:** Design two independent paths to the same result.
+### Prompt 2 — Decide
 
-### Prompt 2: Tool Selection Reasoning
-
-```
-For each scenario below, tell me which tool (bash, Python, SQL, or hybrid)
-you would use and why. Consider accuracy, cost, and speed.
-
-1. Counting how many .py files exist in a project directory
-2. Calculating compound interest over 30 years with monthly payments
-3. Finding all users who spent more than $500 last month across categories
-4. Generating a financial report for an auditor that must be provably correct
-5. Searching a log file for error messages from the last hour
-
-For each answer, explain what would go WRONG if you picked a different tool.
+```text
+For each scenario, choose SQL-only or SQL+hybrid and justify:
+1) ad-hoc dashboard exploration
+2) payroll export
+3) investor-facing monthly report
+4) internal prototype query
 ```
 
-**What you're learning:** Match tool strengths to task requirements by reasoning about failure modes.
+### Prompt 3 — Prove
 
-### Prompt 3: Explain the Bash Agent's Failure
-
+```text
+Create a mismatch policy for high-stakes financial reporting:
+- who gets alerted
+- what gets blocked
+- what evidence is collected
+- what must be fixed before release
 ```
-The Braintrust experiment tested bash/grep against SQL for querying 68,000
-GitHub issues. The bash agent generated sophisticated shell commands — find,
-grep, jq, awk chains — but only achieved 52.7% accuracy compared to SQL's
-100%.
-
-Explain to me:
-1. Why did sophisticated bash commands still fail half the time?
-2. What does "schema clarity" mean and why does it matter?
-3. How do SQLAlchemy models provide schema clarity that grep cannot?
-4. Give me a concrete example where grep would return wrong results
-   because it doesn't understand data structure.
-```
-
-**What you're learning:** Root-cause reasoning about tool limits (schema awareness vs text matching).
 
 ## Checkpoint
 
-Before moving to the capstone, verify:
-
-- [ ] I can explain what the hybrid pattern is and when to use it
-- [ ] I can describe why the bash agent scored 52.7% (schema awareness)
-- [ ] I can select the right tool for a given data task with justification
-- [ ] I understand the cost-benefit tradeoff of hybrid verification
-- [ ] I can trace the Part 2 tool choice story: bash (File Processing) to Python (Computation) to SQL (this chapter) to hybrid (this lesson)
-
-Ready for L8: the capstone where you put everything together into a complete Budget Tracker application.
+- [ ] I can explain why re-running the same SQL is not independent verification.
+- [ ] I can implement a no-`shell=True` verification command path.
+- [ ] I can choose hybrid only when risk justifies cost.
+- [ ] I can define and enforce a mismatch handling policy.

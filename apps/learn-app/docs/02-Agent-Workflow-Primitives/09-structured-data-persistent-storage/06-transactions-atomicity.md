@@ -75,6 +75,8 @@ differentiation:
 ---
 # Transactions & Atomicity
 
+> **Chapter 8 callback:** In Chapter 8, most failures meant rerunning a script. Here, failure can corrupt persistent state unless writes are atomic.
+
 In L4, you connected tables. Now the risk shifts: not "can we query data?" but "can we keep data correct when things fail?"
 
 But here's a problem: What if you need to do two things that must succeed together?
@@ -177,7 +179,7 @@ Without try/except, errors leave your session in a broken state:
 ```python
 # BAD: What happens when commit fails?
 session.add(expense)
-session.commit()  # Exception here = session left open, memory leaks, data inconsistent
+session.commit()  # Exception here leaves current transaction failed unless rolled back
 ```
 
 The commit could fail for many reasons:
@@ -483,7 +485,7 @@ Savepoints are advanced. For most operations, the basic try/except/rollback patt
 
 ## What Comes Next
 
-You can now prevent partial writes. Next you solve durability: keeping data alive beyond one process and one machine.
+You can now prevent partial writes. Next challenge: durable cloud operation, where connection lifecycle and credential discipline decide whether your reliable code survives production conditions.
 
 ## Try With AI
 

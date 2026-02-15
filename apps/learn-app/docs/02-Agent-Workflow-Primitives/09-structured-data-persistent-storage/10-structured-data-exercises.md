@@ -7,555 +7,251 @@ duration_minutes: 120
 
 primary_layer: "Layer 1"
 layer_progression: "L1 (Manual Foundation)"
-layer_1_foundation: "Hands-on practice applying Lessons 0-8 concepts through 15 guided exercises across data modeling, CRUD, relationships, transactions, cloud deployment, and hybrid verification"
+layer_1_foundation: "Apply Chapter 9 patterns through build/debug modules"
 layer_2_collaboration: "N/A"
 layer_3_intelligence: "N/A"
 layer_4_capstone: "N/A"
 
 # HIDDEN SKILLS METADATA
 skills:
-  - name: "Database Application Building"
+  - name: "Model-Build-Debug Discipline"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Apply"
     digcomp_area: "Software Development"
-    measurable_at_this_level: "Student can design SQLAlchemy models, implement CRUD operations, and configure relationships for a multi-table application"
+    measurable_at_this_level: "Student can build and debug relational apps under realistic constraints"
 
-  - name: "Database Debugging"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Analyze"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can identify and fix common database bugs including wrong types, missing constraints, broken relationships, and transaction safety holes"
-
-  - name: "Production Database Deployment"
+  - name: "Operational Verification"
     proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Evaluate"
-    digcomp_area: "Digital Content Creation"
-    measurable_at_this_level: "Student can deploy a SQLAlchemy application to Neon PostgreSQL with proper security, connection pooling, and hybrid verification"
+    digcomp_area: "Quality Assurance"
+    measurable_at_this_level: "Student can prove correctness using evidence paths, not assumptions"
 
 learning_objectives:
-  - objective: "Build database applications from requirements using SQLAlchemy models, CRUD operations, and relationships"
+  - objective: "Build chapter-consistent solutions from requirements"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student completes Build exercises (1.1, 2.1, 3.1, 4.1, 5.1, 6.1) producing working database applications"
+    assessment_method: "Build exercises produce working artifacts with verifiable outputs"
 
-  - objective: "Diagnose and fix database bugs across models, CRUD operations, relationships, and transactions"
+  - objective: "Debug production-like failures across schema, CRUD, relationships, transactions, and ops"
     proficiency_level: "A2"
     bloom_level: "Analyze"
-    assessment_method: "Student completes Debug exercises (1.2, 2.2, 3.2, 4.2, 5.2, 6.2) identifying root causes and applying correct fixes"
+    assessment_method: "Debug exercises identify root cause and implement robust fix"
 
-  - objective: "Deploy and verify database applications in production using Neon PostgreSQL and hybrid verification patterns"
-    proficiency_level: "B1"
-    bloom_level: "Evaluate"
-    assessment_method: "Student completes capstone projects integrating all patterns with cloud deployment and verification"
-
-cognitive_load:
-  new_concepts: 3
-  assessment: "3 concepts (build pattern, debug pattern, hybrid verification) — exercises reinforce existing L0-L8 knowledge through application"
-
-differentiation:
-  extension_for_advanced: "Complete all 3 capstone projects; attempt Debug exercises before reading the bug list"
-  remedial_for_struggling: "Start with Module 1 only; use Build exercises exclusively before attempting Debug exercises"
 ---
 
 # Structured Data Practice Exercises
 
-You now have the full Chapter 9 toolkit: models, CRUD, relationships, transactions, Neon deployment, and hybrid SQL+bash verification. The remaining gap is independence: turning messy requirements into correct, production-safe database code without step-by-step guidance.
+These exercises are intentionally harder than lessons.
 
-These 15 exercises close that gap. Every module pairs a **Build** task (create from requirements) with a **Debug** task (repair broken behavior). Across all modules, you repeatedly practice three skills: **data modeling**, **database debugging**, and **production deployment/verification**.
+Every exercise follows one rule:
 
-Work one module at a time. The scenarios are realistic (library catalogs, recipe systems, music data, game inventory), and the bugs are the ones that hurt in production: wrong types, missing constraints, broken relationships, unsafe transactions, and bad credential handling.
+- **Claim nothing. Prove everything.**
 
-:::info Download Exercise Files
-**[Download Structured Data Exercises (ZIP)](https://github.com/panaversity/claude-code-structured-data-exercises/releases/latest/download/structured-data-exercises.zip)**
+## How to Use
 
-After downloading, unzip the file. Each exercise has its own folder with an `INSTRUCTIONS.md` and any starter files you need.
+1. Open exercise folder.
+2. Read `INSTRUCTIONS.md`.
+3. Implement or debug.
+4. Collect evidence from tests, schema, and outputs.
+5. Write a short postmortem before moving on.
 
-If the download link doesn't work, visit the [repository releases page](https://github.com/panaversity/claude-code-structured-data-exercises/releases) directly.
-:::
+## Database Development Framework (Use Every Time)
 
----
+1. **Model**: types, constraints, relationships.
+2. **Connect**: SQLite first, Neon when required.
+3. **Operate**: CRUD with context-managed sessions.
+4. **Protect**: atomic writes and rollback paths.
+5. **Verify**: queries/tests/trace evidence.
+6. **Deploy**: secrets, pooling, connection checks.
 
-## How to Use These Exercises
+## Assessment Rubric (Quick)
 
-Use this workflow for every exercise:
-
-1. **Open the exercise folder** from the `claude-code-structured-data-exercises/` directory
-2. **Read `INSTRUCTIONS.md`** for starter files, schema, and task details
-3. **Use the walkthrough below** for context on what each module is testing
-4. **Run the exercise in Claude Code** (Build: implement from requirements, Debug: find and fix)
-5. **Reflect** with the provided questions before moving on
-
-You do not need to finish all 15 at once. Progress module by module.
-
----
-
-## Tool Guide
-
-- **Claude Code** — Required for all exercises. Every exercise involves writing or debugging Python database code. You'll use SQLAlchemy, session management, and SQL queries.
-- **Python 3.x** with `sqlalchemy` installed. Verify with: `python3 -c "import sqlalchemy; print(sqlalchemy.__version__)"`
-- **For Modules 5-6:** A Neon PostgreSQL account (free tier). You'll also need `psycopg2-binary` and `python-dotenv` installed.
-
----
-
-## Key Differences from Chapter Lessons
-
-In Lessons 0-8, you learned each pattern in isolation with guided walkthroughs using the Budget Tracker. These exercises are different in three ways:
-
-- **No step-by-step path.** You choose the approach and handle edge cases yourself.
-- **Build + Debug pairing.** You practice both creation and diagnosis, not just implementation.
-- **Increasing independence.** Scaffolding fades from Modules 1-2 to capstones.
-
-By Module 6, you should be able to face a new database requirement and instinctively reach for the right pattern without needing to review the chapter lessons.
-
----
-
-## The Database Development Framework
-
-Use this for every exercise:
-
-1. **Model** — Define entities, types, constraints, and relationships first.
-2. **Connect** — Use SQLite for local work; configure Neon for production tasks.
-3. **Operate** — Implement CRUD with context-managed sessions.
-4. **Protect** — Wrap multi-step writes in try/except with commit/rollback.
-5. **Verify** — Confirm outcomes with direct queries and cross-checks.
-6. **Deploy** — Move to Neon with `.env`, pooling, and dashboard verification.
-
-Model before Connect. Good schema decisions early prevent expensive fixes later.
-
----
-
-## Assessment Rubric
-
-For each exercise, evaluate yourself on:
-
-| Criteria | Beginner (1) | Developing (2) | Proficient (3) | Advanced (4) |
-|---|:---:|:---:|:---:|:---:|
-| **Data Modeling** | Models missing types or constraints | Correct types but missing relationships | Full model with types, constraints, and relationships | Models include indexes, defaults, and cascade rules |
-| **Session Management** | No context manager; manual open/close | Context manager but no error handling | Context manager with try/except on writes | Session factory pattern with proper scoping |
-| **Relationship Design** | No relationships; manual foreign key queries | One-sided relationships without back_populates | Bidirectional relationships with correct navigation | Cascade rules, lazy loading choices, and join optimization |
-| **Transaction Safety** | No transaction boundaries | Try/except but no rollback | Proper commit/rollback on multi-step operations | Transaction isolation levels and retry logic |
-| **Debugging Accuracy** | Identifies fewer than half the bugs | Identifies most bugs but fixes introduce new issues | Identifies and fixes all bugs cleanly | Explains root cause, fixes bug, and adds prevention |
+| Criterion | 1 (Weak) | 2 (Developing) | 3 (Strong) | 4 (Excellent) |
+|---|---|---|---|---|
+| Modeling | wrong types/constraints | mostly correct | correct + relationally sound | includes performance/safety refinements |
+| Write safety | no rollback discipline | partial | robust transaction handling | robust + failure-path tests |
+| Debug quality | symptom-only | fixes issue | fixes root cause | adds prevention + regression check |
+| Evidence | no proof | partial proof | clear proof trail | reproducible proof bundle |
 
 ---
 
 ## Module 1: Data Modeling
 
-> **Core Skill:** Translating real-world requirements into SQLAlchemy models with correct types, constraints, and table structure (Lessons 1-2)
-> You will make modeling decisions under ambiguity and see their downstream effects.
-
 ### Exercise 1.1 — Library Catalog (Build)
 
-**Build:** Data Modeling — Design models for a library system from requirements
+- **Objective:** Translate ambiguous requirements into robust schema.
+- **Failure mode to avoid:** encoding relationships as free text and losing queryability.
+- **Evidence path:** `expected-queries.txt` + schema inspection + sample inserts.
 
-**The Problem:**
-Open the `module-1-data-modeling/exercise-1.1-library-catalog/` folder. You'll find `requirements.txt` — a plain-English description of what a small library needs to track: books (title, author, ISBN, publication year, genre), members (name, email, membership date), and loans (which member borrowed which book, checkout date, due date, return date). Some books have multiple authors. Some members have overdue books. The library wants to answer questions like "Which books are currently checked out?" and "Which members have overdue loans?"
-
-**Your Task:**
-Design SQLAlchemy models for all three entities. Choose the right column types for each attribute (String vs. Integer vs. Date, nullable vs. required, unique constraints). Create the database, populate it with the sample data provided in `sample-data.json`, and write queries that answer the library's questions. Verify by checking that your query results match the expected answers in `expected-queries.txt`.
-
-**What You'll Learn:**
-
-- How to translate English requirements into column types and constraints — "ISBN" means unique String, "publication year" means Integer not Date, "return date" could be NULL (book still checked out)
-- That modeling decisions are design decisions: should "multiple authors" be a comma-separated String, a separate Author table, or a many-to-many join table? Each choice has trade-offs
-- Why constraints prevent bugs: a `nullable=False` on `checkout_date` catches the error of creating a loan without recording when it was checked out
-
-**Starter Prompt (Intentionally Vague):**
-
-> "Make a database for a library."
-
-**Better Prompt (Build Toward This):**
-
-After reading the requirements and sample data: "Create SQLAlchemy models for a library system with three tables: Book (title, author, isbn as unique string, publication_year as integer, genre), Member (name, email as unique, membership_date), and Loan (foreign keys to book and member, checkout_date as required, due_date as required, return_date as nullable — null means not yet returned). Use sqlite:///:memory: for now. Populate with the data from sample-data.json and write queries for: (1) all currently checked-out books, (2) all members with overdue loans, (3) the most borrowed book."
-
-**Reflection Questions:**
-
-1. Which column type decision was hardest? Did you change any types after seeing the sample data?
-2. How did you handle the "multiple authors" requirement? What would break if a book had 5 authors?
-3. If the library added a "reservations" feature (members can reserve books that are checked out), how would your model change?
-
----
+Deliver:
+- models for Book/Member/Loan
+- constraints (required fields, uniqueness)
+- relationship design justified in `DECISIONS.md`
 
 ### Exercise 1.2 — Broken Pet Store (Debug)
 
-**Debug:** Data Modeling — Fix 6 bugs in pet store models
+- **Objective:** Repair six schema defects without introducing regressions.
+- **Failure mode to avoid:** fixing crash bugs while leaving silent data corruption bugs.
+- **Evidence path:** `test_models.py` failures -> fixed tests -> before/after schema diff.
 
-**The Problem:**
-Open the `module-1-data-modeling/exercise-1.2-broken-pet-store/` folder. You'll find `models.py` — SQLAlchemy models for a pet store database with three tables: Pet, Owner, and Visit (vet visits). The models were written by someone who made 6 specific mistakes: a price column using Integer instead of Float (truncating $29.99 to $29), a required column marked nullable (owners can be created without names), a String column with a too-short max length (breed names get silently truncated), a Date column storing dates as strings ("2024-03-15" instead of a proper Date object), a missing unique constraint on email (allowing duplicate owner registrations), and a foreign key pointing to a non-existent table name.
-
-**Your Task:**
-Run the provided `test_models.py` script which attempts to create the database and insert sample data. Some tests will fail immediately (the foreign key error). Others will succeed but produce wrong results (the Integer price truncation). Find all 6 bugs, fix them in `models.py`, and run the test script until all tests pass with correct data.
-
-**What You'll Learn:**
-
-- That model bugs create two categories of failure: crashes (wrong table name) and silent data corruption (Integer truncating decimals) — the second category is far more dangerous
-- How to read test failures as diagnostic clues: a foreign key error tells you exactly which relationship is broken; a wrong price tells you to check the column type
-- Why defensive modeling matters: every missing constraint is a bug waiting to happen when real data arrives
-
-**Starter Prompt (Intentionally Vague):**
-
-> "The pet store database has bugs. Fix them."
-
-**Better Prompt (Build Toward This):**
-
-After running `python3 test_models.py` and seeing the failures: "The test_models.py script reveals bugs in models.py. Start with the crash-level failures (the foreign key error prevents table creation). Fix that first, then re-run. For remaining tests that pass but produce wrong results, compare actual vs. expected values — if a price shows 29 instead of 29.99, check the column type. Find and fix all 6 bugs one at a time, re-running tests after each fix."
-
-**Reflection Questions:**
-
-1. Which bug would have caused the most damage in production — the one that crashed, or the one that silently truncated prices?
-2. How many of the 6 bugs would a code review catch by reading the models alone, without running any tests?
-3. What naming convention or comment style would have prevented the foreign key table name error?
+Deliver:
+- corrected `models.py`
+- bug-by-bug root cause notes in `FIXLOG.md`
 
 ---
 
 ## Module 2: CRUD Operations
 
-> **Core Skill:** Implementing Create, Read, Update, Delete with proper session management (Lesson 3)
-> You will handle external data (CSV) and edge cases where correctness depends on operation order.
-
 ### Exercise 2.1 — Recipe Book (Build)
 
-**Build:** CRUD Operations — Implement CRUD for a recipe database with CSV import
+- **Objective:** Implement reliable CRUD against imported CSV data.
+- **Failure mode to avoid:** writes that "succeed" but persist incorrect values.
+- **Evidence path:** `verify-operations.py` + manual spot checks.
 
-**The Problem:**
-Open the `module-2-crud-operations/exercise-2.1-recipe-book/` folder. You'll find `recipes.csv` — a file with 30 recipes containing name, category (Breakfast, Lunch, Dinner, Dessert), prep time in minutes, difficulty (Easy, Medium, Hard), and ingredients as a semicolon-separated list. You also have `requirements.txt` describing the operations the recipe book needs: add a recipe, search by category, search by ingredient, update prep time, delete a recipe, and list all recipes sorted by difficulty.
-
-**Your Task:**
-Build SQLAlchemy models for the recipe data, import all 30 recipes from the CSV, and implement all six CRUD operations as Python functions. Verify each operation: after adding a recipe, query to confirm it exists; after updating prep time, query to confirm the new value; after deleting, query to confirm it's gone. Run the verification script in `verify-operations.py` to confirm all operations work correctly.
-
-**What You'll Learn:**
-
-- How to import external data (CSV) into a database — including handling the semicolon-separated ingredients field, which requires deciding between a single text column or a separate ingredients table
-- That each CRUD operation needs its own session management pattern: creates need `add` + `commit`, reads need `query` + `filter`, updates need `query` + modify + `commit`, deletes need `query` + `delete` + `commit`
-- Why verification after every write operation is non-negotiable: a commit can succeed (no exception) but the data might not match what you intended if a type coercion happened silently
-
-**Starter Prompt (Intentionally Vague):**
-
-> "Build a recipe database from this CSV."
-
-**Better Prompt (Build Toward This):**
-
-After examining the CSV format: "Create a SQLAlchemy model for Recipe with columns: name (unique string), category (string), prep_time_minutes (integer), difficulty (string), ingredients (text — store the semicolon-separated list as-is for now). Import all 30 recipes from recipes.csv. Then implement 6 functions: add_recipe(), search_by_category(), search_by_ingredient(), update_prep_time(), delete_recipe(), list_by_difficulty(). Each function should use a context-managed session. Verify each function by calling it and printing results."
-
-**Reflection Questions:**
-
-1. How did you handle the ingredients field — one text column or a separate table? What queries become easier or harder with each approach?
-2. What happens if you try to add a recipe with a name that already exists? Does your code handle that gracefully or crash?
-3. Which CRUD operation was most complex to implement? Which was most likely to have a subtle bug?
-
----
+Deliver:
+- import + 6 CRUD functions
+- read/update/delete verification outputs
 
 ### Exercise 2.2 — Broken Task Manager (Debug)
 
-**Debug:** CRUD Operations — Fix 5 CRUD bugs
+- **Objective:** Diagnose 5 behavioral CRUD bugs.
+- **Failure mode to avoid:** patching symptoms instead of operation ordering errors.
+- **Evidence path:** failing test -> code trace -> corrected output.
 
-**The Problem:**
-Open the `module-2-crud-operations/exercise-2.2-broken-task-manager/` folder. You'll find `task_manager.py` — a complete task management application with create, read, update, complete, and delete operations. The application runs without crashing, but 5 operations produce wrong results: creating a task doesn't set the default status to "pending" (it's NULL), reading tasks filters by wrong column (filtering on `id` instead of `status`), updating a task description commits before modifying (the old description persists), completing a task sets `completed_at` but doesn't change `status` to "done", and deleting a task uses `session.execute(delete(Task))` without a `.where()` clause (deleting ALL tasks instead of one).
-
-**Your Task:**
-Run `test_task_manager.py` which exercises each operation and checks the result. Five tests will fail. For each failure, trace through the code in `task_manager.py` to find the line causing the wrong behavior. Fix all 5 bugs and verify that all tests pass.
-
-**What You'll Learn:**
-
-- That CRUD bugs are ordering bugs (commit before modify), logic bugs (filter on wrong column), and completeness bugs (update one field but forget the related field) — not syntax errors
-- How to trace a wrong result back to a specific line: if the status is NULL, find where the default should be set; if the wrong tasks are returned, check the filter clause
-- Why "the application runs" is not evidence of correctness — every bug in this exercise produces a result, just the wrong one
-
-**Reflection Questions:**
-
-1. Which bug was hardest to find from the test output alone? Did you need to read the source code, or could you diagnose it from the test failure message?
-2. The "delete all instead of one" bug is catastrophic. How would you prevent this class of error in your own code?
-3. If you wrote this task manager from scratch, which of these 5 bugs would you have likely introduced yourself? What does that tell you about your coding habits?
+Deliver:
+- fixed `task_manager.py`
+- short causal analysis per bug
 
 ---
 
 ## Module 3: Relationships & Navigation
 
-> **Core Skill:** Configuring and navigating one-to-many and many-to-many relationships (Lesson 4)
-> You will navigate multi-hop relationships and choose between relationship traversal and explicit joins.
-
 ### Exercise 3.1 — Music Library (Build)
 
-**Build:** Relationships — Add relationships to Artist/Album/Track models
+- **Objective:** Define bidirectional relationships and query across hops.
+- **Failure mode to avoid:** one-sided relationships causing inconsistent navigation.
+- **Evidence path:** 8 query outputs vs `expected-results.txt`.
 
-**The Problem:**
-Open the `module-3-relationships/exercise-3.1-music-library/` folder. You'll find `models_starter.py` — SQLAlchemy models for Artist, Album, and Track with correct columns and foreign keys but NO relationships defined. You also have `sample-data.json` with 5 artists, 12 albums, and 40 tracks, plus `queries.txt` describing 8 queries the music library needs to support: "all albums by an artist," "all tracks on an album," "the artist who made a given track," "all tracks by an artist across all albums," "albums released in a given year," "the longest track on each album," "artists with more than 2 albums," and "total duration of an artist's discography."
-
-**Your Task:**
-Add `relationship()` declarations to all three models with correct `back_populates`. Import the sample data. Then write all 8 queries. Some queries (like "all albums by an artist") use relationship navigation directly. Others (like "total duration of an artist's discography") require navigating through two relationship levels: artist.albums, then for each album, album.tracks. Verify each query against `expected-results.txt`.
-
-**What You'll Learn:**
-
-- How relationship chains work: to get from Artist to Track, you navigate artist.albums, then album.tracks — there's no direct artist.tracks shortcut unless you create one
-- That some queries are easier with relationship navigation and others are easier with explicit joins and filters — learning to choose the right approach for each question is the real skill
-- Why `back_populates` matters: without it, adding a track to an album doesn't update the album's track list until you refresh, creating confusing bugs during data import
-
-**Reflection Questions:**
-
-1. Which of the 8 queries was easiest with relationship navigation? Which one made you wish you could write raw SQL instead?
-2. When navigating from Artist to Track, did you use nested loops (`for album in artist.albums: for track in album.tracks`) or a single query with joins? What are the trade-offs?
-3. If the library added a "Playlist" feature (playlists contain tracks from any album), what type of relationship would that require, and how would it differ from the Artist-Album-Track chain?
-
----
+Deliver:
+- relationship-complete models
+- multi-hop query implementations
 
 ### Exercise 3.2 — Broken Blog (Debug)
 
-**Debug:** Relationships — Fix relationship configuration bugs
+- **Objective:** Fix relationship config failures (naming, FK types, cascade).
+- **Failure mode to avoid:** "empty result" bugs caused by subtle schema mismatch.
+- **Evidence path:** `test_blog.py` + relationship introspection + fixed outputs.
 
-**The Problem:**
-Open the `module-3-relationships/exercise-3.2-broken-blog/` folder. You'll find `blog.py` — a blog application with User, Post, and Comment models. The models have foreign keys and relationships defined, but the relationships are broken in 5 ways: `back_populates` names don't match between the two sides of a relationship, one relationship references the wrong model class name, a cascade rule is missing (deleting a post leaves orphan comments), a `lazy` loading option prevents accessing comments in a common query pattern, and one foreign key column has the wrong type (String instead of Integer, causing silent join failures).
-
-**Your Task:**
-Run `test_blog.py` which creates users, posts, and comments, then tests relationship navigation. Some tests crash immediately (wrong model reference). Others return empty lists where data should exist (silent join failures from type mismatch). Find all 5 bugs and fix them. After each fix, re-run the tests to confirm the specific relationship now works without breaking others.
-
-**What You'll Learn:**
-
-- That relationship bugs produce two failure modes: crashes (wrong model name, mismatched back_populates) and silent empty results (type mismatch on foreign keys causes joins to find zero matches)
-- How to diagnose "empty results" bugs: if `post.comments` returns an empty list but comments exist in the database, the join condition is failing — check foreign key types match
-- Why cascade rules matter for data integrity: without `cascade='all, delete-orphan'`, deleting a post leaves comment rows pointing to a non-existent post
-
-**Reflection Questions:**
-
-1. The type mismatch bug (String foreign key vs. Integer primary key) produced no error — just empty results. How long would this bug survive in production before someone noticed?
-2. Which relationship bug would a linter or type checker have caught? Which ones require running the code to discover?
-3. After fixing all 5 bugs, what would you add to `test_blog.py` to prevent these same bugs from reappearing after future code changes?
+Deliver:
+- corrected relationships and FK types
+- added regression tests for broken cases
 
 ---
 
 ## Module 4: Transaction Safety
 
-> **Core Skill:** Protecting multi-step operations with commit/rollback boundaries (Lesson 5)
-> You will enforce atomicity where partial failure causes visible data loss.
-
 ### Exercise 4.1 — Game Inventory Trading (Build)
 
-**Build:** Transactions — Implement atomic item trades between players
+- **Objective:** Build atomic multi-step trading workflow.
+- **Failure mode to avoid:** partial transfer that creates/losses assets.
+- **Evidence path:** success/failure scenario replay with before/after state snapshots.
 
-**The Problem:**
-Open the `module-4-transactions/exercise-4.1-game-inventory/` folder. You'll find `game_models.py` — models for Player (name, gold balance) and InventoryItem (name, value, owner foreign key) — and `setup_data.py` which creates 4 players with various items and gold balances. The game needs a trading system: Player A offers an item and some gold to Player B in exchange for one of Player B's items. A trade involves 4 database operations: remove item from A's inventory, add item to B's inventory, deduct gold from A, add gold to B. If ANY of these fails (insufficient gold, item doesn't exist, player not found), NONE should happen.
-
-**Your Task:**
-Implement a `trade()` function that executes all 4 operations inside a transaction with proper commit/rollback. Test with the 5 trade scenarios in `test-trades.txt`: a valid trade, a trade where the buyer has insufficient gold, a trade where the item doesn't exist, a trade where one player is not found, and a trade that violates a unique constraint. After each trade (successful or failed), verify that both players' inventories and gold balances are correct — no items vanished, no gold was duplicated.
-
-**What You'll Learn:**
-
-- That without transactions, a failed trade can leave the database in an impossible state: Player A's item is removed but Player B never receives it — the item vanishes
-- How to structure try/except/finally blocks around multi-step database operations so that any exception triggers a complete rollback
-- Why testing the failure cases is as important as testing the success case: the whole point of transactions is that failures leave the database unchanged
-
-**Reflection Questions:**
-
-1. In the "insufficient gold" scenario, at what point in the 4-step trade does the failure occur? What state would the database be in without the rollback?
-2. Did you validate all preconditions (sufficient gold, item exists, player exists) before starting the transaction, or did you rely on the database to raise exceptions? What are the trade-offs of each approach?
-3. If two trades happen simultaneously (Player A trades with B while Player B trades with C), could they conflict? What database feature prevents that?
-
----
+Deliver:
+- `trade()` with rollback-safe logic
+- scenario proofs in `TRADE-EVIDENCE.md`
 
 ### Exercise 4.2 — Broken Bank (Debug)
 
-**Debug:** Transactions — Find and fix transaction safety holes
+- **Objective:** Eliminate transaction boundary defects.
+- **Failure mode to avoid:** using separate sessions for one logical transfer.
+- **Evidence path:** failure simulation + balance invariants hold after fix.
 
-**The Problem:**
-Open the `module-4-transactions/exercise-4.2-broken-bank/` folder. You'll find `bank.py` — a banking application with Account model and functions for deposit, withdraw, and transfer. The transfer function moves money between two accounts but has 4 transaction safety bugs: the debit and credit happen in separate sessions (so a crash between them loses money), there's no check for sufficient funds before the debit (overdrawing is possible), the rollback in the except block is called on the wrong session object, and a commit happens after the debit but before the credit (violating atomicity).
-
-**Your Task:**
-Run `test_bank.py` which simulates normal transfers and failure scenarios. The normal transfer appears to work, but the failure scenarios reveal the bugs: a simulated crash between debit and credit shows money disappearing, an overdraft test shows negative balances, and a rollback test shows the wrong session being rolled back. Find all 4 bugs, fix them, and verify that every failure scenario leaves both account balances unchanged.
-
-**What You'll Learn:**
-
-- That transaction bugs are invisible during success — they only manifest during failures, which is exactly when you need them most
-- How "separate sessions" breaks atomicity: if the debit commits in session 1 and the credit fails in session 2, rolling back session 2 doesn't undo session 1's commit
-- Why testing the failure path is the only way to verify transaction safety — a transfer that succeeds proves nothing about what happens when it fails
-
-**Reflection Questions:**
-
-1. The "commit after debit but before credit" bug is the classic atomicity violation. Why did the normal transfer test NOT catch it?
-2. How many of the 4 bugs would be caught by code review alone, without running the failure tests?
-3. If this bank application were in production, how would you discover these bugs? What monitoring would detect money appearing or disappearing?
+Deliver:
+- fixed `bank.py`
+- invariant checklist and proof traces
 
 ---
 
 ## Module 5: Cloud Deployment & Security
 
-> **Core Skill:** Deploying SQLAlchemy applications to Neon PostgreSQL with proper configuration (Lessons 6-7)
-> You will apply secure Neon configuration and debug real connection failures.
-
 ### Exercise 5.1 — Contact Book Deploy (Build)
 
-**Build:** Cloud Deployment — Configure a working app for Neon PostgreSQL
+- **Objective:** Deploy existing app to Neon with secure config.
+- **Failure mode to avoid:** credentials exposure or stale connection behavior.
+- **Evidence path:** `SELECT 1`, CRUD through deployed app, restart persistence check.
 
-**The Problem:**
-Open the `module-5-cloud-deployment/exercise-5.1-contact-book-deploy/` folder. You'll find `contact_book.py` — a working contact management application that uses `sqlite:///:memory:`. The app has Contact and Group models with a many-to-many relationship, full CRUD operations, and a search function. It works perfectly on local SQLite. Your task is to deploy it to Neon PostgreSQL without changing any application logic — only the database connection and configuration.
-
-**Your Task:**
-Create a Neon project (free tier). Configure the connection string in a `.env` file. Modify the engine creation to use the Neon connection string with `pool_size=5`, `max_overflow=10`, `pool_pre_ping=True`, and `connect_args={"sslmode": "require"}`. Add `load_dotenv()` at startup. Create a `.gitignore` that excludes `.env`. Run the application against Neon and verify: create 5 contacts in 2 groups, search by name, search by group, delete a contact and verify cascade behavior. Confirm data persists by stopping and restarting the application.
-
-**What You'll Learn:**
-
-- That deploying to production is a configuration change, not a code rewrite — the same SQLAlchemy models and CRUD operations work on SQLite and PostgreSQL
-- Why each pool setting matters: `pool_pre_ping` prevents stale connections after Neon's auto-pause, `sslmode` encrypts data in transit, `pool_size` controls resource usage
-- The `.env` + `.gitignore` pattern as non-negotiable security: one accidental commit of credentials gives anyone database access
-
-**Reflection Questions:**
-
-1. What failed on the first attempt to connect to Neon? Was it credentials, SSL, or pool configuration?
-2. How did you verify that data persists? Did you restart the application and query, or did you check the Neon dashboard?
-3. If you needed to switch from Neon to another PostgreSQL provider (Supabase, Railway), how many lines of code would change?
-
----
+Deliver:
+- Neon-ready config
+- `.env` + `.gitignore` proof
+- persistence proof after restart
 
 ### Exercise 5.2 — Connection Doctor (Debug)
 
-**Debug:** Cloud Deployment — Diagnose 5 different connection failure scenarios
+- **Objective:** Diagnose 5 connection failures quickly and correctly.
+- **Failure mode to avoid:** random trial-and-error without ordered diagnostics.
+- **Evidence path:** per scenario: error text -> root cause -> fixed run.
 
-**The Problem:**
-Open the `module-5-cloud-deployment/exercise-5.2-connection-doctor/` folder. You'll find 5 Python scripts (`scenario-1.py` through `scenario-5.py`), each attempting to connect to a PostgreSQL database and failing for a different reason. Each script has a `.env` file with intentionally broken configuration. The failures are: wrong password, wrong hostname, missing SSL mode (Neon requires SSL), expired/stale connection pool (no `pool_pre_ping`), and a connection string with the database driver misspelled (`postgresql+psycopg3` instead of `postgresql+psycopg2`).
-
-**Your Task:**
-Run each script, read the error message, diagnose the root cause, and fix the `.env` or connection configuration. For each scenario, document: the exact error message, what it means, where the fix lives (`.env` vs. Python code), and the corrected configuration. Compile your findings into `DIAGNOSIS.md` as a troubleshooting reference.
-
-**What You'll Learn:**
-
-- That database connection errors have diagnostic messages that point directly to the cause — "password authentication failed" means wrong password, "could not translate host name" means wrong hostname
-- How to build a systematic troubleshooting checklist: credentials, hostname, SSL, driver, pool settings — check each one in order
-- That documenting your fixes creates a reusable troubleshooting guide you'll reference every time a connection fails in the future
-
-**Reflection Questions:**
-
-1. Which error message was most helpful (pointed directly to the fix)? Which was most misleading?
-2. How long did each diagnosis take? Did the time decrease as you worked through more scenarios?
-3. If a connection fails in production at 3am, which of these 5 scenarios is most likely? What monitoring would alert you before users notice?
+Deliver:
+- `DIAGNOSIS.md` (error, cause, fix, verification)
 
 ---
 
 ## Module 6: Hybrid Verification & Tool Selection
 
-> **Core Skill:** Using SQL+bash cross-checks and choosing the right tool for each query (Lessons 7-8)
-> You will detect plausible-but-wrong answers by cross-checking with independent tools.
-
 ### Exercise 6.1 — Expense Audit (Build)
 
-**Build:** Hybrid Verification — Build SQL+bash cross-check pipeline
+- **Objective:** Build SQL-primary + independent-check audit flow.
+- **Failure mode to avoid:** fake hybrid checks that reuse same logic path.
+- **Evidence path:** aggregate mismatch detection + record-level discrepancy report.
 
-**The Problem:**
-Open the `module-6-hybrid-verification/exercise-6.1-expense-audit/` folder. You'll find `expenses.db` — a pre-populated SQLite database with 200 expense records across 5 categories, and `expenses-export.csv` — a CSV export of the same data. The two sources SHOULD match, but they don't. Three records were modified in the database after the CSV was exported: one amount was updated, one category was changed, and one record was deleted from the database but still exists in the CSV.
-
-**Your Task:**
-Build a hybrid verification pipeline that cross-checks the SQL database against the CSV export. Write a SQL query that summarizes total spending per category from the database. Write a bash/Python script that calculates the same totals from the CSV. Compare the two sets of totals and identify which categories have discrepancies. Then drill into those categories to find the specific records that differ. Document all 3 discrepancies in `AUDIT-REPORT.md` with the exact record, what changed, and which source is authoritative.
-
-**What You'll Learn:**
-
-- That cross-checking with two independent tools catches errors that either tool alone would miss — the SQL query can't know about deleted records still in the CSV, and the CSV can't know about updated records in the database
-- How to structure an audit: start with aggregate comparisons (category totals), then drill into discrepancies at the record level
-- Why "which source is authoritative" is a business decision, not a technical one — the database is more current, but the CSV might be the audited record
-
-**Reflection Questions:**
-
-1. Which discrepancy was hardest to find — the updated amount, the changed category, or the deleted record? Why?
-2. If both sources showed the same totals, would that prove they contain identical records? (Hint: think about offsetting errors.)
-3. In what business scenario would you trust the CSV over the database? When would you trust the database?
-
----
+Deliver:
+- audit pipeline
+- `AUDIT-REPORT.md` with discrepancy classification
 
 ### Exercise 6.2 — Wrong Tool, Wrong Answer (Debug/Analysis)
 
-**Debug/Analysis:** Tool Selection — Analyze 5 wrong-tool scenarios
+- **Objective:** Identify wrong-tool choices and implement correct alternatives.
+- **Failure mode to avoid:** plausible but wrong outputs accepted without verification.
+- **Evidence path:** wrong result vs corrected result side-by-side.
 
-**The Problem:**
-Open the `module-6-hybrid-verification/exercise-6.2-wrong-tool/` folder. You'll find 5 scenarios, each with a question, a tool choice, and the output produced. Each scenario used the WRONG tool for the job, producing an answer that looks plausible but is wrong. The scenarios are: (1) calculating compound interest with bash (floating-point precision loss), (2) querying structured database data with grep on a CSV export (missed quoted fields), (3) summing financial records with awk (currency symbol parsing failure), (4) finding duplicate records with sort|uniq (case-sensitivity missed "alice" vs "Alice"), and (5) joining two datasets with paste (row alignment broke when one file had blank lines).
-
-**Your Task:**
-For each scenario, analyze: what question was being asked, why the chosen tool produced the wrong answer, what the right tool would have been, and what the correct answer is. Implement the correct solution for each using the right tool. Write your analysis in `TOOL-ANALYSIS.md` with a one-paragraph explanation per scenario and the correct command/script.
-
-**What You'll Learn:**
-
-- That plausible wrong answers are more dangerous than obvious errors — a compound interest calculation that's off by $47 looks reasonable but compounds into a large difference over time
-- The tool selection framework from Lesson 7: bash for file operations, Python for computation, SQL for structured queries, hybrid for verification
-- How each tool's weakness creates a specific failure mode: bash can't do decimals, grep can't parse CSV, awk chokes on currency symbols
-
-**The Extension:** Create a one-page "Tool Selection Cheat Sheet" that maps question types to recommended tools. Include the failure mode for each wrong-tool pairing (e.g., "bash + decimal math = precision loss").
-
-**Reflection Questions:**
-
-1. Which wrong-tool scenario produced the most plausible wrong answer? Would you have caught it without comparing to the correct answer?
-2. Is there any scenario where the "wrong" tool could have been made to work with enough effort? When is it better to switch tools vs. work around a tool's limitations?
-3. How does this analysis connect to the Braintrust research from Lesson 7? Which of these 5 scenarios mirrors the SQL vs. bash accuracy gap?
+Deliver:
+- `TOOL-ANALYSIS.md` with corrected solutions and rationale
 
 ---
 
-## Module 7: Capstone Projects
-
-> **Choose one (or more). Build a real database application from requirements — no starter prompts provided.**
-
-Capstones remove scaffolding. You must orchestrate Modules 1-6 end-to-end: model, operate, relate, protect, deploy, and verify. Progression is intentional: A tests integration, B tests migration judgment with messy data, and C tests debugging/forensics under pressure.
+## Module 7: Capstone Options (Choose 1+)
 
 ### Capstone A — Student Grade Portal
 
-**Integration:** Build a complete grade tracking system from requirements to deployment.
-
-Open the `module-7-capstone/capstone-A-student-portal/` folder. You'll find `requirements.md` describing a grade tracking system for a small school: Students (name, email, enrollment date), Courses (name, code, credits, instructor), and Enrollments (student + course + grade, with constraints like grade must be A-F or NULL for in-progress). The system needs to answer: "What's this student's GPA?", "Who's failing this course?", "Which courses has this student completed?", and "What's the class average for each course?"
-
-Take this through the complete Database Development Framework:
-
-1. **Model** — Design all three tables with correct types, constraints, foreign keys, and relationships
-2. **Connect** — Start with SQLite for development, switch to Neon for deployment
-3. **Operate** — Implement CRUD for students, courses, and enrollments; implement GPA calculation
-4. **Protect** — Enrollment changes (add/drop courses, grade updates) need transaction safety
-5. **Verify** — Cross-check GPA calculations with manual computation on sample data
-6. **Deploy** — Deploy to Neon with proper security, pooling, and connection handling
-
-**Deliverables:**
-
-- `models.py` — SQLAlchemy models for Student, Course, Enrollment
-- `operations.py` — All CRUD operations with session management
-- `queries.py` — GPA calculation, failing students, class averages
-- `deploy.py` — Neon connection configuration
-- `VERIFICATION.md` — How you verified GPA calculations are correct
-- `test_grade_portal.py` — Tests covering all operations and edge cases
-
----
+- **Objective:** Full-stack relational design + analytics + deployment.
+- **Failure mode to avoid:** weak grade logic and unverifiable GPA outputs.
+- **Evidence path:** test suite + GPA manual cross-check sample.
 
 ### Capstone B — CSV Migration
 
-**Real-world:** Migrate 500 rows of messy CSV data into a normalized database.
-
-Open the `module-7-capstone/capstone-B-csv-migration/` folder. You'll find `legacy-data.csv` — a 500-row export from a spreadsheet-based inventory system for a small retail store. The data is in a single flat table with denormalized data: product name, category, supplier name, supplier email, supplier phone, price, quantity, last ordered date, and notes. The same supplier appears on many rows with slightly different formatting ("Acme Corp", "ACME CORP.", "Acme Corporation"). Dates use 4 different formats. Some prices include currency symbols, some don't. Notes contain commas that break naive CSV parsing.
-
-**Your Task:**
-Design a normalized database schema (Products, Suppliers, Categories), clean and migrate all 500 rows, and verify the migration is lossless. The hardest part isn't the code — it's the data cleaning decisions: are "Acme Corp" and "ACME CORP." the same supplier? How do you handle rows with missing supplier info? What do you do with products that have a category that appears only once?
-
-**Deliverables:**
-
-- `models.py` — Normalized schema with proper relationships
-- `migrate.py` — Script that reads CSV, cleans data, and populates database
-- `verify_migration.py` — Script that proves no data was lost or corrupted
-- `MIGRATION-REPORT.md` — Decisions made, data quality issues found, row counts before/after
-- `CLEANING-LOG.md` — Every data cleaning decision with before/after examples
-
----
+- **Objective:** Normalize messy legacy dataset with lossless migration.
+- **Failure mode to avoid:** silent data loss during cleaning/dedup.
+- **Evidence path:** row-count reconciliation + key-field parity checks.
 
 ### Capstone C — Disaster Recovery
 
-**Forensics:** Fix 8+ bugs in a broken Budget Tracker application.
-
-Open the `module-7-capstone/capstone-C-disaster-recovery/` folder. You'll find `budget_tracker.py` — a complete Budget Tracker application that was "working last week" but now has 8+ bugs introduced during a hasty refactoring. The application has User, Expense, and Category models, CRUD operations, transaction-protected transfers between categories, and a Neon deployment configuration. It's broken at every level: model bugs (wrong types, missing constraints), CRUD bugs (wrong session management), relationship bugs (missing back_populates), transaction bugs (no rollback), and deployment bugs (hardcoded credentials, missing pool settings).
-
-**Your Task:**
-Get the application working again. Run `test_budget_tracker.py` to see the full list of failures. Triage the bugs by severity — start with crashes, then fix silent data corruption, then fix security issues. Document every bug you find, how you found it, and how you fixed it. Your `RECOVERY-REPORT.md` should read like a postmortem: what went wrong, what the impact would have been, and what process change would prevent it.
-
-**Deliverables:**
-
-- Fixed `budget_tracker.py` with all bugs resolved
-- `RECOVERY-REPORT.md` — Postmortem with: each bug, severity, fix, and prevention
-- `test_budget_tracker.py` — Updated tests (if needed) that verify all fixes
-- All tests passing with correct results
+- **Objective:** Triage and recover broken budget tracker under pressure.
+- **Failure mode to avoid:** fixing low-severity issues before integrity/security blockers.
+- **Evidence path:** failing tests -> prioritized fix log -> passing regression set.
 
 ---
 
-## What's Next
+## Outcome Mapping (Exercise -> Chapter Mastery)
 
-You've built, debugged, and deployed database applications across 15 exercises — from simple model design to multi-table systems with transaction safety and hybrid verification. The Database Development Framework (Model, Connect, Operate, Protect, Verify, Deploy) applies to any domain where data needs persistent, structured storage: customer databases, inventory systems, booking platforms, or any application where relationships between data matter.
+| Chapter outcome | Evidence-producing modules |
+|---|---|
+| Correct models/constraints | 1, 3 |
+| Safe CRUD/session handling | 2, 4 |
+| Relationship-correct analytics | 3, 7 |
+| Transaction integrity | 4, 7 |
+| Neon deployment reliability | 5, 7 |
+| Hybrid judgment and verification | 6, 7 |
 
-The three skills you practiced — modeling data as code, debugging silent database errors, and deploying securely — are exactly what separates tutorial completion from real implementation capability. Up next is the Chapter Quiz, where you must choose patterns without scaffolding and justify those choices. You now carry a full Part 2 toolchain: bash for file operations, Python for computation, SQL for structured queries, and hybrid verification for high-stakes correctness.
+If you can complete one capstone with clear evidence artifacts, you are beyond tutorial competence.

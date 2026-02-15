@@ -68,6 +68,8 @@ differentiation:
 ---
 # Models as Code
 
+> **Chapter 8 callback:** Your tax scripts could parse and compute, but they could not enforce structure. This lesson introduces that enforcement layer.
+
 In L0, you learned why databases beat CSV files. In L1, you built your skill scaffold. Now you hit the core engineering move: turning requirements into schema.
 
 Answer: you write a Python class, and SQLAlchemy turns it into a table.
@@ -331,7 +333,7 @@ Schema clarity is why SQL wins. Your models provide it.
 
 ## What Comes Next
 
-Your schema now has rules, types, and constraints. Next, you will test whether those rules survive real writes and reads under session control.
+Your schema now has rules, types, and constraints. In the next lesson, the danger shifts: write paths can appear to work while silently failing under bad session discipline.
 
 ## Try With AI
 

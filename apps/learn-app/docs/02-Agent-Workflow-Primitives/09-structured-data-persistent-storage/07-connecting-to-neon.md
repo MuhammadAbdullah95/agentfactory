@@ -80,6 +80,8 @@ differentiation:
 ---
 # Connecting to Neon
 
+> **Chapter 8 callback:** Local scripts gave you deterministic outputs; they did not give you shared, always-on persistence.
+
 In L5, you built transactions that keep your Budget Tracker data consistent. Transfers succeed completely or fail completely. Your database is safe from corruption.
 
 But consistency without persistence is still a dead end. SQLite in-memory mode erases everything on restart.
@@ -390,7 +392,7 @@ For timeout errors, this process often isolates network policy issues (VPN/firew
 
 ## What Comes Next
 
-Your system now persists in production. Next you add independent verification so results are not only available, but provably trustworthy.
+Your system now persists in production. Next you must decide when a single SQL answer is enough and when independent verification is worth extra cost.
 
 ## Try With AI
 
