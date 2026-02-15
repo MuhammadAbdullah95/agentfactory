@@ -68,11 +68,11 @@ differentiation:
 ---
 # When Bash and Python Hit the Wall
 
-In Chapter 8, you built a tax-prep pipeline that processes CSVs correctly. Great for known outputs. But when queries change weekly, scripts turn into a maintenance loop.
+In Chapter 8, you built a tax-prep pipeline that processes CSVs correctly. It works until your questions change faster than your scripts.
 
 If your accountant asks *"Show me all medical expenses over $50 from March through June"* and then asks *"Compare Q1 vs Q2 by category,"* you write new filtering code each time.
 
-This is the wall. Your tools can process data, but they can't *query* it.
+This is the wall: your tools can process data, but they cannot query it with structural guarantees.
 
 Researchers at Braintrust (an AI evaluation platform) tested this exact problem at scale. They gave agents 68,000 structured records and asked questions like the ones above. The results:
 
@@ -230,13 +230,16 @@ This chapter applies principles you learned earlier:
 | Principle                                 | Database Application                                                                                                 |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | **P1: Bash is the Key**             | Connection strings live in environment variables. You'll use `.env` files and bash commands to manage credentials. |
-| **P2: Code as Universal Interface** | You write Python classes. SQLAlchemy translates them to SQL. You never write raw SQL by hand.                        |
+| **P2: Code as Universal Interface** | You define models and most queries in Python. SQLAlchemy translates them to SQL while still allowing SQL-level checks when needed. |
+| **P3: Verification as Core Step**   | In high-stakes paths, you'll verify answers independently (L7 hybrid SQL + bash) instead of trusting one path. |
+| **P4: Small, Reversible Decomposition** | You build in small layers: models → CRUD → relationships → transactions → deployment, verifying each layer before the next. |
 | **P5: Persisting State in Files**   | Databases take persistence to the next level—cloud-hosted, always available, automatically backed up.               |
 | **P6: Constraints and Safety**      | Foreign keys prevent orphaned data. Transactions prevent corruption. The database enforces rules you define.         |
+| **P7: Observability**               | You inspect generated SQL and dashboard state during debugging so failures are visible, not guessed. |
 
 ## What Happens Next
 
-This lesson established vocabulary and motivation. Here's how you apply it next:
+This lesson gave you the why. Next you start the how:
 
 | Lesson | What You Learn                          | What You Add to Your Skill           |
 | ------ | --------------------------------------- | ------------------------------------ |
@@ -249,7 +252,7 @@ This lesson established vocabulary and motivation. Here's how you apply it next:
 | L7     | Combine SQL + bash for hybrid patterns  | Tool choice framework for Part 2     |
 | L8     | Integrate everything into one app       | Complete, production-ready skill     |
 
-By L8, your `/database-deployment` skill becomes a reusable reference for future projects.
+By L8, your `/database-deployment` skill is a reusable system, not just chapter notes.
 
 ## Try With AI
 

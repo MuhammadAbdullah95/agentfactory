@@ -62,11 +62,11 @@ differentiation:
 
 # Structured Data Practice Exercises
 
-You've learned every piece of the database puzzle. SQLAlchemy models that define data as Python classes. CRUD operations wrapped in proper session management. Relationships that let you navigate between tables without writing JOINs. Transactions that protect multi-step operations from partial failure. Neon PostgreSQL for production deployment with connection pooling and environment variables. Hybrid SQL+bash verification that catches errors no single tool would find. You built a complete Budget Tracker that ties all of these together. That's a powerful toolkit — but the gap between building one application in a guided lesson and designing a database solution from a set of messy requirements is where most people discover what they actually know.
+You now have the full Chapter 9 toolkit: models, CRUD, relationships, transactions, Neon deployment, and hybrid SQL+bash verification. The remaining gap is independence: turning messy requirements into correct, production-safe database code without step-by-step guidance.
 
-These 15 exercises close that gap. Each module gives you two exercises: a **Build** exercise where you create a working database application from realistic requirements, and a **Debug** exercise where you find and fix bugs in broken code. Three skills run through every exercise: **data modeling** (translating real-world entities into SQLAlchemy models with correct types, constraints, and relationships), **database debugging** (finding bugs that don't crash — wrong column types, missing constraints, broken relationships, transaction safety holes), and **production deployment** (configuring Neon PostgreSQL with proper security, pooling, and hybrid verification).
+These 15 exercises close that gap. Every module pairs a **Build** task (create from requirements) with a **Debug** task (repair broken behavior). Across all modules, you repeatedly practice three skills: **data modeling**, **database debugging**, and **production deployment/verification**.
 
-The difference between knowing SQLAlchemy patterns and being a database developer is practice. Every exercise uses realistic scenarios — a library catalog, a recipe book, a music library, a game inventory system — with the edge cases that break naive implementations: nullable columns that should be required, relationships missing `back_populates`, transactions without rollback, and connection strings with hardcoded credentials. By the end, you'll have built and debugged more database applications than most people encounter in their first year of development.
+Work one module at a time. The scenarios are realistic (library catalogs, recipe systems, music data, game inventory), and the bugs are the ones that hurt in production: wrong types, missing constraints, broken relationships, unsafe transactions, and bad credential handling.
 
 :::info Download Exercise Files
 **[Download Structured Data Exercises (ZIP)](https://github.com/panaversity/claude-code-structured-data-exercises/releases/latest/download/structured-data-exercises.zip)**
@@ -80,16 +80,15 @@ If the download link doesn't work, visit the [repository releases page](https://
 
 ## How to Use These Exercises
 
-The workflow for every exercise is the same:
+Use this workflow for every exercise:
 
 1. **Open the exercise folder** from the `claude-code-structured-data-exercises/` directory
-2. **Read the INSTRUCTIONS.md** inside the folder — it describes the starter files, the database schema (if provided), and your task
-3. **Read the walkthrough below** for context on what you're practicing and why
-4. **Start Claude Code** and point it at the exercise folder
-5. **Work through the exercise** — for Build exercises, create new code from requirements; for Debug exercises, find and fix bugs in broken code
-6. **Reflect** using the questions provided — compare your approach with what you expected and identify what surprised you
+2. **Read `INSTRUCTIONS.md`** for starter files, schema, and task details
+3. **Use the walkthrough below** for context on what each module is testing
+4. **Run the exercise in Claude Code** (Build: implement from requirements, Debug: find and fix)
+5. **Reflect** with the provided questions before moving on
 
-You don't need to complete all 15 in one sitting. Work through one module at a time. Each module builds on the workflows from specific chapter lessons.
+You do not need to finish all 15 at once. Progress module by module.
 
 ---
 
@@ -105,9 +104,9 @@ You don't need to complete all 15 in one sitting. Work through one module at a t
 
 In Lessons 0-8, you learned each pattern in isolation with guided walkthroughs using the Budget Tracker. These exercises are different in three ways:
 
-- **No step-by-step instructions.** The exercises describe the scenario, the data model, and the goal. You decide the approach, write the prompts, and handle edge cases yourself.
-- **Build + Debug pairing.** Every module has a Build exercise (create a working application) and a Debug exercise (find and fix bugs in broken code). Debugging someone else's database code develops different skills than writing your own — you learn to read models critically, trace relationship navigation, and spot transaction safety holes that don't produce exceptions.
-- **Increasing independence.** Modules 1-2 provide starter prompts to scaffold your learning. Modules 3-6 remove the scaffolding. Capstones remove everything — you design the entire database application from requirements.
+- **No step-by-step path.** You choose the approach and handle edge cases yourself.
+- **Build + Debug pairing.** You practice both creation and diagnosis, not just implementation.
+- **Increasing independence.** Scaffolding fades from Modules 1-2 to capstones.
 
 By Module 6, you should be able to face a new database requirement and instinctively reach for the right pattern without needing to review the chapter lessons.
 
@@ -117,14 +116,14 @@ By Module 6, you should be able to face a new database requirement and instincti
 
 Use this for every exercise:
 
-1. **Model** — Define the data structure. What are the entities? What are their attributes? What types and constraints does each column need? This is the foundation — wrong types or missing constraints create bugs that surface much later.
-2. **Connect** — Establish database connection. For development, use `sqlite:///:memory:` or a local SQLite file. For production exercises, configure Neon with environment variables and connection pooling.
-3. **Operate** — Implement CRUD with session management. Every database operation needs a session. Use context managers (`with Session(engine) as session:`) to prevent resource leaks. Push filtering to the database, not Python.
-4. **Protect** — Add transaction safety. Any operation that modifies multiple records needs try/except with commit/rollback. Single operations are already atomic; multi-step operations need explicit protection.
-5. **Verify** — Test and check results. Query the database after writes to confirm data persisted correctly. For production, use hybrid SQL+bash verification to cross-check critical numbers.
-6. **Deploy** — Move to production. Swap `sqlite:///:memory:` for a Neon connection string stored in `.env`. Add `pool_pre_ping=True` for connection health checks. Verify with the Neon dashboard.
+1. **Model** — Define entities, types, constraints, and relationships first.
+2. **Connect** — Use SQLite for local work; configure Neon for production tasks.
+3. **Operate** — Implement CRUD with context-managed sessions.
+4. **Protect** — Wrap multi-step writes in try/except with commit/rollback.
+5. **Verify** — Confirm outcomes with direct queries and cross-checks.
+6. **Deploy** — Move to Neon with `.env`, pooling, and dashboard verification.
 
-This framework applies to any domain where data needs persistent, structured storage: customer databases, inventory systems, booking platforms, or any application where "if it's structured data, it belongs in a database." Notice that Model comes before Connect — getting the data structure right before writing any database code saves hours of rework.
+Model before Connect. Good schema decisions early prevent expensive fixes later.
 
 ---
 
@@ -145,8 +144,7 @@ For each exercise, evaluate yourself on:
 ## Module 1: Data Modeling
 
 > **Core Skill:** Translating real-world requirements into SQLAlchemy models with correct types, constraints, and table structure (Lessons 1-2)
->
-> Lessons 1-2 taught you to define models as Python classes and choose the right column types. These exercises push those skills into scenarios where the requirements are ambiguous and the data model decisions have consequences — a wrong type or missing constraint surfaces as a bug much later, long after you've forgotten the modeling decision that caused it.
+> You will make modeling decisions under ambiguity and see their downstream effects.
 
 ### Exercise 1.1 — Library Catalog (Build)
 
@@ -215,8 +213,7 @@ After running `python3 test_models.py` and seeing the failures: "The test_models
 ## Module 2: CRUD Operations
 
 > **Core Skill:** Implementing Create, Read, Update, Delete with proper session management (Lesson 3)
->
-> Lesson 3 taught you to create and read data using sessions. These exercises push those skills into scenarios with more operations, more edge cases, and data coming from external sources (CSV files) rather than hardcoded values.
+> You will handle external data (CSV) and edge cases where correctness depends on operation order.
 
 ### Exercise 2.1 — Recipe Book (Build)
 
@@ -277,8 +274,7 @@ Run `test_task_manager.py` which exercises each operation and checks the result.
 ## Module 3: Relationships & Navigation
 
 > **Core Skill:** Configuring and navigating one-to-many and many-to-many relationships (Lesson 4)
->
-> Lesson 4 taught you to define relationships with `relationship()` and `back_populates` for the Budget Tracker. These exercises push those skills into more complex relationship topologies — a music library with Artist, Album, and Track creates a chain of relationships where navigation patterns matter.
+> You will navigate multi-hop relationships and choose between relationship traversal and explicit joins.
 
 ### Exercise 3.1 — Music Library (Build)
 
@@ -331,8 +327,7 @@ Run `test_blog.py` which creates users, posts, and comments, then tests relation
 ## Module 4: Transaction Safety
 
 > **Core Skill:** Protecting multi-step operations with commit/rollback boundaries (Lesson 5)
->
-> Lesson 5 taught you atomicity — all-or-nothing transactions for the Budget Tracker. These exercises push transaction safety into scenarios where the consequences of partial failure are severe and obvious: a game where items vanish, a bank where money disappears.
+> You will enforce atomicity where partial failure causes visible data loss.
 
 ### Exercise 4.1 — Game Inventory Trading (Build)
 
@@ -385,8 +380,7 @@ Run `test_bank.py` which simulates normal transfers and failure scenarios. The n
 ## Module 5: Cloud Deployment & Security
 
 > **Core Skill:** Deploying SQLAlchemy applications to Neon PostgreSQL with proper configuration (Lessons 6-7)
->
-> Lessons 6-7 taught you to connect to Neon, manage credentials with .env files, configure connection pooling, and verify deployment with hybrid SQL+bash patterns. These exercises push those skills into realistic deployment and troubleshooting scenarios.
+> You will apply secure Neon configuration and debug real connection failures.
 
 ### Exercise 5.1 — Contact Book Deploy (Build)
 
@@ -439,8 +433,7 @@ Run each script, read the error message, diagnose the root cause, and fix the `.
 ## Module 6: Hybrid Verification & Tool Selection
 
 > **Core Skill:** Using SQL+bash cross-checks and choosing the right tool for each query (Lessons 7-8)
->
-> Lessons 7-8 taught you hybrid verification patterns and tool choice based on the Braintrust research. These exercises push those skills into scenarios where choosing the wrong tool or skipping verification produces plausible but wrong answers.
+> You will detect plausible-but-wrong answers by cross-checking with independent tools.
 
 ### Exercise 6.1 — Expense Audit (Build)
 
@@ -496,9 +489,7 @@ For each scenario, analyze: what question was being asked, why the chosen tool p
 
 > **Choose one (or more). Build a real database application from requirements — no starter prompts provided.**
 
-Capstones are different from the exercises above. There are no guided prompts — you design the entire database application yourself. Each project requires applying all the skills from Modules 1-6 together: modeling entities, implementing CRUD, configuring relationships, protecting transactions, deploying to Neon, and verifying with hybrid patterns. Where module exercises test individual skills, capstones test your ability to orchestrate those skills into a complete, deployed application.
-
-The progression across capstones is intentional: Capstone A is a guided integration project with clear requirements and expected output. Capstone B is a real-world migration problem where the data is messy and the schema decisions are yours. Capstone C is a forensics challenge where you inherit a broken application and must fix it under pressure. Each capstone demands more judgment and less scaffolding than the last.
+Capstones remove scaffolding. You must orchestrate Modules 1-6 end-to-end: model, operate, relate, protect, deploy, and verify. Progression is intentional: A tests integration, B tests migration judgment with messy data, and C tests debugging/forensics under pressure.
 
 ### Capstone A — Student Grade Portal
 
@@ -567,4 +558,4 @@ Get the application working again. Run `test_budget_tracker.py` to see the full 
 
 You've built, debugged, and deployed database applications across 15 exercises — from simple model design to multi-table systems with transaction safety and hybrid verification. The Database Development Framework (Model, Connect, Operate, Protect, Verify, Deploy) applies to any domain where data needs persistent, structured storage: customer databases, inventory systems, booking platforms, or any application where relationships between data matter.
 
-The three skills you practiced — modeling data as code, debugging silent database errors, and deploying to production with proper security — are the exact skills that separate someone who can follow a database tutorial from someone who can build a database application from requirements. Up next is the Chapter Quiz, where you'll test your understanding of every pattern from Lessons 0-8. The exercises you just completed prepare you well — you've applied every concept, not just read about it. And looking at the bigger picture, you now have four tools in your Part 2 toolkit: bash for file operations, Python for computation, SQL for structured queries, and hybrid patterns for verification. That's a complete foundation for the autonomous agent workflows coming in the chapters ahead.
+The three skills you practiced — modeling data as code, debugging silent database errors, and deploying securely — are exactly what separates tutorial completion from real implementation capability. Up next is the Chapter Quiz, where you must choose patterns without scaffolding and justify those choices. You now carry a full Part 2 toolchain: bash for file operations, Python for computation, SQL for structured queries, and hybrid verification for high-stakes correctness.

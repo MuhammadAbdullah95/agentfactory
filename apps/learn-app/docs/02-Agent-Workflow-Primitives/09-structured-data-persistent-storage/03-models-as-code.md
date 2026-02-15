@@ -68,11 +68,11 @@ differentiation:
 ---
 # Models as Code
 
-In L0, you learned why databases beat CSV files: relationships, queries, transactions, persistence. In L1, you built the skill scaffold that will capture everything you learn. Now the practical question: how do you CREATE a database table?
+In L0, you learned why databases beat CSV files. In L1, you built your skill scaffold. Now you hit the core engineering move: turning requirements into schema.
 
-Answer: You write a Python class. SQLAlchemy reads your class and creates the actual table.
+Answer: you write a Python class, and SQLAlchemy turns it into a table.
 
-This is Principle 2 in action: Code as Universal Interface. You never write SQL by hand. Your Python class IS your table definition.
+This is Principle 2 in action: Code as Universal Interface. Your Python class is the primary interface for schema design; SQL remains available for diagnostics and performance checks when needed.
 
 ## The Simplest Model
 
@@ -331,7 +331,7 @@ Schema clarity is why SQL wins. Your models provide it.
 
 ## What Comes Next
 
-Your models define the structure. But a database with no data is just an empty box. Next, you'll populate these tables and watch real data flow through your Budget Tracker.
+Your schema now has rules, types, and constraints. Next, you will test whether those rules survive real writes and reads under session control.
 
 ## Try With AI
 
@@ -413,5 +413,6 @@ Before moving to L3:
 - [ ] You can explain why money uses `Numeric(10, 2)` instead of `Float`
 - [ ] You understand what ForeignKey does (enforces that referenced row exists)
 - [ ] You've broken and fixed a model constraint (Prompt 3)
+- [ ] You can evolve models in small, reversible steps (one schema change + one verification cycle at a time)
 
 Ready for L3: CRUD operations (Create, Read, Update, Delete).

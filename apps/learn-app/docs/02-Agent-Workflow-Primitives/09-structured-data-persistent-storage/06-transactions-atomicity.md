@@ -75,7 +75,7 @@ differentiation:
 ---
 # Transactions & Atomicity
 
-In L4, you connected tables with relationships. You can query Alice's expenses, navigate from expenses to categories, and delete records with cascade.
+In L4, you connected tables. Now the risk shifts: not "can we query data?" but "can we keep data correct when things fail?"
 
 But here's a problem: What if you need to do two things that must succeed together?
 
@@ -398,44 +398,7 @@ delete_category_expenses(1, 1)  # Delete all Food expenses for user 1
 
 ## Working With AI on Safety Patterns
 
-You understand the business logic. AI helps identify failure points you might miss.
-
-**Your request:**
-"I need to merge two categories. Move all expenses from 'Fast Food' to 'Food' and delete the Fast Food category."
-
-**AI suggests:**
-
-```python
-from sqlalchemy import update, delete
-from sqlalchemy.orm import Session
-
-def merge_categories(user_id, from_cat_id, to_cat_id):
-    with Session(engine) as session:
-        try:
-            # Update all expenses
-            session.execute(
-                update(Expense).where(
-                    (Expense.user_id == user_id) &
-                    (Expense.category_id == from_cat_id)
-                ).values(category_id=to_cat_id)
-            )
-
-            # Delete the empty category
-            session.execute(
-                delete(Category).where(Category.id == from_cat_id)
-            )
-
-            session.commit()
-            return {"success": True}
-        except Exception as e:
-            session.rollback()
-            return {"success": False, "error": str(e)}
-```
-
-**Your refinement:**
-"What if the 'to' category doesn't exist? Or someone else has expenses in 'Fast Food'?"
-
-**AI adapts:**
+Use AI to draft the transaction, then force edge-case hardening. Example:
 
 ```python
 from sqlalchemy import select, update, delete, func
@@ -444,42 +407,39 @@ from sqlalchemy.orm import Session
 def merge_categories(user_id, from_cat_id, to_cat_id):
     with Session(engine) as session:
         try:
-            # Verify target category exists
+            if from_cat_id == to_cat_id:
+                raise ValueError("Source and target categories must differ")
+
             to_cat = session.execute(
                 select(Category).where(Category.id == to_cat_id)
             ).scalars().first()
             if not to_cat:
                 raise ValueError(f"Target category {to_cat_id} not found")
 
-            # Only update THIS user's expenses
-            result = session.execute(
+            moved_count = session.execute(
                 update(Expense).where(
                     (Expense.user_id == user_id) &
                     (Expense.category_id == from_cat_id)
                 ).values(category_id=to_cat_id)
-            )
-            updated = result.rowcount
+            ).rowcount
 
-            # Only delete if no other users have expenses there
             remaining = session.execute(
                 select(func.count()).select_from(Expense).where(
                     Expense.category_id == from_cat_id
                 )
-            ).scalar()
+            ).scalar_one()
 
             if remaining == 0:
-                session.execute(
-                    delete(Category).where(Category.id == from_cat_id)
-                )
+                session.execute(delete(Category).where(Category.id == from_cat_id))
 
             session.commit()
-            return {"success": True, "updated": updated}
+            return {"success": True, "moved_count": moved_count}
         except Exception as e:
             session.rollback()
             return {"success": False, "error": str(e)}
 ```
 
-**What emerged:** A robust solution that handles edge cases neither of you fully anticipated at the start. AI suggested the basic transaction structure; you identified the safety gaps; together you converged on production-quality code.
+The pattern: AI accelerates the first draft; you enforce invariants before commit.
 
 ## Advanced: Savepoints (Brief Mention)
 
@@ -523,7 +483,7 @@ Savepoints are advanced. For most operations, the basic try/except/rollback patt
 
 ## What Comes Next
 
-Your data is safe from corruption. But it dies when Python restarts. Next, you'll deploy to a cloud database that runs 24/7.
+You can now prevent partial writes. Next you solve durability: keeping data alive beyond one process and one machine.
 
 ## Try With AI
 
@@ -546,8 +506,6 @@ For each scenario, answer:
 - "Needs atomic transaction" or "Doesn't need atomic transaction"
 - Why? (What could go wrong without atomicity?)
 ```
-
-After AI explains, verify: Do you understand why multi-step operations that must succeed together need transactions?
 
 ### Prompt 2: Write Safe Code
 
@@ -574,8 +532,6 @@ Use the Budget Tracker models (User, Category, Expense).
 Import from sqlalchemy: select, update, func as needed.
 ```
 
-After AI responds, trace through the error handling. Would this code corrupt data if to_cat doesn't exist?
-
 ### Prompt 3: Deliberate Failure
 
 **What you're learning:** Proving that rollback actually works.
@@ -592,7 +548,10 @@ Then modify the code to REMOVE the try/except block and show what happens
 when the same failure occurs without rollback protection.
 ```
 
-After AI responds, run both versions. The difference between "rolled back safely" and "partial data corruption" is the entire point of this lesson.
+After each prompt, verify one concrete thing:
+- Prompt 1: Did you correctly classify which scenarios require atomicity?
+- Prompt 2: Does your function rollback cleanly if `to_cat` does not exist?
+- Prompt 3: Can you prove the difference between rollback safety and partial corruption by running both versions?
 
 **Safety reminder:** Transactions prevent data corruption, but they don't prevent logical errors. If your code transfers $100 when it should transfer $10, the transaction will happily commit the wrong amount. Always validate inputs before starting the transaction.
 
@@ -606,5 +565,6 @@ Before moving to L6:
 - [ ] You can identify: Which scenarios require atomic transactions (Prompt 1)
 - [ ] You've written: Transaction-safe code (Prompt 2)
 - [ ] You've proven: Rollback works by deliberately failing a transaction (Prompt 3)
+- [ ] You can observe failure paths clearly (exception + rollback + post-check query) instead of guessing
 
 Ready for L6: Neon-specific features and connection reliability.

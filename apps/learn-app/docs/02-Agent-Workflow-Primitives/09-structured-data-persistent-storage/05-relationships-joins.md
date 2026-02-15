@@ -84,7 +84,7 @@ differentiation:
 
 In L3, you created categories and expenses as separate records. But they're connected: every expense belongs to a category and a user.
 
-Here's the problem: If you delete a category, what happens to its expenses? If you want all expenses for one user, how do you ask?
+This is where many systems become fragile: if relationships are wrong, queries look valid but return wrong truth.
 
 In raw SQL, you'd write JOIN statements. With SQLAlchemy, you define relationships once, and then access connected data like Python attributes. No JOIN syntax needed.
 
@@ -423,41 +423,30 @@ All of Alice's expenses were deleted with her.
 
 ## Working With AI on Relationship Queries
 
-Here's where collaboration helps. You know WHAT you want. AI helps with HOW to express it.
-
-**Your request:**
-"Show me total spending by category for user Alice"
-
-**AI suggests:**
+A productive loop is: ask for a relationship-based draft, then refine constraints (sorting, missing-user behavior, output format).
 
 ```python
 with Session(engine) as session:
     user = session.execute(
-        select(User).where(User.name == 'Alice')
+        select(User).where(User.name == "Alice")
     ).scalars().first()
 
-    category_totals = {}
+    if not user:
+        return []
+
+    totals = {}
     for expense in user.expenses:
-        cat_name = expense.category.name
-        category_totals[cat_name] = category_totals.get(cat_name, 0) + expense.amount
+        cat = expense.category.name
+        totals[cat] = totals.get(cat, 0) + expense.amount
 
-    return category_totals
+    return sorted(totals.items(), key=lambda x: x[1], reverse=True)
 ```
 
-**Your refinement:**
-"Good, but I need this sorted by highest spending first."
-
-**AI adapts:**
-
-```python
-sorted_totals = sorted(category_totals.items(), key=lambda x: x[1], reverse=True)
-```
-
-**What emerged:** A complete solution that neither of you had fully formed at the start. AI suggested the traversal pattern; you added the sorting requirement; together you converged on working code.
+Use AI for the first draft, then tighten correctness and output requirements yourself.
 
 ## What Comes Next
 
-Relationships connect your data. But what happens when a multi-step operation fails halfway? Next, you'll learn why transactions are the difference between reliable software and data corruption.
+You can now navigate linked data. Next you must protect linked updates, because one mid-operation failure can leave your system logically broken.
 
 ## Try With AI
 
@@ -492,8 +481,6 @@ And this data:
 3. What would happen if Bob had no expenses?
 ```
 
-After AI explains, trace through the code yourself. Does your mental model match?
-
 ### Prompt 2: Build a Relationship Query
 
 **What you're learning:** Constructing queries that use relationships.
@@ -511,13 +498,6 @@ Requirements:
 Use the Budget Tracker models (User, Category, Expense) with relationships.
 Use session.execute(select(...)).scalars() — not the legacy session.query() style.
 ```
-
-After AI responds, check:
-
-- Does it use `select(Expense).join(Category).where(...)` (2.0 style)?
-- Does it call `session.execute(...).scalars()` instead of `session.query()`?
-- Does it access `expense.user.name` through the relationship?
-- Would this work with your model definitions?
 
 ### Prompt 3: Update Your Skill
 
@@ -545,7 +525,10 @@ not the legacy session.query() pattern.
 Format as markdown for SKILL.md.
 ```
 
-After AI responds, review the patterns. Are they general enough for other projects?
+After each prompt, verify:
+- Prompt 1: Does your manual trace match the predicted behavior?
+- Prompt 2: Is the solution fully SQLAlchemy 2.0 style (`select` + `execute`)?
+- Prompt 3: Are the documented patterns reusable outside Budget Tracker?
 
 **Safety reminder:** Cascade delete is powerful. In production, always test cascade behavior on non-production data first. A misconfigured cascade can delete more data than intended.
 

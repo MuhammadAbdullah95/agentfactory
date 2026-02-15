@@ -77,7 +77,7 @@ differentiation:
 
 In L2, you defined three models: User, Category, Expense. Python classes that become database tables.
 
-But here's the thing: defining a table doesn't put data in it. You have an empty database with a perfect structure. Now you need to actually CREATE records and READ them back.
+But schema alone is inert. You now need to prove data can be written, queried, and trusted.
 
 This is where sessions come in. A session is your conversation with the database. You open it, ask questions or make changes, and close it. Think of it like a phone call: you dial (open session), talk (run queries), and hang up (close session).
 
@@ -504,7 +504,7 @@ Expenses over $50:
 
 ## What Comes Next
 
-You can create and read. But your tables are isolated islands. Next, you'll connect them with relationships so one query reveals Alice's spending by category — no complex filter logic needed.
+You can write and read safely. Next comes the harder step: connected queries across tables, where one weak relationship design can silently distort results.
 
 ## Try With AI
 
@@ -533,8 +533,6 @@ Predict the output of each query:
    What is returned and why?
 ```
 
-After AI responds, trace through each query yourself. Do your predictions match?
-
 ### Prompt 2: Write CRUD Code
 
 **What you're learning:** Writing Create and Read operations.
@@ -558,8 +556,6 @@ Use the session context manager pattern from this lesson.
 Show the expected output for each operation.
 ```
 
-After AI responds, check: Does the code use `with Session(engine)`? Does it `commit()` after creating?
-
 ### Prompt 3: Update Your Skill
 
 **What you're learning:** Documenting patterns as you learn.
@@ -581,7 +577,10 @@ Use Budget Tracker examples (Category, Expense).
 Format as markdown for SKILL.md.
 ```
 
-After AI responds, paste the section into your `/database-deployment/SKILL.md` file.
+After each prompt, verify the result yourself:
+- Prompt 1: Do your predicted query outputs match?
+- Prompt 2: Does the code use `with Session(engine)` and `commit()` for writes?
+- Prompt 3: Add the refined section to `/database-deployment/SKILL.md`.
 
 **Safety reminder:** When working with real databases, always verify your queries on a small dataset first. A query without a filter (like `.all()` on millions of rows) can crash your program or overload your database.
 
@@ -595,6 +594,7 @@ Before moving to L4:
 - [ ] You can filter records (select().where() with .scalars().first())
 - [ ] You know the difference between .all() (list) and .first() (one or None)
 - [ ] You understand: Errors auto-rollback, no partial saves
+- [ ] You can turn on query observability (`echo=True`/SQL logging) when debugging unexpected results
 - [ ] You've written CRUD code (Prompt 2)
 - [ ] You've updated your /database-deployment skill with CRUD patterns
 

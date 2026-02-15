@@ -58,9 +58,9 @@ differentiation:
 
 Through L0-L6, you've learned every piece of the database puzzle: models, CRUD operations, relationships, transactions, and cloud deployment with Neon. In the Braintrust benchmark introduced earlier, SQL was the strongest single-tool approach for structured queries.
 
-The follow-up result is what matters for this lesson: a hybrid approach (SQL for primary query + bash for independent verification) also reached top accuracy in the benchmark while adding a self-checking step. Researchers described this as more consistently reliable across runs, at the cost of extra tokens.
+The follow-up result is the key tension in this lesson: a hybrid approach (SQL primary query + bash independent verification) matched top accuracy while adding a self-checking path.
 
-This lesson explores that pattern and synthesizes the Part 2 tool choice story.
+This lesson shows when that extra verification cost is worth paying.
 
 ## The Experiment Recap
 
@@ -220,12 +220,16 @@ Looking back across Part 2, each tool excels at specific tasks:
 
 | Tool | Best For | Accuracy | Cost | Learned In |
 |------|----------|----------|------|------------|
-| **Bash** | File exploration, text search, quick verification | Moderate (52.7% for structured queries) | Low (tokens) | File Processing |
+| **Bash** | File exploration, text search, quick verification | Moderate (52.7% for structured queries) | High for structured-query workloads (1.06M tokens in benchmark) | File Processing |
 | **Python** | Computation, data transformation, decimal arithmetic | High (deterministic) | Low (local) | Computation & Data Extraction |
 | **SQL (SQLAlchemy)** | Structured queries, persistent storage, relationships | High (100% with schema) | Low (155K tokens) | This chapter |
 | **Hybrid** | Production reliability, self-verification, audit trails | Highest (100% + cross-check) | Medium (310K tokens) | This lesson |
 
 The goal is not one tool. It's correct tool choice, and sometimes two tools for one answer.
+
+## What Comes Next
+
+The capstone removes scaffolding. You will need this exact judgment under pressure: which tool to run first, and when to verify with a second path before trusting output.
 
 ## Try With AI
 

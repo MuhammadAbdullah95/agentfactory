@@ -105,8 +105,8 @@ This chapter demonstrates the principles through database operations:
 | Principle | How You'll Apply It |
 |-----------|---------------------|
 | **P1: Bash is the Key** | Use `psql` CLI for database inspection, environment variable management |
-| **P2: Code as Universal Interface** | SQLAlchemy ORM: Python classes = database tables (no raw SQL needed) |
-| **P3: Verification as Core Step** | Transactions guarantee all-or-nothing operations; no partial data |
+| **P2: Code as Universal Interface** | SQLAlchemy ORM: Python classes = database tables, with SQL-level inspection available when needed |
+| **P3: Verification as Core Step** | Use transaction checks for write safety and hybrid cross-checks for high-stakes query correctness |
 | **P4: Small, Reversible Decomposition** | Each model is one table; each CRUD function is one operation |
 | **P5: Persisting State in Files** | Databases persist state beyond files (cloud-hosted, always available) |
 | **P6: Constraints and Safety** | Foreign keys enforce data integrity; rollbacks prevent corruption |

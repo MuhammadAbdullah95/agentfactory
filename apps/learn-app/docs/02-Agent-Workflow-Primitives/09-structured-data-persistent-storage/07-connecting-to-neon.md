@@ -82,7 +82,7 @@ differentiation:
 
 In L5, you built transactions that keep your Budget Tracker data consistent. Transfers succeed completely or fail completely. Your database is safe from corruption.
 
-But there's a problem: Your database dies when you restart Python. SQLite in-memory mode means all your expense data vanishes every time the program stops. You can't share your Budget Tracker with friends. You can't access it from your phone.
+But consistency without persistence is still a dead end. SQLite in-memory mode erases everything on restart.
 
 The solution: Move from local SQLite to a cloud database. Neon gives you a PostgreSQL database that runs 24/7, auto-scales with traffic, and costs nothing for learning.
 
@@ -378,36 +378,19 @@ pip install psycopg2-binary
 
 ## Working With AI on Connection Issues
 
-You know what error message you're seeing. AI helps diagnose and fix.
+Use AI as a structured diagnostic assistant, not as a guess machine.
 
-**Your request:**
-"I'm getting this error connecting to Neon:
-`psycopg2.OperationalError: could not connect to server: Connection timed out`
-My .env looks correct. What should I check?"
+Example loop:
+1. Start with the exact error text.
+2. Ask for an ordered checklist (DNS/host, credentials, SSL, firewall/VPN, Neon project state).
+3. Report results after each check.
+4. Ask for the next most likely cause only after each elimination.
 
-**AI suggests:**
-"Let's diagnose step by step:
-
-1. Can you ping the host? Run: `ping ep-cool-breeze-123456.us-east-2.aws.neon.tech`
-2. Is your firewall blocking port 5432?
-3. Try the connection from a different network (phone hotspot)
-4. Check if the Neon project is paused (go to dashboard, project should show 'Active')"
-
-**Your refinement:**
-"Ping works. Dashboard shows Active. But I'm on corporate VPN."
-
-**AI adapts:**
-"Corporate VPNs often block non-HTTP traffic. Try:
-
-1. Disconnect from VPN temporarily
-2. Use Neon's connection pooling endpoint (port 443 instead of 5432)
-3. Ask IT to whitelist Neon's IP ranges"
-
-**What emerged:** A systematic troubleshooting approach that isolated the corporate VPN as the issue. Neither of you assumed the answer upfront; you narrowed it down through iteration.
+For timeout errors, this process often isolates network policy issues (VPN/firewall/port restrictions) quickly.
 
 ## What Comes Next
 
-Your database runs in the cloud. It persists, scales, and handles concurrent users. But you've been building isolated pieces — models, CRUD, relationships, transactions, deployment. Next, you'll learn when to combine SQL with bash verification for production reliability, then put everything together in the capstone.
+Your system now persists in production. Next you add independent verification so results are not only available, but provably trustworthy.
 
 ## Try With AI
 
@@ -430,8 +413,6 @@ Answer these questions:
 For each answer, explain why that component matters.
 ```
 
-After AI explains, verify: Can you identify each part in YOUR connection string?
-
 ### Prompt 2: Deploy Budget Tracker to Neon
 
 **What you're learning:** Real cloud deployment workflow.
@@ -453,8 +434,6 @@ Help me complete these steps to deploy my Budget Tracker to Neon:
 Give me the exact commands and code for each step.
 After each step, tell me how to verify it worked.
 ```
-
-After completing, verify: Are your three tables (users, categories, expenses) visible in Neon's SQL Editor?
 
 ### Prompt 3: Deploy Verification
 
@@ -479,7 +458,10 @@ If script_b.py finds the data, my cloud database works.
 If not, something is wrong with my connection.
 ```
 
-After AI responds, run both scripts. This is the moment where "cloud persistence" stops being a concept and becomes something you've verified yourself.
+After each prompt, validate with evidence:
+- Prompt 1: Can you parse every component of your own `DATABASE_URL`?
+- Prompt 2: Are `users`, `categories`, and `expenses` visible in Neon SQL Editor?
+- Prompt 3: Does `script_b.py` read the record created by `script_a.py`?
 
 **Security reminder:** Never commit `.env` files. Never share connection strings in chat logs, screenshots, or code reviews. Rotate passwords if you accidentally expose them.
 
@@ -496,6 +478,7 @@ Before moving to L7 (Hybrid Patterns):
 - [ ] Connection tested (`SELECT 1` succeeds)
 - [ ] Tables created in Neon (`Base.metadata.create_all(engine)`)
 - [ ] Tables verified in Neon SQL Editor
+- [ ] You can correlate app-side failures with dashboard-side signals (project state, connection errors, table visibility)
 - [ ] Documented patterns in `/database-deployment` skill
 
 Your Budget Tracker now persists data forever in the cloud. Ready for the capstone.

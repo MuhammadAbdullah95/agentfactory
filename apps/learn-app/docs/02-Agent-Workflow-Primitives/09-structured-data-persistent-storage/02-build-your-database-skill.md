@@ -56,13 +56,9 @@ differentiation:
 ---
 # Build Your Database Skill
 
-In the previous lesson, you saw WHY databases matter — CSV files break down when data has relationships, needs querying, or requires concurrent access. Now let's build the skill scaffold that you'll fill in as you learn.
+In the previous lesson, you saw where CSV fails. This lesson is the pivot: you start building the tool you will rely on for the rest of the chapter.
 
-Most textbooks hand you knowledge. This chapter hands you **ownership**.
-
-You are about to learn SQLAlchemy ORM and Neon PostgreSQL. But we are not going to just teach you the content and hope you remember it. Instead, you will build a `/database-deployment` skill that captures what you learn, grows with you through each lesson, and becomes a permanent tool you can apply to any future project.
-
-This is different. Textbook knowledge fades. A skill you build and improve yourself becomes part of how you work. By the end of this chapter, you will have a production-ready skill that encodes your database expertise, ready to help you (or an AI agent working with you) deploy databases for any application.
+Instead of treating each lesson as isolated content, you will capture reusable patterns as you go. By L8, this becomes your working database playbook.
 
 ## What You Are Building
 
@@ -97,8 +93,6 @@ Skill-first learning: Build a skill as you learn. The skill captures the pattern
 | "I think I learned this..."               | "My skill has the pattern"            |
 | Start from scratch each project           | Accumulate expertise over time        |
 | AI gives generic advice                   | AI uses your captured patterns        |
-
-The skill becomes an extension of your capability. This is how professionals work: they do not re-learn fundamentals. They build tools that encode their expertise.
 
 ## Step 1: Fetch the Expertise Source
 
@@ -339,16 +333,7 @@ Each lesson teaches you something. Each lesson also asks you to update your skil
 
 ## The Ownership Difference
 
-Notice what just happened: you created something. Not just notes. Not just a file. A structured skill that will grow with you.
-
-This is different from traditional learning because:
-
-1. **You own it.** This skill is in your project. You control it.
-2. **It accumulates.** Each lesson adds to it. Knowledge compounds.
-3. **It is reusable.** Next project needing a database? Invoke your skill.
-4. **AI can use it.** When you work with Claude Code, it can read your skill and apply your patterns.
-
-You are not just learning SQLAlchemy. You are building a tool that makes you more capable at database work forever.
+You now have a concrete artifact you own and can reuse. Keep it current after each lesson; that compounding maintenance is what turns chapter knowledge into long-term capability.
 
 ## Try With AI
 
@@ -406,3 +391,5 @@ Verify these checkpoints pass before moving to L2:
 - [ ] Your `SKILL.md` exists with the template content
 - [ ] Your `simple-expense.py` runs without errors
 - [ ] You can explain, in your own words, why a skill is different from notes
+
+L2 starts the real schema work: you will turn business rules into model definitions.

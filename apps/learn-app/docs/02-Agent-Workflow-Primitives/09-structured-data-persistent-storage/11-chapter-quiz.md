@@ -10,7 +10,20 @@ running_example_id: structured-data-persistent-storage-quiz
 
 # Chapter 09: Structured Data & Persistent Storage Quiz
 
-Test your understanding of database design, SQLAlchemy ORM, relationships, transactions, Neon PostgreSQL deployment, and hybrid tool patterns. This assessment covers all 9 lessons in Chapter 09.
+This is a production-readiness check, not a memorization drill. The questions are designed to test whether your choices keep systems correct when data, failures, and deployment constraints are real.
+
+## How to Use This Quiz
+
+1. Read each question as an engineering decision, not trivia.
+2. Choose the option you would trust in production.
+3. If two choices seem plausible, prefer the one that protects integrity, security, and debuggability.
+
+## What This Quiz Measures
+
+- Can you model structured data with correct constraints?
+- Can you reason about sessions, relationships, and transaction safety?
+- Can you deploy and operate securely on Neon?
+- Can you choose the right tool (bash, Python, SQL, hybrid) for the job?
 
 <Quiz
 title="Chapter 09: Structured Data & Persistent Storage Assessment"
@@ -298,7 +311,7 @@ options: [
 "Creating a single expense record",
 "Querying to see all expenses for one user",
 "Transferring $100 between budget categories (all-or-nothing)",
-"Deleting a user's account (single operation)"
+"Updating a single expense amount with one SQL UPDATE"
 ],
 correctOption: 2,
 explanation: "Transactions protect multi-step operations. A transfer must succeed completely or not at all. Single operations like creating one expense don't need transactions (they're already atomic).",
@@ -317,28 +330,28 @@ explanation: "UPDATE is surgical—fix only the problematic record. Deletion los
 source: "Lesson 8: Capstone Integration"
 },
 {
-question: "What was the primary finding of the Braintrust research comparing SQL and bash for querying?",
+question: "What is the safest way to evolve a database model in an active project?",
 options: [
-"Bash and grep outperformed SQL by 2x",
-"SQL achieved 100% accuracy with 155K tokens; bash achieved 52.7% with 1.06M tokens",
-"CSV files are the most efficient",
-"Hybrid SQL+bash was slower than pure SQL"
+"Change multiple tables at once, then debug everything together",
+"Make one schema change, run targeted tests, verify reads/writes, then continue",
+"Skip local verification because Neon will catch issues",
+"Recreate the whole database after every change"
 ],
 correctOption: 1,
-explanation: "This research validated the chapter's approach. SQL queries are schema-aware—they enforce structure. Bash/grep are flexible but error-prone on unstructured data. For your Budget Tracker, SQL wins decisively.",
-source: "Lesson 0: From CSV to Databases"
+explanation: "This is small, reversible decomposition in practice. Isolated schema changes are easier to verify, debug, and roll back if needed. Large bundled changes hide root causes.",
+source: "Lesson 2: Models as Code"
 },
 {
-question: "Why did bash fail more often in Braintrust research despite being 'flexible'?",
+question: "You suspect a query bug. What's the best first observability step?",
 options: [
-"Bash doesn't understand schema; SQL enforces structure explicitly",
-"Bash is inherently slower than Python",
-"Grep doesn't support large files",
-"The research was biased toward SQL"
+"Enable SQLAlchemy SQL logging (echo) and inspect generated queries",
+"Rewrite the model classes from scratch",
+"Restart the database and hope the issue clears",
+"Disable constraints to reduce errors"
 ],
 correctOption: 0,
-explanation: "Bash has no schema awareness. It sees data as plain text. One format change breaks all grep patterns. SQL knows your schema—User, Expense, relationships—so queries are robust.",
-source: "Lesson 0: From CSV to Databases"
+explanation: "Observability first: inspect the actual SQL and parameters before changing code. Many bugs are incorrect filters, joins, or ordering—not broken models.",
+source: "Lesson 4: Relationships & Joins"
 },
 {
 question: "What should your reusable /database-deployment skill include?",
@@ -678,3 +691,14 @@ source: "Lesson 7: Hybrid Patterns"
 }
 ]}
 />
+
+## After You Finish
+
+Use your misses as a diagnostic map:
+
+- Mostly Lesson 0-2 misses: revisit schema clarity and model constraints.
+- Mostly Lesson 3-5 misses: revisit session patterns, relationships, and atomicity.
+- Mostly Lesson 6-7 misses: revisit Neon security, pooling, and hybrid verification tradeoffs.
+- Mixed misses across all sections: review the tool-escalation story end-to-end before moving on.
+
+Strong score here means you are ready to apply these patterns in new projects, not just in the Budget Tracker example.

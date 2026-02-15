@@ -80,7 +80,9 @@ differentiation:
 ---
 # Capstone - Budget Tracker Complete App
 
-Throughout this chapter, you learned every piece of the database puzzle:
+This is the integration test for the entire chapter. If one layer is weak, the full app breaks in production.
+
+You have now built every piece:
 
 - **L0**: Understood why databases beat CSV files
 - **L1**: Created your `/database-deployment` skill scaffold
@@ -91,7 +93,7 @@ Throughout this chapter, you learned every piece of the database puzzle:
 - **L6**: Deployed to Neon with connection pooling
 - **L7**: Learned hybrid SQL + bash verification patterns
 
-Now you put it all together: one complete Budget Tracker that you can run, extend, and reuse.
+Now you put it together end-to-end: one complete Budget Tracker you can run, extend, and reuse.
 
 ## Why This Architecture Works
 
@@ -652,6 +654,6 @@ Before finishing this chapter, verify your mastery:
 - [ ] I can explain why transactions matter (atomic = all or nothing)
 - [ ] I can explain why pooling matters (connection reuse, cloud limits)
 
-This capstone proves you can build and ship a complete SQLAlchemy + Neon workflow. More importantly, you now have a reusable skill template for future database projects.
+This capstone proves you can build and ship a complete SQLAlchemy + Neon workflow under realistic constraints.
 
-**Next up**: The [Chapter Quiz](./11-chapter-quiz.md) to test your mastery of everything you've learned — from models and CRUD to hybrid verification patterns.
+**Next up**: The [Chapter Quiz](./11-chapter-quiz.md), where the shortcuts disappear and your pattern choices are tested directly.
