@@ -2,6 +2,12 @@
 
 CSV files break down when data has relationships, needs querying, or requires concurrent access. Relational databases solve this by organizing data into connected tables with enforced integrity -- every new question becomes a query, not a new script.
 
+### Continuity Bridge
+
+- From Chapter 7: bash workflows handled files and execution steps.
+- From Chapter 8: Python workflows handled parsing and deterministic computation.
+- Now in Chapter 9: relational schema is required for durable multi-user structured queries.
+
 ### Key Mental Models
 
 - **Schema clarity**: Databases define structure explicitly (column types, constraints, relationships). Tools that know the schema achieve 100% query accuracy; tools guessing at structure (like bash/grep) achieve ~53%. This is why SQL wins.

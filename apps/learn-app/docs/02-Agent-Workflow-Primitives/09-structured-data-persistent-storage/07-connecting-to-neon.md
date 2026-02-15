@@ -6,81 +6,15 @@ lesson: 6
 duration_minutes: 25
 description: "Deploy your Budget Tracker to Neon PostgreSQL with secure connection strings, environment variables, and production-ready connection pooling"
 keywords: ["Neon", "PostgreSQL", "serverless", "cloud database", "connection string", "environment variables", "connection pooling", "psycopg2", "dotenv", "production"]
-
-# HIDDEN SKILLS METADATA
-skills:
-  - name: "Serverless Database Understanding"
-    proficiency_level: "A2"
-    category: "Conceptual"
-    bloom_level: "Understand"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can explain what serverless databases are and why they scale automatically"
-
-  - name: "Connection String Configuration"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Digital Content Creation"
-    measurable_at_this_level: "Student can parse and configure database connection strings with correct driver syntax"
-
-  - name: "Environment Variable Security"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Safety"
-    measurable_at_this_level: "Student can store secrets in .env files and prevent accidental git commits"
-
-  - name: "Connection Pooling Configuration"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can configure SQLAlchemy engine with pooling parameters for cloud databases"
-
-  - name: "Cloud Database Troubleshooting"
-    proficiency_level: "A2"
-    category: "Applied"
-    bloom_level: "Analyze"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can diagnose common connection errors and apply fixes"
-
-learning_objectives:
-  - objective: "Create a Neon PostgreSQL serverless database account and project"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student successfully creates Neon account and retrieves connection string"
-
-  - objective: "Configure environment variables to store database credentials securely"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student creates .env file with DATABASE_URL and adds .env to .gitignore"
-
-  - objective: "Connect SQLAlchemy to Neon using the psycopg2 driver with SSL"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student's code successfully executes SELECT 1 against Neon database"
-
-  - objective: "Configure connection pooling for production reliability"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student's engine includes pool_size, max_overflow, pool_pre_ping, and pool_recycle"
-
-  - objective: "Troubleshoot common Neon connection errors"
-    proficiency_level: "A2"
-    bloom_level: "Analyze"
-    assessment_method: "Given an error message, student identifies cause and applies correct fix"
-
-cognitive_load:
-  new_concepts: 5
-  assessment: "5 concepts (serverless databases, connection strings, environment variables, connection pooling, SSL requirement) - appropriate for A2 students with L5 transaction knowledge"
-
-differentiation:
-  extension_for_advanced: "Explore database branching for dev/prod separation, read replicas for scaling, connection pooling math (Neon limits, pool_size optimization)"
-  remedial_for_struggling: "Focus on: Create account -> Get connection string -> Connect in code. Skip pooling details initially."
 ---
 # Connecting to Neon
 
-> **Chapter 8 callback:** Local scripts gave you deterministic outputs; they did not give you shared, always-on persistence.
+> **Continuity bridge**
+> - From Chapter 7: operations were local and machine-bound.
+> - From Chapter 8: deterministic scripts still depended on local runtime context.
+> - Now in Chapter 9: Neon gives shared persistence and production-style connection constraints.
+
+**Principle anchor:** P7 (Observability). Cloud reliability depends on connection signals you can inspect and verify.
 
 In L5, you built transactions that keep your Budget Tracker data consistent. Transfers succeed completely or fail completely. Your database is safe from corruption.
 
@@ -101,13 +35,7 @@ Neon is a **serverless PostgreSQL database**. Serverless means you don't manage 
 | **Scaling**     | Fixed                      | Auto-scales with traffic      |
 | **Cost**        | $0                         | $0 (free tier)                |
 
-Neon also offers features you don't need yet but will appreciate later:
-
-- **Auto-pause**: Scales to zero when idle (no cost when not in use)
-- **Database branching**: Create copies of your database like Git branches
-- **Read replicas**: Scale read-heavy workloads
-
-For learning: Neon's free tier includes up to 100 projects, 0.5 GB storage per project, and shared compute. More than enough for learning.
+For learning, Neon's free tier is sufficient for Chapter 9 exercises.
 
 ## Step 1: Create Your Neon Account
 
@@ -137,20 +65,7 @@ It looks like this:
 postgresql+psycopg2://alice:secretpass123@ep-cool-breeze-123456.us-east-2.aws.neon.tech/neondb?sslmode=require
 ```
 
-Let's break down what each part means:
-
-```
-postgresql+psycopg2://alice:secretpass123@ep-cool-breeze-123456.us-east-2.aws.neon.tech/neondb?sslmode=require
-│                    │     │             │                                              │      │
-│                    │     │             │                                              │      └─ SSL required (Neon enforces encryption)
-│                    │     │             │                                              └─ Database name
-│                    │     │             └─ Host (your Neon endpoint)
-│                    │     └─ Password (keep this secret!)
-│                    └─ Username
-└─ Driver (psycopg2 = PostgreSQL driver for Python)
-```
-
-**Important**: This string contains your password. Treat it like a password.
+Connection string parts: driver, username, password, host, database name, and `sslmode=require`. Treat the full value as a secret.
 
 ## Step 3: Store Credentials Securely
 
@@ -187,12 +102,6 @@ if not database_url:
     raise ValueError("DATABASE_URL not set in .env file")
 
 print("Database URL loaded successfully")
-```
-
-**Output:**
-
-```
-Database URL loaded successfully
 ```
 
 **Add `.env` to `.gitignore`** (critical for security):
@@ -266,20 +175,6 @@ except Exception as e:
     print(f"Connection failed: {e}")
 ```
 
-**Output (success):**
-
-```
-Connection successful!
-```
-
-**Output (common failures):**
-
-```
-Connection failed: could not connect to server: Connection timed out
-Connection failed: FATAL: password authentication failed for user "alice"
-Connection failed: No module named 'psycopg2'
-```
-
 If you see errors, jump to the Troubleshooting section below.
 
 ## Step 6: Deploy Your Models
@@ -298,12 +193,6 @@ Base.metadata.create_all(engine)
 print("Tables created in Neon!")
 ```
 
-**Output:**
-
-```
-Tables created in Neon!
-```
-
 **Verify in Neon dashboard**:
 
 1. Go to your project
@@ -313,18 +202,6 @@ Tables created in Neon!
 ```sql
 SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
 ```
-
-**Output:**
-
-```
-table_name
-----------
-users
-categories
-expenses
-```
-
-Your Budget Tracker now runs on a real cloud database.
 
 ## Troubleshooting Common Errors
 
@@ -394,11 +271,11 @@ For timeout errors, this process often isolates network policy issues (VPN/firew
 
 Your system now persists in production. Next you must decide when a single SQL answer is enough and when independent verification is worth extra cost.
 
+Next lesson: you choose between SQL-only and hybrid verification based on failure cost.
+
 ## Try With AI
 
 ### Prompt 1: Parse Connection String
-
-**What you're learning:** Understanding the components of database URLs.
 
 ```
 Given this connection string:
@@ -416,8 +293,6 @@ For each answer, explain why that component matters.
 ```
 
 ### Prompt 2: Deploy Budget Tracker to Neon
-
-**What you're learning:** Real cloud deployment workflow.
 
 ```
 Help me complete these steps to deploy my Budget Tracker to Neon:
@@ -437,9 +312,7 @@ Give me the exact commands and code for each step.
 After each step, tell me how to verify it worked.
 ```
 
-### Prompt 3: Deploy Verification
-
-**What you're learning:** Proving your cloud database actually persists.
+### Prompt 3: Incident Drill
 
 ```
 Help me verify my Neon deployment is truly persistent:
@@ -464,8 +337,6 @@ After each prompt, validate with evidence:
 - Prompt 1: Can you parse every component of your own `DATABASE_URL`?
 - Prompt 2: Are `users`, `categories`, and `expenses` visible in Neon SQL Editor?
 - Prompt 3: Does `script_b.py` read the record created by `script_a.py`?
-
-**Security reminder:** Never commit `.env` files. Never share connection strings in chat logs, screenshots, or code reviews. Rotate passwords if you accidentally expose them.
 
 ### Checkpoint
 

@@ -2,6 +2,12 @@
 
 Atomicity means all operations in a transaction succeed together or fail together -- no partial changes. For any multi-step database operation (like transferring budget between categories), you wrap everything in try/except with commit on success and rollback on failure.
 
+### Continuity Bridge
+
+- From Chapter 7: mistakes could be mitigated with backups.
+- From Chapter 8: failures often meant rerunning scripts.
+- Now in Chapter 9: failed multi-step writes can corrupt persistent state without rollback discipline.
+
 ### Key Mental Models
 
 - **All-or-nothing guarantee**: A budget transfer has two steps: debit one category, credit another. Without atomicity, a crash between steps leaves money missing. With atomicity, both happen or neither does -- the database never shows an inconsistent state.

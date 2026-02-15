@@ -79,6 +79,10 @@ Every exercise follows one rule:
 
 ## Module 1: Data Modeling
 
+Minimum verification outputs:
+- `schema.sql` or ORM introspection output showing final table/constraint state
+- `MODEL-VERIFICATION.txt` with at least 3 query checks against expected behavior
+
 ### Exercise 1.1 — Library Catalog (Build)
 
 - **Objective:** Translate ambiguous requirements into robust schema.
@@ -104,6 +108,10 @@ Deliver:
 
 ## Module 2: CRUD Operations
 
+Minimum verification outputs:
+- `crud-test-output.txt` showing create/read/update/delete assertions
+- `SESSION-TRACE.md` proving commit/rollback behavior on one forced failure
+
 ### Exercise 2.1 — Recipe Book (Build)
 
 - **Objective:** Implement reliable CRUD against imported CSV data.
@@ -127,6 +135,10 @@ Deliver:
 ---
 
 ## Module 3: Relationships & Navigation
+
+Minimum verification outputs:
+- `relationship-checks.txt` proving both navigation directions work
+- `join-proof.txt` with one relationship-query result matched to expected rows
 
 ### Exercise 3.1 — Music Library (Build)
 
@@ -152,6 +164,10 @@ Deliver:
 
 ## Module 4: Transaction Safety
 
+Minimum verification outputs:
+- `transaction-drill.txt` with one success case and one forced failure case
+- `invariants.txt` proving no partial-write corruption after failure
+
 ### Exercise 4.1 — Game Inventory Trading (Build)
 
 - **Objective:** Build atomic multi-step trading workflow.
@@ -175,6 +191,10 @@ Deliver:
 ---
 
 ## Module 5: Cloud Deployment & Security
+
+Minimum verification outputs:
+- `connectivity-proof.txt` including `SELECT 1` and table visibility checks
+- `security-proof.txt` confirming `.env` handling and secret hygiene controls
 
 ### Exercise 5.1 — Contact Book Deploy (Build)
 
@@ -200,6 +220,10 @@ Deliver:
 
 ## Module 6: Hybrid Verification & Tool Selection
 
+Minimum verification outputs:
+- `verification-comparison.csv` or markdown table with SQL vs independent totals
+- `mismatch-policy-result.json` (or `.md`) showing release decision path
+
 ### Exercise 6.1 — Expense Audit (Build)
 
 - **Objective:** Build SQL-primary + independent-check audit flow.
@@ -222,6 +246,10 @@ Deliver:
 ---
 
 ## Module 7: Capstone Options (Choose 1+)
+
+Minimum verification outputs:
+- `CAPSTONE-EVIDENCE.md` containing CRUD proof, rollback drill, and deployment status
+- `RELEASE-GATE.md` containing mismatch policy outcome and go/no-go decision rationale
 
 ### Capstone A — Student Grade Portal
 

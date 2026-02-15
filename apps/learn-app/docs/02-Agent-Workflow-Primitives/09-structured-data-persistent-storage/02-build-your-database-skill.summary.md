@@ -2,6 +2,12 @@
 
 A skill is a structured, reusable directory that captures your expertise as you learn -- not notes, not documentation, but a permanent tool that grows with you. Building a `/database-deployment` skill before learning database concepts means every lesson adds to an asset you own and can invoke on any future project.
 
+### Continuity Bridge
+
+- From Chapter 7: repeatable operational workflows mattered.
+- From Chapter 8: reusable script utilities mattered.
+- Now in Chapter 9: reusable persistence patterns are captured as a skill contract.
+
 ### Key Mental Models
 
 - **Skill-first learning vs traditional learning**: Traditional knowledge fades because it lives in your head. A skill lives in a file -- permanent, reusable, and readable by AI collaborators. You accumulate expertise instead of re-learning.

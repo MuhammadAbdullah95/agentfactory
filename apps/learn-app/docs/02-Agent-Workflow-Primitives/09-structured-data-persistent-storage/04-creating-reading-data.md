@@ -6,76 +6,15 @@ lesson: 3
 duration_minutes: 25
 description: "Create and query database records using SQLAlchemy sessions - your conversation with the database"
 keywords: ["SQLAlchemy", "session", "CRUD", "create", "read", "query", "filter", "add", "commit", "context manager"]
-
-# HIDDEN SKILLS METADATA
-skills:
-  - name: "Session Management"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Understand"
-    digcomp_area: "Software Development"
-    measurable_at_this_level: "Student can explain what a session does and use context manager pattern (with Session)"
-
-  - name: "Record Creation"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can create new records using session.add() and session.commit()"
-
-  - name: "Basic Querying"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can retrieve records using select() with session.execute().scalars().all() and .where().scalars().first()"
-
-  - name: "Query Filtering"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can filter query results using .where() with basic conditions"
-
-  - name: "Database Error Handling"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Understand"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student understands that invalid data causes exceptions and sessions auto-rollback on error"
-
-learning_objectives:
-  - objective: "Establish SQLAlchemy sessions and database connections"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student explains what Engine, Session, and context manager do in their own words"
-
-  - objective: "Create new records using session.add() and session.commit()"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student writes working code to create a Category and an Expense"
-
-  - objective: "Read records with select() and session.execute() using where() for filtering"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student writes queries that retrieve all records and filtered subsets"
-
-  - objective: "Handle basic database errors"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student explains what happens when invalid data is added and how to catch it"
-
-cognitive_load:
-  new_concepts: 6
-  assessment: "6 new concepts (Engine, Session, context manager, session.add, select(), where() syntax) - appropriate for A2 with heavy scaffolding"
-
-differentiation:
-  extension_for_advanced: "Add multiple query patterns: filter with AND/OR, order_by, limit, offset for pagination"
-  remedial_for_struggling: "Simplify to: Create one record, query all records (skip filters initially)"
 ---
 # Creating & Reading Data
 
-> **Chapter 8 callback:** You already know how to compute deterministic outputs. Now you must prove those outputs are written and read correctly under session control.
+> **Continuity bridge**
+> - From Chapter 7: workflows were file operations.
+> - From Chapter 8: scripts computed deterministic answers.
+> - Now in Chapter 9: you must persist and query those answers safely through sessions.
+
+**Principle anchor:** P3 (Verification as Core Step). Writes are not trusted until commit and post-check.
 
 In L2, you defined three models: User, Category, Expense. Python classes that become database tables.
 
@@ -103,14 +42,6 @@ def _enable_sqlite_fk(dbapi_connection, _connection_record):
     cursor.close()
 ```
 
-**Output:**
-
-```
-Engine created: points to in-memory SQLite database
-No files, no servers - data lives in RAM for this lesson
-Foreign key checks enabled for realistic constraint behavior
-```
-
 **2. Tables Created**: Tell SQLAlchemy to build the actual tables
 
 ```python
@@ -122,16 +53,6 @@ Base = declarative_base()
 
 # Create all tables from your models
 Base.metadata.create_all(engine)
-```
-
-**Output:**
-
-```
-CREATE TABLE users (id INTEGER PRIMARY KEY, email VARCHAR(100), ...)
-CREATE TABLE categories (id INTEGER PRIMARY KEY, name VARCHAR(50), ...)
-CREATE TABLE expenses (id INTEGER PRIMARY KEY, user_id INTEGER, ...)
-
-Three empty tables now exist in the database.
 ```
 
 **3. Session**: Your conversation tool
@@ -160,15 +81,6 @@ with Session(engine) as session:
     session.commit()
 ```
 
-**Output:**
-
-```
-INSERT INTO categories (name, color) VALUES ('Food', '#FF6B6B')
-
-category.id is now 1 (auto-assigned by database)
-Session closes automatically at end of 'with' block
-```
-
 Let's break this down:
 
 | Step          | Code                                 | What It Does                               |
@@ -190,16 +102,6 @@ with Session(engine) as session:
     ]
     session.add_all(categories)  # add_all for lists
     session.commit()
-```
-
-**Output:**
-
-```
-INSERT INTO categories (name, color) VALUES ('Food', '#FF6B6B')
-INSERT INTO categories (name, color) VALUES ('Transportation', '#4ECDC4')
-INSERT INTO categories (name, color) VALUES ('Entertainment', '#95E1D3')
-
-3 categories created with ids 1, 2, 3
 ```
 
 ## Reading Records (READ)
@@ -226,16 +128,6 @@ with Session(engine) as session:
         print(f"{cat.id}: {cat.name}")
 ```
 
-**Output:**
-
-```
-1: Food
-2: Transportation
-3: Entertainment
-
-all_categories is a Python list of Category objects
-```
-
 ### Get One Record by Condition
 
 ```python
@@ -247,14 +139,6 @@ with Session(engine) as session:
     ).scalars().first()
 
     print(f"Found: {food.name}, color: {food.color}")
-```
-
-**Output:**
-
-```
-Found: Food, color: #FF6B6B
-
-.first() returns the first match or None if nothing found
 ```
 
 ### Filter with Conditions
@@ -271,123 +155,24 @@ with Session(engine) as session:
     print(f"Found {len(big_expenses)} expenses over $50")
 ```
 
-**Output:**
+## Optional Extension: Useful Query Variations
 
-```
-Found 2 expenses over $50
-
-.where() accepts comparison operators: ==, !=, >, <, >=, <=
-```
-
-### Multiple Filters (AND)
+Use these once core create/read flow is stable:
 
 ```python
-from sqlalchemy import select
+# AND filters
+select(Expense).where(Expense.category_id == 1, Expense.amount > 20)
 
-with Session(engine) as session:
-    # Food expenses over $20
-    food_expenses = session.execute(
-        select(Expense).where(
-            Expense.category_id == 1,
-            Expense.amount > 20
-        )
-    ).scalars().all()
+# ORDER BY
+select(Expense).order_by(Expense.date.desc())
+
+# LIMIT
+select(Expense).limit(5)
 ```
 
-**Output:**
-
-```
-SELECT * FROM expenses WHERE category_id = 1 AND amount > 20
-
-Multiple conditions in where() are ANDed together
-```
-
-### Ordering Results
-
-```python
-from sqlalchemy import select
-
-with Session(engine) as session:
-    # Newest expenses first
-    recent = session.execute(
-        select(Expense).order_by(Expense.date.desc())
-    ).scalars().all()
-```
-
-**Output:**
-
-```
-SELECT * FROM expenses ORDER BY date DESC
-
-.desc() = descending (newest first)
-.asc() = ascending (oldest first, default)
-```
-
-### Limiting Results
-
-```python
-from sqlalchemy import select
-
-with Session(engine) as session:
-    # Get first 5 expenses only
-    first_five = session.execute(
-        select(Expense).limit(5)
-    ).scalars().all()
-```
-
-**Output:**
-
-```
-SELECT * FROM expenses LIMIT 5
-
-Useful for pagination or "top N" queries
-```
-
-## .all() vs .first(): When to Use Each
-
-| Method       | Returns             | Use When                   |
-| ------------ | ------------------- | -------------------------- |
-| `.scalars().all()`   | List (may be empty) | Expecting multiple results |
-| `.scalars().first()` | One object or None  | Expecting one result       |
-
-```python
-from sqlalchemy import select
-
-with Session(engine) as session:
-    # .all() - always a list
-    categories = session.execute(select(Category)).scalars().all()
-    print(type(categories))  # <class 'list'>
-    print(len(categories))   # 3
-
-    # .first() - one object or None
-    food = session.execute(
-        select(Category).where(Category.name == 'Food')
-    ).scalars().first()
-    print(type(food))        # <class 'Category'> or NoneType
-```
-
-**Output:**
-
-```
-<class 'list'>
-3
-<class '__main__.Category'>
-```
-
-**Safety tip**: When using `.first()`, always check for None:
-
-```python
-from sqlalchemy import select
-
-food = session.execute(
-    select(Category).where(Category.name == 'Pizza')
-).scalars().first()
-
-if food:
-    print(f"Found: {food.name}")
-else:
-    print("Category not found")
-```
+Rule of thumb:
+- `.scalars().all()` when you expect a list
+- `.scalars().first()` when you expect one row or `None`
 
 ## Error Handling
 
@@ -411,15 +196,6 @@ with Session(engine) as session:
     except Exception as e:
         print(f"Error: {e}")
         session.rollback()  # Explicit rollback keeps session state clean
-```
-
-**Output:**
-
-```
-Error: FOREIGN KEY constraint failed
-
-The expense was NOT saved.
-Rollback confirmed: no partial data committed.
 ```
 
 **Key insight**: `with Session(...)` guarantees session closure. It does not replace explicit rollback in your exception path.
@@ -493,20 +269,11 @@ with Session(engine) as session:
         print(f"  ${exp.amount}: {exp.description}")
 ```
 
-**Output:**
-
-```
-Categories:
-  1: Food
-  2: Transport
-
-Expenses over $50:
-  $52.5: Groceries
-```
-
 ## What Comes Next
 
 You can now write and read safely. Next comes the harder step: relationship design, where one wrong link can produce plausible but incorrect analytics.
+
+Next lesson: you will prove that joins and relationship mappings are either correct by design or dangerously misleading.
 
 ## Try With AI
 
@@ -535,9 +302,7 @@ Predict the output of each query:
    What is returned and why?
 ```
 
-### Prompt 2: Write CRUD Code
-
-**What you're learning:** Writing Create and Read operations.
+### Prompt 2: Implement CRUD Code
 
 ```
 Write SQLAlchemy code to:
@@ -558,9 +323,7 @@ Use the session context manager pattern from this lesson.
 Show the expected output for each operation.
 ```
 
-### Prompt 3: Update Your Skill
-
-**What you're learning:** Documenting patterns as you learn.
+### Prompt 3: Refine Skill Patterns
 
 ```
 Add to my /database-deployment skill:
@@ -595,7 +358,7 @@ Before moving to L4:
 - [ ] You can query all records (select() with .scalars().all())
 - [ ] You can filter records (select().where() with .scalars().first())
 - [ ] You know the difference between .all() (list) and .first() (one or None)
-- [ ] You understand: Errors auto-rollback, no partial saves
+- [ ] You understand: rollback must be explicit before reusing failed session logic
 - [ ] You can turn on query observability (`echo=True`/SQL logging) when debugging unexpected results
 - [ ] You've written CRUD code (Prompt 2)
 - [ ] You've updated your /database-deployment skill with CRUD patterns

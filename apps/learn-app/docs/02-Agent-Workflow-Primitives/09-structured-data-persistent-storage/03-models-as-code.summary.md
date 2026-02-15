@@ -2,6 +2,12 @@
 
 SQLAlchemy's ORM lets you define database tables as Python classes. You write a class with Column definitions, and SQLAlchemy translates it into actual database tables -- no SQL needed. This is Principle 2 (Code as Universal Interface) applied to data storage.
 
+### Continuity Bridge
+
+- From Chapter 7: files were manipulated, not typed.
+- From Chapter 8: values were computed, not schema-enforced.
+- Now in Chapter 9: model code defines enforceable structure for every downstream query.
+
 ### Key Mental Models
 
 - **Python class = database table**: Each class inheriting from Base becomes a table. `__tablename__` sets the table name, each `Column()` becomes a column with a specific type and constraints.

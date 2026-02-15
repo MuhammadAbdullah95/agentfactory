@@ -2,6 +2,12 @@
 
 Neon is a serverless PostgreSQL database that makes your application persistent, scalable, and accessible from anywhere. Moving from in-memory SQLite to Neon means your data survives restarts, handles multiple users, and auto-scales -- with zero server management.
 
+### Continuity Bridge
+
+- From Chapter 7: local tooling handled local files.
+- From Chapter 8: deterministic scripts still ran in local runtime context.
+- Now in Chapter 9: cloud persistence introduces connection lifecycle and credential discipline requirements.
+
 ### Key Mental Models
 
 - **Environment variables as the security boundary**: Database credentials live in `.env` files, never in code. `.env` goes in `.gitignore` immediately. If credentials reach a Git repository, attackers will find them -- bots scan public repos constantly.

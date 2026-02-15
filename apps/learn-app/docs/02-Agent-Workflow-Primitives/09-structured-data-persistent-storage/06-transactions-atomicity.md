@@ -6,76 +6,15 @@ lesson: 5
 duration_minutes: 30
 description: "Ensure all-or-nothing database operations with transactions and proper error recovery"
 keywords: ["SQLAlchemy", "transaction", "atomicity", "commit", "rollback", "try-except", "session management", "error handling"]
-
-# HIDDEN SKILLS METADATA
-skills:
-  - name: "Atomicity Understanding"
-    proficiency_level: "A2"
-    category: "Conceptual"
-    bloom_level: "Understand"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can explain why all-or-nothing operations prevent data corruption"
-
-  - name: "Transaction Implementation"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can implement try/except with session.commit() and session.rollback() using SQLAlchemy 2.0 select/update/delete style"
-
-  - name: "Error Recovery Pattern"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can write code that gracefully handles database errors and cleans up"
-
-  - name: "Multi-Step Operation Safety"
-    proficiency_level: "A2"
-    category: "Applied"
-    bloom_level: "Analyze"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can identify when transactions are critical (money transfers, linked records)"
-
-  - name: "AI Collaboration for Safety Patterns"
-    proficiency_level: "A2"
-    category: "Applied"
-    bloom_level: "Apply"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can iterate with AI to identify failure points and implement error handling"
-
-learning_objectives:
-  - objective: "Explain atomicity and why all-or-nothing operations matter for data integrity"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student explains what happens to data if a multi-step operation partially fails"
-
-  - objective: "Implement the try/except + rollback pattern for safe database operations"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student writes code that commits on success and rolls back on any error"
-
-  - objective: "Use SQLAlchemy 2.0 select/update/delete with session.execute(), session.commit(), and session.rollback() correctly in transaction workflows"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student demonstrates proper session management with session.execute() in multi-step operations"
-
-  - objective: "Identify when transactions are critical (money transfers, account updates)"
-    proficiency_level: "A2"
-    bloom_level: "Analyze"
-    assessment_method: "Given scenarios, student correctly identifies which require atomic transactions"
-
-cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (atomicity definition, session.execute() with select/update/delete, session.commit(), session.rollback(), try/except pattern, multi-step transactions, savepoints mention) - appropriate for A2 with prior L4 relationship knowledge"
-
-differentiation:
-  extension_for_advanced: "Explore savepoints (nested transactions with begin_nested()), isolation levels, deadlock prevention strategies"
-  remedial_for_struggling: "Focus on: What is atomicity? Why try/except matters? Practice single-step transactions before multi-step"
 ---
 # Transactions & Atomicity
 
-> **Chapter 8 callback:** In Chapter 8, most failures meant rerunning a script. Here, failure can corrupt persistent state unless writes are atomic.
+> **Continuity bridge**
+> - From Chapter 7: file operations were reversible through backups.
+> - From Chapter 8: script failures mostly meant reruns.
+> - Now in Chapter 9: failed writes can corrupt long-lived state unless guarded by transactions.
+
+**Principle anchor:** P6 (Constraints and Safety). Transaction boundaries are your safety boundary for multi-step writes.
 
 In L4, you connected tables. Now the risk shifts: not "can we query data?" but "can we keep data correct when things fail?"
 
@@ -350,54 +289,6 @@ def update_expense_amount(expense_id, new_amount):
             return {"success": False, "error": str(e)}
 ```
 
-**Output:**
-
-```python
-update_expense_amount(1, 75.00)
-# {'success': True}
-# Expense #1 amount is now $75.00
-
-update_expense_amount(999, 50.00)
-# {'success': False, 'error': 'Expense 999 not found'}
-# Nothing changed
-```
-
-### Pattern 3: Bulk Delete (Multiple Records)
-
-Deleting multiple records should be atomic:
-
-```python
-from sqlalchemy import delete
-from sqlalchemy.orm import Session
-
-def delete_category_expenses(user_id, category_id):
-    """Delete all expenses in a category for a user."""
-    with Session(engine) as session:
-        try:
-            result = session.execute(
-                delete(Expense).where(
-                    (Expense.user_id == user_id) &
-                    (Expense.category_id == category_id)
-                )
-            )
-            deleted_count = result.rowcount
-
-            session.commit()
-            return {"success": True, "deleted": deleted_count}
-
-        except Exception as e:
-            session.rollback()
-            return {"success": False, "error": str(e)}
-```
-
-**Output:**
-
-```python
-delete_category_expenses(1, 1)  # Delete all Food expenses for user 1
-# {'success': True, 'deleted': 3}
-# All 3 Food expenses deleted in one transaction
-```
-
 ## Working With AI on Safety Patterns
 
 Use AI to draft the transaction, then force edge-case hardening. Example:
@@ -443,55 +334,19 @@ def merge_categories(user_id, from_cat_id, to_cat_id):
 
 The pattern: AI accelerates the first draft; you enforce invariants before commit.
 
-## Advanced: Savepoints (Brief Mention)
+## Optional Extension: Savepoints
 
-For batch operations where you want to roll back individual items (not the whole batch):
-
-```python
-def process_expense_batch(expense_list):
-    """Process multiple expenses, rolling back only failed ones."""
-    with Session(engine) as session:
-        results = []
-        for expense_data in expense_list:
-            try:
-                with session.begin_nested():  # Savepoint
-                    expense = Expense(**expense_data)
-                    session.add(expense)
-                    session.flush()
-                    results.append({"id": expense.id, "status": "ok"})
-            except Exception as e:
-                results.append({"status": "failed", "error": str(e)})
-
-        session.commit()  # Commit all successful ones
-        return results
-```
-
-**Output:**
-
-```python
-batch = [
-    {"user_id": 1, "category_id": 1, "description": "A", "amount": 10},
-    {"user_id": 1, "category_id": 999, "description": "B", "amount": 20},  # Bad category
-    {"user_id": 1, "category_id": 1, "description": "C", "amount": 30},
-]
-results = process_expense_batch(batch)
-# [{'id': 5, 'status': 'ok'},
-#  {'status': 'failed', 'error': 'FOREIGN KEY constraint failed'},
-#  {'id': 6, 'status': 'ok'}]
-# A and C saved. B failed alone. Transaction didn't abort entirely.
-```
-
-Savepoints are advanced. For most operations, the basic try/except/rollback pattern is sufficient.
+For partial-failure batch workflows, `session.begin_nested()` can isolate one item without aborting the full batch.
 
 ## What Comes Next
 
 You can now prevent partial writes. Next challenge: durable cloud operation, where connection lifecycle and credential discipline decide whether your reliable code survives production conditions.
 
+Next lesson: a correct transaction strategy still fails in production if connection and secret handling are sloppy.
+
 ## Try With AI
 
-### Prompt 1: Identify Atomicity Problems
-
-**What you're learning:** Recognizing when operations need atomic transactions.
+### Prompt 1: Classify Atomicity Requirements
 
 ```
 Which of these scenarios NEED atomic transactions?
@@ -509,9 +364,7 @@ For each scenario, answer:
 - Why? (What could go wrong without atomicity?)
 ```
 
-### Prompt 2: Write Safe Code
-
-**What you're learning:** Implementing the transaction pattern yourself.
+### Prompt 2: Implement Safe Code
 
 ```
 Write a function called merge_categories with these requirements:
@@ -534,9 +387,7 @@ Use the Budget Tracker models (User, Category, Expense).
 Import from sqlalchemy: select, update, func as needed.
 ```
 
-### Prompt 3: Deliberate Failure
-
-**What you're learning:** Proving that rollback actually works.
+### Prompt 3: Prove Rollback
 
 ```
 Write a transfer_budget function that deliberately fails halfway through.

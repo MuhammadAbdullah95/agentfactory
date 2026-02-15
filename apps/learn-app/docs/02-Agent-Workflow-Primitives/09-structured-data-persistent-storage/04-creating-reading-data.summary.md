@@ -2,6 +2,12 @@
 
 A session is your conversation with the database. You open it (context manager), make changes or ask questions, and close it. Creating records uses `session.add()` + `session.commit()`; reading uses `select()` + `session.execute()` with filtering, ordering, and limiting.
 
+### Continuity Bridge
+
+- From Chapter 7: operations were file-level and immediate.
+- From Chapter 8: outputs were deterministic but ephemeral.
+- Now in Chapter 9: session discipline determines whether writes become trustworthy persistent state.
+
 ### Key Mental Models
 
 - **Session as phone call**: Open (dial), talk (queries/changes), close (hang up). The `with Session(engine) as session:` pattern handles opening and closing automatically, even if errors occur.
@@ -22,7 +28,7 @@ A session is your conversation with the database. You open it (context manager),
 
 - Forgetting `session.commit()` -- without it, `session.add()` tracks the object but never saves to the database
 - Using `.first()` without checking for None -- if no record matches, accessing attributes crashes
-- Not understanding that the `with` block auto-rolls-back on errors, keeping the database consistent
+- Assuming the `with` block replaces explicit rollback -- after failed commit, call `session.rollback()` before reusing session logic
 
 ### Connections
 

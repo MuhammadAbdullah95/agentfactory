@@ -43,7 +43,12 @@ learning_objectives:
 
 # Capstone - Budget Tracker Complete App
 
-> **Chapter 8 callback:** You used deterministic scripts to produce a report. This capstone turns that into a persistent multi-user application with enforced integrity.
+> **Continuity bridge**
+> - From Chapter 7: bash gave you operational control over files and workflows.
+> - From Chapter 8: Python gave you deterministic computation and verified parsing.
+> - Now in Chapter 9: SQLAlchemy + Neon turns that into persistent, relational, multi-user systems.
+
+**Principle anchor:** P4 (Small, Reversible Decomposition) is the capstone strategy: integrate one reliable layer at a time and keep evidence at each boundary.
 
 ## Failure Hook
 
@@ -167,6 +172,48 @@ def create_expense(user_id: int, category_id: int, description: str, amount: Dec
             return {"success": False, "error": str(exc)}
 
 
+def get_expense(expense_id: int):
+    with Session(engine) as session:
+        row = session.execute(
+            select(Expense).where(Expense.id == expense_id)
+        ).scalars().first()
+        return row
+
+
+def update_expense_description(expense_id: int, new_description: str):
+    with Session(engine) as session:
+        try:
+            row = session.execute(
+                select(Expense).where(Expense.id == expense_id)
+            ).scalars().first()
+            if not row:
+                return {"success": False, "error": "Expense not found"}
+
+            row.description = new_description
+            session.commit()
+            return {"success": True}
+        except Exception as exc:
+            session.rollback()
+            return {"success": False, "error": str(exc)}
+
+
+def delete_expense(expense_id: int):
+    with Session(engine) as session:
+        try:
+            row = session.execute(
+                select(Expense).where(Expense.id == expense_id)
+            ).scalars().first()
+            if not row:
+                return {"success": False, "error": "Expense not found"}
+
+            session.delete(row)
+            session.commit()
+            return {"success": True}
+        except Exception as exc:
+            session.rollback()
+            return {"success": False, "error": str(exc)}
+
+
 def transfer_budget(user_id: int, from_category_id: int, to_category_id: int, amount: Decimal):
     """Atomic transfer: create two balancing entries or none."""
     with Session(engine) as session:
@@ -202,6 +249,16 @@ def transfer_budget(user_id: int, from_category_id: int, to_category_id: int, am
             return {"success": False, "error": str(exc)}
 ```
 
+### CRUD Evidence Matrix (Required)
+
+| Capability | Evidence function | Proof artifact |
+|---|---|---|
+| Create | `create_expense()` | returned id + DB row exists |
+| Read | `get_expense()` | row returned with expected fields |
+| Update | `update_expense_description()` | before/after query diff |
+| Delete | `delete_expense()` | post-delete query returns `None` |
+| Multi-step write safety | `transfer_budget()` | success and forced-failure rollback traces |
+
 ### 3) Optimized Query Pattern (No N+1)
 
 Avoid querying expenses category-by-category in loops. Use grouped query once.
@@ -232,7 +289,7 @@ def monthly_summary(user_id: int, year: int, month: int):
         {
             "category": r.category,
             "count": int(r.count),
-            "total": float(r.total or 0),
+            "total": (r.total or Decimal("0")).quantize(Decimal("0.01")),
         }
         for r in rows
     ]
@@ -246,11 +303,12 @@ Use this only when publishing financial or audit-sensitive output.
 
 - SQL summary is primary.
 - Independent path recomputes totals from raw imported ledger CSV.
-- If mismatch > `0.01`, **block release** and investigate.
+- If mismatch > `Decimal("0.01")`, **block release** and investigate.
 
 ```python
 from pathlib import Path
 import csv
+from decimal import Decimal
 
 
 def verify_monthly_summary_from_raw(raw_csv: Path, year: int, month: int):
@@ -263,26 +321,35 @@ def verify_monthly_summary_from_raw(raw_csv: Path, year: int, month: int):
             if not row["date"].startswith(prefix):
                 continue
             cat = row["category"]
-            totals[cat] = totals.get(cat, 0.0) + float(row["amount"])
+            amount = Decimal(row["amount"])
+            totals[cat] = totals.get(cat, Decimal("0")) + amount
 
     return totals
 
 
 def verify_or_block(sql_summary, raw_totals):
-    sql_map = {r["category"]: round(r["total"], 2) for r in sql_summary}
+    tolerance = Decimal("0.01")
+    sql_map = {
+        r["category"]: Decimal(r["total"]).quantize(Decimal("0.01"))
+        for r in sql_summary
+    }
 
     categories = sorted(set(sql_map) | set(raw_totals))
     mismatches = []
     for c in categories:
-        a = round(sql_map.get(c, 0.0), 2)
-        b = round(raw_totals.get(c, 0.0), 2)
-        if abs(a - b) > 0.01:
-            mismatches.append({"category": c, "sql": a, "raw": b})
+        a = sql_map.get(c, Decimal("0")).quantize(Decimal("0.01"))
+        b = raw_totals.get(c, Decimal("0")).quantize(Decimal("0.01"))
+        delta = abs(a - b)
+        if delta > tolerance:
+            mismatches.append(
+                {"category": c, "sql": str(a), "raw": str(b), "delta": str(delta)}
+            )
 
     if mismatches:
         return {
             "status": "blocked",
             "reason": "verification_mismatch",
+            "tolerance": str(tolerance),
             "mismatches": mismatches,
         }
 
@@ -329,11 +396,25 @@ if __name__ == "__main__":
 - [ ] **Connection reliability:** pooling + pre-ping validated on Neon.
 - [ ] **Verification policy:** mismatch blocks high-stakes report release.
 
+### Release-Ready Evidence Bundle (Example Output)
+
+```json
+{
+  "happy_path_run": "pass",
+  "crud_matrix": "pass",
+  "rollback_failure_drill": "pass",
+  "neon_connection_resilience": "pass",
+  "verification_policy_result": "verified"
+}
+```
+
 ## What Breaks Next
 
 You can now build persistent, queryable, integrity-safe applications.
 
 What breaks next is not syntax. It is operational discipline at scale: testing strategy, migrations, and long-lived change management.
+
+Next chapter pressure-tests this app-style thinking under broader automation constraints, where good code alone is not enough.
 
 ## Try With AI
 

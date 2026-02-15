@@ -47,7 +47,12 @@ cognitive_load:
 
 # Build Your Database Skill
 
-> **Chapter 8 callback:** You already know how to compute correctly. This lesson proves the new promise: your data can survive restarts and become queryable infrastructure.
+> **Continuity bridge**
+> - From Chapter 7: reusable operational workflows came from disciplined command structure.
+> - From Chapter 8: reusable utilities came from script-first computation.
+> - Now in Chapter 9: reusable database patterns become a skill you can apply across products.
+
+**Principle anchor:** P5 (Persisting State). Skill capture prevents relearning and turns one lesson into a durable interface.
 
 ## Failure Hook
 

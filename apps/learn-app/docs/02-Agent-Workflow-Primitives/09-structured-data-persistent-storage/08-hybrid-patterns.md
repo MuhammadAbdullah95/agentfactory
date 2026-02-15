@@ -38,7 +38,12 @@ learning_objectives:
 
 # Hybrid Patterns — When Tools Work Together
 
-> **Chapter 8 callback:** In Chapter 8, you already used "verify before trust" for computation. Here, you apply the same discipline to persistent structured queries.
+> **Continuity bridge**
+> - From Chapter 7: bash gave you reliable file discovery and ops.
+> - From Chapter 8: Python gave you deterministic computation and parser discipline.
+> - Now in Chapter 9: SQL is primary for structured persistence; independent verification is a risk-based escalation.
+
+**Principle anchor:** P3 (Verification as Core Step) is now operational policy, not just debugging advice.
 
 ## Failure Hook
 
@@ -83,7 +88,7 @@ Not all "double checks" are independent.
 | Re-running same SQL query | No | Same logic, same failure mode |
 | SQL query + SQL checksum from same predicate | Weak | Still same semantic path |
 | SQL result + recomputation from raw source ledger | Yes | Different path, different failure modes |
-| SQL result + post-export awk check with separate filter logic | Usually yes | Independent parsing/filtering path |
+| SQL result + independent `csv.DictReader` recomputation | Yes | Different execution/data path with robust CSV parsing |
 
 ## Minimal Working Win
 
@@ -93,11 +98,12 @@ Question: "How much did user 1 spend in Food for 2024-01?"
 
 ```python
 from datetime import date
+from decimal import Decimal, ROUND_HALF_UP
 from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 
-def sql_food_total(engine, user_id: int, year: int, month: int) -> float:
+def sql_food_total(engine, user_id: int, year: int, month: int) -> Decimal:
     start = date(year, month, 1)
     end = date(year + (month == 12), (month % 12) + 1, 1)
 
@@ -113,48 +119,50 @@ def sql_food_total(engine, user_id: int, year: int, month: int) -> float:
             )
         ).scalar_one_or_none()
 
-    return float(value or 0)
+    return (value or Decimal("0")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 ```
 
-### Step 2: Independent verification path (safe subprocess)
+### Step 2: Independent verification path (robust quoted CSV parsing)
 
 Assume you have a raw ledger CSV (`raw_ledger.csv`) from your import pipeline.
 
 ```python
-import subprocess
+import csv
+from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
 
-def verify_from_raw_csv(csv_path: Path, year: int, month: int) -> float:
-    # Intentionally separate logic from SQL path: parse raw ledger rows with awk.
-    # No shell=True. No command interpolation.
+def verify_from_raw_csv(csv_path: Path, year: int, month: int) -> Decimal:
+    # Independent logic path from SQL query.
+    # csv module handles quoted commas safely.
     month_prefix = f"{year}-{month:02d}"
+    total = Decimal("0")
 
-    awk_program = (
-        'BEGIN {FS=","} '
-        'NR>1 && $2=="Food" && index($3, prefix)==1 {sum += $1} '
-        'END {printf "%.2f", sum}'
-    )
+    with csv_path.open("r", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row.get("category") != "Food":
+                continue
+            if not row.get("date", "").startswith(month_prefix):
+                continue
+            total += Decimal(row["amount"])
 
-    result = subprocess.run(
-        ["awk", "-v", f"prefix={month_prefix}", awk_program, str(csv_path)],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-
-    return float(result.stdout.strip() or 0)
+    return total.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 ```
 
 ### Step 3: Compare with mismatch policy
 
 ```python
+from decimal import Decimal
+
+TOLERANCE = Decimal("0.01")
+
 
 def verified_food_total(engine, raw_csv_path: Path, user_id: int, year: int, month: int):
     sql_total = sql_food_total(engine, user_id, year, month)
     raw_total = verify_from_raw_csv(raw_csv_path, year, month)
 
-    if abs(sql_total - raw_total) <= 0.01:
+    if abs(sql_total - raw_total) <= TOLERANCE:
         return {"status": "verified", "value": sql_total}
 
     # Explicit mismatch policy
@@ -162,6 +170,7 @@ def verified_food_total(engine, raw_csv_path: Path, user_id: int, year: int, mon
         "status": "mismatch",
         "sql_value": sql_total,
         "raw_value": raw_total,
+        "tolerance": TOLERANCE,
         "action": "hold report, investigate join/date/category filters before publish",
     }
 ```
@@ -169,9 +178,10 @@ def verified_food_total(engine, raw_csv_path: Path, user_id: int, year: int, mon
 ## Guardrails
 
 1. **Do not call this hybrid** if both paths reuse identical predicates and data projection.
-2. **Do not use shell interpolation** with user input.
+2. **Do not parse quoted CSV with naive split logic** (`awk -F,`, `line.split(",")`).
 3. **Do not run hybrid on every query**; use risk-based escalation.
 4. **Do not publish high-stakes reports on mismatch**; stop and investigate.
+5. **Do not convert money to float** in verification paths.
 
 ## Tool Choice Framework (Finalized for Part 2)
 
@@ -185,6 +195,8 @@ def verified_food_total(engine, raw_csv_path: Path, user_id: int, year: int, mon
 ## What Breaks Next
 
 You now have all primitives. Next lesson removes scaffolding: you must integrate correctness, persistence, and verification choices in one capstone without over-engineering.
+
+Next lesson forces one production-style integration decision: prove CRUD, transactions, and verification can coexist without hidden precision drift.
 
 ## Try With AI
 
@@ -218,6 +230,6 @@ Create a mismatch policy for high-stakes financial reporting:
 ## Checkpoint
 
 - [ ] I can explain why re-running the same SQL is not independent verification.
-- [ ] I can implement a no-`shell=True` verification command path.
+- [ ] I can implement a robust quoted-CSV verification path.
 - [ ] I can choose hybrid only when risk justifies cost.
 - [ ] I can define and enforce a mismatch handling policy.

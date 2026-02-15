@@ -52,11 +52,11 @@ This chapter is not replacing earlier tools. It is adding the next tool when pri
 A cloud-persistent Budget Tracker with:
 
 - users, categories, and expenses
-- safe CRUD operations
+- safe CRUD operations (explicit proof matrix in capstone)
 - relationships and joins
 - transaction-safe budget transfers
 - Neon deployment with connection reliability patterns
-- optional hybrid verification for high-stakes reports
+- optional hybrid verification for high-stakes reports with `Decimal("0.01")` tolerance policy
 
 ## Benchmark Context (Nuanced)
 

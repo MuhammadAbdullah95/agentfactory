@@ -6,83 +6,15 @@ lesson: 4
 duration_minutes: 30
 description: "Connect your tables with relationships so SQLAlchemy handles the joins for you"
 keywords: ["SQLAlchemy", "relationship", "ForeignKey", "back_populates", "join", "cascade", "one-to-many", "lazy loading"]
-
-# HIDDEN SKILLS METADATA
-skills:
-  - name: "Relationship Definition"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can define bidirectional relationships using relationship() and back_populates"
-
-  - name: "Relationship Querying"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can access related data through Python attributes (user.expenses, expense.user)"
-
-  - name: "SQLAlchemy 2.0 Query Style"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can write queries using select() with .scalars() instead of legacy session.query()"
-
-  - name: "Join Operations"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Understand"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student understands that SQLAlchemy infers joins from relationships"
-
-  - name: "Cascade Behavior"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Understand"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can explain what cascade='all, delete-orphan' does when parent is deleted"
-
-  - name: "AI Collaboration for Queries"
-    proficiency_level: "A2"
-    category: "Applied"
-    bloom_level: "Apply"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can iterate with AI to build and refine relationship queries"
-
-learning_objectives:
-  - objective: "Define relationships between models using SQLAlchemy relationship()"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student writes model code with working bidirectional relationship"
-
-  - objective: "Use back_populates to establish bi-directional relationships"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student explains why both sides need relationship() with matching back_populates"
-
-  - objective: "Query related data using select() and relationship attributes (SQLAlchemy 2.0 style)"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student retrieves related objects using select().where() and relationship attributes"
-
-  - objective: "Handle foreign key constraints and cascade delete"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student predicts what happens when a parent record is deleted with cascade enabled"
-
-cognitive_load:
-  new_concepts: 7
-  assessment: "7 concepts (ForeignKey review, relationship(), back_populates, cascade, lazy loading, join inference, orphan handling) - appropriate for A2 with AI assistance in L4"
-
-differentiation:
-  extension_for_advanced: "Explore cascade options (cascade='save-update, merge'); implement many-to-many with association table"
-  remedial_for_struggling: "Focus on User ↔ Expense relationship only; skip cascade configuration initially"
 ---
 # Relationships & Joins
 
-> **Chapter 8 callback:** Your Chapter 8 categories were pattern-matched labels in a single pipeline run. Here, category/user links must stay correct for years.
+> **Continuity bridge**
+> - From Chapter 7: files could be organized, but links were implicit.
+> - From Chapter 8: computed categories existed per run, not as durable relations.
+> - Now in Chapter 9: relationships make links explicit and queryable over time.
+
+**Principle anchor:** P6 (Constraints and Safety). Relationship definitions and cascades are safety policy, not syntax decoration.
 
 In L3, you created categories and expenses as separate records. But they're connected: every expense belongs to a category and a user.
 
@@ -177,14 +109,6 @@ class Expense(Base):
     category = relationship("Category", back_populates="expenses")
 ```
 
-**Output:**
-
-```
-Expense.user points back to User object.
-Expense.category points back to Category object.
-Both directions connected via back_populates.
-```
-
 Let's decode this:
 
 | Part                             | Meaning                                                           |
@@ -237,16 +161,6 @@ class Expense(Base):
     category = relationship("Category", back_populates="expenses")
 ```
 
-**Output:**
-
-```
-Three connected models:
-- User has many Expenses (user.expenses)
-- Category has many Expenses (category.expenses)
-- Expense belongs to one User (expense.user)
-- Expense belongs to one Category (expense.category)
-```
-
 ## Using Relationships in Queries
 
 With relationships defined, access related data through attributes:
@@ -265,18 +179,6 @@ with Session(engine) as session:
         print(f"  ${expense.amount:.2f}: {expense.description}")
 ```
 
-**Output:**
-
-```
-Alice's expenses:
-  $52.50: Groceries
-  $18.75: Lunch
-  $45.00: Gas
-
-SQLAlchemy generated: SELECT * FROM expenses WHERE user_id = 1
-You didn't write the query - the relationship did.
-```
-
 ### From Expense to User
 
 ```python
@@ -288,15 +190,6 @@ with Session(engine) as session:
     # Access user through relationship
     print(f"Expense by: {expense.user.name}")
     print(f"Category: {expense.category.name}")
-```
-
-**Output:**
-
-```
-Expense by: Alice
-Category: Food
-
-Both directions work. One query, related objects available.
 ```
 
 ### Computing with Related Data
@@ -409,15 +302,6 @@ with Session(engine) as session:
     print(f"Expenses remaining: {remaining}")
 ```
 
-**Output:**
-
-```
-Alice has 3 expenses
-Expenses remaining: 0
-
-All of Alice's expenses were deleted with her.
-```
-
 **Without cascade**, behavior depends on your database constraints:
 
 - With enforced foreign keys (recommended), delete fails with a constraint error.
@@ -444,17 +328,15 @@ with Session(engine) as session:
     return sorted(totals.items(), key=lambda x: x[1], reverse=True)
 ```
 
-Use AI for the first draft, then tighten correctness and output requirements yourself.
-
 ## What Comes Next
 
 You can now navigate linked data. Next comes the risk of partial multi-step writes: one failure mid-operation can leave correct relationships but incorrect business state.
 
+Next lesson: transaction boundaries become the only thing standing between correctness and silent corruption.
+
 ## Try With AI
 
 ### Prompt 1: Predict Relationship Behavior
-
-**What you're learning:** Understanding how relationships connect data.
 
 ```
 Given this SQLAlchemy 2.0 code:
@@ -483,9 +365,7 @@ And this data:
 3. What would happen if Bob had no expenses?
 ```
 
-### Prompt 2: Build a Relationship Query
-
-**What you're learning:** Constructing queries that use relationships.
+### Prompt 2: Trace a Relationship Query
 
 ```
 Write SQLAlchemy 2.0-style code to find all expenses in the "Food" category,
@@ -501,9 +381,7 @@ Use the Budget Tracker models (User, Category, Expense) with relationships.
 Use session.execute(select(...)).scalars() — not the legacy session.query() style.
 ```
 
-### Prompt 3: Update Your Skill
-
-**What you're learning:** Documenting relationship patterns for reuse.
+### Prompt 3: Defend Your Relationship Contract
 
 ```
 Add to my /database-deployment skill:

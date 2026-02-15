@@ -54,7 +54,12 @@ cognitive_load:
 
 # When Bash and Python Hit the Wall
 
-> **Chapter 8 callback:** You already built a correct tax-prep pipeline. This lesson is about the next failure mode: correctness without durable structure.
+> **Continuity bridge**
+> - From Chapter 7: bash handled file workflows and execution control.
+> - From Chapter 8: Python handled deterministic parsing and computation.
+> - Now in Chapter 9: schema + persistence handle evolving structured questions.
+
+**Principle anchor:** P1 and P2 together. Bash remains orchestration glue; code-defined schema becomes the reliability boundary.
 
 ## Failure Hook
 

@@ -27,6 +27,50 @@ This assessment checks engineering judgment, not trivia. Choose the option you w
 - Neon deployment reliability and security
 - Tool selection and hybrid verification judgment
 
+## Question-to-Outcome Map
+
+Outcome IDs:
+- `O1` Modeling and constraints
+- `O2` CRUD and session correctness
+- `O3` Relationships and query reasoning
+- `O4` Transaction safety
+- `O5` Neon operations and security
+- `O6` Tool choice, hybrid verification, and release judgment
+
+| Question | Primary outcome |
+|---|---|
+| Q1 | O6 |
+| Q2 | O1 |
+| Q3 | O1 |
+| Q4 | O2 |
+| Q5 | O2 |
+| Q6 | O2 |
+| Q7 | O3 |
+| Q8 | O3 |
+| Q9 | O3 |
+| Q10 | O4 |
+| Q11 | O4 |
+| Q12 | O4 |
+| Q13 | O5 |
+| Q14 | O5 |
+| Q15 | O5 |
+| Q16 | O5 |
+| Q17 | O6 |
+| Q18 | O6 |
+| Q19 | O6 |
+| Q20 | O3 |
+| Q21 | O6 |
+| Q22 | O6 |
+| Q23 | O6 |
+| Q24 | O1 |
+| Q25 | O6 |
+| Q26 | O6 |
+| Q27 | O5 |
+| Q28 | O4 |
+| Q29 | O6 |
+| Q30 | O3 |
+| Q31 | O6 |
+
 <Quiz
 title="Chapter 09: Structured Data & Persistent Storage Assessment (v2)"
 questionsPerBatch={10}
@@ -214,10 +258,10 @@ source: "Lesson 6"
 {
 question: "You hit 'remaining connection slots are reserved'. Best immediate response?",
 options: [
-"Increase max_overflow aggressively",
+"Increase pool_size and max_overflow to absorb spikes quickly",
 "Reduce pool footprint and audit session leaks",
-"Switch to SQLite",
-"Disable transactions"
+"Temporarily reduce app concurrency and add pool diagnostics",
+"Upgrade plan tier first, then debug later"
 ],
 correctOption: 1,
 explanation: "Fix connection pressure first: right-size pool and close sessions reliably.",
@@ -250,12 +294,12 @@ source: "Lesson 7"
 {
 question: "When should mismatch in high-stakes report verification block release?",
 options: [
-"Never, publish fastest path",
-"Only if mismatch is over $1,000",
+"Only when mismatch exceeds 5% of monthly spend",
 "Whenever mismatch exceeds defined tolerance and root cause is unknown",
-"Only on weekends"
+"Only after two consecutive mismatches",
+"Only if both SQL and verification paths fail tests"
 ],
-correctOption: 2,
+correctOption: 1,
 explanation: "Unknown discrepancy in high-stakes output is a release blocker.",
 source: "Lesson 7/8"
 },
@@ -274,10 +318,10 @@ source: "Lesson 8"
 {
 question: "A teammate says 'production-ready' after successful local run. What is the strongest rebuttal?",
 options: [
-"Need dark mode first",
+"Need explicit migration and rollback plan only",
 "Need evidence for rollback paths, connection reliability, and report verification policy",
-"Need 100% code comments",
-"Need Docker only"
+"Need naming and style consistency before release",
+"Need benchmark screenshots from local machine"
 ],
 correctOption: 1,
 explanation: "Operational readiness requires safety and verification evidence.",
@@ -322,10 +366,10 @@ source: "Lesson 2/4"
 {
 question: "What is the safest first step when a report total looks suspicious?",
 options: [
-"Rewrite models immediately",
+"Cross-check against prior month trend first and ship if trend looks normal",
 "Enable query observability/logging and inspect generated SQL + predicates",
-"Increase pool_size",
-"Delete and reseed data"
+"Rebuild indexes before checking query semantics",
+"Patch schema constraints before isolating query behavior"
 ],
 correctOption: 1,
 explanation: "Debug the executed query path before structural rewrites.",
@@ -346,10 +390,10 @@ source: "Lesson 0"
 {
 question: "Which fallback is best if foreign-key behavior differs between local SQLite and production Postgres?",
 options: [
-"Ignore local behavior",
+"Trust Postgres behavior and skip local parity tests",
 "Enable SQLite FK checks explicitly and add cross-environment tests",
-"Disable FKs in Postgres",
-"Move everything to CSV"
+"Wrap writes in try/except only, without changing local DB config",
+"Downgrade FK rules to app-level validation"
 ],
 correctOption: 1,
 explanation: "Parity checks prevent false confidence from local-only behavior.",

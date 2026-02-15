@@ -2,6 +2,12 @@
 
 SQLAlchemy relationships let you navigate between connected tables using Python attributes instead of writing JOIN queries. Define `relationship()` on both sides with `back_populates`, and accessing `user.expenses` or `expense.user` works automatically -- SQLAlchemy generates the SQL behind the scenes.
 
+### Continuity Bridge
+
+- From Chapter 7: categories could be inferred from text patterns.
+- From Chapter 8: categories could be computed per run.
+- Now in Chapter 9: relationships enforce durable links across users, categories, and expenses.
+
 ### Key Mental Models
 
 - **Bidirectional navigation**: Relationships work both ways. From a User you can access `user.expenses` (list of Expense objects). From an Expense you can access `expense.user` (the User object). Both sides must declare `relationship()` with matching `back_populates` for this to work.
