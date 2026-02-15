@@ -1,6 +1,10 @@
 ---
 sidebar_position: 14
 title: "Chapter 14: Ten Axioms of Agentic Development"
+slides:
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-4/chapter-14/ten-axioms-of-agentic-development.pdf"
+  title: "The Agentic Engineering System"
+  height: 700
 ---
 
 # Chapter 14: Ten Axioms of Agentic Development
@@ -10,6 +14,8 @@ title: "Chapter 14: Ten Axioms of Agentic Development"
 This chapter bridges Parts 1-3 (experiential learning) with Parts 4-6 (technical implementation), formalizing the developer methodology that has been implicit throughout your work so far. Through General Agents, Applied Workflows, and SDD-RI, you have already practiced these axioms without naming them. Now we make them explicit, providing the rigorous foundation that governs all subsequent Python programming and agent-building work.
 
 The Ten Axioms are not abstract theory. They are distilled from real agentic development practice and directly extend the Seven Principles introduced in Chapter 4.
+
+You will follow Tomás, a new developer building an order management system, as he learns each axiom the hard way — from a $12,000 discount bug to a 2:47 AM production failure. His mentor Lena guides him from shell scripts to production-grade systems, grounding each axiom in a historical milestone: McIlroy's Unix pipes (1964), Codd's relational model (1970), Parnas's information hiding (1972), Beck's test-driven development (2002), Torvalds's Git (2005), and Google's SRE practices (2016).
 
 ## Relationship to the Seven Principles (Chapter 4)
 
@@ -50,6 +56,8 @@ The Principles tell you _how to think_. The Axioms tell you _how to build_.
 - **Part 1**: General Agents Foundations (Chapters 1-4)
 - **Part 2**: Agent Workflow Primitives (Chapters 5-10)
 - **Part 3**: Applied Domain Workflows (Chapters 11-13)
+
+## 📚 Teaching Aid
 
 ## What You'll Learn
 

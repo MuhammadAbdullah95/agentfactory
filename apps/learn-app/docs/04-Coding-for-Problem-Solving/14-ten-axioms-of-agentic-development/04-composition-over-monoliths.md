@@ -57,19 +57,25 @@ differentiation:
 
 # Axiom IV: Composition Over Monoliths
 
-Imagine you inherit a codebase. Your task: add email notifications when a user completes an order. You open the main file and find `process_order()`—a 2,000-line function. It handles validation, inventory checks, payment processing, shipping calculations, tax computation, receipt generation, loyalty point updates, and analytics logging. All in one function. All interleaved. Changing any piece risks breaking everything else.
+In Axiom III, Tomás learned the difference between a script and a program. He upgraded his fifteen-line file renamer into a typed, tested, properly packaged tool. But Lena had a harder lesson waiting for him — one that lived in the team's main codebase, not in a utility script.
 
-Where do you add email notifications? After payment but before shipping? Between receipt generation and loyalty points? Every insertion point touches code that does twelve other things. You test your change, and suddenly tax calculations produce wrong numbers because you accidentally moved a variable assignment three hundred lines above.
+"Before you touch the order system," Lena told him on his second month, "I need to warn you about `process_order()`."
 
-Now imagine the alternative. The same logic exists as focused units: `validate_order()`, `check_inventory()`, `process_payment()`, `calculate_shipping()`, `generate_receipt()`. Each does one thing. Each has clear inputs and outputs. Adding email notifications means composing a new unit—`send_notification()`—into the pipeline. Nothing else changes. Nothing else can break.
+Tomás opened the file. The function was 1,400 lines long. It validated the order, checked inventory, processed payment through Stripe, calculated shipping based on weight and destination, computed tax for three jurisdictions, generated a receipt PDF, updated loyalty points, logged analytics events, and sent a confirmation email. All in one function. All interleaved. Variable names from the payment section were reused in the shipping section two hundred lines later. A tax calculation on line 890 depended on an inventory check on line 340 that had been silently modified six months ago.
 
-This is **Axiom IV: Composition Over Monoliths**—the architectural principle that complex systems are built from small, focused units that communicate through well-defined interfaces.
+Tomás's task was simple: add a discount code feature. After two days of tracing dependencies through 1,400 lines, he made a change on line 712 and ran the tests. The discount worked. But the tax calculation now produced wrong numbers for Canadian orders — because his change moved a variable assignment that the tax logic read three hundred lines below. He fixed the tax issue. The receipt PDF broke. He fixed the receipt. The loyalty points doubled.
+
+"Now you understand why I warned you," Lena said. "That function is not code. It is a trap. Every change touches everything because nothing is separate."
+
+Lena spent the following weekend showing Tomás a different way to build the same logic — not as one massive function, but as small, focused units that connected through clear interfaces. Each unit did one thing. Each could be tested alone. Each could be changed without breaking the others. The discount feature, in the composed version, was a single new function inserted into a pipeline. Nothing else changed. Nothing else could break.
+
+The difference between these two architectures is Axiom IV.
 
 ## The Problem Without This Axiom
 
-Without composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
+Tomás's `process_order()` was not written by a bad engineer. Like Maria's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
 
-Consider what happens to a monolithic system over time:
+Here is the trajectory that Tomás's team followed — and that every monolith follows:
 
 | Month | What Happens | Consequence |
 |-------|-------------|-------------|
@@ -88,13 +94,15 @@ The trajectory is predictable. Monoliths start convenient and become unmaintaina
 
 > Complex systems are built from composable, focused units. Each unit does one thing well. Units communicate through well-defined interfaces. The Unix philosophy applied to software architecture.
 
+![Monolithic architecture versus compositional architecture: a single tangled block contrasted with focused, connected modules](./img/04-composition-over-monoliths.png)
+
 Three properties define a composable unit:
 
 1. **Focused**: It does one thing and does it completely
 2. **Interface-defined**: Its inputs and outputs are explicit and typed
 3. **Independent**: It can be tested, understood, and replaced without touching other units
 
-When these properties hold, units compose naturally—like LEGO bricks that snap together in countless configurations, each brick useful on its own but powerful in combination.
+When these properties hold, units compose naturally — like LEGO bricks that snap together in countless configurations, each brick useful on its own but powerful in combination. The 1,400-line `process_order()` had none of these properties. Lena's refactored version had all three.
 
 ## From Principle to Axiom
 
@@ -112,156 +120,70 @@ Axiom IV governs your *architecture*: how you structure the solutions themselves
 
 The principle says: "Break your work into small steps." The axiom says: "Build your systems from small parts." One is about the journey; the other is about the destination. Together, they ensure both your process and your product remain manageable.
 
-## The Unix Philosophy: Where This Began
+## The Paper That Changed Software Architecture
 
-In 1978, Doug McIlroy articulated what became the Unix philosophy:
+In Axiom I, you encountered Doug McIlroy's Unix philosophy: programs that do one thing well and work together through pipes. That philosophy governs how you compose *programs* through the shell. Axiom IV extends the same idea inside the programs themselves — to functions, modules, and systems. And the person who formalized this extension was not McIlroy, but a mathematician named David Parnas.
 
-> Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface.
+In 1972, Parnas published a paper at Carnegie Mellon with a title that reads like an axiom itself: "On the Criteria To Be Used in Decomposing Systems into Modules." The paper examined a single problem — a keyword-in-context indexing system — and showed two ways to decompose it. The first decomposition followed the obvious approach: break the system into steps that mirror the processing flow (input, shift, alphabetize, output). The second decomposition followed a different principle: break the system so that each module *hides a design decision* from the others.
 
-This philosophy produced tools that have endured for over forty years: `grep` finds patterns, `sort` orders lines, `wc` counts words, `head` takes the first N lines. Each is simple. Each is composable. Together, they solve problems their creators never imagined:
+The first approach was what every programmer instinctively did. The second was what Parnas argued they *should* do. His reasoning was precise: when a design decision is hidden inside a module, changing that decision affects only that module. When a design decision is shared across modules, changing it cascades through the entire system.
 
-```bash
-# Find the 5 most common error types in a log file
-cat server.log | grep "ERROR" | cut -d: -f2 | sort | uniq -c | sort -rn | head -5
-```
+Parnas called this principle **information hiding**. It is the theoretical foundation for Axiom IV. Tomás's `process_order()` violated it completely — every design decision (how to validate, how to calculate tax, how to format receipts) was exposed to every other part of the function. Changing any decision cascaded through 1,400 lines. Lena's composed version hid each decision inside a focused unit. Changing tax calculation affected `calculate_tax()` and nothing else.
 
-No single tool solves this problem. But composed together through the pipe operator (`|`), six simple tools produce a powerful analysis pipeline. Each tool receives text, transforms it, and outputs text. The pipe is the universal interface.
-
-This is not historical trivia—it is the architectural pattern that makes AI-native development possible.
+Parnas's paper is over fifty years old. The principle it established has never been overturned, because it addresses a property of complexity itself: the only way to manage a system too large to fit in one mind is to decompose it into parts that can each be understood independently.
 
 ## Composition at Every Scale
 
-The Unix philosophy applies at every level of software, from individual functions to distributed systems.
+The principle Lena taught Tomás applies at every level of software, from individual functions to distributed systems.
 
 ### Scale 1: Functions
 
-The smallest unit of composition is the function. Compare these approaches:
+This is the scale where Tomás experienced the problem. Here is what the monolithic `process_order()` looked like in essence — a single function doing five things:
 
-**Monolithic approach:**
-
-```python
-def process_user_registration(name, email, password, role):
-    # Validate inputs (30 lines of validation logic)
-    if not name or len(name) < 2:
-        raise ValueError("Name too short")
-    if not email or "@" not in email:
-        raise ValueError("Invalid email")
-    if len(password) < 8:
-        raise ValueError("Password too short")
-    if not any(c.isupper() for c in password):
-        raise ValueError("Password needs uppercase")
-    if not any(c.isdigit() for c in password):
-        raise ValueError("Password needs digit")
-
-    # Hash password (5 lines)
-    import hashlib
-    salt = os.urandom(32)
-    hashed = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
-
-    # Create user record (10 lines)
-    user = {
-        "name": name,
-        "email": email.lower().strip(),
-        "password_hash": hashed,
-        "salt": salt,
-        "role": role,
-        "created_at": datetime.now(),
-        "is_active": False,
-    }
-
-    # Store in database (8 lines of database logic)
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO users ...", user)
-    connection.commit()
-    user_id = cursor.lastrowid
-
-    # Send verification email (15 lines of email logic)
-    token = generate_token(user_id)
-    subject = "Verify your account"
-    body = f"Click here: https://example.com/verify?token={token}"
-    send_email(email, subject, body)
-
-    # Log the event (5 lines)
-    log_event("user_registered", {"user_id": user_id, "role": role})
-
-    return user_id
+```python static
+def process_order(order_data):
+    # Validate (30 lines of validation logic interleaved with...)
+    # Calculate price (20 lines dependent on validation variables...)
+    # Process payment (25 lines reusing price variables...)
+    # Generate receipt (20 lines dependent on payment result...)
+    # Send notification (15 lines dependent on everything above...)
+    # Total: 110+ lines, every section entangled with every other
 ```
 
-This function does five things: validation, hashing, storage, email, and logging. Testing any one behavior requires executing all of them. Changing email logic risks breaking validation. An AI asked to "add phone number verification" must understand all 70+ lines of context.
+And here is Lena's composed alternative — the same logic as focused units:
 
-**Composed approach:**
+```python static
+def validate_order(order: Order) -> ValidatedOrder:
+    """Check order data. Raises ValueError if invalid."""
+    ...
 
-```python
-def validate_registration(name: str, email: str, password: str) -> None:
-    """Validate registration inputs. Raises ValueError if invalid."""
-    if not name or len(name) < 2:
-        raise ValueError("Name must be at least 2 characters")
-    if not email or "@" not in email:
-        raise ValueError("Invalid email format")
-    validate_password_strength(password)
+def calculate_total(order: ValidatedOrder) -> PricedOrder:
+    """Compute price, tax, shipping. Pure calculation, no side effects."""
+    ...
 
+def process_payment(order: PricedOrder) -> PaidOrder:
+    """Charge the customer. Returns payment confirmation."""
+    ...
 
-def validate_password_strength(password: str) -> None:
-    """Check password meets security requirements."""
-    if len(password) < 8:
-        raise ValueError("Password must be at least 8 characters")
-    if not any(c.isupper() for c in password):
-        raise ValueError("Password needs at least one uppercase letter")
-    if not any(c.isdigit() for c in password):
-        raise ValueError("Password needs at least one digit")
+def generate_receipt(order: PaidOrder) -> Receipt:
+    """Create receipt PDF from paid order."""
+    ...
 
+def send_confirmation(order: PaidOrder, receipt: Receipt) -> None:
+    """Email receipt to customer."""
+    ...
 
-def hash_password(password: str) -> tuple[bytes, bytes]:
-    """Hash a password with a random salt. Returns (hash, salt)."""
-    salt = os.urandom(32)
-    hashed = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100000)
-    return hashed, salt
-
-
-def create_user_record(name: str, email: str, password_hash: bytes,
-                       salt: bytes, role: str) -> dict:
-    """Build a user record dictionary."""
-    return {
-        "name": name,
-        "email": email.lower().strip(),
-        "password_hash": password_hash,
-        "salt": salt,
-        "role": role,
-        "created_at": datetime.now(),
-        "is_active": False,
-    }
-
-
-def store_user(user: dict) -> int:
-    """Persist user to database. Returns user_id."""
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO users ...", user)
-    connection.commit()
-    return cursor.lastrowid
-
-
-def send_verification_email(email: str, user_id: int) -> None:
-    """Send account verification email to new user."""
-    token = generate_token(user_id)
-    subject = "Verify your account"
-    body = f"Click here: https://example.com/verify?token={token}"
-    send_email(email, subject, body)
-
-
-def register_user(name: str, email: str, password: str, role: str) -> int:
-    """Orchestrate user registration from composable units."""
-    validate_registration(name, email, password)
-    password_hash, salt = hash_password(password)
-    user = create_user_record(name, email, password_hash, salt, role)
-    user_id = store_user(user)
-    send_verification_email(email, user_id)
-    log_event("user_registered", {"user_id": user_id, "role": role})
-    return user_id
+def process_order(order_data: dict) -> Receipt:
+    """Orchestrate order processing from composable units."""
+    validated = validate_order(Order(**order_data))
+    priced = calculate_total(validated)
+    paid = process_payment(priced)
+    receipt = generate_receipt(paid)
+    send_confirmation(paid, receipt)
+    return receipt
 ```
 
-Now each function does one thing. Each can be tested independently. Each can be replaced without touching the others. The orchestrating function `register_user()` reads like a recipe—a sequence of composed steps.
+Read the orchestrating function `process_order()` at the bottom. Six lines. Each line is one step. Each step is one function. Adding Tomás's discount feature means inserting one line — `discounted = apply_discount(priced, code)` — between `calculate_total` and `process_payment`. Nothing else changes. Nothing else *can* break, because each function only sees its own inputs and outputs. This is Parnas's information hiding made concrete.
 
 ### Scale 2: Modules
 
@@ -294,159 +216,63 @@ Order System (composed of services)
 
 Each service does one thing. Each communicates through defined interfaces (APIs). Each can be developed, deployed, and scaled independently. The pattern is fractal—the same structure repeats at every scale.
 
-## Why AI Loves Composition
+## Why AI Needs Composition
 
-Composition is not merely a human preference for clean code. It is an architectural requirement for effective AI collaboration. Here is why:
+This is where Axiom IV connects to everything this book teaches — and where the lesson becomes urgent rather than merely architectural.
 
-### Context Windows Are Finite
+When Tomás asked an AI agent to "add a discount code feature to `process_order()`," the agent received all 1,400 lines as context. It generated a change. The change broke tax calculations. This was not the AI's fault — it was an architectural failure. The monolith forced the AI to modify code it did not need to understand, and the entanglement guaranteed collateral damage.
 
-Every AI model has a limited context window—the amount of text it can consider at once. When your code is monolithic, the AI must load the entire monolith to understand any part of it. When your code is composed, the AI loads only the unit it needs.
+Composition solves this at the structural level:
 
-| Structure | Context Required | AI Effectiveness |
-|-----------|-----------------|------------------|
-| 2000-line monolith | Full 2000 lines | Poor: important details get lost in noise |
-| 20 composed functions | 30-80 lines per function | Excellent: full context of the unit fits easily |
+| With Monolith | With Composition |
+|---------------|-----------------|
+| AI receives 1,400 lines to add one feature | AI receives `calculate_total()` — 20 lines |
+| AI might modify unrelated sections | AI can only touch the unit it was given |
+| Testing requires full system state | Testing requires only the unit's inputs and outputs |
+| A bad AI generation breaks everything | A bad AI generation breaks one replaceable unit |
 
-### Focused Generation Produces Better Results
+**Context windows are finite.** Every AI model can hold a limited amount of text in working memory. A 1,400-line function consumes that window with code the AI does not need to see. Twenty composed functions, each 20-70 lines, give the AI exactly the context it needs — no more, no less.
 
-When you ask an AI to "fix the payment processing bug in this 2000-line function," it must find the payment logic among validation, shipping, and analytics code. It might accidentally modify the wrong section. It might miss relevant context buried 800 lines away.
+**Focused generation produces better results.** When Tomás asked the AI to "fix the bug in `calculate_tax()`" instead of "fix the tax bug somewhere in `process_order()`," the AI had complete, focused context. Its output was accurate because its attention was not diluted across 1,400 lines of unrelated logic.
 
-When you ask an AI to "fix the bug in `process_payment()`" and that function is 40 lines long, the AI has complete, focused context. Its generation is more accurate because its attention is not diluted.
+**Composed units are independently testable.** AI-generated code needs verification. With the monolith, testing the discount feature required setting up inventory, payment processors, and email servers — because the function touched all of them. With composition, testing `apply_discount()` requires only an order and a discount code. No database. No email server. Just the function and its expected behavior.
 
-### Composable Units Are Independently Testable
-
-AI-generated code needs verification. With monolithic code, testing requires setting up the entire system state. With composed units, you test each unit in isolation:
-
-```python
-# Testing a composed unit is straightforward
-def test_validate_password_strength():
-    # Valid passwords pass
-    validate_password_strength("SecurePass1")  # No exception
-
-    # Too short fails
-    with pytest.raises(ValueError, match="at least 8 characters"):
-        validate_password_strength("Short1")
-
-    # No uppercase fails
-    with pytest.raises(ValueError, match="uppercase"):
-        validate_password_strength("alllowercase1")
-```
-
-No database setup. No email server. No authentication state. Just the function and its expected behavior.
-
-### AI Can Replace Units Without Breaking the Whole
-
-The most powerful property of composition for AI collaboration: any unit can be regenerated independently. If an AI produces a poor implementation of `hash_password()`, you replace just that function. The rest of the system remains untouched. This makes AI-assisted development iterative and safe—you improve one piece at a time, verifying each change in isolation.
+**Any unit can be replaced without breaking the whole.** If an AI generates a poor implementation of `calculate_tax()`, you regenerate just that function. The rest of the system remains untouched. This makes AI-assisted development iterative and safe — you improve one piece at a time, verifying each change in isolation.
 
 ## Dependency Injection: Composition of Behavior
 
-Dependency injection is composition applied to behavior. Instead of hardcoding which specific implementation a function uses, you pass the implementation as a parameter:
+Lena showed Tomás one more technique that made the composed version powerful in a way the monolith could never be: instead of hardcoding *which* payment processor or *which* database the function uses, you pass the implementation as a parameter.
 
-**Without dependency injection (hardcoded dependency):**
+```python static
+# Hardcoded: permanently bound to Stripe and PostgreSQL
+def process_order(order_data):
+    charge_stripe(order_data)          # Can't test without Stripe
+    save_to_postgres(order_data)       # Can't test without database
 
-```python
-def register_user(name: str, email: str, password: str, role: str) -> int:
-    # This function is permanently bound to PostgreSQL and SMTP
-    user_id = postgres_store_user(user)      # Can't test without database
-    smtp_send_verification(email, user_id)   # Can't test without email server
-    return user_id
+# Composed: behavior is injectable
+def process_order(order_data, charge: Callable, save: Callable):
+    charge(order_data)                 # Any payment processor
+    save(order_data)                   # Any storage backend
 ```
 
-**With dependency injection (composable behavior):**
+Now the same function works in three contexts without changing a line:
 
-```python
-def register_user(
-    name: str,
-    email: str,
-    password: str,
-    role: str,
-    store: Callable[[dict], int],          # Any storage implementation
-    notify: Callable[[str, int], None],     # Any notification implementation
-) -> int:
-    validate_registration(name, email, password)
-    password_hash, salt = hash_password(password)
-    user = create_user_record(name, email, password_hash, salt, role)
-    user_id = store(user)
-    notify(email, user_id)
-    return user_id
+```python static
+# Production: real Stripe and Postgres
+process_order(data, charge=charge_stripe, save=save_to_postgres)
+
+# Testing: fake payment, in-memory storage
+process_order(data, charge=fake_charge, save=save_to_memory)
+
+# Development: log to console, SQLite
+process_order(data, charge=log_charge, save=save_to_sqlite)
 ```
 
-Now the same orchestration function works with different implementations:
-
-```python
-# Production: real database and email
-register_user("Ada", "ada@example.com", "Secure123", "admin",
-              store=postgres_store_user,
-              notify=smtp_send_verification)
-
-# Testing: in-memory store, no email
-register_user("Ada", "ada@example.com", "Secure123", "admin",
-              store=memory_store_user,
-              notify=lambda email, uid: None)  # Do nothing
-
-# Development: SQLite and console output
-register_user("Ada", "ada@example.com", "Secure123", "admin",
-              store=sqlite_store_user,
-              notify=console_print_verification)
-```
-
-The function's *behavior* is composed from the implementations you provide. This is the Unix philosophy at the code level: focused units connected through interfaces.
-
-## The Pipe Operator as Architectural Metaphor
-
-In Unix, the pipe (`|`) connects programs: the output of one becomes the input of the next. This creates data pipelines—sequences of transformations applied to flowing data.
-
-The same pattern appears in well-composed Python code:
-
-```python
-def process_orders(raw_orders: list[dict]) -> list[dict]:
-    """Process orders through a pipeline of transformations."""
-    validated = [validate_order(o) for o in raw_orders]
-    priced = [calculate_total(o) for o in validated]
-    taxed = [apply_tax(o) for o in priced]
-    receipts = [generate_receipt(o) for o in taxed]
-    return receipts
-```
-
-Each step takes data, transforms it, and passes the result forward. Each step is a focused unit. Adding a new transformation (discount calculation, loyalty points) means inserting one line—not rewriting the pipeline.
-
-For a more explicit pipeline pattern:
-
-```python
-from functools import reduce
-
-def pipeline(data, *transforms):
-    """Apply a sequence of transformations to data."""
-    return reduce(lambda result, fn: fn(result), transforms, data)
-
-# Compose a processing pipeline from focused functions
-result = pipeline(
-    raw_order,
-    validate_order,
-    calculate_total,
-    apply_tax,
-    apply_discount,
-    generate_receipt,
-)
-```
-
-This is composition made visible: the system is literally a sequence of composed functions, each doing one thing well.
-
-## Composition in the AI Era
-
-The composition principle extends beyond traditional code. In AI-native development, the same pattern appears at new scales:
-
-**Skills compose into agents.** A skill is a focused unit of expertise—like a function that does one thing well. An agent orchestrates multiple skills, like `register_user()` orchestrates validation, hashing, and storage.
-
-**Agents compose into workflows.** Multiple agents collaborate on complex tasks, each handling its domain. A planning agent produces a specification. An implementation agent writes code. A validation agent verifies quality. The workflow is a pipeline of composed agents.
-
-**Prompts compose into conversations.** Rather than one massive prompt trying to accomplish everything, effective AI collaboration uses composed prompts—each focused on one concern, each building on the output of the previous.
-
-The pattern is universal: focused units, clear interfaces, flexible composition.
+This is why Lena's team could write tests for the order pipeline without a database, a payment processor, or an email server. The behavior was composed from the implementations they provided. In testing, they provided fakes. In production, they provided the real thing. The orchestration logic was identical in both cases.
 
 ## Anti-Patterns: What Composition Violations Look Like
 
-Recognizing anti-patterns is as important as understanding the principle. Here are the most common composition violations:
+You have seen the God Object. Every codebase has one. It is the class called `ApplicationManager` or `Utils` or `Helpers` — the one with fifty-three methods that handles user authentication, payment processing, email sending, report generation, and "miscellaneous things nobody knew where to put." It is the file that every pull request touches, the one that causes merge conflicts every sprint, the one where new developers are told "don't change anything in there unless you absolutely have to." It is the function that started as `handle_request()` and grew to 800 lines because every new feature was "just one more if-statement." The function works. It also cannot be tested, cannot be understood by a new team member in less than a week, and cannot be modified by an AI agent without hallucinating about what the variable `temp3` on line 412 is supposed to contain. The God Object is the monolith at the code level — and like all monoliths, it was not built deliberately. It was grown, one convenience at a time, by developers who did not recognize the moment when "add it here" became "this needs to be its own thing."
 
 | Anti-Pattern | Symptom | Consequence | Composed Alternative |
 |-------------|---------|-------------|---------------------|
@@ -457,44 +283,11 @@ Recognizing anti-patterns is as important as understanding the principle. Here a
 | **Circular Dependencies** | Module A imports B, B imports A | Cannot understand either module in isolation; import errors | Extract shared logic to Module C; both A and B import C |
 | **Hidden State** | Functions modify global variables instead of returning values | Unpredictable behavior; testing requires resetting global state | Pure functions that take inputs and return outputs |
 
-### Spotting the God Class
-
-```python
-# ANTI-PATTERN: God class doing everything
-class ApplicationManager:
-    def validate_user(self, ...): ...
-    def process_payment(self, ...): ...
-    def send_email(self, ...): ...
-    def generate_report(self, ...): ...
-    def update_inventory(self, ...): ...
-    def calculate_shipping(self, ...): ...
-    def handle_refund(self, ...): ...
-    # ... 40 more methods
-```
-
-This class has no single responsibility. It is the entire application stuffed into one object. Testing payment processing requires instantiating a class that also handles email, reports, and inventory.
-
-```python
-# COMPOSED: Focused classes with single responsibilities
-class PaymentProcessor:
-    def process(self, order: Order) -> PaymentResult: ...
-    def refund(self, payment_id: str) -> RefundResult: ...
-
-class NotificationService:
-    def send_email(self, to: str, template: str, data: dict) -> None: ...
-    def send_sms(self, to: str, message: str) -> None: ...
-
-class InventoryManager:
-    def check_availability(self, items: list[Item]) -> bool: ...
-    def reserve(self, items: list[Item]) -> Reservation: ...
-    def release(self, reservation: Reservation) -> None: ...
-```
-
-Each class is testable in isolation. Each can evolve independently. An AI assistant can work on `PaymentProcessor` without needing context about notifications or inventory.
+The test is simple: if you cannot explain what a class does in one sentence, it is a God Object. If modifying one feature requires understanding ten others, you are looking at a monolith. The fix is the same as Lena's — decompose until each unit does one thing, communicates through typed interfaces, and can be tested without setting up the entire world.
 
 ## The Composition Test
 
-When evaluating code—whether yours, a teammate's, or AI-generated—apply this test:
+After the refactoring, Lena gave Tomás a four-question checklist that he now applies to every piece of code — whether written by a human, an AI, or himself:
 
 1. **Can I explain this unit in one sentence?** If not, it does too much.
 2. **Can I test this unit without setting up unrelated systems?** If not, it has hidden dependencies.
@@ -503,22 +296,15 @@ When evaluating code—whether yours, a teammate's, or AI-generated—apply this
 
 If any answer is "no," the code needs decomposition. Break it into smaller units until every answer is "yes."
 
-## Safety Note
+## The Decomposition Trap
 
-Composition is a spectrum, not a binary. Over-decomposition creates its own problems: too many tiny functions make code harder to follow, excessive abstraction layers obscure simple logic, and premature generalization wastes effort on flexibility you never need.
+After learning Axiom IV, Tomás went through a phase that Lena had seen before. He decomposed everything. A 15-line function became five 3-line functions. A simple data transformation grew a three-layer abstraction. He created interfaces for components that would only ever have one implementation. The code was technically "composed" but harder to read than the original — because now you had to trace through five files to understand what used to be fifteen obvious lines.
 
-The goal is not maximum decomposition—it is *appropriate* decomposition. A 20-line function that does one clear thing does not need to be split into four 5-line functions. A simple script that runs once does not need a plugin architecture.
+"Composition is a spectrum, not a religion," Lena told him. "The goal is not maximum decomposition. It is *appropriate* decomposition."
 
-Apply composition when:
-- A function does multiple unrelated things
-- You cannot test a behavior without setting up unrelated state
-- Changes to one concern break unrelated concerns
-- Multiple places need the same logic (duplication signals missing composition)
+The Decomposition Trap is the mirror image of the monolith. Where the monolith puts everything in one place, the over-decomposed system scatters simple logic across so many units that understanding the whole requires assembling a mental map of dozens of tiny pieces. Both fail for the same reason: they make the system harder to understand than it needs to be.
 
-Do not apply composition when:
-- The code is simple and unlikely to change
-- The abstraction would be more complex than the duplication
-- You are optimizing for a future that may never arrive
+The heuristic is simple. Compose when a function does multiple unrelated things, when you cannot test a behavior without setting up unrelated state, or when changes to one concern break unrelated concerns. Do not compose when the code is simple and unlikely to change, when the abstraction would be more complex than the duplication, or when you are designing for a future that may never arrive. A 20-line function that does one clear thing does not need to be split into four 5-line functions. A script that runs once does not need a plugin architecture. Parnas's principle is about hiding *design decisions that might change* — not about hiding everything.
 
 ## Try With AI
 
@@ -616,3 +402,23 @@ Use concrete examples from [my specific technology stack or project type].
 ```
 
 **What you're learning**: How to translate the universal principle of composition into the specific patterns and practices of your domain. Every field has its own version of "focused units" and "interfaces"—learning to recognize yours is what transforms abstract knowledge into practical skill.
+
+---
+
+## Key Takeaways
+
+Tomás spent two days fighting a 1,400-line function and learned what David Parnas formalized fifty years ago: the only way to manage a system too complex to fit in one mind is to decompose it into parts that can each be understood independently. Lena's refactoring did not add new logic. It separated existing logic into units that could be tested, modified, and replaced without cascading breakage.
+
+- **Complex systems are built from composable, focused units.** Each unit does one thing well, communicates through typed interfaces, and can be tested independently. This is Parnas's information hiding made practical.
+- **Composition is not just good engineering — it is an AI requirement.** Monolithic code overwhelms context windows, dilutes AI attention, and makes every AI-generated change a gamble. Composed code gives AI exactly the context it needs, nothing more.
+- **The pattern is already in the previous axioms.** Lena's Makefile in Axiom I composed programs through the shell. The knowledge system in Axiom II composed markdown files into a repository. The discipline stack in Axiom III composed verification tools into a pipeline. Axiom IV makes the pattern explicit: it applies to everything you build.
+- **Dependency injection composes behavior.** By passing implementations as parameters, the same orchestration logic works in production, testing, and development without changing a line.
+- **The Decomposition Trap is the monolith's mirror.** Over-decomposition scatters simple logic across too many pieces. Compose when concerns are genuinely separate. Leave simple things simple.
+
+---
+
+## Looking Ahead
+
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types and tests. Your systems are composed from focused units. But how do you verify that all of these pieces actually work together? How do you know that the code an AI generated does what you asked — and keeps doing it as the system evolves?
+
+In Axiom V, you will discover that types are not just annotations — they are guardrails that catch errors before they reach production, and the first line of defense against AI-generated code that looks correct but is not.

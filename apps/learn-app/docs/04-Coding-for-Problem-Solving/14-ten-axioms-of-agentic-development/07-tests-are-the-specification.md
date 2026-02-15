@@ -69,31 +69,39 @@ differentiation:
 
 # Axiom VII: Tests Are the Specification
 
-You ask your AI assistant to write a function that calculates shipping costs. It returns clean, well-documented code. The function handles domestic orders perfectly. You deploy it. Three days later, customer support floods with complaints: international orders are charged zero shipping. The function looked correct. It ran without errors. It even had a docstring explaining what it did. But nobody defined what "correct" actually meant for international orders, so the AI made a reasonable assumption that happened to be wrong.
+Tomás had types, composition, and relational data. His code was structured, his schemas enforced, his Pyright configuration strict. Then he shipped `apply_discount()` — a function that accepted a `PricedOrder` and returned a `DiscountedOrder`. The types were perfect. The function compiled without errors. Pyright showed zero warnings. The code looked correct.
 
-Now imagine an alternative: before asking the AI for any implementation, you write five tests. One test asserts domestic orders get standard rates. Another asserts international orders get a surcharge. A third tests free shipping thresholds. A fourth tests invalid inputs. A fifth tests boundary conditions. You hand these tests to the AI and say: "Write the implementation that passes all five." The AI generates code. You run the tests. Two fail. You tell the AI: "Tests 3 and 5 are failing. Fix the implementation." It regenerates. All five pass. You accept the code.
+It was not. The function returned 0.15 instead of 0.85 — it subtracted the discount *from* 1.0 in the wrong order, giving customers an 85% discount instead of a 15% discount. The company lost $12,000 in a single weekend before anyone noticed. Every guardrail Tomás had built — types, composition, database constraints — checked the *shape* of the code. None of them checked whether the code did the *right thing*.
 
-The difference is not that you tested after the fact. The difference is that **your tests were the specification**. They defined correctness before any implementation existed. The implementation was generated to match the specification, not the other way around.
+"Types catch structural errors," Lena reminded him on Monday morning. "But types cannot tell you that 0.15 is wrong and 0.85 is right. Only one thing can: a test that says `assert apply_discount(order, 0.15) == expected_price`. If that test existed before the AI generated the function, the error would have been caught before it left your machine."
+
+Lena showed Tomás a different workflow. Instead of asking the AI to "write a discount function" and reviewing the output by reading it, she wrote five tests first. One asserted a 10% discount on a $100 order produced $90. Another asserted a 0% discount returned the original price. A third tested the boundary where the discount equals the order total. A fourth tested invalid discount values. A fifth tested that the return type was `DiscountedOrder`, not a raw float. Then she handed the tests to the AI: "Write the implementation that passes all five."
+
+The AI generated code. She ran the tests. Four passed. One failed — the boundary case. She told the AI: "Test 4 is failing. Fix the implementation." It regenerated. All five passed. She accepted the code without reading it line by line, because the tests *defined* what correct meant.
+
+"The tests are not verification," Lena told Tomás. "They are the specification. You write them first. The AI writes the code second. If the code passes, it is correct by definition. If it fails, you do not debug — you regenerate."
+
+This is Axiom VII.
 
 ## The Problem Without This Axiom
 
-When you skip tests-first development with AI, you fall into a predictable failure pattern:
+Tomás's $12,000 discount bug followed a pattern that every developer who works with AI will recognize:
 
-**You describe what you want in natural language.** "Write a function that calculates shipping costs based on weight, destination, and order total." This feels precise, but it is ambiguous. What are the weight brackets? What counts as "international"? What is the free shipping threshold? Does it return a float, a Decimal, or an integer in cents?
+**He described what he wanted in natural language.** "Write a function that applies a percentage discount to a priced order." This felt precise, but it was ambiguous. Does "apply a 15% discount" mean multiply by 0.15 or multiply by 0.85? Does the function return a new order or modify the existing one? What happens when the discount is 0%? What about 100%?
 
-**The AI fills in the gaps with assumptions.** It picks reasonable defaults. Weight brackets at 1kg, 5kg, 10kg. International means non-US. Free shipping above $50. Returns a float. Each assumption is plausible. Some are wrong for your business.
+**The AI filled in the gaps with assumptions.** It interpreted "apply 15% discount" as "multiply by the discount rate" — returning `price * 0.15` instead of `price * (1 - 0.15)`. The assumption was linguistically plausible. It was mathematically wrong.
 
-**You verify by reading the code.** You scan the implementation, check the logic, and convince yourself it looks right. But reading code is not the same as running it. Your eyes skip edge cases. You miss the off-by-one error at the 5kg boundary. You overlook the case where `destination` is `None`.
+**Tomás verified by reading the code.** He scanned the implementation, saw the multiplication, and convinced himself it looked right. But reading code is not the same as running it against known correct values. His eyes saw "multiply by discount" and his brain filled in "of course that gives the discounted price."
 
-**Bugs appear in production.** The code that "looked right" fails on real data. Now you are debugging generated code you did not write, trying to understand the AI's assumptions, fixing issues that would never have existed if correctness had been defined upfront.
+**The bug appeared in production.** $12,000 lost in a weekend. Every guardrail — types, composition, database constraints — had passed. The code was structurally perfect. It was logically wrong.
 
-This pattern is not unique to AI. It is the oldest problem in software development: **ambiguous specifications produce correct-looking code that does the wrong thing**. But AI amplifies the problem because it generates plausible code faster than you can verify it by reading.
+This pattern is not unique to AI. It is the oldest problem in software development: **ambiguous specifications produce correct-looking code that does the wrong thing.** But AI amplifies the problem because it generates plausible code faster than you can verify it by reading. The solution is not to read more carefully. The solution is to stop reading and start specifying.
 
 ## The Axiom Defined
 
 > **Test-Driven Generation (TDG):** Write tests FIRST that define correct behavior, then prompt AI: "Write the implementation that passes these tests." Tests are the specification. The implementation is disposable.
 
-This axiom transforms tests from a verification tool into a specification language. Tests are not something you write after the code to check it works. Tests are the precise, executable definition of what "works" means.
+This axiom transforms tests from a verification tool into a specification language — the shift Lena demonstrated to Tomás after the discount disaster. Tests are not something you write after the code to check it works. Tests are the precise, executable definition of what "works" means.
 
 Three consequences follow:
 
@@ -119,11 +127,27 @@ Axiom VII takes that principle and sharpens it into a specific practice:
 
 The principle says: always verify. The axiom says: **design through verification**. Write the verification first, and it becomes the specification that guides generation.
 
-This distinction matters in practice. A developer who follows Principle 3 might generate code, then write tests to check it. A developer who follows Axiom VII writes tests first, then generates code that must pass them. The first developer is verifying. The second developer is specifying.
+This distinction matters in practice. Tomás before the discount disaster followed Principle 3 — he verified by reading code. Tomás after the disaster follows Axiom VII — he specifies by writing tests. The first approach is reactive: "Did this work?" The second is proactive: "What does working look like?"
+
+## The Discipline That Preceded TDG
+
+The idea that tests could drive development — not just verify it — has a history that predates AI by decades. In 2002, Kent Beck published *Test-Driven Development: By Example*, codifying a practice he had been refining since the 1990s as part of the Extreme Programming movement. Beck himself credited the core idea to older practices — as early as 1957, D.D. McCracken's *Digital Computer Programming* recommended preparing test cases before coding, and NASA's Project Mercury team in the early 1960s used similar test-first practices during development.
+
+Beck's insight was deceptively simple: write a failing test, write the minimum code to make it pass, then refactor. The test comes first. The implementation serves the test. This reversed the dominant workflow where code came first and tests — if they existed at all — came after.
+
+Test-Driven Development — TDD — was controversial. Many developers argued it was slower, that writing tests before code was unnatural, that it produced brittle test suites. But the developers who adopted it discovered something unexpected: the tests were not just catching bugs. They were *designing the interface*. By writing the test first, you were forced to think about what the function should accept, what it should return, and what "correct" meant — before you got lost in implementation details.
+
+Tomás's $12,000 bug was exactly what Beck's discipline was designed to prevent. If Tomás had written `assert apply_discount(order, 0.15).total == 85.0` before asking the AI for an implementation, the wrong interpretation would have been caught in the first test run. The test did not need to know *how* the discount was calculated. It only needed to state what the *result* should be.
+
+Beck later described the deeper value: TDD gave you "code you have the confidence to change." Without tests, every modification was a risk. With tests, you could refactor freely because the tests would catch regressions instantly. That confidence — the ability to change code without fear — is exactly what TDG amplifies. When the AI generates an implementation you do not like, you throw it away and regenerate. The tests give you the confidence to discard code, because you can always get it back.
+
+TDG is Beck's TDD adapted for the AI era. The rhythm is the same: test first, implementation second. But the implementation is no longer written by the developer. It is generated by AI, constrained by the tests, and disposable if it fails.
 
 ## TDG: The AI-Era Testing Workflow
 
-Test-Driven Generation adapts the classic TDD cycle for AI-powered development. Here is how the two compare:
+![Test-Driven Generation workflow cycle: Write Tests, Prompt AI, Run Tests, then Pass? decision leading to Accept or loop back](./img/07-tdg-workflow.png)
+
+TDG adapts Beck's TDD cycle for AI-powered development. Here is how the two compare:
 
 ### TDD (Traditional)
 
@@ -139,7 +163,7 @@ In TDD, you write both the test and the implementation yourself. The test guides
 Write failing test → Prompt AI with test + types → Run tests → Accept or Regenerate
 ```
 
-In TDG, you write the test yourself but the AI generates the implementation. If tests fail, you do not debug. You regenerate. The implementation is disposable because you can always get another one. The test is permanent because it encodes your requirements.
+In TDG, you write the test yourself but the AI generates the implementation. If tests fail, you do not debug. You regenerate. The implementation is disposable because you can always get another one. The test is permanent because it encodes your requirements. This is the workflow Lena demonstrated to Tomás after the discount disaster — and the one he never deviated from again.
 
 ### The TDG Workflow in Detail
 
@@ -147,79 +171,51 @@ In TDG, you write the test yourself but the AI generates the implementation. If 
 
 Define what correct behavior looks like. Be specific about inputs, outputs, edge cases, and error conditions:
 
-```python
-# test_shipping.py
+```python static
+# test_shipping.py — Tomás's first TDG specification
 import pytest
 from shipping import calculate_shipping
 
-
 class TestDomesticShipping:
     """Domestic orders: flat rate by weight bracket."""
+    def test_lightweight(self):
+        assert calculate_shipping(weight_kg=0.5, destination="US", order_total=25.00) == 5.99
 
-    def test_lightweight_domestic(self):
-        result = calculate_shipping(weight_kg=0.5, destination="US", order_total=25.00)
-        assert result == 5.99
+    def test_medium_weight(self):
+        assert calculate_shipping(weight_kg=3.0, destination="US", order_total=25.00) == 9.99
 
-    def test_medium_weight_domestic(self):
-        result = calculate_shipping(weight_kg=3.0, destination="US", order_total=25.00)
-        assert result == 9.99
-
-    def test_heavy_domestic(self):
-        result = calculate_shipping(weight_kg=12.0, destination="US", order_total=25.00)
-        assert result == 14.99
-
+    def test_heavy(self):
+        assert calculate_shipping(weight_kg=12.0, destination="US", order_total=25.00) == 14.99
 
 class TestInternationalShipping:
     """International orders: domestic rate + surcharge."""
-
     def test_international_surcharge(self):
-        result = calculate_shipping(weight_kg=2.0, destination="UK", order_total=30.00)
-        # Domestic medium rate (9.99) + international surcharge (8.00)
-        assert result == 17.99
-
-    def test_canada_is_international(self):
-        result = calculate_shipping(weight_kg=1.0, destination="CA", order_total=20.00)
-        assert result == 13.99  # 5.99 + 8.00
-
+        # Domestic medium (9.99) + international surcharge (8.00)
+        assert calculate_shipping(weight_kg=2.0, destination="UK", order_total=30.00) == 17.99
 
 class TestFreeShipping:
-    """Orders above threshold get free shipping."""
+    """Orders above threshold get free domestic shipping."""
+    def test_above_threshold(self):
+        assert calculate_shipping(weight_kg=5.0, destination="US", order_total=75.00) == 0.00
 
-    def test_free_shipping_threshold(self):
-        result = calculate_shipping(weight_kg=5.0, destination="US", order_total=75.00)
-        assert result == 0.00
-
-    def test_below_threshold_not_free(self):
-        result = calculate_shipping(weight_kg=5.0, destination="US", order_total=74.99)
-        assert result == 9.99
+    def test_below_threshold(self):
+        assert calculate_shipping(weight_kg=5.0, destination="US", order_total=74.99) == 9.99
 
     def test_international_no_free_shipping(self):
-        """Free shipping does not apply to international orders."""
-        result = calculate_shipping(weight_kg=1.0, destination="UK", order_total=100.00)
-        assert result == 13.99
-
+        assert calculate_shipping(weight_kg=1.0, destination="UK", order_total=100.00) == 13.99
 
 class TestEdgeCases:
     """Invalid inputs and boundary conditions."""
-
     def test_zero_weight_raises(self):
         with pytest.raises(ValueError, match="Weight must be positive"):
             calculate_shipping(weight_kg=0, destination="US", order_total=25.00)
 
-    def test_negative_weight_raises(self):
-        with pytest.raises(ValueError, match="Weight must be positive"):
-            calculate_shipping(weight_kg=-1.0, destination="US", order_total=25.00)
-
     def test_empty_destination_raises(self):
         with pytest.raises(ValueError, match="Destination required"):
             calculate_shipping(weight_kg=2.0, destination="", order_total=25.00)
-
-    def test_negative_total_raises(self):
-        with pytest.raises(ValueError, match="Order total cannot be negative"):
-            calculate_shipping(weight_kg=2.0, destination="US", order_total=-10.00)
 ```
 
-Notice what these tests accomplish: they define the weight brackets (under 1kg, 1-5kg, over 5kg), the international surcharge amount, the free shipping threshold, and all error conditions. Someone reading these tests knows exactly what the function must do without seeing any implementation.
+Notice what these tests accomplish: they define the weight brackets, the international surcharge amount, the free shipping threshold, and the error conditions. Someone reading these tests knows exactly what the function must do — without seeing any implementation. This is what Tomás wished he had written for `apply_discount()` before asking the AI to generate it.
 
 **Step 2: Prompt AI with Tests + Types**
 
@@ -259,13 +255,13 @@ This is the power of TDG: **you never argue with the AI about correctness.** The
 
 ## Writing Effective Specifications (Tests)
 
-Good TDG tests are specifications, not implementation checks. The distinction is critical.
+After adopting TDG, Tomás learned that not all tests are good specifications. Some tests specify *what* the function must do. Others specify *how* it must work internally. Lena taught him the distinction — and it is critical for TDG.
 
 ### Specify Behavior, Not Implementation
 
 A **behavior specification** says what the function must do:
 
-```python
+```python static
 def test_sorted_output():
     result = find_top_customers(orders, limit=3)
     assert result == ["Alice", "Bob", "Carol"]
@@ -273,7 +269,7 @@ def test_sorted_output():
 
 An **implementation check** says how the function must work:
 
-```python
+```python static
 def test_uses_heapq():
     """BAD: Tests implementation detail, not behavior."""
     with patch("heapq.nlargest") as mock_heap:
@@ -285,9 +281,9 @@ The first test remains valid whether the function uses sorting, a heap, or a lin
 
 ### Use pytest Fixtures for Shared State
 
-When multiple tests need the same setup, use fixtures to keep tests focused on assertions:
+As Tomás wrote more TDG specifications, his tests grew beyond simple input-output assertions. The shipping tests needed sample weight data. The order tests needed sample customers and products. He found himself copying the same setup into every test function — violating the same DRY principle he had learned in Axiom IV. Lena showed him pytest fixtures, which define the world your tests operate in without repeating setup code:
 
-```python
+```python static
 import pytest
 from datetime import date
 from task_manager import TaskManager, Task
@@ -323,9 +319,9 @@ Fixtures define the world your tests operate in. When you send these to the AI, 
 
 ### Use Parametrize for Specification Tables
 
-When a function has many input-output pairs, `pytest.mark.parametrize` expresses the specification as a table:
+Tomás's discount function needed to handle dozens of cases: 10% off, 25% off, 0% off, 100% off, amounts with cents, amounts with rounding. Writing a separate test function for each case would have produced a file longer than the implementation itself. Lena showed him `pytest.mark.parametrize`, which expresses the specification as a table — every row is a test case, and the table is the complete specification:
 
-```python
+```python static
 import pytest
 
 
@@ -344,46 +340,17 @@ def test_title_case(input_text, expected):
     assert to_title_case(input_text) == expected
 ```
 
-This is a specification table. It says: "For these exact inputs, produce these exact outputs." The AI can implement any algorithm it wants as long as it matches the table. This pattern works especially well for data transformation functions where business rules are complex.
+This is a specification table. It says: "For these exact inputs, produce these exact outputs." The AI can implement any algorithm it wants as long as it matches the table. Tomás realized that if he had written a parametrize table for `apply_discount()` — with rows like `(100.0, 0.15, 85.0)` and `(100.0, 0.0, 100.0)` — the $12,000 bug would have been impossible. The table *is* the business rule, written in a form that runs automatically.
 
 ### Use Markers for Test Categories
 
-Organize tests by category so you can run subsets:
-
-```python
-import pytest
-
-
-@pytest.mark.unit
-def test_parse_single_line():
-    from parser import parse_config
-    result = parse_config("key=value")
-    assert result == {"key": "value"}
-
-
-@pytest.mark.integration
-def test_parse_file(tmp_path):
-    config_file = tmp_path / "config.ini"
-    config_file.write_text("host=localhost\nport=5432")
-    from parser import parse_config_file
-    result = parse_config_file(config_file)
-    assert result == {"host": "localhost", "port": "5432"}
-
-
-@pytest.mark.slow
-def test_parse_large_file(tmp_path):
-    config_file = tmp_path / "large.ini"
-    config_file.write_text("\n".join(f"key{i}=val{i}" for i in range(10000)))
-    from parser import parse_config_file
-    result = parse_config_file(config_file)
-    assert len(result) == 10000
-```
-
-Run specific categories: `pytest -m unit` for fast feedback, `pytest -m integration` for thorough checks.
+Organize tests by scope using `@pytest.mark` decorators — `@pytest.mark.unit` for fast pure-logic tests, `@pytest.mark.integration` for tests that touch databases or APIs, `@pytest.mark.slow` for expensive operations. Run subsets with `pytest -m unit` for fast feedback during TDG cycles, `pytest -m integration` for thorough verification before committing.
 
 ## The Test Pyramid
 
-Not all tests are created equal. The test pyramid organizes tests by scope and cost:
+![Test Pyramid: many unit tests at the base, some integration tests in the middle, few E2E tests at the top](./img/07-test-pyramid.png)
+
+Lena showed Tomás that not all tests serve the same purpose. The test pyramid — a concept popularized by Mike Cohn — organizes tests by scope and cost:
 
 ```
          /\
@@ -410,14 +377,14 @@ Not all tests are created equal. The test pyramid organizes tests by scope and c
 
 **Unit tests** are your primary TDG specification. They define individual function behavior precisely:
 
-```python
+```python static
 def test_discount_calculation():
     assert apply_discount(price=100.0, discount_pct=10) == 90.0
 ```
 
 **Integration tests** define how components interact:
 
-```python
+```python static
 def test_order_creates_invoice(db_session):
     order = create_order(db_session, items=[{"sku": "A1", "qty": 2}])
     invoice = get_invoice(db_session, order_id=order.id)
@@ -427,7 +394,7 @@ def test_order_creates_invoice(db_session):
 
 **E2E tests** define user-visible behavior:
 
-```python
+```python static
 def test_checkout_flow(client):
     client.post("/cart/add", json={"sku": "A1", "qty": 1})
     response = client.post("/checkout", json={"payment": "card"})
@@ -439,19 +406,21 @@ For TDG, aim for this distribution: **70% unit, 20% integration, 10% E2E**. Unit
 
 ### Coverage as a Metric
 
-Code coverage measures how much of your implementation is exercised by tests. For TDG work, target **80% minimum coverage**:
+Code coverage measures how much of your implementation is exercised by tests. Teams commonly target **80% coverage** as a practical baseline for TDG work:
 
 ```bash
 pytest --cov=shipping --cov-report=term-missing
 ```
 
-Coverage tells you where your specification has gaps. If a branch is not covered, it means you have not specified what should happen in that case, and the AI's assumption is unverified.
+Coverage tells you where your specification has gaps. When Tomás ran coverage on his shipping module for the first time, he discovered that the free-shipping threshold had an untested branch: what happens when the order total is *exactly* $75.00? He had tested above and below, but not the boundary itself. The AI had guessed "above" — which happened to be correct — but it could just as easily have guessed wrong. One more test line closed the gap permanently.
 
 But coverage is a floor, not a ceiling. 100% line coverage does not mean your specification is complete. A function can have every line executed but still be wrong for inputs you did not test. Coverage catches omissions. Good test design catches incorrect behavior.
 
 ## Anti-Patterns
 
-These patterns undermine TDG. Recognize and avoid them:
+You have seen the untested codebase. Every team has one. It is the project where "we'll add tests later" became a permanent state, where every AI-generated function was merged after a visual review and a prayer, where "it worked when I ran it" substituted for a specification. It is the project where a developer once asked the AI to generate both the code *and* the tests, and the tests passed because they tested the AI's assumptions instead of the business requirements — and nobody noticed until the invoicing system charged every customer twice. It is the project where refactoring is impossible because there are no tests to confirm that behavior is preserved, where every change is a gamble, where the team spends more time debugging AI-generated code than it would have spent writing five tests upfront. The untested codebase is not missing tests by accident. It is missing tests because each developer chose the thirty-second shortcut of "just ship it," and a hundred thirty-second shortcuts became a system that nobody trusts.
+
+These specific patterns undermine TDG. Recognize and avoid them:
 
 | Anti-Pattern | Why It Fails | TDG Alternative |
 |---|---|---|
@@ -464,7 +433,7 @@ These patterns undermine TDG. Recognize and avoid them:
 
 ### The Circular Testing Trap
 
-The most dangerous anti-pattern deserves special attention. When you ask AI to generate both the implementation and the tests, you get circular validation:
+The most dangerous anti-pattern — and the one Tomás almost fell into after adopting TDG — deserves special attention. When you ask AI to generate both the implementation and the tests, you get circular validation:
 
 ```
 You: "Write a function to calculate tax and tests for it."
@@ -476,25 +445,26 @@ The tests pass. Everything looks correct. But you never specified what the tax r
 
 In TDG, **you are the specification authority**. You decide what correct means. The AI is the implementation engine. It figures out how to achieve what you specified. Never delegate both roles to the AI.
 
-## Safety Note
+:::warning[The Cardinal Rule of TDG]
+**Never let AI generate both the tests and the implementation.** If the same model writes both, it will encode the same assumptions in both — and neither will catch the other's errors. You write the specification (tests). AI writes the solution (code). This separation is what makes TDG work.
+:::
 
-TDG does not replace security review or performance testing. Tests specify functional correctness: given these inputs, produce these outputs. They do not automatically catch:
+## The Green Bar Illusion
 
-- **Security vulnerabilities**: SQL injection, path traversal, authentication bypass. These require security-specific testing (SAST tools, penetration testing).
-- **Performance issues**: An implementation that passes all functional tests might be O(n^2) when O(n) is required. Add explicit performance assertions for critical paths.
-- **Concurrency bugs**: Race conditions may not manifest in sequential test execution. Use stress testing for concurrent code.
-- **Resource leaks**: Memory leaks, file handle leaks, connection pool exhaustion. Requires runtime monitoring (Axiom X).
+After a month of TDG, Tomás experienced a subtler version of the Annotation Illusion from Axiom V. All tests passed — the green bar appeared in his terminal. He assumed the code was production-ready. Then the shipping function, which passed all eleven specification tests, turned out to be O(n^2) — it recalculated rates by looping through every historical order for each new calculation. Functionally correct. Performance catastrophe.
 
-TDG gives you functional correctness. Combine it with Axiom IX (Verification is a Pipeline) and Axiom X (Observability) for comprehensive quality assurance.
+"The green bar means your specification is satisfied," Lena told him. "It does not mean the code is secure, performant, or free of resource leaks. Tests specify *functional correctness*: given these inputs, produce these outputs. They do not automatically catch security vulnerabilities, performance problems, concurrency bugs, or memory leaks."
+
+The Green Bar Illusion is the belief that passing tests means production-ready code. TDG gives you functional correctness — the confidence that the code does what you specified. But specifications are not exhaustive. A function can pass every test and still be vulnerable to SQL injection (Axiom VI), still leak database connections, still take ten seconds for an operation that should take ten milliseconds. Functional tests are one layer. Security testing, performance assertions, and runtime observability (Axiom X) are the others. Tomás learned to treat the green bar not as "ship it" but as "the specification is satisfied — now check everything else."
 
 ## Try With AI
 
 ### Prompt 1: Your First TDG Cycle (Experiencing the Workflow)
 
 ```
-I want to practice Test-Driven Generation. Here is my specification as pytest tests:
+I want to practice TDG. Here is my specification as pytest tests:
 
-```python
+```python static
 import pytest
 from converter import temperature_convert
 
@@ -549,31 +519,51 @@ Do NOT write the implementation yet. I want to understand specification design f
 ### Prompt 3: TDG for Your Domain (Applying to Real Work)
 
 ```
-I'm building [describe a real feature you need: a pricing calculator, a data validator,
-a text parser, a scheduling function, etc.].
+I'm building a pricing function for an order system — similar to this lesson's
+apply_discount() scenario. The function calculate_order_total() takes a list of
+items (each with price, quantity, and optional discount_pct) and returns the final
+total with tax applied.
 
-Help me apply Test-Driven Generation:
+Help me apply TDG:
 
 1. First, ask me 5 clarifying questions about the expected behavior:
    - What are the inputs and their types?
    - What are the outputs?
-   - What are the edge cases?
+   - What are the edge cases (empty cart, zero quantity, 100% discount)?
    - What errors should be raised and when?
-   - What are the business rules?
+   - What are the business rules (tax rate, rounding, discount stacking)?
 
-2. Based on my answers, write a complete pytest test file that serves as the specification.
-   Include: fixtures for test data, parametrize for rule tables, edge case tests, error tests.
+2. Based on my answers, write a complete pytest test file that serves as the
+   specification. Include: fixtures for sample items, parametrize for pricing
+   rule tables, edge case tests, error tests.
 
 3. Then generate the implementation that passes all tests.
 
-4. Finally, suggest 3 additional tests I might have missed that would make my specification
-   more complete.
+4. Finally, suggest 3 additional tests I might have missed that would make
+   my specification more complete.
 
-Walk me through each step so I understand the TDG process for my specific domain.
+Walk me through each step so I understand the TDG process applied to real
+business logic where getting the math wrong has financial consequences.
 ```
 
-**What you're learning:** Applying TDG to your own problems. The clarifying questions teach you what information a specification needs. The test file shows you how to structure a complete specification. The additional tests reveal gaps in your thinking. This is the skill that transfers: learning to think in specifications rather than implementations, regardless of what you are building.
+**What you're learning:** Applying TDG to real business logic where correctness has financial stakes — exactly the scenario Tomás faced. The clarifying questions teach you what information a pricing specification needs (rounding rules, tax behavior, discount boundaries). The test file shows you how to structure a complete financial specification. The additional tests reveal the gaps that cause $12,000 weekends. This is the skill that transfers: learning to think in specifications rather than implementations, regardless of what you are building.
 
 ---
 
-*Next: Axiom VIII explores how version control provides the persistent memory layer that stores both your specifications and the implementations they generate.*
+## Key Takeaways
+
+Tomás lost $12,000 because no test defined what "correct" meant for `apply_discount()`. Lena's fix was not to review code more carefully — it was to write the expected result before the code existed. Kent Beck formalized this discipline in 2002. TDG adapts it for the AI era: the human writes the specification (tests), the AI writes the implementation, and the tests decide whether to accept or regenerate.
+
+- **Tests are the specification, not the verification.** Write them first. They define what "correct" means before any implementation exists. If `assert apply_discount(order, 0.15).total == 85.0` existed before the AI generated the function, the $12,000 bug would have been caught in seconds.
+- **Implementations are disposable. Tests are permanent.** If the AI generates bad code, do not debug it — regenerate. The tests remain unchanged because they encode your requirements, not the AI's assumptions. This is TDG's core insight: you never argue with the AI about correctness. The tests decide.
+- **Specify behavior, not implementation.** Good TDG tests say "given this input, produce this output" without saying "use this algorithm." Implementation-coupled tests prevent the AI from choosing the best approach and break on every refactor.
+- **The Circular Testing Trap is the most dangerous anti-pattern.** Never let AI generate both the implementation and the tests. The same assumptions that produce wrong code produce wrong tests. You are the specification authority. The AI is the implementation engine.
+- **The Green Bar Illusion is real.** Passing tests mean the specification is satisfied — not that the code is secure, performant, or production-ready. TDG gives you functional correctness. Security, performance, and observability are separate layers.
+
+---
+
+## Looking Ahead
+
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types and tests. Your systems are composed from focused units. Your types catch structural errors. Your data lives in relational tables. Your tests define what "correct" means. But where do all of these artifacts live? When Tomás fixed the discount bug, he wrote five new tests and regenerated the implementation. A week later, a colleague asked: "What was the original implementation that caused the $12,000 loss? And which version of the tests caught it?" Tomás could not answer. He had overwritten the file and lost the history.
+
+In Axiom VIII, you will discover that version control is not just a backup system — it is the persistent memory that stores your specifications, your implementations, and the entire history of decisions that produced them.
