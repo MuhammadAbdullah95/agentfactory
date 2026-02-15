@@ -124,6 +124,8 @@ The principle is about durability — ensuring knowledge survives across session
 
 Think of it this way. A team's knowledge is like a library. Markdown files in a repository are books on open shelves — anyone can walk in, find the right shelf, pull the book, and read it. A Google Doc is a book locked in someone's desk drawer — it exists, but you need their permission and their key to read it. A Slack message is a conversation someone overheard in the hallway last month — it happened, but good luck reconstructing it. A Confluence page is a book in a private library across town that requires a membership card, a login, and the hope that someone has not rearranged the shelves since you last visited. The markdown repository is the only library where every reader — human developers, AI agents, CI pipelines, new hires on their first day — can walk in and find what they need without asking anyone for access.
 
+![Markdown as the universal knowledge format: other formats convert to markdown, which is then parsed by AI agents, rendered by documentation sites, read by human developers, consumed by CI/CD pipelines, and versioned by Git](./img/02-knowledge-is-markdown.png)
+
 ## Why Markdown?
 
 After the incident, Lena told Tomás: "We need to write down every decision." Tomás agreed — but the question was not whether to write things down. It was *how*. If the team had written `docs/adr/007-event-driven-messaging.md` on the day they made the decision, Tomás would have found his answer in thirty seconds. But why markdown specifically? Why not a JSON file, a YAML config, or a well-organized text file?

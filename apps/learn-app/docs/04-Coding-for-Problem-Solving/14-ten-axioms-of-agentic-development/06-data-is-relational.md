@@ -148,6 +148,8 @@ You have not specified HOW to find this data. You have not said "scan the tasks 
 
 Lena started Tomás's education by drawing three boxes on a whiteboard — the same three entities that his JSON file had tangled together.
 
+![Entity-Relationship Diagram showing customers, orders, order_items, and products tables with their relationships](./img/06-entity-relationship-diagram.png)
+
 ### 1. Entities (Tables)
 
 An entity is a distinct "thing" in your domain. In Tomás's order system:

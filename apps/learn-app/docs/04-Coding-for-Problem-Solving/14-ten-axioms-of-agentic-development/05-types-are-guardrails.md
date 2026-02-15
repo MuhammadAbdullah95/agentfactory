@@ -135,6 +135,8 @@ Python is dynamically typed — it does not require type annotations. But "does 
 
 Lena walked Tomás through the three layers she used on every project — the same layers that would have caught his staging crash before the code ever left his machine.
 
+![Three-Layer Type Safety Stack: Type Hints at the base, Pyright static analysis in the middle, and Pydantic runtime validation at the top, with increasing safety](./img/05-type-safety-stack.png)
+
 ### Layer 1: Type Hints (The Annotations)
 
 Type hints are Python's built-in syntax for declaring types. This is the `CustomerOrder` dataclass Lena added after Tomás's crash — the one that made the AI's mistakes visible:
@@ -231,6 +233,8 @@ The three layers work together:
 | Type Hints | Declare contracts | Never (documentation only) |
 | Pyright | Verify contracts statically | Development time (before running) |
 | Pydantic | Validate data at boundaries | Runtime (when data arrives) |
+
+![Code safety increases with layered type checking — from untyped Python with no guardrails to fully typed code with Pydantic validation](./img/05-type-guardrail-layers.png)
 
 ## Types and AI: Why They Are Non-Negotiable
 
