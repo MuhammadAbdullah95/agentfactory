@@ -1,5 +1,21 @@
-This lesson provides 15 hands-on exercises across 7 modules, bridging the gap between understanding database concepts and building database applications from requirements. Three core skills are practiced throughout: **data modeling** (translating real-world entities into SQLAlchemy models with correct types, constraints, and relationships), **database debugging** (finding bugs that don't crash — wrong column types, missing constraints, broken relationships, and transaction safety holes), and **production deployment** (configuring Neon PostgreSQL with proper security, connection pooling, and hybrid verification). Every exercise uses the six-step Database Development Framework: Model, Connect, Operate, Protect, Verify, Deploy.
+### Core Concept
+Practice exercises put chapter skills under independent pressure with evidence-based assessment. Claim nothing, prove everything.
 
-The modules progress from data modeling fundamentals (Module 1: Data Modeling) through CRUD operations with session management (Module 2: CRUD Operations), relationship configuration and navigation (Module 3: Relationships & Navigation), transaction safety with commit/rollback boundaries (Module 4: Transaction Safety), cloud deployment and connection troubleshooting (Module 5: Cloud Deployment & Security), and hybrid SQL+bash verification with tool selection (Module 6: Hybrid Verification & Tool Selection), culminating in three capstone projects that build genuinely useful database applications. Early modules provide starter and better prompts to scaffold learning; later modules remove prompts so students design their own approaches.
+### Continuity Bridge
+From capstone integration (L8) to independent skill demonstration without hand-holding.
 
-Students assess their work using a five-criteria rubric covering data modeling, session management, relationship design, transaction safety, and debugging accuracy. These exercises prepare students for the Chapter Quiz by applying every pattern from Lessons 0-8, and connect to the broader Part 2 tool choice story where bash, Python, SQL, and hybrid verification form a complete foundation for autonomous agent workflows.
+### Key Mental Models
+- Evidence artifacts (DECISIONS.md, EVIDENCE.md) over verbal claims.
+- Core track = baseline mastery; Challenge track = production judgment.
+- Getting stuck is not failure; quitting is.
+
+### Critical Patterns
+- Core 1: Model integrity build with constraints and FK.
+- Core 2: CRUD reliability with rollback proof.
+- Core 3: Relationship query debug (fix broken code).
+- Core 4: Transaction + Neon ops drill.
+- Challenge A/B/C: Verification gate, CSV migration, incident recovery.
+- Collapsible hints per exercise for when students get stuck.
+
+### Common Mistake
+Rushing through exercises without collecting evidence. Complete evidence for half the exercises beats incomplete evidence for all of them.

@@ -4,567 +4,322 @@ title: "Creating & Reading Data"
 chapter: 9
 lesson: 3
 duration_minutes: 25
-description: "Create and query database records using SQLAlchemy sessions - your conversation with the database"
-keywords: ["SQLAlchemy", "session", "CRUD", "create", "read", "query", "filter", "add", "commit", "context manager"]
-
-# HIDDEN SKILLS METADATA
+description: "Implement reliable CREATE and READ patterns with SQLAlchemy sessions"
+keywords: ["SQLAlchemy", "Session", "CRUD", "select", "rollback"]
 skills:
-  - name: "Session Management"
+  - name: "CRUD Operations"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Software Development"
+    measurable_at_this_level: "Student can create rows, read them back in new sessions, and handle write failures with rollback"
+  - name: "Session Lifecycle Management"
     proficiency_level: "A2"
     category: "Technical"
     bloom_level: "Understand"
     digcomp_area: "Software Development"
-    measurable_at_this_level: "Student can explain what a session does and use context manager pattern (with Session)"
-
-  - name: "Record Creation"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can create new records using session.add() and session.commit()"
-
-  - name: "Basic Querying"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can retrieve records using session.query().all() and session.query().filter().first()"
-
-  - name: "Query Filtering"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
-    digcomp_area: "Data Management"
-    measurable_at_this_level: "Student can filter query results using .filter() with basic conditions"
-
-  - name: "Database Error Handling"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Understand"
-    digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student understands that invalid data causes exceptions and sessions auto-rollback on error"
-
+    measurable_at_this_level: "Student can explain the session lifecycle: open, add, flush, commit/rollback, close"
 learning_objectives:
-  - objective: "Establish SQLAlchemy sessions and database connections"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student explains what Engine, Session, and context manager do in their own words"
-
-  - objective: "Create new records using session.add() and session.commit()"
+  - objective: "Insert a row and read it back in a separate session"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student writes working code to create a Category and an Expense"
-
-  - objective: "Read records with session.query() and filtering"
+    assessment_method: "Student inserts an expense and confirms it exists via a new session query"
+  - objective: "Handle write failures with explicit rollback"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student writes queries that retrieve all records and filtered subsets"
-
-  - objective: "Handle basic database errors"
-    proficiency_level: "A2"
-    bloom_level: "Understand"
-    assessment_method: "Student explains what happens when invalid data is added and how to catch it"
-
+    assessment_method: "Student demonstrates try/except/rollback pattern with invalid FK insert"
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 new concepts (Engine, Session, context manager, session.add, session.query, filter syntax) - appropriate for A2 with heavy scaffolding"
-
+  new_concepts: 4
+  assessment: "4 concepts (session lifecycle, commit vs flush, rollback on failure, select query patterns) within A2 limit"
 differentiation:
-  extension_for_advanced: "Add multiple query patterns: filter with AND/OR, order_by, limit, offset for pagination"
-  remedial_for_struggling: "Simplify to: Create one record, query all records (skip filters initially)"
+  extension_for_advanced: "Implement a full CRUD module with update and delete operations. Add a function that demonstrates the difference between .flush() and .commit() with concurrent sessions."
+  remedial_for_struggling: "Focus on the happy path first: insert one row, read it back. Only after that works, try the failure case. The rollback pattern is important but secondary to basic CRUD."
 ---
+
 # Creating & Reading Data
 
-In L2, you defined three models: User, Category, Expense. Python classes that become database tables.
+In the previous lesson, you defined your models as Python classes. Tables exist, columns have types, constraints are in place. But a schema without data is like a filing cabinet with labeled drawers and nothing inside. Now you'll put data in and get it back out -- reliably.
 
-But here's the thing: defining a table doesn't put data in it. You have an empty database with a perfect structure. Now you need to actually CREATE records and READ them back.
+You might be thinking: "Why can't I just `session.add()` and move on?" Because adding without committing is like writing a check without signing it -- the bank won't process it. And if something goes wrong mid-write, you need a way to tear up that check cleanly. That's what this lesson is about: the session lifecycle that makes database writes trustworthy.
 
-This is where sessions come in. A session is your conversation with the database. You open it, ask questions or make changes, and close it. Think of it like a phone call: you dial (open session), talk (run queries), and hang up (close session).
+:::info[Key Terms for This Lesson]
+- **CRUD**: Create, Read, Update, Delete -- the four basic operations every database application needs
+- **Session**: A workspace for database operations -- think of it as a shopping cart where you add items before checking out (committing)
+- **Commit vs Flush**: `flush()` sends your changes to the database temporarily (like previewing your cart). `commit()` makes them permanent (like clicking "Place Order"). If anything fails, `rollback()` empties the cart.
+- **Rollback**: Undo all uncommitted changes in the current session -- your safety net when writes go wrong
+:::
 
-## Setting Up: Engine and Session
+## The Session Lifecycle
 
-Before you can talk to a database, you need two things:
+Before you write a single row, understand the machine you're working with. A session moves through a predictable sequence, and knowing where you are in that sequence prevents most beginner CRUD bugs.
 
-**1. Engine**: The connection to your database
+```
+Session Lifecycle:
+
+  open          add/modify       flush          commit
+   |               |               |              |
+   v               v               v              v
++------+    +-----------+    +----------+    +----------+
+| New  |--->|  Pending   |--->| Flushed  |--->| Committed|
+|Session|    |  Changes   |    | (in DB   |    | (durable)|
++------+    +-----------+    | but not  |    +----------+
+                              | permanent)|
+                              +-----+----+
+                                    | error?
+                                    v
+                              +----------+
+                              | Rollback |
+                              | (undo    |
+                              |  all)    |
+                              +----------+
+```
+
+Here's what each stage means in plain language:
+
+1. **Open**: You create a session. Nothing has happened yet.
+2. **Pending**: You call `session.add()`. The object is tracked in memory, but the database hasn't seen it.
+3. **Flushed**: You call `session.flush()`. SQLAlchemy sends the SQL to the database and the database assigns IDs -- but this is a preview, not a commitment. If the session ends without a commit, the changes vanish.
+4. **Committed**: You call `session.commit()`. The transaction finalizes. The data is durable -- it survives restarts, crashes, power outages.
+5. **Rollback**: Something went wrong. You call `session.rollback()`, and every pending or flushed change in that session is undone. Clean slate.
+
+Why does flush exist separately from commit? Because sometimes you need the database to assign an ID (like an auto-incrementing primary key) before you can create related rows -- but you don't want to commit until everything succeeds. That's exactly what happens in the code below.
+
+## The Happy Path: Insert and Read Back
+
+Here's the pattern you'll use hundreds of times. Create some rows, commit them, then prove they exist by reading them in a fresh session.
 
 ```python
-from sqlalchemy import create_engine
-
-# For learning, use SQLite in memory (no setup needed)
-engine = create_engine('sqlite:///:memory:')
-```
-
-**Output:**
-
-```
-Engine created: points to in-memory SQLite database
-No files, no servers - data lives in RAM for this lesson
-```
-
-**2. Tables Created**: Tell SQLAlchemy to build the actual tables
-
-```python
-from sqlalchemy.orm import declarative_base
+from datetime import date
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, create_engine, event, select
+from sqlalchemy.orm import Session, declarative_base
 
 Base = declarative_base()
 
-# ... your model classes here (User, Category, Expense) ...
 
-# Create all tables from your models
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    email = Column(String(100), unique=True, nullable=False)
+    name = Column(String(100), nullable=False)
+
+
+class Category(Base):
+    __tablename__ = "categories"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+
+
+class Expense(Base):
+    __tablename__ = "expenses"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
+    description = Column(String(200), nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
+    date = Column(Date, nullable=False, default=date.today)
+
+
+engine = create_engine("sqlite:///:memory:")
+
+
+@event.listens_for(engine, "connect")
+def _enable_sqlite_fk(dbapi_connection, _connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
+
 Base.metadata.create_all(engine)
-```
 
-**Output:**
-
-```
-CREATE TABLE users (id INTEGER PRIMARY KEY, email VARCHAR(100), ...)
-CREATE TABLE categories (id INTEGER PRIMARY KEY, name VARCHAR(50), ...)
-CREATE TABLE expenses (id INTEGER PRIMARY KEY, user_id INTEGER, ...)
-
-Three empty tables now exist in the database.
-```
-
-**3. Session**: Your conversation tool
-
-```python
-from sqlalchemy.orm import Session
-
-# You'll use: with Session(engine) as session:
-```
-
-Now you're ready to create and read data.
-
-## Creating Records (CREATE)
-
-The pattern for adding data is always the same:
-
-```python
 with Session(engine) as session:
-    # 1. Create Python object
-    category = Category(name='Food', color='#FF6B6B')
+    user = User(email="alice@example.com", name="Alice")
+    food = Category(name="Food")
+    session.add_all([user, food])
+    session.flush()
 
-    # 2. Tell session to track it
-    session.add(category)
-
-    # 3. Save to database
+    session.add(
+        Expense(
+            user_id=user.id,
+            category_id=food.id,
+            description="Groceries",
+            amount=52.50,
+            date=date(2024, 1, 15),
+        )
+    )
     session.commit()
-```
 
-**Output:**
-
-```
-INSERT INTO categories (name, color) VALUES ('Food', '#FF6B6B')
-
-category.id is now 1 (auto-assigned by database)
-Session closes automatically at end of 'with' block
-```
-
-Let's break this down:
-
-| Step          | Code                                 | What It Does                               |
-| ------------- | ------------------------------------ | ------------------------------------------ |
-| Open session  | `with Session(engine) as session:` | Start conversation with database           |
-| Create object | `Category(name='Food', ...)`       | Make a Python object (not in database yet) |
-| Track it      | `session.add(category)`            | Tell session "I want to save this"         |
-| Save          | `session.commit()`                 | Actually write to database                 |
-| Close         | (automatic)                          | End of `with` block closes session       |
-
-**Creating multiple records at once:**
-
-```python
 with Session(engine) as session:
-    categories = [
-        Category(name='Food', color='#FF6B6B'),
-        Category(name='Transportation', color='#4ECDC4'),
-        Category(name='Entertainment', color='#95E1D3'),
-    ]
-    session.add_all(categories)  # add_all for lists
-    session.commit()
+    rows = session.execute(select(Expense).where(Expense.amount >= 50)).scalars().all()
+    print([(r.description, str(r.amount)) for r in rows])
 ```
 
 **Output:**
 
-```
-INSERT INTO categories (name, color) VALUES ('Food', '#FF6B6B')
-INSERT INTO categories (name, color) VALUES ('Transportation', '#4ECDC4')
-INSERT INTO categories (name, color) VALUES ('Entertainment', '#95E1D3')
-
-3 categories created with ids 1, 2, 3
+```text
+[('Groceries', '52.50')]
 ```
 
-## Reading Records (READ)
+Walk through the key moments:
 
-The pattern for reading data: `session.query(Model).method()`
+- `session.add_all([user, food])` stages both objects. Nothing hits the database yet.
+- `session.flush()` sends the INSERT statements to the database. Now `user.id` and `food.id` have real values (the database assigned them). But the transaction is still open -- this is the "preview your cart" step.
+- `session.add(Expense(...))` uses those freshly assigned IDs. Without the flush, `user.id` would still be `None`.
+- `session.commit()` finalizes everything. Now the data is permanent.
+- The second `with Session(...)` block opens an entirely new session. If the data shows up here, it's genuinely committed -- not just cached in memory.
 
-### Get All Records
+The `.scalars()` call deserves a quick explanation: when you run `session.execute(select(Expense))`, SQLAlchemy returns rows wrapped in a result object. The `.scalars()` call unwraps them -- think of it as opening the envelope to get the letter inside. Without it, you'd get `Row` objects instead of `Expense` objects.
 
-```python
-with Session(engine) as session:
-    all_categories = session.query(Category).all()
+(A note about that `PRAGMA foreign_keys=ON` listener: SQLite disables foreign key enforcement by default. The listener turns it on for every connection so your local development catches the same FK violations that PostgreSQL would catch in production. Without it, you could insert an expense pointing to a nonexistent user and SQLite would happily accept it -- a nasty surprise when you deploy.)
 
-    for cat in all_categories:
-        print(f"{cat.id}: {cat.name}")
-```
+## Read-Path Verification Checklist
 
-**Output:**
+Don't trust that your writes worked just because no error appeared. Trust the read:
 
-```
-1: Food
-2: Transportation
-3: Entertainment
+1. Write one known row with deterministic values
+2. Read that row in a new session
+3. Assert expected field values, not only row count
+4. Run one failing FK insert and verify the rollback path
+5. Repeat the read to prove the failed write left no residue
 
-all_categories is a Python list of Category objects
-```
+This simple loop prevents most beginner CRUD illusions -- the cases where you think data was saved but it was only in memory, or where a failed write silently corrupted your session state.
 
-### Get One Record by Condition
+## The Failure Path: Rollback in Action
 
-```python
-with Session(engine) as session:
-    food = session.query(Category).filter(
-        Category.name == 'Food'
-    ).first()
+You might be thinking: "When would commit actually fail?" More often than you'd hope -- duplicate emails, invalid foreign keys, network hiccups. The question isn't IF it fails, it's WHEN.
 
-    print(f"Found: {food.name}, color: {food.color}")
-```
-
-**Output:**
-
-```
-Found: Food, color: #FF6B6B
-
-.first() returns the first match or None if nothing found
-```
-
-### Filter with Conditions
-
-```python
-with Session(engine) as session:
-    # Find expenses >= $50
-    big_expenses = session.query(Expense).filter(
-        Expense.amount >= 50
-    ).all()
-
-    print(f"Found {len(big_expenses)} expenses over $50")
-```
-
-**Output:**
-
-```
-Found 2 expenses over $50
-
-.filter() accepts comparison operators: ==, !=, >, <, >=, <=
-```
-
-### Multiple Filters (AND)
-
-```python
-with Session(engine) as session:
-    # Food expenses over $20
-    food_expenses = session.query(Expense).filter(
-        Expense.category_id == 1,
-        Expense.amount > 20
-    ).all()
-```
-
-**Output:**
-
-```
-SELECT * FROM expenses WHERE category_id = 1 AND amount > 20
-
-Multiple conditions in filter() are ANDed together
-```
-
-### Ordering Results
-
-```python
-with Session(engine) as session:
-    # Newest expenses first
-    recent = session.query(Expense).order_by(
-        Expense.date.desc()
-    ).all()
-```
-
-**Output:**
-
-```
-SELECT * FROM expenses ORDER BY date DESC
-
-.desc() = descending (newest first)
-.asc() = ascending (oldest first, default)
-```
-
-### Limiting Results
-
-```python
-with Session(engine) as session:
-    # Get first 5 expenses only
-    first_five = session.query(Expense).limit(5).all()
-```
-
-**Output:**
-
-```
-SELECT * FROM expenses LIMIT 5
-
-Useful for pagination or "top N" queries
-```
-
-## .all() vs .first(): When to Use Each
-
-| Method       | Returns             | Use When                   |
-| ------------ | ------------------- | -------------------------- |
-| `.all()`   | List (may be empty) | Expecting multiple results |
-| `.first()` | One object or None  | Expecting one result       |
-
-```python
-with Session(engine) as session:
-    # .all() - always a list
-    categories = session.query(Category).all()
-    print(type(categories))  # <class 'list'>
-    print(len(categories))   # 3
-
-    # .first() - one object or None
-    food = session.query(Category).filter(
-        Category.name == 'Food'
-    ).first()
-    print(type(food))        # <class 'Category'> or NoneType
-```
-
-**Output:**
-
-```
-<class 'list'>
-3
-<class '__main__.Category'>
-```
-
-**Safety tip**: When using `.first()`, always check for None:
-
-```python
-food = session.query(Category).filter(Category.name == 'Pizza').first()
-
-if food:
-    print(f"Found: {food.name}")
-else:
-    print("Category not found")
-```
-
-## Error Handling
-
-What happens when you try to add invalid data?
+Here's what a controlled failure looks like:
 
 ```python
 with Session(engine) as session:
     try:
-        # This will fail if user 999 doesn't exist
-        expense = Expense(
-            user_id=999,  # No user with id=999
+        bad_row = Expense(
+            user_id=9999,  # invalid
             category_id=1,
-            description="Test",
-            amount=50.00
+            description="Invalid FK demo",
+            amount=10.00,
         )
-        session.add(expense)
-        session.commit()  # Error happens here!
-
-    except Exception as e:
-        print(f"Error: {e}")
-        # Session auto-rollbacks - no partial data saved
+        session.add(bad_row)
+        session.commit()
+    except Exception as exc:
+        session.rollback()
+        print(type(exc).__name__)
 ```
 
 **Output:**
 
-```
-Error: FOREIGN KEY constraint failed
-
-The expense was NOT saved.
-Session automatically rolled back all changes.
+```text
+IntegrityError
 ```
 
-**Key insight**: The `with` block handles cleanup. If an error occurs:
+The database rejects the row because `user_id=9999` doesn't exist in the `users` table (that's your foreign key constraint doing its job). The `session.rollback()` call undoes everything in this session's transaction, leaving the database exactly as it was before.
 
-1. Changes are rolled back (nothing saved)
-2. Session closes properly
-3. Your database stays consistent
+Running one controlled failure now saves hours of confusing downstream debugging later. `session.add()` without `commit` is the database equivalent of "I'll save my file later." We all know how that story ends.
 
-## Complete Example: Budget Tracker CRUD
-
-Here's a working example that creates and reads Budget Tracker data:
+Use this pattern whenever a write might fail:
 
 ```python
-from datetime import date
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-
-# ... (models defined: User, Category, Expense) ...
-
-# Setup
-engine = create_engine('sqlite:///:memory:')
-Base.metadata.create_all(engine)
-
-# CREATE: Add sample data
-with Session(engine) as session:
-    # Create user
-    user = User(email='alice@example.com', name='Alice')
-    session.add(user)
-
-    # Create categories
-    categories = [
-        Category(name='Food', color='#FF6B6B'),
-        Category(name='Transport', color='#4ECDC4'),
-    ]
-    session.add_all(categories)
-    session.flush()  # Get IDs without committing
-
-    # Create expenses
-    expenses = [
-        Expense(
-            user_id=user.id,
-            category_id=categories[0].id,
-            description='Groceries',
-            amount=52.50,
-            date=date(2024, 1, 15)
-        ),
-        Expense(
-            user_id=user.id,
-            category_id=categories[1].id,
-            description='Gas',
-            amount=45.00,
-            date=date(2024, 1, 16)
-        ),
-    ]
-    session.add_all(expenses)
+try:
+    session.add(expense)
     session.commit()
-
-# READ: Query the data
-with Session(engine) as session:
-    # All categories
-    print("Categories:")
-    for cat in session.query(Category).all():
-        print(f"  {cat.id}: {cat.name}")
-
-    # Expenses over $50
-    print("\nExpenses over $50:")
-    big = session.query(Expense).filter(Expense.amount > 50).all()
-    for exp in big:
-        print(f"  ${exp.amount}: {exp.description}")
+except Exception:
+    session.rollback()
+    raise
 ```
 
 **Output:**
 
+(Re-raises the original exception after rolling back cleanly.)
+
+Also avoid reusing failed session state after exception paths. Rollback first, then continue or open a new session.
+
+:::tip[Pause and Reflect]
+You've seen both a successful insert and a failed one. Why is the failure case just as important to practice? In production, which scenario do you think happens more often -- and what happens if you don't handle it?
+:::
+
+## Query Patterns for Reading
+
+Once data is committed, you need flexible ways to get it back. Here are the patterns you'll reach for most often:
+
+```python
+# one row or None
+one = session.execute(select(Category).where(Category.name == "Food")).scalars().first()
+
+# many rows
+many = session.execute(select(Category)).scalars().all()
+
+# range query
+march_rows = session.execute(
+    select(Expense).where(Expense.date >= date(2024, 3, 1), Expense.date < date(2024, 4, 1))
+).scalars().all()
 ```
-Categories:
-  1: Food
-  2: Transport
 
-Expenses over $50:
-  $52.5: Groceries
+**Output:**
+
+```text
+# one: <Category name='Food'> (or None if not found)
+# many: [<Category name='Food'>]
+# march_rows: [] (no March expenses in our data)
 ```
 
-## What Happens Next
+Use `.first()` when you expect zero or one result. Use `.all()` when you expect a list. If you use `.first()` on a query that could match many rows, you'll silently get just the first one -- which might hide bugs where your filter isn't specific enough.
 
-In this lesson, you mastered Create and Read operations. But data is never static. Expenses change. Users update their categories. That's where L4 comes in.
+Think of it this way: imagine building a user registration system. When checking if an email already exists, `.first()` is exactly right -- you only need to know if at least one match exists. But when listing all users in an admin panel, `.all()` is what you want. Picking the wrong one doesn't crash your program; it just gives you misleading results, which is worse.
 
-| Lesson | What You Learn                   | What You Add to Your Skill            |
-| ------ | -------------------------------- | ------------------------------------- |
-| L3 (now) | Create and Read records        | CRUD Create/Read patterns             |
-| L4     | Connect tables with relationships | Foreign keys and navigation patterns  |
-| L5     | Make operations atomic and safe  | Transaction patterns and error handling |
-| L6     | Deploy to the cloud              | Connection pooling and Neon setup     |
-| L7     | Combine SQL + bash for hybrid patterns | Tool choice framework              |
-| L8     | Build the complete Budget Tracker | Capstone integration                  |
+Or consider a project tracker where tasks get created, assigned, completed, and archived. Every one of those operations is a CRUD operation with this same session pattern: open, add or query, commit or rollback, close.
 
-Each lesson builds on the previous one. You can Create and Read. Next, you'll connect tables so you can answer questions like "Show me all expenses for User 1" without writing complex filter logic.
+## Debugging Patterns
+
+When things don't work as expected, check these in order:
+
+- **If reads are empty**, verify commit happened. A missing `session.commit()` means your data exists only in the session's memory.
+- **If FK errors don't appear locally**, verify the SQLite FK pragma is enabled. Without `PRAGMA foreign_keys=ON`, SQLite silently accepts invalid foreign keys.
+- **If one query "sometimes" works**, check whether `.first()` is hiding multiple matches that should have been constrained by a unique index.
+
+Good beginner habit: print small deterministic result sets while learning. Switch to assertions once behavior is stable. This keeps debugging concrete and avoids "it looked right" mistakes.
+
+## Micro-Check Before Moving On
+
+Before you continue to the next lesson, verify these three things:
+
+- Can you insert one valid row and read it back in a new session?
+- Can you trigger one invalid row (bad FK) and handle it with rollback?
+- Can you explain why both outcomes are useful to practice?
+
+**What breaks next?** Single-table CRUD is stable now. The next risk is cross-table truth: relationships and query shape.
 
 ## Try With AI
 
-### Prompt 1: Predict Query Results
+### Prompt 1: CRUD Sanity Check
 
-**What you're learning:** Understanding how queries filter data.
-
-```
-Given this database state:
-- Categories: Food (id=1), Transport (id=2), Entertainment (id=3)
-- Expenses:
-  - id=1, category_id=1, amount=52.50, description="Groceries"
-  - id=2, category_id=1, amount=18.75, description="Lunch"
-  - id=3, category_id=2, amount=45.00, description="Gas"
-  - id=4, category_id=3, amount=30.00, description="Movie"
-
-Predict the output of each query:
-
-1. session.query(Expense).filter(Expense.category_id == 1).all()
-   How many results? What are they?
-
-2. session.query(Expense).filter(Expense.amount >= 50).first()
-   What single record is returned?
-
-3. session.query(Category).filter(Category.name == 'Shopping').first()
-   What is returned and why?
+```text
+Given this SQLAlchemy CRUD code, find correctness risks:
+- missing commit
+- missing rollback
+- FK misuse
+- wrong assumptions about .first() vs .all()
+Provide corrected code.
 ```
 
-After AI responds, trace through each query yourself. Do your predictions match?
+**What you're learning:** You're developing an eye for the subtle bugs that slip past "it runs without errors." AI is good at spotting patterns like missing rollbacks or commit-before-flush issues -- this is AI as code reviewer, catching what human eyes skip during the "it works on my machine" phase.
 
-### Prompt 2: Write CRUD Code
+### Prompt 2: Add a Safe Read Pattern
 
-**What you're learning:** Writing Create and Read operations.
-
+```text
+Add a function list_expenses_over(amount) that returns
+[(description, amount)] using SQLAlchemy 2.0 select() style.
+Include one test query example and expected output.
 ```
-Write SQLAlchemy code to:
 
-1. Create a new Category named "Utilities" with color "#F38181"
+**What you're learning:** Writing query functions that return clean data structures (not raw SQLAlchemy objects) is how production code stays testable. You're practicing the pattern of wrapping database access in functions with predictable inputs and outputs.
 
-2. Create an Expense:
-   - user_id: 1
-   - category_id: 4 (Utilities)
-   - description: "Electric bill"
-   - amount: 125.00
+### Prompt 3: Apply to Your Domain
 
-3. Query all expenses with amount > 100
-
-4. Query the "Utilities" category by name
-
-Use the session context manager pattern from this lesson.
+```text
+Pick a project you're building. Write the CRUD operations for your main entity:
+1. A create function that inserts one row with validation
+2. A read function that queries by one filter condition
+3. A failure case that tests what happens with invalid data
 Show the expected output for each operation.
 ```
 
-After AI responds, check: Does the code use `with Session(engine)`? Does it `commit()` after creating?
-
-### Prompt 3: Update Your Skill
-
-**What you're learning:** Documenting patterns as you learn.
-
-```
-Add to my /database-deployment skill:
-
-## CRUD Operations: Create & Read
-
-Include these patterns with examples:
-1. Session context manager pattern (with Session as session)
-2. Create single record (session.add + commit)
-3. Create multiple records (session.add_all + commit)
-4. Query all (.query().all())
-5. Query with filter (.query().filter().first())
-6. Error handling (try/except around commit)
-
-Use Budget Tracker examples (Category, Expense).
-Format as markdown for SKILL.md.
-```
-
-After AI responds, paste the section into your `/database-deployment/SKILL.md` file.
-
-**Safety reminder:** When working with real databases, always verify your queries on a small dataset first. A query without a filter (like `.all()` on millions of rows) can crash your program or overload your database.
-
-### Checkpoint
-
-Before moving to L4:
-
-- [ ] You understand: Session = conversation with database
-- [ ] You can create records (session.add + session.commit)
-- [ ] You can query all records (session.query().all())
-- [ ] You can filter records (session.query().filter())
-- [ ] You know the difference between .all() (list) and .first() (one or None)
-- [ ] You understand: Errors auto-rollback, no partial saves
-- [ ] You've written CRUD code (Prompt 2)
-- [ ] You've updated your /database-deployment skill with CRUD patterns
-
-Ready for L4: Update & Delete operations, plus relationships.
+**What you're learning:** CRUD is the bread and butter of every database app. The session, add, commit/rollback pattern you're learning here is the same pattern used in production systems serving millions of users. Master it once, use it everywhere.

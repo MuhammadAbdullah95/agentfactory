@@ -1,26 +1,20 @@
 ### Core Concept
+Cloud persistence requires secure credential handling, connection pooling, and health checks.
 
-Neon is a serverless PostgreSQL database that makes your application persistent, scalable, and accessible from anywhere. Moving from in-memory SQLite to Neon means your data survives restarts, handles multiple users, and auto-scales -- with zero server management.
+### Continuity Bridge
+From local transaction safety (L5) to cloud persistence that survives machine restarts.
 
 ### Key Mental Models
-
-- **Environment variables as the security boundary**: Database credentials live in `.env` files, never in code. `.env` goes in `.gitignore` immediately. If credentials reach a Git repository, attackers will find them -- bots scan public repos constantly.
-- **Connection pooling as connection reuse**: Instead of opening a new database connection for every query (slow, hits limits), a pool keeps connections warm and reuses them. `pool_pre_ping=True` is critical for Neon because it auto-pauses idle databases, killing stale connections.
+- DATABASE_URL in .env, .env in .gitignore -- never in source code.
+- Connection pool reuses connections instead of creating new ones per query.
+- pool_pre_ping catches stale connections before your query fails.
+- pool_recycle=3600 prevents Neon from dropping idle connections.
 
 ### Critical Patterns
+- 4-step secret management: .env file, .gitignore, python-dotenv, os.getenv().
+- QueuePool with pool_pre_ping=True and pool_recycle=3600.
+- SELECT 1 health check before trusting the connection.
+- Deterministic error triage: work through causes in order, not random guessing.
 
-- Connection string anatomy: `postgresql+psycopg2://user:password@host/dbname?sslmode=require`
-- Secure credential flow: `.env` file with `DATABASE_URL`, `load_dotenv()`, `os.getenv("DATABASE_URL")`, `.env` in `.gitignore`
-- Production engine configuration: `pool_size=5`, `max_overflow=10`, `pool_pre_ping=True`, `pool_recycle=3600`
-- Connection verification: `conn.execute(text("SELECT 1"))` before deploying models
-
-### Common Mistakes
-
-- Hardcoding the connection string in Python code -- one accidental git push exposes your database to the world
-- Forgetting `pool_pre_ping=True` -- Neon pauses after 5 minutes idle, and stale connections fail silently
-- Not checking that `.env` is actually in `.gitignore` before committing (verify with `git status`)
-
-### Connections
-
-- **Builds on**: In-memory SQLite from Lessons 2-5 (same SQLAlchemy code, different engine URL)
-- **Leads to**: Hybrid SQL + bash verification patterns (Lesson 7), then integrating everything in the capstone (Lesson 8)
+### Common Mistake
+Hardcoding DATABASE_URL in source code. Also: random troubleshooting instead of sequential diagnostics tied to exact error text.

@@ -4,752 +4,357 @@ title: "Capstone - Budget Tracker Complete App"
 chapter: 9
 lesson: 8
 duration_minutes: 40
-description: "Build and run the complete Budget Tracker application integrating models, CRUD operations, relationships, transactions, and Neon deployment"
-keywords: ["capstone", "budget tracker", "SQLAlchemy", "Neon", "complete application", "integration", "CRUD", "transactions", "relationships", "production"]
-
-# HIDDEN SKILLS METADATA
+description: "Integrate schema, CRUD, relationships, transactions, Neon, and high-stakes verification in one app"
+keywords: ["capstone", "SQLAlchemy", "Neon", "transactions", "verification", "evidence bundle"]
 skills:
-  - name: "Full Application Integration"
-    proficiency_level: "A2"
+  - name: "System Integration"
+    proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Create"
-    digcomp_area: "Digital Content Creation"
-    measurable_at_this_level: "Student can combine all chapter patterns into a working multi-table application"
-
-  - name: "Code Reading and Comprehension"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Understand"
-    digcomp_area: "Information Literacy"
-    measurable_at_this_level: "Student can read production code and explain what each function does"
-
-  - name: "Production Python Application"
-    proficiency_level: "A2"
+    digcomp_area: "Software Development"
+    measurable_at_this_level: "Student can integrate chapter primitives into one coherent app"
+  - name: "Operational Judgment"
+    proficiency_level: "B1"
     category: "Applied"
-    bloom_level: "Apply"
-    digcomp_area: "Digital Content Creation"
-    measurable_at_this_level: "Student can execute complete Python applications with database backends"
-
-  - name: "Skill Documentation"
-    proficiency_level: "A2"
-    category: "Soft"
-    bloom_level: "Create"
-    digcomp_area: "Communication"
-    measurable_at_this_level: "Student can finalize and document reusable technical skills"
-
-  - name: "Database Application Testing"
-    proficiency_level: "A2"
-    category: "Technical"
-    bloom_level: "Apply"
+    bloom_level: "Evaluate"
     digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can verify database operations work correctly through testing"
-
+    measurable_at_this_level: "Student can decide SQL-only vs hybrid verification by risk"
 learning_objectives:
-  - objective: "Build complete multi-table Budget Tracker application integrating all chapter patterns"
-    proficiency_level: "A2"
+  - objective: "Integrate all chapter primitives into one working application"
+    proficiency_level: "B1"
     bloom_level: "Create"
-    assessment_method: "Student runs complete budget-tracker.py and sees all operations succeed"
-
-  - objective: "Implement all CRUD operations plus complex queries in a single application"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student can explain and modify each CRUD function"
-
-  - objective: "Use relationships, transactions, and error handling together"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student successfully executes transfer_budget and explains atomicity"
-
-  - objective: "Deploy and test application on Neon"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Application runs against Neon database with visible results"
-
-  - objective: "Refine and own the /database-deployment skill"
-    proficiency_level: "A2"
-    bloom_level: "Create"
-    assessment_method: "Student finalizes skill documentation with complete example and decision guide"
-
+    assessment_method: "Student produces a complete evidence bundle covering CRUD, rollback, Neon, and verification"
+  - objective: "Make risk-based release decisions using evidence"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Student can block or approve release based on verification gate output"
 cognitive_load:
-  new_concepts: 0
-  assessment: "0 new concepts - this lesson integrates 8 previously taught concepts (Models, Sessions, Relationships, Transactions, Queries, Pooling, Error Handling, Testing) into one working application"
-
+  new_concepts: 2
+  assessment: "2 new concepts (evidence bundle, release gate) — all other concepts are integration of previously learned material"
 differentiation:
-  extension_for_advanced: "Add features: spending trends visualization, budget limits with alerts, recurring expenses, multi-user support with authentication"
-  remedial_for_struggling: "Start with basic CRUD only (create expense, list expenses); skip monthly summaries and category grouping until core works"
+  extension_for_advanced: "Add a CI/CD pipeline that automatically runs the evidence bundle and blocks deployment on any gate failure. Compare your evidence bundle with a teammate's."
+  remedial_for_struggling: "Run the capstone sequence one step at a time. Focus on getting each step to pass before moving to the next. The evidence bundle is just collecting proof of what you already know how to do."
 ---
+
 # Capstone - Budget Tracker Complete App
 
-Throughout this chapter, you learned every piece of the database puzzle:
+You started this chapter with a script that couldn't handle a second user. Look where you are now: typed models, safe transactions, cloud deployment, independent verification. That's not a script anymore -- that's a system.
 
-- **L0**: Created your `/database-deployment` skill scaffold
-- **L1**: Understood why databases beat CSV files
-- **L2**: Defined models as Python classes
-- **L3**: Built CRUD operations (Create, Read, Update, Delete)
-- **L4**: Connected tables with relationships and joins
-- **L5**: Protected data integrity with transactions
-- **L6**: Deployed to Neon with connection pooling
-- **L7**: Learned hybrid SQL + bash verification patterns
+This lesson pulls every piece together. You will wire up your models, CRUD operations, transaction safety, Neon connection, and verification gate into a single application -- then run it end to end and collect the proof that it works.
 
-Now you put it all together. You'll run a complete, production-ready Budget Tracker application that demonstrates everything you've learned. This isn't a toy example. This is code you can actually use, extend, and share.
+:::info[Key Terms for This Lesson]
+- **Evidence bundle**: A collection of test results that PROVES your system works -- not "I think it works" but "here's the proof it works"
+- **Release gate**: A checkpoint that must pass before your code goes to production -- if the gate fails, you stop and fix before shipping
+:::
 
-## Why This Architecture Works
+## The Integration Contract
 
-You might wonder: Why not just use bash scripts and JSON files to manage expenses? Why SQLAlchemy and a database?
+In Lesson 7, you built independent verification for high-stakes outputs. Now you combine every layer into one coherent application with five commitments:
 
-Research from Braintrust (an AI evaluation platform) tested this exact question. They compared three approaches to querying structured data:
+1. **Models enforce schema** (`User`, `Category`, `Expense`).
+2. **CRUD paths include rollback** on write failure.
+3. **Summary queries avoid N+1** patterns.
+4. **Neon connection uses pooled** pre-ping configuration.
+5. **High-stakes reports run independent verification** before release.
 
-| Approach                      | Accuracy | Tokens Used | Time  | Cost  |
-| ----------------------------- | -------- | ----------- | ----- | ----- |
-| **SQL Queries**         | 100%     | 155K        | 45s   | $0.51 |
-| **Bash + grep/awk**     | 52.7%    | 1.06M       | 401s  | $3.34 |
-| **Hybrid (SQL + Bash)** | 100%     | 310K        | ~150s | -     |
+Each commitment maps to a lesson you already completed. The capstone is not new learning -- it is proof that all the pieces hold together under one roof.
 
-**What this means for your Budget Tracker:**
+You might be thinking: "Do I really need all these evidence gates?" For a toy project, probably not. For anything touching money, health data, or compliance? Absolutely. This evidence bundle pattern works for any system: e-commerce checkout flows, healthcare record systems, financial trading platforms.
 
-- **Direct SQL queries** (which SQLAlchemy generates): Fast, accurate, efficient
-- **File-based approaches** (bash/grep): 7x more tokens, 9x slower, half the accuracy
-- **Why it matters**: Even if you never use AI agents, the same efficiency applies to your own code. Direct queries scale from 100 expenses to 1 million without slowing down. File parsing gets slower with each additional record.
+## The Evidence Pipeline
 
-The research showed another insight: **schema clarity is critical**. The bash agent failed partly because "it didn't know the structure of the JSON files." Your SQLAlchemy models DO define that structure explicitly, which is why queries work reliably.
+Here is the sequence your capstone will follow. Each gate must pass before the next one runs:
 
-This is why professional applications — from startups to enterprises — use databases for anything more than toy data. The architectural choice you're making in this lesson is the same one made in production systems worldwide.
+```
+Evidence Pipeline:
 
-### The Tool Choice Story
-
-Looking back across Part 2, you've assembled a toolkit where each tool excels at specific data tasks:
-
-| Data Task | Best Tool | Why | Learned In |
-|-----------|-----------|-----|------------|
-| File manipulation | Bash | Native, fast, universal | File Processing |
-| Computation | Python | Deterministic, decimal-safe | Computation & Data Extraction |
-| Structured queries | SQL (SQLAlchemy) | Schema-aware, 100% accuracy | This chapter |
-| Exploration + verification | Hybrid (SQL + bash) | Self-checking, catches edge cases | L7 (Hybrid Patterns) |
-
-### What This Means for Your Work
-
-When AI agents query YOUR database, schema clarity determines accuracy. Your Budget Tracker models give Claude structural awareness that `grep` never has. The `Expense` model with its `user_id`, `category_id`, `amount`, and `date` columns tells any query engine exactly what questions it can answer and how to answer them.
-
-This is why production AI systems use databases, not file parsing. The same ORM patterns you've learned in this chapter — models, sessions, relationships, transactions — are what power every real application that needs to remember, relate, and reliably query data. Your Budget Tracker isn't a toy; it's the same architecture pattern used at every scale.
-
-In L7, you learned how combining SQL with bash verification creates self-checking data pipelines. Now you'll see all these patterns working together in one application.
-
-## What You're Building
-
-The complete Budget Tracker includes these features:
-
-| Feature                        | Implementation                             | Lesson Origin      |
-| ------------------------------ | ------------------------------------------ | ------------------ |
-| **User accounts**        | User model with email, name                | L3 (Models)        |
-| **Expense categories**   | Category model with colors                 | L3 (Models)        |
-| **Individual expenses**  | Expense model with foreign keys            | L3 (Models)        |
-| **Create expenses**      | `create_expense()` with error handling   | L4 (CRUD)          |
-| **List expenses**        | `read_expenses()` with filtering         | L4 (CRUD)          |
-| **Update expenses**      | `update_expense()` with validation       | L4 (CRUD)          |
-| **Delete expenses**      | `delete_expense()` safely                | L4 (CRUD)          |
-| **Spending by category** | `get_expenses_by_category()` with joins  | L5 (Relationships) |
-| **Monthly summaries**    | `get_monthly_summary()` with aggregation | L5 (Relationships) |
-| **Budget transfers**     | `transfer_budget()` atomic transaction   | L6 (Transactions)  |
-| **Cloud persistence**    | Neon with connection pooling               | L6 (Neon)          |
-
-**Tech stack**: SQLAlchemy ORM + Neon PostgreSQL + Python. No web framework yet. That comes in later chapters.
-
-## The Complete Application
-
-Here's the full `budget-tracker-complete.py`. Every section maps directly to a lesson you've completed.
-
-### Section 1: Imports and Setup (L6)
-
-```python
-"""
-Complete Budget Tracker Application using SQLAlchemy ORM and Neon PostgreSQL
-"""
-
-import os
-from datetime import datetime, date, timezone
-from dotenv import load_dotenv
-from sqlalchemy import (
-    create_engine,
-    Column,
-    Integer,
-    String,
-    Float,
-    DateTime,
-    Date,
-    ForeignKey,
-    func,
-    text,
-)
-from sqlalchemy.orm import declarative_base, relationship, Session
-from sqlalchemy.pool import QueuePool
-
-# Load environment variables
-load_dotenv()
-
-# Database connection
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL not set in .env file")
-
-# Engine with connection pooling
-engine = create_engine(
-    DATABASE_URL,
-    poolclass=QueuePool,
-    pool_size=5,
-    max_overflow=10,
-    pool_recycle=3600,
-    pool_pre_ping=True,
-    echo=False  # Set to True for SQL debugging
-)
-
-Base = declarative_base()
+  Schema Gate         CRUD Gate          Rollback Gate
+  ┌──────────┐       ┌──────────┐       ┌──────────┐
+  │ Create   │       │ Insert   │       │ Force    │
+  │ tables   │──────►│ + Read   │──────►│ failure  │
+  │ ✓ pass   │       │ ✓ pass   │       │ 0 partial│
+  └──────────┘       └──────────┘       │ ✓ pass   │
+                                        └────┬─────┘
+                                             │
+                     Neon Gate          Verify Gate
+                     ┌──────────┐       ┌──────────┐
+                     │ SELECT 1 │       │ SQL vs   │
+                     │ pooled   │──────►│ raw CSV  │
+                     │ ✓ pass   │       │ match?   │
+                     └──────────┘       └────┬─────┘
+                                             │
+                                        ┌────┴─────┐
+                                        │ RELEASE  │
+                                        │ DECISION │
+                                        │ verified │
+                                        │ or       │
+                                        │ BLOCKED  │
+                                        └──────────┘
 ```
 
-**What you recognize**: Environment variables from L6, connection pooling from L6, `declarative_base()` from L2.
+Five gates. One chain. If any gate fails, you stop and fix before continuing. No skipping ahead.
 
-### Section 2: Models (L3)
+## No-N+1 Monthly Summary
+
+This query shape avoids the category-by-category loops that made your Chapter 8 scripts slow. One round trip to the database, grouped and sorted:
 
 ```python
-class User(Base):
-    """User account for budget tracking."""
-    __tablename__ = 'users'
+from datetime import date
+from decimal import Decimal
 
-    id = Column(Integer, primary_key=True)
-    email = Column(String(100), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, func, select
+from sqlalchemy.orm import Session, declarative_base
 
-    # Relationship: User has many expenses
-    expenses = relationship("Expense", back_populates="user", cascade="all, delete-orphan")
-
-    def __repr__(self):
-        return f"<User(id={self.id}, email='{self.email}')>"
+Base = declarative_base()
 
 
 class Category(Base):
-    """Budget categories (Food, Transportation, Entertainment, etc.)."""
-    __tablename__ = 'categories'
-
+    __tablename__ = "categories"
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True, nullable=False)
-    color = Column(String(7), default="#FF6B6B")
-
-    # Relationship: Category has many expenses
-    expenses = relationship("Expense", back_populates="category", cascade="all, delete-orphan")
-
-    def __repr__(self):
-        return f"<Category(name='{self.name}')>"
 
 
 class Expense(Base):
-    """Individual expense entry."""
-    __tablename__ = 'expenses'
-
+    __tablename__ = "expenses"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
-    description = Column(String(200), nullable=False)
-    amount = Column(Float, nullable=False)
-    date = Column(Date, default=date.today)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    user_id = Column(Integer, nullable=False)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
+    date = Column(Date, nullable=False)
 
-    # Relationships: Expense belongs to User and Category
-    user = relationship("User", back_populates="expenses")
-    category = relationship("Category", back_populates="expenses")
 
-    def __repr__(self):
-        return f"<Expense(${self.amount:.2f}, '{self.description}')>"
-```
+def monthly_summary(engine, user_id: int, year: int, month: int) -> list[dict]:
+    start = date(year, month, 1)
+    end = date(year + (month == 12), (month % 12) + 1, 1)
 
-**What you recognize**: `Column` types from L2, `ForeignKey` from L4, `relationship()` with `back_populates` from L4, `cascade="all, delete-orphan"` from L4.
-
-### Section 3: CRUD Operations (L4)
-
-```python
-def create_expense(user_id, description, amount, category_id, expense_date=None):
-    """Create a new expense."""
-    try:
-        with Session(engine) as session:
-            expense = Expense(
-                user_id=user_id,
-                description=description,
-                amount=amount,
-                category_id=category_id,
-                date=expense_date or date.today()
+    with Session(engine) as session:
+        rows = session.execute(
+            select(
+                Category.name.label("category"),
+                func.count(Expense.id).label("count"),
+                func.sum(Expense.amount).label("total"),
             )
-            session.add(expense)
-            session.commit()
-            return {"success": True, "id": expense.id}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-def read_expenses(user_id, category_id=None):
-    """Get expenses for a user, optionally filtered by category."""
-    with Session(engine) as session:
-        query = session.query(Expense).filter(Expense.user_id == user_id)
-        if category_id:
-            query = query.filter(Expense.category_id == category_id)
-        return query.order_by(Expense.date.desc()).all()
-
-
-def update_expense(expense_id, **kwargs):
-    """Update an expense. Allowed: description, amount, category_id, date."""
-    allowed_fields = {'description', 'amount', 'category_id', 'date'}
-    updates = {k: v for k, v in kwargs.items() if k in allowed_fields}
-
-    try:
-        with Session(engine) as session:
-            expense = session.query(Expense).filter(Expense.id == expense_id).first()
-            if not expense:
-                return {"success": False, "error": "Expense not found"}
-
-            for field, value in updates.items():
-                setattr(expense, field, value)
-
-            session.commit()
-            return {"success": True}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-def delete_expense(expense_id):
-    """Delete an expense."""
-    try:
-        with Session(engine) as session:
-            expense = session.query(Expense).filter(Expense.id == expense_id).first()
-            if not expense:
-                return {"success": False, "error": "Expense not found"}
-
-            session.delete(expense)
-            session.commit()
-            return {"success": True}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-```
-
-**What you recognize**: `session.add()`, `session.commit()` from L3; `session.query().filter()` from L3; error handling with `try/except` from L5.
-
-### Section 4: Relationship Queries (L5)
-
-```python
-def get_monthly_summary(user_id, year, month):
-    """Get spending summary grouped by category for a specific month."""
-    with Session(engine) as session:
-        # Calculate date range
-        if month == 12:
-            next_month = date(year + 1, 1, 1)
-        else:
-            next_month = date(year, month + 1, 1)
-        current_month = date(year, month, 1)
-
-        # Query: sum amount by category with join
-        results = session.query(
-            Category.name,
-            func.sum(Expense.amount).label('total'),
-            func.count(Expense.id).label('count')
-        ).join(Expense).filter(
-            (Expense.user_id == user_id) &
-            (Expense.date >= current_month) &
-            (Expense.date < next_month)
-        ).group_by(Category.name).all()
-
-        return [
-            {"category": name, "total": float(total or 0), "count": count}
-            for name, total, count in results
-        ]
-
-
-def get_expenses_by_category(user_id):
-    """Get all expenses grouped by category."""
-    with Session(engine) as session:
-        categories = session.query(Category).all()
-
-        result = {}
-        for category in categories:
-            expenses = session.query(Expense).filter(
-                (Expense.user_id == user_id) &
-                (Expense.category_id == category.id)
-            ).all()
-
-            result[category.name] = {
-                "count": len(expenses),
-                "total": sum(e.amount for e in expenses),
-                "expenses": [
-                    {"id": e.id, "description": e.description,
-                     "amount": e.amount, "date": e.date.isoformat()}
-                    for e in expenses
-                ]
-            }
-
-        return result
-
-
-def get_top_expenses(user_id, limit=10):
-    """Get the highest-value expenses."""
-    with Session(engine) as session:
-        return session.query(Expense).filter(
-            Expense.user_id == user_id
-        ).order_by(Expense.amount.desc()).limit(limit).all()
-```
-
-**What you recognize**: `.join()` from L4, `func.sum()` and `func.count()` from L4, `.group_by()` from L4, navigation through relationships from L4.
-
-### Section 5: Transactions (L6)
-
-```python
-def transfer_budget(user_id, from_category_id, to_category_id, amount):
-    """
-    Atomic operation: Move budget from one category to another.
-    Creates two expense entries: negative in source, positive in destination.
-    Both succeed or both fail.
-    """
-    try:
-        with Session(engine) as session:
-            from_cat = session.query(Category).filter(
-                Category.id == from_category_id
-            ).first()
-            to_cat = session.query(Category).filter(
-                Category.id == to_category_id
-            ).first()
-
-            if not from_cat or not to_cat:
-                raise ValueError("Category not found")
-
-            # Create BOTH transactions atomically
-            from_expense = Expense(
-                user_id=user_id,
-                category_id=from_category_id,
-                description=f"Transfer to {to_cat.name}",
-                amount=-amount
+            .join(Expense, Expense.category_id == Category.id)
+            .where(
+                Expense.user_id == user_id,
+                Expense.date >= start,
+                Expense.date < end,
             )
-            to_expense = Expense(
-                user_id=user_id,
-                category_id=to_category_id,
-                description=f"Transfer from {from_cat.name}",
-                amount=amount
+            .group_by(Category.name)
+            .order_by(func.sum(Expense.amount).desc())
+        ).all()
+
+    return [
+        {
+            "category": row.category,
+            "count": int(row.count),
+            "total": (row.total or Decimal("0")).quantize(Decimal("0.01")),
+        }
+        for row in rows
+    ]
+```
+
+**Output:**
+```
+[
+  {"category": "Housing", "count": 1, "total": "1500.00"},
+  {"category": "Food", "count": 3, "total": "287.45"},
+  {"category": "Transport", "count": 2, "total": "94.20"}
+]
+```
+
+Compare that to the Chapter 8 approach: nested loops, manual grouping, custom sorting -- all doing what one SQL query handles natively.
+
+## User-Scoped Verification and Release Gate
+
+This is where "ready for demo" becomes "ready for release." The verification function reads the raw CSV independently -- different code path, different failure modes -- and compares totals to what SQL reports:
+
+```python
+import csv
+from decimal import Decimal
+from pathlib import Path
+
+REQUIRED_RAW_COLUMNS = {"user_id", "date", "category", "amount"}
+
+
+def verify_monthly_summary_from_raw(
+    raw_csv: Path, user_id: int, year: int, month: int
+) -> dict[str, Decimal]:
+    prefix = f"{year}-{month:02d}"
+    totals: dict[str, Decimal] = {}
+
+    with raw_csv.open("r", newline="") as f:
+        reader = csv.DictReader(f)
+
+        if not reader.fieldnames:
+            raise ValueError("raw ledger missing header row")
+
+        missing = REQUIRED_RAW_COLUMNS - set(reader.fieldnames)
+        if missing:
+            raise ValueError(f"raw ledger missing required columns: {sorted(missing)}")
+
+        for row in reader:
+            if int(row["user_id"]) != user_id:
+                continue
+            if not row["date"].startswith(prefix):
+                continue
+
+            cat = row["category"]
+            amount = Decimal(row["amount"])
+            totals[cat] = totals.get(cat, Decimal("0")) + amount
+
+    return totals
+
+
+def verify_or_block(sql_summary, raw_totals):
+    tolerance = Decimal("0.01")
+    sql_map = {
+        row["category"]: Decimal(row["total"]).quantize(Decimal("0.01"))
+        for row in sql_summary
+    }
+
+    mismatches = []
+    for category in sorted(set(sql_map) | set(raw_totals)):
+        sql_value = sql_map.get(category, Decimal("0")).quantize(Decimal("0.01"))
+        raw_value = raw_totals.get(category, Decimal("0")).quantize(Decimal("0.01"))
+        delta = abs(sql_value - raw_value)
+        if delta > tolerance:
+            mismatches.append(
+                {
+                    "category": category,
+                    "sql": str(sql_value),
+                    "raw": str(raw_value),
+                    "delta": str(delta),
+                }
             )
 
-            session.add(from_expense)
-            session.add(to_expense)
-            session.commit()  # Both succeed or both fail
+    if mismatches:
+        return {
+            "status": "blocked",
+            "reason": "verification_mismatch",
+            "tolerance": str(tolerance),
+            "mismatches": mismatches,
+        }
 
-            return {"success": True}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+    return {"status": "verified"}
 ```
 
-**What you recognize**: Atomic transaction from L5 (all-or-nothing), `session.rollback()` implicit on exception from L5, paired operations from L5.
-
-### Section 6: Utilities and Main
-
-```python
-def init_database():
-    """Create all tables in database."""
-    Base.metadata.create_all(engine)
-    print("Database initialized")
-
-
-def seed_data():
-    """Add sample data for testing."""
-    with Session(engine) as session:
-        if session.query(User).count() > 0:
-            print("Database already has data, skipping seed")
-            return
-
-        user = User(email="alice@example.com", name="Alice Smith")
-        session.add(user)
-
-        categories = [
-            Category(name="Food", color="#FF6B6B"),
-            Category(name="Transportation", color="#4ECDC4"),
-            Category(name="Entertainment", color="#95E1D3"),
-            Category(name="Utilities", color="#F38181"),
-        ]
-        session.add_all(categories)
-        session.flush()
-
-        expenses = [
-            Expense(user_id=user.id, category_id=categories[0].id,
-                    description="Groceries", amount=52.50, date=date(2024, 1, 15)),
-            Expense(user_id=user.id, category_id=categories[0].id,
-                    description="Lunch", amount=18.75, date=date(2024, 1, 16)),
-            Expense(user_id=user.id, category_id=categories[1].id,
-                    description="Gas", amount=45.00, date=date(2024, 1, 17)),
-            Expense(user_id=user.id, category_id=categories[2].id,
-                    description="Movie tickets", amount=30.00, date=date(2024, 1, 18)),
-        ]
-        session.add_all(expenses)
-        session.commit()
-        print("Sample data added")
-
-
-def test_connection():
-    """Test database connection."""
-    try:
-        with Session(engine) as session:
-            session.execute(text("SELECT 1"))
-            print("Database connection successful")
-            return True
-    except Exception as e:
-        print(f"Connection failed: {e}")
-        return False
-
-
-if __name__ == "__main__":
-    init_database()
-    if not test_connection():
-        exit(1)
-    seed_data()
-
-    user_id = 1
-
-    # Create new expense
-    print("\nCreating new expense...")
-    result = create_expense(user_id, "Dinner", 45.75, 1)
-    print(f"Result: {result}")
-
-    # List expenses
-    print("\nAll expenses:")
-    expenses = read_expenses(user_id)
-    for e in expenses:
-        print(f"  ${e.amount:.2f} | {e.category.name} | {e.description}")
-
-    # Monthly summary
-    print("\nMonthly Summary (January 2024):")
-    summary = get_monthly_summary(user_id, 2024, 1)
-    for item in summary:
-        print(f"  {item['category']:15} | Count: {item['count']:2} | ${item['total']:.2f}")
-
-    print("\nAll operations completed successfully!")
+**Output (verified):**
+```json
+{"status": "verified"}
 ```
 
-## Running the Application
-
-**Prerequisites** (from L6):
-
-1. Neon account with project created
-2. `.env` file with `DATABASE_URL`
-3. Dependencies installed
-
-**Install dependencies**:
-
-```bash
-pip install sqlalchemy psycopg2-binary python-dotenv
+**Output (blocked):**
+```json
+{
+  "status": "blocked",
+  "reason": "verification_mismatch",
+  "tolerance": "0.01",
+  "mismatches": [
+    {"category": "Food", "sql": "287.45", "raw": "287.95", "delta": "0.50"}
+  ]
+}
 ```
 
-Or with uv:
+When the gate returns `blocked`, you do not ship. That is not a bug in your engineering -- it is your engineering working correctly. Publishing despite a `blocked` status is a release process failure, not a query problem.
 
-```bash
-uv add sqlalchemy psycopg2-binary python-dotenv
+## The Evidence Bundle
+
+Your capstone produces one JSON artifact that captures every gate result:
+
+```json
+{
+  "crud_matrix": "pass",
+  "rollback_failure_drill": "pass",
+  "neon_connection_resilience": "pass",
+  "verification_policy_result": "verified_or_blocked_with_reason"
+}
 ```
 
-**Run the application**:
+## Capstone Run Sequence
 
-```bash
-python budget-tracker-complete.py
-```
+Run these seven steps in order. If any step fails, stop and fix before continuing:
 
-**Output:**
+1. Create schema and seed deterministic fixture data
+2. Run CRUD matrix and capture outputs
+3. Run forced rollback drill and capture pre/post counts
+4. Run Neon connectivity health check
+5. Generate monthly SQL summary for one user
+6. Run independent raw verification for same user/month
+7. Evaluate mismatch policy and produce release decision artifact
 
-```
-Database initialized
-Database connection successful
-Sample data added
+This is deliberate sequencing. Step 3 proves your rollback actually works under failure. Step 6 proves your SQL output matches an independent source. Step 7 turns all of that into a decision artifact another engineer can read without asking you questions.
 
-Creating new expense...
-Result: {'success': True, 'id': 5}
+## Gate Language
 
-All expenses:
-  $45.75 | Food | Dinner
-  $30.00 | Entertainment | Movie tickets
-  $45.00 | Transportation | Gas
-  $18.75 | Food | Lunch
-  $52.50 | Food | Groceries
+When discussing readiness with your team, use precise language:
 
-Monthly Summary (January 2024):
-  Food            | Count:  3 | $117.00
-  Transportation  | Count:  1 | $45.00
-  Entertainment   | Count:  1 | $30.00
+- **"Ready for demo"** means the happy path passes
+- **"Ready for release"** means failure evidence and verification gate both pass
+- Never merge release candidates without the evidence bundle attached
 
-All operations completed successfully!
-```
+The difference matters. A demo proves the system can work. A release proves the system can fail safely and recover correctly.
 
-If you see this output, your complete Budget Tracker is working.
+## One Common Failure
 
-## Function Reference (Every Lesson Mapped)
+Publishing reports after a mismatch because "the SQL looks right." That is a release process failure, not a query bug. Another failure: claiming "production-ready" without failure-path proof. Passing only the happy path is insufficient for integrity claims.
 
-| Function                       | Purpose                         | Lesson |
-| ------------------------------ | ------------------------------- | ------ |
-| `init_database()`            | Creates tables from models      | L2     |
-| `seed_data()`                | Adds sample data for testing    | L3     |
-| `create_expense()`           | CRUD Create with error handling | L3, L5 |
-| `read_expenses()`            | CRUD Read with filtering        | L3     |
-| `update_expense()`           | CRUD Update with validation     | L3     |
-| `delete_expense()`           | CRUD Delete safely              | L3     |
-| `get_monthly_summary()`      | Complex join + aggregation      | L4     |
-| `get_expenses_by_category()` | Grouping with relationships     | L4     |
-| `get_top_expenses()`         | Sorting + limiting              | L3     |
-| `transfer_budget()`          | Multi-step atomic transaction   | L5     |
-| `test_connection()`          | Verify Neon works               | L6     |
+## Capstone Self-Review
 
-## Testing Your Understanding
+Before you call this done, answer these honestly:
 
-Add your own expense:
+- Can another engineer rerun your evidence bundle without verbal guidance?
+- Are all critical thresholds explicit (`0.01` tolerance, blocked status rules)?
+- Did you demonstrate at least one failure path, not only success?
+- Could a reviewer trace from requirement to code to evidence artifact quickly?
 
-```python
-with Session(engine) as session:
-    # Create a new user
-    new_user = User(email='me@example.com', name='My Name')
-    session.add(new_user)
-    session.commit()
-    print(f"Created user id: {new_user.id}")
-```
+If any answer is "no," the capstone is still in progress.
 
-**Output:**
+:::tip[Pause and Reflect]
+Look at what you've built across this chapter. In Lesson 0, you had a script that couldn't handle a second user. Now you have a cloud-deployed, transactionally safe, independently verified system. What's the single most important concept you learned along the way?
+:::
 
-```
-Created user id: 2
-```
-
-Add an expense for your user:
-
-```python
-result = create_expense(
-    user_id=2,
-    description='Coffee',
-    amount=4.50,
-    category_id=1  # Food
-)
-print(result)
-```
-
-**Output:**
-
-```
-{'success': True, 'id': 6}
-```
-
-Query your expenses:
-
-```python
-my_expenses = read_expenses(user_id=2)
-for e in my_expenses:
-    print(f"${e.amount:.2f}: {e.description}")
-```
-
-**Output:**
-
-```
-$4.50: Coffee
-```
-
-## Working With AI on Your Budget Tracker
-
-At this point, you've moved from "learning" to "building." When you encounter issues, you and AI work as collaborators.
-
-**Your question:**
-"My `transfer_budget()` function returns `{'success': True}` but the expenses don't appear. What's wrong?"
-
-**AI suggests:**
-"Check if the session is committing correctly. Add some debug output:
-
-```python
-print(f'From expense id: {from_expense.id}')
-print(f'To expense id: {to_expense.id}')
-```
-
-Also verify the category IDs exist in your database."
-
-**Your refinement:**
-"The IDs are None before commit. But after commit they should have values, right?"
-
-**AI adapts:**
-"Correct. If they're still None after `session.commit()`, the transaction may have rolled back silently. Check if there's an exception being swallowed. Try wrapping in explicit try/except and print any exception."
-
-**What emerged:** A debugging approach that traced the transaction lifecycle, identifying that the issue was likely in error handling, not the transaction logic itself.
+Chapter 8 deliverable: one tax report for one person. Chapter 9 deliverable: a cloud-deployed, multi-user, transactionally safe, independently verified financial system. Same you. Different tools. Different capability.
 
 ## Try With AI
 
-### Prompt 1: Understand the Code
+### Prompt 1: Integrity Gap Audit
 
-**What you're learning:** Reading production code and explaining what each part does.
-
-```
-Read the complete budget-tracker-complete.py code.
-
-Answer these questions:
-1. What does transfer_budget() do? Why does it create TWO expenses?
-2. Why does it use try/except? What happens if an error occurs?
-3. What happens if you try to transfer from a category that doesn't exist?
-4. How many expenses can a single user have? (Hint: look at the relationship)
-5. How would you add a "notes" field to expenses?
-
-For each answer, point to the specific line of code that proves your answer.
+```text
+Read my capstone code and classify each critical path:
+- guaranteed by schema
+- guaranteed by transaction
+- guaranteed by verification policy
+- still vulnerable
+Return a prioritized fix list.
 ```
 
-After AI explains, verify: Can you trace through `transfer_budget()` line by line and explain what each line does?
+**What you're learning:** Classifying guarantees by type teaches you to distinguish between what the system prevents automatically (schema violations, partial writes) and what still requires your judgment (verification mismatches, edge cases). This is how experienced engineers think about production risk.
 
-### Prompt 2: Run and Verify
+### Prompt 2: Evidence Bundle Generator
 
-**What you're learning:** Executing real applications and verifying they work.
-
-```
-Help me run the Budget Tracker application:
-
-1. I have my .env file with DATABASE_URL from L6
-2. Walk me through:
-   - Installing dependencies (pip or uv)
-   - Running python budget-tracker-complete.py
-   - Verifying the output matches expected
-   - Checking Neon dashboard for the data
-
-If I get errors:
-- Connection failed? → Check DATABASE_URL format
-- No module 'psycopg2'? → Install psycopg2-binary
-- Import error? → Install sqlalchemy
-
-Report back with the exact output you see.
+```text
+Generate a script that runs:
+1) CRUD smoke checks
+2) forced rollback drill
+3) Neon SELECT 1 health check
+4) verification gate run
+Then outputs one JSON evidence bundle.
 ```
 
-After completing, verify: Do you see "All operations completed successfully!" in your terminal?
+**What you're learning:** Automating your evidence collection turns a manual checklist into a repeatable script. This is the difference between "I checked it once" and "anyone can check it anytime." Automated evidence gates are the foundation of continuous deployment.
 
-### Prompt 3: Finalize Your Skill
+### Prompt 3: Apply to Your Domain
 
-**What you're learning:** Documenting mastery as a reusable skill.
-
-```
-My /database-deployment skill has grown throughout this chapter. Help me finalize it.
-
-Add these sections:
-1. **Complete Example**: budget-tracker-complete.py as reference
-2. **Decision Guide**:
-   - When to use models (defining structure)
-   - When to use relationships (connected data)
-   - When transactions are critical (data integrity)
-   - When to use pooling (production deployments)
-3. **Troubleshooting**: Common errors I learned to fix
-4. **Chapter Checklist**: All the skills I mastered
-
-End with: "This skill is production-ready for any SQLAlchemy + Neon project."
+```text
+You're building [your project]. Design an evidence bundle with 4 gates:
+1. What proves your data model is correct?
+2. What proves your writes are safe?
+3. What proves your cloud connection is reliable?
+4. What proves your critical outputs are accurate?
+For each gate, specify: what you test, what "pass" looks like, and what "fail" means.
 ```
 
-After AI responds, verify: Could you use this skill to build a completely different database application (not Budget Tracker)?
+**What you're learning:** Evidence-driven release decisions transfer to ANY software project. Whether you're shipping a mobile app, deploying an API, or publishing a report -- the pattern is the same: define gates, run tests, collect proof, make decisions based on evidence rather than gut feeling.
 
-## Checkpoint: Chapter Complete
-
-Before finishing this chapter, verify your mastery:
-
-- [ ] I understand every function in budget-tracker-complete.py
-- [ ] I can run the app on Neon (or explain exactly where I got stuck)
-- [ ] I can add a new function (e.g., `get_spending_by_month_chart()`)
-- [ ] I can modify a model (e.g., add `notes` field to Expense)
-- [ ] My `/database-deployment` skill is finalized with complete example
-- [ ] I can explain why transactions matter (atomic = all or nothing)
-- [ ] I can explain why pooling matters (connection reuse, cloud limits)
-
-**You've built something real.** This Budget Tracker works. You can use it to track your own spending. You can extend it with a web interface. You can share it with friends.
-
-More importantly, you've built a **reusable skill**. Every database application you build from now on follows this same pattern: models, sessions, CRUD, relationships, transactions, cloud deployment. This skill is now part of your permanent toolkit.
-
-**Next up**: The [Chapter Quiz](./10-chapter-quiz.md) to test your mastery of everything you've learned — from models and CRUD to hybrid verification patterns.
+Your system is correct. But systems change. Users want new features. Schemas need to evolve. Data needs to migrate. Next chapter: how do you evolve a running system without breaking what works?

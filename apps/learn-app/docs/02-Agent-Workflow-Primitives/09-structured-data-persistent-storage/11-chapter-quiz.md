@@ -3,678 +3,346 @@ sidebar_position: 11
 title: "Chapter 09: Structured Data & Persistent Storage Quiz"
 proficiency_level: A2
 layer: 2
-estimated_time: "75 mins"
+estimated_time: "30 mins"
 chapter_type: Technical
-running_example_id: structured-data-persistent-storage-quiz
+running_example_id: structured-data-persistent-storage-quiz-v3
 ---
 
 # Chapter 09: Structured Data & Persistent Storage Quiz
 
-Test your understanding of database design, SQLAlchemy ORM, relationships, transactions, Neon PostgreSQL deployment, and hybrid tool patterns. This assessment covers all 9 lessons in Chapter 09.
+Twenty-two questions. No tricks. If you've done the work in this chapter, you'll know these answers. If some questions stump you, that's not failure -- it's feedback. Check the source reference, revisit that lesson, and come back.
+
+Scoring guidance:
+
+- `20-22`: strong operational readiness for chapter scope
+- `16-19`: good foundation, revisit weak outcome areas
+- `<=15`: repeat core exercises before moving forward
+
+Best practice: answer once without notes, then review misses and retake after targeted repair.
+
+## What This Quiz Measures
+
+- modeling and constraints
+- CRUD and session safety
+- relationship and query reasoning
+- transaction integrity
+- Neon operations and security
+- Chapter 7 -> 8 -> 9 tool escalation judgment
+
+## Question-to-Outcome Map
+
+Outcome IDs:
+
+- `O1` Modeling and constraints
+- `O2` CRUD and session correctness
+- `O3` Relationships and query reasoning
+- `O4` Transaction safety
+- `O5` Neon operations and security
+- `O6` Tool choice and verification judgment
+
+| Question | Primary outcome |
+|---|---|
+| Q1 | O6 |
+| Q2 | O6 |
+| Q3 | O6 |
+| Q4 | O6 |
+| Q5 | O1 |
+| Q6 | O2 |
+| Q7 | O2 |
+| Q8 | O3 |
+| Q9 | O3 |
+| Q10 | O4 |
+| Q11 | O4 |
+| Q12 | O5 |
+| Q13 | O5 |
+| Q14 | O6 |
+| Q15 | O6 |
+| Q16 | O6 |
+| Q17 | O1 |
+| Q18 | O3 |
+| Q19 | O4 |
+| Q20 | O5 |
+| Q21 | O6 |
+| Q22 | O6 |
 
 <Quiz
-title="Chapter 09: Structured Data & Persistent Storage Assessment"
-questionsPerBatch={18}
+title="Chapter 09: Structured Data & Persistent Storage Assessment (v3)"
+questionsPerBatch={5}
 questions={[
 {
-question: "What is the primary advantage of moving from CSV files to a relational database?",
+question: "Which sequence best matches Part 2's escalation story?",
 options: [
-"CSV files are replaced with a simpler system that requires no setup",
-"Multiple related tables enable queries without custom Python code",
-"CSV files become larger and harder to read",
-"Databases automatically delete duplicate entries"
+"SQL -> Python -> Bash",
+"Bash -> Python -> SQL -> selective hybrid",
+"Python -> Bash -> SQL",
+"Hybrid from the start"
 ],
 correctOption: 1,
-explanation: "Relational databases excel at querying relationships. Instead of manually loading multiple CSV files and filtering in Python, you write one query like 'SELECT all expenses for Alice' which the database executes efficiently. This saves development time and improves reliability.",
-source: "Lesson 1: From CSV to Databases"
+explanation: "Part 2 follows a constraint-driven escalation: Bash for file movement and orchestration (Chapter 7), Python for deterministic computation (Chapter 8), SQL for persistence and relational integrity (Chapter 9), and hybrid verification only when output risk justifies the overhead. Each tool enters when the previous one hits a boundary, not before.",
+source: "Chapter README"
 },
 {
-question: "When comparing CSV files to database tables, what's a key difference?",
+question: "Why does Chapter 8-style looping become risky at Chapter 9 scale?",
 options: [
-"CSV files store data faster because they don't check relationships",
-"Database tables can reference other tables through foreign keys",
-"CSV files support unlimited users while databases support only one",
-"Databases cost more money than CSV storage"
+"Python cannot handle dates",
+"Each new question adds another custom logic path and maintenance risk",
+"Loops are disallowed by SQLAlchemy",
+"Neon rejects loop-generated inserts"
 ],
 correctOption: 1,
-explanation: "Foreign keys in databases enforce relationships. You can't create an expense pointing to a non-existent user. CSV files have no such constraints—you could accidentally reference invalid data. This automatic integrity checking is a core database advantage.",
-source: "Lesson 1: From CSV to Databases"
+explanation: "Every new business question -- monthly breakdown, per-user rollup, category comparison -- requires another hand-written loop with its own edge cases and bugs. The bug surface grows linearly with query count. A database handles new questions with new queries, not new code paths.",
+source: "Lesson 0"
 },
 {
-question: "Which SQLAlchemy model correctly implements a User with auto-increment ID, unique email, and required name?",
+question: "Braintrust/Vercel tested SQL vs Bash for structured data queries. What was the key finding?",
 options: [
-"class User with just primary_key on id",
-"class User with primary_key=True, unique=True on id, and nullable=False on email and name",
-"class User without an id column",
-"class User with String primary_key"
+"Bash was faster but less accurate",
+"SQL achieved 100% accuracy at lower cost; Bash achieved 52.7% accuracy at higher cost",
+"Both tools performed equally",
+"Bash was more accurate for small datasets"
 ],
 correctOption: 1,
-explanation: "Primary keys auto-increment by default. The unique=True on id is redundant (primary keys are already unique) but not wrong. The nullable=False constraints on email and name ensure required fields. This model prevents empty emails or names from entering the database.",
-source: "Lesson 2: Models as Code"
+explanation: "SQL: 100% accuracy, $0.51, 45 seconds. Bash: 52.7% accuracy, $3.34, 401 seconds. The right tool for structured data is not just faster -- it is correct. This is the empirical basis for Chapter 9's escalation from scripts to SQL.",
+source: "Chapter README / Lesson 0"
 },
 {
-question: "What Column type should you use to store an expense amount like 156.78?",
+question: "Based on the Braintrust/Vercel research, when is Bash-based data processing the WRONG choice?",
 options: [
-"String(10)",
-"Integer",
+"For file discovery and movement tasks",
+"For structured data querying requiring accuracy and consistency",
+"For one-time text transformations",
+"For orchestrating shell pipelines"
+],
+correctOption: 1,
+explanation: "Bash excels at file operations and orchestration -- that is Chapter 7 territory. For structured data queries requiring accuracy, SQL is the right escalation. The Braintrust benchmark showed Bash achieving only 52.7% accuracy on structured queries, making it unreliable for any scenario where correctness matters.",
+source: "Chapter README / Lesson 0"
+},
+{
+question: "Safest money type for Expense.amount is:",
+options: [
 "Float",
-"Date"
+"String",
+"Numeric(10, 2)",
+"Boolean"
 ],
 correctOption: 2,
-explanation: "Float handles decimal values. String could work but loses type safety. Integer truncates to whole numbers. Date is for calendar dates. SQLAlchemy's Float column stores decimal numbers with precision.",
-source: "Lesson 2: Models as Code"
+explanation: "Financial values need exact decimal semantics. Float stores 0.1 + 0.2 as 0.30000000000000004 -- acceptable for physics simulations, unacceptable for money. Numeric(10, 2) guarantees exact cents, which is why every payment system, bank ledger, and accounting tool uses fixed-point decimals instead of floating point.",
+source: "Lesson 2"
 },
 {
-question: "What does ForeignKey('users.id') prevent in an Expense model?",
+question: "If you call session.add(row) without commit, what should you expect?",
 options: [
-"It prevents users from entering fractional amounts",
-"It allows expenses to reference non-existent users",
-"It prevents creating an expense without assigning it to a real user",
-"It automatically deletes all user expenses on update"
-],
-correctOption: 2,
-explanation: "Foreign keys enforce referential integrity. SQLAlchemy checks: 'Is there a user with this ID?' If not, the insert fails. This prevents orphaned expenses (expenses pointing to deleted users).",
-source: "Lesson 2: Models as Code"
-},
-{
-question: "Using sqlite:///:memory:, when you restart your program, what happens to inserted data?",
-options: [
-"The data persists in the database",
-"The data is permanently lost (in-memory only)",
-"The data remains until you call session.commit()",
-"SQLite automatically backs up to disk"
+"Row always persists",
+"Row usually does not persist",
+"SQLAlchemy auto-commits all sessions",
+"Neon commits on session close"
 ],
 correctOption: 1,
-explanation: "In-memory SQLite exists only while your program runs. On restart, the entire database is gone. This is fine for learning/testing but unsuitable for production. This is why Neon (persistent, cloud-hosted) matters.",
-source: "Lesson 3: Creating & Reading Data"
+explanation: "session.add() stages a change in memory but does not write it to the database. Without an explicit session.commit(), the row is lost when the session closes. This is intentional: it lets you stage multiple changes and commit them as one atomic unit, or roll them all back if something goes wrong.",
+source: "Lesson 3"
 },
 {
-question: "Which code pattern correctly creates and persists an expense record?",
+question: "After a failed commit, why call rollback before reusing session logic?",
 options: [
-"session.add(expense) without commit",
-"session.add(expense); session.commit()",
-"with Session(engine) as session: session.add(expense); session.commit()",
-"Both B and C are correct"
-],
-correctOption: 3,
-explanation: "Both patterns work. B shows manual session management. C shows context manager (with statement) which automatically closes the session. Both must call commit() to persist. The context manager is safer (auto-closes even on error).",
-source: "Lesson 3: Creating & Reading Data"
-},
-{
-question: "You retrieve 1,500 expenses and need only those over $100. Which is most efficient?",
-options: [
-"Loop through all 1,500 in Python with if expense.amount > 100",
-"Use session.query(Expense).filter(Expense.amount > 100).all()",
-"Create a separate query for high-value expenses",
-"Both A and B are equally efficient"
+"It improves performance",
+"It resets failed transaction state so the session is usable again",
+"It rotates credentials",
+"It creates indexes"
 ],
 correctOption: 1,
-explanation: "Database filtering is far more efficient. The database returns only matching rows (maybe 50). Option A returns all 1,500, then Python loops through them—wasteful. Always push filtering to the database.",
-source: "Lesson 3: Creating & Reading Data"
+explanation: "A failed commit leaves the session in a broken transaction state. Any subsequent operations on that session will also fail until you call rollback() to clear the failed state. Think of it like resetting a jammed printer -- you have to clear the error before you can print again.",
+source: "Lesson 3/5"
 },
 {
-question: "How do you correctly define a one-to-many relationship in SQLAlchemy?",
+question: "Best approach when filtering Expense rows by Category.name is:",
 options: [
-"Define relationship() only in the User model",
-"Define relationship() only in the Expense model",
-"Define relationship() in both models using back_populates",
-"Define relationship() in the database, not Python models"
-],
-correctOption: 2,
-explanation: "One-to-many requires both sides aware of the relationship. User has many Expenses (user.expenses). Expense belongs to User (expense.user). back_populates keeps both synchronized. A one-sided relationship is incomplete.",
-source: "Lesson 4: Relationships & Joins"
-},
-{
-question: "In the User model you defined: expenses = relationship('Expense', back_populates='user'). What should Expense define?",
-options: [
-"user = relationship('User') without back_populates",
-"users = relationship('User', back_populates='expenses')",
-"user = relationship('User', back_populates='expenses')",
-"No relationship needed in Expense"
-],
-correctOption: 2,
-explanation: "The variable name should be singular (user, not users) because each expense belongs to ONE user. back_populates='expenses' points back to the User's relationship. This bidirectional link is what makes relationships powerful.",
-source: "Lesson 4: Relationships & Joins"
-},
-{
-question: "To get all expenses for a user named Alice, which approach works?",
-options: [
-"alice = session.query(User).filter(User.name == 'Alice').first(); then access alice.expenses",
-"Manually loop through all expenses and check names in Python",
-"Relationships don't support querying—use raw SQL",
-"Filter Expense by description.like('%Alice%')"
-],
-correctOption: 0,
-explanation: "Once you fetch Alice, the relationship automatically gives you her expenses without a separate query. This is the power of SQLAlchemy relationships—navigation instead of manual joins. Very Pythonic and efficient.",
-source: "Lesson 4: Relationships & Joins"
-},
-{
-question: "With cascade='all, delete-orphan', what happens when you delete a User?",
-options: [
-"The user is deleted; expenses remain",
-"The user AND all associated expenses are deleted",
-"An error prevents deletion until expenses are manually removed",
-"The user is deleted; expense IDs become NULL"
+"Filter in Python after loading all rows",
+"Use select(Expense).join(Category).where(...)",
+"Export then grep",
+"Run the same query twice"
 ],
 correctOption: 1,
-explanation: "Cascade delete automatically removes related records. Useful for cleanup but dangerous if not understood. A user deletion also deletes all their expenses—no orphaned data. Use carefully in production.",
-source: "Lesson 4: Relationships & Joins"
+explanation: "Filtering at the database layer with an explicit join is both faster and more correct. Loading all rows into Python and filtering wastes memory and network bandwidth. More importantly, the database can use indexes to find matching rows in milliseconds, while Python-side filtering requires scanning every row sequentially.",
+source: "Lesson 4"
 },
 {
-question: "What concept ensures that a budget transfer (debit + credit) succeeds completely or fails completely?",
+question: "What is the most common N+1 anti-pattern signal?",
 options: [
-"Foreign keys",
-"Indexes",
-"Atomicity (all-or-nothing transactions)",
-"Cascade delete"
-],
-correctOption: 2,
-explanation: "Atomicity is the 'A' in ACID. If the debit succeeds but the credit fails, atomicity rolls back both—zero corruption. Without it, your budget could be inconsistent (money vanishes or duplicates).",
-source: "Lesson 5: Transactions & Atomicity"
-},
-{
-question: "If an error occurs during a transaction's debit operation, what does rollback() do?",
-options: [
-"The debit saves; the credit fails",
-"Rollback cancels ALL operations; the database is unchanged",
-"Only the debit is rolled back",
-"A transaction log keeps both operations for manual resolution"
+"Single grouped query",
+"Looping parent objects and lazy-loading children repeatedly",
+"Using selectinload",
+"Using one join query"
 ],
 correctOption: 1,
-explanation: "Rollback is all-or-nothing. If ANY operation in a transaction fails, ALL changes are undone. This is the safety guarantee—no partial changes allowed.",
-source: "Lesson 5: Transactions & Atomicity"
+explanation: "The N+1 problem fires when your code loads N parent objects and then executes a separate query for each parent's children -- turning 1 query into N+1 queries. With 100 users, that is 101 database round-trips instead of 1. The fix is eager loading (selectinload or joinedload) which fetches everything in one or two queries.",
+source: "Lesson 4"
 },
 {
-question: "When should you use session.rollback()?",
+question: "A transfer creates debit and credit rows. Required property:",
 options: [
-"Always call it after every commit to clean up",
-"Call it when an exception occurs to undo failed changes",
-"Never needed—Python auto-cleans",
-"Only if you explicitly called begin() first"
+"Auto-increment",
+"Atomicity",
+"Read replica",
+"Materialized view"
 ],
 correctOption: 1,
-explanation: "Rollback is error recovery. When exception occurs, you rollback to leave the database consistent. Without it, partial changes might persist, causing corruption.",
-source: "Lesson 5: Transactions & Atomicity"
+explanation: "Both rows must commit together or not at all. If the debit commits but the credit fails, money vanishes from the system. Atomicity guarantees all-or-nothing: either the complete transfer persists, or nothing does. This is not a nice-to-have -- it is what separates a reliable ledger from a data-corruption time bomb.",
+source: "Lesson 5"
 },
 {
-question: "What does Neon's free tier include?",
+question: "Which implementation is safest for multi-step writes?",
 options: [
-"Unlimited databases, unlimited storage, 24/7 support",
-"Up to 100 projects, 0.5 GB storage per project, auto-pause",
-"One database, 10 GB storage, dedicated compute",
-"Neon is only available with paid plans"
+"Separate sessions per step",
+"Single session with try/except + commit/rollback",
+"Commit after every line",
+"No exception handling"
 ],
 correctOption: 1,
-explanation: "Neon's free tier is generous for learning. 100 projects means you can experiment extensively. Auto-pause saves costs when idle. Perfect for students building Budget Trackers without paying.",
-source: "Lesson 6: Connecting to Neon"
+explanation: "One logical operation needs one atomic boundary. A single session wrapping all steps in try/except means either everything commits on success or everything rolls back on failure. Separate sessions per step create partial-write risk: step 1 commits, step 2 fails, and you are left with half a transfer.",
+source: "Lesson 5"
 },
 {
-question: "In a connection string, which part specifies the database driver?",
+question: "Correct credential handling for Neon is:",
 options: [
-"host.neon.tech",
-"postgresql+psycopg2",
-"dbname",
-"sslmode=require"
+"Hardcode DATABASE_URL in source",
+"Store DATABASE_URL in .env and ignore .env in git",
+"Commit credentials and rotate later",
+"Put credentials in README"
 ],
 correctOption: 1,
-explanation: "postgresql+psycopg2 tells SQLAlchemy to use the psycopg2 driver for PostgreSQL. The driver is what actually communicates with the database.",
-source: "Lesson 6: Connecting to Neon"
+explanation: "Environment-based secret handling is baseline security discipline. Your DATABASE_URL contains your host, username, and password. Committing it to git means anyone who clones the repo has full database access. Store it in .env, add .env to .gitignore, and load it with python-dotenv or os.environ at runtime.",
+source: "Lesson 6"
 },
 {
-question: "Where should you store your Neon connection string to avoid accidental Git commits?",
+question: "pool_pre_ping=True primarily helps with:",
 options: [
-"In config.py in the root directory",
-"As a comment in Python code",
-"In a .env file (add .env to .gitignore)",
-"In the Git commit message"
-],
-correctOption: 2,
-explanation: "Hardcoding credentials is a security disaster. .env files + .gitignore is the standard pattern. If .env ends up in Git, anyone can access your database.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "How do you load a .env file into Python code?",
-options: [
-"import os; connection_string = os.getenv('DATABASE_URL')",
-"from dotenv import load_dotenv; load_dotenv(); import os; connection_string = os.getenv('DATABASE_URL')",
-"from .env import DATABASE_URL",
-"Hardcode the connection string directly"
+"SQL injection prevention",
+"Stale pooled connections that silently died",
+"Schema migrations",
+"Foreign key creation"
 ],
 correctOption: 1,
-explanation: "python-dotenv's load_dotenv() reads .env and makes variables available via os.getenv(). Without load_dotenv(), getenv() returns None. Options A and C fail for different reasons.",
-source: "Lesson 6: Connecting to Neon"
+explanation: "Serverless databases like Neon can close idle connections without warning. Without pre-ping, your next query hits a dead connection and fails. pool_pre_ping=True sends a lightweight check ('SELECT 1') before each connection is used, detecting dead connections and replacing them transparently. Small cost, large reliability gain.",
+source: "Lesson 6"
 },
 {
-question: "What does pool_size=5 mean in SQLAlchemy's connection pool?",
+question: "Which statement about hybrid verification is correct?",
 options: [
-"Your database can have a maximum of 5 users",
-"Keep 5 connections ready; reuse them for queries",
-"Cache only 5 query results in memory",
-"Neon limits you to 5 database projects"
+"Run the same SQL twice",
+"Use SQL primary plus an independent path when stakes justify overhead",
+"Replace SQL with Bash",
+"Always use hybrid for every query"
 ],
 correctOption: 1,
-explanation: "Connection pooling reuses database connections instead of creating new ones for every query. pool_size=5 means keep 5 connections warm and ready. This dramatically improves performance.",
-source: "Lesson 6: Connecting to Neon"
+explanation: "Hybrid verification means computing the same answer through two independent code paths and comparing results. It is not free -- it doubles compute cost and adds code complexity. You apply it selectively: financial reports that drive business decisions justify the overhead. A quick count of rows in a dev database does not.",
+source: "Lesson 7"
 },
 {
-question: "You get 'could not connect to server: Connection timed out'. What's the first diagnostic step?",
+question: "Which check is NOT independent?",
 options: [
-"Delete .env and restart Python",
-"Check Neon dashboard—verify project is active and get connection string again",
-"Assume Neon is down forever",
-"Email Neon support and wait"
+"SQL total vs raw ledger recompute",
+"SQL query rerun with same predicates",
+"SQL vs separately parsed CSV",
+"SQL vs independent audit export"
 ],
 correctOption: 1,
-explanation: "Logical troubleshooting: Verify the service is running first. Go to the Neon dashboard and check if the project is active. If active, double-check your connection string (credentials, host, port).",
-source: "Lesson 6: Connecting to Neon"
+explanation: "Running the same query again with the same predicates is not independent verification -- it uses the same logic path. If there is a bug in your WHERE clause, running it twice just confirms the same wrong answer twice. True independence requires a different code path: recomputing from raw data, parsing source files separately, or using an independent audit export.",
+source: "Lesson 7"
 },
 {
-question: "Error: 'password authentication failed for user alice'. How do you fix this?",
+question: "For hybrid parity, which condition is mandatory?",
 options: [
-"Create a new Neon project",
-"Change Python code to skip authentication",
-"In Neon dashboard, reset the user password and update .env",
-"Uninstall and reinstall psycopg2"
-],
-correctOption: 2,
-explanation: "Password authentication failed = wrong password. Go to Neon dashboard, reset the password for that database user, copy the new password into .env. Simple but easy to miss.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "With pool_pre_ping=False, what happens after Neon wakes from idle?",
-options: [
-"All records are automatically duplicated",
-"A stale connection from the pool is used; query fails with 'server closed the connection'",
-"Neon charges extra for wake-up",
-"Query succeeds but returns yesterday's data"
+"Both paths must use same programming language",
+"Both paths must apply equivalent scope (user_id, time window, category)",
+"Both paths must use SQL",
+"Both paths must run in one function"
 ],
 correctOption: 1,
-explanation: "Neon auto-pauses after 5 minutes idle. When you reconnect, pooled connections might be stale. pool_pre_ping=True tests each connection before use; pool_pre_ping=False risks failure. Always use True for Neon.",
-source: "Lesson 6: Connecting to Neon"
+explanation: "If your SQL path filters by user_id=5 and date range January-March, but your independent path calculates across all users and all months, the numbers will never match. Scope mismatch is the most common cause of false hybrid failures. Both paths must answer the same question over the same data slice.",
+source: "Lesson 7"
 },
 {
-question: "In what situation would you use a transaction (try/except with commit/rollback)?",
+question: "Most robust modeling move for user-category expenses is:",
 options: [
-"Creating a single expense record",
-"Querying to see all expenses for one user",
-"Transferring $100 between budget categories (all-or-nothing)",
-"Deleting a user's account (single operation)"
-],
-correctOption: 2,
-explanation: "Transactions protect multi-step operations. A transfer must succeed completely or not at all. Single operations like creating one expense don't need transactions (they're already atomic).",
-source: "Lesson 8: Capstone Integration"
-},
-{
-question: "You accidentally add $1,000 instead of $100 to groceries. What's the safest fix?",
-options: [
-"Delete the entire expenses table and start over",
-"Use UPDATE to correct the specific amount",
-"Add a negative $900 expense to offset",
-"Restart the program"
+"Store user name directly on expense",
+"Use FK user_id and FK category_id constraints",
+"Keep all data in one text field",
+"Infer relationships later"
 ],
 correctOption: 1,
-explanation: "UPDATE is surgical—fix only the problematic record. Deletion loses data. Negative offset is a workaround, not a fix. Restart affects in-memory SQLite only, not Neon.",
-source: "Lesson 8: Capstone Integration"
+explanation: "Foreign keys make impossible states impossible. With FK constraints, you cannot create an expense for a user who does not exist or a category that was deleted. Storing names directly creates orphaned data when names change, duplicated data across rows, and no way for the database to enforce referential integrity.",
+source: "Lesson 2/4"
 },
 {
-question: "What was the primary finding of the Braintrust research comparing SQL and bash for querying?",
+question: "If report totals look suspicious, safest first step is:",
 options: [
-"Bash and grep outperformed SQL by 2x",
-"SQL achieved 100% accuracy with 155K tokens; bash achieved 52.7% with 1.06M tokens",
-"CSV files are the most efficient",
-"Hybrid SQL+bash was slower than pure SQL"
+"Ship if trend looks normal",
+"Inspect query predicates and generated SQL/log path",
+"Drop constraints",
+"Increase pool_size"
 ],
 correctOption: 1,
-explanation: "This research validated the chapter's approach. SQL queries are schema-aware—they enforce structure. Bash/grep are flexible but error-prone on unstructured data. For your Budget Tracker, SQL wins decisively.",
-source: "Lesson 8: Capstone Integration"
+explanation: "Before changing anything structural, verify what the system actually executed. Print the generated SQL. Check the WHERE clause parameters. Confirm the date range and filters match your intent. Most 'wrong totals' are caused by incorrect predicates, not database bugs. Dropping constraints or increasing pool size addresses problems that are almost certainly not the cause.",
+source: "Lesson 4/8"
 },
 {
-question: "Why did bash fail more often in Braintrust research despite being 'flexible'?",
+question: "You can demo a happy path, but rollback was never tested. Release decision?",
 options: [
-"Bash doesn't understand schema; SQL enforces structure explicitly",
-"Bash is inherently slower than Python",
-"Grep doesn't support large files",
-"The research was biased toward SQL"
-],
-correctOption: 0,
-explanation: "Bash has no schema awareness. It sees data as plain text. One format change breaks all grep patterns. SQL knows your schema—User, Expense, relationships—so queries are robust.",
-source: "Lesson 8: Capstone Integration"
-},
-{
-question: "What should your reusable /database-deployment skill include?",
-options: [
-"Only SQLAlchemy patterns specific to Budget Tracker",
-"Generic patterns for models, CRUD, relationships, transactions, deployment",
-"Hard-coded table names like 'expenses'",
-"Scripts that only work with Neon"
+"Release now",
+"Block release until forced-failure rollback test passes",
+"Release if code is clean",
+"Release only if reads work"
 ],
 correctOption: 1,
-explanation: "Reusability is the whole point. Your skill should apply to ANY database project—customer databases, inventory systems, analytics. Generic patterns > specific examples.",
-source: "Lesson 0: Build Your Database Skill"
+explanation: "A happy-path demo proves the system works when nothing goes wrong. Production systems encounter failures: network drops, constraint violations, timeout errors. Without a forced-failure rollback test, you have no evidence that your system recovers gracefully. 'It works when everything is fine' is not a release-readiness claim.",
+source: "Lesson 5/8"
 },
 {
-question: "Why is 'all data in one CSV' less reliable than relational database?",
+question: "Error: remaining connection slots are reserved. Best immediate action?",
 options: [
-"CSV files are slower",
-"It lacks referential integrity; expenses could reference non-existent users",
-"CSV files can't store strings",
-"Relational databases are always more expensive"
+"Increase pool size",
+"Reduce pool footprint and audit session leaks",
+"Disable SSL",
+"Rewrite models"
 ],
 correctOption: 1,
-explanation: "One-table CSV has no way to enforce relationships. You could have expenses for user_id=999 where user 999 doesn't exist. The database prevents this automatically.",
-source: "Lesson 1: From CSV to Databases"
+explanation: "This error means you have exhausted available database connections. The instinct to increase pool_size usually makes it worse -- you are already at the limit. Instead, audit for session leaks: sessions opened but never closed, connections held during long computations, or missing 'with Session()' context managers that guarantee cleanup.",
+source: "Lesson 6"
 },
 {
-question: "What's the difference between 'knowing SQL' and 'understanding databases'?",
+question: "A report mismatch exceeds tolerance and cause is unknown. Best policy?",
 options: [
-"SQL is a query language; database design is modeling entities into tables and relationships",
-"Understanding databases means knowing how to model real-world entities",
-"Both A and B—they're complementary skills",
-"SQL is the same as database design"
-],
-correctOption: 2,
-explanation: "SQL is the syntax for talking to databases. Database design is knowing WHAT to ask. Both matter. You can write valid SQL queries that are poorly designed, and you can understand great designs but not write SQL.",
-source: "Lesson 2: Models as Code"
-},
-{
-question: "When you run Base.metadata.create_all(engine), what happens?",
-options: [
-"Only the User table is created manually",
-"All tables are created based on your model definitions",
-"No tables are created until you call session.commit()",
-"Tables are created but remain empty"
+"Publish with warning",
+"Block release and investigate before publish",
+"Ignore if prior month matched",
+"Average SQL and raw values"
 ],
 correctOption: 1,
-explanation: "create_all() inspects all your models and creates tables if they don't exist. It's idempotent—running it twice on the same engine doesn't fail. All three tables (User, Expense, Category) appear immediately.",
-source: "Lesson 8: Capstone Integration"
+explanation: "An unexplained mismatch in a high-stakes report is a release blocker, full stop. Averaging the two values hides the error. Publishing with a warning pushes investigation downstream to someone less equipped to diagnose it. The prior month matching is irrelevant -- this month's data has a problem you do not understand yet.",
+source: "Lesson 7/8"
 },
 {
-question: "To retrieve all expenses for Alice, sorted by newest first, which pattern is best?",
+question: "Which statement best reflects Chapter 9 mastery?",
 options: [
-"alice = session.query(User).filter(User.name == 'Alice').first(); alice.expenses",
-"alice = session.query(User).filter(User.name == 'Alice').first(); session.query(Expense).filter(Expense.user_id == alice.id).order_by(Expense.date.desc()).all()",
-"Both A and B work, but B allows explicit sorting",
-"Must use raw SQL"
-],
-correctOption: 2,
-explanation: "Both work. A uses the relationship (simpler for basic access). B gives explicit control (for sorting, filtering, etc.). B is more explicit and flexible. Choose based on needs.",
-source: "Lesson 4: Relationships & Joins"
-},
-{
-question: "How would you reuse the one-to-many pattern for a library system?",
-options: [
-"Can't reuse it; library data is different",
-"Borrower has many Books—same pattern as User ↔ Expense",
-"Library systems don't use databases",
-"Must rewrite all relationship code"
+"Memorize ORM syntax",
+"Apply reusable design and verification decisions under failure risk",
+"Only build budget trackers",
+"Avoid debugging by writing more code"
 ],
 correctOption: 1,
-explanation: "Patterns transfer across domains. Borrower ↔ Books is structurally identical to User ↔ Expenses. This is why your skill is valuable—it applies everywhere.",
-source: "Lesson 0: Build Your Database Skill"
-},
-{
-question: "For calculating total spending by category, which approach is most efficient?",
-options: [
-"Query all, loop in Python to sum by category",
-"Use database GROUP BY to aggregate",
-"Both are equally efficient",
-"Depends on database brand (Neon vs SQLite)"
-],
-correctOption: 1,
-explanation: "Let the database do the work. GROUP BY is optimized for aggregation—it's 1000x faster than Python loops on large datasets. Always push computation to the database when possible.",
-source: "Lesson 8: Capstone Integration"
-},
-{
-question: "When should you use your /database-deployment skill?",
-options: [
-"When building a project that needs persistent, queryable, relational data",
-"When processing a one-time CSV file",
-"When working with in-memory data that doesn't survive restarts",
-"When building applications with no structured data"
-],
-correctOption: 0,
-explanation: "Your skill applies whenever you need persistence, relationships, or queries. Budget Tracker today, customer database tomorrow. The patterns are universal.",
-source: "Lesson 0: Build Your Database Skill"
-},
-{
-question: "Why use a database instead of JSON files?",
-options: [
-"Databases are just faster to read",
-"Databases enforce relationships and schema; scale to millions efficiently",
-"JSON is fine for simple apps; databases are enterprise-only",
-"JSON is newer technology so it's better"
-],
-correctOption: 1,
-explanation: "JSON has no structure enforcement. A database ensures data integrity and scales efficiently to massive datasets. For production applications, databases win decisively.",
-source: "Lesson 1: From CSV to Databases"
-},
-{
-question: "What's the best approach to test your Budget Tracker before deploying to Neon?",
-options: [
-"Skip local testing; deploy directly",
-"Use sqlite:///:memory: to test logic locally with disposable data",
-"Test only with PostgreSQL locally",
-"Testing is unnecessary"
-],
-correctOption: 1,
-explanation: "Iterate locally first. In-memory SQLite is fast, disposable, and requires no setup. Once your code works locally, deploy to Neon with confidence.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "What capability enables your Budget Tracker to generate monthly spending reports?",
-options: [
-"Foreign keys alone",
-"Relationships alone",
-"Queries with filtering, grouping, aggregation (all working together)",
-"None of the above"
-],
-correctOption: 2,
-explanation: "Reports need multiple capabilities working together. You query by date (filter), group by category, sum amounts (aggregation), and relate back to users. Single features alone aren't enough.",
-source: "Lesson 8: Capstone Integration"
-},
-{
-question: "What's the tradeoff between in-memory SQLite and Neon?",
-options: [
-"In-memory is always better",
-"In-memory: fast for learning, data lost on restart; Neon: persistent, cloud, production-ready",
-"Neon is only for enterprises",
-"They're identical—choose by price"
-],
-correctOption: 1,
-explanation: "In-memory is perfect for learning. Neon is perfect for production. Different tools for different jobs.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "Your /database-deployment skill is most valuable when?",
-options: [
-"Only while learning Chapter 09",
-"For quickly referencing patterns for ANY future database project",
-"For teaching others database applications",
-"Both B and C"
-],
-correctOption: 3,
-explanation: "Your skill is a career asset. It accelerates future projects AND positions you as someone who can teach database design. That's leverage.",
-source: "Lesson 0: Build Your Database Skill"
-},
-{
-question: "Why doesn't a student understand why relationship() is needed if foreign keys exist?",
-options: [
-"Foreign keys are database-level; relationship() gives Python-level navigation without writing JOINs",
-"relationship() is optional",
-"They're the same thing with different names",
-"relationship() only works with Neon"
-],
-correctOption: 0,
-explanation: "This is the key insight many miss. Foreign keys prevent bad data. Relationships let you navigate that good data easily. Foreign key prevents alice.expense_id=999 where user 999 doesn't exist. Relationship lets you do alice.expenses directly.",
-source: "Lesson 4: Relationships & Joins"
-},
-{
-question: "What's the most critical security issue in a Budget Tracker?",
-options: [
-"Using String instead of VARCHAR",
-"Hardcoding credentials in files (instead of .env + .gitignore)",
-"Using Integer primary keys instead of UUID",
-"Adding code comments"
-],
-correctOption: 1,
-explanation: "Hardcoded credentials are a disaster. Once committed to Git, anyone can access your database. .env + .gitignore is the standard pattern for protecting secrets.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "Your Budget Tracker occasionally hangs for 10 seconds then fails. What's likely?",
-options: [
-"Neon's free tier is slow",
-"Stale connection; pool_pre_ping should test and replace them",
-"PostgreSQL is slower than SQLite",
-"Need to upgrade to paid Neon"
-],
-correctOption: 1,
-explanation: "Neon pauses databases after 5 minutes idle. When you reconnect, the pooled connection might be dead. pool_pre_ping=True tests before use. Without it, you get failures.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "How does Neon's serverless architecture support multiple concurrent users?",
-options: [
-"It doesn't; only one user at a time",
-"SQLAlchemy's relationship() multiplexes",
-"Neon scales compute automatically for concurrent requests",
-"CSV files support concurrency natively"
-],
-correctOption: 2,
-explanation: "Serverless is the key. Neon scales resources based on demand. Your Budget Tracker can handle 1 user or 1000—Neon adapts automatically.",
-source: "Lesson 6: Connecting to Neon"
-},
-{
-question: "Which practice should you NEVER do in your /database-deployment skill?",
-options: [
-"Commit .env files with secrets to Git",
-"Assume a Session is open without using context manager",
-"Skip error handling around database operations",
-"All of the above"
-],
-correctOption: 3,
-explanation: "All three are dangerous. Committed credentials = data breach. Sessions without context managers = resource leaks. No error handling = crashes. Document these as safety guardrails.",
-source: "Lesson 0: Build Your Database Skill"
-},
-{
-question: "Why is 'one big table' design problematic?",
-options: [
-"One big table is actually fine",
-"Multiple normalized tables ensure integrity, prevent duplication, enable efficient queries",
-"Big tables are always slower",
-"One big table is the standard pattern"
-],
-correctOption: 1,
-explanation: "Normalization prevents data duplication and ensures consistency. One big table duplicates data (every expense repeats user info) and scales poorly.",
-source: "Lesson 2: Models as Code"
-},
-{
-question: "What demonstrates true mastery of Chapter 09?",
-options: [
-"Understanding SQLAlchemy syntax",
-"You can explain why multi-table design beats CSV, implement relationships with transactions, and deploy to cloud",
-"Memorizing all column types",
-"Writing SELECT statements"
-],
-correctOption: 1,
-explanation: "Mastery is systems thinking. You understand WHY we design databases this way, not just HOW to use the tools. Can you explain it to someone else?",
-source: "Lesson 8: Capstone Integration"
-},
-{
-question: "What does owning a /database-deployment skill mean for your future?",
-options: [
-"You can invoke proven patterns for ANY future project needing persistence",
-"You're tied to SQLAlchemy forever",
-"You're limited to expense trackers",
-"Skills only matter in academia"
-],
-correctOption: 0,
-explanation: "Your skill is transferable capital. Customer database project? Use the skill. Inventory system? Same patterns, different tables. This is leverage.",
-source: "Lesson 0: Build Your Database Skill"
-},
-{
-question: "Between shipping quickly (skipping transactions) vs data consistency (proper transactions), what matters more?",
-options: [
-"Always skip transactions to ship faster",
-"Always use transactions; data corruption is costlier than slower releases",
-"Transactions only for financial applications",
-"Depends on data volume"
-],
-correctOption: 1,
-explanation: "Data corruption is expensive to fix and erodes trust. Transactions have minimal overhead. Always protect multi-step operations with atomicity.",
-source: "Lesson 5: Transactions & Atomicity"
-},
-{
-question: "What single capability represents the biggest shift in how you can build applications?",
-options: [
-"You can write Python code",
-"Databases provide persistent, queryable, relationship-enforced storage—you can now build durable applications",
-"You know how to use Neon",
-"You can read CSV files faster"
-],
-correctOption: 1,
-explanation: "This is the transformational outcome. Before: scripts that lose data. After: applications that remember everything, serve many users, scale automatically. That's the paradigm shift this chapter delivers.",
-source: "Lesson 8: Capstone Integration"
-},
-{
-question: "In the Braintrust experiment, why did the bash agent achieve only 52.7% accuracy despite generating sophisticated shell commands?",
-options: [
-"Bash commands are inherently unreliable",
-"The bash agent didn't know the structure of the data — it lacked schema clarity",
-"The bash agent ran out of memory",
-"Bash cannot process JSON files"
-],
-correctOption: 1,
-explanation: "The bash agent generated find, grep, jq, awk chains but had to guess at field names, nesting levels, and data types. Without schema clarity — knowing exactly what fields exist and their types — even sophisticated commands produce wrong results half the time.",
-source: "Lesson 7: Hybrid Patterns"
-},
-{
-question: "What is the hybrid pattern for data verification?",
-options: [
-"Using two different databases for the same data",
-"Querying with SQL as the primary tool, then independently verifying with bash",
-"Running the same SQL query twice to confirm results",
-"Using Python to translate between bash and SQL"
-],
-correctOption: 1,
-explanation: "The hybrid pattern uses SQL for structured queries (primary) and bash for independent verification (cross-check). Two different tools arriving at the same answer provides confidence that neither tool introduced a bug.",
-source: "Lesson 7: Hybrid Patterns"
-},
-{
-question: "When is the hybrid (SQL + bash verification) approach worth the extra token cost?",
-options: [
-"For every single database query",
-"When errors have real consequences: financial reporting, audit trails, automated agent pipelines",
-"Only for queries that return more than 1000 rows",
-"When bash is faster than SQL"
-],
-correctOption: 1,
-explanation: "Hybrid costs roughly 2x the tokens of pure SQL. It's worth it when wrong answers cause financial loss, compliance violations, or cascading errors in automated pipelines. For quick exploration or development, single-tool approaches are sufficient.",
-source: "Lesson 7: Hybrid Patterns"
-},
-{
-question: "Which tool should you choose for calculating compound interest over 30 years with monthly payments?",
-options: [
-"Bash — it handles numbers natively",
-"Python — deterministic computation with decimal precision",
-"SQL — it can aggregate any data",
-"Hybrid — financial calculations always need verification"
-],
-correctOption: 1,
-explanation: "Decimal arithmetic is Python's strength (the Computation & Data Extraction chapter). Bash fails at floating-point precision. SQL is for querying stored data, not raw computation. This is the tool choice framework in action: match the tool's strength to the task's requirement.",
-source: "Lesson 7: Hybrid Patterns"
-},
-{
-question: "Looking back at Part 2's tool choice story, what's the correct progression?",
-options: [
-"Bash for everything, then learn SQL as a replacement",
-"Bash for file ops (File Processing) → Python for computation (Computation & Data Extraction) → SQL for structured queries (this chapter) → hybrid for verification (L7)",
-"Start with SQL, then learn bash for simple tasks",
-"Python first, then add bash and SQL as optional tools"
-],
-correctOption: 1,
-explanation: "Part 2 tells a progressive story where each tool is introduced when the previous one fails: bash can't do decimal math (add Python), Python loops can't efficiently query structured data (add SQL), and critical queries benefit from cross-tool verification (add hybrid).",
-source: "Lesson 7: Hybrid Patterns"
+explanation: "Chapter 9 mastery is not about SQLAlchemy syntax -- syntax is searchable. The durable outcome is engineering judgment: knowing when to escalate tools, how to model data relationally, why transactions matter for correctness, and what evidence constitutes release readiness. These decisions transfer to any database, any ORM, any project.",
+source: "Capstone"
 }
 ]}
 />
+
+## After You Finish
+
+Missed a few? Good -- that means you know exactly what to revisit. Check the outcome IDs below to pinpoint which lesson to review.
+
+- **O1 misses** (modeling and constraints): revisit Lessons 2 and 4.
+- **O2 misses** (CRUD and session correctness): revisit Lessons 3 and 5.
+- **O3 misses** (relationships and query reasoning): revisit Lesson 4.
+- **O4 misses** (transaction safety): revisit Lesson 5.
+- **O5 misses** (Neon operations and security): revisit Lesson 6.
+- **O6 misses** (tool choice and verification): revisit Lesson 0, Lesson 7, and capstone policy sections.

@@ -1,217 +1,172 @@
 ---
 sidebar_position: 9
 title: "Chapter 09: Structured Data & Persistent Storage"
-description: "When bash and Python hit the wall: build persistent database applications with SQLAlchemy ORM and serverless PostgreSQL"
+description: "Move from one-off Python scripts to persistent PostgreSQL systems on Neon using SQLAlchemy"
 feature_name: "chapter-09-sql-neon"
-chapter_number: 8.5
+chapter_number: 9
 part_number: 2
 created_date: 2026-02-06
-version: 2.0
+version: 4.1
 status: published
 ---
 
 # Chapter 09: Structured Data & Persistent Storage
 
-> "Bash processes files. Python computes answers. But when you need to query structured data at scale, both hit a wall."
+> SQL: 100% accuracy. $0.51. Forty-five seconds.
+> Bash: 52.7% accuracy. $3.34. Four hundred seconds.
+> Same data. Same questions. Different tools.
+> -- Braintrust/Vercel, "Testing if Bash is All You Need"
 
-## The Story So Far
+Your Chapter 8 tax script works perfectly -- for one person, one year, one question. Then your boss asks for monthly breakdowns by user and category across three years. You add a loop. She asks for rolling averages. You add another loop. She asks which users overspent in Q3 relative to their Q1 budgets. You stare at your screen and realize you are writing a database engine inside a Python script, one painful `for` loop at a time.
 
-You've been building a toolkit, one tool at a time:
-
-- **File Processing Workflows**: You gave Claude hands with **bash** — file operations, directory management, shell pipelines. Bash is Claude's native language for interacting with the filesystem.
-- **Computation & Data Extraction**: When bash failed at decimal arithmetic, you reached for **Python** — computation, data extraction, CSV processing. Python handles what bash can't compute.
-- **This chapter**: Now Python and bash both fail. Try querying "show me all groceries over $50 in March" across thousands of records with `grep` or Python loops. It works... until it doesn't.
-
-In the Computation & Data Extraction chapter, you built your first Digital FTE component — a reusable tool for tax categorization. This chapter adds the next tool to your toolkit: **SQL databases**, accessed through Python's SQLAlchemy ORM and deployed to Neon's serverless PostgreSQL. Where your Python scripts process data and forget, databases process data and *remember*.
-
-### Why Not Just Write More Python?
-
-You *could* write Python loops to query your tax data across multiple years and categories. But what happens when your Budget Tracker grows to thousands of records, multiple users, and questions you didn't anticipate? Every new question ("show all groceries over $50 in March") requires new code. Researchers at Braintrust tested exactly this at scale — and the results explain why every production application uses databases. You'll see the full evidence in L1.
-
-## What You'll Build
-
-By the end of this chapter, you'll have a persistent Budget Tracker that survives restarts, handles multiple users, and scales automatically:
+Here is what that ceiling looks like in code:
 
 ```python
-# Your workflow by chapter end:
-from budget_tracker import BudgetTracker
+# tax-prep.py — works great for one question
+import csv
 
-tracker = BudgetTracker()  # Connects to Neon PostgreSQL
+with open("expenses.csv") as f:
+    total = sum(float(row["amount"]) for row in csv.DictReader(f))
+    print(f"Total: ${total:.2f}")
 
-# Add expenses (persisted to cloud database)
-tracker.add_expense("Groceries", 156.78, "Food")
-tracker.add_expense("AWS Bill", 45.00, "Business")
-
-# Query across sessions (data persists forever)
-tracker.monthly_summary("2026-02")
-# Output:
-# CATEGORY: Food
-#   - Groceries: $156.78
-#   - Restaurant: $42.50
-#   Total: $199.28
-#
-# CATEGORY: Business
-#   - AWS Bill: $45.00
-#   - Domain renewal: $15.00
-#   Total: $60.00
-#
-# GRAND TOTAL: $259.28
+# Boss asks: "monthly breakdown by category for 3 years?"
+# Now you need nested dicts, date parsing, grouping logic,
+# and a growing pile of loops that nobody wants to maintain.
 ```
 
-You'll transform from someone who loses data when scripts restart to someone who builds production-grade applications with cloud-hosted databases that scale from zero to thousands of users.
+**Output:**
+```
+Total: $14,892.37
+```
+
+That script is correct. It is also a dead end. Every new question means new code, new bugs, and new testing -- for a problem that databases solved decades ago.
+
+## The Arc of This Chapter
+
+Working script. Broken requirements. Structural solution. Production confidence.
+
+That is the journey. You will take a script that computes correctly and watch it buckle under real-world pressure. Then you will rebuild it on foundations that handle evolving questions, multiple users, and concurrent writes without flinching.
+
+## Escalation Contract
+
+Part 2 tells a constraint-driven escalation story:
+
+- You use Bash first for file movement, discovery, and orchestration.
+- You escalate to Python when deterministic computation and robust parsing are required.
+- You escalate to SQL when persistence, relationships, and query flexibility become the primary concern.
+- You add hybrid verification only when output risk justifies the extra cost.
+
+If you can explain that sequence clearly at chapter end, continuity from Chapters 7 and 8 is intact.
+
+## The Chapter 8 Ceiling
+
+A Chapter 8 script can be excellent and still hit hard limits:
+
+- **New question, new loop.** Every evolving query means rewriting application logic instead of just asking a different question.
+- **Relationships enforced by convention.** Nothing stops you from inserting an expense under a category that does not exist. Correctness depends on memory and discipline.
+- **Shared state gets fragile.** Two users updating the same CSV at the same time? You are one race condition away from corrupted data.
+- **Concurrency is a time bomb.** Multiple writers touching the same logical records will eventually produce silent corruption.
+
+You can keep patching loops and tightening conventions. But when reliability depends on memory and discipline alone, the system will drift. (Ask anyone who has maintained a shared spreadsheet for more than six months.)
+
+## The Chapter 9 Promise
+
+By moving to SQLAlchemy + Neon PostgreSQL, you gain:
+
+- **Typed schema contracts** that reject bad data at the boundary.
+- **Relational integrity constraints** that make impossible states impossible.
+- **Transaction boundaries** that treat multi-step writes as atomic operations.
+- **Query reuse** -- new questions without new code.
+- **Cloud persistence** that survives process restarts, laptop closures, and coffee spills.
+- **Selective verification policies** for high-stakes outputs.
+
+## Escalation Map
+
+| Stage | Primary Tool | Strength | Breakpoint |
+|---|---|---|---|
+| Chapter 7 | Bash | File discovery, batch operations, workflow control | Weak for decimal computation and schema-aware querying |
+| Chapter 8 | Python | Deterministic parsing and computation | Brittle for long-lived, multi-user, relationship-heavy queries |
+| Chapter 9 | SQLAlchemy + PostgreSQL | Persistent structure, relational integrity, safe concurrent writes | High-stakes reports may still need independent verification |
+
+This chapter does not replace earlier tools. It adds the right tool when the old tool reaches its boundary.
+
+## Running Story
+
+To keep cognitive load low, every lesson follows one story:
+
+A budget tracker that started as yearly CSV scripts now needs monthly user-level reporting, reliable category relationships, and safe release behavior for financial outputs. Every lesson solves one failure mode in that story.
+
+## What You Will Build
+
+A Neon-backed Budget Tracker with:
+
+- Typed relational models (`User`, `Category`, `Expense`)
+- Safe CRUD with explicit transaction and rollback discipline
+- Relationship-aware queries and a no-N+1 summary pattern
+- Secure cloud connection setup (`DATABASE_URL`, pooling, pre-ping)
+- Selective hybrid verification for high-stakes financial outputs
+
+## Chapter Contract
+
+By chapter end, you should be able to answer these five questions:
+
+1. Why do Chapter 8 loops become expensive and fragile for evolving structured queries?
+2. How do schema and constraints prevent silent data corruption?
+3. Why is a transaction boundary a business correctness boundary?
+4. When is SQL-only enough, and when is independent verification worth the extra cost?
+5. What evidence proves a system is release-ready beyond a happy-path demo?
+
+## Seven Principles (Compact)
+
+| Principle | Chapter 9 Application |
+|---|---|
+| P1 Bash is the Key | Operational glue for environment checks, diagnostics, and run orchestration |
+| P2 Code as Universal Interface | Model code defines schema contracts that every tool follows |
+| P3 Verification as Core Step | Commit checks, rollback drills, and risk-based hybrid verification |
+| P4 Small Reversible Decomposition | Build layer by layer: model, CRUD, relationships, transactions, deployment |
+| P5 Persisting State in Files | Persistence graduates from local files to managed relational storage |
+| P6 Constraints and Safety | Foreign keys, constraints, rollback paths, and mismatch block policy |
+| P7 Observability | SQL visibility, connection diagnostics, and evidence bundles |
+
+## Lesson Flow
+
+| Lesson | Outcome | Fast Visible Win |
+|---|---|---|
+| L0 From CSV to Databases | Diagnose the exact Chapter 8 breakpoint | Name 3 concrete breakpoints in your current workflow |
+| L1 Build Your Database Skill | Prove persistence in under 5 minutes | Write once, read later across two separate runs |
+| L2 Models as Code | Define reliable schema contracts | Create tables from one runnable model file |
+| L3 Creating and Reading Data | Implement safe CRUD foundations | Insert and read back one verified expense row |
+| L4 Relationships and Joins | Query linked data without ambiguity | Filter expenses by category via explicit join |
+| L5 Transactions and Atomicity | Prevent partial-write corruption | Force failure and prove rollback leaves zero partial rows |
+| L6 Connecting to Neon | Deploy and operate in cloud constraints | Pass `SELECT 1` with pooled pre-ping connection |
+| L7 Hybrid Patterns | Add independent verification only when justified | Catch a deliberate mismatch and block release |
+| L8 Capstone | Integrate all patterns into one reliable app | Produce evidence bundle with explicit release decision |
 
 ## Prerequisites
 
-**From the Computation & Data Extraction chapter**:
+- Chapter 8 complete
+- Python 3.10+
+- Terminal access
+- Neon free account
 
-- You can process CSV files with Python
-- You understand stdin/stdout pipelines
-- You've built data extraction utilities
-- You know how to verify computation with exit codes
+## No-Regression Rules
 
-**From Seven Principles Chapter**:
+No simplification is allowed to remove:
 
-- You understand P2: Code as Universal Interface (ORM is code as interface to databases)
-- You understand P5: Persisting State in Files (databases are the next level)
-- You understand P3: Verification as Core Step (transactions ensure data integrity)
+- **Transaction rollback discipline** -- every multi-step write must have a rollback path.
+- **Foreign-key and constraint enforcement** -- impossible states stay impossible.
+- **Secret handling basics** -- `DATABASE_URL` never appears in source code.
+- **Mismatch policy for high-stakes verification** -- when SQL and raw paths disagree, release is blocked.
 
-**Technical Requirements**:
+If a rewrite makes content shorter but drops any of these, it is a regression.
 
-- Python 3.10+ installed (type `python3 --version` to check)
-- Internet connection (for Neon cloud database)
-- Access to Claude Code or similar AI assistant
-- A Neon account (free tier available at neon.tech)
+## After Chapter 9
 
-## Chapter Structure
+When you finish this chapter, your engineering posture changes:
 
-| Lesson | Title | Layer | Duration | Proficiency | Key Skill |
-|--------|-------|-------|----------|-------------|-----------|
-| L0 | Build Your Database Skill | L1 | 20 min | A1 | Skill ownership and structure |
-| L1 | When Bash and Python Hit the Wall | L1 | 20 min | A1 | Recognize tool limitations, understand databases |
-| L2 | Models as Code | L1/L2 | 25 min | A2 | Define SQLAlchemy models with constraints |
-| L3 | Creating & Reading Data | L2 | 25 min | A2 | CRUD Create/Read operations, sessions |
-| L4 | Relationships & Joins | L2 | 30 min | A2 | Link tables with foreign keys, navigate data |
-| L5 | Transactions & Atomicity | L2 | 30 min | A2 | Atomic operations, error recovery |
-| L6 | Connecting to Neon | L2/L3 | 25 min | B1 | Deploy to PostgreSQL, connection pooling |
-| L7 | Hybrid Patterns: When Tools Work Together | L2/L3 | 30 min | B1 | Combine SQL + bash for production reliability |
-| L8 | Capstone: Budget Tracker Complete App | L3/L4 | 40 min | B1 | Integrate all patterns into complete application |
+1. **Treat persistence as a contract.** Schema defines what is allowed. Everything else is rejected at the boundary.
+2. **Separate query correctness from release safety.** A correct query can still produce a dangerous release if verification is missing.
+3. **Back every readiness claim with evidence.** Rollback proof, connection reliability, mismatch policy output -- not just a passing demo.
+4. **Plan for schema evolution.** Add migration discipline before your models change in production.
 
-**Total Duration**: 245 minutes (~4 hours)
-
-## Seven Principles in Action
-
-This chapter demonstrates the principles through database operations:
-
-| Principle | How You'll Apply It |
-|-----------|---------------------|
-| **P1: Bash is the Key** | Use `psql` CLI for database inspection, environment variable management |
-| **P2: Code as Universal Interface** | SQLAlchemy ORM: Python classes = database tables (no raw SQL needed) |
-| **P3: Verification as Core Step** | Transactions guarantee all-or-nothing operations; no partial data |
-| **P4: Small, Reversible Decomposition** | Each model is one table; each CRUD function is one operation |
-| **P5: Persisting State in Files** | Databases persist state beyond files (cloud-hosted, always available) |
-| **P6: Constraints and Safety** | Foreign keys enforce data integrity; rollbacks prevent corruption |
-| **P7: Observability** | SQLAlchemy echo mode shows generated SQL; Neon dashboard shows metrics |
-
-## The Journey
-
-**Lessons 0-1**: Foundation (Why Databases + Setup)
-
-- Discover why bash and Python file processing fail when data grows structured
-- See the evidence: SQL's 100% accuracy vs bash's 52.7% on real-world data
-- Create your first Neon PostgreSQL database (free tier, no credit card)
-
-**Lessons 2-4**: Core Database Skills (Models + CRUD + Relationships)
-
-- Define Python classes that become database tables (SQLAlchemy ORM)
-- Implement Create, Read, Update, Delete operations with proper transactions
-- Link tables together using foreign keys and relationships
-
-**Lessons 5-6**: Application Building (Transactions + Cloud Deployment)
-
-- Protect data integrity with atomic transactions
-- Deploy to Neon PostgreSQL with connection pooling
-
-**Lesson 7**: Hybrid Patterns (Tool Synthesis)
-
-- Learn when to combine SQL queries with bash verification
-- Build the Part 2 tool choice framework: bash + Python + SQL + hybrid
-- Connect to the Version Control and AI Employee chapters for the full agent toolkit
-
-**Lesson 8**: Capstone (Complete Application)
-
-- Build a complete Budget Tracker integrating all chapter patterns
-- Package everything into a `/database-deployment` skill
-
-## How to Use This Chapter
-
-**Sequential learning path** (recommended for first-time database developers):
-
-1. **Start with L0**: Understand WHY databases matter before HOW
-2. **Complete L1-L2 before touching code**: Setup and mental models first
-3. **Practice CRUD (L3) thoroughly**: These are the building blocks
-4. **Don't skip relationships (L4)**: Real applications need linked data
-5. **Synthesize in L7**: See how all Part 2 tools work together
-6. **Build the tracker (L5-L6, L8 capstone)**: Apply everything in a real project
-
-**Fast track** (if you have database experience):
-
-- Skim L0-L1 for Neon-specific setup
-- Focus on L2-L3 for SQLAlchemy 2.0 syntax
-- Read L7 for the hybrid patterns framework
-- Jump to L8 capstone for the complete application
-
-## Connection to Other Chapters
-
-This chapter is the third beat in Part 2's **tool choice story**:
-
-| Chapter | Tool | When It Wins | When It Fails |
-|---------|------|--------------|---------------|
-| File Processing Workflows | **Bash** | File operations, text processing | Decimal arithmetic, structured queries |
-| Computation & Data Extraction | **Python** | Computation, data extraction | Querying relationships across thousands of records |
-| Structured Data (this chapter) | **SQL (SQLAlchemy)** | Structured queries, persistent storage | When you need file-level verification |
-| Version Control | **Git** | Version control, change tracking | (Completes the toolkit) |
-| AI Employee | **All combined** | Your first AI employee | — |
-
-**Builds on Computation & Data Extraction**: Your CSV processing skills evolve to database persistence. The tax categorization patterns become database queries. The Unix pipeline philosophy (small tools, composed) maps to ORM (small models, related).
-
-**Leads to Version Control**: With data persisted in a database, you need version control for the code that manages it. Git tracks your application's evolution.
-
-**Culminates in Meet Your First AI Employee**: Your first AI employee combines bash (file ops), Python (computation), SQL (data), and Git (versioning) into a single agent workflow.
-
-## The Real-World Payoff
-
-This isn't academic. By chapter end, you'll solve real persistence problems:
-
-**Before this chapter**: Your Python scripts process data, but results disappear when the script ends. Multiple runs overwrite previous results. Concurrent users cause data corruption.
-
-**After this chapter**: Data persists in a cloud database. Multiple users work simultaneously. Transactions guarantee consistency. Your Budget Tracker works from any device, any time.
-
-The same pattern applies to any application needing persistence: customer databases, inventory systems, analytics platforms. You're learning to build tools that remember.
-
-## Skill Outcome
-
-By completing this chapter, you'll own a new skill:
-
-```bash
-# Your new skill: /database-deployment
-# Applies SQLAlchemy + Neon patterns to any new project
-
-"I need a database for tracking customer orders"
-# Your skill guides: models, relationships, CRUD, deployment
-```
-
-This skill becomes part of your Agent Factory toolkit, usable in every future project requiring data persistence.
-
-## Further Reading
-
-Curious why databases beat file-based approaches? Braintrust published research comparing SQL queries against bash/grep for structured data:
-
-- **[Testing if "Bash is All You Need"](https://vercel.com/blog/testing-if-bash-is-all-you-need)** (Braintrust + Vercel Research)
-  - SQL queries achieved 100% accuracy with 155K tokens vs 52.7% accuracy with 1.06M tokens for bash
-  - Shows why schema-aware structured queries (your SQLAlchemy models) outperform file-based approaches by 7x in efficiency
-  - Covers agent design tradeoffs and when to use which tool
-  - Referenced throughout this chapter (L1, L2, L7, L8)
-
-## Ready to Start?
-
-Begin with [Lesson 0: Build Your Database Skill](./01-build-your-database-skill.md) to create the skill scaffold that you'll build on throughout this chapter.
+Start with [Lesson 0: When Bash and Python Hit the Wall](./01-from-csv-to-databases.md).
