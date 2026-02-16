@@ -17,6 +17,10 @@ Track meaningful updates to the book. This page is automatically updated when do
 
 <!-- CHANGELOG_START - Do not remove this marker -->
 
+### 2026-02-16
+
+- docs: rewrite chapter 12 — Meet Your First AI Employee ([#730](https://github.com/panaversity/agentfactory/pull/730))
+
 ### 2026-02-15
 
 - docs: elevate chapter 14 to book-quality with images and narrative ([#729](https://github.com/panaversity/agentfactory/pull/729))
