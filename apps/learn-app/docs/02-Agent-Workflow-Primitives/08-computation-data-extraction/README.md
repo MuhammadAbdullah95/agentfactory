@@ -48,21 +48,37 @@ You'll transform from someone who manually categorizes expenses (tedious and err
 
 **Technical Requirements**:
 
-- Python 3.x installed (type `python3 --version` to check)
+- Python 3.x installed (see setup below)
 - Unix-like terminal (macOS, Linux, or WSL on Windows)
 - Access to Claude Code or similar AI assistant
 - A bank statement CSV export (most banks offer this)
 
+**Python Setup** — verify Python is installed before starting Lesson 1:
+
+```bash
+# macOS / Linux:
+python3 --version
+
+# Windows (Command Prompt or PowerShell):
+python --version
+```
+
+If you see a version number (3.x), you're ready. If not, install Python from [python.org](https://www.python.org/downloads/) or use your system's package manager:
+
+- **macOS**: `brew install python`
+- **Ubuntu/Debian**: `sudo apt install python3`
+- **Windows**: Download from python.org and check "Add to PATH" during installation
+
 ## Chapter Structure
 
-| Lesson | Title                       | Duration | Key Skill                              |
-| ------ | --------------------------- | -------- | -------------------------------------- |
-| 1      | The Arithmetic Gap          | 15 min   | Recognize Bash decimal limitations     |
-| 2      | Your First Python Utility   | 25 min   | Build stdin-reading script             |
-| 3      | The Testing Loop            | 25 min   | Verify with exit codes and test data   |
-| 4      | From Script to Command      | 30 min   | Parse CSV, make permanent commands       |
-| 5      | Data Wrangling              | 35 min   | Categorize with regex pattern matching |
-| 6      | Capstone: Tax Season Prep        | 40 min   | Generate tax-ready report              |
+| Lesson | Title                                | Duration | Key Skill                              |
+| ------ | ------------------------------------ | -------- | -------------------------------------- |
+| 1      | From Broken Math to Your First Tool  | 30 min   | Build a Python utility from scratch    |
+| 2      | The Testing Loop                     | 25 min   | Verify with exit codes and test data   |
+| 3      | Parsing Real Data                    | 25 min   | Parse CSV with Python's csv module     |
+| 4      | Your Permanent Toolkit               | 20 min   | Make scripts into permanent commands   |
+| 5      | Data Wrangling                       | 30 min   | Categorize with regex pattern matching |
+| 6      | Capstone: Tax Season Prep            | 40 min   | Generate tax-ready report              |
 
 **Total Duration**: 170 minutes (~3 hours)
 
@@ -82,27 +98,30 @@ This chapter applies the principles you learned in Chapter 6:
 
 ## The Journey
 
-**Lesson 1-2**: Foundation
+**Lesson 1**: From Broken Math to Your First Tool
 
 - Discover why Bash arithmetic fails with decimals
-- Build a Python script that reads numbers from stdin and calculates sums
+- Build sum.py — a Python script that reads numbers from stdin and calculates sums
 
-**Lesson 3**: Verification
+**Lesson 2**: The Testing Loop
 
-- Learn zero-trust debugging with exit codes
+- Learn why exit code 0 doesn't mean "correct"
 - Create test data with known answers to verify your scripts
 
-**Lesson 4**: From Script to Command
+**Lesson 3**: Parsing Real Data
 
 - Understand why simple text tools (like awk) fail on real CSV
 - Build a CSV parser with Python's csv module
-- Transform scripts into permanent commands via aliases
 
-**Lesson 5**: Tax Categorization
+**Lesson 4**: Your Permanent Toolkit
+
+- Transform scripts into permanent commands via chmod, aliases, and shell config
+- Close your terminal, open a new one, and your tools still work
+
+**Lesson 5**: Data Wrangling
 
 - Use pattern matching to categorize transactions (Medical, Charitable, Business)
 - Handle false positives (Dr. Pepper is not a doctor)
-- Build your `tax-categorize` script
 
 **Lesson 6**: Capstone
 

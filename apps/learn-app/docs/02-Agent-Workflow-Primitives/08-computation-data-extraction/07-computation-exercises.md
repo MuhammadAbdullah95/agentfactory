@@ -1,6 +1,6 @@
 ---
 title: "Practice: Computation & Data Extraction Exercises"
-sidebar_position: 7
+sidebar_position: 8
 chapter: 8
 lesson: 7
 duration_minutes: 120
@@ -142,9 +142,9 @@ For each exercise, evaluate yourself on:
 
 ## Module 1: Arithmetic & Stdin Tools
 
-> **Core Skill:** Building composable Python utilities that handle decimal math correctly (Lessons 1-2)
+> **Core Skill:** Building composable Python utilities that handle decimal math correctly (Lesson 1)
 >
-> Lessons 1-2 taught you that Bash can't do decimal arithmetic and that Python scripts reading from stdin compose naturally with pipes. These exercises push those skills into realistic scenarios where the data is messier and the arithmetic has more edge cases than the lesson examples.
+> Lesson 1 taught you that Bash can't do decimal arithmetic and that Python scripts reading from stdin compose naturally with pipes. These exercises push those skills into realistic scenarios where the data is messier and the arithmetic has more edge cases than the lesson examples.
 
 ### Exercise 1.1 — The Expense Splitter (Build)
 
@@ -208,9 +208,9 @@ After comparing `python3 buggy-sum.py < transactions-500.csv` against the expect
 
 ## Module 2: Testing & Verification
 
-> **Core Skill:** Zero-trust verification — proving correctness with test data (Lesson 3)
+> **Core Skill:** Zero-trust verification — proving correctness with test data (Lesson 2)
 >
-> Lesson 3 introduced the testing loop: create test data with known answers, run your script, compare output to expected results. These exercises take that skill further — you'll design adversarial test cases and diagnose scripts that produce plausible but wrong output.
+> Lesson 2 introduced the testing loop: create test data with known answers, run your script, compare output to expected results. These exercises take that skill further — you'll design adversarial test cases and diagnose scripts that produce plausible but wrong output.
 
 ### Exercise 2.1 — The Bulletproof Calculator (Build)
 
@@ -274,9 +274,9 @@ After running `python3 broken-calc.py < test-data.csv` and `diff <(python3 broke
 
 ## Module 3: CSV Processing
 
-> **Core Skill:** Processing real-world CSV data that breaks naive parsing (Lesson 4)
+> **Core Skill:** Processing real-world CSV data that breaks naive parsing (Lesson 3)
 >
-> Lesson 4 taught you to move beyond naive comma-splitting to proper CSV parsing with Python's `csv` module. These exercises confront you with the full spectrum of CSV messiness: quoted fields containing commas, mixed date formats, currency symbols, trailing delimiters, and encoding issues that are standard in real-world data exports.
+> Lesson 3 taught you to move beyond naive comma-splitting to proper CSV parsing with Python's `csv` module. These exercises confront you with the full spectrum of CSV messiness: quoted fields containing commas, mixed date formats, currency symbols, trailing delimiters, and encoding issues that are standard in real-world data exports.
 
 ### Exercise 3.1 — The Messy Payroll (Build)
 
