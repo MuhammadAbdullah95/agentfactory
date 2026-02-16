@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-16
+- Ch7 final polish ([#731](https://github.com/panaversity/agentfactory/pull/731))
+
+### 2026-02-16
 
 - docs: rewrite chapter 12 — Meet Your First AI Employee ([#730](https://github.com/panaversity/agentfactory/pull/730))
 
