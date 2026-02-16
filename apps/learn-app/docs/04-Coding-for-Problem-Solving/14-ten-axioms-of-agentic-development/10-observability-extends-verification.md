@@ -145,7 +145,7 @@ Tomás's `print("Processing order...")` was neither monitoring nor observability
 
 ## The Three Pillars of Observability
 
-![Observability Cycle: Collect Data, Analyze Data, Diagnose Issues, Optimize Performance, and Enhance User Experience in a continuous feedback loop](./img/10-three-pillars-observability.png)
+![Observability Cycle: Collect Data, Analyze Data, Diagnose Issues, Optimize Performance, and Enhance User Experience in a continuous feedback loop](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/10-three-pillars-observability.png)
 
 After the 2:47 AM incident, Lena walked Tomás through the three pillars of production observability. "Each pillar answers a different question," she said. "And no single pillar suffices alone."
 
@@ -477,7 +477,7 @@ This is where observability and testing become a unified system. The 2:47 AM inc
 
 ## The Complete System: All Ten Axioms
 
-![The Ten Axioms of Agentic Development: organized into four categories — Orchestration, Specification, Architecture, and Verification](./img/10-complete-axioms-system.png)
+![The Ten Axioms of Agentic Development: organized into four categories — Orchestration, Specification, Architecture, and Verification](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/10-complete-axioms-system.png)
 
 This is the final axiom. Together, the ten axioms form a coherent system for agentic software development — and Tomás has lived every one of them.
 

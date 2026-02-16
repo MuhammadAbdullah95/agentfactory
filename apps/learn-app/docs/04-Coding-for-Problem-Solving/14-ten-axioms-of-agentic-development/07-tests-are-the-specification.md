@@ -145,7 +145,7 @@ TDG is Beck's TDD adapted for the AI era. The rhythm is the same: test first, im
 
 ## TDG: The AI-Era Testing Workflow
 
-![Test-Driven Generation workflow cycle: Write Tests, Prompt AI, Run Tests, then Pass? decision leading to Accept or loop back](./img/07-tdg-workflow.png)
+![Test-Driven Generation workflow cycle: Write Tests, Prompt AI, Run Tests, then Pass? decision leading to Accept or loop back](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/07-tdg-workflow.png)
 
 TDG adapts Beck's TDD cycle for AI-powered development. Here is how the two compare:
 
@@ -348,7 +348,7 @@ Organize tests by scope using `@pytest.mark` decorators — `@pytest.mark.unit` 
 
 ## The Test Pyramid
 
-![Test Pyramid: many unit tests at the base, some integration tests in the middle, few E2E tests at the top](./img/07-test-pyramid.png)
+![Test Pyramid: many unit tests at the base, some integration tests in the middle, few E2E tests at the top](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/07-test-pyramid.png)
 
 Lena showed Tomás that not all tests serve the same purpose. The test pyramid — a concept popularized by Mike Cohn — organizes tests by scope and cost:
 

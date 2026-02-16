@@ -88,7 +88,7 @@ The root cause in every case: **computation and coordination are tangled togethe
 
 > **Axiom I: The shell is the universal coordination layer for all agent work. Programs do computation; the shell orchestrates programs.**
 
-![Shell as Orchestrator: the shell coordinates independent programs rather than tangling everything into one script](./img/01-shell-as-orchestrator.png)
+![Shell as Orchestrator: the shell coordinates independent programs rather than tangling everything into one script](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/01-shell-as-orchestrator.png)
 
 The boundary is sharp and non-negotiable:
 
