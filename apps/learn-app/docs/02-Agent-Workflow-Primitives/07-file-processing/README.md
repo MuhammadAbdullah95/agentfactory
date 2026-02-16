@@ -10,13 +10,13 @@ slides:
 
 # Chapter 7: File Processing Workflows
 
-Your Downloads folder has become chaos. You can't find that tax document from last year. Screenshots pile up with meaningless names. Sound familiar?
+You have 847 files in your Downloads folder. You need one of them by Friday. Three of them are duplicates eating 4 GB of space. And the file your boss asked about? It's in there somewhere.
 
-Here's what surprises most people. The solution isn't learning bash commands or hiring an assistant. The solution is learning to direct a General Agent effectively. And the patterns you'll master with files apply to every domain where General Agents work.
+You could spend an afternoon sorting manually. Or you could describe the problem in one sentence and let an agent handle it in 30 seconds.
 
-This chapter uses a universal problem to teach you something far more valuable. You'll solve file chaos through conversation. You'll watch the agent work. You'll observe the Seven Principles in action. You'll build a prompt toolkit that transfers to email management, project organization, data cleaning, and any workflow where you direct General Agents.
+But here's what this chapter is *actually* about: it's not about files. Files are the training ground. The real skill is learning to **direct** an AI agent — when to trust it, when to verify, when to demand a preview, and when to just do it yourself. Every pattern you learn here transfers to email management, project organization, data pipelines, and any domain where you work with General Agents.
 
-Most people prompt blindly. They hope the General Agent understands. You're about to learn the systematic approach that separates effective collaboration from frustration.
+By the end, you'll have a reusable prompt toolkit and — more importantly — the instinct to demand safety, verification, and scripts from every agent interaction. Most people prompt blindly and hope for the best. You're about to learn the systematic approach.
 
 In Chapter 6, you learned the Four-Phase Workflow for Claude Code sessions: **Explore → Plan → Implement → Commit**. File processing expands this into a seven-step framework: **Survey → Backup → Design Rules → Test → Execute → Verify → Document**. The extra steps exist because file operations are irreversible — a moved file is moved, a renamed file is renamed. The Four-Phase Workflow assumed version control as your safety net. Here, your files don't have `git revert`, so backups, testing, and verification become explicit steps instead.
 

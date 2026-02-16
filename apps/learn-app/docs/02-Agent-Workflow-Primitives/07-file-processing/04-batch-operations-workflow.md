@@ -6,6 +6,15 @@ layer: L2
 title: "Batch Operations Workflow"
 description: "Direct Claude Code to create reusable scripts for repetitive file operations. Transforming one-time commands into permanent automation"
 duration_minutes: 30
+keywords:
+  [
+    "batch operations",
+    "scripting",
+    "automation",
+    "rename",
+    "preview",
+    "reusable scripts",
+  ]
 
 skills:
   - name: "Batch Processing Direction"
@@ -65,17 +74,13 @@ differentiation:
 
 # Batch Operations Workflow
 
-Beginners run the same commands repeatedly. Experts know better. They ask General Agents to create reusable scripts that automate repetitive work forever.
+You've got 87 screenshots. Renaming them one by one would take 43 minutes. Renaming them with a script takes 30 seconds.
 
-This workflow teaches you something powerful. You'll learn to transform one-time solutions into permanent automation. The same pattern applies to data transformations, batch image processing, log analysis, and any repetitive task where General Agents can help.
+But the real difference isn't speed.
 
-You've got 87 screenshots.
+You asked the agent to rename your screenshots. It gave you renamed screenshots AND a script called `rename-screenshots.sh`. You didn't ask for the script. The agent anticipated that you'd need to do this again next month and solved beyond your request. That's the pattern this lesson teaches: don't just solve the problem — solve the _category_ of problems.
 
-They're named things like `Screenshot 2024-01-15 at 10.23.45.png` and `Screenshot 2024-03-22 at 14.07.33.png`. The auto-generated names made sense to your operating system. They make no sense to you. You want something organized: `screenshot-001.png`, `screenshot-002.png`, or maybe names that include the date in a cleaner format.
-
-You could rename them one by one. That's 87 clicks, 87 new names, 87 chances to make a typo.
-
-Or you could tell a General Agent what you want, watch it create a reusable script, and use that script forever.
+Your screenshots are named things like `Screenshot 2024-01-15 at 10.23.45.png`. The auto-generated names made sense to your operating system. They make no sense to you. Let's fix that — and make sure the fix is permanent.
 
 ---
 
@@ -115,7 +120,7 @@ Should I proceed with this plan, or would you like a different
 naming pattern?
 ```
 
-You look at the preview. Something's missing. You want to keep the date information.
+You look at the preview. Something's wrong. The agent threw away useful information — the dates. `screenshot-001.png` tells you nothing about *when* the screenshot was taken. Six months from now, you'll have no idea what `screenshot-047.png` contains or why you took it.
 
 ```
 You: Actually, include the date. Make it 'screenshot-2024-01-15-001.png'
@@ -202,7 +207,7 @@ Options:
 Which approach?
 ```
 
-Why this matters: Batch operations that assume unique names will silently overwrite files. Good agents detect conflicts before they cause data loss. When you see this pattern, it means the agent is applying Principle 6 (Constraints and Safety).
+Why this matters: Batch operations that assume unique names will silently overwrite files. Good agents detect conflicts before they cause data loss. When you see this pattern, it means the agent detected a potential data loss scenario before it happened.
 
 ### Scenario: Partial Failure
 
@@ -227,77 +232,13 @@ This is why the preview step matters. If you'd caught the question-mark filename
 
 ### Don't Fix the File — Fix the Rule
 
-When batch operations go wrong, resist the urge to just fix the affected files and move on. Instead, fix the _rule_ that caused the error:
+This is the central lesson of batch operations. When something goes wrong, resist the urge to fix the affected files and move on. Fix the _rule_ that caused the error.
 
-```
-The rename script choked on filenames with question marks. Don't just
-rename those 7 files manually — update rename-screenshots.sh to handle
-special characters, then rerun it on the failed files.
-```
+The rename script choked on filenames with question marks? Don't rename those 7 files manually — update `rename-screenshots.sh` to handle special characters, then rerun it on the failed files. The naming collision? Don't move two files by hand — update the script to detect same-second conflicts.
 
-In the naming collision, the fix isn't moving two files by hand — it's updating the script to detect same-second conflicts. In the partial failure, the fix isn't renaming 7 files manually — it's teaching the script to handle special characters.
+Every edge case you fix in the script is an edge case that never bites you again. Every error makes the system smarter. This is how one-time solutions evolve into robust automation.
 
-Every edge case you fix in the script is an edge case that never bites you again. This is how one-time solutions evolve into robust automation. The script gets smarter each time it fails.
-
----
-
-## What Just Happened?
-
-Did you notice what the agent produced? Not just renamed files, but a _script_. The agent didn't just solve your problem once. It created code you can run again. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently. The agent turned a one-time task into permanent automation.
-
-Before the agent touched a single file, it showed you exactly what it planned to do. You saw the preview table. You could check that the new names made sense. You could change your mind. The agent made its intentions visible before acting.
-
-The workflow followed a pattern: Preview → Approve → Execute → Log. The agent verified its plan with you before executing. Then it logged every change so you could verify what happened. Nothing was a mystery.
-
-This is different from running commands yourself. You didn't have to know bash syntax for string manipulation or date extraction. You described what you wanted, reviewed the plan, and approved it.
-
-### The Agent's Toolkit: Batch Operation Commands
-
-The agent introduced new commands:
-
-- **`head -10`** — show the **first 10** lines — previews a sample before processing all
-- **`mkdir -p`** — make directory with **-p**arents — creates entire folder paths at once
-- **`./script.sh`** — run a shell script — executes reusable automation you can keep
-
-The `-p` flag in `mkdir -p` is worth understanding:
-
-```bash
-mkdir renamed                    # Works only if parent exists
-mkdir -p renamed/2024/january    # Creates ALL missing folders in the path
-```
-
-When the agent creates a script, it's encoding your commands into a reusable file. Here's what a simple rename script looks like:
-
-```bash
-#!/bin/bash
-# rename-screenshots.sh
-counter=1
-for file in "$1"/*.png; do
-    mv "$file" "$1/screenshot-$(printf %03d $counter).png"
-    counter=$((counter + 1))
-done
-```
-
-#### Reading the Script
-
-```
-#!/bin/bash                    <-- "Run this with bash" (required first line)
-counter=1                      <-- Start counting at 1
-for file in "$1"/*.png; do     <-- For each .png file in the folder I give you...
-    mv "$file" ...             <-- ...rename it
-    counter=$((counter + 1))   <-- ...then add 1 to the counter
-done                           <-- End of loop
-```
-
-The `$1` means "the first thing you type after the script name." So when you run:
-
-```bash
-./rename-screenshots.sh ~/Screenshots
-```
-
-The `$1` becomes `~/Screenshots`. The script processes every `.png` file in that folder.
-
-The script captures the pattern so you never have to describe it again. That's Principle 2: Code as Universal Interface.
+The agent didn't just rename files. It created a _script_. That's the difference between solving a problem once and solving a category of problems. Next month when you have 50 new screenshots, you run `./rename-screenshots.sh` and they're all named consistently.
 
 ---
 
@@ -341,46 +282,9 @@ Consider the difference:
 | One-time commands | Files renamed                           | Start over from scratch |
 | Script generation | Files renamed + `rename-screenshots.sh` | Run one command         |
 
-The first approach solves the problem. The second approach solves the _category_ of problems. That's Principle 2 in action: code becomes the interface between your intent and recurring tasks.
+The first approach solves the problem. The second approach solves the _category_ of problems. Code becomes the interface between your intent and recurring tasks.
 
 The script also serves as documentation. Six months from now, you might forget exactly how you wanted screenshots named. Open `rename-screenshots.sh` and the logic is right there, preserved in code.
-
----
-
-## Try It Yourself
-
-Pick a batch operation from your own files.
-
-**Option 1: Date-Based Rename**
-
-```
-I have files named randomly in my Documents folder. Help me rename them
-to include today's date as a prefix, like '2026-02-12-filename.pdf'.
-Show me the plan before doing anything.
-```
-
-Watch how the agent handles the preview. Notice if it asks clarifying questions.
-
-**Option 2: Prefix Addition**
-
-```
-I want to add a prefix to all .pdf files in my Downloads folder.
-Add 'archive-' to the beginning of each filename.
-Show me what this will look like before you do it, and create
-a script I can use for other folders.
-```
-
-See how the agent produces both the preview and the reusable script.
-
-**Option 3: Extension Cleanup**
-
-```
-Some of my image files have uppercase extensions like .PNG and .JPG.
-Help me rename them all to lowercase (.png, .jpg).
-Show me the files that would change before making changes.
-```
-
-This tests whether the agent identifies only the files that need changing.
 
 ---
 
@@ -413,7 +317,7 @@ By now in this chapter, you've learned:
 
 Each pattern builds on the last. You understand your files. You protect them with backups. You document your rules. Now you transform repetitive tasks into reusable automation.
 
-In the next lesson, you'll deliberately make a mistake — and practice recovering from it.
+Your scripts are powerful. They rename 87 files in seconds. But what happens when a script does the WRONG thing to 87 files in seconds? Speed amplifies mistakes exactly as much as it amplifies productivity. You need a recovery workflow that works as fast as the scripts that caused the problem.
 
 ---
 
@@ -442,12 +346,12 @@ so I can understand what's happening.
 
 **What you're practicing:** Understanding the mechanics. By asking to see the commands without execution, you learn what's happening "under the hood" while staying in control.
 
-**Prompt 3: Error Handling**
+**Prompt 3: Content-Aware Operations**
 
 ```
-What happens if two files would get the same new name? For example,
-if I have two screenshots from the same second on the same day?
-How would your script handle that conflict?
+I have 200 PDF invoices named "Invoice_12345.pdf". I want to rename them
+to include the client name, but the client name is INSIDE the PDF, not in
+the filename. Can you extract it and use it in the rename?
 ```
 
-**What you're practicing:** Edge case thinking. Good automation handles unusual situations gracefully. You're learning to anticipate problems before they occur.
+**What you're practicing:** Content-aware batch operations. You're moving beyond filename-based operations to using file contents as input. This is how real automation handles documents where the metadata you need is inside the file, not in its name.

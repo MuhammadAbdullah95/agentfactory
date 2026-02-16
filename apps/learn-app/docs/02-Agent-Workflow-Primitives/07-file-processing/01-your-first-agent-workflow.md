@@ -14,6 +14,8 @@ keywords:
     "general agent",
     "prompting",
     "observability",
+    "division of labor",
+    "problem description",
   ]
 
 # HIDDEN SKILLS METADATA
@@ -66,40 +68,57 @@ differentiation:
 
 # Your First Agent Workflow
 
-Here's what most people get wrong about working with General Agents. They think they need to describe the solution. They type commands, specify technical details, hope the agent understands.
+Let's be honest about something before we start.
 
-The experts work differently. They describe the problem. They let the General Agent figure out the solution. And they watch closely to learn patterns that work everywhere.
+If you need to check whether a file exists, you're faster than any AI agent. Type `ls budget.csv` — done in two seconds. The agent would need to think, pick a command, ask permission, then respond. Fifteen seconds for a two-second task.
 
-Your Downloads folder is chaos. You download a PDF for a meeting, then forget about it. A week later, you download a spreadsheet for taxes. Then a photo someone sent. Then another PDF. Was that the same one as before? You're not sure. Months pass. Now there are hundreds of files. You don't know what's in there. You don't know what's taking up space. You don't know if there are duplicates. You just know it's a mess.
+So why are you reading a chapter about directing agents to handle files?
 
-You've been meaning to organize it. You haven't. Because organizing isn't just moving files. First you need to _understand_ what you have. And understanding requires time you don't have.
+Because your Downloads folder has 847 files in it. You don't know what's in half of them. Three of them are tax documents you'll need in April. One is a duplicate that's eating 2 GB of disk space. And the file your boss asked about yesterday? It's in there somewhere, buried under six months of random downloads.
 
-This is exactly the kind of problem where General Agents shine. But here's the key. You're not learning bash commands. You're learning how to direct an intelligent system to solve problems for you. The pattern you'll master today applies to data analysis, project management, research tasks, and any workflow where you work with General Agents.
-
-Let's see what effective direction looks like.
-
-## The Conversation
-
-Open Claude Code. You're going to describe a problem in plain English and watch what happens.
+You could spend an afternoon sorting through them manually. Or you could describe the problem in one sentence:
 
 ```
 You: I have a cluttered Downloads folder. Help me understand what's
 in here. How many files, what types, what's taking up space?
 ```
 
-Watch what Claude Code does.
+That's it. No commands, no technical details, no specifying _how_ to analyze it. The agent ran six commands, self-corrected when its first count was wrong, and produced a complete breakdown in 30 seconds.
+
+**The rule of thumb you'll internalize in this chapter:** If you can describe the task faster than you can do it, ask the agent. If you can do it faster than you can describe it, just do it. Three files to move? Drag them. Three hundred files to categorize by type, date, and project? That's agent territory.
+
+The pattern you'll learn today — describe the problem, let the agent figure out the solution — applies to data analysis, project management, research, and any domain where you work with General Agents.
+
+## The Conversation
+
+Open Claude Code. Here's the full exchange — including the parts most tutorials edit out.
+
+```
+You: I have a cluttered Downloads folder. Help me understand what's
+in here. How many files, what types, what's taking up space?
+```
 
 ```
 Claude Code: I'll analyze your Downloads folder. Let me take a look.
 
-[Runs: ls -la ~/Downloads | head -20]
+> Allow Claude Code to run: ls -la ~/Downloads | head -20
+> [Y/n]: Y
 
-I see a lot of files. Let me get the full picture.
+You have 23 items in your Downloads folder. Actually, let me
+recount — that's just the top-level view. Some of those are
+folders with files inside them. Let me get the real number.
 
-[Runs: find ~/Downloads -type f | wc -l]
+> Allow Claude Code to run: find ~/Downloads -type f | wc -l
+> [Y/n]: Y
 
-You have 847 files in your Downloads folder. Let me break down
-what types of files you have.
+You have 847 files in your Downloads folder — much more than the
+23 items that ls showed, because many are nested in subfolders.
+```
+
+Pause. Did you catch what just happened? The agent got it wrong the first time — 23 items — and then corrected itself. It didn't hide the mistake or pretend the first answer was right. It noticed that `ls` only shows the top level, switched to `find -type f`, and got the real number. That self-correction is what good agent work looks like.
+
+```
+Claude Code: Let me break down what types of files you have.
 
 [Runs: find ~/Downloads -type f -name "*.pdf" | wc -l]
 [Runs: find ~/Downloads -type f -name "*.xlsx" -o -name "*.csv" | wc -l]
@@ -145,13 +164,21 @@ That took about 30 seconds. You now know:
 
 You didn't run a single command. You described a problem, and the agent solved it.
 
-## What Just Happened?
+## The Division of Labor
 
-Did you notice the agent's approach? It didn't use a fancy "folder analysis tool." It used `ls`, `find`, `wc`, and `du` — basic Unix commands that have existed for decades. These commands are fast, reliable, and do exactly what they claim. The agent combined them to extract exactly the information you needed.
+Look at what just happened through a different lens. You described the problem in language: "cluttered Downloads folder." The agent chose the solution in code: `ls`, `find`, `wc`, `du`. You couldn't have chosen those commands (you don't know bash). The agent couldn't have chosen what to analyze (it doesn't know what matters to you). Neither of you could have done the other's job. That's the insight — the value isn't automation. It's the combination of your judgment with the agent's technical execution.
 
-Your Downloads folder was a black box. You knew it was messy, but you couldn't see inside it. The agent made chaos visible. Now you have a clear picture: file counts, types, sizes, space hogs. You went from "I should probably organize this someday" to "I know exactly what's in here and what to tackle first."
+### And Sometimes the Agent is the Wrong Tool Entirely
 
-This is the power of General Agents. They don't just give you advice ("You should use the `find` command"). They do the work. They observe your system, run commands, and report back with actionable information.
+Not every file task belongs in a terminal:
+
+- **Browsing photos**: You need to _see_ thumbnails to decide which to keep. The agent sees filenames and metadata. You see memories.
+- **Network drives and NAS**: File operations on mounted network storage can behave differently — latency, permission models, case sensitivity. The agent doesn't know your NAS has a 2-second round trip per operation.
+- **Decisions that need human eyes**: That folder of old photos from college? Don't let an agent bulk-delete based on file size rules. Some decisions aren't computational.
+
+The best collaborators know when to hand off and when to handle it themselves. Acknowledging the agent's limits is part of the skill — not a weakness.
+
+---
 
 ### The Agent's Toolkit: What Those Commands Mean
 
@@ -265,56 +292,6 @@ You should now have: A `file-organizer/FILE-INVENTORY.md` file with your actual 
 
 > **What to do if your Downloads folder is empty or tiny:** Pick a different folder — Documents, Desktop, or any folder with at least 20 files. Adjust the prompt accordingly.
 
-## What You're Learning
-
-You're not learning bash commands. You're learning something more valuable: **how to work effectively with General Agents**.
-
-The skills you're building:
-
-- **Problem description over solution specification.** You describe outcomes, not procedures. This applies to every domain where you direct General Agents.
-- **Observation over memorization.** You watch what the agent does, learning patterns without rote memorization. Experts learn by observing agent behavior.
-- **Prompt patterns over command syntax.** Reusable patterns that work across different problems. The "help me understand" pattern works for files, data analysis, project planning, research, and more.
-
----
-
-## The Honest Moment: When You're Faster
-
-Let's race.
-
-The agent just ran `ls ~/Downloads | head -20` to start its analysis. You could have typed that yourself in two seconds flat. Waiting for the agent to think, decide on `ls`, ask permission, then format the response — that took fifteen seconds.
-
-So let's be honest about the scoreboard:
-
-**You win:**
-
-| Task | You | The Agent |
-|------|-----|-----------|
-| Check if a file exists | `ls budget.csv` — done | Describe → think → run ls → respond |
-| Move 3 files | Drag and drop — 5 seconds | Describe → plan → permission → move |
-| Quick peek at a file | `cat notes.txt` — instant | "Show me notes.txt" — 10 seconds |
-
-**The agent wins:**
-
-| Task | You | The Agent |
-|------|-----|-----------|
-| Find all tax docs by content across 3 folders | `find`, `grep`, `xargs`, piping... 20 minutes if you know bash | Describe what you need — 30 seconds |
-| Rename 87 screenshots with dates | 87 manual renames, or write a script from scratch | Describe the pattern — 1 minute |
-| Compare two directories for changes | `diff`, `comm`, `sort`... hope the flags are right | "What's different?" — 15 seconds |
-
-**The rule of thumb:** if you can describe the task faster than you can do it, ask the agent. If you can do it faster than you can describe it, just do it.
-
-Three files to move? Drag them. Three hundred files to categorize by type, date, and project? That's agent territory.
-
-### And Sometimes the Agent is the Wrong Tool Entirely
-
-Not every file task belongs in a terminal:
-
-- **Browsing photos**: You need to _see_ thumbnails to decide which to keep. The agent sees filenames and metadata. You see memories.
-- **Network drives and NAS**: File operations on mounted network storage can behave differently — latency, permission models, case sensitivity. The agent doesn't know your NAS has a 2-second round trip per operation.
-- **Decisions that need human eyes**: That folder of old photos from college? Don't let an agent bulk-delete based on file size rules. Some decisions aren't computational.
-
-The best collaborators know when to hand off and when to handle it themselves. Acknowledging the agent's limits is part of the skill — not a weakness.
-
 ---
 
 ## Try With AI
@@ -367,3 +344,7 @@ and '-10' mean? Teach me to read this command.
 ```
 
 **What you're practicing:** Just-in-time learning. Instead of memorizing a textbook, you ask the agent to teach you the specific syntax relevant to the problem you just solved. The agent becomes your tutor, explaining commands in context.
+
+---
+
+Your Downloads folder is visible now. But visibility creates a new problem. You can see exactly what's there — and some of it matters. Tax documents. Financial spreadsheets. Irreplaceable photos buried under random downloads. If the next step goes wrong, those files could disappear. And unlike code, your files don't have `git revert`.

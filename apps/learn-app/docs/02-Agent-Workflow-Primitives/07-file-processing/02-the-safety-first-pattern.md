@@ -6,6 +6,15 @@ layer: L2
 title: "The Safety-First Pattern"
 description: "Learn to direct Claude Code to create safety backups before any destructive operation. The pattern that enables fearless file management"
 duration_minutes: 20
+keywords:
+  [
+    "backup",
+    "safety",
+    "verification",
+    "file protection",
+    "recovery",
+    "destructive operations",
+  ]
 
 skills:
   - name: "Safety Mindset"
@@ -52,36 +61,27 @@ cognitive_load:
     - "Verification mindset (always confirm backup completeness)"
     - "Agent clarification behavior (agent asks, doesn't assume)"
   assessment: "3 concepts well within A2 limit"
+
+differentiation:
+  extension_for_advanced: "Create a backup script that runs automatically on a schedule. Research how rsync handles incremental backups compared to simple cp."
+  remedial_for_struggling: "Focus on just the basic cycle: ask for backup, check it worked, then proceed. Don't worry about selective backups or verification reports yet."
 ---
 
 # The Safety-First Pattern
 
-Here's a pattern that separates beginners from experts when working with General Agents. Beginners hope nothing goes wrong. Experts establish safety before anything changes.
+Here's what happens when you skip the backup.
 
-You know that sinking feeling. You're cleaning up your files, moving things around, maybe deleting some old downloads. Then suddenly you realize you just deleted something important. Your stomach drops. You dig through the Trash. It's not there. It's gone.
+You ask the agent to organize your Downloads folder. It moves 400 files into categories. Clean, fast, satisfying. Then you notice: your tax documents aren't in the `documents/` folder. They're not in `spreadsheets/` either. You check `misc/`. Not there. You check the original Downloads folder. It's empty — the agent moved everything out.
 
-Everyone who has ever organized files has experienced this moment. The fear of losing something irreplaceable makes us hesitate. We start a cleanup project, get nervous halfway through, and abandon it. The chaos persists because we're afraid to touch it.
+Your 1099 forms are gone. Not deleted — *misplaced*. They're sitting in a folder called `archives/` because the agent categorized `.pdf` files older than a year as "archival." You didn't know that rule existed. You didn't ask. And now you're spending 30 minutes hunting through subfolders for documents your accountant needs by Friday.
 
-In the next 20 minutes, you'll learn the pattern that eliminates this fear entirely. Not by being more careful, but by establishing a safety net BEFORE you make any changes. You'll direct Claude Code to create a backup, verify it's complete, and only then proceed with confidence.
+That's the *good* outcome. The bad outcome is a naming collision: two files called `report.pdf` from different folders, and the agent overwrites one with the other. The bad outcome is a permissions error halfway through a batch move that leaves 200 files in limbo — half moved, half not, and you can't remember which were where.
 
-This pattern applies far beyond files. When you work with General Agents on code changes, data transformations, system configurations, or any workflow where mistakes have consequences, the safety-first pattern is what separates confident experimentation from anxious hesitation.
+This lesson exists because of that gap between "the agent did what I asked" and "the agent did what I *meant*."
 
-The constraint of "backup first" enables fearless experimentation.
+> **The paradox:** The backup constraint doesn't limit you. It frees you. Every safety rule you think slows you down actually speeds you up. Without a safety net, you hesitate at every step. With one, you experiment without fear. The 2 minutes you spend on backup save the 20 minutes of anxiety that would otherwise paralyze every decision.
 
----
-
-## The Fear is Real
-
-Before we dive in, acknowledge the legitimate concern: losing files is a real problem with real consequences.
-
-| What You Might Lose | Impact                 |
-| ------------------- | ---------------------- |
-| Tax documents       | Financial disaster     |
-| Family photos       | Irreplaceable memories |
-| Work projects       | Career consequences    |
-| Research notes      | Months of effort gone  |
-
-This fear is rational. The solution isn't "be more careful." The solution is **make it impossible to lose things permanently**.
+In the next 20 minutes, you'll direct Claude Code to create a backup, verify it's complete, and only then proceed. This pattern applies far beyond files — code changes, data transformations, system configurations — any workflow where mistakes have consequences.
 
 ---
 
@@ -162,83 +162,13 @@ Notice what just happened. The agent didn't assume what you wanted. It asked. Th
 
 ---
 
-## What Just Happened?
+## Three Things to Notice
 
-Let's examine what the agent did and why it matters.
+**1. The agent asked what "important" meant.** You said "backup important files." A dangerous agent would have assumed "everything" and started copying 12 GB. This agent asked: "What counts as important?" That single question — clarifying before acting — is the difference between a helpful tool and a dangerous one. The agent ASKED before acting. A dangerous agent would have assumed.
 
-### Safety Before Action
+**2. You verified, not just trusted.** The agent could have said "Done!" after copying. Instead, you directed it to compare counts: 47 PDFs in source, 47 in backup. Numbers match. Backup complete. Trust, but verify — always.
 
-The agent created a safety net BEFORE any destructive operation. This isn't just being careful. It's a fundamental pattern:
-
-```
-WRONG ORDER:
-  1. Start moving files
-  2. Realize you need a backup
-  3. Try to undo changes
-  4. Panic
-
-RIGHT ORDER:
-  1. Create backup
-  2. Verify backup is complete
-  3. Make changes with confidence
-  4. If problems occur, restore from backup
-```
-
-The backup constraint ENABLES the changes. Without the safety net, you'd hesitate. With it, you can experiment freely.
-
-### Trust, But Verify
-
-Notice that you didn't just trust the backup worked. You asked the agent to verify it. The agent compared counts:
-
-- Source files → Backup files
-- Numbers match → Backup complete
-
-This is verification in action. The agent could have said "Done!" after copying. Instead, you directed it to prove completeness. Trust, but verify.
-
-### The Agent Asked, Not Assumed
-
-Here's the most important observation: **the agent asked what "important" meant before acting**.
-
-A dangerous pattern would be:
-
-```
-You: "Backup my important files."
-Agent: "Done! I backed up everything."
-```
-
-This is bad because:
-
-- The agent assumed "important" meant "everything"
-- You didn't define your criteria
-- The backup might be huge (or miss things you actually needed)
-
-The safe pattern is what actually happened:
-
-```
-You: "Backup my important files."
-Agent: "What counts as important? I can backup [options]..."
-You: "PDFs and recent files."
-Agent: "Here's what I'll do... [creates backup]"
-```
-
-The agent **clarified before acting**. This prevents misunderstandings that could lead to data loss.
-
-### The Agent's Toolkit: Backup Commands
-
-Behind the scenes, the agent used these commands:
-
-- **`mkdir`** — **m**a**k**e **dir**ectory — creates the backup folder
-- **`cp`** — **c**o**p**y — duplicates files to the backup location
-- **`find`** — locates files matching your criteria (PDFs, recent files)
-
-When the agent verified the backup, it compared counts:
-
-```bash
-find ~/Downloads -name "*.pdf" | wc -l    # Count source PDFs
-find backup/ -name "*.pdf" | wc -l        # Count backup PDFs
-```
-
-Same number? Backup complete. The verification isn't magic — it's systematic comparison using the same tools you learned in Lesson 1.
+**3. The order was the whole point.** Backup → Verify → Then make changes. Not the other way around. The backup *enables* the changes that follow.
 
 ---
 
@@ -424,12 +354,8 @@ from my backup. Show me the commands but don't actually run them yet.
 
 **Safety enables action.** The backup constraint doesn't limit you. It frees you to experiment without fear.
 
-**Agents should ask, not assume.** A well-designed agent clarifies ambiguous requests before acting. "Important files" means different things to different people.
-
-**Verification is non-negotiable.** A backup that might have failed is worse than no backup. Always confirm completeness.
-
-**Check for errors.** A "mostly complete" backup can be more dangerous than no backup at all. Always ask for error reports.
+**Verification is non-negotiable.** A backup that might have failed is worse than no backup. Always confirm completeness. Always ask for error reports.
 
 **This pattern is universal.** Backup-before-change applies to files, code, databases, and any system where actions might be irreversible.
 
-In the next lesson, you'll design categorization rules for your files. The backup you created ensures that no matter how you organize, you can always recover.
+Your files are backed up. You can experiment without fear. But here's the question that matters now: which files should live together? A PDF named "Q4-Budget-Draft.pdf" — is that a financial document or a Q4 project file? Your backup makes the answer cheap to get wrong. So how do you design rules that handle ambiguity?

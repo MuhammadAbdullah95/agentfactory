@@ -6,6 +6,15 @@ layer: L2
 title: "Capstone: Your File Processing Toolkit"
 description: "Synthesize all six workflows into a reusable prompt toolkit, apply them to a new folder, and recognize how the Seven Principles emerged through practice"
 duration_minutes: 30
+keywords:
+  [
+    "capstone",
+    "prompt toolkit",
+    "synthesis",
+    "automation bridge",
+    "seven principles",
+    "workflow selection",
+  ]
 
 skills:
   - name: "Workflow Synthesis"
@@ -60,9 +69,9 @@ learning_objectives:
 cognitive_load:
   new_concepts: 2
   concepts_list:
-    - "Prompt toolkit (reusable templates for common tasks)"
-    - "Workflow-to-automation bridge (what automation adds)"
-  assessment: "2 new concepts; primarily synthesis of existing knowledge"
+    - "Workflow selection under pressure (choosing the right workflow for a scenario)"
+    - "Workflow-to-automation bridge (what changes when humans leave the loop)"
+  assessment: "2 genuinely new concepts plus synthesis of 6 existing workflows at B1 level. The synthesis demand is high — students must combine, not just recall. Total cognitive load is significant despite low new-concept count."
 
 differentiation:
   extension_for_advanced: "Create additional prompt templates for domains beyond files: calendar management, email organization, project tracking"
@@ -71,191 +80,109 @@ differentiation:
 
 # Capstone: Your File Processing Toolkit
 
-You started this chapter staring at a chaotic Downloads folder. Over six lessons, you organized hundreds of files, created reusable scripts, practiced recovery from mistakes, and developed a systematic approach to file management.
+Your accountant just called. They need a 1099-DIV from 2025. You have 300 files on your Desktop. Clock's ticking. Which workflow do you reach for?
 
-But here's what's more valuable than the organized folders. You now possess patterns that work on any folder, any computer, for the rest of your career. And these patterns transfer far beyond files.
+That's the real test. Not whether you know six workflows — but whether you know which one to grab when your files are on fire and someone is waiting. Different scenarios require different workflow orders. There's no single correct sequence.
 
-Every expert who works with General Agents builds a personal toolkit of proven prompts. You're about to create yours. This toolkit will grow with you. Every time you face a new problem, you'll adapt these patterns. Every time you discover something that works, you'll add it to your collection.
-
-Here's what most people miss. This chapter teaches you manual prompting. Later, you'll learn automation. The patterns you're building today become the decision rules for AI Employees that work automatically. You're not just solving today's problem. You're building the foundation for autonomous systems.
-
-In this capstone, you'll prove that by applying everything to a new challenge. Then you'll create a prompt toolkit you keep forever.
+Before we build your permanent prompt toolkit, let's test your judgment.
 
 ---
 
-## The Challenge: Your Desktop
+## Triage Under Pressure
 
-Time to prove the patterns transfer. Choose a folder you haven't touched yet. Your Desktop is ideal — it's probably accumulated its own chaos.
+For each scenario, decide which workflow(s) to use and in what order BEFORE reading the insight. Then open Claude Code and try your approach.
 
-Open Claude Code and work through each workflow on this new folder.
+### Scenario 1: The Urgent Search
 
-### Workflow 1: Survey
-
-```
-Help me understand what's on my Desktop. How many files, what types,
-what's taking up space? I want to see the full picture before
-making any changes.
-```
-
-Watch Claude Code run the analysis. Compare its approach to what you saw in Lesson 1.
-
-### Workflow 2: Safety First
+Your Desktop has 300+ files. You need one specific tax document. Your accountant is waiting on the phone.
 
 ```
-Before we change anything on my Desktop, create a backup of any files
-modified in the last 60 days. Put the backup in ~/desktop-backup-2026-02-12/
-and verify it's complete. Show me any errors.
+You: I need to find a 1099-DIV document from 2025. It's somewhere on
+my Desktop. I need it RIGHT NOW.
 ```
 
-The backup pattern is the same. Only the folder name changed.
+**Before you run this** — think: Do you survey first (Lesson 1), or go straight to search (Lesson 6)?
 
-### Workflow 3: Organization Rules
+**Insight:** Urgency overrides the normal sequence. Search first, organize later. When someone is waiting, you don't map the territory — you find the one thing you need. The survey-first pattern is for when you have time to be systematic.
 
-```
-Based on what you found on my Desktop, suggest a categorization system.
-Show me your proposed rules, then let me refine them before we proceed.
-Document the final rules in desktop-rules.md.
-Test on ONE file first.
-```
+### Scenario 2: The Fresh Start
 
-Notice how the conversation follows the same propose-refine-document pattern.
-
-### Workflow 4: Batch Operations
+You want to reorganize your Desktop, but you've never looked at what's there. No backup exists.
 
 ```
-I have several files on my Desktop named things like "Screenshot 2024..."
-Help me rename them to something cleaner. Show me what you'll do before
-doing it, and create a script I can reuse.
+You: I want to completely reorganize my Desktop. What should I do first?
 ```
 
-The preview-approve-execute pattern works here too.
+**Before you run this** — think: What's your workflow and in what order?
 
-### Workflow 5: Verification & Recovery Check
+**Insight:** Survey → Backup → Organize. The order matters. If you skip the survey, your categories won't match your actual files. If you skip the backup, one wrong move and you're panicking. The safety-first pattern from Lesson 2 isn't optional — it's what makes everything else safe to attempt.
 
-```
-Now that we've organized my Desktop, verify everything worked:
-- Count files in each category
-- Check if any files were left behind
-- Confirm the backup is still intact
-- Show me before/after comparison
+### Scenario 3: The Botched Script
 
-If anything looks wrong, restore from backup.
-```
-
-The verification checklist is the same. The folder is different. And now you have the confidence to restore if something went wrong.
-
-### Workflow 6: Search & Index
+You ran a batch rename script on your Desktop and now 40 files have garbled names. Some files seem missing entirely.
 
 ```
-Find all tax-related documents on my Desktop — PDFs, spreadsheets,
-anything with "tax", "w2", "1099", or "return" in the name or content.
-Then create a TAX_DOCS_INDEX.md that lists every match with its
-location, file type, and size. I want a permanent map, not just
-search results that disappear.
+You: I ran a rename script and it went wrong. Some files have garbled
+names and I think some are missing. What do I do?
 ```
 
-This is the step most people skip. Finding a file solves today's problem. Creating an index solves it permanently. The next time you need a tax document, you won't search again — you'll open `TAX_DOCS_INDEX.md`. That's **Principle 5: Persisting State in Files**. The search results stop being ephemeral and become a lasting asset.
+**Before you run this** — think: What do you do FIRST — try to fix the names, or something else?
+
+**Insight:** Compare against backup first. Don't start fixing individual files until you know the full extent of the damage. The recovery workflow from Lesson 5 starts with diagnosis (compare current state vs backup), not treatment. Files that "seem missing" might just be renamed — the backup comparison will tell you.
+
+### Scenario 4: The Recurring Problem
+
+You have 150 screenshots on your Desktop. You want them organized by month. You'll get 20+ more next week.
+
+```
+You: I have 150 screenshots cluttering my Desktop. I want them organized
+by month. But I'll get more screenshots next week. What's my best approach?
+```
+
+**Before you run this** — think: One-time organization or script generation?
+
+**Insight:** Recurring problems need scripts, not one-time commands. The batch operations pattern from Lesson 4 taught you to ask for reusable scripts. If you just organize these 150 files manually, you'll be back here next month. Ask for a script that handles the current backlog AND future screenshots.
+
+---
+
+## The Real Test: Your Desktop in 15 Minutes
+
+Close the book. Open Claude Code. Point it at a folder you haven't touched yet — your Desktop, your Documents, an old project folder. Set a timer for 15 minutes.
+
+Your goal: **survey it, back it up, organize it, and verify the results.** Use the workflows you've learned, in whatever order the situation demands.
+
+```
+I need to get my [Desktop / Documents / other folder] under control.
+I have 15 minutes. Let's start with a survey so I know what I'm
+working with, then create a backup of anything important, then
+organize what's left. Go.
+```
+
+**What makes this different from the exercises:** Nobody is telling you which workflow to use or in what order. You have to assess the situation and choose. That's the skill — not knowing six workflows, but knowing which one to reach for.
+
+After 15 minutes, check your work:
+
+- Did you survey before organizing? (Or did urgency make you skip it?)
+- Did you back up before making changes? (Or did you forget?)
+- Did you verify the results? (Or did you assume success?)
+- What would you do differently with 15 more minutes?
+
+The answers reveal which patterns have become instinct and which still need practice.
 
 ---
 
 ## Build Your Prompt Toolkit
 
-The patterns you just used? They're yours to keep. Create a document that captures them.
-
-Ask Claude Code:
+Now capture what you've learned in a permanent document.
 
 ```
-Help me create a file called MY-PROMPT-TOOLKIT.md that contains
-reusable prompt templates for all the file processing workflows
-I've learned. Include:
-- Survey workflow
-- Backup workflow
-- Organization workflow
-- Batch operations workflow
-- Recovery workflow
-- Search workflow
-For each one, give me a fill-in-the-blank template I can adapt.
+Help me create MY-PROMPT-TOOLKIT.md with fill-in-the-blank templates
+for each workflow I've practiced: survey, backup, organize, batch,
+recover, search, and verify. For each template, include the key
+phrases that trigger the right agent behavior.
 ```
 
-Claude Code will generate something like this:
-
-```markdown
-# My File Processing Toolkit
-
-## 1. Survey Workflow
-```
-
-Help me understand what's in [FOLDER]. Show me:
-
-- Total file count
-- Breakdown by type
-- What's taking up space
-- Any files I might have forgotten about
-
-```
-
-## 2. Safety-First Backup
-```
-
-Before making any changes to [FOLDER], create a timestamped backup
-of [WHAT TO BACKUP: all files / recent files / specific types].
-Put it in [BACKUP LOCATION] and verify it's complete. Show me any errors.
-
-```
-
-## 3. Organization Rules
-```
-
-Help me organize [FOLDER]. Analyze what's there and suggest categories
-based on my actual files. Let me refine the rules before we proceed.
-Document final rules in [RULES FILE]. Test on ONE file first.
-
-```
-
-## 4. Batch Operations
-```
-
-I want to [OPERATION: rename / move / copy] files in [FOLDER] that
-match [PATTERN]. Show me what you'll do before doing it.
-Create a reusable script for future use. Log every change.
-
-```
-
-## 5. Error Recovery
-```
-
-Something went wrong with [WHAT HAPPENED]. Compare the current state
-of [FOLDER] against [BACKUP LOCATION] and show me what's different.
-Then restore [WHAT TO RESTORE: everything / specific files / one category].
-Verify the restoration is complete.
-
-```
-
-## 6. Search & Discovery
-```
-
-Find files that match [DESCRIPTION] from [TIME PERIOD].
-Search in [LOCATIONS: Downloads, Documents, Desktop].
-If needed, search inside files for [CONTENT].
-Save the results to [INDEX_FILE.md] with file paths, types, and sizes
-so I never have to run this search again.
-
-```
-
-## 7. Verification
-```
-
-Verify our organization worked:
-
-- Count files in each category
-- Check for stragglers in the source
-- Confirm backup is intact
-- Show me before/after comparison
-
-```
-```
-
-Save this document somewhere permanent. It's the deliverable from this chapter that matters most.
+This toolkit is the chapter's most important deliverable. The organized folders will get messy again. The scripts will need updates. But the *templates* — the patterns for how you direct an agent — those are permanently useful.
 
 ---
 
@@ -301,6 +228,8 @@ Throughout this chapter, you observed the agent using these commands. You don't 
 | `sort -rh` | **Sort** (reverse, human-readable)      | 1          |
 | `head -10` | Show **first 10** lines                 | 4          |
 | `diff`     | Show **differences** between files      | 5          |
+| `cp -r`    | **Copy** recursively (entire folders)   | 5          |
+| `chmod`    | **Change** file permissions             | 5          |
 | `grep`     | **Search** inside files                 | 6          |
 | `grep -l`  | Search inside, show matching **files**  | 6          |
 | `grep -i`  | Search **case-insensitive**             | 6          |
@@ -365,20 +294,37 @@ When you learn automation, you'll build AI Employees that do this automatically:
 
 Your `rules.md` becomes the AI Employee's decision rules. Your verification patterns become its supervision methods. Everything you learned transfers.
 
-Here's a glimpse of what that looks like. Your manual `rules.md` feeds directly into an automated workflow:
+Here's a concrete glimpse of what that looks like. Your manual `rules.md` feeds directly into an automated workflow:
 
+```python
+# file_organizer_agent.py — what your manual workflows become
+
+import yaml
+from pathlib import Path
+from datetime import datetime
+
+# YOUR rules.md becomes the agent's decision logic
+rules = yaml.safe_load(open("rules.md"))
+
+# YOUR backup pattern becomes an automatic safety step
+def organize_new_files(watch_folder: Path):
+    new_files = detect_new_files(watch_folder)           # Survey (Lesson 1)
+    create_timestamped_backup(new_files)                  # Safety (Lesson 2)
+
+    for file in new_files:
+        category = apply_rules(file, rules)               # Rules (Lesson 3)
+        move_with_logging(file, category)                  # Batch (Lesson 4)
+
+    verify_all_files_accounted_for(new_files, rules)      # Verify (Lesson 5)
+    send_summary_report()                                  # Observability (P7)
+
+# YOUR manual prompt → automated trigger
+schedule.every(1).hour.do(organize_new_files, Path("~/Downloads"))
 ```
-# Automated File Organizer (what you'll build later)
 
-1. Watch ~/Downloads for new files        ← replaces "you open Claude Code"
-2. Load rules.md                          ← your rules, unchanged
-3. Apply categorization rules             ← same logic you designed in Lesson 3
-4. Log every move to ORGANIZER-LOG.md     ← same observability pattern
-5. If error → restore from backup         ← same recovery workflow from Lesson 5
-6. Send summary to you                    ← you verify, agent reports
-```
+Every function in that script maps to a lesson you completed. `create_timestamped_backup` is Lesson 2. `apply_rules` is Lesson 3. `verify_all_files_accounted_for` is Lesson 5. The workflows are identical. Automation just removes *you* as the trigger.
 
-The rules, the logging, the recovery — it's all the same. Automation just removes _you_ as the trigger. The manual workflows you mastered are the foundation. Automation adds the layer that runs without you.
+The gap between "I type a prompt" and "it runs automatically" is smaller than you think. It's not a different skill — it's the same skill with a scheduler attached.
 
 ---
 
@@ -454,11 +400,15 @@ For each principle, tell me specifically what I should do or ask for.
 
 ## Conclusion
 
-You now have a complete file processing toolkit. Not just for Downloads, but for any folder, any time.
+Here's what changed between Lesson 1 and now.
 
-The prompts you've collected are reusable. The principles you've observed are universal. The confidence you've built — including the confidence to recover from mistakes — transfers to every domain where you work with a General Agent.
+In Lesson 1, you asked the agent to analyze your Downloads folder. You watched it work. You were impressed that it ran six commands in 30 seconds.
 
-Later, you'll take these patterns and automate them. But first, practice what you've learned. Run your toolkit on another folder. Refine your prompt templates. Make file chaos something you solve in minutes, not hours.
+Now? You wouldn't just *watch*. You'd check whether it backed up first. You'd question its categorization rules. You'd ask for a preview before batch operations. You'd verify the results against a known state. You'd ask for a script, not a one-time fix.
+
+That shift — from passive observer to active director — is the real deliverable. Not the organized folder. Not the scripts. Not the toolkit document. The skill of *knowing what to demand from an agent* before trusting its output.
+
+The agent is ephemeral. Your conversation ends, context resets, the next session starts fresh. But the patterns you've internalized — survey before acting, backup before changing, verify before trusting, script before repeating — those persist in *you*. They transfer to email management, project organization, data pipelines, and every domain where you direct AI agents.
 
 Your Downloads folder is organized. Your toolkit is built. You're ready for automation.
 
