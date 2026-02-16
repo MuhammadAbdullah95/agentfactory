@@ -184,7 +184,7 @@ Tomás's `wip` commits squandered this power. Git was designed to be a complete 
 
 ## Git as System of Record
 
-![Git branching workflow: main branch with a feature/discount branch forking off, commits, and a Pull Request + Review merge back](./img/08-git-branching-workflow.png)
+![Git branching workflow: main branch with a feature/discount branch forking off, commits, and a Pull Request + Review merge back](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/08-git-branching-workflow.png)
 
 After the post-mortem, Lena spent an afternoon teaching Tomás how git actually works when used with discipline. "Git gives you four tools," she said. "Commits, branches, tags, and blame. Each one is a different kind of memory."
 

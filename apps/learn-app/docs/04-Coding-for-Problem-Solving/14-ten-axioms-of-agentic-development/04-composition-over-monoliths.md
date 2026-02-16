@@ -94,7 +94,7 @@ The trajectory is predictable. Monoliths start convenient and become unmaintaina
 
 > Complex systems are built from composable, focused units. Each unit does one thing well. Units communicate through well-defined interfaces. The Unix philosophy applied to software architecture.
 
-![Monolithic architecture versus compositional architecture: a single tangled block contrasted with focused, connected modules](./img/04-composition-over-monoliths.png)
+![Monolithic architecture versus compositional architecture: a single tangled block contrasted with focused, connected modules](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/04-composition-over-monoliths.png)
 
 Three properties define a composable unit:
 

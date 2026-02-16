@@ -112,7 +112,7 @@ Axiom III says: *make that code worthy of the problems it solves*.
 
 The principle is about choosing the right medium. The axiom is about discipline within that medium.
 
-![Fragile Scripts versus Robust Programs: comparing maintainability, reliability, scalability, collaboration, and structured programming principles](./img/03-programs-over-scripts.png)
+![Fragile Scripts versus Robust Programs: comparing maintainability, reliability, scalability, collaboration, and structured programming principles](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/03-programs-over-scripts.png)
 
 ## The Script-to-Program Continuum
 
@@ -253,7 +253,7 @@ The key differences between Tomás's script and the program are not cosmetic. Ea
 
 ## The Python Discipline Stack
 
-![Python Discipline Stack: four layered tools from uv at the foundation to pytest at the top, each catching a different class of defect](./img/03-python-discipline-stack.png)
+![Python Discipline Stack: four layered tools from uv at the foundation to pytest at the top, each catching a different class of defect](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/03-python-discipline-stack.png)
 
 After the Friday incident, Lena set up the team's repository with what she called "the four walls" — four tools that together make it nearly impossible for a script-level mistake to reach production. Python is flexible enough to be used as both a scripting language and a systems programming language. The discipline stack is what transforms it from "quick and loose" into "verified and reliable."
 
