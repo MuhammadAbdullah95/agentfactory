@@ -6,6 +6,15 @@ layer: L2
 title: "Error Recovery & Resilience"
 description: "Deliberately break something and practice fixing it. Build recovery muscle memory so real mistakes don't cause panic"
 duration_minutes: 20
+keywords:
+  [
+    "error recovery",
+    "resilience",
+    "backup restore",
+    "state comparison",
+    "deliberate practice",
+    "fire drill",
+  ]
 
 skills:
   - name: "Deliberate Error Practice"
@@ -60,19 +69,11 @@ differentiation:
 
 # Error Recovery & Resilience
 
-Here's the lesson most tutorials skip. They show you the happy path — everything works, files move to the right place, scripts run perfectly. Then when something goes wrong in real life, you're on your own.
+We're about to do something most tutorials would never let you do. You're going to deliberately destroy the organization you just built. On purpose. With your real files.
 
-Not here. In this lesson, you'll deliberately break something and practice fixing it. Because the question isn't _if_ something will go wrong — it's _when_. And when it does, you need a recovery workflow, not a panic response.
+Look at your `organized/` folder. That structure took you the last three lessons to build — survey, backup, categorization rules, batch moves. You're about to flatten it back to chaos in 5 seconds.
 
-This is where the backup you created in Lesson 2 proves its worth.
-
-## Why Practice Recovery?
-
-Think about fire drills. Nobody expects a fire during the drill. The point is building muscle memory so that when a fire _happens_, you don't freeze.
-
-Recovery from file operations is the same. If the first time you try to restore from backup is when you've actually lost important files, you'll be stressed, rushed, and more likely to make the situation worse.
-
-Practicing recovery when nothing is at stake builds confidence for when something is.
+The goal isn't to get good at fixing mistakes. The goal is to stop being afraid of making them. Fire drills don't teach you to fight fires. They teach you to stop freezing when the alarm goes off. By the end of this lesson, the word "oops" will be followed by a recovery workflow, not a panic response.
 
 ---
 
@@ -80,139 +81,130 @@ Practicing recovery when nothing is at stake builds confidence for when somethin
 
 You're going to intentionally run a bad organization command and then recover from it. This is safe because you have a verified backup from Lesson 2.
 
-### Step 1: Create a Test Mess
+### Step 1: Confirm Your Safety Net
 
-First, create a small set of test files so we're not risking your real organized work:
-
-```
-You: Create a folder called file-organizer/recovery-test/ with 10 dummy
-files of different types (.pdf, .txt, .csv, .png). Put some sample text
-in each one so we can verify they're intact after recovery.
-```
-
-Claude Code will create something like:
+First, verify that the backup you created in Lesson 2 still exists and is complete:
 
 ```
-Created: recovery-test/
-  report-q1.pdf
-  notes.txt
-  budget.csv
-  photo-001.png
-  meeting-minutes.pdf
-  todo-list.txt
-  expenses.csv
-  diagram.png
-  proposal.pdf
-  data-export.csv
-```
-
-### Step 2: Back Up the Test Files
-
-```
-You: Create a backup of recovery-test/ in recovery-test-backup/
-and verify it's complete.
+You: Check my file-organizer/backup/ folder. Is my backup from Lesson 2
+still there? How many files does it contain? Compare it against what's
+currently in file-organizer/organized/.
 ```
 
 ```
 Claude Code:
-[Runs: cp -r file-organizer/recovery-test/ file-organizer/recovery-test-backup/]
-[Runs: diff <(ls file-organizer/recovery-test/) <(ls file-organizer/recovery-test-backup/)]
+[Runs: ls file-organizer/backup/]
+[Runs: find file-organizer/backup/ -type f | wc -l]
+[Runs: find file-organizer/organized/ -type f | wc -l]
 
-Backup complete. 10 files copied. Source and backup match exactly.
+Your backup contains 136 files across 5 categories.
+Your organized/ folder currently has 486 files.
+The backup covers your important files (PDFs and recent files).
+Safety net confirmed.
 ```
 
-### Step 3: Run a Bad Organization
+### Step 2: Run a Deliberately Wrong Reorganization
 
-Now, deliberately ask for something that will cause problems:
+Ready? Look at your organized/ folder one more time. Five categories. 486 files, each in its place. You built that. You're about to destroy it in one command.
 
 ```
-You: Move all files from recovery-test/ into a subfolder called
-recovery-test/documents/. Don't check extensions — just move everything.
+You: Take everything in file-organizer/organized/ and merge all the
+category folders back into a single flat folder. Dump all files from
+documents/, spreadsheets/, images/, code/, and misc/ into organized/
+directly. Remove the empty category folders.
 ```
 
 ```
 Claude Code:
-[Runs: mkdir -p file-organizer/recovery-test/documents/]
-[Runs: mv file-organizer/recovery-test/*.* file-organizer/recovery-test/documents/]
+[Runs: mv file-organizer/organized/documents/* file-organizer/organized/]
+[Runs: mv file-organizer/organized/spreadsheets/* file-organizer/organized/]
+[Runs: mv file-organizer/organized/images/* file-organizer/organized/]
+... (moves all files, removes empty folders)
 
-Moved 10 files into recovery-test/documents/.
+Done. All 486 files are now in a single flat folder.
+The category structure from Lesson 3 is gone.
+```
+
+### Step 3: Watch the Structure Collapse
+
+Check what happened to the organization you built in Lesson 3:
+
+```
+You: Show me what file-organizer/organized/ looks like now.
+Is there any way to tell which files were documents vs images
+vs spreadsheets?
+```
+
+```
+Claude Code:
+[Runs: ls file-organizer/organized/ | head -20]
+
+organized/ now contains 486 files in a single flat list.
+report.pdf sits next to photo.jpg sits next to budget.xlsx.
+There's no way to tell which category they belonged to —
+the folder structure was the only metadata, and it's gone.
 ```
 
 ### Step 4: Discover the Problem
 
-Now check what happened:
+The damage is done. Now diagnose it:
 
 ```
-You: Show me what's in recovery-test/ now. Also check if any
-files were corrupted or lost in the move.
+You: Compare what's in file-organizer/organized/ now against my
+backup. Show me what I lost and what changed.
 ```
 
 ```
 Claude Code:
-[Runs: ls -la file-organizer/recovery-test/]
-[Runs: ls -la file-organizer/recovery-test/documents/]
+[Runs: ls file-organizer/organized/ | wc -l]
+[Runs: ls -d file-organizer/organized/*/  2>/dev/null]
 
-recovery-test/ now contains:
-  documents/     (directory with 10 files)
+organized/ now has 486 files in a flat list.
+No subdirectories remain — all category folders are gone.
 
-All files are in documents/. But wait — your .png files and .csv files
-are now mixed in with documents. The indiscriminate move didn't respect
-file types.
-
-Also, the flat structure you had is gone. If any scripts or references
-pointed to recovery-test/budget.csv, they'd break now.
+The files themselves are intact, but the STRUCTURE is destroyed.
+Your rules.md still describes the categories, but the folders
+that implemented those categories no longer exist.
 ```
 
-The "mistake" here is mild — you just lost your organization structure. But in real workflows, an indiscriminate move could overwrite files with the same name, break relative paths, or mix incompatible file types.
+The "mistake" here is real — you lost the entire organization from Lesson 3. In real workflows, this kind of destructive flatten could also overwrite files with the same name across categories, break relative paths, or mix incompatible file types.
 
 ### Step 5: Recover from Backup
 
-Here's the payoff. You have a backup. Recovery is straightforward:
+Here's the payoff. You have a backup. But more importantly, you have `rules.md`. Recovery means re-applying your documented rules:
 
 ```
-You: That organization was wrong. Restore recovery-test/ from
-recovery-test-backup/ to its original state.
+You: That reorganization was wrong. I want to restore my organized/
+folder structure. Use the backup to recover any files that were lost,
+and re-apply the rules from rules.md to recreate the category folders.
 ```
 
 ```
-Claude Code: Restoring from backup...
+Claude Code: Restoring organization...
 
-[Runs: rm -rf file-organizer/recovery-test/]
-[Runs: cp -r file-organizer/recovery-test-backup/ file-organizer/recovery-test/]
-[Runs: diff <(ls file-organizer/recovery-test/) <(ls file-organizer/recovery-test-backup/)]
+[Runs: # Recreates category folders from rules.md]
+[Runs: # Re-sorts files by extension into proper categories]
 
-Restored. recovery-test/ now matches the original backup exactly.
-10 files, all in their original locations.
+Error: Permission denied on 3 files in organized/ — they're
+marked read-only.
+
+I'll adjust permissions and retry those files.
+
+[Runs: chmod u+w organized/restricted-report.pdf organized/budget-locked.xlsx organized/template.docx]
+[Runs: # Re-sorts the 3 failed files]
+
+Second attempt successful. All 486 files sorted.
+
+[Runs: # Compares against backup to verify no files lost]
+
+Restored. organized/ now has 5 category folders matching rules.md.
+486 files sorted back into their categories.
+Verified against backup — no files missing.
 ```
 
-You're back to where you started. The bad organization is undone. No data lost.
+Notice the recovery wasn't clean. Permission errors on 3 files. The agent adjusted and retried. Real recovery is like this — messy, iterative, but it gets there. The point isn't perfection on the first try. The point is having a process that converges on the right answer.
 
----
-
-## What Just Happened?
-
-You just experienced the complete safety cycle:
-
-```
-1. Create test environment
-2. Back up before changes
-3. Make changes (deliberately bad ones)
-4. Discover the problem
-5. Restore from backup
-6. Verify restoration is complete
-```
-
-This is the same cycle you'll use when real mistakes happen. The only difference is that real mistakes aren't deliberate — but the recovery process is identical.
-
-### The Recovery Commands
-
-The agent used these commands during recovery:
-
-- **`rm -rf`** — **r**e**m**ove **r**ecursively, **f**orce — deletes the broken version. This is a dangerous command. It deletes without asking. That's why you need a verified backup BEFORE using it.
-- **`cp -r`** — **c**o**p**y **r**ecursively — copies the backup back to the original location
-- **`diff`** — **diff**erence — compares two directories to verify they match
-
-> **Warning about `rm -rf`:** This command permanently deletes files. Never run it on a directory unless you have a verified backup you can restore from. The agent should always confirm before using it. If it doesn't, ask it to confirm first.
+You're back to where you started. The careless flatten is undone. No data lost.
 
 ---
 
@@ -292,13 +284,15 @@ The agent is ephemeral. Your conversation ends, context resets, and the next ses
 
 Stop reading. Open Claude Code and run the recovery exercise.
 
-1. Create 10 test files in `file-organizer/recovery-test/`
-2. Back them up to `file-organizer/recovery-test-backup/`
-3. Run a bad organization (move everything into one subfolder)
-4. Restore from backup
-5. Verify the restoration matches the original
+1. Verify your backup from Lesson 2 is still intact
+2. Deliberately flatten your `organized/` folder (merge all categories into one)
+3. Compare the damage against your backup
+4. Restore using your backup and `rules.md`
+5. Verify the restoration matches the original structure
 
 This should take less than 5 minutes. But the muscle memory you build will save you hours when a real mistake happens.
+
+You can now break things and fix them. That's a superpower most people never develop. But there's one category of file problem where backups and recovery aren't enough — when you can't find the file in the first place. You know it exists. You downloaded it months ago. The filename is something your bank auto-generated. Where is it?
 
 ---
 
@@ -308,7 +302,7 @@ You've now completed five lessons of file processing work. If your Claude Code c
 
 **Why now:** Recovery exercises generate a lot of back-and-forth. Combined with Lessons 1-4, your context may be carrying exploration, organization, batch operations, and recovery all at once. That's the Kitchen Sink pattern from Chapter 6.
 
-**How to reset:** Commit your work, then start a new session for Lesson 6. Your `rules.md`, `FILE-INVENTORY.md`, backups, and scripts are all saved in files — Principle 5 means your progress survives across sessions.
+**How to reset:** Commit your work, then start a new session for Lesson 6. Your `rules.md`, `FILE-INVENTORY.md`, backups, and scripts are all saved in files — your progress carries forward across sessions.
 
 ---
 

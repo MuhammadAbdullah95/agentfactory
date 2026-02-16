@@ -6,6 +6,15 @@ layer: L2
 title: "Search & Discovery Workflow"
 description: "Direct Claude Code to find files by description rather than memorizing search commands. Because you know what you're looking for, not where it is"
 duration_minutes: 25
+keywords:
+  [
+    "file search",
+    "content search",
+    "descriptive search",
+    "grep",
+    "find",
+    "search refinement",
+  ]
 
 skills:
   - name: "Descriptive File Search"
@@ -65,15 +74,11 @@ differentiation:
 
 # Search & Discovery Workflow
 
-Here's something most people never discover about working with General Agents. You don't need to know the exact filename. You don't need to remember where you saved it. You just need to describe what you're looking for.
+You downloaded it. You know you did. It was a PDF, something about taxes, from your bank. It's been 20 minutes of clicking through folders. Downloads? Not there. Documents? Nothing. Desktop? You're starting to wonder if you imagined it.
 
-This workflow teaches you descriptive search, a skill that applies far beyond files. When you work with General Agents to find information in databases, locate specific emails, discover relevant research papers, or search through any large collection, you'll use the same pattern: describe what you need, not how to find it.
+This is the most common file problem in existence, and you've been solving it wrong your whole life. You've been searching by _where_ you put things. "Was it in the Finance folder or the 2023 folder?" But you don't remember where you put it. You remember _what_ it was: a tax document, about dividends, from Chase.
 
-You downloaded a tax document last year. You know it exists. You just can't find it.
-
-It's somewhere in your files. Maybe Downloads? Maybe Documents? The filename was something the bank generated automatically. `statement_2023_Q4_final_v2.pdf` or maybe `1099-DIV-2023.pdf`. You're not sure. You just know it was a tax document from 2023 and it had something about dividends.
-
-You could click through folders for 20 minutes. Or you could describe what you're looking for to a General Agent and let it search.
+That's the inversion this lesson teaches. Stop searching by location. Start searching by description. You know WHAT you're looking for. The agent knows HOW to find it. That's the ideal split.
 
 ---
 
@@ -174,13 +179,11 @@ You went from "I can't find that tax document" to "here's everything from Chase"
 
 ---
 
-## What Just Happened?
+## The Invisible Skill
 
-Did you notice the commands the agent ran? It used `find` to locate files by name patterns, `grep` to search inside files for content, and `xargs` to bridge between them. You didn't need to know any of this syntax. The agent picked the right tools because bash commands are the universal interface for file operations.
+You're learning something you might not realize. "Descriptive search" — describing what you're looking for instead of knowing where it is — is a transferable skill that goes far beyond files. Every database query, every research task, every time you ask an AI to find information in a large corpus, you're doing the same thing: describing what you need and letting a system figure out how to find it.
 
-The agent didn't just hand you a filename. It showed you the search process — what it searched for, where it looked, what it found. You could see the table of candidates and understand why it narrowed to certain files. The search was transparent.
-
-Here's what made this different from a file browser search:
+The agent used `find`, `grep`, and `xargs` behind the scenes. You didn't need to know those commands. But notice the skill you _did_ use: you described the file in progressively more specific terms. "Tax document from 2023" → "about dividends" → "from Chase, not Fidelity." Each refinement narrowed the search. That's the skill — not bash syntax, but the ability to describe what you need in terms a search can use.
 
 | Traditional Search         | Agent-Directed Search                    |
 | -------------------------- | ---------------------------------------- |
@@ -190,31 +193,62 @@ Here's what made this different from a file browser search:
 | Get list, you filter       | Agent filters and explains why           |
 | You refine with new search | Agent refines through conversation       |
 
-### The Agent's Toolkit: Search Commands
+---
 
-The agent used advanced search commands:
+## The Level-Up: Searching Inside Files
 
-- **`find -iname`** — find files, case-**i**nsensitive — matches "Chase" or "chase" or "CHASE"
-- **`find -newer`** — find files **newer** than a date — locates files from a specific time period
-- **`grep -l`** — search inside files, show **l**ist of matching files — finds files containing specific text
-- **`grep -i`** — search case-**i**nsensitively — matches "Tax" or "tax" or "TAX"
-- **`xargs`** — the **bridge** command — converts text output into arguments
+Everything above searched by *filename*. But what about files whose names tell you nothing?
 
-#### The Bridge Command: xargs
+Your Downloads folder has 40 PDFs named `document.pdf`, `download.pdf`, `file(1).pdf`. The filename is useless. The information you need is *inside* the file.
 
-The agent ran a complex-looking command:
-
-```bash
-find ~/Downloads -iname "*chase*" | xargs grep -l "1099"
+```
+You: I have a bunch of PDFs with generic names. One of them is an
+invoice from December for more than $500. Can you search INSIDE
+the PDFs to find it?
 ```
 
-Here's what's happening:
+```
+Claude Code: I'll search the content of your PDF files.
 
-**The problem**: `find` outputs a list of filenames as text. But `grep` needs those filenames as arguments — it needs to know which files to open and search inside. `xargs` converts the text output into arguments that `grep` can use.
+[Runs: find ~/Downloads -name "*.pdf" -newer "2025-12-01"
+  ! -newer "2026-01-01" -exec pdftotext {} - 2>/dev/null \;
+  | grep -l -i "invoice"]
 
-Read it left to right: "In **Downloads**, **find** files with 'chase' in the name, **then for each one**, search inside for '1099'."
+Actually, let me take a better approach — I'll check each PDF
+individually so I can tell you which file matches.
 
-Without `xargs`, the pipeline breaks. The agent knew to build this bridge automatically — that's why you can describe what you want and let it figure out how.
+[Runs: for f in ~/Downloads/*.pdf; do
+  if pdftotext "$f" - 2>/dev/null | grep -qi "invoice"; then
+    echo "$f: $(pdftotext "$f" - 2>/dev/null | grep -i 'total\|amount\|$'
+      | head -3)"
+  fi
+done]
+
+Found 6 PDFs containing "invoice":
+
+| File                | Key Content                    |
+|---------------------|--------------------------------|
+| download(3).pdf     | Invoice #4521, Total: $847.00  |
+| document.pdf        | Invoice #3892, Total: $125.50  |
+| file(1).pdf         | Invoice #4103, Total: $2,340   |
+| scan_20251215.pdf   | Invoice #4287, Total: $599.99  |
+| unnamed.pdf         | Invoice #3901, Total: $89.00   |
+| receipt_dec.pdf     | Invoice #4455, Total: $312.00  |
+
+The ones over $500 are: download(3).pdf ($847), file(1).pdf ($2,340),
+and scan_20251215.pdf ($599.99).
+
+Want me to rename these with meaningful names based on their content?
+```
+
+This is the jump from searching by *metadata* (filename, date, size) to searching by *content* (what's actually in the file). The agent used `pdftotext` to read inside the PDFs, then `grep` to find matches. You couldn't do this by browsing folders — the filenames told you nothing.
+
+**The progression through this chapter:**
+- Lesson 1: See your files (metadata)
+- Lesson 3: Organize by extension (surface attributes)
+- Lesson 6: Search by content (deep attributes)
+
+Each level gives you access to information the previous level couldn't reach.
 
 ---
 
@@ -269,43 +303,7 @@ One thing to watch for: broad searches can return thousands of results. If you a
 Save the full list to search-results.txt and just show me the first 10 matches.
 ```
 
-This keeps your session clean and creates a persistent record you can reference later — Principle 5 (Persisting State) applied to search.
-
----
-
-## Try It Yourself
-
-Pick a search problem from your own files.
-
-**Option 1: Lost Receipt**
-
-```
-I bought something online a few months ago and need the receipt for
-a return. It was probably a PDF in my Downloads or email attachments.
-The order was from Amazon, sometime in the last 6 months.
-```
-
-Watch how the agent searches both locations and looks for Amazon-related content.
-
-**Option 2: Old Project Files**
-
-```
-I worked on a project last year that had "budget" in the filename.
-It was probably a spreadsheet or document. Can you find all files
-related to budget planning from 2023?
-```
-
-See how the agent handles multiple file types and date ranges.
-
-**Option 3: Photo Hunt**
-
-```
-I took photos at a birthday party. They'd be JPG or PNG files from
-sometime in March this year. Can you find large image files from
-that time period?
-```
-
-Notice how the agent might use file size as an additional filter for photos.
+This keeps your session clean and creates a persistent record you can reference later.
 
 ---
 
@@ -341,7 +339,7 @@ By now in this chapter, you've learned:
 
 Each pattern expands your capability. You understand your files. You protect them with backups. You document your rules. You automate repetitive tasks. You recover from mistakes. Now you find anything by describing it.
 
-In the final lesson, you'll combine all these patterns into a complete file processing toolkit.
+You now have six distinct workflows. Survey, backup, organize, batch, recover, search. Each powerful on its own. But the real skill isn't knowing each workflow — it's knowing which one to reach for when your files are on fire and your boss is on the phone.
 
 ---
 
@@ -371,12 +369,12 @@ Save the report so I can reference it later.
 
 **What you're practicing:** Turning search into documentation. This request combines search (finding tax documents) with state persistence (saving a report). You're applying Principle 5 to search results.
 
-**Prompt 3: Duplicate Detection**
+**Prompt 3: Semantic Duplicate Detection**
 
 ```
-I think I have duplicate files. The same document saved in multiple
-places. Can you find files that might be duplicates based on name
-similarity or identical file sizes?
+I think I have duplicate files with DIFFERENT names — the same document saved
+as "Budget Final.xlsx" and "budget_v2_final.xlsx". Can you find files that
+might be duplicates based on file SIZE and CONTENT similarity, not just name?
 ```
 
-**What you're practicing:** Advanced discovery. This asks the agent to find patterns across your filesystem, not just specific files. Watch how it approaches the comparison task.
+**What you're practicing:** Semantic deduplication. Finding duplicates that look different on the surface. This asks the agent to go beyond simple name matching and use file characteristics to identify copies that were renamed, versioned, or saved under different names.
