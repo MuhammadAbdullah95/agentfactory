@@ -2,7 +2,7 @@
 sidebar_position: 14
 title: "Chapter 14: Ten Axioms of Agentic Development"
 slides:
-  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-4/chapter-14/ten-axioms-of-agentic-development.pdf"
+  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-4/chapter-14/the-agentic-engineering-system.pdf"
   title: "The Agentic Engineering System"
   height: 700
 ---
