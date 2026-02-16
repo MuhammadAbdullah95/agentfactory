@@ -112,7 +112,7 @@ Axiom III says: *make that code worthy of the problems it solves*.
 
 The principle is about choosing the right medium. The axiom is about discipline within that medium.
 
-![Fragile Script versus Robust Program: scripts lack argument parsing, error handling, tests, and use hardcoded paths, while programs evolve into using argparse/click, try/except, encapsulation, pytest, and configurable paths](./img/03-programs-over-scripts.png)
+![Fragile Scripts versus Robust Programs: comparing maintainability, reliability, scalability, collaboration, and structured programming principles](./img/03-programs-over-scripts.png)
 
 ## The Script-to-Program Continuum
 

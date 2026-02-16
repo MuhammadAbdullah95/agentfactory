@@ -125,7 +125,7 @@ The trade-off stopped being acceptable when AI entered the picture. AI carries n
 
 Python's answer came in 2014, when Guido van Rossum, Jukka Lehtosalo, and Łukasz Langa authored PEP 484 — "Type Hints." The proposal gave Python an opt-in type annotation syntax that preserved the language's dynamic nature while enabling static analysis. You could still write untyped Python. But if you chose to annotate, tools like Mypy and later Pyright could verify Milner's guarantee: well-typed programs cannot go wrong. The discipline was available. The question was whether you would opt in.
 
-Milner's insight — that a machine could verify program correctness before execution — earned him the Turing Award in 1991. Thirty-three years later, his guarantee protects developers from a collaborator he never imagined: AI that generates code with absolute confidence and zero understanding.
+Milner's insight — that a machine could verify program correctness before execution — earned him the Turing Award in 1991. Decades later, his guarantee protects developers from a collaborator he never imagined: AI that generates code with absolute confidence and zero understanding.
 
 In the AI era, the answer is not optional. Types are the specification that constrains what AI generates. Without them, you are Tomás — reviewing code by reading it, hoping you catch what the machine would have caught automatically.
 
@@ -135,7 +135,7 @@ Python is dynamically typed — it does not require type annotations. But "does 
 
 Lena walked Tomás through the three layers she used on every project — the same layers that would have caught his staging crash before the code ever left his machine.
 
-![Three-Layer Type Safety Stack: Type Hints at the base, Pyright static analysis in the middle, and Pydantic runtime validation at the top, with increasing safety](./img/05-type-safety-stack.png)
+![Python Type Safety Hierarchy: Type Hints at the base, Pyright static analysis in the middle, and Pydantic runtime validation at the top, forming a pyramid of increasing safety](./img/05-type-safety-stack.png)
 
 ### Layer 1: Type Hints (The Annotations)
 

@@ -145,7 +145,7 @@ Tomás's `print("Processing order...")` was neither monitoring nor observability
 
 ## The Three Pillars of Observability
 
-![Three Pillars of Observability: Logs (What happened), Metrics (How much), and Traces (Where), standing on a Production System foundation](./img/10-three-pillars-observability.png)
+![Observability Cycle: Collect Data, Analyze Data, Diagnose Issues, Optimize Performance, and Enhance User Experience in a continuous feedback loop](./img/10-three-pillars-observability.png)
 
 After the 2:47 AM incident, Lena walked Tomás through the three pillars of production observability. "Each pillar answers a different question," she said. "And no single pillar suffices alone."
 
@@ -479,37 +479,7 @@ This is where observability and testing become a unified system. The 2:47 AM inc
 
 ![The Ten Axioms of Agentic Development: organized into four categories — Orchestration, Specification, Architecture, and Verification](./img/10-complete-axioms-system.png)
 
-This is the final axiom. Together, the ten axioms form a coherent system for agentic software development — and Tomás has lived every one of them. Here is how they compose:
-
-```
-ORCHESTRATION
-  Axiom I:  Shell as Orchestrator
-              The shell coordinates all tools, agents, and workflows.
-
-SPECIFICATION
-  Axiom II: Knowledge is Markdown
-              Requirements, designs, and context live in markdown.
-  Axiom III: Programs Over Scripts
-              Production work uses proper programs with structure.
-
-ARCHITECTURE
-  Axiom IV: Composition Over Monoliths
-              Systems are built from small, composable units.
-  Axiom V:  Types Are Guardrails
-              Type systems catch structural errors before runtime.
-  Axiom VI: Data is Relational
-              Data follows relational patterns for integrity.
-
-VERIFICATION
-  Axiom VII: Tests Are the Specification
-              Tests define and verify correct behavior.
-  Axiom VIII: Version Control is Memory
-              Git tracks every change for accountability.
-  Axiom IX: Verification is a Pipeline
-              CI/CD automates all verification steps.
-  Axiom X:  Observability Extends Verification
-              Runtime monitoring verifies behavior in production.
-```
+This is the final axiom. Together, the ten axioms form a coherent system for agentic software development — and Tomás has lived every one of them.
 
 Trace Tomás's order management system through the complete stack — every axiom he learned this chapter:
 

@@ -126,28 +126,6 @@ Tomás's failed push was a textbook example of what CI was designed to prevent. 
 
 After Tomás's failed push, Lena walked him through the architecture of a proper CI pipeline. "Not all checks are equal," she said. "They form a pyramid — fast, cheap checks at the base catch the most common issues, while slower, more thorough checks at the top catch deeper problems."
 
-```
-                    ┌─────────────────┐
-                    │  Security Audit  │  ← Slowest, catches vulnerabilities
-                    │   (pip-audit)    │
-                    ├─────────────────┤
-                    │ Integration Tests│  ← Tests component interactions
-                    │   (pytest -m)    │
-                ┌───┴─────────────────┴───┐
-                │      Unit Tests          │  ← Tests individual functions
-                │       (pytest)           │
-            ┌───┴─────────────────────────┴───┐
-            │        Type Checking             │  ← Catches type errors statically
-            │         (pyright)                │
-        ┌───┴─────────────────────────────────┴───┐
-        │            Linting                       │  ← Catches bugs, style issues
-        │          (ruff check)                    │
-    ┌───┴─────────────────────────────────────────┴───┐
-    │              Formatting                          │  ← Fastest, catches style drift
-    │            (ruff format --check)                 │
-    └─────────────────────────────────────────────────┘
-```
-
 Each level catches different categories of problems:
 
 | Level | Tool | What It Catches | Speed |
@@ -372,7 +350,7 @@ Traditional CI protects against human error. With AI-generated code, the case fo
 
 ## Anti-Patterns: What Bad CI Looks Like
 
-You have seen the broken pipeline. Every team has one. It is the project where CI has been red for so long that nobody looks at the badge anymore, where "just re-run it" is the standard response to failures, where the pipeline technically exists but checks so little that it provides false confidence instead of real verification. It is the project where a developer merged a pull request while CI was still running because "it is probably fine," where flaky tests were disabled one by one until the suite tested nothing meaningful, where the security audit was removed because "it kept failing on things we cannot fix." It is the project where the pipeline takes forty-five minutes, so developers push without waiting and discover failures the next morning — if they check at all. The broken pipeline is not broken by accident. It is broken because each developer chose the five-second shortcut of ignoring a red badge, and a hundred five-second shortcuts became a team that ships unverified code with confidence.
+Ask a team lead about their CI pipeline and watch their face. If they wince, you already know the story. The badge has been red so long that nobody looks at it anymore. "Just re-run it" is the standard response to failures. The pipeline technically exists but checks so little that it provides false confidence instead of real verification. A developer merged a pull request while CI was still running because "it is probably fine." Flaky tests were disabled one by one until the suite tested nothing meaningful. The security audit was removed because "it kept failing on things we cannot fix." The pipeline takes forty-five minutes, so developers push without waiting and discover failures the next morning — if they check at all. None of this happened in a single decision. It happened in a hundred five-second shortcuts: ignoring a red badge, skipping a slow check, disabling a noisy test. A hundred five-second shortcuts became a team that ships unverified code with confidence.
 
 These specific patterns destroy the pipeline's value. Recognize and avoid them:
 

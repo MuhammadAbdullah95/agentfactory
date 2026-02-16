@@ -73,7 +73,7 @@ The difference between these two architectures is Axiom IV.
 
 ## The Problem Without This Axiom
 
-Tomás's `process_order()` was not written by a bad engineer. Like Maria's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
+Tomás's `process_order()` was not written by a bad engineer. Like Tomás's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
 
 Here is the trajectory that Tomás's team followed — and that every monolith follows:
 
@@ -130,7 +130,7 @@ The first approach was what every programmer instinctively did. The second was w
 
 Parnas called this principle **information hiding**. It is the theoretical foundation for Axiom IV. Tomás's `process_order()` violated it completely — every design decision (how to validate, how to calculate tax, how to format receipts) was exposed to every other part of the function. Changing any decision cascaded through 1,400 lines. Lena's composed version hid each decision inside a focused unit. Changing tax calculation affected `calculate_tax()` and nothing else.
 
-Parnas's paper is over fifty years old. The principle it established has never been overturned, because it addresses a property of complexity itself: the only way to manage a system too large to fit in one mind is to decompose it into parts that can each be understood independently.
+Parnas's paper is over half a century old. The principle it established has never been overturned, because it addresses a property of complexity itself: the only way to manage a system too large to fit in one mind is to decompose it into parts that can each be understood independently.
 
 ## Composition at Every Scale
 
@@ -407,7 +407,7 @@ Use concrete examples from [my specific technology stack or project type].
 
 ## Key Takeaways
 
-Tomás spent two days fighting a 1,400-line function and learned what David Parnas formalized fifty years ago: the only way to manage a system too complex to fit in one mind is to decompose it into parts that can each be understood independently. Lena's refactoring did not add new logic. It separated existing logic into units that could be tested, modified, and replaced without cascading breakage.
+Tomás spent two days fighting a 1,400-line function and learned what David Parnas formalized over half a century ago: the only way to manage a system too complex to fit in one mind is to decompose it into parts that can each be understood independently. Lena's refactoring did not add new logic. It separated existing logic into units that could be tested, modified, and replaced without cascading breakage.
 
 - **Complex systems are built from composable, focused units.** Each unit does one thing well, communicates through typed interfaces, and can be tested independently. This is Parnas's information hiding made practical.
 - **Composition is not just good engineering — it is an AI requirement.** Monolithic code overwhelms context windows, dilutes AI attention, and makes every AI-generated change a gamble. Composed code gives AI exactly the context it needs, nothing more.
