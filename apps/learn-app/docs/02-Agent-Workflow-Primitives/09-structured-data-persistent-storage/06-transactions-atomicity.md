@@ -4,167 +4,125 @@ title: "Transactions & Atomicity"
 chapter: 9
 lesson: 5
 duration_minutes: 30
-description: "Ensure all-or-nothing database operations with transactions and proper error recovery"
-keywords: ["SQLAlchemy", "transaction", "atomicity", "commit", "rollback", "try-except", "session management", "error handling"]
+description: "Protect multi-step writes with commit/rollback boundaries"
+keywords: ["transaction", "atomicity", "rollback", "commit", "SQLAlchemy"]
+skills:
+  - name: "Transaction Design"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Software Development"
+    measurable_at_this_level: "Student can implement single-session multi-step writes with try/except/rollback"
+  - name: "Atomicity Reasoning"
+    proficiency_level: "B1"
+    category: "Conceptual"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem Solving"
+    measurable_at_this_level: "Student can identify which operations require atomic boundaries and explain the failure mode without them"
+learning_objectives:
+  - objective: "Implement atomic multi-step writes with rollback on failure"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student runs a forced failure and proves zero partial rows remain"
+  - objective: "Distinguish schema validity from transaction correctness"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Student can explain how data can be schema-valid but business-invalid without transactions"
+cognitive_load:
+  new_concepts: 3
+  assessment: "3 concepts (atomicity, transaction boundary, invariant checking) within A2-B1 range"
+differentiation:
+  extension_for_advanced: "Implement a multi-step e-commerce checkout (reserve inventory + charge card + create order) with rollback. What happens if the charge succeeds but order creation fails?"
+  remedial_for_struggling: "Focus on the bank transfer analogy first. Then implement the single transfer_budget function. The invariant checking is important but can wait until the basic pattern clicks."
 ---
+
 # Transactions & Atomicity
 
-> **Continuity bridge**
-> - From Chapter 7: file operations were reversible through backups.
-> - From Chapter 8: script failures mostly meant reruns.
-> - Now in Chapter 9: failed writes can corrupt long-lived state unless guarded by transactions.
+In Lesson 4, you defined relationships between models and queried linked data with joins. Now you face a different problem: what happens when a write operation involves *multiple* steps, and one of them fails halfway through?
 
-**Principle anchor:** P6 (Constraints and Safety). Transaction boundaries are your safety boundary for multi-step writes.
+Imagine you are transferring $100 from your Food budget to Entertainment. The debit goes through — your Food balance drops by $100. Then the credit fails. Crash. Network error. Doesn't matter why. Your $100 just vanished into thin air. Not in Food. Not in Entertainment. Gone.
 
-In L4, you connected tables. Now the risk shifts: not "can we query data?" but "can we keep data correct when things fail?"
+You might be thinking: "That can't really happen, right?" It absolutely can. And it does. Every production system that handles money or inventory has battle scars from exactly this scenario. The fix is not hope or retry logic. The fix is a *transaction* — a boundary that guarantees either both writes happen, or neither does.
 
-But here's a problem: What if you need to do two things that must succeed together?
+:::info[Key Terms for This Lesson]
+- **Transaction**: A group of database operations that must ALL succeed or ALL fail — there's no middle ground
+- **Atomicity**: The "all-or-nothing" property — like a light switch, it's either on or off, never halfway
+- **Invariant**: A truth that must always hold — "debits and credits in a transfer always net to zero" is an invariant. If it ever breaks, something went wrong.
+:::
 
-Imagine Alice wants to transfer $100 from her Food budget to Entertainment. That's two operations:
+## How Transactions Work
 
-1. Debit Food by $100
-2. Credit Entertainment by $100
-
-If step 1 succeeds but step 2 fails (server crash, network issue, constraint violation), Alice loses $100. The money left Food but never arrived in Entertainment.
-
-This is the transaction problem. The solution: atomicity.
-
-## What is Atomicity?
-
-**Atomicity** means: Either ALL operations succeed, or NONE of them do.
-
-Think of it like a bank wire transfer. The bank doesn't debit your account and then hope the credit goes through. Both happen as one unit. If anything fails, both are cancelled.
-
-**Without atomicity:**
+A transaction wraps multiple database operations into a single unit of work. The database keeps all changes in a temporary state until you explicitly say "commit" (make permanent) or "rollback" (discard everything). If anything goes wrong before the commit, every change since the transaction began is undone automatically.
 
 ```
-Step 1: Debit Alice's Food: $200 - $100 = $100  [SUCCESS]
-Step 2: [Server crashes]
-Step 3: Credit Entertainment: Never happens      [FAILED]
-Result: Alice lost $100
+Transaction States:
+
+  ┌─────────┐     ops succeed     ┌──────────┐
+  │  BEGIN   │───────────────────►│  COMMIT   │
+  │          │                    │ (durable) │
+  └────┬─────┘                    └──────────┘
+       │
+       │ any op fails
+       │
+       ▼
+  ┌──────────┐
+  │ ROLLBACK │
+  │ (undo    │
+  │  ALL ops)│
+  └──────────┘
+
+  Example: Budget Transfer
+  ┌─────────────────────────────────────┐
+  │ BEGIN                               │
+  │   1. Debit $100 from Food     ✓    │
+  │   2. Credit $100 to Fun      ✗    │
+  │                                     │
+  │ → ROLLBACK: Debit is also undone   │
+  │ → Result: $0 changed (correct!)    │
+  └─────────────────────────────────────┘
 ```
 
-**With atomicity:**
+That last line is the key insight. After a rollback, your data looks exactly as it did before the transfer attempt. No phantom debits. No missing money. The database pretends the whole thing never happened.
 
-```
-Step 1: Start transaction
-Step 2: Debit Alice's Food: $200 - $100 = $100
-Step 3: Credit Entertainment: $50 + $100 = $150
-Step 4: If both succeed: Commit (save both)
-Step 5: If ANY fails: Rollback (undo both)
-Result: Data always consistent
-```
+(Partial writes: because nothing says "professional software" like $100 disappearing from both accounts.)
 
-The database guarantees: You'll never see a state where one happened without the other.
+## The Transfer Function
 
-## The Basic Transaction Pattern
-
-Here's the pattern you'll use for every multi-step operation:
+Here is an atomic budget transfer using SQLAlchemy. Everything happens inside one session, wrapped in try/except/rollback. If the credit fails, the debit is rolled back. If the debit fails, nothing was written yet. Either way, your data stays consistent.
 
 ```python
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from datetime import date
+from decimal import Decimal
 
-with Session(engine) as session:
-    try:
-        # Step 1: First operation
-        alice = session.execute(
-            select(User).where(User.name == 'Alice')
-        ).scalars().first()
-        alice.food_budget -= 100
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, create_engine, select
+from sqlalchemy.orm import Session, declarative_base
 
-        # Step 2: Second operation
-        alice.entertainment_budget += 100
+Base = declarative_base()
 
-        # Step 3: Commit BOTH (only if no exceptions)
-        session.commit()
-        print("Transfer succeeded")
-    except Exception as e:
-        # If ANY step fails, undo everything
-        session.rollback()
-        print(f"Transfer failed: {e}")
-```
 
-**Output (success case):**
+class Category(Base):
+    __tablename__ = "categories"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
 
-```
-Transfer succeeded
-Alice's Food: $100
-Alice's Entertainment: $150
-```
 
-**Output (failure case):**
+class Expense(Base):
+    __tablename__ = "expenses"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, nullable=False)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
+    description = Column(String(200), nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
+    date = Column(Date, nullable=False, default=date.today)
 
-```
-Transfer failed: insufficient_funds
-Alice's Food: $200 (unchanged)
-Alice's Entertainment: $50 (unchanged)
-```
 
-Let's break down what each part does:
+engine = create_engine("sqlite:///:memory:")
+Base.metadata.create_all(engine)
 
-| Part                                 | What It Does                                      |
-| ------------------------------------ | ------------------------------------------------- |
-| `with Session(engine) as session:` | Opens a session (starts a transaction implicitly) |
-| `try:`                             | Groups operations that should succeed together    |
-| `session.commit()`                 | Makes all changes permanent (saves to database)   |
-| `except Exception as e:`           | Catches any error                                 |
-| `session.rollback()`               | Undoes all uncommitted changes                    |
 
-## Why Try/Except is Non-Negotiable
-
-Without try/except, errors leave your session in a broken state:
-
-```python
-# BAD: What happens when commit fails?
-session.add(expense)
-session.commit()  # Exception here leaves current transaction failed unless rolled back
-```
-
-The commit could fail for many reasons:
-
-- Invalid foreign key (category doesn't exist)
-- Constraint violation (duplicate email)
-- Connection dropped (network issue)
-- Disk full (database can't write)
-
-**Good pattern:**
-
-```python
-# GOOD: Always handle errors
-try:
-    session.add(expense)
-    session.commit()
-except Exception as e:
-    session.rollback()
-    raise e  # Re-raise so caller knows it failed
-```
-
-**Output (when category doesn't exist):**
-
-```
-IntegrityError: FOREIGN KEY constraint failed
-Session rolled back - no partial data saved
-```
-
-The rollback ensures your database stays consistent even when things go wrong.
-
-## Real Example: Budget Transfer Function
-
-Here's the `transfer_budget` function from the Budget Tracker. This shows atomicity in action:
-
-```python
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-
-def transfer_budget(user_id, from_category_id, to_category_id, amount):
-    """
-    Transfer budget between categories.
-    Creates two expense records atomically - both or none.
-    """
+def transfer_budget(user_id: int, from_category_id: int, to_category_id: int, amount: Decimal):
     with Session(engine) as session:
         try:
-            # Verify both categories exist
             from_cat = session.execute(
                 select(Category).where(Category.id == from_category_id)
             ).scalars().first()
@@ -175,249 +133,147 @@ def transfer_budget(user_id, from_category_id, to_category_id, amount):
             if not from_cat or not to_cat:
                 raise ValueError("Category not found")
 
-            # Create BOTH transfer records
-            from_expense = Expense(
+            debit = Expense(
                 user_id=user_id,
                 category_id=from_category_id,
                 description=f"Transfer to {to_cat.name}",
-                amount=-amount  # Negative = debit
+                amount=-amount,
             )
-            to_expense = Expense(
+            credit = Expense(
                 user_id=user_id,
                 category_id=to_category_id,
                 description=f"Transfer from {from_cat.name}",
-                amount=amount  # Positive = credit
-            )
-
-            session.add(from_expense)
-            session.add(to_expense)
-            session.commit()  # Both records saved or none
-
-            return {"success": True, "message": f"Transferred ${amount}"}
-
-        except Exception as e:
-            session.rollback()  # Both records discarded
-            return {"success": False, "error": str(e)}
-```
-
-**Output (success):**
-
-```python
-result = transfer_budget(user_id=1, from_category_id=1, to_category_id=3, amount=100)
-print(result)
-# {'success': True, 'message': 'Transferred $100'}
-
-# Database now has:
-# - Expense: "Transfer to Entertainment", -$100, category=Food
-# - Expense: "Transfer from Food", $100, category=Entertainment
-# Both exist. Always.
-```
-
-**Output (failure - category not found):**
-
-```python
-result = transfer_budget(user_id=1, from_category_id=1, to_category_id=999, amount=100)
-print(result)
-# {'success': False, 'error': 'Category not found'}
-
-# Database unchanged. Zero expense records created.
-# Not one record with no matching pair.
-```
-
-This is why atomicity matters: you never have a debit without a matching credit.
-
-## Common Patterns
-
-### Pattern 1: Simple Create (One Operation)
-
-Even single operations benefit from try/except:
-
-```python
-def create_expense(user_id, description, amount, category_id):
-    """Create one expense with error handling."""
-    with Session(engine) as session:
-        try:
-            expense = Expense(
-                user_id=user_id,
-                description=description,
                 amount=amount,
-                category_id=category_id
             )
-            session.add(expense)
-            session.commit()
-            return {"success": True, "id": expense.id}
-        except Exception as e:
-            session.rollback()
-            return {"success": False, "error": str(e)}
-```
 
-**Output:**
-
-```python
-create_expense(1, "Groceries", 52.50, 1)
-# {'success': True, 'id': 5}
-
-create_expense(1, "Test", 10.00, 999)  # Invalid category
-# {'success': False, 'error': 'FOREIGN KEY constraint failed'}
-```
-
-### Pattern 2: Read-Modify-Write (Update Existing)
-
-When you modify an existing record:
-
-```python
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-
-def update_expense_amount(expense_id, new_amount):
-    """Update expense amount safely."""
-    with Session(engine) as session:
-        try:
-            expense = session.execute(
-                select(Expense).where(Expense.id == expense_id)
-            ).scalars().first()
-
-            if not expense:
-                raise ValueError(f"Expense {expense_id} not found")
-
-            expense.amount = new_amount
+            session.add_all([debit, credit])
             session.commit()
             return {"success": True}
-
-        except Exception as e:
+        except Exception as exc:
             session.rollback()
-            return {"success": False, "error": str(e)}
+            return {"success": False, "error": str(exc)}
 ```
 
-## Working With AI on Safety Patterns
-
-Use AI to draft the transaction, then force edge-case hardening. Example:
-
-```python
-from sqlalchemy import select, update, delete, func
-from sqlalchemy.orm import Session
-
-def merge_categories(user_id, from_cat_id, to_cat_id):
-    with Session(engine) as session:
-        try:
-            if from_cat_id == to_cat_id:
-                raise ValueError("Source and target categories must differ")
-
-            to_cat = session.execute(
-                select(Category).where(Category.id == to_cat_id)
-            ).scalars().first()
-            if not to_cat:
-                raise ValueError(f"Target category {to_cat_id} not found")
-
-            moved_count = session.execute(
-                update(Expense).where(
-                    (Expense.user_id == user_id) &
-                    (Expense.category_id == from_cat_id)
-                ).values(category_id=to_cat_id)
-            ).rowcount
-
-            remaining = session.execute(
-                select(func.count()).select_from(Expense).where(
-                    Expense.category_id == from_cat_id
-                )
-            ).scalar_one()
-
-            if remaining == 0:
-                session.execute(delete(Category).where(Category.id == from_cat_id))
-
-            session.commit()
-            return {"success": True, "moved_count": moved_count}
-        except Exception as e:
-            session.rollback()
-            return {"success": False, "error": str(e)}
+**Output (successful transfer):**
+```
+>>> transfer_budget(user_id=1, from_category_id=1, to_category_id=2, amount=Decimal("100.00"))
+{"success": True}
 ```
 
-The pattern: AI accelerates the first draft; you enforce invariants before commit.
+**Output (invalid category):**
+```
+>>> transfer_budget(user_id=1, from_category_id=1, to_category_id=999, amount=Decimal("100.00"))
+{"success": False, "error": "Category not found"}
+```
 
-## Optional Extension: Savepoints
+Notice the pattern: one session, one try block, one commit at the end, one rollback in the except. This is the core transaction template you will use for every multi-step write in this course.
 
-For partial-failure batch workflows, `session.begin_nested()` can isolate one item without aborting the full batch.
+## The Failure Drill
 
-## What Comes Next
+Reading about atomicity is not the same as proving it works. Run this drill to see rollback in action:
 
-You can now prevent partial writes. Next challenge: durable cloud operation, where connection lifecycle and credential discipline decide whether your reliable code survives production conditions.
+1. Run transfer with valid categories — expect two new rows
+2. Run transfer with an invalid destination category — expect zero new rows
+3. Query the expense count before and after each run
+4. Confirm the invariant: successful transfers change count by exactly 2, failed transfers change count by exactly 0
 
-Next lesson: a correct transaction strategy still fails in production if connection and secret handling are sloppy.
+This invariant check is stronger than checking return messages alone. A function can return `{"success": False}` while still leaving partial rows behind if the rollback was missing. The only proof is querying the database directly.
+
+:::tip[Pause and Reflect]
+Think about the transfer function you just saw. What would happen if step 1 (debit) committed in one session and step 2 (credit) ran in a different session? What if the second session crashed? Where did the money go?
+:::
+
+## The Multi-Session Anti-Pattern
+
+The most dangerous mistake is splitting related operations across separate sessions. Here is what that looks like:
+
+**Bad pattern:**
+- Session A writes the debit and commits
+- Session B writes the credit and fails
+
+Result: irreversible partial state. The debit is permanent because Session A already committed. Session B's rollback only undoes Session B's work — it cannot reach back into Session A and undo the debit. Your $100 is gone.
+
+(This is why related database writes should *never* live in separate sessions. If they must succeed together, they must live in the same transaction. Period.)
+
+Another frequent mistake is catching an exception and returning without calling rollback. That leaves the failed transaction state unresolved and causes downstream confusion — later queries in the same session may behave unpredictably because the session is in a "dirty" state.
+
+## Input Validation: Necessary but Not Sufficient
+
+Transactions prevent partial writes. They do not correct bad business inputs. You still need validation rules:
+
+- Validate that the amount is positive
+- Validate that source and target categories are different
+- Validate ownership scope if categories are user-specific
+
+Think of it this way: transactions protect the *mechanics* of your write (all-or-nothing). Input validation protects the *meaning* of your write (is this a sensible operation?). You need both.
+
+## Invariants: The Test That Catches Everything
+
+An invariant is a truth about your data that must always hold. For budget transfers, the core invariants are:
+
+- Transfer ledger entries for a completed move always net to zero
+- Category totals before and after a transfer preserve the global sum
+- Failed transfers produce no new rows
+
+Writing these invariants into tests gives you faster confidence than manual spot checking. When a test asserts "the sum of all amounts for this transfer is zero," it catches bugs that return-message checks miss entirely.
+
+When in doubt, choose stronger safety:
+
+- Explicit rollback in every except block
+- Explicit invariant assertions in every test
+- Explicit post-failure query checks that verify actual database state
+
+## Debug Posture for Transaction Bugs
+
+When something goes wrong with a transaction, follow this discipline:
+
+- Distrust return messages without database verification
+- Inspect persisted rows directly after both success and failure paths
+- Treat any partial side effect as a severity-one defect
+
+If your function returns `{"success": False}` but the database has one new row instead of zero, you have a transaction bug. The return message lied. The database told the truth. Always trust the database over application-level return values.
+
+**What breaks next?** Write safety can still fail in production if cloud connection handling is weak. Deployment reliability is next.
 
 ## Try With AI
 
-### Prompt 1: Classify Atomicity Requirements
+**Setup:** Open Claude or ChatGPT with your budget tracker models from this chapter.
 
-```
-Which of these scenarios NEED atomic transactions?
+### Prompt 1: Atomicity Classifier
 
-1. Creating a single expense record
-2. Transferring $100 between two budget categories
-3. Logging a page view counter
-4. Splitting one $150 expense across Food ($100) and Entertainment ($50)
-5. Deleting a user and all their expenses
-6. Reading a monthly spending summary
-7. Moving all "Fast Food" expenses to "Food" category
-
-For each scenario, answer:
-- "Needs atomic transaction" or "Doesn't need atomic transaction"
-- Why? (What could go wrong without atomicity?)
+```text
+For each scenario, classify "needs atomic transaction" vs "does not need atomic transaction":
+- single insert (one new expense)
+- transfer between two categories (debit + credit)
+- monthly summary read (SELECT with GROUP BY)
+- merge category migration (move all expenses from category A to B, then delete A)
+Explain the failure mode if atomicity is missing for each one that needs it.
 ```
 
-### Prompt 2: Implement Safe Code
+**What you're learning:** Not every database operation needs a transaction boundary. Single reads and single writes are already atomic by default. The skill is recognizing *which* operations involve multiple steps where partial completion would corrupt your data. This classification instinct prevents both under-protection (missing transactions where needed) and over-protection (wrapping single inserts in unnecessary transaction ceremony).
 
-```
-Write a function called merge_categories with these requirements:
+### Prompt 2: Rollback Proof Drill
 
-def merge_categories(user_id, from_cat_id, to_cat_id):
-    """
-    Move all expenses from from_cat to to_cat for this user.
-    Returns {"success": True/False, "moved_count": N}
-    """
-
-Requirements:
-- All expense moves must be atomic (all or none)
-- Handle case where from_cat doesn't exist
-- Handle case where to_cat doesn't exist
-- Use try/except + rollback pattern from this lesson
-- Use SQLAlchemy 2.0 style: session.execute(select(...)), session.execute(update(...)), etc.
-- Don't delete the from_cat (other users might use it)
-
-Use the Budget Tracker models (User, Category, Expense).
-Import from sqlalchemy: select, update, func as needed.
+```text
+Write a transaction function that intentionally fails after the first insert.
+Then show the post-failure query proving zero rows were committed.
+Use SQLAlchemy 2.0 style and explicit rollback.
 ```
 
-### Prompt 3: Prove Rollback
+**What you're learning:** Proving rollback works requires more than reading the return value. You need to query the database after the failure and verify the row count is unchanged. This drill builds the habit of verifying database state directly — a practice that catches transaction bugs that return-message checking misses.
 
-```
-Write a transfer_budget function that deliberately fails halfway through.
-Specifically:
-1. Create the first expense (debit from Food category) — this should succeed
-2. Then raise an exception BEFORE creating the second expense (credit to Entertainment)
-3. After the exception, query the database to prove the first expense was NOT saved
+### Prompt 3: Apply to Your Domain
 
-Show me the code and the output that proves rollback worked.
-Then modify the code to REMOVE the try/except block and show what happens
-when the same failure occurs without rollback protection.
+```text
+Think of a multi-step operation in a project you're building. Maybe it's: creating a user account + sending a welcome email + logging the event. Or: transferring inventory between warehouses. Break it into steps and ask: "If step 2 fails, what happens to step 1?" Design the transaction boundary.
 ```
 
-After each prompt, verify one concrete thing:
-- Prompt 1: Did you correctly classify which scenarios require atomicity?
-- Prompt 2: Does your function rollback cleanly if `to_cat` does not exist?
-- Prompt 3: Can you prove the difference between rollback safety and partial corruption by running both versions?
+**What you're learning:** Transaction design isn't just for banks. Any operation where partial completion would corrupt your data needs an atomic boundary. Recognizing these moments — and wrapping them in try/except/rollback — is a skill that separates reliable systems from fragile ones.
 
-**Safety reminder:** Transactions prevent data corruption, but they don't prevent logical errors. If your code transfers $100 when it should transfer $10, the transaction will happily commit the wrong amount. Always validate inputs before starting the transaction.
+## Checkpoint
 
-### Checkpoint
-
-Before moving to L6:
-
-- [ ] You understand: Atomicity = all-or-nothing operations
-- [ ] You know: Why try/except + rollback are critical for data integrity
-- [ ] You can implement: Safe multi-step operations that commit or rollback together
-- [ ] You can identify: Which scenarios require atomic transactions (Prompt 1)
-- [ ] You've written: Transaction-safe code (Prompt 2)
-- [ ] You've proven: Rollback works by deliberately failing a transaction (Prompt 3)
-- [ ] You can observe failure paths clearly (exception + rollback + post-check query) instead of guessing
-
-Ready for L6: Neon-specific features and connection reliability.
+- [ ] I can explain atomicity as all-or-nothing business truth.
+- [ ] I can implement one-session multi-step writes with rollback.
+- [ ] I can prove rollback with a deliberate failure drill.
+- [ ] I can identify multi-session anti-patterns in write workflows.
+- [ ] I can distinguish schema validity from transaction correctness.

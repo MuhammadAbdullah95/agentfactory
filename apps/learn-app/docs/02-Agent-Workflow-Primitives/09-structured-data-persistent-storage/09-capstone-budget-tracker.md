@@ -4,267 +4,126 @@ title: "Capstone - Budget Tracker Complete App"
 chapter: 9
 lesson: 8
 duration_minutes: 40
-description: "Integrate schema, CRUD, relationships, transactions, Neon deployment, and selective high-stakes verification in one complete application"
-keywords: ["capstone", "SQLAlchemy", "Neon", "transactions", "aggregation", "verification", "operational checklist"]
-
-# HIDDEN SKILLS METADATA
+description: "Integrate schema, CRUD, relationships, transactions, Neon, and high-stakes verification in one app"
+keywords: ["capstone", "SQLAlchemy", "Neon", "transactions", "verification", "evidence bundle"]
 skills:
   - name: "System Integration"
     proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Create"
     digcomp_area: "Software Development"
-    measurable_at_this_level: "Student can integrate all chapter primitives into one coherent app"
-
+    measurable_at_this_level: "Student can integrate chapter primitives into one coherent app"
   - name: "Operational Judgment"
     proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Evaluate"
     digcomp_area: "Problem Solving"
-    measurable_at_this_level: "Student can decide when to use SQL-only vs hybrid verification"
-
+    measurable_at_this_level: "Student can decide SQL-only vs hybrid verification by risk"
 learning_objectives:
-  - objective: "Build and run a complete Neon-backed budget tracker"
+  - objective: "Integrate all chapter primitives into one working application"
     proficiency_level: "B1"
     bloom_level: "Create"
-    assessment_method: "Student can execute app end-to-end and validate outputs"
-
-  - objective: "Use efficient query shapes for summary analytics"
-    proficiency_level: "B1"
-    bloom_level: "Apply"
-    assessment_method: "Student replaces N+1 style with grouped/joined query patterns"
-
-  - objective: "Apply high-stakes mismatch policy before publishing critical outputs"
+    assessment_method: "Student produces a complete evidence bundle covering CRUD, rollback, Neon, and verification"
+  - objective: "Make risk-based release decisions using evidence"
     proficiency_level: "B1"
     bloom_level: "Evaluate"
-    assessment_method: "Student blocks report publication on verification mismatch"
-
+    assessment_method: "Student can block or approve release based on verification gate output"
+cognitive_load:
+  new_concepts: 2
+  assessment: "2 new concepts (evidence bundle, release gate) — all other concepts are integration of previously learned material"
+differentiation:
+  extension_for_advanced: "Add a CI/CD pipeline that automatically runs the evidence bundle and blocks deployment on any gate failure. Compare your evidence bundle with a teammate's."
+  remedial_for_struggling: "Run the capstone sequence one step at a time. Focus on getting each step to pass before moving to the next. The evidence bundle is just collecting proof of what you already know how to do."
 ---
 
 # Capstone - Budget Tracker Complete App
 
-> **Continuity bridge**
-> - From Chapter 7: bash gave you operational control over files and workflows.
-> - From Chapter 8: Python gave you deterministic computation and verified parsing.
-> - Now in Chapter 9: SQLAlchemy + Neon turns that into persistent, relational, multi-user systems.
+You started this chapter with a script that couldn't handle a second user. Look where you are now: typed models, safe transactions, cloud deployment, independent verification. That's not a script anymore -- that's a system.
 
-**Principle anchor:** P4 (Small, Reversible Decomposition) is the capstone strategy: integrate one reliable layer at a time and keep evidence at each boundary.
+This lesson pulls every piece together. You will wire up your models, CRUD operations, transaction safety, Neon connection, and verification gate into a single application -- then run it end to end and collect the proof that it works.
 
-## Failure Hook
+:::info[Key Terms for This Lesson]
+- **Evidence bundle**: A collection of test results that PROVES your system works -- not "I think it works" but "here's the proof it works"
+- **Release gate**: A checkpoint that must pass before your code goes to production -- if the gate fails, you stop and fix before shipping
+:::
 
-A budget app that "works on my machine" is not enough if it:
+## The Integration Contract
 
-- loses data on restart
-- returns plausible but wrong summaries
-- commits half-failed transfers
-- cannot be trusted for high-stakes reports
+In Lesson 7, you built independent verification for high-stakes outputs. Now you combine every layer into one coherent application with five commitments:
 
-This capstone closes those failure modes.
+1. **Models enforce schema** (`User`, `Category`, `Expense`).
+2. **CRUD paths include rollback** on write failure.
+3. **Summary queries avoid N+1** patterns.
+4. **Neon connection uses pooled** pre-ping configuration.
+5. **High-stakes reports run independent verification** before release.
 
-## Architecture (Final)
+Each commitment maps to a lesson you already completed. The capstone is not new learning -- it is proof that all the pieces hold together under one roof.
 
-You will combine:
+You might be thinking: "Do I really need all these evidence gates?" For a toy project, probably not. For anything touching money, health data, or compliance? Absolutely. This evidence bundle pattern works for any system: e-commerce checkout flows, healthcare record systems, financial trading platforms.
 
-1. **Models** for schema clarity
-2. **CRUD** for safe writes/reads
-3. **Relationships** for connected queries
-4. **Transactions** for all-or-nothing updates
-5. **Neon deployment** for persistence and concurrency
-6. **Selective hybrid verification** for high-stakes outputs
+## The Evidence Pipeline
 
-## Core Application
+Here is the sequence your capstone will follow. Each gate must pass before the next one runs:
 
-### 1) Setup + Models
+```
+Evidence Pipeline:
+
+  Schema Gate         CRUD Gate          Rollback Gate
+  ┌──────────┐       ┌──────────┐       ┌──────────┐
+  │ Create   │       │ Insert   │       │ Force    │
+  │ tables   │──────►│ + Read   │──────►│ failure  │
+  │ ✓ pass   │       │ ✓ pass   │       │ 0 partial│
+  └──────────┘       └──────────┘       │ ✓ pass   │
+                                        └────┬─────┘
+                                             │
+                     Neon Gate          Verify Gate
+                     ┌──────────┐       ┌──────────┐
+                     │ SELECT 1 │       │ SQL vs   │
+                     │ pooled   │──────►│ raw CSV  │
+                     │ ✓ pass   │       │ match?   │
+                     └──────────┘       └────┬─────┘
+                                             │
+                                        ┌────┴─────┐
+                                        │ RELEASE  │
+                                        │ DECISION │
+                                        │ verified │
+                                        │ or       │
+                                        │ BLOCKED  │
+                                        └──────────┘
+```
+
+Five gates. One chain. If any gate fails, you stop and fix before continuing. No skipping ahead.
+
+## No-N+1 Monthly Summary
+
+This query shape avoids the category-by-category loops that made your Chapter 8 scripts slow. One round trip to the database, grouped and sorted:
 
 ```python
-import os
-from datetime import date, datetime, timezone
+from datetime import date
 from decimal import Decimal
-from dotenv import load_dotenv
-from sqlalchemy import (
-    Column,
-    Date,
-    DateTime,
-    ForeignKey,
-    Integer,
-    Numeric,
-    String,
-    create_engine,
-    func,
-    select,
-    text,
-)
-from sqlalchemy.orm import Session, declarative_base, relationship
-from sqlalchemy.pool import QueuePool
 
-load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL not set")
-
-engine = create_engine(
-    DATABASE_URL,
-    poolclass=QueuePool,
-    pool_size=5,
-    max_overflow=10,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    echo=False,
-)
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, func, select
+from sqlalchemy.orm import Session, declarative_base
 
 Base = declarative_base()
 
 
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True)
-    email = Column(String(100), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-
-    expenses = relationship("Expense", back_populates="user", cascade="all, delete-orphan")
-
-
 class Category(Base):
     __tablename__ = "categories"
-
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True, nullable=False)
-    color = Column(String(7), default="#FF6B6B")
-
-    expenses = relationship("Expense", back_populates="category", cascade="all, delete-orphan")
 
 
 class Expense(Base):
     __tablename__ = "expenses"
-
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
-    description = Column(String(200), nullable=False)
     amount = Column(Numeric(10, 2), nullable=False)
-    date = Column(Date, default=date.today)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-
-    user = relationship("User", back_populates="expenses")
-    category = relationship("Category", back_populates="expenses")
-```
-
-### 2) CRUD + Transaction Safety
-
-```python
-def create_expense(user_id: int, category_id: int, description: str, amount: Decimal, when: date):
-    with Session(engine) as session:
-        try:
-            row = Expense(
-                user_id=user_id,
-                category_id=category_id,
-                description=description,
-                amount=amount,
-                date=when,
-            )
-            session.add(row)
-            session.commit()
-            return {"success": True, "id": row.id}
-        except Exception as exc:
-            session.rollback()
-            return {"success": False, "error": str(exc)}
+    date = Column(Date, nullable=False)
 
 
-def get_expense(expense_id: int):
-    with Session(engine) as session:
-        row = session.execute(
-            select(Expense).where(Expense.id == expense_id)
-        ).scalars().first()
-        return row
-
-
-def update_expense_description(expense_id: int, new_description: str):
-    with Session(engine) as session:
-        try:
-            row = session.execute(
-                select(Expense).where(Expense.id == expense_id)
-            ).scalars().first()
-            if not row:
-                return {"success": False, "error": "Expense not found"}
-
-            row.description = new_description
-            session.commit()
-            return {"success": True}
-        except Exception as exc:
-            session.rollback()
-            return {"success": False, "error": str(exc)}
-
-
-def delete_expense(expense_id: int):
-    with Session(engine) as session:
-        try:
-            row = session.execute(
-                select(Expense).where(Expense.id == expense_id)
-            ).scalars().first()
-            if not row:
-                return {"success": False, "error": "Expense not found"}
-
-            session.delete(row)
-            session.commit()
-            return {"success": True}
-        except Exception as exc:
-            session.rollback()
-            return {"success": False, "error": str(exc)}
-
-
-def transfer_budget(user_id: int, from_category_id: int, to_category_id: int, amount: Decimal):
-    """Atomic transfer: create two balancing entries or none."""
-    with Session(engine) as session:
-        try:
-            from_cat = session.execute(
-                select(Category).where(Category.id == from_category_id)
-            ).scalars().first()
-            to_cat = session.execute(
-                select(Category).where(Category.id == to_category_id)
-            ).scalars().first()
-
-            if not from_cat or not to_cat:
-                raise ValueError("Category not found")
-
-            debit = Expense(
-                user_id=user_id,
-                category_id=from_category_id,
-                description=f"Transfer to {to_cat.name}",
-                amount=-amount,
-            )
-            credit = Expense(
-                user_id=user_id,
-                category_id=to_category_id,
-                description=f"Transfer from {from_cat.name}",
-                amount=amount,
-            )
-
-            session.add_all([debit, credit])
-            session.commit()
-            return {"success": True}
-        except Exception as exc:
-            session.rollback()
-            return {"success": False, "error": str(exc)}
-```
-
-### CRUD Evidence Matrix (Required)
-
-| Capability | Evidence function | Proof artifact |
-|---|---|---|
-| Create | `create_expense()` | returned id + DB row exists |
-| Read | `get_expense()` | row returned with expected fields |
-| Update | `update_expense_description()` | before/after query diff |
-| Delete | `delete_expense()` | post-delete query returns `None` |
-| Multi-step write safety | `transfer_budget()` | success and forced-failure rollback traces |
-
-### 3) Optimized Query Pattern (No N+1)
-
-Avoid querying expenses category-by-category in loops. Use grouped query once.
-
-```python
-def monthly_summary(user_id: int, year: int, month: int):
+def monthly_summary(engine, user_id: int, year: int, month: int) -> list[dict]:
     start = date(year, month, 1)
     end = date(year + (month == 12), (month % 12) + 1, 1)
 
@@ -287,39 +146,59 @@ def monthly_summary(user_id: int, year: int, month: int):
 
     return [
         {
-            "category": r.category,
-            "count": int(r.count),
-            "total": (r.total or Decimal("0")).quantize(Decimal("0.01")),
+            "category": row.category,
+            "count": int(row.count),
+            "total": (row.total or Decimal("0")).quantize(Decimal("0.01")),
         }
-        for r in rows
+        for row in rows
     ]
 ```
 
-## High-Stakes Verification Path
+**Output:**
+```
+[
+  {"category": "Housing", "count": 1, "total": "1500.00"},
+  {"category": "Food", "count": 3, "total": "287.45"},
+  {"category": "Transport", "count": 2, "total": "94.20"}
+]
+```
 
-Use this only when publishing financial or audit-sensitive output.
+Compare that to the Chapter 8 approach: nested loops, manual grouping, custom sorting -- all doing what one SQL query handles natively.
 
-### Policy
+## User-Scoped Verification and Release Gate
 
-- SQL summary is primary.
-- Independent path recomputes totals from raw imported ledger CSV.
-- If mismatch > `Decimal("0.01")`, **block release** and investigate.
+This is where "ready for demo" becomes "ready for release." The verification function reads the raw CSV independently -- different code path, different failure modes -- and compares totals to what SQL reports:
 
 ```python
-from pathlib import Path
 import csv
 from decimal import Decimal
+from pathlib import Path
+
+REQUIRED_RAW_COLUMNS = {"user_id", "date", "category", "amount"}
 
 
-def verify_monthly_summary_from_raw(raw_csv: Path, year: int, month: int):
+def verify_monthly_summary_from_raw(
+    raw_csv: Path, user_id: int, year: int, month: int
+) -> dict[str, Decimal]:
     prefix = f"{year}-{month:02d}"
-    totals = {}
+    totals: dict[str, Decimal] = {}
 
     with raw_csv.open("r", newline="") as f:
         reader = csv.DictReader(f)
+
+        if not reader.fieldnames:
+            raise ValueError("raw ledger missing header row")
+
+        missing = REQUIRED_RAW_COLUMNS - set(reader.fieldnames)
+        if missing:
+            raise ValueError(f"raw ledger missing required columns: {sorted(missing)}")
+
         for row in reader:
+            if int(row["user_id"]) != user_id:
+                continue
             if not row["date"].startswith(prefix):
                 continue
+
             cat = row["category"]
             amount = Decimal(row["amount"])
             totals[cat] = totals.get(cat, Decimal("0")) + amount
@@ -330,19 +209,23 @@ def verify_monthly_summary_from_raw(raw_csv: Path, year: int, month: int):
 def verify_or_block(sql_summary, raw_totals):
     tolerance = Decimal("0.01")
     sql_map = {
-        r["category"]: Decimal(r["total"]).quantize(Decimal("0.01"))
-        for r in sql_summary
+        row["category"]: Decimal(row["total"]).quantize(Decimal("0.01"))
+        for row in sql_summary
     }
 
-    categories = sorted(set(sql_map) | set(raw_totals))
     mismatches = []
-    for c in categories:
-        a = sql_map.get(c, Decimal("0")).quantize(Decimal("0.01"))
-        b = raw_totals.get(c, Decimal("0")).quantize(Decimal("0.01"))
-        delta = abs(a - b)
+    for category in sorted(set(sql_map) | set(raw_totals)):
+        sql_value = sql_map.get(category, Decimal("0")).quantize(Decimal("0.01"))
+        raw_value = raw_totals.get(category, Decimal("0")).quantize(Decimal("0.01"))
+        delta = abs(sql_value - raw_value)
         if delta > tolerance:
             mismatches.append(
-                {"category": c, "sql": str(a), "raw": str(b), "delta": str(delta)}
+                {
+                    "category": category,
+                    "sql": str(sql_value),
+                    "raw": str(raw_value),
+                    "delta": str(delta),
+                }
             )
 
     if mismatches:
@@ -356,93 +239,122 @@ def verify_or_block(sql_summary, raw_totals):
     return {"status": "verified"}
 ```
 
-## Run Sequence
-
-1. Initialize schema
-2. Seed user/categories
-3. Write a few expenses
-4. Generate monthly summary
-5. If report is high-stakes, run verification and apply policy
-
-```python
-def init_db():
-    Base.metadata.create_all(engine)
-
-
-def test_connection():
-    with Session(engine) as session:
-        session.execute(text("SELECT 1"))
-
-
-if __name__ == "__main__":
-    init_db()
-    test_connection()
-    print("Budget Tracker initialized")
+**Output (verified):**
+```json
+{"status": "verified"}
 ```
 
-## Guardrails
-
-- Never mark a report "verified" without mismatch policy result.
-- Never claim production-readiness without rollback-tested write paths.
-- Never hardcode credentials.
-- Never use non-independent checks and call them hybrid.
-
-## Operational Checklist (Required Before "Production-Ready")
-
-- [ ] **Correctness:** key summary queries match known fixtures.
-- [ ] **Safety:** all multi-step writes have explicit rollback paths.
-- [ ] **Observability:** SQL debugging path documented (`echo=True` / logs).
-- [ ] **Rollback drills:** at least one deliberate failure test executed.
-- [ ] **Connection reliability:** pooling + pre-ping validated on Neon.
-- [ ] **Verification policy:** mismatch blocks high-stakes report release.
-
-### Release-Ready Evidence Bundle (Example Output)
-
+**Output (blocked):**
 ```json
 {
-  "happy_path_run": "pass",
-  "crud_matrix": "pass",
-  "rollback_failure_drill": "pass",
-  "neon_connection_resilience": "pass",
-  "verification_policy_result": "verified"
+  "status": "blocked",
+  "reason": "verification_mismatch",
+  "tolerance": "0.01",
+  "mismatches": [
+    {"category": "Food", "sql": "287.45", "raw": "287.95", "delta": "0.50"}
+  ]
 }
 ```
 
-## What Breaks Next
+When the gate returns `blocked`, you do not ship. That is not a bug in your engineering -- it is your engineering working correctly. Publishing despite a `blocked` status is a release process failure, not a query problem.
 
-You can now build persistent, queryable, integrity-safe applications.
+## The Evidence Bundle
 
-What breaks next is not syntax. It is operational discipline at scale: testing strategy, migrations, and long-lived change management.
+Your capstone produces one JSON artifact that captures every gate result:
 
-Next chapter pressure-tests this app-style thinking under broader automation constraints, where good code alone is not enough.
+```json
+{
+  "crud_matrix": "pass",
+  "rollback_failure_drill": "pass",
+  "neon_connection_resilience": "pass",
+  "verification_policy_result": "verified_or_blocked_with_reason"
+}
+```
+
+## Capstone Run Sequence
+
+Run these seven steps in order. If any step fails, stop and fix before continuing:
+
+1. Create schema and seed deterministic fixture data
+2. Run CRUD matrix and capture outputs
+3. Run forced rollback drill and capture pre/post counts
+4. Run Neon connectivity health check
+5. Generate monthly SQL summary for one user
+6. Run independent raw verification for same user/month
+7. Evaluate mismatch policy and produce release decision artifact
+
+This is deliberate sequencing. Step 3 proves your rollback actually works under failure. Step 6 proves your SQL output matches an independent source. Step 7 turns all of that into a decision artifact another engineer can read without asking you questions.
+
+## Gate Language
+
+When discussing readiness with your team, use precise language:
+
+- **"Ready for demo"** means the happy path passes
+- **"Ready for release"** means failure evidence and verification gate both pass
+- Never merge release candidates without the evidence bundle attached
+
+The difference matters. A demo proves the system can work. A release proves the system can fail safely and recover correctly.
+
+## One Common Failure
+
+Publishing reports after a mismatch because "the SQL looks right." That is a release process failure, not a query bug. Another failure: claiming "production-ready" without failure-path proof. Passing only the happy path is insufficient for integrity claims.
+
+## Capstone Self-Review
+
+Before you call this done, answer these honestly:
+
+- Can another engineer rerun your evidence bundle without verbal guidance?
+- Are all critical thresholds explicit (`0.01` tolerance, blocked status rules)?
+- Did you demonstrate at least one failure path, not only success?
+- Could a reviewer trace from requirement to code to evidence artifact quickly?
+
+If any answer is "no," the capstone is still in progress.
+
+:::tip[Pause and Reflect]
+Look at what you've built across this chapter. In Lesson 0, you had a script that couldn't handle a second user. Now you have a cloud-deployed, transactionally safe, independently verified system. What's the single most important concept you learned along the way?
+:::
+
+Chapter 8 deliverable: one tax report for one person. Chapter 9 deliverable: a cloud-deployed, multi-user, transactionally safe, independently verified financial system. Same you. Different tools. Different capability.
 
 ## Try With AI
 
-### Prompt 1 — Explain
+### Prompt 1: Integrity Gap Audit
 
 ```text
-Read my capstone code and identify where integrity is guaranteed,
-where it is assumed, and where it is still vulnerable.
+Read my capstone code and classify each critical path:
+- guaranteed by schema
+- guaranteed by transaction
+- guaranteed by verification policy
+- still vulnerable
+Return a prioritized fix list.
 ```
 
-### Prompt 2 — Optimize
+**What you're learning:** Classifying guarantees by type teaches you to distinguish between what the system prevents automatically (schema violations, partial writes) and what still requires your judgment (verification mismatches, edge cases). This is how experienced engineers think about production risk.
+
+### Prompt 2: Evidence Bundle Generator
 
 ```text
-Find one N+1 pattern or inefficient query shape in my app and rewrite it
-into a grouped/joined query with the same output contract.
+Generate a script that runs:
+1) CRUD smoke checks
+2) forced rollback drill
+3) Neon SELECT 1 health check
+4) verification gate run
+Then outputs one JSON evidence bundle.
 ```
 
-### Prompt 3 — Verify
+**What you're learning:** Automating your evidence collection turns a manual checklist into a repeatable script. This is the difference between "I checked it once" and "anyone can check it anytime." Automated evidence gates are the foundation of continuous deployment.
+
+### Prompt 3: Apply to Your Domain
 
 ```text
-Design a high-stakes verification runbook for monthly financial reports,
-including mismatch triage steps and release gates.
+You're building [your project]. Design an evidence bundle with 4 gates:
+1. What proves your data model is correct?
+2. What proves your writes are safe?
+3. What proves your cloud connection is reliable?
+4. What proves your critical outputs are accurate?
+For each gate, specify: what you test, what "pass" looks like, and what "fail" means.
 ```
 
-## Checkpoint: Chapter Complete
+**What you're learning:** Evidence-driven release decisions transfer to ANY software project. Whether you're shipping a mobile app, deploying an API, or publishing a report -- the pattern is the same: define gates, run tests, collect proof, make decisions based on evidence rather than gut feeling.
 
-- [ ] I can run app startup against Neon successfully.
-- [ ] I can explain each model and write path.
-- [ ] I can produce monthly summaries with optimized query shape.
-- [ ] I can block report publication on verification mismatch.
-- [ ] I can justify when hybrid verification is required vs optional.
+Your system is correct. But systems change. Users want new features. Schemas need to evolve. Data needs to migrate. Next chapter: how do you evolve a running system without breaking what works?

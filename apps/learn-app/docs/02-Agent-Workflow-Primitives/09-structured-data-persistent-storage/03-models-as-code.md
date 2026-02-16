@@ -4,225 +4,270 @@ title: "Models as Code"
 chapter: 9
 lesson: 2
 duration_minutes: 25
-description: "Define SQLAlchemy models as Python classes that become database tables"
-keywords: ["SQLAlchemy", "ORM", "models", "Column", "Integer", "String", "Numeric", "Float", "Date", "primary key", "ForeignKey"]
+description: "Define SQLAlchemy models as executable schema contracts"
+keywords: ["SQLAlchemy", "ORM", "models", "ForeignKey", "Numeric"]
+skills:
+  - name: "Schema Design"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Software Development"
+    measurable_at_this_level: "Student can define SQLAlchemy models with correct types, constraints, and foreign keys"
+  - name: "Type Safety for Financial Data"
+    proficiency_level: "A1"
+    category: "Conceptual"
+    bloom_level: "Understand"
+    digcomp_area: "Data Literacy"
+    measurable_at_this_level: "Student can explain why Numeric is required for money and why Float introduces errors"
+learning_objectives:
+  - objective: "Create a complete SQLAlchemy model file with correct types and constraints"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student runs models.py and creates tables without errors"
+  - objective: "Explain why Numeric(10,2) is used instead of Float for financial values"
+    proficiency_level: "A1"
+    bloom_level: "Understand"
+    assessment_method: "Student can demonstrate the float precision problem and explain the fix"
+cognitive_load:
+  new_concepts: 4
+  assessment: "4 concepts (nullable constraint, Numeric vs Float, ForeignKey, declarative model) within A2 limit"
+differentiation:
+  extension_for_advanced: "Design a project management schema (User -> Project -> Task -> TimeEntry) with appropriate types, then compare with a classmate's design choices."
+  remedial_for_struggling: "Focus on just the User model first. Add one constraint at a time (nullable, unique) and test each. Only add Category and Expense after User works."
 ---
+
 # Models as Code
 
-> **Continuity bridge**
-> - From Chapter 7: bash handled files, not typed structure.
-> - From Chapter 8: Python handled parsing and computation.
-> - Now in Chapter 9: models encode schema and constraints so structure is enforced.
+In Lesson 1, you proved that data survives a process restart. Now you need to answer a harder question: what shape should that data take, and who enforces the rules?
 
-In L0, you learned why databases beat CSV files. In L1, you built your skill scaffold. Now you hit the core engineering move: turning requirements into schema.
+Quick test: open a Python shell and type `0.1 + 0.2`. Did you get `0.3`? You did not. You got `0.30000000000000004`. Welcome to floating-point arithmetic -- and the reason your money column needs `Numeric`, not `Float`.
 
-Answer: you write a Python class, and SQLAlchemy turns it into a table.
+That tiny rounding error does not sound like much until you process a million transactions. At one hundred-thousandth of a cent per transaction, you are off by ten dollars. At a billion transactions, you are off by ten thousand. Banks do not tolerate "close enough," and neither should your budget tracker.
 
-**Principle anchor:** P2 (Code as Universal Interface). Your model code is the contract every tool follows.
+:::info[Key Terms for This Lesson]
+- **Nullable**: Whether a field can be left empty -- `nullable=False` means "this field is REQUIRED, period"
+- **Constraint**: A rule the database enforces automatically -- like a bouncer that rejects bad data before it gets in
+- **Numeric(10, 2)**: A decimal type that stores up to 10 digits with exactly 2 decimal places -- precise enough for dollars and cents without floating-point surprises
+:::
 
-## The Simplest Model
+## The Float Problem (And Its Fix)
 
-Here's a complete, working model:
+You might be thinking: "Can't I just round the floats?" You can. But rounding is YOUR responsibility. Every calculation, every sum, every comparison -- you have to remember to round. Miss one spot and your totals drift. With `Numeric(10, 2)`, the database handles precision for you. Every value stored, every calculation performed, exact to two decimal places. No discipline required.
+
+Here is the difference in practice:
 
 ```python
-from sqlalchemy import Column, Integer, String, Numeric
+# Float: your problem
+a = 0.1 + 0.2
+print(a)           # 0.30000000000000004
+print(a == 0.3)    # False (!)
+
+# Numeric(10, 2): database's problem
+# Stored as exact decimal: 0.30
+# Comparisons work: 0.30 == 0.30 → True
+```
+
+**Output:**
+```
+0.30000000000000004
+False
+```
+
+Float for money is how you lose $0.00000000004 on every transaction. Doesn't sound like much until you process a million of them.
+
+## The Schema Contract
+
+A model file is not documentation. It is a contract your database enforces on every insert, every update, every foreign key reference. If the data violates the contract, it gets rejected -- no exceptions, no "I forgot to validate in the app layer."
+
+Here is what our budget tracker needs:
+
+```
+Entity-Relationship Diagram:
+
+┌──────────────┐         ┌──────────────┐
+│    User      │         │   Category   │
+├──────────────┤         ├──────────────┤
+│ id (PK)      │         │ id (PK)      │
+│ email (UQ)   │         │ name (UQ)    │
+│ name         │         │ color        │
+│ created_at   │         └──────┬───────┘
+└──────┬───────┘                │
+       │                        │
+       │ 1:many                 │ 1:many
+       │                        │
+       ▼                        ▼
+┌──────────────────────────────────┐
+│           Expense                │
+├──────────────────────────────────┤
+│ id (PK)                          │
+│ user_id (FK → users.id)         │
+│ category_id (FK → categories.id)│
+│ description                      │
+│ amount: Numeric(10,2)           │
+│ date                             │
+│ created_at                       │
+└──────────────────────────────────┘
+
+PK = Primary Key, FK = Foreign Key, UQ = Unique
+```
+
+Three entities. Two foreign keys. One money column that uses exact decimals. This is the shape of every expense that enters your system.
+
+:::tip[Pause and Reflect]
+Look at the Expense model. Why does it reference `users.id` and `categories.id` instead of storing the user's name and category name directly? What would go wrong if Alice changed her email and you had her name stored in 500 expense rows?
+:::
+
+## The Model File
+
+Here is the complete, runnable model file. Every line is a decision about what your database will and will not accept.
+
+```python
+from datetime import date, datetime, timezone
+
+from sqlalchemy import (
+    Column,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+    create_engine,
+)
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
-class Expense(Base):
-    __tablename__ = 'expenses'
-
-    id = Column(Integer, primary_key=True)
-    description = Column(String)
-    amount = Column(Numeric(10, 2))
-```
-
-This class creates an `expenses` table with exact-decimal money support. You write Python, SQLAlchemy generates relational schema.
-
-## Understanding Column Types
-
-Every Column needs a type. Here's what each type stores:
-
-| Python Type     | Column Type       | What It Stores              | Example                              |
-| --------------- | ----------------- | --------------------------- | ------------------------------------ |
-| `int`         | `Integer`       | Whole numbers               | `id = Column(Integer)`             |
-| `str`         | `String(50)`    | Text up to N characters     | `name = Column(String(50))`        |
-| `Decimal`     | `Numeric(10,2)` | Exact decimals (money)      | `price = Column(Numeric(10, 2))`   |
-| `float`       | `Float`         | Approximate decimals        | `weight = Column(Float)`           |
-| `bool`        | `Boolean`       | True or False               | `is_active = Column(Boolean)`      |
-| `datetime`    | `DateTime`      | Date and time               | `created_at = Column(DateTime)`    |
-| `date`        | `Date`          | Date only (no time)         | `date = Column(Date)`              |
-
-:::caution Why not Float for money?
-`Float` is approximate (`0.1 + 0.2` drift). Budget systems need exact arithmetic, so use `Numeric(10, 2)` for money.
-:::
-
-### Column Constraints
-
-Beyond type, columns can have constraints:
-
-```python
-Column(String(100), nullable=False)     # Required field (can't be empty)
-Column(String(100), unique=True)        # No duplicates allowed
-Column(Numeric(10, 2), default=0.00)    # Default value if not specified
-Column(Integer, primary_key=True)       # Unique identifier for each row
-```
-
-**Key insight**: By default, columns CAN be null (empty). Add `nullable=False` to make a field required.
-
-## Building Budget Tracker Models
-
-Let's build the three models for our Budget Tracker. Each represents a real-world entity.
-
-### Model 1: User
-
-```python
-from datetime import datetime, timezone
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
     email = Column(String(100), unique=True, nullable=False)
     name = Column(String(100), nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-```
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
-- `unique=True` on email: No two users can have the same email
-- `nullable=False`: Every user MUST have an email and name
-- `default=lambda: datetime.now(timezone.utc)`: Timestamp auto-generated when row created
 
-### Model 2: Category
-
-```python
 class Category(Base):
-    __tablename__ = 'categories'
+    __tablename__ = "categories"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True, nullable=False)
-    color = Column(String(7), default='#FF6B6B')
-```
+    color = Column(String(7), default="#FF6B6B", nullable=False)
 
-Categories are simple: a name (like "Food" or "Transport") and a color for UI display.
-
-### Model 3: Expense
-
-```python
-from datetime import date
 
 class Expense(Base):
-    __tablename__ = 'expenses'
+    __tablename__ = "expenses"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     description = Column(String(200), nullable=False)
     amount = Column(Numeric(10, 2), nullable=False)
-    date = Column(Date, default=date.today)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    date = Column(Date, default=date.today, nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+if __name__ == "__main__":
+    engine = create_engine("sqlite:///budget_tracker.db")
+    Base.metadata.create_all(engine)
+    print("Schema created")
 ```
 
-Notice `user_id` and `category_id`. These are the foreign keys we discussed in L1.
-
-## Foreign Keys: Connecting Tables
-
-`ForeignKey('users.id')` is the magic that connects tables.
-
-**What it means:**
-
-```python
-user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+**Output:**
+```
+Schema created
 ```
 
-This says: "The `user_id` column must contain a value that EXISTS in the `users` table's `id` column."
+Every `nullable=False` is a decision: this field is required. Period. You could enforce that in application code instead, but application code has bugs, gets bypassed, and changes over time. A database constraint is permanent. (Think of it this way: `nullable=False` is the bouncer at the door. App-level validation is a polite sign that says "please don't enter without a ticket." Which one do you trust more?)
 
-**The database enforces your business rule**: Every expense must belong to a real user.
+## Type Selection Guide
 
-## Why Models Win: The Schema Clarity Insight
+Choosing the right type is not about what Python supports. It is about what the data means to the business.
 
-Your models provide something that text-based tools like grep never have — **schema clarity**. The database knows exactly what each field is, what type it holds, and how tables connect.
+| Business meaning | Recommended SQLAlchemy type | Why |
+|---|---|---|
+| Monetary value | `Numeric(10, 2)` | Exact decimal behavior |
+| Optional free-form note | `String(...)` or `Text` | Human-readable variable content |
+| Status flag | `Boolean` | Explicit two-state logic |
+| User-facing code | `String(..., unique=True)` | Stable lookup and duplicate prevention |
+| Event time | `DateTime` (UTC default) | Ordering and incident traceability |
 
-- `amount = Column(Numeric(10, 2), nullable=False)` — every tool knows this is a required exact decimal
-- `user_id = Column(Integer, ForeignKey('users.id'))` — every tool knows this links to the users table
-- `date = Column(Date, default=date.today)` — every tool knows this is a calendar date, not a string
+The pattern is consistent: pick the type that makes invalid data impossible, not the type that is easiest to type.
 
-Your SQLAlchemy models don't just define storage. They **describe the data** to everything that touches it — the database engine, your Python code, and any AI agent that reads your schema. This is Principle 2 (Code as Universal Interface) at its deepest level.
+## Same Patterns, Different Domains
 
-Schema clarity is why SQL wins. Your models provide it.
+These model patterns are not specific to budget tracking. The same decisions appear everywhere:
 
-## What Comes Next
+**Project management** (User, Project, Task, TimeEntry):
+- `hours` uses `Numeric(6, 2)` -- not Float -- because billable hours need exact decimals
+- `task.project_id` is a ForeignKey -- you cannot log time against a project that does not exist
+- `email` is `unique=True, nullable=False` -- no duplicate accounts, no anonymous users
 
-Your schema now has rules, types, and constraints. In the next lesson, the danger shifts: write paths can appear to work while silently failing under bad session discipline.
+**E-commerce** (Customer, Order, Product):
+- `price` uses `Numeric(10, 2)` -- same money rule
+- `order.customer_id` is a ForeignKey -- orphan orders break every report
+- `sku` is `String(50), unique=True` -- duplicate SKUs cause warehouse chaos
 
-Next lesson: you validate every create/read path under explicit session and rollback discipline.
+The entities change. The type decisions stay the same. Money is always `Numeric`. References are always foreign keys. Required fields are always `nullable=False`.
+
+## Schema Contract Checklist
+
+Before you move on, verify your model file against this checklist:
+
+- every foreign key points to a real primary key
+- every required business field uses `nullable=False`
+- every row that must be unique has a uniqueness constraint
+- financial fields avoid float semantics
+- timestamp defaults are explicit and timezone-aware
+
+## Manual Validation Drill
+
+Run these steps to prove your schema works as promised:
+
+1. Run `python models.py` to create the schema
+2. Inspect tables in SQLite shell or DB browser
+3. Try inserting two users with the same email -- confirm the database rejects the second
+4. Try inserting an expense with a missing `category_id` -- confirm it fails
+5. Confirm error messages match your expectations
+
+This drill trains you to trust constraints that are proven, not assumed. If a constraint does not reject bad data when you test it, it is not a constraint -- it is a suggestion.
+
+**What breaks next?** With schema in place, write paths become the main risk. Lesson 3 tackles session discipline: how to create and read data without leaving the database in a half-written state.
 
 ## Try With AI
 
-### Prompt 1: Read the Code
+### Prompt 1: Model Review
 
-```
-Given this model:
-
-class Product(Base):
-    __tablename__ = 'products'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    price = Column(Numeric(10, 2), nullable=False)
-    in_stock = Column(Boolean, default=True)
-
-Predict:
-- What table gets created?
-- What columns does it have?
-- Which columns are required vs optional?
-- What is the default value for in_stock?
-- If I try to add a product without a name, what happens?
+```text
+Review this SQLAlchemy model file for beginner-breaking mistakes:
+- missing imports
+- wrong money type
+- weak nullability constraints
+- missing foreign keys
+Return fixes with explanations.
 ```
 
-### Prompt 2: Model from Requirements
+**What you're learning:** Code review is a skill that transfers to every project. By asking AI to review your model file, you learn to spot the same mistakes yourself -- missing constraints, wrong types, broken references. The AI catches what you miss today so you catch it yourself tomorrow.
 
-```
-I need a model for a "BlogPost" with these requirements:
-- id: auto-increment primary key
-- title: required, text up to 200 characters
-- content: required, text (no limit)
-- author_id: required, must point to an authors table
-- published: true/false, defaults to False
-- created_at: timestamp, auto-generated
-- updated_at: timestamp, auto-generated
+### Prompt 2: Requirement to Model
 
-Write the SQLAlchemy model class following the Budget Tracker pattern from this lesson.
-Include the necessary imports.
+```text
+Convert this requirement into a runnable SQLAlchemy model file:
+users, projects, and time_entries.
+Use exact decimal for billable hours, enforce foreign keys, and include created_at timestamps.
 ```
 
-### Prompt 3: Break Something on Purpose
+**What you're learning:** Translating business requirements into typed models is the core skill of schema design. The gap between "we need to track time" and a correct model file is where most bugs hide. Practicing this translation builds the muscle memory to get it right on the first try.
 
-```
-Take the User model from this lesson:
+### Prompt 3: Apply to Your Domain
 
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    email = Column(String(100), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-
-What happens if I:
-1. Remove nullable=False from email and try to add a User with no email?
-2. Remove unique=True and add two users with the same email?
-3. Change String(100) to Integer and try to store "alice@example.com"?
-
-For each change, predict: Will SQLAlchemy allow it? Will the database allow it?
-Then show me the actual error messages I'd see.
+```text
+Think of a real project you want to build. What are the 2-3 main "things" (entities) it tracks? For each entity, list the fields you'd need and whether each should be required (nullable=False) or optional. Which fields handle money? Which need to be unique? Turn your answers into SQLAlchemy model classes.
 ```
 
-### Checkpoint
+**What you're learning:** Model design is the foundation of every database application. The skill of translating business requirements into typed, constrained models transfers to any domain -- from healthcare records to inventory systems to social networks.
 
-Before moving to L3:
+### Safety Note
 
-- [ ] You understand: Python class becomes database table
-- [ ] You can name the 3 Budget Tracker models (User, Category, Expense)
-- [ ] You know which Column type to use for: text, numbers, dates, true/false
-- [ ] You can explain why money uses `Numeric(10, 2)` instead of `Float`
-- [ ] You understand what ForeignKey does (enforces that referenced row exists)
-- [ ] You've broken and fixed a model constraint (Prompt 3)
-- [ ] You can evolve models in small, reversible steps (one schema change + one verification cycle at a time)
+Never run model files that drop or recreate tables against a production database. The `create_all` call in this lesson is safe for new databases, but on an existing database with real data, it can silently skip schema changes or, worse, destroy data if combined with `drop_all`. Always use migration tools (like Alembic) for production schema changes.

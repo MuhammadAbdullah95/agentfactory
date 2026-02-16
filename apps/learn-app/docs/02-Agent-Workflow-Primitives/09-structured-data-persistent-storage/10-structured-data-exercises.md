@@ -4,15 +4,6 @@ sidebar_position: 10
 chapter: 9
 lesson: 9
 duration_minutes: 120
-
-primary_layer: "Layer 1"
-layer_progression: "L1 (Manual Foundation)"
-layer_1_foundation: "Apply Chapter 9 patterns through build/debug modules"
-layer_2_collaboration: "N/A"
-layer_3_intelligence: "N/A"
-layer_4_capstone: "N/A"
-
-# HIDDEN SKILLS METADATA
 skills:
   - name: "Model-Build-Debug Discipline"
     proficiency_level: "A2"
@@ -20,266 +11,317 @@ skills:
     bloom_level: "Apply"
     digcomp_area: "Software Development"
     measurable_at_this_level: "Student can build and debug relational apps under realistic constraints"
-
   - name: "Operational Verification"
     proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Evaluate"
     digcomp_area: "Quality Assurance"
-    measurable_at_this_level: "Student can prove correctness using evidence paths, not assumptions"
-
+    measurable_at_this_level: "Student can prove correctness with evidence instead of assumptions"
 learning_objectives:
-  - objective: "Build chapter-consistent solutions from requirements"
+  - objective: "Build and debug relational apps independently under time constraints"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Build exercises produce working artifacts with verifiable outputs"
-
-  - objective: "Debug production-like failures across schema, CRUD, relationships, transactions, and ops"
-    proficiency_level: "A2"
-    bloom_level: "Analyze"
-    assessment_method: "Debug exercises identify root cause and implement robust fix"
-
+    assessment_method: "Student completes Core exercises with evidence artifacts"
+  - objective: "Produce evidence-based proof of correctness"
+    proficiency_level: "B1"
+    bloom_level: "Evaluate"
+    assessment_method: "Student submits EVIDENCE.md with pass/fail results for each exercise"
+cognitive_load:
+  new_concepts: 0
+  assessment: "No new concepts — exercises apply and integrate previously learned material"
+differentiation:
+  extension_for_advanced: "Complete all Challenge track exercises. Design a new Challenge D exercise and share with classmates."
+  remedial_for_struggling: "Complete Core 1 and Core 2 only. Focus on producing clear evidence artifacts rather than rushing through all four exercises."
 ---
 
 # Structured Data Practice Exercises
 
-These exercises are intentionally harder than lessons.
+In the capstone you built a complete budget tracker with models, CRUD, transactions, and a Neon connection. Now you put those skills under pressure, independently and with a timer running.
 
-Every exercise follows one rule:
+Getting stuck is not failure. Quitting is. These exercises are **meant** to be challenging. If everything felt easy, you would not be learning anything new. The moments where you stare at an error message and think "I have no idea what went wrong" are the moments where real understanding forms.
+
+If you are stuck for more than 10 minutes on one part, move on and come back. Sometimes the later exercises give you a new perspective on the earlier ones.
+
+You might be thinking: "I don't know where to start." That is fine. The hints are there. Use them.
+
+One rule above all others:
 
 - **Claim nothing. Prove everything.**
 
 ## How to Use
 
-1. Open exercise folder.
-2. Read `INSTRUCTIONS.md`.
-3. Implement or debug.
-4. Collect evidence from tests, schema, and outputs.
-5. Write a short postmortem before moving on.
+1. Read the exercise brief.
+2. Implement or debug.
+3. Collect evidence artifacts.
+4. Write a short postmortem.
 
-## Database Development Framework (Use Every Time)
+## Evidence Format (Use Across All Exercises)
 
-1. **Model**: types, constraints, relationships.
-2. **Connect**: SQLite first, Neon when required.
-3. **Operate**: CRUD with context-managed sessions.
-4. **Protect**: atomic writes and rollback paths.
-5. **Verify**: queries/tests/trace evidence.
-6. **Deploy**: secrets, pooling, connection checks.
+For each exercise, submit:
 
-## Assessment Rubric (Quick)
+- `DECISIONS.md`: what you changed and why
+- `EVIDENCE.md`: commands run, outputs, and pass/fail summary
+- one explicit "known risk" note after completion
 
-| Criterion | 1 (Weak) | 2 (Developing) | 3 (Strong) | 4 (Excellent) |
-|---|---|---|---|---|
-| Modeling | wrong types/constraints | mostly correct | correct + relationally sound | includes performance/safety refinements |
-| Write safety | no rollback discipline | partial | robust transaction handling | robust + failure-path tests |
-| Debug quality | symptom-only | fixes issue | fixes root cause | adds prevention + regression check |
-| Evidence | no proof | partial proof | clear proof trail | reproducible proof bundle |
+This keeps your practice aligned with capstone release discipline.
 
----
+Timebox suggestion:
 
-## Module 1: Data Modeling
+- Core 1: 25 minutes
+- Core 2: 30 minutes
+- Core 3: 30 minutes
+- Core 4: 35 minutes
 
-Minimum verification outputs:
-- `schema.sql` or ORM introspection output showing final table/constraint state
-- `MODEL-VERIFICATION.txt` with at least 3 query checks against expected behavior
+If you run out of time, finish evidence for completed work instead of starting a new unfinished exercise. Incomplete evidence for a finished exercise teaches you nothing. Complete evidence for half the exercises teaches you the discipline that matters in production.
 
-### Exercise 1.1 — Library Catalog (Build)
+## Core Track (Mandatory)
 
-- **Objective:** Translate ambiguous requirements into robust schema.
-- **Failure mode to avoid:** encoding relationships as free text and losing queryability.
-- **Evidence path:** `expected-queries.txt` + schema inspection + sample inserts.
+Complete all four exercises below.
 
-Deliver:
-- models for Book/Member/Loan
-- constraints (required fields, uniqueness)
-- relationship design justified in `DECISIONS.md`
+> **Glossary for Core Track**
+>
+> | Term | Meaning |
+> |------|---------|
+> | **Model integrity** | Your SQLAlchemy models enforce correct data through types, constraints, and foreign keys, not through hope |
+> | **CRUD** | Create, Read, Update, Delete: the four basic operations every database application needs |
+> | **Rollback proof** | Evidence that a failed operation left zero partial writes in the database |
+> | **Session boundary** | The explicit `with Session(engine) as session:` block where all database mutations happen |
+> | **N+1 query** | A performance bug where your code runs one query per row instead of one query for all rows |
 
-### Exercise 1.2 — Broken Pet Store (Debug)
+### Core 1 - Model Integrity Build
 
-- **Objective:** Repair six schema defects without introducing regressions.
-- **Failure mode to avoid:** fixing crash bugs while leaving silent data corruption bugs.
-- **Evidence path:** `test_models.py` failures -> fixed tests -> before/after schema diff.
+**Goal:** Build `User`, `Category`, `Expense`-style models for a new domain.
 
-Deliver:
-- corrected `models.py`
-- bug-by-bug root cause notes in `FIXLOG.md`
+Pick a domain you find interesting: a recipe tracker, a reading list, a workout log, a pet adoption registry. The specific domain does not matter. What matters is that you define real relationships between real entities with real constraints.
 
----
+Deliverables:
 
-## Module 2: CRUD Operations
+- model file with constraints + foreign keys
+- `MODEL-VERIFICATION.md` with 3 query checks
 
-Minimum verification outputs:
-- `crud-test-output.txt` showing create/read/update/delete assertions
-- `SESSION-TRACE.md` proving commit/rollback behavior on one forced failure
+Minimum evidence:
 
-### Exercise 2.1 — Recipe Book (Build)
+- schema output
+- one invalid insert failure proof
+- one explanation of why chosen types prevent ambiguity
 
-- **Objective:** Implement reliable CRUD against imported CSV data.
-- **Failure mode to avoid:** writes that "succeed" but persist incorrect values.
-- **Evidence path:** `verify-operations.py` + manual spot checks.
+Quality gate:
 
-Deliver:
-- import + 6 CRUD functions
-- read/update/delete verification outputs
+- reject any solution that stores money in float
+- reject any solution that represents relationships only through free-text identifiers
 
-### Exercise 2.2 — Broken Task Manager (Debug)
+<details>
+<summary>Hint: Where to start</summary>
 
-- **Objective:** Diagnose 5 behavioral CRUD bugs.
-- **Failure mode to avoid:** patching symptoms instead of operation ordering errors.
-- **Evidence path:** failing test -> code trace -> corrected output.
+Start by listing the entities in your chosen domain. What are the "things"? What connects them? For a recipe tracker, the things might be `Recipe`, `Ingredient`, and `RecipeIngredient` (the join table). Once you have the entities on paper, turn them into SQLAlchemy models the same way you did in Lesson 3. Constraints and foreign keys come from asking: "What should the database refuse to store?"
 
-Deliver:
-- fixed `task_manager.py`
-- short causal analysis per bug
+</details>
 
----
+### Core 2 - CRUD Reliability Build
 
-## Module 3: Relationships & Navigation
+**Goal:** Implement create/read/update/delete with session + rollback discipline.
 
-Minimum verification outputs:
-- `relationship-checks.txt` proving both navigation directions work
-- `join-proof.txt` with one relationship-query result matched to expected rows
+This is the exercise where muscle memory forms. You have seen CRUD in the lessons. Now build it from scratch for your own domain, without copying and pasting. When the rollback test passes, you will feel it click.
 
-### Exercise 3.1 — Music Library (Build)
+Deliverables:
 
-- **Objective:** Define bidirectional relationships and query across hops.
-- **Failure mode to avoid:** one-sided relationships causing inconsistent navigation.
-- **Evidence path:** 8 query outputs vs `expected-results.txt`.
+- CRUD module
+- `CRUD-EVIDENCE.md` with before/after snapshots
 
-Deliver:
-- relationship-complete models
-- multi-hop query implementations
+Minimum evidence:
 
-### Exercise 3.2 — Broken Blog (Debug)
+- one successful write
+- one failed write with rollback proof
+- one query proving no accidental duplicate rows
 
-- **Objective:** Fix relationship config failures (naming, FK types, cascade).
-- **Failure mode to avoid:** "empty result" bugs caused by subtle schema mismatch.
-- **Evidence path:** `test_blog.py` + relationship introspection + fixed outputs.
+Quality gate:
 
-Deliver:
-- corrected relationships and FK types
-- added regression tests for broken cases
+- reject any solution that catches exceptions without rollback
+- reject any solution that mutates state outside explicit session boundaries
 
----
+<details>
+<summary>Hint: Where to start</summary>
 
-## Module 4: Transaction Safety
+Copy the CRUD pattern from Lesson 4 and adapt it. Do not write from scratch. Adapting a working pattern to your domain is faster and teaches you to recognize which parts are universal (session management, commit/rollback) and which parts are domain-specific (the fields you create and query). Change the model names and fields, then run it.
 
-Minimum verification outputs:
-- `transaction-drill.txt` with one success case and one forced failure case
-- `invariants.txt` proving no partial-write corruption after failure
+</details>
 
-### Exercise 4.1 — Game Inventory Trading (Build)
+### Core 3 - Relationship Query Debug
 
-- **Objective:** Build atomic multi-step trading workflow.
-- **Failure mode to avoid:** partial transfer that creates/losses assets.
-- **Evidence path:** success/failure scenario replay with before/after state snapshots.
+**Goal:** Fix a broken relationship setup and return correct joined results.
 
-Deliver:
-- `trade()` with rollback-safe logic
-- scenario proofs in `TRADE-EVIDENCE.md`
+This exercise is different from the others. You are not building from scratch. You are handed broken code and your job is to find what is wrong, fix it, and prove the fix works. Debugging relationship definitions is one of the most common real-world SQLAlchemy tasks.
 
-### Exercise 4.2 — Broken Bank (Debug)
+Deliverables:
 
-- **Objective:** Eliminate transaction boundary defects.
-- **Failure mode to avoid:** using separate sessions for one logical transfer.
-- **Evidence path:** failure simulation + balance invariants hold after fix.
+- corrected relationship definitions
+- `RELATIONSHIP-TRACE.md`
 
-Deliver:
-- fixed `bank.py`
-- invariant checklist and proof traces
+Minimum evidence:
 
----
+- bidirectional navigation works
+- one `join()` query returns expected rows
+- one N+1 risk identified and corrected
 
-## Module 5: Cloud Deployment & Security
+Quality gate:
 
-Minimum verification outputs:
-- `connectivity-proof.txt` including `SELECT 1` and table visibility checks
-- `security-proof.txt` confirming `.env` handling and secret hygiene controls
+- reject solutions with mismatched `back_populates`
+- reject solutions that only test one relationship direction
 
-### Exercise 5.1 — Contact Book Deploy (Build)
+<details>
+<summary>Hint: Where to start</summary>
 
-- **Objective:** Deploy existing app to Neon with secure config.
-- **Failure mode to avoid:** credentials exposure or stale connection behavior.
-- **Evidence path:** `SELECT 1`, CRUD through deployed app, restart persistence check.
+The bug is in the relationship definitions. Check `back_populates` first. The most common mistake is that `back_populates` on one side points to a name that does not exist on the other side, or the names are swapped. Print both sides of the relationship (parent.children and child.parent) to confirm navigation works in both directions before moving to join queries.
 
-Deliver:
-- Neon-ready config
-- `.env` + `.gitignore` proof
-- persistence proof after restart
+</details>
 
-### Exercise 5.2 — Connection Doctor (Debug)
+### Core 4 - Transaction + Neon Ops Drill
 
-- **Objective:** Diagnose 5 connection failures quickly and correctly.
-- **Failure mode to avoid:** random trial-and-error without ordered diagnostics.
-- **Evidence path:** per scenario: error text -> root cause -> fixed run.
+**Goal:** Prove atomic multi-step writes and cloud connection reliability.
 
-Deliver:
-- `DIAGNOSIS.md` (error, cause, fix, verification)
+This is the closest exercise to production work. You are combining local transaction safety with a real cloud database connection. When your forced-failure test leaves zero partial writes AND your Neon health check passes, you have completed the full Chapter 9 skill chain.
 
----
+Deliverables:
 
-## Module 6: Hybrid Verification & Tool Selection
+- `transfer_*` transaction function
+- Neon connection config + health check script
+- `OPS-EVIDENCE.md`
 
-Minimum verification outputs:
-- `verification-comparison.csv` or markdown table with SQL vs independent totals
-- `mismatch-policy-result.json` (or `.md`) showing release decision path
+Minimum evidence:
 
-### Exercise 6.1 — Expense Audit (Build)
+- forced failure leaves zero partial writes
+- Neon `SELECT 1` passes
+- pool settings documented and justified
 
-- **Objective:** Build SQL-primary + independent-check audit flow.
-- **Failure mode to avoid:** fake hybrid checks that reuse same logic path.
-- **Evidence path:** aggregate mismatch detection + record-level discrepancy report.
+Quality gate:
 
-Deliver:
-- audit pipeline
-- `AUDIT-REPORT.md` with discrepancy classification
+- reject releases without rollback drill output
+- reject configs that hardcode credentials
 
-### Exercise 6.2 — Wrong Tool, Wrong Answer (Debug/Analysis)
+<details>
+<summary>Hint: Where to start</summary>
 
-- **Objective:** Identify wrong-tool choices and implement correct alternatives.
-- **Failure mode to avoid:** plausible but wrong outputs accepted without verification.
-- **Evidence path:** wrong result vs corrected result side-by-side.
+Start with the `SELECT 1` health check. If that works, everything else is CRUD + rollback on top of a connection you already trust. Write the health check script first, confirm it connects to Neon, then build the transfer function locally with SQLite, then switch to the Neon connection string. Small steps, each verified before the next.
 
-Deliver:
-- `TOOL-ANALYSIS.md` with corrected solutions and rationale
+</details>
 
----
+## Challenge Track (Optional)
 
-## Module 7: Capstone Options (Choose 1+)
+These exercises go beyond the chapter baseline. They simulate real production scenarios where the answer is not obvious and the stakes are higher.
 
-Minimum verification outputs:
-- `CAPSTONE-EVIDENCE.md` containing CRUD proof, rollback drill, and deployment status
-- `RELEASE-GATE.md` containing mismatch policy outcome and go/no-go decision rationale
+Choose one or more.
 
-### Capstone A — Student Grade Portal
+> **Glossary for Challenge Track**
+>
+> | Term | Meaning |
+> |------|---------|
+> | **Verification gate** | A check that must pass before code ships: if the numbers disagree, the release is blocked |
+> | **CSV migration** | Moving data from flat CSV files into a normalized relational schema without losing rows |
+> | **Incident recovery** | Diagnosing a broken production state, fixing it safely, and proving nothing else broke |
+> | **Row-count reconciliation** | Confirming that every row in the source data appears in the destination after migration |
+> | **Regression proof** | Evidence that your fix did not break something that was previously working |
 
-- **Objective:** Full-stack relational design + analytics + deployment.
-- **Failure mode to avoid:** weak grade logic and unverifiable GPA outputs.
-- **Evidence path:** test suite + GPA manual cross-check sample.
+### Challenge A - High-Stakes Verification Gate
 
-### Capstone B — CSV Migration
+Build SQL summary + independent raw-ledger verification.
 
-- **Objective:** Normalize messy legacy dataset with lossless migration.
-- **Failure mode to avoid:** silent data loss during cleaning/dedup.
-- **Evidence path:** row-count reconciliation + key-field parity checks.
+Evidence:
 
-### Capstone C — Disaster Recovery
+- `mismatch-policy-result.json`
+- clear release block decision when mismatch exceeds tolerance
+- mismatch triage notes
 
-- **Objective:** Triage and recover broken budget tracker under pressure.
-- **Failure mode to avoid:** fixing low-severity issues before integrity/security blockers.
-- **Evidence path:** failing tests -> prioritized fix log -> passing regression set.
+Use this challenge if your target role includes finance, compliance, or audit-sensitive workflows.
 
----
+### Challenge B - Legacy CSV Migration
 
-## Outcome Mapping (Exercise -> Chapter Mastery)
+Normalize a messy multi-file dataset into relational schema.
 
-| Chapter outcome | Evidence-producing modules |
-|---|---|
-| Correct models/constraints | 1, 3 |
-| Safe CRUD/session handling | 2, 4 |
-| Relationship-correct analytics | 3, 7 |
-| Transaction integrity | 4, 7 |
-| Neon deployment reliability | 5, 7 |
-| Hybrid judgment and verification | 6, 7 |
+Evidence:
 
-If you can complete one capstone with clear evidence artifacts, you are beyond tutorial competence.
+- row-count reconciliation
+- key-field parity checks
+- explicit list of non-lossy transformations
+
+### Challenge C - Recovery Under Incident
+
+Given a broken budget app state, prioritize fixes and recover safely.
+
+Evidence:
+
+- prioritized fix log
+- regression proof after recovery
+- short incident postmortem with prevention actions
+
+Use this challenge if your target role includes operations ownership or on-call responsibilities.
+
+## Outcome Mapping
+
+| Outcome | Core track coverage | Challenge extension |
+|---|---|---|
+| Model correctness | Core 1 | Challenge B |
+| Safe CRUD | Core 2 | Challenge C |
+| Relationship correctness | Core 3 | Challenge B |
+| Transaction safety | Core 4 | Challenge C |
+| Neon reliability | Core 4 | Challenge C |
+| Hybrid judgment | Core 4 | Challenge A |
+
+If you complete all Core exercises with clear evidence, you meet Chapter 9 baseline mastery. Challenge track pushes you toward production-level judgment.
+
+## Suggested Scoring for Self-Assessment
+
+Use a 0-2 scale for each criterion per exercise:
+
+- `Model correctness`
+- `Write safety`
+- `Query correctness`
+- `Failure-path evidence`
+- `Operational clarity`
+
+Interpretation:
+
+- `8-10`: ready for capstone-level work
+- `6-7`: repeat one core exercise with stricter evidence
+- `<6`: revisit lesson material before continuing
+
+A score below 6 is not a verdict on you. It means the material needs another pass. Go back to the lesson that covers your weakest criterion, re-read the key section, then try the exercise again with that specific gap in mind.
+
+## Try With AI
+
+**Setup:** Open Claude Code, Cursor, or Windsurf in a project directory with your exercise files.
+
+**Prompt 1: Evidence Review**
+
+```
+Here is my EVIDENCE.md for the CRUD exercise:
+
+[paste your EVIDENCE.md]
+
+Review this evidence file. For each claim I make:
+1. Is the evidence sufficient to prove the claim?
+2. What additional evidence would make the proof stronger?
+3. Are there any claims I made without supporting output?
+
+Be strict. In production, reviewers will be stricter than you.
+```
+
+**What you're learning:** You are building the skill of self-auditing. Production teams reject pull requests with claims like "this works" and no proof. By having AI critique your evidence, you learn what "sufficient proof" actually looks like, and you carry that standard into every future exercise.
+
+**Prompt 2: Failure Scenario Generation**
+
+```
+I built a CRUD module for [your domain] with these models:
+
+[paste your model definitions]
+
+Generate 5 failure scenarios I should test:
+- 2 involving constraint violations
+- 2 involving transaction rollback
+- 1 involving a relationship navigation bug
+
+For each scenario, tell me what to try AND what the correct
+behavior should be. I want to test these myself, not have
+you fix them.
+```
+
+**What you're learning:** You are practicing defensive thinking. Production bugs do not come from the happy path. They come from the cases you did not consider. By asking AI to generate failure scenarios, you learn to think about what could go wrong before it goes wrong, which is the core skill behind "claim nothing, prove everything."

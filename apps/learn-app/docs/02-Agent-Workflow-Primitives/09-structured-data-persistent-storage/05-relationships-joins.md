@@ -4,424 +4,361 @@ title: "Relationships & Joins"
 chapter: 9
 lesson: 4
 duration_minutes: 30
-description: "Connect your tables with relationships so SQLAlchemy handles the joins for you"
-keywords: ["SQLAlchemy", "relationship", "ForeignKey", "back_populates", "join", "cascade", "one-to-many", "lazy loading"]
+description: "Define relationships correctly and query linked data without ambiguity"
+keywords: ["relationship", "join", "back_populates", "N+1", "SQLAlchemy 2.0"]
+skills:
+  - name: "Relationship Definition"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Software Development"
+    measurable_at_this_level: "Student can define bidirectional relationships with matching back_populates and appropriate cascade policies"
+  - name: "Join Query Construction"
+    proficiency_level: "A2"
+    category: "Technical"
+    bloom_level: "Apply"
+    digcomp_area: "Data Literacy"
+    measurable_at_this_level: "Student can write join queries that filter by related table fields using SQLAlchemy 2.0 style"
+  - name: "N+1 Detection and Prevention"
+    proficiency_level: "B1"
+    category: "Applied"
+    bloom_level: "Analyze"
+    digcomp_area: "Problem Solving"
+    measurable_at_this_level: "Student can identify N+1 patterns in existing code and apply selectinload to fix them"
+learning_objectives:
+  - objective: "Define bidirectional relationships with matching back_populates"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student can create linked models where navigation works in both directions"
+  - objective: "Write join queries that filter by related table fields"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "Student can filter expenses by category name using explicit join"
+  - objective: "Identify and fix N+1 query anti-patterns"
+    proficiency_level: "B1"
+    bloom_level: "Analyze"
+    assessment_method: "Student can spot lazy-loading loops and apply selectinload"
+cognitive_load:
+  new_concepts: 5
+  assessment: "5 concepts (relationship, back_populates, join query, N+1 pattern, selectinload) — cascade and delete-orphan are referenced but treated as advanced extensions"
+differentiation:
+  extension_for_advanced: "Implement a blog system (Author → Post → Comment) with cascading deletes and benchmark query counts with and without selectinload."
+  remedial_for_struggling: "Focus on Section A only (relationships and back_populates). Return to Section B (joins and N+1) after practicing the checkpoint items for Section A."
 ---
+
 # Relationships & Joins
 
-> **Continuity bridge**
-> - From Chapter 7: files could be organized, but links were implicit.
-> - From Chapter 8: computed categories existed per run, not as durable relations.
-> - Now in Chapter 9: relationships make links explicit and queryable over time.
+:::caution[This lesson introduces several connected concepts. Take your time.]
+Relationships, joins, and N+1 patterns are interconnected. This lesson is split into two sections so you can master each piece before combining them.
+:::
 
-**Principle anchor:** P6 (Constraints and Safety). Relationship definitions and cascades are safety policy, not syntax decoration.
+In Lesson 3, you proved that rows exist by creating and reading them back. Now you will prove that rows *belong together* correctly. A user's expenses should belong to that user, not float around unattached. A category should link to its expenses so you can ask "show me all Food purchases" in a single query.
 
-In L3, you created categories and expenses as separate records. But they're connected: every expense belongs to a category and a user.
+Here is the trap: your app runs fine with 5 users. Then you get 500 users, and suddenly it is making 501 database calls instead of 2. Nobody changed any code. What happened? That is the N+1 problem, and by the end of this lesson you will know exactly how to spot it and fix it.
 
-This is where many systems become fragile: if relationships are wrong, queries look valid but return wrong truth.
+:::info[Key Terms for This Lesson]
+- **Relationship**: A declared link between two models that lets you navigate from one to the other in Python code — like a contact card that links a person to their company
+- **back_populates**: The setting that makes a relationship work in BOTH directions — if User knows about Expenses, Expenses also know about their User
+- **Cascade**: Rules that automatically propagate changes — when you delete a User, what happens to their Expenses?
+- **N+1 problem**: A hidden performance trap where loading 100 parents triggers 100 separate child queries instead of 1 — your app works fine until it suddenly doesn't
+- **selectinload**: SQLAlchemy's fix for N+1 — it prefetches related data in a single efficient query
+:::
 
-In raw SQL, you'd write JOIN statements. With SQLAlchemy, you define relationships once, and then access connected data like Python attributes. No JOIN syntax needed.
+---
 
-## The Relationship Problem
+## Section A: Relationships and back_populates
 
-You have three tables with foreign keys:
+### Why Relationships Break Silently
 
-```
-users
-├── id (PK)
-├── email
-└── name
+If relationships are missing or misconfigured, your app will often still run. The danger is quiet corruption:
 
-categories
-├── id (PK)
-├── name
-└── color
+- Totals tied to the wrong user
+- Categories resolved inconsistently
+- Delete behavior that surprises production systems
 
-expenses
-├── id (PK)
-├── user_id (FK → users.id)
-├── category_id (FK → categories.id)
-├── description
-└── amount
-```
+This is where many "it worked in test" systems fail after launch. Wrong relationships produce believable analytics that are still wrong.
 
-The foreign keys create connections. But to USE those connections in Python, you need relationships.
+### Defining Bidirectional Relationships
 
-**Without relationships:**
+The goal is simple: define the link once, navigate it from either side. When you have a `User` and want their expenses, you write `user.expenses`. When you have an `Expense` and want its owner, you write `expense.user`. The `back_populates` parameter connects these two directions.
+
+Here are the models that make this work:
 
 ```python
-from sqlalchemy import select
-
-# To get a user's expenses, you'd write:
-expenses = session.execute(
-    select(Expense).where(Expense.user_id == user.id)
-).scalars().all()
-```
-
-**With relationships:**
-
-```python
-# Just access the attribute:
-expenses = user.expenses
-```
-
-Same result. Less code. SQLAlchemy handles the query.
-
-## Defining Relationships
-
-Add `relationship()` to your models. Here's the User model with a relationship to expenses:
-
-```python
-from sqlalchemy.orm import relationship
-
-class User(Base):
-    __tablename__ = 'users'
-
-    id = Column(Integer, primary_key=True)
-    email = Column(String(100), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-
-    # Relationship: One user has many expenses
-    expenses = relationship("Expense", back_populates="user")
-```
-
-**Output:**
-
-```
-No SQL generated yet - relationship() is configuration.
-SQLAlchemy now knows: User.expenses will return Expense objects.
-```
-
-And the Expense model needs the other side:
-
-```python
-class Expense(Base):
-    __tablename__ = 'expenses'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
-    description = Column(String(200), nullable=False)
-    amount = Column(Numeric(10, 2), nullable=False)
-
-    # Relationships
-    user = relationship("User", back_populates="expenses")
-    category = relationship("Category", back_populates="expenses")
-```
-
-Let's decode this:
-
-| Part                             | Meaning                                                           |
-| -------------------------------- | ----------------------------------------------------------------- |
-| `relationship("Expense", ...)` | This User connects to Expense objects                             |
-| `back_populates="user"`        | The Expense model has an attribute called `user` pointing back  |
-| `relationship("User", ...)`    | This Expense connects to a User object                            |
-| `back_populates="expenses"`    | The User model has an attribute called `expenses` pointing back |
-
-**Bidirectional**: Both sides know about each other. Change one, the other reflects it.
-
-## Complete Models with Relationships
-
-Here's the full Budget Tracker model setup:
-
-```python
-from sqlalchemy import Column, Integer, String, Numeric, Date, DateTime, ForeignKey, create_engine, select
-from sqlalchemy.orm import declarative_base, relationship, Session
-from datetime import datetime, date, timezone
+from sqlalchemy import Column, ForeignKey, Integer, Numeric, String, create_engine, select
+from sqlalchemy.orm import Session, declarative_base, relationship, selectinload
 
 Base = declarative_base()
 
+
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     email = Column(String(100), unique=True, nullable=False)
-    name = Column(String(100), nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-
     expenses = relationship("Expense", back_populates="user", cascade="all, delete-orphan")
 
+
 class Category(Base):
-    __tablename__ = 'categories'
+    __tablename__ = "categories"
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True, nullable=False)
-    color = Column(String(7), default="#FF6B6B")
+    expenses = relationship("Expense", back_populates="category")
 
-    expenses = relationship("Expense", back_populates="category", cascade="all, delete-orphan")
 
 class Expense(Base):
-    __tablename__ = 'expenses'
+    __tablename__ = "expenses"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     description = Column(String(200), nullable=False)
     amount = Column(Numeric(10, 2), nullable=False)
-    date = Column(Date, default=date.today)
 
     user = relationship("User", back_populates="expenses")
     category = relationship("Category", back_populates="expenses")
-```
 
-## Using Relationships in Queries
 
-With relationships defined, access related data through attributes:
-
-### From User to Expenses
-
-```python
-with Session(engine) as session:
-    user = session.execute(
-        select(User).where(User.email == 'alice@example.com')
-    ).scalars().first()
-
-    # Access all expenses through relationship
-    print(f"{user.name}'s expenses:")
-    for expense in user.expenses:
-        print(f"  ${expense.amount:.2f}: {expense.description}")
-```
-
-### From Expense to User
-
-```python
-with Session(engine) as session:
-    expense = session.execute(
-        select(Expense).where(Expense.id == 1)
-    ).scalars().first()
-
-    # Access user through relationship
-    print(f"Expense by: {expense.user.name}")
-    print(f"Category: {expense.category.name}")
-```
-
-### Computing with Related Data
-
-```python
-with Session(engine) as session:
-    user = session.execute(
-        select(User).where(User.name == 'Alice')
-    ).scalars().first()
-
-    # Calculate total spending
-    total = sum(expense.amount for expense in user.expenses)
-    print(f"Total spending: ${total:.2f}")
-
-    # Group by category
-    by_category = {}
-    for expense in user.expenses:
-        cat = expense.category.name
-        by_category[cat] = by_category.get(cat, 0) + expense.amount
-
-    print("\nBy category:")
-    for cat, amount in by_category.items():
-        print(f"  {cat}: ${amount:.2f}")
-```
-
-**Output:**
-
-```
-Total spending: $116.25
-
-By category:
-  Food: $71.25
-  Transportation: $45.00
-```
-
-## When You Actually Need join()
-
-Relationships let you navigate data you already have. But sometimes you need to filter on related tables:
-
-```python
-with Session(engine) as session:
-    # Find all expenses in the "Food" category
-    food_expenses = session.execute(
-        select(Expense).join(Category).where(Category.name == 'Food')
-    ).scalars().all()
-
-    for expense in food_expenses:
-        print(f"${expense.amount}: {expense.description}")
-```
-
-**Output:**
-
-```
-$52.50: Groceries
-$18.75: Lunch
-
-SQLAlchemy inferred the join from the relationship.
-You didn't write: ON expenses.category_id = categories.id
-```
-
-**When to use `.join()` vs relationship attributes:**
-
-| Situation                     | Approach                                            |
-| ----------------------------- | --------------------------------------------------- |
-| Navigate from object you have | `user.expenses` (relationship)                    |
-| Filter query on related table | `select(Expense).join(Category).where(Category.name == 'Food')` |
-| Complex multi-table query     | `select()` with `.join()` and `.where()` conditions              |
-
-## Cascade: What Happens on Delete?
-
-When you delete a user, what happens to their expenses? Three options:
-
-| Option          | What Happens                     | Use When                    |
-| --------------- | -------------------------------- | --------------------------- |
-| Error (default) | Delete blocked if children exist | Protect data from accidents |
-| Set NULL        | Children's FK becomes NULL       | Keep orphaned records       |
-| Cascade delete  | Children deleted too             | Clean removal               |
-
-The `cascade="all, delete-orphan"` setting means:
-
-```python
-class User(Base):
-    # ...
-    expenses = relationship("Expense", back_populates="user", cascade="all, delete-orphan")
-```
-
-**What this does:**
-
-- If user is deleted → all their expenses are deleted too
-- If an expense is removed from `user.expenses` list → it's deleted from database
-
-```python
-from sqlalchemy import func
+engine = create_engine("sqlite:///:memory:")
+Base.metadata.create_all(engine)
 
 with Session(engine) as session:
-    alice = session.execute(
-        select(User).where(User.name == 'Alice')
-    ).scalars().first()
-    expense_count = len(alice.expenses)
-    print(f"Alice has {expense_count} expenses")
+    alice = User(email="alice@example.com")
+    food = Category(name="Food")
+    session.add_all([alice, food])
+    session.flush()
 
-    # Delete Alice
-    session.delete(alice)
+    expense = Expense(user_id=alice.id, category_id=food.id, description="Lunch", amount=12.50)
+    session.add(expense)
     session.commit()
 
-    # Check expenses
-    remaining = session.execute(
-        select(func.count()).select_from(Expense)
-    ).scalar()
-    print(f"Expenses remaining: {remaining}")
+    # Navigate from user to expenses
+    print(f"Alice's expenses: {len(alice.expenses)}")
+    # Navigate from expense to user
+    print(f"Expense owner: {alice.expenses[0].user.email}")
 ```
 
-**Without cascade**, behavior depends on your database constraints:
+**Output:**
+```
+Alice's expenses: 1
+Expense owner: alice@example.com
+```
 
-- With enforced foreign keys (recommended), delete fails with a constraint error.
-- Without enforced constraints (or with misconfiguration), orphan rows can appear.
+Notice the symmetry. On the `User` side, `expenses = relationship("Expense", back_populates="user")` declares "I have many expenses." On the `Expense` side, `user = relationship("User", back_populates="expenses")` declares "I belong to one user." The string you pass to `back_populates` must match the attribute name on the other model exactly. If `User.expenses` says `back_populates="user"`, then `Expense.user` must say `back_populates="expenses"`. A mismatch here is a silent bug — SQLAlchemy may not raise an error, but navigation will behave unpredictably.
 
-## Working With AI on Relationship Queries
+The `cascade="all, delete-orphan"` on `User.expenses` means: if you delete a User, automatically delete their Expenses too. This makes sense for expenses (an expense without a user is meaningless), but would be dangerous for categories (deleting a category should not wipe out every expense ever tagged with it). Cascade policy is a business decision, not a technical default.
 
-A productive loop is: ask for a relationship-based draft, then refine constraints (sorting, missing-user behavior, output format).
+<details>
+<summary>If you're stuck on back_populates</summary>
+
+Think of it like a two-way street sign. `User.expenses` is the road from User to Expense. `Expense.user` is the road back. `back_populates` tells SQLAlchemy these two roads connect the same relationship. Without it, SQLAlchemy treats them as two separate, unrelated relationships — changes on one side would not reflect on the other within the same session.
+
+</details>
+
+### When to Use Relationships vs Joins
+
+You now have two ways to access related data. Here is when to use each:
+
+| Need | Recommended pattern |
+|---|---|
+| You already loaded one `User` and need that user's expenses | `user.expenses` (relationship attribute) |
+| You need all expenses where `Category.name == "Food"` | `select(Expense).join(Category).where(...)` (explicit join) |
+| You need a report grouped by category | Grouped select with explicit joins and aggregates |
+
+The rule: use relationship attributes for object navigation (you have one thing, you want its related things). Use `.join()` when filtering or aggregating across tables.
 
 ```python
 with Session(engine) as session:
-    user = session.execute(
-        select(User).where(User.name == "Alice")
-    ).scalars().first()
+    # Join query: filter expenses by category name
+    food_expenses = session.execute(
+        select(Expense).join(Category).where(Category.name == "Food")
+    ).scalars().all()
 
-    if not user:
-        return []
-
-    totals = {}
-    for expense in user.expenses:
-        cat = expense.category.name
-        totals[cat] = totals.get(cat, 0) + expense.amount
-
-    return sorted(totals.items(), key=lambda x: x[1], reverse=True)
+    print(f"Food expenses: {len(food_expenses)}")
 ```
 
-## What Comes Next
+**Output:**
+```
+Food expenses: 1
+```
 
-You can now navigate linked data. Next comes the risk of partial multi-step writes: one failure mid-operation can leave correct relationships but incorrect business state.
+---
 
-Next lesson: transaction boundaries become the only thing standing between correctness and silent corruption.
+:::tip[Pause and Reflect]
+If relationships and back_populates make sense, continue to Section B. If not, re-read Section A and try defining a relationship between two models of your own choosing before moving on.
+:::
+
+---
+
+## Section B: Joins, N+1, and selectinload
+
+### The N+1 Problem
+
+You might be thinking: "Why can't I just loop through each user and access their expenses?" You can. And it will work. Until it won't.
+
+Every developer discovers N+1 the hard way — usually at 2am when the staging server is crawling. Here is what happens:
+
+```
+N+1 Problem (100 users):
+
+Without selectinload:          With selectinload:
+┌─────────────────┐           ┌─────────────────┐
+│ SELECT * FROM   │           │ SELECT * FROM   │
+│ users           │ 1 query   │ users           │ 1 query
+└────────┬────────┘           └────────┬────────┘
+         │                             │
+    ┌────┴────┐                   ┌────┴────┐
+    │ For each│                   │ SELECT * │
+    │ user... │                   │ FROM     │
+    └────┬────┘                   │ expenses │
+         │                        │ WHERE    │
+  ┌──────┼──────┐                 │ user_id  │ 1 query
+  │      │      │                 │ IN (...)│
+  v      v      v                 └─────────┘
+query  query  query
+  1      2    ...100              Total: 2 queries
+                                  vs 101 queries!
+Total: 101 queries
+```
+
+When you access `user.expenses` inside a loop, SQLAlchemy fires a separate query for each user. With 5 users that is 6 queries — barely noticeable. With 500 users that is 501 queries, and your response time goes from milliseconds to seconds.
+
+Here is the anti-pattern in code:
+
+```python
+# N+1 ANTI-PATTERN — do not use in production
+users = session.execute(select(User)).scalars().all()
+for u in users:
+    for e in u.expenses:   # Each iteration triggers a new SELECT
+        ...
+```
+
+**Output (what the database sees):**
+```
+SELECT * FROM users                           -- 1 query
+SELECT * FROM expenses WHERE user_id = 1      -- query 2
+SELECT * FROM expenses WHERE user_id = 2      -- query 3
+...
+SELECT * FROM expenses WHERE user_id = 100    -- query 101
+```
+
+### The Fix: selectinload
+
+The fix is one line. Tell SQLAlchemy to prefetch the related data in a single batch query:
+
+```python
+# FIXED — selectinload prefetches all expenses in one query
+users = session.execute(
+    select(User).options(selectinload(User.expenses))
+).scalars().all()
+
+for u in users:
+    for e in u.expenses:   # No extra queries — data already loaded
+        ...
+```
+
+**Output (what the database sees):**
+```
+SELECT * FROM users                                          -- 1 query
+SELECT * FROM expenses WHERE user_id IN (1, 2, 3, ... 100)  -- 1 query
+-- Total: 2 queries regardless of user count
+```
+
+The performance signal to monitor: if response time rises with user count more than linearly, inspect for hidden N+1 paths first. Optimize query shape before adding infrastructure.
+
+### Practical Review Question
+
+If a teammate adds a report loop that touches `user.expenses` for each user, ask:
+
+1. What query count does this produce at 10, 100, and 1,000 users?
+2. Can we prefetch or aggregate in one query shape?
+
+That question alone catches many early performance regressions.
+
+---
+
+## Common Failures and Safety Reminders
+
+**Cascade safety reminder:**
+
+- `delete-orphan` can be correct for child rows that have no meaning without their parent (expenses without a user)
+- It can be dangerous for shared entities or audit records (categories shared by many expenses)
+- Always test delete behavior on non-production data before rollout
+
+**Relationship test plan** — treat this as a contract test suite for relationship correctness:
+
+1. Create one user and two categories
+2. Create expenses linked to both categories
+3. Query via `user.expenses` and verify count
+4. Query via `join(Category)` and verify filtered set
+5. Remove one expense from the relationship collection and verify expected cascade behavior
+
+### Alternative Domains
+
+These same patterns apply everywhere:
+
+- **Blog system**: Author → Post → Comment. An author has many posts, each post has many comments. Deleting an author cascades to their posts and comments.
+- **E-commerce**: Customer → Order → LineItem → Product. An order has many line items, but deleting an order should not delete the products (shared entities).
+
+The relationship and cascade decisions are always business decisions first, technical decisions second.
+
+**What breaks next?** Once linked reads are correct, write safety becomes the next boundary. Multi-step operations need atomic transactions — that is Lesson 5.
 
 ## Try With AI
 
-### Prompt 1: Predict Relationship Behavior
+**Setup:** Open Claude or ChatGPT with your budget tracker models from this chapter.
 
-```
-Given this SQLAlchemy 2.0 code:
+### Prompt 1: Relationship Contract Review
 
-from sqlalchemy import select
+```text
+Here are my SQLAlchemy models:
 
-user = session.execute(
-    select(User).where(User.email == 'bob@example.com')
-).scalars().first()
-category_totals = {}
-for expense in user.expenses:
-    cat = expense.category.name
-    category_totals[cat] = category_totals.get(cat, 0) + expense.amount
-print(category_totals)
+[paste your User, Category, and Expense models]
 
-And this data:
-- User: Bob (id=2)
-- Categories: Food (id=1), Entertainment (id=2)
-- Expenses:
-  - id=5, user_id=2, category_id=1, amount=25.00, description="Lunch"
-  - id=6, user_id=2, category_id=1, amount=30.00, description="Dinner"
-  - id=7, user_id=2, category_id=2, amount=50.00, description="Concert"
+Review them and verify:
+1) back_populates matches both sides exactly
+2) FK columns match referenced PK types
+3) cascade policy is explicit and justified for each relationship
 
-1. What does category_totals contain at the end?
-2. How many database queries does this code execute?
-3. What would happen if Bob had no expenses?
+Return corrected code if any mismatch exists.
 ```
 
-### Prompt 2: Trace a Relationship Query
+**What you're learning:** You are practicing the skill of using AI as a code reviewer for structural correctness. Relationship mismatches are hard to spot by eye because SQLAlchemy often does not raise errors — it just behaves wrong. AI excels at this kind of pattern-matching verification.
 
-```
-Write SQLAlchemy 2.0-style code to find all expenses in the "Food" category,
-sorted by amount (highest first).
+### Prompt 2: N+1 Detection
 
-Requirements:
-1. Use select(Expense).join(Category).where() to filter by category name
-2. Return only expenses (not categories)
-3. Order by amount descending
-4. Print: description, amount, and the user's name who made each expense
+```text
+Here is a reporting function that loads users and prints their expenses:
 
-Use the Budget Tracker models (User, Category, Expense) with relationships.
-Use session.execute(select(...)).scalars() — not the legacy session.query() style.
+[paste a loop that accesses user.expenses without selectinload]
+
+1. Identify the N+1 problem in this code
+2. Show the fixed version using selectinload
+3. Explain how many queries the original fires for 100 users vs the fix
 ```
 
-### Prompt 3: Defend Your Relationship Contract
+**What you're learning:** You are building the instinct to recognize N+1 patterns before they reach production. The AI can explain the query count math, but the real skill is learning to see the pattern yourself — a loop that accesses a relationship attribute is always suspicious.
 
-```
-Add to my /database-deployment skill:
+### Prompt 3: Design Relationships for Your Domain
 
-## Relationships & Joins
+```text
+I'm building a [describe your project — e.g., recipe manager, task tracker, inventory system].
 
-Include:
-1. How to define relationship() and back_populates (both sides)
-2. When to use cascade="all, delete-orphan"
-3. How to query through relationships (user.expenses)
-4. When to use join() explicitly: select(Expense).join(Category).where(...)
-5. SQLAlchemy 2.0 query style: session.execute(select(Model).where(...)).scalars()
+Help me define SQLAlchemy relationships between these entities:
+[list your entities]
 
-Use Budget Tracker examples:
-- User ↔ Expense (one-to-many)
-- Category ↔ Expense (one-to-many)
+For each relationship:
+- Should it be one-to-many or many-to-many?
+- What cascade policy makes business sense?
+- Which side gets back_populates?
 
-All query examples must use SQLAlchemy 2.0 style (select() + execute()),
-not the legacy session.query() pattern.
-
-Format as markdown for SKILL.md.
+Show me the complete model code.
 ```
 
-After each prompt, verify:
-- Prompt 1: Does your manual trace match the predicted behavior?
-- Prompt 2: Is the solution fully SQLAlchemy 2.0 style (`select` + `execute`)?
-- Prompt 3: Are the documented patterns reusable outside Budget Tracker?
+**What you're learning:** You are moving from following examples to making relationship design decisions for your own domain. The AI helps you think through cascade policies and cardinality, but the business logic — what should happen when a parent is deleted — is your decision to make.
 
-**Safety reminder:** Cascade delete is powerful. In production, always test cascade behavior on non-production data first. A misconfigured cascade can delete more data than intended.
+## Checkpoint
 
-### Checkpoint
-
-Before moving to L5:
-
-- [ ] You understand: `relationship()` connects models bidirectionally
-- [ ] You can access related data through attributes (`user.expenses`)
-- [ ] You understand: `back_populates` links both sides of a relationship
-- [ ] You know when to use `.join()` vs relationship attributes
-- [ ] You can explain what `cascade="all, delete-orphan"` does
-- [ ] You've iterated with AI to build a relationship query (Prompt 2)
-- [ ] You've documented relationship patterns in your `/database-deployment` skill
-
-Ready for L5: Transactions and safe multi-operation updates.
+- [ ] I can define bidirectional relationships with matching `back_populates`.
+- [ ] I know when to use `.join()` vs relationship attribute access.
+- [ ] I can explain `cascade="all, delete-orphan"` impact before using it.
+- [ ] I can identify and fix one N+1 pattern.
+- [ ] I can validate relationship queries with expected sample rows.
