@@ -24,7 +24,7 @@ skills:
     category: "Applied"
     bloom_level: "Apply"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can formulate clear natural language instructions for 5 different task types (research, writing, file operations, analysis, multi-step workflows) and observe the agent execute them"
+    measurable_at_this_level: "Student can formulate clear natural language instructions for 6 different task types (research, writing, file operations, analysis, multi-step workflows, scheduled automation) and observe the agent execute them"
 
   - name: "Output Quality Assessment"
     proficiency_level: "A2"
@@ -34,10 +34,10 @@ skills:
     measurable_at_this_level: "Student can assess AI Employee output quality, identify what tasks the agent handles well vs poorly, and estimate token costs for different task types"
 
 learning_objectives:
-  - objective: "Execute 5 different task types using an AI Employee and observe the agent loop in action"
+  - objective: "Execute 6 different task types using an AI Employee, observe the agent loop, and experience the shift from reactive to autonomous"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student completes all 5 tasks in the Task Sprint, noting what the agent did at each step (plan, tool use, synthesis, output)"
+    assessment_method: "Student completes all 6 tasks in the Task Sprint, noting what the agent did at each step and identifying the key difference between Tasks 1-5 (reactive) and Task 6 (autonomous)"
 
   - objective: "Identify the 4 phases of the agent loop (parse, plan, execute, report) from real observations"
     proficiency_level: "A2"
@@ -55,8 +55,8 @@ learning_objectives:
     assessment_method: "Student can explain why a research task costs more than a simple question and provide rough cost ranges for 3 task categories"
 
 cognitive_load:
-  new_concepts: 5
-  assessment: "5 concepts (task delegation, agent loop phases, honest capability assessment, token costs, multi-step workflows) grounded in hands-on experience at A2 -- within 5-7 limit"
+  new_concepts: 6
+  assessment: "6 concepts (task delegation, agent loop phases, honest capability assessment, token costs, multi-step workflows, autonomous invocation) grounded in hands-on experience at A2 -- within 5-7 limit"
 
 differentiation:
   extension_for_advanced: "Design a 5-task workflow chain where each task builds on the previous task's output. Time the entire chain and calculate total token cost."
@@ -67,13 +67,13 @@ differentiation:
 
 In Lesson 2, you installed OpenClaw, connected Telegram, and confirmed your AI Employee responds. That proved the wiring works. Now you will make it do something genuinely useful -- tasks that would normally consume 30 or more minutes of your time, finished in 2.
 
-This lesson is not about impressive demos. It is about experiencing the practical reality of delegating work to an AI agent. You will run five different task types in rapid succession, observe the same execution pattern repeating across all of them, and walk away with an honest assessment of what AI Employees handle well and where they fall short. That honest assessment is more valuable than any marketing claim.
+This lesson is about experiencing the **agent loop** -- the execution engine that powers every AI agent system, from chatbots to full AI Employees. You will run five task types that demonstrate this loop in action, then a sixth that crosses the line from "tool you use" to "employee that works for you." The difference between those two categories is the key insight of this lesson.
 
 Every task you run here follows a cycle that appears in every agent system ever built: OpenClaw, Claude Code, Codex CLI, CrewAI, AutoGen. The tools change. The cycle does not. Recognizing it transforms you from someone who uses AI into someone who understands how AI agents work.
 
-## Task Sprint: 5 Real Tasks in 15 Minutes
+## Task Sprint: 6 Tasks in 20 Minutes
 
-Set a timer. You are going to run five tasks back to back, spending about 3 minutes on each. For each task, you will do three things: type the instruction, observe what the agent does, and note what you learned.
+Set a timer. You are going to run six tasks back to back, spending about 3 minutes on each. The first five demonstrate the agent loop. The sixth crosses the line into AI Employee territory. For each task, you will do three things: type the instruction, observe what the agent does, and note what you learned.
 
 Open your Telegram chat with your AI Employee. If you configured a different interface in Lesson 2, use that instead.
 
@@ -167,15 +167,38 @@ this quarter.
 
 Count the distinct operations the agent performed. You likely see at least four: gathering information, synthesizing it into coherent prose, writing it to a file, and generating recommendations based on what it wrote. Each step feeds the next.
 
-**The takeaway:** This is the AI Employee pattern in its complete form. One instruction, multiple coordinated steps, tangible output. Traditional tools require you to perform each step manually: open a browser, search, read articles, open a text editor, write notes, analyze the notes, write recommendations. The agent compressed that entire workflow into a single delegation.
+**The takeaway:** This is the agent loop at its most capable -- one instruction, multiple coordinated steps, tangible output. Traditional tools require you to perform each step manually: open a browser, search, read articles, open a text editor, write notes, analyze the notes, write recommendations. The agent compressed that entire workflow into a single delegation.
+
+But notice what all five tasks have in common: **you triggered every one of them.** The agent did not decide to research competitors on its own. It did not wake up and create a goals file. It waited for you to speak, then it acted. That is the agent loop -- powerful, but reactive.
+
+The next task changes that.
+
+---
+
+### Task 6: Scheduled Check-In (3 minutes)
+
+**What to type:**
+
+```
+Set up a daily morning briefing that runs automatically at 8 AM.
+It should: check my recent files for anything modified yesterday,
+summarize what I worked on, and suggest 3 priorities for today.
+Send me the briefing on Telegram without me asking for it.
+```
+
+**What to observe:** This task is fundamentally different from Tasks 1-5. You are not asking for a one-time response. You are asking the agent to **act on a schedule, without being prompted.** If your OpenClaw instance supports cron jobs or heartbeats (check your configuration from Lesson 2), the agent will confirm the schedule. If not, it will explain what configuration is needed.
+
+Either way, notice the shift: Tasks 1-5 were conversations. Task 6 is a **standing order**. The agent is not waiting for you to speak. It is monitoring, summarizing, and reporting on its own schedule.
+
+**The takeaway:** This is the line between an agent loop and an AI Employee. Tasks 1-5 demonstrated the agent loop -- the same parse-plan-execute-report cycle that every agent framework implements. Task 6 adds **autonomous invocation**: the agent acts without being asked. That single addition is what transforms a capable tool into a colleague that works alongside you.
 
 ---
 
 ## What You Just Witnessed
 
-Stop and reflect on the five tasks you ran. Despite covering different domains -- research, writing, file operations, analysis, and multi-step workflows -- the agent followed the same four-phase cycle every time.
+Stop and reflect on the six tasks you ran. They split cleanly into two categories -- and the split is the most important thing you learned today.
 
-### The Agent Loop
+### The Agent Loop (Tasks 1-5)
 
 **Phase 1 -- Parse Intent.** The agent read your natural language instruction and understood what you wanted. It distinguished between "create a file" and "research competitors" without you specifying the tool or approach. It handled ambiguity (like inferring what "competitors" means for your industry) by making reasonable defaults.
 
@@ -187,7 +210,13 @@ Stop and reflect on the five tasks you ran. Despite covering different domains -
 
 This cycle -- **parse, plan, execute, report** -- is universal. Every agent system implements it. OpenClaw does it. Claude Code does it. AutoGPT, CrewAI, and the OpenAI Agents SDK all implement variations of this same loop. The specific tools, models, and interfaces differ. The pattern is identical.
 
-Recognizing this loop is your first transferable skill from this chapter. When you encounter any new agent framework, look for these four phases. They will be there.
+### The Employee Shift (Task 6)
+
+Task 6 added one thing that Tasks 1-5 lacked: **autonomous invocation**. The agent does not wait for your message. It fires on a schedule, checks your environment, and reports back -- whether you asked or not.
+
+That single addition is what separates an AI Employee from an AI tool. Tasks 1-5 gave you a powerful agent loop -- the same engine that runs inside ChatGPT, Claude Code, and every other AI assistant. Task 6 gave you a glimpse of something different: a colleague that works while you sleep.
+
+In Lesson 4, you will see exactly how both of these patterns work under the hood. In Lesson 5, you will confront the security implications of an agent that acts without being asked.
 
 ---
 
@@ -243,7 +272,7 @@ These ranges assume typical API pricing. Free tiers (like Kimi K2.5 or Gemini Fl
 
 For this chapter, you should be well within free tier limits. Kimi K2.5 provides generous free API access. Gemini Flash has a free quota. Even paid services typically offer initial credits.
 
-If you are working through these five tasks on a free tier, your total cost for this lesson is approximately zero dollars. The rate limits may slow you down between tasks, but you will not be charged.
+If you are working through these six tasks on a free tier, your total cost for this lesson is approximately zero dollars. The rate limits may slow you down between tasks, but you will not be charged.
 
 ### The Bigger Cost Picture
 
@@ -253,28 +282,41 @@ The cost question becomes more nuanced at scale -- running agents for entire tea
 
 ---
 
-## The Agent Loop in Your Hands
+## From Loop to Employee
 
-You have now seen the agent loop from the inside. Not in a diagram. Not as theory. You watched it run five times in fifteen minutes, across five different task types, and it followed the same pattern every time.
+You have now experienced both halves of the AI Employee equation:
 
-That pattern -- parse intent, plan execution, execute steps, report results -- is the heartbeat of every agent system. In Lesson 4, you will open the hood and see exactly how OpenClaw implements this cycle. You will learn the six universal patterns that make it work: orchestration, adapters, state isolation, skills, memory, and autonomous invocation.
+**The agent loop** (Tasks 1-5): Parse intent, plan execution, execute steps, report results. This cycle is the heartbeat of every agent system. It is powerful, versatile, and reactive -- it does nothing until you speak.
 
-But before that architecture lesson, carry this experience with you: you delegated real work, received real output, and formed your own honest assessment of what works and what does not. That firsthand judgment is more reliable than any benchmark or marketing claim.
+**Autonomous invocation** (Task 6): The agent acts on its own schedule. It monitors, summarizes, and reports without a prompt from you. This is the capability that transforms a tool into a colleague.
+
+In Lesson 4, you will open the hood and see exactly how OpenClaw implements both patterns -- the agent loop and the scheduling system that makes it fire autonomously. You will learn the six universal patterns that make any AI Employee work.
+
+But before that architecture lesson, carry this experience with you: you delegated real work, received real output, experienced the shift from reactive to autonomous, and formed your own honest assessment of what works and what does not. That firsthand judgment is more reliable than any benchmark or marketing claim.
 
 ---
 
 ## Try With AI
 
-### Prompt 1 -- Task Design
+### Prompt 1 -- Task Quality Assessment
 
 ```
-Give me 5 tasks I could delegate to an AI Employee in my specific
-role as [YOUR ROLE]. For each task, estimate: time it would take me
-manually vs with an AI Employee, and rate the delegation difficulty
-as Easy / Medium / Hard.
+I just ran 6 tasks with an AI Employee:
+1. Competitor research (comparison table)
+2. Professional email draft
+3. File creation (weekly goals)
+4. Analysis (priority ranking)
+5. Multi-step workflow (research + report + recommendations)
+6. Scheduled daily briefing
+
+Rank these 6 by: (a) output quality, (b) time saved versus doing it
+myself, and (c) how much I'd trust the output without review.
+
+Then identify: which of these 6 should NEVER be fully automated --
+where human review is non-negotiable? Explain why.
 ```
 
-**What you're learning:** Identifying high-ROI delegation opportunities. The first skill of an effective AI Employee manager is recognizing which tasks in your specific work justify delegation. Easy tasks with large time savings are where you start. Hard tasks with marginal savings are where you learn the boundaries.
+**What you're learning:** Critical assessment of AI output. Knowing which tasks to trust and which to verify is more valuable than knowing how to delegate. The ability to rank by trust level -- not just convenience -- is what separates effective AI Employee managers from people who blindly accept AI output.
 
 ### Prompt 2 -- Capability Boundaries
 

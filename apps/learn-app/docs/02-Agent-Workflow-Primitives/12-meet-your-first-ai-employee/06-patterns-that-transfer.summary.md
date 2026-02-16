@@ -8,14 +8,7 @@ sidebar_position: 6.5
 
 ## The 6 Universal Patterns
 
-| # | Pattern | Without It |
-|---|---------|------------|
-| 1 | **Orchestration Layer** | Nothing routes messages; the agent cannot receive work |
-| 2 | **I/O Adapters** | Locked to one channel; adding another means rewriting the agent |
-| 3 | **State Isolation** | Conversations contaminate each other; multi-user is impossible |
-| 4 | **Capability Packaging** | New abilities require core code changes; the agent becomes brittle |
-| 5 | **Externalized Memory** | Everything forgotten between sessions; no learning across days |
-| 6 | **Autonomous Invocation** | Agent only responds when prompted; cannot monitor, alert, or schedule |
+The 6 patterns (Orchestration, I/O Adapters, State Isolation, Capability Packaging, Externalized Memory, Autonomous Invocation) were introduced in Lesson 4. Lesson 6 synthesizes why these specific 6 are essential -- remove any one and the system breaks in a specific, predictable way.
 
 ## What OpenClaw Proved vs Didn't Solve
 
@@ -25,11 +18,11 @@ sidebar_position: 6.5
 
 ## Quick Reference: Cross-Framework Pattern Map
 
-| Pattern | OpenClaw | Claude Code | ChatGPT | LangGraph |
-|---------|----------|-------------|---------|-----------|
-| Orchestration | Gateway daemon | CLI process | API orchestrator | StateGraph |
-| I/O Adapters | Channels | Terminal/MCP | Web UI/API | Input nodes |
-| State Isolation | Sessions (JSONL) | Conversation context | Thread IDs | State checkpoints |
-| Capability Packaging | SKILL.md | SKILL.md | Custom GPTs/Actions | Tool nodes |
-| Externalized Memory | MEMORY.md + logs | CLAUDE.md + memory | Memory feature | State persistence |
-| Autonomous Invocation | Cron + Heartbeat | Cron + hooks | Scheduled actions | Trigger nodes |
+| Pattern               | OpenClaw         | Claude Code          | ChatGPT             | LangGraph         |
+| --------------------- | ---------------- | -------------------- | ------------------- | ----------------- |
+| Orchestration         | Gateway daemon   | CLI process          | API orchestrator    | StateGraph        |
+| I/O Adapters          | Channels         | Terminal/MCP         | Web UI/API          | Input nodes       |
+| State Isolation       | Sessions (JSONL) | Conversation context | Thread IDs          | State checkpoints |
+| Capability Packaging  | SKILL.md         | SKILL.md             | Custom GPTs/Actions | Tool nodes        |
+| Externalized Memory   | MEMORY.md + logs | CLAUDE.md + memory   | Memory feature      | State persistence |
+| Autonomous Invocation | Cron + Heartbeat | Cron + hooks         | Scheduled actions   | Trigger nodes     |

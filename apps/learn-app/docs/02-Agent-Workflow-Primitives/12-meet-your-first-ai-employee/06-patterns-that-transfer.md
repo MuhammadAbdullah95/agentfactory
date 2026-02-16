@@ -64,16 +64,7 @@ Now comes the most valuable part: crystallizing everything you learned into patt
 
 ## The 6 Universal Agent Patterns
 
-Everything you experienced in this chapter maps to patterns that exist in every agent system ever built. The names change. The implementations differ. But the architectural needs are identical.
-
-| #   | Pattern                   | What You Learned                                                                              | Why It's Universal                                                                                                                                                          |
-| --- | ------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Orchestration Layer**   | The Gateway daemon coordinates messages, sessions, and routing (L02, L04)                     | Every agent needs a coordinator that receives input, manages state, and dispatches work. Without orchestration, nothing connects.                                           |
-| 2   | **I/O Adapters**          | Channels normalize Telegram, Discord, WhatsApp into a common message format (L04)             | Communication must be decoupled from intelligence. An agent's reasoning should not change because the input came from Slack instead of email.                               |
-| 3   | **State Isolation**       | Sessions keep conversations independent; each user gets their own context (L04)               | Without isolation, agents contaminate their own context. User A's conversation leaks into User B's response. Every multi-user agent needs session boundaries.               |
-| 4   | **Capability Packaging**  | SKILL.md files teach the agent new abilities without modifying core code (L05)                | Agents must be extensible without rewriting their core. Skills, plugins, tools -- the name varies, but the pattern is always the same: modular expertise that snaps in.     |
-| 5   | **Externalized Memory**   | MEMORY.md, daily logs, and session transcripts persist knowledge beyond context windows (L04) | Context windows are temporary. Every piece of information disappears when the window closes. Permanent knowledge requires writing to disk, databases, or external stores.   |
-| 6   | **Autonomous Invocation** | Cron jobs and heartbeat mechanisms trigger agent actions without human prompting (L05)        | True AI Employees act without being asked. Scheduled tasks, event triggers, and background monitoring distinguish employees from chatbots that only respond when spoken to. |
+You learned these patterns hands-on in Lesson 4: Orchestration, I/O Adapters, State Isolation, Capability Packaging, Externalized Memory, and Autonomous Invocation (plus Concurrency Control). This lesson asks a different question: **why these specific 6, and what happens when you remove one?**
 
 ### Why These 6 and Not 5 or 10?
 
@@ -138,43 +129,46 @@ It is the Agent Factory thesis made visible: agents that build agents.
 
 ## Try With AI
 
-### Prompt 1: Cross-Framework Pattern Mapping
+### Prompt 1: Agent Autopsy
 
 ```
-Take the 6 universal agent patterns (orchestration layer, I/O adapters,
-state isolation, capability packaging, externalized memory, autonomous
-invocation) and map them to a framework I'm interested in.
+Search GitHub for an AI agent project that was abandoned or failed
+(look for repos with many stars but no commits in 6+ months, or
+repos with issues describing fundamental problems).
 
-Pick ONE of the following and show me how each pattern appears:
-- AutoGPT
-- CrewAI
-- LangGraph
-- Microsoft Semantic Kernel
-- Amazon Bedrock Agents
+Using the 6 universal patterns as your diagnostic framework, perform
+an autopsy:
+1. Which patterns did the project implement well?
+2. Which patterns were missing or broken?
+3. Which missing pattern was the likely cause of death?
+4. Could the project have survived if it had implemented that
+   one missing pattern? Why or why not?
 
-For each pattern, identify: the component name, how it works, and what
-tradeoffs that framework made compared to OpenClaw.
+Share the repo link and your diagnosis.
 ```
 
-**What you're learning**: Pattern recognition across frameworks. Once you can identify the 6 universal patterns in any agent system, you can evaluate new frameworks in minutes instead of weeks. This is the difference between understanding one tool and understanding the category.
+**What you're learning**: The 6 patterns are not just a classification scheme -- they are a diagnostic tool. Learning to identify which missing pattern killed a project is the fastest way to internalize why each pattern matters. This forensic skill transfers directly to evaluating your own designs in Chapter 13.
 
-### Prompt 2: Framework Comparison
+### Prompt 2: Security Pattern Comparison
 
 ```
-Compare building an AI Employee using OpenClaw versus building from scratch
-with Claude Code. For each approach, analyze:
+In Lesson 5, you learned about the "lethal trifecta" -- the security
+risks that emerge when agents have real access to real systems.
 
-1. Setup time (how long to get first working version)
-2. Customization depth (how much can I control)
-3. Security model (who controls the trust boundaries)
-4. Skill portability (do my skills transfer between platforms)
-5. Long-term maintenance (what happens when the framework updates)
+Compare how OpenClaw and Claude Code each mitigate these risks:
 
-I've used OpenClaw already. Help me understand the tradeoffs so I can
-make an informed decision about which approach fits my needs.
+For each framework:
+1. How does it handle skill/tool trust? (Who decides what code runs?)
+2. How does it isolate execution? (Can a malicious skill access
+   everything, or is it sandboxed?)
+3. How does it handle credential management? (Where do API keys live?
+   Who can access them?)
+
+Then: identify ONE security risk that NEITHER framework fully solves.
+What would a production-grade solution look like?
 ```
 
-**What you're learning**: Technology assessment using structured criteria. Instead of choosing tools based on hype or familiarity, you are learning to evaluate frameworks against the 6 universal patterns and your specific requirements. This evaluation skill transfers to every technology decision you will make in your career.
+**What you're learning**: Security is the unsolved frontier of AI Employees. Comparing mitigation strategies across frameworks reveals that security is not a feature you add -- it is an architectural decision that shapes everything else. The unsolved risk you identify becomes a design constraint for your Chapter 13 build.
 
 ### Prompt 3: Pattern Stress Test
 

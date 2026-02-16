@@ -244,31 +244,42 @@ Master the pattern once. Apply it everywhere.
 
 Use these prompts to deepen your understanding of the AI Employee paradigm before you set one up in the next lesson.
 
-### Prompt 1: Understanding the Paradigm
+### Prompt 1: Adoption Analysis
 
 ```
-Explain the difference between an AI chatbot and an AI Employee using
-a workplace analogy. A chatbot is like ___. An AI Employee is like ___.
+OpenClaw reached 199,000 GitHub stars in under 3 months. React took
+over a decade to reach 230,000. Docker and Kubernetes also had explosive
+adoption curves, but at different rates.
 
-Give me 3 specific examples of tasks that ONLY an AI Employee can handle
-(not a chatbot), and for each one, explain which of these six dimensions
-makes the difference: trigger, scope, memory, tools, schedule, interface.
+Compare OpenClaw's adoption trajectory to Docker and React. For each:
+- What was the viral loop that drove adoption?
+- What made the first 5 minutes of use compelling?
+- What was the "aha moment" that turned curiosity into commitment?
+
+What does OpenClaw's specific growth pattern tell us about what
+developers actually want from AI tools?
 ```
 
-**What you're learning**: The core mental model that separates AI-assisted work (you drive, AI helps) from AI-delegated work (AI drives, you review). This distinction shapes every architectural decision in agent design.
+**What you're learning**: Adoption curves reveal what users actually value versus what builders think they value. OpenClaw's messaging-app integration created a fundamentally different viral loop than traditional developer tools. Understanding why this specific growth pattern happened prepares you to design AI Employees that people actually adopt.
 
-### Prompt 2: Architecture Intuition
+### Prompt 2: Framework Gap Analysis
 
 ```
-What are the 5 essential components that make an AI Employee work?
-(Hint: gateway, adapters, agent loop, skills, memory.)
+Pick one of these agent frameworks and find its official documentation:
+- CrewAI (docs.crewai.com)
+- AutoGPT (docs.agpt.co)
+- LangGraph (langchain-ai.github.io/langgraph)
 
-Don't just list them -- explain WHY each one is necessary. For each
-component, tell me: what specific capability would break if you
-removed it? Give me a concrete example of the failure for each one.
+Read through the architecture overview and identify which of the 5
+essential AI Employee components (gateway, adapters, agent loop, skills,
+memory) the framework implements -- and which it skips or handles
+differently.
+
+For each skipped component: is this a deliberate design choice or a
+gap? What does the framework expect YOU to provide instead?
 ```
 
-**What you're learning**: The minimal architecture of any AI Employee system. Understanding why each component exists (not just what it does) prepares you for the architecture deep-dive in Lesson 4 and for building your own system in Chapter 13.
+**What you're learning**: No framework implements all 5 components identically. Understanding which pieces a framework provides versus which it leaves to you is the critical evaluation skill for choosing tools. This is your first practice at framework evaluation -- a skill you will use throughout your career.
 
 ### Prompt 3: Personal Application
 

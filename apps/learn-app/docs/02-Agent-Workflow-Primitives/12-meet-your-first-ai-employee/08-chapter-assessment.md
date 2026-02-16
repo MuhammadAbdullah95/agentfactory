@@ -159,12 +159,12 @@ Binding to 0.0.0.0 exposes the Gateway to all network interfaces, meaning anyone
 
 ### Question 9 (L06)
 
-**Name 3 of the 6 universal agent patterns and explain why each is essential.**
+**Your AI Employee stops responding on Telegram but still works via WebChat. Which universal pattern has failed, and what would you check first to diagnose the issue?**
 
 <details>
 <summary>Answer</summary>
 
-Any 3 of: **Orchestration Layer** (routes messages -- without it, nothing connects), **I/O Adapters** (decouple communication from intelligence -- without them, the agent breaks when you change channels), **State Isolation** (prevent cross-contamination -- without it, conversations bleed into each other), **Capability Packaging** (extensible without rewriting core -- without it, adding features means modifying the agent), **Externalized Memory** (persist beyond context window -- without it, the agent forgets everything between sessions), **Autonomous Invocation** (act without being asked -- without it, you have a chatbot, not an employee).
+The **I/O Adapters** pattern has failed -- specifically the Telegram channel adapter. The Gateway and agent loop are still working (WebChat proves this), so the issue is isolated to one adapter. You would check: (1) whether the Telegram bot token is still valid, (2) whether the grammY adapter process is running, and (3) whether Telegram's API is experiencing an outage. This demonstrates why I/O Adapters decouple communication from intelligence -- a single adapter failure does not take down the entire system.
 
 </details>
 
@@ -230,16 +230,7 @@ The tools change. The patterns stay the same.
 | **Orchestration**    | Gateway daemon                    | Claude Code process            |
 | **Agent-to-Agent**   | coding-agent skill to Claude Code | Your agent to sub-agents       |
 
-Every pattern you learned maps directly to what you will build:
-
-| Pattern                   | Chapter 12 (OpenClaw)  | Chapter 13 (Claude Code)    |
-| ------------------------- | ---------------------- | --------------------------- |
-| **Orchestration**         | Gateway daemon         | Claude Code CLI             |
-| **I/O Adapters**          | Telegram channel       | MCP servers                 |
-| **State Isolation**       | Sessions (JSONL)       | Conversation context        |
-| **Capability Packaging**  | SKILL.md in workspace  | SKILL.md in .claude/skills/ |
-| **Externalized Memory**   | MEMORY.md + daily logs | CLAUDE.md + Obsidian vault  |
-| **Autonomous Invocation** | Cron + Heartbeat       | Cron + git hooks            |
+Every pattern you learned in L04 and synthesized in L06 maps directly to what you will build. The key translations: OpenClaw's Gateway becomes Claude Code's CLI process, Telegram channels become MCP servers, and MEMORY.md + daily logs become CLAUDE.md + Obsidian vault. See L06's cross-framework table for the complete mapping across four frameworks.
 
 The implementation details change entirely. The patterns are identical. You already know what to build -- Chapter 13 teaches you how.
 
@@ -332,23 +323,26 @@ Then suggest a Bronze/Silver/Gold tier plan:
 
 **What you're learning:** Specification-driven agent design -- the foundation of Chapter 13's entire approach. Instead of jumping into code, you define success criteria first. This mirrors how professional engineers approach every system: specify, then build, then validate against the specification.
 
-### Prompt 3: OpenClaw vs Claude Code Comparison
+### Prompt 3: Threat Model Your Chapter 13 Build
 
 ```
-Compare building an AI Employee using OpenClaw versus building from
-scratch with Claude Code. For each approach, analyze:
+I am about to build my own AI Employee in Chapter 13 using Claude Code.
+Before I start, I want to threat-model my design.
 
-1. Setup time (first working version)
-2. Customization depth (how much control)
-3. Security model (who controls trust boundaries)
-4. Agent orchestration (can it delegate to other agents)
-5. Long-term maintenance (framework updates, breaking changes)
+Based on my Chapter 13 specification draft (or if I haven't written one
+yet, assume a personal AI Employee that handles email summarization,
+file management, and daily briefings):
 
-I've used OpenClaw already and I'm about to build my own with Claude
-Code in Chapter 13. Help me understand the tradeoffs.
+1. What are the 3 most likely failure modes in the first week of use?
+2. For each failure mode, which of the 6 universal patterns is involved?
+3. What is the worst realistic outcome if I skip security boundaries?
+4. Design a "chaos test" -- a sequence of 3 user messages that would
+   expose the weakest point in my architecture.
+
+Help me find the flaws before I build, not after.
 ```
 
-**What you're learning:** Technology assessment using structured criteria. Instead of choosing tools based on hype or familiarity, you are evaluating frameworks against the 6 universal patterns and your specific requirements. This evaluation skill transfers to every technology decision in your career.
+**What you're learning:** Threat modeling before building is what separates production systems from demos. By designing failure scenarios for your own project, you internalize the security and reliability lessons from Chapter 12 as concrete constraints for Chapter 13 -- not abstract principles you will forget under implementation pressure.
 
 ---
 

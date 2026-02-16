@@ -340,41 +340,51 @@ In Lesson 05, you will build a custom skill and explore security. In Lesson 06, 
 
 ## Try With AI
 
-### Prompt 1: Architecture Explorer
-
-**Setup:** Use your AI Employee on Telegram or Claude Code.
-
-```
-Explain OpenClaw's architecture as if I'm designing a similar system
-from scratch. What are the essential components I'd need to build?
-Draw me an ASCII diagram showing how they connect.
-
-Then tell me: if I had to cut corners and ship with only 4 of the 7
-components, which 3 could I defer and why? What breaks without them?
-```
-
-**What you're learning:** Architectural thinking -- distinguishing essential complexity (what you must build) from accidental complexity (what you can defer). This is the skill that separates engineers who ship from engineers who over-design.
-
-### Prompt 2: Cross-Framework Detective
+### Prompt 1: Race Condition Designer
 
 **Setup:** Use Claude Code or any AI assistant.
 
 ```
-Compare the memory systems of three approaches:
-1. OpenClaw: MEMORY.md (curated) + daily logs (append-only) + vector search
-2. Claude Code: MEMORY.md + auto-compact conversation history
-3. A traditional database-backed agent using PostgreSQL for all state
+OpenClaw uses a lane queue to prevent race conditions. Design 3
+specific scenarios where removing the lane queue would cause real
+problems:
 
-For each approach, analyze:
-- What happens when the agent needs a fact from 3 weeks ago?
-- What happens when two users ask about the same topic simultaneously?
-- What's the operational cost of running each for 6 months?
+For each scenario:
+1. What messages arrive simultaneously?
+2. What shared resource do they compete for?
+3. What does the corrupted output look like?
+4. How does the lane queue prevent it?
 
-Then recommend: which approach would YOU choose for a 10-person team's
-internal AI assistant, and why?
+Then design a 4th scenario that the lane queue CANNOT prevent --
+a race condition that requires a different solution entirely.
 ```
 
-**What you're learning:** There is no single correct memory architecture. Each approach makes different tradeoffs between simplicity, searchability, cost, and operational complexity. Evaluating tradeoffs is the core engineering skill for Chapter 13.
+**What you're learning:** Concurrency is where most agent projects fail silently. By designing failure scenarios yourself, you build intuition for where race conditions hide. The 4th scenario forces you beyond the textbook answer into genuine architectural thinking -- exactly what you need when building your own agent in Chapter 13.
+
+### Prompt 2: Memory Retrieval Trace
+
+**Setup:** Use Claude Code or any AI assistant.
+
+```
+You are an AI Employee with OpenClaw's 3-layer memory system:
+- Layer 1: MEMORY.md (curated facts)
+- Layer 2: Daily logs (memory/YYYY-MM-DD.md)
+- Layer 3: Vector search (SQLite-backed embeddings)
+
+Your user asks: "What did we decide about the API migration 6 weeks ago?"
+
+Trace this query through all 3 layers:
+1. What does each layer check?
+2. In what order?
+3. What happens if Layer 1 has nothing? Layer 2?
+4. How does vector search find the answer when the user's words
+   don't match the original note's words?
+
+Then: design a scenario where ALL 3 layers fail to find the answer.
+What went wrong, and how would you fix the architecture?
+```
+
+**What you're learning:** Memory retrieval is where theory meets reality. Tracing a concrete query through each layer builds intuition for how externalized memory actually works -- and where it breaks. The failure scenario forces you to think about memory architecture limitations before you encounter them in Chapter 13.
 
 ### Prompt 3: Minimal Design Challenge
 
