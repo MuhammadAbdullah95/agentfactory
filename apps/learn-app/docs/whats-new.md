@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-16
+- Improve/chapter 14 ten axioms ([#734](https://github.com/panaversity/agentfactory/pull/734))
+
+### 2026-02-16
 - Updates after review ([#733](https://github.com/panaversity/agentfactory/pull/733))
 
 ### 2026-02-16
