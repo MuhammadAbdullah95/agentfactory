@@ -22,5 +22,5 @@ A verification-first workflow tests the entire pipeline with known data before p
 
 ### Connections
 
-- **Builds on**: All previous lessons - arithmetic gap (L1), stdin utilities (L2), testing loop (L3), CSV parsing (L4), regex categorization (L5)
-- **Leads to**: Future chapters on more complex data workflows and the broader Digital FTE toolkit
+- **Builds on**: All previous lessons - broken math to first tool (L1), testing loop (L2), parsing real data (L3), permanent toolkit (L4), data wrangling (L5)
+- **Leads to**: Practice exercises (Lesson 7) and more complex data workflows in later chapters

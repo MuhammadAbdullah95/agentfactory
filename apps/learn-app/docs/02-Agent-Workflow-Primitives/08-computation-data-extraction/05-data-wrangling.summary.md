@@ -1,26 +1,26 @@
 ### Core Concept
 
-Pattern matching with regex word boundaries and false-positive guards enables precise transaction categorization. Simple keyword matching produces wrong results because partial word matches (CVS in CVSMITH) and ambiguous prefixes (DR in DR PEPPER) create false positives.
+Simple keyword matching produces false positives that corrupt your data. Regex word boundaries (`\b`) match whole words only, and false-positive guard lists checked before categories prevent known bad matches. The workflow: build a naive version, discover it's wrong, then fix with precision.
 
 ### Key Mental Models
 
-- **False positive guards checked first**: Check exclusion patterns before category patterns. "DR PEPPER" matches the false positive list before it can reach the medical category.
-- **Word boundaries for precision**: `\bCVS\b` matches "CVS PHARMACY" but rejects "CVSMITH" because `\b` requires the match to be a complete word, not part of a longer one.
-- **Batch processing with find and xargs**: `find statements/ -name "*.csv" | xargs cat | python script.py` processes an entire folder of files in one pipeline.
+- **Iterate, don't anticipate**: Build a first version, run it, and find false positives yourself. Then fix them. This produces better results than trying to anticipate every edge case upfront.
+- **Word boundaries as precision**: `\bCVS\b` matches "CVS PHARMACY" but not "CVSMITH." The `\b` marks word edges, turning broad matches into precise ones.
+- **Guards-run-first ordering**: False positive patterns are checked BEFORE category patterns. Order matters -- Dr. Pepper gets excluded before "DR" can trigger a medical match.
 
 ### Critical Patterns
 
-- **The categorization prompt pattern**: "Categorize [data] by [criteria]. Watch out for [false positives]." Explicitly naming edge cases triggers the agent to build guards.
-- **Regex word boundary** (`\b`): Marks where a word starts or ends. `\bCVS\b` matches the standalone word CVS in any position but never as part of another word.
-- **Order of operations**: False positives first, then categories. This ordering prevents ambiguous matches from being incorrectly categorized.
+- Categorization prompt: "Categorize [data] by [criteria]." Start simple, then fix false positives with: "[X] is showing up as [Y]. Fix it."
+- Regex word boundaries: `r'\bKEYWORD\b'` for standalone word matching
+- Batch processing: `find folder/ -name "*.csv" | xargs cat | python script.py` processes multiple files in one command
 
 ### Common Mistakes
 
-- Using simple `in` checks instead of regex: `if 'cvs' in description.lower()` matches "CVSMITH" - a false positive.
-- Not mentioning edge cases in the prompt: "Categorize as medical" gets basic keyword matching. Adding "Watch out for Dr. Pepper" gets false positive guards.
-- Forgetting case handling: Bank statements use inconsistent casing. Always normalize with `.upper()` or use `re.IGNORECASE`.
+- Trusting the first version of a categorizer without checking for false positives -- Dr. Pepper as "medical" inflates your tax deductions
+- Using `if 'CVS' in text` instead of `re.search(r'\bCVS\b', text)` -- substring matching catches partial words
+- Processing files one at a time when `find | xargs` handles the batch automatically
 
 ### Connections
 
-- **Builds on**: From Script to Command (Lesson 4) - CSV parsing with Python's csv module; permanent command pattern
-- **Leads to**: Capstone (Lesson 6) - combining categorization with verification-first orchestration for a complete tax prep workflow
+- **Builds on**: CSV parsing (Lesson 3) and permanent tools (Lesson 4)
+- **Leads to**: Full tax preparation capstone (Lesson 6)

@@ -66,29 +66,44 @@ differentiation:
 
 # Capstone: Tax Season Prep
 
-Tax season arrives. Your accountant emails: "I need your deductible expenses categorized - medical, charitable donations, and business expenses. Can you pull that from your bank statements?"
+Open Claude Code. Set a timer for 40 minutes. Your goal:
 
-You have 12 monthly CSV files. Thousands of transactions. Names like `january.csv`, `february.csv`. Each row has a date, description, and amount. Buried in those lines are the expenses that could save you money on taxes.
+> **Point Claude Code at a folder of bank statement CSVs and produce a categorized tax report with verified totals.**
 
-You could open each file manually, search for "CVS" and "pharmacy," copy amounts to a spreadsheet, then repeat for donations, then repeat for business expenses.
+You have everything you need. You know how to build scripts that handle decimals (Lesson 1), verify them against known answers (Lesson 2), parse real CSV data (Lesson 3), make tools permanent (Lesson 4), and categorize with false-positive guards (Lesson 5). Now orchestrate all of it into one workflow.
 
-Or you could have one conversation with Claude Code.
+:::tip Use Your Own Data
+If you downloaded your bank statement CSV in Lesson 3, use that here. Create a folder `~/finances/2025/` and put your CSV files in it. Otherwise, ask Claude Code to generate test data. Real data makes this capstone real.
+:::
 
-## The Challenge
+## Your Mission
 
-Here's what you need:
+Build a workflow that:
 
-- A folder `~/finances/2025/` with monthly bank statement CSVs
-- Transactions categorized: Medical, Charitable, Business
-- Subtotals for each category
-- Ambiguous transactions flagged for review
-- A report your accountant can use
+1. Creates test data with known answers (you calculate expected totals by hand)
+2. Builds a categorizer that handles Medical, Charitable, and Business expenses
+3. Verifies totals match your hand calculations before touching real data
+4. Processes all monthly CSVs into a single report
+5. Flags ambiguous transactions for human review
 
-This is the kind of problem that separates people who "use AI" from people who build with AI. Someone who just pastes file contents gets hallucinated results. You'll build a verified pipeline.
+**Start now.** Come back when you have a report — or when you're stuck.
 
-## The Conversation
+Hint: Your opening prompt should tell Claude Code the full scope AND insist on verification first. Something like:
 
-Open Claude Code and describe the full challenge:
+```
+I have bank statement CSVs in ~/finances/2025/.
+Help me categorize transactions (Medical, Charitable, Business),
+calculate subtotals, and flag ambiguous items.
+
+IMPORTANT: Verify with test data before processing real files.
+```
+
+---
+
+<details>
+<summary><strong>Reference Implementation</strong> — Done or stuck? Click to compare your approach.</summary>
+
+## Reference Implementation
 
 ```
 You: I have a folder ~/finances/2025/ with monthly bank statement CSVs
@@ -237,7 +252,9 @@ Report saved to: tax-report-2025.txt
 Would you like me to create a reusable script for next year?
 ```
 
-In one conversation, you processed a year of bank statements into an accountant-ready report.
+In one conversation, a year of bank statements became an accountant-ready report.
+
+</details>
 
 ## What Just Happened?
 

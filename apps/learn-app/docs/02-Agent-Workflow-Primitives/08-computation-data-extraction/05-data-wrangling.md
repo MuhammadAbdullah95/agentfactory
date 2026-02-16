@@ -4,7 +4,7 @@ title: "Data Wrangling"
 chapter: 8
 lesson: 5
 layer: L2
-duration_minutes: 35
+duration_minutes: 30
 description: "Watch Claude Code categorize bank transactions with regex patterns and false-positive guards, then process multiple files"
 keywords:
   [
@@ -58,7 +58,7 @@ learning_objectives:
 
 cognitive_load:
   new_concepts: 5
-  assessment: "5 concepts (categorization logic, regex patterns, word boundaries, false positive guards, batch processing) within A2 limit"
+  assessment: "5 concepts (categorization logic, false positives, regex word boundaries, false positive guards, batch processing) within A2 limit"
 
 differentiation:
   extension_for_advanced: "Handle case sensitivity, regex anchors for precision, more complex patterns"
@@ -67,7 +67,9 @@ differentiation:
 
 # Data Wrangling
 
-sum-expenses gives you totals. But tax season needs CATEGORIES - medical, charitable, business. Your accountant doesn't want "Total: $4,215.52." They want:
+In Lesson 4, you built a permanent toolkit of reusable scripts. Now you'll put one of those tools to work on a real problem: tax categorization.
+
+sum-expenses gives you totals. But tax season needs CATEGORIES -- medical, charitable, business. Your accountant doesn't want "Total: $4,215.52." They want:
 
 - Medical expenses: $1,891.20
 - Charitable donations: $1,550.00
@@ -75,29 +77,7 @@ sum-expenses gives you totals. But tax season needs CATEGORIES - medical, charit
 
 The challenge: bank statements use chaotic merchant names. CVS, Walgreens, and "PHARMACY #1234" are all medical. "DR MARTINEZ MEDICAL" is a doctor visit. But "DR PEPPER SNAPPLE" is soda, not a medical expense.
 
-Watch Claude Code build a categorizer that handles this complexity.
-
-## The Problem
-
-Your bank statement has transactions like:
-
-```
-CVS/PHARMACY #1234      -$45.67
-WALGREENS #5678         -$23.45
-DR MARTINEZ MEDICAL     -$150.00
-DR PEPPER SNAPPLE       -$4.99
-UNITED WAY              -$100.00
-CVSMITH CONSULTING      -$200.00
-OFFICE DEPOT #901       -$89.50
-```
-
-You need to categorize these for taxes. But:
-
-- "DR" appears in both doctor visits and Dr. Pepper
-- "CVS" appears in CVS Pharmacy and CVSMITH (a person's name)
-- Multiple variations: CVS, WALGREENS, PHARMACY all mean medical
-
-Simple keyword matching will produce false positives. You need pattern matching that's both flexible and precise.
+Let's watch Claude Code build a categorizer -- and discover why the first attempt breaks.
 
 ## The Conversation
 
@@ -108,21 +88,99 @@ You: Help me categorize my bank transactions for taxes. I need to identify:
 - Medical: CVS, Walgreens, pharmacy, doctor visits
 - Charitable: donations, Red Cross, United Way
 - Business: Office Depot, Staples, subscriptions
-
-Be careful: "Dr. Pepper" is NOT medical. "CVSmith" is NOT CVS pharmacy.
 ```
 
-Watch what Claude Code does:
+Notice what you DIDN'T say: you didn't warn about false positives. Let's see what happens.
 
 ```
-Claude Code: Smart to flag those false positives upfront. I'll build a
-categorizer with regex patterns and false positive guards.
+Claude Code: I'll build a categorizer using keyword matching.
 
 [Creates: tax-categorize.py]
 
 #!/usr/bin/env python3
 import sys
 import csv
+
+CATEGORIES = {
+    'medical': ['CVS', 'WALGREENS', 'PHARMACY', 'DR', 'MEDICAL'],
+    'charitable': ['DONATION', 'RED CROSS', 'UNITED WAY'],
+    'business': ['OFFICE DEPOT', 'STAPLES', 'SUBSCRIPTION'],
+}
+
+def categorize(description):
+    desc_upper = description.upper()
+    for category, keywords in CATEGORIES.items():
+        for keyword in keywords:
+            if keyword in desc_upper:
+                return category
+    return None
+
+# Process CSV from stdin
+reader = csv.DictReader(sys.stdin)
+totals = {}
+for row in reader:
+    cat = categorize(row['Description'])
+    if cat:
+        amount = abs(float(row['Amount'].replace('$', '')))
+        totals.setdefault(cat, 0)
+        totals[cat] += amount
+        print(f"{cat.upper()}: {row['Description']}: ${amount:.2f}")
+
+print("\n--- TOTALS ---")
+for cat, total in totals.items():
+    print(f"{cat.title()}: ${total:.2f}")
+
+[Runs: cat test_bank.csv | python tax-categorize.py]
+
+MEDICAL: CVS/PHARMACY #1234: $45.67
+MEDICAL: WALGREENS #5678: $23.45
+MEDICAL: DR MARTINEZ MEDICAL: $150.00
+MEDICAL: DR PEPPER SNAPPLE: $4.99
+CHARITABLE: UNITED WAY: $100.00
+MEDICAL: CVSMITH CONSULTING: $200.00
+BUSINESS: OFFICE DEPOT #901: $89.50
+
+--- TOTALS ---
+Medical: $424.11
+Charitable: $100.00
+Business: $89.50
+```
+
+At first glance, that looks right. Medical, charitable, business — all categorized. The totals look reasonable. You almost move on.
+
+Then you scan the medical list one more time. Wait.
+
+## The Bug
+
+**Dr. Pepper is not a doctor.**
+
+```
+MEDICAL: DR PEPPER SNAPPLE: $4.99      <-- Soda, not a doctor
+MEDICAL: CVSMITH CONSULTING: $200.00   <-- A consultant, not CVS pharmacy
+```
+
+There it is. The keyword "DR" appears in "DR PEPPER," so the categorizer flags it as medical. "CVS" appears inside "CVSMITH," so a consulting fee gets counted as a pharmacy visit.
+
+This is what simple keyword matching does. `if 'CVS' in desc_upper` matches ANYTHING containing those three letters in sequence — CVS Pharmacy, CVSMITH, MCVS, whatever. And `if 'DR' in desc_upper` matches every doctor AND every Dr. Pepper.
+
+Your medical total is inflated by $204.99. On a tax return, that's a problem.
+
+## The Fix
+
+Now you know what's wrong. Tell the agent:
+
+```
+You: The categorizer has false positives. "DR PEPPER" is showing up as
+medical, and "CVSMITH" is matching as CVS. Can you fix these?
+```
+
+```
+Claude Code: Good catch. The problem is simple keyword matching.
+I need two fixes: word boundaries so "CVS" only matches the
+standalone word, and false positive guards for things like Dr. Pepper.
+
+[Updates: tax-categorize.py]
+
 import re
 
 CATEGORIES = {
@@ -131,30 +189,31 @@ CATEGORIES = {
     'business': [r'\bOFFICE DEPOT\b', r'\bSTAPLES\b', r'\bSUBSCRIPTION\b'],
 }
 
-# False positive guards - check BEFORE categories
-FALSE_POSITIVES = [r'\bDR\.? PEPPER\b', r'\bCVSMITH\b']
+FALSE_POSITIVES = [r'\bDR\.?\s*PEPPER\b', r'\bCVSMITH\b']
 
 def categorize(description):
     desc_upper = description.upper()
-
-    # Check false positives first
     for fp_pattern in FALSE_POSITIVES:
         if re.search(fp_pattern, desc_upper, re.IGNORECASE):
-            return None  # Not a tax category
-
-    # Check categories
+            return None
     for category, patterns in CATEGORIES.items():
         for pattern in patterns:
             if re.search(pattern, desc_upper, re.IGNORECASE):
                 return category
     return None
+```
 
-# Process CSV...
-[rest of script]
+Look at what the agent changed -- and WHY each fix solves a specific false positive.
 
-Let me test with your tricky data:
+**`\bCVS\b` fixes CVSMITH.** The `\b` is a word boundary -- it marks where a word starts or ends. So `\bCVS\b` matches "CVS PHARMACY" (CVS is a complete word) but NOT "CVSMITH" (CVS is part of a longer word). Without boundaries, `CVS` matches any string containing those letters.
 
-[Creates: test_bank.csv with all the example transactions]
+**`FALSE_POSITIVES` checked first fixes Dr. Pepper.** The pattern `\bDR\.?\s*PEPPER\b` matches "DR PEPPER" and "DR. PEPPER" (the `\.?` makes the period optional). Because false positives are checked BEFORE categories, Dr. Pepper gets excluded before "DR" can trigger a medical match. Order matters -- guards run first.
+
+**`\b(AMZN|AMAZON)\b` shows the pattern generalizes.** If you later need to match Amazon transactions, the same word boundary technique catches "AMZN" and "AMAZON" without matching "AMAZONIA" or "CAMZN."
+
+Let's verify the fix:
+
+```
 [Runs: cat test_bank.csv | python tax-categorize.py]
 
 MEDICAL: CVS/PHARMACY #1234: $45.67
@@ -167,97 +226,15 @@ BUSINESS: OFFICE DEPOT #901: $89.50
 Medical: $219.12
 Charitable: $100.00
 Business: $89.50
-
-Notice:
-✓ "DR PEPPER SNAPPLE" correctly excluded (false positive guard)
-✓ "CVSMITH CONSULTING" correctly excluded (false positive guard)
-✓ "DR MARTINEZ MEDICAL" correctly included (has MEDICAL keyword)
 ```
 
-The agent built a categorizer that distinguishes Dr. Martinez (medical) from Dr. Pepper (soda), and CVS Pharmacy from CVSmith.
+Dr. Pepper and CVSMITH are gone. DR MARTINEZ MEDICAL still matches because it contains "MEDICAL" as a standalone word. The totals are now correct.
 
-## What Just Happened?
-
-You witnessed pattern matching with safeguards.
-
-**The false positive guard pattern.** The agent checks false positives BEFORE checking categories. "Dr. Pepper" matches the false positive pattern first, so it never reaches the medical category check.
-
-**Regex word boundaries.** The pattern `\bCVS\b` uses `\b` (word boundary) on both sides. This means:
-
-- `\bCVS\b` matches "CVS PHARMACY" (CVS is a complete word)
-- `\bCVS\b` does NOT match "CVSMITH" (CVS is part of a longer word)
-
-**Order matters.** False positives are checked first. Categories are checked second. This ordering prevents "DR PEPPER" from being categorized as medical just because it contains "DR".
-
-### Why Regex Instead of Simple Contains?
-
-Simple keyword matching fails:
-
-```python
-# BAD: Simple contains
-if 'cvs' in description.lower():
-    return 'medical'
-# This matches "CVSMITH" - wrong!
-```
-
-Regex with word boundaries succeeds:
-
-```python
-# GOOD: Word boundary regex
-if re.search(r'\bCVS\b', description, re.IGNORECASE):
-    return 'medical'
-# This does NOT match "CVSMITH" - correct!
-```
-
-The `\b` ensures CVS is a complete word, not part of another word.
-
-## The Agent's Toolkit: Regex Patterns
-
-### Word Boundaries
-
-`\b` marks where a word starts or ends:
-
-```
-\bCVS\b    matches: "CVS PHARMACY", "CVS", "at CVS today"
-           rejects: "CVSMITH", "MCVS", "CVSX"
-```
-
-Without boundaries:
-
-```
-CVS        matches: "CVS", "CVSMITH", "MCVS" (too broad!)
-```
-
-### Alternatives with |
-
-Match multiple options:
-
-```python
-r'\b(CVS|WALGREENS|PHARMACY)\b'
-# Matches: CVS, WALGREENS, or PHARMACY as complete words
-```
-
-### Optional Characters with ?
-
-```python
-r'\bDR\.?\b'
-# Matches: "DR" or "DR." (period is optional)
-```
-
-### Common Patterns for Financial Data
-
-| Pattern | What It Matches | What It Rejects |
-|---------|-----------------|-----------------|
-| `\bCVS\b` | CVS, CVS PHARMACY | CVSMITH |
-| `\b(AMZN\|AMAZON)\b` | AMZN, AMAZON, AMAZON.COM | CAMZN, AMAZONIA |
-| `\bDR\.?\s` | "DR ", "DR. " (doctor) | DR PEPPER (no space after) |
-| `\bWAL-?MART\b` | WALMART, WAL-MART | WALMARTIN |
+**Checkpoint:** Run the categorizer on YOUR bank data from Lesson 3. How many transactions does it categorize? How many false positives do you spot?
 
 ## Processing Multiple Files
 
 You have 12 months of bank statements. Processing them one by one would be tedious.
-
-### The Conversation Continues
 
 ```
 You: I have a folder with 12 months of bank statements (january.csv through
@@ -289,92 +266,31 @@ BUSINESS:
 All 12 months processed in one command.
 ```
 
-### The Agent's Toolkit: find and xargs
-
-**find** locates files matching a pattern:
-
-```bash
-find statements/ -name "*.csv"
-# Output:
-# statements/january.csv
-# statements/february.csv
-# ...
-```
-
-**xargs** takes that list and runs a command on it:
-
-```bash
-find statements/ -name "*.csv" | xargs cat
-# Concatenates all CSV files together
-```
-
-**The full pipeline:**
+**How the pipeline works:**
 
 ```bash
 find statements/ -name "*.csv" | xargs cat | python tax-categorize.py
 ```
 
-1. `find` locates all CSV files
-2. `xargs cat` reads them all
-3. `tax-categorize.py` categorizes and sums
+1. `find` locates all CSV files in the statements folder
+2. `xargs cat` reads them all and combines the output
+3. `tax-categorize.py` categorizes and sums everything
 
-One command processes an entire folder.
+One command processes an entire year of transactions.
 
 ## The Pattern
 
-Here's the categorization prompt pattern:
+Two prompt patterns emerged in this lesson:
 
-```
-"Categorize [data] by [criteria]. Watch out for [false positives]."
-```
+**Categorization:** `"Categorize [data] by [criteria]."`
 
-Mentioning false positives explicitly helps the agent build guards:
+Start simple -- let the agent build a first version. Then test it and look for false positives yourself. When you find them, tell the agent: `"[X] is showing up as [Y]. Fix it."` This iterative loop produces better results than trying to anticipate every edge case upfront.
 
-| Prompt | Result |
-|--------|--------|
-| "Categorize transactions as medical" | Basic keyword matching |
-| "Categorize as medical. Watch out for Dr. Pepper" | Adds false positive guard |
+**Batch processing:** `"I have [multiple files matching pattern]. Process them all at once."`
 
-The explicit edge case produces more robust code.
+This signals you want file discovery with `find`, batch execution with `xargs`, and aggregated results.
 
-### Pattern for Batch Processing
-
-```
-"I have [multiple files matching pattern]. Process them all at once."
-```
-
-This signals you want:
-- File discovery with `find`
-- Batch execution with `xargs`
-- Aggregated results
-
-## Try It Yourself
-
-Test the categorizer with edge cases:
-
-```bash
-# Create test data with tricky cases
-cat > test_tricky.csv << 'EOF'
-Date,Description,Amount
-2024-01-01,CVS PHARMACY,-$45.00
-2024-01-02,CVSMITH CONSULTING,-$200.00
-2024-01-03,DR MARTINEZ CLINIC,-$150.00
-2024-01-04,DR PEPPER SNAPPLE,-$4.99
-2024-01-05,AMAZON PHARMACY,-$30.00
-EOF
-
-cat test_tricky.csv | python tax-categorize.py
-```
-
-**Expected:**
-
-- CVS PHARMACY → Medical (✓)
-- CVSMITH CONSULTING → Not categorized (correct - false positive guard)
-- DR MARTINEZ CLINIC → Medical (has CLINIC keyword)
-- DR PEPPER SNAPPLE → Not categorized (correct - false positive guard)
-- AMAZON PHARMACY → Medical (has PHARMACY keyword)
-
-If Dr. Pepper or CVSmith appear in the output, the false positive guards aren't working.
+You can categorize transactions and process multiple files. But you've been doing this piece by piece — summing here, categorizing there, batch processing over here. In the capstone, you'll orchestrate everything into a single workflow: point Claude Code at a folder of bank statements and get an accountant-ready tax report. One conversation. One command. A full year of data.
 
 ---
 
@@ -417,4 +333,4 @@ Help me add these categories to tax-categorize.py:
 What false positives might I need to guard against?
 ```
 
-**What you're learning:** Proactive edge case thinking. The agent suggests guards you might not have considered - like distinguishing IKEA furniture from IKEA food court. You're learning to anticipate problems before they happen.
+**What you're learning:** Proactive edge case thinking. The agent suggests guards you might not have considered -- like distinguishing IKEA furniture from IKEA food court. You're learning to anticipate problems before they happen.
