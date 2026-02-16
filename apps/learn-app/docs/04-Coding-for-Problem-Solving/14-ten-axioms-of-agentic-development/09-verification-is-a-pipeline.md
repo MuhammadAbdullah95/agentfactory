@@ -122,7 +122,7 @@ Tomás's failed push was a textbook example of what CI was designed to prevent. 
 
 ## The Verification Pyramid
 
-![Verification Timeline: six stages from fast Format checks to slow Security Audit, each gating the next](./img/09-verification-timeline.png)
+![Verification Timeline: six stages from fast Format checks to slow Security Audit, each gating the next](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/09-verification-timeline.png)
 
 After Tomás's failed push, Lena walked him through the architecture of a proper CI pipeline. "Not all checks are equal," she said. "They form a pyramid — fast, cheap checks at the base catch the most common issues, while slower, more thorough checks at the top catch deeper problems."
 
