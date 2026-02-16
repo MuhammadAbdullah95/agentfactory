@@ -12,7 +12,7 @@ The 6 patterns (Orchestration, I/O Adapters, State Isolation, Capability Packagi
 
 ## What OpenClaw Proved vs Didn't Solve
 
-**Proved**: Demand exists (199k stars), architecture is engineering not research, UX drives adoption more than features, MIT license unlocked community growth.
+**Proved**: Demand exists (200k stars), architecture is engineering not research, UX drives adoption more than features, MIT license unlocked community growth.
 
 **Didn't solve**: Enterprise security (ClawHavoc showed exfiltration risks), governance (who reviews skills for safety?), reliability at scale (single-Gateway limits), cost control (500x variance per task), founder dependency (6,600+ commits from one person).
 

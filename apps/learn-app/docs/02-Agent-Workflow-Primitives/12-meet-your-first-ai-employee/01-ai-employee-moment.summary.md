@@ -11,7 +11,7 @@ sidebar_position: 1.5
 - **AI Employee vs Chatbot**: The difference is architectural (autonomous scheduling, persistent memory, multi-step workflows), not conversational quality.
 - **Six Dimensions of Difference**: Trigger, scope, memory, tools, schedule, and interface separate passive chatbots from autonomous AI Employees.
 - **Five Essential Components**: Every AI Employee system requires a gateway, channel adapters, agent loop, skills, and memory.
-- **OpenClaw as Validation**: 199k GitHub stars in under 3 months proved mass demand for AI Employees, not just smarter chatbots.
+- **OpenClaw as Validation**: 200k GitHub stars in under 3 months proved mass demand for AI Employees, not just smarter chatbots.
 - **Security Is Existential**: 341 malicious skills and critical RCE vulnerabilities show that an AI Employee with access to your data is a high-value attack target.
 
 ## Mental Models
@@ -33,11 +33,11 @@ sidebar_position: 1.5
 
 ## Quick Reference
 
-| Dimension     | Chatbot                        | AI Employee                              |
-| ------------- | ------------------------------ | ---------------------------------------- |
-| **Trigger**   | You ask a question             | Acts on its own schedule                 |
-| **Scope**     | One question, one answer       | Multi-step workflows across tools        |
-| **Memory**    | Forgets between sessions       | Remembers everything you taught it       |
-| **Tools**     | Web search, maybe text gen     | Email, files, calendars, APIs            |
-| **Schedule**  | Only when you are chatting     | Works while you sleep                    |
-| **Interface** | A chat window you must open    | Your existing messaging app              |
+| Dimension     | Chatbot                     | AI Employee                        |
+| ------------- | --------------------------- | ---------------------------------- |
+| **Trigger**   | You ask a question          | Acts on its own schedule           |
+| **Scope**     | One question, one answer    | Multi-step workflows across tools  |
+| **Memory**    | Forgets between sessions    | Remembers everything you taught it |
+| **Tools**     | Web search, maybe text gen  | Email, files, calendars, APIs      |
+| **Schedule**  | Only when you are chatting  | Works while you sleep              |
+| **Interface** | A chat window you must open | Your existing messaging app        |
