@@ -57,21 +57,21 @@ differentiation:
 
 # Axiom III: Programs Over Scripts
 
-Tomás learned Axiom II the hard way — two weeks of work discarded because a decision lived in Slack instead of markdown. After Lena's code review, he became the team's most disciplined documentation writer. Every decision got an ADR. Every convention went into CLAUDE.md. The knowledge was in markdown, in the repository, exactly where it belonged.
+James learned Axiom II the hard way — two weeks of work discarded because a decision lived in Slack instead of markdown. After Emma's code review, he became the team's most disciplined documentation writer. Every decision got an ADR. Every convention went into CLAUDE.md. The knowledge was in markdown, in the repository, exactly where it belonged.
 
-Then Lena asked him to write a script.
+Then Emma asked him to write a script.
 
-The team needed a utility to normalize image filenames before uploading them to the CDN — lowercase, no spaces, no special characters. Fifteen lines of Python. Tomás wrote it in twenty minutes: a `for` loop over `os.listdir`, a regex substitution, an `os.rename`. It worked. He committed it as `rename_images.py` and moved on.
+The team needed a utility to normalize image filenames before uploading them to the CDN — lowercase, no spaces, no special characters. Fifteen lines of Python. James wrote it in twenty minutes: a `for` loop over `os.listdir`, a regex substitution, an `os.rename`. It worked. He committed it as `rename_images.py` and moved on.
 
-Three months later, the marketing team adopted the script for their asset pipeline. Then the design team. Then the client services team started running it on deliverables. Nobody told Tomás. Nobody asked permission. The script just spread — because it worked, and because working code attracts dependencies the way a lit window attracts moths.
+Three months later, the marketing team adopted the script for their asset pipeline. Then the design team. Then the client services team started running it on deliverables. Nobody told James. Nobody asked permission. The script just spread — because it worked, and because working code attracts dependencies the way a lit window attracts moths.
 
 On a Friday afternoon, the client services team ran the script on a folder of 2,000 files for a product launch. The script encountered a filename with a Unicode em-dash, crashed on file 847, and left the folder in a state where 846 files had been renamed and 1,154 had not. There were no logs to show which files had been processed. There was no `--dry-run` flag to preview changes. There was no error handling to skip the problem file and continue. There were no tests that would have caught the Unicode edge case before it reached production. The team spent the weekend manually sorting 2,000 files, matching renamed versions to originals using file timestamps and sizes.
 
-Tomás stared at his fifteen lines of code and realized they had become load-bearing infrastructure for three teams — without a single line of the discipline that load-bearing code requires. The gap between a script and a program is the gap between a prototype and a product. Tomás had shipped a prototype.
+James stared at his fifteen lines of code and realized they had become load-bearing infrastructure for three teams — without a single line of the discipline that load-bearing code requires. The gap between a script and a program is the gap between a prototype and a product. James had shipped a prototype.
 
 ## The Problem Without This Axiom
 
-Tomás's fifteen-line script did not announce its promotion to production infrastructure. No one sent an email saying "this utility is now load-bearing code for three teams." It happened one convenience at a time — someone copied the script, someone else added it to a Makefile target, someone scheduled it in a cron job. By the time it failed, it had accumulated responsibilities it was never built to carry.
+James's fifteen-line script did not announce its promotion to production infrastructure. No one sent an email saying "this utility is now load-bearing code for three teams." It happened one convenience at a time — someone copied the script, someone else added it to a Makefile target, someone scheduled it in a cron job. By the time it failed, it had accumulated responsibilities it was never built to carry.
 
 This pattern is universal. Without the discipline that separates scripts from programs, every team accumulates a graveyard of fragile utilities:
 
@@ -87,7 +87,8 @@ The root cause is the same every time: code that grew beyond script-level comple
 
 This axiom draws a clear line: scripts serve exploration and experimentation; programs serve reliability and collaboration. Both are valuable. The failure mode is not writing scripts. The failure mode is shipping scripts as if they were programs.
 
-## The Long Argument for Types
+<details>
+<summary><strong>Historical Background: The Long Argument for Types (click to expand)</strong></summary>
 
 The debate between "move fast and break things" and "move carefully and prove things" is older than most developers realize. It traces back to the earliest days of programming language design, and the side that favors discipline has been winning — slowly, then all at once.
 
@@ -98,6 +99,8 @@ For decades, Python existed on the opposite end of this spectrum. Guido van Ross
 The turning point came in 2014, when Guido van Rossum — Python's creator himself — co-authored PEP 484, introducing optional type hints to the language. The proposal was not a concession. It was a recognition that Python had grown beyond scripting. Millions of lines of Python were running in production at Dropbox, Instagram, Google, and Netflix. At that scale, "run it and see if it crashes" was no longer an engineering strategy. Type hints let developers declare their intentions — `def process(data: list[Record]) -> Summary` — and let tools like mypy and later pyright verify those intentions before a single line executed.
 
 Python's journey from untyped scripting language to gradually typed systems language mirrors exactly what Axiom III teaches. The same forces that pushed Python toward types — growing codebases, production reliability, collaboration across teams — push every script toward program discipline once the stakes become real.
+
+</details>
 
 ---
 
@@ -116,7 +119,7 @@ The principle is about choosing the right medium. The axiom is about discipline 
 
 ## The Script-to-Program Continuum
 
-Tomás's mistake was not writing a script. His mistake was not recognizing when the script stopped being a script. Scripts and programs are not binary categories — they exist on a continuum, and code naturally moves along it as its responsibilities grow. The key is recognizing when your code has moved far enough that script-level practices become dangerous.
+James's mistake was not writing a script. His mistake was not recognizing when the script stopped being a script. Scripts and programs are not binary categories — they exist on a continuum, and code naturally moves along it as its responsibilities grow. The key is recognizing when your code has moved far enough that script-level practices become dangerous.
 
 | Dimension | Script | Program |
 |-----------|--------|---------|
@@ -140,9 +143,9 @@ A script should become a program when any of these conditions become true:
 4. **It grew beyond 50 lines.** This is not a strict threshold, but complexity compounds. Beyond 50 lines, you cannot hold the full logic in your head while debugging.
 5. **An AI generated it.** AI-generated code deserves extra scrutiny because you did not write it line-by-line. Types and tests become your verification layer.
 
-## A Script Becomes a Program: Tomás's Fifteen Lines
+## A Script Becomes a Program: James's Fifteen Lines
 
-Here is what Tomás originally wrote — the script that three teams came to depend on:
+Here is what James originally wrote — the script that three teams came to depend on:
 
 :::tip Don't worry about the Python syntax yet
 You will learn Python later in Part 4. For now, compare the *length and structure* of these two versions — not the syntax. Notice what the script is missing (error handling, tests, types) and what the program adds. The difference between a script and a program is the lesson, not the language.
@@ -152,7 +155,7 @@ You will learn Python later in Part 4. For now, compare the *length and structur
 # rename_images.py (SCRIPT version)
 import os, re
 
-folder = "/Users/tomas/photos"
+folder = "/Users/james/photos"
 for f in os.listdir(folder):
     if f.endswith(".jpg"):
         new_name = re.sub(r'\s+', '_', f.lower())
@@ -162,7 +165,7 @@ for f in os.listdir(folder):
 
 Twelve lines. No error handling. No way to preview changes. No protection against overwriting existing files. Hardcoded paths. When it hits a Unicode character it cannot process, it crashes mid-operation and leaves the folder half-renamed. This is the code that ruined a client team's weekend.
 
-After the incident, Lena sat down with Tomás and walked through the transformation. The program version is longer — necessarily so — but every additional line exists to prevent a specific category of failure:
+After the incident, Emma sat down with James and walked through the transformation. The program version is longer — necessarily so — but every additional line exists to prevent a specific category of failure:
 
 ```python static
 # src/image_renamer/cli.py (PROGRAM version)
@@ -239,7 +242,7 @@ def test_plan_renames_raises_on_missing_directory() -> None:
         plan_renames(Path("/nonexistent/path"))
 ```
 
-The key differences between Tomás's script and the program are not cosmetic. Each one prevents a specific class of failure:
+The key differences between James's script and the program are not cosmetic. Each one prevents a specific class of failure:
 
 | Aspect | Script | Program |
 |--------|--------|---------|
@@ -255,7 +258,7 @@ The key differences between Tomás's script and the program are not cosmetic. Ea
 
 ![Python Discipline Stack: four layered tools from uv at the foundation to pytest at the top, each catching a different class of defect](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/03-python-discipline-stack.png)
 
-After the Friday incident, Lena set up the team's repository with what she called "the four walls" — four tools that together make it nearly impossible for a script-level mistake to reach production. Python is flexible enough to be used as both a scripting language and a systems programming language. The discipline stack is what transforms it from "quick and loose" into "verified and reliable."
+After the Friday incident, Emma set up the team's repository with what she called "the four walls" — four tools that together make it nearly impossible for a script-level mistake to reach production. Python is flexible enough to be used as both a scripting language and a systems programming language. The discipline stack is what transforms it from "quick and loose" into "verified and reliable."
 
 | Tool | Role | What It Catches |
 |------|------|-----------------|
@@ -323,7 +326,7 @@ Each tool catches problems the others miss. Pyright will not tell you that your 
 
 ## Why AI-Generated Code Requires Program Discipline
 
-Tomás's script was written by a human who understood the problem — he just did not apply the discipline the problem eventually demanded. AI-generated code introduces a sharper version of the same risk. When you write code yourself, you build a mental model of how it works as you type each line. You know the assumptions, the edge cases you considered, and the shortcuts you took deliberately. AI-generated code arrives fully formed with no trace of the reasoning behind it. You receive the output without the thought process.
+James's script was written by a human who understood the problem — he just did not apply the discipline the problem eventually demanded. AI-generated code introduces a sharper version of the same risk. When you write code yourself, you build a mental model of how it works as you type each line. You know the assumptions, the edge cases you considered, and the shortcuts you took deliberately. AI-generated code arrives fully formed with no trace of the reasoning behind it. You receive the output without the thought process.
 
 This creates three specific risks that program discipline addresses:
 
@@ -380,17 +383,17 @@ This pipeline does not care whether a human or an AI wrote the code. It applies 
 
 ## Anti-Patterns: Scripts Masquerading as Programs
 
-You have seen the Script That Became Infrastructure. Every company has one. It is the Jupyter notebook that a data scientist wrote to clean up a CSV file — a notebook that now runs every Monday morning as part of the billing pipeline, executed cell by cell in a cron job, with a comment on cell 7 that says `# TODO: handle the case where the date column is empty` that has been there for fourteen months. It is the `process_payments.py` that someone wrote during a hackathon — forty lines, no tests, a bare `except Exception: pass` on line 23 that silently swallows every error, including the one where a decimal point shifts and a customer gets charged ten times the correct amount. It is the `deploy.sh` from Axiom I, all over again — but this time the tangled logic is not bash orchestration. It is Python that has all the flexibility of a proper programming language and none of the discipline. The notebook runs. The payment script runs. They run until they do not, and when they fail, they fail in ways that no one can diagnose because there are no types to read, no tests to run, and no error messages to follow.
+Every company has a Script That Became Infrastructure. It is the Jupyter notebook that a data scientist wrote to clean up a CSV file — now running every Monday as part of the billing pipeline, with a comment that says `# TODO: handle empty dates` that has been there for fourteen months. It is the payment processing script from a hackathon — forty lines, no tests, a bare `except` on line 23 that silently swallows every error, including the one where a customer gets charged ten times the correct amount.
+
+These scripts run. They run until they don't. And when they fail, they fail in ways that no one can diagnose — because there are no types to read, no tests to run, and no error messages to follow.
 
 | Anti-Pattern | Why It Fails | Program Alternative |
 |--------------|--------------|---------------------|
 | Jupyter notebooks as production code | No tests, no types, cell execution order matters, hidden state between cells | Extract logic into modules, test independently |
-| `def process(data):` (no type hints) | Callers cannot verify they pass correct types; AI cannot validate its own output | `def process(data: list[Record]) -> Summary:` |
+| No type hints on functions | Callers cannot verify they are passing the right data; AI cannot validate its own output | Add type annotations: `def process(data: list[Record]) -> Summary:` |
 | Bare `except Exception:` | Hides real errors, makes debugging impossible | Catch specific exceptions: `except FileNotFoundError:` |
-| `DB_HOST = "localhost"` in source | Breaks in any environment besides your machine | `DB_HOST = os.environ["DB_HOST"]` or typed config |
+| Hardcoded values in source code | Breaks in any environment besides your machine | Use environment variables or typed configuration |
 | "It's too simple to test" | Simple code becomes complex code; tests document expected behavior | Even one test proves the function works and prevents regressions |
-| `python my_script.py input.csv` | No `--help`, no validation, no discoverability | `typer` or `argparse` with typed arguments |
-| `pip install` in global environment | Different projects conflict; "works on my machine" syndrome | `uv` with locked `pyproject.toml` |
 
 ### The "Too Simple to Test" Trap
 
@@ -400,7 +403,7 @@ The cost of adding a test is low. The cost of debugging production failures in u
 
 ## The Decision Framework
 
-Had Tomás asked himself five questions before committing `rename_images.py`, the Friday incident would never have happened. These questions form a simple decision framework — a checklist that tells you whether your code has moved past the script boundary:
+Had James asked himself five questions before committing `rename_images.py`, the Friday incident would never have happened. These questions form a simple decision framework — a checklist that tells you whether your code has moved past the script boundary:
 
 ```
 1. Will this code run more than once?
@@ -491,15 +494,15 @@ help me understand what each setting protects against.
 
 Axiom III is not a prohibition against scripts. Scripts are the right tool for exploration — trying out an API, prototyping a data transformation, testing whether an approach works before committing to it. The axiom does not say "never write scripts." It says "do not ship scripts as if they were programs."
 
-The danger has a name: the Prototype Trap. It works like this. You write a script to solve an immediate problem. It works. Someone asks to use it. You say yes — it is just a quick thing, after all. A month passes. The script now has three users, a cron job, and an implicit SLA that nobody agreed to but everyone depends on. You know you should add types and tests, but the script is working, and there are more urgent things to build. Six months pass. The script fails. Now you are debugging production infrastructure that has no types to read, no tests to run, and no error messages to follow — exactly the situation Tomás found himself in.
+The danger has a name: the Prototype Trap. It works like this. You write a script to solve an immediate problem. It works. Someone asks to use it. You say yes — it is just a quick thing, after all. A month passes. The script now has three users, a cron job, and an implicit SLA that nobody agreed to but everyone depends on. You know you should add types and tests, but the script is working, and there are more urgent things to build. Six months pass. The script fails. Now you are debugging production infrastructure that has no types to read, no tests to run, and no error messages to follow — exactly the situation James found himself in.
 
-The trap is not ignorance. Tomás knew how to write a program. The trap is timing. The moment your script acquires its first external dependency — a second user, a cron schedule, a downstream process — it has crossed the boundary. That is the moment to stop and apply program discipline: types, tests, error handling, packaging. Not next sprint. Not when it breaks. Now. Because every week you delay, the script accumulates more dependencies and more expectations, and the cost of upgrading it from script to program grows. The Friday incident cost Tomás's team a weekend. If the script had been running for a year instead of three months, it could have cost far more.
+The trap is not ignorance. James knew how to write a program. The trap is timing. The moment your script acquires its first external dependency — a second user, a cron schedule, a downstream process — it has crossed the boundary. That is the moment to stop and apply program discipline: types, tests, error handling, packaging. Not next sprint. Not when it breaks. Now. Because every week you delay, the script accumulates more dependencies and more expectations, and the cost of upgrading it from script to program grows. The Friday incident cost James's team a weekend. If the script had been running for a year instead of three months, it could have cost far more.
 
 ---
 
 ## Key Takeaways
 
-Tomás wrote fifteen lines of Python that worked perfectly — until three teams depended on them and a Unicode em-dash brought the house down. The axiom exists because every script wants to become a program, and the ones that do so without acquiring the discipline of a program become the production incidents that ruin weekends.
+James wrote fifteen lines of Python that worked perfectly — until three teams depended on them and a Unicode em-dash brought the house down. The axiom exists because every script wants to become a program, and the ones that do so without acquiring the discipline of a program become the production incidents that ruin weekends.
 
 - **Scripts are for exploration; programs are for shipping.** The boundary is not about line count. It is about who depends on the code and what happens when it fails.
 - **Five signals mark the crossing point**: someone else runs it, it runs more than once, it processes important data, it exceeds 50 lines of logic, or an AI generated it. Any one of these means program discipline applies.

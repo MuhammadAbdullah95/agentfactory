@@ -57,17 +57,17 @@ differentiation:
 
 # Axiom II: Knowledge is Markdown
 
-In Axiom I, Lena replaced a 400-line bash script with a 12-line Makefile. The programs she orchestrated — pytest, Docker, kubectl — all needed to share information: test results, build configurations, deployment manifests, project conventions. But in what format? Where would this knowledge live so that every tool, every team member, and every AI agent could read it?
+In Axiom I, Emma replaced a 400-line script with a 12-line orchestration file. The tools she coordinated — for testing, building, and deploying — all needed to share information: test results, build configurations, deployment settings, project conventions. But in what format? Where would this knowledge live so that every tool, every team member, and every AI agent could read it?
 
 The answer was already in front of her. The same format you have been reading this entire book in.
 
-Six months before Lena's rewrite, her team had made a critical architecture decision: event-driven messaging over synchronous REST. The discussion happened across four Slack threads, two Zoom calls, a Google Doc that three people edited simultaneously, and a Confluence page that nobody could find anymore. When a new developer named Tomás joined, he looked at the codebase, saw REST calls everywhere except in the user service, and assumed it was an oversight. Nobody told him otherwise — because nobody could find the reasoning. The Google Doc had conflicting comments. The Confluence page referenced a Slack thread that had been archived. So Tomás spent two weeks building a REST integration for the user service. Clean code. Good tests. A pull request that undid three months of deliberate architecture.
+Six months before Emma's rewrite, her team had made a critical architecture decision: event-driven messaging over synchronous REST. The discussion happened across four Slack threads, two Zoom calls, a Google Doc that three people edited simultaneously, and a Confluence page that nobody could find anymore. When a new developer named James joined, he looked at the codebase, saw REST calls everywhere except in the user service, and assumed it was an oversight. Nobody told him otherwise — because nobody could find the reasoning. The Google Doc had conflicting comments. The Confluence page referenced a Slack thread that had been archived. So James spent two weeks building a REST integration for the user service. Clean code. Good tests. A pull request that undid three months of deliberate architecture.
 
-Lena caught it during code review. "We moved to event-driven for a reason," she said. "What reason?" Tomás asked. Silence. Nobody could reconstruct the full rationale. They knew the decision was right, but the knowledge about *why* — the N+1 query analysis, the mobile traffic data, the RFC from the September standup — had been scattered across formats that could not be searched, versioned, or read by an AI agent.
+Emma caught it during code review. "We moved to event-driven for a reason," she said. "What reason?" James asked. Silence. Nobody could reconstruct the full rationale. They knew the decision was right, but the knowledge about *why* — the N+1 query analysis, the mobile traffic data, the RFC from the September standup — had been scattered across formats that could not be searched, versioned, or read by an AI agent.
 
-Two weeks of Tomás's work, discarded. Not because the decision was bad. Because the knowledge was lost.
+Two weeks of James's work, discarded. Not because the decision was bad. Because the knowledge was lost.
 
-Now consider the alternative: that same decision lives in a file called `docs/adr/007-event-driven-messaging.md`, committed to the repository. It has a Status, Context, Decision, Consequences, and Alternatives Considered section. Before writing a single line of code, Tomás — or his AI agent — reads the file and understands the complete reasoning in thirty seconds. The REST integration is never built. The two weeks are never wasted. The architecture stays intact.
+Now consider the alternative: that same decision lives in a file called `docs/adr/007-event-driven-messaging.md`, committed to the repository. It has a Status, Context, Decision, Consequences, and Alternatives Considered section. Before writing a single line of code, James — or his AI agent — reads the file and understands the complete reasoning in thirty seconds. The REST integration is never built. The two weeks are never wasted. The architecture stays intact.
 
 The difference between these two scenarios is Axiom II.
 
@@ -86,7 +86,7 @@ Without a format standard, teams persist knowledge in whatever seems convenient 
 | YAML/JSON files | Configuration stored as pure data | Not human-friendly for prose, no narrative structure, poor for explaining "why" |
 | Plain text | `notes.txt` with no structure | No headers, no hierarchy, not parseable by tools expecting structure |
 
-Each format works in isolation. None works as a **system**. This is exactly the landscape Tomás walked into — the event-driven messaging decision existed in all of these formats simultaneously, and therefore effectively existed in none of them. AI agents could not read the Slack threads. Git could not track changes to the Google Doc. New team members could not find the Confluence page. The knowledge was technically "persisted" but practically lost.
+Each format works in isolation. None works as a **system**. This is exactly the landscape James walked into — the event-driven messaging decision existed in all of these formats simultaneously, and therefore effectively existed in none of them. AI agents could not read the Slack threads. Git could not track changes to the Google Doc. New team members could not find the Confluence page. The knowledge was technically "persisted" but practically lost.
 
 ## The Axiom Defined
 
@@ -96,13 +96,16 @@ This axiom doesn't say "documentation should be in markdown." It says **all pers
 
 ---
 
-## The Origin of Markdown
+<details>
+<summary><strong>Historical Background: The Origin of Markdown (click to expand)</strong></summary>
 
 Markdown was not designed by a committee or released by a corporation. It was created in 2004 by John Gruber, a writer and blogger, with substantial contributions from Aaron Swartz — who was seventeen years old at the time and had already created atx, a precursor format, two years earlier.
 
 Their design goal was radical in its simplicity: create a format that reads as well *before* rendering as it does after. Unlike HTML, where `<h1>Title</h1>` obscures the content behind tags, markdown's `# Title` is immediately legible. The format drew directly from the conventions people had already been using for decades in plain-text email — asterisks for emphasis, dashes for lists, blank lines for paragraphs. Gruber and Swartz did not invent a new syntax. They formalized the one that humans had already converged on naturally.
 
 This origin matters for Axiom II because it explains why markdown satisfies the four properties so well. It was not designed for machines and then adapted for humans. It was designed for human readability first, and machines turned out to be able to parse it too. Twenty years later, that design decision is what makes markdown the natural interface between human developers and AI agents — both can read the same file with the same ease, because readability was the original and only design constraint.
+
+</details>
 
 ---
 
@@ -128,7 +131,7 @@ Think of it this way. A team's knowledge is like a library. Markdown files in a 
 
 ## Why Markdown?
 
-After the incident, Lena told Tomás: "We need to write down every decision." Tomás agreed — but the question was not whether to write things down. It was *how*. If the team had written `docs/adr/007-event-driven-messaging.md` on the day they made the decision, Tomás would have found his answer in thirty seconds. But why markdown specifically? Why not a JSON file, a YAML config, or a well-organized text file?
+After the incident, Emma told James: "We need to write down every decision." James agreed — but the question was not whether to write things down. It was *how*. If the team had written `docs/adr/007-event-driven-messaging.md` on the day they made the decision, James would have found his answer in thirty seconds. But why markdown specifically? Why not a JSON file, a YAML config, or a well-organized text file?
 
 Markdown wins not because it is the most powerful format, but because it satisfies all four requirements simultaneously. No other format does.
 
@@ -160,7 +163,7 @@ Markdown is the only format that scores "Yes" on all four. HTML comes close but 
 
 ### The Structure Advantage
 
-This is where markdown's design genius — and its relevance to Tomás's situation — becomes concrete. It provides just enough structure to be parseable without becoming a data format that sacrifices readability:
+This is where markdown's design genius — and its relevance to James's situation — becomes concrete. It provides just enough structure to be parseable without becoming a data format that sacrifices readability:
 
 ```text
 # Decision Title           ← Parseable as section boundary
@@ -184,7 +187,7 @@ An AI agent reading this file can:
 
 ## Markdown as Knowledge System
 
-Once Lena's team committed to markdown, something unexpected happened. The ADR that would have saved Tomás's two weeks was just the beginning. Axiom II is not about individual files. A single ADR in markdown is useful. A complete knowledge system in markdown — where specs, decisions, context, and documentation all share the same format, the same repository, and the same version history — is transformative. Different knowledge types serve distinct purposes but use identical infrastructure.
+Once Emma's team committed to markdown, something unexpected happened. The ADR that would have saved James's two weeks was just the beginning. Axiom II is not about individual files. A single ADR in markdown is useful. A complete knowledge system in markdown — where specs, decisions, context, and documentation all share the same format, the same repository, and the same version history — is transformative. Different knowledge types serve distinct purposes but use identical infrastructure.
 
 ### Specifications: What to Build
 
@@ -244,7 +247,7 @@ All four knowledge types — spec, decision, context, documentation — use the 
 
 ## YAML Frontmatter: The Metadata Layer
 
-As Lena's team migrated their knowledge into markdown, Tomás noticed a gap. The ADR captured the *reasoning* behind a decision, but he also wanted to record *when* it was made, *who* approved it, and *what status* it had — structured data that did not belong in prose paragraphs. Raw markdown provides structure through headers, lists, and tables. But some knowledge is better expressed as structured data: lesson duration, skill proficiency levels, creation dates, taxonomy categories. This is where YAML frontmatter adds a metadata layer on top of markdown content.
+As Emma's team migrated their knowledge into markdown, James noticed a gap. The ADR captured the *reasoning* behind a decision, but he also wanted to record *when* it was made, *who* approved it, and *what status* it had — structured data that did not belong in prose paragraphs. Raw markdown provides structure through headers, lists, and tables. But some knowledge is better expressed as structured data: lesson duration, skill proficiency levels, creation dates, taxonomy categories. This is where YAML frontmatter adds a metadata layer on top of markdown content.
 
 ```markdown
 ---
@@ -274,22 +277,24 @@ This pattern appears throughout professional tooling: Jekyll blogs, Docusaurus d
 
 ## Anti-Patterns: Knowledge Trapped Outside Markdown
 
-You have seen the Knowledge Graveyard. Every team has one. It is the Google Doc titled "Architecture Decisions Q3" with forty-seven comments, twelve of which contradict each other, three of which are from people who no longer work at the company. It is the Confluence page that was last updated eight months ago and starts with "This document is a living document" — which it demonstrably is not. It is the Slack thread where the CTO explained, in six detailed messages, exactly why the team chose Kafka over RabbitMQ — messages that disappeared behind the 90-day archive wall on a Tuesday afternoon while nobody noticed. It is the README that says "See the wiki for architecture details" and the wiki that says "See the README for setup instructions," and both are wrong. The knowledge existed. It was written down. It was even shared. But it was scattered across formats that could not be searched together, versioned together, or read by the AI agent that the new developer asked to "explain why we use Kafka." The agent searched the repository, found nothing, and hallucinated an answer. The new developer believed it. The wrong architecture decision followed.
+Every team has a Knowledge Graveyard. It is the Google Doc with forty-seven comments, twelve of which contradict each other. It is the Confluence page that starts with "This document is a living document" — last updated eight months ago. It is the Slack thread where the CTO explained exactly why the team chose one technology over another — messages that disappeared behind the archive wall while nobody noticed.
+
+The knowledge existed. It was written down. It was even shared. But it was scattered across formats that could not be searched together, versioned together, or read by an AI agent. When a new developer asked their AI assistant to "explain why we use this technology," the agent searched the repository, found nothing, and hallucinated an answer. The developer believed it. A wrong decision followed.
+
+Here are the most common ways knowledge gets trapped:
 
 | Anti-Pattern | What Happens | The Fix |
 |--------------|-------------|---------|
 | **Decisions in Slack** | Knowledge archived after 90 days; unsearchable; no structure | Write an ADR in `docs/adr/` and commit it |
-| **Specs in Google Docs** | CI can't validate completion; AI can't read without auth; merge conflicts impossible | Write specs as markdown in the repo |
-| **Docs in Confluence** | Vendor lock-in; stale pages nobody updates; separate from code | Co-locate docs with code as markdown |
-| **Notes without headers** | AI can't parse sections; search returns whole file; no table of contents | Use `#` headers to create parseable structure |
-| **Knowledge in proprietary formats** | Tool migration means knowledge migration; bus factor increases | Markdown survives any tool change |
-| **Unversioned documentation** | No history of what changed, when, or why; no rollback | Commit all knowledge files to git |
+| **Specs in Google Docs** | AI can't read without authentication; merge conflicts impossible to resolve | Write specs as markdown in the repo |
+| **Docs in Confluence** | Vendor lock-in; pages go stale; separate from the code they describe | Co-locate docs with code as markdown |
+| **Notes without headers** | AI can't parse sections; search returns the whole file instead of the relevant part | Use `#` headers to create parseable structure |
 
 The common thread: every anti-pattern breaks at least one of the four properties. Slack breaks version-controllability. Google Docs breaks tool-agnosticism. Plain text without headers breaks AI-parseability. Proprietary formats break all four.
 
 ## The Knowledge Architecture
 
-After Lena's Makefile rewrite from Axiom I, her team adopted Axiom II. They migrated every decision from Slack, every spec from Google Docs, and every convention from tribal knowledge into markdown files in the repository. Within a month, the project looked like this:
+After Emma's Makefile rewrite from Axiom I, her team adopted Axiom II. They migrated every decision from Slack, every spec from Google Docs, and every convention from tribal knowledge into markdown files in the repository. Within a month, the project looked like this:
 
 ```
 project/
@@ -310,11 +315,11 @@ project/
 └── tests/                       ← Verification
 ```
 
-Every knowledge type has a place. Every file is markdown. Every change is tracked. Every agent can read everything. When the next Tomás joins the team and asks "why event-driven messaging?", the answer is one `grep` away — or one question to an AI agent that can read every file in the repository.
+Every knowledge type has a place. Every file is markdown. Every change is tracked. Every agent can read everything. When the next James joins the team and asks "why event-driven messaging?", the answer is one `grep` away — or one question to an AI agent that can read every file in the repository.
 
 ## The Openness Trade-Off
 
-During the migration, Tomás almost committed the team's database connection string into `CLAUDE.md`. Lena caught it in review. "That's the other side of this axiom," she said. Markdown's greatest strength — plain text that anyone and anything can read — is also its greatest risk. A markdown file committed to a repository is visible to every person and every tool with access. This openness is exactly what makes it the universal knowledge format. It is also exactly what makes it dangerous for secrets.
+During the migration, James almost committed the team's database connection string into `CLAUDE.md`. Emma caught it in review. "That's the other side of this axiom," she said. Markdown's greatest strength — plain text that anyone and anything can read — is also its greatest risk. A markdown file committed to a repository is visible to every person and every tool with access. This openness is exactly what makes it the universal knowledge format. It is also exactly what makes it dangerous for secrets.
 
 Never store API keys, passwords, tokens, or customer data in markdown files, even in private repositories. An AI agent reading your CLAUDE.md should find instructions like `DATABASE_URL is set via environment variable` — not the actual connection string. A spec file should reference `Use the Stripe API key from .env` — not embed the key itself.
 
@@ -387,7 +392,7 @@ and explain why each field is in frontmatter rather than the body.
 
 ## Key Takeaways
 
-Tomás's question — "Why don't we just use REST?" — is asked in every team, about every major decision. The difference between teams that can answer it and teams that cannot is not memory. It is format. Knowledge that lives in markdown, in the repository, survives everything: team turnover, tool migrations, Slack archive limits, and the statelessness of AI agents.
+James's question — "Why don't we just use REST?" — is asked in every team, about every major decision. The difference between teams that can answer it and teams that cannot is not memory. It is format. Knowledge that lives in markdown, in the repository, survives everything: team turnover, tool migrations, Slack archive limits, and the statelessness of AI agents.
 
 - **All persistent knowledge belongs in markdown.** Specifications, decisions, context, documentation — one format, one repository, one version history.
 - **Markdown satisfies four properties no other format matches**: human-readable, version-controllable, AI-parseable, and tool-agnostic. This is not opinion — the comparison table shows it empirically.
