@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 14
 title: "When Your Employee Codes"
 description: "Discover the inversion pattern: your AI Employee orchestrates Claude Code to write actual software, demonstrating the Agent Factory thesis -- agents that build agents"
 keywords:
@@ -15,8 +15,8 @@ keywords:
     self-building agents,
     delegation chain,
   ]
-chapter: 12
-lesson: 7
+chapter: 13
+lesson: 14
 duration_minutes: 30
 
 # HIDDEN SKILLS METADATA

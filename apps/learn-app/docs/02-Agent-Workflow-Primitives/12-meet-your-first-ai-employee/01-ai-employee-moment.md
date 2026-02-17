@@ -33,7 +33,7 @@ skills:
     measurable_at_this_level: "Student can explain why OpenClaw's growth (200k stars in under 3 months) signals validated demand for AI Employees, and can articulate the project's strengths and honest limitations including security concerns"
 
 learning_objectives:
-  - objective: "Identify the key events in OpenClaw's rise from first commit (November 24, 2025) through 200,000 GitHub stars and the transition to a foundation (February 2026)"
+  - objective: "Identify the key events in OpenClaw's rise from first commit (November 24, 2025) through 202,000 GitHub stars and the transition to a foundation (February 2026)"
     proficiency_level: "A1"
     bloom_level: "Remember"
     assessment_method: "Student can recount the timeline: first commit November 2025, Anthropic trademark issue January 2026, viral growth late January, Steinberger joins OpenAI mid-February 2026, project moves to foundation"
@@ -86,11 +86,11 @@ teaching_guide:
 
 In Part 1, you learned the Agent Factory paradigm: General Agents incubate solutions, then Custom Agents specialize for production. In Chapters 4 through 11, you built individual capabilities one at a time -- prompting, memory, tools, version control. Now something concrete brings it all together.
 
-In late January 2026, a weekend project by Peter Steinberger -- the Austrian engineer who founded PSPDFKit and spent 13 years building developer tools used by nearly a billion people -- went viral in a way the open-source world had rarely seen. His AI agent, originally called Clawdbot, accumulated GitHub stars at unprecedented speed. By mid-February 2026, the project (now renamed OpenClaw after an Anthropic trademark dispute) had crossed 200,000 stars, making it one of the fastest-growing repositories in GitHub history.
+In late January 2026, a weekend project by Peter Steinberger -- the Austrian engineer who founded PSPDFKit and spent 13 years building developer tools used by nearly a billion people -- went viral in a way the open-source world had rarely seen. His AI agent, originally called Clawdbot, accumulated GitHub stars at unprecedented speed. By mid-February 2026, the project (now renamed OpenClaw after an Anthropic trademark dispute) had crossed 202,000 stars, making it one of the fastest-growing repositories in GitHub history.
 
 People were not starring a library or a framework. They were starring a realization: **AI Employees are real.** OpenClaw gave anyone a personal AI that clears inboxes, schedules meetings, manages files, and completes work -- autonomously, while you sleep. Not through a special app or a web dashboard, but through the messaging tools already on your phone: WhatsApp, Telegram, iMessage, Slack, Discord. You message your AI Employee the same way you message a colleague. It messages you back when the work is done.
 
-Then, on February 14, 2026, Steinberger posted on X: "I'm joining OpenAI to bring agents to everyone. OpenClaw is becoming a foundation: open, independent, and just getting started." In his blog post, he explained his motivation: "What I want is to change the world, not build a large company." OpenClaw would move to an independent foundation with OpenAI sponsorship. The message from the industry was clear: AI Employees are not a feature inside ChatGPT or Claude. They are a new category of software -- and the race to define that category is on.
+Then, on February 15, 2026, Steinberger posted on X: "I'm joining OpenAI to bring agents to everyone. OpenClaw is becoming a foundation: open, independent, and just getting started." In his blog post, he explained his motivation: "What I want is to change the world, not build a large company." OpenClaw would move to an independent foundation with OpenAI sponsorship. The message from the industry was clear: AI Employees are not a feature inside ChatGPT or Claude. They are a new category of software -- and the race to define that category is on.
 
 ## What Actually Happened (November 2025 -- February 2026)
 
@@ -104,13 +104,13 @@ The timeline tells a story about what happens when a real product meets genuine 
 
 **Early February 2026**: Stars accumulate past 145,000. The project attracts 600+ contributors and 10,000 commits in under three months. Major sponsors line up. Dave Morin, co-founder of Path (and an early Facebook executive), sponsors the project and organizes ClawCon -- the first OpenClaw community conference in San Francisco, drawing over 700 attendees.
 
-**February 14, 2026**: Steinberger announces he is joining OpenAI. He posts on X: "I'm joining OpenAI to bring agents to everyone. OpenClaw is becoming a foundation: open, independent, and just getting started." Sam Altman responds: "He is a genius with a lot of amazing ideas about the future of very smart agents interacting with each other to do very useful things for people." OpenClaw moves to a foundation structure, independent and open source, with OpenAI as a sponsor.
+**February 15, 2026**: Steinberger announces he is joining OpenAI. He posts on X: "I'm joining OpenAI to bring agents to everyone. OpenClaw is becoming a foundation: open, independent, and just getting started." Sam Altman responds: "He is a genius with a lot of amazing ideas about the future of very smart agents interacting with each other to do very useful things for people." OpenClaw moves to a foundation structure, independent and open source, with OpenAI as a sponsor.
 
-**By February 16, 2026**: The project has 200,000 GitHub stars. For context, it took React (Meta's UI framework) over a decade to reach 230,000 stars. OpenClaw did most of that distance in under three months.
+**By February 16, 2026**: The project has 202,000 GitHub stars. For context, it took React (Meta's UI framework) over a decade to reach 230,000 stars. OpenClaw did most of that distance in under three months.
 
 ### Why This Growth Matters
 
-The growth rate itself is a signal. People do not star repositories they find mildly interesting. 200,000 stars means hundreds of thousands of developers looked at OpenClaw and said: "I want this." The viral loop through messaging apps -- where you can demo the product by simply forwarding a conversation -- created adoption speed that traditional developer tools cannot match.
+The growth rate itself is a signal. People do not star repositories they find mildly interesting. 202,000 stars means hundreds of thousands of developers looked at OpenClaw and said: "I want this." The viral loop through messaging apps -- where you can demo the product by simply forwarding a conversation -- created adoption speed that traditional developer tools cannot match.
 
 But growth alone does not validate a category. What validates the AI Employee category is _what people did with it_. They did not treat OpenClaw as a novelty. They gave it real work: managing calendars, processing emails, coordinating schedules, automating repetitive tasks. The demand was not for a smarter chatbot. The demand was for an autonomous colleague.
 
@@ -176,7 +176,7 @@ You (WhatsApp/Telegram/Slack)
    └──────────┘     └────────┘
 ```
 
-**Model-agnostic by design**: OpenClaw does not lock you into one AI provider. It ships with built-in support for 14+ providers: OpenAI, Anthropic, Google Gemini, Ollama (for local models running on your own hardware), and more. You can switch models per workflow or run entirely local for privacy.
+**Model-agnostic by design**: OpenClaw does not lock you into one AI provider. It ships with built-in support for 25+ providers: OpenAI, Anthropic, Google Gemini, Ollama (for local models running on your own hardware), and more. You can switch models per workflow or run entirely local for privacy.
 
 You will explore this architecture in detail in Lesson 4. For now, carry the five-component mental model: **Gateway, Adapters, Agent Loop, Skills, Memory.** Every AI Employee system -- OpenClaw, CrewAI, LangGraph, or one you build yourself -- needs all five.
 
@@ -186,7 +186,7 @@ This is where many introductions would stop -- viral growth, exciting technology
 
 ### The Bus Factor
 
-Peter Steinberger's personal commitment drove OpenClaw's explosive growth. He shipped code daily, responded to issues personally, and shaped the project's direction. That commitment was also a vulnerability: one person as the primary architect of a 200,000-star project is a significant bus factor risk.
+Peter Steinberger's personal commitment drove OpenClaw's explosive growth. He shipped code daily, responded to issues personally, and shaped the project's direction. That commitment was also a vulnerability: one person as the primary architect of a 202,000-star project is a significant bus factor risk.
 
 Steinberger's move to OpenAI addresses this partially -- the project now lives in a foundation with corporate sponsorship and 600+ contributors. But the transition from founder-driven to community-driven is never guaranteed to succeed. Many open-source projects lose momentum after their founder moves on. Whether OpenClaw sustains its trajectory depends on the foundation's governance and community engagement.
 
@@ -197,7 +197,7 @@ The numbers are sobering. A comprehensive security audit found:
 - **341 malicious skills** out of 2,857 published on ClawHub (OpenClaw's skill marketplace), with 335 traced to a single coordinated attack campaign called ClawHavoc
 - **512 total vulnerabilities** identified in the codebase, 8 classified as critical
 - **CVE-2026-25253**: A critical remote code execution vulnerability (CVSS 8.8) where attackers could exfiltrate authentication tokens through a single malicious link
-- **21,639 exposed OpenClaw instances** found on the public internet as of late January 2026, with over 15,000 vulnerable to remote code execution
+- **Over 135,000 exposed OpenClaw instances** found on the public internet across 28,663 unique IP addresses, with over 12,000 vulnerable to remote code execution
 
 One popular community skill -- with an innocuous name and thousands of installations -- turned out to be functionally malware, silently exfiltrating data to attacker-controlled servers.
 
@@ -247,7 +247,7 @@ Use these prompts to deepen your understanding of the AI Employee paradigm befor
 ### Prompt 1: Adoption Analysis
 
 ```
-OpenClaw reached 200,000 GitHub stars in under 3 months. React took
+OpenClaw reached 202,000 GitHub stars in under 3 months. React took
 over a decade to reach 230,000. Docker and Kubernetes also had explosive
 adoption curves, but at different rates.
 
@@ -313,7 +313,7 @@ No. This chapter uses OpenClaw because it is the most accessible way to experien
 
 ### What happened to Peter Steinberger and the project?
 
-Steinberger joined OpenAI on February 14, 2026, saying "I want to change the world, not build a large company." OpenClaw transitioned to an independent open-source foundation with OpenAI sponsorship. The project continues active development with 600+ contributors.
+Steinberger joined OpenAI on February 15, 2026, saying "I want to change the world, not build a large company." OpenClaw transitioned to an independent open-source foundation with OpenAI sponsorship. The project continues active development with 600+ contributors.
 
 ### Why did OpenClaw grow so fast?
 
