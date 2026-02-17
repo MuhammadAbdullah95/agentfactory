@@ -17,6 +17,10 @@ Track meaningful updates to the book. This page is automatically updated when do
 
 <!-- CHANGELOG_START - Do not remove this marker -->
 
+### 2026-02-17
+
+- Condense Ch12 from 8 to 6 lessons ([#736](https://github.com/panaversity/agentfactory/pull/736))
+
 ### 2026-02-16
 - docs: migrate chapter 14 assets to R2 CDN ([#735](https://github.com/panaversity/agentfactory/pull/735))
 
