@@ -100,20 +100,16 @@ One gateway per host. That is the design. It owns all messaging connections -- W
 
 Each messaging platform your employee connects to is a **channel**. Telegram uses grammY. WhatsApp uses Baileys. Discord uses its Bot API. Each is an adapter that translates platform-specific messages into a common internal format.
 
-Here is what OpenClaw currently supports (partial list):
+Here are four representative channels:
 
-| Channel     | Library/Protocol     | Best For               |
-| ----------- | -------------------- | ---------------------- |
-| Telegram    | grammY (Bot API)     | Quick personal setup   |
-| WhatsApp    | Baileys (Web API)    | Business communication |
-| Discord     | Carbon (Discord API) | Teams and communities  |
-| Slack       | Bolt SDK             | Enterprise workspaces  |
-| Signal      | signal-cli           | Privacy-focused        |
-| iMessage    | BlueBubbles REST API | Apple ecosystem        |
-| Google Chat | HTTP webhook         | Google Workspace       |
-| WebChat     | Gateway WebSocket    | Browser access         |
+| Channel  | Library/Protocol     | Best For               |
+| -------- | -------------------- | ---------------------- |
+| Telegram | grammY (Bot API)     | Quick personal setup   |
+| WhatsApp | Baileys (Web API)    | Business communication |
+| Discord  | Carbon (Discord API) | Teams and communities  |
+| Slack    | Bolt SDK             | Enterprise workspaces  |
 
-There are more -- IRC, Matrix, LINE, Nostr, Mattermost, Microsoft Teams, Feishu, Twitch -- 36 integrations at last count, with 20+ messaging channels. But the number does not matter. What matters is the design principle.
+OpenClaw supports 30+ channels including Signal, iMessage, Matrix, and Microsoft Teams. The number does not matter. What matters is the design principle.
 
 When a message arrives from Telegram, the adapter strips away Telegram-specific formatting, extracts the text, user identity, and conversation context, then passes a normalized message to the Gateway. When a response comes back, the adapter translates it into Telegram's format -- respecting message length limits, markdown rendering, and media handling. The agent never knows which channel the message came from. It processes a clean, channel-agnostic payload.
 
@@ -178,11 +174,11 @@ Message Out
 
 Let's trace a concrete example. You message your employee on Telegram: "Summarize the key trends in AI agents for 2026."
 
-**Phase 1 -- Ingestion:** The Telegram adapter (grammY) receives the message from Telegram's servers. It extracts your text, user ID, and chat ID, normalizes them into OpenClaw's internal message format, and hands it to the Gateway.
+**Phase 1 -- Ingestion:** The Telegram adapter receives your message, normalizes it into OpenClaw's internal format, and hands it to the Gateway.
 
-**Phase 2 -- Access Control:** The Gateway checks your pairing status. Are you an approved user? Is this channel configured? If you haven't paired yet, you get a pairing code instead of a response. If approved, the message proceeds.
+**Phase 2 -- Access Control:** The Gateway checks your pairing status and permissions; unpaired users get a pairing code instead of a response.
 
-**Phase 3 -- Context Assembly:** This is where the magic happens. The agent builds the full context that the LLM will see. It loads your session transcript (the JSONL history of your conversation), your **workspace bootstrap files**, any eligible skills (name and description injected into the system prompt), and memory files (today's daily log plus yesterday's). All of this gets assembled into a single prompt.
+**Phase 3 -- Context Assembly:** The agent builds the full context the LLM will see -- session transcript, workspace bootstrap files, eligible skills, and memory files -- assembled into a single prompt.
 
 The bootstrap files define your agent's identity and behavior before any conversation begins:
 
@@ -198,13 +194,11 @@ The bootstrap files define your agent's identity and behavior before any convers
 
 These files live in your workspace directory (`~/.openclaw/workspace/`). Together, they give your agent a persistent identity that survives session resets. When you customize SOUL.md, you are not tweaking a setting -- you are defining who your employee is.
 
-**Phase 4 -- Model Invocation:** The assembled context goes to your configured LLM. If you are using Kimi K2.5 (free tier), the request goes to Moonshot's API. If Claude, to Anthropic. The model reasons about your question and generates a response -- potentially requesting tool calls.
+**Phase 4 -- Model Invocation:** The assembled context goes to your configured LLM, which reasons about your question and generates a response -- potentially requesting tool calls.
 
-**Phase 5 -- Tool Execution:** If the model decides it needs tools (searching the web, reading files, executing code), the agent executes those tool calls and feeds the results back. The model may then request more tools, creating an iterative loop. For your summary question, the model might use a web search tool to find recent AI agent news, then synthesize the results.
+**Phase 5 -- Tool Execution:** If the model needs tools (web search, file reads, code execution), it calls them and feeds results back, looping until satisfied.
 
-**Phase 6 -- Response Delivery:** The final response flows back through the Gateway, which routes it to the Telegram adapter, which formats it for Telegram's message limits and sends it to your phone.
-
-Total elapsed time: typically 2-8 seconds depending on model speed and whether tools are involved.
+**Phase 6 -- Response Delivery:** The final response flows back through the Gateway to the Telegram adapter and onto your phone.
 
 **The pattern: Autonomous Execution Loop.**
 
@@ -286,45 +280,15 @@ Before auto-compaction, OpenClaw runs a **silent memory flush** -- a hidden agen
 
 ## Skills -- Your Employee's Teachable Abilities
 
-Skills are the portable unit of expertise. Each skill is a directory containing a `SKILL.md` file with YAML frontmatter and Markdown instructions:
+You built skills in Chapter 3 -- SKILL.md files with YAML frontmatter and Markdown instructions. OpenClaw uses the exact same format. Skills load from three locations with workspace skills (highest priority) overriding managed and bundled defaults:
 
 ```
-skills/
-└── research-assistant/
-    └── SKILL.md
+~/.openclaw/workspace/skills/   # Your custom skills (highest priority)
+~/.openclaw/skills/             # Managed skills shared across agents
+<bundled with OpenClaw>         # Default skills shipped with install
 ```
 
-The frontmatter defines the skill's identity:
-
-```markdown
----
-name: research-assistant
-description: Research any topic and produce structured notes with sources
----
-
-# Research Assistant
-
-When asked to research a topic:
-
-1. Clarify scope and depth
-2. Search for authoritative sources
-3. Organize findings into structured notes
-   ...
-```
-
-Skills load from three locations with clear precedence:
-
-| Priority    | Location              | Use Case                                |
-| ----------- | --------------------- | --------------------------------------- |
-| **Highest** | `<workspace>/skills/` | Your custom skills for this agent       |
-| **Middle**  | `~/.openclaw/skills/` | Managed skills shared across agents     |
-| **Lowest**  | Bundled with OpenClaw | Default skills shipped with the install |
-
-A workspace skill with the same name as a bundled skill overrides it. This lets you customize any default behavior without forking the codebase.
-
-**Progressive disclosure** keeps token costs down. At session start, OpenClaw only injects each skill's name and description into the system prompt -- a compact XML list. The full SKILL.md content only gets loaded when the model actually invokes the skill. With 20 skills loaded, the overhead is roughly 20 x ~24 tokens = ~480 tokens for the skill list. The full instructions might be 2,000 tokens per skill, but that cost is only paid when the skill activates.
-
-Skills are portable because they are plain Markdown with a standard YAML frontmatter contract. The same skill that works in OpenClaw works in Claude Code (which uses the same `SKILL.md` format in `.claude/skills/`). ClawHub (`clawhub.com`) serves as a public registry where you can discover, install, and share skills.
+At session start, only each skill's name and description enter the system prompt (~24 tokens each). Full instructions load on demand. Twenty skills cost ~480 tokens of overhead until one activates.
 
 **The pattern: Capability Packaging.**
 
@@ -362,7 +326,7 @@ Remove any one pattern and the system degrades in predictable ways:
 
 You could add patterns (logging, authentication, rate limiting), but those are operational concerns, not architectural requirements. These are not OpenClaw's design decisions -- they are engineering necessities that emerge from fundamental constraints. Any sufficiently capable agent system reinvents them. Your job is to recognize them, regardless of what name they carry.
 
-In Lesson 05, you will build a custom skill and explore the security realities of giving AI real autonomy. Then the chapter assessment consolidates everything: the architecture, the patterns, and an honest evaluation of what OpenClaw proved and what remains unsolved across the industry.
+In Lesson 05, you will put skills to work and explore the security realities of giving AI real autonomy. Then the chapter assessment consolidates everything: the architecture, the patterns, and an honest evaluation of what OpenClaw proved and what remains unsolved across the industry.
 
 ## Try With AI
 
