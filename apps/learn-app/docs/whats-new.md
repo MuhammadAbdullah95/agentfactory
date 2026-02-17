@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-17
+- docs: fix chapter 6 cross-reference link in ch14 overview ([#742](https://github.com/panaversity/agentfactory/pull/742))
+
+### 2026-02-17
 - docs: improve chapter 14 readability, slides, and citations ([#741](https://github.com/panaversity/agentfactory/pull/741))
 
 ### 2026-02-17
