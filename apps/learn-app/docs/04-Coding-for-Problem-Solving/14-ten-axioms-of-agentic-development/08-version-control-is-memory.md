@@ -170,7 +170,8 @@ James experienced this progression firsthand:
 - **After Principle 5**: His conventions lived in CLAUDE.md. The AI could read current rules.
 - **After Axiom VIII**: His conventions lived in *versioned* CLAUDE.md. The AI could read not just the current rules, but the history of *why* each rule was added — including the $12,000 discount incident that prompted the TDG requirement.
 
-## The Discipline That Preceded Git
+<details>
+<summary>**The Discipline That Preceded Git**</summary>
 
 The idea that version control could serve as institutional memory has roots older than most developers realize. In April 2005, Linus Torvalds built Git's core in roughly two weeks — not as a side project, but out of necessity. The Linux kernel, the largest collaborative software project in history, had been using a proprietary tool called BitKeeper for version control. When BitKeeper revoked its free license, Torvalds needed a replacement that could handle thousands of distributed developers collaborating without a central server.
 
@@ -179,6 +180,8 @@ The tools that preceded Git — CVS (1990) and Subversion (2000) — required a 
 But Torvalds's deeper insight was about what version control *records*. CVS tracked file changes. Git tracks *snapshots of the entire project state* — every commit captures the complete state of every file at that moment. This means you can reconstruct your project at any point in its history, not just individual files. The project's memory is not a collection of diffs. It is a sequence of complete states, each connected to the decision that produced it.
 
 James's `wip` commits squandered this power. Git was designed to be a complete institutional memory. He had been using it as a save button.
+
+</details>
 
 ---
 
@@ -462,7 +465,11 @@ Key rules:
 
 ## Anti-Patterns: How Git Memory Fails
 
-Open any project that has been running for more than a year and run `git log --oneline | head -20`. If you see `wip`, `fix`, `stuff`, `update`, `changes` — you are looking at a project with amnesia. The commit log reads like a list of words rather than a story. `git blame` on any line returns a message that tells you nothing. A developer left six months ago and took the entire architectural context with them, because none of it was written in commits. `git bisect` is useless because every commit changes forty files for three unrelated reasons. The team lead says "we tried caching last year" but nobody can find the experiment, nobody remembers why it failed, and a new developer spends two weeks rediscovering the same dead end. This history is not missing information by accident. It is missing information because each developer chose the two-second shortcut of `git commit -m "wip"`, and a thousand two-second shortcuts became a project that cannot explain itself.
+Open any project that has been running for more than a year and run `git log --oneline | head -20`. If you see `wip`, `fix`, `stuff`, `update`, `changes` — you are looking at a project with amnesia. The commit log reads like a list of words rather than a story. `git blame` on any line returns a message that tells you nothing.
+
+A developer left six months ago and took the entire architectural context with them, because none of it was written in commits. `git bisect` is useless because every commit changes forty files for three unrelated reasons. The team lead says "we tried caching last year" but nobody can find the experiment, nobody remembers why it failed, and a new developer spends two weeks rediscovering the same dead end.
+
+This history is not missing information by accident. It is missing information because each developer chose the two-second shortcut of `git commit -m "wip"`, and a thousand two-second shortcuts became a project that cannot explain itself.
 
 These specific patterns destroy git's value as memory. Recognize and avoid them:
 
