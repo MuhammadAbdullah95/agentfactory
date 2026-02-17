@@ -105,8 +105,6 @@ Let's start with the most basic question: when an AI agent has access to a termi
 
 ## 📚 Teaching Aid
 
-## What You'll Learn
-
 ## Prerequisites
 
 - **Part 1**: General Agents Foundations (Chapters 1-4)
