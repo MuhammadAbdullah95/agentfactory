@@ -65,160 +65,130 @@ differentiation:
 
 # Your Employee Orchestrating Agents
 
-In Lesson 5, you taught your AI Employee new skills and learned why security matters when running agents on your machine. Those skills handle text-based work -- meeting prep, research summaries, skill creation. But some tasks need more than your employee can do alone: deep analysis across dozens of files, complex research requiring multiple sources, or creating entire project structures from scratch.
+In Lesson 5, you taught your employee skills and learned why security matters. Those skills handled focused tasks -- meeting prep, research summaries, progress reports. Now give it something harder. Complex enough that one agent cannot handle it alone. Watch what happens.
 
-In Chapter 3, you used Claude Code directly -- typing commands, reviewing output, iterating on results. Now watch what happens when your AI Employee uses Claude Code for you. You do not manage the process. You do not choose which agent handles what. You ask for a result, and your employee figures out the orchestration.
+## Push Your Employee
 
-This is the Agent Factory thesis from Chapter 1, running live. Your employee is a Custom Agent -- it knows your context, your projects, your preferences. Claude Code is a General Agent -- a specialist that can research, analyze, and create with capabilities your employee does not have. Together, they form something neither could be alone.
+Each exercise produces a real file you keep. Adapt every prompt to YOUR actual field, role, and industry.
 
-## Delegation in Action
+### Exercise 1: Competitive Intelligence
 
-The best way to understand delegation is to trigger it. Send your AI Employee tasks complex enough that it needs help -- then watch what happens.
-
-### Exercise 1: Research Delegation
-
-Send this to your employee on Telegram (adapt the topic to your interests):
+Send this to your AI Employee (adapt to your industry):
 
 ```
-Research the top 5 AI agent frameworks released in 2025-2026.
-For each, create a comparison table with: name, primary language,
-key features, GitHub stars, and best use case. Save as
-frameworks-comparison.md in my workspace.
+Research the top 5 competitors in [YOUR INDUSTRY]. For each,
+find their pricing, target market, key differentiator, and
+one weakness. Save as competitors.md in my workspace.
 ```
 
-Watch the response. Your employee may handle parts of this itself (it already knows some framework names from its training data) and delegate other parts to a General Agent (web research for current star counts, file creation). The result arrives as a file you can open and verify.
+This requires web research, synthesis, structured output, and file creation. Your employee may research some competitors directly and delegate deeper research to Claude Code for current pricing and market data.
 
-**What to observe:** Did your employee mention delegating? Did it take longer than a simple question would? The exact behavior depends on how your instance is configured -- the point is that you asked for a result and received a result, without managing the process in between.
+Open the file when it is done. Check the competitors. Is the pricing current? Did it miss anyone obvious? Edit the file with your own knowledge -- add the competitor only you know about, correct the pricing your experience tells you is wrong. This artifact is yours now.
 
-### Exercise 2: Document Creation
-
-```
-Create a project proposal for building a personal finance tracker.
-Include an executive summary, problem statement, proposed solution,
-timeline with milestones, and budget estimate. Save as proposal.md.
-```
-
-This task requires your employee to combine what it knows about you (your workspace, your preferences from MEMORY.md) with substantial writing and structuring work. For a task this large, delegation to a General Agent becomes valuable -- the specialist handles the heavy research and document creation while your employee provides the personal context.
-
-### Exercise 3: Multi-Step Analysis
+### Exercise 2: Weekly Planning System
 
 ```
-Read all the markdown files in my workspace. Create a summary
-of what I have been working on this week, identify the 3 most
-important tasks I should focus on tomorrow, and save the analysis
-as weekly-review.md.
+Look at my recent files and conversations. Based on what I have
+been working on, create a weekly plan for next week with:
+- 3 priority tasks ranked by impact
+- 2 tasks I should delegate or automate
+- 1 thing I should stop doing
+Save as weekly-plan.md.
 ```
 
-This forces multi-step work: file reading, synthesis, analysis, prioritization, and writing. Your employee decides what to handle itself and what to delegate. The result is a personalized weekly review that neither agent could produce alone -- Claude Code does not know your priorities, and your employee may not have the deep file analysis capabilities.
+This requires reading your workspace, understanding your context from MEMORY.md, analyzing patterns, and making judgment calls. It is the kind of task you would ask a sharp coworker to help with.
 
-### The Takeaway
+Does the plan make sense? Challenge it:
 
-You did not manage the delegation. You did not choose which agent handles what. You did not supervise the process. You asked for a result, and your employee figured out the orchestration. That is the difference between using a tool and having an employee.
+```
+I disagree with priority #1. I think [YOUR REASON]. Also,
+what would you automate from the "delegate" list and how?
+```
+
+Your employee explains its reasoning and adapts to your pushback. The plan improves because you brought domain knowledge it did not have.
+
+### Exercise 3: Business Idea Analysis
+
+```
+I'm considering [YOUR IDEA OR SIDE PROJECT]. Research whether
+this is viable: who are the existing players, what's the market
+size, what are the 3 biggest risks, and what would a minimum
+viable version look like? Save as idea-analysis.md.
+```
+
+This is a task that would normally take you hours of research. Your employee orchestrates research, analysis, and structured writing -- delegating to Claude Code for deep web research while it handles the synthesis using what it knows about your goals and constraints.
+
+Review the analysis. Is the market size reasonable? Did it identify real competitors? Add your own insights and save the updated version.
+
+### Exercise 4: Design a Daily Routine
+
+```
+Design a complete daily AI Employee routine for my role as
+[YOUR ROLE]. What should you do every morning before I check in?
+What should you monitor during the day? What should you prepare
+for me at end of day? Be specific to my actual work, not generic.
+```
+
+This produces a draft routine you will refine over the coming days. The employee uses everything it knows about you to personalize it.
+
+Review the routine. Is the morning check useful? Would you actually read it at 8 AM? Iterate until it would change how you start your day:
+
+```
+The morning section is too long. Cut it to 3 bullet points max.
+Add monitoring for [SOMETHING SPECIFIC TO YOUR WORK]. Remove the
+end-of-day summary -- I never read those.
+```
 
 ---
 
-## The Delegation Pattern
+## What Just Happened
 
-Now that you have seen delegation in action, here is what happened under the hood -- at a conceptual level, not a technical one.
+Each task was too complex for a single prompt-and-response. Your employee broke them into steps, decided what it could handle directly, and delegated what it could not. Research went to web tools. File analysis went to Claude Code. Synthesis stayed with your employee because it knows your context.
 
-```
-You (Telegram) --> Employee (Custom Agent) --> General Agent --> Result
-                                            <-- Files/Reports <--
-```
+This is the **two-tier delegation pattern** from Chapter 1:
 
-Two roles, two types of knowledge:
+| Role                             | What It Contributes                               |
+| -------------------------------- | ------------------------------------------------- |
+| **Your Employee** (Custom Agent) | Context -- your projects, preferences, priorities |
+| **Claude Code** (General Agent)  | Capability -- research, analysis, file operations |
 
-| Role              | Type          | What It Knows                                    |
-| ----------------- | ------------- | ------------------------------------------------ |
-| **Your Employee** | Custom Agent  | Your projects, preferences, schedule, domain     |
-| **Claude Code**   | General Agent | How to research, analyze, create files, organize |
+You managed none of the delegation. You asked for results. That is the difference between orchestrating agents yourself (what you did in Chapter 3) and having an employee orchestrate them for you.
 
-Neither is sufficient alone. Claude Code can do excellent research and create well-structured documents, but it does not know which project you are focused on, what your priorities are, or what format you prefer. Your employee knows all of that context but may need a specialist for complex, multi-step tasks.
-
-Together: the manager who understands your needs plus the specialist who has the execution capability. This is the same pattern behind every effective team -- human or AI.
-
-Your employee handles delegation internally. It decides when to delegate, which agent to use, and how to pass context. You never need to manage this process -- just like a good human manager delegates without making you supervise the delegation.
-
----
-
-## What General Agents Can Do
-
-Your employee can delegate to different General Agents depending on what is available on your machine:
-
-| Agent           | What It Excels At                                           |
-| --------------- | ----------------------------------------------------------- |
-| **Claude Code** | Deep research, file operations, analysis, document creation |
-| **Codex CLI**   | Multi-file operations, structured output                    |
-| **OpenCode**    | Model-agnostic -- works with any LLM provider               |
-
-The delegation pattern stays the same regardless of which specialist is behind it. Your employee sends the brief, provides your context, and reports the result. The specialist changes; the pattern does not.
-
-When you learn programming in later chapters, these same General Agents handle coding tasks too -- writing scripts, debugging, refactoring, testing. The delegation pattern does not change. Only the tasks get more technical.
-
----
-
-## The Scaling Insight
-
-One employee. Multiple specialists. Parallel when needed.
-
-Your employee can delegate multiple tasks simultaneously. While one General Agent researches competitors, another organizes your files, and a third drafts a report. You asked once. Three specialists worked. One employee managed them all.
-
-This is why Chapter 1 called it a "factory." You are not building one agent that does everything. You are assembling specialists managed by an agent that knows you. The employee becomes more capable not by learning every skill, but by knowing which specialist to call for each task.
-
-Consider the difference:
-
-| Approach                         | Limitation                                      |
-| -------------------------------- | ----------------------------------------------- |
-| **One agent does everything**    | Limited by that agent's capabilities            |
-| **You manage multiple agents**   | Limited by your time and attention              |
-| **Employee manages specialists** | Scales with the number of available specialists |
-
-The third approach is the Agent Factory model. Your employee is the factory floor manager. General Agents are the specialists on the line.
+When you learn programming in later chapters, these same General Agents handle coding tasks too. The pattern does not change -- only the tasks get more technical.
 
 ---
 
 ## What Transfers
 
-The delegation pattern you just experienced is not specific to OpenClaw. It is the architectural foundation of every multi-agent system:
+| Concept                      | What You Experienced                                              |
+| ---------------------------- | ----------------------------------------------------------------- |
+| Custom Agent manages context | Employee used your MEMORY.md and workspace to personalize results |
+| General Agent executes       | Claude Code handled research and file operations                  |
+| Delegation is invisible      | You never chose which agent handles what                          |
+| Parallel execution           | Multiple steps can run simultaneously                             |
+| The factory model            | One manager, multiple specialists, scales with available agents   |
 
-| Concept                     | In OpenClaw                                 | In Any Framework                         |
-| --------------------------- | ------------------------------------------- | ---------------------------------------- |
-| **Custom Agent manages**    | Your employee knows your context            | Orchestrator holds user preferences      |
-| **General Agent executes**  | Claude Code performs tasks                  | Specialist agent performs task           |
-| **Delegation is invisible** | Employee decides when and how to delegate   | Orchestrator routes to best agent        |
-| **Parallel execution**      | Multiple agents work simultaneously         | Async task execution                     |
-| **Context + Capability**    | Employee has context, specialist has skills | Orchestrator has state, worker has tools |
-
-When you build your own AI Employee in Chapter 13, you implement this exact pattern: a Custom Agent that knows your domain, delegating to General Agents that have technical skills. The employee you used in this chapter is your prototype. The one you build will be yours from the ground up.
+When you build your own AI Employee in Chapter 13, you implement this exact pattern.
 
 ---
 
 ## Try With AI
 
-### Prompt 1: Delegation Boundaries
+### Prompt 1: Stress Test
 
 ```
-For these 6 tasks, which should my AI Employee handle directly
-versus delegate to a General Agent? Explain the decision criteria.
-
-1. Summarize a meeting transcript
-2. Research and compare 10 cloud hosting providers
-3. Draft a project status email
-4. Analyze all files in a project folder and create a dependency map
-5. Remind me about a deadline tomorrow
-6. Create a 20-page market analysis with charts and recommendations
+Give me a task so complex it would take me an entire afternoon.
+Something relevant to [YOUR ROLE]. Then do it.
 ```
 
-**What you're learning:** Judgment about when delegation adds value. Not every task needs a specialist -- the overhead of delegation only pays off for complex, multi-step work. Simple tasks (reminders, short emails) are faster handled directly. Complex tasks (deep research, multi-file analysis) benefit from a specialist. Developing this judgment is the core skill of an effective agent manager.
+**What you're learning:** Discovering the boundaries of what your employee can handle. The result will not be perfect -- but the first draft saves you hours. Your job is to edit, not to start from scratch.
 
-### Prompt 2: Multi-Agent Workflow
+### Prompt 2: Routine Refinement
 
 ```
-Design a weekly review workflow for a small business owner:
-gather workspace activity, summarize accomplishments, identify
-blockers, and suggest priorities for next week. Which parts
-should the employee handle directly versus delegate to a
-General Agent? Explain the handoff points.
+Review the daily routine you designed in Exercise 4. What's missing?
+Add monitoring for [SOMETHING SPECIFIC TO YOUR WORK] and remove
+anything I wouldn't actually read.
 ```
 
-**What you're learning:** Workflow design -- breaking a complex goal into steps and deciding which agent handles each step. Real productivity comes from orchestrated workflows where different agents handle different parts of a pipeline. This is the same design thinking you will use when building your own AI Employee in Chapter 13.
+**What you're learning:** Iteration. The first version of any routine needs refinement. This is the same delegation-then-review pattern from every lesson -- but now applied to a system you will use daily.
