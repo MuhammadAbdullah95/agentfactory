@@ -62,6 +62,8 @@ By the end of this chapter, you will have ten rules that work together as one sy
 
 Let's start with the most basic question: when an AI agent has access to a terminal, what should it actually do with it?
 
+## 📚 Teaching Aid
+
 ## Prerequisites
 
 - **Part 1**: General Agents Foundations (Chapters 1-4)
