@@ -105,11 +105,11 @@ This isn't just about following installation commands. It's about crossing the b
 
 ---
 
-## 🔀 Two Professional Paths Available
+## 🔀 Two Setup Paths Available
 
 This lesson covers the **official Claude subscription setup** (Pro $20/month or Max $200/month). If you prefer a **free/minimal cost alternative**, see **Lesson 3: Free Claude Code Setup**.
 
-**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in Lessons 05-15).
+**Both paths teach identical Claude Code skills** (subagents, skills, MCP, hooks covered in this chapter).
 
 | Path                        | Cost                                    | What You Get                                                                                         |
 | --------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------- |
