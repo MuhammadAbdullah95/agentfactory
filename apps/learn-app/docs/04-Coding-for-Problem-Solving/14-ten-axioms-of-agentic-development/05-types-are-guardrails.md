@@ -115,7 +115,8 @@ Principle 6 says "don't let AI delete files without permission." Axiom V says "d
 
 The constraint is the same: **explicit boundaries, automatically enforced, enabling greater autonomy**. At the workflow level, this is permissions and sandboxing. At the code level, this is types and type checking.
 
-## The Long Argument for Types
+<details>
+<summary>**The Long Argument for Types**</summary>
 
 The idea that types could catch errors before runtime is older than most programmers realize. In 1978, Robin Milner at the University of Edinburgh published "A Theory of Type Polymorphism in Programming," introducing the type inference system for the ML programming language. Milner proved a property that became the foundation of typed programming: **well-typed programs cannot go wrong.** If the type checker accepted your program, an entire class of runtime errors — accessing fields that do not exist, passing arguments of the wrong shape, returning values the caller cannot use — was mathematically impossible.
 
@@ -128,6 +129,8 @@ Python's answer came in 2014, when Guido van Rossum, Jukka Lehtosalo, and Łukas
 Milner's insight — that a machine could verify program correctness before execution — earned him the Turing Award in 1991. Decades later, his guarantee protects developers from a collaborator he never imagined: AI that generates code with absolute confidence and zero understanding.
 
 In the AI era, the answer is not optional. Types are the specification that constrains what AI generates. Without them, you are James — reviewing code by reading it, hoping you catch what the machine would have caught automatically.
+
+</details>
 
 ## Types in Python: The Discipline Stack
 
@@ -395,7 +398,11 @@ The rule is simple: **Pydantic at the edges, dataclasses at the core.** Data ent
 
 ## Anti-Patterns: How Types Get Undermined
 
-You have seen the untyped codebase. Every team has one. It is the project where every function accepts `data` and returns `result`, where `dict[str, Any]` is the universal type, where the AI generates beautiful code that crashes at runtime because nothing in the codebase told it what shape anything is. It is the project where debugging means adding `print(type(x))` on every other line, where new developers spend their first week asking "what does this function actually return?" and getting the answer "it depends." It is the project where the type checker was turned off because "it was too strict" — meaning it found real errors that nobody wanted to fix. The untyped codebase is not missing types by accident. It is missing types because each developer chose the two-second shortcut of skipping the annotation, and a thousand two-second shortcuts became a codebase that no human or AI can safely modify without running it first and praying.
+You have seen the untyped codebase. Every team has one. It is the project where every function accepts `data` and returns `result`, where `dict[str, Any]` is the universal type, where the AI generates beautiful code that crashes at runtime because nothing in the codebase told it what shape anything is.
+
+It is the project where debugging means adding `print(type(x))` on every other line, where new developers spend their first week asking "what does this function actually return?" and getting the answer "it depends." It is the project where the type checker was turned off because "it was too strict" — meaning it found real errors that nobody wanted to fix.
+
+The untyped codebase is not missing types by accident. It is missing types because each developer chose the two-second shortcut of skipping the annotation, and a thousand two-second shortcuts became a codebase that no human or AI can safely modify without running it first and praying.
 
 These are the specific patterns that destroy type safety:
 
@@ -403,9 +410,7 @@ These are the specific patterns that destroy type safety:
 |-------------|-----------------|-------------------|
 | `dict[str, Any]` everywhere | Loses all type information; any key/value accepted | Define a dataclass or TypedDict for the structure |
 | Functions without return types | Caller doesn't know what to expect; AI can't constrain output | Always annotate return type, even if `-> None` |
-| Comments as type docs (`# returns list of users`) | Comments drift from reality; not machine-checkable | Use actual type hints: `-> list[User]` |
 | Disabling type checker ("too strict") | Removes the entire safety net | Fix the types; strictness IS the value |
-| `# type: ignore` on every line | Silences real errors alongside noise | Fix root causes; use ignore only for genuine false positives |
 | Untyped AI output shipped directly | Hallucinations reach production unchecked | Type-annotate AI code, run Pyright before committing |
 
 ### The `Any` Anti-Pattern in Detail
@@ -592,6 +597,16 @@ Compare: How much would an AI know about this function with vs without types?
 
 ---
 
+## The Annotation Illusion
+
+After adopting types, James went through a phase Emma recognized. He typed everything meticulously, ran Pyright, saw zero errors, and assumed his code was correct. Then a test failed: `calculate_discount()` returned 0.15 when it should have returned 0.85. The types were perfect — `float` in, `float` out. The *logic* was wrong. He had subtracted the discount from 1.0 in the wrong order.
+
+"Types catch *structural* errors," Emma told him. "Wrong shapes, missing fields, interface mismatches — the machine finds those. But types cannot catch *logical* errors. A function that returns `int` when it should return `float` will be caught. A function that returns `42` when it should return `7` will not. Types and tests are different layers in the same defense."
+
+The Annotation Illusion is the belief that typed code is correct code. It is not. Types guarantee that the pieces fit together — that you are not connecting a square peg to a round hole. Tests guarantee that the assembled machine produces the right output. Code review guarantees that the design makes sense. No single layer is sufficient. Together, they form the defense-in-depth that makes AI collaboration safe. James learned to treat Pyright's green checkmark not as "this code is correct" but as "this code is *structurally sound* — now test the logic."
+
+---
+
 ## Key Takeaways
 
 James merged untyped AI-generated code and learned in staging what Robin Milner formalized in 1978: well-typed programs cannot go wrong. Emma's fix — adding a dataclass with typed fields and running Pyright — caught in five minutes what would have taken hours of runtime debugging. The types did not add new logic. They made existing assumptions explicit and machine-verifiable.
@@ -601,16 +616,6 @@ James merged untyped AI-generated code and learned in staging what Robin Milner 
 - **Pydantic at the edges, dataclasses at the core.** External data entering your system gets validated by Pydantic. Internal data already trusted by your system uses lightweight dataclasses. The boundary is where errors enter; that is where validation belongs.
 - **Types matter more with AI than without.** Humans carry mental models that compensate for missing types. AI carries token probabilities. Every `Any` in your code is a hole where AI hallucinations pass through unchecked.
 - **The Annotation Illusion is the trap.** Typed code is not correct code — it is structurally sound code. Types catch shape errors; tests catch logic errors; review catches design errors. No single layer is sufficient.
-
----
-
-## The Annotation Illusion
-
-After adopting types, James went through a phase Emma recognized. He typed everything meticulously, ran Pyright, saw zero errors, and assumed his code was correct. Then a test failed: `calculate_discount()` returned 0.15 when it should have returned 0.85. The types were perfect — `float` in, `float` out. The *logic* was wrong. He had subtracted the discount from 1.0 in the wrong order.
-
-"Types catch *structural* errors," Emma told him. "Wrong shapes, missing fields, interface mismatches — the machine finds those. But types cannot catch *logical* errors. A function that returns `int` when it should return `float` will be caught. A function that returns `42` when it should return `7` will not. Types and tests are different layers in the same defense."
-
-The Annotation Illusion is the belief that typed code is correct code. It is not. Types guarantee that the pieces fit together — that you are not connecting a square peg to a round hole. Tests guarantee that the assembled machine produces the right output. Code review guarantees that the design makes sense. No single layer is sufficient. Together, they form the defense-in-depth that makes AI collaboration safe. James learned to treat Pyright's green checkmark not as "this code is correct" but as "this code is *structurally sound* — now test the logic."
 
 ---
 
