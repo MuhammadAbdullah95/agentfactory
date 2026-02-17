@@ -141,7 +141,7 @@ OpenClaw tells you directly: it is a hobby project, still in beta, and a bad pro
 
 You must acknowledge: "I understand this is powerful and inherently risky. Continue?"
 
-**This is a teaching moment, not a formality.** Every AI Employee system carries this same risk profile. An agent with access to your email, calendar, and files is a high-value target. The habit of reading security warnings starts here.
+**This is a teaching moment, not a formality.** An agent with access to your email, calendar, and files is a high-value target. The habit of reading security warnings starts here.
 
 ---
 
@@ -322,7 +322,7 @@ and back. What systems does it pass through? What could fail at
 each step?
 ```
 
-**What you're learning:** The end-to-end message architecture that every AI agent system implements. Understanding this flow means you can diagnose problems at any point in the chain -- a skill you will use constantly in Chapter 13 and beyond.
+**What you're learning:** The end-to-end message architecture. Understanding this flow means you can diagnose problems at any point in the chain.
 
 **Prompt 2 -- Security Awareness:**
 
@@ -332,7 +332,7 @@ access to the internet and can execute actions on my behalf?
 List 5 specific risks and how I should mitigate each one.
 ```
 
-**What you're learning:** Security thinking that applies to ANY agent system. As agents gain more capabilities (file access, web browsing, code execution), the attack surface grows. Understanding risks now prevents problems later.
+**What you're learning:** As agents gain more capabilities (file access, web browsing, code execution), the attack surface grows. Understanding risks now prevents problems later.
 
 **Prompt 3 -- Troubleshooting Practice:**
 
@@ -343,4 +343,4 @@ step: what to check, the exact command, expected output, and what
 to do if it fails.
 ```
 
-**What you're learning:** Debugging agent systems systematically. Check the simplest things first, verify each layer independently. This applies to every distributed system, not just OpenClaw.
+**What you're learning:** Debugging agent systems systematically. Check the simplest things first, verify each layer independently.

@@ -69,8 +69,6 @@ In Lesson 2, you installed OpenClaw, connected Telegram, and confirmed your AI E
 
 This lesson is about experiencing the **agent loop** -- the execution engine that powers every AI agent system, from chatbots to full AI Employees. You will run five task types that demonstrate this loop in action, then a sixth that crosses the line from "tool you use" to "employee that works for you." The difference between those two categories is the key insight of this lesson.
 
-Every task you run here follows a cycle that appears in every agent system ever built: OpenClaw, Claude Code, Codex CLI, CrewAI, AutoGen. The tools change. The cycle does not. Recognizing it transforms you from someone who uses AI into someone who understands how AI agents work.
-
 ## Task Sprint: 6 Tasks in 20 Minutes
 
 Set a timer. You are going to run six tasks back to back, spending about 3 minutes on each. The first five demonstrate the agent loop. The sixth crosses the line into AI Employee territory. For each task, you will do three things: type the instruction, observe what the agent does, and note what you learned.
@@ -208,7 +206,7 @@ Stop and reflect on the six tasks you ran. They split cleanly into two categorie
 
 **Phase 4 -- Report Results.** The agent formatted its output for you: tables for comparisons, checklists for goals, prose for reports. It chose the format based on context, not a rigid template.
 
-This cycle -- **parse, plan, execute, report** -- is universal. Every agent system implements it. OpenClaw does it. Claude Code does it. AutoGPT, CrewAI, and the OpenAI Agents SDK all implement variations of this same loop. The specific tools, models, and interfaces differ. The pattern is identical.
+This cycle -- **parse, plan, execute, report** -- is what every agent implements.
 
 ### The Employee Shift (Task 6)
 
@@ -286,7 +284,7 @@ The cost question becomes more nuanced at scale -- running agents for entire tea
 
 You have now experienced both halves of the AI Employee equation:
 
-**The agent loop** (Tasks 1-5): Parse intent, plan execution, execute steps, report results. This cycle is the heartbeat of every agent system. It is powerful, versatile, and reactive -- it does nothing until you speak.
+**The agent loop** (Tasks 1-5): Parse intent, plan execution, execute steps, report results. Powerful, versatile, and reactive -- it does nothing until you speak.
 
 **Autonomous invocation** (Task 6): The agent acts on its own schedule. It monitors, summarizes, and reports without a prompt from you. This is the capability that transforms a tool into a colleague.
 
@@ -301,19 +299,11 @@ But before that architecture lesson, carry this experience with you: you delegat
 ### Prompt 1 -- Task Quality Assessment
 
 ```
-I just ran 6 tasks with an AI Employee:
-1. Competitor research (comparison table)
-2. Professional email draft
-3. File creation (weekly goals)
-4. Analysis (priority ranking)
-5. Multi-step workflow (research + report + recommendations)
-6. Scheduled daily briefing
-
-Rank these 6 by: (a) output quality, (b) time saved versus doing it
-myself, and (c) how much I'd trust the output without review.
-
-Then identify: which of these 6 should NEVER be fully automated --
-where human review is non-negotiable? Explain why.
+I ran 6 AI Employee tasks: competitor research, email draft, file
+creation, priority analysis, multi-step workflow, and scheduled
+briefing. Rank them by output quality, time saved, and how much
+I'd trust each without review. Which should NEVER be fully
+automated, and why?
 ```
 
 **What you're learning:** Critical assessment of AI output. Knowing which tasks to trust and which to verify is more valuable than knowing how to delegate. The ability to rank by trust level -- not just convenience -- is what separates effective AI Employee managers from people who blindly accept AI output.
@@ -332,13 +322,10 @@ limitation (will improve) or a fundamental one (requires human judgment).
 ### Prompt 3 -- Morning Workflow Design
 
 ```
-Design a morning routine that an AI Employee could run for me every
-day. Include: what it checks (email, calendar, news in my field),
-what it summarizes, what actions it takes (draft replies, create
-task lists), and how it reports to me (Telegram message format).
-
-My role: [YOUR ROLE]
-My priorities this quarter: [LIST 2-3 PRIORITIES]
+Design an automated morning routine for an AI Employee tailored to
+my role ([YOUR ROLE]) and quarterly priorities ([LIST 2-3]).
+What should it check, summarize, and act on -- and how should it
+report to me?
 ```
 
 **What you're learning:** Thinking in workflows rather than individual tasks. This is the foundation for the always-on employee you will build in Chapter 13. A morning routine combines research, analysis, writing, and scheduling into a single automated sequence -- exactly the multi-step pattern you practiced in Task 5, but running on a schedule instead of on demand.

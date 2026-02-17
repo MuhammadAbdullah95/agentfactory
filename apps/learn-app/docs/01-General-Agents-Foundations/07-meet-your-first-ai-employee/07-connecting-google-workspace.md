@@ -341,7 +341,7 @@ This is why Lesson 5 came before this lesson. The security checklist you learned
 
 ## What Transfers
 
-**OAuth integration is universal.** Every productivity tool your agent will access -- Slack, GitHub, Notion, Jira -- uses OAuth or API keys. The pattern is identical: register credentials, authorize access, scope permissions. Once you have done it for Google Workspace, you have done it for everything.
+**OAuth integration is universal.** Every productivity tool your agent will access -- Slack, GitHub, Notion, Jira -- uses the same pattern: register credentials, authorize access, scope permissions.
 
 **Least privilege is architectural.** Granting minimum necessary access is not just a security rule for gog. It is a design principle for every agent integration you build. In Chapter 13, you will apply the same principle when connecting your own AI Employee to external services.
 
@@ -354,18 +354,10 @@ This is why Lesson 5 came before this lesson. The security checklist you learned
 **Setup:** Use your AI Employee on Telegram or Claude Code.
 
 ```
-Design a daily morning briefing workflow for my AI Employee that
-combines three Google Workspace sources:
-
-1. Gmail: Unread emails from the last 12 hours, prioritized by
-   sender importance
-2. Calendar: Today's meetings with prep notes for each
-3. Drive: Documents modified yesterday that I should review
-
-Output format: A single Telegram message I can read in 2 minutes
-while drinking coffee. Include a "requires action" section at the
-top and an "FYI only" section at the bottom.
-
+Design a daily morning briefing for my AI Employee that combines
+Gmail (unread, prioritized by sender), Calendar (today's meetings
+with prep notes), and Drive (recently modified docs). Output as a
+single 2-minute read with "requires action" and "FYI" sections.
 My role: [YOUR ROLE]
 ```
 
@@ -376,19 +368,11 @@ My role: [YOUR ROLE]
 **Setup:** Use Claude Code or your preferred AI assistant.
 
 ```
-I want my AI Employee to proactively notify me when important
-emails arrive, rather than me asking "what's new?" every hour.
-
 Design the architecture for a Gmail push notification pipeline
-that:
-1. Detects new emails matching my priority criteria
-2. Summarizes them immediately
-3. Sends the summary to my Telegram
-
-I know this involves Google Pub/Sub. I don't need a full
-implementation -- I need the architecture: what components are
-involved, how they connect, and what the data flow looks like.
-Include a simple diagram using text/ASCII.
+that detects important emails, summarizes them, and sends the
+summary to my Telegram. I know this involves Google Pub/Sub.
+I need the component architecture and data flow, not a full
+implementation. Include an ASCII diagram.
 ```
 
 **What you're learning:** Event-driven agent architecture. Most agent interactions are pull-based (you ask, it answers). Push-based agents that react to external events represent the next level of autonomy. Understanding this architecture prepares you for building proactive agents in Chapter 13.
@@ -398,20 +382,11 @@ Include a simple diagram using text/ASCII.
 **Setup:** Use Claude Code or your AI Employee.
 
 ```
-I just connected my AI Employee to Google Workspace using gog with
-OAuth access to Gmail, Calendar, and Drive.
-
-Audit my setup:
-1. What is the worst realistic attack scenario given my current
-   OAuth scopes?
-2. Which of the 6 services (Gmail, Calendar, Drive, Contacts,
-   Sheets, Docs) does my agent actually need for daily use?
-3. For each unnecessary service, explain the specific risk of
-   leaving it connected.
-4. Write the exact gog command I should run to reduce my OAuth
-   scope to the minimum necessary.
-
-Be specific to MY setup, not generic security advice.
+I just connected my AI Employee to Google Workspace via gog with
+OAuth access to Gmail, Calendar, and Drive. Audit my setup: worst
+realistic attack scenario, which services I actually need, risks
+of unnecessary scopes, and the exact gog command to reduce scope
+to the minimum. Be specific to my setup, not generic advice.
 ```
 
 **What you're learning:** Applied security auditing on your own infrastructure. This is the lethal trifecta from Lesson 5 made concrete -- you are evaluating real OAuth scopes on your real account, not a hypothetical scenario. The habit of auditing your own setup after connecting new services is what separates secure deployments from vulnerable ones.

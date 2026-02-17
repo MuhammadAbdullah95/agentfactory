@@ -94,7 +94,7 @@ The Gateway is the single coordination point for your entire AI Employee. It per
 
 One gateway per host. That is the design. It owns all messaging connections -- WhatsApp, Telegram, Discord, everything. Think of it as a switchboard operator. Every call goes through the switchboard. No call bypasses it. This centralization is intentional: it means adding a new channel requires zero changes to your agent's logic.
 
-**The pattern: Orchestration.** Every agent framework has a central coordinator. Claude Code has its CLI process. CrewAI has its Python runtime. The name changes; the pattern does not.
+**The pattern: Orchestration.**
 
 ## Channels -- Your Employee's Communication Layer
 
@@ -119,7 +119,7 @@ When a message arrives from Telegram, the adapter strips away Telegram-specific 
 
 Adding a new channel means writing one adapter. No agent logic changes. No skill modifications. No model configuration updates.
 
-**The pattern: I/O Adapters.** Claude Code adapts to terminal and IDE interfaces. CrewAI adapts to API endpoints. Every framework normalizes communication from diverse sources into a common format. The adapter pattern decouples intelligence from communication.
+**The pattern: I/O Adapters.** The adapter pattern decouples intelligence from communication.
 
 ## Sessions -- Your Employee's Context Windows
 
@@ -145,7 +145,7 @@ When sessions grow long, **auto-compaction** kicks in. The system summarizes old
 
 Sessions also reset on a schedule. By default, daily at 4:00 AM local time. You can also reset manually with `/new` or `/reset`, or configure idle timeouts. The reset policy is configurable per session type -- your private DMs might persist for days while group chats reset after two hours of inactivity.
 
-**The pattern: State Isolation.** Claude Code maintains a conversation context per session. CrewAI tracks task state. LangGraph manages graph state. Every framework must isolate state between concurrent users and conversations. Skip this pattern and private data leaks between users.
+**The pattern: State Isolation.** Skip this pattern and private data leaks between users.
 
 ## The Agent Loop -- Your Employee's Thinking Process
 
@@ -206,7 +206,7 @@ These files live in your workspace directory (`~/.openclaw/workspace/`). Togethe
 
 Total elapsed time: typically 2-8 seconds depending on model speed and whether tools are involved.
 
-**The pattern: Autonomous Execution Loop.** This intake-reason-act-respond cycle is the heartbeat of every agent. Claude Code runs the same loop (read context, invoke model, execute tools, return results). CrewAI agents iterate through tasks the same way. The loop is the pattern; the implementation details vary.
+**The pattern: Autonomous Execution Loop.**
 
 ## The Lane Queue -- Why Your Employee Doesn't Trip Over Itself
 
@@ -235,7 +235,7 @@ The queue supports multiple modes for handling bursts of messages:
 
 Typing indicators fire immediately when your message enters the queue, so you see the "thinking..." indicator on Telegram even while waiting for the queue to drain.
 
-**The pattern: Concurrency Control.** Every agent system needs this. Claude Code serializes operations within a conversation. CrewAI coordinates task execution across agents. LangGraph manages node execution order. Skip concurrency control and two tasks writing to the same file will corrupt it. Most hobbyist agent projects get this wrong.
+**The pattern: Concurrency Control.** Skip concurrency control and two tasks writing to the same file will corrupt it.
 
 ## Memory -- Your Employee's Long-Term Brain
 
@@ -282,7 +282,7 @@ When the agent needs to recall something from weeks ago, it does not scroll thro
 
 Before auto-compaction, OpenClaw runs a **silent memory flush** -- a hidden agent turn that reminds the model to write anything important to disk before the session context gets summarized. This prevents information loss during long conversations.
 
-**The pattern: Externalized Memory.** The LLM's context window is a cache. Disk is the source of truth. Claude Code uses MEMORY.md and auto-compact. CrewAI uses shared context objects. LangGraph uses checkpoint state. Every framework must solve the same problem: models forget everything between calls. The solution is always some form of externalized, persistent storage that gets selectively loaded into context.
+**The pattern: Externalized Memory.** The LLM's context window is a cache. Disk is the source of truth. Models forget everything between calls, so every framework needs externalized, persistent storage that gets selectively loaded into context.
 
 ## Skills -- Your Employee's Teachable Abilities
 
@@ -326,7 +326,7 @@ A workspace skill with the same name as a bundled skill overrides it. This lets 
 
 Skills are portable because they are plain Markdown with a standard YAML frontmatter contract. The same skill that works in OpenClaw works in Claude Code (which uses the same `SKILL.md` format in `.claude/skills/`). ClawHub (`clawhub.com`) serves as a public registry where you can discover, install, and share skills.
 
-**The pattern: Capability Packaging.** Claude Code has `SKILL.md` in `.claude/skills/`. CrewAI has Tasks and Tools. LangGraph has tool nodes. Every framework needs a way to package, discover, and compose discrete capabilities. The format differs; the need is universal.
+**The pattern: Capability Packaging.**
 
 ## The Universal Pattern Map
 
@@ -381,18 +381,10 @@ In Lesson 05, you will build a custom skill and explore the security realities o
 **Setup:** Use Claude Code or any AI assistant.
 
 ```
-OpenClaw uses a lane queue to prevent race conditions. Design 3
-specific scenarios where removing the lane queue would cause real
-problems:
-
-For each scenario:
-1. What messages arrive simultaneously?
-2. What shared resource do they compete for?
-3. What does the corrupted output look like?
-4. How does the lane queue prevent it?
-
-Then design a 4th scenario that the lane queue CANNOT prevent --
-a race condition that requires a different solution entirely.
+Design 3 scenarios where removing a lane queue from an AI Employee
+causes race conditions (what arrives simultaneously, what corrupts).
+Then design a 4th scenario the lane queue CANNOT prevent -- one
+that requires a different solution entirely.
 ```
 
 **What you're learning:** Concurrency is where most agent projects fail silently. By designing failure scenarios yourself, you build intuition for where race conditions hide. The 4th scenario forces you beyond the textbook answer into genuine architectural thinking -- exactly what you need when building your own agent in Chapter 13.
@@ -402,22 +394,10 @@ a race condition that requires a different solution entirely.
 **Setup:** Use Claude Code or any AI assistant.
 
 ```
-You are an AI Employee with OpenClaw's 3-layer memory system:
-- Layer 1: MEMORY.md (curated facts)
-- Layer 2: Daily logs (memory/YYYY-MM-DD.md)
-- Layer 3: Vector search (SQLite-backed embeddings)
-
-Your user asks: "What did we decide about the API migration 6 weeks ago?"
-
-Trace this query through all 3 layers:
-1. What does each layer check?
-2. In what order?
-3. What happens if Layer 1 has nothing? Layer 2?
-4. How does vector search find the answer when the user's words
-   don't match the original note's words?
-
-Then: design a scenario where ALL 3 layers fail to find the answer.
-What went wrong, and how would you fix the architecture?
+An AI Employee has 3 memory layers: MEMORY.md, daily logs, and
+vector search. A user asks "What did we decide about the API
+migration 6 weeks ago?" Trace the query through all 3 layers,
+then design a scenario where all 3 fail. What went wrong?
 ```
 
 **What you're learning:** Memory retrieval is where theory meets reality. Tracing a concrete query through each layer builds intuition for how externalized memory actually works -- and where it breaks. The failure scenario forces you to think about memory architecture limitations before you encounter them in Chapter 13.
@@ -427,19 +407,10 @@ What went wrong, and how would you fix the architecture?
 **Setup:** Use Claude Code or any AI assistant.
 
 ```
-Search GitHub for an AI agent project that was abandoned or failed
-(look for repos with many stars but no commits in 6+ months, or
-repos with issues describing fundamental problems).
-
-Using the 6 universal patterns as your diagnostic framework, perform
-an autopsy:
-1. Which patterns did the project implement well?
-2. Which patterns were missing or broken?
-3. Which missing pattern was the likely cause of death?
-4. Could the project have survived if it had implemented that
-   one missing pattern? Why or why not?
-
-Share the repo link and your diagnosis.
+Find an abandoned AI agent project on GitHub (many stars, no recent
+commits). Using the 6 universal patterns as a diagnostic framework,
+perform an autopsy: which patterns were missing, and which missing
+pattern was the likely cause of death?
 ```
 
 **What you're learning:** The 6 patterns are not just a classification scheme. They are a diagnostic tool. Learning to identify which missing pattern killed a project is the fastest way to internalize why each pattern matters. This forensic skill transfers directly to evaluating any agent framework you encounter.

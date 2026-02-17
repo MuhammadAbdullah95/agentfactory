@@ -340,23 +340,14 @@ When you move to Chapter 13 (building your own AI Employee), you will implement 
 ### Prompt 1 -- Delegation Decision Framework
 
 ```
-I have an AI Employee (Custom Agent) that can delegate coding tasks
-to Claude Code (General Agent). Help me create a decision framework:
+I have an AI Employee (Custom Agent) that can delegate to Claude Code
+(General Agent). For these 8 tasks, create a table showing which the
+employee should handle directly vs delegate to a coding agent, and why:
 
-For each of these task types, should my employee handle it directly
-or delegate to a coding agent?
-
-1. Summarize a meeting transcript
-2. Write a Python web scraper
-3. Draft a project status email
-4. Debug a failing CI pipeline
-5. Research competitor pricing
-6. Refactor a 500-line module into smaller files
-7. Generate a weekly report from CSV data
-8. Set up a new Express.js API endpoint
-
-Create a table with columns: Task, Handle Directly or Delegate,
-Why, and Estimated Time Saved.
+1. Summarize a meeting transcript  2. Write a Python web scraper
+3. Draft a project status email    4. Debug a failing CI pipeline
+5. Research competitor pricing     6. Refactor a 500-line module
+7. Generate a weekly report from CSV  8. Set up an Express.js endpoint
 ```
 
 **What you're learning:** Judgment about when delegation adds value versus overhead. Not every task should go to a coding agent -- the latency of spawning a specialist only pays off when the task genuinely requires coding expertise. A good manager (human or AI) knows the difference between work they should do themselves and work they should hand off.
@@ -364,20 +355,12 @@ Why, and Estimated Time Saved.
 ### Prompt 2 -- Multi-Agent Workflow Design
 
 ```
-Design a workflow where my AI Employee coordinates between a coding
-agent and itself to complete this task:
+Design a multi-agent workflow for this task: "Every Monday, pull
+analytics data from our API, generate a Python visualization
+dashboard, and send me a Telegram summary with key metrics."
 
-"Every Monday morning, pull the latest analytics data from our API,
-generate a visualization dashboard in Python, and send me a summary
-with the key metrics on Telegram."
-
-Break this into steps. For each step, specify:
-- Who does it (Employee or Coding Agent)
-- What tool/skill they use
-- What they pass to the next step
-- What could go wrong
-
-Then identify: which steps could run in parallel?
+For each step, specify who does it (Employee or Coding Agent),
+what they pass to the next step, and which steps run in parallel.
 ```
 
 **What you're learning:** Multi-agent workflow design. Real productivity comes not from single delegations but from orchestrated workflows where different agents handle different parts of a pipeline. This prompt forces you to think about handoffs, data passing, error handling, and parallelization -- the same concerns that professional agent architects face when building production systems.
@@ -385,18 +368,11 @@ Then identify: which steps could run in parallel?
 ### Prompt 3 -- Human Manager vs AI Manager
 
 ```
-Compare how a human engineering manager delegates coding tasks to
-developers versus how an AI Employee delegates to Claude Code.
-
-Create a comparison table covering:
-- How they communicate the task
-- How they provide context
-- How they monitor progress
-- How they handle mistakes
-- How they learn from results
-
-Then answer: What can the AI manager do that a human can't?
-And what can the human manager do that the AI currently can't?
+Compare how a human engineering manager delegates to developers
+versus how an AI Employee delegates to Claude Code. Cover: task
+communication, context sharing, progress monitoring, mistake
+handling, and learning from results. What can each do that the
+other can't?
 ```
 
 **What you're learning:** The boundaries of agent delegation. By comparing AI delegation to human delegation, you develop intuition for where agent systems excel (speed, consistency, parallelization) and where they fall short (judgment, relationship management, creative direction). This comparison will inform how you design your own AI Employee in Chapter 13 -- knowing the limits shapes what you build.

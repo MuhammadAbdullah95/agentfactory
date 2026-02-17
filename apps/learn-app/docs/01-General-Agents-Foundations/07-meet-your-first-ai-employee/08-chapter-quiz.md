@@ -425,21 +425,11 @@ In Part 2, you'll build the individual skills (file processing, computation, dat
 ### Prompt 1: Personal AI Employee Planning
 
 ```
-I just completed Chapter 7 where I experienced an AI Employee
-(OpenClaw) and learned the 6 universal agent patterns. I also saw
-how it delegates coding tasks to Claude Code and connects to
-Google Workspace for real productivity.
-
-Now I need to plan my own AI Employee for Chapter 13. Help me think
-through:
-
-1. What 3 tasks should it handle first? (Ask me about my daily work)
-2. What skills does it need for those tasks?
-3. Which of the 6 patterns do I need immediately vs. can wait?
-4. What security boundaries should I set from day one?
-5. Should it delegate to a coding agent? When?
-
-Start by asking me about my role and typical daily frustrations.
+I completed Chapter 7 (6 universal agent patterns, coding
+delegation, Google Workspace integration). Help me plan my own
+AI Employee for Chapter 13: which 3 tasks it should handle first,
+which patterns I need immediately vs. can wait, and what security
+boundaries to set. Start by asking about my role and daily work.
 ```
 
 **What you're learning:** Translating pattern knowledge into design decisions. You are learning to evaluate which patterns matter for YOUR situation, rather than implementing all 6 at once. This is specification-driven thinking -- defining what you need before building anything.
@@ -447,21 +437,12 @@ Start by asking me about my role and typical daily frustrations.
 ### Prompt 2: Specification Drafting
 
 ```
-Help me draft a specification for a personal AI Employee that
-handles my top 3 daily tasks: [LIST YOUR ACTUAL TASKS HERE].
-
-For each task, help me define:
-1. What the agent needs to access (files, APIs, services)
-2. What skill(s) it needs
-3. Security boundaries (what it can and cannot do)
-4. Whether it should delegate to a coding agent
-5. How to measure success
-
-Then suggest a Bronze/Silver/Gold tier plan:
-- Bronze: Basics (1 task, 1 channel)
-- Silver: Skills + memory (all 3 tasks, externalized memory)
-- Gold: Full autonomy (scheduled tasks, agent delegation,
-  Google Workspace integration, self-improving)
+Draft a specification for a personal AI Employee that handles my
+top 3 daily tasks: [LIST YOUR ACTUAL TASKS HERE]. For each task,
+define access needs, skills, security boundaries, and success
+criteria. Then suggest Bronze/Silver/Gold tiers from basics
+(1 task) to full autonomy (scheduling, delegation, Google
+Workspace).
 ```
 
 **What you're learning:** Specification-driven agent design -- the foundation of Chapter 13's entire approach. Instead of jumping into code, you define success criteria first. This mirrors how professional engineers approach every system: specify, then build, then validate against the specification.
@@ -469,23 +450,12 @@ Then suggest a Bronze/Silver/Gold tier plan:
 ### Prompt 3: Threat Model Your Chapter 13 Build
 
 ```
-I am about to build my own AI Employee in Chapter 13 using Claude Code.
-Before I start, I want to threat-model my design.
-
-Based on my Chapter 13 specification draft (or if I haven't written one
-yet, assume a personal AI Employee that handles email summarization,
-file management, coding delegation, and daily briefings with Google
-Workspace access):
-
-1. What are the 3 most likely failure modes in the first week of use?
-2. For each failure mode, which of the 6 universal patterns is involved?
-3. What is the worst realistic outcome if I skip security boundaries?
-   (Consider: OAuth access to Google, coding agent with shell access,
-   the lethal trifecta from L05)
-4. Design a "chaos test" -- a sequence of 3 user messages that would
-   expose the weakest point in my architecture.
-
-Help me find the flaws before I build, not after.
+Threat-model my Chapter 13 AI Employee design before I build it.
+Assume it handles email, file management, coding delegation, and
+daily briefings with Google Workspace access. Give me the 3 most
+likely failure modes, the worst realistic outcome if I skip
+security boundaries, and a "chaos test" of 3 messages that would
+expose the weakest point in my architecture.
 ```
 
 **What you're learning:** Threat modeling before building is what separates production systems from demos. By designing failure scenarios for your own project, you internalize the security and reliability lessons from Chapter 7 as concrete constraints for Chapter 13 -- not abstract principles you will forget under implementation pressure.
@@ -496,6 +466,6 @@ You started Chapter 7 with a question: what is an AI Employee? You end with an a
 
 You experienced this firsthand. You understood the architecture. You built a skill. You confronted the security realities. You watched your employee delegate to a coding specialist. You connected it to your actual productivity tools. You assessed what works and what does not.
 
-In Part 2, you'll build the domain skills — file processing, computation, databases, Linux, version control — that become the capabilities your AI Employee needs. Then in Chapter 13, you build one you own: same patterns, your architecture, your security model, your capabilities. Everything you learned here transfers directly.
+In Part 2, you'll build the domain skills -- file processing, computation, databases, Linux, version control -- that become the capabilities your AI Employee needs. Then in Chapter 13, you build one you own: same patterns, your architecture, your security model, your capabilities.
 
 That is the difference between using an AI Employee and owning one.

@@ -209,7 +209,7 @@ You will learn specific security practices in Lesson 5. For now, understand that
 
 Here is how to think about OpenClaw's role in your learning:
 
-**OpenClaw proved the concept works.** The patterns it validated -- gateway architecture, channel adapters, persistent memory, teachable skills, autonomous scheduling -- these are universal. They appear in every serious agent framework.
+**OpenClaw proved the concept works.** The patterns it validated -- gateway architecture, channel adapters, persistent memory, teachable skills, autonomous scheduling -- these are universal.
 
 **This chapter teaches you those patterns through OpenClaw.** You will set up a working AI Employee, give it real work, understand how it functions under the hood, and learn the security realities.
 
@@ -248,16 +248,9 @@ Use these prompts to deepen your understanding of the AI Employee paradigm befor
 
 ```
 OpenClaw reached 202,000 GitHub stars in under 3 months. React took
-over a decade to reach 230,000. Docker and Kubernetes also had explosive
-adoption curves, but at different rates.
-
-Compare OpenClaw's adoption trajectory to Docker and React. For each:
-- What was the viral loop that drove adoption?
-- What made the first 5 minutes of use compelling?
-- What was the "aha moment" that turned curiosity into commitment?
-
-What does OpenClaw's specific growth pattern tell us about what
-developers actually want from AI tools?
+over a decade to reach 230,000. Compare OpenClaw's adoption trajectory
+to Docker and React -- what viral loop drove each, and what does
+OpenClaw's growth pattern reveal about what developers want from AI tools?
 ```
 
 **What you're learning**: Adoption curves reveal what users actually value versus what builders think they value. OpenClaw's messaging-app integration created a fundamentally different viral loop than traditional developer tools. Understanding why this specific growth pattern happened prepares you to design AI Employees that people actually adopt.
@@ -265,34 +258,20 @@ developers actually want from AI tools?
 ### Prompt 2: Framework Gap Analysis
 
 ```
-Pick one of these agent frameworks and find its official documentation:
-- CrewAI (docs.crewai.com)
-- AutoGPT (docs.agpt.co)
-- LangGraph (langchain-ai.github.io/langgraph)
-
-Read through the architecture overview and identify which of the 5
-essential AI Employee components (gateway, adapters, agent loop, skills,
-memory) the framework implements -- and which it skips or handles
-differently.
-
-For each skipped component: is this a deliberate design choice or a
-gap? What does the framework expect YOU to provide instead?
+Pick one agent framework (CrewAI, AutoGPT, or LangGraph) and read its
+architecture overview. Which of the 5 AI Employee components (gateway,
+adapters, agent loop, skills, memory) does it implement, and which
+does it skip or leave to you?
 ```
 
-**What you're learning**: No framework implements all 5 components identically. Understanding which pieces a framework provides versus which it leaves to you is the critical evaluation skill for choosing tools. This is your first practice at framework evaluation -- a skill you will use throughout your career.
+**What you're learning**: No framework implements all 5 components identically. Understanding which pieces a framework provides versus which it leaves to you is the critical evaluation skill for choosing tools.
 
 ### Prompt 3: Personal Application
 
 ```
-I work as [YOUR ROLE — e.g., marketing manager, software developer,
-teacher, freelancer, researcher]. Describe 3 specific tasks an AI
-Employee could handle for me autonomously.
-
-For each task, explain:
-- What triggers it (schedule, event, or request)?
-- What tools does it need (web search, file access, email, calendar)?
-- What does the output look like?
-- How much time would it save me per week?
+I work as [YOUR ROLE]. Describe 3 specific tasks an AI Employee could
+handle for me autonomously. For each, what triggers it, what tools
+does it need, and how much time would it save me per week?
 ```
 
 **What you're learning**: Translating the abstract AI Employee concept into concrete value for YOUR specific situation. The ability to identify high-ROI delegation opportunities is the first skill of an effective AI Employee manager — and it's exactly what you'll need when designing your own in Chapter 13.
@@ -309,7 +288,7 @@ OpenClaw has had significant security challenges, including 341 malicious skills
 
 ### Do I need to use OpenClaw specifically?
 
-No. This chapter uses OpenClaw because it is the most accessible way to experience a working AI Employee. The patterns you learn -- gateway architecture, channel adapters, persistent memory, teachable skills, autonomous scheduling -- are universal. Chapter 13 teaches you to build your own AI Employee using Claude Code, where you control every aspect of the system.
+No. This chapter uses OpenClaw because it is the most accessible way to experience a working AI Employee. Chapter 13 teaches you to build your own using Claude Code, where you control every aspect of the system.
 
 ### What happened to Peter Steinberger and the project?
 
