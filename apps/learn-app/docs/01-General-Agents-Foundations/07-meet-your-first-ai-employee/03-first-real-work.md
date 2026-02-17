@@ -1,17 +1,16 @@
 ---
 sidebar_position: 3
 title: "Your First Real Work"
-description: "Give your AI Employee real tasks that would normally take 30+ minutes, observe the agent loop in action, and honestly assess what works and what doesn't"
+description: "Build artifacts you'll keep, iterate on agent output, and configure a daily workflow that runs while you sleep"
 keywords:
   [
     ai employee tasks,
     agent loop,
     task delegation,
-    ai productivity,
-    token costs,
-    multi-step workflows,
+    daily workflow,
+    morning briefing,
     openclaw tasks,
-    output quality,
+    output iteration,
   ]
 chapter: 7
 lesson: 3
@@ -24,101 +23,99 @@ skills:
     category: "Applied"
     bloom_level: "Apply"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can formulate clear natural language instructions for 6 different task types (research, writing, file operations, analysis, multi-step workflows, scheduled automation) and observe the agent execute them"
+    measurable_at_this_level: "Student can delegate research and file creation tasks, then iterate on agent output by requesting explanations and making accept/reject decisions"
 
   - name: "Output Quality Assessment"
     proficiency_level: "A2"
     category: "Conceptual"
     bloom_level: "Evaluate"
     digcomp_area: "Critical Thinking"
-    measurable_at_this_level: "Student can assess AI Employee output quality, identify what tasks the agent handles well vs poorly, and estimate token costs for different task types"
+    measurable_at_this_level: "Student can assess agent output, request reasoning behind suggestions, and apply their own judgment to accept or modify recommendations"
+
+  - name: "Daily Workflow Design"
+    proficiency_level: "A2"
+    category: "Applied"
+    bloom_level: "Apply"
+    digcomp_area: "Computational Thinking"
+    measurable_at_this_level: "Student can configure a personalized daily briefing that runs on schedule, review its output, and modify the configuration based on usefulness"
 
 learning_objectives:
-  - objective: "Execute 6 different task types using an AI Employee, observe the agent loop, and experience the shift from reactive to autonomous"
+  - objective: "Delegate tasks and iterate on agent output by requesting explanations and making accept/reject decisions"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student completes all 6 tasks in the Task Sprint, noting what the agent did at each step and identifying the key difference between Tasks 1-5 (reactive) and Task 6 (autonomous)"
+    assessment_method: "Student completes Tasks 1-2 and has edited at least one agent output based on their own judgment"
 
   - objective: "Identify the 4 phases of the agent loop (parse, plan, execute, report) from real observations"
     proficiency_level: "A2"
     bloom_level: "Understand"
-    assessment_method: "Student can describe which phase the agent was in during each task and explain how the phases connect"
+    assessment_method: "Student can describe which phase the agent was in during each task"
 
-  - objective: "Assess which tasks AI Employees handle well versus poorly with concrete examples"
+  - objective: "Configure a personalized daily briefing and test it"
     proficiency_level: "A2"
-    bloom_level: "Evaluate"
-    assessment_method: "Student produces a personal assessment table categorizing at least 6 task types into 'works well' vs 'struggles with' based on firsthand experience"
+    bloom_level: "Apply"
+    assessment_method: "Student has a working morning briefing configured for their role that runs on schedule"
 
-  - objective: "Estimate token costs for different task types"
+  - objective: "Distinguish between reactive tasks (you ask) and autonomous tasks (agent acts on schedule)"
     proficiency_level: "A2"
     bloom_level: "Understand"
-    assessment_method: "Student can explain why a research task costs more than a simple question and provide rough cost ranges for 3 task categories"
+    assessment_method: "Student can explain the difference between Tasks 1-3 (reactive) and Task 4 (autonomous) and why it matters"
 
 cognitive_load:
-  new_concepts: 6
-  assessment: "6 concepts (task delegation, agent loop phases, honest capability assessment, token costs, multi-step workflows, autonomous invocation) grounded in hands-on experience at A2 -- within 5-7 limit"
+  new_concepts: 5
+  concepts_list:
+    - "Task delegation with iteration (ask, review, modify)"
+    - "Agent loop phases (parse, plan, execute, report)"
+    - "Output judgment (accept vs reject agent suggestions)"
+    - "Autonomous invocation (scheduled tasks without prompting)"
+    - "Daily workflow design (personalized briefing)"
+  assessment: "5 concepts grounded in hands-on practice at A2 -- within budget"
 
 differentiation:
-  extension_for_advanced: "Design a 5-task workflow chain where each task builds on the previous task's output. Time the entire chain and calculate total token cost."
-  remedial_for_struggling: "Focus on Tasks 1 and 2 only. For each, write down exactly what the agent did in your own words. Skip cost analysis for now."
+  extension_for_advanced: "Design a 3-task workflow chain where each task builds on the previous task's output. Configure it to run on a weekly schedule."
+  remedial_for_struggling: "Focus on Tasks 1 and 4 only. For Task 1, just do the research. For Task 4, configure the simplest possible briefing (check files modified yesterday). Skip iteration steps."
 ---
 
 # Your First Real Work
 
-In Lesson 2, you installed OpenClaw, connected Telegram, and confirmed your AI Employee responds. That proved the wiring works. Now you will make it do something genuinely useful -- tasks that would normally consume 30 or more minutes of your time, finished in 2.
+In Lesson 2, you installed OpenClaw, connected Telegram, and confirmed your AI Employee responds. That proved the wiring works. Now make it earn its keep.
 
-This lesson is about experiencing the **agent loop** -- the execution engine that powers every AI agent system, from chatbots to full AI Employees. You will run five task types that demonstrate this loop in action, then a sixth that crosses the line from "tool you use" to "employee that works for you." The difference between those two categories is the key insight of this lesson.
-
-## Task Sprint: 6 Tasks in 20 Minutes
-
-Set a timer. You are going to run six tasks back to back, spending about 3 minutes on each. The first five demonstrate the agent loop. The sixth crosses the line into AI Employee territory. For each task, you will do three things: type the instruction, observe what the agent does, and note what you learned.
-
-Open your Telegram chat with your AI Employee. If you configured a different interface in Lesson 2, use that instead.
+Over the next 30 minutes, you will build artifacts you keep, iterate on output you disagree with, and configure a daily workflow that runs while you sleep. Four tasks. You walk away with real files on your machine and a working morning briefing on your phone.
 
 :::tip Using a Different Channel?
 If you set up Discord, Slack, or WhatsApp instead of Telegram, use that channel for these tasks. You can also use the Control UI at `http://127.0.0.1:18789/` or `openclaw tui` in your terminal. The tasks work identically across all channels.
 :::
 
-### Task 1: Research (3 minutes)
+---
 
-**What to type:**
+## Part A: Reactive Tasks (12 minutes)
+
+### Task 1: Research and Edit (6 minutes)
+
+Type this into your AI Employee:
 
 ```
 Research the top 3 competitors in [your industry]. Create a comparison
 table with pricing, features, and target market for each.
 ```
 
-Replace `[your industry]` with your actual field. If you work in healthcare, say healthcare software. If you work in education, say online education platforms. Use something real to you.
+Replace `[your industry]` with your actual field. Healthcare software, online education, local restaurants -- use something real.
 
-**What to observe:** Watch the agent's response carefully. It does not just blurt out an answer. It plans first -- deciding what information to gather, in what order, and how to structure the output. If your LLM provider supports tool use and web access, you may see it searching for current data. If not, it draws on training knowledge and tells you the cutoff date.
+The agent researches, structures, and delivers a comparison table. Read the output carefully. Something will be wrong or incomplete -- a missing column, an outdated price, a competitor you know they missed.
 
-Notice the structure of the output. The agent chose to use a table format because you asked for a comparison. It organized the columns to match your request. It did not ask you to clarify what "competitors" means for your industry -- it made reasonable inferences and proceeded.
+Now iterate. Type a follow-up:
 
-**The takeaway:** Multi-step reasoning combined with tool use. The agent decomposed a vague request ("research competitors") into specific subtasks (identify companies, gather pricing, compare features, format as table) without you spelling out each step.
+```
+Add a column for [something you noticed was missing] and correct
+[something that was wrong]. Save the updated table to competitors.md.
+```
+
+Open the file. You now have an artifact on your machine -- not a chat message that scrolls away, but a file you can edit, share, and reference tomorrow.
+
+**Takeaway:** The value is not what the agent produces. It is what YOU produce by editing agent output. First drafts are cheap. Your judgment is the expensive part.
 
 ---
 
-### Task 2: Professional Writing (2 minutes)
-
-**What to type:**
-
-```
-Draft a professional email declining a meeting invitation.
-Tone: respectful but firm. Reason: scheduling conflict.
-Keep it under 100 words.
-```
-
-**What to observe:** The response arrives almost instantly compared to the research task. Notice how the agent adapts its language to match the tone you specified. It did not use casual language or overly formal legalese. It hit "respectful but firm" because you gave it clear constraints.
-
-Also notice what the agent added that you did not ask for: likely a suggestion to reschedule, or a line acknowledging the importance of the meeting. The agent drew on patterns from professional communication to enhance your request.
-
-**The takeaway:** Domain adaptation through natural language instruction. You did not need to provide a template, select a style preset, or configure anything. Three words -- "respectful but firm" -- were enough for the agent to calibrate its output. This is fundamentally different from traditional software, where you would select from predefined templates.
-
----
-
-### Task 3: File Operations (3 minutes)
-
-**What to type:**
+### Task 2: Weekly Goals and Iteration (6 minutes)
 
 ```
 Create a file called weekly-goals.md with 5 professional goals
@@ -126,210 +123,154 @@ for this week, formatted as a markdown checklist. Make the goals
 realistic for someone in [your role].
 ```
 
-Replace `[your role]` with your actual job title or function.
+The agent creates the file. Open it and read the goals. You will probably disagree with the ranking. Good. Type:
 
-**What to observe:** This is where the shift from chatbot to employee becomes concrete. The agent does not just generate text and show it to you. It creates an actual file on your system. Check your OpenClaw working directory -- the file exists. Open it. The content is there.
+```
+Explain why you ranked goal #1 highest. I think [goal #3 or whichever
+you disagree with] is more urgent because [your reason].
+```
 
-This is the critical distinction from Lesson 1. A chatbot shows you text. An AI Employee acts on your environment. It created a real file that you can edit, share, and track.
+The agent explains its reasoning. It might convince you -- or you might override it. Either outcome is correct. Accept the suggestions that make sense. Reject the ones that do not. Update the file with your final version.
 
-**The takeaway:** The agent acts on your machine. This is not a sandbox or simulation. When you ask for a file, you get a file. When you ask it to modify something, the modification happens. This capability is what makes the "employee" framing accurate -- employees produce artifacts, not just answers.
+**Takeaway:** An employee who never pushes back is useless. An employee who explains their reasoning and lets you override is valuable. You just experienced the second kind.
 
 ---
 
-### Task 4: Analysis (3 minutes)
+## Part B: Multi-Step Foundation (5 minutes)
 
-**What to type:**
+### Task 3: Research Pipeline (5 minutes)
 
 ```
-Read weekly-goals.md, analyze which goals are most achievable this
-week given typical time constraints, and reorder them by priority
-with a brief justification for each ranking.
+Research the latest trends in [your field] for 2026, summarize the
+key findings in a file called trends-report.md, then suggest 3
+action items I could implement this quarter.
 ```
 
-**What to observe:** The agent reads the file it just created. It does not ask you to paste the contents. It remembers the file exists because it created it moments ago (session context), and it can access it directly (file system access).
+One instruction. Four operations: research, synthesize, write to file, analyze for recommendations. The agent sequences them without you managing the steps.
 
-Watch how it reasons about priority. It considers factors like time required, dependencies between goals, and likelihood of completion. The justifications reveal its reasoning process. You might disagree with some rankings -- that disagreement is valuable data about where your judgment differs from the agent's defaults.
+Check the file. The agent chained research into writing into analysis -- each step feeding the next. This capability is what makes the next task possible.
 
-**The takeaway:** Agents can build on previous work. The agent used two forms of memory here: session context (knowing it created the file) and file system access (reading the file contents). This is the foundation of multi-step workflows. Each task can reference and build on what came before.
+**Takeaway:** You did not manage the steps. The agent planned and sequenced them. One instruction, four operations. This is the agent loop at full stretch.
 
 ---
 
-### Task 5: Multi-Step Workflow (4 minutes)
+## Part C: Your Daily Employee (13 minutes)
 
-**What to type:**
+This is the task that turns a demo into a daily tool.
+
+### Task 4: Configure Your Morning Briefing
+
+**Step 1 -- Describe your needs (3 minutes):**
 
 ```
-Research the latest trends in [your field] for 2026, summarize
-the key findings in a file called trends-report.md, then suggest
-3 action items based on those findings that I could implement
-this quarter.
+I work as [YOUR ROLE] and my priorities this quarter are [2-3 PRIORITIES].
+Design a daily morning briefing that runs at 8 AM. It should check
+my recent files, summarize what I worked on yesterday, and suggest
+priorities for today. Send it to me on [Telegram/your channel].
 ```
 
-**What to observe:** This single instruction triggers a chain of operations: research (gathering information), writing (creating a structured summary), file creation (saving to disk), and analysis (generating actionable recommendations). The agent handles the sequencing automatically. You gave one instruction; it executed multiple steps.
+**Step 2 -- Review the proposal (3 minutes):**
 
-Count the distinct operations the agent performed. You likely see at least four: gathering information, synthesizing it into coherent prose, writing it to a file, and generating recommendations based on what it wrote. Each step feeds the next.
+The agent suggests a briefing structure. Read it. Is this what you would actually want to see at 8 AM? Type feedback:
 
-**The takeaway:** This is the agent loop at its most capable -- one instruction, multiple coordinated steps, tangible output. Traditional tools require you to perform each step manually: open a browser, search, read articles, open a text editor, write notes, analyze the notes, write recommendations. The agent compressed that entire workflow into a single delegation.
+```
+Add [something useful it missed]. Remove [something you don't need].
+Make the priorities section shorter -- just bullet points, no explanations.
+```
 
-But notice what all five tasks have in common: **you triggered every one of them.** The agent did not decide to research competitors on its own. It did not wake up and create a goals file. It waited for you to speak, then it acted. That is the agent loop -- powerful, but reactive.
+The agent adjusts.
 
-The next task changes that.
+**Step 3 -- Test it now (4 minutes):**
+
+```
+Run the morning briefing now so I can see what it looks like.
+```
+
+The agent produces a sample briefing. Evaluate it honestly: Would you read this at 8 AM? Would it change how you start your day? If not, iterate again until it would.
+
+**Step 4 -- Set the schedule (3 minutes):**
+
+Confirm the schedule. The agent configures the cron job or heartbeat. If your setup does not support scheduling, run `openclaw tui` each morning and type "run my morning briefing" -- you will automate it later in Chapter 13.
+
+**Takeaway:** Tasks 1-3 were reactive -- you asked, the agent responded. Task 4 is autonomous -- the agent works on YOUR schedule. Tomorrow at 8 AM, check your phone. Your employee already clocked in.
 
 ---
 
-### Task 6: Scheduled Check-In (3 minutes)
+## The Agent Loop
 
-**What to type:**
+Every task you ran followed the same four phases:
 
-```
-Set up a daily morning briefing that runs automatically at 8 AM.
-It should: check my recent files for anything modified yesterday,
-summarize what I worked on, and suggest 3 priorities for today.
-Send me the briefing on Telegram without me asking for it.
-```
+**Parse** -- The agent read your natural language and understood your intent. When you said "research competitors," it inferred what "competitors" means for your industry without you spelling it out.
 
-**What to observe:** This task is fundamentally different from Tasks 1-5. You are not asking for a one-time response. You are asking the agent to **act on a schedule, without being prompted.** If your OpenClaw instance supports cron jobs or heartbeats (check your configuration from Lesson 2), the agent will confirm the schedule. If not, it will explain what configuration is needed.
+**Plan** -- Before producing output, it decided what to do and in what order. The research pipeline (Task 3) required sequencing research before writing before analysis. You never specified the order.
 
-Either way, notice the shift: Tasks 1-5 were conversations. Task 6 is a **standing order**. The agent is not waiting for you to speak. It is monitoring, summarizing, and reporting on its own schedule.
+**Execute** -- It called tools as needed: web search, file creation, file reading. When the pipeline task required reading a file it had just written, it did so automatically.
 
-**The takeaway:** This is the line between an agent loop and an AI Employee. Tasks 1-5 demonstrated the agent loop -- the same parse-plan-execute-report cycle that every agent framework implements. Task 6 adds **autonomous invocation**: the agent acts without being asked. That single addition is what transforms a capable tool into a colleague that works alongside you.
+**Report** -- It formatted results for you: tables for comparisons, checklists for goals, prose for reports. Format matched context, not a rigid template.
 
----
-
-## What You Just Witnessed
-
-Stop and reflect on the six tasks you ran. They split cleanly into two categories -- and the split is the most important thing you learned today.
-
-### The Agent Loop (Tasks 1-5)
-
-**Phase 1 -- Parse Intent.** The agent read your natural language instruction and understood what you wanted. It distinguished between "create a file" and "research competitors" without you specifying the tool or approach. It handled ambiguity (like inferring what "competitors" means for your industry) by making reasonable defaults.
-
-**Phase 2 -- Plan Execution.** Before producing output, the agent decided what to do and in what order. For the research task, it identified information categories. For the multi-step workflow, it sequenced research before writing before analysis. You never told it the order. It planned dynamically.
-
-**Phase 3 -- Execute Steps.** The agent called tools -- web search, file creation, file reading -- as needed. Each tool call had a purpose tied to the plan. When the multi-step task required reading a file it had just written, it did so without prompting from you.
-
-**Phase 4 -- Report Results.** The agent formatted its output for you: tables for comparisons, checklists for goals, prose for reports. It chose the format based on context, not a rigid template.
-
-This cycle -- **parse, plan, execute, report** -- is what every agent implements.
-
-### The Employee Shift (Task 6)
-
-Task 6 added one thing that Tasks 1-5 lacked: **autonomous invocation**. The agent does not wait for your message. It fires on a schedule, checks your environment, and reports back -- whether you asked or not.
-
-That single addition is what separates an AI Employee from an AI tool. Tasks 1-5 gave you a powerful agent loop -- the same engine that runs inside ChatGPT, Claude Code, and every other AI assistant. Task 6 gave you a glimpse of something different: a colleague that works while you sleep.
-
-In Lesson 4, you will see exactly how both of these patterns work under the hood. In Lesson 5, you will confront the security implications of an agent that acts without being asked.
+Task 4 added **autonomous invocation** on top of the same loop. The agent does not wait for your message. It fires on a schedule, runs the same parse-plan-execute-report cycle, and delivers the result to your phone. That single addition -- acting without being prompted -- is what separates an AI Employee from an AI tool.
 
 ---
 
 ## What Works Well vs What Doesn't
 
-Here is an honest assessment. Not marketing. Not hype. What actually works and what currently falls short, based on real usage patterns.
-
 ### Tasks Where AI Employees Excel
 
-| Task Type                      | Why It Works Well                                                        | Example                                                    |
-| ------------------------------ | ------------------------------------------------------------------------ | ---------------------------------------------------------- |
-| **Research and summarization** | Processes large volumes of information faster than manual reading        | Competitor analysis, trend reports, literature reviews     |
-| **Professional writing**       | Adapts tone, format, and structure to natural language constraints       | Emails, proposals, reports, documentation                  |
-| **File management**            | Creates, reads, modifies, and organizes files without manual effort      | Goal lists, meeting notes, project templates               |
-| **Structured analysis**        | Applies consistent criteria across items without fatigue                 | Priority ranking, pros/cons tables, comparison matrices    |
-| **Multi-step workflows**       | Chains operations that would require you to context-switch between tools | Research-to-report pipelines, data-to-recommendation flows |
+| Task Type                      | Why It Works Well                                                    | Example                                                    |
+| ------------------------------ | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Research and summarization** | Processes large volumes of information faster than manual reading    | Competitor analysis, trend reports, literature reviews     |
+| **Professional writing**       | Adapts tone, format, and structure to natural language constraints   | Emails, proposals, reports, documentation                  |
+| **File management**            | Creates, reads, modifies, and organizes files without manual effort  | Goal lists, meeting notes, project templates               |
+| **Structured analysis**        | Applies consistent criteria across items without fatigue             | Priority ranking, pros/cons tables, comparison matrices    |
+| **Multi-step workflows**       | Chains operations that would require context-switching between tools | Research-to-report pipelines, data-to-recommendation flows |
 
 ### Tasks Where AI Employees Struggle
 
-| Task Type                               | Why It Struggles                                                                                            | What to Do Instead                                                                |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| **Tasks requiring real-time data**      | Training data has a cutoff date; web access varies by provider and configuration                            | Verify recency of any time-sensitive claims; provide current data when needed     |
-| **Highly subjective decisions**         | The agent has no access to your personal values, relationships, or organizational politics                  | Use the agent for analysis; make the final judgment yourself                      |
-| **Tasks requiring external services**   | Unless you have configured specific integrations (email, calendar, databases), the agent cannot access them | Check Lesson 2's configuration; connect services as needed in later lessons       |
-| **Very long, complex workflows**        | Context windows have limits; after thousands of tokens, earlier instructions may lose fidelity              | Break long workflows into smaller steps; check intermediate outputs               |
-| **Creative work requiring originality** | Agents produce competent, pattern-based output; genuine novelty requires human insight                      | Use the agent for first drafts and variations; inject your own creative direction |
+| Task Type                               | Why It Struggles                                                                 | What to Do Instead                                            |
+| --------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Tasks requiring real-time data**      | Training data has a cutoff; web access varies by provider                        | Verify recency of time-sensitive claims; provide current data |
+| **Highly subjective decisions**         | No access to your personal values, relationships, or organizational politics     | Use the agent for analysis; make the final judgment yourself  |
+| **Tasks requiring external services**   | Unless you configured specific integrations, the agent cannot access them        | Connect services as needed in later lessons                   |
+| **Very long, complex workflows**        | Context windows have limits; earlier instructions may lose fidelity              | Break long workflows into smaller steps                       |
+| **Creative work requiring originality** | Produces competent, pattern-based output; genuine novelty requires human insight | Use for first drafts; inject your own creative direction      |
 
-The honest pattern: AI Employees are strongest at tasks that are **information-heavy, structure-dependent, and repeatable**. They are weakest at tasks that require **real-time awareness, subjective judgment, or genuine creativity**. Most professional work falls somewhere in between, which is exactly why the "employee" model works -- you delegate the mechanical parts and apply your judgment to the parts that matter.
+AI Employees are strongest at tasks that are **information-heavy, structure-dependent, and repeatable**. They are weakest at tasks requiring **real-time awareness, subjective judgment, or genuine creativity**. Most professional work falls between, which is exactly why the employee model works -- delegate the mechanical parts, apply your judgment to the parts that matter.
 
----
-
-## Understanding Costs
-
-Every message to your AI Employee costs tokens. Tokens are the units that LLM providers use for billing -- roughly 4 characters per token in English. The cost depends on two factors: which model you are using and how many tokens the request and response consume.
-
-### Rough Cost Guide (February 2026)
-
-These ranges assume typical API pricing. Free tiers (like Kimi K2.5 or Gemini Flash with free quota) cost nothing until you hit rate limits. Paid usage on mid-tier models (Claude Sonnet, GPT-4o) follows these approximate ranges:
-
-| Task Type                                       | Typical Token Usage  | Approximate Cost (Paid Mid-Tier) |
-| ----------------------------------------------- | -------------------- | -------------------------------- |
-| Simple question                                 | 200-500 tokens total | $0.005 - $0.02                   |
-| Professional email draft                        | 500-1,000 tokens     | $0.01 - $0.05                    |
-| Research task with synthesis                    | 2,000-5,000 tokens   | $0.05 - $0.25                    |
-| Multi-step workflow                             | 5,000-15,000 tokens  | $0.15 - $0.75                    |
-| Extended session (many back-and-forth messages) | 20,000-50,000 tokens | $0.50 - $2.50                    |
-
-**What drives cost up:** Longer responses, multiple tool calls (each call adds tokens), providing large documents as context, and using frontier models (Claude Opus, GPT-5.2) instead of efficient models (Claude Haiku, GPT-5 mini, Gemini Flash).
-
-**What keeps cost down:** Concise prompts, smaller efficient models for routine tasks, free-tier providers for learning, and breaking large requests into focused smaller ones.
-
-### Free Tier Reality
-
-For this chapter, you should be well within free tier limits. Kimi K2.5 provides generous free API access. Gemini Flash has a free quota. Even paid services typically offer initial credits.
-
-If you are working through these six tasks on a free tier, your total cost for this lesson is approximately zero dollars. The rate limits may slow you down between tasks, but you will not be charged.
-
-### The Bigger Cost Picture
-
-The relevant comparison is not "how much does this API call cost" but "how much is my time worth." If you earn the equivalent of $50 per hour and the research task saved you 30 minutes, you gained $25 of value for less than $0.25 in token costs. That is a 100x return. Even at heavy daily usage of $5-10 per day on paid models, the math works if you are genuinely saving hours.
-
-The cost question becomes more nuanced at scale -- running agents for entire teams, processing thousands of requests daily -- but at the individual learning level, cost is rarely the constraint. Time and skill are.
+On free tiers (Gemini Flash, Kimi K2.5), this lesson costs nothing. On paid models, expect $0.01-0.10 per task -- less than a dollar for the entire lesson.
 
 ---
 
-## From Loop to Employee
-
-You have now experienced both halves of the AI Employee equation:
-
-**The agent loop** (Tasks 1-5): Parse intent, plan execution, execute steps, report results. Powerful, versatile, and reactive -- it does nothing until you speak.
-
-**Autonomous invocation** (Task 6): The agent acts on its own schedule. It monitors, summarizes, and reports without a prompt from you. This is the capability that transforms a tool into a colleague.
-
-In Lesson 4, you will open the hood and see exactly how OpenClaw implements both patterns -- the agent loop and the scheduling system that makes it fire autonomously. You will learn the six universal patterns that make any AI Employee work.
-
-But before that architecture lesson, carry this experience with you: you delegated real work, received real output, experienced the shift from reactive to autonomous, and formed your own honest assessment of what works and what does not. That firsthand judgment is more reliable than any benchmark or marketing claim.
+You now have two artifacts (a competitor research table and a weekly goals file) and a configured morning briefing. Tomorrow at 8 AM, your agent delivers its first autonomous report. In Lesson 4, you will open the hood and see exactly how the agent loop and scheduling system work under the surface.
 
 ---
 
 ## Try With AI
 
-### Prompt 1 -- Task Quality Assessment
+### Prompt 1 -- Refine Your Briefing
 
 ```
-I ran 6 AI Employee tasks: competitor research, email draft, file
-creation, priority analysis, multi-step workflow, and scheduled
-briefing. Rank them by output quality, time saved, and how much
-I'd trust each without review. Which should NEVER be fully
-automated, and why?
+My morning briefing was [useful/not useful enough]. Here's what
+I'd change: [YOUR FEEDBACK]. Update the briefing configuration
+and run it again so I can compare.
 ```
 
-**What you're learning:** Critical assessment of AI output. Knowing which tasks to trust and which to verify is more valuable than knowing how to delegate. The ability to rank by trust level -- not just convenience -- is what separates effective AI Employee managers from people who blindly accept AI output.
+**What you're learning:** Iteration is the skill. The first version is never the final version. Learning to give specific feedback ("add X, remove Y") instead of vague feedback ("make it better") is what makes AI delegation effective.
 
 ### Prompt 2 -- Capability Boundaries
 
 ```
-What types of tasks are AI Employees currently good at vs bad at?
-Create a 2-column comparison table with at least 8 entries in each
-column. For each "bad at" entry, explain whether this is a temporary
-limitation (will improve) or a fundamental one (requires human judgment).
+What tasks are AI Employees currently good at vs bad at? Create
+a 2-column table with 8 entries each. For each weakness, note
+whether it's temporary (will improve) or fundamental (needs human judgment).
 ```
 
-**What you're learning:** Calibrating expectations. Knowing the boundaries prevents frustration and builds realistic plans. The distinction between temporary limitations (will improve with better models and tools) and fundamental ones (require human values, relationships, or creativity) shapes how you invest your learning time.
+**What you're learning:** Calibrating expectations prevents frustration. Knowing the boundaries shapes how you invest your time -- you focus on tasks where AI saves hours and handle the rest yourself.
 
-### Prompt 3 -- Morning Workflow Design
+### Prompt 3 -- Design Your Work Routine
 
 ```
-Design an automated morning routine for an AI Employee tailored to
-my role ([YOUR ROLE]) and quarterly priorities ([LIST 2-3]).
-What should it check, summarize, and act on -- and how should it
-report to me?
+Design a full daily AI Employee routine for my role ([YOUR ROLE]).
+What should it do in the morning, during work hours, and at end of day?
 ```
 
-**What you're learning:** Thinking in workflows rather than individual tasks. This is the foundation for the always-on employee you will build in Chapter 13. A morning routine combines research, analysis, writing, and scheduling into a single automated sequence -- exactly the multi-step pattern you practiced in Task 5, but running on a schedule instead of on demand.
+**What you're learning:** Thinking in workflows rather than individual tasks. A daily routine combines research, analysis, and scheduling into automated sequences -- the foundation for the always-on employee you will build in Chapter 13.

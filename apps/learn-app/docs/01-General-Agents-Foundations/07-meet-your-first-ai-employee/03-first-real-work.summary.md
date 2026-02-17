@@ -7,30 +7,33 @@ sidebar_position: 3.5
 # Summary: Your First Real Work
 
 ## Key Concepts
-- **Task Delegation**: Give one natural language instruction; the agent decomposes it into subtasks automatically
-- **Agent Loop**: The universal 4-phase cycle every agent system implements -- identical across OpenClaw, Claude Code, CrewAI, and others
-- **Output Quality Assessment**: AI Employees excel at information-heavy, structure-dependent, repeatable tasks; they struggle with real-time data, subjective judgment, and genuine creativity
-- **Token Costs**: Roughly 4 characters per token; a research task costs ~$0.05-$0.25 while a simple question costs ~$0.005-$0.02
-- **Multi-Step Workflows**: One instruction can trigger a chain of operations (research, write, save, analyze) that the agent sequences automatically
+
+- **Task Delegation with Iteration**: Delegate a task, review the output, then iterate -- request explanations, challenge rankings, edit the result
+- **Agent Loop**: The 4-phase cycle (parse, plan, execute, report) that powers every task your agent runs
+- **Output Judgment**: The value is not what the agent produces -- it is what YOU produce by editing agent output
+- **Autonomous Invocation**: Scheduled tasks that run without prompting, turning a reactive tool into a daily employee
+- **Daily Workflow Design**: Configure a personalized morning briefing tailored to your role and priorities
 
 ## The Agent Loop
-1. **Parse Intent** -- Understand the natural language instruction and resolve ambiguity with reasonable defaults
-2. **Plan Execution** -- Decide what to do and in what order before producing output
-3. **Execute Steps** -- Call tools (web search, file creation, file reading) as needed per the plan
-4. **Report Results** -- Format output for the user based on context (tables, checklists, prose)
+
+1. **Parse** -- Understand the natural language instruction and resolve ambiguity
+2. **Plan** -- Decide what to do and in what order before producing output
+3. **Execute** -- Call tools (web search, file creation, file reading) as needed
+4. **Report** -- Format output based on context (tables, checklists, prose)
 
 ## Common Mistakes
+
+- Accepting agent output without reviewing it (first drafts are cheap; your judgment is expensive)
+- Giving vague iteration feedback ("make it better") instead of specific feedback ("add X, remove Y")
+- Skipping the morning briefing configuration (this is the lesson's lasting value)
 - Expecting real-time data without verifying the model's knowledge cutoff
-- Delegating highly subjective decisions that require personal values or organizational context
-- Sending one massive instruction instead of breaking long workflows into checkable steps
-- Judging AI capability from marketing claims instead of firsthand experience
 
 ## Quick Reference
 
-| Works Well | Struggles With |
-|---|---|
-| Research and summarization | Tasks requiring real-time data |
-| Professional writing with tone control | Highly subjective decisions |
-| File creation and management | Unconfigured external services |
-| Structured analysis and ranking | Very long, complex workflows |
+| Works Well                              | Struggles With                      |
+| --------------------------------------- | ----------------------------------- |
+| Research and summarization              | Tasks requiring real-time data      |
+| Professional writing with tone control  | Highly subjective decisions         |
+| File creation and management            | Unconfigured external services      |
+| Structured analysis and ranking         | Very long, complex workflows        |
 | Multi-step research-to-report pipelines | Creative work requiring originality |
