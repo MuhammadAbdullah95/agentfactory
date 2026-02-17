@@ -1,7 +1,7 @@
 ---
 title: "Summary: Chapter Quiz"
 sidebar_label: "Summary"
-sidebar_position: 8.5
+sidebar_position: 9.5
 ---
 
 # Summary: Chapter 7 Quiz & What Comes Next
@@ -21,13 +21,14 @@ The 6 patterns from L04 map directly: OpenClaw's Gateway becomes Claude Code's C
 
 ## Quiz Coverage
 
-| Lessons   | Topics                                                       | Questions |
-| --------- | ------------------------------------------------------------ | --------- |
-| L01-L02   | AI Employee definition, OpenClaw growth, setup, free LLMs    | 4         |
-| L03       | Agent loop phases, autonomous invocation, scheduled tasks    | 2         |
-| L04       | Architecture, 6 patterns, memory, progressive disclosure, cross-framework mapping | 7         |
+| Lessons   | Topics                                                                             | Questions |
+| --------- | ---------------------------------------------------------------------------------- | --------- |
+| L01-L02   | AI Employee definition, OpenClaw growth, setup, free LLMs                          | 4         |
+| L03       | Agent loop phases, autonomous invocation, scheduled tasks                          | 2         |
+| L04       | Architecture, 6 patterns, memory, progressive disclosure, cross-framework mapping  | 7         |
 | L05       | ClawHavoc, security checklist, lethal trifecta, Gateway binding, incident response | 5         |
-| L06       | Coding-agent delegation, PTY vs background, git worktrees, Agent Factory thesis | 4         |
-| L07       | gog CLI, OAuth setup, Google Workspace, least privilege, security audit | 7         |
-| L08       | Specification-driven design, Chapter 13 bridge               | 1         |
-| **Total** |                                                              | **30**    |
+| L06       | Coding-agent delegation, PTY vs background, git worktrees, Agent Factory thesis    | 4         |
+| L07       | gog CLI, OAuth setup, Google Workspace, least privilege, security audit            | 7         |
+| L08       | Composability, use case evaluation, unsolved problems                              | 4         |
+| L09       | Specification-driven design, Chapter 13 bridge                                     | 1         |
+| **Total** |                                                                                    | **34**    |

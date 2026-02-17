@@ -31,5 +31,6 @@ By the end of this chapter, you'll be able to:
 - Create custom skills and evaluate security risks of giving AI real autonomy
 - Watch your AI Employee delegate coding tasks to Claude Code (the Agent Factory thesis in action)
 - Connect your AI Employee to Gmail, Calendar, and Drive for real daily productivity
+- See how these patterns compose into real-world compound workflows and evaluate use cases
 - Map OpenClaw's architecture to any other agent framework in minutes
 - Assess what OpenClaw proved and what hard problems remain unsolved
