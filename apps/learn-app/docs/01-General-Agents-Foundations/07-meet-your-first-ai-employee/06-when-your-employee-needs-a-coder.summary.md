@@ -1,55 +1,44 @@
 ---
-title: "Summary: When Your Employee Needs a Coder"
+title: "Summary: Your Employee Orchestrating Agents"
 sidebar_label: "Summary"
 sidebar_position: 6.5
 ---
 
-# Summary: When Your Employee Needs a Coder
+# Summary: Your Employee Orchestrating Agents
 
 ## Key Concepts
 
-- Your AI Employee is a **Custom Agent** that understands your context (projects, preferences, schedule) but cannot write code
-- When coding is needed, it delegates to a **General Agent** like Claude Code, Codex, OpenCode, or Pi
-- The `coding-agent` skill auto-detects which coding agents are available on your PATH
-- **PTY mode** (`pty:true`) is required because coding agents are interactive terminal applications
-- **One-shot mode** handles quick tasks synchronously -- employee waits for completion
-- **Background mode** (`background:true`) handles long tasks -- employee monitors via session ID
-- **Auto-notify** eliminates polling: the coding agent triggers an event when finished
-- **Git worktrees** enable parallel delegation -- multiple coding agents working on separate branches simultaneously
-- This is the **Agent Factory thesis** from Chapter 1 in action: Custom Agents manage, General Agents execute
-
-## Delegation Commands Quick Reference
-
-| Command                                                                   | Purpose                                          |
-| ------------------------------------------------------------------------- | ------------------------------------------------ |
-| `bash pty:true workdir:~/project command:"claude 'task'"`                 | One-shot delegation (waits for result)           |
-| `bash pty:true workdir:~/project background:true command:"claude 'task'"` | Background delegation (returns session ID)       |
-| `process action:poll sessionId:XXX`                                       | Check if background session is still running     |
-| `process action:log sessionId:XXX`                                        | Read output from background session              |
-| `process action:kill sessionId:XXX`                                       | Terminate a background session                   |
-| `openclaw system event --text "Done: summary" --mode now`                 | Auto-notify on completion (appended to prompt)   |
-| `git worktree add -b branch /tmp/workspace main`                          | Create isolated workspace for parallel execution |
-
-## Supported Coding Agents
-
-| Agent       | Command    | Notes                                               |
-| ----------- | ---------- | --------------------------------------------------- |
-| Claude Code | `claude`   | Full-featured, installed in Chapter 3               |
-| Codex CLI   | `codex`    | Requires git repo, use `--full-auto` for background |
-| OpenCode    | `opencode` | Model-agnostic, works with any LLM provider         |
-| Pi          | `pi`       | Minimal (4 tools), fast for one-shot scripts        |
+- Your AI Employee is a **Custom Agent** that understands your context (projects, preferences, schedule)
+- When tasks need specialist capabilities, it delegates to a **General Agent** like Claude Code
+- Delegation is **invisible** -- the employee decides when, how, and to which agent to delegate
+- The **two-tier delegation pattern**: Custom Agent manages context, General Agent executes tasks
+- Neither agent is sufficient alone: the employee has context but needs capability; the specialist has capability but lacks context
+- This is the **Agent Factory thesis** from Chapter 1 running live
 
 ## The Two-Tier Model
 
 ```
-You (Telegram) --> Employee (Custom Agent) --> Claude Code (General Agent) --> Code
-                                            <-- Result <--                  <-- Files
+You (Telegram) → Employee (Custom Agent) → General Agent → Result
+                                         ← Files/Reports ←
 ```
+
+| Role              | Type          | What It Knows                                          |
+| ----------------- | ------------- | ------------------------------------------------------ |
+| **Your Employee** | Custom Agent  | Your projects, preferences, schedule, domain           |
+| **Claude Code**   | General Agent | Research, file operations, analysis, document creation |
 
 ## Common Mistakes
 
-- Forgetting `pty:true` -- coding agents hang or produce broken output without a pseudo-terminal
-- Delegating simple text tasks to a coding agent -- adds latency with no benefit (employee should handle directly)
-- Not using `background:true` for long tasks -- blocks your employee from handling other messages while waiting
-- Forgetting to clean up git worktrees after parallel execution -- `git worktree remove /tmp/workspace`
-- Assuming your employee wrote the code -- it delegated; the coding agent did the work
+- Micro-managing the delegation (your employee handles this internally -- just ask for results)
+- Delegating simple tasks that don't need a specialist (adds latency with no benefit)
+- Not reviewing the output (delegation doesn't mean blind trust)
+- Assuming you need to configure delegation manually (the employee decides automatically)
+
+## What Transfers
+
+| Concept                 | In OpenClaw                    | In Any Framework                    |
+| ----------------------- | ------------------------------ | ----------------------------------- |
+| Custom Agent manages    | Employee knows your context    | Orchestrator holds user preferences |
+| General Agent executes  | Claude Code performs tasks     | Specialist agent performs task      |
+| Delegation is invisible | Employee decides internally    | Orchestrator routes to best agent   |
+| Parallel execution      | Multiple agents simultaneously | Async task execution                |

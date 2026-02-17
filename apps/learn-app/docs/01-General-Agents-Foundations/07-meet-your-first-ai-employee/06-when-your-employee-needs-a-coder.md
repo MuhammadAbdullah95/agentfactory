@@ -1,18 +1,16 @@
 ---
 sidebar_position: 6
-title: "When Your Employee Needs a Coder"
-description: "Watch your AI Employee delegate coding tasks to Claude Code, understand the PTY and background execution patterns, and see the Agent Factory thesis in action"
+title: "Your Employee Orchestrating Agents"
+description: "Watch your AI Employee delegate complex tasks to General Agents, understand the two-tier delegation pattern, and see the Agent Factory thesis running live"
 keywords:
   [
-    coding-agent,
-    claude code,
-    agent delegation,
-    pty mode,
-    background execution,
-    custom agent,
-    general agent,
-    multi-agent,
-    openclaw,
+    ai employee delegation,
+    general agents,
+    custom agents,
+    agent orchestration,
+    two-tier delegation,
+    claude code delegation,
+    agent factory thesis,
   ]
 chapter: 7
 lesson: 6
@@ -20,356 +18,207 @@ duration_minutes: 20
 
 # HIDDEN SKILLS METADATA
 skills:
-  - name: "Agent Delegation"
+  - name: "Agent Delegation Understanding"
     proficiency_level: "B1"
     category: "Conceptual"
     bloom_level: "Understand"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can explain how a Custom Agent delegates coding tasks to a General Agent and describe the PTY execution pattern"
+    measurable_at_this_level: "Student can explain the two-tier delegation pattern (Custom Agent manages context, General Agent executes tasks) and identify when delegation adds value"
 
-  - name: "Multi-Agent Coordination"
-    proficiency_level: "A2"
+  - name: "Delegation Workflow Design"
+    proficiency_level: "B1"
     category: "Applied"
     bloom_level: "Apply"
     digcomp_area: "Digital Competence"
-    measurable_at_this_level: "Student can trigger a coding-agent delegation via Telegram and monitor the background process"
+    measurable_at_this_level: "Student can design a multi-step workflow that leverages delegation between Custom and General Agents for non-coding tasks"
 
 learning_objectives:
-  - objective: "Delegate a coding task from your AI Employee to Claude Code via Telegram"
-    proficiency_level: "A2"
-    bloom_level: "Apply"
-    assessment_method: "Student sends a coding request via Telegram and observes the delegation to Claude Code"
-
-  - objective: "Explain the difference between PTY one-shot and background execution modes"
+  - objective: "Observe and explain the two-tier delegation pattern (Custom Agent to General Agent) through hands-on tasks"
     proficiency_level: "B1"
     bloom_level: "Understand"
-    assessment_method: "Student can describe when to use each mode and explain the monitoring commands"
+    assessment_method: "Student sends complex tasks to their AI Employee, observes the delegation behavior, and describes the Custom Agent/General Agent relationship in their own words"
 
-  - objective: "Connect the delegation pattern to the Agent Factory thesis from Chapter 1"
+  - objective: "Distinguish between tasks the employee handles directly versus delegates to General Agents"
     proficiency_level: "B1"
     bloom_level: "Analyze"
-    assessment_method: "Student can explain how Custom Agents orchestrate General Agents, mapping to the Incubator vs Specialist model"
+    assessment_method: "Given a list of tasks, student correctly classifies which require delegation and explains the decision criteria"
+
+  - objective: "Design a multi-step workflow that leverages agent delegation for research, analysis, and document creation"
+    proficiency_level: "B1"
+    bloom_level: "Apply"
+    assessment_method: "Student creates a workflow description that identifies which steps the employee handles directly and which it delegates, with reasoning for each decision"
 
 cognitive_load:
-  new_concepts: 4
-  assessment: "4 concepts (coding-agent skill, PTY execution, background mode, delegation pattern) -- well within B1 range. Builds directly on L05 skills knowledge and Chapter 1 Agent Factory thesis."
+  new_concepts: 5
+  concepts_list:
+    - "Two-tier delegation (Custom Agent manages, General Agent executes)"
+    - "Invisible orchestration (employee decides when and how to delegate)"
+    - "Context vs capability (employee has context, specialist has skills)"
+    - "Parallel delegation (multiple agents working simultaneously)"
+    - "Delegation judgment (when to delegate vs handle directly)"
+  assessment: "5 concepts within B1 range (7-10). Each concept builds on the Custom Agent vs General Agent distinction from Chapter 1. Exercises ground every concept in hands-on experience."
 
 differentiation:
-  extension_for_advanced: "Set up parallel delegation using git worktree to have your employee dispatch multiple coding tasks simultaneously. Monitor all sessions and compare completion times."
-  remedial_for_struggling: "Focus on the single one-shot delegation example. Skip background mode and parallel execution. The key concept is: employee delegates, coder executes."
+  extension_for_advanced: "Design a 5-step daily workflow where your employee delegates different steps to different General Agents. Document the handoff points and what context each agent needs."
+  remedial_for_struggling: "Focus on Exercise 1 only. Observe whether your employee delegates or handles directly. Describe the result in your own words."
 ---
 
-# When Your Employee Needs a Coder
+# Your Employee Orchestrating Agents
 
-In Lesson 5, you created custom skills that made your AI Employee uniquely yours. Those skills handle text-based work -- meeting prep, research summaries, email drafts. But what happens when the task requires writing actual code? Your employee knows your projects, your preferences, your schedule. It does not know how to write a Python script, debug a React component, or set up a database migration.
+In Lesson 5, you taught your AI Employee new skills and learned why security matters when running agents on your machine. Those skills handle text-based work -- meeting prep, research summaries, skill creation. But some tasks need more than your employee can do alone: deep analysis across dozens of files, complex research requiring multiple sources, or creating entire project structures from scratch.
 
-For that, it needs a specialist. This is what any good manager does: delegate to someone with the right expertise. Your AI Employee is a Custom Agent -- it understands your context and orchestrates work. Claude Code (which you installed in Chapter 3) is a General Agent -- a specialist coder that can write, test, and debug software in any language. When your employee encounters a coding task, it spawns Claude Code with a focused brief, monitors the work, and returns the result to you on Telegram.
+In Chapter 3, you used Claude Code directly -- typing commands, reviewing output, iterating on results. Now watch what happens when your AI Employee uses Claude Code for you. You do not manage the process. You do not choose which agent handles what. You ask for a result, and your employee figures out the orchestration.
 
-This is the Agent Factory thesis from Chapter 1, running live. Custom Agents manage. General Agents execute. Neither is complete without the other.
+This is the Agent Factory thesis from Chapter 1, running live. Your employee is a Custom Agent -- it knows your context, your projects, your preferences. Claude Code is a General Agent -- a specialist that can research, analyze, and create with capabilities your employee does not have. Together, they form something neither could be alone.
 
-## Enabling the Coding-Agent Skill
+## Delegation in Action
 
-Your AI Employee delegates coding through a built-in skill called `coding-agent`. This skill detects which coding agents are installed on your machine and uses whichever one is available.
+The best way to understand delegation is to trigger it. Send your AI Employee tasks complex enough that it needs help -- then watch what happens.
 
-### Supported Coding Agents
+### Exercise 1: Research Delegation
 
-| Agent           | Command    | Best For                                                          |
-| --------------- | ---------- | ----------------------------------------------------------------- |
-| **Claude Code** | `claude`   | Full-featured coding with tool use, file editing, terminal access |
-| **Codex CLI**   | `codex`    | OpenAI's coding agent, strong at multi-file refactoring           |
-| **OpenCode**    | `opencode` | Model-agnostic, plugs into any LLM provider                       |
-| **Pi**          | `pi`       | Minimal (4 tools, 300-word prompt), fast one-shot tasks           |
-
-You already have Claude Code installed from Chapter 3. Confirm it is available:
-
-```bash
-claude --version
-```
-
-**Output:**
+Send this to your employee on Telegram (adapt the topic to your interests):
 
 ```
-claude v1.x.x
+Research the top 5 AI agent frameworks released in 2025-2026.
+For each, create a comparison table with: name, primary language,
+key features, GitHub stars, and best use case. Save as
+frameworks-comparison.md in my workspace.
 ```
 
-If you see a version number, the coding-agent skill will automatically detect Claude Code and use it for delegation. No additional configuration needed -- the skill checks your PATH for available agents at runtime.
+Watch the response. Your employee may handle parts of this itself (it already knows some framework names from its training data) and delegate other parts to a General Agent (web research for current star counts, file creation). The result arrives as a file you can open and verify.
 
-### Enabling the Skill
+**What to observe:** Did your employee mention delegating? Did it take longer than a simple question would? The exact behavior depends on how your instance is configured -- the point is that you asked for a result and received a result, without managing the process in between.
 
-The coding-agent skill ships with OpenClaw. Verify it is active:
-
-```
-List your active skills
-```
-
-Send this to your employee on Telegram. You should see `coding-agent` in the list. If it does not appear, enable it:
+### Exercise 2: Document Creation
 
 ```
-Enable the coding-agent skill
+Create a project proposal for building a personal finance tracker.
+Include an executive summary, problem statement, proposed solution,
+timeline with milestones, and budget estimate. Save as proposal.md.
 ```
 
-**Output:**
+This task requires your employee to combine what it knows about you (your workspace, your preferences from MEMORY.md) with substantial writing and structuring work. For a task this large, delegation to a General Agent becomes valuable -- the specialist handles the heavy research and document creation while your employee provides the personal context.
+
+### Exercise 3: Multi-Step Analysis
 
 ```
-Enabled skill: coding-agent
-Available coding agents: claude (Claude Code)
+Read all the markdown files in my workspace. Create a summary
+of what I have been working on this week, identify the 3 most
+important tasks I should focus on tomorrow, and save the analysis
+as weekly-review.md.
 ```
 
----
-
-## Hands-On: Delegate a Coding Task
-
-Open Telegram. Send your employee a message that requires code:
-
-```
-Create a Python script called password_generator.py that generates
-a random password. Requirements: 16 characters, mix of uppercase,
-lowercase, digits, and symbols. Include a main block that prints
-3 example passwords.
-```
-
-### What to Observe
-
-Watch the response carefully. Your employee does not write the code itself. Instead, you see something like this:
-
-```
-Delegating to Claude Code...
-Working in: ~/openclaw-workspace
-Running: claude 'Create a Python script called password_generator.py...'
-```
-
-The employee passed your request to Claude Code as a one-shot command. Claude Code received the brief, created the file, and returned the result. Your employee then relays the output back to you on Telegram:
-
-```
-Done. Created password_generator.py
-
-Generated passwords:
-kR7#mP2xL9@nQ4wB
-Yt5&dH8vF3!jA6sE
-Wz1$cN4gM7*bK0rX
-```
-
-The file exists on your machine. Check it:
-
-```bash
-cat ~/openclaw-workspace/password_generator.py
-```
-
-**Output:**
-
-```python
-import random
-import string
-
-def generate_password(length: int = 16) -> str:
-    characters = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(random.choices(characters, k=length))
-
-if __name__ == "__main__":
-    for i in range(3):
-        print(generate_password())
-```
+This forces multi-step work: file reading, synthesis, analysis, prioritization, and writing. Your employee decides what to handle itself and what to delegate. The result is a personalized weekly review that neither agent could produce alone -- Claude Code does not know your priorities, and your employee may not have the deep file analysis capabilities.
 
 ### The Takeaway
 
-Your employee did not learn Python. It delegated to a specialist that already knows Python. The employee's value is knowing **what you need** (a password generator for your project) and **who to ask** (Claude Code). This is the two-tier delegation pattern: the Custom Agent understands your context, the General Agent has the technical expertise.
-
----
-
-## How Delegation Works Under the Hood
-
-The coding-agent skill uses OpenClaw's bash tool with PTY (pseudo-terminal) mode. This is necessary because coding agents like Claude Code are interactive terminal applications -- they need a real terminal environment to work correctly. Without PTY, the output breaks.
-
-### One-Shot Mode (Quick Tasks)
-
-For tasks that complete in under a minute:
-
-```
-bash pty:true workdir:~/project command:"claude 'Your task here'"
-```
-
-| Parameter                | Purpose                                                                  |
-| ------------------------ | ------------------------------------------------------------------------ |
-| `pty:true`               | Creates a pseudo-terminal so the coding agent runs correctly             |
-| `workdir:~/project`      | Sets the working directory -- the coding agent sees this project's files |
-| `command:"claude '...'"` | The one-shot command passed to Claude Code                               |
-
-The employee waits for completion, captures the output, and reports back on Telegram. Simple, synchronous, done.
-
-### Background Mode (Long Tasks)
-
-Some coding tasks take minutes -- refactoring a module, writing tests for an entire file, debugging a complex issue. For these, the employee runs the agent in the background:
-
-```
-bash pty:true workdir:~/project background:true command:"claude 'Refactor auth module'"
-```
-
-This returns immediately with a session ID:
-
-```
-Started background session: abc-12345
-```
-
-### Monitoring a Background Session
-
-While the coding agent works, you can check on it:
-
-**Check if it is still running:**
-
-```
-process action:poll sessionId:abc-12345
-```
-
-**Read the output so far:**
-
-```
-process action:log sessionId:abc-12345
-```
-
-**Output:**
-
-```
-[Claude Code] Reading auth.py...
-[Claude Code] Found 3 functions to refactor...
-[Claude Code] Rewriting validate_token()...
-```
-
-### Auto-Notify (No Polling Needed)
-
-The best pattern avoids manual polling entirely. The coding-agent skill appends a completion trigger to the prompt:
-
-```
-When completely finished, run: openclaw system event --text "Done: [summary]" --mode now
-```
-
-This wakes your employee immediately when the coding agent finishes. Your employee then reads the final output and sends you a Telegram message:
-
-```
-Refactoring complete. Changed 3 functions in auth.py:
-- validate_token(): Added expiry check
-- refresh_token(): Fixed race condition
-- create_token(): Added type hints
-
-All existing tests pass.
-```
-
-You asked once. Your employee delegated, monitored, and reported -- all without you checking in.
+You did not manage the delegation. You did not choose which agent handles what. You did not supervise the process. You asked for a result, and your employee figured out the orchestration. That is the difference between using a tool and having an employee.
 
 ---
 
 ## The Delegation Pattern
 
-Step back and see what just happened:
+Now that you have seen delegation in action, here is what happened under the hood -- at a conceptual level, not a technical one.
 
 ```
-You (Telegram) → Employee (Custom Agent) → Claude Code (General Agent) → Code
-                                         ← Result ←                    ← Files
+You (Telegram) --> Employee (Custom Agent) --> General Agent --> Result
+                                            <-- Files/Reports <--
 ```
 
-This is the two-tier model from Chapter 1's Agent Factory thesis:
+Two roles, two types of knowledge:
 
-| Role              | Type          | What It Knows                                      |
-| ----------------- | ------------- | -------------------------------------------------- |
-| **Your Employee** | Custom Agent  | Your projects, preferences, schedule, domain       |
-| **Claude Code**   | General Agent | How to code in any language, debug, test, refactor |
+| Role              | Type          | What It Knows                                    |
+| ----------------- | ------------- | ------------------------------------------------ |
+| **Your Employee** | Custom Agent  | Your projects, preferences, schedule, domain     |
+| **Claude Code**   | General Agent | How to research, analyze, create files, organize |
 
-Neither is sufficient alone. Claude Code can write excellent code, but it does not know which project you are working on, what your priorities are, or that you prefer functional style over object-oriented. Your employee knows all of that context, but it cannot write a line of code.
+Neither is sufficient alone. Claude Code can do excellent research and create well-structured documents, but it does not know which project you are focused on, what your priorities are, or what format you prefer. Your employee knows all of that context but may need a specialist for complex, multi-step tasks.
 
-Together, they form a complete system: the manager who understands your needs and the specialist who has the skills to deliver. This is why Chapter 1 called it a "factory" -- you are not building one agent that does everything. You are assembling specialists managed by an agent that knows you.
+Together: the manager who understands your needs plus the specialist who has the execution capability. This is the same pattern behind every effective team -- human or AI.
 
-### What Else Can Your Employee Delegate To?
-
-The coding-agent skill is not locked to Claude Code. It works with whichever coding agent is on your PATH:
-
-| If You Have Installed  | The Employee Uses                                    |
-| ---------------------- | ---------------------------------------------------- |
-| `claude` (Claude Code) | Full-featured coding with deep file understanding    |
-| `codex` (Codex CLI)    | Strong at multi-file refactoring, requires git repo  |
-| `opencode` (OpenCode)  | Model-agnostic -- use any LLM provider you prefer    |
-| `pi` (Pi)              | Minimal and fast -- 4 tools, ideal for quick scripts |
-
-The pattern stays the same regardless of which specialist is behind it. Your employee sends the brief, monitors the work, and reports the result. The specialist changes; the delegation pattern does not.
-
-**Codex-specific note:** Codex CLI requires a git repository. If you delegate a task to a directory without one, the coding-agent skill creates a temporary repo automatically. For long-running Codex tasks, use `codex --full-auto` mode to avoid interactive prompts.
+Your employee handles delegation internally. It decides when to delegate, which agent to use, and how to pass context. You never need to manage this process -- just like a good human manager delegates without making you supervise the delegation.
 
 ---
 
-## Parallel Delegation with Git Worktrees
+## What General Agents Can Do
 
-When your employee needs to fix three issues at once, it does not wait for them sequentially. It creates isolated workspaces using git worktrees and runs coding agents in parallel:
+Your employee can delegate to different General Agents depending on what is available on your machine:
 
-```bash
-# Issue 1: fix login bug
-git worktree add -b fix/issue-78 /tmp/issue-78 main
-bash pty:true workdir:/tmp/issue-78 background:true command:"claude 'Fix login validation bug described in issue #78'"
+| Agent           | What It Excels At                                           |
+| --------------- | ----------------------------------------------------------- |
+| **Claude Code** | Deep research, file operations, analysis, document creation |
+| **Codex CLI**   | Multi-file operations, structured output                    |
+| **OpenCode**    | Model-agnostic -- works with any LLM provider               |
 
-# Issue 2: add tests
-git worktree add -b test/auth /tmp/test-auth main
-bash pty:true workdir:/tmp/test-auth background:true command:"claude 'Write unit tests for the auth module'"
+The delegation pattern stays the same regardless of which specialist is behind it. Your employee sends the brief, provides your context, and reports the result. The specialist changes; the pattern does not.
 
-# Issue 3: update docs
-git worktree add -b docs/api /tmp/docs-api main
-bash pty:true workdir:/tmp/docs-api background:true command:"claude 'Update API documentation for v2 endpoints'"
-```
+When you learn programming in later chapters, these same General Agents handle coding tasks too -- writing scripts, debugging, refactoring, testing. The delegation pattern does not change. Only the tasks get more technical.
 
-Each coding agent runs in its own branch, in its own directory, against the same codebase. No conflicts. No waiting. Your employee monitors all three sessions and reports as each completes.
+---
 
-This is advanced usage -- you do not need it today. But notice how the pattern scales: one employee managing multiple specialists working in parallel. That is a team, not a tool.
+## The Scaling Insight
+
+One employee. Multiple specialists. Parallel when needed.
+
+Your employee can delegate multiple tasks simultaneously. While one General Agent researches competitors, another organizes your files, and a third drafts a report. You asked once. Three specialists worked. One employee managed them all.
+
+This is why Chapter 1 called it a "factory." You are not building one agent that does everything. You are assembling specialists managed by an agent that knows you. The employee becomes more capable not by learning every skill, but by knowing which specialist to call for each task.
+
+Consider the difference:
+
+| Approach                         | Limitation                                      |
+| -------------------------------- | ----------------------------------------------- |
+| **One agent does everything**    | Limited by that agent's capabilities            |
+| **You manage multiple agents**   | Limited by your time and attention              |
+| **Employee manages specialists** | Scales with the number of available specialists |
+
+The third approach is the Agent Factory model. Your employee is the factory floor manager. General Agents are the specialists on the line.
 
 ---
 
 ## What Transfers
 
-The delegation pattern you just learned is not specific to OpenClaw. It is the architectural foundation of every multi-agent system:
+The delegation pattern you just experienced is not specific to OpenClaw. It is the architectural foundation of every multi-agent system:
 
-| Concept                       | In OpenClaw                            | In Any Framework                              |
-| ----------------------------- | -------------------------------------- | --------------------------------------------- |
-| **Custom Agent manages**      | Your employee knows your context       | Orchestrator agent holds user preferences     |
-| **General Agent executes**    | Claude Code writes code                | Specialist agent performs task                |
-| **PTY execution**             | `bash pty:true` for terminal apps      | Process spawning with proper I/O              |
-| **Background tasks**          | `background:true` + session monitoring | Async task execution + polling                |
-| **Auto-notify on completion** | `openclaw system event`                | Callback/webhook on task finish               |
-| **Parallel via isolation**    | Git worktrees                          | Separate workspaces, containers, or sandboxes |
+| Concept                     | In OpenClaw                                 | In Any Framework                         |
+| --------------------------- | ------------------------------------------- | ---------------------------------------- |
+| **Custom Agent manages**    | Your employee knows your context            | Orchestrator holds user preferences      |
+| **General Agent executes**  | Claude Code performs tasks                  | Specialist agent performs task           |
+| **Delegation is invisible** | Employee decides when and how to delegate   | Orchestrator routes to best agent        |
+| **Parallel execution**      | Multiple agents work simultaneously         | Async task execution                     |
+| **Context + Capability**    | Employee has context, specialist has skills | Orchestrator has state, worker has tools |
 
-When you move to Chapter 13 (building your own AI Employee), you will implement this exact pattern: a Custom Agent that knows your domain, delegating to General Agents that have technical skills. The employee you used in this chapter is your prototype. The one you build will be yours from the ground up.
+When you build your own AI Employee in Chapter 13, you implement this exact pattern: a Custom Agent that knows your domain, delegating to General Agents that have technical skills. The employee you used in this chapter is your prototype. The one you build will be yours from the ground up.
 
 ---
 
 ## Try With AI
 
-### Prompt 1 -- Delegation Decision Framework
+### Prompt 1: Delegation Boundaries
 
 ```
-My AI Employee can delegate to Claude Code. For these 8 tasks,
-table: handle directly vs delegate to coding agent, and why.
-1. Summarize meeting transcript  2. Write Python web scraper
-3. Draft project status email  4. Debug failing CI pipeline
-5. Research competitor pricing  6. Refactor 500-line module
-7. Generate weekly report from CSV  8. Set up Express.js endpoint
+For these 6 tasks, which should my AI Employee handle directly
+versus delegate to a General Agent? Explain the decision criteria.
+
+1. Summarize a meeting transcript
+2. Research and compare 10 cloud hosting providers
+3. Draft a project status email
+4. Analyze all files in a project folder and create a dependency map
+5. Remind me about a deadline tomorrow
+6. Create a 20-page market analysis with charts and recommendations
 ```
 
-**What you're learning:** Judgment about when delegation adds value versus overhead. Not every task should go to a coding agent -- the latency of spawning a specialist only pays off when the task genuinely requires coding expertise. A good manager (human or AI) knows the difference between work they should do themselves and work they should hand off.
+**What you're learning:** Judgment about when delegation adds value. Not every task needs a specialist -- the overhead of delegation only pays off for complex, multi-step work. Simple tasks (reminders, short emails) are faster handled directly. Complex tasks (deep research, multi-file analysis) benefit from a specialist. Developing this judgment is the core skill of an effective agent manager.
 
-### Prompt 2 -- Multi-Agent Workflow Design
-
-```
-Design a multi-agent workflow for: "Every Monday, pull analytics
-data from our API, generate a Python visualization dashboard, and
-send me a Telegram summary with key metrics." For each step, specify
-who does it (Employee or Coding Agent), what they pass to the next
-step, and which steps run in parallel.
-```
-
-**What you're learning:** Multi-agent workflow design. Real productivity comes not from single delegations but from orchestrated workflows where different agents handle different parts of a pipeline. This prompt forces you to think about handoffs, data passing, error handling, and parallelization -- the same concerns that professional agent architects face when building production systems.
-
-### Prompt 3 -- Human Manager vs AI Manager
+### Prompt 2: Multi-Agent Workflow
 
 ```
-Compare how a human engineering manager delegates to developers
-versus how an AI Employee delegates to Claude Code. Cover: task
-communication, context sharing, progress monitoring, mistake
-handling, and learning from results. What can each do that the
-other can't?
+Design a weekly review workflow for a small business owner:
+gather workspace activity, summarize accomplishments, identify
+blockers, and suggest priorities for next week. Which parts
+should the employee handle directly versus delegate to a
+General Agent? Explain the handoff points.
 ```
 
-**What you're learning:** The boundaries of agent delegation. By comparing AI delegation to human delegation, you develop intuition for where agent systems excel (speed, consistency, parallelization) and where they fall short (judgment, relationship management, creative direction). This comparison will inform how you design your own AI Employee in Chapter 13 -- knowing the limits shapes what you build.
+**What you're learning:** Workflow design -- breaking a complex goal into steps and deciding which agent handles each step. Real productivity comes from orchestrated workflows where different agents handle different parts of a pipeline. This is the same design thinking you will use when building your own AI Employee in Chapter 13.
