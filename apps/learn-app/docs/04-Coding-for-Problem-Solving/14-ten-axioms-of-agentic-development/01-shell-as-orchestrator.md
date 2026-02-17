@@ -57,13 +57,13 @@ differentiation:
 
 # Axiom I: Shell as Orchestrator
 
-Tomás joined the platform team three weeks ago. At 2:14am on his first on-call rotation, the pager fired: deployment stuck, 50,000 users affected. He opened `deploy.sh` — a 400-line bash script he had never seen — and stared at line 247, somewhere between a `sed` command that parsed Docker tags and a `curl` request to a Slack webhook that might or might not still exist. Variable names like `temp2` and `OUT` told him nothing. A failed test on line 89 should have stopped the pipeline, but someone had removed the `exit 1` three months ago and nobody noticed. The deployment continued past broken tests, built a corrupted image, and pushed it to production.
+Tomás joined the platform team three weeks ago. At 2:14am on his first on-call rotation, his phone buzzed: the deployment was stuck and 50,000 users were affected. He opened the deployment script — a 400-line file he had never seen — and stared at line 247. Variable names like `temp2` and `OUT` told him nothing. Somewhere above, a failed test should have stopped everything, but someone had removed that safety check three months ago and nobody noticed. The script kept running past broken tests, built a broken version of the app, and pushed it live.
 
 Tomás called the senior engineer at 2:30am. "Yeah," Lena said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
 
-Lena rewrote the entire process that weekend. The new version: a 12-line Makefile. Each target called a proper program — pytest for testing, Docker for image building, `kubectl` for deployment, a small Go binary for notifications. The Makefile did nothing except decide what runs, in what order, with what inputs. When a test failed, the pipeline stopped. When a build succeeded, it moved to the next step. No string parsing. No `temp2`. No tangled logic.
+Lena rewrote the entire process that weekend. The new version was 12 lines long. Each line called a specialized tool: one tool ran the tests, another built the app, another deployed it, another sent notifications. The file did nothing except decide *what runs, in what order, and what happens if something fails.* When a test failed, the process stopped. When a step succeeded, it moved to the next one. No tangled logic. No mystery variables.
 
-The 2am pages stopped. Not because Lena wrote better bash. Because she stopped using bash for computation and started using it for what it was designed for: orchestration.
+The 2am emergencies stopped. Not because Lena wrote better code. Because she stopped cramming everything into one script and started using the shell for what it was designed for: orchestration — coordinating tools, not doing the work itself.
 
 ---
 
@@ -75,10 +75,10 @@ This is the universal failure mode. When developers first encounter the shell, t
 
 The symptoms are predictable — and Tomás experienced all four on that 2am call:
 
-- **Debugging becomes archaeology.** A 300-line bash script has no type system, no stack traces, no IDE support. When it fails on line 247, you read from line 1.
-- **Testing becomes impossible.** You cannot unit test a bash function that depends on global state, environment variables, and the output of twelve prior commands.
-- **Collaboration becomes hazardous.** Two developers editing the same deployment script inevitably break each other's assumptions about variable scope.
-- **AI agents cannot reason about it.** An AI reading a 500-line bash script sees an opaque wall of string manipulation. An AI reading a 12-line Makefile sees clear intent: build this, test that, deploy there.
+- **Debugging becomes archaeology.** A 300-line script gives you no helpful error messages and no way to pinpoint what went wrong. When it fails on line 247, you have to read from line 1.
+- **Testing becomes impossible.** You cannot test one piece of the script in isolation because every part depends on what ran before it — variables set earlier, files created by previous commands, the state of the whole system.
+- **Collaboration becomes hazardous.** Two developers editing the same script inevitably break each other's work because they make different assumptions about what the script's variables contain at any given point.
+- **AI agents cannot reason about it.** An AI reading a 500-line script sees a wall of tangled logic it cannot untangle. An AI reading a 12-line file that says "run tests, then build, then deploy" sees clear intent it can work with.
 
 The root cause in every case: **computation and coordination are tangled together.** The script is simultaneously deciding *what* to do and *how* to do it. These are fundamentally different responsibilities.
 
@@ -105,7 +105,8 @@ When you respect this boundary, every component becomes independently testable, 
 
 ---
 
-## The Unix Roots
+<details>
+<summary><strong>Historical Background: The Unix Roots (click to expand)</strong></summary>
 
 This axiom did not originate with agentic development. It was discovered over six decades ago at Bell Labs.
 
@@ -122,6 +123,8 @@ Read those rules again. They are Axiom I in its original form. Rule 1 says progr
 The Unix philosophy endured because it solved a fundamental engineering problem: **complexity management through separation of concerns.** The same 400-line deploy script that plagues today's junior developer would have plagued a Bell Labs engineer in 1978. The solution was the same then as it is now — stop writing monoliths, start composing small tools.
 
 What makes this relevant to agentic development specifically is that AI agents rediscovered this pattern independently. When Claude Code, Cursor, or any coding agent operates through a terminal, it naturally falls into the McIlroy pattern: invoke a focused tool, read the output, invoke the next tool. The shell is not just a convenient interface — it is the architectural pattern that makes tool-using AI possible.
+
+</details>
 
 ---
 
@@ -290,35 +293,33 @@ echo "Total functions in importable modules: $total"
 The fix: extract the computation into a program.
 
 :::tip Don't worry about the Python syntax yet
-You will learn to write Python later in Part 4. For now, focus on the *structure* — notice how the shell script above calls `grep`, `wc`, and `echo` inline, while the program below is a separate file that the shell calls. The shell orchestrates; the program computes. That architectural distinction is the lesson, not the syntax.
+You will learn to write Python later in Part 4. For now, focus on the *structure* — the messy shell script above tries to do everything inline, while the program below is a separate file that the shell simply calls. The shell orchestrates; the program computes. That architectural distinction is the lesson, not the syntax.
 :::
 
 ```python static
 # analyze_modules.py — the PROGRAM handles computation
-import ast
-import sys
-from pathlib import Path
+import os
 
-def analyze(directory: str, threshold: int = 10) -> None:
+def analyze(directory, threshold=10):
     total = 0
-    for path in Path(directory).rglob("*.py"):
-        try:
-            tree = ast.parse(path.read_text())
-            functions = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
-            if len(functions) > threshold:
-                print(f"WARNING: {path} has {len(functions)} functions")
-                total += len(functions)
-        except SyntaxError:
-            continue
-    print(f"Total functions in analyzable modules: {total}")
+    for root, dirs, files in os.walk(directory):
+        for filename in files:
+            if filename.endswith(".py"):
+                filepath = os.path.join(root, filename)
+                with open(filepath) as f:
+                    count = sum(1 for line in f if line.strip().startswith("def "))
+                if count > threshold:
+                    print(f"WARNING: {filepath} has {count} functions, consider splitting")
+                    total += count
+    print(f"Total functions found: {total}")
 
 if __name__ == "__main__":
-    analyze(sys.argv[1] if len(sys.argv) > 1 else ".")
+    analyze("src")
 ```
 
 ```bash
 # The SHELL orchestrates — one line, clear intent
-python analyze_modules.py src/ || echo "Code complexity review needed"
+python analyze_modules.py || echo "Code complexity review needed"
 ```
 
 The program is testable, type-checkable, debuggable with a real debugger, and readable by any Python developer. The shell line is pure orchestration: run this program, handle its exit code.
@@ -327,18 +328,15 @@ The program is testable, type-checkable, debuggable with a real debugger, and re
 
 ## Anti-Patterns
 
-Tomás's `deploy.sh` was a Mega-Script. You have seen The Mega-Script too — every team has one. It starts with a comment from 2019: `# TODO: refactor this someday`. It has a variable called `temp2` that shadows `temp` from line 40 — nobody remembers why both exist. There is a `curl` on line 312 that posts to a Slack webhook URL that was decommissioned last year, but nobody removed it because nobody is sure what else line 312 does. There is a `for` loop on line 178 that parses JSON with `grep` and `cut` because the person who wrote it did not know about `jq`, and the person who knew about `jq` was afraid to refactor in case something else broke. The script works. Mostly. Until it does not, and then everyone discovers what Tomás discovered: when computation and orchestration are tangled, no one can fix anything without risking everything.
+Tomás's deployment script was a Mega-Script — and every team has one. It starts with a comment from 2019: `# TODO: refactor this someday`. It has mystery variables nobody understands, commands that call services that no longer exist, and logic so tangled that nobody dares change one part for fear of breaking something else. The script works. Mostly. Until it doesn't, and then everyone discovers what Tomás discovered: when computation and orchestration are tangled, no one can fix anything without risking everything.
 
-The Mega-Script is the most common anti-pattern, but it is not the only one:
+The Mega-Script is the most common anti-pattern, but not the only one. Here are the three mistakes that violate this axiom most often:
 
 | Anti-Pattern | What It Looks Like | Why It Fails | The Fix |
 |---|---|---|---|
-| **The Mega-Script** | 500-line bash with loops, parsing, error handling | Untestable, undebuggable, unreasonable | Extract computation into programs; shell only orchestrates |
-| **Ignoring Exit Codes** | Commands chained with `;` instead of `&&` | Failures cascade silently; deployment proceeds after broken tests | Use `&&`, `set -e`, or explicit `if` checks |
-| **Reinventing Make** | Custom Python/Node build script that shells out to tools | Adds dependency, startup time, maintenance burden for pure sequencing | Use Make (or Just, Task) for orchestration that is already sequencing |
-| **Shell as Data Processor** | `awk`, `sed`, `cut` pipelines exceeding 3 stages | Brittle, unreadable, impossible to test edge cases | Write a Python/Go program for complex data transformation |
-| **Environment Spaghetti** | 30 `export` statements before the real commands | Coupling, ordering bugs, invisible state | Use `.env` files, explicit arguments, or config programs |
-| **Ignoring the Universal Interface** | Custom REST client in bash (`curl` + `jq` + loops) | Error handling is painful, JSON parsing is fragile | Write a small program that calls the API and outputs structured results |
+| **The Mega-Script** | A script that grew to hundreds of lines with loops, data processing, and error handling all mixed together | Cannot be tested, debugged, or understood by anyone (including AI agents) | Move the computation into programs; keep the shell to just calling those programs in order |
+| **Ignoring Exit Codes** | Commands chained with `;` (which means "run the next command no matter what") instead of `&&` (which means "only continue if the previous step succeeded") | Failures go unnoticed — the script keeps running past broken steps | Always use `&&` or `set -e` so the process stops when something fails |
+| **Shell as Data Processor** | Using the shell to transform, parse, or analyze data through long chains of text-processing commands | Fragile, unreadable, and impossible to test for edge cases | Write a proper program for any data processing beyond simple filtering |
 
 ---
 
@@ -434,19 +432,17 @@ Important: every target in the orchestration file should be 1-3 lines maximum. I
 
 ## The Responsibility of Orchestration
 
-Power and responsibility are inseparable. The shell's strength as a universal coordinator means that a mis-orchestrated pipeline does not fail in one place — it fails everywhere.
+The shell's strength as a universal coordinator comes with a risk: when the orchestration is wrong, everything downstream breaks — not just one piece, but the entire pipeline.
 
-A startup learned this on a Thursday afternoon. Their deployment script ran five stages: lint, test, build, migrate database, deploy. Someone had connected the stages with `;` instead of `&&` — a one-character difference that meant "run the next step regardless of whether the previous one succeeded." For months, it did not matter because nothing failed. Then the test suite caught a genuine bug: a migration that would have dropped a column still in use by production queries. The tests failed. The script continued. The migration ran. The column vanished. Every API call that touched user profiles returned a 500 error. By the time the on-call engineer traced it back to the deployment script, six hours of customer data modifications had been lost — not because the test was wrong, not because the migration was wrong, but because the orchestration layer did not stop when it was told "no." One semicolon. Six hours of data. That is the blast radius of orchestration without discipline.
+A startup learned this the hard way. Their deployment script ran five steps in sequence: check code quality, run tests, build the app, update the database, deploy. But the steps were connected with `;` instead of `&&` — meaning "run the next step no matter what." When the tests caught a real bug, the script ignored the failure and kept going. The database update ran, deleted a column that was still in use, and every user request started failing. Six hours of data modifications were lost. Not because the test was wrong — the test *worked*. The orchestration just didn't stop when it was told "no."
 
-Three rules protect you:
+Three rules prevent this:
 
-1. **Halt on failure by default.** Use `set -e` at the top of every script, or chain commands with `&&`. A pipeline that continues after failure is not orchestrating — it is gambling.
+1. **Stop on failure by default.** Use `&&` between commands (only continue if the previous step succeeded). A pipeline that keeps running after a failure is not orchestrating — it is gambling.
 
-2. **Gate destructive operations.** Commands like `rm -rf`, `git reset --hard`, and `kubectl delete` should never appear in an ungated pipeline. Add explicit confirmation steps or require a `--confirm` flag. An orchestration layer that can destroy data without human approval is a liability, not a tool.
+2. **Protect dangerous operations.** Commands that delete files, reset code, or modify databases should never run automatically without a confirmation step. If your orchestration can destroy data without asking, it is a liability.
 
-3. **Test orchestration separately from computation.** Your programs have unit tests. Your orchestration layer needs its own verification — run it against non-production resources, check that failures halt correctly, confirm that success requires all steps to pass.
-
-These are not suggestions. They are the engineering discipline that Axiom I demands. The shell earns its role as orchestrator only when it is treated with the gravity that role deserves.
+3. **Test your orchestration, not just your programs.** Your programs have their own tests. But does the pipeline itself stop when a step fails? Does it skip steps it shouldn't? Run it against test data to verify that the *coordination* works correctly, not just the individual tools.
 
 ---
 
