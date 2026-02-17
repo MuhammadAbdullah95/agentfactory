@@ -1,25 +1,66 @@
 ---
 sidebar_position: 14
-title: "Chapter 14: Ten Axioms of Agentic Development"
+title: "Chapter 14: Ten Axioms of Programming in the Era of AI Driven Development"
 slides:
   source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-4/chapter-14/the-agentic-engineering-system.pdf"
   title: "The Agentic Engineering System"
   height: 700
 ---
 
-# Chapter 14: Ten Axioms of Agentic Development
+# Chapter 14: Ten Axioms of Programming in the Era of AI Driven Development
 
-## Overview
+## Why Learn Programming When AI Writes the Code?
 
-Every developer who has worked with an AI coding agent has had the same experience. The first hour feels like magic: you describe what you want, the agent writes it, and it works. The first week is productive: features ship faster than they ever did by hand. Then comes the first month — and the codebase is a mess. Untested scripts everywhere. Documentation scattered or missing. Deployment steps that only work on one person's laptop. The AI wrote code as fast as you could ask for it, and you drowned in the output.
+It is the most common question in 2026: *If AI can write code, why should I learn programming?*
 
-The problem is not the AI. The problem is building without rules.
+The short answer: programming has become **more important, not less** — but in a fundamentally different way.
 
-Think of it this way: a fire hose is incredibly powerful, but nobody points a fire hose at a house without plumbing first. The AI agent is your fire hose. This chapter gives you the plumbing — ten engineering rules that keep the power of AI under control.
+### The Shift: Writing Code vs. Solving Problems
 
-### What Are These Ten Axioms?
+In traditional software development, the bottleneck was writing code. You learned syntax, memorized APIs, debugged line by line. The hard part was translating an idea into working instructions that a machine could execute.
 
-An axiom is a foundational rule — something you accept as true and build everything else on top of. These ten axioms are not abstract ideas. Each one exists because, without it, a specific thing goes wrong. They come from decades of hard-won software engineering lessons, and they apply directly to how you work with AI agents.
+AI has eliminated that bottleneck. Tools like Claude Code, Cursor, and GitHub Copilot can generate hundreds of lines of working code in seconds. The process of writing code — the mechanical act of typing functions, loops, and classes — is no longer the human's job.
+
+But here is what has not changed: **someone must specify what the code should do, and someone must verify that it does it correctly.** The AI handles the process. You handle the input and the output:
+
+| Role | Who Does It | What It Means |
+|------|-------------|---------------|
+| **Specify the input** | You (the human) | Define requirements, write specifications, set constraints |
+| **Write the code** | AI | Generate the implementation — the process |
+| **Verify the output** | You (the human) | Read the code, run tests, validate correctness |
+
+This is the fundamental shift. You do not need to learn to *write* code from scratch. You need to learn to **specify** what you want and **verify** what you get. Both of those require understanding programming concepts — you cannot specify a type contract if you do not know what types are, and you cannot verify a database query if you do not know what relational data means.
+
+### Code Is the New Universal Interface
+
+In [Chapter 3](../../General-Agents-Foundations/seven-principles/code-as-universal-interface), you learned that code is the universal interface — general agents that write code can solve any computational problem. That principle has only grown stronger.
+
+Consider what is happening across every industry. Need a presentation? AI generates code that produces the slides. Need a document? AI generates code that formats the content. Need a design? Figma recently launched a feature that converts code from AI tools into fully editable designs — not design-to-code, but **code-to-design**. The direction has reversed.
+
+Even when the end product is not software — when it is a Word document, a slide deck, an image, or a design mockup — AI generates code as the intermediate step. Code has become the universal medium through which AI creates *everything*. This makes understanding code more essential than ever, not for writing it yourself, but for directing and verifying the AI that writes it for you.
+
+### What This Means for You
+
+Programming in the AI era is not about memorizing syntax or typing faster. It is about:
+
+- **Understanding concepts** — types, composition, testing, version control, data modeling — so you can specify what you need and recognize when the AI gets it wrong
+- **Reading code critically** — reviewing AI-generated output the way an editor reviews a writer's draft, catching structural problems and subtle bugs
+- **Automating verification** — building pipelines of tests, linters, and checks that catch mistakes no human eye would spot in five hundred lines of generated code
+- **Solving problems** — using code as the medium for problem-solving, whether the output is an application, a document, a data pipeline, or a design
+
+Writing code is no longer the goal. **Solving problems is the goal.** Code is how you get there — and AI is the one holding the pen.
+
+---
+
+## The Ten Axioms
+
+So if programming is more important than ever but the role has shifted from writing to specifying and verifying — what exactly do you need to learn?
+
+That is what this chapter answers. The ten axioms are the engineering rules that govern how you work with AI-generated code. Each one exists because, without it, a specific thing goes wrong.
+
+Think of it this way: a fire hose is incredibly powerful, but nobody points a fire hose at a house without plumbing first. The AI agent is your fire hose. These ten axioms are your plumbing — the engineering rules that keep the power of AI under control.
+
+An axiom is a foundational rule — something you accept as true and build everything else on top of. These axioms are not abstract ideas. They come from decades of hard-won software engineering lessons, and they apply directly to how you specify, verify, and manage AI-generated code.
 
 The ten axioms fall into three groups. Think of them like building a house:
 
@@ -58,7 +99,7 @@ These axioms depend on each other. If you skip the rules about organizing code (
 
 Each lesson follows the same pattern. You will meet a developer facing a real problem — the kind that costs time, money, or sleep. You will learn the axiom that prevents that problem. You will see it applied with real code and real tools. And you will practice it yourself with AI prompts.
 
-By the end of this chapter, you will have ten rules that work together as one system — taking you from the first terminal command to a running, monitored application.
+By the end of this chapter, you will have ten rules that work together as one system — taking you from the first terminal command to a running, monitored application. Not because you need to write every line yourself, but because you need to understand, specify, and verify every line the AI writes for you.
 
 Let's start with the most basic question: when an AI agent has access to a terminal, what should it actually do with it?
 
