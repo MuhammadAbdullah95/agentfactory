@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-17
+- docs: embed slides directly in ch14 Teaching Aid ([#744](https://github.com/panaversity/agentfactory/pull/744))
+
+### 2026-02-17
 - docs: fix chapter 6 link to use absolute path ([#743](https://github.com/panaversity/agentfactory/pull/743))
 
 ### 2026-02-17
