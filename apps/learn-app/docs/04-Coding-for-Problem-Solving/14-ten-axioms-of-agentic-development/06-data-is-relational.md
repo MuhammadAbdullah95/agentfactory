@@ -458,9 +458,11 @@ The JSON graveyard was not built by bad developers. It was built by developers w
 | Anti-Pattern | What Goes Wrong | The Fix |
 |-------------|-----------------|---------|
 | **JSON files as database** | No queries, no relations, no constraints, loads everything into memory | Use SQLite — same simplicity, relational power |
+| **NoSQL as default** | Fighting relational data with document model, denormalization headaches | Start relational. Move to NoSQL only for genuinely non-relational data (logs, events, documents) |
 | **Raw string SQL** | SQL injection vulnerabilities, crashes on special characters | Always use parameterized queries (`?` placeholders) |
 | **No migrations** | Manual schema changes, inconsistent environments, no rollback | Use Alembic or equivalent migration tool |
 | **Ignoring indexes** | Queries slow to a crawl as data grows (full table scans) | Index columns used in WHERE, JOIN, and ORDER BY |
+| **Over-normalization** | Dozens of tables for simple domains, JOIN-heavy queries for basic reads | Normalize to 3NF, denormalize consciously with measured justification |
 
 ## The String Concatenation Trap
 
