@@ -105,7 +105,11 @@ Let's start with the most basic question: when an AI agent has access to a termi
 
 ## 📚 Teaching Aid
 
-## What You'll Learn
+<PDFViewer
+  src="https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-4/chapter-14/the-agentic-engineering-system.pdf"
+  title="The Agentic Engineering System"
+  height={700}
+/>
 
 ## Prerequisites
 
