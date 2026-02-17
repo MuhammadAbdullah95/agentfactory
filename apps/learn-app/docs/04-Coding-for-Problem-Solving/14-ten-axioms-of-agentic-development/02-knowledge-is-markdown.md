@@ -57,7 +57,7 @@ differentiation:
 
 # Axiom II: Knowledge is Markdown
 
-In Axiom I, Emma replaced a 400-line bash script with a 12-line Makefile. The programs she orchestrated — pytest, Docker, kubectl — all needed to share information: test results, build configurations, deployment manifests, project conventions. But in what format? Where would this knowledge live so that every tool, every team member, and every AI agent could read it?
+In Axiom I, Emma replaced a 400-line script with a 12-line orchestration file. The tools she coordinated — for testing, building, and deploying — all needed to share information: test results, build configurations, deployment settings, project conventions. But in what format? Where would this knowledge live so that every tool, every team member, and every AI agent could read it?
 
 The answer was already in front of her. The same format you have been reading this entire book in.
 
@@ -96,13 +96,16 @@ This axiom doesn't say "documentation should be in markdown." It says **all pers
 
 ---
 
-## The Origin of Markdown
+<details>
+<summary><strong>Historical Background: The Origin of Markdown (click to expand)</strong></summary>
 
 Markdown was not designed by a committee or released by a corporation. It was created in 2004 by John Gruber, a writer and blogger, with substantial contributions from Aaron Swartz — who was seventeen years old at the time and had already created atx, a precursor format, two years earlier.
 
 Their design goal was radical in its simplicity: create a format that reads as well *before* rendering as it does after. Unlike HTML, where `<h1>Title</h1>` obscures the content behind tags, markdown's `# Title` is immediately legible. The format drew directly from the conventions people had already been using for decades in plain-text email — asterisks for emphasis, dashes for lists, blank lines for paragraphs. Gruber and Swartz did not invent a new syntax. They formalized the one that humans had already converged on naturally.
 
 This origin matters for Axiom II because it explains why markdown satisfies the four properties so well. It was not designed for machines and then adapted for humans. It was designed for human readability first, and machines turned out to be able to parse it too. Twenty years later, that design decision is what makes markdown the natural interface between human developers and AI agents — both can read the same file with the same ease, because readability was the original and only design constraint.
+
+</details>
 
 ---
 
@@ -274,16 +277,18 @@ This pattern appears throughout professional tooling: Jekyll blogs, Docusaurus d
 
 ## Anti-Patterns: Knowledge Trapped Outside Markdown
 
-You have seen the Knowledge Graveyard. Every team has one. It is the Google Doc titled "Architecture Decisions Q3" with forty-seven comments, twelve of which contradict each other, three of which are from people who no longer work at the company. It is the Confluence page that was last updated eight months ago and starts with "This document is a living document" — which it demonstrably is not. It is the Slack thread where the CTO explained, in six detailed messages, exactly why the team chose Kafka over RabbitMQ — messages that disappeared behind the 90-day archive wall on a Tuesday afternoon while nobody noticed. It is the README that says "See the wiki for architecture details" and the wiki that says "See the README for setup instructions," and both are wrong. The knowledge existed. It was written down. It was even shared. But it was scattered across formats that could not be searched together, versioned together, or read by the AI agent that the new developer asked to "explain why we use Kafka." The agent searched the repository, found nothing, and hallucinated an answer. The new developer believed it. The wrong architecture decision followed.
+Every team has a Knowledge Graveyard. It is the Google Doc with forty-seven comments, twelve of which contradict each other. It is the Confluence page that starts with "This document is a living document" — last updated eight months ago. It is the Slack thread where the CTO explained exactly why the team chose one technology over another — messages that disappeared behind the archive wall while nobody noticed.
+
+The knowledge existed. It was written down. It was even shared. But it was scattered across formats that could not be searched together, versioned together, or read by an AI agent. When a new developer asked their AI assistant to "explain why we use this technology," the agent searched the repository, found nothing, and hallucinated an answer. The developer believed it. A wrong decision followed.
+
+Here are the most common ways knowledge gets trapped:
 
 | Anti-Pattern | What Happens | The Fix |
 |--------------|-------------|---------|
 | **Decisions in Slack** | Knowledge archived after 90 days; unsearchable; no structure | Write an ADR in `docs/adr/` and commit it |
-| **Specs in Google Docs** | CI can't validate completion; AI can't read without auth; merge conflicts impossible | Write specs as markdown in the repo |
-| **Docs in Confluence** | Vendor lock-in; stale pages nobody updates; separate from code | Co-locate docs with code as markdown |
-| **Notes without headers** | AI can't parse sections; search returns whole file; no table of contents | Use `#` headers to create parseable structure |
-| **Knowledge in proprietary formats** | Tool migration means knowledge migration; bus factor increases | Markdown survives any tool change |
-| **Unversioned documentation** | No history of what changed, when, or why; no rollback | Commit all knowledge files to git |
+| **Specs in Google Docs** | AI can't read without authentication; merge conflicts impossible to resolve | Write specs as markdown in the repo |
+| **Docs in Confluence** | Vendor lock-in; pages go stale; separate from the code they describe | Co-locate docs with code as markdown |
+| **Notes without headers** | AI can't parse sections; search returns the whole file instead of the relevant part | Use `#` headers to create parseable structure |
 
 The common thread: every anti-pattern breaks at least one of the four properties. Slack breaks version-controllability. Google Docs breaks tool-agnosticism. Plain text without headers breaks AI-parseability. Proprietary formats break all four.
 
