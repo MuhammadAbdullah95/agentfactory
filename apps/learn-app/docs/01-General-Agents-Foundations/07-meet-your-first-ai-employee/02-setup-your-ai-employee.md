@@ -278,15 +278,18 @@ If you change the bind address to `0.0.0.0` (all interfaces), your gateway becom
 
 ## Troubleshooting Quick Reference
 
-| Symptom                          | Likely Cause                       | Fix                                                           |
-| -------------------------------- | ---------------------------------- | ------------------------------------------------------------- |
-| `command not found: openclaw`    | PATH not updated                   | Close and reopen terminal; run install script again if needed |
-| Installer fails on prerequisites | Network or permissions             | Run with `sudo` on Linux; ensure Homebrew works on macOS      |
-| Google OAuth window won't open   | Browser or firewall                | Copy the URL from terminal and paste into browser manually    |
-| OAuth callback fails             | Port 8085 in use                   | Kill the process on port 8085, retry setup                    |
-| Bot does not respond on Telegram | Gateway not running or token wrong | Check `~/.openclaw/logs/gateway.log`                          |
-| Gateway won't start              | Port 18789 in use                  | Run `lsof -i :18789`, then `kill` the PID                     |
-| Control UI loads but chat fails  | LLM provider unreachable           | Check internet; re-run setup to refresh OAuth tokens          |
+| Symptom                            | Likely Cause                       | Fix                                                            |
+| ---------------------------------- | ---------------------------------- | -------------------------------------------------------------- |
+| `command not found: openclaw`      | PATH not updated                   | Close and reopen terminal; run install script again if needed  |
+| Installer fails on prerequisites   | Network or permissions             | Run with `sudo` on Linux; ensure Homebrew works on macOS       |
+| Google OAuth window won't open     | Browser or firewall                | Copy the URL from terminal and paste into browser manually     |
+| OAuth callback fails               | Port 8085 in use                   | Kill the process on port 8085, retry setup                     |
+| Bot does not respond on Telegram   | Gateway not running or token wrong | Check `~/.openclaw/logs/gateway.log`                           |
+| Gateway won't start                | Port 18789 in use                  | Run `lsof -i :18789`, then `kill` the PID                      |
+| Control UI loads but chat fails    | LLM provider unreachable           | Check internet; re-run setup to refresh OAuth tokens           |
+| Agent stops after closing terminal | Gateway service not running        | Run `openclaw gateway start` to restart the background service |
+
+**Managing the gateway**: `openclaw gateway status` checks if it is running, `openclaw gateway start` starts it, and `openclaw gateway stop` stops it.
 
 **Getting logs**: Run `cat ~/.openclaw/logs/gateway.log | tail -50` to review recent errors.
 

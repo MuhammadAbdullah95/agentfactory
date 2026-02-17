@@ -20,6 +20,7 @@ sidebar_position: 2.5
 - `curl -fsSL https://openclaw.ai/install.sh | bash` -- install OpenClaw (setup starts automatically)
 - `openclaw tui` -- open the terminal chat interface
 - `openclaw pairing approve telegram <CODE>` -- approve a Telegram user's pairing request
+- `openclaw gateway start` / `stop` / `status` -- manage the background gateway service
 - `openclaw dashboard` -- open the Control UI in your browser
 - `cat ~/.openclaw/logs/gateway.log | tail -50` -- review recent gateway logs
 
