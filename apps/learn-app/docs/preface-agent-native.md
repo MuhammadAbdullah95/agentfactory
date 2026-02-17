@@ -140,7 +140,7 @@ While the "Software Giants" are losing valuation, the firms building Custom Digi
 
 **2. Build "Skills."** Use the Cowork and Claude Code stack to build proprietary agents that own your data. Your domain expertise, encoded into agent skills, becomes your competitive moat.
 
-**3. Deploy "Digital FTEs."** Reinvest the savings from crashed software licenses into scaling your autonomous workforce. Each Digital FTE replaces dozens of seats.
+**3. Deploy "Digital FTEs."** Build them with Agent Frameworks, or onboard Pre-Built ones like OpenClaw and Devin. Either way, reinvest the savings from crashed software licenses into scaling your autonomous workforce. Each Digital FTE replaces dozens of seats.
 
 ### The Bottom Line
 
@@ -248,14 +248,23 @@ The agent used code not to "build an app" but to **answer a business question wi
 
 ### How the "Factory" Works
 
-The Agent Factory is a systematic process for turning domain expertise into deployable Digital FTEs:
+The Agent Factory operates two production lines:
+
+**Production Line 1: Custom Manufacturing (Build)**
 
 1. **The Spec.** You provide a Markdown file describing the goal (e.g., "Automate Q3 Financial Audits").
 2. **The Builder (Claude Code).** Analyzes the spec, scans documentation, and identifies the necessary tools.
 3. **The Manufacturing.** Claude Code generates the Custom Agent or Custom Skill and supporting code.
 4. **The Result.** A production-ready Digital FTE is born—in minutes, not months.
 
-General Agents (Claude Code) are the "Engine" that uses Spec-Driven Development to manufacture Custom Skills and Custom Agents. But building from scratch isn't the only path—Pre-Built AI Employees like OpenClaw, Manus, and Devin offer a "buy" alternative where you onboard rather than architect. The Agent Triangle section below maps all three paths.
+**Production Line 2: Strategic Procurement (Buy)**
+
+1. **The Assessment.** You evaluate Pre-Built AI Employees against your requirements.
+2. **The Selection.** You choose between horizontal (OpenClaw, Manus) or vertical (Devin, Harvey) options.
+3. **The Onboarding.** You configure access, set expectations, and connect to your systems.
+4. **The Result.** A pre-trained Digital FTE is operational—in days, not weeks.
+
+General Agents (Claude Code) are the "Engine" that powers both lines—discovering what to build via the custom path, and evaluating what to buy via the procurement path. This book teaches you to master both.
 
 ### The Twin Enablers: MCP and Agent Skills
 
@@ -275,13 +284,19 @@ The CoCounsel team didn't build a $650M product overnight. They combined deep le
 
 ---
 
-## The Agent Maturity Model: Incubator → Specialist
+## The Agent Landscape: Development and Deployment
 
-Building AI products isn't about choosing between two alternatives—it's about **progression through stages**.
+Building an AI-native workforce requires answering two complementary questions: **How do you develop** agents (the maturity model), and **What do you deploy** (the Agent Triangle)? These aren't competing frameworks—they're two dimensions of one strategy.
+
+### Two Questions, One Strategy
+
+The **Agent Maturity Model** describes how AI products evolve: you incubate possibilities with General Agents, then engineer specialists once patterns stabilize. The **Agent Triangle** describes what you deploy: consult a General Agent, build a Custom Agent, or buy a Pre-Built one. Every organization navigates both dimensions simultaneously.
+
+### The Development Path: Incubator → Specialist
 
 Think of it like biological evolution: you don't engineer a specialist from scratch. You incubate possibilities, let patterns emerge, then evolve toward specialization once the environment stabilizes.
 
-### Stage 1: Incubator (General Agents)
+#### Stage 1: Incubator (General Agents)
 
 **Tools:** Claude Code, Gemini CLI, Goose
 
@@ -296,7 +311,7 @@ General Agents are **reasoning systems**. They observe your problem, orient arou
 | **Your Role**           | Director who specifies intent                                |
 | **Best For**            | Novel problems, unclear requirements, building Custom Agents |
 
-### The "Trojan Horse" of AI
+#### The "Trojan Horse" of AI
 
 Don't let the name "Claude Code" fool you. Calling it a "Coding Agent" is like calling a CEO an "Email Writer" just because they use email to do their job. Code is simply the tool it uses to solve problems.
 
@@ -310,9 +325,9 @@ Don't let the name "Claude Code" fool you. Calling it a "Coding Agent" is like c
 
 Coding agents are powerful, software-native agents optimized for development workflows. General agents are goal-native agents trusted with broader objectives, able to choose tools, cross domains, and act at the system level using code as the universal interface.
 
-### Stage 2: Specialist (Custom Agents)
+#### Stage 2: Specialist (Custom Agents)
 
-**Tools:** OpenAI Agents SDK, Claude SDK, Google ADK
+**Tools:** OpenAI Agents Framework, Google ADK, Claude Agent Framework
 
 Proven patterns crystallize into purpose-built systems. The solution is now known—you're engineering it for reliability, scale, and governance.
 
@@ -325,51 +340,32 @@ Proven patterns crystallize into purpose-built systems. The solution is now know
 
 Key features of Custom Agents: **Guardrails** for strict control over what the agent can and cannot do. **Orchestration** for defining exact hand-offs between multiple agents. **UI/UX Flexibility** for embedding in web apps, Slack, or internal dashboards.
 
-### The Decision Matrix: How to Choose
-
-| Requirement           | A: General Agent (Claude Code, Goose) | B: Custom-Built (OpenAI SDK, Claude SDK) | C: Pre-Built (OpenClaw, Manus, Devin) |
-| --------------------- | ------------------------------------- | ---------------------------------------- | ------------------------------------- |
-| **Task Type**         | Novel, problem-solving                | Repetitive, standardized                 | Cross-platform, persistent            |
-| **End User**          | Developers / Technical staff          | Non-technical / Customers                | Anyone (multi-channel)                |
-| **Error Tolerance**   | High (human in the loop)              | Low (must be reliable)                   | Medium (self-correcting)              |
-| **Cost Sensitivity**  | Low (high value per task)             | High (volume optimization needed)        | Medium (subscription-based)           |
-| **Implementation**    | Instant (install and run)             | Weeks (design and build)                 | Days (configure and onboard)          |
-| **Workforce Analogy** | Contractor                            | Custom-trained new hire                  | Pre-trained new hire                  |
-
-### The Key Insight: Incubator Gives Birth to Specialist
-
-The Incubator-to-Specialist progression remains the core development path: General Agents discover what to build, then you engineer Custom Agents for production scale. But the landscape now offers a third option—**Pre-Built AI Employees** (OpenClaw, Manus, Devin, Harvey) that arrive pre-trained and ready to onboard. When you need a Digital FTE, you face the classic **Build vs. Buy** decision: architect it yourself (Option B) or onboard a pre-built one (Option C).
-
 - **Trying to skip incubation** → Over-engineered solutions that solve the wrong problem
 - **Staying in incubation forever** → Never shipping production-ready products
 
 Claude Code isn't just a tool you use—it's an **Agent Factory** that transforms your domain expertise into deployable products. The Incubator discovers what to build. The Specialist builds it at scale. And the Incubator continues evolving—improving existing Specialists and spawning new ones.
 
-This book teaches the complete progression—from exploration to monetization.
+### The Deployment Decision: The Agent Triangle
 
----
+The maturity model tells you how agents evolve. But when it's time to deploy, the landscape in 2026 offers **three distinct paths**—and the choice between them is as important as the development journey itself.
 
-## The Agent Triangle: Three Paths to AI Automation
+#### The Core Strategic Decision
 
-The Agent Maturity Model describes _how_ AI products evolve—from incubation to specialization. But the landscape in 2026 now offers **three distinct paths** for deploying agentic AI, not two.
-
-### The Core Strategic Decision
-
-| Path  | Name                      | Examples                                        | Your Role              | Analogy                    |
-| ----- | ------------------------- | ----------------------------------------------- | ---------------------- | -------------------------- |
-| **A** | General Agents            | Claude Code, Cowork, Codex, Goose               | State the goal         | Smart Consultant           |
-| **B** | Custom-Built AI Employees | OpenAI Agents SDK, Google ADK, Claude Agent SDK | Architect the workflow | Assembly Line (BUILD)      |
-| **C** | Pre-Built AI Employees    | OpenClaw, Manus, Devin, Harvey                  | Configure & onboard    | Pre-Trained New Hire (BUY) |
+| Path  | Name                      | Examples                                                    | Your Role              | Analogy                    |
+| ----- | ------------------------- | ----------------------------------------------------------- | ---------------------- | -------------------------- |
+| **A** | General Agents            | Claude Code, Cowork, Codex, Goose                           | State the goal         | Smart Consultant           |
+| **B** | Custom-Built AI Employees | OpenAI Agents Framework, Google ADK, Claude Agent Framework | Architect the workflow | Assembly Line (BUILD)      |
+| **C** | Pre-Built AI Employees    | OpenClaw, Manus, Devin, Harvey                              | Configure & onboard    | Pre-Trained New Hire (BUY) |
 
 Options B and C are both **Digital FTEs (AI Employees)**—distinguished by the classic **Build vs. Buy** decision.
 
-### The Build vs. Buy Decision
+#### The Build vs. Buy Decision
 
 **BUILD (Option B):** You are the architect. You define every guardrail, hand-off, and orchestration step. The AI follows your script precisely. Like writing a job description, SOPs, and training manual—then hiring a robot to execute them perfectly.
 
 **BUY (Option C):** You are the manager. They come pre-trained with capabilities. You onboard them to your systems, give them access, and set expectations. Like hiring a skilled employee who already knows their craft—you just show them where the office is.
 
-### Pre-Built AI Employees: The New Category
+#### Pre-Built AI Employees: The New Category
 
 The arrival of Pre-Built AI Employees—led by [OpenClaw](https://github.com/openclaw/openclaw) with 180,000+ GitHub stars in weeks—signals that the "buy" path has matured into a viable alternative to building from scratch.
 
@@ -379,7 +375,7 @@ Pre-Built AI Employees come in two flavors:
 
 **Vertical (Domain-Specific):** Devin (coding), Harvey (law), and emerging specialists in medicine, accounting, finance—pre-trained experts in a single professional domain.
 
-### When to Use What
+#### When to Use What
 
 **Choose A (Consultant)** when the task is novel, you need deep reasoning, or you want the agent to plan its own approach.
 
@@ -387,9 +383,26 @@ Pre-Built AI Employees come in two flavors:
 
 **Choose C (Buy)** when you want an always-on assistant fast, cross-platform automation matters, or persistent memory and proactive action are priorities.
 
-### The Future Is Hybrid
+#### The Future Is Hybrid
 
 The most effective agentic organizations won't choose just one path. General Agents handle novel thinking. Custom-Built AI Employees handle reliable, high-volume processes. Pre-Built AI Employees provide persistent, always-on presence. Together, they form your AI-native workforce—your Digital FTEs.
+
+### The Decision Matrix
+
+| Requirement           | A: General Agent (Claude Code, Goose) | B: Custom-Built (OpenAI Agents Framework, Google ADK) | C: Pre-Built (OpenClaw, Manus, Devin) |
+| --------------------- | ------------------------------------- | ----------------------------------------------------- | ------------------------------------- |
+| **Task Type**         | Novel, problem-solving                | Repetitive, standardized                              | Cross-platform, persistent            |
+| **End User**          | Developers / Technical staff          | Non-technical / Customers                             | Anyone (multi-channel)                |
+| **Error Tolerance**   | High (human in the loop)              | Low (must be reliable)                                | Medium (self-correcting)              |
+| **Cost Sensitivity**  | Low (high value per task)             | High (volume optimization needed)                     | Medium (subscription-based)           |
+| **Implementation**    | Instant (install and run)             | Weeks (design and build)                              | Days (configure and onboard)          |
+| **Workforce Analogy** | Contractor                            | Custom-trained new hire                               | Pre-trained new hire                  |
+
+### Putting It All Together
+
+The maturity model says: discover first with General Agents, then build Custom Agents at production scale. The Agent Triangle adds: or skip the custom build entirely and onboard a Pre-Built AI Employee. The right answer depends on your requirements—novelty favors consulting (A), control favors building (B), speed favors buying (C).
+
+This book teaches all three paths. You'll learn when to consult General Agents for exploration, when to architect Custom Agents for your unique moat, and when to evaluate and onboard Pre-Built AI Employees for commodity capabilities. The factory produces the full spectrum—from exploration to monetization.
 
 ---
 
@@ -475,7 +488,7 @@ Just as the App Store created the Mobile Economy, OpenAI Apps is creating the Ag
 
 ## Building with Confidence
 
-Deploying agents into production requires more than just building them. Enterprises need guarantees.
+Deploying agents into production—whether you built them or bought them—requires guarantees. A Pre-Built AI Employee still needs evaluation before you trust it with your data.
 
 ### Agent Evaluations: The "Exam" for Your Digital Employee
 
@@ -521,13 +534,14 @@ Strategic restraint is as important as bold adoption:
 
 ### What Makes Digital FTEs Possible
 
-| Skill                     | Why It's Required                                                                                                                                                 |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Specification Writing** | AI agents execute specs, not vague ideas. Unclear requirements = endless iterations.                                                                              |
-| **AI Collaboration**      | You must teach AI your domain expertise through the Teacher/Student/Co-Worker dynamic—encoding it into `SKILL.md` files that become portable, monetizable assets. |
-| **MCP Integration**       | Model Context Protocol—the universal standard for connecting agents to real business data (CRM, databases, APIs).                                                 |
-| **Testing & Evaluation**  | Enterprises need accuracy guarantees—a "Golden Dataset" of 50+ real-world scenarios your agent must pass with 97%+ accuracy before deployment.                    |
-| **Cloud Deployment**      | Scale to thousands of customers without hiring operations teams.                                                                                                  |
+| Skill                        | Why It's Required                                                                                                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Specification Writing**    | AI agents execute specs, not vague ideas. Unclear requirements = endless iterations.                                                                              |
+| **AI Collaboration**         | You must teach AI your domain expertise through the Teacher/Student/Co-Worker dynamic—encoding it into `SKILL.md` files that become portable, monetizable assets. |
+| **MCP Integration**          | Model Context Protocol—the universal standard for connecting agents to real business data (CRM, databases, APIs).                                                 |
+| **Testing & Evaluation**     | Enterprises need accuracy guarantees—a "Golden Dataset" of 50+ real-world scenarios your agent must pass with 97%+ accuracy before deployment.                    |
+| **Cloud Deployment**         | Scale to thousands of customers without hiring operations teams.                                                                                                  |
+| **Build vs. Buy Evaluation** | Know when to architect a custom agent and when to onboard a pre-built one. The wrong choice wastes months or money.                                               |
 
 **Without these foundations, you can't build sellable Digital FTEs.**
 
@@ -549,11 +563,11 @@ This book teaches you to master each pillar systematically.
 
 ### The Journey This Book Takes You On
 
-| Phase                      | What You Learn                               | What You Build                   |
-| -------------------------- | -------------------------------------------- | -------------------------------- |
-| **Foundation** (Parts 1-5) | Spec writing, AI collaboration, MCP, testing | Your first working agent         |
-| **Products** (Parts 6-9)   | Agent SDKs, multi-agent orchestration        | Custom Agents for real workflows |
-| **Revenue** (Parts 10-13)  | Deployment, operations, marketplace          | Sellable Digital FTEs            |
+| Phase                      | What You Learn                                             | What You Build                                |
+| -------------------------- | ---------------------------------------------------------- | --------------------------------------------- |
+| **Foundation** (Parts 1-5) | Spec writing, AI collaboration, MCP, testing               | Your first working agent                      |
+| **Products** (Parts 6-9)   | Agent Frameworks, multi-agent orchestration, build vs. buy | Custom or Pre-Built Agents for real workflows |
+| **Revenue** (Parts 10-13)  | Deployment, operations, marketplace                        | Sellable Digital FTEs                         |
 
 Each phase builds on the previous. The skills from Part 1 become the building blocks for Part 6. The agents from Part 6 become the products you deploy in Part 10.
 
@@ -574,12 +588,12 @@ If you can describe a job, you can build an AI employee to do it. No coding requ
 - **Educators** → Build adaptive learning systems with domain-specific pedagogy
 - **Accountants** → Create agents that auto-reconcile transactions and flag audit risks
 
-**Your domain knowledge + AI execution = competitive moat.** This book teaches you to encode your expertise into Digital FTEs that generate recurring revenue.
+**Your domain knowledge + AI execution = competitive moat.** This book teaches you to encode your expertise into Digital FTEs—whether you build them from scratch or configure pre-built ones—that generate recurring revenue.
 
 ### Developers Who Want to Build Sellable AI Products
 
 - **Transform your workflow** — from writing code to writing specifications
-- **Master the Agent SDK ecosystem** — OpenAI, Claude, Google ADK
+- **Master the Agent Framework ecosystem** — OpenAI, Claude, Google ADK
 - **Build production systems** — not toy demos, but deployable products
 - **Create recurring revenue** — from Digital FTE subscriptions
 
@@ -591,6 +605,7 @@ If you can describe a job, you can build an AI employee to do it. No coding requ
 - **Ship faster than competitors** — specification-first development compresses iteration cycles
 - **Focus on product-market fit** — let AI handle implementation details
 - **Build the "micro-unicorn"** — small team, massive reach through marketplace distribution
+- **Choose build or buy strategically** — custom-build for your unique moat, onboard pre-built for commodity capabilities
 
 ### The Common Thread
 
@@ -660,13 +675,13 @@ The CoCounsel acquisition in 2023—$650 million for encoded legal expertise—w
 
 ### "Do I need to be a programmer?"
 
-No. But you need to learn specification writing, AI collaboration, and basic technical concepts. AI handles the mechanical parts of coding; you provide the creative direction and domain judgment.
+No. But you need to learn specification writing, AI collaboration, and basic technical concepts. The "buy" path (Pre-Built AI Employees) requires even less technical depth—you're configuring and managing, not architecting. But to build custom agents that encode your unique expertise, you'll need the skills this book teaches.
 
 If you can write clear requirements and think systematically, you can build Digital FTEs.
 
 ### "How long until I can sell something?"
 
-Honest answer: weeks to months, depending on your starting point and how much time you invest. The first few parts establish foundations. By Part 6, you're building Custom Agents. By Part 10, you're deploying them.
+Honest answer: weeks to months, depending on your starting point and how much time you invest. The first few parts establish foundations. By Part 6, you're building Custom Agents or evaluating Pre-Built ones. By Part 10, you're deploying them.
 
 There are no shortcuts, but the path is clearly marked.
 
@@ -686,8 +701,9 @@ This is why the book teaches Agent Evaluations alongside Agent Building. You don
 
 You're about to learn how to:
 
-- **Manufacture** Digital FTEs using General Agents (Claude Code) — or onboard Pre-Built ones
-- **Package** your expertise into sellable products
+- **Discover** what to automate using General Agents (Claude Code)
+- **Decide** whether to build custom or onboard pre-built — the Agent Triangle guides this choice
+- **Deploy** Digital FTEs that encode your domain expertise
 - **Distribute** through marketplaces reaching millions
 - **Monetize** through subscriptions, licenses, and success fees
 
