@@ -135,13 +135,16 @@ Axiom X takes this further. The principle is about human-AI collaboration transp
 
 Principle 7 gave you the mindset: make things visible. Axiom X gives you the engineering toolkit: structured observability as a first-class system concern, not an afterthought.
 
-## The Discipline That Preceded Observability
+<details>
+<summary>The Discipline That Preceded Observability</summary>
 
 The term "observability" — borrowed from control theory, where it means "the ability to infer a system's internal state from its external outputs" — entered software engineering through the DevOps movement. In 2016, Google published the *Site Reliability Engineering* book, codifying practices their teams had developed for running services at planetary scale. The book's core insight was that reliability is not a property of software — it is a property of *operations*. Code that passes tests can still fail in production if nobody is watching.
 
 Charity Majors, co-founder of Honeycomb, popularized the distinction between *monitoring* (watching known metrics for known thresholds) and *observability* (understanding system behavior from its outputs, including behaviors you did not anticipate). Monitoring answers: "Is the error rate above 5%?" Observability answers: "Why are international orders from the UK failing at 3am?" — a question you did not know to ask until the system told you.
 
 James's `print("Processing order...")` was neither monitoring nor observability. It was noise — unstructured text that disappeared when the process restarted and told him nothing about which orders failed or why.
+
+</details>
 
 ## The Three Pillars of Observability
 
@@ -498,7 +501,11 @@ No single axiom is sufficient. Without observability, James's tests pass but he 
 
 ## Anti-Patterns
 
-Picture the unobservable system. The code is clean, the tests pass, the pipeline is green, and the system is deployed. Then something goes wrong. Not catastrophically — subtly. Response times creep up. Error rates tick from 0.2% to 0.8%. A handful of international orders fail silently every hour. Nobody notices because nothing alerts, nothing dashboards, nothing trends. The developers check the logs and find `print("Processing order...")` repeated ten thousand times with no timestamps, no order IDs, no error context. They check metrics and find none. They check traces and find none. The system is a black box running in production, and the only signal that anything is wrong comes from customer service tickets trickling in over days. This was James's order management system at 2:47 AM — and it is every system that treats observability as optional.
+Picture the unobservable system. The code is clean, the tests pass, the pipeline is green, and the system is deployed. Then something goes wrong. Not catastrophically — subtly. Response times creep up. Error rates tick from 0.2% to 0.8%. A handful of international orders fail silently every hour. Nobody notices because nothing alerts, nothing dashboards, nothing trends.
+
+The developers check the logs and find `print("Processing order...")` repeated ten thousand times with no timestamps, no order IDs, no error context. They check metrics and find none. They check traces and find none. The system is a black box running in production, and the only signal that anything is wrong comes from customer service tickets trickling in over days.
+
+This was James's order management system at 2:47 AM — and it is every system that treats observability as optional.
 
 | Anti-Pattern | Why It Fails | The Fix |
 |-------------|-------------|---------|
