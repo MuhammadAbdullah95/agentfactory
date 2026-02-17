@@ -372,6 +372,34 @@ options: ["Outcome-based pricing is always cheaper", "It aligns provider incenti
 correctOption: 1,
 explanation: "Outcome-based pricing (gain-share, subscription, fixed-price) aligns provider revenue with client value. If the AI solution delivers measurable savings or productivity gains, both parties win. This reduces client risk and builds trust—traditional hourly rates risk margin erosion without delivering proven value.",
 source: "Lesson 10: Selling Agentic AI Services"
+},
+{
+question: "The Agent Triangle classifies agentic AI into three paths. Which path describes Pre-Built AI Employees like OpenClaw, Manus, and Devin?",
+options: ["Option A: Smart Consultant — session-based reasoning for novel problems", "Option B: Assembly Line — custom-built with SDKs for production workflows", "Option C: Pre-Trained New Hire — pre-packaged, always-on, onboard to your systems", "Option D: Hybrid Agent — combines all three approaches in one system"],
+correctOption: 2,
+explanation: "Pre-Built AI Employees (Option C) arrive pre-trained with capabilities. You onboard them to your systems rather than building from scratch. They're always-on, multi-channel, and have persistent memory — like hiring a skilled employee who already knows their craft.",
+source: "Preface: The Agent Triangle"
+},
+{
+question: "In the Agent Triangle, what distinguishes Custom-Built AI Employees (Option B) from Pre-Built AI Employees (Option C)?",
+options: ["Option B uses AI models while Option C uses rule-based systems", "Option B requires you to architect every workflow; Option C comes pre-trained and you configure/onboard", "Option B is for enterprises only; Option C is for individuals only", "Option B is free while Option C requires a subscription"],
+correctOption: 1,
+explanation: "Both B and C produce Digital FTEs. The difference is the classic Build vs. Buy decision: with B, you are the architect defining every guardrail and hand-off. With C, you are the manager onboarding a pre-trained employee to your systems.",
+source: "Preface: The Agent Triangle"
+},
+{
+question: "Which options in the Agent Triangle are classified as Digital FTEs (AI Employees)?",
+options: ["Only Option A (General Agents)", "Only Option B (Custom-Built AI Employees)", "Options B and C — both are Digital FTEs, distinguished by Build vs. Buy", "All three options A, B, and C are Digital FTEs"],
+correctOption: 2,
+explanation: "Options B (Custom-Built) and C (Pre-Built) are both Digital FTEs — permanent AI employees. Option A (General Agents) are 'Smart Consultants' or contractors — you bring them in for a specific problem, they deliver the result, and leave. The B vs C distinction is the classic Build vs. Buy decision.",
+source: "Preface: The Agent Triangle"
+},
+{
+question: "A startup wants an always-on assistant that monitors their servers via Slack, manages their calendar, and proactively alerts about issues — with minimal setup time. Which Agent Triangle path is most appropriate?",
+options: ["Option A: Use Claude Code to build a monitoring script", "Option B: Build a custom agent with OpenAI Agents SDK", "Option C: Onboard a Pre-Built AI Employee like OpenClaw", "Skip agents entirely and hire a human DevOps engineer"],
+correctOption: 2,
+explanation: "This scenario calls for Option C — always-on presence, multi-channel (Slack), persistent memory, proactive behavior, and fast time-to-value. Pre-Built AI Employees like OpenClaw are designed exactly for this: you configure and onboard rather than build from scratch.",
+source: "Preface: The Agent Triangle"
 }
 ]}
 />

@@ -25,7 +25,7 @@ This book was written for this exact moment.
 
 ## Start Here: The Presentations
 
-These two presentations lay the strategic and practical foundation for everything in this book. Watch them before reading further.
+These three presentations lay the strategic and practical foundation for everything in this book. Watch them before reading further.
 
 ### Build Your AI Workforce
 
@@ -49,7 +49,7 @@ _The accessible introduction. Covers the shift from manual work to Digital FTEs,
 
 ### Agent Factory: Building Digital FTEs
 
-_The comprehensive deep-dive. Covers the Agent Factory thesis, General vs Custom Agents, the decision matrix, Code as Universal Interface, MCP and Agent Skills, monetization models, case studies, security, and the complete roadmap from first spec to first dollar._
+_The comprehensive deep-dive. Covers the Agent Factory thesis, the Agent Triangle (General Agents, Custom-Built AI Employees, Pre-Built AI Employees), the Build vs. Buy decision framework, Code as Universal Interface, MCP and Agent Skills, monetization models, case studies, security, and the complete roadmap from first spec to first dollar._
 
 :::tip Open Full Slideshow
 **[View Full Presentation](https://docs.google.com/presentation/d/1UGvCUk1-O8m5i-aTWQNxzg8EXoKzPa8fgcwfNh8vRjQ/edit?usp=sharing)** — Agent Factory: Building Digital FTEs
@@ -64,6 +64,26 @@ _The comprehensive deep-dive. Covers the Agent Factory thesis, General vs Custom
     mozallowfullscreen="true"
     webkitallowfullscreen="true"
     title="Agent Factory: Building Digital FTEs">
+  </iframe>
+</div>
+
+### The Agent Triangle: Consultants vs. AI Employees
+
+_The updated classification framework. Covers the three paths to agentic AI automation — General Agents (consultants), Custom-Built AI Employees (build), and Pre-Built AI Employees (buy) — with OpenClaw deep-dive, decision framework, and the Digital FTE spectrum._
+
+:::tip Open Full Slideshow
+**[View Full Presentation](https://docs.google.com/presentation/d/1YMMOvWjSvEWl9tuNiLShNjruyzjlJydBHUc8j_y0gAI/edit?usp=sharing)** — The Agent Triangle Classification
+:::
+
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: '2rem', border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
+  <iframe
+    src="https://docs.google.com/presentation/d/1YMMOvWjSvEWl9tuNiLShNjruyzjlJydBHUc8j_y0gAI/embed?start=false&loop=false&delayms=3000"
+    frameborder="0"
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '8px'}}
+    allowfullscreen="true"
+    mozallowfullscreen="true"
+    webkitallowfullscreen="true"
+    title="The Agent Triangle: Consultants vs. AI Employees">
   </iframe>
 </div>
 
@@ -235,7 +255,7 @@ The Agent Factory is a systematic process for turning domain expertise into depl
 3. **The Manufacturing.** Claude Code generates the Custom Agent or Custom Skill and supporting code.
 4. **The Result.** A production-ready Digital FTE is born—in minutes, not months.
 
-General Agents (Claude Code) are the "Engine" that uses Spec-Driven Development to manufacture Custom Skills and Custom Agents. This is the engine of automated automation.
+General Agents (Claude Code) are the "Engine" that uses Spec-Driven Development to manufacture Custom Skills and Custom Agents. But building from scratch isn't the only path—Pre-Built AI Employees like OpenClaw, Manus, and Devin offer a "buy" alternative where you onboard rather than architect. The Agent Triangle section below maps all three paths.
 
 ### The Twin Enablers: MCP and Agent Skills
 
@@ -307,17 +327,18 @@ Key features of Custom Agents: **Guardrails** for strict control over what the a
 
 ### The Decision Matrix: How to Choose
 
-| Requirement          | General Agent (Claude Code, Goose) | Custom Agent (OpenAI SDK, Claude SDK) |
-| -------------------- | ---------------------------------- | ------------------------------------- |
-| **Task Type**        | Novel, problem-solving             | Repetitive, standardized              |
-| **End User**         | Developers / Technical staff       | Non-technical / Customers             |
-| **Error Tolerance**  | High (human in the loop)           | Low (must be reliable)                |
-| **Cost Sensitivity** | Low (high value per task)          | High (volume optimization needed)     |
-| **Implementation**   | Instant (install and run)          | Weeks (design and build)              |
+| Requirement           | A: General Agent (Claude Code, Goose) | B: Custom-Built (OpenAI SDK, Claude SDK) | C: Pre-Built (OpenClaw, Manus, Devin) |
+| --------------------- | ------------------------------------- | ---------------------------------------- | ------------------------------------- |
+| **Task Type**         | Novel, problem-solving                | Repetitive, standardized                 | Cross-platform, persistent            |
+| **End User**          | Developers / Technical staff          | Non-technical / Customers                | Anyone (multi-channel)                |
+| **Error Tolerance**   | High (human in the loop)              | Low (must be reliable)                   | Medium (self-correcting)              |
+| **Cost Sensitivity**  | Low (high value per task)             | High (volume optimization needed)        | Medium (subscription-based)           |
+| **Implementation**    | Instant (install and run)             | Weeks (design and build)                 | Days (configure and onboard)          |
+| **Workforce Analogy** | Contractor                            | Custom-trained new hire                  | Pre-trained new hire                  |
 
 ### The Key Insight: Incubator Gives Birth to Specialist
 
-This isn't a choice between two alternatives. It's a **progression**. The Incubator gives birth to the Specialist.
+The Incubator-to-Specialist progression remains the core development path: General Agents discover what to build, then you engineer Custom Agents for production scale. But the landscape now offers a third option—**Pre-Built AI Employees** (OpenClaw, Manus, Devin, Harvey) that arrive pre-trained and ready to onboard. When you need a Digital FTE, you face the classic **Build vs. Buy** decision: architect it yourself (Option B) or onboard a pre-built one (Option C).
 
 - **Trying to skip incubation** → Over-engineered solutions that solve the wrong problem
 - **Staying in incubation forever** → Never shipping production-ready products
@@ -325,6 +346,50 @@ This isn't a choice between two alternatives. It's a **progression**. The Incuba
 Claude Code isn't just a tool you use—it's an **Agent Factory** that transforms your domain expertise into deployable products. The Incubator discovers what to build. The Specialist builds it at scale. And the Incubator continues evolving—improving existing Specialists and spawning new ones.
 
 This book teaches the complete progression—from exploration to monetization.
+
+---
+
+## The Agent Triangle: Three Paths to AI Automation
+
+The Agent Maturity Model describes _how_ AI products evolve—from incubation to specialization. But the landscape in 2026 now offers **three distinct paths** for deploying agentic AI, not two.
+
+### The Core Strategic Decision
+
+| Path  | Name                      | Examples                                        | Your Role              | Analogy                    |
+| ----- | ------------------------- | ----------------------------------------------- | ---------------------- | -------------------------- |
+| **A** | General Agents            | Claude Code, Cowork, Codex, Goose               | State the goal         | Smart Consultant           |
+| **B** | Custom-Built AI Employees | OpenAI Agents SDK, Google ADK, Claude Agent SDK | Architect the workflow | Assembly Line (BUILD)      |
+| **C** | Pre-Built AI Employees    | OpenClaw, Manus, Devin, Harvey                  | Configure & onboard    | Pre-Trained New Hire (BUY) |
+
+Options B and C are both **Digital FTEs (AI Employees)**—distinguished by the classic **Build vs. Buy** decision.
+
+### The Build vs. Buy Decision
+
+**BUILD (Option B):** You are the architect. You define every guardrail, hand-off, and orchestration step. The AI follows your script precisely. Like writing a job description, SOPs, and training manual—then hiring a robot to execute them perfectly.
+
+**BUY (Option C):** You are the manager. They come pre-trained with capabilities. You onboard them to your systems, give them access, and set expectations. Like hiring a skilled employee who already knows their craft—you just show them where the office is.
+
+### Pre-Built AI Employees: The New Category
+
+The arrival of Pre-Built AI Employees—led by [OpenClaw](https://github.com/openclaw/openclaw) with 180,000+ GitHub stars in weeks—signals that the "buy" path has matured into a viable alternative to building from scratch.
+
+Pre-Built AI Employees come in two flavors:
+
+**Horizontal (General-Purpose):** OpenClaw, Manus, Lindy AI—they handle everything across your life and work. Always-on, multi-channel (WhatsApp, Slack, Telegram), persistent memory across sessions.
+
+**Vertical (Domain-Specific):** Devin (coding), Harvey (law), and emerging specialists in medicine, accounting, finance—pre-trained experts in a single professional domain.
+
+### When to Use What
+
+**Choose A (Consultant)** when the task is novel, you need deep reasoning, or you want the agent to plan its own approach.
+
+**Choose B (Build)** when you need strict guardrails, are processing thousands of items at scale, or customer-facing reliability is critical.
+
+**Choose C (Buy)** when you want an always-on assistant fast, cross-platform automation matters, or persistent memory and proactive action are priorities.
+
+### The Future Is Hybrid
+
+The most effective agentic organizations won't choose just one path. General Agents handle novel thinking. Custom-Built AI Employees handle reliable, high-volume processes. Pre-Built AI Employees provide persistent, always-on presence. Together, they form your AI-native workforce—your Digital FTEs.
 
 ---
 
@@ -621,7 +686,7 @@ This is why the book teaches Agent Evaluations alongside Agent Building. You don
 
 You're about to learn how to:
 
-- **Manufacture** Digital FTEs using General Agents (Claude Code)
+- **Manufacture** Digital FTEs using General Agents (Claude Code) — or onboard Pre-Built ones
 - **Package** your expertise into sellable products
 - **Distribute** through marketplaces reaching millions
 - **Monetize** through subscriptions, licenses, and success fees
