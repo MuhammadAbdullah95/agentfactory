@@ -180,6 +180,10 @@ Paste the token into the wizard. No manual JSON editing -- the installer writes 
 Your bot token grants full control over your Telegram bot. Treat it like a password. Never share it publicly or commit it to Git.
 :::
 
+:::tip Alternative Channels
+If Telegram is unavailable in your region or you prefer another platform, OpenClaw supports Discord, Slack, and WhatsApp channels. Select your preferred channel when the wizard asks. The pairing and security steps are similar across all channels. This chapter's examples use Telegram, but every task works identically through any connected channel or the Control UI.
+:::
+
 ### Skills and Gateway
 
 The wizard offers optional skills to install (`clawhub`, `gog`, `obsidian`, and others). Skip or select what interests you -- none are required for this chapter.

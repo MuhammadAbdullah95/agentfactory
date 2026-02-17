@@ -73,7 +73,7 @@ differentiation:
 
 # Teaching Skills & Staying Safe
 
-In Lesson 4, you mapped the five components that power your AI Employee. You know the Gateway routes messages, the Agent reasons through problems, Channels deliver conversations, Model Providers supply intelligence, and Skills encode portable expertise. Now you'll build that expertise yourself.
+In Lesson 4, you mapped the architecture that powers your AI Employee. Now you'll build expertise yourself.
 
 Skills are what make your AI Employee **yours**. Anyone can install OpenClaw and connect a free LLM. What makes your employee valuable is the specific skills you teach it -- for your domain, your workflow, your needs. A branding consultant's employee should know how to audit brand voice. A financial analyst's employee should know how to structure quarterly reports. A project manager's employee should know how to prepare meeting briefings. These capabilities don't come pre-installed. You create them.
 

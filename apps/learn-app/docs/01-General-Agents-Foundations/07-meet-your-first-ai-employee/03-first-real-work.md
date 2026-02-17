@@ -75,6 +75,10 @@ Set a timer. You are going to run six tasks back to back, spending about 3 minut
 
 Open your Telegram chat with your AI Employee. If you configured a different interface in Lesson 2, use that instead.
 
+:::tip Using a Different Channel?
+If you set up Discord, Slack, or WhatsApp instead of Telegram, use that channel for these tasks. You can also use the Control UI at `http://127.0.0.1:18789/` or `openclaw tui` in your terminal. The tasks work identically across all channels.
+:::
+
 ### Task 1: Research (3 minutes)
 
 **What to type:**

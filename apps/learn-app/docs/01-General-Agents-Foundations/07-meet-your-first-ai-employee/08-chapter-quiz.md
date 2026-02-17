@@ -416,7 +416,7 @@ The implementation details change entirely. The patterns are identical. You alre
 
 ## Patterns That Return in Part 2
 
-The patterns you learned here — Gateway, Agent Loop, Skill Registry, Memory, Concurrency, Security — return when you build your own AI Employee in Part 2. Bookmark this chapter as your reference.
+The patterns you learned here return when you build your own AI Employee in Part 2. Bookmark this chapter as your reference.
 
 In Part 2, you'll build the individual skills (file processing, computation, databases, Linux, version control) that become the capabilities your AI Employee needs. Chapter 13 is where everything comes together: you'll build your own AI Employee using these same six patterns, but with Claude Code as your implementation platform instead of OpenClaw.
 

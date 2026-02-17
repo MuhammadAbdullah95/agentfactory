@@ -91,6 +91,10 @@ Your agent accesses all six through subcommands: `gog gmail`, `gog calendar`, `g
 
 ## Setting Up gog
 
+:::tip Google Cloud Console Feeling Overwhelming?
+The OAuth credential setup below is a one-time process. If you get stuck on any step, ask your AI Employee (via Telegram or TUI): "Help me set up Google Cloud OAuth credentials for a desktop app called gog." It can walk you through each screen. You can also skip this lesson entirely and return when you need Google Workspace access -- Lessons 1-6 work without it.
+:::
+
 The setup has three parts: install the CLI, register your Google OAuth credentials, and authorize your account.
 
 ### Part 1: Install gog
