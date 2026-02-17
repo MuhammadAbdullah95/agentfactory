@@ -61,7 +61,7 @@ Tomás joined the platform team three weeks ago. At 2:14am on his first on-call 
 
 Tomás called the senior engineer at 2:30am. "Yeah," Lena said. "That script breaks every few weeks. Nobody wants to touch it because everything is tangled together."
 
-Lena rewrote the entire process that weekend. The new version was 12 lines long. Each line called a specialized tool: one tool ran the tests, another built the app, another deployed it, another sent notifications. The file did nothing except decide *what runs, in what order, and what happens if something fails.* When a test failed, the process stopped. When a step succeeded, it moved to the next one. No tangled logic. No mystery variables.
+Lena rewrote the entire process that weekend. The new version was 12 lines long. Each line called a specialized tool — pytest for testing, Docker for building, kubectl for deployment. The file did nothing except decide *what runs, in what order, and what happens if something fails.* When a test failed, the process stopped. When a step succeeded, it moved to the next one. No tangled logic. No mystery variables.
 
 The 2am emergencies stopped. Not because Lena wrote better code. Because she stopped cramming everything into one script and started using the shell for what it was designed for: orchestration — coordinating tools, not doing the work itself.
 
@@ -75,10 +75,10 @@ This is the universal failure mode. When developers first encounter the shell, t
 
 The symptoms are predictable — and Tomás experienced all four on that 2am call:
 
-- **Debugging becomes archaeology.** A 300-line script gives you no helpful error messages and no way to pinpoint what went wrong. When it fails on line 247, you have to read from line 1.
+- **Debugging becomes archaeology.** A 300-line bash script has no stack traces (detailed error reports) and no IDE support to help you navigate. When it fails on line 247, you have to read from line 1.
 - **Testing becomes impossible.** You cannot test one piece of the script in isolation because every part depends on what ran before it — variables set earlier, files created by previous commands, the state of the whole system.
 - **Collaboration becomes hazardous.** Two developers editing the same script inevitably break each other's work because they make different assumptions about what the script's variables contain at any given point.
-- **AI agents cannot reason about it.** An AI reading a 500-line script sees a wall of tangled logic it cannot untangle. An AI reading a 12-line file that says "run tests, then build, then deploy" sees clear intent it can work with.
+- **AI agents cannot reason about it.** An AI reading a 500-line bash script sees an impenetrable wall of string manipulation. An AI reading a 12-line Makefile sees clear intent: run tests, build the app, deploy.
 
 The root cause in every case: **computation and coordination are tangled together.** The script is simultaneously deciding *what* to do and *how* to do it. These are fundamentally different responsibilities.
 
