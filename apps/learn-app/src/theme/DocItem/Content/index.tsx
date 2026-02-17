@@ -407,15 +407,20 @@ export default function ContentWrapper(props: Props): React.ReactElement {
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
   const isLeafPage = pathSegments.length >= 3 || isSpecialRootPage;
 
-  // Derive chapter + lesson slugs from docId for the LessonCompleteButton
-  // docId example: "01-Part/02-Chapter/03-lesson"
-  // Root pages (thesis, preface) have no chapter — skip lesson tracking for those
-  const docIdSegments = docId.split("/");
-  const lessonSlug = docIdSegments[docIdSegments.length - 1] || "";
-  const chapterSlug = docIdSegments.slice(0, -1).join("/");
+  // Derive chapter + lesson slugs for the LessonCompleteButton
+  // Use slug (from frontmatter) when available to preserve progress tracking
+  // across directory restructuring. Falls back to docId for files without slug.
+  const slugPath = (slug || docId).replace(/^\//, "");
+  const slugSegments = slugPath.split("/");
+  const lessonSlug = slugSegments[slugSegments.length - 1] || "";
+  const chapterSlug = slugSegments.slice(0, -1).join("/");
   const hasValidSlug = chapterSlug.length > 0 && lessonSlug.length > 0;
   const isQuizPage = lessonSlug.toLowerCase().includes("quiz");
-  const isCategoryIndex = rawSource.endsWith("README.md") || rawSource.endsWith("README.mdx") || rawSource.endsWith("index.md") || rawSource.endsWith("index.mdx");
+  const isCategoryIndex =
+    rawSource.endsWith("README.md") ||
+    rawSource.endsWith("README.mdx") ||
+    rawSource.endsWith("index.md") ||
+    rawSource.endsWith("index.mdx");
 
   // Teaching Guide Sheet state
   const [teachingGuideOpen, setTeachingGuideOpen] = React.useState(false);
@@ -513,12 +518,16 @@ export default function ContentWrapper(props: Props): React.ReactElement {
           </div>
         )}
         <Content {...props} />
-        {isLeafPage && isLoggedIn && hasValidSlug && !isQuizPage && !isCategoryIndex && (
-          <LessonCompleteButton
-            chapterSlug={chapterSlug}
-            lessonSlug={lessonSlug}
-          />
-        )}
+        {isLeafPage &&
+          isLoggedIn &&
+          hasValidSlug &&
+          !isQuizPage &&
+          !isCategoryIndex && (
+            <LessonCompleteButton
+              chapterSlug={chapterSlug}
+              lessonSlug={lessonSlug}
+            />
+          )}
         <VoiceControlDock />
         {<TeachMePanel lessonPath={lessonPath} />}
         {hasTeachingData && frontMatter && (
@@ -622,12 +631,16 @@ export default function ContentWrapper(props: Props): React.ReactElement {
         <Content {...props} />
         {/* TODO: ASK ME ENALBE AFTER BACKEND DEP */}
       </LessonContent>
-      {isLeafPage && isLoggedIn && hasValidSlug && !isQuizPage && !isCategoryIndex && (
-        <LessonCompleteButton
-          chapterSlug={chapterSlug}
-          lessonSlug={lessonSlug}
-        />
-      )}
+      {isLeafPage &&
+        isLoggedIn &&
+        hasValidSlug &&
+        !isQuizPage &&
+        !isCategoryIndex && (
+          <LessonCompleteButton
+            chapterSlug={chapterSlug}
+            lessonSlug={lessonSlug}
+          />
+        )}
       <VoiceControlDock />
       {<TeachMePanel lessonPath={lessonPath} />}
       {hasTeachingData && frontMatter && (
