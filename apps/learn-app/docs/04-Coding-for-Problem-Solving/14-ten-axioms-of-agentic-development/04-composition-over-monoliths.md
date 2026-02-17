@@ -120,7 +120,8 @@ Axiom IV governs your *architecture*: how you structure the solutions themselves
 
 The principle says: "Break your work into small steps." The axiom says: "Build your systems from small parts." One is about the journey; the other is about the destination. Together, they ensure both your process and your product remain manageable.
 
-## The Paper That Changed Software Architecture
+<details>
+<summary>**The Paper That Changed Software Architecture**</summary>
 
 In Axiom I, you encountered Doug McIlroy's Unix philosophy: programs that do one thing well and work together through pipes. That philosophy governs how you compose *programs* through the shell. Axiom IV extends the same idea inside the programs themselves — to functions, modules, and systems. And the person who formalized this extension was not McIlroy, but a mathematician named David Parnas.
 
@@ -131,6 +132,8 @@ The first approach was what every programmer instinctively did. The second was w
 Parnas called this principle **information hiding**. It is the theoretical foundation for Axiom IV. James's `process_order()` violated it completely — every design decision (how to validate, how to calculate tax, how to format receipts) was exposed to every other part of the function. Changing any decision cascaded through 1,400 lines. Emma's composed version hid each decision inside a focused unit. Changing tax calculation affected `calculate_tax()` and nothing else.
 
 Parnas's paper is over half a century old. The principle it established has never been overturned, because it addresses a property of complexity itself: the only way to manage a system too large to fit in one mind is to decompose it into parts that can each be understood independently.
+
+</details>
 
 ## Composition at Every Scale
 
@@ -272,16 +275,18 @@ This is why Emma's team could write tests for the order pipeline without a datab
 
 ## Anti-Patterns: What Composition Violations Look Like
 
-You have seen the God Object. Every codebase has one. It is the class called `ApplicationManager` or `Utils` or `Helpers` — the one with fifty-three methods that handles user authentication, payment processing, email sending, report generation, and "miscellaneous things nobody knew where to put." It is the file that every pull request touches, the one that causes merge conflicts every sprint, the one where new developers are told "don't change anything in there unless you absolutely have to." It is the function that started as `handle_request()` and grew to 800 lines because every new feature was "just one more if-statement." The function works. It also cannot be tested, cannot be understood by a new team member in less than a week, and cannot be modified by an AI agent without hallucinating about what the variable `temp3` on line 412 is supposed to contain. The God Object is the monolith at the code level — and like all monoliths, it was not built deliberately. It was grown, one convenience at a time, by developers who did not recognize the moment when "add it here" became "this needs to be its own thing."
+You have seen the God Object. Every codebase has one. It is the class called `ApplicationManager` or `Utils` or `Helpers` — the one with fifty-three methods that handles user authentication, payment processing, email sending, report generation, and "miscellaneous things nobody knew where to put." It is the file that every pull request touches, the one that causes merge conflicts every sprint, the one where new developers are told "don't change anything in there unless you absolutely have to."
+
+It is the function that started as `handle_request()` and grew to 800 lines because every new feature was "just one more if-statement." The function works. It also cannot be tested, cannot be understood by a new team member in less than a week, and cannot be modified by an AI agent without hallucinating about what the variable `temp3` on line 412 is supposed to contain.
+
+The God Object is the monolith at the code level — and like all monoliths, it was not built deliberately. It was grown, one convenience at a time, by developers who did not recognize the moment when "add it here" became "this needs to be its own thing."
 
 | Anti-Pattern | Symptom | Consequence | Composed Alternative |
 |-------------|---------|-------------|---------------------|
 | **God Class** | One class with 50+ methods handling unrelated concerns | Changes to any feature risk breaking all others | Split into focused classes, each with a single responsibility |
 | **Monolithic Function** | 500+ line function with multiple responsibilities | Cannot test, understand, or modify in isolation | Extract focused helper functions with clear interfaces |
 | **Tight Coupling** | Module A directly imports internals of Module B | Changes to B cascade as breaking changes to A | Define interfaces; A depends on the interface, not B's internals |
-| **Copy-Paste Reuse** | Same logic duplicated in 5 places | Bug fix must be applied 5 times; one is always missed | Extract to shared function; compose where needed |
 | **Circular Dependencies** | Module A imports B, B imports A | Cannot understand either module in isolation; import errors | Extract shared logic to Module C; both A and B import C |
-| **Hidden State** | Functions modify global variables instead of returning values | Unpredictable behavior; testing requires resetting global state | Pure functions that take inputs and return outputs |
 
 The test is simple: if you cannot explain what a class does in one sentence, it is a God Object. If modifying one feature requires understanding ten others, you are looking at a monolith. The fix is the same as Emma's — decompose until each unit does one thing, communicates through typed interfaces, and can be tested without setting up the entire world.
 
@@ -304,7 +309,9 @@ After learning Axiom IV, James went through a phase that Emma had seen before. H
 
 The Decomposition Trap is the mirror image of the monolith. Where the monolith puts everything in one place, the over-decomposed system scatters simple logic across so many units that understanding the whole requires assembling a mental map of dozens of tiny pieces. Both fail for the same reason: they make the system harder to understand than it needs to be.
 
-The heuristic is simple. Compose when a function does multiple unrelated things, when you cannot test a behavior without setting up unrelated state, or when changes to one concern break unrelated concerns. Do not compose when the code is simple and unlikely to change, when the abstraction would be more complex than the duplication, or when you are designing for a future that may never arrive. A 20-line function that does one clear thing does not need to be split into four 5-line functions. A script that runs once does not need a plugin architecture. Parnas's principle is about hiding *design decisions that might change* — not about hiding everything.
+The heuristic is simple. Compose when a function does multiple unrelated things, when you cannot test a behavior without setting up unrelated state, or when changes to one concern break unrelated concerns.
+
+Do not compose when the code is simple and unlikely to change, when the abstraction would be more complex than the duplication, or when you are designing for a future that may never arrive. A 20-line function that does one clear thing does not need to be split into four 5-line functions. A script that runs once does not need a plugin architecture. Parnas's principle is about hiding *design decisions that might change* — not about hiding everything.
 
 ## Try With AI
 
