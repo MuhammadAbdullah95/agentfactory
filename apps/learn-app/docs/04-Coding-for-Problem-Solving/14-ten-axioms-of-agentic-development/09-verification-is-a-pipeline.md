@@ -110,7 +110,8 @@ Axiom IX elevates that principle from personal discipline to **infrastructure en
 
 The principle taught you *why* to verify. The axiom teaches you *how* to make verification unavoidable. James had internalized the principle — he ran pytest before pushing. But the principle relies on human discipline, and human discipline has gaps. James forgot to run the linter. He forgot to run the type checker. He forgot to audit dependencies. The pipeline forgets nothing.
 
-## The Discipline That Preceded CI
+<details>
+<summary>The Discipline That Preceded CI</summary>
 
 The idea that integration should be continuous — not a painful event at the end of a project — emerged from the Extreme Programming movement in the late 1990s. In 2000, Martin Fowler published his influential article "Continuous Integration," describing a practice his team at ThoughtWorks had refined: every developer integrates their work at least daily, and every integration is verified by an automated build that runs the full test suite.
 
@@ -119,6 +120,8 @@ Before CI, integration was a dreaded phase. Teams worked in isolation for weeks 
 Fowler's insight was that integration pain grows exponentially with delay. If you integrate daily, each integration is small and manageable. If you integrate monthly, each integration is a nightmare. The solution was automation: a server that watches your repository, detects every change, and runs the full verification suite automatically. CruiseControl (2001) was one of the first CI servers. Jenkins (2011) made it mainstream. GitHub Actions (2019) made it accessible to every project with a repository.
 
 James's failed push was a textbook example of what CI was designed to prevent. He had been working locally for two weeks, verifying only the checks he remembered to run. The pipeline ran *all* the checks — and found four problems that manual verification had missed.
+
+</details>
 
 ## The Verification Pyramid
 
@@ -350,7 +353,11 @@ Traditional CI protects against human error. With AI-generated code, the case fo
 
 ## Anti-Patterns: What Bad CI Looks Like
 
-Ask a team lead about their CI pipeline and watch their face. If they wince, you already know the story. The badge has been red so long that nobody looks at it anymore. "Just re-run it" is the standard response to failures. The pipeline technically exists but checks so little that it provides false confidence instead of real verification. A developer merged a pull request while CI was still running because "it is probably fine." Flaky tests were disabled one by one until the suite tested nothing meaningful. The security audit was removed because "it kept failing on things we cannot fix." The pipeline takes forty-five minutes, so developers push without waiting and discover failures the next morning — if they check at all. None of this happened in a single decision. It happened in a hundred five-second shortcuts: ignoring a red badge, skipping a slow check, disabling a noisy test. A hundred five-second shortcuts became a team that ships unverified code with confidence.
+Ask a team lead about their CI pipeline and watch their face. If they wince, you already know the story. The badge has been red so long that nobody looks at it anymore. "Just re-run it" is the standard response to failures. The pipeline technically exists but checks so little that it provides false confidence instead of real verification.
+
+A developer merged a pull request while CI was still running because "it is probably fine." Flaky tests were disabled one by one until the suite tested nothing meaningful. The security audit was removed because "it kept failing on things we cannot fix." The pipeline takes forty-five minutes, so developers push without waiting and discover failures the next morning — if they check at all.
+
+None of this happened in a single decision. It happened in a hundred five-second shortcuts: ignoring a red badge, skipping a slow check, disabling a noisy test. A hundred five-second shortcuts became a team that ships unverified code with confidence.
 
 These specific patterns destroy the pipeline's value. Recognize and avoid them:
 
