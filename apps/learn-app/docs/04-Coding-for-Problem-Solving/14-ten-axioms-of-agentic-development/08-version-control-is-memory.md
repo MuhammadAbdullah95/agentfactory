@@ -66,9 +66,9 @@ differentiation:
 
 # Axiom VIII: Version Control is Memory
 
-A week after the $12,000 discount disaster, Tomás's team lead called a post-mortem. "Walk us through the original bug," she said. "Show us what the function looked like before the fix, so we can understand the failure mode."
+A week after the $12,000 discount disaster, James's team lead called a post-mortem. "Walk us through the original bug," she said. "Show us what the function looked like before the fix, so we can understand the failure mode."
 
-Tomás opened `apply_discount()`. It showed the current version — the correct one, generated through TDG after Lena's five tests. The buggy version was gone. He had overwritten it when the AI regenerated the implementation. He checked his git history for the original:
+James opened `apply_discount()`. It showed the current version — the correct one, generated through TDG after Emma's five tests. The buggy version was gone. He had overwritten it when the AI regenerated the implementation. He checked his git history for the original:
 
 ```
 commit a1b2c3d
@@ -81,9 +81,9 @@ commit c3d4e5f
     fix stuff
 ```
 
-Three commits from that week. No messages explaining what changed or why. No record of the original buggy implementation. No trace of which test caught the error. No documentation of the decision to switch from manual review to TDG. Tomás had the right code now, but no memory of how he got there.
+Three commits from that week. No messages explaining what changed or why. No record of the original buggy implementation. No trace of which test caught the error. No documentation of the decision to switch from manual review to TDG. James had the right code now, but no memory of how he got there.
 
-"You lost the story," Lena told him after the meeting. She pulled up her own project's history:
+"You lost the story," Emma told him after the meeting. She pulled up her own project's history:
 
 ```
 commit d4e5f6g
@@ -100,9 +100,9 @@ commit d4e5f6g
     Impact: $12,000 loss over weekend. Post-mortem: PM-2025-003
 ```
 
-Same fix. But Lena's commit was a *memory*. It recorded not just what changed, but why it changed, what caused the original error, how it was caught, and where to find the broader context. Six months from now, anyone reading that commit would understand the full story without asking a single question.
+Same fix. But Emma's commit was a *memory*. It recorded not just what changed, but why it changed, what caused the original error, how it was caught, and where to find the broader context. Six months from now, anyone reading that commit would understand the full story without asking a single question.
 
-"Git is not a backup tool," Lena said. "It is the memory of your project. Every commit is a decision you are recording for your future self, your teammates, and your AI. If the memory is `wip`, you have amnesia."
+"Git is not a backup tool," Emma said. "It is the memory of your project. Every commit is a decision you are recording for your future self, your teammates, and your AI. If the memory is `wip`, you have amnesia."
 
 This is Axiom VIII.
 
@@ -110,17 +110,17 @@ This is Axiom VIII.
 
 ## The Problem Without This Axiom
 
-Tomás's post-mortem exposed a pattern that every developer who uses AI will recognize. He had been productive — shipping features, fixing bugs, regenerating implementations through TDG. But his git history was a graveyard of meaningless messages: `wip`, `updates`, `fix stuff`, `changes`, `done`. Every commit recorded *that* something changed. None recorded *why*.
+James's post-mortem exposed a pattern that every developer who uses AI will recognize. He had been productive — shipping features, fixing bugs, regenerating implementations through TDG. But his git history was a graveyard of meaningless messages: `wip`, `updates`, `fix stuff`, `changes`, `done`. Every commit recorded *that* something changed. None recorded *why*.
 
 The consequences compounded:
 
-| Situation | Tomás's Experience | What Disciplined Git Provides |
+| Situation | James's Experience | What Disciplined Git Provides |
 |-----------|-------------------|-----------------|
 | "What was the original bug?" | File overwritten, no record | `git show HEAD~3:src/discount.py` shows the buggy version |
 | "Which test caught the error?" | "I think it was the boundary test..." | Commit message names the specific assertion |
 | "When did shipping get slow?" | Manual log searching, guesswork | `git bisect` finds the exact commit |
 | "Can we undo the ORM change?" | Risky manual reversal | `git revert abc123` safely creates inverse commit |
-| AI asks "What's the project context?" | Tomás explains from scratch every session | AI reads git log for recent decisions |
+| AI asks "What's the project context?" | James explains from scratch every session | AI reads git log for recent decisions |
 
 The cost was invisible day-to-day but catastrophic at the post-mortem. Every undocumented decision became a question nobody could answer. Every unexplained change became a mystery. The team spent three hours reconstructing a story that disciplined commit messages would have told in three minutes.
 
@@ -130,7 +130,7 @@ The cost was invisible day-to-day but catastrophic at the post-mortem. Every und
 
 > **Axiom VIII: Version Control is Memory.** Git provides the persistent memory layer for all work. Every decision, every change, every experiment is recorded. Git is not just version control — it is the system of record for software evolution.
 
-This axiom elevates git from a tool (something you use to save work) to a *system* (the authoritative record of how and why your software became what it is). Tomás had been using git as a save button — `git add . && git commit -m "wip"` — the way you might press Ctrl+S in a document editor. Lena taught him to use it as a journal — each entry recording a decision, its rationale, and its context.
+This axiom elevates git from a tool (something you use to save work) to a *system* (the authoritative record of how and why your software became what it is). James had been using git as a save button — `git add . && git commit -m "wip"` — the way you might press Ctrl+S in a document editor. Emma taught him to use it as a journal — each entry recording a decision, its rationale, and its context.
 
 The key insight: **files give you current state; git gives you all past states and the story between them.**
 
@@ -145,7 +145,7 @@ When used with discipline, git captures four dimensions of project memory:
 | **Milestones** | Tags | Stable points you can always return to |
 | **Accountability** | Blame/Log | Who made each decision and when |
 
-Together, these form the institutional memory that Tomás's post-mortem was missing — a record that survives team changes, context switches, and the passage of time.
+Together, these form the institutional memory that James's post-mortem was missing — a record that survives team changes, context switches, and the passage of time.
 
 ---
 
@@ -165,7 +165,7 @@ Axiom VIII builds directly on that foundation:
 
 The relationship is complementary: Principle 5 says *where* to persist (files). Axiom VIII says *how* to manage persistence over time (version control). Files without git are snapshots. Files with git are a narrative.
 
-Tomás experienced this progression firsthand:
+James experienced this progression firsthand:
 - **Before Principle 5**: His project conventions lived in his head. Every AI session started from zero.
 - **After Principle 5**: His conventions lived in CLAUDE.md. The AI could read current rules.
 - **After Axiom VIII**: His conventions lived in *versioned* CLAUDE.md. The AI could read not just the current rules, but the history of *why* each rule was added — including the $12,000 discount incident that prompted the TDG requirement.
@@ -178,7 +178,7 @@ The tools that preceded Git — CVS (1990) and Subversion (2000) — required a 
 
 But Torvalds's deeper insight was about what version control *records*. CVS tracked file changes. Git tracks *snapshots of the entire project state* — every commit captures the complete state of every file at that moment. This means you can reconstruct your project at any point in its history, not just individual files. The project's memory is not a collection of diffs. It is a sequence of complete states, each connected to the decision that produced it.
 
-Tomás's `wip` commits squandered this power. Git was designed to be a complete institutional memory. He had been using it as a save button.
+James's `wip` commits squandered this power. Git was designed to be a complete institutional memory. He had been using it as a save button.
 
 ---
 
@@ -186,13 +186,13 @@ Tomás's `wip` commits squandered this power. Git was designed to be a complete 
 
 ![Git branching workflow: main branch with a feature/discount branch forking off, commits, and a Pull Request + Review merge back](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-4/chapter-14/08-git-branching-workflow.png)
 
-After the post-mortem, Lena spent an afternoon teaching Tomás how git actually works when used with discipline. "Git gives you four tools," she said. "Commits, branches, tags, and blame. Each one is a different kind of memory."
+After the post-mortem, Emma spent an afternoon teaching James how git actually works when used with discipline. "Git gives you four tools," she said. "Commits, branches, tags, and blame. Each one is a different kind of memory."
 
 ### Commits Are Decisions
 
 Every commit should answer one question: **"What decision was made, and why?"**
 
-The code diff shows *what* changed. The commit message explains *why* it changed. Together, they form a decision record. Lena showed Tomás how to query that record:
+The code diff shows *what* changed. The commit message explains *why* it changed. Together, they form a decision record. Emma showed James how to query that record:
 
 ```bash
 # Find all feature decisions this year
@@ -205,11 +205,11 @@ git show abc123
 git blame src/config.py
 ```
 
-"Think of each commit as a journal entry," Lena told Tomás. "The diff is what happened. The message is why it matters."
+"Think of each commit as a journal entry," Emma told James. "The diff is what happened. The message is why it matters."
 
 ### Branches Are Experiments
 
-Branches are not just for "features." They are parallel experiments — hypotheses being tested. When Tomás wanted to try replacing his JSON storage with SQLite (the relational approach from Axiom VI), Lena told him to create a branch:
+Branches are not just for "features." They are parallel experiments — hypotheses being tested. When James wanted to try replacing his JSON storage with SQLite (the relational approach from Axiom VI), Emma told him to create a branch:
 
 ```bash
 # Start an experiment
@@ -225,11 +225,11 @@ git branch -d experiment/try-sqlite-storage
 # The commits still exist in reflog for 90 days
 ```
 
-Even failed experiments have value. The commit history on a deleted branch records *what was tried and why it did not work* — preventing the team from repeating the same failed approach six months later. "Your team already tried Redis caching last quarter," Lena pointed out. "If they had kept the experiment branch, the new developer would not have spent two weeks rediscovering why it did not work."
+Even failed experiments have value. The commit history on a deleted branch records *what was tried and why it did not work* — preventing the team from repeating the same failed approach six months later. "Your team already tried Redis caching last quarter," Emma pointed out. "If they had kept the experiment branch, the new developer would not have spent two weeks rediscovering why it did not work."
 
 ### Tags Are Milestones
 
-Tags mark stable, known-good states you can always return to. Tomás learned to tag his project before any risky change:
+Tags mark stable, known-good states you can always return to. James learned to tag his project before any risky change:
 
 ```bash
 # Mark a release
@@ -242,20 +242,20 @@ git tag -a pre-sqlite-migration -m "Last commit before JSON->SQLite migration"
 git checkout v1.2.0
 ```
 
-If the SQLite migration had failed catastrophically, Tomás could return to `pre-sqlite-migration` in one command — no manual reversal, no guesswork about what the project looked like before.
+If the SQLite migration had failed catastrophically, James could return to `pre-sqlite-migration` in one command — no manual reversal, no guesswork about what the project looked like before.
 
 ### Blame Is Context, Not Accusation
 
-Despite its name, `git blame` is a context tool. It answers: "Who wrote this line, when, and as part of what change?" Tomás used it to understand a mysterious constant in the shipping module:
+Despite its name, `git blame` is a context tool. It answers: "Who wrote this line, when, and as part of what change?" James used it to understand a mysterious constant in the shipping module:
 
 ```bash
 # Find the context for a confusing line
 git blame src/shipping.py -L 42,42
 
 # Result:
-# d4e5f6g (Lena 2024-03-15) FREE_SHIPPING_THRESHOLD = 75.0  # PM-2024-019
+# d4e5f6g (Emma 2024-03-15) FREE_SHIPPING_THRESHOLD = 75.0  # PM-2024-019
 
-# Now Tomás knows: Lena set this, on March 15, for product requirement PM-2024-019
+# Now James knows: Emma set this, on March 15, for product requirement PM-2024-019
 ```
 
 Without blame, that `75.0` would be a magic number — nobody would know where it came from or whether it was safe to change. With blame, the full context is one command away.
@@ -264,11 +264,11 @@ Without blame, that `75.0` would be a magic number — nobody would know where i
 
 ## Commit Discipline
 
-The power of git-as-memory depends entirely on commit quality. Tomás's `wip` commits were not just lazy — they were *destroying information*. Every time he bundled three unrelated changes into one commit with no message, he was erasing the decisions that produced those changes. Lena called this "voluntary amnesia."
+The power of git-as-memory depends entirely on commit quality. James's `wip` commits were not just lazy — they were *destroying information*. Every time he bundled three unrelated changes into one commit with no message, he was erasing the decisions that produced those changes. Emma called this "voluntary amnesia."
 
 ### Atomic Commits: One Logical Change
 
-Each commit should contain exactly one logical change. Lena gave Tomás a simple test: if you have to use "and" to describe it, split it:
+Each commit should contain exactly one logical change. Emma gave James a simple test: if you have to use "and" to describe it, split it:
 
 ```bash
 # BAD: Multiple unrelated changes in one commit
@@ -304,7 +304,7 @@ per TDG workflow (Axiom VII)."
 
 ### Conventional Commits: Structured Prefixes
 
-After a week of writing atomic commits, Tomás noticed a new problem: his messages were descriptive but unscannable. Reading twenty commit messages to find "the one where I changed the shipping logic" took too long. Lena introduced him to conventional commits — a structured prefix system that makes history scannable at a glance:
+After a week of writing atomic commits, James noticed a new problem: his messages were descriptive but unscannable. Reading twenty commit messages to find "the one where I changed the shipping logic" took too long. Emma introduced him to conventional commits — a structured prefix system that makes history scannable at a glance:
 
 | Prefix | Meaning | Example |
 |--------|---------|---------|
@@ -320,7 +320,7 @@ After a week of writing atomic commits, Tomás noticed a new problem: his messag
 The format: `type(scope): description`
 
 ```bash
-# Tomás's order management project — scannable history
+# James's order management project — scannable history
 git log --oneline
 
 # a1b2c3d feat(shipping): add international surcharge calculation
@@ -331,11 +331,11 @@ git log --oneline
 # f6g7h8i docs(orders): document discount business rules
 ```
 
-At a glance, Tomás could see: a new shipping feature, the discount bug fix, TDG tests, a refactor, the performance fix for the O(n^2) shipping function from Axiom VII's Green Bar Illusion, and documentation. This is *scannable memory* — the table of contents for his project's story.
+At a glance, James could see: a new shipping feature, the discount bug fix, TDG tests, a refactor, the performance fix for the O(n^2) shipping function from Axiom VII's Green Bar Illusion, and documentation. This is *scannable memory* — the table of contents for his project's story.
 
 ### The WHY Rule
 
-The most important discipline — and the one that would have saved Tomás's post-mortem — is this: **commit messages explain WHY, not WHAT.**
+The most important discipline — and the one that would have saved James's post-mortem — is this: **commit messages explain WHY, not WHAT.**
 
 The diff already shows what changed. The message must explain what the diff cannot:
 
@@ -353,13 +353,13 @@ New threshold reduces free shipping orders by 31%.
 Ref: PRODUCT-2025-047"
 ```
 
-Six months from now, when someone asks "why is the threshold 75 and not 50?", the commit message answers immediately — it was a product decision backed by analytics, not an arbitrary choice. No Slack archaeology required. This is what Tomás's post-mortem was missing — the *why* behind every change.
+Six months from now, when someone asks "why is the threshold 75 and not 50?", the commit message answers immediately — it was a product decision backed by analytics, not an arbitrary choice. No Slack archaeology required. This is what James's post-mortem was missing — the *why* behind every change.
 
 ---
 
 ## Git and AI: The Collaboration Protocol
 
-When Tomás started using Claude Code for his order management project, he discovered that disciplined git history served a second purpose: it made the AI smarter. The AI could read his commit messages to understand not just the current code, but the decisions that shaped it.
+When James started using Claude Code for his order management project, he discovered that disciplined git history served a second purpose: it made the AI smarter. The AI could read his commit messages to understand not just the current code, but the decisions that shaped it.
 
 ### AI Can Read Git History for Context
 
@@ -376,11 +376,11 @@ git log --follow --oneline src/discount.py
 git show abc123
 ```
 
-When Tomás's CLAUDE.md said "always use TDG for business logic," the git history explained *why* — the $12,000 discount disaster. The AI could provide better suggestions because it understood the reasoning behind the rule, not just the rule itself.
+When James's CLAUDE.md said "always use TDG for business logic," the git history explained *why* — the $12,000 discount disaster. The AI could provide better suggestions because it understood the reasoning behind the rule, not just the rule itself.
 
 ### AI Commits Should Be Clearly Labeled
 
-When the AI generates code that gets committed, Tomás learned to label it clearly:
+When the AI generates code that gets committed, James learned to label it clearly:
 
 ```bash
 # Clear attribution in commit message
@@ -399,7 +399,7 @@ This matters for three reasons:
 
 ### Git Diff as AI Code Review Input
 
-The most natural input for AI code review is a git diff. Tomás started sending diffs to the AI instead of entire files — the diff showed exactly what changed, with no noise:
+The most natural input for AI code review is a git diff. James started sending diffs to the AI instead of entire files — the diff showed exactly what changed, with no noise:
 
 ```bash
 # Review staged changes before committing
@@ -415,7 +415,7 @@ git diff main...feature/order-discounts | pbcopy
 
 ### Branches for AI Experiments
 
-When Tomás asked the AI to try something experimental — like rewriting his shipping calculator with a different algorithm — Lena insisted he always use a branch:
+When James asked the AI to try something experimental — like rewriting his shipping calculator with a different algorithm — Emma insisted he always use a branch:
 
 ```bash
 # Create a safe sandbox for AI experimentation
@@ -432,11 +432,11 @@ git checkout main
 git branch -D ai/experiment-new-shipping-algorithm
 ```
 
-The branch prefix `ai/` makes it immediately clear which branches contain AI-generated experiments. Tomás could let the AI try radical approaches — a completely different discount algorithm, a table-driven shipping calculator — without any risk to the working code on main.
+The branch prefix `ai/` makes it immediately clear which branches contain AI-generated experiments. James could let the AI try radical approaches — a completely different discount algorithm, a table-driven shipping calculator — without any risk to the working code on main.
 
 ### The Agentic Development Workflow
 
-Lena showed Tomás the standard workflow she used for all AI-assisted development on the order management project:
+Emma showed James the standard workflow she used for all AI-assisted development on the order management project:
 
 ```
 main (stable, protected)
@@ -456,7 +456,7 @@ Key rules:
 - **Pull requests require review**: Especially for AI-generated code
 - **Each commit is atomic**: One logical change, clearly attributed
 
-"Notice the pattern," Lena told Tomás. "The human writes the tests — the specification. The AI writes the implementation and documentation. The commit history shows exactly who decided what. This is TDG encoded into your git workflow."
+"Notice the pattern," Emma told James. "The human writes the tests — the specification. The AI writes the implementation and documentation. The commit history shows exactly who decided what. This is TDG encoded into your git workflow."
 
 ---
 
@@ -479,7 +479,7 @@ These specific patterns destroy git's value as memory. Recognize and avoid them:
 
 ### The "Giant Commit" Problem in Detail
 
-Tomás's worst commit from before the post-mortem looked like this:
+James's worst commit from before the post-mortem looked like this:
 
 ```
 commit x9y8z7
@@ -489,9 +489,9 @@ Insertions: 2,391
 Deletions: 856
 ```
 
-This commit was *anti-memory*. It recorded that 47 files changed but provided no way to understand why. Tomás could not revert part of it. He could not bisect through it. He could not explain any individual change at the post-mortem.
+This commit was *anti-memory*. It recorded that 47 files changed but provided no way to understand why. James could not revert part of it. He could not bisect through it. He could not explain any individual change at the post-mortem.
 
-Lena showed him what the same week's work should have looked like — 12 atomic commits:
+Emma showed him what the same week's work should have looked like — 12 atomic commits:
 
 ```
 feat(auth): add OAuth2 PKCE flow for mobile clients
@@ -509,7 +509,7 @@ Each commit is a discrete memory. Each can be individually understood, reverted,
 
 ## Git as Time Machine
 
-Git does not just record history — it lets you travel through it. Two weeks after adopting commit discipline, Tomás experienced its first real payoff: his shipping calculator started returning wrong rates for international orders. Instead of reading through code to find the bug, Lena showed him how to let git find it.
+Git does not just record history — it lets you travel through it. Two weeks after adopting commit discipline, James experienced its first real payoff: his shipping calculator started returning wrong rates for international orders. Instead of reading through code to find the bug, Emma showed him how to let git find it.
 
 ### Bisect: Finding When Things Broke
 
@@ -538,7 +538,7 @@ git bisect good  # or: git bisect bad
 git bisect reset
 ```
 
-With Tomás's new atomic commits, bisect pinpointed the problem in six steps across fifty commits. The culprit was a commit where the AI had regenerated the international surcharge logic and introduced a rounding error. Because the commit was atomic — one logical change — Tomás knew exactly which code to fix. If he had still been making giant "weekly update" commits, bisect would have been useless — finding the bad commit would still leave him sifting through hundreds of unrelated changes.
+With James's new atomic commits, bisect pinpointed the problem in six steps across fifty commits. The culprit was a commit where the AI had regenerated the international surcharge logic and introduced a rounding error. Because the commit was atomic — one logical change — James knew exactly which code to fix. If he had still been making giant "weekly update" commits, bisect would have been useless — finding the bad commit would still leave him sifting through hundreds of unrelated changes.
 
 ### Revert: Safe Undo
 
@@ -553,11 +553,11 @@ git revert abc123
 # This preserves the full story: we tried it, it broke things, we reverted it.
 ```
 
-Unlike `git reset`, revert is safe for shared branches because it adds to history rather than erasing it. The story is preserved: we tried it, it broke things, we reverted it. Future Tomás — or a new team member — can read the full narrative.
+Unlike `git reset`, revert is safe for shared branches because it adds to history rather than erasing it. The story is preserved: we tried it, it broke things, we reverted it. Future James — or a new team member — can read the full narrative.
 
 ### Cherry-Pick: Selective Application
 
-`git cherry-pick` applies a specific commit from one branch to another. When Tomás found a critical bug fix on his experiment branch that needed to go to main immediately, Lena showed him cherry-pick:
+`git cherry-pick` applies a specific commit from one branch to another. When James found a critical bug fix on his experiment branch that needed to go to main immediately, Emma showed him cherry-pick:
 
 ```bash
 # A critical fix was made on a feature branch
@@ -570,7 +570,7 @@ git cherry-pick def456
 
 ### Viewing Past States
 
-After learning these commands, Tomás realized he *could* have answered his team lead's post-mortem question — if his commits had been disciplined. With proper git history, recovering any past version is one command:
+After learning these commands, James realized he *could* have answered his team lead's post-mortem question — if his commits had been disciplined. With proper git history, recovering any past version is one command:
 
 ```bash
 # See a file as it was at any point in history
@@ -587,7 +587,7 @@ git checkout main
 git stash pop  # restore current work
 ```
 
-If Tomás had made an atomic commit for the original `apply_discount()` implementation, he could have shown the team lead exactly what the buggy code looked like, when it was introduced, and which TDG test caught the error — all from a single `git show` command.
+If James had made an atomic commit for the original `apply_discount()` implementation, he could have shown the team lead exactly what the buggy code looked like, when it was introduced, and which TDG test caught the error — all from a single `git show` command.
 
 ---
 
@@ -617,7 +617,7 @@ For each rewritten message, explain what future-you would learn from it
 that the original message failed to communicate.
 ```
 
-**What you're learning:** The difference between commits as file-saves and commits as decisions. Notice how each rewritten message captures reasoning that would otherwise be lost — the same reasoning Tomás could not reconstruct at his post-mortem. The original messages treat git as a backup tool; the rewrites treat it as institutional memory.
+**What you're learning:** The difference between commits as file-saves and commits as decisions. Notice how each rewritten message captures reasoning that would otherwise be lost — the same reasoning James could not reconstruct at his post-mortem. The original messages treat git as a backup tool; the rewrites treat it as institutional memory.
 
 ### Prompt 2: Design a Branching Strategy for AI Collaboration
 
@@ -636,7 +636,7 @@ Show me the exact git commands for a typical workflow where AI generates
 the implementation for my TDG tests, I review it, and we merge to main.
 ```
 
-**What you're learning:** Git as a collaboration protocol between human and AI. The branching strategy becomes a trust boundary — the AI works freely within branches, but human review gates the path to production. This is the workflow Lena taught Tomás: human writes the specification, AI generates within a branch, tests verify, human merges.
+**What you're learning:** Git as a collaboration protocol between human and AI. The branching strategy becomes a trust boundary — the AI works freely within branches, but human review gates the path to production. This is the workflow Emma taught James: human writes the specification, AI generates within a branch, tests verify, human merges.
 
 ### Prompt 3: Investigate a Bug Using Git's Memory
 
@@ -658,15 +658,15 @@ faster and more effective than if all 50 commits were giant
 "weekly update" commits?
 ```
 
-**What you're learning:** Git as an investigative tool, not just a storage tool. Binary search through history only works when commits are atomic — each commit is a single hypothesis to test. This is exactly how Tomás found his international shipping bug: bisect narrowed fifty commits to the one AI-generated change that introduced a rounding error. Giant commits make bisect useless because even finding the bad commit does not tell you which of its two hundred changes caused the problem.
+**What you're learning:** Git as an investigative tool, not just a storage tool. Binary search through history only works when commits are atomic — each commit is a single hypothesis to test. This is exactly how James found his international shipping bug: bisect narrowed fifty commits to the one AI-generated change that introduced a rounding error. Giant commits make bisect useless because even finding the bad commit does not tell you which of its two hundred changes caused the problem.
 
 ---
 
 ## The Permanent Record
 
-A month into his new commit discipline, Tomás made a different kind of mistake. He was setting up the database connection for his order management system and committed the file with the connection string hardcoded: `DATABASE_URL=postgresql://admin:s3cretPass@prod-db.company.com/orders`. He realized immediately, deleted the line, and committed the fix. Problem solved — or so he thought.
+A month into his new commit discipline, James made a different kind of mistake. He was setting up the database connection for his order management system and committed the file with the connection string hardcoded: `DATABASE_URL=postgresql://admin:s3cretPass@prod-db.company.com/orders`. He realized immediately, deleted the line, and committed the fix. Problem solved — or so he thought.
 
-"The password is still in your history," Lena told him. She ran one command:
+"The password is still in your history," Emma told him. She ran one command:
 
 ```bash
 # This finds secrets in ALL of history, not just current files
@@ -675,7 +675,7 @@ git log -p --all -S 'DATABASE_URL'
 
 The original commit appeared — with the full connection string visible. Deleting the file in a later commit does not erase it from history. Git's perfect memory, the same feature that makes it invaluable for recording decisions, makes it dangerous for secrets. Once committed, a credential exists in every clone of the repository, forever.
 
-The Permanent Record is the flip side of Axiom VIII: **git remembers everything, including things you wish it would forget.** The same mechanism that would have preserved Tomás's buggy `apply_discount()` for the post-mortem also preserves every accidentally committed password, API key, and credential.
+The Permanent Record is the flip side of Axiom VIII: **git remembers everything, including things you wish it would forget.** The same mechanism that would have preserved James's buggy `apply_discount()` for the post-mortem also preserves every accidentally committed password, API key, and credential.
 
 Prevention is the only reliable defense:
 
@@ -694,22 +694,22 @@ export DATABASE_URL="postgresql://user:pass@host/db"
 # Reference in code: os.environ["DATABASE_URL"]
 ```
 
-If you accidentally commit a secret, as Tomás did:
+If you accidentally commit a secret, as James did:
 1. **Rotate the credential immediately** — assume it is compromised
 2. Remove from current files and commit the removal
 3. For sensitive repositories, use `git filter-branch` or BFG Repo-Cleaner to purge from history
 4. Force-push the cleaned history (this is the one valid use of force-push)
 
-Tomás had to rotate the database password that afternoon — an hour of work that a `.gitignore` file would have prevented entirely. He never committed a credential again.
+James had to rotate the database password that afternoon — an hour of work that a `.gitignore` file would have prevented entirely. He never committed a credential again.
 
 ---
 
 ## Key Takeaways
 
-Tomás's post-mortem failed because his git history was a collection of `wip` messages instead of a record of decisions. Lena's fix was not to write better documentation — it was to write better commits. Linus Torvalds designed Git in 2005 to be a distributed institutional memory. Commit discipline is what makes that memory useful.
+James's post-mortem failed because his git history was a collection of `wip` messages instead of a record of decisions. Emma's fix was not to write better documentation — it was to write better commits. Linus Torvalds designed Git in 2005 to be a distributed institutional memory. Commit discipline is what makes that memory useful.
 
-- **Git is not a backup tool — it is the memory of your project.** Tomás's `wip` commits destroyed the story of how his code evolved. Lena's disciplined commits preserved every decision, its rationale, and its context. The difference cost Tomás three hours at a post-mortem that should have taken three minutes.
-- **Atomic commits enable time travel.** When Tomás's shipping calculator broke, `git bisect` found the exact commit in six steps across fifty commits — because each commit was one logical change. Giant commits make bisect useless.
+- **Git is not a backup tool — it is the memory of your project.** James's `wip` commits destroyed the story of how his code evolved. Emma's disciplined commits preserved every decision, its rationale, and its context. The difference cost James three hours at a post-mortem that should have taken three minutes.
+- **Atomic commits enable time travel.** When James's shipping calculator broke, `git bisect` found the exact commit in six steps across fifty commits — because each commit was one logical change. Giant commits make bisect useless.
 - **Commit messages explain WHY, not WHAT.** The diff already shows what changed. The message records what the diff cannot: the reasoning, the context, the trade-offs. Six months from now, the message is all you have.
 - **Git is the collaboration protocol between you and AI.** The AI reads your commit history to understand context. You label AI-generated commits for accountability. Branches give the AI a safe space to experiment. Pull requests gate the path to production.
 - **The Permanent Record cuts both ways.** Git's perfect memory preserves every decision — and every accidentally committed secret. A `.gitignore` file before your first commit prevents the one mistake that git cannot easily undo.
@@ -718,6 +718,6 @@ Tomás's post-mortem failed because his git history was a collection of `wip` me
 
 ## Looking Ahead
 
-Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types, tests, and relational data. Your systems are composed from focused units. Your git history records every decision. But how do you know that all of these pieces actually work *together*? Tomás had tests for individual functions, but nothing that verified the full pipeline: data enters the system, flows through discount calculation, passes through shipping, produces an invoice, and sends a confirmation. Each piece worked in isolation. The pipeline had never been tested end-to-end.
+Your shell orchestrates programs. Your knowledge lives in markdown. Your programs have types, tests, and relational data. Your systems are composed from focused units. Your git history records every decision. But how do you know that all of these pieces actually work *together*? James had tests for individual functions, but nothing that verified the full pipeline: data enters the system, flows through discount calculation, passes through shipping, produces an invoice, and sends a confirmation. Each piece worked in isolation. The pipeline had never been tested end-to-end.
 
 In Axiom IX, you will discover that verification is not a single step — it is a pipeline, and every stage must pass before you trust the whole.

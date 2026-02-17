@@ -57,25 +57,25 @@ differentiation:
 
 # Axiom IV: Composition Over Monoliths
 
-In Axiom III, Tomás learned the difference between a script and a program. He upgraded his fifteen-line file renamer into a typed, tested, properly packaged tool. But Lena had a harder lesson waiting for him — one that lived in the team's main codebase, not in a utility script.
+In Axiom III, James learned the difference between a script and a program. He upgraded his fifteen-line file renamer into a typed, tested, properly packaged tool. But Emma had a harder lesson waiting for him — one that lived in the team's main codebase, not in a utility script.
 
-"Before you touch the order system," Lena told him on his second month, "I need to warn you about `process_order()`."
+"Before you touch the order system," Emma told him on his second month, "I need to warn you about `process_order()`."
 
-Tomás opened the file. The function was 1,400 lines long. It validated the order, checked inventory, processed payment through Stripe, calculated shipping based on weight and destination, computed tax for three jurisdictions, generated a receipt PDF, updated loyalty points, logged analytics events, and sent a confirmation email. All in one function. All interleaved. Variable names from the payment section were reused in the shipping section two hundred lines later. A tax calculation on line 890 depended on an inventory check on line 340 that had been silently modified six months ago.
+James opened the file. The function was 1,400 lines long. It validated the order, checked inventory, processed payment through Stripe, calculated shipping based on weight and destination, computed tax for three jurisdictions, generated a receipt PDF, updated loyalty points, logged analytics events, and sent a confirmation email. All in one function. All interleaved. Variable names from the payment section were reused in the shipping section two hundred lines later. A tax calculation on line 890 depended on an inventory check on line 340 that had been silently modified six months ago.
 
-Tomás's task was simple: add a discount code feature. After two days of tracing dependencies through 1,400 lines, he made a change on line 712 and ran the tests. The discount worked. But the tax calculation now produced wrong numbers for Canadian orders — because his change moved a variable assignment that the tax logic read three hundred lines below. He fixed the tax issue. The receipt PDF broke. He fixed the receipt. The loyalty points doubled.
+James's task was simple: add a discount code feature. After two days of tracing dependencies through 1,400 lines, he made a change on line 712 and ran the tests. The discount worked. But the tax calculation now produced wrong numbers for Canadian orders — because his change moved a variable assignment that the tax logic read three hundred lines below. He fixed the tax issue. The receipt PDF broke. He fixed the receipt. The loyalty points doubled.
 
-"Now you understand why I warned you," Lena said. "That function is not code. It is a trap. Every change touches everything because nothing is separate."
+"Now you understand why I warned you," Emma said. "That function is not code. It is a trap. Every change touches everything because nothing is separate."
 
-Lena spent the following weekend showing Tomás a different way to build the same logic — not as one massive function, but as small, focused units that connected through clear interfaces. Each unit did one thing. Each could be tested alone. Each could be changed without breaking the others. The discount feature, in the composed version, was a single new function inserted into a pipeline. Nothing else changed. Nothing else could break.
+Emma spent the following weekend showing James a different way to build the same logic — not as one massive function, but as small, focused units that connected through clear interfaces. Each unit did one thing. Each could be tested alone. Each could be changed without breaking the others. The discount feature, in the composed version, was a single new function inserted into a pipeline. Nothing else changed. Nothing else could break.
 
 The difference between these two architectures is Axiom IV.
 
 ## The Problem Without This Axiom
 
-Tomás's `process_order()` was not written by a bad engineer. Like Tomás's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
+James's `process_order()` was not written by a bad engineer. Like James's `deploy.sh` in Axiom I, it started small and grew one feature at a time. The first version was 80 lines — clean and readable. But without deliberate composition, software grows like a tangled vine. Each new feature weaves deeper into existing code. Each change requires understanding the entire system. Each bug hides behind layers of unrelated logic.
 
-Here is the trajectory that Tomás's team followed — and that every monolith follows:
+Here is the trajectory that James's team followed — and that every monolith follows:
 
 | Month | What Happens | Consequence |
 |-------|-------------|-------------|
@@ -102,7 +102,7 @@ Three properties define a composable unit:
 2. **Interface-defined**: Its inputs and outputs are explicit and typed
 3. **Independent**: It can be tested, understood, and replaced without touching other units
 
-When these properties hold, units compose naturally — like LEGO bricks that snap together in countless configurations, each brick useful on its own but powerful in combination. The 1,400-line `process_order()` had none of these properties. Lena's refactored version had all three.
+When these properties hold, units compose naturally — like LEGO bricks that snap together in countless configurations, each brick useful on its own but powerful in combination. The 1,400-line `process_order()` had none of these properties. Emma's refactored version had all three.
 
 ## From Principle to Axiom
 
@@ -128,17 +128,17 @@ In 1972, Parnas published a paper at Carnegie Mellon with a title that reads lik
 
 The first approach was what every programmer instinctively did. The second was what Parnas argued they *should* do. His reasoning was precise: when a design decision is hidden inside a module, changing that decision affects only that module. When a design decision is shared across modules, changing it cascades through the entire system.
 
-Parnas called this principle **information hiding**. It is the theoretical foundation for Axiom IV. Tomás's `process_order()` violated it completely — every design decision (how to validate, how to calculate tax, how to format receipts) was exposed to every other part of the function. Changing any decision cascaded through 1,400 lines. Lena's composed version hid each decision inside a focused unit. Changing tax calculation affected `calculate_tax()` and nothing else.
+Parnas called this principle **information hiding**. It is the theoretical foundation for Axiom IV. James's `process_order()` violated it completely — every design decision (how to validate, how to calculate tax, how to format receipts) was exposed to every other part of the function. Changing any decision cascaded through 1,400 lines. Emma's composed version hid each decision inside a focused unit. Changing tax calculation affected `calculate_tax()` and nothing else.
 
 Parnas's paper is over half a century old. The principle it established has never been overturned, because it addresses a property of complexity itself: the only way to manage a system too large to fit in one mind is to decompose it into parts that can each be understood independently.
 
 ## Composition at Every Scale
 
-The principle Lena taught Tomás applies at every level of software, from individual functions to distributed systems.
+The principle Emma taught James applies at every level of software, from individual functions to distributed systems.
 
 ### Scale 1: Functions
 
-This is the scale where Tomás experienced the problem. Here is what the monolithic `process_order()` looked like in essence — a single function doing five things:
+This is the scale where James experienced the problem. Here is what the monolithic `process_order()` looked like in essence — a single function doing five things:
 
 ```python static
 def process_order(order_data):
@@ -150,7 +150,7 @@ def process_order(order_data):
     # Total: 110+ lines, every section entangled with every other
 ```
 
-And here is Lena's composed alternative — the same logic as focused units:
+And here is Emma's composed alternative — the same logic as focused units:
 
 ```python static
 def validate_order(order: Order) -> ValidatedOrder:
@@ -183,7 +183,7 @@ def process_order(order_data: dict) -> Receipt:
     return receipt
 ```
 
-Read the orchestrating function `process_order()` at the bottom. Six lines. Each line is one step. Each step is one function. Adding Tomás's discount feature means inserting one line — `discounted = apply_discount(priced, code)` — between `calculate_total` and `process_payment`. Nothing else changes. Nothing else *can* break, because each function only sees its own inputs and outputs. This is Parnas's information hiding made concrete.
+Read the orchestrating function `process_order()` at the bottom. Six lines. Each line is one step. Each step is one function. Adding James's discount feature means inserting one line — `discounted = apply_discount(priced, code)` — between `calculate_total` and `process_payment`. Nothing else changes. Nothing else *can* break, because each function only sees its own inputs and outputs. This is Parnas's information hiding made concrete.
 
 ### Scale 2: Modules
 
@@ -220,7 +220,7 @@ Each service does one thing. Each communicates through defined interfaces (APIs)
 
 This is where Axiom IV connects to everything this book teaches — and where the lesson becomes urgent rather than merely architectural.
 
-When Tomás asked an AI agent to "add a discount code feature to `process_order()`," the agent received all 1,400 lines as context. It generated a change. The change broke tax calculations. This was not the AI's fault — it was an architectural failure. The monolith forced the AI to modify code it did not need to understand, and the entanglement guaranteed collateral damage.
+When James asked an AI agent to "add a discount code feature to `process_order()`," the agent received all 1,400 lines as context. It generated a change. The change broke tax calculations. This was not the AI's fault — it was an architectural failure. The monolith forced the AI to modify code it did not need to understand, and the entanglement guaranteed collateral damage.
 
 Composition solves this at the structural level:
 
@@ -233,7 +233,7 @@ Composition solves this at the structural level:
 
 **Context windows are finite.** Every AI model can hold a limited amount of text in working memory. A 1,400-line function consumes that window with code the AI does not need to see. Twenty composed functions, each 20-70 lines, give the AI exactly the context it needs — no more, no less.
 
-**Focused generation produces better results.** When Tomás asked the AI to "fix the bug in `calculate_tax()`" instead of "fix the tax bug somewhere in `process_order()`," the AI had complete, focused context. Its output was accurate because its attention was not diluted across 1,400 lines of unrelated logic.
+**Focused generation produces better results.** When James asked the AI to "fix the bug in `calculate_tax()`" instead of "fix the tax bug somewhere in `process_order()`," the AI had complete, focused context. Its output was accurate because its attention was not diluted across 1,400 lines of unrelated logic.
 
 **Composed units are independently testable.** AI-generated code needs verification. With the monolith, testing the discount feature required setting up inventory, payment processors, and email servers — because the function touched all of them. With composition, testing `apply_discount()` requires only an order and a discount code. No database. No email server. Just the function and its expected behavior.
 
@@ -241,7 +241,7 @@ Composition solves this at the structural level:
 
 ## Dependency Injection: Composition of Behavior
 
-Lena showed Tomás one more technique that made the composed version powerful in a way the monolith could never be: instead of hardcoding *which* payment processor or *which* database the function uses, you pass the implementation as a parameter.
+Emma showed James one more technique that made the composed version powerful in a way the monolith could never be: instead of hardcoding *which* payment processor or *which* database the function uses, you pass the implementation as a parameter.
 
 ```python static
 # Hardcoded: permanently bound to Stripe and PostgreSQL
@@ -268,7 +268,7 @@ process_order(data, charge=fake_charge, save=save_to_memory)
 process_order(data, charge=log_charge, save=save_to_sqlite)
 ```
 
-This is why Lena's team could write tests for the order pipeline without a database, a payment processor, or an email server. The behavior was composed from the implementations they provided. In testing, they provided fakes. In production, they provided the real thing. The orchestration logic was identical in both cases.
+This is why Emma's team could write tests for the order pipeline without a database, a payment processor, or an email server. The behavior was composed from the implementations they provided. In testing, they provided fakes. In production, they provided the real thing. The orchestration logic was identical in both cases.
 
 ## Anti-Patterns: What Composition Violations Look Like
 
@@ -283,11 +283,11 @@ You have seen the God Object. Every codebase has one. It is the class called `Ap
 | **Circular Dependencies** | Module A imports B, B imports A | Cannot understand either module in isolation; import errors | Extract shared logic to Module C; both A and B import C |
 | **Hidden State** | Functions modify global variables instead of returning values | Unpredictable behavior; testing requires resetting global state | Pure functions that take inputs and return outputs |
 
-The test is simple: if you cannot explain what a class does in one sentence, it is a God Object. If modifying one feature requires understanding ten others, you are looking at a monolith. The fix is the same as Lena's — decompose until each unit does one thing, communicates through typed interfaces, and can be tested without setting up the entire world.
+The test is simple: if you cannot explain what a class does in one sentence, it is a God Object. If modifying one feature requires understanding ten others, you are looking at a monolith. The fix is the same as Emma's — decompose until each unit does one thing, communicates through typed interfaces, and can be tested without setting up the entire world.
 
 ## The Composition Test
 
-After the refactoring, Lena gave Tomás a four-question checklist that he now applies to every piece of code — whether written by a human, an AI, or himself:
+After the refactoring, Emma gave James a four-question checklist that he now applies to every piece of code — whether written by a human, an AI, or himself:
 
 1. **Can I explain this unit in one sentence?** If not, it does too much.
 2. **Can I test this unit without setting up unrelated systems?** If not, it has hidden dependencies.
@@ -298,9 +298,9 @@ If any answer is "no," the code needs decomposition. Break it into smaller units
 
 ## The Decomposition Trap
 
-After learning Axiom IV, Tomás went through a phase that Lena had seen before. He decomposed everything. A 15-line function became five 3-line functions. A simple data transformation grew a three-layer abstraction. He created interfaces for components that would only ever have one implementation. The code was technically "composed" but harder to read than the original — because now you had to trace through five files to understand what used to be fifteen obvious lines.
+After learning Axiom IV, James went through a phase that Emma had seen before. He decomposed everything. A 15-line function became five 3-line functions. A simple data transformation grew a three-layer abstraction. He created interfaces for components that would only ever have one implementation. The code was technically "composed" but harder to read than the original — because now you had to trace through five files to understand what used to be fifteen obvious lines.
 
-"Composition is a spectrum, not a religion," Lena told him. "The goal is not maximum decomposition. It is *appropriate* decomposition."
+"Composition is a spectrum, not a religion," Emma told him. "The goal is not maximum decomposition. It is *appropriate* decomposition."
 
 The Decomposition Trap is the mirror image of the monolith. Where the monolith puts everything in one place, the over-decomposed system scatters simple logic across so many units that understanding the whole requires assembling a mental map of dozens of tiny pieces. Both fail for the same reason: they make the system harder to understand than it needs to be.
 
@@ -407,11 +407,11 @@ Use concrete examples from [my specific technology stack or project type].
 
 ## Key Takeaways
 
-Tomás spent two days fighting a 1,400-line function and learned what David Parnas formalized over half a century ago: the only way to manage a system too complex to fit in one mind is to decompose it into parts that can each be understood independently. Lena's refactoring did not add new logic. It separated existing logic into units that could be tested, modified, and replaced without cascading breakage.
+James spent two days fighting a 1,400-line function and learned what David Parnas formalized over half a century ago: the only way to manage a system too complex to fit in one mind is to decompose it into parts that can each be understood independently. Emma's refactoring did not add new logic. It separated existing logic into units that could be tested, modified, and replaced without cascading breakage.
 
 - **Complex systems are built from composable, focused units.** Each unit does one thing well, communicates through typed interfaces, and can be tested independently. This is Parnas's information hiding made practical.
 - **Composition is not just good engineering — it is an AI requirement.** Monolithic code overwhelms context windows, dilutes AI attention, and makes every AI-generated change a gamble. Composed code gives AI exactly the context it needs, nothing more.
-- **The pattern is already in the previous axioms.** Lena's Makefile in Axiom I composed programs through the shell. The knowledge system in Axiom II composed markdown files into a repository. The discipline stack in Axiom III composed verification tools into a pipeline. Axiom IV makes the pattern explicit: it applies to everything you build.
+- **The pattern is already in the previous axioms.** Emma's Makefile in Axiom I composed programs through the shell. The knowledge system in Axiom II composed markdown files into a repository. The discipline stack in Axiom III composed verification tools into a pipeline. Axiom IV makes the pattern explicit: it applies to everything you build.
 - **Dependency injection composes behavior.** By passing implementations as parameters, the same orchestration logic works in production, testing, and development without changing a line.
 - **The Decomposition Trap is the monolith's mirror.** Over-decomposition scatters simple logic across too many pieces. Compose when concerns are genuinely separate. Leave simple things simple.
 
