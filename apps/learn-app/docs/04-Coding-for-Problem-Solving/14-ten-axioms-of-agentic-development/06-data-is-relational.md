@@ -111,7 +111,8 @@ But Axiom VI refines this principle for a specific category of state: **structur
 
 Principle 5 tells you to persist state. Axiom VI tells you HOW to persist structured data: relationally, with SQL, using the right engine for the job.
 
-## The Paper That Gave Data a Theory
+<details>
+<summary>**The Paper That Gave Data a Theory**</summary>
 
 In 1970, an English mathematician named Edgar F. Codd published a paper at IBM's San Jose Research Laboratory: "A Relational Model of Data for Large Shared Data Banks." At the time, databases were navigational — programs traversed pointers from record to record, like walking through a maze. If the structure of the maze changed, every program that navigated it broke. Codd proposed something radical: separate the *logical* structure of data from its *physical* storage. Define data as tables with rows and columns. Express queries as mathematical operations on those tables. Let the database — not the programmer — figure out how to retrieve the data efficiently.
 
@@ -120,6 +121,8 @@ IBM's own database team resisted. They had built IMS, a hierarchical database th
 The relational model won because it solved James's exact problem at industrial scale: when data has relationships, a system that *understands* relationships will always outperform one that does not. Codd's tables, foreign keys, and constraints are the reason Emma's twelve-line SQL query returned in three milliseconds what James's forty-line Python loop took eleven seconds to produce. The database optimizer — the component Codd's model made possible — chose the execution path. James did not have to.
 
 More than half a century later, SQL remains the dominant language for structured data. It has survived the rise and fall of object databases (1990s), the XML movement (2000s), the NoSQL revolution (2010s), and the graph database wave (2020s). Each found legitimate niches. None displaced SQL for general-purpose structured data, because Codd's insight addresses a property of data itself: when entities have relationships, a relational system is the natural fit.
+
+</details>
 
 ### Why SQL Works
 
@@ -446,16 +449,18 @@ This migration adds a `priority` column and an index. If something goes wrong, `
 
 ## Anti-Patterns
 
-You have seen the JSON graveyard. Every team has one. It is the project folder with `data.json`, `users.json`, `config.json`, and `backup_data_old_FINAL_v2.json` — the one where every new feature means another JSON file, every query means another Python loop, every relationship means another duplicated string. It is the system where a developer once changed a customer name and broke six months of reports because the name was copied into 2,000 order records instead of referenced by ID. It is the project where the AI agent was asked to "find all orders from last quarter" and generated forty lines of `json.load()`, nested loops, and datetime parsing — code that a single SQL query would replace. The JSON graveyard was not built by bad developers. It was built by developers who started with twenty records and did not recognize the moment when their data became relational.
+You have seen the JSON graveyard. Every team has one. It is the project folder with `data.json`, `users.json`, `config.json`, and `backup_data_old_FINAL_v2.json` — the one where every new feature means another JSON file, every query means another Python loop, every relationship means another duplicated string.
+
+It is the system where a developer once changed a customer name and broke six months of reports because the name was copied into 2,000 order records instead of referenced by ID. It is the project where the AI agent was asked to "find all orders from last quarter" and generated forty lines of `json.load()`, nested loops, and datetime parsing — code that a single SQL query would replace.
+
+The JSON graveyard was not built by bad developers. It was built by developers who started with twenty records and did not recognize the moment when their data became relational.
 
 | Anti-Pattern | What Goes Wrong | The Fix |
 |-------------|-----------------|---------|
 | **JSON files as database** | No queries, no relations, no constraints, loads everything into memory | Use SQLite — same simplicity, relational power |
-| **NoSQL as default** | Fighting relational data with document model, denormalization headaches | Start relational. Move to NoSQL only for genuinely non-relational data (logs, events, documents) |
 | **Raw string SQL** | SQL injection vulnerabilities, crashes on special characters | Always use parameterized queries (`?` placeholders) |
 | **No migrations** | Manual schema changes, inconsistent environments, no rollback | Use Alembic or equivalent migration tool |
 | **Ignoring indexes** | Queries slow to a crawl as data grows (full table scans) | Index columns used in WHERE, JOIN, and ORDER BY |
-| **Over-normalization** | Dozens of tables for simple domains, JOIN-heavy queries for basic reads | Normalize to 3NF, denormalize consciously with measured justification |
 
 ## The String Concatenation Trap
 
