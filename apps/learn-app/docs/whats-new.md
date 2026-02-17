@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-17
+- Move Ch12 (OpenClaw) to Part 1 as Ch7, renumber Ch7-Ch12 ([#737](https://github.com/panaversity/agentfactory/pull/737))
+
+### 2026-02-17
 
 - Condense Ch12 from 8 to 6 lessons ([#736](https://github.com/panaversity/agentfactory/pull/736))
 
