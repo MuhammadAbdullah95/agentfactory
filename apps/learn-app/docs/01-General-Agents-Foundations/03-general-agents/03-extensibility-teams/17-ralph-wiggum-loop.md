@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/ralph-wiggum-loop
 title: "Ralph Wiggum Loop: Autonomous Iteration Workflows"
 sidebar_position: 17
 chapter: 3

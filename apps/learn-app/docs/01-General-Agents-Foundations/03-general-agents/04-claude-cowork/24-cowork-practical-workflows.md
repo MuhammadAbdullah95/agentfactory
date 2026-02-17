@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/cowork-practical-workflows
 title: "Cowork in Action: Practical Workflows"
 sidebar_position: 24
 chapter: 3

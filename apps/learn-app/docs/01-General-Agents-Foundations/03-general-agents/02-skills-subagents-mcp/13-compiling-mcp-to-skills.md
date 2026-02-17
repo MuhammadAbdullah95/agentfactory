@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/compiling-mcp-to-skills
 title: "Compiling MCP to Skills"
 sidebar_position: 13
 chapter: 3

@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/plugins-exercises
 title: "Plugins & Extensibility Exercises: Settings, Hooks, Plugins, and Automation"
 sidebar_label: "Plugins Exercises"
 sidebar_position: 19

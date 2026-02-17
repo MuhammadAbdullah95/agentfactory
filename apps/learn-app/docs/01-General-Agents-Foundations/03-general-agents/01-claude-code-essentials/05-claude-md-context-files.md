@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/claude-md-context-files
 title: "CLAUDE.md Context Files"
 sidebar_position: 5
 chapter: 3

@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/cowork-built-in-skills
 title: "Built-in Skills: Documents, Spreadsheets, Presentations"
 sidebar_position: 28
 chapter: 3

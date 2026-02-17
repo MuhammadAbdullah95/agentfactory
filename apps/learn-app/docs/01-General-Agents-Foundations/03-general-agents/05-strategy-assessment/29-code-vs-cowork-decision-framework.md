@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/code-vs-cowork-decision-framework
 title: "Code vs. Cowork: A Decision Framework"
 sidebar_position: 29
 chapter: 3

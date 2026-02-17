@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/settings-hierarchy
 title: "Settings Hierarchy"
 sidebar_position: 14
 chapter: 3

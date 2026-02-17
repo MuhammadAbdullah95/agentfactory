@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/chapter-quiz
 sidebar_position: 32
 title: "Chapter 3: Claude Code and Cowork Quiz"
 proficiency_level: B1

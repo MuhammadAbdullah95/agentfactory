@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/hooks-and-extensibility
 title: "Hooks: Event-Driven Automation"
 sidebar_position: 15
 chapter: 3

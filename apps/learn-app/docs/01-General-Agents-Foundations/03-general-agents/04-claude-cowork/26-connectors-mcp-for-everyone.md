@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/connectors-mcp-for-everyone
 title: "Connectors: MCP for Everyone"
 sidebar_position: 26
 chapter: 3

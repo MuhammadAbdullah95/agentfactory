@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/agent-skills
 title: "Building Your Own Skills"
 sidebar_position: 9
 chapter: 3

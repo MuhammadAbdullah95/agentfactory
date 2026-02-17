@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/hello-world-basics
 title: "Hello Claude: Your First Conversation"
 sidebar_position: 4
 chapter: 3

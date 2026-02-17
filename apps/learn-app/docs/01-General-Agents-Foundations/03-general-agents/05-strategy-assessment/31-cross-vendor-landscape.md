@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/cross-vendor-landscape
 sidebar_position: 31
 title: "The Cross-Vendor Landscape: Your Skills Are Portable"
 description: "See how Claude Code concepts map to OpenAI Codex, Google Gemini CLI, and emerging industry standards — your agent-building skills transfer everywhere."

@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/agent-teams
 sidebar_position: 20
 title: "Agent Teams: Coordinating Multiple Claude Sessions"
 description: "Create and coordinate teams of Claude Code instances for parallel investigation, multi-angle analysis, and complex business workflows"

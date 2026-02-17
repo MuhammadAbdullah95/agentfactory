@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/safety-limitations-whats-coming
 title: "Safety, Limitations, and What's Coming"
 sidebar_position: 27
 chapter: 3

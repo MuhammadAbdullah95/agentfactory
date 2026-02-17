@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/installation-and-authentication
 title: "Installing and Authenticating Claude Code"
 sidebar_position: 2
 chapter: 3

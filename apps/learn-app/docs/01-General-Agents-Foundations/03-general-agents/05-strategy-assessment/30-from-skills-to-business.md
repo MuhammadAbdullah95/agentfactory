@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/from-skills-to-business
 title: "From Skills to Business: Monetizing Agent Expertise"
 sidebar_position: 30
 chapter: 3

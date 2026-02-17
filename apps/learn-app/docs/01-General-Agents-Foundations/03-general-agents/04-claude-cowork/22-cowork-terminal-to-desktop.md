@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/cowork-terminal-to-desktop
 title: "From Terminal to Desktop: The Cowork Story"
 sidebar_position: 22
 chapter: 3

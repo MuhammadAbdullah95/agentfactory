@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/basics-exercises
 title: "Practical Problem-Solving Exercises"
 sidebar_position: 6
 chapter: 3

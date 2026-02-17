@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/subagents-and-orchestration
 title: "Subagents and Orchestration"
 sidebar_position: 11
 chapter: 3

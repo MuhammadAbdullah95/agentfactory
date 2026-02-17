@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/cowork-getting-started
 title: "Getting Started with Cowork"
 sidebar_position: 23
 chapter: 3

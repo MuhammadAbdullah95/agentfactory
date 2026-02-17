@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/skills-exercises
 title: "Agent Skills Exercises"
 sidebar_position: 10
 chapter: 3

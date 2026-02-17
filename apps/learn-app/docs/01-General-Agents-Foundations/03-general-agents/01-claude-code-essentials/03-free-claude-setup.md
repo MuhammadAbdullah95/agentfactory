@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/free-claude-setup
 title: "Free Claude Code Setup"
 sidebar_position: 3
 chapter: 3

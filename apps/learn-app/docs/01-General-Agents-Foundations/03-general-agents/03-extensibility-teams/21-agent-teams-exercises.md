@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/agent-teams-exercises
 title: "Agent Teams Exercises: Business Problem-Solving with Multi-Agent Teams"
 sidebar_label: "Agent Teams Exercises"
 sidebar_position: 21

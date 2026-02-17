@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/browser-integration-claude-chrome
 title: "Browser Integration: Claude in Chrome"
 sidebar_position: 25
 chapter: 3

@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/origin-story
 title: "Claude Code Origin Story"
 sidebar_position: 1
 chapter: 3

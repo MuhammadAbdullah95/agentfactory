@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/concept-behind-skills
 title: "The Concept Behind Skills"
 sidebar_position: 8
 chapter: 3

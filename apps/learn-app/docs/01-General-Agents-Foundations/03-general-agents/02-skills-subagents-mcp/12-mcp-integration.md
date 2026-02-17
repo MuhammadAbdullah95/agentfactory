@@ -1,4 +1,5 @@
 ---
+slug: /General-Agents-Foundations/general-agents/mcp-integration
 title: "MCP Integration"
 sidebar_position: 12
 chapter: 3
