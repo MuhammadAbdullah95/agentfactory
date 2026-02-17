@@ -70,7 +70,9 @@ differentiation:
 
 In Lesson 6, you connected your AI Employee to a coding agent so it can delegate programming tasks to a specialist. Now you will cross the line that separates a demo from daily use: connecting your agent to your actual productivity tools.
 
-Until now, every task you gave your AI Employee operated on information it generated itself -- competitor research from training data, goal files it created, reports it wrote. Useful, but self-contained. Your agent has been working in a sandbox of its own making. When it reads your real inbox, summarizes your actual calendar, and finds the document you were editing last week, the sandbox disappears. That is when a tutorial becomes something you want to open every morning.
+Until now, every task you gave your AI Employee operated on information it generated itself -- competitor research from training data, goal files it created, reports it wrote. Useful, but self-contained. Your agent has been working in a sandbox of its own making.
+
+This lesson breaks that sandbox. When it reads your real inbox, summarizes your actual calendar, and finds the document you were editing last week, the sandbox disappears. That is when a tutorial becomes something you want to open every morning.
 
 This is the capability that drove 202,000 people to star OpenClaw. Not the chat interface. Not the agent loop. The moment your agent handles your real work -- your email, your schedule, your files -- is when "AI Employee" stops being a metaphor.
 
@@ -359,9 +361,9 @@ This is why Lesson 5 came before this lesson. The security checklist you learned
 
 ```
 Design a daily morning briefing for my AI Employee that combines
-Gmail (unread, prioritized by sender), Calendar (today's meetings
-with prep notes), and Drive (recently modified docs). Output as a
-single 2-minute read with "requires action" and "FYI" sections.
+Gmail (unread, prioritized), Calendar (today's meetings with prep
+notes), and Drive (recently modified docs). Output as a single
+2-minute read with "requires action" and "FYI" sections.
 My role: [YOUR ROLE]
 ```
 
@@ -372,11 +374,10 @@ My role: [YOUR ROLE]
 **Setup:** Use Claude Code or your preferred AI assistant.
 
 ```
-Design the architecture for a Gmail push notification pipeline
-that detects important emails, summarizes them, and sends the
-summary to my Telegram. I know this involves Google Pub/Sub.
-I need the component architecture and data flow, not a full
-implementation. Include an ASCII diagram.
+Design the architecture for a Gmail push notification pipeline:
+detect important emails, summarize them, send to my Telegram.
+I know it involves Google Pub/Sub. Give me component architecture
+and data flow with an ASCII diagram, not a full implementation.
 ```
 
 **What you're learning:** Event-driven agent architecture. Most agent interactions are pull-based (you ask, it answers). Push-based agents that react to external events represent the next level of autonomy. Understanding this architecture prepares you for building proactive agents in Chapter 13.
@@ -388,9 +389,8 @@ implementation. Include an ASCII diagram.
 ```
 I just connected my AI Employee to Google Workspace via gog with
 OAuth access to Gmail, Calendar, and Drive. Audit my setup: worst
-realistic attack scenario, which services I actually need, risks
-of unnecessary scopes, and the exact gog command to reduce scope
-to the minimum. Be specific to my setup, not generic advice.
+realistic attack scenario, which services I actually need, and the
+exact gog command to reduce scope to the minimum.
 ```
 
 **What you're learning:** Applied security auditing on your own infrastructure. This is the lethal trifecta from Lesson 5 made concrete -- you are evaluating real OAuth scopes on your real account, not a hypothetical scenario. The habit of auditing your own setup after connecting new services is what separates secure deployments from vulnerable ones.

@@ -346,31 +346,21 @@ OpenClaw distinguishes two kinds of autonomous invocation. **Cron** runs schedul
 
 OpenClaw and Claude Code share the same skill format (SKILL.md). That is not a coincidence. The Markdown-based skill format has emerged as a de facto standard: human-readable, version-controllable, portable across platforms.
 
-### Why These 6 and Not 5 or 10?
+### Why These Patterns Matter
 
-Remove any single pattern and the system breaks in a specific, predictable way:
+Remove any one pattern and the system degrades in predictable ways:
 
-- **No Orchestration**: Messages arrive but nothing routes them. The agent cannot receive work.
-- **No I/O Adapters**: The agent works on one channel only. Adding a new channel means rewriting the agent.
-- **No State Isolation**: Multi-user deployments are impossible. Every conversation contaminates every other.
-- **No Capability Packaging**: Adding new abilities means modifying core code. The agent becomes brittle.
-- **No Externalized Memory**: The agent forgets everything between sessions. No learning across days.
-- **No Autonomous Invocation**: The agent only responds when spoken to. You have a chatbot, not an employee.
+| Pattern                   | What Breaks Without It                                                      |
+| ------------------------- | --------------------------------------------------------------------------- |
+| **Orchestration**         | No message routing -- requests arrive but nothing coordinates them          |
+| **I/O Adapters**          | Locked to one channel; adding another means rewriting the agent             |
+| **State Isolation**       | Multi-user deployments impossible -- conversations contaminate each other   |
+| **Capability Packaging**  | Adding abilities means modifying core code; the agent becomes brittle       |
+| **Externalized Memory**   | The agent forgets everything between sessions -- no learning across days    |
+| **Concurrency Control**   | Parallel operations conflict -- two tasks writing the same file corrupt it  |
+| **Autonomous Invocation** | The agent only responds when spoken to; you have a chatbot, not an employee |
 
-You could add patterns (logging, authentication, rate limiting), but those are operational concerns, not architectural requirements. These 6 are the minimum set that makes something an AI Employee rather than a chatbot.
-
-## Why Patterns Matter More Than Products
-
-OpenClaw might evolve. Its API might change. New competitors will emerge. But the six patterns in that table are stable. They emerge from fundamental constraints:
-
-- **Orchestration** exists because distributed components need coordination.
-- **I/O Adapters** exist because the world has many communication channels.
-- **State Isolation** exists because multiple users cannot share context safely.
-- **Capability Packaging** exists because intelligence must be composable.
-- **Externalized Memory** exists because LLMs have finite context windows.
-- **Concurrency Control** exists because parallel operations can conflict.
-
-These are not OpenClaw's design decisions. They are engineering necessities. Any sufficiently capable agent system reinvents them. Your job is to recognize them, regardless of what name they carry.
+You could add patterns (logging, authentication, rate limiting), but those are operational concerns, not architectural requirements. These are not OpenClaw's design decisions -- they are engineering necessities that emerge from fundamental constraints. Any sufficiently capable agent system reinvents them. Your job is to recognize them, regardless of what name they carry.
 
 In Lesson 05, you will build a custom skill and explore the security realities of giving AI real autonomy. Then the chapter assessment consolidates everything: the architecture, the patterns, and an honest evaluation of what OpenClaw proved and what remains unsolved across the industry.
 
@@ -382,9 +372,8 @@ In Lesson 05, you will build a custom skill and explore the security realities o
 
 ```
 Design 3 scenarios where removing a lane queue from an AI Employee
-causes race conditions (what arrives simultaneously, what corrupts).
-Then design a 4th scenario the lane queue CANNOT prevent -- one
-that requires a different solution entirely.
+causes race conditions. Then design a 4th scenario the lane queue
+CANNOT prevent -- one that requires a different solution entirely.
 ```
 
 **What you're learning:** Concurrency is where most agent projects fail silently. By designing failure scenarios yourself, you build intuition for where race conditions hide. The 4th scenario forces you beyond the textbook answer into genuine architectural thinking -- exactly what you need when building your own agent in Chapter 13.
@@ -409,8 +398,7 @@ then design a scenario where all 3 fail. What went wrong?
 ```
 Find an abandoned AI agent project on GitHub (many stars, no recent
 commits). Using the 6 universal patterns as a diagnostic framework,
-perform an autopsy: which patterns were missing, and which missing
-pattern was the likely cause of death?
+perform an autopsy: which missing pattern was the likely cause of death?
 ```
 
 **What you're learning:** The 6 patterns are not just a classification scheme. They are a diagnostic tool. Learning to identify which missing pattern killed a project is the fastest way to internalize why each pattern matters. This forensic skill transfers directly to evaluating any agent framework you encounter.

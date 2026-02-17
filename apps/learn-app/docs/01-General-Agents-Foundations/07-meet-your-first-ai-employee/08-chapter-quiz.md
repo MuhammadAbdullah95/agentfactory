@@ -425,11 +425,11 @@ In Part 2, you'll build the individual skills (file processing, computation, dat
 ### Prompt 1: Personal AI Employee Planning
 
 ```
-I completed Chapter 7 (6 universal agent patterns, coding
-delegation, Google Workspace integration). Help me plan my own
-AI Employee for Chapter 13: which 3 tasks it should handle first,
-which patterns I need immediately vs. can wait, and what security
-boundaries to set. Start by asking about my role and daily work.
+I completed Chapter 7 (6 universal agent patterns, coding delegation,
+Google Workspace integration). Help me plan my own AI Employee for
+Chapter 13: which 3 tasks first, which patterns I need immediately
+vs. can wait, and what security boundaries to set. Start by asking
+about my role and daily work.
 ```
 
 **What you're learning:** Translating pattern knowledge into design decisions. You are learning to evaluate which patterns matter for YOUR situation, rather than implementing all 6 at once. This is specification-driven thinking -- defining what you need before building anything.
@@ -440,9 +440,7 @@ boundaries to set. Start by asking about my role and daily work.
 Draft a specification for a personal AI Employee that handles my
 top 3 daily tasks: [LIST YOUR ACTUAL TASKS HERE]. For each task,
 define access needs, skills, security boundaries, and success
-criteria. Then suggest Bronze/Silver/Gold tiers from basics
-(1 task) to full autonomy (scheduling, delegation, Google
-Workspace).
+criteria. Then suggest Bronze/Silver/Gold implementation tiers.
 ```
 
 **What you're learning:** Specification-driven agent design -- the foundation of Chapter 13's entire approach. Instead of jumping into code, you define success criteria first. This mirrors how professional engineers approach every system: specify, then build, then validate against the specification.
@@ -450,12 +448,11 @@ Workspace).
 ### Prompt 3: Threat Model Your Chapter 13 Build
 
 ```
-Threat-model my Chapter 13 AI Employee design before I build it.
-Assume it handles email, file management, coding delegation, and
-daily briefings with Google Workspace access. Give me the 3 most
-likely failure modes, the worst realistic outcome if I skip
-security boundaries, and a "chaos test" of 3 messages that would
-expose the weakest point in my architecture.
+Threat-model my Chapter 13 AI Employee before I build it. It handles
+email, file management, coding delegation, and daily briefings with
+Google Workspace access. Give me the 3 most likely failure modes,
+worst realistic outcome if I skip security boundaries, and a "chaos
+test" of 3 messages that would expose my weakest point.
 ```
 
 **What you're learning:** Threat modeling before building is what separates production systems from demos. By designing failure scenarios for your own project, you internalize the security and reliability lessons from Chapter 7 as concrete constraints for Chapter 13 -- not abstract principles you will forget under implementation pressure.
@@ -466,6 +463,6 @@ You started Chapter 7 with a question: what is an AI Employee? You end with an a
 
 You experienced this firsthand. You understood the architecture. You built a skill. You confronted the security realities. You watched your employee delegate to a coding specialist. You connected it to your actual productivity tools. You assessed what works and what does not.
 
-In Part 2, you'll build the domain skills -- file processing, computation, databases, Linux, version control -- that become the capabilities your AI Employee needs. Then in Chapter 13, you build one you own: same patterns, your architecture, your security model, your capabilities.
+Now you build your own.
 
-That is the difference between using an AI Employee and owning one.
+In Part 2, you'll build the domain skills -- file processing, computation, databases, Linux, version control -- that become the capabilities your AI Employee needs. Then in Chapter 13, you build one you own: same patterns, your architecture, your security model, your capabilities. That is the difference between using an AI Employee and owning one.

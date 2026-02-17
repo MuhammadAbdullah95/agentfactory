@@ -88,6 +88,8 @@ In Chapters 1 through 6, you learned the Agent Factory paradigm, how to write cl
 
 In late January 2026, a weekend project by Peter Steinberger -- the Austrian engineer who founded PSPDFKit and spent 13 years building developer tools used by nearly a billion people -- went viral in a way the open-source world had rarely seen. His AI agent, originally called Clawdbot, accumulated GitHub stars at unprecedented speed. By mid-February 2026, the project (now renamed OpenClaw after an Anthropic trademark dispute) had crossed 202,000 stars, making it one of the fastest-growing repositories in GitHub history.
 
+The demand had been hiding in plain sight.
+
 People were not starring a library or a framework. They were starring a realization: **AI Employees are real.** OpenClaw gave anyone a personal AI that clears inboxes, schedules meetings, manages files, and completes work -- autonomously, while you sleep. Not through a special app or a web dashboard, but through the messaging tools already on your phone: WhatsApp, Telegram, iMessage, Slack, Discord. You message your AI Employee the same way you message a colleague. It messages you back when the work is done.
 
 Then, on February 15, 2026, Steinberger posted on X: "I'm joining OpenAI to bring agents to everyone. OpenClaw is becoming a foundation: open, independent, and just getting started." In his blog post, he explained his motivation: "What I want is to change the world, not build a large company." OpenClaw would move to an independent foundation with OpenAI sponsorship. The message from the industry was clear: AI Employees are not a feature inside ChatGPT or Claude. They are a new category of software -- and the race to define that category is on.
@@ -110,7 +112,9 @@ The timeline tells a story about what happens when a real product meets genuine 
 
 ### Why This Growth Matters
 
-The growth rate itself is a signal. People do not star repositories they find mildly interesting. 202,000 stars means hundreds of thousands of developers looked at OpenClaw and said: "I want this." The viral loop through messaging apps -- where you can demo the product by simply forwarding a conversation -- created adoption speed that traditional developer tools cannot match.
+The growth rate itself is a signal. People do not star repositories they find mildly interesting. They star what they want to exist.
+
+202,000 stars means hundreds of thousands of developers looked at OpenClaw and said: "I want this." The viral loop through messaging apps -- where you can demo the product by simply forwarding a conversation -- created adoption speed that traditional developer tools cannot match.
 
 But growth alone does not validate a category. What validates the AI Employee category is _what people did with it_. They did not treat OpenClaw as a novelty. They gave it real work: managing calendars, processing emails, coordinating schedules, automating repetitive tasks. The demand was not for a smarter chatbot. The demand was for an autonomous colleague.
 
@@ -129,7 +133,7 @@ This is the mental model you will carry through the rest of this chapter and int
 
 Consider the difference concretely. You ask a chatbot: "What is on my calendar tomorrow?" It cannot answer -- it has no access to your calendar. You ask an AI Employee: "Clear my schedule for Friday afternoon and reschedule any conflicts to next week." It does it. Then it messages you on Telegram at 9 AM Friday: "Done. Moved three meetings. Dr. Kim's appointment could not be moved -- her office is closed next week. Want me to call and find an alternative?"
 
-That is six dimensions of difference in one interaction: it acted proactively (trigger), executed multiple steps (scope), remembered Dr. Kim's constraints (memory), accessed your calendar API (tools), worked overnight while you slept (schedule), and reported via Telegram (interface).
+One interaction, all six dimensions.
 
 ### The JARVIS Analogy
 
@@ -178,7 +182,7 @@ You (WhatsApp/Telegram/Slack)
 
 **Model-agnostic by design**: OpenClaw does not lock you into one AI provider. It ships with built-in support for 25+ providers: OpenAI, Anthropic, Google Gemini, Ollama (for local models running on your own hardware), and more. You can switch models per workflow or run entirely local for privacy.
 
-You will explore this architecture in detail in Lesson 4. For now, carry the five-component mental model: **Gateway, Adapters, Agent Loop, Skills, Memory.** Every AI Employee system -- OpenClaw, CrewAI, LangGraph, or one you build yourself -- needs all five.
+You will explore this architecture in detail in Lesson 4. For now, carry this five-component mental model forward. Every AI Employee system -- OpenClaw, CrewAI, LangGraph, or one you build yourself -- needs all five.
 
 ## The Honest Context
 
@@ -219,9 +223,7 @@ OpenClaw is not the destination. It is the most accessible on-ramp to understand
 
 ## Why This Matters for You
 
-In Chapter 1, you learned the Agent Factory thesis: companies will not just sell software -- they will manufacture AI Employees. General Agents incubate the solutions. Custom Agents specialize for production. The Agent Factory never stops.
-
-OpenClaw is a living example of that thesis at work. Steinberger used General Agents (Claude) to incubate the project. The project itself is becoming a platform for Custom Agents (specialized skills for specific workflows). And now, inside OpenAI, Steinberger will build the next generation of the Agent Factory infrastructure itself.
+In Chapter 1, you learned the Agent Factory thesis: companies will manufacture AI Employees, not just sell software. OpenClaw is a living example -- Steinberger used General Agents (Claude) to incubate the project, the project itself became a platform for Custom Agents, and now inside OpenAI he will build the next generation of Agent Factory infrastructure.
 
 But this is not about OpenClaw specifically. It is about you understanding what an AI Employee **feels like** before you build one. There is a difference between reading about autonomous agents and experiencing one that messages you at 7 AM with a summary of overnight work it completed on your behalf.
 
@@ -234,9 +236,7 @@ By the end of this chapter, you will have:
 
 ### The Pattern Transfers
 
-The chatbot-vs-employee distinction you learned in this lesson is not specific to OpenClaw. The six dimensions (trigger, scope, memory, tools, schedule, interface) define the difference between passive AI assistance and autonomous AI work in _any_ framework.
-
-When you encounter Claude Code's agent capabilities, CrewAI's multi-agent orchestration, LangGraph's stateful workflows, or any future agent system -- you will recognize the same five components: gateway, adapters, agent loop, skills, memory. The names change. The architecture does not.
+The chatbot-vs-employee distinction and the five-component architecture apply to every AI Employee framework, not just OpenClaw. When you evaluate CrewAI, LangGraph, or any other system, map it against the table above. The names change. The architecture does not.
 
 Master the pattern once. Apply it everywhere.
 

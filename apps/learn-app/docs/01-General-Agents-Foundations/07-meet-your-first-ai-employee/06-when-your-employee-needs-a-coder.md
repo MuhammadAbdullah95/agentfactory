@@ -61,9 +61,9 @@ differentiation:
 
 # When Your Employee Needs a Coder
 
-In Lesson 5, you created custom skills that made your AI Employee uniquely yours. Those skills handle text-based work -- meeting prep, research summaries, email drafts. But what happens when the task requires writing actual code? Your employee knows your projects, your preferences, your schedule. It does not know how to write a Python script, debug a React component, or set up a database migration. For that, it needs a specialist.
+In Lesson 5, you created custom skills that made your AI Employee uniquely yours. Those skills handle text-based work -- meeting prep, research summaries, email drafts. But what happens when the task requires writing actual code? Your employee knows your projects, your preferences, your schedule. It does not know how to write a Python script, debug a React component, or set up a database migration.
 
-This is what any good manager does: delegate to someone with the right expertise. Your AI Employee is a Custom Agent -- it understands your context and orchestrates work. Claude Code (which you installed in Chapter 3) is a General Agent -- a specialist coder that can write, test, and debug software in any language. When your employee encounters a coding task, it spawns Claude Code with a focused brief, monitors the work, and returns the result to you on Telegram.
+For that, it needs a specialist. This is what any good manager does: delegate to someone with the right expertise. Your AI Employee is a Custom Agent -- it understands your context and orchestrates work. Claude Code (which you installed in Chapter 3) is a General Agent -- a specialist coder that can write, test, and debug software in any language. When your employee encounters a coding task, it spawns Claude Code with a focused brief, monitors the work, and returns the result to you on Telegram.
 
 This is the Agent Factory thesis from Chapter 1, running live. Custom Agents manage. General Agents execute. Neither is complete without the other.
 
@@ -340,14 +340,12 @@ When you move to Chapter 13 (building your own AI Employee), you will implement 
 ### Prompt 1 -- Delegation Decision Framework
 
 ```
-I have an AI Employee (Custom Agent) that can delegate to Claude Code
-(General Agent). For these 8 tasks, create a table showing which the
-employee should handle directly vs delegate to a coding agent, and why:
-
-1. Summarize a meeting transcript  2. Write a Python web scraper
-3. Draft a project status email    4. Debug a failing CI pipeline
-5. Research competitor pricing     6. Refactor a 500-line module
-7. Generate a weekly report from CSV  8. Set up an Express.js endpoint
+My AI Employee can delegate to Claude Code. For these 8 tasks,
+table: handle directly vs delegate to coding agent, and why.
+1. Summarize meeting transcript  2. Write Python web scraper
+3. Draft project status email  4. Debug failing CI pipeline
+5. Research competitor pricing  6. Refactor 500-line module
+7. Generate weekly report from CSV  8. Set up Express.js endpoint
 ```
 
 **What you're learning:** Judgment about when delegation adds value versus overhead. Not every task should go to a coding agent -- the latency of spawning a specialist only pays off when the task genuinely requires coding expertise. A good manager (human or AI) knows the difference between work they should do themselves and work they should hand off.
@@ -355,12 +353,11 @@ employee should handle directly vs delegate to a coding agent, and why:
 ### Prompt 2 -- Multi-Agent Workflow Design
 
 ```
-Design a multi-agent workflow for this task: "Every Monday, pull
-analytics data from our API, generate a Python visualization
-dashboard, and send me a Telegram summary with key metrics."
-
-For each step, specify who does it (Employee or Coding Agent),
-what they pass to the next step, and which steps run in parallel.
+Design a multi-agent workflow for: "Every Monday, pull analytics
+data from our API, generate a Python visualization dashboard, and
+send me a Telegram summary with key metrics." For each step, specify
+who does it (Employee or Coding Agent), what they pass to the next
+step, and which steps run in parallel.
 ```
 
 **What you're learning:** Multi-agent workflow design. Real productivity comes not from single delegations but from orchestrated workflows where different agents handle different parts of a pipeline. This prompt forces you to think about handoffs, data passing, error handling, and parallelization -- the same concerns that professional agent architects face when building production systems.
