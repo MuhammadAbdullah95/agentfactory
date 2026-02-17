@@ -59,6 +59,12 @@ differentiation:
 
 In Axiom III, James learned the difference between a script and a program. He upgraded his fifteen-line file renamer into a typed, tested, properly packaged tool. But Emma had a harder lesson waiting for him — one that lived in the team's main codebase, not in a utility script.
 
+James's next project was bigger than any utility script: the company's order management system — the core platform that handled every customer purchase. This system would follow him through the rest of the chapter, growing more disciplined with each axiom.
+
+:::tip Focus on structure, not syntax
+From this lesson onward, code examples use Python features you have not learned yet — classes, decorators, type annotations, and more. That is fine. Focus on the *architecture*: how code is organized, what each piece does, and why it is separate. The syntax will make sense when you reach the Python lessons later in Part 4.
+:::
+
 "Before you touch the order system," Emma told him on his second month, "I need to warn you about `process_order()`."
 
 James opened the file. The function was 1,400 lines long. It validated the order, checked inventory, processed payment through Stripe, calculated shipping based on weight and destination, computed tax for three jurisdictions, generated a receipt PDF, updated loyalty points, logged analytics events, and sent a confirmation email. All in one function. All interleaved. Variable names from the payment section were reused in the shipping section two hundred lines later. A tax calculation on line 890 depended on an inventory check on line 340 that had been silently modified six months ago.

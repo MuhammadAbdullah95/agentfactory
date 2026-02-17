@@ -69,9 +69,9 @@ differentiation:
 
 # Axiom X: Observability Extends Verification
 
-James's pipeline was green. Every check passed — formatting, linting, types, tests, security. He merged the pull request, the order management system deployed, and he went home. At 2:47 AM, his phone buzzed: a customer service ticket reporting that shipping rates were wrong for international orders during peak traffic.
+James's pipeline was green. Every check passed — formatting, linting, types, tests, security. He merged the pull request, the order management system deployed, and he went home. At 2:47 AM, his phone buzzed — his second middle-of-the-night crisis since joining the team. But this was different from the deployment script failure in Axiom I. That crisis was caused by bad orchestration. This one was caused by something no test suite could catch: a customer service ticket reporting that shipping rates were wrong for international orders during peak traffic.
 
-He checked the test suite — all fifty-three TDG specifications passed. He checked the CI pipeline — green across every stage. He checked the type system — zero errors. Everything his pre-deployment verification said was "this system works correctly." But in production, right now, under real load, it did not.
+He checked the test suite — all fifty-three TDG (Test-Driven Generation) specifications passed. He checked the CI pipeline — green across every stage. He checked the type system — zero errors. Everything his pre-deployment verification said was "this system works correctly." But in production, right now, under real load, it did not.
 
 James opened the server logs. What he found was useless:
 

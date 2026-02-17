@@ -294,11 +294,10 @@ Test your understanding of the ten axioms that govern effective agentic software
 
 ## Next Steps
 
-Based on your performance, focus on:
+Based on your performance, focus on the group where you missed the most questions. The ten axioms fall into three groups (the same groups introduced in the chapter overview):
 
-- **Axioms I-III (Foundation Layer)**: If you missed questions 1-6, review shell orchestration (the complexity threshold between shell and program), markdown knowledge (complete reasoning, not just decisions), and the Python discipline stack (uv, pyright, ruff, pytest). These axioms establish the base tools and practices for all agentic work.
-- **Axioms IV-VI (Architecture Layer)**: If you missed questions 7-12, study composition patterns (composable monolith vs. microservices), the three-layer type stack (hints, Pyright, Pydantic), and relational data modeling (SQLite vs. PostgreSQL). These axioms govern how you structure code and data.
-- **Axioms VII-VIII (Workflow Layer)**: If you missed questions 13-16, revisit Test-Driven Generation (the $12,000 discount bug and the Green Bar Illusion) and git as memory (atomic commits, the Permanent Record trap). These axioms define how you collaborate with AI agents safely.
-- **Axioms IX-X (Verification Layer)**: If you missed questions 17-20, study CI/CD pipelines (the verification pyramid and the Shallow Pipeline trap) and observability practices (the three pillars and the Log Avalanche). These axioms ensure your code is verified both before and after deployment — from James's first rejected pull request to his 2:47 AM production incident.
+- **Axioms I-IV (Structure)**: If you missed questions 1-8, review shell orchestration (the complexity threshold between shell and program), markdown knowledge (complete reasoning, not just decisions), the Python discipline stack (uv, pyright, ruff, pytest), and composition patterns (composable monolith vs. microservices). These axioms govern how your code is organized.
+- **Axioms V-VI (Data)**: If you missed questions 9-12, study the three-layer type stack (hints, Pyright, Pydantic) and relational data modeling (SQLite vs. PostgreSQL). These axioms make sure information stays correct as it moves through your system.
+- **Axioms VII-X (Verification)**: If you missed questions 13-20, revisit Test-Driven Generation (the $12,000 discount bug and the Green Bar Illusion), git as memory (atomic commits, the Permanent Record trap), CI/CD pipelines (the verification pyramid and the Shallow Pipeline trap), and observability practices (the three pillars and the Log Avalanche). These axioms create a chain of verification — from writing the first test to monitoring the live system.
 
-Remember: The ten axioms build upon each other — shell orchestrates programs (I, III), programs are composed (IV) with types (V) and relational data (VI), tested via TDG (VII), tracked in git (VIII), verified in CI (IX), and monitored in production (X). Master each layer before advancing to the next.
+Remember: The ten axioms build upon each other — shell orchestrates programs (I, III), programs are composed (IV) with types (V) and relational data (VI), tested via TDG (VII), tracked in git (VIII), verified in CI (IX), and monitored in production (X). Master each group before advancing to the next.

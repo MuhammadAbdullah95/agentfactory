@@ -64,7 +64,7 @@ differentiation:
 
 # Axiom IX: Verification is a Pipeline
 
-James had types, tests, relational data, and disciplined git history. His order management project was the cleanest codebase he had ever produced. Every function had TDG specifications. Every commit explained *why*. His local pytest run showed green across the board. He pushed to main with confidence — his first push since adopting the disciplines from Axioms I through VIII.
+James had types, tests, relational data, and disciplined git history. His order management project was the cleanest codebase he had ever produced. Every function had TDG (Test-Driven Generation) specifications. Every commit explained *why*. His local pytest run showed green across the board. He pushed to main with confidence — his first push since adopting the disciplines from Axioms I through VIII.
 
 The GitHub Actions pipeline failed in four minutes.
 

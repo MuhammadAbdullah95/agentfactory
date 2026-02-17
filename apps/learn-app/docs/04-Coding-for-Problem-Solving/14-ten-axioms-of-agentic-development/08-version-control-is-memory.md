@@ -68,7 +68,7 @@ differentiation:
 
 A week after the $12,000 discount disaster, James's team lead called a post-mortem. "Walk us through the original bug," she said. "Show us what the function looked like before the fix, so we can understand the failure mode."
 
-James opened `apply_discount()`. It showed the current version — the correct one, generated through TDG after Emma's five tests. The buggy version was gone. He had overwritten it when the AI regenerated the implementation. He checked his git history for the original:
+James opened `apply_discount()`. It showed the current version — the correct one, generated through TDG (Test-Driven Generation, from Axiom VII) after Emma's five tests. The buggy version was gone. He had overwritten it when the AI regenerated the implementation. He checked his git history for the original:
 
 ```
 commit a1b2c3d
