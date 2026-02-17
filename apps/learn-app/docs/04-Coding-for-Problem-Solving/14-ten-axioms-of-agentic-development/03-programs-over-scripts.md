@@ -87,7 +87,8 @@ The root cause is the same every time: code that grew beyond script-level comple
 
 This axiom draws a clear line: scripts serve exploration and experimentation; programs serve reliability and collaboration. Both are valuable. The failure mode is not writing scripts. The failure mode is shipping scripts as if they were programs.
 
-## The Long Argument for Types
+<details>
+<summary><strong>Historical Background: The Long Argument for Types (click to expand)</strong></summary>
 
 The debate between "move fast and break things" and "move carefully and prove things" is older than most developers realize. It traces back to the earliest days of programming language design, and the side that favors discipline has been winning — slowly, then all at once.
 
@@ -98,6 +99,8 @@ For decades, Python existed on the opposite end of this spectrum. Guido van Ross
 The turning point came in 2014, when Guido van Rossum — Python's creator himself — co-authored PEP 484, introducing optional type hints to the language. The proposal was not a concession. It was a recognition that Python had grown beyond scripting. Millions of lines of Python were running in production at Dropbox, Instagram, Google, and Netflix. At that scale, "run it and see if it crashes" was no longer an engineering strategy. Type hints let developers declare their intentions — `def process(data: list[Record]) -> Summary` — and let tools like mypy and later pyright verify those intentions before a single line executed.
 
 Python's journey from untyped scripting language to gradually typed systems language mirrors exactly what Axiom III teaches. The same forces that pushed Python toward types — growing codebases, production reliability, collaboration across teams — push every script toward program discipline once the stakes become real.
+
+</details>
 
 ---
 
@@ -152,7 +155,7 @@ You will learn Python later in Part 4. For now, compare the *length and structur
 # rename_images.py (SCRIPT version)
 import os, re
 
-folder = "/Users/tomas/photos"
+folder = "/Users/james/photos"
 for f in os.listdir(folder):
     if f.endswith(".jpg"):
         new_name = re.sub(r'\s+', '_', f.lower())
@@ -380,17 +383,17 @@ This pipeline does not care whether a human or an AI wrote the code. It applies 
 
 ## Anti-Patterns: Scripts Masquerading as Programs
 
-You have seen the Script That Became Infrastructure. Every company has one. It is the Jupyter notebook that a data scientist wrote to clean up a CSV file — a notebook that now runs every Monday morning as part of the billing pipeline, executed cell by cell in a cron job, with a comment on cell 7 that says `# TODO: handle the case where the date column is empty` that has been there for fourteen months. It is the `process_payments.py` that someone wrote during a hackathon — forty lines, no tests, a bare `except Exception: pass` on line 23 that silently swallows every error, including the one where a decimal point shifts and a customer gets charged ten times the correct amount. It is the `deploy.sh` from Axiom I, all over again — but this time the tangled logic is not bash orchestration. It is Python that has all the flexibility of a proper programming language and none of the discipline. The notebook runs. The payment script runs. They run until they do not, and when they fail, they fail in ways that no one can diagnose because there are no types to read, no tests to run, and no error messages to follow.
+Every company has a Script That Became Infrastructure. It is the Jupyter notebook that a data scientist wrote to clean up a CSV file — now running every Monday as part of the billing pipeline, with a comment that says `# TODO: handle empty dates` that has been there for fourteen months. It is the payment processing script from a hackathon — forty lines, no tests, a bare `except` on line 23 that silently swallows every error, including the one where a customer gets charged ten times the correct amount.
+
+These scripts run. They run until they don't. And when they fail, they fail in ways that no one can diagnose — because there are no types to read, no tests to run, and no error messages to follow.
 
 | Anti-Pattern | Why It Fails | Program Alternative |
 |--------------|--------------|---------------------|
 | Jupyter notebooks as production code | No tests, no types, cell execution order matters, hidden state between cells | Extract logic into modules, test independently |
-| `def process(data):` (no type hints) | Callers cannot verify they pass correct types; AI cannot validate its own output | `def process(data: list[Record]) -> Summary:` |
+| No type hints on functions | Callers cannot verify they are passing the right data; AI cannot validate its own output | Add type annotations: `def process(data: list[Record]) -> Summary:` |
 | Bare `except Exception:` | Hides real errors, makes debugging impossible | Catch specific exceptions: `except FileNotFoundError:` |
-| `DB_HOST = "localhost"` in source | Breaks in any environment besides your machine | `DB_HOST = os.environ["DB_HOST"]` or typed config |
+| Hardcoded values in source code | Breaks in any environment besides your machine | Use environment variables or typed configuration |
 | "It's too simple to test" | Simple code becomes complex code; tests document expected behavior | Even one test proves the function works and prevents regressions |
-| `python my_script.py input.csv` | No `--help`, no validation, no discoverability | `typer` or `argparse` with typed arguments |
-| `pip install` in global environment | Different projects conflict; "works on my machine" syndrome | `uv` with locked `pyproject.toml` |
 
 ### The "Too Simple to Test" Trap
 
