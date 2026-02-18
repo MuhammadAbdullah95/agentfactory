@@ -21,7 +21,10 @@ export function PracticeSetupCard({ onRetry }: PracticeSetupCardProps) {
 
   return (
     <div className="practice-setup-card">
-      <h3>Start Practice Server</h3>
+      <h3>
+        Start Practice Server{" "}
+        <span className="practice-terminal-beta">Beta</span>
+      </h3>
       <p>Run this command to start the practice server:</p>
       <code className="practice-setup-cmd" onClick={handleCopy}>
         {command}

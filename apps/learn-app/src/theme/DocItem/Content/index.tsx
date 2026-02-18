@@ -435,6 +435,7 @@ function PracticeOverlay({
             <line x1="12" y1="19" x2="20" y2="19" />
           </svg>
           <span className="practice-terminal-title">{exerciseId}</span>
+          <span className="practice-terminal-beta">Beta</span>
           <span className="practice-terminal-hint">
             {subExercise ? `Exercise ${subExercise}` : exerciseId}
           </span>
@@ -658,7 +659,8 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const isSpecialRootPage =
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
   const isQuizPage = docId.toLowerCase().includes("quiz");
-  const isLeafPage = (pathSegments.length >= 3 || isSpecialRootPage) && !isQuizPage;
+  const isLeafPage =
+    (pathSegments.length >= 3 || isSpecialRootPage) && !isQuizPage;
 
   // Derive chapter + lesson slugs for the LessonCompleteButton
   // Use slug (from frontmatter) when available to preserve progress tracking
