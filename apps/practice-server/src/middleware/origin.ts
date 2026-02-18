@@ -1,15 +1,26 @@
 import type { IncomingMessage } from "node:http";
 
-export const ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+/** Localhost origins (dev) */
+const LOCALHOST_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+/** Production origins that may connect to the local practice server */
+const PROD_ORIGINS = [
+  "https://agentfactory.panaversity.org",
+  "https://agentfactory.dev",
+];
+
+export { LOCALHOST_RE as ORIGIN_RE };
 
 /**
  * CORS origin callback for Hono cors() middleware.
- * Returns the origin if it matches localhost, undefined otherwise.
- * Shared between main server setup and tests to avoid drift.
+ * Allows localhost (dev) and production origins (students visiting the live site
+ * connect to their own local practice server).
  */
 export function corsOrigin(origin: string): string | undefined {
   if (!origin) return origin;
-  return ORIGIN_RE.test(origin) ? origin : undefined;
+  if (LOCALHOST_RE.test(origin)) return origin;
+  if (PROD_ORIGINS.includes(origin)) return origin;
+  return undefined;
 }
 
 /**
@@ -19,5 +30,7 @@ export function isValidOrigin(req: IncomingMessage): boolean {
   const origin = req.headers.origin || "";
   // Allow requests with no origin (e.g., curl, wscat)
   if (!origin) return true;
-  return ORIGIN_RE.test(origin);
+  if (LOCALHOST_RE.test(origin)) return true;
+  if (PROD_ORIGINS.includes(origin)) return true;
+  return false;
 }
