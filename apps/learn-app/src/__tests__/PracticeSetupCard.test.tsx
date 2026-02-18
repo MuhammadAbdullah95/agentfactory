@@ -15,7 +15,7 @@ describe("PracticeSetupCard", () => {
     // so we use a partial matcher to find the command text within the code element.
     const codeEl = document.querySelector(".practice-setup-cmd");
     expect(codeEl).toBeInTheDocument();
-    expect(codeEl!.textContent).toContain("npx @agentfactory/practice");
+    expect(codeEl!.textContent).toContain("npx af-practice");
   });
 
   it("shows waiting indicator", () => {
@@ -29,7 +29,7 @@ describe("PracticeSetupCard", () => {
     fireEvent.click(codeEl);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      "npx @agentfactory/practice",
+      "npx af-practice",
     );
   });
 

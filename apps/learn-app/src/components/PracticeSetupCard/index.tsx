@@ -7,7 +7,7 @@ interface PracticeSetupCardProps {
 export function PracticeSetupCard({ onRetry }: PracticeSetupCardProps) {
   const [copied, setCopied] = useState(false);
   const [showClaudeInfo, setShowClaudeInfo] = useState(false);
-  const command = "npx @agentfactory/practice";
+  const command = "npx af-practice";
 
   const handleCopy = async () => {
     try {

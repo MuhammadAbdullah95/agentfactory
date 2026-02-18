@@ -24,9 +24,9 @@ if (args.includes("--version") || args.includes("-v")) {
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log(`
-@agentfactory/practice v${pkg.version}
+af-practice v${pkg.version}
 
-Usage: npx @agentfactory/practice [options]
+Usage: npx af-practice [options]
 
 Options:
   --port <number>  Port to listen on (default: 3100)
@@ -89,7 +89,7 @@ const port = process.env.PORT || "3100";
 const claudePath = getCachedClaudePath();
 
 console.log("");
-console.log(`  @agentfactory/practice v${pkg.version}`);
+console.log(`  af-practice v${pkg.version}`);
 console.log(`  ──────────────────────────────────────`);
 console.log(`  Port:   ${port}`);
 console.log(

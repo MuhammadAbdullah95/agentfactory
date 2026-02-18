@@ -1,11 +1,11 @@
-# @agentfactory/practice
+# af-practice
 
 Local practice server for [Agent Factory](https://agentfactory.dev) exercises. Launches Claude Code in a PTY with managed exercise workspaces.
 
 ## Quick Start
 
 ```bash
-npx @agentfactory/practice
+npx af-practice
 ```
 
 The server starts on port 3100 and auto-discovers Claude Code on your system.

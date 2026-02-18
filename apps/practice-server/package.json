@@ -1,5 +1,5 @@
 {
-  "name": "@agentfactory/practice",
+  "name": "af-practice",
   "version": "0.1.0",
   "description": "Local practice server for Agent Factory exercises — launches Claude Code in a PTY with exercise workspaces",
   "license": "MIT",
