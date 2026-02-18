@@ -16,6 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 
 from .config import settings  # noqa: E402
 from .core.lifespan import lifespan  # noqa: E402
+from .routes.content import content_router  # noqa: E402
 
 # Configure logging
 logging.basicConfig(
@@ -40,6 +41,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount content routes
+app.include_router(content_router)
 
 
 @app.get("/health")

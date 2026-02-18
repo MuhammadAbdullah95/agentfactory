@@ -1,11 +1,17 @@
-"""Content loading with frontmatter parsing."""
+"""Content loading with GitHub fetch, caching, and frontmatter parsing."""
 
 import logging
 from typing import Any
 
+import httpx
 import yaml
+from api_infra.core.redis_cache import cache_response
+
+from ..config import settings
 
 logger = logging.getLogger(__name__)
+
+CONTENT_CACHE_TTL = settings.content_cache_ttl
 
 
 def parse_frontmatter(content: str) -> tuple[dict[str, Any], str]:
@@ -38,3 +44,84 @@ def parse_frontmatter(content: str) -> tuple[dict[str, Any], str]:
     except yaml.YAMLError as e:
         logger.warning(f"[ContentLoader] Malformed YAML frontmatter: {e}")
         return {}, content
+
+
+async def fetch_from_github(lesson_path: str) -> tuple[str, bool]:
+    """Fetch lesson content from GitHub raw URLs.
+
+    Args:
+        lesson_path: Path like "01-Part/02-chapter/03-lesson"
+
+    Returns:
+        Tuple of (content, success)
+    """
+    if not lesson_path:
+        return "", False
+
+    clean_path = lesson_path.strip("/")
+    if clean_path.startswith("docs/"):
+        clean_path = f"apps/learn-app/{clean_path}"
+    elif not clean_path.startswith("apps/"):
+        clean_path = f"apps/learn-app/docs/{clean_path}"
+
+    extensions = [""]
+    if not clean_path.endswith((".md", ".mdx")):
+        extensions = [".md", ".mdx", "/index.md", "/README.md"]
+
+    for ext in extensions:
+        url = f"https://raw.githubusercontent.com/{settings.github_repo}/main/{clean_path}{ext}"
+
+        try:
+            async with httpx.AsyncClient() as client:
+                headers = {}
+                if settings.github_token:
+                    headers["Authorization"] = f"token {settings.github_token}"
+
+                response = await client.get(url, headers=headers, timeout=10.0)
+
+                if response.status_code == 200:
+                    logger.debug(f"Fetched content from GitHub: {url}")
+                    return response.text, True
+
+        except Exception as e:
+            logger.warning(f"Failed to fetch from GitHub {url}: {e}")
+            continue
+
+    return "", False
+
+
+@cache_response(ttl=CONTENT_CACHE_TTL)
+async def load_lesson_content(chapter_slug: str, lesson_slug: str) -> dict:
+    """Load lesson content with caching.
+
+    Args:
+        chapter_slug: Chapter directory name (e.g., "02-general-agents")
+        lesson_slug: Lesson file name without extension (e.g., "03-my-lesson")
+
+    Returns:
+        Dict with content, frontmatter_dict, chapter_slug, lesson_slug
+    """
+    # Build the path: we need to find the part first, but for now use a search pattern
+    # The cache_response decorator handles caching automatically
+    lesson_path = f"{chapter_slug}/{lesson_slug}"
+
+    content, success = await fetch_from_github(lesson_path)
+
+    if not success:
+        return {
+            "content": "",
+            "frontmatter_dict": {},
+            "chapter_slug": chapter_slug,
+            "lesson_slug": lesson_slug,
+            "found": False,
+        }
+
+    frontmatter_dict, body = parse_frontmatter(content)
+
+    return {
+        "content": content,
+        "frontmatter_dict": frontmatter_dict,
+        "chapter_slug": chapter_slug,
+        "lesson_slug": lesson_slug,
+        "found": True,
+    }
