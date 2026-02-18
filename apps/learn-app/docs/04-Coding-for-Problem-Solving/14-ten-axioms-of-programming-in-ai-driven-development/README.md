@@ -60,6 +60,12 @@ That is what this chapter answers. The ten axioms are the engineering rules that
 
 Think of it this way: water carved the Grand Canyon and powers entire cities. But water without a dam is a flood. AI generates code with the same kind of force — fast, powerful, and relentless. These ten axioms are your dam. They do not hold AI back. They direct its power so it builds something instead of washing everything away.
 
+Let's look at the same thing in a different way. AI can generate code the way a fully stocked kitchen has every ingredient you could ever need. But ingredients alone do not make a meal. You need a recipe to follow, the right equipment to cook with, and a way to taste-test before you serve. These ten axioms are your recipe, your equipment, and your taste tests — the engineering system that turns raw AI output into software you can trust. This maps naturally to the three axiom groups:
+
+- **Recipe (Axioms I–IV)** = structure, how to organize
+- **Equipment (Axioms V–VI)** = data rules, the tools that keep things correct
+- **Taste tests (Axioms VII–X)** = verification, making sure it works
+
 An axiom is a foundational rule — something you accept as true and build everything else on top of. These axioms are not abstract ideas. They come from decades of hard-won software engineering lessons, and they apply directly to how you specify, verify, and manage AI-generated code.
 
 The ten axioms fall into three groups. Think of them like building a house:
