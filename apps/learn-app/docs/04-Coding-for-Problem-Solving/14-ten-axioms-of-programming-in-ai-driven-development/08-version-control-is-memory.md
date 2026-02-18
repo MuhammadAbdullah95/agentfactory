@@ -66,9 +66,9 @@ differentiation:
 
 # Axiom VIII: Version Control is Memory
 
-A week after the $12,000 discount disaster, James's team lead called a post-mortem. "Walk us through the original bug," she said. "Show us what the function looked like before the fix, so we can understand the failure mode."
+Axiom VII gave James tests that define what "correct" means. But tests capture what the code *should do*. They say nothing about what the code *used to do*, why it changed, or who changed it. A week after the $12,000 discount fix, that gap became painfully clear.
 
-James opened `apply_discount()`. It showed the current version — the correct one, generated through TDG (Test-Driven Generation, from Axiom VII) after Emma's five tests. The buggy version was gone. He had overwritten it when the AI regenerated the implementation. He checked his git history for the original:
+James's team lead called a post-mortem. "Walk us through the original bug," she said. "Show us what the function looked like before the fix." James opened `apply_discount()` — but only the current version remained. The buggy implementation was gone, overwritten when the AI regenerated. He checked his git history:
 
 ```
 commit a1b2c3d
