@@ -42,12 +42,12 @@ The server starts on port 3100 and auto-discovers Claude Code on your system.
 
 ## Platform Support
 
-| Platform         | Status                                              |
-| ---------------- | --------------------------------------------------- |
-| macOS            | Supported                                           |
-| Linux            | Supported                                           |
-| Windows (native) | Ready when Claude Code ships native Windows support |
-| Windows (WSL)    | Supported                                           |
+| Platform         | Status    |
+| ---------------- | --------- |
+| macOS            | Supported |
+| Linux            | Supported |
+| Windows (native) | Supported |
+| Windows (WSL)    | Supported |
 
 ## License
 
