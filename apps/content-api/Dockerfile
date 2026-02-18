@@ -1,9 +1,9 @@
 # =============================================================================
-# Study Mode API - Production Dockerfile (Hardened)
+# Content API - Production Dockerfile (Hardened)
 # Multi-stage build | Non-root | Minimal attack surface | OCI compliant
 #
-# Build context: MONOREPO ROOT (not apps/study-mode-api/)
-#   docker build -f apps/study-mode-api/Dockerfile .
+# Build context: MONOREPO ROOT (not apps/content-api/)
+#   docker build -f apps/content-api/Dockerfile .
 # =============================================================================
 
 ARG PYTHON_VERSION=3.12
@@ -15,11 +15,9 @@ FROM python:${PYTHON_VERSION}-slim AS builder
 
 # Install build dependencies for native packages
 # - gcc: C compiler for native extensions
-# - libpq-dev: PostgreSQL client library headers (asyncpg, psycopg)
-# - libffi-dev: Foreign function interface (cryptography)
+# - libffi-dev: Foreign function interface (cryptography/jose)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
-    libpq-dev \
     libffi-dev && \
     rm -rf /var/lib/apt/lists/*
 
@@ -35,16 +33,16 @@ COPY pyproject.toml uv.lock ./
 COPY libs/api-infra/ ./libs/api-infra/
 
 # Copy application
-COPY apps/study-mode-api/ ./apps/study-mode-api/
+COPY apps/content-api/ ./apps/content-api/
 
 # Install into isolated venv using workspace-aware sync
 # --package: install only this app (+ its workspace deps like api-infra)
 # --frozen: use lockfile as-is, don't re-resolve
 # --no-dev: skip dev dependencies
 ENV UV_PROJECT_ENVIRONMENT=/app/.venv
-RUN uv sync --package study-mode-api --frozen --no-dev --compile-bytecode
+RUN uv sync --package content-api --frozen --no-dev --compile-bytecode
 
-# Aggressive cleanup to minimize venv size
+# Cleanup to minimize venv size
 RUN rm -rf /app/.venv/lib/python*/site-packages/pip* \
            /app/.venv/lib/python*/site-packages/setuptools* \
            /app/.venv/lib/python*/site-packages/_distutils_hack \
@@ -63,19 +61,14 @@ RUN rm -rf /app/.venv/lib/python*/site-packages/pip* \
 # -----------------------------------------------------------------------------
 FROM python:${PYTHON_VERSION}-slim
 
-LABEL org.opencontainers.image.title="Study Mode API" \
-      org.opencontainers.image.description="AI-powered tutoring with ChatKit integration" \
-      org.opencontainers.image.version="5.1.0" \
+LABEL org.opencontainers.image.title="Content API" \
+      org.opencontainers.image.description="Book tree, lessons, and progress tracking" \
+      org.opencontainers.image.version="0.1.0" \
       org.opencontainers.image.vendor="Panaversity" \
       org.opencontainers.image.source="https://github.com/panaversity/agentfactory" \
       org.opencontainers.image.licenses="MIT"
 
-# Install ONLY runtime dependencies (minimal)
-# - libpq5: PostgreSQL client library (required by psycopg at runtime)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libpq5 && \
-    rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+# No libpq5 needed — content-api has no PostgreSQL dependency
 
 # Create non-root user (k8s runAsNonRoot compatible)
 RUN groupadd --gid 10001 app && \
@@ -87,7 +80,7 @@ WORKDIR /app
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
 # Copy application source
-COPY --chown=app:app apps/study-mode-api/src/ ./src/
+COPY --chown=app:app apps/content-api/src/ ./src/
 
 # Environment configuration
 ENV PATH="/app/.venv/bin:$PATH" \
@@ -95,21 +88,21 @@ ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PORT=8000
+    PORT=8001
 
 # Switch to non-root user
 USER app
 
-EXPOSE 8000
+EXPOSE 8001
 
 # Health check using Python stdlib (no curl needed)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)" || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3)" || exit 1
 
 STOPSIGNAL SIGTERM
 
 # Production uvicorn (single worker - scale with k8s replicas)
-CMD ["sh", "-c", "exec uvicorn study_mode_api.main:app \
+CMD ["sh", "-c", "exec uvicorn content_api.main:app \
     --host 0.0.0.0 \
     --port ${PORT} \
     --proxy-headers \
