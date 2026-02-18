@@ -2,7 +2,7 @@
 """Content API client for learn-agentfactory skill.
 
 Single entry point for all Content API operations.
-Handles token loading, auth headers, and error responses.
+Handles token loading, auth headers, auto-refresh on 401, and error responses.
 
 Uses only Python stdlib — no pip install required.
 
@@ -10,11 +10,13 @@ Usage:
     python3 scripts/api.py tree
     python3 scripts/api.py lesson <part> <chapter> <lesson>
     python3 scripts/api.py complete <chapter> <lesson> [duration_secs]
+    python3 scripts/api.py progress
     python3 scripts/api.py health
 """
 
 import json
 import os
+import stat
 import sys
 from pathlib import Path
 from urllib.error import HTTPError
@@ -23,6 +25,8 @@ from urllib.request import Request, urlopen
 
 CREDENTIALS_PATH = Path.home() / ".agentfactory" / "credentials.json"
 DEFAULT_API_URL = "https://content-api.panaversity.org"
+DEFAULT_SSO_URL = "https://sso.panaversity.org"
+CLIENT_ID = "learn-skill-cli-client"
 
 
 def _load_token() -> str:
@@ -57,47 +61,117 @@ def _base_url() -> str:
     return os.environ.get("CONTENT_API_URL", DEFAULT_API_URL).rstrip("/")
 
 
+def _sso_url() -> str:
+    return os.environ.get("PANAVERSITY_SSO_URL", DEFAULT_SSO_URL).rstrip("/")
+
+
+def _try_refresh() -> str | None:
+    """Attempt to refresh the access token using the stored refresh_token.
+
+    Returns the new access_token on success, None on failure.
+    """
+    if not CREDENTIALS_PATH.exists():
+        return None
+
+    try:
+        creds = json.loads(CREDENTIALS_PATH.read_text())
+    except (json.JSONDecodeError, OSError):
+        return None
+
+    refresh_token = creds.get("refresh_token")
+    if not refresh_token:
+        return None
+
+    body = urlencode({
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token,
+        "client_id": CLIENT_ID,
+    }).encode()
+
+    req = Request(
+        f"{_sso_url()}/api/auth/oauth2/token",
+        data=body,
+        method="POST",
+    )
+    req.add_header("Content-Type", "application/x-www-form-urlencoded")
+
+    try:
+        with urlopen(req, timeout=15) as resp:
+            new_tokens = json.loads(resp.read())
+    except Exception:
+        return None
+
+    new_access = new_tokens.get("access_token")
+    if not new_access:
+        return None
+
+    # Save updated tokens
+    creds["access_token"] = new_access
+    if new_tokens.get("refresh_token"):
+        creds["refresh_token"] = new_tokens["refresh_token"]
+    if new_tokens.get("id_token"):
+        creds["id_token"] = new_tokens["id_token"]
+
+    try:
+        CREDENTIALS_PATH.write_text(json.dumps(creds, indent=2))
+        CREDENTIALS_PATH.chmod(stat.S_IRUSR | stat.S_IWUSR)  # 600
+    except OSError:
+        pass  # token works even if save fails
+
+    return new_access
+
+
 def _api_get(path: str, params: dict | None = None) -> dict:
-    """Authenticated GET to Content API. Returns parsed JSON."""
+    """Authenticated GET to Content API. Auto-refreshes token on 401."""
     url = f"{_base_url()}{path}"
     if params:
         url += "?" + urlencode(params)
 
-    token = _load_token()
-    req = Request(url)
-    req.add_header("Authorization", f"Bearer {token}")
-    req.add_header("Accept", "application/json")
+    for attempt in range(2):
+        token = _load_token()
+        req = Request(url)
+        req.add_header("Authorization", f"Bearer {token}")
+        req.add_header("Accept", "application/json")
 
-    try:
-        with urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read())
-    except HTTPError as e:
-        _handle_http_error(e)
-    except OSError as e:
-        print(f"ERROR: Connection failed: {e}", file=sys.stderr)
-        sys.exit(1)
+        try:
+            with urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read())
+        except HTTPError as e:
+            if e.code == 401 and attempt == 0:
+                new_token = _try_refresh()
+                if new_token:
+                    continue  # retry with refreshed token
+            _handle_http_error(e)
+        except OSError as e:
+            print(f"ERROR: Connection failed: {e}", file=sys.stderr)
+            sys.exit(1)
     return {}  # unreachable
 
 
 def _api_post(path: str, data: dict) -> dict:
-    """Authenticated POST to Content API. Returns parsed JSON."""
+    """Authenticated POST to Content API. Auto-refreshes token on 401."""
     url = f"{_base_url()}{path}"
-    token = _load_token()
-
     body = json.dumps(data).encode()
-    req = Request(url, data=body, method="POST")
-    req.add_header("Authorization", f"Bearer {token}")
-    req.add_header("Content-Type", "application/json")
-    req.add_header("Accept", "application/json")
 
-    try:
-        with urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read())
-    except HTTPError as e:
-        _handle_http_error(e)
-    except OSError as e:
-        print(f"ERROR: Connection failed: {e}", file=sys.stderr)
-        sys.exit(1)
+    for attempt in range(2):
+        token = _load_token()
+        req = Request(url, data=body, method="POST")
+        req.add_header("Authorization", f"Bearer {token}")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("Accept", "application/json")
+
+        try:
+            with urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read())
+        except HTTPError as e:
+            if e.code == 401 and attempt == 0:
+                new_token = _try_refresh()
+                if new_token:
+                    continue  # retry with refreshed token
+            _handle_http_error(e)
+        except OSError as e:
+            print(f"ERROR: Connection failed: {e}", file=sys.stderr)
+            sys.exit(1)
     return {}  # unreachable
 
 
@@ -188,6 +262,12 @@ def cmd_complete(chapter: str, lesson: str, duration: int = 0):
     print(json.dumps(data, indent=2))
 
 
+def cmd_progress():
+    """Fetch user's learning progress."""
+    data = _api_get("/api/v1/content/progress")
+    print(json.dumps(data, indent=2))
+
+
 # ── Entry point ───────────────────────────────────────────────────────────
 
 USAGE = """\
@@ -198,6 +278,7 @@ Commands:
   tree                                      Browse book structure
   lesson <part> <chapter> <lesson>          Read a lesson
   complete <chapter> <lesson> [duration]    Mark lesson complete
+  progress                                  View learning progress
 
 Environment:
   CONTENT_API_URL  API base URL (default: https://content-api.panaversity.org)
@@ -235,6 +316,9 @@ def main():
             sys.exit(1)
         duration = int(sys.argv[4]) if len(sys.argv) > 4 else 0
         cmd_complete(sys.argv[2], sys.argv[3], duration)
+
+    elif cmd == "progress":
+        cmd_progress()
 
     else:
         print(f"Unknown command: {cmd}", file=sys.stderr)
