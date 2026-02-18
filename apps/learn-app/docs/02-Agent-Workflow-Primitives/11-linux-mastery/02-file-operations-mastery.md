@@ -82,6 +82,32 @@ differentiation:
   extension_for_advanced: "Explore find command for locating files by name, size, or modification date. Investigate xargs for chaining commands with file lists. Research rsync for efficient file synchronization across servers."
   remedial_for_struggling: "Focus on touch, mkdir, and cp first. Practice creating simple flat directory structures before nested ones. Use ls after every command to confirm what happened."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "CLI Foundations and Navigation"
+  key_points:
+    - "mkdir -p is the go-to for workspace creation — it creates all parent directories and never fails on existing dirs, used repeatedly in deployment lessons (lesson 14)"
+    - "rm -rf is permanent with no undo — the safe pattern (ls first, rm -i to verify, then rm -rf) must become habit before students touch production servers"
+    - "Wildcards (*, ?, []) are not just for listing — they apply to cp, mv, rm and recur in bash scripting (lesson 6) and text processing (lesson 7)"
+    - "Choosing the right file reader (cat vs head vs tail vs less) depends on file size and what you need — tail is the default for agent debugging"
+  misconceptions:
+    - "Students assume deleted files go to a trash folder like on Windows/Mac — Linux rm is permanent, there is no recycle bin"
+    - "Students confuse cp (creates a duplicate, original stays) with mv (relocates, original gone) — use the photocopy vs moving boxes analogy"
+    - "Students think the ? wildcard matches any number of characters like * — it matches exactly one character, which is how you exclude multi-digit files"
+  discussion_prompts:
+    - "If Linux has no recycle bin, what strategies would you use to protect against accidental deletion of critical agent configuration files?"
+    - "You have 3 agents each producing daily log files. How would you use wildcards to clean up logs older than 7 days without touching today's files?"
+  teaching_tips:
+    - "Build the agent workspace live with students using mkdir -p and brace expansion — seeing {src,config,logs,data} expand is a powerful demo"
+    - "The rm -rf danger box is a whiteboard moment — draw what happens when you run rm -rf / and why the system requires confirmation for directories"
+    - "Spend extra time on wildcards — students breeze through file creation/copying but stumble on pattern matching, which is critical for lesson 7 (text processing)"
+    - "Have students run ls after every command to build the verify-after-action habit before they reach production scenarios"
+  assessment_quick_check:
+    - "Ask: create a nested directory structure three levels deep with one command (expected: mkdir -p a/b/c)"
+    - "Ask: what is the difference between > and >> for file content, and between cp and mv for file location?"
+    - "Give students a directory with files agent-1.log through agent-12.log and ask them to list only single-digit ones (expected: ls agent-?.log)"
+
 teaching_approach: "Scaffolded practice (build an agent workspace step by step)"
 modality: "Hands-on discovery"
 

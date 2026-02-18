@@ -79,6 +79,32 @@ differentiation:
   extension_for_advanced: "Add a rolling deployment pattern that updates multiple agent instances one at a time with automatic rollback, or integrate Prometheus node_exporter for metric collection alongside the bash-based monitoring."
   remedial_for_struggling: "Start with just the simple restart pattern and one logrotate config. Get those working before attempting blue-green deployment. Use the health check script from Lesson 10 without modification."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "Production Agent Deployment"
+  key_points:
+    - "Blue-green deployment achieves zero downtime by running two instances and switching traffic after health check passes — this is the key pattern for production agent updates"
+    - "The three deployment patterns (restart, blue-green, rolling) have clear trade-offs in downtime, complexity, and resource cost — students must justify their choice for each scenario"
+    - "Monitoring (log rotation + disk alerts + health checks via cron) is not optional — it is what keeps deployed agents running after the initial deployment"
+    - "Docker awareness at this stage means understanding when systemd is sufficient (single server, few agents) versus when containers add value (multi-server, reproducibility) — Docker itself is deferred"
+  misconceptions:
+    - "Students think blue-green requires containers or Kubernetes — this lesson implements it with two systemd services and a symlink switch, proving it works with basic Linux tools"
+    - "Students assume logrotate is only for syslog — logrotate works on any log file you configure, including agent-specific logs in custom directories"
+    - "Students think deployment scripts are run once and forgotten — production deployment must be idempotent (safe to re-run) because you will deploy updates repeatedly"
+  discussion_prompts:
+    - "Your agent serves paying customers. You need to deploy an update. Compare restart deployment (30 seconds downtime) versus blue-green (zero downtime) — when is 30 seconds acceptable?"
+    - "Why is monitoring a deployment concern and not just an operations concern? What happens if you deploy without health checks or disk alerts?"
+  teaching_tips:
+    - "Start with the pattern comparison table — students should understand the trade-offs before implementing any specific pattern"
+    - "Demo the blue-green switch live: show the active service, deploy to the standby, health check, then switch the symlink — seeing zero-downtime switching is the 'wow' moment"
+    - "The logrotate config is a practical reference — walk through each directive (size, rotate, compress, copytruncate) because students will copy this for their own agents"
+    - "This is an integration lesson — explicitly connect each component to the lesson where it was first taught (scripts from L6, systemd from L10, security from L8, monitoring from L7)"
+  assessment_quick_check:
+    - "Ask: what are the three deployment patterns and their key trade-off? (Expected: restart = downtime but simple, blue-green = no downtime but double resources, rolling = gradual but complex)"
+    - "Ask students to explain the blue-green switch: what happens to the old instance when the new one passes health checks?"
+    - "Ask: what does the copytruncate directive do in logrotate? (Expected: copies the log file and truncates the original in place, avoiding the need to restart the agent)"
+
 teaching_approach: "Integration and Evaluation (Compare patterns -> Implement blue-green -> Add monitoring -> Combine into workflow)"
 modality: "Hands-on implementation with AI collaboration"
 

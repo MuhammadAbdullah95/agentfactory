@@ -74,6 +74,31 @@ differentiation:
   extension_for_advanced: "Explore symbolic links with ls -la (notice the l in permissions). Research the Filesystem Hierarchy Standard (FHS) to understand why Linux organizes directories this way. Try navigating using tab completion for speed."
   remedial_for_struggling: "Focus on pwd and ls only. Practice navigating between Desktop and Documents using absolute paths. Open a graphical file manager alongside the terminal so you can see the same directories in both interfaces."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "CLI Foundations and Navigation"
+  key_points:
+    - "Terminal vs shell distinction is foundational — students will debug shell-specific issues in later lessons (bash scripting in lesson 6, tmux in lesson 5)"
+    - "The unified filesystem tree (single / root) is the mental model that makes all Linux navigation intuitive — contrast explicitly with Windows drive letters"
+    - "Absolute vs relative paths is not just syntax — deployment scripts must use absolute paths to avoid 'where am I?' failures in production"
+  misconceptions:
+    - "Students think 'terminal' and 'shell' are the same thing — use the telephone analogy (handset vs person on the line) to separate them"
+    - "Students assume Linux filesystem mirrors Windows (expect drive letters, My Documents) — emphasize the single-tree design and purpose-driven directories"
+    - "Students think relative paths are 'better' because they are shorter — clarify that scripts and agent configs must use absolute paths for reliability"
+  discussion_prompts:
+    - "If your AI agent runs on a headless server with no GUI, how would you check its log files or restart it? What alternatives to the CLI exist (hint: none in production)?"
+    - "Why do you think Linux separates config (/etc), logs (/var), and programs (/usr) into different directories instead of keeping everything together per application?"
+  teaching_tips:
+    - "This is the chapter opener — set expectations that every lesson builds toward deploying a real agent on a Linux server by lesson 14"
+    - "Open a terminal live and run pwd, ls -la, cd together with students — seeing hidden files appear with the -a flag is a memorable 'aha' moment"
+    - "The five-directory table (/home, /etc, /var, /usr, /) is whiteboard-worthy — draw it as a tree and have students predict where agent configs and logs would go"
+    - "Spend extra time on absolute vs relative paths — this distinction causes real bugs in deployment scripts and recurs throughout the chapter"
+  assessment_quick_check:
+    - "Ask students: what is the difference between a terminal and a shell? (Expected: terminal is the window, shell is the interpreter inside it)"
+    - "Give a current directory of /home/user/projects and ask students to write both an absolute and relative path to /var/log"
+    - "Ask: why do agent deployment scripts use absolute paths instead of relative paths?"
+
 generated_by: "content-implementer"
 created: "2026-02-09"
 version: "2.0.0"

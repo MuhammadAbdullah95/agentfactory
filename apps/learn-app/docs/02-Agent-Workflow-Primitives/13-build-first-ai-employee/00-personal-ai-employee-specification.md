@@ -71,6 +71,34 @@ differentiation:
   extension_for_advanced: "Read full security section; plan Gold Tier from start"
   remedial_for_struggling: "Focus only on Bronze Tier sections; skip security/error handling until needed"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Chapter Blueprint and Architecture"
+  key_points:
+    - "Perception-Reasoning-Action architecture is the organizing framework for the entire chapter — every subsequent lesson implements one layer"
+    - "Three achievement tiers (Bronze/Silver/Gold) define student commitment levels — students must choose before starting"
+    - "Digital FTE cost comparison ($0.50 vs $5.00 per task) is the business case that justifies the entire chapter"
+    - "Human-in-the-Loop is a safety pattern, not a limitation — approval files in /Pending_Approval/ prevent dangerous autonomous actions"
+  misconceptions:
+    - "Students think they need to read the entire spec before starting — this is a REFERENCE document they return to throughout the chapter"
+    - "Students confuse 'Digital FTE' with chatbot — emphasize the 24/7 autonomous operation and proactive behavior (Watchers wake it up)"
+    - "Students assume Gold Tier is always better — Bronze is a complete, useful product; tiers are about scope not quality"
+    - "Students think the AI acts on its own for everything — the permission boundaries table shows most sensitive actions require human approval"
+  discussion_prompts:
+    - "Looking at the Human FTE vs Digital FTE table, which tasks in YOUR work would benefit most from 24/7 availability?"
+    - "The spec says payments over $100 always require approval. Where would YOU draw the line for auto-approve vs require-approval in your domain?"
+    - "Why does the architecture use file-based communication (Markdown files in folders) rather than a database or API?"
+  teaching_tips:
+    - "Start with the CEO Briefing example — it is the most concrete 'aha moment' showing AI as proactive business partner, not reactive chatbot"
+    - "Walk through the architecture diagram layer by layer — students should be able to name all three layers and their tools before leaving this lesson"
+    - "Have students choose their tier commitment NOW and write it down — this prevents scope confusion in later lessons"
+    - "The end-to-end invoice flow walkthrough is the best section for demonstrating how all layers connect"
+  assessment_quick_check:
+    - "Name the three architecture layers and one tool each layer uses"
+    - "Explain in one sentence why Watchers exist (what problem they solve)"
+    - "Which tier are you targeting and what are its specific deliverables?"
+
 # Generation metadata
 generated_by: "manual creation from hackathon specification"
 created: "2026-01-07"

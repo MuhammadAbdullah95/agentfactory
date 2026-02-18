@@ -62,6 +62,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Research other exit codes (127=not found, 130=Ctrl+C), write automated test scripts"
   remedial_for_struggling: "Focus on the conversation pattern: 'verify this with test data where I know the answer'"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Computation Foundations and Testing"
+  key_points:
+    - "The verification paradox — you built a tool to do work you cannot easily check — is the motivating problem, and known-answer test data is the solution"
+    - "'Exit code 0 means did not crash, not correct answer' is the single most important distinction in this lesson — students must internalize this before touching real data"
+    - "The buggy_sum.py example (skipping numbers starting with 6-9) demonstrates that logic errors produce exit code 0 and no red text — completely invisible without verification"
+    - "The zero-trust workflow (generate code → request verification → create test cases → compare) applies to ALL code from any source, not just scripts built in this chapter"
+  misconceptions:
+    - "Students equate 'no error message' with 'correct output' — the buggy_sum.py example directly disproves this by producing a wrong answer with exit code 0"
+    - "Students think one passing test proves correctness — the buggy script passes the 10,20,30 test but fails on 10,60,30, showing that test data selection matters"
+    - "Students may think verification is the agent's job — the lesson shows that the HUMAN chooses test data with known answers, because only the human knows which results are easy to verify mentally"
+  discussion_prompts:
+    - "The buggy script passes the test with 10, 20, 30 but fails with 10, 60, 30. What does this tell you about how to choose good test data?"
+    - "If you cannot verify the answer yourself (say, summing 500 expenses), how can you still use known-answer testing? What would you do?"
+    - "The lesson says 'trust is earned through verification, not granted through origin.' Does this change how you think about code from any AI tool?"
+  teaching_tips:
+    - "Have students run buggy_sum.py themselves and see exit code 0 alongside a wrong answer — the visceral experience of 'no error but wrong' is the lesson's core teaching moment"
+    - "The exit code table is reference material, not the main point — spend more time on the verification pattern than on memorizing exit codes"
+    - "Emphasize the division of labor: the agent creates multiple test cases (integers, decimals, negatives) but the human chose the known-answer approach in the first place"
+    - "Connect back to Chapter 8 Lesson 2's verification pattern — 'verify the backup is complete' uses the same zero-trust philosophy applied to file counts instead of calculations"
+  assessment_quick_check:
+    - "Ask: 'Your script outputs 186.38 with exit code 0. How do you know if that number is right?' — tests whether students reach for verification, not just trust the exit code"
+    - "Give students a buggy scenario: 'A filter script keeps numbers > 20 from input 10, 30, 50 but only returns 30.' Ask what they would check first"
+    - "Ask students to recite the zero-trust verification workflow: generate, request verification, create test cases, compare"
 ---
 
 # The Testing Loop

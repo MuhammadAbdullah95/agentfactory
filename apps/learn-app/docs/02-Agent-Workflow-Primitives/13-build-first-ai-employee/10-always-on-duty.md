@@ -67,6 +67,34 @@ differentiation:
   extension_for_advanced: "Add Slack/email alerts for process failures"
   remedial_for_struggling: "Start with cron only (simpler than PM2)"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 4
+  session_title: "Operations - Always-On Infrastructure"
+  key_points:
+    - "A true Digital FTE does not stop working when you close your laptop — cron handles scheduled tasks, PM2 keeps watchers alive, watchdog monitors health"
+    - "Cron is for scheduled operations (daily briefing at 8 AM), PM2 is for continuous operations (watchers that run forever) — students must understand this distinction"
+    - "PM2's 'pm2 save && pm2 startup' command pair is the key to surviving system reboots — without it, processes die on restart"
+    - "This lesson completes the Silver tier infrastructure: L08 (Perception) + L09 (Safety) + L10 (Persistence) enable autonomous 24/7 operation"
+  misconceptions:
+    - "Students think cron and PM2 do the same thing — cron runs tasks at specific times then exits, PM2 keeps long-running processes alive continuously"
+    - "Students assume PM2 prevents all crashes — PM2 restarts crashed processes, but the watchdog pattern adds health checks to detect silent failures (process running but not working)"
+    - "Students think always-on requires a server — for personal use, their laptop or a mini-PC running PM2 is sufficient; cloud VMs are optional"
+    - "Students skip 'pm2 startup' and wonder why processes disappear after reboot — this is the most common setup error"
+  discussion_prompts:
+    - "The spec shows the CEO Briefing runs every Sunday night. What scheduled tasks would benefit YOUR workflow, and what cron expression would trigger them?"
+    - "What is the difference between a process that crashes (PM2 restarts it) and a process that hangs (watchdog detects it)? Why do you need both?"
+    - "If you had to choose between scheduled operations (cron) and continuous operations (PM2/watchers) for your first deployment, which would deliver more value?"
+  teaching_tips:
+    - "This is a placeholder lesson — direct students to L00 spec sections on Operations and Process Management for full patterns until implementation is complete"
+    - "Cron syntax is notoriously confusing — use crontab.guru as a live reference tool during class"
+    - "Demo PM2 status output to show students what a managed process looks like — 'pm2 list' output is more meaningful than abstract descriptions"
+    - "Connect to L08: the GmailWatcher from L08 is the primary candidate for PM2 management — show how they integrate"
+  assessment_quick_check:
+    - "Write a cron expression for 'every day at 8 AM' and explain each field"
+    - "What two PM2 commands make a process survive a system reboot?"
+    - "What is the difference between cron (scheduled) and PM2 (continuous) operation?"
+
 # Generation metadata
 generated_by: "placeholder - to be implemented"
 created: "2026-01-07"

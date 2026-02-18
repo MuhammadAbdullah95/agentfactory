@@ -87,6 +87,33 @@ differentiation:
   extension_for_advanced: "Explore awk associative arrays for multi-field grouping, combine grep with -P for Perl-compatible regex, investigate logrotate(8) for production log management, and create cron jobs that send alerts via curl to a webhook."
   remedial_for_struggling: "Start with grep only -- master basic string matching before adding -E regex. Use awk to print single fields ($1, $2) before attempting aggregation. Copy crontab syntax from examples rather than composing from scratch."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Text Processing and Automation"
+  key_points:
+    - "grep, sed, and awk form a processing pipeline: grep finds lines, sed transforms them, awk extracts and computes across fields — each tool has a distinct role"
+    - "The multi-tool pipeline pattern (grep | sed | sort | uniq -c | sort -rn) is the standard approach for log analysis and recurs in debugging (lesson 11) and production monitoring (lesson 14)"
+    - "cron scheduling with output redirection (>> file 2>&1) turns manual analysis into automated monitoring — but cron runs with a minimal environment, so scripts must use absolute paths"
+    - "Log rotation prevents disk exhaustion on long-running agents — without it, a 100-line/min agent fills a disk in days"
+  misconceptions:
+    - "Students think grep and awk do the same thing — grep finds matching lines while awk processes fields within lines; they complement each other in pipelines"
+    - "Students expect sed -i to be reversible — in-place editing is permanent with no undo; always test without -i first or make a backup"
+    - "Students forget that cron runs with a minimal PATH — scripts that work interactively fail in cron because PATH is different; define PATH in the script"
+    - "Students assume crontab -r removes one job — it removes ALL jobs; use crontab -e to edit specific entries"
+  discussion_prompts:
+    - "Your agent produces 50,000 lines of logs per day. How would you use the tools from this lesson to create a daily summary report that fits on one screen?"
+    - "What is the advantage of chaining small tools with pipes versus writing a single Python script that does all the processing?"
+  teaching_tips:
+    - "Use the sample log file throughout — creating it at the start gives students a consistent dataset for all exercises, which builds confidence"
+    - "Build the error summary pipeline incrementally: run grep alone, then grep | sed, then add sort | uniq -c — showing each transformation stage"
+    - "The crontab five-field syntax diagram is a whiteboard moment — draw it large and have students decode example schedules"
+    - "Spend less time on sed (substitution is the main use case) and more on awk field extraction — awk is harder to learn but more powerful for log analysis"
+  assessment_quick_check:
+    - "Ask students to find all ERROR lines from agent-01 and count them (expected: grep ERROR file | grep agent-01 | wc -l)"
+    - "Ask: what does the cron expression '0 2 * * *' mean? (Expected: run at 2:00 AM every day)"
+    - "Give students a log line and ask them to extract the third field using awk (expected: awk '{print $3}' file)"
+
 teaching_approach: "Error analysis -- students parse real log files to find problems, then automate the analysis."
 modality: "Error Analysis"
 

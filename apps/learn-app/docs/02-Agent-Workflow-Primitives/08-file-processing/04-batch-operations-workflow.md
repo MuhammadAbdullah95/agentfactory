@@ -70,6 +70,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Ask Claude Code to handle edge cases: what if some files already follow the new pattern? What if there are naming conflicts?"
   remedial_for_struggling: "Focus on just the first rename operation. Watch how the agent shows the preview. Don't worry about the script. Just see the pattern of 'show me first, then do it.'"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Batch Operations and Error Recovery"
+  key_points:
+    - "The shift from 'solve the problem' to 'solve the category of problems' via script generation is the central concept — one-time commands vs reusable automation"
+    - "Preview-before-action is distinct from the dry-run in Lesson 3: here you see the actual rename mapping (old name → new name) before committing"
+    - "'Fix the rule, not the file' is the batch operations mindset — every edge case fixed in the script is an edge case that never recurs"
+    - "Scripts serve double duty as automation AND documentation — the naming logic is preserved in code, not just memory"
+  misconceptions:
+    - "Students think the preview step is optional overhead — the date-stripping mistake (losing when screenshots were taken) shows that preview caught a design error, not just a technical one"
+    - "Students may think naming collisions are rare edge cases — files from different folders with identical timestamps are surprisingly common when merging sources"
+    - "Students confuse 'the agent created a script' with 'I know how to write scripts' — the skill here is directing the agent to produce reusable automation, not scripting itself"
+  discussion_prompts:
+    - "The agent's first naming pattern (screenshot-001.png) threw away the dates. Why is 'losing information during renaming' a common pitfall, and how does the preview step prevent it?"
+    - "When a batch rename fails on 7 of 87 files, why is it better to fix the script and rerun than to rename those 7 files manually?"
+    - "What other repetitive tasks in your daily work could become reusable scripts if you asked an agent to create them?"
+  teaching_tips:
+    - "Start by asking students how long it would take to rename 87 files manually — the 43 minutes vs 30 seconds comparison makes the value of batch operations visceral"
+    - "The progressive pattern table (Lessons 1-4) on the board shows how each lesson adds a new capability — have students trace the progression"
+    - "Demonstrate the naming collision scenario live if possible — it surprises students how easily data loss happens with batch renames"
+    - "Emphasize that 'Create a script I can reuse' is a phrase students should memorize — it transforms any one-time agent task into permanent automation"
+  assessment_quick_check:
+    - "Ask students to state the two key requests from this lesson: 'Show me what you'll do before doing it' and 'Create a script I can reuse'"
+    - "Present a batch rename scenario where 3 files would collide. Ask: what should the agent do before proceeding?"
+    - "Ask: 'Why is a script more valuable than the renamed files?' — tests understanding that automation outlasts any single operation"
 ---
 
 # Batch Operations Workflow

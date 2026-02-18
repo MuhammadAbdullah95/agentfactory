@@ -76,6 +76,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Create additional prompt templates for domains beyond files: calendar management, email organization, project tracking"
   remedial_for_struggling: "Focus on just one workflow on the Desktop. Complete the toolkit document with the workflows you found most useful."
+
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 3
+  session_title: "Search, Synthesis, and Capstone"
+  key_points:
+    - "The shift from 'knowing six workflows' to 'knowing which one to grab under pressure' is the capstone's core test — workflow selection IS the skill"
+    - "The Seven Principles mapping table makes explicit what students practiced implicitly: every principle emerged through action, not lecture"
+    - "MY-PROMPT-TOOLKIT.md is the chapter's most durable deliverable — organized folders go stale, but prompt templates are permanently reusable"
+    - "The manual-to-automation bridge (Python code preview) shows students that the gap between manual prompts and automated AI Employees is just 'the same skill with a scheduler attached'"
+  misconceptions:
+    - "Students think the capstone introduces new material — it does not. The challenge is synthesis and judgment, which feels harder than learning individual workflows"
+    - "Students may default to the survey-first sequence for every scenario — the urgent search scenario shows that context determines sequence, not a fixed order"
+    - "Students might undervalue MY-PROMPT-TOOLKIT.md compared to the organized folders — the toolkit is the only deliverable that transfers to new folders and new domains"
+  discussion_prompts:
+    - "In Scenario 1 (urgent search), you skip the survey and go straight to search. When is it acceptable to break the standard sequence, and how do you decide?"
+    - "Look at the manual-to-automated table. What changes when you remove the human from the loop? What stays exactly the same?"
+    - "Which of the six workflows do you think you will use most often in your daily work? Why?"
+  teaching_tips:
+    - "Run the four triage scenarios as a class activity — have students debate which workflow to use BEFORE revealing the insights. Disagreements are productive learning moments"
+    - "The 15-minute real-world test works best when students use their OWN messy folders — the stakes feel real because the files matter to them"
+    - "The Seven Principles table is the perfect review tool — walk through it row by row and ask students to recall the specific moment they experienced each principle"
+    - "End the chapter by having students read their MY-PROMPT-TOOLKIT.md aloud — hearing their own templates reinforces retention and reveals gaps"
+  assessment_quick_check:
+    - "Present a new scenario (e.g., 'Your project folder has 200 files and a deadline in 2 hours'). Ask students which workflows they would use and in what order"
+    - "Ask students to name all Seven Principles and point to the lesson where each one appeared — tests synthesis across the whole chapter"
+    - "Ask: 'What is the difference between the organized folders and the prompt toolkit? Which one would you take to a new computer?' — tests understanding of durable vs ephemeral deliverables"
 ---
 
 # Capstone: Your File Processing Toolkit

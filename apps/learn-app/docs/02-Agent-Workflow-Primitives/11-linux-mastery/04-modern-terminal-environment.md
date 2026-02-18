@@ -74,6 +74,32 @@ differentiation:
   extension_for_advanced: "Explore apt-cache policy to inspect package versions and repositories. Create a shell function (not just an alias) that combines multiple commands. Try zoxide's interactive mode with zi."
   remedial_for_struggling: "Focus on apt install and alias creation only. Skip zoxide and fzf initially -- return to them after practicing the apt workflow on three different packages. Use the backup-then-edit pattern for .bashrc to build confidence."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Shell Customization and Tooling"
+  key_points:
+    - "The apt update-then-install workflow is mandatory — students must internalize that installing without updating first can install outdated or missing packages"
+    - ".bashrc is the shell's memory — aliases, PATH changes, and tool initialization added here persist across sessions, which is how production servers are configured"
+    - "The alias rm='rm -i' safety pattern is a real-world best practice that prevents accidental deletions learned in lesson 2"
+    - "Environment variables (especially PATH and export vs non-export) become critical for agent deployment in lesson 14 — introduce the concept here but defer deep coverage"
+  misconceptions:
+    - "Students think apt install and pip install are interchangeable — apt manages system packages while pip manages Python packages, and mixing them causes conflicts"
+    - "Students forget to run source ~/.bashrc after editing and think their changes did not work — emphasize that .bashrc only runs on new terminal sessions or explicit source"
+    - "Students expect zoxide to work immediately — it needs to learn directories first through regular cd usage before z shortcuts become useful"
+  discussion_prompts:
+    - "If you manage 5 servers that all need the same tools and aliases, how would you ensure consistent terminal environments across all of them?"
+    - "The alias rm='rm -i' adds a safety confirmation to every delete. What are the tradeoffs of adding safety aliases — when could they become a problem?"
+  teaching_tips:
+    - "Demo the full apt workflow live: apt update, apt search, apt install, which, apt remove — students need to see the complete cycle before practicing"
+    - "Have students create their own custom alias for a command they have been typing repeatedly — personal aliases stick better than prescribed ones"
+    - "The backup-before-edit pattern (cp ~/.bashrc ~/.bashrc.backup) is a habit that prevents lockouts — demonstrate what happens when a broken .bashrc prevents shell startup"
+    - "zoxide and fzf are 'wow' tools — demo z jumping to a deep directory in 3 characters vs typing 40+ characters with cd to create enthusiasm for terminal customization"
+  assessment_quick_check:
+    - "Ask: what two commands must you run after editing .bashrc? (Expected: save the file, then source ~/.bashrc)"
+    - "Ask students to install a package, verify it, then remove it using apt — the full lifecycle in one exercise"
+    - "Ask: what is the difference between a regular variable and an exported variable? (Expected: export makes it available to child processes)"
+
 generated_by: "content-implementer"
 created: "2026-02-09"
 version: "2.0.0"

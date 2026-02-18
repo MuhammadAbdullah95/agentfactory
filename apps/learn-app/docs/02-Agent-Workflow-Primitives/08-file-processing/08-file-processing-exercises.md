@@ -56,6 +56,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt exercises with minimal prompts; write reusable scripts"
   remedial_for_struggling: "Start with Module 1 only; use the starter prompts provided; focus on Build exercises before Debug"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 4
+  session_title: "Practice Exercises"
+  key_points:
+    - "Build + Debug pairing develops two distinct skills: applying workflows correctly (Build) vs diagnosing what went wrong in someone else's work (Debug)"
+    - "The seven-step File Processing Framework (Survey, Backup, Plan, Test, Execute, Verify, Document) is the transferable takeaway that applies to any domain, not just files"
+    - "Scaffolding is deliberately removed across modules: Modules 1-2 have starter prompts, Modules 3-5 remove them, Capstones remove all guidance"
+    - "Capstone C (Your Own Files) has real consequences — it is the only exercise where the files actually matter, making the safety-first pattern genuinely necessary"
+  misconceptions:
+    - "Students think Debug exercises are easier than Build — diagnosing someone else's errors requires deeper understanding than executing a workflow yourself"
+    - "Students may skip the 3-file test in batch exercises because it 'worked in the chapter lessons' — the starter files deliberately include edge cases that only surface during testing"
+    - "Students underestimate Capstone C compared to A and B — working with real files adds psychological pressure that changes decision-making"
+  discussion_prompts:
+    - "In Module 1, how did the Debug exercise (finding errors in someone else's inventory) teach you something different from the Build exercise (creating your own)?"
+    - "The assessment rubric goes from Beginner to Advanced. Where do you honestly place yourself after completing the exercises? What would move you up one level?"
+    - "The exercises use downloaded starter files, but Capstone C uses your real files. How did the stakes change your approach?"
+  teaching_tips:
+    - "Assign Module 1 as homework before the exercises workshop — students arrive ready to work on Modules 2-5 with investigation skills already practiced"
+    - "For classroom settings, pair students on Debug exercises: one student creates a broken state, the other diagnoses it. This is more engaging than using the provided starter files"
+    - "The assessment rubric works well as a self-evaluation tool — have students rate themselves before and after completing the exercises to see growth"
+    - "Do not skip Capstone C for students who complete A or B — the real-file experience is irreplaceable and tests whether the framework holds under genuine stakes"
+  assessment_quick_check:
+    - "Ask students to recite the seven-step File Processing Framework from memory — it is the chapter's core deliverable"
+    - "Present a new scenario (e.g., 'messy shared Google Drive') and ask students which modules' skills they would apply and in what order"
+    - "Ask: 'What is the difference between a Build exercise and a Debug exercise? Which one was harder for you, and why?'"
 ---
 
 # Practice: File Processing Exercises

@@ -34,6 +34,31 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Extend the persistence proof to test concurrent writes from two scripts running simultaneously. What happens if both try to insert with the same unique email?"
   remedial_for_struggling: "Focus entirely on the two-script persistence proof. Run write_once.py and read_later.py multiple times until the concept of cross-process persistence clicks."
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 1
+  session_title: "From Scripts to Databases"
+  key_points:
+    - "Persistence means data outlives the process — closing the terminal should not mean losing your data"
+    - "The two-script proof (write_once.py + read_later.py) is the minimal test that separates a calculator from a system"
+    - "Pattern capture in SKILL.md must include decision logic and guardrails, not just definitions — notes are ignored under pressure"
+    - "The skill scaffold grows across the chapter — this lesson plants the seed that later lessons extend"
+  misconceptions:
+    - "Students want to jump straight to Neon cloud setup — they must prove local persistence first or they will debug cloud config when the real issue is understanding"
+    - "Students think saving to JSON is equivalent to a database — it breaks down at relationships, concurrent writes, and query flexibility"
+    - "Students confuse in-memory data (Python dict) with on-disk persistence (SQLite file) — the process boundary test makes this visceral"
+  discussion_prompts:
+    - "What happens to a Python dictionary when you press Ctrl+C? How is that different from what happens to the SQLite .db file?"
+    - "Why is capturing a skill scaffold now more valuable than waiting until you are an expert? Think about what you forget between projects."
+  teaching_tips:
+    - "Have students actually run both scripts in separate terminal sessions — the visceral experience of data surviving across processes is the lesson"
+    - "The process boundary diagram is the key visual — draw it on the whiteboard showing two separate boxes sharing one disk file"
+    - "When students hit the 'When the Proof Fails' section, let them deliberately break it (skip commit, use wrong path) to build debugging instincts"
+    - "The skill scaffold appendix is a template, not a finished product — emphasize it will grow across the chapter"
+  assessment_quick_check:
+    - "Explain in one sentence why a Python dictionary is not persistent"
+    - "What are the four things to check when read_later.py returns an empty list?"
+    - "What must a useful SKILL.md include beyond definitions?"
 ---
 
 # Build Your Database Skill

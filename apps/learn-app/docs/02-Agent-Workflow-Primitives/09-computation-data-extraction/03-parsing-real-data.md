@@ -63,6 +63,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Add command-line column selection, explore csv.DictReader for named columns"
   remedial_for_struggling: "Focus on the conversation - watch how the agent recognizes and solves the CSV trap"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Real Data and Permanent Tools"
+  key_points:
+    - "The CSV quoting trap (commas inside quoted fields breaking awk) is the canonical example of 'clean test data behaves, real data cheats'"
+    - "The collaboration pattern is the lesson's real teaching: student discovers the failure (awk on AMAZON, INC.), agent provides the solution (csv module) — neither could solve it alone"
+    - "Mentioning the edge case in your prompt ('some merchant names have commas') steers the agent to robust solutions instead of naive ones"
+    - "The awk-vs-csv decision table is a practical tool: if data comes from outside your control, always use a proper CSV parser"
+  misconceptions:
+    - "Students think awk is always wrong for CSV — it works fine for tab-separated data and CSVs you control, only failing on external data with quoted fields"
+    - "Students may not realize the bug is intermittent — awk works on rows without commas in fields and fails silently on rows with them, making it the worst kind of bug"
+    - "Students assume Python's csv module is overkill for simple data — but the edge cases it handles (escaped quotes, different line endings) justify it for any external CSV"
+  discussion_prompts:
+    - "The awk command returned 'INC.' instead of an error. Why is a wrong value more dangerous than a crash for financial data?"
+    - "You discovered the awk failure before asking the agent. How did bringing a specific failure example change the quality of the agent's response?"
+    - "The lesson says 'if the CSV came from outside your control, use a proper CSV parser.' Why does the source of the data matter more than its apparent simplicity?"
+  teaching_tips:
+    - "Have students run the awk command on the AMAZON, INC. line themselves — seeing 'INC.' appear instead of '-89.50' is the lesson's central shock moment"
+    - "Walk through the awk field-splitting diagram (4 fields instead of 3) on the board — visual learners need to see how the comma inside quotes creates a phantom field"
+    - "The privacy note about bank CSVs is important — remind students they can remove account numbers before processing, or use the provided test data"
+    - "Connect to Lesson 2's zero-trust philosophy: even this csv-module script should be verified with known-answer test data before running on real bank statements"
+  assessment_quick_check:
+    - "Give students the line '2024-01-07,\"AMAZON, INC.\",-89.50' and ask: what does 'awk -F, \"{print $3}\"' return and why?"
+    - "Ask: 'When should you use awk and when should you use Python csv module?' — tests understanding of the decision table"
+    - "Ask students to write a prompt that would steer the agent toward a robust CSV solution instead of a naive awk approach"
 ---
 
 # Parsing Real Data

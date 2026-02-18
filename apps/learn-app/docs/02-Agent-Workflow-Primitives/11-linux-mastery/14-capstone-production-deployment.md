@@ -79,6 +79,32 @@ differentiation:
   extension_for_advanced: "Add environment-aware deployment (dev vs production configs), automated rollback on validation failure, or systemd timer-based health monitoring that restarts the service if the health endpoint stops responding."
   remedial_for_struggling: "Start with just the specification — write DEPLOYMENT-SPEC.md without implementing it. Then implement one section at a time: create user first, then service file, then validation. Build confidence through incremental success."
 
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 5
+  session_title: "Skills, Capstone, and Practice"
+  key_points:
+    - "Spec-first deployment (write DEPLOYMENT-SPEC.md before touching the terminal) is the professional pattern — it prevents the 'type commands until it works' anti-pattern"
+    - "This capstone integrates every skill from lessons 1-13: navigation, file ops, scripting, security, networking, systemd, debugging, patterns, and skills"
+    - "Layered validation (service, network, security, monitoring, resources) catches failures that single-point checks miss — each layer tests a different dimension"
+    - "Deployment packaging (idempotent deploy.sh) makes the deployment reproducible — anyone can run the same script on a clean server and get the same result"
+  misconceptions:
+    - "Students want to skip the specification and start typing commands — emphasize that the spec is what makes this a production deployment, not a hobby project"
+    - "Students think validation means checking if the service is running — five-layer validation also checks permissions, firewall rules, resource limits, and log rotation"
+    - "Students expect AI to write the entire deployment for them — AI reviews and optimizes, but the student must write the specification and understand every component"
+  discussion_prompts:
+    - "Compare your capstone deployment to the commands you typed in lesson 10. What is different about spec-first deployment versus 'just make it work'?"
+    - "If you hand your deploy.sh to a colleague who has never seen your server, what would they need to know before running it? How does the DEPLOYMENT-SPEC.md help?"
+  teaching_tips:
+    - "This is the chapter closer — connect back to the chapter opener (lesson 1) where students could barely navigate the filesystem, showing how far they have come"
+    - "Allow 90 minutes for this lesson — students need time to write the spec, implement, validate, and package; rushing the capstone undermines its purpose"
+    - "The five-layer validation script is the most satisfying moment — seeing all checks pass is the reward for 13 lessons of progressive skill building"
+    - "Have students deploy on a clean workspace (fresh /tmp directory) to prove their deploy.sh is truly reproducible — this connects to fresh-system testing from lesson 13"
+  assessment_quick_check:
+    - "Ask: what are the four sections of DEPLOYMENT-SPEC.md? (Expected: service definition, security requirements, monitoring plan, validation criteria)"
+    - "Ask students to list the five validation layers (Expected: service active, network responding, correct user/permissions, logs flowing, resource limits applied)"
+    - "Ask: what makes a deploy.sh script idempotent? (Expected: it can be run multiple times without breaking — checks if resources exist before creating them)"
+
 teaching_approach: "Spec-first capstone: specification → implementation → validation → packaging"
 modality: "Hands-on synthesis with AI collaboration"
 

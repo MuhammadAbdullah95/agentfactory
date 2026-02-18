@@ -4,7 +4,20 @@ chapter: 11
 lesson: 9
 title: "Networking Fundamentals & SSH Remote Access"
 description: "Understand ports, localhost vs 0.0.0.0 binding, test endpoints with curl, establish SSH connections with key-based authentication, configure ~/.ssh/config for multiple servers, and protect agent ports with ufw firewall rules."
-keywords: ["networking", "ports", "localhost", "ssh", "curl", "ufw", "firewall", "ssh config", "remote access", "agent deployment", "0.0.0.0"]
+keywords:
+  [
+    "networking",
+    "ports",
+    "localhost",
+    "ssh",
+    "curl",
+    "ufw",
+    "firewall",
+    "ssh config",
+    "remote access",
+    "agent deployment",
+    "0.0.0.0",
+  ]
 duration_minutes: 60
 
 # HIDDEN SKILLS METADATA
@@ -87,6 +100,32 @@ differentiation:
   extension_for_advanced: "Explore SSH tunneling for forwarding agent ports through firewalls (ssh -L). Investigate fail2ban for automatic IP banning after failed SSH attempts. Research iptables for fine-grained firewall rules beyond ufw's abstraction."
   remedial_for_struggling: "Focus on curl and SSH connection first. Practice curl against a known endpoint until comfortable reading status codes. Master basic ssh user@host before attempting SSH config. Skip ufw until SSH is solid."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Text Processing and Automation"
+  key_points:
+    - "localhost (127.0.0.1) vs 0.0.0.0 binding is the #1 reason agents are unreachable — binding to localhost means only the same machine can connect"
+    - "curl is the essential diagnostic tool for agent health checks — curl localhost:8000/health is the first command when debugging a deployed agent"
+    - "SSH key-based auth (generated in lesson 8) replaces passwords — ~/.ssh/config aliases simplify managing multiple agent servers"
+    - "ufw default-deny policy means only explicitly allowed ports are open — this is the firewall foundation for protecting agent services"
+  misconceptions:
+    - "Students think 127.0.0.1 and 0.0.0.0 are the same — 127.0.0.1 is loopback (local only), 0.0.0.0 binds to all network interfaces (reachable from outside)"
+    - "Students expect agents to be reachable without opening firewall ports — ufw blocks everything by default, so agent ports must be explicitly allowed"
+    - "Students confuse SSH config Host aliases with actual hostnames — the alias is a shortcut you define, the HostName field is the real server address"
+  discussion_prompts:
+    - "Your agent is running on port 8000 but your client cannot connect from another machine. Walk through the diagnostic steps: is the agent running, what address is it bound to, is the firewall blocking?"
+    - "Why would you bind an agent to 127.0.0.1 during development but 0.0.0.0 in production (behind a reverse proxy)? What are the security implications?"
+  teaching_tips:
+    - "Start with the 'can I reach my agent?' question and build diagnostic layers — this matches how students will actually troubleshoot in practice"
+    - "Demo curl against a real endpoint (even a simple Python HTTP server) — seeing HTTP status codes and JSON responses makes networking concrete"
+    - "The SSH config file is a productivity win — show students connecting with 'ssh agent-prod' instead of typing full user@host:port every time"
+    - "Demo ufw status before and after enabling — seeing the default-deny policy in action is more memorable than describing it"
+  assessment_quick_check:
+    - "Ask: an agent is bound to 127.0.0.1:8000. Can a user on another machine connect? (Expected: no, because 127.0.0.1 is loopback only)"
+    - "Ask students to write a curl command that sends a GET request to localhost:8000/health and checks the status code"
+    - "Ask: after enabling ufw, what is the default policy for incoming traffic? (Expected: deny — all ports are blocked unless explicitly allowed)"
+
 teaching_approach: "Layered discovery -- start from 'can I reach my agent?' and build diagnostic layers."
 modality: "Layered discovery with progressive diagnostic depth"
 
@@ -114,14 +153,14 @@ A port is a numbered endpoint on a machine that identifies a specific service. W
 
 The Internet Assigned Numbers Authority (IANA) maintains a registry of port assignments. The most important ones for agent deployment:
 
-| Port | Service | Why You Care |
-|------|---------|--------------|
-| 22 | SSH | Remote access to your server |
-| 80 | HTTP | Unencrypted web traffic |
-| 443 | HTTPS | Encrypted web traffic |
-| 5432 | PostgreSQL | Database your agent may use |
+| Port | Service    | Why You Care                     |
+| ---- | ---------- | -------------------------------- |
+| 22   | SSH        | Remote access to your server     |
+| 80   | HTTP       | Unencrypted web traffic          |
+| 443  | HTTPS      | Encrypted web traffic            |
+| 5432 | PostgreSQL | Database your agent may use      |
 | 8000 | Convention | Common for Python/FastAPI agents |
-| 8080 | Convention | Alternative HTTP port |
+| 8080 | Convention | Alternative HTTP port            |
 
 Ports 0-1023 are "well-known" and require root privileges to bind. Ports 1024-49151 are "registered" and available to any user. This is why your agent uses port 8000 instead of port 80 -- binding to 8000 does not require root access, which aligns with the least-privilege principle from Lesson 8.
 
@@ -134,6 +173,7 @@ ss -tlnp
 ```
 
 **Output:**
+
 ```
 State    Recv-Q   Send-Q     Local Address:Port     Peer Address:Port  Process
 LISTEN   0        128              0.0.0.0:22            0.0.0.0:*      users:(("sshd",pid=892,fd=3))
@@ -142,12 +182,12 @@ LISTEN   0        5              127.0.0.1:8000          0.0.0.0:*      users:((
 
 Each line shows a listening service. The flags mean:
 
-| Flag | Purpose |
-|------|---------|
-| `-t` | TCP connections only |
+| Flag | Purpose                                              |
+| ---- | ---------------------------------------------------- |
+| `-t` | TCP connections only                                 |
 | `-l` | Listening sockets only (not established connections) |
-| `-n` | Show port numbers instead of service names |
-| `-p` | Show the process using each port |
+| `-n` | Show port numbers instead of service names           |
+| `-p` | Show the process using each port                     |
 
 The output above reveals two services: SSH listening on port 22 (accessible from anywhere, `0.0.0.0`) and a Python agent on port 8000 (accessible only from localhost, `127.0.0.1`). That distinction is the next concept.
 
@@ -168,6 +208,7 @@ curl http://127.0.0.1:8000/
 ```
 
 **Output:**
+
 ```
 Serving HTTP on 127.0.0.1 port 8000 (http://127.0.0.1:8000/) ...
 <!DOCTYPE HTML>
@@ -191,6 +232,7 @@ curl http://127.0.0.1:8000/
 ```
 
 **Output:**
+
 ```
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 <!DOCTYPE HTML>
@@ -202,10 +244,10 @@ Now the same agent is reachable from other machines on the network (assuming no 
 
 ### When to Use Each
 
-| Binding | Use When | Security |
-|---------|----------|----------|
+| Binding     | Use When                                                                    | Security                                |
+| ----------- | --------------------------------------------------------------------------- | --------------------------------------- |
 | `127.0.0.1` | Agent should only be accessed locally (development, internal-only services) | Safest -- nothing external can reach it |
-| `0.0.0.0` | Agent must be accessible from other machines (production, remote clients) | Requires firewall protection |
+| `0.0.0.0`   | Agent must be accessible from other machines (production, remote clients)   | Requires firewall protection            |
 
 :::tip Agent Framework Defaults
 Many web frameworks default to `127.0.0.1` for safety. When deploying to production, you must explicitly set the binding address. For FastAPI with uvicorn: `uvicorn main:app --host 0.0.0.0 --port 8000`. For Flask: `flask run --host 0.0.0.0`.
@@ -222,6 +264,7 @@ kill %1 2>/dev/null
 ```
 
 **Output:**
+
 ```
 [1]+  Terminated              python3 -m http.server 8000 --bind 0.0.0.0
 ```
@@ -239,6 +282,7 @@ curl http://localhost:8000/
 ```
 
 **Output:**
+
 ```
 <!DOCTYPE HTML>
 <html lang="en">
@@ -255,6 +299,7 @@ curl http://localhost:8000/
 ```
 
 **Output:**
+
 ```
 curl: (7) Failed to connect to localhost port 8000 after 0 ms: Connection refused
 ```
@@ -270,16 +315,17 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/
 ```
 
 **Output:**
+
 ```
 200
 ```
 
-| Status Code | Meaning | Action |
-|-------------|---------|--------|
-| `200` | Success | Agent is healthy |
-| `404` | Not found | Endpoint path is wrong |
-| `500` | Server error | Agent crashed or has a bug |
-| `000` | Connection failed | Nothing is listening on that port |
+| Status Code | Meaning           | Action                            |
+| ----------- | ----------------- | --------------------------------- |
+| `200`       | Success           | Agent is healthy                  |
+| `404`       | Not found         | Endpoint path is wrong            |
+| `500`       | Server error      | Agent crashed or has a bug        |
+| `000`       | Connection failed | Nothing is listening on that port |
 
 ### Sending POST Requests
 
@@ -292,17 +338,18 @@ curl -X POST http://localhost:8000/api/process \
 ```
 
 **Output:**
+
 ```
 {"status": "processed", "result": "analysis complete"}
 ```
 
 The flags:
 
-| Flag | Purpose |
-|------|---------|
-| `-X POST` | Use POST method instead of GET |
-| `-H "..."` | Set a request header |
-| `-d '...'` | Send data in the request body |
+| Flag       | Purpose                        |
+| ---------- | ------------------------------ |
+| `-X POST`  | Use POST method instead of GET |
+| `-H "..."` | Set a request header           |
+| `-d '...'` | Send data in the request body  |
 
 ### Verbose Mode for Debugging
 
@@ -313,6 +360,7 @@ curl -v http://localhost:8000/health
 ```
 
 **Output:**
+
 ```
 *   Trying 127.0.0.1:8000...
 * Connected to localhost (127.0.0.1) port 8000 (#0)
@@ -343,6 +391,7 @@ ssh yourname@192.168.1.100
 ```
 
 **Output:**
+
 ```
 The authenticity of host '192.168.1.100 (192.168.1.100)' can't be established.
 ED25519 key fingerprint is SHA256:abc123def456...
@@ -362,6 +411,7 @@ ssh-copy-id yourname@192.168.1.100
 ```
 
 **Output:**
+
 ```
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/yourname/.ssh/id_ed25519.pub"
 Number of key(s) added: 1
@@ -377,6 +427,7 @@ ssh yourname@192.168.1.100
 ```
 
 **Output:**
+
 ```
 yourname@server:~$
 ```
@@ -392,14 +443,15 @@ ssh -p 2222 -i ~/.ssh/agent-deploy-key yourname@192.168.1.100
 ```
 
 **Output:**
+
 ```
 yourname@server:~$
 ```
 
-| Flag | Purpose |
-|------|---------|
-| `-p 2222` | Connect to port 2222 instead of default 22 |
-| `-i ~/.ssh/agent-deploy-key` | Use a specific private key file |
+| Flag                         | Purpose                                    |
+| ---------------------------- | ------------------------------------------ |
+| `-p 2222`                    | Connect to port 2222 instead of default 22 |
+| `-i ~/.ssh/agent-deploy-key` | Use a specific private key file            |
 
 ---
 
@@ -445,6 +497,7 @@ chmod 600 ~/.ssh/config
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -458,6 +511,7 @@ ssh agent-prod
 ```
 
 **Output:**
+
 ```
 deploy@agent-prod:~$
 ```
@@ -471,6 +525,7 @@ grep -c "Host " ~/.ssh/config
 ```
 
 **Output:**
+
 ```
 3
 ```
@@ -505,6 +560,7 @@ ssh -o PasswordAuthentication=no yourname@your-server
 ```
 
 **Output:**
+
 ```
 yourname@server:~$
 ```
@@ -526,15 +582,16 @@ PubkeyAuthentication yes
 ```
 
 **Output:**
+
 ```
 (nano editor with changes applied)
 ```
 
-| Setting | Value | Why |
-|---------|-------|-----|
-| `PasswordAuthentication no` | Disables password login | Prevents brute-force attacks |
-| `PermitRootLogin no` | Blocks direct root SSH | Forces use of sudo from regular accounts |
-| `PubkeyAuthentication yes` | Enables key-based auth | Should already be yes by default |
+| Setting                     | Value                   | Why                                      |
+| --------------------------- | ----------------------- | ---------------------------------------- |
+| `PasswordAuthentication no` | Disables password login | Prevents brute-force attacks             |
+| `PermitRootLogin no`        | Blocks direct root SSH  | Forces use of sudo from regular accounts |
+| `PubkeyAuthentication yes`  | Enables key-based auth  | Should already be yes by default         |
 
 ### Step 3: Test Configuration Before Restarting
 
@@ -543,6 +600,7 @@ sudo sshd -t
 ```
 
 **Output:**
+
 ```
 (no output means configuration is valid)
 ```
@@ -556,6 +614,7 @@ sudo systemctl restart sshd
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -569,6 +628,7 @@ ssh yourname@your-server
 ```
 
 **Output:**
+
 ```
 yourname@server:~$
 ```
@@ -589,6 +649,7 @@ sudo ufw status
 ```
 
 **Output:**
+
 ```
 Status: inactive
 ```
@@ -602,6 +663,7 @@ sudo ufw allow 22/tcp
 ```
 
 **Output:**
+
 ```
 Rules updated
 Rules updated (v6)
@@ -614,6 +676,7 @@ sudo ufw allow 8000/tcp
 ```
 
 **Output:**
+
 ```
 Rules updated
 Rules updated (v6)
@@ -628,6 +691,7 @@ sudo ufw enable
 ```
 
 **Output:**
+
 ```
 Default incoming policy changed to 'deny'
 Default outgoing policy changed to 'allow'
@@ -644,6 +708,7 @@ sudo ufw status numbered
 ```
 
 **Output:**
+
 ```
 Status: active
 
@@ -666,6 +731,7 @@ sudo ufw delete allow 8000/tcp
 ```
 
 **Output:**
+
 ```
 Rule deleted
 Rule deleted (v6)
@@ -680,6 +746,7 @@ sudo ufw deny from 203.0.113.50
 ```
 
 **Output:**
+
 ```
 Rule added
 ```
@@ -694,13 +761,13 @@ If you enable ufw without allowing port 22, you will immediately lose SSH access
 
 When your agent is unreachable, work through this diagnostic sequence:
 
-| Step | Command | What It Tells You |
-|------|---------|-------------------|
-| 1. Is it running? | `ss -tlnp \| grep 8000` | Whether anything is listening on the port |
-| 2. What address? | Check the `Local Address` column | `127.0.0.1` = local only, `0.0.0.0` = network accessible |
-| 3. Can I reach it locally? | `curl http://localhost:8000/health` | Whether the agent responds at all |
-| 4. Is the firewall blocking? | `sudo ufw status` | Whether the port is allowed through |
-| 5. Can I reach it remotely? | `curl http://server-ip:8000/health` | Whether end-to-end connectivity works |
+| Step                         | Command                             | What It Tells You                                        |
+| ---------------------------- | ----------------------------------- | -------------------------------------------------------- |
+| 1. Is it running?            | `ss -tlnp \| grep 8000`             | Whether anything is listening on the port                |
+| 2. What address?             | Check the `Local Address` column    | `127.0.0.1` = local only, `0.0.0.0` = network accessible |
+| 3. Can I reach it locally?   | `curl http://localhost:8000/health` | Whether the agent responds at all                        |
+| 4. Is the firewall blocking? | `sudo ufw status`                   | Whether the port is allowed through                      |
+| 5. Can I reach it remotely?  | `curl http://server-ip:8000/health` | Whether end-to-end connectivity works                    |
 
 This sequence moves from inside-out: first check the agent itself, then check network accessibility. Most problems are caught at step 1 or step 2.
 
@@ -717,11 +784,13 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
 ```
 
 **Expected output (if nothing is running):**
+
 ```
 000
 ```
 
 **Expected output (if an agent is listening):**
+
 ```
 200
 ```
@@ -738,11 +807,13 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 **Verify:**
+
 ```bash
 ls ~/.ssh/id_ed25519*
 ```
 
 **Expected output:**
+
 ```
 /home/yourname/.ssh/id_ed25519
 /home/yourname/.ssh/id_ed25519.pub
@@ -768,16 +839,19 @@ EOF
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
 
 **Verify:**
+
 ```bash
 grep -c "Host " ~/.ssh/config
 ```
 
 **Expected output:**
+
 ```
 1
 ```

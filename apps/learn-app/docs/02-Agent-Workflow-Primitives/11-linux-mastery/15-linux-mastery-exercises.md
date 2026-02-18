@@ -56,6 +56,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt exercises with minimal prompts; write reusable automation scripts"
   remedial_for_struggling: "Start with Module 1 only; use the starter prompts provided; focus on Build exercises before Debug"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 5
+  session_title: "Skills, Capstone, and Practice"
+  key_points:
+    - "These exercises close the gap between understanding commands and using them under pressure — fluency requires practice beyond reading lessons"
+    - "Each module pairs a Build exercise (apply skills) with a Debug exercise (diagnose failures) — both are essential for production readiness"
+    - "The three capstone projects test end-to-end integration: deployment pipeline, security audit remediation, and monitoring system design"
+    - "Exercise files are real configs, log files, and broken scripts — not sanitized examples; messy reality is where learning happens"
+  misconceptions:
+    - "Students think completing the lessons means they are ready for production — exercises reveal gaps between understanding a concept and applying it under constraints"
+    - "Students skip Debug exercises because they are harder — diagnosing failures is more valuable than building from scratch because production work is mostly debugging"
+    - "Students try to complete all 17 exercises in one session — recommend one module per sitting to prevent fatigue and allow reflection"
+  discussion_prompts:
+    - "Which exercise was hardest? What did the difficulty reveal about gaps in your understanding from the lessons?"
+    - "When debugging a broken exercise, how did you decide where to start investigating? Did you follow the triage methodology from lesson 11?"
+  teaching_tips:
+    - "This is the chapter closer for practice — set expectations that students should complete at least 7 exercises (one per module) plus one capstone to demonstrate proficiency"
+    - "Encourage students to attempt exercises without the starter prompts first — the starter prompts are safety nets, not starting points"
+    - "The Debug exercises are where the real learning happens — allocate more class time to debugging than building, as students need practice with the triage mindset"
+    - "Have students reflect after each module using the provided questions — reflection cements the operational intuition that makes Linux skills automatic"
+  assessment_quick_check:
+    - "Ask students which module they found most challenging and why — the answer reveals which lessons need review"
+    - "Ask: in a Debug exercise, what is the first thing you check? (Expected: read the error message or logs — not restart the service)"
+    - "Have students describe their approach to one capstone project in 3 sentences — this tests synthesis, not recall"
 ---
 
 # Practice: Linux Mastery Exercises

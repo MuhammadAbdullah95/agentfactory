@@ -50,6 +50,32 @@ learning_objectives:
 cognitive_load:
   new_concepts: 3
   assessment: "3 concepts (pattern recognition, documentation, application) at A2 synthesis level ✓"
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "GitHub and Collaboration"
+  key_points:
+    - "Three fundamental patterns emerge from L1-5: Commit-Before-Experiment, Branch-Test-Merge, and Push-for-Backup — students already use them, now they name and document them"
+    - "Documenting patterns is more valuable than memorizing commands — a personal git-workflow.md reference works under pressure when memory fails"
+    - "The quality test is applying patterns to a new scenario using only the documentation — if you need to look back at lessons, the docs need revision"
+    - "This is Intelligence Design (Stage 3): transforming tacit knowledge into explicit, reusable artifacts"
+  misconceptions:
+    - "Students think this lesson teaches new Git commands — it teaches zero new commands; the value is in recognizing and documenting patterns they already know"
+    - "Students treat git-workflow.md as a course assignment to submit — it is a personal reference they should actually use in future projects"
+    - "Students copy the template verbatim without personalizing — the best reference is written in their own words reflecting their own understanding"
+    - "Students think professional developers memorize all Git commands — professionals rely on documented patterns and references"
+  discussion_prompts:
+    - "When you applied your patterns to the authentication scenario, did you need to look back at the original lessons? What does that tell you about your documentation?"
+    - "If a teammate joins your project next week, could they follow your git-workflow.md without asking you questions? What would you need to add?"
+  teaching_tips:
+    - "The reflection activity (Part 1) is the foundation — give students quiet time to genuinely think about their patterns before jumping to documentation"
+    - "Have students complete the new scenario (Part 3) using ONLY their git-workflow.md — the gap between 'I think I documented it well' and 'I can actually follow it' is the learning moment"
+    - "The persona exercise (Git Safety Engineer) shifts thinking from command recall to pattern-based decision making — emphasize this mindset shift"
+    - "End with the self-assessment question about confidence (1-5 rating) — students who rate low should revise their documentation, not re-read the lessons"
+  assessment_quick_check:
+    - "Name the three fundamental Git patterns from this chapter without looking at your notes"
+    - "In the authentication scenario, which pattern do you apply first and why?"
+    - "If your documentation was insufficient for the new scenario, what should you do — re-read the lessons or revise the documentation?"
 
 # Generation metadata
 generated_by: "content-implementer v1.0.0"

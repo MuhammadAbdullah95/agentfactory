@@ -77,6 +77,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Ask your AI Employee to create 3 skills that chain together. Review the chain for security boundaries between skills."
   remedial_for_struggling: "Ask your AI Employee to create one simple skill. Review just the description field. For security, memorize the 6 checklist rules."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Skills and Security"
+  key_points:
+    - "The human role shifts from skill writer to skill reviewer — this is the same delegation pattern from Lesson 3, now applied to code creation"
+    - "The lethal trifecta (private data + untrusted content + external communication) is the architectural concept students must carry forward — it applies to every agent system, not just OpenClaw"
+    - "12% of ClawHub skills were malicious — this number is visceral and memorable, use it to anchor the supply chain risk discussion"
+    - "The 6-rule security checklist addresses specific real-world attack vectors, not hypothetical risks — each rule maps to a documented incident"
+  misconceptions:
+    - "Students think security threats are hypothetical or rare — the ClawHavoc campaign, CVE-2026-25253, and 135K exposed instances are all from February 2026, weeks before this lesson"
+    - "Students assume that if their AI Employee created the skill, it must be safe — the skill still runs on their machine with full permissions; AI-generated code needs the same review as human-written code"
+    - "Students conflate 'popular skill' with 'safe skill' — Cisco found the #1 ranked ClawHub skill was malware with 9 vulnerabilities"
+    - "Students think the lethal trifecta can be 'solved' — it is a fundamental tension that can only be managed, not eliminated"
+  discussion_prompts:
+    - "You just watched your AI Employee write code that runs on your machine. How is this different from installing a package from npm or pip? Is it more or less risky?"
+    - "If you were designing ClawHub's review process, what would you require before a skill could be published? What tradeoffs does each requirement create?"
+    - "The lethal trifecta says removing any one capability breaks the attack chain but also breaks functionality. Which capability would you limit first, and what would you lose?"
+  teaching_tips:
+    - "Split this lesson into two distinct halves: skills creation (hands-on, optimistic) then security (sobering, critical) — the emotional contrast is intentional and pedagogically powerful"
+    - "Have students review each other's AI-generated skills using the 4-check table — peer review builds the habit of reading code before trusting it"
+    - "For the security section, read the ClawHavoc attack steps aloud in class — the social engineering chain (appealing name, fake error, paste this command) is uncomfortably plausible"
+    - "Draw the lethal trifecta as a Venn diagram on the whiteboard: three circles for data access, untrusted input, and external communication — the dangerous zone is where all three overlap"
+  assessment_quick_check:
+    - "Name the four things to check when reviewing a skill (activation, instructions, output, error handling)"
+    - "Explain the lethal trifecta in one sentence: what three capabilities combined create the danger?"
+    - "What is the single most common configuration mistake that exposed 135,000 OpenClaw instances to the internet?"
 ---
 
 # Teaching Skills & Staying Safe

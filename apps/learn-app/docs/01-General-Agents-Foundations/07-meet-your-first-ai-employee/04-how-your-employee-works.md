@@ -70,6 +70,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Research one more agent framework (LangGraph, AutoGen, or Semantic Kernel) and add a column to the Universal Pattern Map. Identify any patterns that don't map cleanly and explain why."
   remedial_for_struggling: "Focus on the Universal Pattern Map table. For each of the 6 patterns, write one sentence explaining what problem it solves and what happens if you skip it."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Understanding Agent Architecture"
+  key_points:
+    - "The 6 universal patterns (orchestration, I/O adapters, state isolation, capability packaging, externalized memory, concurrency control, autonomous invocation) are THE transferable knowledge — students will use this diagnostic framework for every agent system they encounter"
+    - "The Universal Pattern Map table is the single most referenceable artifact in the chapter — it maps OpenClaw to Claude Code, ChatGPT, and LangGraph side by side"
+    - "Memory is three layers (MEMORY.md, daily logs, vector search) not one — students experienced this in Lesson 3 when their agent remembered their name and preferences across sessions"
+    - "The 'What Breaks Without It' table is the assessment backbone — if a student can diagnose which missing pattern causes a failure, they understand the architecture"
+  misconceptions:
+    - "Students think the Gateway IS the AI — clarify that the Gateway is a routing and coordination layer; the LLM is a stateless service called during Phase 4 of the agent loop"
+    - "Students assume sessions persist forever — they reset daily at 4 AM by default, and auto-compaction summarizes older history to fit the context window"
+    - "Students confuse cron and heartbeat — cron fires at fixed times (like a scheduled alarm), heartbeat is a periodic pulse where the agent decides if anything needs attention (like checking your watch every hour)"
+    - "Students think adding a new messaging channel requires rewriting the agent — the adapter pattern means new channels need zero changes to agent logic"
+  discussion_prompts:
+    - "If you were building an AI Employee from scratch, which of the 6 patterns would you implement first, and which would you skip initially? What breaks if you skip it?"
+    - "Why does OpenClaw serialize agent runs per-session but allow parallelism across sessions? What real-world problem does this solve?"
+    - "The Universal Pattern Map shows Claude Code and OpenClaw share the same SKILL.md format. Why might a standard skill format emerge across competing frameworks?"
+  teaching_tips:
+    - "Walk through the agent loop diagram with a live trace: type a real message in Telegram and narrate each phase as it happens — ingestion, access control, context assembly, model invocation, tool execution, response delivery"
+    - "The Universal Pattern Map is a whiteboard moment — draw the 7 columns and have students fill in what they remember before revealing the table"
+    - "Spend extra time on the memory section — demo MEMORY.md and daily logs by opening the actual files at ~/.openclaw/workspace/ so students see the raw data"
+    - "Use the 'What Breaks Without It' table as a pop quiz: describe a failure scenario and have students diagnose which missing pattern caused it"
+  assessment_quick_check:
+    - "Name the 6 phases of the agent loop in order (ingestion through response delivery)"
+    - "Pick any row from the Universal Pattern Map and explain what problem that pattern solves"
+    - "Describe the difference between cron and heartbeat in one sentence each"
 ---
 
 # How Your Employee Works

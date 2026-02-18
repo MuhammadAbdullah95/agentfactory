@@ -57,6 +57,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt discovery exercises before reading the corresponding lesson"
   remedial_for_struggling: "Start with Module 1 guided exercise only; re-read the principle lesson before each module"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 4
+  session_title: "Synthesis and Practice"
+  key_points:
+    - "Each module has two exercise types: guided (student knows which principle to apply) and discovery (student diagnoses which principle was violated)"
+    - "Three skills run through every exercise: principle recognition, principle application, and workflow diagnosis"
+    - "The Principle Application Framework (Identify, Diagnose, Plan, Execute, Verify, Compare, Generalize) is the repeatable method students should internalize"
+    - "Capstone projects require combining 3+ principles simultaneously, which is where real mastery emerges"
+  misconceptions:
+    - "Students may rush through guided exercises and skip discovery exercises, but the discovery exercises build the diagnostic skill that matters most in real work"
+    - "Some students treat the exercises as homework to complete rather than muscle memory to build, missing the point that repeated application creates automaticity"
+    - "Students may think the assessment rubric is only for self-grading, when it is also a tool for peer feedback during collaborative sessions"
+  discussion_prompts:
+    - "After completing a guided exercise and its matching discovery exercise, which felt harder? What does that tell you about the gap between applying a principle and diagnosing its absence?"
+    - "Which of the three capstone projects is closest to your real work? What principles would you prioritize for that project?"
+  teaching_tips:
+    - "Assign guided exercises first and discovery exercises as a follow-up to let students build confidence before diagnosis challenges"
+    - "Use the assessment rubric for peer review: have students evaluate each other's exercise solutions to develop critical evaluation skills"
+    - "For time-constrained sessions, focus on one module (2 exercises) rather than rushing through multiple modules superficially"
+    - "Capstone C (Your Own Project) is the most impactful exercise because it connects abstract principles to the student's actual work context"
+  assessment_quick_check:
+    - "What is the difference between a guided exercise and a discovery exercise in terms of the skill being practiced?"
+    - "Name the seven steps of the Principle Application Framework."
+    - "Which capstone project would you choose and which 3+ principles would you apply?"
 ---
 
 # Principles Exercises: Practice the Seven Principles

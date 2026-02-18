@@ -63,6 +63,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Research how bc and awk handle decimals, or ask Claude Code to add statistics (count, average, min, max) to sum.py"
   remedial_for_struggling: "Focus on two facts: Bash breaks on decimals, Python doesn't. Run the commands, see the difference. Don't worry about understanding every line of sum.py yet."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Computation Foundations and Testing"
+  key_points:
+    - "The rule 'if it is math, ask AI to write code that calculates — never ask AI to calculate' is the chapter's central principle and prevents hallucinated arithmetic"
+    - "Bash integer-only arithmetic and LLM prediction-vs-computation are TWO different failure modes that converge on the same solution: Python scripts"
+    - "The stdin/pipe pattern (cat data.txt | python script.py) is the Unix composability model students will use for every tool in this chapter"
+    - "The Dr. Pepper/medical expenses opening scenario motivates the entire chapter — catching that trap requires computation tools, not just file processing"
+  misconceptions:
+    - "Students think LLM math failures are rare — they work for 3 numbers but fail silently at scale, which is exactly when accuracy matters most"
+    - "Students confuse 'Bash truncates silently' with 'Bash errors on decimals' — both happen, but silent truncation (10/3 = 3) is more dangerous because there is no error message"
+    - "Students may think sum.py is trivial — the value is not the script itself but the stdin/pipe composability pattern that makes it chainable with any Bash command"
+  discussion_prompts:
+    - "If you asked an AI to sum 100 expense amounts and it gave you a wrong total, would you notice? What makes silent math errors so dangerous for financial data?"
+    - "The lesson says 'describe the data problem, not the implementation.' How is this different from the prompt patterns in Chapter 8?"
+    - "Why does the script read from stdin instead of opening a specific file? What does that design decision enable?"
+  teaching_tips:
+    - "Start by having students actually type 'echo $((1.2 + 2.3))' in their terminals — seeing the error firsthand is more convincing than reading about it"
+    - "The Bash works-vs-fails table and the silent truncation row (10/3 = 3) are worth putting on the board — truncation without error is the scarier failure"
+    - "Make sure students complete the checkpoint (building and running sum.py) before moving on — Lesson 2 builds directly on this script"
+    - "The pipe data flow diagram is the key conceptual model — draw it on the board and trace data through cat → pipe → stdin → sum.py → stdout"
+  assessment_quick_check:
+    - "Ask: 'Why should you never ask an AI to calculate your expenses directly?' — tests the prediction-vs-computation distinction"
+    - "Ask students to explain what happens when you run 'cat expenses.txt | python sum.py' step by step — tests understanding of the pipe/stdin data flow"
+    - "Ask: 'Bash says 10 divided by 3 equals 3. Is that an error or a feature?' — tests understanding of integer truncation"
 ---
 
 # From Broken Math to Your First Tool

@@ -56,6 +56,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; use Python's Decimal module for financial precision; add error handling to pipeline scripts"
   remedial_for_struggling: "Start with Module 1 only; use the starter prompts provided; focus on Build exercises before Debug"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 4
+  session_title: "Practice Exercises"
+  key_points:
+    - "Build + Debug pairing develops two distinct skills: creating working tools (Build) vs finding logic bugs that hide behind exit code 0 (Debug)"
+    - "The seven-step Data Processing Framework (Understand, Build, Test, Verify, Edge Cases, Pipeline, Permanent) is the transferable takeaway that applies to any data domain"
+    - "Scaffolding removal across modules is deliberate: Modules 1-2 have starter prompts, Modules 3-5 remove them, Capstones provide no guidance at all"
+    - "Capstone C (Your Own Financial Data) has real financial consequences — the verification skills from Module 2 become essential rather than optional when there is no answer key"
+  misconceptions:
+    - "Students think Debug exercises are simpler than Build — finding 3 silent logic bugs in broken-calc.py that produce plausible output is harder than writing a new script from scratch"
+    - "Students may skip Module 2 (Testing) because they verified scripts in the chapter lessons — these exercises specifically test adversarial inputs that the chapter examples did not cover"
+    - "Students assume pipeline bugs are inside the scripts — Exercise 5.2 shows that the most dangerous bugs live at the interfaces between steps (step 1 outputs '$' prefix that step 2 cannot parse)"
+  discussion_prompts:
+    - "Exercise 1.2 has a rounding bug that causes a $12.47 error across 500 transactions. At what scale would you notice this error? What if it were $0.47 across 50 transactions?"
+    - "Exercise 5.2 shows a pipeline where each step works perfectly in isolation but the full pipeline silently drops every row. How do you prevent this class of bug when designing pipelines?"
+    - "Capstone C uses your real bank data. How did having no expected-output.txt change your approach to verification?"
+  teaching_tips:
+    - "Assign Module 1 as pre-work and start the workshop with Module 2 (Testing) — verification skills are the foundation for everything else"
+    - "For classroom settings, have students swap Debug exercises: one student's Build output becomes another's Debug input. This creates organic test data that is harder than curated exercises"
+    - "The assessment rubric works as a self-evaluation tool — have students rate themselves before and after completing exercises to track growth across all five criteria"
+    - "Capstone C requires real bank data with real privacy implications — remind students to redact account numbers and sensitive details before processing"
+  assessment_quick_check:
+    - "Ask students to recite the seven-step Data Processing Framework from memory — it is the chapter's core deliverable alongside the File Processing Framework from Chapter 8"
+    - "Present a broken pipeline scenario and ask students where they would look first: inside the scripts or at the interfaces between them"
+    - "Ask: 'What is the difference between a Build exercise and a Debug exercise? Which develops a more transferable skill, and why?'"
 ---
 
 # Practice: Computation & Data Extraction Exercises

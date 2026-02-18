@@ -44,6 +44,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Implement a blog system (Author → Post → Comment) with cascading deletes and benchmark query counts with and without selectinload."
   remedial_for_struggling: "Focus on Section A only (relationships and back_populates). Return to Section B (joins and N+1) after practicing the checkpoint items for Section A."
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "CRUD and Session Discipline"
+  key_points:
+    - "back_populates strings must match the attribute name on the other model exactly — a mismatch is a silent bug, not an error"
+    - "Cascade policy is a business decision: delete-orphan makes sense for expenses (meaningless without user) but is dangerous for shared entities like categories"
+    - "The N+1 problem turns 2 queries into 101 at scale — selectinload fixes it with one line but students must learn to spot the pattern first"
+    - "Use relationship attributes for navigation (you have one thing, want its related things) and .join() for filtering across tables"
+  misconceptions:
+    - "Students think N+1 is a rare edge case — it appears in almost every loop that accesses relationship attributes and only surfaces at scale"
+    - "Students assume cascade='all, delete-orphan' is always correct — it depends on whether child rows have meaning without their parent"
+    - "Students confuse the relationship declaration with the ForeignKey column — the FK column stores the link, the relationship provides Python navigation"
+    - "Students think back_populates errors will raise exceptions — SQLAlchemy often silently accepts mismatches and just behaves unpredictably"
+  discussion_prompts:
+    - "If you delete a user, should their expenses be deleted too? What about their comments on a shared forum? How do you decide cascade policy?"
+    - "Your app works fine with 5 users but crawls with 500 — what is the first thing you check and why?"
+    - "When would you use user.expenses vs select(Expense).join(User).where(...)? What makes the decision?"
+  teaching_tips:
+    - "Split the lesson at the marked break — master Section A before moving to Section B, especially for struggling students"
+    - "The N+1 diagram is the centerpiece of Section B — draw the 101-query side vs the 2-query side and let the visual impact land"
+    - "Have students count actual queries for 5 users without selectinload, then with — making the optimization measurable builds conviction"
+    - "The two-way street analogy for back_populates is effective — draw two roads connecting User and Expense with matching street names"
+  assessment_quick_check:
+    - "If User.expenses has back_populates='user', what must Expense.user have?"
+    - "How many queries does a loop over 100 users accessing user.expenses fire without selectinload?"
+    - "Name one relationship where cascade delete-orphan is correct and one where it is dangerous"
 ---
 
 # Relationships & Joins

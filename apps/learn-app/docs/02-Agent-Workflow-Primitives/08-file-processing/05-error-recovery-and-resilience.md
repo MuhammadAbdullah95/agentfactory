@@ -65,6 +65,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Create a recovery script that automates the compare-and-restore workflow"
   remedial_for_struggling: "Focus on the basic cycle: backup exists → something broke → copy backup back. Don't worry about selective recovery."
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 2
+  session_title: "Batch Operations and Error Recovery"
+  key_points:
+    - "The fire drill metaphor is the lesson's thesis: practicing recovery when stakes are low builds muscle memory so real mistakes produce workflow, not panic"
+    - "'The agent is ephemeral, code is eternal' (Principle 2) is the key insight — asking the agent to write restore.sh is fundamentally different from asking it to restore files"
+    - "State comparison (current vs backup) is the most powerful diagnostic tool — when you do not know what went wrong, systematic comparison reveals exactly what changed"
+    - "Recovery is messy in practice (permission errors on 3 files) — the lesson deliberately shows non-clean recovery to set realistic expectations"
+  misconceptions:
+    - "Students think recovery means 'undo' — it actually means re-applying rules.md to the current state, not reverting to a snapshot"
+    - "Students may resist the deliberate destruction step because it feels wasteful — emphasize that the backup from Lesson 2 makes this completely safe and the learning is irreplaceable"
+    - "Students assume the agent will recover identically each time — the ephemeral vs eternal distinction shows why scripts produce consistent results but agents may interpret differently each session"
+  discussion_prompts:
+    - "Have you ever frozen when something went wrong with your files? What would change if you had practiced recovery beforehand?"
+    - "The lesson says 'fix the process, not the file' (from Lesson 4) and 'the agent is ephemeral, code is eternal.' How do these two ideas connect?"
+    - "When would you choose selective recovery (restore just one category) over full recovery? What makes that decision?"
+  teaching_tips:
+    - "This lesson must be done hands-on — reading about recovery does not build the muscle memory the lesson is designed to create"
+    - "The emotional arc matters: students should feel the anxiety of destroying their organized folders, then the relief of successful recovery — that emotional imprint is the learning"
+    - "Connect this back to Lesson 2's safety-first pattern: the backup created there pays off here, closing the loop across three lessons"
+    - "The session management note is important for workshops — five lessons of accumulated context is the point where a fresh session becomes valuable"
+  assessment_quick_check:
+    - "Ask students: 'Your organized folder looks wrong but you are not sure what happened. What is your first prompt to the agent?' — answer should involve state comparison against backup"
+    - "Ask: 'Why should you create restore.sh instead of just asking the agent to restore your files next time?' — tests the ephemeral vs eternal distinction"
 ---
 
 # Error Recovery & Resilience

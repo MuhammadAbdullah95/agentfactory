@@ -33,6 +33,31 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all Challenge track exercises. Design a new Challenge D exercise and share with classmates."
   remedial_for_struggling: "Complete Core 1 and Core 2 only. Focus on producing clear evidence artifacts rather than rushing through all four exercises."
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Cloud Deployment and Verification"
+  key_points:
+    - "The mantra is 'claim nothing, prove everything' — evidence artifacts (DECISIONS.md, EVIDENCE.md) replace verbal claims"
+    - "Core exercises map 1:1 to chapter lessons: model integrity (L3), CRUD reliability (L4), relationship debug (L5), transaction+Neon (L6+L7)"
+    - "Getting stuck for 10+ minutes is the signal to move on and return later — later exercises often illuminate earlier blockers"
+    - "Incomplete evidence for a finished exercise teaches nothing; complete evidence for half the exercises teaches the discipline that matters"
+  misconceptions:
+    - "Students think exercises are optional review — they are where muscle memory forms, which is different from understanding concepts"
+    - "Students rush through all exercises with minimal evidence rather than producing thorough evidence for fewer exercises"
+    - "Students think 'it runs without errors' is sufficient evidence — quality gates require failure-path proof and explicit artifacts"
+  discussion_prompts:
+    - "Which of the four Core exercises felt hardest? What does that tell you about which chapter concept needs another pass?"
+    - "Could someone who was not in the room verify your work from EVIDENCE.md alone? What would they need that is missing?"
+  teaching_tips:
+    - "Set a visible timer for each exercise — timeboxing prevents students from spending 90 minutes on Core 1 and rushing the rest"
+    - "Have students swap EVIDENCE.md files and review each other's proof — peer review builds the 'would another engineer accept this?' instinct"
+    - "Core 3 (relationship debug) is the hardest for most students — consider pairing struggling students for this exercise"
+    - "The self-assessment scoring (0-2 per criterion) is a powerful self-reflection tool — have students score honestly and identify their weakest area"
+  assessment_quick_check:
+    - "What three artifacts must every exercise submission include?"
+    - "What does the quality gate in Core 1 reject and why?"
+    - "What is the difference between completing all exercises poorly and completing two exercises with thorough evidence?"
 ---
 
 # Structured Data Practice Exercises

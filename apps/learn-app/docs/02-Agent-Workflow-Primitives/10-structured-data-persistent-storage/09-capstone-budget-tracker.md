@@ -34,6 +34,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Add a CI/CD pipeline that automatically runs the evidence bundle and blocks deployment on any gate failure. Compare your evidence bundle with a teammate's."
   remedial_for_struggling: "Run the capstone sequence one step at a time. Focus on getting each step to pass before moving to the next. The evidence bundle is just collecting proof of what you already know how to do."
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 3
+  session_title: "Cloud Deployment and Verification"
+  key_points:
+    - "The capstone introduces no new concepts — it proves all chapter primitives (schema, CRUD, rollback, Neon, verification) hold together under one roof"
+    - "An evidence bundle is a JSON artifact that lets another engineer verify readiness without asking questions or trusting verbal claims"
+    - "'Ready for demo' means happy path passes; 'ready for release' means failure paths and verification gate also pass — precise language matters"
+    - "Publishing despite a blocked verification status is a release process failure, not a query problem"
+  misconceptions:
+    - "Students think the capstone is a new thing to learn — it is integration of existing primitives, not new concepts"
+    - "Students confuse 'it runs without errors' with 'ready for release' — the evidence bundle requires failure-path proof, not just happy-path demos"
+    - "Students want to skip the forced rollback drill because 'it already worked in lesson 4' — proving it works in the integrated system is the point"
+    - "Students think the evidence bundle is bureaucratic overhead — it is the difference between 'I think it works' and 'here is proof it works'"
+  discussion_prompts:
+    - "What is the difference between a demo and a release? Why does that distinction matter for anything touching money?"
+    - "Could another engineer rerun your evidence bundle without asking you any questions? What would make that possible?"
+  teaching_tips:
+    - "Have students run the full 7-step capstone sequence end-to-end — the sequential discipline (stop and fix on any failure) teaches operational maturity"
+    - "The evidence pipeline diagram is the lesson's structural backbone — walk through it gate by gate and connect each to the lesson where it was taught"
+    - "Celebrate the journey: in lesson 0 they had a script that broke with a second user; now they have a cloud-deployed, verified system — make this contrast explicit"
+    - "The self-review questions are a powerful wrap-up activity — have students answer honestly and identify their weakest gate"
+  assessment_quick_check:
+    - "Name the five gates in the evidence pipeline in order"
+    - "What is the difference between 'ready for demo' and 'ready for release'?"
+    - "What does a blocked verification status mean you should do next?"
 ---
 
 # Capstone - Budget Tracker Complete App

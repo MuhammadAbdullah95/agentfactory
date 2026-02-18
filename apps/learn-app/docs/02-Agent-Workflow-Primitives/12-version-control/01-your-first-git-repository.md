@@ -78,6 +78,32 @@ cognitive_load:
     - "Commits as snapshots (save points with metadata)"
     - "Git safety mindset (fearless AI experimentation)"
   assessment: "5 concepts (at A1 limit of 5-7) ✓"
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Git Foundations"
+  key_points:
+    - "Git is a save point system — the video game analogy makes version control accessible to students with no programming background"
+    - "The three-step workflow (init, add, commit) is the entire foundation — every future Git operation builds on this"
+    - "The .git directory IS the repository — deleting it means losing all history, keeping it means total safety"
+    - "Staging area gives control over what goes into each save point — not everything needs to be committed together"
+  misconceptions:
+    - "Students think git add saves the file — it only stages it; commit is required for a permanent save point"
+    - "Students assume Git automatically tracks all files — untracked files are invisible to Git until explicitly added"
+    - "Students confuse the .git folder with the project folder — .git is Git's internal database, not where they put their files"
+    - "Students think they need to understand Git deeply before using it — executing init/add/commit is enough to start safely"
+  discussion_prompts:
+    - "If Git is like a video game save system, what would happen to your project if you never created any save points?"
+    - "Why does Git make you choose which files to stage instead of automatically saving everything? When would you NOT want to save certain files?"
+  teaching_tips:
+    - "Have students execute every command themselves — reading about Git is fundamentally different from running git init and seeing the .git folder appear"
+    - "The ls -la command to reveal the hidden .git directory is a powerful discovery moment — let students find it themselves"
+    - "Use the hotel analogy for untracked files (visitor without a room key) — it makes the tracking concept concrete"
+    - "After the first commit, have students run git log and see their name in the author field — this personal connection builds ownership"
+  assessment_quick_check:
+    - "What three commands do you need to create your first save point in Git?"
+    - "What is the difference between an untracked file and a staged file?"
+    - "What happens if you delete the .git folder?"
 
 teaching_approach: "Hands-on discovery (Execute → Observe → Understand → Apply)"
 modality: "Discovery-based (varying from Chapter 8 direct teaching) ✓"

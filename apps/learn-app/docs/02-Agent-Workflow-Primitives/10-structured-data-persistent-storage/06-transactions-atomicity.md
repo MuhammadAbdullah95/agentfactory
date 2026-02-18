@@ -34,6 +34,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Implement a multi-step e-commerce checkout (reserve inventory + charge card + create order) with rollback. What happens if the charge succeeds but order creation fails?"
   remedial_for_struggling: "Focus on the bank transfer analogy first. Then implement the single transfer_budget function. The invariant checking is important but can wait until the basic pattern clicks."
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "CRUD and Session Discipline"
+  key_points:
+    - "Atomicity means all-or-nothing — a failed transfer must leave zero rows, not one debit without a credit"
+    - "The multi-session anti-pattern (splitting debit and credit across sessions) causes irreversible partial state that no rollback can fix"
+    - "Invariant checks (sum of transfer entries = 0) catch bugs that return-message checking misses entirely"
+    - "Transactions protect write mechanics (all-or-nothing); input validation protects write meaning (is this sensible) — you need both"
+  misconceptions:
+    - "Students think single inserts need explicit transaction wrappers — SQLAlchemy sessions already handle single-operation atomicity"
+    - "Students trust return messages over database state — a function can return success:false while still leaving partial rows"
+    - "Students believe catching the exception is enough — without explicit rollback, the session enters a dirty state that corrupts later queries"
+    - "Students split related writes across sessions thinking each session handles its own rollback — but Session A's commit is permanent and Session B cannot undo it"
+  discussion_prompts:
+    - "If the debit commits in Session A and the credit fails in Session B, where did the money go? How would you detect this in production?"
+    - "Name three operations in your domain that require atomic boundaries and three that do not — what is the distinguishing pattern?"
+  teaching_tips:
+    - "Start with the bank transfer scenario — every student understands that $100 disappearing is unacceptable, making atomicity feel urgent"
+    - "The transaction states diagram is whiteboard-worthy — draw BEGIN branching to either COMMIT or ROLLBACK with the transfer example"
+    - "Run the failure drill live: insert valid transfer, query count (+2), insert invalid transfer, query count (+0) — the numbers tell the story"
+    - "Emphasize the debug posture: always trust the database over return values — have students practice querying after both success and failure"
+  assessment_quick_check:
+    - "What happens if you split a debit and credit across two separate sessions and the second session fails?"
+    - "Write the one-session transaction template from memory: try/add_all/commit/except/rollback"
+    - "How do you prove rollback worked — by checking the return message or by querying the database?"
 ---
 
 # Transactions & Atomicity

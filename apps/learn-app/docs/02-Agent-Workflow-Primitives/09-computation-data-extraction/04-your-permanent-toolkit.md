@@ -65,6 +65,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Add ~/tools to PATH instead of using aliases, explore creating bash completion for custom commands"
   remedial_for_struggling: "Focus on just one alias for sum-expenses. Get that working before adding more."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Real Data and Permanent Tools"
+  key_points:
+    - "'If you have to remember where a tool lives, it is not a tool yet' is the lesson's thesis — the gap between 'script that works' and 'tool you actually use' is installation"
+    - "The four-step installation process (organize in ~/tools, chmod +x, alias in shell config, source to reload) is a repeatable pattern for any script in any language"
+    - "The shebang line (#!/usr/bin/env python3) is what makes a script executable without explicitly calling python3 — it bridges the gap between Python scripts and shell commands"
+    - "The checkpoint (close terminal, reopen, verify command works) is the only way to prove the alias is truly permanent — not just loaded in the current session"
+  misconceptions:
+    - "Students think aliases are the same as running 'python3 script.py' — the alias makes the script available by name from any directory, which is a fundamentally different level of accessibility"
+    - "Students may skip the checkpoint because 'it worked in this terminal' — the source command only affects the current session, and the alias is not truly permanent until it survives a terminal restart"
+    - "Students confuse chmod +x (file permission) with the alias (shell shortcut) — both are needed but serve different purposes in making a script behave like a command"
+  discussion_prompts:
+    - "Have you ever rebuilt a script from scratch because you could not find where you saved the original? What would have been different if it were an installed command?"
+    - "The lesson says 'you described the outcome, the agent handled every step.' How is specifying 'cat file.csv | sum-expenses' as the desired format a design decision?"
+    - "Why does the agent check which shell you are using before adding the alias? What would go wrong if it guessed?"
+  teaching_tips:
+    - "Start with the frustration scenario: type 'sum-expenses' in a random directory and see 'command not found' — that visceral failure motivates the entire lesson"
+    - "The command table (mkdir -p, chmod +x, alias, source) with memory tricks is worth putting on the board — students will reference it repeatedly"
+    - "Make sure students actually close and reopen their terminals for the checkpoint — many will try 'source' alone and think they are done"
+    - "Connect back to Chapter 8 Lesson 4: rename-screenshots.sh was a reusable script, but it was not installed as a command — this lesson shows the missing step"
+  assessment_quick_check:
+    - "Ask: 'What is the difference between having sum-expenses.py in a folder and having sum-expenses as an alias?' — tests understanding of tool installation"
+    - "Ask students to explain what the shebang line does and why it matters for making scripts executable"
+    - "Ask: 'You open a new terminal and sum-expenses is not found. What three things should you check?' — tests understanding of the full installation chain"
 ---
 
 # Your Permanent Toolkit
@@ -141,12 +168,12 @@ And notice where you refined the interaction: you specified the exact command fo
 
 Each command the agent ran serves a specific purpose:
 
-| Command | What It Does | Memory Trick |
-|---------|-------------|--------------|
-| `mkdir -p ~/tools` | Creates your personal tools folder | **p** = create **p**arents too |
-| `chmod +x script.py` | Makes file executable | **ch**ange **mod**e + e**x**ecute |
-| `alias name='command'` | Creates a shortcut | Like a **nickname** for a command |
-| `source ~/.zshrc` | Reloads shell config | Load the **source** of settings |
+| Command                | What It Does                       | Memory Trick                      |
+| ---------------------- | ---------------------------------- | --------------------------------- |
+| `mkdir -p ~/tools`     | Creates your personal tools folder | **p** = create **p**arents too    |
+| `chmod +x script.py`   | Makes file executable              | **ch**ange **mod**e + e**x**ecute |
+| `alias name='command'` | Creates a shortcut                 | Like a **nickname** for a command |
+| `source ~/.zshrc`      | Reloads shell config               | Load the **source** of settings   |
 
 ## The Shebang Line
 

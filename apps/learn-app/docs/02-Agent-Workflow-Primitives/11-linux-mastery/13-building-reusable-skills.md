@@ -79,6 +79,32 @@ differentiation:
   extension_for_advanced: "Parameterize the skill to handle multiple runtimes (Python, Node.js, Go), add GPU passthrough support, or create a skill library with dependency resolution between skills."
   remedial_for_struggling: "Start by listing every command you ran in L10 and L11. Group commands that always appear together. That grouping is your first pattern. Write the skill file for just that one pattern before adding more."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 5
+  session_title: "Skills, Capstone, and Practice"
+  key_points:
+    - "Recurring patterns (useradd + chmod + service file + health check) should become reusable skills — this is the transition from manual operations to encoded expertise"
+    - "The Persona + Questions + Principles format structures a skill so AI agents can execute it without supervision — this is how Digital FTEs scale"
+    - "Fresh-system testing exposes hidden assumptions (pre-existing users, installed packages, directory structures) that break portability — always test on a clean workspace"
+    - "The pattern-to-skill decision framework (frequency + complexity + value) prevents over-engineering — not every pattern deserves to be a skill"
+  misconceptions:
+    - "Students think skills are just scripts with a fancy name — a skill includes persona (who executes), questions (decision logic), and principles (guardrails), not just commands"
+    - "Students assume their deployment works everywhere because it works on their machine — fresh-system testing reveals dependencies on pre-existing state that scripts silently rely on"
+    - "Students try to make every pattern a skill — the decision framework exists to filter; only patterns that recur frequently AND are complex AND have high value should become skills"
+  discussion_prompts:
+    - "Look back at lessons 5-12. Which operational patterns did you repeat most often? Which of those would benefit from being encoded as a reusable skill?"
+    - "What is the difference between a bash script and a skill? Why would you write a SKILL.md file instead of just saving the script?"
+  teaching_tips:
+    - "Have students list their most-repeated command sequences from lessons 5-12 before introducing the skill format — this makes the abstraction concrete"
+    - "The pattern-to-skill decision framework (3 questions: how often, how complex, how valuable) is a reference card moment — students should evaluate at least 5 patterns against it"
+    - "Walk through the complete SKILL.md structure with the deploy-agent example — seeing a real skill file is more effective than describing the format"
+    - "The fresh-system validation exercise is the most important part — it teaches a mindset (test assumptions) that applies far beyond this lesson"
+  assessment_quick_check:
+    - "Ask students to name 3 recurring patterns from lessons 5-12 and explain which one they would turn into a skill first (using the frequency + complexity + value criteria)"
+    - "Ask: what are the three sections of a skill's body? (Expected: Persona, Questions, Principles)"
+    - "Ask: your skill works on your machine but fails on a clean server. What is the most likely cause? (Expected: hidden assumptions about pre-existing users, packages, or directories)"
+
 teaching_approach: "Progressive abstraction (Pattern Recognition -> Decision Framework -> Skill Authoring -> Implementation -> Validation)"
 modality: "Hands-on skill creation with AI collaboration"
 

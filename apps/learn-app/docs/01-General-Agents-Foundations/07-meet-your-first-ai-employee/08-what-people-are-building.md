@@ -60,6 +60,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Design a complete compound workflow for your domain with a composability diagram, security audit, and cost estimate"
   remedial_for_struggling: "Focus on the Composability Map table. For each use case, just identify which 2-3 lessons from the chapter it draws from"
+
+teaching_guide:
+  lesson_type: "supplementary"
+  session_group: 4
+  session_title: "Composability and Honest Assessment"
+  key_points:
+    - "Every real-world AI Employee workflow is a composition of 4-5 patterns students already learned — this lesson proves the building blocks are sufficient, not just educational exercises"
+    - "The 'Hard Part' section of each use case is the most valuable content — it names specific unsolved problems (memory coherence, hallucinated analysis, relevance decay) that separate demos from production"
+    - "Compound risk is multiplicative, not additive — a 5-step pipeline with 99% reliability per step delivers correct results only 95% of the time"
+    - "The generalization gap (works for me vs works for others) explains why most AI Employee projects remain single-user experiments — this is the core challenge for the Agent Factory thesis"
+  misconceptions:
+    - "Students think combining more patterns always means a better system — each additional integration multiplies security attack surface and failure points"
+    - "Students assume the 'Hard Part' sections describe future problems — these are current, documented challenges that anyone building compound workflows encounters immediately"
+    - "Students think the cross-framework pattern map means all frameworks are equivalent — the patterns are universal but implementations vary significantly in maturity, security, and reliability"
+    - "Students treat the use case categories as recipes to follow — they are examples of composability thinking, not blueprints; the student's own domain will have different requirements"
+  discussion_prompts:
+    - "Pick one of the five use case categories and identify which 'Hard Part' would stop you from deploying it for real. What would need to change?"
+    - "The lesson says compound risk is multiplicative. If you have a 5-step pipeline and each step is 99% reliable, why is the whole system only 95% reliable? What does this imply for the advisory council use case with 4 specialist agents?"
+    - "The 'Your Own' column in the cross-framework table is intentionally blank. If you were filling it in today, which pattern would you implement first and which would you borrow from an existing framework?"
+  teaching_tips:
+    - "Use the Composability Map table as a group exercise: give each table group a different use case and have them identify the building blocks, then present to the class"
+    - "The 'Hard Part' discussions are the most important teaching moments — resist the urge to rush past them toward the exciting use cases"
+    - "Have students calculate the compound reliability math themselves: 0.99^5 = 0.95, 0.99^10 = 0.90 — this makes the abstract 'reliability multiplies' concrete and memorable"
+    - "End the lesson by asking each student to name ONE compound workflow they would build for their domain and ONE unsolved challenge that would block them — this bridges to Lesson 9's Agent Factory vision"
+  assessment_quick_check:
+    - "Give students a use case description and ask them to map it to specific chapter lessons (L03-L07)"
+    - "Ask: Name two unsolved challenges in compound AI Employee workflows and explain why each is hard"
+    - "Ask students to explain the generalization gap in one sentence — why does 'it works for me' not mean 'it works for everyone'?"
 ---
 
 # What People Are Building

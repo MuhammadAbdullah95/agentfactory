@@ -68,6 +68,32 @@ prerequisites:
   - "Lesson 2: Viewing Changes & Safe Undo"
   - "Lesson 3: Testing AI Safely with Branches"
   - "Lesson 4: Cloud Backup & Portfolio"
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "GitHub and Collaboration"
+  key_points:
+    - "Pull requests formalize a review + merge decision — unlike commits which save snapshots, PRs force evaluation before code reaches main"
+    - "The AI Assistance section in PR descriptions is professional practice in AI-native development — documenting what AI generated vs what you modified builds trust"
+    - "Never merge code you do not understand — if AI generated something unfamiliar, test it manually or ask AI to explain before merging"
+    - "The diff review checklist (intent match, bugs, understanding, security) prevents common merge mistakes"
+  misconceptions:
+    - "Students think PRs are only for teams — solo developers benefit from the forced review pause and documentation habit"
+    - "Students want to hide AI assistance in their PRs — transparency about AI usage is a professional strength, not a weakness"
+    - "Students think reviewing the diff is optional once tests pass — automated tests catch correctness bugs but not intent mismatches or security issues"
+    - "Students confuse merging on GitHub with merging locally — PRs are a GitHub web feature that wraps the git merge operation with review infrastructure"
+  discussion_prompts:
+    - "If a future employer reads your PR description, what would they learn about how you work with AI? Is that the impression you want to make?"
+    - "You are reviewing AI-generated code in a PR and see a function you do not understand. What should you do before clicking merge?"
+  teaching_tips:
+    - "Have students create an actual PR on GitHub during the lesson — the web interface makes the abstract concept of 'code review' concrete"
+    - "The PR description template should be treated as a starting point, not a rigid form — emphasize that the AI Assistance section is what makes it AI-native"
+    - "Walk through the example diff review aloud — model the internal dialogue ('I see try/except, that matches my intent') to teach the review thinking process"
+    - "The 'What I Modified' section of the template is where students demonstrate judgment — emphasize finding bugs AI missed as a skill to develop"
+  assessment_quick_check:
+    - "Name the three purposes of a PR description (summary, testing, AI attribution)"
+    - "What four questions should you ask when reviewing a diff?"
+    - "Why is documenting AI assistance in PRs a professional strength, not a weakness?"
 
 generated_by: "content-implementer v1.0.0"
 source_spec: "specs/028-chapter-10-git-redesign/spec.md"

@@ -16,6 +16,29 @@ lesson: 13
 duration_minutes: 20
 
 # Generation metadata
+teaching_guide:
+  lesson_type: "supplementary"
+  session_group: 5
+  session_title: "Chapter Assessment"
+  key_points:
+    - "The assessment validates understanding across all three tiers — Bronze (skills, subagents, MCP), Silver (watchers, HITL, scheduling), Gold (error recovery, audit logging)"
+    - "Questions test both conceptual understanding (when to use skills vs subagents) and practical application (design an approval workflow for a scenario)"
+    - "The hackathon submission requires 5 deliverables: repo, README, demo video, tier declaration, and security disclosure"
+  misconceptions:
+    - "Students think they must complete Gold Tier to pass the assessment — Bronze questions (1-10) are the foundation; Silver and Gold are extensions"
+    - "Students confuse the assessment with the hackathon submission — the quiz tests knowledge, the submission demonstrates working implementation"
+    - "Students assume the demo video must be polished — a 5-10 minute screen recording walking through key features is sufficient"
+  discussion_prompts:
+    - "Which tier did you target and why? What would change your decision if you could start over?"
+    - "What was the most surprising concept in this chapter — something you did not expect when you started?"
+  teaching_tips:
+    - "Use the Bronze questions (1-10) as a review session before the quiz — they cover the most testable concepts from L01-L07"
+    - "The submission guidelines double as a project checklist — have students self-evaluate against each requirement before submitting"
+    - "This is a placeholder quiz — direct students to review L00 spec and each lesson's key concepts as preparation"
+  assessment_quick_check:
+    - "What are the 5 hackathon submission deliverables?"
+    - "Which tier concepts does each question block cover? (1-10 Bronze, 11-16 Silver, 17-20 Gold)"
+
 generated_by: "placeholder - to be implemented"
 created: "2026-01-07"
 version: "0.1.0"

@@ -87,6 +87,33 @@ differentiation:
   extension_for_advanced: "Explore systemd timers for scheduled agent tasks, socket activation for on-demand starting, or Type=notify for advanced startup tracking with sd_notify."
   remedial_for_struggling: "Start with a minimal 5-line service file (no restart policy). Get systemctl start and status working before adding restart configuration. Use systemctl cat to see existing service files for reference."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "Production Agent Deployment"
+  key_points:
+    - "systemd replaces tmux for production — tmux is for interactive sessions, systemd is for services that must survive reboots and restart on failure automatically"
+    - "Restart=on-failure (not Restart=always) is the correct production default — always-restart masks bugs by restarting infinitely without fixing the root cause"
+    - "Start-limit protection (StartLimitBurst + StartLimitIntervalSec) prevents restart storms — without it, a crashing agent can consume all system resources through rapid restarts"
+    - "Resource limits (MemoryMax, CPUQuota) contain runaway agents — a memory leak in one agent cannot take down the entire server"
+  misconceptions:
+    - "Students think Restart=always is safer than Restart=on-failure — always-restart hides bugs by endlessly restarting, while on-failure stops after too many crashes, forcing investigation"
+    - "Students expect systemd to find their Python scripts without absolute paths — ExecStart must use the full path to the interpreter and script"
+    - "Students confuse systemctl enable (start on boot) with systemctl start (start now) — enable does NOT start the service, it only configures boot behavior"
+    - "Students think journalctl shows all logs — journalctl -u service-name filters to that specific service, which is what you almost always want"
+  discussion_prompts:
+    - "Your agent crashes and restarts 50 times per minute. What is worse: the agent being down, or the restart storm consuming all CPU and memory? How does start-limit protection solve this?"
+    - "When would you choose tmux (lesson 5) over systemd for running an agent? What are the tradeoffs between interactive and service-managed deployment?"
+  teaching_tips:
+    - "Start with the minimal 5-line service file and progressively add restart policy, start-limit, and resource limits — each addition solves a specific production problem"
+    - "Demo systemctl status live — the colored output showing active/failed/inactive is much more memorable than describing it"
+    - "The restart policy comparison (always vs on-failure) is a whiteboard moment — draw the restart storm scenario to show why always-restart is dangerous"
+    - "journalctl -u -f (follow mode) is the systemd equivalent of tail -f from lesson 2 — connecting these tools builds on prior knowledge"
+  assessment_quick_check:
+    - "Ask: what is the difference between systemctl start and systemctl enable? (Expected: start runs it now, enable configures it to start on boot)"
+    - "Ask students to write the three-section structure of a .service file from memory ([Unit], [Service], [Install])"
+    - "Ask: what does StartLimitBurst=5 with StartLimitIntervalSec=300 mean? (Expected: if the service fails 5 times within 300 seconds, stop trying to restart)"
+
 teaching_approach: "Progressive complexity (minimal service -> restart policy -> start-limit -> resource limits -> health check)"
 modality: "Hands-on discovery with AI collaboration"
 

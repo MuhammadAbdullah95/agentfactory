@@ -80,6 +80,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Research NanoClaw's GitHub repository and the Agent Skills specification at agentskills.io. Design a complete Layer 3 (Intelligence) for a profession you know well: 3 Agent Skills and 3 MCP servers."
   remedial_for_struggling: "Focus on two ideas: (1) NanoClaw uses container isolation to fix the security problems from Lesson 5, and (2) the skills you learned to create in Lesson 5 are now a portable standard that works everywhere."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "NanoClaw, Portability, and the Agent Factory Vision"
+  key_points:
+    - "Layer 3 (Intelligence) is the only fully platform-independent layer — this is THE takeaway for students thinking about career investment: build domain expertise as Skills + MCP, not platform-locked code"
+    - "NanoClaw inverts OpenClaw's security default: nothing accessible unless granted (vs everything accessible unless restricted) — this directly answers the lethal trifecta tension from Lesson 5"
+    - "Programmatic Tool Calling keeps sensitive data inside the container — this is what makes AI Employees architecturally possible for HIPAA, SOX, and zero-trust environments"
+    - "Every concept in this lesson connects to a prior lesson (container isolation from L05, Body+Brain from L04, skills portability from L05, delegation from L06) — this is a synthesis lesson, not new territory"
+  misconceptions:
+    - "Students think NanoClaw replaces OpenClaw — it is a different architectural answer to the same security question, not a competitor to adopt"
+    - "Students assume container isolation eliminates all security risks — it addresses the infrastructure-level vulnerabilities (CVE-2026-25253) but the lethal trifecta still exists within each container"
+    - "Students think Agent Skills portability means all platforms are equivalent — portability means your Layer 3 investment transfers, but Body, Brain, and Orchestrator layers differ significantly between platforms"
+    - "Students confuse the six-layer reference architecture with a technology stack they need to install — it is a conceptual framework for understanding what any AI Employee system needs, not a specific product"
+  discussion_prompts:
+    - "If Layer 3 is the only portable layer, where should you spend most of your development time when building an AI Employee? What does that mean for career strategy?"
+    - "The profession table shows 5 verticals with container isolation requirements. Can you think of a profession where container isolation is NOT needed? What would that tell you about the data sensitivity of that domain?"
+    - "NanoClaw's core is 500 lines vs OpenClaw's 430,000. What are the tradeoffs? When is a larger codebase actually an advantage?"
+  teaching_tips:
+    - "This is the chapter closer — connect every concept back to where students first encountered it using the 'What Connects' table; read it aloud as a chapter recap"
+    - "The six-layer reference architecture table is a whiteboard moment — draw it as a stack and have students name which prior lesson taught each layer"
+    - "For the profession-to-Layer-3 mapping, have each student fill in their own profession's row — this personalizes the Agent Factory vision and makes the abstract concrete"
+    - "End by asking students: which layer would you build first if you were creating an AI Employee for your profession? The answer should be Layer 3 — if they say anything else, the lesson's key point did not land"
+  assessment_quick_check:
+    - "Name the six layers of the reference architecture and identify which one is platform-independent"
+    - "Explain in one sentence how NanoClaw's container isolation addresses the CVE-2026-25253 vulnerability from Lesson 5"
+    - "What is the difference between Agent Skills (how to think) and MCP servers (how to act)? Give one example of each for a profession you know"
 ---
 
 # NanoClaw and the Agent Factory
@@ -96,14 +124,14 @@ On January 31, 2026, a developer named Gavriel Cohen released NanoClaw. It did n
 
 Here is how NanoClaw compares to what you have been using:
 
-| Property             | OpenClaw (Your Chapter 7 Experience)             | NanoClaw                                                   |
-| -------------------- | ------------------------------------------------ | ---------------------------------------------------------- |
-| **Codebase**         | 430,000+ lines, 52+ modules, 45+ dependencies   | ~500 lines core, handful of files, minimal dependencies    |
-| **Isolation model**  | Application-level (allowlists, pairing codes)    | OS-level containers (Apple Containers on macOS, Docker on Linux) |
-| **Auditability**     | Effectively un-auditable by a single person      | Full review in approximately 8 minutes                     |
-| **Agent boundaries** | All agents share memory and filesystem           | Each agent gets its own container with isolated filesystem  |
-| **Security default** | Everything accessible unless explicitly restricted | Nothing accessible unless explicitly granted               |
-| **Extension model**  | Feature PRs that grow the codebase               | Claude Code skills that transform your fork                |
+| Property             | OpenClaw (Your Chapter 7 Experience)               | NanoClaw                                                         |
+| -------------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| **Codebase**         | 430,000+ lines, 52+ modules, 45+ dependencies      | ~500 lines core, handful of files, minimal dependencies          |
+| **Isolation model**  | Application-level (allowlists, pairing codes)      | OS-level containers (Apple Containers on macOS, Docker on Linux) |
+| **Auditability**     | Effectively un-auditable by a single person        | Full review in approximately 8 minutes                           |
+| **Agent boundaries** | All agents share memory and filesystem             | Each agent gets its own container with isolated filesystem       |
+| **Security default** | Everything accessible unless explicitly restricted | Nothing accessible unless explicitly granted                     |
+| **Extension model**  | Feature PRs that grow the codebase                 | Claude Code skills that transform your fork                      |
 
 NanoClaw is not a replacement for OpenClaw. It is a different answer to the same question you have been wrestling with since Lesson 5: how do you give an AI Employee real autonomy without creating a security disaster?
 
@@ -113,11 +141,11 @@ Remember the seven components from Lesson 4? OpenClaw runs all of them -- Gatewa
 
 With NanoClaw we can separate the AI Employee system into three distinct components:
 
-| Component                                | Role                     | What It Provides                                                                         |
-| ---------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
+| Component                                | Role                     | What It Provides                                                                                                           |
+| ---------------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
 | **NanoClaw (the Body)**                  | Always-on infrastructure | Container isolation, WhatsApp channel, per-group memory, cron scheduling, Agent Swarms, MCP integration, full auditability |
-| **Claude Agent SDK (the Brain)**         | Deep reasoning engine    | Programmatic Tool Calling, local code execution, context management, tool orchestration  |
-| **OpenAI Agents SDK (the Orchestrator)** | Multi-agent coordination | Agent handoffs, routing between specialists, guardrails, tracing with 10+ integration targets |
+| **Claude Agent SDK (the Brain)**         | Deep reasoning engine    | Programmatic Tool Calling, local code execution, context management, tool orchestration                                    |
+| **OpenAI Agents SDK (the Orchestrator)** | Multi-agent coordination | Agent handoffs, routing between specialists, guardrails, tracing with 10+ integration targets                              |
 
 The Body stays running 24/7, receiving messages, managing state, enforcing container boundaries. The Brain activates when reasoning is needed -- generating code, analyzing data, making decisions. The Orchestrator coordinates when multiple agents need to collaborate on complex tasks.
 
@@ -165,7 +193,7 @@ But skills are only half of what a professional AI Employee needs. Skills encode
 
 | Standard                          | What It Encodes                                  | Analogy    | Example                                                                  |
 | --------------------------------- | ------------------------------------------------ | ---------- | ------------------------------------------------------------------------ |
-| **Agent Skills** (agentskills.io) | Domain knowledge -- how to THINK about a problem | A textbook | A HIPAA compliance skill that knows patient data handling rules           |
+| **Agent Skills** (agentskills.io) | Domain knowledge -- how to THINK about a problem | A textbook | A HIPAA compliance skill that knows patient data handling rules          |
 | **MCP** (Model Context Protocol)  | Domain tools -- how to ACT within a domain       | A toolbox  | A FHIR client MCP server that reads and writes electronic health records |
 
 Both standards are supported across every major agent platform. This means something concrete for you: a HIPAA compliance skill you build works in Claude Code, NanoClaw, Codex, and every platform that adopted the standard. If a better Body framework than NanoClaw emerges, your skills and MCP servers port over unchanged. If a better Brain than Claude appears, the same intelligence works with it. The investment in domain expertise is permanent. The infrastructure around it is replaceable.
@@ -204,14 +232,14 @@ Medicine does not have its definitive AI Employee. Neither does accounting, fina
 
 When you combine Body + Brain separation, portable intelligence standards, and agents building agents, a reference architecture emerges:
 
-| Layer | Name              | Purpose                                           | Example Components            |
-| ----- | ----------------- | ------------------------------------------------- | ----------------------------- |
-| 6     | **Body**          | Always-on presence, scheduling, Agent Swarms      | NanoClaw                      |
-| 5     | **Orchestration** | Multi-agent routing, handoffs, guardrails, tracing | OpenAI Agents SDK             |
-| 4     | **Brain**         | Deep reasoning, Programmatic Tool Calling         | Claude Agent SDK              |
-| 3     | **Intelligence**  | Portable domain knowledge + executable tools      | Agent Skills + MCP servers    |
-| 2     | **Data**          | Persistent state, domain knowledge, vector search | PostgreSQL, Redis, vector DB  |
-| 1     | **Security**      | Container isolation, sandboxes, audit logging     | NanoClaw containers, Docker   |
+| Layer | Name              | Purpose                                            | Example Components           |
+| ----- | ----------------- | -------------------------------------------------- | ---------------------------- |
+| 6     | **Body**          | Always-on presence, scheduling, Agent Swarms       | NanoClaw                     |
+| 5     | **Orchestration** | Multi-agent routing, handoffs, guardrails, tracing | OpenAI Agents SDK            |
+| 4     | **Brain**         | Deep reasoning, Programmatic Tool Calling          | Claude Agent SDK             |
+| 3     | **Intelligence**  | Portable domain knowledge + executable tools       | Agent Skills + MCP servers   |
+| 2     | **Data**          | Persistent state, domain knowledge, vector search  | PostgreSQL, Redis, vector DB |
+| 1     | **Security**      | Container isolation, sandboxes, audit logging      | NanoClaw containers, Docker  |
 
 One layer stands apart. Layers 1, 2, 4, 5, and 6 are all tied to specific platforms and implementations. Replace NanoClaw with a different body, and Layer 6 changes. Switch from Claude Agent SDK to a different reasoning engine, and Layer 4 changes.
 
@@ -219,13 +247,13 @@ One layer stands apart. Layers 1, 2, 4, 5, and 6 are all tied to specific platfo
 
 And that expertise maps directly to professions:
 
-| Profession     | Agent Skills (How to Think)                                            | MCP Servers (How to Act)                                              | Why Container Isolation Matters                            |
-| -------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------- |
-| **Medicine**   | HIPAA compliance, clinical decision support, drug interaction protocols | FHIR client, PubMed search, dosage calculator, formulary DB           | Patient data must never leave the container boundary       |
-| **Accounting** | GAAP/IFRS standards, SOX audit procedures, tax code logic              | QuickBooks/Xero API, bank feed connectors, depreciation calculator    | Financial records require SOX compliance                   |
-| **Law**        | Jurisdictional rules, privilege protocols, citation standards           | Case law databases, court filing APIs, damages calculator             | Attorney-client privilege demands strict isolation          |
-| **Finance**    | Risk assessment frameworks, regulatory compliance                      | Trading APIs, portfolio analytics, market data feeds                  | Zero-trust environments with position-level access control |
-| **HR**         | Employment law, bias detection, compensation benchmarks                | HRIS systems, payroll APIs, background check services                 | Employee PII requires strict containment                   |
+| Profession     | Agent Skills (How to Think)                                             | MCP Servers (How to Act)                                           | Why Container Isolation Matters                            |
+| -------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------- |
+| **Medicine**   | HIPAA compliance, clinical decision support, drug interaction protocols | FHIR client, PubMed search, dosage calculator, formulary DB        | Patient data must never leave the container boundary       |
+| **Accounting** | GAAP/IFRS standards, SOX audit procedures, tax code logic               | QuickBooks/Xero API, bank feed connectors, depreciation calculator | Financial records require SOX compliance                   |
+| **Law**        | Jurisdictional rules, privilege protocols, citation standards           | Case law databases, court filing APIs, damages calculator          | Attorney-client privilege demands strict isolation         |
+| **Finance**    | Risk assessment frameworks, regulatory compliance                       | Trading APIs, portfolio analytics, market data feeds               | Zero-trust environments with position-level access control |
+| **HR**         | Employment law, bias detection, compensation benchmarks                 | HRIS systems, payroll APIs, background check services              | Employee PII requires strict containment                   |
 
 In each case, the pattern is identical: domain knowledge encoded as Agent Skills, domain tools exposed as MCP servers, all running inside container isolation so sensitive data never leaves the boundary.
 
@@ -235,16 +263,16 @@ This is what this book is about. Not just using AI Employees -- building them. A
 
 Every concept in this lesson grew from something you already learned:
 
-| This Lesson                 | Grew From                               | The Connection                                                     |
-| --------------------------- | --------------------------------------- | ------------------------------------------------------------------ |
-| Container isolation         | Lethal trifecta from Lesson 5           | Inverts the security default: nothing accessible unless granted    |
-| Body + Brain separation     | 7 components from Lesson 4              | Separates what OpenClaw combined into one shared process           |
-| Per-group memory            | MEMORY.md from Lesson 4                 | Same concept, but isolated per conversation instead of shared      |
-| Agent Swarms                | Delegation from Lesson 6                | Multiple Claude instances in parallel, each in its own container   |
-| Agent Skills portability    | SKILL.md from Lesson 5                  | The format you already learned is an open standard everywhere      |
-| MCP as tool standard        | I/O Adapters from Lesson 4              | Domain tools exposed as standardized interfaces across platforms   |
-| Programmatic Tool Calling   | Google Workspace from Lesson 7          | Your data stays in the container instead of flowing through shared process |
-| Agents building agents      | Delegation from Lesson 6                | Claude Code builds the system that runs Claude Code                |
+| This Lesson               | Grew From                      | The Connection                                                             |
+| ------------------------- | ------------------------------ | -------------------------------------------------------------------------- |
+| Container isolation       | Lethal trifecta from Lesson 5  | Inverts the security default: nothing accessible unless granted            |
+| Body + Brain separation   | 7 components from Lesson 4     | Separates what OpenClaw combined into one shared process                   |
+| Per-group memory          | MEMORY.md from Lesson 4        | Same concept, but isolated per conversation instead of shared              |
+| Agent Swarms              | Delegation from Lesson 6       | Multiple Claude instances in parallel, each in its own container           |
+| Agent Skills portability  | SKILL.md from Lesson 5         | The format you already learned is an open standard everywhere              |
+| MCP as tool standard      | I/O Adapters from Lesson 4     | Domain tools exposed as standardized interfaces across platforms           |
+| Programmatic Tool Calling | Google Workspace from Lesson 7 | Your data stays in the container instead of flowing through shared process |
+| Agents building agents    | Delegation from Lesson 6       | Claude Code builds the system that runs Claude Code                        |
 
 Nothing in this lesson is disconnected from what you experienced in Lessons 1 through 8. NanoClaw is not a separate topic. It is a different architecture built from the same patterns -- and it points toward the AI Employees you will learn to build in this book.
 

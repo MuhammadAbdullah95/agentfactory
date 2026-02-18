@@ -64,6 +64,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Try the prompt pattern on non-file problems: 'Help me understand my calendar this week' or 'Help me understand this codebase'"
   remedial_for_struggling: "Focus on just the first conversation. Watch what the agent does. Don't worry about identifying every principle. Just notice that the agent ran commands and reported back."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "First Agent Workflow and Safety"
+  key_points:
+    - "The 'Help me understand [problem], show me [what I need]' prompt pattern is the foundation for all file-processing workflows in this chapter"
+    - "Division of labor is the core insight: human judgment (what matters) + agent execution (how to get it) — neither can do the other's job"
+    - "Agent self-correction (23 items vs 847 files) demonstrates OODA in action — students saw this principle in Ch 3 and now see it live"
+    - "The rule of thumb 'describe faster than do = agent, do faster than describe = manual' sets the decision boundary for the entire chapter"
+  misconceptions:
+    - "Students think agents are always faster — lesson explicitly shows single-file lookup is faster manually, agents win at scale (847 files)"
+    - "Students confuse 'I don't need to know bash' with 'bash doesn't matter' — the command anatomy section shows why reading agent output matters for verification"
+    - "Students may think the agent's self-correction was a bug — it's actually the desired behavior showing Observe-Orient-Decide-Act working correctly"
+  discussion_prompts:
+    - "When was the last time you avoided organizing files because the task felt too big? What would change if you could describe the problem in one sentence?"
+    - "The agent got the file count wrong, then corrected itself. Would you trust it more or less after seeing that mistake? Why?"
+    - "What kinds of file decisions should never be delegated to an agent, even with the right prompt?"
+  teaching_tips:
+    - "Start with the 847-file Downloads folder scenario — every student has a cluttered folder, so the pain point is universal and immediate"
+    - "Walk through the self-correction moment (23 vs 847) as a live teaching moment about why OODA matters in practice, not just theory"
+    - "The command anatomy diagram (find | wc -l breakdown) is worth putting on the board — students will see these commands repeatedly in lessons 3-7"
+    - "Have students actually run the checkpoint exercise on their own folders before moving on — lesson 2 builds on having a real FILE-INVENTORY.md"
+  assessment_quick_check:
+    - "Ask students to state the 'Help me understand' prompt pattern from memory and apply it to a non-file problem"
+    - "Ask: 'Why did the agent switch from ls to find?' — tests whether they understood the self-correction, not just watched it"
+    - "Have students explain when they would NOT use an agent for a file task — tests the rule of thumb boundary"
 ---
 
 # Your First Agent Workflow

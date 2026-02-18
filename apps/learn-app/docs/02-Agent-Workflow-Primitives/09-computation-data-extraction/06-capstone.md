@@ -62,6 +62,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Add date filtering, multiple currencies, generate CSV output for accountant"
   remedial_for_struggling: "Follow the conversation pattern exactly. The workflow is already structured."
+
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 3
+  session_title: "Data Wrangling and Capstone"
+  key_points:
+    - "The verification-first orchestration pattern (test data → verify → real data) is the capstone's central contribution — it combines every lesson into one disciplined workflow"
+    - "All Seven Principles appeared naturally in a single workflow — the mapping table makes this explicit and shows students how principles reinforce each other"
+    - "The 'NEEDS REVIEW' section demonstrates that good automation flags ambiguity for human judgment rather than making silent decisions"
+    - "The CSV merging technique (head -1 for header + tail -n +2 -q for data rows) is a practical Unix pattern students will reuse whenever combining structured files"
+  misconceptions:
+    - "Students think the capstone requires new skills — it actually requires orchestrating Lessons 1-5 in sequence, which is a different and harder challenge than learning each individually"
+    - "Students may skip the verification step because they trust the categorizer from Lesson 5 — the capstone insists on verification with test data even for tools that worked before, because data changes"
+    - "Students assume 'accountant-ready report' means perfect categorization — the NEEDS REVIEW section shows that flagging ambiguity is more professional than guessing"
+  discussion_prompts:
+    - "Why does the capstone insist on verification EVEN for the categorizer you already tested in Lesson 5? What could be different about the real data?"
+    - "The report includes a NEEDS REVIEW section with 23 items. Is that a failure of the categorizer or a feature? Why?"
+    - "Look at the before/after comparison table. Which capability do you think has the most impact outside of tax preparation?"
+  teaching_tips:
+    - "Let students attempt the capstone independently for 15-20 minutes before showing the reference implementation — struggling builds deeper understanding than following instructions"
+    - "The Seven Principles mapping table is the chapter's culmination — walk through it and ask students to point to the specific moment in the workflow where each principle appeared"
+    - "The reflection table (what it looked like vs what you actually learned) is a powerful closing tool — have students add their own row for what THEY learned that is not in the table"
+    - "End by asking students to name one domain outside tax prep where the verification-first orchestration pattern would apply — this ensures transfer learning"
+  assessment_quick_check:
+    - "Ask students to describe the five steps of the capstone workflow from memory: test data, build categorizer, verify, process real files, flag ambiguous"
+    - "Ask: 'Why does the workflow insist on verification BEFORE processing real files?' — tests understanding of verification-first as a principle, not just a step"
+    - "Have students map at least 5 of the 7 principles to specific capstone steps from memory"
 ---
 
 # Capstone: Tax Season Prep
@@ -260,15 +287,15 @@ In one conversation, a year of bank statements became an accountant-ready report
 
 Let's trace how ALL Seven Principles appeared in that workflow.
 
-| Principle | How It Appeared |
-|-----------|-----------------|
-| **P1: Bash is the Key** | `cat`, `head`, `tail`, pipes orchestrated all data flow |
-| **P2: Code as Universal Interface** | Python script executed categorization - no hallucinated math |
-| **P3: Verification as Core Step** | Test data with known totals BEFORE processing real files |
-| **P4: Small, Reversible Decomposition** | 5 clear steps, each testable independently |
-| **P5: Persisting State in Files** | Script saved to tax-prep.py, report saved to tax-report-2025.txt |
-| **P6: Constraints and Safety** | False positive guards prevented DR PEPPER → medical |
-| **P7: Observability** | "NEEDS REVIEW" section made ambiguous items visible |
+| Principle                               | How It Appeared                                                  |
+| --------------------------------------- | ---------------------------------------------------------------- |
+| **P1: Bash is the Key**                 | `cat`, `head`, `tail`, pipes orchestrated all data flow          |
+| **P2: Code as Universal Interface**     | Python script executed categorization - no hallucinated math     |
+| **P3: Verification as Core Step**       | Test data with known totals BEFORE processing real files         |
+| **P4: Small, Reversible Decomposition** | 5 clear steps, each testable independently                       |
+| **P5: Persisting State in Files**       | Script saved to tax-prep.py, report saved to tax-report-2025.txt |
+| **P6: Constraints and Safety**          | False positive guards prevented DR PEPPER → medical              |
+| **P7: Observability**                   | "NEEDS REVIEW" section made ambiguous items visible              |
 
 All seven principles appeared in a single workflow. This isn't coincidence. The principles are how agents work effectively with computing systems.
 
@@ -284,12 +311,12 @@ head -1 january.csv > combined.csv
 tail -n +2 -q *.csv >> combined.csv
 ```
 
-| Command | What It Does |
-|---------|--------------|
-| `head -1` | First line only (the header) |
+| Command      | What It Does                                |
+| ------------ | ------------------------------------------- |
+| `head -1`    | First line only (the header)                |
 | `tail -n +2` | Everything from line 2 onward (skip header) |
-| `-q` | Quiet mode - no filename prefixes |
-| `>>` | Append (don't overwrite) |
+| `-q`         | Quiet mode - no filename prefixes           |
+| `>>`         | Append (don't overwrite)                    |
 
 Result: One file with a single header row followed by all data rows.
 
@@ -340,6 +367,7 @@ Verify with test data first.
 ```
 
 Watch how the agent:
+
 1. Creates test data with known amounts
 2. Builds categorization logic
 3. Verifies totals match
@@ -352,12 +380,14 @@ This is the verification-first pattern in action.
 Step back and recognize what you accomplished in this chapter.
 
 **Before Chapter 9:**
+
 - Bash couldn't add decimals
 - LLMs hallucinated calculations
 - Manual spreadsheet work for expense categorization
 - No systematic verification
 
 **After Chapter 9:**
+
 - Python scripts handle any calculation
 - Verified against known test data
 - Automated categorization with false-positive guards
@@ -366,6 +396,7 @@ Step back and recognize what you accomplished in this chapter.
 You built your first Digital FTE component - a tool that does tedious work accurately, every time, without missing edge cases or hallucinating categories.
 
 The same pattern applies to:
+
 - Invoice processing
 - Subscription tracking
 - Budget analysis
@@ -377,15 +408,16 @@ You have the foundation.
 
 This chapter taught you patterns, not just commands.
 
-| What It Looked Like | What You Actually Learned |
-|---------------------|---------------------------|
-| Building sum.py | How to direct agents to create reusable tools |
-| Testing with known data | The verification-first pattern |
-| CSV parsing with Python | When to use specialized tools vs. simple ones |
-| Regex patterns | How to specify precise matching with guardrails |
-| Processing multiple files | How to orchestrate complex workflows |
+| What It Looked Like       | What You Actually Learned                       |
+| ------------------------- | ----------------------------------------------- |
+| Building sum.py           | How to direct agents to create reusable tools   |
+| Testing with known data   | The verification-first pattern                  |
+| CSV parsing with Python   | When to use specialized tools vs. simple ones   |
+| Regex patterns            | How to specify precise matching with guardrails |
+| Processing multiple files | How to orchestrate complex workflows            |
 
 The specific tools (Python, regex, find/xargs) matter less than the patterns:
+
 - Describe the problem, not the solution
 - Verify before trusting
 - Mention edge cases to get robust solutions

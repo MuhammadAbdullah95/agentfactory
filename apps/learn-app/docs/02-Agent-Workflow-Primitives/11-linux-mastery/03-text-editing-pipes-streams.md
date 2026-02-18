@@ -82,6 +82,32 @@ differentiation:
   extension_for_advanced: "Explore vim basics (modes, :wq, dd, yy). Build complex pipelines with tee to split output to both file and screen simultaneously. Investigate process substitution with <() syntax."
   remedial_for_struggling: "Focus on nano and basic pipe (command | command) only. Skip error redirection until comfortable with stdout redirection. Practice with simple echo commands before moving to multi-step pipelines."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "CLI Foundations and Navigation"
+  key_points:
+    - "The Unix philosophy (small tools connected by pipes) is the design principle behind all Linux command-line work — this recurs in bash scripting (lesson 6) and text processing (lesson 7)"
+    - "Three I/O streams (stdin=0, stdout=1, stderr=2) are separate channels — understanding this distinction is essential for agent log management in production (lesson 14)"
+    - "The difference between > (overwrite) and >> (append) prevents data loss — agents in production always use >> for logs"
+    - "nano is the safe default editor for remote servers — students must know Ctrl+O (save) and Ctrl+X (exit) cold before touching production configs"
+  misconceptions:
+    - "Students think stdout and stderr are the same because both display on screen — demonstrate with 2> to prove they are separate channels that can be redirected independently"
+    - "Students confuse > (overwrite) with >> (append) and accidentally destroy log files — emphasize that > wipes the file first, >> adds to the end"
+    - "Students expect pipes to pass error messages too — pipes only connect stdout to stdin, stderr bypasses the pipe entirely unless explicitly redirected"
+  discussion_prompts:
+    - "Your AI agent writes activity logs to stdout and error messages to stderr. Why is separating these streams useful for monitoring a production system?"
+    - "The Unix philosophy says each tool should do one thing well. How does this compare to building a single large program that does everything? What are the tradeoffs?"
+  teaching_tips:
+    - "Demo the three-stream concept live: run ls /home /nonexistent 2>errors.txt and show students that normal output appears on screen while errors go to the file — this is the 'aha' moment"
+    - "Build the three-command pipeline (du -sh * | sort -rh | head -5) incrementally — run each stage alone first so students see the data transformation step by step"
+    - "The nano shortcut table is a handout moment — students will reference it repeatedly during exercises and in later lessons"
+    - "Spend less time on man pages (students already saw --help in lesson 2) and more time on pipe chains — piping is the harder concept and the more useful one"
+  assessment_quick_check:
+    - "Ask students to redirect stdout to output.txt and stderr to errors.txt from a single command (expected: command > output.txt 2> errors.txt)"
+    - "Ask: what does the pipe operator | connect? (Expected: stdout of one command to stdin of the next)"
+    - "Have students save and exit nano — if they cannot do Ctrl+O then Ctrl+X from memory, they need more practice"
+
 teaching_approach: "Problem-solution pairs (How do I...? scenarios)"
 modality: "Scenario-driven discovery"
 

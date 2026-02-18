@@ -34,6 +34,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Design a project management schema (User -> Project -> Task -> TimeEntry) with appropriate types, then compare with a classmate's design choices."
   remedial_for_struggling: "Focus on just the User model first. Add one constraint at a time (nullable, unique) and test each. Only add Category and Expense after User works."
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "From Scripts to Databases"
+  key_points:
+    - "Float vs Numeric is the single most common money bug — 0.1 + 0.2 != 0.3 in floating point, and it compounds at scale"
+    - "A model file is an executable contract, not documentation — the database enforces it on every insert and update"
+    - "nullable=False is the bouncer at the door; app-level validation is a polite sign — students must understand which to trust"
+    - "Foreign keys store IDs not names — if Alice changes her email, you update one row instead of 500 expense rows"
+  misconceptions:
+    - "Students think rounding floats solves the money problem — it shifts responsibility to the developer for every calculation, which is error-prone"
+    - "Students confuse the model file with documentation — it is runnable code that creates real database constraints"
+    - "Students want to store user names directly in expense rows instead of using foreign key references — leads to update anomalies"
+    - "Students assume nullable=True is a safe default — it allows empty required fields that cause downstream query bugs"
+  discussion_prompts:
+    - "If 0.1 + 0.2 produces 0.30000000000000004, what happens when you sum a million transactions? At what scale does this matter?"
+    - "Why does the Expense model reference users.id instead of storing Alice's name directly? What breaks when Alice changes her email?"
+    - "When would you choose nullable=True intentionally? Can you think of a field where 'no value' is meaningful, not just lazy?"
+  teaching_tips:
+    - "Start with the live Python shell demo: type 0.1 + 0.2 and watch students react — this makes the Float problem visceral"
+    - "The ER diagram is whiteboard-worthy — draw it and have students identify which lines are foreign keys and why"
+    - "Walk through the type selection guide as a decision tree, not a reference table — ask students to classify fields from their own domains"
+    - "The manual validation drill (step 3: insert duplicate email) is critical — students must see the database reject bad data"
+  assessment_quick_check:
+    - "What type should you use for a monetary amount column and why?"
+    - "Explain what nullable=False does that app-level validation cannot guarantee"
+    - "Why does the Expense table store user_id instead of the user's name?"
 ---
 
 # Models as Code

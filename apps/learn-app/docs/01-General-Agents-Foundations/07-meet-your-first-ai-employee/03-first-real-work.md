@@ -73,6 +73,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Design a 3-task workflow chain where each task builds on the previous task's output. Configure it to run on a weekly schedule."
   remedial_for_struggling: "Focus on Tasks 1 and 4 only. For Task 1, just do the research. For Task 4, configure the simplest possible briefing (check files modified yesterday). Skip iteration steps."
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 1
+  session_title: "Doing Real Work with Your AI Employee"
+  key_points:
+    - "The agent loop (parse, plan, execute, report) is the conceptual backbone — students will see it formalized in Lesson 4's architecture deep-dive"
+    - "The shift from reactive (Tasks 1-3) to autonomous (Task 4) is THE pivotal moment in this chapter — it is what separates an AI Employee from a chatbot"
+    - "Iteration skill matters more than first-draft quality — the lesson teaches students to give specific feedback ('add X, remove Y') rather than vague ('make it better')"
+    - "Students leave with real artifacts (competitors.md, weekly-goals.md, morning briefing) — this is intentional: tangible output builds confidence"
+  misconceptions:
+    - "Students think the agent's first output should be perfect — emphasize that first drafts are cheap and their judgment is the expensive part"
+    - "Students treat the morning briefing as a demo exercise — stress that it actually runs tomorrow at 8 AM if configured correctly, making it the first real autonomous AI they have deployed"
+    - "Students confuse 'the agent planned the steps' with 'I told it each step' — in Task 3 the agent autonomously sequences research-write-analyze from a single instruction"
+    - "Students think disagreeing with agent output means the agent failed — the goals iteration task explicitly teaches that override is a feature, not a bug"
+  discussion_prompts:
+    - "When the agent ranked your weekly goals differently than you would, was its reasoning valid even if you disagreed? What does that tell you about when to trust vs override AI judgment?"
+    - "What is the difference between automating a task and delegating it? Which did you do in Task 4?"
+    - "If your morning briefing ran for a week, what would you change about it? How would you know if it was actually saving you time?"
+  teaching_tips:
+    - "Have students share their Task 1 competitor tables — different industries reveal how the agent adapts research to domain context"
+    - "Task 2's 'explain your reasoning' prompt is the most teachable moment: model this interaction live, showing that requesting explanations is a professional delegation skill"
+    - "Time pressure matters — enforce the 6-minute limits per task so students experience that iteration has diminishing returns"
+    - "For Task 4, walk the room and check that students configure their actual role, not a generic placeholder — personal relevance drives retention"
+  assessment_quick_check:
+    - "Ask students to name the four phases of the agent loop in order"
+    - "Ask: What is the difference between Tasks 1-3 and Task 4? (reactive vs autonomous)"
+    - "Have students open one of their artifact files and describe one edit they made to agent output and why"
 ---
 
 # Your First Real Work

@@ -87,6 +87,32 @@ differentiation:
   extension_for_advanced: "Explore tmuxinator or tmux-resurrect plugins for persistent session saving across reboots. Investigate tmux hooks for automated actions on session events. Compare tmux with Zellij (modern Rust-based terminal multiplexer)."
   remedial_for_struggling: "Focus on create, detach, and reattach first. Practice the basic lifecycle 3-4 times until it feels natural before attempting pane splitting. Use tmux ls after every action to verify session state."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Shell Customization and Tooling"
+  key_points:
+    - "tmux sessions survive disconnections — this is non-negotiable for production agent management where SSH drops would otherwise kill running processes"
+    - "The four-operation lifecycle (create, detach, attach, kill) is the foundation — all advanced tmux usage builds on these four commands"
+    - "Session scripts make layouts reproducible across servers — this is the first time students write a bash script, previewing lesson 6 (bash scripting)"
+    - "Named sessions provide project isolation — each agent project gets its own tmux session with independent state, working directory, and processes"
+  misconceptions:
+    - "Students confuse detaching (Ctrl+b then d, session lives on) with closing the terminal (may kill the session) — drill the difference explicitly"
+    - "Students think panes are separate sessions — panes are views within the same session window, sharing the same session lifecycle"
+    - "Students expect tmux to save sessions across server reboots — tmux sessions are lost on reboot unless using plugins like tmux-resurrect"
+  discussion_prompts:
+    - "Your AI agent is processing a 4-hour data pipeline over SSH. Your laptop battery is dying. What do you do, and why does tmux make this a non-issue?"
+    - "How would you organize tmux sessions for managing 5 different AI agents on the same server — one session per agent, or one session with 5 windows?"
+  teaching_tips:
+    - "Demo the detach-reattach cycle live with a running counter — students seeing a process continue while 'disconnected' is the most powerful moment in this lesson"
+    - "The tmux quick reference table is a handout moment — students will reference it constantly during exercises and the capstone (lesson 14)"
+    - "Build the 3-pane monitoring layout step by step before showing the session script — students need to understand what the script automates"
+    - "Pane splitting shortcuts (Ctrl+b % and Ctrl+b \") look arbitrary — explain that % looks like two side-by-side panes and \" looks like a horizontal line"
+  assessment_quick_check:
+    - "Ask students to create a named session, detach, verify it exists with tmux ls, and reattach — the complete lifecycle in 4 commands"
+    - "Ask: what happens to processes running inside a tmux session when you detach? (Expected: they continue running)"
+    - "Ask students to split a pane vertically and horizontally, resulting in 3 panes — verify with tmux list-panes"
+
 generated_by: "content-implementer"
 created: "2026-02-09"
 version: "2.0.0"

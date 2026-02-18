@@ -67,6 +67,34 @@ differentiation:
   extension_for_advanced: "Add subscription audit with pattern matching for unused services"
   remedial_for_struggling: "Start with task completion summary only (skip financial analysis)"
 
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 4
+  session_title: "Silver Capstone - CEO Briefing"
+  key_points:
+    - "The CEO Briefing is the signature feature that transforms the AI Employee from assistant to business partner — it proactively audits and reports instead of waiting for commands"
+    - "The briefing cross-references three data sources (Business_Goals.md, /Done/ folder, /Accounting/) to generate insights no single source provides alone"
+    - "Proactive suggestions ('Notion: no activity in 45 days, cancel subscription?') demonstrate the AI Employee reasoning beyond its instructions"
+    - "This capstone integrates all Silver tier capabilities: Watchers trigger data collection, HITL gates sensitive suggestions, cron schedules the Sunday night audit"
+  misconceptions:
+    - "Students think the CEO Briefing is just a summary report — the proactive suggestions section is what makes it a business partner, not just a reporter"
+    - "Students assume they need real financial data to build this — the pattern works with task completion tracking alone (remedial path), financial integration is an extension"
+    - "Students expect the briefing to run automatically without setup — it requires a cron job (from L10) and properly structured vault files (Business_Goals.md, /Done/ folder)"
+    - "Students confuse the briefing template with the audit logic — the template is the OUTPUT format, the audit logic is the ANALYSIS that produces it"
+  discussion_prompts:
+    - "The briefing example suggests canceling an unused Notion subscription. What other proactive suggestions could an AI Employee make by analyzing YOUR work patterns?"
+    - "The audit compares actual task duration to expected duration to find bottlenecks. How would you define 'expected duration' for YOUR recurring tasks?"
+    - "If you received this CEO Briefing every Monday morning, what section would you read first and why?"
+  teaching_tips:
+    - "Show the complete CEO Briefing template from L00 first — students should see the end product before understanding how it is generated"
+    - "Have students create their OWN Business_Goals.md with real objectives before building the audit logic — personal relevance drives engagement"
+    - "This is a placeholder lesson — direct students to L00 spec sections on CEO Briefing and Weekly Audit Logic for full detail until implementation is complete"
+    - "The proactive suggestions section is the most impressive demo moment — show how cross-referencing /Done/ timestamps with /Accounting/ reveals unused subscriptions"
+  assessment_quick_check:
+    - "Name the three data sources the CEO Briefing cross-references and what each provides"
+    - "What is the difference between the briefing template (output format) and the audit logic (analysis process)?"
+    - "Give one example of a proactive suggestion the AI Employee could make by analyzing your work data"
+
 # Generation metadata
 generated_by: "placeholder - to be implemented"
 created: "2026-01-07"

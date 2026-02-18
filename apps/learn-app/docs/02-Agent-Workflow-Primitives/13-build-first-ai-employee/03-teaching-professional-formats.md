@@ -91,6 +91,34 @@ differentiation:
   extension_for_advanced: "Create additional templates for specific domains (sales, recruiting, investor outreach) with conditional logic"
   remedial_for_struggling: "Focus on single cold-outreach template first before expanding to full library"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 1
+  session_title: "Template Libraries and Variable Substitution"
+  key_points:
+    - "Templates encode expertise as reusable intelligence — updating one template improves ALL future emails, unlike one-off prompting which starts fresh each time"
+    - "The {{variable_name}} syntax is the first formal pattern language students learn — it bridges the gap between static text and programmable output"
+    - "Anti-patterns are as valuable as patterns — the cold-outreach anti-patterns table prevents the most common email mistakes (generic openers, multiple CTAs)"
+    - "Template selection logic teaches intent recognition — Claude must map natural language ('haven't heard back') to the correct template (follow-up)"
+  misconceptions:
+    - "Students think templates make emails sound robotic — the variable substitution and tone guidance sections show how templates ENABLE personalization at scale"
+    - "Students confuse the email-templates skill with the email-drafter skill from L02 — drafter is freeform composition, templates are structured formats with variables"
+    - "Students expect templates to handle every email type — the lesson explicitly scopes to three types and shows how to extend, not replace"
+    - "Students skip anti-patterns sections thinking they are optional — anti-patterns prevent the most common quality regressions"
+  discussion_prompts:
+    - "The lesson shows 80 minutes vs 10 minutes for 20 emails. What recurring communication in YOUR work has similar multiplicative savings potential?"
+    - "Why does the follow-up template require 'new value' instead of just 'checking in'? How does this constraint improve response rates?"
+    - "The meeting request template includes a time-boxed agenda. Why does showing preparation upfront increase the chance of getting a meeting?"
+  teaching_tips:
+    - "Have students fill the cold-outreach template with REAL data from their domain — abstract examples do not build muscle memory"
+    - "The follow-up timing guidelines table (5-7 days, 10-14 days, 21 days) is worth discussing as a strategy, not just a template feature"
+    - "Demo template selection live: read three different email requests aloud and have students identify which template applies before Claude does"
+    - "Emphasize that templates/ uses Level 3 loading — files are only loaded when the skill needs them, not on every invocation"
+  assessment_quick_check:
+    - "Name the three template types and one scenario where each applies"
+    - "What is the difference between the email-drafter skill (L02) and the email-templates skill (this lesson)?"
+    - "Fill the {{variables}} in the cold-outreach template with data from your own domain"
+
 # Generation metadata
 generated_by: "content-implementer (autonomous execution)"
 created: "2026-01-01"

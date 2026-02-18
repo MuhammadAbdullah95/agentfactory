@@ -17,6 +17,32 @@ skills:
     proficiency: A1
   branch-merging:
     proficiency: A1
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "Git Foundations"
+  key_points:
+    - "Branches are parallel universes — changes on one branch are invisible to others until explicitly merged"
+    - "The create-test-merge-delete workflow is the safe experimentation pattern for AI-generated code"
+    - "Branch vs commit decision: use branches for parallel experiments or risky changes, commits for small proven improvements"
+    - "Branch naming conventions (feature/, bugfix/, experiment/) communicate intent to your future self and teammates"
+  misconceptions:
+    - "Students think creating a branch copies all their files — it only creates a new pointer to the current commit"
+    - "Students confuse deleting a branch with deleting their code — after merging, the commits live on in main; the branch name is just a pointer"
+    - "Students think they must always branch — for small, confident changes on solo projects, committing directly is fine"
+    - "Students fear merging will overwrite their main code — Git merges add changes, and conflicts are handled explicitly"
+  discussion_prompts:
+    - "You ask AI for two different approaches to solve a problem. How would you test both without risking your working code?"
+    - "When would you choose to commit directly to main instead of creating a branch? What makes the decision?"
+  teaching_tips:
+    - "The file disappearing when switching back to main (Activity 3) is the most powerful moment — let students discover this themselves"
+    - "Have students create two competing branches and merge one — the hands-on comparison builds intuition for the parallel testing workflow"
+    - "The three-roles demonstration (AI as Teacher, Student as Teacher, Co-Worker) should feel like a natural conversation, not a framework exercise"
+    - "The decision framework (four questions) is reference-card-worthy — have students keep it visible during future projects"
+  assessment_quick_check:
+    - "What command creates a new branch and what command switches to it?"
+    - "After merging feature-fast into main, what happens to the commits if you delete the feature-fast branch?"
+    - "Name two scenarios where you should use a branch instead of committing directly"
 # stage: 2 (AI Collaboration with Three Roles) # Internal scaffolding - hidden from students
 teaching_modality: Three Roles demonstrations (AI as Teacher, Student as Teacher, Co-Worker convergence)
 generated_by: content-implementer v1.0.0

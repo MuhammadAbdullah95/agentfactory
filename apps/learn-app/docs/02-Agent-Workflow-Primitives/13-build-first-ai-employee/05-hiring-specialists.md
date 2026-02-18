@@ -105,6 +105,34 @@ differentiation:
   extension_for_advanced: "Add conditional logic for VIP contact lists, integrate with calendar for meeting-related emails, create priority overrides based on project context"
   remedial_for_struggling: "Focus on inbox-triager first before building additional subagents; use the provided examples as templates rather than building from scratch"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Subagent Architecture"
+  key_points:
+    - "Skills tell Claude HOW to do something, subagents tell Claude WHAT to do after analyzing a situation — this is the core architectural distinction students must internalize"
+    - "The 2-4 vs 5+ decision points threshold is the practical rule for choosing skills vs subagents — inbox triage requires 5+ contextual factors"
+    - "Single-line YAML description is a hard technical requirement — multi-line breaks Claude Code's parser, and this is the most common agent creation error"
+    - "Three subagents demonstrate three reasoning patterns: classification (triager), generation with options (suggester), temporal tracking (follow-up tracker)"
+  misconceptions:
+    - "Students think subagents are 'better' than skills — they serve different purposes; a template substitution task should NEVER be a subagent"
+    - "Students confuse the single-line description requirement with a content limit — the line can be very long (up to 1024 chars), it just cannot use YAML multiline syntax"
+    - "Students think subagents run automatically — they are invoked via the Task tool or by Claude Code's own reasoning, not by external triggers (that comes in L08 with Watchers)"
+    - "Students expect the follow-up tracker to monitor Gmail in real-time — it analyzes sent emails on demand, not continuously (continuous monitoring is Silver tier)"
+  discussion_prompts:
+    - "The inbox-triager checks sender, subject, deadlines, recipient field, and action indicators. Which factor would YOU weight most heavily in your own inbox, and why?"
+    - "The response-suggester always provides 3 options (brief, detailed, alternative). In what scenario would the 'alternative' option (defer/redirect) be the best choice?"
+    - "Using the skills vs subagents decision framework, classify these tasks: formatting a report, deciding which bugs to fix first, generating a weekly summary"
+  teaching_tips:
+    - "Start with the skills vs subagents comparison table — students who do not grasp this distinction will misuse both patterns in every subsequent lesson"
+    - "The inbox-triager's 5-step classification logic is the lesson's best whiteboard moment — walk through each step with a real email example"
+    - "Have students create the inbox-triager FIRST and test it before building the other two — early success builds confidence for the more complex agents"
+    - "The CC'd email from CFO in the test examples (marked Normal despite senior sender) is a great discussion point about why multi-factor reasoning beats simple rules"
+  assessment_quick_check:
+    - "When should you use a skill vs a subagent? Give one example of each."
+    - "What happens if you use multi-line YAML in an agent description? (Parser breaks)"
+    - "Classify this email as Urgent/Important/Normal/Low and explain your reasoning: From CEO, CC'd to 15 people, subject 'FY24 Planning Update'"
+
 # Generation metadata
 generated_by: "content-implementer v1.0.0"
 created: "2026-01-01"

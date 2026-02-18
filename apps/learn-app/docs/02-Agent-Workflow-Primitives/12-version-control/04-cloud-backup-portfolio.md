@@ -65,6 +65,32 @@ cognitive_load:
     - "Push (uploading commits to cloud)"
     - "Clone (downloading repository from cloud)"
   assessment: "4 concepts (within A1 limit of 5-7) ✓"
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 2
+  session_title: "GitHub and Collaboration"
+  key_points:
+    - "GitHub serves dual purposes: catastrophe prevention (cloud backup) and career showcase (portfolio) — students often only think of one"
+    - ".gitignore must be created BEFORE the first push — once secrets are in Git history, removing them is extremely difficult"
+    - "The push/clone cycle proves recovery works — testing backup by actually cloning to a different folder is the only real proof"
+    - "git clone creates a complete copy including all history, while git pull updates an existing local repository — students must know when to use each"
+  misconceptions:
+    - "Students think GitHub IS Git — Git is the local version control system, GitHub is a cloud hosting platform for Git repositories"
+    - "Students believe they can remove secrets by deleting the file and committing — the secret persists in Git history and must be rotated"
+    - "Students skip the clone recovery test thinking push is enough — backup is only verified when you prove you can restore from it"
+    - "Students confuse 'origin' with a special Git concept — it is just a conventional name for the primary remote repository"
+  discussion_prompts:
+    - "If you share github.com/yourname with an employer, what impression do they get from your commit history? How is this different from a resume?"
+    - "What happens if you accidentally push your API key to a public GitHub repository? How fast could someone find it?"
+  teaching_tips:
+    - "Have students actually create their GitHub account during the lesson — the 2-minute signup makes the abstract 'cloud backup' concept tangible"
+    - "The authentication step (Personal Access Token) is where most students get stuck — walk through it slowly and have the GitHub settings page ready"
+    - "The troubleshooting section covers the four most common errors — reference it proactively rather than waiting for students to hit them"
+    - "End with the portfolio perspective: 'Your GitHub profile is visible to the world right now' — this motivates continued use beyond the lesson"
+  assessment_quick_check:
+    - "What two things must you do before pushing to GitHub for the first time? (create .gitignore for secrets, git remote add origin)"
+    - "What is the difference between git clone and git pull?"
+    - "What does the -u flag in git push -u origin main do?"
 
 teaching_approach: "AI Collaboration with Three Roles (Teacher/Student/Co-Worker)"
 modality: "Three Roles demonstration with hands-on activities"

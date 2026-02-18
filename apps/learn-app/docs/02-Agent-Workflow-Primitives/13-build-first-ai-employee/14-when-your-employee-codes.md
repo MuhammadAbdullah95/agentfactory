@@ -58,6 +58,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Explore OpenClaw's sub-agent documentation. Design a multi-agent workflow where OpenClaw spawns 3 parallel Claude Code instances to fix 3 different issues simultaneously using git worktrees."
   remedial_for_struggling: "Focus on the delegation chain diagram. Trace one message from your phone through OpenClaw to Claude Code and back. Write down each step."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 5
+  session_title: "Agent-to-Agent Orchestration"
+  key_points:
+    - "The inversion pattern is the chapter's thesis made visible: a Custom Agent (your AI Employee) orchestrating a General Agent (Claude Code) to write actual software"
+    - "Three safety mechanisms make agent-to-agent delegation reliable: PTY mode (interactive terminal), workdir isolation (filesystem sandbox), background mode (non-blocking execution)"
+    - "The self-building recursive loop (General Agent builds Custom Agent, Custom Agent orchestrates General Agent) means your AI Employee can improve itself"
+    - "This lesson bridges Chapter 13 (build your employee) to the broader Agent Factory thesis from Chapter 1 — agents that build agents"
+  misconceptions:
+    - "Students think the AI Employee writes code itself — it delegates to Claude Code, a specialized coding agent; the Employee is the manager, not the developer"
+    - "Students confuse PTY mode with a safety feature — PTY mode is a COMPATIBILITY requirement; without it, interactive coding agents hang or produce broken output"
+    - "Students assume the self-building pattern is theoretical — OpenClaw literally uses Claude Code to modify its own source code, and this is documented in the lesson"
+    - "Students think parallel coding requires special infrastructure — PM2 from L10 plus git worktrees is sufficient for running multiple Claude Code instances"
+  discussion_prompts:
+    - "The lesson shows a 10-step delegation chain from your phone to code changes. At which step does the most value get added, and why?"
+    - "The self-building pattern means your AI Employee can extend its own capabilities. What safeguards would you want before allowing an AI to modify its own code?"
+    - "Compare the two approaches: LLM generating code in chat vs Claude Code working on the filesystem. When would the simpler chat approach actually be better?"
+  teaching_tips:
+    - "The delegation chain diagram (10 steps from phone to code) is the lesson's centerpiece — walk through it step by step, mapping each to the 6 universal patterns"
+    - "If students have Claude Code installed, the live demo ('Build me a snake game in Python') is dramatically more convincing than reading about it"
+    - "The comparison table (without vs with coding-agent skill) is the best 'aha moment' — the difference between copy-paste coding and autonomous development"
+    - "End by connecting to Chapter 13: students will build their own AI Employee, and that employee can use Claude Code to extend itself — the seed that grows"
+  assessment_quick_check:
+    - "Draw the delegation chain from your phone to code changes — how many AI agents are involved and what role does each play?"
+    - "Name the three safety mechanisms for agent-to-agent delegation and explain what each prevents"
+    - "Explain the self-building loop in one sentence: how does a Custom Agent use a General Agent to improve itself?"
 ---
 
 # When Your Employee Codes

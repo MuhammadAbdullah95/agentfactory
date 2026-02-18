@@ -56,6 +56,31 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt exercises without starter prompts"
   remedial_for_struggling: "Start with Module 1 only; use the starter prompts provided and work through one module per session"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Implementation and Judgment"
+  key_points:
+    - "27 exercises across 8 modules progressively build three skills: specification writing, research-driven refinement, and task delegation"
+    - "None of these exercises involve writing code — SDD is a thinking methodology that applies to event planning, business operations, and content creation"
+    - "The exercise framework (Research → Specify → Refine → Execute → Verify → Iterate) mirrors the four-phase SDD workflow with verification added"
+    - "Capstone C (Personal Goal System) has real stakes — students build deliverables they actually keep using after the course"
+  misconceptions:
+    - "Students think SDD exercises require programming — emphasize these are deliberately non-code to show SDD as a universal methodology"
+    - "Students try to complete all 27 exercises in one sitting — recommend one module per session for proper reflection"
+    - "Students skip the reflection questions — the reflection is where real learning happens, not just completing the deliverable"
+  discussion_prompts:
+    - "After completing Module 1 exercises, which was more eye-opening: the event aftermath or the side-by-side comparison?"
+    - "For the capstones, which project resonates most with your actual life or work — and why does that make it the best learning opportunity?"
+  teaching_tips:
+    - "Assign Module 1 as the first homework — the side-by-side comparison exercise converts SDD skeptics faster than any lecture"
+    - "The assessment rubric (Beginner through Advanced) is useful for self-evaluation — have students rate themselves after each module"
+    - "For classroom use, Module 4 Exercise 4.3 (Constraint Stress Test) works brilliantly as a paired exercise where students try to break each other's specs"
+    - "Capstone C (Personal Goal System) is the strongest exercise because students discover their stated goal isn't their real goal during refinement"
+  assessment_quick_check:
+    - "Name the six steps of the SDD Exercise Framework and explain how they map to the four SDD phases from earlier lessons"
+    - "What's the difference between a 'Beginner' and 'Proficient' score on the Constraint Coverage rubric dimension?"
 ---
 
 # Practical SDD Exercises

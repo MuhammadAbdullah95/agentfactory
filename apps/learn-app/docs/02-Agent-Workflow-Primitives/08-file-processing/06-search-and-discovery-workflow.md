@@ -70,6 +70,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Ask Claude Code to create a search report showing all tax-related documents from the past 3 years, organized by year"
   remedial_for_struggling: "Start with a simple search: 'Find any PDF files in my Documents folder.' Then gradually add constraints like date or content."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Search, Synthesis, and Capstone"
+  key_points:
+    - "The inversion from 'search by location' to 'search by description' is the core mindset shift — students know WHAT they want, agents know HOW to find it"
+    - "Three search layers build progressively: filename metadata → content inside files (pdftotext + grep) → pattern-based discovery of similar files"
+    - "Conversational refinement ('from Chase, not Fidelity') is a transferable skill that applies to databases, research tasks, and any AI-directed search"
+    - "The chapter progression table (Lessons 1-6) shows how each lesson added a new capability — use this to show students how far they have come"
+  misconceptions:
+    - "Students think searching means knowing the exact filename — the entire lesson demonstrates that describing characteristics (type, date, content, source) is more powerful"
+    - "Students may not realize content search (pdftotext) is fundamentally different from filename search — looking inside files accesses information invisible to folder browsing"
+    - "Students assume broad searches are always better — the session protection tip shows why saving results to a file prevents conversation flooding"
+  discussion_prompts:
+    - "When was the last time you spent 20 minutes looking for a file? How would you describe it to an agent instead of clicking through folders?"
+    - "The agent searched INSIDE PDFs to find invoices with generic filenames like 'document.pdf'. What other situations have important information trapped inside files with unhelpful names?"
+    - "Descriptive search works for files, databases, and research. What makes 'describe what you need' a universal skill across different domains?"
+  teaching_tips:
+    - "Start with the lost tax document scenario — it is universally relatable and immediately motivates why location-based search fails"
+    - "The traditional vs agent-directed search comparison table is excellent for the board — have students add their own examples to each column"
+    - "Demo the content search (finding invoices inside generically-named PDFs) live — the moment students see information extracted from file contents, the capability becomes real"
+    - "Connect the 'find similar files' pattern to real research workflows — this is how professionals discover related documents they did not know existed"
+  assessment_quick_check:
+    - "Give students a scenario: 'You need a contract you signed last year but cannot remember the filename.' Ask them to write the search prompt they would give the agent"
+    - "Ask: 'What is the difference between searching by filename and searching by content? When do you need each?' — tests understanding of the three search layers"
+    - "Ask students to name the six patterns from this chapter in order — tests synthesis of the full chapter arc"
 ---
 
 # Search & Discovery Workflow

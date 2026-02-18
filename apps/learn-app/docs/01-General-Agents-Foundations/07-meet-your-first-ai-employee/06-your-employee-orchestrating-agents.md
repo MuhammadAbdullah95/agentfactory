@@ -60,6 +60,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Set up three parallel tmux sessions running Claude Code on different tasks simultaneously. Monitor all three and document which finished first and why."
   remedial_for_struggling: "Focus on Exercise 1 only. Run tmux ls to confirm the session exists. If it does not, describe what your employee said it would do vs what actually happened."
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Agent Delegation and Verification"
+  key_points:
+    - "The two-tier delegation pattern (you manage, employee coordinates, Claude Code executes) is the concrete manifestation of the Agent Factory thesis from Chapter 1"
+    - "Verification over trust is the critical habit — tmux ls and tmux attach prove work happened; without verification, students cannot distinguish real delegation from hallucinated claims"
+    - "The hallucination problem with delegation is pedagogically valuable — students experience firsthand that AI agents can claim to have done work they did not actually do"
+    - "Rule-based delegation (set it once, employee handles mechanics) demonstrates that managing AI is about setting clear policies, not micromanaging each step"
+  misconceptions:
+    - "Students think their employee 'knows' Claude Code exists — it does not discover tools on its own; the explicit delegation rule is required, not optional"
+    - "Students assume if the employee says it delegated to Claude Code, it actually did — the lesson explicitly teaches that verification (tmux ls) is mandatory because LLMs produce plausible but potentially false claims"
+    - "Students think tmux is a complex tool they need to master — in this context it is just a background session manager; they only need tmux ls, tmux attach, and Ctrl+B D"
+    - "Students confuse the employee writing code itself with delegating to Claude Code — the whole point is that the employee is a coordinator, not a coder"
+  discussion_prompts:
+    - "When your employee claimed to have delegated work but tmux ls showed nothing, how did that change your trust model? What verification habits should you build?"
+    - "In Exercise 3, your employee did research (its strength) then delegated coding (Claude Code's strength). What other task combinations follow this two-tool pattern?"
+    - "Compare this lesson to Chapter 3 where you used Claude Code directly. What did you gain by adding the employee as a coordination layer? What did you lose?"
+  teaching_tips:
+    - "Have students run tmux ls BEFORE telling them whether delegation worked — the discovery moment when they see a real session (or an empty list) is the most memorable part of this lesson"
+    - "If a student's employee hallucinates delegation, do NOT fix it for them — have them send the correction message from the lesson and experience the recovery flow"
+    - "Demo Exercise 3 live: show the research phase on Telegram, then the approval step, then switch to terminal and attach to the tmux session — the visual transition from messaging to terminal makes the delegation chain tangible"
+    - "Draw the three-layer delegation table on the whiteboard and have students fill in who does what — this reinforces the Agent Factory thesis without requiring re-reading Chapter 1"
+  assessment_quick_check:
+    - "Ask students: How do you verify your employee actually ran Claude Code? (tmux ls and tmux attach)"
+    - "Have students explain the two-tier delegation pattern in their own words using the three roles: manager, coordinator, coder"
+    - "Ask: Why did we set a delegation rule instead of specifying tmux commands each time?"
 ---
 
 # Your Employee Delegating to Claude Code
@@ -207,11 +235,11 @@ tmux attach -t <session-name>
 
 You built a real delegation chain:
 
-| Layer                        | Who         | What They Did                                           |
-| ---------------------------- | ----------- | ------------------------------------------------------- |
-| **You**                      | Manager     | Gave high-level instructions via Telegram               |
+| Layer                        | Who         | What They Did                                              |
+| ---------------------------- | ----------- | ---------------------------------------------------------- |
+| **You**                      | Manager     | Gave high-level instructions via Telegram                  |
 | **Your Employee** (OpenClaw) | Coordinator | Spun up tmux sessions, launched Claude Code, reported back |
-| **Claude Code**              | Coder       | Wrote actual code in a verifiable tmux session           |
+| **Claude Code**              | Coder       | Wrote actual code in a verifiable tmux session             |
 
 This is the **two-tier delegation pattern** from Chapter 1 -- and you have seen it work. Not a textbook claim. You ran `tmux ls`, you attached to the session, you watched Claude Code writing code.
 

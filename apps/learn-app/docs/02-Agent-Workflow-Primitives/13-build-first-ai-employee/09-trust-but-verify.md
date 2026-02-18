@@ -66,6 +66,34 @@ differentiation:
   extension_for_advanced: "Add expiry handling and escalation rules"
   remedial_for_struggling: "Start with single action type (emails only)"
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "Human-in-the-Loop Safety"
+  key_points:
+    - "HITL is a safety pattern, not a limitation — it prevents the AI Employee from taking irreversible actions (payments, public posts) without explicit human sign-off"
+    - "Folder-based workflow (/Pending_Approval/ → /Approved/ or /Rejected/) uses the same file-based communication pattern as watchers writing to /Needs_Action/"
+    - "Permission boundaries define WHAT auto-approves vs WHAT requires human review — this is the governance layer that makes autonomous operation trustworthy"
+    - "This lesson complements L08 (Watchers) — watchers make the employee proactive, HITL makes that proactivity safe"
+  misconceptions:
+    - "Students think HITL means the AI is not trusted — it means the AI is trusted for routine tasks but sensitive actions get human review, like any real employee"
+    - "Students assume all actions need approval — the permission boundaries table explicitly defines auto-approve thresholds (e.g., emails to known contacts auto-approve)"
+    - "Students confuse /Pending_Approval/ with /Needs_Action/ — Needs_Action is for incoming items detected by watchers, Pending_Approval is for outgoing actions awaiting sign-off"
+    - "Students think moving files between folders is primitive — file-based workflows are visible, auditable, and work with any tool (Obsidian, CLI, scripts)"
+  discussion_prompts:
+    - "The L00 spec says payments under $50 to recurring payees auto-approve. Where would YOU set the threshold for your business, and why?"
+    - "Why does the approval request include an expiry field? What should happen when an approval request expires?"
+    - "The lesson says 'trust your employee with routine tasks.' How do you decide what is routine vs sensitive in your domain?"
+  teaching_tips:
+    - "Start by reviewing the permission boundaries table from L00 — students need to see the full picture before building individual approval workflows"
+    - "Have students design their OWN permission boundaries for their domain before looking at the provided ones — this makes the pattern personally relevant"
+    - "Demo the folder workflow physically: create a file in /Pending_Approval/, then move it to /Approved/ and show what happens next"
+    - "This is a placeholder lesson — direct students to L00 spec sections on HITL Pattern and Permission Boundaries for full detail until implementation is complete"
+  assessment_quick_check:
+    - "What are the three folders in the approval workflow, and what does each represent?"
+    - "Give two examples of actions that should auto-approve and two that should always require human review"
+    - "What is the difference between /Needs_Action/ (from L08) and /Pending_Approval/ (this lesson)?"
+
 # Generation metadata
 generated_by: "placeholder - to be implemented"
 created: "2026-01-07"

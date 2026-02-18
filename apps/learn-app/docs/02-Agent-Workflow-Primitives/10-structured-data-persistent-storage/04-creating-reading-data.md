@@ -34,6 +34,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Implement a full CRUD module with update and delete operations. Add a function that demonstrates the difference between .flush() and .commit() with concurrent sessions."
   remedial_for_struggling: "Focus on the happy path first: insert one row, read it back. Only after that works, try the failure case. The rollback pattern is important but secondary to basic CRUD."
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 2
+  session_title: "CRUD and Session Discipline"
+  key_points:
+    - "The session lifecycle (open, add, flush, commit/rollback) is the mental model that prevents most CRUD bugs"
+    - "flush() assigns IDs without committing — needed when creating parent rows before inserting children that reference them"
+    - "Rollback is not error recovery — it is the expected path for failed writes and must be practiced, not just understood"
+    - "Reading back in a new session is the only reliable proof that data was committed, not just cached in memory"
+  misconceptions:
+    - "Students assume session.add() saves data — it only stages the object in memory; commit() is required for durability"
+    - "Students think commit failure is rare — duplicate emails, invalid FKs, and constraint violations happen routinely in production"
+    - "Students confuse .first() with .all() thinking they are interchangeable — .first() silently hides multiple matches"
+    - "Students skip the SQLite PRAGMA foreign_keys=ON and wonder why invalid FK inserts succeed locally"
+  discussion_prompts:
+    - "Why is practicing the failure path (rollback after bad FK) just as important as the happy path? In production, which happens more often?"
+    - "What is the difference between flush and commit? When would you need flush without immediately committing?"
+  teaching_tips:
+    - "Walk through the session lifecycle diagram step by step — have students identify which stage their code is at before running it"
+    - "The shopping cart analogy for sessions is powerful: add() = put items in cart, flush() = preview total, commit() = place order, rollback() = empty cart"
+    - "Have students deliberately skip session.commit() and observe that read-back returns nothing — this makes the commit requirement visceral"
+    - "The PRAGMA foreign_keys=ON listener is easy to overlook — demo what happens without it by inserting a bad FK that silently succeeds"
+  assessment_quick_check:
+    - "What happens to your data if you call session.add() but never call session.commit()?"
+    - "Write the try/except/rollback pattern from memory for a write that might fail"
+    - "When should you use .first() vs .all() and what bug can .first() hide?"
 ---
 
 # Creating & Reading Data

@@ -64,6 +64,34 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Set up Gmail Pub/Sub push notifications so your agent proactively summarizes new emails as they arrive, without you asking. This combines autonomous invocation (L03 Task 6) with Google Workspace access."
   remedial_for_struggling: "Focus on Gmail only. Skip Calendar, Drive, and advanced features. The key experience is: your agent reads YOUR email. That single moment is the lesson."
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Connecting Real Productivity Tools"
+  key_points:
+    - "The moment the agent reads real email is the emotional turning point of the chapter — it transforms 'AI Employee' from metaphor to reality; make sure students pause and register this"
+    - "Least privilege (granting minimum OAuth scopes) is the practical application of Lesson 5's security checklist on their own real account"
+    - "The lethal trifecta table (before gog vs after gog) makes the abstract framework from Lesson 5 concrete — all three conditions are now met on the student's actual data"
+    - "OAuth integration pattern (register credentials, authorize, scope permissions) is universal across every SaaS tool; students will repeat this pattern with Slack, GitHub, Notion, and Jira"
+  misconceptions:
+    - "Students think OAuth setup is a one-time formality — emphasize that the scopes they granted determine what their agent can do with their real data, including sending emails as them"
+    - "Students assume read-only access is safe — even read-only Gmail access means the agent (and any malicious skill) can see every email, including password resets and financial statements"
+    - "Students conflate the Google Cloud Console complexity with the actual integration — the OAuth setup is a one-time hurdle; daily use is just Telegram messages"
+    - "Students think they need all six gog services from the start — least privilege means starting with only what you need and adding incrementally"
+  discussion_prompts:
+    - "Now that your agent can read your email, how does your threat model change? What is the worst realistic thing a malicious skill could do with Gmail access?"
+    - "If you were advising a colleague to connect their AI Employee to Google Workspace, what three things would you warn them about first?"
+    - "The lesson says tool access is what makes the employee label accurate. Do you agree? What else might be needed?"
+  teaching_tips:
+    - "If teaching in a classroom, have students use a dedicated test Google account rather than their primary one — this removes security anxiety and lets them experiment freely"
+    - "The OAuth credential setup in GCP Console is the biggest friction point — consider doing this step as a live walkthrough with the class to prevent 15 minutes of individual troubleshooting"
+    - "After Task 1 (email summary), pause the class and ask students to describe what they felt — the emotional response to an AI reading real email is the strongest retention anchor in the chapter"
+    - "Use the before/after gog table as a whiteboard exercise: have students fill in what changes in each lethal trifecta dimension when you add Google Workspace access"
+  assessment_quick_check:
+    - "Ask students to explain least privilege in one sentence and give an example using gog scope flags"
+    - "Have students describe how the lethal trifecta from Lesson 5 applies specifically to their gog setup"
+    - "Ask: What is the gog command to limit your agent to only Gmail and Calendar access?"
 ---
 
 # Connecting Google Workspace

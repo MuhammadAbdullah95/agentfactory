@@ -75,6 +75,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Deploy OpenClaw to Oracle Cloud Always Free ARM instance for 24/7 operation. Configure SSH tunnel for remote access."
   remedial_for_struggling: "Focus on the Control UI (web browser) first. Skip Telegram setup and interact through the browser. Come back to Telegram once comfortable."
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 1
+  session_title: "Setting Up Your AI Employee"
+  key_points:
+    - "The universal setup pattern (install, configure intelligence, connect I/O, verify, secure) applies to every agent framework students will encounter"
+    - "Localhost binding (127.0.0.1) vs all-interfaces (0.0.0.0) is the single most important security concept in this lesson — it recurs in Lesson 5 and Chapter 11 deployment"
+    - "Three channels (TUI, Telegram, Control UI) sharing one agent demonstrates the channel adapter pattern from Lesson 1"
+    - "The onboarding conversation where students name and personalize the agent is not cosmetic — it seeds persistent memory that shapes all future interactions"
+  misconceptions:
+    - "Students think the Telegram bot IS the AI Employee — clarify that the bot is one channel adapter; the gateway + agent loop is the real system"
+    - "Students assume localhost means 'safe from all threats' — it prevents network access but the agent itself can still execute risky actions locally"
+    - "Students skip the security acknowledgment as boilerplate — reinforce that this habit of reading security warnings is the lesson within the lesson"
+  discussion_prompts:
+    - "Why did OpenClaw choose messaging apps (Telegram, WhatsApp) as the default interface instead of building a dedicated mobile app?"
+    - "If your gateway accidentally bound to 0.0.0.0 on a public server, what could an attacker do with access to your AI Employee?"
+    - "What is the practical difference between configuring a tool and onboarding a colleague — and why does the first conversation matter?"
+  teaching_tips:
+    - "Have students complete setup live in class — troubleshooting together builds confidence faster than solo debugging at home"
+    - "When students hit PATH or Node.js errors, use it as a teaching moment: this is exactly the kind of environment debugging agents help with"
+    - "Demo the three-channel pattern live: send same question via TUI, Telegram, and Control UI to show one agent, multiple interfaces"
+    - "Spend extra time on the bind address table (127.0.0.1 vs 0.0.0.0) — draw it on a whiteboard with network boundaries"
+  assessment_quick_check:
+    - "Ask students to explain what 127.0.0.1 means and why it matters for an AI agent"
+    - "Have students name the five steps of the universal setup pattern from memory"
+    - "Ask: If you close your terminal, does your AI Employee stop working? Why or why not?"
 ---
 
 # Setup Your AI Employee (Free)

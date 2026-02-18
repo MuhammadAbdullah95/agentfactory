@@ -87,6 +87,33 @@ differentiation:
   extension_for_advanced: "Add trap for cleanup on script exit, implement getopts for command-line argument parsing, create functions that return values via stdout capture."
   remedial_for_struggling: "Focus on 3-line scripts first (shebang, one command, echo). Practice variable assignment and echo before moving to conditionals. Copy the error handling line (set -euo pipefail) as a template without memorizing it."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 2
+  session_title: "Shell Customization and Tooling"
+  key_points:
+    - "set -euo pipefail is the single most important line in any bash script — it prevents silent failures that cause partial deployments and data loss"
+    - "Variables must always be double-quoted (\"${VAR}\") — unquoted variables break on spaces and are the #1 source of bash bugs"
+    - "Functions with local variables keep scripts organized — the deploy_agent pattern (name + port as arguments) is reused in the capstone (lesson 14)"
+    - "Idempotent scripts (safe to run multiple times) are a production requirement — the check-before-create pattern should become default"
+  misconceptions:
+    - "Students think scripts will stop on errors by default — without set -e, bash happily continues after failures, potentially running destructive commands in wrong directories"
+    - "Students confuse ${VAR} with $VAR — both work for simple cases, but ${VAR}log vs $VARlog demonstrates why braces matter for disambiguation"
+    - "Students expect function arguments to work like Python (named parameters) — bash uses positional arguments ($1, $2) which must be documented in comments"
+    - "Students forget chmod +x and try to debug 'Permission denied' as a code error rather than a permissions issue"
+  discussion_prompts:
+    - "Why is idempotency (safe to run multiple times) important for deployment scripts? What goes wrong if a setup script fails halfway and you re-run it?"
+    - "The set -u flag prevents using undefined variables. How might this catch a typo that rm -rf ${TYPO}/ would otherwise turn into rm -rf /?"
+  teaching_tips:
+    - "Start with the 3-line script and build incrementally — adding variables, then error handling, then functions mirrors how real scripts evolve"
+    - "Demo the broken.sh example (cd to nonexistent path, then rm) live — seeing a script continue after failure is the motivation for set -euo pipefail"
+    - "The test operators table ([[ -d ]], [[ -f ]], [[ -z ]]) is a reference card moment — students will look this up repeatedly"
+    - "Connect back to tmux session scripts from lesson 5 — students already wrote their first bash script there without realizing it"
+  assessment_quick_check:
+    - "Ask students to write a 3-line script: shebang, set -euo pipefail, and echo with a variable — verify they can make it executable and run it"
+    - "Ask: what does set -euo pipefail do? (Expected: -e stops on errors, -u stops on undefined vars, -o pipefail catches pipe failures)"
+    - "Give a function definition and ask students to call it with two arguments — verify they understand $1 and $2 positional parameters"
+
 teaching_approach: "Progressive script building (3-line -> 10-line -> 30-line)"
 modality: "Hands-on discovery with AI collaboration"
 

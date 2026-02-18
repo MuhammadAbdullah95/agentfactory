@@ -61,6 +61,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Capstone C: Forensics challenge diagnosing 3 failing agents with different context problems"
   remedial_for_struggling: "Focus on Modules 1-3 (diagnosis and optimization) before attempting persistence and multi-agent modules"
+
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 4
+  session_title: "Capstone: Production-Quality Agents"
+  key_points:
+    - "This is a measurement-driven exercise lab — students apply every technique from Lessons 1-10 and score the results using a consistent rubric at each stage"
+    - "The Contract Review Agent starts broken (missing red flags, contradicting itself, forgetting requirements) and improves measurably as each context engineering technique is applied"
+    - "The progression from Module 1 (diagnosis) through Module 7 (multi-agent coordination) mirrors the chapter's lesson sequence, reinforcing each concept through practice"
+    - "No new concepts are introduced — this is pure application of the full context engineering toolkit learned throughout the chapter"
+  misconceptions:
+    - "Students think exercises are optional supplementary practice — this is the chapter closer where concepts become measurable skills, and the quality scores prove the techniques work"
+    - "Students skip measurement steps because they seem tedious — the before/after scores ARE the learning, showing quantified impact of each technique"
+    - "Students try to jump to advanced modules without completing diagnosis modules first — Module 1-3 (rot diagnosis, signal audit, architecture) are prerequisites for everything after"
+  discussion_prompts:
+    - "After running the same three test tasks at each stage, which technique produced the largest measurable improvement? Was it the one you expected?"
+    - "How would you adapt the Contract Review Agent exercises to your own professional domain?"
+  teaching_tips:
+    - "Emphasize that every module follows the same pattern: apply technique, then measure — this measurement discipline is the meta-skill being taught"
+    - "Have students download the exercise files at the start of class to avoid setup delays — the ZIP contains all starter files and instructions per module"
+    - "The three capstones at the end are the real assessment — Capstone A (build your own domain agent) is the minimum, Capstone C (forensics) is the stretch goal"
+    - "Budget at least 4 hours across multiple sessions — this is a 240-minute exercise set that demonstrates multi-session work in practice"
+  assessment_quick_check:
+    - "After Module 3, what was your agent's quality score compared to the broken starting state?"
+    - "Which context engineering technique produced the largest single improvement in your measurements?"
+    - "Describe one thing you would do differently if you started the exercise lab over from scratch"
 ---
 
 # Context Engineering Exercises: The Context Lab

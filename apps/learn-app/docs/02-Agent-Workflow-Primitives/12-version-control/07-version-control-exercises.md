@@ -56,6 +56,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Complete all 3 capstone projects; attempt Debug exercises without reading setup.sh first"
   remedial_for_struggling: "Start with Module 1 Build only; use the starter prompts provided; run setup.sh scripts with verbose output"
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Practice and Mastery"
+  key_points:
+    - "The Git Safety Framework (Assess-Plan-Protect-Execute-Verify-Document) applies to every exercise and every real Git operation"
+    - "Build + Debug pairing develops different skills — building clean repos teaches creation, debugging broken repos teaches diagnostic reading of git output"
+    - "Modules 1-2 provide starter prompts; Modules 3-6 remove scaffolding; Capstones remove everything — independence increases deliberately"
+    - "The gap between knowing commands and reaching for them instinctively under pressure is what these exercises close"
+  misconceptions:
+    - "Students think completing exercises quickly means mastery — the reflection questions are where the real learning happens, not just the commands"
+    - "Students skip Debug exercises thinking they only need Build practice — diagnosing broken state develops different (and rarer) skills than building clean repos"
+    - "Students try to complete all 15 exercises in one sitting — working through one module at a time with reflection produces better results"
+    - "Students use git add . throughout exercises instead of selective staging — this defeats the purpose of exercises that teach intentional version control"
+  discussion_prompts:
+    - "Which exercise felt most like a real situation you might face? What made it realistic?"
+    - "Did the Debug exercises change how you think about your own Git habits? What would you do differently now?"
+  teaching_tips:
+    - "Have students start with Module 1 and resist the urge to jump to capstones — the scaffolding removal is deliberate and skipping it creates frustration"
+    - "The self-assessment rubric (5 criteria, 4 levels) is powerful for self-reflection — have students rate themselves honestly after each module"
+    - "For Debug exercises, encourage students to run diagnostic commands (git status, git log) BEFORE attempting any fix — the Assess step is the most important"
+    - "The three capstones target different skill profiles: A (integration), B (professional presence), C (forensic investigation) — let students choose based on interest"
+  assessment_quick_check:
+    - "Recite the six steps of the Git Safety Framework in order"
+    - "What is the difference between a Build exercise and a Debug exercise in terms of what you learn?"
+    - "Name the three capstone projects and which one interests you most — and why"
 ---
 
 # Version Control Exercises

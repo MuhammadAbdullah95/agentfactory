@@ -66,6 +66,34 @@ differentiation:
   extension_for_advanced: "Add WhatsApp Watcher using Playwright"
   remedial_for_struggling: "Start with File Watcher only (simpler than Gmail API)"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Perception Layer - Watchers"
+  key_points:
+    - "Watchers solve the 'lazy agent' problem — without them, the AI Employee only works when you type a command; with them, it notices things on its own"
+    - "BaseWatcher abstract class enforces a consistent pattern (check_for_updates, create_action_file, run) across all data sources"
+    - "Watchers create .md files in /Needs_Action/ — this file-based communication is the bridge between the Perception layer and the Reasoning layer from L00's architecture"
+    - "This is the first Silver tier lesson — it marks the transition from human-triggered to event-triggered AI operation"
+  misconceptions:
+    - "Students think watchers ARE Claude Code — watchers are lightweight Python scripts that TRIGGER Claude Code by writing files to the vault"
+    - "Students expect watchers to process emails — watchers only DETECT and DEPOSIT; Claude Code reads /Needs_Action/ and does the reasoning"
+    - "Students think polling is inefficient — for personal use, polling every 60 seconds is perfectly adequate and simpler than webhooks or push notifications"
+    - "Students assume watchers require the vault to be open in Obsidian — watchers write directly to the filesystem; Obsidian is just a UI for viewing"
+  discussion_prompts:
+    - "The spec shows Gmail, WhatsApp, and File watchers. What other data sources in YOUR work would benefit from a watcher? What would the action file contain?"
+    - "Why does the architecture use file-based communication (/Needs_Action/ folder) instead of direct API calls between watchers and Claude Code?"
+    - "The watcher runs in an infinite loop with a sleep interval. What are the tradeoffs of a 30-second vs 5-minute polling interval?"
+  teaching_tips:
+    - "Start with FileWatcher (simpler, no API credentials) before attempting GmailWatcher — students gain confidence with the pattern before adding complexity"
+    - "Demo the watcher creating a file in /Needs_Action/ and then show Claude Code reading it — the visual connection between perception and reasoning is powerful"
+    - "Emphasize that this is a placeholder lesson — direct students to L00 spec for full watcher architecture and code patterns until implementation is complete"
+    - "Connect back to L01's MCP setup — watchers running from outside the vault use Obsidian MCP to access the Memory Bank, which is why that setup was essential"
+  assessment_quick_check:
+    - "Name the three methods every BaseWatcher must implement and explain what each does"
+    - "What file does a watcher create when it detects a new email, and where does it go?"
+    - "Why do watchers need Obsidian MCP from L01? (They run from outside the vault directory)"
+
 # Generation metadata
 generated_by: "placeholder - to be implemented"
 created: "2026-01-07"
@@ -83,6 +111,7 @@ This lesson begins the **Silver Tier**. Complete Bronze Tier (L01-L07) first.
 This lesson will teach you to build **Python Watcher scripts** that give your Personal AI Employee the ability to perceive changes in the world — transforming it from reactive (waits for you) to proactive (notices things itself).
 
 **What You'll Build:**
+
 - `BaseWatcher` abstract class (consistent pattern for all watchers)
 - `GmailWatcher` that polls Gmail API for urgent messages
 - `FileWatcher` that monitors a drop folder for new files
@@ -96,6 +125,7 @@ This lesson will teach you to build **Python Watcher scripts** that give your Pe
 See [L00: Complete Specification](./00-personal-ai-employee-specification.md) for the full Watcher architecture and code patterns.
 
 **Reference sections:**
+
 - "Perception (The Watchers)"
 - "Watcher Architecture"
 - "Core Watcher Pattern"

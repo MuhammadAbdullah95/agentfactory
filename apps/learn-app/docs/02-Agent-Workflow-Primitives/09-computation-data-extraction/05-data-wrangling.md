@@ -63,6 +63,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Handle case sensitivity, regex anchors for precision, more complex patterns"
   remedial_for_struggling: "Focus on the conversation - use pre-built keyword lists, don't modify patterns yourself"
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Data Wrangling and Capstone"
+  key_points:
+    - "The Dr. Pepper false positive is the chapter's signature teaching moment — simple keyword matching ('DR' in description) silently inflates tax deductions, which is fraud by algorithm"
+    - "Regex word boundaries (\\b) solve partial matching: \\bCVS\\b matches 'CVS PHARMACY' but not 'CVSMITH' — this single concept prevents an entire category of false positives"
+    - "FALSE_POSITIVES checked BEFORE categories demonstrates that execution order matters — guards must run first or the match happens before the guard can block it"
+    - "The find | xargs cat | python pipeline chains three Unix tools to process 12 months of bank statements in one command — the composability from Lesson 1 scales to real workflows"
+  misconceptions:
+    - "Students think the first categorizer output 'looks right' — the false positives (Dr. Pepper, CVSMITH) are deliberately plausible enough to miss on casual inspection"
+    - "Students confuse regex word boundaries with exact string matching — \\bCVS\\b still matches 'CVS PHARMACY' and 'CVS/STORE' because the boundary is at word edges, not string edges"
+    - "Students may think false positives are edge cases they can ignore — on tax returns, a $204.99 inflation from Dr. Pepper and CVSMITH is a concrete financial error"
+  discussion_prompts:
+    - "The first version of the categorizer 'looked right' until you scanned the medical list carefully. How do you decide when to trust output and when to inspect it line by line?"
+    - "Why are FALSE_POSITIVES checked before categories rather than after? What would happen if you checked them in the opposite order?"
+    - "The Dr. Pepper problem only shows up in bank data where merchant names are messy. What other domains have similar 'looks like X but is actually Y' matching problems?"
+  teaching_tips:
+    - "Let students see the FIRST output (with false positives) and ask them to find the bugs BEFORE revealing them — this builds the inspection habit"
+    - "Draw the regex word boundary concept on the board with 'CVSMITH' and show where \\b does and does not trigger — visual learners need to see the boundary positions"
+    - "The batch processing pipeline (find | xargs cat | python) is worth walking through step by step — each pipe adds one capability"
+    - "The iterative loop (build → test → find false positives → fix) is the lesson's workflow pattern — emphasize that no one designs perfect categorization rules on the first try"
+  assessment_quick_check:
+    - "Ask: 'Why does matching DR in a transaction description catch both doctor visits and Dr. Pepper?' — tests understanding of substring vs word boundary matching"
+    - "Give students the pattern \\bCVS\\b and ask which of these it matches: 'CVS PHARMACY', 'CVSMITH', 'MY CVS RECEIPT', 'MCVS' — tests regex boundary understanding"
+    - "Ask students to explain the three stages of the batch pipeline: find, xargs cat, python script — tests understanding of Unix composability"
 ---
 
 # Data Wrangling

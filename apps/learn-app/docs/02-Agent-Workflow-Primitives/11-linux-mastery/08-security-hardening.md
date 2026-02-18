@@ -4,7 +4,19 @@ chapter: 11
 lesson: 8
 title: "Security Hardening & Least Privilege"
 description: "Create dedicated service users, configure file permissions with chmod and chown, manage environment variables with proper scoping, and handle secrets using .env files -- all following the principle of least privilege."
-keywords: ["security", "least privilege", "chmod", "chown", "useradd", "permissions", "environment variables", "ssh-keygen", "env files", "secrets"]
+keywords:
+  [
+    "security",
+    "least privilege",
+    "chmod",
+    "chown",
+    "useradd",
+    "permissions",
+    "environment variables",
+    "ssh-keygen",
+    "env files",
+    "secrets",
+  ]
 duration_minutes: 60
 
 # HIDDEN SKILLS METADATA
@@ -87,6 +99,33 @@ differentiation:
   extension_for_advanced: "Explore ACLs (Access Control Lists) with setfacl for fine-grained permissions. Investigate Linux capabilities (setcap) for granting specific privileges without root. Research secret management tools like HashiCorp Vault for production environments."
   remedial_for_struggling: "Focus on useradd and chmod first. Practice creating users and setting permissions on simple files before working with environment variables. Use ls -la after every permission change to verify results."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Text Processing and Automation"
+  key_points:
+    - "Least privilege is the core principle — even when code has bugs, restricted users limit damage to one agent's workspace instead of the entire server"
+    - "chmod numeric notation (600, 700, 750, 755) must become second nature — the permission guidelines table maps file types to recommended permissions for agent deployments"
+    - ".env files with chmod 600 are the standard for secret management — secrets in source code are a security incident waiting to happen"
+    - "export vs non-export variable scoping determines whether child processes (like agent scripts) can access API keys — this is the #1 cause of 'my agent cannot find its API key'"
+  misconceptions:
+    - "Students think running as root is fine for testing — the security incident scenario shows that test habits become production habits, and root access multiplies damage"
+    - "Students confuse chmod 777 (everyone can do everything) with chmod 700 (only owner) — emphasize that 777 is almost never correct and is a red flag in code review"
+    - "Students expect non-exported variables to be visible in scripts they run — the subshell exercise demonstrates that only exported variables propagate"
+    - "Students think removing a committed .env from git history fixes the leak — once pushed, consider all secrets compromised; rotate immediately"
+  discussion_prompts:
+    - "In the security incident scenario, three failures compounded into a breach. Which single fix would have prevented the most damage, and why?"
+    - "Your team says 'just use root, it is faster.' How would you explain the risk in terms they understand — using the blast radius concept from this lesson?"
+  teaching_tips:
+    - "Open with the security incident scenario — it makes abstract concepts concrete and motivates every defense taught in the lesson"
+    - "The permission guidelines table (file type to chmod value) is a reference card moment — students will use this when deploying agents in lesson 14"
+    - "Demo the export vs non-export exercise live — students seeing an empty variable in a subshell is the proof they need to understand scoping"
+    - "The .env + .gitignore workflow should be practiced as a sequence: create file, chmod 600, add to .gitignore — make it muscle memory"
+  assessment_quick_check:
+    - "Ask: what chmod value makes a file readable only by its owner? (Expected: 600)"
+    - "Ask students to demonstrate that an exported variable is visible in a subshell but a non-exported one is not"
+    - "Give an ls -la output and ask students to identify which files have overly permissive permissions (look for 777 or world-readable secrets)"
+
 teaching_approach: "Socratic. Present a security incident, ask what went wrong, then build the defense."
 modality: "Socratic Dialogue (security incident analysis leading to defensive practices)"
 
@@ -128,11 +167,11 @@ API_KEY = "sk-prod-abc123def456"
 
 **Three failures, three fixes**:
 
-| Failure | Fix You'll Learn |
-|---------|-----------------|
-| All agents ran as root | User/group management |
-| Agents could read each other's files | chmod/chown least privilege |
-| API key in source code | Environment variables and .env files |
+| Failure                              | Fix You'll Learn                     |
+| ------------------------------------ | ------------------------------------ |
+| All agents ran as root               | User/group management                |
+| Agents could read each other's files | chmod/chown least privilege          |
+| API key in source code               | Environment variables and .env files |
 
 ---
 
@@ -147,6 +186,7 @@ sudo useradd --system --shell /usr/sbin/nologin --home-dir /opt/agent-runner --c
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -158,6 +198,7 @@ id agent-runner
 ```
 
 **Output:**
+
 ```
 uid=998(agent-runner) gid=998(agent-runner) groups=998(agent-runner)
 ```
@@ -169,18 +210,19 @@ grep agent-runner /etc/passwd
 ```
 
 **Output:**
+
 ```
 agent-runner:x:998:998::/opt/agent-runner:/usr/sbin/nologin
 ```
 
 **What each flag does**:
 
-| Flag | Purpose |
-|------|---------|
-| `--system` | System account (UID below 1000, hidden from login screen) |
-| `--shell /usr/sbin/nologin` | Prevents interactive login -- nobody can SSH in as this user |
-| `--home-dir /opt/agent-runner` | Sets the home directory |
-| `--create-home` | Creates the home directory if it doesn't exist |
+| Flag                           | Purpose                                                      |
+| ------------------------------ | ------------------------------------------------------------ |
+| `--system`                     | System account (UID below 1000, hidden from login screen)    |
+| `--shell /usr/sbin/nologin`    | Prevents interactive login -- nobody can SSH in as this user |
+| `--home-dir /opt/agent-runner` | Sets the home directory                                      |
+| `--create-home`                | Creates the home directory if it doesn't exist               |
 
 The `/usr/sbin/nologin` shell is the critical security decision. Even if someone obtains this user's credentials, they cannot open a terminal session.
 
@@ -194,6 +236,7 @@ groups $USER
 ```
 
 **Output:**
+
 ```
 yourname sudo agent-runner
 ```
@@ -206,12 +249,12 @@ You may need to log out and back in for group changes to take effect. Now files 
 
 Every file has three permission sets -- owner, group, and others -- each with read (`r`=4), write (`w`=2), and execute (`x`=1) bits. Add the values for numeric notation: `700` means owner gets 7 (read+write+execute), group gets 0, others get 0.
 
-| Numeric | Symbolic | Meaning |
-|---------|----------|---------|
-| `700` | `rwx------` | Owner full access, nobody else |
-| `600` | `rw-------` | Owner read/write only |
-| `755` | `rwxr-xr-x` | Owner full, group/others read+execute |
-| `640` | `rw-r-----` | Owner read/write, group read only |
+| Numeric | Symbolic    | Meaning                               |
+| ------- | ----------- | ------------------------------------- |
+| `700`   | `rwx------` | Owner full access, nobody else        |
+| `600`   | `rw-------` | Owner read/write only                 |
+| `755`   | `rwxr-xr-x` | Owner full, group/others read+execute |
+| `640`   | `rw-r-----` | Owner read/write, group read only     |
 
 ### Setting Permissions on Agent Files
 
@@ -223,6 +266,7 @@ sudo touch /opt/agent-runner/config/settings.yaml
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -234,6 +278,7 @@ sudo chown -R agent-runner:agent-runner /opt/agent-runner
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -247,6 +292,7 @@ sudo chmod 600 /opt/agent-runner/config/settings.yaml
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -258,6 +304,7 @@ ls -la /opt/agent-runner/config/settings.yaml
 ```
 
 **Output:**
+
 ```
 -rw------- 1 agent-runner agent-runner 0 Feb  9 15:30 settings.yaml
 ```
@@ -275,27 +322,28 @@ ls -la /opt/agent-runner/config/settings.yaml
 ```
 
 **Output:**
+
 ```
 -rw-r----- 1 agent-runner agent-runner 0 Feb  9 15:30 settings.yaml
 ```
 
-| Notation | Meaning |
-|----------|---------|
-| `u+x` | Add execute for **u**ser (owner) |
-| `g+r` | Add read for **g**roup |
-| `o-w` | Remove write for **o**thers |
-| `u-x,g+r` | Combine multiple changes |
+| Notation  | Meaning                          |
+| --------- | -------------------------------- |
+| `u+x`     | Add execute for **u**ser (owner) |
+| `g+r`     | Add read for **g**roup           |
+| `o-w`     | Remove write for **o**thers      |
+| `u-x,g+r` | Combine multiple changes         |
 
 ### Permission Guidelines for Agent Deployments
 
-| File Type | Recommended | Why |
-|-----------|-------------|-----|
-| Agent scripts | `700` | Only the agent user can execute |
-| Config files | `600` or `640` | Secrets stay private; `640` lets group members read |
-| Log directories | `750` | Agent writes, group can read for monitoring |
-| `.env` files | `600` | Contains secrets -- owner only |
-| Public key files | `644` | Public keys are meant to be shared |
-| Private key files | `600` | Private keys must stay private |
+| File Type         | Recommended    | Why                                                 |
+| ----------------- | -------------- | --------------------------------------------------- |
+| Agent scripts     | `700`          | Only the agent user can execute                     |
+| Config files      | `600` or `640` | Secrets stay private; `640` lets group members read |
+| Log directories   | `750`          | Agent writes, group can read for monitoring         |
+| `.env` files      | `600`          | Contains secrets -- owner only                      |
+| Public key files  | `644`          | Public keys are meant to be shared                  |
+| Private key files | `600`          | Private keys must stay private                      |
 
 ---
 
@@ -310,6 +358,7 @@ ssh-keygen -t ed25519 -C "agent-deploy@mycompany.com"
 ```
 
 **Output:**
+
 ```
 Generating public/private ed25519 key pair.
 Enter file in which to save the key (/home/yourname/.ssh/id_ed25519):
@@ -336,6 +385,7 @@ ls -la ~/.ssh/id_ed25519
 ```
 
 **Output:**
+
 ```
 -rw------- 1 yourname yourname 411 Feb  9 15:45 /home/yourname/.ssh/id_ed25519
 ```
@@ -348,6 +398,7 @@ chmod 644 ~/.ssh/id_ed25519.pub
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -370,6 +421,7 @@ echo $MY_LOCAL
 ```
 
 **Output:**
+
 ```
 this stays here
 ```
@@ -382,6 +434,7 @@ bash -c 'echo "In subshell: [$MY_LOCAL]"'
 ```
 
 **Output:**
+
 ```
 In subshell: []
 ```
@@ -394,6 +447,7 @@ bash -c 'echo "In subshell: [$MY_EXPORT]"'
 ```
 
 **Output:**
+
 ```
 In subshell: [this propagates]
 ```
@@ -416,6 +470,7 @@ sudo -u agent-runner --preserve-env=OPENAI_API_KEY /opt/agent-runner/start.sh
 ```
 
 **Output:**
+
 ```
 (depends on your script)
 ```
@@ -447,6 +502,7 @@ EOF'
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -459,6 +515,7 @@ ls -la /opt/agent-runner/.env
 ```
 
 **Output:**
+
 ```
 -rw------- 1 agent-runner agent-runner 118 Feb  9 16:00 /opt/agent-runner/.env
 ```
@@ -479,6 +536,7 @@ echo "API key set: $([ -n "$OPENAI_API_KEY" ] && echo YES || echo NO)"
 ```
 
 **Output:**
+
 ```
 Agent: log-reader
 Log level: info
@@ -495,6 +553,7 @@ set +a
 ```
 
 **Output:**
+
 ```
 (no output -- variables are now in the environment)
 ```
@@ -510,6 +569,7 @@ echo ".env" >> /opt/agent-runner/.gitignore
 ```
 
 **Output:**
+
 ```
 (no output on success)
 ```
@@ -521,6 +581,7 @@ cat /opt/agent-runner/.gitignore
 ```
 
 **Output:**
+
 ```
 .env
 ```
@@ -556,6 +617,7 @@ id agent-runner
 ```
 
 **Expected output:**
+
 ```
 uid=998(agent-runner) gid=998(agent-runner) groups=998(agent-runner)
 ```
@@ -565,6 +627,7 @@ grep agent-runner /etc/passwd
 ```
 
 **Expected output:**
+
 ```
 agent-runner:x:998:998::/opt/agent-runner:/usr/sbin/nologin
 ```
@@ -588,6 +651,7 @@ ls -la /opt/agent-runner/config.yaml
 ```
 
 **Expected output:**
+
 ```
 -rw------- 1 agent-runner agent-runner 0 Feb  9 16:30 config.yaml
 ```
@@ -606,6 +670,7 @@ bash -c 'echo "MY_EXPORT=[$MY_EXPORT]"; echo "MY_LOCAL=[$MY_LOCAL]"'
 ```
 
 **Expected output:**
+
 ```
 MY_EXPORT=[visible_in_subshell]
 MY_LOCAL=[]

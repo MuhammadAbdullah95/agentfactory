@@ -77,6 +77,34 @@ differentiation:
   extension_for_advanced: "Add WhatsApp or banking domain integration"
   remedial_for_struggling: "Focus on robust email domain only with full error handling"
 
+teaching_guide:
+  lesson_type: "capstone"
+  session_group: 5
+  session_title: "Gold Capstone - Autonomous Employee"
+  key_points:
+    - "Gold Tier is not 'more features' — it is production-readiness: error recovery, audit logging, and documentation that makes the system trustworthy for 24/7 autonomous operation"
+    - "Cross-domain integration means the AI Employee handles requests spanning email AND files AND optionally other domains — the orchestrator from L07 scales across boundaries"
+    - "Audit logging in JSON format with 90-day retention creates accountability — every action the AI takes is traceable, which is essential for trust and debugging"
+    - "Architecture documentation is a deliverable, not afterthought — the README.md captures decisions and lessons learned for future maintainability"
+  misconceptions:
+    - "Students think Gold Tier requires implementing every domain from the spec (WhatsApp, banking, etc.) — the requirement is at least 2 domains integrated well"
+    - "Students assume error recovery means 'never crash' — it means the system handles transient failures (retries with backoff) and permanent failures (graceful degradation) predictably"
+    - "Students treat audit logging as optional — without logs, there is no way to debug issues, verify actions, or demonstrate compliance"
+    - "Students skip architecture documentation thinking it is busywork — the documentation IS the deliverable that proves system understanding"
+  discussion_prompts:
+    - "The error categories table lists 5 types (Transient, Authentication, Logic, Data, System). Which type would be most dangerous for YOUR use case if unhandled?"
+    - "Audit logs must contain timestamp, actor, target, parameters, result. What additional fields would be useful for YOUR domain?"
+    - "Why does the spec say 'never retry payments automatically' even though retrying API calls is standard practice?"
+  teaching_tips:
+    - "This is a placeholder lesson — direct students to L00 spec sections on Gold Tier requirements, Security, Error Handling, and Ethics for full detail"
+    - "Have students review the Gold Tier deliverables table as a checklist — it serves as both learning objectives and submission criteria"
+    - "The error handling table from L00 is the best teaching artifact — walk through each error category and ask students which recovery strategy makes sense for their domain"
+    - "Frame documentation as the 'future you' test: if you return to this project in 6 months, can you understand and modify it from the README alone?"
+  assessment_quick_check:
+    - "Name the four Gold Tier deliverables and explain why each matters for production readiness"
+    - "What is the difference between transient error recovery (exponential backoff) and permanent error handling (graceful degradation)?"
+    - "What fields must every audit log entry contain?"
+
 # Generation metadata
 generated_by: "placeholder - to be implemented"
 created: "2026-01-07"

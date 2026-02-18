@@ -77,6 +77,34 @@ differentiation:
   extension_for_advanced: "Add git version control; configure additional governance rules"
   remedial_for_struggling: "Use folder-only approach without Obsidian"
 
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 1
+  session_title: "Setting Up the Memory Layer"
+  key_points:
+    - "Memory/reasoning separation is the core insight — vault is memory (SOPs + knowledge), Claude Code is reasoning; this pattern recurs in every subsequent lesson"
+    - "AGENTS.md is governance (rules of engagement), CLAUDE.md is the entry point — students must understand the difference before creating skills in L02"
+    - "Obsidian MCP makes the Memory Bank location-independent — this is essential for Silver tier Watchers that run from outside the vault"
+    - "The 'Without Vault vs With Vault' table is the motivating comparison — Claude without vault is amnesia, with vault is a stateful partner"
+  misconceptions:
+    - "Students think CLAUDE.md and AGENTS.md do the same thing — CLAUDE.md is the entry point Claude reads first, AGENTS.md is the governance rulebook it references"
+    - "Students assume Claude Code remembers previous sessions automatically — it reads files each time, so the vault IS the memory mechanism"
+    - "Students skip MCP setup thinking it is optional — without MCP, watchers in Silver tier cannot access the vault from outside the directory"
+    - "Students confuse Obsidian (the UI tool) with the vault (the folder of markdown files) — Obsidian is just one way to edit the vault"
+  discussion_prompts:
+    - "What professional knowledge lives in your head right now that you re-explain to colleagues? How would encoding it as vault files change your workflow?"
+    - "The lesson says Claude Code is a 'junior professional with access to your shared drive.' What are the limits of this analogy — where does it break down?"
+    - "Why do you think the spec chose plain markdown files instead of a database for the Memory Bank?"
+  teaching_tips:
+    - "Do the MCP setup live in class — students hit configuration issues (wrong API key, Obsidian not running) that are easier to debug together"
+    - "Have students test from OUTSIDE the vault directory (Step 7 Part D) before moving on — this catches MCP misconfigurations early"
+    - "Emphasize the 'Without Vault vs With Vault' table as the lesson's thesis — return to it when students question why setup matters"
+    - "Spend minimal time on the optional hidden files plugin (Step 8) — most students can edit via terminal and it is not needed for later lessons"
+  assessment_quick_check:
+    - "Ask students to explain the difference between CLAUDE.md and AGENTS.md in one sentence each"
+    - "Have students run a Claude Code command from outside the vault directory using MCP — if it returns vault content, setup is correct"
+    - "What are the three components of the memory/reasoning separation? (Vault=memory, Claude Code=reasoning, Skills=training)"
+
 # Generation metadata
 generated_by: "manual creation"
 created: "2026-01-03"

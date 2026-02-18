@@ -34,6 +34,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Design a hybrid verification system for a healthcare dosage calculator. What constitutes 'independent' when patient safety is at stake? How tight should tolerances be?"
   remedial_for_struggling: "Focus on the false hybrid vs true hybrid distinction first. If you understand why re-running the same SQL query is NOT verification, you've got the core insight."
+teaching_guide:
+  lesson_type: "core"
+  session_group: 3
+  session_title: "Cloud Deployment and Verification"
+  key_points:
+    - "Re-running the same SQL query is NOT verification — it confirms determinism, not correctness. Same bug produces same wrong answer twice."
+    - "True hybrid requires different code paths with different failure modes answering the same question with the same scope"
+    - "Independence means different failure modes, not different scopes — SQL and CSV must filter the same user_id, date window, and category"
+    - "Hybrid verification is overkill for dashboards and ad-hoc queries — reserve it for outputs where being wrong has real consequences"
+  misconceptions:
+    - "Students think running a query twice counts as verification — it only proves the query is deterministic, not correct"
+    - "Students assume hybrid is needed for every query — it is a release gate for high-stakes outputs like financial filings, not everyday analysis"
+    - "Students change scope between paths (one user-scoped, one all-users) and think they are still comparing apples to apples"
+    - "Students use naive CSV parsing with split(',') instead of csv.DictReader — quoted fields like 'Coffee, large' silently corrupt the sum"
+  discussion_prompts:
+    - "If both SQL and CSV paths return $247.50, how confident are you? What if the raw CSV was the source that SQL imported from — is that still independent?"
+    - "In your domain, what output would justify the overhead of hybrid verification? What is the cost of being wrong?"
+    - "Why is a mismatch policy that blocks release more valuable than one that merely logs a warning?"
+  teaching_tips:
+    - "The false vs true hybrid diagram is the single most important visual — draw both side by side and ask students which one catches a wrong date boundary"
+    - "Have students identify one false hybrid pattern they have seen or used — 'we checked it twice' is surprisingly common in practice"
+    - "Walk through the independence checklist as a pass/fail audit — each item must pass or the system is not truly hybrid"
+    - "Emphasize that most mismatches are scope and normalization issues, not SQL engine bugs — the triage questions save hours"
+  assessment_quick_check:
+    - "Why is running the same SQL query twice NOT independent verification?"
+    - "Name three items from the independence checklist that must all pass"
+    - "When is SQL-only sufficient and when should you add hybrid verification?"
 ---
 
 # Hybrid Patterns - When Tools Work Together

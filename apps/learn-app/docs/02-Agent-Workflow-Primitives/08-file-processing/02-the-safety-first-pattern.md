@@ -65,6 +65,33 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Create a backup script that runs automatically on a schedule. Research how rsync handles incremental backups compared to simple cp."
   remedial_for_struggling: "Focus on just the basic cycle: ask for backup, check it worked, then proceed. Don't worry about selective backups or verification reports yet."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "First Agent Workflow and Safety"
+  key_points:
+    - "The three-step safety cycle (backup → verify → proceed) is the foundation for EVERY destructive operation in the rest of this chapter and the book"
+    - "The paradox that safety enables action, not limits it, is the core mindset shift — students who internalize this experiment more freely"
+    - "Agent clarification behavior (asking 'what counts as important?') demonstrates why good agents ask before acting on ambiguous instructions"
+    - "Verification is non-negotiable — a silent backup failure creates false confidence that is worse than no backup at all"
+  misconceptions:
+    - "Students think backups are optional overhead — the opening scenario (misplaced 1099 forms) shows how a 2-minute backup prevents a 30-minute recovery"
+    - "Students assume 'backup complete' means everything worked — the permissions error and disk space scenarios show why verification must follow every backup"
+    - "Students confuse the agent asking questions with the agent being uncertain — clarification before action is a safety feature, not a weakness"
+  discussion_prompts:
+    - "Have you ever lost a file because a move or rename went wrong? What would the safety-first pattern have changed about that experience?"
+    - "The lesson says 'the 2 minutes on backup save 20 minutes of anxiety.' Can you think of other areas in your work where a small upfront cost eliminates ongoing stress?"
+    - "Why is a 'mostly complete' backup (134 of 136 files) potentially more dangerous than no backup at all?"
+  teaching_tips:
+    - "Start with the opening disaster scenario (misplaced tax documents) — it is visceral and every student has experienced a version of this"
+    - "The domain extension table (files, code, databases, system config) is a strong whiteboard moment — have students add their own domain examples"
+    - "Make sure students actually complete the checkpoint before moving on — Lesson 5 deliberately uses the backup created here for recovery practice"
+    - "Emphasize that the agent ASKED what 'important' meant rather than assuming — this is a safety behavior students should expect and encourage"
+  assessment_quick_check:
+    - "Ask students to recite the three-step safety cycle from memory: backup, verify, then proceed"
+    - "Present a scenario: 'You want to reorganize 500 photos.' Ask students what their first prompt to the agent should be"
+    - "Ask: 'Why should you verify a backup even if the agent says it succeeded?' — tests understanding of silent failures"
 ---
 
 # The Safety-First Pattern

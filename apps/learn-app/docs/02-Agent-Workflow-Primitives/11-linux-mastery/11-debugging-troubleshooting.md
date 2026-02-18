@@ -87,6 +87,32 @@ differentiation:
   extension_for_advanced: "Explore advanced tools like tcpdump for packet capture, iotop for I/O monitoring, or write a bash script that runs the full triage sequence automatically and outputs a diagnostic report."
   remedial_for_struggling: "Focus on journalctl and df -h first. Get comfortable reading logs and checking disk space before adding network and process debugging. Practice one diagnostic category at a time."
 
+teaching_guide:
+  lesson_type: "core"
+  session_group: 4
+  session_title: "Production Agent Deployment"
+  key_points:
+    - "The triage methodology (logs -> network -> disk -> processes) is a systematic approach that prevents random guessing — follow the order every time"
+    - "journalctl filtering (--since, --until, -p, -u) is the systemd equivalent of the grep log analysis from lesson 7 — same concept, systemd-specific tools"
+    - "Disk space exhaustion from unrotated logs (lesson 7) is the #1 silent killer of production agents — df -h and du -sh are the first diagnostic pair"
+    - "The layered network diagnosis (localhost -> port binding -> DNS -> remote) reuses curl and ss from lesson 9 in a structured diagnostic sequence"
+  misconceptions:
+    - "Students jump to restarting the service instead of reading logs first — emphasize that restarting without understanding the failure means the same crash will happen again"
+    - "Students think strace is required for every debugging session — strace is a last resort for when logs reveal nothing; most problems are caught at the log or network layer"
+    - "Students confuse df (disk space) with du (directory sizes) — df shows overall filesystem usage, du shows what is consuming space within a specific directory"
+  discussion_prompts:
+    - "Your agent stopped responding at 3 AM. You have no error alerts configured. Walk through the triage methodology — what is the first command you run, and why?"
+    - "How does the structured triage approach compare to 'googling the error message'? When is each strategy appropriate?"
+  teaching_tips:
+    - "Present the triage methodology as a checklist before teaching any specific tools — students who learn the framework first apply individual commands more effectively"
+    - "Create a simulated failure scenario and walk through the triage live — a stopped service, a full disk, or a port conflict makes the methodology concrete"
+    - "Connect journalctl filtering back to grep from lesson 7 — same filtering concept (by time, by severity, by service) but using systemd's built-in tools"
+    - "Spend most time on logs and disk (most common issues) and less on strace/lsof (advanced, rarely needed for typical agent failures)"
+  assessment_quick_check:
+    - "Ask: what is the correct triage order? (Expected: logs -> network -> disk -> processes)"
+    - "Ask students to write a journalctl command that shows errors from the last hour for a specific service (expected: journalctl -u service-name -p err --since '1 hour ago')"
+    - "Ask: df -h shows 95% disk usage. What command do you run next to find what is consuming space? (Expected: du -sh /var/log/* or similar)"
+
 teaching_approach: "Methodology-first (learn the triage framework, then apply it across each diagnostic category)"
 modality: "Hands-on diagnosis with AI collaboration"
 

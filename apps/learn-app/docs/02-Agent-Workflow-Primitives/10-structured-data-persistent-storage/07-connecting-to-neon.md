@@ -34,6 +34,32 @@ cognitive_load:
 differentiation:
   extension_for_advanced: "Add connection monitoring that logs pool utilization metrics. Implement a retry decorator for transient connection failures."
   remedial_for_struggling: "Focus on just three things: 1) create Neon account, 2) put DATABASE_URL in .env, 3) run the SELECT 1 health check. Pool tuning can wait."
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 3
+  session_title: "Cloud Deployment and Verification"
+  key_points:
+    - "Only the connection string changes when moving from SQLite to Neon — models, CRUD, and transactions stay identical thanks to the ORM layer"
+    - "The four-step secret management baseline (.env, .gitignore, dotenv, os.getenv) is non-negotiable for any cloud deployment"
+    - "pool_pre_ping catches silently dead connections before your query fails — cloud connections die without warning"
+    - "Deterministic error triage means checking one cause at a time in order, not changing three settings at once and hoping"
+  misconceptions:
+    - "Students think cloud deployment requires rewriting their database code — only the connection string changes"
+    - "Students paste DATABASE_URL directly in code thinking they will move it to .env later — credential scanners exploit exposed secrets within minutes"
+    - "Students assume connection pool defaults are fine for everyone — free-tier Neon has connection limits that require starting with pool_size=3"
+    - "Students skip the process restart test (step 5 of deployment sanity) and assume local memory is cloud persistence"
+  discussion_prompts:
+    - "What happens if you accidentally push your .env file to a public GitHub repo? How fast do you think automated scanners would find your password?"
+    - "Why does pool_pre_ping exist? What would happen to your app if 2 of 5 pooled connections silently died?"
+  teaching_tips:
+    - "Have students actually create a Neon account during the lesson — the 2-minute signup makes cloud databases feel accessible, not intimidating"
+    - "The connection pool architecture diagram is whiteboard-worthy — draw the pool with pre-ping arrows and explain each parameter"
+    - "Walk through the error triage table as a decision tree, not a reference — ask 'what would you check first if you saw this error?'"
+    - "Emphasize the deployment sanity sequence, especially step 5 (restart and re-read) — it catches the 'data was only in local memory' illusion"
+  assessment_quick_check:
+    - "List the four-step secret management checklist from memory"
+    - "What does pool_pre_ping=True do and why is it essential for cloud databases?"
+    - "What is the first thing you check when you see 'server closed the connection unexpectedly'?"
 ---
 
 # Connecting to Neon
@@ -43,10 +69,11 @@ In Lesson 5, you proved that transactions protect multi-step writes from partial
 Your SQLAlchemy models are ready. Your CRUD operations work. Your transactions roll back cleanly. All of that was built against a local database. Moving to Neon PostgreSQL in the cloud means your budget tracker keeps working even when your local environment does not. The models stay the same. The CRUD code stays the same. Only the connection string changes.
 
 :::info[Key Terms for This Lesson]
+
 - **Connection pool**: A set of pre-opened database connections that your app reuses — instead of opening a new connection for every query (slow), you grab one from the pool and return it when done (fast)
 - **pool_pre_ping**: A health check that tests each connection before using it — catches "stale" connections that died while sitting in the pool
 - **DATABASE_URL**: The connection string that contains everything needed to reach your database — driver, username, password, host, port, and database name, all in one line
-:::
+  :::
 
 ## Why Cloud Changes the Game
 
@@ -70,14 +97,14 @@ postgresql://username:password@ep-cool-name-123456.us-east-2.aws.neon.tech/dbnam
 
 Each part has a job:
 
-| Part | Example | What It Controls |
-|------|---------|-----------------|
-| Driver | `postgresql://` | Which database protocol to use |
-| Username | `username` | Who you are authenticating as |
-| Password | `password` | Your authentication credential |
-| Host | `ep-cool-name-123456.us-east-2.aws.neon.tech` | Which server to connect to |
-| Database | `dbname` | Which database on that server |
-| SSL mode | `sslmode=require` | Encrypt traffic between your app and the server |
+| Part     | Example                                       | What It Controls                                |
+| -------- | --------------------------------------------- | ----------------------------------------------- |
+| Driver   | `postgresql://`                               | Which database protocol to use                  |
+| Username | `username`                                    | Who you are authenticating as                   |
+| Password | `password`                                    | Your authentication credential                  |
+| Host     | `ep-cool-name-123456.us-east-2.aws.neon.tech` | Which server to connect to                      |
+| Database | `dbname`                                      | Which database on that server                   |
+| SSL mode | `sslmode=require`                             | Encrypt traffic between your app and the server |
 
 ## Secret Management: The .env Pattern
 
@@ -121,6 +148,7 @@ if not DATABASE_URL:
 ```
 
 **Output:**
+
 ```
 # No output if successful — the variable is loaded silently.
 # If DATABASE_URL is missing, you get:
@@ -191,6 +219,7 @@ print("Neon connection successful")
 ```
 
 **Output:**
+
 ```
 Neon connection successful
 ```
@@ -209,13 +238,13 @@ Your data just moved from a file on your laptop to a server in the cloud. What c
 
 When something goes wrong with your Neon connection, random troubleshooting wastes time. Use this sequence instead -- work through errors in order, verifying each step before moving to the next:
 
-| Error | Most Likely Cause | First Check |
-|-------|-------------------|-------------|
-| `password authentication failed` | Wrong or expired password | Rotate/reset password in Neon dashboard, update `DATABASE_URL` |
-| `could not connect to server` | Wrong host, missing SSL, or network block | Verify host string, confirm `sslmode=require`, check firewall |
-| `No module named psycopg2` | Driver not installed | Run `uv add psycopg2-binary` (or `pip install psycopg2-binary`) |
-| `server closed the connection unexpectedly` | Stale pooled connection | Confirm `pool_pre_ping=True` in engine config |
-| `remaining connection slots are reserved` | Too many open connections | Reduce `pool_size`, audit session lifecycle for leaks |
+| Error                                       | Most Likely Cause                         | First Check                                                     |
+| ------------------------------------------- | ----------------------------------------- | --------------------------------------------------------------- |
+| `password authentication failed`            | Wrong or expired password                 | Rotate/reset password in Neon dashboard, update `DATABASE_URL`  |
+| `could not connect to server`               | Wrong host, missing SSL, or network block | Verify host string, confirm `sslmode=require`, check firewall   |
+| `No module named psycopg2`                  | Driver not installed                      | Run `uv add psycopg2-binary` (or `pip install psycopg2-binary`) |
+| `server closed the connection unexpectedly` | Stale pooled connection                   | Confirm `pool_pre_ping=True` in engine config                   |
+| `remaining connection slots are reserved`   | Too many open connections                 | Reduce `pool_size`, audit session lifecycle for leaks           |
 
 The operational loop for each incident:
 

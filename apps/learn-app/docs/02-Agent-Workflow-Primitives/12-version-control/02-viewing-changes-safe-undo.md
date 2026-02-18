@@ -65,6 +65,32 @@ cognitive_load:
     - "Reset (non-destructive undo for staging area)"
     - "Undo strategy awareness (destructive vs non-destructive commands)"
   assessment: "4 concepts (within A1 limit of 5-7) ✓"
+teaching_guide:
+  lesson_type: "hands-on"
+  session_group: 1
+  session_title: "Git Foundations"
+  key_points:
+    - "git diff is the inspection checkpoint before committing — see what changed before deciding if changes are good or bad"
+    - "git restore is instant undo for unstaged changes — returns the file to its last committed state without deleting it"
+    - "git reset HEAD unstages files without deleting them — the file stays in the working directory exactly as you left it"
+    - "Non-destructive vs destructive is the critical distinction — diff/restore/reset HEAD are safe, reset --hard is the nuclear option"
+  misconceptions:
+    - "Students fear git restore will delete their file — it only reverts the content to the last committed version, the file still exists"
+    - "Students confuse git reset HEAD (unstage) with git reset --hard (destroy) — the --hard flag is what makes it dangerous"
+    - "Students think they need to manually edit files to undo mistakes — git restore is faster and more reliable than manual editing"
+    - "Students assume once a file is staged it must be committed — git reset HEAD lets you change your mind about staging"
+  discussion_prompts:
+    - "You asked AI to refactor your code and it broke everything. What sequence of Git commands would you use to recover?"
+    - "Why is it important to run git diff BEFORE git restore? What information would you lose if you restored without looking first?"
+  teaching_tips:
+    - "The deliberate mistake approach (Phase 2) is the lesson's signature — let students break their file on purpose and feel the relief of git restore"
+    - "Have students practice the diff/restore cycle multiple times until it becomes muscle memory — break, inspect, restore, repeat"
+    - "The decision tree (which command for which scenario) is reference-card-worthy — have students write it on a sticky note for their monitor"
+    - "Emphasize that git reset --hard is mentioned only as a warning — students at this level should stick to non-destructive commands"
+  assessment_quick_check:
+    - "You modified a file and want to see what changed — which command do you use?"
+    - "You staged the wrong file — which command unstages it without deleting it?"
+    - "Name the one destructive undo command from this lesson and explain why you should avoid it"
 
 teaching_approach: "Hands-on discovery through deliberate error recovery (Execute → Observe Error → Understand Recovery → Apply to Staging)"
 modality: "Discovery-based error recovery (varying from Lesson 1's basic execution) ✓"

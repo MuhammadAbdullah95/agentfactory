@@ -79,6 +79,37 @@ cognitive_load:
     - "Single-file testing (decomposition before scaling)"
     - "Batch execution with verification (trust but verify)"
   assessment: "4 concepts at A2 limit"
+
+differentiation:
+  extension_for_advanced: "Add project-based rules that override extension matching, and implement a conflict resolution strategy when files match multiple categories"
+  remedial_for_struggling: "Focus on the basic extension-to-folder mapping and single-file test. Skip the misc deep-dive and content-based analysis for now."
+
+teaching_guide:
+  lesson_type: "core"
+  session_group: 1
+  session_title: "First Agent Workflow and Safety"
+  key_points:
+    - "The propose-refine-iterate pattern (agent proposes categories, student corrects based on domain knowledge) is the core collaboration model for all rule design"
+    - "rules.md is more valuable than the organized folders — folders go stale, but documented logic is reusable forever"
+    - "The 20% misc threshold is a concrete quality gate: if >20% of files are 'miscellaneous', the categorization system needs another layer"
+    - "Single-file test + dry-run are two different verification steps: test checks the mechanism works, dry-run checks the decisions are right"
+  misconceptions:
+    - "Students think the agent's first suggestion is final — the CSV-as-text example shows why human correction of the agent's functional classification matters"
+    - "Students confuse organized folders with a complete system — the folders are output, rules.md is the reusable product"
+    - "Students may skip the single-file test because 'it worked in the conversation' — case-sensitivity bug shows why testing with real files catches hidden errors"
+  discussion_prompts:
+    - "The agent classified CSV as 'text' because it IS technically text. You corrected it to 'spreadsheet' because of how you USE it. When else does technical correctness differ from practical usefulness?"
+    - "If nearly half your files end up in 'misc', is that a failure of the rules or a sign your files are genuinely diverse? How do you tell the difference?"
+    - "Why is the dry-run step separate from the single-file test? What kind of error does each one catch?"
+  teaching_tips:
+    - "Start with the Q4-Budget-Draft.pdf ambiguity — ask students where THEY would file it before showing the lesson's approach"
+    - "The case-sensitivity bug (30 missing files with uppercase extensions) is a powerful live demo — have students check whether their own system handles .PDF vs .pdf"
+    - "Walk through the rules.md example on the board — students will create their own version in the checkpoint and need to understand the Layer 1 / Layer 2 structure"
+    - "This is a natural session break point (noted in the lesson). Acknowledge this in class if doing multi-lesson workshops"
+  assessment_quick_check:
+    - "Ask students to list the 6-step organization pattern from memory: propose, refine, document, test one, dry-run, batch execute"
+    - "Give a filename like 'meeting-recording-2026.mp4' and ask which category it goes to and why — tests rule application"
+    - "Ask: 'What is more valuable — your organized folders or your rules.md? Why?' — tests understanding of state persistence"
 ---
 
 # The Organization Workflow
