@@ -30,7 +30,12 @@ CLIENT_ID = "learn-skill-cli-client"
 
 
 def _load_token() -> str:
-    """Load access token from credentials file."""
+    """Load auth token from credentials file.
+
+    Prefers id_token (JWT) over access_token (opaque) because downstream
+    services like progress-api validate JWTs locally via JWKS, whereas
+    opaque tokens require a round-trip to SSO's userinfo endpoint.
+    """
     if not CREDENTIALS_PATH.exists():
         print(
             "ERROR: Not authenticated.\n"
@@ -45,10 +50,11 @@ def _load_token() -> str:
         print(f"ERROR: Cannot read credentials: {e}", file=sys.stderr)
         sys.exit(1)
 
-    token = creds.get("access_token")
+    # Prefer id_token (JWT) — validates locally at both content-api and progress-api
+    token = creds.get("id_token") or creds.get("access_token")
     if not token:
         print(
-            "ERROR: No access token in credentials.\n"
+            "ERROR: No token in credentials.\n"
             "Run: python3 scripts/auth.py",
             file=sys.stderr,
         )
