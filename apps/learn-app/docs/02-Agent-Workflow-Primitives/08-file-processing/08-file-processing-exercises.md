@@ -1,5 +1,6 @@
 ---
 title: "Practice: File Processing Exercises"
+practice_exercise: ch8-file-processing
 sidebar_position: 8
 chapter: 8
 lesson: 8

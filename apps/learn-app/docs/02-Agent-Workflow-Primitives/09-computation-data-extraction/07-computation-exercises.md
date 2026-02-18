@@ -1,5 +1,6 @@
 ---
 title: "Practice: Computation & Data Extraction Exercises"
+practice_exercise: ch9-computation
 sidebar_position: 8
 chapter: 9
 lesson: 7
@@ -130,13 +131,13 @@ This framework applies to any domain where data needs processing: log analysis, 
 
 For each exercise, evaluate yourself on:
 
-| Criteria | Beginner (1) | Developing (2) | Proficient (3) | Advanced (4) |
-|---|:---:|:---:|:---:|:---:|
-| **Decimal Handling** | Uses Bash arithmetic | Uses Python but rounds poorly | Correct float handling throughout | Uses Decimal module for financial precision |
-| **Verification** | Doesn't test | Tests with one case | Tests with known answers + edge cases | Comprehensive test suite with automated comparison |
-| **CSV Processing** | Splits on commas naively | Handles basic CSV | Handles quoted fields and edge cases | Handles encoding, BOM, mixed line endings |
-| **Pattern Matching** | Hardcoded string checks | Basic regex | Regex with word boundaries | False positive guards + categorization hierarchy |
-| **Pipeline Design** | Single script does everything | Separate scripts, manual steps | Piped pipeline with verification | Automated pipeline with error handling at each step |
+| Criteria             |         Beginner (1)          |         Developing (2)         |            Proficient (3)             |                    Advanced (4)                     |
+| -------------------- | :---------------------------: | :----------------------------: | :-----------------------------------: | :-------------------------------------------------: |
+| **Decimal Handling** |     Uses Bash arithmetic      | Uses Python but rounds poorly  |   Correct float handling throughout   |     Uses Decimal module for financial precision     |
+| **Verification**     |         Doesn't test          |      Tests with one case       | Tests with known answers + edge cases | Comprehensive test suite with automated comparison  |
+| **CSV Processing**   |   Splits on commas naively    |       Handles basic CSV        | Handles quoted fields and edge cases  |      Handles encoding, BOM, mixed line endings      |
+| **Pattern Matching** |    Hardcoded string checks    |          Basic regex           |      Regex with word boundaries       |  False positive guards + categorization hierarchy   |
+| **Pipeline Design**  | Single script does everything | Separate scripts, manual steps |   Piped pipeline with verification    | Automated pipeline with error handling at each step |
 
 ---
 

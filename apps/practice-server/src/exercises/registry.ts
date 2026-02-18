@@ -27,22 +27,52 @@ const EXERCISE_REGISTRY: Record<string, ExerciseConfig> = {
     description: "Claude Code Agent Teams Exercises — multi-agent workflows",
   },
   "ch4-context": {
-    repo: "panaversity/context-engineering-exercises",
+    repo: "panaversity/claude-code-context-exercises",
     releaseTag: "latest",
     description:
       "Context Engineering Exercises — CLAUDE.md, memory, prompt design",
   },
   "ch5-sdd": {
-    repo: "panaversity/sdd-exercises",
+    repo: "panaversity/claude-code-sdd-exercises",
     releaseTag: "latest",
     description:
       "Spec-Driven Development Exercises — specs, plans, tasks workflows",
   },
   "ch6-principles": {
-    repo: "panaversity/seven-principles-exercises",
+    repo: "panaversity/claude-code-principles-exercises",
     releaseTag: "latest",
     description:
       "Seven Principles Exercises — bash, verification, decomposition",
+  },
+  "ch8-file-processing": {
+    repo: "panaversity/claude-code-file-processing-exercises",
+    releaseTag: "latest",
+    description:
+      "File Processing Exercises — markdown, CSV, JSON, batch workflows",
+  },
+  "ch9-computation": {
+    repo: "panaversity/claude-code-computation-exercises",
+    releaseTag: "latest",
+    description:
+      "Computation & Data Extraction Exercises — calculations, parsing, analysis",
+  },
+  "ch10-structured-data": {
+    repo: "panaversity/claude-code-structured-data-exercises",
+    releaseTag: "latest",
+    description:
+      "Structured Data Exercises — databases, schemas, persistent storage",
+  },
+  "ch11-linux": {
+    repo: "panaversity/claude-code-linux-mastery-exercises",
+    releaseTag: "latest",
+    description:
+      "Linux Mastery Exercises — commands, scripting, system operations",
+  },
+  "ch12-version-control": {
+    repo: "panaversity/claude-code-version-control-exercises",
+    releaseTag: "latest",
+    description:
+      "Version Control Exercises — git workflows, branching, collaboration",
   },
 };
 

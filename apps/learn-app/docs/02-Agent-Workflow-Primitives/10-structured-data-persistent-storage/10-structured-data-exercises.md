@@ -1,5 +1,6 @@
 ---
 title: "Structured Data Practice Exercises"
+practice_exercise: ch10-structured-data
 sidebar_position: 10
 chapter: 10
 lesson: 9
@@ -80,13 +81,13 @@ Complete all four exercises below.
 
 > **Glossary for Core Track**
 >
-> | Term | Meaning |
-> |------|---------|
-> | **Model integrity** | Your SQLAlchemy models enforce correct data through types, constraints, and foreign keys, not through hope |
-> | **CRUD** | Create, Read, Update, Delete: the four basic operations every database application needs |
-> | **Rollback proof** | Evidence that a failed operation left zero partial writes in the database |
-> | **Session boundary** | The explicit `with Session(engine) as session:` block where all database mutations happen |
-> | **N+1 query** | A performance bug where your code runs one query per row instead of one query for all rows |
+> | Term                 | Meaning                                                                                                    |
+> | -------------------- | ---------------------------------------------------------------------------------------------------------- |
+> | **Model integrity**  | Your SQLAlchemy models enforce correct data through types, constraints, and foreign keys, not through hope |
+> | **CRUD**             | Create, Read, Update, Delete: the four basic operations every database application needs                   |
+> | **Rollback proof**   | Evidence that a failed operation left zero partial writes in the database                                  |
+> | **Session boundary** | The explicit `with Session(engine) as session:` block where all database mutations happen                  |
+> | **N+1 query**        | A performance bug where your code runs one query per row instead of one query for all rows                 |
 
 ### Core 1 - Model Integrity Build
 
@@ -213,13 +214,13 @@ Choose one or more.
 
 > **Glossary for Challenge Track**
 >
-> | Term | Meaning |
-> |------|---------|
-> | **Verification gate** | A check that must pass before code ships: if the numbers disagree, the release is blocked |
-> | **CSV migration** | Moving data from flat CSV files into a normalized relational schema without losing rows |
-> | **Incident recovery** | Diagnosing a broken production state, fixing it safely, and proving nothing else broke |
-> | **Row-count reconciliation** | Confirming that every row in the source data appears in the destination after migration |
-> | **Regression proof** | Evidence that your fix did not break something that was previously working |
+> | Term                         | Meaning                                                                                   |
+> | ---------------------------- | ----------------------------------------------------------------------------------------- |
+> | **Verification gate**        | A check that must pass before code ships: if the numbers disagree, the release is blocked |
+> | **CSV migration**            | Moving data from flat CSV files into a normalized relational schema without losing rows   |
+> | **Incident recovery**        | Diagnosing a broken production state, fixing it safely, and proving nothing else broke    |
+> | **Row-count reconciliation** | Confirming that every row in the source data appears in the destination after migration   |
+> | **Regression proof**         | Evidence that your fix did not break something that was previously working                |
 
 ### Challenge A - High-Stakes Verification Gate
 
@@ -257,14 +258,14 @@ Use this challenge if your target role includes operations ownership or on-call 
 
 ## Outcome Mapping
 
-| Outcome | Core track coverage | Challenge extension |
-|---|---|---|
-| Model correctness | Core 1 | Challenge B |
-| Safe CRUD | Core 2 | Challenge C |
-| Relationship correctness | Core 3 | Challenge B |
-| Transaction safety | Core 4 | Challenge C |
-| Neon reliability | Core 4 | Challenge C |
-| Hybrid judgment | Core 4 | Challenge A |
+| Outcome                  | Core track coverage | Challenge extension |
+| ------------------------ | ------------------- | ------------------- |
+| Model correctness        | Core 1              | Challenge B         |
+| Safe CRUD                | Core 2              | Challenge C         |
+| Relationship correctness | Core 3              | Challenge B         |
+| Transaction safety       | Core 4              | Challenge C         |
+| Neon reliability         | Core 4              | Challenge C         |
+| Hybrid judgment          | Core 4              | Challenge A         |
 
 If you complete all Core exercises with clear evidence, you meet Chapter 10 baseline mastery. Challenge track pushes you toward production-level judgment.
 

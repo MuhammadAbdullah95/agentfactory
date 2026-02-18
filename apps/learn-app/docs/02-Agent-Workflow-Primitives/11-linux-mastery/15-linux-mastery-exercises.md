@@ -1,5 +1,6 @@
 ---
 title: "Practice: Linux Mastery Exercises"
+practice_exercise: ch11-linux
 sidebar_position: 15
 chapter: 11
 lesson: 15

@@ -1,6 +1,10 @@
 import type { IPty } from "node-pty";
 import type { WebSocket } from "ws";
 import * as pty from "node-pty";
+import { chmodSync, accessSync, constants } from "node:fs";
+import { join, dirname } from "node:path";
+import { platform, arch } from "node:os";
+import { createRequire } from "node:module";
 import type { AppError } from "../errors.js";
 import { appError } from "../errors.js";
 import { getCachedClaudePath } from "../claude-path.js";
@@ -15,6 +19,38 @@ interface Session {
 
 const sessions = new Map<string, Session>();
 const wsCleanups = new WeakMap<WebSocket, () => void>();
+
+/**
+ * node-pty ships a `spawn-helper` binary in prebuilds/ that must be executable.
+ * npm tarballs can strip the execute bit during extraction (common with npx).
+ * Fix it once at first spawn to avoid posix_spawnp failures.
+ */
+let spawnHelperFixed = false;
+function ensureSpawnHelperExecutable(): void {
+  if (spawnHelperFixed || platform() === "win32") return;
+  spawnHelperFixed = true;
+
+  try {
+    // Resolve node-pty's actual location regardless of package manager layout
+    const req = createRequire(import.meta.url);
+    const nodePtyPkg = req.resolve("node-pty/package.json");
+    const spawnHelper = join(
+      dirname(nodePtyPkg),
+      "prebuilds",
+      `${platform()}-${arch()}`,
+      "spawn-helper",
+    );
+    accessSync(spawnHelper, constants.F_OK);
+    try {
+      accessSync(spawnHelper, constants.X_OK);
+    } catch {
+      chmodSync(spawnHelper, 0o755);
+      console.log("[pty] Fixed spawn-helper execute permission");
+    }
+  } catch {
+    // spawn-helper not found at expected path — node-pty may be structured differently
+  }
+}
 
 export function spawnSession(
   sessionId: string,
@@ -59,6 +95,8 @@ export function spawnSession(
 
   const file = isCmdFile ? process.env.ComSpec || "cmd.exe" : claudePath;
   const args = isCmdFile ? ["/c", claudePath, ...claudeArgs] : claudeArgs;
+
+  ensureSpawnHelperExecutable();
 
   let ptyProcess: pty.IPty;
   try {

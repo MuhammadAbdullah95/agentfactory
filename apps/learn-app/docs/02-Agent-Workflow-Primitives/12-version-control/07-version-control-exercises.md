@@ -1,5 +1,6 @@
 ---
 title: "Version Control Exercises"
+practice_exercise: ch12-version-control
 sidebar_position: 7
 chapter: 12
 lesson: 7
