@@ -5,6 +5,7 @@ description = "Study Mode API - AI-powered tutoring with ChatKit integration"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "api-infra",
     "fastapi>=0.115.0",
     "pydantic>=2.10.0",
     "pydantic-settings>=2.6.0",
@@ -19,6 +20,9 @@ dependencies = [
     "redis>=5.0.0",
     "psycopg[binary]>=3.3.2",
 ]
+
+[tool.uv.sources]
+api-infra = { workspace = true }
 
 [dependency-groups]
 dev = [

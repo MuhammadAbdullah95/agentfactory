@@ -14,7 +14,7 @@ import logging
 import re
 from typing import TypedDict
 
-from ..core.redis_cache import get_redis
+from api_infra.core.redis_cache import get_redis
 
 logger = logging.getLogger(__name__)
 

@@ -48,7 +48,7 @@ async def verify_answer(
     Returns:
         "CORRECT", "INCORRECT", or "UNKNOWN"
     """
-    from ..core.redis_cache import get_redis
+    from api_infra.core.redis_cache import get_redis
 
     thread_id = ctx.context.thread_id
     logger.info(f"[{thread_id}] verify_answer({answer})")
@@ -150,7 +150,7 @@ async def store_correct_answer(
     Returns:
         "STORED" or error message
     """
-    from ..core.redis_cache import get_redis
+    from api_infra.core.redis_cache import get_redis
 
     thread_id = ctx.context.thread_id
     logger.info(f"[{thread_id}] store_correct_answer({correct_option})")
@@ -379,7 +379,7 @@ async def validate_correct_answer(
     This catches cases where the LLM puts correct content in option A but marks B as correct.
     Instead of rejecting (which causes errors in streaming), we FIX the stored answer.
     """
-    from ..core.redis_cache import get_redis
+    from api_infra.core.redis_cache import get_redis
 
     # Only validate if this is a question (has options)
     if "A)" not in output or "B)" not in output:
