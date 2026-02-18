@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-18
+- docs: improve ch14 overview clarity and lesson transitions ([#748](https://github.com/panaversity/agentfactory/pull/748))
+
+### 2026-02-18
 - docs: rename ch14 directory to match updated title ([#747](https://github.com/panaversity/agentfactory/pull/747))
 
 ### 2026-02-18
