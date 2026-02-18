@@ -12,7 +12,7 @@ sidebar_position: 8.5
 - Compound workflows are not just additive -- they are multiplicatively more capable AND multiplicatively more dangerous when any component fails
 - Five use case categories demonstrate composability: Personal Productivity (CRM), Knowledge Management, Business Intelligence, Security and Operations, and Personal Health
 - The patterns transfer across all agent frameworks (OpenClaw, AutoGPT, CrewAI) -- names change, architecture does not
-- The "Your Own" column stays blank until Chapter 13, where you design your own implementation of each pattern
+- The "Your Own" column stays blank until you design your own implementation of each pattern later in this book
 
 ## The Composability Map
 

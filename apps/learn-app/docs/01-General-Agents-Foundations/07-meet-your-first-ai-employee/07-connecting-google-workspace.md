@@ -74,7 +74,7 @@ Until now, every task you gave your AI Employee operated on information it gener
 
 This lesson breaks that sandbox. When it reads your real inbox, summarizes your actual calendar, and finds the document you were editing last week, the sandbox disappears. That is when a tutorial becomes something you want to open every morning.
 
-This is the capability that drove 206,000 people to star OpenClaw. Not the chat interface. Not the agent loop. The moment your agent handles your real work -- your email, your schedule, your files -- is when "AI Employee" stops being a metaphor.
+This is the capability that drove 208,000 people to star OpenClaw. Not the chat interface. Not the agent loop. The moment your agent handles your real work -- your email, your schedule, your files -- is when "AI Employee" stops being a metaphor.
 
 ## What gog Connects
 

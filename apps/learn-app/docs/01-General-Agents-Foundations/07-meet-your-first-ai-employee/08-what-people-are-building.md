@@ -137,13 +137,13 @@ The use cases above are real -- people are building every one of them. But the h
 | **Cost management**                     | API calls at scale add up. A chatty agent processing 500 emails daily, searching Drive, and running 4 specialist agents can accumulate significant costs without budget controls | No mainstream agent framework ships with spending limits or cost-per-workflow monitoring built in                                          |
 | **The "it works for me" problem**       | Your personal workflow runs on YOUR email patterns, YOUR calendar habits, YOUR file naming conventions. Hand that same setup to a colleague and it breaks                        | The generalization gap between personal setups and reproducible systems is why most AI Employee projects remain single-user experiments    |
 
-These are not reasons to avoid building compound workflows. They are the engineering constraints that define the difference between a weekend project and a production system. Chapter 13, where you build your own AI Employee from scratch, confronts each of these directly.
+These are not reasons to avoid building compound workflows. They are the engineering constraints that define the difference between a weekend project and a production system. When you build your own AI Employee from scratch later in this book, you will confront each of these directly.
 
 ## What Transfers
 
 These patterns appear in every agent framework, not just OpenClaw. The names change. The architecture does not.
 
-| Chapter 7 Pattern | OpenClaw                          | AutoGPT               | CrewAI                    | Your Own (Chapter 13) |
+| Chapter 7 Pattern | OpenClaw                          | AutoGPT               | CrewAI                    | Your Own (Later) |
 | ----------------- | --------------------------------- | --------------------- | ------------------------- | --------------------- |
 | Scheduling (L03)  | Cron jobs + autonomous invocation | Continuous mode loop  | Task scheduling           | Your design           |
 | Memory (L04)      | MEMORY.md + conversation history  | JSON file persistence | Shared memory object      | Your design           |
@@ -151,7 +151,7 @@ These patterns appear in every agent framework, not just OpenClaw. The names cha
 | Delegation (L06)  | Claude Code integration           | Sub-agent spawning    | Agent-to-agent delegation | Your design           |
 | Integration (L07) | gog + OAuth connectors            | Plugin API calls      | Tool integrations         | Your design           |
 
-The "Your Own" column is intentionally blank. In Chapter 13, you fill it in -- choosing how to implement each pattern based on what you learned here.
+The "Your Own" column is intentionally blank. When you build your own AI Employee, you fill it in -- choosing how to implement each pattern based on what you learned here.
 
 ## Try With AI
 
@@ -191,4 +191,6 @@ failure mode.
 
 **What you're learning:** Multi-agent orchestration as a design pattern. The delegation pattern from Lesson 6 scales to complex business problems, but coordination failures multiply with each agent added. Designing for failure -- identifying the single biggest thing that can go wrong -- is what makes the difference between a system that works once and a system that works reliably.
 
-You have now seen the full picture. Individual patterns are powerful. Composed patterns are transformative. And the hard problems -- security, reliability, cost, generalizability -- are what separate the builders from the tinkerers. The quiz that follows tests whether you can decompose what you have seen and evaluate what you would build.
+You have now seen what OpenClaw proved and what it left unsolved. Individual patterns are powerful. Composed patterns are transformative. And the hard problems -- security, reliability, cost, generalizability -- are what separate the builders from the tinkerers.
+
+In the next lesson, you will meet NanoClaw -- a radically different architecture that addresses the security problems from Lesson 5 head-on -- and see how it connects to the Agent Factory blueprint for building AI Employees for every profession.

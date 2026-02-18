@@ -202,11 +202,11 @@ The vulnerability was patched in OpenClaw version 2026.1.29. But any instance ru
 
 ### 135,000 Exposed Instances
 
-Bitdefender researchers scanned the internet and found **over 135,000 OpenClaw instances exposed to the public internet**, spanning 28,663 unique IP addresses. Of those, **12,812 were flagged as vulnerable** to the RCE exploit described above.
+Security researchers from Bitdefender and SecurityScorecard scanned the internet and found **over 135,000 OpenClaw instances exposed to the public internet**, spanning 28,663 unique IP addresses. Of those, **12,812 were flagged as vulnerable** to the RCE exploit described above.
 
 **Root cause:** OpenClaw defaults to binding on `127.0.0.1` (localhost only), which is safe. But many users changed this to `0.0.0.0` (all network interfaces) to access their agent remotely -- often following tutorials or forum advice that prioritized convenience over security. That single configuration change exposed their entire agent to the internet.
 
-Bitdefender noted that many exposed instances originated from **corporate IP ranges**, not personal machines -- meaning the risk extended into enterprise environments where agent compromise could affect business systems.
+Researchers noted that many exposed instances originated from **corporate IP ranges**, not personal machines -- meaning the risk extended into enterprise environments where agent compromise could affect business systems.
 
 ### Cisco's Finding: The #1 Ranked Skill Was Malware
 

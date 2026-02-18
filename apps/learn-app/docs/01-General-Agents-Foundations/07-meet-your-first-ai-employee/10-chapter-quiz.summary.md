@@ -1,7 +1,7 @@
 ---
 title: "Summary: Chapter Quiz"
 sidebar_label: "Summary"
-sidebar_position: 9.5
+sidebar_position: 11
 ---
 
 # Summary: Chapter 7 Quiz & What Comes Next
@@ -13,9 +13,9 @@ sidebar_position: 9.5
 3. OpenClaw proved demand exists, UX drives adoption, and architecture is engineering not research.
 4. Unsolved problems remain: enterprise security, governance, reliability at scale, cost control, founder dependency.
 5. Your AI Employee can delegate to coding agents (L06) and connect to real productivity tools (L07) -- transforming it from demo to daily use.
-6. Specification-driven design (define what you need before building) is the foundation of Chapter 13.
+6. Specification-driven design (define what you need before building) is the foundation for building your own AI Employee.
 
-## Chapter 7 to Chapter 13 Bridge
+## What Transfers Forward
 
 The 6 patterns from L04 map directly: OpenClaw's Gateway becomes Claude Code's CLI, Telegram channels become MCP servers, JSONL sessions become conversation context, workspace SKILL.md becomes `.claude/skills/`, MEMORY.md + daily logs become CLAUDE.md + Obsidian vault, and Cron + Heartbeat become Cron + git hooks. The delegation pattern from L06 becomes your multi-agent architecture. Google Workspace from L07 becomes MCP servers you configure. See L04 for the full cross-framework comparison across 4 frameworks.
 
@@ -30,5 +30,6 @@ The 6 patterns from L04 map directly: OpenClaw's Gateway becomes Claude Code's C
 | L06       | Coding-agent delegation, PTY vs background, git worktrees, Agent Factory thesis    | 4         |
 | L07       | gog CLI, OAuth setup, Google Workspace, least privilege, security audit            | 7         |
 | L08       | Composability, use case evaluation, unsolved problems                              | 4         |
-| L09       | Specification-driven design, Chapter 13 bridge                                     | 1         |
-| **Total** |                                                                                    | **34**    |
+| L09       | NanoClaw, Body+Brain, portable intelligence, Programmatic Tool Calling | 4         |
+| L10       | Specification-driven design, forward bridge                                     | 1         |
+| **Total** |                                                                                    | **38**    |
