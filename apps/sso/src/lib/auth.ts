@@ -7,7 +7,7 @@ import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
 import { haveIBeenPwned } from "better-auth/plugins";
-import { apiKey } from "better-auth/plugins";
+import { apiKey, deviceAuthorization } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
@@ -709,6 +709,20 @@ export const auth = betterAuth({
         max: 20, // Key updates (admin only)
       },
 
+      // Device Authorization endpoints (RFC 8628)
+      "/device-authorization/authorize": {
+        window: 60,
+        max: 10, // 10 device code requests per minute per IP
+      },
+      "/device-authorization/verify": {
+        window: 60,
+        max: 20, // 20 code verification attempts per minute per IP
+      },
+      "/device-authorization/token": {
+        window: 60,
+        max: 30, // 30 token polling requests per minute per IP
+      },
+
       // Session management - no rate limit (called frequently by all clients)
       "/get-session": false, // Disable rate limiting for session checks
       "/session": false, // Disable rate limiting for session checks
@@ -975,6 +989,13 @@ export const auth = betterAuth({
         minExpiresIn: 1, // Minimum 1 day if expiration set
         maxExpiresIn: 365, // Maximum 1 year
       },
+    }),
+
+    // Device Authorization Plugin - RFC 8628 OAuth 2.0 Device Authorization Grant
+    // Enables CLI tools (learn-agentfactory skill) to authenticate via device code flow
+    // Users enter a code at /device in their browser to authorize the CLI
+    deviceAuthorization({
+      verificationUri: `${process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3001"}/device`,
     }),
   ],
 

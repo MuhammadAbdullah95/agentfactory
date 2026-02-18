@@ -75,9 +75,7 @@ export const TRUSTED_CLIENTS = [
     name: "RoboLearn Backend Service (Test)",
     type: "web" as const, // "web" type for server-side confidential clients with secrets
     clientSecret: "robolearn-confidential-secret-for-testing-only",
-    redirectUrls: getRedirectUrls([
-      "http://localhost:8000/auth/callback",
-    ]),
+    redirectUrls: getRedirectUrls(["http://localhost:8000/auth/callback"]),
     disabled: false,
     skipConsent: true,
     metadata: {},
@@ -131,6 +129,15 @@ export const TRUSTED_CLIENTS = [
     skipConsent: true,
     metadata: {},
   },
+  {
+    clientId: "learn-skill-cli-client",
+    name: "Learn Skill CLI",
+    type: "public" as const,
+    redirectUrls: [], // Device flow doesn't use redirects
+    disabled: false,
+    skipConsent: true,
+    metadata: { deviceFlow: true },
+  },
 ];
 
 /**
@@ -154,7 +161,8 @@ export const CLIENT_DESCRIPTIONS = {
     security: "Public client with PKCE, no client secret",
   },
   "ai-native-public-client": {
-    purpose: "AI Native development platform (Legacy - use agent-factory-public-client)",
+    purpose:
+      "AI Native development platform (Legacy - use agent-factory-public-client)",
     audience: "Developers building AI applications",
     security: "Public client with PKCE, no client secret",
   },
@@ -167,5 +175,10 @@ export const CLIENT_DESCRIPTIONS = {
     purpose: "Panaversity Assessment Platform",
     audience: "Students taking assessments and quizzes",
     security: "Public client with PKCE, no client secret",
+  },
+  "learn-skill-cli-client": {
+    purpose: "CLI-based learning skill for Claude Code",
+    audience: "Developers using the learn-agentfactory skill",
+    security: "Public client using RFC 8628 device flow, no client secret",
   },
 } as const;

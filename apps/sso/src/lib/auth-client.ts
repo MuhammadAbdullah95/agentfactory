@@ -3,7 +3,10 @@ import { oidcClient } from "better-auth/client/plugins";
 import { adminClient } from "better-auth/client/plugins";
 import { organizationClient } from "better-auth/client/plugins";
 import { usernameClient } from "better-auth/client/plugins";
-import { apiKeyClient } from "better-auth/client/plugins";
+import {
+  apiKeyClient,
+  deviceAuthorizationClient,
+} from "better-auth/client/plugins";
 import { inferAdditionalFields } from "better-auth/client/plugins";
 import type { auth } from "./auth";
 import {
@@ -37,6 +40,7 @@ export const authClient = createAuthClient({
     }),
     usernameClient(), // Matches server's username() plugin for profile usernames
     apiKeyClient(), // M2M authentication - API key management
+    deviceAuthorizationClient(), // RFC 8628 device flow for CLI authentication
   ],
 });
 
