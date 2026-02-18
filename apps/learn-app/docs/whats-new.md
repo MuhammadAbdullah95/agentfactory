@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-18
+- docs: rename ch14 directory to match updated title ([#747](https://github.com/panaversity/agentfactory/pull/747))
+
+### 2026-02-18
 - refactor(study-mode-api): review cleanup for PR #722 ([#745](https://github.com/panaversity/agentfactory/pull/745))
 
 ### 2026-02-18
