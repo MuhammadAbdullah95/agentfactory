@@ -57,7 +57,9 @@ differentiation:
 
 # Axiom V: Types Are Guardrails
 
-After refactoring `process_order()` into composed units, James felt confident. Each function did one thing. Each could be tested alone. Emma had signed off on the architecture. So when the team needed a new endpoint — fetch a customer's order history and return a summary — James asked his AI assistant to generate it. The code came back clean: readable variable names, sensible logic, a helper function called `customer.get_orders()` that returned a list of order summaries.
+Axioms I through IV gave you the structure — shell orchestration, markdown knowledge, disciplined programs, composed systems. James's refactored order system had all four. But structure tells you how code is *organized*. It does not tell you what shape the data should *be*. That gap is where the next mistake was waiting.
+
+The team needed a new endpoint — fetch a customer's order history and return a summary. James's composed architecture was clean, Emma had signed off, so he asked his AI assistant to generate it. The code came back clean: readable variable names, sensible logic, a helper function called `customer.get_orders()` that returned a list of order summaries.
 
 James reviewed it, liked what he saw, and merged it. The endpoint crashed in staging twenty minutes later. `AttributeError: 'dict' object has no attribute 'total_amount'`. The AI had generated code that treated the API response as objects with attributes, but the actual response was a list of plain dictionaries. The code *looked* correct. The variable names *suggested* correctness. But nothing in the codebase had told the AI — or James — what shape the data actually was.
 
