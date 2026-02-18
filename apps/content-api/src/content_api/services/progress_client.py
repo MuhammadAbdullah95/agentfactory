@@ -75,6 +75,39 @@ class ProgressClient:
             logger.error(f"[Progress] Complete failed: {type(e).__name__}: {e}")
             return {"completed": False, "xp_earned": 0}
 
+    async def get_progress(
+        self,
+        auth_token: str | None = None,
+    ) -> dict[str, Any]:
+        """Fetch user progress from progress API."""
+        client = await self._get_client()
+
+        try:
+            headers = {}
+            if auth_token:
+                headers["Authorization"] = auth_token
+
+            response = await client.get(
+                "/api/v1/progress/me",
+                headers=headers,
+            )
+
+            if response.status_code == 200:
+                return response.json()
+            else:
+                logger.error(
+                    f"[Progress] Get progress failed: status={response.status_code}, "
+                    f"body={response.text}"
+                )
+                return {}
+
+        except httpx.TimeoutException as e:
+            logger.error(f"[Progress] Get progress timeout: {type(e).__name__}")
+            return {}
+        except httpx.HTTPError as e:
+            logger.error(f"[Progress] Get progress failed: {type(e).__name__}: {e}")
+            return {}
+
 
 # Module-level client instance
 _client: ProgressClient | None = None

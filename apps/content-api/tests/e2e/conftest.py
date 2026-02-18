@@ -380,7 +380,17 @@ async def enable_progress(monkeypatch):
         )
     )
 
-    yield {"complete": complete_route}
+    progress_route = respx.get(f"{PROGRESS_BASE}/api/v1/progress/me").mock(
+        return_value=Response(
+            200,
+            json={
+                "completed_lessons": ["01-intro/01-welcome", "01-intro/02-setup"],
+                "total_xp": 20,
+            },
+        )
+    )
+
+    yield {"complete": complete_route, "progress": progress_route}
 
     if progress_mod._client is not None:
         await progress_mod._client.close()

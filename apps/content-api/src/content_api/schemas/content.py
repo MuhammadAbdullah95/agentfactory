@@ -73,3 +73,10 @@ class CompleteResponse(BaseModel):
 
     completed: bool = True
     xp_earned: int = 0
+
+
+class ProgressResponse(BaseModel):
+    """Response for GET /progress — passthrough from progress-api."""
+
+    progress: dict = Field(default_factory=dict)
+    total_lessons: int = 0

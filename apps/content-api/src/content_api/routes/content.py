@@ -15,6 +15,7 @@ from ..schemas.content import (
     CompleteResponse,
     LessonContentResponse,
     LessonFrontmatter,
+    ProgressResponse,
 )
 from ..services.book_tree import build_book_tree
 from ..services.content_loader import load_lesson_content
@@ -209,4 +210,33 @@ async def complete_lesson(
     return CompleteResponse(
         completed=result.get("completed", False),
         xp_earned=result.get("xp_earned", 0),
+    )
+
+
+@content_router.get("/progress", response_model=ProgressResponse)
+@rate_limit("content_progress", max_requests=10, period_minutes=1)
+async def get_progress(
+    request: Request,
+    response: Response,
+    user: CurrentUser = Depends(get_current_user),
+) -> ProgressResponse:
+    """Get user's learning progress."""
+    logger.info(f"[Progress] User {user.id} requesting progress")
+
+    progress = get_progress_client()
+    if not progress:
+        raise HTTPException(
+            status_code=503,
+            detail="Progress tracking service not configured",
+        )
+
+    auth_token = request.headers.get("Authorization")
+    result = await progress.get_progress(auth_token=auth_token)
+
+    # Enrich with total_lessons from book tree (Redis-cached)
+    tree = await build_book_tree()
+
+    return ProgressResponse(
+        progress=result,
+        total_lessons=tree.total_lessons,
     )

@@ -84,6 +84,58 @@ class TestProgressComplete:
 # ═══════════════════════════════════════════════════════════════════════════
 
 
+class TestGetProgress:
+    """GET /progress returns user progress + total_lessons."""
+
+    async def test_progress_returns_data_and_total(
+        self, client, make_token, enable_progress
+    ):
+        """Happy path: returns progress data and total_lessons > 0."""
+        token = make_token()
+
+        resp = await client.get(
+            "/api/v1/content/progress",
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "progress" in data
+        assert data["progress"]["total_xp"] == 20
+        assert data["total_lessons"] > 0
+
+    async def test_progress_forwards_auth_token(
+        self, client, make_token, enable_progress
+    ):
+        """Bearer token is forwarded to the progress API."""
+        token = make_token()
+
+        await client.get(
+            "/api/v1/content/progress",
+            headers=auth_header(token),
+        )
+
+        assert enable_progress["progress"].called
+        last_request = enable_progress["progress"].calls.last.request
+        assert "Bearer" in last_request.headers.get("Authorization", "")
+
+    async def test_progress_503_when_not_configured(self, client, make_token):
+        """Without progress API URL, progress returns 503."""
+        token = make_token()
+
+        resp = await client.get(
+            "/api/v1/content/progress",
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 503
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Progress API not configured — 503
+# ═══════════════════════════════════════════════════════════════════════════
+
+
 class TestProgressUnavailable:
     """Progress API not configured (default state)."""
 
