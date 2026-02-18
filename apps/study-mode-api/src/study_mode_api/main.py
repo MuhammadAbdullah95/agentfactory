@@ -80,9 +80,7 @@ async def chatkit_endpoint(request: Request):
     Requires Authorization header with Bearer token (JWT verified via JWKS).
     In dev mode, falls back to X-User-ID header.
     """
-    logger.info("=" * 60)
-    logger.info("[CHATKIT ENDPOINT] REQUEST RECEIVED")
-    logger.info("=" * 60)
+    logger.debug("[CHATKIT ENDPOINT] Request received")
 
     # Get server from app state
     chatkit_server = getattr(request.app.state, "chatkit_server", None)

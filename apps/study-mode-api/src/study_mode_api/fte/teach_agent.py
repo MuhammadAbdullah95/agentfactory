@@ -19,6 +19,7 @@ from agents import (
     output_guardrail,
 )
 
+from .answer_verification import normalize_answer
 from .teach_context import TeachContext
 from .teach_instructions import teach_instructions
 
@@ -58,7 +59,7 @@ async def verify_answer(
         return "UNKNOWN"
 
     # Normalize answer
-    normalized = _normalize_answer(answer)
+    normalized = normalize_answer(answer)
     if not normalized:
         logger.warning(f"[{thread_id}] Could not normalize: {answer}")
         return "UNKNOWN"
@@ -176,29 +177,6 @@ async def store_correct_answer(
 # =============================================================================
 # HELPER FUNCTIONS
 # =============================================================================
-
-
-def _normalize_answer(text: str) -> str | None:
-    """Normalize answer to A or B."""
-    clean = text.strip().upper()
-
-    if clean in ("A", "B"):
-        return clean
-
-    # Match variations
-    if clean in ("A)", "B)"):
-        return clean[0]
-
-    match = re.match(r"^OPTION\s*([AB])$", clean)
-    if match:
-        return match.group(1)
-
-    # Word boundary match: "I think A because..." -> "A"
-    word_match = re.search(r"\b([AB])\b", clean)
-    if word_match:
-        return word_match.group(1)
-
-    return None
 
 
 # =============================================================================
