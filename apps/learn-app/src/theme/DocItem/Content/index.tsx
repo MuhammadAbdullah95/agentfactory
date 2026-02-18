@@ -654,10 +654,11 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   // - Parts have 1 segment (category landing - no panel)
   // - Chapters have 2 segments (category landing - no panel)
   const pathSegments = docId.split("/").filter(Boolean);
-  const specialRootPages = ["thesis", "preface"];
+  const specialRootPages = ["thesis", "preface", "preface-agent-native"];
   const isSpecialRootPage =
     pathSegments.length === 1 && specialRootPages.includes(pathSegments[0]);
-  const isLeafPage = pathSegments.length >= 3 || isSpecialRootPage;
+  const isQuizPage = docId.toLowerCase().includes("quiz");
+  const isLeafPage = (pathSegments.length >= 3 || isSpecialRootPage) && !isQuizPage;
 
   // Derive chapter + lesson slugs for the LessonCompleteButton
   // Use slug (from frontmatter) when available to preserve progress tracking
@@ -667,7 +668,6 @@ export default function ContentWrapper(props: Props): React.ReactElement {
   const lessonSlug = slugSegments[slugSegments.length - 1] || "";
   const chapterSlug = slugSegments.slice(0, -1).join("/");
   const hasValidSlug = chapterSlug.length > 0 && lessonSlug.length > 0;
-  const isQuizPage = lessonSlug.toLowerCase().includes("quiz");
   const isCategoryIndex =
     rawSource.endsWith("README.md") ||
     rawSource.endsWith("README.mdx") ||
