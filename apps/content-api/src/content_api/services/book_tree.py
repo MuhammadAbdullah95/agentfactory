@@ -4,6 +4,7 @@ Single API call to get all files, then builds a hierarchy of Parts > Chapters > 
 Cached in Redis with key "book_tree:v1" (no TTL, invalidated by admin endpoint).
 """
 
+import json
 import logging
 import re
 
@@ -41,8 +42,6 @@ async def build_book_tree() -> BookTreeResponse:
     # Check cache first
     cached = await safe_redis_get(CACHE_KEY)
     if cached:
-        import json
-
         logger.info("[BookTree] Cache hit")
         data = json.loads(cached)
         return BookTreeResponse(**data)
@@ -137,8 +136,6 @@ async def build_book_tree() -> BookTreeResponse:
     )
 
     # Cache result (no TTL — invalidated by admin endpoint)
-    import json
-
     redis = get_redis()
     if redis:
         try:

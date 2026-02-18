@@ -77,11 +77,11 @@ curl -s -H "Authorization: Bearer $TOKEN" "$BASE_URL/api/v1/content/tree" | pyth
 
 ### 2. Read a Lesson
 
-Fetch and display a single lesson by chapter and lesson slug.
+Fetch and display a single lesson by part, chapter, and lesson slug (all available from the tree response).
 
 ```bash
 curl -s -H "Authorization: Bearer $TOKEN" \
-  "$BASE_URL/api/v1/content/lesson?chapter={chapter_slug}&lesson={lesson_slug}" \
+  "$BASE_URL/api/v1/content/lesson?part={part_slug}&chapter={chapter_slug}&lesson={lesson_slug}" \
   | python3 -m json.tool
 ```
 
@@ -99,7 +99,7 @@ Mark a lesson exercise as done and earn XP.
 ```bash
 curl -s -X POST -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"chapter": "{chapter_slug}", "lesson": "{lesson_slug}"}' \
+  -d '{"chapter_slug": "{chapter_slug}", "lesson_slug": "{lesson_slug}"}' \
   "$BASE_URL/api/v1/content/complete"
 ```
 

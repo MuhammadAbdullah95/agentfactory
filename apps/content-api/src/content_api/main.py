@@ -83,18 +83,31 @@ async def invalidate_cache(
     try:
         invalidated = []
         if paths:
+            # Invalidate book tree (structure may have changed)
+            await redis_client.delete("book_tree:v1")
+            invalidated.append("book_tree:v1")
+            # Invalidate specific lesson cache keys
             for path in paths:
-                key = f"book_tree:v1"
-                await redis_client.delete(key)
-                invalidated.append(path)
-                logger.info(f"[Cache] Invalidated: {path}")
+                # Cache keys from @cache_response: content_loader.load_lesson_content:{args}
+                cursor = 0
+                while True:
+                    cursor, keys = await redis_client.scan(
+                        cursor, match=f"content_loader.*{path}*", count=100
+                    )
+                    if keys:
+                        await redis_client.delete(*keys)
+                        invalidated.extend([k for k in keys])
+                    if cursor == 0:
+                        break
+                logger.info(f"[Cache] Invalidated path: {path}")
         else:
             # Invalidate book tree and all content
             await redis_client.delete("book_tree:v1")
+            invalidated.append("book_tree:v1")
             cursor = 0
             while True:
                 cursor, keys = await redis_client.scan(
-                    cursor, match="content:*", count=100
+                    cursor, match="content_loader.*", count=100
                 )
                 if keys:
                     await redis_client.delete(*keys)

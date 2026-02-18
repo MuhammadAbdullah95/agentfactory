@@ -81,7 +81,7 @@ class TestGetLesson:
             }
             with patch("api_infra.core.redis_cache._aredis", None):
                 response = client.get(
-                    "/api/v1/content/lesson?chapter=01-intro&lesson=01-welcome",
+                    "/api/v1/content/lesson?part=01-Foundations&chapter=01-intro&lesson=01-welcome",
                     headers=_auth_headers(),
                 )
 
@@ -103,7 +103,7 @@ class TestGetLesson:
             }
             with patch("api_infra.core.redis_cache._aredis", None):
                 response = client.get(
-                    "/api/v1/content/lesson?chapter=01-intro&lesson=99-nonexistent",
+                    "/api/v1/content/lesson?part=01-Foundations&chapter=01-intro&lesson=99-nonexistent",
                     headers=_auth_headers(),
                 )
 
@@ -122,7 +122,7 @@ class TestGetLesson:
             with patch("content_api.routes.content.get_metering_client", return_value=None):
                 with patch("api_infra.core.redis_cache._aredis", None):
                     response = client.get(
-                        "/api/v1/content/lesson?chapter=ch&lesson=ls",
+                        "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
                         headers=_auth_headers(),
                     )
 
@@ -143,7 +143,7 @@ class TestGetLesson:
         with patch("content_api.routes.content.get_metering_client", return_value=mock_metering):
             with patch("api_infra.core.redis_cache._aredis", None):
                 response = client.get(
-                    "/api/v1/content/lesson?chapter=ch&lesson=ls",
+                    "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
                     headers=_auth_headers(),
                 )
 
@@ -161,7 +161,7 @@ class TestGetLesson:
             }
             with patch("api_infra.core.redis_cache._aredis", None):
                 response = client.get(
-                    "/api/v1/content/lesson?chapter=ch&lesson=ls",
+                    "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
                     headers=_auth_headers(),
                 )
 
@@ -183,7 +183,7 @@ class TestGetLesson:
                 mock_load.side_effect = Exception("Content service down")
                 with patch("api_infra.core.redis_cache._aredis", None):
                     response = client.get(
-                        "/api/v1/content/lesson?chapter=ch&lesson=ls",
+                        "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
                         headers=_auth_headers(),
                     )
 
@@ -209,7 +209,7 @@ class TestGetLesson:
                 }
                 with patch("api_infra.core.redis_cache._aredis", None):
                     response = client.get(
-                        "/api/v1/content/lesson?chapter=ch&lesson=ls",
+                        "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
                         headers=_auth_headers(),
                     )
 
@@ -235,7 +235,7 @@ class TestGetLesson:
                 }
                 with patch("api_infra.core.redis_cache._aredis", None):
                     response = client.get(
-                        "/api/v1/content/lesson?chapter=ch&lesson=ls",
+                        "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
                         headers=_auth_headers(),
                     )
 

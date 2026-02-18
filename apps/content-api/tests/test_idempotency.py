@@ -45,6 +45,7 @@ class TestIdempotency:
                     result = await get_lesson(
                         request=mock_request,
                         response=mock_response,
+                        part="pt",
                         chapter="ch",
                         lesson="ls",
                         user=user,
@@ -89,6 +90,7 @@ class TestIdempotency:
                     result = await get_lesson(
                         request=mock_request,
                         response=mock_response,
+                        part="pt",
                         chapter="ch",
                         lesson="ls",
                         user=user,
@@ -135,6 +137,7 @@ class TestIdempotency:
                     result = await get_lesson(
                         request=mock_request,
                         response=mock_response,
+                        part="pt",
                         chapter="ch",
                         lesson="ls",
                         user=user,

@@ -17,7 +17,7 @@ from ..schemas.content import (
     LessonFrontmatter,
 )
 from ..services.book_tree import build_book_tree
-from ..services.content_loader import load_lesson_content, parse_frontmatter
+from ..services.content_loader import load_lesson_content
 from ..services.progress_client import get_progress_client
 
 logger = logging.getLogger(__name__)
@@ -42,12 +42,13 @@ async def get_tree(
 async def get_lesson(
     request: Request,
     response: Response,
+    part: str,
     chapter: str,
     lesson: str,
     user: CurrentUser = Depends(get_current_user),
 ) -> LessonContentResponse:
     """Get lesson content with frontmatter and optional metering."""
-    logger.info(f"[Lesson] User {user.id}: {chapter}/{lesson}")
+    logger.info(f"[Lesson] User {user.id}: {part}/{chapter}/{lesson}")
 
     credit_charged = False
     reservation_id: str | None = None
@@ -105,7 +106,7 @@ async def get_lesson(
 
     # Load content
     try:
-        result = await load_lesson_content(chapter, lesson)
+        result = await load_lesson_content(part, chapter, lesson)
     except Exception as e:
         logger.error(f"[Lesson] Content load failed: {e}")
         # Release reservation if content load fails
