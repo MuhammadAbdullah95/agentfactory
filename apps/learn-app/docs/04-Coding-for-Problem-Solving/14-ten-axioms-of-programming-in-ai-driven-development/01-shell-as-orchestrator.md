@@ -57,7 +57,7 @@ differentiation:
 
 # Axiom I: Shell as Orchestrator
 
-In the overview, you saw that the first group of axioms governs how your code is structured — the foundation of the house. Axiom I starts with the most fundamental structural decision: what role does the terminal play?
+The overview ended with a question: when an AI agent has access to a terminal, what should it actually do with it? This axiom's answer is simple — the terminal should *coordinate* work, never *do* the work itself. That sounds like a small distinction, until you are the one staring at line 247 of a broken script at 2am.
 
 James is a junior developer, three weeks into his first real job at a mid-sized e-commerce company. He works on the platform team — the group responsible for keeping the order management system running. His mentor is Emma, the team's senior engineer. She has been with the company for four years, built most of the backend infrastructure, and has a reputation for turning chaotic systems into clean ones.
 
