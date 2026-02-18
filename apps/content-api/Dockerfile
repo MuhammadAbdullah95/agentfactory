@@ -6,7 +6,7 @@
 #   docker build -f apps/content-api/Dockerfile .
 # =============================================================================
 
-ARG PYTHON_VERSION=3.12
+ARG PYTHON_VERSION=3.13
 
 # -----------------------------------------------------------------------------
 # Stage 1: Builder - Compile dependencies with build tools
@@ -79,7 +79,9 @@ WORKDIR /app
 # Copy ONLY the venv from builder (uv stays in builder, not copied here)
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
-# Copy application source
+# Copy application source + workspace library source
+# (uv installs workspace deps as editable .pth links to /build/libs/...)
+COPY --from=builder --chown=app:app /build/libs/api-infra/src/ /build/libs/api-infra/src/
 COPY --chown=app:app apps/content-api/src/ ./src/
 
 # Environment configuration
