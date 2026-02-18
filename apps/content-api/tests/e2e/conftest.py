@@ -310,3 +310,78 @@ async def client():
 def auth_header(token: str) -> dict[str, str]:
     """Build Authorization header from token."""
     return {"Authorization": f"Bearer {token}"}
+
+
+# ---------------------------------------------------------------------------
+# Metering + Progress fixtures (opt-in per test)
+# ---------------------------------------------------------------------------
+
+METERING_BASE = "http://test-metering:9000"
+PROGRESS_BASE = "http://test-progress:9001"
+
+
+@pytest.fixture
+async def enable_metering(monkeypatch):
+    """Enable metering and mock the metering API at transport level.
+
+    Usage: any test that needs metering enabled just adds `enable_metering`
+    to its parameter list. The fixture patches settings and registers
+    respx routes within the existing mock context.
+
+    Returns a dict of respx routes for assertion:
+        routes["check"], routes["deduct"], routes["release"]
+    """
+    from content_api.config import settings
+    from content_api.metering import client as metering_mod
+
+    monkeypatch.setattr(settings, "metering_enabled", True)
+    monkeypatch.setattr(settings, "metering_api_url", METERING_BASE)
+    metering_mod._client = None
+
+    # Default happy-path: allow with reservation, deduct ok, release ok
+    check_route = respx.post(f"{METERING_BASE}/api/v1/metering/check").mock(
+        return_value=Response(
+            200,
+            json={"allowed": True, "reservation_id": "res-test-001"},
+        )
+    )
+    deduct_route = respx.post(f"{METERING_BASE}/api/v1/metering/deduct").mock(
+        return_value=Response(200, json={"status": "ok"})
+    )
+    release_route = respx.post(f"{METERING_BASE}/api/v1/metering/release").mock(
+        return_value=Response(200, json={"status": "ok"})
+    )
+
+    yield {"check": check_route, "deduct": deduct_route, "release": release_route}
+
+    # Cleanup: close internal httpx client and reset singleton
+    if metering_mod._client is not None:
+        await metering_mod._client.close()
+    metering_mod._client = None
+
+
+@pytest.fixture
+async def enable_progress(monkeypatch):
+    """Enable progress tracking and mock the progress API.
+
+    Returns a dict of respx routes for assertion:
+        routes["complete"]
+    """
+    from content_api.config import settings
+    from content_api.services import progress_client as progress_mod
+
+    monkeypatch.setattr(settings, "progress_api_url", PROGRESS_BASE)
+    progress_mod._client = None
+
+    complete_route = respx.post(f"{PROGRESS_BASE}/api/v1/progress/complete").mock(
+        return_value=Response(
+            200,
+            json={"completed": True, "xp_earned": 10},
+        )
+    )
+
+    yield {"complete": complete_route}
+
+    if progress_mod._client is not None:
+        await progress_mod._client.close()
+    progress_mod._client = None
