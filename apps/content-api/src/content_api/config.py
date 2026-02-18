@@ -1,10 +1,10 @@
-"""Content API configuration - placeholder for Task 4."""
+"""Content API configuration from environment variables."""
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Content API settings loaded from environment. Will be fully defined in Task 4."""
+    """Content API settings loaded from environment."""
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     github_token: str = ""
     github_repo: str = "panaversity/agentfactory"
 
-    # Content cache TTL (seconds) - 30 days
+    # Content cache TTL (seconds) - 30 days (invalidate via GitHub Action on push)
     content_cache_ttl: int = 2592000
 
     # SSO (required for production)
@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     debug: bool = False
     log_level: str = "INFO"
 
-    # Dev mode
+    # Dev mode - bypasses auth for local development
     dev_mode: bool = False
     dev_user_id: str = "dev-user-123"
     dev_user_email: str = "dev@localhost"
@@ -44,12 +44,11 @@ class Settings(BaseSettings):
     # Server
     port: int = 8001
 
-    # Token Metering
+    # Token Metering API
     metering_api_url: str = ""
     metering_enabled: bool = False
-    metering_default_estimate: int = 5000
 
-    # Progress API
+    # Progress API (for completion tracking)
     progress_api_url: str = ""
 
     @property
