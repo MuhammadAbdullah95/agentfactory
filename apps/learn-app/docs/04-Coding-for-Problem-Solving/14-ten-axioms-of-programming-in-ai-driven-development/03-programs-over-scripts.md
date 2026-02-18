@@ -57,9 +57,9 @@ differentiation:
 
 # Axiom III: Programs Over Scripts
 
-James learned Axiom II the hard way — two weeks of work discarded because a decision lived in Slack instead of markdown. After Emma's code review, he became the team's most disciplined documentation writer. Every decision got an ADR. Every convention went into CLAUDE.md. The knowledge was in markdown, in the repository, exactly where it belonged.
+Axiom II asked where knowledge should live. James learned the answer the hard way — two weeks of work discarded because a decision lived in Slack instead of markdown. After that, he became the team's most disciplined documentation writer. Every decision got an ADR. Every convention went into CLAUDE.md. Knowledge problem solved. Now Axiom II left a different question hanging: when you ask an AI agent to build something, should it produce a quick script or a proper program?
 
-Then Emma asked him to write a script.
+Emma answered that question by asking James to write a script.
 
 The team needed a utility to normalize image filenames before uploading them to the CDN — lowercase, no spaces, no special characters. Fifteen lines of Python. James wrote it in twenty minutes: a `for` loop over `os.listdir`, a regex substitution, an `os.rename`. It worked. He committed it as `rename_images.py` and moved on.
 
@@ -67,7 +67,7 @@ Three months later, the marketing team adopted the script for their asset pipeli
 
 On a Friday afternoon, the client services team ran the script on a folder of 2,000 files for a product launch. The script encountered a filename with a Unicode em-dash, crashed on file 847, and left the folder in a state where 846 files had been renamed and 1,154 had not. There were no logs to show which files had been processed. There was no `--dry-run` flag to preview changes. There was no error handling to skip the problem file and continue. There were no tests that would have caught the Unicode edge case before it reached production. The team spent the weekend manually sorting 2,000 files, matching renamed versions to originals using file timestamps and sizes.
 
-James stared at his fifteen lines of code and realized they had become load-bearing infrastructure for three teams — without a single line of the discipline that load-bearing code requires. The gap between a script and a program is the gap between a prototype and a product. James had shipped a prototype.
+James stared at his fifteen lines of code — no tests, no error handling, no logging, no dry-run flag — and realized three teams depended on it every day. The code had not changed. The responsibility around it had.
 
 ## The Problem Without This Axiom
 

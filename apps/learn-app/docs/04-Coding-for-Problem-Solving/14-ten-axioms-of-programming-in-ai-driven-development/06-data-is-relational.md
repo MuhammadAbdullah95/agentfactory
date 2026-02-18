@@ -57,7 +57,7 @@ differentiation:
 
 # Axiom VI: Data is Relational
 
-James had typed dataclasses for orders, customers, and products. He had Pyright catching structural errors before runtime. Emma had signed off on his type discipline. But when the team asked him to build a dashboard showing order history by customer — with filters for date range, status, and product category — James hit a wall that types alone could not solve.
+Axiom V gave James typed dataclasses for orders, customers, and products — Pyright catching structural errors before runtime. But types describe individual objects. A `CustomerOrder` knows its own shape. It knows nothing about the customer who placed it, the products inside it, or the fifty other orders that customer has made. When the team asked James to build a dashboard showing order history *by customer*, with filters for date range, status, and product category, he hit a wall that types alone could not solve. His data had *relationships*, and nothing in his system understood them.
 
 His data lived in a JSON file: `orders.json`. Each order was a dictionary with a `customer_name` string, a `product_name` string, and a `status` field. To find all orders for "Acme Corp," he loaded the entire file into memory and looped through every record. To find overdue orders across all customers, he looped again. To count how many orders each customer had placed, he looped a third time, building a dictionary by hand. The file was 2,000 records. The dashboard took eleven seconds to load.
 

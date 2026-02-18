@@ -57,9 +57,9 @@ differentiation:
 
 # Axiom IV: Composition Over Monoliths
 
-In Axiom III, James learned the difference between a script and a program. He upgraded his fifteen-line file renamer into a typed, tested, properly packaged tool. But Emma had a harder lesson waiting for him — one that lived in the team's main codebase, not in a utility script.
+Axiom III turned James's fifteen-line script into a disciplined program — types, tests, error handling, packaging. One well-built tool. But a single well-built tool is not a system. The question from the last lesson remains: how do you combine well-built pieces into something larger without everything tangling together?
 
-James's next project was bigger than any utility script: the company's order management system — the core platform that handled every customer purchase. This system would follow him through the rest of the chapter, growing more disciplined with each axiom.
+James was about to find out. Emma assigned him to the company's order management system — the core platform that handled every customer purchase. This system would follow him through the rest of the chapter, growing more disciplined with each axiom.
 
 :::tip Focus on structure, not syntax
 From this lesson onward, code examples use Python features you have not learned yet — classes, decorators, type annotations, and more. That is fine. Focus on the *architecture*: how code is organized, what each piece does, and why it is separate. The syntax will make sense when you reach the Python lessons later in Part 4.

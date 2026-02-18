@@ -64,9 +64,9 @@ differentiation:
 
 # Axiom IX: Verification is a Pipeline
 
-James had types, tests, relational data, and disciplined git history. His order management project was the cleanest codebase he had ever produced. Every function had TDG (Test-Driven Generation) specifications. Every commit explained *why*. His local pytest run showed green across the board. He pushed to main with confidence — his first push since adopting the disciplines from Axioms I through VIII.
+Axiom VIII gave James a disciplined git history — every decision recorded, every change traceable. But git records *what happened*. It does not verify *whether it should have happened*. James had tests, types, and database constraints each running separately, on his machine, when he remembered to run them. He had never run all of them together, in order, automatically.
 
-The GitHub Actions pipeline failed in four minutes.
+His first push to main since adopting the previous eight axioms failed in four minutes.
 
 The formatter caught inconsistent indentation the AI had introduced in `shipping.py` — tabs mixed with spaces that looked identical in his editor. The linter found an unused import in `discount.py` that `ruff check` flagged but James had never run locally. The type checker discovered that `calculate_shipping()` returned `Optional[float]` in one branch but the calling code assumed `float` — a mismatch his tests never triggered because they only tested the happy path. And `pip-audit` reported a known vulnerability in a package the AI had suggested three weeks earlier.
 

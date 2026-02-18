@@ -69,9 +69,11 @@ differentiation:
 
 # Axiom VII: Tests Are the Specification
 
-James had types, composition, and relational data. His code was structured, his schemas enforced, his Pyright configuration strict. Then he shipped `apply_discount()` — a function that accepted a `PricedOrder` and returned a `DiscountedOrder`. The types were perfect. The function compiled without errors. Pyright showed zero warnings. The code looked correct.
+The first six axioms built the structure and locked down the data. James's code had orchestration, markdown knowledge, program discipline, composition, typed interfaces, and relational constraints. Every guardrail was in place — except one. None of them checked whether the code did the *right thing*.
 
-It was not. The function returned 0.15 instead of 0.85 — it subtracted the discount *from* 1.0 in the wrong order, giving customers an 85% discount instead of a 15% discount. The company lost $12,000 in a single weekend before anyone noticed. Every guardrail James had built — types, composition, database constraints — checked the *shape* of the code. None of them checked whether the code did the *right thing*.
+Then he shipped `apply_discount()` — a function that accepted a `PricedOrder` and returned a `DiscountedOrder`. The types were perfect. The function compiled without errors. Pyright showed zero warnings. The code looked correct.
+
+It was not. The function returned 0.15 instead of 0.85 — it subtracted the discount *from* 1.0 in the wrong order, giving customers an 85% discount instead of a 15% discount. The company lost $12,000 in a single weekend before anyone noticed.
 
 "Types catch structural errors," Emma reminded him on Monday morning. "But types cannot tell you that 0.15 is wrong and 0.85 is right. Only one thing can: a test that says `assert apply_discount(order, 0.15) == expected_price`. If that test existed before the AI generated the function, the error would have been caught before it left your machine."
 
