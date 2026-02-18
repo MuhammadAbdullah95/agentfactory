@@ -51,19 +51,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/study-mode-api/src",
-        "command": "uv run python -m uvicorn study_mode_api.main:app --host 127.0.0.1 --port 8000 --log-level info"
-      }
-    },
-    "start-clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "apps/study-mode-api",
-        "commands": [
-          "taskkill /F /IM python.exe 2>nul || echo No processes to kill",
-          "timeout /t 2 /nobreak >nul",
-          "cd src && set PYTHONUNBUFFERED=1 && uv run python -m uvicorn study_mode_api.main:app --host 127.0.0.1 --port 8000 --log-level info"
-        ],
-        "parallel": false
+        "command": "uv run python -m uvicorn study_mode_api.main:app --reload --host 127.0.0.1 --port 8000 --log-level info"
       }
     },
     "build": {

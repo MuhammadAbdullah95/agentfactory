@@ -25,29 +25,14 @@ from fastapi import HTTPException
 
 from .chatkit_store import CachedPostgresStore, PostgresStore, RequestContext
 from .fte.answer_verification import (
-    detect_special_request,
     extract_and_store_correct_answer,
-    normalize_answer,
     strip_answer_marker,
-    verify_student_answer,
 )
 from .metering import create_metering_hooks
 from .services.content_loader import load_lesson_content
 from .services.lesson_chunker import get_lesson_chunks
 
-# Constants for legacy code (kept for backwards compatibility, not used in agent-native mode)
-MAX_ATTEMPTS = 3
-
-# Enable chunked mode for faster responses
-USE_CHUNKED_MODE = True
-
-# Enable agent-native mode (v3) - reviewer's architecture
-# When True: uses dynamic instructions + function tools + zero branching
-# When False: uses v2 chunked mode with server-side state machine
-USE_AGENT_NATIVE_TEACH = True
-
 logger = logging.getLogger(__name__)
-logger.info(f"[ChatKit] USE_AGENT_NATIVE_TEACH = {USE_AGENT_NATIVE_TEACH}")
 
 # Fake ID constant from agents SDK (used by OpenAIChatCompletionsModel)
 # When using Chat Completions API, the SDK returns this placeholder ID
@@ -384,6 +369,58 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         super().__init__(store)
         logger.info("[ChatKit] StudyModeChatKitServer initialized")
 
+    async def _stream_with_marker_stripping(
+        self,
+        agent_context: AgentContext,
+        result: RunResultStreaming,
+    ) -> AsyncIterator[ThreadStreamEvent]:
+        """Stream agent response, stripping <!--CORRECT:X--> markers from output."""
+        async for event in stream_agent_response(agent_context, result):
+            # Strip marker from streaming deltas
+            if isinstance(event, ThreadItemUpdatedEvent):
+                update = event.update
+                if isinstance(update, AssistantMessageContentPartTextDelta):
+                    cleaned = strip_answer_marker(update.delta)
+                    if cleaned:
+                        event = ThreadItemUpdatedEvent(
+                            item_id=event.item_id,
+                            update=AssistantMessageContentPartTextDelta(
+                                content_index=update.content_index,
+                                delta=cleaned,
+                            ),
+                        )
+                    else:
+                        continue  # Skip empty deltas
+
+            # Strip marker from final content
+            elif isinstance(event, ThreadItemDoneEvent):
+                item = event.item
+                if isinstance(item, AssistantMessageItem):
+                    new_content = []
+                    for content_item in item.content:
+                        if hasattr(content_item, "text"):
+                            cleaned_text = strip_answer_marker(content_item.text)
+                            new_content.append(
+                                AssistantMessageContent(
+                                    text=cleaned_text,
+                                    annotations=getattr(
+                                        content_item, "annotations", []
+                                    ),
+                                )
+                            )
+                        else:
+                            new_content.append(content_item)
+
+                    item = AssistantMessageItem(
+                        id=item.id,
+                        thread_id=item.thread_id,
+                        created_at=item.created_at,
+                        content=new_content,
+                    )
+                    event = ThreadItemDoneEvent(item=item)
+
+            yield event
+
     async def handle_teach_mode_v3(
         self,
         thread: ThreadMetadata,
@@ -412,7 +449,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         from .fte.teach_context import TeachContext
         from .services.session_state import get_session_state, save_session_state
 
-        logger.info(f"[ChatKit] AGENT-NATIVE MODE (v3) for thread {thread.id}")
+        logger.debug(f"[ChatKit] Teach mode for thread {thread.id}")
 
         # 1. Load content and state
         content_data = await load_lesson_content(lesson_path)
@@ -422,7 +459,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         chunks = await get_lesson_chunks(lesson_path, content, title)
         state = await get_session_state(thread.id) or {}
 
-        logger.info(
+        logger.debug(
             f"[ChatKit] v3: title='{title}', chunks={len(chunks)}, "
             f"state={state}"
         )
@@ -459,7 +496,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
         # Create metering hooks
         metering_hooks = create_metering_hooks()
 
-        logger.info(f"[ChatKit] v3: Running agent for thread {thread.id}")
+        logger.debug(f"[ChatKit] v3: Running agent for thread {thread.id}")
 
         try:
             result = Runner.run_streamed(
@@ -469,53 +506,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 hooks=metering_hooks,
             )
 
-            # Stream response with marker stripping
-            full_response = ""
-            async for event in stream_agent_response(agent_context, result):
-                # Strip marker from streaming deltas
-                if isinstance(event, ThreadItemUpdatedEvent):
-                    update = event.update
-                    if isinstance(update, AssistantMessageContentPartTextDelta):
-                        full_response += update.delta
-                        cleaned = strip_answer_marker(update.delta)
-                        if cleaned:
-                            event = ThreadItemUpdatedEvent(
-                                item_id=event.item_id,
-                                update=AssistantMessageContentPartTextDelta(
-                                    content_index=update.content_index,
-                                    delta=cleaned,
-                                ),
-                            )
-                        else:
-                            continue  # Skip empty deltas
-
-                # Strip marker from final content
-                elif isinstance(event, ThreadItemDoneEvent):
-                    item = event.item
-                    if isinstance(item, AssistantMessageItem):
-                        new_content = []
-                        for content_item in item.content:
-                            if hasattr(content_item, "text"):
-                                cleaned_text = strip_answer_marker(content_item.text)
-                                new_content.append(
-                                    AssistantMessageContent(
-                                        text=cleaned_text,
-                                        annotations=getattr(
-                                            content_item, "annotations", []
-                                        ),
-                                    )
-                                )
-                            else:
-                                new_content.append(content_item)
-
-                        item = AssistantMessageItem(
-                            id=item.id,
-                            thread_id=item.thread_id,
-                            created_at=item.created_at,
-                            content=new_content,
-                        )
-                        event = ThreadItemDoneEvent(item=item)
-
+            async for event in self._stream_with_marker_stripping(
+                agent_context, result
+            ):
                 yield event
 
         except HTTPException as http_err:
@@ -587,31 +580,6 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 logger.warning("[ChatKit] Empty user message")
                 return
 
-            # ANSWER VERIFICATION (Script v2): Handle A/B answers and special requests
-            # The verification result is passed to create_agent() to select the right prompt
-            verification_result = None
-            special_request = None
-
-            # First check for special requests (hint, skip, option_confusion)
-            special_request = detect_special_request(user_text)
-            if special_request:
-                logger.info(f"[ChatKit] Special request detected: {special_request}")
-
-            # If not a special request, try to extract A/B answer
-            if not special_request:
-                # Enhanced parsing: extract A/B even from partial answers
-                # "I think A because..." → "A"
-                normalized = normalize_answer(user_text)
-                if normalized:
-                    verification_result = await verify_student_answer(thread.id, user_text)
-                    if verification_result == "correct":
-                        logger.info("[ChatKit] Answer verified as CORRECT")
-                    elif verification_result == "incorrect":
-                        logger.info("[ChatKit] Answer verified as INCORRECT")
-                    else:
-                        logger.warning("[ChatKit] Could not verify answer (no stored answer)")
-                        verification_result = None  # Ensure it's None for unknown
-
             # Get metadata from context
             lesson_path = context.metadata.get("lesson_path", "")
             user_name = context.metadata.get("user_name")
@@ -667,19 +635,14 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 for item in items
             )
             is_first_message = not has_assistant_response
-            logger.info(
+            logger.debug(
                 f"[ChatKit] items={len(items)}, types={item_types}, "
                 f"has_assistant={has_assistant_response}, is_first={is_first_message}"
             )
 
-            # AGENT-NATIVE MODE (v3): Use new architecture for teach mode
-            # Per reviewer: zero branching, agent has full autonomy
-            logger.info(
-                f"[ChatKit] MODE CHECK: USE_AGENT_NATIVE_TEACH="
-                f"{USE_AGENT_NATIVE_TEACH}, mode='{mode}'"
-            )
-            if USE_AGENT_NATIVE_TEACH and mode == "teach":
-                logger.info("[ChatKit] >>> ROUTING TO AGENT-NATIVE MODE (v3) <<<")
+            # TEACH MODE: Agent-native architecture with function tools
+            if mode == "teach":
+                logger.debug("[ChatKit] Routing to teach mode (agent-native)")
 
                 # Set thread title for new threads
                 if is_first_message:
@@ -711,10 +674,9 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
                 return  # Exit early, v3 handles everything
 
             # ASK MODE: Use ask_agent with DeepSeek for direct answers
-            # Store lesson data in metadata for ask_agent's dynamic instructions
             from .fte.ask_agent import ask_agent
 
-            logger.info("[ChatKit] >>> ROUTING TO ASK MODE (DeepSeek) <<<")
+            logger.debug("[ChatKit] Routing to ask mode (DeepSeek)")
             context.metadata["lesson_title"] = title
             context.metadata["lesson_content"] = content
             context.metadata["is_first_message"] = is_first_message
@@ -725,52 +687,14 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
 
             # Set thread title from first user message (if new thread)
             if is_first_message and "title" not in context.metadata:
-                # If message is a trigger (empty/short), use lesson title instead
                 if _is_trigger_message(user_text):
-                    context.metadata["title"] = f"📚 {title}"  # Use lesson title
+                    context.metadata["title"] = f"📚 {title}"
                 else:
                     context.metadata["title"] = _generate_thread_title(user_text)
-                logger.info(f"[ChatKit] Generated title: {context.metadata['title']}")
-                # Save thread again with the generated title (base class saved with default)
                 await self.store.save_thread(thread, context)
 
             # Convert to agent input format
             input_items = await simple_to_agent_input(items)
-
-            # INJECT VERIFICATION: Add explicit verification to last message
-            # This ensures LLM sees "[CORRECT]" or "[INCORRECT]" and can't ignore it
-            if verification_result and input_items and isinstance(input_items, list):
-                logger.info(f"[ChatKit] Injecting verification '{verification_result}' into input")
-                # Find the last user message and annotate it
-                injected = False
-                for i in range(len(input_items) - 1, -1, -1):
-                    item = input_items[i]
-                    item_type = type(item).__name__
-                    has_role = hasattr(item, "role")
-                    logger.debug(f"[ChatKit] Item {i}: type={item_type}, has_role={has_role}")
-                    if hasattr(item, "role") and item.role == "user":
-                        if verification_result == "correct":
-                            # Prepend strong verification message
-                            original = item.content if hasattr(item, "content") else str(item)
-                            item.content = (
-                                f"[SERVER VERIFIED: CORRECT ✓]\n"
-                                f"Student answer: {original}\n"
-                                f"[YOU MUST SAY 'Correct!' - DO NOT SAY 'Not quite']"
-                            )
-                            logger.info("[ChatKit] Injected CORRECT verification")
-                            injected = True
-                        elif verification_result == "incorrect":
-                            original = item.content if hasattr(item, "content") else str(item)
-                            item.content = (
-                                f"[SERVER VERIFIED: WRONG ✗]\n"
-                                f"Student answer: {original}\n"
-                                f"[YOU MUST SAY 'Not quite.' - DO NOT SAY 'Correct']"
-                            )
-                            logger.info("[ChatKit] Injected INCORRECT verification")
-                            injected = True
-                        break
-                if not injected:
-                    logger.warning("[ChatKit] Failed to inject - no user message found")
 
             # Fallback: if input_items is empty (race condition), use current user message
             if not input_items:
@@ -803,7 +727,7 @@ class StudyModeChatKitServer(ChatKitServer[RequestContext]):
             # Wrap in try/except to release metering reservation on error
             try:
                 async for event in _stream_with_real_ids(
-                    agent_context, result, thread.id, verification_result
+                    agent_context, result, thread.id
                 ):
                     yield event
             except HTTPException as http_err:
