@@ -8,7 +8,8 @@ const EXERCISE_REGISTRY: Record<string, ExerciseConfig> = {
   "ch3-basics": {
     repo: "panaversity/claude-code-basic-exercises",
     releaseTag: "latest",
-    description: "Claude Code Basic Exercises — prompting, file operations, debugging",
+    description:
+      "Claude Code Basic Exercises — prompting, file operations, debugging",
   },
   "ch3-skills": {
     repo: "panaversity/claude-code-skills-exercises",
@@ -24,6 +25,24 @@ const EXERCISE_REGISTRY: Record<string, ExerciseConfig> = {
     repo: "panaversity/claude-code-agent-teams-exercises",
     releaseTag: "latest",
     description: "Claude Code Agent Teams Exercises — multi-agent workflows",
+  },
+  "ch4-context": {
+    repo: "panaversity/context-engineering-exercises",
+    releaseTag: "latest",
+    description:
+      "Context Engineering Exercises — CLAUDE.md, memory, prompt design",
+  },
+  "ch5-sdd": {
+    repo: "panaversity/sdd-exercises",
+    releaseTag: "latest",
+    description:
+      "Spec-Driven Development Exercises — specs, plans, tasks workflows",
+  },
+  "ch6-principles": {
+    repo: "panaversity/seven-principles-exercises",
+    releaseTag: "latest",
+    description:
+      "Seven Principles Exercises — bash, verification, decomposition",
   },
 };
 

@@ -1,5 +1,6 @@
 ---
 title: "Principles Exercises: Practice the Seven Principles"
+practice_exercise: ch6-principles
 sidebar_label: "Principles Exercises"
 sidebar_position: 10
 chapter: 6

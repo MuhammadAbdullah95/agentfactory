@@ -1,5 +1,6 @@
 ---
 title: "Practical SDD Exercises"
+practice_exercise: ch5-sdd
 sidebar_position: 9
 chapter: 5
 lesson: 9
