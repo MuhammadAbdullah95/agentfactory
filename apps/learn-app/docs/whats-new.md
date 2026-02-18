@@ -18,6 +18,9 @@ Track meaningful updates to the book. This page is automatically updated when do
 <!-- CHANGELOG_START - Do not remove this marker -->
 
 ### 2026-02-18
+- docs: add kitchen analogy to Chapter 14 overview ([#752](https://github.com/panaversity/agentfactory/pull/752))
+
+### 2026-02-18
 - docs: smooth lesson-to-lesson transitions for Chapter 14 Axioms II-X ([#751](https://github.com/panaversity/agentfactory/pull/751))
 
 ### 2026-02-18
