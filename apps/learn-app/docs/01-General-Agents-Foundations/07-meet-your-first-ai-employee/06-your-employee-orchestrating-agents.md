@@ -1,7 +1,7 @@
 ---
 sidebar_position: 6
 title: "Your Employee Delegating to Claude Code"
-description: "Connect your AI Employee to Claude Code through tmux, verify real delegation by attaching to live sessions, and understand how you design the orchestration pattern"
+description: "Set a delegation rule so your AI Employee uses Claude Code for coding tasks, verify real work by attaching to live tmux sessions, and experience the two-tier delegation pattern"
 keywords:
   [
     ai employee delegation,
@@ -51,7 +51,7 @@ learning_objectives:
 cognitive_load:
   new_concepts: 4
   concepts_list:
-    - "Explicit delegation (you instruct the employee how and when to delegate)"
+    - "Rule-based delegation (set the rule once, employee handles mechanics)"
     - "tmux as infrastructure (background sessions for agent work)"
     - "Verification over trust (attach to sessions, check output files)"
     - "Two-tier delegation (you manage the employee, employee manages Claude Code)"
@@ -64,11 +64,21 @@ differentiation:
 
 # Your Employee Delegating to Claude Code
 
-In Lesson 5, you taught your employee skills and learned why security matters. Those skills handled focused tasks -- meeting prep, research summaries, progress reports. Your employee did all of that work itself.
+Your employee has been handling tasks on its own: creating files, setting up morning briefings, doing research, managing your schedule. For tasks like "create weekly-goals.md" or "design a daily routine," it uses its own built-in tools and does fine.
 
-Now try something different. You have Claude Code on your machine from Chapter 3. What if your employee could send coding tasks to Claude Code instead of trying to handle them alone?
+But what happens when you need actual code written? A Python script, a data processing tool, a file organizer? Your employee is not a coding specialist. It will try -- and it may produce something -- but it is not the right tool for the job.
 
-Delegation does not happen automatically. Your employee will not magically discover Claude Code and start using it. You have to set it up. In this lesson, you are going to connect them -- and then verify the connection is real.
+You already have the right tool. Claude Code is on your machine from Chapter 3. In this lesson, you are going to teach your employee to delegate coding work to Claude Code -- and then verify the delegation is real.
+
+## Why Delegation Needs to Be Explicit
+
+Your employee will not discover Claude Code on its own. If you ask it to "build a Python calculator," it will attempt to write code itself or, worse, claim it delegated the work to Claude Code when it actually did not. It may even give you a fake session ID and a working directory that does not exist.
+
+This is not a bug. It is how language models work. They produce plausible responses, which sometimes means plausible claims about actions they did not take.
+
+The fix: tell your employee clearly that coding tasks go to Claude Code, and that it should use tmux sessions to run them. You set the rule once. Your employee handles the terminal commands. You verify the work is real.
+
+---
 
 ## Connect Your Employee to Claude Code
 
@@ -77,27 +87,27 @@ Delegation does not happen automatically. Your employee will not magically disco
 Send this to your AI Employee via Telegram:
 
 ```
-Check if tmux is installed on this machine. If it is not installed,
-install it. Confirm when tmux is ready.
+Check if tmux is installed on this machine. If not, install it.
+Confirm with the version number.
 ```
 
-tmux lets your employee run terminal sessions in the background. Your employee will use it to run Claude Code while reporting progress back to you on Telegram. You will be able to attach to these sessions from your own terminal and watch the work happen live.
+tmux lets your employee run terminal sessions in the background. Your employee will create tmux sessions, run Claude Code inside them, and report back to you on Telegram. You can attach to these sessions from your own terminal and watch the work happen live.
 
 ### Step 2: Set the Delegation Rule
 
-```
-From now on, when I give you a coding task, do NOT write the code
-yourself. Instead:
-1. Create a named tmux session
-2. Run Claude Code inside that session
-3. Have Claude Code do the coding work
-4. Report the tmux session name and working directory so I can
-   attach and verify
+This is the one-time instruction that changes how your employee works:
 
-Use Claude Code, not a subagent. Use tmux, not a background process.
+```
+From now on, when I ask you to build or write code, use Claude Code
+to do the work -- do not write code yourself.
+
+Run Claude Code inside tmux sessions so I can attach and watch.
+Always tell me the session name so I can verify with tmux ls.
 ```
 
-This is the critical moment. You are not hoping delegation happens. You are instructing it. Your employee now knows: coding work goes to Claude Code, run it in tmux, report the session details back to you.
+Your employee should confirm it understands. Something like: "Understood -- for coding tasks, I'll spin up Claude Code in tmux sessions and give you the session name to verify."
+
+That is the entire setup. You told your employee **what tool to use** and **how you will verify**. Your employee already has terminal access -- it knows how to run tmux commands. You do not need to spell out the exact syntax every time. You are the manager setting the rule; your employee handles the mechanics.
 
 ---
 
@@ -106,54 +116,66 @@ This is the critical moment. You are not hoping delegation happens. You are inst
 Send this to your employee:
 
 ```
-Create a tmux session called 'calculator' and use Claude Code inside
-it to build a simple Python calculator that can add, subtract,
-multiply, and divide. Tell me the tmux session name and working
-directory when Claude Code starts.
+Build me a simple Python calculator with add, subtract, multiply,
+and divide functions. Include a demo in the main block.
+Tell me the session name when Claude Code is running.
 ```
 
-While your employee works, open a terminal on your machine and check:
+That is all you send. Your employee should create a tmux session, launch Claude Code with the task, and report the session name back to you.
+
+Now open a terminal on your machine and verify:
 
 ```bash
 tmux ls
 ```
 
-You should see the `calculator` session listed. Attach to it:
+You should see a session in the list. Attach to it:
 
 ```bash
-tmux attach -t calculator
+tmux attach -t <session-name>
 ```
 
-You are now watching Claude Code work in real time -- writing files, creating functions, building your calculator. This is real delegation. Detach with `Ctrl+B` then `D` to let it continue working.
+You are watching Claude Code work in real time. It is writing files, creating functions, building your calculator. This is real delegation -- verified by your own eyes. Detach with `Ctrl+B` then `D` to let it continue.
 
-When your employee reports the task is done, check the output:
+When it finishes, find and run the output:
 
 ```bash
-ls <the-directory-your-employee-reported>
 python calculator.py
 ```
 
-The files exist. The calculator runs. Your employee managed the task, Claude Code wrote the code, and you verified every step.
+The files exist. The calculator runs. Your employee handled the tmux commands, Claude Code wrote the code, and you verified every step.
 
-**If tmux ls shows nothing:** Your employee may have claimed to create the session without actually doing it. This is an important lesson -- AI agents can say they performed work without performing it. That is exactly why verification matters. Go back to Step 2 and reinforce: "Use the actual tmux command to create the session. I will be checking with tmux ls."
+**If tmux ls shows nothing:** Your employee claimed to delegate without actually running the commands. This is the hallucination problem described above. Send this follow-up:
+
+```
+I just ran tmux ls and there are no sessions. You did not actually
+run Claude Code. Please do it now -- create the tmux session and
+run Claude Code for real. I am watching tmux ls in my terminal.
+```
+
+Reinforcing that you are actively verifying usually resolves it. If your employee still cannot execute shell commands, it may not have terminal access configured -- check your OpenClaw setup from Lesson 2.
 
 ### Exercise 2: A Tool for Your Work
 
-Now make it relevant to YOUR role:
+Now build something relevant to YOUR role. Pick one and send it:
 
 ```
-Use Claude Code in a tmux session called 'my-tool' to build a
-Python script that [CHOOSE ONE]:
-- Reads a CSV file and creates a summary with totals and averages
-- Organizes files in a folder by type (documents, images, code)
-- Converts my markdown notes into a clean HTML page with styling
-Report the session name and directory.
+Build me [CHOOSE ONE]:
+- A Python script that reads a CSV file and prints a summary
+  with totals and averages
+- A Python script that organizes files in the current directory
+  into folders by file type
+- A Python script that converts a markdown file to a styled
+  HTML page
+
+Tell me the session name when it is running.
 ```
 
-Verify again:
+Verify:
 
 ```bash
-tmux attach -t my-tool
+tmux ls
+tmux attach -t <session-name>
 ```
 
 Watch Claude Code build something useful for you. When it finishes, test the output with your actual files.
@@ -163,13 +185,21 @@ Watch Claude Code build something useful for you. When it finishes, test the out
 This one combines what your employee does well with what Claude Code does well:
 
 ```
-Research the best way to automate [A REPETITIVE TASK FROM YOUR WORK].
-Summarize your research and explain your approach. Then use Claude Code
-in a tmux session called 'automate' to build a working prototype.
-Give me the research summary first, then the session name and directory.
+I want to automate [A REPETITIVE TASK FROM YOUR WORK].
+First, research the best approach -- what tools exist, what method
+would work for my situation. Give me a summary of your research.
+
+Then, once I approve, use Claude Code to build a working prototype.
 ```
 
-Notice the workflow. Your employee researches using its own tools and knowledge from MEMORY.md. It decides on an approach. Then it hands the coding to Claude Code. Two different capabilities, one result.
+Notice the two phases. Your employee does the research first -- it has your context from MEMORY.md, it knows your work patterns, it can use web search. When you approve the approach, it delegates the coding to Claude Code via tmux. Two different capabilities, one result.
+
+After you approve and it starts building, verify the same way:
+
+```bash
+tmux ls
+tmux attach -t <session-name>
+```
 
 ---
 
@@ -177,17 +207,17 @@ Notice the workflow. Your employee researches using its own tools and knowledge 
 
 You built a real delegation chain:
 
-| Layer                        | Who         | What They Did                                     |
-| ---------------------------- | ----------- | ------------------------------------------------- |
-| **You**                      | Manager     | Gave high-level instructions                      |
-| **Your Employee** (OpenClaw) | Coordinator | Interpreted intent, managed tmux, reported status |
-| **Claude Code**              | Coder       | Wrote the actual code in a verifiable session     |
+| Layer                        | Who         | What They Did                                           |
+| ---------------------------- | ----------- | ------------------------------------------------------- |
+| **You**                      | Manager     | Gave high-level instructions via Telegram               |
+| **Your Employee** (OpenClaw) | Coordinator | Spun up tmux sessions, launched Claude Code, reported back |
+| **Claude Code**              | Coder       | Wrote actual code in a verifiable tmux session           |
 
-This is the **two-tier delegation pattern** from Chapter 1 -- but now you have seen it work. Not a claim in a textbook. You attached to the tmux session and watched Claude Code writing code.
+This is the **two-tier delegation pattern** from Chapter 1 -- and you have seen it work. Not a textbook claim. You ran `tmux ls`, you attached to the session, you watched Claude Code writing code.
 
-The key insight: **you designed the pattern**. Delegation did not happen by magic. You told your employee when to delegate, what tool to use, and how to report back. In the Agent Factory, the human designs the orchestration. The employee executes it.
+The key insight: **you managed, your employee coordinated**. You set one rule -- "use Claude Code for coding tasks" -- and your employee handled the mechanics: creating sessions, launching the right tool, reporting session names. You never typed a single tmux command into Telegram. Your job was deciding what to build and verifying the work was real.
 
-Compare this to Chapter 3, where you used Claude Code directly. You typed the instructions. You watched the output. You decided what to do next. Now your employee handles all of that coordination. You just say what you want built.
+Compare this to Chapter 3, where you used Claude Code directly. You typed every instruction. You watched every output. Now your employee handles the coordination. You say what you want built; it manages the rest.
 
 ---
 
@@ -195,11 +225,11 @@ Compare this to Chapter 3, where you used Claude Code directly. You typed the in
 
 | Concept                     | What You Experienced                                                     |
 | --------------------------- | ------------------------------------------------------------------------ |
-| Explicit delegation         | You instructed your employee when and how to delegate                    |
+| Rule-based delegation       | You set the rule once; your employee handled the mechanics every time    |
 | tmux as infrastructure      | Background sessions let agents work while you verify                     |
-| Verification over trust     | Attaching to sessions proves work is real, not hallucinated              |
+| Verification over trust     | `tmux ls` and `tmux attach` prove work is real, not hallucinated         |
 | Context stays with employee | Research and intent lived with your employee, coding went to Claude Code |
-| You are the architect       | The delegation pattern exists because you designed it                    |
+| You are the manager         | You decided what to build, your employee decided how to run it           |
 
 ---
 
@@ -208,30 +238,35 @@ Compare this to Chapter 3, where you used Claude Code directly. You typed the in
 ### Prompt 1: Parallel Delegation
 
 ```
-I need two things built at the same time. Create two tmux sessions
-and use Claude Code in each one simultaneously:
-1. Session 'project-a': A script that [TASK FOR YOUR WORK]
-2. Session 'project-b': A script that [DIFFERENT TASK]
-Report both session names so I can watch them in parallel.
+I need two things built at the same time:
+1. [TASK 1 FOR YOUR WORK]
+2. [TASK 2 FOR YOUR WORK]
+
+Run them in separate tmux sessions with Claude Code so they work
+in parallel. Give me both session names.
 ```
 
-**What you're learning:** Parallel delegation. Your employee manages multiple Claude Code sessions at once. Run `tmux ls` to see both sessions, and attach to each one to watch the work happen simultaneously.
+**What you're learning:** Parallel delegation. Your employee creates two independent tmux sessions, each running Claude Code on a different task. Run `tmux ls` to see both sessions listed, and attach to each one to watch the work happen simultaneously.
 
 ### Prompt 2: Fix and Iterate
 
 ```
-The tool from Exercise 2 needs a change: [YOUR SPECIFIC FEEDBACK].
-Use Claude Code in the same 'my-tool' tmux session to fix it.
+The tool you built in Exercise 2 needs a change:
+[YOUR SPECIFIC FEEDBACK].
+
+Send the fix to Claude Code in the same session.
 ```
 
-**What you're learning:** Iteration through delegation. You give feedback to your employee, your employee relays it to Claude Code. Same pattern from every lesson -- but now with a coding agent in the loop.
+**What you're learning:** Iteration through delegation. You give feedback in plain language, your employee sends the update to Claude Code. Same pattern from every lesson -- give intent, let the employee coordinate, verify the result.
 
 ### Prompt 3: Explain the Chain
 
 ```
-Describe in plain language what just happened across these exercises.
-Who did what? Where did the code come from? Why did I tell you to
-use tmux instead of just writing code yourself?
+Describe in plain language what happened across these exercises.
+What tasks did you handle yourself (research, file creation)?
+What tasks did Claude Code handle?
+Why did I set the rule about using Claude Code for coding instead
+of letting you write code yourself?
 ```
 
-**What you're learning:** Getting your employee to articulate the delegation pattern back to you. If it can explain the chain accurately, you have built a shared understanding of how work flows through your system.
+**What you're learning:** Getting your employee to articulate the delegation pattern. Its answer reveals whether it understands the principle: the right tool for the right job, with verification to make sure the work actually happened.
