@@ -21,6 +21,12 @@ VALUES ('claude-sonnet-4-20250514', 0.003, 0.015, 200000, 'claude-sonnet-4-v1', 
 INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active, effective_date, created_at)
 VALUES ('claude-opus-4-20250514', 0.015, 0.075, 200000, 'claude-opus-4-v1', true, CURRENT_DATE, NOW());
 
+-- Content Access (content-api lesson access) - 1 credit per lesson view
+-- Modeled as: estimated_tokens=1, input_cost_per_1k=1.0 → 0.001 credits per access
+-- Actual credit cost = input_cost_per_1k * (1/1000) = 0.001 per lesson
+INSERT INTO pricing (model, input_cost_per_1k, output_cost_per_1k, max_tokens, pricing_version, is_active, effective_date, created_at)
+VALUES ('content-access', 1.000000, 0.000000, 1, 'content-v1', true, CURRENT_DATE, NOW());
+
 -- Verify
 SELECT model, input_cost_per_1k as "$/1k in", output_cost_per_1k as "$/1k out", max_tokens, pricing_version
 FROM pricing WHERE is_active = true ORDER BY model;
