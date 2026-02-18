@@ -126,11 +126,20 @@ def fake_redis_client(fake_redis_server):
 
 
 @pytest.fixture(autouse=True)
-def _configure_api_infra(fake_redis_client):
+def _configure_api_infra(fake_redis_client, monkeypatch):
     """Configure api-infra with auth enabled and fakeredis injected.
 
     This overrides the parent conftest's _configure_api_infra which uses DEV_MODE=true.
+    Also clears content-api settings that may leak from the host environment
+    (e.g. PROGRESS_API_URL, METERING_API_URL) so tests that don't explicitly
+    enable those services get the expected 503.
     """
+    from content_api.config import settings as content_settings
+
+    monkeypatch.setattr(content_settings, "progress_api_url", "")
+    monkeypatch.setattr(content_settings, "metering_enabled", False)
+    monkeypatch.setattr(content_settings, "metering_api_url", "")
+
     mock_settings = MagicMock()
     mock_settings.sso_url = "http://test-sso:3001"
     mock_settings.dev_mode = False
@@ -147,9 +156,15 @@ def _configure_api_infra(fake_redis_client):
     # Inject fakeredis into the module-level client
     redis_cache._aredis = fake_redis_client
 
+    # Reset progress client singleton so it picks up monkeypatched settings
+    from content_api.services import progress_client as progress_mod
+
+    progress_mod._client = None
+
     yield
 
     redis_cache._aredis = None
+    progress_mod._client = None
 
     # Clear JWKS cache so each test starts fresh
     from api_infra import auth

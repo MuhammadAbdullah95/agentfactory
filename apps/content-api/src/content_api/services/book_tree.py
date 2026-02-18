@@ -102,11 +102,15 @@ async def build_book_tree() -> BookTreeResponse:
             )
             part.chapters.append(chapter)
 
-        # Add lesson (skip category.json, README, etc.)
+        # Add lesson (skip category.json, README, summaries, etc.)
         if filename.lower() in ("readme.md", "readme.mdx", "_category_.json"):
             continue
 
         lesson_slug = filename.rsplit(".", 1)[0]  # Remove .md/.mdx extension
+
+        # Skip .summary companion files (e.g., "01-lesson.summary.md")
+        if lesson_slug.endswith(".summary"):
+            continue
 
         # Extract sidebar_position from filename number prefix
         position_match = re.match(r"^(\d+)", lesson_slug)

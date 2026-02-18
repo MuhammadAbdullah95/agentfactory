@@ -1,5 +1,7 @@
 """Pydantic models for content API endpoints."""
 
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -38,16 +40,28 @@ class BookTreeResponse(BaseModel):
 
 
 class LessonFrontmatter(BaseModel):
-    """Parsed YAML frontmatter from a lesson file."""
+    """Parsed YAML frontmatter from a lesson file.
+
+    Skills and learning_objectives are complex structured types in the
+    source YAML (lists of dicts with proficiency_level, bloom_level, etc.).
+    We accept Any to avoid losing data through schema coercion.
+
+    Extra fields (chapter, lesson, differentiation, teaching_guide, etc.)
+    are passed through via model_config extra="allow".
+    """
+
+    model_config = {"extra": "allow"}
 
     title: str = ""
     description: str = ""
     sidebar_position: int = 0
-    skills: list[str] = Field(default_factory=list)
-    learning_objectives: list[str] = Field(default_factory=list)
-    cognitive_load: str = ""
+    skills: list[Any] = Field(default_factory=list)
+    learning_objectives: list[Any] = Field(default_factory=list)
+    cognitive_load: Any = ""
     practice_exercise: str | None = None
     hide_table_of_contents: bool = False
+    keywords: list[str] = Field(default_factory=list)
+    duration_minutes: int = 0
 
 
 class LessonContentResponse(BaseModel):

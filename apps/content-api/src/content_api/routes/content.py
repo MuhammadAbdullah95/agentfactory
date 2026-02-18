@@ -165,11 +165,12 @@ async def get_lesson(
         except Exception as e:
             logger.warning(f"[Lesson] Redis idempotency set failed: {e}")
 
-    # Parse frontmatter
+    # Parse frontmatter (pass extra fields through via model_config)
     frontmatter_dict = result.get("frontmatter_dict", {})
     try:
         frontmatter = LessonFrontmatter(**frontmatter_dict)
-    except Exception:
+    except Exception as e:
+        logger.warning(f"[Lesson] Frontmatter parse failed: {e} — keys: {list(frontmatter_dict.keys())}")
         frontmatter = LessonFrontmatter()
 
     return LessonContentResponse(
