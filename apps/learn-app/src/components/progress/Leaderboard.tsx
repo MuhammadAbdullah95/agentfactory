@@ -592,6 +592,21 @@ export default function Leaderboard() {
         </Button>
       </div>
 
+      {/* How XP Works */}
+      <div className="rounded-lg border border-border bg-muted/30 px-4 py-3 mb-4 sm:mb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <Zap className="w-4 h-4 text-[oklch(0.68_0.16_142)]" fill="currentColor" />
+          <span className="text-sm font-semibold text-foreground">How to Earn XP</span>
+        </div>
+        <div className="text-xs sm:text-sm text-muted-foreground space-y-1">
+          <p className="m-0"><strong>Quizzes</strong> — up to 100 XP per quiz, based on your score. First attempts earn the most.</p>
+          <p className="m-0"><strong>Lessons</strong> — 1 XP for each lesson you read (after 60s).</p>
+        </div>
+        <p className="text-[11px] sm:text-xs text-muted-foreground/70 mt-2 mb-0">
+          Tip: Aim for high scores on first attempts for maximum XP.
+        </p>
+      </div>
+
       <Card className="overflow-hidden rounded-xl">
         {/* Top 3 Podium */}
         {top3.length > 0 && (
@@ -680,11 +695,14 @@ export default function Leaderboard() {
             </div>
             <div className="flex items-center gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3">
               <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                <span className="text-muted-foreground">—</span>
+                <Zap className="w-5 h-5 text-[oklch(0.68_0.16_142)]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs sm:text-sm text-muted-foreground italic m-0">
+                <p className="text-xs sm:text-sm text-foreground font-medium m-0">
                   Complete a quiz to join the leaderboard
+                </p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground m-0 mt-0.5">
+                  Quizzes earn up to 100 XP. Reading lessons earns 1 XP each.
                 </p>
               </div>
             </div>
