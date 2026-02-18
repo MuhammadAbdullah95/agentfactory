@@ -57,6 +57,8 @@ differentiation:
 
 # Axiom I: Shell as Orchestrator
 
+In the overview, you saw that the first group of axioms governs how your code is structured — the foundation of the house. Axiom I starts with the most fundamental structural decision: what role does the terminal play?
+
 James is a junior developer, three weeks into his first real job at a mid-sized e-commerce company. He works on the platform team — the group responsible for keeping the order management system running. His mentor is Emma, the team's senior engineer. She has been with the company for four years, built most of the backend infrastructure, and has a reputation for turning chaotic systems into clean ones.
 
 None of that mattered at 2:14am on James's first on-call rotation, when his phone buzzed: the deployment was stuck and 50,000 users were affected. He opened the deployment script — a 400-line file he had never seen — and stared at line 247. Variable names like `temp2` and `OUT` told him nothing. Somewhere above, a failed test should have stopped everything, but someone had removed that safety check three months ago and nobody noticed. The script kept running past broken tests, built a broken version of the app, and pushed it live.
