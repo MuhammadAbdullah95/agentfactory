@@ -26,8 +26,8 @@ const STUDY_MODE_API_URL =
 const TOKEN_METERING_API_URL =
   process.env.TOKEN_METERING_API_URL || "http://localhost:8001";
 
-// Practice environment kill switch — default OFF in production, flip to 'true' when ready
-const PRACTICE_ENABLED = process.env.PRACTICE_ENABLED !== "false";
+// Practice environment — opt-in via PRACTICE_ENABLED=true (prevents localhost polling on prod)
+const PRACTICE_ENABLED = process.env.PRACTICE_ENABLED === "true";
 
 // Progress API URL - gamification (XP, badges, streaks)
 const PROGRESS_API_URL =
