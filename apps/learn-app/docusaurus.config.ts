@@ -7,6 +7,9 @@ import * as dotenv from "dotenv";
 // Production uses actual environment variables set in CI/CD
 dotenv.config();
 
+// Dev mode: skip heavy plugins (summaries, slides) for faster local builds
+const DEV_MODE = process.env.DEV_MODE === "true";
+
 // Auth server URL for login/signup redirects
 const AUTH_URL = process.env.AUTH_URL || "http://localhost:3001";
 
@@ -22,6 +25,9 @@ const STUDY_MODE_API_URL =
 // Token Metering API URL - credit balance display
 const TOKEN_METERING_API_URL =
   process.env.TOKEN_METERING_API_URL || "http://localhost:8001";
+
+// Practice environment kill switch — default OFF in production, flip to 'true' when ready
+const PRACTICE_ENABLED = process.env.PRACTICE_ENABLED !== "false";
 
 // Progress API URL - gamification (XP, badges, streaks)
 const PROGRESS_API_URL =
@@ -53,6 +59,7 @@ const config: Config = {
     tokenMeteringApiUrl: TOKEN_METERING_API_URL,
     chatkitDomainKey: CHATKIT_DOMAIN_KEY,
     progressApiUrl: PROGRESS_API_URL,
+    practiceEnabled: PRACTICE_ENABLED,
   },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -255,7 +262,7 @@ const config: Config = {
             [
               require("../../libs/docusaurus/remark-content-enhancements"),
               {
-                enableSlides: true,
+                enableSlides: !DEV_MODE,
                 slidesConfig: {
                   defaultHeight: 700,
                 },
@@ -309,12 +316,17 @@ const config: Config = {
     "../../libs/docusaurus/plugin-og-image",
     "../../libs/docusaurus/plugin-structured-data",
     // Summaries Plugin - Makes .summary.md content available via useGlobalData()
-    [
-      "../../libs/docusaurus/summaries-plugin",
-      {
-        docsPath: docsPath, // Use same docs path as content-docs
-      },
-    ],
+    // Skipped in DEV_MODE for faster local builds
+    ...(DEV_MODE
+      ? []
+      : [
+          [
+            "../../libs/docusaurus/summaries-plugin",
+            {
+              docsPath: docsPath, // Use same docs path as content-docs
+            },
+          ],
+        ]),
     // Chapter Manifest Plugin - Enables chapter download for logged-in users
     [
       "../../libs/docusaurus/chapter-manifest-plugin",

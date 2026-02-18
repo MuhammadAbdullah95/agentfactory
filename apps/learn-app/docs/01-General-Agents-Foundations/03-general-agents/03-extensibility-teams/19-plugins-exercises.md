@@ -1,6 +1,7 @@
 ---
 slug: /General-Agents-Foundations/general-agents/plugins-exercises
 title: "Plugins & Extensibility Exercises: Settings, Hooks, Plugins, and Automation"
+practice_exercise: ch3-plugins
 sidebar_label: "Plugins Exercises"
 sidebar_position: 19
 chapter: 3
@@ -157,6 +158,8 @@ This workflow mirrors the real plugin ecosystem lifecycle: before building anyth
 
 > **Core Skill:** Configuring Claude Code settings across user, project, and local scopes
 
+<ExerciseCard id="1.1" title="Configure a Team Setup" />
+
 ### Exercise 1.1 — Configure a Team Setup (Hands-on)
 
 **The Problem:**
@@ -186,6 +189,8 @@ Create settings files at all three levels (user, project, local) that satisfy ev
 
 ---
 
+<ExerciseCard id="1.2" title="Trace the Precedence Bug" />
+
 ### Exercise 1.2 — Trace the Precedence Bug (Debug)
 
 **The Problem:**
@@ -211,6 +216,8 @@ Read all three settings files. Trace through the precedence rules (local > proje
 ## Module 2: Hooks
 
 > **Core Skill:** Creating event-driven automation that guarantees workflow rules
+
+<ExerciseCard id="2.1" title="Build a Hook Suite" />
 
 ### Exercise 2.1 — Build a Hook Suite (Hands-on)
 
@@ -241,6 +248,8 @@ Create a `.claude/settings.json` with a `hooks` configuration containing three h
 
 ---
 
+<ExerciseCard id="2.2" title="Fix the Broken Hooks" />
+
 ### Exercise 2.2 — Fix the Broken Hooks (Debug)
 
 **The Problem:**
@@ -266,6 +275,8 @@ Diagnose and fix all three bugs. For each bug, document: what the symptom was, w
 ## Module 3: Plugin Discovery
 
 > **Core Skill:** Finding and evaluating plugins from the marketplace
+
+<ExerciseCard id="3.1" title="Build a Plugin Evaluation Matrix" />
 
 ### Exercise 3.1 — Build a Plugin Evaluation Matrix (Hands-on)
 
@@ -300,6 +311,8 @@ The plugin marketplace is actively evolving. If you find fewer plugins than expe
 
 ---
 
+<ExerciseCard id="3.2" title="Audit a Messy Plugin Setup" />
+
 ### Exercise 3.2 — Audit a Messy Plugin Setup (Debug)
 
 **The Problem:**
@@ -325,6 +338,8 @@ Audit the entire plugin setup. For each plugin, determine: what it does, whether
 ## Module 4: Plugin Usage
 
 > **Core Skill:** Installing and using plugins effectively in real workflows
+
+<ExerciseCard id="4.1" title="Install and Use Plugins" />
 
 ### Exercise 4.1 — Install and Use Plugins (Hands-on)
 
@@ -359,6 +374,8 @@ Some plugins require external tools (Node.js, npm, language servers). If a plugi
 
 ---
 
+<ExerciseCard id="4.2" title="Chain Plugins in a Workflow" />
+
 ### Exercise 4.2 — Chain Plugins in a Workflow (Hands-on)
 
 **The Problem:**
@@ -392,6 +409,8 @@ Set up a workflow that chains multiple plugins together. When you finish writing
 
 > **Core Skill:** Packaging your own capabilities as distributable plugins
 
+<ExerciseCard id="5.1" title="Package Skills into a Plugin" />
+
 ### Exercise 5.1 — Package Skills into a Plugin (Hands-on)
 
 **The Problem:**
@@ -420,6 +439,8 @@ Package all three skills into a single plugin. Create a `plugin.json` manifest w
 3. What would you need to add to make this plugin installable by someone outside your team?
 
 ---
+
+<ExerciseCard id="5.2" title="Package a Complete Bundle" />
 
 ### Exercise 5.2 — Package a Complete Bundle (Advanced)
 
@@ -454,6 +475,8 @@ Package the entire bundle into a single plugin that, when installed, sets up eve
 
 > **Core Skill:** Configuring safe autonomous iteration loops
 
+<ExerciseCard id="7.1" title="Set Up an Autonomous Loop" />
+
 ### Exercise 7.1 — Set Up an Autonomous Loop (Hands-on)
 
 **The Problem:**
@@ -487,6 +510,8 @@ Before starting, run `cd project && npm install && npm test` to confirm you see 
 
 ---
 
+<ExerciseCard id="7.2" title="Debug a Stuck Loop" />
+
 ### Exercise 7.2 — Debug a Stuck Loop (Debug)
 
 **The Problem:**
@@ -515,6 +540,8 @@ Analyze the session log to identify why the loop got stuck. Determine: (1) Was t
 
 Capstones are different from the exercises above. There are no guided prompts — you design the entire approach yourself. Each project requires combining settings, hooks, plugins, and automation into a complete system.
 
+<ExerciseCard id="A" title="Full Plugin from Scratch" />
+
 ### Capstone A — Full Plugin from Scratch
 
 Open the `module-8-capstones/capstone-A-full-plugin/` folder. You'll find a set of requirements for a plugin that doesn't exist yet: it should include 2 skills (one for API documentation generation, one for endpoint testing), 2 hooks (pre-commit validation and post-test reporting), and an MCP server integration for an external API. Build the entire plugin from scratch: skills, hooks, MCP config, and plugin.json manifest. Then create a `marketplace.json` that registers your plugin — making it discoverable and installable by others. Test by installing it on a fresh project from your marketplace.
@@ -527,6 +554,8 @@ Open the `module-8-capstones/capstone-A-full-plugin/` folder. You'll find a set 
 
 ---
 
+<ExerciseCard id="B" title="Team Extensibility Kit" />
+
 ### Capstone B — Team Extensibility Kit
 
 Open the `module-8-capstones/capstone-B-team-extensibility-kit/` folder. You'll find profiles for a 3-person development team with different roles (frontend, backend, DevOps). Design a complete extensibility kit: project-level settings that enforce shared standards, user-level settings templates for each role, hooks for code quality and security, plugins for each role's specific workflow, and a CLAUDE.md that documents everything. The kit should be installable on a new project in under 5 minutes.
@@ -538,6 +567,8 @@ Open the `module-8-capstones/capstone-B-team-extensibility-kit/` folder. You'll 
 - That extensibility systems need documentation as much as configuration
 
 ---
+
+<ExerciseCard id="C" title="Your Workflow" />
 
 ### Capstone C — Your Workflow
 

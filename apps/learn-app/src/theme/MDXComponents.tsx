@@ -15,12 +15,15 @@ import {
   MacOSContent,
   LinuxContent,
 } from "@/components/OSTabs";
+import ExerciseCard from "@/components/ExerciseCard";
 
 export default {
   ...MDXComponents,
   // Docusaurus Tabs components (used by remark-os-tabs plugin)
   Tabs,
   TabItem,
+  // Practice exercise marker
+  ExerciseCard,
   // Original Quiz (ungated) - use when quiz should be freely accessible
   UnlockedQuiz: Quiz,
   // Default Quiz is now gated - requires sign-in

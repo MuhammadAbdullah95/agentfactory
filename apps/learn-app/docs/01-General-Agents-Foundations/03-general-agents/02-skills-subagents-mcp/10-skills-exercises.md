@@ -1,6 +1,7 @@
 ---
 slug: /General-Agents-Foundations/general-agents/skills-exercises
 title: "Agent Skills Exercises"
+practice_exercise: ch3-skills
 sidebar_position: 10
 chapter: 3
 lesson: 10
@@ -197,6 +198,8 @@ A score of 18+ (out of 24) means you have a production-ready skill. Below 12 mea
 
 Before you build skills, you need to read them fluently. These three exercises develop your ability to analyze existing skills, judge when a skill is the right tool, and understand what skills add beyond raw prompts.
 
+<ExerciseCard id="1.1" title="Anatomy of a Skill" />
+
 ### Exercise 1.1 — Anatomy of a Skill
 
 **The Problem:**
@@ -223,6 +226,8 @@ Open each SKILL.md and identify the five core components: frontmatter, trigger c
 
 ---
 
+<ExerciseCard id="1.2" title="When to Build a Skill" />
+
 ### Exercise 1.2 — When to Build a Skill (and When Not To)
 
 **The Problem:**
@@ -248,6 +253,8 @@ Classify 15 provided scenarios as BUILD A SKILL, JUST PROMPT, or MAYBE using the
 3. What's the risk of building a skill for something that changes frequently?
 
 ---
+
+<ExerciseCard id="1.3" title="Skill vs. Raw Prompt: A Side-by-Side Comparison" />
 
 ### Exercise 1.3 — Skill vs. Raw Prompt: A Side-by-Side Comparison
 
@@ -279,6 +286,8 @@ Generate a weekly status report from provided data twice: once with your best ra
 
 Now you build. These three exercises each produce a complete, working skill for a common task. The focus is on writing clear instructions, good trigger descriptions, and testing against real inputs.
 
+<ExerciseCard id="2.1" title="Email Style Guide" />
+
 ### Exercise 2.1 — Email Style Guide
 
 **The Problem:**
@@ -304,6 +313,8 @@ Analyze 5 sample emails (provided) to identify your writing patterns. Then creat
 
 ---
 
+<ExerciseCard id="2.2" title="File Organization Skill" />
+
 ### Exercise 2.2 — File Organization Skill
 
 **The Problem:**
@@ -328,6 +339,8 @@ Define your file organization rules, then encode them into a `file-organizer/SKI
 2. What category of files was hardest to write rules for?
 
 ---
+
+<ExerciseCard id="2.3" title="Data Cleaning Skill" />
 
 ### Exercise 2.3 — Data Cleaning Skill
 
@@ -358,6 +371,8 @@ Study two provided messy CSV files and catalog every data quality issue. Write s
 
 Rules tell Claude what to do. Examples show Claude what "good" looks like. These exercises teach you to use examples, templates, and tone samples to dramatically improve skill output consistency.
 
+<ExerciseCard id="3.1" title="Report Formatter" />
+
 ### Exercise 3.1 — Report Formatter
 
 **The Problem:**
@@ -384,6 +399,8 @@ Run the same report data through two versions of a skill: v1 (rules only, no exa
 
 ---
 
+<ExerciseCard id="3.2" title="Meeting Minutes" />
+
 ### Exercise 3.2 — Meeting Minutes
 
 **The Problem:**
@@ -409,6 +426,8 @@ Build a complete skill folder: `SKILL.md` (instructions referencing the template
 3. Would this skill work for a meeting you attended recently?
 
 ---
+
+<ExerciseCard id="3.3" title="Feedback Writer" />
 
 ### Exercise 3.3 — Feedback Writer
 
@@ -440,6 +459,8 @@ Study four tone examples (harsh, soft, corporate, ideal) and build a skill that 
 
 Real-world skills often need to consult external documents: brand guides, policy documents, teaching standards. These exercises teach you to build skills that reference material too long to embed directly in the SKILL.md.
 
+<ExerciseCard id="4.1" title="Brand Voice Enforcer" />
+
 ### Exercise 4.1 — Brand Voice Enforcer
 
 **The Problem:**
@@ -466,6 +487,8 @@ Study the provided brand guide, then build a `brand-voice-skill/` with a SKILL.m
 
 ---
 
+<ExerciseCard id="4.2" title="Policy Compliance Checker" />
+
 ### Exercise 4.2 — Policy Compliance Checker
 
 **The Problem:**
@@ -491,6 +514,8 @@ Build a `policy-checker-skill/` that reads content, reads the policy document fr
 3. How would you adapt this pattern for a different policy (HR, legal, safety)?
 
 ---
+
+<ExerciseCard id="4.3" title="Curriculum Standards Alignment" />
 
 ### Exercise 4.3 — Curriculum Standards Alignment
 
@@ -522,6 +547,8 @@ Build a `curriculum-skill/` with SKILL.md, a reference to the Seven Pillars stan
 
 Building a skill is half the work. Making it reliable is the other half. These exercises develop your ability to find where skills break, measure improvement, and get feedback from others.
 
+<ExerciseCard id="5.1" title="Edge Case Hunt" />
+
 ### Exercise 5.1 — Edge Case Hunt
 
 **The Problem:**
@@ -548,6 +575,8 @@ Test the provided invoice skill against normal invoices (should work) and tricky
 
 ---
 
+<ExerciseCard id="5.2" title="Before/After: Measuring Improvement" />
+
 ### Exercise 5.2 — Before/After: Measuring Improvement
 
 **The Problem:**
@@ -573,6 +602,8 @@ Run five customer emails through v1 of an email response skill and score each re
 3. How confident are you that v2 is genuinely better, not just different?
 
 ---
+
+<ExerciseCard id="5.3" title="User Testing: Does Your Skill Work for Others?" />
 
 ### Exercise 5.3 — User Testing: Does Your Skill Work for Others?
 
@@ -606,6 +637,8 @@ If working solo: wait 24 hours, then re-read your SKILL.md with fresh eyes. The 
 
 Individual skills are useful. Skills that work together are powerful. These exercises teach you to chain skills into pipelines, organize them into libraries, and build skill sets for teams.
 
+<ExerciseCard id="6.1" title="Skill Pipeline" />
+
 ### Exercise 6.1 — Skill Pipeline
 
 **The Problem:**
@@ -632,6 +665,8 @@ Build (or reuse from earlier exercises) three skills: Meeting Minutes, Action It
 
 ---
 
+<ExerciseCard id="6.2" title="Skill Library" />
+
 ### Exercise 6.2 — Skill Library
 
 **The Problem:**
@@ -657,6 +692,8 @@ Inventory every skill you've built. Standardize each to a consistent structure (
 3. Which category (writing, data, workflow) has the most skills? Is that where your real needs are?
 
 ---
+
+<ExerciseCard id="6.3" title="Team Skills" />
 
 ### Exercise 6.3 — Team Skills
 
@@ -688,6 +725,8 @@ Build one skill for each role: Creative Brief, Design Feedback, Asset Checklist,
 
 These exercises simulate building skills for actual business needs. The quality bar is higher: a non-technical person should be able to use each skill by reading only its README.
 
+<ExerciseCard id="7.1" title="Invoice Processor" />
+
 ### Exercise 7.1 — Invoice Processor
 
 **The Problem:**
@@ -714,6 +753,8 @@ Build a complete `invoice-processor/` skill. Test against 10 provided invoices o
 
 ---
 
+<ExerciseCard id="7.2" title="Content Creation Pipeline" />
+
 ### Exercise 7.2 — Content Creation Pipeline
 
 **The Problem:**
@@ -739,6 +780,8 @@ Build a `content-pipeline-skill/` that takes a topic brief (subject, key points,
 3. How would you extend this skill to support additional channels?
 
 ---
+
+<ExerciseCard id="7.3" title="Research Analyst" />
 
 ### Exercise 7.3 — Research Analyst
 
@@ -770,6 +813,8 @@ Build a `research-skill/` that accepts a research question, defines scope, gathe
 
 These capstones bring everything together. Each asks you to build a complete, interconnected skill suite for a real scenario. Choose one based on your interests, or tackle all three.
 
+<ExerciseCard id="A" title="Business Operations Suite" />
+
 ### Capstone A — Business Operations Suite
 
 **The Mission:**
@@ -794,6 +839,8 @@ Build 6 interconnected skills for Pixel Perfect Design Studio, a 5-person graphi
 
 ---
 
+<ExerciseCard id="B" title="AI-Native Education Kit" />
+
 ### Capstone B — AI-Native Education Kit
 
 **The Mission:**
@@ -817,6 +864,8 @@ Build 6 skills that power a course delivery system. These help instructors creat
 - Building for a team of instructors, not just yourself
 
 ---
+
+<ExerciseCard id="C" title="Personal AI Productivity Set" />
 
 ### Capstone C — Personal AI Productivity Set
 

@@ -1,6 +1,7 @@
 ---
 slug: /General-Agents-Foundations/general-agents/agent-teams-exercises
 title: "Agent Teams Exercises: Business Problem-Solving with Multi-Agent Teams"
+practice_exercise: ch3-agent-teams
 sidebar_label: "Agent Teams Exercises"
 sidebar_position: 21
 chapter: 3
@@ -148,6 +149,8 @@ Agent teams are a terminal-only feature. Cowork does not support multi-agent tea
 
 > **Core Skill:** Creating teams, spawning teammates, and assigning tasks with dependencies
 
+<ExerciseCard id="1.1" title="Market Research Sprint" />
+
 ### Exercise 1.1 -- Market Research Sprint (Hands-on)
 
 **The Problem:**
@@ -177,6 +180,8 @@ A 3-agent research team where a market analyst works the data, a competitive int
 
 ---
 
+<ExerciseCard id="1.2" title="Team Architecture Workshop" />
+
 ### Exercise 1.2 -- Team Architecture Workshop (Design)
 
 **The Problem:**
@@ -202,6 +207,8 @@ For each of the five scenarios, sketch the team: how many agents, what each one 
 ## Module 2: Task Pipelines (Corporate)
 
 > **Core Skill:** Creating task pipelines with blockedBy dependencies and managing sequential workflows
+
+<ExerciseCard id="2.1" title="Event Planning Pipeline" />
 
 ### Exercise 2.1 -- Event Planning Pipeline (Hands-on)
 
@@ -232,6 +239,8 @@ A 4-stage pipeline where each task is blocked by the previous one. Budget analys
 
 ---
 
+<ExerciseCard id="2.2" title="Pipeline Blueprint" />
+
 ### Exercise 2.2 -- Pipeline Blueprint (Design)
 
 **The Problem:**
@@ -257,6 +266,8 @@ For each workflow, map out every task, identify which tasks depend on which, and
 ## Module 3: Communication (Entrepreneurship)
 
 > **Core Skill:** Using SendMessage for direct messages and understanding broadcast vs DM tradeoffs
+
+<ExerciseCard id="3.1" title="Feature Prioritization Debate" />
 
 ### Exercise 3.1 -- Feature Prioritization Debate (Hands-on)
 
@@ -287,6 +298,8 @@ A 4-agent debate team. Three advocate agents each champion one feature using rea
 
 ---
 
+<ExerciseCard id="3.2" title="Communication Protocol Design" />
+
 ### Exercise 3.2 -- Communication Protocol Design (Design)
 
 **The Problem:**
@@ -312,6 +325,8 @@ For each scenario, specify the communication protocol: who sends messages to who
 ## Module 4: Quality Gates (Freelancer/Consultant)
 
 > **Core Skill:** Using delegate mode and plan approval to enforce quality standards
+
+<ExerciseCard id="4.1" title="Client Proposal Pipeline" />
 
 ### Exercise 4.1 -- Client Proposal Pipeline (Hands-on)
 
@@ -342,6 +357,8 @@ A 3-agent pipeline with quality gates. A proposal writer operates in delegate mo
 
 ---
 
+<ExerciseCard id="4.2" title="Review Workflow Design" />
+
 ### Exercise 4.2 -- Review Workflow Design (Design)
 
 **The Problem:**
@@ -370,6 +387,8 @@ For each deliverable, design the complete review workflow: who creates, who revi
 
 Capstones are different from the exercises above. There are no guided prompts -- you design the entire approach yourself. Each project requires integrating concepts from all four modules into a complete multi-agent workflow.
 
+<ExerciseCard id="A" title="Business Plan Assembly" />
+
 ### Capstone A -- Business Plan Assembly
 
 Open the `module-5-capstones/capstone-A-business-plan-assembly/` folder. You have a business idea description, a market research CSV with 55 rows of data, and a cost estimates CSV. Assemble a complete business plan using 5 agents: market researcher, financial modeler, competitive analyst, operations planner, and an executive summarizer who synthesizes everything into a pitch-ready document. Design the task dependencies, communication flows, and at least one quality gate.
@@ -382,6 +401,8 @@ Open the `module-5-capstones/capstone-A-business-plan-assembly/` folder. You hav
 
 ---
 
+<ExerciseCard id="B" title="Customer Feedback Triage" />
+
 ### Capstone B -- Customer Feedback Triage
 
 Open the `module-5-capstones/capstone-B-customer-feedback-triage/` folder. You have 200 customer reviews, a product catalog, and a team brief. Build a team that categorizes reviews by sentiment and topic, identifies the top 5 product issues, proposes fixes for each, and produces an executive action plan with priorities and owners.
@@ -393,6 +414,8 @@ Open the `module-5-capstones/capstone-B-customer-feedback-triage/` folder. You h
 - How to design dependencies so the action plan reflects actual data patterns, not assumptions
 
 ---
+
+<ExerciseCard id="C" title="Your Business Challenge" />
 
 ### Capstone C -- Your Business Challenge
 

@@ -1,6 +1,7 @@
 ---
 slug: /General-Agents-Foundations/general-agents/basics-exercises
 title: "Practical Problem-Solving Exercises"
+practice_exercise: ch3-basics
 sidebar_position: 6
 chapter: 3
 lesson: 6
@@ -162,6 +163,8 @@ For each exercise, evaluate yourself on:
 
 > **Core Skill:** Turning chaos into structure by describing organizational rules clearly.
 
+<ExerciseCard id="1.1" title="The Messy Downloads Folder" />
+
 ### Exercise 1.1 — The Messy Downloads Folder 🗂️🖥️
 
 **The Problem:**
@@ -191,6 +194,8 @@ Think about: What categories make sense? Should files be sorted by type, by date
 
 ---
 
+<ExerciseCard id="1.2" title="Photo Album Builder" />
+
 ### Exercise 1.2 — Photo Album Builder 🗂️🖥️
 
 **The Problem:**
@@ -219,6 +224,8 @@ Write your instructions in TWO different ways:
 Compare the results. Which approach produced a better outcome? Which was faster?
 
 ---
+
+<ExerciseCard id="1.3" title="The Inbox Zero Challenge" />
 
 ### Exercise 1.3 — The Inbox Zero Challenge 🗂️
 
@@ -254,6 +261,8 @@ Claude should move each file into the appropriate folder AND create a summary do
 
 > **Core Skill:** Turning a broad question into a structured research task with clear deliverables.
 
+<ExerciseCard id="2.1" title="The Comparison Matrix" />
+
 ### Exercise 2.1 — The Comparison Matrix 🗂️🖥️
 
 **The Problem:**
@@ -288,6 +297,8 @@ Define your context (team size, experience level, project type) and what factors
 
 ---
 
+<ExerciseCard id="2.2" title="The Literature Review" />
+
 ### Exercise 2.2 — The Literature Review 🗂️🖥️
 
 **The Problem:**
@@ -317,6 +328,8 @@ Do this in TWO rounds:
 Compare the two outputs. The difference illustrates why specification quality matters.
 
 ---
+
+<ExerciseCard id="2.3" title="The Decision Document" />
 
 ### Exercise 2.3 — The Decision Document 🗂️🖥️
 
@@ -350,6 +363,8 @@ Ask Claude to create a structured decision document:
 ## Module 3: Data Wrangling & Analysis (No Coding Required)
 
 > **Core Skill:** Describing data transformations in plain English and verifying results.
+
+<ExerciseCard id="3.1" title="The Messy Spreadsheet" />
 
 ### Exercise 3.1 — The Messy Spreadsheet 🗂️🖥️
 
@@ -391,6 +406,8 @@ Include a critical instruction: "Before making changes, show me what you plan to
 
 ---
 
+<ExerciseCard id="3.2" title="The Survey Analyzer" />
+
 ### Exercise 3.2 — The Survey Analyzer 🗂️🖥️
 
 **The Problem:**
@@ -422,6 +439,8 @@ Ask Claude to:
 3. What would you change about the analysis if you were doing it for a different stakeholder?
 
 ---
+
+<ExerciseCard id="3.3" title="The Budget Tracker" />
 
 ### Exercise 3.3 — The Budget Tracker 🗂️🖥️
 
@@ -456,6 +475,8 @@ Ask Claude to:
 
 > **Core Skill:** Turning raw information into polished, professional deliverables.
 
+<ExerciseCard id="4.1" title="The Meeting Notes Transformer" />
+
 ### Exercise 4.1 — The Meeting Notes Transformer 🗂️🖥️
 
 **The Problem:**
@@ -489,6 +510,8 @@ Include the constraint: "All three outputs must be consistent — the same decis
 
 ---
 
+<ExerciseCard id="4.2" title="The Report Generator" />
+
 ### Exercise 4.2 — The Report Generator 🗂️🖥️
 
 **The Problem:**
@@ -519,6 +542,8 @@ Ask Claude to synthesize all materials into a single professional report with:
 
 ---
 
+<ExerciseCard id="4.3" title="The Presentation Builder" />
+
 ### Exercise 4.3 — The Presentation Builder 🗂️🖥️
 
 **The Problem:**
@@ -547,6 +572,8 @@ After Claude creates the presentation, write a critique of it. What would you ch
 ## Module 5: Process Automation & Workflows
 
 > **Core Skill:** Identifying repetitive patterns and describing them as repeatable processes.
+
+<ExerciseCard id="5.1" title="The Batch Renamer" />
 
 ### Exercise 5.1 — The Batch Renamer 🗂️🖥️
 
@@ -580,6 +607,8 @@ Define a naming convention and ask Claude to rename all files according to your 
 
 ---
 
+<ExerciseCard id="5.2" title="The Template System" />
+
 ### Exercise 5.2 — The Template System 🗂️🖥️
 
 **The Problem:**
@@ -607,6 +636,8 @@ After generating documents, ask Claude to create a tracking spreadsheet that lis
 3. Could you reuse this template + data approach for other tasks?
 
 ---
+
+<ExerciseCard id="5.3" title="The Weekly Report Automator" />
 
 ### Exercise 5.3 — The Weekly Report Automator 🗂️🖥️
 
@@ -636,6 +667,8 @@ Your prompt should be reusable — if you updated the three input files next wee
 ## Module 6: Problem Solving & Creative Thinking
 
 > **Core Skill:** Using Claude as a thinking partner for open-ended problems.
+
+<ExerciseCard id="6.1" title="The Business Plan Skeleton" />
 
 ### Exercise 6.1 — The Business Plan Skeleton 🗂️🖥️
 
@@ -671,6 +704,8 @@ Don't just say "write me a business plan." Instead, have a CONVERSATION with Cla
 
 ---
 
+<ExerciseCard id="6.2" title="The Troubleshooter" />
+
 ### Exercise 6.2 — The Troubleshooter 🗂️🖥️
 
 **The Problem:**
@@ -698,6 +733,8 @@ Ask Claude to:
 3. How does "cheapest test first" change your approach to problem-solving?
 
 ---
+
+<ExerciseCard id="6.3" title="The Event Planner" />
 
 ### Exercise 6.3 — The Event Planner 🗂️🖥️
 
@@ -729,6 +766,8 @@ After Claude generates everything, introduce a constraint change: "The budget ju
 
 > **Core Skill:** Not blindly trusting AI output — learning to verify, critique, and improve.
 
+<ExerciseCard id="7.1" title="The Fact Checker" />
+
 ### Exercise 7.1 — The Fact Checker 🗂️🖥️
 
 **The Problem:**
@@ -754,6 +793,8 @@ Ask Claude to write a 500-word article about a topic you know well. Then deliber
 3. How does this exercise change how you'll read AI output in the future?
 
 ---
+
+<ExerciseCard id="7.2" title="The Specification Stress Test" />
 
 ### Exercise 7.2 — The Specification Stress Test 🖥️
 
@@ -781,6 +822,8 @@ Write a set of instructions for Claude to create a specific file (a formatted do
 3. What's the most common type of ambiguity you discovered?
 
 ---
+
+<ExerciseCard id="7.3" title="The Prompt Tournament" />
 
 ### Exercise 7.3 — The Prompt Tournament 🖥️🗂️
 
@@ -821,6 +864,8 @@ Create a comparison document with examples from each approach.
 
 Capstones are different from the exercises above. There are no starter prompts — you design the entire approach yourself. These are open-ended projects that require you to combine problem decomposition, specification writing, and quality verification into a complete workflow.
 
+<ExerciseCard id="A" title="The Personal Knowledge Base" />
+
 ### Capstone A — The Personal Knowledge Base 🗂️🖥️
 
 Open the `sample-documents/` folder in the exercise directory — you'll find 8 starter documents (articles, notes, bookmarks). You can add your own documents to the folder for a richer experience. Ask Claude to:
@@ -838,6 +883,8 @@ Open the `sample-documents/` folder in the exercise directory — you'll find 8 
 - Getting Claude to make non-obvious connections
 
 ---
+
+<ExerciseCard id="B" title="The Small Business Operations Kit" />
 
 ### Capstone B — The Small Business Operations Kit 🗂️🖥️
 
@@ -859,6 +906,8 @@ All files should be consistent in branding and cross-reference each other.
 - Designing systems of documents, not individual files
 
 ---
+
+<ExerciseCard id="C" title="The Course Material Generator" />
 
 ### Capstone C — The Course Material Generator 🗂️🖥️
 
