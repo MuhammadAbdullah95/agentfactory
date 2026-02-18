@@ -71,7 +71,7 @@ teaching_guide:
     - "When would you still need a custom agent instead of just adding skills to Claude Code?"
   teaching_tips:
     - "Start with the tax professional analogy (Section: The Real Bottleneck) — it immediately grounds the abstract concept in something students relate to"
-    - "Use the Skills vs Subagents table as a decision exercise: present 5 scenarios and have students classify each before revealing answers"
+    - "Use the three-level loading diagram as a decision exercise: present 5 skill scenarios and have students identify what belongs at each level (metadata, instructions, supporting files)"
     - "Walk through the three-level loading using the smartphone analogy — have students count their installed apps vs running apps to make it concrete"
     - "The 'Skills as Strategic Assets' table (manual prompting vs agent skills) works well as a before/after comparison on a whiteboard"
   assessment_quick_check:
@@ -135,6 +135,7 @@ Here's a critical insight: **skills work for ANY domain, not just software devel
 ![skills-universal-domains](https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/images/part-2/chapter-05/skills-universal-domains.png)
 
 Claude Code runs in a terminal, yes. But "code" is the universal interface to the digital world. Through code, Claude can:
+
 - Write and format documents (Word, PowerPoint, Excel, PDF)
 - Analyze data and create visualizations
 - Process and organize information
@@ -143,14 +144,14 @@ Claude Code runs in a terminal, yes. But "code" is the universal interface to th
 
 **Skills encode expertise in ANY field:**
 
-| Domain | Example Skills |
-|--------|---------------|
-| **Finance** | Quarterly report formatting, audit procedures, compliance checklists |
-| **Legal** | Contract review workflow, clause analysis, due diligence procedures |
-| **Marketing** | Brand voice guidelines, campaign brief templates, social media style |
-| **Education** | Lesson plan structure, assessment rubrics, student feedback formats |
-| **Healthcare** | Clinical documentation standards, patient communication templates |
-| **Recruiting** | Candidate evaluation criteria, interview question frameworks |
+| Domain         | Example Skills                                                       |
+| -------------- | -------------------------------------------------------------------- |
+| **Finance**    | Quarterly report formatting, audit procedures, compliance checklists |
+| **Legal**      | Contract review workflow, clause analysis, due diligence procedures  |
+| **Marketing**  | Brand voice guidelines, campaign brief templates, social media style |
+| **Education**  | Lesson plan structure, assessment rubrics, student feedback formats  |
+| **Healthcare** | Clinical documentation standards, patient communication templates    |
+| **Recruiting** | Candidate evaluation criteria, interview question frameworks         |
 
 The accountant who knows exactly how audits should be structured? That's a skill.
 The recruiter who knows what makes candidate evaluations useful? That's a skill.
@@ -215,7 +216,6 @@ Think of your smartphone. You have 100 apps installed. Your phone doesn't run al
 
 This architecture enables scale. You can have hundreds of skills without overwhelming context. Claude activates the relevant ones and ignores the rest.
 
-
 But if skills are just folders, where do they come from?
 
 ---
@@ -252,10 +252,10 @@ MCP servers (covered later in this chapter) connect Claude to external data and 
 
 Skills and MCP serve different functions:
 
-| Component | What It Provides |
-|-----------|------------------|
-| **MCP Servers** | Connection to outside world (data, tools, APIs) |
-| **Skills** | Expertise for USING those connections effectively |
+| Component       | What It Provides                                  |
+| --------------- | ------------------------------------------------- |
+| **MCP Servers** | Connection to outside world (data, tools, APIs)   |
+| **Skills**      | Expertise for USING those connections effectively |
 
 **Consider a concrete example:**
 
@@ -311,14 +311,15 @@ Here's what most people miss: **skills aren't just convenient—they're valuable
 
 Compare manual prompting (explaining your preferences every time) to encoded skills:
 
-| Aspect | Manual Prompting | Agent Skills |
-|--------|-----------------|--------------|
-| **Reliability** | Ad-hoc, best effort | Deterministic, script-backed |
-| **Token Cost** | Pay for "rules" in every conversation | Load rules only when triggered |
-| **Asset Type** | Disposable conversation | **Reusable, scalable IP** |
-| **Integration** | Requires human copy-paste | **API-ready via Agent SDKs** |
+| Aspect          | Manual Prompting                      | Agent Skills                   |
+| --------------- | ------------------------------------- | ------------------------------ |
+| **Reliability** | Ad-hoc, best effort                   | Deterministic, script-backed   |
+| **Token Cost**  | Pay for "rules" in every conversation | Load rules only when triggered |
+| **Asset Type**  | Disposable conversation               | **Reusable, scalable IP**      |
+| **Integration** | Requires human copy-paste             | **API-ready via Agent SDKs**   |
 
 That last row is critical. Skills you create in Claude Code can be:
+
 - **Shared** with your team (everyone benefits from your expertise)
 - **Versioned** in Git (track improvements over time)
 - **Integrated** into Custom Agents (Part 6 teaches this)
@@ -384,36 +385,6 @@ The agent infrastructure is mature. The extensibility mechanisms (MCP for connec
 
 ---
 
-## Skills vs. Subagents: Decision Criteria
-
-When do you create a skill vs. a subagent?
-
-| Factor | Choose Skill | Choose Subagent |
-|--------|--------------|-----------------|
-| **Invocation** | Automatic OR explicit by name | Explicit only (you invoke) |
-| **Context** | Shared with main conversation | Isolated context window |
-| **Complexity** | Lightweight, single-focus | Multi-step, complex workflows |
-| **Guarantee** | Flexible (auto-triggers or invoke by name) | Hard invocation (always runs) |
-| **Best for** | Repeated patterns, formatting, procedures | Audits, refactoring, comprehensive analysis |
-
-**Use skill when**: "I want Claude to automatically do this whenever it's relevant."
-
-**Use subagent when**: "I need guaranteed execution with isolated context for this complex task."
-
-### Examples
-
-**Skill appropriate**:
-- Meeting notes formatting (happens often, simple procedure)
-- Blog post planning (repeated task, consistent structure)
-- Code comment style (automatic enforcement)
-
-**Subagent appropriate**:
-- Comprehensive security audit (complex, needs isolation)
-- Multi-file refactoring (guaranteed execution required)
-- Full codebase analysis (too large for skill context)
-
----
-
 ## From Understanding to Action
 
 You now understand the architecture:
@@ -447,6 +418,7 @@ This lesson is based on the Anthropic talk "Don't Build Agents, Build Skills Ins
 </iframe>
 
 **Key timestamps:**
+
 - **0:21** — Introduction and the expertise gap
 - **1:16** — "Code is all we need" — the universal interface insight
 - **2:14** — The tax professional vs. mathematical genius analogy
@@ -486,4 +458,3 @@ This lesson is based on the Anthropic talk "Don't Build Agents, Build Skills Ins
 **What you're learning:** The limits of skills—essential for deciding when to use Part 6's SDK-based agents. Not everything should be a skill.
 
 ---
-

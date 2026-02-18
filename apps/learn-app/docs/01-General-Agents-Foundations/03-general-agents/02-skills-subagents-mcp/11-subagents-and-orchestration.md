@@ -378,6 +378,38 @@ Once you understand the pattern, create specialists for any repeated task:
 
 ---
 
+## Skills vs. Subagents: Decision Criteria
+
+Now that you understand both skills (Lesson 08) and subagents, when do you choose one over the other?
+
+| Factor         | Choose Skill                               | Choose Subagent                             |
+| -------------- | ------------------------------------------ | ------------------------------------------- |
+| **Invocation** | Automatic OR explicit by name              | Explicit only (you invoke)                  |
+| **Context**    | Shared with main conversation              | Isolated context window                     |
+| **Complexity** | Lightweight, single-focus                  | Multi-step, complex workflows               |
+| **Guarantee**  | Flexible (auto-triggers or invoke by name) | Hard invocation (always runs)               |
+| **Best for**   | Repeated patterns, formatting, procedures  | Audits, refactoring, comprehensive analysis |
+
+**Use skill when**: "I want Claude to automatically do this whenever it's relevant."
+
+**Use subagent when**: "I need guaranteed execution with isolated context for this complex task."
+
+### Examples
+
+**Skill appropriate**:
+
+- Meeting notes formatting (happens often, simple procedure)
+- Blog post planning (repeated task, consistent structure)
+- Code comment style (automatic enforcement)
+
+**Subagent appropriate**:
+
+- Comprehensive security audit (complex, needs isolation)
+- Multi-file refactoring (guaranteed execution required)
+- Full codebase analysis (too large for skill context)
+
+---
+
 ### What's Next
 
 Subagents are one-shot workers that report back to the caller. But what happens when workers need to talk to _each other_? In Chapter 4, Lesson 9, you'll learn about **Agent Teams**—multiple Claude Code instances that communicate directly, share a task list, and self-coordinate. Same context isolation principles, but with inter-agent collaboration.
