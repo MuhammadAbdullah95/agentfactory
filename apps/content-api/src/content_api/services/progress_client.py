@@ -54,7 +54,7 @@ class ProgressClient:
                 headers["Authorization"] = auth_token
 
             response = await client.post(
-                "/api/v1/progress/complete",
+                "/api/v1/lesson/complete",
                 json=payload,
                 headers=headers,
             )

@@ -373,7 +373,7 @@ async def enable_progress(monkeypatch):
     monkeypatch.setattr(settings, "progress_api_url", PROGRESS_BASE)
     progress_mod._client = None
 
-    complete_route = respx.post(f"{PROGRESS_BASE}/api/v1/progress/complete").mock(
+    complete_route = respx.post(f"{PROGRESS_BASE}/api/v1/lesson/complete").mock(
         return_value=Response(
             200,
             json={"completed": True, "xp_earned": 10},
