@@ -710,15 +710,15 @@ export const auth = betterAuth({
       },
 
       // Device Authorization endpoints (RFC 8628)
-      "/device-authorization/authorize": {
+      "/device/code": {
         window: 60,
         max: 10, // 10 device code requests per minute per IP
       },
-      "/device-authorization/verify": {
+      "/device": {
         window: 60,
         max: 20, // 20 code verification attempts per minute per IP
       },
-      "/device-authorization/token": {
+      "/device/token": {
         window: 60,
         max: 30, // 30 token polling requests per minute per IP
       },

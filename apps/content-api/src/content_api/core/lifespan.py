@@ -44,6 +44,28 @@ async def lifespan(app: FastAPI):
         logger.info("SHUTDOWN")
         logger.info("=" * 60)
 
+        # Close persistent httpx clients
+        from ..services import content_loader
+        from ..metering.client import _client as metering_client
+        from ..services.progress_client import _client as progress_client
+
+        # content_loader has a bare httpx.AsyncClient
+        if content_loader._http_client is not None:
+            try:
+                await content_loader._http_client.aclose()
+                logger.info("[SHUTDOWN] Closed content_loader httpx client")
+            except Exception as e:
+                logger.warning(f"[SHUTDOWN] Error closing content_loader: {e}")
+
+        # metering and progress clients have .close() methods
+        for name, client in [("metering", metering_client), ("progress", progress_client)]:
+            if client is not None:
+                try:
+                    await client.close()
+                    logger.info(f"[SHUTDOWN] Closed {name} client")
+                except Exception as e:
+                    logger.warning(f"[SHUTDOWN] Error closing {name}: {e}")
+
         await stop_redis()
 
         logger.info("Shutdown complete")

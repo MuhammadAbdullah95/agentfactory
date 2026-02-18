@@ -128,7 +128,7 @@ async def load_lesson_content(part_slug: str, chapter_slug: str, lesson_slug: st
     frontmatter_dict, body = parse_frontmatter(content)
 
     return {
-        "content": content,
+        "content": body,
         "frontmatter_dict": frontmatter_dict,
         "chapter_slug": chapter_slug,
         "lesson_slug": lesson_slug,

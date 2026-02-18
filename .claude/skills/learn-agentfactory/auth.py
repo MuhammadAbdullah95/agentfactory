@@ -26,7 +26,7 @@ def main():
     # Step 1: Request device code
     data = urlencode({"client_id": CLIENT_ID}).encode()
     req = Request(
-        f"{sso_url}/api/auth/device/authorize", data=data, method="POST"
+        f"{sso_url}/api/auth/device/code", data=data, method="POST"
     )
     req.add_header("Content-Type", "application/x-www-form-urlencoded")
 
