@@ -1,44 +1,53 @@
 ---
-title: "Summary: Your Employee Orchestrating Agents"
+title: "Summary: Your Employee Delegating to Claude Code"
 sidebar_label: "Summary"
 sidebar_position: 6.5
 ---
 
-# Summary: Your Employee Orchestrating Agents
+# Summary: Your Employee Delegating to Claude Code
 
 ## Key Concepts
 
-- Your AI Employee is a **Custom Agent** that understands your context (projects, preferences, schedule)
-- When tasks need specialist capabilities, it delegates to a **General Agent** like Claude Code
-- Delegation is **invisible** -- the employee decides when, how, and to which agent to delegate
-- The **two-tier delegation pattern**: Custom Agent manages context, General Agent executes tasks
-- Neither agent is sufficient alone: the employee has context but needs capability; the specialist has capability but lacks context
-- This is the **Agent Factory thesis** from Chapter 1 running live
+- Delegation does not happen automatically -- **you instruct your employee** when and how to delegate
+- tmux provides **verifiable infrastructure**: background sessions you can attach to and watch
+- The **two-tier delegation pattern**: you manage the employee, the employee manages Claude Code
+- **Verification matters**: always check that work actually happened (tmux ls, tmux attach, check output files)
+- Context stays with your employee (research, intent, MEMORY.md); coding goes to Claude Code
+- You are the **architect of the delegation pattern** -- it exists because you designed it
 
-## The Two-Tier Model
+## The Delegation Chain
 
 ```
-You (Telegram) → Employee (Custom Agent) → General Agent → Result
-                                         ← Files/Reports ←
+You (Telegram) → Employee (OpenClaw) → Claude Code (in tmux) → Code/Files
+                 ↑ reports status        ↑ you can attach and watch
 ```
 
-| Role              | Type          | What It Knows                                          |
-| ----------------- | ------------- | ------------------------------------------------------ |
-| **Your Employee** | Custom Agent  | Your projects, preferences, schedule, domain           |
-| **Claude Code**   | General Agent | Research, file operations, analysis, document creation |
+| Layer             | Role        | What They Handle                                         |
+| ----------------- | ----------- | -------------------------------------------------------- |
+| **You**           | Manager     | High-level instructions, review output                   |
+| **Your Employee** | Coordinator | Interprets intent, creates tmux sessions, reports status |
+| **Claude Code**   | Coder       | Writes actual code in a verifiable tmux session          |
+
+## Key Commands
+
+| Command               | What It Does                                   |
+| --------------------- | ---------------------------------------------- |
+| `tmux ls`             | Lists all active tmux sessions                 |
+| `tmux attach -t name` | Attaches to a session so you can watch it live |
+| `Ctrl+B` then `D`     | Detaches from a session without stopping it    |
 
 ## Common Mistakes
 
-- Micro-managing the delegation (your employee handles this internally -- just ask for results)
-- Delegating simple tasks that don't need a specialist (adds latency with no benefit)
-- Not reviewing the output (delegation doesn't mean blind trust)
-- Assuming you need to configure delegation manually (the employee decides automatically)
+- Assuming delegation happens automatically (it does not -- you must instruct it)
+- Not verifying with tmux ls (your employee may claim to delegate without doing it)
+- Writing vague delegation rules (be explicit: use Claude Code, use tmux, report the session name)
+- Skipping verification of output files (always check the working directory)
 
 ## What Transfers
 
-| Concept                 | In OpenClaw                    | In Any Framework                    |
-| ----------------------- | ------------------------------ | ----------------------------------- |
-| Custom Agent manages    | Employee knows your context    | Orchestrator holds user preferences |
-| General Agent executes  | Claude Code performs tasks     | Specialist agent performs task      |
-| Delegation is invisible | Employee decides internally    | Orchestrator routes to best agent   |
-| Parallel execution      | Multiple agents simultaneously | Async task execution                |
+| Concept                     | In This Lesson                            | In Any Framework                          |
+| --------------------------- | ----------------------------------------- | ----------------------------------------- |
+| Explicit delegation         | You told your employee to use Claude Code | Orchestrators are configured, not magic   |
+| Verification infrastructure | tmux sessions you can attach to           | Logging, monitoring, audit trails         |
+| Context vs capability split | Employee researches, Claude Code codes    | Orchestrator holds state, workers execute |
+| Human designs the pattern   | You wrote the delegation rule             | Engineers define agent architectures      |

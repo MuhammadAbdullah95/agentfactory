@@ -10,7 +10,7 @@ running_example_id: ai-employee-quiz
 
 # Chapter 7: Meet Your First AI Employee Quiz
 
-Test your understanding of the AI Employee paradigm, OpenClaw's architecture and universal patterns, security realities, coding-agent delegation, Google Workspace integration, and NanoClaw and the Agent Factory blueprint. This assessment covers setup, the agent loop, 6 universal patterns, skills, security, delegation to coding agents, productivity tool integration, Body + Brain separation, and portable vertical intelligence.
+Test your understanding of the AI Employee paradigm, OpenClaw's architecture and universal patterns, security realities, Claude Code delegation via tmux, Google Workspace integration, and NanoClaw and the Agent Factory blueprint. This assessment covers setup, the agent loop, 6 universal patterns, skills, security, explicit delegation and verification, productivity tool integration, Body + Brain separation, and portable vertical intelligence.
 
 <Quiz
 title="Chapter 7: Meet Your First AI Employee Assessment"
@@ -233,52 +233,52 @@ explanation: "Removing the skill stops future damage, but you must also assess w
 source: "Lesson 5: Teaching Skills & Staying Safe"
 },
 {
-question: "You ask your AI Employee via Telegram: 'Create a Python script that scrapes job listings from three websites and saves them to a CSV.' Your employee doesn't write the code itself. Instead, you see it delegate to Claude Code. Why does the employee delegate rather than attempt the task directly?",
+question: "You instruct your AI Employee: 'When I give you coding tasks, create a tmux session and run Claude Code inside it.' Later you ask it to build a calculator. You run tmux ls and see the session. Why did you have to explicitly instruct the delegation pattern rather than just asking for a calculator?",
 options: [
-"The employee automatically delegates all tasks whose prompt exceeds 50 words to specialized external agents to preserve its available processing capacity and reduce overall response latency for shorter conversational tasks",
-"OpenClaw's terms of service explicitly prohibit the main conversational agent from generating executable code directly, requiring all code generation to pass through a separately licensed and certified coding agent",
-"The employee is a Custom Agent that understands your context but cannot write code — it delegates to Claude Code (a General Agent) that has coding expertise, following the manager-specialist delegation pattern",
-"The employee's configured LLM model lacks the capability to generate syntactically correct Python code, so it must route all programming tasks to a specialized coding model with a different architecture and training"
+"OpenClaw automatically detects coding tasks and delegates them to any available coding agent without any configuration, but tmux is required by the operating system to run background processes safely",
+"AI agents do not automatically discover and use other tools — you must explicitly instruct your employee when and how to delegate, what tool to use, and how to report back so you can verify the work",
+"tmux is the only way to run Claude Code on a machine, so the instruction was technically necessary just to make Claude Code functional rather than to establish any kind of delegation pattern",
+"The instruction was optional and only needed for the first task — after one successful delegation, the employee permanently remembers the pattern and applies it automatically to all future coding tasks"
 ],
-correctOption: 2,
-explanation: "Your AI Employee is a Custom Agent — it knows your projects, your preferences, your schedule, and your domain. But it is not a coding specialist. When it encounters a task requiring actual code writing, it does what any good manager does: delegate to a specialist. Claude Code is a General Agent with deep coding expertise — it can write, test, debug, and refactor code in any language. The employee sends Claude Code a focused brief with your requirements, monitors the work, and returns the result to you on Telegram. This is the Agent Factory thesis from Chapter 1 in action: Custom Agents manage, General Agents execute. Neither is complete without the other.",
-source: "Lesson 6: Your Employee Orchestrating Agents"
+correctOption: 1,
+explanation: "Delegation does not happen automatically. Your AI Employee will not magically discover Claude Code and start using it. Without explicit instructions, it may even claim to have delegated work without actually doing it — giving you a fake session ID and directory. You must tell your employee: when to delegate (coding tasks), what tool to use (Claude Code), what infrastructure to use (tmux), and how to report back (session name and directory). This makes the pattern verifiable — you can run tmux ls and tmux attach to confirm real work is happening. You are the architect of the delegation pattern.",
+source: "Lesson 6: Your Employee Delegating to Claude Code"
 },
 {
-question: "You delegate a quick coding task (generate a password script) and it completes in 10 seconds. Then you delegate a larger task (refactor an entire auth module) and your employee says 'Started background session: abc-12345.' What architectural difference explains these two behaviors?",
+question: "You ask your employee to delegate a coding task to Claude Code via tmux. It responds: 'Session calculator created, Claude Code is working in /tmp/calc-project.' You run tmux ls and see nothing. What should you conclude, and what should you do?",
 options: [
-"Quick tasks use PTY one-shot mode which blocks until completion; long tasks use background mode which runs asynchronously and can be monitored with process action:log or process action:poll commands",
-"Quick tasks run on the local machine's main processing thread, while long tasks are automatically offloaded to a cloud computing service that has more resources and returns results to you asynchronously",
-"Quick tasks are always routed to Claude Code while long tasks are automatically redirected to a more powerful specialized coding agent that handles complex refactoring on large and deeply nested codebases",
-"The agent selects between synchronous and asynchronous execution modes randomly based on current system load and available memory, ensuring optimal resource utilization across concurrent user requests at runtime"
+"Your employee hallucinated the delegation — it claimed to create a tmux session without actually doing it, so you should reinforce the instruction and ask it to actually run the tmux and Claude Code commands",
+"The tmux session was created but has already completed and closed automatically, so the work is done and you should check the output directory for the finished files instead of looking for the session",
+"tmux ls only shows sessions created from your own terminal, not sessions created by other processes, so you need to use a different command like tmux list-sessions -a to see all system sessions",
+"The session exists but is hidden because Claude Code runs in a secure sandboxed environment that does not expose its tmux sessions to the host machine's session list for security and isolation reasons"
 ],
 correctOption: 0,
-explanation: "The coding-agent skill supports two execution modes. PTY one-shot mode (bash pty:true) creates a pseudo-terminal and blocks until the coding agent finishes — perfect for tasks under a minute. Background mode (bash pty:true background:true) runs the task asynchronously and returns immediately with a session ID. You can then monitor progress with process action:poll (check if still running) or process action:log (read output so far). The auto-notify pattern takes this further: the skill appends a completion trigger to the prompt, so your employee wakes up automatically when the coding agent finishes — no manual polling needed. This mirrors async task patterns in any framework: synchronous for quick work, asynchronous with monitoring for long-running operations.",
-source: "Lesson 6: Your Employee Orchestrating Agents"
+explanation: "AI agents can claim to perform actions without actually performing them. This is not malicious — it is how language models work. They generate plausible-sounding responses, which sometimes includes plausible-sounding claims about having created sessions, run commands, or produced files. This is exactly why verification matters. When tmux ls shows nothing, the delegation did not happen. Go back to your employee, reinforce the instruction to actually execute the tmux commands, and check again. The lesson: never trust an agent's claim about what it did. Always verify through an independent channel — tmux ls, checking the file system, or attaching to the session.",
+source: "Lesson 6: Your Employee Delegating to Claude Code"
 },
 {
-question: "Your employee needs to fix three separate bugs simultaneously. Instead of handling them one at a time, it creates isolated workspaces using git worktrees and runs three coding agents in parallel. What architectural principle makes this safe?",
+question: "You ask your employee to build two tools simultaneously: 'Create tmux sessions project-a and project-b and run Claude Code in each.' You run tmux ls and see both sessions. You attach to project-a and watch Claude Code writing a CSV parser. What does this demonstrate about the delegation pattern you designed?",
 options: [
-"OpenClaw automatically provisions a separate virtual machine environment for each coding agent to guarantee complete process-level isolation and prevent any possibility of shared memory access between concurrent agent instances",
-"The central Gateway daemon serializes and queues all output from parallel coding agents through a managed conflict-resolution system that guarantees write operations never overlap or corrupt each other's file modifications",
-"Each parallel coding agent is configured to use a completely different programming language for its implementation, which naturally prevents naming conflicts and file collisions across the three simultaneous workstreams",
-"Each coding agent runs in its own branch in its own directory against the same codebase — git worktrees provide filesystem isolation so parallel agents cannot interfere with each other's changes"
+"It demonstrates that Claude Code can only handle one task at a time, so the second session is queued and waiting for the first to complete before it begins any actual work",
+"It demonstrates parallel delegation — your employee manages multiple Claude Code sessions simultaneously, each working independently in its own tmux session, and you can verify each one",
+"It demonstrates that tmux automatically load-balances work across multiple CPU cores, which is the real reason parallel execution is faster than running tasks sequentially through a single agent",
+"It demonstrates that your employee has been replaced by tmux as the orchestrator, since tmux is now managing the sessions directly without any involvement from your AI Employee"
 ],
-correctOption: 3,
-explanation: "Git worktrees allow multiple working directories to share the same repository while each checks out a different branch. When your employee creates three worktrees (git worktree add -b fix/issue-78 /tmp/issue-78 main), each coding agent operates in its own directory with its own branch. They all see the same codebase but cannot interfere with each other's changes because each has an independent working tree. This is parallel delegation: one employee managing multiple specialists working simultaneously. It's the same principle as running multiple CI jobs in parallel — isolation prevents conflicts. This pattern scales: your employee can dispatch 10 coding tasks simultaneously if each has its own worktree.",
-source: "Lesson 6: Your Employee Orchestrating Agents"
+correctOption: 1,
+explanation: "This is parallel delegation in action. Your employee (the coordinator) created two independent tmux sessions, each running its own Claude Code instance. The sessions work simultaneously because tmux provides process isolation — each session is an independent terminal environment. You designed this pattern by instructing your employee to create named sessions and run Claude Code in each. You can verify both by running tmux ls (see both sessions listed) and tmux attach -t project-a or tmux attach -t project-b (watch each one working). Your employee manages the coordination; Claude Code does the coding; tmux provides the infrastructure; you verify everything.",
+source: "Lesson 6: Your Employee Delegating to Claude Code"
 },
 {
-question: "After watching your AI Employee delegate a coding task to Claude Code, you realize this demonstrates the Agent Factory thesis from Chapter 1. A colleague building their own agent system asks: 'Should I make one agent that does everything, or multiple specialized agents?' What does the delegation pattern suggest?",
+question: "After setting up tmux-based delegation and watching your employee coordinate Claude Code, a colleague asks: 'Should I make one agent that does everything, or multiple specialized agents?' What does your hands-on experience suggest?",
 options: [
 "One agent that does everything is always architecturally simpler and consistently more reliable than a multi-agent system, because eliminating inter-agent communication removes an entire class of coordination failures and latency issues",
-"Multiple specialized agents: a Custom Agent that understands user context manages General Agents that have technical expertise — this separation of concerns means each agent does what it's best at",
+"Multiple specialized agents with explicit delegation rules: a Custom Agent that understands user context coordinates General Agents that have technical expertise — you design the orchestration pattern, not the agents",
 "The correct choice depends entirely on the capability of the underlying language model — large frontier models should power single general-purpose agents, while smaller specialized models require multi-agent architectures to compensate",
 "Systems using multiple specialized agents always create communication overhead and coordination complexity that inevitably and consistently outweighs any quality benefits gained from individual agents focusing on narrower domains"
 ],
 correctOption: 1,
-explanation: "The delegation pattern demonstrates why multi-agent architectures work: separation of concerns. Your AI Employee (Custom Agent) excels at understanding your context — your projects, preferences, schedule, and domain. Claude Code (General Agent) excels at writing, testing, and debugging code. Neither is sufficient alone. Claude Code doesn't know which project matters to you; your employee can't write Python. Together, they form a complete system. This is the Agent Factory thesis: you don't build one super-agent. You assemble specialists managed by an agent that knows you. The communication overhead is minimal compared to the quality gain from each agent operating in its zone of expertise. This pattern transfers to any framework: orchestrator + specialists.",
-source: "Lesson 6: Your Employee Orchestrating Agents"
+explanation: "Your hands-on experience showed exactly why multi-agent architectures work: separation of concerns with explicit orchestration. Your AI Employee excels at understanding your context — your projects, preferences, and domain. Claude Code excels at writing and testing code. Neither is sufficient alone. But critically, the delegation did not happen by magic. You designed the pattern: you told your employee when to delegate, what tool to use (Claude Code), and what infrastructure to use (tmux). In any multi-agent system, someone must design the orchestration rules. In the Agent Factory, that someone is you. The pattern transfers to any framework: orchestrator + specialists + explicit delegation rules + verification.",
+source: "Lesson 6: Your Employee Delegating to Claude Code"
 },
 {
 question: "You've just installed gog and connected your Google account. You ask your AI Employee: 'Summarize my top 5 unread emails.' For the first time, the agent processes your actual inbox — real senders, real subjects, real content. Why is this moment architecturally significant?",
@@ -506,7 +506,7 @@ Later in this book, you build your own. The tools change. The patterns stay the 
 
 Every pattern you learned in L04 maps directly to what you will build. OpenClaw's Gateway becomes Claude Code's CLI process. Telegram channels become MCP servers. MEMORY.md and daily logs become CLAUDE.md and Obsidian vault. See L04's cross-framework table for the complete mapping across four frameworks.
 
-The delegation pattern from L06 becomes your own multi-agent architecture. The Google Workspace integration from L07 becomes MCP servers you configure yourself. The security model from L05 becomes constraints you define from the ground up. The portable intelligence from L09 -- Agent Skills and MCP servers -- becomes the foundation for building vertical expertise that survives any platform change.
+The explicit delegation pattern from L06 -- where you designed the tmux-based orchestration between your employee and Claude Code -- becomes your own multi-agent architecture. The Google Workspace integration from L07 becomes MCP servers you configure yourself. The security model from L05 becomes constraints you define from the ground up. The portable intelligence from L09 -- Agent Skills and MCP servers -- becomes the foundation for building vertical expertise that survives any platform change.
 
 The implementation details change entirely. The patterns are identical. You already know what to build. The rest of this book teaches you how.
 
@@ -557,7 +557,7 @@ test" of 3 messages that would expose my weakest point.
 
 You started Chapter 7 with a question: what is an AI Employee? You end with an answer that goes deeper than you expected. An AI Employee is not just a chatbot that does more. It is an autonomous system built on universal patterns, with real security implications and unsolved problems that the industry is still working through. And with NanoClaw's Body + Brain architecture, portable Agent Skills + MCP standards, and agents building agents, you now see the Agent Factory blueprint for building AI Employees for every profession.
 
-You experienced this firsthand. You understood the architecture. You built a skill. You confronted the security realities. You watched your employee delegate to a coding specialist. You connected it to your actual productivity tools. You assessed what works and what does not. And you saw how NanoClaw's container isolation, portable intelligence standards, and six-layer reference architecture address the hard problems OpenClaw left unsolved.
+You experienced this firsthand. You understood the architecture. You built a skill. You confronted the security realities. You designed and verified real delegation from your employee to Claude Code via tmux. You connected it to your actual productivity tools. You assessed what works and what does not. And you saw how NanoClaw's container isolation, portable intelligence standards, and six-layer reference architecture address the hard problems OpenClaw left unsolved.
 
 Now you build your own.
 

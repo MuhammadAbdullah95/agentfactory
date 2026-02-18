@@ -39,7 +39,7 @@ By the end of this chapter, you'll be able to:
 - Delegate real tasks (email drafts, research, file organization) and understand the agent loop
 - Explain the 6 universal agent patterns that appear in every agent framework
 - Create custom skills and evaluate security risks of giving AI real autonomy
-- Watch your AI Employee delegate coding tasks to Claude Code (the Agent Factory thesis in action)
+- Set up real delegation from your AI Employee to Claude Code via tmux and verify it works
 - Connect your AI Employee to Gmail, Calendar, and Drive for real daily productivity
 - See how these patterns compose into real-world compound workflows and evaluate use cases
 - Map OpenClaw's architecture to any other agent framework in minutes
