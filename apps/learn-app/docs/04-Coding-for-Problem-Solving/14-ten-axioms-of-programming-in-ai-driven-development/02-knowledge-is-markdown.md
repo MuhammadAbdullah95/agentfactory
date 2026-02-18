@@ -57,9 +57,7 @@ differentiation:
 
 # Axiom II: Knowledge is Markdown
 
-In Axiom I, Emma replaced a 400-line script with a 12-line orchestration file. The tools she coordinated — for testing, building, and deploying — all needed to share information: test results, build configurations, deployment settings, project conventions. But in what format? Where would this knowledge live so that every tool, every team member, and every AI agent could read it?
-
-The answer was already in front of her. The same format you have been reading this entire book in.
+Axiom I solved how to organize commands — the shell coordinates, programs compute. But code is only half of what a team produces. The other half is knowledge: *why* did we choose this database? *What* conventions do we follow? *How* is the system designed? That knowledge has to live somewhere every developer and every AI agent can find it. Should you write it in a Google Doc? A Slack message? A Confluence wiki? A markdown file in the repository? The choice of format determines whether that knowledge survives or disappears — and this axiom makes the choice for you.
 
 Six months before Emma's rewrite, her team had made a critical architecture decision: event-driven messaging over synchronous REST. The discussion happened across four Slack threads, two Zoom calls, a Google Doc that three people edited simultaneously, and a Confluence page that nobody could find anymore. When a new developer named James joined, he looked at the codebase, saw REST calls everywhere except in the user service, and assumed it was an oversight. Nobody told him otherwise — because nobody could find the reasoning. The Google Doc had conflicting comments. The Confluence page referenced a Slack thread that had been archived. So James spent two weeks building a REST integration for the user service. Clean code. Good tests. A pull request that undid three months of deliberate architecture.
 
