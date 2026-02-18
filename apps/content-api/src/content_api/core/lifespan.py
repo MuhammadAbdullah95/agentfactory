@@ -45,8 +45,8 @@ async def lifespan(app: FastAPI):
         logger.info("=" * 60)
 
         # Close persistent httpx clients
-        from ..services import content_loader
         from ..metering.client import _client as metering_client
+        from ..services import content_loader
         from ..services.progress_client import _client as progress_client
 
         # content_loader has a bare httpx.AsyncClient

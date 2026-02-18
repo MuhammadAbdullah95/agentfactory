@@ -9,7 +9,7 @@ import logging
 import re
 
 import httpx
-from api_infra.core.redis_cache import get_redis, safe_redis_get, safe_redis_set
+from api_infra.core.redis_cache import get_redis, safe_redis_get
 
 from ..config import settings
 from ..schemas.content import (

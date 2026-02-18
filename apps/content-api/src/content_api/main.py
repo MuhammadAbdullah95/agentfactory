@@ -13,6 +13,7 @@ load_dotenv()
 from api_infra.core.redis_cache import get_redis  # noqa: E402
 from fastapi import FastAPI, HTTPException, Request  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+from pydantic import BaseModel  # noqa: E402
 
 from .config import settings  # noqa: E402
 from .core.lifespan import lifespan  # noqa: E402
@@ -64,10 +65,16 @@ async def health_check():
     return status
 
 
+class InvalidateCacheRequest(BaseModel):
+    """Request body for cache invalidation."""
+
+    paths: list[str] = []
+
+
 @app.post("/admin/invalidate-cache")
 async def invalidate_cache(
     request: Request,
-    paths: list[str] | None = None,
+    body: InvalidateCacheRequest = InvalidateCacheRequest(),
 ):
     """Invalidate content cache. Called by GitHub Action on push to main."""
     admin_secret = os.getenv("ADMIN_SECRET", "")
@@ -79,6 +86,8 @@ async def invalidate_cache(
     redis_client = get_redis()
     if not redis_client:
         return {"status": "skipped", "reason": "Redis not available"}
+
+    paths = body.paths
 
     try:
         invalidated = []

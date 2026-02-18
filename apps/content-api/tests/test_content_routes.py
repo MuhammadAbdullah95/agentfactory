@@ -1,8 +1,7 @@
 """Tests for content API routes."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
-import pytest
 from fastapi.testclient import TestClient
 
 from content_api.main import app
