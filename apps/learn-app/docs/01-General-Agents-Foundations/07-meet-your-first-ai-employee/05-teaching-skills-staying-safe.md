@@ -261,7 +261,7 @@ This tension is not solvable -- it is manageable. When you evaluate any agent sy
 2. What constraints exist on external communication?
 3. Can a malicious input trick the agent into exfiltrating data?
 
-In Lesson 6, you will see this tension in action when your employee delegates coding tasks to Claude Code -- giving a General Agent shell access on your machine. In Lesson 7, you will feel it even more viscerally when you connect your actual Google Workspace. You will design your own answers in Chapter 13, when you build an AI Employee using Claude Code where you control the security model from the ground up.
+In Lesson 6, you will see this tension in action when your employee delegates coding tasks to Claude Code -- giving a General Agent shell access on your machine. In Lesson 7, you will feel it even more viscerally when you connect your actual Google Workspace. You will design your own answers when you build an AI Employee where you control the security model from the ground up.
 
 ## What Transfers
 

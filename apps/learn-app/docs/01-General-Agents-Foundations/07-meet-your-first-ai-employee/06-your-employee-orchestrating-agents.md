@@ -168,8 +168,6 @@ When you learn programming in later chapters, these same General Agents handle c
 | Parallel execution           | Multiple steps can run simultaneously                             |
 | The factory model            | One manager, multiple specialists, scales with available agents   |
 
-When you build your own AI Employee in Chapter 13, you implement this exact pattern.
-
 ---
 
 ## Try With AI

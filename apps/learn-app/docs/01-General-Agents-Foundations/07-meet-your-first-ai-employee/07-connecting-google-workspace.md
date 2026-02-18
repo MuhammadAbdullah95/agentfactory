@@ -349,7 +349,7 @@ This is why Lesson 5 came before this lesson. The security checklist you learned
 
 **OAuth integration is universal.** Every productivity tool your agent will access -- Slack, GitHub, Notion, Jira -- uses the same pattern: register credentials, authorize access, scope permissions.
 
-**Least privilege is architectural.** Granting minimum necessary access is not just a security rule for gog. It is a design principle for every agent integration you build. In Chapter 13, you will apply the same principle when connecting your own AI Employee to external services.
+**Least privilege is architectural.** Granting minimum necessary access is not just a security rule for gog. It is a design principle for every agent integration you build.
 
 **The employee threshold is tool access.** Intelligence alone does not make an agent an employee. The agent loop (Lesson 3) gives it capability. Skills (Lesson 5) give it expertise. But tool access -- connecting to the systems where your actual work lives -- is what makes the "employee" label accurate. An employee who cannot access your email, calendar, or files is not really working for you.
 
@@ -380,7 +380,7 @@ I know it involves Google Pub/Sub. Give me component architecture
 and data flow with an ASCII diagram, not a full implementation.
 ```
 
-**What you're learning:** Event-driven agent architecture. Most agent interactions are pull-based (you ask, it answers). Push-based agents that react to external events represent the next level of autonomy. Understanding this architecture prepares you for building proactive agents in Chapter 13.
+**What you're learning:** Event-driven agent architecture. Most agent interactions are pull-based (you ask, it answers). Push-based agents that react to external events represent the next level of autonomy. Understanding this architecture prepares you for building proactive agents.
 
 ### Prompt 3: Security Audit Your Own Setup
 

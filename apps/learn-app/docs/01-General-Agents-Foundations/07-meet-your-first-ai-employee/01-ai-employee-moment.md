@@ -120,7 +120,7 @@ But growth alone does not validate a category. What validates the AI Employee ca
 
 ## Chatbot vs AI Employee -- The One Distinction That Matters
 
-This is the mental model you will carry through the rest of this chapter and into Chapter 13. Everything else builds on this distinction.
+This is the mental model you will carry through the rest of this chapter. Everything else builds on this distinction.
 
 | Dimension     | Chatbot                                   | AI Employee                                                 |
 | ------------- | ----------------------------------------- | ----------------------------------------------------------- |
@@ -232,13 +232,7 @@ By the end of this chapter, you will have:
 1. **Experienced it** -- a working AI Employee on your phone, doing real tasks
 2. **Understood it** -- the five essential components and six universal patterns that make any AI Employee work
 3. **Assessed it honestly** -- both the transformative potential and the security realities
-4. **Prepared to build** -- ready for Chapter 13, where you construct your own AI Employee from scratch
-
-### The Pattern Transfers
-
-The chatbot-vs-employee distinction and the five-component architecture apply to every AI Employee framework, not just OpenClaw. When you evaluate CrewAI, LangGraph, or any other system, map it against the table above. The names change. The architecture does not.
-
-Master the pattern once. Apply it everywhere.
+4. **Prepared to build** -- ready to construct your own AI Employee when the time comes
 
 ## Try With AI
 
@@ -274,7 +268,7 @@ handle for me autonomously. For each, what triggers it, what tools
 does it need, and how much time would it save me per week?
 ```
 
-**What you're learning**: Translating the abstract AI Employee concept into concrete value for YOUR specific situation. The ability to identify high-ROI delegation opportunities is the first skill of an effective AI Employee manager — and it's exactly what you'll need when designing your own in Chapter 13.
+**What you're learning**: Translating the abstract AI Employee concept into concrete value for YOUR specific situation. The ability to identify high-ROI delegation opportunities is the first skill of an effective AI Employee manager.
 
 ## Frequently Asked Questions
 
@@ -288,7 +282,7 @@ OpenClaw has had significant security challenges, including 341 malicious skills
 
 ### Do I need to use OpenClaw specifically?
 
-No. This chapter uses OpenClaw because it is the most accessible way to experience a working AI Employee. Chapter 13 teaches you to build your own using Claude Code, where you control every aspect of the system.
+No. This chapter uses OpenClaw because it is the most accessible way to experience a working AI Employee. Later chapters teach you to build your own, where you control every aspect of the system.
 
 ### What happened to Peter Steinberger and the project?
 

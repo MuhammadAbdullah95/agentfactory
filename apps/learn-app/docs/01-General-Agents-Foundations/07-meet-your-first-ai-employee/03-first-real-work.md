@@ -190,7 +190,7 @@ The agent produces a sample briefing. Evaluate it honestly: Would you read this 
 
 **Step 4 -- Set the schedule (3 minutes):**
 
-Confirm the schedule. The agent configures the cron job or heartbeat. If your setup does not support scheduling, run `openclaw tui` each morning and type "run my morning briefing" -- you will automate it later in Chapter 13.
+Confirm the schedule. The agent configures the cron job or heartbeat. If your setup does not support scheduling, run `openclaw tui` each morning and type "run my morning briefing" -- you will automate it properly later.
 
 **Takeaway:** Tasks 1-3 were reactive -- you asked, the agent responded. Task 4 is autonomous -- the agent works on YOUR schedule. Tomorrow at 8 AM, check your phone. Your employee already clocked in.
 
@@ -273,4 +273,4 @@ Design a full daily AI Employee routine for my role ([YOUR ROLE]).
 What should it do in the morning, during work hours, and at end of day?
 ```
 
-**What you're learning:** Thinking in workflows rather than individual tasks. A daily routine combines research, analysis, and scheduling into automated sequences -- the foundation for the always-on employee you will build in Chapter 13.
+**What you're learning:** Thinking in workflows rather than individual tasks. A daily routine combines research, analysis, and scheduling into automated sequences -- the foundation for building an always-on employee.

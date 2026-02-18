@@ -309,7 +309,7 @@ Every agent system you will ever encounter follows the same setup sequence:
 4. **Verify end-to-end** -- send a test message and confirm the round trip
 5. **Secure the boundary** -- ensure only authorized users can access the agent
 
-You just completed all five steps. The specifics change between systems, but this pattern is universal. When you encounter a new agent framework in Chapter 13 or beyond, you will already know the shape of the setup process.
+You just completed all five steps. The specifics change between systems, but this pattern is universal. When you encounter a new agent framework, you will already know the shape of the setup process.
 
 ---
 

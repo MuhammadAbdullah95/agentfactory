@@ -165,7 +165,7 @@ map it back to the specific lesson where I learned it. Then identify
 which pattern combination creates the most value.
 ```
 
-**What you're learning:** Composability thinking -- seeing individual patterns as building blocks rather than standalone features. This is how professional architects think about systems. The ability to decompose a workflow into constituent patterns and evaluate which combination delivers the most value is the core skill for designing your own AI Employee in Chapter 13.
+**What you're learning:** Composability thinking -- seeing individual patterns as building blocks rather than standalone features. This is how professional architects think about systems. The ability to decompose a workflow into constituent patterns and evaluate which combination delivers the most value is the core skill for designing your own AI Employee.
 
 ### Prompt 2: Security Risk Evaluation
 

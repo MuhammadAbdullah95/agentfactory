@@ -340,7 +340,7 @@ causes race conditions. Then design a 4th scenario the lane queue
 CANNOT prevent -- one that requires a different solution entirely.
 ```
 
-**What you're learning:** Concurrency is where most agent projects fail silently. By designing failure scenarios yourself, you build intuition for where race conditions hide. The 4th scenario forces you beyond the textbook answer into genuine architectural thinking -- exactly what you need when building your own agent in Chapter 13.
+**What you're learning:** Concurrency is where most agent projects fail silently. By designing failure scenarios yourself, you build intuition for where race conditions hide. The 4th scenario forces you beyond the textbook answer into genuine architectural thinking -- exactly what you need when building your own agent.
 
 ### Prompt 2: Memory Retrieval Trace
 
@@ -353,7 +353,7 @@ migration 6 weeks ago?" Trace the query through all 3 layers,
 then design a scenario where all 3 fail. What went wrong?
 ```
 
-**What you're learning:** Memory retrieval is where theory meets reality. Tracing a concrete query through each layer builds intuition for how externalized memory actually works -- and where it breaks. The failure scenario forces you to think about memory architecture limitations before you encounter them in Chapter 13.
+**What you're learning:** Memory retrieval is where theory meets reality. Tracing a concrete query through each layer builds intuition for how externalized memory actually works -- and where it breaks. The failure scenario forces you to think about memory architecture limitations before you encounter them in your own builds.
 
 ### Prompt 3: Agent Autopsy
 
