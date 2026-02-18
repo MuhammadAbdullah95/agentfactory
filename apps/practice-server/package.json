@@ -2,6 +2,21 @@
   "name": "@agentfactory/practice",
   "version": "0.1.0",
   "description": "Local practice server for Agent Factory exercises — launches Claude Code in a PTY with exercise workspaces",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/panaversity/agentfactory.git",
+    "directory": "apps/practice-server"
+  },
+  "homepage": "https://agentfactory.dev",
+  "keywords": [
+    "claude-code",
+    "practice",
+    "terminal",
+    "pty",
+    "exercises",
+    "ai-agents"
+  ],
   "type": "module",
   "bin": {
     "practice": "dist/bin/cli.js"
