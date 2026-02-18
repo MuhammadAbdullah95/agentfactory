@@ -17,6 +17,10 @@ Track meaningful updates to the book. This page is automatically updated when do
 
 <!-- CHANGELOG_START - Do not remove this marker -->
 
+### 2026-02-18
+
+- feat: Practice Environment v0.2 — production-ready embedded terminal ([#725](https://github.com/panaversity/agentfactory/pull/725))
+
 ### 2026-02-17
 - docs: embed slides directly in ch14 Teaching Aid ([#744](https://github.com/panaversity/agentfactory/pull/744))
 
