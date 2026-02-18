@@ -89,6 +89,8 @@ Complete all four exercises below.
 > | **Session boundary** | The explicit `with Session(engine) as session:` block where all database mutations happen                  |
 > | **N+1 query**        | A performance bug where your code runs one query per row instead of one query for all rows                 |
 
+<ExerciseCard id="C1" title="Model Integrity Build" />
+
 ### Core 1 - Model Integrity Build
 
 **Goal:** Build `User`, `Category`, `Expense`-style models for a new domain.
@@ -117,6 +119,8 @@ Quality gate:
 Start by listing the entities in your chosen domain. What are the "things"? What connects them? For a recipe tracker, the things might be `Recipe`, `Ingredient`, and `RecipeIngredient` (the join table). Once you have the entities on paper, turn them into SQLAlchemy models the same way you did in Lesson 3. Constraints and foreign keys come from asking: "What should the database refuse to store?"
 
 </details>
+
+<ExerciseCard id="C2" title="CRUD Reliability Build" />
 
 ### Core 2 - CRUD Reliability Build
 
@@ -147,6 +151,8 @@ Copy the CRUD pattern from Lesson 4 and adapt it. Do not write from scratch. Ada
 
 </details>
 
+<ExerciseCard id="C3" title="Relationship Query Debug" />
+
 ### Core 3 - Relationship Query Debug
 
 **Goal:** Fix a broken relationship setup and return correct joined results.
@@ -175,6 +181,8 @@ Quality gate:
 The bug is in the relationship definitions. Check `back_populates` first. The most common mistake is that `back_populates` on one side points to a name that does not exist on the other side, or the names are swapped. Print both sides of the relationship (parent.children and child.parent) to confirm navigation works in both directions before moving to join queries.
 
 </details>
+
+<ExerciseCard id="C4" title="Transaction + Neon Ops Drill" />
 
 ### Core 4 - Transaction + Neon Ops Drill
 
@@ -222,6 +230,8 @@ Choose one or more.
 > | **Row-count reconciliation** | Confirming that every row in the source data appears in the destination after migration   |
 > | **Regression proof**         | Evidence that your fix did not break something that was previously working                |
 
+<ExerciseCard id="A" title="High-Stakes Verification Gate" />
+
 ### Challenge A - High-Stakes Verification Gate
 
 Build SQL summary + independent raw-ledger verification.
@@ -234,6 +244,8 @@ Evidence:
 
 Use this challenge if your target role includes finance, compliance, or audit-sensitive workflows.
 
+<ExerciseCard id="B" title="Legacy CSV Migration" />
+
 ### Challenge B - Legacy CSV Migration
 
 Normalize a messy multi-file dataset into relational schema.
@@ -243,6 +255,8 @@ Evidence:
 - row-count reconciliation
 - key-field parity checks
 - explicit list of non-lossy transformations
+
+<ExerciseCard id="C" title="Recovery Under Incident" />
 
 ### Challenge C - Recovery Under Incident
 

@@ -146,6 +146,8 @@ For each exercise, evaluate yourself on:
 
 > **Core Skill:** Mapping an unfamiliar server before touching anything (Lessons 1-2)
 
+<ExerciseCard id="1.1" title="Agent Server Recon" />
+
 ### Exercise 1.1 — Agent Server Recon (Build)
 
 **The Problem:**
@@ -175,6 +177,8 @@ After exploring with `find /opt/agents -type f | head -40`, `du -sh /opt/agents/
 3. How long did the full recon take? Compare that to how long you'd spend recovering from modifying the wrong agent's config because you didn't know the layout.
 
 ---
+
+<ExerciseCard id="1.2" title="Misplaced Deployment" />
 
 ### Exercise 1.2 — Misplaced Deployment (Debug)
 
@@ -210,6 +214,8 @@ After running `find / -name "agent-*" -type f 2>/dev/null` and `systemctl cat ag
 
 > **Core Skill:** Transforming and assembling data with pipes and text tools (Lessons 3-4)
 
+<ExerciseCard id="2.1" title="Config Pipeline" />
+
 ### Exercise 2.1 — Config Pipeline (Build)
 
 **The Problem:**
@@ -239,6 +245,8 @@ After running `ls config-fragments/` and `cat variables.env`: "Build a config as
 3. If you needed to change one variable (say, the port number) and regenerate all configs, how long would it take with your pipeline versus doing it manually?
 
 ---
+
+<ExerciseCard id="2.2" title="Broken Pipeline Diagnosis" />
 
 ### Exercise 2.2 — Broken Pipeline Diagnosis (Debug)
 
@@ -274,6 +282,8 @@ After running `cat pipeline.sh` and `head -5 input.log`: "Debug this 4-stage pip
 
 > **Core Skill:** Persistent sessions and bash scripting for automation (Lessons 5-6)
 
+<ExerciseCard id="3.1" title="Tmux Control Center" />
+
 ### Exercise 3.1 — Tmux Control Center (Build)
 
 **The Problem:**
@@ -295,6 +305,8 @@ Write a `setup-monitoring.sh` script that creates this entire tmux environment. 
 3. What information would you add to the monitoring dashboard that isn't in the spec? What would a 3am on-call engineer need to see first?
 
 ---
+
+<ExerciseCard id="3.2" title="Script Autopsy" />
 
 ### Exercise 3.2 — Script Autopsy (Debug)
 
@@ -321,6 +333,8 @@ Read the script line by line. Find all 5 bugs. For each bug, document: the line 
 ## Module 4: Logs & Security
 
 > **Core Skill:** Extracting intelligence from logs and auditing security posture (Lessons 7-8)
+
+<ExerciseCard id="4.1" title="Agent Log Forensics" />
 
 ### Exercise 4.1 — Agent Log Forensics (Build)
 
@@ -352,6 +366,8 @@ After running `wc -l agent-logs/*.log` and `grep -c ERROR agent-logs/*.log`: "An
 
 ---
 
+<ExerciseCard id="4.2" title="Security Audit" />
+
 ### Exercise 4.2 — Security Audit (Apply)
 
 **The Problem:**
@@ -378,6 +394,8 @@ Audit the entire server for security violations. For each finding, document: wha
 
 > **Core Skill:** Configuring production services and diagnosing startup failures (Lessons 9-10)
 
+<ExerciseCard id="5.1" title="Systemd from Scratch" />
+
 ### Exercise 5.1 — Systemd from Scratch (Build)
 
 **The Problem:**
@@ -399,6 +417,8 @@ Write a complete `agent-chatbot.service` file that includes: proper `After=` dep
 3. How would you adapt this service file for a different agent? Which lines are agent-specific and which are boilerplate?
 
 ---
+
+<ExerciseCard id="5.2" title="Why Won't It Start?" />
 
 ### Exercise 5.2 — Why Won't It Start? (Debug)
 
@@ -425,6 +445,8 @@ Diagnose each failure independently. For each service, document: the symptom (`s
 ## Module 6: Debugging & Workflows
 
 > **Core Skill:** Tracing failures across layers and building end-to-end automation (Lessons 11-12)
+
+<ExerciseCard id="6.1" title="Cascade Failure" />
 
 ### Exercise 6.1 — Cascade Failure (Build)
 
@@ -458,6 +480,8 @@ Trace the failure from the user-facing symptom (HTTP 502) through all 5 layers t
 
 ---
 
+<ExerciseCard id="6.2" title="Deploy Pipeline" />
+
 ### Exercise 6.2 — Deploy Pipeline (Build)
 
 **The Problem:**
@@ -485,6 +509,8 @@ Implement `deploy-agent.sh` — a single script that executes the entire deploym
 > **Choose one (or more). This is where everything comes together — no starter prompts provided.**
 
 Capstones are different from the exercises above. There are no guided prompts — you design the entire approach yourself. Each project requires applying skills from across all 14 lessons to solve a realistic production scenario. Where module exercises test individual skills, capstones test your ability to orchestrate those skills into a coherent, documented pipeline. The quality of your documentation matters as much as the result — someone should be able to follow your process and reproduce it on a different server.
+
+<ExerciseCard id="A" title="Full Production Deployment" />
 
 ### Capstone A — Full Production Deployment
 
@@ -517,6 +543,8 @@ Take this deployment through the complete Linux Operations Framework:
 
 ---
 
+<ExerciseCard id="B" title="Server Rescue" />
+
 ### Capstone B — Server Rescue
 
 Open the `module-7-capstones/capstone-B-server-rescue/` folder. You'll find a simulated server that has 7 simultaneous problems: a crashed agent service, a full disk partition, a misconfigured firewall blocking legitimate traffic, a broken cron job spamming logs, an exposed `.env` file with API keys, a runaway process consuming 100% CPU, and a corrupt nginx config that returns 500 on all routes.
@@ -537,6 +565,8 @@ Your job is triage. Prioritize the 7 issues by impact (what's causing the most d
 3. How long did the rescue take? What percentage was diagnosis versus actual fixing? What does that ratio tell you about the value of investigation skills?
 
 ---
+
+<ExerciseCard id="C" title="Your Own Agent" />
 
 ### Capstone C — Your Own Agent
 

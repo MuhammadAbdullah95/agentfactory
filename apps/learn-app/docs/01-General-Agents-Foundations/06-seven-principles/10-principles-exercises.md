@@ -133,6 +133,8 @@ For each exercise, evaluate yourself on:
 
 > **Core Skill:** Using terminal commands to verify state before making changes
 
+<ExerciseCard id="1.1" title="Verify Before You Modify" />
+
 ### Exercise 1.1 — Verify Before You Modify (Guided)
 
 **The Problem:**
@@ -162,6 +164,8 @@ After running `ls -la`, `cat package.json`, and `grep -r "styles" .`, try: "The 
 
 ---
 
+<ExerciseCard id="1.2" title="The Blind Refactor" />
+
 ### Exercise 1.2 — The Blind Refactor (Discovery)
 
 **The Problem:**
@@ -187,6 +191,8 @@ Read the session log. Identify every point where a single bash command would hav
 ## Module 2: Code as Universal Interface
 
 > **Core Skill:** Expressing requirements as structured specifications rather than natural language
+
+<ExerciseCard id="2.1" title="Spec vs. Prose" />
 
 ### Exercise 2.1 — Spec vs. Prose (Guided)
 
@@ -217,6 +223,8 @@ After writing your test file: "Implement a validation function that passes all t
 
 ---
 
+<ExerciseCard id="2.2" title="The Interpretation Gap" />
+
 ### Exercise 2.2 — The Interpretation Gap (Discovery)
 
 **The Problem:**
@@ -242,6 +250,8 @@ Analyze why the same prompt produced two different outputs. Identify every ambig
 ## Module 3: Verification as Core Step
 
 > **Core Skill:** Systematically verifying output rather than trusting "looks right"
+
+<ExerciseCard id="3.1" title="Trust But Verify" />
 
 ### Exercise 3.1 — Trust But Verify (Guided)
 
@@ -272,6 +282,8 @@ After the transformation: "Now verify the output: confirm the row count matches 
 
 ---
 
+<ExerciseCard id="3.2" title='The "Looks Done" Trap' />
+
 ### Exercise 3.2 — The "Looks Done" Trap (Discovery)
 
 **The Problem:**
@@ -297,6 +309,8 @@ Find all 3 bugs. For each one, explain what verification step would have caught 
 ## Module 4: Small, Reversible Decomposition
 
 > **Core Skill:** Breaking complex changes into atomic, verifiable, reversible steps
+
+<ExerciseCard id="4.1" title="Atomic Commits" />
 
 ### Exercise 4.1 — Atomic Commits (Guided)
 
@@ -327,6 +341,8 @@ Decompose this into 5 separate commits, each atomic and independently verifiable
 
 ---
 
+<ExerciseCard id="4.2" title="The Big-Bang Commit" />
+
 ### Exercise 4.2 — The Big-Bang Commit (Discovery)
 
 **The Problem:**
@@ -352,6 +368,8 @@ Analyze the diff and untangle it. Identify which changes belong to the feature, 
 ## Module 5: Persisting State in Files
 
 > **Core Skill:** Creating persistent artifacts that survive session boundaries
+
+<ExerciseCard id="5.1" title="Build a CLAUDE.md" />
 
 ### Exercise 5.1 — Build a CLAUDE.md (Guided)
 
@@ -379,6 +397,8 @@ Read both transcripts. Extract every convention, decision, and project pattern f
 
 ---
 
+<ExerciseCard id="5.2" title="The Groundhog Day Sessions" />
+
 ### Exercise 5.2 — The Groundhog Day Sessions (Discovery)
 
 **The Problem:**
@@ -404,6 +424,8 @@ Map the repeated work: which discoveries in Session 2 were already made in Sessi
 ## Module 6: Constraints and Safety
 
 > **Core Skill:** Setting boundaries that enable safe autonomy
+
+<ExerciseCard id="6.1" title="Write Permission Guardrails" />
 
 ### Exercise 6.1 — Write Permission Guardrails (Guided)
 
@@ -434,6 +456,8 @@ Write a complete set of permission constraints: which files/directories Claude c
 
 ---
 
+<ExerciseCard id="6.2" title="The Unconstrained Agent" />
+
 ### Exercise 6.2 — The Unconstrained Agent (Discovery)
 
 **The Problem:**
@@ -459,6 +483,8 @@ Read the incident report. For each damaging action, write the specific constrain
 ## Module 7: Observability
 
 > **Core Skill:** Making Claude's work visible and debuggable
+
+<ExerciseCard id="7.1" title="Add Progress Reporting" />
 
 ### Exercise 7.1 — Add Progress Reporting (Guided)
 
@@ -489,6 +515,8 @@ Rewrite the task prompt to require explicit progress reporting: Claude must anno
 
 ---
 
+<ExerciseCard id="7.2" title="The Opaque Session" />
+
 ### Exercise 7.2 — The Opaque Session (Discovery)
 
 **The Problem:**
@@ -517,6 +545,8 @@ Reconstruct what happened from the activity log alone. Identify the exact point 
 
 Capstones are different from the exercises above. There are no guided prompts — you design the entire approach yourself. Each project requires applying 3 or more principles together to solve a realistic problem.
 
+<ExerciseCard id="A" title="Project Rescue" />
+
 ### Capstone A — Project Rescue
 
 Open the `module-8-integration/capstone-A-project-rescue/` folder. You'll find a broken project: tests are failing, the build is broken, the CLAUDE.md is out of date, there's no verification step in the workflow, and the last 3 commits are tangled messes. Your job is to rescue it.
@@ -531,6 +561,8 @@ Diagnose which principles were violated (there are at least 4). Fix the project 
 
 ---
 
+<ExerciseCard id="B" title="Workflow Design" />
+
 ### Capstone B — Workflow Design
 
 You've been hired to set up a new project for a small team. Open the `module-8-integration/capstone-B-workflow-design/` folder for the project brief. Your job is to design a complete AI-assisted development workflow from scratch.
@@ -544,6 +576,8 @@ Create a CLAUDE.md that encodes all 7 principles as project rules. Design a perm
 - The difference between principles you understand and principles you can operationalize
 
 ---
+
+<ExerciseCard id="C" title="Your Own Project" />
 
 ### Capstone C — Your Own Project
 

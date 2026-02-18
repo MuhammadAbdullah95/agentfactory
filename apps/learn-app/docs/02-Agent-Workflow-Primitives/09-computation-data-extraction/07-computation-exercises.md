@@ -147,6 +147,8 @@ For each exercise, evaluate yourself on:
 >
 > Lesson 1 taught you that Bash can't do decimal arithmetic and that Python scripts reading from stdin compose naturally with pipes. These exercises push those skills into realistic scenarios where the data is messier and the arithmetic has more edge cases than the lesson examples.
 
+<ExerciseCard id="1.1" title="The Expense Splitter" />
+
 ### Exercise 1.1 — The Expense Splitter (Build)
 
 **The Problem:**
@@ -176,6 +178,8 @@ After examining the receipt format with `cat receipt-01.txt`: "Build a Python sc
 3. Could your script handle a receipt format it hasn't seen before, or is it tightly coupled to the specific format in these files?
 
 ---
+
+<ExerciseCard id="1.2" title="The Rounding Trap" />
 
 ### Exercise 1.2 — The Rounding Trap (Debug)
 
@@ -213,6 +217,8 @@ After comparing `python3 buggy-sum.py < transactions-500.csv` against the expect
 >
 > Lesson 2 introduced the testing loop: create test data with known answers, run your script, compare output to expected results. These exercises take that skill further — you'll design adversarial test cases and diagnose scripts that produce plausible but wrong output.
 
+<ExerciseCard id="2.1" title="The Bulletproof Calculator" />
+
 ### Exercise 2.1 — The Bulletproof Calculator (Build)
 
 **The Problem:**
@@ -242,6 +248,8 @@ After reading sum-expenses.py to understand its parsing logic: "Create a test su
 3. If you had to choose only 3 test cases to run on any new data processing script, which 3 would catch the most common bugs?
 
 ---
+
+<ExerciseCard id="2.2" title="The Green Light Lie" />
 
 ### Exercise 2.2 — The Green Light Lie (Debug)
 
@@ -279,6 +287,8 @@ After running `python3 broken-calc.py < test-data.csv` and `diff <(python3 broke
 >
 > Lesson 3 taught you to move beyond naive comma-splitting to proper CSV parsing with Python's `csv` module. These exercises confront you with the full spectrum of CSV messiness: quoted fields containing commas, mixed date formats, currency symbols, trailing delimiters, and encoding issues that are standard in real-world data exports.
 
+<ExerciseCard id="3.1" title="The Messy Payroll" />
+
 ### Exercise 3.1 — The Messy Payroll (Build)
 
 **The Problem:**
@@ -308,6 +318,8 @@ Build a Python script that reads this CSV from stdin and outputs a clean, standa
 3. How would you verify that your cleaned output is correct for all 80+ rows, not just the 5 you spot-checked?
 
 ---
+
+<ExerciseCard id="3.2" title="The Awk Disaster" />
 
 ### Exercise 3.2 — The Awk Disaster (Debug)
 
@@ -339,6 +351,8 @@ Identify which 40 rows the awk script mishandled and determine why. The causes a
 >
 > Lesson 5 introduced regex-based categorization with word boundaries and false positive prevention. These exercises push your categorizer against data specifically designed to expose the weaknesses of pattern matching: merchant names that contain keywords from the wrong category, and patterns that seem specific but match too broadly.
 
+<ExerciseCard id="4.1" title="The Expense Report Builder" />
+
 ### Exercise 4.1 — The Expense Report Builder (Build)
 
 **The Problem:**
@@ -367,6 +381,8 @@ Build a Python categorization script that reads transactions from stdin and outp
 3. If 50 new merchants appeared next month, what percentage would your categorizer handle correctly without modification?
 
 ---
+
+<ExerciseCard id="4.2" title="The Over-Eager Matcher" />
 
 ### Exercise 4.2 — The Over-Eager Matcher (Debug)
 
@@ -398,6 +414,8 @@ Find and fix all 8 false positives in the categorizer's regex patterns. For each
 >
 > Lesson 6 showed how individual scripts compose into pipelines through stdin/stdout. These exercises reveal the hardest part of pipeline design: making sure each step's output format exactly matches the next step's expected input. Most pipeline bugs live at these interfaces, not inside the steps themselves.
 
+<ExerciseCard id="5.1" title="The Quarterly Report" />
+
 ### Exercise 5.1 — The Quarterly Report (Build)
 
 **The Problem:**
@@ -419,6 +437,8 @@ Build a multi-step pipeline: (1) a cleaning script that normalizes each month's 
 3. If a fourth month (April) were added with yet another date format, how many of your scripts would need modification?
 
 ---
+
+<ExerciseCard id="5.2" title="The Broken Pipeline" />
 
 ### Exercise 5.2 — The Broken Pipeline (Debug)
 
@@ -452,6 +472,8 @@ Capstones are different from the exercises above. There are no guided prompts �
 
 The progression across capstones is intentional: Capstone A uses curated data with known correct answers so you can verify your pipeline end-to-end. Capstone B uses a larger dataset where you must define "correct" yourself (what counts as a subscription? what counts as a price change?). Capstone C uses your own data where there's no answer key at all — you're the domain expert who decides if the output makes sense. Each capstone demands more judgment and less scaffolding than the last.
 
+<ExerciseCard id="A" title="The Freelancer's Tax Prep" />
+
 ### Capstone A — The Freelancer's Tax Prep
 
 Open the `module-6-capstone/capstone-A-freelancer-tax-prep/` folder. You'll find 6 months of bank transaction data across separate CSV files (one per month), each with slightly different export formats. The data contains income (client payments), business expenses (software, equipment, meals with clients), personal transactions (groceries, entertainment), and transfers between accounts that should be excluded from both income and expenses. Some transactions are ambiguous: is that $200 "AMAZON" purchase a business expense (office supplies) or personal (kitchen gadgets)?
@@ -483,6 +505,8 @@ Take this data through the complete Data Processing Framework:
 
 ---
 
+<ExerciseCard id="B" title="The Subscription Auditor" />
+
 ### Capstone B — The Subscription Auditor
 
 Open the `module-6-capstone/capstone-B-subscription-auditor/` folder. You'll find 12 months of credit card transactions (800+ rows total) in a single large CSV. Hidden in the data are recurring subscription charges — some monthly, some annual, some that changed price midway through the year. The challenge isn't processing the data (you have those skills from Modules 1-4) — it's defining what counts as a "subscription" when merchant names vary slightly between charges ("NETFLIX.COM", "NETFLIX INC", "NETFLIX STREAMING") and amounts fluctuate due to tax changes or plan upgrades.
@@ -510,6 +534,8 @@ Build a pipeline that:
 3. What's the total annual cost of all detected subscriptions? If someone wanted to cut their subscriptions by 30%, which ones would you recommend cutting and why?
 
 ---
+
+<ExerciseCard id="C" title="Your Own Financial Data" />
 
 ### Capstone C — Your Own Financial Data
 

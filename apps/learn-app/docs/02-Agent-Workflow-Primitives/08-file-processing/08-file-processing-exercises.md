@@ -144,6 +144,8 @@ For each exercise, evaluate yourself on:
 
 > **Core Skill:** Understanding what you have before changing anything (Lessons 0-1)
 
+<ExerciseCard id="1.1" title="The Project Handoff" />
+
 ### Exercise 1.1 — The Project Handoff (Build)
 
 **The Problem:**
@@ -173,6 +175,8 @@ After exploring with `ls -laR`, `find . -type f | wc -l`, and `du -sh */`, try: 
 3. How long did the full survey take? Compare that to how long you'd spend recovering from a missed file causing problems mid-workflow.
 
 ---
+
+<ExerciseCard id="1.2" title="The Lying Inventory" />
 
 ### Exercise 1.2 — The Lying Inventory (Debug)
 
@@ -208,6 +212,8 @@ After running `find actual-files/ -type f | wc -l` and comparing to the inventor
 
 > **Core Skill:** Creating safety nets before any destructive operation (Lesson 2)
 
+<ExerciseCard id="2.1" title="The Migration Prep" />
+
 ### Exercise 2.1 — The Migration Prep (Build)
 
 **The Problem:**
@@ -237,6 +243,8 @@ After running `find migration-source/ -type l` and `find migration-source/ -name
 3. If the migration fails in 3 months, could someone use your BACKUP-LOG.md to restore everything? What information would they need that you didn't include?
 
 ---
+
+<ExerciseCard id="2.2" title="The Incomplete Backup" />
 
 ### Exercise 2.2 — The Incomplete Backup (Debug)
 
@@ -272,6 +280,8 @@ After running `diff <(cd original && find . | sort) <(cd backup && find . | sort
 
 > **Core Skill:** Designing categorization systems through collaborative refinement (Lesson 3)
 
+<ExerciseCard id="3.1" title="The Freelancer's Chaos" />
+
 ### Exercise 3.1 — The Freelancer's Chaos (Build)
 
 **The Problem:**
@@ -293,6 +303,8 @@ Design organization rules that sort these files into a logical folder structure.
 3. If this freelancer adds 20 new files next month, would your rules handle them without modification?
 
 ---
+
+<ExerciseCard id="3.2" title="The Collision Course" />
 
 ### Exercise 3.2 — The Collision Course (Debug)
 
@@ -321,6 +333,8 @@ Analyze `broken-rules.md` and identify every flaw: overlaps, gaps, ambiguities, 
 ## Module 4: Batch Operations
 
 > **Core Skill:** Transforming repetitive file tasks into systematic batch workflows (Lesson 4)
+
+<ExerciseCard id="4.1" title="Photo Library Cleanup" />
 
 ### Exercise 4.1 — Photo Library Cleanup (Build)
 
@@ -351,6 +365,8 @@ Design a batch rename operation that gives every file a consistent name format: 
 
 ---
 
+<ExerciseCard id="4.2" title="The Rename Disaster" />
+
 ### Exercise 4.2 — The Rename Disaster (Debug)
 
 **The Problem:**
@@ -379,6 +395,8 @@ Use `rename-log.txt` to reconstruct what happened. Identify every bug in the ori
 
 > **Core Skill:** Recovering from disasters and finding needles in haystacks (Lessons 5-6)
 
+<ExerciseCard id="5.1" title="The Accidental Flatten" />
+
 ### Exercise 5.1 — The Accidental Flatten (Build)
 
 **The Problem:**
@@ -400,6 +418,8 @@ Reconstruct the original nested directory structure. Use `backup/` as your refer
 3. What would you do differently if no backup existed? What other clues could you use to reconstruct the structure?
 
 ---
+
+<ExerciseCard id="5.2" title="The Tax Season Hunt" />
 
 ### Exercise 5.2 — The Tax Season Hunt (Search)
 
@@ -437,6 +457,8 @@ Find all 5 documents using only the descriptions above. For each one, document: 
 
 Capstones are different from the exercises above. There are no guided prompts — you design the entire approach yourself. Each project requires applying all six workflows together to solve a realistic problem. Where module exercises test individual skills, capstones test your ability to orchestrate those skills into a coherent pipeline. The quality of your documentation matters as much as the result — someone should be able to follow your process and reproduce it on a different folder.
 
+<ExerciseCard id="A" title="The Full Pipeline" />
+
 ### Capstone A — The Full Pipeline
 
 Open the `module-6-capstone/capstone-A-full-pipeline/` folder. You'll find `messy-downloads/` — an 80-file folder that simulates a real Downloads directory accumulated over months. There are PDFs, images, code files, spreadsheets, documents, archives, duplicates, and files with no clear purpose.
@@ -472,6 +494,8 @@ Take this folder through the complete File Processing Framework:
 3. How would you adapt this pipeline for a different domain — say, organizing a music library or a code repository?
 
 ---
+
+<ExerciseCard id="B" title="The Team File System" />
 
 ### Capstone B — The Team File System
 
@@ -509,6 +533,8 @@ Create the complete folder structure, write the rules document, and verify the s
 3. Would your system scale to a 10-person team, or would it need fundamental redesign?
 
 ---
+
+<ExerciseCard id="C" title="Your Own Files" />
 
 ### Capstone C — Your Own Files
 

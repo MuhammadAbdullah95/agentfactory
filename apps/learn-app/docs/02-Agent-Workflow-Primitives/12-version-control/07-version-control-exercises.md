@@ -144,6 +144,8 @@ For each exercise, evaluate yourself on:
 >
 > Lessons 1-2 taught you how to initialize repos, stage files selectively, create meaningful commits, and protect secrets with .gitignore. These exercises push those skills into realistic scenarios where the project structure is messier and the decisions about what to track are less obvious than the lesson examples.
 
+<ExerciseCard id="1.1" title="Project Kickoff" />
+
 ### Exercise 1.1 -- Project Kickoff (Build)
 
 **The Problem:**
@@ -179,6 +181,8 @@ After examining the project structure with `ls -R weather-tracker/`: "Initialize
 3. If a teammate cloned your repo tomorrow, what files would be missing from their copy -- and would they know those files are needed?
 
 ---
+
+<ExerciseCard id="1.2" title="Repo Rescue" />
 
 ### Exercise 1.2 -- Repo Rescue (Debug)
 
@@ -222,6 +226,8 @@ After running `git log --oneline` and `git status`: "This repo has three problem
 >
 > Lessons 2-3 taught you how to view changes with `git diff`, undo mistakes with `git restore`, and use branches for safe experimentation. These exercises put you in scenarios where AI-generated changes need careful review, selective staging, and confident recovery.
 
+<ExerciseCard id="2.1" title="AI Code Review Workflow" />
+
 ### Exercise 2.1 -- AI Code Review Workflow (Build)
 
 **The Problem:**
@@ -251,6 +257,8 @@ After reading app.py to understand its current features: "I want to improve this
 3. Looking at your 3-commit history, could a reviewer understand your decision-making process from the commit messages alone?
 
 ---
+
+<ExerciseCard id="2.2" title="Recovery Room" />
 
 ### Exercise 2.2 -- Recovery Room (Debug)
 
@@ -298,6 +306,8 @@ After running `git status` and `git diff` in Scenario A: "There are changes acro
 >
 > Lesson 3 taught you how branches create isolated workspaces for experiments. These exercises challenge you to use branches strategically -- comparing multiple approaches, untangling messes, and making decisions about which code to keep.
 
+<ExerciseCard id="3.1" title="Three Approaches" />
+
 ### Exercise 3.1 -- Three Approaches (Build)
 
 **The Problem:**
@@ -322,6 +332,8 @@ Use descriptive names: `approach-bubble-sort`, `approach-merge-sort`, `approach-
 3. After merging the winner, did the final `main` branch history tell a clear story -- or did it include merge noise?
 
 ---
+
+<ExerciseCard id="3.2" title="Branch Tangle" />
 
 ### Exercise 3.2 -- Branch Tangle (Debug)
 
@@ -353,6 +365,8 @@ Untangle the repo. Move the accidental commit off `main` onto its own feature br
 >
 > Lesson 4 taught you how to push projects to GitHub, clone repos, and establish the push-pull workflow. These exercises have you practice the full local-to-remote cycle and diagnose common remote configuration problems.
 
+<ExerciseCard id="4.1" title="Cloud Safety Net" />
+
 ### Exercise 4.1 -- Cloud Safety Net (Build)
 
 **The Problem:**
@@ -381,6 +395,8 @@ Initialize the repo, create a `.gitignore` that protects `secrets.json`, commit 
 3. How often should you push to GitHub for a solo project? What's the cost of pushing too rarely vs. too frequently?
 
 ---
+
+<ExerciseCard id="4.2" title="Remote Troubles" />
 
 ### Exercise 4.2 -- Remote Troubles (Debug)
 
@@ -417,6 +433,8 @@ Diagnose and fix each scenario. Scenario A requires renaming the local branch wi
 >
 > Lesson 5 taught you how pull requests enable code review, discussion, and AI transparency. These exercises have you write real PR descriptions, self-review diffs, and fix PRs that violate professional standards.
 
+<ExerciseCard id="5.1" title="Transparent PR" />
+
 ### Exercise 5.1 -- Transparent PR (Build)
 
 **The Problem:**
@@ -446,6 +464,8 @@ Write a complete PR description using the template. Self-review the diff between
 3. Could a reviewer who has never seen this codebase understand your PR from the description alone?
 
 ---
+
+<ExerciseCard id="5.2" title="PR Cleanup" />
 
 ### Exercise 5.2 -- PR Cleanup (Debug)
 
@@ -477,6 +497,8 @@ Rewrite each PR to professional standards. For PR 1, write a proper description 
 >
 > Lesson 6 taught you how to document Git workflows, create prompt templates, and build reusable patterns. These exercises have you create workflow documentation for a team and audit existing documentation for gaps that caused real incidents.
 
+<ExerciseCard id="6.1" title="Workflow Builder" />
+
 ### Exercise 6.1 -- Workflow Builder (Build)
 
 **The Problem:**
@@ -500,6 +522,8 @@ Create a comprehensive `git-workflow.md` that covers: (1) commit message convent
 3. If the team follows your workflow for a month and discovers a section that doesn't work, what's the process for updating it?
 
 ---
+
+<ExerciseCard id="6.2" title="Pattern Audit" />
 
 ### Exercise 6.2 -- Pattern Audit (Debug)
 
@@ -534,6 +558,8 @@ There are no starter prompts -- you design the entire approach yourself. Each ca
 
 The progression across capstones is intentional: Capstone A walks you through the complete Git lifecycle with a project you build yourself. Capstone B applies those skills to building a real professional presence on GitHub. Capstone C puts you in a forensic investigation role, using Git's history tools to reconstruct what happened in a damaged repository. Each capstone demands more judgment and different skills than the last.
 
+<ExerciseCard id="A" title="Full Stack Git Journey" />
+
 ### Capstone A -- Full Stack Git Journey (Integration)
 
 Take an empty folder through the complete Git lifecycle: initialize a repository with proper `.gitignore`, build a small project with 8-10 structured commits, create a feature branch to test an AI-generated improvement, merge the successful feature, push to GitHub, create a PR with AI transparency documentation, and write a `git-workflow.md` capturing your process.
@@ -550,6 +576,8 @@ This capstone hits every module: repository setup (Module 1), change tracking an
 
 ---
 
+<ExerciseCard id="B" title="Portfolio Launch" />
+
 ### Capstone B -- Portfolio Launch (Real-world)
 
 Build a professional GitHub presence from scratch. Create 3 repositories showcasing different skills (choose from: a web project, a data processing tool, an automation script, or a documentation site). For each repository: write a clear README that explains the project, its purpose, and how to run it; configure `.gitignore` with appropriate patterns for the technology used; create a clean commit history that tells a development story; and push to GitHub with descriptive repository descriptions. Finally, create a profile README (the special repository named after your GitHub username) that introduces you and links to your pinned repositories.
@@ -565,6 +593,8 @@ Use the `portfolio-templates/` folder for README templates and `.gitignore` exam
 - How README quality signals project quality -- a well-documented repository earns trust before anyone reads the code
 
 ---
+
+<ExerciseCard id="C" title="Git Forensics" />
 
 ### Capstone C -- Git Forensics (Forensics)
 

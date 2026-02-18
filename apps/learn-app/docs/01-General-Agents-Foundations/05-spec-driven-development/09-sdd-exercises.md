@@ -132,6 +132,8 @@ For each exercise, evaluate yourself on:
 
 > **Core Skill:** Recognizing the gap between vague instructions and precise specifications by experiencing both side by side.
 
+<ExerciseCard id="1.1" title="The Event Gone Wrong" />
+
 ### Exercise 1.1 — The Event Gone Wrong 🗂️🖥️
 
 **The Problem:**
@@ -160,6 +162,8 @@ Think about: Who is attending? What's the budget ceiling? Are there date constra
 3. Could your revised spec be handed to a completely different AI agent and still produce the right event?
 
 ---
+
+<ExerciseCard id="1.2" title="The Side-by-Side Test" />
 
 ### Exercise 1.2 — The Side-by-Side Test 🗂️🖥️
 
@@ -195,6 +199,8 @@ Before prompting, write a spec document answering: What sections must be include
 
 ---
 
+<ExerciseCard id="1.3" title="Vibe-to-Spec Rescue" />
+
 ### Exercise 1.3 — Vibe-to-Spec Rescue 🗂️🖥️
 
 **The Problem:**
@@ -224,6 +230,8 @@ For each failed output:
 ## Module 2: Research Phase — Gathering Context
 
 > **Core Skill:** Transforming a broad question into a structured research task that produces actionable context for specification writing.
+
+<ExerciseCard id="2.1" title="The Multi-Angle Investigation" />
 
 ### Exercise 2.1 — The Multi-Angle Investigation 🗂️🖥️
 
@@ -261,6 +269,8 @@ Write four separate, focused research prompts — each targeting one angle. Spec
 
 ---
 
+<ExerciseCard id="2.2" title="Source Reliability Audit" />
+
 ### Exercise 2.2 — Source Reliability Audit 🗂️🖥️
 
 **The Problem:**
@@ -287,6 +297,8 @@ Open the `source-audit/` folder. You'll find `research-output.md` — a research
 3. How would you incorporate source reliability checking into a real SDD research phase?
 
 ---
+
+<ExerciseCard id="2.3" title="Research Summary Document" />
 
 ### Exercise 2.3 — Research Summary Document 🗂️🖥️
 
@@ -320,6 +332,8 @@ After generating the research summary, write the first draft of a specification 
 ## Module 3: Writing Your First Spec
 
 > **Core Skill:** Transforming messy real-world requirements into structured specifications with clear goals, constraints, and success criteria.
+
+<ExerciseCard id="3.1" title="The Home Renovation Spec" />
 
 ### Exercise 3.1 — The Home Renovation Spec 🗂️🖥️
 
@@ -356,6 +370,8 @@ Don't ask for a plan — ask for a spec. Tell Claude: "Extract goals, constraint
 
 ---
 
+<ExerciseCard id="3.2" title="The Charity Fundraiser Spec" />
+
 ### Exercise 3.2 — The Charity Fundraiser Spec 🗂️🖥️
 
 **The Problem:**
@@ -383,6 +399,8 @@ Write a specification for the fundraiser that:
 3. Would this spec work as the agenda for the next committee meeting?
 
 ---
+
+<ExerciseCard id="3.3" title="Spec from Chaos" />
 
 ### Exercise 3.3 — Spec from Chaos 🗂️🖥️
 
@@ -418,6 +436,8 @@ After writing your spec, remove one of the four source documents and see what's 
 
 > **Core Skill:** Writing constraints and success criteria that are specific enough to verify and broad enough to allow creative solutions.
 
+<ExerciseCard id="4.1" title="The Missing Guardrails" />
+
 ### Exercise 4.1 — The Missing Guardrails 🗂️🖥️
 
 **The Problem:**
@@ -452,6 +472,8 @@ Before giving the task, list what MUST NOT happen: no topics outside our experti
 
 ---
 
+<ExerciseCard id="4.2" title="Measurable vs. Vague" />
+
 ### Exercise 4.2 — Measurable vs. Vague 🗂️🖥️
 
 **The Problem:**
@@ -477,6 +499,8 @@ Open the `measurable-vs-vague/` folder. You'll find `success-criteria.md` — a 
 3. How would you explain the value of measurable criteria to a stakeholder who says "we'll know it when we see it"?
 
 ---
+
+<ExerciseCard id="4.3" title="Constraint Stress Test" />
 
 ### Exercise 4.3 — Constraint Stress Test 🗂️🖥️
 
@@ -513,6 +537,8 @@ Swap your stress-tested spec with a classmate's (or set it aside for 24 hours an
 
 > **Core Skill:** Using structured interviews and systematic review to surface the assumptions, ambiguities, and gaps that survive the first draft.
 
+<ExerciseCard id="5.1" title="The Interview Challenge" />
+
 ### Exercise 5.1 — The Interview Challenge 🗂️🖥️
 
 **The Problem:**
@@ -547,6 +573,8 @@ Be specific about what you want challenged: "Read this spec. For every statement
 
 ---
 
+<ExerciseCard id="5.2" title="Ambiguity Hunter" />
+
 ### Exercise 5.2 — Ambiguity Hunter 🗂️🖥️
 
 **The Problem:**
@@ -573,6 +601,8 @@ Open the `ambiguity-hunter/` folder. You'll find `polished-spec.md` — a specif
 3. Did Claude find ambiguities you missed, or did you outperform it?
 
 ---
+
+<ExerciseCard id="5.3" title="Stakeholder Perspectives" />
 
 ### Exercise 5.3 — Stakeholder Perspectives 🗂️🖥️
 
@@ -608,6 +638,8 @@ Ask Claude to review the spec from a perspective you didn't think of — a compl
 
 > **Core Skill:** Decomposing specifications into atomic, dependency-ordered tasks that an AI agent (or human team) can execute independently.
 
+<ExerciseCard id="6.1" title="The Dependency Map" />
+
 ### Exercise 6.1 — The Dependency Map 🗂️🖥️
 
 **The Problem:**
@@ -642,6 +674,8 @@ Don't ask Claude to just "break it down." Ask: "Identify all deliverables, map w
 
 ---
 
+<ExerciseCard id="6.2" title="Atomic Task Writer" />
+
 ### Exercise 6.2 — Atomic Task Writer 🗂️🖥️
 
 **The Problem:**
@@ -667,6 +701,8 @@ Open the `atomic-tasks/` folder. You'll find `bad-tasks.md` — a list of 10 tas
 3. How granular is "too granular"? Where's the line between helpfully specific and micromanaging?
 
 ---
+
+<ExerciseCard id="6.3" title="Delegation Simulation" />
 
 ### Exercise 6.3 — Delegation Simulation 🗂️🖥️
 
@@ -703,6 +739,8 @@ Your delegation plan should be detailed enough that someone else could manage th
 
 > **Core Skill:** Running the complete SDD workflow — from research through execution — on a single real-world project.
 
+<ExerciseCard id="7.1" title="Community Newsletter" />
+
 ### Exercise 7.1 — Community Newsletter 🗂️🖥️
 
 **The Problem:**
@@ -730,6 +768,8 @@ Run the complete SDD cycle:
 3. Could someone run the second newsletter issue using only your spec, without talking to you?
 
 ---
+
+<ExerciseCard id="7.2" title="Office Move Planner" />
 
 ### Exercise 7.2 — Office Move Planner 🗂️🖥️
 
@@ -761,6 +801,8 @@ After completing Phase 1 deliverables, introduce a change: the budget just got c
 3. What would have happened if you'd started executing without a spec and THEN the budget changed?
 
 ---
+
+<ExerciseCard id="7.3" title="Product Launch Playbook" />
 
 ### Exercise 7.3 — Product Launch Playbook 🗂️🖥️
 
@@ -796,6 +838,8 @@ Run the complete SDD cycle:
 
 Capstones are different from the exercises above. There are no starter prompts — you design the entire SDD workflow yourself. Each project is complex enough to require genuine research, meaningful refinement, and multi-phase task delegation.
 
+<ExerciseCard id="A" title="Wedding Planner System" />
+
 ### Capstone A — Wedding Planner System 🗂️🖥️
 
 Open the `capstone-wedding/` folder. You'll find `couple-brief.md` — a couple's wish list for their wedding (150 guests, outdoor ceremony, indoor reception, specific dietary mix, budget range, 3 potential dates). The brief has the usual contradictions (elegant but casual, locally-sourced but affordable) and missing information (no mention of accessibility, weather contingency, or vendor preferences).
@@ -816,6 +860,8 @@ Run the full SDD cycle to produce a complete wedding planning system:
 
 ---
 
+<ExerciseCard id="B" title="Small Business Launch Kit" />
+
 ### Capstone B — Small Business Launch Kit 🗂️🖥️
 
 You're helping a friend launch a tutoring business. Open the `capstone-business/` folder for the `founder-vision.md` — a mix of market observations, personal goals, service ideas, and financial hopes. No structure, many assumptions, some unrealistic expectations.
@@ -835,6 +881,8 @@ Run the full SDD cycle to produce a complete business launch kit:
 - Building a complete deliverable package that a real founder could use
 
 ---
+
+<ExerciseCard id="C" title="Personal Goal System" />
 
 ### Capstone C — Personal Goal System 🗂️🖥️
 
