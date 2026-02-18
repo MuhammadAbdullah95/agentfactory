@@ -1,6 +1,6 @@
 ---
 sidebar_position: 7
-title: "Chapter 7: Meet Your First AI Employee"
+title: "Chapter 7: Meet Your First AI Employee - OpenClaw"
 description: "Experience a working AI Employee for free, understand the universal patterns, assess what works and what remains unsolved, then bridge to building your own"
 keywords:
   [
@@ -15,9 +15,9 @@ keywords:
   ]
 ---
 
-# Chapter 7: Meet Your First AI Employee
+# Chapter 7: Meet Your First AI Employee - OpenClaw
 
-By February 2026, OpenClaw had crossed 202,000 GitHub stars — the fastest-growing repository in history. It proved something the industry had been debating: **AI Employees are real, they work, and people want them.**
+By February 2026, OpenClaw had crossed 206,000 GitHub stars — the fastest-growing repository in history. It proved something the industry had been debating: **AI Employees are real, they work, and people want them.**
 
 This chapter is your test drive. You will set up a working AI Employee on Telegram for free, give it real work, understand how it works under the hood, create a custom skill, learn the security realities, watch it delegate coding tasks to Claude Code, connect it to your actual Google Workspace, and assess what OpenClaw proved and what remains unsolved. Everything you learn here transfers to any agent framework.
 
