@@ -15,6 +15,7 @@ dependencies = []
 members = [
     "apps/panaversity-fs-py",
     "apps/study-mode-api",
+    "apps/content-api",
     "libs/api-infra",
     # Add new Python projects here:
     # "apps/sso-py",
