@@ -138,10 +138,13 @@ async def verify_jwt(token: str) -> dict[str, Any]:
 
 
 async def verify_opaque_token(token: str) -> dict[str, Any]:
-    """Verify opaque access token via SSO userinfo endpoint.
+    """Verify opaque token via SSO — tries OAuth2 userinfo then session fallback.
 
-    When OAuth clients send opaque access_tokens instead of JWTs,
-    we validate them by calling the SSO's userinfo endpoint.
+    Better Auth issues two kinds of opaque tokens:
+    1. OAuth2 access tokens (from authorization code flow) → validated via /userinfo
+    2. Session tokens (from device flow) → validated via /get-session with cookie
+
+    We try userinfo first (standard OAuth2), then fall back to session validation.
     """
     settings = get_settings()
     if not settings.sso_url:
@@ -150,43 +153,70 @@ async def verify_opaque_token(token: str) -> dict[str, Any]:
             detail="SSO not configured",
         )
 
-    userinfo_url = f"{settings.sso_url}/api/auth/oauth2/userinfo"
     token_preview = f"{token[:10]}...{token[-10:]}" if len(token) > 25 else "[short]"
-    logger.info("[AUTH] Validating opaque token via userinfo: %s", token_preview)
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
+            # Strategy 1: OAuth2 userinfo (for OAuth2 access tokens)
+            userinfo_url = f"{settings.sso_url}/api/auth/oauth2/userinfo"
+            logger.info("[AUTH] Trying userinfo for token: %s", token_preview)
+
             response = await client.get(
                 userinfo_url,
                 headers={"Authorization": f"Bearer {token}"},
             )
 
-            if response.status_code == 401:
-                logger.warning("[AUTH] Userinfo returned 401 - token invalid or expired")
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Token invalid or expired",
-                    headers={"WWW-Authenticate": "Bearer"},
+            if response.status_code == 200:
+                data = response.json()
+                logger.info(
+                    "[AUTH] Opaque token verified via userinfo - sub: %s, email: %s",
+                    data.get("sub"),
+                    data.get("email"),
                 )
+                return data
 
-            if response.status_code != 200:
-                logger.error("[AUTH] Userinfo returned %d", response.status_code)
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail=f"Userinfo request failed: {response.status_code}",
-                    headers={"WWW-Authenticate": "Bearer"},
-                )
+            # Strategy 2: Session validation (for device flow session tokens)
+            # Device flow returns session tokens stored in the session table,
+            # not OAuth2 access tokens. Validate via get-session with cookie.
+            cookie_prefix = getattr(settings, "sso_cookie_prefix", "better-auth")
+            cookie_name = f"{cookie_prefix}.session_token"
+            session_url = f"{settings.sso_url}/api/auth/get-session"
+            logger.info("[AUTH] Userinfo returned %d, trying session validation", response.status_code)
 
-            data = response.json()
-            logger.info(
-                "[AUTH] Opaque token verified - sub: %s, email: %s",
-                data.get("sub"),
-                data.get("email"),
+            session_resp = await client.get(
+                session_url,
+                cookies={cookie_name: token},
             )
-            return data
+
+            if session_resp.status_code == 200:
+                data = session_resp.json()
+                user = data.get("user", {})
+                session = data.get("session", {})
+                if user.get("id"):
+                    logger.info(
+                        "[AUTH] Session token verified - id: %s, email: %s",
+                        user.get("id"),
+                        user.get("email"),
+                    )
+                    # Map session/user response to userinfo-compatible format
+                    return {
+                        "sub": user.get("id", ""),
+                        "email": user.get("email", ""),
+                        "name": user.get("name", ""),
+                        "role": user.get("role", "user"),
+                        "organization_id": session.get("activeOrganizationId"),
+                    }
+
+            # Both strategies failed
+            logger.warning("[AUTH] All token validation strategies failed for: %s", token_preview)
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token invalid or expired",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
 
     except httpx.RequestError as e:
-        logger.error("[AUTH] Userinfo request failed: %s", e)
+        logger.error("[AUTH] Token validation request failed: %s", e)
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=f"Authentication service unavailable: {e}",
