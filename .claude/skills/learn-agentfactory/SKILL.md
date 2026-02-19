@@ -140,19 +140,21 @@ Show the code warmly — stay in persona:
 > While that's connecting — quick question to help me personalize your learning:
 > **What's one thing you'd love to build with AI agents?** (A personal assistant? A business workflow? Just curious to learn?)
 
-Then poll until auth completes — wait the `interval` seconds between each attempt:
+Then poll until auth completes. **Poll silently — do NOT announce each "pending" result.** Just wait and retry quietly. Only speak to the learner when the status changes (complete/expired/denied) or when you want to chat while waiting.
 
 ```bash
 # 3. Poll (run every {interval} seconds, typically 5s)
-python3 scripts/api.py auth-poll
+sleep 5 && python3 scripts/api.py auth-poll
 ```
 
 Poll returns `{"status": "pending"}`, `{"status": "complete"}`, or `{"status": "expired"}`.
 
-- **"pending"**: Wait `interval` seconds and poll again. Engage the learner while waiting.
+- **"pending"**: Wait `interval` seconds and poll again silently. Do NOT tell the user it's still pending.
 - **"complete"**: Auth succeeded! Update the tracker and continue to Step 2.
 - **"expired"**: Code expired. Run `auth-start` again for a fresh code.
 - **"denied"**: User rejected. Explain and offer to try again.
+
+**Max 12 polls (60 seconds)**, then pause and ask: "Still working on it? I can generate a fresh code if needed."
 
 After `auth-poll` returns `"complete"`, verify with `progress`:
 
