@@ -78,6 +78,64 @@ class TestProgressComplete:
         assert body["lesson_slug"] == "01-first-steps"
         assert body["active_duration_secs"] == 300
 
+    async def test_complete_defaults_source_to_platform(
+        self, client, make_token, enable_progress
+    ):
+        """Without explicit source, defaults to 'platform'."""
+        token = make_token()
+
+        await client.post(
+            "/api/v1/content/complete",
+            json={
+                "chapter_slug": "01-intro",
+                "lesson_slug": "01-welcome",
+            },
+            headers=auth_header(token),
+        )
+
+        last_request = enable_progress["complete"].calls.last.request
+        body = json.loads(last_request.content)
+        assert body["source"] == "platform"
+
+    async def test_complete_forwards_skill_source(
+        self, client, make_token, enable_progress
+    ):
+        """Skill completions send source='skill' to progress API."""
+        token = make_token()
+
+        await client.post(
+            "/api/v1/content/complete",
+            json={
+                "chapter_slug": "01-intro",
+                "lesson_slug": "01-welcome",
+                "active_duration_secs": 180,
+                "source": "skill",
+            },
+            headers=auth_header(token),
+        )
+
+        last_request = enable_progress["complete"].calls.last.request
+        body = json.loads(last_request.content)
+        assert body["source"] == "skill"
+
+    async def test_complete_rejects_invalid_source(
+        self, client, make_token, enable_progress
+    ):
+        """Invalid source values are rejected by schema validation."""
+        token = make_token()
+
+        resp = await client.post(
+            "/api/v1/content/complete",
+            json={
+                "chapter_slug": "01-intro",
+                "lesson_slug": "01-welcome",
+                "source": "hacked",
+            },
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 422
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Progress API not configured — 503

@@ -41,6 +41,7 @@ class ProgressClient:
         chapter_slug: str,
         lesson_slug: str,
         active_duration_secs: int = 0,
+        source: str = "platform",
         auth_token: str | None = None,
     ) -> dict[str, Any]:
         """Record lesson completion via progress API."""
@@ -50,6 +51,7 @@ class ProgressClient:
             "chapter_slug": chapter_slug,
             "lesson_slug": lesson_slug,
             "active_duration_secs": active_duration_secs,
+            "source": source,
         }
 
         try:

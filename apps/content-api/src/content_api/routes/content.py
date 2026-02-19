@@ -214,6 +214,7 @@ async def complete_lesson(
         chapter_slug=body.chapter_slug,
         lesson_slug=body.lesson_slug,
         active_duration_secs=body.active_duration_secs,
+        source=body.source,
         auth_token=auth_token,
     )
 

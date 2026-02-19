@@ -1,4 +1,4 @@
-.PHONY: dev dev-services dev-book dev-learn
+.PHONY: dev dev-services dev-book dev-learn dev-all
 
 dev-services:
 	nx serve sso & \
@@ -22,4 +22,22 @@ dev-learn:
 	SSO_URL="http://localhost:3001" \
 	DEV_MODE="false" \
 	nx serve progress-api & \
+	wait
+
+# Everything: platform services + content API + frontend
+dev-all:
+	@echo "Starting ALL services..."
+	@echo "  SSO (3001) | Study Mode (8000) | Token Metering (8003)"
+	@echo "  Content API (8001) | Progress API (8002) | Learn App (3000)"
+	nx serve sso & \
+	nx serve study-mode-api & \
+	nx serve token-metering-api & \
+	nx serve content-api & \
+	DATABASE_URL="postgresql+asyncpg://$(USER)@localhost:5432/progress" \
+	REDIS_URL="redis://localhost:6379" \
+	REDIS_PASSWORD="" \
+	SSO_URL="http://localhost:3001" \
+	DEV_MODE="false" \
+	nx serve progress-api & \
+	nx serve learn-app & \
 	wait

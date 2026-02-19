@@ -265,6 +265,7 @@ def cmd_complete(chapter: str, lesson: str, duration: int = 0):
             "chapter_slug": chapter,
             "lesson_slug": lesson,
             "active_duration_secs": duration,
+            "source": "skill",
         },
     )
     print(json.dumps(data, indent=2))

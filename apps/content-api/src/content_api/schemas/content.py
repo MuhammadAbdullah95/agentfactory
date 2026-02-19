@@ -1,6 +1,6 @@
 """Pydantic models for content API endpoints."""
 
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -80,6 +80,7 @@ class CompleteRequest(BaseModel):
     chapter_slug: str
     lesson_slug: str
     active_duration_secs: int = Field(ge=0, default=0)
+    source: Literal["platform", "skill"] = "platform"
 
 
 class CompleteResponse(BaseModel):
