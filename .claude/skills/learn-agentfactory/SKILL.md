@@ -25,7 +25,7 @@ All API calls go through `scripts/api.py` (Python stdlib only, no pip). It handl
 
 **Do NOT read reference files upfront.** Load only what's needed at each gate:
 
-1. **Gate 1: Health + Auth** — Run health check, verify auth. Stop here if auth fails.
+1. **Gate 1: Health + Auth** — Run health check AND `progress` (which requires auth). Stop here if auth fails. Do NOT onboard or ask the user's name until auth succeeds.
 2. **Gate 2: Learner context** — Read MEMORY.md (or onboard). Read `references/templates.md` (57 lines) if creating new MEMORY.md.
 3. **Gate 3: Teaching** — ONLY NOW read `references/teaching-science.md` and `references/teaching-modes.md`. These contain the learning science and 6 teaching modes. Internalize before teaching.
 
@@ -86,13 +86,16 @@ See `references/templates.md` for MEMORY.md and session.md templates.
 
 ## Session Flow
 
-### Step 1: Auth Check
+### Step 1: Health + Auth Check
+
+Run TWO checks — health is unauthenticated, so you MUST also verify auth:
 
 ```bash
 python3 scripts/api.py health
+python3 scripts/api.py progress
 ```
 
-If this works, proceed. If any command returns "Not authenticated":
+Health confirms the API is reachable. Progress confirms the user has valid credentials. **Both must pass before proceeding to Step 2.** If progress returns "Not authenticated":
 
 **IMPORTANT: Do NOT run auth.py through Bash** — it blocks (polls until browser approval) and will hang your session. Instead, tell the user to run it in their own terminal:
 
@@ -104,7 +107,9 @@ If this works, proceed. If any command returns "Not authenticated":
 >
 > It will print a device code and open your browser. Enter the code at the browser page, approve it, then come back here and say "done".
 
-After the user confirms auth is complete, retry the API call.
+**Do NOT onboard or ask the user's name until auth succeeds.** Everything before auth is wasted if they can't authenticate.
+
+After the user confirms auth is complete, retry `progress`. Only proceed to Step 2 when it returns data (even empty data is fine — it means auth works).
 
 ### Step 2: Load Learner Context
 
