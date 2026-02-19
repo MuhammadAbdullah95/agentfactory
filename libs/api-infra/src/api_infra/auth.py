@@ -138,13 +138,14 @@ async def verify_jwt(token: str) -> dict[str, Any]:
 
 
 async def verify_opaque_token(token: str) -> dict[str, Any]:
-    """Verify opaque token via SSO — tries OAuth2 userinfo then session fallback.
+    """Verify opaque token via SSO — tries session first, then OAuth2 userinfo.
 
     Better Auth issues two kinds of opaque tokens:
-    1. OAuth2 access tokens (from authorization code flow) → validated via /userinfo
-    2. Session tokens (from device flow) → validated via /get-session with cookie
+    1. Session tokens (from device flow) → validated via /get-session with cookie
+    2. OAuth2 access tokens (from authorization code flow) → validated via /userinfo
 
-    We try userinfo first (standard OAuth2), then fall back to session validation.
+    Session validation is tried first because device flow is the primary auth
+    path for CLI/skill users, and it avoids a wasted 401 round-trip to userinfo.
     """
     settings = get_settings()
     if not settings.sso_url:
@@ -157,31 +158,13 @@ async def verify_opaque_token(token: str) -> dict[str, Any]:
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
-            # Strategy 1: OAuth2 userinfo (for OAuth2 access tokens)
-            userinfo_url = f"{settings.sso_url}/api/auth/oauth2/userinfo"
-            logger.info("[AUTH] Trying userinfo for token: %s", token_preview)
-
-            response = await client.get(
-                userinfo_url,
-                headers={"Authorization": f"Bearer {token}"},
-            )
-
-            if response.status_code == 200:
-                data = response.json()
-                logger.info(
-                    "[AUTH] Opaque token verified via userinfo - sub: %s, email: %s",
-                    data.get("sub"),
-                    data.get("email"),
-                )
-                return data
-
-            # Strategy 2: Session validation (for device flow session tokens)
-            # Device flow returns session tokens stored in the session table,
-            # not OAuth2 access tokens. Validate via get-session with cookie.
+            # Strategy 1: Session validation (for device flow session tokens)
+            # Device flow returns session tokens stored in the session table.
+            # This is the fast path for CLI/skill users.
             cookie_prefix = getattr(settings, "sso_cookie_prefix", "better-auth")
             cookie_name = f"{cookie_prefix}.session_token"
             session_url = f"{settings.sso_url}/api/auth/get-session"
-            logger.info("[AUTH] Userinfo returned %d, trying session validation", response.status_code)
+            logger.info("[AUTH] Trying session validation for token: %s", token_preview)
 
             session_resp = await client.get(
                 session_url,
@@ -198,7 +181,6 @@ async def verify_opaque_token(token: str) -> dict[str, Any]:
                         user.get("id"),
                         user.get("email"),
                     )
-                    # Map session/user response to userinfo-compatible format
                     return {
                         "sub": user.get("id", ""),
                         "email": user.get("email", ""),
@@ -206,6 +188,24 @@ async def verify_opaque_token(token: str) -> dict[str, Any]:
                         "role": user.get("role", "user"),
                         "organization_id": session.get("activeOrganizationId"),
                     }
+
+            # Strategy 2: OAuth2 userinfo (for web app OAuth2 access tokens)
+            userinfo_url = f"{settings.sso_url}/api/auth/oauth2/userinfo"
+            logger.info("[AUTH] Session validation failed, trying userinfo")
+
+            response = await client.get(
+                userinfo_url,
+                headers={"Authorization": f"Bearer {token}"},
+            )
+
+            if response.status_code == 200:
+                data = response.json()
+                logger.info(
+                    "[AUTH] Opaque token verified via userinfo - sub: %s, email: %s",
+                    data.get("sub"),
+                    data.get("email"),
+                )
+                return data
 
             # Both strategies failed
             logger.warning("[AUTH] All token validation strategies failed for: %s", token_preview)
