@@ -119,9 +119,9 @@ function HomepageHeader() {
                 <span className="w-[1px] h-4 bg-border mx-1"></span>
                 <Link
                   to="/reviews"
-                  className="text-sm font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1.5"
+                  className="text-sm font-bold text-primary hover:text-primary/80 transition-colors flex items-center gap-1.5"
                 >
-                  Live AI Review
+                  Live AI Reviews
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
