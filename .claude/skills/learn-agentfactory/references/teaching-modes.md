@@ -181,6 +181,8 @@ The agent selects modes dynamically — never hardcode a single path.
 | "Let me try" / "I want to build"         | Mentor    | Ready for application      |
 | "Challenge me" / "Give me a scenario"    | Simulator | Ready for advanced testing |
 | "What should I study?" / "What's next?"  | Manager   | Needs path guidance        |
+| "This is too hard" / "I give up"         | Coach     | Scaffold down, simplify    |
+| "This is too easy" / "I'm bored"         | Simulator | Challenge up               |
 
 ### MEMORY.md-Based Switching
 
