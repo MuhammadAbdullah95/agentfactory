@@ -60,7 +60,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/token-metering-api",
-        "command": "uv run uvicorn token_metering_api.main:app --reload --port 8001"
+        "command": "uv run uvicorn token_metering_api.main:app --reload --port 8003"
       }
     },
     "build": {
