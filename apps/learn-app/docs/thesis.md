@@ -72,6 +72,24 @@ What remains: Intent. Verification. Outcome.
 - **The Factory:** A self-correcting engine where _machine-readable specs_ act as the DNA for agents, connecting reusable skills through _MCP tool contracts_.
 - **Outcome:** High-fidelity actions and artifacts—delivered on demand, verified for accuracy, and continuously improved through feedback loops.
 
+## The Human in the Loop
+
+A common fear: agents replace people. The evidence says otherwise. For most tasks, AI paired with a human outperforms either one working alone. The Agent Factory doesn't eliminate the human—it promotes them. From operator to supervisor. From typist to editor. From coder to architect of outcomes.
+
+This changes what it means to be a "tech professional." A web developer or mobile developer is not just someone who writes React or Swift. They are a **technology expert**—someone who understands systems, data flows, APIs, and user needs. In the Agent Factory era, that expertise becomes far more valuable, because it is no longer spent hand-coding screens. It is spent designing, deploying, and supervising agents that deliver entire products.
+
+The developer doesn't disappear. The developer does *more*.
+
+## The Workforce Opportunity
+
+AI will unbundle jobs into tasks. Some of those tasks will be automated entirely. But unbundling also creates new combinations—new roles, new businesses, new markets that didn't exist when work was locked inside rigid job titles.
+
+The future workforce must build **dynamic skill portfolios** rather than rely on fixed career paths. Professionals who learn to think with AI, build using AI tools daily, and collaborate with AI as a digital teammate won't just survive the transition—they'll thrive in it.
+
+The SaaS era created millions of jobs for developers, designers, and product managers. The Agent Factory era will create millions more—for agent designers, outcome architects, verification specialists, and domain experts who teach machines what "correct" looks like in their field.
+
+**The opportunity is not smaller. It is broader, and it rewards those who adapt.**
+
 <div style={{
   textAlign: 'center',
   maxWidth: '800px',
