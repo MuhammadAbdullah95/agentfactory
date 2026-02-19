@@ -69,10 +69,17 @@ What remains: Intent. Verification. Outcome.
 ### The Industrialized Stack
 
 - **Intent:** The high-level blueprint—goals, constraints, budgets, and permissions.
-- **The Factory:** A self-correcting engine where _machine-readable specs_ act as the DNA for agents, connecting reusable skills through _MCP tool contracts_.
+- **The Factory:** The production engine that transforms intent into outcomes. Described in detail below.
 - **Outcome:** High-fidelity actions and artifacts—delivered on demand, verified for accuracy, and continuously improved through feedback loops.
 
-## The Human in the Loop
+### The Factory: From Intent to Outcome
+The Factory is the core of the thesis—the production engine that sits between what someone wants and what they get. It is not a single piece of software. It is an architecture: a set of principles for building systems where agents are manufactured, composed, and deployed the way an industrial plant manufactures goods.
+
+A traditional factory takes raw materials, runs them through a series of specialized stations, and produces finished products. The Agent Factory does the same thing—but the raw material is intent, the stations are agents, and the finished product is a verified outcome.
+
+Three mechanisms power the factory: specs define the work, skills package how it gets done, and feedback loops ensure it improves—with MCP as the universal protocol that connects every agent to every tool.
+
+### The Human in the Loop
 
 A common fear: agents replace people. The evidence says otherwise. For most tasks, AI paired with a human outperforms either one working alone. The Agent Factory doesn't eliminate the human—it promotes them. From operator to supervisor. From typist to editor. From coder to architect of outcomes.
 
@@ -80,7 +87,7 @@ This changes what it means to be a "tech professional." A web developer or mobil
 
 The developer doesn't disappear. The developer does *more*.
 
-## The Workforce Opportunity
+### The Workforce Opportunity
 
 AI will unbundle jobs into tasks. Some of those tasks will be automated entirely. But unbundling also creates new combinations—new roles, new businesses, new markets that didn't exist when work was locked inside rigid job titles.
 
