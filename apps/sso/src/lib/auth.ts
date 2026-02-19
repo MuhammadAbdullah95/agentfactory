@@ -24,7 +24,11 @@ import {
 import { eq, and } from "drizzle-orm";
 import { Resend } from "resend";
 import * as nodemailer from "nodemailer";
-import { TRUSTED_CLIENTS, DEFAULT_ORG_ID } from "./trusted-clients";
+import {
+  TRUSTED_CLIENTS,
+  TRUSTED_CLIENT_IDS,
+  DEFAULT_ORG_ID,
+} from "./trusted-clients";
 import { redis, redisStorage } from "./redis";
 import bcrypt from "bcryptjs";
 
@@ -994,8 +998,12 @@ export const auth = betterAuth({
     // Device Authorization Plugin - RFC 8628 OAuth 2.0 Device Authorization Grant
     // Enables CLI tools (learn-agentfactory skill) to authenticate via device code flow
     // Users enter a code at /device in their browser to authorize the CLI
+    // DEPLOY: Run `pnpm db:push` on prod before deploying — device_code table must exist
     deviceAuthorization({
       verificationUri: `${process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3001"}/device`,
+      validateClient: async (clientId: string) => {
+        return TRUSTED_CLIENT_IDS.includes(clientId);
+      },
     }),
   ],
 
