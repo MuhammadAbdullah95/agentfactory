@@ -151,17 +151,17 @@ class TestMeteringDenied:
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# Resilience — fail-open on timeout, release on content failure
+# Resilience — fail-closed on timeout, release on content failure
 # ═══════════════════════════════════════════════════════════════════════════
 
 
 class TestMeteringResilience:
-    """Metering API failures are handled gracefully."""
+    """Metering API failures block content access (fail-closed)."""
 
-    async def test_check_timeout_still_serves_content(
+    async def test_check_timeout_blocks_content(
         self, client, make_token, enable_metering
     ):
-        """When metering API times out, content should still be served (fail-open)."""
+        """When metering API times out, content must NOT be served (fail-closed)."""
 
         def _raise_timeout(request):
             raise httpx_mod.ConnectTimeout("metering check timed out")
@@ -179,10 +179,32 @@ class TestMeteringResilience:
             headers=auth_header(token),
         )
 
-        # Fail-open: content served. MeteringClient returns failopen reservation
-        # internally, so credit_charged=True (from the route handler's perspective,
-        # the check "allowed" it with a failopen reservation_id).
-        assert resp.status_code == 200
+        # Fail-closed: content NOT served when credits can't be verified
+        assert resp.status_code == 503
+        assert "unavailable" in resp.json()["detail"].lower()
+
+    async def test_check_connection_error_blocks_content(
+        self, client, make_token, enable_metering
+    ):
+        """When metering API is unreachable, content must NOT be served."""
+
+        def _raise_connection_error(request):
+            raise httpx_mod.ConnectError("metering service unreachable")
+
+        enable_metering["check"].mock(side_effect=_raise_connection_error)
+
+        token = make_token()
+        resp = await client.get(
+            "/api/v1/content/lesson",
+            params={
+                "part": "01-Foundations",
+                "chapter": "01-intro",
+                "lesson": "01-welcome",
+            },
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 503
 
     async def test_release_called_when_content_not_found(
         self, client, make_token, enable_metering

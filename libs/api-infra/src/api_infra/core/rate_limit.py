@@ -72,16 +72,18 @@ class RateLimiter:
 
     @staticmethod
     def _default_identifier(request: Request) -> str:
-        """Default function to identify clients (by IP or user ID)."""
-        # Try to get user_id from header first (ChatKit internal requests)
-        user_id = request.headers.get("X-User-ID")
-        if not user_id:
-            # Then try query params (direct API calls)
-            user_id = request.query_params.get("user_id")
-        if user_id:
-            return f"user:{user_id}"
+        """Identify clients by authenticated user ID or IP address.
 
-        # Fall back to IP address
+        Prefers the authenticated user attached by the rate_limit wrapper
+        (from FastAPI's dependency-injected CurrentUser). Falls back to IP.
+        Never trusts client-supplied headers like X-User-ID for identification.
+        """
+        # Prefer authenticated user from FastAPI dependency injection
+        auth_user_id = getattr(request.state, "rate_limit_user_id", None)
+        if auth_user_id:
+            return f"user:{auth_user_id}"
+
+        # Fall back to IP address (for unauthenticated endpoints like /health)
         forwarded = request.headers.get("X-Forwarded-For")
         if forwarded:
             return f"ip:{forwarded.split(',')[0].strip()}"
@@ -122,7 +124,7 @@ class RateLimiter:
             script_sha = await self._load_lua_script(redis_client)
 
             # Get identifier (e.g., user ID or IP address)
-            identifier = self._default_identifier(request)
+            identifier = self.identifier(request)
             key = f"rate_limit:{self.redis_key}:{identifier}"
             window_ms = self.config.get_window()
             logger.info(f"[RateLimit] Identifier resolved: {identifier}")
@@ -206,6 +208,13 @@ def rate_limit(
             if not request or not response:
                 logger.error("Rate limit decorator requires Request and Response objects")
                 return await func(*args, **kwargs)
+
+            # Attach authenticated user ID to request.state for the identifier.
+            # FastAPI resolves Depends() before calling the wrapper, so
+            # kwargs["user"] is the CurrentUser when the route declares one.
+            user = kwargs.get("user")
+            if user and hasattr(user, "id") and user.id:
+                request.state.rate_limit_user_id = user.id
 
             # Check rate limit
             rate_limit_info = await limiter._check_rate_limit(request)

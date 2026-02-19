@@ -1,5 +1,6 @@
 """HTTP client for progress-api (completion tracking)."""
 
+import asyncio
 import logging
 from typing import Any
 
@@ -18,13 +19,16 @@ class ProgressClient:
     def __init__(self, base_url: str | None = None):
         self.base_url = (base_url or settings.progress_api_url).rstrip("/")
         self._client: httpx.AsyncClient | None = None
+        self._lock = asyncio.Lock()
 
     async def _get_client(self) -> httpx.AsyncClient:
         if self._client is None:
-            self._client = httpx.AsyncClient(
-                base_url=self.base_url,
-                timeout=PROGRESS_TIMEOUT,
-            )
+            async with self._lock:
+                if self._client is None:  # double-check after acquiring lock
+                    self._client = httpx.AsyncClient(
+                        base_url=self.base_url,
+                        timeout=PROGRESS_TIMEOUT,
+                    )
         return self._client
 
     async def close(self) -> None:

@@ -133,8 +133,8 @@ def _api_get(path: str, params: dict | None = None) -> dict:
     if params:
         url += "?" + urlencode(params)
 
+    token = _load_token()
     for attempt in range(2):
-        token = _load_token()
         req = Request(url)
         req.add_header("Authorization", f"Bearer {token}")
         req.add_header("Accept", "application/json")
@@ -146,6 +146,7 @@ def _api_get(path: str, params: dict | None = None) -> dict:
             if e.code == 401 and attempt == 0:
                 new_token = _try_refresh()
                 if new_token:
+                    token = new_token
                     continue  # retry with refreshed token
             _handle_http_error(e)
         except OSError as e:
@@ -159,8 +160,8 @@ def _api_post(path: str, data: dict) -> dict:
     url = f"{_base_url()}{path}"
     body = json.dumps(data).encode()
 
+    token = _load_token()
     for attempt in range(2):
-        token = _load_token()
         req = Request(url, data=body, method="POST")
         req.add_header("Authorization", f"Bearer {token}")
         req.add_header("Content-Type", "application/json")
@@ -173,6 +174,7 @@ def _api_post(path: str, data: dict) -> dict:
             if e.code == 401 and attempt == 0:
                 new_token = _try_refresh()
                 if new_token:
+                    token = new_token
                     continue  # retry with refreshed token
             _handle_http_error(e)
         except OSError as e:

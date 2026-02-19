@@ -1,5 +1,10 @@
-"""HTTP client for token-metering-api."""
+"""HTTP client for token-metering-api.
 
+Fail-closed: if metering is enabled but unreachable, content is NOT served.
+This protects revenue — users must have verified credits to access lessons.
+"""
+
+import asyncio
 import logging
 from typing import Any
 
@@ -18,18 +23,22 @@ class MeteringClient:
     Async HTTP client for the token-metering-api.
 
     Provides check/deduct/release operations for the reservation pattern.
+    Fail-closed: unreachable metering API blocks content access.
     """
 
     def __init__(self, base_url: str | None = None):
         self.base_url = (base_url or settings.metering_api_url).rstrip("/")
         self._client: httpx.AsyncClient | None = None
+        self._lock = asyncio.Lock()
 
     async def _get_client(self) -> httpx.AsyncClient:
         if self._client is None:
-            self._client = httpx.AsyncClient(
-                base_url=self.base_url,
-                timeout=METERING_TIMEOUT,
-            )
+            async with self._lock:
+                if self._client is None:  # double-check after acquiring lock
+                    self._client = httpx.AsyncClient(
+                        base_url=self.base_url,
+                        timeout=METERING_TIMEOUT,
+                    )
         return self._client
 
     async def close(self) -> None:
@@ -111,14 +120,26 @@ class MeteringClient:
                     f"[Metering] Check failed: status={response.status_code}, "
                     f"body={response.text}"
                 )
-                return {"allowed": True, "reservation_id": f"failopen_{request_id}"}
+                return {
+                    "allowed": False,
+                    "error_code": "SERVICE_UNAVAILABLE",
+                    "message": f"Credit verification failed (HTTP {response.status_code})",
+                }
 
         except httpx.TimeoutException as e:
             logger.error(f"[Metering] Check request timeout: {type(e).__name__}")
-            return {"allowed": True, "reservation_id": f"failopen_{request_id}"}
+            return {
+                "allowed": False,
+                "error_code": "SERVICE_UNAVAILABLE",
+                "message": "Credit verification service timed out",
+            }
         except httpx.HTTPError as e:
             logger.error(f"[Metering] Check request failed: {type(e).__name__}: {e}")
-            return {"allowed": True, "reservation_id": f"failopen_{request_id}"}
+            return {
+                "allowed": False,
+                "error_code": "SERVICE_UNAVAILABLE",
+                "message": "Credit verification service unreachable",
+            }
 
     async def deduct(
         self,

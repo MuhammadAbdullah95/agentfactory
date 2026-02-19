@@ -87,7 +87,12 @@ async def get_lesson(
                 error_code = check_result.get("error_code", "UNKNOWN")
                 message = check_result.get("message", "Access denied")
 
-                if error_code == "INSUFFICIENT_BALANCE":
+                if error_code == "SERVICE_UNAVAILABLE":
+                    raise HTTPException(
+                        status_code=503,
+                        detail="Credit verification service unavailable. Please try again later.",
+                    )
+                elif error_code == "INSUFFICIENT_BALANCE":
                     raise HTTPException(status_code=402, detail=message)
                 elif error_code == "ACCOUNT_SUSPENDED":
                     raise HTTPException(status_code=403, detail=message)
@@ -102,8 +107,12 @@ async def get_lesson(
         except HTTPException:
             raise
         except Exception as e:
-            # Fail-open: if metering is down, serve content anyway
-            logger.error(f"[Lesson] Metering check failed (fail-open): {e}")
+            # Fail-closed: if metering is down, don't serve content
+            logger.error(f"[Lesson] Metering check failed (fail-closed): {e}")
+            raise HTTPException(
+                status_code=503,
+                detail="Credit verification service unavailable. Please try again later.",
+            )
 
     # Load content
     try:

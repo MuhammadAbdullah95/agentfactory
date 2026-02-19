@@ -1,5 +1,6 @@
 """Content loading with GitHub fetch, caching, and frontmatter parsing."""
 
+import asyncio
 import logging
 from typing import Any
 
@@ -15,12 +16,15 @@ CONTENT_CACHE_TTL = settings.content_cache_ttl
 
 # Reusable httpx client for GitHub fetches (connection pooling)
 _http_client: httpx.AsyncClient | None = None
+_http_client_lock = asyncio.Lock()
 
 
-def _get_http_client() -> httpx.AsyncClient:
+async def _get_http_client() -> httpx.AsyncClient:
     global _http_client
     if _http_client is None:
-        _http_client = httpx.AsyncClient(timeout=10.0)
+        async with _http_client_lock:
+            if _http_client is None:  # double-check after acquiring lock
+                _http_client = httpx.AsyncClient(timeout=10.0)
     return _http_client
 
 
@@ -78,7 +82,7 @@ async def fetch_from_github(lesson_path: str) -> tuple[str, bool]:
     if not clean_path.endswith((".md", ".mdx")):
         extensions = [".md", ".mdx", "/index.md", "/README.md"]
 
-    client = _get_http_client()
+    client = await _get_http_client()
     headers = {}
     if settings.github_token:
         headers["Authorization"] = f"token {settings.github_token}"
