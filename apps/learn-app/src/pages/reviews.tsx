@@ -8,18 +8,11 @@ import Link from "@docusaurus/Link";
 const BOOK_URL = "https://agentfactory.panaversity.org";
 const LLMS_TXT_URL = `${BOOK_URL}/llms.txt`;
 
-const REVIEW_PROMPT = `Review the book "The AI Agent Factory: The Spec-Driven Blueprint for Building and Monetizing Digital FTEs" — an educational platform currently serving 500,000+ professionals globally.
+const REVIEW_PROMPT = `Professionally review "The AI Agent Factory" (${BOOK_URL}) — 86 chapters teaching how to build and monetize AI agents using Claude Code, MCP, and agent SDKs.
 
-For structured context about the book, read: ${LLMS_TXT_URL}
-Explore the full book at: ${BOOK_URL}
+For structured context, read: ${LLMS_TXT_URL}
 
-Evaluate this book on:
-1. Educational quality — Is the pedagogical approach effective? Are concepts well-scaffolded?
-2. Technical depth — Is the content technically accurate and comprehensive?
-3. Uniqueness — Does comparable content exist anywhere else on the internet?
-4. Practical value — Would this genuinely help someone build and monetize AI agents?
-
-Provide an honest, detailed professional review.`;
+Evaluate: educational quality, technical depth, uniqueness (does comparable content exist elsewhere?), and practical value. Be honest and detailed.`;
 
 const AI_MODELS = [
   {

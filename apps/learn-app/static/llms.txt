@@ -60,73 +60,25 @@ Pedagogical approach: YAML frontmatter with Bloom's taxonomy objectives, CEFR A1
 - [Chapter 31: AsyncIO](https://agentfactory.panaversity.org/docs/Coding-for-Problem-Solving/asyncio): Asynchronous programming
 - [Chapter 32: CPython and GIL](https://agentfactory.panaversity.org/docs/Coding-for-Problem-Solving/cpython-gil): CPython internals
 
-## Part 5: Building Custom Agents
+## Part 5: Building Custom Agents (Chapters 33–48)
 
-- [Chapter 33: Introduction to AI Agents](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/introduction-to-ai-agents): Agent architecture fundamentals
-- [Chapter 34: OpenAI Agents SDK](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/openai-agents-sdk): Building agents with OpenAI
-- [Chapter 35: Google ADK](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/google-adk-reliable-agents): Google Agent Development Kit
-- [Chapter 36: Anthropic Agents Kit](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/anthropic-agents-kit-development): Claude Agent SDK development
-- [Chapter 37: MCP Fundamentals](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/mcp-fundamentals): Model Context Protocol basics
-- [Chapter 38: Custom MCP Servers](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/custom-mcp-servers): Building MCP servers
-- [Chapter 39: Agent Skills](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/agent-skills-mcp-code-execution): Skills and MCP code execution
-- [Chapter 40: FastAPI for Agents](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/fastapi-for-agents): API development for agents
-- [Chapter 41: ChatKit Server](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/chatkit-server): Chat interface server
-- [Chapter 42: OpenAI Apps SDK](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/openai-apps-sdk): OpenAI application SDK
-- [Chapter 43: Vector Databases and RAG](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/vector-databases-rag-langchain): RAG with LangChain
-- [Chapter 44: Relational Databases](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/relational-databases-sqlmodel): SQLModel and databases
-- [Chapter 45: Augmented Memory](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/augmented-memory): Agent memory systems
-- [Chapter 46: TDD for Agents](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/tdd-for-agents): Test-driven agent development
-- [Chapter 47: Evals](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/evals-agent-performance): Agent evaluation and performance
-- [Chapter 48: Knowledge Graphs](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/knowledge-graphs-graphrag): GraphRAG and knowledge graphs
+- [Part 5 Overview](https://agentfactory.panaversity.org/docs/Building-Custom-Agents/introduction-to-ai-agents): Agent SDKs (OpenAI, Google ADK, Anthropic), MCP servers, FastAPI, RAG, databases, TDD, evals, knowledge graphs
 
-## Part 6: AI Cloud-Native Development
+## Part 6: AI Cloud-Native Development (Chapters 49–60)
 
-- [Chapter 49: Docker](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/docker-for-ai-services): Containerization for AI
-- [Chapter 50: Kubernetes](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/kubernetes-for-ai-services): Orchestration for AI services
-- [Chapter 51: Helm Charts](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/helm-charts): Kubernetes package management
-- [Chapter 52: Kafka](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/event-driven-kafka): Event-driven architecture
-- [Chapter 53: Dapr Core](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/dapr-core): Distributed application runtime
-- [Chapter 54: CI/CD and GitOps](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/cicd-gitops-argocd): ArgoCD deployment pipelines
-- [Chapter 55: Observability](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/observability-cost-engineering): Monitoring and cost engineering
-- [Chapter 56: Traffic Engineering](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/traffic-engineering): Load balancing and traffic management
-- [Chapter 57: Dapr Actors](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/dapr-actors-workflows): Actor model and workflows
-- [Chapter 58: Production Security](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/production-security): Security hardening
-- [Chapter 59: Disaster Recovery](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/cost-disaster-recovery): Cost optimization and DR
-- [Chapter 60: Real Cloud Deployment](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/real-cloud-deployment): Production deployment
+- [Part 6 Overview](https://agentfactory.panaversity.org/docs/AI-Cloud-Native-Development/docker-for-ai-services): Docker, Kubernetes, Helm, Kafka, Dapr, CI/CD with ArgoCD, observability, traffic engineering, production security, disaster recovery
 
-## Part 7: Turing — LLMOps and Proprietary Intelligence
+## Part 7: LLMOps and Proprietary Intelligence (Chapters 61–72)
 
-- [Chapter 61: Introduction to LLMOps](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/introduction-to-llmops): LLMOps fundamentals
-- [Chapter 62: LLM Architecture](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/llm-architecture-compute): Architecture and compute
-- [Chapter 63: Data Engineering](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/data-engineering-fine-tuning): Data engineering for fine-tuning
-- [Chapter 64: Supervised Fine-Tuning](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/supervised-fine-tuning): SFT techniques
-- [Chapter 65: Identity Tuning](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/identity-persona-tuning): Persona and identity tuning
-- [Chapter 66: Agentic Function Calling](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/agentic-function-calling): Function calling for agents
-- [Chapter 67: Model Merging](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/model-merging-optimization): Model optimization
-- [Chapter 68: Alignment and Safety](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/alignment-safety): AI alignment
-- [Chapter 69: Evaluation Gates](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/evaluation-quality-gates): Quality evaluation
-- [Chapter 70: Deployment](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/deployment-serving): Model serving
-- [Chapter 71: Framework Integration](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/agent-framework-integration): Agent framework integration
-- [Chapter 72: LLMOps Capstone](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/capstone-end-to-end-llmops): End-to-end LLMOps project
+- [Part 7 Overview](https://agentfactory.panaversity.org/docs/Turing-LLMOps-Proprietary-Intelligence/introduction-to-llmops): LLM architecture, fine-tuning, identity tuning, function calling, model merging, alignment, evaluation gates, deployment
 
-## Part 8: TypeScript and Realtime Interaction
+## Part 8: TypeScript and Realtime Interaction (Chapters 73–78)
 
-- [Chapter 73: TypeScript Fundamentals](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/typescript-fundamentals): TypeScript basics
-- [Chapter 74: Async Patterns](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/async-patterns-streaming): Streaming and async
-- [Chapter 75: Runtime and HTTP](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/runtime-environments-http): Runtime environments
-- [Chapter 76: Type-Safe SDKs](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/building-type-safe-sdks): Building SDKs
-- [Chapter 77: Testing TypeScript AI](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/testing-typescript-ai): Testing AI applications
-- [Chapter 78: CLI Tools](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/cli-tools-developer-experience): CLI and developer experience
+- [Part 8 Overview](https://agentfactory.panaversity.org/docs/TypeScript-Language-Realtime-Interaction/typescript-fundamentals): TypeScript fundamentals, async streaming, runtime environments, type-safe SDKs, testing, CLI tools
 
-## Part 9: Building Realtime Voice Agents
+## Part 9: Building Realtime Voice Agents (Chapters 79–85)
 
-- [Chapter 79: Voice AI Fundamentals](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/voice-ai-fundamentals): Voice AI basics
-- [Chapter 80: LiveKit Agents](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/livekit-agents): LiveKit agent framework
-- [Chapter 81: Pipecat](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/pipecat): Pipecat voice pipelines
-- [Chapter 82: OpenAI Realtime API](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/openai-realtime-api): OpenAI voice API
-- [Chapter 83: Gemini Live API](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/gemini-live-api): Google voice API
-- [Chapter 84: Phone and Browser](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/phone-browser-integration): Telephony and browser integration
-- [Chapter 85: Voice Agent Capstone](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/capstone-production-voice-agent): Production voice agent project
+- [Part 9 Overview](https://agentfactory.panaversity.org/docs/Building-Realtime-Voice-Agents/voice-ai-fundamentals): Voice AI, LiveKit, Pipecat, OpenAI Realtime API, Gemini Live API, phone/browser integration
 
 ## Optional
 
