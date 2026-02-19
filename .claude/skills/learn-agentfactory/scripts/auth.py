@@ -12,7 +12,6 @@ import time
 import webbrowser
 from pathlib import Path
 from urllib.error import HTTPError
-from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 SSO_URL = "https://sso.panaversity.org"
@@ -24,11 +23,11 @@ def main():
     sso_url = os.environ.get("PANAVERSITY_SSO_URL", SSO_URL)
 
     # Step 1: Request device code
-    data = urlencode({"client_id": CLIENT_ID}).encode()
+    data = json.dumps({"client_id": CLIENT_ID}).encode()
     req = Request(
         f"{sso_url}/api/auth/device/code", data=data, method="POST"
     )
-    req.add_header("Content-Type", "application/x-www-form-urlencoded")
+    req.add_header("Content-Type", "application/json")
 
     try:
         resp = urlopen(req)
@@ -58,7 +57,7 @@ def main():
         time.sleep(interval)
         print(".", end="", flush=True)
 
-        poll_data = urlencode(
+        poll_data = json.dumps(
             {
                 "client_id": CLIENT_ID,
                 "device_code": device_code,
@@ -68,7 +67,7 @@ def main():
         poll_req = Request(
             f"{sso_url}/api/auth/device/token", data=poll_data, method="POST"
         )
-        poll_req.add_header("Content-Type", "application/x-www-form-urlencoded")
+        poll_req.add_header("Content-Type", "application/json")
 
         try:
             poll_resp = urlopen(poll_req)
