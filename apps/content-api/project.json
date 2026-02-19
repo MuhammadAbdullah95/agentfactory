@@ -51,7 +51,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/content-api/src",
-        "command": "uv run python -m uvicorn content_api.main:app --reload --host 127.0.0.1 --port 8001 --log-level info"
+        "command": "uv run python -m uvicorn content_api.main:app --reload --host 127.0.0.1 --port 8003 --log-level info"
       }
     },
     "build": {
