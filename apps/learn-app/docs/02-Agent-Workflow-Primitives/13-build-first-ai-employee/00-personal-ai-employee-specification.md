@@ -405,7 +405,7 @@ Claude Code reads:
 
 1. `Business_Goals.md` - Your objectives and metrics
 2. `/Done/` folder - Completed tasks this week
-3. `Accounting/` - Bank transactions and revenue
+3. `/Logs/` - Financial data and transaction history
 
 ### Deliverable
 
@@ -550,14 +550,7 @@ Store logs in `/Vault/Logs/YYYY-MM-DD.json` and retain for minimum 90 days.
 
 **Time Investment**: 8-60+ hours (self-paced after completing chapter)
 
-**Deliverables** (choose your level):
-
-- **Bronze Hackathon** (8-12h): Vault + one watcher + basic skills
-- **Silver Hackathon** (20-30h): Multiple watchers + LinkedIn posting + scheduling
-- **Gold Hackathon** (40h+): Odoo integration + social media + CEO Briefing
-- **Platinum Hackathon** (60h+): Cloud deployment + local/cloud work-zone specialization
-
-**What You'll Have**: A full Personal AI Employee project built to your chosen scope, submitted as a GitHub repository with documentation. See L14 for the complete Hackathon 0 assignment specification.
+After completing the chapter, the Hackathon 0 assignment (L14) challenges you to build a complete Personal AI Employee from scratch. Choose Bronze through Platinum scope based on your ambition. See [L14: Hackathon 0](./14-when-your-employee-codes.md) for the complete assignment specification, tier breakdown, and judging criteria.
 
 ---
 

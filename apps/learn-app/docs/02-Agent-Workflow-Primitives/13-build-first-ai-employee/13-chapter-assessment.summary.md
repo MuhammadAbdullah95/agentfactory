@@ -8,11 +8,11 @@ sidebar_position: 13.5
 
 ## Key Concepts
 
-1. **Tiered Assessment Structure**: Bronze (Q1-10) covers vault, skills, subagents, MCP; Silver (Q11-16) covers watchers, HITL, scheduling; Gold (Q17-20) covers pipeline integration and error recovery
+1. **Interactive Quiz Format**: 20 multiple-choice questions with immediate feedback, randomized batching, and lesson-linked explanations for every answer
 
-2. **Self-Evaluation**: Score interpretation — 18-20 Gold ready, 14-17 Silver solid, 10-13 Bronze complete, below 10 review needed
+2. **Tiered Coverage**: Bronze (Q1-10) covers vault, skills, subagents, MCP; Silver (Q11-16) covers watchers, HITL, scheduling; Gold (Q17-20) covers pipeline integration and error recovery
 
-3. **Answer Key**: Full explanations for each answer connecting back to specific lesson content
+3. **Remediation Path**: Each answer explanation references the specific lesson where that concept was taught, creating a targeted review guide for L14 Hackathon prep
 
 ## Assessment Coverage
 
@@ -31,7 +31,7 @@ sidebar_position: 13.5
 | MCP Integration Understanding      | B1          | Explain MCP advantages over direct APIs   |
 | Watcher Pattern Comprehension      | B1          | Describe watcher methods and patterns     |
 | HITL Governance Evaluation         | B1          | Evaluate permission boundary decisions    |
-| Process Management Application     | B1          | Choose PM2 vs cron for scenarios          |
+| Error Recovery Design              | B1          | Distinguish error categories and recovery |
 
 ## Duration
 
