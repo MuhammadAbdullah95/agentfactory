@@ -23,9 +23,7 @@ from .conftest import auth_header
 class TestMeteringHappyPath:
     """Metering enabled, balance sufficient, full reserve-serve-deduct cycle."""
 
-    async def test_lesson_with_metering_charges_credit(
-        self, client, make_token, enable_metering
-    ):
+    async def test_lesson_with_metering_charges_credit(self, client, make_token, enable_metering):
         """When metering allows, credit_charged should be True."""
         token = make_token()
 
@@ -42,9 +40,7 @@ class TestMeteringHappyPath:
         assert resp.status_code == 200
         assert resp.json()["credit_charged"] is True
 
-    async def test_check_sends_user_id_and_model(
-        self, client, make_token, enable_metering
-    ):
+    async def test_check_sends_user_id_and_model(self, client, make_token, enable_metering):
         """Metering check should include user_id and model=content-access."""
         token = make_token(sub="metered-user-1")
 
@@ -94,9 +90,7 @@ class TestMeteringHappyPath:
 class TestMeteringDenied:
     """Metering check denies access — user gets appropriate HTTP error."""
 
-    async def test_insufficient_balance_returns_402(
-        self, client, make_token, enable_metering
-    ):
+    async def test_insufficient_balance_returns_402(self, client, make_token, enable_metering):
         enable_metering["check"].mock(
             return_value=Response(
                 402,
@@ -123,9 +117,7 @@ class TestMeteringDenied:
 
         assert resp.status_code == 402
 
-    async def test_suspended_account_returns_403(
-        self, client, make_token, enable_metering
-    ):
+    async def test_suspended_account_returns_403(self, client, make_token, enable_metering):
         enable_metering["check"].mock(
             return_value=Response(
                 403,
@@ -158,9 +150,7 @@ class TestMeteringDenied:
 class TestMeteringResilience:
     """Metering API failures block content access (fail-closed)."""
 
-    async def test_check_timeout_blocks_content(
-        self, client, make_token, enable_metering
-    ):
+    async def test_check_timeout_blocks_content(self, client, make_token, enable_metering):
         """When metering API times out, content must NOT be served (fail-closed)."""
 
         def _raise_timeout(request):
@@ -183,9 +173,7 @@ class TestMeteringResilience:
         assert resp.status_code == 503
         assert "unavailable" in resp.json()["detail"].lower()
 
-    async def test_check_connection_error_blocks_content(
-        self, client, make_token, enable_metering
-    ):
+    async def test_check_connection_error_blocks_content(self, client, make_token, enable_metering):
         """When metering API is unreachable, content must NOT be served."""
 
         def _raise_connection_error(request):
@@ -206,9 +194,7 @@ class TestMeteringResilience:
 
         assert resp.status_code == 503
 
-    async def test_release_called_when_content_not_found(
-        self, client, make_token, enable_metering
-    ):
+    async def test_release_called_when_content_not_found(self, client, make_token, enable_metering):
         """When metering reserves but content is 404, reservation should be released."""
         token = make_token()
 

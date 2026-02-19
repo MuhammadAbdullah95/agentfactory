@@ -117,8 +117,7 @@ class MeteringClient:
                 }
             else:
                 logger.error(
-                    f"[Metering] Check failed: status={response.status_code}, "
-                    f"body={response.text}"
+                    f"[Metering] Check failed: status={response.status_code}, body={response.text}"
                 )
                 return {
                     "allowed": False,
@@ -181,8 +180,7 @@ class MeteringClient:
                 return response.json()
             else:
                 logger.error(
-                    f"[Metering] Deduct failed: status={response.status_code}, "
-                    f"body={response.text}"
+                    f"[Metering] Deduct failed: status={response.status_code}, body={response.text}"
                 )
                 return {"status": "failed", "error": response.text}
 

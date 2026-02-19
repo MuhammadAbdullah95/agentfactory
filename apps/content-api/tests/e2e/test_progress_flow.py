@@ -56,9 +56,7 @@ class TestProgressComplete:
         last_request = enable_progress["complete"].calls.last.request
         assert "Bearer" in last_request.headers.get("Authorization", "")
 
-    async def test_complete_sends_lesson_payload(
-        self, client, make_token, enable_progress
-    ):
+    async def test_complete_sends_lesson_payload(self, client, make_token, enable_progress):
         """Progress API receives the correct chapter/lesson slugs."""
         token = make_token()
 
@@ -78,9 +76,7 @@ class TestProgressComplete:
         assert body["lesson_slug"] == "01-first-steps"
         assert body["active_duration_secs"] == 300
 
-    async def test_complete_defaults_source_to_platform(
-        self, client, make_token, enable_progress
-    ):
+    async def test_complete_defaults_source_to_platform(self, client, make_token, enable_progress):
         """Without explicit source, defaults to 'platform'."""
         token = make_token()
 
@@ -97,9 +93,7 @@ class TestProgressComplete:
         body = json.loads(last_request.content)
         assert body["source"] == "platform"
 
-    async def test_complete_forwards_skill_source(
-        self, client, make_token, enable_progress
-    ):
+    async def test_complete_forwards_skill_source(self, client, make_token, enable_progress):
         """Skill completions send source='skill' to progress API."""
         token = make_token()
 
@@ -118,9 +112,7 @@ class TestProgressComplete:
         body = json.loads(last_request.content)
         assert body["source"] == "skill"
 
-    async def test_complete_rejects_invalid_source(
-        self, client, make_token, enable_progress
-    ):
+    async def test_complete_rejects_invalid_source(self, client, make_token, enable_progress):
         """Invalid source values are rejected by schema validation."""
         token = make_token()
 
@@ -145,9 +137,7 @@ class TestProgressComplete:
 class TestGetProgress:
     """GET /progress returns user progress + total_lessons."""
 
-    async def test_progress_returns_data_and_total(
-        self, client, make_token, enable_progress
-    ):
+    async def test_progress_returns_data_and_total(self, client, make_token, enable_progress):
         """Happy path: returns progress data and total_lessons > 0."""
         token = make_token()
 
@@ -162,9 +152,7 @@ class TestGetProgress:
         assert data["progress"]["total_xp"] == 20
         assert data["total_lessons"] > 0
 
-    async def test_progress_forwards_auth_token(
-        self, client, make_token, enable_progress
-    ):
+    async def test_progress_forwards_auth_token(self, client, make_token, enable_progress):
         """Bearer token is forwarded to the progress API."""
         token = make_token()
 

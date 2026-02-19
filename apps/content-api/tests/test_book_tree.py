@@ -138,9 +138,7 @@ class TestBuildBookTree:
         with patch("api_infra.core.redis_cache._aredis", None):
             with patch("httpx.AsyncClient") as mock_client:
                 mock_client_instance = AsyncMock()
-                mock_client_instance.get = AsyncMock(
-                    side_effect=httpx.HTTPError("API error")
-                )
+                mock_client_instance.get = AsyncMock(side_effect=httpx.HTTPError("API error"))
                 mock_client.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
                 mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
 

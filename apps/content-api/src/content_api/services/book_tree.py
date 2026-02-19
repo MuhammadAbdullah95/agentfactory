@@ -129,7 +129,7 @@ async def build_book_tree() -> BookTreeResponse:
     for part in sorted_parts:
         part.chapters.sort(key=lambda c: c.slug)
         for chapter in part.chapters:
-            chapter.lessons.sort(key=lambda l: l.sidebar_position)
+            chapter.lessons.sort(key=lambda lesson: lesson.sidebar_position)
 
     total_chapters = sum(len(p.chapters) for p in sorted_parts)
 

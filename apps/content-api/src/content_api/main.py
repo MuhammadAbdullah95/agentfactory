@@ -115,9 +115,7 @@ async def invalidate_cache(
             invalidated.append("book_tree:v1")
             cursor = 0
             while True:
-                cursor, keys = await redis_client.scan(
-                    cursor, match="content_loader.*", count=100
-                )
+                cursor, keys = await redis_client.scan(cursor, match="content_loader.*", count=100)
                 if keys:
                     await redis_client.delete(*keys)
                     invalidated.extend([k for k in keys])

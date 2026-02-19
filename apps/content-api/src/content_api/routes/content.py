@@ -179,7 +179,8 @@ async def get_lesson(
     try:
         frontmatter = LessonFrontmatter(**frontmatter_dict)
     except Exception as e:
-        logger.warning(f"[Lesson] Frontmatter parse failed: {e} — keys: {list(frontmatter_dict.keys())}")
+        fm_keys = list(frontmatter_dict.keys())
+        logger.warning(f"[Lesson] Frontmatter parse failed: {e} — keys: {fm_keys}")
         frontmatter = LessonFrontmatter()
 
     return LessonContentResponse(

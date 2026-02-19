@@ -14,9 +14,7 @@ class TestIdempotency:
         mock_redis.get = AsyncMock(return_value=None)  # No idempotency key
 
         mock_metering = AsyncMock()
-        mock_metering.check = AsyncMock(
-            return_value={"allowed": True, "reservation_id": "res-1"}
-        )
+        mock_metering.check = AsyncMock(return_value={"allowed": True, "reservation_id": "res-1"})
         mock_metering.deduct = AsyncMock(return_value={"status": "ok"})
 
         from content_api.routes.content import get_lesson
@@ -60,9 +58,7 @@ class TestIdempotency:
         mock_redis.get = AsyncMock(return_value="1")  # Idempotency key exists
 
         mock_metering = AsyncMock()
-        mock_metering.check = AsyncMock(
-            return_value={"allowed": True, "reservation_id": "res-2"}
-        )
+        mock_metering.check = AsyncMock(return_value={"allowed": True, "reservation_id": "res-2"})
 
         from content_api.routes.content import get_lesson
 
@@ -106,9 +102,7 @@ class TestIdempotency:
         mock_redis.get = AsyncMock(side_effect=Exception("Redis down"))
 
         mock_metering = AsyncMock()
-        mock_metering.check = AsyncMock(
-            return_value={"allowed": True, "reservation_id": "res-3"}
-        )
+        mock_metering.check = AsyncMock(return_value={"allowed": True, "reservation_id": "res-3"})
         mock_metering.deduct = AsyncMock(return_value={"status": "ok"})
 
         from content_api.routes.content import get_lesson

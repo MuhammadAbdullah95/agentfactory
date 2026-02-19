@@ -344,15 +344,11 @@ class TestIdempotency:
 
         # User A accesses
         token_a = make_token(sub="user-A")
-        await client.get(
-            "/api/v1/content/lesson", params=params, headers=auth_header(token_a)
-        )
+        await client.get("/api/v1/content/lesson", params=params, headers=auth_header(token_a))
 
         # User B accesses same lesson
         token_b = make_token(sub="user-B")
-        await client.get(
-            "/api/v1/content/lesson", params=params, headers=auth_header(token_b)
-        )
+        await client.get("/api/v1/content/lesson", params=params, headers=auth_header(token_b))
 
         # Both should have separate idempotency keys
         key_a = await fake_redis_client.get("content-access:user-A:01-intro:01-welcome")
@@ -386,9 +382,7 @@ class TestCacheInvalidation:
 
         assert resp.status_code == 403
 
-    async def test_invalidate_all_clears_tree_cache(
-        self, client, make_token, fake_redis_client
-    ):
+    async def test_invalidate_all_clears_tree_cache(self, client, make_token, fake_redis_client):
         """Invalidate-all should clear the book_tree:v1 key."""
         token = make_token()
 
@@ -452,9 +446,7 @@ class TestLessonCaching:
         }
 
         # First fetch: goes to GitHub (via respx mock)
-        resp = await client.get(
-            "/api/v1/content/lesson", params=params, headers=auth_header(token)
-        )
+        resp = await client.get("/api/v1/content/lesson", params=params, headers=auth_header(token))
         assert resp.status_code == 200
 
         # Check that a content_loader cache key exists

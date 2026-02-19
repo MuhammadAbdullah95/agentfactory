@@ -172,9 +172,7 @@ class TestGetLesson:
     def test_get_lesson_releases_on_content_failure(self):
         """CRITICAL: Test metering reservation is released when content load fails."""
         mock_metering = AsyncMock()
-        mock_metering.check = AsyncMock(
-            return_value={"allowed": True, "reservation_id": "res-123"}
-        )
+        mock_metering.check = AsyncMock(return_value={"allowed": True, "reservation_id": "res-123"})
         mock_metering.release = AsyncMock(return_value={"status": "ok"})
 
         with patch("content_api.routes.content.get_metering_client", return_value=mock_metering):
@@ -192,9 +190,7 @@ class TestGetLesson:
     def test_get_lesson_releases_on_not_found(self):
         """Test metering reservation is released when content not found."""
         mock_metering = AsyncMock()
-        mock_metering.check = AsyncMock(
-            return_value={"allowed": True, "reservation_id": "res-456"}
-        )
+        mock_metering.check = AsyncMock(return_value={"allowed": True, "reservation_id": "res-456"})
         mock_metering.release = AsyncMock(return_value={"status": "ok"})
 
         with patch("content_api.routes.content.get_metering_client", return_value=mock_metering):
@@ -218,9 +214,7 @@ class TestGetLesson:
     def test_get_lesson_deducts_credits(self):
         """Test metering deduction on successful content load."""
         mock_metering = AsyncMock()
-        mock_metering.check = AsyncMock(
-            return_value={"allowed": True, "reservation_id": "res-789"}
-        )
+        mock_metering.check = AsyncMock(return_value={"allowed": True, "reservation_id": "res-789"})
         mock_metering.deduct = AsyncMock(return_value={"status": "ok"})
 
         with patch("content_api.routes.content.get_metering_client", return_value=mock_metering):
@@ -249,9 +243,7 @@ class TestComplete:
     def test_complete_forwards_to_progress(self):
         """Test completion forwarded to progress API."""
         mock_progress = AsyncMock()
-        mock_progress.complete_lesson = AsyncMock(
-            return_value={"completed": True, "xp_earned": 10}
-        )
+        mock_progress.complete_lesson = AsyncMock(return_value={"completed": True, "xp_earned": 10})
 
         with patch(
             "content_api.routes.content.get_progress_client",
@@ -275,9 +267,7 @@ class TestComplete:
     def test_complete_returns_xp(self):
         """Test XP is returned from progress API."""
         mock_progress = AsyncMock()
-        mock_progress.complete_lesson = AsyncMock(
-            return_value={"completed": True, "xp_earned": 25}
-        )
+        mock_progress.complete_lesson = AsyncMock(return_value={"completed": True, "xp_earned": 25})
 
         with patch(
             "content_api.routes.content.get_progress_client",
